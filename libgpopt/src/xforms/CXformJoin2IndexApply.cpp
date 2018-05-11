@@ -11,8 +11,6 @@
 
 #include "gpos/base.h"
 
-#include "gpos/common/CDynamicPtrArrayUtils.h"
-
 #include "gpopt/base/CUtils.h"
 #include "gpopt/operators/ops.h"
 #include "gpopt/operators/CNormalizer.h"
@@ -621,8 +619,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 	// positions in pdrgpcrOuter of the outer references mentioned in the scan filter
 	// we need them because each time we create copies of pdrgpcrOuter, we will extract the
 	// subsequence corresponding to pdrgpcrOuterRefsInScan
-	ULongPtrArray *pdrgpulIndexesOfRefsInScan =
-			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuterRefsInScan, pdrgpcrOuter);
+	ULongPtrArray *pdrgpulIndexesOfRefsInScan = pdrgpcrOuter->IndexesOfSubsequence(pdrgpcrOuterRefsInScan);
 
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfRefsInScan);
 

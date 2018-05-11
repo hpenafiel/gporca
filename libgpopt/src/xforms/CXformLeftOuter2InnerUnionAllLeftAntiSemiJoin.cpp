@@ -33,7 +33,6 @@
 
 #include "gpopt/xforms/CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin.h"
 
-#include "gpos/common/CDynamicPtrArrayUtils.h"
 #include "gpos/memory/CAutoMemoryPool.h"
 
 #include "gpopt/base/CColRefSetIter.h"
@@ -369,8 +368,8 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprLeftAntiSemiJoinWithInnerGro
 	DrgPcr *pdrgpcrOuterKeys = pcrsOuterKeys->Pdrgpcr(pmp);
 
 	DrgPcr *pdrgpcrConsumer2Output = CUtils::PdrgpcrCopy(pmp, pdrgpcrJoinOutput);
-	ULongPtrArray *pdrgpulIndexesOfOuterInGby =
-			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuterKeys, pdrgpcrJoinOutput);
+	ULongPtrArray *pdrgpulIndexesOfOuterInGby = pdrgpcrJoinOutput->IndexesOfSubsequence(pdrgpcrOuterKeys);
+
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfOuterInGby);
 	DrgPcr *pdrgpcrGbyKeys =
 			CXformUtils::PdrgpcrReorderedSubsequence(pmp, pdrgpcrConsumer2Output, pdrgpulIndexesOfOuterInGby);
@@ -384,8 +383,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprLeftAntiSemiJoinWithInnerGro
 				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp))
 				);
 
-	ULongPtrArray *pdrgpulIndexesOfOuterKeys =
-			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuterKeys, pdrgpcrOuter);
+	ULongPtrArray *pdrgpulIndexesOfOuterKeys = pdrgpcrOuter->IndexesOfSubsequence(pdrgpcrOuterKeys);
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfOuterKeys);
 	DrgPcr *pdrgpcrKeysInOuterCopy =
 			CXformUtils::PdrgpcrReorderedSubsequence(pmp, pdrgpcrOuterCopy, pdrgpulIndexesOfOuterKeys);
@@ -457,8 +455,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprProjectOverLeftAntiSemiJoin
 									ulCTEOuterId
 									);
 
-	ULongPtrArray *pdrgpulIndexesOfOuter =
-			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuter, pdrgpcrJoinOutput);
+	ULongPtrArray *pdrgpulIndexesOfOuter = pdrgpcrJoinOutput->IndexesOfSubsequence(pdrgpcrOuter);
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfOuter);
 
 	HMUlCr *phmulcr = GPOS_NEW(pmp) HMUlCr(pmp);

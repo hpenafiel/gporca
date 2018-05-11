@@ -11,7 +11,6 @@
 
 #include "gpos/base.h"
 #include "gpos/common/CDynamicPtrArray.h"
-#include "gpos/common/CDynamicPtrArrayUtils.h"
 #include "gpos/memory/CAutoMemoryPool.h"
 #include "gpos/test/CUnittest.h"
 
@@ -320,8 +319,7 @@ CDynamicPtrArrayTest::EresUnittest_PdrgpulSubsequenceIndexes()
 
 	// since target is empty, there are elements in lookup with no match, so the function
 	// should return NULL
-	GPOS_ASSERT(NULL ==
-			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgULONGLookup, pdrgULONGTarget));
+	GPOS_ASSERT(NULL == pdrgULONGTarget->IndexesOfSubsequence(pdrgULONGLookup));
 
 	pdrgULONGTarget->Append(pul1);
 	pdrgULONGTarget->Append(pul3);
@@ -329,8 +327,8 @@ CDynamicPtrArrayTest::EresUnittest_PdrgpulSubsequenceIndexes()
 	pdrgULONGTarget->Append(pul3);
 	pdrgULONGTarget->Append(pul2);
 
-	ULongPtrArray *pdrgpulIndexes =
-			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgULONGLookup, pdrgULONGTarget);
+	ULongPtrArray *pdrgpulIndexes = pdrgULONGTarget->IndexesOfSubsequence(pdrgULONGLookup);
+
 	GPOS_ASSERT(NULL != pdrgpulIndexes);
 	GPOS_ASSERT(4 == pdrgpulIndexes->Size());
 	GPOS_ASSERT(0 == *(*pdrgpulIndexes)[0]);

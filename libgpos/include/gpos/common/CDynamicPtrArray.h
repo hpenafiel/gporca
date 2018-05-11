@@ -17,9 +17,55 @@
 
 namespace gpos
 {
+	// forward declaration
+	template <class T, void (*CleanupFn)(T*)>
+	class CDynamicPtrArray;
 	
 	// comparison function signature
 	typedef INT (*CompareFn)(const void *, const void *);
+
+	// frequently used destroy functions
+
+	// NOOP
+	template<class T>
+	inline void CleanupNULL(T*) {}
+
+	// plain delete
+	template<class T>
+	inline void CleanupDelete(T *elem)
+	{
+		GPOS_DELETE(elem);
+	}
+
+	// delete of array
+	template<class T>
+	inline void CleanupDeleteArray(T *elem)
+	{
+		GPOS_DELETE_ARRAY(elem);
+	}
+
+	// release ref-count'd object
+	template<class T>
+	inline void CleanupRelease(T *elem)
+	{
+		(dynamic_cast<CRefCount*>(elem))->Release();
+	}
+
+	// commonly used array types
+
+	// arrays of unsigned integers
+	typedef CDynamicPtrArray<ULONG, CleanupDelete> ULongPtrArray;
+	// array of unsigned integer arrays
+	typedef CDynamicPtrArray<ULongPtrArray, CleanupRelease> ULongPtrArray2D;
+
+	// arrays of integers
+	typedef CDynamicPtrArray<INT, CleanupDelete> IntPtrArray;
+
+	// array of strings
+	typedef CDynamicPtrArray<CWStringBase, CleanupDelete> StringPtrArray;
+
+	// arrays of chars
+	typedef CDynamicPtrArray<CHAR, CleanupDelete> CharPtrArray;
 
 	//---------------------------------------------------------------------------
 	//	@class:
@@ -262,52 +308,34 @@ namespace gpos
                 CleanupFn(m_elems[pos]);
                 m_elems[pos] = new_elem;
             }
+
+			// return the indexes of first appearances of elements of the first array
+			// in the second array if the first array is not included in the second,
+			// return null
+			// equality comparison between elements is via the "==" operator
+			ULongPtrArray *IndexesOfSubsequence(CDynamicPtrArray<T, CleanupFn> *subsequence)
+            {
+                GPOS_ASSERT(NULL != subsequence);
+
+                ULONG subsequence_length = subsequence->Size();
+                ULongPtrArray *indexes = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
+
+                for (ULONG ul1 = 0; ul1 < subsequence_length; ul1++)
+                {
+                    T* elem = (*subsequence)[ul1];
+					ULONG index = IndexOf(elem);
+					if (ULONG_MAX == index)
+					{
+						// not found
+						indexes->Release();
+						return NULL;
+					}
+
+					indexes->Append(GPOS_NEW(m_pmp) ULONG(index));
+				}
+                return indexes;
+            }
 	}; // class CDynamicPtrArray
-		
-
-	// frequently used destroy functions
-	
-	// NOOP 
-	template<class T>
-	inline void CleanupNULL(T*) {}
-	
-	// plain delete
-	template<class T>
-	inline void CleanupDelete(T *elem)
-	{
-		GPOS_DELETE(elem);
-	}
-
-	// delete of array
-	template<class T>
-	inline void CleanupDeleteArray(T *elem)
-	{
-		GPOS_DELETE_ARRAY(elem);
-	}
-
-	// release ref-count'd object
-	template<class T>
-	inline void CleanupRelease(T *elem)
-	{
-		(dynamic_cast<CRefCount*>(elem))->Release();
-	}
-
-	// commonly used array types
-
-	// arrays of unsigned integers
-	typedef CDynamicPtrArray<ULONG, CleanupDelete> ULongPtrArray;
-	// array of unsigned integer arrays
-	typedef CDynamicPtrArray<ULongPtrArray, CleanupRelease> ULongPtrArray2D;
-
-	// arrays of integers
-	typedef CDynamicPtrArray<INT, CleanupDelete> IntPtrArray;
-
-	// array of strings
-	typedef CDynamicPtrArray<CWStringBase, CleanupDelete> StringPtrArray;
-
-	// arrays of chars
-	typedef CDynamicPtrArray<CHAR, CleanupDelete> CharPtrArray;
-
 }
 
 #endif // !GPOS_CDynamicPtrArray_H
