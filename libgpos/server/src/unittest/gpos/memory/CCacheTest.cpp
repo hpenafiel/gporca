@@ -117,11 +117,11 @@ CCacheTest::CDeepObject::UlMyHash
 	)
 {
 	ULONG ulKey = 0;
-	SDeepObjectEntry *pdoe = plist->PtFirst();
+	SDeepObjectEntry *pdoe = plist->First();
 	while (pdoe != NULL)
 	{
 		ulKey += pdoe->m_ulKey;
-		pdoe = plist->PtNext(pdoe);
+		pdoe = plist->Next(pdoe);
 	}
 
 	return ulKey;
@@ -155,15 +155,15 @@ CCacheTest::CDeepObject::FMyEqual
 	}
 	else
 	{
-		if (plist->UlSize() != plistSecond->UlSize())
+		if (plist->Size() != plistSecond->Size())
 		{
 			fReturn = false;
 		}
 		else
 		{
 			fReturn = true;
-			SDeepObjectEntry *pdoe = plist->PtFirst();
-			SDeepObjectEntry *pdoeSecond = plistSecond->PtFirst();
+			SDeepObjectEntry *pdoe = plist->First();
+			SDeepObjectEntry *pdoeSecond = plistSecond->First();
 			while (NULL != pdoe)
 			{
 				GPOS_ASSERT(NULL != pdoeSecond &&
@@ -174,8 +174,8 @@ CCacheTest::CDeepObject::FMyEqual
 					fReturn = false;
 					break;
 				}
-				pdoe = plist->PtNext(pdoe);
-				pdoeSecond = plistSecond->PtNext(pdoeSecond);
+				pdoe = plist->Next(pdoe);
+				pdoeSecond = plistSecond->Next(pdoeSecond);
 			}
 		}
 	}

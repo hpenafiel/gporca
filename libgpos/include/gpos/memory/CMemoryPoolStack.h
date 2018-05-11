@@ -72,8 +72,8 @@ namespace gpos
 					m_pvUser = this + 1;
 					m_ulTotal = ulTotal;
 					m_ulUsed = GPOS_MEM_ALIGNED_STRUCT_SIZE(SBlockDescriptor);
-					m_link.m_pvNext = NULL;
-					m_link.m_pvPrev = NULL;
+					m_link.m_next = NULL;
+					m_link.m_prev = NULL;
 				}
 
 				// check if there is enough space for allocation request

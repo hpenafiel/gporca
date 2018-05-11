@@ -95,7 +95,7 @@ namespace gpos
 			// returns the first element in the hash chain
 			T *PtFirst() const
             {
-                return m_bucket.m_list.PtFirst();
+                return m_bucket.m_list.First();
             }
 
 			// finds the element next to the given one
@@ -104,9 +104,9 @@ namespace gpos
                 GPOS_ASSERT(NULL != pt);
 
                 // make sure element is in this hash chain
-                GPOS_ASSERT(GPOS_OK == m_bucket.m_list.EresFind(pt));
+                GPOS_ASSERT(GPOS_OK == m_bucket.m_list.Find(pt));
 
-                return m_bucket.m_list.PtNext(pt);
+                return m_bucket.m_list.Next(pt);
             }
 
 			// inserts element at the head of hash chain
@@ -126,7 +126,7 @@ namespace gpos
                 GPOS_ASSERT(NULL != pt);
 
                 // make sure element is in this hash chain
-                GPOS_ASSERT(GPOS_OK == m_bucket.m_list.EresFind(ptNext));
+                GPOS_ASSERT(GPOS_OK == m_bucket.m_list.Find(ptNext));
 
                 m_bucket.m_list.Prepend(pt, ptNext);
 
@@ -140,7 +140,7 @@ namespace gpos
                 GPOS_ASSERT(NULL != pt);
 
                 // make sure element is in this hash chain
-                GPOS_ASSERT(GPOS_OK == m_bucket.m_list.EresFind(ptPrev));
+                GPOS_ASSERT(GPOS_OK == m_bucket.m_list.Find(ptPrev));
 
                 m_bucket.m_list.Append(pt, ptPrev);
 

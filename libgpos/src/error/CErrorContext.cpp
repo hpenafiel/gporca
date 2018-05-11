@@ -203,7 +203,7 @@ CErrorContext::Serialize()
 	if (m_fSerializing)
 		return;
 
-	if (NULL == m_pmdr || m_listSerial.FEmpty())
+	if (NULL == m_pmdr || m_listSerial.IsEmpty())
 	{
 		return;
 	}
@@ -219,9 +219,9 @@ CErrorContext::Serialize()
 	// serialize objects to reserved space
 	m_pmdr->SerializeEntryHeader();
 
-	for (CSerializable *pserial = m_listSerial.PtFirst();
+	for (CSerializable *pserial = m_listSerial.First();
 	     NULL != pserial;
-	     pserial = m_listSerial.PtNext(pserial))
+	     pserial = m_listSerial.Next(pserial))
 	{
 		pserial->Serialize(oos);
 	}

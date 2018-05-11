@@ -87,12 +87,12 @@ CThreadManager::EresCreate()
 		am.Lock();
 
 		// if all thread descriptors are used, try to claim some back
-		if (m_tdlUnused.FEmpty())
+		if (m_tdlUnused.IsEmpty())
 		{
 			GC();
 		}
 
-		GPOS_ASSERT(!m_tdlUnused.FEmpty() && "No unused thread descriptor");
+		GPOS_ASSERT(!m_tdlUnused.IsEmpty() && "No unused thread descriptor");
 
 		// get thread descriptor for new thread
 		ptd = m_tdlUnused.RemoveHead();
@@ -212,7 +212,7 @@ CThreadManager::SetFinished
 void
 CThreadManager::GC()
 {
-	while (!m_tdlFinished.FEmpty())
+	while (!m_tdlFinished.IsEmpty())
 	{
 		// get descriptor of finished thread
 		SThreadDescriptor *ptd = m_tdlFinished.RemoveHead();
@@ -249,14 +249,14 @@ CThreadManager::ShutDown()
 		GC();
 
 		// check if all threads have exited
-		if (GPOS_THREAD_MAX == m_tdlUnused.UlSize())
+		if (GPOS_THREAD_MAX == m_tdlUnused.Size())
 		{
 			break;
 		}
 	}
 
-	GPOS_ASSERT(m_tdlRunning.FEmpty());
-	GPOS_ASSERT(m_tdlFinished.FEmpty());
+	GPOS_ASSERT(m_tdlRunning.IsEmpty());
+	GPOS_ASSERT(m_tdlFinished.IsEmpty());
 }
 
 
@@ -303,7 +303,7 @@ CThreadManager::FRunningThread
 	PTHREAD_T pthrdt
 	)
 {
-	SThreadDescriptor *ptd = m_tdlRunning.PtFirst();
+	SThreadDescriptor *ptd = m_tdlRunning.First();
 	while (NULL != ptd)
 	{
 		if (pthrdt == ptd->m_pthrdt)
@@ -311,7 +311,7 @@ CThreadManager::FRunningThread
 			return true;
 		}
 
-		ptd = m_tdlRunning.PtNext(ptd);
+		ptd = m_tdlRunning.Next(ptd);
 	}
 
 	return false;

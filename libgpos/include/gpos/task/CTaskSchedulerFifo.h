@@ -69,14 +69,14 @@ namespace gpos
 			// get number of waiting tasks
 			ULONG UlQueueSize()
 			{
-				return m_qtsk.UlSize();
+				return m_qtsk.Size();
 			}
 
 			// check if task queue is empty
 			BOOL
 			FEmpty() const
 			{
-				return m_qtsk.FEmpty();
+				return m_qtsk.IsEmpty();
 			}
 
 	};	// class CTaskSchedulerFifo

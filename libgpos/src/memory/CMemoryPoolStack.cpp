@@ -73,7 +73,7 @@ CMemoryPoolStack::CMemoryPoolStack
 //---------------------------------------------------------------------------
 CMemoryPoolStack::~CMemoryPoolStack()
 {
-	GPOS_ASSERT(m_listBlocks.FEmpty());
+	GPOS_ASSERT(m_listBlocks.IsEmpty());
 }
 
 
@@ -218,7 +218,7 @@ CMemoryPoolStack::TearDown()
 {
 	GPOS_ASSERT(!m_slock.FOwned());
 
-	while (!m_listBlocks.FEmpty())
+	while (!m_listBlocks.IsEmpty())
 	{
 		PmpUnderlying()->Free(m_listBlocks.RemoveHead());
 	}
@@ -246,7 +246,7 @@ CMemoryPoolStack::CheckAllocation
 	)
 	const
 {
-	SBlockDescriptor *pbd = m_listBlocks.PtFirst();
+	SBlockDescriptor *pbd = m_listBlocks.First();
 	while (NULL != pbd)
 	{
 		if (pv >= pbd->m_pvUser)
@@ -257,7 +257,7 @@ CMemoryPoolStack::CheckAllocation
 			}
 		}
 
-		pbd = m_listBlocks.PtNext(pbd);
+		pbd = m_listBlocks.Next(pbd);
 	}
 
 	GPOS_ASSERT(!"object is allocated in one of the blocks");

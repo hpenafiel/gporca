@@ -104,7 +104,7 @@ CBitSet::PbslLocate
 	if (NULL == pbsl)
 	{
 		// if no cursor provided start with first element
-		pbslCursor = m_bsllist.PtFirst();
+		pbslCursor = m_bsllist.First();
 	}
 	else
 	{
@@ -112,7 +112,7 @@ CBitSet::PbslLocate
 		pbslFound = pbsl;
 	}
 	
-	GPOS_ASSERT_IMP(NULL != pbslCursor, GPOS_OK == m_bsllist.EresFind(pbslCursor) && "cursor not in list");
+	GPOS_ASSERT_IMP(NULL != pbslCursor, GPOS_OK == m_bsllist.Find(pbslCursor) && "cursor not in list");
 	
 	while(1)
 	{
@@ -123,7 +123,7 @@ CBitSet::PbslLocate
 		}
 		
 		pbslFound = pbslCursor;		
-		pbslCursor = m_bsllist.PtNext(pbslCursor);
+		pbslCursor = m_bsllist.Next(pbslCursor);
 	}
 	
 	GPOS_ASSERT_IMP(pbslFound, pbslFound->UlOffset() <= ulOffset);
@@ -146,9 +146,9 @@ CBitSet::RecomputeSize()
 	CBitSetLink *pbsl = NULL;
 	
 	for (
-		pbsl = m_bsllist.PtFirst();
+		pbsl = m_bsllist.First();
 		pbsl != NULL;
-		pbsl = m_bsllist.PtNext(pbsl)
+		pbsl = m_bsllist.Next(pbsl)
 		)
 	{
 		m_cElements += pbsl->Pbv()->CElements();
@@ -169,10 +169,10 @@ CBitSet::Clear()
 {
 	CBitSetLink *pbsl = NULL;
 	
-	while(NULL != (pbsl = m_bsllist.PtFirst()))
+	while(NULL != (pbsl = m_bsllist.First()))
 	{		
 		CBitSetLink *pbslRemove = pbsl;
-		pbsl = m_bsllist.PtNext(pbsl);
+		pbsl = m_bsllist.Next(pbsl);
 		
 		m_bsllist.Remove(pbslRemove);
 		GPOS_DELETE(pbslRemove);
@@ -404,9 +404,9 @@ CBitSet::Union
 	
 	// iterate through other's links and copy missing links to array
 	for (
-		pbslOther = pbsOther->m_bsllist.PtFirst();
+		pbslOther = pbsOther->m_bsllist.First();
 		pbslOther != NULL;
-		pbslOther = pbsOther->m_bsllist.PtNext(pbslOther)
+		pbslOther = pbsOther->m_bsllist.Next(pbslOther)
 		)
 	{
 		pbsl = PbslLocate(pbslOther->UlOffset(), pbsl);
@@ -441,7 +441,7 @@ CBitSet::Union
 	
 	// iterate through all links and union them up
 	pbslOther = NULL;
-	pbsl = m_bsllist.PtFirst();
+	pbsl = m_bsllist.First();
 	while (NULL != pbsl)
 	{
 		pbslOther = pbsOther->PbslLocate(pbsl->UlOffset(), pbslOther);
@@ -450,7 +450,7 @@ CBitSet::Union
 			pbsl->Pbv()->Union(pbslOther->Pbv());
 		}
 		
-		pbsl = m_bsllist.PtNext(pbsl);
+		pbsl = m_bsllist.Next(pbsl);
 	}
 	
 	RecomputeSize();
@@ -472,7 +472,7 @@ CBitSet::Intersection
 	)
 {
 	CBitSetLink *pbslOther = NULL;
-	CBitSetLink *pbsl = m_bsllist.PtFirst();
+	CBitSetLink *pbsl = m_bsllist.First();
 	
 	while (NULL != pbsl)
 	{
@@ -482,12 +482,12 @@ CBitSet::Intersection
 		if (NULL != pbslOther && pbslOther->UlOffset() == pbsl->UlOffset())
 		{
 			pbsl->Pbv()->Intersection(pbslOther->Pbv());
-			pbsl = m_bsllist.PtNext(pbsl);
+			pbsl = m_bsllist.Next(pbsl);
 		}
 		else
 		{
 			pbslRemove = pbsl;
-			pbsl = m_bsllist.PtNext(pbsl);
+			pbsl = m_bsllist.Next(pbsl);
 			
 			m_bsllist.Remove(pbslRemove);
 			GPOS_DELETE(pbslRemove);
@@ -552,9 +552,9 @@ CBitSet::FSubset
 
 	// iterate through other's links and check for subsets
 	for (
-		pbslOther = pbsOther->m_bsllist.PtFirst();
+		pbslOther = pbsOther->m_bsllist.First();
 		pbslOther != NULL;
-		pbslOther = pbsOther->m_bsllist.PtNext(pbslOther)
+		pbslOther = pbsOther->m_bsllist.Next(pbslOther)
 		)
 	{
 		pbsl = PbslLocate(pbslOther->UlOffset(), pbsl);
@@ -598,8 +598,8 @@ CBitSet::FEqual
 		return false;
 	}
 
-	CBitSetLink *pbsl = m_bsllist.PtFirst();
-	CBitSetLink *pbslOther = pbsOther->m_bsllist.PtFirst();
+	CBitSetLink *pbsl = m_bsllist.First();
+	CBitSetLink *pbslOther = pbsOther->m_bsllist.First();
 
 	while(NULL != pbsl)
 	{
@@ -610,8 +610,8 @@ CBitSet::FEqual
 			return false;
 		}
 				
-		pbsl = m_bsllist.PtNext(pbsl);
-		pbslOther = pbsOther->m_bsllist.PtNext(pbslOther);
+		pbsl = m_bsllist.Next(pbsl);
+		pbslOther = pbsOther->m_bsllist.Next(pbslOther);
 	}
 	
 	// same length implies pbslOther must have reached end as well
@@ -640,9 +640,9 @@ CBitSet::FDisjoint
 
 	// iterate through other's links an check if disjoint
 	for (
-		pbslOther = pbsOther->m_bsllist.PtFirst();
+		pbslOther = pbsOther->m_bsllist.First();
 		pbslOther != NULL;
-		pbslOther = pbsOther->m_bsllist.PtNext(pbslOther)
+		pbslOther = pbsOther->m_bsllist.Next(pbslOther)
 		)
 	{
 		pbsl = PbslLocate(pbslOther->UlOffset(), pbsl);
@@ -672,11 +672,11 @@ CBitSet::UlHash() const
 {
 	ULONG ulHash = 0;
 
-	CBitSetLink *pbsl = m_bsllist.PtFirst();
+	CBitSetLink *pbsl = m_bsllist.First();
 	while (NULL != pbsl)
 	{
 		ulHash = gpos::UlCombineHashes(ulHash, pbsl->Pbv()->UlHash());
-		pbsl = m_bsllist.PtNext(pbsl);
+		pbsl = m_bsllist.Next(pbsl);
 	}
 
 	return ulHash;

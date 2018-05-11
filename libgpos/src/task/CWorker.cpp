@@ -328,7 +328,7 @@ CWorker::CheckTimeSlice()
 BOOL
 CWorker::FOwnsSpinlocks() const
 {
-	return !m_listSlock.FEmpty();
+	return !m_listSlock.IsEmpty();
 }
 
 
@@ -349,7 +349,7 @@ CWorker::FCanAcquireSpinlock
 {
 	GPOS_ASSERT(NULL != pslock);
 
-	CSpinlockBase *pslockLast = m_listSlock.PtFirst();
+	CSpinlockBase *pslockLast = m_listSlock.First();
 	return (NULL == pslockLast) || (pslockLast->UlRank() >= pslock->UlRank());
 }
 
@@ -412,7 +412,7 @@ CWorker::RegisterMutex
 	)
 {
 	GPOS_ASSERT(NULL != pmutex);
-	GPOS_ASSERT(GPOS_OK != m_listMutex.EresFind(pmutex));
+	GPOS_ASSERT(GPOS_OK != m_listMutex.Find(pmutex));
 
 	m_listMutex.Prepend(pmutex);
 }
@@ -433,7 +433,7 @@ CWorker::UnregisterMutex
 	)
 {
 	GPOS_ASSERT(NULL != pmutex);
-	GPOS_ASSERT(GPOS_OK == m_listMutex.EresFind(pmutex));
+	GPOS_ASSERT(GPOS_OK == m_listMutex.Find(pmutex));
 	
 	m_listMutex.Remove(pmutex);
 }
@@ -450,7 +450,7 @@ CWorker::UnregisterMutex
 BOOL
 CWorker::FOwnsMutexes() const
 {
-	return !m_listMutex.FEmpty();
+	return !m_listMutex.IsEmpty();
 }
 
 #endif // GPOS_DEBUG

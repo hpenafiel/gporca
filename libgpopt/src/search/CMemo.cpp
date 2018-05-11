@@ -542,7 +542,7 @@ CMemo::FRehash()
 	// iterate on list and insert non-duplicate group expressions
 	// back to memo hash table
 	BOOL fNewDupGroups = false;
-	while (!listGExprs.FEmpty())
+	while (!listGExprs.IsEmpty())
 	{
 		CGroupExpression *pgexpr = listGExprs.RemoveHead();
 		CGroupExpression *pgexprFound = NULL;

@@ -73,14 +73,14 @@ namespace gpopt
 					(
 					NULL != ITask::PtskSelf() &&
 					!ITask::PtskSelf()->FPendingExc(),
-					m_listjQueued.FEmpty()
+					m_listjQueued.IsEmpty()
 					);
 			}
 
 			// reset job queue
 			void Reset()
 			{
-				GPOS_ASSERT(m_listjQueued.FEmpty());
+				GPOS_ASSERT(m_listjQueued.IsEmpty());
 
 				m_pj = NULL;
 				m_fCompleted = false;

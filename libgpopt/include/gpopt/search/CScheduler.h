@@ -88,7 +88,7 @@ namespace gpopt
 				void Init(CJob *pj)
 				{
 					m_pj = pj;
-					m_link.m_pvPrev = m_link.m_pvNext = NULL;
+					m_link.m_prev = m_link.m_next = NULL;
 				}
 			};
 

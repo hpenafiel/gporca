@@ -82,9 +82,9 @@ void
 CAutoTaskProxy::DestroyAll()
 {
 	// iterate task list
-	while (!m_list.FEmpty())
+	while (!m_list.IsEmpty())
 	{
-		Destroy(m_list.PtFirst());
+		Destroy(m_list.First());
 	}
 }
 
@@ -319,7 +319,7 @@ CAutoTaskProxy::WaitAny
 	CTask **pptsk
 	)
 {
-	GPOS_ASSERT(!m_list.FEmpty() && "ATP owns no task");
+	GPOS_ASSERT(!m_list.IsEmpty() && "ATP owns no task");
 
 	*pptsk = NULL;
 
@@ -364,7 +364,7 @@ CAutoTaskProxy::EresTimedWaitAny
 	ULONG ulTimeoutMs
 	)
 {
-	GPOS_ASSERT(!m_list.FEmpty() && "ATP owns no task");
+	GPOS_ASSERT(!m_list.IsEmpty() && "ATP owns no task");
 
 	*pptsk = NULL;
 
@@ -429,9 +429,9 @@ CAutoTaskProxy::EresFindFinished
 #endif // GPOS_DEBUG
 
 	// iterate task list
-	for (CTask *ptsk = m_list.PtFirst();
+	for (CTask *ptsk = m_list.First();
 		 NULL != ptsk;
-		 ptsk = m_list.PtNext(ptsk))
+		 ptsk = m_list.Next(ptsk))
 	{
 #ifdef GPOS_DEBUG
 		// check if task has been scheduled
@@ -644,7 +644,7 @@ CAutoTaskProxy::FOwnerOf(CTask *ptsk)
 	GPOS_ASSERT(NULL != ptsk);
 	GPOS_ASSERT(wid == m_widParent &&
 			   "Only ATP owner can schedule and wait for task");
-	return (GPOS_OK == m_list.EresFind(ptsk));
+	return (GPOS_OK == m_list.Find(ptsk));
 }
 
 #endif // GPOS_DEBUG

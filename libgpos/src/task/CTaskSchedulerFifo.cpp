@@ -44,7 +44,7 @@ CTaskSchedulerFifo::Enqueue
 CTask *
 CTaskSchedulerFifo::PtskDequeue()
 {
-	GPOS_ASSERT(!m_qtsk.FEmpty());
+	GPOS_ASSERT(!m_qtsk.IsEmpty());
 
 	CTask *ptsk = m_qtsk.RemoveHead();
 	ptsk->SetStatus(CTask::EtsDequeued);
@@ -67,7 +67,7 @@ CTaskSchedulerFifo::EresCancel
 	)
 {
 	// iterate until found
-	CTask *ptskIt = m_qtsk.PtFirst();
+	CTask *ptskIt = m_qtsk.First();
 	while (NULL != ptskIt)
 	{
 		if (ptskIt == ptsk)
@@ -77,7 +77,7 @@ CTaskSchedulerFifo::EresCancel
 
 			return GPOS_OK;
 		}
-		ptskIt = m_qtsk.PtNext(ptskIt);
+		ptskIt = m_qtsk.Next(ptskIt);
 	}
 
 	return GPOS_NOT_FOUND;

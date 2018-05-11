@@ -74,7 +74,7 @@ CMemoryPoolTracker::CMemoryPoolTracker
 //---------------------------------------------------------------------------
 CMemoryPoolTracker::~CMemoryPoolTracker()
 {
-	GPOS_ASSERT(m_listAllocations.FEmpty());
+	GPOS_ASSERT(m_listAllocations.IsEmpty());
 }
 
 
@@ -283,9 +283,9 @@ CMemoryPoolTracker::Free
 void
 CMemoryPoolTracker::TearDown()
 {
-	while (!m_listAllocations.FEmpty())
+	while (!m_listAllocations.IsEmpty())
 	{
-		SAllocHeader *pah = m_listAllocations.PtFirst();
+		SAllocHeader *pah = m_listAllocations.First();
 		void *pvUserData = pah + 1;
 		Free(pvUserData);
 	}
@@ -312,7 +312,7 @@ CMemoryPoolTracker::WalkLiveObjects
 {
 	GPOS_ASSERT(NULL != pmov);
 
-	SAllocHeader *pahHeader = m_listAllocations.PtFirst();
+	SAllocHeader *pahHeader = m_listAllocations.First();
 	while (NULL != pahHeader)
 	{
 		SIZE_T ulTotalSize = GPOS_MEM_BYTES_TOTAL(pahHeader->m_ulSize);
@@ -334,7 +334,7 @@ CMemoryPoolTracker::WalkLiveObjects
 #endif // GPOS_DEBUG
 			);
 
-		pahHeader = m_listAllocations.PtNext(pahHeader);
+		pahHeader = m_listAllocations.Next(pahHeader);
 	}
 }
 

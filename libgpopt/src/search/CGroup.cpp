@@ -228,10 +228,10 @@ CGroup::~CGroup()
 	m_pcostmap->Release();
 	
 	// cleaning-up group expressions
-	CGroupExpression *pgexpr = m_listGExprs.PtFirst();
+	CGroupExpression *pgexpr = m_listGExprs.First();
 	while (NULL != pgexpr)
 	{
-		CGroupExpression *pgexprNext = m_listGExprs.PtNext(pgexpr);
+		CGroupExpression *pgexprNext = m_listGExprs.Next(pgexpr);
 		pgexpr->CleanupContexts();
 		pgexpr->Release();
 		
@@ -239,10 +239,10 @@ CGroup::~CGroup()
 	}
 
 	// cleaning-up duplicate expressions
-	pgexpr = m_listDupGExprs.PtFirst();
+	pgexpr = m_listDupGExprs.First();
 	while (NULL != pgexpr)
 	{
-		CGroupExpression *pgexprNext = m_listDupGExprs.PtNext(pgexpr);
+		CGroupExpression *pgexprNext = m_listDupGExprs.Next(pgexpr);
 		pgexpr->CleanupContexts();
 		pgexpr->Release();
 
@@ -735,7 +735,7 @@ CGroup::PgexprFirst()
 {
 	GPOS_ASSERT(m_slock.FOwned());
 
-	return m_listGExprs.PtFirst();
+	return m_listGExprs.First();
 }
 
 
@@ -755,7 +755,7 @@ CGroup::PgexprNext
 {
 	GPOS_ASSERT(m_slock.FOwned());
 
-	return m_listGExprs.PtNext(pgexpr);
+	return m_listGExprs.Next(pgexpr);
 }
 
 
@@ -1021,7 +1021,7 @@ CGroup::MergeGroup()
 	CGroup *pgroupTarget = m_pgroupDuplicate;
 
 	// move group expressions from this group to target
-	while (!m_listGExprs.FEmpty())
+	while (!m_listGExprs.IsEmpty())
 	{
 		CGroupExpression *pgexpr = m_listGExprs.RemoveHead();
 		m_ulGExprs--;
@@ -1848,11 +1848,11 @@ void
 CGroup::ResetGroupState()
 {
 	// reset group expression states
-	CGroupExpression *pgexpr = m_listGExprs.PtFirst();
+	CGroupExpression *pgexpr = m_listGExprs.First();
 	while (NULL != pgexpr)
 	{
 		pgexpr->ResetState();
-		pgexpr = m_listGExprs.PtNext(pgexpr);
+		pgexpr = m_listGExprs.Next(pgexpr);
 
 		GPOS_CHECK_ABORT;
 	}
@@ -2091,11 +2091,11 @@ CGroup::OsPrint
 	os << std::endl << "Group " << m_ulId << " (";
 	if (!FScalar())
 	{
-		os << "#GExprs: " << m_listGExprs.UlSize();
+		os << "#GExprs: " << m_listGExprs.Size();
 
-		if (0 < m_listDupGExprs.UlSize())
+		if (0 < m_listDupGExprs.Size())
 		{
-			os << ", #Duplicate GExprs: " << m_listDupGExprs.UlSize();
+			os << ", #Duplicate GExprs: " << m_listDupGExprs.Size();
 		}
 		if (FDuplicateGroup())
 		{
@@ -2104,11 +2104,11 @@ CGroup::OsPrint
 	}
 	os << "):" << std::endl;
 
-	CGroupExpression *pgexpr = m_listGExprs.PtFirst();
+	CGroupExpression *pgexpr = m_listGExprs.First();
 	while (NULL != pgexpr)
 	{
 		(void) pgexpr->OsPrint(os, szPrefix);
-		pgexpr = m_listGExprs.PtNext(pgexpr);
+		pgexpr = m_listGExprs.Next(pgexpr);
 
 		GPOS_CHECK_ABORT;
 	}

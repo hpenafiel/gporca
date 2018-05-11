@@ -52,7 +52,7 @@ CBitSetIter::FAdvance()
 	
 	if (NULL == m_pbsl)
 	{
-		m_pbsl = m_bs.m_bsllist.PtFirst();
+		m_pbsl = m_bs.m_bsllist.First();
 	}
 	
 	while (NULL != m_pbsl)
@@ -63,7 +63,7 @@ CBitSetIter::FAdvance()
 			break;
 		}
 
-		m_pbsl = m_bs.m_bsllist.PtNext(m_pbsl);
+		m_pbsl = m_bs.m_bsllist.Next(m_pbsl);
 		m_ulCursor = (ULONG)-1;
 	}
 

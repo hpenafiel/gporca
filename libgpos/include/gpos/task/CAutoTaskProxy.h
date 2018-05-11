@@ -91,7 +91,7 @@ namespace gpos
 			// task count
 			ULONG UlTasks()
 			{
-				return m_list.UlSize();
+				return m_list.Size();
 			}
 
 			// disable/enable error propagation

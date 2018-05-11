@@ -86,33 +86,33 @@ namespace gpos
 			void Push(T *pt)
             {
                 GPOS_ASSERT(NULL != pt);
-                GPOS_ASSERT(m_list.PtFirst() != pt);
+                GPOS_ASSERT(m_list.First() != pt);
 
                 ULONG ulAttempts = 0;
                 SLink &linkElem = m_list.Link(pt);
 
     #ifdef GPOS_DEBUG
-                void *pvHeadNext = linkElem.m_pvNext;
+                void *pvHeadNext = linkElem.m_next;
     #endif // GPOS_DEBUG
 
-                GPOS_ASSERT(NULL == linkElem.m_pvNext);
+                GPOS_ASSERT(NULL == linkElem.m_next);
 
                 // keep spinning until passed element becomes the head
                 while (true)
                 {
-                    T *ptHead = m_list.PtFirst();
+                    T *ptHead = m_list.First();
 
                     GPOS_ASSERT(pt != ptHead && "Element is already inserted");
-                    GPOS_ASSERT(pvHeadNext == linkElem.m_pvNext && "Element is concurrently accessed");
+                    GPOS_ASSERT(pvHeadNext == linkElem.m_next && "Element is concurrently accessed");
 
                     // set current head as next element
-                    linkElem.m_pvNext = ptHead;
+                    linkElem.m_next = ptHead;
     #ifdef GPOS_DEBUG
-                    pvHeadNext = linkElem.m_pvNext;
+                    pvHeadNext = linkElem.m_next;
     #endif // GPOS_DEBUG
 
                     // attempt to set element as head
-                    if (FCompareSwap<T>((volatile T**) &m_list.m_ptHead, ptHead, pt))
+                    if (FCompareSwap<T>((volatile T**) &m_list.m_head, ptHead, pt))
                     {
                         break;
                     }
@@ -131,7 +131,7 @@ namespace gpos
                 while (true)
                 {
                     // get current head
-                    ptHeadOld = m_list.PtFirst();
+                    ptHeadOld = m_list.First();
                     if (NULL == ptHeadOld)
                     {
                         break;
@@ -139,13 +139,13 @@ namespace gpos
 
                     // second element becomes the new head
                     SLink &linkElem = m_list.Link(ptHeadOld);
-                    T *ptHeadNew = static_cast<T*>(linkElem.m_pvNext);
+                    T *ptHeadNew = static_cast<T*>(linkElem.m_next);
 
                     // attempt to set new head
-                    if (FCompareSwap<T>((volatile T**) &m_list.m_ptHead, ptHeadOld, ptHeadNew))
+                    if (FCompareSwap<T>((volatile T**) &m_list.m_head, ptHeadOld, ptHeadNew))
                     {
                         // reset link
-                        linkElem.m_pvNext = NULL;
+                        linkElem.m_next = NULL;
                         break;
                     }
 
@@ -158,8 +158,8 @@ namespace gpos
 			// get first element
 			T *PtFirst()
 			{
-				m_list.m_ptTail = m_list.m_ptHead;
-				return m_list.PtFirst();
+				m_list.m_tail = m_list.m_head;
+				return m_list.First();
 			}
 
 			// get next element
@@ -168,14 +168,14 @@ namespace gpos
 				T *pt
 				)
 			{
-				m_list.m_ptTail = m_list.m_ptHead;
-				return m_list.PtNext(pt);
+				m_list.m_tail = m_list.m_head;
+				return m_list.Next(pt);
 			}
 
 			// check if list is empty
 			BOOL FEmpty() const
 			{
-				return NULL == m_list.PtFirst();
+				return NULL == m_list.First();
 			}
 
 #ifdef GPOS_DEBUG
@@ -188,8 +188,8 @@ namespace gpos
 				T *pt
 				)
 			{
-				m_list.m_ptTail = m_list.m_ptHead;
-				return m_list.EresFind(pt);
+				m_list.m_tail = m_list.m_head;
+				return m_list.Find(pt);
 			}
 
 			// debug print of element addresses

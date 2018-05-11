@@ -748,11 +748,11 @@ CScheduler::OsPrintActiveJobs
 	os << "Scheduler - active jobs: " << std::endl << std::endl;
 
 	os << "List of running jobs: " << std::endl;
-	CJob *pj = m_listjRunning.PtFirst();
+	CJob *pj = m_listjRunning.First();
 	while(NULL != pj)
 	{
 		pj->OsPrint(os);
-		pj = m_listjRunning.PtNext(pj);
+		pj = m_listjRunning.Next(pj);
 	}
 
 	os << std::endl << "List of waiting jobs: " << std::endl;
@@ -765,11 +765,11 @@ CScheduler::OsPrintActiveJobs
 	}
 
 	os << std::endl << "List of suspended jobs: " << std::endl;
-	pj = m_listjSuspended.PtFirst();
+	pj = m_listjSuspended.First();
 	while(NULL != pj)
 	{
 		pj->OsPrint(os);
-		pj = m_listjSuspended.PtNext(pj);
+		pj = m_listjSuspended.Next(pj);
 	}
 
 	return os;
