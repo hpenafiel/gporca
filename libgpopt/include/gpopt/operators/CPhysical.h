@@ -34,7 +34,7 @@ namespace gpopt
 	using namespace gpos;
 
 	// arrays of unsigned integer arrays
-	typedef CDynamicPtrArray<ULONG_PTR, CleanupDeleteRg> DrgPulp;
+	typedef CDynamicPtrArray<ULONG_PTR, CleanupDeleteArray> DrgPulp;
 
 	// forward declaration
 	class CPartIndexMap;

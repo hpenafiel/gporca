@@ -33,7 +33,7 @@ namespace gpopt
 
 			// definition of hash map to maintain mappings
 			typedef CHashMap<CHAR, CXform, gpos::UlHash<CHAR>, CXform::FEqualIds,
-						CleanupDeleteRg<CHAR>, CleanupNULL<CXform> > HMSzXform;
+						CleanupDeleteArray<CHAR>, CleanupNULL<CXform> > HMSzXform;
 
 			// memory pool
 			IMemoryPool *m_pmp;

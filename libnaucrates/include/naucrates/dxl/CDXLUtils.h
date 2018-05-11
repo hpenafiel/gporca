@@ -421,12 +421,12 @@ namespace gpdxl
 				);
 
 			// serialize a list of integers into a comma-separate string
-			template <typename T, void (*pfnDestroy)(T*)>
+			template <typename T, void (*CleanupFn)(T*)>
 			static 
 			CWStringDynamic *PstrSerialize
 				(
 				IMemoryPool *pmp,
-				const CDynamicPtrArray<T, pfnDestroy> *pdrgpt
+				const CDynamicPtrArray<T, CleanupFn> *pdrgpt
 				);
 
 			// serialize a list of lists of integers into a comma-separate string
@@ -495,12 +495,12 @@ namespace gpdxl
 	};
 
 	// serialize a list of integers into a comma-separate string
-	template <typename T, void (*pfnDestroy)(T*)>
+	template <typename T, void (*CleanupFn)(T*)>
 	CWStringDynamic *
 	CDXLUtils::PstrSerialize
 		(
 		IMemoryPool *pmp,
-		const CDynamicPtrArray<T, pfnDestroy> *pdrgpt
+		const CDynamicPtrArray<T, CleanupFn> *pdrgpt
 		)
 	{
 		CAutoP<CWStringDynamic> a_pstr(GPOS_NEW(pmp) CWStringDynamic(pmp));

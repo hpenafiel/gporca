@@ -161,7 +161,7 @@ CHashMapTest::EresUnittest_Ownership()
 	ULONG ulCnt = 256;
 
 	typedef CHashMap<ULONG_PTR, CHAR, UlHashPtr<ULONG_PTR>, gpos::FEqual<ULONG_PTR>,
-		CleanupDelete<ULONG_PTR>, CleanupDeleteRg<CHAR> > HMUlChar;
+		CleanupDelete<ULONG_PTR>, CleanupDeleteArray<CHAR> > HMUlChar;
 	
 	HMUlChar *phm = GPOS_NEW(pmp) HMUlChar(pmp, 32);
 	for (ULONG i = 0; i < ulCnt; ++i)

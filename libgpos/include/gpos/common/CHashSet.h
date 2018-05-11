@@ -33,7 +33,7 @@ namespace gpos
 	template <class T,
 		ULONG (*pfnHash)(const T*),
 		BOOL (*pfnEq)(const T*, const T*),
-		void (*pfnDestroy)(T*)>
+		void (*CleanupFn)(T*)>
 	class CHashSetIter;
 
 	//---------------------------------------------------------------------------
@@ -47,11 +47,11 @@ namespace gpos
 	template <class T,
 				ULONG (*pfnHash)(const T*),
 				BOOL (*pfnEq)(const T*, const T*),
-				void (*pfnDestroy)(T*)>
+				void (*CleanupFn)(T*)>
 	class CHashSet : public CRefCount
 	{
 		// fwd declaration
-		friend class CHashSetIter<T, pfnHash, pfnEq, pfnDestroy>;
+		friend class CHashSetIter<T, pfnHash, pfnEq, CleanupFn>;
 
 		private:
 
@@ -94,7 +94,7 @@ namespace gpos
                         // objects, otherwise call destroy functions
                         if (m_fOwn)
                         {
-                            pfnDestroy(m_pt);
+                            CleanupFn(m_pt);
                         }
                     }
 
@@ -132,7 +132,7 @@ namespace gpos
 			IntPtrArray *const m_pdrgPiFilledBuckets;
 
 			// private copy ctor
-			CHashSet(const CHashSet<T, pfnHash, pfnEq, pfnDestroy> &);
+			CHashSet(const CHashSet<T, pfnHash, pfnEq, CleanupFn> &);
 
 			// lookup appropriate hash chain in static table, may be NULL if
 			// no elements have been inserted yet
@@ -174,7 +174,7 @@ namespace gpos
 		public:
 
 			// ctor
-			CHashSet<T, pfnHash, pfnEq, pfnDestroy> (IMemoryPool *pmp, ULONG ulSize = 128)
+			CHashSet<T, pfnHash, pfnEq, CleanupFn> (IMemoryPool *pmp, ULONG ulSize = 128)
             :
             m_pmp(pmp),
             m_ulSize(ulSize),
@@ -189,7 +189,7 @@ namespace gpos
             }
 
 			// dtor
-			~CHashSet<T, pfnHash, pfnEq, pfnDestroy> ()
+			~CHashSet<T, pfnHash, pfnEq, CleanupFn> ()
             {
                 // release all hash chains
                 Clear();

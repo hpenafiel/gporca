@@ -561,9 +561,9 @@ namespace gpopt
 			//-------------------------------------------------------------------
 
 			// append elements from input array to output array, starting from given index, after add-refing them
-			template <class T, void (*pfnDestroy)(T*)>
+			template <class T, void (*CleanupFn)(T*)>
 			static
-			void AddRefAppend(CDynamicPtrArray<T, pfnDestroy> *pdrgptOutput, CDynamicPtrArray<T, pfnDestroy> *pdrgptInput, ULONG ulStart = 0);
+			void AddRefAppend(CDynamicPtrArray<T, CleanupFn> *pdrgptOutput, CDynamicPtrArray<T, CleanupFn> *pdrgptInput, ULONG ulStart = 0);
 
 			// check for existence of subqueries
 			static
@@ -1310,12 +1310,12 @@ namespace gpopt
 	//		given index, after add-refing them
 	//
 	//---------------------------------------------------------------------------
-	template <class T, void (*pfnDestroy)(T*)>
+	template <class T, void (*CleanupFn)(T*)>
 	void
 	CUtils::AddRefAppend
 		(
-		CDynamicPtrArray<T, pfnDestroy> *pdrgptOutput,
-		CDynamicPtrArray<T, pfnDestroy> *pdrgptInput,
+		CDynamicPtrArray<T, CleanupFn> *pdrgptOutput,
+		CDynamicPtrArray<T, CleanupFn> *pdrgptInput,
 		ULONG ulStart
 		)
 	{

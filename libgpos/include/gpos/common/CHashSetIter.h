@@ -18,12 +18,12 @@ namespace gpos
 	template <class T,
 				ULONG (*pfnHash)(const T*), 
 				BOOL (*pfnEq)(const T*, const T*),
-				void (*pfnDestroy)(T*)>
+				void (*CleanupFn)(T*)>
 	class CHashSetIter : public CStackObject
 	{
 	
 		// short hand for hashset type
-		typedef CHashSet<T, pfnHash, pfnEq, pfnDestroy> TSet;
+		typedef CHashSet<T, pfnHash, pfnEq, CleanupFn> TSet;
 	
 		private:
 
@@ -40,7 +40,7 @@ namespace gpos
 			BOOL m_fInit;
 
 			// private copy ctor
-			CHashSetIter(const CHashSetIter<T, pfnHash, pfnEq, pfnDestroy> &);
+			CHashSetIter(const CHashSetIter<T, pfnHash, pfnEq, CleanupFn> &);
 			
 			// method to return the current element
 			const typename TSet::CHashSetElem *Phse() const
@@ -55,7 +55,7 @@ namespace gpos
 		public:
 		
 			// ctor
-			CHashSetIter<T, pfnHash, pfnEq, pfnDestroy> (TSet *pts)
+			CHashSetIter<T, pfnHash, pfnEq, CleanupFn> (TSet *pts)
             :
             m_pts(pts),
             m_ulChain(0),
@@ -66,7 +66,7 @@ namespace gpos
 
 			// dtor
 			virtual
-			~CHashSetIter<T, pfnHash, pfnEq, pfnDestroy> ()
+			~CHashSetIter<T, pfnHash, pfnEq, CleanupFn> ()
 			{}
 
 			// advance iterator to next element

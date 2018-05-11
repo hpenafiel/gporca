@@ -164,7 +164,7 @@ CDynamicPtrArrayTest::EresUnittest_Ownership()
 
 	// test with CHAR array
 
-	typedef CDynamicPtrArray<CHAR, CleanupDeleteRg<CHAR> > DrgCHAR;
+	typedef CDynamicPtrArray<CHAR, CleanupDeleteArray<CHAR> > DrgCHAR;
 	DrgCHAR *pdrgCHAR = GPOS_NEW(pmp) DrgCHAR(pmp, 2);
 
 	// add elements incl trigger resize of array

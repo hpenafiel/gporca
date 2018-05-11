@@ -39,13 +39,13 @@ namespace gpos
 			// in the second array if the first array is not included in the second,
 			// return null
 			// equality comparison between elements is via the "==" operator
-			template <typename T, void (*pfnDestroy)(T*)>
+			template <typename T, void (*CleanupFn)(T*)>
 			static
 			ULongPtrArray *PdrgpulSubsequenceIndexes
 				(
 				IMemoryPool *pmp,
-				CDynamicPtrArray<T, pfnDestroy> *pdrgSubsequence,
-				CDynamicPtrArray<T, pfnDestroy> *pdrg
+				CDynamicPtrArray<T, CleanupFn> *pdrgSubsequence,
+				CDynamicPtrArray<T, CleanupFn> *pdrg
 				)
             {
                 GPOS_ASSERT(NULL != pdrgSubsequence);

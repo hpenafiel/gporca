@@ -745,10 +745,10 @@ namespace gpdxl
 
 			// parse a comma-separated list of integers numbers into a dynamic array
 			// will raise an exception if list is not well-formed
-			template <typename T, void (*pfnDestroy)(T*),
+			template <typename T, void (*CleanupFn)(T*),
 					T ValueFromXmlstr(CDXLMemoryManager *, const XMLCh *, Edxltoken, Edxltoken)>
 			static
-			CDynamicPtrArray<T, pfnDestroy> *PdrgptFromXMLCh
+			CDynamicPtrArray<T, CleanupFn> *PdrgptFromXMLCh
 				(
 				CDXLMemoryManager *pmm,
 				const XMLCh *xmlszUl,
@@ -897,9 +897,9 @@ namespace gpdxl
 
 	// parse a comma-separated list of integers numbers into a dynamic array
 	// will raise an exception if list is not well-formed
-	template <typename T, void (*pfnDestroy)(T*),
+	template <typename T, void (*CleanupFn)(T*),
 			T ValueFromXmlstr(CDXLMemoryManager *, const XMLCh *, Edxltoken, Edxltoken)>
-	CDynamicPtrArray<T, pfnDestroy> *
+	CDynamicPtrArray<T, CleanupFn> *
 	CDXLOperatorFactory::PdrgptFromXMLCh
 		(
 		CDXLMemoryManager *pmm,
@@ -911,7 +911,7 @@ namespace gpdxl
 		// get the memory pool from the memory manager
 		IMemoryPool *pmp = pmm->Pmp();
 
-		CDynamicPtrArray<T, pfnDestroy> *pdrgpt = GPOS_NEW(pmp) CDynamicPtrArray<T, pfnDestroy>(pmp);
+		CDynamicPtrArray<T, CleanupFn> *pdrgpt = GPOS_NEW(pmp) CDynamicPtrArray<T, CleanupFn>(pmp);
 
 		XMLStringTokenizer xmlsztok(xmlszUlList, CDXLTokens::XmlstrToken(EdxltokenComma));
 		const ULONG ulNumTokens = xmlsztok.countTokens();
