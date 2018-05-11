@@ -75,7 +75,7 @@ CXformGbAgg2StreamAgg::Exfp
 	const
 {
 	CLogicalGbAgg *popAgg = CLogicalGbAgg::PopConvert(exprhdl.Pop());
-	if (0 == popAgg->Pdrgpcr()->UlLength() ||
+	if (0 == popAgg->Pdrgpcr()->Size() ||
 		!CUtils::FComparisonPossible(popAgg->Pdrgpcr(), IMDType::EcmptL) ||
 		exprhdl.Pdpscalar(1 /*ulChildIndex*/)->FHasSubquery())
 	{
@@ -122,7 +122,7 @@ CXformGbAgg2StreamAgg::Transform
 	pexprScalar->AddRef();
 
 	DrgPcr *pdrgpcrArgDQA = popAgg->PdrgpcrArgDQA();
-	if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->UlLength())
+	if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->Size())
 	{
 		pdrgpcrArgDQA->AddRef();
 	}

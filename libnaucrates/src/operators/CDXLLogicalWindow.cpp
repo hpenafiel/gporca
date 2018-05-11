@@ -44,7 +44,7 @@ CDXLLogicalWindow::CDXLLogicalWindow
 	m_pdrgpdxlws(pdrgpdxlws)
 {
 	GPOS_ASSERT(NULL != m_pdrgpdxlws);
-	GPOS_ASSERT(0 < m_pdrgpdxlws->UlLength());
+	GPOS_ASSERT(0 < m_pdrgpdxlws->Size());
 }
 
 //---------------------------------------------------------------------------
@@ -103,7 +103,7 @@ CDXLLogicalWindow::Pdxlws
 	)
 	const
 {
-	GPOS_ASSERT(ulPos <= m_pdrgpdxlws->UlLength());
+	GPOS_ASSERT(ulPos <= m_pdrgpdxlws->Size());
 	return (*m_pdrgpdxlws)[ulPos];
 }
 
@@ -130,7 +130,7 @@ CDXLLogicalWindow::SerializeToDXL
 	// serialize the list of window specifications
 	const CWStringConst *pstrWindowSpecList = CDXLTokens::PstrToken(EdxltokenWindowSpecList);
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowSpecList);
-	const ULONG ulSize = m_pdrgpdxlws->UlLength();
+	const ULONG ulSize = m_pdrgpdxlws->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CDXLWindowSpec *pdxlwinspec = (*m_pdrgpdxlws)[ul];
@@ -182,7 +182,7 @@ CDXLLogicalWindow::AssertValid
 	}
 
 	GPOS_ASSERT(NULL != m_pdrgpdxlws);
-	GPOS_ASSERT(0 < m_pdrgpdxlws->UlLength());
+	GPOS_ASSERT(0 < m_pdrgpdxlws->Size());
 }
 
 #endif // GPOS_DEBUG

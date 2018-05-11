@@ -97,7 +97,7 @@ namespace gpdxl
 			inline
 			ULONG UlLength() const
 			{
-				return m_pdrgpph->UlLength();
+				return m_pdrgpph->Size();
 			}
 
 			// shorthand to access children

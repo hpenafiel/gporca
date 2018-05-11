@@ -62,7 +62,7 @@ namespace gpopt
 					CColRefSet *pcrsEquivPredInner = GPOS_NEW(pmp) CColRefSet(pmp);
 					// extract array of join predicates from join condition expression
 					DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-					for (ULONG ul = 0; ul < pdrgpexpr->UlLength(); ul++)
+					for (ULONG ul = 0; ul < pdrgpexpr->Size(); ul++)
 					{
 						CExpression *pexprPred = (*pdrgpexpr)[ul];
 						CColRefSet *pcrsPred = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();

@@ -70,7 +70,7 @@ CPhysicalStreamAgg::InitOrderSpec
 
 	CRefCount::SafeRelease(m_pos);
 	m_pos = GPOS_NEW(pmp) COrderSpec(pmp);
-	const ULONG ulSize = pdrgpcrOrder->UlLength();
+	const ULONG ulSize = pdrgpcrOrder->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrOrder)[ul];
@@ -151,7 +151,7 @@ CPhysicalStreamAgg::PosCovering
 		}
 
 		// augment order with remaining grouping columns
-		const ULONG ulSize = pdrgpcrGrp->UlLength();
+		const ULONG ulSize = pdrgpcrGrp->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			CColRef *pcr = (*pdrgpcrGrp)[ul];

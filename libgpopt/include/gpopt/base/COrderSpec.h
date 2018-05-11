@@ -153,7 +153,7 @@ namespace gpopt
 			// number of sort expressions
 			ULONG UlSortColumns() const
 			{
-				return m_pdrgpoe->UlLength();
+				return m_pdrgpoe->Size();
 			}
 			
 			// accessor of sort operator of the n-th component

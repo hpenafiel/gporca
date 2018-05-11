@@ -210,7 +210,7 @@ CXformUtils::PcrsFKey
 
 	// FK columns
 	CColRefSet *pcrsFKey = GPOS_NEW(pmp) CColRefSet(pmp);
-	const ULONG ulConjuncts = pdrgpexpr->UlLength();
+	const ULONG ulConjuncts = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulConjuncts; ul++)
 	{
 		CExpression *pexprConjunct = (*pdrgpexpr)[ul];
@@ -671,12 +671,12 @@ CXformUtils::FSameDatatype
 	DrgDrgPcr *pdrgpdrgpcrInput
 	)
 {
-	GPOS_ASSERT(1 < pdrgpdrgpcrInput->UlLength());
+	GPOS_ASSERT(1 < pdrgpdrgpcrInput->Size());
 
 	DrgPcr *pdrgpcrOuter = (*pdrgpdrgpcrInput)[0];
 
-	ULONG ulColIndex = pdrgpcrOuter->UlLength();
-	ULONG ulChildIndex = pdrgpdrgpcrInput->UlLength();
+	ULONG ulColIndex = pdrgpcrOuter->Size();
+	ULONG ulChildIndex = pdrgpdrgpcrInput->Size();
 	for (ULONG ulColCounter = 0; ulColCounter < ulColIndex; ulColCounter++)
 	{
 		CColRef *pcrOuter = (*pdrgpcrOuter)[ulColCounter];
@@ -1072,7 +1072,7 @@ CXformUtils::PexprSeparateSubqueryPreds
 	DrgPexpr *pdrgpexprSQ = GPOS_NEW(pmp) DrgPexpr(pmp);
 	DrgPexpr *pdrgpexprNonSQ = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulConjuncts = pdrgpexprConjuncts->UlLength();
+	const ULONG ulConjuncts = pdrgpexprConjuncts->Size();
 	for (ULONG ul = 0; ul < ulConjuncts; ul++)
 	{
 		CExpression *pexprConj = (*pdrgpexprConjuncts)[ul];
@@ -1087,7 +1087,7 @@ CXformUtils::PexprSeparateSubqueryPreds
 			pdrgpexprNonSQ->Append(pexprConj);
 		}
 	}
-	GPOS_ASSERT(0 < pdrgpexprSQ->UlLength());
+	GPOS_ASSERT(0 < pdrgpexprSQ->Size());
 
 	pdrgpexprConjuncts->Release();
 
@@ -1436,7 +1436,7 @@ CXformUtils::PexprAssertNotNull
 {	
 	DrgPcoldesc *pdrgpcoldesc = ptabdesc->Pdrgpcoldesc();
 	
-	const ULONG ulCols = pdrgpcoldesc->UlLength();
+	const ULONG ulCols = pdrgpcoldesc->Size();
 	CColRefSet *pcrsNotNull = CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->PcrsNotNull();
 	
 	DrgPexpr *pdrgpexprAssertConstraints = GPOS_NEW(pmp) DrgPexpr(pmp);
@@ -1480,7 +1480,7 @@ CXformUtils::PexprAssertNotNull
 		pdrgpexprAssertConstraints->Append(pexprAssertConstraint);
 	}
 	
-	if (0 == pdrgpexprAssertConstraints->UlLength())
+	if (0 == pdrgpexprAssertConstraints->Size())
 	{
 		pdrgpexprAssertConstraints->Release();
 		return pexprChild;
@@ -1577,9 +1577,9 @@ CXformUtils::PdrgpexprPartEqFilters
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulPartKeys = pdrgpulPart->UlLength();
+	const ULONG ulPartKeys = pdrgpulPart->Size();
 	GPOS_ASSERT(0 < ulPartKeys);
-	GPOS_ASSERT(pdrgpcrSource->UlLength() >= ulPartKeys);
+	GPOS_ASSERT(pdrgpcrSource->Size() >= ulPartKeys);
 
 	for (ULONG ul = 0; ul < ulPartKeys; ul++)
 	{
@@ -1814,7 +1814,7 @@ CXformUtils::FSupportsMinAgg
 	DrgPcr *pdrgpcr
 	)
 {
-	const ULONG ulCols = pdrgpcr->UlLength();
+	const ULONG ulCols = pdrgpcr->Size();
 	
 	// add the columns to project list
 	for (ULONG ul = 0; ul < ulCols; ul++)
@@ -1919,7 +1919,7 @@ CXformUtils::AddMinAggs
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	GPOS_ASSERT(NULL != ppdrgpcrNew);
 	
-	const ULONG ulCols = pdrgpcr->UlLength();
+	const ULONG ulCols = pdrgpcr->Size();
 	
 	// add the columns to project list
 	for (ULONG ul = 0; ul < ulCols; ul++)
@@ -2288,7 +2288,7 @@ CXformUtils::PdrgpcrIndexColumns
 		ULONG ulPosNonDropped = pmdrel->UlPosNonDropped(ulPos);
 		
 		GPOS_ASSERT(ULONG_MAX != ulPosNonDropped);
-		GPOS_ASSERT(ulPosNonDropped < pdrgpcr->UlLength());
+		GPOS_ASSERT(ulPosNonDropped < pdrgpcr->Size());
 
 		CColRef *pcr = (*pdrgpcr)[ulPosNonDropped];
 		pdrgpcrIndex->Append(pcr);
@@ -2732,7 +2732,7 @@ CXformUtils::FProcessGPDBAntiSemiHashJoin
 
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
 	DrgPexpr *pdrgpexprNew = GPOS_NEW(pmp) DrgPexpr(pmp);
-	const ULONG ulPreds = pdrgpexpr->UlLength();
+	const ULONG ulPreds = pdrgpexpr->Size();
 	BOOL fSimplifiedPredicate = false;
 	for (ULONG ul = 0; ul < ulPreds; ul++)
 	{
@@ -2873,7 +2873,7 @@ CXformUtils::PexprBuildIndexPlan
 	DrgPexpr *pdrgpexprResidual = GPOS_NEW(pmp) DrgPexpr(pmp);
 	CPredicateUtils::ExtractIndexPredicates(pmp, pmda, pdrgpexprConds, pmdindex, pdrgppcrIndexCols, pdrgpexprIndex, pdrgpexprResidual, pcrsOuterRefs);
 
-	if (0 == pdrgpexprIndex->UlLength())
+	if (0 == pdrgpexprIndex->Size())
 	{
 		// clean up
 		GPOS_DELETE(pstrAlias);
@@ -2884,7 +2884,7 @@ CXformUtils::PexprBuildIndexPlan
 
 		return NULL;
 	}
-	GPOS_ASSERT(pdrgpexprConds->UlLength() == pdrgpexprResidual->UlLength() + pdrgpexprIndex->UlLength());
+	GPOS_ASSERT(pdrgpexprConds->Size() == pdrgpexprResidual->Size() + pdrgpexprIndex->Size());
 
 	ptabdesc->AddRef();
 	pdrgpcrOutput->AddRef();
@@ -2961,7 +2961,7 @@ CXformUtils::PexprScalarBitmapBoolOp
 {	
 	GPOS_ASSERT(NULL != pdrgpexpr); 
 		
-	const ULONG ulPredicates = pdrgpexpr->UlLength();
+	const ULONG ulPredicates = pdrgpexpr->Size();
 	
 	if (1 == ulPredicates)
 	{
@@ -3008,9 +3008,9 @@ CXformUtils::PexprScalarBitmapBoolOp
 		pdrgpexprResidualNew
 		);
 
-	GPOS_ASSERT(pdrgpexprRecheckNew->UlLength() == pdrgpexprBitmap->UlLength());
+	GPOS_ASSERT(pdrgpexprRecheckNew->Size() == pdrgpexprBitmap->Size());
 
-	const ULONG ulBitmapExpr = pdrgpexprBitmap->UlLength();
+	const ULONG ulBitmapExpr = pdrgpexprBitmap->Size();
 
 	if (0 == ulBitmapExpr || (!fConjunction && ulBitmapExpr < ulPredicates))
 	{
@@ -3037,7 +3037,7 @@ CXformUtils::PexprScalarBitmapBoolOp
 	}
 	
 
-	GPOS_ASSERT(NULL != pexprBitmapBoolOp && 0 < pdrgpexprRecheckNew->UlLength());
+	GPOS_ASSERT(NULL != pexprBitmapBoolOp && 0 < pdrgpexprRecheckNew->Size());
 		
 	CExpression *pexprRecheckNew = CPredicateUtils::PexprConjDisj(pmp, pdrgpexprRecheckNew, fConjunction);
 	if (NULL != *ppexprRecheck)
@@ -3052,7 +3052,7 @@ CXformUtils::PexprScalarBitmapBoolOp
 		*ppexprRecheck = pexprRecheckNew;
 	}
 	
-	if (0 < pdrgpexprResidualNew->UlLength())
+	if (0 < pdrgpexprResidualNew->Size())
 	{
 		ComputeBitmapTableScanResidualPredicate(pmp, fConjunction, pexprOriginalPred, ppexprResidual, pdrgpexprResidualNew);
 	}
@@ -3084,7 +3084,7 @@ CXformUtils::ComputeBitmapTableScanResidualPredicate
 	)
 {
 	GPOS_ASSERT(NULL != pexprOriginalPred);
-	GPOS_ASSERT(0 < pdrgpexprResidualNew->UlLength());
+	GPOS_ASSERT(0 < pdrgpexprResidualNew->Size());
 	
 	if (!fConjunction)
 	{
@@ -3226,7 +3226,7 @@ CXformUtils::PexprBitmapFromChildren
 		pdrgpexpr = CPredicateUtils::PdrgpexprDisjuncts(pmp, pexprPred);
 	}
 
-	if (1 == pdrgpexpr->UlLength())
+	if (1 == pdrgpexpr->Size())
 	{
 		// unsupported predicate that cannot be split further into conjunctions and disjunctions
 		pdrgpexpr->Release();
@@ -3451,7 +3451,7 @@ CXformUtils::PexprBitmapForSelectCondition
 				);
 			pdrgpexprScalar->Release();
 			pdrgpexprResidual->Release();
-			if (0 == pdrgpexprIndex->UlLength())
+			if (0 == pdrgpexprIndex->Size())
 			{
 				// no usable predicate, clean up
 				pdrgpcrIndexCols->Release();
@@ -3599,7 +3599,7 @@ CXformUtils::CreateBitmapIndexProbeOps
 {
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	
-	const ULONG ulPredicates = pdrgpexpr->UlLength();
+	const ULONG ulPredicates = pdrgpexpr->Size();
 
 	for (ULONG ul = 0; ul < ulPredicates; ul++)
 	{
@@ -3796,13 +3796,13 @@ CXformUtils::PexprBitmapTableGet
 	
 	// array of expressions in the scalar expression
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
 	// find the indexes whose included columns meet the required columns
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdesc->Pmdid());
 
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 	
 	DrgPcr *pdrgpcrOutput = CLogical::PdrgpcrOutputFromLogicalGet(popGet);
 	GPOS_ASSERT(NULL != pdrgpcrOutput);
@@ -4034,7 +4034,7 @@ CXformUtils::PpartcnstrUpdateCovered
 						);
 
 	pdrgpcrIndexCols->Release();
-	if (0 == pdrgpexprIndex->UlLength())
+	if (0 == pdrgpexprIndex->Size())
 	{
 		// no predicate could use the index: clean up
 		return NULL;
@@ -4185,8 +4185,8 @@ CXformUtils::PexprPartialDynamicIndexGet
 		// if there are any outer references, add them to the mapping
 		if (NULL != pcrsAcceptedOuterRefs)
 		{
-			ULONG ulOuterPcrs = pdrgpcrOuter->UlLength();
-			GPOS_ASSERT(ulOuterPcrs == pdrgpcrNewOuter->UlLength());
+			ULONG ulOuterPcrs = pdrgpcrOuter->Size();
+			GPOS_ASSERT(ulOuterPcrs == pdrgpcrNewOuter->Size());
 
 			for (ULONG ul = 0; ul < ulOuterPcrs; ul++)
 			{
@@ -4286,7 +4286,7 @@ CXformUtils::FJoinPredOnSingleChild
 	}
 
 	DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(pmp, exprhdl.PexprScalarChild(ulArity- 1));
-	const ULONG ulPreds = pdrgpexprPreds->UlLength();
+	const ULONG ulPreds = pdrgpexprPreds->Size();
 	BOOL fPredUsesSingleChild = false;
 	for (ULONG ulPred = 0; !fPredUsesSingleChild && ulPred < ulPreds; ulPred++)
 	{
@@ -4347,14 +4347,14 @@ CXformUtils::PdrgpcrReorderedSubsequence
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfRefs);
 
-	const ULONG ulLength = pdrgpulIndexesOfRefs->UlLength();
-	GPOS_ASSERT(ulLength <= pdrgpcr->UlLength());
+	const ULONG ulLength = pdrgpulIndexesOfRefs->Size();
+	GPOS_ASSERT(ulLength <= pdrgpcr->Size());
 
 	DrgPcr *pdrgpcrNewSubsequence = GPOS_NEW(pmp) DrgPcr(pmp);
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		ULONG ulPos = *(*pdrgpulIndexesOfRefs)[ul];
-		GPOS_ASSERT(ulPos < pdrgpcr->UlLength());
+		GPOS_ASSERT(ulPos < pdrgpcr->Size());
 		pdrgpcrNewSubsequence->Append((*pdrgpcr)[ulPos]);
 	}
 
@@ -4389,7 +4389,7 @@ CXformUtils::FMergeWithPreviousBitmapIndexProbe
 
 	CScalarBitmapIndexProbe *popScalar = CScalarBitmapIndexProbe::PopConvert(pexprBitmap->Pop());
 	IMDId *pmdIdIndex = popScalar->Pindexdesc()->Pmdid();
-	const ULONG ulNumScalars = pdrgpexprBitmap->UlLength();
+	const ULONG ulNumScalars = pdrgpexprBitmap->Size();
 	for (ULONG ul = 0; ul < ulNumScalars; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprBitmap)[ul];
@@ -4740,7 +4740,7 @@ CXformUtils::PexprGbAggOnCTEConsumer2Join
 	// counter of consumers
 	ULONG ulConsumers = 0;
 
-	const ULONG ulSize = pdrgpdrgpexprPrjElems->UlLength();
+	const ULONG ulSize = pdrgpdrgpexprPrjElems->Size();
 	for (ULONG ulPrjElemsArr = 0; ulPrjElemsArr < ulSize; ulPrjElemsArr++)
 	{
 		DrgPexpr *pdrgpexprPrjElems = (*pdrgpdrgpexprPrjElems)[ulPrjElemsArr];
@@ -4772,7 +4772,7 @@ CXformUtils::PexprGbAggOnCTEConsumer2Join
 			// fix Aggs arguments to use new consumer output column
 			HMUlCr *phmulcr = CUtils::PhmulcrMapping(pmp, pdrgpcrConsumerOutput, pdrgpcrNewConsumerOutput);
 			DrgPexpr *pdrgpexprNewPrjElems = GPOS_NEW(pmp) DrgPexpr(pmp);
-			const ULONG ulPrjElems = pdrgpexprPrjElems->UlLength();
+			const ULONG ulPrjElems = pdrgpexprPrjElems->Size();
 			for (ULONG ul = 0; ul < ulPrjElems; ul++)
 			{
 				CExpression *pexprPrjEl = (*pdrgpexprPrjElems)[ul];
@@ -4806,16 +4806,16 @@ CXformUtils::PexprGbAggOnCTEConsumer2Join
 		if (NULL != pexprLastGbAgg)
 		{
 			CExpression *pexprJoinCondition = NULL;
-			if (0 == pdrgpcrLastGrpCols->UlLength())
+			if (0 == pdrgpcrLastGrpCols->Size())
 			{
-				GPOS_ASSERT(0 == pdrgpcrNewGrpCols->UlLength());
+				GPOS_ASSERT(0 == pdrgpcrNewGrpCols->Size());
 
 				pexprTrue->AddRef();
 				pexprJoinCondition = pexprTrue;
 			}
 			else
 			{
-				GPOS_ASSERT(pdrgpcrLastGrpCols->UlLength() == pdrgpcrNewGrpCols->UlLength());
+				GPOS_ASSERT(pdrgpcrLastGrpCols->Size() == pdrgpcrNewGrpCols->Size());
 
 				pexprJoinCondition = CPredicateUtils::PexprINDFConjunction(pmp, pdrgpcrLastGrpCols, pdrgpcrNewGrpCols);
 			}

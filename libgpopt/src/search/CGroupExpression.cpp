@@ -73,13 +73,13 @@ CGroupExpression::CGroupExpression
 	GPOS_ASSERT_IMP(exfid != CXform::ExfInvalid, NULL != pgexprOrigin);
 	
 	// store sorted array of children for faster comparison
-	if (1 < pdrgpgroup->UlLength() && !pop->FInputOrderSensitive())
+	if (1 < pdrgpgroup->Size() && !pop->FInputOrderSensitive())
 	{
-		m_pdrgpgroupSorted = GPOS_NEW(pmp) DrgPgroup(pmp, pdrgpgroup->UlLength());
+		m_pdrgpgroupSorted = GPOS_NEW(pmp) DrgPgroup(pmp, pdrgpgroup->Size());
 		m_pdrgpgroupSorted->AppendArray(pdrgpgroup);
 		m_pdrgpgroupSorted->Sort();
 		
-		GPOS_ASSERT(m_pdrgpgroupSorted->FSorted());
+		GPOS_ASSERT(m_pdrgpgroupSorted->IsSorted());
 	}
 
 	m_ppartialplancostmap = GPOS_NEW(pmp) PartialPlanCostMap(pmp);
@@ -623,7 +623,7 @@ CGroupExpression::CostCompute
 	// prepare cost array
 	DrgPoc *pdrgpoc = pcc->Pdrgpoc();
 	DrgPcost *pdrgpcostChildren = GPOS_NEW(pmp) DrgPcost(pmp);
-	const ULONG ulLen = pdrgpoc->UlLength();
+	const ULONG ulLen = pdrgpoc->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		COptimizationContext *pocChild = (*pdrgpoc)[ul];
@@ -888,7 +888,7 @@ CGroupExpression::Transform
 		PrintXform(pmp, pxform, pexpr, pxfres);
 
 		if (CXformUtils::FApplyOnce(pxform->Exfid()) ||
-			(0 < pxfres->Pdrgpexpr()->UlLength() &&
+			(0 < pxfres->Pdrgpexpr()->Size() &&
 			!CXformUtils::FApplyToNextBinding(pxform, pexpr)))
 		{
 			// do not apply xform to other possible patterns
@@ -1022,7 +1022,7 @@ CGroupExpression::UlHash
 	
 	ULONG ulHash = pop->UlHash();
 	
-	ULONG ulArity = pdrgpgroup->UlLength();
+	ULONG ulArity = pdrgpgroup->Size();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		ulHash = UlCombineHashes(ulHash, (*pdrgpgroup)[i]->UlHash());

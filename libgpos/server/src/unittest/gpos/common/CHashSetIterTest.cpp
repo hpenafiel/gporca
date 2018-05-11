@@ -70,7 +70,7 @@ CHashSetIterTest::EresUnittest_Basic()
 
 		pdrgpulIterValues->Sort();
 
-		GPOS_ASSERT(pdrgpulValues->FEqual(pdrgpulIterValues.Pt()));
+		GPOS_ASSERT(pdrgpulValues->Equals(pdrgpulIterValues.Pt()));
 	}
 
 	ps->Release();

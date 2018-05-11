@@ -179,7 +179,7 @@ namespace gpos
 
 			
 			// number of elements currently held
-			ULONG UlLength() const
+			ULONG Size() const
             {
                 return m_ulSize;
             }
@@ -191,9 +191,9 @@ namespace gpos
             }
 			
 			// equality check
-			BOOL FEqual(const CDynamicPtrArray<T, pfnDestroy> *pdrg) const
+			BOOL Equals(const CDynamicPtrArray<T, pfnDestroy> *pdrg) const
             {
-                BOOL fEqual = (UlLength() == pdrg->UlLength());
+                BOOL fEqual = (Size() == pdrg->UlLength());
 
                 for (ULONG i = 0; i < m_ulSize && fEqual; i++)
                 {
@@ -204,7 +204,7 @@ namespace gpos
             }
 			
 			// lookup object
-			T* PtLookup(const T *pt) const
+			T* Find(const T *pt) const
             {
                 GPOS_ASSERT(NULL != pt);
 
@@ -220,7 +220,7 @@ namespace gpos
             }
 			
 			// lookup object position
-			ULONG UlPos(const T *pt) const
+			ULONG IndexOf(const T *pt) const
             {
                 GPOS_ASSERT(NULL != pt);
 
@@ -237,7 +237,7 @@ namespace gpos
 
 #ifdef GPOS_DEBUG
 			// check if array is sorted
-			BOOL FSorted() const
+			BOOL IsSorted() const
             {
                 for (ULONG i = 1; i < m_ulSize; i++)
                 {

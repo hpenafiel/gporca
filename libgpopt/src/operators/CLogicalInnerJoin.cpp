@@ -140,8 +140,8 @@ CLogicalInnerJoin::FFewerConj
 	DrgPexpr *pdrgpexprConjFst = CPredicateUtils::PdrgpexprConjuncts(pmp, pgroupScalarFst->PexprScalar());
 	DrgPexpr *pdrgpexprConjSnd = CPredicateUtils::PdrgpexprConjuncts(pmp, pgroupScalarSnd->PexprScalar());
 
-	ULONG ulConjFst = pdrgpexprConjFst->UlLength();
-	ULONG ulConjSnd = pdrgpexprConjSnd->UlLength();
+	ULONG ulConjFst = pdrgpexprConjFst->Size();
+	ULONG ulConjSnd = pdrgpexprConjSnd->Size();
 
 	pdrgpexprConjFst->Release();
 	pdrgpexprConjSnd->Release();

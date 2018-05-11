@@ -59,7 +59,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	GPOS_ASSERT(pmdid->FValid());
 	GPOS_ASSERT(IMDIndex::EmdindSentinel > emdindt);
 	GPOS_ASSERT(NULL != pdrgpulKeyCols);
-	GPOS_ASSERT(0 < pdrgpulKeyCols->UlLength());
+	GPOS_ASSERT(0 < pdrgpulKeyCols->Size());
 	GPOS_ASSERT(NULL != pdrgpulIncludedCols);
 	GPOS_ASSERT_IMP(NULL != pmdidItemType, IMDIndex::EmdindBitmap == emdindt);
 	GPOS_ASSERT_IMP(IMDIndex::EmdindBitmap == emdindt, NULL != pmdidItemType && pmdidItemType->FValid());
@@ -155,7 +155,7 @@ CMDIndexGPDB::Emdindt() const
 ULONG
 CMDIndexGPDB::UlKeys() const
 {
-	return m_pdrgpulKeyCols->UlLength();
+	return m_pdrgpulKeyCols->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -215,7 +215,7 @@ CMDIndexGPDB::UlPosInKey
 ULONG
 CMDIndexGPDB::UlIncludedCols() const
 {
-	return m_pdrgpulIncludedCols->UlLength();
+	return m_pdrgpulIncludedCols->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -412,7 +412,7 @@ CMDIndexGPDB::FCompatible
 	const
 {
 	GPOS_ASSERT(NULL != pmdscop);
-	GPOS_ASSERT(ulKeyPos < m_pdrgpmdidOpClasses->UlLength());
+	GPOS_ASSERT(ulKeyPos < m_pdrgpmdidOpClasses->Size());
 	
 	// check if the index opclass for the key at the given position is one of 
 	// the classes the scalar comparison belongs to

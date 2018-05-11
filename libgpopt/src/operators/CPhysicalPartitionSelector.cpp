@@ -56,7 +56,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	GPOS_ASSERT(0 < ulScanId);
 	GPOS_ASSERT(pmdid->FValid());
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
-	GPOS_ASSERT(0 < pdrgpdrgpcr->UlLength());
+	GPOS_ASSERT(0 < pdrgpdrgpcr->Size());
 	GPOS_ASSERT(NULL != ppartcnstrmap);
 	GPOS_ASSERT(NULL != ppartcnstr);
 	GPOS_ASSERT(NULL != phmulexprEqPredicates);
@@ -418,7 +418,7 @@ CPhysicalPartitionSelector::UlPartLevels() const
 {
 	if (NULL != m_pdrgpdrgpcr)
 	{
-		return m_pdrgpdrgpcr->UlLength();
+		return m_pdrgpdrgpcr->Size();
 	}
 
 	return m_phmulexprEqPredicates->UlEntries();
@@ -607,7 +607,7 @@ CPhysicalPartitionSelector::PppsRequired
 
 	CPartInfo *ppartinfo = exprhdl.Pdprel(0)->Ppartinfo();
 
-	const ULONG ulScanIds = pdrgpulInputScanIds->UlLength();
+	const ULONG ulScanIds = pdrgpulInputScanIds->Size();
 
 	for (ULONG ul = 0; ul < ulScanIds; ul++)
 	{

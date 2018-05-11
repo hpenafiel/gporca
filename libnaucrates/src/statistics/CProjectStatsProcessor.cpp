@@ -35,7 +35,7 @@ CProjectStatsProcessor::PstatsProject
 	// column ids on which widths are to be computed
 	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
 
-	const ULONG ulLen = pdrgpulProjColIds->UlLength();
+	const ULONG ulLen = pdrgpulProjColIds->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		ULONG ulColId = *(*pdrgpulProjColIds)[ul];
@@ -70,7 +70,7 @@ CProjectStatsProcessor::PstatsProject
 			CColRef *pcr = pcf->PcrLookup(ulColId);
 			GPOS_ASSERT(NULL != pcr);
 
-			if (0 == pdrgbucket->UlLength() && IMDType::EtiBool == pcr->Pmdtype()->Eti())
+			if (0 == pdrgbucket->Size() && IMDType::EtiBool == pcr->Pmdtype()->Eti())
 			{
 				pdrgbucket->Release();
 			 	phistPrCol = CHistogram::PhistDefaultBoolColStats(pmp);

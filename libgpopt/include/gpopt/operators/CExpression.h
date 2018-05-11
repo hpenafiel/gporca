@@ -202,7 +202,7 @@ namespace gpopt
 			// arity function
 			ULONG UlArity() const
 			{
-				return m_pdrgpexpr == NULL ? 0 : m_pdrgpexpr->UlLength();
+				return m_pdrgpexpr == NULL ? 0 : m_pdrgpexpr->Size();
 			}
 			
 			// accessor for operator

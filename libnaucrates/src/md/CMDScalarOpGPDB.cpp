@@ -284,7 +284,7 @@ CMDScalarOpGPDB::Serialize
 	}	
 	
 	// serialize operator class information
-	if (0 < m_pdrgpmdidOpClasses->UlLength())
+	if (0 < m_pdrgpmdidOpClasses->Size())
 	{
 		SerializeMDIdList(pxmlser, m_pdrgpmdidOpClasses, 
 						CDXLTokens::PstrToken(EdxltokenOpClasses), 
@@ -306,7 +306,7 @@ CMDScalarOpGPDB::Serialize
 ULONG
 CMDScalarOpGPDB::UlOpCLasses() const
 {
-	return m_pdrgpmdidOpClasses->UlLength();
+	return m_pdrgpmdidOpClasses->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -324,7 +324,7 @@ CMDScalarOpGPDB::PmdidOpClass
 	) 
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpmdidOpClasses->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpmdidOpClasses->Size());
 	
 	return (*m_pdrgpmdidOpClasses)[ulPos];
 }

@@ -57,7 +57,7 @@ ICostModel::SetParams
 	}
 
 	// overwrite default values of cost model parameters
-	const ULONG ulSize = pdrgpcp->UlLength();
+	const ULONG ulSize = pdrgpcp->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		ICostModelParams::SCostParam *pcp = (*pdrgpcp)[ul];

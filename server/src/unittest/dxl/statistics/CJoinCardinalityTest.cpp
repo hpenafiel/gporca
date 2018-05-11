@@ -216,7 +216,7 @@ CJoinCardinalityTest::EresUnittest_Join()
 		pdrgpdxlstatsderrel->Release();
 
 		GPOS_ASSERT(NULL != pdrgpstatBefore);
-		GPOS_ASSERT(2 == pdrgpstatBefore->UlLength());
+		GPOS_ASSERT(2 == pdrgpstatBefore->Size());
 		CStatistics *pstats1 = (*pdrgpstatBefore)[0];
 		CStatistics *pstats2 = (*pdrgpstatBefore)[1];
 

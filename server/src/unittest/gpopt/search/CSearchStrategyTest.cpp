@@ -155,7 +155,7 @@ CSearchStrategyTest::EresUnittest_Parsing()
 	IMemoryPool *pmp = amp.Pmp();
 	CParseHandlerDXL *pphDXL = CDXLUtils::PphdxlParseDXLFile(pmp,"../data/dxl/search/strategy0.xml", NULL);
 	DrgPss *pdrgpss = pphDXL->Pdrgpss();
-	const ULONG ulSize = pdrgpss->UlLength();
+	const ULONG ulSize = pdrgpss->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CAutoTrace at(pmp);

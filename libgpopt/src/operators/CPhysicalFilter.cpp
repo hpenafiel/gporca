@@ -217,7 +217,7 @@ CPhysicalFilter::PppsRequired
 	/// get derived part consumers
 	CPartInfo *ppartinfo = exprhdl.Pdprel(0)->Ppartinfo();
 	
-	const ULONG ulPartIndexIds = pdrgpul->UlLength();
+	const ULONG ulPartIndexIds = pdrgpul->Size();
 	BOOL fUseConstraints = (1 == exprhdl.Pdprel()->UlJoinDepth());
 	
 	for (ULONG ul = 0; ul < ulPartIndexIds; ul++)
@@ -238,7 +238,7 @@ CPhysicalFilter::PppsRequired
 
 		CExpression *pexprCmp = NULL;
 		DrgPpartkeys *pdrgppartkeys = ppimReqd->Pdrgppartkeys(ulPartIndexId);
-		const ULONG ulKeysets = pdrgppartkeys->UlLength();
+		const ULONG ulKeysets = pdrgppartkeys->Size();
 		for (ULONG ulKey = 0; NULL == pexprCmp && ulKey < ulKeysets; ulKey++)
 		{
 			// get partition key

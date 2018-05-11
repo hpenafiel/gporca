@@ -79,7 +79,7 @@ CLogicalIndexApply::FMatch
 
 	if (pop->Eopid() == Eopid())
 	{
-		return m_pdrgpcrOuterRefs->FEqual(CLogicalIndexApply::PopConvert(pop)->PdrgPcrOuterRefs());
+		return m_pdrgpcrOuterRefs->Equals(CLogicalIndexApply::PopConvert(pop)->PdrgPcrOuterRefs());
 	}
 
 	return false;

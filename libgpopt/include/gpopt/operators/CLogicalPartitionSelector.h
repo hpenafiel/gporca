@@ -91,7 +91,7 @@ namespace gpopt
 			// number of partitioning levels
 			ULONG UlPartLevels() const
 			{
-				return m_pdrgpexprFilters->UlLength();
+				return m_pdrgpexprFilters->Size();
 			}
 
 			// filter expression for a given level

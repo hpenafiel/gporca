@@ -90,7 +90,7 @@ CMDCheckConstraintGPDB::Pexpr
 
 	const IMDRelation *pmdrel = pmda->Pmdrel(m_pmdidRel);
 #ifdef GPOS_DEBUG
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	GPOS_ASSERT(ulLen > 0);
 
 	const ULONG ulArity = pmdrel->UlNonDroppedCols() - pmdrel->UlSystemColumns();

@@ -116,7 +116,7 @@ CExpression::CExpression
 	m_pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp, 1);
 	m_pdrgpexpr->Append(pexpr);
 
-	GPOS_ASSERT(m_pdrgpexpr->UlLength() == 1);
+	GPOS_ASSERT(m_pdrgpexpr->Size() == 1);
 }
 
 
@@ -159,7 +159,7 @@ CExpression::CExpression
 	m_pdrgpexpr->Append(pexprChildFirst);
 	m_pdrgpexpr->Append(pexprChildSecond);
 
-	GPOS_ASSERT(m_pdrgpexpr->UlLength() == 2);
+	GPOS_ASSERT(m_pdrgpexpr->Size() == 2);
 }
 
 
@@ -205,7 +205,7 @@ CExpression::CExpression
 	m_pdrgpexpr->Append(pexprChildSecond);
 	m_pdrgpexpr->Append(pexprChildThird);
 
-	GPOS_ASSERT(m_pdrgpexpr->UlLength() == 3);
+	GPOS_ASSERT(m_pdrgpexpr->Size() == 3);
 }
 
 
@@ -276,7 +276,7 @@ CExpression::CExpression
 {
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != pop);
-	GPOS_ASSERT(pgexpr->UlArity() == (pdrgpexpr == NULL ? 0 : pdrgpexpr->UlLength()));
+	GPOS_ASSERT(pgexpr->UlArity() == (pdrgpexpr == NULL ? 0 : pdrgpexpr->Size()));
 	GPOS_ASSERT(NULL != pgexpr->Pgroup());
 
 	CopyGroupPropsAndStats(pstatsInput);

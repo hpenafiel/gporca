@@ -145,7 +145,7 @@ CXformPushDownLeftOuterJoin::Transform
 	}
 
 	CExpression *pexprLOJOuterChild = (*pdrgpexprLOJChildren)[0];
-	if (1 < pdrgpexprLOJChildren->UlLength())
+	if (1 < pdrgpexprLOJChildren->Size())
 	{
 		// collect all relations needed by LOJ outer side into a cross product,
 		// normalization at the end of this function takes care of pushing NAry
@@ -172,7 +172,7 @@ CXformPushDownLeftOuterJoin::Transform
 	pexprNAryJoinScalarChild->AddRef();
 	pdrgpexprNAryJoinChildren->Append(pexprNAryJoinScalarChild);
 
-	if (3 > pdrgpexprNAryJoinChildren->UlLength())
+	if (3 > pdrgpexprNAryJoinChildren->Size())
 	{
 		// xform must generate a valid NAry-join expression
 		// for example, in the following case we end-up with the same input

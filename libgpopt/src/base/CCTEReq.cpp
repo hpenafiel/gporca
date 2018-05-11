@@ -463,7 +463,7 @@ CCTEReq::PcterUnresolvedSequence
 	// if something is in pcm and not in the requirments, it has to be a producer
 	// in which case, add the corresponding consumer as unresolved
 	DrgPul *pdrgpulProducers = pcm->PdrgpulAdditionalProducers(pmp, this);
-	const ULONG ulLen = pdrgpulProducers->UlLength();
+	const ULONG ulLen = pdrgpulProducers->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		ULONG *pulId = (*pdrgpulProducers)[ul];

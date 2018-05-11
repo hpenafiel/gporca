@@ -397,7 +397,7 @@ CPhysicalCTEConsumer::FMatch
 	CPhysicalCTEConsumer *popCTEConsumer = CPhysicalCTEConsumer::PopConvert(pop);
 
 	return m_ulId == popCTEConsumer->UlCTEId() &&
-			m_pdrgpcr->FEqual(popCTEConsumer->Pdrgpcr());
+			m_pdrgpcr->Equals(popCTEConsumer->Pdrgpcr());
 }
 
 //---------------------------------------------------------------------------

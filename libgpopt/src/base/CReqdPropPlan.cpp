@@ -310,7 +310,7 @@ CReqdPropPlan::PpfmCombineDerived
 	}
 
 	// copy part filters from previously optimized children
-	const ULONG ulSize = pdrgpdpCtxt->UlLength();
+	const ULONG ulSize = pdrgpdpCtxt->Size();
 	for (ULONG ulDrvdProps = 0; ulDrvdProps < ulSize; ulDrvdProps++)
 	{
 		CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[ulDrvdProps]);

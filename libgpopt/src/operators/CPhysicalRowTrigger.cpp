@@ -47,7 +47,7 @@ CPhysicalRowTrigger::CPhysicalRowTrigger
 	GPOS_ASSERT(0 != iType);
 	GPOS_ASSERT(NULL != pdrgpcrNew || NULL != pdrgpcrOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpcrNew && NULL != pdrgpcrOld,
-			pdrgpcrNew->UlLength() == pdrgpcrOld->UlLength());
+			pdrgpcrNew->Size() == pdrgpcrOld->Size());
 
 	m_pcrsRequiredLocal = GPOS_NEW(pmp) CColRefSet(pmp);
 	if (NULL != m_pdrgpcrOld)

@@ -136,7 +136,7 @@ CUtils::OsPrintDrgPcoldesc
 	ULONG ulLengthMax
 	)
 {
-	ULONG ulLength = std::min(pdrgpcoldesc->UlLength(), ulLengthMax);
+	ULONG ulLength = std::min(pdrgpcoldesc->Size(), ulLengthMax);
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldesc)[ul];
@@ -597,7 +597,7 @@ CUtils::UlScalarArrayArity
 	{
 		CScalarArray *popScalarArray = CScalarArray::PopConvert(pexprArray->Pop());
 		DrgPconst *pdrgPconst = popScalarArray->PdrgPconst();
-		ulArity = pdrgPconst->UlLength();
+		ulArity = pdrgPconst->Size();
 	}
 	return ulArity;
 }
@@ -772,7 +772,7 @@ CUtils::PexprScalarArrayCmp
 	)
 {
 	GPOS_ASSERT(pexprScalarChildren != NULL);
-	GPOS_ASSERT(0 < pexprScalarChildren->UlLength());
+	GPOS_ASSERT(0 < pexprScalarChildren->Size());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
@@ -987,10 +987,10 @@ CUtils::PcrExtractPartKey
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
-	GPOS_ASSERT(ulLevel < pdrgpdrgpcr->UlLength());
+	GPOS_ASSERT(ulLevel < pdrgpdrgpcr->Size());
 	
 	DrgPcr *pdrgpcrPartKey = (*pdrgpdrgpcr)[ulLevel];
-	GPOS_ASSERT(1 == pdrgpcrPartKey->UlLength() && "Composite keys not currently supported");
+	GPOS_ASSERT(1 == pdrgpcrPartKey->Size() && "Composite keys not currently supported");
 	
 	return (*pdrgpcrPartKey)[0];
 }
@@ -1549,7 +1549,7 @@ CUtils::PdrgpexprDedup
 	DrgPexpr *pdrgpexpr
 	)
 {
-	const ULONG ulSize = pdrgpexpr->UlLength();
+	const ULONG ulSize = pdrgpexpr->Size();
 	DrgPexpr *pdrgpexprDedup = GPOS_NEW(pmp) DrgPexpr(pmp);
 	HSExpr *phsexpr = GPOS_NEW(pmp) HSExpr(pmp);
 
@@ -1594,8 +1594,8 @@ CUtils::FEqual
 		return true;
 	}
 
-	const ULONG ulLen = pdrgpexprLeft->UlLength();
-	BOOL fEqual = (ulLen == pdrgpexprRight->UlLength());
+	const ULONG ulLen = pdrgpexprLeft->Size();
+	BOOL fEqual = (ulLen == pdrgpexprRight->Size());
 
 	for (ULONG ul = 0; ul < ulLen && fEqual; ul++)
 	{
@@ -1697,7 +1697,7 @@ CUtils::UlOccurrences
 	GPOS_ASSERT(NULL != pexpr);
 	ULONG ulCount = 0;
 
-	const ULONG ulSize = pdrgpexpr->UlLength();
+	const ULONG ulSize = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		if (FEqual(pexpr, (*pdrgpexpr)[ul]))
@@ -1719,7 +1719,7 @@ CUtils::FEqualAny
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	const ULONG ulSize = pdrgpexpr->UlLength();
+	const ULONG ulSize = pdrgpexpr->Size();
 	BOOL fEqual = false;
 	for (ULONG ul = 0; !fEqual && ul < ulSize; ul++)
 	{
@@ -1745,12 +1745,12 @@ CUtils::FContains
 		return true;
 	}
 
-	if (pdrgpexprFst->UlLength() < pdrgpexprSnd->UlLength())
+	if (pdrgpexprFst->Size() < pdrgpexprSnd->Size())
 	{
 		return false;
 	}
 
-	const ULONG ulSize = pdrgpexprSnd->UlLength();
+	const ULONG ulSize = pdrgpexprSnd->Size();
 	BOOL fContains = true;
 	for (ULONG ul = 0; fContains && ul < ulSize; ul++)
 	{
@@ -1808,7 +1808,7 @@ CUtils::PexprScalarBoolOp
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpexpr);
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
 	return GPOS_NEW(pmp) CExpression
 			(
@@ -2179,7 +2179,7 @@ CUtils::PexprGbAggSum
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
-	const ULONG ulSize = pdrgpcrSum->UlLength();
+	const ULONG ulSize = pdrgpcrSum->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrSum)[ul];
@@ -2371,7 +2371,7 @@ CUtils::PexprLogicalSequenceProject
 	GPOS_ASSERT(NULL != pds);
 	GPOS_ASSERT(NULL != pdrgpos);
 	GPOS_ASSERT(NULL != pdrgpwf);
-	GPOS_ASSERT(pdrgpwf->UlLength() == pdrgpos->UlLength());
+	GPOS_ASSERT(pdrgpwf->Size() == pdrgpos->Size());
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(NULL != pexprPrjList);
 	GPOS_ASSERT(COperator::EopScalarProjectList == pexprPrjList->Pop()->Eopid());
@@ -2414,12 +2414,12 @@ CUtils::PexprScalarProjListConst
 	HMUlCr *phmulcr
 	)
 {
-	GPOS_ASSERT(pdrgpcr->UlLength() == pdrgpdatum->UlLength());
+	GPOS_ASSERT(pdrgpcr->Size() == pdrgpdatum->Size());
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	CScalarProjectList *pscprl = GPOS_NEW(pmp) CScalarProjectList(pmp);
 
-	const ULONG ulArity = pdrgpcr->UlLength();
+	const ULONG ulArity = pdrgpcr->Size();
 	if (0 == ulArity)
 	{
 		return GPOS_NEW(pmp) CExpression(pmp, pscprl);
@@ -2487,7 +2487,7 @@ CUtils::PexprAddProjection
 	GPOS_ASSERT(pexpr->Pop()->FLogical());
 	GPOS_ASSERT(NULL != pdrgpexprProjected);
 
-	if (0 == pdrgpexprProjected->UlLength())
+	if (0 == pdrgpexprProjected->Size())
 	{
 		return pexpr;
 	}
@@ -2497,7 +2497,7 @@ CUtils::PexprAddProjection
 
 	DrgPexpr *pdrgpexprPrjElem = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulProjected = pdrgpexprProjected->UlLength();
+	const ULONG ulProjected = pdrgpexprProjected->Size();
 	for (ULONG ul = 0; ul < ulProjected; ul++)
 	{
 		CExpression *pexprProjected = (*pdrgpexprProjected)[ul];
@@ -2726,7 +2726,7 @@ CUtils::PdrgpcrsAddEquivClass
 {
 	DrgPcrs *pdrgpcrsNew = GPOS_NEW(pmp) DrgPcrs(pmp);
 
-	const ULONG ulLen = pdrgpcrs->UlLength();
+	const ULONG ulLen = pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrs)[ul];
@@ -2758,7 +2758,7 @@ CUtils::PdrgpcrsMergeEquivClasses
 	pdrgpcrsFst->AddRef();
 	DrgPcrs *pdrgpcrsMerged = pdrgpcrsFst;
 
-	const ULONG ulLen = pdrgpcrsSnd->UlLength();
+	const ULONG ulLen = pdrgpcrsSnd->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrsSnd)[ul];
@@ -2787,8 +2787,8 @@ CUtils::PdrgpcrsIntersectEquivClasses
 
 	DrgPcrs *pdrgpcrs = GPOS_NEW(pmp) DrgPcrs(pmp);
 
-	const ULONG ulLenFst = pdrgpcrsFst->UlLength();
-	const ULONG ulLenSnd = pdrgpcrsSnd->UlLength();
+	const ULONG ulLenFst = pdrgpcrsFst->Size();
+	const ULONG ulLenSnd = pdrgpcrsSnd->Size();
 
 	// nothing to intersect, so return empty array
 	if (ulLenSnd == 0 || ulLenFst == 0)
@@ -2875,7 +2875,7 @@ CUtils::PdrgpcrsCopyChildEquivClasses
 			DrgPcrs *pdrgpcrsChild = pdprel->Ppc()->PdrgpcrsEquivClasses();
 
 			DrgPcrs *pdrgpcrsChildCopy = GPOS_NEW(pmp) DrgPcrs(pmp);
-			const ULONG ulSize = pdrgpcrsChild->UlLength();
+			const ULONG ulSize = pdrgpcrsChild->Size();
 			for (ULONG ulInner = 0; ulInner < ulSize; ulInner++)
 			{
 				CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, *(*pdrgpcrsChild)[ulInner]);
@@ -2905,7 +2905,7 @@ CUtils::PdrgpcrExcludeColumns
 	GPOS_ASSERT(NULL != pcrsExcluded);
 
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
-	const ULONG ulCols = pdrgpcrOriginal->UlLength();
+	const ULONG ulCols = pdrgpcrOriginal->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrOriginal)[ul];
@@ -2927,7 +2927,7 @@ CUtils::OsPrintDrgPcr
 	ULONG ulLenMax
 	)
 {
-	ULONG ulLen = pdrgpcr->UlLength();
+	ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < std::min(ulLen, ulLenMax); ul++)
 	{
 		(*pdrgpcr)[ul]->OsPrint(os);
@@ -3425,9 +3425,9 @@ CUtils::FComparisonPossible
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
-	GPOS_ASSERT(0 < pdrgpcr->UlLength());
+	GPOS_ASSERT(0 < pdrgpcr->Size());
 
-	const ULONG ulSize = pdrgpcr->UlLength();
+	const ULONG ulSize = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3472,10 +3472,10 @@ CUtils::PdrgpcrRedistributableSubset
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
-	GPOS_ASSERT(0 < pdrgpcr->UlLength());
+	GPOS_ASSERT(0 < pdrgpcr->Size());
 
 	DrgPcr *pdrgpcrRedist = GPOS_NEW(pmp) DrgPcr(pmp);
-	const ULONG ulSize = pdrgpcr->UlLength();
+	const ULONG ulSize = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3497,9 +3497,9 @@ CUtils::FHashable
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
-	GPOS_ASSERT(0 < pdrgpcr->UlLength());
+	GPOS_ASSERT(0 < pdrgpcr->Size());
 
-	const ULONG ulSize = pdrgpcr->UlLength();
+	const ULONG ulSize = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3577,7 +3577,7 @@ CUtils::FFunctionallyDependent
 
 	if (pdrgpfd != NULL)
 	{
-		const ULONG ulSize = pdrgpfd->UlLength();
+		const ULONG ulSize = pdrgpfd->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			CFunctionalDependency *pfd = (*pdrgpfd)[ul];
@@ -3601,7 +3601,7 @@ CUtils::Pdrgpul
 {
 	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3746,7 +3746,7 @@ CUtils::PdrgpcrRemap
 
 	DrgPcr *pdrgpcrNew = GPOS_NEW(pmp) DrgPcr(pmp);
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3775,7 +3775,7 @@ CUtils::PdrgpcrRemapAndCreate
 
 	DrgPcr *pdrgpcrNew = GPOS_NEW(pmp) DrgPcr(pmp);
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3815,7 +3815,7 @@ CUtils::PdrgpdrgpcrRemap
 
 	DrgDrgPcr *pdrgpdrgpcrNew = GPOS_NEW(pmp) DrgDrgPcr(pmp);
 
-	const ULONG ulArity = pdrgpdrgpcr->UlLength();
+	const ULONG ulArity = pdrgpdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		DrgPcr *pdrgpcr = PdrgpcrRemap(pmp, (*pdrgpdrgpcr)[ul], phmulcr, fMustExist);
@@ -3839,7 +3839,7 @@ CUtils::PdrgpexprRemap
 
 	DrgPexpr *pdrgpexprNew = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulArity = pdrgpexpr->UlLength();
+	const ULONG ulArity = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
@@ -3881,8 +3881,8 @@ CUtils::AddColumnMapping
 	GPOS_ASSERT(NULL != pdrgpcrFrom);
 	GPOS_ASSERT(NULL != pdrgpcrTo);
 
-	const ULONG ulColumns = pdrgpcrFrom->UlLength();
-	GPOS_ASSERT(ulColumns == pdrgpcrTo->UlLength());
+	const ULONG ulColumns = pdrgpcrFrom->Size();
+	GPOS_ASSERT(ulColumns == pdrgpcrTo->Size());
 
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
@@ -3924,7 +3924,7 @@ CUtils::PdrgpcrExactCopy
 {
 	DrgPcr *pdrgpcrNew = GPOS_NEW(pmp) DrgPcr(pmp);
 
-	const ULONG ulCols = pdrgpcr->UlLength();
+	const ULONG ulCols = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3951,7 +3951,7 @@ CUtils::PdrgpcrCopy
 
 	DrgPcr *pdrgpcrNew = GPOS_NEW(pmp) DrgPcr(pmp);
 
-	const ULONG ulCols = pdrgpcr->UlLength();
+	const ULONG ulCols = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3992,7 +3992,7 @@ CUtils::FEqual
 		return (NULL == pdrgpcrFst && NULL == pdrgpcrSnd);
 	}
 
-	return pdrgpcrFst->FEqual(pdrgpcrSnd);
+	return pdrgpcrFst->Equals(pdrgpcrSnd);
 }
 
 // compute hash value for an array of column references
@@ -4005,7 +4005,7 @@ CUtils::UlHashColArray
 {
 	ULONG ulHash = 0;
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen && ul < ulMaxCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -4053,13 +4053,13 @@ CUtils::PexprConjINDFCond
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpdrgpcrInput);
-	GPOS_ASSERT(2 == pdrgpdrgpcrInput->UlLength());
+	GPOS_ASSERT(2 == pdrgpdrgpcrInput->Size());
 
 	// assemble the new scalar condition
 	CExpression *pexprScCond = NULL;
-	const ULONG ulLen = (*pdrgpdrgpcrInput)[0]->UlLength();
+	const ULONG ulLen = (*pdrgpdrgpcrInput)[0]->Size();
 	GPOS_ASSERT(0 != ulLen);
-	GPOS_ASSERT(ulLen == (*pdrgpdrgpcrInput)[1]->UlLength());
+	GPOS_ASSERT(ulLen == (*pdrgpdrgpcrInput)[1]->Size());
 
 	DrgPexpr *pdrgpexprInput = GPOS_NEW(pmp) DrgPexpr(pmp, ulLen);
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -4098,7 +4098,7 @@ CUtils::UlPcrIndexContainingSet
 {
 	GPOS_ASSERT(NULL != pdrgpcrs);
 
-	const ULONG ulSize = pdrgpcrs->UlLength();
+	const ULONG ulSize = pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrs)[ul];
@@ -4171,7 +4171,7 @@ CUtils::FHasDuplicates
 	IMemoryPool *pmp = amp.Pmp();
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -4238,7 +4238,7 @@ CUtils::PdrgpexprScalarIdents
 	GPOS_ASSERT(NULL != pdrgpcr);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -4261,7 +4261,7 @@ CUtils::PcrsExtractColumns
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
 
-	const ULONG ulLen = pdrgpexpr->UlLength();
+	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
@@ -4285,7 +4285,7 @@ CUtils::PhmulcnstrBoolConstOnPartKeys
 	GPOS_ASSERT(NULL != pdrgpdrgpcrPartKey);
 	HMUlCnstr *phmulcnstr = GPOS_NEW(pmp) HMUlCnstr(pmp);
 
-	const ULONG ulLevels = pdrgpdrgpcrPartKey->UlLength();
+	const ULONG ulLevels = pdrgpdrgpcrPartKey->Size();
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
 		CColRef *pcrPartKey = PcrExtractPartKey(pdrgpdrgpcrPartKey, ul);
@@ -4342,7 +4342,7 @@ CUtils::Pbs
 	GPOS_ASSERT(NULL != pdrgpul);
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp);
 
-	const ULONG ulLength = pdrgpul->UlLength();
+	const ULONG ulLength = pdrgpul->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		ULONG *pul = (*pdrgpul)[ul];
@@ -4371,7 +4371,7 @@ CUtils::PpartcnstrFromMDPartCnstr
 
 	GPOS_ASSERT(NULL != pdrgpdrgpcrPartKey);
 
-	const ULONG ulLevels = pdrgpdrgpcrPartKey->UlLength();
+	const ULONG ulLevels = pdrgpdrgpcrPartKey->Size();
 
 	CExpression *pexprPartCnstr = pmdpartcnstr->Pexpr(pmp, pmda, pdrgpcrOutput);
 
@@ -4457,8 +4457,8 @@ CUtils::PcrMap
 	DrgPcr *pdrgpcrTarget
 	)
 {
-	const ULONG ulCols = pdrgpcrSource->UlLength();
-	GPOS_ASSERT(ulCols == pdrgpcrTarget->UlLength());
+	const ULONG ulCols = pdrgpcrSource->Size();
+	GPOS_ASSERT(ulCols == pdrgpcrTarget->Size());
 
 	CColRef *pcrTarget = NULL;
 	for (ULONG ul = 0; NULL == pcrTarget && ul < ulCols; ul++)
@@ -4493,7 +4493,7 @@ CUtils::FMotionOverUnresolvedPartConsumers
 	DrgPul *pdrgpulScanIds = ppimDrvd->PdrgpulScanIds(pmp, true /*fConsumersOnly*/);
 	BOOL fHasUnresolvedConsumers = false;
 
-	const ULONG ulConsumers = pdrgpulScanIds->UlLength();
+	const ULONG ulConsumers = pdrgpulScanIds->Size();
 	if (0 < ulConsumers && !ppimReqd->FContainsUnresolved())
 	{
 		fHasUnresolvedConsumers = true;
@@ -4638,7 +4638,7 @@ CUtils::PexprCollapseProjects
 		pcrsUsed->Release();
 	}
 
-	const ULONG ulTotalSetRetFunc = pdrgpexprSetReturnFunc->UlLength();
+	const ULONG ulTotalSetRetFunc = pdrgpexprSetReturnFunc->Size();
 
 	if (!fChildProjElHasSetReturn && ulCollapsableSetReturnFunc == ulTotalSetRetFunc)
 	{
@@ -4672,7 +4672,7 @@ CUtils::PexprCollapseProjects
 		pdrgpexprPrElChild->Append(pexprPrE);
 	}
 
-	if (ulLenPr == pdrgpexprPrEl->UlLength())
+	if (ulLenPr == pdrgpexprPrEl->Size())
 	{
 		// no candidate project element found for collapsing
 		pdrgpexprPrElChild->Release();
@@ -4690,7 +4690,7 @@ CUtils::PexprCollapseProjects
 										GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pdrgpexprPrElChild)
 										);
 
-	if (0 == pdrgpexprPrEl->UlLength())
+	if (0 == pdrgpexprPrEl->Size())
 	{
 		// no residual project elements
 		pdrgpexprPrEl->Release();
@@ -4717,7 +4717,7 @@ void CUtils::AppendArrayExpr
 	GPOS_ASSERT(NULL != pdrgpexprSrc);
 	GPOS_ASSERT(NULL != pdrgpexprDest);
 
-	ULONG ulLen = pdrgpexprSrc->UlLength();
+	ULONG ulLen = pdrgpexprSrc->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CExpression *pexprPrE = (*pdrgpexprSrc)[ul];
@@ -4758,7 +4758,7 @@ CUtils::FEquivalanceClassesDisjoint
 	const DrgPcrs *pdrgpcrs
 	)
 {
-	const ULONG ulLen = pdrgpcrs->UlLength();
+	const ULONG ulLen = pdrgpcrs->Size();
 
 	// nothing to check
 	if (ulLen == 0)
@@ -4803,8 +4803,8 @@ CUtils::FEquivalanceClassesEqual
 	DrgPcrs *pdrgpcrsSnd
 	)
 {
-	const ULONG ulLenFrst = pdrgpcrsFst->UlLength();
-	const ULONG ulLenSecond = pdrgpcrsSnd->UlLength();
+	const ULONG ulLenFrst = pdrgpcrsFst->Size();
+	const ULONG ulLenSecond = pdrgpcrsSnd->Size();
 
 	if (ulLenFrst != ulLenSecond) return false;
 

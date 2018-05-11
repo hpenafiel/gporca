@@ -2713,7 +2713,7 @@ CDXLOperatorFactory::PmdidGPDB
 	Edxltoken edxltokenElement
 	)
 {
-	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->UlLength());
+	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->Size());
 
 	XMLCh *xmlszOid = (*pdrgpxmlsz)[0];
 	ULONG ulOid = UlValueFromXmlstr(pmm, xmlszOid, edxltokenAttr, edxltokenElement);
@@ -2745,7 +2745,7 @@ CDXLOperatorFactory::PmdidGPDBCTAS
 	Edxltoken edxltokenElement
 	)
 {
-	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->UlLength());
+	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->Size());
 
 	XMLCh *xmlszOid = (*pdrgpxmlsz)[0];
 	ULONG ulOid = UlValueFromXmlstr(pmm, xmlszOid, edxltokenAttr, edxltokenElement);
@@ -2771,7 +2771,7 @@ CDXLOperatorFactory::PmdidColStats
 	Edxltoken edxltokenElement
 	)
 {
-	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS + 1 == pdrgpxmlsz->UlLength());
+	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS + 1 == pdrgpxmlsz->Size());
 
 	CMDIdGPDB *pmdidRel = PmdidGPDB(pmm, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
 	
@@ -2799,7 +2799,7 @@ CDXLOperatorFactory::PmdidRelStats
 	Edxltoken edxltokenElement
 	)
 {
-	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->UlLength());
+	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->Size());
 
 	CMDIdGPDB *pmdidRel = PmdidGPDB(pmm, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
 	
@@ -2824,7 +2824,7 @@ CDXLOperatorFactory::PmdidCastFunc
 	Edxltoken edxltokenElement
 	)
 {
-	GPOS_ASSERT(2 * GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->UlLength());
+	GPOS_ASSERT(2 * GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->Size());
 
 	CMDIdGPDB *pmdidSrc = PmdidGPDB(pmm, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
 	DrgPxmlsz *pdrgpxmlszDest = GPOS_NEW(pmm->Pmp()) DrgPxmlsz(pmm->Pmp());
@@ -2857,7 +2857,7 @@ CDXLOperatorFactory::PmdidScCmp
 	Edxltoken edxltokenElement
 	)
 {
-	GPOS_ASSERT(2 * GPDXL_GPDB_MDID_COMPONENTS + 1 == pdrgpxmlsz->UlLength());
+	GPOS_ASSERT(2 * GPDXL_GPDB_MDID_COMPONENTS + 1 == pdrgpxmlsz->Size());
 
 	CMDIdGPDB *pmdidLeft = PmdidGPDB(pmm, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
 	DrgPxmlsz *pdrgpxmlszRight = GPOS_NEW(pmm->Pmp()) DrgPxmlsz(pmm->Pmp());
@@ -2870,7 +2870,7 @@ CDXLOperatorFactory::PmdidScCmp
 	CMDIdGPDB *pmdidRight = PmdidGPDB(pmm, pdrgpxmlszRight, edxltokenAttr, edxltokenElement);
 	
 	// parse the comparison type from the last component of the mdid
-	XMLCh *xmlszCmpType = (*pdrgpxmlszRight)[pdrgpxmlszRight->UlLength() - 1];
+	XMLCh *xmlszCmpType = (*pdrgpxmlszRight)[pdrgpxmlszRight->Size() - 1];
 	IMDType::ECmpType ecmpt = (IMDType::ECmpType) UlValueFromXmlstr(pmm, xmlszCmpType, edxltokenAttr, edxltokenElement);
 	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
 	

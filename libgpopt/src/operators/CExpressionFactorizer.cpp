@@ -119,7 +119,7 @@ void CExpressionFactorizer::AddFactor
 	{
 		// check if factor already exist in factors array
 		BOOL fFound = false;
-		const ULONG ulSize = pdrgpexprFactors->UlLength();
+		const ULONG ulSize = pdrgpexprFactors->Size();
 		for (ULONG ul = 0; !fFound && ul < ulSize; ul++)
 		{
 			fFound = CUtils::FEqual(pexpr, (*pdrgpexprFactors)[ul]);
@@ -187,7 +187,7 @@ CExpressionFactorizer::PexprmapFactors
 			pdrgpexpr = pexprDisj->PdrgPexpr();
 		}
 
-		const ULONG ulSize = pdrgpexpr->UlLength();
+		const ULONG ulSize = pdrgpexpr->Size();
 		for (ULONG ulInner = 0; ulInner < ulSize; ulInner++)
 		{
 			CExpression *pexprConj = (*pdrgpexpr)[ulInner];
@@ -261,7 +261,7 @@ CExpressionFactorizer::PexprFactorizeDisj
 				AddFactor(pmp, pexprConj, pdrgpexprFactors, pdrgpexprConjuncts, pexprmapFactors, ulDisjuncts);
 			}
 
-			if (0 < pdrgpexprConjuncts->UlLength())
+			if (0 < pdrgpexprConjuncts->Size())
 			{
 				pdrgpexprResidual->Append(CPredicateUtils::PexprConjunction(pmp, pdrgpexprConjuncts));
 			}
@@ -277,7 +277,7 @@ CExpressionFactorizer::PexprFactorizeDisj
 	}
 	pexprmapFactors->Release();
 
-	if (0 < pdrgpexprResidual->UlLength())
+	if (0 < pdrgpexprResidual->Size())
 	{
 		// residual becomes a new factor
 		pdrgpexprFactors->Append(CPredicateUtils::PexprDisjunction(pmp, pdrgpexprResidual));
@@ -609,14 +609,14 @@ CExpressionFactorizer::StoreBaseOpToColumnExpr
 	// there are only two cases we need to consider
 	// the first one is that we found the current source operator in all previous disjuncts
 	// and now we are starting a new sub-array for a new disjunct
-	if (ulPosition == pdrgpdrgpexpr->UlLength())
+	if (ulPosition == pdrgpdrgpexpr->Size())
 	{
 		pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 		pdrgpdrgpexpr->Append(pdrgpexpr);
 	}
 	// the second case is that we found additional conjuncts for the current source operator
 	// inside the current disjunct
-	else if (ulPosition == pdrgpdrgpexpr->UlLength() - 1)
+	else if (ulPosition == pdrgpdrgpexpr->Size() - 1)
 	{
 		pdrgpexpr = (*pdrgpdrgpexpr)[ulPosition];
 	}
@@ -691,7 +691,7 @@ CExpressionFactorizer::AddInferredFiltersFromArray
 	DrgPexpr *pdrgpexprInferredFilters
 	)
 {
-	const ULONG ulEntryLength = (pdrgpdrgpexpr == NULL) ? 0 : pdrgpdrgpexpr->UlLength();
+	const ULONG ulEntryLength = (pdrgpdrgpexpr == NULL) ? 0 : pdrgpdrgpexpr->Size();
 	if (ulEntryLength == ulDisjChildrenLength)
 	{
 		DrgPexpr *pdrgpexprDisjuncts = GPOS_NEW(pmp) DrgPexpr(pmp);
@@ -702,7 +702,7 @@ CExpressionFactorizer::AddInferredFiltersFromArray
 					CPredicateUtils::PexprConjunction(pmp, (*pdrgpdrgpexpr)[ul]);
 			pdrgpexprDisjuncts->Append(pexprConj);
 		}
-		if (0 < pdrgpexprDisjuncts->UlLength())
+		if (0 < pdrgpexprDisjuncts->Size())
 		{
 			pdrgpexprInferredFilters->Append(
 					CPredicateUtils::PexprDisjunction(pmp, pdrgpexprDisjuncts));

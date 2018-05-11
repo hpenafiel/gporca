@@ -85,7 +85,7 @@ CPhysicalCTEProducer::PcrsRequired
 	pcrs->Union(pcrsRequired);
 	CColRefSet *pcrsChildReqd = PcrsChildReqd(pmp, exprhdl, pcrs, ulChildIndex, ULONG_MAX);
 
-	GPOS_ASSERT(pcrsChildReqd->CElements() == m_pdrgpcr->UlLength());
+	GPOS_ASSERT(pcrsChildReqd->CElements() == m_pdrgpcr->Size());
 	pcrs->Release();
 
 	return pcrsChildReqd;
@@ -406,7 +406,7 @@ CPhysicalCTEProducer::FMatch
 	CPhysicalCTEProducer *popCTEProducer = CPhysicalCTEProducer::PopConvert(pop);
 
 	return m_ulId == popCTEProducer->UlCTEId() &&
-			m_pdrgpcr->FEqual(popCTEProducer->Pdrgpcr());
+			m_pdrgpcr->Equals(popCTEProducer->Pdrgpcr());
 }
 
 //---------------------------------------------------------------------------

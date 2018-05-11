@@ -39,7 +39,7 @@ CPhysicalMotion::FValidContext
 	const
 {
 	GPOS_ASSERT(NULL != pdrgpocChild);
-	GPOS_ASSERT(1 == pdrgpocChild->UlLength());
+	GPOS_ASSERT(1 == pdrgpocChild->Size());
 
 	COptimizationContext *pocChild = (*pdrgpocChild)[0];
 	CCostContext *pccBest = pocChild->PccBest();
@@ -163,7 +163,7 @@ CPhysicalMotion::PppsRequired
 	/// get derived part consumers
 	CPartInfo *ppartinfo = exprhdl.Pdprel(0)->Ppartinfo();
 	
-	const ULONG ulPartIndexSize = pdrgpul->UlLength();
+	const ULONG ulPartIndexSize = pdrgpul->Size();
 	
 	for (ULONG ul = 0; ul < ulPartIndexSize; ul++)
 	{

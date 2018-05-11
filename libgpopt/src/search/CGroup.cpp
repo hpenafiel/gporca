@@ -774,8 +774,8 @@ CGroup::FMatchGroups
 	DrgPgroup *pdrgpgroupSnd
 	)
 {
-	ULONG ulArity = pdrgpgroupFst->UlLength();
-	GPOS_ASSERT(pdrgpgroupSnd->UlLength() == ulArity);
+	ULONG ulArity = pdrgpgroupFst->Size();
+	GPOS_ASSERT(pdrgpgroupSnd->Size() == ulArity);
 	
 	for (ULONG i = 0; i < ulArity; i++)
 	{
@@ -808,13 +808,13 @@ CGroup::FMatchNonScalarGroups
 	GPOS_ASSERT(NULL != pdrgpgroupFst);
 	GPOS_ASSERT(NULL != pdrgpgroupSnd);
 
-	if (pdrgpgroupFst->UlLength() != pdrgpgroupSnd->UlLength())
+	if (pdrgpgroupFst->Size() != pdrgpgroupSnd->Size())
 	{
 		return false;
 	}
 
-	ULONG ulArity = pdrgpgroupFst->UlLength();
-	GPOS_ASSERT(pdrgpgroupSnd->UlLength() == ulArity);
+	ULONG ulArity = pdrgpgroupFst->Size();
+	GPOS_ASSERT(pdrgpgroupSnd->Size() == ulArity);
 
 	for (ULONG i = 0; i < ulArity; i++)
 	{
@@ -1166,7 +1166,7 @@ CGroup::RecursiveBuildTreeMap
 	GPOS_ASSERT_IMP(NULL != pccParent, ulChildIndex < pccParent->Pgexpr()->UlArity());
 
 	DrgPcc *pdrgpcc = pgexprCurrent->PdrgpccLookupAll(pmp, poc);
-	const ULONG ulCCSize = pdrgpcc->UlLength();
+	const ULONG ulCCSize = pdrgpcc->Size();
 
 	if (0 == ulCCSize)
 	{
@@ -1774,7 +1774,7 @@ CGroup::OsPrintGrpScalarProps
 	{
 		os << szPrefix << "Outer Hash Join Keys: " << std::endl;
 
-		const ULONG ulSize = m_pdrgpexprHashJoinKeysOuter->UlLength();
+		const ULONG ulSize = m_pdrgpexprHashJoinKeysOuter->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			os << szPrefix << *(*m_pdrgpexprHashJoinKeysOuter)[ul]<< std::endl;
@@ -1787,7 +1787,7 @@ CGroup::OsPrintGrpScalarProps
 	{
 		os << szPrefix << "Inner Hash Join Keys: " << std::endl;
 
-		const ULONG ulSize = m_pdrgpexprHashJoinKeysInner->UlLength();
+		const ULONG ulSize = m_pdrgpexprHashJoinKeysInner->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			os << szPrefix << *(*m_pdrgpexprHashJoinKeysInner)[ul]<< std::endl;

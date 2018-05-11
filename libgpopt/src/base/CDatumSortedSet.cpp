@@ -42,7 +42,7 @@ CDatumSortedSet::CDatumSortedSet
 	aprngdatum->Sort(&CUtils::IDatumCmp);
 
 	// de-duplicate
-	const ULONG ulRangeArrayArity = aprngdatum->UlLength();
+	const ULONG ulRangeArrayArity = aprngdatum->Size();
 	IDatum *pdatumPrev = (*aprngdatum)[0];
 	pdatumPrev->AddRef();
 	Append(pdatumPrev);

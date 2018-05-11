@@ -137,7 +137,7 @@ CXformSplitDQA::Transform
 	}
 
 
-	if (0 < pdrgpexprChildPrEl->UlLength())
+	if (0 < pdrgpexprChildPrEl->Size())
 	{
 		pexprRelational->AddRef();
 
@@ -173,7 +173,7 @@ CXformSplitDQA::Transform
 	pxfres->Add(pexprAlt1);
 
 	DrgPcr *pDrgPcr = CLogicalGbAgg::PopConvert(pexpr->Pop())->Pdrgpcr();
-	BOOL fScalarDQA = (pDrgPcr == NULL || pDrgPcr->UlLength() == 0);
+	BOOL fScalarDQA = (pDrgPcr == NULL || pDrgPcr->Size() == 0);
 	BOOL fForce3StageScalarDQA = GPOS_FTRACE(EopttraceForceThreeStageScalarDQA);
 	if (!(fForce3StageScalarDQA && fScalarDQA)) {
 		// we skip this option if it is a Scalar DQA and we only want plans with 3-stages of aggregation
@@ -215,7 +215,7 @@ CXformSplitDQA::Transform
 	pdrgpcrArgDQA->Release();
 
 	// clean up
-	if (0 < pdrgpexprChildPrEl->UlLength())
+	if (0 < pdrgpexprChildPrEl->Size())
 	{
 		pexprRelational->Release();
 	}
@@ -684,7 +684,7 @@ CXformSplitDQA::PexprMultiLevelAggregation
 	GPOS_ASSERT_IMP(!fAddDistinctColToLocalGb, fSplit2LevelsOnly);
 
 	DrgPcr *pdrgpcrLocal = CUtils::PdrgpcrExactCopy(pmp, pdrgpcrLastStage);
-	const ULONG ulLen = pdrgpcrArgDQA->UlLength();
+	const ULONG ulLen = pdrgpcrArgDQA->Size();
 	GPOS_ASSERT(0 < ulLen);
 
 	if (fAddDistinctColToLocalGb)
@@ -710,7 +710,7 @@ CXformSplitDQA::PexprMultiLevelAggregation
 	if (fSplit2LevelsOnly)
 	{
 		// for scalar DQA the local aggregate is responsible for removing duplicates
-		BOOL fLocalAggGeneratesDuplicates = (0 < pdrgpcrLastStage->UlLength());
+		BOOL fLocalAggGeneratesDuplicates = (0 < pdrgpcrLastStage->Size());
 
 		pdrgpcrArgDQA->AddRef();
 		popFirstStage = GPOS_NEW(pmp) CLogicalGbAgg

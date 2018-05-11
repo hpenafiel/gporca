@@ -107,7 +107,7 @@ CCTEInfo::CCTEInfoEntry::AddConsumerCols
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
 
-	const ULONG ulSize = pdrgpcr->UlLength();
+	const ULONG ulSize = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -780,7 +780,7 @@ CCTEInfo::PhmulcrConsumerToProducer
 
 		if (ULONG_MAX != ulPos)
 		{
-			GPOS_ASSERT(ulPos < pdrgpcrProducer->UlLength());
+			GPOS_ASSERT(ulPos < pdrgpcrProducer->Size());
 
 			CColRef *pcrProducer = (*pdrgpcrProducer)[ulPos];
 #ifdef GPOS_DEBUG

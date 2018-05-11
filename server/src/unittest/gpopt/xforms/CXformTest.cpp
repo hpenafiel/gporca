@@ -198,7 +198,7 @@ CXformTest::EresUnittest_ApplyXforms_CTE()
 
 	pdrgpexpr->Append(pexprAnchor);
 
-	const ULONG ulLen = pdrgpexpr->UlLength();
+	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CWStringDynamic str(pmp);

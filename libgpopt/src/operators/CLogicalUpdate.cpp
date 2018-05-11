@@ -76,7 +76,7 @@ CLogicalUpdate::CLogicalUpdate
 	GPOS_ASSERT(NULL != ptabdesc);
 	GPOS_ASSERT(NULL != pdrgpcrDelete);
 	GPOS_ASSERT(NULL != pdrgpcrInsert);
-	GPOS_ASSERT(pdrgpcrDelete->UlLength() == pdrgpcrInsert->UlLength());
+	GPOS_ASSERT(pdrgpcrDelete->Size() == pdrgpcrInsert->Size());
 	GPOS_ASSERT(NULL != pcrCtid);
 	GPOS_ASSERT(NULL != pcrSegmentId);
 
@@ -132,8 +132,8 @@ CLogicalUpdate::FMatch
 			m_pcrSegmentId == popUpdate->PcrSegmentId() &&
 			m_pcrTupleOid == popUpdate->PcrTupleOid() &&
 			m_ptabdesc->Pmdid()->FEquals(popUpdate->Ptabdesc()->Pmdid()) &&
-			m_pdrgpcrDelete->FEqual(popUpdate->PdrgpcrDelete()) &&
-			m_pdrgpcrInsert->FEqual(popUpdate->PdrgpcrInsert());
+			m_pdrgpcrDelete->Equals(popUpdate->PdrgpcrDelete()) &&
+			m_pdrgpcrInsert->Equals(popUpdate->PdrgpcrInsert());
 }
 
 //---------------------------------------------------------------------------

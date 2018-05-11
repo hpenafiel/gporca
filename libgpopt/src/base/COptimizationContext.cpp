@@ -151,7 +151,7 @@ COptimizationContext::FEqualForStats
 
 	return
 		pocLeft->Prprel()->PcrsStat()->FEqual(pocRight->Prprel()->PcrsStat()) &&
-		pocLeft->Pdrgpstat()->FEqual(pocRight->Pdrgpstat()) &&
+		pocLeft->Pdrgpstat()->Equals(pocRight->Pdrgpstat()) &&
 		pocLeft->Prpp()->Pepp()->PpfmDerived()->FEqual(pocRight->Prpp()->Pepp()->PpfmDerived());
 }
 
@@ -221,8 +221,8 @@ COptimizationContext::FEqualContextIds
 		return (NULL == pdrgpocFst && NULL == pdrgpocSnd);
 	}
 
-	const ULONG ulCtxts = pdrgpocFst->UlLength();
-	if (ulCtxts != pdrgpocSnd->UlLength())
+	const ULONG ulCtxts = pdrgpocFst->Size();
+	if (ulCtxts != pdrgpocSnd->Size())
 	{
 		return false;
 	}

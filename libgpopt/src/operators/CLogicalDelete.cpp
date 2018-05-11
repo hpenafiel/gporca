@@ -116,7 +116,7 @@ CLogicalDelete::FMatch
 	return m_pcrCtid == popDelete->PcrCtid() &&
 			m_pcrSegmentId == popDelete->PcrSegmentId() &&
 			m_ptabdesc->Pmdid()->FEquals(popDelete->Ptabdesc()->Pmdid()) &&
-			m_pdrgpcr->FEqual(popDelete->Pdrgpcr());
+			m_pdrgpcr->Equals(popDelete->Pdrgpcr());
 }
 
 //---------------------------------------------------------------------------

@@ -191,7 +191,7 @@ CJoinOrderDP::AddJoinOrder
 	GPOS_ASSERT(NULL != m_pdrgpexprTopKOrders);
 
 	// length of the array will not be more than 10
-	INT ulResults = m_pdrgpexprTopKOrders->UlLength();
+	INT ulResults = m_pdrgpexprTopKOrders->Size();
 	INT iReplacePos = -1;
 	BOOL fAddJoinOrder = false;
 	if (ulResults < GPOPT_DP_JOIN_ORDERING_TOPK)
@@ -522,7 +522,7 @@ CJoinOrderDP::PexprBestJoinOrderDP
 	CExpression *pexprResult = NULL;
 
 	DrgPbs *pdrgpbsSubsets = PdrgpbsSubsets(m_pmp, pbs);
-	const ULONG ulSubsets = pdrgpbsSubsets->UlLength();
+	const ULONG ulSubsets = pdrgpbsSubsets->Size();
 	for (ULONG ul = 0; ul < ulSubsets; ul++)
 	{
 		CBitSet *pbsCurrent = (*pdrgpbsSubsets)[ul];

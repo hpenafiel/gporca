@@ -164,7 +164,7 @@ CWindowPreprocessor::SplitSeqPrj
 					);
 
 	pexprSeqPrjChild->AddRef();
-	if (0 == pdrgpexprOtherPrEl->UlLength())
+	if (0 == pdrgpexprOtherPrEl->Size())
 	{
 		// no remaining window functions after excluding distinct aggs,
 		// reuse the original SeqPrj child in this case
@@ -369,7 +369,7 @@ CWindowPreprocessor::PexprSeqPrj2Join
 	// create final join condition
 	CExpression *pexprJoinCondition = NULL;
 
-	if (NULL != pdrgpcrGrpCols && 0 < pdrgpcrGrpCols->UlLength())
+	if (NULL != pdrgpcrGrpCols && 0 < pdrgpcrGrpCols->Size())
 	{
 		// extract PARTITION BY columns from original SeqPrj expression
 		CLogicalSequenceProject *popSeqPrj = CLogicalSequenceProject::PopConvert(pexprSeqPrj->Pop());
@@ -377,7 +377,7 @@ CWindowPreprocessor::PexprSeqPrj2Join
 		CColRefSet *pcrs = CUtils::PcrsExtractColumns(pmp, CDistributionSpecHashed::PdsConvert(pds)->Pdrgpexpr());
 		DrgPcr *pdrgpcrPartitionBy = pcrs->Pdrgpcr(pmp);
 		pcrs->Release();
-		GPOS_ASSERT(pdrgpcrGrpCols->UlLength() == pdrgpcrPartitionBy->UlLength() &&
+		GPOS_ASSERT(pdrgpcrGrpCols->Size() == pdrgpcrPartitionBy->Size() &&
 				"Partition By columns in window function are not the same as grouping columns in created Aggs");
 
 		// create a conjunction of INDF expressions comparing a GROUP BY column to a PARTITION BY column

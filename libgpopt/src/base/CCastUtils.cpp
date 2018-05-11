@@ -207,7 +207,7 @@ CCastUtils::PdrgpexprCastEquality
 
     DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexpr);
     DrgPexpr *pdrgpexprNew = GPOS_NEW(pmp) DrgPexpr(pmp);
-    const ULONG ulPreds = pdrgpexpr->UlLength();
+    const ULONG ulPreds = pdrgpexpr->Size();
     for (ULONG ul = 0; ul < ulPreds; ul++)
     {
         CExpression *pexprPred = (*pdrgpexpr)[ul];

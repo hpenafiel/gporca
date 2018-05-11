@@ -190,7 +190,7 @@ namespace gpopt
 
 			BOOL FPartitioned() const
 			{
-				return 0 < m_pdrgpulPart->UlLength();
+				return 0 < m_pdrgpulPart->Size();
 			}
 
 			// true iff a hash distributed table needs to be considered as random

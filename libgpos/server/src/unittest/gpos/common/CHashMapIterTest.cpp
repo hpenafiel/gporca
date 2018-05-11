@@ -100,8 +100,8 @@ CHashMapIterTest::EresUnittest_Basic()
 		pdrgpulIterKeys->Sort();
 		pdrgpulIterValues->Sort();
 
-		GPOS_ASSERT(pdrgpulKeys->FEqual(pdrgpulIterKeys.Pt()));
-		GPOS_ASSERT(pdrgpulValues->FEqual(pdrgpulIterValues.Pt()));
+		GPOS_ASSERT(pdrgpulKeys->Equals(pdrgpulIterKeys.Pt()));
+		GPOS_ASSERT(pdrgpulValues->Equals(pdrgpulIterValues.Pt()));
 	}
 	
 	pm->Release();

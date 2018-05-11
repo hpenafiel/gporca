@@ -93,7 +93,7 @@ CDXLPhysicalWindow::PstrOpName() const
 ULONG
 CDXLPhysicalWindow::UlPartCols() const
 {
-	return m_pdrgpulPartCols->UlLength();
+	return m_pdrgpulPartCols->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -107,7 +107,7 @@ CDXLPhysicalWindow::UlPartCols() const
 ULONG
 CDXLPhysicalWindow::UlWindowKeys() const
 {
-	return m_pdrgpdxlwk->UlLength();
+	return m_pdrgpdxlwk->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -125,7 +125,7 @@ CDXLPhysicalWindow::PdxlWindowKey
 	)
 	const
 {
-	GPOS_ASSERT(ulPos <= m_pdrgpdxlwk->UlLength());
+	GPOS_ASSERT(ulPos <= m_pdrgpdxlwk->Size());
 	return (*m_pdrgpdxlwk)[ulPos];
 }
 
@@ -163,7 +163,7 @@ CDXLPhysicalWindow::SerializeToDXL
 	// serialize the list of window keys
 	const CWStringConst *pstrWindowKeyList = CDXLTokens::PstrToken(EdxltokenWindowKeyList);
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowKeyList);
-	const ULONG ulSize = m_pdrgpdxlwk->UlLength();
+	const ULONG ulSize = m_pdrgpdxlwk->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CDXLWindowKey *pdxlwk = (*m_pdrgpdxlwk)[ul];

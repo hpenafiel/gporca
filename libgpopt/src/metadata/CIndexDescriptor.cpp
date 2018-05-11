@@ -75,7 +75,7 @@ CIndexDescriptor::~CIndexDescriptor()
 ULONG
 CIndexDescriptor::UlKeys() const
 {
-	return m_pdrgpcoldescKeyCols->UlLength();
+	return m_pdrgpcoldescKeyCols->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -92,7 +92,7 @@ CIndexDescriptor::UlIncludedColumns() const
 	// array allocated in ctor
 	GPOS_ASSERT(NULL != m_pdrgpcoldescIncludedCols);
 
-	return m_pdrgpcoldescIncludedCols->UlLength();
+	return m_pdrgpcoldescIncludedCols->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -169,11 +169,11 @@ CIndexDescriptor::OsPrint
 {
 	m_name.OsPrint(os);
 	os << ": (Keys :";
-	CUtils::OsPrintDrgPcoldesc(os, m_pdrgpcoldescKeyCols, m_pdrgpcoldescKeyCols->UlLength());
+	CUtils::OsPrintDrgPcoldesc(os, m_pdrgpcoldescKeyCols, m_pdrgpcoldescKeyCols->Size());
 	os << "); ";
 
 	os << "(Included Columns :";
-	CUtils::OsPrintDrgPcoldesc(os, m_pdrgpcoldescIncludedCols, m_pdrgpcoldescIncludedCols->UlLength());
+	CUtils::OsPrintDrgPcoldesc(os, m_pdrgpcoldescIncludedCols, m_pdrgpcoldescIncludedCols->Size());
 	os << ")";
 
 	os << " [ Clustered :";

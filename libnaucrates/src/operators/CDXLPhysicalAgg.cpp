@@ -178,7 +178,7 @@ CDXLPhysicalAgg::SerializeGroupingColsToDXL
 		
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCols);
 	
-	for (ULONG ul = 0; ul < m_pdrgpulGroupingCols->UlLength(); ul++)
+	for (ULONG ul = 0; ul < m_pdrgpulGroupingCols->Size(); ul++)
 	{
 		GPOS_ASSERT(NULL != (*m_pdrgpulGroupingCols)[ul]);
 		ULONG ulGroupingCol = *((*m_pdrgpulGroupingCols)[ul]);

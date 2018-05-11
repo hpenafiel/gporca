@@ -98,7 +98,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 
 	// build a bitset with all outer child columns contributing to the join
 	CBitSet *pbsOuterJoinCol = GPOS_NEW(pmp) CBitSet(pmp);
-	for (ULONG ul1 = 0; ul1 < pdrgpstatspredjoin->UlLength(); ul1++)
+	for (ULONG ul1 = 0; ul1 < pdrgpstatspredjoin->Size(); ul1++)
 	{
 		CStatsPredJoin *pstatsjoin = (*pdrgpstatspredjoin)[ul1];
 		(void) pbsOuterJoinCol->FExchangeSet(pstatsjoin->UlColId1());
@@ -121,7 +121,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 	HMUlHist *phmulhistLOJ = GPOS_NEW(pmp) HMUlHist(pmp);
 
 	DrgPul *pdrgpulOuterColId = pstatsOuter->PdrgulColIds(pmp);
-	const ULONG ulOuterCols = pdrgpulOuterColId->UlLength();
+	const ULONG ulOuterCols = pdrgpulOuterColId->Size();
 
 	for (ULONG ul2 = 0; ul2 < ulOuterCols; ul2++)
 	{
@@ -189,7 +189,7 @@ CLeftOuterJoinStatsProcessor::AddHistogramsLOJInner
 	GPOS_ASSERT(NULL != pdrgpulInnerColId);
 	GPOS_ASSERT(NULL != phmulhistLOJ);
 
-	const ULONG ulInnerCols = pdrgpulInnerColId->UlLength();
+	const ULONG ulInnerCols = pdrgpulInnerColId->Size();
 
 	for (ULONG ul = 0; ul < ulInnerCols; ul++)
 	{

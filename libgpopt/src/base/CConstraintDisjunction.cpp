@@ -38,7 +38,7 @@ CConstraintDisjunction::CConstraintDisjunction
 	GPOS_ASSERT(NULL != pdrgpcnstr);
 	m_pdrgpcnstr = PdrgpcnstrFlatten(pmp, pdrgpcnstr, EctDisjunction);
 
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 	GPOS_ASSERT(0 < ulLen);
 
 	m_pcrsUsed = GPOS_NEW(pmp) CColRefSet(pmp);
@@ -78,7 +78,7 @@ CConstraintDisjunction::~CConstraintDisjunction()
 BOOL
 CConstraintDisjunction::FContradiction() const
 {
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 
 	BOOL fContradiction = true;
 	for (ULONG ul = 0; fContradiction && ul < ulLen; ul++)
@@ -105,7 +105,7 @@ CConstraintDisjunction::FConstraint
 	const
 {
 	DrgPcnstr *pdrgpcnstrCol = m_phmcolconstr->PtLookup(pcr);
-	return (NULL != pdrgpcnstrCol && m_pdrgpcnstr->UlLength() == pdrgpcnstrCol->UlLength());
+	return (NULL != pdrgpcnstrCol && m_pdrgpcnstr->Size() == pdrgpcnstrCol->Size());
 }
 
 //---------------------------------------------------------------------------
@@ -125,7 +125,7 @@ CConstraintDisjunction::PcnstrCopyWithRemappedColumns
 	)
 {
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CConstraint *pcnstr = (*m_pdrgpcnstr)[ul];
@@ -158,8 +158,8 @@ CConstraintDisjunction::Pcnstr
 	}
 
 	// if not all children have this col, return unbounded constraint
-	const ULONG ulLen = pdrgpcnstrCol->UlLength();
-	if (ulLen != m_pdrgpcnstr->UlLength())
+	const ULONG ulLen = pdrgpcnstrCol->Size();
+	if (ulLen != m_pdrgpcnstr->Size())
 	{
 		return CConstraintInterval::PciUnbounded(pmp, pcr, true /*fIncludesNull*/);
 	}
@@ -200,7 +200,7 @@ CConstraintDisjunction::Pcnstr
 	CColRefSet *pcrs
 	)
 {
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
 

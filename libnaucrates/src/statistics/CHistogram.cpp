@@ -122,7 +122,7 @@ CHistogram::OsPrint
 {
 	os << std::endl << "[" << std::endl;
 
-	ULONG ulNumBuckets = m_pdrgppbucket->UlLength();
+	ULONG ulNumBuckets = m_pdrgppbucket->Size();
 	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulNumBuckets; ulBucketIdx++)
 	{
 		os << "b" << ulBucketIdx << " = ";
@@ -157,7 +157,7 @@ CHistogram::FEmpty
 	()
 	const
 {
-	return (0 == m_pdrgppbucket->UlLength() && CStatistics::DEpsilon > m_dNullFreq && CStatistics::DEpsilon > m_dDistinctRemain);
+	return (0 == m_pdrgppbucket->Size() && CStatistics::DEpsilon > m_dNullFreq && CStatistics::DEpsilon > m_dDistinctRemain);
 }
 
 // construct new histogram with less than or less than equal to filter
@@ -173,7 +173,7 @@ CHistogram::PhistLessThanOrLessThanEqual
 	GPOS_ASSERT(CStatsPred::EstatscmptL == escmpt || CStatsPred::EstatscmptLEq == escmpt);
 
 	DrgPbucket *pdrgppbucketNew = GPOS_NEW(pmp) DrgPbucket(pmp);
-	const ULONG ulNumBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulNumBuckets = m_pdrgppbucket->Size();
 
 	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulNumBuckets; ulBucketIdx++)
 	{
@@ -227,7 +227,7 @@ CHistogram::PdrgppbucketNEqual
 {
 	GPOS_ASSERT(NULL != ppoint);
 	DrgPbucket *pdrgppbucketNew = GPOS_NEW(pmp) DrgPbucket(pmp);
-	const ULONG ulNumBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulNumBuckets = m_pdrgppbucket->Size();
 	bool fPointNull = ppoint->Pdatum()->FNull();
 
 	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulNumBuckets; ulBucketIdx++)
@@ -313,7 +313,7 @@ CHistogram::PdrgppbucketEqual
 		return pdrgppbucket;
 	}
 
-	const ULONG ulNumBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulNumBuckets = m_pdrgppbucket->Size();
 	ULONG ulBucketIdx = 0;
 
 	for (ulBucketIdx = 0; ulBucketIdx < ulNumBuckets; ulBucketIdx++)
@@ -365,7 +365,7 @@ CHistogram::PhistEqual
 	
 	DrgPbucket *pdrgppbucket =  PdrgppbucketEqual(pmp, ppoint);
 
-	if (CStatistics::DEpsilon < m_dDistinctRemain && 0 == pdrgppbucket->UlLength()) // no match is found in the buckets
+	if (CStatistics::DEpsilon < m_dDistinctRemain && 0 == pdrgppbucket->Size()) // no match is found in the buckets
 	{
 		return GPOS_NEW(pmp) CHistogram
 						(
@@ -392,7 +392,7 @@ CHistogram::PhistINDF
 	GPOS_ASSERT(NULL != ppoint);
 
 	DrgPbucket *pdrgppbucket =  PdrgppbucketEqual(pmp, ppoint);
-	const ULONG ulBuckets = pdrgppbucket->UlLength();
+	const ULONG ulBuckets = pdrgppbucket->Size();
 	CDouble dNullFreq(0.0);
 	if (ppoint->Pdatum()->FNull())
 	{
@@ -436,7 +436,7 @@ CHistogram::PhistGreaterThanOrGreaterThanEqual
 	GPOS_ASSERT(CStatsPred::EstatscmptGEq == escmpt || CStatsPred::EstatscmptG == escmpt);
 
 	DrgPbucket *pdrgppbucketNew = GPOS_NEW(pmp) DrgPbucket(pmp);
-	const ULONG ulNumBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulNumBuckets = m_pdrgppbucket->Size();
 
 	// find first bucket that contains ppoint
 	ULONG ulBucketIdx = 0;
@@ -500,7 +500,7 @@ CHistogram::DFrequency
 	const
 {
 	CDouble dFrequency(0.0);
-	const ULONG ulBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulBuckets = m_pdrgppbucket->Size();
 	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulBuckets; ulBucketIdx++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ulBucketIdx];
@@ -522,7 +522,7 @@ CHistogram::DDistinct
 	const
 {
 	CDouble dDistinct(0.0);
-	const ULONG ulBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulBuckets = m_pdrgppbucket->Size();
 	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulBuckets; ulBucketIdx++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ulBucketIdx];
@@ -544,7 +544,7 @@ CHistogram::CapNDVs
 	CDouble dRows
 	)
 {
-	const ULONG ulBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulBuckets = m_pdrgppbucket->Size();
 	CDouble dDistinct = DDistinct();
 	if (dRows >= dDistinct)
 	{
@@ -592,7 +592,7 @@ CHistogram::FValid
 		return false;
 	}
 
-	for (ULONG ulBucketIdx = 1; ulBucketIdx < m_pdrgppbucket->UlLength(); ulBucketIdx++)
+	for (ULONG ulBucketIdx = 1; ulBucketIdx < m_pdrgppbucket->Size(); ulBucketIdx++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ulBucketIdx];
 		CBucket *pbucketPrev = (*m_pdrgppbucket)[ulBucketIdx - 1];
@@ -1001,7 +1001,7 @@ CHistogram::DNormalize()
 
 	CDouble dScaleFactor = std::max(DOUBLE(1.0), (CDouble(1.0) / DFrequency()).DVal());
 
-	for (ULONG ul = 0; ul < m_pdrgppbucket->UlLength(); ul++)
+	for (ULONG ul = 0; ul < m_pdrgppbucket->Size(); ul++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ul];
 		pbucket->SetFrequency(pbucket->DFrequency() * dScaleFactor);
@@ -1028,7 +1028,7 @@ CHistogram::PhistCopy
 	const
 {
 	DrgPbucket *pdrgpbucket = GPOS_NEW(pmp) DrgPbucket(pmp);
-	for (ULONG ul = 0; ul < m_pdrgppbucket->UlLength(); ul++)
+	for (ULONG ul = 0; ul < m_pdrgppbucket->Size(); ul++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ul];
 		pdrgpbucket->Append(pbucket->PbucketCopy(pmp));
@@ -1386,7 +1386,7 @@ CHistogram::PhistGroupByNormalized
 
 	DrgPbucket *pdrgppbucketNew = GPOS_NEW(pmp) DrgPbucket(pmp);
 
-	const ULONG ulBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulBuckets = m_pdrgppbucket->Size();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ul];
@@ -1560,7 +1560,7 @@ CHistogram::AddBuckets
 	GPOS_ASSERT(NULL != pdrgppbucketSrc);
 	GPOS_ASSERT(NULL != pdrgppbucketDest);
 	GPOS_ASSERT(ulBegin <= ulEnd);
-	GPOS_ASSERT(ulEnd <= pdrgppbucketSrc->UlLength());
+	GPOS_ASSERT(ulEnd <= pdrgppbucketSrc->Size());
 
 	for (ULONG ul = ulBegin; ul < ulEnd; ul++)
 	{
@@ -1750,8 +1750,8 @@ CHistogram::PhistUpdatedFrequency
 	GPOS_ASSERT(NULL != pdrgppbucket);
 	GPOS_ASSERT(NULL != pdrgpdouble);
 
-	const ULONG ulLen = pdrgpdouble->UlLength();
-	GPOS_ASSERT(ulLen == pdrgppbucket->UlLength());
+	const ULONG ulLen = pdrgpdouble->Size();
+	GPOS_ASSERT(ulLen == pdrgppbucket->Size());
 
 	CDouble dRowCummulative = dNullRows + dNDVRemainRows;
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -1846,7 +1846,7 @@ CHistogram::AddBuckets
 	GPOS_ASSERT(NULL != pdrgppbucketSrc);
 	GPOS_ASSERT(NULL != pdrgppbucketDest);
 	GPOS_ASSERT(ulBegin <= ulEnd);
-	GPOS_ASSERT(ulEnd <= pdrgppbucketSrc->UlLength());
+	GPOS_ASSERT(ulEnd <= pdrgppbucketSrc->Size());
 
 	for (ULONG ul = ulBegin; ul < ulEnd; ul++)
 	{
@@ -1884,7 +1884,7 @@ CHistogram::Pdxlstatsdercol
 {
 	DrgPdxlbucket *pdrgpdxlbucket = GPOS_NEW(pmp) DrgPdxlbucket(pmp);
 
-	const ULONG ulBuckets = m_pdrgppbucket->UlLength();
+	const ULONG ulBuckets = m_pdrgppbucket->Size();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ul];
@@ -1919,7 +1919,7 @@ CHistogram::UlRandomBucketIndex
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgppbucket->UlLength();
+	const ULONG ulSize = m_pdrgppbucket->Size();
 	GPOS_ASSERT(0 < ulSize);
 
 	DOUBLE dRandVal = ((DOUBLE) clib::UlRandR(pulSeed)) / RAND_MAX;
@@ -1960,7 +1960,7 @@ CHistogram::ComputeSkew()
 {
 	m_fSkewMeasured = true;
 
-	if (!FNormalized() || 0 == m_pdrgppbucket->UlLength() || !(*m_pdrgppbucket)[0]->FCanSample())
+	if (!FNormalized() || 0 == m_pdrgppbucket->Size() || !(*m_pdrgppbucket)[0]->FCanSample())
 	{
 		return;
 	}
@@ -2120,7 +2120,7 @@ CHistogram::AddDummyHistogramAndWidthInfo
 	GPOS_ASSERT(NULL != phmuldoubleWidthOutput);
 	GPOS_ASSERT(NULL != pdrgpul);
 
-	const ULONG ulCount = pdrgpul->UlLength();
+	const ULONG ulCount = pdrgpul->Size();
 	// for computed aggregates, we're not going to be very smart right now
 	for (ULONG ul = 0; ul < ulCount; ul++)
 	{

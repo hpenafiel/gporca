@@ -46,7 +46,7 @@ CPartConstraint::CPartConstraint
 	GPOS_ASSERT(NULL != phmulcnstr);
 	GPOS_ASSERT(NULL != pbsDefaultParts);
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
-	m_ulLevels = pdrgpdrgpcr->UlLength();
+	m_ulLevels = pdrgpdrgpcr->Size();
 	GPOS_ASSERT_IMP(fUnbounded, FAllDefaultPartsIncluded());
 
 	m_pcnstrCombined = PcnstrBuildCombined(pmp);

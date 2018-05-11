@@ -46,7 +46,7 @@ CPhysicalLeftOuterIndexNLJoin::FMatch
 {
 	if (pop->Eopid() == Eopid())
 	{
-		return m_pdrgpcrOuterRefs->FEqual(CPhysicalLeftOuterIndexNLJoin::PopConvert(pop)->PdrgPcrOuterRefs());
+		return m_pdrgpcrOuterRefs->Equals(CPhysicalLeftOuterIndexNLJoin::PopConvert(pop)->PdrgPcrOuterRefs());
 	}
 
 	return false;

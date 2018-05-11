@@ -59,7 +59,7 @@ CLogicalCTEProducer::CLogicalCTEProducer
 	GPOS_ASSERT(NULL != pdrgpcr);
 
 	m_pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp, m_pdrgpcr);
-	GPOS_ASSERT(m_pdrgpcr->UlLength() == m_pcrsOutput->CElements());
+	GPOS_ASSERT(m_pdrgpcr->Size() == m_pcrsOutput->CElements());
 
 	m_pcrsLocalUsed->Include(m_pdrgpcr);
 }
@@ -181,7 +181,7 @@ CLogicalCTEProducer::FMatch
 	CLogicalCTEProducer *popCTEProducer = CLogicalCTEProducer::PopConvert(pop);
 
 	return m_ulId == popCTEProducer->UlCTEId() &&
-			m_pdrgpcr->FEqual(popCTEProducer->Pdrgpcr());
+			m_pdrgpcr->Equals(popCTEProducer->Pdrgpcr());
 }
 
 //---------------------------------------------------------------------------

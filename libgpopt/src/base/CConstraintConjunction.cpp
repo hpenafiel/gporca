@@ -38,7 +38,7 @@ CConstraintConjunction::CConstraintConjunction
 	GPOS_ASSERT(NULL != pdrgpcnstr);
 	m_pdrgpcnstr = PdrgpcnstrFlatten(pmp, pdrgpcnstr, EctConjunction);
 
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 	GPOS_ASSERT(0 < ulLen);
 
 	m_pcrsUsed = GPOS_NEW(pmp) CColRefSet(pmp);
@@ -78,7 +78,7 @@ CConstraintConjunction::~CConstraintConjunction()
 BOOL
 CConstraintConjunction::FContradiction() const
 {
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 
 	BOOL fContradiction = false;
 	for (ULONG ul = 0; !fContradiction && ul < ulLen; ul++)
@@ -105,7 +105,7 @@ CConstraintConjunction::FConstraint
 	const
 {
 	DrgPcnstr *pdrgpcnstrCol = m_phmcolconstr->PtLookup(pcr);
-	return (NULL != pdrgpcnstrCol && 0 < pdrgpcnstrCol->UlLength());
+	return (NULL != pdrgpcnstrCol && 0 < pdrgpcnstrCol->Size());
 }
 
 //---------------------------------------------------------------------------
@@ -128,7 +128,7 @@ CConstraintConjunction::PcnstrCopyWithRemappedColumns
 	)
 {
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CConstraint *pcnstr = (*m_pdrgpcnstr)[ul];
@@ -162,7 +162,7 @@ CConstraintConjunction::Pcnstr
 
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
 
-	const ULONG ulLen = pdrgpcnstrCol->UlLength();
+	const ULONG ulLen = pdrgpcnstrCol->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		// the part of the child that references this column
@@ -193,7 +193,7 @@ CConstraintConjunction::Pcnstr
 	CColRefSet *pcrs
 	)
 {
-	const ULONG ulLen = m_pdrgpcnstr->UlLength();
+	const ULONG ulLen = m_pdrgpcnstr->Size();
 
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
 

@@ -77,7 +77,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
 
 	ULONG ulPosNonDropped = 0;
-	const ULONG ulArity = pdrgpmdcol->UlLength();
+	const ULONG ulArity = pdrgpmdcol->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		IMDColumn *pmdcol = (*pdrgpmdcol)[ul];
@@ -195,7 +195,7 @@ CMDRelationExternalGPDB::UlColumns() const
 {
 	GPOS_ASSERT(NULL != m_pdrgpmdcol);
 
-	return m_pdrgpmdcol->UlLength();
+	return m_pdrgpmdcol->Size();
 }
 
 // Return the width of a column with regards to the position
@@ -381,7 +381,7 @@ CMDRelationExternalGPDB::PmdidFmtErrRel() const
 ULONG
 CMDRelationExternalGPDB::UlKeySets() const
 {
-	return (m_pdrgpdrgpulKeys == NULL) ? 0 : m_pdrgpdrgpulKeys->UlLength();
+	return (m_pdrgpdrgpulKeys == NULL) ? 0 : m_pdrgpdrgpulKeys->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -415,7 +415,7 @@ CMDRelationExternalGPDB::PdrgpulKeyset
 ULONG
 CMDRelationExternalGPDB::UlDistrColumns() const
 {
-	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->UlLength();
+	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -429,7 +429,7 @@ CMDRelationExternalGPDB::UlDistrColumns() const
 ULONG
 CMDRelationExternalGPDB::UlIndices() const
 {
-	return m_pdrgpmdIndexInfo->UlLength();
+	return m_pdrgpmdIndexInfo->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -443,7 +443,7 @@ CMDRelationExternalGPDB::UlIndices() const
 ULONG
 CMDRelationExternalGPDB::UlTriggers() const
 {
-	return m_pdrgpmdidTriggers->UlLength();
+	return m_pdrgpmdidTriggers->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -461,7 +461,7 @@ CMDRelationExternalGPDB::Pmdcol
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpmdcol->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpmdcol->Size());
 
 	return (*m_pdrgpmdcol)[ulPos];
 }
@@ -481,7 +481,7 @@ CMDRelationExternalGPDB::PmdcolDistrColumn
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->Size());
 
 	ULONG ulDistrKeyPos = (*(*m_pdrgpulDistrColumns)[ulPos]);
 	return Pmdcol(ulDistrKeyPos);
@@ -535,7 +535,7 @@ CMDRelationExternalGPDB::PmdidTrigger
 ULONG
 CMDRelationExternalGPDB::UlCheckConstraints() const
 {
-	return m_pdrgpmdidCheckConstraint->UlLength();
+	return m_pdrgpmdidCheckConstraint->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -590,7 +590,7 @@ CMDRelationExternalGPDB::Serialize
 	}
 
 	// serialize key sets
-	if (m_pdrgpdrgpulKeys != NULL && 0 < m_pdrgpdrgpulKeys->UlLength())
+	if (m_pdrgpdrgpulKeys != NULL && 0 < m_pdrgpdrgpulKeys->Size())
 	{
 		CWStringDynamic *pstrKeys = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpdrgpulKeys);
 		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenKeys), pstrKeys);
@@ -616,7 +616,7 @@ CMDRelationExternalGPDB::Serialize
 	// serialize columns
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenColumns));
-	for (ULONG ul = 0; ul < m_pdrgpmdcol->UlLength(); ul++)
+	for (ULONG ul = 0; ul < m_pdrgpmdcol->Size(); ul++)
 	{
 		CMDColumn *pmdcol = (*m_pdrgpmdcol)[ul];
 		pmdcol->Serialize(pxmlser);
@@ -628,7 +628,7 @@ CMDRelationExternalGPDB::Serialize
 	// serialize index infos
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenIndexInfoList));
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->UlLength();
+	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
 		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];
@@ -703,7 +703,7 @@ CMDRelationExternalGPDB::DebugPrint
 	os << std::endl;
 
 	os << "Index Info: ";
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->UlLength();
+	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
 		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];

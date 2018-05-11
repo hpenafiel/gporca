@@ -127,7 +127,7 @@ CEnfdPartitionPropagation::FResolved
 	}
 	
 	DrgPul *pdrgpulPartIndexIds = ppimReqd->PdrgpulScanIds(pmp);
-	const ULONG ulLength = pdrgpulPartIndexIds->UlLength();
+	const ULONG ulLength = pdrgpulPartIndexIds->Size();
 			
 	BOOL fResolved = true;
 	for (ULONG ul = 0; ul < ulLength && fResolved; ul++)
@@ -176,7 +176,7 @@ CEnfdPartitionPropagation::FInScope
 	CPartIndexMap *ppimReqd = m_ppps->Ppim();
 	
 	DrgPul *pdrgpulPartIndexIds = ppimReqd->PdrgpulScanIds(pmp);
-	const ULONG ulLength = pdrgpulPartIndexIds->UlLength();
+	const ULONG ulLength = pdrgpulPartIndexIds->Size();
 
 	if (0 == ulLength)
 	{

@@ -50,7 +50,7 @@ CFilterStatsProcessor::PstatsFilterForScalarExpr
 	IStatistics *pstatsResult = CFilterStatsProcessor::PstatsFilter(pmp, dynamic_cast<CStatistics *>(pstatsChild), pstatspred, fCapNdvs);
 	pstatspred->Release();
 
-	if (exprhdl.FHasOuterRefs() && 0 < pdrgpstatOuter->UlLength())
+	if (exprhdl.FHasOuterRefs() && 0 < pdrgpstatOuter->Size())
 	{
 		// derive stats based on outer references
 		IStatistics *pstats = CJoinStatsProcessor::PstatsDeriveWithOuterRefs

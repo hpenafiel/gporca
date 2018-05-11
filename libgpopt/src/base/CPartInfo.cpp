@@ -40,7 +40,7 @@ CPartInfo::CPartInfoEntry::CPartInfoEntry
 {
 	GPOS_ASSERT(pmdid->FValid());
 	GPOS_ASSERT(pdrgppartkeys != NULL);
-	GPOS_ASSERT(0 < pdrgppartkeys->UlLength());
+	GPOS_ASSERT(0 < pdrgppartkeys->Size());
 	GPOS_ASSERT(NULL != ppartcnstrRel);
 }
 
@@ -81,7 +81,7 @@ CPartInfo::CPartInfoEntry::PpartinfoentryAddRemappedKeys
 
     DrgPpartkeys *pdrgppartkeys = CPartKeys::PdrgppartkeysCopy(pmp, m_pdrgppartkeys);
 
-	const ULONG ulSize = m_pdrgppartkeys->UlLength();
+	const ULONG ulSize = m_pdrgppartkeys->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CPartKeys *ppartkeys = (*m_pdrgppartkeys)[ul];
@@ -245,7 +245,7 @@ CPartInfo::FContainsScanId
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgppartentries->UlLength();
+	const ULONG ulSize = m_pdrgppartentries->Size();
 
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
@@ -346,7 +346,7 @@ CPartInfo::PdrgppartkeysByScanId
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgppartentries->UlLength();
+	const ULONG ulSize = m_pdrgppartentries->Size();
 
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
@@ -385,7 +385,7 @@ CPartInfo::PpartinfoWithRemappedKeys
 
 	DrgPpartentries *pdrgppartentries = GPOS_NEW(pmp) DrgPpartentries(pmp);
 
-	const ULONG ulSize = m_pdrgppartentries->UlLength();
+	const ULONG ulSize = m_pdrgppartentries->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
@@ -427,7 +427,7 @@ CPartInfo::PpartinfoCombine
 	CUtils::AddRefAppend(pdrgppartentries, ppartinfoFst->m_pdrgppartentries);
 
 	// copy part entries from second part info object, except those which already exist
-	const ULONG ulLen = ppartinfoSnd->m_pdrgppartentries->UlLength();
+	const ULONG ulLen = ppartinfoSnd->m_pdrgppartentries->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*(ppartinfoSnd->m_pdrgppartentries))[ul];
@@ -466,7 +466,7 @@ CPartInfo::OsPrint
 	)
 	const
 {
-	const ULONG ulLength = m_pdrgppartentries->UlLength();
+	const ULONG ulLength = m_pdrgppartentries->Size();
 	os << "Part Consumers: ";
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
@@ -482,7 +482,7 @@ CPartInfo::OsPrint
 	{
 		DrgPpartkeys *pdrgppartkeys = Pdrgppartkeys(ulCons);
 		os << "(";
-		const ULONG ulPartKeys = pdrgppartkeys->UlLength();;
+		const ULONG ulPartKeys = pdrgppartkeys->Size();;
 		for (ULONG ulPartKey = 0; ulPartKey < ulPartKeys; ulPartKey++)
 		{
 			os << *(*pdrgppartkeys)[ulPartKey];

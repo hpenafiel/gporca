@@ -59,7 +59,7 @@ namespace gpnaucrates
 			// total number of predicates in the conjunction
 			ULONG UlFilters() const
 			{
-				return m_pdrgpstatspred->UlLength();
+				return m_pdrgpstatspred->Size();
 			}
 
 			DrgPstatspred *Pdrgpstatspred() const

@@ -98,7 +98,7 @@ CLogical::PdrgpcrCreateMapping
 	// get column factory from optimizer context object
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	
-	ULONG ulCols = pdrgpcoldesc->UlLength();
+	ULONG ulCols = pdrgpcoldesc->Size();
 	
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp, ulCols);
 	for(ULONG ul = 0; ul < ulCols; ul++)
@@ -134,7 +134,7 @@ CLogical::PdrgpdrgpcrCreatePartCols
 	
 	DrgDrgPcr *pdrgpdrgpcrPart = GPOS_NEW(pmp) DrgDrgPcr(pmp);
 	
-	const ULONG ulPartCols = pdrgpulPart->UlLength();
+	const ULONG ulPartCols = pdrgpulPart->Size();
 	GPOS_ASSERT(0 < ulPartCols);
 	
 	for (ULONG ul = 0; ul < ulPartCols; ul++)
@@ -387,7 +387,7 @@ CLogical::PkcKeysBaseTable
 	const DrgPcr *pdrgpcrOutput
 	)
 {
-	const ULONG ulKeys = pdrgpbsKeys->UlLength();
+	const ULONG ulKeys = pdrgpbsKeys->Size();
 	
 	if (0 == ulKeys)
 	{
@@ -734,7 +734,7 @@ CLogical::PpcDeriveConstraintFromTable
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
 
 	const DrgPcoldesc *pdrgpcoldesc = ptabdesc->Pdrgpcoldesc();
-	const ULONG ulCols = pdrgpcoldesc->UlLength();
+	const ULONG ulCols = pdrgpcoldesc->Size();
 
 	DrgPcr *pdrgpcrNonSystem = GPOS_NEW(pmp) DrgPcr(pmp);
 
@@ -906,7 +906,7 @@ CLogical::PpcDeriveConstraintRestrict
 	// construct new array of equivalence classes
 	DrgPcrs *pdrgpcrsNew = GPOS_NEW(pmp) DrgPcrs(pmp);
 
-	const ULONG ulLen = pdrgpcrs->UlLength();
+	const ULONG ulLen = pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRefSet *pcrsEquiv = GPOS_NEW(pmp) CColRefSet(pmp);
@@ -1451,12 +1451,12 @@ CLogical::PcrsDist
 	const DrgPcoldesc *pdrgpcoldescDist = ptabdesc->PdrgpcoldescDist();
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 	GPOS_ASSERT(NULL != pdrgpcoldescDist);
-	GPOS_ASSERT(pdrgpcrOutput->UlLength() == pdrgpcoldesc->UlLength());
+	GPOS_ASSERT(pdrgpcrOutput->Size() == pdrgpcoldesc->Size());
 
 
 	// mapping base table columns to corresponding column references
 	HMICr *phmicr = GPOS_NEW(pmp) HMICr(pmp);
-	const ULONG ulCols = pdrgpcoldesc->UlLength();
+	const ULONG ulCols = pdrgpcoldesc->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldesc)[ul];
@@ -1465,7 +1465,7 @@ CLogical::PcrsDist
 	}
 
 	CColRefSet *pcrsDist = GPOS_NEW(pmp) CColRefSet(pmp);
-	const ULONG ulDistCols = pdrgpcoldescDist->UlLength();
+	const ULONG ulDistCols = pdrgpcoldescDist->Size();
 	for (ULONG ul2 = 0; ul2 < ulDistCols; ul2++)
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldescDist)[ul2];

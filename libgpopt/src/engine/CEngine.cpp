@@ -168,12 +168,12 @@ CEngine::Init
 	{
 		m_pdrgpss = CSearchStage::PdrgpssDefault(m_pmp);
 	}
-	GPOS_ASSERT(0 < m_pdrgpss->UlLength());
+	GPOS_ASSERT(0 < m_pdrgpss->Size());
 
 	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics))
 	{
 		// initialize per-stage xform calls array
-		const ULONG ulStages = m_pdrgpss->UlLength();
+		const ULONG ulStages = m_pdrgpss->Size();
 		for (ULONG ul = 0; ul < ulStages; ul++)
 		{
 			ULONG_PTR *pulpXformCalls = GPOS_NEW_ARRAY(m_pmp, ULONG_PTR, CXform::ExfSentinel);
@@ -214,7 +214,7 @@ CEngine::AddEnforcers
 	GPOS_ASSERT(NULL != pdrgpexprEnforcers);
 	GPOS_ASSERT(NULL != pgexpr);
 
-	for (ULONG ul = 0; ul < pdrgpexprEnforcers->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpexprEnforcers->Size(); ul++)
 	{
 		// assemble an expression rooted by the enforcer operator
 		CExpression *pexprEnforcer = (*pdrgpexprEnforcers)[ul];
@@ -367,7 +367,7 @@ CEngine::InsertXformResult
 	GPOS_ASSERT(CXform::ExfInvalid != exfidOrigin);
 	GPOS_ASSERT(NULL != pgexprOrigin);
 
-	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics) && 0 < pxfres->Pdrgpexpr()->UlLength())
+	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics) && 0 < pxfres->Pdrgpexpr()->Size())
 	{
 		(void) m_pxfs->FExchangeSet(exfidOrigin);
 		(void) UlpExchangeAdd(&(*m_pdrgpulpXformCalls)[m_ulCurrSearchStage][exfidOrigin], 1);
@@ -1024,7 +1024,7 @@ CEngine::PccOptimizeChild
 	}
 
 	// derive plan properties of child group optimal implementation
-	COptimizationContext *pocFound = pgroupChild->PocLookupBest(m_pmp, m_pdrgpss->UlLength(), exprhdl.Prpp(ulChildIndex));
+	COptimizationContext *pocFound = pgroupChild->PocLookupBest(m_pmp, m_pdrgpss->Size(), exprhdl.Prpp(ulChildIndex));
 	GPOS_ASSERT(NULL != pocFound);
 
 	CCostContext *pccChildBest = pocFound->PccBest();
@@ -1329,7 +1329,7 @@ CEngine::RecursiveOptimize()
 
 	CAutoTimer at("\n[OPT]: Total Optimization Time", GPOS_FTRACE(EopttracePrintOptimizationStatistics));
 
-	const ULONG ulSearchStages = m_pdrgpss->UlLength();
+	const ULONG ulSearchStages = m_pdrgpss->Size();
 	for (ULONG ul = 0; !FSearchTerminated() && ul < ulSearchStages; ul++)
 	{
 		PssCurrent()->RestartTimer();
@@ -1368,7 +1368,7 @@ CEngine::RecursiveOptimize()
 								m_pmp,
 								m_pmemo->PgroupRoot(),
 								m_pqc->Prpp(),
-								m_pdrgpss->UlLength()
+								m_pdrgpss->Size()
 								);
 		PssCurrent()->SetBestExpr(pexprPlan);
 
@@ -1377,7 +1377,7 @@ CEngine::RecursiveOptimize()
 
 	{
 		CAutoTrace atSearch(m_pmp);
-		atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_pdrgpss->UlLength();
+		atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_pdrgpss->Size();
 	}
 
 	if (poconf->Pec()->FSample())
@@ -1415,7 +1415,7 @@ CEngine::PdrgpocChildren
 		if (!pgroupChild->FScalar())
 		{
 			COptimizationContext *poc =
-				pgroupChild->PocLookupBest(pmp, m_pdrgpss->UlLength(), exprhdl.Prpp(ul));
+				pgroupChild->PocLookupBest(pmp, m_pdrgpss->Size(), exprhdl.Prpp(ul));
 			GPOS_ASSERT(NULL != poc);
 
 			poc->AddRef();
@@ -1695,7 +1695,7 @@ CEngine::Optimize()
 		if (GPOS_FTRACE(EopttracePrintOptimizationStatistics))
 		{
 			CAutoTrace atSearch(m_pmp);
-			atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_pdrgpss->UlLength();
+			atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_pdrgpss->Size();
 		}
 	}
 
@@ -1727,7 +1727,7 @@ CEngine::MainThreadOptimize()
 	CSchedulerContext sc;
 	sc.Init(m_pmp, &jf, &sched, this);
 
-	const ULONG ulSearchStages = m_pdrgpss->UlLength();
+	const ULONG ulSearchStages = m_pdrgpss->Size();
 	for (ULONG ul = 0; !FSearchTerminated() && ul < ulSearchStages; ul++)
 	{
 		PssCurrent()->RestartTimer();
@@ -1759,7 +1759,7 @@ CEngine::MainThreadOptimize()
 								m_pmp,
 								m_pmemo->PgroupRoot(),
 								m_pqc->Prpp(),
-								m_pdrgpss->UlLength()
+								m_pdrgpss->Size()
 								);
 		PssCurrent()->SetBestExpr(pexprPlan);
 
@@ -1792,7 +1792,7 @@ CEngine::MultiThreadedOptimize
 	CSchedulerContext sc;
 	sc.Init(m_pmp, &jf, &sched, this);
 
-	const ULONG ulSearchStages = m_pdrgpss->UlLength();
+	const ULONG ulSearchStages = m_pdrgpss->Size();
 	for (ULONG ul = 0; !FSearchTerminated() && ul < ulSearchStages; ul++)
 	{
 		PssCurrent()->RestartTimer();
@@ -1861,7 +1861,7 @@ CEngine::MultiThreadedOptimize
 								m_pmp,
 								m_pmemo->PgroupRoot(),
 								m_pqc->Prpp(),
-								m_pdrgpss->UlLength()
+								m_pdrgpss->Size()
 								);
 		PssCurrent()->SetBestExpr(pexprPlan);
 
@@ -1957,7 +1957,7 @@ CEngine::PexprExtractPlan()
 						m_pmp,
 						m_pmemo->PgroupRoot(),
 						m_pqc->Prpp(),
-						m_pdrgpss->UlLength()
+						m_pdrgpss->Size()
 						);
 	}
 
@@ -2094,7 +2094,7 @@ CEngine::SamplePlans()
 				m_pmp,
 				m_pmemo->PgroupRoot(),
 				m_pqc->Prpp(),
-				m_pdrgpss->UlLength()
+				m_pdrgpss->Size()
 				);
 	CCost costBest = pexpr->Cost();
 	pec->SetBestCost(costBest);
@@ -2291,7 +2291,7 @@ CEngine::FCheckEnfdProps
 	prpp->Per()->AppendEnforcers(pmp, prpp, pdrgpexprEnforcers, pexpr, epetRewindability, exprhdl);
 	prpp->Pepp()->AppendEnforcers(pmp, prpp, pdrgpexprEnforcers, pexpr, epetPartitionPropagation, exprhdl);
 
-	if (0 < pdrgpexprEnforcers->UlLength())
+	if (0 < pdrgpexprEnforcers->Size())
 	{
 		AddEnforcers(exprhdl.Pgexpr(), pdrgpexprEnforcers);
 	}
@@ -2346,7 +2346,7 @@ CEngine::FChildrenOptimized
 {
 	GPOS_ASSERT(NULL != pdrgpoc);
 
-	const ULONG ulLen = pdrgpoc->UlLength();
+	const ULONG ulLen = pdrgpoc->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		if (NULL == (*pdrgpoc)[ul]->PgexprBest())
@@ -2534,7 +2534,7 @@ CEngine::PrintOptCtxts()
 {
 	CAutoTrace at(m_pmp);
 	COptimizationContext *poc =
-		m_pmemo->PgroupRoot()->PocLookupBest(m_pmp, m_pdrgpss->UlLength(), m_pqc->Prpp());
+		m_pmemo->PgroupRoot()->PocLookupBest(m_pmp, m_pdrgpss->Size(), m_pqc->Prpp());
 	GPOS_ASSERT(NULL != poc);
 
 	at.Os() << std::endl << "Main Opt Ctxt:" << std::endl;

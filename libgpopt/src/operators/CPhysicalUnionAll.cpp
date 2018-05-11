@@ -50,8 +50,8 @@ FEqual
 	GPOS_ASSERT(NULL != pdrgpulFst);
 	GPOS_ASSERT(NULL != pdrgpulSnd);
 
-	const ULONG ulSizeFst = pdrgpulFst->UlLength();
-	const ULONG ulSizeSnd = pdrgpulSnd->UlLength();
+	const ULONG ulSizeFst = pdrgpulFst->Size();
+	const ULONG ulSizeSnd = pdrgpulSnd->Size();
 	if (ulSizeFst != ulSizeSnd)
 	{
 		// arrays have different lengths
@@ -107,7 +107,7 @@ CPhysicalUnionAll::CPhysicalUnionAll
 
 	// build set representation of input columns
 	m_pdrgpcrsInput = GPOS_NEW(pmp) DrgPcrs(pmp);
-	const ULONG ulArity = m_pdrgpdrgpcrInput->UlLength();
+	const ULONG ulArity = m_pdrgpdrgpcrInput->Size();
 	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
 	{
 		DrgPcr *pdrgpcr = (*m_pdrgpdrgpcrInput)[ulChild];
@@ -185,7 +185,7 @@ const
 	{
 		CPhysicalUnionAll *popUnionAll = CPhysicalUnionAll::PopConvert(pop);
 
-		return PdrgpcrOutput()->FEqual(popUnionAll->PdrgpcrOutput()) &&
+		return PdrgpcrOutput()->Equals(popUnionAll->PdrgpcrOutput()) &&
 			   UlScanIdPartialIndex() == popUnionAll->UlScanIdPartialIndex();
 	}
 
@@ -243,7 +243,7 @@ CPhysicalUnionAll::PosRequired
 )
 const
 {
-	GPOS_ASSERT(PdrgpdrgpcrInput()->UlLength() > ulChildIndex);
+	GPOS_ASSERT(PdrgpdrgpcrInput()->Size() > ulChildIndex);
 
 	// no order required from child expression
 	return GPOS_NEW(pmp) COrderSpec(pmp);
@@ -270,7 +270,7 @@ CPhysicalUnionAll::PrsRequired
 	)
 const
 {
-	GPOS_ASSERT(PdrgpdrgpcrInput()->UlLength() > ulChildIndex);
+	GPOS_ASSERT(PdrgpdrgpcrInput()->Size() > ulChildIndex);
 
 	return PrsPassThru(pmp, exprhdl, prsRequired, ulChildIndex);
 }
@@ -356,7 +356,7 @@ CPhysicalUnionAll::FProvidesReqdCols
 const
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
-	GPOS_ASSERT(PdrgpdrgpcrInput()->UlLength() == exprhdl.UlArity());
+	GPOS_ASSERT(PdrgpdrgpcrInput()->Size() == exprhdl.UlArity());
 
 	CColRefSet *pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
 
@@ -507,7 +507,7 @@ const
 
 
 	DrgPul *pdrgpul = ppimReqd->PdrgpulScanIds(m_pmp);
-	const ULONG ulScanIds = pdrgpul->UlLength();
+	const ULONG ulScanIds = pdrgpul->Size();
 
 	const ULONG ulArity = exprhdl.UlNonScalarChildren();
 	for (ULONG ul = 0; ul < ulScanIds; ul++)
@@ -702,9 +702,9 @@ const
 {
 	GPOS_ASSERT(NULL != pdrgpulOuter);
 
-	const ULONG ulCols = pdrgpulOuter->UlLength();
+	const ULONG ulCols = pdrgpulOuter->Size();
 
-	GPOS_ASSERT(ulCols <= PdrgpcrOutput()->UlLength());
+	GPOS_ASSERT(ulCols <= PdrgpcrOutput()->Size());
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 	for (ULONG ulCol = 0; ulCol < ulCols; ulCol++)
@@ -714,7 +714,7 @@ const
 		pdrgpexpr->Append(pexpr);
 	}
 
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
 	return GPOS_NEW(pmp) CDistributionSpecHashed(pdrgpexpr, true /*fNullsColocated*/);
 }
@@ -739,8 +739,8 @@ const
 {
 	DrgPexpr *pdrgpexprRequired = pdshashedRequired->Pdrgpexpr();
 	DrgPcr *pdrgpcrChild = (*PdrgpdrgpcrInput())[ulChildIndex];
-	const ULONG ulExprs = pdrgpexprRequired->UlLength();
-	const ULONG ulOutputCols = PdrgpcrOutput()->UlLength();
+	const ULONG ulExprs = pdrgpexprRequired->Size();
+	const ULONG ulOutputCols = PdrgpcrOutput()->Size();
 
 	DrgPexpr *pdrgpexprChildRequired = GPOS_NEW(pmp) DrgPexpr(pmp);
 	for (ULONG ulExpr = 0; ulExpr < ulExprs; ulExpr++)
@@ -770,7 +770,7 @@ const
 		}
 	}
 
-	if (0 < pdrgpexprChildRequired->UlLength())
+	if (0 < pdrgpexprChildRequired->Size())
 	{
 		return GPOS_NEW(pmp) CDistributionSpecHashed(pdrgpexprChildRequired, true /* fNullsCollocated */);
 	}
@@ -871,8 +871,8 @@ const
 	GPOS_ASSERT(NULL != pdrgpexpr);
 
 	DrgPcr *pdrgpcr = (*PdrgpdrgpcrInput())[ulChildIndex];
-	const ULONG ulExprs = pdrgpexpr->UlLength();
-	const ULONG ulCols = pdrgpcr->UlLength();
+	const ULONG ulExprs = pdrgpexpr->Size();
+	const ULONG ulCols = pdrgpcr->Size();
 	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
 	for (ULONG ulExpr = 0; ulExpr < ulExprs; ulExpr++)
 	{
@@ -891,7 +891,7 @@ const
 		}
 	}
 
-	if (0 == pdrgpul->UlLength())
+	if (0 == pdrgpul->Size())
 	{
 		// mapping failed
 		pdrgpul->Release();

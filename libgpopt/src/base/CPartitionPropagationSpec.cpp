@@ -121,7 +121,7 @@ CPartitionPropagationSpec::AppendEnforcers
 	GPOS_ASSERT(NULL != pexpr);
 	
 	DrgPul *pdrgpul = m_ppim->PdrgpulScanIds(pmp);
-	const ULONG ulSize = pdrgpul->UlLength();
+	const ULONG ulSize = pdrgpul->Size();
 	
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
@@ -161,7 +161,7 @@ CPartitionPropagationSpec::AppendEnforcers
 			// find out which keys are used in the predicate, in case there are multiple
 			// keys at this point (e.g. from a union of multiple CTE consumers)
 			CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed();
-			const ULONG ulKeysets = pdrgppartkeys->UlLength();
+			const ULONG ulKeysets = pdrgppartkeys->Size();
 			for (ULONG ulKey = 0; NULL == pdrgpdrgpcrKeys && ulKey < ulKeysets; ulKey++)
 			{
 				// get partition key
@@ -187,7 +187,7 @@ CPartitionPropagationSpec::AppendEnforcers
 		else
 		{
 			// doesn't matter which keys we use here since there is no filter
-			GPOS_ASSERT(1 <= pdrgppartkeys->UlLength());
+			GPOS_ASSERT(1 <= pdrgppartkeys->Size());
 			pdrgpdrgpcrKeys = (*pdrgppartkeys)[0]->Pdrgpdrgpcr();
 			pdrgpdrgpcrKeys->AddRef();
 		}
@@ -333,13 +333,13 @@ CPartitionPropagationSpec::SplitPartPredicates
 	CBitSet *pbsUsed = GPOS_NEW(pmp) CBitSet(pmp);
 	CColRefSet *pcrsKeys = PcrsKeys(pmp, pdrgpdrgpcrKeys);
 
-	const ULONG ulLevels = pdrgpdrgpcrKeys->UlLength();
+	const ULONG ulLevels = pdrgpdrgpcrKeys->Size();
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
 		CColRef *pcr = CUtils::PcrExtractPartKey(pdrgpdrgpcrKeys, ul);
 		// find conjuncts for this key and mark their positions
 		DrgPexpr *pdrgpexprKey = PdrgpexprPredicatesOnKey(pmp, pdrgpexprConjuncts, pcr, pcrsKeys, &pbsUsed);
-		const ULONG ulLen = pdrgpexprKey->UlLength();
+		const ULONG ulLen = pdrgpexprKey->Size();
 		if (ulLen == 0)
 		{
 			// no predicates on this key
@@ -404,7 +404,7 @@ CPartitionPropagationSpec::PcrsKeys
 {
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
 
-	const ULONG ulLevels = pdrgpdrgpcrKeys->UlLength();
+	const ULONG ulLevels = pdrgpdrgpcrKeys->Size();
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
 		CColRef *pcr = CUtils::PcrExtractPartKey(pdrgpdrgpcrKeys, ul);
@@ -436,7 +436,7 @@ CPartitionPropagationSpec::PexprResidualFilter
 
 	DrgPexpr *pdrgpexprUnused = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulLen = pdrgpexpr->UlLength();
+	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		if (pbsUsed->FBit(ul))
@@ -486,7 +486,7 @@ CPartitionPropagationSpec::PdrgpexprPredicatesOnKey
 
 	DrgPexpr *pdrgpexprResult = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulLen = pdrgpexpr->UlLength();
+	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		if ((*ppbs)->FBit(ul))

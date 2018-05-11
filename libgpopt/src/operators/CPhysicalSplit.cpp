@@ -52,7 +52,7 @@ CPhysicalSplit::CPhysicalSplit
 {
 	GPOS_ASSERT(NULL != pdrgpcrDelete);
 	GPOS_ASSERT(NULL != pdrgpcrInsert);
-	GPOS_ASSERT(pdrgpcrInsert->UlLength() == pdrgpcrDelete->UlLength());
+	GPOS_ASSERT(pdrgpcrInsert->Size() == pdrgpcrDelete->Size());
 	GPOS_ASSERT(NULL != pcrCtid);
 	GPOS_ASSERT(NULL != pcrSegmentId);
 	GPOS_ASSERT(NULL != pcrAction);
@@ -356,7 +356,7 @@ CPhysicalSplit::PdsDerive
 	// find out which columns of the target table get modified by the DML and check
 	// whether those participate in the derived hash distribution
 	CColRefSet *pcrsModified = GPOS_NEW(pmp) CColRefSet(pmp);
-	const ULONG ulCols = m_pdrgpcrDelete->UlLength();
+	const ULONG ulCols = m_pdrgpcrDelete->Size();
 	
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
@@ -459,8 +459,8 @@ CPhysicalSplit::FMatch
 				m_pcrSegmentId == popSplit->PcrSegmentId() &&
 				m_pcrAction == popSplit->PcrAction() &&
 				m_pcrTupleOid == popSplit->PcrTupleOid() &&
-				m_pdrgpcrDelete->FEqual(popSplit->PdrgpcrDelete()) &&
-				m_pdrgpcrInsert->FEqual(popSplit->PdrgpcrInsert());
+				m_pdrgpcrDelete->Equals(popSplit->PdrgpcrDelete()) &&
+				m_pdrgpcrInsert->Equals(popSplit->PdrgpcrInsert());
 	}
 
 	return false;

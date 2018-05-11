@@ -15,8 +15,8 @@ DrgDrgPcr *pdrgpdrgpcrInput
 :
 DrgPds(pmp)
 {
-	const ULONG ulCols = pdrgpcrOutput->UlLength();
-	const ULONG ulArity = pdrgpdrgpcrInput->UlLength();
+	const ULONG ulCols = pdrgpcrOutput->Size();
+	const ULONG ulArity = pdrgpdrgpcrInput->Size();
 	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
 	{
 		DrgPcr *pdrgpcr = (*pdrgpdrgpcrInput)[ulChild];
@@ -32,7 +32,7 @@ DrgPds(pmp)
 		}
 
 		CDistributionSpec *pdshashed;
-		ULONG ulColumnsToRedistribute = pdrgpexpr->UlLength();
+		ULONG ulColumnsToRedistribute = pdrgpexpr->Size();
 		if (0 < ulColumnsToRedistribute)
 		{
 			// create a hashed distribution on input columns of the current child

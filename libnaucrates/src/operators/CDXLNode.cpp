@@ -275,7 +275,7 @@ CDXLNode::SerializeToDXL
 		m_pdxlop->SerializeToDXL(pxmlser, this);
 	}	
 	
-	if (NULL != m_pdxlddinfo && 0 < m_pdxlddinfo->Pdrgpdrgpdxldatum()->UlLength())
+	if (NULL != m_pdxlddinfo && 0 < m_pdxlddinfo->Pdrgpdrgpdxldatum()->Size())
 	{
 		m_pdxlddinfo->Serialize(pxmlser);
 	}

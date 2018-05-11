@@ -142,7 +142,7 @@ CLogicalSetOp::BuildColumnSets
 
 	m_pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp, m_pdrgpcrOutput);
 	m_pdrgpcrsInput = GPOS_NEW(pmp) DrgPcrs(pmp);
-	const ULONG ulChildren = m_pdrgpdrgpcrInput->UlLength();
+	const ULONG ulChildren = m_pdrgpdrgpcrInput->Size();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CColRefSet *pcrsInput = GPOS_NEW(pmp) CColRefSet(pmp, (*m_pdrgpdrgpcrInput)[ul]);
@@ -239,7 +239,7 @@ CLogicalSetOp::PpartinfoDerive
 		GPOS_ASSERT(NULL != ppartinfoChild);
 
 		DrgPcr *pdrgpcrInput = (*m_pdrgpdrgpcrInput)[ul];
-		GPOS_ASSERT(pdrgpcrInput->UlLength() == m_pdrgpcrOutput->UlLength());
+		GPOS_ASSERT(pdrgpcrInput->Size() == m_pdrgpcrOutput->Size());
 
 		CPartInfo *ppartinfoRemapped = ppartinfoChild->PpartinfoWithRemappedKeys(pmp, pdrgpcrInput, m_pdrgpcrOutput);
 		CPartInfo *ppartinfoCombined = CPartInfo::PpartinfoCombine(pmp, ppartinfo, ppartinfoRemapped);
@@ -274,17 +274,17 @@ CLogicalSetOp::FMatch
 
 	CLogicalSetOp *popSetOp = CLogicalSetOp::PopConvert(pop);
 	DrgDrgPcr *pdrgpdrgpcrInput = popSetOp->PdrgpdrgpcrInput();
-	const ULONG ulArity = pdrgpdrgpcrInput->UlLength();
+	const ULONG ulArity = pdrgpdrgpcrInput->Size();
 
-	if (ulArity != m_pdrgpdrgpcrInput->UlLength() ||
-		!m_pdrgpcrOutput->FEqual(popSetOp->PdrgpcrOutput()))
+	if (ulArity != m_pdrgpdrgpcrInput->Size() ||
+		!m_pdrgpcrOutput->Equals(popSetOp->PdrgpcrOutput()))
 	{
 		return false;
 	}
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		if (!(*m_pdrgpdrgpcrInput)[ul]->FEqual((*pdrgpdrgpcrInput)[ul]))
+		if (!(*m_pdrgpdrgpcrInput)[ul]->Equals((*pdrgpdrgpcrInput)[ul]))
 		{
 			return false;
 		}
@@ -356,7 +356,7 @@ CLogicalSetOp::PdrgpcrsInputMapped
 	const
 {
 	DrgPcrs *pdrgpcrsInput = exprhdl.Pdprel(ulChild)->Ppc()->PdrgpcrsEquivClasses();
-	const ULONG ulLen = pdrgpcrsInput->UlLength();
+	const ULONG ulLen = pdrgpcrsInput->Size();
 
 	CColRefSet* pcrsChildInput = (*m_pdrgpcrsInput)[ulChild];
 	DrgPcrs *pdrgpcrs = GPOS_NEW(pmp) DrgPcrs(pmp);
@@ -479,7 +479,7 @@ CLogicalSetOp::PpcDeriveConstraintIntersectUnion
 	)
 	const
 {
-	const ULONG ulCols = m_pdrgpcrOutput->UlLength();
+	const ULONG ulCols = m_pdrgpcrOutput->Size();
 
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
 	for (ULONG ul = 0; ul < ulCols; ul++)
@@ -554,7 +554,7 @@ CLogicalSetOp::OsPrint
 	os << ")";
 	
 	os << ", Input: [";
-	const ULONG ulChildren = m_pdrgpdrgpcrInput->UlLength();
+	const ULONG ulChildren = m_pdrgpdrgpcrInput->Size();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		os << "(";

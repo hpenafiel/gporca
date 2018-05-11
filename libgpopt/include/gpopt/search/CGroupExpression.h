@@ -302,7 +302,7 @@ namespace gpopt
 			// arity function
 			ULONG UlArity() const
 			{
-				return m_pdrgpgroup->UlLength();
+				return m_pdrgpgroup->Size();
 			}
 			
 			// accessor for operator

@@ -130,7 +130,7 @@ CExpressionPreprocessor::PexprTrimExistentialSubqueries
 	{
 		CExpression *pexprInner = (*pexpr)[0];
 		if (COperator::EopLogicalGbAgg == pexprInner->Pop()->Eopid() &&
-				0 == CLogicalGbAgg::PopConvert(pexprInner->Pop())->Pdrgpcr()->UlLength())
+				0 == CLogicalGbAgg::PopConvert(pexprInner->Pop())->Pdrgpcr()->Size())
 		{
 			GPOS_ASSERT(0 < (*pexprInner)[1]->UlArity() &&
 					"Project list of GbAgg is expected to be non-empty");
@@ -203,10 +203,10 @@ CExpressionPreprocessor::PexprSimplifyQuantifiedSubqueries
 		// inspect next node
 		BOOL fGbAggWithoutGrpCols =
 				COperator::EopLogicalGbAgg == popChild->Eopid() &&
-				0 == CLogicalGbAgg::PopConvert(popChild)->Pdrgpcr()->UlLength();
+				0 == CLogicalGbAgg::PopConvert(popChild)->Pdrgpcr()->Size();
 
 		BOOL fOneRowConstTable = COperator::EopLogicalConstTableGet == popChild->Eopid() &&
-				1 == CLogicalConstTableGet::PopConvert(popChild)->Pdrgpdrgpdatum()->UlLength();
+				1 == CLogicalConstTableGet::PopConvert(popChild)->Pdrgpdrgpdatum()->Size();
 
 		if (fGbAggWithoutGrpCols || fOneRowConstTable)
 		{
@@ -474,7 +474,7 @@ CExpressionPreprocessor::PexprRemoveSuperfluousOuterRefs
 			// -- constant for each invocation of subquery
 			// select a from t where c in (select count(s.j) from s group by s.i, t.b)
 			//
-			if (0 < pExprProjList->UlArity() || 0 < pdrgpcr->UlLength())
+			if (0 < pExprProjList->UlArity() || 0 < pdrgpcr->Size())
 			{
 				DrgPcr *pdrgpcrMinimal = popAgg->PdrgpcrMinimal();
 				if (NULL != pdrgpcrMinimal)
@@ -544,9 +544,9 @@ CExpressionPreprocessor::PexprScalarBoolOpConvert2In
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpexpr);
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
-	if (1 == pdrgpexpr->UlLength())
+	if (1 == pdrgpexpr->Size())
 	{
 	    // if there is one child, do not wrap it in a bool op
 	    CExpression *pexpr = (* pdrgpexpr)[0];
@@ -638,7 +638,7 @@ CExpressionPreprocessor::PexprConvert2In
 			}
 		}
 
-		if (0 != pdrgpexprCollapse->UlLength())
+		if (0 != pdrgpexprCollapse->Size())
 		{
 			// create the constraint, rederive the collapsed expression
 			// add the new derived expr to remainder
@@ -659,7 +659,7 @@ CExpressionPreprocessor::PexprConvert2In
 			pdrgpexprCollapse->Release();
 		}
 
-		GPOS_ASSERT(0 < pdrgpexprRemainder->UlLength());
+		GPOS_ASSERT(0 < pdrgpexprRemainder->Size());
 		return PexprScalarBoolOpConvert2In(pmp, eboolop, pdrgpexprRemainder);
 	}
 
@@ -1153,7 +1153,7 @@ CExpressionPreprocessor::PexprAddEqualityPreds
 		DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 		DrgPcrs *pdrgpcrs = ppc->PdrgpcrsEquivClasses();
 		GPOS_ASSERT(NULL != pdrgpcrs);
-		const ULONG ulEquivClasses = pdrgpcrs->UlLength();
+		const ULONG ulEquivClasses = pdrgpcrs->Size();
 		for (ULONG ul = 0; ul < ulEquivClasses; ul++)
 		{
 			CColRefSet *pcrsEquivClass = (*pdrgpcrs)[ul];
@@ -1243,7 +1243,7 @@ CExpressionPreprocessor::PexprScalarPredicates
 		pdrgpexpr->Append(pexprScalar);
 	}
 
-	if (0 == pdrgpexpr->UlLength())
+	if (0 == pdrgpexpr->Size())
 	{
 		pdrgpexpr->Release();
 		return NULL;
@@ -1656,7 +1656,7 @@ CExpressionPreprocessor::AddPredsToCTEProducers
 		}
 
 		if (0 < ulConsumers &&
-			pdrgpexpr->UlLength() == ulConsumers)
+			pdrgpexpr->Size() == ulConsumers)
 		{
 			// add new predicate to CTE producer only if all consumers have selection predicates,
 			// for example, in the following query
@@ -1902,7 +1902,7 @@ CExpressionPreprocessor::PexprPruneProjListProjectOrGbAgg
 
 			CExpression *pexprProjectListNew = NULL;
 			DrgPcr *pdrgpcrGroupingCols = CLogicalGbAgg::PopConvert(pop)->Pdrgpcr();
-			if (0 < pdrgpcrGroupingCols->UlLength())
+			if (0 < pdrgpcrGroupingCols->Size())
 			{
 				// if grouping cols exist, we need to maintain the GbAgg with an empty project list
 				pexprProjectListNew = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp));
@@ -1943,7 +1943,7 @@ CExpressionPreprocessor::PexprPruneProjListProjectOrGbAgg
 			}
 		}
 
-		GPOS_ASSERT(0 < pdrgpexprPrElRemain->UlLength());
+		GPOS_ASSERT(0 < pdrgpexprPrElRemain->Size());
 		CExpression *pexprNewProjectList = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pdrgpexprPrElRemain);
 		pop->AddRef();
 		pexprRelationalNew = PexprPruneUnusedComputedColsRecursive(pmp, pexprRelational, pcrsReqdNew);

@@ -800,7 +800,7 @@ CCostModelGPDB::CostHashAgg
 	}
 
 	// get the number of grouping columns
-	const ULONG ulGrpCols = CPhysicalHashAgg::PopConvert(exprhdl.Pop())->PdrgpcrGroupingCols()->UlLength();
+	const ULONG ulGrpCols = CPhysicalHashAgg::PopConvert(exprhdl.Pop())->PdrgpcrGroupingCols()->Size();
 
 	const CDouble dHashAggInputTupColumnCostUnit = pcmgpdb->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpHashAggInputTupColumnCostUnit)->DVal();
 	const CDouble dHashAggInputTupWidthCostUnit = pcmgpdb->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpHashAggInputTupWidthCostUnit)->DVal();
@@ -1252,7 +1252,7 @@ CCostModelGPDB::CostSequenceProject
 
 	ULONG ulSortCols = 0;
 	DrgPos *pdrgpos = CPhysicalSequenceProject::PopConvert(exprhdl.Pop())->Pdrgpos();
-	const ULONG ulOrderSpecs = pdrgpos->UlLength();
+	const ULONG ulOrderSpecs = pdrgpos->Size();
 	for (ULONG ul = 0; ul < ulOrderSpecs; ul++)
 	{
 		COrderSpec *pos = (*pdrgpos)[ul];

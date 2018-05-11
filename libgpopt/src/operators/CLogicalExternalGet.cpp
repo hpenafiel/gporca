@@ -100,7 +100,7 @@ CLogicalExternalGet::FMatch
 	CLogicalExternalGet *popGet = CLogicalExternalGet::PopConvert(pop);
 
 	return Ptabdesc() == popGet->Ptabdesc() &&
-			PdrgpcrOutput()->FEqual(popGet->PdrgpcrOutput());
+			PdrgpcrOutput()->Equals(popGet->PdrgpcrOutput());
 }
 
 //---------------------------------------------------------------------------

@@ -63,14 +63,14 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	GPOS_ASSERT(NULL != pdrgpmdcol);
 	GPOS_ASSERT(NULL != pdxlctasopt);
 	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > m_erelstorage);	
-	GPOS_ASSERT(0 == pdrgpdrgpulKeys->UlLength());
+	GPOS_ASSERT(0 == pdrgpdrgpulKeys->Size());
 	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);
 	
 	m_phmiulAttno2Pos = GPOS_NEW(m_pmp) HMIUl(m_pmp);
 	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
 	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
 
-	const ULONG ulArity = pdrgpmdcol->UlLength();
+	const ULONG ulArity = pdrgpmdcol->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		IMDColumn *pmdcol = (*pdrgpmdcol)[ul];
@@ -190,7 +190,7 @@ CMDRelationCtasGPDB::UlColumns() const
 {
 	GPOS_ASSERT(NULL != m_pdrgpmdcol);
 
-	return m_pdrgpmdcol->UlLength();
+	return m_pdrgpmdcol->Size();
 }
 
 // Return the width of a column with regards to the position
@@ -250,7 +250,7 @@ CMDRelationCtasGPDB::UlPosFromAttno
 ULONG
 CMDRelationCtasGPDB::UlDistrColumns() const
 {
-	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->UlLength();
+	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -268,7 +268,7 @@ CMDRelationCtasGPDB::Pmdcol
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpmdcol->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpmdcol->Size());
 
 	return (*m_pdrgpmdcol)[ulPos];
 }
@@ -288,7 +288,7 @@ CMDRelationCtasGPDB::PmdcolDistrColumn
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->Size());
 
 	ULONG ulDistrKeyPos = (*(*m_pdrgpulDistrColumns)[ulPos]);
 	return Pmdcol(ulDistrKeyPos);
@@ -344,7 +344,7 @@ CMDRelationCtasGPDB::Serialize
 	// serialize columns
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenColumns));
-	const ULONG ulCols = m_pdrgpmdcol->UlLength();
+	const ULONG ulCols = m_pdrgpmdcol->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CMDColumn *pmdcol = (*m_pdrgpmdcol)[ul];

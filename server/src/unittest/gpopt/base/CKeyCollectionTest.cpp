@@ -179,18 +179,18 @@ CKeyCollectionTest::EresUnittest_Subsumes()
 
 	// get the second key
 	DrgPcr *pdrgpcr = pkc->PdrgpcrKey(pmp, 1);
-	GPOS_ASSERT(ulLen1 == pdrgpcr->UlLength());
+	GPOS_ASSERT(ulLen1 == pdrgpcr->Size());
 	GPOS_ASSERT(pkc->FKey(pmp, pdrgpcr));
 
 	// get the subsumed key
 	DrgPcr *pdrgpcrSubsumed = pkc->PdrgpcrTrim(pmp, pdrgpcr);
-	GPOS_ASSERT(pdrgpcr->UlLength() >= pdrgpcrSubsumed->UlLength());
+	GPOS_ASSERT(pdrgpcr->Size() >= pdrgpcrSubsumed->Size());
 
 	CColRefSet *pcrsSubsumed = GPOS_NEW(pmp) CColRefSet(pmp);
 	pcrsSubsumed->Include(pdrgpcr);
 
 #ifdef GPOS_DEBUG
-	const ULONG ulLenSubsumed = pdrgpcrSubsumed->UlLength();
+	const ULONG ulLenSubsumed = pdrgpcrSubsumed->Size();
 	for (ULONG ul = 0; ul < ulLenSubsumed; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrSubsumed)[ul];

@@ -190,7 +190,7 @@ CDXLScalarSubPlan::SerializeToDXL
 				CDXLTokens::PstrToken(EdxltokenScalarSubPlanParamList)
 				);
 
-	for (ULONG ul = 0; ul < m_pdrgdxlcr->UlLength(); ul++)
+	for (ULONG ul = 0; ul < m_pdrgdxlcr->Size(); ul++)
 	{
 		pxmlser->OpenElement
 					(
@@ -219,7 +219,7 @@ CDXLScalarSubPlan::SerializeToDXL
 				CDXLTokens::PstrToken(EdxltokenScalarSubPlanParamList)
 				);
 
-	GPOS_ASSERT(1 == pdxln->PdrgpdxlnChildren()->UlLength());
+	GPOS_ASSERT(1 == pdxln->PdrgpdxlnChildren()->Size());
 
 	// serialize children
 	pdxln->SerializeChildrenToDXL(pxmlser);

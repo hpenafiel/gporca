@@ -68,7 +68,7 @@ CLogicalSequenceProject::CLogicalSequenceProject
 		pcrsHashed->Release();
 	}
 
-	const ULONG ulFrames = m_pdrgpwf->UlLength();
+	const ULONG ulFrames = m_pdrgpwf->Size();
 	for (ULONG ul = 0; ul < ulFrames; ul++)
 	{
 		CWindowFrame *pwf = (*m_pdrgpwf)[ul];
@@ -137,7 +137,7 @@ CLogicalSequenceProject::PopCopyWithRemappedColumns
 	CDistributionSpec *pds = m_pds->PdsCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
 
 	DrgPos *pdrgpos = GPOS_NEW(pmp) DrgPos(pmp);
-	const ULONG ulOrderSpec = m_pdrgpos->UlLength();
+	const ULONG ulOrderSpec = m_pdrgpos->Size();
 	for (ULONG ul = 0; ul < ulOrderSpec; ul++)
 	{
 		COrderSpec *pos = ((*m_pdrgpos)[ul])->PosCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
@@ -145,7 +145,7 @@ CLogicalSequenceProject::PopCopyWithRemappedColumns
 	}
 
 	DrgPwf *pdrgpwf = GPOS_NEW(pmp) DrgPwf(pmp);
-	const ULONG ulWindowFrames = m_pdrgpwf->UlLength();
+	const ULONG ulWindowFrames = m_pdrgpwf->Size();
 	for (ULONG ul = 0; ul < ulWindowFrames; ul++)
 	{
 		CWindowFrame *pwf = ((*m_pdrgpwf)[ul])->PwfCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
@@ -172,7 +172,7 @@ CLogicalSequenceProject::SetHasOrderSpecs
 {
 	GPOS_ASSERT(NULL != m_pdrgpos);
 
-	const ULONG ulOrderSpecs = m_pdrgpos->UlLength();
+	const ULONG ulOrderSpecs = m_pdrgpos->Size();
 	if (0 == ulOrderSpecs)
 	{
 		// if no order specs are given, we add one empty order spec
@@ -203,7 +203,7 @@ CLogicalSequenceProject::SetHasFrameSpecs
 {
 	GPOS_ASSERT(NULL != m_pdrgpwf);
 
-	const ULONG ulFrameSpecs = m_pdrgpwf->UlLength();
+	const ULONG ulFrameSpecs = m_pdrgpwf->Size();
 	if (0 == ulFrameSpecs)
 	{
 		// if no frame specs are given, we add one empty frame

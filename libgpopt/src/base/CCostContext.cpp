@@ -156,7 +156,7 @@ CCostContext::FNeedsNewStats() const
 
 	// we need to derive stats if any child has modified stats
 	BOOL fDeriveStats = false;
-	const ULONG ulArity = Pdrgpoc()->UlLength();
+	const ULONG ulArity = Pdrgpoc()->Size();
 	for (ULONG ul = 0; !fDeriveStats && ul < ulArity; ul++)
 	{
 		COptimizationContext *pocChild = (*Pdrgpoc())[ul];
@@ -501,7 +501,7 @@ CCostContext::CostCompute
 	ULONG ulArity = 0;
 	if (NULL != m_pdrgpoc)
 	{
-		ulArity = Pdrgpoc()->UlLength();
+		ulArity = Pdrgpoc()->Size();
 	}
 
 	m_pstats->AddRef();
@@ -634,7 +634,7 @@ CCostContext::OsPrint
 	if (NULL != m_pdrgpoc)
 	{
 		os << ", child ctxts:[";
-		ULONG ulArity = m_pdrgpoc->UlLength();
+		ULONG ulArity = m_pdrgpoc->Size();
 		if (0 < ulArity)
 		{
 			for (ULONG i = 0; i < ulArity - 1; i++)

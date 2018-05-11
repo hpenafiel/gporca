@@ -330,7 +330,7 @@ CCTEMap::FSatisfies
 	GPOS_ASSERT(NULL != pcter);
 	// every CTE marked as "Required" must be in the current map
 	DrgPul *pdrgpul = pcter->PdrgpulRequired();
-	const ULONG ulReqd = pdrgpul->UlLength();
+	const ULONG ulReqd = pdrgpul->Size();
 	for (ULONG ul = 0; ul < ulReqd; ul++)
 	{
 		ULONG *pulId = (*pdrgpul)[ul];

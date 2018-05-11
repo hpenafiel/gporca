@@ -102,7 +102,7 @@ CDXLStatsDerivedColumn::Serialize
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColFreqRemain), m_dFreqRemain);
 
 
-	const ULONG ulBuckets = m_pdrgpdxlbucket->UlLength();
+	const ULONG ulBuckets = m_pdrgpdxlbucket->Size();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
 		GPOS_CHECK_ABORT;
@@ -138,7 +138,7 @@ CDXLStatsDerivedColumn::DebugPrint
 	os << "Width : " << m_dWidth;
 	os << std::endl;
 
-	const ULONG ulBuckets = m_pdrgpdxlbucket->UlLength();
+	const ULONG ulBuckets = m_pdrgpdxlbucket->Size();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
 		const CDXLBucket *pdxlbucket = (*m_pdrgpdxlbucket)[ul];

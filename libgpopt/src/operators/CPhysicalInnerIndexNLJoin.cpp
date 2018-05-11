@@ -78,7 +78,7 @@ CPhysicalInnerIndexNLJoin::FMatch
 {
 	if (pop->Eopid() == Eopid())
 	{
-		return m_pdrgpcrOuterRefs->FEqual(CPhysicalInnerIndexNLJoin::PopConvert(pop)->PdrgPcrOuterRefs());
+		return m_pdrgpcrOuterRefs->Equals(CPhysicalInnerIndexNLJoin::PopConvert(pop)->PdrgPcrOuterRefs());
 	}
 
 	return false;

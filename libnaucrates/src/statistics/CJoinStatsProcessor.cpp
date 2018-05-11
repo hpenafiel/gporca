@@ -145,16 +145,16 @@ CJoinStatsProcessor::PstatsJoinArray
 {
 	GPOS_ASSERT(NULL != pexprScalar);
 	GPOS_ASSERT(NULL != pdrgpstat);
-	GPOS_ASSERT(0 < pdrgpstat->UlLength());
+	GPOS_ASSERT(0 < pdrgpstat->Size());
 	BOOL fLeftOuterJoin = IStatistics::EsjtLeftOuterJoin == eStatsJoinType;
-	GPOS_ASSERT_IMP(fLeftOuterJoin, 2 == pdrgpstat->UlLength());
+	GPOS_ASSERT_IMP(fLeftOuterJoin, 2 == pdrgpstat->Size());
 
 
 	// create an empty set of outer references for statistics derivation
 	CColRefSet *pcrsOuterRefs = GPOS_NEW(pmp) CColRefSet(pmp);
 
 	// join statistics objects one by one using relevant predicates in given scalar expression
-	const ULONG ulStats = pdrgpstat->UlLength();
+	const ULONG ulStats = pdrgpstat->Size();
 	IStatistics *pstats = (*pdrgpstat)[0]->PstatsCopy(pmp);
 	CDouble dRowsOuter = pstats->DRows();
 
@@ -256,7 +256,7 @@ CJoinStatsProcessor::PstatsJoinDriver
 
 	// build a bitset with all join columns
 	CBitSet *pbsJoinColIds = GPOS_NEW(pmp) CBitSet(pmp);
-	for (ULONG ul = 0; ul < pdrgppredInfo->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgppredInfo->Size(); ul++)
 	{
 		CStatsPredJoin *pstatsjoin = (*pdrgppredInfo)[ul];
 
@@ -276,7 +276,7 @@ CJoinStatsProcessor::PstatsJoinDriver
 	}
 
 	DrgPdouble *pdrgpd = GPOS_NEW(pmp) DrgPdouble(pmp);
-	const ULONG ulJoinConds = pdrgppredInfo->UlLength();
+	const ULONG ulJoinConds = pdrgppredInfo->Size();
 
 	BOOL fEmptyOutput = false;
 	CDouble dRowsJoin = 0;
@@ -491,7 +491,7 @@ CJoinStatsProcessor::PstatsJoin
 	// derive stats based on local join condition
 	IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstat, pexprLocal, eStatsJoinType);
 
-	if (exprhdl.FHasOuterRefs() && 0 < pdrgpstatCtxt->UlLength())
+	if (exprhdl.FHasOuterRefs() && 0 < pdrgpstatCtxt->Size())
 	{
 		// derive stats based on outer references
 		IStatistics *pstats = PstatsDeriveWithOuterRefs(pmp, exprhdl, pexprOuterRefs, pstatsJoin, pdrgpstatCtxt, eStatsJoinType);
@@ -579,7 +579,7 @@ CJoinStatsProcessor::PstatsDeriveWithOuterRefs
 	GPOS_ASSERT(NULL != pexprScalar);
 	GPOS_ASSERT(NULL != pstats);
 	GPOS_ASSERT(NULL != pdrgpstatOuter);
-	GPOS_ASSERT(0 < pdrgpstatOuter->UlLength());
+	GPOS_ASSERT(0 < pdrgpstatOuter->Size());
 	GPOS_ASSERT(IStatistics::EstiSentinel != eStatsJoinType);
 
 	// join outer stats object based on given scalar expression,

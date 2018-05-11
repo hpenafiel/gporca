@@ -1220,7 +1220,7 @@ namespace gpopt
 		GPOS_ASSERT(NULL != pexprLeft);
 		GPOS_ASSERT(NULL != pexprRight);
 		GPOS_ASSERT(NULL != pdrgpcrInner);
-		GPOS_ASSERT(0 < pdrgpcrInner->UlLength());
+		GPOS_ASSERT(0 < pdrgpcrInner->Size());
 
 		CExpression *pexprScalar = pexprPred;
 		if (NULL == pexprPred)
@@ -1261,7 +1261,7 @@ namespace gpopt
 		GPOS_ASSERT(NULL != pexprLeft);
 		GPOS_ASSERT(NULL != pexprRight);
 		GPOS_ASSERT(NULL != pdrgpcrInner);
-		GPOS_ASSERT(0 < pdrgpcrInner->UlLength());
+		GPOS_ASSERT(0 < pdrgpcrInner->Size());
 
 		CExpression *pexprScalar = pexprPred;
 		if (NULL == pexprPred)

@@ -385,7 +385,7 @@ const
 		CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
 		os << "] ";
 		os << "Values: [";
-		for (ULONG ulA = 0; ulA < m_pdrgpdrgpdatum->UlLength(); ulA++)
+		for (ULONG ulA = 0; ulA < m_pdrgpdrgpdatum->Size(); ulA++)
 		{
 			if (0 < ulA)
 			{
@@ -394,7 +394,7 @@ const
 			os << "(";
 			DrgPdatum *pdrgpdatum = (*m_pdrgpdrgpdatum)[ulA];
 
-			const ULONG ulLen = pdrgpdatum->UlLength();
+			const ULONG ulLen = pdrgpdatum->Size();
 			for (ULONG ulB = 0; ulB < ulLen; ulB++)
 			{
 				IDatum *pdatum = (*pdrgpdatum)[ulB];

@@ -462,7 +462,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprProjectOverLeftAntiSemiJoin
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfOuter);
 
 	HMUlCr *phmulcr = GPOS_NEW(pmp) HMUlCr(pmp);
-	const ULONG ulOuterCopyLength = pdrgpcrOuterCopy->UlLength();
+	const ULONG ulOuterCopyLength = pdrgpcrOuterCopy->Size();
 
 	for (ULONG ul = 0; ul < ulOuterCopyLength; ++ul)
 	{

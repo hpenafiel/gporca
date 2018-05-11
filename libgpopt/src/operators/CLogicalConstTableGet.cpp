@@ -70,10 +70,10 @@ CLogicalConstTableGet::CLogicalConstTableGet
 	m_pdrgpcrOutput = PdrgpcrCreateMapping(pmp, pdrgpcoldesc, UlOpId());
 	
 #ifdef GPOS_DEBUG
-	for (ULONG ul = 0; ul < pdrgpdrgpdatum->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpdrgpdatum->Size(); ul++)
 	{
 		DrgPdatum *pdrgpdatum = (*pdrgpdrgpdatum)[ul];
-		GPOS_ASSERT(pdrgpdatum->UlLength() == pdrgpcoldesc->UlLength());
+		GPOS_ASSERT(pdrgpdatum->Size() == pdrgpcoldesc->Size());
 	}
 #endif
 }
@@ -105,10 +105,10 @@ CLogicalConstTableGet::CLogicalConstTableGet
 	m_pdrgpcoldesc = PdrgpcoldescMapping(pmp, pdrgpcrOutput);
 
 #ifdef GPOS_DEBUG
-	for (ULONG ul = 0; ul < pdrgpdrgpdatum->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpdrgpdatum->Size(); ul++)
 	{
 		DrgPdatum *pdrgpdatum = (*pdrgpdrgpdatum)[ul];
-		GPOS_ASSERT(pdrgpdatum->UlLength() == m_pdrgpcoldesc->UlLength());
+		GPOS_ASSERT(pdrgpdatum->Size() == m_pdrgpcoldesc->Size());
 	}
 #endif
 }
@@ -171,9 +171,9 @@ CLogicalConstTableGet::FMatch
 	CLogicalConstTableGet *popCTG = CLogicalConstTableGet::PopConvert(pop);
 		
 	// match if column descriptors, const values and output columns are identical
-	return m_pdrgpcoldesc->FEqual(popCTG->Pdrgpcoldesc()) &&
-			m_pdrgpdrgpdatum->FEqual(popCTG->Pdrgpdrgpdatum()) &&
-			m_pdrgpcrOutput->FEqual(popCTG->PdrgpcrOutput());
+	return m_pdrgpcoldesc->Equals(popCTG->Pdrgpcoldesc()) &&
+			m_pdrgpdrgpdatum->Equals(popCTG->Pdrgpdrgpdatum()) &&
+			m_pdrgpcrOutput->Equals(popCTG->PdrgpcrOutput());
 }
 
 //---------------------------------------------------------------------------
@@ -244,7 +244,7 @@ CLogicalConstTableGet::Maxcard
 	)
 	const
 {
-	return CMaxCard(m_pdrgpdrgpdatum->UlLength());
+	return CMaxCard(m_pdrgpdrgpdatum->Size());
 }	
 
 
@@ -303,7 +303,7 @@ CLogicalConstTableGet::PdrgpcoldescMapping
 	GPOS_ASSERT(NULL != pdrgpcr);
 	DrgPcoldesc *pdrgpcoldesc = GPOS_NEW(pmp) DrgPcoldesc(pmp);
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -360,7 +360,7 @@ CLogicalConstTableGet::PstatsDerive
 										pmp,
 										pdrgpulColIds,
 										pdrgpulColWidth,
-										m_pdrgpdrgpdatum->UlLength()
+										m_pdrgpdrgpdatum->Size()
 										);
 
 	// clean up
@@ -396,7 +396,7 @@ CLogicalConstTableGet::OsPrint
 		CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
 		os << "] ";
 		os << "Values: [";
-		for (ULONG ulA = 0; ulA < m_pdrgpdrgpdatum->UlLength(); ulA++)
+		for (ULONG ulA = 0; ulA < m_pdrgpdrgpdatum->Size(); ulA++)
 		{
 			if (0 < ulA)
 			{
@@ -405,7 +405,7 @@ CLogicalConstTableGet::OsPrint
 			os << "(";
 			DrgPdatum *pdrgpdatum = (*m_pdrgpdrgpdatum)[ulA];
 			
-			const ULONG ulLen = pdrgpdatum->UlLength();
+			const ULONG ulLen = pdrgpdatum->Size();
 			for (ULONG ulB = 0; ulB < ulLen; ulB++)
 			{
 				IDatum *pdatum = (*pdrgpdatum)[ulB];

@@ -149,7 +149,7 @@ CPhysical::LookupRequest
 	)
 {
 	GPOS_ASSERT(NULL != m_pdrgpulpOptReqsExpanded);
-	GPOS_ASSERT(ulReqNo < m_pdrgpulpOptReqsExpanded->UlLength());
+	GPOS_ASSERT(ulReqNo < m_pdrgpulpOptReqsExpanded->Size());
 	GPOS_ASSERT(NULL != pulOrderReq);
 	GPOS_ASSERT(NULL != pulDistrReq);
 	GPOS_ASSERT(NULL != pulRewindReq);
@@ -299,13 +299,13 @@ CPhysical::PdsCompute
 			const DrgPcoldesc *pdrgpcoldesc = ptabdesc->PdrgpcoldescDist();
 			DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
 			
-			const ULONG ulSize = pdrgpcoldesc->UlLength();
+			const ULONG ulSize = pdrgpcoldesc->Size();
 			for (ULONG ul = 0; ul < ulSize; ul++)
 			{
 				CColumnDescriptor *pcoldesc = (*pdrgpcoldesc)[ul];
 				ULONG ulPos = ptabdesc->UlPos(pcoldesc, ptabdesc->Pdrgpcoldesc());
 				
-				GPOS_ASSERT(ulPos < ptabdesc->Pdrgpcoldesc()->UlLength() && "Column not found");
+				GPOS_ASSERT(ulPos < ptabdesc->Pdrgpcoldesc()->Size() && "Column not found");
 				
 				CColRef *pcr = (*pdrgpcrOutput)[ulPos];
 				pdrgpcr->Append(pcr);
@@ -724,7 +724,7 @@ CPhysical::PcmCombine
 {
 	GPOS_ASSERT(NULL != pdrgpdpCtxt);
 
-	const ULONG ulSize = pdrgpdpCtxt->UlLength();
+	const ULONG ulSize = pdrgpdpCtxt->Size();
 	CCTEMap *pcmCombined = GPOS_NEW(pmp) CCTEMap(pmp);
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
@@ -819,7 +819,7 @@ CPhysical::PppsRequiredPushThruNAry
 	CPartIndexMap *ppimResult = GPOS_NEW(pmp) CPartIndexMap(pmp);
 	CPartFilterMap *ppfmResult = GPOS_NEW(pmp) CPartFilterMap(pmp);
 
-	const ULONG ulPartIndexIds = pdrgpul->UlLength();
+	const ULONG ulPartIndexIds = pdrgpul->Size();
 	const ULONG ulArity = exprhdl.UlNonScalarChildren();
 
 	// iterate over required part index ids and decide which ones to push to the outer
@@ -950,7 +950,7 @@ CPhysical::PppsRequiredPushThruUnresolvedUnary
 	CPartIndexMap *ppimResult = GPOS_NEW(pmp) CPartIndexMap(pmp);
 	CPartFilterMap *ppfmResult = GPOS_NEW(pmp) CPartFilterMap(pmp);
 
-	const ULONG ulPartIndexIds = pdrgpul->UlLength();
+	const ULONG ulPartIndexIds = pdrgpul->Size();
 		
 	// iterate over required part index ids and decide which ones to push through
 	for (ULONG ul = 0; ul < ulPartIndexIds; ul++)
@@ -1266,7 +1266,7 @@ CPhysical::DSkew
 	{
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(pds);
 		const DrgPexpr *pdrgpexpr = pdshashed->Pdrgpexpr();
-		const ULONG ulSize = pdrgpexpr->UlLength();
+		const ULONG ulSize = pdrgpexpr->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			CExpression *pexpr = (*pdrgpexpr)[ul];

@@ -181,7 +181,7 @@ CLogicalGet::FMatch
 	CLogicalGet *popGet = CLogicalGet::PopConvert(pop);
 	
 	return m_ptabdesc->Pmdid()->FEquals(popGet->m_ptabdesc->Pmdid()) &&
-			m_pdrgpcrOutput->FEqual(popGet->PdrgpcrOutput());
+			m_pdrgpcrOutput->Equals(popGet->PdrgpcrOutput());
 }
 
 //---------------------------------------------------------------------------
@@ -392,9 +392,9 @@ CLogicalGet::OsPrint
 		CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
 		os << "] Key sets: {";
 		
-		const ULONG ulColumns = m_pdrgpcrOutput->UlLength();
+		const ULONG ulColumns = m_pdrgpcrOutput->Size();
 		const DrgPbs *pdrgpbsKeys = m_ptabdesc->PdrgpbsKeys();
-		for (ULONG ul = 0; ul < pdrgpbsKeys->UlLength(); ul++)
+		for (ULONG ul = 0; ul < pdrgpbsKeys->Size(); ul++)
 		{
 			CBitSet *pbs = (*pdrgpbsKeys)[ul];
 			if (0 < ul)

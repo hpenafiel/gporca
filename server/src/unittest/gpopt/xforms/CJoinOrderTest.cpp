@@ -99,7 +99,7 @@ CJoinOrderTest::EresUnittest_Expand()
 
 	// add predicates selectively to trigger special case of cross join
 	DrgPexpr *pdrgpexprTest = GPOS_NEW(pmp) DrgPexpr(pmp);	
-	for (ULONG ul = 0; ul < pdrgpexprConj->UlLength() - 1; ul++)
+	for (ULONG ul = 0; ul < pdrgpexprConj->Size() - 1; ul++)
 	{
 		CExpression *pexprConjunct = (*pdrgpexprConj)[ul];
 		pexprConjunct->AddRef();

@@ -115,7 +115,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTest
 {	
 	DrgPdxln *pdrgpdxln = GPOS_NEW(pmp) DrgPdxln(pmp);
 
-	const ULONG ulLevels = pdrgpdrgpcrPartKeys->UlLength();
+	const ULONG ulLevels = pdrgpdrgpcrPartKeys->Size();
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
 		CConstraint *pcnstr = ppartcnstr->Pcnstr(ul);
@@ -168,7 +168,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTest
 		pdrgpdxln->Append(pdxlnPartialScanTest);
 	}
 
-	if (1 == pdrgpdxln->UlLength())
+	if (1 == pdrgpdxln->Size())
 	{
 		CDXLNode *pdxln = (*pdrgpdxln)[0];
 		pdxln->AddRef();
@@ -277,7 +277,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestConjDisj
 {	
 	GPOS_ASSERT(NULL != pdrgpcnstr);
 	
-	const ULONG ulLength = pdrgpcnstr->UlLength();
+	const ULONG ulLength = pdrgpcnstr->Size();
 	
 	if (1 == ulLength)
 	{
@@ -512,7 +512,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestInterval
 	ULONG ulPartLevel = UlPartKeyLevel(pcrPartKey, pdrgpdrgpcrPartKeys);
 
 	DrgPrng *pdrgprng = pcnstrInterval->Pdrgprng();
-	const ULONG ulRanges = pdrgprng->UlLength();
+	const ULONG ulRanges = pdrgprng->Size();
 	 
 	GPOS_ASSERT(0 < ulRanges);
 	
@@ -549,9 +549,9 @@ CTranslatorExprToDXLUtils::UlPartKeyLevel
 	DrgDrgPcr *pdrgpdrgpcr
 	)
 {
-	GPOS_ASSERT(0 < pdrgpdrgpcr->UlLength() && "No partitioning keys found");
+	GPOS_ASSERT(0 < pdrgpdrgpcr->Size() && "No partitioning keys found");
 
-	const ULONG ulLength = pdrgpdrgpcr->UlLength();
+	const ULONG ulLength = pdrgpdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		if (CUtils::PcrExtractPartKey(pdrgpdrgpcr, ul) == pcr)
@@ -1659,7 +1659,7 @@ CTranslatorExprToDXLUtils::PdrgpdatumNulls
 {
 	DrgPdatum *pdrgpdatum = GPOS_NEW(pmp) DrgPdatum(pmp);
 
-	const ULONG ulSize = pdrgpcr->UlLength();
+	const ULONG ulSize = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -1692,7 +1692,7 @@ CTranslatorExprToDXLUtils::FProjectListMatch
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->Pdxlop()->Edxlop());
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	if (pdxlnPrL->UlArity() != ulLen)
 	{
 		return false;
@@ -1743,7 +1743,7 @@ CTranslatorExprToDXLUtils::PdrgpcrMapColumns
 
 	DrgPcr *pdrgpcrNew = GPOS_NEW(pmp) DrgPcr(pmp);
 
-	const ULONG ulLen = pdrgpcrInput->UlLength();
+	const ULONG ulLen = pdrgpcrInput->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrInput)[ul];
@@ -1815,13 +1815,13 @@ CTranslatorExprToDXLUtils::PdxlnValuesScan
 
 	pdxlnValuesScan->AddChild(pdxlnPrL);
 
-	const ULONG ulTuples = pdrgpdrgdatum->UlLength();
+	const ULONG ulTuples = pdrgpdrgdatum->Size();
 
 	for (ULONG ulTuplePos = 0; ulTuplePos < ulTuples; ulTuplePos++)
 	{
 		DrgPdatum *pdrgpdatum = (*pdrgpdrgdatum)[ulTuplePos];
 		pdrgpdatum->AddRef();
-		const ULONG ulCols = pdrgpdatum->UlLength();
+		const ULONG ulCols = pdrgpdatum->Size();
 		CDXLScalarValuesList *values = GPOS_NEW(pmp) CDXLScalarValuesList(pmp);
 		CDXLNode *pdxlnValueList = GPOS_NEW(pmp) CDXLNode(pmp, values);
 
@@ -1948,7 +1948,7 @@ CTranslatorExprToDXLUtils::PhmcrulColIndex
 {
 	HMCrUl *phmcrul = GPOS_NEW(pmp) HMCrUl(pmp);
 
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -2022,7 +2022,7 @@ CTranslatorExprToDXLUtils::SetDirectDispatchInfo
 		return;
 	}
 	
-	if (1 != pdpRel->UlJoinDepth() || 1 != pdrgpdsBaseTables->UlLength())
+	if (1 != pdpRel->UlJoinDepth() || 1 != pdrgpdsBaseTables->Size())
 	{
 		// direct dispatch not supported for join queries
 		return;
@@ -2076,7 +2076,7 @@ CTranslatorExprToDXLUtils::Pdxlddinfo
 	GPOS_ASSERT(NULL != pdrgpexprHashed);
 	GPOS_ASSERT(NULL != pcnstr);
 	
-	const ULONG ulHashExpr = pdrgpexprHashed->UlLength();
+	const ULONG ulHashExpr = pdrgpexprHashed->Size();
 	GPOS_ASSERT(0 < ulHashExpr);
 	
 	if (1 == ulHashExpr)
@@ -2250,11 +2250,11 @@ CTranslatorExprToDXLUtils::PdxldatumFromPointConstraint
 	GPOS_ASSERT(CConstraint::EctInterval == pcnstrDistrCol->Ect());
 	
 	CConstraintInterval *pci = dynamic_cast<CConstraintInterval *>(pcnstrDistrCol);
-	GPOS_ASSERT(1 >= pci->Pdrgprng()->UlLength());
+	GPOS_ASSERT(1 >= pci->Pdrgprng()->Size());
 	
 	CDXLDatum *pdxldatum = NULL;
 	
-	if (1 == pci->Pdrgprng()->UlLength())
+	if (1 == pci->Pdrgprng()->Size())
 	{
 		const CRange *prng = (*pci->Pdrgprng())[0];
 		pdxldatum = CTranslatorExprToDXLUtils::Pdxldatum(pmp, pmda, prng->PdatumLeft());
@@ -2316,7 +2316,7 @@ CTranslatorExprToDXLUtils::PdrgpdrgpdxldatumFromDisjPointConstraint
 
 	DrgPrng *pdrgprng = pcnstrInterval->Pdrgprng();
 
-	const ULONG ulRanges = pdrgprng->UlLength();
+	const ULONG ulRanges = pdrgprng->Size();
 	DrgPdrgPdxldatum *pdrgpdrgpdxdatum = GPOS_NEW(pmp) DrgPdrgPdxldatum(pmp);
 	
 	for (ULONG ul = 0; ul < ulRanges; ul++)
@@ -2358,7 +2358,7 @@ CTranslatorExprToDXLUtils::PdrgpdrgpdxldatumFromDisjPointConstraint
 		pdrgpdrgpdxdatum->Append(pdrgpdxldatum);
 	}
 	
-	if (0 < pdrgpdrgpdxdatum->UlLength())
+	if (0 < pdrgpdrgpdxdatum->Size())
 	{
 		return pdrgpdrgpdxdatum;
 	}

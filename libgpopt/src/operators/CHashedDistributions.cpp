@@ -13,8 +13,8 @@ CHashedDistributions::CHashedDistributions
 		:
 		DrgPds(pmp)
 {
-	const ULONG ulCols = pdrgpcrOutput->UlLength();
-	const ULONG ulArity = pdrgpdrgpcrInput->UlLength();
+	const ULONG ulCols = pdrgpcrOutput->Size();
+	const ULONG ulArity = pdrgpdrgpcrInput->Size();
 	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
 	{
 		DrgPcr *pdrgpcr = (*pdrgpdrgpcrInput)[ulChild];

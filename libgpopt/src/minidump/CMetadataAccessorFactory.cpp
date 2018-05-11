@@ -25,7 +25,7 @@ namespace gpopt
 		apmdp->AddRef();
 		apdrgpmdp->Append(apmdp.Pt());
 
-		for (ULONG ul = 1; ul < pdrgpsysid->UlLength(); ul++)
+		for (ULONG ul = 1; ul < pdrgpsysid->Size(); ul++)
 		{
 			apmdp->AddRef();
 			apdrgpmdp->Append(apmdp.Pt());

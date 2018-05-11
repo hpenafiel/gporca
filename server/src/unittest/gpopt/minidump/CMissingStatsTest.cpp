@@ -109,7 +109,7 @@ CMissingStatsTest::EresUnittest_RunTests()
 
 		DrgPmdid *pdrgmdidCol = GPOS_NEW(pmp) DrgPmdid(pmp);
 		pstatsconf->CollectMissingStatsColumns(pdrgmdidCol);
-		ULONG ulMissingStats = pdrgmdidCol->UlLength();
+		ULONG ulMissingStats = pdrgmdidCol->Size();
 
 		if (ulMissingStats != testCase.m_ulExpectedMissingStats)
 		{

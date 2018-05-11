@@ -69,7 +69,7 @@ IMDCacheObject::SerializeMDIdList
 {
 	// serialize list of metadata ids
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenList);
-	const ULONG ulLen = pdrgpmdid->UlLength();
+	const ULONG ulLen = pdrgpmdid->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenListItem);

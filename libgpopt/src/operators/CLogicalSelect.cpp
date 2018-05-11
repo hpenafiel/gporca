@@ -263,7 +263,7 @@ CLogicalSelect::PexprPartPred
 	}
 
 	DrgPpartkeys *pdrgppartkeys = ppartinfo->Pdrgppartkeys(0 /*ulPos*/);
-	const ULONG ulKeySets = pdrgppartkeys->UlLength();
+	const ULONG ulKeySets = pdrgppartkeys->Size();
 	for (ULONG ul = 0; NULL == pexprPredOnPartKey && ul < ulKeySets; ul++)
 	{
 		pexprPredOnPartKey = CPredicateUtils::PexprExtractPredicatesOnPartKeys

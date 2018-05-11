@@ -66,7 +66,7 @@ COptimizer::PrintQuery
 	at.Os() << std::endl << "Algebrized query: " << std::endl << *pexprTranslated;
 
 	DrgPexpr *pdrgpexpr = COptCtxt::PoctxtFromTLS()->Pcteinfo()->PdrgPexpr(pmp);
-	const ULONG ulCTEs = pdrgpexpr->UlLength();
+	const ULONG ulCTEs = pdrgpexpr->Size();
 	if (0 < ulCTEs)
 	{
 		at.Os() << std::endl << "Common Table Expressions: ";

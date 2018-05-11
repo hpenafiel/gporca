@@ -97,7 +97,7 @@ CParseHandlerTraceFlags::StartElement
 												EdxltokenRelation
 												);
 	
-	for (ULONG ul = 0; ul < pdrgpul->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpul->Size(); ul++)
 	{
 		ULONG *pul = (*pdrgpul)[ul];
 		m_pbs->FExchangeSet(*pul);

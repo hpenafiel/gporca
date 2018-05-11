@@ -105,7 +105,7 @@ CXformJoinAssociativity::CreatePredicates
 	for (ULONG ul = 0; ul < 2; ul++)
 	{
 		DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(pmp, (*(*pdrgpexprJoins)[ul])[2]);
-		ULONG ulLen = pdrgpexprPreds->UlLength();
+		ULONG ulLen = pdrgpexprPreds->Size();
 		for (ULONG ulConj = 0; ulConj < ulLen; ulConj++)
 		{	
 			CExpression *pexprConj = (*pdrgpexprPreds)[ulConj];
@@ -117,7 +117,7 @@ CXformJoinAssociativity::CreatePredicates
 	}
 
 	// divvy up conjuncts for upper and lower join
-	ULONG ulConj = pdrgpexprOrig->UlLength();
+	ULONG ulConj = pdrgpexprOrig->Size();
 	for (ULONG ul = 0; ul < ulConj; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprOrig)[ul];
@@ -136,14 +136,14 @@ CXformJoinAssociativity::CreatePredicates
 	
 	// No predicates indicate a cross join. And for that, ORCA expects
 	// predicate to be a scalar const "true".
-	if (pdrgpexprLower->UlLength() == 0)
+	if (pdrgpexprLower->Size() == 0)
 	{
 		CExpression *pexprCrossLowerJoinPred = CUtils::PexprScalarConstBool(pmp, true, false);
 		pdrgpexprLower->Append(pexprCrossLowerJoinPred);
 	}
 	
 	// Same for upper predicates
-	if (pdrgpexprUpper->UlLength() == 0)
+	if (pdrgpexprUpper->Size() == 0)
 	{
 		CExpression *pexprCrossUpperJoinPred = CUtils::PexprScalarConstBool(pmp, true, false);
 		pdrgpexprUpper->Append(pexprCrossUpperJoinPred);
@@ -235,7 +235,7 @@ CXformJoinAssociativity::Transform
 	DrgPexpr *pdrgpexprUpper = GPOS_NEW(pmp) DrgPexpr(pmp);
 	CreatePredicates(pmp, pexpr, pdrgpexprLower, pdrgpexprUpper);
 	
-	GPOS_ASSERT(pdrgpexprLower->UlLength() > 0);
+	GPOS_ASSERT(pdrgpexprLower->Size() > 0);
 	
 	//  cross join contains CScalarConst(1) as the join condition.  if the
 	//  input expression is as below with cross join at top level between
@@ -270,7 +270,7 @@ CXformJoinAssociativity::Transform
 	BOOL fInputLeftIsCrossJoin = CUtils::FCrossJoin((*pexpr)[0]);
 
 	// check if the output lower join would result in a cross join
-	BOOL fOutputLeftIsCrossJoin = (1 == pdrgpexprLower->UlLength() &&
+	BOOL fOutputLeftIsCrossJoin = (1 == pdrgpexprLower->Size() &&
 			CUtils::FScalarConstTrue((*pdrgpexprLower)[0]));
 
 	// build a join only if it does not result in a cross join

@@ -199,7 +199,7 @@ namespace gpopt
 			// return number of created samples
 			ULONG UlCreatedSamples() const
 			{
-				return m_pdrgpsp->UlLength();
+				return m_pdrgpsp->Size();
 			}
 
 			// set plan id

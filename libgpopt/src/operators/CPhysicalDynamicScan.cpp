@@ -60,7 +60,7 @@ CPhysicalDynamicScan::CPhysicalDynamicScan
 	m_ppartcnstrRel(ppartcnstrRel)
 {
 	GPOS_ASSERT(NULL != pdrgpdrgpcrParts);
-	GPOS_ASSERT(0 < pdrgpdrgpcrParts->UlLength());
+	GPOS_ASSERT(0 < pdrgpdrgpcrParts->Size());
 	GPOS_ASSERT(NULL != ppartcnstr);
 	GPOS_ASSERT(NULL != ppartcnstrRel);
 }

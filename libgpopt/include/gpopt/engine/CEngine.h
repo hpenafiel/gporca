@@ -389,7 +389,7 @@ namespace gpopt
 			// number of search stages accessor
 			ULONG UlSearchStages() const
 			{
-				return m_pdrgpss->UlLength();
+				return m_pdrgpss->Size();
 			}
 
 			// set of xforms of current stage

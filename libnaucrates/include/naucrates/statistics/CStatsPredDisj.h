@@ -59,7 +59,7 @@ namespace gpnaucrates
 			// total number of predicates in the disjunction
 			ULONG UlFilters() const
 			{
-				return m_pdrgpstatspred->UlLength();
+				return m_pdrgpstatspred->Size();
 			}
 
 			// return the array of predicate filters

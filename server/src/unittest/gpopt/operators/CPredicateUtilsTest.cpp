@@ -85,7 +85,7 @@ CPredicateUtilsTest::EresUnittest_Conjunctions()
 	
 	// break into conjuncts
 	DrgPexpr *pdrgpexprExtract = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprConjunction);
-	GPOS_ASSERT(pdrgpexprExtract->UlLength() == ulConjs);
+	GPOS_ASSERT(pdrgpexprExtract->Size() == ulConjs);
 	
 	// collapse into single conjunct
 	CExpression *pexpr = CPredicateUtils::PexprConjunction(pmp, pdrgpexprExtract);
@@ -110,7 +110,7 @@ CPredicateUtilsTest::EresUnittest_Conjunctions()
 
 	CExpression *pexprConj = CPredicateUtils::PexprConjunction(pmp, pexprCmp1, pexprCmp2);
 	pdrgpexprExtract = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprConj);
-	GPOS_ASSERT(2 == pdrgpexprExtract->UlLength());
+	GPOS_ASSERT(2 == pdrgpexprExtract->Size());
 	pdrgpexprExtract->Release();
 
 	pexprCmp1->Release();
@@ -161,7 +161,7 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 
 	// break into disjuncts
 	DrgPexpr *pdrgpexprExtract = CPredicateUtils::PdrgpexprDisjuncts(pmp, pexprDisjunction);
-	GPOS_ASSERT(pdrgpexprExtract->UlLength() == ulDisjs);
+	GPOS_ASSERT(pdrgpexprExtract->Size() == ulDisjs);
 
 	// collapse into single disjunct
 	CExpression *pexpr = CPredicateUtils::PexprDisjunction(pmp, pdrgpexprExtract);
@@ -208,7 +208,7 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 	{
 		CExpression *pexprDisj = CPredicateUtils::PexprDisjunction(pmp, pexprCmp1, pexprCmp2);
 		pdrgpexprExtract = CPredicateUtils::PdrgpexprDisjuncts(pmp, pexprDisj);
-		GPOS_ASSERT(2 == pdrgpexprExtract->UlLength());
+		GPOS_ASSERT(2 == pdrgpexprExtract->Size());
 		pdrgpexprExtract->Release();
 		pexprDisj->Release();
 	}
@@ -228,7 +228,7 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 
 		CExpression *pexprDisj = CPredicateUtils::PexprDisjunction(pmp, pdrgpexpr);
 		pdrgpexprExtract = CPredicateUtils::PdrgpexprDisjuncts(pmp, pexprDisj);
-		GPOS_ASSERT(4 == pdrgpexprExtract->UlLength());
+		GPOS_ASSERT(4 == pdrgpexprExtract->Size());
 		pdrgpexprExtract->Release();
 		pexprDisj->Release();
 	}
@@ -300,11 +300,11 @@ CPredicateUtilsTest::EresUnittest_PlainEqualities()
 
 	pdrgpexprOriginal->Append(pexprScIdentConstEquality);
 
-	GPOS_ASSERT(3 == pdrgpexprOriginal->UlLength());
+	GPOS_ASSERT(3 == pdrgpexprOriginal->Size());
 
 	DrgPexpr *pdrgpexprResult = CPredicateUtils::PdrgpexprPlainEqualities(pmp, pdrgpexprOriginal);
 
-	GPOS_ASSERT(1 == pdrgpexprResult->UlLength());
+	GPOS_ASSERT(1 == pdrgpexprResult->Size());
 
 	// clean up
 	pdrgpexprOriginal->Release();
@@ -393,7 +393,7 @@ CPredicateUtilsTest::EresUnittest_Implication()
 	DrgPexpr *pdrgpexprOriginalConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp,  (*pexprConstraints)[2]);
 	DrgPexpr *pdrgpexprNewConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprMinimizedPred);
 
-	GPOS_ASSERT(pdrgpexprNewConjuncts->UlLength() < pdrgpexprOriginalConjuncts->UlLength());
+	GPOS_ASSERT(pdrgpexprNewConjuncts->Size() < pdrgpexprOriginalConjuncts->Size());
 
 	// clean up
 	pdrgpexprOriginalConjuncts->Release();

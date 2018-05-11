@@ -29,7 +29,7 @@ PhmcolconstrSingleColConstr
 	CAutoRef<DrgPcnstr> arpdrgpcnstr(drgPcnstr);
 	HMColConstr *phmcolconstr = GPOS_NEW(pmp) HMColConstr(pmp);
 
-	const ULONG ulLen = arpdrgpcnstr->UlLength();
+	const ULONG ulLen = arpdrgpcnstr->Size();
 
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{

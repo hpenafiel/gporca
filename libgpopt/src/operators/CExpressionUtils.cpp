@@ -303,7 +303,7 @@ CExpressionUtils::PexprDedupChildren
 		pdrgpexprChildren = pdrgpexprNewChildren;
 
 		// Check if we end with one child, return that child
-		if (1 == pdrgpexprChildren->UlLength())
+		if (1 == pdrgpexprChildren->Size())
 		{
 			CExpression *pexprChild = (*pdrgpexprChildren)[0];
 			pexprChild->AddRef();

@@ -67,7 +67,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	GPOS_ASSERT_IFF(IMDRelation::EreldistrHash == ereldistrpolicy, NULL != pdrgpulDistr);
 	GPOS_ASSERT(NULL != pdrgpulSource);
 	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);
-	GPOS_ASSERT(pdrgpdxlcd->UlLength() == pdrgpiVarTypeMod->UlLength());
+	GPOS_ASSERT(pdrgpdxlcd->Size() == pdrgpiVarTypeMod->Size());
 	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > erelstorage);
 	GPOS_ASSERT(IMDRelation::EreldistrSentinel > ereldistrpolicy);
 }
@@ -136,7 +136,7 @@ CDXLLogicalCTAS::FDefinesColumn
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgpdxlcd->UlLength();
+	const ULONG ulSize = m_pdrgpdxlcd->Size();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
 		ULONG ulId = (*m_pdrgpdxlcd)[ulDescr]->UlID();
@@ -212,7 +212,7 @@ CDXLLogicalCTAS::SerializeToDXL
 	// serialize column descriptors
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	
-	const ULONG ulArity = m_pdrgpdxlcd->UlLength();
+	const ULONG ulArity = m_pdrgpdxlcd->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*m_pdrgpdxlcd)[ul];

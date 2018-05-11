@@ -40,13 +40,13 @@ CDXLDirectDispatchInfo::CDXLDirectDispatchInfo
 	GPOS_ASSERT(NULL != pdrgpdrgdxldatum);
 	
 #ifdef GPOS_DEBUG
-	const ULONG ulLength = pdrgpdrgdxldatum->UlLength();
+	const ULONG ulLength = pdrgpdrgdxldatum->Size();
 	if (0 < ulLength)
 	{
-		ULONG ulDatums = ((*pdrgpdrgdxldatum)[0])->UlLength();
+		ULONG ulDatums = ((*pdrgpdrgdxldatum)[0])->Size();
 		for (ULONG ul = 1; ul < ulLength; ul++)
 		{
-			GPOS_ASSERT(ulDatums == ((*pdrgpdrgdxldatum)[ul])->UlLength());
+			GPOS_ASSERT(ulDatums == ((*pdrgpdrgdxldatum)[ul])->Size());
 		}
 	}
 #endif // GPOS_DEBUG
@@ -81,7 +81,7 @@ CDXLDirectDispatchInfo::Serialize
 {
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchInfo));
 	
-	const ULONG ulValueCombinations = (m_pdrgpdrgpdxldatum == NULL) ? 0 : m_pdrgpdrgpdxldatum->UlLength();
+	const ULONG ulValueCombinations = (m_pdrgpdrgpdxldatum == NULL) ? 0 : m_pdrgpdrgpdxldatum->Size();
 	
 	for (ULONG ulA = 0; ulA < ulValueCombinations; ulA++)
 	{
@@ -89,7 +89,7 @@ CDXLDirectDispatchInfo::Serialize
 
 		DrgPdxldatum *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulA];
 		
-		const ULONG ulDatums = pdrgpdxldatum->UlLength();
+		const ULONG ulDatums = pdrgpdxldatum->Size();
 		for (ULONG ulB = 0; ulB < ulDatums; ulB++) 
 		{
 			CDXLDatum *pdxldatum = (*pdrgpdxldatum)[ulB];

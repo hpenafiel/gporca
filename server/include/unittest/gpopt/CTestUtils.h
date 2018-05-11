@@ -883,9 +883,9 @@ namespace gpopt
 		const DrgDrgPcr *pdrgpdrgpcr = popGetPartitioned->PdrgpdrgpcrPartColumns();
 
 		GPOS_ASSERT(pdrgpdrgpcr != NULL);
-		GPOS_ASSERT(0 < pdrgpdrgpcr->UlLength());
+		GPOS_ASSERT(0 < pdrgpdrgpcr->Size());
 		DrgPcr *pdrgpcr = (*pdrgpdrgpcr)[0];
-		GPOS_ASSERT(1 == pdrgpcr->UlLength());
+		GPOS_ASSERT(1 == pdrgpcr->Size());
 		CColRef *pcrPartKey = (*pdrgpcr)[0];
 
 		// construct a comparison pk = a

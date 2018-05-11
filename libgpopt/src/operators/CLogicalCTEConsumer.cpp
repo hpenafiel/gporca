@@ -280,7 +280,7 @@ CLogicalCTEConsumer::FMatch
 	CLogicalCTEConsumer *popCTEConsumer = CLogicalCTEConsumer::PopConvert(pop);
 
 	return m_ulId == popCTEConsumer->UlCTEId() &&
-			m_pdrgpcr->FEqual(popCTEConsumer->Pdrgpcr());
+			m_pdrgpcr->Equals(popCTEConsumer->Pdrgpcr());
 }
 
 //---------------------------------------------------------------------------
@@ -388,7 +388,7 @@ CLogicalCTEConsumer::PpcDeriveConstraint
 
 	// remap producer columns to consumer columns
 	DrgPcrs *pdrgpcrsMapped = GPOS_NEW(pmp) DrgPcrs(pmp);
-	const ULONG ulLen = pdrgpcrs->UlLength();
+	const ULONG ulLen = pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrs)[ul];

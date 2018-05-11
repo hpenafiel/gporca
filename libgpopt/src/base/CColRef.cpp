@@ -133,7 +133,7 @@ CColRef::Pdrgpul
 	)
 {
 	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -163,7 +163,7 @@ CColRef::FEqual
 		return  (NULL == pdrgpcr1 && NULL == pdrgpcr2);
 	}
 
-	return pdrgpcr1->FEqual(pdrgpcr2);
+	return pdrgpcr1->Equals(pdrgpcr2);
 }
 
 // check if the the array of column references are equal. Note that since we have unique
@@ -175,8 +175,8 @@ CColRef::FEqual
 	const DrgDrgPcr *pdrgdrgpcr2
 	)
 {
-	ULONG ulLen1 = (pdrgdrgpcr1 == NULL) ? 0 : pdrgdrgpcr1->UlLength();
-	ULONG ulLen2 = (pdrgdrgpcr2 == NULL) ? 0 : pdrgdrgpcr2->UlLength();
+	ULONG ulLen1 = (pdrgdrgpcr1 == NULL) ? 0 : pdrgdrgpcr1->Size();
+	ULONG ulLen2 = (pdrgdrgpcr2 == NULL) ? 0 : pdrgdrgpcr2->Size();
 
 	if (ulLen1 != ulLen2)
 	{
@@ -185,7 +185,7 @@ CColRef::FEqual
 
 	for (ULONG ulLevel = 0; ulLevel < ulLen1; ulLevel++)
 	{
-		BOOL fEqual = (*pdrgdrgpcr1)[ulLevel]->FEqual((*pdrgdrgpcr2)[ulLevel]);
+		BOOL fEqual = (*pdrgdrgpcr1)[ulLevel]->Equals((*pdrgdrgpcr2)[ulLevel]);
 		if (!fEqual)
 		{
 			return false;

@@ -112,13 +112,13 @@ CScalar::EberConjunction
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
-	GPOS_ASSERT(1 < pdrgpulChildren->UlLength());
+	GPOS_ASSERT(1 < pdrgpulChildren->Size());
 
 	BOOL fAllChildrenTrue = true;
 	BOOL fNullChild = false;
 	BOOL fUnknownChild = false;
 
-	const ULONG ulChildren = pdrgpulChildren->UlLength();
+	const ULONG ulChildren = pdrgpulChildren->Size();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		EBoolEvalResult eber = (EBoolEvalResult) *((*pdrgpulChildren)[ul]);
@@ -185,13 +185,13 @@ CScalar::EberDisjunction
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
-	GPOS_ASSERT(1 < pdrgpulChildren->UlLength());
+	GPOS_ASSERT(1 < pdrgpulChildren->Size());
 
 	BOOL fAllChildrenFalse = true;
 	BOOL fNullChild = false;
 	BOOL fUnknownChild = false;
 
-	const ULONG ulChildren = pdrgpulChildren->UlLength();
+	const ULONG ulChildren = pdrgpulChildren->Size();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		EBoolEvalResult eber = (EBoolEvalResult) *((*pdrgpulChildren)[ul]);
@@ -260,7 +260,7 @@ CScalar::EberNullOnAnyNullChild
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
 
-	const ULONG ulChildren = pdrgpulChildren->UlLength();
+	const ULONG ulChildren = pdrgpulChildren->Size();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		EBoolEvalResult eber = (EBoolEvalResult) *((*pdrgpulChildren)[ul]);
@@ -290,7 +290,7 @@ CScalar::EberNullOnAllNullChildren
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
 
-	const ULONG ulChildren = pdrgpulChildren->UlLength();
+	const ULONG ulChildren = pdrgpulChildren->Size();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		EBoolEvalResult eber = (EBoolEvalResult) *((*pdrgpulChildren)[ul]);

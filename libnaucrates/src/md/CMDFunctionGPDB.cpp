@@ -184,7 +184,7 @@ CMDFunctionGPDB::PstrOutArgTypes() const
 	GPOS_ASSERT(NULL != m_pdrgpmdidTypes);
 	CWStringDynamic *pstr = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp);
 
-	const ULONG ulLen = m_pdrgpmdidTypes->UlLength();
+	const ULONG ulLen = m_pdrgpmdidTypes->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		IMDId *pmdid = (*m_pdrgpmdidTypes)[ul];

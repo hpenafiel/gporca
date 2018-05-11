@@ -121,7 +121,7 @@ CStatisticsUtils::PhistTransformMCV
 	ULONG ulNumMCVValues
 	)
 {
-	GPOS_ASSERT(pdrgpdatumMCV->UlLength() == ulNumMCVValues);
+	GPOS_ASSERT(pdrgpdatumMCV->Size() == ulNumMCVValues);
 
 	// put MCV values and their corresponding frequencies
 	// into a structure in order to sort
@@ -240,8 +240,8 @@ CStatisticsUtils::PdrgpbucketMergeBuckets
 	)
 {
 	DrgPbucket *pdrgpbucketMerged = GPOS_NEW(pmp) DrgPbucket(pmp);
-	const ULONG ulMCV = pdrgpbucketMCV->UlLength();
-	const ULONG ulHist = pdrgpbucketHist->UlLength();
+	const ULONG ulMCV = pdrgpbucketMCV->Size();
+	const ULONG ulHist = pdrgpbucketHist->Size();
 	ULONG ulMCVIdx = 0;
 	ULONG ulHistIdx = 0;
 
@@ -292,7 +292,7 @@ CStatisticsUtils::AddRemainingBuckets
 	ULONG *pulStart
 	)
 {
-	const ULONG ulTotal = pdrgpbucketSrc->UlLength();
+	const ULONG ulTotal = pdrgpbucketSrc->Size();
 
 	while (*pulStart < ulTotal)
 	{
@@ -339,7 +339,7 @@ CStatisticsUtils::SplitHistDriver
 
 	// split pbucketHist given one or more MCVs it contains
 	DrgPbucket *pdrgpbucketSplitted = PdrgpbucketSplitHistBucket(pmp, pbucketHist, pdrgpbucketTmpMcv);
-	const ULONG ulSplitted = pdrgpbucketSplitted->UlLength();
+	const ULONG ulSplitted = pdrgpbucketSplitted->Size();
 
 	// copy buckets from pdrgpbucketSplitted to pdrgbucketMerged
 	for (ULONG ul = 0; ul < ulSplitted; ul++)
@@ -375,7 +375,7 @@ CStatisticsUtils::PdrgpbucketSplitHistBucket
 	GPOS_ASSERT(NULL != pdrgpbucketMCV);
 
 	DrgPbucket *pdrgpbucketNew = GPOS_NEW(pmp) DrgPbucket(pmp);
-	const ULONG ulMCV = pdrgpbucketMCV->UlLength();
+	const ULONG ulMCV = pdrgpbucketMCV->Size();
 	GPOS_ASSERT(0 < ulMCV);
 
 	// construct first bucket, if any
@@ -546,7 +546,7 @@ CStatisticsUtils::DistributeBucketProperties
 	GPOS_ASSERT(NULL != pdrgpbucket);
 
 	CDouble dSumWidth = 0.0;
-	const ULONG ulNew = pdrgpbucket->UlLength();
+	const ULONG ulNew = pdrgpbucket->Size();
 
 	for (ULONG ul = 0; ul < ulNew; ul++)
 	{
@@ -660,7 +660,7 @@ CStatisticsUtils::ExtractUsedColIds
 	}
 
 	GPOS_ASSERT(NULL != pdrgpstatspred);
-	const ULONG ulArity = pdrgpstatspred->UlLength();
+	const ULONG ulArity = pdrgpstatspred->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CStatsPred *pstatspredCurr = (*pdrgpstatspred)[ul];
@@ -787,7 +787,7 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 	CBitSet *pbsDisj = GPOS_NEW(pmp) CBitSet(pmp);
 	DrgPul *pdrgpulDisj = GPOS_NEW(pmp) DrgPul(pmp);
 	ExtractUsedColIds(pmp, pbsDisj, pstatspred, pdrgpulDisj);
-	const ULONG ulDisjUsedCol = pdrgpulDisj->UlLength();
+	const ULONG ulDisjUsedCol = pdrgpulDisj->Size();
 
 	const ULONG ulArity = pstatspred->UlFilters();
 	for (ULONG ulChildIdx = 0; ulChildIdx < ulArity; ulChildIdx++)
@@ -797,7 +797,7 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 		DrgPul *pdrgpulChild = GPOS_NEW(pmp) DrgPul(pmp);
 		ExtractUsedColIds(pmp, pbsChild, pstatspredChild, pdrgpulChild);
 
-		const ULONG ulLen = pdrgpulChild->UlLength();
+		const ULONG ulLen = pdrgpulChild->Size();
 		GPOS_ASSERT(ulLen <= ulDisjUsedCol);
 		if (ulLen < ulDisjUsedCol)
 		{
@@ -1058,7 +1058,7 @@ CStatisticsUtils::UlColId
 	ULONG ulColIdResult = ULONG_MAX;
 	BOOL fSameCol = true;
 
-	const ULONG ulLen = pdrgpstatspred->UlLength();
+	const ULONG ulLen = pdrgpstatspred->Size();
 	for (ULONG ul = 0; ul < ulLen && fSameCol; ul++)
 	{
 		CStatsPred *pstatspred = (*pdrgpstatspred)[ul];
@@ -1377,7 +1377,7 @@ CStatisticsUtils::AddNdvForAllGrpCols
 	GPOS_ASSERT(NULL != pstatsInput);
 	GPOS_ASSERT(NULL != pdrgpdNDV);
 
-	const ULONG ulCols = pdrgpulGrpCol->UlLength();
+	const ULONG ulCols = pdrgpulGrpCol->Size();
 	// iterate over grouping columns
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
@@ -1471,7 +1471,7 @@ CStatisticsUtils::FExistsCappedGrpCol
 	GPOS_ASSERT(NULL != pstats);
 	GPOS_ASSERT(NULL != pdrgpulGrpCol);
 
-	const ULONG ulCols = pdrgpulGrpCol->UlLength();
+	const ULONG ulCols = pdrgpulGrpCol->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		ULONG ulColId = (*(*pdrgpulGrpCol)[ul]);
@@ -1504,7 +1504,7 @@ CStatisticsUtils::DMaxNdv
 	GPOS_ASSERT(NULL != pstats);
 	GPOS_ASSERT(NULL != pdrgpulGrpCol);
 
-	const ULONG ulGrpCols = pdrgpulGrpCol->UlLength();
+	const ULONG ulGrpCols = pdrgpulGrpCol->Size();
 
 	CDouble dNdvMax(1.0);
 	for (ULONG ul = 0; ul < ulGrpCols; ul++)
@@ -1550,7 +1550,7 @@ CStatisticsUtils::DMaxGroupsFromSource
 {
 	GPOS_ASSERT(NULL != pstatsInput);
 	GPOS_ASSERT(NULL != pdrgpulPerSrc);
-	GPOS_ASSERT(0 < pdrgpulPerSrc->UlLength());
+	GPOS_ASSERT(0 < pdrgpulPerSrc->Size());
 
 	CDouble dRowsInput = pstatsInput->DRows();
 
@@ -1647,7 +1647,7 @@ CStatisticsUtils::DNumOfDistinctVal
 	GPOS_ASSERT(NULL != pdrgpdNDV);
 
 	CScaleFactorUtils::SortScalingFactor(pdrgpdNDV, true /* fDescending */);
-	const ULONG ulDistVals = pdrgpdNDV->UlLength();
+	const ULONG ulDistVals = pdrgpdNDV->Size();
 
 	if (0 == ulDistVals)
 	{
@@ -1745,7 +1745,7 @@ CStatisticsUtils::PcrsGrpColsForStats
 
 	CColRefSet *pcrsGrpColForStats = GPOS_NEW(pmp) CColRefSet(pmp);
 
-	const ULONG ulGrpCols = pdrgpulGrpCol->UlLength();
+	const ULONG ulGrpCols = pdrgpulGrpCol->Size();
 
 	// iterate over grouping columns
 	for (ULONG ul = 0; ul < ulGrpCols; ul++)
@@ -1790,7 +1790,7 @@ CStatisticsUtils::DDistinct
 	GPOS_ASSERT(NULL != pdrgppbucket);
 
 	CDouble dDistinct = CDouble(0.0);
-	const ULONG ulBuckets = pdrgppbucket->UlLength();
+	const ULONG ulBuckets = pdrgppbucket->Size();
 	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulBuckets; ulBucketIdx++)
 	{
 		CBucket *pbucket = (*pdrgppbucket)[ulBucketIdx];
@@ -1818,7 +1818,7 @@ CStatisticsUtils::DFrequency
 	GPOS_ASSERT(NULL != pdrgppbucket);
 
 	CDouble dFreq = CDouble(0.0);
-	const ULONG ulBuckets = pdrgppbucket->UlLength();
+	const ULONG ulBuckets = pdrgppbucket->Size();
 	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulBuckets; ulBucketIdx++)
 	{
 		CBucket *pbucket = (*pdrgppbucket)[ulBucketIdx];
@@ -1935,7 +1935,7 @@ CStatisticsUtils::ComputeCardUpperBounds
 	GPOS_ASSERT(CStatistics::EcbmSentinel != ecbm);
 
 	const DrgPubndvs *pdrgubndvInput = pstatsInput->Pdrgundv();
-	ULONG ulLen = pdrgubndvInput->UlLength();
+	ULONG ulLen = pdrgubndvInput->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		const CUpperBoundNDVs *pubndv = (*pdrgubndvInput)[ul];

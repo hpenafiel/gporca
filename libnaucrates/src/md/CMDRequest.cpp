@@ -119,7 +119,7 @@ CMDRequest::Serialize
 {
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMDRequest));
 
-	const ULONG ulMdids = m_pdrgpmdid->UlLength();
+	const ULONG ulMdids = m_pdrgpmdid->Size();
 	for (ULONG ul = 0; ul < ulMdids; ul++)
 	{
 		IMDId *pmdid = (*m_pdrgpmdid)[ul];
@@ -130,7 +130,7 @@ CMDRequest::Serialize
 						CDXLTokens::PstrToken(EdxltokenMdid));
 	}
 
-	const ULONG ulTypeRequests = m_pdrgptr->UlLength();
+	const ULONG ulTypeRequests = m_pdrgptr->Size();
 	for (ULONG ul = 0; ul < ulTypeRequests; ul++)
 	{
 		SMDTypeRequest *pmdtr = (*m_pdrgptr)[ul];

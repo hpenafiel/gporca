@@ -88,7 +88,7 @@ CPhysicalSerialUnionAll::PdsRequired
 	const
 {
 	GPOS_ASSERT(NULL != PdrgpdrgpcrInput());
-	GPOS_ASSERT(ulChildIndex < PdrgpdrgpcrInput()->UlLength());
+	GPOS_ASSERT(ulChildIndex < PdrgpdrgpcrInput()->Size());
 	GPOS_ASSERT(2 > ulOptReq);
 
 	CDistributionSpec *pds = PdsMasterOnlyOrReplicated(pmp, exprhdl, pdsRequired, ulChildIndex, ulOptReq);

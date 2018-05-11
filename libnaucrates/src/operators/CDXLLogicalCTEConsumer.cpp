@@ -99,7 +99,7 @@ CDXLLogicalCTEConsumer::FDefinesColumn
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgpulColIds->UlLength();
+	const ULONG ulSize = m_pdrgpulColIds->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		ULONG ulId = *((*m_pdrgpulColIds)[ul]);

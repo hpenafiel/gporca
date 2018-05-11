@@ -425,7 +425,7 @@ CPhysicalDML::FMatch
 				m_pcrSegmentId == popDML->PcrSegmentId() &&
 				m_pcrTupleOid == popDML->PcrTupleOid() &&
 				m_ptabdesc->Pmdid()->FEquals(popDML->Ptabdesc()->Pmdid()) &&
-				m_pdrgpcrSource->FEqual(popDML->PdrgpcrSource());
+				m_pdrgpcrSource->Equals(popDML->PdrgpcrSource());
 	}
 	
 	return false;
@@ -488,11 +488,11 @@ CPhysicalDML::PosComputeRequired
 	COrderSpec *pos = GPOS_NEW(pmp) COrderSpec(pmp);
 
 	const DrgPbs *pdrgpbsKeys = ptabdesc->PdrgpbsKeys();
-	if (1 < pdrgpbsKeys->UlLength() && CLogicalDML::EdmlUpdate == m_edmlop)
+	if (1 < pdrgpbsKeys->Size() && CLogicalDML::EdmlUpdate == m_edmlop)
 	{
 		// if this is an update on the target table's keys, enforce order on 
 		// the action column, see explanation in function's comment		
-		const ULONG ulKeySets = pdrgpbsKeys->UlLength();
+		const ULONG ulKeySets = pdrgpbsKeys->Size();
 		BOOL fNeedsSort = false;
 		for (ULONG ul = 0; ul < ulKeySets && !fNeedsSort; ul++)
 		{

@@ -205,7 +205,7 @@ CXformJoin2IndexApply::CreateHomogeneousBtreeIndexApplyAlternatives
 {
 	// array of expressions in the scalar expression
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-	GPOS_ASSERT(pdrgpexpr->UlLength() > 0);
+	GPOS_ASSERT(pdrgpexpr->Size() > 0);
 
 	// find the indexes whose included columns meet the required columns
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -531,7 +531,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyAlternatives
     // array of expressions in the scalar expression
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
 	
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());	
+	GPOS_ASSERT(0 < pdrgpexpr->Size());	
 	
 	DrgPdrgPpartdig *pdrgpdrgppartdig = CXformUtils::PdrgpdrgppartdigCandidates
 										(
@@ -550,11 +550,11 @@ CXformJoin2IndexApply::CreatePartialIndexApplyAlternatives
 
 
 	// construct alternative partial index apply plans
-	const ULONG ulCandidates = pdrgpdrgppartdig->UlLength();
+	const ULONG ulCandidates = pdrgpdrgppartdig->Size();
 	for (ULONG ul = 0; ul < ulCandidates; ul++)
 	{
 		DrgPpartdig *pdrgppartdig = (*pdrgpdrgppartdig)[ul];
-		if (0 < pdrgppartdig->UlLength())
+		if (0 < pdrgppartdig->Size())
 		{
 			CreatePartialIndexApplyPlan
 				(
@@ -601,7 +601,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 	CXformResult *pxfres
 	) const
 {
-	const ULONG ulPartialIndexes = pdrgppartdig->UlLength();
+	const ULONG ulPartialIndexes = pdrgppartdig->Size();
 	if (0 == ulPartialIndexes)
 	{
 		return;
@@ -730,11 +730,11 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 		CRefCount::SafeRelease(phmulcr);
 	}
 
-	GPOS_ASSERT(pdrgpexprInput->UlLength() == pdrgpdrgpcrInput->UlLength());
-	GPOS_ASSERT(1 < pdrgpexprInput->UlLength());
+	GPOS_ASSERT(pdrgpexprInput->Size() == pdrgpdrgpcrInput->Size());
+	GPOS_ASSERT(1 < pdrgpexprInput->Size());
 
 	CExpression *pexprResult = NULL;
-	if (2 <= pdrgpexprInput->UlLength())
+	if (2 <= pdrgpexprInput->Size())
 	{
 		// construct a new union operator
 		pexprResult = GPOS_NEW(pmp) CExpression
@@ -746,7 +746,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 	}
 	else
 	{
-		GPOS_ASSERT(1 == pdrgpexprInput->UlLength());
+		GPOS_ASSERT(1 == pdrgpexprInput->Size());
 		pexprResult = (*pdrgpexprInput)[0];
 		pexprResult->AddRef();
 
@@ -804,8 +804,8 @@ CXformJoin2IndexApply::PexprJoinOverCTEConsumer
 	popPartialDynamicGet->SetPartial();
 
 	// if there are any outer references, add them to the mapping
-	ULONG ulOuterPcrs = pdrgpcrOuter->UlLength();
-	GPOS_ASSERT(ulOuterPcrs == pdrgpcrOuterNew->UlLength());
+	ULONG ulOuterPcrs = pdrgpcrOuter->Size();
+	GPOS_ASSERT(ulOuterPcrs == pdrgpcrOuterNew->Size());
 
 	for (ULONG ul = 0; ul < ulOuterPcrs; ul++)
 	{

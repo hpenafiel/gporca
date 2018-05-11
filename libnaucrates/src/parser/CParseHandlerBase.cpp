@@ -93,7 +93,7 @@ CParseHandlerBase::ReplaceParseHandler
 	
 	GPOS_ASSERT(NULL != m_pdrgpph);
 	
-	for (ulPos = 0; ulPos < m_pdrgpph->UlLength(); ulPos++)
+	for (ulPos = 0; ulPos < m_pdrgpph->Size(); ulPos++)
 	{
 		if ((*m_pdrgpph)[ulPos] == pphOld)
 		{
@@ -102,7 +102,7 @@ CParseHandlerBase::ReplaceParseHandler
 	}
 	
 	// assert old parse handler was found in array
-	GPOS_ASSERT(ulPos < m_pdrgpph->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpph->Size());
 	
 	m_pdrgpph->Replace(ulPos, pphNew);
 }

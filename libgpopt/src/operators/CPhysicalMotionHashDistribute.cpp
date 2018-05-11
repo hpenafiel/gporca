@@ -37,7 +37,7 @@ CPhysicalMotionHashDistribute::CPhysicalMotionHashDistribute
 	m_pcrsRequiredLocal(NULL)
 {
 	GPOS_ASSERT(NULL != pdsHashed);
-	GPOS_ASSERT(0 != pdsHashed->Pdrgpexpr()->UlLength());
+	GPOS_ASSERT(0 != pdsHashed->Pdrgpexpr()->Size());
 
 	m_pcrsRequiredLocal = m_pdsHashed->PcrsUsed(pmp);
 }

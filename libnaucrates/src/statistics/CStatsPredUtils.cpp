@@ -453,7 +453,7 @@ CStatsPredUtils::PstatspredConj
 {
 	GPOS_ASSERT(NULL != pexprScalar);
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-	const ULONG ulLen = pdrgpexprConjuncts->UlLength();
+	const ULONG ulLen = pdrgpexprConjuncts->Size();
 
 	DrgPstatspred *pdrgpstatspred = GPOS_NEW(pmp) DrgPstatspred(pmp);
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -482,7 +482,7 @@ CStatsPredUtils::PstatspredConj
 
 	pdrgpexprConjuncts->Release();
 
-	if (0 < pdrgpstatspred->UlLength())
+	if (0 < pdrgpstatspred->Size())
 	{
 		return GPOS_NEW(pmp) CStatsPredConj(pdrgpstatspred);
 	}
@@ -519,7 +519,7 @@ CStatsPredUtils::PstatspredDisj
 
 	// extract the components of the OR tree
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprDisjuncts(pmp, pexprNew);
-	const ULONG ulLen = pdrgpexpr->UlLength();
+	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
@@ -537,7 +537,7 @@ CStatsPredUtils::PstatspredDisj
 	pexprNew->Release();
 	pdrgpexpr->Release();
 
-	if (0 < pdrgpstatspredDisjChild->UlLength())
+	if (0 < pdrgpstatspredDisjChild->Size())
 	{
 		return GPOS_NEW(pmp) CStatsPredDisj(pdrgpstatspredDisjChild);
 	}
@@ -704,7 +704,7 @@ CStatsPredUtils::FConjunction
 {
 	GPOS_ASSERT(NULL != pexprPred);
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprPred);
-	const ULONG ulLen = pdrgpexprConjuncts->UlLength();
+	const ULONG ulLen = pdrgpexprConjuncts->Size();
 	pdrgpexprConjuncts->Release();
 
 	return (1 < ulLen);
@@ -1151,7 +1151,7 @@ CStatsPredUtils::PdrgpstatspredjoinExtract
 
 	// extract all the conjuncts
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-	const ULONG ulSize = pdrgpexprConjuncts->UlLength();
+	const ULONG ulSize = pdrgpexprConjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprConjuncts) [ul];
@@ -1169,7 +1169,7 @@ CStatsPredUtils::PdrgpstatspredjoinExtract
 		}
 	}
 
-	const ULONG ulUnsupported = pdrgpexprUnsupported->UlLength();
+	const ULONG ulUnsupported = pdrgpexprUnsupported->Size();
 	if (1 == ulUnsupported)
 	{
 		*ppstatspredUnsupported = CStatsPredUtils::PstatspredExtract(pmp, (*pdrgpexprUnsupported)[0], pcrsOuterRefs);

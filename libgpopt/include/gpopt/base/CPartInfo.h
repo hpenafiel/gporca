@@ -147,7 +147,7 @@ namespace gpopt
 			// number of part table consumers
 			ULONG UlConsumers() const
 			{
-				return m_pdrgppartentries->UlLength();
+				return m_pdrgppartentries->Size();
 			}
 
 			// add part table consumer

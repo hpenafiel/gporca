@@ -87,7 +87,7 @@ CLogicalInnerCorrelatedApply::FMatch
 {
 	if (pop->Eopid() == Eopid())
 	{
-		return m_pdrgpcrInner->FEqual(CLogicalInnerCorrelatedApply::PopConvert(pop)->PdrgPcrInner());
+		return m_pdrgpcrInner->Equals(CLogicalInnerCorrelatedApply::PopConvert(pop)->PdrgPcrInner());
 	}
 
 	return false;

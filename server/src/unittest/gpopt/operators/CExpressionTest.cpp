@@ -768,7 +768,7 @@ CExpressionTest::EresUnittest_FValidPlan_InvalidOrder()
 	CColRefSet *pcrsGetCopy = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsGet);
 
 	DrgPcr *pdrgpcrGet = pcrsGetCopy->Pdrgpcr(pmp);
-	GPOS_ASSERT(2 <= pdrgpcrGet->UlLength());
+	GPOS_ASSERT(2 <= pdrgpcrGet->Size());
 
 	COrderSpec *pos = GPOS_NEW(pmp) COrderSpec(pmp);
 	const IMDType *pmdtypeint4 = mda.PtMDType<IMDTypeInt4>();

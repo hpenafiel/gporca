@@ -95,7 +95,7 @@ CTreeMapTest::CNode::OsPrint
 	}
 	os << "node: " << m_ulData << std::endl;
 	
-	for (ULONG ulChild = 0; ulChild < m_pdrgpnd->UlLength(); ulChild++)
+	for (ULONG ulChild = 0; ulChild < m_pdrgpnd->Size(); ulChild++)
 	{
 		(void) (*m_pdrgpnd)[ulChild]->OsPrint(os, ulIndent + 2);
 	}

@@ -149,7 +149,7 @@ CDXLLogicalGroupBy::SerializeGrpColsToDXL
 
 		pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCols);
 
-		for (ULONG ul = 0; ul < m_pdrgpulGrpColId->UlLength(); ul++)
+		for (ULONG ul = 0; ul < m_pdrgpulGrpColId->Size(); ul++)
 		{
 			GPOS_ASSERT(NULL != (*m_pdrgpulGrpColId)[ul]);
 			ULONG ulGroupingCol = *((*m_pdrgpulGrpColId)[ul]);

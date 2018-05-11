@@ -234,7 +234,7 @@ CDrvdPropRelational::PdrgpfdChild
 
 	// collect child FD's that are applicable to the parent
 	DrgPfd *pdrgpfd = GPOS_NEW(pmp) DrgPfd(pmp);
-	const ULONG ulSize = pdrgpfdChild->UlLength();
+	const ULONG ulSize = pdrgpfdChild->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CFunctionalDependency *pfd = (*pdrgpfdChild)[ul];
@@ -393,7 +393,7 @@ CDrvdPropRelational::OsPrint
 
 	os << ", Constraint Property: [" << *m_ppc << "]";
 
-	const ULONG ulFDs = m_pdrgpfd->UlLength();
+	const ULONG ulFDs = m_pdrgpfd->Size();
 	
 	os << ", FDs: [";
 	for (ULONG ul = 0; ul < ulFDs; ul++)

@@ -85,7 +85,7 @@ CTranslatorExprToDXL::CTranslatorExprToDXL
 {
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != pmda);
-	GPOS_ASSERT_IMP(NULL != pdrgpiSegments, (0 < pdrgpiSegments->UlLength()));
+	GPOS_ASSERT_IMP(NULL != pdrgpiSegments, (0 < pdrgpiSegments->Size()));
 
 	InitScalarTranslators();
 	InitPhysicalTranslators();
@@ -297,8 +297,8 @@ CTranslatorExprToDXL::PdxlnTranslate
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
 	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->Pdxlop()->Edxlop());
 
-	const ULONG ulLen = pdrgpmdname->UlLength();
-	GPOS_ASSERT(ulLen == pdrgpcr->UlLength());
+	const ULONG ulLen = pdrgpmdname->Size();
+	GPOS_ASSERT(ulLen == pdrgpcr->Size());
 	GPOS_ASSERT(ulLen == pdxlnPrL->UlArity());
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -594,7 +594,7 @@ CTranslatorExprToDXL::PdxlnIndexScan
 	CDXLNode *pdxlnIndexCondList = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarIndexCondList(m_pmp));
 
 	DrgPexpr *pdrgpexprConds = CPredicateUtils::PdrgpexprConjuncts(m_pmp, pexprCond);
-	const ULONG ulLength = pdrgpexprConds->UlLength();
+	const ULONG ulLength = pdrgpexprConds->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		CExpression *pexprIndexCond = (*pdrgpexprConds)[ul];
@@ -660,7 +660,7 @@ CTranslatorExprToDXL::PdxlnBitmapIndexProbe
 	CExpression *pexprCond = (*pexprBitmapIndexProbe)[0];
 	CDXLNode *pdxlnIndexCondList = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarIndexCondList(m_pmp));
 	DrgPexpr *pdrgpexprConds = CPredicateUtils::PdrgpexprConjuncts(m_pmp, pexprCond);
-	const ULONG ulLength = pdrgpexprConds->UlLength();
+	const ULONG ulLength = pdrgpexprConds->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		CExpression *pexprIndexCond = (*pdrgpexprConds)[ul];
@@ -1172,7 +1172,7 @@ CTranslatorExprToDXL::PdxlnDynamicIndexScan
 	CDXLNode *pdxlnIndexCondList = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarIndexCondList(m_pmp));
 
 	DrgPexpr *pdrgpexprConds = CPredicateUtils::PdrgpexprConjuncts(m_pmp, pexprCond);
-	const ULONG ulLength = pdrgpexprConds->UlLength();
+	const ULONG ulLength = pdrgpexprConds->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		CExpression *pexprIndexCond = (*pdrgpexprConds)[ul];
@@ -1872,7 +1872,7 @@ CTranslatorExprToDXL::PdxlnAppend
 	DrgDrgPcr *pdrgpdrgpcrInput = popUnionAll->PdrgpdrgpcrInput();
 	GPOS_ASSERT(NULL != pdrgpdrgpcrInput);
 	const ULONG ulLen = pexprUnionAll->UlArity();
-	GPOS_ASSERT(ulLen == pdrgpdrgpcrInput->UlLength());
+	GPOS_ASSERT(ulLen == pdrgpdrgpcrInput->Size());
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		// translate child
@@ -1921,7 +1921,7 @@ CTranslatorExprToDXL::PdrgpcrMerge
 
 	if (NULL != pdrgpcrOrder)
 	{
-		const ULONG ulLenOrder = pdrgpcrOrder->UlLength();
+		const ULONG ulLenOrder = pdrgpcrOrder->Size();
 		for (ULONG ul = 0; ul < ulLenOrder; ul++)
 		{
 			CColRef *pcr = (*pdrgpcrOrder)[ul];
@@ -1930,7 +1930,7 @@ CTranslatorExprToDXL::PdrgpcrMerge
 		pcrsOutput->Include(pdrgpcrMerge);
 	}
 
-	const ULONG ulLenReqd = pdrgpcrRequired->UlLength();
+	const ULONG ulLenReqd = pdrgpcrRequired->Size();
 	for (ULONG ul = 0; ul < ulLenReqd; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrRequired)[ul];
@@ -2068,7 +2068,7 @@ CTranslatorExprToDXL::PdxlnResultFromConstTableGet
 	DrgPcr *pdrgpcrCTGOutput = popCTG->PdrgpcrOutput();
 	DrgPdrgPdatum *pdrgpdrgdatum = popCTG->Pdrgpdrgpdatum();
 	
-	const ULONG ulRows = pdrgpdrgdatum->UlLength();
+	const ULONG ulRows = pdrgpdrgdatum->Size();
 	CDXLNode *pdxlnPrL = NULL;
 	CDXLNode *pdxlnOneTimeFilter = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarOneTimeFilter(m_pmp));
 
@@ -2437,7 +2437,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 
 	DrgPul *pdrgpulGroupingCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
 
-	const ULONG ulLen = pdrgpcrGroupingCols->UlLength();
+	const ULONG ulLen = pdrgpcrGroupingCols->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcrGroupingCol = (*pdrgpcrGroupingCols)[ul];
@@ -3124,7 +3124,7 @@ CTranslatorExprToDXL::BuildScalarSubplans
 	BOOL *pfDML
 	)
 {
-	const ULONG ulSize = pdrgpcrInner->UlLength();
+	const ULONG ulSize = pdrgpcrInner->Size();
 
 	DrgPdxln *pdrgpdxlnInner = GPOS_NEW(m_pmp) DrgPdxln(m_pmp);
 	for (ULONG ul = 0; ul < ulSize; ul++)
@@ -3576,7 +3576,7 @@ CTranslatorExprToDXL::StoreIndexNLJOuterRefs
 	}
 	GPOS_ASSERT(pdrgpcr != NULL);
 
-	const ULONG ulSize = pdrgpcr->UlLength();
+	const ULONG ulSize = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3785,7 +3785,7 @@ CTranslatorExprToDXL::PdxlnHashJoin
 	CExpression *pexprScalar = (*pexprHJ)[2];
 
 	EdxlJoinType edxljt = EdxljtHashJoin(popHJ);
-	GPOS_ASSERT(popHJ->PdrgpexprOuterKeys()->UlLength() == popHJ->PdrgpexprInnerKeys()->UlLength());
+	GPOS_ASSERT(popHJ->PdrgpexprOuterKeys()->Size() == popHJ->PdrgpexprInnerKeys()->Size());
 
 	// translate relational child expression
 	CDXLNode *pdxlnOuterChild = Pdxln(pexprOuterChild, NULL /*pdrgpcr*/, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, false /*fRemap*/, false /*fRoot*/);
@@ -3805,7 +3805,7 @@ CTranslatorExprToDXL::PdxlnHashJoin
 
 	DrgPexpr *pdrgpexprPredicates = CPredicateUtils::PdrgpexprConjuncts(m_pmp, pexprScalar);
 	DrgPexpr *pdrgpexprRemainingPredicates = GPOS_NEW(m_pmp) DrgPexpr(m_pmp);
-	const ULONG ulSize = pdrgpexprPredicates->UlLength();
+	const ULONG ulSize = pdrgpexprPredicates->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprPredicates)[ul];
@@ -3858,10 +3858,10 @@ CTranslatorExprToDXL::PdxlnHashJoin
 			pdrgpexprRemainingPredicates->Append(pexprPred);
 		}
 	}
-	GPOS_ASSERT(popHJ->PdrgpexprOuterKeys()->UlLength() == ulHashJoinPreds);
+	GPOS_ASSERT(popHJ->PdrgpexprOuterKeys()->Size() == ulHashJoinPreds);
 
 	CDXLNode *pdxlnJoinFilter = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarJoinFilter(m_pmp));
-	if (0 < pdrgpexprRemainingPredicates->UlLength())
+	if (0 < pdrgpexprRemainingPredicates->Size())
 	{
 		CExpression *pexprJoinCond = CPredicateUtils::PexprConjunction(m_pmp, pdrgpexprRemainingPredicates);
 		CDXLNode *pdxlnJoinCond = PdxlnScalar(pexprJoinCond);
@@ -3925,7 +3925,7 @@ CTranslatorExprToDXL::CheckValidity
 	// it's obviously invalid and we fall back
 	if (EdxlopPhysicalMotionGather == pdxlopMotion->Edxlop())
 	{
-		if (m_pdrgpiSegments->UlLength() != pdxlopMotion->PdrgpiInputSegIds()->UlLength())
+		if (m_pdrgpiSegments->Size() != pdxlopMotion->PdrgpiInputSegIds()->Size())
 		{
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiExpr2DXLUnsupportedFeature, GPOS_WSZ_LIT("GatherMotion input segments number does not match with the number of segments in the system"));
 		}
@@ -4825,7 +4825,7 @@ CTranslatorExprToDXL::ConstructLevelFilters4PartitionSelector
 		if (NULL != pexprFilter)
 		{
 			DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(m_pmp, pexprFilter);
-			const ULONG ulLength = pdrgpexprConjuncts->UlLength();
+			const ULONG ulLength = pdrgpexprConjuncts->Size();
 
 			for (ULONG ul = 0; ul < ulLength; ul++)
 			{
@@ -5018,7 +5018,7 @@ CTranslatorExprToDXL::PdxlnConjDisjOnPartKey
 		edxlbet = Edxlor;
 	}
 
-	const ULONG ulChildren = pdrgpexprChildren->UlLength();
+	const ULONG ulChildren = pdrgpexprChildren->Size();
 
 	CDXLNode *pdxlnPred = NULL;
 	for (ULONG ul = 0; ul < ulChildren; ul++)
@@ -5387,7 +5387,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 	const ULONG ulColumns = ptabdesc->UlColumns();
 
 	DrgPi *pdrgpiVarTypeMod = pmdrel->PdrgpiVarTypeMod();
-	GPOS_ASSERT(ulColumns == pdrgpiVarTypeMod->UlLength());
+	GPOS_ASSERT(ulColumns == pdrgpiVarTypeMod->Size());
 
 	// translate col descriptors
 	DrgPdxlcd *pdrgpdxlcd = GPOS_NEW(m_pmp) DrgPdxlcd(m_pmp);
@@ -5494,7 +5494,7 @@ CTranslatorExprToDXL::Pdxlddinfo
 
 	if (CLogicalDML::EdmlInsert != popDML->Edmlop() ||
 		IMDRelation::EreldistrHash != ptabdesc->Ereldistribution() ||
-		1 < pdrgpcoldescDist->UlLength())
+		1 < pdrgpcoldescDist->Size())
 	{
 		// directed dispatch only supported for insert statements on hash-distributed tables 
 		// with a single distribution column
@@ -5502,10 +5502,10 @@ CTranslatorExprToDXL::Pdxlddinfo
 	}
 
 
-	GPOS_ASSERT(1 == pdrgpcoldescDist->UlLength());
+	GPOS_ASSERT(1 == pdrgpcoldescDist->Size());
 	CColumnDescriptor *pcoldesc = (*pdrgpcoldescDist)[0];
 	ULONG ulPos = ptabdesc->UlPos(pcoldesc, ptabdesc->Pdrgpcoldesc());
-	GPOS_ASSERT(ulPos < ptabdesc->Pdrgpcoldesc()->UlLength() && "Column not found");
+	GPOS_ASSERT(ulPos < ptabdesc->Pdrgpcoldesc()->Size() && "Column not found");
 
 	CColRef *pcrDistrCol = (*popDML->PdrgpcrSource())[ulPos];
 	CPropConstraint *ppc = CDrvdPropRelational::Pdprel((*pexprDML)[0]->Pdp(CDrvdProp::EptRelational))->Ppc();
@@ -5525,12 +5525,12 @@ CTranslatorExprToDXL::Pdxlddinfo
 	GPOS_ASSERT(CConstraint::EctInterval == pcnstrDistrCol->Ect());
 
 	CConstraintInterval *pci = dynamic_cast<CConstraintInterval *>(pcnstrDistrCol);
-	GPOS_ASSERT(1 >= pci->Pdrgprng()->UlLength());
+	GPOS_ASSERT(1 >= pci->Pdrgprng()->Size());
 
 	DrgPdxldatum *pdrgpdxldatum = GPOS_NEW(m_pmp) DrgPdxldatum(m_pmp);
 	CDXLDatum *pdxldatum = NULL;
 
-	if (1 == pci->Pdrgprng()->UlLength())
+	if (1 == pci->Pdrgprng()->Size())
 	{
 		const CRange *prng = (*pci->Pdrgprng())[0];
 		pdxldatum = CTranslatorExprToDXLUtils::Pdxldatum(m_pmp, m_pmda, prng->PdatumLeft());
@@ -6738,7 +6738,7 @@ CTranslatorExprToDXL::PdxlnWindow
 	{
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(pds);
 		pdrgpexprPartCol = const_cast<DrgPexpr *>(pdshashed->Pdrgpexpr());
-		const ULONG ulSize = pdrgpexprPartCol->UlLength();
+		const ULONG ulSize = pdrgpexprPartCol->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			CExpression *pexpr = (*pdrgpexprPartCol)[ul];
@@ -6751,7 +6751,7 @@ CTranslatorExprToDXL::PdxlnWindow
 	DrgPdxlwk *pdrgpdxlwk = GPOS_NEW(m_pmp) DrgPdxlwk(m_pmp);
 	DrgPos *pdrgpos = popSeqPrj->Pdrgpos();
 	GPOS_ASSERT(NULL != pdrgpos);
-	const ULONG ulOsSize = pdrgpos->UlLength();
+	const ULONG ulOsSize = pdrgpos->Size();
 	for (ULONG ul = 0; ul < ulOsSize; ul++)
 	{
 		CDXLWindowKey *pdxlwk = GPOS_NEW(m_pmp) CDXLWindowKey(m_pmp);
@@ -6760,7 +6760,7 @@ CTranslatorExprToDXL::PdxlnWindow
 		pdrgpdxlwk->Append(pdxlwk);
 	}
 
-	const ULONG ulFrames = popSeqPrj->Pdrgpwf()->UlLength();
+	const ULONG ulFrames = popSeqPrj->Pdrgpwf()->Size();
 	for (ULONG ul = 0; ul < ulFrames; ul++)
 	{
 		CDXLWindowFrame *pdxlwf = Pdxlwf((*popSeqPrj->Pdrgpwf())[ul]);
@@ -7166,7 +7166,7 @@ CTranslatorExprToDXL::Pdxltabdesc
 	)
 {
 	GPOS_ASSERT(NULL != ptabdesc);
-	GPOS_ASSERT_IMP(NULL != pdrgpcrOutput, ptabdesc->UlColumns() == pdrgpcrOutput->UlLength());
+	GPOS_ASSERT_IMP(NULL != pdrgpcrOutput, ptabdesc->UlColumns() == pdrgpcrOutput->Size());
 
 	// get tbl name
 	CMDName *pmdnameTbl = GPOS_NEW(m_pmp) CMDName(m_pmp, ptabdesc->Name().Pstr());
@@ -7312,7 +7312,7 @@ CTranslatorExprToDXL::PdxlnProjList
 	{
 		CColRefSet *pcrs= GPOS_NEW(m_pmp) CColRefSet(m_pmp);
 
-		for (ULONG ul = 0; ul < pdrgpcr->UlLength(); ul++)
+		for (ULONG ul = 0; ul < pdrgpcr->Size(); ul++)
 		{
 			CColRef *pcr = (*pdrgpcr)[ul];
 
@@ -7415,7 +7415,7 @@ CTranslatorExprToDXL::PdxlnProjList
 	CDXLScalarProjList *pdxlopPrL = GPOS_NEW(m_pmp) CDXLScalarProjList(m_pmp);
 	CDXLNode *pdxlnProjList = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopPrL);
 
-	const ULONG ulCols = pdrgpcrCopy->UlLength();
+	const ULONG ulCols = pdrgpcrCopy->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrCopy)[ul];
@@ -7518,7 +7518,7 @@ CTranslatorExprToDXL::PdxlnProjListFromConstTableGet
 {
 	GPOS_ASSERT(NULL != pdrgpcrCTGOutput);
 	GPOS_ASSERT(NULL != pdrgpdatumValues);
-	GPOS_ASSERT(pdrgpcrCTGOutput->UlLength() == pdrgpdatumValues->UlLength());
+	GPOS_ASSERT(pdrgpcrCTGOutput->Size() == pdrgpdatumValues->Size());
 	
 	CDXLNode *pdxlnProjList = NULL;
 	CColRefSet *pcrsOutput = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
@@ -7526,14 +7526,14 @@ CTranslatorExprToDXL::PdxlnProjListFromConstTableGet
 
 	if (NULL != pdrgpcrReqOutput)
 	{
-		const ULONG ulArity = pdrgpcrReqOutput->UlLength();
+		const ULONG ulArity = pdrgpcrReqOutput->Size();
 		DrgPdatum *pdrgpdatumOrdered = GPOS_NEW(m_pmp) DrgPdatum(m_pmp);
 
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CColRef *pcr = (*pdrgpcrReqOutput)[ul];
 			ULONG ulPos = UlPosInArray(pcr, pdrgpcrCTGOutput);
-			GPOS_ASSERT(ulPos < pdrgpcrCTGOutput->UlLength());
+			GPOS_ASSERT(ulPos < pdrgpcrCTGOutput->Size());
 			IDatum *pdatum = (*pdrgpdatumValues)[ulPos];
 			pdatum->AddRef();
 			pdrgpdatumOrdered->Append(pdatum);
@@ -7554,7 +7554,7 @@ CTranslatorExprToDXL::PdxlnProjListFromConstTableGet
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulPos = UlPosInArray(pcr, pdrgpcrCTGOutput);
-		GPOS_ASSERT(ulPos < pdrgpcrCTGOutput->UlLength());
+		GPOS_ASSERT(ulPos < pdrgpcrCTGOutput->Size());
 		IDatum *pdatum = (*pdrgpdatumValues)[ulPos];
 		CDXLScalarConstValue *pdxlopConstValue = pcr->Pmdtype()->PdxlopScConst(m_pmp, pdatum);
 		CDXLNode *pdxlnPrEl = PdxlnProjElem(pcr, GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopConstValue));
@@ -7701,7 +7701,7 @@ CTranslatorExprToDXL::PdxlnHashExprList
 	CDXLNode *pdxlnHashExprList = 
 			GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarHashExprList(m_pmp));
 	
-	for (ULONG ul = 0; ul < pdrgpexpr->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpexpr->Size(); ul++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
 		CScalar *popScalar = CScalar::PopConvert(pexpr->Pop());
@@ -7880,7 +7880,7 @@ CTranslatorExprToDXL::UlPosInArray
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(NULL != pcr);
 	
-	const ULONG ulSize = pdrgpcr->UlLength();
+	const ULONG ulSize = pdrgpcr->Size();
 	
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{

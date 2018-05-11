@@ -158,7 +158,7 @@ namespace gpos
 			// clear elements
 			void Clear()
             {
-                for (ULONG i = 0; i < m_pdrgPiFilledBuckets->UlLength(); i++)
+                for (ULONG i = 0; i < m_pdrgPiFilledBuckets->Size(); i++)
                 {
                     // release each hash chain
                     m_ppdrgchain[*(*m_pdrgPiFilledBuckets)[i]]->Release();

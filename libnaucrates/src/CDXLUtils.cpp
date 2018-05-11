@@ -487,7 +487,7 @@ CDXLUtils::PmdidParseDXL
 	// collect metadata objects from dxl parse handler
 	DrgPmdid *pdrgpmdid = pphdxl->Pdrgpmdid();
 	
-	GPOS_ASSERT(1 == pdrgpmdid->UlLength());
+	GPOS_ASSERT(1 == pdrgpmdid->Size());
 	
 	IMDId *pmdid = (*pdrgpmdid)[0];
 	pmdid->AddRef();
@@ -663,7 +663,7 @@ CDXLUtils::PdrgpstatsTranslateStats
 	GPOS_ASSERT(NULL != pdrgpdxlstatsderrel);
 
 	DrgPstats *pdrgpstat = GPOS_NEW(pmp) DrgPstats(pmp);
-	const ULONG ulRelStat = pdrgpdxlstatsderrel->UlLength();
+	const ULONG ulRelStat = pdrgpdxlstatsderrel->Size();
 	for (ULONG ulIdxRelStat = 0; ulIdxRelStat < ulRelStat; ulIdxRelStat++)
 	{
 		// create hash map from colid -> histogram
@@ -675,7 +675,7 @@ CDXLUtils::PdrgpstatsTranslateStats
 		CDXLStatsDerivedRelation *pdxlstatsderrel = (*pdrgpdxlstatsderrel)[ulIdxRelStat];
 		const DrgPdxlstatsdercol *pdrgpdxlstatsdercol = pdxlstatsderrel->Pdrgpdxlstatsdercol();
 		
-		const ULONG ulColStats = pdrgpdxlstatsdercol->UlLength();
+		const ULONG ulColStats = pdrgpdxlstatsdercol->Size();
 		for (ULONG ulIdxColStat = 0; ulIdxColStat < ulColStats; ulIdxColStat++)
 		{
 			CDXLStatsDerivedColumn *pdxlstatsdercol = (*pdrgpdxlstatsdercol)[ulIdxColStat];
@@ -729,7 +729,7 @@ CDXLUtils::Pdrgpbucket
 	DrgPbucket *pdrgppbucket = GPOS_NEW(pmp) DrgPbucket(pmp);
 	
 	const DrgPdxlbucket *pdrgpdxlbucket = pdxlstatsdercol->Pdrgpdxlbucket();	
-	const ULONG ulBuckets = pdrgpdxlbucket->UlLength();
+	const ULONG ulBuckets = pdrgpdxlbucket->Size();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
 		CDXLBucket *pdxlbucket = (*pdrgpdxlbucket)[ul];
@@ -836,7 +836,7 @@ CDXLUtils::PimdobjParseDXL
 	// collect metadata objects from dxl parse handler
 	DrgPimdobj *pdrgpmdobj = a_pphdxl->Pdrgpmdobj();
 
-	if (0 == pdrgpmdobj->UlLength())
+	if (0 == pdrgpmdobj->Size())
 	{
 		// no metadata objects found
 		return NULL;
@@ -885,7 +885,7 @@ CDXLUtils::SerializeQuery
 
 	// serialize the query output columns
 	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenQueryOutput));
-	for (ULONG ul = 0; ul < pdrgpdxlnQueryOutput->UlLength(); ++ul)
+	for (ULONG ul = 0; ul < pdrgpdxlnQueryOutput->Size(); ++ul)
 	{
 		CDXLNode *pdxlnScId = (*pdrgpdxlnQueryOutput)[ul];
 		pdxlnScId->SerializeToDXL(&xmlser);
@@ -894,7 +894,7 @@ CDXLUtils::SerializeQuery
 
 	// serialize the CTE list
 	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTEList));
-	const ULONG ulCTEs = pdrgpdxlnCTE->UlLength();
+	const ULONG ulCTEs = pdrgpdxlnCTE->Size();
 	for (ULONG ul = 0; ul < ulCTEs; ++ul)
 	{
 		CDXLNode *pdxlnCTE = (*pdrgpdxlnCTE)[ul];
@@ -1023,7 +1023,7 @@ CDXLUtils::SerializeMetadata
 	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMetadata));
 
 
-	for (ULONG ul = 0; ul < pdrgpmdobj->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpmdobj->Size(); ul++)
 	{
 		IMDCacheObject *pimdobj = (*pdrgpmdobj)[ul];
 		pimdobj->Serialize(&xmlser);
@@ -1330,7 +1330,7 @@ CDXLUtils::SerializeStatistics
 
 	GPOS_ASSERT(NULL != pdrgpstat);
 
-	for (ULONG ul = 0; ul < pdrgpstat->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpstat->Size(); ul++)
 	{
 		CStatistics *pstats = (*pdrgpstat)[ul];
 		CDXLStatsDerivedRelation *pdxlstatsderrel = pstats->Pdxlstatsderrel(pmp, pmda);
@@ -1805,7 +1805,7 @@ CDXLUtils::PstrSerialize
 	const DrgPdrgPul *pdrgpdrgpul
 	)
 {
-	const ULONG ulLen = pdrgpdrgpul->UlLength();
+	const ULONG ulLen = pdrgpdrgpul->Size();
 	CWStringDynamic *pstrKeys = GPOS_NEW(pmp) CWStringDynamic(pmp);
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -1835,7 +1835,7 @@ CDXLUtils::PstrSerializeSz
 {
 	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
 
-	ULONG ulLength = pdrgsz->UlLength();
+	ULONG ulLength = pdrgsz->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		CHAR tValue = *((*pdrgsz)[ul]);
@@ -1970,7 +1970,7 @@ CDXLUtils::DebugPrintDrgpmdid
 	DrgPmdid *pdrgpmdid
 	)
 {
-	ULONG ulLen = pdrgpmdid->UlLength();
+	ULONG ulLen = pdrgpmdid->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		const IMDId *pmdid = (*pdrgpmdid)[ul];

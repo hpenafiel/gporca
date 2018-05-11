@@ -72,7 +72,7 @@ CLogicalRowTrigger::CLogicalRowTrigger
 	GPOS_ASSERT(0 != iType);
 	GPOS_ASSERT(NULL != pdrgpcrNew || NULL != pdrgpcrOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpcrNew && NULL != pdrgpcrOld,
-			pdrgpcrNew->UlLength() == pdrgpcrOld->UlLength());
+			pdrgpcrNew->Size() == pdrgpcrOld->Size());
 	InitFunctionProperties();
 }
 
@@ -195,8 +195,8 @@ CLogicalRowTrigger::FMatch
 
 	return m_pmdidRel->FEquals(popRowTrigger->PmdidRel()) &&
 			m_iType == popRowTrigger->IType() &&
-			m_pdrgpcrOld->FEqual(popRowTrigger->PdrgpcrOld()) &&
-			m_pdrgpcrNew->FEqual(popRowTrigger->PdrgpcrNew());
+			m_pdrgpcrOld->Equals(popRowTrigger->PdrgpcrOld()) &&
+			m_pdrgpcrNew->Equals(popRowTrigger->PdrgpcrNew());
 }
 
 //---------------------------------------------------------------------------

@@ -174,7 +174,7 @@ CPhysicalScan::PexprMatchEqualitySide
 	GPOS_ASSERT(NULL != pdrgpexpr);
 
 	CExpression *pexprMatching = NULL;
-	const ULONG ulSize = pdrgpexpr->UlLength();
+	const ULONG ulSize = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexpr)[ul];
@@ -238,7 +238,7 @@ CPhysicalScan::PdshashedDeriveWithOuterRefs
 	DrgPexpr *pdrgpexprMatching = GPOS_NEW(pmp) DrgPexpr(pmp);
 	CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(m_pds);
 	DrgPexpr *pdrgpexprHashed = pdshashed->Pdrgpexpr();
-	const ULONG ulSize = pdrgpexprHashed->UlLength();
+	const ULONG ulSize = pdrgpexprHashed->Size();
 
 	BOOL fSuccess = true;
 	for (ULONG ul = 0; fSuccess && ul < ulSize; ul++)
@@ -256,7 +256,7 @@ CPhysicalScan::PdshashedDeriveWithOuterRefs
 
 	if (fSuccess)
 	{
-		GPOS_ASSERT(pdrgpexprMatching->UlLength() == pdrgpexprHashed->UlLength());
+		GPOS_ASSERT(pdrgpexprMatching->Size() == pdrgpexprHashed->Size());
 
 		// create a matching hashed distribution request
 		BOOL fNullsColocated = pdshashed->FNullsColocated();

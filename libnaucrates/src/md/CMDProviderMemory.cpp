@@ -106,7 +106,7 @@ CMDProviderMemory::LoadMetadataObjectsFromArray
 	m_pmdmap = GPOS_NEW(pmp) MDMap(pmp);
 	a_pmdmap = m_pmdmap;
 
-	const ULONG ulSize = pdrgpmdobj->UlLength();
+	const ULONG ulSize = pdrgpmdobj->Size();
 
 	// load objects into the hash map
 	for (ULONG ul = 0; ul < ulSize; ul++)

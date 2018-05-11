@@ -834,7 +834,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 
 	CConstraintInterval *pcnstIn = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprArrayComp, pcr);
 	GPOS_ASSERT(CConstraint::EctInterval == pcnstIn->Ect());
-	GPOS_ASSERT(pcnstIn->Pdrgprng()->UlLength() == CUtils::UlCountOperator(pexprArrayComp, COperator::EopScalarConst));
+	GPOS_ASSERT(pcnstIn->Pdrgprng()->Size() == CUtils::UlCountOperator(pexprArrayComp, COperator::EopScalarConst));
 
 	pcnstIn->Release();
 	pexpr->Release();
@@ -847,7 +847,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 	CConstraintInterval *pcnstNotIn = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprArrayNotInComp, pcrNot);
 	GPOS_ASSERT(CConstraint::EctInterval == pcnstNotIn->Ect());
 	// a NOT IN range array should have one more element than the expression array consts
-	GPOS_ASSERT(pcnstNotIn->Pdrgprng()->UlLength() == 1 + CUtils::UlCountOperator(pexprArrayNotInComp, COperator::EopScalarConst));
+	GPOS_ASSERT(pcnstNotIn->Pdrgprng()->Size() == 1 + CUtils::UlCountOperator(pexprArrayNotInComp, COperator::EopScalarConst));
 
 	pexprNotIn->Release();
 	pcnstNotIn->Release();
@@ -866,7 +866,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 	CExpression *pexprArrayCmpRepeats = (*pexprInRepeatsSelect->PdrgPexpr())[1];
 	// add 2 repeated values and one unique
 	CConstraintInterval *pcnstInRepeats = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprArrayCmpRepeats, pcrInRepeats);
-	GPOS_ASSERT(5 == pcnstInRepeats->Pdrgprng()->UlLength());
+	GPOS_ASSERT(5 == pcnstInRepeats->Pdrgprng()->Size());
 	pexprInRepeatsSelect->Release();
 	pcnstInRepeats->Release();
 
@@ -876,7 +876,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 	CExpression *pexprNotInArrayCmpRepeats = (*pexprNotInRepeatsSelect->PdrgPexpr())[1];
 	CConstraintInterval *pcnstNotInRepeats = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprNotInArrayCmpRepeats, pcrNotInRepeats);
 	// a total of 5 unique ScalarConsts in the expression will result in 6 ranges
-	GPOS_ASSERT(6 == pcnstNotInRepeats->Pdrgprng()->UlLength());
+	GPOS_ASSERT(6 == pcnstNotInRepeats->Pdrgprng()->Size());
 	pexprNotInRepeatsSelect->Release();
 	pcnstNotInRepeats->Release();
 	pdrgpi->Release();
@@ -938,7 +938,7 @@ EresUnittest_CConstraintIntervalFromArrayExprIncludesNull()
 	CColRef *pcr = CDrvdPropRelational::Pdprel(pexprIn->PdpDerive())->PcrsOutput()->PcrAny();
 	CConstraintInterval *pci = CConstraintInterval::PciIntervalFromScalarExpr(pmp, (*pexprIn)[1], pcr);
 	GPOS_RTL_ASSERT(pci->FIncludesNull());
-	GPOS_RTL_ASSERT(2 == pci->Pdrgprng()->UlLength());
+	GPOS_RTL_ASSERT(2 == pci->Pdrgprng()->Size());
 	pexprIn->Release();
 	pci->Release();
 	pdrgpi->Release();
@@ -1234,7 +1234,7 @@ CConstraintTest::PrintEquivClasses
 		return;
 	}
 
-	for (ULONG ul = 0; ul < pdrgpcrs->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpcrs->Size(); ul++)
 	{
 		at.Os() << "{" << *(*pdrgpcrs)[ul] << "} ";
 	}

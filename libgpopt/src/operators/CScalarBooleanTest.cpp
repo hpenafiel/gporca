@@ -129,7 +129,7 @@ CScalarBooleanTest::Eber
 	const
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
-	GPOS_ASSERT(1 == pdrgpulChildren->UlLength());
+	GPOS_ASSERT(1 == pdrgpulChildren->Size());
 
 	EBoolEvalResult eber = (EBoolEvalResult) *((*pdrgpulChildren)[0]);
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(m_rgBoolEvalMap); ul++)

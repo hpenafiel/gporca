@@ -72,7 +72,7 @@ CPropConstraint::InitHashMap
 {
 	GPOS_ASSERT(NULL == m_phmcrcrs);
 	m_phmcrcrs = GPOS_NEW(pmp) HMCrCrs(pmp);
-	const ULONG ulEquiv = m_pdrgpcrs->UlLength();
+	const ULONG ulEquiv = m_pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulEquiv; ul++)
 	{
 		CColRefSet *pcrs = (*m_pdrgpcrs)[ul];
@@ -172,7 +172,7 @@ CPropConstraint::OsPrint
 	)
 	const
 {
-	const ULONG ulLen = m_pdrgpcrs->UlLength();
+	const ULONG ulLen = m_pdrgpcrs->Size();
 	if (0 < ulLen)
 	{
 		os << "Equivalence Classes: { ";

@@ -104,7 +104,7 @@ CLogicalInsert::FMatch
 	CLogicalInsert *popInsert = CLogicalInsert::PopConvert(pop);
 
 	return m_ptabdesc->Pmdid()->FEquals(popInsert->Ptabdesc()->Pmdid()) &&
-			m_pdrgpcrSource->FEqual(popInsert->PdrgpcrSource());
+			m_pdrgpcrSource->Equals(popInsert->PdrgpcrSource());
 }
 
 //---------------------------------------------------------------------------

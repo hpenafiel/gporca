@@ -76,7 +76,7 @@ CPhysicalExternalScan::FMatch
 
 	CPhysicalExternalScan *popExternalScan = CPhysicalExternalScan::PopConvert(pop);
 	return m_ptabdesc == popExternalScan->Ptabdesc() &&
-			m_pdrgpcrOutput->FEqual(popExternalScan->PdrgpcrOutput());
+			m_pdrgpcrOutput->Equals(popExternalScan->PdrgpcrOutput());
 }
 
 //---------------------------------------------------------------------------

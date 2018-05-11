@@ -161,7 +161,7 @@ CLogicalDifference::PstatsDerive
 	// difference is transformed into an aggregate over a LASJ,
 	// we follow the same route to compute statistics
 	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(pmp) DrgPcrs(pmp);
-	const ULONG ulSize = m_pdrgpdrgpcrInput->UlLength();
+	const ULONG ulSize = m_pdrgpdrgpcrInput->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, (*m_pdrgpdrgpcrInput)[ul]);

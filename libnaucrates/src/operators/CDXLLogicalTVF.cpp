@@ -99,7 +99,7 @@ CDXLLogicalTVF::PstrOpName() const
 ULONG
 CDXLLogicalTVF::UlArity() const
 {
-	return m_pdrgdxlcd->UlLength();
+	return m_pdrgdxlcd->Size();
 }
 
 //---------------------------------------------------------------------------

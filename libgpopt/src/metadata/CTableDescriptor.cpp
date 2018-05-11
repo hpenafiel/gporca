@@ -101,7 +101,7 @@ CTableDescriptor::UlColumns() const
 	// array allocated in ctor
 	GPOS_ASSERT(NULL != m_pdrgpcoldesc);
 	
-	return m_pdrgpcoldesc->UlLength();
+	return m_pdrgpcoldesc->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -124,7 +124,7 @@ CTableDescriptor::UlPos
 	GPOS_ASSERT(NULL != pcoldesc);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 	
-	ULONG ulArity = pdrgpcoldesc->UlLength();
+	ULONG ulArity = pdrgpcoldesc->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (pcoldesc == (*pdrgpcoldesc)[ul])
@@ -153,7 +153,7 @@ CTableDescriptor::UlPosition
 {
 	GPOS_ASSERT(NULL != m_pdrgpcoldesc);
 	ULONG ulPos = ULONG_MAX;
-	ULONG ulArity = m_pdrgpcoldesc->UlLength();
+	ULONG ulArity = m_pdrgpcoldesc->Size();
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -240,9 +240,9 @@ CTableDescriptor::FAddKeySet
 	)
 {
 	GPOS_ASSERT(NULL != pbs);
-	GPOS_ASSERT(pbs->CElements() <= m_pdrgpcoldesc->UlLength());
+	GPOS_ASSERT(pbs->CElements() <= m_pdrgpcoldesc->Size());
 	
-	const ULONG ulSize = m_pdrgpbsKeys->UlLength();
+	const ULONG ulSize = m_pdrgpbsKeys->Size();
 	BOOL fFound = false;
 	for (ULONG ul = 0; !fFound && ul < ulSize; ul++)
 	{
@@ -297,7 +297,7 @@ CTableDescriptor::OsPrint
 {
 	m_name.OsPrint(os);
 	os << ": (";
-	CUtils::OsPrintDrgPcoldesc(os, m_pdrgpcoldesc, m_pdrgpcoldesc->UlLength());
+	CUtils::OsPrintDrgPcoldesc(os, m_pdrgpcoldesc, m_pdrgpcoldesc->Size());
 	os << ")";
 	return os;
 }

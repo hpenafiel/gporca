@@ -395,7 +395,7 @@ CPhysicalSpool::FValidContext
 	const
 {
 	GPOS_ASSERT(NULL != pdrgpocChild);
-	GPOS_ASSERT(1 == pdrgpocChild->UlLength());
+	GPOS_ASSERT(1 == pdrgpocChild->Size());
 
 	COptimizationContext *pocChild = (*pdrgpocChild)[0];
 	CCostContext *pccBest = pocChild->PccBest();

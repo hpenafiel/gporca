@@ -75,7 +75,7 @@ CDecorrelator::FPullableCorrelations
 		COperator::EopLogicalLeftSemiJoin == eopid ||
 		COperator::EopLogicalLeftAntiSemiJoin == eopid ||
 		CUtils::FCorrelatedApply(pexpr->Pop());
-	GPOS_ASSERT_IMP(fSemiJoin, 2 == pdrgpexprChildren->UlLength());
+	GPOS_ASSERT_IMP(fSemiJoin, 2 == pdrgpexprChildren->Size());
 
 	if (fSemiJoin)
 	{
@@ -301,7 +301,7 @@ CDecorrelator::FProcessPredicate
 	BOOL fSuccess = true;
 	
 	// divvy up the predicates in residuals (w/ no outer ref) and correlations (w/ outer refs)
-	ULONG ulLength = pdrgpexprConj->UlLength();
+	ULONG ulLength = pdrgpexprConj->Size();
 	for(ULONG ul = 0; ul < ulLength && fSuccess; ul++)
 	{
 		CExpression *pexprConj = (*pdrgpexprConj)[ul];
@@ -327,7 +327,7 @@ CDecorrelator::FProcessPredicate
 
 	pdrgpexprConj->Release();
 
-	if (!fSuccess || 0 == pdrgpexprResiduals->UlLength())
+	if (!fSuccess || 0 == pdrgpexprResiduals->Size())
 	{
 		// clean up
 		pdrgpexprResiduals->Release();

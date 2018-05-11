@@ -262,7 +262,7 @@ CLogicalProject::PpcDeriveConstraint
 		}
 	}
 
-	if (0 == pdrgpcnstr->UlLength() && 0 == pdrgpcrs->UlLength())
+	if (0 == pdrgpcnstr->Size() && 0 == pdrgpcrs->Size())
 	{
 		// no constants or equivalence classes found, so just return the same constraint property of the child
 		pdrgpcnstr->Release();

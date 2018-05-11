@@ -495,10 +495,10 @@ CMDAccessor::RegisterProviders
 {
 	GPOS_ASSERT(NULL != pdrgpmdp);
 	GPOS_ASSERT(NULL != pdrgpsysid);
-	GPOS_ASSERT(pdrgpmdp->UlLength() == pdrgpsysid->UlLength());
-	GPOS_ASSERT(0 < pdrgpmdp->UlLength());
+	GPOS_ASSERT(pdrgpmdp->Size() == pdrgpsysid->Size());
+	GPOS_ASSERT(0 < pdrgpmdp->Size());
 
-	const ULONG ulProviders = pdrgpmdp->UlLength();
+	const ULONG ulProviders = pdrgpmdp->Size();
 	for (ULONG ul = 0; ul < ulProviders; ul++)
 	{
 		IMDProvider *pmdp = (*pdrgpmdp)[ul];

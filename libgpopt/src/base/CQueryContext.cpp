@@ -50,10 +50,10 @@ CQueryContext::CQueryContext
 	GPOS_ASSERT(NULL != prpp);
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(NULL != pdrgpmdname);
-	GPOS_ASSERT(pdrgpcr->UlLength() == pdrgpmdname->UlLength());
+	GPOS_ASSERT(pdrgpcr->Size() == pdrgpmdname->Size());
 
 #ifdef GPOS_DEBUG
-	const ULONG ulReqdColumns = m_pdrgpcr->UlLength();
+	const ULONG ulReqdColumns = m_pdrgpcr->Size();
 #endif //GPOS_DEBUG
 
 	// mark unused CTEs
@@ -70,7 +70,7 @@ CQueryContext::CQueryContext
 	m_pexpr = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr, pcrsOutputAndOrderingCols);
 
 	pcrsOutputAndOrderingCols->Release();
-	GPOS_ASSERT(m_pdrgpcr->UlLength() == ulReqdColumns);
+	GPOS_ASSERT(m_pdrgpcr->Size() == ulReqdColumns);
 
 	// collect required system columns
 	SetSystemCols(pmp);
@@ -150,7 +150,7 @@ CQueryContext::SetSystemCols
 	GPOS_ASSERT(NULL != m_pdrgpcr);
 
 	m_pdrgpcrSystemCols = GPOS_NEW(pmp) DrgPcr(pmp);
-	const ULONG ulReqdCols = m_pdrgpcr->UlLength();
+	const ULONG ulReqdCols = m_pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulReqdCols; ul++)
 	{
 		CColRef *pcr = (*m_pdrgpcr)[ul];
@@ -191,7 +191,7 @@ CQueryContext::PqcGenerate
 	GPOS_ASSERT(NULL != pcf);
 
 	// Collect required column references (pdrgpcr)
-	const ULONG ulLen = pdrgpulQueryOutputColRefId->UlLength();
+	const ULONG ulLen = pdrgpulQueryOutputColRefId->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		ULONG *pul = (*pdrgpulQueryOutputColRefId)[ul];

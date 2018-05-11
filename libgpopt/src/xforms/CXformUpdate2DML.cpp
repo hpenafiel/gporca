@@ -198,7 +198,7 @@ CXformUpdate2DML::Transform
 	
 	GPOS_ASSERT(NULL != pcrTableOid);
 
-	const ULONG ulCols = pdrgpcrInsert->UlLength();
+	const ULONG ulCols = pdrgpcrInsert->Size();
 
 	CBitSet *pbsModified = GPOS_NEW(pmp) CBitSet(pmp, ptabdesc->UlColumns());
 	for (ULONG ul = 0; ul < ulCols; ul++)

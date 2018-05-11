@@ -250,7 +250,7 @@ CScalarArrayCmp::PexprExpand
 		CExpression *pexprCmp = CUtils::PexprScalarCmp(pmp, pexprIdent, pexprArrayElem, *pstrOpName, pmdidOp);
 		pdrgpexpr->Append(pexprCmp);
 	}
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
 	// deduplicate resulting array
 	DrgPexpr *pdrgpexprDeduped = CUtils::PdrgpexprDedup(pmp, pdrgpexpr);

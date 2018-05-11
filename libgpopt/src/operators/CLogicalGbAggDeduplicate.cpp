@@ -225,8 +225,8 @@ CLogicalGbAggDeduplicate::FMatch
 	}
 
 	return popAgg->Egbaggtype() == Egbaggtype() &&
-			Pdrgpcr()->FEqual(popAgg->Pdrgpcr()) &&
-			m_pdrgpcrKeys->FEqual(popAgg->PdrgpcrKeys()) &&
+			Pdrgpcr()->Equals(popAgg->Pdrgpcr()) &&
+			m_pdrgpcrKeys->Equals(popAgg->PdrgpcrKeys()) &&
 			CColRef::FEqual(PdrgpcrMinimal(), popAgg->PdrgpcrMinimal());
 }
 
@@ -279,7 +279,7 @@ CLogicalGbAggDeduplicate::PstatsDerive
 
 	// construct bitset with keys of join child
 	CBitSet *pbsKeys = GPOS_NEW(pmp) CBitSet(pmp);
-	const ULONG ulKeys = m_pdrgpcrKeys->UlLength();
+	const ULONG ulKeys = m_pdrgpcrKeys->Size();
 	for (ULONG ul = 0; ul < ulKeys; ul++)
 	{
 		CColRef *pcr = (*m_pdrgpcrKeys)[ul];

@@ -83,7 +83,7 @@ CPhysicalTableScan::FMatch
 
 	CPhysicalTableScan *popTableScan = CPhysicalTableScan::PopConvert(pop);
 	return m_ptabdesc->Pmdid()->FEquals(popTableScan->Ptabdesc()->Pmdid()) &&
-			m_pdrgpcrOutput->FEqual(popTableScan->PdrgpcrOutput());
+			m_pdrgpcrOutput->Equals(popTableScan->PdrgpcrOutput());
 }
 
 

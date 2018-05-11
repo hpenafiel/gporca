@@ -57,7 +57,7 @@ CXformLeftSemiApplyWithExternalCorrs2InnerJoin::FSplitCorrelations
 	// split correlations into external correlations and residual correlations
 	DrgPexpr *pdrgpexprExternal = GPOS_NEW(pmp) DrgPexpr(pmp);
 	DrgPexpr *pdrgpexprResidual = GPOS_NEW(pmp) DrgPexpr(pmp);
-	const ULONG ulCorrs = pdrgpexprAllCorr->UlLength();
+	const ULONG ulCorrs = pdrgpexprAllCorr->Size();
 	CColRefSet *pcrsUsed = GPOS_NEW(pmp) CColRefSet(pmp); // set of inner columns used in external correlations
 	BOOL fSuccess = true;
 	for (ULONG ul = 0; fSuccess && ul < ulCorrs; ul++)
@@ -89,7 +89,7 @@ CXformLeftSemiApplyWithExternalCorrs2InnerJoin::FSplitCorrelations
 	}
 	pcrsChildren->Release();
 
-	if (!fSuccess || 0 == pdrgpexprExternal->UlLength())
+	if (!fSuccess || 0 == pdrgpexprExternal->Size())
 	{
 		// failed to find external correlations
 		pcrsUsed->Release();
@@ -226,7 +226,7 @@ CXformLeftSemiApplyWithExternalCorrs2InnerJoin::PexprDecorrelate
 
 		return NULL;
 	}
-	GPOS_ASSERT(pdrgpexprExternal->UlLength() + pdrgpexprResidual->UlLength() == pdrgpexprAllCorr->UlLength());
+	GPOS_ASSERT(pdrgpexprExternal->Size() + pdrgpexprResidual->Size() == pdrgpexprAllCorr->Size());
 
 	pdrgpexprAllCorr->Release();
 

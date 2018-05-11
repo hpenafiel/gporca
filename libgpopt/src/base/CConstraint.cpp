@@ -274,7 +274,7 @@ CConstraint::PcnstrConjDisj
 
 	CConstraint *pcnstr = NULL;
 
-	const ULONG ulLen = pdrgpcnstr->UlLength();
+	const ULONG ulLen = pdrgpcnstr->Size();
 
 	switch (ulLen)
 	{
@@ -325,7 +325,7 @@ CConstraint::AddColumnToEquivClasses
 	DrgPcrs **ppdrgpcrs
 	)
 {
-	const ULONG ulLen = (*ppdrgpcrs)->UlLength();
+	const ULONG ulLen = (*ppdrgpcrs)->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRefSet *pcrs = (**ppdrgpcrs)[ul];
@@ -470,7 +470,7 @@ CConstraint::PcnstrFromScalarBoolOp
 		pdrgpcrsChild->Release();
 	}
 
-	const ULONG ulLen = pdrgpcnstr->UlLength();
+	const ULONG ulLen = pdrgpcnstr->Size();
 	if (0 == ulLen)
 	{
 		pdrgpcnstr->Release();
@@ -564,7 +564,7 @@ CConstraint::PdrgpcnstrOnColumn
 {
 	DrgPcnstr *pdrgpcnstrSubset = GPOS_NEW(pmp) DrgPcnstr(pmp);
 
-	const ULONG ulLen = pdrgpcnstr->UlLength();
+	const ULONG ulLen = pdrgpcnstr->Size();
 
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -602,7 +602,7 @@ CConstraint::PexprScalarConjDisj
 {
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulLen = pdrgpcnstr->UlLength();
+	const ULONG ulLen = pdrgpcnstr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CExpression *pexpr = (*pdrgpcnstr)[ul]->PexprScalar(pmp);
@@ -639,7 +639,7 @@ CConstraint::PdrgpcnstrFlatten
 {
 	DrgPcnstr *pdrgpcnstrNew = GPOS_NEW(pmp) DrgPcnstr(pmp);
 
-	const ULONG ulLen = pdrgpcnstr->UlLength();
+	const ULONG ulLen = pdrgpcnstr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CConstraint *pcnstrChild = (*pdrgpcnstr)[ul];
@@ -690,7 +690,7 @@ CConstraint::PdrgpcnstrDeduplicate
 	CAutoRef<CColRefSet> pcrsDeduped(GPOS_NEW(pmp) CColRefSet(pmp));
 	CAutoRef<IColConstraintsMapper> arccm;
 
-	const ULONG ulLen = pdrgpcnstr->UlLength();
+	const ULONG ulLen = pdrgpcnstr->Size();
 
 	pdrgpcnstr->AddRef();
 	if (ulLen >= 5)
@@ -725,7 +725,7 @@ CConstraint::PdrgpcnstrDeduplicate
 
 		DrgPcnstr *pdrgpcnstrCol = arccm->PdrgPcnstrLookup(pcr);
 
-		if (1 == pdrgpcnstrCol->UlLength())
+		if (1 == pdrgpcnstrCol->Size())
 		{
 			// if there is only one such constraint, then no simplification
 			// for this column
@@ -820,7 +820,7 @@ CConstraint::PcnstrConjDisjRemapForColumn
 
 	DrgPcnstr *pdrgpcnstrNew = GPOS_NEW(pmp) DrgPcnstr(pmp);
 
-	const ULONG ulLen = pdrgpcnstr->UlLength();
+	const ULONG ulLen = pdrgpcnstr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		// clone child
@@ -955,7 +955,7 @@ CConstraint::PrintConjunctionDisjunction
 	GPOS_ASSERT(EctConjunction == ect || EctDisjunction == ect);
 
 	os << "(";
-	const ULONG ulArity = pdrgpcnstr->UlLength();
+	const ULONG ulArity = pdrgpcnstr->Size();
 	(*pdrgpcnstr)[0]->OsPrint(os);
 
 	for (ULONG ul = 1; ul < ulArity; ul++)

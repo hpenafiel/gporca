@@ -84,7 +84,7 @@ CPhysicalSequenceProject::CreateOrderSpec
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(m_pds);
 
 		const DrgPexpr *pdrgpexpr = pdshashed->Pdrgpexpr();
-		const ULONG ulSize = pdrgpexpr->UlLength();
+		const ULONG ulSize = pdrgpexpr->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			CExpression *pexpr = (*pdrgpexpr)[ul];
@@ -99,14 +99,14 @@ CPhysicalSequenceProject::CreateOrderSpec
 		}
 	}
 
-	if (0 == m_pdrgpos->UlLength())
+	if (0 == m_pdrgpos->Size())
 	{
 		return;
 	}
 
 	COrderSpec *posFirst = (*m_pdrgpos)[0];
 #ifdef GPOS_DEBUG
-	const ULONG ulLength = m_pdrgpos->UlLength();
+	const ULONG ulLength = m_pdrgpos->Size();
 	for (ULONG ul = 1; ul < ulLength; ul++)
 	{
 		COrderSpec *posCurrent = (*m_pdrgpos)[ul];
@@ -159,7 +159,7 @@ CPhysicalSequenceProject::ComputeRequiredLocalColumns
 	}
 
 	// add the columns used in the window frames
-	const ULONG ulSize = m_pdrgpwf->UlLength();
+	const ULONG ulSize = m_pdrgpwf->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CWindowFrame *pwf = (*m_pdrgpwf)[ul];

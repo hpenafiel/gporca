@@ -1612,7 +1612,7 @@ CExpressionPreprocessorTest::PexprCreateConjunction
 	GPOS_ASSERT(NULL != pdrgpcr);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
-	ULONG ulLength = pdrgpcr->UlLength();
+	ULONG ulLength = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLength; ++ul)
 	{
 		CExpression *pexprComparison= CUtils::PexprScalarEqCmp
@@ -1655,12 +1655,12 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefilters()
 	CColRefSet *pcrsInner = CDrvdPropRelational::Pdprel((*pexprJoin)[1]->PdpDerive())->PcrsOutput();
 	DrgPcr *pdrgpcrInner = pcrsInner->Pdrgpcr(pmp);
 	GPOS_ASSERT(pdrgpcrInner != NULL);
-	GPOS_ASSERT(3 <= pdrgpcrInner->UlLength());
+	GPOS_ASSERT(3 <= pdrgpcrInner->Size());
 
 	CColRefSet *pcrsOuter = CDrvdPropRelational::Pdprel((*pexprJoin)[0]->PdpDerive())->PcrsOutput();
 	DrgPcr *pdrgpcrOuter = pcrsOuter->Pdrgpcr(pmp);
 	GPOS_ASSERT(pdrgpcrOuter != NULL);
-	GPOS_ASSERT(3 <= pdrgpcrOuter->UlLength());
+	GPOS_ASSERT(3 <= pdrgpcrOuter->Size());
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 
@@ -1860,12 +1860,12 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefiltersPartialPush()
 	CColRefSet *pcrsInner = CDrvdPropRelational::Pdprel((*pexprJoin)[1]->PdpDerive())->PcrsOutput();
 	DrgPcr *pdrgpcrInner = pcrsInner->Pdrgpcr(pmp);
 	GPOS_ASSERT(NULL != pdrgpcrInner);
-	GPOS_ASSERT(3 <= pdrgpcrInner->UlLength());
+	GPOS_ASSERT(3 <= pdrgpcrInner->Size());
 
 	CColRefSet *pcrsOuter = CDrvdPropRelational::Pdprel((*pexprJoin)[0]->PdpDerive())->PcrsOutput();
 	DrgPcr *pdrgpcrOuter = pcrsOuter->Pdrgpcr(pmp);
 	GPOS_ASSERT(NULL != pdrgpcrOuter);
-	GPOS_ASSERT(3 <= pdrgpcrOuter->UlLength());
+	GPOS_ASSERT(3 <= pdrgpcrOuter->Size());
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 
@@ -2404,7 +2404,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessConvert2InPredicateDeepExpre
 
 	// get a column ref from the outermost Get expression
 	CAutoRef<DrgPcr> apdrgpcr(CDrvdPropRelational::Pdprel(apexprGet->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp));
-	GPOS_ASSERT(1 < apdrgpcr->UlLength());
+	GPOS_ASSERT(1 < apdrgpcr->Size());
 	CColRef *pcrLeft = (*apdrgpcr)[0];
 	CColRef *pcrRight = (*apdrgpcr)[1];
 

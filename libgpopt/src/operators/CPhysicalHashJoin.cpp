@@ -58,7 +58,7 @@ CPhysicalHashJoin::CPhysicalHashJoin
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != pdrgpexprOuterKeys);
 	GPOS_ASSERT(NULL != pdrgpexprInnerKeys);
-	GPOS_ASSERT(pdrgpexprOuterKeys->UlLength() == pdrgpexprInnerKeys->UlLength());
+	GPOS_ASSERT(pdrgpexprOuterKeys->Size() == pdrgpexprInnerKeys->Size());
 
 	CreateHashRedistributeRequests(pmp);
 
@@ -73,7 +73,7 @@ CPhysicalHashJoin::CPhysicalHashJoin
 	// Req(N + 2) (non-singleton, broadcast)
 	// Req(N + 3) (singleton, singleton)
 
-	ULONG ulDistrReqs = GPOPT_NON_HASH_DIST_REQUESTS + m_pdrgpdsRedistributeRequests->UlLength();
+	ULONG ulDistrReqs = GPOPT_NON_HASH_DIST_REQUESTS + m_pdrgpdsRedistributeRequests->Size();
 	SetDistrRequests(ulDistrReqs);
 
 	// With DP enabled, there are several (max 10 controlled by macro)
@@ -140,7 +140,7 @@ CPhysicalHashJoin::CreateHashRedistributeRequests
 	}
 
 	m_pdrgpdsRedistributeRequests = GPOS_NEW(pmp) DrgPds(pmp);
-	const ULONG ulExprs = std::min((ULONG) GPOPT_MAX_HASH_DIST_REQUESTS, pdrgpexpr->UlLength());
+	const ULONG ulExprs = std::min((ULONG) GPOPT_MAX_HASH_DIST_REQUESTS, pdrgpexpr->Size());
 	if (1 < ulExprs)
 	{
 		for (ULONG ul = 0; ul < ulExprs; ul++)
@@ -321,8 +321,8 @@ CPhysicalHashJoin::PdshashedMatching
 	}
 
 	const DrgPexpr *pdrgpexprDist = pdshashed->Pdrgpexpr();
-	const ULONG ulDlvrdSize = pdrgpexprDist->UlLength();
-	const ULONG ulSourceSize = pdrgpexprSource->UlLength();
+	const ULONG ulDlvrdSize = pdrgpexprDist->Size();
+	const ULONG ulSourceSize = pdrgpexprSource->Size();
 
 	DrgPexpr *pdrgpexprSourceNoCast = GPOS_NEW(pmp) DrgPexpr(pmp);
 	DrgPexpr *pdrgpexprTargetNoCast = GPOS_NEW(pmp) DrgPexpr(pmp);
@@ -361,7 +361,7 @@ CPhysicalHashJoin::PdshashedMatching
 	pdrgpexprTargetNoCast->Release();
 
 	// check if we failed to compute required distribution
-	if (pdrgpexpr->UlLength() != ulDlvrdSize)
+	if (pdrgpexpr->Size() != ulDlvrdSize)
 	{
 		pdrgpexpr->Release();
 		if (NULL != pdshashed->PdshashedEquiv())
@@ -370,7 +370,7 @@ CPhysicalHashJoin::PdshashedMatching
 			return PdshashedMatching(pmp, pdshashed->PdshashedEquiv(), ulSourceChild);
 		}
 	}
-	GPOS_ASSERT(pdrgpexpr->UlLength() == ulDlvrdSize);
+	GPOS_ASSERT(pdrgpexpr->Size() == ulDlvrdSize);
 
 	return GPOS_NEW(pmp) CDistributionSpecHashed(pdrgpexpr, true /* fNullsCollocated */);
 }
@@ -467,7 +467,7 @@ CPhysicalHashJoin::PdsRequiredReplicate
 		return GPOS_NEW(pmp) CDistributionSpecSingleton(CDistributionSpecSingleton::EstMaster);
 	}
 
-	if (ulOptReq == m_pdrgpdsRedistributeRequests->UlLength() &&
+	if (ulOptReq == m_pdrgpdsRedistributeRequests->Size() &&
 		CDistributionSpec::EdtHashed == pdsInput->Edt())
 	{
 		// attempt to propagate hashed request to child
@@ -511,7 +511,7 @@ CPhysicalHashJoin::PdshashedPassThru
 	)
 	const
 {
-	GPOS_ASSERT(ulOptReq == m_pdrgpdsRedistributeRequests->UlLength());
+	GPOS_ASSERT(ulOptReq == m_pdrgpdsRedistributeRequests->Size());
 	GPOS_ASSERT(NULL != pdshashedInput);
 
 	if (!GPOS_FTRACE(EopttraceEnableRedistributeBroadcastHashJoin))
@@ -539,7 +539,7 @@ CPhysicalHashJoin::PdshashedPassThru
 		 // incoming request intersects with columns from outer child,
 		 // we restrict the request to outer child columns only, then we pass it through
 		 DrgPexpr *pdrgpexprChildRequest = GPOS_NEW(pmp) DrgPexpr(pmp);
-		 const ULONG ulSize = pdrgpexprIncomingRequest->UlLength();
+		 const ULONG ulSize = pdrgpexprIncomingRequest->Size();
 		 for (ULONG ul = 0; ul < ulSize; ul++)
 		 {
 			 CExpression *pexpr = (*pdrgpexprIncomingRequest)[ul];
@@ -551,7 +551,7 @@ CPhysicalHashJoin::PdshashedPassThru
 				 pdrgpexprChildRequest->Append(pexpr);
 			 }
 		 }
-		 GPOS_ASSERT(0 < pdrgpexprChildRequest->UlLength());
+		 GPOS_ASSERT(0 < pdrgpexprChildRequest->Size());
 
 		 CDistributionSpecHashed *pdshashed = GPOS_NEW(pmp) CDistributionSpecHashed(pdrgpexprChildRequest, pdshashedInput->FNullsColocated());
 
@@ -660,7 +660,7 @@ CPhysicalHashJoin::PdsRequired
 		return GPOS_NEW(pmp) CDistributionSpecReplicated();
 	}
 
-	const ULONG ulHashDistributeRequests = m_pdrgpdsRedistributeRequests->UlLength();
+	const ULONG ulHashDistributeRequests = m_pdrgpdsRedistributeRequests->Size();
 	if (ulOptReq < ulHashDistributeRequests)
 	{
 		// requests 1 .. N are (redistribute, redistribute)
@@ -700,7 +700,7 @@ CPhysicalHashJoin::PdshashedRequired
 	)
 	const
 {
-	GPOS_ASSERT(ulReqIndex < m_pdrgpdsRedistributeRequests->UlLength());
+	GPOS_ASSERT(ulReqIndex < m_pdrgpdsRedistributeRequests->Size());
 	CDistributionSpec *pds = (*m_pdrgpdsRedistributeRequests)[ulReqIndex];
 
 	pds->AddRef();
@@ -756,11 +756,11 @@ CPhysicalHashJoin::FNullableHashKeys
 	ULONG ulHashKeys = 0;
 	if (fInner)
 	{
-		ulHashKeys = m_pdrgpexprInnerKeys->UlLength();
+		ulHashKeys = m_pdrgpexprInnerKeys->Size();
 	}
 	else
 	{
-		ulHashKeys = m_pdrgpexprOuterKeys->UlLength();
+		ulHashKeys = m_pdrgpexprOuterKeys->Size();
 	}
 
 	for (ULONG ul = 0; ul < ulHashKeys; ul++)

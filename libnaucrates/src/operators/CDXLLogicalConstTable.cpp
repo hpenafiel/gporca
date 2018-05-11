@@ -43,11 +43,11 @@ CDXLLogicalConstTable::CDXLLogicalConstTable
 	GPOS_ASSERT(NULL != pdrgpdrgpdxldatum);
 
 #ifdef GPOS_DEBUG
-	const ULONG ulLen = pdrgpdrgpdxldatum->UlLength();
+	const ULONG ulLen = pdrgpdrgpdxldatum->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		DrgPdxldatum *pdrgpdxldatum = (*pdrgpdrgpdxldatum)[ul];
-		GPOS_ASSERT(pdrgpdxldatum->UlLength() == pdrgpdxlcd->UlLength());
+		GPOS_ASSERT(pdrgpdxldatum->Size() == pdrgpdxlcd->Size());
 	}
 #endif
 }
@@ -109,7 +109,7 @@ CDXLLogicalConstTable::Pdxlcd
 	) 
 	const
 {
-	GPOS_ASSERT(m_pdrgpdxlcd->UlLength() > ul);
+	GPOS_ASSERT(m_pdrgpdxlcd->Size() > ul);
 	return (*m_pdrgpdxlcd)[ul];
 }
 
@@ -124,7 +124,7 @@ CDXLLogicalConstTable::Pdxlcd
 ULONG
 CDXLLogicalConstTable::UlArity() const
 {
-	return m_pdrgpdxlcd->UlLength();
+	return m_pdrgpdxlcd->Size();
 }
 
 
@@ -162,14 +162,14 @@ CDXLLogicalConstTable::SerializeToDXL
 	const CWStringConst *pstrElemNameConstTuple = CDXLTokens::PstrToken(EdxltokenConstTuple);
 	const CWStringConst *pstrElemNameDatum = CDXLTokens::PstrToken(EdxltokenDatum);
 
-	const ULONG ulTuples = m_pdrgpdrgpdxldatum->UlLength();
+	const ULONG ulTuples = m_pdrgpdrgpdxldatum->Size();
 	for (ULONG ulTuplePos = 0; ulTuplePos < ulTuples; ulTuplePos++)
 	{
 		// serialize a const tuple
 		pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemNameConstTuple);
 		DrgPdxldatum *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulTuplePos];
 
-		const ULONG ulCols = pdrgpdxldatum->UlLength();
+		const ULONG ulCols = pdrgpdxldatum->Size();
 		for (ULONG ulColPos = 0; ulColPos < ulCols; ulColPos++)
 		{
 			CDXLDatum *pdxldatum = (*pdrgpdxldatum)[ulColPos];
@@ -228,7 +228,7 @@ CDXLLogicalConstTable::AssertValid
 {
 	// assert validity of col descr
 	GPOS_ASSERT(m_pdrgpdxlcd != NULL);
-	GPOS_ASSERT(0 < m_pdrgpdxlcd->UlLength());
+	GPOS_ASSERT(0 < m_pdrgpdxlcd->Size());
 	GPOS_ASSERT(0 == pdxln->UlArity());
 }
 #endif // GPOS_DEBUG

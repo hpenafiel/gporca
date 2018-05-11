@@ -87,7 +87,7 @@ CDXLStatsDerivedRelation::Serialize
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenRows), m_dRows);
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenEmptyRelation), m_fEmpty);
 
-	const ULONG ulColStats = m_pdrgpdxlstatsdercol->UlLength();
+	const ULONG ulColStats = m_pdrgpdxlstatsdercol->Size();
 	for (ULONG ul = 0; ul < ulColStats; ul++)
 	{
 		GPOS_CHECK_ABORT;

@@ -123,7 +123,7 @@ CXformSelect2PartialDynamicIndexGet::Transform
 
 	// array of expressions in the scalar expression
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
 	// derive the scalar and relational properties to build set of required columns
 	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput();
@@ -152,7 +152,7 @@ CXformSelect2PartialDynamicIndexGet::Transform
 										);
 	
 	// construct alternative partial index scan plans
-	const ULONG ulCandidates = pdrgpdrgppartdig->UlLength();
+	const ULONG ulCandidates = pdrgpdrgppartdig->Size();
 	for (ULONG ul = 0; ul < ulCandidates; ul++)
 	{
 		DrgPpartdig *pdrgppartdig = (*pdrgpdrgppartdig)[ul];
@@ -191,7 +191,7 @@ CXformSelect2PartialDynamicIndexGet::CreatePartialIndexGetPlan
 	CLogicalDynamicGet *popGet = CLogicalDynamicGet::PopConvert(pexprRelational->Pop());
 	DrgPcr *pdrgpcrGet = popGet->PdrgpcrOutput();
 	
-	const ULONG ulPartialIndexes = pdrgppartdig->UlLength();
+	const ULONG ulPartialIndexes = pdrgppartdig->Size();
 	
 	DrgDrgPcr *pdrgpdrgpcrInput = GPOS_NEW(pmp) DrgDrgPcr(pmp);
 	DrgPexpr *pdrgpexprInput = GPOS_NEW(pmp) DrgPexpr(pmp);
@@ -251,7 +251,7 @@ CXformSelect2PartialDynamicIndexGet::CreatePartialIndexGetPlan
 		pdrgpexprInput->Append(pexprDynamicScan);
 	}
 
-	ULONG ulInput = pdrgpexprInput->UlLength();
+	ULONG ulInput = pdrgpexprInput->Size();
 	if (0 < ulInput)
 	{
 		CExpression *pexprResult = NULL;

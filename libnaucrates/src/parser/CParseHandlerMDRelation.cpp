@@ -94,7 +94,7 @@ CParseHandlerMDRelation::StartElement
 
 		CParseHandlerMDIndexInfoList *pphMdlIndexInfo = dynamic_cast<CParseHandlerMDIndexInfoList*>((*this)[1]);
 		// relcache translator will send partition constraint expression only when a partitioned relation has indices
-		if (pphMdlIndexInfo->PdrgpmdIndexInfo()->UlLength() > 0)
+		if (pphMdlIndexInfo->PdrgpmdIndexInfo()->Size() > 0)
 		{
 			// parse handler for part constraints
 			CParseHandlerBase *pphPartConstraint= CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
@@ -216,7 +216,7 @@ CParseHandlerMDRelation::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartConstraint), xmlszLocalname))
 	{
 		// relcache translator will send partition constraint expression only when a partitioned relation has indices
-		if (pphMdlIndexInfo->PdrgpmdIndexInfo()->UlLength() > 0)
+		if (pphMdlIndexInfo->PdrgpmdIndexInfo()->Size() > 0)
 		{
 			CParseHandlerScalarOp *pphPartCnstr = dynamic_cast<CParseHandlerScalarOp *>((*this)[UlLength() - 1]);
 			CDXLNode *pdxlnPartConstraint = pphPartCnstr->Pdxln();

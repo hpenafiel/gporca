@@ -54,12 +54,12 @@ CDXLLogicalSetOp::CDXLLogicalSetOp
 	GPOS_ASSERT(EdxlsetopSentinel > edxlsetoptype);
 	
 #ifdef GPOS_DEBUG	
-	const ULONG ulCols = m_pdrgpdxlcd->UlLength();
-	const ULONG ulLen = m_pdrgpdrgpul->UlLength();
+	const ULONG ulCols = m_pdrgpdxlcd->Size();
+	const ULONG ulLen = m_pdrgpdrgpul->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		DrgPul *pdrgpulInput = (*m_pdrgpdrgpul)[ul];
-		GPOS_ASSERT(ulCols == pdrgpulInput->UlLength());
+		GPOS_ASSERT(ulCols == pdrgpulInput->Size());
 	}
 
 #endif	
@@ -160,7 +160,7 @@ CDXLLogicalSetOp::SerializeToDXL
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	GPOS_ASSERT(NULL != m_pdrgpdxlcd);
 
-	const ULONG ulLen = m_pdrgpdxlcd->UlLength();
+	const ULONG ulLen = m_pdrgpdxlcd->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*m_pdrgpdxlcd)[ul];
@@ -222,7 +222,7 @@ CDXLLogicalSetOp::AssertValid
 	GPOS_ASSERT(NULL != m_pdrgpdxlcd);
 
 	// validate output columns
-	const ULONG ulOutputCols = m_pdrgpdxlcd->UlLength();
+	const ULONG ulOutputCols = m_pdrgpdxlcd->Size();
 	GPOS_ASSERT(0 < ulOutputCols);
 
 	// validate children

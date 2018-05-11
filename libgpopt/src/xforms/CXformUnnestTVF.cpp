@@ -96,7 +96,7 @@ CXformUnnestTVF::PdrgpcrSubqueries
 
 	DrgPcr *pdrgpcrProdOutput = CDrvdPropRelational::Pdprel(pexprCTEProd->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp);
 	DrgPcr *pdrgpcrConsOutput = CDrvdPropRelational::Pdprel(pexprCTECons->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp);
-	GPOS_ASSERT(pdrgpcrProdOutput->UlLength() == pdrgpcrConsOutput->UlLength());
+	GPOS_ASSERT(pdrgpcrProdOutput->Size() == pdrgpcrConsOutput->Size());
 
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
 	const ULONG ulPrjElems = (*pexprProject)[1]->UlArity();
@@ -150,7 +150,7 @@ CXformUnnestTVF::PexprProjectSubqueries
 			pdrgpexprSubqueries->Append(pexprScalarChild);
 		}
 	}
-	GPOS_ASSERT(0 < pdrgpexprSubqueries->UlLength());
+	GPOS_ASSERT(0 < pdrgpexprSubqueries->Size());
 
 	CExpression *pexprCTG = CUtils::PexprLogicalCTGDummy(pmp);
 	CExpression *pexprProject = CUtils::PexprAddProjection(pmp, pexprCTG, pdrgpexprSubqueries);

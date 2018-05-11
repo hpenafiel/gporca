@@ -190,8 +190,8 @@ CLogicalTVF::FMatch
 		
 	return m_pmdidFunc->FEquals(popTVF->PmdidFunc()) &&
 			m_pmdidRetType->FEquals(popTVF->PmdidRetType()) &&
-			m_pdrgpcoldesc->FEqual(popTVF->Pdrgpcoldesc()) &&
-			m_pdrgpcrOutput->FEqual(popTVF->PdrgpcrOutput());
+			m_pdrgpcoldesc->Equals(popTVF->Pdrgpcoldesc()) &&
+			m_pdrgpcrOutput->Equals(popTVF->PdrgpcrOutput());
 }
 
 //---------------------------------------------------------------------------

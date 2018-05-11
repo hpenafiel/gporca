@@ -145,7 +145,7 @@ CScalarBoolOp::Eber
 
 	GPOS_ASSERT(EboolopNot == m_eboolop);
 	GPOS_ASSERT(NULL != pdrgpulChildren);
-	GPOS_ASSERT(1 == pdrgpulChildren->UlLength());
+	GPOS_ASSERT(1 == pdrgpulChildren->Size());
 
 	EBoolEvalResult eber = (EBoolEvalResult) *((*pdrgpulChildren)[0]);
 	switch (eber)

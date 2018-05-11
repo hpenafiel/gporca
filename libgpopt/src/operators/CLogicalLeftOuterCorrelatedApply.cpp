@@ -89,7 +89,7 @@ CLogicalLeftOuterCorrelatedApply::FMatch
 {
 	if (pop->Eopid() == Eopid())
 	{
-		return m_pdrgpcrInner->FEqual(CLogicalLeftOuterCorrelatedApply::PopConvert(pop)->PdrgPcrInner());
+		return m_pdrgpcrInner->Equals(CLogicalLeftOuterCorrelatedApply::PopConvert(pop)->PdrgPcrInner());
 	}
 
 	return false;

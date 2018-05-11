@@ -59,8 +59,8 @@ CLogicalUnion::CLogicalUnion
 
 #ifdef GPOS_DEBUG
 	DrgPcr *pdrgpcrInput = (*pdrgpdrgpcrInput)[0];
-	const ULONG ulCols = pdrgpcrOutput->UlLength();
-	GPOS_ASSERT(ulCols == pdrgpcrInput->UlLength());
+	const ULONG ulCols = pdrgpcrOutput->Size();
+	GPOS_ASSERT(ulCols == pdrgpcrInput->Size());
 
 	// Ensure that the output columns are the same as first input
 	for(ULONG ul = 0; ul < ulCols; ul++)

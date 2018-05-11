@@ -155,7 +155,7 @@ CStatistics::OsPrint
 		os << " width " << (*pdWidth) << std::endl;
 	}
 
-	const ULONG ulLen = m_pdrgpubndvs->UlLength();
+	const ULONG ulLen = m_pdrgpubndvs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		const CUpperBoundNDVs *pubndv = (*m_pdrgpubndvs)[ul];
@@ -217,7 +217,7 @@ CStatistics::DWidth
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	CDouble dWidth(0.0);
-	const ULONG ulSize = pdrgpulColIds->UlLength();
+	const ULONG ulSize = pdrgpulColIds->Size();
 	for (ULONG ulIdx = 0; ulIdx < ulSize; ulIdx++)
 	{
 		ULONG ulColId = *((*pdrgpulColIds)[ulIdx]);
@@ -300,7 +300,7 @@ CStatistics::CreateAndInsertUpperBoundNDVs
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
-	const ULONG ulCols = pdrgpulColIds->UlLength();
+	const ULONG ulCols = pdrgpulColIds->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		ULONG ulColId = *(*pdrgpulColIds)[ul];
@@ -340,7 +340,7 @@ CStatistics::PstatsDummy
 	// hash map from colid -> histogram for resultant structure
 	HMUlHist *phmulhist = GPOS_NEW(pmp) HMUlHist(pmp);
 
-	const ULONG ulHistCol = pdrgpulHistColIds->UlLength();
+	const ULONG ulHistCol = pdrgpulHistColIds->Size();
 	for (ULONG ul = 0; ul < ulHistCol; ul++)
 	{
 		ULONG ulColId = *(*pdrgpulHistColIds)[ul];
@@ -356,7 +356,7 @@ CStatistics::PstatsDummy
 	// hashmap from colid -> width (double)
 	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
 
-	const ULONG ulWidthCol = pdrgpulWidthColIds->UlLength();
+	const ULONG ulWidthCol = pdrgpulWidthColIds->Size();
 	for (ULONG ul = 0; ul < ulWidthCol; ul++)
 	{
 		ULONG ulColId = *(*pdrgpulWidthColIds)[ul];
@@ -672,7 +672,7 @@ CStatistics::PstatsCopyWithRemap
 	// statistics object.
 
 	// copy the upper bound ndv information
-	const ULONG ulLen = m_pdrgpubndvs->UlLength();
+	const ULONG ulLen = m_pdrgpubndvs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		const CUpperBoundNDVs *pubndv = (*m_pdrgpubndvs)[ul];
@@ -813,7 +813,7 @@ CStatistics::UlIndexUpperBoundNDVs
  	CAutoMutex am(m_mutexCardUpperBoundAccess);
  	am.Lock();
 
- 	const ULONG ulLen = m_pdrgpubndvs->UlLength();
+ 	const ULONG ulLen = m_pdrgpubndvs->Size();
  	for (ULONG ul = 0; ul < ulLen; ul++)
  	{
  		const CUpperBoundNDVs *pubndv = (*m_pdrgpubndvs)[ul];
@@ -880,7 +880,7 @@ CStatistics::DUpperBoundNDVs
 	CAutoMutex am(m_mutexCardUpperBoundAccess);
 	am.Lock();
 
-	const ULONG ulLen = m_pdrgpubndvs->UlLength();
+	const ULONG ulLen = m_pdrgpubndvs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		const CUpperBoundNDVs *pubndv = (*m_pdrgpubndvs)[ul];

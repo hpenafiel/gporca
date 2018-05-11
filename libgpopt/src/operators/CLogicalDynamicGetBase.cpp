@@ -143,7 +143,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	
 	// generate a constraint "true"
 	HMUlCnstr *phmulcnstr = CUtils::PhmulcnstrBoolConstOnPartKeys(pmp, m_pdrgpdrgpcrPart, true /*fVal*/);
-	CBitSet *pbsDefaultParts = CUtils::PbsAllSet(pmp, m_pdrgpdrgpcrPart->UlLength());
+	CBitSet *pbsDefaultParts = CUtils::PbsAllSet(pmp, m_pdrgpdrgpcrPart->Size());
 	m_pdrgpdrgpcrPart->AddRef();
 	m_ppartcnstr = GPOS_NEW(pmp) CPartConstraint(pmp, phmulcnstr, pbsDefaultParts, true /*fUnbounded*/, m_pdrgpdrgpcrPart);
 	m_ppartcnstr->AddRef();

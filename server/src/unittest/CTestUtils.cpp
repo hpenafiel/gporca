@@ -610,9 +610,9 @@ CTestUtils::PexprLogicalSelectPartitioned
 	const DrgDrgPcr *pdrgpdrgpcr = popGet->PdrgpdrgpcrPartColumns();
 
 	GPOS_ASSERT(pdrgpdrgpcr != NULL);
-	GPOS_ASSERT(0 < pdrgpdrgpcr->UlLength());
+	GPOS_ASSERT(0 < pdrgpdrgpcr->Size());
 	DrgPcr *pdrgpcr = (*pdrgpdrgpcr)[0];
-	GPOS_ASSERT(1 == pdrgpcr->UlLength());
+	GPOS_ASSERT(1 == pdrgpcr->Size());
 	CColRef *pcrPartKey = (*pdrgpcr)[0];
 
 	// construct a comparison pk = 5
@@ -946,7 +946,7 @@ CTestUtils::PexprLogicalSelectArrayCmp
 	// construct an array of integers
 	DrgPexpr *pdrgpexprArrayElems = GPOS_NEW(pmp) DrgPexpr(pmp);
 	
-	const ULONG ulValsLength = pdrgpiVals->UlLength();
+	const ULONG ulValsLength = pdrgpiVals->Size();
 	for (ULONG ul = 0; ul < ulValsLength; ul++)
 	{
 		CExpression *pexprArrayElem = CUtils::PexprScalarConstInt4(pmp, *(*pdrgpiVals)[ul]);
@@ -1434,7 +1434,7 @@ CTestUtils::PexprLogicalNAryJoin
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpexpr);
-	GPOS_ASSERT(2 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(2 < pdrgpexpr->Size());
 
 	return GPOS_NEW(pmp) CExpression
 			(
@@ -1564,7 +1564,7 @@ CTestUtils::PexprNAryJoinOnLeftOuterJoin
 	CExpression *pexprLOJ = GPOS_NEW(pmp) CExpression (pmp, GPOS_NEW(pmp) CLogicalLeftOuterJoin(pmp), pexprLOJOuterChild, pexprLOJInnerChild, pexprPred);
 
 	// replace NAry-Join scalar predicate with LOJ expression
-	pdrgpexpr->Replace(pdrgpexpr->UlLength() - 1, pexprLOJ);
+	pdrgpexpr->Replace(pdrgpexpr->Size() - 1, pexprLOJ);
 
 	// create new scalar predicate for NAry join
 	CExpression *pexprNewPred = CUtils::PexprScalarEqCmp(pmp, pcrNAryJoin, pcrRight);
@@ -2465,7 +2465,7 @@ CTestUtils::PexprLogicalUnion
 
 		// remap columns of first input
 		DrgPcr *pdrgpcrInput = (*pdrgpdrgpcrInput)[0];
-		ULONG ulCols = pdrgpcrInput->UlLength();
+		ULONG ulCols = pdrgpcrInput->Size();
 		DrgPcr *pdrgpcrOutput = GPOS_NEW(pmp) DrgPcr(pmp, ulCols);
 
 		for (ULONG j = 0; j < ulCols; j++)
@@ -2755,7 +2755,7 @@ CTestUtils::PqcGenerate
 
 	pdrgpcr->AddRef();
 	DrgPmdname *pdrgpmdname = GPOS_NEW(pmp) DrgPmdname(pmp);
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -2828,7 +2828,7 @@ CTestUtils::PqcGenerate
 	CReqdPropPlan *prpp = GPOS_NEW(pmp) CReqdPropPlan(pcrsOutput, peo, ped, per, pcter);
 
 	DrgPmdname *pdrgpmdname = GPOS_NEW(pmp) DrgPmdname(pmp);
-	const ULONG ulLen = pdrgpcr->UlLength();
+	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
@@ -3748,7 +3748,7 @@ CTestUtils::EresRunMinidumpsUsingOneMDFile
 	DrgPmdp *pdrgpmdp = GPOS_NEW(pmp) DrgPmdp(pmp);
 	pdrgpmdp->Append(pmdp);
 
-	for (ULONG ul = 1; ul < pdrgpsysid->UlLength(); ul++)
+	for (ULONG ul = 1; ul < pdrgpsysid->Size(); ul++)
 	{
 		pmdp->AddRef();
 		pdrgpmdp->Append(pmdp);
@@ -3820,7 +3820,7 @@ CTestUtils::EresSamplePlans
 		DrgPmdp *pdrgpmdp = GPOS_NEW(pmp) DrgPmdp(pmp);
 		pdrgpmdp->Append(pmdp);
 
-		for (ULONG ulSys = 1; ulSys < pdrgpsysid->UlLength(); ulSys++)
+		for (ULONG ulSys = 1; ulSys < pdrgpsysid->Size(); ulSys++)
 		{
 			pmdp->AddRef();
 			pdrgpmdp->Append(pmdp);
@@ -3962,7 +3962,7 @@ CTestUtils::EresCheckPlans
 		DrgPmdp *pdrgpmdp = GPOS_NEW(pmp) DrgPmdp(pmp);
 		pdrgpmdp->Append(pmdp);
 
-		for (ULONG ulSys = 1; ulSys < pdrgpsysid->UlLength(); ulSys++)
+		for (ULONG ulSys = 1; ulSys < pdrgpsysid->Size(); ulSys++)
 		{
 			pmdp->AddRef();
 			pdrgpmdp->Append(pmdp);
@@ -4109,7 +4109,7 @@ CTestUtils::EresCheckOptimizedPlan
 		DrgPmdp *pdrgpmdp = GPOS_NEW(pmp) DrgPmdp(pmp);
 		pdrgpmdp->Append(pmdp);
 
-		for (ULONG ulSys = 1; ulSys < pdrgpsysid->UlLength(); ulSys++)
+		for (ULONG ulSys = 1; ulSys < pdrgpsysid->Size(); ulSys++)
 		{
 			pmdp->AddRef();
 			pdrgpmdp->Append(pmdp);

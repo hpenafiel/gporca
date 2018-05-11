@@ -145,7 +145,7 @@ CLogicalGbAgg::CLogicalGbAgg
 	GPOS_ASSERT(COperator::EgbaggtypeSentinel > egbaggtype);
 	GPOS_ASSERT(COperator::EgbaggtypeIntermediate != egbaggtype);
 
-	GPOS_ASSERT_IMP(NULL != pdrgpcrMinimal, pdrgpcrMinimal->UlLength() <= pdrgpcr->UlLength());
+	GPOS_ASSERT_IMP(NULL != pdrgpcrMinimal, pdrgpcrMinimal->Size() <= pdrgpcr->Size());
 
 	if (NULL == pdrgpcrMinimal)
 	{
@@ -185,7 +185,7 @@ CLogicalGbAgg::CLogicalGbAgg
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(COperator::EgbaggtypeSentinel > egbaggtype);
 
-	GPOS_ASSERT_IMP(NULL != pdrgpcrMinimal, pdrgpcrMinimal->UlLength() <= pdrgpcr->UlLength());
+	GPOS_ASSERT_IMP(NULL != pdrgpcrMinimal, pdrgpcrMinimal->Size() <= pdrgpcr->Size());
 	GPOS_ASSERT_IMP(NULL == m_pdrgpcrArgDQA, COperator::EgbaggtypeIntermediate != egbaggtype);
 	GPOS_ASSERT_IMP(m_fGeneratesDuplicates, COperator::EgbaggtypeLocal == egbaggtype);
 
@@ -381,7 +381,7 @@ CLogicalGbAgg::PcrsStatGbAgg
 	// if the grouping column is a computed column, then add its corresponding used columns
 	// to required columns for statistics computation
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-	const ULONG ulGrpCols = m_pdrgpcr->UlLength();
+	const ULONG ulGrpCols = m_pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulGrpCols; ul++)
 	{
 		CColRef *pcrGrpCol = (*m_pdrgpcr)[ul];
@@ -443,7 +443,7 @@ ULONG
 CLogicalGbAgg::UlHash() const
 {
 	ULONG ulHash = COperator::UlHash();
-	ULONG ulArity = m_pdrgpcr->UlLength();
+	ULONG ulArity = m_pdrgpcr->Size();
 	ULONG ulGbaggtype = (ULONG) m_egbaggtype;
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
@@ -484,7 +484,7 @@ CLogicalGbAgg::PkcDeriveKeys
 			return pkc;
 		}
 
-		if (0 < m_pdrgpcr->UlLength())
+		if (0 < m_pdrgpcr->Size())
 		{
 			// grouping columns always constitute a key
 			m_pdrgpcr->AddRef();
@@ -527,7 +527,7 @@ CLogicalGbAgg::Maxcard
 	const
 {
 	// agg w/o grouping columns produces one row
-	if (0 == m_pdrgpcr->UlLength())
+	if (0 == m_pdrgpcr->Size())
 	{
 		return CMaxCard(1 /*ull*/);
 	}
@@ -623,7 +623,7 @@ CLogicalGbAgg::PstatsDerive
 	CBitSet *pbsKeys
 	)
 {
-	const ULONG ulGroupingCols = pdrgpcrGroupingCols->UlLength();
+	const ULONG ulGroupingCols = pdrgpcrGroupingCols->Size();
 
 	// extract grouping column ids
 	DrgPul *pdrgpulGroupingCols = GPOS_NEW(pmp) DrgPul(pmp);

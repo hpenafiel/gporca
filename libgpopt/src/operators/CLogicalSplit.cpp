@@ -75,7 +75,7 @@ CLogicalSplit::CLogicalSplit
 {
 	GPOS_ASSERT(NULL != pdrgpcrDelete);
 	GPOS_ASSERT(NULL != pdrgpcrInsert);
-	GPOS_ASSERT(pdrgpcrInsert->UlLength() == pdrgpcrDelete->UlLength());
+	GPOS_ASSERT(pdrgpcrInsert->Size() == pdrgpcrDelete->Size());
 	GPOS_ASSERT(NULL != pcrCtid);
 	GPOS_ASSERT(NULL != pcrSegmentId);
 	GPOS_ASSERT(NULL != pcrAction);
@@ -124,8 +124,8 @@ CLogicalSplit::FMatch
 				m_pcrSegmentId == popSplit->PcrSegmentId() &&
 				m_pcrAction == popSplit->PcrAction() &&
 				m_pcrTupleOid == popSplit->PcrTupleOid() &&
-				m_pdrgpcrDelete->FEqual(popSplit->PdrgpcrDelete()) &&
-				m_pdrgpcrInsert->FEqual(popSplit->PdrgpcrInsert());
+				m_pdrgpcrDelete->Equals(popSplit->PdrgpcrDelete()) &&
+				m_pdrgpcrInsert->Equals(popSplit->PdrgpcrInsert());
 	}
 
 	return false;

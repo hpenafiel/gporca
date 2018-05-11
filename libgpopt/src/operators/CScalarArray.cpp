@@ -155,9 +155,9 @@ CScalarArray::FMatch
 		if (popArray->FMultiDimensional() == FMultiDimensional() &&
 			PmdidElem()->FEquals(popArray->PmdidElem()) &&
 			PmdidArray()->FEquals(popArray->PmdidArray()) &&
-			m_pdrgPconst->UlLength() == popArray->PdrgPconst()->UlLength())
+			m_pdrgPconst->Size() == popArray->PdrgPconst()->Size())
 		{
-			for (ULONG ul = 0; ul < m_pdrgPconst->UlLength(); ul++)
+			for (ULONG ul = 0; ul < m_pdrgPconst->Size(); ul++)
 			{
 				CScalarConst *popConst1 = (*m_pdrgPconst)[ul];
 				CScalarConst *popConst2 = (*popArray->PdrgPconst())[ul];
@@ -204,7 +204,7 @@ CScalarArray::OsPrint(IOstream &os) const
 	{
 		os << ", multidimensional";
 	}
-	for (ULONG ul = 0; ul < m_pdrgPconst->UlLength(); ul++)
+	for (ULONG ul = 0; ul < m_pdrgPconst->Size(); ul++)
 	{
 		os << " ";
 		(*m_pdrgPconst)[ul]->OsPrint(os);

@@ -71,7 +71,7 @@ CXformCollapseGbAgg::Exfp
 	const
 {
 	CLogicalGbAgg *popAgg = CLogicalGbAgg::PopConvert(exprhdl.Pop());
-	if (!popAgg->FGlobal() || 0 == popAgg->Pdrgpcr()->UlLength())
+	if (!popAgg->FGlobal() || 0 == popAgg->Pdrgpcr()->Size())
 	{
 		return CXform::ExfpNone;
 	}
@@ -110,7 +110,7 @@ CXformCollapseGbAgg::Transform
 
 	// extract components
 	CLogicalGbAgg *popTopGbAgg = CLogicalGbAgg::PopConvert(pexpr->Pop());
-	GPOS_ASSERT(0 < popTopGbAgg->Pdrgpcr()->UlLength());
+	GPOS_ASSERT(0 < popTopGbAgg->Pdrgpcr()->Size());
 	GPOS_ASSERT(popTopGbAgg->FGlobal());
 
 	CExpression *pexprRelational = (*pexpr)[0];

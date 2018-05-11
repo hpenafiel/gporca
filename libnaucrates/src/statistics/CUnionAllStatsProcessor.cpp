@@ -30,8 +30,8 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	GPOS_ASSERT(NULL != pstatsSnd);
 
 	// lengths must match
-	GPOS_ASSERT(pdrgpulOutput->UlLength() == pdrgpulInput1->UlLength());
-	GPOS_ASSERT(pdrgpulOutput->UlLength() == pdrgpulInput2->UlLength());
+	GPOS_ASSERT(pdrgpulOutput->Size() == pdrgpulInput1->Size());
+	GPOS_ASSERT(pdrgpulOutput->Size() == pdrgpulInput2->Size());
 
 	// create hash map from colid -> histogram for resultant structure
 	HMUlHist *phmulhistNew = GPOS_NEW(pmp) HMUlHist(pmp);
@@ -48,7 +48,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	}
 	else
 	{
-		const ULONG ulLen = pdrgpulOutput->UlLength();
+		const ULONG ulLen = pdrgpulOutput->Size();
 		for (ULONG ul = 0; ul < ulLen; ul++)
 		{
 			ULONG ulColIdOutput = *(*pdrgpulOutput)[ul];

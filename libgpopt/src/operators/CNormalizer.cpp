@@ -207,7 +207,7 @@ CNormalizer::SplitConjunct
 	*ppdrgpexprPushable =  GPOS_NEW(pmp) DrgPexpr(pmp);
 	*ppdrgpexprUnpushable =  GPOS_NEW(pmp) DrgPexpr(pmp);
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprConj);
-	const ULONG ulSize = pdrgpexprConjuncts->UlLength();
+	const ULONG ulSize = pdrgpexprConjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprScalar = (*pdrgpexprConjuncts)[ul];
@@ -269,7 +269,7 @@ CNormalizer::PushThruOuterChild
 	DrgPexpr *pdrgpexprUnpushable = NULL;
 	SplitConjunct(pmp, pexprOuter, pexprConj, &pdrgpexprPushable, &pdrgpexprUnpushable);
 
-	if (0 < pdrgpexprPushable->UlLength())
+	if (0 < pdrgpexprPushable->Size())
 	{
 		pdrgpexprPushable->AddRef();
 		CExpression *pexprNewConj = CPredicateUtils::PexprConjunction(pmp, pdrgpexprPushable);
@@ -298,10 +298,10 @@ CNormalizer::PushThruOuterChild
 		pexprNew->Release();
 	}
 
-	if (0 < pdrgpexprUnpushable->UlLength())
+	if (0 < pdrgpexprUnpushable->Size())
 	{
 		CExpression *pexprOuterJoin = pexpr;
-		if (0 < pdrgpexprPushable->UlLength())
+		if (0 < pdrgpexprPushable->Size())
 		{
 			pexprOuterJoin = *ppexprResult;
 			GPOS_ASSERT(NULL != pexprOuterJoin);
@@ -485,7 +485,7 @@ CNormalizer::PexprSelect
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(NULL != pdrgpexpr);
 
-	if (0 == pdrgpexpr->UlLength())
+	if (0 == pdrgpexpr->Size())
 	{
 		// no predicate, return given expression
 		pdrgpexpr->Release();
@@ -639,7 +639,7 @@ CNormalizer::SplitConjunctForSeqPrj
 	*ppdrgpexprPushable =  GPOS_NEW(pmp) DrgPexpr(pmp);
 	*ppdrgpexprUnpushable = GPOS_NEW(pmp) DrgPexpr(pmp);
 	DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprConj);
-	const ULONG ulPreds = pdrgpexprPreds->UlLength();
+	const ULONG ulPreds = pdrgpexprPreds->Size();
 	for (ULONG ul = 0; ul < ulPreds; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprPreds)[ul];
@@ -689,7 +689,7 @@ CNormalizer::PushThruSeqPrj
 	SplitConjunctForSeqPrj(pmp, pexprSeqPrj, pexprConj, &pdrgpexprPushable, &pdrgpexprUnpushable);
 
 	CExpression *pexprNewLogicalChild = NULL;
-	if (0 < pdrgpexprPushable->UlLength())
+	if (0 < pdrgpexprPushable->Size())
 	{
 		CExpression *pexprPushableConj = CPredicateUtils::PexprConjunction(pmp, pdrgpexprPushable);
 		PushThru(pmp, pexprLogicalChild, pexprPushableConj, &pexprNewLogicalChild);
@@ -991,7 +991,7 @@ CNormalizer::PushThru
 	DrgPexpr *pdrgpexprPushable =  GPOS_NEW(pmp) DrgPexpr(pmp);
 	DrgPexpr *pdrgpexprUnpushable =  GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulSize = pdrgpexprConjuncts->UlLength();
+	const ULONG ulSize = pdrgpexprConjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprConj = (*pdrgpexprConjuncts)[ul];
@@ -1154,11 +1154,11 @@ CNormalizer::PexprPullUpAndCombineProjects
 	pcrsUsed->Release();
 	pop->AddRef();
 
-	if (0 < pdrgpexprPrElPullUp->UlLength() && COperator::EopLogicalProject == pop->Eopid())
+	if (0 < pdrgpexprPrElPullUp->Size() && COperator::EopLogicalProject == pop->Eopid())
 	{
 		// some project elements have been pulled up and the original expression
 		// was a project - combine its project list with the pulled up project elements
-		GPOS_ASSERT(2 == pdrgpexprChildren->UlLength());
+		GPOS_ASSERT(2 == pdrgpexprChildren->Size());
 		*pfSuccess = true;
 		CExpression *pexprRelational = (*pdrgpexprChildren)[0];
 		CExpression *pexprPrLOld = (*pdrgpexprChildren)[1];
@@ -1174,7 +1174,7 @@ CNormalizer::PexprPullUpAndCombineProjects
 
 	CExpression *pexprOutput = GPOS_NEW(pmp) CExpression(pmp, pop, pdrgpexprChildren);
 
-	if (0 == pdrgpexprPrElPullUp->UlLength())
+	if (0 == pdrgpexprPrElPullUp->Size())
 	{
 		// no project elements were pulled up
 		pdrgpexprPrElPullUp->Release();
@@ -1255,7 +1255,7 @@ CNormalizer::PexprPullUpProjectElements
 
 	CExpression *pexprNew = (*pexpr)[0];
 	pexprNew->AddRef();
-	if (0 == pdrgpexprPrElNoPullUp->UlLength())
+	if (0 == pdrgpexprPrElNoPullUp->Size())
 	{
 		pdrgpexprPrElNoPullUp->Release();
 	}

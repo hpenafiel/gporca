@@ -93,7 +93,7 @@ namespace gpopt
 			{
 				if (pop->Eopid() == Eopid())
 				{
-					return m_pdrgpcrInner->FEqual(CPhysicalCorrelatedInLeftSemiNLJoin::PopConvert(pop)->PdrgPcrInner());
+					return m_pdrgpcrInner->Equals(CPhysicalCorrelatedInLeftSemiNLJoin::PopConvert(pop)->PdrgPcrInner());
 				}
 
 				return false;

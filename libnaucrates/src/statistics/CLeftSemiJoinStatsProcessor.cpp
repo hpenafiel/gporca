@@ -29,7 +29,7 @@ CLeftSemiJoinStatsProcessor::PstatsLSJoinStatic
 	GPOS_ASSERT(NULL != pistatsInner);
 	GPOS_ASSERT(NULL != pdrgpstatspredjoin);
 
-	const ULONG ulLen = pdrgpstatspredjoin->UlLength();
+	const ULONG ulLen = pdrgpstatspredjoin->Size();
 
 	// iterate over all inner columns and perform a group by to remove duplicates
 	DrgPul *pdrgpulInnerColumnIds = GPOS_NEW(pmp) DrgPul(pmp);

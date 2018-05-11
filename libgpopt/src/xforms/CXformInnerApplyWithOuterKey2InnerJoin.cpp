@@ -108,7 +108,7 @@ CXformInnerApplyWithOuterKey2InnerJoin::Transform
 	CExpression *pexprGb = (*pexpr)[1];
 	CExpression *pexprScalar = (*pexpr)[2];
 
-	if (0 < CLogicalGbAgg::PopConvert(pexprGb->Pop())->Pdrgpcr()->UlLength())
+	if (0 < CLogicalGbAgg::PopConvert(pexprGb->Pop())->Pdrgpcr()->Size())
 	{
 		// xform is not applicable if inner Gb has grouping columns
 		return;

@@ -63,7 +63,7 @@ CLogicalPartitionSelector::CLogicalPartitionSelector
 {
 	GPOS_ASSERT(pmdid->FValid());
 	GPOS_ASSERT(NULL != pdrgpexprFilters);
-	GPOS_ASSERT(0 < pdrgpexprFilters->UlLength());
+	GPOS_ASSERT(0 < pdrgpexprFilters->Size());
 	GPOS_ASSERT(NULL != pcrOid);
 }
 
@@ -105,7 +105,7 @@ CLogicalPartitionSelector::FMatch
 
 	return popPartSelector->PcrOid() == m_pcrOid &&
 			popPartSelector->Pmdid()->FEquals(m_pmdid) &&
-			popPartSelector->m_pdrgpexprFilters->FEqual(m_pdrgpexprFilters);
+			popPartSelector->m_pdrgpexprFilters->Equals(m_pdrgpexprFilters);
 }
 
 //---------------------------------------------------------------------------

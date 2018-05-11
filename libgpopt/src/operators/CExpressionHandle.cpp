@@ -484,7 +484,7 @@ CExpressionHandle::PdrgpstatOuterRefs
 	CColRefSet *pcrsOuter = Pdprel(ulChildIndex)->PcrsOuter();
 	GPOS_ASSERT(0 < pcrsOuter->CElements());
 
-	const ULONG ulSize = pdrgpstat->UlLength();
+	const ULONG ulSize = pdrgpstat->Size();
 	ULONG ulStartIndex = ULONG_MAX;
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
@@ -697,7 +697,7 @@ CExpressionHandle::DeriveCostContextStats()
 	m_pdrgpstat = NULL;
 
 	m_pdrgpstat = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
-	const ULONG ulArity = m_pcc->Pdrgpoc()->UlLength();
+	const ULONG ulArity = m_pcc->Pdrgpoc()->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		COptimizationContext *pocChild = (*m_pcc->Pdrgpoc())[ul];
@@ -711,7 +711,7 @@ CExpressionHandle::DeriveCostContextStats()
 
 	if (CPhysical::PopConvert(m_pgexpr->Pop())->FPassThruStats())
 	{
-		GPOS_ASSERT(1 == m_pdrgpstat->UlLength());
+		GPOS_ASSERT(1 == m_pdrgpstat->Size());
 
 		// copy stats from first child
 		(*m_pdrgpstat)[0]->AddRef();
@@ -831,7 +831,7 @@ CExpressionHandle::DerivePlanProps
 
 	// extract children's properties
 	m_pdrgpdp = GPOS_NEW(m_pmp) DrgPdp(m_pmp);
-	const ULONG ulArity = m_pcc->Pdrgpoc()->UlLength();
+	const ULONG ulArity = m_pcc->Pdrgpoc()->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		COptimizationContext *pocChild = (*m_pcc->Pdrgpoc())[ul];
@@ -954,8 +954,8 @@ CExpressionHandle::ComputeChildReqdProps
 {
 	GPOS_ASSERT(NULL != m_prp);
 	GPOS_ASSERT(NULL != m_pdrgprp);
-	GPOS_ASSERT(m_pdrgprp->UlLength() == UlArity());
-	GPOS_ASSERT(ulChildIndex < m_pdrgprp->UlLength() && "uninitialized required child properties");
+	GPOS_ASSERT(m_pdrgprp->Size() == UlArity());
+	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size() && "uninitialized required child properties");
 	GPOS_CHECK_ABORT;
 
 	CReqdProp *prp = m_prp;
@@ -994,8 +994,8 @@ CExpressionHandle::CopyChildReqdProps
 {
 	GPOS_ASSERT(NULL != prp);
 	GPOS_ASSERT(NULL != m_pdrgprp);
-	GPOS_ASSERT(m_pdrgprp->UlLength() == UlArity());
-	GPOS_ASSERT(ulChildIndex < m_pdrgprp->UlLength() && "uninitialized required child properties");
+	GPOS_ASSERT(m_pdrgprp->Size() == UlArity());
+	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size() && "uninitialized required child properties");
 
 	m_pdrgprp->Replace(ulChildIndex, prp);
 }
@@ -1019,8 +1019,8 @@ CExpressionHandle::ComputeChildReqdCols
 {
 	GPOS_ASSERT(NULL != m_prp);
 	GPOS_ASSERT(NULL != m_pdrgprp);
-	GPOS_ASSERT(m_pdrgprp->UlLength() == UlArity());
-	GPOS_ASSERT(ulChildIndex < m_pdrgprp->UlLength() && "uninitialized required child properties");
+	GPOS_ASSERT(m_pdrgprp->Size() == UlArity());
+	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size() && "uninitialized required child properties");
 
 	CReqdProp *prp = m_prp;
 	if (FScalarChild(ulChildIndex))
@@ -1251,7 +1251,7 @@ CExpressionHandle::Pdprel
 		return CDrvdPropRelational::Pdprel((*Pgexpr())[ulChildIndex]->Pdp());
 	}
 
-	GPOS_ASSERT(ulChildIndex < m_pdrgpdp->UlLength());
+	GPOS_ASSERT(ulChildIndex < m_pdrgpdp->Size());
 
 	CDrvdProp *pdp = (*m_pdrgpdp)[ulChildIndex];
 
@@ -1306,7 +1306,7 @@ CExpressionHandle::Pstats
 	)
 	const
 {
-	GPOS_ASSERT(ulChildIndex < m_pdrgpstat->UlLength());
+	GPOS_ASSERT(ulChildIndex < m_pdrgpstat->Size());
 
 	return (*m_pdrgpstat)[ulChildIndex];
 }
@@ -1328,7 +1328,7 @@ CExpressionHandle::Pdpplan
 	)
 	const
 {
-	GPOS_ASSERT(ulChildIndex < m_pdrgpdp->UlLength());
+	GPOS_ASSERT(ulChildIndex < m_pdrgpdp->Size());
 
 	CDrvdProp *pdp = (*m_pdrgpdp)[ulChildIndex];
 
@@ -1374,7 +1374,7 @@ CExpressionHandle::Pdpscalar
 		return CDrvdPropScalar::Pdpscalar((*Pgexpr())[ulChildIndex]->Pdp());
 	}
 
-	GPOS_ASSERT(ulChildIndex < m_pdrgpdp->UlLength());
+	GPOS_ASSERT(ulChildIndex < m_pdrgpdp->Size());
 
 	CDrvdProp *pdp = (*m_pdrgpdp)[ulChildIndex];
 
@@ -1398,7 +1398,7 @@ CExpressionHandle::Prprel
 	)
 	const
 {
-	GPOS_ASSERT(ulChildIndex < m_pdrgprp->UlLength());
+	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size());
 
 	CReqdProp *prp = (*m_pdrgprp)[ulChildIndex];
 	GPOS_ASSERT(prp->FRelational() && "Unexpected property type");
@@ -1423,7 +1423,7 @@ CExpressionHandle::Prpp
 	)
 	const
 {
-	GPOS_ASSERT(ulChildIndex < m_pdrgprp->UlLength());
+	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size());
 
 	CReqdProp *prp = (*m_pdrgprp)[ulChildIndex];
 	GPOS_ASSERT(prp->FPlan() && "Unexpected property type");

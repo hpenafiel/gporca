@@ -117,7 +117,7 @@ CDXLCtasStorageOptions::Serialize
 	
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenOnCommitAction), PstrOnCommitAction(m_ectascommit));
 	
-	const ULONG ulOptions = (m_pdrgpctasopt == NULL) ? 0 : m_pdrgpctasopt->UlLength();
+	const ULONG ulOptions = (m_pdrgpctasopt == NULL) ? 0 : m_pdrgpctasopt->Size();
 	for (ULONG ul = 0; ul < ulOptions; ul++)
 	{
 		CDXLCtasOption *pdxlctasopt = (*m_pdrgpctasopt)[ul];

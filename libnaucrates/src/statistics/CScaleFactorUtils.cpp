@@ -53,7 +53,7 @@ CScaleFactorUtils::DCumulativeJoinScaleFactor
 	GPOS_ASSERT(NULL != pstatsconf);
 	GPOS_ASSERT(NULL != pdrgpd);
 
-	const ULONG ulJoinConds = pdrgpd->UlLength();
+	const ULONG ulJoinConds = pdrgpd->Size();
 	if (1 < ulJoinConds)
 	{
 		// sort (in desc order) the scaling factor of the join conditions
@@ -169,7 +169,7 @@ CScaleFactorUtils::SortScalingFactor
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpdScaleFactor);
-	const ULONG ulCols = pdrgpdScaleFactor->UlLength();
+	const ULONG ulCols = pdrgpdScaleFactor->Size();
 	if (1 < ulCols)
 	{
 		if (fDescending)
@@ -288,7 +288,7 @@ CScaleFactorUtils::DScaleFactorCumulativeConj
 	GPOS_ASSERT(NULL != pstatsconf);
 	GPOS_ASSERT(NULL != pdrgpdScaleFactor);
 
-	const ULONG ulCols = pdrgpdScaleFactor->UlLength();
+	const ULONG ulCols = pdrgpdScaleFactor->Size();
 	CDouble dScaleFactor(1.0);
 	if (1 < ulCols)
 	{
@@ -331,7 +331,7 @@ CScaleFactorUtils::DScaleFactorCumulativeDisj
 	GPOS_ASSERT(NULL != pstatsconf);
 	GPOS_ASSERT(NULL != pdrgpdScaleFactor);
 
-	const ULONG ulCols = pdrgpdScaleFactor->UlLength();
+	const ULONG ulCols = pdrgpdScaleFactor->Size();
 	GPOS_ASSERT(0 < ulCols);
 
 	if (1 == ulCols)

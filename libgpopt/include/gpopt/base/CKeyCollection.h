@@ -83,7 +83,7 @@ namespace gpopt
 			// number of keys
 			ULONG UlKeys() const
 			{
-				return m_pdrgpcrs->UlLength();
+				return m_pdrgpcrs->Size();
 			}
 
 			// print

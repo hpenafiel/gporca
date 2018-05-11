@@ -69,7 +69,7 @@ CXformSimplifyGbAgg::Exfp
 
 	GPOS_ASSERT(COperator::EgbaggtypeGlobal == popAgg->Egbaggtype());
 
-	if (0 == popAgg->Pdrgpcr()->UlLength() || NULL != popAgg->PdrgpcrMinimal())
+	if (0 == popAgg->Pdrgpcr()->Size() || NULL != popAgg->PdrgpcrMinimal())
 	{
 		return CXform::ExfpNone;
 	}
@@ -185,7 +185,7 @@ CXformSimplifyGbAgg::Transform
 	DrgPfd *pdrgpfd = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->Pdrgpfd();
 
 	// collect grouping columns FD's
-	const ULONG ulSize = (pdrgpfd == NULL) ? 0 : pdrgpfd->UlLength();
+	const ULONG ulSize = (pdrgpfd == NULL) ? 0 : pdrgpfd->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CFunctionalDependency *pfd = (*pdrgpfd)[ul];

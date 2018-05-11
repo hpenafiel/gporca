@@ -55,7 +55,7 @@ CPhysicalAgg::CPhysicalAgg
 	GPOS_ASSERT_IMP(EgbaggtypeGlobal != egbaggtype, fMultiStage);
 
 	ULONG ulDistrReqs = 1;
-	if (pdrgpcrMinimal == NULL || 0 == pdrgpcrMinimal->UlLength())
+	if (pdrgpcrMinimal == NULL || 0 == pdrgpcrMinimal->Size())
 	{
 		pdrgpcr->AddRef();
 		m_pdrgpcrMinimal = pdrgpcr;
@@ -76,7 +76,7 @@ CPhysicalAgg::CPhysicalAgg
 		//		possible data skew
 
 		ulDistrReqs = 2;
-		if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->UlLength())
+		if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->Size())
 		{
 			// If the local aggregate has distinct columns we generate
 			// one optimization requests for its children:
@@ -87,14 +87,14 @@ CPhysicalAgg::CPhysicalAgg
 	else if (COperator::EgbaggtypeIntermediate == egbaggtype)
 	{
 		GPOS_ASSERT(NULL != pdrgpcrArgDQA);
-		GPOS_ASSERT(pdrgpcrArgDQA->UlLength() <= pdrgpcr->UlLength());
+		GPOS_ASSERT(pdrgpcrArgDQA->Size() <= pdrgpcr->Size());
 		// Intermediate Agg generates two optimization requests for its children:
 		// (1) Hash distribution on the group by columns + distinct column
 		// (2) Hash distribution on the group by columns
 
 		ulDistrReqs = 2;
 
-		if (pdrgpcrArgDQA->UlLength() == pdrgpcr->UlLength())
+		if (pdrgpcrArgDQA->Size() == pdrgpcr->Size())
 		{
 			// scalar aggregates so we only request the first case
 			ulDistrReqs = 1;
@@ -226,7 +226,7 @@ CPhysicalAgg::PdsRequiredAgg
 		return PdsEnforceMaster(pmp, exprhdl, pdsInput, ulChildIndex);
 	}
 
-	if (COperator::EgbaggtypeLocal == m_egbaggtype && m_pdrgpcrArgDQA != NULL && 0 != m_pdrgpcrArgDQA->UlLength())
+	if (COperator::EgbaggtypeLocal == m_egbaggtype && m_pdrgpcrArgDQA != NULL && 0 != m_pdrgpcrArgDQA->Size())
 	{
 		GPOS_ASSERT(0 == ulOptReq);
 		return PdsMaximalHashed(pmp, m_pdrgpcrArgDQA);
@@ -308,7 +308,7 @@ CPhysicalAgg::PdsRequiredGlobalAgg
 		return PdsPassThru(pmp, exprhdl, pdsInput, ulChildIndex);
 	}
 
-	if (0 == pdrgpcrGrp->UlLength())
+	if (0 == pdrgpcrGrp->Size())
 	{
 		if (CDistributionSpec::EdtSingleton == pdsInput->Edt())
 		{
@@ -358,7 +358,7 @@ CPhysicalAgg::PdsRequiredIntermediateAgg
 	}
 
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
-	const ULONG ulLen = m_pdrgpcr->UlLength() - m_pdrgpcrArgDQA->UlLength();
+	const ULONG ulLen = m_pdrgpcr->Size() - m_pdrgpcrArgDQA->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*m_pdrgpcr)[ul];
@@ -546,7 +546,7 @@ ULONG
 CPhysicalAgg::UlHash() const
 {
 	ULONG ulHash = COperator::UlHash();
-	const ULONG ulArity = m_pdrgpcr->UlLength();
+	const ULONG ulArity = m_pdrgpcr->Size();
 	ULONG ulGbaggtype = (ULONG) m_egbaggtype;
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -586,11 +586,11 @@ CPhysicalAgg::FMatch
 		return false;
 	}
 
-	if (popAgg->Egbaggtype() == m_egbaggtype && m_pdrgpcr->FEqual(popAgg->m_pdrgpcr))
+	if (popAgg->Egbaggtype() == m_egbaggtype && m_pdrgpcr->Equals(popAgg->m_pdrgpcr))
 	{
 		if (CColRef::FEqual(m_pdrgpcrMinimal, popAgg->m_pdrgpcrMinimal))
 		{
-			return (m_pdrgpcrArgDQA == NULL || 0 == m_pdrgpcrArgDQA->UlLength()) ||
+			return (m_pdrgpcrArgDQA == NULL || 0 == m_pdrgpcrArgDQA->Size()) ||
 				CColRef::FEqual(m_pdrgpcrArgDQA, popAgg->PdrgpcrArgDQA());
 		}
 	}

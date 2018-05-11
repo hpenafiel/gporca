@@ -88,7 +88,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
 	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
 
-	const ULONG ulArity = pdrgpmdcol->UlLength();
+	const ULONG ulArity = pdrgpmdcol->Size();
 	ULONG ulPosNonDropped = 0;
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -235,7 +235,7 @@ CMDRelationGPDB::UlColumns() const
 {
 	GPOS_ASSERT(NULL != m_pdrgpmdcol);
 	
-	return m_pdrgpmdcol->UlLength();
+	return m_pdrgpmdcol->Size();
 }
 
 // Return the width of a column with regards to the position
@@ -366,7 +366,7 @@ CMDRelationGPDB::UlSystemColumns() const
 ULONG
 CMDRelationGPDB::UlKeySets() const
 {	
-	return (m_pdrgpdrgpulKeys == NULL) ? 0 : m_pdrgpdrgpulKeys->UlLength();
+	return (m_pdrgpdrgpulKeys == NULL) ? 0 : m_pdrgpdrgpulKeys->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -400,7 +400,7 @@ CMDRelationGPDB::PdrgpulKeyset
 ULONG
 CMDRelationGPDB::UlDistrColumns() const
 {	
-	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->UlLength();
+	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -456,7 +456,7 @@ CMDRelationGPDB::UlPartitions() const
 ULONG
 CMDRelationGPDB::UlPartColumns() const
 {	
-	return (m_pdrgpulPartColumns == NULL) ? 0 : m_pdrgpulPartColumns->UlLength();
+	return (m_pdrgpulPartColumns == NULL) ? 0 : m_pdrgpulPartColumns->Size();
 }
 
 // Retrieve list of partition types
@@ -505,7 +505,7 @@ CMDRelationGPDB::PmdcolPartColumn
 ULONG
 CMDRelationGPDB::UlIndices() const
 {
-	return m_pdrgpmdIndexInfo->UlLength();
+	return m_pdrgpmdIndexInfo->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -519,7 +519,7 @@ CMDRelationGPDB::UlIndices() const
 ULONG
 CMDRelationGPDB::UlTriggers() const
 {
-	return m_pdrgpmdidTriggers->UlLength();
+	return m_pdrgpmdidTriggers->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -537,7 +537,7 @@ CMDRelationGPDB::Pmdcol
 	) 
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpmdcol->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpmdcol->Size());
 
 	return (*m_pdrgpmdcol)[ulPos];
 }
@@ -557,7 +557,7 @@ CMDRelationGPDB::PmdcolDistrColumn
 	) 
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->UlLength());
+	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->Size());
 	
 	ULONG ulDistrKeyPos = (*(*m_pdrgpulDistrColumns)[ulPos]);
 	return Pmdcol(ulDistrKeyPos);
@@ -648,7 +648,7 @@ CMDRelationGPDB::PmdidTrigger
 ULONG
 CMDRelationGPDB::UlCheckConstraints() const
 {
-	return m_pdrgpmdidCheckConstraint->UlLength();
+	return m_pdrgpmdidCheckConstraint->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -723,7 +723,7 @@ CMDRelationGPDB::Serialize
 	}
 	
 	// serialize key sets
-	if (m_pdrgpdrgpulKeys != NULL && m_pdrgpdrgpulKeys->UlLength() > 0)
+	if (m_pdrgpdrgpulKeys != NULL && m_pdrgpdrgpulKeys->Size() > 0)
 	{
 		CWStringDynamic *pstrKeys = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpdrgpulKeys);
 		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenKeys), pstrKeys);
@@ -756,7 +756,7 @@ CMDRelationGPDB::Serialize
 	// serialize columns
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumns));
-	for (ULONG ul = 0; ul < m_pdrgpmdcol->UlLength(); ul++)
+	for (ULONG ul = 0; ul < m_pdrgpmdcol->Size(); ul++)
 	{
 		CMDColumn *pmdcol = (*m_pdrgpmdcol)[ul];
 		pmdcol->Serialize(pxmlser);
@@ -770,7 +770,7 @@ CMDRelationGPDB::Serialize
 	// serialize index infos
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenIndexInfoList));
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->UlLength();
+	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
 		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];
@@ -871,7 +871,7 @@ CMDRelationGPDB::DebugPrint
 	os << std::endl;
 		
 	os << "Index Info: ";
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->UlLength();
+	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
 		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];

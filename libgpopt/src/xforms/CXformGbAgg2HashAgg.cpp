@@ -78,7 +78,7 @@ CXformGbAgg2HashAgg::Exfp
 {
 	CLogicalGbAgg *popAgg = CLogicalGbAgg::PopConvert(exprhdl.Pop());
 	DrgPcr *pdrgpcr = popAgg->Pdrgpcr();
-	if (0 == pdrgpcr->UlLength() ||
+	if (0 == pdrgpcr->Size() ||
 		exprhdl.Pdpscalar(1 /*ulChildIndex*/)->FHasSubquery() ||
 		!CUtils::FComparisonPossible(pdrgpcr, IMDType::EcmptEq) ||
 		!CUtils::FHashable(pdrgpcr))
@@ -135,7 +135,7 @@ CXformGbAgg2HashAgg::Transform
 	pexprScalar->AddRef();
 
 	DrgPcr *pdrgpcrArgDQA = popAgg->PdrgpcrArgDQA();
-	if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->UlLength())
+	if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->Size())
 	{
 		GPOS_ASSERT(NULL != pdrgpcrArgDQA);
 		pdrgpcrArgDQA->AddRef();

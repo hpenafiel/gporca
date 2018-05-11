@@ -134,7 +134,7 @@ CXformImplementTVF::Transform
 
 	CExpression *pexprAlt = NULL;
 	// create alternative expression
-	if(NULL == pdrgpexpr || 0 == pdrgpexpr->UlLength())
+	if(NULL == pdrgpexpr || 0 == pdrgpexpr->Size())
 	{
 		pexprAlt = GPOS_NEW(pmp) CExpression(pmp, pphTVF);
 	}

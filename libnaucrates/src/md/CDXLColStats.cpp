@@ -129,7 +129,7 @@ CDXLColStats::Pstr() const
 ULONG
 CDXLColStats::UlBuckets() const
 {
-	return m_pdrgpdxlbucket->UlLength();
+	return m_pdrgpdxlbucket->Size();
 }
 
 //---------------------------------------------------------------------------

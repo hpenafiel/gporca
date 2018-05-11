@@ -122,9 +122,9 @@ CDXLPhysicalRandomMotion::AssertValid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
 
 	GPOS_ASSERT(m_pdrgpiInputSegIds != NULL);
-	GPOS_ASSERT(0 < m_pdrgpiInputSegIds->UlLength());
+	GPOS_ASSERT(0 < m_pdrgpiInputSegIds->Size());
 	GPOS_ASSERT(m_pdrgpiOutputSegIds != NULL);
-	GPOS_ASSERT(0 < m_pdrgpiOutputSegIds->UlLength());
+	GPOS_ASSERT(0 < m_pdrgpiOutputSegIds->Size());
 
 	GPOS_ASSERT(EdxlrandommIndexSentinel == pdxln->UlArity());
 	

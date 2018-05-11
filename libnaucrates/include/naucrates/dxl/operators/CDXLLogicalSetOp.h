@@ -99,7 +99,7 @@ namespace gpdxl
 			// number of output columns
 			ULONG UlArity() const
 			{
-				return m_pdrgpdxlcd->UlLength();
+				return m_pdrgpdxlcd->Size();
 			}
 
 			// output column descriptor at a given position
@@ -115,7 +115,7 @@ namespace gpdxl
 			// number of inputs to the n-ary set operation
 		    ULONG UlChildren() const
 			{
-				return m_pdrgpdrgpul->UlLength();	
+				return m_pdrgpdrgpul->Size();	
 			}
 		
 			// column array of the input at a given position 

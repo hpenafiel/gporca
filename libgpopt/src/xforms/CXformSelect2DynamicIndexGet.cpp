@@ -113,7 +113,7 @@ CXformSelect2DynamicIndexGet::Transform
 
 	// array of expressions in the scalar expression
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-	GPOS_ASSERT(0 < pdrgpexpr->UlLength());
+	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
 	// derive the scalar and relational properties to build set of required columns
 	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput();

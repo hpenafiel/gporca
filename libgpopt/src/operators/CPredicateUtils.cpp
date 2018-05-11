@@ -195,7 +195,7 @@ CPredicateUtils::FConjunctionOfEqComparisons
 	}
 	
 	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(pmp, pexpr);
-	const ULONG ulConjuncts = pdrgpexpr->UlLength();
+	const ULONG ulConjuncts = pdrgpexpr->Size();
 	
 	for (ULONG ul = 0; ul < ulConjuncts; ul++)
 	{
@@ -351,7 +351,7 @@ CPredicateUtils::PdrgpexprExpandDisjuncts
 	GPOS_ASSERT(NULL != pdrgpexprDisjuncts);
 
 	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(pmp) DrgPexpr(pmp);
-	const ULONG ulSize = pdrgpexprDisjuncts->UlLength();
+	const ULONG ulSize = pdrgpexprDisjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprDisjuncts)[ul];
@@ -406,7 +406,7 @@ CPredicateUtils::PdrgpexprExpandConjuncts
 	GPOS_ASSERT(NULL != pdrgpexprConjuncts);
 
 	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(pmp) DrgPexpr(pmp);
-	const ULONG ulSize = pdrgpexprConjuncts->UlLength();
+	const ULONG ulSize = pdrgpexprConjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprConjuncts)[ul];
@@ -701,7 +701,7 @@ CPredicateUtils::PexprConjDisj
 	ULONG ulSize = 0;
 	if (NULL != pdrgpexpr)
 	{
-		ulSize = pdrgpexpr->UlLength();
+		ulSize = pdrgpexpr->Size();
 	}
 
 	for (ULONG ul = 0; ul < ulSize; ul++)
@@ -731,9 +731,9 @@ CPredicateUtils::PexprConjDisj
 
 	// assemble result
 	CExpression *pexprResult = NULL;
-	if (NULL != pdrgpexprFinal && (0 < pdrgpexprFinal->UlLength()))
+	if (NULL != pdrgpexprFinal && (0 < pdrgpexprFinal->Size()))
 	{
-		if (1 == pdrgpexprFinal->UlLength())
+		if (1 == pdrgpexprFinal->Size())
 		{
 			pexprResult = (*pdrgpexprFinal)[0];
 			pexprResult->AddRef();
@@ -849,7 +849,7 @@ CPredicateUtils::PdrgpexprPlainEqualities
 	)
 {
 	DrgPexpr *pdrgpexprEqualities = GPOS_NEW(pmp) DrgPexpr(pmp);
-	const ULONG ulArity = pdrgpexpr->UlLength();
+	const ULONG ulArity = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprCurr = (*pdrgpexpr)[ul];
@@ -1053,10 +1053,10 @@ CPredicateUtils::PexprINDFConjunction
 {
 	GPOS_ASSERT(NULL != pdrgpcrFirst);
 	GPOS_ASSERT(NULL != pdrgpcrSecond);
-	GPOS_ASSERT(pdrgpcrFirst->UlLength() == pdrgpcrSecond->UlLength());
-	GPOS_ASSERT(0 < pdrgpcrFirst->UlLength());
+	GPOS_ASSERT(pdrgpcrFirst->Size() == pdrgpcrSecond->Size());
+	GPOS_ASSERT(0 < pdrgpcrFirst->Size());
 
-	const ULONG ulCols = pdrgpcrFirst->UlLength();
+	const ULONG ulCols = pdrgpcrFirst->Size();
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
@@ -1306,7 +1306,7 @@ CPredicateUtils::PexprPartPruningPredicate
 	CColRefSet *pcrsAllowedRefs
 	)
 {
-	const ULONG ulSize = pdrgpexpr->UlLength();
+	const ULONG ulSize = pdrgpexpr->Size();
 
 	DrgPexpr *pdrgpexprResult = GPOS_NEW(pmp) DrgPexpr(pmp);
 	
@@ -1357,7 +1357,7 @@ CPredicateUtils::PexprPartPruningPredicate
 	pdrgpexprResult->Release();
 	pdrgpexprResult = pdrgpexprResultNew;
 
-	if (0 == pdrgpexprResult->UlLength())
+	if (0 == pdrgpexprResult->Size())
 	{
 		pdrgpexprResult->Release();
 		return NULL;
@@ -1516,7 +1516,7 @@ CPredicateUtils::FDisjunctionOnColumn
 	}
 
 	DrgPexpr *pdrgpexprDisjuncts = PdrgpexprDisjuncts(pmp, pexpr);
-	const ULONG ulDisjuncts = pdrgpexprDisjuncts->UlLength();
+	const ULONG ulDisjuncts = pdrgpexprDisjuncts->Size();
 	for (ULONG ulDisj = 0; ulDisj < ulDisjuncts; ulDisj++)
 	{
 		CExpression *pexprDisj = (*pdrgpexprDisjuncts)[ulDisj];
@@ -1607,7 +1607,7 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 		return NULL;
 	}
 
-	const ULONG ulLevels = pdrgpdrgpcrPartKeys->UlLength();
+	const ULONG ulLevels = pdrgpdrgpcrPartKeys->Size();
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
@@ -1633,7 +1633,7 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 	pdrgpexprConjuncts->Release();
 	CRefCount::SafeRelease(pcnstr);
 
-	if (0 == pdrgpexpr->UlLength())
+	if (0 == pdrgpexpr->Size())
 	{
 		pdrgpexpr->Release();
 		return NULL;
@@ -1716,17 +1716,17 @@ CPredicateUtils::FConstColumn
 	
 	CConstraintInterval *pcnstrInterval = dynamic_cast<CConstraintInterval *>(pcnstr);
 	DrgPrng *pdrgprng = pcnstrInterval->Pdrgprng();
-	if (1 < pdrgprng->UlLength())
+	if (1 < pdrgprng->Size())
 	{
 		return false;
 	}
 	
-	if (0 == pdrgprng->UlLength())
+	if (0 == pdrgprng->Size())
 	{
 		return pcnstrInterval->FIncludesNull();
 	}
 	
-	GPOS_ASSERT(1 == pdrgprng->UlLength());
+	GPOS_ASSERT(1 == pdrgprng->Size());
 	
 	const CRange *prng = (*pdrgprng)[0];
 	
@@ -1775,14 +1775,14 @@ CPredicateUtils::FColumnDisjunctionOfConst
 
 	DrgPrng *pdrgprng = pcnstrInterval->Pdrgprng();
 	
-	if (0 == pdrgprng->UlLength())
+	if (0 == pdrgprng->Size())
 	{
 		return pcnstrInterval->FIncludesNull();
 	}
 	
-	GPOS_ASSERT(0 < pdrgprng->UlLength());
+	GPOS_ASSERT(0 < pdrgprng->Size());
 
-	const ULONG ulRanges = pdrgprng->UlLength();
+	const ULONG ulRanges = pdrgprng->Size();
 	
 	for (ULONG ul = 0; ul < ulRanges; ul++)
 	{
@@ -1959,7 +1959,7 @@ CPredicateUtils::ExtractIndexPredicates
 	CColRefSet *pcrsAcceptedOuterRefs // outer refs that are acceptable in an index predicate
 	)
 {
-	const ULONG ulLength = pdrgpexprPredicate->UlLength();
+	const ULONG ulLength = pdrgpexprPredicate->Size();
 	
 	CColRefSet *pcrsIndex = GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrIndex);
 
@@ -2053,7 +2053,7 @@ CPredicateUtils::SeparateOuterRefs
 	DrgPexpr *pdrgpexprLocal = GPOS_NEW(pmp) DrgPexpr(pmp);
 	DrgPexpr *pdrgpexprOuterRefs = GPOS_NEW(pmp) DrgPexpr(pmp);
 
-	const ULONG ulSize = pdrgpexpr->UlLength();
+	const ULONG ulSize = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexpr)[ul];
@@ -2201,7 +2201,7 @@ CPredicateUtils::FImpliedPredicate
 	GPOS_ASSERT(FCheckPredicateImplication(pexprPred));
 
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
-	const ULONG ulSize = pdrgpcrsEquivClasses->UlLength();
+	const ULONG ulSize = pdrgpcrsEquivClasses->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrsEquivClasses)[ul];
@@ -2235,7 +2235,7 @@ CPredicateUtils::PexprRemoveImpliedConjuncts
 
 	// extract all the conjuncts
 	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(pmp, pexprScalar);
-	const ULONG ulSize = pdrgpexprConjuncts->UlLength();
+	const ULONG ulSize = pdrgpexprConjuncts->Size();
 	DrgPexpr *pdrgpexprNewConjuncts = GPOS_NEW(pmp) DrgPexpr(pmp);
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
@@ -2291,7 +2291,7 @@ CPredicateUtils::FValidSemiJoinCorrelations
 	CColRefSet *pcrsChildren = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsOuterOuput);
 	pcrsChildren->Union(pcrsInnerOuput);
 
-	const ULONG ulCorrs = pdrgpexprCorrelations->UlLength();
+	const ULONG ulCorrs = pdrgpexprCorrelations->Size();
 	BOOL fValid = true;
 	for (ULONG ul = 0; fValid && ul < ulCorrs; ul++)
 	{
@@ -2325,7 +2325,7 @@ CPredicateUtils::FSimpleEqualityUsingCols
 
 	// break expression into conjuncts
 	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(pmp, pexprScalar);
-	const ULONG ulSize = pdrgpexpr->UlLength();
+	const ULONG ulSize = pdrgpexpr->Size();
 	BOOL fSuccess = true;
 	for (ULONG ul = 0; fSuccess && ul < ulSize; ul++)
 	{
@@ -2447,7 +2447,7 @@ CPredicateUtils::FCompatiblePredicates
 	GPOS_ASSERT(NULL != pdrgpexprPred);
 	GPOS_ASSERT(NULL != pmdindex);
 
-	const ULONG ulNumPreds = pdrgpexprPred->UlLength();
+	const ULONG ulNumPreds = pdrgpexprPred->Size();
 	for (ULONG ul = 0; ul < ulNumPreds; ul++)
 	{
 		if (!FCompatibleIndexPredicate((*pdrgpexprPred)[ul], pmdindex, pdrgpcrIndex, pmda))
@@ -2493,7 +2493,7 @@ CPredicateUtils::FCompatibleIndexPredicate
 	GPOS_ASSERT(1 == pcrsUsed->CElements());
 
 	CColRef *pcrIndexKey = pcrsUsed->PcrFirst();
-	ULONG ulKeyPos = pdrgpcrIndex->UlPos(pcrIndexKey);
+	ULONG ulKeyPos = pdrgpcrIndex->IndexOf(pcrIndexKey);
 	GPOS_ASSERT(ULONG_MAX != ulKeyPos);
 
 	return (pmdindex->FCompatible(pmdobjScCmp, ulKeyPos));
@@ -2508,7 +2508,7 @@ CPredicateUtils::FContainsVolatileFunction
 {
 	GPOS_ASSERT(NULL != pdrgpexprPred);
 
-	const ULONG ulNumPreds = pdrgpexprPred->UlLength();
+	const ULONG ulNumPreds = pdrgpexprPred->Size();
 	for (ULONG ul = 0; ul < ulNumPreds; ul++)
 	{
 		CExpression *pexpr = (CExpression *)(*pdrgpexprPred)[ul];
@@ -2643,23 +2643,23 @@ CPredicateUtils::CollectGrandChildrenUnionUnionAll
 	DrgDrgPcr *pdrgpdrgpcrInput = pop->PdrgpdrgpcrInput();
 	DrgPcr *pdrgpcrInputExpected = (*pdrgpdrgpcrInput)[ulChildIndex];
 
-	const ULONG ulCols = pdrgpcrInputExpected->UlLength();
+	const ULONG ulCols = pdrgpcrInputExpected->Size();
 
 	DrgPcr *pdrgpcrOuputChild = popChild->PdrgpcrOutput();
-	GPOS_ASSERT(ulCols <= pdrgpcrOuputChild->UlLength());
+	GPOS_ASSERT(ulCols <= pdrgpcrOuputChild->Size());
 
 	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul (pmp);
 	for (ULONG ulColIdx = 0; ulColIdx < ulCols; ulColIdx++)
 	{
 		const CColRef *pcr = (*pdrgpcrInputExpected)[ulColIdx];
-		ULONG ulPos = pdrgpcrOuputChild->UlPos(pcr);
+		ULONG ulPos = pdrgpcrOuputChild->IndexOf(pcr);
 		GPOS_ASSERT(ULONG_MAX != ulPos);
 		pdrgpul->Append(GPOS_NEW(pmp) ULONG(ulPos));
 	}
 
 	DrgDrgPcr *pdrgdrgpcrChild = popChild->PdrgpdrgpcrInput();
 	const ULONG ulArityChild = pexprChild->UlArity();
-	GPOS_ASSERT(pdrgdrgpcrChild->UlLength() == ulArityChild);
+	GPOS_ASSERT(pdrgdrgpcrChild->Size() == ulArityChild);
 
 	for (ULONG ul = 0; ul < ulArityChild; ul++)
 	{

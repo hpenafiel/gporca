@@ -905,7 +905,7 @@ CCostModelGPDBLegacy::CostSequenceProject
 
 	ULONG ulSortCols = 0;
 	DrgPos *pdrgpos = CPhysicalSequenceProject::PopConvert(exprhdl.Pop())->Pdrgpos();
-	const ULONG ulOrderSpecs = pdrgpos->UlLength();
+	const ULONG ulOrderSpecs = pdrgpos->Size();
 	for (ULONG ul = 0; ul < ulOrderSpecs; ul++)
 	{
 		COrderSpec *pos = (*pdrgpos)[ul];

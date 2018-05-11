@@ -59,7 +59,7 @@ CXformGbAgg2ScalarAgg::Exfp
 	)
 	const
 {
-	if (0 < CLogicalGbAgg::PopConvert(exprhdl.Pop())->Pdrgpcr()->UlLength() ||
+	if (0 < CLogicalGbAgg::PopConvert(exprhdl.Pop())->Pdrgpcr()->Size() ||
 		exprhdl.Pdpscalar(1 /*ulChildIndex*/)->FHasSubquery())
 	{
 		// GbAgg has grouping columns, or agg functions use subquery arguments
@@ -105,7 +105,7 @@ CXformGbAgg2ScalarAgg::Transform
 	pexprScalar->AddRef();
 
 	DrgPcr *pdrgpcrArgDQA = popAgg->PdrgpcrArgDQA();
-	if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->UlLength())
+	if (pdrgpcrArgDQA != NULL && 0 != pdrgpcrArgDQA->Size())
 	{
 		pdrgpcrArgDQA->AddRef();
 	}

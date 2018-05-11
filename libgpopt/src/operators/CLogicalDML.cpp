@@ -163,7 +163,7 @@ CLogicalDML::FMatch
 			m_pcrSegmentId == popDML->PcrSegmentId() &&
 			m_pcrTupleOid == popDML->PcrTupleOid() &&
 			m_ptabdesc->Pmdid()->FEquals(popDML->Ptabdesc()->Pmdid()) &&
-			m_pdrgpcrSource->FEqual(popDML->PdrgpcrSource());
+			m_pdrgpcrSource->Equals(popDML->PdrgpcrSource());
 }
 
 //---------------------------------------------------------------------------

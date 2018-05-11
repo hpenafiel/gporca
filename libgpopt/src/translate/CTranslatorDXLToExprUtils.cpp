@@ -89,7 +89,7 @@ CTranslatorDXLToExprUtils::Pdrgpdatum
 	GPOS_ASSERT(NULL != pdrgpdxldatum);
 
 	DrgPdatum *pdrgdatum = GPOS_NEW(pmp) DrgPdatum(pmp);
-	const ULONG ulLen = pdrgpdxldatum->UlLength();
+	const ULONG ulLen = pdrgpdxldatum->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CDXLDatum *pdxldatum = (*pdrgpdxldatum)[ul];
@@ -150,7 +150,7 @@ CTranslatorDXLToExprUtils::AddKeySets
 	{
 		CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, ptabdesc->UlColumns());
 		const DrgPul *pdrgpulKeys = pmdrel->PdrgpulKeyset(ul);
-		const ULONG ulKeys = pdrgpulKeys->UlLength();
+		const ULONG ulKeys = pdrgpulKeys->Size();
 
 		for (ULONG ulKey = 0; ulKey < ulKeys; ulKey++)
 		{
@@ -255,7 +255,7 @@ CTranslatorDXLToExprUtils::Pdrgpcr
 
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
 
-	for (ULONG ul = 0; ul < pdrgpulColIds->UlLength(); ul++)
+	for (ULONG ul = 0; ul < pdrgpulColIds->Size(); ul++)
 	{
 		ULONG *pulColId = (*pdrgpulColIds)[ul];
 		const CColRef *pcr = phmulcr->PtLookup(pulColId);

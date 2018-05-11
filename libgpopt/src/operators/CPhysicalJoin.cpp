@@ -638,7 +638,7 @@ CPhysicalJoin::AddHashKeys
 	pdrgpexprOuter->Append(pexprKeyOuter);
 	pdrgpexprInner->Append(pexprKeyInner);
 
-	GPOS_ASSERT(pdrgpexprInner->UlLength() == pdrgpexprOuter->UlLength());
+	GPOS_ASSERT(pdrgpexprInner->Size() == pdrgpexprOuter->Size());
 }
 
 
@@ -671,7 +671,7 @@ CPhysicalJoin::FHashJoinPossible
 	DrgPexpr *pdrgpexpr = CCastUtils::PdrgpexprCastEquality(pmp,  (*pexpr)[2]);
 
 	// identify hashkeys
-	ULONG ulPreds = pdrgpexpr->UlLength();
+	ULONG ulPreds = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulPreds; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexpr)[ul];
@@ -695,7 +695,7 @@ CPhysicalJoin::FHashJoinPossible
 			CPredicateUtils::PexprConjunction(pmp, pdrgpexpr)
 			);
 
-	return (0 != pdrgpexprInner->UlLength());
+	return (0 != pdrgpexprInner->Size());
 }
 
 
@@ -821,7 +821,7 @@ CPhysicalJoin::PexprJoinPredOnPartKeys
 
 	CExpression *pexprPred = NULL;
 	DrgPpartkeys *pdrgppartkeys = ppimSource->Pdrgppartkeys(ulPartIndexId);
-	const ULONG ulKeysets = pdrgppartkeys->UlLength();
+	const ULONG ulKeysets = pdrgppartkeys->Size();
 	for (ULONG ulKey = 0; NULL == pexprPred && ulKey < ulKeysets; ulKey++)
 	{
 		// get partition key
@@ -1116,7 +1116,7 @@ CPhysicalJoin::PppsRequiredCompute
 	CColRefSet *pcrsOutputOuter = exprhdl.Pdprel(0)->PcrsOutput();
 	CColRefSet *pcrsOutputInner = exprhdl.Pdprel(1)->PcrsOutput();
 
-	const ULONG ulPartIndexIds = pdrgpul->UlLength();
+	const ULONG ulPartIndexIds = pdrgpul->Size();
 
 	for (ULONG ul = 0; ul < ulPartIndexIds; ul++)
 	{

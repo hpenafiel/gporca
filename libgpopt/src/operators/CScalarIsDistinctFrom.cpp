@@ -36,7 +36,7 @@ CScalarIsDistinctFrom::PopConvert
 CScalar::EBoolEvalResult
 CScalarIsDistinctFrom::Eber(DrgPul *pdrgpulChildren) const
 {
-	GPOS_ASSERT(2 == pdrgpulChildren->UlLength());
+	GPOS_ASSERT(2 == pdrgpulChildren->Size());
 
 	// Is Distinct From(IDF) expression will always evaluate
 	// to a true/false/unknown but not a NULL

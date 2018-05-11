@@ -1249,9 +1249,9 @@ namespace gpopt
 		if (NULL != pdrgpexprOuter)
 		{
 			GPOS_ASSERT(NULL != pdrgpexprInner);
-			if (0 == pdrgpexprOuter->UlLength())
+			if (0 == pdrgpexprOuter->Size())
 			{
-				GPOS_ASSERT(0 == pdrgpexprInner->UlLength());
+				GPOS_ASSERT(0 == pdrgpexprInner->Size());
 
 				// we failed before to find hash join keys for scalar child,
 				// no reason to try to do the same again

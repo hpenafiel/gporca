@@ -94,7 +94,7 @@ IMDRelation::PstrColumns
 {
 	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
 
-	ULONG ulLen = pdrgpul->UlLength();
+	ULONG ulLen = pdrgpul->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		ULONG ulId = *((*pdrgpul)[ul]);

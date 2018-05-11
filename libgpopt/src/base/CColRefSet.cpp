@@ -176,7 +176,7 @@ CColRefSet::Include
 	const DrgPcr *pdrgpcr
 	)
 {
-	ULONG ulLength = pdrgpcr->UlLength();
+	ULONG ulLength = pdrgpcr->Size();
 	for (ULONG i = 0; i < ulLength; i++)
 	{
 		Include((*pdrgpcr)[i]);
@@ -260,7 +260,7 @@ CColRefSet::Exclude
 	const DrgPcr *pdrgpcr
 	)
 {
-	for (ULONG i = 0; i < pdrgpcr->UlLength(); i++)
+	for (ULONG i = 0; i < pdrgpcr->Size(); i++)
 	{
 		Exclude((*pdrgpcr)[i]);
 	}
@@ -305,8 +305,8 @@ CColRefSet::Replace
 	const DrgPcr *pdrgpcrIn
 	)
 {
-	const ULONG ulLen = pdrgpcrOut->UlLength();
-	GPOS_ASSERT(ulLen == pdrgpcrIn->UlLength());
+	const ULONG ulLen = pdrgpcrOut->Size();
+	GPOS_ASSERT(ulLen == pdrgpcrIn->Size());
 
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -451,7 +451,7 @@ CColRefSet::FContained
 {
 	GPOS_ASSERT(NULL != pdrgpcrs);
 
-	const ULONG ulLen = pdrgpcrs->UlLength();
+	const ULONG ulLen = pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		if ((*pdrgpcrs)[ul]->FSubset(this))
@@ -481,7 +481,7 @@ CColRefSet::FCovered
 {
 	GPOS_ASSERT(NULL != pdrgpcrs);
 	GPOS_ASSERT(NULL != pcrs);
-	GPOS_ASSERT(0 < pdrgpcrs->UlLength());
+	GPOS_ASSERT(0 < pdrgpcrs->Size());
 
 	if (0 == pcrs->CElements())
 	{
@@ -493,7 +493,7 @@ CColRefSet::FCovered
 	{
 		CColRef *pcr = crsi.Pcr();
 		BOOL fFound = false;
-		const ULONG ulLen =  pdrgpcrs->UlLength();
+		const ULONG ulLen =  pdrgpcrs->Size();
 		for (ULONG ul = 0; ul < ulLen && !fFound; ul++)
 		{
 			CColRefSet *pcrs = (*pdrgpcrs)[ul];

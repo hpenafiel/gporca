@@ -44,7 +44,7 @@ CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 	GPOS_ASSERT(0 != iType);
 	GPOS_ASSERT(NULL != pdrgpulNew || NULL != pdrgpulOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpulNew && NULL != pdrgpulOld,
-			pdrgpulNew->UlLength() == pdrgpulOld->UlLength());
+			pdrgpulNew->Size() == pdrgpulOld->Size());
 }
 
 //---------------------------------------------------------------------------

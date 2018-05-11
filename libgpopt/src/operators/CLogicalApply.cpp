@@ -132,7 +132,7 @@ CLogicalApply::FMatch
 			return 	 (NULL == m_pdrgpcrInner && NULL == pdrgpcrInner);
 		}
 
-		return m_pdrgpcrInner->FEqual(pdrgpcrInner);
+		return m_pdrgpcrInner->Equals(pdrgpcrInner);
 	}
 
 	return false;

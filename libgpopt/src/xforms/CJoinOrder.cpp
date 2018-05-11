@@ -226,7 +226,7 @@ CJoinOrder::CJoinOrder
 	typedef SComponent* Pcomp;
 	typedef SEdge* Pedge;
 	
-	m_ulComps = pdrgpexpr->UlLength();
+	m_ulComps = pdrgpexpr->Size();
 	m_rgpcomp = GPOS_NEW_ARRAY(pmp, Pcomp, m_ulComps);
 	
 	for (ULONG ul = 0; ul < m_ulComps; ul++)
@@ -239,7 +239,7 @@ CJoinOrder::CJoinOrder
 		(void) m_rgpcomp[ul]->m_pbs->FExchangeSet(ul);
 	}
 
-	m_ulEdges = pdrgpexprConj->UlLength();
+	m_ulEdges = pdrgpexprConj->Size();
 	m_rgpedge = GPOS_NEW_ARRAY(pmp, Pedge, m_ulEdges);
 	
 	for (ULONG ul = 0; ul < m_ulEdges; ul++)

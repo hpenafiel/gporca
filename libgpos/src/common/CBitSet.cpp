@@ -423,7 +423,7 @@ CBitSet::Union
 
 	// insert all new links
 	pbsl = NULL;
-	for (ULONG i = 0; i < a_drgpbsl->UlLength(); i++)
+	for (ULONG i = 0; i < a_drgpbsl->Size(); i++)
 	{
 		CBitSetLink *pbslInsert = (*a_drgpbsl)[i];
 		pbsl = PbslLocate(pbslInsert->UlOffset(), pbsl);

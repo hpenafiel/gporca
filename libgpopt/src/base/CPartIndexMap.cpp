@@ -60,7 +60,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 
 	GPOS_ASSERT(pmdid->FValid());
 	GPOS_ASSERT(pdrgppartkeys != NULL);
-	GPOS_ASSERT(0 < pdrgppartkeys->UlLength());
+	GPOS_ASSERT(0 < pdrgppartkeys->Size());
 	GPOS_ASSERT(NULL != ppartcnstrRel);
 	GPOS_ASSERT_IMP(CPartIndexMap::EpimConsumer != epim, 0 == ulPropagators);
 

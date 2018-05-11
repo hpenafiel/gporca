@@ -630,7 +630,7 @@ CSubqueryHandler::FCreateOuterApplyForScalarSubquery
 	*ppexprNewOuter = pexprPrj;
 
 	BOOL fGeneratedByQuantified =  popSubquery->FGeneratedByQuantified();
-	if (fGeneratedByQuantified || (fHasCountAggMatchingColumn && 0 == pgbAgg->Pdrgpcr()->UlLength()))
+	if (fGeneratedByQuantified || (fHasCountAggMatchingColumn && 0 == pgbAgg->Pdrgpcr()->Size()))
 	{
 		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 		const IMDTypeInt8 *pmdtypeint8 = pmda->PtMDType<IMDTypeInt8>();
@@ -738,7 +738,7 @@ CSubqueryHandler::FCreateGrpCols
 		}
 
 		DrgPcr *pdrgpcrSystemCols = COptCtxt::PoctxtFromTLS()->PdrgpcrSystemCols();
-		if (NULL != pdrgpcrSystemCols && 0 < pdrgpcrSystemCols->UlLength())
+		if (NULL != pdrgpcrSystemCols && 0 < pdrgpcrSystemCols->Size())
 		{
 			CColRefSet *pcrsSystemCols = GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrSystemCols);
 			BOOL fOuterSystemColsReqd = !(pcrsSystemCols->FDisjoint(pcrsOuterOutput));
@@ -837,7 +837,7 @@ CSubqueryHandler::FCreateOuterApplyForExistOrQuant
 		return false;
 	}
 	GPOS_ASSERT(NULL != pdrgpcr);
-	GPOS_ASSERT(0 < pdrgpcr->UlLength());
+	GPOS_ASSERT(0 < pdrgpcr->Size());
 
 	// add a project node on top of inner expression
 	CExpression *pexprPrj = NULL;
@@ -1179,7 +1179,7 @@ CSubqueryHandler::FRemoveAnySubquery
 	AssertValidArguments(pmp, pexprOuter, pexprSubquery, ppexprNewOuter, ppexprResidualScalar);
 	COperator *popSubqChild = (*pexprSubquery)[0]->Pop();
 	GPOS_ASSERT_IMP(COperator::EopLogicalConstTableGet == popSubqChild->Eopid(),
-			0 == CLogicalConstTableGet::PopConvert(popSubqChild)->Pdrgpdrgpdatum()->UlLength() &&
+			0 == CLogicalConstTableGet::PopConvert(popSubqChild)->Pdrgpdrgpdatum()->Size() &&
 			"Constant subqueries must be unnested during preprocessing");
 #endif // GPOS_DEBUG
 
@@ -1314,7 +1314,7 @@ CSubqueryHandler::FRemoveAllSubquery
 	AssertValidArguments(pmp, pexprOuter, pexprSubquery, ppexprNewOuter, ppexprResidualScalar);
 	COperator *popSubqChild = (*pexprSubquery)[0]->Pop();
 	GPOS_ASSERT_IMP(COperator::EopLogicalConstTableGet == popSubqChild->Eopid(),
-			0 == CLogicalConstTableGet::PopConvert(popSubqChild)->Pdrgpdrgpdatum()->UlLength() &&
+			0 == CLogicalConstTableGet::PopConvert(popSubqChild)->Pdrgpdrgpdatum()->Size() &&
 			"Constant subqueries must be unnested during preprocessing");
 #endif // GPOS_DEBUG
 

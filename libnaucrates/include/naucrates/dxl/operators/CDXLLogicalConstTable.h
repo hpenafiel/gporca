@@ -77,7 +77,7 @@ namespace gpdxl
 			// number of constant tuples
 			ULONG UlTupleCount() const
 			{
-				return m_pdrgpdrgpdxldatum->UlLength();
+				return m_pdrgpdrgpdxldatum->Size();
 			}
 
 			// return the const tuple (datum array) at a given position

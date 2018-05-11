@@ -76,7 +76,7 @@ namespace gpopt
                 TApply *popApply = TApply::PopConvert(pexprApply->Pop());
                 DrgPcr *pdrgpcr = popApply->PdrgPcrInner();
                 GPOS_ASSERT(NULL != pdrgpcr);
-                GPOS_ASSERT(1 == pdrgpcr->UlLength());
+                GPOS_ASSERT(1 == pdrgpcr->Size());
 
                 pdrgpcr->AddRef();
                 COperator::EOperatorId eopidSubq = popApply->EopidOriginSubq();

@@ -108,7 +108,7 @@ CXformSubqJoin2Apply::CollectSubqueries
 		pcrsOuter->Union(CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed());
 
 		ULONG ulChildIndex = ULONG_MAX;
-		const ULONG ulSize = pdrgpcrs->UlLength();
+		const ULONG ulSize = pdrgpcrs->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			CColRefSet *pcrsOutput = (*pdrgpcrs)[ul];
@@ -234,7 +234,7 @@ CXformSubqJoin2Apply::PexprSubqueryPushDown
 		CExpression *pexprNewChild = pexprChild;
 
 		DrgPexpr *pdrgpexprSubqs = (*pdrgpdrgpexprSubqs)[ulChild];
-		const ULONG ulSubqs = pdrgpexprSubqs->UlLength();
+		const ULONG ulSubqs = pdrgpexprSubqs->Size();
 		if (0 < ulSubqs)
 		{
 			// join child has pushable subqueries

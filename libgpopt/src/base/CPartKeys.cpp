@@ -32,7 +32,7 @@ CPartKeys::CPartKeys
 	m_pdrgpdrgpcr(pdrgpdrgpcr)
 {
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
-	m_ulLevels = pdrgpdrgpcr->UlLength();
+	m_ulLevels = pdrgpdrgpcr->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -111,12 +111,12 @@ CPartKeys::PpartkeysCopy
 {
 	DrgDrgPcr *pdrgpdrgpcrCopy = GPOS_NEW(pmp) DrgDrgPcr(pmp);
 
-	const ULONG ulLength = m_pdrgpdrgpcr->UlLength();
+	const ULONG ulLength = m_pdrgpdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		DrgPcr *pdrgpcr = (*m_pdrgpdrgpcr)[ul];
 		DrgPcr *pdrgpcrCopy = GPOS_NEW(pmp) DrgPcr(pmp);
-		const ULONG ulCols = pdrgpcr->UlLength();
+		const ULONG ulCols = pdrgpcr->Size();
 		for (ULONG ulCol = 0; ulCol < ulCols; ulCol++)
 		{
 			pdrgpcrCopy->Append((*pdrgpcr)[ulCol]);
@@ -145,7 +145,7 @@ CPartKeys::PdrgppartkeysCopy
 	GPOS_ASSERT(NULL != pdrgppartkeys);
 
 	DrgPpartkeys *pdrgppartkeysCopy = GPOS_NEW(pmp) DrgPpartkeys(pmp);
-	const ULONG ulLength = pdrgppartkeys->UlLength();
+	const ULONG ulLength = pdrgppartkeys->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		pdrgppartkeysCopy->Append((*pdrgppartkeys)[ul]->PpartkeysCopy(pmp));

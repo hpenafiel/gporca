@@ -61,11 +61,11 @@ namespace
 																								 NULL);
 				DrgPstats *pdrgpstats = CDXLUtils::PdrgpstatsTranslateStats(Pmp(), &m_mda, pdrgpdxlstatsderrel);
 				GPOS_ASSERT(pdrgpstats != NULL);
-				GPOS_ASSERT(2 == pdrgpstats->UlLength());
+				GPOS_ASSERT(2 == pdrgpstats->Size());
 				// PdrgpstatsTranslateStats returns an array of CStatistics (DrgPstats)
 				// and PStatsJoinArray takes an array of IStatistics (DrgPstat) as input
 				// So, iterate through DrgPstats and append members to a DrgPstat
-				ULONG ulArity = pdrgpstats->UlLength();
+				ULONG ulArity = pdrgpstats->Size();
 				for (ULONG ul = 0; ul < ulArity; ul++)
 				{
 					IStatistics *pstats = (*pdrgpstats)[ul];

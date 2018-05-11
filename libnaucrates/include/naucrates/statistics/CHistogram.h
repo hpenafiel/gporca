@@ -364,7 +364,7 @@ namespace gpnaucrates
 			// number of buckets
 			ULONG UlBuckets() const
 			{
-				return m_pdrgppbucket->UlLength();
+				return m_pdrgppbucket->Size();
 			}
 
 			// buckets accessor

@@ -136,7 +136,7 @@ CXformExpandNAryJoinDP::Transform
 		pexprResult->Release();
 		pxfres->Add(pexprNormalized);
 
-		const ULONG UlTopKJoinOrders = jodp.PdrgpexprTopK()->UlLength();
+		const ULONG UlTopKJoinOrders = jodp.PdrgpexprTopK()->Size();
 		for (ULONG ul = 0; ul < UlTopKJoinOrders; ul++)
 		{
 			CExpression *pexprJoinOrder = (*jodp.PdrgpexprTopK())[ul];

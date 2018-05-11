@@ -81,7 +81,7 @@ CKeyCollection::CKeyCollection
 	m_pdrgpcrs(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(NULL != pdrgpcr && 0 < pdrgpcr->UlLength());
+	GPOS_ASSERT(NULL != pdrgpcr && 0 < pdrgpcr->Size());
 	
 	m_pdrgpcrs = GPOS_NEW(pmp) DrgPcrs(pmp);
 	
@@ -145,7 +145,7 @@ CKeyCollection::FKey
 	)
 	const
 {
-	const ULONG ulSets = m_pdrgpcrs->UlLength();
+	const ULONG ulSets = m_pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulSets; ul++)
 	{
 		if (fExactMatch)
@@ -217,7 +217,7 @@ CKeyCollection::PdrgpcrTrim
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
 	pcrs->Include(pdrgpcr);
 
-	const ULONG ulSets = m_pdrgpcrs->UlLength();
+	const ULONG ulSets = m_pdrgpcrs->Size();
 	for(ULONG ul = 0; ul < ulSets; ul++)
 	{
 		CColRefSet *pcrsKey = (*m_pdrgpcrs)[ul];
@@ -247,7 +247,7 @@ CKeyCollection::PdrgpcrKey
 	)
 	const
 {
-	if (0 == m_pdrgpcrs->UlLength())
+	if (0 == m_pdrgpcrs->Size())
 	{
 		return NULL;
 	}
@@ -274,7 +274,7 @@ CKeyCollection::PdrgpcrHashableKey
 	)
 	const
 {
-	const ULONG ulSets = m_pdrgpcrs->UlLength();
+	const ULONG ulSets = m_pdrgpcrs->Size();
 	for(ULONG ul = 0; ul < ulSets; ul++)
 	{
 		DrgPcr *pdrgpcrKey = (*m_pdrgpcrs)[ul]->Pdrgpcr(pmp);
@@ -306,7 +306,7 @@ CKeyCollection::PdrgpcrKey
 	)
 	const
 {
-	if (0 == m_pdrgpcrs->UlLength())
+	if (0 == m_pdrgpcrs->Size())
 	{
 		return NULL;
 	}
@@ -334,7 +334,7 @@ CKeyCollection::PcrsKey
 	)
 	const
 {
-	if (0 == m_pdrgpcrs->UlLength())
+	if (0 == m_pdrgpcrs->Size())
 	{
 		return NULL;
 	}
@@ -363,7 +363,7 @@ CKeyCollection::OsPrint
 {
 	os << " Keys: (";
 
-	const ULONG ulSets = m_pdrgpcrs->UlLength();
+	const ULONG ulSets = m_pdrgpcrs->Size();
 	for(ULONG ul = 0; ul < ulSets; ul++)
 	{
 		if (0 < ul)

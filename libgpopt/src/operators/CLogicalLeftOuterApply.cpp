@@ -54,7 +54,7 @@ CLogicalLeftOuterApply::CLogicalLeftOuterApply
 	:
 	CLogicalApply(pmp, pdrgpcrInner, eopidOriginSubq)
 {
-	GPOS_ASSERT(0 < pdrgpcrInner->UlLength());
+	GPOS_ASSERT(0 < pdrgpcrInner->Size());
 }
 
 

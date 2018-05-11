@@ -103,7 +103,7 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 								pmdtype,
 								pdrgpdatumMCV,
 								pdrgpdFreq,
-								pdrgpdatumMCV->UlLength()
+								pdrgpdatumMCV->Size()
 								);
 
 	// create hash map from colid -> histogram
