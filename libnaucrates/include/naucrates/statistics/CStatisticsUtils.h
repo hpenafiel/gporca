@@ -156,7 +156,7 @@ namespace gpnaucrates
 					(
 					IMemoryPool *pmp,
 					const CStatistics *pstatsInput,
-					const DrgPul *pdrgpulGrpCol,
+					const ULongPtrArray *pdrgpulGrpCol,
 					DrgPdouble *pdrgpdNDV // output array of NDV
 					);
 
@@ -167,16 +167,16 @@ namespace gpnaucrates
 						IMemoryPool *pmp,
 						const CStatisticsConfig *pstatsconf,
 						CStatistics *pstatsInput,
-						const DrgPul *pdrgpulPerSrc
+						const ULongPtrArray *pdrgpulPerSrc
 						);
 
 			// check to see if any one of the grouping columns has been capped
 			static
-			BOOL FExistsCappedGrpCol(const CStatistics *pstats, const DrgPul *pdrgpulGrpCol);
+			BOOL FExistsCappedGrpCol(const CStatistics *pstats, const ULongPtrArray *pdrgpulGrpCol);
 
 			// return the maximum NDV given an array of grouping columns
 			static
-			CDouble DMaxNdv(const CStatistics *pstats,const DrgPul *pdrgpulGrpCol);
+			CDouble DMaxNdv(const CStatistics *pstats,const ULongPtrArray *pdrgpulGrpCol);
 
 		public:
 
@@ -232,7 +232,7 @@ namespace gpnaucrates
 					IMemoryPool *pmp,
 					CBitSet *pbsColIds, 
 					CStatsPred *pstatspred,
-					DrgPul *pdrgpulColIds
+					ULongPtrArray *pdrgpulColIds
 					);
 
 			// given the previously generated histogram, update the intermediate
@@ -358,7 +358,7 @@ namespace gpnaucrates
 					IMemoryPool *pmp, 
 					IStatistics *pstats, 
 					const CStatisticsConfig *pstatsconf,
-					DrgPul *pdrgpulGC, 
+					ULongPtrArray *pdrgpulGC, 
 					CBitSet *pbsKeys
 					);
 			
@@ -388,7 +388,7 @@ namespace gpnaucrates
 			CColRefSet *PcrsGrpColsForStats
 							(
 							IMemoryPool *pmp, 
-							const DrgPul *pdrgpulGrpCol, 
+							const ULongPtrArray *pdrgpulGrpCol, 
 							CColRefSet *pcrsGrpColComputed // output set of grouping columns that are computed attributes
 							);
 

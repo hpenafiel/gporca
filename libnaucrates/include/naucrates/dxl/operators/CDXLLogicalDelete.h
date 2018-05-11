@@ -44,7 +44,7 @@ namespace gpdxl
 			ULONG m_ulSegmentId;
 
 			// list of deletion column ids
-			DrgPul *m_pdrgpulDelete;
+			ULongPtrArray *m_pdrgpulDelete;
 
 			// private copy ctor
 			CDXLLogicalDelete(const CDXLLogicalDelete &);
@@ -52,7 +52,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLLogicalDelete(IMemoryPool *pmp, CDXLTableDescr *pdxltabdesc, ULONG ulCtid, ULONG ulSegmentId, DrgPul *pdrgpulDelete);
+			CDXLLogicalDelete(IMemoryPool *pmp, CDXLTableDescr *pdxltabdesc, ULONG ulCtid, ULONG ulSegmentId, ULongPtrArray *pdrgpulDelete);
 
 			// dtor
 			virtual
@@ -83,7 +83,7 @@ namespace gpdxl
 			}
 
 			// deletion column ids
-			DrgPul *PdrgpulDelete() const
+			ULongPtrArray *PdrgpulDelete() const
 			{
 				return m_pdrgpulDelete;
 			}

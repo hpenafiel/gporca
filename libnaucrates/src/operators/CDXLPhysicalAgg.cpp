@@ -133,7 +133,7 @@ CDXLPhysicalAgg::PstrAggStrategy() const
 //		Grouping column indices
 //
 //---------------------------------------------------------------------------
-const DrgPul *
+const ULongPtrArray *
 CDXLPhysicalAgg::PdrgpulGroupingCols() const
 {
 	return m_pdrgpulGroupingCols; 
@@ -149,7 +149,7 @@ CDXLPhysicalAgg::PdrgpulGroupingCols() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalAgg::SetGroupingCols(DrgPul *pdrgpul)
+CDXLPhysicalAgg::SetGroupingCols(ULongPtrArray *pdrgpul)
 {
 	GPOS_ASSERT(NULL != pdrgpul);
 	m_pdrgpulGroupingCols = pdrgpul;

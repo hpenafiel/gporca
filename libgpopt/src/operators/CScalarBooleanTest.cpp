@@ -124,7 +124,7 @@ CScalarBooleanTest::PmdidType() const
 CScalar::EBoolEvalResult
 CScalarBooleanTest::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

@@ -38,12 +38,12 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	DrgPdxlcd *pdrgpdxlcd,
 	CDXLCtasStorageOptions *pdxlctasopt,
 	IMDRelation::Ereldistrpolicy ereldistrpolicy,
-	DrgPul *pdrgpulDistr,
+	ULongPtrArray *pdrgpulDistr,
 	BOOL fTemporary,
 	BOOL fHasOids, 
 	IMDRelation::Erelstoragetype erelstorage,
-	DrgPul *pdrgpulSource,
-	DrgPi *pdrgpiVarTypeMod
+	ULongPtrArray *pdrgpulSource,
+	IntPtrArray *pdrgpiVarTypeMod
 	)
 	:
 	CDXLLogical(pmp), 

@@ -75,10 +75,10 @@ namespace gpmd
 			DrgPmdcol *m_pdrgpmdcol;
 
 			// indices of distribution columns
-			DrgPul *m_pdrgpulDistrColumns;
+			ULongPtrArray *m_pdrgpulDistrColumns;
 			
 			// array of key sets
-			DrgPdrgPul *m_pdrgpdrgpulKeys;
+			ULongPtrArray2D *m_pdrgpdrgpulKeys;
 
 			// number of system columns
 			ULONG m_ulSystemColumns;
@@ -88,13 +88,13 @@ namespace gpmd
 			HMIUl *m_phmiulAttno2Pos;
 
 			// the original positions of all the non-dropped columns
-			DrgPul *m_pdrgpulNonDroppedCols;
+			ULongPtrArray *m_pdrgpulNonDroppedCols;
 			
 			// storage options
 			CDXLCtasStorageOptions *m_pdxlctasopt;
 
 			// vartypemod list
-			DrgPi *m_pdrgpiVarTypeMod;
+			IntPtrArray *m_pdrgpiVarTypeMod;
 
 			// array of column widths
 			DrgPdouble *m_pdrgpdoubleColWidths;
@@ -116,10 +116,10 @@ namespace gpmd
 				Erelstoragetype erelstorage,
 				Ereldistrpolicy ereldistrpolicy,
 				DrgPmdcol *pdrgpmdcol,
-				DrgPul *pdrgpulDistrColumns,
-				DrgPdrgPul *pdrgpdrgpulKeys,
+				ULongPtrArray *pdrgpulDistrColumns,
+				ULongPtrArray2D *pdrgpdrgpulKeys,
 				CDXLCtasStorageOptions *pdxlctasopt,
-				DrgPi *pdrgpiVarTypeMod
+				IntPtrArray *pdrgpiVarTypeMod
 				);
 
 			// dtor
@@ -201,7 +201,7 @@ namespace gpmd
 			
 			// return the original positions of all the non-dropped columns
 			virtual
-			DrgPul *PdrgpulNonDroppedCols() const
+			ULongPtrArray *PdrgpulNonDroppedCols() const
 			{
 				return m_pdrgpulNonDroppedCols;
 			}
@@ -295,7 +295,7 @@ namespace gpmd
 			}
 
 			// list of vartypmod for target expressions
-			DrgPi *PdrgpiVarTypeMod() const
+			IntPtrArray *PdrgpiVarTypeMod() const
 			{
 				return m_pdrgpiVarTypeMod;
 			}

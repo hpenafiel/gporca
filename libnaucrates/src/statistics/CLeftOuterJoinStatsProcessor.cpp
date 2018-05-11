@@ -120,7 +120,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 
 	HMUlHist *phmulhistLOJ = GPOS_NEW(pmp) HMUlHist(pmp);
 
-	DrgPul *pdrgpulOuterColId = pstatsOuter->PdrgulColIds(pmp);
+	ULongPtrArray *pdrgpulOuterColId = pstatsOuter->PdrgulColIds(pmp);
 	const ULONG ulOuterCols = pdrgpulOuterColId->Size();
 
 	for (ULONG ul2 = 0; ul2 < ulOuterCols; ul2++)
@@ -157,7 +157,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 	pstatsLASJ->Release();
 
 	// extract all columns from the inner child of the join
-	DrgPul *pdrgpulInnerColId = pstatsInner->PdrgulColIds(pmp);
+	ULongPtrArray *pdrgpulInnerColId = pstatsInner->PdrgulColIds(pmp);
 
 	// add its corresponding statistics
 	AddHistogramsLOJInner(pmp, pstatsInnerJoin, pdrgpulInnerColId, dRowsLASJ, dRowsInnerJoin, phmulhistLOJ);
@@ -179,7 +179,7 @@ CLeftOuterJoinStatsProcessor::AddHistogramsLOJInner
 		(
 		IMemoryPool *pmp,
 		const CStatistics *pstatsInnerJoin,
-		DrgPul *pdrgpulInnerColId,
+		ULongPtrArray *pdrgpulInnerColId,
 		CDouble dRowsLASJ,
 		CDouble dRowsInnerJoin,
 		HMUlHist *phmulhistLOJ

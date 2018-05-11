@@ -89,7 +89,7 @@ CParseHandlerTraceFlags::StartElement
 															EdxltokenTraceFlags
 															);
 	
-	DrgPul *pdrgpul = CDXLOperatorFactory::PdrgpulFromXMLCh
+	ULongPtrArray *pdrgpul = CDXLOperatorFactory::PdrgpulFromXMLCh
 												(
 												m_pphm->Pmm(),
 												xmlszTraceFlags, 

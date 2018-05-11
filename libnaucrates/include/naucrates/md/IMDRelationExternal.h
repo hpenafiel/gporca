@@ -88,7 +88,7 @@ namespace gpmd
 
 			// retrieve list of partition types
 			virtual
-			DrgPsz *PdrgpszPartTypes() const
+			CharPtrArray *PdrgpszPartTypes() const
 			{
 				GPOS_ASSERT(!"External tables have no partition types");
 				return NULL;

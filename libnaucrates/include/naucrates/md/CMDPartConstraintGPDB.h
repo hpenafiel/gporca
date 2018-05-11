@@ -51,7 +51,7 @@ namespace gpmd
 			IMemoryPool *m_pmp;
 
 			// included default partitions
-			DrgPul *m_pdrgpulDefaultParts;
+			ULongPtrArray *m_pdrgpulDefaultParts;
 			
 			// is constraint unbounded
 			BOOL m_fUnbounded;
@@ -61,7 +61,7 @@ namespace gpmd
 		public:
 
 			// ctor
-			CMDPartConstraintGPDB(IMemoryPool *pmp, DrgPul *pdrgpulDefaultParts, BOOL fUnbounded, CDXLNode *pdxln);
+			CMDPartConstraintGPDB(IMemoryPool *pmp, ULongPtrArray *pdrgpulDefaultParts, BOOL fUnbounded, CDXLNode *pdxln);
 
 			// dtor
 			virtual
@@ -77,7 +77,7 @@ namespace gpmd
 			
 			// included default partitions
 			virtual
-			DrgPul *PdrgpulDefaultParts() const;
+			ULongPtrArray *PdrgpulDefaultParts() const;
 
 			// is constraint unbounded
 			virtual

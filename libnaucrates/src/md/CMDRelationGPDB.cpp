@@ -37,12 +37,12 @@ CMDRelationGPDB::CMDRelationGPDB
 	Erelstoragetype erelstorage,
 	Ereldistrpolicy ereldistrpolicy,
 	DrgPmdcol *pdrgpmdcol,
-	DrgPul *pdrgpulDistrColumns,
-	DrgPul *pdrgpulPartColumns,
-	DrgPsz *pdrgpszPartTypes,
+	ULongPtrArray *pdrgpulDistrColumns,
+	ULongPtrArray *pdrgpulPartColumns,
+	CharPtrArray *pdrgpszPartTypes,
 	ULONG ulPartitions,
 	BOOL fConvertHashToRandom,
-	DrgPdrgPul *pdrgpdrgpulKeys,
+	ULongPtrArray2D *pdrgpdrgpulKeys,
 	DrgPmdIndexInfo *pdrgpmdIndexInfo,
 	DrgPmdid *pdrgpmdidTriggers,
  	DrgPmdid *pdrgpmdidCheckConstraint,
@@ -85,7 +85,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	
 	m_phmululNonDroppedCols = GPOS_NEW(m_pmp) HMUlUl(m_pmp);
 	m_phmiulAttno2Pos = GPOS_NEW(m_pmp) HMIUl(m_pmp);
-	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
 
 	const ULONG ulArity = pdrgpmdcol->Size();
@@ -335,7 +335,7 @@ CMDRelationGPDB::UlPosFromAttno
 //		Returns the original positions of all the non-dropped columns
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CMDRelationGPDB::PdrgpulNonDroppedCols() const
 {
 	return m_pdrgpulNonDroppedCols;
@@ -377,7 +377,7 @@ CMDRelationGPDB::UlKeySets() const
 //		Returns the key set at the specified position
 //
 //---------------------------------------------------------------------------
-const DrgPul *
+const ULongPtrArray *
 CMDRelationGPDB::PdrgpulKeyset
 	(
 	ULONG ulPos
@@ -460,7 +460,7 @@ CMDRelationGPDB::UlPartColumns() const
 }
 
 // Retrieve list of partition types
-DrgPsz *
+CharPtrArray *
 CMDRelationGPDB::PdrgpszPartTypes() const
 {
 	return m_pdrgpszPartTypes;

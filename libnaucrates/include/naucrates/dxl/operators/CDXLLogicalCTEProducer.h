@@ -33,14 +33,14 @@ namespace gpdxl
 			ULONG m_ulId;
 
 			// output column ids
-			DrgPul *m_pdrgpulColIds;
+			ULongPtrArray *m_pdrgpulColIds;
 			
 			// private copy ctor
 			CDXLLogicalCTEProducer(CDXLLogicalCTEProducer&);
 
 		public:
 			// ctor
-			CDXLLogicalCTEProducer(IMemoryPool *pmp, ULONG ulId, DrgPul *pdrgpulColIds);
+			CDXLLogicalCTEProducer(IMemoryPool *pmp, ULONG ulId, ULongPtrArray *pdrgpulColIds);
 			
 			// dtor
 			virtual
@@ -60,7 +60,7 @@ namespace gpdxl
 				return m_ulId;
 			}
 			
-			DrgPul *PdrgpulColIds() const
+			ULongPtrArray *PdrgpulColIds() const
 			{
 				return m_pdrgpulColIds;
 			}

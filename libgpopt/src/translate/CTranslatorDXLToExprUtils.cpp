@@ -149,7 +149,7 @@ CTranslatorDXLToExprUtils::AddKeySets
 	for (ULONG ul = 0; ul < ulKeySets; ul++)
 	{
 		CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, ptabdesc->UlColumns());
-		const DrgPul *pdrgpulKeys = pmdrel->PdrgpulKeyset(ul);
+		const ULongPtrArray *pdrgpulKeys = pmdrel->PdrgpulKeyset(ul);
 		const ULONG ulKeys = pdrgpulKeys->Size();
 
 		for (ULONG ulKey = 0; ulKey < ulKeys; ulKey++)
@@ -248,7 +248,7 @@ CTranslatorDXLToExprUtils::Pdrgpcr
 	(
 	IMemoryPool *pmp,
 	HMUlCr *phmulcr,
-	const DrgPul *pdrgpulColIds
+	const ULongPtrArray *pdrgpulColIds
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulColIds);

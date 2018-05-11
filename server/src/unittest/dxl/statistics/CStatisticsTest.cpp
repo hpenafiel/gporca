@@ -143,9 +143,9 @@ CStatisticsTest::EresUnittest_UnionAll()
 
 		GPOS_CHECK_ABORT;
 
-		DrgPul *pdrgpulColIdOutput = Pdrgpul(pmp, 1);
-		DrgPul *pdrgpulColIdInput1 = Pdrgpul(pmp, 1);
-		DrgPul *pdrgpulColIdInput2 = Pdrgpul(pmp, 2);
+		ULongPtrArray *pdrgpulColIdOutput = Pdrgpul(pmp, 1);
+		ULongPtrArray *pdrgpulColIdInput1 = Pdrgpul(pmp, 1);
+		ULongPtrArray *pdrgpulColIdInput2 = Pdrgpul(pmp, 2);
 
 		CStatistics *pstatsOutput = CUnionAllStatsProcessor::PstatsUnionAll(pmp, pstats1, pstats2, pdrgpulColIdOutput, pdrgpulColIdInput1, pdrgpulColIdInput2);
 
@@ -458,11 +458,11 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 	CCardinalityTestUtils::PrintStats(pmp, pstats3);
 
 	// group by pstats on columns 1 and 2
-	DrgPul *pdrgpulGC = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulGC = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	pdrgpulGC->Append(GPOS_NEW(pmp) ULONG(1));
 	pdrgpulGC->Append(GPOS_NEW(pmp) ULONG(2));
 
-	DrgPul *pdrgpulAgg = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulAgg = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	CStatistics *pstats4 = CGroupByStatsProcessor::PstatsGroupBy(pmp, pstats, pdrgpulGC, pdrgpulAgg, NULL /*pbsKeys*/);
 
 	GPOS_TRACE(GPOS_WSZ_LIT("pstats4 = pstats group by"));
@@ -475,7 +475,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 	CCardinalityTestUtils::PrintStats(pmp, pstats5);
 
 	// union all
-	DrgPul *pdrgpulColIds = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulColIds = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	pdrgpulColIds->Append(GPOS_NEW(pmp) ULONG(1));
 	pdrgpulColIds->Append(GPOS_NEW(pmp) ULONG(2));
 	pdrgpulColIds->AddRef();

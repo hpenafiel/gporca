@@ -32,7 +32,7 @@ CDXLLogicalInsert::CDXLLogicalInsert
 	(
 	IMemoryPool *pmp,
 	CDXLTableDescr *pdxltabdesc,
-	DrgPul *pdrgpul
+	ULongPtrArray *pdrgpul
 	)
 	:
 	CDXLLogical(pmp),

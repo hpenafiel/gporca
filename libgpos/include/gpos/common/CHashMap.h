@@ -142,7 +142,7 @@ namespace gpos
 			typedef CDynamicPtrArray<K, CleanupNULL> DrgKeys;
 			DrgKeys *const m_pdrgKeys;
 
-			DrgPi *const m_pdrgPiFilledBuckets;
+			IntPtrArray *const m_pdrgPiFilledBuckets;
 
 			// private copy ctor
 			CHashMap(const CHashMap<K, T, pfnHash, pfnEq, pfnDestroyK, pfnDestroyT> &);
@@ -194,7 +194,7 @@ namespace gpos
             m_ulEntries(0),
             m_ppdrgchain(GPOS_NEW_ARRAY(m_pmp, DrgHashChain*, m_ulSize)),
             m_pdrgKeys(GPOS_NEW(m_pmp) DrgKeys(m_pmp)),
-            m_pdrgPiFilledBuckets(GPOS_NEW(pmp) DrgPi(pmp))
+            m_pdrgPiFilledBuckets(GPOS_NEW(pmp) IntPtrArray(pmp))
             {
                 GPOS_ASSERT(ulSize > 0);
                 (void) clib::PvMemSet(m_ppdrgchain, 0, m_ulSize * sizeof(DrgHashChain*));

@@ -100,7 +100,7 @@ namespace gpopt
 			HMUlUl *m_phmululCTE;
 
 			// array of output ColRefId
-			DrgPul *m_pdrgpulOutputColRefs;
+			ULongPtrArray *m_pdrgpulOutputColRefs;
 
 			// array of output column names
 			DrgPmdname *m_pdrgpmdname;
@@ -148,7 +148,7 @@ namespace gpopt
 
 			// create the array of column reference used in the partition by column
 			// list of a window specification
-			DrgPcr *PdrgpcrPartitionByCol(const DrgPul *pdrgpulPartCol);
+			DrgPcr *PdrgpcrPartitionByCol(const ULongPtrArray *pdrgpulPartCol);
 
 			// translate a DXL logical window into an expr logical project
 			CExpression *PexprCreateWindow(const CDXLNode *pdxlnLgProject);
@@ -176,7 +176,7 @@ namespace gpopt
 				);
 
 			// preprocess inputs to the set operator (adding casts to columns  when needed)
-			DrgPexpr *PdrgpexprPreprocessSetOpInputs(const CDXLNode *pdxln, DrgDrgPcr *pdrgdrgpcrInput, DrgPul *pdrgpulOutput);
+			DrgPexpr *PdrgpexprPreprocessSetOpInputs(const CDXLNode *pdxln, DrgDrgPcr *pdrgdrgpcrInput, ULongPtrArray *pdrgpulOutput);
 
 			// create new column reference and add to the hashmap maintaining
 			// the mapping between DXL ColIds and column reference.
@@ -417,10 +417,10 @@ namespace gpopt
 				(
 				const CDXLNode *pdxln,
 				DrgPcr *pdrgpcr,
-				DrgPul *pdrgpulColIds = NULL);
+				ULongPtrArray *pdrgpulColIds = NULL);
 
 			// return the array of query output column reference id
-			DrgPul *PdrgpulOutputColRefs();
+			ULongPtrArray *PdrgpulOutputColRefs();
 
 			// return the array of output column names
 			DrgPmdname *Pdrgpmdname()

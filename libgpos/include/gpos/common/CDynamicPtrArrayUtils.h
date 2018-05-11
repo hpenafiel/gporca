@@ -41,7 +41,7 @@ namespace gpos
 			// equality comparison between elements is via the "==" operator
 			template <typename T, void (*pfnDestroy)(T*)>
 			static
-			DrgPul *PdrgpulSubsequenceIndexes
+			ULongPtrArray *PdrgpulSubsequenceIndexes
 				(
 				IMemoryPool *pmp,
 				CDynamicPtrArray<T, pfnDestroy> *pdrgSubsequence,
@@ -53,7 +53,7 @@ namespace gpos
 
                 ULONG ulSubsequence = pdrgSubsequence->Size();
                 ULONG ulSequence = pdrg->Size();
-                DrgPul *pdrgpulIndexes = GPOS_NEW(pmp) DrgPul(pmp);
+                ULongPtrArray *pdrgpulIndexes = GPOS_NEW(pmp) ULongPtrArray(pmp);
 
                 for (ULONG ul1 = 0; ul1 < ulSubsequence; ul1++)
                 {

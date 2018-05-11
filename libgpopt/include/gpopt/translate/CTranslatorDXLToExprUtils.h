@@ -93,7 +93,7 @@ namespace gpopt
 
 			// construct a dynamic array of col refs corresponding to the given col ids
 			static
-			DrgPcr *Pdrgpcr(IMemoryPool *pmp, HMUlCr *phmulcr, const DrgPul *pdrgpulColIds);
+			DrgPcr *Pdrgpcr(IMemoryPool *pmp, HMUlCr *phmulcr, const ULongPtrArray *pdrgpulColIds);
 
 			// is the given expression is a scalar function that casts
 			static

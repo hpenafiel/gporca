@@ -735,7 +735,7 @@ namespace gpdxl
 			// parse a comma-separated list of unsigned long numbers into a dynamic array
 			// will raise an exception if list is not well-formed
 			static
-			DrgPul *PdrgpulFromAttrs
+			ULongPtrArray *PdrgpulFromAttrs
 				(
 				CDXLMemoryManager *pmm,
 				const Attributes &attr,
@@ -757,7 +757,7 @@ namespace gpdxl
 				);
 			
 			static
-			DrgPul *PdrgpulFromXMLCh
+			ULongPtrArray *PdrgpulFromXMLCh
 				(
 				CDXLMemoryManager *pmm,
 				const XMLCh *xmlszUl,
@@ -775,7 +775,7 @@ namespace gpdxl
 			}
 
 			static
-			DrgPi *PdrgpiFromXMLCh
+			IntPtrArray *PdrgpiFromXMLCh
 				(
 				CDXLMemoryManager *pmm,
 				const XMLCh *xmlszUl,
@@ -795,7 +795,7 @@ namespace gpdxl
 			// parse a comma-separated list of CHAR partition types into a dynamic array.
 			// will raise an exception if list is not well-formed
 			static
-			DrgPsz *PdrgpszFromXMLCh
+			CharPtrArray *PdrgpszFromXMLCh
 				(
 				CDXLMemoryManager *pmm,
 				const XMLCh *xmlsz,
@@ -807,7 +807,7 @@ namespace gpdxl
 			// long numbers into a dynamc array of unsigned integer arrays
 			// will raise an exception if list is not well-formed
 			static
-			DrgPdrgPul *PdrgpdrgpulFromXMLCh
+			ULongPtrArray2D *PdrgpdrgpulFromXMLCh
 				(
 				CDXLMemoryManager *pmm,
 				const XMLCh *xmlsz,
@@ -818,7 +818,7 @@ namespace gpdxl
 			// parse a comma-separated list of segment ids into a dynamic array
 			// will raise an exception if list is not well-formed
 			static
-			DrgPi *PdrgpiParseSegmentIdList
+			IntPtrArray *PdrgpiParseSegmentIdList
 				(
 				CDXLMemoryManager *pmm,
 				const XMLCh *xmlszSegIdList,
@@ -829,7 +829,7 @@ namespace gpdxl
 			// parse a comma-separated list of strings into a dynamic array
 			// will raise an exception if list is not well-formed
 			static
-			DrgPstr *PdrgPstrFromXMLCh
+			StringPtrArray *PdrgPstrFromXMLCh
 				(
 				CDXLMemoryManager *pmm,
 				const XMLCh *xmlsz

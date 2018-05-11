@@ -72,7 +72,7 @@ CTranslatorExprToDXL::CTranslatorExprToDXL
 	(
 	IMemoryPool *pmp,
 	CMDAccessor *pmda,
-	DrgPi *pdrgpiSegments,
+	IntPtrArray *pdrgpiSegments,
 	BOOL fInitColumnFactory
 	)
 	:
@@ -1743,7 +1743,7 @@ CTranslatorExprToDXL::PdxlnCTEProducer
 
 	// extract the CTE id and the array of colids
 	const ULONG ulCTEId = popCTEProducer->UlCTEId();
-	DrgPul *pdrgpulColIds = CUtils::Pdrgpul(m_pmp, popCTEProducer->Pdrgpcr());
+	ULongPtrArray *pdrgpulColIds = CUtils::Pdrgpul(m_pmp, popCTEProducer->Pdrgpcr());
 
 	GPOS_ASSERT(NULL != pexprCTEProducer->Prpp());
 	DrgPcr *pdrgpcrRequired = popCTEProducer->Pdrgpcr();
@@ -1798,7 +1798,7 @@ CTranslatorExprToDXL::PdxlnCTEConsumer
 	// extract the CTE id and the array of colids
 	const ULONG ulCTEId = popCTEConsumer->UlCTEId();
 	DrgPcr *pdrgpcr = popCTEConsumer->Pdrgpcr();
-	DrgPul *pdrgpulColIds = CUtils::Pdrgpul(m_pmp, pdrgpcr);
+	ULongPtrArray *pdrgpulColIds = CUtils::Pdrgpul(m_pmp, pdrgpcr);
 
 	CColRefSet *pcrsOutput = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
 	pcrsOutput->Include(pdrgpcr);
@@ -2435,7 +2435,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 		}
 	}
 
-	DrgPul *pdrgpulGroupingCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	ULongPtrArray *pdrgpulGroupingCols = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 
 	const ULONG ulLen = pdrgpcrGroupingCols->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -5312,7 +5312,7 @@ CTranslatorExprToDXL::PdxlnDML
 	CDXLNode *pdxlnChild = Pdxln(pexprChild, pdrgpcrSource, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, false /*fRemap*/, false /*fRoot*/);
 
 	CDXLTableDescr *pdxltabdesc = Pdxltabdesc(ptabdesc, NULL /*pdrgpcrOutput*/);
-	DrgPul *pdrgpul = CUtils::Pdrgpul(m_pmp, pdrgpcrSource);
+	ULongPtrArray *pdrgpul = CUtils::Pdrgpul(m_pmp, pdrgpcrSource);
 
 	CDXLDirectDispatchInfo *pdxlddinfo = Pdxlddinfo(pexpr);
 	CDXLPhysicalDML *pdxlopDML = GPOS_NEW(m_pmp) CDXLPhysicalDML
@@ -5380,13 +5380,13 @@ CTranslatorExprToDXL::PdxlnCTAS
 
 	CDXLNode *pdxlnChild = Pdxln(pexprChild, pdrgpcrSource, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, true /*fRemap*/, true /*fRoot*/);
 
-	DrgPul *pdrgpul = CUtils::Pdrgpul(m_pmp, pdrgpcrSource);
+	ULongPtrArray *pdrgpul = CUtils::Pdrgpul(m_pmp, pdrgpcrSource);
 
 	pmdrel->Pdxlctasopt()->AddRef();
 
 	const ULONG ulColumns = ptabdesc->UlColumns();
 
-	DrgPi *pdrgpiVarTypeMod = pmdrel->PdrgpiVarTypeMod();
+	IntPtrArray *pdrgpiVarTypeMod = pmdrel->PdrgpiVarTypeMod();
 	GPOS_ASSERT(ulColumns == pdrgpiVarTypeMod->Size());
 
 	// translate col descriptors
@@ -5418,10 +5418,10 @@ CTranslatorExprToDXL::PdxlnCTAS
 		pdrgpdxlcd->Append(pdxlcd);
 	}
 
-	DrgPul *pdrgpulDistr = NULL;
+	ULongPtrArray *pdrgpulDistr = NULL;
 	if (IMDRelation::EreldistrHash == pmdrel->Ereldistribution())
 	{
-		pdrgpulDistr = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+		pdrgpulDistr = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 		const ULONG ulDistrCols = pmdrel->UlDistrColumns();
 		for (ULONG ul = 0; ul < ulDistrCols; ul++)
 		{
@@ -5603,10 +5603,10 @@ CTranslatorExprToDXL::PdxlnSplit
 	}
 
 	DrgPcr *pdrgpcrDelete = popSplit->PdrgpcrDelete();
-	DrgPul *pdrgpulDelete = CUtils::Pdrgpul(m_pmp, pdrgpcrDelete);
+	ULongPtrArray *pdrgpulDelete = CUtils::Pdrgpul(m_pmp, pdrgpcrDelete);
 
 	DrgPcr *pdrgpcrInsert = popSplit->PdrgpcrInsert();
-	DrgPul *pdrgpulInsert = CUtils::Pdrgpul(m_pmp, pdrgpcrInsert);
+	ULongPtrArray *pdrgpulInsert = CUtils::Pdrgpul(m_pmp, pdrgpcrInsert);
 
 	CColRefSet *pcrsRequired = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
 	pcrsRequired->Include(pdrgpcrInsert);
@@ -5678,8 +5678,8 @@ CTranslatorExprToDXL::PdxlnRowTrigger
 	INT iType = popRowTrigger->IType();
 
 	CColRefSet *pcrsRequired = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
-	DrgPul *pdrgpulOld = NULL;
-	DrgPul *pdrgpulNew = NULL;
+	ULongPtrArray *pdrgpulOld = NULL;
+	ULongPtrArray *pdrgpulNew = NULL;
 
 	DrgPcr *pdrgpcrOld = popRowTrigger->PdrgpcrOld();
 	if (NULL != pdrgpcrOld)
@@ -6732,7 +6732,7 @@ CTranslatorExprToDXL::PdxlnWindow
 
 	CPhysicalSequenceProject *popSeqPrj = CPhysicalSequenceProject::PopConvert(pexprSeqPrj->Pop());
 	CDistributionSpec *pds = popSeqPrj->Pds();
-	DrgPul *pdrgpulColIds = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	ULongPtrArray *pdrgpulColIds = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 	DrgPexpr *pdrgpexprPartCol = NULL;
 	if (CDistributionSpec::EdtHashed == pds->Edt())
 	{
@@ -7261,7 +7261,7 @@ CTranslatorExprToDXL::Pdxlprop
 	CDouble dWidth = CStatistics::DDefaultColumnWidth;
 	CReqdPropPlan *prpp = pexpr->Prpp();
 	CColRefSet *pcrs = prpp->PcrsRequired();
-	DrgPul *pdrgpulColIds = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	ULongPtrArray *pdrgpulColIds = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 	pcrs->ExtractColIds(m_pmp, pdrgpulColIds);
 	CWStringDynamic *pstrWidth = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp);
 
@@ -7765,13 +7765,13 @@ CTranslatorExprToDXL::PdxlnSortColList
 //		expression.
 //
 //---------------------------------------------------------------------------
-DrgPi *
+IntPtrArray *
 CTranslatorExprToDXL::PdrgpiOutputSegIds
 	(
 	CExpression *pexprMotion
 	)
 {
-	DrgPi *pdrgpi = NULL;
+	IntPtrArray *pdrgpi = NULL;
 	
 	COperator *pop = pexprMotion->Pop();
 	
@@ -7781,7 +7781,7 @@ CTranslatorExprToDXL::PdrgpiOutputSegIds
 		{
 			CPhysicalMotionGather *popGather = CPhysicalMotionGather::PopConvert(pop);
 		
-			pdrgpi = GPOS_NEW(m_pmp) DrgPi(m_pmp);
+			pdrgpi = GPOS_NEW(m_pmp) IntPtrArray(m_pmp);
 			INT iSegmentId = m_iMasterId;
 			
 			if (CDistributionSpecSingleton::EstSegment == popGather->Est())
@@ -7819,7 +7819,7 @@ CTranslatorExprToDXL::PdrgpiOutputSegIds
 //		expression.
 //
 //---------------------------------------------------------------------------
-DrgPi *
+IntPtrArray *
 CTranslatorExprToDXL::PdrgpiInputSegIds
 	(
 	CExpression *pexprMotion
@@ -7834,7 +7834,7 @@ CTranslatorExprToDXL::PdrgpiInputSegIds
 
 	if (CDistributionSpec::EdtSingleton == pds->Edt() || CDistributionSpec::EdtStrictSingleton == pds->Edt())
 	{
-		DrgPi *pdrgpi = GPOS_NEW(m_pmp) DrgPi(m_pmp);
+		IntPtrArray *pdrgpi = GPOS_NEW(m_pmp) IntPtrArray(m_pmp);
 		INT iSegmentId = m_iMasterId;
 		CDistributionSpecSingleton *pdss = CDistributionSpecSingleton::PdssConvert(pds);
 		if (!pdss->FOnMaster())
@@ -7850,7 +7850,7 @@ CTranslatorExprToDXL::PdrgpiInputSegIds
 	{
 		// if Motion is duplicate-hazard, we have to read from one input segment
 		// to avoid generating duplicate values
-		DrgPi *pdrgpi = GPOS_NEW(m_pmp) DrgPi(m_pmp);
+		IntPtrArray *pdrgpi = GPOS_NEW(m_pmp) IntPtrArray(m_pmp);
 		INT iSegmentId = *((*m_pdrgpiSegments)[0]);
 		pdrgpi->Append(GPOS_NEW(m_pmp) INT(iSegmentId));
 		return pdrgpi;

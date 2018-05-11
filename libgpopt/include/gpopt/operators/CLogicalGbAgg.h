@@ -274,7 +274,7 @@ namespace gpopt
 				IMemoryPool *pmp,
 				IStatistics *pstatsChild,
 				DrgPcr *pdrgpcrGroupingCols,
-				DrgPul *pdrgpulComputedCols,
+				ULongPtrArray *pdrgpulComputedCols,
 				CBitSet *pbsKeys
 				);
 

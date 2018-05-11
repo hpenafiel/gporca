@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 			
 			// source col ids
-			DrgPul *m_pdrgpul;
+			ULongPtrArray *m_pdrgpul;
 		
 			// private copy ctor
 			CParseHandlerLogicalInsert(const CParseHandlerLogicalInsert &);

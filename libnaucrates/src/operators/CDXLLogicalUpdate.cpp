@@ -34,8 +34,8 @@ CDXLLogicalUpdate::CDXLLogicalUpdate
 	CDXLTableDescr *pdxltabdesc,
 	ULONG ulCtid,
 	ULONG ulSegmentId,
-	DrgPul *pdrgpulDelete,
-	DrgPul *pdrgpulInsert,
+	ULongPtrArray *pdrgpulDelete,
+	ULongPtrArray *pdrgpulInsert,
 	BOOL fPreserveOids,
 	ULONG ulTupleOid
 	)

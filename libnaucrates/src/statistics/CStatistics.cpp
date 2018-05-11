@@ -209,7 +209,7 @@ CStatistics::DWidth() const
 CDouble
 CStatistics::DWidth
 	(
-	DrgPul *pdrgpulColIds
+	ULongPtrArray *pdrgpulColIds
 	)
 	const
 {
@@ -248,7 +248,7 @@ CStatistics::DWidth
 {
 	GPOS_ASSERT(NULL != pcrs);
 
-	DrgPul *pdrgpulColIds = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulColIds = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	pcrs->ExtractColIds(pmp, pdrgpulColIds);
 
 	CDouble dWidth = DWidth(pdrgpulColIds);
@@ -262,7 +262,7 @@ CStatistics *
 CStatistics::PstatsDummy
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpulColIds,
+	ULongPtrArray *pdrgpulColIds,
 	CDouble dRows
 	)
 {
@@ -291,7 +291,7 @@ CStatistics::CreateAndInsertUpperBoundNDVs
 	(
 	IMemoryPool *pmp,
 	CStatistics *pstats,
-	DrgPul *pdrgpulColIds,
+	ULongPtrArray *pdrgpulColIds,
 	CDouble dRows
 )
 {
@@ -326,8 +326,8 @@ CStatistics *
 CStatistics::PstatsDummy
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpulHistColIds,
-	DrgPul *pdrgpulWidthColIds,
+	ULongPtrArray *pdrgpulHistColIds,
+	ULongPtrArray *pdrgpulWidthColIds,
 	CDouble dRows
 	)
 {
@@ -689,14 +689,14 @@ CStatistics::PstatsCopyWithRemap
 
 //	return the column identifiers of all columns whose statistics are
 //	maintained by the statistics object
-DrgPul *
+ULongPtrArray *
 CStatistics::PdrgulColIds
 	(
 	IMemoryPool *pmp
 	)
 	const
 {
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.FAdvance())

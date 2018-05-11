@@ -35,7 +35,7 @@ using namespace gpdxl;
 CDXLWindowSpec::CDXLWindowSpec
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpulPartCol,
+	ULongPtrArray *pdrgpulPartCol,
 	CMDName *pmdname,
 	CDXLNode *pdxlnSortColList,
 	CDXLWindowFrame *pdxlwf

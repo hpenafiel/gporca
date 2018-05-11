@@ -29,8 +29,8 @@ using namespace gpdxl;
 CDXLPhysicalSplit::CDXLPhysicalSplit
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpulDelete,
-	DrgPul *pdrgpulInsert,
+	ULongPtrArray *pdrgpulDelete,
+	ULongPtrArray *pdrgpulInsert,
 	ULONG ulAction,
 	ULONG ulCtid,
 	ULONG ulSegmentId,

@@ -51,7 +51,7 @@ namespace gpopt
 			CColRefSet *m_pcrsDist;
 
 			void
-			CreatePartCols(IMemoryPool *pmp, const DrgPul *pdrgpulPart);
+			CreatePartCols(IMemoryPool *pmp, const ULongPtrArray *pdrgpulPart);
 			
 			// private copy ctor
 			CLogicalGet(const CLogicalGet &);

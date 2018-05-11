@@ -73,7 +73,7 @@ CParseHandlerPhysicalCTEProducer::StartElement
 											EdxltokenPhysicalCTEProducer
 											);
 
-	DrgPul *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_pphm->Pmm(), attrs, EdxltokenColumns, EdxltokenPhysicalCTEProducer);
+	ULongPtrArray *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_pphm->Pmm(), attrs, EdxltokenColumns, EdxltokenPhysicalCTEProducer);
 
 	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLPhysicalCTEProducer(m_pmp, ulId, pdrgpulColIds));
 

@@ -41,7 +41,7 @@ namespace gpdxl
 			ULONG m_ulSegmentId;
 
 			// delete col ids
-			DrgPul *m_pdrgpulDelete;
+			ULongPtrArray *m_pdrgpulDelete;
 
 			// private copy ctor
 			CParseHandlerLogicalDelete(const CParseHandlerLogicalDelete &);

@@ -24,8 +24,8 @@ CGroupByStatsProcessor::PstatsGroupBy
 	(
 	IMemoryPool *pmp,
 	const CStatistics *pstatsInput,
-	DrgPul *pdrgpulGC,
-	DrgPul *pdrgpulAgg,
+	ULongPtrArray *pdrgpulGC,
+	ULongPtrArray *pdrgpulAgg,
 	CBitSet *pbsKeys
 	)
 {

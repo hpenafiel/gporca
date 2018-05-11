@@ -51,15 +51,15 @@ CHashSetIterTest::EresUnittest_Basic()
 
 #endif // GPOS_DEBUG
 
-	typedef CDynamicPtrArray<const ULONG, CleanupNULL> DrgPul;
-	CAutoRef<DrgPul> pdrgpulValues(GPOS_NEW(pmp) DrgPul(pmp));
+	typedef CDynamicPtrArray<const ULONG, CleanupNULL> ULongPtrArray;
+	CAutoRef<ULongPtrArray> pdrgpulValues(GPOS_NEW(pmp) ULongPtrArray(pmp));
 	// load map and iterate over it after each step
 	for (ULONG ul = 0; ul < ulCnt; ++ul)
 	{
 		(void) ps->FInsert(&rgul[ul]);
 		pdrgpulValues->Append(&rgul[ul]);
 
-		CAutoRef<DrgPul> pdrgpulIterValues(GPOS_NEW(pmp) DrgPul(pmp));
+		CAutoRef<ULongPtrArray> pdrgpulIterValues(GPOS_NEW(pmp) ULongPtrArray(pmp));
 
 		// iterate over full set
 		SetIter si(ps);

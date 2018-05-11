@@ -128,7 +128,7 @@ namespace gpopt
 			HMCteReq *m_phmcter;
 
 			// required cte ids (not optional)
-			DrgPul* m_pdrgpulRequired;
+			ULongPtrArray* m_pdrgpulRequired;
 
 			// private copy ctor
 			CCTEReq(const CCTEReq&);
@@ -147,7 +147,7 @@ namespace gpopt
 			~CCTEReq();
 
 			// required cte ids
-			DrgPul *PdrgpulRequired() const
+			ULongPtrArray *PdrgpulRequired() const
 			{
 				return m_pdrgpulRequired;
 			}

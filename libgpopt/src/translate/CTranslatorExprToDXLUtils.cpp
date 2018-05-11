@@ -110,7 +110,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTest
 	CColumnFactory *pcf,
 	const CPartConstraint *ppartcnstr,
 	DrgDrgPcr *pdrgpdrgpcrPartKeys,
-	DrgPsz *pdrgszPartTypes
+	CharPtrArray *pdrgszPartTypes
 	)
 {	
 	DrgPdxln *pdrgpdxln = GPOS_NEW(pmp) DrgPdxln(pmp);
@@ -330,7 +330,7 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 	CColumnFactory *pcf,
 	PartCnstrMap *ppartcnstrmap,
 	DrgDrgPcr *pdrgpdrgpcrPartKeys,
-	DrgPsz *pdrgszPartTypes
+	CharPtrArray *pdrgszPartTypes
 	)
 {	
 	PartCnstrMapIter pcmi(ppartcnstrmap);
@@ -1465,7 +1465,7 @@ CTranslatorExprToDXLUtils::PdxlnPropExprPartitionSelector
 	PartCnstrMap *ppartcnstrmap,
 	DrgDrgPcr *pdrgpdrgpcrKeys,
 	ULONG ulScanId,
-	DrgPsz *pdrgszPartTypes
+	CharPtrArray *pdrgszPartTypes
 	)
 {
 	if (!fConditional)

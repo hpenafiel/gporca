@@ -102,7 +102,7 @@ namespace gpopt
 			virtual
 			EBoolEvalResult Eber
 				(
-				DrgPul *pdrgpulChildren
+				ULongPtrArray *pdrgpulChildren
 				)
 				const
 			{

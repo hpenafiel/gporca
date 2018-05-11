@@ -168,7 +168,7 @@ CScalarCmp::PmdidType() const
 CScalar::EBoolEvalResult
 CScalarCmp::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

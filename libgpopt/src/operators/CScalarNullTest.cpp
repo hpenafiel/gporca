@@ -70,7 +70,7 @@ CScalarNullTest::PmdidType() const
 CScalar::EBoolEvalResult
 CScalarNullTest::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

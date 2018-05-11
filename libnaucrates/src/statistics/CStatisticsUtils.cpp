@@ -625,7 +625,7 @@ CStatisticsUtils::ExtractUsedColIds
 	IMemoryPool *pmp,
 	CBitSet *pbsColIds,
 	CStatsPred *pstatspred,
-	DrgPul *pdrgpulColIds
+	ULongPtrArray *pdrgpulColIds
 	)
 {
 	GPOS_ASSERT(NULL != pbsColIds);
@@ -785,7 +785,7 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 	}
 
 	CBitSet *pbsDisj = GPOS_NEW(pmp) CBitSet(pmp);
-	DrgPul *pdrgpulDisj = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulDisj = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	ExtractUsedColIds(pmp, pbsDisj, pstatspred, pdrgpulDisj);
 	const ULONG ulDisjUsedCol = pdrgpulDisj->Size();
 
@@ -794,7 +794,7 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 	{
 		CStatsPred *pstatspredChild = pstatspred->Pstatspred(ulChildIdx);
 		CBitSet *pbsChild = GPOS_NEW(pmp) CBitSet(pmp);
-		DrgPul *pdrgpulChild = GPOS_NEW(pmp) DrgPul(pmp);
+		ULongPtrArray *pdrgpulChild = GPOS_NEW(pmp) ULongPtrArray(pmp);
 		ExtractUsedColIds(pmp, pbsChild, pstatspredChild, pdrgpulChild);
 
 		const ULONG ulLen = pdrgpulChild->Size();
@@ -1335,10 +1335,10 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 			// key columns else consider all grouping columns
 			const CColRef *pcr = pcf->PcrLookup(ulColId);
 			const ULONG ulIdxUpperBoundNDVs = pstats->UlIndexUpperBoundNDVs(pcr);
-			const DrgPul *pdrgpul = phmulpdrgpul->PtLookup(&ulIdxUpperBoundNDVs);
+			const ULongPtrArray *pdrgpul = phmulpdrgpul->PtLookup(&ulIdxUpperBoundNDVs);
 			if (NULL == pdrgpul)
 			{
-				DrgPul *pdrgpulNew = GPOS_NEW(pmp) DrgPul(pmp);
+				ULongPtrArray *pdrgpulNew = GPOS_NEW(pmp) ULongPtrArray(pmp);
 				pdrgpulNew->Append(GPOS_NEW(pmp) ULONG(ulColId));
 #ifdef GPOS_DEBUG
 		BOOL fres =
@@ -1348,7 +1348,7 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 			}
 			else
 			{
-				(const_cast<DrgPul *>(pdrgpul))->Append(GPOS_NEW(pmp) ULONG(ulColId));
+				(const_cast<ULongPtrArray *>(pdrgpul))->Append(GPOS_NEW(pmp) ULONG(ulColId));
 			}
 		}
 	}
@@ -1369,7 +1369,7 @@ CStatisticsUtils::AddNdvForAllGrpCols
 	(
 	IMemoryPool *pmp,
 	const CStatistics *pstatsInput,
-	const DrgPul *pdrgpulGrpCol, // array of grouping column ids from a source
+	const ULongPtrArray *pdrgpulGrpCol, // array of grouping column ids from a source
 	DrgPdouble *pdrgpdNDV // output array of ndvs
 	)
 {
@@ -1432,7 +1432,7 @@ CStatisticsUtils::PdrgPdoubleNDV
 	while (hmiterulpdrgpul.FAdvance())
 	{
 		ULONG ulSourceId = *(hmiterulpdrgpul.Pk());
-		const DrgPul *pdrgpulPerSrc = hmiterulpdrgpul.Pt();
+		const ULongPtrArray *pdrgpulPerSrc = hmiterulpdrgpul.Pt();
 
 		if (ULONG_MAX == ulSourceId)
 		{
@@ -1465,7 +1465,7 @@ BOOL
 CStatisticsUtils::FExistsCappedGrpCol
 	(
 	const CStatistics *pstats,
-	const DrgPul *pdrgpulGrpCol
+	const ULongPtrArray *pdrgpulGrpCol
 	)
 {
 	GPOS_ASSERT(NULL != pstats);
@@ -1498,7 +1498,7 @@ CDouble
 CStatisticsUtils::DMaxNdv
 	(
 	const CStatistics *pstats,
-	const DrgPul *pdrgpulGrpCol
+	const ULongPtrArray *pdrgpulGrpCol
 	)
 {
 	GPOS_ASSERT(NULL != pstats);
@@ -1545,7 +1545,7 @@ CStatisticsUtils::DMaxGroupsFromSource
 	IMemoryPool *pmp,
 	const CStatisticsConfig *pstatsconf,
 	CStatistics *pstatsInput,
-	const DrgPul *pdrgpulPerSrc
+	const ULongPtrArray *pdrgpulPerSrc
 	)
 {
 	GPOS_ASSERT(NULL != pstatsInput);
@@ -1597,7 +1597,7 @@ CStatisticsUtils::DGroups
 	IMemoryPool *pmp,
 	IStatistics *pstats,
 	const CStatisticsConfig *pstatsconf,
-	DrgPul *pdrgpulGC,
+	ULongPtrArray *pdrgpulGC,
 	CBitSet *pbsKeys // keys derived during optimization
 	)
 {
@@ -1734,7 +1734,7 @@ CColRefSet *
 CStatisticsUtils::PcrsGrpColsForStats
 	(
 	IMemoryPool *pmp,
-	const DrgPul *pdrgpulGrpCol,
+	const ULongPtrArray *pdrgpulGrpCol,
 	CColRefSet *pcrsGrpColComputed
 	)
 {

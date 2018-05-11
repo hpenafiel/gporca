@@ -34,7 +34,7 @@ CDXLLogicalDelete::CDXLLogicalDelete
 	CDXLTableDescr *pdxltabdesc,
 	ULONG ulCtid,
 	ULONG ulSegmentId,
-	DrgPul *pdrgpulDelete
+	ULongPtrArray *pdrgpulDelete
 	)
 	:
 	CDXLLogical(pmp),

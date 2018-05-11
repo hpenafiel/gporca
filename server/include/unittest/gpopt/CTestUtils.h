@@ -110,7 +110,7 @@ namespace gpopt
 			IMemoryPool *m_pmp;
 
 			// construct an array of segment ids
-			static gpdxl::DrgPi *PdrgpiSegments(IMemoryPool *pmp);
+			static gpdxl::IntPtrArray *PdrgpiSegments(IMemoryPool *pmp);
 
 			// generate minidump file name from passed file name
 			static
@@ -353,7 +353,7 @@ namespace gpopt
 
 			// generate a select expression with an array compare
 			static
-			CExpression *PexprLogicalSelectArrayCmp(IMemoryPool *pmp, CScalarArrayCmp::EArrCmpType earrcmptype, IMDType::ECmpType ecmptype, const DrgPi *pdrgpiVals);
+			CExpression *PexprLogicalSelectArrayCmp(IMemoryPool *pmp, CScalarArrayCmp::EArrCmpType earrcmptype, IMDType::ECmpType ecmptype, const IntPtrArray *pdrgpiVals);
 			
 			// generate an n-ary join expression
 			static

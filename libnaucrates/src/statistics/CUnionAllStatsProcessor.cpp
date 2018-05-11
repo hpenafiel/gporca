@@ -21,9 +21,9 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	IMemoryPool *pmp,
 	const CStatistics *pstatsFst,
 	const CStatistics *pstatsSnd,
-	DrgPul *pdrgpulOutput,
-	DrgPul *pdrgpulInput1,
-	DrgPul *pdrgpulInput2
+	ULongPtrArray *pdrgpulOutput,
+	ULongPtrArray *pdrgpulInput1,
+	ULongPtrArray *pdrgpulInput2
 	)
 {
 	GPOS_ASSERT(NULL != pmp);

@@ -1573,7 +1573,7 @@ CXformUtils::PdrgpexprPartEqFilters
 	GPOS_ASSERT(NULL != ptabdesc);
 	GPOS_ASSERT(NULL != pdrgpcrSource);
 
-	const DrgPul *pdrgpulPart = ptabdesc->PdrgpulPart();
+	const ULongPtrArray *pdrgpulPart = ptabdesc->PdrgpulPart();
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 
@@ -4341,7 +4341,7 @@ CXformUtils::PdrgpcrReorderedSubsequence
 	(
 	IMemoryPool *pmp,
 	DrgPcr *pdrgpcr,
-	DrgPul *pdrgpulIndexesOfRefs
+	ULongPtrArray *pdrgpulIndexesOfRefs
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpcr);

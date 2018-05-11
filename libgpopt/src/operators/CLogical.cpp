@@ -126,7 +126,7 @@ CLogical::PdrgpdrgpcrCreatePartCols
 	(
 	IMemoryPool *pmp,
 	DrgPcr *pdrgpcr,
-	const DrgPul *pdrgpulPart
+	const ULongPtrArray *pdrgpulPart
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpcr && "Output columns cannot be NULL");
@@ -1273,7 +1273,7 @@ CLogical::PstatsDeriveDummy
 	GPOS_ASSERT(Esp(exprhdl) > EspNone);
 	CReqdPropRelational *prprel = CReqdPropRelational::Prprel(exprhdl.Prp());
 	CColRefSet *pcrs = prprel->PcrsStat();
-	DrgPul *pdrgpulColIds = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulColIds = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	pcrs->ExtractColIds(pmp, pdrgpulColIds);
 
 	IStatistics *pstats = CStatistics::PstatsDummy(pmp, pdrgpulColIds, dRows);

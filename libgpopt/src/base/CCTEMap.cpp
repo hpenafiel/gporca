@@ -329,7 +329,7 @@ CCTEMap::FSatisfies
 {
 	GPOS_ASSERT(NULL != pcter);
 	// every CTE marked as "Required" must be in the current map
-	DrgPul *pdrgpul = pcter->PdrgpulRequired();
+	ULongPtrArray *pdrgpul = pcter->PdrgpulRequired();
 	const ULONG ulReqd = pdrgpul->Size();
 	for (ULONG ul = 0; ul < ulReqd; ul++)
 	{
@@ -367,7 +367,7 @@ CCTEMap::FSatisfies
 //		Return producer ids that are in this map but not in the given requirement
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CCTEMap::PdrgpulAdditionalProducers
 	(
 	IMemoryPool *pmp,
@@ -376,7 +376,7 @@ CCTEMap::PdrgpulAdditionalProducers
 	const
 {
 	GPOS_ASSERT(NULL != pcter);
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 
 	HMCteMapIter hmcmi(m_phmcm);
 	while (hmcmi.FAdvance())

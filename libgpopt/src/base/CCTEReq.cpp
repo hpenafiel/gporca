@@ -158,7 +158,7 @@ CCTEReq::CCTEReq
 	GPOS_ASSERT(NULL != pmp);
 
 	m_phmcter = GPOS_NEW(m_pmp) HMCteReq(m_pmp);
-	m_pdrgpulRequired = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	m_pdrgpulRequired = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 }
 
 //---------------------------------------------------------------------------
@@ -462,7 +462,7 @@ CCTEReq::PcterUnresolvedSequence
 
 	// if something is in pcm and not in the requirments, it has to be a producer
 	// in which case, add the corresponding consumer as unresolved
-	DrgPul *pdrgpulProducers = pcm->PdrgpulAdditionalProducers(pmp, this);
+	ULongPtrArray *pdrgpulProducers = pcm->PdrgpulAdditionalProducers(pmp, this);
 	const ULONG ulLen = pdrgpulProducers->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{

@@ -862,7 +862,7 @@ namespace gpopt
 
 			// construct an array of colids from the given array of column references
 			static
-			DrgPul *Pdrgpul(IMemoryPool *pmp, const DrgPcr *pdrgpcr);
+			ULongPtrArray *Pdrgpul(IMemoryPool *pmp, const DrgPcr *pdrgpcr);
 
 			// generate a timestamp-based file name
 			static
@@ -968,7 +968,7 @@ namespace gpopt
 
 			// return a new bitset, setting the bits in the given array
 			static
-			CBitSet *Pbs(IMemoryPool *pmp, DrgPul *pdrgpul);
+			CBitSet *Pbs(IMemoryPool *pmp, ULongPtrArray *pdrgpul);
 
 			// create a hashmap of constraints corresponding to a bool const on the given partkeys
 			static

@@ -3592,14 +3592,14 @@ CUtils::FFunctionallyDependent
 }
 
 // construct an array of colids from the given array of column references
-DrgPul *
+ULongPtrArray *
 CUtils::Pdrgpul
 	(
 	IMemoryPool *pmp,
 	const DrgPcr *pdrgpcr
 	)
 {
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 
 	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -4336,7 +4336,7 @@ CBitSet *
 CUtils::Pbs
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpul
+	ULongPtrArray *pdrgpul
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpul);
@@ -4490,7 +4490,7 @@ CUtils::FMotionOverUnresolvedPartConsumers
 	}
 
 	CPartIndexMap *ppimDrvd = exprhdl.Pdpplan(0 /*ulChildIndex*/)->Ppim();
-	DrgPul *pdrgpulScanIds = ppimDrvd->PdrgpulScanIds(pmp, true /*fConsumersOnly*/);
+	ULongPtrArray *pdrgpulScanIds = ppimDrvd->PdrgpulScanIds(pmp, true /*fConsumersOnly*/);
 	BOOL fHasUnresolvedConsumers = false;
 
 	const ULONG ulConsumers = pdrgpulScanIds->Size();

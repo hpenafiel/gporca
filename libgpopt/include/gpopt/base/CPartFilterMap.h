@@ -166,7 +166,7 @@ namespace gpopt
 			}
 
 			// extract part Scan id's in the given memory pool
-			DrgPul *PdrgpulScanIds(IMemoryPool *pmp) const;
+			ULongPtrArray *PdrgpulScanIds(IMemoryPool *pmp) const;
 
 			// add part filter to map
 			void AddPartFilter

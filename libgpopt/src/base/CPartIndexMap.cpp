@@ -697,7 +697,7 @@ CPartIndexMap::FContainsUnresolvedZeroPropagators() const
 //		 Extract scan ids
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CPartIndexMap::PdrgpulScanIds
 	(
 	IMemoryPool *pmp,
@@ -705,7 +705,7 @@ CPartIndexMap::PdrgpulScanIds
 	)
 	const
 {
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	PartIndexMapIter pimi(m_pim);
 	while (pimi.FAdvance())
 	{

@@ -56,10 +56,10 @@ namespace gpmd
 			IMDId *m_pmdidItemType;
 
 			// index key columns
-			DrgPul *m_pdrgpulKeyCols;
+			ULongPtrArray *m_pdrgpulKeyCols;
 
 			// included columns 
-			DrgPul *m_pdrgpulIncludedCols;
+			ULongPtrArray *m_pdrgpulIncludedCols;
 
 			// operator classes for each index key
 			DrgPmdid *m_pdrgpmdidOpClasses;
@@ -84,8 +84,8 @@ namespace gpmd
 				BOOL fClustered, 
 				EmdindexType emdindt,
 				IMDId *pmdidItemType,
-				DrgPul *pdrgpulKeyCols,
-				DrgPul *pdrgpulIncludedCols,
+				ULongPtrArray *pdrgpulKeyCols,
+				ULongPtrArray *pdrgpulIncludedCols,
 				DrgPmdid *pdrgpmdidOpClasses,
 				IMDPartConstraint *pmdpartcnstr
 				);

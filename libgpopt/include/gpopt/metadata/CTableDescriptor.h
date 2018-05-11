@@ -74,7 +74,7 @@ namespace gpopt
 			BOOL m_fConvertHashToRandom;
 			
 			// indexes of partition columns for partitioned tables
-			DrgPul *m_pdrgpulPart;
+			ULongPtrArray *m_pdrgpulPart;
 			
 			// key sets
 			DrgPbs *m_pdrgpbsKeys;
@@ -162,7 +162,7 @@ namespace gpopt
 			}
 			
 			// partition column indexes accessor
-			const DrgPul *PdrgpulPart() const
+			const ULongPtrArray *PdrgpulPart() const
 			{
 				return m_pdrgpulPart;
 			}

@@ -600,7 +600,7 @@ CPhysicalPartitionSelector::PppsRequired
 	CPartIndexMap *ppimInput = pppsRequired->Ppim();
 	CPartFilterMap *ppfmInput = pppsRequired->Ppfm();
 
-	DrgPul *pdrgpulInputScanIds = ppimInput->PdrgpulScanIds(pmp);
+	ULongPtrArray *pdrgpulInputScanIds = ppimInput->PdrgpulScanIds(pmp);
 
 	CPartIndexMap *ppim = GPOS_NEW(pmp) CPartIndexMap(pmp);
 	CPartFilterMap *ppfm = GPOS_NEW(pmp) CPartFilterMap(pmp);

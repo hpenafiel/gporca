@@ -32,7 +32,7 @@ CDXLPhysicalCTEConsumer::CDXLPhysicalCTEConsumer
 	(
 	IMemoryPool *pmp,
 	ULONG ulId,
-	DrgPul *pdrgpulColIds
+	ULongPtrArray *pdrgpulColIds
 	)
 	:
 	CDXLPhysical(pmp),

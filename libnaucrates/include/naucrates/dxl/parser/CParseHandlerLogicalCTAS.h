@@ -44,13 +44,13 @@ namespace gpdxl
 			CMDName *m_pmdname;
 	
 			// list of distribution column positions		
-			DrgPul *m_pdrgpulDistr;
+			ULongPtrArray *m_pdrgpulDistr;
 			
 			// list of source column ids		
-			DrgPul *m_pdrgpulSource;
+			ULongPtrArray *m_pdrgpulSource;
 			
 			// list of vartypmod
-			DrgPi *m_pdrgpiVarTypeMod;
+			IntPtrArray *m_pdrgpiVarTypeMod;
 
 			// is this a temporary table
 			BOOL m_fTemporary;

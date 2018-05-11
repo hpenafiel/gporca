@@ -266,7 +266,7 @@ CScalarFunc::OsPrint
 CScalar::EBoolEvalResult
 CScalarFunc::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

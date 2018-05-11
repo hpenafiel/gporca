@@ -288,7 +288,7 @@ namespace gpopt
 			BOOL FContainsUnresolvedZeroPropagators() const;
 
 			// extract scan ids in the given memory pool
-			DrgPul *PdrgpulScanIds(IMemoryPool *pmp, BOOL fConsumersOnly = false) const;
+			ULongPtrArray *PdrgpulScanIds(IMemoryPool *pmp, BOOL fConsumersOnly = false) const;
 
 			// check if two part index maps are equal
 			BOOL FEqual

@@ -219,7 +219,7 @@ namespace gpopt
 			BOOL FSatisfies(const CCTEReq *pcter) const;
 
 			// return producer ids that are in this map but not in the given requirement
-			DrgPul *PdrgpulAdditionalProducers(IMemoryPool *pmp, const CCTEReq *pcter) const;
+			ULongPtrArray *PdrgpulAdditionalProducers(IMemoryPool *pmp, const CCTEReq *pcter) const;
 
 			// print function
 			virtual

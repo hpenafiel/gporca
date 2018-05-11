@@ -78,8 +78,8 @@ CHashMapIterTest::EresUnittest_Basic()
 	
 #endif // GPOS_DEBUG
 
-	typedef CDynamicPtrArray<const ULONG, CleanupNULL> DrgPul;
-	CAutoRef<DrgPul> pdrgpulKeys(GPOS_NEW(pmp) DrgPul(pmp)), pdrgpulValues(GPOS_NEW(pmp) DrgPul(pmp));
+	typedef CDynamicPtrArray<const ULONG, CleanupNULL> ULongPtrArray;
+	CAutoRef<ULongPtrArray> pdrgpulKeys(GPOS_NEW(pmp) ULongPtrArray(pmp)), pdrgpulValues(GPOS_NEW(pmp) ULongPtrArray(pmp));
 	// load map and iterate over it after each step
 	for (ULONG ul = 0; ul < ulCnt; ++ul)
 	{
@@ -87,7 +87,7 @@ CHashMapIterTest::EresUnittest_Basic()
 		pdrgpulKeys->Append(&rgul[ul]);
 		pdrgpulValues->Append(&rgul[ul]);
 
-		CAutoRef<DrgPul> pdrgpulIterKeys(GPOS_NEW(pmp) DrgPul(pmp)), pdrgpulIterValues(GPOS_NEW(pmp) DrgPul(pmp));
+		CAutoRef<ULongPtrArray> pdrgpulIterKeys(GPOS_NEW(pmp) ULongPtrArray(pmp)), pdrgpulIterValues(GPOS_NEW(pmp) ULongPtrArray(pmp));
 
 		// iterate over full map
 		MapIter mi(pm);

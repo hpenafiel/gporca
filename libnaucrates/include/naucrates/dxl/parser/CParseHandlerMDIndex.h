@@ -57,16 +57,16 @@ namespace gpdxl
 			IMDId *m_pmdidItemType;
 
 			// index keys
-			DrgPul *m_pdrgpulKeyCols;
+			ULongPtrArray *m_pdrgpulKeyCols;
 
 			// included columns
-			DrgPul *m_pdrgpulIncludedCols;
+			ULongPtrArray *m_pdrgpulIncludedCols;
 			
 			// index part constraint
 			CMDPartConstraintGPDB *m_ppartcnstr;
 			
 			// levels that include default partitions
-			DrgPul *m_pdrgpulDefaultParts;
+			ULongPtrArray *m_pdrgpulDefaultParts;
 			
 			// is constraint unbounded
 			BOOL m_fPartConstraintUnbounded; 

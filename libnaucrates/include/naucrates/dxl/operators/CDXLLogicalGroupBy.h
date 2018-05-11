@@ -32,7 +32,7 @@ namespace gpdxl
 		private:
 
 			// grouping column ids
-			DrgPul *m_pdrgpulGrpColId;
+			ULongPtrArray *m_pdrgpulGrpColId;
 
 			// private copy ctor
 			CDXLLogicalGroupBy(CDXLLogicalGroupBy&);
@@ -44,7 +44,7 @@ namespace gpdxl
 			// ctors
 			explicit
 			CDXLLogicalGroupBy(IMemoryPool *pmp);
-			CDXLLogicalGroupBy(IMemoryPool *pmp, DrgPul *pdrgpulGrpColIds);
+			CDXLLogicalGroupBy(IMemoryPool *pmp, ULongPtrArray *pdrgpulGrpColIds);
 
 			// dtor
 			virtual
@@ -53,10 +53,10 @@ namespace gpdxl
 			// accessors
 			Edxlopid Edxlop() const;
 			const CWStringConst *PstrOpName() const;
-			const DrgPul *PdrgpulGroupingCols() const;
+			const ULongPtrArray *PdrgpulGroupingCols() const;
 
 			// set grouping column indices
-			void SetGroupingColumns(DrgPul *);
+			void SetGroupingColumns(ULongPtrArray *);
 
 			// serialize operator in DXL format
 			virtual

@@ -53,7 +53,7 @@ namespace gpdxl
 			IMDRelation::Ereldistrpolicy m_ereldistrpolicy;
 	
 			// list of distribution column positions		
-			DrgPul *m_pdrgpulDistr;
+			ULongPtrArray *m_pdrgpulDistr;
 			
 			// is this a temporary table
 			BOOL m_fTemporary;
@@ -65,10 +65,10 @@ namespace gpdxl
 			IMDRelation::Erelstoragetype m_erelstorage;
 			
 			// list of source column ids		
-			DrgPul *m_pdrgpulSource;
+			ULongPtrArray *m_pdrgpulSource;
 
 			// list of vartypmod
-			DrgPi *m_pdrgpiVarTypeMod;
+			IntPtrArray *m_pdrgpiVarTypeMod;
 
 			// private copy ctor
 			CDXLPhysicalCTAS(CDXLPhysicalCTAS&);
@@ -83,12 +83,12 @@ namespace gpdxl
 				DrgPdxlcd *pdrgpdxcd,
 				CDXLCtasStorageOptions *pdxlctasopt,
 				IMDRelation::Ereldistrpolicy ereldistrpolicy,
-				DrgPul *pdrgpulDistr, 
+				ULongPtrArray *pdrgpulDistr, 
 				BOOL fTemporary, 
 				BOOL fHasOids, 
 				IMDRelation::Erelstoragetype erelstorage,
-				DrgPul *pdrgpulSource,
-				DrgPi *pdrgpiVarTypeMod
+				ULongPtrArray *pdrgpulSource,
+				IntPtrArray *pdrgpiVarTypeMod
 				);
 
 			// dtor
@@ -114,19 +114,19 @@ namespace gpdxl
 			}
 			
 			// distribution column positions
-			DrgPul *PdrgpulDistr() const
+			ULongPtrArray *PdrgpulDistr() const
 			{
 				return m_pdrgpulDistr;
 			}
 		
 			// source column ids
-			DrgPul *PdrgpulSource() const
+			ULongPtrArray *PdrgpulSource() const
 			{
 				return m_pdrgpulSource;
 			} 
 			
 			// list of vartypmod for target expressions
-			DrgPi *PdrgpiVarTypeMod() const
+			IntPtrArray *PdrgpiVarTypeMod() const
 			{
 				return m_pdrgpiVarTypeMod;
 			}

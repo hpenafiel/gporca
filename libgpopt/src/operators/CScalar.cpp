@@ -108,7 +108,7 @@ CScalar::FHasSubquery
 CScalar::EBoolEvalResult
 CScalar::EberConjunction
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
@@ -181,7 +181,7 @@ CScalar::EberConjunction
 CScalar::EBoolEvalResult
 CScalar::EberDisjunction
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
@@ -255,7 +255,7 @@ CScalar::EberDisjunction
 CScalar::EBoolEvalResult
 CScalar::EberNullOnAnyNullChild
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
@@ -285,7 +285,7 @@ CScalar::EberNullOnAnyNullChild
 CScalar::EBoolEvalResult
 CScalar::EberNullOnAllNullChildren
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulChildren);
@@ -326,14 +326,14 @@ CScalar::EberEvaluate
 	GPOS_ASSERT(pop->FScalar());
 
 	const ULONG ulArity = pexprScalar->UlArity();
-	DrgPul *pdrgpulChildren = NULL;
+	ULongPtrArray *pdrgpulChildren = NULL;
 
 	if (!CUtils::FSubquery(pop))
 	{
 		// do not recurse into subqueries
 		if (0 < ulArity)
 		{
-			pdrgpulChildren = GPOS_NEW(pmp) DrgPul(pmp);
+			pdrgpulChildren = GPOS_NEW(pmp) ULongPtrArray(pmp);
 		}
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{

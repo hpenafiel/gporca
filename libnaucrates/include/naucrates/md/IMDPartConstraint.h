@@ -49,7 +49,7 @@ namespace gpmd
 			
 			// included default partitions
 			virtual
-			DrgPul *PdrgpulDefaultParts() const = 0;
+			ULongPtrArray *PdrgpulDefaultParts() const = 0;
 
 			// is constraint unbounded
 			virtual

@@ -41,10 +41,10 @@ namespace gpdxl
 			ULONG m_ulSegmentId;
 
 			// delete col ids
-			DrgPul *m_pdrgpulDelete;
+			ULongPtrArray *m_pdrgpulDelete;
 
 			// insert col ids
-			DrgPul *m_pdrgpulInsert;
+			ULongPtrArray *m_pdrgpulInsert;
 			
 			// does update preserve oids
 			BOOL m_fPreserveOids;

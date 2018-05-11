@@ -126,7 +126,7 @@ namespace gpopt
 
 			// boolean expression evaluation
 			virtual
-			EBoolEvalResult Eber(DrgPul *pdrgpulChildren) const;
+			EBoolEvalResult Eber(ULongPtrArray *pdrgpulChildren) const;
 
 			// print
 			virtual

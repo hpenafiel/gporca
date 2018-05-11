@@ -853,7 +853,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 	pcnstNotIn->Release();
 
 	// create an IN expression with repeated values
-	DrgPi *pdrgpi = GPOS_NEW(pmp) DrgPi(pmp);
+	IntPtrArray *pdrgpi = GPOS_NEW(pmp) IntPtrArray(pmp);
 	INT aiValsRepeat[] = {5,1,2,5,3,4,5};
 	ULONG aiValsLength = sizeof(aiValsRepeat)/sizeof(INT);
 	for (ULONG ul = 0; ul < aiValsLength; ul++)
@@ -916,7 +916,7 @@ EresUnittest_CConstraintIntervalFromArrayExprIncludesNull()
 
 	// test for includes NULL
 	// create an IN expression with repeated values
-	DrgPi *pdrgpi = GPOS_NEW(pmp) DrgPi(pmp);
+	IntPtrArray *pdrgpi = GPOS_NEW(pmp) IntPtrArray(pmp);
 	INT rngiValues[] = {1,2};
 	ULONG ulValsLength = GPOS_ARRAY_SIZE(rngiValues);
 	for (ULONG ul = 0; ul < ulValsLength; ul++)

@@ -236,14 +236,14 @@ CPartFilterMap::Pstats
 //		 Extract Scan ids
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CPartFilterMap::PdrgpulScanIds
 	(
 	IMemoryPool *pmp
 	)
 	const
 {
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	HMULPartFilterIter hmulpfi(m_phmulpf);
 	while (hmulpfi.FAdvance())
 	{

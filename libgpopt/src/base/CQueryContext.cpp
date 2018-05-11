@@ -176,7 +176,7 @@ CQueryContext::PqcGenerate
 	(
 	IMemoryPool *pmp,
 	CExpression * pexpr,
-	DrgPul *pdrgpulQueryOutputColRefId,
+	ULongPtrArray *pdrgpulQueryOutputColRefId,
 	DrgPmdname *pdrgpmdname,
 	BOOL fDeriveStats
 	)

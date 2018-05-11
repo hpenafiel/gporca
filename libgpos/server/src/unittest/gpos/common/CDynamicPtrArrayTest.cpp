@@ -329,7 +329,7 @@ CDynamicPtrArrayTest::EresUnittest_PdrgpulSubsequenceIndexes()
 	pdrgULONGTarget->Append(pul3);
 	pdrgULONGTarget->Append(pul2);
 
-	DrgPul *pdrgpulIndexes =
+	ULongPtrArray *pdrgpulIndexes =
 			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgULONGLookup, pdrgULONGTarget);
 	GPOS_ASSERT(NULL != pdrgpulIndexes);
 	GPOS_ASSERT(4 == pdrgpulIndexes->Size());

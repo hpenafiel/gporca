@@ -80,7 +80,7 @@ namespace gpopt
 
 			// initialize the array of partition columns
 			DrgDrgPcr *
-			PdrgpdrgpcrCreatePartCols(IMemoryPool *pmp, DrgPcr *pdrgpcr, const DrgPul *pdrgpulPart);
+			PdrgpdrgpcrCreatePartCols(IMemoryPool *pmp, DrgPcr *pdrgpcr, const ULongPtrArray *pdrgpulPart);
 
 			// derive dummy statistics
 			IStatistics *PstatsDeriveDummy(IMemoryPool *pmp, CExpressionHandle &exprhdl, CDouble dRows) const;

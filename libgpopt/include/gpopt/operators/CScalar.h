@@ -65,19 +65,19 @@ namespace gpopt
 
 			// perform conjunction of child boolean evaluation results
 			static
-			EBoolEvalResult EberConjunction(DrgPul *pdrgpulChildren);
+			EBoolEvalResult EberConjunction(ULongPtrArray *pdrgpulChildren);
 
 			// perform disjunction of child boolean evaluation results
 			static
-			EBoolEvalResult EberDisjunction(DrgPul *pdrgpulChildren);
+			EBoolEvalResult EberDisjunction(ULongPtrArray *pdrgpulChildren);
 
 			// return Null if any child is Null
 			static
-			EBoolEvalResult EberNullOnAnyNullChild(DrgPul *pdrgpulChildren);
+			EBoolEvalResult EberNullOnAnyNullChild(ULongPtrArray *pdrgpulChildren);
 
 			// return Null if all children are Null
 			static
-			EBoolEvalResult EberNullOnAllNullChildren(DrgPul *pdrgpulChildren);
+			EBoolEvalResult EberNullOnAllNullChildren(ULongPtrArray *pdrgpulChildren);
 
 		public:
 		
@@ -194,7 +194,7 @@ namespace gpopt
 			virtual
 			EBoolEvalResult Eber
 				(
-				DrgPul * // pdrgpulChildren
+				ULongPtrArray * // pdrgpulChildren
 				)
 				const
 			{

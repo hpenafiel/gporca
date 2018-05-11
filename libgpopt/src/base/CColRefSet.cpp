@@ -421,7 +421,7 @@ void
 CColRefSet::ExtractColIds
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpulColIds
+	ULongPtrArray *pdrgpulColIds
 	)
 	const
 {

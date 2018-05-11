@@ -197,7 +197,7 @@ CLogicalDifference::PstatsDerive
 	pdrgpstatspredjoin->Release();
 
 	// computed columns
-	DrgPul *pdrgpulComputedCols = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulComputedCols = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	IStatistics *pstats = CLogicalGbAgg::PstatsDerive
 											(
 											pmp,

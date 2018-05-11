@@ -72,14 +72,14 @@ CParseHandlerPhysicalRowTrigger::StartElement
 	INT iType = CDXLOperatorFactory::IValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
 
 	const XMLCh *xmlszOldColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOldCols));
-	DrgPul *pdrgpulOld = NULL;
+	ULongPtrArray *pdrgpulOld = NULL;
 	if (NULL != xmlszOldColIds)
 	{
 		pdrgpulOld = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	const XMLCh *xmlszNewColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenNewCols));
-	DrgPul *pdrgpulNew = NULL;
+	ULongPtrArray *pdrgpulNew = NULL;
 	if (NULL != xmlszNewColIds)
 	{
 		pdrgpulNew = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);

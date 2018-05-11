@@ -163,7 +163,7 @@ CScalarArrayCmp::PmdidType() const
 CScalar::EBoolEvalResult
 CScalarArrayCmp::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

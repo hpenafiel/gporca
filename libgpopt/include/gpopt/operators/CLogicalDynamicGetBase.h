@@ -70,7 +70,7 @@ namespace gpopt
 
 			// given a colrefset from a table, get colids and attno
 			void
-			ExtractColIdsAttno(IMemoryPool *pmp, CColRefSet *pcrs, DrgPul *pdrgpulColIds, DrgPul *pdrgpulPos) const;
+			ExtractColIdsAttno(IMemoryPool *pmp, CColRefSet *pcrs, ULongPtrArray *pdrgpulColIds, ULongPtrArray *pdrgpulPos) const;
 
 			// derive stats from base table using filters on partition and/or index columns
 			IStatistics *PstatsDeriveFilter(IMemoryPool *pmp, CExpressionHandle &exprhdl, CExpression *pexprFilter) const;

@@ -31,7 +31,7 @@ using namespace gpopt;
 CMDPartConstraintGPDB::CMDPartConstraintGPDB
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpulDefaultParts,
+	ULongPtrArray *pdrgpulDefaultParts,
 	BOOL fUnbounded,
 	CDXLNode *pdxln
 	)
@@ -91,7 +91,7 @@ CMDPartConstraintGPDB::Pexpr
 //		Included default partitions
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CMDPartConstraintGPDB::PdrgpulDefaultParts() const
 {
 	return m_pdrgpulDefaultParts;

@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 			
 			// array of grouping column ids
-			DrgPul *m_pdrgpulGroupingCols;
+			ULongPtrArray *m_pdrgpulGroupingCols;
 		
 			// private copy ctor
 			CParseHandlerGroupingColList(const CParseHandlerGroupingColList&); 
@@ -70,7 +70,7 @@ namespace gpdxl
 			virtual ~CParseHandlerGroupingColList();
 			
 			// accessor
-			DrgPul *PdrgpulGroupingCols();
+			ULongPtrArray *PdrgpulGroupingCols();
 	};
 }
 

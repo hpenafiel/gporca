@@ -72,7 +72,7 @@ CParseHandlerPhysicalCTEConsumer::StartElement
 											EdxltokenPhysicalCTEConsumer
 											);
 
-	DrgPul *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_pphm->Pmm(), attrs, EdxltokenColumns, EdxltokenPhysicalCTEConsumer);
+	ULongPtrArray *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_pphm->Pmm(), attrs, EdxltokenColumns, EdxltokenPhysicalCTEConsumer);
 
 	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLPhysicalCTEConsumer(m_pmp, ulId, pdrgpulColIds));
 

@@ -1080,7 +1080,7 @@ namespace gpopt
 				(
 				IMemoryPool *pmp,
 				DrgPcr *pdrgpcr,
-				DrgPul *pdrgpulIndexesOfRefs
+				ULongPtrArray *pdrgpulIndexesOfRefs
 				);
 
 			// check if given xform is an Agg splitting xform

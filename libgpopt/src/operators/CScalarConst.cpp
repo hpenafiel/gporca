@@ -214,7 +214,7 @@ CScalarConst::PopExtractFromConstOrCastConst
 CScalar::EBoolEvalResult
 CScalarConst::Eber
 	(
-	DrgPul * //pdrgpulChildren
+	ULongPtrArray * //pdrgpulChildren
 	)
 	const
 {

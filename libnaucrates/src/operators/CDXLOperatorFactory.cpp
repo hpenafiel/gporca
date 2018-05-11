@@ -3341,7 +3341,7 @@ CDXLOperatorFactory::PdxldatumStatsDoubleMappable
 //		Will raise an exception if list is not well-formed
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CDXLOperatorFactory::PdrgpulFromAttrs
 	(
 	CDXLMemoryManager *pmm,
@@ -3395,7 +3395,7 @@ CDXLOperatorFactory::PdrgpmdidFromXMLCh
 
 // Parse a comma-separated list of CHAR partition types into a dynamic array.
 // Will raise an exception if list is not well-formed
-DrgPsz *
+CharPtrArray *
 CDXLOperatorFactory::PdrgpszFromXMLCh
 	(
 	CDXLMemoryManager *pmm,
@@ -3423,7 +3423,7 @@ CDXLOperatorFactory::PdrgpszFromXMLCh
 //		Will raise an exception if list is not well-formed
 //
 //---------------------------------------------------------------------------
-DrgPdrgPul *
+ULongPtrArray2D *
 CDXLOperatorFactory::PdrgpdrgpulFromXMLCh
 	(
 	CDXLMemoryManager *pmm,
@@ -3435,7 +3435,7 @@ CDXLOperatorFactory::PdrgpdrgpulFromXMLCh
 	// get the memory pool from the memory manager
 	IMemoryPool *pmp = pmm->Pmp();
 		
-	DrgPdrgPul *pdrgpdrgpul = GPOS_NEW(pmp) DrgPdrgPul(pmp);
+	ULongPtrArray2D *pdrgpdrgpul = GPOS_NEW(pmp) ULongPtrArray2D(pmp);
 	
 	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -3446,7 +3446,7 @@ CDXLOperatorFactory::PdrgpdrgpulFromXMLCh
 		
 		GPOS_ASSERT(NULL != xmlszList);
 		
-		DrgPul *pdrgpul = PdrgpulFromXMLCh(pmm, xmlszList, edxltokenAttr, edxltokenElement);
+		ULongPtrArray *pdrgpul = PdrgpulFromXMLCh(pmm, xmlszList, edxltokenAttr, edxltokenElement);
 		pdrgpdrgpul->Append(pdrgpul);
 	}
 	
@@ -3462,7 +3462,7 @@ CDXLOperatorFactory::PdrgpdrgpulFromXMLCh
 //		Will raise an exception if list is not well-formed
 //
 //---------------------------------------------------------------------------
-DrgPi *
+IntPtrArray *
 CDXLOperatorFactory::PdrgpiParseSegmentIdList
 	(
 	CDXLMemoryManager *pmm,
@@ -3476,7 +3476,7 @@ CDXLOperatorFactory::PdrgpiParseSegmentIdList
 	
 	GPOS_ASSERT(NULL != xmlszSegIdList);
 	
-	DrgPi *pdrgpiSegIds = GPOS_NEW(pmp) DrgPi(pmp);
+	IntPtrArray *pdrgpiSegIds = GPOS_NEW(pmp) IntPtrArray(pmp);
 	
 	XMLStringTokenizer xmlsztok(xmlszSegIdList, CDXLTokens::XmlstrToken(EdxltokenComma));
 	
@@ -3504,7 +3504,7 @@ CDXLOperatorFactory::PdrgpiParseSegmentIdList
 //		Parse a semicolon-separated list of strings into a dynamic array.
 //
 //---------------------------------------------------------------------------
-DrgPstr *
+StringPtrArray *
 CDXLOperatorFactory::PdrgPstrFromXMLCh
 	(
 	CDXLMemoryManager *pmm,
@@ -3513,7 +3513,7 @@ CDXLOperatorFactory::PdrgPstrFromXMLCh
 {
 	IMemoryPool *pmp = pmm->Pmp();
 
-	DrgPstr *pdrgpstr = GPOS_NEW(pmp) DrgPstr(pmp);
+	StringPtrArray *pdrgpstr = GPOS_NEW(pmp) StringPtrArray(pmp);
 
 	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -3555,7 +3555,7 @@ CDXLOperatorFactory::SetSegmentInfo
 										EdxltokenInputSegments,
 										edxltokenElement
 										);
-	DrgPi *pdrgpiInputSegments = PdrgpiParseSegmentIdList
+	IntPtrArray *pdrgpiInputSegments = PdrgpiParseSegmentIdList
 									(
 									pmm,
 									xmlszInputSegList,
@@ -3570,7 +3570,7 @@ CDXLOperatorFactory::SetSegmentInfo
 										EdxltokenOutputSegments,
 										edxltokenElement
 										);
-	DrgPi *pdrgpiOutputSegments = PdrgpiParseSegmentIdList
+	IntPtrArray *pdrgpiOutputSegments = PdrgpiParseSegmentIdList
 									(
 									pmm,
 									xmlszOutputSegList,

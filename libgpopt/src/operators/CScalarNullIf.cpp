@@ -124,7 +124,7 @@ CScalarNullIf::FMatch
 CScalar::EBoolEvalResult
 CScalarNullIf::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

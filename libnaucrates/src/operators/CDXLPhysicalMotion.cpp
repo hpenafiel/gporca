@@ -49,7 +49,7 @@ CDXLPhysicalMotion::~CDXLPhysicalMotion()
 //		
 //
 //---------------------------------------------------------------------------
-const DrgPi *
+const IntPtrArray *
 CDXLPhysicalMotion::PdrgpiInputSegIds() const
 {
 	return m_pdrgpiInputSegIds;
@@ -63,7 +63,7 @@ CDXLPhysicalMotion::PdrgpiInputSegIds() const
 //		
 //
 //---------------------------------------------------------------------------
-const DrgPi *
+const IntPtrArray *
 CDXLPhysicalMotion::PdrgpiOutputSegIds() const
 {
 	return m_pdrgpiOutputSegIds;
@@ -78,7 +78,7 @@ CDXLPhysicalMotion::PdrgpiOutputSegIds() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalMotion::SetInputSegIds(DrgPi *pdrgpiInputSegIds)
+CDXLPhysicalMotion::SetInputSegIds(IntPtrArray *pdrgpiInputSegIds)
 {
 	GPOS_ASSERT(NULL == m_pdrgpiInputSegIds);
 	GPOS_ASSERT(NULL != pdrgpiInputSegIds);
@@ -94,7 +94,7 @@ CDXLPhysicalMotion::SetInputSegIds(DrgPi *pdrgpiInputSegIds)
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalMotion::SetOutputSegIds(DrgPi *pdrgpiOutputSegIds)
+CDXLPhysicalMotion::SetOutputSegIds(IntPtrArray *pdrgpiOutputSegIds)
 {
 	GPOS_ASSERT(NULL == m_pdrgpiOutputSegIds);
 	GPOS_ASSERT(NULL != pdrgpiOutputSegIds);
@@ -112,8 +112,8 @@ CDXLPhysicalMotion::SetOutputSegIds(DrgPi *pdrgpiOutputSegIds)
 void
 CDXLPhysicalMotion::SetSegmentInfo
 	(
-	DrgPi *pdrgpiInputSegIds, 
-	DrgPi *pdrgpiOutputSegIds
+	IntPtrArray *pdrgpiInputSegIds, 
+	IntPtrArray *pdrgpiOutputSegIds
 	)
 {
 	GPOS_ASSERT(NULL == m_pdrgpiOutputSegIds && NULL == m_pdrgpiInputSegIds);
@@ -132,7 +132,7 @@ CDXLPhysicalMotion::SetSegmentInfo
 //
 //---------------------------------------------------------------------------
 CWStringDynamic *
-CDXLPhysicalMotion::PstrSegIds(const DrgPi *pdrgpi) const
+CDXLPhysicalMotion::PstrSegIds(const IntPtrArray *pdrgpi) const
 {
 	GPOS_ASSERT(pdrgpi != NULL && 0 < pdrgpi->Size());
 	

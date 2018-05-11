@@ -53,7 +53,7 @@ namespace gpdxl
 			CDXLPhysicalAgg(const CDXLPhysicalAgg&);
 			
 			// grouping column ids
-			DrgPul *m_pdrgpulGroupingCols;
+			ULongPtrArray *m_pdrgpulGroupingCols;
 			
 			EdxlAggStrategy m_edxlaggstr;
 			
@@ -83,10 +83,10 @@ namespace gpdxl
 			const CWStringConst *PstrOpName() const;
 			const CWStringConst *PstrAggStrategy() const;
 			const CWStringConst *PstrAggLevel() const;
-			const DrgPul *PdrgpulGroupingCols() const;
+			const ULongPtrArray *PdrgpulGroupingCols() const;
 			
 			// set grouping column indices
-			void SetGroupingCols(DrgPul *);
+			void SetGroupingCols(ULongPtrArray *);
 			
 			// is aggregate a hash aggregate that it safe to stream
 			BOOL FStreamSafe() const

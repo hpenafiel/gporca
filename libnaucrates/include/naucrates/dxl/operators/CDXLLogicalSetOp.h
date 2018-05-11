@@ -58,7 +58,7 @@ namespace gpdxl
 			DrgPdxlcd *m_pdrgpdxlcd;
 
 			// array of input colid arrays
-			DrgPdrgPul *m_pdrgpdrgpul;
+			ULongPtrArray2D *m_pdrgpdrgpul;
 			
 			// do the columns need to be casted accross inputs
 			BOOL m_fCastAcrossInputs;
@@ -70,7 +70,7 @@ namespace gpdxl
 				IMemoryPool *pmp,
 				EdxlSetOpType edxlsetoptype,
 				DrgPdxlcd *pdrgdxlcd,
-				DrgPdrgPul *pdrgpdrgpul,
+				ULongPtrArray2D *pdrgpdrgpul,
 				BOOL fCastAcrossInput
 				);
 
@@ -119,7 +119,7 @@ namespace gpdxl
 			}
 		
 			// column array of the input at a given position 
-			const DrgPul *Pdrgpul
+			const ULongPtrArray *Pdrgpul
 				(
 				ULONG ulPos
 				)

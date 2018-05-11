@@ -82,7 +82,7 @@ CParseHandlerMDIndex::StartElement
 		else
 		{
 			// construct an empty keyset
-			m_pdrgpulDefaultParts = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+			m_pdrgpulDefaultParts = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 		}
 
 		m_fPartConstraintUnbounded = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenIndex);

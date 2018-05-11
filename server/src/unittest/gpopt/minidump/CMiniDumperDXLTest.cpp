@@ -152,7 +152,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 													ptroutput->PdrgpdxlnCTE()
 													);
 		
-		gpdxl::DrgPul *pdrgul = pdxltr->PdrgpulOutputColRefs();
+		gpdxl::ULongPtrArray *pdrgul = pdxltr->PdrgpulOutputColRefs();
 		gpmd::DrgPmdname *pdrgpmdname = pdxltr->Pdrgpmdname();
 
 		ULONG ulSegments = GPOPT_TEST_SEGMENTS;
@@ -171,7 +171,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		(void) pexprPlan->PrppCompute(pmp, pqc->Prpp());
 
 		// translate plan into DXL
-		DrgPi *pdrgpiSegments = GPOS_NEW(pmp) DrgPi(pmp);
+		IntPtrArray *pdrgpiSegments = GPOS_NEW(pmp) IntPtrArray(pmp);
 
 
 		GPOS_ASSERT(0 < ulSegments);

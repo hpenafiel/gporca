@@ -274,7 +274,7 @@ CLogicalGbAggDeduplicate::PstatsDerive
 	IStatistics *pstatsChild = exprhdl.Pstats(0);
 
 	// extract computed columns
-	DrgPul *pdrgpulComputedCols = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulComputedCols = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	exprhdl.Pdpscalar(1 /*ulChildIndex*/)->PcrsDefined()->ExtractColIds(pmp, pdrgpulComputedCols);
 
 	// construct bitset with keys of join child

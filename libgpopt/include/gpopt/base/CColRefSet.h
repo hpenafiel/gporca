@@ -125,7 +125,7 @@ namespace gpopt
 			IOstream &OsPrint(IOstream &os, ULONG ulLenMax = ULONG_MAX) const;
 
 			// extract all column ids
-			void ExtractColIds(IMemoryPool *pmp, DrgPul *pdrgpulColIds) const;
+			void ExtractColIds(IMemoryPool *pmp, ULongPtrArray *pdrgpulColIds) const;
 
 			// are the columns in the column reference set covered by the array of column ref sets
 			static

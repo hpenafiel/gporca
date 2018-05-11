@@ -129,7 +129,7 @@ namespace gpos
 			typedef CDynamicPtrArray<T, CleanupNULL> DrgElements;
 			DrgElements *const m_pdrgElements;
 
-			DrgPi *const m_pdrgPiFilledBuckets;
+			IntPtrArray *const m_pdrgPiFilledBuckets;
 
 			// private copy ctor
 			CHashSet(const CHashSet<T, pfnHash, pfnEq, pfnDestroy> &);
@@ -181,7 +181,7 @@ namespace gpos
             m_ulEntries(0),
             m_ppdrgchain(GPOS_NEW_ARRAY(m_pmp, DrgHashChain*, m_ulSize)),
             m_pdrgElements(GPOS_NEW(m_pmp) DrgElements(m_pmp)),
-            m_pdrgPiFilledBuckets(GPOS_NEW(pmp) DrgPi(pmp))
+            m_pdrgPiFilledBuckets(GPOS_NEW(pmp) IntPtrArray(pmp))
             {
                 GPOS_ASSERT(ulSize > 0);
 

@@ -490,7 +490,7 @@ namespace gpnaucrates
 				CColumnFactory *pcf,
 				HMUlHist *phmulhistOutput,
 				HMUlDouble *phmuldoubleWidthOutput,
-				const DrgPul *pdrgpul,
+				const ULongPtrArray *pdrgpul,
 				BOOL fEmpty
 				);
 

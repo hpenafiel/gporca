@@ -298,18 +298,18 @@ namespace gpos
 	// commonly used array types
 
 	// arrays of unsigned integers
-	typedef CDynamicPtrArray<ULONG, CleanupDelete> DrgPul;
+	typedef CDynamicPtrArray<ULONG, CleanupDelete> ULongPtrArray;
 	// array of unsigned integer arrays
-	typedef CDynamicPtrArray<DrgPul, CleanupRelease> DrgPdrgPul;
+	typedef CDynamicPtrArray<ULongPtrArray, CleanupRelease> ULongPtrArray2D;
 
 	// arrays of integers
-	typedef CDynamicPtrArray<INT, CleanupDelete> DrgPi;
+	typedef CDynamicPtrArray<INT, CleanupDelete> IntPtrArray;
 
 	// array of strings
-	typedef CDynamicPtrArray<CWStringBase, CleanupDelete> DrgPstr;
+	typedef CDynamicPtrArray<CWStringBase, CleanupDelete> StringPtrArray;
 
 	// arrays of chars
-	typedef CDynamicPtrArray<CHAR, CleanupDelete> DrgPsz;
+	typedef CDynamicPtrArray<CHAR, CleanupDelete> CharPtrArray;
 
 }
 

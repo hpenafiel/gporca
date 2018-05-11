@@ -245,7 +245,7 @@ COptimizer::PdxlnOptimize
 			CTranslatorDXLToExpr dxltr(pmp, pmda);
 			CExpression *pexprTranslated =	dxltr.PexprTranslateQuery(pdxlnQuery, pdrgpdxlnQueryOutput, pdrgpdxlnCTE);
 			GPOS_CHECK_ABORT;
-			gpdxl::DrgPul *pdrgpul = dxltr.PdrgpulOutputColRefs();
+			gpdxl::ULongPtrArray *pdrgpul = dxltr.PdrgpulOutputColRefs();
 			gpmd::DrgPmdname *pdrgpmdname = dxltr.Pdrgpmdname();
 
 			CQueryContext *pqc = CQueryContext::PqcGenerate(pmp, pexprTranslated, pdrgpul, pdrgpmdname, true /*fDeriveStats*/);
@@ -417,7 +417,7 @@ COptimizer::Pdxln
 	)
 {
 	GPOS_ASSERT(0 < ulHosts);
-	DrgPi *pdrgpiHosts = GPOS_NEW(pmp) DrgPi(pmp);
+	IntPtrArray *pdrgpiHosts = GPOS_NEW(pmp) IntPtrArray(pmp);
 
 	for (ULONG ul = 0; ul < ulHosts; ul++)
 	{

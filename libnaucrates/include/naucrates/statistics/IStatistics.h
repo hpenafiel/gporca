@@ -123,7 +123,7 @@ namespace gpnaucrates
 
 			// what is the width in bytes of set of column id's
 			virtual
-			CDouble DWidth(DrgPul *pdrgpulColIds) const = 0;
+			CDouble DWidth(ULongPtrArray *pdrgpulColIds) const = 0;
 
 			// what is the width in bytes of set of column references
 			virtual

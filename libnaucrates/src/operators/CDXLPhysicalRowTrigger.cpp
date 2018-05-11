@@ -30,8 +30,8 @@ CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 	IMemoryPool *pmp,
 	IMDId *pmdidRel,
 	INT iType,
-	DrgPul *pdrgpulOld,
-	DrgPul *pdrgpulNew
+	ULongPtrArray *pdrgpulOld,
+	ULongPtrArray *pdrgpulNew
 	)
 	:
 	CDXLPhysical(pmp),

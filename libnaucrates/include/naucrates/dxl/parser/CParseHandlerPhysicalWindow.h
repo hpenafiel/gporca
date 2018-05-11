@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 
 			// array of partition columns used by the window functions
-			DrgPul *m_pdrgpulPartCols;
+			ULongPtrArray *m_pdrgpulPartCols;
 
 			// private copy ctor
 			CParseHandlerPhysicalWindow(const CParseHandlerPhysicalWindow &);

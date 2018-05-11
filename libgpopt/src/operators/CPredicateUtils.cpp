@@ -2648,7 +2648,7 @@ CPredicateUtils::CollectGrandChildrenUnionUnionAll
 	DrgPcr *pdrgpcrOuputChild = popChild->PdrgpcrOutput();
 	GPOS_ASSERT(ulCols <= pdrgpcrOuputChild->Size());
 
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul (pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray (pmp);
 	for (ULONG ulColIdx = 0; ulColIdx < ulCols; ulColIdx++)
 	{
 		const CColRef *pcr = (*pdrgpcrInputExpected)[ulColIdx];

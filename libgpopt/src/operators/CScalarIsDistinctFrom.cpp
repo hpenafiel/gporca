@@ -34,7 +34,7 @@ CScalarIsDistinctFrom::PopConvert
 
 // perform boolean expression evaluation
 CScalar::EBoolEvalResult
-CScalarIsDistinctFrom::Eber(DrgPul *pdrgpulChildren) const
+CScalarIsDistinctFrom::Eber(ULongPtrArray *pdrgpulChildren) const
 {
 	GPOS_ASSERT(2 == pdrgpulChildren->Size());
 

@@ -39,7 +39,7 @@ CDXLLogicalSetOp::CDXLLogicalSetOp
 	IMemoryPool *pmp,
 	EdxlSetOpType edxlsetoptype,
 	DrgPdxlcd *pdrgdxlcd,
-	DrgPdrgPul *pdrgpdrgpul,
+	ULongPtrArray2D *pdrgpdrgpul,
 	BOOL fCastAcrossInputs
 	)
 	:
@@ -58,7 +58,7 @@ CDXLLogicalSetOp::CDXLLogicalSetOp
 	const ULONG ulLen = m_pdrgpdrgpul->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		DrgPul *pdrgpulInput = (*m_pdrgpdrgpul)[ul];
+		ULongPtrArray *pdrgpulInput = (*m_pdrgpdrgpul)[ul];
 		GPOS_ASSERT(ulCols == pdrgpulInput->Size());
 	}
 

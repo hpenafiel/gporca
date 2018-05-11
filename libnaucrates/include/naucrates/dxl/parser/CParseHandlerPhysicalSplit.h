@@ -35,10 +35,10 @@ namespace gpdxl
 		private:
 
 			// deletion col ids
-			DrgPul *m_pdrgpulDelete;
+			ULongPtrArray *m_pdrgpulDelete;
 
 			// insertion col ids
-			DrgPul *m_pdrgpulInsert;
+			ULongPtrArray *m_pdrgpulInsert;
 
 			// action column id
 			ULONG m_ulAction;

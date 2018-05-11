@@ -177,7 +177,7 @@ CLogicalUnion::PstatsDerive
 	IStatistics *pstatsUnionAll = CLogicalUnionAll::PstatsDeriveUnionAll(pmp, exprhdl);
 
 	// computed columns
-	DrgPul *pdrgpulComputedCols = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulComputedCols = GPOS_NEW(pmp) ULongPtrArray(pmp);
 
 	IStatistics *pstats = CLogicalGbAgg::PstatsDerive
 											(

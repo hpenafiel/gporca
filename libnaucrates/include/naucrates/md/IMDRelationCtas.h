@@ -77,7 +77,7 @@ namespace gpmd
 			
 			// retrieve list of partition types
 			virtual
-			DrgPsz *PdrgpszPartTypes() const
+			CharPtrArray *PdrgpszPartTypes() const
 			{
 				GPOS_ASSERT(!"CTAS tables have no partition types");
 				return NULL;
@@ -107,7 +107,7 @@ namespace gpmd
 
 			// returns the key set at the specified position
 			virtual
-			const DrgPul *PdrgpulKeyset
+			const ULongPtrArray *PdrgpulKeyset
 				(
 				ULONG // ulPos
 				) 

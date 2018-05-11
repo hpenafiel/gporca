@@ -59,28 +59,28 @@ namespace gpdxl
 			IMDRelation::Ereldistrpolicy m_ereldistrpolicy;
 			
 			// distribution columns
-			DrgPul *m_pdrgpulDistrColumns;
+			ULongPtrArray *m_pdrgpulDistrColumns;
 			
 			// do we need to consider a hash distributed table as random distributed
 			BOOL m_fConvertHashToRandom;
 			
 			// partition keys
-			DrgPul *m_pdrgpulPartColumns;
+			ULongPtrArray *m_pdrgpulPartColumns;
 
 			// partition types
-			DrgPsz *m_pdrgpszPartTypes;
+			CharPtrArray *m_pdrgpszPartTypes;
 
 			// number of partitions
 			ULONG m_ulPartitions;
 			
 			// key sets
-			DrgPdrgPul *m_pdrgpdrgpulKeys;
+			ULongPtrArray2D *m_pdrgpdrgpulKeys;
 
 			// part constraint
 			CMDPartConstraintGPDB *m_ppartcnstr;
 			
 			// levels that include default partitions
-			DrgPul *m_pdrgpulDefaultParts;
+			ULongPtrArray *m_pdrgpulDefaultParts;
 
 			// is part constraint unbounded
 			BOOL m_fPartConstraintUnbounded; 

@@ -39,7 +39,7 @@ namespace gpdxl
 			CDXLPhysicalMotion(CDXLPhysicalMotion&);
 			
 			// serialize the given list of segment ids into a comma-separated string
-			CWStringDynamic *PstrSegIds(const DrgPi *pdrgpi) const;
+			CWStringDynamic *PstrSegIds(const IntPtrArray *pdrgpi) const;
 
 			// serialize input and output segment ids into a comma-separated string
 			CWStringDynamic *PstrInputSegIds() const;
@@ -47,10 +47,10 @@ namespace gpdxl
 			
 		protected:
 			// list of input segment ids
-			DrgPi *m_pdrgpiInputSegIds;
+			IntPtrArray *m_pdrgpiInputSegIds;
 			
 			// list of output segment ids
-			DrgPi *m_pdrgpiOutputSegIds;
+			IntPtrArray *m_pdrgpiOutputSegIds;
 
 			void SerializeSegmentInfoToDXL(CXMLSerializer *pxmlser) const;
 
@@ -64,13 +64,13 @@ namespace gpdxl
 			~CDXLPhysicalMotion();
 			
 			// accessors
-			const DrgPi *PdrgpiInputSegIds() const;
-			const DrgPi *PdrgpiOutputSegIds() const;
+			const IntPtrArray *PdrgpiInputSegIds() const;
+			const IntPtrArray *PdrgpiOutputSegIds() const;
 			
 			// setters
-			void SetInputSegIds(DrgPi *pdrgpi);
-			void SetOutputSegIds(DrgPi *pdrgpi);
-			void SetSegmentInfo(DrgPi *pdrgpiInputSegIds, DrgPi *pdrgpiOutputSegIds);
+			void SetInputSegIds(IntPtrArray *pdrgpi);
+			void SetOutputSegIds(IntPtrArray *pdrgpi);
+			void SetSegmentInfo(IntPtrArray *pdrgpiInputSegIds, IntPtrArray *pdrgpiOutputSegIds);
 
 			// index of relational child node in the children array
 			virtual 

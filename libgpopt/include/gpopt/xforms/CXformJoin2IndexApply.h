@@ -138,7 +138,7 @@ namespace gpopt
 				DrgPcr *pdrgpcrOuter,
 				DrgPcr *pdrgpcrOuterNew,
 				DrgPcr *pdrgpcrOuterRefsInScan,
-				DrgPul *pdrgpulIndexesOfRefsInScan
+				ULongPtrArray *pdrgpulIndexesOfRefsInScan
 				) const;
 
 			// create a union-all with the given children

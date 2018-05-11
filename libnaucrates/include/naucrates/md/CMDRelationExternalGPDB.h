@@ -64,13 +64,13 @@ namespace gpmd
 			ULONG m_ulDroppedCols;
 
 			// indices of distribution columns
-			DrgPul *m_pdrgpulDistrColumns;
+			ULongPtrArray *m_pdrgpulDistrColumns;
 
 			// do we need to consider a hash distributed table as random distributed
 			BOOL m_fConvertHashToRandom;
 
 			// array of key sets
-			DrgPdrgPul *m_pdrgpdrgpulKeys;
+			ULongPtrArray2D *m_pdrgpdrgpulKeys;
 
 			// array of index infos
 			DrgPmdIndexInfo *m_pdrgpmdIndexInfo;
@@ -101,7 +101,7 @@ namespace gpmd
 			HMIUl *m_phmiulAttno2Pos;
 
 			// the original positions of all the non-dropped columns
-			DrgPul *m_pdrgpulNonDroppedCols;
+			ULongPtrArray *m_pdrgpulNonDroppedCols;
 
 			// array of column widths including dropped columns
 			DrgPdouble *m_pdrgpdoubleColWidths;
@@ -122,9 +122,9 @@ namespace gpmd
 				CMDName *pmdname,
 				Ereldistrpolicy ereldistrpolicy,
 				DrgPmdcol *pdrgpmdcol,
-				DrgPul *pdrgpulDistrColumns,
+				ULongPtrArray *pdrgpulDistrColumns,
 				BOOL fConvertHashToRandom,
-				DrgPdrgPul *pdrgpdrgpul,
+				ULongPtrArray2D *pdrgpdrgpul,
 				DrgPmdIndexInfo *pdrgpmdIndexInfo,
 				DrgPmdid *pdrgpmdidTriggers,
 				DrgPmdid *pdrgpmdidCheckConstraint,
@@ -174,7 +174,7 @@ namespace gpmd
 			
 			// return the original positions of all the non-dropped columns
 			virtual
-			DrgPul *PdrgpulNonDroppedCols() const;
+			ULongPtrArray *PdrgpulNonDroppedCols() const;
 
 			// number of system columns
 			virtual
@@ -206,7 +206,7 @@ namespace gpmd
 
 			// key set at given position
 			virtual
-			const DrgPul *PdrgpulKeyset(ULONG ulPos) const;
+			const ULongPtrArray *PdrgpulKeyset(ULONG ulPos) const;
 
 			// number of distribution columns
 			virtual

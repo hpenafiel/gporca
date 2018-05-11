@@ -75,7 +75,7 @@ CParseHandlerGroupingColList::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList), xmlszLocalname))
 	{
 		// start the grouping column list
-		m_pdrgpulGroupingCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+		m_pdrgpulGroupingCols = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGroupingCol), xmlszLocalname))
 	{
@@ -130,7 +130,7 @@ CParseHandlerGroupingColList::EndElement
 //		Returns the array of parsed grouping column ids
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CParseHandlerGroupingColList::PdrgpulGroupingCols()
 {
 	return m_pdrgpulGroupingCols;

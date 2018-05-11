@@ -41,7 +41,7 @@ namespace gpdxl
 		private:
 
 			// partition columns
-			DrgPul *m_pdrgpulPartCols;
+			ULongPtrArray *m_pdrgpulPartCols;
 
 			// window keys
 			DrgPdxlwk *m_pdrgpdxlwk;
@@ -52,7 +52,7 @@ namespace gpdxl
 		public:
 
 			//ctor
-			CDXLPhysicalWindow(IMemoryPool *pmp, DrgPul *pdrgpulPartCols, DrgPdxlwk *pdrgpdxlwk);
+			CDXLPhysicalWindow(IMemoryPool *pmp, ULongPtrArray *pdrgpulPartCols, DrgPdxlwk *pdrgpdxlwk);
 
 			//dtor
 			virtual
@@ -66,7 +66,7 @@ namespace gpdxl
 			ULONG UlPartCols() const;
 
 			// return partition columns
-			const DrgPul *PrgpulPartCols() const
+			const ULongPtrArray *PrgpulPartCols() const
 			{
 				return m_pdrgpulPartCols;
 			}

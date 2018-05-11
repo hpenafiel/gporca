@@ -80,7 +80,7 @@ namespace gpmd
 
 			// serialize an array of column ids into a comma-separated string
 			static
-			CWStringDynamic *PstrColumns(IMemoryPool *pmp, DrgPul *pdrgpul);
+			CWStringDynamic *PstrColumns(IMemoryPool *pmp, ULongPtrArray *pdrgpul);
 
 		public:
 			
@@ -129,7 +129,7 @@ namespace gpmd
 
 			// return the original positions of all the non-dropped columns
 			virtual
-			DrgPul *PdrgpulNonDroppedCols() const = 0;
+			ULongPtrArray *PdrgpulNonDroppedCols() const = 0;
 
 			// number of system columns
 			virtual
@@ -145,7 +145,7 @@ namespace gpmd
 			
 			// key set at given position
 			virtual
-			const DrgPul *PdrgpulKeyset(ULONG ulPos) const = 0;
+			const ULongPtrArray *PdrgpulKeyset(ULONG ulPos) const = 0;
 			
 			// number of distribution columns
 			virtual 
@@ -181,7 +181,7 @@ namespace gpmd
 			
 			// retrieve list of partition types
 			virtual
-			DrgPsz *PdrgpszPartTypes() const = 0;
+			CharPtrArray *PdrgpszPartTypes() const = 0;
 
 			// retrieve the partition type of the given partition level
 			virtual

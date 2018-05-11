@@ -119,7 +119,7 @@ namespace gpopt
 			CColumnFactory *m_pcf;
 
 			// segment ids on target system
-			DrgPi *m_pdrgpiSegments;
+			IntPtrArray *m_pdrgpiSegments;
 			
 			// id of master node
 			INT m_iMasterId;
@@ -698,10 +698,10 @@ namespace gpopt
 			CDXLNode *PdxlnFilter(CDXLNode *pdxlnCond);
 			
 			// construct an array with input segment ids for the given motion expression
-			DrgPi *PdrgpiInputSegIds(CExpression *pexprMotion);
+			IntPtrArray *PdrgpiInputSegIds(CExpression *pexprMotion);
 			
 			// construct an array with output segment ids for the given motion expression
-			DrgPi *PdrgpiOutputSegIds(CExpression *pexprMotion);
+			IntPtrArray *PdrgpiOutputSegIds(CExpression *pexprMotion);
 
 			// find the position of the given colref in the array
 			ULONG UlPosInArray(const CColRef *pcr, const DrgPcr *pdrgpcr) const;
@@ -835,7 +835,7 @@ namespace gpopt
 				(
 				IMemoryPool *pmp,
 				CMDAccessor *pmda,
-				DrgPi *pdrgpiSegments,
+				IntPtrArray *pdrgpiSegments,
 				BOOL fInitColumnFactory = true
 				);
 			

@@ -39,12 +39,12 @@ namespace gpnaucrates
 	using namespace gpopt;
 
 	// hash maps ULONG -> array of ULONGs
-	typedef CHashMap<ULONG, DrgPul, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
-					CleanupDelete<ULONG>, CleanupRelease<DrgPul> > HMUlPdrgpul;
+	typedef CHashMap<ULONG, ULongPtrArray, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+					CleanupDelete<ULONG>, CleanupRelease<ULongPtrArray> > HMUlPdrgpul;
 
 	// iterator
-	typedef CHashMapIter<ULONG, DrgPul, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
-		CleanupDelete<ULONG>, CleanupRelease<DrgPul> > HMIterUlPdrgpul;
+	typedef CHashMapIter<ULONG, ULongPtrArray, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+		CleanupDelete<ULONG>, CleanupRelease<ULongPtrArray> > HMIterUlPdrgpul;
 
 	//---------------------------------------------------------------------------
 	//	@class:
@@ -168,7 +168,7 @@ namespace gpnaucrates
 
 			// what is the width in bytes of set of column id's
 			virtual
-			CDouble DWidth(DrgPul *pdrgpulColIds) const;
+			CDouble DWidth(ULongPtrArray *pdrgpulColIds) const;
 
 			// what is the width in bytes of set of column references
 			virtual
@@ -302,7 +302,7 @@ namespace gpnaucrates
 
 			// return the column identifiers of all columns statistics maintained
 			virtual
-			DrgPul *PdrgulColIds(IMemoryPool *pmp) const;
+			ULongPtrArray *PdrgulColIds(IMemoryPool *pmp) const;
 
 			virtual
 			ULONG
@@ -327,7 +327,7 @@ namespace gpnaucrates
 				IMemoryPool *pmp
 				)
 			{
-				DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+				ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 				CStatistics *pstats = PstatsDummy(pmp, pdrgpul, DDefaultRelationRows);
 
 				// clean up
@@ -349,15 +349,15 @@ namespace gpnaucrates
 
 			// create a dummy statistics object
 			static
-			CStatistics *PstatsDummy(IMemoryPool *pmp, DrgPul *pdrgpulColIds, CDouble dRows);
+			CStatistics *PstatsDummy(IMemoryPool *pmp, ULongPtrArray *pdrgpulColIds, CDouble dRows);
 
 			// create a dummy statistics object
 			static
 			CStatistics *PstatsDummy
 				(
 				IMemoryPool *pmp,
-				DrgPul *pdrgpulHistColIds,
-				DrgPul *pdrgpulWidthColIds,
+				ULongPtrArray *pdrgpulHistColIds,
+				ULongPtrArray *pdrgpulWidthColIds,
 				CDouble dRows
 				);
 
@@ -387,7 +387,7 @@ namespace gpnaucrates
 
 			// add upper bound ndvs information for a given set of columns
 			static
-			void CreateAndInsertUpperBoundNDVs(IMemoryPool *pmp, CStatistics *pstats, DrgPul *pdrgpulColIds, CDouble dRows);
+			void CreateAndInsertUpperBoundNDVs(IMemoryPool *pmp, CStatistics *pstats, ULongPtrArray *pdrgpulColIds, CDouble dRows);
 
 			// cap the total number of distinct values (NDV) in buckets to the number of rows
 			static

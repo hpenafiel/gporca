@@ -21,7 +21,7 @@ CProjectStatsProcessor::PstatsProject
 	(
 	IMemoryPool *pmp,
 	const CStatistics *pstatsInput,
-	DrgPul *pdrgpulProjColIds,
+	ULongPtrArray *pdrgpulProjColIds,
 	HMUlDatum *phmuldatum
 	)
 {

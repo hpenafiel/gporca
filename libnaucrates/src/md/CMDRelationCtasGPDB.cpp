@@ -37,10 +37,10 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	Erelstoragetype erelstorage,
 	Ereldistrpolicy ereldistrpolicy,
 	DrgPmdcol *pdrgpmdcol,
-	DrgPul *pdrgpulDistrColumns,
-	DrgPdrgPul *pdrgpdrgpulKeys,
+	ULongPtrArray *pdrgpulDistrColumns,
+	ULongPtrArray2D *pdrgpdrgpulKeys,
 	CDXLCtasStorageOptions *pdxlctasopt,
-	DrgPi *pdrgpiVarTypeMod
+	IntPtrArray *pdrgpiVarTypeMod
 	)
 	:
 	m_pmp(pmp),
@@ -67,7 +67,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);
 	
 	m_phmiulAttno2Pos = GPOS_NEW(m_pmp) HMIUl(m_pmp);
-	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
 
 	const ULONG ulArity = pdrgpmdcol->Size();

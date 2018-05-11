@@ -43,7 +43,7 @@ namespace gpdxl
 			EdxlSetOpType m_edxlsetop;
 
 			// array of input column id arrays
-			DrgPdrgPul *m_pdrgpdrgpulInputColIds;
+			ULongPtrArray2D *m_pdrgpdrgpulInputColIds;
 
 			// do the columns across inputs need to be casted
 			BOOL m_fCastAcrossInputs;

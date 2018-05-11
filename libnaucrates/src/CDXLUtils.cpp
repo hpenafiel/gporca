@@ -1802,14 +1802,14 @@ CWStringDynamic *
 CDXLUtils::PstrSerialize
 	(
 	IMemoryPool *pmp,
-	const DrgPdrgPul *pdrgpdrgpul
+	const ULongPtrArray2D *pdrgpdrgpul
 	)
 {
 	const ULONG ulLen = pdrgpdrgpul->Size();
 	CWStringDynamic *pstrKeys = GPOS_NEW(pmp) CWStringDynamic(pmp);
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		DrgPul *pdrgpul = (*pdrgpdrgpul)[ul];
+		ULongPtrArray *pdrgpul = (*pdrgpdrgpul)[ul];
 		CWStringDynamic *pstrKeySet = CDXLUtils::PstrSerialize(pmp, pdrgpul);
 
 		pstrKeys->Append(pstrKeySet);
@@ -1830,7 +1830,7 @@ CWStringDynamic *
 CDXLUtils::PstrSerializeSz
 	(
 	IMemoryPool *pmp,
-	const DrgPsz *pdrgsz
+	const CharPtrArray *pdrgsz
 	)
 {
 	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);

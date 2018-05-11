@@ -369,7 +369,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprLeftAntiSemiJoinWithInnerGro
 	DrgPcr *pdrgpcrOuterKeys = pcrsOuterKeys->Pdrgpcr(pmp);
 
 	DrgPcr *pdrgpcrConsumer2Output = CUtils::PdrgpcrCopy(pmp, pdrgpcrJoinOutput);
-	DrgPul *pdrgpulIndexesOfOuterInGby =
+	ULongPtrArray *pdrgpulIndexesOfOuterInGby =
 			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuterKeys, pdrgpcrJoinOutput);
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfOuterInGby);
 	DrgPcr *pdrgpcrGbyKeys =
@@ -384,7 +384,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprLeftAntiSemiJoinWithInnerGro
 				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp))
 				);
 
-	DrgPul *pdrgpulIndexesOfOuterKeys =
+	ULongPtrArray *pdrgpulIndexesOfOuterKeys =
 			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuterKeys, pdrgpcrOuter);
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfOuterKeys);
 	DrgPcr *pdrgpcrKeysInOuterCopy =
@@ -457,7 +457,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprProjectOverLeftAntiSemiJoin
 									ulCTEOuterId
 									);
 
-	DrgPul *pdrgpulIndexesOfOuter =
+	ULongPtrArray *pdrgpulIndexesOfOuter =
 			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuter, pdrgpcrJoinOutput);
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfOuter);
 

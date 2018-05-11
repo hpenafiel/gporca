@@ -94,14 +94,14 @@ namespace gpnaucrates
 
 			// helper function that generates an array of ULONG pointers
 			static
-			DrgPul *Pdrgpul
+			ULongPtrArray *Pdrgpul
 					(
 					IMemoryPool *pmp,
 					ULONG ul1,
 					ULONG ul2 = ULONG_MAX
 					)
 			{
-				DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+				ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 				pdrgpul->Append(GPOS_NEW(pmp) ULONG (ul1));
 
 				if (ULONG_MAX != ul2)

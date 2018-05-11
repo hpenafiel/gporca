@@ -210,7 +210,7 @@ CScalarOp::OsPrint
 CScalar::EBoolEvalResult
 CScalarOp::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

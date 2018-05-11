@@ -50,7 +50,7 @@ namespace gpdxl
 			CDXLTableDescr *m_pdxltabdesc;
 
 			// list of source column ids		
-			DrgPul *m_pdrgpul;
+			ULongPtrArray *m_pdrgpul;
 			
 			// action column id
 			ULONG m_ulAction;
@@ -87,7 +87,7 @@ namespace gpdxl
 				IMemoryPool *pmp,
 				const EdxlDmlType edxldmltype,
 				CDXLTableDescr *pdxltabdesc,
-				DrgPul *pdrgpul,
+				ULongPtrArray *pdrgpul,
 				ULONG ulAction,
 				ULONG ulOid,
 				ULONG ulCtid,
@@ -121,7 +121,7 @@ namespace gpdxl
 			}
 			
 			// source column ids
-			DrgPul *Pdrgpul() const
+			ULongPtrArray *Pdrgpul() const
 			{
 				return m_pdrgpul;
 			}

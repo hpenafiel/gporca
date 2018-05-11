@@ -1105,7 +1105,7 @@ CPhysicalJoin::PppsRequiredCompute
 	CPartIndexMap *ppim = pppsRequired->Ppim();
 	CPartFilterMap *ppfm = pppsRequired->Ppfm();
 
-	DrgPul *pdrgpul = ppim->PdrgpulScanIds(pmp);
+	ULongPtrArray *pdrgpul = ppim->PdrgpulScanIds(pmp);
 
 	CPartIndexMap *ppimResult = GPOS_NEW(pmp) CPartIndexMap(pmp);
 	CPartFilterMap *ppfmResult = GPOS_NEW(pmp) CPartFilterMap(pmp);

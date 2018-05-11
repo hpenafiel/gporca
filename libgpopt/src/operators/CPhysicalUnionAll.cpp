@@ -9,7 +9,7 @@ using namespace gpopt;
 
 static
 BOOL
-FEqual(DrgPul *pdrgpulFst, DrgPul *pdrgpulSnd);
+FEqual(ULongPtrArray *pdrgpulFst, ULongPtrArray *pdrgpulSnd);
 
 #ifdef GPOS_DEBUG
 
@@ -43,8 +43,8 @@ CheckChildDistributions
 BOOL
 FEqual
 	(
-		DrgPul *pdrgpulFst,
-		DrgPul *pdrgpulSnd
+		ULongPtrArray *pdrgpulFst,
+		ULongPtrArray *pdrgpulSnd
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulFst);
@@ -506,7 +506,7 @@ const
 	}
 
 
-	DrgPul *pdrgpul = ppimReqd->PdrgpulScanIds(m_pmp);
+	ULongPtrArray *pdrgpul = ppimReqd->PdrgpulScanIds(m_pmp);
 	const ULONG ulScanIds = pdrgpul->Size();
 
 	const ULONG ulArity = exprhdl.UlNonScalarChildren();
@@ -656,13 +656,13 @@ const
 	// (2) check that child hashed distributions map to the same output columns
 
 	// map outer child hashed distribution to corresponding UnionAll column positions
-	DrgPul *pdrgpulOuter = PdrgpulMap(pmp, CDistributionSpecHashed::PdsConvert(exprhdl.Pdpplan(0 /*ulChildIndex*/)->Pds())->Pdrgpexpr(), 0/*ulChildIndex*/);
+	ULongPtrArray *pdrgpulOuter = PdrgpulMap(pmp, CDistributionSpecHashed::PdsConvert(exprhdl.Pdpplan(0 /*ulChildIndex*/)->Pds())->Pdrgpexpr(), 0/*ulChildIndex*/);
 	if (NULL == pdrgpulOuter)
 	{
 		return NULL;
 	}
 
-	DrgPul *pdrgpulChild = NULL;
+	ULongPtrArray *pdrgpulChild = NULL;
 	for (ULONG ulChild = 1; fSuccess && ulChild < ulArity; ulChild++)
 	{
 		pdrgpulChild = PdrgpulMap(pmp, CDistributionSpecHashed::PdsConvert(exprhdl.Pdpplan(ulChild)->Pds())->Pdrgpexpr(), ulChild);
@@ -696,7 +696,7 @@ CDistributionSpecHashed *
 CPhysicalUnionAll::PdsMatching
 	(
 		IMemoryPool *pmp,
-		const DrgPul *pdrgpulOuter
+		const ULongPtrArray *pdrgpulOuter
 	)
 const
 {
@@ -859,7 +859,7 @@ const
 //		the function returns NULL if no mapping could be constructed
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CPhysicalUnionAll::PdrgpulMap
 	(
 		IMemoryPool *pmp,
@@ -873,7 +873,7 @@ const
 	DrgPcr *pdrgpcr = (*PdrgpdrgpcrInput())[ulChildIndex];
 	const ULONG ulExprs = pdrgpexpr->Size();
 	const ULONG ulCols = pdrgpcr->Size();
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	for (ULONG ulExpr = 0; ulExpr < ulExprs; ulExpr++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ulExpr];

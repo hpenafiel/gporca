@@ -814,7 +814,7 @@ CPhysical::PppsRequiredPushThruNAry
 	CPartIndexMap *ppimReqd = pppsReqd->Ppim();
 	CPartFilterMap *ppfmReqd = pppsReqd->Ppfm();
 
-	DrgPul *pdrgpul = ppimReqd->PdrgpulScanIds(pmp);
+	ULongPtrArray *pdrgpul = ppimReqd->PdrgpulScanIds(pmp);
 
 	CPartIndexMap *ppimResult = GPOS_NEW(pmp) CPartIndexMap(pmp);
 	CPartFilterMap *ppfmResult = GPOS_NEW(pmp) CPartFilterMap(pmp);
@@ -945,7 +945,7 @@ CPhysical::PppsRequiredPushThruUnresolvedUnary
 	CPartIndexMap *ppimReqd = pppsRequired->Ppim();
 	CPartFilterMap *ppfmReqd = pppsRequired->Ppfm();
 
-	DrgPul *pdrgpul = ppimReqd->PdrgpulScanIds(pmp);
+	ULongPtrArray *pdrgpul = ppimReqd->PdrgpulScanIds(pmp);
 	
 	CPartIndexMap *ppimResult = GPOS_NEW(pmp) CPartIndexMap(pmp);
 	CPartFilterMap *ppfmResult = GPOS_NEW(pmp) CPartFilterMap(pmp);

@@ -33,7 +33,7 @@ CDXLLogicalCTEProducer::CDXLLogicalCTEProducer
 	(
 	IMemoryPool *pmp,
 	ULONG ulId,
-	DrgPul *pdrgpulColIds
+	ULongPtrArray *pdrgpulColIds
 	)
 	:
 	CDXLLogical(pmp),

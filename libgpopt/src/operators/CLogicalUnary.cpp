@@ -86,7 +86,7 @@ CLogicalUnary::PstatsDeriveProject
 	IStatistics *pstatsChild = exprhdl.Pstats(0);
 	CReqdPropRelational *prprel = CReqdPropRelational::Prprel(exprhdl.Prp());
 	CColRefSet *pcrs = prprel->PcrsStat();
-	DrgPul *pdrgpulColIds = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulColIds = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	pcrs->ExtractColIds(pmp, pdrgpulColIds);
 
 	IStatistics *pstats = CProjectStatsProcessor::PstatsProject(pmp, dynamic_cast<CStatistics *>(pstatsChild), pdrgpulColIds, phmuldatum);

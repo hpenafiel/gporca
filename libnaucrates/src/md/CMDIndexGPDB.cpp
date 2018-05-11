@@ -39,8 +39,8 @@ CMDIndexGPDB::CMDIndexGPDB
 	BOOL fClustered, 
 	IMDIndex::EmdindexType emdindt,
 	IMDId *pmdidItemType,
-	DrgPul *pdrgpulKeyCols,
-	DrgPul *pdrgpulIncludedCols,
+	ULongPtrArray *pdrgpulKeyCols,
+	ULongPtrArray *pdrgpulIncludedCols,
 	DrgPmdid *pdrgpmdidOpClasses,
 	IMDPartConstraint *pmdpartcnstr
 	)

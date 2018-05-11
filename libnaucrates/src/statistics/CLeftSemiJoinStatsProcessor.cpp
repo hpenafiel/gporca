@@ -32,7 +32,7 @@ CLeftSemiJoinStatsProcessor::PstatsLSJoinStatic
 	const ULONG ulLen = pdrgpstatspredjoin->Size();
 
 	// iterate over all inner columns and perform a group by to remove duplicates
-	DrgPul *pdrgpulInnerColumnIds = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulInnerColumnIds = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		ULONG ulInnerColId = ((*pdrgpstatspredjoin)[ul])->UlColId2();
@@ -40,7 +40,7 @@ CLeftSemiJoinStatsProcessor::PstatsLSJoinStatic
 	}
 
 	// dummy agg columns required for group by derivation
-	DrgPul *pdrgpulAgg = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulAgg = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	IStatistics *pstatsInnerNoDups = CGroupByStatsProcessor::PstatsGroupBy
 			(
 			pmp,

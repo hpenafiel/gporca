@@ -141,7 +141,7 @@ namespace gpopt
 							(
 							IMemoryPool *pmp, // memory pool
 							CExpression *pexpr, // expression representing the query
-							DrgPul *pdrgpulQueryOutputColRefId, // array of output column reference id
+							ULongPtrArray *pdrgpulQueryOutputColRefId, // array of output column reference id
 							DrgPmdname *pdrgpmdname, // array of output column names
 							BOOL fDeriveStats
 							);

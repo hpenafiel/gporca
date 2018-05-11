@@ -36,7 +36,7 @@ namespace gpnaucrates
 				(
 				IMemoryPool *pmp,
 				const CStatistics *pstatsInnerJoin,
-				DrgPul *pdrgpulInnerColId,
+				ULongPtrArray *pdrgpulInnerColId,
 				CDouble dRowsLASJ,
 				CDouble dRowsInnerJoin,
 				HMUlHist *phmulhistLOJ

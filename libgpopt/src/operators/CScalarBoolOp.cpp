@@ -129,7 +129,7 @@ CScalarBoolOp::PmdidType() const
 CScalar::EBoolEvalResult
 CScalarBoolOp::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

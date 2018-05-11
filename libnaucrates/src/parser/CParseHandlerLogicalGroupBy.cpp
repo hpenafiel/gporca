@@ -130,7 +130,7 @@ CParseHandlerLogicalGroupBy::EndElement
 	// set grouping cols list
 	GPOS_ASSERT(NULL != pphGrpCollList->PdrgpulGroupingCols());
 
-	DrgPul *pdrgpul = pphGrpCollList->PdrgpulGroupingCols();
+	ULongPtrArray *pdrgpul = pphGrpCollList->PdrgpulGroupingCols();
 	pdrgpul->AddRef();
 	pdxlopGrpby->SetGroupingColumns(pdrgpul);
 

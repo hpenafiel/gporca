@@ -31,9 +31,9 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	CMDName *pmdname,
 	Ereldistrpolicy ereldistrpolicy,
 	DrgPmdcol *pdrgpmdcol,
-	DrgPul *pdrgpulDistrColumns,
+	ULongPtrArray *pdrgpulDistrColumns,
 	BOOL fConvertHashToRandom,
-	DrgPdrgPul *pdrgpdrgpulKeys,
+	ULongPtrArray2D *pdrgpdrgpulKeys,
 	DrgPmdIndexInfo *pdrgpmdIndexInfo,
 	DrgPmdid *pdrgpmdidTriggers,
  	DrgPmdid *pdrgpmdidCheckConstraint,
@@ -73,7 +73,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 
 	m_phmululNonDroppedCols = GPOS_NEW(m_pmp) HMUlUl(m_pmp);
 	m_phmiulAttno2Pos = GPOS_NEW(m_pmp) HMIUl(m_pmp);
-	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
 
 	ULONG ulPosNonDropped = 0;
@@ -259,7 +259,7 @@ CMDRelationExternalGPDB::UlSystemColumns() const
 //		Returns the original positions of all the non-dropped columns
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CMDRelationExternalGPDB::PdrgpulNonDroppedCols() const
 {
 	return m_pdrgpulNonDroppedCols;
@@ -392,7 +392,7 @@ CMDRelationExternalGPDB::UlKeySets() const
 //		Returns the key set at the specified position
 //
 //---------------------------------------------------------------------------
-const DrgPul *
+const ULongPtrArray *
 CMDRelationExternalGPDB::PdrgpulKeyset
 	(
 	ULONG ulPos

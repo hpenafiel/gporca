@@ -903,7 +903,7 @@ CTestUtils::PexprLogicalSelectArrayCmp
 	)
 {
 	const ULONG ulArraySize = 5;
-	DrgPi *pdrgpiVals = GPOS_NEW(pmp) DrgPi(pmp);
+	IntPtrArray *pdrgpiVals = GPOS_NEW(pmp) IntPtrArray(pmp);
 	for (ULONG iVal = 0; iVal < ulArraySize; iVal++)
 	{
 		pdrgpiVals->Append(GPOS_NEW(pmp) INT(iVal));
@@ -930,7 +930,7 @@ CTestUtils::PexprLogicalSelectArrayCmp
 	IMemoryPool *pmp,
 	CScalarArrayCmp::EArrCmpType earrcmptype,
 	IMDType::ECmpType ecmptype,
-	const DrgPi *pdrgpiVals
+	const IntPtrArray *pdrgpiVals
 	)
 {
 	GPOS_ASSERT(CScalarArrayCmp::EarrcmpSentinel > earrcmptype);
@@ -3416,13 +3416,13 @@ CTestUtils::FPlanCompare
 //		Helper function for creating an array of segment ids for the target system
 //
 //---------------------------------------------------------------------------
-DrgPi *
+IntPtrArray *
 CTestUtils::PdrgpiSegments
 	(
 	IMemoryPool *pmp
 	)
 {
-	DrgPi *pdrgpiSegments = GPOS_NEW(pmp) DrgPi(pmp);
+	IntPtrArray *pdrgpiSegments = GPOS_NEW(pmp) IntPtrArray(pmp);
 	const ULONG ulSegments = GPOPT_SEGMENT_COUNT;
 	GPOS_ASSERT(0 < ulSegments);
 

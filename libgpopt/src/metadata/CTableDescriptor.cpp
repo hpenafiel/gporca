@@ -63,7 +63,7 @@ CTableDescriptor::CTableDescriptor
 	
 	m_pdrgpcoldesc = GPOS_NEW(m_pmp) DrgPcoldesc(m_pmp);
 	m_pdrgpcoldescDist = GPOS_NEW(m_pmp) DrgPcoldesc(m_pmp);
-	m_pdrgpulPart = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+	m_pdrgpulPart = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 	m_pdrgpbsKeys = GPOS_NEW(m_pmp) DrgPbs(m_pmp);
 }
 

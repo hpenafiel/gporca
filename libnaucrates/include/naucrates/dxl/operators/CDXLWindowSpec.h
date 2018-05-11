@@ -40,7 +40,7 @@ namespace gpdxl
 			IMemoryPool *m_pmp;
 
 			// partition-by column identifiers
-			DrgPul *m_pdrgpulPartCol;
+			ULongPtrArray *m_pdrgpulPartCol;
 
 			// name of window specification
 			CMDName *m_pmdname;
@@ -60,7 +60,7 @@ namespace gpdxl
 			CDXLWindowSpec
 				(
 				IMemoryPool *pmp,
-				DrgPul *pdrgpulPartCol,
+				ULongPtrArray *pdrgpulPartCol,
 				CMDName *pmdname,
 				CDXLNode *pdxlnSortColList,
 				CDXLWindowFrame *pdxlwf
@@ -84,7 +84,7 @@ namespace gpdxl
 			}
 
 			// partition-by column identifiers
-			DrgPul *PdrgulPartColList() const
+			ULongPtrArray *PdrgulPartColList() const
 			{
 				return m_pdrgpulPartCol;
 			}

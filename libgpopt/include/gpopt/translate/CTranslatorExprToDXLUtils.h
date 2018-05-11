@@ -379,7 +379,7 @@ namespace gpopt
 				CColumnFactory *pcf,
 				const CPartConstraint *ppartcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
-				DrgPsz *pdrgszPartTypes
+				CharPtrArray *pdrgszPartTypes
 				);
 			
 			// construct a nested if statement testing the constraints in the 
@@ -392,7 +392,7 @@ namespace gpopt
 				CColumnFactory *pcf,
 				PartCnstrMap *ppartcnstrmap,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
-				DrgPsz *pdrgszPartTypes
+				CharPtrArray *pdrgszPartTypes
 				);
 			
 			// check if the DXL Node is a scalar const TRUE
@@ -445,7 +445,7 @@ namespace gpopt
 				PartCnstrMap *ppartcnstrmap,
 				DrgDrgPcr *pdrgpdrgpcrKeys,
 				ULONG ulScanId,
-				DrgPsz *pdrgszPartTypes
+				CharPtrArray *pdrgszPartTypes
 				);
 
 			// create a DXL project elem node from as a scalar identifier for the

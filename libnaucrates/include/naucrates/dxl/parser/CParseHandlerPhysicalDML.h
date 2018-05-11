@@ -38,7 +38,7 @@ namespace gpdxl
 			EdxlDmlType m_edxldmltype;
 
 			// source col ids
-			DrgPul *m_pdrgpul;
+			ULongPtrArray *m_pdrgpul;
 		
 			// action column id
 			ULONG m_ulAction;

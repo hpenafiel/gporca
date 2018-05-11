@@ -35,10 +35,10 @@ namespace gpdxl
 		private:
 
 			// list of deletion column ids
-			DrgPul *m_pdrgpulDelete;
+			ULongPtrArray *m_pdrgpulDelete;
 
 			// list of insertion column ids
-			DrgPul *m_pdrgpulInsert;
+			ULongPtrArray *m_pdrgpulInsert;
 
 			// action column id
 			ULONG m_ulAction;
@@ -64,8 +64,8 @@ namespace gpdxl
 			CDXLPhysicalSplit
 				(
 				IMemoryPool *pmp,
-				DrgPul *pdrgpulDelete,
-				DrgPul *pdrgpulInsert,
+				ULongPtrArray *pdrgpulDelete,
+				ULongPtrArray *pdrgpulInsert,
 				ULONG ulAction,
 				ULONG ulCtid,
 				ULONG ulSegmentId,
@@ -84,13 +84,13 @@ namespace gpdxl
 			const CWStringConst *PstrOpName() const;
 
 			// deletion column ids
-			DrgPul *PdrgpulDelete() const
+			ULongPtrArray *PdrgpulDelete() const
 			{
 				return m_pdrgpulDelete;
 			}
 
 			// insertion column ids
-			DrgPul *PdrgpulInsert() const
+			ULongPtrArray *PdrgpulInsert() const
 			{
 				return m_pdrgpulInsert;
 			}

@@ -34,13 +34,13 @@ namespace gpopt
 			DrgPds *const m_pdrgpds;
 
 			// map given array of scalar ident expressions to positions of UnionAll input columns in the given child;
-			DrgPul *PdrgpulMap(IMemoryPool *pmp, DrgPexpr *pdrgpexpr, ULONG ulChildIndex) const;
+			ULongPtrArray *PdrgpulMap(IMemoryPool *pmp, DrgPexpr *pdrgpexpr, ULONG ulChildIndex) const;
 
 			// derive hashed distribution from child operators
 			CDistributionSpecHashed *PdshashedDerive(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
 
 			// compute output hashed distribution matching the outer child's hashed distribution
-			CDistributionSpecHashed *PdsMatching(IMemoryPool *pmp, const DrgPul *pdrgpulOuter) const;
+			CDistributionSpecHashed *PdsMatching(IMemoryPool *pmp, const ULongPtrArray *pdrgpulOuter) const;
 
 			// derive output distribution based on child distribution
 			CDistributionSpec *PdsDeriveFromChildren(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;

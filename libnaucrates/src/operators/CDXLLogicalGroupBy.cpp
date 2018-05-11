@@ -45,7 +45,7 @@ CDXLLogicalGroupBy::CDXLLogicalGroupBy
 CDXLLogicalGroupBy::CDXLLogicalGroupBy
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpulGrpColIds
+	ULongPtrArray *pdrgpulGrpColIds
 	)
 	:
 	CDXLLogical(pmp),
@@ -106,7 +106,7 @@ CDXLLogicalGroupBy::PstrOpName() const
 void
 CDXLLogicalGroupBy::SetGroupingColumns
 	(
-	DrgPul *pdrgpul
+	ULongPtrArray *pdrgpul
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpul);
@@ -121,7 +121,7 @@ CDXLLogicalGroupBy::SetGroupingColumns
 //		Grouping column indices
 //
 //---------------------------------------------------------------------------
-const DrgPul *
+const ULongPtrArray *
 CDXLLogicalGroupBy::PdrgpulGroupingCols() const
 {
 	return m_pdrgpulGrpColId;

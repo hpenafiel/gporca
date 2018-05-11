@@ -44,10 +44,10 @@ namespace gpdxl
 			ULONG m_ulSegmentId;
 
 			// list of deletion column ids
-			DrgPul *m_pdrgpulDelete;
+			ULongPtrArray *m_pdrgpulDelete;
 
 			// list of insertion column ids
-			DrgPul *m_pdrgpulInsert;
+			ULongPtrArray *m_pdrgpulInsert;
 			
 			// should update preserve tuple oids
 			BOOL m_fPreserveOids;	
@@ -67,8 +67,8 @@ namespace gpdxl
 				CDXLTableDescr *pdxltabdesc,
 				ULONG ulCtid,
 				ULONG ulSegmentId,
-				DrgPul *pdrgpulDelete,
-				DrgPul *pdrgpulInsert,
+				ULongPtrArray *pdrgpulDelete,
+				ULongPtrArray *pdrgpulInsert,
 				BOOL fPreserveOids,
 				ULONG ulTupleOid
 				);
@@ -102,13 +102,13 @@ namespace gpdxl
 			}
 
 			// deletion column ids
-			DrgPul *PdrgpulDelete() const
+			ULongPtrArray *PdrgpulDelete() const
 			{
 				return m_pdrgpulDelete;
 			}
 
 			// insertion column ids
-			DrgPul *PdrgpulInsert() const
+			ULongPtrArray *PdrgpulInsert() const
 			{
 				return m_pdrgpulInsert;
 			}

@@ -38,7 +38,7 @@ namespace gpdxl
 			CDXLTableDescr *m_pdxltabdesc;
 
 			// list of source column ids		
-			DrgPul *m_pdrgpul;
+			ULongPtrArray *m_pdrgpul;
 			
 			// private copy ctor
 			CDXLLogicalInsert(const CDXLLogicalInsert &);
@@ -46,7 +46,7 @@ namespace gpdxl
 		public:
 			
 			// ctor/dtor
-			CDXLLogicalInsert(IMemoryPool *pmp, CDXLTableDescr *pdxltabdesc, DrgPul *pdrgpul);
+			CDXLLogicalInsert(IMemoryPool *pmp, CDXLTableDescr *pdxltabdesc, ULongPtrArray *pdrgpul);
 						
 			virtual
 			~CDXLLogicalInsert();
@@ -64,7 +64,7 @@ namespace gpdxl
 			}
 			
 			// source column ids
-			DrgPul *Pdrgpul() const
+			ULongPtrArray *Pdrgpul() const
 			{
 				return m_pdrgpul;
 			}

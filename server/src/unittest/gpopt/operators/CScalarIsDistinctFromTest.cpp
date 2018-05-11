@@ -57,7 +57,7 @@ namespace gpopt
 		SEberFixture fixture;
 		IMemoryPool *pmp = fixture.Pmp();
 
-		DrgPul *pdrgpulChildren = GPOS_NEW(pmp) DrgPul(pmp);
+		ULongPtrArray *pdrgpulChildren = GPOS_NEW(pmp) ULongPtrArray(pmp);
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberNull));
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberNull));
 
@@ -76,7 +76,7 @@ namespace gpopt
 		SEberFixture fixture;
 		IMemoryPool *pmp = fixture.Pmp();
 
-		DrgPul *pdrgpulChildren = GPOS_NEW(pmp) DrgPul(pmp);
+		ULongPtrArray *pdrgpulChildren = GPOS_NEW(pmp) ULongPtrArray(pmp);
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberUnknown));
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberNull));
 
@@ -95,7 +95,7 @@ namespace gpopt
 		SEberFixture fixture;
 		IMemoryPool *pmp = fixture.Pmp();
 
-		DrgPul *pdrgpulChildren = GPOS_NEW(pmp) DrgPul(pmp);
+		ULongPtrArray *pdrgpulChildren = GPOS_NEW(pmp) ULongPtrArray(pmp);
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberNull));
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberUnknown));
 
@@ -114,7 +114,7 @@ namespace gpopt
 		SEberFixture fixture;
 		IMemoryPool *pmp = fixture.Pmp();
 
-		DrgPul *pdrgpulChildren = GPOS_NEW(pmp) DrgPul(pmp);
+		ULongPtrArray *pdrgpulChildren = GPOS_NEW(pmp) ULongPtrArray(pmp);
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberNull));
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberTrue));
 
@@ -133,7 +133,7 @@ namespace gpopt
 		SEberFixture fixture;
 		IMemoryPool *pmp = fixture.Pmp();
 
-		DrgPul *pdrgpulChildren = GPOS_NEW(pmp) DrgPul(pmp);
+		ULongPtrArray *pdrgpulChildren = GPOS_NEW(pmp) ULongPtrArray(pmp);
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberTrue));
 		pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(CScalar::EberTrue));
 

@@ -79,7 +79,7 @@ CScalarCoerceToDomain::FMatch
 CScalar::EBoolEvalResult
 CScalarCoerceToDomain::Eber
 	(
-	DrgPul *pdrgpulChildren
+	ULongPtrArray *pdrgpulChildren
 	)
 	const
 {

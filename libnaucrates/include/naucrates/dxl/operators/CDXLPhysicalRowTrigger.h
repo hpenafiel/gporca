@@ -41,10 +41,10 @@ namespace gpdxl
 			INT m_iType;
 
 			// old column ids
-			DrgPul *m_pdrgpulOld;
+			ULongPtrArray *m_pdrgpulOld;
 
 			// new column ids
-			DrgPul *m_pdrgpulNew;
+			ULongPtrArray *m_pdrgpulNew;
 
 			// private copy ctor
 			CDXLPhysicalRowTrigger(const CDXLPhysicalRowTrigger &);
@@ -57,8 +57,8 @@ namespace gpdxl
 				IMemoryPool *pmp,
 				IMDId *pmdidRel,
 				INT iType,
-				DrgPul *pdrgpulOld,
-				DrgPul *pdrgpulNew
+				ULongPtrArray *pdrgpulOld,
+				ULongPtrArray *pdrgpulNew
 				);
 
 			// dtor
@@ -86,13 +86,13 @@ namespace gpdxl
 			}
 
 			// old column ids
-			DrgPul *PdrgpulOld() const
+			ULongPtrArray *PdrgpulOld() const
 			{
 				return m_pdrgpulOld;
 			}
 
 			// new column ids
-			DrgPul *PdrgpulNew() const
+			ULongPtrArray *PdrgpulNew() const
 			{
 				return m_pdrgpulNew;
 			}

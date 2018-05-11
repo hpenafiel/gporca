@@ -621,7 +621,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 	// positions in pdrgpcrOuter of the outer references mentioned in the scan filter
 	// we need them because each time we create copies of pdrgpcrOuter, we will extract the
 	// subsequence corresponding to pdrgpcrOuterRefsInScan
-	DrgPul *pdrgpulIndexesOfRefsInScan =
+	ULongPtrArray *pdrgpulIndexesOfRefsInScan =
 			CDynamicPtrArrayUtils::PdrgpulSubsequenceIndexes(pmp, pdrgpcrOuterRefsInScan, pdrgpcrOuter);
 
 	GPOS_ASSERT(NULL != pdrgpulIndexesOfRefsInScan);
@@ -863,7 +863,7 @@ CXformJoin2IndexApply::PexprIndexApplyOverCTEConsumer
 	DrgPcr *pdrgpcrOuter,
 	DrgPcr *pdrgpcrOuterNew,
 	DrgPcr *pdrgpcrOuterRefsInScan,
-	DrgPul *pdrgpulIndexesOfRefsInScan
+	ULongPtrArray *pdrgpulIndexesOfRefsInScan
 	) const
 {
 	CExpression *pexprDynamicScan = CXformUtils::PexprPartialDynamicIndexGet

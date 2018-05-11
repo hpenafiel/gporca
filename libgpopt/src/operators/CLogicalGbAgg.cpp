@@ -619,14 +619,14 @@ CLogicalGbAgg::PstatsDerive
 	IMemoryPool *pmp,
 	IStatistics *pstatsChild,
 	DrgPcr *pdrgpcrGroupingCols,
-	DrgPul *pdrgpulComputedCols,
+	ULongPtrArray *pdrgpulComputedCols,
 	CBitSet *pbsKeys
 	)
 {
 	const ULONG ulGroupingCols = pdrgpcrGroupingCols->Size();
 
 	// extract grouping column ids
-	DrgPul *pdrgpulGroupingCols = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulGroupingCols = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	for (ULONG ul = 0; ul < ulGroupingCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrGroupingCols)[ul];
@@ -663,7 +663,7 @@ CLogicalGbAgg::PstatsDerive
 	IStatistics *pstatsChild = exprhdl.Pstats(0);
 
 	// extract computed columns
-	DrgPul *pdrgpulComputedCols = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpulComputedCols = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	exprhdl.Pdpscalar(1 /*ulChildIndex*/)->PcrsDefined()->ExtractColIds(pmp, pdrgpulComputedCols);
 
 	IStatistics *pstats = PstatsDerive(pmp, pstatsChild, Pdrgpcr(), pdrgpulComputedCols, NULL /*pbsKeys*/);

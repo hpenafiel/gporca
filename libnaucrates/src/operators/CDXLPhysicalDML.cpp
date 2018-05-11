@@ -32,7 +32,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	IMemoryPool *pmp,
 	const EdxlDmlType edxldmltype,
 	CDXLTableDescr *pdxltabdesc,
-	DrgPul *pdrgpul,
+	ULongPtrArray *pdrgpul,
 	ULONG ulAction,
 	ULONG ulOid,
 	ULONG ulCtid,

@@ -89,7 +89,7 @@ CWStringDynamic *
 IMDRelation::PstrColumns
 	(
 	IMemoryPool *pmp,
-	DrgPul *pdrgpul
+	ULongPtrArray *pdrgpul
 	)
 {
 	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);

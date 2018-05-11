@@ -88,7 +88,7 @@ CParseHandlerMDRelation::StartElement
 		else
 		{
 			// construct an empty keyset
-			m_pdrgpulDefaultParts = GPOS_NEW(m_pmp) DrgPul(m_pmp);
+			m_pdrgpulDefaultParts = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
 		}
 		m_fPartConstraintUnbounded = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenRelation);
 
@@ -328,7 +328,7 @@ CParseHandlerMDRelation::ParseRelationAttributes
 	else
 	{
 		// construct an empty keyset
-		m_pdrgpdrgpulKeys = GPOS_NEW(m_pmp) DrgPdrgPul(m_pmp);
+		m_pdrgpdrgpulKeys = GPOS_NEW(m_pmp) ULongPtrArray2D(m_pmp);
 	}
 
 	m_ulPartitions = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenNumLeafPartitions, edxltokenElement,

@@ -125,14 +125,14 @@ CColRef::OsPrint
 //		Extract array of colids from array of colrefs
 //
 //---------------------------------------------------------------------------
-DrgPul *
+ULongPtrArray *
 CColRef::Pdrgpul
 	(
 	IMemoryPool *pmp,
 	DrgPcr *pdrgpcr
 	)
 {
-	DrgPul *pdrgpul = GPOS_NEW(pmp) DrgPul(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{

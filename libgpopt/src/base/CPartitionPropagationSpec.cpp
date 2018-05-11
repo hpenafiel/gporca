@@ -120,7 +120,7 @@ CPartitionPropagationSpec::AppendEnforcers
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	GPOS_ASSERT(NULL != pexpr);
 	
-	DrgPul *pdrgpul = m_ppim->PdrgpulScanIds(pmp);
+	ULongPtrArray *pdrgpul = m_ppim->PdrgpulScanIds(pmp);
 	const ULONG ulSize = pdrgpul->Size();
 	
 	for (ULONG ul = 0; ul < ulSize; ul++)
