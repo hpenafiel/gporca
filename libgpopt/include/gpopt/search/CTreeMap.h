@@ -192,7 +192,7 @@ namespace gpopt
 
                         ULLONG ull = 0;
 
-                        ULONG ulCandidates = (*m_pdrgdrgptn)[ulChild]->UlLength();
+                        ULONG ulCandidates = (*m_pdrgdrgptn)[ulChild]->Size();
                         for (ULONG ulAlt = 0; ulAlt < ulCandidates; ulAlt++)
                         {
                             CTreeNode *ptn = (*(*m_pdrgdrgptn)[ulChild])[ulAlt];
@@ -211,7 +211,7 @@ namespace gpopt
                         GPOS_ASSERT(ullRank < UllCount(ulChild));
 
                         DrgPtn *pdrgptn = (*m_pdrgdrgptn)[ulChild];
-                        ULONG ulCandidates = pdrgptn->UlLength();
+                        ULONG ulCandidates = pdrgptn->Size();
 
                         CTreeNode *ptn = NULL;
 
@@ -262,7 +262,7 @@ namespace gpopt
 
                         // insert any child arrays skipped so far; make sure we have a dense
                         // array up to the position of ulPos
-                        ULONG ulLength = m_pdrgdrgptn->UlLength();
+                        ULONG ulLength = m_pdrgdrgptn->Size();
                         for (ULONG ul = ulLength; ul <= ulPos; ul++)
                         {
                             DrgPtn *pdrg = GPOS_NEW(m_pmp) DrgPtn(m_pmp);
@@ -298,7 +298,7 @@ namespace gpopt
 
                             ULLONG ullCount = 1;
 
-                            ULONG ulArity = m_pdrgdrgptn->UlLength();
+                            ULONG ulArity = m_pdrgdrgptn->Size();
                             for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
                             {
                                 ULLONG ull = UllCount(ulChild);
@@ -357,7 +357,7 @@ namespace gpopt
 
                             ULLONG ullRankRem = ullRank;
 
-                            ULONG ulChildren = m_pdrgdrgptn->UlLength();
+                            ULONG ulChildren = m_pdrgdrgptn->Size();
                             for (ULONG ulChild = 0; ulChild < ulChildren; ulChild++)
                             {
                                 ULLONG ullLocalCount = UllCount(ulChild);
@@ -380,7 +380,7 @@ namespace gpopt
 					// debug print
 					IOstream &OsPrint(IOstream &os)
                     {
-                        ULONG ulChildren = m_pdrgdrgptn->UlLength();
+                        ULONG ulChildren = m_pdrgdrgptn->Size();
 
                         os
                         << "=== Node " << m_ul << " [" << *Pt() << "] ===" << std::endl
@@ -390,7 +390,7 @@ namespace gpopt
                         for (ULONG ul = 0; ul < ulChildren; ul++)
                         {
                             os << "--- child: #" << ul << " ---" << std::endl;
-                            ULONG ulAlt = (*m_pdrgdrgptn)[ul]->UlLength();
+                            ULONG ulAlt = (*m_pdrgdrgptn)[ul]->Size();
 
                             for (ULONG ulChild = 0; ulChild < ulAlt; ulChild++)
                             {

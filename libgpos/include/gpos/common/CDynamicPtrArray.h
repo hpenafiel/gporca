@@ -193,7 +193,7 @@ namespace gpos
 			// equality check
 			BOOL Equals(const CDynamicPtrArray<T, pfnDestroy> *pdrg) const
             {
-                BOOL fEqual = (Size() == pdrg->UlLength());
+                BOOL fEqual = (Size() == pdrg->Size());
 
                 for (ULONG i = 0; i < m_ulSize && fEqual; i++)
                 {

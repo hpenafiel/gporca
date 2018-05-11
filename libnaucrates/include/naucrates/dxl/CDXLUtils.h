@@ -505,7 +505,7 @@ namespace gpdxl
 	{
 		CAutoP<CWStringDynamic> a_pstr(GPOS_NEW(pmp) CWStringDynamic(pmp));
 
-		ULONG ulLength = pdrgpt->UlLength();
+		ULONG ulLength = pdrgpt->Size();
 		for (ULONG ul = 0; ul < ulLength; ul++)
 		{
 			T tValue = *((*pdrgpt)[ul]);

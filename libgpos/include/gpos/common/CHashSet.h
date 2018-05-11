@@ -164,7 +164,7 @@ namespace gpos
                 DrgHashChain **ppdrgchain = PpdrgChain(pt);
                 if (NULL != *ppdrgchain)
                 {
-                    phse = (*ppdrgchain)->PtLookup(&hse);
+                    phse = (*ppdrgchain)->Find(&hse);
                     GPOS_ASSERT_IMP(NULL != phse, *phse == hse);
                 }
 
@@ -231,7 +231,7 @@ namespace gpos
                 DrgHashChain **ppdrgchain = PpdrgChain(pt);
                 if (NULL != *ppdrgchain)
                 {
-                    CHashSetElem *phse = (*ppdrgchain)->PtLookup(&hse);
+                    CHashSetElem *phse = (*ppdrgchain)->Find(&hse);
 
                     return (NULL != phse);
                 }

@@ -1322,7 +1322,7 @@ namespace gpopt
 		GPOS_ASSERT(NULL != pdrgptOutput);
 		GPOS_ASSERT(NULL != pdrgptInput);
 
-		const ULONG ulSize = pdrgptInput->UlLength();
+		const ULONG ulSize = pdrgptInput->Size();
 		GPOS_ASSERT_IMP(0 < ulSize, ulStart < ulSize);
 
 		for (ULONG ul = ulStart; ul < ulSize; ul++)
@@ -1394,7 +1394,7 @@ namespace gpopt
 		return pop1->UlOriginOpId() == popIndex->UlOriginOpId() &&
 				pop1->Ptabdesc()->Pmdid()->FEquals(popIndex->Ptabdesc()->Pmdid()) &&
 				pop1->Pindexdesc()->Pmdid()->FEquals(popIndex->Pindexdesc()->Pmdid()) &&
-				pop1->PdrgpcrOutput()->FEqual(popIndex->PdrgpcrOutput());
+				pop1->PdrgpcrOutput()->Equals(popIndex->PdrgpcrOutput());
 	}
 
 	//---------------------------------------------------------------------------
@@ -1430,7 +1430,7 @@ namespace gpopt
 				pop1->UlSecondaryScanId() == popIndex2->UlSecondaryScanId() &&
 				pop1->Ptabdesc()->Pmdid()->FEquals(popIndex2->Ptabdesc()->Pmdid()) &&
 				pop1->Pindexdesc()->Pmdid()->FEquals(popIndex2->Pindexdesc()->Pmdid()) &&
-				pop1->PdrgpcrOutput()->FEqual(popIndex2->PdrgpcrOutput()) &&
+				pop1->PdrgpcrOutput()->Equals(popIndex2->PdrgpcrOutput()) &&
 				(!pop1->FPartial() || (pop1->Ppartcnstr() == popIndex2->Ppartcnstr()));
 	}
 
@@ -1464,7 +1464,7 @@ namespace gpopt
 		return pop1->UlScanId() == popScan2->UlScanId() &&
 				pop1->UlSecondaryScanId() == popScan2->UlSecondaryScanId() &&
 				pop1->Ptabdesc()->Pmdid()->FEquals(popScan2->Ptabdesc()->Pmdid()) &&
-				pop1->PdrgpcrOutput()->FEqual(popScan2->PdrgpcrOutput()) &&
+				pop1->PdrgpcrOutput()->Equals(popScan2->PdrgpcrOutput()) &&
 				((!pop1->FPartial() && !popScan2->FPartial()) ||
 				 (pop1->Ppartcnstr() == popScan2->Ppartcnstr()));
 	}
@@ -1524,7 +1524,7 @@ namespace gpopt
 
 		return pop1->UlOriginOpId() == popScan2->UlOriginOpId() &&
 			pop1->Ptabdesc()->Pmdid()->FEquals(popScan2->Ptabdesc()->Pmdid()) &&
-			pop1->PdrgpcrOutput()->FEqual(popScan2->PdrgpcrOutput());
+			pop1->PdrgpcrOutput()->Equals(popScan2->PdrgpcrOutput());
 	}
 } // namespace gpopt
 

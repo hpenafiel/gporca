@@ -51,8 +51,8 @@ namespace gpos
                 GPOS_ASSERT(NULL != pdrgSubsequence);
                 GPOS_ASSERT(NULL != pdrg);
 
-                ULONG ulSubsequence = pdrgSubsequence->UlLength();
-                ULONG ulSequence = pdrg->UlLength();
+                ULONG ulSubsequence = pdrgSubsequence->Size();
+                ULONG ulSequence = pdrg->Size();
                 DrgPul *pdrgpulIndexes = GPOS_NEW(pmp) DrgPul(pmp);
 
                 for (ULONG ul1 = 0; ul1 < ulSubsequence; ul1++)

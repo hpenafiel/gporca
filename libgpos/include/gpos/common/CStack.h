@@ -57,10 +57,10 @@ namespace gpos
 			void Push(T *pt)
             {
                 GPOS_ASSERT(m_dpa != NULL && "Dynamic array missing");
-                GPOS_ASSERT(m_ulSize <= m_dpa->UlLength() && "The top of stack cannot be beyond the underlying array");
+                GPOS_ASSERT(m_ulSize <= m_dpa->Size() && "The top of stack cannot be beyond the underlying array");
 
                 // if the stack was Popped before, reuse that space by replacing the element
-                if (m_ulSize < m_dpa->UlLength())
+                if (m_ulSize < m_dpa->Size())
                 {
                     m_dpa->Replace(m_ulSize, pt);
                 }

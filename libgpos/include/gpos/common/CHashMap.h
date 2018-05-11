@@ -177,7 +177,7 @@ namespace gpos
                 DrgHashChain **ppdrgchain = PpdrgChain(pk);
                 if (NULL != *ppdrgchain)
                 {
-                    phme = (*ppdrgchain)->PtLookup(&hme);
+                    phme = (*ppdrgchain)->Find(&hme);
                     GPOS_ASSERT_IMP(NULL != phme, *phme == hme);
                 }
 

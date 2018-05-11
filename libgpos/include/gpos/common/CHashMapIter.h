@@ -84,7 +84,7 @@ namespace gpos
 			// advance iterator to next element
 			BOOL FAdvance()
             {
-                if (m_ulKey < m_ptm->m_pdrgKeys->UlLength())
+                if (m_ulKey < m_ptm->m_pdrgKeys->Size())
                 {
                     m_ulKey++;
                     return true;

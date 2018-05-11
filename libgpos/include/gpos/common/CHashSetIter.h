@@ -72,7 +72,7 @@ namespace gpos
 			// advance iterator to next element
 			BOOL FAdvance()
             {
-                if (m_ulElement < m_pts->m_pdrgElements->UlLength())
+                if (m_ulElement < m_pts->m_pdrgElements->Size())
                 {
                     m_ulElement++;
                     return true;
