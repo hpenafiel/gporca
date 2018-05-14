@@ -94,22 +94,22 @@ CBitSet::CBitSetLink *
 CBitSet::FindLinkByOffset
 	(
 	ULONG offset,
-	CBitSetLink *pbsl
+	CBitSetLink *bsl
 	)
 	const
 {
 	CBitSetLink *found = NULL;
-	CBitSetLink *cursor = pbsl;
+	CBitSetLink *cursor = bsl;
 	
-	if (NULL == pbsl)
+	if (NULL == bsl)
 	{
 		// if no cursor provided start with first element
 		cursor = m_bsllist.First();
 	}
 	else
 	{
-		GPOS_ASSERT(pbsl->GetOffset() <= offset && "invalid start cursor");
-		found = pbsl;
+		GPOS_ASSERT(bsl->GetOffset() <= offset && "invalid start cursor");
+		found = bsl;
 	}
 	
 	GPOS_ASSERT_IMP(NULL != cursor, GPOS_OK == m_bsllist.Find(cursor) && "cursor not in list");
@@ -143,15 +143,15 @@ void
 CBitSet::RecomputeSize()
 {
 	m_size = 0;
-	CBitSetLink *pbsl = NULL;
+	CBitSetLink *bsl = NULL;
 	
 	for (
-		pbsl = m_bsllist.First();
-		pbsl != NULL;
-		pbsl = m_bsllist.Next(pbsl)
+		bsl = m_bsllist.First();
+		bsl != NULL;
+		bsl = m_bsllist.Next(bsl)
 		)
 	{
-		m_size += pbsl->GetVec()->CountSetBits();
+		m_size += bsl->GetVec()->CountSetBits();
 	}	
 }
 
@@ -167,15 +167,15 @@ CBitSet::RecomputeSize()
 void
 CBitSet::Clear()
 {
-	CBitSetLink *pbsl = NULL;
+	CBitSetLink *bsl = NULL;
 	
-	while(NULL != (pbsl = m_bsllist.First()))
+	while(NULL != (bsl = m_bsllist.First()))
 	{		
-		CBitSetLink *pbslRemove = pbsl;
-		pbsl = m_bsllist.Next(pbsl);
+		CBitSetLink *bsl_to_remove = bsl;
+		bsl = m_bsllist.Next(bsl);
 		
-		m_bsllist.Remove(pbslRemove);
-		GPOS_DELETE(pbslRemove);
+		m_bsllist.Remove(bsl_to_remove);
+		GPOS_DELETE(bsl_to_remove);
 	}
 	
 	RecomputeSize();
@@ -278,10 +278,10 @@ CBitSet::Get
 {
 	ULONG offset = ComputeOffset(pos);
 	
-	CBitSetLink *pbsl = FindLinkByOffset(offset);
-	if (NULL != pbsl && pbsl->GetOffset() == offset)
+	CBitSetLink *bsl = FindLinkByOffset(offset);
+	if (NULL != bsl && bsl->GetOffset() == offset)
 	{
-		return pbsl->GetVec()->Get(pos - offset);
+		return bsl->GetVec()->Get(pos - offset);
 	}
 	
 	return false;
@@ -304,32 +304,32 @@ CBitSet::ExchangeSet
 {
 	ULONG offset = ComputeOffset(pos);
 	
-	CBitSetLink *pbsl = FindLinkByOffset(offset);
-	if (NULL == pbsl || pbsl->GetOffset() != offset)
+	CBitSetLink *bsl = FindLinkByOffset(offset);
+	if (NULL == bsl || bsl->GetOffset() != offset)
 	{
 		CBitSetLink *pbsl_new = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, offset, m_vector_size);
-		if (NULL == pbsl)
+		if (NULL == bsl)
 		{
 			m_bsllist.Prepend(pbsl_new);
 		}
 		else
 		{
 			// insert after found link
-			m_bsllist.Append(pbsl_new, pbsl);
+			m_bsllist.Append(pbsl_new, bsl);
 		}
 		
-		pbsl = pbsl_new;
+		bsl = pbsl_new;
 	}
 	
-	GPOS_ASSERT(pbsl->GetOffset() == offset);
+	GPOS_ASSERT(bsl->GetOffset() == offset);
 	
-	BOOL fBit = pbsl->GetVec()->ExchangeSet(pos - offset);
-	if (!fBit)
+	BOOL bit = bsl->GetVec()->ExchangeSet(pos - offset);
+	if (!bit)
 	{
 		m_size++;
 	}
 	
-	return fBit;
+	return bit;
 }
 
 
@@ -349,24 +349,24 @@ CBitSet::ExchangeClear
 {
 	ULONG offset = ComputeOffset(pos);
 	
-	CBitSetLink *pbsl = FindLinkByOffset(offset);
-	if (NULL != pbsl && pbsl->GetOffset() == offset)
+	CBitSetLink *bsl = FindLinkByOffset(offset);
+	if (NULL != bsl && bsl->GetOffset() == offset)
 	{
-		BOOL fBit = pbsl->GetVec()->ExchangeClear(pos - offset);
+		BOOL bit = bsl->GetVec()->ExchangeClear(pos - offset);
 		
 		// remove empty link
-		if (pbsl->GetVec()->IsEmpty())
+		if (bsl->GetVec()->IsEmpty())
 		{
-			m_bsllist.Remove(pbsl);
-			GPOS_DELETE(pbsl);
+			m_bsllist.Remove(bsl);
+			GPOS_DELETE(bsl);
 		}
 		
-		if (fBit)
+		if (bit)
 		{
 			m_size--;
 		}
 		
-		return fBit;
+		return bit;
 	}
 	
 	return false;
@@ -393,8 +393,8 @@ CBitSet::Union
 	const CBitSet *pbsOther
 	)
 {
-	CBitSetLink *pbsl = NULL;
-	CBitSetLink *pbslOther = NULL;
+	CBitSetLink *bsl = NULL;
+	CBitSetLink *bsl_other = NULL;
 
 	// dynamic array of CBitSetLink
 	typedef CDynamicPtrArray <CBitSetLink, CleanupNULL> DrgBSL;
@@ -404,17 +404,17 @@ CBitSet::Union
 	
 	// iterate through other's links and copy missing links to array
 	for (
-		pbslOther = pbsOther->m_bsllist.First();
-		pbslOther != NULL;
-		pbslOther = pbsOther->m_bsllist.Next(pbslOther)
+		bsl_other = pbsOther->m_bsllist.First();
+		bsl_other != NULL;
+		bsl_other = pbsOther->m_bsllist.Next(bsl_other)
 		)
 	{
-		pbsl = FindLinkByOffset(pbslOther->GetOffset(), pbsl);
-		if (NULL == pbsl || pbsl->GetOffset() != pbslOther->GetOffset())
+		bsl = FindLinkByOffset(bsl_other->GetOffset(), bsl);
+		if (NULL == bsl || bsl->GetOffset() != bsl_other->GetOffset())
 		{
 			// need to copy this link
 			CAutoP<CBitSetLink> a_pbsl;
-			a_pbsl = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, *pbslOther);
+			a_pbsl = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, *bsl_other);
 			a_drgpbsl->Append(a_pbsl.Pt());
 			
 			a_pbsl.PtReset();
@@ -422,35 +422,35 @@ CBitSet::Union
 	}
 
 	// insert all new links
-	pbsl = NULL;
+	bsl = NULL;
 	for (ULONG i = 0; i < a_drgpbsl->Size(); i++)
 	{
 		CBitSetLink *pbslInsert = (*a_drgpbsl)[i];
-		pbsl = FindLinkByOffset(pbslInsert->GetOffset(), pbsl);
+		bsl = FindLinkByOffset(pbslInsert->GetOffset(), bsl);
 		
-		GPOS_ASSERT_IMP(NULL != pbsl, pbsl->GetOffset() < pbslInsert->GetOffset());
-		if (NULL == pbsl)
+		GPOS_ASSERT_IMP(NULL != bsl, bsl->GetOffset() < pbslInsert->GetOffset());
+		if (NULL == bsl)
 		{
 			m_bsllist.Prepend(pbslInsert);
 		}
 		else
 		{
-			m_bsllist.Append(pbslInsert, pbsl);
+			m_bsllist.Append(pbslInsert, bsl);
 		}
 	}
 	
 	// iterate through all links and union them up
-	pbslOther = NULL;
-	pbsl = m_bsllist.First();
-	while (NULL != pbsl)
+	bsl_other = NULL;
+	bsl = m_bsllist.First();
+	while (NULL != bsl)
 	{
-		pbslOther = pbsOther->FindLinkByOffset(pbsl->GetOffset(), pbslOther);
-		if (NULL != pbslOther && pbslOther->GetOffset() == pbsl->GetOffset())
+		bsl_other = pbsOther->FindLinkByOffset(bsl->GetOffset(), bsl_other);
+		if (NULL != bsl_other && bsl_other->GetOffset() == bsl->GetOffset())
 		{
-			pbsl->GetVec()->Or(pbslOther->GetVec());
+			bsl->GetVec()->Or(bsl_other->GetVec());
 		}
 		
-		pbsl = m_bsllist.Next(pbsl);
+		bsl = m_bsllist.Next(bsl);
 	}
 	
 	RecomputeSize();
@@ -471,26 +471,26 @@ CBitSet::Intersection
 	const CBitSet *pbsOther
 	)
 {
-	CBitSetLink *pbslOther = NULL;
-	CBitSetLink *pbsl = m_bsllist.First();
+	CBitSetLink *bsl_other = NULL;
+	CBitSetLink *bsl = m_bsllist.First();
 	
-	while (NULL != pbsl)
+	while (NULL != bsl)
 	{
-		CBitSetLink *pbslRemove = NULL;
+		CBitSetLink *bsl_to_remove = NULL;
 
-		pbslOther = pbsOther->FindLinkByOffset(pbsl->GetOffset(), pbslOther);
-		if (NULL != pbslOther && pbslOther->GetOffset() == pbsl->GetOffset())
+		bsl_other = pbsOther->FindLinkByOffset(bsl->GetOffset(), bsl_other);
+		if (NULL != bsl_other && bsl_other->GetOffset() == bsl->GetOffset())
 		{
-			pbsl->GetVec()->And(pbslOther->GetVec());
-			pbsl = m_bsllist.Next(pbsl);
+			bsl->GetVec()->And(bsl_other->GetVec());
+			bsl = m_bsllist.Next(bsl);
 		}
 		else
 		{
-			pbslRemove = pbsl;
-			pbsl = m_bsllist.Next(pbsl);
+			bsl_to_remove = bsl;
+			bsl = m_bsllist.Next(bsl);
 			
-			m_bsllist.Remove(pbslRemove);
-			GPOS_DELETE(pbslRemove);
+			m_bsllist.Remove(bsl_to_remove);
+			GPOS_DELETE(bsl_to_remove);
 		}
 	}
 	
@@ -537,31 +537,31 @@ CBitSet::Difference
 BOOL
 CBitSet::ContainsAll
 	(
-	const CBitSet *pbsOther
+	const CBitSet *bs
 	)
 	const
 {
 	// skip iterating if we can already tell by the sizes
-	if (Size() < pbsOther->Size())
+	if (Size() < bs->Size())
 	{
 		return false;
 	}
 
-	CBitSetLink *pbsl = NULL;
-	CBitSetLink *pbslOther = NULL;
+	CBitSetLink *bsl = NULL;
+	CBitSetLink *bsl_other = NULL;
 
 	// iterate through other's links and check for subsets
 	for (
-		pbslOther = pbsOther->m_bsllist.First();
-		pbslOther != NULL;
-		pbslOther = pbsOther->m_bsllist.Next(pbslOther)
+		bsl_other = bs->m_bsllist.First();
+		bsl_other != NULL;
+		bsl_other = bs->m_bsllist.Next(bsl_other)
 		)
 	{
-		pbsl = FindLinkByOffset(pbslOther->GetOffset(), pbsl);
+		bsl = FindLinkByOffset(bsl_other->GetOffset(), bsl);
 		
-		if (NULL == pbsl ||
-			pbsl->GetOffset() != pbslOther->GetOffset() ||
-			!pbsl->GetVec()->ContainsAll(pbslOther->GetVec()))
+		if (NULL == bsl ||
+			bsl->GetOffset() != bsl_other->GetOffset() ||
+			!bsl->GetVec()->ContainsAll(bsl_other->GetVec()))
 		{
 			return false;
 		}
@@ -582,40 +582,40 @@ CBitSet::ContainsAll
 BOOL
 CBitSet::Equals
 	(
-	const CBitSet *pbsOther
+	const CBitSet *bs
 	)
 	const
 {
 	// check pointer equality first
-	if (this == pbsOther)
+	if (this == bs)
 	{
 		return true;
 	}
 
 	// skip iterating if we can already tell by the sizes
-	if (Size() != pbsOther->Size())
+	if (Size() != bs->Size())
 	{
 		return false;
 	}
 
-	CBitSetLink *pbsl = m_bsllist.First();
-	CBitSetLink *pbslOther = pbsOther->m_bsllist.First();
+	CBitSetLink *bsl = m_bsllist.First();
+	CBitSetLink *bsl_other = bs->m_bsllist.First();
 
-	while(NULL != pbsl)
+	while(NULL != bsl)
 	{
-		if (NULL == pbslOther || 
-			pbsl->GetOffset() != pbslOther->GetOffset() ||
-			!pbsl->GetVec()->Equals(pbslOther->GetVec()))
+		if (NULL == bsl_other || 
+			bsl->GetOffset() != bsl_other->GetOffset() ||
+			!bsl->GetVec()->Equals(bsl_other->GetVec()))
 		{
 			return false;
 		}
 				
-		pbsl = m_bsllist.Next(pbsl);
-		pbslOther = pbsOther->m_bsllist.Next(pbslOther);
+		bsl = m_bsllist.Next(bsl);
+		bsl_other = bs->m_bsllist.Next(bsl_other);
 	}
 	
-	// same length implies pbslOther must have reached end as well
-	return pbslOther == NULL;
+	// same length implies bsl_other must have reached end as well
+	return bsl_other == NULL;
 }
 
 
@@ -631,25 +631,25 @@ CBitSet::Equals
 BOOL
 CBitSet::IsDisjoint
 	(
-	const CBitSet *pbsOther
+	const CBitSet *bs
 	)
 	const
 {
-	CBitSetLink *pbsl = NULL;
-	CBitSetLink *pbslOther = NULL;
+	CBitSetLink *bsl = NULL;
+	CBitSetLink *bsl_other = NULL;
 
 	// iterate through other's links an check if disjoint
 	for (
-		pbslOther = pbsOther->m_bsllist.First();
-		pbslOther != NULL;
-		pbslOther = pbsOther->m_bsllist.Next(pbslOther)
+		bsl_other = bs->m_bsllist.First();
+		bsl_other != NULL;
+		bsl_other = bs->m_bsllist.Next(bsl_other)
 		)
 	{
-		pbsl = FindLinkByOffset(pbslOther->GetOffset(), pbsl);
+		bsl = FindLinkByOffset(bsl_other->GetOffset(), bsl);
 		
-		if (NULL != pbsl && 
-			pbsl->GetOffset() == pbslOther->GetOffset() &&
-			!pbsl->GetVec()->IsDisjoint(pbslOther->GetVec()))
+		if (NULL != bsl && 
+			bsl->GetOffset() == bsl_other->GetOffset() &&
+			!bsl->GetVec()->IsDisjoint(bsl_other->GetVec()))
 		{
 			return false;
 		}
@@ -672,11 +672,11 @@ CBitSet::HashValue() const
 {
 	ULONG ulHash = 0;
 
-	CBitSetLink *pbsl = m_bsllist.First();
-	while (NULL != pbsl)
+	CBitSetLink *bsl = m_bsllist.First();
+	while (NULL != bsl)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, pbsl->GetVec()->HashValue());
-		pbsl = m_bsllist.Next(pbsl);
+		ulHash = gpos::UlCombineHashes(ulHash, bsl->GetVec()->HashValue());
+		bsl = m_bsllist.Next(bsl);
 	}
 
 	return ulHash;
