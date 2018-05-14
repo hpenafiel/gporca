@@ -341,10 +341,10 @@ CLogicalProject::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 
-	(void) pxfs->FExchangeSet(CXform::ExfSimplifyProjectWithSubquery);
-	(void) pxfs->FExchangeSet(CXform::ExfProject2Apply);
-	(void) pxfs->FExchangeSet(CXform::ExfProject2ComputeScalar);
- 	(void) pxfs->FExchangeSet(CXform::ExfCollapseProject);
+	(void) pxfs->ExchangeSet(CXform::ExfSimplifyProjectWithSubquery);
+	(void) pxfs->ExchangeSet(CXform::ExfProject2Apply);
+	(void) pxfs->ExchangeSet(CXform::ExfProject2ComputeScalar);
+ 	(void) pxfs->ExchangeSet(CXform::ExfCollapseProject);
 
 	return pxfs;
 }

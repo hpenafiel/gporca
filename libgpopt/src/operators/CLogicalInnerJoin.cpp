@@ -78,25 +78,25 @@ CLogicalInnerJoin::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 	
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoin2NLJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoin2HashJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfSubqJoin2Apply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoin2IndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoin2DynamicIndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoin2PartialDynamicIndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoin2BitmapIndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinWithInnerSelect2IndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinWithInnerSelect2DynamicIndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinWithInnerSelect2PartialDynamicIndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoin2DynamicBitmapIndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinWithInnerSelect2BitmapIndexGetApply);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinWithInnerSelect2DynamicBitmapIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoin2NLJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoin2HashJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfSubqJoin2Apply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoin2IndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoin2DynamicIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoin2PartialDynamicIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoin2BitmapIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinWithInnerSelect2IndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinWithInnerSelect2DynamicIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinWithInnerSelect2PartialDynamicIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoin2DynamicBitmapIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinWithInnerSelect2BitmapIndexGetApply);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinWithInnerSelect2DynamicBitmapIndexGetApply);
 
-	(void) pxfs->FExchangeSet(CXform::ExfJoinCommutativity);
-	(void) pxfs->FExchangeSet(CXform::ExfJoinAssociativity);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinSemiJoinSwap);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinAntiSemiJoinSwap);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerJoinAntiSemiJoinNotInSwap);
+	(void) pxfs->ExchangeSet(CXform::ExfJoinCommutativity);
+	(void) pxfs->ExchangeSet(CXform::ExfJoinAssociativity);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinSemiJoinSwap);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinAntiSemiJoinSwap);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerJoinAntiSemiJoinNotInSwap);
 	
 	return pxfs;
 }

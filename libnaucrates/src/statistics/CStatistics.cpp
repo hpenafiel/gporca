@@ -472,7 +472,7 @@ CStatistics::AddNotExcludedHistograms
 	while (hmiterulhist.FAdvance())
 	{
 		ULONG ulColId = *(hmiterulhist.Pk());
-		if (!pbsExcludedColIds->FBit(ulColId))
+		if (!pbsExcludedColIds->Get(ulColId))
 		{
 			const CHistogram *phist = hmiterulhist.Pt();
 			CStatisticsUtils::AddHistogram(pmp, ulColId, phist, phmulhist);

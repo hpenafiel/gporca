@@ -287,7 +287,7 @@ CTestUtils::PtabdescCreate
 	
 	// create a keyset containing the first column
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, ulCols);
-	pbs->FExchangeSet(0);
+	pbs->ExchangeSet(0);
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG

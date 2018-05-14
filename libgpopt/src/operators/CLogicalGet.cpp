@@ -327,7 +327,7 @@ CLogicalGet::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 	
-	(void) pxfs->FExchangeSet(CXform::ExfGet2TableScan);
+	(void) pxfs->ExchangeSet(CXform::ExfGet2TableScan);
 	
 	return pxfs;
 }
@@ -405,7 +405,7 @@ CLogicalGet::OsPrint
 			ULONG ulPrintedKeys = 0;
 			for (ULONG ulKey = 0; ulKey < ulColumns; ulKey++)
 			{
-				if (pbs->FBit(ulKey))
+				if (pbs->Get(ulKey))
 				{
 					if (0 < ulPrintedKeys)
 					{

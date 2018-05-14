@@ -105,8 +105,8 @@ CLogicalLeftOuterApply::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 
-	(void) pxfs->FExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoinNoCorrelations);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoinNoCorrelations);
 
 	return pxfs;
 }

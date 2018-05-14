@@ -78,8 +78,8 @@ CLogicalLeftAntiSemiApply::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 
-	(void) pxfs->FExchangeSet(CXform::ExfLeftAntiSemiApply2LeftAntiSemiJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftAntiSemiApply2LeftAntiSemiJoinNoCorrelations);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiApply2LeftAntiSemiJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiApply2LeftAntiSemiJoinNoCorrelations);
 
 	return pxfs;
 }

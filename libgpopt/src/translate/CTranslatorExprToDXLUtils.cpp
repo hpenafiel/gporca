@@ -2521,7 +2521,7 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 	if (pdxln->Pdxlop()->Edxlop() == EdxlopScalarIdent)
 	{
 		const CDXLColRef *pdxlcr = CDXLScalarIdent::PdxlopConvert(pdxln->Pdxlop())->Pdxlcr();
-		pbs->FExchangeSet(pdxlcr->UlID());
+		pbs->ExchangeSet(pdxlcr->UlID());
 	}
 
 	ULONG ulArity = pdxln->UlArity();

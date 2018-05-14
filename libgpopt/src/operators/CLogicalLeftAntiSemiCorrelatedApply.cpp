@@ -31,7 +31,7 @@ CLogicalLeftAntiSemiCorrelatedApply::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementLeftAntiSemiCorrelatedApply);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementLeftAntiSemiCorrelatedApply);
 
 	return pxfs;
 }

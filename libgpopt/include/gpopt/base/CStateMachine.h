@@ -126,7 +126,7 @@ namespace gpopt
             {
                 for(ULONG ul = 0; ul < tenumstateSentinel; ul++)
                 {
-                    (void) peset->FExchangeSet((TEnumState) ul);
+                    (void) peset->ExchangeSet((TEnumState) ul);
                 }
             }
 			
@@ -136,7 +136,7 @@ namespace gpopt
                 TEnumEvent tenumevent = m_rgrgtenumeventTransitions[tenumstateOld][tenumstateNew];
                 if (tenumeventSentinel != tenumevent)
                 {
-                    (void) peset->FExchangeSet(tenumevent);
+                    (void) peset->ExchangeSet(tenumevent);
                 }
             }
 
@@ -230,7 +230,7 @@ namespace gpopt
                 if (tenumstateSource != tenumstateSink)
                 {
                     // reachable -- remove from set of unreachables
-                    (void) eset.FExchangeClear(tenumstateSink);
+                    (void) eset.ExchangeClear(tenumstateSink);
                 }
             }
 #endif // GPOS_DEBUG

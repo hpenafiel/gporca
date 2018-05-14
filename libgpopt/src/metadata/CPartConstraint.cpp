@@ -97,7 +97,7 @@ CPartConstraint::CPartConstraint
 	m_pbsDefaultParts = GPOS_NEW(pmp) CBitSet(pmp);
 	if (fDefaultPartition)
 	{
-		m_pbsDefaultParts->FExchangeSet(0 /*ulBit*/);
+		m_pbsDefaultParts->ExchangeSet(0 /*ulBit*/);
 	}
 
 	pcnstr->AddRef();
@@ -492,7 +492,7 @@ CPartConstraint::PpartcnstrRemaining
 
 	if (FDefaultPartition(0 /*ulLevel*/) && !ppartcnstr->FDefaultPartition(0 /*ulLevel*/))
 	{
-		pbsDefaultParts->FExchangeSet(0 /*ulBit*/);
+		pbsDefaultParts->ExchangeSet(0 /*ulBit*/);
 	}
 
 	// copy the remaining constraints and default partition flags
@@ -511,7 +511,7 @@ CPartConstraint::PpartcnstrRemaining
 
 		if (FDefaultPartition(ul))
 		{
-			pbsDefaultParts->FExchangeSet(ul);
+			pbsDefaultParts->ExchangeSet(ul);
 		}
 	}
 
@@ -741,7 +741,7 @@ CPartConstraint::PpartcnstrDisjunction
 
 		if (ppartcnstrFst->FDefaultPartition(ul))
 		{
-			pbsCombined->FExchangeSet(ul);
+			pbsCombined->ExchangeSet(ul);
 		}
 	}
 
@@ -766,7 +766,7 @@ CPartConstraint::PpartcnstrDisjunction
 
 	if (ppartcnstrFst->FDefaultPartition(ulLevels - 1) || ppartcnstrSnd->FDefaultPartition(ulLevels - 1))
 	{
-		pbsCombined->FExchangeSet(ulLevels - 1);
+		pbsCombined->ExchangeSet(ulLevels - 1);
 	}
 
 	DrgDrgPcr *pdrgpdrgpcr = ppartcnstrFst->Pdrgpdrgpcr();

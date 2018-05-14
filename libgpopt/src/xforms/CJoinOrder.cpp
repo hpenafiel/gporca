@@ -236,7 +236,7 @@ CJoinOrder::CJoinOrder
 		m_rgpcomp[ul] = GPOS_NEW(pmp) SComponent(pmp, pexprComp);
 		
 		// component always covers itself
-		(void) m_rgpcomp[ul]->m_pbs->FExchangeSet(ul);
+		(void) m_rgpcomp[ul]->m_pbs->ExchangeSet(ul);
 	}
 
 	m_ulEdges = pdrgpexprConj->Size();
@@ -303,7 +303,7 @@ CJoinOrder::ComputeEdgeCover()
 
 			if (!pcrsUsed->FDisjoint(pcrsOutput))
 			{
-				(void) m_rgpedge[ulEdge]->m_pbs->FExchangeSet(ulComp);
+				(void) m_rgpedge[ulEdge]->m_pbs->ExchangeSet(ulComp);
 			}
 		}
 	}
@@ -428,7 +428,7 @@ CJoinOrder::AddEdge
 	while (bsiter.FAdvance() && !fCovered)
 	{
 		ULONG ulComp = bsiter.UlBit();
-		GPOS_ASSERT(!pcomp->m_pbs->FBit(ulComp));
+		GPOS_ASSERT(!pcomp->m_pbs->Get(ulComp));
 
 		SComponent *pcompOther = m_rgpcomp[ulComp];
 

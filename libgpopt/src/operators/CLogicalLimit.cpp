@@ -254,8 +254,8 @@ CLogicalLimit::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 	
-	(void) pxfs->FExchangeSet(CXform::ExfImplementLimit);
-	(void) pxfs->FExchangeSet(CXform::ExfSplitLimit);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementLimit);
+	(void) pxfs->ExchangeSet(CXform::ExfSplitLimit);
 	
 	return pxfs;
 }

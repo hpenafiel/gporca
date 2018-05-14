@@ -55,9 +55,9 @@ CLogicalLeftSemiApply::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 
-	(void) pxfs->FExchangeSet(CXform::ExfLeftSemiApply2LeftSemiJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftSemiApplyWithExternalCorrs2InnerJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftSemiApply2LeftSemiJoinNoCorrelations);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApply2LeftSemiJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApplyWithExternalCorrs2InnerJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApply2LeftSemiJoinNoCorrelations);
 
 	return pxfs;
 }

@@ -99,11 +99,11 @@ CTaskContext::FTrace
 {
 	if(fVal)
 	{
-		return m_pbs->FExchangeSet(ulTrace);
+		return m_pbs->ExchangeSet(ulTrace);
 	}
 	else
 	{
-		return m_pbs->FExchangeClear(ulTrace);
+		return m_pbs->ExchangeClear(ulTrace);
 	}
 }
 

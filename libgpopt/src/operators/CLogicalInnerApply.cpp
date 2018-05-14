@@ -107,9 +107,9 @@ CLogicalInnerApply::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 	
-	(void) pxfs->FExchangeSet(CXform::ExfInnerApply2InnerJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerApply2InnerJoinNoCorrelations);
-	(void) pxfs->FExchangeSet(CXform::ExfInnerApplyWithOuterKey2InnerJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerApply2InnerJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerApply2InnerJoinNoCorrelations);
+	(void) pxfs->ExchangeSet(CXform::ExfInnerApplyWithOuterKey2InnerJoin);
 	
 	return pxfs;
 }

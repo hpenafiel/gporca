@@ -74,10 +74,10 @@ CLogicalNAryJoin::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 	
-	(void) pxfs->FExchangeSet(CXform::ExfSubqNAryJoin2Apply);
-	(void) pxfs->FExchangeSet(CXform::ExfExpandNAryJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfExpandNAryJoinMinCard);
-	(void) pxfs->FExchangeSet(CXform::ExfExpandNAryJoinDP);
+	(void) pxfs->ExchangeSet(CXform::ExfSubqNAryJoin2Apply);
+	(void) pxfs->ExchangeSet(CXform::ExfExpandNAryJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfExpandNAryJoinMinCard);
+	(void) pxfs->ExchangeSet(CXform::ExfExpandNAryJoinDP);
 	
 	return pxfs;
 }

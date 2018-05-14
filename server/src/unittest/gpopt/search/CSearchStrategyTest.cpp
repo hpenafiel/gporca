@@ -236,9 +236,9 @@ CSearchStrategyTest::PdrgpssRandom
 	CXformSet *pxfsSnd = GPOS_NEW(pmp) CXformSet(pmp);
 
 	// first xforms set contains essential rules to produce simple equality join plan
-	(void) pxfsFst->FExchangeSet(CXform::ExfGet2TableScan);
-	(void) pxfsFst->FExchangeSet(CXform::ExfSelect2Filter);
-	(void) pxfsFst->FExchangeSet(CXform::ExfInnerJoin2HashJoin);
+	(void) pxfsFst->ExchangeSet(CXform::ExfGet2TableScan);
+	(void) pxfsFst->ExchangeSet(CXform::ExfSelect2Filter);
+	(void) pxfsFst->ExchangeSet(CXform::ExfInnerJoin2HashJoin);
 
 	// second xforms set contains all other rules
 	pxfsSnd->Union(CXformFactory::Pxff()->PxfsExploration());

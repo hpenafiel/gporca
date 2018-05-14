@@ -237,7 +237,7 @@ CLogicalDelete::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfDelete2DML);
+	(void) pxfs->ExchangeSet(CXform::ExfDelete2DML);
 	return pxfs;
 }
 

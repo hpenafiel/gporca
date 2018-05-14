@@ -834,7 +834,7 @@ CPhysical::PppsRequiredPushThruNAry
 		{
 			if (exprhdl.Pdprel(ulChildIdx)->Ppartinfo()->FContainsScanId(ulPartIndexId))
 			{
-				(void) pbsPartConsumer->FExchangeSet(ulChildIdx);
+				(void) pbsPartConsumer->ExchangeSet(ulChildIdx);
 			}
 		}
 
@@ -847,7 +847,7 @@ CPhysical::PppsRequiredPushThruNAry
 			// this is a part index id that comes from both sides of a sequence
 			// with a CTE producer on the outer side, so pretend that part index
 			// id is not defined the inner sides
-			pbsPartConsumer->FExchangeClear(1);
+			pbsPartConsumer->ExchangeClear(1);
 		}
 
 		if (!FCanPushPartReqToChild(pbsPartConsumer, ulChildIndex))
@@ -917,7 +917,7 @@ CPhysical::FCanPushPartReqToChild
 	}
 
 	// child where the part index is defined should be the same child being processed
-	return (pbsPartConsumer->FBit(ulChildIndex));
+	return (pbsPartConsumer->Get(ulChildIndex));
 }
 
 //---------------------------------------------------------------------------

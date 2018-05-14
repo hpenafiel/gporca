@@ -161,7 +161,7 @@ CLogicalIntersectAll::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfIntersectAll2LeftSemiJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfIntersectAll2LeftSemiJoin);
 
 	return pxfs;
 }

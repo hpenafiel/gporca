@@ -246,10 +246,10 @@ CLogicalGbAggDeduplicate::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfPushGbDedupBelowJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfSplitGbAggDedup);
-	(void) pxfs->FExchangeSet(CXform::ExfGbAggDedup2HashAggDedup);
-	(void) pxfs->FExchangeSet(CXform::ExfGbAggDedup2StreamAggDedup);
+	(void) pxfs->ExchangeSet(CXform::ExfPushGbDedupBelowJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfSplitGbAggDedup);
+	(void) pxfs->ExchangeSet(CXform::ExfGbAggDedup2HashAggDedup);
+	(void) pxfs->ExchangeSet(CXform::ExfGbAggDedup2StreamAggDedup);
 	return pxfs;
 }
 
@@ -283,7 +283,7 @@ CLogicalGbAggDeduplicate::PstatsDerive
 	for (ULONG ul = 0; ul < ulKeys; ul++)
 	{
 		CColRef *pcr = (*m_pdrgpcrKeys)[ul];
-		pbsKeys->FExchangeSet(pcr->UlId());
+		pbsKeys->ExchangeSet(pcr->UlId());
 	}
 
 	IStatistics *pstats = CLogicalGbAgg::PstatsDerive(pmp, pstatsChild, Pdrgpcr(), pdrgpulComputedCols, pbsKeys);

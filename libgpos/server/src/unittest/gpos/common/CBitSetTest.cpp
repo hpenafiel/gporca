@@ -65,14 +65,14 @@ CBitSetTest::EresUnittest_Basics()
 	for (ULONG i = 0; i < cInserts; i += 2)
 	{
 		// forces addition of new link
-		pbs->FExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * cSizeBits);
 	}
 	GPOS_ASSERT(cInserts / 2 == pbs->CElements());
 
 	for (ULONG i = 1; i < cInserts; i += 2)
 	{
 		// new link between existing links
-		pbs->FExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * cSizeBits);
 	}
 	GPOS_ASSERT(cInserts == pbs->CElements());
 
@@ -85,7 +85,7 @@ CBitSetTest::EresUnittest_Basics()
 
 	for (ULONG i = 0; i < cInserts; i++)
 	{
-		GPOS_ASSERT(pbsCopy->FBit(i * cSizeBits));
+		GPOS_ASSERT(pbsCopy->Get(i * cSizeBits));
 	}
 
 	CWStringDynamic str(pmp);
@@ -125,7 +125,7 @@ CBitSetTest::EresUnittest_Removal()
 	ULONG cInserts = 10;
 	for (ULONG i = 0; i < cInserts; i++)
 	{
-		pbs->FExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * cSizeBits);
 
 		GPOS_ASSERT(i + 1 == pbs->CElements());
 	}
@@ -133,7 +133,7 @@ CBitSetTest::EresUnittest_Removal()
 	for (ULONG i = 0; i < cInserts; i++)
 	{
 		// cleans up empty links
-		pbs->FExchangeClear(i * cSizeBits);
+		pbs->ExchangeClear(i * cSizeBits);
 
 		GPOS_ASSERT(cInserts - i - 1 == pbs->CElements());
 	}
@@ -169,13 +169,13 @@ CBitSetTest::EresUnittest_SetOps()
 	CBitSet *pbs1 = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
 	for (ULONG i = 0; i < cInserts; i += 2)
 	{
-		pbs1->FExchangeSet(i * cSizeBits);
+		pbs1->ExchangeSet(i * cSizeBits);
 	}
 
 	CBitSet *pbs2 = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
 	for (ULONG i = 1; i < cInserts; i += 2)
 	{
-		pbs2->FExchangeSet(i * cSizeBits);
+		pbs2->ExchangeSet(i * cSizeBits);
 	}
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
 
@@ -230,7 +230,7 @@ CBitSetTest::EresUnittest_Performance()
 	CBitSet *pbsBase = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
 	for (ULONG i = 0; i < cSizeBits; i++)
 		{
-			(void) pbsBase->FExchangeSet(i);
+			(void) pbsBase->ExchangeSet(i);
 		}
 
 	CBitSet *pbsTest = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
@@ -239,7 +239,7 @@ CBitSetTest::EresUnittest_Performance()
 		ULONG cRandomBits = 16;
 		for (ULONG i = 0; i < cRandomBits; i += ((cSizeBits - 1) / cRandomBits))
 		{
-			(void) pbsTest->FExchangeSet(i);
+			(void) pbsTest->ExchangeSet(i);
 		}
 			
 		pbsTest->Intersection(pbsBase);		

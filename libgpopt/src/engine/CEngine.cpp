@@ -369,7 +369,7 @@ CEngine::InsertXformResult
 
 	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics) && 0 < pxfres->Pdrgpexpr()->Size())
 	{
-		(void) m_pxfs->FExchangeSet(exfidOrigin);
+		(void) m_pxfs->ExchangeSet(exfidOrigin);
 		(void) UlpExchangeAdd(&(*m_pdrgpulpXformCalls)[m_ulCurrSearchStage][exfidOrigin], 1);
 
 		{

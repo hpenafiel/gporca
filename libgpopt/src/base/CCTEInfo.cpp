@@ -692,10 +692,10 @@ void CCTEInfo::FindConsumersInParent
 	{
 		const SConsumerCounter *pconsumercounter = hmulci.Pt();
 		ULONG ulConsumerId = pconsumercounter->UlCTEId();
-		if (pbsUnusedConsumers->FBit(ulConsumerId))
+		if (pbsUnusedConsumers->Get(ulConsumerId))
 		{
 			pstack->Push(GPOS_NEW(m_pmp) ULONG(ulConsumerId));
-			pbsUnusedConsumers->FExchangeClear(ulConsumerId);
+			pbsUnusedConsumers->ExchangeClear(ulConsumerId);
 		}
 	}
 }
@@ -718,7 +718,7 @@ CCTEInfo::MarkUnusedCTEs()
 	while (hmulei.FAdvance())
 	{
 		const CCTEInfoEntry *pcteinfoentry = hmulei.Pt();
-		pbsUnusedConsumers->FExchangeSet(pcteinfoentry->UlCTEId());
+		pbsUnusedConsumers->ExchangeSet(pcteinfoentry->UlCTEId());
 	}
 
 	// start with the main query and find out which CTEs are used there
@@ -739,7 +739,7 @@ CCTEInfo::MarkUnusedCTEs()
 	while (hmulei2.FAdvance())
 	{
 		CCTEInfoEntry *pcteinfoentry = const_cast<CCTEInfoEntry *>(hmulei2.Pt());
-		if (pbsUnusedConsumers->FBit(pcteinfoentry->UlCTEId()))
+		if (pbsUnusedConsumers->Get(pcteinfoentry->UlCTEId()))
 		{
 			pcteinfoentry->MarkUnused();
 		}

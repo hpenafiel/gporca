@@ -141,7 +141,7 @@ CLogicalAssert::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementAssert);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementAssert);
 	return pxfs;
 }
 

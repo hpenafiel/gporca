@@ -159,7 +159,7 @@ CTranslatorDXLToExprUtils::AddKeySets
 			ULONG *pulRemappedKey = phmululColMapping->PtLookup(&ulOriginalKey);
 			GPOS_ASSERT(NULL != pulRemappedKey);
 			
-			pbs->FExchangeSet(*pulRemappedKey);
+			pbs->ExchangeSet(*pulRemappedKey);
 		}
 
 		if (!ptabdesc->FAddKeySet(pbs))

@@ -72,7 +72,7 @@ CLogicalSequence::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementSequence);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementSequence);
 	return pxfs;
 }
 

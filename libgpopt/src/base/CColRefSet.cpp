@@ -104,7 +104,7 @@ CColRefSet::FMember
 	)
 	const
 {
-	return CBitSet::FBit(pcr->UlId());
+	return CBitSet::Get(pcr->UlId());
 }
 
 
@@ -158,7 +158,7 @@ CColRefSet::Include
 	const CColRef *pcr
 	)
 {
-	CBitSet::FExchangeSet(pcr->UlId());
+	CBitSet::ExchangeSet(pcr->UlId());
 }
 
 
@@ -220,7 +220,7 @@ CColRefSet::Exclude
 	const CColRef *pcr
 	)
 {
-	CBitSet::FExchangeClear(pcr->UlId());
+	CBitSet::ExchangeClear(pcr->UlId());
 }
 
 

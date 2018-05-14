@@ -31,9 +31,9 @@ CLogicalLeftSemiApplyIn::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftSemiApplyInWithExternalCorrs2InnerJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoinNoCorrelations);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApplyInWithExternalCorrs2InnerJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoinNoCorrelations);
 
 	return pxfs;
 }

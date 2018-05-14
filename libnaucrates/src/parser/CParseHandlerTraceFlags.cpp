@@ -100,7 +100,7 @@ CParseHandlerTraceFlags::StartElement
 	for (ULONG ul = 0; ul < pdrgpul->Size(); ul++)
 	{
 		ULONG *pul = (*pdrgpul)[ul];
-		m_pbs->FExchangeSet(*pul);
+		m_pbs->ExchangeSet(*pul);
 	}
 	
 	pdrgpul->Release();

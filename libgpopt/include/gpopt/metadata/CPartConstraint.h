@@ -125,7 +125,7 @@ namespace gpopt
 			// is default partition included on the given level
 			BOOL FDefaultPartition(ULONG ulLevel) const
 			{
-				return m_pbsDefaultParts->FBit(ulLevel);
+				return m_pbsDefaultParts->Get(ulLevel);
 			}
 
 			// partition keys

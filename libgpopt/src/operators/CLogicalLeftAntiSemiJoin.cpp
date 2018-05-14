@@ -78,13 +78,13 @@ CLogicalLeftAntiSemiJoin::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 
-	(void) pxfs->FExchangeSet(CXform::ExfAntiSemiJoinAntiSemiJoinSwap);
-	(void) pxfs->FExchangeSet(CXform::ExfAntiSemiJoinAntiSemiJoinNotInSwap);
-	(void) pxfs->FExchangeSet(CXform::ExfAntiSemiJoinSemiJoinSwap);
-	(void) pxfs->FExchangeSet(CXform::ExfAntiSemiJoinInnerJoinSwap);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftAntiSemiJoin2CrossProduct);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftAntiSemiJoin2NLJoin);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftAntiSemiJoin2HashJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfAntiSemiJoinAntiSemiJoinSwap);
+	(void) pxfs->ExchangeSet(CXform::ExfAntiSemiJoinAntiSemiJoinNotInSwap);
+	(void) pxfs->ExchangeSet(CXform::ExfAntiSemiJoinSemiJoinSwap);
+	(void) pxfs->ExchangeSet(CXform::ExfAntiSemiJoinInnerJoinSwap);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiJoin2CrossProduct);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiJoin2NLJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiJoin2HashJoin);
 	return pxfs;
 }
 

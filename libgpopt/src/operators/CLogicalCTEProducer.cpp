@@ -238,7 +238,7 @@ CLogicalCTEProducer::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementCTEProducer);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementCTEProducer);
 	return pxfs;
 }
 

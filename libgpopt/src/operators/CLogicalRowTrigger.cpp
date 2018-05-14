@@ -332,7 +332,7 @@ CLogicalRowTrigger::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementRowTrigger);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementRowTrigger);
 	return pxfs;
 }
 

@@ -73,17 +73,17 @@ CBitVectorTest::EresUnittest_Basics()
 
 	for(ULONG i = 0; i < cSize; i++)
 	{
-		BOOL fSet = bv.FExchangeSet(i);
+		BOOL fSet = bv.ExchangeSet(i);
 		if(fSet)
 		{
 			return GPOS_FAILED;
 		}
-		GPOS_ASSERT(bv.FBit(i));
+		GPOS_ASSERT(bv.Get(i));
 
 		CBitVector bvCopy(pmp, bv);
 		for(ULONG j = 0; j <= i; j++)
 		{
-			BOOL fSetAlt = bvCopy.FBit(j);
+			BOOL fSetAlt = bvCopy.Get(j);
 			GPOS_ASSERT(fSetAlt);
 
 			if (true != fSetAlt)
@@ -92,8 +92,8 @@ CBitVectorTest::EresUnittest_Basics()
 			}
 
 			// clear and check
-			bvCopy.FExchangeClear(j);
-			fSetAlt = bvCopy.FBit(j);
+			bvCopy.ExchangeClear(j);
+			fSetAlt = bvCopy.Get(j);
 			GPOS_ASSERT(!fSetAlt);
 		}
 
@@ -128,14 +128,14 @@ CBitVectorTest::EresUnittest_SetOps()
 	CBitVector bvEven(pmp, cSize);
 	for(ULONG i = 0; i < cSize; i += 2)
 	{
-		bvEven.FExchangeSet(i);
+		bvEven.ExchangeSet(i);
 	}
 	GPOS_ASSERT(bvEven.Contains(&bvEmpty));
 
 	CBitVector bvOdd(pmp, cSize);
 	for(ULONG i = 1; i < cSize; i += 2)
 	{
-		bvOdd.FExchangeSet(i);
+		bvOdd.ExchangeSet(i);
 	}
 	GPOS_ASSERT(bvOdd.Contains(&bvEmpty));
 	GPOS_ASSERT(bvOdd.IsDisjoint(&bvEven));
@@ -175,12 +175,12 @@ CBitVectorTest::EresUnittest_Cursor()
 	CBitVector bv(pmp, 129);
 	for(ULONG i = 1; i < 20; i ++)
 	{
-		bv.FExchangeSet(i * 3);
+		bv.ExchangeSet(i * 3);
 	}
 
 	ULONG ulCursor = 0;
-	bv.FNextBit(0, ulCursor);
-	while(bv.FNextBit(ulCursor + 1, ulCursor))
+	bv.GetNextBit(0, ulCursor);
+	while(bv.GetNextBit(ulCursor + 1, ulCursor))
 	{
 		GPOS_ASSERT(ulCursor == ((ulCursor / 3) * 3));
 	}
@@ -226,7 +226,7 @@ CBitVectorTest::EresUnittest_Random()
 	{
 		if (1 == rg[i])
 		{
-			bv.FExchangeSet(i);
+			bv.ExchangeSet(i);
 			cElements++;
 		}
 	}
@@ -234,7 +234,7 @@ CBitVectorTest::EresUnittest_Random()
 	GPOS_ASSERT(cElements == bv.CountSetBits());
 
 	ULONG ulCursor = 0;
-	while(bv.FNextBit(ulCursor + 1, ulCursor))
+	while(bv.GetNextBit(ulCursor + 1, ulCursor))
 	{
 		GPOS_ASSERT(1 == rg[ulCursor]);
 		cElements--;
@@ -267,7 +267,7 @@ CBitVectorTest::EresUnittest_OutOfBounds()
 	CBitVector bv(pmp, 129);
 
 	// this must assert
-	bv.FExchangeSet(130);
+	bv.ExchangeSet(130);
 
 	return GPOS_FAILED;
 }

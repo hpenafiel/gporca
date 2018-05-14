@@ -206,7 +206,7 @@ CLogicalDynamicGet::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfDynamicGet2DynamicTableScan);
+	(void) pxfs->ExchangeSet(CXform::ExfDynamicGet2DynamicTableScan);
 	return pxfs;
 }
 

@@ -31,8 +31,8 @@ CLogicalLeftAntiSemiApplyNotIn::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftAntiSemiApplyNotIn2LeftAntiSemiJoinNotIn);
-	(void) pxfs->FExchangeSet(CXform::ExfLeftAntiSemiApplyNotIn2LeftAntiSemiJoinNotInNoCorrelations);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiApplyNotIn2LeftAntiSemiJoinNotIn);
+	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiApplyNotIn2LeftAntiSemiJoinNotInNoCorrelations);
 
 	return pxfs;
 }

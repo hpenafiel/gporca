@@ -134,7 +134,7 @@ namespace gpos
 					CStackTracker(IMemoryPool *pmp, ULONG cResolution, SStackKey skey);
 					
 					// exchange/set function
-					BOOL FExchangeSet(ULONG ulBit);
+					BOOL ExchangeSet(ULONG ulBit);
 					
 					// link element for hashtable
 					SLink m_link;

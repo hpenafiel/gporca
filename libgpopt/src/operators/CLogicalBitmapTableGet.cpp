@@ -283,7 +283,7 @@ CLogicalBitmapTableGet::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementBitmapTableGet);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementBitmapTableGet);
 
 	return pxfs;
 }

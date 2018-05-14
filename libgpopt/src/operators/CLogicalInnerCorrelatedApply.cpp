@@ -65,7 +65,7 @@ CLogicalInnerCorrelatedApply::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementInnerCorrelatedApply);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementInnerCorrelatedApply);
 
 	return pxfs;
 }

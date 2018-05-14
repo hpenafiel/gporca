@@ -267,7 +267,7 @@ CLogicalSplit::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementSplit);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementSplit);
 	return pxfs;
 }
 

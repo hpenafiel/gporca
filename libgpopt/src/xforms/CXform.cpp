@@ -160,20 +160,20 @@ CBitSet *CXform::PbsIndexJoinXforms
 	)
 {
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2IndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoinWithInnerSelect2IndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoinWithInnerSelect2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2IndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2DynamicIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2PartialDynamicIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2IndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2DynamicIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2PartialDynamicIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2DynamicBitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2DynamicBitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2IndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoinWithInnerSelect2IndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2BitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoinWithInnerSelect2BitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2IndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2DynamicIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2PartialDynamicIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2IndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2DynamicIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2PartialDynamicIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2BitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2DynamicBitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2BitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2DynamicBitmapIndexGetApply));
 
 	return pbs;
 }
@@ -193,15 +193,15 @@ CBitSet *CXform::PbsBitmapIndexXforms
 	)
 {
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfSelect2BitmapBoolOp));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfSelect2DynamicBitmapBoolOp));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoinWithInnerSelect2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2DynamicBitmapIndexGetApply));
-	(void) pbs->FExchangeSet(
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfSelect2BitmapBoolOp));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfSelect2DynamicBitmapBoolOp));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2BitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoinWithInnerSelect2BitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2BitmapIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2DynamicBitmapIndexGetApply));
+	(void) pbs->ExchangeSet(
 			GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2BitmapIndexGetApply));
-	(void) pbs->FExchangeSet(
+	(void) pbs->ExchangeSet(
 			GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2DynamicBitmapIndexGetApply));
 
 	return pbs;
@@ -223,9 +223,9 @@ CBitSet *CXform::PbsHeterogeneousIndexXforms
 {
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
 
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfSelect2PartialDynamicIndexGet));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2PartialDynamicIndexGetApply));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2PartialDynamicIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfSelect2PartialDynamicIndexGet));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2PartialDynamicIndexGetApply));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoinWithInnerSelect2PartialDynamicIndexGetApply));
 
 	return pbs;
 }
@@ -239,11 +239,11 @@ CBitSet *CXform::PbsHashJoinXforms
 {
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
 
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2HashJoin));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2HashJoin));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftSemiJoin2HashJoin));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftAntiSemiJoin2HashJoin));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftAntiSemiJoinNotIn2HashJoinNotIn));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfInnerJoin2HashJoin));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftOuterJoin2HashJoin));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftSemiJoin2HashJoin));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftAntiSemiJoin2HashJoin));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfLeftAntiSemiJoinNotIn2HashJoinNotIn));
 
 	return pbs;
 }
@@ -255,10 +255,10 @@ CBitSet *CXform::PbsJoinOrderInQueryXforms
 {
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
 
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfExpandNAryJoinDP));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfExpandNAryJoinMinCard));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinAssociativity));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinCommutativity));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfExpandNAryJoinDP));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfExpandNAryJoinMinCard));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinAssociativity));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinCommutativity));
 
 	return pbs;
 }
@@ -270,9 +270,9 @@ CBitSet *CXform::PbsJoinOrderOnGreedyXforms
 {
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
 
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfExpandNAryJoinDP));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinAssociativity));
-	(void) pbs->FExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinCommutativity));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfExpandNAryJoinDP));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinAssociativity));
+	(void) pbs->ExchangeSet(GPOPT_DISABLE_XFORM_TF(CXform::ExfJoinCommutativity));
 
 	return pbs;
 }

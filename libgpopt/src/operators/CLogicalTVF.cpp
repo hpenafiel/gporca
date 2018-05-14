@@ -300,9 +300,9 @@ CLogicalTVF::PxfsCandidates
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 
-	(void) pxfs->FExchangeSet(CXform::ExfUnnestTVF);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementTVF);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementTVFNoArgs);
+	(void) pxfs->ExchangeSet(CXform::ExfUnnestTVF);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementTVF);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementTVFNoArgs);
 	return pxfs;
 }
 

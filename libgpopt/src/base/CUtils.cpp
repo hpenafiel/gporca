@@ -4325,7 +4325,7 @@ CUtils::PbsAllSet
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, ulSize);
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		pbs->FExchangeSet(ul);
+		pbs->ExchangeSet(ul);
 	}
 
 	return pbs;
@@ -4346,7 +4346,7 @@ CUtils::Pbs
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
 		ULONG *pul = (*pdrgpul)[ul];
-		pbs->FExchangeSet(*pul);
+		pbs->ExchangeSet(*pul);
 	}
 
 	return pbs;

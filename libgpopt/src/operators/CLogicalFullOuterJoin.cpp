@@ -74,7 +74,7 @@ CLogicalFullOuterJoin::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfExpandFullOuterJoin);
+	(void) pxfs->ExchangeSet(CXform::ExfExpandFullOuterJoin);
 	return pxfs;
 }
 

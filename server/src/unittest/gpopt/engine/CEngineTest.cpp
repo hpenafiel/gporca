@@ -175,7 +175,7 @@ CEngineTest::EresOptimize
 		// build memo for each expression
 		for (ULONG ul = m_ulTestCounter; ul < ulRels; ul++)
 		{
-			if (pbs->FBit(ul))
+			if (pbs->Get(ul))
 			{
 				pfopt(pmp, (*pdrgpexprCrossProducts)[ul], NULL /*pdrgpss*/);
 				GPOS_CHECK_ABORT;
@@ -240,7 +240,7 @@ CEngineTest::EresUnittest_BuildMemo()
 	const ULONG ulRels = GPOS_ARRAY_SIZE(rgscRel);
 	for (ULONG ul = 0; ul < ulRels; ul++)
 	{
-		(void) pbs->FExchangeSet(ul);
+		(void) pbs->ExchangeSet(ul);
 	}
 
 	GPOS_RESULT eres = EresOptimize(BuildMemoRecursive, rgscRel, rgulRel, ulRels, pbs);
@@ -381,7 +381,7 @@ CEngineTest::EresUnittest_BuildMemoLargeJoins()
 	// only optimize the last join expression
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp);
 	const ULONG ulRels = GPOS_ARRAY_SIZE(rgscRel);
-	(void) pbs->FExchangeSet(ulRels - 1);
+	(void) pbs->ExchangeSet(ulRels - 1);
 
 	GPOS_RESULT eres = EresOptimize(BuildMemoRecursive, rgscRel, rgulRel, ulRels, pbs);
 	pbs->Release();

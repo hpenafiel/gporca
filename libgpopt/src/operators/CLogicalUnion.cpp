@@ -149,7 +149,7 @@ CLogicalUnion::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfUnion2UnionAll);
+	(void) pxfs->ExchangeSet(CXform::ExfUnion2UnionAll);
 	return pxfs;
 }
 

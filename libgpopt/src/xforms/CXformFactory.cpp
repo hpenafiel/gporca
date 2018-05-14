@@ -127,7 +127,7 @@ CXformFactory::Add
 	GPOS_ASSERT_IMP(pxform->FImplementation(), pxfs == m_pxfsImplementation);
 	BOOL fSet =
 #endif // GPOS_DEBUG
-		pxfs->FExchangeSet(exfid);
+		pxfs->ExchangeSet(exfid);
 
 	GPOS_ASSERT(!fSet);
 }

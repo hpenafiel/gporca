@@ -210,7 +210,7 @@ CXformUpdate2DML::Transform
 			// delete columns refer to the original tuple's descriptor, if it's different 
 			// from the corresponding insert column, then we're modifying the column
 			// at that position
-			pbsModified->FExchangeSet(ul);
+			pbsModified->ExchangeSet(ul);
 		}
 	}
 	// create logical DML

@@ -599,7 +599,7 @@ CFilterStatsProcessor::PhistPointFilter
 	CPoint *ppoint = pstatspred->Ppoint();
 
 	// note column id
-	(void) pbsFilterColIds->FExchangeSet(ulColId);
+	(void) pbsFilterColIds->ExchangeSet(ulColId);
 
 	CDouble dScaleFactorLocal(1.0);
 	CHistogram *phistAfter = phistBefore->PhistFilterNormalized(pmp, pstatspred->Escmpt(), ppoint, &dScaleFactorLocal);
@@ -632,7 +632,7 @@ CFilterStatsProcessor::PhistUnsupportedPred
 	const ULONG ulColId = pstatspred->UlColId();
 
 	// note column id
-	(void) pbsFilterColIds->FExchangeSet(ulColId);
+	(void) pbsFilterColIds->ExchangeSet(ulColId);
 
 	// generate after histogram
 	CHistogram *phistAfter = phistBefore->PhistCopy(pmp);
@@ -663,7 +663,7 @@ CFilterStatsProcessor::PhistLikeFilter
 	const ULONG ulColId = pstatspred->UlColId();
 
 	// note column id
-	(void) pbsFilterColIds->FExchangeSet(ulColId);
+	(void) pbsFilterColIds->ExchangeSet(ulColId);
 	CHistogram *phistAfter = phistBefore->PhistCopy(pmp);
 
 	*pdScaleFactorLast = *pdScaleFactorLast * pstatspred->DDefaultScaleFactor();

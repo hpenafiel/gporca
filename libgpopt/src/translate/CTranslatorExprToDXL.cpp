@@ -4765,7 +4765,7 @@ CTranslatorExprToDXL::ConstructLevelFilters4PartitionSelector
 		BOOL fRangePart = IMDRelation::ErelpartitionRange == szPartType;
 
 		CDXLNode *pdxlnFilter = NULL;
-		BOOL fDefaultPartition = pbsDefaultParts ? pbsDefaultParts->FBit(ulLevel) : false;
+		BOOL fDefaultPartition = pbsDefaultParts ? pbsDefaultParts->Get(ulLevel) : false;
 
 		BOOL fLTComparison = false;
 		BOOL fGTComparison = false;

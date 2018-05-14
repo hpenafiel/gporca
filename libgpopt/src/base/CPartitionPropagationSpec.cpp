@@ -439,7 +439,7 @@ CPartitionPropagationSpec::PexprResidualFilter
 	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		if (pbsUsed->FBit(ul))
+		if (pbsUsed->Get(ul))
 		{
 			// predicate already considered
 			continue;
@@ -489,7 +489,7 @@ CPartitionPropagationSpec::PdrgpexprPredicatesOnKey
 	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		if ((*ppbs)->FBit(ul))
+		if ((*ppbs)->Get(ul))
 		{
 			// this expression has already been added for another column
 			continue;
@@ -506,7 +506,7 @@ CPartitionPropagationSpec::PdrgpexprPredicatesOnKey
 		{
 			pexpr->AddRef();
 			pdrgpexprResult->Append(pexpr);
-			(*ppbs)->FExchangeSet(ul);
+			(*ppbs)->ExchangeSet(ul);
 		}
 
 		pcrsUsedKeys->Release();

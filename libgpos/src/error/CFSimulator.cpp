@@ -118,7 +118,7 @@ CFSimulator::FNewStack
 			// always true once a tracker has been initialized
 			if (NULL != pstrack)
 			{
-				return false == pstrack->FExchangeSet(ulHash % m_cResolution);
+				return false == pstrack->ExchangeSet(ulHash % m_cResolution);
 			}
 		}
 				
@@ -201,19 +201,19 @@ CFSimulator::CStackTracker::CStackTracker
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CFSimulator::CStackTracker::FExchangeSet
+//		CFSimulator::CStackTracker::ExchangeSet
 //
 //	@doc:
 //		Test and set a given bit in the bit vector
 //
 //---------------------------------------------------------------------------
 BOOL
-CFSimulator::CStackTracker::FExchangeSet
+CFSimulator::CStackTracker::ExchangeSet
 	(
 	ULONG ulBit
 	)
 {
-	return m_pbv->FExchangeSet(ulBit);
+	return m_pbv->ExchangeSet(ulBit);
 }
 
 

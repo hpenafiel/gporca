@@ -101,7 +101,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 	for (ULONG ul1 = 0; ul1 < pdrgpstatspredjoin->Size(); ul1++)
 	{
 		CStatsPredJoin *pstatsjoin = (*pdrgpstatspredjoin)[ul1];
-		(void) pbsOuterJoinCol->FExchangeSet(pstatsjoin->UlColId1());
+		(void) pbsOuterJoinCol->ExchangeSet(pstatsjoin->UlColId1());
 	}
 
 	// for the columns in the outer child, compute the buckets that do not contribute to the inner join
@@ -129,7 +129,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 		const CHistogram *phistInnerJoin = pstatsInnerJoin->Phist(ulColId);
 		GPOS_ASSERT(NULL != phistInnerJoin);
 
-		if (pbsOuterJoinCol->FBit(ulColId))
+		if (pbsOuterJoinCol->Get(ulColId))
 		{
 			// add buckets from the outer histogram that do not contribute to the inner join
 			const CHistogram *phistLASJ = pstatsLASJ->Phist(ulColId);

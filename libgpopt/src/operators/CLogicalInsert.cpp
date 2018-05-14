@@ -221,7 +221,7 @@ CLogicalInsert::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfInsert2DML);
+	(void) pxfs->ExchangeSet(CXform::ExfInsert2DML);
 	return pxfs;
 }
 

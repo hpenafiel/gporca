@@ -260,10 +260,10 @@ CJoinStatsProcessor::PstatsJoinDriver
 	{
 		CStatsPredJoin *pstatsjoin = (*pdrgppredInfo)[ul];
 
-		(void) pbsJoinColIds->FExchangeSet(pstatsjoin->UlColId1());
+		(void) pbsJoinColIds->ExchangeSet(pstatsjoin->UlColId1());
 		if (!fSemiJoin)
 		{
-			(void) pbsJoinColIds->FExchangeSet(pstatsjoin->UlColId2());
+			(void) pbsJoinColIds->ExchangeSet(pstatsjoin->UlColId2());
 		}
 	}
 

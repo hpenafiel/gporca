@@ -351,7 +351,7 @@ CLogicalDML::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementDML);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementDML);
 	return pxfs;
 }
 

@@ -61,18 +61,18 @@ CEnumSetTest::EresUnittest_Basics()
 
 	CETestSet *pes = GPOS_NEW(pmp) CETestSet(pmp);
 	
-	(void) pes->FExchangeSet(eTestOne);
-	(void) pes->FExchangeSet(eTestTwo);
+	(void) pes->ExchangeSet(eTestOne);
+	(void) pes->ExchangeSet(eTestTwo);
 	
-	GPOS_ASSERT(pes->FExchangeClear(eTestTwo));
-	GPOS_ASSERT(!pes->FExchangeSet(eTestTwo));
+	GPOS_ASSERT(pes->ExchangeClear(eTestTwo));
+	GPOS_ASSERT(!pes->ExchangeSet(eTestTwo));
 
 	CETestIter eti(*pes);
 	while(eti.FAdvance())
 	{
 		GPOS_ASSERT((BOOL)eti);
 		GPOS_ASSERT(eTestSentinel > eti.TBit());
-		GPOS_ASSERT(pes->FBit(eti.TBit()));
+		GPOS_ASSERT(pes->Get(eti.TBit()));
 	}
 	
 	pes->Release();

@@ -193,8 +193,8 @@ CLogicalCTEAnchor::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfCTEAnchor2Sequence);
-	(void) pxfs->FExchangeSet(CXform::ExfCTEAnchor2TrivialSelect);
+	(void) pxfs->ExchangeSet(CXform::ExfCTEAnchor2Sequence);
+	(void) pxfs->ExchangeSet(CXform::ExfCTEAnchor2TrivialSelect);
 	return pxfs;
 }
 

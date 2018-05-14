@@ -133,9 +133,9 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 
 	// xforms to test
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfSubqJoin2Apply);
-	(void) pxfs->FExchangeSet(CXform::ExfSelect2Apply);
-	(void) pxfs->FExchangeSet(CXform::ExfProject2Apply);
+	(void) pxfs->ExchangeSet(CXform::ExfSubqJoin2Apply);
+	(void) pxfs->ExchangeSet(CXform::ExfSelect2Apply);
+	(void) pxfs->ExchangeSet(CXform::ExfProject2Apply);
 
 	BOOL fCorrelated = true;
 	// we generate two expressions using each generator

@@ -61,7 +61,7 @@ void SetTraceflags
 #ifdef GPOS_DEBUG
 			BOOL fSet =
 #endif	// GPOS_DEBUG
-				(*ppbsEnabled)->FExchangeSet(ulTraceFlag);
+				(*ppbsEnabled)->ExchangeSet(ulTraceFlag);
 			GPOS_ASSERT(!fSet);
 		}
 		else
@@ -70,7 +70,7 @@ void SetTraceflags
 #ifdef GPOS_DEBUG
 			BOOL fSet =
 #endif	// GPOS_DEBUG
-				(*ppbsDisabled)->FExchangeSet(ulTraceFlag);
+				(*ppbsDisabled)->ExchangeSet(ulTraceFlag);
 			GPOS_ASSERT(!fSet);
 		}
 

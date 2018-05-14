@@ -248,7 +248,7 @@ CLogicalDynamicIndexGet::PxfsCandidates
 const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfDynamicIndexGet2DynamicIndexScan);
+	(void) pxfs->ExchangeSet(CXform::ExfDynamicIndexGet2DynamicIndexScan);
 	return pxfs;
 }
 

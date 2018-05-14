@@ -426,7 +426,7 @@ CUnittest::FindTest
 		if ((ut.Ett() == ett && (NULL == szTestName || ut.FEquals(szTestName))) ||
 			 (NULL != szTestName && ut.FEquals(szTestName)))
 		{
-			(void) bv.FExchangeSet(i);
+			(void) bv.ExchangeSet(i);
 		}
 	}
 
@@ -481,7 +481,7 @@ CUnittest::Driver
 
 		for (ULONG i = 0; i < CUnittest::m_ulTests; i++)
 		{
-			if (pbv->FBit(i))
+			if (pbv->Get(i))
 			{
 				CUnittest &ut = CUnittest::m_rgut[i];
 				GPOS_RESULT eres = EresExecute(&ut, 1 /*ulSize*/);

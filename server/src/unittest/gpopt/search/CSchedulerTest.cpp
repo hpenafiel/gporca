@@ -389,7 +389,7 @@ CSchedulerTest::EresUnittest_BuildMemo()
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp);
 	for (ULONG ul = 0; ul < ulRels; ul++)
 	{
-		(void) pbs->FExchangeSet(ul);
+		(void) pbs->ExchangeSet(ul);
 	}
 
 	GPOS_RESULT eres = CEngineTest::EresOptimize(BuildMemoMultiThreaded, rgscRel, rgulRel, ulRels, pbs);
@@ -452,7 +452,7 @@ CSchedulerTest::EresUnittest_BuildMemoLargeJoins()
 		GPOS_ARRAY_SIZE(rgscRel);
 #endif // GPOS_DEBUG
 
-	(void) pbs->FExchangeSet(ulRels - 1);
+	(void) pbs->ExchangeSet(ulRels - 1);
 
 	GPOS_RESULT eres = CEngineTest::EresOptimize(BuildMemoMultiThreaded, rgscRel, rgulRel, ulRels, pbs);
 	pbs->Release();

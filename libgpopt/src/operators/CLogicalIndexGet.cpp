@@ -258,7 +258,7 @@ const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
 
-	(void) pxfs->FExchangeSet(CXform::ExfIndexGet2IndexScan);
+	(void) pxfs->ExchangeSet(CXform::ExfIndexGet2IndexScan);
 
 	return pxfs;
 }

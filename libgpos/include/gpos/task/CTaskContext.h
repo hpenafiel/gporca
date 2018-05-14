@@ -84,7 +84,7 @@ namespace gpos
 				ULONG ulTrace
 				)
 			{
-				return m_pbs->FBit(ulTrace);
+				return m_pbs->Get(ulTrace);
 			}
 		
 			// locale

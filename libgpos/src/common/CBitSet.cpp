@@ -263,14 +263,14 @@ CBitSet::~CBitSet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitSet::FBit
+//		CBitSet::Get
 //
 //	@doc:
 //		Check if given bit is set
 //
 //---------------------------------------------------------------------------
 BOOL 
-CBitSet::FBit
+CBitSet::Get
 	(
 	ULONG ulBit
 	)
@@ -281,7 +281,7 @@ CBitSet::FBit
 	CBitSetLink *pbsl = PbslLocate(ulOffset);
 	if (NULL != pbsl && pbsl->UlOffset() == ulOffset)
 	{
-		return pbsl->Pbv()->FBit(ulBit - ulOffset);
+		return pbsl->Pbv()->Get(ulBit - ulOffset);
 	}
 	
 	return false;
@@ -290,14 +290,14 @@ CBitSet::FBit
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitSet::FExchangeSet
+//		CBitSet::ExchangeSet
 //
 //	@doc:
 //		Set given bit; return previous value; allocate new link if necessary
 //
 //---------------------------------------------------------------------------
 BOOL 
-CBitSet::FExchangeSet
+CBitSet::ExchangeSet
 	(
 	ULONG ulBit
 	)
@@ -323,7 +323,7 @@ CBitSet::FExchangeSet
 	
 	GPOS_ASSERT(pbsl->UlOffset() == ulOffset);
 	
-	BOOL fBit = pbsl->Pbv()->FExchangeSet(ulBit - ulOffset);
+	BOOL fBit = pbsl->Pbv()->ExchangeSet(ulBit - ulOffset);
 	if (!fBit)
 	{
 		m_cElements++;
@@ -335,14 +335,14 @@ CBitSet::FExchangeSet
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitSet::FExchangeClear
+//		CBitSet::ExchangeClear
 //
 //	@doc:
 //		Clear given bit; return previous value
 //
 //---------------------------------------------------------------------------
 BOOL 
-CBitSet::FExchangeClear
+CBitSet::ExchangeClear
 	(
 	ULONG ulBit
 	)
@@ -352,7 +352,7 @@ CBitSet::FExchangeClear
 	CBitSetLink *pbsl = PbslLocate(ulOffset);
 	if (NULL != pbsl && pbsl->UlOffset() == ulOffset)
 	{
-		BOOL fBit = pbsl->Pbv()->FExchangeClear(ulBit - ulOffset);
+		BOOL fBit = pbsl->Pbv()->ExchangeClear(ulBit - ulOffset);
 		
 		// remove empty link
 		if (pbsl->Pbv()->FEmpty())
@@ -521,7 +521,7 @@ CBitSet::Difference
 	CBitSetIter bsiter(*pbs);
 	while (bsiter.FAdvance())
 	{
-		(void) FExchangeClear(bsiter.UlBit());
+		(void) ExchangeClear(bsiter.UlBit());
 	}
 }	
 

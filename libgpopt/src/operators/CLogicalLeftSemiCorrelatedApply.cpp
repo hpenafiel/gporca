@@ -65,7 +65,7 @@ CLogicalLeftSemiCorrelatedApply::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementLeftSemiCorrelatedApply);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementLeftSemiCorrelatedApply);
 
 	return pxfs;
 }

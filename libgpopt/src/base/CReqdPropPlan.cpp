@@ -304,7 +304,7 @@ CReqdPropPlan::PpfmCombineDerived
 #ifdef GPOS_DEBUG
 			BOOL fSet =
 #endif // GPOS_DEBUG
-				pbs->FExchangeSet(ulScanId);
+				pbs->ExchangeSet(ulScanId);
 			GPOS_ASSERT(!fSet);
 		}
 	}
@@ -317,7 +317,7 @@ CReqdPropPlan::PpfmCombineDerived
 		for (ULONG ul = 0; ul < ulConsumers; ul++)
 		{
 			ULONG ulScanId = ppartinfo->UlScanId(ul);
-			BOOL fFound = pbs->FBit(ulScanId);
+			BOOL fFound = pbs->Get(ulScanId);
 
 			if (!fFound)
 			{
@@ -327,7 +327,7 @@ CReqdPropPlan::PpfmCombineDerived
 #ifdef GPOS_DEBUG
 					BOOL fSet =
 #endif // GPOS_DEBUG
-						pbs->FExchangeSet(ulScanId);
+						pbs->ExchangeSet(ulScanId);
 					GPOS_ASSERT(!fSet);
 				}
 			}

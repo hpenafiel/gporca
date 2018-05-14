@@ -636,7 +636,7 @@ CStatisticsUtils::ExtractUsedColIds
 	{
 		// the predicate is on a single column
 
-		(void) pbsColIds->FExchangeSet(pstatspred->UlColId());
+		(void) pbsColIds->ExchangeSet(pstatspred->UlColId());
 		pdrgpulColIds->Append(GPOS_NEW(pmp) ULONG(pstatspred->UlColId()));
 
 		return;
@@ -668,9 +668,9 @@ CStatisticsUtils::ExtractUsedColIds
 
 		if (ULONG_MAX != ulColId)
 		{
-			if (!pbsColIds->FBit(ulColId))
+			if (!pbsColIds->Get(ulColId))
 			{
-				(void) pbsColIds->FExchangeSet(ulColId);
+				(void) pbsColIds->ExchangeSet(ulColId);
 				pdrgpulColIds->Append(GPOS_NEW(pmp) ULONG(ulColId));
 			}
 		}
@@ -707,7 +707,7 @@ CStatisticsUtils::UpdateDisjStatistics
 	GPOS_ASSERT(NULL != pbsDontUpdateStats);
 	GPOS_ASSERT(NULL != phmulhistResultDisj);
 
-	if (NULL != phistPrev && ULONG_MAX != ulColId && !pbsDontUpdateStats->FBit(ulColId))
+	if (NULL != phistPrev && ULONG_MAX != ulColId && !pbsDontUpdateStats->Get(ulColId))
 	{
 		// 1. the filter is on the same column because ULONG_MAX != ulColId
 		// 2. the histogram of the column can be updated
@@ -806,9 +806,9 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 			for (ULONG ulUsedColIdx = 0; ulUsedColIdx < ulDisjUsedCol; ulUsedColIdx++)
 			{
 				ULONG ulColId = *(*pdrgpulDisj)[ulUsedColIdx];
-				if (!pbsChild->FBit(ulColId))
+				if (!pbsChild->Get(ulColId))
 				{
-					(void) pbsNonUpdateable->FExchangeSet(ulColId);
+					(void) pbsNonUpdateable->ExchangeSet(ulColId);
 				}
 			}
 		}
@@ -932,7 +932,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	{
 		ULONG ulColIdDisjChild = *(hmiterulhistDisjChild.Pk());
 		const CHistogram *phistDisjChild = hmiterulhistDisjChild.Pt();
-		if (!pbsStatsNonUpdateableCols->FBit(ulColIdDisjChild))
+		if (!pbsStatsNonUpdateableCols->Get(ulColIdDisjChild))
 		{
 			if (!fEmpty)
 			{
@@ -959,7 +959,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	{
 		ULONG ulColId = *(hmiterulhist.Pk());
 		const CHistogram *phist = hmiterulhist.Pt();
-		if (NULL != phist && !pbsStatsNonUpdateableCols->FBit(ulColId))
+		if (NULL != phist && !pbsStatsNonUpdateableCols->Get(ulColId))
 		{
 			if (fEmpty)
 			{
@@ -1329,7 +1329,7 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulColId = pcr->UlId();
-		if (NULL == pbsKeys || pbsKeys->FBit(ulColId))
+		if (NULL == pbsKeys || pbsKeys->Get(ulColId))
 		{
 			// if keys are available then only consider grouping columns defined as 
 			// key columns else consider all grouping columns

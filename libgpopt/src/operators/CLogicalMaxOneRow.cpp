@@ -92,7 +92,7 @@ CLogicalMaxOneRow::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfMaxOneRow2Assert);
+	(void) pxfs->ExchangeSet(CXform::ExfMaxOneRow2Assert);
 	return pxfs;
 }
 

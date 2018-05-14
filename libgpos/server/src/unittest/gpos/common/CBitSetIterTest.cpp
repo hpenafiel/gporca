@@ -65,7 +65,7 @@ CBitSetIterTest::EresUnittest_Basics()
 	for (ULONG i = 0; i < cInserts; i ++)
 	{
 		// forces addition of new link
-		pbs->FExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * cSizeBits);
 	}
 
 	ULONG cCount = 0;

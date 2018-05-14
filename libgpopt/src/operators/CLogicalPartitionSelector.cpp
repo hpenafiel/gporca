@@ -205,7 +205,7 @@ CLogicalPartitionSelector::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementPartitionSelector);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementPartitionSelector);
 	return pxfs;
 }
 

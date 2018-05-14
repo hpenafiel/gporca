@@ -64,7 +64,7 @@ CLogicalIndexApply::PxfsCandidates
 	const
 {
 	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	(void) pxfs->FExchangeSet(CXform::ExfImplementIndexApply);
+	(void) pxfs->ExchangeSet(CXform::ExfImplementIndexApply);
 	return pxfs;
 }
 

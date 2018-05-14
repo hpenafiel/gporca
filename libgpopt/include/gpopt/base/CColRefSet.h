@@ -55,13 +55,13 @@ namespace gpopt
 		private:
 						
 			// determine if bit is set
-			BOOL FBit(ULONG ulBit) const;
+			BOOL Get(ULONG ulBit) const;
 			
 			// set given bit; return previous value
-			BOOL FExchangeSet(ULONG ulBit);
+			BOOL ExchangeSet(ULONG ulBit);
 						
 			// clear given bit; return previous value
-			BOOL FExchangeClear(ULONG ulBit);
+			BOOL ExchangeClear(ULONG ulBit);
 
 		public:
 				

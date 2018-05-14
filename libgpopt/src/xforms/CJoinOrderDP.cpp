@@ -462,9 +462,9 @@ CJoinOrderDP::PexprJoin
 	GPOS_ASSERT(!bsi.FAdvance());
 
 	CBitSet *pbsFst = GPOS_NEW(m_pmp) CBitSet(m_pmp);
-	(void) pbsFst->FExchangeSet(ulCompFst);
+	(void) pbsFst->ExchangeSet(ulCompFst);
 	CBitSet *pbsSnd = GPOS_NEW(m_pmp) CBitSet(m_pmp);
-	(void) pbsSnd->FExchangeSet(ulCompSnd);
+	(void) pbsSnd->ExchangeSet(ulCompSnd);
 	CExpression *pexprScalar = PexprPred(pbsFst, pbsSnd);
 	pbsFst->Release();
 	pbsSnd->Release();
@@ -624,7 +624,7 @@ CJoinOrderDP::GenerateSubsets
 #ifdef GPOS_DEBUG
 	BOOL fSet =
 #endif // GPOS_DEBUG
-		pbsCopy->FExchangeSet(pulElems[ulIndex]);
+		pbsCopy->ExchangeSet(pulElems[ulIndex]);
 	GPOS_ASSERT(!fSet);
 
 	GenerateSubsets(pmp, pbsCopy, pulElems, ulSize, ulIndex + 1, pdrgpbsSubsets);
@@ -951,7 +951,7 @@ CJoinOrderDP::PexprBuildPred
 #ifdef GPOS_DEBUG
 		BOOL fSet =
 #endif // GPOS_DEBUG
-			pbsEdges->FExchangeSet(ul);
+			pbsEdges->ExchangeSet(ul);
 			GPOS_ASSERT(!fSet);
 		}
 	}
@@ -992,7 +992,7 @@ CJoinOrderDP::PexprExpand()
 	CBitSet *pbs = GPOS_NEW(m_pmp) CBitSet(m_pmp);
 	for (ULONG ul = 0; ul < m_ulComps; ul++)
 	{
-		(void) pbs->FExchangeSet(ul);
+		(void) pbs->ExchangeSet(ul);
 	}
 
 	CExpression *pexprResult = PexprBestJoinOrder(pbs);
