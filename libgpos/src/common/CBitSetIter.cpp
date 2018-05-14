@@ -58,7 +58,7 @@ CBitSetIter::FAdvance()
 	while (NULL != m_pbsl)
 	{
 		if (m_ulCursor + 1 <= m_bs.m_cSizeBits &&
-			m_pbsl->Pbv()->GetNextBit(m_ulCursor + 1, m_ulCursor))
+			m_pbsl->Pbv()->GetNextSetBit(m_ulCursor + 1, m_ulCursor))
 		{
 			break;
 		}

@@ -81,7 +81,7 @@ namespace gpos
 			BOOL FEmpty() const;
 			
 			// find next bit from given position
-			BOOL GetNextBit(ULONG, ULONG&) const;
+			BOOL GetNextSetBit(ULONG, ULONG&) const;
 
 			// number of bits set
 			ULONG CountSetBits() const;

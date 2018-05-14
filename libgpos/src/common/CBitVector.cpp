@@ -48,10 +48,10 @@ CBitVector::Clear()
 CBitVector::CBitVector
 	(
 	IMemoryPool *pmp,
-	ULONG cBits
+	ULONG nbits
 	)
 	:
-	m_nbits(cBits),
+	m_nbits(nbits),
 	m_len(0),
 	m_vec(NULL)
 {
@@ -138,16 +138,16 @@ CBitVector::CBitVector
 BOOL 
 CBitVector::Get
 	(
-	ULONG ulBit
+	ULONG pos
 	)
 	const
 {
-	GPOS_ASSERT(ulBit < m_nbits && "Bit index out of bounds.");
+	GPOS_ASSERT(pos < m_nbits && "Bit index out of bounds.");
 
-	ULONG cUnit = ulBit / BITS_PER_UNIT;
-	ULLONG ullMask = ((ULLONG)1) << (ulBit % BITS_PER_UNIT);
+	ULONG idx = pos / BITS_PER_UNIT;
+	ULLONG mask = ((ULLONG)1) << (pos % BITS_PER_UNIT);
 	
-	return m_vec[cUnit] & ullMask;
+	return m_vec[idx] & mask;
 }
 
 
@@ -162,20 +162,20 @@ CBitVector::Get
 BOOL 
 CBitVector::ExchangeSet
 	(
-	ULONG ulBit
+	ULONG pos
 	)
 {
-	GPOS_ASSERT(ulBit < m_nbits  && "Bit index out of bounds.");
+	GPOS_ASSERT(pos < m_nbits  && "Bit index out of bounds.");
 
 	// CONSIDER: 03/25/2008; make testing for the bit part of this routine and
 	// avoid function call
-	BOOL fSet = Get(ulBit);
+	BOOL fSet = Get(pos);
 	
-	ULONG cUnit = ulBit / BITS_PER_UNIT;
-	ULLONG ullMask = ((ULLONG)1) << (ulBit % BITS_PER_UNIT);
+	ULONG idx = pos / BITS_PER_UNIT;
+	ULLONG mask = ((ULLONG)1) << (pos % BITS_PER_UNIT);
 	
 	// OR the target unit with the mask
-	m_vec[cUnit] |= ullMask;
+	m_vec[idx] |= mask;
 	
 	return fSet;
 }
@@ -201,11 +201,11 @@ CBitVector::ExchangeClear
 	// avoid function call
 	BOOL fSet = Get(ulBit);
 	
-	ULONG cUnit = ulBit / BITS_PER_UNIT;
-	ULLONG ullMask = ((ULLONG)1) << (ulBit % BITS_PER_UNIT);
+	ULONG idx = ulBit / BITS_PER_UNIT;
+	ULLONG mask = ((ULLONG)1) << (ulBit % BITS_PER_UNIT);
 	
 	// AND the target unit with the inverted mask
-	m_vec[cUnit] &= ~ullMask;
+	m_vec[idx] &= ~mask;
 	
 	return fSet;
 }
@@ -222,16 +222,16 @@ CBitVector::ExchangeClear
 void
 CBitVector::Or
 	(
-	const CBitVector *pbv
+	const CBitVector *vec
 	)
 {
-	GPOS_ASSERT(m_nbits == pbv->m_nbits && m_len == pbv->m_len && 
+	GPOS_ASSERT(m_nbits == vec->m_nbits && m_len == vec->m_len && 
 		"vectors must be of same size");
 		
 	// OR all components
 	for(ULONG i = 0; i < m_len; i++)
 	{
-		m_vec[i] |= pbv->m_vec[i];
+		m_vec[i] |= vec->m_vec[i];
 	}
 }
 
@@ -247,16 +247,16 @@ CBitVector::Or
 void
 CBitVector::And
 	(
-	const CBitVector *pbv
+	const CBitVector *vec
 	)
 {
-	GPOS_ASSERT(m_nbits == pbv->m_nbits && m_len == pbv->m_len && 
+	GPOS_ASSERT(m_nbits == vec->m_nbits && m_len == vec->m_len && 
 		"vectors must be of same size");
 		
 	// AND all components
 	for(ULONG i = 0; i < m_len; i++)
 	{
-		m_vec[i] &= pbv->m_vec[i];
+		m_vec[i] &= vec->m_vec[i];
 	}
 }
 
@@ -272,18 +272,18 @@ CBitVector::And
 BOOL
 CBitVector::Contains
 	(
-	const CBitVector *pbv
+	const CBitVector *vec
 	)
 	const
 {
-	GPOS_ASSERT(m_nbits == pbv->m_nbits && m_len == pbv->m_len && 
+	GPOS_ASSERT(m_nbits == vec->m_nbits && m_len == vec->m_len && 
 		"vectors must be of same size");
 		
 	// OR all components
 	for(ULONG i = 0; i < m_len; i++)
 	{
-		ULLONG ull = m_vec[i] & pbv->m_vec[i];
-		if (ull != pbv->m_vec[i])
+		ULLONG ull = m_vec[i] & vec->m_vec[i];
+		if (ull != vec->m_vec[i])
 		{
 			return false;
 		}
@@ -304,16 +304,16 @@ CBitVector::Contains
 BOOL
 CBitVector::IsDisjoint
 	(
-	const CBitVector *pbv
+	const CBitVector *vec
 	)
 	const
 {
-	GPOS_ASSERT(m_nbits == pbv->m_nbits && m_len == pbv->m_len && 
+	GPOS_ASSERT(m_nbits == vec->m_nbits && m_len == vec->m_len && 
 		"vectors must be of same size");
 
 	for(ULONG i = 0; i < m_len; i++)
 	{
-		if (0 != (m_vec[i] & pbv->m_vec[i]))
+		if (0 != (m_vec[i] & vec->m_vec[i]))
 		{
 			return false;
 		}
@@ -334,17 +334,17 @@ CBitVector::IsDisjoint
 BOOL
 CBitVector::FEqual
 	(
-	const CBitVector *pbv
+	const CBitVector *vec
 	)
 	const
 {
-	GPOS_ASSERT(m_nbits == pbv->m_nbits && m_len == pbv->m_len && 
+	GPOS_ASSERT(m_nbits == vec->m_nbits && m_len == vec->m_len && 
 		"vectors must be of same size");
 		
 	// compare all components
-	if (0 == clib::IMemCmp(m_vec, pbv->m_vec, m_len * BYTES_PER_UNIT))
+	if (0 == clib::IMemCmp(m_vec, vec->m_vec, m_len * BYTES_PER_UNIT))
 	{
-		GPOS_ASSERT(this->Contains(pbv) && pbv->Contains(this));
+		GPOS_ASSERT(this->Contains(vec) && vec->Contains(this));
 		return true;
 	}
 	
@@ -385,34 +385,34 @@ CBitVector::FEmpty() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitVector::GetNextBit
+CBitVector::GetNextSetBit
 	(
-	ULONG ulStart,
-	ULONG &ulNext
+	ULONG start_pos,
+	ULONG &next_pos
 	)
 	const
 {	
-	ULONG ulOffset = ulStart % BITS_PER_UNIT;
-	for (ULONG cUnit = ulStart / BITS_PER_UNIT; cUnit < m_len; cUnit++)
+	ULONG offset = start_pos % BITS_PER_UNIT;
+	for (ULONG idx = start_pos / BITS_PER_UNIT; idx < m_len; idx++)
 	{
-		ULLONG ull = m_vec[cUnit] >> ulOffset;
+		ULLONG ull = m_vec[idx] >> offset;
 		
-		ULONG ulBit = ulOffset;
+		ULONG bit = offset;
 		while(0 != ull && 0 == (ull & (ULLONG)1))
 		{
 			ull >>= 1;
-			ulBit++;
+			bit++;
 		}
 		
 		// if any bits left we found the next set position
 		if (0 != ull)
 		{
-			ulNext = ulBit + (cUnit * BITS_PER_UNIT);
+			next_pos = bit + (idx * BITS_PER_UNIT);
 			return true;
 		}
 		
 		// the initial offset applies only to the first chunk
-		ulOffset = 0;
+		offset = 0;
 	}
 	
 	return false;
@@ -430,7 +430,7 @@ CBitVector::GetNextBit
 ULONG
 CBitVector::CountSetBits() const
 {
-	ULONG cBits = 0;
+	ULONG nbits = 0;
 	for (ULONG i = 0; i < m_len; i++)
 	{	
 		ULLONG ull = m_vec[i];
@@ -441,10 +441,10 @@ CBitVector::CountSetBits() const
 			ull &= (ull - 1);
 		}
 
-		cBits += j;
+		nbits += j;
 	}
 	
-	return cBits;
+	return nbits;
 }
 
 

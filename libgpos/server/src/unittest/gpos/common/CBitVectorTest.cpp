@@ -179,8 +179,8 @@ CBitVectorTest::EresUnittest_Cursor()
 	}
 
 	ULONG ulCursor = 0;
-	bv.GetNextBit(0, ulCursor);
-	while(bv.GetNextBit(ulCursor + 1, ulCursor))
+	bv.GetNextSetBit(0, ulCursor);
+	while(bv.GetNextSetBit(ulCursor + 1, ulCursor))
 	{
 		GPOS_ASSERT(ulCursor == ((ulCursor / 3) * 3));
 	}
@@ -234,7 +234,7 @@ CBitVectorTest::EresUnittest_Random()
 	GPOS_ASSERT(cElements == bv.CountSetBits());
 
 	ULONG ulCursor = 0;
-	while(bv.GetNextBit(ulCursor + 1, ulCursor))
+	while(bv.GetNextSetBit(ulCursor + 1, ulCursor))
 	{
 		GPOS_ASSERT(1 == rg[ulCursor]);
 		cElements--;
