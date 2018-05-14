@@ -58,21 +58,21 @@ CBitSetIterTest::EresUnittest_Basics()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	ULONG cSizeBits = 32;
-	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	ULONG vector_size = 32;
+	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 
 	ULONG cInserts = 10;
 	for (ULONG i = 0; i < cInserts; i ++)
 	{
 		// forces addition of new link
-		pbs->ExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * vector_size);
 	}
 
 	ULONG cCount = 0;
 	CBitSetIter bsi(*pbs);
 	while(bsi.FAdvance())
 	{
-		GPOS_ASSERT(bsi.UlBit() == (bsi.UlBit() / cSizeBits) * cSizeBits);
+		GPOS_ASSERT(bsi.UlBit() == (bsi.UlBit() / vector_size) * vector_size);
 		GPOS_ASSERT((BOOL)bsi);
 
 		cCount++;
@@ -103,10 +103,10 @@ CBitSetIterTest::EresUnittest_Uninitialized()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	ULONG cSizeBits = 32;
+	ULONG vector_size = 32;
 
 	CAutoRef<CBitSet> a_pbs;
-	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 	a_pbs = pbs;
 
 	CBitSetIter bsi(*pbs);
@@ -133,10 +133,10 @@ CBitSetIterTest::EresUnittest_Overrun()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	ULONG cSizeBits = 32;
+	ULONG vector_size = 32;
 
 	CAutoRef<CBitSet> a_pbs;
-	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 	a_pbs = pbs;
 
 	CBitSetIter bsi(*pbs);

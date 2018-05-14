@@ -58,21 +58,21 @@ CBitSetTest::EresUnittest_Basics()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	ULONG cSizeBits = 32;
-	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	ULONG vector_size = 32;
+	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 
 	ULONG cInserts = 10;
 	for (ULONG i = 0; i < cInserts; i += 2)
 	{
 		// forces addition of new link
-		pbs->ExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * vector_size);
 	}
 	GPOS_ASSERT(cInserts / 2 == pbs->Size());
 
 	for (ULONG i = 1; i < cInserts; i += 2)
 	{
 		// new link between existing links
-		pbs->ExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * vector_size);
 	}
 	GPOS_ASSERT(cInserts == pbs->Size());
 
@@ -85,7 +85,7 @@ CBitSetTest::EresUnittest_Basics()
 
 	for (ULONG i = 0; i < cInserts; i++)
 	{
-		GPOS_ASSERT(pbsCopy->Get(i * cSizeBits));
+		GPOS_ASSERT(pbsCopy->Get(i * vector_size));
 	}
 
 	CWStringDynamic str(pmp);
@@ -115,9 +115,9 @@ CBitSetTest::EresUnittest_Removal()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	ULONG cSizeBits = 32;
-	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
-	CBitSet *pbsEmpty = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	ULONG vector_size = 32;
+	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
+	CBitSet *pbsEmpty = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 
 	GPOS_ASSERT(pbs->Equals(pbsEmpty));
 	GPOS_ASSERT(pbsEmpty->Equals(pbs));
@@ -125,7 +125,7 @@ CBitSetTest::EresUnittest_Removal()
 	ULONG cInserts = 10;
 	for (ULONG i = 0; i < cInserts; i++)
 	{
-		pbs->ExchangeSet(i * cSizeBits);
+		pbs->ExchangeSet(i * vector_size);
 
 		GPOS_ASSERT(i + 1 == pbs->Size());
 	}
@@ -133,7 +133,7 @@ CBitSetTest::EresUnittest_Removal()
 	for (ULONG i = 0; i < cInserts; i++)
 	{
 		// cleans up empty links
-		pbs->ExchangeClear(i * cSizeBits);
+		pbs->ExchangeClear(i * vector_size);
 
 		GPOS_ASSERT(cInserts - i - 1 == pbs->Size());
 	}
@@ -163,21 +163,21 @@ CBitSetTest::EresUnittest_SetOps()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	ULONG cSizeBits = 32;
+	ULONG vector_size = 32;
 	ULONG cInserts = 10;
 
-	CBitSet *pbs1 = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	CBitSet *pbs1 = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 	for (ULONG i = 0; i < cInserts; i += 2)
 	{
-		pbs1->ExchangeSet(i * cSizeBits);
+		pbs1->ExchangeSet(i * vector_size);
 	}
 
-	CBitSet *pbs2 = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	CBitSet *pbs2 = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 	for (ULONG i = 1; i < cInserts; i += 2)
 	{
-		pbs2->ExchangeSet(i * cSizeBits);
+		pbs2->ExchangeSet(i * vector_size);
 	}
-	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 
 	pbs->Union(pbs1);
 	GPOS_ASSERT(pbs->Equals(pbs1));
@@ -226,18 +226,18 @@ CBitSetTest::EresUnittest_Performance()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 	
-	ULONG cSizeBits = 512;
-	CBitSet *pbsBase = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
-	for (ULONG i = 0; i < cSizeBits; i++)
+	ULONG vector_size = 512;
+	CBitSet *pbsBase = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
+	for (ULONG i = 0; i < vector_size; i++)
 		{
 			(void) pbsBase->ExchangeSet(i);
 		}
 
-	CBitSet *pbsTest = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
+	CBitSet *pbsTest = GPOS_NEW(pmp) CBitSet(pmp, vector_size);
 	for (ULONG j = 0; j < 100000; j++)
 	{
 		ULONG cRandomBits = 16;
-		for (ULONG i = 0; i < cRandomBits; i += ((cSizeBits - 1) / cRandomBits))
+		for (ULONG i = 0; i < cRandomBits; i += ((vector_size - 1) / cRandomBits))
 		{
 			(void) pbsTest->ExchangeSet(i);
 		}

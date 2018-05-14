@@ -57,8 +57,8 @@ CBitSetIter::FAdvance()
 	
 	while (NULL != m_pbsl)
 	{
-		if (m_ulCursor + 1 <= m_bs.m_cSizeBits &&
-			m_pbsl->Pbv()->GetNextSetBit(m_ulCursor + 1, m_ulCursor))
+		if (m_ulCursor + 1 <= m_bs.m_vector_size &&
+			m_pbsl->GetVec()->GetNextSetBit(m_ulCursor + 1, m_ulCursor))
 		{
 			break;
 		}
@@ -84,9 +84,9 @@ ULONG
 CBitSetIter::UlBit() const
 {
 	GPOS_ASSERT(m_fActive && NULL != m_pbsl && "iterator uninitialized");
-	GPOS_ASSERT(m_pbsl->Pbv()->Get(m_ulCursor));
+	GPOS_ASSERT(m_pbsl->GetVec()->Get(m_ulCursor));
 	
-	return m_pbsl->UlOffset() + m_ulCursor;
+	return m_pbsl->GetOffset() + m_ulCursor;
 }
 
 // EOF
