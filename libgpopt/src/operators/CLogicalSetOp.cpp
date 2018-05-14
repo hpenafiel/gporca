@@ -176,7 +176,7 @@ CLogicalSetOp::PcrsDeriveOutput
 	{
 		CColRefSet *pcrsChildOutput = exprhdl.Pdprel(ul)->PcrsOutput();
 		CColRefSet *pcrsInput = (*m_pdrgpcrsInput)[ul];
-		GPOS_ASSERT(pcrsChildOutput->FSubset(pcrsInput) &&
+		GPOS_ASSERT(pcrsChildOutput->ContainsAll(pcrsInput) &&
 				"Unexpected outer references in SetOp input");
 	}
 #endif // GPOS_DEBUG
@@ -366,7 +366,7 @@ CLogicalSetOp::PdrgpcrsInputMapped
 		pcrs->Include((*pdrgpcrsInput)[ul]);
 		pcrs->Intersection(pcrsChildInput);
 
-		if (0 == pcrs->CElements())
+		if (0 == pcrs->Size())
 		{
 			pcrs->Release();
 			continue;

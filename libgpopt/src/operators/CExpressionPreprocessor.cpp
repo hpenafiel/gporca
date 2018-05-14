@@ -293,7 +293,7 @@ CExpressionPreprocessor::PexprUnnestScalarSubqueries
 			// since Const Table will be eliminated in output expression
 			CColRefSet *pcrsConstTableOutput = CDrvdPropRelational::Pdprel(pexprConstTable->PdpDerive())->PcrsOutput();
 			CColRefSet *pcrsOuterRefs = CDrvdPropRelational::Pdprel((*pexprInnerSubq)[0]->PdpDerive())->PcrsOuter();
-			if (0 == pcrsOuterRefs->CElements() || pcrsOuterRefs->FDisjoint(pcrsConstTableOutput))
+			if (0 == pcrsOuterRefs->Size() || pcrsOuterRefs->IsDisjoint(pcrsConstTableOutput))
 			{
 				// recursively process inner subquery
 				CExpression *pexprUnnestedSubq = PexprUnnestScalarSubqueries(pmp, pexprInnerSubq);
@@ -1588,7 +1588,7 @@ CExpressionPreprocessor::CollectCTEPredicates
 	if (
 			COperator::EopLogicalSelect == pexpr->Pop()->Eopid() &&
 			COperator::EopLogicalCTEConsumer == (*pexpr)[0]->Pop()->Eopid() &&
-			0 == CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOuter()->CElements() // no outer references in selection predicate
+			0 == CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOuter()->Size() // no outer references in selection predicate
 		)
 	{
 		CExpression *pexprScalar = (*pexpr)[1];
@@ -1821,7 +1821,7 @@ CExpressionPreprocessor::PexprPruneUnusedComputedColsRecursive
 		pcrsUnusedLocal->Include(pcrsDefined);
 		pcrsUnusedLocal->Difference(pcrsReqd);
 
-		if (0 < pcrsUnusedLocal->CElements()) // need to prune
+		if (0 < pcrsUnusedLocal->Size()) // need to prune
 		{
 			// actual construction of new operators without unnecessary project elements
 			CExpression *pexprResult = PexprPruneProjListProjectOrGbAgg(pmp, pexpr, pcrsUnusedLocal, pcrsDefined, pcrsReqd);
@@ -1888,7 +1888,7 @@ CExpressionPreprocessor::PexprPruneProjListProjectOrGbAgg
 	// recursively process the relational child
 	CExpression *pexprRelationalNew = NULL;
 
-	if (pcrsUnused->CElements() == pcrsDefined->CElements())
+	if (pcrsUnused->Size() == pcrsDefined->Size())
 	{
 		// the entire project list needs to be pruned
 		if (COperator::EopLogicalProject == pop->Eopid())

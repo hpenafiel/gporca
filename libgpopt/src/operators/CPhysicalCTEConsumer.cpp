@@ -314,7 +314,7 @@ CPhysicalCTEConsumer::FProvidesReqdCols
 	GPOS_ASSERT(NULL != pcrsRequired);
 
 	CColRefSet *pcrsOutput = exprhdl.Pdprel()->PcrsOutput();
-	return pcrsOutput->FSubset(pcrsRequired);
+	return pcrsOutput->ContainsAll(pcrsRequired);
 }
 
 //---------------------------------------------------------------------------

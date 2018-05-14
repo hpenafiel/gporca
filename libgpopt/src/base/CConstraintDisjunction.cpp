@@ -207,7 +207,7 @@ CConstraintDisjunction::Pcnstr
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CConstraint *pcnstr = (*m_pdrgpcnstr)[ul];
-		if (pcnstr->PcrsUsed()->FDisjoint(pcrs))
+		if (pcnstr->PcrsUsed()->IsDisjoint(pcrs))
 		{
 			// a child has none of these columns... return unbounded constraint
 			pdrgpcnstr->Release();

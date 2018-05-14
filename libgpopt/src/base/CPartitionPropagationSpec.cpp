@@ -502,7 +502,7 @@ CPartitionPropagationSpec::PdrgpexprPredicatesOnKey
 		CColRefSet *pcrsUsedKeys = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsUsed);
 		pcrsUsedKeys->Intersection(pcrsKeys);
 
-		if (1 == pcrsUsedKeys->CElements() && pcrsUsedKeys->FMember(pcr))
+		if (1 == pcrsUsedKeys->Size() && pcrsUsedKeys->FMember(pcr))
 		{
 			pexpr->AddRef();
 			pdrgpexprResult->Append(pexpr);

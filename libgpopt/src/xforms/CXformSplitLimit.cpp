@@ -61,7 +61,7 @@ CXformSplitLimit::Exfp
 	)
 	const
 {
-	if (0 < exprhdl.Pdprel()->PcrsOuter()->CElements())
+	if (0 < exprhdl.Pdprel()->PcrsOuter()->Size())
 	{
 		return CXform::ExfpNone;
 	}
@@ -111,7 +111,7 @@ CXformSplitLimit::Transform
 			CDrvdPropRelational::Pdprel(pexprRelational->Pdp(CDrvdProp::EptRelational));
 
 	// TODO: , Feb 20, 2012, we currently only split limit with offset 0.
-	if (!CUtils::FHasZeroOffset(pexpr) || 0 < pdprel->PcrsOuter()->CElements())
+	if (!CUtils::FHasZeroOffset(pexpr) || 0 < pdprel->PcrsOuter()->Size())
 	{
 		return;
 	}

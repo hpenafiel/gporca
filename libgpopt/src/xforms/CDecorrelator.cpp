@@ -150,7 +150,7 @@ CDecorrelator::FDelayable
  		// for semi-joins, we disallow predicates referring to inner child to be pulled above the join
  		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed();
  		CColRefSet *pcrsInner = CDrvdPropRelational::Pdprel((*pexprLogical)[1]->PdpDerive())->PcrsOutput();
- 		if (!pcrsUsed->FDisjoint(pcrsInner))
+ 		if (!pcrsUsed->IsDisjoint(pcrsInner))
  		{
  			// predicate uses a column produced by semi-join inner child
 
@@ -202,7 +202,7 @@ CDecorrelator::FProcess
 	CDrvdPropRelational *pdprel = CDrvdPropRelational::Pdprel(pexpr->PdpDerive());
 
 	// no outer references?
-	if (0 == pdprel->PcrsOuter()->CElements())
+	if (0 == pdprel->PcrsOuter()->Size())
 	{
 		pexpr->AddRef();
 		*ppexprDecorrelated = pexpr;
@@ -215,7 +215,7 @@ CDecorrelator::FProcess
 	GPOS_ASSERT_IMP
 		(
 		fSuccess,
-		0 == CDrvdPropRelational::Pdprel((*ppexprDecorrelated)->PdpDerive())->PcrsOuter()->CElements()
+		0 == CDrvdPropRelational::Pdprel((*ppexprDecorrelated)->PdpDerive())->PcrsOuter()->Size()
 		);
 
 	return fSuccess;
@@ -307,7 +307,7 @@ CDecorrelator::FProcessPredicate
 		CExpression *pexprConj = (*pdrgpexprConj)[ul];
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprConj->PdpDerive())->PcrsUsed();
 		
-		if (pcrsOutput->FSubset(pcrsUsed))
+		if (pcrsOutput->ContainsAll(pcrsUsed))
 		{
 			// no outer ref
 			pexprConj->AddRef();
@@ -575,7 +575,7 @@ CDecorrelator::FProcessAssert
 	// fail if assert expression has outer references
 	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel((*pexpr)[0]->PdpDerive())->PcrsOutput();
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed();
-	if (!pcrsOutput->FSubset(pcrsUsed))
+	if (!pcrsOutput->ContainsAll(pcrsUsed))
 	{
 		return false;
 	}
@@ -689,7 +689,7 @@ CDecorrelator::FProcessProject
 	// fail if project elements have outer references
 	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel((*pexpr)[0]->PdpDerive())->PcrsOutput();
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprPrjList->PdpDerive())->PcrsUsed();
-	if (!pcrsOutput->FSubset(pcrsUsed))
+	if (!pcrsOutput->ContainsAll(pcrsUsed))
 	{
 		return false;
 	}

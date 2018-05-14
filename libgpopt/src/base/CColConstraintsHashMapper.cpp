@@ -36,7 +36,7 @@ PhmcolconstrSingleColConstr
 		CConstraint *pcnstrChild = (*arpdrgpcnstr)[ul];
 		CColRefSet *pcrs = pcnstrChild->PcrsUsed();
 
-		if (1 == pcrs->CElements())
+		if (1 == pcrs->Size())
 		{
 			CColRef *pcr = pcrs->PcrFirst();
 			DrgPcnstr *pcnstrMapped = phmcolconstr->PtLookup(pcr);

@@ -478,7 +478,7 @@ CReqdPropPlan::FProvidesReqdCols
 		}
 
 		CColRefSet *pcrsUsed = pps->PcrsUsed(pmp);
-		fProvidesReqdCols = pcrsOutput->FSubset(pcrsUsed);
+		fProvidesReqdCols = pcrsOutput->ContainsAll(pcrsUsed);
 		pcrsUsed->Release();
 	}
 

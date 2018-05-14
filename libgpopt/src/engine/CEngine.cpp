@@ -158,8 +158,8 @@ CEngine::Init
 	GPOS_ASSERT(NULL != pqc);
 	GPOS_ASSERT_IMP
 		(
-		0 == CDrvdPropRelational::Pdprel(pqc->Pexpr()->PdpDerive())->PcrsOutput()->CElements(),
-		0 == pqc->Prpp()->PcrsRequired()->CElements() &&
+		0 == CDrvdPropRelational::Pdprel(pqc->Pexpr()->PdpDerive())->PcrsOutput()->Size(),
+		0 == pqc->Prpp()->PcrsRequired()->Size() &&
 		"requiring columns from a zero column expression"
 		);
 
@@ -1646,7 +1646,7 @@ CEngine::ProcessTraceFlags()
 			<< (ULONG) (m_pmemo->UlpGroups()) << " groups"
 			<< ", " << m_pmemo->UlDuplicateGroups() << " duplicate groups"
 			<< ", " << m_pmemo->UlGrpExprs() << " group expressions"
-			<< ", " << m_pxfs->CElements() << " activated xforms]";
+			<< ", " << m_pxfs->Size() << " activated xforms]";
 
 		at.Os()
 			<< std::endl << "[OPT]: stage "<< m_ulCurrSearchStage << " completed in "

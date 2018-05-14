@@ -86,8 +86,7 @@ namespace gpos
 			}; // class CBitSetLink
 		
 			// list of bit set links
-			typedef CList<CBitSetLink> BSLList;
-			BSLList m_bsllist;
+			typedef CList<CBitSetLink> m_bsllist;
 		
 			// pool to allocate links from
 			IMemoryPool *m_pmp;
@@ -141,19 +140,19 @@ namespace gpos
 			void Difference(const CBitSet *);
 			
 			// is subset
-			BOOL FSubset(const CBitSet *) const;
+			BOOL ContainsAll(const CBitSet *) const;
 			
 			// equality
 			BOOL Equals(const CBitSet *) const;
 			
 			// disjoint
-			BOOL FDisjoint(const CBitSet *) const;
+			BOOL IsDisjoint(const CBitSet *) const;
 			
 			// hash value for set
 			ULONG HashValue() const;
 			
 			// number of elements
-			ULONG CElements() const
+			ULONG Size() const
 			{
 				return m_cElements;
 			}

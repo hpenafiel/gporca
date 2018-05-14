@@ -311,7 +311,7 @@ CStatistics::CreateAndInsertUpperBoundNDVs
 		}
 	}
 
-	if (0 < pcrs->CElements())
+	if (0 < pcrs->Size())
 	{
 		pstats->AddCardUpperBound(GPOS_NEW(pmp) CUpperBoundNDVs(pcrs, dRows));
 	}

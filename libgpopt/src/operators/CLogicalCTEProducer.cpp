@@ -59,7 +59,7 @@ CLogicalCTEProducer::CLogicalCTEProducer
 	GPOS_ASSERT(NULL != pdrgpcr);
 
 	m_pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp, m_pdrgpcr);
-	GPOS_ASSERT(m_pdrgpcr->Size() == m_pcrsOutput->CElements());
+	GPOS_ASSERT(m_pdrgpcr->Size() == m_pcrsOutput->Size());
 
 	m_pcrsLocalUsed->Include(m_pdrgpcr);
 }

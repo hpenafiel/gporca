@@ -460,7 +460,7 @@ CStatsPredUtils::PstatspredConj
 	{
 		CExpression *pexprPred = (*pdrgpexprConjuncts)[ul];
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
-		if (NULL != pcrsOuterRefs && pcrsOuterRefs->FSubset(pcrsUsed))
+		if (NULL != pcrsOuterRefs && pcrsOuterRefs->ContainsAll(pcrsUsed))
 		{
 			// skip predicate with outer references
 			continue;
@@ -524,7 +524,7 @@ CStatsPredUtils::PstatspredDisj
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed();
-		if (NULL != pcrsOuterRefs && pcrsOuterRefs->FSubset(pcrsUsed))
+		if (NULL != pcrsOuterRefs && pcrsOuterRefs->ContainsAll(pcrsUsed))
 		{
 			// skip predicate with outer references
 			continue;
@@ -567,7 +567,7 @@ CStatsPredUtils::AddSupportedStatsFilters
 	GPOS_ASSERT(NULL != pdrgpstatspred);
 
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
-	if (NULL != pcrsOuterRefs && pcrsOuterRefs->FSubset(pcrsUsed))
+	if (NULL != pcrsOuterRefs && pcrsOuterRefs->ContainsAll(pcrsUsed))
 	{
 		// skip predicates with outer references
 		return;
@@ -1078,7 +1078,7 @@ CStatsPredUtils::PstatsjoinExtract
 
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprJoinPred->PdpDerive())->PcrsUsed();
 
-	if (pcrsOuterRefs->FSubset(pcrsUsed))
+	if (pcrsOuterRefs->ContainsAll(pcrsUsed))
 	{
 		return NULL;
 	}

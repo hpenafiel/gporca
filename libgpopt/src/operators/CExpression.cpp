@@ -771,7 +771,7 @@ CExpression::ResetStats()
 BOOL
 CExpression::FHasOuterRefs()
 {
-	return (0 < CDrvdPropRelational::Pdprel(PdpDerive())->PcrsOuter()->CElements());
+	return (0 < CDrvdPropRelational::Pdprel(PdpDerive())->PcrsOuter()->Size());
 }
 
 //---------------------------------------------------------------------------

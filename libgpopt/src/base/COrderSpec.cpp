@@ -481,7 +481,7 @@ COrderSpec::PdrgposExclude
 	GPOS_ASSERT(NULL != pdrgpos);
 	GPOS_ASSERT(NULL != pcrsToExclude);
 
-	if (0 == pcrsToExclude->CElements())
+	if (0 == pcrsToExclude->Size())
 	{
 		// no columns to exclude
 		pdrgpos->AddRef();

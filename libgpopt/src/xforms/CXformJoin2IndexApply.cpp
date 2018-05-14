@@ -43,7 +43,7 @@ CXformJoin2IndexApply::Exfp
 	GPOS_ASSERT(NULL != pdpscalar);
 
 	if (
-		0 == pdpscalar->PcrsUsed()->CElements() ||
+		0 == pdpscalar->PcrsUsed()->Size() ||
 		pdpscalar->FHasSubquery() ||
 		exprhdl.FHasOuterRefs()
 		)

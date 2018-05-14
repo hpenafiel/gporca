@@ -366,7 +366,7 @@ CExpressionFactorizer::PcrsUsedByPushableScalar
 	}
 
 	CDrvdPropScalar *pdpscalar = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive());
-	if (0 < pdpscalar->PcrsDefined()->CElements() ||
+	if (0 < pdpscalar->PcrsDefined()->Size() ||
 	    pdpscalar->FHasSubquery() ||
 	    IMDFunction::EfsVolatile == pdpscalar->Pfp()->Efs() ||
 	    IMDFunction::EfdaNoSQL != pdpscalar->Pfp()->Efda())
@@ -405,7 +405,7 @@ CExpressionFactorizer::FOpSourceIdOrComputedColumn
 	*ppcrComputedColumn = NULL;
 
 	CColRefSet* pcrsUsed = PcrsUsedByPushableScalar(pexpr);
-	if (NULL == pcrsUsed || 0 == pcrsUsed->CElements())
+	if (NULL == pcrsUsed || 0 == pcrsUsed->Size())
 	{
 		return false;
 	}

@@ -488,7 +488,7 @@ CPhysicalAgg::FProvidesReqdCols
 	
 	// include defined columns by scalar child
 	pcrs->Union(exprhdl.Pdpscalar(1 /*ulChildIndex*/)->PcrsDefined());
-	BOOL fProvidesCols = pcrs->FSubset(pcrsRequired);
+	BOOL fProvidesCols = pcrs->ContainsAll(pcrsRequired);
 	pcrs->Release();
 
 	return fProvidesCols;

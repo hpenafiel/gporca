@@ -173,7 +173,7 @@ CReqdPropRelational::PrprelDifference
 BOOL
 CReqdPropRelational::IsEmpty() const
 {
-	return m_pcrsStat->CElements() == 0;
+	return m_pcrsStat->Size() == 0;
 }
 
 //---------------------------------------------------------------------------

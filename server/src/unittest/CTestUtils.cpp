@@ -1206,7 +1206,7 @@ CTestUtils::PexprLogicalSelectCorrelated
 	CExpression *pexpr = PexprLogicalSelectCorrelated(pmp, pcrsOuter, ulLevel - 1);
 
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput();
-	GPOS_ASSERT(pcrsOuter->FDisjoint(pcrs));
+	GPOS_ASSERT(pcrsOuter->IsDisjoint(pcrs));
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 
@@ -1690,7 +1690,7 @@ CExpression *CTestUtils::PexprLogicalGbAggWithInput
 	CDrvdPropRelational *pdprel = CDrvdPropRelational::Pdprel(pexprInput->PdpDerive());
 	CColRefSet *pcrs = pdprel->PcrsOutput();
 
-	ULONG ulCols = std::min(3u, pcrs->CElements());
+	ULONG ulCols = std::min(3u, pcrs->Size());
 
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
 	CColRefSetIter crsi(*pcrs);

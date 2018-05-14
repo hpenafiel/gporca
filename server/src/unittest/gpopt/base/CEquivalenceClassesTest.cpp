@@ -72,16 +72,16 @@ CEquivalenceClassesTest::EresUnittest_NotDisjointEquivalanceClasses()
 		GPOS_ASSERT(pcrs->FMember(pcr));
 	}
 
-	GPOS_ASSERT(pcrs->CElements() == ulCols);
+	GPOS_ASSERT(pcrs->Size() == ulCols);
 
 	CColRefSet *pcrsTwo = GPOS_NEW(pmp) CColRefSet(pmp, *pcrs);
-	GPOS_ASSERT(pcrsTwo->CElements() == ulCols);
+	GPOS_ASSERT(pcrsTwo->Size() == ulCols);
 
 	CColRefSet *pcrsThree = GPOS_NEW(pmp) CColRefSet(pmp);
-	GPOS_ASSERT(pcrsThree->CElements() == 0);
+	GPOS_ASSERT(pcrsThree->Size() == 0);
 	CColRef *pcrThree = pcf->PcrCreate(pmdtypeint4, IDefaultTypeModifier, name);
 	pcrsThree->Include(pcrThree);
-	GPOS_ASSERT(pcrsThree->CElements() == 1);
+	GPOS_ASSERT(pcrsThree->Size() == 1);
 
 	DrgPcrs *pdrgpcrs = GPOS_NEW(pmp) DrgPcrs(pmp);
 	pcrs->AddRef();
@@ -147,7 +147,7 @@ CEquivalenceClassesTest::EresUnittest_IntersectEquivalanceClasses()
 		GPOS_ASSERT(pcrs->FMember(pcr));
 	}
 
-	GPOS_ASSERT(pcrs->CElements() == ulCols);
+	GPOS_ASSERT(pcrs->Size() == ulCols);
 
 	// Generate equivalence classes
 	INT setBoundaryFirst[] = {2,5,7};

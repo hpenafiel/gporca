@@ -137,7 +137,7 @@ CXformCollapseGbAgg::Transform
 	// columns must be a subset of bottom grouping columns
 	CColRefSet *pcrsTopGrpCols = GPOS_NEW(pmp) CColRefSet(pmp, popTopGbAgg->Pdrgpcr());
 	CColRefSet *pcrsBottomGrpCols = GPOS_NEW(pmp) CColRefSet(pmp, popBottomGbAgg->Pdrgpcr());
-	GPOS_ASSERT(pcrsBottomGrpCols->FSubset(pcrsTopGrpCols));
+	GPOS_ASSERT(pcrsBottomGrpCols->ContainsAll(pcrsTopGrpCols));
 
 	pcrsTopGrpCols->Release();
 	pcrsBottomGrpCols->Release();

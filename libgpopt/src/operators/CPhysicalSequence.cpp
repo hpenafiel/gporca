@@ -115,7 +115,7 @@ CPhysicalSequence::PcrsRequired
 	}
 	
 	m_pcrsEmpty->AddRef();
-	GPOS_ASSERT(0 == m_pcrsEmpty->CElements());
+	GPOS_ASSERT(0 == m_pcrsEmpty->Size());
 
 	return m_pcrsEmpty;
 }
@@ -205,7 +205,7 @@ CPhysicalSequence::FProvidesReqdCols
 	
 	CColRefSet *pcrsChild = exprhdl.Pdprel(ulArity - 1)->PcrsOutput();
 
-	return pcrsChild->FSubset(pcrsRequired);
+	return pcrsChild->ContainsAll(pcrsRequired);
 }
 
 //---------------------------------------------------------------------------

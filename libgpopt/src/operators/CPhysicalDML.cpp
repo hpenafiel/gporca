@@ -497,7 +497,7 @@ CPhysicalDML::PosComputeRequired
 		for (ULONG ul = 0; ul < ulKeySets && !fNeedsSort; ul++)
 		{
 			CBitSet *pbs = (*pdrgpbsKeys)[ul];
-			if (!pbs->FDisjoint(m_pbsModified))
+			if (!pbs->IsDisjoint(m_pbsModified))
 			{
 				fNeedsSort = true;
 				break;

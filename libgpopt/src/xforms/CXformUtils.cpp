@@ -90,7 +90,7 @@ CXformUtils::ExfpSemiJoin2CrossProduct
 
 	CColRefSet *pcrsUsed = exprhdl.Pdpscalar(2 /*ulChildIndex*/)->PcrsUsed();
 	CColRefSet *pcrsOuterOutput = exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput();
-	if (0 == pcrsUsed->CElements() || !pcrsOuterOutput->FSubset(pcrsUsed))
+	if (0 == pcrsUsed->Size() || !pcrsOuterOutput->ContainsAll(pcrsUsed))
 	{
 		// xform is inapplicable of join predicate uses columns from join's inner child
 		return CXform::ExfpNone;
@@ -422,8 +422,8 @@ CXformUtils::PexprSwapJoins
 	const CColRefSet *pcrsBottomOuter = CDrvdPropRelational::Pdprel((*pexprBottomJoin)[0]->PdpDerive())->PcrsOutput();
 	const CColRefSet *pcrsBottomInner = CDrvdPropRelational::Pdprel((*pexprBottomJoin)[1]->PdpDerive())->PcrsOutput();
 
-	BOOL fDisjointWithBottomOuter = pcrsUsed->FDisjoint(pcrsBottomOuter);
-	BOOL fDisjointWithBottomInner = pcrsUsed->FDisjoint(pcrsBottomInner);
+	BOOL fDisjointWithBottomOuter = pcrsUsed->IsDisjoint(pcrsBottomOuter);
+	BOOL fDisjointWithBottomInner = pcrsUsed->IsDisjoint(pcrsBottomInner);
 	if (!fDisjointWithBottomOuter && !fDisjointWithBottomInner)
 	{
 		// top join uses columns from both children of bottom join;
@@ -591,7 +591,7 @@ CXformUtils::PopGbAggPushableBelowJoin
 	GPOS_ASSERT(NULL != pcrsGrpCols);
 
 	CLogicalGbAgg *popGbAggNew = popGbAggOld;
-	if (!pcrsOutputOuter->FSubset(pcrsGrpCols))
+	if (!pcrsOutputOuter->ContainsAll(pcrsGrpCols))
 	{
 		// we have grouping columns from both join children;
 		// we can drop grouping columns from the inner join child since
@@ -636,11 +636,11 @@ CXformUtils::FCanPushGbAggBelowJoin
 	CColRefSet *pcrsFKey
 	)
 {
-	BOOL fGrpByProvidesUsedColumns = pcrsGrpByOutput->FSubset(pcrsJoinScalarUsedFromOuter);
+	BOOL fGrpByProvidesUsedColumns = pcrsGrpByOutput->ContainsAll(pcrsJoinScalarUsedFromOuter);
 
 	BOOL fHasFK = (NULL != pcrsFKey);
-	BOOL fGrpColsContainFK = (fHasFK && pcrsGrpCols->FSubset(pcrsFKey));
-	BOOL fOutputColsContainUsedCols = pcrsJoinOuterChildOutput->FSubset(pcrsGrpByUsed);
+	BOOL fGrpColsContainFK = (fHasFK && pcrsGrpCols->ContainsAll(pcrsFKey));
+	BOOL fOutputColsContainUsedCols = pcrsJoinOuterChildOutput->ContainsAll(pcrsGrpByUsed);
 
 	if (!fHasFK || !fGrpColsContainFK || !fOutputColsContainUsedCols || !fGrpByProvidesUsedColumns)
 	{
@@ -2319,7 +2319,7 @@ CXformUtils::FIndexApplicable
 	)
 {
 	if (emdindtype != pmdindex->Emdindt() ||
-		0 == pcrsScalar->CElements()) // no columns to match index against
+		0 == pcrsScalar->Size()) // no columns to match index against
 	{
 		return false;
 	}
@@ -2328,8 +2328,8 @@ CXformUtils::FIndexApplicable
 	
 	CColRefSet *pcrsIncludedCols = CXformUtils::PcrsIndexIncludedCols(pmp, pdrgpcrOutput, pmdindex, pmdrel);
 	CColRefSet *pcrsIndexCols = CXformUtils::PcrsIndexKeys(pmp, pdrgpcrOutput, pmdindex, pmdrel);
-	if (!pcrsIncludedCols->FSubset(pcrsReqd) || // index is not covering
-		pcrsScalar->FDisjoint(pcrsIndexCols)) // indexing columns disjoint from the columns used in the scalar expression
+	if (!pcrsIncludedCols->ContainsAll(pcrsReqd) || // index is not covering
+		pcrsScalar->IsDisjoint(pcrsIndexCols)) // indexing columns disjoint from the columns used in the scalar expression
 	{
 		fApplicable = false;
 	}
@@ -2547,10 +2547,10 @@ CXformUtils::LookupHashJoinKeys
 	CColRefSet *pcrsUsedOuter = CUtils::PcrsExtractColumns(pmp, pgroupScalar->PdrgpexprHashJoinKeysOuter());
 	CColRefSet *pcrsUsedInner = CUtils::PcrsExtractColumns(pmp, pgroupScalar->PdrgpexprHashJoinKeysInner());
 
-	BOOL fOuterKeysUsesOuterChild = pcrsOuterOutput->FSubset(pcrsUsedOuter);
-	BOOL fInnerKeysUsesInnerChild = pcrsInnerOutput->FSubset(pcrsUsedInner);
-	BOOL fInnerKeysUsesOuterChild = pcrsOuterOutput->FSubset(pcrsUsedInner);
-	BOOL fOuterKeysUsesInnerChild = pcrsInnerOutput->FSubset(pcrsUsedOuter);
+	BOOL fOuterKeysUsesOuterChild = pcrsOuterOutput->ContainsAll(pcrsUsedOuter);
+	BOOL fInnerKeysUsesInnerChild = pcrsInnerOutput->ContainsAll(pcrsUsedInner);
+	BOOL fInnerKeysUsesOuterChild = pcrsOuterOutput->ContainsAll(pcrsUsedInner);
+	BOOL fOuterKeysUsesInnerChild = pcrsInnerOutput->ContainsAll(pcrsUsedOuter);
 
 	if ((fOuterKeysUsesOuterChild && fInnerKeysUsesInnerChild) ||
 		(fInnerKeysUsesOuterChild && fOuterKeysUsesInnerChild))
@@ -3510,7 +3510,7 @@ CXformUtils::PexprBitmapForIndexLookup
 	CExpression **ppexprRecheck
 	)
 {
-	if (NULL == pcrsOuterRefs || 0 == pcrsOuterRefs->CElements())
+	if (NULL == pcrsOuterRefs || 0 == pcrsOuterRefs->Size())
 	{
 		return NULL;
 	}
@@ -4270,7 +4270,7 @@ CXformUtils::FJoinPredOnSingleChild
 	GPOS_ASSERT(CUtils::FLogicalJoin(exprhdl.Pop()));
 
 	const ULONG ulArity = exprhdl.UlArity();
-	if (0 == exprhdl.Pdpscalar(ulArity - 1)->PcrsUsed()->CElements())
+	if (0 == exprhdl.Pdpscalar(ulArity - 1)->PcrsUsed()->Size())
 	{
 		// no columns are used in join predicate
 		return false;
@@ -4294,7 +4294,7 @@ CXformUtils::FJoinPredOnSingleChild
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed();
 		for (ULONG ulChild = 0; !fPredUsesSingleChild && ulChild < ulArity - 1; ulChild++)
 		{
-			fPredUsesSingleChild = (*pdrgpcrs)[ulChild]->FSubset(pcrsUsed);
+			fPredUsesSingleChild = (*pdrgpcrs)[ulChild]->ContainsAll(pcrsUsed);
 		}
 	}
 	pdrgpexprPreds->Release();

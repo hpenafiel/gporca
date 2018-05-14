@@ -169,7 +169,7 @@ CConstraint::PcnstrFromScalarExpr
 	CDrvdPropScalar *pdpScalar = CDrvdPropScalar::Pdpscalar(pexpr->Pdp(CDrvdProp::EptScalar));
 
 	CColRefSet *pcrs = pdpScalar->PcrsUsed();
-	ULONG ulCols = pcrs->CElements();
+	ULONG ulCols = pcrs->Size();
 
 	if (0 == ulCols)
 	{
@@ -572,7 +572,7 @@ CConstraint::PdrgpcnstrOnColumn
 		CColRefSet *pcrs = pcnstr->PcrsUsed();
 
 		// if the fExclusive flag is true, then pcr must be the only column
-		if (pcrs->FMember(pcr) && (!fExclusive || 1 == pcrs->CElements()))
+		if (pcrs->FMember(pcr) && (!fExclusive || 1 == pcrs->Size()))
 		{
 			pcnstr->AddRef();
 			pdrgpcnstrSubset->Append(pcnstr);
@@ -709,7 +709,7 @@ CConstraint::PdrgpcnstrDeduplicate
 
 		// we only simplify constraints that reference a single column, otherwise
 		// we add constraint as is
-		if (1 < pcrs->CElements())
+		if (1 < pcrs->Size())
 		{
 			pcnstrChild->AddRef();
 			pdrgpcnstrNew->Append(pcnstrChild);

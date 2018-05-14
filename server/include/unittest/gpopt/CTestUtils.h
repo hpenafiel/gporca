@@ -1005,7 +1005,7 @@ namespace gpopt
 		CExpression *pexprPredicate = CUtils::PexprScalarConstBool(pmp, true /*fVal*/);
 
 		CColRefSet *pcrsOuterRef = CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->PcrsOuter();
-		GPOS_ASSERT(1 == pcrsOuterRef->CElements());
+		GPOS_ASSERT(1 == pcrsOuterRef->Size());
 		CColRef *pcr = pcrsOuterRef->PcrFirst();
 
 		DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);

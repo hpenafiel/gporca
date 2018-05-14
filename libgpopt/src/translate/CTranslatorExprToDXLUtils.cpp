@@ -2555,7 +2555,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 		// If yes, then we have detected a motion hazard for the parent Result node.
 		CBitSet *pbsPrjList = GPOS_NEW(pmp) CBitSet(pmp);
 		ExtractIdentColIds((*pdxln)[0], pbsPrjList);
-		BOOL fDisJoint = pbsPrjCols->FDisjoint(pbsPrjList);
+		BOOL fDisJoint = pbsPrjCols->IsDisjoint(pbsPrjList);
 		pbsPrjList->Release();
 
 		return !fDisJoint;

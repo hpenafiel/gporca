@@ -120,7 +120,7 @@ CConstraintNegation::Pcnstr
 	CColRefSet *pcrs
 	)
 {
-	if (m_pcrsUsed->FDisjoint(pcrs))
+	if (m_pcrsUsed->IsDisjoint(pcrs))
 	{
 		return NULL;
 	}
@@ -144,7 +144,7 @@ CConstraintNegation::PcnstrRemapForColumn
 	)
 	const
 {
-	GPOS_ASSERT(1 == m_pcrsUsed->CElements());
+	GPOS_ASSERT(1 == m_pcrsUsed->Size());
 
 	return GPOS_NEW(pmp) CConstraintNegation(pmp, m_pcnstr->PcnstrRemapForColumn(pmp, pcr));
 }

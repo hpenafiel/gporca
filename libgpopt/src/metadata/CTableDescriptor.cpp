@@ -240,7 +240,7 @@ CTableDescriptor::FAddKeySet
 	)
 {
 	GPOS_ASSERT(NULL != pbs);
-	GPOS_ASSERT(pbs->CElements() <= m_pdrgpcoldesc->Size());
+	GPOS_ASSERT(pbs->Size() <= m_pdrgpcoldesc->Size());
 	
 	const ULONG ulSize = m_pdrgpbsKeys->Size();
 	BOOL fFound = false;

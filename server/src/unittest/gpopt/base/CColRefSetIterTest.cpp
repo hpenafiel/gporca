@@ -92,7 +92,7 @@ CColRefSetIterTest::EresUnittest_Basics()
 		GPOS_ASSERT(pcrs->FMember(pcr));
 	}
 
-	GPOS_ASSERT(pcrs->CElements() == ulCols);
+	GPOS_ASSERT(pcrs->Size() == ulCols);
 
 	ULONG ulCount = 0;
 	CColRefSetIter crsi(*pcrs);

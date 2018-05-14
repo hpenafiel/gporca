@@ -351,7 +351,7 @@ CPhysicalComputeScalar::FProvidesReqdCols
 	// include output columns of the relational child
 	pcrs->Union(exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput());
 
-	BOOL fProvidesCols = pcrs->FSubset(pcrsRequired);
+	BOOL fProvidesCols = pcrs->ContainsAll(pcrsRequired);
 	pcrs->Release();
 
 	return fProvidesCols;
@@ -493,7 +493,7 @@ CPhysicalComputeScalar::EpetRewindability
 {
 	CColRefSet *pcrsUsed = exprhdl.Pdpscalar(1 /*ulChidIndex*/)->PcrsUsed();
 	CColRefSet *pcrsCorrelatedApply = exprhdl.Pdprel()->PcrsCorrelatedApply();
-	if (!pcrsUsed->FDisjoint(pcrsCorrelatedApply))
+	if (!pcrsUsed->IsDisjoint(pcrsCorrelatedApply))
 	{
 		// columns are used from inner children of correlated-apply expressions,
 		// this means that a subplan occurs below the Project operator,

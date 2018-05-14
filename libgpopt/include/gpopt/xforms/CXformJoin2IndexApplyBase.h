@@ -55,7 +55,7 @@ namespace gpopt
 
 				// Distribution key set of inner GET must be subset of inner columns used in
 				// the left outer join condition, but doesn't need to be equal.
-				BOOL fCanOuterIndexApply = pcrsInnerRefs->FSubset(popGet->PcrsDist());
+				BOOL fCanOuterIndexApply = pcrsInnerRefs->ContainsAll(popGet->PcrsDist());
 				pcrsInnerRefs->Release();
 				if (fCanOuterIndexApply)
 				{
@@ -74,13 +74,13 @@ namespace gpopt
 						// consider R LOJ S (both distribute by a and have index on a)
 						// with the predicate S.a = R.a and S.a > R.b, left outer index
 						// apply is still applicable.
-						if (!pcrsPred->FDisjoint(popGet->PcrsDist()) &&
+						if (!pcrsPred->IsDisjoint(popGet->PcrsDist()) &&
 							CPredicateUtils::FEquality(pexprPred))
 						{
 							pcrsEquivPredInner->Include(pcrsPred);
 						}
 					}
-					fCanOuterIndexApply = pcrsEquivPredInner->FSubset(popGet->PcrsDist());
+					fCanOuterIndexApply = pcrsEquivPredInner->ContainsAll(popGet->PcrsDist());
 					pcrsEquivPredInner->Release();
 					pdrgpexpr->Release();
 				}

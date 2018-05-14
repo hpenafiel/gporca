@@ -275,7 +275,7 @@ CLogical::PcrsDeriveOutputCombineLogical
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(ul)->PcrsOutput();
-		GPOS_ASSERT(pcrs->FDisjoint(pcrsChild) && "Input columns are not disjoint");
+		GPOS_ASSERT(pcrs->IsDisjoint(pcrsChild) && "Input columns are not disjoint");
 
 		pcrs->Union(pcrsChild);
 	}
@@ -307,7 +307,7 @@ CLogical::PcrsDeriveNotNullCombineLogical
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(ul)->PcrsNotNull();
-		GPOS_ASSERT(pcrs->FDisjoint(pcrsChild) && "Input columns are not disjoint");
+		GPOS_ASSERT(pcrs->IsDisjoint(pcrsChild) && "Input columns are not disjoint");
 
 		pcrs->Union(pcrsChild);
 	}
@@ -913,7 +913,7 @@ CLogical::PpcDeriveConstraintRestrict
 		pcrsEquiv->Include((*pdrgpcrs)[ul]);
 		pcrsEquiv->Intersection(pcrsOutput);
 
-		if (0 < pcrsEquiv->CElements())
+		if (0 < pcrsEquiv->Size())
 		{
 			pdrgpcrsNew->Append(pcrsEquiv);
 		}

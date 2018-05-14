@@ -54,7 +54,7 @@ CKeyCollection::CKeyCollection
 	m_pmp(pmp),
 	m_pdrgpcrs(NULL)
 {
-	GPOS_ASSERT(NULL != pcrs && 0 < pcrs->CElements());
+	GPOS_ASSERT(NULL != pcrs && 0 < pcrs->Size());
 	
 	m_pdrgpcrs = GPOS_NEW(pmp) DrgPcrs(pmp);
 
@@ -159,7 +159,7 @@ CKeyCollection::FKey
 		else
 		{
 			// if given column set includes a key, then it is also a key
-			if (pcrs->FSubset((*m_pdrgpcrs)[ul]))
+			if (pcrs->ContainsAll((*m_pdrgpcrs)[ul]))
 			{
 				return true;
 			}
@@ -221,7 +221,7 @@ CKeyCollection::PdrgpcrTrim
 	for(ULONG ul = 0; ul < ulSets; ul++)
 	{
 		CColRefSet *pcrsKey = (*m_pdrgpcrs)[ul];
-		if (pcrs->FSubset(pcrsKey))
+		if (pcrs->ContainsAll(pcrsKey))
 		{
 			pdrgpcrTrim = pcrsKey->Pdrgpcr(pmp);
 			break;

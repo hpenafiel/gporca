@@ -323,7 +323,7 @@ CPhysicalSplit::FProvidesReqdCols
 	// include output columns of the relational child
 	pcrs->Union(exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput());
 
-	BOOL fProvidesCols = pcrs->FSubset(pcrsRequired);
+	BOOL fProvidesCols = pcrs->ContainsAll(pcrsRequired);
 	pcrs->Release();
 
 	return fProvidesCols;
@@ -372,7 +372,7 @@ CPhysicalSplit::PdsDerive
 	CDistributionSpecHashed *pdsHashed = CDistributionSpecHashed::PdsConvert(pdsOuter);
 	CColRefSet *pcrsHashed = CUtils::PcrsExtractColumns(pmp, pdsHashed->Pdrgpexpr());
 	
-	if (!pcrsModified->FDisjoint(pcrsHashed))
+	if (!pcrsModified->IsDisjoint(pcrsHashed))
 	{
 		pcrsModified->Release();
 		pcrsHashed->Release();
@@ -382,7 +382,7 @@ CPhysicalSplit::PdsDerive
 	if (NULL != pdsHashed->PdshashedEquiv())
 	{
 		CColRefSet *pcrsHashedEquiv = CUtils::PcrsExtractColumns(pmp, pdsHashed->PdshashedEquiv()->Pdrgpexpr());
-		if (!pcrsModified->FDisjoint(pcrsHashedEquiv))
+		if (!pcrsModified->IsDisjoint(pcrsHashedEquiv))
 		{
 			pcrsHashed->Release();
 			pcrsHashedEquiv->Release();

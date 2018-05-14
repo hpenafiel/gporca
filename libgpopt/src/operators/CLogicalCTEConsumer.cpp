@@ -158,7 +158,7 @@ CLogicalCTEConsumer::PcrsDeriveNotNull
 
 	// map producer's not null columns to consumer's output columns
 	CColRefSet *pcrsConsumerNotNull = CUtils::PcrsRemap(pmp, pcrsProducerNotNull, m_phmulcr, true /*fMustExist*/);
-	GPOS_ASSERT(pcrsConsumerNotNull->CElements() == pcrsProducerNotNull->CElements());
+	GPOS_ASSERT(pcrsConsumerNotNull->Size() == pcrsProducerNotNull->Size());
 
 	return pcrsConsumerNotNull;
 }

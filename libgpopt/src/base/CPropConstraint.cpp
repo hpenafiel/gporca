@@ -128,7 +128,7 @@ CPropConstraint::PexprScalarMappedFromEquivCols
 	}
 
 	CColRefSet *pcrs = m_phmcrcrs->PtLookup(pcr);
-	if (NULL == pcrs || 1 == pcrs->CElements())
+	if (NULL == pcrs || 1 == pcrs->Size())
 	{
 		return NULL;
 	}

@@ -184,7 +184,7 @@ CDrvdPropScalar::FSatisfies
 	GPOS_ASSERT(NULL != prpp);
 	GPOS_ASSERT(NULL != prpp->PcrsRequired());
 
-	BOOL fSatisfies = m_pcrsDefined->FSubset(prpp->PcrsRequired());
+	BOOL fSatisfies = m_pcrsDefined->ContainsAll(prpp->PcrsRequired());
 
 	return fSatisfies;
 }

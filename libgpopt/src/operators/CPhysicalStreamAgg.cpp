@@ -133,7 +133,7 @@ CPhysicalStreamAgg::PosCovering
 	COrderSpec *pos = NULL;
 
 	CColRefSet *pcrsGrpCols = GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrGrp);
-	if (pcrsGrpCols->FSubset(pcrsReqd))
+	if (pcrsGrpCols->ContainsAll(pcrsReqd))
 	{
 		// required order columns are included in grouping columns, we can
 		// construct a covering order spec

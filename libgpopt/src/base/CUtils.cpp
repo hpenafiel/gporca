@@ -972,7 +972,7 @@ CUtils::FUsesNullableCol
 	pcrsUsed->Include(CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed());
 	pcrsUsed->Intersection(CDrvdPropRelational::Pdprel(pexprLogical->PdpDerive())->PcrsOutput());
 
-	BOOL fUsesNullableCol = !pcrsNotNull->FSubset(pcrsUsed);
+	BOOL fUsesNullableCol = !pcrsNotNull->ContainsAll(pcrsUsed);
 	pcrsUsed->Release();
 
 	return fUsesNullableCol;
@@ -1100,7 +1100,7 @@ CUtils::FHasOuterRefs
 	GPOS_ASSERT(pexpr->Pop()->FLogical());
 
 	CDrvdProp *pdp = pexpr->PdpDerive();
-	return 0 < CDrvdPropRelational::Pdprel(pdp)->PcrsOuter()->CElements();
+	return 0 < CDrvdPropRelational::Pdprel(pdp)->PcrsOuter()->Size();
 }
 
 // check if a given operator is a logical join
@@ -2730,7 +2730,7 @@ CUtils::PdrgpcrsAddEquivClass
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrs)[ul];
-		if (pcrsNew->FDisjoint(pcrs))
+		if (pcrsNew->IsDisjoint(pcrs))
 		{
 			pcrs->AddRef();
 			pdrgpcrsNew->Append(pcrs);
@@ -3291,11 +3291,11 @@ CUtils::FVarFreeExpr
 		return false;
 	}
 	
-	GPOS_ASSERT(0 == pdpScalar->PcrsDefined()->CElements());
+	GPOS_ASSERT(0 == pdpScalar->PcrsDefined()->Size());
 	CColRefSet *pcrsUsed = pdpScalar->PcrsUsed();
 	
 	// no variables in expression
-	return 0 == pcrsUsed->CElements();
+	return 0 == pcrsUsed->Size();
 }
 
 // check if the expression is a scalar predicate, i.e. bool op, comparison, or null test
@@ -3380,7 +3380,7 @@ CUtils::FUsesChildColsOnly
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
 	pcrs->Include(exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput());
 	pcrs->Include(exprhdl.Pdprel(1 /*ulChildIndex*/)->PcrsOutput());
-	BOOL fUsesChildCols = pcrs->FSubset(pcrsUsed);
+	BOOL fUsesChildCols = pcrs->ContainsAll(pcrsUsed);
 	pcrs->Release();
 
 	return fUsesChildCols;
@@ -3396,13 +3396,13 @@ CUtils::FInnerUsesExternalCols
 	GPOS_ASSERT(3 == exprhdl.UlArity());
 
 	CColRefSet *pcrsOuterRefs = exprhdl.Pdprel(1 /*ulChildIndex*/)->PcrsOuter();
-	if (0 == pcrsOuterRefs->CElements())
+	if (0 == pcrsOuterRefs->Size())
 	{
 		return false;
 	}
 	CColRefSet *pcrsOutput = exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput();
 
-	return !pcrsOutput->FSubset(pcrsOuterRefs);
+	return !pcrsOutput->ContainsAll(pcrsOuterRefs);
 }
 
 // check if inner child of a binary operator uses only columns not produced by outer child
@@ -3413,7 +3413,7 @@ CUtils::FInnerUsesExternalColsOnly
 	)
 {
 	return FInnerUsesExternalCols(exprhdl) &&
-			exprhdl.Pdprel(1)->PcrsOuter()->FDisjoint(exprhdl.Pdprel(0)->PcrsOutput());
+			exprhdl.Pdprel(1)->PcrsOuter()->IsDisjoint(exprhdl.Pdprel(0)->PcrsOutput());
 }
 
 // check if given columns have available comparison operators
@@ -4614,7 +4614,7 @@ CUtils::PexprCollapseProjects
 		BOOL fHasSetReturn = CDrvdPropScalar::Pdpscalar(pexprPrE->PdpDerive())->FHasNonScalarFunction();
 
 		pcrsUsed->Intersection(pcrsDefinedChild);
-		ULONG ulIntersect = pcrsUsed->CElements();
+		ULONG ulIntersect = pcrsUsed->Size();
 
 		if (fHasSetReturn)
 		{
@@ -5133,7 +5133,7 @@ CUtils::PcrExtractFromScExpression
 	)
 {
 	CDrvdPropScalar *pdrvdPropScalar = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive());
-	if (pdrvdPropScalar->PcrsUsed()->CElements() == 1)
+	if (pdrvdPropScalar->PcrsUsed()->Size() == 1)
 		return pdrvdPropScalar->PcrsUsed()->PcrFirst();
 
 	return NULL;

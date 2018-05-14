@@ -67,14 +67,14 @@ CBitSetTest::EresUnittest_Basics()
 		// forces addition of new link
 		pbs->ExchangeSet(i * cSizeBits);
 	}
-	GPOS_ASSERT(cInserts / 2 == pbs->CElements());
+	GPOS_ASSERT(cInserts / 2 == pbs->Size());
 
 	for (ULONG i = 1; i < cInserts; i += 2)
 	{
 		// new link between existing links
 		pbs->ExchangeSet(i * cSizeBits);
 	}
-	GPOS_ASSERT(cInserts == pbs->CElements());
+	GPOS_ASSERT(cInserts == pbs->Size());
 
 	CBitSet *pbsCopy = GPOS_NEW(pmp) CBitSet(pmp, *pbs);
 	GPOS_ASSERT(pbsCopy->Equals(pbs));
@@ -127,7 +127,7 @@ CBitSetTest::EresUnittest_Removal()
 	{
 		pbs->ExchangeSet(i * cSizeBits);
 
-		GPOS_ASSERT(i + 1 == pbs->CElements());
+		GPOS_ASSERT(i + 1 == pbs->Size());
 	}
 
 	for (ULONG i = 0; i < cInserts; i++)
@@ -135,7 +135,7 @@ CBitSetTest::EresUnittest_Removal()
 		// cleans up empty links
 		pbs->ExchangeClear(i * cSizeBits);
 
-		GPOS_ASSERT(cInserts - i - 1 == pbs->CElements());
+		GPOS_ASSERT(cInserts - i - 1 == pbs->Size());
 	}
 
 	GPOS_ASSERT(pbs->Equals(pbsEmpty));
@@ -189,7 +189,7 @@ CBitSetTest::EresUnittest_SetOps()
 
 	pbs->Union(pbs2);
 	GPOS_ASSERT(!pbs->Equals(pbs1) && !pbs->Equals(pbs2));
-	GPOS_ASSERT(pbs->FSubset(pbs1) && pbs->FSubset(pbs2));
+	GPOS_ASSERT(pbs->ContainsAll(pbs1) && pbs->ContainsAll(pbs2));
 	
 	pbs->Difference(pbs2);
 	GPOS_ASSERT(pbs->Equals(pbs1));
@@ -199,9 +199,9 @@ CBitSetTest::EresUnittest_SetOps()
 	pbs->Union(pbs2);
 	pbs->Intersection(pbs2);
 	GPOS_ASSERT(pbs->Equals(pbs2));
-	GPOS_ASSERT(pbs->FSubset(pbs2));
+	GPOS_ASSERT(pbs->ContainsAll(pbs2));
 
-	GPOS_ASSERT(pbs->CElements() == pbs2->CElements());
+	GPOS_ASSERT(pbs->Size() == pbs2->Size());
 
 	pbs2->Release();
 

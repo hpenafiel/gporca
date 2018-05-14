@@ -582,7 +582,7 @@ CCostContext::DRowsPerHost() const
 		CColRefSet *pcrsUsed = CUtils::PcrsExtractColumns(m_pmp, pdrgpexpr);
 
 		const CColRefSet *pcrsReqdStats = this->Poc()->Prprel()->PcrsStat();
-		if (!pcrsReqdStats->FSubset(pcrsUsed))
+		if (!pcrsReqdStats->ContainsAll(pcrsUsed))
 		{
 			// statistics not available for distribution columns, therefore
 			// assume uniform distribution across hosts

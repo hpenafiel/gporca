@@ -112,7 +112,7 @@ CXformSubqJoin2Apply::CollectSubqueries
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
 			CColRefSet *pcrsOutput = (*pdrgpcrs)[ul];
-			if (pcrsOutput->FSubset(pcrsOuter))
+			if (pcrsOutput->ContainsAll(pcrsOuter))
 			{
 				// outer columns all come from the same join child, break here
 				ulChildIndex = ul;
@@ -321,7 +321,7 @@ CXformSubqJoin2Apply::Transform
 	CExpression *pexprJoinCondition = (*pexprJoin)[pexprJoin->UlArity() - 1];
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprJoinCondition->PdpDerive())->PcrsUsed();
 	CColRefSet *pcrsJoinOutput = CDrvdPropRelational::Pdprel(pexprJoin->PdpDerive())->PcrsOutput();
-	if (!pcrsJoinOutput->FSubset(pcrsUsed))
+	if (!pcrsJoinOutput->ContainsAll(pcrsUsed))
 	{
 		// discard expression after subquery push down
 		pexprSubqsPushedDown->Release();

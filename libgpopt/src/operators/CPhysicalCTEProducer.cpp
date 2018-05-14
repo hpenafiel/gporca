@@ -79,13 +79,13 @@ CPhysicalCTEProducer::PcrsRequired
 	)
 {
 	GPOS_ASSERT(0 == ulChildIndex);
-	GPOS_ASSERT(0 == pcrsRequired->CElements());
+	GPOS_ASSERT(0 == pcrsRequired->Size());
 
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, *m_pcrs);
 	pcrs->Union(pcrsRequired);
 	CColRefSet *pcrsChildReqd = PcrsChildReqd(pmp, exprhdl, pcrs, ulChildIndex, ULONG_MAX);
 
-	GPOS_ASSERT(pcrsChildReqd->CElements() == m_pdrgpcr->Size());
+	GPOS_ASSERT(pcrsChildReqd->Size() == m_pdrgpcr->Size());
 	pcrs->Release();
 
 	return pcrsChildReqd;

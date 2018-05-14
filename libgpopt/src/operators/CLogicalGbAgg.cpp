@@ -495,7 +495,7 @@ CLogicalGbAgg::PkcDeriveKeys
 			// scalar and single-group aggs produce one row that constitutes a key
 			CColRefSet *pcrs = exprhdl.Pdpscalar(1)->PcrsDefined();
 
-			if (0 == pcrs->CElements())
+			if (0 == pcrs->Size())
 			{ 
 				// aggregate defines no columns, e.g. select 1 from r group by a
 				return NULL;

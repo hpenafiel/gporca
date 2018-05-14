@@ -1756,7 +1756,7 @@ CStatisticsUtils::PcrsGrpColsForStats
 
 		// check to see if the grouping column is a computed attribute
 		const CColRefSet *pcrsUsed = pcf->PcrsUsedInComputedCol(pcrGrpCol);
-		if (NULL == pcrsUsed || 0 == pcrsUsed->CElements())
+		if (NULL == pcrsUsed || 0 == pcrsUsed->Size())
 		{
 			(void) pcrsGrpColForStats->Include(pcrGrpCol);
 		}

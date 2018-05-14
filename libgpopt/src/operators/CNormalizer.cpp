@@ -106,7 +106,7 @@ CNormalizer::FPushableThruSeqPrjChild
 		IMemoryPool *pmp = amp.Pmp();
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
 		CColRefSet *pcrsPartCols = CUtils::PcrsExtractColumns(pmp, CDistributionSpecHashed::PdsConvert(pds)->Pdrgpexpr());
-		if (pcrsPartCols->FSubset(pcrsUsed))
+		if (pcrsPartCols->ContainsAll(pcrsUsed))
 		{
 			// predicate is pushable if used columns are included in partition-by expression
 			fPushable = true;
@@ -142,7 +142,7 @@ CNormalizer::FPushable
 	CColRefSet *pcrsOutput =
 		CDrvdPropRelational::Pdprel(pexprLogical->PdpDerive())->PcrsOutput();
 
-	return pcrsOutput->FSubset(pcrsUsed);
+	return pcrsOutput->ContainsAll(pcrsUsed);
 }
 
 
@@ -1167,7 +1167,7 @@ CNormalizer::PexprPullUpAndCombineProjects
 		CUtils::AddRefAppend(pdrgpexprPrElPullUp, pexprPrLOld->PdrgPexpr());
 		pdrgpexprChildren->Release();
 		CExpression *pexprPrjList = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pdrgpexprPrElPullUp);
-		GPOS_ASSERT(CDrvdPropRelational::Pdprel(pexprRelational->PdpDerive())->PcrsOutput()->FSubset(CDrvdPropScalar::Pdpscalar(pexprPrjList->PdpDerive())->PcrsUsed()));
+		GPOS_ASSERT(CDrvdPropRelational::Pdprel(pexprRelational->PdpDerive())->PcrsOutput()->ContainsAll(CDrvdPropScalar::Pdpscalar(pexprPrjList->PdpDerive())->PcrsUsed()));
 
 		return GPOS_NEW(pmp) CExpression(pmp, pop, pexprRelational, pexprPrjList);
 	}
@@ -1184,7 +1184,7 @@ CNormalizer::PexprPullUpAndCombineProjects
 	// some project elements were pulled - add a project on top of output expression
 	*pfSuccess = true;
 	CExpression *pexprPrjList = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pdrgpexprPrElPullUp);
-	GPOS_ASSERT(CDrvdPropRelational::Pdprel(pexprOutput->PdpDerive())->PcrsOutput()->FSubset(CDrvdPropScalar::Pdpscalar(pexprPrjList->PdpDerive())->PcrsUsed()));
+	GPOS_ASSERT(CDrvdPropRelational::Pdprel(pexprOutput->PdpDerive())->PcrsOutput()->ContainsAll(CDrvdPropScalar::Pdpscalar(pexprPrjList->PdpDerive())->PcrsUsed()));
 
 	return GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CLogicalProject(pmp), pexprOutput, pexprPrjList);
 }
@@ -1243,7 +1243,7 @@ CNormalizer::PexprPullUpProjectElements
 
 		CDrvdPropScalar *pdpscalar = CDrvdPropScalar::Pdpscalar(pexprPrEl->PdpDerive());
 
-		if (!pcrsUsed->FMember(pcrDefined) && pcrsOutput->FSubset(pcrsUsedByProjElem) && !pdpscalar->FHasNonScalarFunction())
+		if (!pcrsUsed->FMember(pcrDefined) && pcrsOutput->ContainsAll(pcrsUsedByProjElem) && !pdpscalar->FHasNonScalarFunction())
 		{
 			(*ppdrgpexprPrElPullUp)->Append(pexprPrEl);
 		}
@@ -1360,7 +1360,7 @@ CNormalizer::FLocalColsSubsetOfInputCols
 		CColRefSet *pcrsUsedOp = exprhdl.PcrsUsedColumns(pmp);
 		pcrsUsedOp->Exclude(exprhdl.Pdprel()->PcrsOuter());
 
-		fValid = pcrsInput->FSubset(pcrsUsedOp);
+		fValid = pcrsInput->ContainsAll(pcrsUsedOp);
 
 		// release
 		pcrsInput->Release();

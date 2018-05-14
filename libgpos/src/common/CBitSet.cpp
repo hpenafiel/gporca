@@ -307,7 +307,7 @@ CBitSet::ExchangeSet
 	CBitSetLink *pbsl = PbslLocate(ulOffset);
 	if (NULL == pbsl || pbsl->UlOffset() != ulOffset)
 	{
-		CBitSetLink *pbslNew = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, ulOffset, m_cSizeBits);
+		CBitSetLink *pbsl_new = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, ulOffset, m_cSizeBits);
 		if (NULL == pbsl)
 		{
 			m_bsllist.Prepend(pbslNew);
@@ -318,7 +318,7 @@ CBitSet::ExchangeSet
 			m_bsllist.Append(pbslNew, pbsl);
 		}
 		
-		pbsl = pbslNew;
+		pbsl = pbsl_new;
 	}
 	
 	GPOS_ASSERT(pbsl->UlOffset() == ulOffset);
@@ -513,7 +513,7 @@ CBitSet::Difference
 	const CBitSet *pbs
 	)
 {
-	if (FDisjoint(pbs))
+	if (IsDisjoint(pbs))
 	{
 		return;
 	}
@@ -535,14 +535,14 @@ CBitSet::Difference
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitSet::FSubset
+CBitSet::ContainsAll
 	(
 	const CBitSet *pbsOther
 	)
 	const
 {
 	// skip iterating if we can already tell by the sizes
-	if (CElements() < pbsOther->CElements())
+	if (Size() < pbsOther->Size())
 	{
 		return false;
 	}
@@ -561,7 +561,7 @@ CBitSet::FSubset
 		
 		if (NULL == pbsl ||
 			pbsl->UlOffset() != pbslOther->UlOffset() ||
-			!pbsl->Pbv()->Contains(pbslOther->Pbv()))
+			!pbsl->Pbv()->ContainsAll(pbslOther->Pbv()))
 		{
 			return false;
 		}
@@ -593,7 +593,7 @@ CBitSet::Equals
 	}
 
 	// skip iterating if we can already tell by the sizes
-	if (CElements() != pbsOther->CElements())
+	if (Size() != pbsOther->Size())
 	{
 		return false;
 	}
@@ -629,7 +629,7 @@ CBitSet::Equals
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitSet::FDisjoint
+CBitSet::IsDisjoint
 	(
 	const CBitSet *pbsOther
 	)
@@ -700,7 +700,7 @@ CBitSet::OsPrint
 {
 	os << "{";
 
-	ULONG ulElems = CElements();
+	ULONG ulElems = Size();
 	CBitSetIter bsiter(*this);
 
 	for (ULONG ul = 0; ul < ulElems; ul++)

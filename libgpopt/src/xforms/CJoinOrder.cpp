@@ -47,7 +47,7 @@ INT ICmpEdgesByLength
 	CJoinOrder::SEdge *pedgeTwo = *(CJoinOrder::SEdge**)pvTwo;
 
 	
-	INT iDiff = (pedgeOne->m_pbs->CElements() - pedgeTwo->m_pbs->CElements());
+	INT iDiff = (pedgeOne->m_pbs->Size() - pedgeTwo->m_pbs->Size());
 	if (0 == iDiff)
 	{
 		return (INT)pedgeOne->m_pbs->HashValue() - (INT)pedgeTwo->m_pbs->HashValue();
@@ -301,7 +301,7 @@ CJoinOrder::ComputeEdgeCover()
 			CExpression *pexprComp = m_rgpcomp[ulComp]->m_pexpr;
 			CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel(pexprComp->PdpDerive())->PcrsOutput();
 
-			if (!pcrsUsed->FDisjoint(pcrsOutput))
+			if (!pcrsUsed->IsDisjoint(pcrsOutput))
 			{
 				(void) m_rgpedge[ulEdge]->m_pbs->ExchangeSet(ulComp);
 			}
@@ -397,7 +397,7 @@ CJoinOrder::AddEdge
 	}
 
 	// edge fully subsumed by first component's cover
-	if (pcomp->m_pbs->FSubset(pedge->m_pbs))
+	if (pcomp->m_pbs->ContainsAll(pedge->m_pbs))
 	{
 		CExpression *pexprPred = CPredicateUtils::PexprConjunction(m_pmp, pdrgpexpr);
 		if (CUtils::FScalarConstTrue(pexprPred))
@@ -417,10 +417,10 @@ CJoinOrder::AddEdge
 	
 	// subtract component cover from edge cover
 	CBitSet *pbsCover = GPOS_NEW(m_pmp) CBitSet(m_pmp, *pedge->m_pbs);
-	GPOS_ASSERT(0 < pbsCover->CElements());
+	GPOS_ASSERT(0 < pbsCover->Size());
 
 	pbsCover->Difference(pcomp->m_pbs);
-	ULONG ulLength = pbsCover->CElements();
+	ULONG ulLength = pbsCover->Size();
 	
 	// iterate through remaining edge cover
 	BOOL fCovered = false;
@@ -447,7 +447,7 @@ CJoinOrder::AddEdge
 			CBitSet *pbsCombined = GPOS_NEW(m_pmp) CBitSet(m_pmp);
 			pbsCombined->Union(pcomp->m_pbs);
 			pbsCombined->Union(pcompOther->m_pbs);
-			fCovered = pbsCombined->FSubset(pbsCover);
+			fCovered = pbsCombined->ContainsAll(pbsCover);
 			pbsCombined->Release();
 			if (fCovered)
 			{
@@ -480,7 +480,7 @@ CJoinOrder::CombineComponents
 	DrgPexpr *pdrgpexpr
 	)
 {
-	GPOS_ASSERT_IMP(!pcompLeft->m_pbs->FDisjoint(pcompRight->m_pbs),
+	GPOS_ASSERT_IMP(!pcompLeft->m_pbs->IsDisjoint(pcompRight->m_pbs),
 					pcompLeft->m_pbs->Equals(pcompRight->m_pbs));
 
 	// special case when coalescing components at end of algorithm

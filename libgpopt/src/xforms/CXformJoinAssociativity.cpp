@@ -124,7 +124,7 @@ CXformJoinAssociativity::CreatePredicates
 		CColRefSet *pcrs = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
 		
 		pexprPred->AddRef();
-		if (pcrsLower->FSubset(pcrs))
+		if (pcrsLower->ContainsAll(pcrs))
 		{
 			pdrgpexprLower->Append(pexprPred);
 		}

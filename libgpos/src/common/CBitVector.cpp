@@ -270,7 +270,7 @@ CBitVector::And
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitVector::Contains
+CBitVector::ContainsAll
 	(
 	const CBitVector *vec
 	)
@@ -344,7 +344,7 @@ CBitVector::Equals
 	// compare all components
 	if (0 == clib::IMemCmp(m_vec, vec->m_vec, m_len * BYTES_PER_UNIT))
 	{
-		GPOS_ASSERT(this->Contains(vec) && vec->Contains(this));
+		GPOS_ASSERT(this->ContainsAll(vec) && vec->ContainsAll(this));
 		return true;
 	}
 	

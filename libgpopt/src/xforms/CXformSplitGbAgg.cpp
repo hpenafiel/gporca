@@ -86,7 +86,7 @@ CXformSplitGbAgg::Exfp
 	// or return types of Agg functions are ambiguous
 	if (!CLogicalGbAgg::PopConvert(exprhdl.Pop())->FGlobal() ||
 		0 < exprhdl.Pdpscalar(1 /*ulChildIndex*/)->UlDistinctAggs() ||
-		0 < CDrvdPropRelational::Pdprel(exprhdl.Pdp())->PcrsOuter()->CElements() ||
+		0 < CDrvdPropRelational::Pdprel(exprhdl.Pdp())->PcrsOuter()->Size() ||
 		CXformUtils::FHasAmbiguousType(exprhdl.PexprScalarChild(1 /*ulChildIndex*/), COptCtxt::PoctxtFromTLS()->Pmda())
 		)
 	{

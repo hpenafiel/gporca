@@ -124,7 +124,7 @@ CXformLeftSemiJoin2InnerJoin::Transform
 	CColRefSet *pcrsGb = GPOS_NEW(pmp) CColRefSet(pmp);
 	pcrsGb->Include(pcrsUsed);
 	pcrsGb->Difference(pcrsOuterOutput);
-	GPOS_ASSERT(0 < pcrsGb->CElements());
+	GPOS_ASSERT(0 < pcrsGb->Size());
 
 	CKeyCollection *pkc = CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->Pkc();
 	if (NULL == pkc ||

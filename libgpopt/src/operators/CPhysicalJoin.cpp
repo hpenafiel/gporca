@@ -93,7 +93,7 @@ CPhysicalJoin::PosPropagateToOuter
 	// propagate the order requirement to the outer child only if all the columns
 	// specified by the order requirement come from the outer child
 	CColRefSet *pcrs = posRequired->PcrsUsed(pmp);
-	BOOL fOuterSortCols = exprhdl.Pdprel(0)->PcrsOutput()->FSubset(pcrs);
+	BOOL fOuterSortCols = exprhdl.Pdprel(0)->PcrsOutput()->ContainsAll(pcrs);
 	pcrs->Release();
 	if (fOuterSortCols)
 	{
@@ -207,7 +207,7 @@ CPhysicalJoin::FProvidesReqdCols
 		pcrs->Union(pcrsChild);
 	}
 
-	BOOL fProvidesCols = pcrs->FSubset(pcrsRequired);
+	BOOL fProvidesCols = pcrs->ContainsAll(pcrsRequired);
 	pcrs->Release();
 
 	return fProvidesCols;
@@ -234,7 +234,7 @@ CPhysicalJoin::FSortColsInOuterChild
 
 	CColRefSet *pcrsSort = pos->PcrsUsed(pmp);
 	CColRefSet *pcrsOuterChild = exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput();
-	BOOL fSortColsInOuter = pcrsOuterChild->FSubset(pcrsSort);
+	BOOL fSortColsInOuter = pcrsOuterChild->ContainsAll(pcrsSort);
 	pcrsSort->Release();
 
 	return fSortColsInOuter;
@@ -262,7 +262,7 @@ CPhysicalJoin::FOuterProvidesReqdCols
 
 	CColRefSet *pcrsOutput = exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput();
 
-	return pcrsOutput->FSubset(pcrsRequired);
+	return pcrsOutput->ContainsAll(pcrsRequired);
 }
 
 
@@ -481,10 +481,10 @@ CPhysicalJoin::FHashJoinCompatible
 
 	// make sure that each predicate child uses columns from a different join child
 	// in order to reject predicates of the form 'X Join Y on f(X.a, Y.b) = 5'
-	BOOL fPredOuterUsesJoinOuterChild = (0 < pcrsUsedPredOuter->CElements()) && pcrsOuter->FSubset(pcrsUsedPredOuter);
-	BOOL fPredOuterUsesJoinInnerChild = (0 < pcrsUsedPredOuter->CElements()) && pcrsInner->FSubset(pcrsUsedPredOuter);
-	BOOL fPredInnerUsesJoinOuterChild = (0 < pcrsUsedPredInner->CElements()) && pcrsOuter->FSubset(pcrsUsedPredInner);
-	BOOL fPredInnerUsesJoinInnerChild = (0 < pcrsUsedPredInner->CElements()) && pcrsInner->FSubset(pcrsUsedPredInner);
+	BOOL fPredOuterUsesJoinOuterChild = (0 < pcrsUsedPredOuter->Size()) && pcrsOuter->ContainsAll(pcrsUsedPredOuter);
+	BOOL fPredOuterUsesJoinInnerChild = (0 < pcrsUsedPredOuter->Size()) && pcrsInner->ContainsAll(pcrsUsedPredOuter);
+	BOOL fPredInnerUsesJoinOuterChild = (0 < pcrsUsedPredInner->Size()) && pcrsOuter->ContainsAll(pcrsUsedPredInner);
+	BOOL fPredInnerUsesJoinInnerChild = (0 < pcrsUsedPredInner->Size()) && pcrsInner->ContainsAll(pcrsUsedPredInner);
 
 	BOOL fHashJoinCompatiblePred =
 		(fPredOuterUsesJoinOuterChild && fPredInnerUsesJoinInnerChild) ||
@@ -617,19 +617,19 @@ CPhysicalJoin::AddHashKeys
 	// determine outer and inner hash keys
 	CExpression *pexprKeyOuter = NULL;
 	CExpression *pexprKeyInner = NULL;
-	if (pcrsOuter->FSubset(pcrsPredOuter))
+	if (pcrsOuter->ContainsAll(pcrsPredOuter))
 	{
 		pexprKeyOuter = pexprPredOuter;
-		GPOS_ASSERT(pcrsInner->FSubset(pcrsPredInner));
+		GPOS_ASSERT(pcrsInner->ContainsAll(pcrsPredInner));
 
 		pexprKeyInner = pexprPredInner;
 	}
 	else
 	{
-		GPOS_ASSERT(pcrsOuter->FSubset(pcrsPredInner));
+		GPOS_ASSERT(pcrsOuter->ContainsAll(pcrsPredInner));
 		pexprKeyOuter = pexprPredInner;
 
-		GPOS_ASSERT(pcrsInner->FSubset(pcrsPredOuter));
+		GPOS_ASSERT(pcrsInner->ContainsAll(pcrsPredOuter));
 		pexprKeyInner = pexprPredOuter;
 	}
 	pexprKeyOuter->AddRef();

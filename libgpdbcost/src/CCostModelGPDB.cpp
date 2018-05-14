@@ -564,7 +564,7 @@ CCostModelGPDB::CostScalarAgg
 	const DOUBLE dWidthOuter = pci->PdWidth()[0];
 
 	// get the number of aggregate columns
-	const ULONG ulAggCols = exprhdl.Pdpscalar(1)->PcrsUsed()->CElements();
+	const ULONG ulAggCols = exprhdl.Pdpscalar(1)->PcrsUsed()->Size();
 	// get the number of aggregate functions
 	const ULONG ulAggFunctions = exprhdl.PexprScalarChild(1)->UlArity();
 
@@ -885,7 +885,7 @@ CCostModelGPDB::CostHashJoin
 	// get the number of columns used in join condition
 	CExpression *pexprJoinCond= exprhdl.PexprScalarChild(2);
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprJoinCond->PdpDerive())->PcrsUsed();
-	const ULONG ulColsUsed = pcrsUsed->CElements();
+	const ULONG ulColsUsed = pcrsUsed->Size();
 
 	// TODO 2014-03-14
 	// currently, we hard coded a spilling memory threshold for judging whether hash join spills or not
@@ -981,7 +981,7 @@ CCostModelGPDB::CostIndexNLJoin
 	// get the number of columns used in join condition
 	CExpression *pexprJoinCond= exprhdl.PexprScalarChild(2);
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprJoinCond->PdpDerive())->PcrsUsed();
-	const ULONG ulColsUsed = pcrsUsed->CElements();
+	const ULONG ulColsUsed = pcrsUsed->Size();
 
 	// cost of Index apply contains three parts:
 	// 1. feeding outer tuples. This part is correlated with rows and width of outer tuples
@@ -1065,7 +1065,7 @@ CCostModelGPDB::CostNLJoin
 	// get the number of columns used in join condition
 	CExpression *pexprJoinCond= exprhdl.PexprScalarChild(2);
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprJoinCond->PdpDerive())->PcrsUsed();
-	const ULONG ulColsUsed = pcrsUsed->CElements();
+	const ULONG ulColsUsed = pcrsUsed->Size();
 
 	// cost of nested loop join contains three parts:
 	// 1. feeding outer tuples. This part is correlated with rows and width of outer tuples
@@ -1361,7 +1361,7 @@ CCostModelGPDB::CostBitmapTableScan
 	CExpression *pexprIndexCond = exprhdl.PexprScalarChild(1 /*ulChildIndex*/);
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprIndexCond->PdpDerive())->PcrsUsed();
 
-	if (COperator::EopScalarBitmapIndexProbe != pexprIndexCond->Pop()->Eopid() || 1 < pcrsUsed->CElements())
+	if (COperator::EopScalarBitmapIndexProbe != pexprIndexCond->Pop()->Eopid() || 1 < pcrsUsed->Size())
 	{
 		// child is Bitmap AND/OR, or we use Multi column index
 		const CDouble dInitScan = pcmgpdb->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpInitScanFactor)->Get();
@@ -1383,7 +1383,7 @@ CCostModelGPDB::CostBitmapTableScan
 	// if the expression is const table get, the pcrsUsed is empty
 	// so we use minimum value DMinDistinct for dNDV in that case.
 	CDouble dNDV = CHistogram::DMinDistinct;
-	if (1 == pcrsUsed->CElements())
+	if (1 == pcrsUsed->Size())
 	{
 		CColRef *pcrIndexCond =  pcrsUsed->PcrFirst();
 		GPOS_ASSERT(NULL != pcrIndexCond);
@@ -1527,7 +1527,7 @@ CCostModelGPDB::CostFilter
 	GPOS_ASSERT(COperator::EopPhysicalFilter == exprhdl.Pop()->Eopid());
 
 	const DOUBLE dInput = pci->PdRows()[0];
-	const ULONG ulFilterCols = exprhdl.Pdpscalar(1 /*ulChildIndex*/)->PcrsUsed()->CElements();
+	const ULONG ulFilterCols = exprhdl.Pdpscalar(1 /*ulChildIndex*/)->PcrsUsed()->Size();
 
 	const CDouble dFilterColCostUnit = pcmgpdb->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpFilterColCostUnit)->Get();
 	GPOS_ASSERT(0 < dFilterColCostUnit);

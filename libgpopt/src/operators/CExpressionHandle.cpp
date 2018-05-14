@@ -482,7 +482,7 @@ CExpressionHandle::PdrgpstatOuterRefs
 
 	DrgPstat *pdrgpstatResult = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
 	CColRefSet *pcrsOuter = Pdprel(ulChildIndex)->PcrsOuter();
-	GPOS_ASSERT(0 < pcrsOuter->CElements());
+	GPOS_ASSERT(0 < pcrsOuter->Size());
 
 	const ULONG ulSize = pdrgpstat->Size();
 	ULONG ulStartIndex = ULONG_MAX;
@@ -490,7 +490,7 @@ CExpressionHandle::PdrgpstatOuterRefs
 	{
 		IStatistics *pstats = (*pdrgpstat)[ul];
 		CColRefSet *pcrsStats = pstats->Pcrs(m_pmp);
-		BOOL fStatsColsUsed = !pcrsOuter->FDisjoint(pcrsStats);
+		BOOL fStatsColsUsed = !pcrsOuter->IsDisjoint(pcrsStats);
 		pcrsStats->Release();
 		if (fStatsColsUsed)
 		{

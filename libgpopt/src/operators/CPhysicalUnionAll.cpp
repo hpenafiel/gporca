@@ -362,7 +362,7 @@ const
 
 	// include output columns
 	pcrs->Include(PdrgpcrOutput());
-	BOOL fProvidesCols = pcrs->FSubset(pcrsRequired);
+	BOOL fProvidesCols = pcrs->ContainsAll(pcrsRequired);
 	pcrs->Release();
 
 	return fProvidesCols;

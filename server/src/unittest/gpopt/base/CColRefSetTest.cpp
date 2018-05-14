@@ -91,10 +91,10 @@ CColRefSetTest::EresUnittest_Basics()
 		GPOS_ASSERT(pcrs->FMember(pcr));
 	}
 
-	GPOS_ASSERT(pcrs->CElements() == ulCols);
+	GPOS_ASSERT(pcrs->Size() == ulCols);
 
 	CColRefSet *pcrsTwo = GPOS_NEW(pmp) CColRefSet(pmp, *pcrs);
-	GPOS_ASSERT(pcrsTwo->CElements() == ulCols);
+	GPOS_ASSERT(pcrsTwo->Size() == ulCols);
 
 	pcrsTwo->Release();
 	pcrs->Release();

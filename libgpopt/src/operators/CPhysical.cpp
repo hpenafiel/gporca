@@ -636,7 +636,7 @@ CPhysical::FUnaryProvidesReqdCols
 
 	CColRefSet *pcrsOutput = exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput();
 
-	return pcrsOutput->FSubset(pcrsRequired);
+	return pcrsOutput->ContainsAll(pcrsRequired);
 }
 
 //---------------------------------------------------------------------------
@@ -838,7 +838,7 @@ CPhysical::PppsRequiredPushThruNAry
 			}
 		}
 
-		if (ulArity == pbsPartConsumer->CElements() &&
+		if (ulArity == pbsPartConsumer->Size() &&
 			COperator::EopPhysicalSequence == exprhdl.Pop()->Eopid() &&
 			(*(exprhdl.Pgexpr()))[0]->FHasCTEProducer())
 		{
@@ -911,7 +911,7 @@ CPhysical::FCanPushPartReqToChild
 	GPOS_ASSERT(NULL != pbsPartConsumer);
 
 	// if part index id comes from more that one child, we cannot push request to just one child
-	if (1 < pbsPartConsumer->CElements())
+	if (1 < pbsPartConsumer->Size())
 	{
 		return false;
 	}
@@ -1361,12 +1361,12 @@ CPhysical::FUnaryUsesDefinedColumns
 	GPOS_ASSERT(NULL != pcrs);
 	GPOS_ASSERT(2 == exprhdl.UlArity() && "Not a unary operator");
 	
-	if (0 == pcrs->CElements())
+	if (0 == pcrs->Size())
 	{
 		return false;
 	}
 
-	return !pcrs->FDisjoint(exprhdl.Pdpscalar(1)->PcrsDefined());
+	return !pcrs->IsDisjoint(exprhdl.Pdpscalar(1)->PcrsDefined());
 }
 
 CEnfdDistribution::EDistributionMatching

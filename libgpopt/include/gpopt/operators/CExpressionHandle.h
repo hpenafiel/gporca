@@ -240,7 +240,7 @@ namespace gpopt
 			// check for outer references
 			BOOL FHasOuterRefs() const
 			{
-				return (0 < Pdprel()->PcrsOuter()->CElements());
+				return (0 < Pdprel()->PcrsOuter()->Size());
 			}
 
 			// check if attached expression must execute on the master
@@ -256,7 +256,7 @@ namespace gpopt
 				)
 				const
 			{
-				return (0 < Pdprel(ulChildIndex)->PcrsOuter()->CElements());
+				return (0 < Pdprel(ulChildIndex)->PcrsOuter()->Size());
 			}
 
 			// get next child index based on child optimization order, return true if such index could be found

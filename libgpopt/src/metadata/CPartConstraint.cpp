@@ -84,7 +84,7 @@ CPartConstraint::CPartConstraint
 	GPOS_ASSERT(fResult);
 
 	CColRefSet *pcrsUsed = pcnstr->PcrsUsed();
-	GPOS_ASSERT(1 == pcrsUsed->CElements());
+	GPOS_ASSERT(1 == pcrsUsed->Size());
 	CColRef *pcrPartKey = pcrsUsed->PcrFirst();
 
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);

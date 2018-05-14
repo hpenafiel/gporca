@@ -52,7 +52,7 @@ CUpperBoundNDVs::PubndvCopyWithRemap
                 }
         }
 
-        if (0 < pcrsCopy->CElements() && !fMappingNotFound)
+        if (0 < pcrsCopy->Size() && !fMappingNotFound)
         {
                 return GPOS_NEW(pmp) CUpperBoundNDVs(pcrsCopy, DUpperBoundNDVs());
         }

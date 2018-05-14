@@ -379,7 +379,7 @@ COptimizationContext::FOptimizeNLJoin
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, popNLJoin->PdrgPcrInner());
 	CColRefSet *pcrsOuterChild = CDrvdPropRelational::Pdprel((*pgexprJoin)[0]->Pdp())->PcrsOutput();
 	pcrs->Include(pcrsOuterChild);
-	BOOL fIncluded = pcrs->FSubset(poc->Prpp()->PcrsRequired());
+	BOOL fIncluded = pcrs->ContainsAll(poc->Prpp()->PcrsRequired());
 	pcrs->Release();
 
 	return fIncluded;

@@ -122,7 +122,7 @@ CXformSimplifyGbAgg::FDropGbAgg
 
 		CColRefSet *pcrsGrpCols = GPOS_NEW(pmp) CColRefSet(pmp);
 		pcrsGrpCols->Include(popAgg->Pdrgpcr());
-		BOOL fGrpColsHasKey = pcrsGrpCols->FSubset(pcrs);
+		BOOL fGrpColsHasKey = pcrsGrpCols->ContainsAll(pcrs);
 
 		pcrs->Release();
 		pcrsGrpCols->Release();

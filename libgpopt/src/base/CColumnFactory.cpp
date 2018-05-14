@@ -410,7 +410,7 @@ CColumnFactory::AddComputedToUsedColsMap
 
 	CDrvdPropScalar *pdpscalar = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive());
 	CColRefSet *pcrsUsed = pdpscalar->PcrsUsed();
-	if (NULL != pcrsUsed && 0 < pcrsUsed->CElements())
+	if (NULL != pcrsUsed && 0 < pcrsUsed->Size())
 	{
 #ifdef GPOS_DEBUG
 		BOOL fres =

@@ -140,7 +140,7 @@ CColRefSet::PcrFirst() const
 		return crsi.Pcr();
 	}
 	
-	GPOS_ASSERT(0 == CElements());
+	GPOS_ASSERT(0 == Size());
 	return NULL;
 }
 
@@ -353,7 +353,7 @@ CColRefSet::Pdrgpcr
 ULONG
 CColRefSet::HashValue()
 {
-	ULONG ulSize = this->CElements();
+	ULONG ulSize = this->Size();
 	ULONG ulHash = gpos::HashValue<ULONG>(&ulSize);
 	
 	// limit the number of columns used in hash computation
@@ -386,7 +386,7 @@ CColRefSet::OsPrint
 	)
 	const
 {
-	ULONG ulLen = CElements();
+	ULONG ulLen = Size();
 	ULONG ul = 0;
 	
 	CColRefSetIter crsi(*this);
@@ -454,7 +454,7 @@ CColRefSet::FContained
 	const ULONG ulLen = pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		if ((*pdrgpcrs)[ul]->FSubset(this))
+		if ((*pdrgpcrs)[ul]->ContainsAll(this))
 		{
 			return true;
 		}
@@ -483,7 +483,7 @@ CColRefSet::FCovered
 	GPOS_ASSERT(NULL != pcrs);
 	GPOS_ASSERT(0 < pdrgpcrs->Size());
 
-	if (0 == pcrs->CElements())
+	if (0 == pcrs->Size())
 	{
 		return false;
 	}

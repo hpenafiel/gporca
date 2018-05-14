@@ -120,7 +120,7 @@ CPhysicalScan::FProvidesReqdCols
 	CColRefSet 	*pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
 	pcrs->Include(m_pdrgpcrOutput);
 
-	BOOL fResult = pcrs->FSubset(pcrsRequired);
+	BOOL fResult = pcrs->ContainsAll(pcrsRequired);
 	pcrs->Release();
 	
 	return fResult;

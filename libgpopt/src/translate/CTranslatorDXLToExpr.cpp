@@ -1204,7 +1204,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEAnchor
 	m_ulCTEId = ulCTEPrevious;
 	
 	CColRefSet *pcrsProducerOuter = CDrvdPropRelational::Pdprel(pexprProducer->PdpDerive())->PcrsOuter();
-	if (0 < pcrsProducerOuter->CElements())
+	if (0 < pcrsProducerOuter->Size())
 	{
 		GPOS_RAISE
 				(

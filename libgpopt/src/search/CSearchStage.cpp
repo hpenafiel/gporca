@@ -37,7 +37,7 @@ CSearchStage::CSearchStage
 	m_costBest(GPOPT_INVALID_COST)
 {
 	GPOS_ASSERT(NULL != pxfs);
-	GPOS_ASSERT(0 < pxfs->CElements());
+	GPOS_ASSERT(0 < pxfs->Size());
 
 	// include all implementation rules in any search strategy
 	m_pxfs->Union(CXformFactory::Pxff()->PxfsImplementation());

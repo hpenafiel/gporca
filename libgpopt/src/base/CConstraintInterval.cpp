@@ -140,7 +140,7 @@ CConstraintInterval::PciIntervalFromScalarExpr
 	// expression must use at most one column
 #ifdef GPOS_DEBUG
 	CDrvdPropScalar *pdpScalar = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive());
-	GPOS_ASSERT(1 >= pdpScalar->PcrsUsed()->CElements());
+	GPOS_ASSERT(1 >= pdpScalar->PcrsUsed()->Size());
 #endif //GPOS_DEBUG
 	CConstraintInterval *pci = NULL;
 	switch (pexpr->Pop()->Eopid())
@@ -317,7 +317,7 @@ CConstraintInterval::PciIntervalFromConstraint
 	}
 
 	CColRefSet *pcrsUsed = pcnstr->PcrsUsed();
-	GPOS_ASSERT (1 == pcrsUsed->CElements());
+	GPOS_ASSERT (1 == pcrsUsed->Size());
 
 	CColRef *pcrFirst = pcrsUsed->PcrFirst();
 	GPOS_ASSERT_IMP(NULL != pcr, pcrFirst == pcr);

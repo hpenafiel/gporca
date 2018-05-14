@@ -102,8 +102,8 @@ CConstExprEvaluatorDXL::FValidInput
 	}
 	// if the expression uses or defines any variables, we should not try to evaluate it
 	CDrvdPropScalar *pdpScalar = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive());
-	if (0 != pdpScalar->PcrsUsed()->CElements() ||
-		0 != pdpScalar->PcrsDefined()->CElements())
+	if (0 != pdpScalar->PcrsUsed()->Size() ||
+		0 != pdpScalar->PcrsDefined()->Size())
 	{
 		if (NULL != szErrorMsg)
 		{

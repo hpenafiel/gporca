@@ -288,7 +288,7 @@ CLogicalSequenceProject::FHasLocalOuterRefs
 
 	CColRefSet *pcrsOuter = CDrvdPropRelational::Pdprel(exprhdl.Pdp())->PcrsOuter();
 
-	return !(pcrsOuter->FDisjoint(m_pcrsLocalUsed));
+	return !(pcrsOuter->IsDisjoint(m_pcrsLocalUsed));
 }
 
 

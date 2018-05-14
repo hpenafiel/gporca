@@ -134,7 +134,7 @@ CXformPushDownLeftOuterJoin::Transform
 		CExpression *pexprChild = (*pexprNAryJoin)[ul];
 		CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->PcrsOutput();
 		pexprChild->AddRef();
-		if (!pcrsOutput->FDisjoint(pcrsLOJUsed))
+		if (!pcrsOutput->IsDisjoint(pcrsLOJUsed))
 		{
 			pdrgpexprLOJChildren->Append(pexprChild);
 		}

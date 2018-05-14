@@ -35,8 +35,8 @@ CFunctionalDependency::CFunctionalDependency
 	m_pcrsKey(pcrsKey),
 	m_pcrsDetermined(pcrsDetermined)
 {
-	GPOS_ASSERT(0 < pcrsKey->CElements());
-	GPOS_ASSERT(0 < m_pcrsDetermined->CElements());
+	GPOS_ASSERT(0 < pcrsKey->Size());
+	GPOS_ASSERT(0 < m_pcrsDetermined->Size());
 }
 
 
@@ -70,7 +70,7 @@ CFunctionalDependency::FIncluded
 	)
 	const
 {
-	return pcrs->FSubset(m_pcrsKey) && pcrs->FSubset(m_pcrsDetermined);
+	return pcrs->ContainsAll(m_pcrsKey) && pcrs->ContainsAll(m_pcrsDetermined);
 }
 
 

@@ -130,18 +130,18 @@ CBitVectorTest::EresUnittest_SetOps()
 	{
 		bvEven.ExchangeSet(i);
 	}
-	GPOS_ASSERT(bvEven.Contains(&bvEmpty));
+	GPOS_ASSERT(bvEven.ContainsAll(&bvEmpty));
 
 	CBitVector bvOdd(pmp, cSize);
 	for(ULONG i = 1; i < cSize; i += 2)
 	{
 		bvOdd.ExchangeSet(i);
 	}
-	GPOS_ASSERT(bvOdd.Contains(&bvEmpty));
+	GPOS_ASSERT(bvOdd.ContainsAll(&bvEmpty));
 	GPOS_ASSERT(bvOdd.IsDisjoint(&bvEven));
 
-	GPOS_ASSERT(!bvEven.Contains(&bvOdd));
-	GPOS_ASSERT(!bvOdd.Contains(&bvEven));
+	GPOS_ASSERT(!bvEven.ContainsAll(&bvOdd));
+	GPOS_ASSERT(!bvOdd.ContainsAll(&bvEven));
 
 	CBitVector bv(pmp, bvOdd);
 

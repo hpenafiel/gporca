@@ -196,14 +196,14 @@ CSubqueryHandler::FProjectCountSubquery
 	}
 
 	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel(pexprPrjChild->PdpDerive())->PcrsOutput();
-	if (1 < pcrsOutput->CElements())
+	if (1 < pcrsOutput->Size())
 	{
 		// fail if GbAgg has more than one output column
 		return false;
 	}
 
 	CColRefSet *pcrsUsed = pdpscalar->PcrsUsed();
-	BOOL fPrjUsesCount = (0 == pcrsUsed->CElements()) || (1 == pcrsUsed->CElements() && pcrsUsed->FMember(pcrCount));
+	BOOL fPrjUsesCount = (0 == pcrsUsed->Size()) || (1 == pcrsUsed->Size() && pcrsUsed->FMember(pcrCount));
 	if (!fPrjUsesCount)
 	{
 		// fail if Project does not use count column
@@ -287,7 +287,7 @@ CSubqueryHandler::Psd
 	psd->m_fReturnSet = (1 < CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->Maxcard().Ull());
 	psd->m_fHasOuterRefs = pexprInner->FHasOuterRefs();
 	psd->m_fHasVolatileFunctions = (IMDFunction::EfsVolatile == CDrvdPropScalar::Pdpscalar(pexprSubquery->PdpDerive())->Pfp()->Efs());
-	psd->m_fHasSkipLevelCorrelations = 0 < pcrsOuter->CElements() && !pcrsOuterOutput->FSubset(pcrsOuter);
+	psd->m_fHasSkipLevelCorrelations = 0 < pcrsOuter->Size() && !pcrsOuterOutput->ContainsAll(pcrsOuter);
 
 	psd->m_fHasCountAgg = CUtils::FHasCountAgg((*pexprSubquery)[0], &psd->m_pcrCountAgg);
 
@@ -724,7 +724,7 @@ CSubqueryHandler::FCreateGrpCols
 		CColRefSet *pcrsGb = GPOS_NEW(pmp) CColRefSet(pmp);
 		pcrsGb->Include(pcrsUsed);
 		pcrsGb->Difference(pcrsOuterOutput);
-		GPOS_ASSERT(0 < pcrsGb->CElements());
+		GPOS_ASSERT(0 < pcrsGb->Size());
 
 		pdrgpcr = pcrsGb->Pdrgpcr(pmp);
 		pcrsGb->Release();
@@ -741,7 +741,7 @@ CSubqueryHandler::FCreateGrpCols
 		if (NULL != pdrgpcrSystemCols && 0 < pdrgpcrSystemCols->Size())
 		{
 			CColRefSet *pcrsSystemCols = GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrSystemCols);
-			BOOL fOuterSystemColsReqd = !(pcrsSystemCols->FDisjoint(pcrsOuterOutput));
+			BOOL fOuterSystemColsReqd = !(pcrsSystemCols->IsDisjoint(pcrsOuterOutput));
 			pcrsSystemCols->Release();
 			if (fOuterSystemColsReqd)
 			{
@@ -1259,7 +1259,7 @@ CSubqueryHandler::PexprIsNotNull
 		CColRefSet *pcrsUsed = GPOS_NEW(pmp) CColRefSet(pmp);
 		pcrsUsed->Include(CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed());
 		pcrsUsed->Intersection(CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput());
-		BOOL fHasOuterRefs = (0 < pcrsUsed->CElements());
+		BOOL fHasOuterRefs = (0 < pcrsUsed->Size());
 		pcrsUsed->Release();
 
 		if (fHasOuterRefs)
@@ -1598,7 +1598,7 @@ CSubqueryHandler::FRemoveExistentialSubquery
 		{
 			CColRefSet *pcrsOuterRefs = pdpInner->PcrsOuter();
 
-			if (0 == pcrsOuterRefs->CElements())
+			if (0 == pcrsOuterRefs->Size())
 			{
 				// add a limit operator on top of the inner child if the subquery does not have
 				// any outer references. Adding Limit for the correlated case hinders pulling up

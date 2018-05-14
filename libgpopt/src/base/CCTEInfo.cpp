@@ -361,7 +361,7 @@ CCTEInfo::DeriveProducerStats
 	// Given the subset of CTE consumer columns needed for statistics derivation,
 	// compute its corresponding set of columns in the CTE Producer
 	CColRefSet *pcrsCTEProducer = CUtils::PcrsCTEProducerColumns(m_pmp, pcrsStat, popConsumer);
-	GPOS_ASSERT(pcrsStat->CElements() == pcrsCTEProducer->CElements());
+	GPOS_ASSERT(pcrsStat->Size() == pcrsCTEProducer->Size());
 
 	CReqdPropRelational *prprel = GPOS_NEW(m_pmp) CReqdPropRelational(pcrsCTEProducer);
 	(void) pexprCTEProducer->PstatsDerive(prprel, NULL /* pdrgpstatCtxt */);

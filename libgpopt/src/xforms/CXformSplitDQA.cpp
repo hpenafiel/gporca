@@ -71,7 +71,7 @@ CXformSplitDQA::Exfp
 	if (!CLogicalGbAgg::PopConvert(exprhdl.Pop())->FGlobal() ||
 		0 == exprhdl.Pdpscalar(1 /*ulChildIndex*/)->UlDistinctAggs() ||
 		exprhdl.Pdpscalar(1 /*ulChildIndex*/)->FHasMultipleDistinctAggs() ||
-		0 < CDrvdPropRelational::Pdprel(exprhdl.Pdp())->PcrsOuter()->CElements() ||
+		0 < CDrvdPropRelational::Pdprel(exprhdl.Pdp())->PcrsOuter()->Size() ||
 		CXformUtils::FHasAmbiguousType(exprhdl.PexprScalarChild(1 /*ulChildIndex*/), COptCtxt::PoctxtFromTLS()->Pmda())
 		)
 	{

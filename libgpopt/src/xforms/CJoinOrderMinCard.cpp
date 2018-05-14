@@ -99,7 +99,7 @@ CJoinOrderMinCard::PcompCombine
 			continue;
 		}
 
-		if (pbs->FSubset(pedge->m_pbs))
+		if (pbs->ContainsAll(pedge->m_pbs))
 		{
 			// edge is subsumed by the cover of the combined component
 			CExpression *pexpr = pedge->m_pexpr;

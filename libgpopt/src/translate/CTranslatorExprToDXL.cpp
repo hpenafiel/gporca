@@ -796,7 +796,7 @@ CTranslatorExprToDXL::AddBitmapFilterColumns
 	// only keep the columns that are in the table associated with the bitmap
 	pcrsAdditional->Intersection(pcrsBitmap);
 
-	if (0 < pcrsAdditional->CElements())
+	if (0 < pcrsAdditional->Size())
 	{
 		pcrsReqdOutput->Include(pcrsAdditional);
 	}
@@ -2864,9 +2864,9 @@ CTranslatorExprToDXL::PdxlnQuantifiedSubplan
 		CColRefSet *pcrsInner = CDrvdPropRelational::Pdprel(pexprInner->Pdp(CDrvdProp::EptRelational))->PcrsOutput();
 		CColRefSet *pcrsUsed = GPOS_NEW(m_pmp) CColRefSet (m_pmp, *CDrvdPropScalar::Pdpscalar(pexprScalar->Pdp(CDrvdProp::EptScalar))->PcrsUsed());
 		pcrsUsed->Intersection(pcrsInner);
-		if (0 < pcrsUsed->CElements())
+		if (0 < pcrsUsed->Size())
 		{
-			GPOS_ASSERT(1 == pcrsUsed->CElements());
+			GPOS_ASSERT(1 == pcrsUsed->Size());
 
 			pcrInner = pcrsUsed->PcrFirst();
 		}
@@ -3632,7 +3632,7 @@ CTranslatorExprToDXL::PdxlnNLJoin
 
 	GPOS_ASSERT_IMP(COperator::EopPhysicalInnerIndexNLJoin != pop->Eopid() &&
 					COperator::EopPhysicalLeftOuterIndexNLJoin != pop->Eopid()
-			, pdprelInner->PcrsOuter()->FDisjoint(pdprelOuter->PcrsOutput()) &&
+			, pdprelInner->PcrsOuter()->IsDisjoint(pdprelOuter->PcrsOutput()) &&
 			"detected outer references in NL inner child");
 #endif // GPOS_DEBUG
 
@@ -3820,16 +3820,16 @@ CTranslatorExprToDXL::PdxlnHashJoin
 #ifdef GPOS_DEBUG
 			 CColRefSet *pcrsPredOuter = CDrvdPropScalar::Pdpscalar(pexprPredOuter->PdpDerive())->PcrsUsed();
 #endif // GPOS_DEBUG
-			 if (pcrsOuter->FSubset(pcrsPredInner))
+			 if (pcrsOuter->ContainsAll(pcrsPredInner))
 			 {
 				 // extracted expressions are not aligned with join children, we need to swap them
-				 GPOS_ASSERT(pcrsInner->FSubset(pcrsPredOuter));
+				 GPOS_ASSERT(pcrsInner->ContainsAll(pcrsPredOuter));
 				 std::swap(pexprPredOuter, pexprPredInner);
 #ifdef GPOS_DEBUG
 				 std::swap(pcrsPredOuter, pcrsPredInner);
 #endif
 			 }
-			 GPOS_ASSERT(pcrsOuter->FSubset(pcrsPredOuter) && pcrsInner->FSubset(pcrsPredInner) &&
+			 GPOS_ASSERT(pcrsOuter->ContainsAll(pcrsPredOuter) && pcrsInner->ContainsAll(pcrsPredInner) &&
 					 "hash join keys are not aligned with hash join children");
 
 			 pexprPredOuter->AddRef();
@@ -7976,7 +7976,7 @@ CTranslatorExprToDXL::FNeedsMaterializeUnderResult
 
 		// result node will impose motion hazard only if it projects a Subplan
 		// and an Ident produced by a tree that contains a motion
-		if (pbsScIdentColIds->CElements() > 0)
+		if (pbsScIdentColIds->Size() > 0)
 		{
 			// motions which can impose a hazard
 			gpdxl::Edxlopid rgeopid[] = {

@@ -69,7 +69,7 @@ namespace gpos
 			void And(const CBitVector *);
 			
 			// is subset
-			BOOL Contains(const CBitVector *) const;
+			BOOL ContainsAll(const CBitVector *) const;
 			
 			// is dijoint
 			BOOL IsDisjoint(const CBitVector *) const;

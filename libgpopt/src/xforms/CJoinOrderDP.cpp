@@ -50,7 +50,7 @@ CJoinOrderDP::SComponentPair::SComponentPair
 {
 	GPOS_ASSERT(NULL != pbsFst);
 	GPOS_ASSERT(NULL != pbsSnd);
-	GPOS_ASSERT(pbsFst->FDisjoint(pbsSnd));
+	GPOS_ASSERT(pbsFst->IsDisjoint(pbsSnd));
 }
 
 
@@ -251,7 +251,7 @@ CJoinOrderDP::PexprLookup
 	)
 {
 	// if set has size 1, return expression directly
-	if (1 == pbs->CElements())
+	if (1 == pbs->Size())
 	{
 		CBitSetIter bsi(*pbs);
 		(void) bsi.FAdvance();
@@ -282,7 +282,7 @@ CJoinOrderDP::PexprPred
 	GPOS_ASSERT(NULL != pbsFst);
 	GPOS_ASSERT(NULL != pbsSnd);
 
-	if (!pbsFst->FDisjoint(pbsSnd) || 0 == pbsFst->CElements() || 0 == pbsSnd->CElements())
+	if (!pbsFst->IsDisjoint(pbsSnd) || 0 == pbsFst->Size() || 0 == pbsSnd->Size())
 	{
 		// components must be non-empty and disjoint
 		return NULL;
@@ -452,7 +452,7 @@ CJoinOrderDP::PexprJoin
 	CBitSet *pbs
 	)
 {
-	GPOS_ASSERT(2 == pbs->CElements());
+	GPOS_ASSERT(2 == pbs->Size());
 
 	CBitSetIter bsi(*pbs);
 	(void) bsi.FAdvance();
@@ -553,7 +553,7 @@ CJoinOrderDP::PexprBestJoinOrderDP
 					pexprResult = pexprJoin;
 				}
 
-				if (m_ulComps == pbs->CElements())
+				if (m_ulComps == pbs->Size())
 				{
 					AddJoinOrder(pexprJoin, dCost);
 				}
@@ -646,7 +646,7 @@ CJoinOrderDP::PdrgpbsSubsets
 	CBitSet *pbs
 	)
 {
-	const ULONG ulSize = pbs->CElements();
+	const ULONG ulSize = pbs->Size();
 	ULONG *pulElems = GPOS_NEW_ARRAY(pmp, ULONG, ulSize);
 	ULONG ul = 0;
 	CBitSetIter bsi(*pbs);
@@ -739,7 +739,7 @@ CJoinOrderDP::PbsCovered
 	for (ULONG ul = 0; ul < m_ulEdges; ul++)
 	{
 		SEdge *pedge = m_rgpedge[ul];
-		if (pbsInput->FSubset(pedge->m_pbs))
+		if (pbsInput->ContainsAll(pedge->m_pbs))
 		{
 			pbs->Union(pedge->m_pbs);
 		}
@@ -814,9 +814,9 @@ CJoinOrderDP::PexprJoinCoveredSubsetWithUncoveredSubset
 	GPOS_ASSERT(NULL != pbs);
 	GPOS_ASSERT(NULL != pbsCovered);
 	GPOS_ASSERT(NULL != pbsUncovered);
-	GPOS_ASSERT(pbsCovered->FDisjoint(pbsUncovered));
-	GPOS_ASSERT(pbs->FSubset(pbsCovered));
-	GPOS_ASSERT(pbs->FSubset(pbsUncovered));
+	GPOS_ASSERT(pbsCovered->IsDisjoint(pbsUncovered));
+	GPOS_ASSERT(pbs->ContainsAll(pbsCovered));
+	GPOS_ASSERT(pbs->ContainsAll(pbsUncovered));
 
 	// find best join order for covered subset
 	CExpression *pexprJoin = PexprBestJoinOrder(pbsCovered);
@@ -879,7 +879,7 @@ CJoinOrderDP::PexprBestJoinOrder
 
 	// find maximal covered subset
 	CBitSet *pbsCovered = PbsCovered(pbs);
-	if (0 == pbsCovered->CElements())
+	if (0 == pbsCovered->Size())
 	{
 		// set is not covered, return a cross product
 		pbsCovered->Release();
@@ -902,7 +902,7 @@ CJoinOrderDP::PexprBestJoinOrder
 	pbsCovered->Release();
 
 	// if set has size 2, there is only one possible solution
-	if (2 == pbs->CElements())
+	if (2 == pbs->Size())
 	{
 		return PexprJoin(pbs);
 	}
@@ -943,9 +943,9 @@ CJoinOrderDP::PexprBuildPred
 	{
 		SEdge *pedge = m_rgpedge[ul];
 		if (
-			pbs->FSubset(pedge->m_pbs) &&
-			!pbsFst->FDisjoint(pedge->m_pbs) &&
-			!pbsSnd->FDisjoint(pedge->m_pbs)
+			pbs->ContainsAll(pedge->m_pbs) &&
+			!pbsFst->IsDisjoint(pedge->m_pbs) &&
+			!pbsSnd->IsDisjoint(pedge->m_pbs)
 			)
 		{
 #ifdef GPOS_DEBUG
@@ -958,7 +958,7 @@ CJoinOrderDP::PexprBuildPred
 	pbs->Release();
 
 	CExpression *pexprPred = NULL;
-	if (0 < pbsEdges->CElements())
+	if (0 < pbsEdges->Size())
 	{
 		DrgPexpr *pdrgpexpr = GPOS_NEW(m_pmp) DrgPexpr(m_pmp);
 		CBitSetIter bsi(*pbsEdges);

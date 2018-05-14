@@ -132,7 +132,7 @@ CDrvdPropRelational::Derive
 	{
 		GPOS_ASSERT(NULL == m_pkc);
 		
-		if (0 < m_pcrsOutput->CElements())
+		if (0 < m_pcrsOutput->Size())
 		{
 			m_pcrsOutput->AddRef();
 			m_pkc = GPOS_NEW(pmp) CKeyCollection(pmp, m_pcrsOutput);
@@ -180,7 +180,7 @@ CDrvdPropRelational::FSatisfies
 	GPOS_ASSERT(NULL != prpp);
 	GPOS_ASSERT(NULL != prpp->PcrsRequired());
 
-	BOOL fSatisfies = m_pcrsOutput->FSubset(prpp->PcrsRequired());
+	BOOL fSatisfies = m_pcrsOutput->ContainsAll(prpp->PcrsRequired());
 
 	return fSatisfies;
 }
@@ -240,13 +240,13 @@ CDrvdPropRelational::PdrgpfdChild
 		CFunctionalDependency *pfd = (*pdrgpfdChild)[ul];
 
 		// check applicability of FD's LHS
-		if (pcrsOutput->FSubset(pfd->PcrsKey()))
+		if (pcrsOutput->ContainsAll(pfd->PcrsKey()))
 		{
 			// decompose FD's RHS to extract the applicable part
 			CColRefSet *pcrsDetermined = GPOS_NEW(pmp) CColRefSet(pmp);
 			pcrsDetermined->Include(pfd->PcrsDetermined());
 			pcrsDetermined->Intersection(pcrsOutput);
-			if (0 < pcrsDetermined->CElements())
+			if (0 < pcrsDetermined->Size())
 			{
 				// create a new FD and add it to the output array
 				pfd->PcrsKey()->AddRef();
@@ -301,7 +301,7 @@ CDrvdPropRelational::PdrgpfdLocal
 		pcrsDetermined->Include(pcrsOutput);
 		pcrsDetermined->Exclude(pcrsKey);
 
-		if (0 < pcrsDetermined->CElements())
+		if (0 < pcrsDetermined->Size())
 		{
 			// add FD between key and the rest of output columns
 			pcrsKey->AddRef();

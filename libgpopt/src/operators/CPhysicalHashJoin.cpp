@@ -524,8 +524,8 @@ CPhysicalHashJoin::PdshashedPassThru
 	CColRefSet *pcrsOuterOutput = exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput();
 	DrgPexpr *pdrgpexprIncomingRequest = pdshashedInput->Pdrgpexpr();
 	CColRefSet *pcrsAllUsed = CUtils::PcrsExtractColumns(pmp, pdrgpexprIncomingRequest);
-	BOOL fSubset = pcrsOuterOutput->FSubset(pcrsAllUsed);
-	BOOL fDisjoint = pcrsOuterOutput->FDisjoint(pcrsAllUsed);
+	BOOL fSubset = pcrsOuterOutput->ContainsAll(pcrsAllUsed);
+	BOOL fDisjoint = pcrsOuterOutput->IsDisjoint(pcrsAllUsed);
 	pcrsAllUsed->Release();
 	if (fSubset)
 	{
@@ -544,7 +544,7 @@ CPhysicalHashJoin::PdshashedPassThru
 		 {
 			 CExpression *pexpr = (*pdrgpexprIncomingRequest)[ul];
 			 CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed();
-			 if (pcrsOuterOutput->FSubset(pcrsUsed))
+			 if (pcrsOuterOutput->ContainsAll(pcrsUsed))
 			 {
 				 // hashed expression uses columns from outer child only, add it to request
 				 pexpr->AddRef();

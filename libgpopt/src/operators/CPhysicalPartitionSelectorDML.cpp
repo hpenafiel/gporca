@@ -219,7 +219,7 @@ CPhysicalPartitionSelectorDML::FProvidesReqdCols
 	// include output columns of the relational child
 	pcrs->Union(exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput());
 
-	BOOL fProvidesCols = pcrs->FSubset(pcrsRequired);
+	BOOL fProvidesCols = pcrs->ContainsAll(pcrsRequired);
 	pcrs->Release();
 
 	return fProvidesCols;

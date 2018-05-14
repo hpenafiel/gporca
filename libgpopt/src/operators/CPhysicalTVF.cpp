@@ -257,7 +257,7 @@ CPhysicalTVF::FProvidesReqdCols
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
 
-	return m_pcrsOutput->FSubset(pcrsRequired);
+	return m_pcrsOutput->ContainsAll(pcrsRequired);
 }
 
 //---------------------------------------------------------------------------

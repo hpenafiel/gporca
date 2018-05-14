@@ -172,7 +172,7 @@ CPredicateUtils::FValidRefsOnly
 	CDrvdPropScalar *pdpscalar = CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive());
 	if (NULL != pcrsAllowedRefs)
 	{
-		return pcrsAllowedRefs->FSubset(pdpscalar->PcrsUsed());
+		return pcrsAllowedRefs->ContainsAll(pdpscalar->PcrsUsed());
 	}
 
 	return CUtils::FVarFreeExpr(pexprScalar) &&
@@ -1822,9 +1822,9 @@ CPredicateUtils::PexprIndexLookupKeyOnLeft
 		CColRefSet *pcrsUsedRight = CDrvdPropScalar::Pdpscalar(pexprRight->PdpDerive())->PcrsUsed();
 		BOOL fSuccess = true;
 
-		if (0 < pcrsUsedRight->CElements())
+		if (0 < pcrsUsedRight->Size())
 		{
-			if (!pcrsUsedRight->FDisjoint(pcrsIndex))
+			if (!pcrsUsedRight->IsDisjoint(pcrsIndex))
 			{
 				// right argument uses index key, cannot use predicate for index lookup
 				fSuccess = false;
@@ -1833,7 +1833,7 @@ CPredicateUtils::PexprIndexLookupKeyOnLeft
 			{
 				CColRefSet *pcrsOuterRefsRight = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsUsedRight);
 				pcrsOuterRefsRight->Difference(pcrsIndex);
-				fSuccess = pcrsOuterRefs->FSubset(pcrsOuterRefsRight);
+				fSuccess = pcrsOuterRefs->ContainsAll(pcrsOuterRefsRight);
 				pcrsOuterRefsRight->Release();
 			}
 		}
@@ -1976,7 +1976,7 @@ CPredicateUtils::ExtractIndexPredicates
 			pcrsUsed->Difference(pcrsAcceptedOuterRefs);
 		}
 
-		BOOL fSubset = (0 < pcrsUsed->CElements()) && (pcrsIndex->FSubset(pcrsUsed));
+		BOOL fSubset = (0 < pcrsUsed->Size()) && (pcrsIndex->ContainsAll(pcrsUsed));
 		pcrsUsed->Release();
 
 		if (!fSubset)
@@ -2040,7 +2040,7 @@ CPredicateUtils::SeparateOuterRefs
 	GPOS_ASSERT(NULL != ppexprOuterRef);
 
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed();
-	if (pcrsUsed->FDisjoint(pcrsOuter))
+	if (pcrsUsed->IsDisjoint(pcrsOuter))
 	{
 		// if used columns are disjoint from outer references, return input expression
 		pexprScalar->AddRef();
@@ -2059,7 +2059,7 @@ CPredicateUtils::SeparateOuterRefs
 		CExpression *pexprPred = (*pdrgpexpr)[ul];
 		CColRefSet *pcrsPredUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
 		pexprPred->AddRef();
-		if (0 == pcrsPredUsed->CElements() || pcrsOuter->FDisjoint(pcrsPredUsed))
+		if (0 == pcrsPredUsed->Size() || pcrsOuter->IsDisjoint(pcrsPredUsed))
 		{
 			pdrgpexprLocal->Append(pexprPred);
 		}
@@ -2205,7 +2205,7 @@ CPredicateUtils::FImpliedPredicate
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrsEquivClasses)[ul];
-		if (pcrs->FSubset(pcrsUsed))
+		if (pcrs->ContainsAll(pcrsUsed))
 		{
 			// predicate is implied by given equivalence classes
 			return true;
@@ -2297,7 +2297,7 @@ CPredicateUtils::FValidSemiJoinCorrelations
 	{
 		CExpression *pexprPred = (*pdrgpexprCorrelations)[ul];
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
-		if (0 < pcrsUsed->CElements() && !pcrsChildren->FSubset(pcrsUsed) && !pcrsUsed->FDisjoint(pcrsInnerOuput))
+		if (0 < pcrsUsed->Size() && !pcrsChildren->ContainsAll(pcrsUsed) && !pcrsUsed->IsDisjoint(pcrsInnerOuput))
 		{
 			// disallow correlations referring to inner child
 			fValid = false;
@@ -2321,7 +2321,7 @@ CPredicateUtils::FSimpleEqualityUsingCols
 	GPOS_ASSERT(NULL != pexprScalar);
 	GPOS_ASSERT(pexprScalar->Pop()->FScalar());
 	GPOS_ASSERT(NULL != pcrs);
-	GPOS_ASSERT(0 < pcrs->CElements());
+	GPOS_ASSERT(0 < pcrs->Size());
 
 	// break expression into conjuncts
 	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(pmp, pexprScalar);
@@ -2335,7 +2335,7 @@ CPredicateUtils::FSimpleEqualityUsingCols
 		fSuccess = FEquality(pexprConj) &&
 				CUtils::FScalarIdent((*pexprConj)[0]) &&
 				CUtils::FScalarIdent((*pexprConj)[1]) &&
-				!pcrs->FDisjoint(pcrsUsed);
+				!pcrs->IsDisjoint(pcrsUsed);
 	}
 	pdrgpexpr->Release();
 
@@ -2490,7 +2490,7 @@ CPredicateUtils::FCompatibleIndexPredicate
 
 	CExpression *pexprLeft = (*pexprPred)[0];
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprLeft->PdpDerive())->PcrsUsed();
-	GPOS_ASSERT(1 == pcrsUsed->CElements());
+	GPOS_ASSERT(1 == pcrsUsed->Size());
 
 	CColRef *pcrIndexKey = pcrsUsed->PcrFirst();
 	ULONG ulKeyPos = pdrgpcrIndex->IndexOf(pcrIndexKey);
