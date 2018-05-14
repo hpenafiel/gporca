@@ -69,7 +69,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const = 0;
+			ULONG HashValue() const = 0;
 
 			// extract columns used by the property
 			virtual

@@ -750,7 +750,7 @@ CNormalizer::PushThruSetOp
 
 		pexprConj->AddRef();
 		CExpression *pexprRemappedConj = pexprConj;
-		if (!pcrsChild->FEqual(pcrsOutput))
+		if (!pcrsChild->Equals(pcrsOutput))
 		{
 			// child columns are different from SetOp output columns,
 			// we need to fix conjunct by mapping output columns to child columns,

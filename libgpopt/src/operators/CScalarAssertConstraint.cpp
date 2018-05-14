@@ -71,7 +71,7 @@ CScalarAssertConstraint::FMatch
 		return false;
 	}
 	
-	return m_pstrErrorMsg->FEquals(CScalarAssertConstraint::PopConvert(pop)->PstrErrorMsg());
+	return m_pstrErrorMsg->Equals(CScalarAssertConstraint::PopConvert(pop)->PstrErrorMsg());
 }
 
 //---------------------------------------------------------------------------

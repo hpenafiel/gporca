@@ -79,7 +79,7 @@ CPhysicalIndexScan::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	if (peo->FCompatible(m_pos))
 	{
@@ -92,21 +92,21 @@ CPhysicalIndexScan::EpetOrder
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalIndexScan::UlHash
+//		CPhysicalIndexScan::HashValue
 //
 //	@doc:
 //		Combine pointers for table descriptor, index descriptor and Eop
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalIndexScan::UlHash() const
+CPhysicalIndexScan::HashValue() const
 {
 	ULONG ulHash = gpos::UlCombineHashes
 					(
-					COperator::UlHash(),
+					COperator::HashValue(),
 					gpos::UlCombineHashes
 							(
-							m_pindexdesc->Pmdid()->UlHash(),
+							m_pindexdesc->Pmdid()->HashValue(),
 							gpos::UlHashPtr<CTableDescriptor>(m_ptabdesc)
 							)
 					);

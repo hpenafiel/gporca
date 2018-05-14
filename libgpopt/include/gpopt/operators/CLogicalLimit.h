@@ -116,7 +116,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// return a copy of the operator with remapped columns
 			virtual

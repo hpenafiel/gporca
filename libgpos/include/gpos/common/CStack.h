@@ -75,7 +75,7 @@ namespace gpos
 			// pop top element
 			T*	Pop()
             {
-                GPOS_ASSERT(!this->FEmpty() && "Cannot pop from empty stack");
+                GPOS_ASSERT(!this->IsEmpty() && "Cannot pop from empty stack");
 
                 T *pt = (*m_dpa)[m_ulSize - 1];
                 m_ulSize--;
@@ -85,7 +85,7 @@ namespace gpos
 			// peek at top element
 			const T* Peek() const
             {
-                GPOS_ASSERT(!this->FEmpty() && "Cannot peek into empty stack");
+                GPOS_ASSERT(!this->IsEmpty() && "Cannot peek into empty stack");
 
                 const T *pt = (*m_dpa)[m_ulSize - 1];
 
@@ -93,7 +93,7 @@ namespace gpos
             }
 			
 			// is stack empty?
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
             {
                 return (m_ulSize == 0);
             }

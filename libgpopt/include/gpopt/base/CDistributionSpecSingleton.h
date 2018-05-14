@@ -92,13 +92,13 @@ namespace gpopt
 			
 			// hash function for singleton distribution spec
 			virtual
-			ULONG UlHash() const
+			ULONG HashValue() const
 			{
 				ULONG ulEdt = (ULONG) Edt();
 				BOOL fOnMaster = FOnMaster();
 				
-				return gpos::UlCombineHashes(gpos::UlHash<ULONG>(&ulEdt),
-												gpos::UlHash<BOOL>(&fOnMaster));
+				return gpos::UlCombineHashes(gpos::HashValue<ULONG>(&ulEdt),
+												gpos::HashValue<BOOL>(&fOnMaster));
 			}
 			
 			// match function for singleton distribution specs

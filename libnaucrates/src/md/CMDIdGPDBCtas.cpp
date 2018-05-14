@@ -61,7 +61,7 @@ CMDIdGPDBCtas::CMDIdGPDBCtas
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdGPDBCtas::FEquals
+//		CMDIdGPDBCtas::Equals
 //
 //	@doc:
 //		Checks if the version of the current object is compatible with another version
@@ -69,7 +69,7 @@ CMDIdGPDBCtas::CMDIdGPDBCtas
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDIdGPDBCtas::FEquals
+CMDIdGPDBCtas::Equals
 	(
 	const IMDId *pmdid
 	) 
@@ -95,7 +95,7 @@ CMDIdGPDBCtas::FEquals
 //---------------------------------------------------------------------------
 BOOL CMDIdGPDBCtas::FValid() const
 {
-	return !FEquals(&CMDIdGPDBCtas::m_mdidInvalidKey);
+	return !Equals(&CMDIdGPDBCtas::m_mdidInvalidKey);
 }
 
 //---------------------------------------------------------------------------

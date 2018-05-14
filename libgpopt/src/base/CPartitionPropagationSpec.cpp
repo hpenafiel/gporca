@@ -61,16 +61,16 @@ CPartitionPropagationSpec::~CPartitionPropagationSpec()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPartitionPropagationSpec::UlHash
+//		CPartitionPropagationSpec::HashValue
 //
 //	@doc:
 //		Hash of components
 //
 //---------------------------------------------------------------------------
 ULONG
-CPartitionPropagationSpec::UlHash() const
+CPartitionPropagationSpec::HashValue() const
 {
-	return m_ppim->UlHash();
+	return m_ppim->HashValue();
 }
 
 
@@ -89,8 +89,8 @@ CPartitionPropagationSpec::FMatch
 	) 
 	const
 {
-	return m_ppim->FEqual(ppps->Ppim()) &&
-			m_ppfm->FEqual(ppps->m_ppfm);
+	return m_ppim->Equals(ppps->Ppim()) &&
+			m_ppfm->Equals(ppps->m_ppfm);
 }
 
 //---------------------------------------------------------------------------

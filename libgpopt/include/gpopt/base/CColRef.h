@@ -32,10 +32,10 @@ namespace gpopt
 	typedef CDynamicPtrArray<DrgPcr, CleanupRelease> DrgDrgPcr;
 	
 	// hash map mapping ULONG -> CColRef
-	typedef CHashMap<ULONG, CColRef, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CColRef, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupNULL<CColRef> > HMUlCr;
 	// iterator
-	typedef CHashMapIter<ULONG, CColRef, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, CColRef, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupNULL<CColRef> > HMIterUlCr;
 	
 	//---------------------------------------------------------------------------
@@ -112,19 +112,19 @@ namespace gpopt
 				)
 				const
 			{
-				return FEqual(m_ulId, cr.UlId());
+				return Equals(m_ulId, cr.UlId());
 			}
 
 			// static hash functions
 			static
-			ULONG UlHash(const ULONG &);
+			ULONG HashValue(const ULONG &);
 
 			static
-			ULONG UlHash(const CColRef *pcr);
+			ULONG HashValue(const CColRef *pcr);
 
 			 // equality function for hash table
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const ULONG &ulKey,
 				const ULONG &ulKeyOther
@@ -135,13 +135,13 @@ namespace gpopt
 
 			 // equality function
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CColRef *pcrFirst,
 				const CColRef *pcrSecond
 				)
 			{
-				return FEqual(pcrFirst->UlId(), pcrSecond->UlId());
+				return Equals(pcrFirst->UlId(), pcrSecond->UlId());
 			}
 
 			// extract array of colids from array of colrefs
@@ -150,11 +150,11 @@ namespace gpopt
 
 			// check if the the array of column references are equal
 			static
-			BOOL FEqual(const DrgPcr *pdrgpcr1, const DrgPcr *pdrgpcr2);
+			BOOL Equals(const DrgPcr *pdrgpcr1, const DrgPcr *pdrgpcr2);
 
 			// check if the the array of column reference arrays are equal
 			static
-			BOOL FEqual(const DrgDrgPcr *pdrgdrgpcr1, const DrgDrgPcr *pdrgdrgpcr2);
+			BOOL Equals(const DrgDrgPcr *pdrgdrgpcr1, const DrgDrgPcr *pdrgdrgpcr2);
 
 			// type of column reference (base/computed)
 			virtual

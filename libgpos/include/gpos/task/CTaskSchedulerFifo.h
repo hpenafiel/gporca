@@ -74,7 +74,7 @@ namespace gpos
 
 			// check if task queue is empty
 			BOOL
-			FEmpty() const
+			IsEmpty() const
 			{
 				return m_qtsk.IsEmpty();
 			}

@@ -76,7 +76,7 @@ class CDatumBoolGPDB : public IDatumBool
 
 		// hash function
 		virtual
-		ULONG UlHash() const;
+		ULONG HashValue() const;
 
 		// match function for datums
 		virtual

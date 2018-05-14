@@ -149,7 +149,7 @@ CPhysicalPartitionSelector::FMatchExprMaps
 		ULONG ulKey = *(hmulei.Pk());
 		const CExpression *pexprFst = hmulei.Pt();
 		CExpression *pexprSnd = phmulexprSnd->PtLookup(&ulKey);
-		if (!CUtils::FEqual(pexprFst, pexprSnd))
+		if (!CUtils::Equals(pexprFst, pexprSnd))
 		{
 			return false;
 		}
@@ -259,32 +259,32 @@ CPhysicalPartitionSelector::FMatch
 	CPhysicalPartitionSelector *popPartSelector = CPhysicalPartitionSelector::PopConvert(pop);
 
 	BOOL fScanIdCmp = popPartSelector->UlScanId() == m_ulScanId;
-	BOOL fMdidCmp = popPartSelector->Pmdid()->FEquals(Pmdid());
+	BOOL fMdidCmp = popPartSelector->Pmdid()->Equals(Pmdid());
 	BOOL fPartCnstrMapCmp = FMatchPartCnstr(popPartSelector->m_ppartcnstrmap);
-	BOOL fColRefCmp = CColRef::FEqual(popPartSelector->Pdrgpdrgpcr(), m_pdrgpdrgpcr) ;
+	BOOL fColRefCmp = CColRef::Equals(popPartSelector->Pdrgpdrgpcr(), m_pdrgpdrgpcr) ;
 	BOOL fPartCnstrEquiv = popPartSelector->m_ppartcnstr->FEquivalent(m_ppartcnstr) ;
 	BOOL fEqPredCmp = FMatchExprMaps(popPartSelector->m_phmulexprEqPredicates, m_phmulexprEqPredicates) ;
 	BOOL fPredCmp = FMatchExprMaps(popPartSelector->m_phmulexprPredicates, m_phmulexprPredicates) ;
-	BOOL fResPredCmp = CUtils::FEqual(popPartSelector->m_pexprResidual, m_pexprResidual);
+	BOOL fResPredCmp = CUtils::Equals(popPartSelector->m_pexprResidual, m_pexprResidual);
 
 	return fScanIdCmp && fMdidCmp && fPartCnstrMapCmp && fColRefCmp && fPartCnstrEquiv && fEqPredCmp && fResPredCmp && fPredCmp;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalPartitionSelector::UlHash
+//		CPhysicalPartitionSelector::HashValue
 //
 //	@doc:
 //		Hash operator
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalPartitionSelector::UlHash() const
+CPhysicalPartitionSelector::HashValue() const
 {
 	return gpos::UlCombineHashes
 				(
 				Eopid(),
-				gpos::UlCombineHashes(m_ulScanId, Pmdid()->UlHash())
+				gpos::UlCombineHashes(m_ulScanId, Pmdid()->HashValue())
 				);
 }
 

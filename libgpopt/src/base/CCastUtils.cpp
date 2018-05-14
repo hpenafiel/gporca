@@ -262,7 +262,7 @@ CCastUtils::PexprAddCast
 
     CExpression *pexprNewPred = NULL;
 
-    BOOL fTypesEqual = pmdidTypeLeft->FEquals(pmdidTypeRight);
+    BOOL fTypesEqual = pmdidTypeLeft->Equals(pmdidTypeRight);
     BOOL fCastLtoR = CMDAccessorUtils::FCastExists(pmda, pmdidTypeLeft, pmdidTypeRight);
     BOOL fCastRtoL = CMDAccessorUtils::FCastExists(pmda, pmdidTypeRight, pmdidTypeLeft);
 

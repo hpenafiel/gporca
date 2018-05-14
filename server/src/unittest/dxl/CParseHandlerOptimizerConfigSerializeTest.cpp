@@ -115,7 +115,7 @@ namespace gpdxl
 		CWStringDynamic strExpected(pmp);
 		strExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
 
-		GPOS_ASSERT(strExpected.FEquals(&str));
+		GPOS_ASSERT(strExpected.Equals(&str));
 
 		poc->Release();
 

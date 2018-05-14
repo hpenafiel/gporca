@@ -136,7 +136,7 @@ CMDAccessorTest::EresUnittest_Basic()
 #endif	
 	mda.Pmdrel(pmdidObject2);
 
-	GPOS_ASSERT(pimdrel1->Pmdid()->FEquals(pmdidObject1) && pimdrel2->Pmdid()->FEquals(pmdidObject2));
+	GPOS_ASSERT(pimdrel1->Pmdid()->Equals(pmdidObject1) && pimdrel2->Pmdid()->Equals(pmdidObject2));
 	
 	// access an object again
 #ifdef GPOS_DEBUG
@@ -653,8 +653,8 @@ CMDAccessorTest::EresUnittest_Cast()
 	
 	GPOS_ASSERT(!pmdcastInt2BigInt->FBinaryCoercible());
 	GPOS_ASSERT(pmdcastInt2BigInt->PmdidCastFunc()->FValid());
-	GPOS_ASSERT(pmdcastInt2BigInt->PmdidSrc()->FEquals(pmdtypeInt->Pmdid()));
-	GPOS_ASSERT(pmdcastInt2BigInt->PmdidDest()->FEquals(pmdtypeBigInt->Pmdid()));
+	GPOS_ASSERT(pmdcastInt2BigInt->PmdidSrc()->Equals(pmdtypeInt->Pmdid()));
+	GPOS_ASSERT(pmdcastInt2BigInt->PmdidDest()->Equals(pmdtypeBigInt->Pmdid()));
 	
 #ifdef GPOS_DEBUG
 	const IMDCast *pmdcastInt2Oid = 
@@ -714,8 +714,8 @@ CMDAccessorTest::EresUnittest_ScCmp()
 	mda.Pmdsccmp(pmdtypeInt->Pmdid(), pmdtypeBigInt->Pmdid(), IMDType::EcmptEq);
 	
 	GPOS_ASSERT(IMDType::EcmptEq == pmdScEqIntBigInt->Ecmpt());
-	GPOS_ASSERT(pmdScEqIntBigInt->PmdidLeft()->FEquals(pmdtypeInt->Pmdid()));
-	GPOS_ASSERT(pmdScEqIntBigInt->PmdidRight()->FEquals(pmdtypeBigInt->Pmdid()));
+	GPOS_ASSERT(pmdScEqIntBigInt->PmdidLeft()->Equals(pmdtypeInt->Pmdid()));
+	GPOS_ASSERT(pmdScEqIntBigInt->PmdidRight()->Equals(pmdtypeBigInt->Pmdid()));
 
 	return GPOS_OK;
 }

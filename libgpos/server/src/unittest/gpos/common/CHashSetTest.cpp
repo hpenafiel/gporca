@@ -66,7 +66,7 @@ CHashSetTest::EresUnittest_Basic()
 
 	const ULONG ulCnt = GPOS_ARRAY_SIZE(rgul);
 
-	typedef CHashSet< ULONG_PTR, UlHashPtr<ULONG_PTR>, FEqual<ULONG_PTR>, CleanupNULL<ULONG_PTR> > HSUl;
+	typedef CHashSet< ULONG_PTR, UlHashPtr<ULONG_PTR>, Equals<ULONG_PTR>, CleanupNULL<ULONG_PTR> > HSUl;
 
 	HSUl *phs = GPOS_NEW(pmp) HSUl(pmp, 128);
 	for (ULONG ul = 0; ul < ulCnt; ul++)
@@ -107,7 +107,7 @@ CHashSetTest::EresUnittest_Ownership()
 
 	ULONG ulCnt = 256;
 
-	typedef CHashSet< ULONG_PTR, UlHashPtr<ULONG_PTR>, FEqual<ULONG_PTR>, CleanupDelete<ULONG_PTR> > HSUl;
+	typedef CHashSet< ULONG_PTR, UlHashPtr<ULONG_PTR>, Equals<ULONG_PTR>, CleanupDelete<ULONG_PTR> > HSUl;
 
 	HSUl *phs = GPOS_NEW(pmp) HSUl(pmp, 32);
 	for (ULONG ul = 0; ul < ulCnt; ul++)

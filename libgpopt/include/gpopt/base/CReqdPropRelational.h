@@ -99,7 +99,7 @@ namespace gpopt
 			CReqdPropRelational *PrprelDifference(IMemoryPool *pmp, CReqdPropRelational *prprel);
 
 			// return true if property container is empty
-			BOOL FEmpty() const;
+			BOOL IsEmpty() const;
 
 			// shorthand for conversion
 			static

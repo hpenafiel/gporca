@@ -255,7 +255,7 @@ namespace gpopt
 
 			// equality function
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CCostContext &ccLeft,
 				const CCostContext &ccRight
@@ -274,33 +274,33 @@ namespace gpopt
 
 			// equality function
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CCostContext *pccLeft,
 				const CCostContext *pccRight
 				)
 			{
-				return FEqual(*pccLeft, *pccRight);
+				return Equals(*pccLeft, *pccRight);
 			}
 
 			// hash function
 			static
-			ULONG UlHash
+			ULONG HashValue
 				(
 				const CCostContext &cc
 				)
 			{
-				return COptimizationContext::UlHash(*(cc.Poc()));
+				return COptimizationContext::HashValue(*(cc.Poc()));
 			}
 
 			// hash function
 			static
-			ULONG UlHash
+			ULONG HashValue
 				(
 				const CCostContext *pcc
 				)
 			{
-				return UlHash(*pcc);
+				return HashValue(*pcc);
 			}
 
 			// debug print

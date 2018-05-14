@@ -79,7 +79,7 @@ CJoinStatsProcessor::JoinHistograms
 	*pdScaleFactor = CScaleFactorUtils::DDefaultScaleFactorJoin;
 
 	CStatsPred::EStatsCmpType escmpt = pstatsjoin->Escmpt();
-	BOOL fEmptyHistograms = phist1->FEmpty() || phist2->FEmpty();
+	BOOL fEmptyHistograms = phist1->IsEmpty() || phist2->IsEmpty();
 
 	if (fEmptyHistograms)
 	{
@@ -120,7 +120,7 @@ CJoinStatsProcessor::JoinHistograms
 		// note that for IDF and Not Equality predicate, we do not generate histograms but
 		// just the scale factors.
 
-		GPOS_ASSERT(phistJoin->FEmpty());
+		GPOS_ASSERT(phistJoin->IsEmpty());
 		GPOS_DELETE(phistJoin);
 
 		// TODO:  Feb 21 2014, for all join condition except for "=" join predicate
@@ -314,7 +314,7 @@ CJoinStatsProcessor::PstatsJoinDriver
 						fIgnoreLasjHistComputation
 				);
 
-		fEmptyOutput = FEmptyJoinStats(pstatsOuter->FEmpty(), fEmptyOutput, phistOuter, phistInner, phistOuterAfter, eStatsJoinType);
+		fEmptyOutput = FEmptyJoinStats(pstatsOuter->IsEmpty(), fEmptyOutput, phistOuter, phistInner, phistOuterAfter, eStatsJoinType);
 
 		CStatisticsUtils::AddHistogram(pmp, ulColId1, phistOuterAfter, phmulhistJoin);
 		if (!fSemiJoin)
@@ -431,7 +431,7 @@ CJoinStatsProcessor::FEmptyJoinStats
 	BOOL fLASJ = IStatistics::EsjtLeftAntiSemiJoin == eStatsJoinType;
 	return fEmptyOutput ||
 		   (!fLASJ && fEmptyOuter) ||
-		   (!phistOuter->FEmpty() && !phistInner->FEmpty() && phistJoin->FEmpty());
+		   (!phistOuter->IsEmpty() && !phistInner->IsEmpty() && phistJoin->IsEmpty());
 }
 
 // Derive statistics for join operation given array of statistics object

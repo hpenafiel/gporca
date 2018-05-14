@@ -74,7 +74,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// required propagation accessor
 			CPartitionPropagationSpec *PppsRequired() const
@@ -119,7 +119,7 @@ namespace gpopt
 
 				return m_eppm == pepp->Eppm() &&
 						m_ppps->FMatch(pepp->PppsRequired()) &&
-						PpfmDerived()->FEqual(pepp->PpfmDerived());
+						PpfmDerived()->Equals(pepp->PpfmDerived());
 			}
 
 			// print function

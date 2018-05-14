@@ -62,37 +62,37 @@ CColRef::~CColRef()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CColRef::UlHash
+//		CColRef::HashValue
 //
 //	@doc:
 //		static hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CColRef::UlHash
+CColRef::HashValue
 	(
 	const ULONG &ulptr
 	)
 {
-	return gpos::UlHash<ULONG>(&ulptr);
+	return gpos::HashValue<ULONG>(&ulptr);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CColRef::UlHash
+//		CColRef::HashValue
 //
 //	@doc:
 //		static hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CColRef::UlHash
+CColRef::HashValue
 	(
 	const CColRef *pcr
 	)
 {
 	ULONG ulId = pcr->UlId();
-	return gpos::UlHash<ULONG>(&ulId);
+	return gpos::HashValue<ULONG>(&ulId);
 }
 
 
@@ -145,14 +145,14 @@ CColRef::Pdrgpul
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CColRef::FEqual
+//		CColRef::Equals
 //
 //	@doc:
 //		Are the two arrays of column references equivalent
 //
 //---------------------------------------------------------------------------
 BOOL
-CColRef::FEqual
+CColRef::Equals
 	(
 	const DrgPcr *pdrgpcr1,
 	const DrgPcr *pdrgpcr2
@@ -169,7 +169,7 @@ CColRef::FEqual
 // check if the the array of column references are equal. Note that since we have unique
 // copy of the column references, we can compare pointers.
 BOOL
-CColRef::FEqual
+CColRef::Equals
 	(
 	const DrgDrgPcr *pdrgdrgpcr1,
 	const DrgDrgPcr *pdrgdrgpcr2

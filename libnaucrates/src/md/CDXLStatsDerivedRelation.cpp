@@ -120,7 +120,7 @@ CDXLStatsDerivedRelation::DebugPrint
 {
 	os << "Rows: " << DRows() << std::endl;
 
-	os << "Empty: " << FEmpty() << std::endl;
+	os << "Empty: " << IsEmpty() << std::endl;
 }
 
 #endif // GPOS_DEBUG

@@ -45,16 +45,16 @@ CPhysicalTableScan::CPhysicalTableScan
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalTableScan::UlHash
+//		CPhysicalTableScan::HashValue
 //
 //	@doc:
 //		Combine pointer for table descriptor and Eop
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalTableScan::UlHash() const
+CPhysicalTableScan::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
@@ -82,7 +82,7 @@ CPhysicalTableScan::FMatch
 	}
 
 	CPhysicalTableScan *popTableScan = CPhysicalTableScan::PopConvert(pop);
-	return m_ptabdesc->Pmdid()->FEquals(popTableScan->Ptabdesc()->Pmdid()) &&
+	return m_ptabdesc->Pmdid()->Equals(popTableScan->Ptabdesc()->Pmdid()) &&
 			m_pdrgpcrOutput->Equals(popTableScan->PdrgpcrOutput());
 }
 

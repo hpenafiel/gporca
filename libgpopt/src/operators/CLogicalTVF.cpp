@@ -146,21 +146,21 @@ CLogicalTVF::~CLogicalTVF()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalTVF::UlHash
+//		CLogicalTVF::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalTVF::UlHash() const
+CLogicalTVF::HashValue() const
 {
 	ULONG ulHash = gpos::UlCombineHashes(
-								COperator::UlHash(),
+								COperator::HashValue(),
 								gpos::UlCombineHashes(
-										m_pmdidFunc->UlHash(),
+										m_pmdidFunc->HashValue(),
 										gpos::UlCombineHashes(
-												m_pmdidRetType->UlHash(),
+												m_pmdidRetType->HashValue(),
 												gpos::UlHashPtr<DrgPcoldesc>(m_pdrgpcoldesc))));
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 	return ulHash;
@@ -188,8 +188,8 @@ CLogicalTVF::FMatch
 
 	CLogicalTVF *popTVF = CLogicalTVF::PopConvert(pop);
 		
-	return m_pmdidFunc->FEquals(popTVF->PmdidFunc()) &&
-			m_pmdidRetType->FEquals(popTVF->PmdidRetType()) &&
+	return m_pmdidFunc->Equals(popTVF->PmdidFunc()) &&
+			m_pmdidRetType->Equals(popTVF->PmdidRetType()) &&
 			m_pdrgpcoldesc->Equals(popTVF->Pdrgpcoldesc()) &&
 			m_pdrgpcrOutput->Equals(popTVF->PdrgpcrOutput());
 }

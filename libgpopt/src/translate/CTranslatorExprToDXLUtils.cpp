@@ -799,7 +799,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 {
 	GPOS_ASSERT(NULL != pexprPartKey);
 	GPOS_ASSERT(NULL != pmdidTypePartKey);
-	GPOS_ASSERT(CScalar::PopConvert(pexprPartKey->Pop())->PmdidType()->FEquals(pmdidTypePartKey));
+	GPOS_ASSERT(CScalar::PopConvert(pexprPartKey->Pop())->PmdidType()->Equals(pmdidTypePartKey));
 
 	CDXLNode *pdxlnPartKey = NULL;
 
@@ -2221,7 +2221,7 @@ CTranslatorExprToDXLUtils::FDirectDispatchable
 	// the hash value of the constant will point to the right segment.
 	BOOL fBothInt = CUtils::FIntType(pmdidDistrCol) && CUtils::FIntType(pmdidDatum);
 
-	return fBothInt || (pmdidDatum->FEquals(pmdidDistrCol));
+	return fBothInt || (pmdidDatum->Equals(pmdidDistrCol));
 }
 
 //---------------------------------------------------------------------------

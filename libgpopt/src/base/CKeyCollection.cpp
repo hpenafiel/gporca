@@ -151,7 +151,7 @@ CKeyCollection::FKey
 		if (fExactMatch)
 		{
 			// accept only exact matches
-			if (pcrs->FEqual((*m_pdrgpcrs)[ul]))
+			if (pcrs->Equals((*m_pdrgpcrs)[ul]))
 			{
 				return true;
 			}

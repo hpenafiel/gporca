@@ -39,7 +39,7 @@ CMDIdScCmp::CMDIdScCmp
 	GPOS_ASSERT(pmdidRight->FValid());
 	GPOS_ASSERT(IMDType::EcmptOther != ecmpt);
 	
-	GPOS_ASSERT(pmdidLeft->Sysid().FEquals(pmdidRight->Sysid()));
+	GPOS_ASSERT(pmdidLeft->Sysid().Equals(pmdidRight->Sysid()));
 	
 	// serialize mdid into static string 
 	Serialize();
@@ -129,32 +129,32 @@ CMDIdScCmp::PmdidRight() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdScCmp::UlHash
+//		CMDIdScCmp::HashValue
 //
 //	@doc:
 //		Computes the hash value for the metadata id
 //
 //---------------------------------------------------------------------------
 ULONG
-CMDIdScCmp::UlHash() const
+CMDIdScCmp::HashValue() const
 {
 	return gpos::UlCombineHashes
 								(
 								Emdidt(), 
-								gpos::UlCombineHashes(m_pmdidLeft->UlHash(), m_pmdidRight->UlHash())
+								gpos::UlCombineHashes(m_pmdidLeft->HashValue(), m_pmdidRight->HashValue())
 								);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdScCmp::FEquals
+//		CMDIdScCmp::Equals
 //
 //	@doc:
 //		Checks if the mdids are equal
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDIdScCmp::FEquals
+CMDIdScCmp::Equals
 	(
 	const IMDId *pmdid
 	) 
@@ -167,8 +167,8 @@ CMDIdScCmp::FEquals
 	
 	const CMDIdScCmp *pmdidScCmp = CMDIdScCmp::PmdidConvert(pmdid);
 	
-	return m_pmdidLeft->FEquals(pmdidScCmp->PmdidLeft()) && 
-			m_pmdidRight->FEquals(pmdidScCmp->PmdidRight()) &&
+	return m_pmdidLeft->Equals(pmdidScCmp->PmdidLeft()) && 
+			m_pmdidRight->Equals(pmdidScCmp->PmdidRight()) &&
 			m_ecmpt == pmdidScCmp->Ecmpt(); 
 }
 

@@ -71,7 +71,7 @@ CScalarNullIf::~CScalarNullIf()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarNullIf::UlHash
+//		CScalarNullIf::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -79,10 +79,10 @@ CScalarNullIf::~CScalarNullIf()
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarNullIf::UlHash() const
+CScalarNullIf::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(),
-			gpos::UlCombineHashes(m_pmdidOp->UlHash(),m_pmdidType->UlHash()));
+	return gpos::UlCombineHashes(COperator::HashValue(),
+			gpos::UlCombineHashes(m_pmdidOp->HashValue(),m_pmdidType->HashValue()));
 }
 
 //---------------------------------------------------------------------------
@@ -108,8 +108,8 @@ CScalarNullIf::FMatch
 	CScalarNullIf *popScNullIf = CScalarNullIf::PopConvert(pop);
 
 	// match if operators and return types are identical
-	return m_pmdidOp->FEquals(popScNullIf->PmdidOp()) &&
-			m_pmdidType->FEquals(popScNullIf->PmdidType());
+	return m_pmdidOp->Equals(popScNullIf->PmdidOp()) &&
+			m_pmdidType->Equals(popScNullIf->PmdidType());
 }
 
 

@@ -73,7 +73,7 @@ namespace gpopt
 
 #ifdef GPOS_DEBUG
 			// comparison
-			BOOL FEquals(const CName &) const;
+			BOOL Equals(const CName &) const;
 #endif // GPOS_DEBUG
 			
 			// debug print

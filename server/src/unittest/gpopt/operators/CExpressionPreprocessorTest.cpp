@@ -649,7 +649,7 @@ CExpressionPreprocessorTest::EresCompareExpressions
 	{
 		CWStringDynamic *pstrFst = rgstr[ul];
 		CWStringDynamic *pstrSnd = rgstr[ul + 1];
-		BOOL fEqual = pstrFst->FEquals(pstrSnd);
+		BOOL fEqual = pstrFst->Equals(pstrSnd);
 
 		if (!fEqual)
 		{
@@ -1733,9 +1733,9 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefilters()
 			"            |--CScalarIdent \"column_0000\" (0)\n"
 			"            +--CScalarConst (1)\n"));
 
-	GPOS_ASSERT(strSelect.FEquals(&strExpectedDebugPrintForSelect));
+	GPOS_ASSERT(strSelect.Equals(&strExpectedDebugPrintForSelect));
 
-	BOOL fEqual = strSelect.FEquals(&strExpectedDebugPrintForSelect);
+	BOOL fEqual = strSelect.Equals(&strExpectedDebugPrintForSelect);
 	if (!fEqual)
 	{
 		CAutoTrace at(pmp);
@@ -1819,7 +1819,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefilters()
 	pexprSelect->Release();
 	pexprPreprocessed->Release();
 
-	fEqual = strPreprocessed.FEquals(&strExpectedDebugPrintForPreprocessed);
+	fEqual = strPreprocessed.Equals(&strExpectedDebugPrintForPreprocessed);
 	if (!fEqual)
 	{
 		CAutoTrace at(pmp);
@@ -1915,7 +1915,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefiltersPartialPush()
 		    "         |--CScalarIdent \"column_0002\" (2)\n"
 		    "         +--CScalarConst (0)\n"));
 
-	GPOS_ASSERT(strSelect.FEquals(&strExpectedDebugPrintForSelect));
+	GPOS_ASSERT(strSelect.Equals(&strExpectedDebugPrintForSelect));
 
  	CWStringDynamic strPreprocessed(pmp);
  	COstreamString ossPreprocessed(&strPreprocessed);
@@ -1951,7 +1951,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefiltersPartialPush()
 
  	pexprSelect->Release();
  	pexprPreprocessed->Release();
-	BOOL fEqual = strExpectedDebugPrintForPreprocessed.FEquals(&strPreprocessed);
+	BOOL fEqual = strExpectedDebugPrintForPreprocessed.Equals(&strPreprocessed);
 	if (!fEqual)
 	{
 		CAutoTrace at(pmp);

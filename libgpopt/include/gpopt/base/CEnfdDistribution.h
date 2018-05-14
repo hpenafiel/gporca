@@ -96,7 +96,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// check if the given distribution specification is compatible with the
 			// distribution specification of this object for the specified matching type

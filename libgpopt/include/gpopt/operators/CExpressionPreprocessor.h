@@ -40,11 +40,11 @@ namespace gpopt
 		private:
 
 			// map CTE id to collected predicates
-			typedef CHashMap<ULONG, DrgPexpr, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, DrgPexpr, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 						CleanupDelete<ULONG>, CleanupRelease<DrgPexpr> > CTEPredsMap;
 
 			// iterator for map of CTE id to collected predicates
-			typedef CHashMapIter<ULONG, DrgPexpr, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMapIter<ULONG, DrgPexpr, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 						CleanupDelete<ULONG>, CleanupRelease<DrgPexpr> > CTEPredsMapIter;
 
 			// generate a conjunction of equality predicates between the columns in the given set

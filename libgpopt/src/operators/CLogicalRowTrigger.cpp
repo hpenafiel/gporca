@@ -193,7 +193,7 @@ CLogicalRowTrigger::FMatch
 
 	CLogicalRowTrigger *popRowTrigger = CLogicalRowTrigger::PopConvert(pop);
 
-	return m_pmdidRel->FEquals(popRowTrigger->PmdidRel()) &&
+	return m_pmdidRel->Equals(popRowTrigger->PmdidRel()) &&
 			m_iType == popRowTrigger->IType() &&
 			m_pdrgpcrOld->Equals(popRowTrigger->PdrgpcrOld()) &&
 			m_pdrgpcrNew->Equals(popRowTrigger->PdrgpcrNew());
@@ -201,17 +201,17 @@ CLogicalRowTrigger::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalRowTrigger::UlHash
+//		CLogicalRowTrigger::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalRowTrigger::UlHash() const
+CLogicalRowTrigger::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_pmdidRel->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash<INT>(&m_iType));
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_pmdidRel->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
 
 	if (NULL != m_pdrgpcrOld)
 	{

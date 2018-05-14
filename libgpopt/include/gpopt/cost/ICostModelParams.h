@@ -112,7 +112,7 @@ namespace gpopt
 						return m_dUpperBound;
 					}
 
-					BOOL FEquals(SCostParam *pcm) const
+					BOOL Equals(SCostParam *pcm) const
 					{
 						return UlId() == pcm->UlId() && Get() == pcm->Get() &&
 							   DLowerBound() == pcm->DLowerBound() &&
@@ -142,7 +142,7 @@ namespace gpopt
 			IOstream &OsPrint(IOstream &os) const = 0;
 
 			virtual BOOL
-			FEquals(ICostModelParams *pcm) const = 0;
+			Equals(ICostModelParams *pcm) const = 0;
 
 			virtual const CHAR *
 			SzNameLookup(ULONG ulId) const = 0;

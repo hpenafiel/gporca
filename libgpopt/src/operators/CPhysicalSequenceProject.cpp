@@ -212,8 +212,8 @@ CPhysicalSequenceProject::FMatch
 		CPhysicalSequenceProject *popPhysicalSequenceProject = CPhysicalSequenceProject::PopConvert(pop);
 		return
 			m_pds->FMatch(popPhysicalSequenceProject->Pds()) &&
-			CWindowFrame::FEqual(m_pdrgpwf, popPhysicalSequenceProject->Pdrgpwf()) &&
-			COrderSpec::FEqual(m_pdrgpos, popPhysicalSequenceProject->Pdrgpos());
+			CWindowFrame::Equals(m_pdrgpwf, popPhysicalSequenceProject->Pdrgpwf()) &&
+			COrderSpec::Equals(m_pdrgpos, popPhysicalSequenceProject->Pdrgpos());
 	}
 
 	return false;
@@ -222,19 +222,19 @@ CPhysicalSequenceProject::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalSequenceProject::UlHash
+//		CPhysicalSequenceProject::HashValue
 //
 //	@doc:
 //		Hashing function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalSequenceProject::UlHash() const
+CPhysicalSequenceProject::HashValue() const
 {
 	ULONG ulHash = 0;
-	ulHash = gpos::UlCombineHashes(ulHash, m_pds->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, CWindowFrame::UlHash(m_pdrgpwf, 3 /*ulMaxSize*/));
-	ulHash = gpos::UlCombineHashes(ulHash, COrderSpec::UlHash(m_pdrgpos, 3 /*ulMaxSize*/));
+	ulHash = gpos::UlCombineHashes(ulHash, m_pds->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, CWindowFrame::HashValue(m_pdrgpwf, 3 /*ulMaxSize*/));
+	ulHash = gpos::UlCombineHashes(ulHash, COrderSpec::HashValue(m_pdrgpos, 3 /*ulMaxSize*/));
 
 	return ulHash;
 }
@@ -555,7 +555,7 @@ CPhysicalSequenceProject::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	COrderSpec *pos = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Pos();
 	if (peo->FCompatible(pos))

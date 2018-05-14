@@ -72,14 +72,14 @@ CStringStatic::CStringStatic
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CStringStatic::FEquals
+//		CStringStatic::Equals
 //
 //	@doc:
 //		Checks whether the string is byte-wise equal to a given string literal
 //
 //---------------------------------------------------------------------------
 BOOL
-CStringStatic::FEquals
+CStringStatic::Equals
 	(
 	const CHAR *szBuf
 	)

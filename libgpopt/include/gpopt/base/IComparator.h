@@ -47,7 +47,7 @@ namespace gpopt
 
 			// tests if the two arguments are equal
 			virtual
-			gpos::BOOL FEqual(const IDatum *pdatum1, const IDatum *pdatum2) const = 0;
+			gpos::BOOL Equals(const IDatum *pdatum1, const IDatum *pdatum2) const = 0;
 
 			// tests if the first argument is less than the second
 			virtual

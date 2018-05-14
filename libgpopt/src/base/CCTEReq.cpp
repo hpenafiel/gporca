@@ -55,21 +55,21 @@ CCTEReq::CCTEReqEntry::~CCTEReqEntry()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CCTEReq::CCTEReqEntry::UlHash
+//		CCTEReq::CCTEReqEntry::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CCTEReq::CCTEReqEntry::UlHash() const
+CCTEReq::CCTEReqEntry::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(gpos::UlHash<ULONG>(&m_ulId), gpos::UlHash<CCTEMap::ECteType>(&m_ect));
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash<BOOL>(&m_fRequired));
+	ULONG ulHash = gpos::UlCombineHashes(gpos::HashValue<ULONG>(&m_ulId), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
+	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fRequired));
 
 	if (NULL != m_pdpplan)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, m_pdpplan->UlHash());
+		ulHash = gpos::UlCombineHashes(ulHash, m_pdpplan->HashValue());
 	}
 
 	return ulHash;
@@ -77,14 +77,14 @@ CCTEReq::CCTEReqEntry::UlHash() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CCTEReq::CCTEReqEntry::FEqual
+//		CCTEReq::CCTEReqEntry::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CCTEReq::CCTEReqEntry::FEqual
+CCTEReq::CCTEReqEntry::Equals
 	(
 	CCTEReqEntry *pcre
 	)
@@ -106,7 +106,7 @@ CCTEReq::CCTEReqEntry::FEqual
 
 	if (NULL != m_pdpplan && NULL != pdpplan)
 	{
-		return m_pdpplan->FEqual(pdpplan);
+		return m_pdpplan->Equals(pdpplan);
 	}
 
 	return false;
@@ -283,7 +283,7 @@ CCTEReq::FSubset
 	{
 		const CCTEReqEntry *pcre = hmcri.Pt();
 		CCTEReqEntry *pcreOther = pcter->PcreLookup(pcre->UlId());
-		if (NULL == pcreOther || !pcre->FEqual(pcreOther))
+		if (NULL == pcreOther || !pcre->Equals(pcreOther))
 		{
 			return false;
 		}
@@ -334,14 +334,14 @@ CCTEReq::Ect
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CCTEReq::UlHash
+//		CCTEReq::HashValue
 //
 //	@doc:
 //		Hash of components
 //
 //---------------------------------------------------------------------------
 ULONG
-CCTEReq::UlHash() const
+CCTEReq::HashValue() const
 {
 	ULONG ulHash = 0;
 
@@ -353,7 +353,7 @@ CCTEReq::UlHash() const
 	while (hmcri.FAdvance() && ul < ulMaxEntries)
 	{
 		const CCTEReqEntry *pcre = hmcri.Pt();
-		ulHash = gpos::UlCombineHashes(ulHash, pcre->UlHash());
+		ulHash = gpos::UlCombineHashes(ulHash, pcre->HashValue());
 		ul++;
 	}
 

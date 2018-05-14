@@ -263,7 +263,7 @@ namespace gpos
 
 			// equality function -- needed for hashtable
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CException &exc,
 				const CException &excOther
@@ -274,7 +274,7 @@ namespace gpos
 
 			// basic hash function
 			static
-			ULONG UlHash
+			ULONG HashValue
 				(
 				const CException &exc
 				)

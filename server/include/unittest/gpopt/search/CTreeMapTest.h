@@ -71,7 +71,7 @@ namespace gpopt
 			CNode *Pnd(IMemoryPool *pmp, ULONG *pul, DrgPnd *pdrgpnd, BOOL *fTestTrue);
 		
 			// shorthand for tests
-			typedef CTreeMap<ULONG, CNode, BOOL, UlHash<ULONG>, FEqual<ULONG> > TestMap;
+			typedef CTreeMap<ULONG, CNode, BOOL, HashValue<ULONG>, Equals<ULONG> > TestMap;
 
 			// helper to generate loaded the tree map
 			static 

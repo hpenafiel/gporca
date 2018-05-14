@@ -133,16 +133,16 @@ CLogicalSplit::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalSplit::UlHash
+//		CLogicalSplit::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalSplit::UlHash() const
+CLogicalSplit::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), CUtils::UlHashColArray(m_pdrgpcrInsert));
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), CUtils::UlHashColArray(m_pdrgpcrInsert));
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrCtid));
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrSegmentId));
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrAction));

@@ -92,7 +92,7 @@ namespace gpopt
 
 			BOOL FOrderPreserving() const
 			{
-				return !m_pos->FEmpty();
+				return !m_pos->IsEmpty();
 			}
 			
 			BOOL FOnMaster() const

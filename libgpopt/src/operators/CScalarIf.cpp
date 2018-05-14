@@ -52,7 +52,7 @@ CScalarIf::CScalarIf
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarIf::UlHash
+//		CScalarIf::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -60,9 +60,9 @@ CScalarIf::CScalarIf
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarIf::UlHash() const
+CScalarIf::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), m_pmdidType->UlHash());
+	return gpos::UlCombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ CScalarIf::FMatch
 		CScalarIf *popScIf = CScalarIf::PopConvert(pop);
 
 		// match if return types are identical
-		return popScIf->PmdidType()->FEquals(m_pmdidType);
+		return popScIf->PmdidType()->Equals(m_pmdidType);
 	}
 
 	return false;

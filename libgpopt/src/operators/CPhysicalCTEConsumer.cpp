@@ -334,7 +334,7 @@ CPhysicalCTEConsumer::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	COrderSpec *pos = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Pos();
 	if (peo->FCompatible(pos))
@@ -402,16 +402,16 @@ CPhysicalCTEConsumer::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalCTEConsumer::UlHash
+//		CPhysicalCTEConsumer::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalCTEConsumer::UlHash() const
+CPhysicalCTEConsumer::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ulId);
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ulId);
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 
 	return ulHash;

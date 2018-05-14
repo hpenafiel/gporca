@@ -235,14 +235,14 @@ CCTEMap::FSubset
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CCTEMap::UlHash
+//		CCTEMap::HashValue
 //
 //	@doc:
 //		Hash of components
 //
 //---------------------------------------------------------------------------
 ULONG
-CCTEMap::UlHash() const
+CCTEMap::HashValue() const
 {
 	ULONG ulHash = 0;
 
@@ -254,7 +254,7 @@ CCTEMap::UlHash() const
 	while (hmcmi.FAdvance() && ul < ulMaxEntries)
 	{
 		const CCTEMapEntry *pcme = hmcmi.Pt();
-		ulHash = gpos::UlCombineHashes(ulHash, pcme->UlHash());
+		ulHash = gpos::UlCombineHashes(ulHash, pcme->HashValue());
 		ul++;
 	}
 

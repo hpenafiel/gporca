@@ -285,16 +285,16 @@ CLogicalCTEConsumer::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalCTEConsumer::UlHash
+//		CLogicalCTEConsumer::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalCTEConsumer::UlHash() const
+CLogicalCTEConsumer::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ulId);
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ulId);
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 
 	return ulHash;

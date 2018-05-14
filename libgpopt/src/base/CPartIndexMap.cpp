@@ -771,14 +771,14 @@ CPartIndexMap::FSubset
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPartIndexMap::UlHash
+//		CPartIndexMap::HashValue
 //
 //	@doc:
 //		Hash of components
 //
 //---------------------------------------------------------------------------
 ULONG
-CPartIndexMap::UlHash() const
+CPartIndexMap::HashValue() const
 {
 	ULONG ulHash = 0;
 	
@@ -791,7 +791,7 @@ CPartIndexMap::UlHash() const
 	while (pimi.FAdvance() && ul < ulMaxScanIds)
 	{
 		ULONG ulScanId = (pimi.Pt())->UlScanId();
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash<ULONG>(&ulScanId));
+		ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<ULONG>(&ulScanId));
 		ul++;
 	}
 	

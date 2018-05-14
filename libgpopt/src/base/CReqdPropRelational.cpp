@@ -164,14 +164,14 @@ CReqdPropRelational::PrprelDifference
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CReqdPropRelational::FEmpty
+//		CReqdPropRelational::IsEmpty
 //
 //	@doc:
 //		Return true if property container is empty
 //
 //---------------------------------------------------------------------------
 BOOL
-CReqdPropRelational::FEmpty() const
+CReqdPropRelational::IsEmpty() const
 {
 	return m_pcrsStat->CElements() == 0;
 }

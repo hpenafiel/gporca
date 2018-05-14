@@ -176,11 +176,11 @@ CConstraintTest::EresUnittest_CInterval()
 	CConstraintInterval *pciThird = PciFirstInterval(pmp, pmdid, pcr);
 	pciThird->AddRef();
 	CConstraintInterval *pciFourth = pciThird;
-	GPOS_ASSERT(!pciFirst->FEquals(pciSecond));
-	GPOS_ASSERT(!pciFirst->FEquals(pciDiff1));
-	GPOS_ASSERT(!pciSecond->FEquals(pciDiff2));
-	GPOS_ASSERT(pciFirst->FEquals(pciThird));
-	GPOS_ASSERT(pciFourth->FEquals(pciThird));
+	GPOS_ASSERT(!pciFirst->Equals(pciSecond));
+	GPOS_ASSERT(!pciFirst->Equals(pciDiff1));
+	GPOS_ASSERT(!pciSecond->Equals(pciDiff2));
+	GPOS_ASSERT(pciFirst->Equals(pciThird));
+	GPOS_ASSERT(pciFourth->Equals(pciThird));
 
 	pciFirst->Release();
 	pciSecond->Release();
@@ -259,8 +259,8 @@ CConstraintTest::EresUnittest_CConjunction()
 	GPOS_ASSERT(!pcconjTop->FContains(pcconj2));
 
 	// equality
-	GPOS_ASSERT(!pcconj1->FEquals(pcconjTop));
-	GPOS_ASSERT(!pcconjTop->FEquals(pcconj2));
+	GPOS_ASSERT(!pcconj1->Equals(pcconjTop));
+	GPOS_ASSERT(!pcconjTop->Equals(pcconj2));
 
 	pcconjTop->Release();
 	pcconj1->Release();
@@ -393,8 +393,8 @@ CConstraintTest::EresUnittest_CDisjunction()
 	GPOS_ASSERT(pcdisjTop->FContains(pcdisj2));
 
 	// equality
-	GPOS_ASSERT(!pcdisj1->FEquals(pcdisjTop));
-	GPOS_ASSERT(!pcdisjTop->FEquals(pcdisj2));
+	GPOS_ASSERT(!pcdisj1->Equals(pcdisjTop));
+	GPOS_ASSERT(!pcdisjTop->Equals(pcdisj2));
 
 	pcdisjTop->Release();
 	pcdisj1->Release();
@@ -459,9 +459,9 @@ CConstraintTest::EresUnittest_CNegation()
 	GPOS_ASSERT(pcn2->FContains(pci));
 
 	// equality
-	GPOS_ASSERT(!pcn1->FEquals(pci));
-	GPOS_ASSERT(!pcn1->FEquals(pcn2));
-	GPOS_ASSERT(pci->FEquals(pcn2));
+	GPOS_ASSERT(!pcn1->Equals(pci));
+	GPOS_ASSERT(!pcn1->Equals(pcn2));
+	GPOS_ASSERT(pci->Equals(pcn2));
 
 	pcn2->Release();
 	pcn1->Release();
@@ -1403,7 +1403,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				lInternalRepresentationFor2012_01_21,
 				CRange::EriExcluded
 				);
-	GPOS_ASSERT(pciIntersectExpected->FEquals(pciIntersect));
+	GPOS_ASSERT(pciIntersectExpected->Equals(pciIntersect));
 
 	// union
 	CConstraintInterval *pciUnion = pciFirst->PciUnion(pmp, pciSecond);
@@ -1422,7 +1422,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				lInternalRepresentationFor2012_01_22,
 				CRange::EriExcluded
 				);
-	GPOS_ASSERT(pciUnionExpected->FEquals(pciUnion));
+	GPOS_ASSERT(pciUnionExpected->Equals(pciUnion));
 
 	// difference between pciFirst and pciSecond
 	CConstraintInterval *pciDiff1 = pciFirst->PciDifference(pmp, pciSecond);
@@ -1441,7 +1441,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				lInternalRepresentationFor2012_01_02,
 				CRange::EriExcluded
 				);
-	GPOS_ASSERT(pciDiff1Expected->FEquals(pciDiff1));
+	GPOS_ASSERT(pciDiff1Expected->Equals(pciDiff1));
 
 	// difference between pciSecond and pciFirst
 	CConstraintInterval *pciDiff2 = pciSecond->PciDifference(pmp, pciFirst);
@@ -1460,7 +1460,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				lInternalRepresentationFor2012_01_22,
 				CRange::EriExcluded
 				);
-	GPOS_ASSERT(pciDiff2Expected->FEquals(pciDiff2));
+	GPOS_ASSERT(pciDiff2Expected->Equals(pciDiff2));
 
 	// containment
 	GPOS_ASSERT(!pciFirst->FContains(pciSecond));
@@ -1486,10 +1486,10 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				lInternalRepresentationFor2012_01_21,
 				CRange::EriExcluded
 				);
-	GPOS_ASSERT(!pciFirst->FEquals(pciSecond));
-	GPOS_ASSERT(!pciFirst->FEquals(pciDiff1));
-	GPOS_ASSERT(!pciSecond->FEquals(pciDiff2));
-	GPOS_ASSERT(pciFirst->FEquals(pciThird));
+	GPOS_ASSERT(!pciFirst->Equals(pciSecond));
+	GPOS_ASSERT(!pciFirst->Equals(pciDiff1));
+	GPOS_ASSERT(!pciSecond->Equals(pciDiff2));
+	GPOS_ASSERT(pciFirst->Equals(pciThird));
 
 	pciThird->Release();
 	pciDiff2Expected->Release();

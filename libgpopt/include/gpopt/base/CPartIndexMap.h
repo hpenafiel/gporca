@@ -210,11 +210,11 @@ namespace gpopt
 			}; // CPartTableInfo
 
 			// map scan id to partition table info entry
-			typedef CHashMap<ULONG, CPartTableInfo, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, CPartTableInfo, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CPartTableInfo> > PartIndexMap;
 
 			// map iterator
-			typedef CHashMapIter<ULONG, CPartTableInfo, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMapIter<ULONG, CPartTableInfo, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CPartTableInfo> > PartIndexMapIter;
 
 			// memory pool
@@ -291,7 +291,7 @@ namespace gpopt
 			ULongPtrArray *PdrgpulScanIds(IMemoryPool *pmp, BOOL fConsumersOnly = false) const;
 
 			// check if two part index maps are equal
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CPartIndexMap *ppim
 				) 
@@ -302,7 +302,7 @@ namespace gpopt
 			}
 			
 			// hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 			
 			// check if partition index map satsfies required partition propagation spec
 			BOOL FSatisfies(const CPartitionPropagationSpec *ppps) const;

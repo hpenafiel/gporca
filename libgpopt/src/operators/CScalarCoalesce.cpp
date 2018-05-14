@@ -64,7 +64,7 @@ CScalarCoalesce::~CScalarCoalesce()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarCoalesce::UlHash
+//		CScalarCoalesce::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -72,9 +72,9 @@ CScalarCoalesce::~CScalarCoalesce()
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarCoalesce::UlHash() const
+CScalarCoalesce::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), m_pmdidType->UlHash());
+	return gpos::UlCombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -97,7 +97,7 @@ CScalarCoalesce::FMatch
 		CScalarCoalesce *popScCoalesce = CScalarCoalesce::PopConvert(pop);
 
 		// match if return types are identical
-		return popScCoalesce->PmdidType()->FEquals(m_pmdidType);
+		return popScCoalesce->PmdidType()->Equals(m_pmdidType);
 	}
 
 	return false;

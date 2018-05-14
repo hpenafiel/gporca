@@ -389,10 +389,10 @@ CStatistics::FEmptyJoinInput
 
 	if (fLASJ)
 	{
-		return pstatsOuter->FEmpty();
+		return pstatsOuter->IsEmpty();
 	}
 
-	return pstatsOuter->FEmpty() || pstatsInner->FEmpty();
+	return pstatsOuter->IsEmpty() || pstatsInner->IsEmpty();
 }
 
 // Currently, Pstats[Join type] are thin wrappers the C[Join type]StatsProcessor class's method
@@ -516,7 +516,7 @@ CStatistics::CopyHistograms
 	// create hash map from colid -> histogram for resultant structure
 	HMUlHist *phmulhistCopy = GPOS_NEW(pmp) HMUlHist(pmp);
 
-	BOOL fEmpty = FEmpty();
+	BOOL fEmpty = IsEmpty();
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.FAdvance())
@@ -623,7 +623,7 @@ CStatistics::PstatsScale
 												phmulhistNew,
 												phmuldoubleNew,
 												dRowsScaled,
-												FEmpty(),
+												IsEmpty(),
 												m_ulNumPredicates
 												);
 
@@ -663,7 +663,7 @@ CStatistics::PstatsCopyWithRemap
 											phmulhistNew,
 											phmuldoubleNew,
 											m_dRows,
-											FEmpty(),
+											IsEmpty(),
 											m_ulNumPredicates
 											);
 
@@ -865,7 +865,7 @@ CStatistics::Pdxlstatsderrel
 		pdrgpdxlstatsdercol->Append(pdxlstatsdercol);
 	}
 
-	return GPOS_NEW(pmp) CDXLStatsDerivedRelation(m_dRows, FEmpty(), pdrgpdxlstatsdercol);
+	return GPOS_NEW(pmp) CDXLStatsDerivedRelation(m_dRows, IsEmpty(), pdrgpdxlstatsdercol);
 }
 
 // return the upper bound of ndvs for a column reference

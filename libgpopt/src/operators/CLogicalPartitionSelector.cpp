@@ -104,22 +104,22 @@ CLogicalPartitionSelector::FMatch
 	CLogicalPartitionSelector *popPartSelector = CLogicalPartitionSelector::PopConvert(pop);
 
 	return popPartSelector->PcrOid() == m_pcrOid &&
-			popPartSelector->Pmdid()->FEquals(m_pmdid) &&
+			popPartSelector->Pmdid()->Equals(m_pmdid) &&
 			popPartSelector->m_pdrgpexprFilters->Equals(m_pdrgpexprFilters);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalPartitionSelector::UlHash
+//		CLogicalPartitionSelector::HashValue
 //
 //	@doc:
 //		Hash operator
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalPartitionSelector::UlHash() const
+CLogicalPartitionSelector::HashValue() const
 {
-	return gpos::UlCombineHashes(Eopid(), m_pmdid->UlHash());
+	return gpos::UlCombineHashes(Eopid(), m_pmdid->HashValue());
 }
 
 //---------------------------------------------------------------------------

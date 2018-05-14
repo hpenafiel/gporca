@@ -127,7 +127,7 @@ COptimizationContext::FMatch
 		return NULL == prppFst && NULL == prppSnd;
 	}
 
-	return prppFst->FEqual(prppSnd);
+	return prppFst->Equals(prppSnd);
 }
 
 
@@ -150,9 +150,9 @@ COptimizationContext::FEqualForStats
 	GPOS_ASSERT(NULL != pocRight);
 
 	return
-		pocLeft->Prprel()->PcrsStat()->FEqual(pocRight->Prprel()->PcrsStat()) &&
+		pocLeft->Prprel()->PcrsStat()->Equals(pocRight->Prprel()->PcrsStat()) &&
 		pocLeft->Pdrgpstat()->Equals(pocRight->Pdrgpstat()) &&
-		pocLeft->Prpp()->Pepp()->PpfmDerived()->FEqual(pocRight->Prpp()->Pepp()->PpfmDerived());
+		pocLeft->Prpp()->Pepp()->PpfmDerived()->Equals(pocRight->Prpp()->Pepp()->PpfmDerived());
 }
 
 
@@ -449,7 +449,7 @@ COptimizationContext::PrppCTEProducer
 	CReqdPropPlan *prppProducer = CReqdPropPlan::PrppRemap(pmp, pocProducer->Prpp(), pccConsumer->Pdpplan(), phmulcr);
 	phmulcr->Release();
 
-	if (prppProducer->FEqual(pocProducer->Prpp()))
+	if (prppProducer->Equals(pocProducer->Prpp()))
 	{
 		prppProducer->Release();
 

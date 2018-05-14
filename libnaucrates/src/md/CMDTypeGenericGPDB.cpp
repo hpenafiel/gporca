@@ -559,10 +559,10 @@ CMDTypeGenericGPDB::FHasByteLintMapping
 	const IMDId *pmdid
 	)
 {
-	return pmdid->FEquals(&CMDIdGPDB::m_mdidBPChar)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidVarChar)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidText)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidCash);
+	return pmdid->Equals(&CMDIdGPDB::m_mdidBPChar)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidVarChar)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidText)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidCash);
 }
 
 //---------------------------------------------------------------------------
@@ -579,9 +579,9 @@ CMDTypeGenericGPDB::FHasByteDoubleMapping
 	const IMDId *pmdid
 	)
 {
-	return pmdid->FEquals(&CMDIdGPDB::m_mdidNumeric)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidFloat4)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidFloat8)
+	return pmdid->Equals(&CMDIdGPDB::m_mdidNumeric)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidFloat4)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidFloat8)
 			|| FTimeRelatedType(pmdid)
 			|| FNetworkRelatedType(pmdid);
 }
@@ -599,15 +599,15 @@ CMDTypeGenericGPDB::FTimeRelatedType
 	const IMDId *pmdid
 	)
 {
-	return pmdid->FEquals(&CMDIdGPDB::m_mdidDate)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidTime)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidTimeTz)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidTimestamp)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidTimestampTz)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidAbsTime)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidRelTime)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidInterval)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidTimeInterval);
+	return pmdid->Equals(&CMDIdGPDB::m_mdidDate)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidTime)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimeTz)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimestamp)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimestampTz)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidAbsTime)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidRelTime)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidInterval)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimeInterval);
 }
 
 //---------------------------------------------------------------------------
@@ -623,9 +623,9 @@ CMDTypeGenericGPDB::FNetworkRelatedType
 	const IMDId *pmdid
 	)
 {
-	return pmdid->FEquals(&CMDIdGPDB::m_mdidInet)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidCidr)
-			|| pmdid->FEquals(&CMDIdGPDB::m_mdidMacaddr);
+	return pmdid->Equals(&CMDIdGPDB::m_mdidInet)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidCidr)
+			|| pmdid->Equals(&CMDIdGPDB::m_mdidMacaddr);
 }
 
 #ifdef GPOS_DEBUG

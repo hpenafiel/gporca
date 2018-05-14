@@ -79,7 +79,7 @@ CPhysicalMotionHashDistribute::FMatch
 	CPhysicalMotionHashDistribute *popHashDistribute =
 			CPhysicalMotionHashDistribute::PopConvert(pop);
 
-	return m_pdsHashed->FEqual(popHashDistribute->m_pdsHashed);
+	return m_pdsHashed->Equals(popHashDistribute->m_pdsHashed);
 }
 
 //---------------------------------------------------------------------------

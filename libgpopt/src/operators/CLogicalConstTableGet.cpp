@@ -130,16 +130,16 @@ CLogicalConstTableGet::~CLogicalConstTableGet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalConstTableGet::UlHash
+//		CLogicalConstTableGet::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalConstTableGet::UlHash() const
+CLogicalConstTableGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(),
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(),
 								gpos::UlCombineHashes(
 										gpos::UlHashPtr<DrgPcoldesc>(m_pdrgpcoldesc),
 										gpos::UlHashPtr<DrgPdrgPdatum>(m_pdrgpdrgpdatum)));

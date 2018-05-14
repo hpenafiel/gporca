@@ -301,7 +301,7 @@ CWStringDynamic::AppendEscape
 {
 	GPOS_ASSERT(NULL != pstr);
 
-	if (pstr->FEmpty())
+	if (pstr->IsEmpty())
 	{
 		return;
 	}

@@ -3225,7 +3225,7 @@ CTestUtils::EresCompare
 	BOOL fIgnoreMismatch
 	)
 {
-	if (!pstrExpected->FEquals(pstrActual))
+	if (!pstrExpected->Equals(pstrActual))
 	{
 		os << "Output does not match expected DXL document" << std::endl;
 		os << "Actual: " << std::endl;
@@ -3314,7 +3314,7 @@ CTestUtils::FPlanMatch
 	CDXLUtils::SerializePlan(pmp, osExpected, pdxlnExpected, 0 /*ullPlanIdExpected*/, 0 /*ullPlanSpaceSizeExpected*/, false /*fDocumentHeaderFooter*/, true /*fIndent*/);
 	GPOS_CHECK_ABORT;
 
-	BOOL fResult = strActual.FEquals(&strExpected);
+	BOOL fResult = strActual.Equals(&strExpected);
 
 	if (!fResult)
 	{
@@ -4203,7 +4203,7 @@ CTestUtils::PdatumGeneric
 {
 	GPOS_ASSERT(NULL != pmda);
 
-	GPOS_ASSERT(!pmdidType->FEquals(&CMDIdGPDB::m_mdidNumeric));
+	GPOS_ASSERT(!pmdidType->Equals(&CMDIdGPDB::m_mdidNumeric));
 	const IMDType *pmdtype = pmda->Pmdtype(pmdidType);
 	ULONG ulbaSize = 0;
 	BYTE *pba = CDXLUtils::PByteArrayFromStr(pmp, pstrEncodedValue, &ulbaSize);
@@ -4213,7 +4213,7 @@ CTestUtils::PdatumGeneric
 	{
 		pdxldatum = GPOS_NEW(pmp) CDXLDatumStatsDoubleMappable(pmp, pmdidType, IDefaultTypeModifier, pmdtype->FByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, CDouble(lValue));
 	}
-	else if (pmdidType->FEquals(&CMDIdGPDB::m_mdidBPChar))
+	else if (pmdidType->Equals(&CMDIdGPDB::m_mdidBPChar))
 	{
 		pdxldatum = GPOS_NEW(pmp) CDXLDatumStatsLintMappable(pmp, pmdidType, IDefaultTypeModifier, pmdtype->FByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, lValue);
 	}

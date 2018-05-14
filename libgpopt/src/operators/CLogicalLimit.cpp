@@ -97,19 +97,19 @@ CLogicalLimit::~CLogicalLimit()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalLimit::UlHash
+//		CLogicalLimit::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalLimit::UlHash() const
+CLogicalLimit::HashValue() const
 {
 	return gpos::UlCombineHashes
 			(
-			gpos::UlCombineHashes(COperator::UlHash(), m_pos->UlHash()),
-			gpos::UlCombineHashes(gpos::UlHash<BOOL>(&m_fGlobal), gpos::UlHash<BOOL>(&m_fHasCount))
+			gpos::UlCombineHashes(COperator::HashValue(), m_pos->HashValue()),
+			gpos::UlCombineHashes(gpos::HashValue<BOOL>(&m_fGlobal), gpos::HashValue<BOOL>(&m_fHasCount))
 			);
 }
 

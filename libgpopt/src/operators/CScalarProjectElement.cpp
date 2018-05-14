@@ -19,16 +19,16 @@ using namespace gpopt;
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarProjectElement::UlHash
+//		CScalarProjectElement::HashValue
 //
 //	@doc:
 //		Hash value built from colref and Eop
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarProjectElement::UlHash() const
+CScalarProjectElement::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(),
+	return gpos::UlCombineHashes(COperator::HashValue(),
 							   gpos::UlHashPtr<CColRef>(m_pcr));
 }
 

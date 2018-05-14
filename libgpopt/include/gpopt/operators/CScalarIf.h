@@ -91,7 +91,7 @@ namespace gpopt
 			}
 
 			// operator specific hash function
-			virtual ULONG UlHash() const;
+			virtual ULONG HashValue() const;
 
 			// match function
 			virtual BOOL FMatch(COperator *) const;

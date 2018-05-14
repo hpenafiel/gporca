@@ -455,7 +455,7 @@ CCostModelParamsGPDB::OsPrint
 	return os;
 }
 
-BOOL CCostModelParamsGPDB::FEquals(ICostModelParams *pcm) const
+BOOL CCostModelParamsGPDB::Equals(ICostModelParams *pcm) const
 {
 	CCostModelParamsGPDB *pcmgOther = dynamic_cast<CCostModelParamsGPDB *>(pcm);
 	if (NULL == pcmgOther)
@@ -463,7 +463,7 @@ BOOL CCostModelParamsGPDB::FEquals(ICostModelParams *pcm) const
 
 	for (ULONG ul = 0U; ul < GPOS_ARRAY_SIZE(m_rgpcp); ul++)
 	{
-		if (!m_rgpcp[ul]->FEquals(pcmgOther->m_rgpcp[ul]))
+		if (!m_rgpcp[ul]->Equals(pcmgOther->m_rgpcp[ul]))
 			return false;
 	}
 

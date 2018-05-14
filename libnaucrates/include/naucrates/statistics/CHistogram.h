@@ -39,19 +39,19 @@ namespace gpnaucrates
 	{
 
 		// hash map from column id to a histogram
-		typedef CHashMap<ULONG, CHistogram, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+		typedef CHashMap<ULONG, CHistogram, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 							CleanupDelete<ULONG>, CleanupDelete<CHistogram> > HMUlHist;
 
 		// iterator
-		typedef CHashMapIter<ULONG, CHistogram, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+		typedef CHashMapIter<ULONG, CHistogram, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 							CleanupDelete<ULONG>, CleanupDelete<CHistogram> > HMIterUlHist;
 
 		// hash map from column ULONG to CDouble
-		typedef CHashMap<ULONG, CDouble, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+		typedef CHashMap<ULONG, CDouble, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 						CleanupDelete<ULONG>, CleanupDelete<CDouble> > HMUlDouble;
 
 		// iterator
-		typedef CHashMapIter<ULONG, CDouble, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+		typedef CHashMapIter<ULONG, CDouble, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 						CleanupDelete<ULONG>, CleanupDelete<CDouble> > HMIterUlDouble;
 
 		private:
@@ -457,7 +457,7 @@ namespace gpnaucrates
 			}
 
 			// check if histogram is empty
-			BOOL FEmpty() const;
+			BOOL IsEmpty() const;
 
 			// cap the total number of distinct values (NDVs) in buckets to the number of rows
 			void CapNDVs(CDouble dRows);

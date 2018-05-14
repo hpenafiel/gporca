@@ -63,16 +63,16 @@ CEnfdPartitionPropagation::~CEnfdPartitionPropagation()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CEnfdPartitionPropagation::UlHash
+//		CEnfdPartitionPropagation::HashValue
 //
 //	@doc:
 // 		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CEnfdPartitionPropagation::UlHash() const
+CEnfdPartitionPropagation::HashValue() const
 {
-	return m_ppps->UlHash();
+	return m_ppps->HashValue();
 }
 
 

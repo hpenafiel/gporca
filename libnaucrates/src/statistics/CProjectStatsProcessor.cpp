@@ -118,7 +118,7 @@ CProjectStatsProcessor::PstatsProject
 											phmulhistNew,
 											phmuldoubleWidth,
 											dRowsInput,
-											pstatsInput->FEmpty(),
+											pstatsInput->IsEmpty(),
 											pstatsInput->UlNumberOfPredicates()
 											);
 

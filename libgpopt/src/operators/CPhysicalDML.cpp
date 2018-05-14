@@ -158,7 +158,7 @@ CPhysicalDML::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 	
 	// get the order delivered by the DML node
 	COrderSpec *pos = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Pos();
@@ -377,16 +377,16 @@ CPhysicalDML::PrsDerive
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalDML::UlHash
+//		CPhysicalDML::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalDML::UlHash() const
+CPhysicalDML::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrAction));
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrTableOid));
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrSource));
@@ -424,7 +424,7 @@ CPhysicalDML::FMatch
 				m_pcrCtid == popDML->PcrCtid() &&
 				m_pcrSegmentId == popDML->PcrSegmentId() &&
 				m_pcrTupleOid == popDML->PcrTupleOid() &&
-				m_ptabdesc->Pmdid()->FEquals(popDML->Ptabdesc()->Pmdid()) &&
+				m_ptabdesc->Pmdid()->Equals(popDML->Ptabdesc()->Pmdid()) &&
 				m_pdrgpcrSource->Equals(popDML->PdrgpcrSource());
 	}
 	

@@ -105,11 +105,11 @@ namespace gpopt
 			}; // class CPartFilter
 
 			// map of partition index ids to filter expressions
-			typedef CHashMap<ULONG, CPartFilter, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, CPartFilter, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CPartFilter> > HMULPartFilter;
 
 			// map iterator
-			typedef CHashMapIter<ULONG, CPartFilter, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMapIter<ULONG, CPartFilter, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CPartFilter> > HMULPartFilterIter;
 
 			// hash map from ScanId to CPartFilter
@@ -144,7 +144,7 @@ namespace gpopt
 			IStatistics *Pstats(ULONG ulScanId) const;
 
 			// check whether the map is empty
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
 			{
 				return 0 == m_phmulpf->UlEntries();
 			}
@@ -153,7 +153,7 @@ namespace gpopt
 			BOOL FSubset(CPartFilterMap *ppfm);
 
 			// check equality of part filter maps
-			BOOL FEqual
+			BOOL Equals
 				(
 				CPartFilterMap *ppfm
 				)

@@ -100,7 +100,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// hash function
 		virtual
-		ULONG UlHash() const;
+		ULONG HashValue() const;
 
 		// match function for datums
 		virtual

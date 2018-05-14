@@ -115,22 +115,22 @@ CLogicalDelete::FMatch
 
 	return m_pcrCtid == popDelete->PcrCtid() &&
 			m_pcrSegmentId == popDelete->PcrSegmentId() &&
-			m_ptabdesc->Pmdid()->FEquals(popDelete->Ptabdesc()->Pmdid()) &&
+			m_ptabdesc->Pmdid()->Equals(popDelete->Ptabdesc()->Pmdid()) &&
 			m_pdrgpcr->Equals(popDelete->Pdrgpcr());
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalDelete::UlHash
+//		CLogicalDelete::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalDelete::UlHash() const
+CLogicalDelete::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrCtid));
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrSegmentId));

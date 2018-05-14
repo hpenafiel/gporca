@@ -244,7 +244,7 @@ namespace gpos
 		BOOL FOwned() const
         {
             CWorkerId wid;
-            return m_fLocked && m_wid.FEqual(wid);
+            return m_fLocked && m_wid.Equals(wid);
         }
 #endif // GPOS_ASSERT
 

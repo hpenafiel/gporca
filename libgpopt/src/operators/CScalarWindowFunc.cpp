@@ -77,14 +77,14 @@ CScalarWindowFunc::CScalarWindowFunc
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarWindowFunc::UlHash
+//		CScalarWindowFunc::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarWindowFunc::UlHash() const
+CScalarWindowFunc::HashValue() const
 {
 	return gpos::UlCombineHashes
 					(
@@ -96,20 +96,20 @@ CScalarWindowFunc::UlHash() const
 								(
 								gpos::UlCombineHashes
 									(
-									COperator::UlHash(),
+									COperator::HashValue(),
 									gpos::UlCombineHashes
 										(
-											m_pmdidFunc->UlHash(),
-											m_pmdidRetType->UlHash()
+											m_pmdidFunc->HashValue(),
+											m_pmdidRetType->HashValue()
 										)
 									),
 								m_ewinstage
 								),
-							gpos::UlHash<BOOL>(&m_fDistinct)
+							gpos::HashValue<BOOL>(&m_fDistinct)
 							),
-						gpos::UlHash<BOOL>(&m_fStarArg)
+						gpos::HashValue<BOOL>(&m_fStarArg)
 						),
-					gpos::UlHash<BOOL>(&m_fSimpleAgg)
+					gpos::HashValue<BOOL>(&m_fSimpleAgg)
 					);
 }
 
@@ -138,8 +138,8 @@ CScalarWindowFunc::FMatch
 				&& (popFunc->FStarArg() ==  m_fStarArg)
 				&& (popFunc->FSimpleAgg() ==  m_fSimpleAgg)
 				&& (popFunc->FAgg() == m_fAgg)
-				&& m_pmdidFunc->FEquals(popFunc->PmdidFunc())
-				&& m_pmdidRetType->FEquals(popFunc->PmdidType())
+				&& m_pmdidFunc->Equals(popFunc->PmdidFunc())
+				&& m_pmdidRetType->Equals(popFunc->PmdidType())
 				&& (popFunc->Ews() == m_ewinstage));
 	}
 

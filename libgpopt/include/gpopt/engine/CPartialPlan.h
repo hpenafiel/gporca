@@ -115,11 +115,11 @@ namespace gpopt
 
 			// hash function used for cost bounding
 			static
-			ULONG UlHash(const CPartialPlan *ppp);
+			ULONG HashValue(const CPartialPlan *ppp);
 
 			// equality function used for for cost bounding
 			static
-			BOOL FEqual(const CPartialPlan *pppFst, const CPartialPlan *pppSnd);
+			BOOL Equals(const CPartialPlan *pppFst, const CPartialPlan *pppSnd);
 
 		}; // class CPartialPlan
 }

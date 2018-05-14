@@ -82,18 +82,18 @@ CPhysicalDynamicScan::~CPhysicalDynamicScan()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalDynamicScan::UlHash
+//		CPhysicalDynamicScan::HashValue
 //
 //	@doc:
 //		Combine part index, pointer for table descriptor, Eop and output columns
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalDynamicScan::UlHash() const
+CPhysicalDynamicScan::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(),
-								gpos::UlCombineHashes(gpos::UlHash(&m_ulScanId),
-								                      m_ptabdesc->Pmdid()->UlHash()));
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(),
+								gpos::UlCombineHashes(gpos::HashValue(&m_ulScanId),
+								                      m_ptabdesc->Pmdid()->HashValue()));
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;

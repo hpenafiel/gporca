@@ -54,7 +54,7 @@ namespace gpnaucrates
 			// is bucket singleton?
 			BOOL FSingleton() const
 			{
-				return PpLower()->FEqual(PpUpper());
+				return PpLower()->Equals(PpUpper());
 			}
 
 			// d'tor

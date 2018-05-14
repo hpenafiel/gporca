@@ -63,14 +63,14 @@ CSystemId::CSystemId
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CSystemId::FEquals
+//		CSystemId::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CSystemId::FEquals
+CSystemId::Equals
 	(
 	const CSystemId &sysid
 	)
@@ -83,14 +83,14 @@ CSystemId::FEquals
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CSystemId::UlHash
+//		CSystemId::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CSystemId::UlHash() const
+CSystemId::HashValue() const
 {
 	return gpos::UlHashByteArray((BYTE*) m_wsz, GPOS_WSZ_LENGTH(m_wsz) * GPOS_SIZEOF(WCHAR));
 }

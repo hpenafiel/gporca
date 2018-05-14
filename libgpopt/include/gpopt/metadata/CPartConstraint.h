@@ -28,11 +28,11 @@ namespace gpopt
 	class CPartConstraint;
 
 	// hash maps of part constraints indexed by part index id
-	typedef CHashMap<ULONG, CPartConstraint, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CPartConstraint, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<CPartConstraint> > PartCnstrMap;
 	
 	// map iterator
-	typedef CHashMapIter<ULONG, CPartConstraint, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, CPartConstraint, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 		CleanupDelete<ULONG>, CleanupRelease<CPartConstraint> > PartCnstrMapIter;
 
 	//---------------------------------------------------------------------------

@@ -107,7 +107,7 @@ namespace gpos
 
 						// equality function -- needed for hashtable
 						static
-						BOOL FEqual
+						BOOL Equals
 							(
 							const SStackKey &skey,
 							const SStackKey &skeyOther
@@ -118,7 +118,7 @@ namespace gpos
 						
 						// basic hash function
 						static
-						ULONG UlHash
+						ULONG HashValue
 							(
 							const SStackKey &skey
 							)

@@ -112,14 +112,14 @@ namespace gpopt
 
 					// hash function
 					static
-					ULONG UlHash
+					ULONG HashValue
 						(
 						const STreeLink *ptlink
 						)
 					{
 						ULONG ulHashParent = pfnHash(ptlink->m_ptParent);
 						ULONG ulHashChild = pfnHash(ptlink->m_ptChild);
-						ULONG ulHashChildIndex = gpos::UlHash<ULONG>(&ptlink->m_ulChildIndex);
+						ULONG ulHashChildIndex = gpos::HashValue<ULONG>(&ptlink->m_ulChildIndex);
 
 						return UlCombineHashes
 								(
@@ -130,7 +130,7 @@ namespace gpopt
 
 					// equality function
 					static
-					BOOL FEqual
+					BOOL Equals
 						(
 						const STreeLink *ptlink1,
 						const STreeLink *ptlink2
@@ -431,7 +431,7 @@ namespace gpopt
 						CleanupNULL, CleanupDelete<CTreeNode> > TMapIter;
 
 			// map of created links
-			typedef CHashMap<STreeLink, BOOL, STreeLink::UlHash, STreeLink::FEqual,
+			typedef CHashMap<STreeLink, BOOL, STreeLink::HashValue, STreeLink::Equals,
 							CleanupDelete<STreeLink>, CleanupDelete<BOOL> > LinkMap;
 
 			TMap *m_ptmap;

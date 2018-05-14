@@ -88,7 +88,7 @@ CScalarOp::PmdidOp() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarOp::UlHash
+//		CScalarOp::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -96,9 +96,9 @@ CScalarOp::PmdidOp() const
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarOp::UlHash() const
+CScalarOp::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), m_pmdidOp->UlHash());
+	return gpos::UlCombineHashes(COperator::HashValue(), m_pmdidOp->HashValue());
 }
 
 
@@ -122,7 +122,7 @@ CScalarOp::FMatch
 		CScalarOp *pscop = CScalarOp::PopConvert(pop);
 
 		// match if operator oid are identical
-		return m_pmdidOp->FEquals(pscop->PmdidOp());
+		return m_pmdidOp->Equals(pscop->PmdidOp());
 	}
 
 	return false;

@@ -115,19 +115,19 @@ CScalarArray::FMultiDimensional() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarArray::UlHash
+//		CScalarArray::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarArray::UlHash() const
+CScalarArray::HashValue() const
 {
 	return gpos::UlCombineHashes
 					(
-					UlCombineHashes(m_pmdidElem->UlHash(), m_pmdidArray->UlHash()),
-					gpos::UlHash<BOOL>(&m_fMultiDimensional)
+					UlCombineHashes(m_pmdidElem->HashValue(), m_pmdidArray->HashValue()),
+					gpos::HashValue<BOOL>(&m_fMultiDimensional)
 					);
 }
 
@@ -153,8 +153,8 @@ CScalarArray::FMatch
 		
 		// match if components are identical
 		if (popArray->FMultiDimensional() == FMultiDimensional() &&
-			PmdidElem()->FEquals(popArray->PmdidElem()) &&
-			PmdidArray()->FEquals(popArray->PmdidArray()) &&
+			PmdidElem()->Equals(popArray->PmdidElem()) &&
+			PmdidArray()->Equals(popArray->PmdidArray()) &&
 			m_pdrgPconst->Size() == popArray->PdrgPconst()->Size())
 		{
 			for (ULONG ul = 0; ul < m_pdrgPconst->Size(); ul++)

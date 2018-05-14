@@ -238,7 +238,7 @@ CPartConstraint::FEquivalent
 	}
 	
 	return m_ulLevels == ppartcnstr->m_ulLevels &&
-			m_pbsDefaultParts->FEqual(ppartcnstr->m_pbsDefaultParts) &&
+			m_pbsDefaultParts->Equals(ppartcnstr->m_pbsDefaultParts) &&
 			FEqualConstrMaps(m_phmulcnstr, ppartcnstr->m_phmulcnstr, m_ulLevels);
 }
 
@@ -273,7 +273,7 @@ CPartConstraint::FEqualConstrMaps
 			return false;
 		}
 
-		if (NULL != pcnstrFst && !pcnstrFst->FEquals(pcnstrSnd))
+		if (NULL != pcnstrFst && !pcnstrFst->Equals(pcnstrSnd))
 		{
 			return false;
 		}
@@ -675,7 +675,7 @@ CPartConstraint::FDisjunctionPossible
 		CConstraint *pcnstrSnd = ppartcnstrSnd->Pcnstr(ul);
 		fSuccess = (NULL != pcnstrFst &&
 					NULL != pcnstrSnd &&
-					pcnstrFst->FEquals(pcnstrSnd) &&
+					pcnstrFst->Equals(pcnstrSnd) &&
 					ppartcnstrFst->FDefaultPartition(ul) == ppartcnstrSnd->FDefaultPartition(ul));
 	}
 

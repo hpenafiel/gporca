@@ -146,7 +146,7 @@ CScheduler::ProcessJobs
 		am.Lock();
 
 		// stop when all jobs have completed
-		if (FEmpty())
+		if (IsEmpty())
 		{
 			m_event.Broadcast();
 			break;

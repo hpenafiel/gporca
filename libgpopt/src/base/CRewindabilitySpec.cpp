@@ -89,16 +89,16 @@ CRewindabilitySpec::FSatisfies
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CRewindabilitySpec::UlHash
+//		CRewindabilitySpec::HashValue
 //
 //	@doc:
 //		Hash of components
 //
 //---------------------------------------------------------------------------
 ULONG
-CRewindabilitySpec::UlHash() const
+CRewindabilitySpec::HashValue() const
 {
-	return gpos::UlHash<ERewindabilityType>(&m_ert);
+	return gpos::HashValue<ERewindabilityType>(&m_ert);
 }
 
 

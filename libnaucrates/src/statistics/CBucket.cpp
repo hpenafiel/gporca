@@ -92,17 +92,17 @@ CBucket::FContains
 	// special case for singleton bucket
 	if (FSingleton())
 	{
-		return m_ppointLower->FEqual(ppoint);
+		return m_ppointLower->Equals(ppoint);
 	}
 
 	// special case if point equal to lower bound
-	if (m_fLowerClosed && m_ppointLower->FEqual(ppoint))
+	if (m_fLowerClosed && m_ppointLower->Equals(ppoint))
 	{
 		return true;
 	}
 
 	// special case if point equal to upper bound
-	if (m_fUpperClosed && m_ppointUpper->FEqual(ppoint))
+	if (m_fUpperClosed && m_ppointUpper->Equals(ppoint))
 	{
 		return true;
 	}
@@ -179,7 +179,7 @@ CBucket::DOverlap
 	// special case for singleton bucket
 	if (FSingleton())
 	{
-		GPOS_ASSERT(this->m_ppointLower->FEqual(ppoint));
+		GPOS_ASSERT(this->m_ppointLower->Equals(ppoint));
 
 		return CDouble(1.0);
 	}
@@ -264,7 +264,7 @@ CBucket::PbucketGreaterThan
 {
 	GPOS_ASSERT(FContains(ppoint));
 
-	if (FSingleton() || PpUpper()->FEqual(ppoint))
+	if (FSingleton() || PpUpper()->Equals(ppoint))
 	{
 		return NULL;
 	}
@@ -313,7 +313,7 @@ CBucket::PbucketScaleUpper
 	GPOS_ASSERT(this->FContains(ppointUpperNew));
 
 	// scaling upper to be same as lower is identical to producing a singleton bucket
-	if (this->m_ppointLower->FEqual(ppointUpperNew))
+	if (this->m_ppointLower->Equals(ppointUpperNew))
 	{
 		// invalid bucket, e.g. if bucket is [5,10) and
 		// ppointUpperNew is 5 open, null should be returned
@@ -327,7 +327,7 @@ CBucket::PbucketScaleUpper
 	CDouble dFrequencyNew = this->DFrequency();
 	CDouble dDistinctNew = this->DDistinct();
 
-	if (!this->m_ppointUpper->FEqual(ppointUpperNew))
+	if (!this->m_ppointUpper->Equals(ppointUpperNew))
 	{
 		CDouble dOverlap = this->DOverlap(ppointUpperNew);
 		dFrequencyNew = dFrequencyNew * dOverlap;
@@ -374,7 +374,7 @@ CBucket::PbucketScaleLower
 	GPOS_ASSERT(this->FContains(ppointLowerNew));
 
 	// scaling lower to be same as upper is identical to producing a singleton bucket
-	if (this->m_ppointUpper->FEqual(ppointLowerNew))
+	if (this->m_ppointUpper->Equals(ppointLowerNew))
 	{
 		return PbucketSingleton(pmp, ppointLowerNew);
 	}
@@ -382,7 +382,7 @@ CBucket::PbucketScaleLower
 	CDouble dFrequencyNew = this->DFrequency();
 	CDouble dDistinctNew = this->DDistinct();
 
-	if (!this->PpLower()->FEqual(ppointLowerNew))
+	if (!this->PpLower()->Equals(ppointLowerNew))
 	{
 		CDouble dOverlap = CDouble(1.0) - this->DOverlap(ppointLowerNew);
 		dFrequencyNew = this->DFrequency() * dOverlap;
@@ -518,7 +518,7 @@ CBucket::ICompareLowerBounds
 	BOOL fClosedPoint1 = pbucket1->FLowerClosed();
 	BOOL fClosedPoint2 = pbucket1->FLowerClosed();
 
-	if (ppoint1->FEqual(ppoint2))
+	if (ppoint1->Equals(ppoint2))
 	{
 		if (fClosedPoint1 == fClosedPoint2)
 		{
@@ -606,7 +606,7 @@ CBucket::ICompareUpperBounds
 	BOOL fClosedPoint1 = pbucket1->FUpperClosed();
 	BOOL fClosedPoint2 = pbucket1->FUpperClosed();
 
-	if (ppoint1->FEqual(ppoint2))
+	if (ppoint1->Equals(ppoint2))
 	{
 		if (fClosedPoint1 == fClosedPoint2)
 		{
@@ -649,7 +649,7 @@ CBucket::FIntersects
 
 	if (this->FSingleton() && pbucket->FSingleton())
 	{
-		return PpLower()->FEqual(pbucket->PpLower());
+		return PpLower()->Equals(pbucket->PpLower());
 	}
 
 	if (this->FSingleton())
@@ -708,7 +708,7 @@ CBucket::FSubsumes
 	if (this->FSingleton()
 		&& pbucket->FSingleton())
 	{
-		return PpLower()->FEqual(pbucket->PpLower());
+		return PpLower()->Equals(pbucket->PpLower());
 	}
 
 	// other one is a singleton
@@ -752,24 +752,24 @@ CBucket::PbucketIntersect
 	BOOL fNewUpperClosed = true;
 
 	CDouble dDistanceNew = 1.0;
-	if (!ppNewLower->FEqual(ppNewUpper))
+	if (!ppNewLower->Equals(ppNewUpper))
 	{
 		fNewLowerClosed = this->m_fLowerClosed;
 		fNewUpperClosed = this->m_fUpperClosed;
 
-		if (ppNewLower->FEqual(pbucket->PpLower()))
+		if (ppNewLower->Equals(pbucket->PpLower()))
 		{
 			fNewLowerClosed = pbucket->FLowerClosed();
-			if (ppNewLower->FEqual(this->PpLower()))
+			if (ppNewLower->Equals(this->PpLower()))
 			{
 				fNewLowerClosed = this->FLowerClosed() && pbucket->FLowerClosed();
 			}
 		}
 
-		if (ppNewUpper->FEqual(pbucket->PpUpper()))
+		if (ppNewUpper->Equals(pbucket->PpUpper()))
 		{
 			fNewUpperClosed = pbucket->FUpperClosed();
-			if (ppNewUpper->FEqual(this->PpUpper()))
+			if (ppNewUpper->Equals(this->PpUpper()))
 			{
 				fNewUpperClosed = this->FUpperClosed() && pbucket->FUpperClosed();
 			}
@@ -1015,7 +1015,7 @@ CBucket::PbucketMerge
 		dFrequency = dRowNew / dRowsOutput;
 	}
 
-	BOOL fUpperClosed = ppLowerNew->FEqual(ppUpperNew);
+	BOOL fUpperClosed = ppLowerNew->Equals(ppUpperNew);
 
 	if (ppUpperNew->FLessThan(this->PpUpper()))
 	{

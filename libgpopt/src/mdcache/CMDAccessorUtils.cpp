@@ -110,7 +110,7 @@ CMDAccessorUtils::FCmpExists
 	CAutoTraceFlag atf3(EtraceSimulateIOError, false);
 	CAutoTraceFlag atf4(EtraceSimulateNetError, false);
 
-	if (pmdidLeft->FEquals(pmdidRight))
+	if (pmdidLeft->Equals(pmdidRight))
 	{
 		const IMDType *pmdtypeLeft = pmda->Pmdtype(pmdidLeft);
 		return IMDId::FValid(pmdtypeLeft->PmdidCmp(ecmpt));
@@ -264,7 +264,7 @@ CMDAccessorUtils::FCommutativeScalarOp
 
 	const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdidOp);
 
-	return pmdidOp->FEquals(pmdscop->PmdidOpCommute());
+	return pmdidOp->Equals(pmdscop->PmdidOpCommute());
 }
 
 

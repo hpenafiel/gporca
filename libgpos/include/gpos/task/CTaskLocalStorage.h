@@ -65,7 +65,7 @@ namespace gpos
 
 			// equality function -- used for hashtable
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CTaskLocalStorage::Etlsidx &etlsidx,
 				const CTaskLocalStorage::Etlsidx &etlsidxOther

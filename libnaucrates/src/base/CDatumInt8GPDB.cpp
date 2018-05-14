@@ -161,16 +161,16 @@ CDatumInt8GPDB::Pmdid() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumInt8GPDB::UlHash
+//		CDatumInt8GPDB::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CDatumInt8GPDB::UlHash() const
+CDatumInt8GPDB::HashValue() const
 {
-	return gpos::UlCombineHashes(m_pmdid->UlHash(), gpos::UlHash<LINT>(&m_lVal));
+	return gpos::UlCombineHashes(m_pmdid->HashValue(), gpos::HashValue<LINT>(&m_lVal));
 }
 
 
@@ -217,7 +217,7 @@ CDatumInt8GPDB::FMatch
 	)
 	const
 {
-	if(!m_pmdid->FEquals(pdatum->Pmdid()))
+	if(!m_pmdid->Equals(pdatum->Pmdid()))
 	{
 		return false;
 	}

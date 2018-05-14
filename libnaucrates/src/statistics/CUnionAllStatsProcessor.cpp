@@ -39,7 +39,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	// column ids on which widths are to be computed
 	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
 
-	BOOL fEmptyUnionAll = pstatsFst->FEmpty() && pstatsSnd->FEmpty();
+	BOOL fEmptyUnionAll = pstatsFst->IsEmpty() && pstatsSnd->IsEmpty();
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	CDouble dRowsUnionAll = CStatistics::DMinRows;
 	if (fEmptyUnionAll)

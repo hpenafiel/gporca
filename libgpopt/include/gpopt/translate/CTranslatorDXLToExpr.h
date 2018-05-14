@@ -51,11 +51,11 @@ namespace gpopt
 	using namespace gpdxl;
 
 	// hash maps
-	typedef CHashMap<ULONG, DrgPexpr, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, DrgPexpr, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupNULL > HMUlPdrgpexpr;
 
 	// iterator
-	typedef CHashMapIter<ULONG, DrgPexpr, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, DrgPexpr, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 		CleanupDelete<ULONG>, CleanupNULL > HMIterUlPdrgpexpr;
 
 	

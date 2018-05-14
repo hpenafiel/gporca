@@ -61,7 +61,7 @@ CHashMapTest::EresUnittest_Basic()
 	GPOS_ASSERT(GPOS_ARRAY_SIZE(rgul) == GPOS_ARRAY_SIZE(rgsz));
 	const ULONG ulCnt = GPOS_ARRAY_SIZE(rgul);
 	
-	typedef CHashMap<ULONG_PTR, CHAR, UlHashPtr<ULONG_PTR>, gpos::FEqual<ULONG_PTR>,
+	typedef CHashMap<ULONG_PTR, CHAR, UlHashPtr<ULONG_PTR>, gpos::Equals<ULONG_PTR>,
 		CleanupNULL<ULONG_PTR>, CleanupNULL<CHAR> > HMUlChar;
 
 	HMUlChar *phm = GPOS_NEW(pmp) HMUlChar(pmp, 128);
@@ -109,7 +109,7 @@ CHashMapTest::EresUnittest_Basic()
 	phm->Release();
 
 	// test replacing values and triggering their release
-	typedef CHashMap<ULONG, ULONG, UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, ULONG, HashValue<ULONG>, gpos::Equals<ULONG>,
 			CleanupDelete<ULONG>, CleanupDelete<ULONG> > HMUlUl;
 	HMUlUl *phm2 = GPOS_NEW(pmp) HMUlUl(pmp, 128);
 
@@ -160,7 +160,7 @@ CHashMapTest::EresUnittest_Ownership()
 
 	ULONG ulCnt = 256;
 
-	typedef CHashMap<ULONG_PTR, CHAR, UlHashPtr<ULONG_PTR>, gpos::FEqual<ULONG_PTR>,
+	typedef CHashMap<ULONG_PTR, CHAR, UlHashPtr<ULONG_PTR>, gpos::Equals<ULONG_PTR>,
 		CleanupDelete<ULONG_PTR>, CleanupDeleteArray<CHAR> > HMUlChar;
 	
 	HMUlChar *phm = GPOS_NEW(pmp) HMUlChar(pmp, 32);

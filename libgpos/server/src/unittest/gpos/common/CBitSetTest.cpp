@@ -77,7 +77,7 @@ CBitSetTest::EresUnittest_Basics()
 	GPOS_ASSERT(cInserts == pbs->CElements());
 
 	CBitSet *pbsCopy = GPOS_NEW(pmp) CBitSet(pmp, *pbs);
-	GPOS_ASSERT(pbsCopy->FEqual(pbs));
+	GPOS_ASSERT(pbsCopy->Equals(pbs));
 
 	// delete old bitset to make sure we're not accidentally
 	// using any of its memory
@@ -119,8 +119,8 @@ CBitSetTest::EresUnittest_Removal()
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
 	CBitSet *pbsEmpty = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
 
-	GPOS_ASSERT(pbs->FEqual(pbsEmpty));
-	GPOS_ASSERT(pbsEmpty->FEqual(pbs));
+	GPOS_ASSERT(pbs->Equals(pbsEmpty));
+	GPOS_ASSERT(pbsEmpty->Equals(pbs));
 
 	ULONG cInserts = 10;
 	for (ULONG i = 0; i < cInserts; i++)
@@ -138,8 +138,8 @@ CBitSetTest::EresUnittest_Removal()
 		GPOS_ASSERT(cInserts - i - 1 == pbs->CElements());
 	}
 
-	GPOS_ASSERT(pbs->FEqual(pbsEmpty));
-	GPOS_ASSERT(pbsEmpty->FEqual(pbs));
+	GPOS_ASSERT(pbs->Equals(pbsEmpty));
+	GPOS_ASSERT(pbsEmpty->Equals(pbs));
 
 	pbs->Release();
 	pbsEmpty->Release();
@@ -180,25 +180,25 @@ CBitSetTest::EresUnittest_SetOps()
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, cSizeBits);
 
 	pbs->Union(pbs1);
-	GPOS_ASSERT(pbs->FEqual(pbs1));
+	GPOS_ASSERT(pbs->Equals(pbs1));
 
 	pbs->Intersection(pbs1);
-	GPOS_ASSERT(pbs->FEqual(pbs1));
-	GPOS_ASSERT(pbs->FEqual(pbs));
-	GPOS_ASSERT(pbs1->FEqual(pbs1));
+	GPOS_ASSERT(pbs->Equals(pbs1));
+	GPOS_ASSERT(pbs->Equals(pbs));
+	GPOS_ASSERT(pbs1->Equals(pbs1));
 
 	pbs->Union(pbs2);
-	GPOS_ASSERT(!pbs->FEqual(pbs1) && !pbs->FEqual(pbs2));
+	GPOS_ASSERT(!pbs->Equals(pbs1) && !pbs->Equals(pbs2));
 	GPOS_ASSERT(pbs->FSubset(pbs1) && pbs->FSubset(pbs2));
 	
 	pbs->Difference(pbs2);
-	GPOS_ASSERT(pbs->FEqual(pbs1));
+	GPOS_ASSERT(pbs->Equals(pbs1));
 
 	pbs1->Release();
 
 	pbs->Union(pbs2);
 	pbs->Intersection(pbs2);
-	GPOS_ASSERT(pbs->FEqual(pbs2));
+	GPOS_ASSERT(pbs->Equals(pbs2));
 	GPOS_ASSERT(pbs->FSubset(pbs2));
 
 	GPOS_ASSERT(pbs->CElements() == pbs2->CElements());

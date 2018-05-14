@@ -69,7 +69,7 @@ CBitVectorTest::EresUnittest_Basics()
 	ULONG cSize = 129;
 
 	CBitVector bv(pmp, cSize);
-	GPOS_ASSERT(bv.FEmpty());
+	GPOS_ASSERT(bv.IsEmpty());
 
 	for(ULONG i = 0; i < cSize; i++)
 	{
@@ -147,11 +147,11 @@ CBitVectorTest::EresUnittest_SetOps()
 
 	bv.Or(&bvEven);
 	bv.And(&bvOdd);
-	GPOS_ASSERT(bv.FEqual(&bvOdd));
+	GPOS_ASSERT(bv.Equals(&bvOdd));
 
 	bv.Or(&bvEven);
 	bv.And(&bvEven);
-	GPOS_ASSERT(bv.FEqual(&bvEven));
+	GPOS_ASSERT(bv.Equals(&bvEven));
 
 	return GPOS_OK;
 }

@@ -89,16 +89,16 @@ namespace gpmd
 			
 			// equality check
 			virtual
-			BOOL FEquals(const IMDId *pmdid) const;
+			BOOL Equals(const IMDId *pmdid) const;
 			
 			// computes the hash value for the metadata id
 			virtual
-			ULONG UlHash() const
+			ULONG HashValue() const
 			{
 				return gpos::UlCombineHashes
 							(
 							Emdidt(), 
-							gpos::UlCombineHashes(m_pmdidSrc->UlHash(), m_pmdidDest->UlHash())
+							gpos::UlCombineHashes(m_pmdidSrc->HashValue(), m_pmdidDest->HashValue())
 							);							
 			}
 			

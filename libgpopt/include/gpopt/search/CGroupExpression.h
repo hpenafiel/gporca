@@ -97,7 +97,7 @@ namespace gpopt
 					CSpinlockCC> ShtAccIter;
 
 			// map of partial plans to their costs
-			typedef CHashMap<CPartialPlan, CCost, CPartialPlan::UlHash, CPartialPlan::FEqual,
+			typedef CHashMap<CPartialPlan, CCost, CPartialPlan::HashValue, CPartialPlan::Equals,
 						CleanupRelease<CPartialPlan>, CleanupDelete<CCost> > PartialPlanCostMap;
 
 
@@ -353,7 +353,7 @@ namespace gpopt
 			
 			 // equality function for hash table
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CGroupExpression &gexprLeft,
 				const CGroupExpression &gexprRight
@@ -369,18 +369,18 @@ namespace gpopt
 			BOOL FMatchNonScalarChildren(const CGroupExpression *pgexpr) const;
 
 			// hash function
-			ULONG UlHash() const
+			ULONG HashValue() const
 			{
-				return UlHash(m_pop, m_pdrgpgroup);
+				return HashValue(m_pop, m_pdrgpgroup);
 			}
 			
 			// static hash function for operator and group references
 			static
-			ULONG UlHash(COperator *pop, DrgPgroup *drgpgroup);
+			ULONG HashValue(COperator *pop, DrgPgroup *drgpgroup);
 			
 			// static hash function for group expression
 			static
-			ULONG UlHash(const CGroupExpression&);
+			ULONG HashValue(const CGroupExpression&);
 
 			// transform group expression
 			void Transform

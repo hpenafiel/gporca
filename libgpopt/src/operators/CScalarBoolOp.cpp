@@ -32,7 +32,7 @@ const WCHAR CScalarBoolOp::m_rgwszBool[EboolopSentinel][30] =
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarBoolOp::UlHash
+//		CScalarBoolOp::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -40,11 +40,11 @@ const WCHAR CScalarBoolOp::m_rgwszBool[EboolopSentinel][30] =
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarBoolOp::UlHash() const
+CScalarBoolOp::HashValue() const
 {
 	ULONG ulBoolop = (ULONG) Eboolop();
-	return gpos::UlCombineHashes(COperator::UlHash(),
-							    gpos::UlHash<ULONG>(&ulBoolop));
+	return gpos::UlCombineHashes(COperator::HashValue(),
+							    gpos::HashValue<ULONG>(&ulBoolop));
 }
 
 

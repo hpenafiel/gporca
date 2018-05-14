@@ -484,7 +484,7 @@ CParseHandlerTest::EresParseAndSerializePlan
 	CWStringDynamic dstrExpected(pmp);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
 
-	if (!dstrExpected.FEquals(&strPlan))
+	if (!dstrExpected.Equals(&strPlan))
 	{
 		GPOS_TRACE(dstrExpected.Wsz());
 		GPOS_TRACE(strPlan.Wsz());
@@ -548,7 +548,7 @@ CParseHandlerTest::EresParseAndSerializeQuery
 	CWStringDynamic dstrExpected(pmp);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
 
-	if (!dstrExpected.FEquals(&wstrQuery))
+	if (!dstrExpected.Equals(&wstrQuery))
 	{
 		GPOS_TRACE(wstrQuery.Wsz());
 	}
@@ -607,7 +607,7 @@ CParseHandlerTest::EresParseAndSerializeMetadata
 	CWStringDynamic dstrExpected(pmp);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
 	
-	if (!dstrExpected.FEquals(pstr))
+	if (!dstrExpected.Equals(pstr))
 	{
 		GPOS_TRACE(pstr->Wsz());
 		GPOS_ASSERT(false);
@@ -665,7 +665,7 @@ CParseHandlerTest::EresParseAndSerializeMDRequest
 	CWStringDynamic strExpected(pmp);
 	strExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
 	
-	GPOS_ASSERT(strExpected.FEquals(&str));
+	GPOS_ASSERT(strExpected.Equals(&str));
 
 	pmdr->Release();
 	GPOS_DELETE_ARRAY(szDXL);
@@ -756,7 +756,7 @@ CParseHandlerTest::EresParseAndSerializeStatistics
 	CWStringDynamic dstrExpected(pmp);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
 
-	GPOS_ASSERT(dstrExpected.FEquals(pstr));
+	GPOS_ASSERT(dstrExpected.Equals(pstr));
 
 	pdrgpstat->Release();
 
@@ -807,7 +807,7 @@ CParseHandlerTest::EresParseAndSerializeScalarExpr
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
 
 	GPOS_RESULT eres = GPOS_OK;
-	if (!dstrExpected.FEquals(pstr))
+	if (!dstrExpected.Equals(pstr))
 	{
 		GPOS_TRACE(dstrExpected.Wsz());
 		GPOS_TRACE(pstr->Wsz());

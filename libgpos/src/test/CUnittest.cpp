@@ -157,14 +157,14 @@ CUnittest::FThrows() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CUnittest::FEquals
+//		CUnittest::Equals
 //
 //	@doc:
 //		Is given string equal to title of test?
 //
 //---------------------------------------------------------------------------
 BOOL
-CUnittest::FEquals
+CUnittest::Equals
 	(
 	CHAR *sz
 	)
@@ -423,14 +423,14 @@ CUnittest::FindTest
 	{
 		CUnittest &ut = CUnittest::m_rgut[i];
 
-		if ((ut.Ett() == ett && (NULL == szTestName || ut.FEquals(szTestName))) ||
-			 (NULL != szTestName && ut.FEquals(szTestName)))
+		if ((ut.Ett() == ett && (NULL == szTestName || ut.Equals(szTestName))) ||
+			 (NULL != szTestName && ut.Equals(szTestName)))
 		{
 			(void) bv.ExchangeSet(i);
 		}
 	}
 
-	if(bv.FEmpty())
+	if(bv.IsEmpty())
 	{
 		GPOS_TRACE_FORMAT("'%s' is not a valid test case.", szTestName);
 	}

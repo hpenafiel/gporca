@@ -149,23 +149,23 @@ CLogicalGbAggDeduplicate::PcrsStat
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalGbAggDeduplicate::UlHash
+//		CLogicalGbAggDeduplicate::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalGbAggDeduplicate::UlHash() const
+CLogicalGbAggDeduplicate::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), CUtils::UlHashColArray(Pdrgpcr()));
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), CUtils::UlHashColArray(Pdrgpcr()));
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrKeys));
 
 	ULONG ulGbaggtype = (ULONG) Egbaggtype();
 
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash<ULONG>(&ulGbaggtype));
+	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<ULONG>(&ulGbaggtype));
 
-	return  gpos::UlCombineHashes(ulHash, gpos::UlHash<BOOL>(&m_fGeneratesDuplicates));
+	return  gpos::UlCombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fGeneratesDuplicates));
 }
 
 //---------------------------------------------------------------------------
@@ -227,7 +227,7 @@ CLogicalGbAggDeduplicate::FMatch
 	return popAgg->Egbaggtype() == Egbaggtype() &&
 			Pdrgpcr()->Equals(popAgg->Pdrgpcr()) &&
 			m_pdrgpcrKeys->Equals(popAgg->PdrgpcrKeys()) &&
-			CColRef::FEqual(PdrgpcrMinimal(), popAgg->PdrgpcrMinimal());
+			CColRef::Equals(PdrgpcrMinimal(), popAgg->PdrgpcrMinimal());
 }
 
 //---------------------------------------------------------------------------

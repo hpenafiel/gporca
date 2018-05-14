@@ -61,11 +61,11 @@ namespace gpopt
 
 				// hashing function
 				static
-				ULONG UlHash(const SComponentPair *pcomppair);
+				ULONG HashValue(const SComponentPair *pcomppair);
 
 				// equality function
 				static
-				BOOL FEqual(const SComponentPair *pcomppairFst, const SComponentPair *pcomppairSnd);
+				BOOL Equals(const SComponentPair *pcomppairFst, const SComponentPair *pcomppairSnd);
 			};
 
 			// hashing function
@@ -77,7 +77,7 @@ namespace gpopt
 			{
 				GPOS_ASSERT(NULL != pbs);
 
-				return pbs->UlHash();
+				return pbs->HashValue();
 			}
 
 			 // equality function
@@ -91,7 +91,7 @@ namespace gpopt
 				GPOS_ASSERT(NULL != pbsFst);
 				GPOS_ASSERT(NULL != pbsSnd);
 
-				return pbsFst->FEqual(pbsSnd);
+				return pbsFst->Equals(pbsSnd);
 			}
 
 			// hash map from component to best join order
@@ -99,11 +99,11 @@ namespace gpopt
 				CleanupRelease<CBitSet>, CleanupRelease<CExpression> > HMBSExpr;
 
 			// hash map from component pair to connecting edges
-			typedef CHashMap<SComponentPair, CExpression, SComponentPair::UlHash, SComponentPair::FEqual,
+			typedef CHashMap<SComponentPair, CExpression, SComponentPair::HashValue, SComponentPair::Equals,
 				CleanupRelease<SComponentPair>, CleanupRelease<CExpression> > HMCompLink;
 
 			// hash map from expression to cost of best join order
-			typedef CHashMap<CExpression, CDouble, CExpression::UlHash, CUtils::FEqual,
+			typedef CHashMap<CExpression, CDouble, CExpression::HashValue, CUtils::Equals,
 				CleanupRelease<CExpression>, CleanupDelete<CDouble> > HMExprCost;
 
 			// lookup table for links

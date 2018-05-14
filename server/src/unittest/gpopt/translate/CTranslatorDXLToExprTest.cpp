@@ -180,7 +180,7 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 	COstreamString oss(&str);
 
 	// compare the two Expr trees
-	if (!pstrExpected->FEquals(pstrTranslated))
+	if (!pstrExpected->Equals(pstrTranslated))
 	{
 		oss << "Output does not match expected DXL document" << std::endl;
 		oss << "Expected: " << std::endl;

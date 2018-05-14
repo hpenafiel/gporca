@@ -93,14 +93,14 @@ CDefaultComparator::FEvalComparison
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDefaultComparator::FEqual
+//		CDefaultComparator::Equals
 //
 //	@doc:
 //		Tests if the two arguments are equal.
 //
 //---------------------------------------------------------------------------
 BOOL
-CDefaultComparator::FEqual
+CDefaultComparator::Equals
 	(
 	const IDatum *pdatum1,
 	const IDatum *pdatum2

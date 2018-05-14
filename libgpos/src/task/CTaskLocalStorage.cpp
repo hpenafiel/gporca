@@ -63,7 +63,7 @@ CTaskLocalStorage::Reset
 		GPOS_OFFSET(CTaskLocalStorageObject, m_etlsidx),
 		&(CTaskLocalStorage::m_etlsidxInvalid),
 		CTaskLocalStorage::UlHashIdx,
-		CTaskLocalStorage::FEqual
+		CTaskLocalStorage::Equals
 		);
 }
 

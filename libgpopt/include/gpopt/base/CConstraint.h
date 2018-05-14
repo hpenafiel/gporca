@@ -30,7 +30,7 @@ namespace gpopt
 	typedef CDynamicPtrArray<CConstraint, CleanupRelease> DrgPcnstr;
 
 	// hash map mapping CColRef -> DrgPcnstr
-	typedef CHashMap<CColRef, DrgPcnstr, gpos::UlHash<CColRef>, gpos::FEqual<CColRef>,
+	typedef CHashMap<CColRef, DrgPcnstr, gpos::HashValue<CColRef>, gpos::Equals<CColRef>,
 					CleanupNULL<CColRef>, CleanupRelease<DrgPcnstr> > HMColConstr;
 
 	// mapping CConstraint -> BOOL to cache previous containment queries,
@@ -40,7 +40,7 @@ namespace gpopt
 					CleanupNULL<CConstraint>, CleanupNULL<BOOL> > HMConstraintContainment;
 
 	// hash map mapping ULONG -> CConstraint
-	typedef CHashMap<ULONG, CConstraint, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CConstraint, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<CConstraint> > HMUlCnstr;
 
 	//---------------------------------------------------------------------------
@@ -189,7 +189,7 @@ namespace gpopt
 
 			// equality function
 			virtual
-			BOOL FEquals(CConstraint *pcnstr);
+			BOOL Equals(CConstraint *pcnstr);
 
 			// columns in this constraint
 			virtual

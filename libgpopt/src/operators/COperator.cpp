@@ -45,18 +45,18 @@ COperator::COperator
 
 //---------------------------------------------------------------------------
 //	@function:
-//		COperator::UlHash
+//		COperator::HashValue
 //
 //	@doc:
 //		default hash function based on operator ID
 //
 //---------------------------------------------------------------------------
 ULONG
-COperator::UlHash() const
+COperator::HashValue() const
 {
 	ULONG ulEopid = (ULONG) Eopid();
 	
-	return gpos::UlHash<ULONG>(&ulEopid);
+	return gpos::HashValue<ULONG>(&ulEopid);
 }
 
 

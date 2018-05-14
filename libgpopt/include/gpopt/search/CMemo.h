@@ -29,7 +29,7 @@ namespace gpopt
 	class COptimizationContext;
 
 	// memo tree map definition
-	typedef CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::UlHash, CCostContext::FEqual> MemoTreeMap;
+	typedef CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::HashValue, CCostContext::Equals> MemoTreeMap;
 
 	using namespace gpos;
 	

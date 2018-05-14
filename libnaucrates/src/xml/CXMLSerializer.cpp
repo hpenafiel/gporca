@@ -42,7 +42,7 @@ CXMLSerializer::~CXMLSerializer()
 void
 CXMLSerializer::StartDocument()
 {
-	GPOS_ASSERT(m_strstackElems->FEmpty());
+	GPOS_ASSERT(m_strstackElems->IsEmpty());
 	m_os << CDXLTokens::PstrToken(EdxltokenXMLDocHeader)->Wsz();
 	if (m_fIndent)
 	{
@@ -129,7 +129,7 @@ CXMLSerializer::CloseElement
 #endif
 	m_strstackElems->Pop();
 	
-	GPOS_ASSERT(strOpenElem->FEquals(pstrElem));
+	GPOS_ASSERT(strOpenElem->Equals(pstrElem));
 	
 	if (m_fOpenTag)
 	{

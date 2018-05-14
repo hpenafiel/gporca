@@ -198,33 +198,33 @@ CDrvdPropPlan::FSatisfies
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDrvdPropPlan::UlHash
+//		CDrvdPropPlan::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CDrvdPropPlan::UlHash() const
+CDrvdPropPlan::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(m_pos->UlHash(), m_pds->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, m_prs->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, m_ppim->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, m_pcm->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(m_pos->HashValue(), m_pds->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, m_prs->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, m_ppim->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, m_pcm->HashValue());
 
 	return ulHash;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDrvdPropPlan::FEqual
+//		CDrvdPropPlan::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 ULONG
-CDrvdPropPlan::FEqual
+CDrvdPropPlan::Equals
 	(
 	const CDrvdPropPlan *pdpplan
 	)
@@ -233,8 +233,8 @@ CDrvdPropPlan::FEqual
 	return m_pos->FMatch(pdpplan->Pos()) &&
 			m_pds->FMatch(pdpplan->Pds()) &&
 			m_prs->FMatch(pdpplan->Prs()) &&
-			m_ppim->FEqual(pdpplan->Ppim()) &&
-			m_pcm->FEqual(pdpplan->Pcm());
+			m_ppim->Equals(pdpplan->Ppim()) &&
+			m_pcm->Equals(pdpplan->Pcm());
 }
 
 //---------------------------------------------------------------------------

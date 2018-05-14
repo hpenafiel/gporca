@@ -95,7 +95,7 @@ namespace gpopt
 
 			// tests if the two arguments are equal
 			virtual
-			BOOL FEqual(const IDatum *pdatum1, const IDatum *pdatum2) const;
+			BOOL Equals(const IDatum *pdatum1, const IDatum *pdatum2) const;
 
 			// tests if the first argument is less than the second
 			virtual

@@ -128,7 +128,7 @@ CParseHandlerManager::DeactivateHandler()
 	
 	GPOS_ASSERT(NULL != m_pphCurrent);
 
-	if (!m_pphstack->FEmpty())
+	if (!m_pphstack->IsEmpty())
 	{
 		m_pphCurrent = m_pphstack->Pop();
 	}

@@ -247,7 +247,7 @@ CTableDescriptor::FAddKeySet
 	for (ULONG ul = 0; !fFound && ul < ulSize; ul++)
 	{
 		CBitSet *pbsCurrent = (*m_pdrgpbsKeys)[ul];
-		fFound = pbsCurrent->FEqual(pbs);
+		fFound = pbsCurrent->Equals(pbs);
 	}
 
 	if (!fFound)

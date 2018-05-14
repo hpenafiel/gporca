@@ -441,7 +441,7 @@ CReqdPropPlan::Pps
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CReqdPropPlan::FEqual
+//		CReqdPropPlan::Equals
 //
 //	@doc:
 //		Check if expression attached to handle provides required columns
@@ -488,14 +488,14 @@ CReqdPropPlan::FProvidesReqdCols
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CReqdPropPlan::FEqual
+//		CReqdPropPlan::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CReqdPropPlan::FEqual
+CReqdPropPlan::Equals
 	(
 	const CReqdPropPlan *prpp
 	)
@@ -504,8 +504,8 @@ CReqdPropPlan::FEqual
 	GPOS_ASSERT(NULL != prpp);
 
 	BOOL fResult = 
-		   PcrsRequired()->FEqual(prpp->PcrsRequired()) &&
-	       Pcter()->FEqual(prpp->Pcter()) &&
+		   PcrsRequired()->Equals(prpp->PcrsRequired()) &&
+	       Pcter()->Equals(prpp->Pcter()) &&
 	       Peo()->FMatch(prpp->Peo()) &&
 	       Ped()->FMatch(prpp->Ped()) &&
 	       Per()->FMatch(prpp->Per());
@@ -528,14 +528,14 @@ CReqdPropPlan::FEqual
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CReqdPropPlan::UlHash
+//		CReqdPropPlan::HashValue
 //
 //	@doc:
 //		Compute hash value using required columns and required sort order
 //
 //---------------------------------------------------------------------------
 ULONG
-CReqdPropPlan::UlHash() const
+CReqdPropPlan::HashValue() const
 {
 	GPOS_ASSERT(NULL != m_pcrs);
 	GPOS_ASSERT(NULL != m_peo);
@@ -543,11 +543,11 @@ CReqdPropPlan::UlHash() const
 	GPOS_ASSERT(NULL != m_per);
 	GPOS_ASSERT(NULL != m_pcter);
 
-	ULONG ulHash = m_pcrs->UlHash();
-	ulHash = gpos::UlCombineHashes(ulHash, m_peo->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, m_ped->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, m_per->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, m_pcter->UlHash());
+	ULONG ulHash = m_pcrs->HashValue();
+	ulHash = gpos::UlCombineHashes(ulHash, m_peo->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, m_ped->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, m_per->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, m_pcter->HashValue());
 
 	return ulHash;
 }
@@ -727,11 +727,11 @@ CReqdPropPlan::UlHashForCostBounding
 {
 	GPOS_ASSERT(NULL != prpp);
 
-	ULONG ulHash = prpp->PcrsRequired()->UlHash();
+	ULONG ulHash = prpp->PcrsRequired()->HashValue();
 
 	if (NULL != prpp->Ped())
 	{
-		ulHash = UlCombineHashes(ulHash, prpp->Ped()->UlHash());
+		ulHash = UlCombineHashes(ulHash, prpp->Ped()->HashValue());
 	}
 
 	return ulHash;
@@ -761,11 +761,11 @@ CReqdPropPlan::FEqualForCostBounding
 		return
 			NULL == prppFst->Ped() &&
 			NULL == prppSnd->Ped() &&
-			prppFst->PcrsRequired()->FEqual(prppSnd->PcrsRequired());
+			prppFst->PcrsRequired()->Equals(prppSnd->PcrsRequired());
 	}
 
 	return
-		prppFst->PcrsRequired()->FEqual(prppSnd->PcrsRequired()) &&
+		prppFst->PcrsRequired()->Equals(prppSnd->PcrsRequired()) &&
 		prppFst->Ped()->FMatch(prppSnd->Ped());
 }
 

@@ -344,17 +344,17 @@ CColRefSet::Pdrgpcr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CColRefSet::UlHash
+//		CColRefSet::HashValue
 //
 //	@doc:
 //		Compute hash value by combining hashes of components
 //
 //---------------------------------------------------------------------------
 ULONG
-CColRefSet::UlHash()
+CColRefSet::HashValue()
 {
 	ULONG ulSize = this->CElements();
-	ULONG ulHash = gpos::UlHash<ULONG>(&ulSize);
+	ULONG ulHash = gpos::HashValue<ULONG>(&ulSize);
 	
 	// limit the number of columns used in hash computation
 	ULONG ulLen = std::min(ulSize, (ULONG) 8);

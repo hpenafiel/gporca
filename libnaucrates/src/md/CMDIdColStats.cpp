@@ -120,14 +120,14 @@ CMDIdColStats::UlPos() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdColStats::FEquals
+//		CMDIdColStats::Equals
 //
 //	@doc:
 //		Checks if the mdids are equal
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDIdColStats::FEquals
+CMDIdColStats::Equals
 	(
 	const IMDId *pmdid
 	) 
@@ -140,7 +140,7 @@ CMDIdColStats::FEquals
 	
 	const CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(pmdid);
 	
-	return m_pmdidRel->FEquals(pmdidColStats->PmdidRel()) && 
+	return m_pmdidRel->Equals(pmdidColStats->PmdidRel()) && 
 			m_ulPos == pmdidColStats->UlPos(); 
 }
 

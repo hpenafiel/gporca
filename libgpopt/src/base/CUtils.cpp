@@ -194,7 +194,7 @@ CUtils::PmdidScCmp
 	GPOS_ASSERT(NULL != pmdidRight);
 	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
 
-	if (pmdidLeft->FEquals(pmdidRight))
+	if (pmdidLeft->Equals(pmdidRight))
 	{
 		const IMDType *pmdtypeLeft = pmda->Pmdtype(pmdidLeft);
 		return pmdtypeLeft->PmdidCmp(ecmpt);
@@ -1574,7 +1574,7 @@ CUtils::PdrgpexprDedup
 
 // deep equality of expression arrays
 BOOL
-CUtils::FEqual
+CUtils::Equals
 	(
 	const DrgPexpr *pdrgpexprLeft,
 	const DrgPexpr *pdrgpexprRight
@@ -1601,7 +1601,7 @@ CUtils::FEqual
 	{
 		const CExpression *pexprLeft = (*pdrgpexprLeft)[ul];
 		const CExpression *pexprRight = (*pdrgpexprRight)[ul];
-		fEqual = FEqual(pexprLeft, pexprRight);
+		fEqual = Equals(pexprLeft, pexprRight);
 	}
 
 	return fEqual;
@@ -1609,7 +1609,7 @@ CUtils::FEqual
 
 // deep equality of expression trees
 BOOL
-CUtils::FEqual
+CUtils::Equals
 	(
 	const CExpression *pexprLeft,
 	const CExpression *pexprRight
@@ -1680,7 +1680,7 @@ CUtils::FMatchChildrenOrdered
 	for (ULONG ul = 0; fEqual && ul < ulArity; ul++)
 	{
 		// child must be at the same position in the other expression
-		fEqual = FEqual((*pexprLeft)[ul], (*pexprRight)[ul]);
+		fEqual = Equals((*pexprLeft)[ul], (*pexprRight)[ul]);
 	}
 
 	return fEqual;
@@ -1700,7 +1700,7 @@ CUtils::UlOccurrences
 	const ULONG ulSize = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		if (FEqual(pexpr, (*pdrgpexpr)[ul]))
+		if (Equals(pexpr, (*pdrgpexpr)[ul]))
 		{
 			ulCount++;
 		}
@@ -1723,7 +1723,7 @@ CUtils::FEqualAny
 	BOOL fEqual = false;
 	for (ULONG ul = 0; !fEqual && ul < ulSize; ul++)
 	{
-		fEqual = FEqual(pexpr, (*pdrgpexpr)[ul]);
+		fEqual = Equals(pexpr, (*pdrgpexpr)[ul]);
 	}
 
 	return fEqual;
@@ -3981,7 +3981,7 @@ CUtils::PdrgpcrCopy
 
 // equality check between two arrays of column refs. Inputs can be NULL
 BOOL
-CUtils::FEqual
+CUtils::Equals
 	(
 	DrgPcr *pdrgpcrFst,
 	DrgPcr *pdrgpcrSnd
@@ -4738,7 +4738,7 @@ INT CUtils::IDatumCmp
 
 	const IComparator *pcomp = COptCtxt::PoctxtFromTLS()->Pcomp();
 
-	if (pcomp->FEqual(dat1, dat2))
+	if (pcomp->Equals(dat1, dat2))
 	{
 		return 0;
 	}
@@ -4826,7 +4826,7 @@ CUtils::FEquivalanceClassesEqual
 		CColRefSet *pcrsSnd = (*pdrgpcrsSnd)[ulSnd];
 		CColRef *pcr = pcrsSnd->PcrAny();
 		CColRefSet *pcrs = phmcscrs->PtLookup(pcr);
-		if(!pcrsSnd->FEqual(pcrs))
+		if(!pcrsSnd->Equals(pcrs))
 		{
 			phmcscrs->Release();
 			return false;

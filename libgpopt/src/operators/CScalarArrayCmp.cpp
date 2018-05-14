@@ -92,7 +92,7 @@ CScalarArrayCmp::PmdidOp() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarArrayCmp::UlHash
+//		CScalarArrayCmp::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -100,11 +100,11 @@ CScalarArrayCmp::PmdidOp() const
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarArrayCmp::UlHash() const
+CScalarArrayCmp::HashValue() const
 {
 	return gpos::UlCombineHashes
 					(
-					gpos::UlCombineHashes(COperator::UlHash(), m_pmdidOp->UlHash()),
+					gpos::UlCombineHashes(COperator::HashValue(), m_pmdidOp->HashValue()),
 					m_earrccmpt
 					);
 }
@@ -130,7 +130,7 @@ CScalarArrayCmp::FMatch
 		CScalarArrayCmp *popCmp = CScalarArrayCmp::PopConvert(pop);
 		
 		// match if operator oid are identical
-		return m_earrccmpt == popCmp->Earrcmpt() && m_pmdidOp->FEquals(popCmp->PmdidOp());
+		return m_earrccmpt == popCmp->Earrcmpt() && m_pmdidOp->Equals(popCmp->PmdidOp());
 	}
 	
 	return false;

@@ -68,16 +68,16 @@ CScalarBitmapIndexProbe::~CScalarBitmapIndexProbe()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarBitmapIndexProbe::UlHash
+//		CScalarBitmapIndexProbe::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarBitmapIndexProbe::UlHash() const
+CScalarBitmapIndexProbe::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), m_pindexdesc->Pmdid()->UlHash());
+	return gpos::UlCombineHashes(COperator::HashValue(), m_pindexdesc->Pmdid()->HashValue());
 }
 
 
@@ -102,7 +102,7 @@ CScalarBitmapIndexProbe::FMatch
 	}
 	CScalarBitmapIndexProbe *popIndexProbe = PopConvert(pop);
 
-	return m_pindexdesc->Pmdid()->FEquals(popIndexProbe->Pindexdesc()->Pmdid());
+	return m_pindexdesc->Pmdid()->Equals(popIndexProbe->Pindexdesc()->Pmdid());
 }
 
 //---------------------------------------------------------------------------

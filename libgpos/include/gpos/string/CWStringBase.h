@@ -57,7 +57,7 @@ namespace gpos
 			BOOL m_fOwnsMemory;
 			
 			// checks whether the string is byte-wise equal to a given string literal
-			virtual BOOL FEquals(const WCHAR *wszBuf) const;
+			virtual BOOL Equals(const WCHAR *wszBuf) const;
 			
 		public:
 			
@@ -78,10 +78,10 @@ namespace gpos
 			virtual ULONG UlLength() const;
 			
 			// checks whether the string is byte-wise equal to another string
-			virtual BOOL FEquals(const CWStringBase *pStr) const;			
+			virtual BOOL Equals(const CWStringBase *pStr) const;			
 			
 			// checks whether the string contains any characters
-			virtual BOOL FEmpty() const;
+			virtual BOOL IsEmpty() const;
 			
 			// checks whether a string is properly null-terminated
 			bool FValid() const;

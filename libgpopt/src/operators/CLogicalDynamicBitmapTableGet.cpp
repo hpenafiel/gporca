@@ -100,17 +100,17 @@ CLogicalDynamicBitmapTableGet::~CLogicalDynamicBitmapTableGet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalDynamicBitmapTableGet::UlHash
+//		CLogicalDynamicBitmapTableGet::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalDynamicBitmapTableGet::UlHash() const
+CLogicalDynamicBitmapTableGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash(&m_ulScanId));
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue(&m_ulScanId));
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;

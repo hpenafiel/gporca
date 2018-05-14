@@ -103,8 +103,8 @@ COrderSpecTest::EresUnittest_Basics()
 	pos2->Append(pmdidInt4LT, pcr2, COrderSpec::EntLast);
 	pos2->Append(pmdidInt4LT, pcr3, COrderSpec::EntAuto);
 
-	(void) pos1->UlHash();
-	(void) pos2->UlHash();
+	(void) pos1->HashValue();
+	(void) pos2->HashValue();
 	
 	GPOS_ASSERT(pos2->FMatch(pos2));
 	GPOS_ASSERT(pos2->FSatisfies(pos2));

@@ -106,16 +106,16 @@ CLogicalDynamicGet::~CLogicalDynamicGet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalDynamicGet::UlHash
+//		CLogicalDynamicGet::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalDynamicGet::UlHash() const
+CLogicalDynamicGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;

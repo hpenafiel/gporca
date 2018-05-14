@@ -259,7 +259,7 @@ CJoinCardinalityTest::EresUnittest_Join()
 		COstreamString oss(&str);
 
 		// compare the two dxls
-		if (!pstrOutput->FEquals(&dstrExpected))
+		if (!pstrOutput->Equals(&dstrExpected))
 		{
 			oss << "Output does not match expected DXL document" << std::endl;
 			oss << "Actual: " << std::endl;

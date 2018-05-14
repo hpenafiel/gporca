@@ -103,22 +103,22 @@ CLogicalInsert::FMatch
 
 	CLogicalInsert *popInsert = CLogicalInsert::PopConvert(pop);
 
-	return m_ptabdesc->Pmdid()->FEquals(popInsert->Ptabdesc()->Pmdid()) &&
+	return m_ptabdesc->Pmdid()->Equals(popInsert->Ptabdesc()->Pmdid()) &&
 			m_pdrgpcrSource->Equals(popInsert->PdrgpcrSource());
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalInsert::UlHash
+//		CLogicalInsert::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalInsert::UlHash() const
+CLogicalInsert::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrSource));
 
 	return ulHash;

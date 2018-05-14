@@ -44,18 +44,18 @@ namespace gpopt
 	{
 		private:
 			// map expression to a count, used in factorization
-			typedef CHashMap<CExpression, ULONG, CExpression::UlHash, CUtils::FEqual,
+			typedef CHashMap<CExpression, ULONG, CExpression::HashValue, CUtils::Equals,
 						CleanupRelease<CExpression>, CleanupDelete<ULONG> > ExprMap;
 
 			// map operators to an array of expression arrays, corresponding to
 			// a disjunction of expressions on columns created by that operator
-			typedef CHashMap<ULONG, DrgPdrgPexpr, gpos::UlHash<ULONG>,
-					gpos::FEqual<ULONG>, CleanupDelete<ULONG>,
+			typedef CHashMap<ULONG, DrgPdrgPexpr, gpos::HashValue<ULONG>,
+					gpos::Equals<ULONG>, CleanupDelete<ULONG>,
 					CleanupRelease<DrgPdrgPexpr> > SourceToArrayPosMap;
 
 			// iterator for map of operator to disjunctive form representation
-			typedef CHashMapIter<ULONG, DrgPdrgPexpr, gpos::UlHash<ULONG>,
-					gpos::FEqual<ULONG>, CleanupDelete<ULONG>,
+			typedef CHashMapIter<ULONG, DrgPdrgPexpr, gpos::HashValue<ULONG>,
+					gpos::Equals<ULONG>, CleanupDelete<ULONG>,
 					CleanupRelease<DrgPdrgPexpr> > SourceToArrayPosMapIter;
 
 			// map columns to an array of expression arrays, corresponding to

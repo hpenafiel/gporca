@@ -244,7 +244,7 @@ CMCVTest::EresUnittest_MergeHistMCV()
 										phmulhist,
 										phmuldoubleWidth,
 										pdxlstatsderrelMCV->DRows(),
-										pdxlstatsderrelMCV->FEmpty()
+										pdxlstatsderrelMCV->IsEmpty()
 										);
 
 		// put stats object in an array in order to serialize

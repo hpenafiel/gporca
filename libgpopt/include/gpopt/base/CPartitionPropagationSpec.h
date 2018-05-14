@@ -121,7 +121,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// extract columns used by the rewindability spec
 			virtual

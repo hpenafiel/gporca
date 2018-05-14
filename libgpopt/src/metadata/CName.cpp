@@ -179,20 +179,20 @@ CName::DeepCopy
 #ifdef GPOS_DEBUG
 //---------------------------------------------------------------------------
 //	@function:
-//		CName::FEquals
+//		CName::Equals
 //
 //	@doc:
 //		comparison of names
 //
 //---------------------------------------------------------------------------
 BOOL
-CName::FEquals
+CName::Equals
 	(
 	const CName &name
 	)
 	const 
 {
-	return m_pstrName->FEquals((name.Pstr()));
+	return m_pstrName->Equals((name.Pstr()));
 }
 
 #endif // GPOS_DEBUG

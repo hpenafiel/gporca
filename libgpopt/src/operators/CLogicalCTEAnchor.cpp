@@ -165,16 +165,16 @@ CLogicalCTEAnchor::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalCTEAnchor::UlHash
+//		CLogicalCTEAnchor::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalCTEAnchor::UlHash() const
+CLogicalCTEAnchor::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), m_ulId);
+	return gpos::UlCombineHashes(COperator::HashValue(), m_ulId);
 }
 
 //---------------------------------------------------------------------------

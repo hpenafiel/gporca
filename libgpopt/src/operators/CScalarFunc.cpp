@@ -150,7 +150,7 @@ CScalarFunc::EfsGetFunctionStability() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarFunc::UlHash
+//		CScalarFunc::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -158,13 +158,13 @@ CScalarFunc::EfsGetFunctionStability() const
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarFunc::UlHash() const
+CScalarFunc::HashValue() const
 {
 	return gpos::UlCombineHashes(
-					COperator::UlHash(),
+					COperator::HashValue(),
 					gpos::UlCombineHashes(
-						m_pmdidFunc->UlHash(),
-						m_pmdidRetType->UlHash()));
+						m_pmdidFunc->HashValue(),
+						m_pmdidRetType->HashValue()));
 }
 
 	
@@ -191,8 +191,8 @@ CScalarFunc::FMatch
 	CScalarFunc *popScFunc = CScalarFunc::PopConvert(pop);
 
 	// match if func ids are identical
-	return popScFunc->PmdidFunc()->FEquals(m_pmdidFunc) &&
-			popScFunc->PmdidType()->FEquals(m_pmdidRetType);
+	return popScFunc->PmdidFunc()->Equals(m_pmdidFunc) &&
+			popScFunc->PmdidType()->Equals(m_pmdidRetType);
 }
 
 //---------------------------------------------------------------------------

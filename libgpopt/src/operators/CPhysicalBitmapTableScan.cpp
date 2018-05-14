@@ -51,16 +51,16 @@ CPhysicalBitmapTableScan::CPhysicalBitmapTableScan
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalBitmapTableScan::UlHash
+//		CPhysicalBitmapTableScan::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalBitmapTableScan::UlHash() const
+CPhysicalBitmapTableScan::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
@@ -68,7 +68,7 @@ CPhysicalBitmapTableScan::UlHash() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalBitmapTableScan::UlHash
+//		CPhysicalBitmapTableScan::HashValue
 //
 //	@doc:
 //		Match this operator with the given one.

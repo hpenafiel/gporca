@@ -119,17 +119,17 @@ CLogicalIndexGet::~CLogicalIndexGet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalIndexGet::UlHash
+//		CLogicalIndexGet::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalIndexGet::UlHash() const
+CLogicalIndexGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(),
-	                                     m_pindexdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(),
+	                                     m_pindexdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 	return ulHash;
 }

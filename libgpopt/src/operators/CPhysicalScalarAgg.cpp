@@ -128,7 +128,7 @@ CPhysicalScalarAgg::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	// TODO: , 06/20/2012: scalar agg produces one row, and hence it should satisfy any order;
 	// a problem happens if we have a NLJ(R,S) where R is Salar Agg, and we require sorting on the

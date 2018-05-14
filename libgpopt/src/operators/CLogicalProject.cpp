@@ -122,7 +122,7 @@ CLogicalProject::PdrgpcrsEquivClassFromScIdent
 	CScalarIdent *popScIdent = CScalarIdent::PopConvert(pexprScalar->Pop());
 	const CColRef *pcrScIdent =  popScIdent->Pcr();
 	GPOS_ASSERT(pcrPrEl->UlId() != pcrScIdent->UlId());
-	GPOS_ASSERT(pcrPrEl->Pmdtype()->Pmdid()->FEquals(pcrScIdent->Pmdtype()->Pmdid()));
+	GPOS_ASSERT(pcrPrEl->Pmdtype()->Pmdid()->Equals(pcrScIdent->Pmdtype()->Pmdid()));
 
 	if (!CUtils::FConstrainableType(pcrPrEl->Pmdtype()->Pmdid()))
 	{

@@ -50,7 +50,7 @@ INT ICmpEdgesByLength
 	INT iDiff = (pedgeOne->m_pbs->CElements() - pedgeTwo->m_pbs->CElements());
 	if (0 == iDiff)
 	{
-		return (INT)pedgeOne->m_pbs->UlHash() - (INT)pedgeTwo->m_pbs->UlHash();
+		return (INT)pedgeOne->m_pbs->HashValue() - (INT)pedgeTwo->m_pbs->HashValue();
 	}
 		
 	return iDiff;
@@ -355,7 +355,7 @@ CJoinOrder::MergeComponents()
 		
 		// gobble up subsequent edges with exactly the same coverage
 		while (ulEdge < m_ulEdges - 1 && 
-			   m_rgpedge[ulEdge + 1]->m_pbs->FEqual(pbsCover))
+			   m_rgpedge[ulEdge + 1]->m_pbs->Equals(pbsCover))
 		{
 			pexprConj = m_rgpedge[ulEdge + 1]->m_pexpr;
 			pexprConj->AddRef();
@@ -481,10 +481,10 @@ CJoinOrder::CombineComponents
 	)
 {
 	GPOS_ASSERT_IMP(!pcompLeft->m_pbs->FDisjoint(pcompRight->m_pbs),
-					pcompLeft->m_pbs->FEqual(pcompRight->m_pbs));
+					pcompLeft->m_pbs->Equals(pcompRight->m_pbs));
 
 	// special case when coalescing components at end of algorithm
-	if (pcompLeft->m_pbs->FEqual(pcompRight->m_pbs))
+	if (pcompLeft->m_pbs->Equals(pcompRight->m_pbs))
 	{
 		return;
 	}

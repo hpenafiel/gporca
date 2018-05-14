@@ -36,14 +36,14 @@ CPoint::CPoint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPoint::FEqual
+//		CPoint::Equals
 //
 //	@doc:
 //		Equality check
 //
 //---------------------------------------------------------------------------
 BOOL
-CPoint::FEqual
+CPoint::Equals
 	(
 	const CPoint *ppoint
 	)
@@ -68,7 +68,7 @@ CPoint::FNotEqual
 	)
 	const
 {
-	return !(this->FEqual(ppoint));
+	return !(this->Equals(ppoint));
 }
 
 //---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ CPoint::FLessThanOrEqual
 	)
 	const
 {
-	return (this->FLessThan(ppoint) || this->FEqual(ppoint));
+	return (this->FLessThan(ppoint) || this->Equals(ppoint));
 }
 
 //---------------------------------------------------------------------------
@@ -141,7 +141,7 @@ CPoint::FGreaterThanOrEqual
 	)
 	const
 {
-	return (this->FGreaterThan(ppoint) || this->FEqual(ppoint));
+	return (this->FGreaterThan(ppoint) || this->Equals(ppoint));
 }
 
 //---------------------------------------------------------------------------

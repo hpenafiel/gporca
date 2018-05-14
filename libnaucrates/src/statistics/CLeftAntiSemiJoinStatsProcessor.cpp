@@ -54,7 +54,7 @@ CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 		return;
 	}
 
-	BOOL fEmptyHistograms = phist1->FEmpty() || phist2->FEmpty();
+	BOOL fEmptyHistograms = phist1->IsEmpty() || phist2->IsEmpty();
 	if (!fEmptyHistograms && CHistogram::FSupportsJoinPred(escmpt))
 	{
 		*pphist1 = phist1->PhistLASJoinNormalized
@@ -68,7 +68,7 @@ CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 				);
 		*pphist2 = NULL;
 
-		if ((*pphist1)->FEmpty())
+		if ((*pphist1)->IsEmpty())
 		{
 			// if the LASJ histograms is empty then all tuples of the outer join column
 			// joined with those on the inner side. That is, LASJ will produce no rows

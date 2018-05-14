@@ -133,16 +133,16 @@ namespace gpopt
 
 					// hash function
 					static
-					ULONG UlHash(const CPartPropReq *pppr);
+					ULONG HashValue(const CPartPropReq *pppr);
 
 					// equality function
 					static
-					BOOL FEqual(const CPartPropReq *ppprFst, const CPartPropReq *ppprSnd);
+					BOOL Equals(const CPartPropReq *ppprFst, const CPartPropReq *ppprSnd);
 
 			}; // class CPartPropReq
 
 			// map partition propagation request to partition propagation spec
-			typedef CHashMap<CPartPropReq, CPartitionPropagationSpec, CPartPropReq::UlHash, CPartPropReq::FEqual,
+			typedef CHashMap<CPartPropReq, CPartitionPropagationSpec, CPartPropReq::HashValue, CPartPropReq::Equals,
 						CleanupRelease<CPartPropReq>, CleanupRelease<CPartitionPropagationSpec> > HMPartPropagation;
 
 			// mutex for locking map of child columns requests during lookup/insertion

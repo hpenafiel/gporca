@@ -168,7 +168,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// return a copy of the window frame with remapped columns
 			virtual
@@ -186,11 +186,11 @@ namespace gpopt
 
 			// matching function over frame arrays
 			static
-			BOOL FEqual(const DrgPwf *pdrgpwfFirst, const DrgPwf *pdrgpwfSecond);
+			BOOL Equals(const DrgPwf *pdrgpwfFirst, const DrgPwf *pdrgpwfSecond);
 
 			// combine hash values of a maximum number of entries
 			static
-			ULONG UlHash(const DrgPwf *pdrgpwfFirst, ULONG ulMaxSize);
+			ULONG HashValue(const DrgPwf *pdrgpwfFirst, ULONG ulMaxSize);
 
 			// print array of window frame objects
 			static
@@ -198,7 +198,7 @@ namespace gpopt
 
 			// check if a given window frame is empty
 			static
-			BOOL FEmpty
+			BOOL IsEmpty
 				(
 				CWindowFrame *pwf
 				)

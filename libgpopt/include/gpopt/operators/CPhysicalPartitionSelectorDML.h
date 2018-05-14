@@ -73,7 +73,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			//-------------------------------------------------------------------------------------
 			// Required Plan Properties

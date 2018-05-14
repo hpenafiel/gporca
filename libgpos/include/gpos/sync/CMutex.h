@@ -120,7 +120,7 @@ namespace gpos
 			BOOL FOwned() const
             {
                 CWorkerId wid;
-                return 0 != m_ulLockCount && m_wid.FEqual(wid);
+                return 0 != m_ulLockCount && m_wid.Equals(wid);
             }
 #endif // GPOS_DEBUG
 

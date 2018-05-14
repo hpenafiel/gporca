@@ -139,31 +139,31 @@ CDatumGenericGPDB::ITypeModifier() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumGenericGPDB::UlHash
+//		CDatumGenericGPDB::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CDatumGenericGPDB::UlHash() const
+CDatumGenericGPDB::HashValue() const
 {
 	ULONG ulHash = 0;
 	if (FNull())
 	{
-		ulHash = gpos::UlHash<ULONG>(&ulHash);
+		ulHash = gpos::HashValue<ULONG>(&ulHash);
 	}
 	else
 	{
-		ulHash = gpos::UlHash<BYTE>(&m_pbVal[0]);
+		ulHash = gpos::HashValue<BYTE>(&m_pbVal[0]);
 		ULONG ulSize = UlSize();
 		for (ULONG i = 1; i < ulSize; i++)
 		{
-			ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash<BYTE>(&m_pbVal[i]));
+			ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<BYTE>(&m_pbVal[i]));
 		}
 	}
 
-	return gpos::UlCombineHashes (m_pmdid->UlHash(), ulHash);
+	return gpos::UlCombineHashes (m_pmdid->HashValue(), ulHash);
 }
 
 
@@ -227,7 +227,7 @@ CDatumGenericGPDB::FMatch
 	)
 	const
 {
-	if(!pdatum->Pmdid()->FEquals(m_pmdid) || (pdatum->UlSize() != UlSize()))
+	if(!pdatum->Pmdid()->Equals(m_pmdid) || (pdatum->UlSize() != UlSize()))
 	{
 		return false;
 	}
@@ -338,10 +338,10 @@ CDatumGenericGPDB::FSupportsBinaryComp
 	)
 	const
 {
-	return ((Pmdid()->FEquals(&CMDIdGPDB::m_mdidBPChar)
-			|| Pmdid()->FEquals(&CMDIdGPDB::m_mdidVarChar)
-			|| Pmdid()->FEquals(&CMDIdGPDB::m_mdidText))
-			&& (this->Pmdid()->Sysid().FEquals(pdatumOther->Pmdid()->Sysid())));
+	return ((Pmdid()->Equals(&CMDIdGPDB::m_mdidBPChar)
+			|| Pmdid()->Equals(&CMDIdGPDB::m_mdidVarChar)
+			|| Pmdid()->Equals(&CMDIdGPDB::m_mdidText))
+			&& (this->Pmdid()->Sysid().Equals(pdatumOther->Pmdid()->Sysid())));
 }
 
 //---------------------------------------------------------------------------
@@ -445,7 +445,7 @@ CDatumGenericGPDB::PbaVal
 BOOL
 CDatumGenericGPDB::FNeedsPadding() const
 {
-	return Pmdid()->FEquals(&CMDIdGPDB::m_mdidBPChar);
+	return Pmdid()->Equals(&CMDIdGPDB::m_mdidBPChar);
 }
 
 //---------------------------------------------------------------------------
@@ -621,7 +621,7 @@ CDatumGenericGPDB::FStatsEqualBinary
 
 	// ensure that both datums are from the same system
 	// for instance, disallow comparison between GPDB char and HD char
-	GPOS_ASSERT(this->Pmdid()->Sysid().FEquals(pdatumOther->Pmdid()->Sysid()));
+	GPOS_ASSERT(this->Pmdid()->Sysid().Equals(pdatumOther->Pmdid()->Sysid()));
 
 	if (FNull() || pdatumOther->FNull())
 	{
@@ -669,7 +669,7 @@ CDatumGenericGPDB::FStatsLessThanBinary
 
 	// ensure that both datums are from the same system
 	// for instance, disallow comparison between GPDB char and HD char
-	GPOS_ASSERT(this->Pmdid()->Sysid().FEquals(pdatumOther->Pmdid()->Sysid()));
+	GPOS_ASSERT(this->Pmdid()->Sysid().Equals(pdatumOther->Pmdid()->Sysid()));
 
 	if (FNull() || pdatumOther->FNull())
 	{

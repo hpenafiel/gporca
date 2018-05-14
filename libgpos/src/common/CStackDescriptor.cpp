@@ -297,14 +297,14 @@ CStackDescriptor::AppendTrace
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CStackDescriptor::UlHash
+//		CStackDescriptor::HashValue
 //
 //	@doc:
 //		Get hash value for stored stack
 //
 //---------------------------------------------------------------------------
 ULONG
-CStackDescriptor::UlHash() const
+CStackDescriptor::HashValue() const
 {
 	GPOS_ASSERT(0 < m_ulDepth && "No stack to hash");
 	GPOS_ASSERT(GPOS_STACK_TRACE_DEPTH >= m_ulDepth && "Stack exceeds maximum depth");

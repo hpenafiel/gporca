@@ -107,28 +107,28 @@ CScalarSubqueryQuantified::PmdidType() const
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	IMDId *pmdidType = pmda->Pmdscop(m_pmdidScalarOp)->PmdidTypeResult();
 
-	GPOS_ASSERT(pmda->PtMDType<IMDTypeBool>()->Pmdid()->FEquals(pmdidType));
+	GPOS_ASSERT(pmda->PtMDType<IMDTypeBool>()->Pmdid()->Equals(pmdidType));
 
 	return pmdidType;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarSubqueryQuantified::UlHash
+//		CScalarSubqueryQuantified::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarSubqueryQuantified::UlHash() const
+CScalarSubqueryQuantified::HashValue() const
 {
 	return gpos::UlCombineHashes
 				(
-				COperator::UlHash(),
+				COperator::HashValue(),
 				gpos::UlCombineHashes
 						(
-						m_pmdidScalarOp->UlHash(),
+						m_pmdidScalarOp->HashValue(),
 						gpos::UlHashPtr<CColRef>(m_pcr)
 						)
 				);
@@ -157,7 +157,7 @@ CScalarSubqueryQuantified::FMatch
 
 	// match if contents are identical
 	CScalarSubqueryQuantified *popSsq = CScalarSubqueryQuantified::PopConvert(pop);
-	return popSsq->Pcr() == m_pcr && popSsq->PmdidOp()->FEquals(m_pmdidScalarOp);
+	return popSsq->Pcr() == m_pcr && popSsq->PmdidOp()->Equals(m_pmdidScalarOp);
 }
 
 

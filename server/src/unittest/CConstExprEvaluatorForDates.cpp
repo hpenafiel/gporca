@@ -51,11 +51,11 @@ CConstExprEvaluatorForDates::PexprEval
 
 	CScalarConst *popScalarLeft = dynamic_cast<CScalarConst *>((*pexpr)[0]->Pop());
 
-	GPOS_ASSERT(CMDIdGPDB::m_mdidDate.FEquals(popScalarLeft->Pdatum()->Pmdid()));
+	GPOS_ASSERT(CMDIdGPDB::m_mdidDate.Equals(popScalarLeft->Pdatum()->Pmdid()));
 	IDatumStatisticsMappable *pdatumLeft = dynamic_cast<IDatumStatisticsMappable *>(popScalarLeft->Pdatum());
 	CScalarConst *popScalarRight = dynamic_cast<CScalarConst *>((*pexpr)[1]->Pop());
 
-	GPOS_ASSERT(CMDIdGPDB::m_mdidDate.FEquals(popScalarRight->Pdatum()->Pmdid()));
+	GPOS_ASSERT(CMDIdGPDB::m_mdidDate.Equals(popScalarRight->Pdatum()->Pmdid()));
 	IDatumStatisticsMappable *pdatumRight = dynamic_cast<IDatumStatisticsMappable *>(popScalarRight->Pdatum());
 
 	CScalarCmp *popScCmp = dynamic_cast<CScalarCmp *>(pexpr->Pop());

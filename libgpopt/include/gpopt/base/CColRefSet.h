@@ -29,11 +29,11 @@ namespace gpopt
 	typedef CDynamicPtrArray<CColRefSet, CleanupRelease> DrgPcrs;
 
 	// hash map mapping CColRef -> CColRefSet
-	typedef CHashMap<CColRef, CColRefSet, gpos::UlHash<CColRef>, gpos::FEqual<CColRef>,
+	typedef CHashMap<CColRef, CColRefSet, gpos::HashValue<CColRef>, gpos::Equals<CColRef>,
 					CleanupNULL<CColRef>, CleanupRelease<CColRefSet> > HMCrCrs;
 
 	// hash map mapping INT -> CColRef
-	typedef CHashMap<INT, CColRef, gpos::UlHash<INT>, gpos::FEqual<INT>,
+	typedef CHashMap<INT, CColRef, gpos::HashValue<INT>, gpos::Equals<INT>,
 					CleanupDelete<INT>, CleanupNULL<CColRef> > HMICr;
 
 	//---------------------------------------------------------------------------
@@ -119,7 +119,7 @@ namespace gpopt
 			DrgPcr *Pdrgpcr(IMemoryPool *pmp) const;
 
 			// hash function
-			ULONG UlHash();	
+			ULONG HashValue();	
 
 			// debug print
 			IOstream &OsPrint(IOstream &os, ULONG ulLenMax = ULONG_MAX) const;

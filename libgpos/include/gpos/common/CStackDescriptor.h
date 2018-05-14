@@ -81,7 +81,7 @@ namespace gpos
 				) const;
 
 			// get hash value for stored stack
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 	}; // class CStackTrace
 

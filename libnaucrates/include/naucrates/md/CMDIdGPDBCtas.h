@@ -59,7 +59,7 @@ namespace gpmd
 
 			// equality check
 			virtual
-			BOOL FEquals(const IMDId *pmdid) const;
+			BOOL Equals(const IMDId *pmdid) const;
 			
 			// is the mdid valid
 			virtual

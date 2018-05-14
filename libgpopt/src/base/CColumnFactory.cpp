@@ -51,8 +51,8 @@ CColumnFactory::CColumnFactory()
 		GPOS_OFFSET(CColRef, m_link),
 		GPOS_OFFSET(CColRef, m_ulId),
 		&(CColRef::m_ulInvalid),
-		CColRef::UlHash,
-		CColRef::FEqual
+		CColRef::HashValue,
+		CColRef::Equals
 		);
 
 	// now it's safe to detach the auto pool

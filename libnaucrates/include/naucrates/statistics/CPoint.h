@@ -59,7 +59,7 @@ namespace gpnaucrates
 			}
 
 			// is this point equal to another
-			BOOL FEqual(const CPoint *) const;
+			BOOL Equals(const CPoint *) const;
 
 			// is this point not equal to another
 			BOOL FNotEqual(const CPoint *) const;

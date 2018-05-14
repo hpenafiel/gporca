@@ -180,7 +180,7 @@ CFileTest::EresUnittest_FileContent()
 #endif // GPOS_DEBUG
 			strRdData.AppendBuffer((const CHAR *)szRdBuf);
 
-			GPOS_ASSERT(strRdData.FEquals((CHAR *)szData));
+			GPOS_ASSERT(strRdData.Equals((CHAR *)szData));
 			GPOS_ASSERT(ulpRdLen == ulLineLength);
 
 			strRdData.Reset();
@@ -472,7 +472,7 @@ CFileTest::Unittest_ReadInconsistentSize
 #ifdef GPOS_DEBUG
 	BOOL fEqual =
 #endif // GPOS_DEBUG
-	strRdData.FEquals(szExpectData);
+	strRdData.Equals(szExpectData);
 
 	GPOS_ASSERT(fEqual);
 
@@ -491,7 +491,7 @@ CFileTest::Unittest_ReadInconsistentSize
 
 	// test read size, and read data
 	GPOS_ASSERT(ulpRdSize == ulExpectSize);
-	GPOS_ASSERT(strRdData.FEquals((const CHAR *)szData));
+	GPOS_ASSERT(strRdData.Equals((const CHAR *)szData));
 
 	// close file
 	rd.Close();

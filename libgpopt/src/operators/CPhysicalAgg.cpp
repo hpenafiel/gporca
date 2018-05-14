@@ -536,16 +536,16 @@ CPhysicalAgg::PrsDerive
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalAgg::UlHash
+//		CPhysicalAgg::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalAgg::UlHash() const
+CPhysicalAgg::HashValue() const
 {
-	ULONG ulHash = COperator::UlHash();
+	ULONG ulHash = COperator::HashValue();
 	const ULONG ulArity = m_pdrgpcr->Size();
 	ULONG ulGbaggtype = (ULONG) m_egbaggtype;
 	for (ULONG ul = 0; ul < ulArity; ul++)
@@ -554,9 +554,9 @@ CPhysicalAgg::UlHash() const
 		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(pcr));
 	}
 
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash<ULONG>(&ulGbaggtype));
+	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<ULONG>(&ulGbaggtype));
 
-	return  gpos::UlCombineHashes(ulHash, gpos::UlHash<BOOL>(&m_fGeneratesDuplicates));
+	return  gpos::UlCombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fGeneratesDuplicates));
 }
 
 //---------------------------------------------------------------------------
@@ -588,10 +588,10 @@ CPhysicalAgg::FMatch
 
 	if (popAgg->Egbaggtype() == m_egbaggtype && m_pdrgpcr->Equals(popAgg->m_pdrgpcr))
 	{
-		if (CColRef::FEqual(m_pdrgpcrMinimal, popAgg->m_pdrgpcrMinimal))
+		if (CColRef::Equals(m_pdrgpcrMinimal, popAgg->m_pdrgpcrMinimal))
 		{
 			return (m_pdrgpcrArgDQA == NULL || 0 == m_pdrgpcrArgDQA->Size()) ||
-				CColRef::FEqual(m_pdrgpcrArgDQA, popAgg->PdrgpcrArgDQA());
+				CColRef::Equals(m_pdrgpcrArgDQA, popAgg->PdrgpcrArgDQA());
 		}
 	}
 

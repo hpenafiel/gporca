@@ -166,7 +166,7 @@ namespace gpopt
 			void ResumeParent(CJob *pj);
 
 			// check if all jobs have completed
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
 			{
 				return (0 == m_ulpTotal);
 			}

@@ -160,11 +160,11 @@ namespace gpopt
 
 				// equality function for hash tables
 				static
-				BOOL FEqual(const MdidPtr &pmdidLeft, const MdidPtr &pmdidRight);
+				BOOL Equals(const MdidPtr &pmdidLeft, const MdidPtr &pmdidRight);
 				
 				// hash function for cost contexts hash table
 				static
-				ULONG UlHash(const MdidPtr& pmdid);
+				ULONG HashValue(const MdidPtr& pmdid);
 		};
 		
 		// element in the MD provider hashtable
@@ -198,11 +198,11 @@ namespace gpopt
 
 				// equality function for hash tables
 				static
-				BOOL FEqual(const SMDProviderElem &mdpelemLeft, const SMDProviderElem &mdpelemRight);
+				BOOL Equals(const SMDProviderElem &mdpelemLeft, const SMDProviderElem &mdpelemRight);
 
 				// hash function for MD providers hash table
 				static
-				ULONG UlHash(const SMDProviderElem &mdpelem);
+				ULONG HashValue(const SMDProviderElem &mdpelem);
 		};
 		
 		private:

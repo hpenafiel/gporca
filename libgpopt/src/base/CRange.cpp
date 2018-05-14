@@ -170,7 +170,7 @@ CRange::FDisjointLeft
 		return true;
 	}
 
-	if (m_pcomp->FEqual(m_pdatumRight, pdatumLeft))
+	if (m_pcomp->Equals(m_pdatumRight, pdatumLeft))
 	{
 		return (EriExcluded == m_eriRight || EriExcluded == prange->EriLeft());
 	}
@@ -271,7 +271,7 @@ CRange::FUpperBoundEqualsLowerBound
 		return false;
 	}
 
-	return m_pcomp->FEqual(m_pdatumRight, pdatumLeft);
+	return m_pcomp->Equals(m_pdatumRight, pdatumLeft);
 }
 
 //---------------------------------------------------------------------------
@@ -304,7 +304,7 @@ CRange::FStartsWithOrBefore
 		return false;
 	}
 
-	return (m_pcomp->FEqual(m_pdatumLeft, pdatumLeft) && m_eriLeft == prange->EriLeft());
+	return (m_pcomp->Equals(m_pdatumLeft, pdatumLeft) && m_eriLeft == prange->EriLeft());
 }
 
 //---------------------------------------------------------------------------
@@ -339,7 +339,7 @@ CRange::FStartsBefore
 		return false;
 	}
 
-	GPOS_ASSERT(m_pcomp->FEqual(m_pdatumLeft, pdatumLeft));
+	GPOS_ASSERT(m_pcomp->Equals(m_pdatumLeft, pdatumLeft));
 
 	return (EriIncluded == m_eriLeft && EriExcluded == prange->EriLeft());
 }
@@ -376,7 +376,7 @@ CRange::FEndsAfter
 		return false;
 	}
 
-	GPOS_ASSERT(m_pcomp->FEqual(m_pdatumRight, pdatumRight));
+	GPOS_ASSERT(m_pcomp->Equals(m_pdatumRight, pdatumRight));
 
 	return (EriIncluded == m_eriRight && EriExcluded == prange->EriRight());
 }
@@ -411,7 +411,7 @@ CRange::FEndsWithOrAfter
 		return false;
 	}
 
-	return (m_pcomp->FEqual(m_pdatumRight, pdatumRight) && m_eriRight == prange->EriRight());
+	return (m_pcomp->Equals(m_pdatumRight, pdatumRight) && m_eriRight == prange->EriRight());
 }
 
 //---------------------------------------------------------------------------
@@ -426,7 +426,7 @@ BOOL
 CRange::FPoint() const
 {
 	return (EriIncluded == m_eriLeft && EriIncluded == m_eriRight &&
-			m_pcomp->FEqual(m_pdatumRight, m_pdatumLeft));
+			m_pcomp->Equals(m_pdatumRight, m_pdatumLeft));
 }
 
 //---------------------------------------------------------------------------
@@ -501,7 +501,7 @@ CRange::PexprEquality
 	)
 {
 	if (NULL == m_pdatumLeft || NULL == m_pdatumRight ||
-		!m_pcomp->FEqual(m_pdatumLeft, m_pdatumRight) || EriExcluded == m_eriLeft || EriExcluded == m_eriRight)
+		!m_pcomp->Equals(m_pdatumLeft, m_pdatumRight) || EriExcluded == m_eriLeft || EriExcluded == m_eriRight)
 	{
 		// not an equality predicate
 		return NULL;
@@ -723,7 +723,7 @@ CRange::PrngExtend
 	)
 {
 	if (FDisjointLeft(prange) &&
-		m_pcomp->FEqual(prange->PdatumLeft(), m_pdatumRight) &&
+		m_pcomp->Equals(prange->PdatumLeft(), m_pdatumRight) &&
 		(EriIncluded == prange->EriLeft() || EriIncluded == m_eriRight))
 	{
 		// ranges are contiguous so combine them into one

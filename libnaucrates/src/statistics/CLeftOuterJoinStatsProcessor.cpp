@@ -58,7 +58,7 @@ CLeftOuterJoinStatsProcessor::PstatsLOJStatic
 			phmulhistLOJ,
 			pstatsInnerJoin->CopyWidths(pmp),
 			dRowsLOJ,
-			pstatsOuter->FEmpty(),
+			pstatsOuter->IsEmpty(),
 			pstatsOuter->UlNumberOfPredicates()
 			);
 
@@ -113,7 +113,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 			false /* fIgnoreLasjHistComputation */
 			);
 	CDouble dRowsLASJ(0.0);
-	if (!pstatsLASJ->FEmpty())
+	if (!pstatsLASJ->IsEmpty())
 	{
 		dRowsLASJ = pstatsLASJ->DRows();
 	}
@@ -135,7 +135,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 			const CHistogram *phistLASJ = pstatsLASJ->Phist(ulColId);
 			GPOS_ASSERT(NULL != phistLASJ);
 
-			if (phistLASJ->FWellDefined() && !phistLASJ->FEmpty())
+			if (phistLASJ->FWellDefined() && !phistLASJ->IsEmpty())
 			{
 				// union the buckets from the inner join and LASJ to get the LOJ buckets
 				CHistogram *phistLOJ = phistLASJ->PhistUnionAllNormalized(pmp, dRowsLASJ, phistInnerJoin, dRowsInnerJoin);

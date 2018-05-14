@@ -175,14 +175,14 @@ CDistributionSpecRouted::AppendEnforcers
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDistributionSpecRouted::UlHash
+//		CDistributionSpecRouted::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG 
-CDistributionSpecRouted::UlHash() const
+CDistributionSpecRouted::HashValue() const
 {
 	return gpos::UlCombineHashes((ULONG) Edt(), gpos::UlHashPtr<CColRef>(m_pcrSegmentId));
 }

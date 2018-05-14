@@ -47,14 +47,14 @@ CWorkerId::CWorkerId
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorkerId::FEqual
+//		CWorkerId::Equals
 //
 //	@doc:
 //		comparison of worker ids
 //
 //---------------------------------------------------------------------------
 BOOL
-CWorkerId::FEqual
+CWorkerId::Equals
 	(
 	const CWorkerId &wid
 	)
@@ -100,14 +100,14 @@ CWorkerId::Invalid()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorkerId::UlHash
+//		CWorkerId::HashValue
 //
 //	@doc:
 //		Primitive hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CWorkerId::UlHash
+CWorkerId::HashValue
 	(
 	const CWorkerId &wid
 	)
@@ -115,7 +115,7 @@ CWorkerId::UlHash
 	// don't compute hash value for invalid id
 	GPOS_ASSERT(wid.FValid() && "Invalid worker id.");
 
-	return gpos::UlHash<PTHREAD_T>(&wid.m_pthread);
+	return gpos::HashValue<PTHREAD_T>(&wid.m_pthread);
 }
 
 
@@ -132,7 +132,7 @@ CWorkerId::UlHash
 BOOL
 CWorkerId::FValid() const
 {
-	return !FEqual(m_widInvalid);
+	return !Equals(m_widInvalid);
 }
 
 #endif // GPOS_DEBUG

@@ -422,7 +422,7 @@ CMDIndexGPDB::FCompatible
 	
 	for (ULONG ul = 0; ul < ulScOpClasses; ul++)
 	{
-		if (pmdidOpClass->FEquals(pmdscop->PmdidOpClass(ul)))
+		if (pmdidOpClass->Equals(pmdscop->PmdidOpClass(ul)))
 		{
 			return true;
 		}

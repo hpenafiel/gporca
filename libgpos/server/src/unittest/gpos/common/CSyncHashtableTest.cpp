@@ -100,7 +100,7 @@ CSyncHashtableTest::EresUnittest_Basics()
 		GPOS_OFFSET(SElem, m_link),
 		GPOS_OFFSET(SElem, m_ulKey),
 		&(SElem::m_ulInvalid),
-		SElem::UlHash,
+		SElem::HashValue,
 		SElem::FEqualKeys
 		);
 
@@ -142,7 +142,7 @@ CSyncHashtableTest::EresUnittest_Accessor()
 		GPOS_OFFSET(SElem, m_link),
 		GPOS_OFFSET(SElem, m_ulKey),
 		&(SElem::m_ulInvalid),
-		SElem::UlHash,
+		SElem::HashValue,
 		SElem::FEqualKeys
 		);
 
@@ -153,7 +153,7 @@ CSyncHashtableTest::EresUnittest_Accessor()
 		GPOS_OFFSET(SElem, m_link),
 		GPOS_OFFSET(SElem, m_ulKey),
 		&(SElem::m_ulInvalid),
-		SElem::UlHash,
+		SElem::HashValue,
 		SElem::FEqualKeys
 		);
 
@@ -242,8 +242,8 @@ CSyncHashtableTest::EresUnittest_ComplexEquality()
 		GPOS_OFFSET(SElem, m_link),
 		0 /*cKeyOffset*/,
 		&(SElem::m_elemInvalid),
-		SElem::UlHash,
-		SElem::FEqual
+		SElem::HashValue,
+		SElem::Equals
 		);
 
 	for (ULONG i = 0; i < GPOS_SHT_ELEMENTS; i++)
@@ -302,7 +302,7 @@ CSyncHashtableTest::EresUnittest_SameKeyIteration()
 		GPOS_OFFSET(SElem, m_link),
 		GPOS_OFFSET(SElem, m_ulKey),
 		&(SElem::m_ulInvalid),
-		SElem::UlHash,
+		SElem::HashValue,
 		SElem::FEqualKeys
 		);
 
@@ -365,7 +365,7 @@ CSyncHashtableTest::EresUnittest_NonConcurrentIteration()
 		GPOS_OFFSET(SElem, m_link),
 		GPOS_OFFSET(SElem, m_ulKey),
 		&(SElem::m_ulInvalid),
-		SElem::UlHash,
+		SElem::HashValue,
 		SElem::FEqualKeys
 		);
 
@@ -447,7 +447,7 @@ CSyncHashtableTest::EresUnittest_ConcurrentIteration()
 		GPOS_OFFSET(SElem, m_link),
 		GPOS_OFFSET(SElem, m_ulKey),
 		&(SElem::m_ulInvalid),
-		SElem::UlHash,
+		SElem::HashValue,
 		SElem::FEqualKeys
 		);
 
@@ -631,7 +631,7 @@ CSyncHashtableTest::EresUnittest_Concurrency()
 		GPOS_OFFSET(SElem, m_link),
 		GPOS_OFFSET(SElem, m_ulKey),
 		&(SElem::m_ulInvalid),
-		SElem::UlHash,
+		SElem::HashValue,
 		SElem::FEqualKeys
 		);
 
@@ -925,7 +925,7 @@ CSyncHashtableTest::EresUnittest_AccessorDeadlock()
 			GPOS_OFFSET(SElem, m_link),
 			GPOS_OFFSET(SElem, m_ulKey),
 			&(SElem::m_ulInvalid),
-			SElem::UlHash,
+			SElem::HashValue,
 			SElem::FEqualKeys
 			);
 

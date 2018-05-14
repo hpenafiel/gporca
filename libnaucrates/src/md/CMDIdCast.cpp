@@ -124,14 +124,14 @@ CMDIdCast::PmdidDest() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdCast::FEquals
+//		CMDIdCast::Equals
 //
 //	@doc:
 //		Checks if the mdids are equal
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDIdCast::FEquals
+CMDIdCast::Equals
 	(
 	const IMDId *pmdid
 	) 
@@ -144,8 +144,8 @@ CMDIdCast::FEquals
 	
 	const CMDIdCast *pmdidCastFunc = CMDIdCast::PmdidConvert(pmdid);
 	
-	return m_pmdidSrc->FEquals(pmdidCastFunc->PmdidSrc()) && 
-			m_pmdidDest->FEquals(pmdidCastFunc->PmdidDest()); 
+	return m_pmdidSrc->Equals(pmdidCastFunc->PmdidSrc()) && 
+			m_pmdidDest->Equals(pmdidCastFunc->PmdidDest()); 
 }
 
 //---------------------------------------------------------------------------

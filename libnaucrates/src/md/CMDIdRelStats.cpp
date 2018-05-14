@@ -101,14 +101,14 @@ CMDIdRelStats::PmdidRel() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdRelStats::FEquals
+//		CMDIdRelStats::Equals
 //
 //	@doc:
 //		Checks if the mdids are equal
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDIdRelStats::FEquals
+CMDIdRelStats::Equals
 	(
 	const IMDId *pmdid
 	) 
@@ -121,7 +121,7 @@ CMDIdRelStats::FEquals
 	
 	const CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(pmdid);
 	
-	return m_pmdidRel->FEquals(pmdidRelStats->PmdidRel()); 
+	return m_pmdidRel->Equals(pmdidRelStats->PmdidRel()); 
 }
 
 //---------------------------------------------------------------------------

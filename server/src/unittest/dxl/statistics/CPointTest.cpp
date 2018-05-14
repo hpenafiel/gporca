@@ -63,7 +63,7 @@ CPointTest::EresUnittest_CPointInt4()
 	CPoint *ppoint1 = CTestUtils::PpointInt4(pmp, 1);
 	CPoint *ppoint2 = CTestUtils::PpointInt4(pmp, 2);
 
-	GPOS_RTL_ASSERT_MSG(ppoint1->FEqual(ppoint1), "1 == 1");
+	GPOS_RTL_ASSERT_MSG(ppoint1->Equals(ppoint1), "1 == 1");
 	GPOS_RTL_ASSERT_MSG(ppoint1->FLessThan(ppoint2), "1 < 2");
 	GPOS_RTL_ASSERT_MSG(ppoint2->FGreaterThan(ppoint1), "2 > 1");
 	GPOS_RTL_ASSERT_MSG(ppoint1->FLessThanOrEqual(ppoint2), "1 <= 2");
@@ -94,7 +94,7 @@ CPointTest::EresUnittest_CPointBool()
 	CPoint *ppoint2 = CTestUtils::PpointBool(pmp, false);
 
 	// true == true
-	GPOS_RTL_ASSERT_MSG(ppoint1->FEqual(ppoint1), "true must be equal to true");
+	GPOS_RTL_ASSERT_MSG(ppoint1->Equals(ppoint1), "true must be equal to true");
 
 	// true != false
 	GPOS_RTL_ASSERT_MSG(ppoint1->FNotEqual(ppoint2), "true must not be equal to false");

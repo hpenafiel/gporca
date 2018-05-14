@@ -277,7 +277,7 @@ namespace gpopt
 
 			// check equality of optimization contexts
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const COptimizationContext &ocLeft,
 				const COptimizationContext &ocRight
@@ -288,19 +288,19 @@ namespace gpopt
 
 			// hash function for optimization context
 			static
-			ULONG UlHash
+			ULONG HashValue
 				(
 				const COptimizationContext& oc
 				)
 			{
 				GPOS_ASSERT(NULL != oc.Prpp());
 
-				return oc.Prpp()->UlHash();
+				return oc.Prpp()->HashValue();
 			}
 
 			// equality function for cost contexts hash table
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const OPTCTXT_PTR &pocLeft,
 				const OPTCTXT_PTR &pocRight
@@ -316,14 +316,14 @@ namespace gpopt
 
 			// hash function for cost contexts hash table
 			static
-			ULONG UlHash
+			ULONG HashValue
 				(
 				const OPTCTXT_PTR& poc
 				)
 			{
 				GPOS_ASSERT(m_pocInvalid != poc);
 
-				return UlHash(*poc);
+				return HashValue(*poc);
 			}
 
 			// hash function used for computing stats during costing
@@ -335,7 +335,7 @@ namespace gpopt
 			{
 				GPOS_ASSERT(m_pocInvalid != poc);
 
-				return UlHash(*poc);
+				return HashValue(*poc);
 			}
 
 			// equality function used for computing stats during costing

@@ -40,26 +40,26 @@ namespace gpnaucrates
 	class IStatistics;
 
 	// hash map from column id to a histogram
-	typedef CHashMap<ULONG, CHistogram, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CHistogram, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupDelete<CHistogram> > HMUlHist;
 
 	// iterator
-	typedef CHashMapIter<ULONG, CHistogram, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, CHistogram, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupDelete<CHistogram> > HMIterUlHist;
 
 	// hash map from column ULONG to CDouble
-	typedef CHashMap<ULONG, CDouble, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CDouble, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupDelete<CDouble> > HMUlDouble;
 
 	// iterator
-	typedef CHashMapIter<ULONG, CDouble, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, CDouble, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupDelete<CDouble> > HMIterUlDouble;
 
-	typedef CHashMap<ULONG, ULONG, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, ULONG, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupDelete<ULONG> > HMUlUl;
 
 	// hash maps mapping INT -> ULONG
-	typedef CHashMap<INT, ULONG, gpos::UlHash<INT>, gpos::FEqual<INT>,
+	typedef CHashMap<INT, ULONG, gpos::HashValue<INT>, gpos::Equals<INT>,
 					CleanupDelete<INT>, CleanupDelete<ULONG> > HMIUl;
 
 	//---------------------------------------------------------------------------
@@ -106,7 +106,7 @@ namespace gpnaucrates
 
 			// is statistics on an empty input
 			virtual
-			BOOL FEmpty() const = 0;
+			BOOL IsEmpty() const = 0;
 
 			// statistics could be computed using predicates with external parameters (outer references),
 			// this is the total number of external parameters' values

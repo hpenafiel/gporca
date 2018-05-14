@@ -73,7 +73,7 @@ namespace gpmd
 
 			// is statistics on an empty input
 			virtual
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
 			{
 				return m_fEmpty;
 			}

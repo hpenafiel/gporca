@@ -85,13 +85,13 @@ namespace gpos
 			}
 
 			// checks whether the string contains any characters
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
 			{
 				return (0 == m_ulLength);
 			}
 
 			// checks whether the string is byte-wise equal to a given string literal
-			BOOL FEquals(const CHAR *szBuf) const;
+			BOOL Equals(const CHAR *szBuf) const;
 
 			// appends a string
 			void Append(const CStringStatic *pstr);

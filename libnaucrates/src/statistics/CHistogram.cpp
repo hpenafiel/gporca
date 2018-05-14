@@ -153,7 +153,7 @@ CHistogram::OsPrint
 
 // check if histogram is empty
 BOOL
-CHistogram::FEmpty
+CHistogram::IsEmpty
 	()
 	const
 {
@@ -697,7 +697,7 @@ CHistogram::PhistJoinNormalized
 						);
 
 	CDouble dCartesianProduct = dRows * dRowsOther;
-	if (phistAfter->FEmpty())
+	if (phistAfter->IsEmpty())
 	{
 		// if join histogram is empty for equality join condition
 		// use Cartesian product size as scale factor
@@ -1396,7 +1396,7 @@ CHistogram::PhistGroupByNormalized
 		ppUpper->AddRef();
 
 		BOOL fUpperClosed = false;
-		if (ppLower->FEqual(ppUpper))
+		if (ppLower->Equals(ppUpper))
 		{
 			fUpperClosed = true;
 		}

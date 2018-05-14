@@ -122,7 +122,7 @@ void CExpressionFactorizer::AddFactor
 		const ULONG ulSize = pdrgpexprFactors->Size();
 		for (ULONG ul = 0; !fFound && ul < ulSize; ul++)
 		{
-			fFound = CUtils::FEqual(pexpr, (*pdrgpexprFactors)[ul]);
+			fFound = CUtils::Equals(pexpr, (*pdrgpexprFactors)[ul]);
 		}
 
 		if (!fFound)

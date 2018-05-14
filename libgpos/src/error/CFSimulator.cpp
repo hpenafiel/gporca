@@ -102,7 +102,7 @@ CFSimulator::FNewStack
 	// hash stack
 	CStackDescriptor m_sd;
 	m_sd.BackTrace();
-	ULONG ulHash = m_sd.UlHash();
+	ULONG ulHash = m_sd.HashValue();
 	
 	CStackTracker::SStackKey skey(ulMajor, ulMinor);
 	
@@ -242,8 +242,8 @@ CFSimulator::CFSimulator
 		GPOS_OFFSET(CStackTracker, m_link),
 		GPOS_OFFSET(CStackTracker, m_skey),
 		&(CStackTracker::m_skeyInvalid),
-		CStackTracker::SStackKey::UlHash,
-		CStackTracker::SStackKey::FEqual
+		CStackTracker::SStackKey::HashValue,
+		CStackTracker::SStackKey::Equals
 		);
 }
 

@@ -145,7 +145,7 @@ CPhysicalRowTrigger::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	return CEnfdProp::EpetRequired;
 }
@@ -351,17 +351,17 @@ CPhysicalRowTrigger::PrsDerive
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalRowTrigger::UlHash
+//		CPhysicalRowTrigger::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalRowTrigger::UlHash() const
+CPhysicalRowTrigger::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_pmdidRel->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHash<INT>(&m_iType));
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_pmdidRel->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
 
 	if(NULL != m_pdrgpcrOld)
 	{
@@ -401,10 +401,10 @@ CPhysicalRowTrigger::FMatch
 	DrgPcr *pdrgpcrOld = popRowTrigger->PdrgpcrOld();
 	DrgPcr *pdrgpcrNew = popRowTrigger->PdrgpcrNew();
 
-	return m_pmdidRel->FEquals(popRowTrigger->PmdidRel()) &&
+	return m_pmdidRel->Equals(popRowTrigger->PmdidRel()) &&
 			m_iType == popRowTrigger->IType() &&
-			CUtils::FEqual(m_pdrgpcrOld, pdrgpcrOld) &&
-			CUtils::FEqual(m_pdrgpcrNew, pdrgpcrNew);
+			CUtils::Equals(m_pdrgpcrOld, pdrgpcrOld) &&
+			CUtils::Equals(m_pdrgpcrNew, pdrgpcrNew);
 }
 
 

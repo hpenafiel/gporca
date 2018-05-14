@@ -600,7 +600,7 @@ CExpression::PstatsDerive
 		prprelInput = prprel->PrprelDifference(m_pmp, prprelExisting);
 		prprelExisting->Release();
 
-		if (prprelInput->FEmpty())
+		if (prprelInput->IsEmpty())
 		{
 			// required statistics columns are already covered by existing statistics
 
@@ -1103,7 +1103,7 @@ CExpression::FMatchDebug
 	// check local operator
 	if (!Pop()->FMatch(pexpr->Pop()))
 	{
-		GPOS_ASSERT(Pop()->UlHash() == pexpr->Pop()->UlHash());
+		GPOS_ASSERT(Pop()->HashValue() == pexpr->Pop()->HashValue());
 		return false;
 	}
 	
@@ -1116,7 +1116,7 @@ CExpression::FMatchDebug
 		Pop()->FScalar() && 
 			CScalar::EopScalarProjectList != Pop()->Eopid() &&
 			CScalar::EopScalarProjectElement != Pop()->Eopid(),
-		CScalar::PopConvert(pexpr->Pop())->PmdidType()->FEquals(CScalar::PopConvert(Pop())->PmdidType())
+		CScalar::PopConvert(pexpr->Pop())->PmdidType()->Equals(CScalar::PopConvert(Pop())->PmdidType())
 		);
 	
 	ULONG ulArity = UlArity();
@@ -1288,26 +1288,26 @@ CExpression::OsPrint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CExpression::UlHash
+//		CExpression::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CExpression::UlHash
+CExpression::HashValue
 	(
 	const CExpression *pexpr
 	)
 {
 	GPOS_CHECK_STACK_SIZE;
 
-	ULONG ulHash = pexpr->Pop()->UlHash();
+	ULONG ulHash = pexpr->Pop()->HashValue();
 
 	const ULONG ulArity = pexpr->UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		ulHash = UlCombineHashes(ulHash, UlHash((*pexpr)[ul]));
+		ulHash = UlCombineHashes(ulHash, HashValue((*pexpr)[ul]));
 	}
 
 	return ulHash;
@@ -1325,7 +1325,7 @@ CExpression::UlHashDedup
 {
 	GPOS_CHECK_STACK_SIZE;
 
-	ULONG ulHash = pexpr->Pop()->UlHash();
+	ULONG ulHash = pexpr->Pop()->HashValue();
 
 	const ULONG ulArity = pexpr->UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
@@ -1337,7 +1337,7 @@ CExpression::UlHashDedup
 			// same, hash function puts two different expressions into separate
 			// buckets.
 			// e.g logically a < b is not equal to b < a
-			ulHash = UlCombineHashes(ulHash, UlHash((*pexpr)[ul]));
+			ulHash = UlCombineHashes(ulHash, HashValue((*pexpr)[ul]));
 		}
 		else
 		{
@@ -1345,7 +1345,7 @@ CExpression::UlHashDedup
 			// inputs are the same, the expressions are considered as equal
 			// and fall into the same bucket in the hash map.
 			//  e.g logically a = b is equal to b = a
-			ulHash ^= UlHash((*pexpr)[ul]);
+			ulHash ^= HashValue((*pexpr)[ul]);
 		}
 	}
 

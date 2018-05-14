@@ -110,7 +110,7 @@ namespace gpopt
 			}
 
 			// operator specific hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// match function
 			BOOL FMatch(COperator *pop) const;

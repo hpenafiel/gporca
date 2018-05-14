@@ -344,7 +344,7 @@ CPhysicalHashJoin::PdshashedMatching
 		CExpression *pexprDlvrd = CCastUtils::PexprWithoutBinaryCoercibleCasts((*pdrgpexprDist)[ulDlvrdIdx]);
 		for (ULONG ulIdx = 0; ulIdx < ulSourceSize; ulIdx++)
 		{
-			if (CUtils::FEqual(pexprDlvrd, (*pdrgpexprSourceNoCast)[ulIdx]))
+			if (CUtils::Equals(pexprDlvrd, (*pdrgpexprSourceNoCast)[ulIdx]))
 			{
 				// TODO: 02/21/2012 - ; source column may be mapped to multiple
 				// target columns (e.g. i=j and i=k);
@@ -728,7 +728,7 @@ CPhysicalHashJoin::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	// hash join is not order-preserving;
 	// any order requirements have to be enforced on top

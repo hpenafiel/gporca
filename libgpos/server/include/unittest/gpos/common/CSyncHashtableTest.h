@@ -93,7 +93,7 @@ namespace gpos
 					const SElem m_elemInvalid;
 
 					// simple hash function
-					static ULONG UlHash
+					static ULONG HashValue
 						(
 						const ULONG &ul
 						)
@@ -101,7 +101,7 @@ namespace gpos
 						return ul;
 					}
 
-					static ULONG UlHash
+					static ULONG HashValue
 						(
 						const SElem &elem
 						)
@@ -132,7 +132,7 @@ namespace gpos
 
 					// element equality function for hashtable
 					static
-					BOOL FEqual
+					BOOL Equals
 						(
 						const SElem &elem,
 						const SElem &elemOther

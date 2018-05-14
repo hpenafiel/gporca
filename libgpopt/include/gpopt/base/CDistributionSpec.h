@@ -90,10 +90,10 @@ namespace gpopt
 			
 			// default hash function for distribution spec
 			virtual
-			ULONG UlHash() const
+			ULONG HashValue() const
 			{
 				ULONG ulEdt = (ULONG) Edt();
-				return gpos::UlHash<ULONG>(&ulEdt);
+				return gpos::HashValue<ULONG>(&ulEdt);
 			}
 			
 			// extract columns used by the distribution spec

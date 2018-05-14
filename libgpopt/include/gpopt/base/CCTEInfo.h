@@ -28,7 +28,7 @@ namespace gpopt
 	class CLogicalCTEConsumer;
 
 	// hash map: CColRef -> ULONG
-	typedef CHashMap<CColRef, ULONG, gpos::UlHash<CColRef>, gpos::FEqual<CColRef>,
+	typedef CHashMap<CColRef, ULONG, gpos::HashValue<CColRef>, gpos::Equals<CColRef>,
 					CleanupNULL<CColRef>, CleanupDelete<ULONG> > HMCrUl;
 
 	//---------------------------------------------------------------------------
@@ -101,15 +101,15 @@ namespace gpopt
 			};
 
 			// hash map mapping ULONG -> SConsumerCounter
-			typedef CHashMap<ULONG, SConsumerCounter, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, SConsumerCounter, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupDelete<SConsumerCounter> > HMUlConsumerMap;
 
 			// map iterator
-			typedef CHashMapIter<ULONG, SConsumerCounter, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMapIter<ULONG, SConsumerCounter, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 							CleanupDelete<ULONG>, CleanupDelete<SConsumerCounter> > HMUlConsumerMapIter;
 
 			// hash map mapping ULONG -> HMUlConsumerMap: maps from CTE producer ID to all consumers inside this CTE
-			typedef CHashMap<ULONG, HMUlConsumerMap, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, HMUlConsumerMap, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<HMUlConsumerMap> > HMUlProdConsMap;
 
 			//-------------------------------------------------------------------
@@ -178,11 +178,11 @@ namespace gpopt
 			}; //class CCTEInfoEntry
 
 			// hash maps mapping ULONG -> CCTEInfoEntry
-			typedef CHashMap<ULONG, CCTEInfoEntry, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, CCTEInfoEntry, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<CCTEInfoEntry> > HMUlCTEInfoEntry;
 
 			// map iterator
-			typedef CHashMapIter<ULONG, CCTEInfoEntry, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMapIter<ULONG, CCTEInfoEntry, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 							CleanupDelete<ULONG>, CleanupRelease<CCTEInfoEntry> > HMUlCTEInfoEntryIter;
 
 			// memory pool

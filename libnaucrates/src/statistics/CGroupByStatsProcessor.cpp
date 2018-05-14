@@ -39,7 +39,7 @@ CGroupByStatsProcessor::PstatsGroupBy
 
 	CStatistics *pstatsAgg = NULL;
 	CDouble dRowsAgg = CStatistics::DMinRows;
-	if (pstatsInput->FEmpty())
+	if (pstatsInput->IsEmpty())
 	{
 		// add dummy histograms for the aggregates and grouping columns
 		CHistogram::AddDummyHistogramAndWidthInfo(pmp, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, true /* fEmpty */);
@@ -73,7 +73,7 @@ CGroupByStatsProcessor::PstatsGroupBy
 		dRowsAgg = std::min(std::max(CStatistics::DMinRows.Get(), dGroups.Get()), pstatsInput->DRows().Get());
 
 		// create a new stats object for the output
-		pstatsAgg = GPOS_NEW(pmp) CStatistics(pmp, phmulhist, phmuldoubleWidth, dRowsAgg, pstatsInput->FEmpty());
+		pstatsAgg = GPOS_NEW(pmp) CStatistics(pmp, phmulhist, phmuldoubleWidth, dRowsAgg, pstatsInput->IsEmpty());
 	}
 
 	// In the output statistics object, the upper bound source cardinality of the grouping column

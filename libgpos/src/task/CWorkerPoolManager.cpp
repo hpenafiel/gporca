@@ -54,8 +54,8 @@ CWorkerPoolManager::CWorkerPoolManager
 		GPOS_OFFSET(CWorker, m_link),
 		GPOS_OFFSET(CWorker, m_wid),
 		&(CWorkerId::m_widInvalid),
-		CWorkerId::UlHash,
-		CWorkerId::FEqual
+		CWorkerId::HashValue,
+		CWorkerId::Equals
 		);
 
 	m_shtTS.Init
@@ -65,8 +65,8 @@ CWorkerPoolManager::CWorkerPoolManager
 		GPOS_OFFSET(CTask, m_linkWpm),
 		GPOS_OFFSET(CTask, m_tid),
 		&(CTaskId::m_tidInvalid),
-		CTaskId::UlHash,
-		CTaskId::FEqual
+		CTaskId::HashValue,
+		CTaskId::Equals
 		);
 
 	// initialize mutex
@@ -230,7 +230,7 @@ CWorkerPoolManager::RegisterWorker
 	// make sure worker registers itself
 	CWorkerId widSelf;
 	GPOS_ASSERT(NULL != pwrkr);
-	GPOS_ASSERT(widSelf.FEqual(pwrkr->Wid()));
+	GPOS_ASSERT(widSelf.Equals(pwrkr->Wid()));
 #endif // GPOS_DEBUG
 
 	// scope for hash table accessor
@@ -268,7 +268,7 @@ CWorkerPoolManager::PwrkrRemoveWorker
 #ifdef GPOS_DEBUG
 	// make sure regular workers can only remove themselves
 	CWorkerId widSelf;
-	GPOS_ASSERT(widSelf.FEqual(wid));
+	GPOS_ASSERT(widSelf.Equals(wid));
 #endif // GPOS_DEBUG
 
 	CWorker *pwrkr = NULL;
@@ -439,7 +439,7 @@ CWorkerPoolManager::EsrTskNext
 	while (m_fActive && !FWorkersDecrease())
 	{
 		// check if scheduler's queue is empty
-		if (!m_ts.FEmpty())
+		if (!m_ts.IsEmpty())
 		{
 			// assign queued task to worker
 			*pptsk = m_ts.PtskDequeue();
@@ -472,7 +472,7 @@ CWorkerPoolManager::EsrTskNext
 BOOL
 CWorkerPoolManager::FWorkersIncrease()
 {
-	return !m_ts.FEmpty();
+	return !m_ts.IsEmpty();
 }
 
 

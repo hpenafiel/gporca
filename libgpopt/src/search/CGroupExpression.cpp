@@ -92,8 +92,8 @@ CGroupExpression::CGroupExpression
 		GPOS_OFFSET(CCostContext, m_link),
 		GPOS_OFFSET(CCostContext, m_poc),
 		&(COptimizationContext::m_pocInvalid),
-		COptimizationContext::UlHash,
-		COptimizationContext::FEqual
+		COptimizationContext::HashValue,
+		COptimizationContext::Equals
 		);
 }
 
@@ -757,7 +757,7 @@ CGroupExpression::PccInsert
 	CCostContext *pccFound = shta.PtLookup();
 	while (NULL != pccFound)
 	{
-		if (CCostContext::FEqual(*pcc, *pccFound))
+		if (CCostContext::Equals(*pcc, *pccFound))
 		{
 			return pccFound;
 		}
@@ -1004,14 +1004,14 @@ CGroupExpression::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CGroupExpression::UlHash
+//		CGroupExpression::HashValue
 //
 //	@doc:
 //		static hash function for operator and group references
 //
 //---------------------------------------------------------------------------
 ULONG
-CGroupExpression::UlHash
+CGroupExpression::HashValue
 	(
 	COperator *pop,
 	DrgPgroup *pdrgpgroup
@@ -1020,12 +1020,12 @@ CGroupExpression::UlHash
 	GPOS_ASSERT(NULL != pop);
 	GPOS_ASSERT(NULL != pdrgpgroup);
 	
-	ULONG ulHash = pop->UlHash();
+	ULONG ulHash = pop->HashValue();
 	
 	ULONG ulArity = pdrgpgroup->Size();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
-		ulHash = UlCombineHashes(ulHash, (*pdrgpgroup)[i]->UlHash());
+		ulHash = UlCombineHashes(ulHash, (*pdrgpgroup)[i]->HashValue());
 	}
 	
 	return ulHash;
@@ -1034,19 +1034,19 @@ CGroupExpression::UlHash
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CGroupExpression::UlHash
+//		CGroupExpression::HashValue
 //
 //	@doc:
 //		static hash function for group expressions
 //
 //---------------------------------------------------------------------------
 ULONG
-CGroupExpression::UlHash
+CGroupExpression::HashValue
 	(
 	const CGroupExpression &gexpr
 	)
 {
-	return gexpr.UlHash();
+	return gexpr.HashValue();
 }
 
 

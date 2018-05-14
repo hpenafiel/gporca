@@ -173,7 +173,7 @@ namespace gpos
 			}
 
 			// check if list is empty
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
 			{
 				return NULL == m_list.First();
 			}

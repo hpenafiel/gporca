@@ -93,16 +93,16 @@ CLogicalBitmapTableGet::~CLogicalBitmapTableGet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalBitmapTableGet::UlHash
+//		CLogicalBitmapTableGet::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalBitmapTableGet::UlHash() const
+CLogicalBitmapTableGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;

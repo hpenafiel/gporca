@@ -107,7 +107,7 @@ CScalarAggFunc::FCountStar() const
 {
 	// TODO,  04/26/2012, make this function system-independent
 	// using MDAccessor
-	return m_pmdidAggFunc->FEquals(&CMDIdGPDB::m_mdidCountStar);
+	return m_pmdidAggFunc->Equals(&CMDIdGPDB::m_mdidCountStar);
 }
 
 
@@ -124,29 +124,29 @@ CScalarAggFunc::FCountAny() const
 {
 	// TODO,  04/26/2012, make this function system-independent
 	// using MDAccessor
-	return m_pmdidAggFunc->FEquals(&CMDIdGPDB::m_mdidCountAny);
+	return m_pmdidAggFunc->Equals(&CMDIdGPDB::m_mdidCountAny);
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarAggFunc::UlHash
+//		CScalarAggFunc::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarAggFunc::UlHash() const
+CScalarAggFunc::HashValue() const
 {
 	ULONG ulAggfuncstage = (ULONG) m_eaggfuncstage;
 	return gpos::UlCombineHashes
 					(
-					UlCombineHashes(COperator::UlHash(), m_pmdidAggFunc->UlHash()),
+					UlCombineHashes(COperator::HashValue(), m_pmdidAggFunc->HashValue()),
 					UlCombineHashes
 						(
-						gpos::UlHash<ULONG>(&ulAggfuncstage),
-						UlCombineHashes(gpos::UlHash<BOOL>(&m_fDistinct),gpos::UlHash<BOOL>(&m_fSplit))
+						gpos::HashValue<ULONG>(&ulAggfuncstage),
+						UlCombineHashes(gpos::HashValue<BOOL>(&m_fDistinct),gpos::HashValue<BOOL>(&m_fSplit))
 						)
 					);
 }
@@ -177,7 +177,7 @@ CScalarAggFunc::FMatch
 				(popScAggFunc->FDistinct() ==  m_fDistinct)
 				&& (popScAggFunc->Eaggfuncstage() ==  Eaggfuncstage())
 				&& (popScAggFunc->FSplit() ==  m_fSplit)
-				&& m_pmdidAggFunc->FEquals(popScAggFunc->Pmdid())
+				&& m_pmdidAggFunc->Equals(popScAggFunc->Pmdid())
 				);
 	}
 	

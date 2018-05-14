@@ -133,11 +133,11 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// equality function
 			virtual
-			ULONG FEqual(const CDrvdPropPlan *pdpplan) const;
+			ULONG Equals(const CDrvdPropPlan *pdpplan) const;
 
 			// check for satisfying required plan properties
 			virtual

@@ -726,7 +726,7 @@ CCTEInfo::MarkUnusedCTEs()
 	FindConsumersInParent(ULONG_MAX, pbsUnusedConsumers, &stack);
 
 	// repeatedly find CTEs that are used in these CTEs
-	while (!stack.FEmpty())
+	while (!stack.IsEmpty())
 	{
 		// get one CTE id from list, and see which consumers are inside this CTE
 		ULONG *pulCTEId = stack.Pop();

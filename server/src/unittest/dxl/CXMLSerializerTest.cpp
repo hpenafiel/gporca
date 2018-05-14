@@ -97,7 +97,7 @@ CXMLSerializerTest::EresUnittest_Basic()
 	
 	GPOS_RESULT eresIndented = GPOS_FAILED;
 		
-	if (pstrIndented->FEquals(&strExpectedIndented))
+	if (pstrIndented->Equals(&strExpectedIndented))
 	{
 		eresIndented = GPOS_OK;
 	}
@@ -109,7 +109,7 @@ CXMLSerializerTest::EresUnittest_Basic()
 	
 	GPOS_RESULT eresNotIndented = GPOS_FAILED;
 		
-	if (pstrNotIndented->FEquals(&strExpectedNotIndented))
+	if (pstrNotIndented->Equals(&strExpectedNotIndented))
 	{
 		eresNotIndented = GPOS_OK;
 	}

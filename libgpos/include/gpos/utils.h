@@ -77,7 +77,7 @@ namespace gpos
 	// generic hash function; by address
 	template<class T>
 	inline
-	ULONG UlHash(const T *pt)
+	ULONG HashValue(const T *pt)
 	{
 		return UlHashByteArray((BYTE*) pt, GPOS_SIZEOF(T));
 	}
@@ -114,7 +114,7 @@ namespace gpos
 	// equality function, which uses the equality operator of the arguments type
 	template<class T>
 	inline
-	BOOL FEqual(const T* pt1, const T*pt2)
+	BOOL Equals(const T* pt1, const T*pt2)
 	{
 		return *pt1 == *pt2;
 	}

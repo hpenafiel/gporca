@@ -72,16 +72,16 @@ CScalarSubquery::PmdidType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarSubquery::UlHash
+//		CScalarSubquery::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarSubquery::UlHash() const
+CScalarSubquery::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), 
+	return gpos::UlCombineHashes(COperator::HashValue(), 
 								gpos::UlHashPtr<CColRef>(m_pcr));
 }
 

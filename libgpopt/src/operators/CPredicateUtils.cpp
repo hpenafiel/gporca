@@ -527,7 +527,7 @@ CPredicateUtils::FLikePredicate
 	// comparison semantics for statistics purposes is looser
 	// than regular comparison
 	CWStringConst pstrLike(GPOS_WSZ_LIT("~~"));
-	if (!pstrOpName->FEquals(&pstrLike))
+	if (!pstrOpName->Equals(&pstrLike))
 	{
 		return false;
 	}

@@ -68,7 +68,7 @@ namespace gpos
 			
 			// equality function -- needed for hashtable
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const ELocale &eloc,
 				const ELocale &elocOther
@@ -79,7 +79,7 @@ namespace gpos
 
 			// basic hash function
 			static
-			ULONG UlHash
+			ULONG HashValue
 				(
 				const ELocale &eloc
 				)

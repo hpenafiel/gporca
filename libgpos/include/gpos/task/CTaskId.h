@@ -46,7 +46,7 @@ namespace gpos
 			{}
 
 			// simple comparison
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CTaskId &tid
 				)
@@ -63,12 +63,12 @@ namespace gpos
 				)
 				const
 			{
-				return this->FEqual(tid);
+				return this->Equals(tid);
 			}
 
 			// comparison function; used in hashtables
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CTaskId &tid,
 				const CTaskId &tidOther
@@ -79,9 +79,9 @@ namespace gpos
 
 			// primitive hash function
 			static
-			ULONG UlHash(const CTaskId &tid)
+			ULONG HashValue(const CTaskId &tid)
 			{
-				return gpos::UlHash<ULONG_PTR>(&tid.m_ulptid);
+				return gpos::HashValue<ULONG_PTR>(&tid.m_ulptid);
 			}
 
 			// invalid id

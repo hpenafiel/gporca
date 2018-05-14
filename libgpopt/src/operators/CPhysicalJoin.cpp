@@ -1030,14 +1030,14 @@ CPhysicalJoin::Edm
 
 // Hash function
 ULONG
-CPhysicalJoin::CPartPropReq::UlHash
+CPhysicalJoin::CPartPropReq::HashValue
 	(
 	const CPartPropReq *pppr
 	)
 {
 	GPOS_ASSERT(NULL != pppr);
 
-	ULONG ulHash = pppr->Ppps()->UlHash();
+	ULONG ulHash = pppr->Ppps()->HashValue();
 	ulHash = UlCombineHashes(ulHash , pppr->UlChildIndex());
 	ulHash = UlCombineHashes(ulHash , pppr->UlOuterChild());
 	ulHash = UlCombineHashes(ulHash , pppr->UlInnerChild());
@@ -1047,7 +1047,7 @@ CPhysicalJoin::CPartPropReq::UlHash
 
 // Equality function
 BOOL
-CPhysicalJoin::CPartPropReq::FEqual
+CPhysicalJoin::CPartPropReq::Equals
 	(
 	const CPartPropReq *ppprFst,
 	const CPartPropReq *ppprSnd

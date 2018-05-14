@@ -36,7 +36,7 @@ namespace gpopt
 	typedef CDynamicPtrArray<COperator, CleanupRelease> DrgPop;
 
 	// hash map mapping CColRef -> CColRef
-	typedef CHashMap<CColRef, CColRef, CColRef::UlHash, CColRef::FEqual,
+	typedef CHashMap<CColRef, CColRef, CColRef::HashValue, CColRef::Equals,
 					CleanupNULL<CColRef>, CleanupNULL<CColRef> > HMCrCr;
 
 	//---------------------------------------------------------------------------
@@ -350,7 +350,7 @@ namespace gpopt
 			}
 
 			// hash function
-			virtual ULONG UlHash() const;
+			virtual ULONG HashValue() const;
 
 			// sensitivity to order of inputs
 			virtual BOOL FInputOrderSensitive() const = 0;

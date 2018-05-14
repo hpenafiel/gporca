@@ -76,14 +76,14 @@ CGroup::SContextLink::~SContextLink()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CGroup::SContextLink::UlHash
+//		CGroup::SContextLink::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CGroup::SContextLink::UlHash
+CGroup::SContextLink::HashValue
 	(
 	const SContextLink *pclink
 	)
@@ -91,13 +91,13 @@ CGroup::SContextLink::UlHash
 	ULONG ulHashPcc = 0;
 	if (NULL != pclink->m_pccParent)
 	{
-		ulHashPcc = CCostContext::UlHash(*pclink->m_pccParent);
+		ulHashPcc = CCostContext::HashValue(*pclink->m_pccParent);
 	}
 
 	ULONG ulHashPoc = 0;
 	if (NULL != pclink->m_poc)
 	{
-		ulHashPoc = COptimizationContext::UlHash(*pclink->m_poc);
+		ulHashPoc = COptimizationContext::HashValue(*pclink->m_poc);
 	}
 
 	return UlCombineHashes
@@ -110,14 +110,14 @@ CGroup::SContextLink::UlHash
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CGroup::SContextLink::FEqual
+//		CGroup::SContextLink::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CGroup::SContextLink::FEqual
+CGroup::SContextLink::Equals
 	(
 	const SContextLink *pclink1,
 	const SContextLink *pclink2
@@ -144,7 +144,7 @@ CGroup::SContextLink::FEqual
 			return  (NULL == pclink1->m_poc && NULL == pclink2->m_poc);
 		}
 
-		return COptimizationContext::FEqual(*pclink1->m_poc, *pclink2->m_poc);
+		return COptimizationContext::Equals(*pclink1->m_poc, *pclink2->m_poc);
 	}
 
 	return fEqual;
@@ -198,8 +198,8 @@ CGroup::CGroup
 			GPOS_OFFSET(COptimizationContext, m_link),
 			0, /*cKeyOffset (0 because we use COptimizationContext class as key)*/
 			&(COptimizationContext::m_ocInvalid),
-			COptimizationContext::UlHash,
-			COptimizationContext::FEqual
+			COptimizationContext::HashValue,
+			COptimizationContext::Equals
 			);
 	m_plinkmap = GPOS_NEW(pmp) LinkMap(pmp);
 	m_pstatsmap = GPOS_NEW(pmp) StatsMap(pmp);
@@ -595,14 +595,14 @@ CGroup::SetHashJoinKeys
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CGroup::UlHash
+//		CGroup::HashValue
 //
 //	@doc:
 //		Hash function for group identification
 //
 //---------------------------------------------------------------------------
 ULONG
-CGroup::UlHash() const
+CGroup::HashValue() const
 {
 	ULONG ulId = m_ulId;
 	if (FDuplicateGroup() && 0 == m_ulGExprs)
@@ -611,7 +611,7 @@ CGroup::UlHash() const
 	 	ulId = PgroupDuplicate()->UlId();
 	}
 
-	return gpos::UlHash<ULONG>(&ulId);
+	return gpos::HashValue<ULONG>(&ulId);
 }
 
 
@@ -1158,7 +1158,7 @@ CGroup::RecursiveBuildTreeMap
 	CCostContext *pccParent,
 	CGroupExpression *pgexprCurrent,
 	ULONG ulChildIndex,
-	CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::UlHash, CCostContext::FEqual> *ptmap
+	CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::HashValue, CCostContext::Equals> *ptmap
 	)
 {
 	GPOS_ASSERT(pgexprCurrent->Pop()->FPhysical());
@@ -1230,7 +1230,7 @@ CGroup::BuildTreeMap
 	COptimizationContext *poc, // NULL if we are in a Scalar group
 	CCostContext *pccParent, // NULL if we are in the Root group
 	ULONG ulChildIndex, // index used for treating group as child of parent context
-	CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::UlHash, CCostContext::FEqual> *ptmap // map structure
+	CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::HashValue, CCostContext::Equals> *ptmap // map structure
 	)
 {
 	GPOS_CHECK_STACK_SIZE;
@@ -1533,7 +1533,7 @@ CGroup::PstatsRecursiveDerive
 		CReqdPropRelational *prprelExisting = pstats->Prprel(pmpGlobal);
 		prprelInput = prprel->PrprelDifference(pmpGlobal, prprelExisting);
 		prprelExisting->Release();
-		if (prprelInput->FEmpty())
+		if (prprelInput->IsEmpty())
 		{
 			// required stat columns are already covered by existing stats
 			prprelInput->Release();

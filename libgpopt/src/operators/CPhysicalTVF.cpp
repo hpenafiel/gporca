@@ -95,10 +95,10 @@ CPhysicalTVF::FMatch
 	{
 		CPhysicalTVF *popTVF = CPhysicalTVF::PopConvert(pop);
 
-		return m_pmdidFunc->FEquals(popTVF->PmdidFunc()) &&
-				m_pmdidRetType->FEquals(popTVF->PmdidRetType()) &&
+		return m_pmdidFunc->Equals(popTVF->PmdidFunc()) &&
+				m_pmdidRetType->Equals(popTVF->PmdidRetType()) &&
 				m_pdrgpcoldesc == popTVF->Pdrgpcoldesc() &&
-				m_pcrsOutput->FEqual(popTVF->PcrsOutput());
+				m_pcrsOutput->Equals(popTVF->PcrsOutput());
 	}
 
 	return false;
@@ -366,7 +366,7 @@ CPhysicalTVF::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	return CEnfdProp::EpetRequired;
 }

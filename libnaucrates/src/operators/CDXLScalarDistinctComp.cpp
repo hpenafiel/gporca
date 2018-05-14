@@ -120,7 +120,7 @@ CDXLScalarDistinctComp::AssertValid
 	GPOS_ASSERT(EdxloptypeScalar == pdxlnLeft->Pdxlop()->Edxloperatortype());
 	GPOS_ASSERT(EdxloptypeScalar == pdxlnRight->Pdxlop()->Edxloperatortype());
 	
-	GPOS_ASSERT(PstrCmpOpName()->FEquals(CDXLTokens::PstrToken(EdxltokenEq)));
+	GPOS_ASSERT(PstrCmpOpName()->Equals(CDXLTokens::PstrToken(EdxltokenEq)));
 	
 	if (fValidateChildren)
 	{

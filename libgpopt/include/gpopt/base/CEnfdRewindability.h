@@ -72,7 +72,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// check if the given rewindability specification is compatible with the
 			// rewindability specification of this object for the specified matching type

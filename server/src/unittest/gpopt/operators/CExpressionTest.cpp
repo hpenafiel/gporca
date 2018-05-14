@@ -412,7 +412,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 		"         |--CScalarIdent \"ColRef_0000\" (0)\n"
 		"         +--CScalarConst (20)\n"));
 
-	GPOS_ASSERT(str.FEquals(&strExpectedDebugPrint));
+	GPOS_ASSERT(str.Equals(&strExpectedDebugPrint));
 
 	// derive properties on expression
 	(void) pexprBitmapTableGet->PdpDerive();
@@ -442,7 +442,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 		"      |--CScalarIdent \"ColRef_0000\" (0)\n"
 		"      +--CScalarConst (20)\n"));
 
-	GPOS_ASSERT(strIndex2.FEquals(&strExpectedDebugPrintIndex2));
+	GPOS_ASSERT(strIndex2.Equals(&strExpectedDebugPrintIndex2));
 	GPOS_ASSERT(pexprBitmapIndex2->FMatch(pexprBitmapIndex));
 
 	pmdid->AddRef();
@@ -535,7 +535,7 @@ CExpressionTest::EresUnittest_Const()
 	CScalarConst *pscalarconstUlOne = CScalarConst::PopConvert(pexprUlOne->Pop());
 #endif // GPOS_DEBUG
 
-	GPOS_ASSERT(pscalarconstUl->UlHash() == pscalarconstUl2nd->UlHash());
+	GPOS_ASSERT(pscalarconstUl->HashValue() == pscalarconstUl2nd->HashValue());
 	GPOS_ASSERT(!pscalarconstTrue->FMatch(pscalarconstFalse));
 	GPOS_ASSERT(!pscalarconstTrue->FMatch(pscalarconstUlOne));
 

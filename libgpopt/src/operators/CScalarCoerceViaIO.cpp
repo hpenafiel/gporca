@@ -63,7 +63,7 @@ CScalarCoerceViaIO::FMatch
 	{
 		CScalarCoerceViaIO *popCoerce = CScalarCoerceViaIO::PopConvert(pop);
 
-		return popCoerce->PmdidType()->FEquals(PmdidType()) &&
+		return popCoerce->PmdidType()->Equals(PmdidType()) &&
 				popCoerce->ITypeModifier() == ITypeModifier() &&
 				popCoerce->Ecf() == Ecf() &&
 				popCoerce->ILoc() == ILoc();

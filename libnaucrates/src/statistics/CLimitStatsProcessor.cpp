@@ -28,7 +28,7 @@ CLimitStatsProcessor::PstatsLimit
 	HMUlHist *phmulhistLimit = pstatsInput->CopyHistograms(pmp);;
 
 	CDouble dRowsLimit = CStatistics::DMinRows;
-	if (!pstatsInput->FEmpty())
+	if (!pstatsInput->IsEmpty())
 	{
 		dRowsLimit = std::max(CStatistics::DMinRows, dLimitCount);
 	}
@@ -39,7 +39,7 @@ CLimitStatsProcessor::PstatsLimit
 											phmulhistLimit,
 											pstatsInput->CopyWidths(pmp),
 											dRowsLimit,
-											pstatsInput->FEmpty(),
+											pstatsInput->IsEmpty(),
 											pstatsInput->UlNumberOfPredicates()
 											);
 

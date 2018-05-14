@@ -199,7 +199,7 @@ CDistributionSpecHashed::FMatchSubset
 		for (ULONG ulInner = 0; ulInner < ulOtherExprs; ulInner++)
 		{
 			CExpression *pexprOther = CCastUtils::PexprWithoutBinaryCoercibleCasts((*(pdsHashed->m_pdrgpexpr))[ulInner]);
-			if (CUtils::FEqual(pexprOwn, pexprOther))
+			if (CUtils::Equals(pexprOwn, pexprOther))
 			{
 				fFound = true;
 				break;
@@ -267,14 +267,14 @@ CDistributionSpecHashed::PdshashedExcludeColumns
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDistributionSpecHashed::FEqual
+//		CDistributionSpecHashed::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CDistributionSpecHashed::FEqual
+CDistributionSpecHashed::Equals
 	(
 	const CDistributionSpecHashed *pdshashed
 	)
@@ -283,7 +283,7 @@ CDistributionSpecHashed::FEqual
 	return m_fNullsColocated == pdshashed->FNullsColocated() &&
 			m_fDuplicateSensitive == pdshashed->FDuplicateSensitive() &&
 			m_fSatisfiedBySingleton == pdshashed->FSatisfiedBySingleton() &&
-			CUtils::FEqual(m_pdrgpexpr, pdshashed->m_pdrgpexpr) &&
+			CUtils::Equals(m_pdrgpexpr, pdshashed->m_pdrgpexpr) &&
 			Edt() == pdshashed->Edt();
 }
 
@@ -339,14 +339,14 @@ CDistributionSpecHashed::AppendEnforcers
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDistributionSpecHashed::UlHash
+//		CDistributionSpecHashed::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG 
-CDistributionSpecHashed::UlHash() const
+CDistributionSpecHashed::HashValue() const
 {
 	ULONG ulHash = (ULONG) Edt();
 	ULONG ulHashedExpressions = std::min(m_pdrgpexpr->Size(), GPOPT_DISTR_SPEC_HASHED_EXPRESSIONS);
@@ -354,7 +354,7 @@ CDistributionSpecHashed::UlHash() const
 	for (ULONG ul = 0; ul < ulHashedExpressions; ul++)
 	{
 		CExpression *pexpr = (*m_pdrgpexpr)[ul];
-		ulHash = gpos::UlCombineHashes(ulHash, CExpression::UlHash(pexpr));
+		ulHash = gpos::UlCombineHashes(ulHash, CExpression::HashValue(pexpr));
 	}
 
 	return ulHash;
@@ -407,7 +407,7 @@ CDistributionSpecHashed::FMatchHashedDistribution
 	const ULONG ulLen = m_pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		if (!CUtils::FEqual(CCastUtils::PexprWithoutBinaryCoercibleCasts((*(pdshashed->m_pdrgpexpr))[ul]),
+		if (!CUtils::Equals(CCastUtils::PexprWithoutBinaryCoercibleCasts((*(pdshashed->m_pdrgpexpr))[ul]),
 							CCastUtils::PexprWithoutBinaryCoercibleCasts((*m_pdrgpexpr)[ul])))
 		{
 			return false;

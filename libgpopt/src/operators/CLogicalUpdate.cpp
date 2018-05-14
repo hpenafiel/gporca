@@ -131,23 +131,23 @@ CLogicalUpdate::FMatch
 	return m_pcrCtid == popUpdate->PcrCtid() &&
 			m_pcrSegmentId == popUpdate->PcrSegmentId() &&
 			m_pcrTupleOid == popUpdate->PcrTupleOid() &&
-			m_ptabdesc->Pmdid()->FEquals(popUpdate->Ptabdesc()->Pmdid()) &&
+			m_ptabdesc->Pmdid()->Equals(popUpdate->Ptabdesc()->Pmdid()) &&
 			m_pdrgpcrDelete->Equals(popUpdate->PdrgpcrDelete()) &&
 			m_pdrgpcrInsert->Equals(popUpdate->PdrgpcrInsert());
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalUpdate::UlHash
+//		CLogicalUpdate::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalUpdate::UlHash() const
+CLogicalUpdate::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrDelete));
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrInsert));
 	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrCtid));

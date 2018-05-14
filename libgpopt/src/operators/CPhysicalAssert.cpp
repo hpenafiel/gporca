@@ -313,7 +313,7 @@ CPhysicalAssert::FMatch
 	}
 	
 	CPhysicalAssert *popAssert = CPhysicalAssert::PopConvert(pop); 
-	return CException::FEqual(*(popAssert->Pexc()), *m_pexc);
+	return CException::Equals(*(popAssert->Pexc()), *m_pexc);
 }
 
 
@@ -358,7 +358,7 @@ CPhysicalAssert::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	// always force sort to be on top of assert
 	return CEnfdProp::EpetRequired;

@@ -143,16 +143,16 @@ CLogicalGet::~CLogicalGet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalGet::UlHash
+//		CLogicalGet::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalGet::UlHash() const
+CLogicalGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ptabdesc->Pmdid()->UlHash());
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
@@ -180,7 +180,7 @@ CLogicalGet::FMatch
 	}
 	CLogicalGet *popGet = CLogicalGet::PopConvert(pop);
 	
-	return m_ptabdesc->Pmdid()->FEquals(popGet->m_ptabdesc->Pmdid()) &&
+	return m_ptabdesc->Pmdid()->Equals(popGet->m_ptabdesc->Pmdid()) &&
 			m_pdrgpcrOutput->Equals(popGet->PdrgpcrOutput());
 }
 

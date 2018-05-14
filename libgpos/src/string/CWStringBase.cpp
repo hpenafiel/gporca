@@ -63,7 +63,7 @@ CWStringBase::operator ==
 	)
 	const
 {
-	return FEquals(&str);
+	return Equals(&str);
 }
 
 
@@ -84,33 +84,33 @@ CWStringBase::UlLength() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWStringBase::FEquals
+//		CWStringBase::Equals
 //
 //	@doc:
 //		Checks whether the string is byte-wise equal to another string
 //
 //---------------------------------------------------------------------------
 BOOL
-CWStringBase::FEquals
+CWStringBase::Equals
 	(
 	const CWStringBase *pStr
 	)
 	const
 {
 	GPOS_ASSERT(NULL != pStr);
-	return FEquals(pStr->Wsz());
+	return Equals(pStr->Wsz());
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWStringBase::FEquals
+//		CWStringBase::Equals
 //
 //	@doc:
 //		Checks whether the string is byte-wise equal to a string literal
 //
 //---------------------------------------------------------------------------
 BOOL
-CWStringBase::FEquals
+CWStringBase::Equals
 	(
 	const WCHAR *wszBuf
 	)
@@ -128,14 +128,14 @@ CWStringBase::FEquals
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWStringBase::FEmpty
+//		CWStringBase::IsEmpty
 //
 //	@doc:
 //		Checks whether the string is empty
 //
 //---------------------------------------------------------------------------
 BOOL
-CWStringBase::FEmpty() const
+CWStringBase::IsEmpty() const
 {
 	return (0 == UlLength());
 }
@@ -185,7 +185,7 @@ CWStringBase::FEscaped
 	)
 	const
 {
-	GPOS_ASSERT(!FEmpty());
+	GPOS_ASSERT(!IsEmpty());
 	GPOS_ASSERT(UlLength() > ulOfst);
 
 	const WCHAR *wszBuf = Wsz();

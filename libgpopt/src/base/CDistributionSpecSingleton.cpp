@@ -131,7 +131,7 @@ CDistributionSpecSingleton::AppendEnforcers
 										);
 	pdrgpexpr->Append(pexprMotion);
 
-	if (!prpp->Peo()->PosRequired()->FEmpty() &&
+	if (!prpp->Peo()->PosRequired()->IsEmpty() &&
 	    CDistributionSpecSingleton::EstMaster == m_est)
 	{
 		COrderSpec *pos = prpp->Peo()->PosRequired();

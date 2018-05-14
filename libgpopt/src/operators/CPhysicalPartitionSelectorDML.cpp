@@ -66,23 +66,23 @@ CPhysicalPartitionSelectorDML::FMatch
 
 	CPhysicalPartitionSelectorDML *popPartSelector = CPhysicalPartitionSelectorDML::PopConvert(pop);
 
-	return popPartSelector->Pmdid()->FEquals(m_pmdid) &&
+	return popPartSelector->Pmdid()->Equals(m_pmdid) &&
 			popPartSelector->PcrOid() == m_pcrOid &&
 			FMatchExprMaps(popPartSelector->m_phmulexprEqPredicates, m_phmulexprEqPredicates);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalPartitionSelectorDML::UlHash
+//		CPhysicalPartitionSelectorDML::HashValue
 //
 //	@doc:
 //		Hash operator
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysicalPartitionSelectorDML::UlHash() const
+CPhysicalPartitionSelectorDML::HashValue() const
 {
-	return gpos::UlCombineHashes(Eopid(), m_pmdid->UlHash());
+	return gpos::UlCombineHashes(Eopid(), m_pmdid->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -287,7 +287,7 @@ CPhysicalPartitionSelectorDML::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	COrderSpec *pos = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Pos();
 	if (peo->FCompatible(pos))

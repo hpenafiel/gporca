@@ -63,7 +63,7 @@ namespace gpos
 
 			// check if task queue is empty
 			virtual
-			BOOL FEmpty() const = 0;
+			BOOL IsEmpty() const = 0;
 
 	};	// class ITaskScheduler
 }

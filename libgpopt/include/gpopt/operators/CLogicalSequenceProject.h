@@ -194,7 +194,7 @@ namespace gpopt
 			BOOL FMatch(COperator *pop) const;
 
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// print
 			virtual

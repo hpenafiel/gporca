@@ -80,11 +80,11 @@ namespace gpopt
 	typedef CDynamicPtrArray<DrgPpartdig, CleanupRelease> DrgPdrgPpartdig;
 
 	// map of expression to array of expressions
-	typedef CHashMap<CExpression, DrgPexpr, CExpression::UlHash, CUtils::FEqual,
+	typedef CHashMap<CExpression, DrgPexpr, CExpression::HashValue, CUtils::Equals,
 		CleanupRelease<CExpression>, CleanupRelease<DrgPexpr> > HMExprDrgPexpr;
 
 	// iterator of map of expression to array of expressions
-	typedef CHashMapIter<CExpression, DrgPexpr, CExpression::UlHash, CUtils::FEqual,
+	typedef CHashMapIter<CExpression, DrgPexpr, CExpression::HashValue, CUtils::Equals,
 		CleanupRelease<CExpression>, CleanupRelease<DrgPexpr> > HMExprDrgPexprIter;
 
 	// array of array of expressions

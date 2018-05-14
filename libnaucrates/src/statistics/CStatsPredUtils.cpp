@@ -61,27 +61,27 @@ CStatsPredUtils::Estatscmpt
 	CWStringConst pstrG(GPOS_WSZ_LIT(">"));
 	CWStringConst pstrNEq(GPOS_WSZ_LIT("<>"));
 
-	if (pstrOpName->FEquals(&pstrL))
+	if (pstrOpName->Equals(&pstrL))
 	{
 		escmpt = CStatsPred::EstatscmptL;
 	}
-	if (pstrOpName->FEquals(&pstrLEq))
+	if (pstrOpName->Equals(&pstrLEq))
 	{
 		escmpt = CStatsPred::EstatscmptLEq;
 	}
-	if (pstrOpName->FEquals(&pstrEq))
+	if (pstrOpName->Equals(&pstrEq))
 	{
 		escmpt = CStatsPred::EstatscmptEq;
 	}
-	if (pstrOpName->FEquals(&pstrGEq))
+	if (pstrOpName->Equals(&pstrGEq))
 	{
 		escmpt = CStatsPred::EstatscmptGEq;
 	}
-	if (pstrOpName->FEquals(&pstrG))
+	if (pstrOpName->Equals(&pstrG))
 	{
 		escmpt = CStatsPred::EstatscmptG;
 	}
-	if (pstrOpName->FEquals(&pstrNEq))
+	if (pstrOpName->Equals(&pstrNEq))
 	{
 		escmpt = CStatsPred::EstatscmptNEq;
 	}

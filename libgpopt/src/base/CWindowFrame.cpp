@@ -140,21 +140,21 @@ CWindowFrame::FMatch
 		m_efbLeading == pwf->EfbLeading() &&
 		m_efbTrailing == pwf->EfbTrailing() &&
 		m_efes == pwf->Efes() &&
-		CUtils::FEqual(m_pexprLeading , pwf->PexprLeading()) &&
-		CUtils::FEqual(m_pexprTrailing , pwf->PexprTrailing());
+		CUtils::Equals(m_pexprLeading , pwf->PexprLeading()) &&
+		CUtils::Equals(m_pexprTrailing , pwf->PexprTrailing());
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWindowFrame::UlHash
+//		CWindowFrame::HashValue
 //
 //	@doc:
 //		Hash of components
 //
 //---------------------------------------------------------------------------
 ULONG
-CWindowFrame::UlHash() const
+CWindowFrame::HashValue() const
 {
 	ULONG ulHash = 0;
 	ulHash = gpos::UlCombineHashes(ulHash, m_efs);
@@ -163,12 +163,12 @@ CWindowFrame::UlHash() const
 	ulHash = gpos::UlCombineHashes(ulHash, m_efes);
 	if (NULL != m_pexprLeading)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, CExpression::UlHash(m_pexprLeading));
+		ulHash = gpos::UlCombineHashes(ulHash, CExpression::HashValue(m_pexprLeading));
 	}
 
 	if (NULL != m_pexprTrailing)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, CExpression::UlHash(m_pexprTrailing));
+		ulHash = gpos::UlCombineHashes(ulHash, CExpression::HashValue(m_pexprTrailing));
 	}
 
 	return ulHash;
@@ -257,14 +257,14 @@ CWindowFrame::OsPrint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWindowFrame::FEqual
+//		CWindowFrame::Equals
 //
 //	@doc:
 //		 Matching function over frame arrays
 //
 //---------------------------------------------------------------------------
 BOOL
-CWindowFrame::FEqual
+CWindowFrame::Equals
 	(
 	const DrgPwf *pdrgpwfFirst,
 	const DrgPwf *pdrgpwfSecond
@@ -293,14 +293,14 @@ CWindowFrame::FEqual
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWindowFrame::UlHash
+//		CWindowFrame::HashValue
 //
 //	@doc:
 //		 Combine hash values of a maximum number of entries
 //
 //---------------------------------------------------------------------------
 ULONG
-CWindowFrame::UlHash
+CWindowFrame::HashValue
 	(
 	const DrgPwf *pdrgpwf,
 	ULONG ulMaxSize
@@ -312,7 +312,7 @@ CWindowFrame::UlHash
 	ULONG ulHash = 0;
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpwf)[ul]->UlHash());
+		ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpwf)[ul]->HashValue());
 	}
 
 	return ulHash;

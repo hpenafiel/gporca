@@ -178,7 +178,7 @@ namespace gpopt
 			}
 
 			// check if order spec has no columns
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
 			{
 				return UlSortColumns() == 0;
 			}
@@ -209,7 +209,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// return a copy of the order spec with remapped columns
 			virtual
@@ -225,11 +225,11 @@ namespace gpopt
 
 			// matching function over order spec arrays
 			static
-			BOOL FEqual(const DrgPos *pdrgposFirst, const DrgPos *pdrgposSecond);
+			BOOL Equals(const DrgPos *pdrgposFirst, const DrgPos *pdrgposSecond);
 
 			// combine hash values of a maximum number of entries
 			static
-			ULONG UlHash(const DrgPos *pdrgpos, ULONG ulMaxSize);
+			ULONG HashValue(const DrgPos *pdrgpos, ULONG ulMaxSize);
 
 			// print array of order spec objects
 			static

@@ -198,10 +198,10 @@ namespace gpopt
 			CPropSpec *Pps(ULONG ul) const;
 
 			// equality function
-			BOOL FEqual(const CReqdPropPlan *prpp) const;
+			BOOL Equals(const CReqdPropPlan *prpp) const;
 
 			// hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// check if plan properties are satisfied by the given derived properties
 			BOOL FSatisfied(const CDrvdPropRelational *pdprel, const CDrvdPropPlan *pdpplan) const;

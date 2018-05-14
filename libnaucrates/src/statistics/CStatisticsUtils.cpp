@@ -494,7 +494,7 @@ CStatisticsUtils::FValidBucket
 	}
 
 	// e.g. [1.0, 1.0) is not valid
-	if (ppointLower->FEqual(ppointUpper) && (!fLowerClosed || !fUpperClosed))
+	if (ppointLower->Equals(ppointUpper) && (!fLowerClosed || !fUpperClosed))
 	{
 		return false;
 	}
@@ -1388,7 +1388,7 @@ CStatisticsUtils::AddNdvForAllGrpCols
 		if (NULL != phist)
 		{
 			dDistVals = phist->DDistinct();
-			if (phist->FEmpty())
+			if (phist->IsEmpty())
 			{
 				dDistVals = DDefaultDistinctVals(pstatsInput->DRows());
 			}
@@ -1516,7 +1516,7 @@ CStatisticsUtils::DMaxNdv
 		if (NULL != phist)
 		{
 			dNdv = phist->DDistinct();
-			if (phist->FEmpty())
+			if (phist->IsEmpty())
 			{
 				dNdv = CStatisticsUtils::DDefaultDistinctVals(pstats->DRows());
 			}

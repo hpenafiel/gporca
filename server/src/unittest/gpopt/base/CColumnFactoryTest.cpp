@@ -84,7 +84,7 @@ CColumnFactoryTest::EresUnittest_Basic()
 	// clone previous colref
 	CColRef *pcrThree = cf.PcrCreate(pcrTwo);
 	GPOS_ASSERT(pcrThree != cf.PcrLookup(pcrTwo->m_ulId));
-	GPOS_ASSERT(!pcrThree->Name().FEquals(pcrTwo->Name()));
+	GPOS_ASSERT(!pcrThree->Name().Equals(pcrTwo->Name()));
 	cf.Destroy(pcrThree);
 
 	cf.Destroy(pcrTwo);

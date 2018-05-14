@@ -196,7 +196,7 @@ CXformSimplifyGbAgg::Transform
 			pcrsMinimal->Include(pfd->PcrsKey());
 		}
 	}
-	BOOL fCovered = pcrsCovered->FEqual(pcrsGrpCols);
+	BOOL fCovered = pcrsCovered->Equals(pcrsGrpCols);
 	pcrsGrpCols->Release();
 	pcrsCovered->Release();
 

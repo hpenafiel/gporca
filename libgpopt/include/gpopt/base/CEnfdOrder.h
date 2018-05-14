@@ -71,7 +71,7 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// check if the given order specification is compatible with the
 			// order specification of this object for the specified matching type

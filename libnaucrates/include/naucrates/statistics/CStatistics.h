@@ -39,11 +39,11 @@ namespace gpnaucrates
 	using namespace gpopt;
 
 	// hash maps ULONG -> array of ULONGs
-	typedef CHashMap<ULONG, ULongPtrArray, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, ULongPtrArray, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<ULongPtrArray> > HMUlPdrgpul;
 
 	// iterator
-	typedef CHashMapIter<ULONG, ULongPtrArray, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, ULongPtrArray, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 		CleanupDelete<ULONG>, CleanupRelease<ULongPtrArray> > HMIterUlPdrgpul;
 
 	//---------------------------------------------------------------------------
@@ -180,7 +180,7 @@ namespace gpnaucrates
 
 			// is statistics on an empty input
 			virtual
-			BOOL FEmpty() const
+			BOOL IsEmpty() const
 			{
 				return m_fEmpty;
 			}

@@ -234,7 +234,7 @@ CXformUtils::PcrsFKey
 	}
 
 	// check if collected key parts constitute a primary key
-	if (!pcrsKeyParts->FEqual(pcrsKey))
+	if (!pcrsKeyParts->Equals(pcrsKey))
 	{
 		// did not succeeded in building foreign key
 		pcrsFKey->Release();
@@ -4399,7 +4399,7 @@ CXformUtils::FMergeWithPreviousBitmapIndexProbe
 			continue;
 		}
 		CScalarBitmapIndexProbe *popScalarBIP = CScalarBitmapIndexProbe::PopConvert(pop);
-		if (!popScalarBIP->Pindexdesc()->Pmdid()->FEquals(pmdIdIndex))
+		if (!popScalarBIP->Pindexdesc()->Pmdid()->Equals(pmdIdIndex))
 		{
 			continue;
 		}

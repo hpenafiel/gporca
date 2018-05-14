@@ -9,7 +9,7 @@ using namespace gpopt;
 
 static
 BOOL
-FEqual(ULongPtrArray *pdrgpulFst, ULongPtrArray *pdrgpulSnd);
+Equals(ULongPtrArray *pdrgpulFst, ULongPtrArray *pdrgpulSnd);
 
 #ifdef GPOS_DEBUG
 
@@ -41,7 +41,7 @@ CheckChildDistributions
 
 // helper to do value equality check of arrays of ULONG pointers
 BOOL
-FEqual
+Equals
 	(
 		ULongPtrArray *pdrgpulFst,
 		ULongPtrArray *pdrgpulSnd
@@ -429,7 +429,7 @@ CPhysicalUnionAll::EpetOrder
 const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	return CEnfdProp::EpetRequired;
 }
@@ -668,7 +668,7 @@ const
 		pdrgpulChild = PdrgpulMap(pmp, CDistributionSpecHashed::PdsConvert(exprhdl.Pdpplan(ulChild)->Pds())->Pdrgpexpr(), ulChild);
 
 		// match mapped column positions of current child with outer child
-		fSuccess = (NULL != pdrgpulChild) && FEqual(pdrgpulOuter, pdrgpulChild);
+		fSuccess = (NULL != pdrgpulChild) && Equals(pdrgpulOuter, pdrgpulChild);
 		CRefCount::SafeRelease(pdrgpulChild);
 	}
 

@@ -87,13 +87,13 @@ namespace gpmd
 
 			// equality check
 			virtual
-			BOOL FEquals(const IMDId *pmdid) const;
+			BOOL Equals(const IMDId *pmdid) const;
 			
 			// computes the hash value for the metadata id
 			virtual
-			ULONG UlHash() const
+			ULONG HashValue() const
 			{
-				return m_pmdidRel->UlHash();
+				return m_pmdidRel->HashValue();
 			}
 			
 			// is the mdid valid

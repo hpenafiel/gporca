@@ -325,14 +325,14 @@ CBitVector::IsDisjoint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitVector::FEqual
+//		CBitVector::Equals
 //
 //	@doc:
 //		Determine if equal
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitVector::FEqual
+CBitVector::Equals
 	(
 	const CBitVector *vec
 	)
@@ -355,14 +355,14 @@ CBitVector::FEqual
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitVector::FEmpty
+//		CBitVector::IsEmpty
 //
 //	@doc:
 //		Determine if vector is empty
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitVector::FEmpty() const
+CBitVector::IsEmpty() const
 {
 	for (ULONG i = 0; i < m_len; i++)
 	{
@@ -450,14 +450,14 @@ CBitVector::CountSetBits() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitVector::UlHash
+//		CBitVector::HashValue
 //
 //	@doc:
 //		Compute hash value for bit vector
 //
 //---------------------------------------------------------------------------
 ULONG
-CBitVector::UlHash() const
+CBitVector::HashValue() const
 {
 	return gpos::UlHashByteArray((BYTE*)&m_vec[0], GPOS_SIZEOF(m_vec[0]) * m_len);
 }

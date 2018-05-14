@@ -163,11 +163,11 @@ namespace gpopt
 
 					// hash function
 					static
-					ULONG UlHash(const SContextLink *pclink);
+					ULONG HashValue(const SContextLink *pclink);
 
 					// equality function
 					static
-					BOOL FEqual
+					BOOL Equals
 						(
 						const SContextLink *pclink1,
 						const SContextLink *pclink2
@@ -176,7 +176,7 @@ namespace gpopt
 			}; // struct SContextLink
 
 			// map of processed links in TreeMap structure
-			typedef CHashMap<SContextLink, BOOL, SContextLink::UlHash, SContextLink::FEqual,
+			typedef CHashMap<SContextLink, BOOL, SContextLink::HashValue, SContextLink::Equals,
 							CleanupDelete<SContextLink>, CleanupDelete<BOOL> > LinkMap;
 
 			// map of computed stats objects during costing
@@ -340,7 +340,7 @@ namespace gpopt
 				CCostContext *pccParent,
 				CGroupExpression *pgexprCurrent,
 				ULONG ulChildIndex,
-				CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::UlHash, CCostContext::FEqual> *ptmap
+				CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::HashValue, CCostContext::Equals> *ptmap
 				);
 
 			// print scalar group properties
@@ -432,7 +432,7 @@ namespace gpopt
 			}
 
 			// hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 			
 			// number of group expressions accessor
 			ULONG UlGExprs() const
@@ -580,7 +580,7 @@ namespace gpopt
 				COptimizationContext *poc,
 				CCostContext *pccParent,
 				ULONG ulChildIndex,
-				CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::UlHash, CCostContext::FEqual> *ptmap
+				CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan, CCostContext::HashValue, CCostContext::Equals> *ptmap
 				);
 
 			// reset link map used in plan enumeration

@@ -58,7 +58,7 @@ CScalarSwitch::~CScalarSwitch()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarSwitch::UlHash
+//		CScalarSwitch::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -66,9 +66,9 @@ CScalarSwitch::~CScalarSwitch()
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarSwitch::UlHash() const
+CScalarSwitch::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), m_pmdidType->UlHash());
+	return gpos::UlCombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ CScalarSwitch::FMatch
 		CScalarSwitch *popScSwitch = CScalarSwitch::PopConvert(pop);
 
 		// match if return types are identical
-		return popScSwitch->PmdidType()->FEquals(m_pmdidType);
+		return popScSwitch->PmdidType()->Equals(m_pmdidType);
 	}
 
 	return false;

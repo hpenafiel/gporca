@@ -56,14 +56,14 @@ CJoinOrderDP::SComponentPair::SComponentPair
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CJoinOrderDP::SComponentPair::UlHash
+//		CJoinOrderDP::SComponentPair::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CJoinOrderDP::SComponentPair::UlHash
+CJoinOrderDP::SComponentPair::HashValue
 	(
 	const SComponentPair *pcomppair
 	)
@@ -72,22 +72,22 @@ CJoinOrderDP::SComponentPair::UlHash
 
 	return UlCombineHashes
 			(
-			pcomppair->m_pbsFst->UlHash(),
-			pcomppair->m_pbsSnd->UlHash()
+			pcomppair->m_pbsFst->HashValue(),
+			pcomppair->m_pbsSnd->HashValue()
 			);
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CJoinOrderDP::SComponentPair::FEqual
+//		CJoinOrderDP::SComponentPair::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CJoinOrderDP::SComponentPair::FEqual
+CJoinOrderDP::SComponentPair::Equals
 	(
 	const SComponentPair *pcomppairFst,
 	const SComponentPair *pcomppairSnd
@@ -96,8 +96,8 @@ CJoinOrderDP::SComponentPair::FEqual
 	GPOS_ASSERT(NULL != pcomppairFst);
 	GPOS_ASSERT(NULL != pcomppairSnd);
 
-	return pcomppairFst->m_pbsFst->FEqual(pcomppairSnd->m_pbsFst) &&
-		pcomppairFst->m_pbsSnd->FEqual(pcomppairSnd->m_pbsSnd);
+	return pcomppairFst->m_pbsFst->Equals(pcomppairSnd->m_pbsFst) &&
+		pcomppairFst->m_pbsSnd->Equals(pcomppairSnd->m_pbsSnd);
 }
 
 
@@ -887,7 +887,7 @@ CJoinOrderDP::PexprBestJoinOrder
 		return PexprCross(pbs);
 	}
 
-	if (!pbsCovered->FEqual(pbs))
+	if (!pbsCovered->Equals(pbs))
 	{
 		// create a cross product for uncovered subset
 		CBitSet *pbsUncovered = GPOS_NEW(m_pmp) CBitSet(m_pmp, *pbs);

@@ -102,10 +102,10 @@ namespace gpopt
 					}
 
 					// hash function
-					ULONG UlHash() const;
+					ULONG HashValue() const;
 
 					// equality function
-					BOOL FEqual(CCTEReqEntry *pcre) const;
+					BOOL Equals(CCTEReqEntry *pcre) const;
 
 					// print function
 					virtual
@@ -114,11 +114,11 @@ namespace gpopt
 			}; // class CCTEReqEntry
 
 			// map CTE id to CTE Req entry
-			typedef CHashMap<ULONG, CCTEReqEntry, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, CCTEReqEntry, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CCTEReqEntry> > HMCteReq;
 
 			// map iterator
-			typedef CHashMapIter<ULONG, CCTEReqEntry, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMapIter<ULONG, CCTEReqEntry, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CCTEReqEntry> > HMCteReqIter;
 
 			// memory pool
@@ -163,7 +163,7 @@ namespace gpopt
 			void InsertConsumer(ULONG ulId, DrgPdp *pdrgpdpCtxt);
 
 			// check if two cte requirements are equal
-			BOOL FEqual
+			BOOL Equals
 					(
 					const CCTEReq *pcter
 					)
@@ -180,7 +180,7 @@ namespace gpopt
 			BOOL FContainsRequirement(const ULONG ulId, const CCTEMap::ECteType ect) const;
 
 			// hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// returns a new requirement containing unresolved CTE requirements given a derived CTE map
 			CCTEReq *PcterUnresolved(IMemoryPool *pmp, CCTEMap *pcm);

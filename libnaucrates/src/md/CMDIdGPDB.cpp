@@ -293,7 +293,7 @@ CMDIdGPDB::UlVersionMinor() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdGPDB::FEquals
+//		CMDIdGPDB::Equals
 //
 //	@doc:
 //		Checks if the version of the current object is compatible with another version
@@ -301,7 +301,7 @@ CMDIdGPDB::UlVersionMinor() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDIdGPDB::FEquals
+CMDIdGPDB::Equals
 	(
 	const IMDId *pmdid
 	) 
@@ -329,7 +329,7 @@ CMDIdGPDB::FEquals
 BOOL
 CMDIdGPDB::FValid() const
 {
-	return !FEquals(&CMDIdGPDB::m_mdidInvalidKey);
+	return !Equals(&CMDIdGPDB::m_mdidInvalidKey);
 }
 
 //---------------------------------------------------------------------------

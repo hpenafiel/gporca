@@ -147,7 +147,7 @@ CCostContext::FNeedsNewStats() const
 	if (GPOS_FTRACE(EopttraceDeriveStatsForDPE) &&
 		CUtils::FPhysicalScan(pop) &&
 		CPhysicalScan::PopConvert(pop)->FDynamicScan() &&
-		!pepp->PpfmDerived()->FEmpty())
+		!pepp->PpfmDerived()->IsEmpty())
 	{
 		// context is attached to a dynamic scan that went through
 		// partition elimination in another part of the plan
@@ -262,7 +262,7 @@ CCostContext::operator ==
 	)
 	const
 {
-	return FEqual(cc, *this);
+	return Equals(cc, *this);
 }
 
 

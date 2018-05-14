@@ -971,7 +971,7 @@ CTranslatorDXLToExpr::FCastingUnknownType
 	IMDId *pmdidDest
 	)
 {
-	return ((pmdidSource->FEquals(&CMDIdGPDB::m_mdidUnknown) || pmdidDest->FEquals(&CMDIdGPDB::m_mdidUnknown)));
+	return ((pmdidSource->Equals(&CMDIdGPDB::m_mdidUnknown) || pmdidDest->Equals(&CMDIdGPDB::m_mdidUnknown)));
 }
 
 

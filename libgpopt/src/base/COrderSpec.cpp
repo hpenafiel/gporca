@@ -80,7 +80,7 @@ COrderSpec::COrderExpression::FMatch
 	GPOS_ASSERT(NULL != poe);
 		
 	return
-		poe->m_pmdid->FEquals(m_pmdid) && 
+		poe->m_pmdid->Equals(m_pmdid) && 
 		poe->m_pcr == m_pcr &&
 		poe->m_ent == m_ent;
 }
@@ -270,14 +270,14 @@ COrderSpec::AppendEnforcers
 
 //---------------------------------------------------------------------------
 //	@function:
-//		COrderSpec::UlHash
+//		COrderSpec::HashValue
 //
 //	@doc:
 //		Hash of components
 //
 //---------------------------------------------------------------------------
 ULONG
-COrderSpec::UlHash() const
+COrderSpec::HashValue() const
 {
 	ULONG ulHash = 0;
 	ULONG ulArity = m_pdrgpoe->Size();
@@ -534,14 +534,14 @@ COrderSpec::OsPrint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		COrderSpec::FEqual
+//		COrderSpec::Equals
 //
 //	@doc:
 //		 Matching function over order spec arrays
 //
 //---------------------------------------------------------------------------
 BOOL
-COrderSpec::FEqual
+COrderSpec::Equals
 	(
 	const DrgPos *pdrgposFirst,
 	const DrgPos *pdrgposSecond
@@ -570,14 +570,14 @@ COrderSpec::FEqual
 
 //---------------------------------------------------------------------------
 //	@function:
-//		COrderSpec::UlHash
+//		COrderSpec::HashValue
 //
 //	@doc:
 //		 Combine hash values of a maximum number of entries
 //
 //---------------------------------------------------------------------------
 ULONG
-COrderSpec::UlHash
+COrderSpec::HashValue
 	(
 	const DrgPos *pdrgpos,
 	ULONG ulMaxSize
@@ -589,7 +589,7 @@ COrderSpec::UlHash
 	ULONG ulHash = 0;
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpos)[ul]->UlHash());
+		ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpos)[ul]->HashValue());
 	}
 
 	return ulHash;

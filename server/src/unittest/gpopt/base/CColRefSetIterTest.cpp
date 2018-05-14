@@ -101,7 +101,7 @@ CColRefSetIterTest::EresUnittest_Basics()
 		GPOS_ASSERT((BOOL)crsi);
 
 		CColRef *pcr = crsi.Pcr();
-		GPOS_ASSERT(pcr->Name().FEquals(name));
+		GPOS_ASSERT(pcr->Name().Equals(name));
 
 		// to avoid unused variable warnings
 		(void) pcr->UlId();

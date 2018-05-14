@@ -72,7 +72,7 @@ CLogicalSequenceProject::CLogicalSequenceProject
 	for (ULONG ul = 0; ul < ulFrames; ul++)
 	{
 		CWindowFrame *pwf = (*m_pdrgpwf)[ul];
-		if (!CWindowFrame::FEmpty(pwf))
+		if (!CWindowFrame::IsEmpty(pwf))
 		{
 			m_pcrsLocalUsed->Include(pwf->PcrsUsed());
 		}
@@ -181,7 +181,7 @@ CLogicalSequenceProject::SetHasOrderSpecs
 	BOOL fHasOrderSpecs = false;
 	for (ULONG ul = 0; !fHasOrderSpecs && ul < ulOrderSpecs; ul++)
 	{
-		fHasOrderSpecs = !(*m_pdrgpos)[ul]->FEmpty();
+		fHasOrderSpecs = !(*m_pdrgpos)[ul]->IsEmpty();
 	}
 	m_fHasOrderSpecs = fHasOrderSpecs;
 }
@@ -214,7 +214,7 @@ CLogicalSequenceProject::SetHasFrameSpecs
 	BOOL fHasFrameSpecs = false;
 	for (ULONG ul = 0; !fHasFrameSpecs && ul < ulFrameSpecs; ul++)
 	{
-		fHasFrameSpecs = !CWindowFrame::FEmpty((*m_pdrgpwf)[ul]);
+		fHasFrameSpecs = !CWindowFrame::IsEmpty((*m_pdrgpwf)[ul]);
 	}
 	m_fHasFrameSpecs = fHasFrameSpecs;
 }
@@ -354,8 +354,8 @@ CLogicalSequenceProject::FMatch
 		CLogicalSequenceProject *popLogicalSequenceProject = CLogicalSequenceProject::PopConvert(pop);
 		return
 			m_pds->FMatch(popLogicalSequenceProject->Pds()) &&
-			CWindowFrame::FEqual(m_pdrgpwf, popLogicalSequenceProject->Pdrgpwf()) &&
-			COrderSpec::FEqual(m_pdrgpos, popLogicalSequenceProject->Pdrgpos());
+			CWindowFrame::Equals(m_pdrgpwf, popLogicalSequenceProject->Pdrgpwf()) &&
+			COrderSpec::Equals(m_pdrgpos, popLogicalSequenceProject->Pdrgpos());
 	}
 
 	return false;
@@ -364,19 +364,19 @@ CLogicalSequenceProject::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalSequenceProject::UlHash
+//		CLogicalSequenceProject::HashValue
 //
 //	@doc:
 //		Hashing function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalSequenceProject::UlHash() const
+CLogicalSequenceProject::HashValue() const
 {
 	ULONG ulHash = 0;
-	ulHash = gpos::UlCombineHashes(ulHash, m_pds->UlHash());
-	ulHash = gpos::UlCombineHashes(ulHash, CWindowFrame::UlHash(m_pdrgpwf, 3 /*ulMaxSize*/));
-	ulHash = gpos::UlCombineHashes(ulHash, COrderSpec::UlHash(m_pdrgpos, 3 /*ulMaxSize*/));
+	ulHash = gpos::UlCombineHashes(ulHash, m_pds->HashValue());
+	ulHash = gpos::UlCombineHashes(ulHash, CWindowFrame::HashValue(m_pdrgpwf, 3 /*ulMaxSize*/));
+	ulHash = gpos::UlCombineHashes(ulHash, COrderSpec::HashValue(m_pdrgpos, 3 /*ulMaxSize*/));
 
 	return ulHash;
 }

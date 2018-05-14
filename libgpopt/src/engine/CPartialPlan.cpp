@@ -266,35 +266,35 @@ CPartialPlan::CostCompute
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPartialPlan::UlHash
+//		CPartialPlan::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPartialPlan::UlHash
+CPartialPlan::HashValue
 	(
 	const CPartialPlan *ppp
 	)
 {
 	GPOS_ASSERT(NULL != ppp);
 
-	ULONG ulHash = ppp->Pgexpr()->UlHash();
+	ULONG ulHash = ppp->Pgexpr()->HashValue();
 	return UlCombineHashes(ulHash, CReqdPropPlan::UlHashForCostBounding(ppp->Prpp()));
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPartialPlan::FEqual
+//		CPartialPlan::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CPartialPlan::FEqual
+CPartialPlan::Equals
 	(
 	const CPartialPlan *pppFst,
 	const CPartialPlan *pppSnd

@@ -62,8 +62,8 @@ CMemo::CMemo
 		GPOS_OFFSET(CGroupExpression, m_linkMemo),
 		0, /*cKeyOffset (0 because we use CGroupExpression class as key)*/
 		&(CGroupExpression::m_gexprInvalid),
-		CGroupExpression::UlHash,
-		CGroupExpression::FEqual
+		CGroupExpression::HashValue,
+		CGroupExpression::Equals
 		);
 
 	m_listGroups.Init(GPOS_OFFSET(CGroup, m_link));

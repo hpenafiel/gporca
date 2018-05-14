@@ -263,7 +263,7 @@ CCostModelParamsGPDBLegacy::OsPrint
 }
 
 BOOL
-CCostModelParamsGPDBLegacy::FEquals(ICostModelParams *pcm) const
+CCostModelParamsGPDBLegacy::Equals(ICostModelParams *pcm) const
 {
 	CCostModelParamsGPDBLegacy *pcmgOther = dynamic_cast<CCostModelParamsGPDBLegacy *>(pcm);
 	if (NULL == pcmgOther)
@@ -271,7 +271,7 @@ CCostModelParamsGPDBLegacy::FEquals(ICostModelParams *pcm) const
 
 	for (ULONG ul = 0U; ul < GPOS_ARRAY_SIZE(m_rgpcp); ul++)
 	{
-		if (!m_rgpcp[ul]->FEquals(pcmgOther->m_rgpcp[ul]))
+		if (!m_rgpcp[ul]->Equals(pcmgOther->m_rgpcp[ul]))
 			return false;
 	}
 

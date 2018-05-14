@@ -83,7 +83,7 @@ CLogicalAssert::FMatch
 	}
 	
 	CLogicalAssert *popAssert = CLogicalAssert::PopConvert(pop); 
-	return CException::FEqual(*(popAssert->Pexc()), *m_pexc);
+	return CException::Equals(*(popAssert->Pexc()), *m_pexc);
 }
 
 //---------------------------------------------------------------------------

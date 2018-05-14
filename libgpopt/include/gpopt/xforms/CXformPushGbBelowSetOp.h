@@ -121,7 +121,7 @@ namespace gpopt
                     CColRefSet *pcrsChild =  GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrChild);
 
                     DrgPcr *pdrgpcrChildGb = NULL;
-                    if (!pcrsChild->FEqual(pcrsOutput))
+                    if (!pcrsChild->Equals(pcrsOutput))
                     {
                         // use column mapping in SetOp to set child grouping colums
                         HMUlCr *phmulcr = CUtils::PhmulcrMapping(pmp, pdrgpcrOutput, pdrgpcrChild);
@@ -144,7 +144,7 @@ namespace gpopt
                     if (COperator::EopLogicalGbAgg == popChild->Eopid())
                     {
                         CLogicalGbAgg *popGbAgg = CLogicalGbAgg::PopConvert(popChild);
-                        if (CColRef::FEqual(popGbAgg->Pdrgpcr(), pdrgpcrChildGb))
+                        if (CColRef::Equals(popGbAgg->Pdrgpcr(), pdrgpcrChildGb))
                         {
                             pdrgpexprNewChildren->Append(pexprChild);
                             pdrgpdrgpcrNewInput->Append(pdrgpcrChildGb);

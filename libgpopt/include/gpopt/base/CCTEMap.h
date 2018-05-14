@@ -29,11 +29,11 @@ namespace gpopt
 	using namespace gpos;
 
 	// hash map from CTE id to corresponding producer plan properties
-	typedef CHashMap<ULONG, CDrvdPropPlan, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CDrvdPropPlan, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<CDrvdPropPlan> > HMUlPdp;
 
 	// iterator for plan properties map
-	typedef CHashMapIter<ULONG, CDrvdPropPlan, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, CDrvdPropPlan, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<CDrvdPropPlan> > HMUlPdpIter;
 
 	// forward declaration
@@ -131,9 +131,9 @@ namespace gpopt
 					}
 
 					// hash function
-					ULONG UlHash() const
+					ULONG HashValue() const
 					{
-						return gpos::UlCombineHashes(gpos::UlHash<ULONG>(&m_ulId), gpos::UlHash<CCTEMap::ECteType>(&m_ect));
+						return gpos::UlCombineHashes(gpos::HashValue<ULONG>(&m_ulId), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
 					}
 
 					// print function
@@ -156,11 +156,11 @@ namespace gpopt
 			}; // class CCTEMapEntry
 
 			// map CTE id to CTE map entry
-			typedef CHashMap<ULONG, CCTEMapEntry, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMap<ULONG, CCTEMapEntry, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CCTEMapEntry> > HMCteMap;
 
 			// map iterator
-			typedef CHashMapIter<ULONG, CCTEMapEntry, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+			typedef CHashMapIter<ULONG, CCTEMapEntry, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CCTEMapEntry> > HMCteMapIter;
 
 			// memory pool
@@ -196,10 +196,10 @@ namespace gpopt
 			void Insert(ULONG ulCteId, ECteType ect, CDrvdPropPlan *pdpplan);
 
 			// hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// check if two cte maps are equal
-			BOOL FEqual
+			BOOL Equals
 					(
 					const CCTEMap *pcm
 					)

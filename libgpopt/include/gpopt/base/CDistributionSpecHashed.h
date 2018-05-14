@@ -134,7 +134,7 @@ namespace gpopt
 			BOOL FMatchSubset(const CDistributionSpecHashed *pds) const;
 
 			// equality function
-			BOOL FEqual(const CDistributionSpecHashed *pds) const;
+			BOOL Equals(const CDistributionSpecHashed *pds) const;
 
 			// return a copy of the distribution spec with remapped columns
 			virtual
@@ -146,7 +146,7 @@ namespace gpopt
 
 			// hash function for hashed distribution spec
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// return distribution partitioning type
 			virtual

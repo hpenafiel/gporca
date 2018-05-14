@@ -92,23 +92,23 @@ CFunctionalDependencyTest::EresUnittest_Basics()
 	pcrsRight->AddRef();
 	CFunctionalDependency *pfdSnd = GPOS_NEW(pmp) CFunctionalDependency(pcrsLeft, pcrsRight);
 
-	GPOS_ASSERT(pfdFst->FEqual(pfdSnd));
-	GPOS_ASSERT(pfdFst->UlHash() == pfdSnd->UlHash());
+	GPOS_ASSERT(pfdFst->Equals(pfdSnd));
+	GPOS_ASSERT(pfdFst->HashValue() == pfdSnd->HashValue());
 
 	 DrgPfd *pdrgpfd = GPOS_NEW(pmp) DrgPfd(pmp);
 	 pfdFst->AddRef();
 	 pdrgpfd->Append(pfdFst);
 	 pfdSnd->AddRef();
 	 pdrgpfd->Append(pfdSnd);
-	 GPOS_ASSERT(CFunctionalDependency::FEqual(pdrgpfd, pdrgpfd));
+	 GPOS_ASSERT(CFunctionalDependency::Equals(pdrgpfd, pdrgpfd));
 
 	 DrgPcr *pdrgpcr = CFunctionalDependency::PdrgpcrKeys(pmp, pdrgpfd);
 	 CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
 	 pcrs->Include(pdrgpcr);
 	 CColRefSet *pcrsKeys = CFunctionalDependency::PcrsKeys(pmp, pdrgpfd);
 
-	 GPOS_ASSERT(pcrsLeft->FEqual(pcrs));
-	 GPOS_ASSERT(pcrsKeys->FEqual(pcrs));
+	 GPOS_ASSERT(pcrsLeft->Equals(pcrs));
+	 GPOS_ASSERT(pcrsKeys->Equals(pcrs));
 
 	CAutoTrace at(pmp);
 	at.Os()

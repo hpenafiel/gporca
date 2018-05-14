@@ -416,7 +416,7 @@ CEngine::FPossibleDuplicateGroups
 
 	// right now we only check the output columns, but we may possibly need to
 	// check other properties as well
-	return pdprelFst->PcrsOutput()->FEqual(pdprelSnd->PcrsOutput());
+	return pdprelFst->PcrsOutput()->Equals(pdprelSnd->PcrsOutput());
 }
 
 //---------------------------------------------------------------------------
@@ -2231,7 +2231,7 @@ CEngine::FCheckEnfdProps
 	// Determine if any property enforcement is disable or unnecessary
 	BOOL fOrderReqd =
 		!GPOS_FTRACE(EopttraceDisableSort) &&
-		!prpp->Peo()->PosRequired()->FEmpty();
+		!prpp->Peo()->PosRequired()->IsEmpty();
 
 	BOOL fDistributionReqd =
 		!GPOS_FTRACE(EopttraceDisableMotions) &&
@@ -2473,7 +2473,7 @@ CEngine::FCheckReqdProps
 	// check if sort operator is passed an empty order spec;
 	// this check is required to avoid self-deadlocks, i.e.
 	// sort optimizing same group with the same optimization context;
-	BOOL fOrderReqd = !prpp->Peo()->PosRequired()->FEmpty();
+	BOOL fOrderReqd = !prpp->Peo()->PosRequired()->IsEmpty();
 	if (!fOrderReqd && COperator::EopPhysicalSort == eopid)
 	{
 		return false;

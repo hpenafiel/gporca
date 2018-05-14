@@ -468,7 +468,7 @@ namespace gpopt
 
 			// deep equality of expression trees
 			static
-			BOOL FEqual(const CExpression *pexprLeft, const CExpression *pexprRight);
+			BOOL Equals(const CExpression *pexprLeft, const CExpression *pexprRight);
 
 			// compare expression against an array of expressions
 			static
@@ -476,7 +476,7 @@ namespace gpopt
 
 			// deep equality of expression arrays
 			static
-			BOOL FEqual(const DrgPexpr *pdrgpexprLeft, const DrgPexpr *pdrgpexprRight);
+			BOOL Equals(const DrgPexpr *pdrgpexprLeft, const DrgPexpr *pdrgpexprRight);
 
 			// check if first expression array contains all expressions in second array
 			static
@@ -925,7 +925,7 @@ namespace gpopt
 
 			// equality check between two arrays of column refs. Inputs can be NULL
 			static
-			BOOL FEqual(DrgPcr *pdrgpcrFst, DrgPcr *pdrgpcrSnd);
+			BOOL Equals(DrgPcr *pdrgpcrFst, DrgPcr *pdrgpcrSnd);
 
 			// compute hash value for an array of column references
 			static
@@ -1082,7 +1082,7 @@ namespace gpopt
 	}; // class CUtils
 
 	// hash set from expressions
-	typedef CHashSet<CExpression, CExpression::UlHashDedup, CUtils::FEqual, CleanupRelease<CExpression> > HSExpr;
+	typedef CHashSet<CExpression, CExpression::UlHashDedup, CUtils::Equals, CleanupRelease<CExpression> > HSExpr;
 
 
 	//---------------------------------------------------------------------------
@@ -1392,8 +1392,8 @@ namespace gpopt
 		T *popIndex = T::PopConvert(pop2);
 
 		return pop1->UlOriginOpId() == popIndex->UlOriginOpId() &&
-				pop1->Ptabdesc()->Pmdid()->FEquals(popIndex->Ptabdesc()->Pmdid()) &&
-				pop1->Pindexdesc()->Pmdid()->FEquals(popIndex->Pindexdesc()->Pmdid()) &&
+				pop1->Ptabdesc()->Pmdid()->Equals(popIndex->Ptabdesc()->Pmdid()) &&
+				pop1->Pindexdesc()->Pmdid()->Equals(popIndex->Pindexdesc()->Pmdid()) &&
 				pop1->PdrgpcrOutput()->Equals(popIndex->PdrgpcrOutput());
 	}
 
@@ -1428,8 +1428,8 @@ namespace gpopt
 		return  pop1->UlOriginOpId() == popIndex2->UlOriginOpId() &&
 				pop1->UlScanId() == popIndex2->UlScanId() &&
 				pop1->UlSecondaryScanId() == popIndex2->UlSecondaryScanId() &&
-				pop1->Ptabdesc()->Pmdid()->FEquals(popIndex2->Ptabdesc()->Pmdid()) &&
-				pop1->Pindexdesc()->Pmdid()->FEquals(popIndex2->Pindexdesc()->Pmdid()) &&
+				pop1->Ptabdesc()->Pmdid()->Equals(popIndex2->Ptabdesc()->Pmdid()) &&
+				pop1->Pindexdesc()->Pmdid()->Equals(popIndex2->Pindexdesc()->Pmdid()) &&
 				pop1->PdrgpcrOutput()->Equals(popIndex2->PdrgpcrOutput()) &&
 				(!pop1->FPartial() || (pop1->Ppartcnstr() == popIndex2->Ppartcnstr()));
 	}
@@ -1463,7 +1463,7 @@ namespace gpopt
 		// this means that we may miss matches for partial scans
 		return pop1->UlScanId() == popScan2->UlScanId() &&
 				pop1->UlSecondaryScanId() == popScan2->UlSecondaryScanId() &&
-				pop1->Ptabdesc()->Pmdid()->FEquals(popScan2->Ptabdesc()->Pmdid()) &&
+				pop1->Ptabdesc()->Pmdid()->Equals(popScan2->Ptabdesc()->Pmdid()) &&
 				pop1->PdrgpcrOutput()->Equals(popScan2->PdrgpcrOutput()) &&
 				((!pop1->FPartial() && !popScan2->FPartial()) ||
 				 (pop1->Ppartcnstr() == popScan2->Ppartcnstr()));
@@ -1523,7 +1523,7 @@ namespace gpopt
 		T *popScan2 = T::PopConvert(pop2);
 
 		return pop1->UlOriginOpId() == popScan2->UlOriginOpId() &&
-			pop1->Ptabdesc()->Pmdid()->FEquals(popScan2->Ptabdesc()->Pmdid()) &&
+			pop1->Ptabdesc()->Pmdid()->Equals(popScan2->Ptabdesc()->Pmdid()) &&
 			pop1->PdrgpcrOutput()->Equals(popScan2->PdrgpcrOutput());
 	}
 } // namespace gpopt

@@ -186,16 +186,16 @@ CLogicalCTEProducer::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalCTEProducer::UlHash
+//		CLogicalCTEProducer::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalCTEProducer::UlHash() const
+CLogicalCTEProducer::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::UlHash(), m_ulId);
+	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ulId);
 	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 
 	return ulHash;

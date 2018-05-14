@@ -130,8 +130,8 @@ CMDProviderTest::TestMDLookup
 
 	IMDCacheObject *pimdobj2 = CDXLUtils::PimdobjParseDXL(pmp, pstrMDObject2, NULL);
 
-	GPOS_ASSERT(NULL != pimdobj1 && pmdid1->FEquals(pimdobj1->Pmdid()));
-	GPOS_ASSERT(NULL != pimdobj2 && pmdid2->FEquals(pimdobj2->Pmdid()));
+	GPOS_ASSERT(NULL != pimdobj1 && pmdid1->Equals(pimdobj1->Pmdid()));
+	GPOS_ASSERT(NULL != pimdobj2 && pmdid2->Equals(pimdobj2->Pmdid()));
 
 	// cleanup
 	pmdid1->Release();

@@ -75,10 +75,10 @@ namespace gpopt
 
 			// hash function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// equality function
-			BOOL FEqual(const CFunctionalDependency *pfd) const;
+			BOOL Equals(const CFunctionalDependency *pfd) const;
 
 			// do the given arguments form a functional dependency
 			BOOL
@@ -91,7 +91,7 @@ namespace gpopt
 				GPOS_ASSERT(NULL != pcrsKey);
 				GPOS_ASSERT(NULL != pcr);
 				
-				return m_pcrsKey->FEqual(pcrsKey) && m_pcrsDetermined->FMember(pcr);
+				return m_pcrsKey->Equals(pcrsKey) && m_pcrsDetermined->FMember(pcr);
 			}
 			
 			// print
@@ -100,11 +100,11 @@ namespace gpopt
 
 			// hash function
 			static
-			ULONG UlHash(const DrgPfd *pdrgpfd);
+			ULONG HashValue(const DrgPfd *pdrgpfd);
 
 			// equality function
 			static
-			BOOL FEqual(const DrgPfd *pdrgpfdFst, const DrgPfd *pdrgpfdSnd);
+			BOOL Equals(const DrgPfd *pdrgpfdFst, const DrgPfd *pdrgpfdSnd);
 
 			// create a set of all keys in the passed FD's array
 			static

@@ -187,8 +187,8 @@ CMessageRepository::InitDirectory
 		GPOS_OFFSET(CMessageTable, m_link),
 		GPOS_OFFSET(CMessageTable, m_eloc),
 		&(CMessageTable::m_elocInvalid),
-		CMessageTable::UlHash,
-		CMessageTable::FEqual
+		CMessageTable::HashValue,
+		CMessageTable::Equals
 		);
 }
 

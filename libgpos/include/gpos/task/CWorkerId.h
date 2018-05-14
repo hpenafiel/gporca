@@ -37,7 +37,7 @@ namespace gpos
 			CWorkerId(BOOL fValid = true);
 			
 			// simple comparison
-			BOOL FEqual(const CWorkerId &wid) const;
+			BOOL Equals(const CWorkerId &wid) const;
 
 			// set worker id to current thread
 			void Current();
@@ -58,12 +58,12 @@ namespace gpos
 				)
 				const
 			{
-				return this->FEqual(wid);
+				return this->Equals(wid);
 			}
 
 			// comparison function; used in hashtables
 			static
-			BOOL FEqual
+			BOOL Equals
 				(
 				const CWorkerId &wid,
 				const CWorkerId &widOther
@@ -74,7 +74,7 @@ namespace gpos
 
 			// primitive hash function
 			static 
-			ULONG UlHash(const CWorkerId &wid);
+			ULONG HashValue(const CWorkerId &wid);
 
 			// invalid worker id
 			static

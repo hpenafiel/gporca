@@ -73,17 +73,17 @@ CScalarBitmapBoolOp::~CScalarBitmapBoolOp()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarBitmapBoolOp::UlHash
+//		CScalarBitmapBoolOp::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarBitmapBoolOp::UlHash() const
+CScalarBitmapBoolOp::HashValue() const
 {
 	ULONG ulBoolop = (ULONG) Ebitmapboolop();
-	return gpos::UlCombineHashes(COperator::UlHash(), gpos::UlHash<ULONG>(&ulBoolop));
+	return gpos::UlCombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulBoolop));
 }
 
 
@@ -109,7 +109,7 @@ CScalarBitmapBoolOp::FMatch
 	CScalarBitmapBoolOp *popBitmapBoolOp = PopConvert(pop);
 
 	return popBitmapBoolOp->Ebitmapboolop() == Ebitmapboolop() &&
-		popBitmapBoolOp->PmdidType()->FEquals(m_pmdidBitmapType);
+		popBitmapBoolOp->PmdidType()->Equals(m_pmdidBitmapType);
 }
 
 //---------------------------------------------------------------------------

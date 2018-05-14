@@ -73,9 +73,9 @@ CStackTest::EresUnittest_Basic()
 	}
 
 	ULONG idx = 0;
-	while (!pstk->FEmpty())
+	while (!pstk->IsEmpty())
 	{
-		GPOS_ASSERT(idx <= 8 && "Index out of range. Problem with FEmpty.");
+		GPOS_ASSERT(idx <= 8 && "Index out of range. Problem with IsEmpty.");
 #ifdef GPOS_DEBUG
 		GPOS_ASSERT(pstk->Pop() == rgsz[8 - idx] && "Incorrect pop value");
 #else

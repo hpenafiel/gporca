@@ -44,7 +44,7 @@ CDXLScalarArrayRef::CDXLScalarArrayRef
 	GPOS_ASSERT(m_pmdidElem->FValid());
 	GPOS_ASSERT(m_pmdidArray->FValid());
 	GPOS_ASSERT(m_pmdidReturn->FValid());
-	GPOS_ASSERT(m_pmdidReturn->FEquals(m_pmdidElem) || m_pmdidReturn->FEquals(m_pmdidArray));
+	GPOS_ASSERT(m_pmdidReturn->Equals(m_pmdidElem) || m_pmdidReturn->Equals(m_pmdidArray));
 }
 
 //---------------------------------------------------------------------------

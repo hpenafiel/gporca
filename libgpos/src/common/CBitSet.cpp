@@ -355,7 +355,7 @@ CBitSet::ExchangeClear
 		BOOL fBit = pbsl->Pbv()->ExchangeClear(ulBit - ulOffset);
 		
 		// remove empty link
-		if (pbsl->Pbv()->FEmpty())
+		if (pbsl->Pbv()->IsEmpty())
 		{
 			m_bsllist.Remove(pbsl);
 			GPOS_DELETE(pbsl);
@@ -573,14 +573,14 @@ CBitSet::FSubset
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitSet::FEqual
+//		CBitSet::Equals
 //
 //	@doc:
 //		Determine if equal
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitSet::FEqual
+CBitSet::Equals
 	(
 	const CBitSet *pbsOther
 	)
@@ -605,7 +605,7 @@ CBitSet::FEqual
 	{
 		if (NULL == pbslOther || 
 			pbsl->UlOffset() != pbslOther->UlOffset() ||
-			!pbsl->Pbv()->FEqual(pbslOther->Pbv()))
+			!pbsl->Pbv()->Equals(pbslOther->Pbv()))
 		{
 			return false;
 		}
@@ -661,21 +661,21 @@ CBitSet::FDisjoint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBitSet::UlHash
+//		CBitSet::HashValue
 //
 //	@doc:
 //		Compute hash value for set
 //
 //---------------------------------------------------------------------------
 ULONG
-CBitSet::UlHash() const
+CBitSet::HashValue() const
 {
 	ULONG ulHash = 0;
 
 	CBitSetLink *pbsl = m_bsllist.First();
 	while (NULL != pbsl)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, pbsl->Pbv()->UlHash());
+		ulHash = gpos::UlCombineHashes(ulHash, pbsl->Pbv()->HashValue());
 		pbsl = m_bsllist.Next(pbsl);
 	}
 
@@ -714,7 +714,7 @@ CBitSet::OsPrint
 		}
 	}
 	
-	os << "} " << "Hash:" << UlHash();
+	os << "} " << "Hash:" << HashValue();
 	
 	return os;
 }

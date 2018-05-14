@@ -56,10 +56,10 @@ namespace gpopt
 			}
 					
 			// equality function
-			BOOL FEquals(const CMDKey &mdkey) const;
+			BOOL Equals(const CMDKey &mdkey) const;
 			
 			// hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 			
 			
 			// equality function for using MD keys in a cache

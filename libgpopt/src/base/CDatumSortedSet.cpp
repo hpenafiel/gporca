@@ -48,7 +48,7 @@ CDatumSortedSet::CDatumSortedSet
 	Append(pdatumPrev);
 	for (ULONG ul = 1; ul < ulRangeArrayArity; ul++)
 	{
-		if (!pcomp->FEqual((*aprngdatum)[ul], pdatumPrev))
+		if (!pcomp->Equals((*aprngdatum)[ul], pdatumPrev))
 		{
 			pdatumPrev = (*aprngdatum)[ul];
 			pdatumPrev->AddRef();

@@ -6655,7 +6655,7 @@ CTranslatorExprToDXL::Pdxlwf
 {
 	GPOS_ASSERT(NULL != pwf);
 
-	if (CWindowFrame::FEmpty(pwf))
+	if (CWindowFrame::IsEmpty(pwf))
 	{
 		// an empty frame is translated as 'no frame'
 		return NULL;
@@ -6790,7 +6790,7 @@ CTranslatorExprToDXL::PdxlnWindow
 	for (ULONG ul = 0; ul < ulOsSize; ul++)
 	{
 		COrderSpec *pos = (*popSeqPrj->Pdrgpos())[ul];
-		if (!pos->FEmpty())
+		if (!pos->IsEmpty())
 		{
 			const CColRef *pcr = pos->Pcr(ul);
 			pcrsOutput->Include(pcr);
@@ -7374,8 +7374,8 @@ CTranslatorExprToDXL::PdxlnProjList
 	}
 
 	// translate computed column expressions into DXL and index them on their col ids
-	CHashMap<ULONG, CDXLNode, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>, CleanupDelete<ULONG>, CleanupRelease<CDXLNode> >
-		*phmComputedColumns = GPOS_NEW(m_pmp) CHashMap<ULONG, CDXLNode, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>, CleanupDelete<ULONG>, CleanupRelease<CDXLNode> >(m_pmp);
+	CHashMap<ULONG, CDXLNode, gpos::HashValue<ULONG>, gpos::Equals<ULONG>, CleanupDelete<ULONG>, CleanupRelease<CDXLNode> >
+		*phmComputedColumns = GPOS_NEW(m_pmp) CHashMap<ULONG, CDXLNode, gpos::HashValue<ULONG>, gpos::Equals<ULONG>, CleanupDelete<ULONG>, CleanupRelease<CDXLNode> >(m_pmp);
 
 	for (ULONG ul = 0; NULL != pexprProjList && ul < pexprProjList->UlArity(); ul++)
 	{

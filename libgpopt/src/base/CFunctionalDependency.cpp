@@ -76,29 +76,29 @@ CFunctionalDependency::FIncluded
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CFunctionalDependency::UlHash
+//		CFunctionalDependency::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CFunctionalDependency::UlHash() const
+CFunctionalDependency::HashValue() const
 {
-	return gpos::UlCombineHashes(m_pcrsKey->UlHash(), m_pcrsDetermined->UlHash());
+	return gpos::UlCombineHashes(m_pcrsKey->HashValue(), m_pcrsDetermined->HashValue());
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CFunctionalDependency::FEqual
+//		CFunctionalDependency::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CFunctionalDependency::FEqual
+CFunctionalDependency::Equals
 	(
 	const CFunctionalDependency *pfd
 	)
@@ -109,7 +109,7 @@ CFunctionalDependency::FEqual
 		return false;
 	}
 
-	return m_pcrsKey->FEqual(pfd->PcrsKey()) && m_pcrsDetermined->FEqual(pfd->PcrsDetermined());
+	return m_pcrsKey->Equals(pfd->PcrsKey()) && m_pcrsDetermined->Equals(pfd->PcrsDetermined());
 }
 
 
@@ -136,14 +136,14 @@ CFunctionalDependency::OsPrint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CFunctionalDependency::UlHash
+//		CFunctionalDependency::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CFunctionalDependency::UlHash
+CFunctionalDependency::HashValue
 	(
 	const DrgPfd *pdrgpfd
 	)
@@ -154,7 +154,7 @@ CFunctionalDependency::UlHash
 		const ULONG ulSize = pdrgpfd->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
-			ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpfd)[ul]->UlHash());
+			ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpfd)[ul]->HashValue());
 		}
 	}
 
@@ -164,14 +164,14 @@ CFunctionalDependency::UlHash
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CFunctionalDependency::FEqual
+//		CFunctionalDependency::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CFunctionalDependency::FEqual
+CFunctionalDependency::Equals
 	(
 	const DrgPfd *pdrgpfdFst,
 	const DrgPfd *pdrgpfdSnd
@@ -197,7 +197,7 @@ CFunctionalDependency::FEqual
 		for (ULONG ulSnd = 0; !fMatch && ulSnd < ulLenSnd; ulSnd++)
 		{
 			const CFunctionalDependency *pfdSnd = (*pdrgpfdSnd)[ulSnd];
-			fMatch = pfdFst->FEqual(pfdSnd);
+			fMatch = pfdFst->Equals(pfdSnd);
 		}
 		fEqual = fMatch;
 	}

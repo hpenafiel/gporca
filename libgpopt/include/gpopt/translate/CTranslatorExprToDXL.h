@@ -51,7 +51,7 @@ namespace gpopt
 	using namespace gpnaucrates;
 
 	// hash map mapping CColRef -> CDXLNode
-	typedef CHashMap<CColRef, CDXLNode, gpos::UlHash<CColRef>, gpos::FEqual<CColRef>,
+	typedef CHashMap<CColRef, CDXLNode, gpos::HashValue<CColRef>, gpos::Equals<CColRef>,
 					CleanupNULL<CColRef>, CleanupRelease<CDXLNode> > HMCrDxln;
 
 	//---------------------------------------------------------------------------

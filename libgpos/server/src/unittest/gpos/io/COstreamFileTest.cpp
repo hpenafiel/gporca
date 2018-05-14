@@ -158,7 +158,7 @@ COstreamFileTest::Unittest_CheckOutputFile
 	CWStringConst strExpected(GPOS_WSZ_LIT("WC102-10some regular stringdeadbeef"));
 
 	GPOS_ASSERT(ulpRead == (ULONG_PTR) strExpected.UlLength() * GPOS_SIZEOF(WCHAR));
-	GPOS_ASSERT(strExpected.FEquals(&strExpected));
+	GPOS_ASSERT(strExpected.Equals(&strExpected));
 }
 
 

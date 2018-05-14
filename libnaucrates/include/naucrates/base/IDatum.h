@@ -27,7 +27,7 @@ namespace gpnaucrates
 	class IDatum;
 
 	// hash map mapping ULONG -> Datum
-	typedef CHashMap<ULONG, IDatum, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, IDatum, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<IDatum> > HMUlDatum;
 
 	//---------------------------------------------------------------------------
@@ -83,7 +83,7 @@ namespace gpnaucrates
 
 			// hash function
 			virtual
-			ULONG UlHash() const = 0;
+			ULONG HashValue() const = 0;
 
 			// Match function on datums
 			virtual

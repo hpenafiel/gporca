@@ -63,10 +63,10 @@ namespace gpmd
 			}
 			
 			// equality
-			BOOL FEquals(const CSystemId &sysid) const;
+			BOOL Equals(const CSystemId &sysid) const;
 			
 			// hash function
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 	};
 
 	// dynamic arrays over md system id elements

@@ -676,7 +676,7 @@ CExpressionHandle::DeriveCostContextStats()
 	COperator *pop = Pop();
 	if (CUtils::FPhysicalScan(pop) &&
 		CPhysicalScan::PopConvert(pop)->FDynamicScan() &&
-		!pepp->PpfmDerived()->FEmpty())
+		!pepp->PpfmDerived()->IsEmpty())
 	{
 		// derive stats on dynamic table scan using stats of part selector
 		CPhysicalScan *popScan = CPhysicalScan::PopConvert(m_pgexpr->Pop());

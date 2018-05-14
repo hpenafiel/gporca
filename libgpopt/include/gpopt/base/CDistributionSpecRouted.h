@@ -80,7 +80,7 @@ namespace gpopt
 
 			// hash function for routed distribution spec
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 			
 			// extract columns used by the distribution spec
 			virtual

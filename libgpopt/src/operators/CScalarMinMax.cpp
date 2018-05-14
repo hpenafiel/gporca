@@ -67,7 +67,7 @@ CScalarMinMax::~CScalarMinMax()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarMinMax::UlHash
+//		CScalarMinMax::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -75,14 +75,14 @@ CScalarMinMax::~CScalarMinMax()
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarMinMax::UlHash() const
+CScalarMinMax::HashValue() const
 {
 	ULONG ulminmax = (ULONG) this->Esmmt();
 
 	return gpos::UlCombineHashes
 					(
-						m_pmdidType->UlHash(),
-						gpos::UlCombineHashes(COperator::UlHash(), gpos::UlHash<ULONG>(&ulminmax))
+						m_pmdidType->HashValue(),
+						gpos::UlCombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulminmax))
 					);
 }
 
@@ -110,7 +110,7 @@ CScalarMinMax::FMatch
 
 	// match if return types are identical
 	return popScMinMax->Esmmt() == m_esmmt &&
-			popScMinMax->PmdidType()->FEquals(m_pmdidType);
+			popScMinMax->PmdidType()->Equals(m_pmdidType);
 }
 
 //---------------------------------------------------------------------------

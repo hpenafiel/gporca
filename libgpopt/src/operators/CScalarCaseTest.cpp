@@ -51,7 +51,7 @@ CScalarCaseTest::~CScalarCaseTest()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarCaseTest::UlHash
+//		CScalarCaseTest::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -59,9 +59,9 @@ CScalarCaseTest::~CScalarCaseTest()
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarCaseTest::UlHash() const
+CScalarCaseTest::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(), m_pmdidType->UlHash());
+	return gpos::UlCombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -99,7 +99,7 @@ CScalarCaseTest::FMatch
 		CScalarCaseTest *popScCaseTest = CScalarCaseTest::PopConvert(pop);
 
 		// match if return types are identical
-		return popScCaseTest->PmdidType()->FEquals(m_pmdidType);
+		return popScCaseTest->PmdidType()->Equals(m_pmdidType);
 	}
 
 	return false;

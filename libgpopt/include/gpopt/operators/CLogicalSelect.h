@@ -19,7 +19,7 @@
 namespace gpopt
 {
 
-	typedef CHashMap<CExpression, CExpression, CExpression::UlHash, CUtils::FEqual,
+	typedef CHashMap<CExpression, CExpression, CExpression::HashValue, CUtils::Equals,
 		CleanupRelease<CExpression>, CleanupRelease<CExpression> > HMPexprPartPred;
 
 	//---------------------------------------------------------------------------

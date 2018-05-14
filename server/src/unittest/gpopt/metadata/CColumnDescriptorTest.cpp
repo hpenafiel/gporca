@@ -76,7 +76,7 @@ CColumnDescriptorTest::EresUnittest_Basic()
 	CName name(&strName);
 	CColumnDescriptor *pcdesc = GPOS_NEW(pmp) CColumnDescriptor(pmp, pmdtypeint4, IDefaultTypeModifier, name, 1, false /*FNullable*/);
 
-	GPOS_ASSERT(name.FEquals(pcdesc->Name()));
+	GPOS_ASSERT(name.Equals(pcdesc->Name()));
 
 	GPOS_ASSERT(1 == pcdesc->IAttno());
 

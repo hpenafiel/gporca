@@ -75,10 +75,10 @@ namespace gpos
 			BOOL IsDisjoint(const CBitVector *) const;
 			
 			// equality
-			BOOL FEqual(const CBitVector *) const;
+			BOOL Equals(const CBitVector *) const;
 			
 			// is empty?
-			BOOL FEmpty() const;
+			BOOL IsEmpty() const;
 			
 			// find next bit from given position
 			BOOL GetNextSetBit(ULONG, ULONG&) const;
@@ -87,7 +87,7 @@ namespace gpos
 			ULONG CountSetBits() const;
 			
 			// hash value
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 	}; // class CBitVector
 

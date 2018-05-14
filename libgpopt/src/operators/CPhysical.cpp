@@ -222,21 +222,21 @@ CPhysical::PrpCreate
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalHashJoin::CReqdColsRequest::UlHash
+//		CPhysicalHashJoin::CReqdColsRequest::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CPhysical::CReqdColsRequest::UlHash
+CPhysical::CReqdColsRequest::HashValue
 	(
 	const CReqdColsRequest *prcr
 	)
 {
 	GPOS_ASSERT(NULL != prcr);
 
-	ULONG ulHash = prcr->Pcrs()->UlHash();
+	ULONG ulHash = prcr->Pcrs()->HashValue();
 	ulHash = UlCombineHashes(ulHash , prcr->UlChildIndex());;
 
 	return UlCombineHashes(ulHash , prcr->UlScalarChildIndex());
@@ -244,14 +244,14 @@ CPhysical::CReqdColsRequest::UlHash
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysicalHashJoin::CReqdColsRequest::FEqual
+//		CPhysicalHashJoin::CReqdColsRequest::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysical::CReqdColsRequest::FEqual
+CPhysical::CReqdColsRequest::Equals
 	(
 	const CReqdColsRequest *prcrFst,
 	const CReqdColsRequest *prcrSnd
@@ -263,7 +263,7 @@ CPhysical::CReqdColsRequest::FEqual
 	return
 		prcrFst->UlChildIndex() == prcrSnd->UlChildIndex() &&
 		prcrFst->UlScalarChildIndex() == prcrSnd->UlScalarChildIndex() &&
-		prcrFst->Pcrs()->FEqual(prcrSnd->Pcrs());
+		prcrFst->Pcrs()->Equals(prcrSnd->Pcrs());
 }
 
 //---------------------------------------------------------------------------

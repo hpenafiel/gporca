@@ -374,7 +374,7 @@ CBucketTest::FMatchBucketBoundary
 		return false;
 	}
 
-	if (pbucket1->PpLower()->FEqual(pbucket2->PpLower()) && pbucket1->PpUpper()->FEqual(pbucket2->PpUpper()))
+	if (pbucket1->PpLower()->Equals(pbucket2->PpLower()) && pbucket1->PpUpper()->Equals(pbucket2->PpUpper()))
 	{
 		return true;
 	}

@@ -306,7 +306,7 @@ namespace gpopt
 
 			// static hash function
 			static
-			ULONG UlHash(const CExpression *pexpr);
+			ULONG HashValue(const CExpression *pexpr);
 
 			// static hash function
 			static
@@ -328,11 +328,11 @@ namespace gpopt
 	}
 
 	// hash map from ULONG to expression
-	typedef CHashMap<ULONG, CExpression, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CExpression, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<CExpression> > HMUlExpr;
 
 	// map iterator
-	typedef CHashMapIter<ULONG, CExpression, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMapIter<ULONG, CExpression, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 					CleanupDelete<ULONG>, CleanupRelease<CExpression> > HMUlExprIter;
 
 }

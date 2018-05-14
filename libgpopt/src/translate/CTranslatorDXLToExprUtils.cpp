@@ -312,7 +312,7 @@ CTranslatorDXLToExprUtils::FCastFunc
 
 	const IMDCast *pmdcast = pmda->Pmdcast(pmdidInput, pmdidDest);
 
-	return (pmdcast->PmdidCastFunc()->FEquals(pdxlopScFunc->PmdidFunc()));
+	return (pmdcast->PmdidCastFunc()->Equals(pdxlopScFunc->PmdidFunc()));
 }
 
 

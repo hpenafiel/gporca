@@ -147,7 +147,7 @@ CPhysicalScan::EpetOrder
 	const
 {
 	GPOS_ASSERT(NULL != peo);
-	GPOS_ASSERT(!peo->PosRequired()->FEmpty());
+	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
 	return CEnfdProp::EpetRequired;
 }
@@ -189,20 +189,20 @@ CPhysicalScan::PexprMatchEqualitySide
 
 		IMDId *pmdidTypeOuter = CScalar::PopConvert(pexprPredOuter->Pop())->PmdidType();
 		IMDId *pmdidTypeInner = CScalar::PopConvert(pexprPredInner->Pop())->PmdidType();
-		if (!pmdidTypeOuter->FEquals(pmdidTypeInner))
+		if (!pmdidTypeOuter->Equals(pmdidTypeInner))
 		{
 			// only consider equality of identical types
 			continue;
 		}
 
 		pexprToMatch = CCastUtils::PexprWithoutBinaryCoercibleCasts(pexprToMatch);
-		if (CUtils::FEqual(CCastUtils::PexprWithoutBinaryCoercibleCasts(pexprPredOuter), pexprToMatch))
+		if (CUtils::Equals(CCastUtils::PexprWithoutBinaryCoercibleCasts(pexprPredOuter), pexprToMatch))
 		{
 			pexprMatching = pexprPredInner;
 			break;
 		}
 
-		if (CUtils::FEqual(CCastUtils::PexprWithoutBinaryCoercibleCasts(pexprPredInner), pexprToMatch))
+		if (CUtils::Equals(CCastUtils::PexprWithoutBinaryCoercibleCasts(pexprPredInner), pexprToMatch))
 		{
 			pexprMatching = pexprPredOuter;
 			break;

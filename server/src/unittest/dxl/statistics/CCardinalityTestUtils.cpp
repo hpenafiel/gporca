@@ -43,7 +43,7 @@ CCardinalityTestUtils::PbucketIntegerClosedLowerBound
 	CPoint *ppUpper = CTestUtils::PpointInt4(pmp, iUpper);
 
 	BOOL fUpperClosed = false;
-	if (ppLower->FEqual(ppUpper))
+	if (ppLower->Equals(ppUpper))
 	{
 		fUpperClosed = true;
 	}

@@ -32,7 +32,7 @@ namespace gpdxl
 	// arrays of OID
 	typedef CDynamicPtrArray<OID, CleanupDelete> DrgPoid;
 
-	typedef CHashMap<ULONG, CDXLNode, gpos::UlHash<ULONG>, gpos::FEqual<ULONG>,
+	typedef CHashMap<ULONG, CDXLNode, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
 				CleanupDelete<ULONG>, CleanupRelease<CDXLNode> > HMUlPdxln;
 
 	//---------------------------------------------------------------------------

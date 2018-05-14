@@ -101,18 +101,18 @@ CLogicalDynamicIndexGet::~CLogicalDynamicIndexGet()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CLogicalDynamicIndexGet::UlHash
+//		CLogicalDynamicIndexGet::HashValue
 //
 //	@doc:
 //		Operator specific hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CLogicalDynamicIndexGet::UlHash() const
+CLogicalDynamicIndexGet::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::UlHash(),
-	                             gpos::UlCombineHashes(gpos::UlHash(&m_ulScanId),
-					             m_pindexdesc->Pmdid()->UlHash()));
+	return gpos::UlCombineHashes(COperator::HashValue(),
+	                             gpos::UlCombineHashes(gpos::HashValue(&m_ulScanId),
+					             m_pindexdesc->Pmdid()->HashValue()));
 }
 
 

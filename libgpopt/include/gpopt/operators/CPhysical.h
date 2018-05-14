@@ -143,16 +143,16 @@ namespace gpopt
 
 					// hash function
 					static
-					ULONG UlHash(const CReqdColsRequest *prcr);
+					ULONG HashValue(const CReqdColsRequest *prcr);
 
 					// equality function
 					static
-					BOOL FEqual(const CReqdColsRequest *prcrFst, const CReqdColsRequest *prcrSnd);
+					BOOL Equals(const CReqdColsRequest *prcrFst, const CReqdColsRequest *prcrSnd);
 
 			}; // class CReqdColsRequest
 
 			// map of incoming required columns request to computed column sets
-			typedef CHashMap<CReqdColsRequest, CColRefSet, CReqdColsRequest::UlHash, CReqdColsRequest::FEqual,
+			typedef CHashMap<CReqdColsRequest, CColRefSet, CReqdColsRequest::HashValue, CReqdColsRequest::Equals,
 						CleanupRelease<CReqdColsRequest>, CleanupRelease<CColRefSet> > HMReqdColsRequest;
 
 			// hash map of child columns requests

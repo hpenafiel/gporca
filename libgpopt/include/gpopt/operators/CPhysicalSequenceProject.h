@@ -111,7 +111,7 @@ namespace gpopt
 
 			// hashing function
 			virtual
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 
 			// sensitivity to order of inputs
 			virtual

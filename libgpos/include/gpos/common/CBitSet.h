@@ -144,13 +144,13 @@ namespace gpos
 			BOOL FSubset(const CBitSet *) const;
 			
 			// equality
-			BOOL FEqual(const CBitSet *) const;
+			BOOL Equals(const CBitSet *) const;
 			
 			// disjoint
 			BOOL FDisjoint(const CBitSet *) const;
 			
 			// hash value for set
-			ULONG UlHash() const;
+			ULONG HashValue() const;
 			
 			// number of elements
 			ULONG CElements() const

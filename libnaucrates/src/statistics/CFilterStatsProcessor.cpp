@@ -90,7 +90,7 @@ CFilterStatsProcessor::PstatsFilter
 	HMUlHist *phmulhistCopy = pstatsInput->CopyHistograms(pmp);
 
 	CStatisticsConfig *pstatsconf = pstatsInput->PStatsConf();
-	if (pstatsInput->FEmpty())
+	if (pstatsInput->IsEmpty())
 	{
 		phmulhistNew = GPOS_NEW(pmp) HMUlHist(pmp);
 		CHistogram::AddEmptyHistogram(pmp, phmulhistNew, phmulhistCopy);
@@ -146,7 +146,7 @@ CFilterStatsProcessor::PstatsFilter
 												phmulhistNew,
 												pstatsInput->CopyWidths(pmp),
 												dRowsFilter,
-												pstatsInput->FEmpty(),
+												pstatsInput->IsEmpty(),
 												pstatsInput->UlNumberOfPredicates() + ulNumPredicates
 												);
 
@@ -277,7 +277,7 @@ CFilterStatsProcessor::PhmulhistApplyConjFilter
 
 			CHistogram *phistInput = phmulhistInput->PtLookup(&ulColId);
 			GPOS_ASSERT(NULL != phistInput);
-			if (phistInput->FEmpty())
+			if (phistInput->IsEmpty())
 			{
 				// input histogram is empty so scaling factor does not make sense.
 				// if the input itself is empty, then scaling factor is of no effect
@@ -435,7 +435,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 
 			CHistogram *phistInput = phmulhistInput->PtLookup(&ulColId);
 			GPOS_ASSERT(NULL != phistInput);
-			if (phistInput->FEmpty())
+			if (phistInput->IsEmpty())
 			{
 				// input histogram is empty so scaling factor does not make sense.
 				// if the input itself is empty, then scaling factor is of no effect

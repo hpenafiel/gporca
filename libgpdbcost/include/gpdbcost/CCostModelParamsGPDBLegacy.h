@@ -143,7 +143,7 @@ namespace gpopt
 			IOstream &OsPrint(IOstream &os) const;
 
 			virtual BOOL
-			FEquals(ICostModelParams *pcm) const;
+			Equals(ICostModelParams *pcm) const;
 
 			virtual const CHAR *
 			SzNameLookup(ULONG ulId) const;

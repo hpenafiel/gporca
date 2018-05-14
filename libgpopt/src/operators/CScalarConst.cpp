@@ -58,7 +58,7 @@ CScalarConst::~CScalarConst()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarConst::UlHash
+//		CScalarConst::HashValue
 //
 //	@doc:
 //		Operator specific hash function; combined hash of operator id and
@@ -66,12 +66,12 @@ CScalarConst::~CScalarConst()
 //
 //---------------------------------------------------------------------------
 ULONG
-CScalarConst::UlHash() const
+CScalarConst::HashValue() const
 {
 	return gpos::UlCombineHashes
 			(
-			COperator::UlHash(),
-			m_pdatum->UlHash()
+			COperator::HashValue(),
+			m_pdatum->HashValue()
 			);
 }
 

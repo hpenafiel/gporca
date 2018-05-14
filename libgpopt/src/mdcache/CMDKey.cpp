@@ -39,20 +39,20 @@ CMDKey::CMDKey
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDKey::FEquals
+//		CMDKey::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDKey::FEquals
+CMDKey::Equals
 	(
 	const CMDKey &mdkey
 	)
 	const
 {	
-	return mdkey.Pmdid()->FEquals(m_pmdid);
+	return mdkey.Pmdid()->Equals(m_pmdid);
 }
 
 //---------------------------------------------------------------------------
@@ -82,21 +82,21 @@ CMDKey::FEqualMDKey
 	
 	GPOS_ASSERT(NULL != pvLeft && NULL != pvRight);
 	
-	return pvLeft->Pmdid()->FEquals(pvRight->Pmdid());
+	return pvLeft->Pmdid()->Equals(pvRight->Pmdid());
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDKey::UlHash
+//		CMDKey::HashValue
 //
 //	@doc:
 //		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG 
-CMDKey::UlHash() const
+CMDKey::HashValue() const
 {
-	return m_pmdid->UlHash();
+	return m_pmdid->HashValue();
 }
 
 //---------------------------------------------------------------------------
@@ -113,7 +113,7 @@ CMDKey::UlHashMDKey
 	CMDKey* const & pv
 	)
 {
-	return pv->Pmdid()->UlHash();
+	return pv->Pmdid()->HashValue();
 }
 
 // EOF

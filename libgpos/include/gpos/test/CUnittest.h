@@ -179,7 +179,7 @@ namespace gpos
 			}
 			
 			// check if title equals given string
-			BOOL FEquals(CHAR *sz) const;
+			BOOL Equals(CHAR *sz) const;
 			
 			// find test with given attributes and add to list
 			static

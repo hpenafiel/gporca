@@ -59,11 +59,11 @@ CHashMapIterTest::EresUnittest_Basic()
 	const ULONG ulCnt = GPOS_ARRAY_SIZE(rgul);
 	
 	typedef CHashMap<ULONG, ULONG, 
-		UlHashPtr<ULONG>, gpos::FEqual<ULONG>,
+		UlHashPtr<ULONG>, gpos::Equals<ULONG>,
 		CleanupNULL<ULONG>, CleanupNULL<ULONG> > Map;
 
 	typedef CHashMapIter<ULONG, ULONG, 
-		UlHashPtr<ULONG>, gpos::FEqual<ULONG>,
+		UlHashPtr<ULONG>, gpos::Equals<ULONG>,
 		CleanupNULL<ULONG>, CleanupNULL<ULONG> > MapIter;
 
 

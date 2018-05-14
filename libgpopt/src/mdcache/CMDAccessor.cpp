@@ -119,14 +119,14 @@ CMDAccessor::SMDAccessorElem::Pmdid()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDAccessor::SMDAccessorElem::FEqual
+//		CMDAccessor::SMDAccessorElem::Equals
 //
 //	@doc:
 //		Equality function for cache accessors hash table
 //
 //---------------------------------------------------------------------------
 BOOL 
-CMDAccessor::SMDAccessorElem::FEqual
+CMDAccessor::SMDAccessorElem::Equals
 	(
 	const MdidPtr &pmdidLeft,
 	const MdidPtr &pmdidRight
@@ -137,26 +137,26 @@ CMDAccessor::SMDAccessorElem::FEqual
 		return pmdidLeft == m_pmdidInvalid && pmdidRight == m_pmdidInvalid;
 	}
 
-	return pmdidLeft->FEquals(pmdidRight);
+	return pmdidLeft->Equals(pmdidRight);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDAccessor::SMDAccessorElem::UlHash
+//		CMDAccessor::SMDAccessorElem::HashValue
 //
 //	@doc:
 //		Hash function for cache accessors hash table
 //
 //---------------------------------------------------------------------------
 ULONG 
-CMDAccessor::SMDAccessorElem::UlHash
+CMDAccessor::SMDAccessorElem::HashValue
 	(
 	const MdidPtr& pmdid
 	)
 {
 	GPOS_ASSERT(m_pmdidInvalid != pmdid);
 
-	return pmdid->UlHash();
+	return pmdid->HashValue();
 }
 
 //---------------------------------------------------------------------------
@@ -221,39 +221,39 @@ CMDAccessor::SMDProviderElem::Sysid() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDAccessor::SMDProviderElem::FEqual
+//		CMDAccessor::SMDProviderElem::Equals
 //
 //	@doc:
 //		Equality function for hash tables
 //
 //---------------------------------------------------------------------------
 BOOL 
-CMDAccessor::SMDProviderElem::FEqual
+CMDAccessor::SMDProviderElem::Equals
 	(
 	const SMDProviderElem &mdpelemLeft,
 	const SMDProviderElem &mdpelemRight
 	)
 {
-	return mdpelemLeft.m_sysid.FEquals(mdpelemRight.m_sysid);
+	return mdpelemLeft.m_sysid.Equals(mdpelemRight.m_sysid);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDAccessor::SMDProviderElem::UlHash
+//		CMDAccessor::SMDProviderElem::HashValue
 //
 //	@doc:
 //		Hash function for cost contexts hash table
 //
 //---------------------------------------------------------------------------
 ULONG 
-CMDAccessor::SMDProviderElem::UlHash
+CMDAccessor::SMDProviderElem::HashValue
 	(
 	const SMDProviderElem &mdpelem
 	)
 {
-	GPOS_ASSERT(!FEqual(mdpelem, m_mdpelemInvalid));
+	GPOS_ASSERT(!Equals(mdpelem, m_mdpelemInvalid));
 
-	return mdpelem.m_sysid.UlHash();
+	return mdpelem.m_sysid.HashValue();
 }
 
 //---------------------------------------------------------------------------
@@ -409,8 +409,8 @@ CMDAccessor::InitHashtables
 				GPOS_OFFSET(SMDAccessorElem, m_link),
 				GPOS_OFFSET(SMDAccessorElem, m_pmdid),
 				&(SMDAccessorElem::m_pmdidInvalid),
-				SMDAccessorElem::UlHash,
-				SMDAccessorElem::FEqual
+				SMDAccessorElem::HashValue,
+				SMDAccessorElem::Equals
 				);
 	
 	// initialize MD providers hash table
@@ -421,8 +421,8 @@ CMDAccessor::InitHashtables
 		GPOS_OFFSET(SMDProviderElem, m_link),
 		0, // the HT element is used as key
 		&(SMDProviderElem::m_mdpelemInvalid),
-		SMDProviderElem::UlHash,
-		SMDProviderElem::FEqual
+		SMDProviderElem::HashValue,
+		SMDProviderElem::Equals
 		);
 }
 
@@ -1195,7 +1195,7 @@ CMDAccessor::Pstats
 	const IMDRelStats *pmdRelStats = Pmdrelstats(pmdidRelStats);
 	pmdidRelStats->Release();
 
-	BOOL fEmptyTable = pmdRelStats->FEmpty();
+	BOOL fEmptyTable = pmdRelStats->IsEmpty();
 	const IMDRelation *pmdrel = Pmdrel(pmdidRel);
 
 	HMUlHist *phmulhist = GPOS_NEW(pmp) HMUlHist(pmp);

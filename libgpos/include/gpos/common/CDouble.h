@@ -209,7 +209,7 @@ namespace gpos
 
 			// compare two double values using given precision
 			inline static
-			BOOL FEqual(DOUBLE dLeft, DOUBLE dRight, DOUBLE dPrecision = GPOS_FP_ABS_MIN)
+			BOOL Equals(DOUBLE dLeft, DOUBLE dRight, DOUBLE dPrecision = GPOS_FP_ABS_MIN)
             {
                 return fabs(dRight - dLeft) <= dPrecision;
             }

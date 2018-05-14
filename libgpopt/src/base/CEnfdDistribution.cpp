@@ -118,16 +118,16 @@ CEnfdDistribution::FCompatible
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CEnfdDistribution::UlHash
+//		CEnfdDistribution::HashValue
 //
 //	@doc:
 // 		Hash function
 //
 //---------------------------------------------------------------------------
 ULONG
-CEnfdDistribution::UlHash() const
+CEnfdDistribution::HashValue() const
 {
-	return gpos::UlCombineHashes(m_edm + 1, m_pds->UlHash());
+	return gpos::UlCombineHashes(m_edm + 1, m_pds->HashValue());
 }
 
 //---------------------------------------------------------------------------

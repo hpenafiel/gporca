@@ -909,14 +909,14 @@ CConstraint::FContains
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CConstraint::FEquals
+//		CConstraint::Equals
 //
 //	@doc:
 //		Equality function
 //
 //---------------------------------------------------------------------------
 BOOL
-CConstraint::FEquals
+CConstraint::Equals
 	(
 	CConstraint *pcnstr
 	)
