@@ -97,10 +97,10 @@ CBitVectorTest::EresUnittest_Basics()
 			GPOS_ASSERT(!fSetAlt);
 		}
 
-		GPOS_ASSERT(bvCopy.CElements() == 0);
+		GPOS_ASSERT(bvCopy.CountSetBits() == 0);
 	}
 
-	GPOS_ASSERT(bv.CElements() == cSize);
+	GPOS_ASSERT(bv.CountSetBits() == cSize);
 
 	return GPOS_OK;
 }
@@ -130,27 +130,27 @@ CBitVectorTest::EresUnittest_SetOps()
 	{
 		bvEven.FExchangeSet(i);
 	}
-	GPOS_ASSERT(bvEven.FSubset(&bvEmpty));
+	GPOS_ASSERT(bvEven.Contains(&bvEmpty));
 
 	CBitVector bvOdd(pmp, cSize);
 	for(ULONG i = 1; i < cSize; i += 2)
 	{
 		bvOdd.FExchangeSet(i);
 	}
-	GPOS_ASSERT(bvOdd.FSubset(&bvEmpty));
-	GPOS_ASSERT(bvOdd.FDisjoint(&bvEven));
+	GPOS_ASSERT(bvOdd.Contains(&bvEmpty));
+	GPOS_ASSERT(bvOdd.IsDisjoint(&bvEven));
 
-	GPOS_ASSERT(!bvEven.FSubset(&bvOdd));
-	GPOS_ASSERT(!bvOdd.FSubset(&bvEven));
+	GPOS_ASSERT(!bvEven.Contains(&bvOdd));
+	GPOS_ASSERT(!bvOdd.Contains(&bvEven));
 
 	CBitVector bv(pmp, bvOdd);
 
-	bv.Union(&bvEven);
-	bv.Intersection(&bvOdd);
+	bv.Or(&bvEven);
+	bv.And(&bvOdd);
 	GPOS_ASSERT(bv.FEqual(&bvOdd));
 
-	bv.Union(&bvEven);
-	bv.Intersection(&bvEven);
+	bv.Or(&bvEven);
+	bv.And(&bvEven);
 	GPOS_ASSERT(bv.FEqual(&bvEven));
 
 	return GPOS_OK;
@@ -231,7 +231,7 @@ CBitVectorTest::EresUnittest_Random()
 		}
 	}
 
-	GPOS_ASSERT(cElements == bv.CElements());
+	GPOS_ASSERT(cElements == bv.CountSetBits());
 
 	ULONG ulCursor = 0;
 	while(bv.FNextBit(ulCursor + 1, ulCursor))

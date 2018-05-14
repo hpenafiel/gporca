@@ -220,7 +220,7 @@ CBitVector::FExchangeClear
 //
 //---------------------------------------------------------------------------
 void
-CBitVector::Union
+CBitVector::Or
 	(
 	const CBitVector *pbv
 	)
@@ -245,7 +245,7 @@ CBitVector::Union
 //
 //---------------------------------------------------------------------------
 void
-CBitVector::Intersection
+CBitVector::And
 	(
 	const CBitVector *pbv
 	)
@@ -270,7 +270,7 @@ CBitVector::Intersection
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitVector::FSubset
+CBitVector::Contains
 	(
 	const CBitVector *pbv
 	)
@@ -302,7 +302,7 @@ CBitVector::FSubset
 //
 //---------------------------------------------------------------------------
 BOOL
-CBitVector::FDisjoint
+CBitVector::IsDisjoint
 	(
 	const CBitVector *pbv
 	)
@@ -344,7 +344,7 @@ CBitVector::FEqual
 	// compare all components
 	if (0 == clib::IMemCmp(m_rgull, pbv->m_rgull, m_cUnits * BYTES_PER_UNIT))
 	{
-		GPOS_ASSERT(this->FSubset(pbv) && pbv->FSubset(this));
+		GPOS_ASSERT(this->Contains(pbv) && pbv->Contains(this));
 		return true;
 	}
 	
@@ -428,7 +428,7 @@ CBitVector::FNextBit
 //
 //---------------------------------------------------------------------------
 ULONG
-CBitVector::CElements() const
+CBitVector::CountSetBits() const
 {
 	ULONG cBits = 0;
 	for (ULONG i = 0; i < m_cUnits; i++)

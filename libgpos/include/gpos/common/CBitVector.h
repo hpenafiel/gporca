@@ -63,16 +63,16 @@ namespace gpos
 			BOOL FExchangeClear(ULONG ulBit);
 			
 			// union vectors
-			void Union(const CBitVector *);
+			void Or(const CBitVector *);
 			
 			// intersect vectors
-			void Intersection(const CBitVector *);
+			void And(const CBitVector *);
 			
 			// is subset
-			BOOL FSubset(const CBitVector *) const;
+			BOOL Contains(const CBitVector *) const;
 			
 			// is dijoint
-			BOOL FDisjoint(const CBitVector *) const;
+			BOOL IsDisjoint(const CBitVector *) const;
 			
 			// equality
 			BOOL FEqual(const CBitVector *) const;
@@ -84,7 +84,7 @@ namespace gpos
 			BOOL FNextBit(ULONG, ULONG&) const;
 
 			// number of bits set
-			ULONG CElements() const;
+			ULONG CountSetBits() const;
 			
 			// hash value
 			ULONG UlHash() const;

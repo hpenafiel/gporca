@@ -151,7 +151,7 @@ CBitSet::RecomputeSize()
 		pbsl = m_bsllist.Next(pbsl)
 		)
 	{
-		m_cElements += pbsl->Pbv()->CElements();
+		m_cElements += pbsl->Pbv()->CountSetBits();
 	}	
 }
 
@@ -447,7 +447,7 @@ CBitSet::Union
 		pbslOther = pbsOther->PbslLocate(pbsl->UlOffset(), pbslOther);
 		if (NULL != pbslOther && pbslOther->UlOffset() == pbsl->UlOffset())
 		{
-			pbsl->Pbv()->Union(pbslOther->Pbv());
+			pbsl->Pbv()->Or(pbslOther->Pbv());
 		}
 		
 		pbsl = m_bsllist.Next(pbsl);
@@ -481,7 +481,7 @@ CBitSet::Intersection
 		pbslOther = pbsOther->PbslLocate(pbsl->UlOffset(), pbslOther);
 		if (NULL != pbslOther && pbslOther->UlOffset() == pbsl->UlOffset())
 		{
-			pbsl->Pbv()->Intersection(pbslOther->Pbv());
+			pbsl->Pbv()->And(pbslOther->Pbv());
 			pbsl = m_bsllist.Next(pbsl);
 		}
 		else
@@ -561,7 +561,7 @@ CBitSet::FSubset
 		
 		if (NULL == pbsl ||
 			pbsl->UlOffset() != pbslOther->UlOffset() ||
-			!pbsl->Pbv()->FSubset(pbslOther->Pbv()))
+			!pbsl->Pbv()->Contains(pbslOther->Pbv()))
 		{
 			return false;
 		}
@@ -649,7 +649,7 @@ CBitSet::FDisjoint
 		
 		if (NULL != pbsl && 
 			pbsl->UlOffset() == pbslOther->UlOffset() &&
-			!pbsl->Pbv()->FDisjoint(pbslOther->Pbv()))
+			!pbsl->Pbv()->IsDisjoint(pbslOther->Pbv()))
 		{
 			return false;
 		}

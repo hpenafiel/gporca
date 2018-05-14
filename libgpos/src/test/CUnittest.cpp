@@ -505,9 +505,9 @@ CUnittest::Driver
 	}
 
 	GPOS_TRACE_FORMAT("Tests succeeded: %d", ulOk);
-	GPOS_TRACE_FORMAT("Tests failed:    %d", pbv->CElements() - ulOk);
+	GPOS_TRACE_FORMAT("Tests failed:    %d", pbv->CountSetBits() - ulOk);
 
-	return pbv->CElements() - ulOk;
+	return pbv->CountSetBits() - ulOk;
 }
 
 
