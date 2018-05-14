@@ -409,7 +409,7 @@ CCostContext::FBetterThan
 	GPOS_ASSERT(estCosted == m_estate);
 	GPOS_ASSERT(estCosted == pcc->Est());
 
-	DOUBLE dCostDiff = (Cost().DVal() - pcc->Cost().DVal());
+	DOUBLE dCostDiff = (Cost().Get() - pcc->Cost().Get());
 	if (dCostDiff < 0.0)
 	{
 		// if current context has a strictly smaller cost, then it is preferred
@@ -513,18 +513,18 @@ CCostContext::CostCompute
 	exprhdl.Attach(this);
 
 	// extract local costing info
-	DOUBLE dRows = m_pstats->DRows().DVal();
+	DOUBLE dRows = m_pstats->DRows().Get();
 	if (CDistributionSpec::EdptPartitioned == Pdpplan()->Pds()->Edpt())
 	{
 		// scale statistics row estimate by number of segments
-		dRows = DRowsPerHost().DVal();
+		dRows = DRowsPerHost().Get();
 	}
 	ci.SetRows(dRows);
 
-	DOUBLE dWidth = m_pstats->DWidth(pmp, m_poc->Prpp()->PcrsRequired()).DVal();
+	DOUBLE dWidth = m_pstats->DWidth(pmp, m_poc->Prpp()->PcrsRequired()).Get();
 	ci.SetWidth(dWidth);
 
-	DOUBLE dRebinds = m_pstats->DRebinds().DVal();
+	DOUBLE dRebinds = m_pstats->DRebinds().Get();
 	ci.SetRebinds(dRebinds);
 	GPOS_ASSERT_IMP(!exprhdl.FHasOuterRefs(), GPOPT_DEFAULT_REBINDS == (ULONG) (dRebinds) && "invalid number of rebinds when there are no outer references");
 
@@ -536,22 +536,22 @@ CCostContext::CostCompute
 		GPOS_ASSERT(NULL != pccChild);
 
 		IStatistics *pstatsChild = pccChild->Pstats();
-		DOUBLE dRowsChild = pstatsChild->DRows().DVal();
+		DOUBLE dRowsChild = pstatsChild->DRows().Get();
 		if (CDistributionSpec::EdptPartitioned == pccChild->Pdpplan()->Pds()->Edpt())
 		{
 			// scale statistics row estimate by number of segments
-			dRowsChild = pccChild->DRowsPerHost().DVal();
+			dRowsChild = pccChild->DRowsPerHost().Get();
 		}
 		ci.SetChildRows(ul, dRowsChild);
 
-		DOUBLE dWidthChild = pstatsChild->DWidth(pmp, pocChild->Prpp()->PcrsRequired()).DVal();
+		DOUBLE dWidthChild = pstatsChild->DWidth(pmp, pocChild->Prpp()->PcrsRequired()).Get();
 		ci.SetChildWidth(ul, dWidthChild);
 
-		DOUBLE dRebindsChild = pstatsChild->DRebinds().DVal();
+		DOUBLE dRebindsChild = pstatsChild->DRebinds().Get();
 		ci.SetChildRebinds(ul, dRebindsChild);
 		GPOS_ASSERT_IMP(!exprhdl.FHasOuterRefs(ul), GPOPT_DEFAULT_REBINDS == (ULONG) (dRebindsChild) && "invalid number of rebinds when there are no outer references");
 
-		DOUBLE dCostChild =  (*pdrgpcostChildren)[ul]->DVal();
+		DOUBLE dCostChild =  (*pdrgpcostChildren)[ul]->Get();
 		ci.SetChildCost(ul, dCostChild);
 	}
 
@@ -570,7 +570,7 @@ CCostContext::CostCompute
 CDouble
 CCostContext::DRowsPerHost() const
 {
-	DOUBLE dRows = Pstats()->DRows().DVal();
+	DOUBLE dRows = Pstats()->DRows().Get();
 	COptCtxt *poptctxt = COptCtxt::PoctxtFromTLS();
 	const ULONG ulHosts = poptctxt->Pcm()->UlHosts();
 
@@ -606,7 +606,7 @@ CCostContext::DRowsPerHost() const
 			// We assume data is distributed across a subset of hosts in this case. This results in a larger
 			// number of rows per host compared to the uniform case, allowing us to capture data skew in
 			// cost computation
-			return CDouble(dRows / dNDVs.DVal());
+			return CDouble(dRows / dNDVs.Get());
 		}
 	}
 

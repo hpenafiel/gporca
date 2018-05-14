@@ -554,12 +554,12 @@ CHistogram::CapNDVs
 
 	m_fNDVScaled = true;
 
-	CDouble dScaleRatio = (dRows / dDistinct).DVal();
+	CDouble dScaleRatio = (dRows / dDistinct).Get();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ul];
 		CDouble dDistinctBucket = pbucket->DDistinct();
-		pbucket->SetDistinct(std::max(CHistogram::DMinDistinct.DVal(), (dDistinctBucket * dScaleRatio).DVal()));
+		pbucket->SetDistinct(std::max(CHistogram::DMinDistinct.Get(), (dDistinctBucket * dScaleRatio).Get()));
 	}
 
 	m_dDistinctRemain = m_dDistinctRemain * dScaleRatio;
@@ -655,8 +655,8 @@ CHistogram::PhistJoinNormalized
 	{
 		*pdScaleFactor = std::max
 								 (
-								  std::max(CHistogram::DMinDistinct.DVal(), DDistinct().DVal()),
-								  std::max(CHistogram::DMinDistinct.DVal(), phistOther->DDistinct().DVal())
+								  std::max(CHistogram::DMinDistinct.Get(), DDistinct().Get()),
+								  std::max(CHistogram::DMinDistinct.Get(), phistOther->DDistinct().Get())
 								  );
 		return PhistJoinEqualityNDV(pmp, phistOther);
 	}
@@ -678,7 +678,7 @@ CHistogram::PhistJoinNormalized
 	if (!FWellDefined() || !phistOther->FWellDefined())
 	{
 		CHistogram *phistAfter =  GPOS_NEW(pmp) CHistogram(GPOS_NEW(pmp) DrgPbucket(pmp), false /* fWellDefined */);
-		(*pdScaleFactor) = CDouble(std::min(dRows.DVal(), dRowsOther.DVal()));
+		(*pdScaleFactor) = CDouble(std::min(dRows.Get(), dRowsOther.Get()));
 
 		return phistAfter;
 	}
@@ -692,8 +692,8 @@ CHistogram::PhistJoinNormalized
 
 	*pdScaleFactor = std::max
 						(
-						std::max(DMinDistinct.DVal(), DDistinct().DVal()),
-						std::max(DMinDistinct.DVal(), phistOther->DDistinct().DVal())
+						std::max(DMinDistinct.Get(), DDistinct().Get()),
+						std::max(DMinDistinct.Get(), phistOther->DDistinct().Get())
 						);
 
 	CDouble dCartesianProduct = dRows * dRowsOther;
@@ -716,7 +716,7 @@ CHistogram::PhistJoinNormalized
 	}
 
 	// bound scale factor by cross product
-	*pdScaleFactor = std::min((*pdScaleFactor).DVal(), dCartesianProduct.DVal());
+	*pdScaleFactor = std::min((*pdScaleFactor).Get(), dCartesianProduct.Get());
 
 	GPOS_ASSERT(phistAfter->FValid());
 	return phistAfter;
@@ -809,7 +809,7 @@ CHistogram::PhistLASJoinNormalized
 		// the scale factor of the other predicates
 		*pdScaleFactor = CDouble(1.0) / CHistogram::DDefaultSelectivity;
 	}
-	*pdScaleFactor = std::min((*pdScaleFactor).DVal(), dRows.DVal());
+	*pdScaleFactor = std::min((*pdScaleFactor).Get(), dRows.Get());
 	GPOS_ASSERT(phistAfter->FValid());
 
 	return phistAfter;
@@ -999,7 +999,7 @@ CHistogram::DNormalize()
 		return CDouble(GPOS_FP_ABS_MAX);
 	}
 
-	CDouble dScaleFactor = std::max(DOUBLE(1.0), (CDouble(1.0) / DFrequency()).DVal());
+	CDouble dScaleFactor = std::max(DOUBLE(1.0), (CDouble(1.0) / DFrequency()).Get());
 
 	for (ULONG ul = 0; ul < m_pdrgppbucket->Size(); ul++)
 	{
@@ -1009,7 +1009,7 @@ CHistogram::DNormalize()
 
 	m_dNullFreq = m_dNullFreq * dScaleFactor;
 
-	CDouble dFreqRemain = std::min((m_dFreqRemain * dScaleFactor).DVal(), DOUBLE(1.0));
+	CDouble dFreqRemain = std::min((m_dFreqRemain * dScaleFactor).Get(), DOUBLE(1.0));
 	if (CStatistics::DEpsilon > m_dDistinctRemain)
 	{
 		dFreqRemain = 0.0;
@@ -1977,7 +1977,7 @@ CHistogram::ComputeSkew()
 	{
 		ULONG ulBucketIndex = UlRandomBucketIndex(&ulSeed);
 		CBucket *pbucket = (*m_pdrgppbucket)[ulBucketIndex];
-		rgdSamples[ul] = pbucket->DSample(&ulSeed).DVal();
+		rgdSamples[ul] = pbucket->DSample(&ulSeed).Get();
 		dSampleMean = dSampleMean + rgdSamples[ul];
 	}
 	dSampleMean = (DOUBLE) dSampleMean / GPOPT_SKEW_SAMPLE_SIZE;

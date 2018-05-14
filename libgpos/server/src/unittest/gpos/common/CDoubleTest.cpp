@@ -64,19 +64,19 @@ CDoubleTest::EresUnittest_Arithmetic()
 	CDouble fpSubtract(fpAdd - fp2);
 	CDouble fpMultiply(fp1 * fp2);
 	CDouble fpDivide(fpMultiply / fp2);
-	CDouble fpAbs(fp1.FpAbs());
-	CDouble fpFloor(fp1.FpFloor());
-	CDouble fpCeil(fp1.FpCeil());
-	CDouble fpPow(fp1.FpPow(fp2));
-	CDouble fpLog2(fp2.FpLog2());
+	CDouble fpAbs(fp1.Abs());
+	CDouble fpFloor(fp1.Floor());
+	CDouble fpCeil(fp1.Ceil());
+	CDouble fpPow(fp1.Pow(fp2));
+	CDouble fpLog2(fp2.Log2());
 
-	GPOS_RTL_ASSERT(fp1.DVal() + fp2.DVal() == fpAdd.DVal());
-	GPOS_RTL_ASSERT(fpAdd.DVal() - fp2.DVal() == fpSubtract.DVal());
-	GPOS_RTL_ASSERT(fp1.DVal() == fpSubtract.DVal());
-	GPOS_RTL_ASSERT(fp1.DVal() * fp2.DVal() == fpMultiply.DVal());
-	GPOS_RTL_ASSERT(fpMultiply.DVal() / fp2.DVal() == fpDivide.DVal());
-	GPOS_RTL_ASSERT(fp1.DVal() == fpDivide.DVal());
-	GPOS_RTL_ASSERT(fp1.DVal() == fpAbs);
+	GPOS_RTL_ASSERT(fp1.Get() + fp2.Get() == fpAdd.Get());
+	GPOS_RTL_ASSERT(fpAdd.Get() - fp2.Get() == fpSubtract.Get());
+	GPOS_RTL_ASSERT(fp1.Get() == fpSubtract.Get());
+	GPOS_RTL_ASSERT(fp1.Get() * fp2.Get() == fpMultiply.Get());
+	GPOS_RTL_ASSERT(fpMultiply.Get() / fp2.Get() == fpDivide.Get());
+	GPOS_RTL_ASSERT(fp1.Get() == fpDivide.Get());
+	GPOS_RTL_ASSERT(fp1.Get() == fpAbs);
 	GPOS_RTL_ASSERT(1.0 == fpCeil - fpFloor);
 	GPOS_RTL_ASSERT(fpLog2 > 1.0 && fpLog2 < 2.0);
 
@@ -171,7 +171,7 @@ CDoubleTest::EresUnittest_Convert()
 	   << INT(10) << " * " << fp << " = " << (INT(10) * fp) << std::endl
 	   << LINT(10) << "l / " << fp << " = " << (LINT(10) / fp) << std::endl
 	   << "-'10.0' = " << (-CDouble(clib::DStrToD("10.0"))) << std::endl
-	   << "Pow(" << ULONG(3)  << ") = " << fp.FpPow(ULONG(3)) << std::endl;
+	   << "Pow(" << ULONG(3)  << ") = " << fp.Pow(ULONG(3)) << std::endl;
 
 	return GPOS_OK;
 }

@@ -69,7 +69,7 @@ CStatsPredUnsupported::CStatsPredUnsupported
 CDouble
 CStatsPredUnsupported::DScaleFactorInit()
 {
-	return (1 / CHistogram::DDefaultSelectivity).DVal();
+	return (1 / CHistogram::DDefaultSelectivity).Get();
 }
 
 // EOF

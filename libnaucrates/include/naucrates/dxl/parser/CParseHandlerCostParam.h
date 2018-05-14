@@ -86,7 +86,7 @@ namespace gpdxl
 			}
 
 			// return parsed param value
-			CDouble DVal() const
+			CDouble Get() const
 			{
 				return m_dVal;
 			}

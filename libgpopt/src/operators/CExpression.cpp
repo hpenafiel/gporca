@@ -1246,11 +1246,11 @@ CExpression::OsPrint
 	{
 		os
 			<< "   rows:"
-			<< LINT(m_pstats->DRows().DVal())
+			<< LINT(m_pstats->DRows().Get())
 			<< "   width:"
-			<< LINT(m_pstats->DWidth().DVal())
+			<< LINT(m_pstats->DWidth().Get())
 			<< "  rebinds:"
-			<< LINT(m_pstats->DRebinds().DVal());
+			<< LINT(m_pstats->DRebinds().Get());
 	}
 	if (m_pop->FPhysical())
 	{

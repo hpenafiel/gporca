@@ -202,7 +202,7 @@ CStatistics::DWidth() const
 		const CDouble *pdWidth = hmiteruldouble.Pt();
 		dWidth = dWidth + (*pdWidth);
 	}
-	return dWidth.FpCeil();
+	return dWidth.Ceil();
 }
 
 // return the width in bytes of a set of columns
@@ -234,7 +234,7 @@ CStatistics::DWidth
 			dWidth = dWidth + CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
 		}
 	}
-	return dWidth.FpCeil();
+	return dWidth.Ceil();
 }
 
 // return width in bytes of a set of columns

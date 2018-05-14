@@ -109,18 +109,18 @@ CPartialPlan::ExtractChildrenCostingInfo
 			pstatsChild = m_pccChild->Pstats();
 
 			// use provided child cost context to collect accurate costing info
-			DOUBLE dRowsChild = pstatsChild->DRows().DVal();
+			DOUBLE dRowsChild = pstatsChild->DRows().Get();
 			if (CDistributionSpec::EdptPartitioned == m_pccChild->Pdpplan()->Pds()->Edpt())
 			{
 				// scale statistics row estimate by number of segments
-				dRowsChild = pcm->DRowsPerHost(CDouble(dRowsChild)).DVal();
+				dRowsChild = pcm->DRowsPerHost(CDouble(dRowsChild)).Get();
 			}
 
 			pci->SetChildRows(ulIndex, dRowsChild);
-			DOUBLE dWidthChild = pstatsChild->DWidth(pmp, prppChild->PcrsRequired()).DVal();
+			DOUBLE dWidthChild = pstatsChild->DWidth(pmp, prppChild->PcrsRequired()).Get();
 			pci->SetChildWidth(ulIndex, dWidthChild);
-			pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().DVal());
-			pci->SetChildCost(ulIndex, m_pccChild->Cost().DVal());
+			pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().Get());
+			pci->SetChildCost(ulIndex, m_pccChild->Cost().Get());
 
 			// continue with next child
 			ulIndex++;
@@ -129,17 +129,17 @@ CPartialPlan::ExtractChildrenCostingInfo
 
 		// otherwise, we do not know child plan yet,
 		// we assume lower bounds on child row estimate and cost
-		DOUBLE dRowsChild = pstatsChild->DRows().DVal();
-		dRowsChild = pcm->DRowsPerHost(CDouble(dRowsChild)).DVal();
+		DOUBLE dRowsChild = pstatsChild->DRows().Get();
+		dRowsChild = pcm->DRowsPerHost(CDouble(dRowsChild)).Get();
 		pci->SetChildRows(ulIndex, dRowsChild);
 
-		pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().DVal());
+		pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().Get());
 
-		DOUBLE dWidthChild =  pstatsChild->DWidth(pmp, prppChild->PcrsRequired()).DVal();
+		DOUBLE dWidthChild =  pstatsChild->DWidth(pmp, prppChild->PcrsRequired()).Get();
 		pci->SetChildWidth(ulIndex, dWidthChild);
 
 		// use child group's cost lower bound as the child cost
-		DOUBLE dCostChild = pgroupChild->CostLowerBound(pmp, prppChild).DVal();
+		DOUBLE dCostChild = pgroupChild->CostLowerBound(pmp, prppChild).Get();
 		pci->SetChildCost(ulIndex, dCostChild);
 
 		// advance to next child
@@ -226,7 +226,7 @@ CPartialPlan::CostCompute
 		CDistributionSpec::EdptPartitioned == CPhysicalMotion::PopConvert(pop)->Pds()->Edpt();
 
 	// extract rows from stats
-	DOUBLE dRows = m_pgexpr->Pgroup()->Pstats()->DRows().DVal();
+	DOUBLE dRows = m_pgexpr->Pgroup()->Pstats()->DRows().Get();
 	if (
 		fDataPartitioningMotion ||	// root operator is known to distribute data across segments
 		NULL == m_prpp->Ped() ||	// required distribution not known yet, we assume data partitioning since we need a lower-bound on number of rows
@@ -235,29 +235,29 @@ CPartialPlan::CostCompute
 		)
 	{
 		// use rows per host as a cardinality lower bound
-		dRows = pcm->DRowsPerHost(CDouble(dRows)).DVal();
+		dRows = pcm->DRowsPerHost(CDouble(dRows)).Get();
 	}
 	ci.SetRows(dRows);
 
 	// extract width from stats
-	DOUBLE dWidth = m_pgexpr->Pgroup()->Pstats()->DWidth(pmp, m_prpp->PcrsRequired()).DVal();
+	DOUBLE dWidth = m_pgexpr->Pgroup()->Pstats()->DWidth(pmp, m_prpp->PcrsRequired()).Get();
 	ci.SetWidth(dWidth);
 
 	// extract rebinds
-	DOUBLE dRebinds = m_pgexpr->Pgroup()->Pstats()->DRebinds().DVal();
+	DOUBLE dRebinds = m_pgexpr->Pgroup()->Pstats()->DRebinds().Get();
 	ci.SetRebinds(dRebinds);
 
 	// compute partial plan cost
 	CCost cost = pcm->Cost(exprhdl, &ci);
 
-	if (0 < ci.UlChildren() && 1.0 < cost.DVal())
+	if (0 < ci.UlChildren() && 1.0 < cost.Get())
 	{
 		// cost model implementation adds an artificial const (1.0) to
 		// sum of children cost,
 		// we subtract this 1.0 here since we compute a lower bound
 
 		// TODO:  05/07/2014: remove artificial const 1.0 in CostSum() function
-		cost = CCost(cost.DVal() - 1.0);
+		cost = CCost(cost.Get() - 1.0);
 	}
 
 	return cost;

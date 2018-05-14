@@ -81,7 +81,7 @@ CFilterStatsProcessor::PstatsFilter
 {
 	GPOS_ASSERT(NULL != pstatspredBase);
 
-	CDouble dRowsInput = std::max(CStatistics::DMinRows.DVal(), pstatsInput->DRows().DVal());
+	CDouble dRowsInput = std::max(CStatistics::DMinRows.Get(), pstatsInput->DRows().Get());
 	CDouble dScaleFactor(1.0);
 	ULONG ulNumPredicates = 1;
 	CDouble dRowsFilter = CStatistics::DMinRows;
@@ -126,14 +126,14 @@ CFilterStatsProcessor::PstatsFilter
 							&dScaleFactor
 							);
 		}
-		GPOS_ASSERT(CStatistics::DMinRows.DVal() <= dScaleFactor.DVal());
+		GPOS_ASSERT(CStatistics::DMinRows.Get() <= dScaleFactor.Get());
 		dRowsFilter = dRowsInput / dScaleFactor;
-		dRowsFilter = std::max(CStatistics::DMinRows.DVal(), dRowsFilter.DVal());
+		dRowsFilter = std::max(CStatistics::DMinRows.Get(), dRowsFilter.Get());
 	}
 
 	phmulhistCopy->Release();
 
-	GPOS_ASSERT(dRowsFilter.DVal() <= dRowsInput.DVal());
+	GPOS_ASSERT(dRowsFilter.Get() <= dRowsInput.Get());
 
 	if (fCapNdvs)
 	{
@@ -295,19 +295,19 @@ CFilterStatsProcessor::PhmulhistApplyConjFilter
 			HMUlHist *phmulhistDisjInput = phmulhistResult;
 
 			CDouble dScaleFactorDisj(1.0);
-			CDouble dRowsDisjInput(CStatistics::DMinRows.DVal());
+			CDouble dRowsDisjInput(CStatistics::DMinRows.Get());
 
 			if (ULONG_MAX != ulColId)
 			{
 				// The disjunction predicate uses a single column. The input rows to the disjunction
 				// is obtained by scaling attained so far on that column
-				dRowsDisjInput = std::max(CStatistics::DMinRows.DVal(), (dRowsInput / dScaleFactorLast).DVal());
+				dRowsDisjInput = std::max(CStatistics::DMinRows.Get(), (dRowsInput / dScaleFactorLast).Get());
 			}
 			else
 			{
 				// the disjunction uses multiple columns therefore cannot reason about the number of input rows
 				// to the disjunction
-				dRowsDisjInput = dRowsInput.DVal();
+				dRowsDisjInput = dRowsInput.Get();
 			}
 
 			HMUlHist *phmulhistAfterDisj = PhmulhistApplyDisjFilter
@@ -331,7 +331,7 @@ CFilterStatsProcessor::PhmulhistApplyConjFilter
 			}
 			else
 			{
-				dScaleFactorLast = dScaleFactorDisj.DVal();
+				dScaleFactorLast = dScaleFactorDisj.Get();
 				phmulhistResult->Release();
 				phmulhistResult = phmulhistAfterDisj;
 			}
@@ -385,7 +385,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 	ULONG ulColIdPrev = ULONG_MAX;
 	CDouble dScaleFactorPrev(dRowsInput);
 
-	CDouble dRowsCumulative(CStatistics::DMinRows.DVal());
+	CDouble dRowsCumulative(CStatistics::DMinRows.Get());
 
 	// iterate over filters and update corresponding histograms
 	const ULONG ulFilters = pstatspredDisj->UlFilters();
@@ -406,7 +406,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 
 		if (FNewStatsColumn(ulColId, ulColIdPrev))
 		{
-			pdrgpdScaleFactor->Append(GPOS_NEW(pmp) CDouble(dScaleFactorPrev.DVal()));
+			pdrgpdScaleFactor->Append(GPOS_NEW(pmp) CDouble(dScaleFactorPrev.Get()));
 			CStatisticsUtils::UpdateDisjStatistics
 								(
 								pmp,
@@ -488,7 +488,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 				phistPrev = phistNew;
 			}
 
-			dScaleFactorPrev = dRowsInput / std::max(CStatistics::DMinRows.DVal(), dRowsCumulative.DVal());
+			dScaleFactorPrev = dRowsInput / std::max(CStatistics::DMinRows.Get(), dRowsCumulative.Get());
 			ulColIdPrev = ulColId;
 		}
 		else
@@ -531,7 +531,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 						ulColIdPrev
 						);
 	phistPrev = NULL;
-	pdrgpdScaleFactor->Append(GPOS_NEW(pmp) CDouble(std::max(CStatistics::DMinRows.DVal(), dScaleFactorPrev.DVal())));
+	pdrgpdScaleFactor->Append(GPOS_NEW(pmp) CDouble(std::max(CStatistics::DMinRows.Get(), dScaleFactorPrev.Get())));
 
 	*pdScaleFactor = CScaleFactorUtils::DScaleFactorCumulativeDisj(pstatsconf, pdrgpdScaleFactor, dRowsInput);
 
@@ -604,7 +604,7 @@ CFilterStatsProcessor::PhistPointFilter
 	CDouble dScaleFactorLocal(1.0);
 	CHistogram *phistAfter = phistBefore->PhistFilterNormalized(pmp, pstatspred->Escmpt(), ppoint, &dScaleFactorLocal);
 
-	GPOS_ASSERT(DOUBLE(1.0) <= dScaleFactorLocal.DVal());
+	GPOS_ASSERT(DOUBLE(1.0) <= dScaleFactorLocal.Get());
 
 	*pdScaleFactorLast = *pdScaleFactorLast * dScaleFactorLocal;
 	*pulColIdLast = ulColId;

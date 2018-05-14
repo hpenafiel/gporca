@@ -921,7 +921,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	GPOS_ASSERT(NULL != phmulhistDisjChild);
 
 	BOOL fEmpty = (CStatistics::DEpsilon >= dRowsDisjChild);
-	CDouble dRowOutput(CStatistics::DMinRows.DVal());
+	CDouble dRowOutput(CStatistics::DMinRows.Get());
 
 	HMUlHist *phmulhistMergeResult = GPOS_NEW(pmp) HMUlHist(pmp);
 
@@ -1573,10 +1573,10 @@ CStatisticsUtils::DMaxGroupsFromSource
 							(
 							std::max
 								(
-								CStatistics::DMinRows.DVal(),
-								DNumOfDistinctVal(pstatsconf, pdrgpdNDV).DVal()
+								CStatistics::DMinRows.Get(),
+								DNumOfDistinctVal(pstatsconf, pdrgpdNDV).Get()
 								),
-							std::min(dRowsInput.DVal(), dUpperBoundNDVs.DVal())
+							std::min(dRowsInput.Get(), dUpperBoundNDVs.Get())
 							);
 	pdrgpdNDV->Release();
 
@@ -1613,10 +1613,10 @@ CStatisticsUtils::DGroups
 							(
 							std::max
 								(
-								CStatistics::DMinRows.DVal(),
-								DNumOfDistinctVal(pstatsconf, pdrgpdNDV).DVal()
+								CStatistics::DMinRows.Get(),
+								DNumOfDistinctVal(pstatsconf, pdrgpdNDV).Get()
 								),
-							pstats->DRows().DVal()
+							pstats->DRows().Get()
 							);
 
 	// clean up
@@ -1660,8 +1660,8 @@ CStatisticsUtils::DNumOfDistinctVal
 		CDouble dNDV = *(*pdrgpdNDV)[ulDV];
 		CDouble dNDVDamped = std::max
 									(
-									CHistogram::DMinDistinct.DVal(),
-									(dNDV * CScaleFactorUtils::DDampingGroupBy(pstatsconf, ulDV)).DVal()
+									CHistogram::DMinDistinct.Get(),
+									(dNDV * CScaleFactorUtils::DDampingGroupBy(pstatsconf, ulDV)).Get()
 									);
 		dCumulativeNDV = dCumulativeNDV * dNDVDamped;
 	}
@@ -1947,7 +1947,7 @@ CStatisticsUtils::ComputeCardUpperBounds
 		}
 		else if (CStatistics::EcbmMin == ecbm)
 		{
-			dUpperBoundNDVOutput = std::min(dUpperBoundNDVInput.DVal(), dRowsOutput.DVal());
+			dUpperBoundNDVOutput = std::min(dUpperBoundNDVInput.Get(), dRowsOutput.Get());
 		}
 
 		CUpperBoundNDVs *pubndvCopy = pubndv->PubndvCopy(pmp, dUpperBoundNDVOutput);

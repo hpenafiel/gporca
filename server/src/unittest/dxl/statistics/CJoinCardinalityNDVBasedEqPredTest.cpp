@@ -145,7 +145,7 @@ namespace gpnaucrates
 		CDouble dRowsActual(pstatsJoin->DRows());
 		GPOS_RESULT eres = GPOS_OK;
 
-		if (std::floor(dRowsActual.DVal()) != dRowsExpected)
+		if (std::floor(dRowsActual.Get()) != dRowsExpected)
 		{
 			eres = GPOS_FAILED;
 		}
@@ -206,7 +206,7 @@ namespace gpnaucrates
 		CDouble dRowsActual(pstatsJoin->DRows());
 
 		GPOS_RESULT eres = GPOS_OK;
-		if (floor(dRowsActual.DVal()) != dRowsExpected)
+		if (floor(dRowsActual.Get()) != dRowsExpected)
 		{
 			eres = GPOS_FAILED;
 		}
@@ -271,7 +271,7 @@ namespace gpnaucrates
 		CDouble dRowsActual(pstatsJoin->DRows());
 
 		GPOS_RESULT eres = GPOS_OK;
-		if (floor(dRowsActual.DVal()) != dRowsExpected)
+		if (floor(dRowsActual.Get()) != dRowsExpected)
 		{
 			eres = GPOS_FAILED;
 		}

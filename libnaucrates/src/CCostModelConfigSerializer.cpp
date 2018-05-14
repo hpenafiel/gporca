@@ -27,7 +27,7 @@ void CCostModelConfigSerializer::Serialize(CXMLSerializer &xmlser) const
 	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParam));
 
 	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pcm->Pcp()->SzNameLookup(CCostModelParamsGPDB::EcpNLJFactor));
-	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DVal());
+	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->Get());
 	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostParamLowerBound), m_pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DLowerBound());
 	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostParamUpperBound), m_pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DUpperBound());
 	xmlser.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParam));

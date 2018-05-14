@@ -68,8 +68,8 @@ CScaleFactorUtils::DCumulativeJoinScaleFactor
 
 		dScaleFactor = dScaleFactor * std::max
 										(
-										CStatistics::DMinRows.DVal(),
-										(dScaleFactorLocal * DDampingJoin(pstatsconf, ul + 1)).DVal()
+										CStatistics::DMinRows.Get(),
+										(dScaleFactorLocal * DDampingJoin(pstatsconf, ul + 1)).Get()
 										);
 	}
 
@@ -97,7 +97,7 @@ CScaleFactorUtils::DDampingJoin
 		return CDouble(1.0);
 	}
 
-	return pstatsconf->DDampingFactorJoin().FpPow(CDouble(ulNumColumns));
+	return pstatsconf->DDampingFactorJoin().Pow(CDouble(ulNumColumns));
 }
 
 
@@ -123,7 +123,7 @@ CScaleFactorUtils::DDampingFilter
 		return CDouble(1.0);
 	}
 
-	return pstatsconf->DDampingFactorFilter().FpPow(CDouble(ulNumColumns));
+	return pstatsconf->DDampingFactorFilter().Pow(CDouble(ulNumColumns));
 }
 
 
@@ -149,7 +149,7 @@ CScaleFactorUtils::DDampingGroupBy
 		return CDouble(1.0);
 	}
 
-	return pstatsconf->DDampingFactorGroupBy().FpPow(CDouble(ulNumColumns + 1));
+	return pstatsconf->DDampingFactorGroupBy().Pow(CDouble(ulNumColumns + 1));
 }
 
 
@@ -251,17 +251,17 @@ CScaleFactorUtils::IDoubleCmp
 	GPOS_ASSERT(NULL != pd1);
 	GPOS_ASSERT(NULL != pd2);
 
-	if (pd1->DVal() == pd2->DVal())
+	if (pd1->Get() == pd2->Get())
 	{
 		return 0;
 	}
 
-	if (pd1->DVal() < pd2->DVal() && fDesc)
+	if (pd1->Get() < pd2->Get() && fDesc)
 	{
 	    return 1;
 	}
 
-	if (pd1->DVal() > pd2->DVal() && !fDesc)
+	if (pd1->Get() > pd2->Get() && !fDesc)
 	{
 	    return 1;
 	}
@@ -302,8 +302,8 @@ CScaleFactorUtils::DScaleFactorCumulativeConj
 		CDouble dScaleFactorLocal = *(*pdrgpdScaleFactor)[ul];
 		dScaleFactor = dScaleFactor * std::max
 										(
-										CStatistics::DMinRows.DVal(),
-										(dScaleFactorLocal * CScaleFactorUtils::DDampingFilter(pstatsconf, ul + 1)).DVal()
+										CStatistics::DMinRows.Get(),
+										(dScaleFactorLocal * CScaleFactorUtils::DDampingFilter(pstatsconf, ul + 1)).Get()
 										);
 	}
 
@@ -357,12 +357,12 @@ CScaleFactorUtils::DScaleFactorCumulativeDisj
 		// accumulate row estimates after damping
 		dRows = dRows + std::max
 							(
-							CStatistics::DMinRows.DVal(),
-							(dRowsLocal * CScaleFactorUtils::DDampingFilter(pstatsconf, ul + 1)).DVal()
+							CStatistics::DMinRows.Get(),
+							(dRowsLocal * CScaleFactorUtils::DDampingFilter(pstatsconf, ul + 1)).Get()
 							);
 
 		// cap accumulated row estimate with total number of rows
-		dRows = std::min(dRows.DVal(), dRowsTotal.DVal());
+		dRows = std::min(dRows.Get(), dRowsTotal.Get());
 	}
 
 	// return an accumulated scale factor based on accumulated row estimate

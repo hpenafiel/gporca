@@ -448,7 +448,7 @@ CCostModelParamsGPDB::OsPrint
 		SCostParam *pcp = PcpLookup((ECostParam) ul);
 		os
 			<< rgszCostParamNames[ul] << " : "
-			<< pcp->DVal()
+			<< pcp->Get()
 			<< "  [" << pcp->DLowerBound() << "," << pcp->DUpperBound() <<"]"
 			<< std::endl;
 	}

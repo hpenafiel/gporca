@@ -209,13 +209,13 @@ void
 CEnumeratorConfig::InitCostDistrSize()
 {
 	//  bound estimated distribution using relative cost of most expensive plan
-	DOUBLE dMax = log2(CDouble((m_costMax / CostBest())).DVal());
+	DOUBLE dMax = log2(CDouble((m_costMax / CostBest())).Get());
 
 	// fix number of points in estimated distribution to 100
 	m_dStep = CDouble(dMax / 100.0);
 
 	// compute target distribution size
-	m_ulDistrSize = (ULONG) (floor(dMax / m_dStep.DVal()) + 1.0);
+	m_ulDistrSize = (ULONG) (floor(dMax / m_dStep.Get()) + 1.0);
 }
 
 
@@ -303,7 +303,7 @@ CEnumeratorConfig::FitCostDistribution()
 
 	for (ULONG ul = 0; ul < ulCreatedSamples; ul++)
 	{
-		pdObervationX[ul] = log2(CDouble((CostPlanSample(ul) / CostBest())).DVal());
+		pdObervationX[ul] = log2(CDouble((CostPlanSample(ul) / CostBest())).Get());
 		pdObervationY[ul] = 1.0;
 	}
 
@@ -312,7 +312,7 @@ CEnumeratorConfig::FitCostDistribution()
 	{
 		m_pdX[ul] = d;
 		m_pdY[ul] = 0.0;
-		d = d + m_dStep.DVal();
+		d = d + m_dStep.Get();
 	}
 
 	GussianKernelDensity(pdObervationX, pdObervationY, ulCreatedSamples, m_pdX, m_pdY, m_ulDistrSize);

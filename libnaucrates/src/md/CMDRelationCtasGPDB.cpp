@@ -201,7 +201,7 @@ CMDRelationCtasGPDB::DColWidth
 	)
 const
 {
-	return (*m_pdrgpdoubleColWidths)[ulPos]->DVal();
+	return (*m_pdrgpdoubleColWidths)[ulPos]->Get();
 }
 
 //---------------------------------------------------------------------------

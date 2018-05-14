@@ -616,7 +616,7 @@ CMDAccessor::Pimdobj
 			{
 				// add fetch time in msec
 				CDouble dFetch(timerFetch.UlElapsedUS() / CDouble(GPOS_USEC_IN_MSEC));
-				m_dFetchTime = CDouble(m_dFetchTime.DVal() + dFetch.DVal());
+				m_dFetchTime = CDouble(m_dFetchTime.Get() + dFetch.Get());
 			}
 
 			// For CTAS mdid, we avoid adding the corresponding object to the MD cache
@@ -684,7 +684,7 @@ CMDAccessor::Pimdobj
 	{
 		// add lookup time in msec
 		CDouble dLookup(timerLookup.UlElapsedUS() / CDouble(GPOS_USEC_IN_MSEC));
-		m_dLookupTime = CDouble(m_dLookupTime.DVal() + dLookup.DVal());
+		m_dLookupTime = CDouble(m_dLookupTime.Get() + dLookup.Get());
 	}
 
 	return pimdobj;
@@ -1247,7 +1247,7 @@ CMDAccessor::Pstats
 		phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColId), pdWidth);
 	}
 
-	CDouble dRows = std::max(DOUBLE(1.0), pmdRelStats->DRows().DVal());
+	CDouble dRows = std::max(DOUBLE(1.0), pmdRelStats->DRows().Get());
 
 	return GPOS_NEW(pmp) CStatistics
 							(

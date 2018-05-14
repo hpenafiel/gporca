@@ -198,7 +198,7 @@ CDatumGenericGPDB::Pstr
 	}
 	else if (FHasStatsDoubleMapping())
 	{
-		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), DStatsMapping().DVal());
+		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), DStatsMapping().Get());
 		return GPOS_NEW(pmp) CWStringConst(pmp, str.Wsz());
 	}
 

@@ -560,7 +560,7 @@ CGroupExpression::CostLowerBound
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_ppartialplancostmap->FInsert(ppp, GPOS_NEW(pmp) CCost(cost.DVal()));
+		m_ppartialplancostmap->FInsert(ppp, GPOS_NEW(pmp) CCost(cost.Get()));
 	GPOS_ASSERT(fSuccess);
 
 	return cost;

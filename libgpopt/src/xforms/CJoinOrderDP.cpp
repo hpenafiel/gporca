@@ -708,7 +708,7 @@ CJoinOrderDP::DCost
 			// call function recursively to find child cost
 			dCost = dCost + DCost(pexprChild);
 			DeriveStats(pexprChild);
-			rgdRows[ul] = pexprChild->Pstats()->DRows().DVal();
+			rgdRows[ul] = pexprChild->Pstats()->DRows().Get();
 		}
 
 		// add inner join local cost

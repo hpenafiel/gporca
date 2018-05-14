@@ -399,15 +399,15 @@ CJoinStatsProcessor::DJoinCardinality
 		else
 		{
 			// semi join results cannot exceed size of outer side
-			dRows = std::min(dRowsLeft.DVal(), (dCartesianProduct / dScaleFactor).DVal());
+			dRows = std::min(dRowsLeft.Get(), (dCartesianProduct / dScaleFactor).Get());
 		}
 
-		return std::max(DOUBLE(1.0), dRows.DVal());
+		return std::max(DOUBLE(1.0), dRows.Get());
 	}
 
 	GPOS_ASSERT(CStatistics::DMinRows <= dScaleFactor);
 
-	return std::max(CStatistics::DMinRows.DVal(), (dCartesianProduct / dScaleFactor).DVal());
+	return std::max(CStatistics::DMinRows.Get(), (dCartesianProduct / dScaleFactor).Get());
 }
 
 

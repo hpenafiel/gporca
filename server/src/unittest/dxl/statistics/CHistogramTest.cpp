@@ -114,20 +114,20 @@ CHistogramTest::EresUnittest_CHistogramInt4()
 
 	// equality check, hitting remaining tuples
 	CHistogram *phist8 = phist7->PhistFilter(pmp, CStatsPred::EstatscmptEq, ppoint3);
-	GPOS_RTL_ASSERT(fabs((phist8->DFrequency() - 0.2).DVal()) < CStatistics::DEpsilon);
-	GPOS_RTL_ASSERT(fabs((phist8->DDistinct() - 1.0).DVal()) < CStatistics::DEpsilon);
+	GPOS_RTL_ASSERT(fabs((phist8->DFrequency() - 0.2).Get()) < CStatistics::DEpsilon);
+	GPOS_RTL_ASSERT(fabs((phist8->DDistinct() - 1.0).Get()) < CStatistics::DEpsilon);
 
 	// greater than, hitting remaining tuples
 	CHistogram *phist9 = phist7->PhistFilter(pmp, CStatsPred::EstatscmptG, ppoint1);
 	CCardinalityTestUtils::PrintHist(pmp, "phist9", phist9);
-	GPOS_RTL_ASSERT(fabs((phist9->DFrequency() - 0.26).DVal()) < CStatistics::DEpsilon);
-	GPOS_RTL_ASSERT(fabs((phist9->DDistinct() - 1.8).DVal()) < CStatistics::DEpsilon);
+	GPOS_RTL_ASSERT(fabs((phist9->DFrequency() - 0.26).Get()) < CStatistics::DEpsilon);
+	GPOS_RTL_ASSERT(fabs((phist9->DDistinct() - 1.8).Get()) < CStatistics::DEpsilon);
 
 	// equality join, hitting remaining tuples
 	CHistogram *phist10 = phist7->PhistJoin(pmp, CStatsPred::EstatscmptEq, phist7);
 	GPOS_RTL_ASSERT(phist10->UlBuckets() == 5);
-	GPOS_RTL_ASSERT(fabs((phist10->DDistinctRemain() - 2.0).DVal()) < CStatistics::DEpsilon);
-	GPOS_RTL_ASSERT(fabs((phist10->DFreqRemain() - 0.08).DVal()) < CStatistics::DEpsilon);
+	GPOS_RTL_ASSERT(fabs((phist10->DDistinctRemain() - 2.0).Get()) < CStatistics::DEpsilon);
+	GPOS_RTL_ASSERT(fabs((phist10->DFreqRemain() - 0.08).Get()) < CStatistics::DEpsilon);
 
 	// clean up
 	ppoint0->Release();

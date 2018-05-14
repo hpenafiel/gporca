@@ -369,7 +369,7 @@ namespace gpnaucrates
 					CDouble dRows
 					)
 			{
-				return std::min(CStatistics::DDefaultDistinctValues.DVal(), dRows.DVal());
+				return std::min(CStatistics::DDefaultDistinctValues.Get(), dRows.Get());
 			}
 
 			// add the statistics (histogram and width) of the grouping columns

@@ -2182,7 +2182,7 @@ CGroup::CostLowerBound
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_pcostmap->FInsert(prppInput, GPOS_NEW(pmp) CCost(costLowerBound.DVal()));
+		m_pcostmap->FInsert(prppInput, GPOS_NEW(pmp) CCost(costLowerBound.Get()));
 	GPOS_ASSERT(fSuccess);
 
 	return costLowerBound;

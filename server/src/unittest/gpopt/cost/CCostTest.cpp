@@ -159,27 +159,27 @@ CCostTest::TestParams
 	{
 		pcp = ((CCostModelGPDB *) COptCtxt::PoctxtFromTLS()->Pcm())->Pcp();
 
-		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpSeqIOBandwidth)->DVal();
-		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpRandomIOBandwidth)->DVal();
-		dTupProcBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpTupProcBandwidth)->DVal();
-		dNetBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpNetBandwidth)->DVal();
-		dSegments = pcp->PcpLookup(CCostModelParamsGPDB::EcpSegments)->DVal();
-		dNLJFactor = pcp->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DVal();
-		dHashFactor = pcp->PcpLookup(CCostModelParamsGPDB::EcpHashFactor)->DVal();
-		dDefaultCost = pcp->PcpLookup(CCostModelParamsGPDB::EcpDefaultCost)->DVal();
+		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpSeqIOBandwidth)->Get();
+		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpRandomIOBandwidth)->Get();
+		dTupProcBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpTupProcBandwidth)->Get();
+		dNetBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpNetBandwidth)->Get();
+		dSegments = pcp->PcpLookup(CCostModelParamsGPDB::EcpSegments)->Get();
+		dNLJFactor = pcp->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->Get();
+		dHashFactor = pcp->PcpLookup(CCostModelParamsGPDB::EcpHashFactor)->Get();
+		dDefaultCost = pcp->PcpLookup(CCostModelParamsGPDB::EcpDefaultCost)->Get();
 	}
 	else
 	{
 		pcp = ((CCostModelGPDBLegacy *) COptCtxt::PoctxtFromTLS()->Pcm())->Pcp();
 
-		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpSeqIOBandwidth)->DVal();
-		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpRandomIOBandwidth)->DVal();
-		dTupProcBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpTupProcBandwidth)->DVal();
-		dNetBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpNetBandwidth)->DVal();
-		dSegments = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpSegments)->DVal();
-		dNLJFactor = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpNLJFactor)->DVal();
-		dHashFactor = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpHashFactor)->DVal();
-		dDefaultCost = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpDefaultCost)->DVal();
+		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpSeqIOBandwidth)->Get();
+		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpRandomIOBandwidth)->Get();
+		dTupProcBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpTupProcBandwidth)->Get();
+		dNetBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpNetBandwidth)->Get();
+		dSegments = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpSegments)->Get();
+		dNLJFactor = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpNLJFactor)->Get();
+		dHashFactor = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpHashFactor)->Get();
+		dDefaultCost = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpDefaultCost)->Get();
 	}
 
 	os << std::endl << "Lookup cost model params by id: " << std::endl;
@@ -192,14 +192,14 @@ CCostTest::TestParams
 	os << "Hash Factor: " << dHashFactor << std::endl;
 	os << "Default Cost: " << dDefaultCost << std::endl;
 
-	CDouble dSeqIOBandwidth1 = pcp->PcpLookup("SeqIOBandwidth")->DVal();
-	CDouble dRandomIOBandwidth1 = pcp->PcpLookup("RandomIOBandwidth")->DVal();
-	CDouble dTupProcBandwidth1 = pcp->PcpLookup("TupProcBandwidth")->DVal();
-	CDouble dNetBandwidth1 = pcp->PcpLookup("NetworkBandwidth")->DVal();
-	CDouble dSegments1 = pcp->PcpLookup("Segments")->DVal();
-	CDouble dNLJFactor1 = pcp->PcpLookup("NLJFactor")->DVal();
-	CDouble dHashFactor1 = pcp->PcpLookup("HashFactor")->DVal();
-	CDouble dDefaultCost1 = pcp->PcpLookup("DefaultCost")->DVal();
+	CDouble dSeqIOBandwidth1 = pcp->PcpLookup("SeqIOBandwidth")->Get();
+	CDouble dRandomIOBandwidth1 = pcp->PcpLookup("RandomIOBandwidth")->Get();
+	CDouble dTupProcBandwidth1 = pcp->PcpLookup("TupProcBandwidth")->Get();
+	CDouble dNetBandwidth1 = pcp->PcpLookup("NetworkBandwidth")->Get();
+	CDouble dSegments1 = pcp->PcpLookup("Segments")->Get();
+	CDouble dNLJFactor1 = pcp->PcpLookup("NLJFactor")->Get();
+	CDouble dHashFactor1 = pcp->PcpLookup("HashFactor")->Get();
+	CDouble dDefaultCost1 = pcp->PcpLookup("DefaultCost")->Get();
 
 	os << std::endl << "Lookup cost model params by name: " << std::endl;
 	os << "Seq I/O bandwidth: " << dSeqIOBandwidth1 << std::endl;
@@ -375,7 +375,7 @@ CCostTest::EresUnittest_SetParams()
 	// change NLJ cost factor
 	ICostModelParams::SCostParam *pcp = pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor);
 	CDouble dNLJFactor = CDouble(2.0);
-	CDouble dVal = pcp->DVal() * dNLJFactor;
+	CDouble dVal = pcp->Get() * dNLJFactor;
 	pcm->Pcp()->SetParam(pcp->UlId(), dVal, dVal - 0.5, dVal + 0.5);
 
 	// optimize again after updating NLJ cost factor

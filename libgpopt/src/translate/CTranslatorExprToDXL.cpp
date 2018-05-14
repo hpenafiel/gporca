@@ -7255,7 +7255,7 @@ CTranslatorExprToDXL::Pdxlprop
 		dRows = dRows * ulSegments;
 	}
 
-	pstrRows->AppendFormat(GPOS_WSZ_LIT("%f"), dRows.DVal());
+	pstrRows->AppendFormat(GPOS_WSZ_LIT("%f"), dRows.Get());
 
 	// extract our width from statistics object
 	CDouble dWidth = CStatistics::DDefaultColumnWidth;
@@ -7270,7 +7270,7 @@ CTranslatorExprToDXL::Pdxlprop
 		dWidth = pstats->DWidth(pdrgpulColIds);
 	}
 	pdrgpulColIds->Release();
-	pstrWidth->AppendFormat(GPOS_WSZ_LIT("%lld"), (LINT) dWidth.DVal());
+	pstrWidth->AppendFormat(GPOS_WSZ_LIT("%lld"), (LINT) dWidth.Get());
 
 	// get the cost from expression node
 	CWStringDynamic str(m_pmp);

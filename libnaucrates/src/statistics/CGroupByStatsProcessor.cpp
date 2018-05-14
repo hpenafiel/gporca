@@ -70,7 +70,7 @@ CGroupByStatsProcessor::PstatsGroupBy
 		pcrsGrpColComputed->Release();
 		pdrgpdNDV->Release();
 
-		dRowsAgg = std::min(std::max(CStatistics::DMinRows.DVal(), dGroups.DVal()), pstatsInput->DRows().DVal());
+		dRowsAgg = std::min(std::max(CStatistics::DMinRows.Get(), dGroups.Get()), pstatsInput->DRows().Get());
 
 		// create a new stats object for the output
 		pstatsAgg = GPOS_NEW(pmp) CStatistics(pmp, phmulhist, phmuldoubleWidth, dRowsAgg, pstatsInput->FEmpty());

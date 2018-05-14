@@ -196,7 +196,7 @@ CBucket::DOverlap
 		dRes = dRes * dDistanceMiddle;
 	}
 
-	return CDouble(std::min(dRes.DVal(), DOUBLE(1.0)));
+	return CDouble(std::min(dRes.Get(), DOUBLE(1.0)));
 
 }
 
@@ -429,7 +429,7 @@ CBucket::PbucketSingleton
 	// in the bucket
 	CDouble dDistinctRatio = CDouble(1.0) / this->m_dDistinct;
 
-	CDouble dFrequencyNew = std::min(DOUBLE(1.0), (this->m_dFrequency * dDistinctRatio).DVal());
+	CDouble dFrequencyNew = std::min(DOUBLE(1.0), (this->m_dFrequency * dDistinctRatio).Get());
 	CDouble dDistinctNew = CDouble(1.0);
 
 	// singleton point is both lower and upper
@@ -797,8 +797,8 @@ CBucket::PbucketIntersect
 					(
 					std::min
 						(
-						dRatio1.DVal() * m_dDistinct.DVal(),
-						dRatio2.DVal() * pbucket->m_dDistinct.DVal()
+						dRatio1.Get() * m_dDistinct.Get(),
+						dRatio2.Get() * pbucket->m_dDistinct.Get()
 						)
 					);
 
@@ -818,8 +818,8 @@ CBucket::PbucketIntersect
 					DOUBLE(1.0) /
 					std::max
 						(
-						dRatio1.DVal() * m_dDistinct.DVal(),
-						dRatio2.DVal() * pbucket->DDistinct().DVal()
+						dRatio1.Get() * m_dDistinct.Get(),
+						dRatio2.Get() * pbucket->DDistinct().Get()
 						)
 					);
 
@@ -1053,13 +1053,13 @@ CBucket::DSample
 	IDatumStatisticsMappable *pdatumstatsmapableLower = dynamic_cast<IDatumStatisticsMappable *>(m_ppointLower->Pdatum());
 	IDatumStatisticsMappable *pdatumstatsmapableUpper = dynamic_cast<IDatumStatisticsMappable *>(m_ppointUpper->Pdatum());
 
-	DOUBLE dLowerVal = pdatumstatsmapableLower->DMappingVal().DVal();
+	DOUBLE dLowerVal = pdatumstatsmapableLower->DMappingVal().Get();
 	if (FSingleton())
 	{
 		return CDouble(dLowerVal);
 	}
 
-	DOUBLE dUpperVal = pdatumstatsmapableUpper->DMappingVal().DVal();
+	DOUBLE dUpperVal = pdatumstatsmapableUpper->DMappingVal().Get();
 	DOUBLE dRandVal = ((DOUBLE) clib::UlRandR(pulSeed)) / RAND_MAX;
 
 	return CDouble(dLowerVal + dRandVal * (dUpperVal - dLowerVal));

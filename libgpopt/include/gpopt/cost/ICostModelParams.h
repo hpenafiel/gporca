@@ -95,7 +95,7 @@ namespace gpopt
 					}
 
 					// return value
-					CDouble DVal() const
+					CDouble Get() const
 					{
 						return m_dVal;
 					}
@@ -114,7 +114,7 @@ namespace gpopt
 
 					BOOL FEquals(SCostParam *pcm) const
 					{
-						return UlId() == pcm->UlId() && DVal() == pcm->DVal() &&
+						return UlId() == pcm->UlId() && Get() == pcm->Get() &&
 							   DLowerBound() == pcm->DLowerBound() &&
 							   DUpperBound() == pcm->DUpperBound();
 					}
