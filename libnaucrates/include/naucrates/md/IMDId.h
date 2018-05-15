@@ -110,7 +110,7 @@ namespace gpmd
 			
 			// return true if calling object's destructor is allowed
 			virtual
-			BOOL FDeletable() const
+			BOOL Deletable() const
 			{
 				return (0 == m_ulpDeletionLocks);
 			}

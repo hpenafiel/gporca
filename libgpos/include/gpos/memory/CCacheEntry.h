@@ -152,7 +152,7 @@ namespace gpos
 			// get value's ref-count
 			ULONG UlRefCount() const
 			{
-				return (ULONG)ptr<T>()(m_pVal)->UlpRefCount();
+				return (ULONG)ptr<T>()(m_pVal)->RefCount();
 			}
 
 			// increments value's ref-count

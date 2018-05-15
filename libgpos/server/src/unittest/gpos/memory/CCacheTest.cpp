@@ -349,7 +349,7 @@ CCacheTest::EresUnittest_Refcount()
 		IMemoryPool* pmp = ca.Pmp();
 
 		pso = GPOS_NEW(pmp) SSimpleObject(1, 2);
-		GPOS_ASSERT(1 == pso->UlpRefCount());
+		GPOS_ASSERT(1 == pso->RefCount());
 
 	#ifdef GPOS_DEBUG
 		SSimpleObject *psoReturned =
@@ -357,30 +357,30 @@ CCacheTest::EresUnittest_Refcount()
 			ca.PtInsert(&(pso->m_ulKey), pso);
 
 		// 1 by CRefCount, 2 by CCacheEntry constructor and 3 by CCache Accessor
-		GPOS_ASSERT(3 == pso->UlpRefCount() && "Expected refcount to be 3");
+		GPOS_ASSERT(3 == pso->RefCount() && "Expected refcount to be 3");
 		GPOS_ASSERT(psoReturned == pso &&
 					"Incorrect cache entry was inserted");
 
 	}
 
-	GPOS_ASSERT(2 == pso->UlpRefCount() &&  "Expected refcount to be 2 because CCacheAccessor goes out of scope");
+	GPOS_ASSERT(2 == pso->RefCount() &&  "Expected refcount to be 2 because CCacheAccessor goes out of scope");
 
 	{
 		//Create new access for lookup
 		CSimpleObjectCacheAccessor ca(pcache);
 
-		GPOS_ASSERT(2 == pso->UlpRefCount() && "Expected pso and CCacheEntry to have ownership");
+		GPOS_ASSERT(2 == pso->RefCount() && "Expected pso and CCacheEntry to have ownership");
 
 		//Ideally Lookup should return valid object. Until CCache evict and no one has reference to it, this object can't be deleted
 		ca.Lookup(&(pso->m_ulKey));
 
 		// 1 by CRefCount, 2 by CCacheEntry constructor, 3 by CCache Accessor, 4 by Lookup
-		GPOS_ASSERT(4 == pso->UlpRefCount() && "Expected pso, CCacheEntry CCacheAccessor, and customer to have ownership");
+		GPOS_ASSERT(4 == pso->RefCount() && "Expected pso, CCacheEntry CCacheAccessor, and customer to have ownership");
 		// Ideally it shouldn't delete itself because CCache is still holding this object
 		pso->Release();
-		GPOS_ASSERT(3 == pso->UlpRefCount() && "Expected CCacheEntry, CCacheAccessor and customer to have ownership");
+		GPOS_ASSERT(3 == pso->RefCount() && "Expected CCacheEntry, CCacheAccessor and customer to have ownership");
 	}
-	GPOS_ASSERT(2 == pso->UlpRefCount() && "Expected refcount to be 1. CCacheEntry and customer have the ownership");
+	GPOS_ASSERT(2 == pso->RefCount() && "Expected refcount to be 1. CCacheEntry and customer have the ownership");
 
 	// release object since there is no customer to release it after lookup and before CCache's cleanup
 	pso->Release();
@@ -407,13 +407,13 @@ CCacheTest::InsertOneElement(CCache<SSimpleObject*, ULONG*> *pCache, ULONG ulKey
 		IMemoryPool *pmp = ca.Pmp();
 		pso = GPOS_NEW(pmp) SSimpleObject(ulKey, ulKey);
 		ca.PtInsert(&(pso->m_ulKey), pso);
-		GPOS_ASSERT(3 == pso->UlpRefCount() && "Expected pso, cacheentry and cacheaccessor to have ownership");
+		GPOS_ASSERT(3 == pso->RefCount() && "Expected pso, cacheentry and cacheaccessor to have ownership");
 		//Remove the ownership of pso. Still CCacheEntry has the ownership
 		pso->Release();
-		GPOS_ASSERT(2 == pso->UlpRefCount() && "Expected pso and cacheentry to have ownership");
+		GPOS_ASSERT(2 == pso->RefCount() && "Expected pso and cacheentry to have ownership");
 		ulTotalAllocatedSize = pmp->UllTotalAllocatedSize();
 	}
-	GPOS_ASSERT(1 == pso->UlpRefCount() && "Expected only cacheentry to have ownership");
+	GPOS_ASSERT(1 == pso->RefCount() && "Expected only cacheentry to have ownership");
 	return ulTotalAllocatedSize;
 }
 
