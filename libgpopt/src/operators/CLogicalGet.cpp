@@ -259,7 +259,7 @@ CLogicalGet::PcrsDeriveNotNull
 
 	// filters out nullable columns
 	CColRefSetIter crsi(*CDrvdPropRelational::Pdprel(exprhdl.Pdp())->PcrsOutput());
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRefTable *pcrtable = CColRefTable::PcrConvert(const_cast<CColRef*>(crsi.Pcr()));
 		if (pcrtable->FNullable())

@@ -1250,7 +1250,7 @@ CConstraintInterval::PciUnbounded
 {
 	// find the first constrainable column
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		CConstraintInterval *pci = PciUnbounded(pmp, pcr, fIncludesNull);

@@ -52,9 +52,9 @@ void SetTraceflags
 	*ppbsEnabled = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
 	*ppbsDisabled = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
 	CBitSetIter bsiter(*pbsInput);
-	while (bsiter.FAdvance())
+	while (bsiter.Advance())
 	{
-		ULONG ulTraceFlag = bsiter.UlBit();
+		ULONG ulTraceFlag = bsiter.Bit();
 		if (GPOS_FTRACE(ulTraceFlag))
 		{
 			// set trace flag in the enabled set
@@ -110,16 +110,16 @@ void ResetTraceflags
 	CAutoTraceFlag atf4(EtraceSimulateIOError, false);
 
 	CBitSetIter bsiterEnabled(*pbsEnabled);
-	while (bsiterEnabled.FAdvance())
+	while (bsiterEnabled.Advance())
 	{
-		ULONG ulTraceFlag = bsiterEnabled.UlBit();
+		ULONG ulTraceFlag = bsiterEnabled.Bit();
 		GPOS_SET_TRACE(ulTraceFlag);
 	}
 
 	CBitSetIter bsiterDisabled(*pbsDisabled);
-	while (bsiterDisabled.FAdvance())
+	while (bsiterDisabled.Advance())
 	{
-		ULONG ulTraceFlag = bsiterDisabled.UlBit();
+		ULONG ulTraceFlag = bsiterDisabled.Bit();
 		GPOS_UNSET_TRACE(ulTraceFlag);
 	}
 }

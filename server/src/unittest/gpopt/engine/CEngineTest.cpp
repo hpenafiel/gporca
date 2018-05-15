@@ -312,7 +312,7 @@ CEngineTest::EresUnittest_AppendStats()
 	ULONG ulIndex = 0;
 	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
 	CColRefSetIter crsi(*CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput());
-	while (crsi.FAdvance() && ulIndex < 3)
+	while (crsi.Advance() && ulIndex < 3)
 	{
 		CColRef *pcr = crsi.Pcr();
 		if (ulIndex == 1 || ulIndex == 2)

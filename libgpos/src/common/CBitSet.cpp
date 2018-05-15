@@ -519,9 +519,9 @@ CBitSet::Difference
 	}
 	
 	CBitSetIter bsiter(*pbs);
-	while (bsiter.FAdvance())
+	while (bsiter.Advance())
 	{
-		(void) ExchangeClear(bsiter.UlBit());
+		(void) ExchangeClear(bsiter.Bit());
 	}
 }	
 
@@ -705,8 +705,8 @@ CBitSet::OsPrint
 
 	for (ULONG ul = 0; ul < ulElems; ul++)
 	{
-		(void) bsiter.FAdvance();
-		os << bsiter.UlBit();
+		(void) bsiter.Advance();
+		os << bsiter.Bit();
 
 		if (ul < ulElems - 1)
 		{

@@ -49,8 +49,8 @@ namespace gpos
 			// current enum
 			T TBit() const
 			{
-				GPOS_ASSERT(eSentinel > CBitSetIter::UlBit() && "Out of range of enum");
-				return static_cast<T>(CBitSetIter::UlBit());				
+				GPOS_ASSERT(eSentinel > CBitSetIter::Bit() && "Out of range of enum");
+				return static_cast<T>(CBitSetIter::Bit());				
 			}
 
 	}; // class CEnumSetIter

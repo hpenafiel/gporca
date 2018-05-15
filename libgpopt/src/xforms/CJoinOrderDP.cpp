@@ -254,9 +254,9 @@ CJoinOrderDP::PexprLookup
 	if (1 == pbs->Size())
 	{
 		CBitSetIter bsi(*pbs);
-		(void) bsi.FAdvance();
+		(void) bsi.Advance();
 
-		return m_rgpcomp[bsi.UlBit()]->m_pexpr;
+		return m_rgpcomp[bsi.Bit()]->m_pexpr;
 	}
 
 	// otherwise, return expression by looking up DP table
@@ -455,11 +455,11 @@ CJoinOrderDP::PexprJoin
 	GPOS_ASSERT(2 == pbs->Size());
 
 	CBitSetIter bsi(*pbs);
-	(void) bsi.FAdvance();
-	ULONG ulCompFst = bsi.UlBit();
-	(void) bsi.FAdvance();
-	ULONG ulCompSnd = bsi.UlBit();
-	GPOS_ASSERT(!bsi.FAdvance());
+	(void) bsi.Advance();
+	ULONG ulCompFst = bsi.Bit();
+	(void) bsi.Advance();
+	ULONG ulCompSnd = bsi.Bit();
+	GPOS_ASSERT(!bsi.Advance());
 
 	CBitSet *pbsFst = GPOS_NEW(m_pmp) CBitSet(m_pmp);
 	(void) pbsFst->ExchangeSet(ulCompFst);
@@ -650,9 +650,9 @@ CJoinOrderDP::PdrgpbsSubsets
 	ULONG *pulElems = GPOS_NEW_ARRAY(pmp, ULONG, ulSize);
 	ULONG ul = 0;
 	CBitSetIter bsi(*pbs);
-	while (bsi.FAdvance())
+	while (bsi.Advance())
 	{
-		pulElems[ul++] = bsi.UlBit();
+		pulElems[ul++] = bsi.Bit();
 	}
 
 	CBitSet *pbsCurrent = GPOS_NEW(pmp) CBitSet(pmp);
@@ -773,13 +773,13 @@ CJoinOrderDP::PexprCross
 	}
 
 	CBitSetIter bsi(*pbs);
-	(void) bsi.FAdvance();
-	CExpression *pexprComp = m_rgpcomp[bsi.UlBit()]->m_pexpr;
+	(void) bsi.Advance();
+	CExpression *pexprComp = m_rgpcomp[bsi.Bit()]->m_pexpr;
 	pexprComp->AddRef();
 	CExpression *pexprCross = pexprComp;
-	while (bsi.FAdvance())
+	while (bsi.Advance())
 	{
-		pexprComp =  m_rgpcomp[bsi.UlBit()]->m_pexpr;
+		pexprComp =  m_rgpcomp[bsi.Bit()]->m_pexpr;
 		pexprComp->AddRef();
 		pexprCross = CUtils::PexprLogicalJoin<CLogicalInnerJoin>(m_pmp, pexprComp, pexprCross, CPredicateUtils::PexprConjunction(m_pmp, NULL /*pdrgpexpr*/));
 	}
@@ -962,9 +962,9 @@ CJoinOrderDP::PexprBuildPred
 	{
 		DrgPexpr *pdrgpexpr = GPOS_NEW(m_pmp) DrgPexpr(m_pmp);
 		CBitSetIter bsi(*pbsEdges);
-		while (bsi.FAdvance())
+		while (bsi.Advance())
 		{
-			ULONG ul = bsi.UlBit();
+			ULONG ul = bsi.Bit();
 			SEdge *pedge = m_rgpedge[ul];
 			pedge->m_pexpr->AddRef();
 			pdrgpexpr->Append(pedge->m_pexpr);

@@ -773,7 +773,7 @@ CCTEInfo::PhmulcrConsumerToProducer
 	HMUlCr *phmulcr = GPOS_NEW(pmp) HMUlCr(pmp);
 
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulPos = UlConsumerColPos(ulCTEId, pcr);

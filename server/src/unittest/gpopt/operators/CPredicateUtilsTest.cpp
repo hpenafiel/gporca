@@ -184,21 +184,21 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 #ifdef GPOS_DEBUG
 	BOOL fAdvance =
 #endif
-	crsi.FAdvance();
+	crsi.Advance();
 	GPOS_ASSERT(fAdvance);
 	CColRef *pcr1 = crsi.Pcr();
 
 #ifdef GPOS_DEBUG
 	fAdvance =
 #endif
-	crsi.FAdvance();
+	crsi.Advance();
 	GPOS_ASSERT(fAdvance);
 	CColRef *pcr2 = crsi.Pcr();
 
 #ifdef GPOS_DEBUG
 	fAdvance =
 #endif
-	crsi.FAdvance();
+	crsi.Advance();
 	GPOS_ASSERT(fAdvance);
 	CColRef *pcr3 = crsi.Pcr();
 

@@ -736,7 +736,7 @@ CEngine::ApplyTransformations
 {
 	// iterate over xforms
 	CXformSetIter xsi(*pxfs);
-	while (xsi.FAdvance())
+	while (xsi.Advance())
 	{
 		GPOS_CHECK_ABORT;
 		CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
@@ -1568,7 +1568,7 @@ CEngine::PrintActivatedXforms
 	{
 		os << std::endl << "[OPT]: <Begin Xforms - stage " << m_ulCurrSearchStage << ">" << std::endl;
 		CXformSetIter xsi(*m_pxfs);
-		while (xsi.FAdvance())
+		while (xsi.Advance())
 		{
 			CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
 			ULONG ulCalls = (ULONG) (*m_pdrgpulpXformCalls)[m_ulCurrSearchStage][pxform->Exfid()];

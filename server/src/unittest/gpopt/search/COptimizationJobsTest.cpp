@@ -240,7 +240,7 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 			CXformSet *pxfs = CLogical::PopConvert(pgexprLogical->Pop())->PxfsCandidates(pmp);
 
 			CXformSetIter xsi(*(pxfs));
-			while (xsi.FAdvance())
+			while (xsi.Advance())
 			{
 				CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
 				CJobTransformation jt;

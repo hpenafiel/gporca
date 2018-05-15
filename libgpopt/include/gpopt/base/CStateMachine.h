@@ -159,13 +159,13 @@ namespace gpopt
 
                 // loop through all sink states
                 EsetStatesIter esetIterSink(*pesetStates);
-                while(esetIterSink.FAdvance())
+                while(esetIterSink.Advance())
                 {
                     TEnumState tenumstateSink = esetIterSink.TBit();
 
                     // loop through all source states
                     EsetStatesIter esetIterSource(*pesetStates);
-                    while(esetIterSource.FAdvance())
+                    while(esetIterSource.Advance())
                     {
                         TEnumState tenumstateSource = esetIterSource.TBit();
 
@@ -176,7 +176,7 @@ namespace gpopt
 
                         // loop through all connecting edges
                         EsetEventsIter esetIterTrans(*pesetEvents);
-                        while(esetIterTrans.FAdvance())
+                        while(esetIterTrans.Advance())
                         {
                             // apply walker function
                             Pfpv(this, tenumstateSource, tenumstateSink, esetIterTrans.TBit(), pvContext);
@@ -451,7 +451,7 @@ namespace gpopt
                 // store remaining states in output array
                 EsetStatesIter esetIter(*peset);
                 ULONG ul = 0;
-                while (esetIter.FAdvance())
+                while (esetIter.Advance())
                 {
                     (*ppestate)[ul++] = esetIter.TBit();
                 }
@@ -482,7 +482,7 @@ namespace gpopt
 
                 // print all unreachable nodes using BOXes
                 EsetStatesIter esetIter(*peset);
-                while(esetIter.FAdvance())
+                while(esetIter.Advance())
                 {
                     os
                     << GRAPHVIZ_BOX(WszState(esetIter.TBit()))

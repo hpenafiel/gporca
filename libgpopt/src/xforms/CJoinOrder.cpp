@@ -391,9 +391,9 @@ CJoinOrder::AddEdge
 	SComponent *pcomp = m_rgpcomp[0];
 
 	CBitSetIter bsiterEdge(*pedge->m_pbs);
-	if (bsiterEdge.FAdvance())
+	if (bsiterEdge.Advance())
 	{
-		pcomp = m_rgpcomp[bsiterEdge.UlBit()];
+		pcomp = m_rgpcomp[bsiterEdge.Bit()];
 	}
 
 	// edge fully subsumed by first component's cover
@@ -425,9 +425,9 @@ CJoinOrder::AddEdge
 	// iterate through remaining edge cover
 	BOOL fCovered = false;
 	CBitSetIter bsiter(*pbsCover);	
-	while (bsiter.FAdvance() && !fCovered)
+	while (bsiter.Advance() && !fCovered)
 	{
-		ULONG ulComp = bsiter.UlBit();
+		ULONG ulComp = bsiter.Bit();
 		GPOS_ASSERT(!pcomp->m_pbs->Get(ulComp));
 
 		SComponent *pcompOther = m_rgpcomp[ulComp];
@@ -511,9 +511,9 @@ CJoinOrder::CombineComponents
 
 	// replace all pointers to right component with pointers to left component
 	CBitSetIter bsiter(*pcompRight->m_pbs);
-	while (bsiter.FAdvance())
+	while (bsiter.Advance())
 	{
-		ULONG ulPos = bsiter.UlBit();
+		ULONG ulPos = bsiter.Bit();
 	
 		GPOS_ASSERT(m_rgpcomp[ulPos] == pcompRight);
 		m_rgpcomp[ulPos]->Release();

@@ -1065,7 +1065,7 @@ CExpressionPreprocessor::PexprConjEqualityPredicates
 	CColRefSetIter crsiRight(*pcrs);
 	while
 		(
-		crsiRight.FAdvance() &&
+		crsiRight.Advance() &&
 		GPOPT_MAX_DERIVED_PREDS > ulPreds
 		)
 	{
@@ -1074,7 +1074,7 @@ CExpressionPreprocessor::PexprConjEqualityPredicates
 		CColRefSetIter crsiLeft(*pcrs);
 		while
 			(
-			crsiLeft.FAdvance() &&
+			crsiLeft.Advance() &&
 			GPOPT_MAX_DERIVED_PREDS > ulPreds
 			)
 		{
@@ -1220,7 +1220,7 @@ CExpressionPreprocessor::PexprScalarPredicates
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 

@@ -1325,7 +1325,7 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 
 	// iterate over grouping columns
 	CColRefSetIter crsi(*pcrsGrpCols);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulColId = pcr->UlId();
@@ -1694,7 +1694,7 @@ CStatisticsUtils::AddGrpColStats
 
 	// iterate over grouping columns
 	CColRefSetIter crsi(*pcrsGrpCols);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulGrpColId = pcr->UlId();

@@ -53,7 +53,7 @@ CColRefSetIter::CColRefSetIter
 CColRef *
 CColRefSetIter::Pcr() const
 {
-	ULONG ulId = CBitSetIter::UlBit();
+	ULONG ulId = CBitSetIter::Bit();
 
 	// resolve id through column factory
 	return m_pcf->PcrLookup(ulId);

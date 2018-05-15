@@ -403,9 +403,9 @@ CLogical::PkcKeysBaseTable
 		CBitSet *pbs = (*pdrgpbsKeys)[ul];
 		CBitSetIter bsiter(*pbs);
 		
-		while (bsiter.FAdvance())
+		while (bsiter.Advance())
 		{
-			pcrs->Include((*pdrgpcrOutput)[bsiter.UlBit()]);
+			pcrs->Include((*pdrgpcrOutput)[bsiter.Bit()]);
 		}
 
 		pkc->Add(pcrs);
@@ -933,7 +933,7 @@ CLogical::PpcDeriveConstraintRestrict
 
 	// include only constraints on given columns
 	CColRefSetIter crsi(*pcrsOutput);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		CConstraint *pcnstrCol = pcnstrChild->Pcnstr(pmp, pcr);

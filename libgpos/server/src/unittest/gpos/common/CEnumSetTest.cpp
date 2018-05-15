@@ -68,7 +68,7 @@ CEnumSetTest::EresUnittest_Basics()
 	GPOS_ASSERT(!pes->ExchangeSet(eTestTwo));
 
 	CETestIter eti(*pes);
-	while(eti.FAdvance())
+	while(eti.Advance())
 	{
 		GPOS_ASSERT((BOOL)eti);
 		GPOS_ASSERT(eTestSentinel > eti.TBit());

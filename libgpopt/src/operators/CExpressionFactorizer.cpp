@@ -412,7 +412,7 @@ CExpressionFactorizer::FOpSourceIdOrComputedColumn
 
 	ULONG ulComputedOpSourceId = ULONG_MAX;
 	CColRefSetIter crsi(*pcrsUsed);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		if (CColRef::EcrtTable != pcr->Ecrt())

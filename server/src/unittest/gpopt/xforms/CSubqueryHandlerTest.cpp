@@ -160,7 +160,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 		pxfsCand->Intersection(pxfs);
 		
 		CXformSetIter xsi(*pxfsCand);
-		while (xsi.FAdvance())
+		while (xsi.Advance())
 		{			
 			CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
 			GPOS_ASSERT(NULL != pxform);

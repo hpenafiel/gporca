@@ -1202,7 +1202,7 @@ CMDAccessor::Pstats
 	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
 
 	CColRefSetIter crsiHist(*pcrsHist);
-	while (crsiHist.FAdvance())
+	while (crsiHist.Advance())
 	{
 		CColRef *pcrHist = crsiHist.Pcr();
 
@@ -1231,7 +1231,7 @@ CMDAccessor::Pstats
 	// extract column widths
 	CColRefSetIter crsiWidth(*pcrsWidth);
 
-	while (crsiWidth.FAdvance())
+	while (crsiWidth.Advance())
 	{
 		CColRef *pcrWidth = crsiWidth.Pcr();
 

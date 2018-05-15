@@ -3212,7 +3212,7 @@ CTranslatorExprToDXL::PdxlnCorrelatedNLJoin
 
 	CColRefSet *pcrsOuter = PcrsOuterRefsForCorrelatedNLJoin(pexpr);
 	CColRefSetIter crsi(*pcrsOuter);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		CMDName *pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pcr->Name().Pstr());
@@ -7323,7 +7323,7 @@ CTranslatorExprToDXL::PdxlnProjList
 
 		// add the remaining required columns
 		CColRefSetIter crsi(*pcrsOutput);
-		while(crsi.FAdvance())
+		while(crsi.Advance())
 		{
 			CColRef *pcr = crsi.Pcr();
 
@@ -7340,7 +7340,7 @@ CTranslatorExprToDXL::PdxlnProjList
 	{
 		// no order specified
 		CColRefSetIter crsi(*pcrsOutput);
-		while(crsi.FAdvance())
+		while(crsi.Advance())
 		{
 			CColRef *pcr = crsi.Pcr();
 			CDXLNode *pdxlnPrEl = CTranslatorExprToDXLUtils::PdxlnProjElem(m_pmp, m_phmcrdxln, pcr);
@@ -7402,7 +7402,7 @@ CTranslatorExprToDXL::PdxlnProjList
 	CColRefSet *pcrsOutput = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
 	pcrsOutput->Include(pdrgpcr);
 	CColRefSetIter crsi(*pcrsRequired);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		if (!pcrsOutput->FMember(pcr))
@@ -7486,7 +7486,7 @@ CTranslatorExprToDXL::PdxlnProjList
 	// translate columns which remained after processing the project list: those
 	// are columns passed from the level below
 	CColRefSetIter crsi(*pcrsOutput);
-	while(crsi.FAdvance())
+	while(crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		CDXLNode *pdxlnPrEl = CTranslatorExprToDXLUtils::PdxlnProjElem(m_pmp, m_phmcrdxln, pcr);
@@ -7550,7 +7550,7 @@ CTranslatorExprToDXL::PdxlnProjListFromConstTableGet
 
 	// construct project elements for columns which remained after processing the required list
 	CColRefSetIter crsi(*pcrsOutput);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulPos = UlPosInArray(pcr, pdrgpcrCTGOutput);

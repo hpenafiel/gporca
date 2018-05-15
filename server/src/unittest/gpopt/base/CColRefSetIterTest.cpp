@@ -96,7 +96,7 @@ CColRefSetIterTest::EresUnittest_Basics()
 
 	ULONG ulCount = 0;
 	CColRefSetIter crsi(*pcrs);
-	while(crsi.FAdvance())
+	while(crsi.Advance())
 	{
 		GPOS_ASSERT((BOOL)crsi);
 

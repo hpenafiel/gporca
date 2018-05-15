@@ -64,7 +64,7 @@ CJobGroupExpression::ScheduleTransformations
 {
 	// iterate on xforms
 	CXformSetIter xsi(*(pxfs));
-	while (xsi.FAdvance())
+	while (xsi.Advance())
 	{
 		CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
 		CJobTransformation::ScheduleJob(psc, m_pgexpr, pxform, this);

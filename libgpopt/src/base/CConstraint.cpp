@@ -783,7 +783,7 @@ CConstraint::Phmcolconstr
 	HMColConstr *phmcolconstr = GPOS_NEW(pmp) HMColConstr(pmp);
 
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		DrgPcnstr *pdrgpcnstrCol = PdrgpcnstrOnColumn(pmp, pdrgpcnstr, pcr, false /*fExclusive*/);
@@ -879,7 +879,7 @@ CConstraint::FContains
 	// for each column used by the current constraint, we have to make sure that
 	// the constraint on this column contains the corresponding given constraint
 	CColRefSetIter crsi(*m_pcrsUsed);
-	while (fContains && crsi.FAdvance())
+	while (fContains && crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		CConstraint *pcnstrColThis = Pcnstr(m_pmp, pcr);

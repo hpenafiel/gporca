@@ -2656,7 +2656,7 @@ CUtils::PdrgpcrNonSystemCols
 
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		if (pcr->FSystemCol())
@@ -2807,7 +2807,7 @@ CUtils::PdrgpcrsIntersectEquivClasses
 		// because the equivalence classes are disjoint, a single column will only be a member
 		// of one equivalence class. therefore, we create a hash map keyed on one column
 		CColRefSetIter crsi(*pcrsFst);
-		while (crsi.FAdvance())
+		while (crsi.Advance())
 		{
 			CColRef *pcr = crsi.Pcr();
 			pcrsFst->AddRef();
@@ -2822,7 +2822,7 @@ CUtils::PdrgpcrsIntersectEquivClasses
 
 		// iterate on column references in the equivalence class
 		CColRefSetIter crsi(*pcrsSnd);
-		while (crsi.FAdvance())
+		while (crsi.Advance())
 		{
 			// lookup a column in the hashmap
 			CColRef *pcr = crsi.Pcr();
@@ -2843,7 +2843,7 @@ CUtils::PdrgpcrsIntersectEquivClasses
 				// now that we have created an intersection, any additional matches to these
 				// columns would create a duplicate intersect, so we add those columns to
 				// the DONE hash map
-				while (hmpcrs.FAdvance())
+				while (hmpcrs.Advance())
 				{
 					CColRef *pcrProcessed = hmpcrs.Pcr();
 					phmcscrDone->FInsert(pcrProcessed, pcrProcessed);
@@ -3720,7 +3720,7 @@ CUtils::PcrsRemap
 	CColRefSet *pcrsMapped = GPOS_NEW(pmp) CColRefSet(pmp);
 
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		CColRef *pcrMapped = PcrRemap(pcr, phmulcr, fMustExist);
@@ -4774,7 +4774,7 @@ CUtils::FEquivalanceClassesDisjoint
 		CColRefSet *pcrsFst = (*pdrgpcrs)[ulFst];
 
 		CColRefSetIter crsi(*pcrsFst);
-		while (crsi.FAdvance())
+		while (crsi.Advance())
 		{
 			CColRef *pcr = crsi.Pcr();
 			pcrsFst->AddRef();
@@ -4813,7 +4813,7 @@ CUtils::FEquivalanceClassesEqual
 	{
 		CColRefSet *pcrsFst = (*pdrgpcrsFst)[ulFst];
 		CColRefSetIter crsi(*pcrsFst);
-		while (crsi.FAdvance())
+		while (crsi.Advance())
 		{
 			CColRef *pcr = crsi.Pcr();
 			pcrsFst->AddRef();

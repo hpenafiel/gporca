@@ -1696,7 +1696,7 @@ CExpression *CTestUtils::PexprLogicalGbAggWithInput
 	CColRefSetIter crsi(*pcrs);
 	for (ULONG i = 0; i < ulCols; i++)
 	{
-		(void) crsi.FAdvance();
+		(void) crsi.Advance();
 		pdrgpcr->Append(crsi.Pcr());
 	}
 
@@ -2788,7 +2788,7 @@ CTestUtils::PqcGenerate
 	// keep a subset of columns
 	CColRefSet *pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp);
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		if (1 != pcr->UlId() % GPOPT_TEST_REL_WIDTH)
@@ -2801,7 +2801,7 @@ CTestUtils::PqcGenerate
 	// construct an ordered array of the output columns
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
 	CColRefSetIter crsiOutput(*pcrsOutput);
-	while (crsiOutput.FAdvance())
+	while (crsiOutput.Advance())
 	{
 		CColRef *pcr = crsiOutput.Pcr();
 		pdrgpcr->Append(pcr);
@@ -4632,7 +4632,7 @@ CTestUtils::createEquivalenceClasses(IMemoryPool *pmp, CColRefSet *pcrs, INT set
 	CColRefSetIter crsi(*pcrs);
 	CColRefSet *pcrsLoop = GPOS_NEW(pmp) CColRefSet(pmp);
 
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		if (i == setBoundary[bpIndex]) {
 			pdrgcrs->Append(pcrsLoop);

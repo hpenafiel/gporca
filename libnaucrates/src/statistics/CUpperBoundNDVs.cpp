@@ -38,7 +38,7 @@ CUpperBoundNDVs::PubndvCopyWithRemap
 
         CColRefSet *pcrsCopy = GPOS_NEW(pmp) CColRefSet(pmp);
         CColRefSetIter crsi(*m_pcrs);
-        while (crsi.FAdvance() && !fMappingNotFound)
+        while (crsi.Advance() && !fMappingNotFound)
         {
                 ULONG ulColId = crsi.Pcr()->UlId();
                 CColRef *pcrNew = phmulcr->PtLookup(&ulColId);

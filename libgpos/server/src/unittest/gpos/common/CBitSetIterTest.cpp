@@ -70,9 +70,9 @@ CBitSetIterTest::EresUnittest_Basics()
 
 	ULONG cCount = 0;
 	CBitSetIter bsi(*pbs);
-	while(bsi.FAdvance())
+	while(bsi.Advance())
 	{
-		GPOS_ASSERT(bsi.UlBit() == (bsi.UlBit() / vector_size) * vector_size);
+		GPOS_ASSERT(bsi.Bit() == (bsi.Bit() / vector_size) * vector_size);
 		GPOS_ASSERT((BOOL)bsi);
 
 		cCount++;
@@ -112,7 +112,7 @@ CBitSetIterTest::EresUnittest_Uninitialized()
 	CBitSetIter bsi(*pbs);
 
 	// this throws
-	bsi.UlBit();
+	bsi.Bit();
 
 	return GPOS_FAILED;
 }
@@ -141,10 +141,10 @@ CBitSetIterTest::EresUnittest_Overrun()
 
 	CBitSetIter bsi(*pbs);
 
-	while (bsi.FAdvance()) {}
+	while (bsi.Advance()) {}
 
 	// this throws
-	bsi.FAdvance();
+	bsi.Advance();
 
 	return GPOS_FAILED;
 }

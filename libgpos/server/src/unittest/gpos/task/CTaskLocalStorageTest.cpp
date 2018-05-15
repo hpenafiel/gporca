@@ -98,9 +98,9 @@ CTaskLocalStorageTest::EresUnittest_TraceFlags()
 	// test trace flag iterator
 	CTraceFlagIter tfi;
 	BOOL fFound = false;
-	while (tfi.FAdvance())
+	while (tfi.Advance())
 	{
-		GPOS_ASSERT_IMP(!fFound, EtraceTest == tfi.UlBit());
+		GPOS_ASSERT_IMP(!fFound, EtraceTest == tfi.Bit());
 		fFound = true;
 	}
 #endif // GPOS_DEBUG

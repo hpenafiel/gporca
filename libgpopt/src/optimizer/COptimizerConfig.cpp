@@ -177,14 +177,14 @@ COptimizerConfig::Serialize(IMemoryPool *pmp, CXMLSerializer *pxmlser, CBitSet *
 	// Serialize traceflags represented in bitset into stream
 	gpos::CBitSetIter bsi(*pbsTrace);
 	CWStringDynamic wsTraceFlags(pmp);
-	for (ULONG ul = 0; bsi.FAdvance(); ul++)
+	for (ULONG ul = 0; bsi.Advance(); ul++)
 	{
 		if (0 < ul)
 		{
 			wsTraceFlags.AppendCharArray(",");
 		}
 
-		wsTraceFlags.AppendFormat(GPOS_WSZ_LIT("%d"), bsi.UlBit());
+		wsTraceFlags.AppendFormat(GPOS_WSZ_LIT("%d"), bsi.Bit());
 	}
 
 	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenTraceFlags));

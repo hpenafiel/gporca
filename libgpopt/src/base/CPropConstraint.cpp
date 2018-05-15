@@ -78,7 +78,7 @@ CPropConstraint::InitHashMap
 		CColRefSet *pcrs = (*m_pdrgpcrs)[ul];
 
 		CColRefSetIter crsi(*pcrs);
-		while (crsi.FAdvance())
+		while (crsi.Advance())
 		{
 			pcrs->AddRef();
 #ifdef GPOS_DEBUG

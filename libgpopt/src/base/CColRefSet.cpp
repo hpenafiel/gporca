@@ -135,7 +135,7 @@ CColRef *
 CColRefSet::PcrFirst() const
 {
 	CColRefSetIter crsi(*this);
-	if (crsi.FAdvance())
+	if (crsi.Advance())
 	{
 		return crsi.Pcr();
 	}
@@ -199,7 +199,7 @@ CColRefSet::Include
 	)
 {
 	CColRefSetIter crsi(*pcrs);
-	while(crsi.FAdvance())
+	while(crsi.Advance())
 	{
 		Include(crsi.Pcr());
 	}
@@ -239,7 +239,7 @@ CColRefSet::Exclude
 	)
 {
 	CColRefSetIter crsi(*pcrs);
-	while(crsi.FAdvance())
+	while(crsi.Advance())
 	{
 		Exclude(crsi.Pcr());
 	}
@@ -333,7 +333,7 @@ CColRefSet::Pdrgpcr
 	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
 	
 	CColRefSetIter crsi(*this);
-	while(crsi.FAdvance())
+	while(crsi.Advance())
 	{
 		pdrgpcr->Append(crsi.Pcr());
 	}
@@ -362,7 +362,7 @@ CColRefSet::HashValue()
 	CColRefSetIter crsi(*this);
 	for (ULONG i = 0; i < ulLen; i++)
 	{
-		(void) crsi.FAdvance();
+		(void) crsi.Advance();
 		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(crsi.Pcr()));
 	}
 
@@ -390,7 +390,7 @@ CColRefSet::OsPrint
 	ULONG ul = 0;
 	
 	CColRefSetIter crsi(*this);
-	while(crsi.FAdvance() && ul < std::min(ulLen, ulLenMax))
+	while(crsi.Advance() && ul < std::min(ulLen, ulLenMax))
 	{
 		CColRef *pcr = crsi.Pcr();
 		pcr->OsPrint(os);
@@ -426,7 +426,7 @@ CColRefSet::ExtractColIds
 	const
 {
 	CColRefSetIter crsi(*this);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulColId = pcr->UlId();
@@ -489,7 +489,7 @@ CColRefSet::FCovered
 	}
 
 	CColRefSetIter crsi(*pcrs);
-	while (crsi.FAdvance())
+	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
 		BOOL fFound = false;
