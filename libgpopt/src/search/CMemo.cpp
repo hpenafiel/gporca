@@ -529,7 +529,7 @@ CMemo::FRehash()
 	{
 		{
 			ShtAccIter shtitacc(shtit);
-			pgexpr = shtitacc.Pt();
+			pgexpr = shtitacc.Value();
 			if (NULL != pgexpr)
 			{
 				shtitacc.Remove(pgexpr);

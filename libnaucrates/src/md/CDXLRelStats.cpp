@@ -197,9 +197,9 @@ CDXLRelStats::PdxlrelstatsDummy
 	CAutoP<CWStringDynamic> a_pstr;
 	a_pstr = GPOS_NEW(pmp) CWStringDynamic(pmp, pmdidRelStats->Wsz());
 	CAutoP<CMDName> a_pmdname;
-	a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Pt());
+	a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Value());
 	CAutoRef<CDXLRelStats> a_pdxlrelstats;
-	a_pdxlrelstats = GPOS_NEW(pmp) CDXLRelStats(pmp, pmdidRelStats, a_pmdname.Pt(), CStatistics::DDefaultColumnWidth, false /* fEmpty */);
+	a_pdxlrelstats = GPOS_NEW(pmp) CDXLRelStats(pmp, pmdidRelStats, a_pmdname.Value(), CStatistics::DDefaultColumnWidth, false /* fEmpty */);
 	a_pmdname.PtReset();
 	return a_pdxlrelstats.PtReset();
 }

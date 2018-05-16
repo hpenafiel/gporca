@@ -85,7 +85,7 @@ namespace gpos
 			}
 
 			// return basic pointer
-			T* Pt() 
+			T* Value() 
 			{
 				return m_pt;
 			}

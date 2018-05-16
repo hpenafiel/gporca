@@ -96,13 +96,13 @@ namespace gpos
                     }
 
 					// key accessor
-					K *Pk() const
+					K *Key() const
 					{
 						return m_key;
 					}
 
 					// value accessor
-					T *Pt() const
+					T *Value() const
 					{
 						return m_value;
 					}
@@ -140,7 +140,7 @@ namespace gpos
 			// array for keys
 			// We use CleanupNULL because the keys are owned by the hash table
 			typedef CDynamicPtrArray<K, CleanupNULL> Keys;
-			Keys *const m_pdrgKeys;
+			Keys *const m_keys;
 
 			IntPtrArray *const m_filled_chains;
 
@@ -185,16 +185,16 @@ namespace gpos
 		public:
 		
 			// ctor
-			CHashMap<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> (IMemoryPool *pmp, ULONG ulSize = 128)
+			CHashMap<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> (IMemoryPool *pmp, ULONG num_chains = 128)
             :
             m_pmp(pmp),
-            m_num_chains(ulSize),
+            m_num_chains(num_chains),
             m_size(0),
             m_chains(GPOS_NEW_ARRAY(m_pmp, HashElemChain*, m_num_chains)),
-            m_pdrgKeys(GPOS_NEW(m_pmp) Keys(m_pmp)),
+            m_keys(GPOS_NEW(m_pmp) Keys(m_pmp)),
             m_filled_chains(GPOS_NEW(pmp) IntPtrArray(pmp))
             {
-                GPOS_ASSERT(ulSize > 0);
+                GPOS_ASSERT(m_num_chains > 0);
                 (void) clib::PvMemSet(m_chains, 0, m_num_chains * sizeof(HashElemChain*));
             }
 
@@ -205,7 +205,7 @@ namespace gpos
                 Clear();
 
                 GPOS_DELETE_ARRAY(m_chains);
-                m_pdrgKeys->Release();
+                m_keys->Release();
                 m_filled_chains->Release();
             }
 
@@ -225,11 +225,11 @@ namespace gpos
                     m_filled_chains->Append(GPOS_NEW(m_pmp) INT(chain_idx));
                 }
 
-                CHashMapElem *phme = GPOS_NEW(m_pmp) CHashMapElem(key, value, true /*fOwn*/);
-                (*chain)->Append(phme);
+                CHashMapElem *elem = GPOS_NEW(m_pmp) CHashMapElem(key, value, true /*fOwn*/);
+                (*chain)->Append(elem);
 
                 m_size++;
-                m_pdrgKeys->Append(key);
+                m_keys->Append(key);
 
                 return true;
             }
@@ -240,7 +240,7 @@ namespace gpos
                 CHashMapElem *elem = Lookup(key);
                 if (NULL != elem)
                 {
-                    return elem->Pt();
+                    return elem->Value();
                 }
 
                 return NULL;
@@ -252,10 +252,10 @@ namespace gpos
                 GPOS_ASSERT(NULL != key);
 
                 BOOL fSuccess = false;
-				CHashMapElem *phme = Lookup(key);
-                if (NULL != phme)
+				CHashMapElem *elem = Lookup(key);
+                if (NULL != elem)
                 {
-                    phme->ReplaceValue(ptNew);
+                    elem->ReplaceValue(ptNew);
                     fSuccess = true;
                 }
 

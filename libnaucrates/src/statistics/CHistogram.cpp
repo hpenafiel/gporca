@@ -2097,8 +2097,8 @@ CHistogram::AddHistograms
 	HMIterUlHist hmiterulhist(phmulhistSrc);
 	while (hmiterulhist.FAdvance())
 	{
-		ULONG ulColId = *(hmiterulhist.Pk());
-		const CHistogram *phist = hmiterulhist.Pt();
+		ULONG ulColId = *(hmiterulhist.Key());
+		const CHistogram *phist = hmiterulhist.Value();
 		CStatisticsUtils::AddHistogram(pmp, ulColId, phist, phmulhistDest);
 	}
 }
@@ -2152,7 +2152,7 @@ CHistogram::AddEmptyHistogram
 	HMIterUlHist hmiterulhist(phmulhistInput);
 	while (hmiterulhist.FAdvance())
 	{
-		ULONG ulColId = *(hmiterulhist.Pk());
+		ULONG ulColId = *(hmiterulhist.Key());
 
 		// empty histogram
 		CHistogram *phist =  GPOS_NEW(pmp) CHistogram(GPOS_NEW(pmp) DrgPbucket(pmp), false /* fWellDefined */);

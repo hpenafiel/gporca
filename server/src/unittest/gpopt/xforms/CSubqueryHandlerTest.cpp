@@ -233,7 +233,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 					CMDKey::FEqualMDKey
 					);
 
-	CMDAccessor::MDCache *pcache = apcache.Pt();
+	CMDAccessor::MDCache *pcache = apcache.Value();
 
 	{
 		CMDAccessor mda(pmp, pcache, CTestUtils::m_sysidDefault, pmdp);

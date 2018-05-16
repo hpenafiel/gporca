@@ -148,7 +148,7 @@ CGroupExpression::CleanupContexts()
 			// iter's accessor scope
 			{
 				ShtAccIter shtitacc(shtit);
-				if (NULL != (pcc = shtitacc.Pt()))
+				if (NULL != (pcc = shtitacc.Value()))
 				{
 					shtitacc.Remove(pcc);
 				}
@@ -1148,7 +1148,7 @@ CGroupExpression::OsPrintCostContexts
 		{
 			{
 				ShtAccIter shtitacc(shtit);
-				pcc = shtitacc.Pt();
+				pcc = shtitacc.Value();
 			}
 
 			if (NULL != pcc)

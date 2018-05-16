@@ -57,11 +57,11 @@ namespace gpos
 			// method to return the current element
 			const typename TMap::CHashMapElem *Phme() const
             {
-                typename TMap::CHashMapElem *phme = NULL;
+                typename TMap::CHashMapElem *elem = NULL;
                 K *k = (*(m_ptm->m_pdrgKeys))[m_ulKey-1];
-                phme = m_ptm->Lookup(k);
+                elem = m_ptm->Lookup(k);
 
-                return phme;
+                return elem;
             }
 
 		public:
@@ -94,23 +94,23 @@ namespace gpos
             }
 			
 			// current key
-			const K *Pk() const
+			const K *Key() const
             {
-                const typename TMap::CHashMapElem *phme = Phme();
-                if (NULL != phme)
+                const typename TMap::CHashMapElem *elem = Phme();
+                if (NULL != elem)
                 {
-                    return phme->Pk();
+                    return elem->Key();
                 }
                 return NULL;
             }
 
 			// current value
-			const T *Pt() const
+			const T *Value() const
             {
-                const typename TMap::CHashMapElem *phme = Phme();
-                if (NULL != phme)
+                const typename TMap::CHashMapElem *elem = Phme();
+                if (NULL != elem)
                 {
-                    return phme->Pt();
+                    return elem->Value();
                 }
                 return NULL;
             }

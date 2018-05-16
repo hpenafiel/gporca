@@ -279,7 +279,7 @@ namespace gpopt
                     }
 					
 					// accessor
-					const T *Pt() const
+					const T *Value() const
 					{
 						return m_value;
 					}
@@ -369,7 +369,7 @@ namespace gpopt
                                 ullRankRem /= ullLocalCount;
                             }
 
-                            pr = prfn(pmp, const_cast<T*>(this->Pt()), pdrg, pU);
+                            pr = prfn(pmp, const_cast<T*>(this->Value()), pdrg, pU);
                         }
 
                         return pr;
@@ -383,7 +383,7 @@ namespace gpopt
                         ULONG ulChildren = m_pdrgdrgptn->Size();
 
                         os
-                        << "=== Node " << m_ul << " [" << *Pt() << "] ===" << std::endl
+                        << "=== Node " << m_ul << " [" << *Value() << "] ===" << std::endl
                         << "# children: " << ulChildren << std::endl
                         << "# count: " << this->UllCount() << std::endl;
 
@@ -397,7 +397,7 @@ namespace gpopt
                                 CTreeNode *ptn = (*(*m_pdrgdrgptn)[ul])[ulChild];
                                 os
                                 << "  -> " << ptn->m_ul
-                                << " [" << *ptn->Pt() << "]"
+                                << " [" << *ptn->Value() << "]"
                                 << std::endl;
                             }
                         }
@@ -537,7 +537,7 @@ namespace gpopt
                 ULONG ulNodes = 0;
                 for (ulNodes = 0; mi.FAdvance(); ulNodes++)
                 {
-                    CTreeNode *ptn = const_cast<CTreeNode*>(mi.Pt());
+                    CTreeNode *ptn = const_cast<CTreeNode*>(mi.Value());
 
                     if (0 == ptn->UlIncoming())
                     {
@@ -591,7 +591,7 @@ namespace gpopt
                 ULONG ulNodes = 0;
                 for (ulNodes = 0; mi.FAdvance(); ulNodes++)
                 {
-                    CTreeNode *ptn = const_cast<CTreeNode*>(mi.Pt());
+                    CTreeNode *ptn = const_cast<CTreeNode*>(mi.Value());
                     (void) ptn->OsPrint(os);
                 }
 

@@ -661,13 +661,13 @@ CExpressionFactorizer::PexprAddInferredFilters
 
 	while (src2arrayIter.FAdvance())
 	{
-		AddInferredFiltersFromArray(pmp, src2arrayIter.Pt(), ulDisjChildren, pdrgpexprPrefilters);
+		AddInferredFiltersFromArray(pmp, src2arrayIter.Value(), ulDisjChildren, pdrgpexprPrefilters);
 	}
 
 	ColumnToArrayPosMapIter col2arrayIter(pcol2array);
 	while (col2arrayIter.FAdvance())
 	{
-		AddInferredFiltersFromArray(pmp, col2arrayIter.Pt(), ulDisjChildren, pdrgpexprPrefilters);
+		AddInferredFiltersFromArray(pmp, col2arrayIter.Value(), ulDisjChildren, pdrgpexprPrefilters);
 	}
 
 	return CPredicateUtils::PexprConjunction(pmp, pdrgpexprPrefilters);

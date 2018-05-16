@@ -1273,7 +1273,7 @@ CConstraintTest::EresUnittest_NegativeTests()
 				CMDKey::FEqualMDKey
 				);
 
-	CMDAccessor::MDCache *pcache = apcache.Pt();
+	CMDAccessor::MDCache *pcache = apcache.Value();
 
 	CMDAccessor mda(pmp, pcache, CTestUtils::m_sysidDefault, pmdp);
 
@@ -1301,11 +1301,11 @@ CConstraintTest::EresUnittest_NegativeTests()
 						pmp,
 						&mda,
 						CMDIdGPDB::m_mdidText,
-						pcr.Pt(),
-						pstrLower1.Pt(),
+						pcr.Value(),
+						pstrLower1.Value(),
 						lLower1,
 						CRange::EriIncluded,
-						pstrUpper1.Pt(),
+						pstrUpper1.Value(),
 						lUpper1,
 						CRange::EriExcluded
 						);
@@ -1357,7 +1357,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				pmp,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
-				pcr.Pt(),
+				pcr.Value(),
 				&pstrLowerDate1,
 				lInternalRepresentationFor2012_01_01,
 				CRange::EriIncluded,
@@ -1376,7 +1376,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				pmp,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
-				pcr.Pt(),
+				pcr.Value(),
 				&pstrLowerDate2,
 				lInternalRepresentationFor2012_01_02,
 				CRange::EriIncluded,
@@ -1395,7 +1395,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				pmp,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
-				pcr.Pt(),
+				pcr.Value(),
 				&pstrLowerDate2,
 				lInternalRepresentationFor2012_01_02,
 				CRange::EriIncluded,
@@ -1414,7 +1414,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				pmp,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
-				pcr.Pt(),
+				pcr.Value(),
 				&pstrLowerDate1,
 				lInternalRepresentationFor2012_01_01,
 				CRange::EriIncluded,
@@ -1433,7 +1433,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				pmp,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
-				pcr.Pt(),
+				pcr.Value(),
 				&pstrLowerDate1,
 				lInternalRepresentationFor2012_01_01,
 				CRange::EriIncluded,
@@ -1452,7 +1452,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				pmp,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
-				pcr.Pt(),
+				pcr.Value(),
 				&pstrUpperDate1,
 				lInternalRepresentationFor2012_01_21,
 				CRange::EriIncluded,
@@ -1478,7 +1478,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				pmp,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
-				pcr.Pt(),
+				pcr.Value(),
 				&pstrLowerDate1,
 				lInternalRepresentationFor2012_01_01,
 				CRange::EriIncluded,

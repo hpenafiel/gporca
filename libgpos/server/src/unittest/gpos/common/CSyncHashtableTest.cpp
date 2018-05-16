@@ -400,7 +400,7 @@ CSyncHashtableTest::EresUnittest_NonConcurrentIteration()
 #ifdef GPOS_DEBUG
 		SElem *pelem =
 #endif	// GPOS_DEBUG
-			htitacc.Pt();
+			htitacc.Value();
 
 		GPOS_ASSERT(NULL != pelem);
 
@@ -573,7 +573,7 @@ CSyncHashtableTest::PvUnittest_IteratorCheck
 		// accessor scope
 		{
 			SElemHashtableIterAccessor htitacc(htit);
-			SElem *pelem = htitacc.Pt();
+			SElem *pelem = htitacc.Value();
 			if (NULL != pelem)
 			{
 				GPOS_ASSERT(SElem::FValid(pelem->m_ulKey));
@@ -808,7 +808,7 @@ CSyncHashtableTest::PvUnittest_Iterator
 	while (shtit.FAdvance())
 	{
 		SElemHashtableIterAccessor shtitacc(shtit);
-		SElem *pelem = shtitacc.Pt();
+		SElem *pelem = shtitacc.Value();
 		if (NULL != pelem)
 		{
 			GPOS_ASSERT(SElem::FValid(pelem->m_ulKey));

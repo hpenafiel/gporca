@@ -645,9 +645,9 @@ CExpressionPreprocessor::PexprConvert2In
 			DrgPcrs *pdrgpcr = NULL;
 			pop->AddRef();
 			CAutoRef<CExpression> apexprPreCollapse(GPOS_NEW(pmp) CExpression(pmp, pop, pdrgpexprCollapse));
-			CAutoRef<CConstraint> apcnst(CConstraint::PcnstrFromScalarExpr(pmp, apexprPreCollapse.Pt(), &pdrgpcr));
+			CAutoRef<CConstraint> apcnst(CConstraint::PcnstrFromScalarExpr(pmp, apexprPreCollapse.Value(), &pdrgpcr));
 
-			GPOS_ASSERT(NULL != apcnst.Pt());
+			GPOS_ASSERT(NULL != apcnst.Value());
 			CExpression *pexprPostCollapse = apcnst->PexprScalar(pmp);
 
 			pexprPostCollapse->AddRef();
@@ -1642,12 +1642,12 @@ CExpressionPreprocessor::AddPredsToCTEProducers
 	CTEPredsMapIter mi(phm);
 	while (mi.FAdvance())
 	{
-		ULONG ulCTEId = *(mi.Pk());
+		ULONG ulCTEId = *(mi.Key());
 		CExpression *pexprProducer = pcteinfo->PexprCTEProducer(ulCTEId);
 		GPOS_ASSERT(NULL != pexprProducer);
 
 		ULONG ulConsumers = pcteinfo->UlConsumers(ulCTEId);
-		DrgPexpr *pdrgpexpr = const_cast<DrgPexpr *>(mi.Pt());
+		DrgPexpr *pdrgpexpr = const_cast<DrgPexpr *>(mi.Value());
 
 		// skip the propagation of predicate contains volatile function e.g. random() (value change within a scan)
 		if (CPredicateUtils::FContainsVolatileFunction(pdrgpexpr))

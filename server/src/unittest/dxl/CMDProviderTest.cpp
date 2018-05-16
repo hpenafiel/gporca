@@ -221,7 +221,7 @@ CMDProviderTest::EresUnittest_Negative()
 				CMDKey::FEqualMDKey
 				);
 
-	CMDAccessor::MDCache *pcache = apcache.Pt();
+	CMDAccessor::MDCache *pcache = apcache.Value();
 
 	{
 		CAutoMDAccessor amda(pmp, pmdpFile, CTestUtils::m_sysidDefault, pcache);

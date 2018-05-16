@@ -256,7 +256,7 @@ CDXLColStats::PdxlcolstatsDummy
 					CHistogram::DDefaultNullFreq,
 					CHistogram::DDefaultNDVRemain,
 					CHistogram::DDefaultNDVFreqRemain,
-					a_pdrgpdxlbucket.Pt(),
+					a_pdrgpdxlbucket.Value(),
 					true /* fColStatsMissing */
 					);
 	a_pdrgpdxlbucket.PtReset();

@@ -72,7 +72,7 @@ CAutoPTest::EresUnittest_Basics()
 
 	// accessor
 #ifdef GPOS_DEBUG
-	CHAR *szBack = asz3.Pt();
+	CHAR *szBack = asz3.Value();
 	GPOS_ASSERT(szBack == sz2);
 #endif // GPOS_DEBUG
 
@@ -96,7 +96,7 @@ CAutoPTest::EresUnittest_Basics()
 
 	// c'tor
 	CAutoP<CHAR> asz4(GPOS_NEW(pmp) CHAR);
-	*(asz4.Pt()) = 'a';
+	*(asz4.Value()) = 'a';
 
 	return GPOS_OK;
 }

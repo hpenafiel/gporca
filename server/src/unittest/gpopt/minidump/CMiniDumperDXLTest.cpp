@@ -114,7 +114,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 					CMDKey::FEqualMDKey
 					);
 
-		CMDAccessor::MDCache *pcache = apcache.Pt();
+		CMDAccessor::MDCache *pcache = apcache.Value();
 
 		CMDAccessor mda(pmp, pcache, CTestUtils::m_sysidDefault, pmdp);
 

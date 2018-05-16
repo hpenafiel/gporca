@@ -375,7 +375,7 @@ CMemoryPoolManager::UllTotalAllocatedSize()
 	while (mpiter.FAdvance())
 	{
 		MemoryPoolIterAccessor shtacc(mpiter);
-		IMemoryPool *pmp = shtacc.Pt();
+		IMemoryPool *pmp = shtacc.Value();
 		if (NULL != pmp)
 		{
 			ullTotalSize = ullTotalSize + pmp->UllTotalAllocatedSize();
@@ -410,7 +410,7 @@ CMemoryPoolManager::OsPrint
 		IMemoryPool *pmp = NULL;
 		{
 			MemoryPoolIterAccessor shtacc(mpiter);
-			pmp = shtacc.Pt();
+			pmp = shtacc.Value();
 		}
 
 		if (NULL != pmp)
@@ -447,7 +447,7 @@ CMemoryPoolManager::PrintOverSizedPools
 	while (mpiter.FAdvance())
 	{
 		MemoryPoolIterAccessor shtacc(mpiter);
-		IMemoryPool *pmp = shtacc.Pt();
+		IMemoryPool *pmp = shtacc.Value();
 
 		if (NULL != pmp)
 		{

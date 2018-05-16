@@ -116,7 +116,7 @@ CStatisticsConfig::CollectMissingStatsColumns
 	HSIterMDId hsiter(m_phsmdidcolinfo);
 	while (hsiter.FAdvance())
 	{
-		CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(const_cast<IMDId *>(hsiter.Pt()));
+		CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(const_cast<IMDId *>(hsiter.Value()));
 		pmdidColStats->AddRef();
 		pdrgmdid->Append(pmdidColStats);
 	}

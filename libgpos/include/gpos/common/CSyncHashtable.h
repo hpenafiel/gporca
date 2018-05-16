@@ -259,7 +259,7 @@ namespace gpos
 
                     {
                         CSyncHashtableAccessByIter<T, K, S> shtitacc(shtit);
-                        if (NULL != (pt = shtitacc.Pt()))
+                        if (NULL != (pt = shtitacc.Value()))
                         {
                             shtitacc.Remove(pt);
                         }

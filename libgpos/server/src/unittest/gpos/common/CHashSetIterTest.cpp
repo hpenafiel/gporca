@@ -65,12 +65,12 @@ CHashSetIterTest::EresUnittest_Basic()
 		SetIter si(ps);
 		while (si.FAdvance())
 		{
-			pdrgpulIterValues->Append(si.Pt());
+			pdrgpulIterValues->Append(si.Value());
 		}
 
 		pdrgpulIterValues->Sort();
 
-		GPOS_ASSERT(pdrgpulValues->Equals(pdrgpulIterValues.Pt()));
+		GPOS_ASSERT(pdrgpulValues->Equals(pdrgpulIterValues.Value()));
 	}
 
 	ps->Release();

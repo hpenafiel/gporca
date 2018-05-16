@@ -117,7 +117,7 @@ COptCtxt::PoctxtCreate
 		// leaked if below allocation fails
 		CAutoP<CColumnFactory> a_pcf;
 		a_pcf = pcf;
-		a_pcf.Pt()->Initialize();
+		a_pcf.Value()->Initialize();
 
 		poctxt = GPOS_NEW(pmp) COptCtxt(pmp, pcf, pmda, pceeval, poconf);
 

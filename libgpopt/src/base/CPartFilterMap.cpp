@@ -175,7 +175,7 @@ CPartFilterMap::FSubset
 	HMULPartFilterIter hmulpfi(m_phmulpf);
 	while (hmulpfi.FAdvance())
 	{
-		const CPartFilter *ppfCurrent = hmulpfi.Pt();
+		const CPartFilter *ppfCurrent = hmulpfi.Value();
 		ULONG ulScanId = ppfCurrent->UlScanId();
 		CPartFilter *ppfOther = ppfm->m_phmulpf->Find(&ulScanId);
 		if (!ppfCurrent->FMatch(ppfOther))
@@ -247,7 +247,7 @@ CPartFilterMap::PdrgpulScanIds
 	HMULPartFilterIter hmulpfi(m_phmulpf);
 	while (hmulpfi.FAdvance())
 	{
-		CPartFilter *ppf = const_cast<CPartFilter *>(hmulpfi.Pt());
+		CPartFilter *ppf = const_cast<CPartFilter *>(hmulpfi.Value());
 
 		pdrgpul->Append(GPOS_NEW(pmp) ULONG(ppf->UlScanId()));
 	}
@@ -351,7 +351,7 @@ CPartFilterMap::CopyPartFilterMap
 	HMULPartFilterIter hmulpfi(ppfmSource->m_phmulpf);
 	while (hmulpfi.FAdvance())
 	{
-		CPartFilter *ppf = const_cast<CPartFilter *>(hmulpfi.Pt());
+		CPartFilter *ppf = const_cast<CPartFilter *>(hmulpfi.Value());
 		ULONG ulScanId = ppf->UlScanId();
 
 		// check if part filter with same scan id already exists
@@ -389,7 +389,7 @@ CPartFilterMap::OsPrint
 	HMULPartFilterIter hmulpfi(m_phmulpf);
 	while (hmulpfi.FAdvance())
 	{
-		const CPartFilter *ppf = hmulpfi.Pt();
+		const CPartFilter *ppf = hmulpfi.Value();
 		ppf->OsPrint(os);
 	}
 

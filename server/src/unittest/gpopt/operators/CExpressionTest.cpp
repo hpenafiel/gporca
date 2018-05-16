@@ -632,7 +632,7 @@ void CExpressionTest::SetupPlanForFValidPlanTest
 	CEngine eng(pmp);
 	CAutoP<CQueryContext> pqc;
 	pqc = CTestUtils::PqcGenerate(pmp, *ppexprGby);
-	eng.Init(pqc.Pt(), NULL /*pdrgpss*/);
+	eng.Init(pqc.Value(), NULL /*pdrgpss*/);
 	eng.Optimize();
 	*ppexprPlan = eng.PexprExtractPlan();
 }
@@ -708,7 +708,7 @@ CExpressionTest::EresUnittest_FValidPlan()
 		CEngine eng(pmp);
 		CAutoP<CQueryContext> pqc;
 		pqc = CTestUtils::PqcGenerate(pmp, pexprGby);
-		eng.Init(pqc.Pt(), NULL /*pdrgpss*/);
+		eng.Init(pqc.Value(), NULL /*pdrgpss*/);
 		eng.Optimize();
 		CExpression *pexprPlan = eng.PexprExtractPlan();
 

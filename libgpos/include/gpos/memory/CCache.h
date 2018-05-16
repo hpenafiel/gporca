@@ -341,7 +341,7 @@ namespace gpos
 					{
 						CCacheHashtableIterAccessor shtitacc(*m_chtitClockHand);
 
-						if (NULL != (pt = shtitacc.Pt()))
+						if (NULL != (pt = shtitacc.Value()))
 						{
 							// can only remove when the clock hand points to a entry with 0 gclock counter
 							if (0 == pt->ULGetGClockCounter())

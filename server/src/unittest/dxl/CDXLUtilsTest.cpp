@@ -184,7 +184,7 @@ CDXLUtilsTest::EresUnittest_Encoding()
 	// encode string in base 64
 	XMLSize_t outputLength = 0;
 	CAutoRg<XMLByte> a_pxmlbyteEncoded;
-	a_pxmlbyteEncoded = Base64::encode(pxmlbyte, (XMLSize_t) ulLen, &outputLength, a_pmm.Pt());
+	a_pxmlbyteEncoded = Base64::encode(pxmlbyte, (XMLSize_t) ulLen, &outputLength, a_pmm.Value());
 	CHAR *szEncoded = (CHAR *) (a_pxmlbyteEncoded.Rgt());
 
 	// convert encoded string to array of XMLCh
@@ -197,13 +197,13 @@ CDXLUtilsTest::EresUnittest_Encoding()
 
 	// decode encoded string
 	CAutoRg<XMLByte> a_pxmlbyteDecoded;
-	a_pxmlbyteDecoded = Base64::decode(a_pxmlbyteEncoded.Rgt(), &outputLength, a_pmm.Pt());
+	a_pxmlbyteDecoded = Base64::decode(a_pxmlbyteEncoded.Rgt(), &outputLength, a_pmm.Value());
 	CHAR *szDecoded = (CHAR *) (a_pxmlbyteDecoded.Rgt());
 	GPOS_ASSERT(0 == clib::IStrCmp(szDecoded, sz));
 
 	// get a byte array from XMLCh representation of encoded string
 	ULONG ulOutputLen = 0;
-	BYTE *pba = CDXLUtils::PbaFromBase64XMLStr(a_pmm.Pt(), pxmlch, &ulOutputLen);
+	BYTE *pba = CDXLUtils::PbaFromBase64XMLStr(a_pmm.Value(), pxmlch, &ulOutputLen);
 	CHAR *szPba = (CHAR *) pba;
 	GPOS_ASSERT(0 == clib::IStrCmp(szPba, sz));
 

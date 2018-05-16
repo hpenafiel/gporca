@@ -224,7 +224,7 @@ CCacheTest::EresUnittest_Basic()
 				SSimpleObject::FMyEqual
 				);
 
-	CCache<SSimpleObject*, ULONG* > *pcache = apcache.Pt();
+	CCache<SSimpleObject*, ULONG* > *pcache = apcache.Value();
 
 	//insertion - scope for accessor
 	{
@@ -341,7 +341,7 @@ CCacheTest::EresUnittest_Refcount()
 				SSimpleObject::FMyEqual
 				);
 
-	CCache<SSimpleObject*, ULONG* > *pcache = apcache.Pt();
+	CCache<SSimpleObject*, ULONG* > *pcache = apcache.Value();
 	SSimpleObject *pso = NULL;
 	//Scope of the accessor when we insert
 	{
@@ -534,7 +534,7 @@ CCacheTest::TestEvictionForOneCacheSize(ULLONG ullCacheQuota)
 	apCache = CCacheFactory::PCacheCreate<SSimpleObject*, ULONG*>(false, /* not an unique cache */
 			ullCacheQuota, SSimpleObject::UlMyHash, SSimpleObject::FMyEqual);
 
-	CCache<SSimpleObject*, ULONG*>* pCache = apCache.Pt();
+	CCache<SSimpleObject*, ULONG*>* pCache = apCache.Value();
 	ULONG ulLastKeyFirstGen = ULFillCacheWithoutEviction(pCache, 0);
 
 #ifdef GPOS_DEBUG
@@ -775,7 +775,7 @@ CCacheTest::EresUnittest_DeepObject()
 			&CDeepObject::FMyEqual
 			);
 
-	CCache<CDeepObject*, CDeepObject::CDeepObjectList*> *pcache = apcache.Pt();
+	CCache<CDeepObject*, CDeepObject::CDeepObjectList*> *pcache = apcache.Value();
 
 	// insertion - scope for accessor
 	{
@@ -893,7 +893,7 @@ CCacheTest::EresUnittest_Iteration()
 				SSimpleObject::FMyEqual
 				);
 
-	CCache<SSimpleObject*, ULONG*> *pcache = apcache.Pt();
+	CCache<SSimpleObject*, ULONG*> *pcache = apcache.Value();
 
 	CCacheTest::EresInsertDuplicates(pcache);
 
@@ -959,7 +959,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 				SSimpleObject::FMyEqual
 				);
 
-	CCache<SSimpleObject*, ULONG*> *pcache = apcache.Pt();
+	CCache<SSimpleObject*, ULONG*> *pcache = apcache.Value();
 
 	CCacheTest::EresInsertDuplicates(pcache);
 
@@ -1155,7 +1155,7 @@ CCacheTest::EresUnittest_ConcurrentAccess()
 					SSimpleObject::FMyEqual
 					);
 
-		CCache<SSimpleObject*, ULONG*> *pcache = apcache.Pt();
+		CCache<SSimpleObject*, ULONG*> *pcache = apcache.Value();
 
 		// scope for ATP
 		{

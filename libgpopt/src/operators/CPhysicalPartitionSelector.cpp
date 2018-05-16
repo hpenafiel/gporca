@@ -146,8 +146,8 @@ CPhysicalPartitionSelector::FMatchExprMaps
 
 	while (hmulei.FAdvance())
 	{
-		ULONG ulKey = *(hmulei.Pk());
-		const CExpression *pexprFst = hmulei.Pt();
+		ULONG ulKey = *(hmulei.Key());
+		const CExpression *pexprFst = hmulei.Value();
 		CExpression *pexprSnd = phmulexprSnd->Find(&ulKey);
 		if (!CUtils::Equals(pexprFst, pexprSnd))
 		{
@@ -208,10 +208,10 @@ CPhysicalPartitionSelector::FSubsetPartCnstr
 
 	while (partcnstriter.FAdvance())
 	{
-		ULONG ulKey = *(partcnstriter.Pk());
+		ULONG ulKey = *(partcnstriter.Key());
 		CPartConstraint *ppartcnstr = ppartcnstrmapSnd->Find(&ulKey);
 
-		if (NULL == ppartcnstr || !partcnstriter.Pt()->FEquivalent(ppartcnstr))
+		if (NULL == ppartcnstr || !partcnstriter.Value()->FEquivalent(ppartcnstr))
 		{
 			return false;
 		}

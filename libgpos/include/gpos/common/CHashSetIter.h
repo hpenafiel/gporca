@@ -82,12 +82,12 @@ namespace gpos
             }
 
 			// current element
-			const T *Pt() const
+			const T *Value() const
             {
                 const typename TSet::CHashSetElem *phse = Phse();
                 if (NULL != phse)
                 {
-                    return phse->Pt();
+                    return phse->Value();
                 }
                 return NULL;
             }

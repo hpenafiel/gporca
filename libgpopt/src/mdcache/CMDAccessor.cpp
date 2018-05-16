@@ -468,12 +468,12 @@ CMDAccessor::RegisterProvider
 	CAutoP<SMDProviderElem> a_pmdpelem;
 	a_pmdpelem = GPOS_NEW(m_pmp) SMDProviderElem(sysid, pmdp);
 	
-	MDPHTAccessor mdhtacc(m_shtProviders, *(a_pmdpelem.Pt()));
+	MDPHTAccessor mdhtacc(m_shtProviders, *(a_pmdpelem.Value()));
 
 	GPOS_ASSERT(NULL == mdhtacc.Find());
 	
 	// insert provider in the hash table
-	mdhtacc.Insert(a_pmdpelem.Pt());
+	mdhtacc.Insert(a_pmdpelem.Value());
 	a_pmdpelem.PtReset();
 }
 
@@ -600,7 +600,7 @@ CMDAccessor::Pimdobj
 			CAutoP<CWStringBase> a_pstr;
 			a_pstr = pmdp->PstrObject(m_pmp, this, pmdid);
 			
-			GPOS_ASSERT(NULL != a_pstr.Pt());
+			GPOS_ASSERT(NULL != a_pstr.Value());
 			IMemoryPool *pmp = m_pmp;
 			
 			if (IMDId::EmdidGPDBCtas != pmdid->Emdidt())
@@ -609,7 +609,7 @@ CMDAccessor::Pimdobj
 				pmp = a_pmdcacc->Pmp();
 			}
 
-			pmdobjNew = gpdxl::CDXLUtils::PimdobjParseDXL(pmp, a_pstr.Pt(), NULL /* XSD path */);
+			pmdobjNew = gpdxl::CDXLUtils::PimdobjParseDXL(pmp, a_pstr.Value(), NULL /* XSD path */);
 			GPOS_ASSERT(NULL != pmdobjNew);
 
 			if (fPrintOptStats)
@@ -639,7 +639,7 @@ CMDAccessor::Pimdobj
 #ifdef GPOS_DEBUG
 				IMDCacheObject *pmdobjInserted =
 #endif
-				a_pmdcacc->PtInsert(a_pmdkeyCache.Pt(), pmdobjNew);
+				a_pmdcacc->PtInsert(a_pmdkeyCache.Value(), pmdobjNew);
 
 				GPOS_ASSERT(NULL != pmdobjInserted);
 
@@ -662,7 +662,7 @@ CMDAccessor::Pimdobj
 			if (NULL == mdhtacc.Find())
 			{
 				// object has not been inserted in the meantime
-				mdhtacc.Insert(a_pmdaccelem.Pt());
+				mdhtacc.Insert(a_pmdaccelem.Value());
 
 				// add deletion lock for mdid
 				a_pmdaccelem->Pmdid()->AddDeletionLock();
@@ -760,10 +760,10 @@ CMDAccessor::Pmdtype
 	IMDProvider *pmdp = Pmdp(sysid);
 	CAutoRef<IMDId> a_pmdid;
 	a_pmdid = pmdp->Pmdid(m_pmp, sysid, eti);
-	const IMDCacheObject *pmdobj = Pimdobj(a_pmdid.Pt());
+	const IMDCacheObject *pmdobj = Pimdobj(a_pmdid.Value());
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdid.Pt()->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdid.Value()->Wsz());
 	}
 
 	return dynamic_cast<const IMDType*>(pmdobj);
@@ -1043,7 +1043,7 @@ CMDAccessor::Pmdcast
 	CAutoP<IMDId> a_pmdidCast;
 	a_pmdidCast = GPOS_NEW(m_pmp) CMDIdCast(CMDIdGPDB::PmdidConvert(pmdidSrc), CMDIdGPDB::PmdidConvert(pmdidDest));
 	
-	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidCast.Pt());
+	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidCast.Value());
 		
 	if (IMDCacheObject::EmdtCastFunc != pmdobj->Emdt())
 	{
@@ -1080,7 +1080,7 @@ CMDAccessor::Pmdsccmp
 	CAutoP<IMDId> a_pmdidScCmp;
 	a_pmdidScCmp = GPOS_NEW(m_pmp) CMDIdScCmp(CMDIdGPDB::PmdidConvert(pmdidLeft), CMDIdGPDB::PmdidConvert(pmdidRight), ecmpt);
 	
-	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidScCmp.Pt());
+	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidScCmp.Value());
 		
 	if (IMDCacheObject::EmdtScCmp != pmdobj->Emdt())
 	{
@@ -1400,7 +1400,7 @@ CMDAccessor::Serialize
 		while (mdhtit.FAdvance())
 		{
 			MDHTIterAccessor mdhtitacc(mdhtit);
-			SMDAccessorElem *pmdaccelem = mdhtitacc.Pt();
+			SMDAccessorElem *pmdaccelem = mdhtitacc.Value();
 			GPOS_ASSERT(NULL != pmdaccelem);
 			cacheEntries[ul++] = pmdaccelem->Pimdobj();
 		}
@@ -1433,7 +1433,7 @@ CMDAccessor::SerializeSysid
 	while (mdhtit.FAdvance())
 	{
 		MDPHTIterAccessor mdhtitacc(mdhtit);
-		SMDProviderElem *pmdpelem = mdhtitacc.Pt();
+		SMDProviderElem *pmdpelem = mdhtitacc.Value();
 		CSystemId sysid = pmdpelem->Sysid();
 		
 		

@@ -76,7 +76,7 @@ namespace gpos
             }
 
 			// returns the element pointed to by iterator
-			T *Pt() const
+			T *Value() const
             {
                 GPOS_ASSERT(m_iter.m_fInvalidInserted &&
                             "Iterator's advance is not called");

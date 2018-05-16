@@ -99,7 +99,7 @@ namespace gpos
                     }
 
 					// object accessor
-					T *Pt() const
+					T *Value() const
 					{
 						return m_pt;
 					}

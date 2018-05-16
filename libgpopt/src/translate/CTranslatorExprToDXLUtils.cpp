@@ -343,8 +343,8 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 
 	while (pcmi.FAdvance())
 	{
-		ULONG ulSecondaryScanId = *(pcmi.Pk());
-		const CPartConstraint *ppartcnstr = pcmi.Pt();
+		ULONG ulSecondaryScanId = *(pcmi.Key());
+		const CPartConstraint *ppartcnstr = pcmi.Value();
 		CDXLNode *pdxlnTest = PdxlnPartialScanTest
 									(
 									pmp, 

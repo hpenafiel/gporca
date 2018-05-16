@@ -184,12 +184,12 @@ int gpos_exec
 						(WCHAR *) params->error_buffer,
 						params->error_buffer_size / GPOS_SIZEOF(WCHAR)
 						);
-					aposs = GPOS_NEW(pmp) COstreamString(apwstr.Pt());
-					aplogger = GPOS_NEW(pmp) CLoggerStream(*aposs.Pt());
+					aposs = GPOS_NEW(pmp) COstreamString(apwstr.Value());
+					aplogger = GPOS_NEW(pmp) CLoggerStream(*aposs.Value());
 
 					CTaskContext *ptskctxt = ptsk->Ptskctxt();
-					ptskctxt->SetLogOut(aplogger.Pt());
-					ptskctxt->SetLogErr(aplogger.Pt());
+					ptskctxt->SetLogOut(aplogger.Value());
+					ptskctxt->SetLogErr(aplogger.Value());
 				}
 
 				// execute function

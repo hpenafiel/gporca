@@ -846,7 +846,7 @@ GPOS_RESULT CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping()
 
 	CAutoP<CDXLMinidump> apdxlmd(CMinidumperUtils::PdxlmdLoad(pmp, szQueryDroppedColumn));
 
-	CMetadataAccessorFactory factory(pmp, apdxlmd.Pt(), szQueryDroppedColumn);
+	CMetadataAccessorFactory factory(pmp, apdxlmd.Value(), szQueryDroppedColumn);
 
 	CAutoOptCtxt aoc
 					(

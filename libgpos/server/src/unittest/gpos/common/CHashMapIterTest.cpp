@@ -93,15 +93,15 @@ CHashMapIterTest::EresUnittest_Basic()
 		MapIter mi(pm);
 		while (mi.FAdvance())
 		{
-			pdrgpulIterKeys->Append(mi.Pk());
-			pdrgpulIterValues->Append(mi.Pt());
+			pdrgpulIterKeys->Append(mi.Key());
+			pdrgpulIterValues->Append(mi.Value());
 		}
 
 		pdrgpulIterKeys->Sort();
 		pdrgpulIterValues->Sort();
 
-		GPOS_ASSERT(pdrgpulKeys->Equals(pdrgpulIterKeys.Pt()));
-		GPOS_ASSERT(pdrgpulValues->Equals(pdrgpulIterValues.Pt()));
+		GPOS_ASSERT(pdrgpulKeys->Equals(pdrgpulIterKeys.Value()));
+		GPOS_ASSERT(pdrgpulValues->Equals(pdrgpulIterValues.Value()));
 	}
 	
 	pm->Release();

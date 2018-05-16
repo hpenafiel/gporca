@@ -66,7 +66,7 @@ namespace
 
 			CDXLMemoryManager *Pmm()
 			{
-				return m_apmm.Pt();
+				return m_apmm.Value();
 			}
 
 			SAX2XMLReader *Pxmlreader()
@@ -76,12 +76,12 @@ namespace
 
 			CParseHandlerManager *Pphm()
 			{
-				return m_apphm.Pt();
+				return m_apphm.Value();
 			}
 
 			CParseHandlerCostModel *PphCostModel()
 			{
-				return m_apphCostModel.Pt();
+				return m_apphCostModel.Value();
 			}
 
 			void Parse(const XMLByte szDXL[], size_t size)
@@ -144,7 +144,7 @@ static gpos::GPOS_RESULT Eres_SerializeCalibratedCostModel()
 	CWStringDynamic wsActual(pmp);
 	COstreamString os(&wsActual);
 	CXMLSerializer xmlser(pmp, os, false);
-	CCostModelConfigSerializer cmcSerializer(apcm.Pt());
+	CCostModelConfigSerializer cmcSerializer(apcm.Value());
 	cmcSerializer.Serialize(xmlser);
 
 	GPOS_RTL_ASSERT(apwsExpected->Equals(&wsActual));

@@ -1759,10 +1759,10 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 	
 	while (hmiterulpdrgexpr.FAdvance())
 	{
-		ULONG ulPos = *(hmiterulpdrgexpr.Pk());
+		ULONG ulPos = *(hmiterulpdrgexpr.Key());
 		CDXLWindowSpec *pdxlws = pdxlopWindow->Pdxlws(ulPos);
 		
-		const DrgPexpr *pdrgpexpr = hmiterulpdrgexpr.Pt();
+		const DrgPexpr *pdrgpexpr = hmiterulpdrgexpr.Value();
 		GPOS_ASSERT(NULL != pdrgpexpr);
 		CScalarProjectList *popPrL = GPOS_NEW(m_pmp) CScalarProjectList(m_pmp);
 		CExpression *pexprProjList = GPOS_NEW(m_pmp) CExpression(m_pmp, popPrL, const_cast<DrgPexpr *>(pdrgpexpr));

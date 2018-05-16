@@ -415,7 +415,7 @@ CBitSet::Union
 			// need to copy this link
 			CAutoP<CBitSetLink> a_pbsl;
 			a_pbsl = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, *bsl_other);
-			a_drgpbsl->Append(a_pbsl.Pt());
+			a_drgpbsl->Append(a_pbsl.Value());
 			
 			a_pbsl.PtReset();
 		}

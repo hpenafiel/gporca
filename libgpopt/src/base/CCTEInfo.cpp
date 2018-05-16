@@ -448,7 +448,7 @@ CCTEInfo::UlConsumers
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
 	while (hmulei.FAdvance())
 	{
-		const CCTEInfoEntry *pcteinfoentry = hmulei.Pt();
+		const CCTEInfoEntry *pcteinfoentry = hmulei.Value();
 		if (pcteinfoentry->FUsed())
 		{
 			ulConsumers += UlConsumersInParent(ulCTEId, pcteinfoentry->UlCTEId());
@@ -549,7 +549,7 @@ CCTEInfo::PcterProducers
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
 	while (hmulei.FAdvance())
 	{
-		const CCTEInfoEntry *pcteinfoentry = hmulei.Pt();
+		const CCTEInfoEntry *pcteinfoentry = hmulei.Value();
 		pcter->Insert(pcteinfoentry->UlCTEId(), CCTEMap::EctProducer, false /*fRequired*/, NULL /*pdpplan*/);
 	}
 
@@ -576,7 +576,7 @@ CCTEInfo::PdrgPexpr
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
 	while (hmulei.FAdvance())
 	{
-		CExpression *pexpr = const_cast<CExpression *>(hmulei.Pt()->Pexpr());
+		CExpression *pexpr = const_cast<CExpression *>(hmulei.Value()->Pexpr());
 		pexpr->AddRef();
 		pdrgpexpr->Append(pexpr);
 	}
@@ -604,7 +604,7 @@ CCTEInfo::MapComputedToUsedCols
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
 	while (hmulei.FAdvance())
 	{
-		CExpression *pexprProducer = const_cast<CExpression *>(hmulei.Pt()->Pexpr());
+		CExpression *pexprProducer = const_cast<CExpression *>(hmulei.Value()->Pexpr());
 		GPOS_ASSERT(NULL != pexprProducer);
 		CQueryContext::MapComputedToUsedCols(pcf, pexprProducer);
 	}
@@ -690,7 +690,7 @@ void CCTEInfo::FindConsumersInParent
 	HMUlConsumerMapIter hmulci(phmulconsumermap);
 	while (hmulci.FAdvance())
 	{
-		const SConsumerCounter *pconsumercounter = hmulci.Pt();
+		const SConsumerCounter *pconsumercounter = hmulci.Value();
 		ULONG ulConsumerId = pconsumercounter->UlCTEId();
 		if (pbsUnusedConsumers->Get(ulConsumerId))
 		{
@@ -717,7 +717,7 @@ CCTEInfo::MarkUnusedCTEs()
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
 	while (hmulei.FAdvance())
 	{
-		const CCTEInfoEntry *pcteinfoentry = hmulei.Pt();
+		const CCTEInfoEntry *pcteinfoentry = hmulei.Value();
 		pbsUnusedConsumers->ExchangeSet(pcteinfoentry->UlCTEId());
 	}
 
@@ -738,7 +738,7 @@ CCTEInfo::MarkUnusedCTEs()
 	HMUlCTEInfoEntryIter hmulei2(m_phmulcteinfoentry);
 	while (hmulei2.FAdvance())
 	{
-		CCTEInfoEntry *pcteinfoentry = const_cast<CCTEInfoEntry *>(hmulei2.Pt());
+		CCTEInfoEntry *pcteinfoentry = const_cast<CCTEInfoEntry *>(hmulei2.Value());
 		if (pbsUnusedConsumers->Get(pcteinfoentry->UlCTEId()))
 		{
 			pcteinfoentry->MarkUnused();

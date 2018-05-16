@@ -167,13 +167,13 @@ CAutoTaskProxy::PtskCreate
 	CTask *ptsk = CTask::PtskSelf();
 	if (NULL != ptsk)
 	{
-		apec.Pt()->Register(ptsk->PerrctxtConvert()->Pmdr());
+		apec.Value()->Register(ptsk->PerrctxtConvert()->Pmdr());
 	}
 
 	// auto pointer to hold new task
 	// task is created inside ATP's memory pool
 	CAutoP<CTask> apt;
-	apt = GPOS_NEW(m_pmp) CTask(pmp, aptc.Pt(), apec.Pt(), &m_event, pfCancel);
+	apt = GPOS_NEW(m_pmp) CTask(pmp, aptc.Value(), apec.Value(), &m_event, pfCancel);
 
 	// reset auto pointers - task now handles task and error context
 	(void) aptc.PtReset();
@@ -183,7 +183,7 @@ CAutoTaskProxy::PtskCreate
 	amp.PmpDetach();
 
 	// bind function and argument
-	ptsk = apt.Pt();
+	ptsk = apt.Value();
 	ptsk->Bind(pfunc, pvArg);
 
 	// add to task list

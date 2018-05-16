@@ -62,7 +62,7 @@ CMDProviderMemory::CMDProviderMemory
 #endif // GPOS_DEBUG
 
 	
-	LoadMetadataObjectsFromArray(pmp, a_pdrgpmdobj.Pt());
+	LoadMetadataObjectsFromArray(pmp, a_pdrgpmdobj.Value());
 }
 
 //---------------------------------------------------------------------------
@@ -123,7 +123,7 @@ CMDProviderMemory::LoadMetadataObjectsFromArray
 		a_pstr = CDXLUtils::PstrSerializeMDObj(pmp, pmdobj, true /*fSerializeHeaders*/, false /*findent*/);
 		
 		GPOS_CHECK_ABORT;
-		BOOL fInserted = m_pmdmap->Insert(pmdidKey, a_pstr.Pt());
+		BOOL fInserted = m_pmdmap->Insert(pmdidKey, a_pstr.Value());
 		if (!fInserted)
 		{
 			
@@ -188,7 +188,7 @@ CMDProviderMemory::PstrObject
 				pmdid->AddRef();
 				CAutoRef<CDXLRelStats> a_pdxlrelstats;
 				a_pdxlrelstats = CDXLRelStats::PdxlrelstatsDummy(pmp, pmdid);
-				a_pstrResult = CDXLUtils::PstrSerializeMDObj(pmp, a_pdxlrelstats.Pt(), true /*fSerializeHeaders*/, false /*findent*/);
+				a_pstrResult = CDXLUtils::PstrSerializeMDObj(pmp, a_pdxlrelstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;
 			}
 			case IMDId::EmdidColStats:
@@ -196,12 +196,12 @@ CMDProviderMemory::PstrObject
 				CAutoP<CWStringDynamic> a_pstr;
 				a_pstr = GPOS_NEW(pmp) CWStringDynamic(pmp, pmdid->Wsz());
 				CAutoP<CMDName> a_pmdname;
-				a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Pt());
+				a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Value());
 				pmdid->AddRef();
 				CAutoRef<CDXLColStats> a_pdxlcolstats;
-				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(pmp, pmdid, a_pmdname.Pt(), CStatistics::DDefaultColumnWidth /* dWidth */);
+				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(pmp, pmdid, a_pmdname.Value(), CStatistics::DDefaultColumnWidth /* dWidth */);
 				a_pmdname.PtReset();
-				a_pstrResult = CDXLUtils::PstrSerializeMDObj(pmp, a_pdxlcolstats.Pt(), true /*fSerializeHeaders*/, false /*findent*/);
+				a_pstrResult = CDXLUtils::PstrSerializeMDObj(pmp, a_pdxlcolstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;
 			}
 			default:
@@ -216,7 +216,7 @@ CMDProviderMemory::PstrObject
 		a_pstrResult = GPOS_NEW(pmp) CWStringDynamic(pmp, pstrObj->Wsz());
 	}
 	
-	GPOS_ASSERT(NULL != a_pstrResult.Pt());
+	GPOS_ASSERT(NULL != a_pstrResult.Value());
 	
 	return a_pstrResult.PtReset();
 }

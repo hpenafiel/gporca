@@ -23,19 +23,19 @@ namespace gpopt
 
 		// ensure there is at least ONE system id
 		apmdp->AddRef();
-		apdrgpmdp->Append(apmdp.Pt());
+		apdrgpmdp->Append(apmdp.Value());
 
 		for (ULONG ul = 1; ul < pdrgpsysid->Size(); ul++)
 		{
 			apmdp->AddRef();
-			apdrgpmdp->Append(apmdp.Pt());
+			apdrgpmdp->Append(apmdp.Value());
 		}
 
-		m_apmda = GPOS_NEW(pmp) CMDAccessor(pmp, CMDCache::Pcache(), pdxlmd->Pdrgpsysid(), apdrgpmdp.Pt());
+		m_apmda = GPOS_NEW(pmp) CMDAccessor(pmp, CMDCache::Pcache(), pdxlmd->Pdrgpsysid(), apdrgpmdp.Value());
 	}
 
 	CMDAccessor *CMetadataAccessorFactory::Pmda()
 	{
-		return m_apmda.Pt();
+		return m_apmda.Value();
 	}
 }

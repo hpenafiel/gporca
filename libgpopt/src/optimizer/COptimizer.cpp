@@ -218,9 +218,9 @@ COptimizer::PdxlnOptimize
 		// failed. We could check the state, and avoid the overhead of serializing the
 		// minidump if it failed, but it's hardly worth optimizing for an error case.
 		wosMinidump = GPOS_NEW(pmp) std::wofstream(szFileName);
-		osMinidump = GPOS_NEW(pmp) COstreamBasic(wosMinidump.Pt());
+		osMinidump = GPOS_NEW(pmp) COstreamBasic(wosMinidump.Value());
 
-		mdmp.Init(osMinidump.Pt());
+		mdmp.Init(osMinidump.Value());
 	}
 	CDXLNode *pdxlnPlan = NULL;
 	CErrorHandlerStandard errhdl;

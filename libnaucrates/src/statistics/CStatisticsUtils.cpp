@@ -887,10 +887,10 @@ CStatisticsUtils::PrintHistogramMap
 	HMIterUlHist hmiterulhist(phmulhist);
 	while (hmiterulhist.FAdvance())
 	{
-		ULONG ulCol = *(hmiterulhist.Pk());
+		ULONG ulCol = *(hmiterulhist.Key());
 
 		os << "Column Id: " << ulCol << std::endl;
-		const CHistogram *phist = hmiterulhist.Pt();
+		const CHistogram *phist = hmiterulhist.Value();
 		phist->OsPrint(os);
 	}
 }
@@ -930,8 +930,8 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	HMIterUlHist hmiterulhistDisjChild(phmulhistDisjChild);
 	while (hmiterulhistDisjChild.FAdvance())
 	{
-		ULONG ulColIdDisjChild = *(hmiterulhistDisjChild.Pk());
-		const CHistogram *phistDisjChild = hmiterulhistDisjChild.Pt();
+		ULONG ulColIdDisjChild = *(hmiterulhistDisjChild.Key());
+		const CHistogram *phistDisjChild = hmiterulhistDisjChild.Value();
 		if (!pbsStatsNonUpdateableCols->Get(ulColIdDisjChild))
 		{
 			if (!fEmpty)
@@ -957,8 +957,8 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	HMIterUlHist hmiterulhist(phmulhist);
 	while (hmiterulhist.FAdvance())
 	{
-		ULONG ulColId = *(hmiterulhist.Pk());
-		const CHistogram *phist = hmiterulhist.Pt();
+		ULONG ulColId = *(hmiterulhist.Key());
+		const CHistogram *phist = hmiterulhist.Value();
 		if (NULL != phist && !pbsStatsNonUpdateableCols->Get(ulColId))
 		{
 			if (fEmpty)
@@ -1028,8 +1028,8 @@ CStatisticsUtils::PhmulhistCopy
 	HMIterUlHist hmiterulhist(phmulhist);
 	while (hmiterulhist.FAdvance())
 	{
-		ULONG ulColId = *(hmiterulhist.Pk());
-		const CHistogram *phist = hmiterulhist.Pt();
+		ULONG ulColId = *(hmiterulhist.Key());
+		const CHistogram *phist = hmiterulhist.Value();
 		AddHistogram(pmp, ulColId, phist, phmulhistCopy);
 		GPOS_CHECK_ABORT;
 	}
@@ -1431,8 +1431,8 @@ CStatisticsUtils::PdrgPdoubleNDV
 	HMIterUlPdrgpul hmiterulpdrgpul(phmulpdrgpul);
 	while (hmiterulpdrgpul.FAdvance())
 	{
-		ULONG ulSourceId = *(hmiterulpdrgpul.Pk());
-		const ULongPtrArray *pdrgpulPerSrc = hmiterulpdrgpul.Pt();
+		ULONG ulSourceId = *(hmiterulpdrgpul.Key());
+		const ULongPtrArray *pdrgpulPerSrc = hmiterulpdrgpul.Value();
 
 		if (ULONG_MAX == ulSourceId)
 		{
@@ -1904,11 +1904,11 @@ CStatisticsUtils::AddWidthInfo
 	HMIterUlDouble hmiteruldouble(phmuldoubleSrc);
 	while (hmiteruldouble.FAdvance())
 	{
-		ULONG ulColId = *(hmiteruldouble.Pk());
+		ULONG ulColId = *(hmiteruldouble.Key());
 		BOOL fPresent = (NULL != phmuldoubleDest->Find(&ulColId));
 		if (!fPresent)
 		{
-			const CDouble *pdWidth = hmiteruldouble.Pt();
+			const CDouble *pdWidth = hmiteruldouble.Value();
 			CDouble *pdWidthCopy = GPOS_NEW(pmp) CDouble(*pdWidth);
 			phmuldoubleDest->Insert(GPOS_NEW(pmp) ULONG(ulColId), pdWidthCopy);
 		}

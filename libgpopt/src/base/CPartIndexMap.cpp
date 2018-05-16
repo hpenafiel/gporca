@@ -128,8 +128,8 @@ CPartIndexMap::CPartTableInfo::AddPartConstraints
 	PartCnstrMapIter partcnstriter(ppartcnstrmap);
 	while (partcnstriter.FAdvance())
 	{
-		ULONG ulScanId = *(partcnstriter.Pk());
-		CPartConstraint *ppartcnstr = const_cast<CPartConstraint*>(partcnstriter.Pt());
+		ULONG ulScanId = *(partcnstriter.Key());
+		CPartConstraint *ppartcnstr = const_cast<CPartConstraint*>(partcnstriter.Value());
 
 		ppartcnstr->AddRef();
 		AddPartConstraint(pmp, ulScanId, ppartcnstr);
@@ -179,7 +179,7 @@ CPartIndexMap::CPartTableInfo::FDefinesPartialScans
 	PartCnstrMapIter partcnstriter(ppartcnstrmap);
 	while (partcnstriter.FAdvance())
 	{
-		const CPartConstraint *ppartcnstr = partcnstriter.Pt();
+		const CPartConstraint *ppartcnstr = partcnstriter.Value();
 		if (!ppartcnstr->FUninterpreted() && !ppartcnstr->FUnbounded() &&
 				!ppartcnstrRel->FEquivalent(ppartcnstr))
 		{
@@ -541,7 +541,7 @@ CPartIndexMap::AddUnresolved
 	PartIndexMapIter pimiFst(pimFst.m_pim);
 	while (pimiFst.FAdvance())
 	{
-		const CPartTableInfo *pptiFst = pimiFst.Pt();
+		const CPartTableInfo *pptiFst = pimiFst.Value();
 		ULONG ulScanId = pptiFst->UlScanId();
 		EPartIndexManipulator epimFst = pptiFst->Epim();
 		ULONG ulPropagatorsFst = pptiFst->UlExpectedPropagators();
@@ -709,7 +709,7 @@ CPartIndexMap::PdrgpulScanIds
 	PartIndexMapIter pimi(m_pim);
 	while (pimi.FAdvance())
 	{
-		const CPartTableInfo *ppti = pimi.Pt();
+		const CPartTableInfo *ppti = pimi.Value();
 		if (fConsumersOnly && EpimConsumer != ppti->Epim())
 		{
 			continue;
@@ -747,7 +747,7 @@ CPartIndexMap::FSubset
 	PartIndexMapIter pimi(m_pim);
 	while (pimi.FAdvance())
 	{
-		const CPartTableInfo *pptiFst = pimi.Pt();
+		const CPartTableInfo *pptiFst = pimi.Value();
 		ULONG ulScanId = pptiFst->UlScanId();
 
 		// lookup entry in the given part index map
@@ -790,7 +790,7 @@ CPartIndexMap::HashValue() const
 	PartIndexMapIter pimi(m_pim);
 	while (pimi.FAdvance() && ul < ulMaxScanIds)
 	{
-		ULONG ulScanId = (pimi.Pt())->UlScanId();
+		ULONG ulScanId = (pimi.Value())->UlScanId();
 		ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<ULONG>(&ulScanId));
 		ul++;
 	}
@@ -818,8 +818,8 @@ CPartIndexMap::FContainsRedundantPartitionSelectors
 	while (pimiDrvd.FAdvance())
 	{
 		// check if there is a derived propagator that does not appear in the requirements
-		if (EpimPropagator == (pimiDrvd.Pt())->Epim() &&
-			(NULL == ppimReqd || !ppimReqd->FContains(pimiDrvd.Pt()->UlScanId())))
+		if (EpimPropagator == (pimiDrvd.Value())->Epim() &&
+			(NULL == ppimReqd || !ppimReqd->FContains(pimiDrvd.Value()->UlScanId())))
 		{
 			return true;
 		}
@@ -856,7 +856,7 @@ CPartIndexMap::FSatisfies
 	PartIndexMapIter pimiReqd(ppimReqd->m_pim);
 	while (pimiReqd.FAdvance())
 	{
-		const CPartTableInfo *pptiReqd = pimiReqd.Pt();
+		const CPartTableInfo *pptiReqd = pimiReqd.Value();
 		CPartTableInfo *ppti = PptiLookup(pptiReqd->UlScanId());
 
 		if (NULL != ppti && !FSatisfiesEntry(pptiReqd, ppti))
@@ -969,7 +969,7 @@ CPartIndexMap::PpimPartitionSelector
 	PartIndexMapIter pimi(m_pim);
 	while (pimi.FAdvance())
 	{
-		const CPartTableInfo *ppti = pimi.Pt();
+		const CPartTableInfo *ppti = pimi.Value();
 		PartCnstrMap *ppartcnstrmap = ppti->Ppartcnstrmap();
 		IMDId *pmdid = ppti->Pmdid();
 		DrgPpartkeys *pdrgppartkeys = ppti->Pdrgppartkeys();
@@ -1022,7 +1022,7 @@ CPartIndexMap::OsPrint
 	PartIndexMapIter pimi(m_pim);
 	while (pimi.FAdvance())
 	{
-		const CPartTableInfo *ppti = pimi.Pt();
+		const CPartTableInfo *ppti = pimi.Value();
 		os << "("
 			<< CPartTableInfo::SzManipulatorType(ppti->Epim())
 			<<"<" << ppti->UlScanId() << ">("
@@ -1072,10 +1072,10 @@ CPartIndexMap::OsPrintPartCnstrMap
 			fFirstElem = false;
 		}
 		
-		ULONG ulKey = *(pcmi.Pk());
+		ULONG ulKey = *(pcmi.Key());
 		
 		os << ulScanId << "." << ulKey << " -> ";
-		pcmi.Pt()->OsPrint(os);
+		pcmi.Value()->OsPrint(os);
 	}
 
 	return os;

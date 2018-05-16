@@ -797,8 +797,8 @@ CPartConstraint::CopyPartConstraints
 
 	while (pcmi.FAdvance())
 	{
-		ULONG ulKey = *(pcmi.Pk());
-		CPartConstraint *ppartcnstrSource = const_cast<CPartConstraint *>(pcmi.Pt());
+		ULONG ulKey = *(pcmi.Key());
+		CPartConstraint *ppartcnstrSource = const_cast<CPartConstraint *>(pcmi.Value());
 
 		CPartConstraint *ppartcnstrDest = ppartcnstrmapDest->Find(&ulKey);
 		GPOS_ASSERT_IMP(NULL != ppartcnstrDest, ppartcnstrDest->FEquivalent(ppartcnstrSource));

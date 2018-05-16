@@ -333,7 +333,7 @@ CDXLUtils::PdxlnParsePlan
 	CParseHandlerDXL *pphdxl = PphdxlParseDXL(pmp, szDXL, szXSDPath);
 	CAutoP<CParseHandlerDXL> a_pphdxl(pphdxl);
 	
-	GPOS_ASSERT(NULL != a_pphdxl.Pt());
+	GPOS_ASSERT(NULL != a_pphdxl.Value());
 	
 	// collect plan info from dxl parse handler
 	CDXLNode *pdxlnRoot = a_pphdxl->PdxlnPlan();
@@ -935,7 +935,7 @@ CDXLUtils::PstrSerializeULLONG
 	CAutoP<CWStringDynamic> a_pstr(GPOS_NEW(pmp) CWStringDynamic(pmp));
 
 	// create a string stream to hold the result of serialization
-	COstreamString oss(a_pstr.Pt());
+	COstreamString oss(a_pstr.Value());
 	oss << ullVal;
 
 	return a_pstr.PtReset();
@@ -1401,7 +1401,7 @@ CDXLUtils::PstrSerializeMDObj
 	CAutoP<CWStringDynamic> a_pstr(GPOS_NEW(pmp) CWStringDynamic(pmp));
 	
 	// create a string stream to hold the result of serialization
-	COstreamString oss(a_pstr.Pt());
+	COstreamString oss(a_pstr.Value());
 
 	CXMLSerializer xmlser(pmp, oss, fIndent);
 	
@@ -1711,7 +1711,7 @@ CDXLUtils::PstrFromByteArray
 
 	{
 		CAutoTraceFlag atf(EtraceSimulateOOM, false);
-		a_pxmlbyteBuf = Base64::encode(input, inputLength, &outputLength, a_pmm.Pt());
+		a_pxmlbyteBuf = Base64::encode(input, inputLength, &outputLength, a_pmm.Value());
 	}
 
 	GPOS_ASSERT(NULL != a_pxmlbyteBuf.Rgt());
@@ -1782,7 +1782,7 @@ CDXLUtils::PByteArrayFromStr
 	XMLByte *pxmlba = NULL;
 	{
 		CAutoTraceFlag atf(EtraceSimulateOOM, false);
-		pxmlba = Base64::decode(a_dataInByte.Rgt(), &xmlBASize, a_pmm.Pt());
+		pxmlba = Base64::decode(a_dataInByte.Rgt(), &xmlBASize, a_pmm.Value());
 	}
 
 	(* ulLength) = static_cast<ULONG>(xmlBASize);
