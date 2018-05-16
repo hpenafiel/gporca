@@ -528,7 +528,7 @@ CUnittest::Driver
 	CBitVector bv(ITask::PtskSelf()->Pmp(), CUnittest::UlTests());
 
 	CHAR ch = '\0';
-	while (pma->FGetopt(&ch))
+	while (pma->Getopt(&ch))
 	{
 		CHAR *szTestName = NULL;
 

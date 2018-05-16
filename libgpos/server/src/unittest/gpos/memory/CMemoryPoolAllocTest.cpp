@@ -59,7 +59,7 @@ gpos::FUseCustomAllocator
 {
   CHAR ch = '\0';
   bool fUseCustom  = false;
-  while (pma->FGetopt(&ch))
+  while (pma->Getopt(&ch))
   {
     switch(ch)
     {
