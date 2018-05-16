@@ -189,7 +189,7 @@ CMemo::PgroupInsert
 	ShtAcc shta(m_sht, *pgexpr);
 
 	// we do a lookup since group expression may have been already inserted
-	CGroupExpression *pgexprFound = shta.PtLookup();
+	CGroupExpression *pgexprFound = shta.Find();
 	if (NULL == pgexprFound)
 	{
 		shta.Insert(pgexpr);
@@ -272,7 +272,7 @@ CMemo::PgroupInsert
 	// hash table accessor's scope
 	{
 		ShtAcc shta(m_sht, *pgexpr);
-		pgexprFound = shta.PtLookup();
+		pgexprFound = shta.Find();
 	}
 
 	// check if we may need to create a new group
@@ -550,7 +550,7 @@ CMemo::FRehash()
 		{
 			// hash table accessor scope
  			ShtAcc shta(m_sht, *pgexpr);
- 			pgexprFound = shta.PtLookup();
+ 			pgexprFound = shta.Find();
 
  			if (NULL == pgexprFound)
  			{

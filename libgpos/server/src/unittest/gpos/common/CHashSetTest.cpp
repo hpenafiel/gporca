@@ -74,10 +74,10 @@ CHashSetTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-			phs->FInsert(&rgul[ul]);
+			phs->Insert(&rgul[ul]);
 		GPOS_ASSERT(fSuccess);
 	}
-	GPOS_ASSERT(ulCnt == phs->UlEntries());
+	GPOS_ASSERT(ulCnt == phs->Size());
 
 	for (ULONG ul = 0; ul < ulCnt; ul++)
 	{
@@ -117,13 +117,13 @@ CHashSetTest::EresUnittest_Ownership()
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-			phs->FInsert(pulp);
+			phs->Insert(pulp);
 
 		GPOS_ASSERT(fSuccess);
 		GPOS_ASSERT(phs->FExists(pulp));
 
 		// can't insert existing keys
-		GPOS_ASSERT(!phs->FInsert(pulp));
+		GPOS_ASSERT(!phs->Insert(pulp));
 	}
 
 	phs->Release();

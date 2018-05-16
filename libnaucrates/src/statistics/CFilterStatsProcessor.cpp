@@ -266,7 +266,7 @@ CFilterStatsProcessor::PhmulhistApplyConjFilter
 		if (CStatsPred::EsptDisj != pstatspredChild->Espt())
 		{
 			GPOS_ASSERT(ULONG_MAX != ulColId);
-			phistBefore = phmulhistResult->PtLookup(&ulColId)->PhistCopy(pmp);
+			phistBefore = phmulhistResult->Find(&ulColId)->PhistCopy(pmp);
 			GPOS_ASSERT(NULL != phistBefore);
 
 			CHistogram *phistResult = NULL;
@@ -275,7 +275,7 @@ CFilterStatsProcessor::PhmulhistApplyConjFilter
 
 			GPOS_ASSERT(NULL != phistResult);
 
-			CHistogram *phistInput = phmulhistInput->PtLookup(&ulColId);
+			CHistogram *phistInput = phmulhistInput->Find(&ulColId);
 			GPOS_ASSERT(NULL != phistInput);
 			if (phistInput->IsEmpty())
 			{
@@ -323,7 +323,7 @@ CFilterStatsProcessor::PhmulhistApplyConjFilter
 			// replace intermediate result with the newly generated result from the disjunction
 			if (ULONG_MAX != ulColId)
 			{
-				CHistogram *phistResult = phmulhistAfterDisj->PtLookup(&ulColId);
+				CHistogram *phistResult = phmulhistAfterDisj->Find(&ulColId);
 				CStatisticsUtils::AddHistogram(pmp, ulColId, phistResult, phmulhistResult, true /* fReplaceOld */);
 				phmulhistAfterDisj->Release();
 
@@ -420,7 +420,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 			phistPrev = NULL;
 		}
 
-		CHistogram *phist = phmulhistInput->PtLookup(&ulColId);
+		CHistogram *phist = phmulhistInput->Find(&ulColId);
 		CHistogram *phistDisjChildCol = NULL;
 
 		BOOL fPredSimple = !CStatsPredUtils::FConjOrDisjPred(pstatspredChild);
@@ -433,7 +433,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 			GPOS_ASSERT(NULL != phist);
 			phistDisjChildCol = PhistSimpleFilter(pmp, pstatspredChild, pbsFilterColIds, phist, &dScaleFactorChild, &ulColIdPrev);
 
-			CHistogram *phistInput = phmulhistInput->PtLookup(&ulColId);
+			CHistogram *phistInput = phmulhistInput->Find(&ulColId);
 			GPOS_ASSERT(NULL != phistInput);
 			if (phistInput->IsEmpty())
 			{
@@ -459,7 +459,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 			if (fColIdPresent)
 			{
 				// conjunction or disjunction uses only a single column
-				phistDisjChildCol = phmulhistChild->PtLookup(&ulColId)->PhistCopy(pmp);
+				phistDisjChildCol = phmulhistChild->Find(&ulColId)->PhistCopy(pmp);
 			}
 		}
 

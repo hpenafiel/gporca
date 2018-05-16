@@ -154,7 +154,7 @@ namespace gpos
 				CCacheHashTableEntry *pceReturn = pce;
 				CCacheHashTableEntry *pceFound = NULL;
 				if (!m_fUnique  ||
-					(m_fUnique && NULL == (pceFound = shtacc.PtLookup())))
+					(m_fUnique && NULL == (pceFound = shtacc.Find())))
 				{
 					shtacc.Insert(pce);
 					UllExchangeAdd((volatile ULLONG *)&m_ullCacheSize, pce->Pmp()->UllTotalAllocatedSize());
@@ -176,7 +176,7 @@ namespace gpos
 				CCacheHashtableAccessor shtacc(m_sht, pKey);
 
 				// look for the first unmarked entry matching the given key
-				CCacheHashTableEntry *pce = shtacc.PtLookup();
+				CCacheHashTableEntry *pce = shtacc.Find();
 				while (NULL != pce && pce->FMarkedForDeletion())
 				{
 					pce = shtacc.PtNext(pce);

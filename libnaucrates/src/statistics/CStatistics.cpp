@@ -103,7 +103,7 @@ CStatistics::PdWidth
 	)
 	const
 {
-	return m_phmuldoubleWidth->PtLookup(&ulColId);
+	return m_phmuldoubleWidth->Find(&ulColId);
 }
 
 
@@ -182,7 +182,7 @@ CStatistics::DSkew
 	)
 	const
 {
-	CHistogram *phist = m_phmulhist->PtLookup(&ulColId);
+	CHistogram *phist = m_phmulhist->Find(&ulColId);
 	if (NULL == phist)
 	{
 		return CDouble(1.0);
@@ -221,7 +221,7 @@ CStatistics::DWidth
 	for (ULONG ulIdx = 0; ulIdx < ulSize; ulIdx++)
 	{
 		ULONG ulColId = *((*pdrgpulColIds)[ulIdx]);
-		CDouble *pdWidth = m_phmuldoubleWidth->PtLookup(&ulColId);
+		CDouble *pdWidth = m_phmuldoubleWidth->Find(&ulColId);
 		if (NULL != pdWidth)
 		{
 			dWidth = dWidth + (*pdWidth);
@@ -350,7 +350,7 @@ CStatistics::PstatsDummy
 
 		// empty histogram
 		CHistogram *phist = CHistogram::PhistDefault(pmp, pcr, fEmpty);
-		phmulhist->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phist);
+		phmulhist->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist);
 	}
 
 	// hashmap from colid -> width (double)
@@ -365,7 +365,7 @@ CStatistics::PstatsDummy
 		GPOS_ASSERT(NULL != pcr);
 
 		CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-		phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
+		phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
 	}
 
 	CStatistics *pstats = GPOS_NEW(pmp) CStatistics(pmp, phmulhist, phmuldoubleWidth, dRows, false /* fEmpty */);
@@ -533,7 +533,7 @@ CStatistics::CopyHistograms
 			phistCopy = phist->PhistCopy(pmp);
 		}
 
-		phmulhistCopy->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phistCopy);
+		phmulhistCopy->Insert(GPOS_NEW(pmp) ULONG(ulColId), phistCopy);
 	}
 
 	return phmulhistCopy;
@@ -755,7 +755,7 @@ CStatistics::AddHistogramsWithRemap
 
 		ULONG ulColIdDest = pcrDest->UlId();
 
-		const CHistogram *phistSrc = phmulhistSrc->PtLookup(&ulColIdSrc);
+		const CHistogram *phistSrc = phmulhistSrc->Find(&ulColIdSrc);
 		if (NULL != phistSrc)
 		{
 			CStatisticsUtils::AddHistogram(pmp, ulColIdDest, phistSrc, phmulhistDest);
@@ -778,7 +778,7 @@ CStatistics::AddWidthInfoWithRemap
 	while (hmiteruldouble.FAdvance())
 	{
 		ULONG ulColId = *(hmiteruldouble.Pk());
-		CColRef *pcrNew = phmulcr->PtLookup(&ulColId);
+		CColRef *pcrNew = phmulcr->Find(&ulColId);
 		if (fMustExist && NULL == pcrNew)
 		{
 			continue;
@@ -789,14 +789,14 @@ CStatistics::AddWidthInfoWithRemap
 			ulColId = pcrNew->UlId();
 		}
 
-		if (NULL == phmuldoubleDest->PtLookup(&ulColId))
+		if (NULL == phmuldoubleDest->Find(&ulColId))
 		{
 			const CDouble *pdWidth = hmiteruldouble.Pt();
 			CDouble *pdWidthCopy = GPOS_NEW(pmp) CDouble(*pdWidth);
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-					phmuldoubleDest->FInsert(GPOS_NEW(pmp) ULONG(ulColId), pdWidthCopy);
+					phmuldoubleDest->Insert(GPOS_NEW(pmp) ULONG(ulColId), pdWidthCopy);
 			GPOS_ASSERT(fResult);
 		}
 	}
@@ -858,7 +858,7 @@ CStatistics::Pdxlstatsderrel
 		ULONG ulColId = *(hmiterulhist.Pk());
 		const CHistogram *phist = hmiterulhist.Pt();
 
-		CDouble *pdWidth = m_phmuldoubleWidth->PtLookup(&ulColId);
+		CDouble *pdWidth = m_phmuldoubleWidth->Find(&ulColId);
 		GPOS_ASSERT(pdWidth);
 
 		CDXLStatsDerivedColumn *pdxlstatsdercol = phist->Pdxlstatsdercol(pmp, pmda, ulColId, *pdWidth);
@@ -902,7 +902,7 @@ CStatistics::DNDV
 	)
 {
 	ULONG ulColId = pcr->UlId();
-	CHistogram *phistCol = m_phmulhist->PtLookup(&ulColId);
+	CHistogram *phistCol = m_phmulhist->Find(&ulColId);
 	if (NULL != phistCol)
 	{
 		return std::min(phistCol->DDistinct(), DUpperBoundNDVs(pcr));

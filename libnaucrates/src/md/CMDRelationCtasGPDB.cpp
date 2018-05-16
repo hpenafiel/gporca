@@ -86,7 +86,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 			m_pdrgpulNonDroppedCols->Append(GPOS_NEW(m_pmp) ULONG(ul));
 		}		
 
-		(void) m_phmiulAttno2Pos->FInsert
+		(void) m_phmiulAttno2Pos->Insert
 									(
 									GPOS_NEW(m_pmp) INT(pmdcol->IAttno()),
 									GPOS_NEW(m_pmp) ULONG(ul)
@@ -233,7 +233,7 @@ CMDRelationCtasGPDB::UlPosFromAttno
 	)
 	const
 {
-	ULONG *pul = m_phmiulAttno2Pos->PtLookup(&iAttno);
+	ULONG *pul = m_phmiulAttno2Pos->Find(&iAttno);
 	GPOS_ASSERT(NULL != pul);
 
 	return *pul;

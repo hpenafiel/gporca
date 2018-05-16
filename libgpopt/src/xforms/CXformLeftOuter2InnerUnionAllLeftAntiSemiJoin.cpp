@@ -468,7 +468,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::PexprProjectOverLeftAntiSemiJoin
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-		phmulcr->FInsert(GPOS_NEW(pmp) ULONG(pcrOriginal->UlId()), (*pdrgpcrOuterCopy)[ul]);
+		phmulcr->Insert(GPOS_NEW(pmp) ULONG(pcrOriginal->UlId()), (*pdrgpcrOuterCopy)[ul]);
 		GPOS_ASSERT(fInserted);
 	}
 

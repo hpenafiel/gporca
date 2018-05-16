@@ -95,7 +95,7 @@ CJoinCardinalityTest::EresUnittest_JoinNDVRemain()
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-		phmulhist->FInsert(GPOS_NEW(pmp) ULONG(ul1), phist);
+		phmulhist->Insert(GPOS_NEW(pmp) ULONG(ul1), phist);
 		GPOS_ASSERT(fResult);
 	}
 
@@ -135,8 +135,8 @@ CJoinCardinalityTest::EresUnittest_JoinNDVRemain()
 		SStatsJoinNDVRemainTestCase elem = rgjoinndvrtc[ul2];
 		ULONG ulColId1 = elem.m_ulCol1;
 		ULONG ulColId2 = elem.m_ulCol2;
-		CHistogram *phist1 = phmulhist->PtLookup(&ulColId1);
-		CHistogram *phist2 = phmulhist->PtLookup(&ulColId2);
+		CHistogram *phist1 = phmulhist->Find(&ulColId1);
+		CHistogram *phist2 = phmulhist->Find(&ulColId2);
 
 		CHistogram *phistJoin = phist1->PhistJoin(pmp, CStatsPred::EstatscmptEq, phist2);
 

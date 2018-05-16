@@ -156,7 +156,7 @@ CTranslatorDXLToExprUtils::AddKeySets
 		{
 			// populate current keyset
 			ULONG ulOriginalKey = *((*pdrgpulKeys)[ulKey]);
-			ULONG *pulRemappedKey = phmululColMapping->PtLookup(&ulOriginalKey);
+			ULONG *pulRemappedKey = phmululColMapping->Find(&ulOriginalKey);
 			GPOS_ASSERT(NULL != pulRemappedKey);
 			
 			pbs->ExchangeSet(*pulRemappedKey);
@@ -258,7 +258,7 @@ CTranslatorDXLToExprUtils::Pdrgpcr
 	for (ULONG ul = 0; ul < pdrgpulColIds->Size(); ul++)
 	{
 		ULONG *pulColId = (*pdrgpulColIds)[ul];
-		const CColRef *pcr = phmulcr->PtLookup(pulColId);
+		const CColRef *pcr = phmulcr->Find(pulColId);
 		GPOS_ASSERT(NULL != pcr);
 
 		pdrgpcr->Append(const_cast<CColRef*>(pcr));

@@ -43,8 +43,8 @@ namespace gpopt
 	//
 	//---------------------------------------------------------------------------	
 	template <class T, class R, class U,
-			ULONG (*pfnHash)(const T*),
-			BOOL (*pfnEq)(const T*, const T*)>
+			ULONG (*HashFn)(const T*),
+			BOOL (*EqFn)(const T*, const T*)>
 	class CTreeMap
 	{
 			// array of source pointers (sources owned by 3rd party)
@@ -117,8 +117,8 @@ namespace gpopt
 						const STreeLink *ptlink
 						)
 					{
-						ULONG ulHashParent = pfnHash(ptlink->m_ptParent);
-						ULONG ulHashChild = pfnHash(ptlink->m_ptChild);
+						ULONG ulHashParent = HashFn(ptlink->m_ptParent);
+						ULONG ulHashChild = HashFn(ptlink->m_ptChild);
 						ULONG ulHashChildIndex = gpos::HashValue<ULONG>(&ptlink->m_ulChildIndex);
 
 						return CombineHashes
@@ -136,8 +136,8 @@ namespace gpopt
 						const STreeLink *ptlink2
 						)
 					{
-						return  pfnEq(ptlink1->m_ptParent, ptlink2->m_ptParent) &&
-								pfnEq(ptlink1->m_ptChild, ptlink2->m_ptChild) &&
+						return  EqFn(ptlink1->m_ptParent, ptlink2->m_ptParent) &&
+								EqFn(ptlink1->m_ptChild, ptlink2->m_ptChild) &&
 								ptlink1->m_ulChildIndex == ptlink2->m_ulChildIndex;
 					}
 			}; // struct STreeLink
@@ -171,7 +171,7 @@ namespace gpopt
 					ULONG m_ul;
 					
 					// element
-					const T *m_pt;
+					const T *m_value;
 					
 					// array of children arrays
 					DrgDrgPtn *m_pdrgdrgptn;
@@ -236,11 +236,11 @@ namespace gpopt
 				public:
 				
 					// ctor
-					CTreeNode(IMemoryPool *pmp, ULONG ul, const T *pt)
+					CTreeNode(IMemoryPool *pmp, ULONG ul, const T *value)
                         :
                         m_pmp(pmp),
                         m_ul(ul),
-                        m_pt(pt),
+                        m_value(value),
                         m_pdrgdrgptn(NULL),
                         m_ullCount(ULLONG_MAX),
                         m_ulIncoming(0),
@@ -281,7 +281,7 @@ namespace gpopt
 					// accessor
 					const T *Pt() const
 					{
-						return m_pt;
+						return m_value;
 					}
 					
 					// number of trees rooted in this node
@@ -425,9 +425,9 @@ namespace gpopt
 			CTreeNode *m_ptnRoot;
 						
 			// map of all nodes
-			typedef gpos::CHashMap<T, CTreeNode, pfnHash, pfnEq,
+			typedef gpos::CHashMap<T, CTreeNode, HashFn, EqFn,
 						CleanupNULL, CleanupDelete<CTreeNode> > TMap;
-			typedef gpos::CHashMapIter<T, CTreeNode, pfnHash, pfnEq,
+			typedef gpos::CHashMapIter<T, CTreeNode, HashFn, EqFn,
 						CleanupNULL, CleanupDelete<CTreeNode> > TMapIter;
 
 			// map of created links
@@ -443,15 +443,15 @@ namespace gpopt
             ULLONG UllCount(CTreeNode *ptn);
 
 			// Convert to corresponding treenode, create treenode as necessary
-			CTreeNode *Ptn(const T *pt)
+			CTreeNode *Ptn(const T *value)
             {
-                GPOS_ASSERT(NULL != pt);
-                CTreeNode *ptn = const_cast<CTreeNode*>(m_ptmap->PtLookup(pt));
+                GPOS_ASSERT(NULL != value);
+                CTreeNode *ptn = const_cast<CTreeNode*>(m_ptmap->Find(value));
 
                 if (NULL == ptn)
                 {
-                    ptn = GPOS_NEW(m_pmp) CTreeNode(m_pmp, ++m_ulCountNodes, pt);
-                    (void) m_ptmap->FInsert(const_cast<T*>(pt), ptn);
+                    ptn = GPOS_NEW(m_pmp) CTreeNode(m_pmp, ++m_ulCountNodes, value);
+                    (void) m_ptmap->Insert(const_cast<T*>(value), ptn);
                 }
 
                 return ptn;
@@ -480,7 +480,7 @@ namespace gpopt
                 m_plinkmap = GPOS_NEW(pmp) LinkMap(pmp);
 
                 // insert dummy node as global root -- the only node with NULL payload
-                m_ptnRoot = GPOS_NEW(pmp) CTreeNode(pmp, 0 /* ulCounter */, NULL /* pt */);
+                m_ptnRoot = GPOS_NEW(pmp) CTreeNode(pmp, 0 /* ulCounter */, NULL /* value */);
             }
 			
 			// dtor
@@ -499,7 +499,7 @@ namespace gpopt
 
                 // exit function if link already exists
                 STreeLink *ptlink = GPOS_NEW(m_pmp) STreeLink(ptParent, ulPos, ptChild);
-                if (NULL != m_plinkmap->PtLookup(ptlink))
+                if (NULL != m_plinkmap->Find(ptlink))
                 {
                     GPOS_DELETE(ptlink);
                     return;
@@ -515,18 +515,18 @@ namespace gpopt
 #ifdef GPOS_DEBUG
                 BOOL fInserted =
 #endif // GPOS_DEBUG
-                m_plinkmap->FInsert(ptlink, GPOS_NEW(m_pmp) BOOL(true));
+                m_plinkmap->Insert(ptlink, GPOS_NEW(m_pmp) BOOL(true));
                 GPOS_ASSERT(fInserted);		
             }
 
 			// insert a root node
-			void InsertRoot(const T *pt)
+			void InsertRoot(const T *value)
             {
-                GPOS_ASSERT(NULL != pt);
+                GPOS_ASSERT(NULL != value);
                 GPOS_ASSERT(NULL != m_ptnRoot);
 
                 // add logical root as 0-th child to global root
-                m_ptnRoot->Add(0 /*ulPos*/, Ptn(pt));
+                m_ptnRoot->Add(0 /*ulPos*/, Ptn(value));
             }
 
 			// count all possible combinations
@@ -576,9 +576,9 @@ namespace gpopt
 #ifdef GPOS_DEBUG
 
 			// retrieve count for individual element
-			ULLONG UllCount(const T* pt)
+			ULLONG UllCount(const T* value)
             {
-                CTreeNode *ptn = m_ptmap->PtLookup(pt);
+                CTreeNode *ptn = m_ptmap->Find(value);
                 GPOS_ASSERT(NULL != ptn);
 
                 return ptn->UllCount();

@@ -1210,14 +1210,14 @@ CPhysicalJoin::PppsRequiredJoinChild
 	CAutoMutex am(m_mutexJoin);
 	am.Lock();
 
-	CPartitionPropagationSpec *ppps = m_phmpp->PtLookup(pppr);
+	CPartitionPropagationSpec *ppps = m_phmpp->Find(pppr);
 	if (NULL == ppps)
 	{
 		ppps = PppsRequiredCompute(pmp, exprhdl, pppsRequired, ulChildIndex, fNLJoin);
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-			m_phmpp->FInsert(pppr, ppps);
+			m_phmpp->Insert(pppr, ppps);
 		GPOS_ASSERT(fSuccess);
 	}
 	else

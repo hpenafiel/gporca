@@ -93,7 +93,7 @@ namespace gpos
 			{}
 
 			// finds the first bucket's element with a matching key
-			T *PtLookup() const
+			T *Find() const
             {
                 return PtNextMatch(Base::PtFirst());
             }

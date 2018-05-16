@@ -153,7 +153,7 @@ CLogicalRowTrigger::ITriggerType
 		iType |= GPMD_TRIGGER_BEFORE;
 	}
 
-	if (pmdtrigger->FInsert())
+	if (pmdtrigger->Insert())
 	{
 		iType |= GPMD_TRIGGER_INSERT;
 	}

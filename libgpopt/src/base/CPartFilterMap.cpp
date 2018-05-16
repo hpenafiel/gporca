@@ -177,7 +177,7 @@ CPartFilterMap::FSubset
 	{
 		const CPartFilter *ppfCurrent = hmulpfi.Pt();
 		ULONG ulScanId = ppfCurrent->UlScanId();
-		CPartFilter *ppfOther = ppfm->m_phmulpf->PtLookup(&ulScanId);
+		CPartFilter *ppfOther = ppfm->m_phmulpf->Find(&ulScanId);
 		if (!ppfCurrent->FMatch(ppfOther))
 		{
 			return false;
@@ -201,7 +201,7 @@ CPartFilterMap::Pexpr
 	)
 	const
 {
-	CPartFilter *ppf = m_phmulpf->PtLookup(&ulScanId);
+	CPartFilter *ppf = m_phmulpf->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppf);
 
 	return ppf->Pexpr();
@@ -222,7 +222,7 @@ CPartFilterMap::Pstats
 	)
 	const
 {
-	CPartFilter *ppf = m_phmulpf->PtLookup(&ulScanId);
+	CPartFilter *ppf = m_phmulpf->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppf);
 
 	return ppf->Pstats();
@@ -273,7 +273,7 @@ CPartFilterMap::AddPartFilter
 	)
 {
 	GPOS_ASSERT(NULL != pexpr);
-	CPartFilter *ppf = m_phmulpf->PtLookup(&ulScanId);
+	CPartFilter *ppf = m_phmulpf->Find(&ulScanId);
 	if (NULL != ppf)
 	{
 		return;
@@ -284,7 +284,7 @@ CPartFilterMap::AddPartFilter
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-	m_phmulpf->FInsert(GPOS_NEW(pmp) ULONG(ulScanId), ppf);
+	m_phmulpf->Insert(GPOS_NEW(pmp) ULONG(ulScanId), ppf);
 
 	GPOS_ASSERT(fSuccess);
 }
@@ -310,12 +310,12 @@ CPartFilterMap::FCopyPartFilter
 	GPOS_ASSERT(NULL != ppfmSource);
 	GPOS_ASSERT(this != ppfmSource);
 
-	CPartFilter *ppf = ppfmSource->m_phmulpf->PtLookup(&ulScanId);
+	CPartFilter *ppf = ppfmSource->m_phmulpf->Find(&ulScanId);
 	if (NULL != ppf)
 	{
 		ppf->AddRef();
 		ULONG *pulScanId = GPOS_NEW(pmp) ULONG(ulScanId);
-		BOOL fSuccess = m_phmulpf->FInsert(pulScanId, ppf);
+		BOOL fSuccess = m_phmulpf->Insert(pulScanId, ppf);
 		GPOS_ASSERT(fSuccess);
 
 		if (!fSuccess)
@@ -355,7 +355,7 @@ CPartFilterMap::CopyPartFilterMap
 		ULONG ulScanId = ppf->UlScanId();
 
 		// check if part filter with same scan id already exists
-		if (NULL != m_phmulpf->PtLookup(&ulScanId))
+		if (NULL != m_phmulpf->Find(&ulScanId))
 		{
 			continue;
 		}
@@ -365,7 +365,7 @@ CPartFilterMap::CopyPartFilterMap
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_phmulpf->FInsert(GPOS_NEW(pmp) ULONG(ulScanId), ppf);
+		m_phmulpf->Insert(GPOS_NEW(pmp) ULONG(ulScanId), ppf);
 
 		GPOS_ASSERT(fSuccess);
 	}

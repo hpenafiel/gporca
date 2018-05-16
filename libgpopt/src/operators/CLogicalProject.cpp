@@ -389,7 +389,7 @@ CLogicalProject::PstatsDerive
 #ifdef GPOS_DEBUG
 				BOOL fInserted =
 #endif
-						phmuldatum->FInsert(GPOS_NEW(pmp) ULONG(pcr->UlId()), pdatum);
+						phmuldatum->Insert(GPOS_NEW(pmp) ULONG(pcr->UlId()), pdatum);
 				GPOS_ASSERT(fInserted);
 			}
 		}

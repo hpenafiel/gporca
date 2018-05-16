@@ -51,7 +51,7 @@ namespace gpmd
 
 			// is this an insert trigger
 			virtual
-			BOOL FInsert() const = 0;
+			BOOL Insert() const = 0;
 
 			// is this a delete trigger
 			virtual

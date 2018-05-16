@@ -240,7 +240,7 @@ CWorkerPoolManager::RegisterWorker
 		CSyncHashtableAccessByKey<CWorker, CWorkerId, CSpinlockOS> shta(m_shtWLS, wid);
 		
 		// must be first to register
-		GPOS_ASSERT(NULL == shta.PtLookup() && "Found registered worker.");
+		GPOS_ASSERT(NULL == shta.Find() && "Found registered worker.");
 
 		shta.Insert(pwrkr);
 	}
@@ -278,7 +278,7 @@ CWorkerPoolManager::PwrkrRemoveWorker
 		// get access
 		CSyncHashtableAccessByKey<CWorker, CWorkerId, CSpinlockOS> shta(m_shtWLS, wid);
 		
-		pwrkr = shta.PtLookup();
+		pwrkr = shta.Find();
 		if (NULL != pwrkr)
 		{
 			shta.Remove(pwrkr);
@@ -309,7 +309,7 @@ CWorkerPoolManager::Pwrkr
 	// get access
 	CSyncHashtableAccessByKey<CWorker, CWorkerId, CSpinlockOS> shta(m_shtWLS, wid);
 
-	return shta.PtLookup();
+	return shta.Find();
 }
 
 
@@ -336,7 +336,7 @@ CWorkerPoolManager::RegisterTask
 		CSyncHashtableAccessByKey<CTask, CTaskId, CSpinlockOS> shta(m_shtTS, tid);
 
 		// must be first to register
-		GPOS_ASSERT(NULL == shta.PtLookup() && "Found registered task.");
+		GPOS_ASSERT(NULL == shta.Find() && "Found registered task.");
 
 		shta.Insert(ptsk);
 	}
@@ -365,7 +365,7 @@ CWorkerPoolManager::PtskRemoveTask
 		// get access
 		CSyncHashtableAccessByKey<CTask, CTaskId, CSpinlockOS> shta(m_shtTS, tid);
 
-		ptsk = shta.PtLookup();
+		ptsk = shta.Find();
 		if (NULL != ptsk)
 		{
 			shta.Remove(ptsk);
@@ -512,7 +512,7 @@ CWorkerPoolManager::Cancel
 	// scope for hash table accessor
 	{
 		CSyncHashtableAccessByKey<CTask, CTaskId, CSpinlockOS> shta(m_shtTS, tid);
-		ptsk = shta.PtLookup();
+		ptsk = shta.Find();
 		if (NULL != ptsk)
 		{
 			ptsk->Cancel();

@@ -56,7 +56,7 @@ CHashSetIterTest::EresUnittest_Basic()
 	// load map and iterate over it after each step
 	for (ULONG ul = 0; ul < ulCnt; ++ul)
 	{
-		(void) ps->FInsert(&rgul[ul]);
+		(void) ps->Insert(&rgul[ul]);
 		pdrgpulValues->Append(&rgul[ul]);
 
 		CAutoRef<ULongPtrArray> pdrgpulIterValues(GPOS_NEW(pmp) ULongPtrArray(pmp));

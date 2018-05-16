@@ -1605,14 +1605,14 @@ CExpressionPreprocessor::CollectCTEPredicates
 			CExpression *pexprRemappedScalar = pexprScalar->PexprCopyWithRemappedColumns(pmp, phmulcr, true /*fMustExist*/);
 			phmulcr->Release();
 
-			DrgPexpr *pdrgpexpr = phm->PtLookup(&ulCTEId);
+			DrgPexpr *pdrgpexpr = phm->Find(&ulCTEId);
 			if (NULL == pdrgpexpr)
 			{
 				pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 #ifdef GPOS_DEBUG
 				BOOL fInserted =
 #endif // GPOS_DEBUG
-					phm->FInsert(GPOS_NEW(pmp) ULONG(ulCTEId), pdrgpexpr);
+					phm->Insert(GPOS_NEW(pmp) ULONG(ulCTEId), pdrgpexpr);
 				GPOS_ASSERT(fInserted);
 			}
 			pdrgpexpr->Append(pexprRemappedScalar);

@@ -1541,7 +1541,7 @@ CTranslatorExprToDXLUtils::ReplaceSubplan
 #ifdef GPOS_DEBUG
 	BOOL fReplaced =
 #endif // GPOS_DEBUG
-		phmcrdxlnSubplans->FReplace(pcr, pdxln);
+		phmcrdxlnSubplans->Replace(pcr, pdxln);
 	GPOS_ASSERT(fReplaced);
 }
 
@@ -1613,7 +1613,7 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 	GPOS_ASSERT(NULL != pcr);
 	GPOS_ASSERT(NULL != phmcrdxlnSubplans);
 	
-	CDXLNode *pdxln = phmcrdxlnSubplans->PtLookup(pcr);
+	CDXLNode *pdxln = phmcrdxlnSubplans->Find(pcr);
 
 	if (NULL != pdxln)
 	{
@@ -1623,7 +1623,7 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 
 	if (NULL != phmcrdxlnIndexLookup)
 	{
-		CDXLNode *pdxlnIdent = phmcrdxlnIndexLookup->PtLookup(pcr);
+		CDXLNode *pdxlnIdent = phmcrdxlnIndexLookup->Find(pcr);
 		if (NULL != pdxlnIdent)
 		{
 			pdxlnIdent->AddRef();
@@ -1749,7 +1749,7 @@ CTranslatorExprToDXLUtils::PdrgpcrMapColumns
 		CColRef *pcr = (*pdrgpcrInput)[ul];
 
 		// get column index from hashmap
-		ULONG *pul = phmcrul->PtLookup(pcr);
+		ULONG *pul = phmcrul->Find(pcr);
 		GPOS_ASSERT (NULL != pul);
 
 		// add corresponding column from dest array
@@ -1958,7 +1958,7 @@ CTranslatorExprToDXLUtils::PhmcrulColIndex
 	#ifdef GPOS_DEBUG
 		BOOL fRes =
 	#endif // GPOS_DEBUG
-		phmcrul->FInsert(pcr, pul);
+		phmcrul->Insert(pcr, pul);
 		GPOS_ASSERT(fRes);
 	}
 

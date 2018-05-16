@@ -12,7 +12,7 @@ CColConstraintsHashMapper::PdrgPcnstrLookup
 		CColRef *pcr
 	)
 {
-	DrgPcnstr *pdrgpcnstrCol = m_phmColConstr->PtLookup(pcr);
+	DrgPcnstr *pdrgpcnstrCol = m_phmColConstr->Find(pcr);
 	pdrgpcnstrCol->AddRef();
 	return pdrgpcnstrCol;
 }
@@ -39,11 +39,11 @@ PhmcolconstrSingleColConstr
 		if (1 == pcrs->Size())
 		{
 			CColRef *pcr = pcrs->PcrFirst();
-			DrgPcnstr *pcnstrMapped = phmcolconstr->PtLookup(pcr);
+			DrgPcnstr *pcnstrMapped = phmcolconstr->Find(pcr);
 			if (NULL == pcnstrMapped)
 			{
 				pcnstrMapped = GPOS_NEW(pmp) DrgPcnstr(pmp);
-				phmcolconstr->FInsert(pcr, pcnstrMapped);
+				phmcolconstr->Insert(pcr, pcnstrMapped);
 			}
 			pcnstrChild->AddRef();
 			pcnstrMapped->Append(pcnstrChild);

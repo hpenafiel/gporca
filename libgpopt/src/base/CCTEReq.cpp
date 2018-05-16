@@ -197,7 +197,7 @@ CCTEReq::Insert
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-	m_phmcter->FInsert(GPOS_NEW(m_pmp) ULONG(ulCteId), pcre);
+	m_phmcter->Insert(GPOS_NEW(m_pmp) ULONG(ulCteId), pcre);
 	GPOS_ASSERT(fSuccess);
 	if (fRequired)
 	{
@@ -245,7 +245,7 @@ CCTEReq::PcreLookup
 	)
 	const
 {
-	return m_phmcter->PtLookup(&ulCteId);
+	return m_phmcter->Find(&ulCteId);
 }
 
 //---------------------------------------------------------------------------
@@ -266,12 +266,12 @@ CCTEReq::FSubset
 	GPOS_ASSERT(NULL != pcter);
 
 	// compare number of entries first
-	if (m_phmcter->UlEntries() > pcter->m_phmcter->UlEntries())
+	if (m_phmcter->Size() > pcter->m_phmcter->Size())
 	{
 		return false;
 	}
 
-	if (0 == m_phmcter->UlEntries())
+	if (0 == m_phmcter->Size())
 	{
 		// empty subset
 		return true;

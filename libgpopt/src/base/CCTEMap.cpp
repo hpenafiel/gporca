@@ -77,7 +77,7 @@ CCTEMap::Insert
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-	m_phmcm->FInsert(GPOS_NEW(m_pmp) ULONG(ulCteId), pcme);
+	m_phmcm->Insert(GPOS_NEW(m_pmp) ULONG(ulCteId), pcme);
 	GPOS_ASSERT(fSuccess);
 }
 
@@ -194,7 +194,7 @@ CCTEMap::PcmeLookup
 	)
 	const
 {
-	return m_phmcm->PtLookup(&ulCteId);
+	return m_phmcm->Find(&ulCteId);
 }
 
 //---------------------------------------------------------------------------
@@ -214,7 +214,7 @@ CCTEMap::FSubset
 {
 	GPOS_ASSERT(NULL != pcm);
 
-	if (m_phmcm->UlEntries() > pcm->m_phmcm->UlEntries())
+	if (m_phmcm->Size() > pcm->m_phmcm->Size())
 	{
 		return false;
 	}

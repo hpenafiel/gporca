@@ -86,7 +86,7 @@ CXformImplementPartitionSelector::Transform
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-		phmulexprFilter->FInsert(GPOS_NEW(pmp) ULONG(ul), pexprFilter);
+		phmulexprFilter->Insert(GPOS_NEW(pmp) ULONG(ul), pexprFilter);
 		GPOS_ASSERT(fInserted);
 	}
 

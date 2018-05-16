@@ -334,7 +334,7 @@ CGroupExpression::FCostContextExists
 	CCostContext *pccFound = NULL;
 	{
 		ShtAcc shta(Sht(), poc);
-		pccFound = shta.PtLookup();
+		pccFound = shta.Find();
 	}
 
 	while (NULL != pccFound)
@@ -372,7 +372,7 @@ CGroupExpression::PccRemove
 {
 	GPOS_ASSERT(NULL != poc);
 	ShtAcc shta(Sht(), poc);
-	CCostContext *pccFound = shta.PtLookup();
+	CCostContext *pccFound = shta.Find();
 	while (NULL != pccFound)
 	{
 		if (ulOptReq == pccFound->UlOptReq())
@@ -547,7 +547,7 @@ CGroupExpression::CostLowerBound
 		pccChild->AddRef();
 	}
 	CPartialPlan *ppp = GPOS_NEW(pmp) CPartialPlan(this, prppInput, pccChild, ulChildIndex);
-	CCost *pcostLowerBound = m_ppartialplancostmap->PtLookup(ppp);
+	CCost *pcostLowerBound = m_ppartialplancostmap->Find(ppp);
 	if (NULL != pcostLowerBound)
 	{
 		ppp->Release();
@@ -560,7 +560,7 @@ CGroupExpression::CostLowerBound
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_ppartialplancostmap->FInsert(ppp, GPOS_NEW(pmp) CCost(cost.Get()));
+		m_ppartialplancostmap->Insert(ppp, GPOS_NEW(pmp) CCost(cost.Get()));
 	GPOS_ASSERT(fSuccess);
 
 	return cost;
@@ -678,7 +678,7 @@ CGroupExpression::PccLookup
 	GPOS_ASSERT(NULL != poc);
 
 	ShtAcc shta(Sht(), poc);
-	CCostContext *pccFound = shta.PtLookup();
+	CCostContext *pccFound = shta.Find();
 	while (NULL != pccFound)
 	{
 		if (ulOptReq == pccFound->UlOptReq())
@@ -715,7 +715,7 @@ CGroupExpression::PdrgpccLookupAll
 	BOOL fValid = false;
 	{
 		ShtAcc shta(Sht(), poc);
-		pccFound = shta.PtLookup();
+		pccFound = shta.Find();
 		fValid = (NULL != pccFound && pccFound->Cost() != GPOPT_INVALID_COST && !pccFound->FPruned());
 	}
 
@@ -754,7 +754,7 @@ CGroupExpression::PccInsert
 {
 	ShtAcc shta(Sht(), pcc->Poc());
 
-	CCostContext *pccFound = shta.PtLookup();
+	CCostContext *pccFound = shta.Find();
 	while (NULL != pccFound)
 	{
 		if (CCostContext::Equals(*pcc, *pccFound))

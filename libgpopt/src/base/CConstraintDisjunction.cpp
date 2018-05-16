@@ -104,7 +104,7 @@ CConstraintDisjunction::FConstraint
 	)
 	const
 {
-	DrgPcnstr *pdrgpcnstrCol = m_phmcolconstr->PtLookup(pcr);
+	DrgPcnstr *pdrgpcnstrCol = m_phmcolconstr->Find(pcr);
 	return (NULL != pdrgpcnstrCol && m_pdrgpcnstr->Size() == pdrgpcnstrCol->Size());
 }
 
@@ -151,7 +151,7 @@ CConstraintDisjunction::Pcnstr
 	)
 {
 	// all children referencing given column
-	DrgPcnstr *pdrgpcnstrCol = m_phmcolconstr->PtLookup(pcr);
+	DrgPcnstr *pdrgpcnstrCol = m_phmcolconstr->Find(pcr);
 	if (NULL == pdrgpcnstrCol)
 	{
 		return NULL;

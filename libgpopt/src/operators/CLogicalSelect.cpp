@@ -254,7 +254,7 @@ CLogicalSelect::PexprPartPred
 	}
 
 	// check if a corresponding predicate has already been cached
-	CExpression *pexprPredOnPartKey = m_phmPexprPartPred->PtLookup(pexprScalar);
+	CExpression *pexprPredOnPartKey = m_phmPexprPartPred->Find(pexprScalar);
 	if (pexprPredOnPartKey != NULL)
 	{
 		// predicate on partition key found in cache
@@ -282,7 +282,7 @@ CLogicalSelect::PexprPartPred
 		// in the hashmap
 		pexprPredOnPartKey->AddRef();
 		pexprScalar->AddRef();
-		m_phmPexprPartPred->FInsert(pexprScalar, pexprPredOnPartKey);
+		m_phmPexprPartPred->Insert(pexprScalar, pexprPredOnPartKey);
 	}
 
 	return pexprPredOnPartKey;

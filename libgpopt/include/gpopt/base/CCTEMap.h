@@ -205,7 +205,7 @@ namespace gpopt
 					)
 					const
 			{
-				return (m_phmcm->UlEntries() == pcm->m_phmcm->UlEntries()) &&
+				return (m_phmcm->Size() == pcm->m_phmcm->Size()) &&
 						this->FSubset(pcm);
 			}
 

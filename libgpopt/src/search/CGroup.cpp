@@ -316,7 +316,7 @@ CGroup::UpdateBestCost
 	{
 		// scope for accessor
 		ShtAcc shta(Sht(), *poc);
-		pocFound = shta.PtLookup();
+		pocFound = shta.Find();
 	}
 
 	GPOS_ASSERT(NULL != pocFound);
@@ -364,7 +364,7 @@ CGroup::PocLookup
 	COptimizationContext *pocFound = NULL;
 	{
 		ShtAcc shta(Sht(), *poc);
-		pocFound =  shta.PtLookup();
+		pocFound =  shta.Find();
 	}
 	poc->Release();
 
@@ -430,7 +430,7 @@ CGroup::PocInsert
 {
 	ShtAcc shta(Sht(), *poc);
 
-	COptimizationContext *pocFound = shta.PtLookup();
+	COptimizationContext *pocFound = shta.Find();
 	if (NULL == pocFound)
 	{
 		poc->SetId((ULONG) UlpIncOptCtxts());
@@ -457,7 +457,7 @@ CGroup::PgexprBest
 	)
 {
 	ShtAcc shta(Sht(), *poc);
-	COptimizationContext *pocFound = shta.PtLookup();
+	COptimizationContext *pocFound = shta.Find();
 	if (NULL != pocFound)
 	{
 		return pocFound->PgexprBest();
@@ -1255,7 +1255,7 @@ CGroup::BuildTreeMap
 	// check if link has been processed before,
 	// this is crucial to eliminate unnecessary recursive calls
 	SContextLink *pclink = GPOS_NEW(m_pmp) SContextLink(pccParent, ulChildIndex, poc);
-	if (m_plinkmap->PtLookup(pclink))
+	if (m_plinkmap->Find(pclink))
 	{
 		// link is already processed
 		GPOS_DELETE(pclink);
@@ -1312,7 +1312,7 @@ CGroup::BuildTreeMap
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif  // GPOS_DEBUG
-		m_plinkmap->FInsert(pclink, GPOS_NEW(m_pmp) BOOL(true));
+		m_plinkmap->Insert(pclink, GPOS_NEW(m_pmp) BOOL(true));
 	GPOS_ASSERT(fInserted);
 }
 
@@ -2042,7 +2042,7 @@ CGroup::PstatsCompute
 	GPOS_ASSERT(NULL != pgexpr);
 	GPOS_ASSERT(this == pgexpr->Pgroup());
 
-	IStatistics *pstats = m_pstatsmap->PtLookup(poc);
+	IStatistics *pstats = m_pstatsmap->Find(poc);
 	if (NULL != pstats)
 	{
 		return pstats;
@@ -2064,7 +2064,7 @@ CGroup::PstatsCompute
 #ifdef GPOS_DEBUG
 		fSuccess =
 #endif  // GPOS_DEBUG
-		m_pstatsmap->FInsert(poc, pstats);
+		m_pstatsmap->Insert(poc, pstats);
 	}
 	GPOS_ASSERT(fSuccess);
 
@@ -2139,7 +2139,7 @@ CGroup::CostLowerBound
 	GPOS_ASSERT(NULL != prppInput);
 	GPOS_ASSERT(!FScalar());
 
-	CCost *pcostLowerBound =  m_pcostmap->PtLookup(prppInput);
+	CCost *pcostLowerBound =  m_pcostmap->Find(prppInput);
 	if (NULL != pcostLowerBound)
 	{
 		return *pcostLowerBound;
@@ -2182,7 +2182,7 @@ CGroup::CostLowerBound
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_pcostmap->FInsert(prppInput, GPOS_NEW(pmp) CCost(costLowerBound.Get()));
+		m_pcostmap->Insert(prppInput, GPOS_NEW(pmp) CCost(costLowerBound.Get()));
 	GPOS_ASSERT(fSuccess);
 
 	return costLowerBound;

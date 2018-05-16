@@ -283,7 +283,7 @@ CXformSplitDQA::PexprSplitIntoLocalDQAGlobalAgg
 
 			GPOS_ASSERT(1 == pexprAggFunc->UlArity());
 			CExpression *pexprArg = (*pexprAggFunc)[0];
-			CColRef *pcrDistinctCol = phmexprcr->PtLookup(pexprArg);
+			CColRef *pcrDistinctCol = phmexprcr->Find(pexprArg);
 			GPOS_ASSERT(NULL != pcrDistinctCol);
 			DrgPexpr *pdrgpexprArgsLocal = GPOS_NEW(pmp) DrgPexpr(pmp);
 			pdrgpexprArgsLocal->Append(CUtils::PexprScalarIdent(pmp, pcrDistinctCol));
@@ -426,7 +426,7 @@ CXformSplitDQA::PexprSplitHelper
 			GPOS_ASSERT(1 == pexprAggFunc->UlArity());
 			CExpression *pexprArg = (*pexprAggFunc)[0];
 
-			CColRef *pcrDistinctCol = phmexprcr->PtLookup(pexprArg);
+			CColRef *pcrDistinctCol = phmexprcr->Find(pexprArg);
 			GPOS_ASSERT(NULL != pcrDistinctCol);
 			DrgPexpr *pdrgpexprArgs = GPOS_NEW(pmp) DrgPexpr(pmp);
 			pdrgpexprArgs->Append(CUtils::PexprScalarIdent(pmp, pcrDistinctCol));
@@ -831,7 +831,7 @@ CXformSplitDQA::ExtractDistinctCols
 			
 			CExpression *pexprArg = (*pexprAggFunc)[0];
 			GPOS_ASSERT(NULL != pexprArg);
-			CColRef *pcrDistinctCol = phmexprcr->PtLookup(pexprArg);
+			CColRef *pcrDistinctCol = phmexprcr->Find(pexprArg);
 			if (NULL == pcrDistinctCol)
 			{
 				ulDistinct++;
@@ -845,7 +845,7 @@ CXformSplitDQA::ExtractDistinctCols
 #ifdef GPOS_DEBUG
 				BOOL fInserted =
 #endif
-						phmexprcr->FInsert(pexprArg, pcrDistinctCol);
+						phmexprcr->Insert(pexprArg, pcrDistinctCol);
 				GPOS_ASSERT(fInserted);
 
 				// add the distinct column to the set of distinct columns

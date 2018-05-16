@@ -87,7 +87,7 @@ CTaskLocalStorage::Store
 #ifdef GPOS_DEBUG
 	{
 		ShtAcc shtacc(m_sht, ptlsobj->Etlsidx());
-		GPOS_ASSERT(NULL == shtacc.PtLookup() && "Duplicate TLS object key");
+		GPOS_ASSERT(NULL == shtacc.Find() && "Duplicate TLS object key");
 	}
 #endif // GPOS_DEBUG
 
@@ -110,7 +110,7 @@ CTaskLocalStorage::Ptlsobj
 	)
 {
 	ShtAcc shtacc(m_sht, etlsidx);
-	return shtacc.PtLookup();
+	return shtacc.Find();
 }
 
 
@@ -132,7 +132,7 @@ CTaskLocalStorage::Remove
 	
 	// lookup object
 	ShtAcc shtacc(m_sht, ptlsobj->Etlsidx());
-	GPOS_ASSERT(NULL != shtacc.PtLookup() && "Object not found in TLS");
+	GPOS_ASSERT(NULL != shtacc.Find() && "Object not found in TLS");
 	
 	shtacc.Remove(ptlsobj);
 }

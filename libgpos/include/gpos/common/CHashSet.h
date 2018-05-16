@@ -121,8 +121,8 @@ namespace gpos
 			ULONG m_ulEntries;
 
 			// each hash chain is an array of hashset elements
-			typedef CDynamicPtrArray<CHashSetElem, CleanupDelete> DrgHashChain;
-			DrgHashChain **m_ppdrgchain;
+			typedef CDynamicPtrArray<CHashSetElem, CleanupDelete> HashElemChain;
+			HashElemChain **m_ppdrgchain;
 
 			// array for elements
 			// We use CleanupNULL because the elements are owned by the hash table
@@ -136,7 +136,7 @@ namespace gpos
 
 			// lookup appropriate hash chain in static table, may be NULL if
 			// no elements have been inserted yet
-			DrgHashChain **PpdrgChain(const T *pt) const
+			HashElemChain **PpdrgChain(const T *pt) const
 			{
 				GPOS_ASSERT(NULL != m_ppdrgchain);
 				return &m_ppdrgchain[pfnHash(pt) % m_ulSize];
@@ -161,7 +161,7 @@ namespace gpos
 
                 CHashSetElem hse(const_cast<T*>(pt), false /*fOwn*/);
                 CHashSetElem *phse = NULL;
-                DrgHashChain **ppdrgchain = PpdrgChain(pt);
+                HashElemChain **ppdrgchain = PpdrgChain(pt);
                 if (NULL != *ppdrgchain)
                 {
                     phse = (*ppdrgchain)->Find(&hse);
@@ -179,13 +179,13 @@ namespace gpos
             m_pmp(pmp),
             m_ulSize(ulSize),
             m_ulEntries(0),
-            m_ppdrgchain(GPOS_NEW_ARRAY(m_pmp, DrgHashChain*, m_ulSize)),
+            m_ppdrgchain(GPOS_NEW_ARRAY(m_pmp, HashElemChain*, m_ulSize)),
             m_pdrgElements(GPOS_NEW(m_pmp) DrgElements(m_pmp)),
             m_pdrgPiFilledBuckets(GPOS_NEW(pmp) IntPtrArray(pmp))
             {
                 GPOS_ASSERT(ulSize > 0);
 
-                (void) clib::PvMemSet(m_ppdrgchain, 0, m_ulSize * sizeof(DrgHashChain*));
+                (void) clib::PvMemSet(m_ppdrgchain, 0, m_ulSize * sizeof(HashElemChain*));
             }
 
 			// dtor
@@ -200,17 +200,17 @@ namespace gpos
             }
 
 			// insert an element if not present
-			BOOL FInsert(T *pt)
+			BOOL Insert(T *pt)
             {
                 if (FExists(pt))
                 {
                     return false;
                 }
 
-                DrgHashChain **ppdrgchain = PpdrgChain(pt);
+                HashElemChain **ppdrgchain = PpdrgChain(pt);
                 if (NULL == *ppdrgchain)
                 {
-                    *ppdrgchain = GPOS_NEW(m_pmp) DrgHashChain(m_pmp);
+                    *ppdrgchain = GPOS_NEW(m_pmp) HashElemChain(m_pmp);
                     INT iBucket = pfnHash(pt) % m_ulSize;
                     m_pdrgPiFilledBuckets->Append(GPOS_NEW(m_pmp) INT(iBucket));
                 }
@@ -228,7 +228,7 @@ namespace gpos
 			BOOL FExists(const T *pt) const
             {
                 CHashSetElem hse(const_cast<T*>(pt), false /*fOwn*/);
-                DrgHashChain **ppdrgchain = PpdrgChain(pt);
+                HashElemChain **ppdrgchain = PpdrgChain(pt);
                 if (NULL != *ppdrgchain)
                 {
                     CHashSetElem *phse = (*ppdrgchain)->Find(&hse);
@@ -240,7 +240,7 @@ namespace gpos
             }
 
 			// return number of map entries
-			ULONG UlEntries() const
+			ULONG Size() const
 			{
 				return m_ulEntries;
 			}

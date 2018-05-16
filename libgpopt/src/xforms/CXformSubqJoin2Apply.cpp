@@ -160,7 +160,7 @@ CXformSubqJoin2Apply::PexprReplaceSubqueries
 	GPOS_ASSERT(NULL != pexprScalar);
 	GPOS_ASSERT(NULL != phmexprcr);
 
-	CColRef *pcr = phmexprcr->PtLookup(pexprScalar);
+	CColRef *pcr = phmexprcr->Find(pexprScalar);
 	if (NULL != pcr)
 	{
 		// look-up succeeded on root operator, we return here
@@ -250,7 +250,7 @@ CXformSubqJoin2Apply::PexprSubqueryPushDown
 	#ifdef GPOS_DEBUG
 				BOOL fInserted =
 	#endif // GPOS_DEBUG
-					phmexprcr->FInsert(pexprSubq, pcr);
+					phmexprcr->Insert(pexprSubq, pcr);
 				GPOS_ASSERT(fInserted);
 			}
 

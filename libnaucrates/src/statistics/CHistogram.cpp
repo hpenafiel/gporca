@@ -2130,10 +2130,10 @@ CHistogram::AddDummyHistogramAndWidthInfo
 		GPOS_ASSERT(NULL != pcr);
 
 		CHistogram *phist = CHistogram::PhistDefault(pmp, pcr, fEmpty);
-		phmulhistOutput->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phist);
+		phmulhistOutput->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist);
 
 		CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-		phmuldoubleWidthOutput->FInsert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
+		phmuldoubleWidthOutput->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
 	}
 }
 
@@ -2156,7 +2156,7 @@ CHistogram::AddEmptyHistogram
 
 		// empty histogram
 		CHistogram *phist =  GPOS_NEW(pmp) CHistogram(GPOS_NEW(pmp) DrgPbucket(pmp), false /* fWellDefined */);
-		phmulhistOutput->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phist);
+		phmulhistOutput->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist);
 	}
 }
 

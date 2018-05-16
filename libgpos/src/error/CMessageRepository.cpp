@@ -82,7 +82,7 @@ CMessageRepository::PmsgLookup
 		{
 			// try to locate locale-specific message table
 			TMTAccessor tmta(m_tmt, elocSearch);
-			CMessageTable *pmt = tmta.PtLookup();
+			CMessageTable *pmt = tmta.Find();
 		
 			if (NULL != pmt)
 			{
@@ -216,7 +216,7 @@ CMessageRepository::AddMessage
 		// scope for accessor lock
 		{
 			TMTAccessor tmta(m_tmt, eloc);
-			CMessageTable *pmt = tmta.PtLookup();
+			CMessageTable *pmt = tmta.Find();
 			
 			if (NULL != pmt)
 			{
@@ -252,7 +252,7 @@ CMessageRepository::AddMessageTable
 	
 	{
 		TMTAccessor tmta(m_tmt, eloc);
-		CMessageTable *pmt = tmta.PtLookup();
+		CMessageTable *pmt = tmta.Find();
 
 		if (NULL == pmt)
 		{

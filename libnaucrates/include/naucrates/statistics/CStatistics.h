@@ -193,7 +193,7 @@ namespace gpnaucrates
 								)
 								const
 			{
-				return m_phmulhist->PtLookup(&ulColId);
+				return m_phmulhist->Find(&ulColId);
 			}
 
 			// look up the number of distinct values of a particular column

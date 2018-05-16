@@ -136,8 +136,8 @@ CPhysicalPartitionSelector::FMatchExprMaps
 	GPOS_ASSERT(NULL != phmulexprFst);
 	GPOS_ASSERT(NULL != phmulexprSnd);
 
-	const ULONG ulEntries = phmulexprFst->UlEntries();
-	if (ulEntries != phmulexprSnd->UlEntries())
+	const ULONG ulEntries = phmulexprFst->Size();
+	if (ulEntries != phmulexprSnd->Size())
 	{
 		return false;
 	}
@@ -148,7 +148,7 @@ CPhysicalPartitionSelector::FMatchExprMaps
 	{
 		ULONG ulKey = *(hmulei.Pk());
 		const CExpression *pexprFst = hmulei.Pt();
-		CExpression *pexprSnd = phmulexprSnd->PtLookup(&ulKey);
+		CExpression *pexprSnd = phmulexprSnd->Find(&ulKey);
 		if (!CUtils::Equals(pexprFst, pexprSnd))
 		{
 			return false;
@@ -178,7 +178,7 @@ CPhysicalPartitionSelector::FMatchPartCnstr
 		return NULL == m_ppartcnstrmap && NULL == ppartcnstrmap;
 	}
 
-	return m_ppartcnstrmap->UlEntries() == ppartcnstrmap->UlEntries() &&
+	return m_ppartcnstrmap->Size() == ppartcnstrmap->Size() &&
 			FSubsetPartCnstr(ppartcnstrmap, m_ppartcnstrmap);
 }
 
@@ -199,7 +199,7 @@ CPhysicalPartitionSelector::FSubsetPartCnstr
 {
 	GPOS_ASSERT(NULL != ppartcnstrmapFst);
 	GPOS_ASSERT(NULL != ppartcnstrmapSnd);
-	if (ppartcnstrmapFst->UlEntries() > ppartcnstrmapSnd->UlEntries())
+	if (ppartcnstrmapFst->Size() > ppartcnstrmapSnd->Size())
 	{
 		return false;
 	}
@@ -209,7 +209,7 @@ CPhysicalPartitionSelector::FSubsetPartCnstr
 	while (partcnstriter.FAdvance())
 	{
 		ULONG ulKey = *(partcnstriter.Pk());
-		CPartConstraint *ppartcnstr = ppartcnstrmapSnd->PtLookup(&ulKey);
+		CPartConstraint *ppartcnstr = ppartcnstrmapSnd->Find(&ulKey);
 
 		if (NULL == ppartcnstr || !partcnstriter.Pt()->FEquivalent(ppartcnstr))
 		{
@@ -232,8 +232,8 @@ BOOL
 CPhysicalPartitionSelector::FHasFilter() const
 {
 	return (NULL != m_pexprResidual ||
-			0 < m_phmulexprEqPredicates->UlEntries() ||
-			0 < m_phmulexprPredicates->UlEntries());
+			0 < m_phmulexprEqPredicates->Size() ||
+			0 < m_phmulexprPredicates->Size());
 }
 
 //---------------------------------------------------------------------------
@@ -303,7 +303,7 @@ CPhysicalPartitionSelector::PexprEqFilter
 	)
 	const
 {
-	return m_phmulexprEqPredicates->PtLookup(&ulPartLevel);
+	return m_phmulexprEqPredicates->Find(&ulPartLevel);
 }
 
 //---------------------------------------------------------------------------
@@ -321,7 +321,7 @@ CPhysicalPartitionSelector::PexprFilter
 	)
 	const
 {
-	return m_phmulexprPredicates->PtLookup(&ulPartLevel);
+	return m_phmulexprPredicates->Find(&ulPartLevel);
 }
 
 //---------------------------------------------------------------------------
@@ -347,7 +347,7 @@ CPhysicalPartitionSelector::PexprPartPred
 	{
 		// we have one side of an equality predicate - need to construct the
 		// whole predicate
-		GPOS_ASSERT(NULL == m_phmulexprPredicates->PtLookup(&ulPartLevel));
+		GPOS_ASSERT(NULL == m_phmulexprPredicates->Find(&ulPartLevel));
 		pexpr->AddRef();
 		if (NULL != m_pdrgpdrgpcr)
 		{
@@ -360,7 +360,7 @@ CPhysicalPartitionSelector::PexprPartPred
 		}
 	}
 
-	pexpr = m_phmulexprPredicates->PtLookup(&ulPartLevel);
+	pexpr = m_phmulexprPredicates->Find(&ulPartLevel);
 	if (NULL != pexpr)
 	{
 		pexpr->AddRef();
@@ -421,7 +421,7 @@ CPhysicalPartitionSelector::UlPartLevels() const
 		return m_pdrgpdrgpcr->Size();
 	}
 
-	return m_phmulexprEqPredicates->UlEntries();
+	return m_phmulexprEqPredicates->Size();
 }
 
 //---------------------------------------------------------------------------

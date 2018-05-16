@@ -41,7 +41,7 @@ CUpperBoundNDVs::PubndvCopyWithRemap
         while (crsi.Advance() && !fMappingNotFound)
         {
                 ULONG ulColId = crsi.Pcr()->UlId();
-                CColRef *pcrNew = phmulcr->PtLookup(&ulColId);
+                CColRef *pcrNew = phmulcr->Find(&ulColId);
                 if (NULL != pcrNew)
                 {
                         pcrsCopy->Include(pcrNew);

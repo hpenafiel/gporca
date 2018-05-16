@@ -563,7 +563,7 @@ CPhysical::PcrsChildReqd
 		am.Lock();
 
 		// lookup required columns map first
-		pcrs = m_phmrcr->PtLookup(prcr);
+		pcrs = m_phmrcr->Find(prcr);
 		if (NULL != pcrs)
 		{
 			prcr->Release();
@@ -590,7 +590,7 @@ CPhysical::PcrsChildReqd
 		CAutoMutex am(m_mutex);
 		am.Lock();
 
-		CColRefSet *pcrsFound = m_phmrcr->PtLookup(prcr);
+		CColRefSet *pcrsFound = m_phmrcr->Find(prcr);
 		if (NULL != pcrsFound)
 		{
 			// request was found now -- release computed request and use the found request
@@ -607,7 +607,7 @@ CPhysical::PcrsChildReqd
 #ifdef GPOS_DEBUG
 			BOOL fSuccess =
 #endif // GPOS_DEBUG
-				m_phmrcr->FInsert(prcr, pcrs);
+				m_phmrcr->Insert(prcr, pcrs);
 			GPOS_ASSERT(fSuccess);
 		}
 	}

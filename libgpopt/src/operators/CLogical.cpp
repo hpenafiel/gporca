@@ -1461,7 +1461,7 @@ CLogical::PcrsDist
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldesc)[ul];
 		CColRef *pcr = (*pdrgpcrOutput)[ul];
-		phmicr->FInsert(GPOS_NEW(pmp) INT(pcoldesc->IAttno()), pcr);
+		phmicr->Insert(GPOS_NEW(pmp) INT(pcoldesc->IAttno()), pcr);
 	}
 
 	CColRefSet *pcrsDist = GPOS_NEW(pmp) CColRefSet(pmp);
@@ -1470,7 +1470,7 @@ CLogical::PcrsDist
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldescDist)[ul2];
 		const INT iAttno = pcoldesc->IAttno();
-		CColRef *pcrMapped = phmicr->PtLookup(&iAttno);
+		CColRef *pcrMapped = phmicr->Find(&iAttno);
 		GPOS_ASSERT(NULL != pcrMapped);
 		pcrsDist->Include(pcrMapped);
 	}

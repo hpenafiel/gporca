@@ -64,7 +64,7 @@ CMessageTable::PmsgLookup
 	)
 {
 	MTAccessor shta(m_sht, exc);
-	return shta.PtLookup();
+	return shta.Find();
 }
 
 
@@ -84,7 +84,7 @@ CMessageTable::AddMessage
 {
 	MTAccessor shta(m_sht, pmsg->m_exc);
 
-	if (NULL == shta.PtLookup())
+	if (NULL == shta.Find())
 	{
 		shta.Insert(pmsg);
 	}

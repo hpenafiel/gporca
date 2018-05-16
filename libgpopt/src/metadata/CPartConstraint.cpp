@@ -80,7 +80,7 @@ CPartConstraint::CPartConstraint
 #ifdef GPOS_DEBUG
 	BOOL fResult =
 #endif // GPOS_DEBUG
-	m_phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(0 /*ulLevel*/), pcnstr);
+	m_phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(0 /*ulLevel*/), pcnstr);
 	GPOS_ASSERT(fResult);
 
 	CColRefSet *pcrsUsed = pcnstr->PcrsUsed();
@@ -161,7 +161,7 @@ CPartConstraint::PcnstrBuildCombined
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(pmp) DrgPcnstr(pmp);
 	for (ULONG ul = 0; ul < m_ulLevels; ul++)
 	{
-		CConstraint *pcnstr = m_phmulcnstr->PtLookup(&ul);
+		CConstraint *pcnstr = m_phmulcnstr->Find(&ul);
 		if (NULL != pcnstr)
 		{
 			pcnstr->AddRef();
@@ -258,15 +258,15 @@ CPartConstraint::FEqualConstrMaps
 	ULONG ulLevels
 	)
 {
-	if (phmulcnstrFst->UlEntries() != phmulcnstrSnd->UlEntries())
+	if (phmulcnstrFst->Size() != phmulcnstrSnd->Size())
 	{
 		return false;
 	}
 
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
-		CConstraint *pcnstrFst = phmulcnstrFst->PtLookup(&ul);
-		CConstraint *pcnstrSnd = phmulcnstrSnd->PtLookup(&ul);
+		CConstraint *pcnstrFst = phmulcnstrFst->Find(&ul);
+		CConstraint *pcnstrSnd = phmulcnstrSnd->Find(&ul);
 
 		if ((NULL == pcnstrFst || NULL == pcnstrSnd) && pcnstrFst != pcnstrSnd)
 		{
@@ -298,7 +298,7 @@ CPartConstraint::Pcnstr
 	const
 {
 	GPOS_ASSERT(!m_fUninterpreted && "Calling Pcnstr on uninterpreted partition constraint");
-	return m_phmulcnstr->PtLookup(&ulLevel);
+	return m_phmulcnstr->Find(&ulLevel);
 }
 
 //---------------------------------------------------------------------------
@@ -487,7 +487,7 @@ CPartConstraint::PpartcnstrRemaining
 #ifdef GPOS_DEBUG
 	BOOL fResult =
 #endif // GPOS_DEBUG
-	phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(0), pcnstrRemaining);
+	phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(0), pcnstrRemaining);
 	GPOS_ASSERT(fResult);
 
 	if (FDefaultPartition(0 /*ulLevel*/) && !ppartcnstr->FDefaultPartition(0 /*ulLevel*/))
@@ -505,7 +505,7 @@ CPartConstraint::PpartcnstrRemaining
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(ul), pcnstrLevel);
+			phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(ul), pcnstrLevel);
 			GPOS_ASSERT(fResult);
 		}
 
@@ -591,7 +591,7 @@ CPartConstraint::PpartcnstrCopyWithRemappedColumns
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(ul), pcnstrRemapped);
+			phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(ul), pcnstrRemapped);
 			GPOS_ASSERT(fResult);
 		}
 	}
@@ -736,7 +736,7 @@ CPartConstraint::PpartcnstrDisjunction
 #ifdef GPOS_DEBUG
 		BOOL fResult =
 #endif // GPOS_DEBUG
-		phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(ul), pcnstrFst);
+		phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(ul), pcnstrFst);
 		GPOS_ASSERT(fResult);
 
 		if (ppartcnstrFst->FDefaultPartition(ul))
@@ -761,7 +761,7 @@ CPartConstraint::PpartcnstrDisjunction
 #ifdef GPOS_DEBUG
 	BOOL fResult =
 #endif // GPOS_DEBUG
-	phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(ulLevels - 1), pcnstrDisj);
+	phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(ulLevels - 1), pcnstrDisj);
 	GPOS_ASSERT(fResult);
 
 	if (ppartcnstrFst->FDefaultPartition(ulLevels - 1) || ppartcnstrSnd->FDefaultPartition(ulLevels - 1))
@@ -800,7 +800,7 @@ CPartConstraint::CopyPartConstraints
 		ULONG ulKey = *(pcmi.Pk());
 		CPartConstraint *ppartcnstrSource = const_cast<CPartConstraint *>(pcmi.Pt());
 
-		CPartConstraint *ppartcnstrDest = ppartcnstrmapDest->PtLookup(&ulKey);
+		CPartConstraint *ppartcnstrDest = ppartcnstrmapDest->Find(&ulKey);
 		GPOS_ASSERT_IMP(NULL != ppartcnstrDest, ppartcnstrDest->FEquivalent(ppartcnstrSource));
 
 		if (NULL == ppartcnstrDest)
@@ -810,7 +810,7 @@ CPartConstraint::CopyPartConstraints
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-				ppartcnstrmapDest->FInsert(GPOS_NEW(pmp) ULONG(ulKey), ppartcnstrSource);
+				ppartcnstrmapDest->Insert(GPOS_NEW(pmp) ULONG(ulKey), ppartcnstrSource);
 
 			GPOS_ASSERT(fResult && "Duplicate part constraints");
 		}

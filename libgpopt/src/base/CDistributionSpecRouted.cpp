@@ -100,7 +100,7 @@ CDistributionSpecRouted::PdsCopyWithRemappedColumns
 	)
 {
 	ULONG ulId = m_pcrSegmentId->UlId();
-	CColRef *pcrSegmentId = phmulcr->PtLookup(&ulId);
+	CColRef *pcrSegmentId = phmulcr->Find(&ulId);
 	if (NULL == pcrSegmentId)
 	{
 		if (fMustExist)
@@ -112,7 +112,7 @@ CDistributionSpecRouted::PdsCopyWithRemappedColumns
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcr->FInsert(GPOS_NEW(pmp) ULONG(ulId), pcrSegmentId);
+			phmulcr->Insert(GPOS_NEW(pmp) ULONG(ulId), pcrSegmentId);
 			GPOS_ASSERT(fResult);
 		}
 		else

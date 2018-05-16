@@ -74,7 +74,7 @@ namespace gpopt
 				)
 				const
 			{
-				return m_phmcrcrs->PtLookup(pcr);
+				return m_phmcrcrs->Find(pcr);
 			}
 
 			// constraint

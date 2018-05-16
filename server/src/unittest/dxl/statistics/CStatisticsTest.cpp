@@ -401,19 +401,19 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 	HMUlHist *phmulhist = GPOS_NEW(pmp) HMUlHist(pmp);
 
 	// generate bool histogram for column 1
-	phmulhist->FInsert(GPOS_NEW(pmp) ULONG(1), CCardinalityTestUtils::PhistExampleBool(pmp));
+	phmulhist->Insert(GPOS_NEW(pmp) ULONG(1), CCardinalityTestUtils::PhistExampleBool(pmp));
 
 	// generate int histogram for column 2
-	phmulhist->FInsert(GPOS_NEW(pmp) ULONG(2), CCardinalityTestUtils::PhistExampleInt4(pmp));
+	phmulhist->Insert(GPOS_NEW(pmp) ULONG(2), CCardinalityTestUtils::PhistExampleInt4(pmp));
 
 	// array capturing columns for which width information is available
 	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
 
 	// width for boolean
-	phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(1), GPOS_NEW(pmp) CDouble(1.0));
+	phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(1), GPOS_NEW(pmp) CDouble(1.0));
 
 	// width for int
-	phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(2), GPOS_NEW(pmp) CDouble(4.0));
+	phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(2), GPOS_NEW(pmp) CDouble(4.0));
 
 	CStatistics *pstats = GPOS_NEW(pmp) CStatistics(pmp, phmulhist, phmuldoubleWidth, 1000.0 /* dRows */, false /* fEmpty */);
 	pstats->DRows();
@@ -437,10 +437,10 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 
 	// create another statistics structure with a single int4 column with id 10
 	HMUlHist *phmulhist2 = GPOS_NEW(pmp) HMUlHist(pmp);
-	phmulhist2->FInsert(GPOS_NEW(pmp) ULONG(10), PhistExampleInt4Dim(pmp));
+	phmulhist2->Insert(GPOS_NEW(pmp) ULONG(10), PhistExampleInt4Dim(pmp));
 
 	HMUlDouble *phmuldoubleWidth2 = GPOS_NEW(pmp) HMUlDouble(pmp);
-	phmuldoubleWidth2->FInsert(GPOS_NEW(pmp) ULONG(10), GPOS_NEW(pmp) CDouble(4.0));
+	phmuldoubleWidth2->Insert(GPOS_NEW(pmp) ULONG(10), GPOS_NEW(pmp) CDouble(4.0));
 
 	CStatistics *pstats2 = GPOS_NEW(pmp) CStatistics(pmp, phmulhist2, phmuldoubleWidth2, 100.0 /* dRows */, false /* fEmpty */);
 

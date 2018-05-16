@@ -103,7 +103,7 @@ CPartIndexMap::CPartTableInfo::AddPartConstraint
 #ifdef GPOS_DEBUG
 	BOOL fResult =
 #endif // GPOS_DEBUG
-	m_ppartcnstrmap->FInsert(GPOS_NEW(pmp) ULONG(ulScanId), ppartcnstr);
+	m_ppartcnstrmap->Insert(GPOS_NEW(pmp) ULONG(ulScanId), ppartcnstr);
 
 	GPOS_ASSERT(fResult && "Part constraint already exists in map");
 }
@@ -281,7 +281,7 @@ CPartIndexMap::Insert
 	CPartConstraint *ppartcnstrRel
 	)
 {
-	CPartTableInfo *ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo *ppti = m_pim->Find(&ulScanId);
 	if (NULL == ppti)
 	{
 		// no entry is found, create a new entry
@@ -289,7 +289,7 @@ CPartIndexMap::Insert
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_pim->FInsert(GPOS_NEW(m_pmp) ULONG(ulScanId), ppti);
+		m_pim->Insert(GPOS_NEW(m_pmp) ULONG(ulScanId), ppti);
 		GPOS_ASSERT(fSuccess && "failed to insert partition index map entry");
 		
 		// increase number of unresolved consumers
@@ -304,7 +304,7 @@ CPartIndexMap::Insert
 	}
 	else 
 	{
-		BOOL fEmpty = (ppartcnstrmap->UlEntries() == 0);
+		BOOL fEmpty = (ppartcnstrmap->Size() == 0);
 		
 		if (!fEmpty)
 		{
@@ -334,7 +334,7 @@ CPartIndexMap::PptiLookup
 	)
 	const
 {
-	return m_pim->PtLookup(&ulScanId);
+	return m_pim->Find(&ulScanId);
 }
 
 //---------------------------------------------------------------------------
@@ -352,7 +352,7 @@ CPartIndexMap::Pdrgppartkeys
 	)
 	const
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppti);
 
 	return ppti->Pdrgppartkeys();
@@ -373,7 +373,7 @@ CPartIndexMap::PmdidRel
 	)
 	const
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppti);
 
 	return ppti->Pmdid();
@@ -393,7 +393,7 @@ PartCnstrMap *CPartIndexMap::Ppartcnstrmap
 	)
 	const
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppti);
 
 	return ppti->Ppartcnstrmap();
@@ -413,7 +413,7 @@ CPartConstraint *CPartIndexMap::PpartcnstrRel
 	)
 	const
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppti);
 
 	return ppti->PpartcnstrRel();
@@ -434,7 +434,7 @@ CPartIndexMap::Epim
 	)
 	const
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppti);
 
 	return ppti->Epim();
@@ -456,7 +456,7 @@ CPartIndexMap::UlExpectedPropagators
 	)
 	const
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	if (NULL == ppti)
 	{
 		return ULONG_MAX;
@@ -481,7 +481,7 @@ CPartIndexMap::SetExpectedPropagators
 	ULONG ulPropagators
 	)
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppti);
 	ppti->SetExpectedPropagators(ulPropagators);
 }
@@ -500,7 +500,7 @@ BOOL CPartIndexMap::FPartialScans
 	)
 	const
 {
-	CPartTableInfo* ppti = m_pim->PtLookup(&ulScanId);
+	CPartTableInfo* ppti = m_pim->Find(&ulScanId);
 	GPOS_ASSERT(NULL != ppti);
 
 	return ppti->FPartialScans();
@@ -738,7 +738,7 @@ CPartIndexMap::FSubset
 {
 	GPOS_ASSERT(NULL != ppim);
 
-	if (m_pim->UlEntries() > ppim->m_pim->UlEntries())
+	if (m_pim->Size() > ppim->m_pim->Size())
 	{
 		return false;
 	}

@@ -102,14 +102,14 @@ CMDTriggerGPDB::FBefore() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDTriggerGPDB::FInsert
+//		CMDTriggerGPDB::Insert
 //
 //	@doc:
 //		Is this an insert trigger
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDTriggerGPDB::FInsert() const
+CMDTriggerGPDB::Insert() const
 {
 	return (m_iType & GPMD_TRIGGER_INSERT);
 }
@@ -167,7 +167,7 @@ CMDTriggerGPDB::Serialize
 
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerRow), FRow());
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerBefore), FBefore());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerInsert), FInsert());
+	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerInsert), Insert());
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerDelete), FDelete());
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerUpdate), FUpdate());
 	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerEnabled), m_fEnabled);
@@ -226,7 +226,7 @@ CMDTriggerGPDB::DebugPrint
 	}
 
 	os << "Trigger statement type(s): [ ";
-	if (FInsert())
+	if (Insert())
 	{
 		os << "Insert ";
 	}

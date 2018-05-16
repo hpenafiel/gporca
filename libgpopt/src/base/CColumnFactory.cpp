@@ -324,7 +324,7 @@ CColumnFactory::PcrLookup
 	CSyncHashtableAccessByKey<CColRef, ULONG,
 		CSpinlockColumnFactory> shtacc(m_sht, ulId);
 	
-	CColRef *pcr = shtacc.PtLookup();
+	CColRef *pcr = shtacc.Find();
 	
 	return pcr;
 }
@@ -353,7 +353,7 @@ CColumnFactory::Destroy
 		CSyncHashtableAccessByKey<CColRef, ULONG, CSpinlockColumnFactory>
 			shtacc(m_sht, ulId);
 		
-		CColRef *pcrFound = shtacc.PtLookup();
+		CColRef *pcrFound = shtacc.Find();
 		GPOS_ASSERT(pcr == pcrFound);
 		
 		// unlink from hashtable
@@ -382,7 +382,7 @@ CColumnFactory::PcrsUsedInComputedCol
 	GPOS_ASSERT(NULL != m_phmcrcrs);
 
 	// get its column reference set from the hash map
-	const CColRefSet *pcrs = m_phmcrcrs->PtLookup(pcr);
+	const CColRefSet *pcrs = m_phmcrcrs->Find(pcr);
 
 	return pcrs;
 }
@@ -415,7 +415,7 @@ CColumnFactory::AddComputedToUsedColsMap
 #ifdef GPOS_DEBUG
 		BOOL fres =
 #endif // GPOS_DEBUG
-			m_phmcrcrs->FInsert(pcrComputedCol, GPOS_NEW(m_pmp) CColRefSet(m_pmp, *pcrsUsed));
+			m_phmcrcrs->Insert(pcrComputedCol, GPOS_NEW(m_pmp) CColRefSet(m_pmp, *pcrsUsed));
 		GPOS_ASSERT(fres);
 	}
 }

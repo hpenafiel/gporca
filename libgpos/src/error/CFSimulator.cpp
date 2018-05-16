@@ -64,7 +64,7 @@ CFSimulator::AddTracker
 	// scope for accessor
 	{
 		CStackTableAccessor stacc(m_st, skey);
-		CStackTracker *pstrack = stacc.PtLookup();
+		CStackTracker *pstrack = stacc.Find();
 		
 		if (NULL == pstrack)
 		{
@@ -73,7 +73,7 @@ CFSimulator::AddTracker
 		}
 		
 		// must have tracker now
-		GPOS_ASSERT(NULL != stacc.PtLookup());
+		GPOS_ASSERT(NULL != stacc.Find());
 	}
 	
 	// clean up as necessary
@@ -113,7 +113,7 @@ CFSimulator::FNewStack
 		// scope for hashtable access
 		{
 			CStackTableAccessor stacc(m_st, skey);
-			CStackTracker *pstrack = stacc.PtLookup();
+			CStackTracker *pstrack = stacc.Find();
 			
 			// always true once a tracker has been initialized
 			if (NULL != pstrack)

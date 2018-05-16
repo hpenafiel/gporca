@@ -27,15 +27,15 @@ namespace gpos
 	//
 	//---------------------------------------------------------------------------
 	template <class K, class T, 
-				ULONG (*pfnHash)(const K*), 
-				BOOL (*pfnEq)(const K*, const K*),
-				void (*pfnDestroyK)(K*),
-				void (*pfnDestroyT)(T*)>
+				ULONG (*HashFn)(const K*), 
+				BOOL (*EqFn)(const K*, const K*),
+				void (*DestroyKFn)(K*),
+				void (*DestroyTFn)(T*)>
 	class CHashMapIter : public CStackObject
 	{
 	
 		// short hand for hashmap type
-		typedef CHashMap<K, T, pfnHash, pfnEq, pfnDestroyK, pfnDestroyT> TMap;
+		typedef CHashMap<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> TMap;
 	
 		private:
 
@@ -52,7 +52,7 @@ namespace gpos
 			BOOL m_fInit;
 
 			// private copy ctor
-			CHashMapIter(const CHashMapIter<K, T, pfnHash, pfnEq, pfnDestroyK, pfnDestroyT> &);
+			CHashMapIter(const CHashMapIter<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> &);
 			
 			// method to return the current element
 			const typename TMap::CHashMapElem *Phme() const
@@ -67,7 +67,7 @@ namespace gpos
 		public:
 		
 			// ctor
-			CHashMapIter<K, T, pfnHash, pfnEq, pfnDestroyK, pfnDestroyT> (TMap *ptm)
+			CHashMapIter<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> (TMap *ptm)
             :
             m_ptm(ptm),
             m_ulChain(0),
@@ -78,7 +78,7 @@ namespace gpos
 
 			// dtor
 			virtual
-			~CHashMapIter<K, T, pfnHash, pfnEq, pfnDestroyK, pfnDestroyT> ()
+			~CHashMapIter<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> ()
 			{}
 
 			// advance iterator to next element

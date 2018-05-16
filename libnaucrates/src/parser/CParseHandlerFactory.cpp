@@ -41,7 +41,7 @@ CParseHandlerFactory::AddMapping
 #ifdef GPOS_DEBUG
 	BOOL fInserted = 
 #endif
-	m_phmPHCreators->FInsert(xmlszTok, pfphopc);
+	m_phmPHCreators->Insert(xmlszTok, pfphopc);
 	
 	GPOS_ASSERT(fInserted);
 }
@@ -301,7 +301,7 @@ CParseHandlerFactory::Pph
 {
 	GPOS_ASSERT(NULL != m_phmPHCreators);
 
-	PfParseHandlerOpCreator *phoc = m_phmPHCreators->PtLookup(xmlszName);
+	PfParseHandlerOpCreator *phoc = m_phmPHCreators->Find(xmlszName);
 
 	if (phoc != NULL)
 	{

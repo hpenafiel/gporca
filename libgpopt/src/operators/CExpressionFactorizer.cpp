@@ -112,7 +112,7 @@ void CExpressionFactorizer::AddFactor
 #endif // GPOS_DEBUG
 	)
 {
-	ULONG *pul = pexprmapFactors->PtLookup(pexpr);
+	ULONG *pul = pexprmapFactors->Find(pexpr);
 	GPOS_ASSERT_IMP(NULL != pul, ulDisjuncts == *pul);
 
 	if (NULL != pul)
@@ -191,23 +191,23 @@ CExpressionFactorizer::PexprmapFactors
 		for (ULONG ulInner = 0; ulInner < ulSize; ulInner++)
 		{
 			CExpression *pexprConj = (*pdrgpexpr)[ulInner];
-			ULONG *pul = pexprmapGlobal->PtLookup(pexprConj);
+			ULONG *pul = pexprmapGlobal->Find(pexprConj);
 			if (NULL == pul)
 			{
 				pexprConj->AddRef();
-				(void) pexprmapGlobal->FInsert(pexprConj, GPOS_NEW(pmp) ULONG(1));
+				(void) pexprmapGlobal->Insert(pexprConj, GPOS_NEW(pmp) ULONG(1));
 			}
 			else
 			{
 				(*pul)++;
 			}
 
-			pul = pexprmapGlobal->PtLookup(pexprConj);
+			pul = pexprmapGlobal->Find(pexprConj);
 			if (*pul == ulDisjuncts)
 			{
 				// reached the count of initial disjuncts, add expression to factors map
 				pexprConj->AddRef();
-				(void) pexprmapFactors->FInsert(pexprConj, GPOS_NEW(pmp) ULONG(ulDisjuncts));
+				(void) pexprmapFactors->Insert(pexprConj, GPOS_NEW(pmp) ULONG(ulDisjuncts));
 			}
 		}
 		pdrgpexpr->Release();
@@ -470,7 +470,7 @@ CExpressionFactorizer::PdrgPdrgpexprDisjunctArrayForSourceId
 	)
 {
 	GPOS_ASSERT(NULL != psrc2array);
-	DrgPdrgPexpr *pdrgpdrgpexpr = psrc2array->PtLookup(&ulOpSourceId);
+	DrgPdrgPexpr *pdrgpdrgpexpr = psrc2array->Find(&ulOpSourceId);
 
 	// if there is no entry, we start recording expressions that will become disjuncts
 	// corresponding to the source operator we are considering
@@ -487,7 +487,7 @@ CExpressionFactorizer::PdrgPdrgpexprDisjunctArrayForSourceId
 	#ifdef GPOS_DEBUG
 		BOOL fInserted =
 	#endif // GPOS_DEBUG
-		psrc2array->FInsert(GPOS_NEW(pmp) ULONG(ulOpSourceId), pdrgpdrgpexpr);
+		psrc2array->Insert(GPOS_NEW(pmp) ULONG(ulOpSourceId), pdrgpdrgpexpr);
 		GPOS_ASSERT(fInserted);
 	}
 
@@ -514,7 +514,7 @@ CExpressionFactorizer::PdrgPdrgpexprDisjunctArrayForColumn
 	)
 {
 	GPOS_ASSERT(NULL != pcol2array);
-	DrgPdrgPexpr *pdrgpdrgpexpr = pcol2array->PtLookup(pcr);
+	DrgPdrgPexpr *pdrgpdrgpexpr = pcol2array->Find(pcr);
 
 	// if there is no entry, we start recording expressions that will become disjuncts
 	// corresponding to the computed column we are considering
@@ -531,7 +531,7 @@ CExpressionFactorizer::PdrgPdrgpexprDisjunctArrayForColumn
 	#ifdef GPOS_DEBUG
 		BOOL fInserted =
 	#endif // GPOS_DEBUG
-		pcol2array->FInsert(pcr, pdrgpdrgpexpr);
+		pcol2array->Insert(pcr, pdrgpdrgpexpr);
 		GPOS_ASSERT(fInserted);
 	}
 
@@ -821,7 +821,7 @@ CExpressionFactorizer::PexprExtractInferredFiltersFromDisj
 				);
 		}
 
-		if (fFirst && 0 == psrc2array->UlEntries() && 0 == pcol2array->UlEntries())
+		if (fFirst && 0 == psrc2array->Size() && 0 == pcol2array->Size())
 		{
 			psrc2array->Release();
 			pcol2array->Release();

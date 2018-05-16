@@ -71,12 +71,12 @@ namespace gpos
             // Return true if the object was successfully inserted, false otherwise.
             //
             virtual
-            BOOL FInsert( ICacheEntry *pcv, void *pvKey, void *pvValue) = 0;
+            BOOL Insert( ICacheEntry *pcv, void *pvKey, void *pvValue) = 0;
 
             //
-            // Create a new cache value that can be later passed to FInsert
+            // Create a new cache value that can be later passed to Insert
             //
-            // Note that even if FInsert fails, or FInsert is never called, the returned value
+            // Note that even if Insert fails, or Insert is never called, the returned value
             //  must be released with a call to Release.  Calling PceCreateEntry returns a value
             //  with a read lock of 1.
             //

@@ -1038,10 +1038,10 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 	for (ULONG ul = 0; ul < ulCols; ul ++)
 	{
 		// generate histogram of the form [0, 10), [10, 20), [20, 30), [80, 90), [100,100]
-		phmulhist->FInsert(GPOS_NEW(pmp) ULONG(ul), CCardinalityTestUtils::PhistExampleInt4(pmp));
+		phmulhist->Insert(GPOS_NEW(pmp) ULONG(ul), CCardinalityTestUtils::PhistExampleInt4(pmp));
 
 		// width for int
-		phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ul), GPOS_NEW(pmp) CDouble(4.0));
+		phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ul), GPOS_NEW(pmp) CDouble(4.0));
 	}
 
 	CStatistics *pstats = GPOS_NEW(pmp) CStatistics

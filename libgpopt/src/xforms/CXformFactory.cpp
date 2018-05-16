@@ -114,7 +114,7 @@ CXformFactory::Add
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-		m_phmszxform->FInsert(szXformName, pxform);
+		m_phmszxform->Insert(szXformName, pxform);
 	GPOS_ASSERT(fInserted);
 
 	CXformSet *pxfs = m_pxfsExploration;
@@ -331,7 +331,7 @@ CXformFactory::Pxf
 	)
 	const
 {
-	return m_phmszxform->PtLookup(szXformName);
+	return m_phmszxform->Find(szXformName);
 }
 
 

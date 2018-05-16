@@ -110,11 +110,11 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	HMUlHist *phmulhist = GPOS_NEW(pmp) HMUlHist(pmp);
 
 	// generate int histogram for column 1
-	phmulhist->FInsert(GPOS_NEW(pmp) ULONG(1), phistMCV);
+	phmulhist->Insert(GPOS_NEW(pmp) ULONG(1), phistMCV);
 
 	// column width for int4
 	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
-	phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(1), GPOS_NEW(pmp) CDouble(4.0));
+	phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(1), GPOS_NEW(pmp) CDouble(4.0));
 
 	CStatistics *pstats = GPOS_NEW(pmp) CStatistics
 									(
@@ -231,12 +231,12 @@ CMCVTest::EresUnittest_MergeHistMCV()
 
 		// generate int histogram for column 1
 		ULONG ulColId = pdxlstatsdercolMCV->UlColId();
-		phmulhist->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phistMerged);
+		phmulhist->Insert(GPOS_NEW(pmp) ULONG(ulColId), phistMerged);
 
 		// column width for int4
 		HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
 		CDouble dWidth = pdxlstatsdercolMCV->DWidth();
-		phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
+		phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
 
 		CStatistics *pstats = GPOS_NEW(pmp) CStatistics
 										(

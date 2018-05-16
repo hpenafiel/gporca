@@ -470,7 +470,7 @@ CMDAccessor::RegisterProvider
 	
 	MDPHTAccessor mdhtacc(m_shtProviders, *(a_pmdpelem.Pt()));
 
-	GPOS_ASSERT(NULL == mdhtacc.PtLookup());
+	GPOS_ASSERT(NULL == mdhtacc.Find());
 	
 	// insert provider in the hash table
 	mdhtacc.Insert(a_pmdpelem.Pt());
@@ -530,7 +530,7 @@ CMDAccessor::Pmdp
 		SMDProviderElem mdpelem(sysid, NULL /*pmdp*/);
 		MDPHTAccessor mdhtacc(m_shtProviders, mdpelem);
 		
-		pmdpelem = mdhtacc.PtLookup();
+		pmdpelem = mdhtacc.Find();
 	}
 	
 	GPOS_ASSERT(NULL != pmdpelem && "Could not find MD provider");
@@ -569,7 +569,7 @@ CMDAccessor::Pimdobj
 	{
 		// scope for ht accessor
 		MDHTAccessor mdhtacc(m_shtCacheAccessors, pmdid);
-		SMDAccessorElem *pmdaccelem = mdhtacc.PtLookup(); 
+		SMDAccessorElem *pmdaccelem = mdhtacc.Find(); 
 		if (NULL != pmdaccelem)
 		{
 			pimdobj = pmdaccelem->Pimdobj();
@@ -659,7 +659,7 @@ CMDAccessor::Pimdobj
 
 			MDHTAccessor mdhtacc(m_shtCacheAccessors, a_pmdaccelem->Pmdid());
 
-			if (NULL == mdhtacc.PtLookup())
+			if (NULL == mdhtacc.Find())
 			{
 				// object has not been inserted in the meantime
 				mdhtacc.Insert(a_pmdaccelem.Pt());
@@ -673,7 +673,7 @@ CMDAccessor::Pimdobj
 	
 	// requested object must be in local hashtable already: retrieve it
 	MDHTAccessor mdhtacc(m_shtCacheAccessors, pmdid);
-	SMDAccessorElem *pmdaccelem = mdhtacc.PtLookup();
+	SMDAccessorElem *pmdaccelem = mdhtacc.Find();
 	
 	GPOS_ASSERT(NULL != pmdaccelem);
 	
@@ -1123,14 +1123,14 @@ CMDAccessor::RecordColumnStats
 
 	// fetch the column width and insert it into the hashmap
 	CDouble *pdWidth = GPOS_NEW(pmp) CDouble(pmdcolstats->DWidth());
-	phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColId), pdWidth);
+	phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), pdWidth);
 
 	// extract the the histogram and insert it into the hashmap
 	const IMDRelation *pmdrel = Pmdrel(pmdidRel);
 	IMDId *pmdidType = pmdrel->Pmdcol(ulPos)->PmdidType();
 	CHistogram *phist = Phist(pmp, pmdidType, pmdcolstats);
 	GPOS_ASSERT(NULL != phist);
-	phmulhist->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phist);
+	phmulhist->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist);
 
 	BOOL fGuc = GPOS_FTRACE(EopttracePrintColsWithMissingStats);
 	BOOL fRecordMissingStats = !fEmptyTable && fGuc && !fSystemCol
@@ -1244,7 +1244,7 @@ CMDAccessor::Pstats
 		ULONG ulPos = pmdrel->UlPosFromAttno(iAttno);
 
 		CDouble *pdWidth = GPOS_NEW(pmp) CDouble(pmdrel->DColWidth(ulPos));
-		phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColId), pdWidth);
+		phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), pdWidth);
 	}
 
 	CDouble dRows = std::max(DOUBLE(1.0), pmdRelStats->DRows().Get());

@@ -317,7 +317,7 @@ CMemoryPoolManager::DeleteUnregistered
 		MemoryPoolKeyAccessor shtacc(m_sht, pmp->UlpKey());
 
 		// make sure that this pool is not in the hash table
-		IMemoryPool *pmpFound = shtacc.PtLookup();
+		IMemoryPool *pmpFound = shtacc.Find();
 		while (NULL != pmpFound)
 		{
 			GPOS_ASSERT(pmpFound != pmp && "Attempt to delete a registered memory pool");

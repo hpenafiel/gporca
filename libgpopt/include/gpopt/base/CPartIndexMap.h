@@ -297,7 +297,7 @@ namespace gpopt
 				) 
 				const
 			{
-				return  (m_pim->UlEntries() == ppim->m_pim->UlEntries()) &&
+				return  (m_pim->Size() == ppim->m_pim->Size()) &&
 						ppim->FSubset(this);
 			}
 			
@@ -317,7 +317,7 @@ namespace gpopt
 				)
 				const
 			{
-				return NULL != m_pim->PtLookup(&ulScanId);
+				return NULL != m_pim->Find(&ulScanId);
 			}
 
 			// check if the given expression derives unneccessary partition selectors

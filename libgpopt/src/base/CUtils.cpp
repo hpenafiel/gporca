@@ -1557,7 +1557,7 @@ CUtils::PdrgpexprDedup
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
 		pexpr->AddRef();
-		if (phsexpr->FInsert(pexpr))
+		if (phsexpr->Insert(pexpr))
 		{
 			pexpr->AddRef();
 			pdrgpexprDedup->Append(pexpr);
@@ -2441,7 +2441,7 @@ CUtils::PexprScalarProjListConst
 #ifdef GPOS_DEBUG
 			BOOL fInserted =
 #endif
-			phmulcr->FInsert(GPOS_NEW(pmp) ULONG(pcr->UlId()), pcrNew);
+			phmulcr->Insert(GPOS_NEW(pmp) ULONG(pcr->UlId()), pcrNew);
 			GPOS_ASSERT(fInserted);
 		}
 
@@ -2811,7 +2811,7 @@ CUtils::PdrgpcrsIntersectEquivClasses
 		{
 			CColRef *pcr = crsi.Pcr();
 			pcrsFst->AddRef();
-			phmcscrs->FInsert(pcr, pcrsFst);
+			phmcscrs->Insert(pcr, pcrsFst);
 		}
 	}
 
@@ -2826,8 +2826,8 @@ CUtils::PdrgpcrsIntersectEquivClasses
 		{
 			// lookup a column in the hashmap
 			CColRef *pcr = crsi.Pcr();
-			CColRefSet *pcrs = phmcscrs->PtLookup(pcr);
-			CColRef *pcrDone = phmcscrDone->PtLookup(pcr);
+			CColRefSet *pcrs = phmcscrs->Find(pcr);
+			CColRef *pcrDone = phmcscrDone->Find(pcr);
 
 			// continue if we don't find this column or if that column
 			// is already processed and outputed as an intersection of two
@@ -2846,7 +2846,7 @@ CUtils::PdrgpcrsIntersectEquivClasses
 				while (hmpcrs.Advance())
 				{
 					CColRef *pcrProcessed = hmpcrs.Pcr();
-					phmcscrDone->FInsert(pcrProcessed, pcrProcessed);
+					phmcscrDone->Insert(pcrProcessed, pcrProcessed);
 				}
 			}
 		}
@@ -3692,7 +3692,7 @@ CUtils::PcrRemap
 	GPOS_ASSERT(NULL != phmulcr);
 
 	ULONG ulId = pcr->UlId();
-	CColRef *pcrMapped = phmulcr->PtLookup(&ulId);
+	CColRef *pcrMapped = phmulcr->Find(&ulId);
 
 	if (NULL != pcrMapped)
 	{
@@ -3780,7 +3780,7 @@ CUtils::PdrgpcrRemapAndCreate
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		ULONG ulId = pcr->UlId();
-		CColRef *pcrMapped = phmulcr->PtLookup(&ulId);
+		CColRef *pcrMapped = phmulcr->Find(&ulId);
 		if (NULL == pcrMapped)
 		{
 			// not found in hashmap, so create a new colref and add to hashmap
@@ -3789,7 +3789,7 @@ CUtils::PdrgpcrRemapAndCreate
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcr->FInsert(GPOS_NEW(pmp) ULONG(ulId), pcrMapped);
+			phmulcr->Insert(GPOS_NEW(pmp) ULONG(ulId), pcrMapped);
 			GPOS_ASSERT(fResult);
 		}
 
@@ -3894,13 +3894,13 @@ CUtils::AddColumnMapping
 #ifdef GPOS_DEBUG
 		BOOL fResult = false;
 #endif // GPOS_DEBUG
-		CColRef *pcrExist = phmulcr->PtLookup(&ulFromId);
+		CColRef *pcrExist = phmulcr->Find(&ulFromId);
 		if (NULL == pcrExist)
 		{
 #ifdef GPOS_DEBUG
 			fResult =
 #endif // GPOS_DEBUG
-			phmulcr->FInsert(GPOS_NEW(pmp) ULONG(ulFromId), pcrTo);
+			phmulcr->Insert(GPOS_NEW(pmp) ULONG(ulFromId), pcrTo);
 		GPOS_ASSERT(fResult);
 		}
 		else
@@ -3908,7 +3908,7 @@ CUtils::AddColumnMapping
 #ifdef GPOS_DEBUG
 			fResult =
 #endif // GPOS_DEBUG
-			phmulcr->FReplace(&ulFromId, pcrTo);
+			phmulcr->Replace(&ulFromId, pcrTo);
 		}
 		GPOS_ASSERT(fResult);
 	}
@@ -3971,7 +3971,7 @@ CUtils::PdrgpcrCopy
 #ifdef GPOS_DEBUG
 			BOOL fInserted =
 #endif
-			phmulcr->FInsert(GPOS_NEW(pmp) ULONG(pcr->UlId()), pcrNew);
+			phmulcr->Insert(GPOS_NEW(pmp) ULONG(pcr->UlId()), pcrNew);
 			GPOS_ASSERT(fInserted);
 		}
 	}
@@ -4306,7 +4306,7 @@ CUtils::PhmulcnstrBoolConstOnPartKeys
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(ul), pcnstr);
+			phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(ul), pcnstr);
 			GPOS_ASSERT(fResult);
 		}
 	}
@@ -4406,7 +4406,7 @@ CUtils::PpartcnstrFromMDPartCnstr
 #ifdef GPOS_DEBUG
 				BOOL fResult =
 #endif // GPOS_DEBUG
-				phmulcnstr->FInsert(GPOS_NEW(pmp) ULONG(ul), pcnstrLevel);
+				phmulcnstr->Insert(GPOS_NEW(pmp) ULONG(ul), pcnstrLevel);
 				GPOS_ASSERT(fResult);
 			}
 		}
@@ -4781,7 +4781,7 @@ CUtils::FEquivalanceClassesDisjoint
 
 			// if there is already an entry for the column referance it means the column is
 			// part of another set which shows the equivalance classes are not disjoint
-			if(!phmcscrs->FInsert(pcr, pcrsFst))
+			if(!phmcscrs->Insert(pcr, pcrsFst))
 			{
 				phmcscrs->Release();
 				pcrsFst->Release();
@@ -4817,7 +4817,7 @@ CUtils::FEquivalanceClassesEqual
 		{
 			CColRef *pcr = crsi.Pcr();
 			pcrsFst->AddRef();
-			phmcscrs->FInsert(pcr, pcrsFst);
+			phmcscrs->Insert(pcr, pcrsFst);
 		}
 	}
 
@@ -4825,7 +4825,7 @@ CUtils::FEquivalanceClassesEqual
 	{
 		CColRefSet *pcrsSnd = (*pdrgpcrsSnd)[ulSnd];
 		CColRef *pcr = pcrsSnd->PcrAny();
-		CColRefSet *pcrs = phmcscrs->PtLookup(pcr);
+		CColRefSet *pcrs = phmcscrs->Find(pcr);
 		if(!pcrsSnd->Equals(pcrs))
 		{
 			phmcscrs->Release();
@@ -4872,12 +4872,12 @@ CUtils::ValidateCTEProducerConsumerLocality
 		// record the location (either master or segment or singleton)
 		// where the CTE producer is being executed
 		ULONG ulCTEID = CPhysicalCTEProducer::PopConvert(pop)->UlCTEId();
-		phmulul->FInsert(GPOS_NEW(pmp) ULONG(ulCTEID), GPOS_NEW(pmp) ULONG(eelt));
+		phmulul->Insert(GPOS_NEW(pmp) ULONG(ulCTEID), GPOS_NEW(pmp) ULONG(eelt));
 	}
 	else if (COperator::EopPhysicalCTEConsumer == pop->Eopid())
 	{
 		ULONG ulCTEID = CPhysicalCTEConsumer::PopConvert(pop)->UlCTEId();
-		ULONG *pulLocProducer = phmulul->PtLookup(&ulCTEID);
+		ULONG *pulLocProducer = phmulul->Find(&ulCTEID);
 
 		// check if the CTEConsumer is being executed in the same location
 		// as the CTE Producer

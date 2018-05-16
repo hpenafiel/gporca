@@ -206,7 +206,7 @@ CJoinOrderDP::AddJoinOrder
 		for (INT ul = 0; ul < ulResults; ul++)
 		{
 			CExpression *pexpr = (*m_pdrgpexprTopKOrders)[ul];
-			CDouble *pd = m_phmexprcost->PtLookup(pexpr);
+			CDouble *pd = m_phmexprcost->Find(pexpr);
 			GPOS_ASSERT(NULL != pd);
 
 			if (dmaxCost < *pd && dCost < *pd)
@@ -260,7 +260,7 @@ CJoinOrderDP::PexprLookup
 	}
 
 	// otherwise, return expression by looking up DP table
-	return m_phmbsexpr->PtLookup(pbs);
+	return m_phmbsexpr->Find(pbs);
 }
 
 
@@ -297,7 +297,7 @@ CJoinOrderDP::PexprPred
 		pbsFst->AddRef();
 		pbsSnd->AddRef();
 		pcomppair = GPOS_NEW(m_pmp) SComponentPair(pbsFst, pbsSnd);
-		pexprPred = m_phmcomplink->PtLookup(pcomppair);
+		pexprPred = m_phmcomplink->Find(pcomppair);
 		if (NULL != pexprPred)
 		{
 			pcomppair->Release();
@@ -328,7 +328,7 @@ CJoinOrderDP::PexprPred
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif // GPOS_DEBUG
-		m_phmcomplink->FInsert(pcomppair, pexprPred);
+		m_phmcomplink->Insert(pcomppair, pexprPred);
 	GPOS_ASSERT(fInserted);
 
 	if (m_pexprDummy != pexprPred)
@@ -423,7 +423,7 @@ CJoinOrderDP::InsertExpressionCost
 		return;
 	}
 
-	if (!fValidateInsert && NULL != m_phmexprcost->PtLookup(pexpr))
+	if (!fValidateInsert && NULL != m_phmexprcost->Find(pexpr))
 	{
 		// expression already exists in cost map
 		return;
@@ -433,7 +433,7 @@ CJoinOrderDP::InsertExpressionCost
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif // GPOS_DEBUG
-		m_phmexprcost->FInsert(pexpr, GPOS_NEW(m_pmp) CDouble(dCost));
+		m_phmexprcost->Insert(pexpr, GPOS_NEW(m_pmp) CDouble(dCost));
 	GPOS_ASSERT(fInserted);
 }
 
@@ -488,7 +488,7 @@ CJoinOrderDP::PexprJoin
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif // GPOS_DEBUG
-		m_phmbsexpr->FInsert(pbs, pexprJoin);
+		m_phmbsexpr->Insert(pbs, pexprJoin);
 	GPOS_ASSERT(fInserted);
 
 	return pexprJoin;
@@ -577,7 +577,7 @@ CJoinOrderDP::PexprBestJoinOrderDP
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif // GPOS_DEBUG
-		m_phmbsexpr->FInsert(pbs, pexprResult);
+		m_phmbsexpr->Insert(pbs, pexprResult);
 	GPOS_ASSERT(fInserted);
 
 	// add expression cost to cost map
@@ -683,7 +683,7 @@ CJoinOrderDP::DCost
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_ASSERT(NULL != pexpr);
 
-	CDouble *pd = m_phmexprcost->PtLookup(pexpr);
+	CDouble *pd = m_phmexprcost->Find(pexpr);
 	if (NULL != pd)
 	{
 		// stop recursion if cost was already cashed
@@ -788,7 +788,7 @@ CJoinOrderDP::PexprCross
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif // GPOS_DEBUG
-			m_phmbsexpr->FInsert(pbs, pexprCross);
+			m_phmbsexpr->Insert(pbs, pexprCross);
 		GPOS_ASSERT(fInserted);
 
 	return pexprCross;
@@ -836,7 +836,7 @@ CJoinOrderDP::PexprJoinCoveredSubsetWithUncoveredSubset
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif // GPOS_DEBUG
-		m_phmbsexpr->FInsert(pbs, pexprResult);
+		m_phmbsexpr->Insert(pbs, pexprResult);
 	GPOS_ASSERT(fInserted);
 
 	return pexprResult;

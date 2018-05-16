@@ -123,7 +123,7 @@ CMDProviderMemory::LoadMetadataObjectsFromArray
 		a_pstr = CDXLUtils::PstrSerializeMDObj(pmp, pmdobj, true /*fSerializeHeaders*/, false /*findent*/);
 		
 		GPOS_CHECK_ABORT;
-		BOOL fInserted = m_pmdmap->FInsert(pmdidKey, a_pstr.Pt());
+		BOOL fInserted = m_pmdmap->Insert(pmdidKey, a_pstr.Pt());
 		if (!fInserted)
 		{
 			
@@ -169,7 +169,7 @@ CMDProviderMemory::PstrObject
 {
 	GPOS_ASSERT(NULL != m_pmdmap);
 
-	const CWStringDynamic *pstrObj = m_pmdmap->PtLookup(pmdid);
+	const CWStringDynamic *pstrObj = m_pmdmap->Find(pmdid);
 	
 	// result string
 	CAutoP<CWStringDynamic> a_pstrResult;

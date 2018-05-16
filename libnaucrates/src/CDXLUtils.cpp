@@ -689,8 +689,8 @@ CDXLUtils::PdrgpstatsTranslateStats
 			DrgPbucket *pdrgppbucket = CDXLUtils::Pdrgpbucket(pmp, pmda, pdxlstatsdercol);
 			CHistogram *phist = GPOS_NEW(pmp) CHistogram(pdrgppbucket, true /*fWellDefined*/, dNullFreq, dDistinctRemain, dFreqRemain);
 			
-			phmulhist->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phist);
-			phmuldouble->FInsert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
+			phmulhist->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist);
+			phmuldouble->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
 		}
 		
 		CDouble dRows = pdxlstatsderrel->DRows();

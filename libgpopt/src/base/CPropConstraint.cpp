@@ -84,7 +84,7 @@ CPropConstraint::InitHashMap
 #ifdef GPOS_DEBUG
 			BOOL fres =
 #endif //GPOS_DEBUG
-			m_phmcrcrs->FInsert(crsi.Pcr(), pcrs);
+			m_phmcrcrs->Insert(crsi.Pcr(), pcrs);
 			GPOS_ASSERT(fres);
 		}
 	}
@@ -127,7 +127,7 @@ CPropConstraint::PexprScalarMappedFromEquivCols
 		return NULL;
 	}
 
-	CColRefSet *pcrs = m_phmcrcrs->PtLookup(pcr);
+	CColRefSet *pcrs = m_phmcrcrs->Find(pcr);
 	if (NULL == pcrs || 1 == pcrs->Size())
 	{
 		return NULL;

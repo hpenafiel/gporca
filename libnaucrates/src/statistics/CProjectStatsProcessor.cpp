@@ -51,7 +51,7 @@ CProjectStatsProcessor::PstatsProject
 			BOOL fWellDefined = false;
 			if (NULL != phmuldatum)
 			{
-				IDatum *pdatum = phmuldatum->PtLookup(&ulColId);
+				IDatum *pdatum = phmuldatum->Find(&ulColId);
 				if (NULL != pdatum)
 				{
 					fWellDefined = true;
@@ -87,11 +87,11 @@ CProjectStatsProcessor::PstatsProject
 										);
 			}
 
-			phmulhistNew->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phistPrCol);
+			phmulhistNew->Insert(GPOS_NEW(pmp) ULONG(ulColId), phistPrCol);
 		}
 		else
 		{
-			phmulhistNew->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phist->PhistCopy(pmp));
+			phmulhistNew->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist->PhistCopy(pmp));
 		}
 
 		// look up width
@@ -102,11 +102,11 @@ CProjectStatsProcessor::PstatsProject
 			GPOS_ASSERT(NULL != pcr);
 
 			CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-			phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
 		}
 		else
 		{
-			phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(*pdWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(*pdWidth));
 		}
 	}
 

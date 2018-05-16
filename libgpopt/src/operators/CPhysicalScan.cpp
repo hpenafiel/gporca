@@ -334,7 +334,7 @@ CPhysicalScan::PpimDeriveFromDynamicScan
 	CPartIndexMap *ppim = GPOS_NEW(pmp) CPartIndexMap(pmp);
 	PartCnstrMap *ppartcnstrmap = GPOS_NEW(pmp) PartCnstrMap(pmp);
 	
-	(void) ppartcnstrmap->FInsert(GPOS_NEW(pmp) ULONG(ulSecondaryPartIndexId), ppartcnstr);
+	(void) ppartcnstrmap->Insert(GPOS_NEW(pmp) ULONG(ulSecondaryPartIndexId), ppartcnstr);
 
 	DrgPpartkeys *pdrgppartkeys = GPOS_NEW(pmp) DrgPpartkeys(pmp);
 	pdrgppartkeys->Append(GPOS_NEW(pmp) CPartKeys(pdrgpdrgpcrPart));

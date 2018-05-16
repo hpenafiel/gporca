@@ -362,7 +362,7 @@ CPartitionPropagationSpec::SplitPartPredicates
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulexprEqFilter->FInsert(GPOS_NEW(pmp) ULONG(ul), pexprOther);
+			phmulexprEqFilter->Insert(GPOS_NEW(pmp) ULONG(ul), pexprOther);
 			GPOS_ASSERT(fResult);
 			pdrgpexprKey->Release();
 		}
@@ -373,7 +373,7 @@ CPartitionPropagationSpec::SplitPartPredicates
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulexprFilter->FInsert(GPOS_NEW(pmp) ULONG(ul), CPredicateUtils::PexprConjunction(pmp, pdrgpexprKey));
+			phmulexprFilter->Insert(GPOS_NEW(pmp) ULONG(ul), CPredicateUtils::PexprConjunction(pmp, pdrgpexprKey));
 			GPOS_ASSERT(fResult);
 			continue;
 		}

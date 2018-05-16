@@ -242,7 +242,7 @@ CTranslatorDXLToExpr::Pexpr
 #ifdef GPOS_DEBUG
 		BOOL fres =
 #endif // GPOS_DEBUG
-				m_phmulpdxlnCTEProducer->FInsert(GPOS_NEW(m_pmp) ULONG(pdxlopCTEProducer->UlId()), pdxlnCTE);
+				m_phmulpdxlnCTEProducer->Insert(GPOS_NEW(m_pmp) ULONG(pdxlopCTEProducer->UlId()), pdxlnCTE);
 		GPOS_ASSERT(fres);
 	}
 
@@ -394,7 +394,7 @@ CTranslatorDXLToExpr::PexprTranslateScalar
 	#ifdef GPOS_DEBUG
 			BOOL fres =
 	#endif // GPOS_DEBUG
-					m_phmulcr->FInsert(pulKey, pcr);
+					m_phmulcr->Insert(pulKey, pcr);
 			GPOS_ASSERT(fres);
 		}
 	}
@@ -609,7 +609,7 @@ CTranslatorDXLToExpr::PexprLogicalGet
 
 		// copy key
 		ULONG *pulKey = GPOS_NEW(m_pmp) ULONG(pdxlcd->UlID());
-		BOOL fres = m_phmulcr->FInsert(pulKey, pcr);
+		BOOL fres = m_phmulcr->Insert(pulKey, pcr);
 
 		if (!fres)
 		{
@@ -994,7 +994,7 @@ CTranslatorDXLToExpr::PcrLookup
 	GPOS_ASSERT(ULONG_MAX != ulColId);
 
 	// get its column reference from the hash map
-	CColRef *pcr = phmulcr->PtLookup(&ulColId);
+	CColRef *pcr = phmulcr->Find(&ulColId);
     if (NULL == pcr)
     {
     	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXL2ExprAttributeNotFound, ulColId);
@@ -1032,7 +1032,7 @@ CTranslatorDXLToExpr::PcrCreate
 #ifdef GPOS_DEBUG
 		BOOL fResult =
 #endif // GPOS_DEBUG
-				m_phmulcr->FInsert(GPOS_NEW(m_pmp) ULONG(ulColId), pcrNew);
+				m_phmulcr->Insert(GPOS_NEW(m_pmp) ULONG(ulColId), pcrNew);
 
 		GPOS_ASSERT(fResult);
 	}
@@ -1107,7 +1107,7 @@ CTranslatorDXLToExpr::ConstructDXLColId2ColRefMapping
 #ifdef GPOS_DEBUG
 		BOOL fResult =
 #endif // GPOS_DEBUG
-		m_phmulcr->FInsert(pulKey, pcr);
+		m_phmulcr->Insert(pulKey, pcr);
 
 		GPOS_ASSERT(fResult);
 	}
@@ -1191,7 +1191,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEAnchor
 	CDXLLogicalCTEAnchor *pdxlopCTEAnchor = CDXLLogicalCTEAnchor::PdxlopConvert(pdxln->Pdxlop());
 	ULONG ulCTEId = pdxlopCTEAnchor->UlId();
 
-	CDXLNode *pdxlnCTEProducer = m_phmulpdxlnCTEProducer->PtLookup(&ulCTEId);
+	CDXLNode *pdxlnCTEProducer = m_phmulpdxlnCTEProducer->Find(&ulCTEId);
 	GPOS_ASSERT(NULL != pdxlnCTEProducer);
 
 	ULONG ulId = UlMapCTEId(ulCTEId);
@@ -1263,7 +1263,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEProducer
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		ULONG *pulColId = (*pdrgpulCols)[ul];
-		const CColRef *pcr = m_phmulcr->PtLookup(pulColId);
+		const CColRef *pcr = m_phmulcr->Find(pulColId);
 		GPOS_ASSERT(NULL != pcr);
 
 		if (pcrsProducer->FMember(pcr))
@@ -1352,7 +1352,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEConsumer
 #ifdef GPOS_DEBUG
 		BOOL fResult =
 #endif // GPOS_DEBUG
-		m_phmulcr->FInsert(pulColId, pcr);
+		m_phmulcr->Insert(pulColId, pcr);
 		GPOS_ASSERT(fResult);
 	}
 
@@ -1375,7 +1375,7 @@ CTranslatorDXLToExpr::UlMapCTEId
 	const ULONG ulIdOld
 	)
 {
-	ULONG *pulNewId =  m_phmululCTE->PtLookup(&ulIdOld);
+	ULONG *pulNewId =  m_phmululCTE->Find(&ulIdOld);
 	if (NULL == pulNewId)
 	{
 		pulNewId = GPOS_NEW(m_pmp) ULONG(COptCtxt::PoctxtFromTLS()->Pcteinfo()->UlNextId());
@@ -1383,7 +1383,7 @@ CTranslatorDXLToExpr::UlMapCTEId
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-		m_phmululCTE->FInsert(GPOS_NEW(m_pmp) ULONG(ulIdOld), pulNewId);
+		m_phmululCTE->Insert(GPOS_NEW(m_pmp) ULONG(ulIdOld), pulNewId);
 		GPOS_ASSERT(fInserted);
 	}
 
@@ -1727,7 +1727,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-			m_phmulcr->FInsert(GPOS_NEW(m_pmp) ULONG(pdxlopPrEl->UlId()), pcr);
+			m_phmulcr->Insert(GPOS_NEW(m_pmp) ULONG(pdxlopPrEl->UlId()), pcr);
 			GPOS_ASSERT(fInserted);
 
 			// generate a project element
@@ -1735,7 +1735,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 			
 			// add the created project element to the project list of the window node
 			ULONG ulSpecPos = pdxlopWindowRef->UlWinSpecPos();			
-			const DrgPexpr *pdrgpexpr = phmulpdrgpexpr->PtLookup(&ulSpecPos); 			
+			const DrgPexpr *pdrgpexpr = phmulpdrgpexpr->Find(&ulSpecPos); 			
 			if (NULL == pdrgpexpr)
 			{
 				DrgPexpr *pdrgpexprNew = GPOS_NEW(m_pmp) DrgPexpr(m_pmp);
@@ -1743,7 +1743,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 #ifdef GPOS_DEBUG
 			BOOL fInsert =
 #endif
-				phmulpdrgpexpr->FInsert(GPOS_NEW(m_pmp) ULONG(ulSpecPos), pdrgpexprNew);
+				phmulpdrgpexpr->Insert(GPOS_NEW(m_pmp) ULONG(ulSpecPos), pdrgpexprNew);
 				GPOS_ASSERT(fInsert);
 			}
 			else 
@@ -2078,9 +2078,9 @@ CTranslatorDXLToExpr::Ptabdesc
 		{
 			continue;
 		}
-		(void) phmiulAttnoColMapping->FInsert(GPOS_NEW(m_pmp) INT(pmdcol->IAttno()), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
-		(void) phmiulAttnoPosMapping->FInsert(GPOS_NEW(m_pmp) INT(pmdcol->IAttno()), GPOS_NEW(m_pmp) ULONG(ulPos));
-		(void) phmululColMapping->FInsert(GPOS_NEW(m_pmp) ULONG(ulPos), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
+		(void) phmiulAttnoColMapping->Insert(GPOS_NEW(m_pmp) INT(pmdcol->IAttno()), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
+		(void) phmiulAttnoPosMapping->Insert(GPOS_NEW(m_pmp) INT(pmdcol->IAttno()), GPOS_NEW(m_pmp) ULONG(ulPos));
+		(void) phmululColMapping->Insert(GPOS_NEW(m_pmp) ULONG(ulPos), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
 
 		ulPosNonDropped++;
 	}
@@ -2109,7 +2109,7 @@ CTranslatorDXLToExpr::Ptabdesc
 		const CDXLColDescr *pdxlcoldesc = pdxltabdesc->Pdxlcd(ul);
 		INT iAttno = pdxlcoldesc->IAttno();
 
-		ULONG *pulPos = phmiulAttnoPosMapping->PtLookup(&iAttno);
+		ULONG *pulPos = phmiulAttnoPosMapping->Find(&iAttno);
 		GPOS_ASSERT(NULL != pulPos);
 		const IMDColumn *pmdcolNext = pmdrel->Pmdcol(*pulPos);
 
@@ -2151,7 +2151,7 @@ CTranslatorDXLToExpr::Ptabdesc
 		{
 			const IMDColumn *pmdcol = pmdrel->PmdcolPartColumn(ul);
 			INT iAttNo = pmdcol->IAttno();
-			ULONG *pulPos = phmiulAttnoColMapping->PtLookup(&iAttNo);
+			ULONG *pulPos = phmiulAttnoColMapping->Find(&iAttNo);
 			GPOS_ASSERT(NULL != pulPos);
 			ptabdesc->AddPartitionColumn(*pulPos);
 		}
@@ -2281,8 +2281,8 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 		{
 			continue;
 		}
-		(void) phmiulAttnoColMapping->FInsert(GPOS_NEW(m_pmp) INT(pmdcol->IAttno()), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
-		(void) phmululColMapping->FInsert(GPOS_NEW(m_pmp) ULONG(ulPos), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
+		(void) phmiulAttnoColMapping->Insert(GPOS_NEW(m_pmp) INT(pmdcol->IAttno()), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
+		(void) phmululColMapping->Insert(GPOS_NEW(m_pmp) ULONG(ulPos), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
 
 		ulPosNonDropped++;
 	}
@@ -3868,7 +3868,7 @@ CTranslatorDXLToExpr::PexprScalarProjElem
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif
-	m_phmulcr->FInsert(GPOS_NEW(m_pmp) ULONG(pdxlopPrEl->UlId()), pcr);
+	m_phmulcr->Insert(GPOS_NEW(m_pmp) ULONG(pdxlopPrEl->UlId()), pcr);
 	
 	GPOS_ASSERT(fInserted);
 	
@@ -3986,7 +3986,7 @@ CTranslatorDXLToExpr::AddDistributionColumns
 	{
 		const IMDColumn *pmdcol = pmdrel->PmdcolDistrColumn(ul);
 		INT iAttno = pmdcol->IAttno();
-		ULONG *pulPos = phmiulAttnoColMapping->PtLookup(&iAttno);
+		ULONG *pulPos = phmiulAttnoColMapping->Find(&iAttno);
 		GPOS_ASSERT(NULL != pulPos);
 		
 		ptabdesc->AddDistributionColumn(*pulPos);

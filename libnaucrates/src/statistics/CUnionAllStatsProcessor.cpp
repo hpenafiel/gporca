@@ -72,13 +72,13 @@ CUnionAllStatsProcessor::PstatsUnionAll
 				GPOS_ASSERT(NULL != pcr);
 
 				CHistogram *phistDummy = CHistogram::PhistDefault(pmp, pcr, false /* fEmpty*/);
-				phmulhistNew->FInsert(GPOS_NEW(pmp) ULONG(ulColIdOutput), phistDummy);
+				phmulhistNew->Insert(GPOS_NEW(pmp) ULONG(ulColIdOutput), phistDummy);
 			}
 
 			// look up width
 			const CDouble *pdWidth = pstatsFst->PdWidth(ulColIdInput1);
 			GPOS_ASSERT(NULL != pdWidth);
-			phmuldoubleWidth->FInsert(GPOS_NEW(pmp) ULONG(ulColIdOutput), GPOS_NEW(pmp) CDouble(*pdWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColIdOutput), GPOS_NEW(pmp) CDouble(*pdWidth));
 		}
 
 		dRowsUnionAll = pstatsFst->DRows() + pstatsSnd->DRows();

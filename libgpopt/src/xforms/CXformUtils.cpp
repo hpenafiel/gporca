@@ -1382,7 +1382,7 @@ CXformUtils::FTriggerApplies
 	const IMDTrigger *pmdtrigger
 	)
 {
-	return ((CLogicalDML::EdmlInsert == edmlop && pmdtrigger->FInsert()) ||
+	return ((CLogicalDML::EdmlInsert == edmlop && pmdtrigger->Insert()) ||
 			(CLogicalDML::EdmlDelete == edmlop && pmdtrigger->FDelete()) ||
 			(CLogicalDML::EdmlUpdate == edmlop && pmdtrigger->FUpdate()));
 }
@@ -1926,7 +1926,7 @@ CXformUtils::AddMinAggs
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		
-		CColRef *pcrNew = phmcrcr->PtLookup(pcr);
+		CColRef *pcrNew = phmcrcr->Find(pcr);
 		
 		if (NULL == pcrNew)
 		{
@@ -1947,7 +1947,7 @@ CXformUtils::AddMinAggs
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmcrcr->FInsert(pcr, pcrNew);
+			phmcrcr->Insert(pcr, pcrNew);
 			GPOS_ASSERT(fResult);
 		}
 		(*ppdrgpcrNew)->Append(pcrNew);
@@ -4195,7 +4195,7 @@ CXformUtils::PexprPartialDynamicIndexGet
 #ifdef GPOS_DEBUG
 				BOOL fInserted =
 #endif
-				phmulcr->FInsert(GPOS_NEW(pmp) ULONG(pcrOld->UlId()), pcrNew);
+				phmulcr->Insert(GPOS_NEW(pmp) ULONG(pcrOld->UlId()), pcrNew);
 				GPOS_ASSERT(fInserted);
 			}
 		}
@@ -4543,7 +4543,7 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 			pexprKey = pexprTrue;
 		}
 
-		DrgPexpr *pdrgpexpr = const_cast<DrgPexpr *>(phmexprdrgpexpr->PtLookup(pexprKey));
+		DrgPexpr *pdrgpexpr = const_cast<DrgPexpr *>(phmexprdrgpexpr->Find(pexprKey));
 		BOOL fExists = (NULL != pdrgpexpr);
 		if (!fExists)
 		{
@@ -4559,7 +4559,7 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 #ifdef 	GPOS_DEBUG
 			BOOL fSuccess =
 #endif // GPOS_DEBUG
-				phmexprdrgpexpr->FInsert(pexprKey, pdrgpexpr);
+				phmexprdrgpexpr->Insert(pexprKey, pdrgpexpr);
 			GPOS_ASSERT(fSuccess);
 
 			if (pexprKey != pexprTrue)
@@ -4711,7 +4711,7 @@ CXformUtils::PexprGbAggOnCTEConsumer2Join
 	HMExprDrgPexpr *phmexprdrgpexpr = NULL;
 	ULONG ulDifferentDQAs = 0;
 	MapPrjElemsWithDistinctAggs(pmp, pexprPrjList, &phmexprdrgpexpr, &ulDifferentDQAs);
-	if (1 == phmexprdrgpexpr->UlEntries())
+	if (1 == phmexprdrgpexpr->Size())
 	{
 		// if all distinct aggs use the same argument, return input expression
 		phmexprdrgpexpr->Release();

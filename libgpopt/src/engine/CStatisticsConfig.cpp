@@ -87,7 +87,7 @@ CStatisticsConfig::AddMissingStatsColumn
 	CAutoMutex am(m_mutexMissingColStats);
 	am.Lock();
 
-	if (m_phsmdidcolinfo->FInsert(pmdidCol))
+	if (m_phsmdidcolinfo->Insert(pmdidCol))
 	{
 		pmdidCol->AddRef();
 	}

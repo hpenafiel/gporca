@@ -134,7 +134,7 @@ namespace gpopt
 				)
 				const
 			{
-				return (NULL != m_phmulpf->PtLookup(&ulScanId));
+				return (NULL != m_phmulpf->Find(&ulScanId));
 			}
 
 			// the expression associated with the given scan id
@@ -146,7 +146,7 @@ namespace gpopt
 			// check whether the map is empty
 			BOOL IsEmpty() const
 			{
-				return 0 == m_phmulpf->UlEntries();
+				return 0 == m_phmulpf->Size();
 			}
 
 			// check whether current part filter map is a subset of the given one
@@ -161,7 +161,7 @@ namespace gpopt
 				GPOS_ASSERT(NULL != ppfm);
 
 				return
-					(m_phmulpf->UlEntries() == ppfm->m_phmulpf->UlEntries()) &&
+					(m_phmulpf->Size() == ppfm->m_phmulpf->Size()) &&
 					this->FSubset(ppfm);
 			}
 

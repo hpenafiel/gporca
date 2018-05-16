@@ -86,7 +86,7 @@ CDrvdPropCtxtPlan::PdpctxtCopy
 	#ifdef GPOS_DEBUG
 		BOOL fInserted =
 	#endif // GPOS_DEBUG
-			pdpctxtplan->m_phmulpdpCTEs->FInsert(GPOS_NEW(m_pmp) ULONG(ulId), pdpplan);
+			pdpctxtplan->m_phmulpdpCTEs->Insert(GPOS_NEW(m_pmp) ULONG(ulId), pdpplan);
 		GPOS_ASSERT(fInserted);
 	}
 
@@ -129,7 +129,7 @@ CDrvdPropCtxtPlan::AddProps
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif // GPOS_DEBUG
-				m_phmulpdpCTEs->FInsert(GPOS_NEW(m_pmp) ULONG(ulProducerId), pdpplanProducer);
+				m_phmulpdpCTEs->Insert(GPOS_NEW(m_pmp) ULONG(ulProducerId), pdpplanProducer);
 		GPOS_ASSERT(fInserted);
 	}
 }
@@ -181,7 +181,7 @@ CDrvdPropCtxtPlan::PdpplanCTEProducer
 {
 	GPOS_ASSERT(NULL != m_phmulpdpCTEs);
 
-	return m_phmulpdpCTEs->PtLookup(&ulCTEId);
+	return m_phmulpdpCTEs->Find(&ulCTEId);
 }
 
 
@@ -206,7 +206,7 @@ CDrvdPropCtxtPlan::CopyCTEProducerProps
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif // GPOS_DEBUG
-		m_phmulpdpCTEs->FInsert(GPOS_NEW(m_pmp) ULONG(ulCTEId), pdpplan);
+		m_phmulpdpCTEs->Insert(GPOS_NEW(m_pmp) ULONG(ulCTEId), pdpplan);
 	GPOS_ASSERT(fInserted);
 }
 

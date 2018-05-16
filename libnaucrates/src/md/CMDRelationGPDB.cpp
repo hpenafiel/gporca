@@ -99,7 +99,7 @@ CMDRelationGPDB::CMDRelationGPDB
 			m_ulSystemColumns++;
 		}
 
-		(void) m_phmiulAttno2Pos->FInsert
+		(void) m_phmiulAttno2Pos->Insert
 									(
 									GPOS_NEW(m_pmp) INT(pmdcol->IAttno()),
 									GPOS_NEW(m_pmp) ULONG(ul)
@@ -115,7 +115,7 @@ CMDRelationGPDB::CMDRelationGPDB
 			{
 				m_pdrgpulNonDroppedCols->Append(GPOS_NEW(m_pmp) ULONG(ul));
 			}
-			(void) m_phmululNonDroppedCols->FInsert(GPOS_NEW(m_pmp) ULONG(ul), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
+			(void) m_phmululNonDroppedCols->Insert(GPOS_NEW(m_pmp) ULONG(ul), GPOS_NEW(m_pmp) ULONG(ulPosNonDropped));
 			ulPosNonDropped++;
 		}
 
@@ -300,7 +300,7 @@ CMDRelationGPDB::UlPosNonDropped
 		return ulPos;
 	}
 	
-	ULONG *pul = m_phmululNonDroppedCols->PtLookup(&ulPos);
+	ULONG *pul = m_phmululNonDroppedCols->Find(&ulPos);
 	
 	GPOS_ASSERT(NULL != pul);
 	return *pul;
@@ -321,7 +321,7 @@ CMDRelationGPDB::UlPosFromAttno
 	)
 	const
 {
-	ULONG *pul = m_phmiulAttno2Pos->PtLookup(&iAttno);
+	ULONG *pul = m_phmiulAttno2Pos->Find(&iAttno);
 	GPOS_ASSERT(NULL != pul);
 
 	return *pul;

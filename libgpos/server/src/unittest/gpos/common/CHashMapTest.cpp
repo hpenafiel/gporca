@@ -70,15 +70,15 @@ CHashMapTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-			phm->FInsert(&rgul[i], (CHAR*)rgsz[i]);
+			phm->Insert(&rgul[i], (CHAR*)rgsz[i]);
 		GPOS_ASSERT(fSuccess);
 		
 		for (ULONG j = 0; j <= i; ++j)
 		{
-			GPOS_ASSERT(rgsz[j] == phm->PtLookup(&rgul[j]));
+			GPOS_ASSERT(rgsz[j] == phm->Find(&rgul[j]));
 		}
 	}
-	GPOS_ASSERT(ulCnt == phm->UlEntries());
+	GPOS_ASSERT(ulCnt == phm->Size());
 	
 	// test replacing entry values of existing keys
 	CHAR rgszNew[][10] = {"abc_", "def_", "ghi_", "qwe_", "wer_", "wert_", "dfg_", "xcv_", "zxc_"};
@@ -87,23 +87,23 @@ CHashMapTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-			phm->FReplace(&rgul[i], rgszNew[i]);
+			phm->Replace(&rgul[i], rgszNew[i]);
 		GPOS_ASSERT(fSuccess);
 
 #ifdef GPOS_DEBUG
 		fSuccess =
 #endif // GPOS_DEBUG
-			phm->FReplace(&rgul[i], rgsz[i]);
+			phm->Replace(&rgul[i], rgsz[i]);
 		GPOS_ASSERT(fSuccess);
 	}
-	GPOS_ASSERT(ulCnt == phm->UlEntries());
+	GPOS_ASSERT(ulCnt == phm->Size());
 
 	// test replacing entry value of a non-existing key
 	ULONG_PTR ulp = 0;
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-		phm->FReplace(&ulp, rgsz[0]);
+		phm->Replace(&ulp, rgsz[0]);
 	GPOS_ASSERT(!fSuccess);
 
 	phm->Release();
@@ -120,20 +120,20 @@ CHashMapTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 	fSuccess =
 #endif // GPOS_DEBUG
-		phm2->FInsert(pulKey, pulVal1);
+		phm2->Insert(pulKey, pulVal1);
 	GPOS_ASSERT(fSuccess);
 
 #ifdef GPOS_DEBUG
-	ULONG *pulVal = phm2->PtLookup(pulKey);
+	ULONG *pulVal = phm2->Find(pulKey);
 	GPOS_ASSERT(*pulVal == 2);
 
 	fSuccess =
 #endif // GPOS_DEBUG
-		phm2->FReplace(pulKey, pulVal2);
+		phm2->Replace(pulKey, pulVal2);
 	GPOS_ASSERT(fSuccess);
 
 #ifdef GPOS_DEBUG
-	pulVal = phm2->PtLookup(pulKey);
+	pulVal = phm2->Find(pulKey);
 	GPOS_ASSERT(*pulVal == 3);
 #endif // GPOS_DEBUG
 
@@ -172,13 +172,13 @@ CHashMapTest::EresUnittest_Ownership()
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-			phm->FInsert(pulp, sz);
+			phm->Insert(pulp, sz);
 
 		GPOS_ASSERT(fSuccess);
-		GPOS_ASSERT(sz == phm->PtLookup(pulp));
+		GPOS_ASSERT(sz == phm->Find(pulp));
 		
 		// can't insert existing keys
-		GPOS_ASSERT(!phm->FInsert(pulp, sz));
+		GPOS_ASSERT(!phm->Insert(pulp, sz));
 	}
 
 	phm->Release();

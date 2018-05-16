@@ -83,7 +83,7 @@ CHashMapIterTest::EresUnittest_Basic()
 	// load map and iterate over it after each step
 	for (ULONG ul = 0; ul < ulCnt; ++ul)
 	{
-		(void) pm->FInsert(&rgul[ul], &rgul[ul]);
+		(void) pm->Insert(&rgul[ul], &rgul[ul]);
 		pdrgpulKeys->Append(&rgul[ul]);
 		pdrgpulValues->Append(&rgul[ul]);
 

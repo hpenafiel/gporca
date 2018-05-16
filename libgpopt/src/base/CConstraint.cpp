@@ -791,7 +791,7 @@ CConstraint::Phmcolconstr
 #ifdef GPOS_DEBUG
 		BOOL fres =
 #endif //GPOS_DEBUG
-		phmcolconstr->FInsert(pcr, pdrgpcnstrCol);
+		phmcolconstr->Insert(pcr, pdrgpcnstrCol);
 		GPOS_ASSERT(fres);
 	}
 
@@ -868,7 +868,7 @@ CConstraint::FContains
 	}
 
 	// check if we have computed this containment query before
-	BOOL *pfContains = m_phmcontain->PtLookup(pcnstr);
+	BOOL *pfContains = m_phmcontain->Find(pcnstr);
 	if (NULL != pfContains)
 	{
 		return *pfContains;
@@ -901,7 +901,7 @@ CConstraint::FContains
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_phmcontain->FInsert(pcnstr, PfVal(fContains));
+		m_phmcontain->Insert(pcnstr, PfVal(fContains));
 	GPOS_ASSERT(fSuccess);
 
 	return fContains;

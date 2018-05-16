@@ -2425,12 +2425,12 @@ CTranslatorExprToDXL::PdxlnAggregate
 		CDXLNode *pdxlnProjElem = (*pdxlnProjList)[ul];
 		ULONG ulColId = CDXLScalarProjElem::PdxlopConvert(pdxlnProjElem->Pdxlop())->UlId();
 
-		if (NULL == phmululPL->PtLookup(&ulColId))
+		if (NULL == phmululPL->Find(&ulColId))
 		{
 #ifdef GPOS_DEBUG
 			BOOL fRes =
 #endif
-			phmululPL->FInsert(GPOS_NEW(m_pmp) ULONG(ulColId), GPOS_NEW(m_pmp) ULONG(ulColId));
+			phmululPL->Insert(GPOS_NEW(m_pmp) ULONG(ulColId), GPOS_NEW(m_pmp) ULONG(ulColId));
 			GPOS_ASSERT(fRes);
 		}
 	}
@@ -2454,14 +2454,14 @@ CTranslatorExprToDXL::PdxlnAggregate
 		pdrgpulGroupingCols->Append(GPOS_NEW(m_pmp) ULONG(pcrGroupingCol->UlId()));
 
 		ULONG ulColId = pcrGroupingCol->UlId();
-		if (NULL == phmululPL->PtLookup(&ulColId))
+		if (NULL == phmululPL->Find(&ulColId))
 		{
 			CDXLNode *pdxlnProjElem = CTranslatorExprToDXLUtils::PdxlnProjElem(m_pmp, m_phmcrdxln, pcrGroupingCol);
 			pdxlnProjList->AddChild(pdxlnProjElem);
 #ifdef GPOS_DEBUG
 		BOOL fRes =
 #endif
-				phmululPL->FInsert(GPOS_NEW(m_pmp) ULONG(ulColId), GPOS_NEW(m_pmp) ULONG(ulColId));
+				phmululPL->Insert(GPOS_NEW(m_pmp) ULONG(ulColId), GPOS_NEW(m_pmp) ULONG(ulColId));
 			GPOS_ASSERT(fRes);
 		}
 	}
@@ -2894,7 +2894,7 @@ CTranslatorExprToDXL::PdxlnQuantifiedSubplan
 #ifdef GPOS_DEBUG
 	BOOL fRes =
 #endif // GPOS_DEBUG
-		m_phmcrdxln->FInsert(const_cast<CColRef *>((*pdrgpcrInner)[0]), pdxlnSubPlan);
+		m_phmcrdxln->Insert(const_cast<CColRef *>((*pdrgpcrInner)[0]), pdxlnSubPlan);
 	GPOS_ASSERT(fRes);
 
 	return pdxlnSubPlan;
@@ -3098,7 +3098,7 @@ CTranslatorExprToDXL::PdxlnExistentialSubplan
 #ifdef GPOS_DEBUG
 	BOOL fRes =
 #endif // GPOS_DEBUG
-		m_phmcrdxln->FInsert(const_cast<CColRef *>((*pdrgpcrInner)[0]), pdxlnSubPlan);
+		m_phmcrdxln->Insert(const_cast<CColRef *>((*pdrgpcrInner)[0]), pdxlnSubPlan);
 	GPOS_ASSERT(fRes);
 
 	return pdxlnSubPlan;
@@ -3319,7 +3319,7 @@ CTranslatorExprToDXL::BuildDxlnSubPlan
 #ifdef GPOS_DEBUG
 	BOOL fRes =
 #endif // GPOS_DEBUG
-	m_phmcrdxln->FInsert(const_cast<CColRef *>(pcr), pdxlnSubPlan);
+	m_phmcrdxln->Insert(const_cast<CColRef *>(pcr), pdxlnSubPlan);
 	GPOS_ASSERT(fRes);
 }
 
@@ -3580,13 +3580,13 @@ CTranslatorExprToDXL::StoreIndexNLJOuterRefs
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		if (NULL == m_phmcrdxlnIndexLookup->PtLookup(pcr))
+		if (NULL == m_phmcrdxlnIndexLookup->Find(pcr))
 		{
 			CDXLNode *pdxln = CTranslatorExprToDXLUtils::PdxlnIdent(m_pmp, m_phmcrdxln, m_phmcrdxlnIndexLookup, pcr);
 #ifdef 	GPOS_DEBUG
 			BOOL fInserted =
 #endif // GPOS_DEBUG
-			m_phmcrdxlnIndexLookup->FInsert(pcr, pdxln);
+			m_phmcrdxlnIndexLookup->Insert(pcr, pdxln);
 			GPOS_ASSERT(fInserted);
 		}
 	}
@@ -7391,7 +7391,7 @@ CTranslatorExprToDXL::PdxlnProjList
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif // GPOS_DEBUG
-		phmComputedColumns->FInsert(pulKey, pdxlnProjElem);
+		phmComputedColumns->Insert(pulKey, pdxlnProjElem);
 
 		GPOS_ASSERT(fInserted);
 	}
@@ -7420,7 +7420,7 @@ CTranslatorExprToDXL::PdxlnProjList
 	{
 		CColRef *pcr = (*pdrgpcrCopy)[ul];
 		ULONG ulKey = pcr->UlId();
-		CDXLNode *pdxlnProjElem = phmComputedColumns->PtLookup(&ulKey);
+		CDXLNode *pdxlnProjElem = phmComputedColumns->Find(&ulKey);
 
 		if (NULL == pdxlnProjElem)
 		{

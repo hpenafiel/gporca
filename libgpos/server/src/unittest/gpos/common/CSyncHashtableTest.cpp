@@ -180,10 +180,10 @@ CSyncHashtableTest::EresUnittest_Accessor()
 			ULONG,
 			CSpinlockDummy> shtacc1(rgsht[1], ulKey);
 
-		if (NULL == shtacc0.PtLookup())
+		if (NULL == shtacc0.Find())
 		{
 			// must be in the other hashtable
-			GPOS_ASSERT(pelem == shtacc1.PtLookup());
+			GPOS_ASSERT(pelem == shtacc1.Find());
 
 			// move to other hashtable
 			shtacc1.Remove(pelem);
@@ -207,8 +207,8 @@ CSyncHashtableTest::EresUnittest_Accessor()
 			ULONG,
 			CSpinlockDummy> shtacc1(rgsht[1], ulKey);
 
-		GPOS_ASSERT(NULL == shtacc1.PtLookup());
-		GPOS_ASSERT(pelem == shtacc0.PtLookup());
+		GPOS_ASSERT(NULL == shtacc1.Find());
+		GPOS_ASSERT(pelem == shtacc0.Find());
 	}
 
 	GPOS_DELETE_ARRAY(rgelem);
@@ -262,7 +262,7 @@ CSyncHashtableTest::EresUnittest_ComplexEquality()
 			CSpinlockDummy> shtacc(sht, elem);
 
 #ifdef GPOS_DEBUG
-		SElem *pelem = shtacc.PtLookup();
+		SElem *pelem = shtacc.Find();
 		GPOS_ASSERT(NULL != pelem && pelem != &elem);
 		GPOS_ASSERT(pelem->UlId() == GPOS_SHT_ELEMENTS + j);
 #endif // GPOS_DEBUG
@@ -323,7 +323,7 @@ CSyncHashtableTest::EresUnittest_SameKeyIteration()
 		SElemHashtableAccessor shtacc(sht, ulKey);
 
 		ULONG ulCount = 0;
-		SElem *pelem = shtacc.PtLookup();
+		SElem *pelem = shtacc.Find();
 		while (NULL != pelem)
 		{
 			ulCount++;
@@ -468,7 +468,7 @@ CSyncHashtableTest::EresUnittest_ConcurrentIteration()
 	{
 		SElemHashtableAccessor shtacc(sht, i);
 
-		SElem *pelem = shtacc.PtLookup();
+		SElem *pelem = shtacc.Find();
 		GPOS_ASSERT(NULL != pelem);
 
 		shtacc.Remove(pelem);
@@ -767,7 +767,7 @@ CSyncHashtableTest::PvUnittest_Reader
 #ifdef GPOS_DEBUG
 		SElem *pelem =
 #endif // GPOS_DEBUG
-			shtacc.PtLookup();
+			shtacc.Find();
 		GPOS_ASSERT(NULL != pelem);
 	}
 
@@ -850,7 +850,7 @@ CSyncHashtableTest::PvUnittest_Remover
 	{
 		SElemHashtableAccessor shtacc(sht, i);
 
-		SElem *pelem = shtacc.PtLookup();
+		SElem *pelem = shtacc.Find();
 
 		if (NULL != pelem)
 		{
@@ -887,7 +887,7 @@ CSyncHashtableTest::PvUnittest_Inserter
 	{
 		SElemHashtableAccessor shtacc(sht, i);
 
-		SElem *pelem = shtacc.PtLookup();
+		SElem *pelem = shtacc.Find();
 
 		if (NULL == pelem)
 		{

@@ -711,7 +711,7 @@ CStatisticsUtils::UpdateDisjStatistics
 	{
 		// 1. the filter is on the same column because ULONG_MAX != ulColId
 		// 2. the histogram of the column can be updated
-		CHistogram *phistResult = phmulhistResultDisj->PtLookup(&ulColId);
+		CHistogram *phistResult = phmulhistResultDisj->Find(&ulColId);
 		if (NULL != phistResult)
 		{
 			// since there is already a histogram for this column,
@@ -847,12 +847,12 @@ CStatisticsUtils::AddHistogram
 {
 	GPOS_ASSERT(NULL != phist);
 
-	if (NULL == phmulhist->PtLookup(&ulColId))
+	if (NULL == phmulhist->Find(&ulColId))
 	{
 #ifdef GPOS_DEBUG
 		BOOL fRes =
 #endif
-		phmulhist->FInsert(GPOS_NEW(pmp) ULONG(ulColId), phist->PhistCopy(pmp));
+		phmulhist->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist->PhistCopy(pmp));
 		GPOS_ASSERT(fRes);
 	}
 	else if (fReplaceOld)
@@ -860,7 +860,7 @@ CStatisticsUtils::AddHistogram
 #ifdef GPOS_DEBUG
 		BOOL fRes =
 #endif
-		phmulhist->FReplace(&ulColId, phist->PhistCopy(pmp));
+		phmulhist->Replace(&ulColId, phist->PhistCopy(pmp));
 		GPOS_ASSERT(fRes);
 	}
 }
@@ -942,7 +942,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 			{
 				// add a dummy statistics object since the estimated number of rows for
 				// disjunction child is "0"
-				phmulhistMergeResult->FInsert
+				phmulhistMergeResult->Insert
 									(
 									GPOS_NEW(pmp) ULONG(ulColIdDisjChild),
 									 GPOS_NEW(pmp) CHistogram(GPOS_NEW(pmp) DrgPbucket(pmp), false /* fWellDefined */)
@@ -976,7 +976,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 			}
 			else
 			{
-				const CHistogram *phistDisjChild = phmulhistDisjChild->PtLookup(&ulColId);
+				const CHistogram *phistDisjChild = phmulhistDisjChild->Find(&ulColId);
 				CHistogram *phistMergeResult = phist->PhistUnionNormalized
 													(
 													pmp,
@@ -1335,7 +1335,7 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 			// key columns else consider all grouping columns
 			const CColRef *pcr = pcf->PcrLookup(ulColId);
 			const ULONG ulIdxUpperBoundNDVs = pstats->UlIndexUpperBoundNDVs(pcr);
-			const ULongPtrArray *pdrgpul = phmulpdrgpul->PtLookup(&ulIdxUpperBoundNDVs);
+			const ULongPtrArray *pdrgpul = phmulpdrgpul->Find(&ulIdxUpperBoundNDVs);
 			if (NULL == pdrgpul)
 			{
 				ULongPtrArray *pdrgpulNew = GPOS_NEW(pmp) ULongPtrArray(pmp);
@@ -1343,7 +1343,7 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 #ifdef GPOS_DEBUG
 		BOOL fres =
 #endif // GPOS_DEBUG
-					phmulpdrgpul->FInsert(GPOS_NEW(pmp) ULONG(ulIdxUpperBoundNDVs), pdrgpulNew);
+					phmulpdrgpul->Insert(GPOS_NEW(pmp) ULONG(ulIdxUpperBoundNDVs), pdrgpulNew);
 				GPOS_ASSERT(fres);
 			}
 			else
@@ -1715,7 +1715,7 @@ CStatisticsUtils::AddGrpColStats
 		const CDouble *pdWidth = pstatsInput->PdWidth(ulGrpColId);
 		if (NULL != pdWidth)
 		{
-			phmuldoubleWidthOutput->FInsert(GPOS_NEW(pmp) ULONG(ulGrpColId), GPOS_NEW(pmp) CDouble(*pdWidth));
+			phmuldoubleWidthOutput->Insert(GPOS_NEW(pmp) ULONG(ulGrpColId), GPOS_NEW(pmp) CDouble(*pdWidth));
 		}
 	}
 }
@@ -1905,12 +1905,12 @@ CStatisticsUtils::AddWidthInfo
 	while (hmiteruldouble.FAdvance())
 	{
 		ULONG ulColId = *(hmiteruldouble.Pk());
-		BOOL fPresent = (NULL != phmuldoubleDest->PtLookup(&ulColId));
+		BOOL fPresent = (NULL != phmuldoubleDest->Find(&ulColId));
 		if (!fPresent)
 		{
 			const CDouble *pdWidth = hmiteruldouble.Pt();
 			CDouble *pdWidthCopy = GPOS_NEW(pmp) CDouble(*pdWidth);
-			phmuldoubleDest->FInsert(GPOS_NEW(pmp) ULONG(ulColId), pdWidthCopy);
+			phmuldoubleDest->Insert(GPOS_NEW(pmp) ULONG(ulColId), pdWidthCopy);
 		}
 
 		GPOS_CHECK_ABORT;
