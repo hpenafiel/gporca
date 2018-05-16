@@ -129,7 +129,7 @@ CStateMachineTest::EresUnittest_Basics()
 	for (ULONG i = 0; i < 100; i++)
 	{
 		// choose random event
-		ULONG ul = rand.ULNext() % GPOS_ARRAY_SIZE(rgev);
+		ULONG ul = rand.Next() % GPOS_ARRAY_SIZE(rgev);
 
 #ifdef GPOS_DEBUG
 		BOOL fCheck =

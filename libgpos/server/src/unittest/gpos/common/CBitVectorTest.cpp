@@ -215,7 +215,7 @@ CBitVectorTest::EresUnittest_Random()
 	// set random chars in the control vector
 	for (ULONG i = 0; i < cTotal * 0.2; i++)
 	{
-		ULONG index = rand.ULNext() % (cTotal - 1);
+		ULONG index = rand.Next() % (cTotal - 1);
 		GPOS_ASSERT(index < cTotal);
 		rg[index] = 1;
 	}

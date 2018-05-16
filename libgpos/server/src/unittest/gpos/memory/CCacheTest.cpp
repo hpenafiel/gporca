@@ -1060,7 +1060,7 @@ CCacheTest::PvLookupTask
 		GPOS_CHECK_ABORT;
 
 		CSimpleObjectCacheAccessor ca(pcache);
-		ULONG ulkey =  rand.ULNext() % (10);
+		ULONG ulkey =  rand.Next() % (10);
 		ca.Lookup(&ulkey);
 		SSimpleObject *pso = ca.PtVal();
 
@@ -1103,7 +1103,7 @@ CCacheTest::PvDeleteTask
 		GPOS_CHECK_ABORT;
 
 		CSimpleObjectCacheAccessor ca(pcache);
-		ULONG ulkey =  rand.ULNext() % (10);
+		ULONG ulkey =  rand.Next() % (10);
 		ca.Lookup(&ulkey);
 
 		SSimpleObject *pso = ca.PtVal();

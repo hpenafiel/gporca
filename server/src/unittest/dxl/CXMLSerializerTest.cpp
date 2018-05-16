@@ -144,7 +144,7 @@ CXMLSerializerTest::EresUnittest_Base64()
 	CRandom cr;
 	for (ULONG i=0;i<ulraSize;i++)
 	{
-		rgulRandArr[i] = cr.ULNext();
+		rgulRandArr[i] = cr.Next();
 	}
 	
 	CWStringDynamic *pstr = CDXLUtils::PstrFromByteArray(pmp, (BYTE *) rgulRandArr, sizeof(rgulRandArr));
