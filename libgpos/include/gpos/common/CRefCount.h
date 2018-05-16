@@ -44,14 +44,14 @@ namespace gpos
 		private:
 		
 			// reference counter -- first in class to be in sync with Check()
-			volatile ULONG_PTR m_Refs;
+			volatile ULONG_PTR m_refs;
 			
 #ifdef GPOS_DEBUG
 			// sanity check to detect deleted memory
 			void Check() 
 			{
 				// assert that first member of class has not been wiped
-				GPOS_ASSERT(m_Refs != GPOS_WIPED_MEM_PATTERN);
+				GPOS_ASSERT(m_refs != GPOS_WIPED_MEM_PATTERN);
 			}
 #endif // GPOS_DEBUG
 
@@ -63,7 +63,7 @@ namespace gpos
 			// ctor
 			CRefCount() 
 				: 
-				m_Refs(1)
+				m_refs(1)
 			{}
 
 			// dtor
@@ -73,13 +73,13 @@ namespace gpos
 				// e.g., a ctor has thrown
 				GPOS_ASSERT(NULL == ITask::PtskSelf() ||
 							ITask::PtskSelf()->FPendingExc() ||
-							0 == m_Refs);
+							0 == m_refs);
 			}
 
 			// return ref-count
 			ULONG_PTR RefCount() const
 			{
-				return m_Refs;
+				return m_refs;
 			}
 
 			// return true if calling object's destructor is allowed
@@ -95,7 +95,7 @@ namespace gpos
 #ifdef GPOS_DEBUG
 				Check();
 #endif // GPOS_DEBUG				
-				(void) UlpExchangeAdd(&m_Refs, 1);
+				(void) UlpExchangeAdd(&m_refs, 1);
 			}
 
 			// count down
@@ -104,7 +104,7 @@ namespace gpos
 #ifdef GPOS_DEBUG	
 				Check();
 #endif // GPOS_DEBUG
-				if (1 == UlpExchangeAdd(&m_Refs, -1))
+				if (1 == UlpExchangeAdd(&m_refs, -1))
 				{
 					// the following check is not thread-safe -- we intentionally allow this to capture
 					// the exceptional case where ref-count wrongly reaching zero
