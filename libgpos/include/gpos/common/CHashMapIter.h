@@ -59,7 +59,7 @@ namespace gpos
             {
                 typename TMap::CHashMapElem *phme = NULL;
                 K *k = (*(m_ptm->m_pdrgKeys))[m_ulKey-1];
-                m_ptm->Lookup(k, &phme);
+                phme = m_ptm->Lookup(k);
 
                 return phme;
             }

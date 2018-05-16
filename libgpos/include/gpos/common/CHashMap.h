@@ -108,19 +108,19 @@ namespace gpos
 					}
 					
 					// replace value
-					void ReplaceValue(T *ptNew)
+					void ReplaceValue(T *new_value)
                     {
                         if (m_owns_objects)
                         {
                             DestroyTFn(m_value);
                         }
-                        m_value = ptNew;
+                        m_value = new_value;
                     }
 
 					// equality operator -- map elements are equal if their keys match
-					BOOL operator == (const CHashMapElem &hme) const
+					BOOL operator == (const CHashMapElem &elem) const
 					{
-						return EqFn(m_key, hme.m_key);
+						return EqFn(m_key, elem.m_key);
 					}
 			};
 
@@ -131,7 +131,7 @@ namespace gpos
 			ULONG m_num_chains;
 		
 			// number of entries
-			ULONG m_ulEntries;
+			ULONG m_size;
 
 			// each hash chain is an array of hashmap elements
 			typedef CDynamicPtrArray<CHashMapElem, CleanupDelete> HashElemChain;
@@ -163,25 +163,23 @@ namespace gpos
                     // release each hash chain
                     m_chains[*(*m_filled_chains)[i]]->Release();
                 }
-                m_ulEntries = 0;
+                m_size = 0;
                 m_filled_chains->Clear();
             }
 	
 			// lookup an element by its key
-			void Lookup(const K *key, CHashMapElem **pphme) const
+			CHashMapElem *Lookup(const K *key) const
             {
-                GPOS_ASSERT(NULL != pphme);
-
                 CHashMapElem hme(const_cast<K*>(key), NULL /*T*/, false /*fOwn*/);
-                CHashMapElem *phme = NULL;
-                HashElemChain **ppdrgchain = GetChain(key);
-                if (NULL != *ppdrgchain)
+                CHashMapElem *found_hme = NULL;
+                HashElemChain **chain = GetChain(key);
+                if (NULL != *chain)
                 {
-                    phme = (*ppdrgchain)->Find(&hme);
-                    GPOS_ASSERT_IMP(NULL != phme, *phme == hme);
+                    found_hme = (*chain)->Find(&hme);
+                    GPOS_ASSERT_IMP(NULL != found_hme, *found_hme == hme);
                 }
 
-                *pphme = phme;
+                return found_hme;
             }
 
 		public:
@@ -191,7 +189,7 @@ namespace gpos
             :
             m_pmp(pmp),
             m_num_chains(ulSize),
-            m_ulEntries(0),
+            m_size(0),
             m_chains(GPOS_NEW_ARRAY(m_pmp, HashElemChain*, m_num_chains)),
             m_pdrgKeys(GPOS_NEW(m_pmp) Keys(m_pmp)),
             m_filled_chains(GPOS_NEW(pmp) IntPtrArray(pmp))
@@ -219,19 +217,18 @@ namespace gpos
                     return false;
                 }
 
-                HashElemChain **ppdrgchain = GetChain(key);
-                if (NULL == *ppdrgchain)
+                HashElemChain **chain = GetChain(key);
+                if (NULL == *chain)
                 {
-                    *ppdrgchain = GPOS_NEW(m_pmp) HashElemChain(m_pmp);
-                    INT iBucket = HashFn(key) % m_num_chains;
-                    m_filled_chains->Append(GPOS_NEW(m_pmp) INT(iBucket));
+                    *chain = GPOS_NEW(m_pmp) HashElemChain(m_pmp);
+                    INT chain_idx = HashFn(key) % m_num_chains;
+                    m_filled_chains->Append(GPOS_NEW(m_pmp) INT(chain_idx));
                 }
 
                 CHashMapElem *phme = GPOS_NEW(m_pmp) CHashMapElem(key, value, true /*fOwn*/);
-                (*ppdrgchain)->Append(phme);
+                (*chain)->Append(phme);
 
-                m_ulEntries++;
-
+                m_size++;
                 m_pdrgKeys->Append(key);
 
                 return true;
@@ -240,11 +237,10 @@ namespace gpos
 			// lookup a value by its key
 			T *Find(const K *key) const
             {
-                CHashMapElem *phme = NULL;
-                Lookup(key, &phme);
-                if (NULL != phme)
+                CHashMapElem *elem = Lookup(key);
+                if (NULL != elem)
                 {
-                    return phme->Pt();
+                    return elem->Pt();
                 }
 
                 return NULL;
@@ -256,8 +252,7 @@ namespace gpos
                 GPOS_ASSERT(NULL != key);
 
                 BOOL fSuccess = false;
-                CHashMapElem *phme = NULL;
-                Lookup(key, &phme);
+				CHashMapElem *phme = Lookup(key);
                 if (NULL != phme)
                 {
                     phme->ReplaceValue(ptNew);
@@ -270,7 +265,7 @@ namespace gpos
 			// return number of map entries
 			ULONG Size() const
 			{
-				return m_ulEntries;
+				return m_size;
 			}		
 
 	}; // class CHashMap
