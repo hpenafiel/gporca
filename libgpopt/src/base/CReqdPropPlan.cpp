@@ -544,10 +544,10 @@ CReqdPropPlan::HashValue() const
 	GPOS_ASSERT(NULL != m_pcter);
 
 	ULONG ulHash = m_pcrs->HashValue();
-	ulHash = gpos::UlCombineHashes(ulHash, m_peo->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, m_ped->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, m_per->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, m_pcter->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, m_peo->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, m_ped->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, m_per->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, m_pcter->HashValue());
 
 	return ulHash;
 }
@@ -731,7 +731,7 @@ CReqdPropPlan::UlHashForCostBounding
 
 	if (NULL != prpp->Ped())
 	{
-		ulHash = UlCombineHashes(ulHash, prpp->Ped()->HashValue());
+		ulHash = CombineHashes(ulHash, prpp->Ped()->HashValue());
 	}
 
 	return ulHash;

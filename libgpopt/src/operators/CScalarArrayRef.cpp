@@ -78,9 +78,9 @@ CScalarArrayRef::ITypeModifier() const
 ULONG
 CScalarArrayRef::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 					(
-					UlCombineHashes(m_pmdidElem->HashValue(), m_pmdidArray->HashValue()),
+					CombineHashes(m_pmdidElem->HashValue(), m_pmdidArray->HashValue()),
 					m_pmdidType->HashValue()
 					);
 }

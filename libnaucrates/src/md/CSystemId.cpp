@@ -92,7 +92,7 @@ CSystemId::Equals
 ULONG
 CSystemId::HashValue() const
 {
-	return gpos::UlHashByteArray((BYTE*) m_wsz, GPOS_WSZ_LENGTH(m_wsz) * GPOS_SIZEOF(WCHAR));
+	return gpos::HashByteArray((BYTE*) m_wsz, GPOS_WSZ_LENGTH(m_wsz) * GPOS_SIZEOF(WCHAR));
 }
 
 // EOF

@@ -97,7 +97,7 @@ namespace gpopt
 				ULONG ulEdt = (ULONG) Edt();
 				BOOL fOnMaster = FOnMaster();
 				
-				return gpos::UlCombineHashes(gpos::HashValue<ULONG>(&ulEdt),
+				return gpos::CombineHashes(gpos::HashValue<ULONG>(&ulEdt),
 												gpos::HashValue<BOOL>(&fOnMaster));
 			}
 			

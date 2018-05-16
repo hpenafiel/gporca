@@ -60,13 +60,13 @@ namespace gpopt
 
 			// map columns to an array of expression arrays, corresponding to
 			// a disjunction of expressions using that column
-			typedef CHashMap<CColRef, DrgPdrgPexpr, gpos::UlHashPtr<CColRef>,
-					gpos::FEqualPtr<CColRef>, CleanupNULL<CColRef>,
+			typedef CHashMap<CColRef, DrgPdrgPexpr, gpos::HashPtr<CColRef>,
+					gpos::EqualPtr<CColRef>, CleanupNULL<CColRef>,
 					CleanupRelease<DrgPdrgPexpr> > ColumnToArrayPosMap;
 
 			// iterator for map of column to disjunctive form representation
-			typedef CHashMapIter<CColRef, DrgPdrgPexpr, gpos::UlHashPtr<CColRef>,
-					gpos::FEqualPtr<CColRef>, CleanupNULL<CColRef>,
+			typedef CHashMapIter<CColRef, DrgPdrgPexpr, gpos::HashPtr<CColRef>,
+					gpos::EqualPtr<CColRef>, CleanupNULL<CColRef>,
 					CleanupRelease<DrgPdrgPexpr> > ColumnToArrayPosMapIter;
 
 			typedef CExpression *(*PexprProcessDisj)

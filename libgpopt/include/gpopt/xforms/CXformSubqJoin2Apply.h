@@ -32,7 +32,7 @@ namespace gpopt
 		private:
 
 			// hash map between expression and a column reference
-			typedef CHashMap<CExpression, CColRef, UlHashPtr<CExpression>, FEqualPtr<CExpression>,
+			typedef CHashMap<CExpression, CColRef, HashPtr<CExpression>, EqualPtr<CExpression>,
 					CleanupRelease<CExpression>, CleanupNULL<CColRef> > HMExprCr;
 
 			// private copy ctor

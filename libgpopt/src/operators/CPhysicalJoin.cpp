@@ -1038,11 +1038,11 @@ CPhysicalJoin::CPartPropReq::HashValue
 	GPOS_ASSERT(NULL != pppr);
 
 	ULONG ulHash = pppr->Ppps()->HashValue();
-	ulHash = UlCombineHashes(ulHash , pppr->UlChildIndex());
-	ulHash = UlCombineHashes(ulHash , pppr->UlOuterChild());
-	ulHash = UlCombineHashes(ulHash , pppr->UlInnerChild());
+	ulHash = CombineHashes(ulHash , pppr->UlChildIndex());
+	ulHash = CombineHashes(ulHash , pppr->UlOuterChild());
+	ulHash = CombineHashes(ulHash , pppr->UlInnerChild());
 
-	return UlCombineHashes(ulHash , pppr->UlScalarChild());
+	return CombineHashes(ulHash , pppr->UlScalarChild());
 }
 
 // Equality function

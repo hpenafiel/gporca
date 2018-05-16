@@ -102,9 +102,9 @@ CScalarArrayCmp::PmdidOp() const
 ULONG
 CScalarArrayCmp::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 					(
-					gpos::UlCombineHashes(COperator::HashValue(), m_pmdidOp->HashValue()),
+					gpos::CombineHashes(COperator::HashValue(), m_pmdidOp->HashValue()),
 					m_earrccmpt
 					);
 }

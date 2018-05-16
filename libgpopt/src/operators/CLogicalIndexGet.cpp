@@ -128,9 +128,9 @@ CLogicalIndexGet::~CLogicalIndexGet()
 ULONG
 CLogicalIndexGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(),
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(),
 	                                     m_pindexdesc->Pmdid()->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 	return ulHash;
 }
 

@@ -70,7 +70,7 @@ CJoinOrderDP::SComponentPair::HashValue
 {
 	GPOS_ASSERT(NULL != pcomppair);
 
-	return UlCombineHashes
+	return CombineHashes
 			(
 			pcomppair->m_pbsFst->HashValue(),
 			pcomppair->m_pbsSnd->HashValue()

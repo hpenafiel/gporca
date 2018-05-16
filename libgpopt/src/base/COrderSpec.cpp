@@ -285,7 +285,7 @@ COrderSpec::HashValue() const
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		COrderExpression *poe = (*m_pdrgpoe)[ul];
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(poe->Pcr()));
+		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(poe->Pcr()));
 	}
 	
 	return ulHash;
@@ -589,7 +589,7 @@ COrderSpec::HashValue
 	ULONG ulHash = 0;
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpos)[ul]->HashValue());
+		ulHash = gpos::CombineHashes(ulHash, (*pdrgpos)[ul]->HashValue());
 	}
 
 	return ulHash;

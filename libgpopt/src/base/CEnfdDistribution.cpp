@@ -127,7 +127,7 @@ CEnfdDistribution::FCompatible
 ULONG
 CEnfdDistribution::HashValue() const
 {
-	return gpos::UlCombineHashes(m_edm + 1, m_pds->HashValue());
+	return gpos::CombineHashes(m_edm + 1, m_pds->HashValue());
 }
 
 //---------------------------------------------------------------------------

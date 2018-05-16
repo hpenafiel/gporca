@@ -374,9 +374,9 @@ ULONG
 CLogicalSequenceProject::HashValue() const
 {
 	ULONG ulHash = 0;
-	ulHash = gpos::UlCombineHashes(ulHash, m_pds->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, CWindowFrame::HashValue(m_pdrgpwf, 3 /*ulMaxSize*/));
-	ulHash = gpos::UlCombineHashes(ulHash, COrderSpec::HashValue(m_pdrgpos, 3 /*ulMaxSize*/));
+	ulHash = gpos::CombineHashes(ulHash, m_pds->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, CWindowFrame::HashValue(m_pdrgpwf, 3 /*ulMaxSize*/));
+	ulHash = gpos::CombineHashes(ulHash, COrderSpec::HashValue(m_pdrgpos, 3 /*ulMaxSize*/));
 
 	return ulHash;
 }

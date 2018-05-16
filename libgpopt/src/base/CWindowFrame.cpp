@@ -157,18 +157,18 @@ ULONG
 CWindowFrame::HashValue() const
 {
 	ULONG ulHash = 0;
-	ulHash = gpos::UlCombineHashes(ulHash, m_efs);
-	ulHash = gpos::UlCombineHashes(ulHash, m_efbLeading);
-	ulHash = gpos::UlCombineHashes(ulHash, m_efbTrailing);
-	ulHash = gpos::UlCombineHashes(ulHash, m_efes);
+	ulHash = gpos::CombineHashes(ulHash, m_efs);
+	ulHash = gpos::CombineHashes(ulHash, m_efbLeading);
+	ulHash = gpos::CombineHashes(ulHash, m_efbTrailing);
+	ulHash = gpos::CombineHashes(ulHash, m_efes);
 	if (NULL != m_pexprLeading)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, CExpression::HashValue(m_pexprLeading));
+		ulHash = gpos::CombineHashes(ulHash, CExpression::HashValue(m_pexprLeading));
 	}
 
 	if (NULL != m_pexprTrailing)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, CExpression::HashValue(m_pexprTrailing));
+		ulHash = gpos::CombineHashes(ulHash, CExpression::HashValue(m_pexprTrailing));
 	}
 
 	return ulHash;
@@ -312,7 +312,7 @@ CWindowFrame::HashValue
 	ULONG ulHash = 0;
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpwf)[ul]->HashValue());
+		ulHash = gpos::CombineHashes(ulHash, (*pdrgpwf)[ul]->HashValue());
 	}
 
 	return ulHash;

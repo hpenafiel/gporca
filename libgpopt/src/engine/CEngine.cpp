@@ -2103,7 +2103,7 @@ CEngine::SamplePlans()
 	// generate randomized seed using local time
 	TIMEVAL tv;
 	syslib::GetTimeOfDay(&tv, NULL/*timezone*/);
-	ULONG ulSeed = UlCombineHashes((ULONG) tv.tv_sec, (ULONG)tv.tv_usec);
+	ULONG ulSeed = CombineHashes((ULONG) tv.tv_sec, (ULONG)tv.tv_usec);
 
 	// set maximum number of iterations based number of samples
 	// we use maximum iteration to prevent infinite looping below

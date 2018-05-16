@@ -139,11 +139,11 @@ CLogicalConstTableGet::~CLogicalConstTableGet()
 ULONG
 CLogicalConstTableGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(),
-								gpos::UlCombineHashes(
-										gpos::UlHashPtr<DrgPcoldesc>(m_pdrgpcoldesc),
-										gpos::UlHashPtr<DrgPdrgPdatum>(m_pdrgpdrgpdatum)));
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(),
+								gpos::CombineHashes(
+										gpos::HashPtr<DrgPcoldesc>(m_pdrgpcoldesc),
+										gpos::HashPtr<DrgPdrgPdatum>(m_pdrgpdrgpdatum)));
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
 }

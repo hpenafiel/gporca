@@ -114,9 +114,9 @@ ULONG
 CPhysicalDynamicIndexScan::HashValue() const
 {
 	ULONG ulScanId = UlScanId();
-	return gpos::UlCombineHashes (
+	return gpos::CombineHashes (
 	        COperator::HashValue (),
-	        gpos::UlCombineHashes (gpos::HashValue (&ulScanId),
+	        gpos::CombineHashes (gpos::HashValue (&ulScanId),
 	                               m_pindexdesc->Pmdid ()->HashValue ()));
 }
 

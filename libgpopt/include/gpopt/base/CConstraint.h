@@ -36,7 +36,7 @@ namespace gpopt
 	// mapping CConstraint -> BOOL to cache previous containment queries,
 	// we use pointer equality here for fast map lookup -- since we do shallow comparison, we do not take ownership
 	// of pointer values
-	typedef CHashMap<CConstraint, BOOL, gpos::UlHashPtr<CConstraint>, gpos::FEqualPtr<CConstraint>,
+	typedef CHashMap<CConstraint, BOOL, gpos::HashPtr<CConstraint>, gpos::EqualPtr<CConstraint>,
 					CleanupNULL<CConstraint>, CleanupNULL<BOOL> > HMConstraintContainment;
 
 	// hash map mapping ULONG -> CConstraint

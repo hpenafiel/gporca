@@ -363,7 +363,7 @@ CColRefSet::HashValue()
 	for (ULONG i = 0; i < ulLen; i++)
 	{
 		(void) crsi.Advance();
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(crsi.Pcr()));
+		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(crsi.Pcr()));
 	}
 
 	return ulHash;

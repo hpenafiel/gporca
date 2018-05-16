@@ -428,10 +428,10 @@ CPhysicalSplit::PrsDerive
 ULONG
 CPhysicalSplit::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), CUtils::UlHashColArray(m_pdrgpcrInsert));
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrCtid));
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrSegmentId));
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrAction));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), CUtils::UlHashColArray(m_pdrgpcrInsert));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrCtid));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrSegmentId));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrAction));
 
 	return ulHash;
 }

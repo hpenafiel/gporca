@@ -160,9 +160,9 @@ CScalarFunc::EfsGetFunctionStability() const
 ULONG
 CScalarFunc::HashValue() const
 {
-	return gpos::UlCombineHashes(
+	return gpos::CombineHashes(
 					COperator::HashValue(),
-					gpos::UlCombineHashes(
+					gpos::CombineHashes(
 						m_pmdidFunc->HashValue(),
 						m_pmdidRetType->HashValue()));
 }

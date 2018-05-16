@@ -4009,7 +4009,7 @@ CUtils::UlHashColArray
 	for (ULONG ul = 0; ul < ulLen && ul < ulMaxCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(pcr));
+		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(pcr));
 	}
 
 	return ulHash;

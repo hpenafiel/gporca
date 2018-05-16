@@ -354,7 +354,7 @@ CDistributionSpecHashed::HashValue() const
 	for (ULONG ul = 0; ul < ulHashedExpressions; ul++)
 	{
 		CExpression *pexpr = (*m_pdrgpexpr)[ul];
-		ulHash = gpos::UlCombineHashes(ulHash, CExpression::HashValue(pexpr));
+		ulHash = gpos::CombineHashes(ulHash, CExpression::HashValue(pexpr));
 	}
 
 	return ulHash;

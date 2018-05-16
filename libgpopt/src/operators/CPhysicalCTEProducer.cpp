@@ -420,8 +420,8 @@ CPhysicalCTEProducer::FMatch
 ULONG
 CPhysicalCTEProducer::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ulId);
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ulId);
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 
 	return ulHash;
 }

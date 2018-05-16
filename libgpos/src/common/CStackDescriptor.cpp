@@ -309,7 +309,7 @@ CStackDescriptor::HashValue() const
 	GPOS_ASSERT(0 < m_ulDepth && "No stack to hash");
 	GPOS_ASSERT(GPOS_STACK_TRACE_DEPTH >= m_ulDepth && "Stack exceeds maximum depth");
 
-	return gpos::UlHashByteArray
+	return gpos::HashByteArray
 				(
 				(BYTE *) m_rgpvAddresses,
 				m_ulDepth * GPOS_SIZEOF(m_rgpvAddresses[0])

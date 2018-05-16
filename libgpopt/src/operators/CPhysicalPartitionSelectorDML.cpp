@@ -82,7 +82,7 @@ CPhysicalPartitionSelectorDML::FMatch
 ULONG
 CPhysicalPartitionSelectorDML::HashValue() const
 {
-	return gpos::UlCombineHashes(Eopid(), m_pmdid->HashValue());
+	return gpos::CombineHashes(Eopid(), m_pmdid->HashValue());
 }
 
 //---------------------------------------------------------------------------

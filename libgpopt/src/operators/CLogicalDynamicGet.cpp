@@ -115,8 +115,8 @@ CLogicalDynamicGet::~CLogicalDynamicGet()
 ULONG
 CLogicalDynamicGet::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
 }

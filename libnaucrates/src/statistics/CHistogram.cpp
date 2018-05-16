@@ -1968,7 +1968,7 @@ CHistogram::ComputeSkew()
 	// generate randomization seed from system time
 	TIMEVAL tv;
 	syslib::GetTimeOfDay(&tv, NULL/*timezone*/);
-	ULONG ulSeed = UlCombineHashes((ULONG) tv.tv_sec, (ULONG)tv.tv_usec);
+	ULONG ulSeed = CombineHashes((ULONG) tv.tv_sec, (ULONG)tv.tv_usec);
 
 	// generate a sample from histogram data, and compute sample mean
 	DOUBLE dSampleMean = 0;

@@ -1025,7 +1025,7 @@ CGroupExpression::HashValue
 	ULONG ulArity = pdrgpgroup->Size();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
-		ulHash = UlCombineHashes(ulHash, (*pdrgpgroup)[i]->HashValue());
+		ulHash = CombineHashes(ulHash, (*pdrgpgroup)[i]->HashValue());
 	}
 	
 	return ulHash;

@@ -174,7 +174,7 @@ CLogicalCTEAnchor::FMatch
 ULONG
 CLogicalCTEAnchor::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::HashValue(), m_ulId);
+	return gpos::CombineHashes(COperator::HashValue(), m_ulId);
 }
 
 //---------------------------------------------------------------------------

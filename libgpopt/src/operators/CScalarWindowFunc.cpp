@@ -86,18 +86,18 @@ CScalarWindowFunc::CScalarWindowFunc
 ULONG
 CScalarWindowFunc::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 					(
-					UlCombineHashes
+					CombineHashes
 						(
-						UlCombineHashes
+						CombineHashes
 							(
-							UlCombineHashes
+							CombineHashes
 								(
-								gpos::UlCombineHashes
+								gpos::CombineHashes
 									(
 									COperator::HashValue(),
-									gpos::UlCombineHashes
+									gpos::CombineHashes
 										(
 											m_pmdidFunc->HashValue(),
 											m_pmdidRetType->HashValue()

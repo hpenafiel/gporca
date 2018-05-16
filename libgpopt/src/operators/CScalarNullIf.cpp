@@ -81,8 +81,8 @@ CScalarNullIf::~CScalarNullIf()
 ULONG
 CScalarNullIf::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::HashValue(),
-			gpos::UlCombineHashes(m_pmdidOp->HashValue(),m_pmdidType->HashValue()));
+	return gpos::CombineHashes(COperator::HashValue(),
+			gpos::CombineHashes(m_pmdidOp->HashValue(),m_pmdidType->HashValue()));
 }
 
 //---------------------------------------------------------------------------

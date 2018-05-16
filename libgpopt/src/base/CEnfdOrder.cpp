@@ -104,7 +104,7 @@ CEnfdOrder::FCompatible
 ULONG
 CEnfdOrder::HashValue() const
 {
-	return gpos::UlCombineHashes(m_eom + 1, m_pos->HashValue());
+	return gpos::CombineHashes(m_eom + 1, m_pos->HashValue());
 }
 
 

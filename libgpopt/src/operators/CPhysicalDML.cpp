@@ -386,15 +386,15 @@ CPhysicalDML::PrsDerive
 ULONG
 CPhysicalDML::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrAction));
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrTableOid));
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrSource));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrAction));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrTableOid));
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrSource));
 	
 	if (CLogicalDML::EdmlDelete == m_edmlop || CLogicalDML::EdmlUpdate == m_edmlop)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrCtid));
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(m_pcrSegmentId));
+		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrCtid));
+		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrSegmentId));
 	}
 
 	return ulHash;

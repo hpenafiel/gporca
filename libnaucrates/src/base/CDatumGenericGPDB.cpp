@@ -159,11 +159,11 @@ CDatumGenericGPDB::HashValue() const
 		ULONG ulSize = UlSize();
 		for (ULONG i = 1; i < ulSize; i++)
 		{
-			ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<BYTE>(&m_pbVal[i]));
+			ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<BYTE>(&m_pbVal[i]));
 		}
 	}
 
-	return gpos::UlCombineHashes (m_pmdid->HashValue(), ulHash);
+	return gpos::CombineHashes (m_pmdid->HashValue(), ulHash);
 }
 
 

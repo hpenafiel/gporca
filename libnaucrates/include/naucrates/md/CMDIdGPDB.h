@@ -114,9 +114,9 @@ namespace gpmd
 			virtual
 			ULONG HashValue() const
 			{
-				return gpos::UlCombineHashes(Emdidt(),
-						gpos::UlCombineHashes(gpos::HashValue(&m_oid),
-											gpos::UlCombineHashes(gpos::HashValue(&m_ulVersionMajor), gpos::HashValue(&m_ulVersionMinor))));
+				return gpos::CombineHashes(Emdidt(),
+						gpos::CombineHashes(gpos::HashValue(&m_oid),
+											gpos::CombineHashes(gpos::HashValue(&m_ulVersionMajor), gpos::HashValue(&m_ulVersionMinor))));
 			}
 			
 			// is the mdid valid

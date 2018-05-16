@@ -449,12 +449,12 @@ CLogicalGbAgg::HashValue() const
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CColRef *pcr = (*m_pdrgpcr)[ul];
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::UlHashPtr<CColRef>(pcr));
+		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(pcr));
 	}
 
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<ULONG>(&ulGbaggtype));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<ULONG>(&ulGbaggtype));
 
-	return  gpos::UlCombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fGeneratesDuplicates));
+	return  gpos::CombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fGeneratesDuplicates));
 }
 
 

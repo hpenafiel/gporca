@@ -124,9 +124,9 @@ CScalarArray::FMultiDimensional() const
 ULONG
 CScalarArray::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 					(
-					UlCombineHashes(m_pmdidElem->HashValue(), m_pmdidArray->HashValue()),
+					CombineHashes(m_pmdidElem->HashValue(), m_pmdidArray->HashValue()),
 					gpos::HashValue<BOOL>(&m_fMultiDimensional)
 					);
 }

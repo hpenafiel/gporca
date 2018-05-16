@@ -67,8 +67,8 @@ CMemoryPoolManager::CMemoryPoolManager
 		GPOS_OFFSET(CMemoryPool, m_link),
 		GPOS_OFFSET(CMemoryPool, m_ulpKey),
 		&(CMemoryPool::m_ulpInvalid),
-		UlHashUlp,
-		FEqualUlp
+		HashULongPtr,
+		EqualULongPtr
 		);
 
 	// create pool used in allocations made using global new operator

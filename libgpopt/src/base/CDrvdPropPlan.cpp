@@ -207,10 +207,10 @@ CDrvdPropPlan::FSatisfies
 ULONG
 CDrvdPropPlan::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(m_pos->HashValue(), m_pds->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, m_prs->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, m_ppim->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, m_pcm->HashValue());
+	ULONG ulHash = gpos::CombineHashes(m_pos->HashValue(), m_pds->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, m_prs->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, m_ppim->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, m_pcm->HashValue());
 
 	return ulHash;
 }

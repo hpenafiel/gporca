@@ -68,7 +68,7 @@ CScalarConst::~CScalarConst()
 ULONG
 CScalarConst::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 			(
 			COperator::HashValue(),
 			m_pdatum->HashValue()

@@ -28,8 +28,8 @@ using namespace gpopt;
 ULONG
 CScalarProjectElement::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::HashValue(),
-							   gpos::UlHashPtr<CColRef>(m_pcr));
+	return gpos::CombineHashes(COperator::HashValue(),
+							   gpos::HashPtr<CColRef>(m_pcr));
 }
 
 

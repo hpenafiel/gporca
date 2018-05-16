@@ -91,10 +91,10 @@ CPhysicalDynamicScan::~CPhysicalDynamicScan()
 ULONG
 CPhysicalDynamicScan::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(),
-								gpos::UlCombineHashes(gpos::HashValue(&m_ulScanId),
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(),
+								gpos::CombineHashes(gpos::HashValue(&m_ulScanId),
 								                      m_ptabdesc->Pmdid()->HashValue()));
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
 }

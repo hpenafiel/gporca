@@ -360,17 +360,17 @@ CPhysicalRowTrigger::PrsDerive
 ULONG
 CPhysicalRowTrigger::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_pmdidRel->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_pmdidRel->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
 
 	if(NULL != m_pdrgpcrOld)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOld));
+		ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOld));
 	}
 
 	if(NULL != m_pdrgpcrNew)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrNew));
+		ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrNew));
 	}
 
 	return ulHash;

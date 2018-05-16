@@ -281,10 +281,10 @@ CPhysicalPartitionSelector::FMatch
 ULONG
 CPhysicalPartitionSelector::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 				(
 				Eopid(),
-				gpos::UlCombineHashes(m_ulScanId, Pmdid()->HashValue())
+				gpos::CombineHashes(m_ulScanId, Pmdid()->HashValue())
 				);
 }
 

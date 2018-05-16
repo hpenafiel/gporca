@@ -118,8 +118,8 @@ CLogicalInsert::FMatch
 ULONG
 CLogicalInsert::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrSource));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrSource));
 
 	return ulHash;
 }

@@ -101,16 +101,16 @@ CPhysicalIndexScan::EpetOrder
 ULONG
 CPhysicalIndexScan::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes
+	ULONG ulHash = gpos::CombineHashes
 					(
 					COperator::HashValue(),
-					gpos::UlCombineHashes
+					gpos::CombineHashes
 							(
 							m_pindexdesc->Pmdid()->HashValue(),
-							gpos::UlHashPtr<CTableDescriptor>(m_ptabdesc)
+							gpos::HashPtr<CTableDescriptor>(m_ptabdesc)
 							)
 					);
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
 }

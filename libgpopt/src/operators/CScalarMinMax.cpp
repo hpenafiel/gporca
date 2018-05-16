@@ -79,10 +79,10 @@ CScalarMinMax::HashValue() const
 {
 	ULONG ulminmax = (ULONG) this->Esmmt();
 
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 					(
 						m_pmdidType->HashValue(),
-						gpos::UlCombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulminmax))
+						gpos::CombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulminmax))
 					);
 }
 

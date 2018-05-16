@@ -83,7 +83,7 @@ ULONG
 CScalarBitmapBoolOp::HashValue() const
 {
 	ULONG ulBoolop = (ULONG) Ebitmapboolop();
-	return gpos::UlCombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulBoolop));
+	return gpos::CombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulBoolop));
 }
 
 

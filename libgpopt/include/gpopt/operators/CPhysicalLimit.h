@@ -82,10 +82,10 @@ namespace gpopt
 			virtual
 			ULONG HashValue() const
 			{
-				return gpos::UlCombineHashes
+				return gpos::CombineHashes
 						(
-						gpos::UlCombineHashes(COperator::HashValue(), m_pos->HashValue()),
-						gpos::UlCombineHashes(gpos::HashValue<BOOL>(&m_fGlobal), gpos::HashValue<BOOL>(&m_fHasCount))
+						gpos::CombineHashes(COperator::HashValue(), m_pos->HashValue()),
+						gpos::CombineHashes(gpos::HashValue<BOOL>(&m_fGlobal), gpos::HashValue<BOOL>(&m_fHasCount))
 						);
 			}
 

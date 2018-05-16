@@ -100,10 +100,10 @@ CGroup::SContextLink::HashValue
 		ulHashPoc = COptimizationContext::HashValue(*pclink->m_poc);
 	}
 
-	return UlCombineHashes
+	return CombineHashes
 			(
 			pclink->m_ulChildIndex,
-			UlCombineHashes(ulHashPcc, ulHashPoc)
+			CombineHashes(ulHashPcc, ulHashPoc)
 			);
 }
 

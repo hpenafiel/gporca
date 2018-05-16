@@ -133,7 +133,7 @@ namespace gpopt
 					// hash function
 					ULONG HashValue() const
 					{
-						return gpos::UlCombineHashes(gpos::HashValue<ULONG>(&m_ulId), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
+						return gpos::CombineHashes(gpos::HashValue<ULONG>(&m_ulId), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
 					}
 
 					// print function

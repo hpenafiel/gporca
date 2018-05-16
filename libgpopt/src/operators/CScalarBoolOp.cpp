@@ -43,7 +43,7 @@ ULONG
 CScalarBoolOp::HashValue() const
 {
 	ULONG ulBoolop = (ULONG) Eboolop();
-	return gpos::UlCombineHashes(COperator::HashValue(),
+	return gpos::CombineHashes(COperator::HashValue(),
 							    gpos::HashValue<ULONG>(&ulBoolop));
 }
 

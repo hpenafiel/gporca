@@ -94,7 +94,7 @@ namespace gpmd
 			virtual
 			ULONG HashValue() const
 			{
-				return gpos::UlCombineHashes(m_pmdidRel->HashValue(),
+				return gpos::CombineHashes(m_pmdidRel->HashValue(),
 											gpos::HashValue(&m_ulPos));
 			}
 			

@@ -77,7 +77,7 @@ CScalarBitmapIndexProbe::~CScalarBitmapIndexProbe()
 ULONG
 CScalarBitmapIndexProbe::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::HashValue(), m_pindexdesc->Pmdid()->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_pindexdesc->Pmdid()->HashValue());
 }
 
 

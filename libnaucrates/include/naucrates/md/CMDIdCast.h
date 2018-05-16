@@ -95,10 +95,10 @@ namespace gpmd
 			virtual
 			ULONG HashValue() const
 			{
-				return gpos::UlCombineHashes
+				return gpos::CombineHashes
 							(
 							Emdidt(), 
-							gpos::UlCombineHashes(m_pmdidSrc->HashValue(), m_pmdidDest->HashValue())
+							gpos::CombineHashes(m_pmdidSrc->HashValue(), m_pmdidDest->HashValue())
 							);							
 			}
 			

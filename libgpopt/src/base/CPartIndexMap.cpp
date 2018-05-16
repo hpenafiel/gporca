@@ -791,7 +791,7 @@ CPartIndexMap::HashValue() const
 	while (pimi.FAdvance() && ul < ulMaxScanIds)
 	{
 		ULONG ulScanId = (pimi.Pt())->UlScanId();
-		ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<ULONG>(&ulScanId));
+		ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<ULONG>(&ulScanId));
 		ul++;
 	}
 	

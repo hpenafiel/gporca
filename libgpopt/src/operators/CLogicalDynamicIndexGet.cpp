@@ -110,8 +110,8 @@ CLogicalDynamicIndexGet::~CLogicalDynamicIndexGet()
 ULONG
 CLogicalDynamicIndexGet::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::HashValue(),
-	                             gpos::UlCombineHashes(gpos::HashValue(&m_ulScanId),
+	return gpos::CombineHashes(COperator::HashValue(),
+	                             gpos::CombineHashes(gpos::HashValue(&m_ulScanId),
 					             m_pindexdesc->Pmdid()->HashValue()));
 }
 

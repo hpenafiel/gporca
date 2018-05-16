@@ -158,14 +158,14 @@ CLogicalGbAggDeduplicate::PcrsStat
 ULONG
 CLogicalGbAggDeduplicate::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(COperator::HashValue(), CUtils::UlHashColArray(Pdrgpcr()));
-	ulHash = gpos::UlCombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrKeys));
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), CUtils::UlHashColArray(Pdrgpcr()));
+	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrKeys));
 
 	ULONG ulGbaggtype = (ULONG) Egbaggtype();
 
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<ULONG>(&ulGbaggtype));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<ULONG>(&ulGbaggtype));
 
-	return  gpos::UlCombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fGeneratesDuplicates));
+	return  gpos::CombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fGeneratesDuplicates));
 }
 
 //---------------------------------------------------------------------------

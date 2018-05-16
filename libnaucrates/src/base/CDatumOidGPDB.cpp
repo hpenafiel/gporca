@@ -168,7 +168,7 @@ CDatumOidGPDB::Pmdid() const
 ULONG
 CDatumOidGPDB::HashValue() const
 {
-	return gpos::UlCombineHashes(m_pmdid->HashValue(), gpos::HashValue<OID>(&m_oidVal));
+	return gpos::CombineHashes(m_pmdid->HashValue(), gpos::HashValue<OID>(&m_oidVal));
 }
 
 //---------------------------------------------------------------------------

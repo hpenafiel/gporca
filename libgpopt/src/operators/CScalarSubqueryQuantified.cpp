@@ -123,13 +123,13 @@ CScalarSubqueryQuantified::PmdidType() const
 ULONG
 CScalarSubqueryQuantified::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 				(
 				COperator::HashValue(),
-				gpos::UlCombineHashes
+				gpos::CombineHashes
 						(
 						m_pmdidScalarOp->HashValue(),
-						gpos::UlHashPtr<CColRef>(m_pcr)
+						gpos::HashPtr<CColRef>(m_pcr)
 						)
 				);
 }

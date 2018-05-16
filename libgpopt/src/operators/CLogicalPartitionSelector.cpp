@@ -119,7 +119,7 @@ CLogicalPartitionSelector::FMatch
 ULONG
 CLogicalPartitionSelector::HashValue() const
 {
-	return gpos::UlCombineHashes(Eopid(), m_pmdid->HashValue());
+	return gpos::CombineHashes(Eopid(), m_pmdid->HashValue());
 }
 
 //---------------------------------------------------------------------------

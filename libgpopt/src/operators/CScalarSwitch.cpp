@@ -68,7 +68,7 @@ CScalarSwitch::~CScalarSwitch()
 ULONG
 CScalarSwitch::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
 }
 
 //---------------------------------------------------------------------------

@@ -96,7 +96,7 @@ CScalarCmp::PmdidOp() const
 ULONG
 CScalarCmp::HashValue() const
 {
-	return gpos::UlCombineHashes(COperator::HashValue(), m_pmdidOp->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_pmdidOp->HashValue());
 }
 
 	

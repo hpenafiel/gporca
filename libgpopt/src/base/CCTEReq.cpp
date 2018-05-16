@@ -64,12 +64,12 @@ CCTEReq::CCTEReqEntry::~CCTEReqEntry()
 ULONG
 CCTEReq::CCTEReqEntry::HashValue() const
 {
-	ULONG ulHash = gpos::UlCombineHashes(gpos::HashValue<ULONG>(&m_ulId), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
-	ulHash = gpos::UlCombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fRequired));
+	ULONG ulHash = gpos::CombineHashes(gpos::HashValue<ULONG>(&m_ulId), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<BOOL>(&m_fRequired));
 
 	if (NULL != m_pdpplan)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, m_pdpplan->HashValue());
+		ulHash = gpos::CombineHashes(ulHash, m_pdpplan->HashValue());
 	}
 
 	return ulHash;
@@ -353,7 +353,7 @@ CCTEReq::HashValue() const
 	while (hmcri.FAdvance() && ul < ulMaxEntries)
 	{
 		const CCTEReqEntry *pcre = hmcri.Pt();
-		ulHash = gpos::UlCombineHashes(ulHash, pcre->HashValue());
+		ulHash = gpos::CombineHashes(ulHash, pcre->HashValue());
 		ul++;
 	}
 

@@ -121,10 +121,10 @@ namespace gpopt
 						ULONG ulHashChild = pfnHash(ptlink->m_ptChild);
 						ULONG ulHashChildIndex = gpos::HashValue<ULONG>(&ptlink->m_ulChildIndex);
 
-						return UlCombineHashes
+						return CombineHashes
 								(
 								ulHashParent,
-								UlCombineHashes(ulHashChild, ulHashChildIndex)
+								CombineHashes(ulHashChild, ulHashChildIndex)
 								);
 					}
 
@@ -197,7 +197,7 @@ namespace gpopt
                         {
                             CTreeNode *ptn = (*(*m_pdrgdrgptn)[ulChild])[ulAlt];
                             ULLONG ullCount = ptn->UllCount();
-                            ull = gpos::UllAdd(ull, ullCount);
+                            ull = gpos::Add(ull, ullCount);
                         }
 
                         return ull;
@@ -310,7 +310,7 @@ namespace gpopt
                                 }
 
                                 // otherwise, multiply number of child alternatives by current count
-                                ullCount = gpos::UllMultiply(ullCount, ull);				
+                                ullCount = gpos::Multiply(ullCount, ull);				
                             }
 
                             // counting is complete

@@ -1307,7 +1307,7 @@ CExpression::HashValue
 	const ULONG ulArity = pexpr->UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		ulHash = UlCombineHashes(ulHash, HashValue((*pexpr)[ul]));
+		ulHash = CombineHashes(ulHash, HashValue((*pexpr)[ul]));
 	}
 
 	return ulHash;
@@ -1337,7 +1337,7 @@ CExpression::UlHashDedup
 			// same, hash function puts two different expressions into separate
 			// buckets.
 			// e.g logically a < b is not equal to b < a
-			ulHash = UlCombineHashes(ulHash, HashValue((*pexpr)[ul]));
+			ulHash = CombineHashes(ulHash, HashValue((*pexpr)[ul]));
 		}
 		else
 		{

@@ -140,13 +140,13 @@ ULONG
 CScalarAggFunc::HashValue() const
 {
 	ULONG ulAggfuncstage = (ULONG) m_eaggfuncstage;
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 					(
-					UlCombineHashes(COperator::HashValue(), m_pmdidAggFunc->HashValue()),
-					UlCombineHashes
+					CombineHashes(COperator::HashValue(), m_pmdidAggFunc->HashValue()),
+					CombineHashes
 						(
 						gpos::HashValue<ULONG>(&ulAggfuncstage),
-						UlCombineHashes(gpos::HashValue<BOOL>(&m_fDistinct),gpos::HashValue<BOOL>(&m_fSplit))
+						CombineHashes(gpos::HashValue<BOOL>(&m_fDistinct),gpos::HashValue<BOOL>(&m_fSplit))
 						)
 					);
 }

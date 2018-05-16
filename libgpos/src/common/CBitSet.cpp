@@ -675,7 +675,7 @@ CBitSet::HashValue() const
 	CBitSetLink *bsl = m_bsllist.First();
 	while (NULL != bsl)
 	{
-		ulHash = gpos::UlCombineHashes(ulHash, bsl->GetVec()->HashValue());
+		ulHash = gpos::CombineHashes(ulHash, bsl->GetVec()->HashValue());
 		bsl = m_bsllist.Next(bsl);
 	}
 

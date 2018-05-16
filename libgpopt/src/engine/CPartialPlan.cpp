@@ -281,7 +281,7 @@ CPartialPlan::HashValue
 	GPOS_ASSERT(NULL != ppp);
 
 	ULONG ulHash = ppp->Pgexpr()->HashValue();
-	return UlCombineHashes(ulHash, CReqdPropPlan::UlHashForCostBounding(ppp->Prpp()));
+	return CombineHashes(ulHash, CReqdPropPlan::UlHashForCostBounding(ppp->Prpp()));
 }
 
 

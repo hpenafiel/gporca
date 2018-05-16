@@ -237,9 +237,9 @@ CPhysical::CReqdColsRequest::HashValue
 	GPOS_ASSERT(NULL != prcr);
 
 	ULONG ulHash = prcr->Pcrs()->HashValue();
-	ulHash = UlCombineHashes(ulHash , prcr->UlChildIndex());;
+	ulHash = CombineHashes(ulHash , prcr->UlChildIndex());;
 
-	return UlCombineHashes(ulHash , prcr->UlScalarChildIndex());
+	return CombineHashes(ulHash , prcr->UlScalarChildIndex());
 }
 
 //---------------------------------------------------------------------------

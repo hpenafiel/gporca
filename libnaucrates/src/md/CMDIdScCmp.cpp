@@ -138,10 +138,10 @@ CMDIdScCmp::PmdidRight() const
 ULONG
 CMDIdScCmp::HashValue() const
 {
-	return gpos::UlCombineHashes
+	return gpos::CombineHashes
 								(
 								Emdidt(), 
-								gpos::UlCombineHashes(m_pmdidLeft->HashValue(), m_pmdidRight->HashValue())
+								gpos::CombineHashes(m_pmdidLeft->HashValue(), m_pmdidRight->HashValue())
 								);
 }
 

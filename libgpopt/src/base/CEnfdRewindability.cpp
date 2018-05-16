@@ -105,7 +105,7 @@ CEnfdRewindability::FCompatible
 ULONG
 CEnfdRewindability::HashValue() const
 {
-	return gpos::UlCombineHashes(m_erm + 1, m_prs->HashValue());
+	return gpos::CombineHashes(m_erm + 1, m_prs->HashValue());
 }
 
 

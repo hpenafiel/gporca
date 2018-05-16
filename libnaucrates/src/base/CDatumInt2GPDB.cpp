@@ -171,7 +171,7 @@ CDatumInt2GPDB::Pmdid() const
 ULONG
 CDatumInt2GPDB::HashValue() const
 {
-	return gpos::UlCombineHashes(m_pmdid->HashValue(), gpos::HashValue<SINT>(&m_sVal));
+	return gpos::CombineHashes(m_pmdid->HashValue(), gpos::HashValue<SINT>(&m_sVal));
 }
 
 

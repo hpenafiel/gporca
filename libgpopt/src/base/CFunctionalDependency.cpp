@@ -85,7 +85,7 @@ CFunctionalDependency::FIncluded
 ULONG
 CFunctionalDependency::HashValue() const
 {
-	return gpos::UlCombineHashes(m_pcrsKey->HashValue(), m_pcrsDetermined->HashValue());
+	return gpos::CombineHashes(m_pcrsKey->HashValue(), m_pcrsDetermined->HashValue());
 }
 
 
@@ -154,7 +154,7 @@ CFunctionalDependency::HashValue
 		const ULONG ulSize = pdrgpfd->Size();
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
-			ulHash = gpos::UlCombineHashes(ulHash, (*pdrgpfd)[ul]->HashValue());
+			ulHash = gpos::CombineHashes(ulHash, (*pdrgpfd)[ul]->HashValue());
 		}
 	}
 

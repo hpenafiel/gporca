@@ -254,7 +254,7 @@ CCTEMap::HashValue() const
 	while (hmcmi.FAdvance() && ul < ulMaxEntries)
 	{
 		const CCTEMapEntry *pcme = hmcmi.Pt();
-		ulHash = gpos::UlCombineHashes(ulHash, pcme->HashValue());
+		ulHash = gpos::CombineHashes(ulHash, pcme->HashValue());
 		ul++;
 	}
 

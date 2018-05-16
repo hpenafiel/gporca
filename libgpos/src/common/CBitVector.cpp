@@ -459,7 +459,7 @@ CBitVector::CountSetBits() const
 ULONG
 CBitVector::HashValue() const
 {
-	return gpos::UlHashByteArray((BYTE*)&m_vec[0], GPOS_SIZEOF(m_vec[0]) * m_len);
+	return gpos::HashByteArray((BYTE*)&m_vec[0], GPOS_SIZEOF(m_vec[0]) * m_len);
 }
 		
 		

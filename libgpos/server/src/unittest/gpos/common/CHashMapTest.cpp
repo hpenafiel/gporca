@@ -61,7 +61,7 @@ CHashMapTest::EresUnittest_Basic()
 	GPOS_ASSERT(GPOS_ARRAY_SIZE(rgul) == GPOS_ARRAY_SIZE(rgsz));
 	const ULONG ulCnt = GPOS_ARRAY_SIZE(rgul);
 	
-	typedef CHashMap<ULONG_PTR, CHAR, UlHashPtr<ULONG_PTR>, gpos::Equals<ULONG_PTR>,
+	typedef CHashMap<ULONG_PTR, CHAR, HashPtr<ULONG_PTR>, gpos::Equals<ULONG_PTR>,
 		CleanupNULL<ULONG_PTR>, CleanupNULL<CHAR> > HMUlChar;
 
 	HMUlChar *phm = GPOS_NEW(pmp) HMUlChar(pmp, 128);
@@ -160,7 +160,7 @@ CHashMapTest::EresUnittest_Ownership()
 
 	ULONG ulCnt = 256;
 
-	typedef CHashMap<ULONG_PTR, CHAR, UlHashPtr<ULONG_PTR>, gpos::Equals<ULONG_PTR>,
+	typedef CHashMap<ULONG_PTR, CHAR, HashPtr<ULONG_PTR>, gpos::Equals<ULONG_PTR>,
 		CleanupDelete<ULONG_PTR>, CleanupDeleteArray<CHAR> > HMUlChar;
 	
 	HMUlChar *phm = GPOS_NEW(pmp) HMUlChar(pmp, 32);
