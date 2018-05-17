@@ -128,13 +128,13 @@ namespace gpos
 			// function to get bucket by index
 			SBucket &GetBucket
 				(
-				const ULONG ulIndex
+				const ULONG index
 				)
 				const
 			{
-				GPOS_ASSERT(ulIndex < m_nbuckets && "Invalid bucket index");
+				GPOS_ASSERT(index < m_nbuckets && "Invalid bucket index");
 
-				return m_buckets[ulIndex];
+				return m_buckets[index];
 			}
 
 			// extract key out of type
@@ -188,25 +188,25 @@ namespace gpos
 			void Init
 				(
 				IMemoryPool *pmp,
-				ULONG cSize,
-				ULONG cLinkOffset,
-				ULONG cKeyOffset,
-				const K *pkeyInvalid,
-				ULONG (*pfuncHash)(const K&),
-				BOOL (*pfuncEqual)(const K&, const K&)
+				ULONG size,
+				ULONG link_offset,
+				ULONG key_offset,
+				const K *invalid_key,
+				ULONG (*func_hash)(const K&),
+				BOOL (*func_equal)(const K&, const K&)
 				)
             {
                 GPOS_ASSERT(NULL == m_buckets);
                 GPOS_ASSERT(0 == m_nbuckets);
-                GPOS_ASSERT(NULL != pkeyInvalid);
-                GPOS_ASSERT(NULL != pfuncHash);
-                GPOS_ASSERT(NULL != pfuncEqual);
+                GPOS_ASSERT(NULL != invalid_key);
+                GPOS_ASSERT(NULL != func_hash);
+                GPOS_ASSERT(NULL != func_equal);
 
-                m_nbuckets = cSize;
-                m_key_offset = cKeyOffset;
-                m_invalid_key = pkeyInvalid;
-                m_hashfn = pfuncHash;
-                m_eqfn = pfuncEqual;
+                m_nbuckets = size;
+                m_key_offset = key_offset;
+                m_invalid_key = invalid_key;
+                m_hashfn = func_hash;
+                m_eqfn = func_equal;
 
                 m_buckets = GPOS_NEW_ARRAY(pmp, SBucket, m_nbuckets);
 
@@ -218,7 +218,7 @@ namespace gpos
 
                 for(ULONG i = 0; i < m_nbuckets; i ++)
                 {
-                    m_buckets[i].m_list.Init(cLinkOffset);
+                    m_buckets[i].m_list.Init(link_offset);
     #ifdef GPOS_DEBUG
                     // add serial number
                     m_buckets[i].m_bucket_idx = i;
@@ -239,36 +239,36 @@ namespace gpos
             }
 
 			// iterate over all entries and call destroy function on each entry
-			void DestroyEntries(DestroyEntryFuncPtr pfuncDestroy)
+			void DestroyEntries(DestroyEntryFuncPtr pfunc_destroy)
             {
                 // need to suspend cancellation while cleaning up
                 CAutoSuspendAbort asa;
 
                 T *pt = NULL;
-                CSyncHashtableIter<T, K, S> shtit(*this);
+                CSyncHashtableIter<T, K, S> it(*this);
 
                 // since removing an entry will automatically advance iter's
                 // position, we need to make sure that advance iter is called
                 // only when we do not have an entry to delete
-                while (NULL != pt || shtit.Advance())
+                while (NULL != pt || it.Advance())
                 {
                     if (NULL != pt)
                     {
-                        pfuncDestroy(pt);
+                        pfunc_destroy(pt);
                     }
 
                     {
-                        CSyncHashtableAccessByIter<T, K, S> shtitacc(shtit);
-                        if (NULL != (pt = shtitacc.Value()))
+                        CSyncHashtableAccessByIter<T, K, S> acc(it);
+                        if (NULL != (pt = acc.Value()))
                         {
-                            shtitacc.Remove(pt);
+                            acc.Remove(pt);
                         }
                     }
                 }
 
     #ifdef GPOS_DEBUG
-                CSyncHashtableIter<T, K, S> shtitSnd(*this);
-                GPOS_ASSERT(!shtitSnd.Advance());
+                CSyncHashtableIter<T, K, S> it_snd(*this);
+                GPOS_ASSERT(!it_snd.Advance());
     #endif // GPOS_DEBUG
             }
 
