@@ -322,7 +322,7 @@ CMemoryPoolManager::DeleteUnregistered
 		{
 			GPOS_ASSERT(pmpFound != pmp && "Attempt to delete a registered memory pool");
 
-			pmpFound = shtacc.PtNext(PmpConvert(pmpFound));
+			pmpFound = shtacc.Next(PmpConvert(pmpFound));
 		}
 	}
 #endif // GPOS_DEBUG

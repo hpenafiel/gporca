@@ -60,7 +60,7 @@ namespace gpos
                 while (NULL != ptCurrent &&
                        !Base::Sht().m_eqfn(Base::Sht().Key(ptCurrent), m_key))
                 {
-                    ptCurrent = Base::PtNext(ptCurrent);
+                    ptCurrent = Base::Next(ptCurrent);
                 }
 
                 return ptCurrent;
@@ -99,11 +99,11 @@ namespace gpos
             }
 
 			// finds the next element with a matching key
-			T *PtNext(T *value) const
+			T *Next(T *value) const
             {
                 GPOS_ASSERT(NULL != value);
 
-                return PtNextMatch(Base::PtNext(value));
+                return PtNextMatch(Base::Next(value));
             }
 
 			// insert at head of target bucket's hash chain

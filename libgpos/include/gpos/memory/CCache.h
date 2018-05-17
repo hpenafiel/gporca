@@ -179,7 +179,7 @@ namespace gpos
 				CCacheHashTableEntry *pce = shtacc.Find();
 				while (NULL != pce && pce->FMarkedForDeletion())
 				{
-					pce = shtacc.PtNext(pce);
+					pce = shtacc.Next(pce);
 				}
 
 				if (NULL != pce)
@@ -234,10 +234,10 @@ namespace gpos
 				CCacheHashtableAccessor shtacc(m_sht, pvKey);
 
 				// move forward until we find unmarked entry with the same key
-				CCacheHashTableEntry *pceNext = shtacc.PtNext(pceCurrent);
+				CCacheHashTableEntry *pceNext = shtacc.Next(pceCurrent);
 				while (NULL != pceNext && pceNext->FMarkedForDeletion())
 				{
-					pceNext = shtacc.PtNext(pceNext);
+					pceNext = shtacc.Next(pceNext);
 				}
 
 				if  (NULL != pceNext)
@@ -282,7 +282,7 @@ namespace gpos
 							}
 
 							// exhausted the iterator, so rewind it
-							m_chtitClockHand->RewindIterator();
+							m_chtitClockHand->Rewind();
 						}
 
 						if (0 < ullTotalFreed)

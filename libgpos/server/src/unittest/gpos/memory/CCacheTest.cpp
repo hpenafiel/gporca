@@ -737,7 +737,7 @@ CCacheTest::EresRemoveDuplicates
 				ulCount++;
 			}
 
-			pso = ca.PtNext();
+			pso = ca.Next();
 		}
 		GPOS_ASSERT(ulCount == GPOS_CACHE_DUPLICATES_TO_DELETE &&
 				    "Incorrect number of deleted entries");
@@ -926,7 +926,7 @@ CCacheTest::EresUnittest_Iteration()
 					    "Incorrect entry was found");
 
 			ulCount++;
-			pso = ca.PtNext();
+			pso = ca.Next();
 		}
 		GPOS_ASSERT(ulCount == ulDuplicates &&
 				    "Incorrect number of duplicates");
@@ -1004,7 +1004,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 			GPOS_ASSERT(pso->m_ulValue >= ulDuplicatesToDelete &&
 					    "Incorrect entry value was found");
 			ulCount++;
-			pso = ca.PtNext();
+			pso = ca.Next();
 		}
 
 		GPOS_ASSERT(ulCount == ulRemaining &&
@@ -1074,7 +1074,7 @@ CCacheTest::PvLookupTask
 		{
 			GPOS_CHECK_ABORT;
 
-			pso = ca.PtNext();
+			pso = ca.Next();
 		}
 	}
 
@@ -1117,7 +1117,7 @@ CCacheTest::PvDeleteTask
 		while (NULL != pso)
 		{
 			ca.MarkForDeletion();
-			pso = ca.PtNext();
+			pso = ca.Next();
 
 			GPOS_CHECK_ABORT;
 		}

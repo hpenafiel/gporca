@@ -327,7 +327,7 @@ CSyncHashtableTest::EresUnittest_SameKeyIteration()
 		while (NULL != pelem)
 		{
 			ulCount++;
-			pelem = shtacc.PtNext(pelem);
+			pelem = shtacc.Next(pelem);
 		}
 		GPOS_ASSERT(ulCount == GPOS_SHT_ELEMENT_DUPLICATES);
 
@@ -807,8 +807,8 @@ CSyncHashtableTest::PvUnittest_Iterator
 
 	while (shtit.Advance())
 	{
-		SElemHashtableIterAccessor shtitacc(shtit);
-		SElem *pelem = shtitacc.Value();
+		SElemHashtableIterAccessor acc(shtit);
+		SElem *pelem = acc.Value();
 		if (NULL != pelem)
 		{
 			GPOS_ASSERT(SElem::IsValid(pelem->m_ulKey));

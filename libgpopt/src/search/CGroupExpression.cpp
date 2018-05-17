@@ -347,7 +347,7 @@ CGroupExpression::FCostContextExists
 
 		{
 			ShtAcc shta(Sht(), poc);
-			pccFound = shta.PtNext(pccFound);
+			pccFound = shta.Next(pccFound);
 		}
 	}
 
@@ -381,7 +381,7 @@ CGroupExpression::PccRemove
 			return pccFound;
 		}
 
-		pccFound = shta.PtNext(pccFound);
+		pccFound = shta.Next(pccFound);
 	}
 
 	return NULL;
@@ -686,7 +686,7 @@ CGroupExpression::PccLookup
 			return pccFound;
 		}
 
-		pccFound = shta.PtNext(pccFound);
+		pccFound = shta.Next(pccFound);
 	}
 
 	return NULL;
@@ -729,7 +729,7 @@ CGroupExpression::PdrgpccLookupAll
 
 		{
 			ShtAcc shta(Sht(), poc);
-			pccFound = shta.PtNext(pccFound);
+			pccFound = shta.Next(pccFound);
 			fValid = (NULL != pccFound && pccFound->Cost() != GPOPT_INVALID_COST && !pccFound->FPruned());
 		}
 	}
@@ -761,7 +761,7 @@ CGroupExpression::PccInsert
 		{
 			return pccFound;
 		}
-		pccFound = shta.PtNext(pccFound);
+		pccFound = shta.Next(pccFound);
 	}
 	GPOS_ASSERT(NULL == pccFound);
 

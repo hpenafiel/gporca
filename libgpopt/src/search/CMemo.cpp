@@ -83,7 +83,7 @@ CMemo::~CMemo()
 	CGroup *pgroup = m_listGroups.PtFirst();
 	while(NULL != pgroup)
 	{
-		CGroup *pgroupNext = m_listGroups.PtNext(pgroup);
+		CGroup *pgroupNext = m_listGroups.Next(pgroup);
 		pgroup->Release();
 		
 		pgroup = pgroupNext;
@@ -460,7 +460,7 @@ CMemo::Pgroup
 		{
 			return pgroup;
 		}
-		pgroup = m_listGroups.PtNext(pgroup);
+		pgroup = m_listGroups.Next(pgroup);
 	}
 
 	return NULL;
@@ -617,7 +617,7 @@ CMemo::GroupMerge()
 		while (NULL != pgroup)
 		{
 			pgroup->MergeGroup();
-			pgroup = m_listGroups.PtNext(pgroup);
+			pgroup = m_listGroups.Next(pgroup);
 
 			GPOS_CHECK_ABORT;
 		}
@@ -679,7 +679,7 @@ CMemo::OsPrint
 		}
 		
 		pgroup->OsPrint(at.Os());
-		pgroup = m_listGroups.PtNext(pgroup);
+		pgroup = m_listGroups.Next(pgroup);
 
 		GPOS_CHECK_ABORT;
 	}
@@ -715,7 +715,7 @@ CMemo::DeriveStatsIfAbsent
 			exprhdl.DeriveStats(pmpLocal, m_pmp, NULL, NULL);
 		}
 
-		pgroup = m_listGroups.PtNext(pgroup);
+		pgroup = m_listGroups.Next(pgroup);
 
 		GPOS_CHECK_ABORT;
 	}
@@ -741,7 +741,7 @@ CMemo::ResetGroupStates()
 		pgroup->ResetGroupJobQueues();
 		pgroup->ResetHasNewLogicalOperators();
 
-		pgroup = m_listGroups.PtNext(pgroup);
+		pgroup = m_listGroups.Next(pgroup);
 	}
 }
 
@@ -807,7 +807,7 @@ CMemo::ResetTreeMap()
 	while (NULL != pgroup)
 	{
 		pgroup->ResetLinkMap();
-		pgroup = m_listGroups.PtNext(pgroup);
+		pgroup = m_listGroups.Next(pgroup);
 	}
 }
 
@@ -831,7 +831,7 @@ CMemo::UlDuplicateGroups()
 		{
 			ulDuplicates ++;
 		}
-		pgroup = m_listGroups.PtNext(pgroup);
+		pgroup = m_listGroups.Next(pgroup);
 	}
 
 	return ulDuplicates;
@@ -854,7 +854,7 @@ CMemo::UlGrpExprs()
 	while (NULL != pgroup)
 	{
 		ulGExprs += pgroup->UlGExprs();
-		pgroup = m_listGroups.PtNext(pgroup);
+		pgroup = m_listGroups.Next(pgroup);
 	}
 
 	return ulGExprs;

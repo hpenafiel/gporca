@@ -288,7 +288,7 @@ namespace gpos
 				return m_tail;
 			}
 
-			// traversal functions PtNext and PtPrev assume
+			// traversal functions Next and PtPrev assume
 			// that the pointer passed is a valid member of the list
 			T *Next(const T *pt) const
             {

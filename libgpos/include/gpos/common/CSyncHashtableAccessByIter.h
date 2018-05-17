@@ -57,7 +57,7 @@ namespace gpos
                 while (NULL != ptCurrent &&
                        !Base::Sht().IsValid(Base::Sht().Key(ptCurrent)))
                 {
-                    ptCurrent = Base::PtNext(ptCurrent);
+                    ptCurrent = Base::Next(ptCurrent);
                 }
 
                 return ptCurrent;
@@ -70,7 +70,7 @@ namespace gpos
 			CSyncHashtableAccessByIter<T, K, S>
 				(CSyncHashtableIter<T, K, S> &iter)
             :
-            Base(iter.m_ht, iter.m_ulBucketIndex),
+            Base(iter.m_ht, iter.m_bucket_idx),
             m_iter(iter)
             {
             }
@@ -78,7 +78,7 @@ namespace gpos
 			// returns the element pointed to by iterator
 			T *Value() const
             {
-                GPOS_ASSERT(m_iter.m_fInvalidInserted &&
+                GPOS_ASSERT(m_iter.m_invalid_elem_inserted &&
                             "Iterator's advance is not called");
 
                 // advance in the current bucket until finding a valid element;
@@ -86,7 +86,7 @@ namespace gpos
                 // iterator might have been deleted by another client just before
                 // using the accessor
 
-                return PtFirstValid(m_iter.m_ptInvalid);
+                return PtFirstValid(m_iter.m_invalid_elem);
             }
 
 	}; // class CSyncHashtableAccessByIter

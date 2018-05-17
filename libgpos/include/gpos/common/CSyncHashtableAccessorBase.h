@@ -99,7 +99,7 @@ namespace gpos
             }
 
 			// finds the element next to the given one
-			T *PtNext(T *value) const
+			T *Next(T *value) const
             {
                 GPOS_ASSERT(NULL != value);
 

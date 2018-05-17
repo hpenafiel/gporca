@@ -140,7 +140,7 @@ namespace gpos
 			}
 
 			// gets the next undeleted object with the same key
-			T PtNext()
+			T Next()
 			{
 				GPOS_ASSERT(NULL != m_pce);
 

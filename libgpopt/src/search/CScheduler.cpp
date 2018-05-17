@@ -761,7 +761,7 @@ CScheduler::OsPrintActiveJobs
 	while(NULL != pjl)
 	{
 		pjl->m_pj->OsPrint(os);
-		pjl = m_listjlWaiting.PtNext(pjl);
+		pjl = m_listjlWaiting.Next(pjl);
 	}
 
 	os << std::endl << "List of suspended jobs: " << std::endl;

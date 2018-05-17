@@ -163,7 +163,7 @@ namespace gpos
 			}
 
 			// get next element
-			T *PtNext
+			T *Next
 				(
 				T *pt
 				)
