@@ -242,7 +242,7 @@ CCacheTest::EresUnittest_Basic()
 
 		GPOS_ASSERT(psoReturned == pso &&
 				    "Incorrect cache entry was inserted");
-		GPOS_ASSERT(1 == pcache->UlpEntries());
+		GPOS_ASSERT(1 == pcache->Size());
 
 		// insert duplicate while not allowed
 		if (pcache->FUnique())
@@ -257,7 +257,7 @@ CCacheTest::EresUnittest_Basic()
 
 			GPOS_ASSERT(psoReturned == pso &&
 						"Duplicate insertion must fail");
-			GPOS_ASSERT(1 == pcache->UlpEntries());
+			GPOS_ASSERT(1 == pcache->Size());
 
 			// delete original cache object
 			ca.MarkForDeletion();
@@ -315,7 +315,7 @@ CCacheTest::EresUnittest_Basic()
 		GPOS_ASSERT(NULL != psoReturned && 2 == psoReturned->m_ulValue);
 	}
 
-	GPOS_ASSERT(0 == pcache->UlpEntries());
+	GPOS_ASSERT(0 == pcache->Size());
 
 	return GPOS_OK;
 }

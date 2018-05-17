@@ -440,9 +440,9 @@ namespace gpos
 			}
 
 			// return number of cache entries
-			ULONG_PTR UlpEntries() const
+			ULONG_PTR Size() const
 			{
-				return m_sht.UlpEntries();
+				return m_sht.Size();
 			}
 
 			// return total allocated size in bytes

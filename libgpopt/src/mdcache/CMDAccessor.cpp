@@ -1383,7 +1383,7 @@ CMDAccessor::Serialize
 	COstream& oos
 	)
 {
-	ULONG nentries = m_shtCacheAccessors.UlpEntries();
+	ULONG nentries = m_shtCacheAccessors.Size();
 	IMDCacheObject **cacheEntries;
 	CAutoRg<IMDCacheObject*> aCacheEntries;
 	ULONG ul;

@@ -100,16 +100,16 @@ namespace gpos
             {
                 CSyncHashtableAccessByIter<T, K, S> shtitacc(*this);
 
-                T *pt = shtitacc.PtFirstValid(m_ptInvalid);
+                T *value = shtitacc.PtFirstValid(m_ptInvalid);
 
                 shtitacc.Remove(m_ptInvalid);
                 m_fInvalidInserted = false;
 
                 // check that we did not find the last element in bucket
-                if (NULL != pt && NULL != shtitacc.PtNext(pt))
+                if (NULL != value && NULL != shtitacc.PtNext(value))
                 {
                     // insert invalid element after the found element
-                    shtitacc.Append(m_ptInvalid, pt);
+                    shtitacc.Append(m_ptInvalid, value);
                     m_fInvalidInserted = true;
                 }
             }

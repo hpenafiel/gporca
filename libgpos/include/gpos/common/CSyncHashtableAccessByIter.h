@@ -49,11 +49,11 @@ namespace gpos
 				(const CSyncHashtableAccessByIter<T, K, S>&);
 
 			// returns the first valid element starting from the given element
-			T *PtFirstValid(T *pt) const
+			T *PtFirstValid(T *value) const
             {
-                GPOS_ASSERT(NULL != pt);
+                GPOS_ASSERT(NULL != value);
 
-                T *ptCurrent = pt;
+                T *ptCurrent = value;
                 while (NULL != ptCurrent &&
                        !Base::Sht().IsValid(Base::Sht().Key(ptCurrent)))
                 {

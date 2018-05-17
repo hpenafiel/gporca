@@ -83,7 +83,7 @@ namespace gpos
 					S m_lock;
 				
 					// hash chain
-					CList<T> m_list;
+					CList<T> m_chain;
 
 #ifdef GPOS_DEBUG
 					// bucket number
@@ -140,13 +140,13 @@ namespace gpos
 			// extract key out of type
 			K &Key
 				(
-				T *pt
+				T *value
 				)
 				const
 			{
 				GPOS_ASSERT(ULONG_MAX != m_key_offset && "Key offset not initialized.");
 			
-				K &k = *(K*)((BYTE*)pt + m_key_offset);
+				K &k = *(K*)((BYTE*)value + m_key_offset);
 
 				return k;
 			}
@@ -218,7 +218,7 @@ namespace gpos
 
                 for(ULONG i = 0; i < m_nbuckets; i ++)
                 {
-                    m_buckets[i].m_list.Init(link_offset);
+                    m_buckets[i].m_chain.Init(link_offset);
     #ifdef GPOS_DEBUG
                     // add serial number
                     m_buckets[i].m_bucket_idx = i;
@@ -244,24 +244,24 @@ namespace gpos
                 // need to suspend cancellation while cleaning up
                 CAutoSuspendAbort asa;
 
-                T *pt = NULL;
+                T *value = NULL;
                 CSyncHashtableIter<T, K, S> it(*this);
 
                 // since removing an entry will automatically advance iter's
                 // position, we need to make sure that advance iter is called
                 // only when we do not have an entry to delete
-                while (NULL != pt || it.Advance())
+                while (NULL != value || it.Advance())
                 {
-                    if (NULL != pt)
+                    if (NULL != value)
                     {
-                        pfunc_destroy(pt);
+                        pfunc_destroy(value);
                     }
 
                     {
                         CSyncHashtableAccessByIter<T, K, S> acc(it);
-                        if (NULL != (pt = acc.Value()))
+                        if (NULL != (value = acc.Value()))
                         {
-                            acc.Remove(pt);
+                            acc.Remove(value);
                         }
                     }
                 }
@@ -273,9 +273,9 @@ namespace gpos
             }
 
 			// insert function;
-			void Insert(T *pt)
+			void Insert(T *value)
             {
-                K &key = Key(pt);
+                K &key = Key(value);
 
                 GPOS_ASSERT(IsValid(key));
 
@@ -287,14 +287,14 @@ namespace gpos
                 alock.Lock();
 
                 // inserting at bucket's head is required by hashtable iteration
-                bucket.m_list.Prepend(pt);
+                bucket.m_chain.Prepend(value);
 
                 // increase number of entries
                 (void) UlpExchangeAdd(&m_size, 1);
             }
 
 			// return number of entries
-			ULONG_PTR UlpEntries() const
+			ULONG_PTR Size() const
 			{
 				return m_size;
 			}
