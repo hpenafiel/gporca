@@ -341,7 +341,7 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 	const IMDTypeInt4 *pmdtypeint4 = pmda->PtMDType<IMDTypeInt4>();
 	IMDId *pmdidRetType = pmdtypeint4->Pmdid();
 
-	while (pcmi.FAdvance())
+	while (pcmi.Advance())
 	{
 		ULONG ulSecondaryScanId = *(pcmi.Key());
 		const CPartConstraint *ppartcnstr = pcmi.Value();

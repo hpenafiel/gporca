@@ -2095,7 +2095,7 @@ CHistogram::AddHistograms
 	)
 {
 	HMIterUlHist hmiterulhist(phmulhistSrc);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
@@ -2150,7 +2150,7 @@ CHistogram::AddEmptyHistogram
 	GPOS_ASSERT(NULL != phmulhistInput);
 
 	HMIterUlHist hmiterulhist(phmulhistInput);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 

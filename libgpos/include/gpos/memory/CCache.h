@@ -332,7 +332,7 @@ namespace gpos
 			ULLONG EvictEntriesOnePass(ULLONG ullTotalFreed, ULLONG ullToFree)
 			{
 				while ((ullTotalFreed < ullToFree)
-					&& (m_fClockHandAdvanced || m_chtitClockHand->FAdvance()))
+					&& (m_fClockHandAdvanced || m_chtitClockHand->Advance()))
 				{
 					m_fClockHandAdvanced = false;
 					CCacheHashTableEntry *pt = NULL;
@@ -356,7 +356,7 @@ namespace gpos
 									shtitacc.Remove(pt);
 									fDeleted = true;
 
-									// successfully removing an entry automatically advances the iterator, so don't call FAdvance()
+									// successfully removing an entry automatically advances the iterator, so don't call Advance()
 									m_fClockHandAdvanced = true;
 
 									ULLONG ullFreed = pt->Pmp()->UllTotalAllocatedSize();

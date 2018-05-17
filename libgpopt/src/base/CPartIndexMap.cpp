@@ -126,7 +126,7 @@ CPartIndexMap::CPartTableInfo::AddPartConstraints
 	GPOS_ASSERT(NULL != ppartcnstrmap);
 
 	PartCnstrMapIter partcnstriter(ppartcnstrmap);
-	while (partcnstriter.FAdvance())
+	while (partcnstriter.Advance())
 	{
 		ULONG ulScanId = *(partcnstriter.Key());
 		CPartConstraint *ppartcnstr = const_cast<CPartConstraint*>(partcnstriter.Value());
@@ -177,7 +177,7 @@ CPartIndexMap::CPartTableInfo::FDefinesPartialScans
 	}
 
 	PartCnstrMapIter partcnstriter(ppartcnstrmap);
-	while (partcnstriter.FAdvance())
+	while (partcnstriter.Advance())
 	{
 		const CPartConstraint *ppartcnstr = partcnstriter.Value();
 		if (!ppartcnstr->FUninterpreted() && !ppartcnstr->FUnbounded() &&
@@ -539,7 +539,7 @@ CPartIndexMap::AddUnresolved
 {
 	// iterate on first map and lookup entries in second map
 	PartIndexMapIter pimiFst(pimFst.m_pim);
-	while (pimiFst.FAdvance())
+	while (pimiFst.Advance())
 	{
 		const CPartTableInfo *pptiFst = pimiFst.Value();
 		ULONG ulScanId = pptiFst->UlScanId();
@@ -707,7 +707,7 @@ CPartIndexMap::PdrgpulScanIds
 {
 	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 	PartIndexMapIter pimi(m_pim);
-	while (pimi.FAdvance())
+	while (pimi.Advance())
 	{
 		const CPartTableInfo *ppti = pimi.Value();
 		if (fConsumersOnly && EpimConsumer != ppti->Epim())
@@ -745,7 +745,7 @@ CPartIndexMap::FSubset
 
 	// iterate on first map and lookup entries in second map
 	PartIndexMapIter pimi(m_pim);
-	while (pimi.FAdvance())
+	while (pimi.Advance())
 	{
 		const CPartTableInfo *pptiFst = pimi.Value();
 		ULONG ulScanId = pptiFst->UlScanId();
@@ -788,7 +788,7 @@ CPartIndexMap::HashValue() const
 	
 	// hash elements in partition map
 	PartIndexMapIter pimi(m_pim);
-	while (pimi.FAdvance() && ul < ulMaxScanIds)
+	while (pimi.Advance() && ul < ulMaxScanIds)
 	{
 		ULONG ulScanId = (pimi.Value())->UlScanId();
 		ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<ULONG>(&ulScanId));
@@ -815,7 +815,7 @@ CPartIndexMap::FContainsRedundantPartitionSelectors
 {
 	// check that there are no unneeded propagators
 	PartIndexMapIter pimiDrvd(m_pim);
-	while (pimiDrvd.FAdvance())
+	while (pimiDrvd.Advance())
 	{
 		// check if there is a derived propagator that does not appear in the requirements
 		if (EpimPropagator == (pimiDrvd.Value())->Epim() &&
@@ -854,7 +854,7 @@ CPartIndexMap::FSatisfies
 		
 	// check if all required entries are satisfied
 	PartIndexMapIter pimiReqd(ppimReqd->m_pim);
-	while (pimiReqd.FAdvance())
+	while (pimiReqd.Advance())
 	{
 		const CPartTableInfo *pptiReqd = pimiReqd.Value();
 		CPartTableInfo *ppti = PptiLookup(pptiReqd->UlScanId());
@@ -967,7 +967,7 @@ CPartIndexMap::PpimPartitionSelector
 	CPartIndexMap *ppimResult = GPOS_NEW(pmp) CPartIndexMap(pmp);
 
 	PartIndexMapIter pimi(m_pim);
-	while (pimi.FAdvance())
+	while (pimi.Advance())
 	{
 		const CPartTableInfo *ppti = pimi.Value();
 		PartCnstrMap *ppartcnstrmap = ppti->Ppartcnstrmap();
@@ -1020,7 +1020,7 @@ CPartIndexMap::OsPrint
 	const
 {
 	PartIndexMapIter pimi(m_pim);
-	while (pimi.FAdvance())
+	while (pimi.Advance())
 	{
 		const CPartTableInfo *ppti = pimi.Value();
 		os << "("
@@ -1061,7 +1061,7 @@ CPartIndexMap::OsPrintPartCnstrMap
 	PartCnstrMapIter pcmi(ppartcnstrmap);
 	BOOL fFirstElem = true;
 	
-	while (pcmi.FAdvance())
+	while (pcmi.Advance())
 	{
 		if (!fFirstElem)
 		{

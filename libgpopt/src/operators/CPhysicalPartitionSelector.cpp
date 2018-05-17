@@ -144,7 +144,7 @@ CPhysicalPartitionSelector::FMatchExprMaps
 
 	HMUlExprIter hmulei(phmulexprFst);
 
-	while (hmulei.FAdvance())
+	while (hmulei.Advance())
 	{
 		ULONG ulKey = *(hmulei.Key());
 		const CExpression *pexprFst = hmulei.Value();
@@ -206,7 +206,7 @@ CPhysicalPartitionSelector::FSubsetPartCnstr
 
 	PartCnstrMapIter partcnstriter(ppartcnstrmapFst);
 
-	while (partcnstriter.FAdvance())
+	while (partcnstriter.Advance())
 	{
 		ULONG ulKey = *(partcnstriter.Key());
 		CPartConstraint *ppartcnstr = ppartcnstrmapSnd->Find(&ulKey);

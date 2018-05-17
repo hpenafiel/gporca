@@ -1757,7 +1757,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 	CExpression *pexprLgSequence = NULL;
 	HMIterUlPdrgpexpr hmiterulpdrgexpr(phmulpdrgpexpr);
 	
-	while (hmiterulpdrgexpr.FAdvance())
+	while (hmiterulpdrgexpr.Advance())
 	{
 		ULONG ulPos = *(hmiterulpdrgexpr.Key());
 		CDXLWindowSpec *pdxlws = pdxlopWindow->Pdxlws(ulPos);

@@ -446,7 +446,7 @@ CCTEInfo::UlConsumers
 
 	// find consumers in other CTEs
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
-	while (hmulei.FAdvance())
+	while (hmulei.Advance())
 	{
 		const CCTEInfoEntry *pcteinfoentry = hmulei.Value();
 		if (pcteinfoentry->FUsed())
@@ -547,7 +547,7 @@ CCTEInfo::PcterProducers
 	CCTEReq *pcter = GPOS_NEW(pmp) CCTEReq(pmp);
 
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
-	while (hmulei.FAdvance())
+	while (hmulei.Advance())
 	{
 		const CCTEInfoEntry *pcteinfoentry = hmulei.Value();
 		pcter->Insert(pcteinfoentry->UlCTEId(), CCTEMap::EctProducer, false /*fRequired*/, NULL /*pdpplan*/);
@@ -574,7 +574,7 @@ CCTEInfo::PdrgPexpr
 {
 	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
-	while (hmulei.FAdvance())
+	while (hmulei.Advance())
 	{
 		CExpression *pexpr = const_cast<CExpression *>(hmulei.Value()->Pexpr());
 		pexpr->AddRef();
@@ -602,7 +602,7 @@ CCTEInfo::MapComputedToUsedCols
 	const
 {
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
-	while (hmulei.FAdvance())
+	while (hmulei.Advance())
 	{
 		CExpression *pexprProducer = const_cast<CExpression *>(hmulei.Value()->Pexpr());
 		GPOS_ASSERT(NULL != pexprProducer);
@@ -688,7 +688,7 @@ void CCTEInfo::FindConsumersInParent
 	}
 
 	HMUlConsumerMapIter hmulci(phmulconsumermap);
-	while (hmulci.FAdvance())
+	while (hmulci.Advance())
 	{
 		const SConsumerCounter *pconsumercounter = hmulci.Value();
 		ULONG ulConsumerId = pconsumercounter->UlCTEId();
@@ -715,7 +715,7 @@ CCTEInfo::MarkUnusedCTEs()
 
 	// start with all CTEs
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
-	while (hmulei.FAdvance())
+	while (hmulei.Advance())
 	{
 		const CCTEInfoEntry *pcteinfoentry = hmulei.Value();
 		pbsUnusedConsumers->ExchangeSet(pcteinfoentry->UlCTEId());
@@ -736,7 +736,7 @@ CCTEInfo::MarkUnusedCTEs()
 
 	// now the only CTEs remaining in the bitset are the unused ones. mark them as such
 	HMUlCTEInfoEntryIter hmulei2(m_phmulcteinfoentry);
-	while (hmulei2.FAdvance())
+	while (hmulei2.Advance())
 	{
 		CCTEInfoEntry *pcteinfoentry = const_cast<CCTEInfoEntry *>(hmulei2.Value());
 		if (pbsUnusedConsumers->Get(pcteinfoentry->UlCTEId()))

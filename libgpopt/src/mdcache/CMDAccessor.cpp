@@ -1397,7 +1397,7 @@ CMDAccessor::Serialize
 	{
 		MDHTIter mdhtit(m_shtCacheAccessors);
 		ul = 0;
-		while (mdhtit.FAdvance())
+		while (mdhtit.Advance())
 		{
 			MDHTIterAccessor mdhtitacc(mdhtit);
 			SMDAccessorElem *pmdaccelem = mdhtitacc.Value();
@@ -1430,7 +1430,7 @@ CMDAccessor::SerializeSysid
 	ULONG ul = 0;
 	MDPHTIter mdhtit(m_shtProviders);
 
-	while (mdhtit.FAdvance())
+	while (mdhtit.Advance())
 	{
 		MDPHTIterAccessor mdhtitacc(mdhtit);
 		SMDProviderElem *pmdpelem = mdhtitacc.Value();

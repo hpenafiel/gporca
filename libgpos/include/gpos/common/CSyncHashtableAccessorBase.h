@@ -69,7 +69,7 @@ namespace gpos
             m_bucket(m_ht.Bucket(ulBucketIndex))
             {
                 // acquire spin lock on bucket
-                m_bucket.m_slock.Lock();
+                m_bucket.m_lock.Lock();
             }
 
 			// dtor
@@ -77,7 +77,7 @@ namespace gpos
 			~CSyncHashtableAccessorBase<T, K, S>()
             {
                 // unlock bucket
-                m_bucket.m_slock.Unlock();
+                m_bucket.m_lock.Unlock();
             }
 
 			// accessor to hashtable

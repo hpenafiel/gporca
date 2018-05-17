@@ -45,7 +45,7 @@ namespace gpopt
 			CList<CJob> m_listjQueued;
 
 			// lock protecting queue
-			CSpinlockJobQueue m_slock;
+			CSpinlockJobQueue m_lock;
 
 		public:
 

@@ -372,7 +372,7 @@ CMemoryPoolManager::UllTotalAllocatedSize()
 {
 	ULLONG ullTotalSize = 0;
 	MemoryPoolIter mpiter(m_sht);
-	while (mpiter.FAdvance())
+	while (mpiter.Advance())
 	{
 		MemoryPoolIterAccessor shtacc(mpiter);
 		IMemoryPool *pmp = shtacc.Value();
@@ -405,7 +405,7 @@ CMemoryPoolManager::OsPrint
 	os << "Print memory pools: " << std::endl;
 
 	MemoryPoolIter mpiter(m_sht);
-	while (mpiter.FAdvance())
+	while (mpiter.Advance())
 	{
 		IMemoryPool *pmp = NULL;
 		{
@@ -444,7 +444,7 @@ CMemoryPoolManager::PrintOverSizedPools
 	CAutoTraceFlag atfIO(EtraceSimulateIOError, false);
 
 	MemoryPoolIter mpiter(m_sht);
-	while (mpiter.FAdvance())
+	while (mpiter.Advance())
 	{
 		MemoryPoolIterAccessor shtacc(mpiter);
 		IMemoryPool *pmp = shtacc.Value();

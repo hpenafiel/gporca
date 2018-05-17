@@ -32,7 +32,7 @@ namespace gpos
 		private:
 		
 			// the actual spin lock
-			CSpinlockBase &m_slock;
+			CSpinlockBase &m_lock;
 
 			// flag to indicate ownership
 			BOOL m_fLocked;
@@ -45,7 +45,7 @@ namespace gpos
 				(
 				CSpinlockBase &slock
 				) 
-				: m_slock(slock), m_fLocked(false) {}
+				: m_lock(slock), m_fLocked(false) {}
 			
 			// dtor
 			~CAutoSpinlock();
@@ -53,7 +53,7 @@ namespace gpos
 			// acquire lock
 			void Lock()
 			{
-				m_slock.Lock();
+				m_lock.Lock();
 				m_fLocked = true;
 			}
 			
@@ -62,7 +62,7 @@ namespace gpos
 			{
 				GPOS_ASSERT(m_fLocked);
 				
-				m_slock.Unlock();
+				m_lock.Unlock();
 				m_fLocked = false;
 			}
 

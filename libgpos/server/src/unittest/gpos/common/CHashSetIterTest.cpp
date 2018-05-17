@@ -47,7 +47,7 @@ CHashSetIterTest::EresUnittest_Basic()
 
 	// iteration over empty map
 	SetIter siEmpty(ps);
-	GPOS_ASSERT(!siEmpty.FAdvance());
+	GPOS_ASSERT(!siEmpty.Advance());
 
 #endif // GPOS_DEBUG
 
@@ -63,7 +63,7 @@ CHashSetIterTest::EresUnittest_Basic()
 
 		// iterate over full set
 		SetIter si(ps);
-		while (si.FAdvance())
+		while (si.Advance())
 		{
 			pdrgpulIterValues->Append(si.Value());
 		}

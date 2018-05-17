@@ -69,7 +69,7 @@ namespace gpos
 			};
 
 			// lock for synchronization
-			CSpinlockOS m_slock;
+			CSpinlockOS m_lock;
 
 			// statistics
 			CMemoryPoolStatistics m_mps;

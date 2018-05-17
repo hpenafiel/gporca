@@ -82,7 +82,7 @@ namespace gpos
 			{}
 
 			// advance iterator to next element
-			BOOL FAdvance()
+			BOOL Advance()
             {
                 if (m_key_idx < m_map->m_keys->Size())
                 {

@@ -28,7 +28,7 @@ CAutoSpinlock::~CAutoSpinlock()
 {
 	if (m_fLocked)
 	{
-		m_slock.Unlock();
+		m_lock.Unlock();
 	}
 }
 

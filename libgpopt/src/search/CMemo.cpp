@@ -525,7 +525,7 @@ CMemo::FRehash()
 
 	ShtIter shtit(m_sht);
 	CGroupExpression *pgexpr = NULL;
-	while (NULL != pgexpr || shtit.FAdvance())
+	while (NULL != pgexpr || shtit.Advance())
 	{
 		{
 			ShtAccIter shtitacc(shtit);

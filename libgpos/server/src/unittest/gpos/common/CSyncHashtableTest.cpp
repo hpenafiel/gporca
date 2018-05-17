@@ -372,7 +372,7 @@ CSyncHashtableTest::EresUnittest_NonConcurrentIteration()
 
 	// iterate over empty hash table
 	SElemHashtableIter shtitEmpty(sht);
-	GPOS_ASSERT(!shtitEmpty.FAdvance() &&
+	GPOS_ASSERT(!shtitEmpty.Advance() &&
 				"Iterator advanced in an empty hash table");
 
 
@@ -393,7 +393,7 @@ CSyncHashtableTest::EresUnittest_NonConcurrentIteration()
 	CBitVector bv(pmp, GPOS_SHT_ELEMENTS);
 #endif	// GPOS_DEBUG
 
-	while (shtit.FAdvance())
+	while (shtit.Advance())
 	{
 		SElemHashtableIterAccessor htitacc(shtit);
 
@@ -566,7 +566,7 @@ CSyncHashtableTest::PvUnittest_IteratorCheck
 	// start iteration
 	SElemHashtableIter htit(sht);
 	ULONG ulCount = 0;
-	while (htit.FAdvance())
+	while (htit.Advance())
 	{
 		ULONG ulId = ULONG_MAX;
 
@@ -805,7 +805,7 @@ CSyncHashtableTest::PvUnittest_Iterator
 	CBitVector bv(amp.Pmp(), GPOS_SHT_ELEMENTS);
 #endif	// GPOS_DEBUG
 
-	while (shtit.FAdvance())
+	while (shtit.Advance())
 	{
 		SElemHashtableIterAccessor shtitacc(shtit);
 		SElem *pelem = shtitacc.Value();

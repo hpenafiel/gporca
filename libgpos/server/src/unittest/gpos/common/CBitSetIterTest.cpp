@@ -123,7 +123,7 @@ CBitSetIterTest::EresUnittest_Uninitialized()
 //		CBitSetIterTest::EresUnittest_Overrun
 //
 //	@doc:
-//		Test for calling FAdvance on exhausted iter
+//		Test for calling Advance on exhausted iter
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT

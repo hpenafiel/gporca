@@ -78,7 +78,7 @@ CDrvdPropCtxtPlan::PdpctxtCopy
 	pdpctxtplan->m_ulExpectedPartitionSelectors = m_ulExpectedPartitionSelectors;
 
 	HMUlPdpIter hmulpdpiter(m_phmulpdpCTEs);
-	while (hmulpdpiter.FAdvance())
+	while (hmulpdpiter.Advance())
 	{
 		ULONG ulId = *(hmulpdpiter.Key());
 		CDrvdPropPlan *pdpplan = const_cast<CDrvdPropPlan *>(hmulpdpiter.Value());
@@ -152,7 +152,7 @@ CDrvdPropCtxtPlan::OsPrint
 {
 	// iterate on local map and print entries
 	HMUlPdpIter hmulpdpiter(m_phmulpdpCTEs);
-	while (hmulpdpiter.FAdvance())
+	while (hmulpdpiter.Advance())
 	{
 		ULONG ulId = *(hmulpdpiter.Key());
 		CDrvdPropPlan *pdpplan = const_cast<CDrvdPropPlan *>(hmulpdpiter.Value());

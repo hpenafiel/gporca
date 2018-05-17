@@ -154,7 +154,7 @@ namespace gpos
             }
 
 			// advances iterator
-			BOOL FAdvance()
+			BOOL Advance()
             {
                 GPOS_ASSERT(m_ulBucketIndex < m_ht.m_cSize &&
                             "Advancing an exhausted iterator");

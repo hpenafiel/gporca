@@ -105,7 +105,7 @@ namespace gpos
 			CList<SBlockDescriptor> m_listBlocks;
 
 			// spinlock to protect allocations inside the currently used block
-			CSpinlockOS m_slock;
+			CSpinlockOS m_lock;
 
 			// allocate block from underlying pool
 			SBlockDescriptor *PbdNew(ULONG ulSize);

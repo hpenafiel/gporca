@@ -795,7 +795,7 @@ CPartConstraint::CopyPartConstraints
 
 	PartCnstrMapIter pcmi(ppartcnstrmapSource);
 
-	while (pcmi.FAdvance())
+	while (pcmi.Advance())
 	{
 		ULONG ulKey = *(pcmi.Key());
 		CPartConstraint *ppartcnstrSource = const_cast<CPartConstraint *>(pcmi.Value());

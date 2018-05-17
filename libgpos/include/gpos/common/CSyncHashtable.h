@@ -80,14 +80,14 @@ namespace gpos
 					SBucket() {};
 				
 					// spinlock to protect bucket
-					S m_slock;
+					S m_lock;
 				
 					// hash chain
 					CList<T> m_list;
 
 #ifdef GPOS_DEBUG
 					// bucket number
-					ULONG m_ulBucket;
+					ULONG m_bucket_idx;
 #endif // GPOS_DEBUG
 
 			};
@@ -221,7 +221,7 @@ namespace gpos
                     m_rgbucket[i].m_list.Init(cLinkOffset);
     #ifdef GPOS_DEBUG
                     // add serial number
-                    m_rgbucket[i].m_ulBucket = i;
+                    m_rgbucket[i].m_bucket_idx = i;
     #endif // GPOS_DEBUG
                 }
 
@@ -250,7 +250,7 @@ namespace gpos
                 // since removing an entry will automatically advance iter's
                 // position, we need to make sure that advance iter is called
                 // only when we do not have an entry to delete
-                while (NULL != pt || shtit.FAdvance())
+                while (NULL != pt || shtit.Advance())
                 {
                     if (NULL != pt)
                     {
@@ -268,7 +268,7 @@ namespace gpos
 
     #ifdef GPOS_DEBUG
                 CSyncHashtableIter<T, K, S> shtitSnd(*this);
-                GPOS_ASSERT(!shtitSnd.FAdvance());
+                GPOS_ASSERT(!shtitSnd.Advance());
     #endif // GPOS_DEBUG
             }
 
@@ -283,7 +283,7 @@ namespace gpos
                 SBucket &bucket = Bucket(UlBucketIndex(key));
 
                 // acquire auto spinlock
-                CAutoSpinlock alock(bucket.m_slock);
+                CAutoSpinlock alock(bucket.m_lock);
                 alock.Lock();
 
                 // inserting at bucket's head is required by hashtable iteration

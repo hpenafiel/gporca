@@ -107,7 +107,7 @@ CCTEMap::PdpplanProducer
 	CDrvdPropPlan *pdpplanProducer = NULL;
 	*pulId = ULONG_MAX;
 	HMCteMapIter hmcmi(m_phmcm);
-	while (NULL == pdpplanProducer && hmcmi.FAdvance())
+	while (NULL == pdpplanProducer && hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		CCTEMap::ECteType ect = pcme->Ect();
@@ -121,7 +121,7 @@ CCTEMap::PdpplanProducer
 	}
 
 #ifdef GPOS_DEBUG
-	while (hmcmi.FAdvance())
+	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		CCTEMap::ECteType ect = pcme->Ect();
@@ -154,7 +154,7 @@ CCTEMap::AddUnresolved
 	GPOS_ASSERT(NULL != pcmResult);
 	// iterate on first map and lookup entries in second map
 	HMCteMapIter hmcmi(cmFirst.m_phmcm);
-	while (hmcmi.FAdvance())
+	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		ULONG ulId = pcme->UlId();
@@ -220,7 +220,7 @@ CCTEMap::FSubset
 	}
 
 	HMCteMapIter hmcmi(m_phmcm);
-	while (hmcmi.FAdvance())
+	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		CCTEMapEntry *pcmeOther = pcm->PcmeLookup(pcme->UlId());
@@ -251,7 +251,7 @@ CCTEMap::HashValue() const
 	ULONG ul = 0;
 
 	HMCteMapIter hmcmi(m_phmcm);
-	while (hmcmi.FAdvance() && ul < ulMaxEntries)
+	while (hmcmi.Advance() && ul < ulMaxEntries)
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		ulHash = gpos::CombineHashes(ulHash, pcme->HashValue());
@@ -346,7 +346,7 @@ CCTEMap::FSatisfies
 	// every CTE consumer in the current map must be in the requirements (does not
 	// matter whether it is marked as required or optional)
 	HMCteMapIter hmcmi(m_phmcm);
-	while (hmcmi.FAdvance())
+	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		ECteType ect = pcme->Ect();
@@ -379,7 +379,7 @@ CCTEMap::PdrgpulAdditionalProducers
 	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 
 	HMCteMapIter hmcmi(m_phmcm);
-	while (hmcmi.FAdvance())
+	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		ULONG ulId = pcme->UlId();
@@ -410,7 +410,7 @@ CCTEMap::OsPrint
 	const
 {
 	HMCteMapIter hmcmi(m_phmcm);
-	while (hmcmi.FAdvance())
+	while (hmcmi.Advance())
 	{
 		CCTEMapEntry *pcme = const_cast<CCTEMapEntry *>(hmcmi.Value());
 		pcme->OsPrint(os);

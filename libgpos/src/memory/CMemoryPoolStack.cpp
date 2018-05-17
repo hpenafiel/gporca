@@ -99,7 +99,7 @@ CMemoryPoolStack::PvAllocate
 	ULONG ulAlloc = GPOS_MEM_ALIGNED_SIZE(ulBytes);
 	GPOS_ASSERT(MAX_ALIGNED(ulAlloc));
 
-	CAutoSpinlock as(m_slock);
+	CAutoSpinlock as(m_lock);
 
 	// check if memory pool has enough capacity
 	if (ulAlloc + m_ullReserved > m_ullCapacity)
@@ -110,7 +110,7 @@ CMemoryPoolStack::PvAllocate
 	// find block to allocate memory in it
 	SBlockDescriptor *pbd = PbdProvider(as, ulAlloc);
 
-	GPOS_ASSERT_IMP(FThreadSafe(), m_slock.FOwned());
+	GPOS_ASSERT_IMP(FThreadSafe(), m_lock.FOwned());
 
 	if (NULL != pbd)
 	{
@@ -216,7 +216,7 @@ CMemoryPoolStack::PbdNew
 void
 CMemoryPoolStack::TearDown()
 {
-	GPOS_ASSERT(!m_slock.FOwned());
+	GPOS_ASSERT(!m_lock.FOwned());
 
 	while (!m_listBlocks.IsEmpty())
 	{

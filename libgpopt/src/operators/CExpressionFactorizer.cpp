@@ -659,13 +659,13 @@ CExpressionFactorizer::PexprAddInferredFilters
 	pdrgpexprPrefilters->Append(pexpr);
 	const ULONG ulDisjChildren = pexpr->UlArity();
 
-	while (src2arrayIter.FAdvance())
+	while (src2arrayIter.Advance())
 	{
 		AddInferredFiltersFromArray(pmp, src2arrayIter.Value(), ulDisjChildren, pdrgpexprPrefilters);
 	}
 
 	ColumnToArrayPosMapIter col2arrayIter(pcol2array);
-	while (col2arrayIter.FAdvance())
+	while (col2arrayIter.Advance())
 	{
 		AddInferredFiltersFromArray(pmp, col2arrayIter.Value(), ulDisjChildren, pdrgpexprPrefilters);
 	}

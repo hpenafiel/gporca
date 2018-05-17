@@ -1640,7 +1640,7 @@ CExpressionPreprocessor::AddPredsToCTEProducers
 
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
 	CTEPredsMapIter mi(phm);
-	while (mi.FAdvance())
+	while (mi.Advance())
 	{
 		ULONG ulCTEId = *(mi.Key());
 		CExpression *pexprProducer = pcteinfo->PexprCTEProducer(ulCTEId);

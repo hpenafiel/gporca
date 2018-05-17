@@ -272,7 +272,7 @@ CGroup::CleanupContexts()
 		COptimizationContext *poc = NULL;
 		ShtIter shtit(m_sht);
 
-		while (NULL != poc || shtit.FAdvance())
+		while (NULL != poc || shtit.Advance())
 		{
 			CRefCount::SafeRelease(poc);
 
@@ -482,7 +482,7 @@ CGroup::SetId
 	ULONG ulId
 	)
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 	GPOS_ASSERT(GPOPT_INVALID_GROUP_ID == m_ulId &&
 				"Overwriting previously assigned group id");
 
@@ -504,7 +504,7 @@ CGroup::InitProperties
 	CDrvdProp *pdp
 	)
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 	GPOS_ASSERT(NULL == m_pdp);
 	GPOS_ASSERT(NULL != pdp);
 	GPOS_ASSERT_IMP(FScalar(), CDrvdProp::EptScalar == pdp->Ept());
@@ -528,7 +528,7 @@ CGroup::InitStats
 	IStatistics *pstats
 	)
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 	GPOS_ASSERT(NULL == m_pstats);
 	GPOS_ASSERT(NULL != pstats);
 
@@ -550,7 +550,7 @@ CGroup::SetState
 	EState estNewState
 	)
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 	GPOS_ASSERT(estNewState == (EState) (m_estate + 1));
 
 	m_estate = estNewState;
@@ -575,7 +575,7 @@ CGroup::SetHashJoinKeys
 	GPOS_ASSERT(m_fScalar);
 	GPOS_ASSERT(NULL != pdrgpexprOuter);
 	GPOS_ASSERT(NULL != pdrgpexprInner);
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 
 	if (NULL != m_pdrgpexprHashJoinKeysOuter)
 	{
@@ -629,7 +629,7 @@ CGroup::Insert
 	CGroupExpression *pgexpr
 	)
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 
 	m_listGExprs.Append(pgexpr);
 	COperator *pop = pgexpr->Pop();
@@ -669,7 +669,7 @@ CGroup::MoveDuplicateGExpr
 	CGroupExpression *pgexpr
 	)
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 
 	m_listGExprs.Remove(pgexpr);
 	m_ulGExprs--;
@@ -733,7 +733,7 @@ CGroup::PgexprAnyCTEConsumer()
 CGroupExpression *
 CGroup::PgexprFirst()
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 
 	return m_listGExprs.First();
 }
@@ -753,7 +753,7 @@ CGroup::PgexprNext
 	CGroupExpression *pgexpr
 	) 
 {
-	GPOS_ASSERT(m_slock.FOwned());
+	GPOS_ASSERT(m_lock.FOwned());
 
 	return m_listGExprs.Next(pgexpr);
 }
@@ -1724,7 +1724,7 @@ CGroup::OsPrintGrpOptCtxts
 
 		COptimizationContext *poc = NULL;
 		ShtIter shtit(m_sht);
-		while (shtit.FAdvance())
+		while (shtit.Advance())
 		{
 			{
 				ShtAccIter shtitacc(shtit);

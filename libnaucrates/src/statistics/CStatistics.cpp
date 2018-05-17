@@ -117,7 +117,7 @@ CStatistics::CapNDVs
 {
 	GPOS_ASSERT(NULL != phmulhist);
 	HMIterUlHist hmiterulhist(phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		CHistogram *phist = const_cast<CHistogram *>(hmiterulhist.Value());
 		phist->CapNDVs(dRows);
@@ -137,7 +137,7 @@ CStatistics::OsPrint
 	os << "Rebinds = " << DRebinds() << std::endl;
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		os << "Col" << ulColId << ":" << std::endl;
@@ -147,7 +147,7 @@ CStatistics::OsPrint
 	}
 
 	HMIterUlDouble hmiteruldouble(m_phmuldoubleWidth);
-	while (hmiteruldouble.FAdvance())
+	while (hmiteruldouble.Advance())
 	{
 		ULONG ulColId = *(hmiteruldouble.Key());
 		os << "Col" << ulColId << ":" << std::endl;
@@ -197,7 +197,7 @@ CStatistics::DWidth() const
 {
 	CDouble dWidth(0.0);
 	HMIterUlDouble hmiteruldouble(m_phmuldoubleWidth);
-	while (hmiteruldouble.FAdvance())
+	while (hmiteruldouble.Advance())
 	{
 		const CDouble *pdWidth = hmiteruldouble.Value();
 		dWidth = dWidth + (*pdWidth);
@@ -469,7 +469,7 @@ CStatistics::AddNotExcludedHistograms
 	GPOS_ASSERT(NULL != phmulhist);
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		if (!pbsExcludedColIds->Get(ulColId))
@@ -519,7 +519,7 @@ CStatistics::CopyHistograms
 	BOOL fEmpty = IsEmpty();
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
@@ -556,7 +556,7 @@ CStatistics::Prprel
 
 	// add columns from histogram map
 	HMIterUlHist hmiterulhist(m_phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		CColRef *pcr = pcf->PcrLookup(ulColId);
@@ -699,7 +699,7 @@ CStatistics::PdrgulColIds
 	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		pdrgpul->Append(GPOS_NEW(pmp) ULONG(ulColId));
@@ -720,7 +720,7 @@ CStatistics::Pcrs
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		CColRef *pcr = pcf->PcrLookup(ulColId);
@@ -747,7 +747,7 @@ CStatistics::AddHistogramsWithRemap
 	)
 {
 	HMIterUlCr hmiterulcr(phmulcr);
-	while (hmiterulcr.FAdvance())
+	while (hmiterulcr.Advance())
 	{
 		ULONG ulColIdSrc = *(hmiterulcr.Key());
 		const CColRef *pcrDest = hmiterulcr.Value();
@@ -775,7 +775,7 @@ CStatistics::AddWidthInfoWithRemap
 		)
 {
 	HMIterUlDouble hmiteruldouble(phmuldoubleSrc);
-	while (hmiteruldouble.FAdvance())
+	while (hmiteruldouble.Advance())
 	{
 		ULONG ulColId = *(hmiteruldouble.Key());
 		CColRef *pcrNew = phmulcr->Find(&ulColId);
@@ -853,7 +853,7 @@ CStatistics::Pdxlstatsderrel
 	DrgPdxlstatsdercol *pdrgpdxlstatsdercol = GPOS_NEW(pmp) DrgPdxlstatsdercol(pmp);
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();

@@ -74,7 +74,7 @@ CHashMapIterTest::EresUnittest_Basic()
 
 	// iteration over empty map
 	MapIter miEmpty(pm);
-	GPOS_ASSERT(!miEmpty.FAdvance());
+	GPOS_ASSERT(!miEmpty.Advance());
 	
 #endif // GPOS_DEBUG
 
@@ -91,7 +91,7 @@ CHashMapIterTest::EresUnittest_Basic()
 
 		// iterate over full map
 		MapIter mi(pm);
-		while (mi.FAdvance())
+		while (mi.Advance())
 		{
 			pdrgpulIterKeys->Append(mi.Key());
 			pdrgpulIterValues->Append(mi.Value());

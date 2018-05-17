@@ -96,7 +96,7 @@ CMemoryPoolTracker::PvAllocate
 {
 	GPOS_ASSERT(GPOS_MEM_ALLOC_MAX >= ulBytes);
 
-	CAutoSpinlock as(m_slock);
+	CAutoSpinlock as(m_lock);
 
 	ULONG ulAlloc = GPOS_MEM_BYTES_TOTAL(ulBytes);
 	const BOOL fAvailableMem = FReserve(as, ulAlloc);
@@ -233,7 +233,7 @@ CMemoryPoolTracker::Free
 	void *pv
 	)
 {
-	CAutoSpinlock as(m_slock);
+	CAutoSpinlock as(m_lock);
 
 	SAllocHeader *pah = static_cast<SAllocHeader*>(pv) - 1;
 	ULONG ulUserSize = pah->m_ulSize;
@@ -353,7 +353,7 @@ CMemoryPoolTracker::UpdateStatistics
 	CMemoryPoolStatistics &mps
 	)
 {
-	CAutoSpinlock as(m_slock);
+	CAutoSpinlock as(m_lock);
 	SLock(as);
 
 	mps = m_mps;

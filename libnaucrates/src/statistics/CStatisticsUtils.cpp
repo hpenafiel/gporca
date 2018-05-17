@@ -885,7 +885,7 @@ CStatisticsUtils::PrintHistogramMap
 	GPOS_ASSERT(NULL != phmulhist);
 
 	HMIterUlHist hmiterulhist(phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulCol = *(hmiterulhist.Key());
 
@@ -928,7 +928,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	// iterate over the new hash map of histograms and only add
 	// histograms of columns whose output statistics can be updated
 	HMIterUlHist hmiterulhistDisjChild(phmulhistDisjChild);
-	while (hmiterulhistDisjChild.FAdvance())
+	while (hmiterulhistDisjChild.Advance())
 	{
 		ULONG ulColIdDisjChild = *(hmiterulhistDisjChild.Key());
 		const CHistogram *phistDisjChild = hmiterulhistDisjChild.Value();
@@ -955,7 +955,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	// iterate over the previously generated histograms and
 	// union them with newly created hash map of histograms (if these columns are updatable)
 	HMIterUlHist hmiterulhist(phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
@@ -1026,7 +1026,7 @@ CStatisticsUtils::PhmulhistCopy
 	HMUlHist *phmulhistCopy = GPOS_NEW(pmp) HMUlHist(pmp);
 
 	HMIterUlHist hmiterulhist(phmulhist);
-	while (hmiterulhist.FAdvance())
+	while (hmiterulhist.Advance())
 	{
 		ULONG ulColId = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
@@ -1429,7 +1429,7 @@ CStatisticsUtils::PdrgPdoubleNDV
 
 	HMUlPdrgpul *phmulpdrgpul = PhmpuldrgpulTblOpIdToGrpColsMap(pmp, pstatsInput, pcrsGrpCols, pbsKeys);
 	HMIterUlPdrgpul hmiterulpdrgpul(phmulpdrgpul);
-	while (hmiterulpdrgpul.FAdvance())
+	while (hmiterulpdrgpul.Advance())
 	{
 		ULONG ulSourceId = *(hmiterulpdrgpul.Key());
 		const ULongPtrArray *pdrgpulPerSrc = hmiterulpdrgpul.Value();
@@ -1902,7 +1902,7 @@ CStatisticsUtils::AddWidthInfo
 		)
 {
 	HMIterUlDouble hmiteruldouble(phmuldoubleSrc);
-	while (hmiteruldouble.FAdvance())
+	while (hmiteruldouble.Advance())
 	{
 		ULONG ulColId = *(hmiteruldouble.Key());
 		BOOL fPresent = (NULL != phmuldoubleDest->Find(&ulColId));

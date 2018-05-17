@@ -234,7 +234,7 @@ namespace gpopt
 			ShtOC m_sht;
 
 			// spin lock to protect operations on expression list
-			CSpinlockGroup m_slock;
+			CSpinlockGroup m_lock;
 
 			// number of group expressions
 			ULONG m_ulGExprs;

@@ -535,7 +535,7 @@ namespace gpopt
                 // first, hookup all logical root nodes to the global root
                 TMapIter mi(m_ptmap);
                 ULONG ulNodes = 0;
-                for (ulNodes = 0; mi.FAdvance(); ulNodes++)
+                for (ulNodes = 0; mi.Advance(); ulNodes++)
                 {
                     CTreeNode *ptn = const_cast<CTreeNode*>(mi.Value());
 
@@ -589,7 +589,7 @@ namespace gpopt
             {
                 TMapIter mi(m_ptmap);
                 ULONG ulNodes = 0;
-                for (ulNodes = 0; mi.FAdvance(); ulNodes++)
+                for (ulNodes = 0; mi.Advance(); ulNodes++)
                 {
                     CTreeNode *ptn = const_cast<CTreeNode*>(mi.Value());
                     (void) ptn->OsPrint(os);

@@ -138,7 +138,7 @@ CGroupExpression::CleanupContexts()
 
 		ShtIter shtit(m_sht);
 		CCostContext *pcc = NULL;
-		while (NULL != pcc || shtit.FAdvance())
+		while (NULL != pcc || shtit.Advance())
 		{
 			if (NULL != pcc)
 			{
@@ -1144,7 +1144,7 @@ CGroupExpression::OsPrintCostContexts
 		os << szPrefix << szPrefix << "Cost Ctxts:" << std::endl;
 		CCostContext *pcc = NULL;
 		ShtIter shtit(this->Sht());
-		while (shtit.FAdvance())
+		while (shtit.Advance())
 		{
 			{
 				ShtAccIter shtitacc(shtit);

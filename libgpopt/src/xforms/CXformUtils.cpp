@@ -4638,7 +4638,7 @@ CXformUtils::PdrgpdrgpexprSortedPrjElemsArray
 
 	DrgPdrgPexpr *pdrgpdrgpexprPrjElems = GPOS_NEW(pmp) DrgPdrgPexpr(pmp);
 	HMExprDrgPexprIter hmexprdrgpexpriter(phmexprdrgpexpr);
-	while (hmexprdrgpexpriter.FAdvance())
+	while (hmexprdrgpexpriter.Advance())
 	{
 		DrgPexpr *pdrgpexprPrjElems = const_cast<DrgPexpr *>(hmexprdrgpexpriter.Value());
 		pdrgpexprPrjElems->AddRef();
