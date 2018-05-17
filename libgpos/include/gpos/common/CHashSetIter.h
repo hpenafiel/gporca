@@ -41,16 +41,6 @@ namespace gpos
 
 			// private copy ctor
 			CHashSetIter(const CHashSetIter<T, HashFn, EqFn, CleanupFn> &);
-			
-			// method to return the current element
-			const typename TSet::CHashSetElem *Phse() const
-            {
-                typename TSet::CHashSetElem *phse = NULL;
-                T *t = (*(m_pts->m_elements))[m_ulElement-1];
-                phse = m_pts->Lookup(t);
-
-                return phse;
-            }
 
 		public:
 		
@@ -84,7 +74,9 @@ namespace gpos
 			// current element
 			const T *Value() const
             {
-                const typename TSet::CHashSetElem *phse = Phse();
+				const typename TSet::CHashSetElem *phse = NULL;
+				T *t = (*(m_pts->m_elements))[m_ulElement-1];
+				phse = m_pts->Lookup(t);
                 if (NULL != phse)
                 {
                     return phse->Value();
