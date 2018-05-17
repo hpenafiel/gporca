@@ -53,26 +53,26 @@ namespace gpos
 		
 			// finds the first element matching target key starting from
 			// the given element
-			T *PtNextMatch(T *value) const
+			T *NextMatch(T *value) const
             {
-                T *ptCurrent = value;
+                T *curr = value;
 
-                while (NULL != ptCurrent &&
-                       !Base::Sht().m_eqfn(Base::Sht().Key(ptCurrent), m_key))
+                while (NULL != curr &&
+                       !Base::GetHashTable().m_eqfn(Base::GetHashTable().Key(curr), m_key))
                 {
-                    ptCurrent = Base::Next(ptCurrent);
+                    curr = Base::Next(curr);
                 }
 
-                return ptCurrent;
+                return curr;
             }
 
 #ifdef GPOS_DEBUG
 			// returns true if current bucket matches key
 			BOOL FMatchingBucket(const K &key) const
             {
-                ULONG ulBucketIndex = Base::Sht().GetBucketIndex(key);
+                ULONG bucket_idx = Base::GetHashTable().GetBucketIndex(key);
 
-                return &(Base::Sht().GetBucket(ulBucketIndex)) == &(Base::GetBucket());
+                return &(Base::GetHashTable().GetBucket(bucket_idx)) == &(Base::GetBucket());
             }
 #endif // GPOS_DEBUG
 
@@ -95,7 +95,7 @@ namespace gpos
 			// finds the first bucket's element with a matching key
 			T *Find() const
             {
-                return PtNextMatch(Base::PtFirst());
+                return NextMatch(Base::First());
             }
 
 			// finds the next element with a matching key
@@ -103,7 +103,7 @@ namespace gpos
             {
                 GPOS_ASSERT(NULL != value);
 
-                return PtNextMatch(Base::Next(value));
+                return NextMatch(Base::Next(value));
             }
 
 			// insert at head of target bucket's hash chain
@@ -112,11 +112,11 @@ namespace gpos
                 GPOS_ASSERT(NULL != value);
 
     #ifdef GPOS_DEBUG
-                K &key = Base::Sht().Key(value);
+                K &key = Base::GetHashTable().Key(value);
     #endif // GPOS_DEBUG
 
                 // make sure this is a valid key
-                GPOS_ASSERT(Base::Sht().IsValid(key));
+                GPOS_ASSERT(Base::GetHashTable().IsValid(key));
 
                 // make sure this is the right bucket
                 GPOS_ASSERT(FMatchingBucket(key));

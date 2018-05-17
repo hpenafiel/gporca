@@ -53,14 +53,14 @@ namespace gpos
             {
                 GPOS_ASSERT(NULL != value);
 
-                T *ptCurrent = value;
-                while (NULL != ptCurrent &&
-                       !Base::Sht().IsValid(Base::Sht().Key(ptCurrent)))
+                T *curr = value;
+                while (NULL != curr &&
+                       !Base::GetHashTable().IsValid(Base::GetHashTable().Key(curr)))
                 {
-                    ptCurrent = Base::Next(ptCurrent);
+                    curr = Base::Next(curr);
                 }
 
-                return ptCurrent;
+                return curr;
             }
 
 		public:

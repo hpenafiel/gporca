@@ -232,7 +232,7 @@ namespace gpos
 					}
 
 					// hash table accessor
-					SElemHashtable &Sht() const
+					SElemHashtable &GetHashTable() const
 					{
 						return m_sht;
 					}

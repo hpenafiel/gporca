@@ -553,7 +553,7 @@ CSyncHashtableTest::PvUnittest_IteratorCheck
 	)
 {
 	SElemTest *pelemtest = (SElemTest *)pv;
-	SElemHashtable &sht = pelemtest->Sht();
+	SElemHashtable &sht = pelemtest->GetHashTable();
 
 	CAutoMemoryPool amp;
 
@@ -756,7 +756,7 @@ CSyncHashtableTest::PvUnittest_Reader
 
 	Unittest_WaitTasks(pelemtest);
 
-	SElemHashtable &sht = pelemtest->Sht();
+	SElemHashtable &sht = pelemtest->GetHashTable();
 
 	for (ULONG i = 0; i < GPOS_SHT_LOOKUPS; i++)
 	{
@@ -797,7 +797,7 @@ CSyncHashtableTest::PvUnittest_Iterator
 
 	CAutoMemoryPool amp;
 
-	SElemHashtable &sht = pelemtest->Sht();
+	SElemHashtable &sht = pelemtest->GetHashTable();
 	SElemHashtableIter shtit(sht);
 	ULONG ulCount = 0;
 
@@ -845,7 +845,7 @@ CSyncHashtableTest::PvUnittest_Remover
 
 	Unittest_WaitTasks(pelemtest);
 
-	SElemHashtable &sht = pelemtest->Sht();
+	SElemHashtable &sht = pelemtest->GetHashTable();
 	for (ULONG i = GPOS_SHT_INITIAL_ELEMENTS; i < GPOS_SHT_ELEMENTS; i++)
 	{
 		SElemHashtableAccessor shtacc(sht, i);
@@ -881,7 +881,7 @@ CSyncHashtableTest::PvUnittest_Inserter
 
 	Unittest_WaitTasks(pelemtest);
 
-	SElemHashtable &sht = pelemtest->Sht();
+	SElemHashtable &sht = pelemtest->GetHashTable();
 	SElem *rgelem = pelemtest->Rgelem();
 	for (ULONG i = GPOS_SHT_INITIAL_ELEMENTS; i < GPOS_SHT_ELEMENTS; i++)
 	{

@@ -77,7 +77,7 @@ namespace gpos
                 {
                     CSyncHashtableAccessByIter<T, K, S> acc(*this);
 
-                    T *first = acc.PtFirst();
+                    T *first = acc.First();
                     T *first_valid = NULL;
 
                     if (NULL != first &&

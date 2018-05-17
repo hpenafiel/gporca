@@ -62,11 +62,11 @@ namespace gpos
 			CSyncHashtableAccessorBase<T, K, S>
 				(
 				CSyncHashtable<T, K, S> &ht,
-				ULONG ulBucketIndex
+				ULONG bucket_idx
 				)
             :
             m_ht(ht),
-            m_bucket(m_ht.GetBucket(ulBucketIndex))
+            m_bucket(m_ht.GetBucket(bucket_idx))
             {
                 // acquire spin lock on bucket
                 m_bucket.m_lock.Lock();
@@ -81,7 +81,7 @@ namespace gpos
             }
 
 			// accessor to hashtable
-			CSyncHashtable<T, K, S>& Sht() const
+			CSyncHashtable<T, K, S>& GetHashTable() const
 			{
 				return m_ht;
 			}
@@ -93,7 +93,7 @@ namespace gpos
 			}
 
 			// returns the first element in the hash chain
-			T *PtFirst() const
+			T *First() const
             {
                 return m_bucket.m_chain.First();
             }
