@@ -49,7 +49,7 @@ namespace gpos
 				(const CSyncHashtableAccessByIter<T, K, S>&);
 
 			// returns the first valid element starting from the given element
-			T *PtFirstValid(T *value) const
+			T *FirstValid(T *value) const
             {
                 GPOS_ASSERT(NULL != value);
 
@@ -86,7 +86,7 @@ namespace gpos
                 // iterator might have been deleted by another client just before
                 // using the accessor
 
-                return PtFirstValid(m_iter.m_invalid_elem);
+                return FirstValid(m_iter.m_invalid_elem);
             }
 
 	}; // class CSyncHashtableAccessByIter

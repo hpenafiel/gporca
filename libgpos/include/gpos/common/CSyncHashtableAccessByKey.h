@@ -68,7 +68,7 @@ namespace gpos
 
 #ifdef GPOS_DEBUG
 			// returns true if current bucket matches key
-			BOOL FMatchingBucket(const K &key) const
+			BOOL CurrentBucketMatchesKey(const K &key) const
             {
                 ULONG bucket_idx = Base::GetHashTable().GetBucketIndex(key);
 
@@ -119,7 +119,7 @@ namespace gpos
                 GPOS_ASSERT(Base::GetHashTable().IsValid(key));
 
                 // make sure this is the right bucket
-                GPOS_ASSERT(FMatchingBucket(key));
+                GPOS_ASSERT(CurrentBucketMatchesKey(key));
 
                 // inserting at bucket's head is required by hashtable iteration
                 Base::Prepend(value);

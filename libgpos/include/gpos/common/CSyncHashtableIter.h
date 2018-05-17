@@ -81,7 +81,7 @@ namespace gpos
                     T *first_valid = NULL;
 
                     if (NULL != first &&
-                        (NULL != (first_valid = acc.PtFirstValid(first))))
+                        (NULL != (first_valid = acc.FirstValid(first))))
                     {
                         // insert invalid element before the found element
                         acc.Prepend(m_invalid_elem, first_valid);
@@ -100,7 +100,7 @@ namespace gpos
             {
                 CSyncHashtableAccessByIter<T, K, S> acc(*this);
 
-                T *value = acc.PtFirstValid(m_invalid_elem);
+                T *value = acc.FirstValid(m_invalid_elem);
 
                 acc.Remove(m_invalid_elem);
                 m_invalid_elem_inserted = false;
