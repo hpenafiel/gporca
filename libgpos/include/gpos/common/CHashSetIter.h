@@ -16,14 +16,14 @@ namespace gpos
 
 	// Hash set iterator
 	template <class T,
-				ULONG (*pfnHash)(const T*), 
-				BOOL (*pfnEq)(const T*, const T*),
+				ULONG (*HashFn)(const T*), 
+				BOOL (*EqFn)(const T*, const T*),
 				void (*CleanupFn)(T*)>
 	class CHashSetIter : public CStackObject
 	{
 	
 		// short hand for hashset type
-		typedef CHashSet<T, pfnHash, pfnEq, CleanupFn> TSet;
+		typedef CHashSet<T, HashFn, EqFn, CleanupFn> TSet;
 	
 		private:
 
@@ -40,14 +40,14 @@ namespace gpos
 			BOOL m_fInit;
 
 			// private copy ctor
-			CHashSetIter(const CHashSetIter<T, pfnHash, pfnEq, CleanupFn> &);
+			CHashSetIter(const CHashSetIter<T, HashFn, EqFn, CleanupFn> &);
 			
 			// method to return the current element
 			const typename TSet::CHashSetElem *Phse() const
             {
                 typename TSet::CHashSetElem *phse = NULL;
-                T *t = (*(m_pts->m_pdrgElements))[m_ulElement-1];
-                m_pts->Lookup(t, &phse);
+                T *t = (*(m_pts->m_elements))[m_ulElement-1];
+                phse = m_pts->Lookup(t);
 
                 return phse;
             }
@@ -55,7 +55,7 @@ namespace gpos
 		public:
 		
 			// ctor
-			CHashSetIter<T, pfnHash, pfnEq, CleanupFn> (TSet *pts)
+			CHashSetIter<T, HashFn, EqFn, CleanupFn> (TSet *pts)
             :
             m_pts(pts),
             m_ulChain(0),
@@ -66,13 +66,13 @@ namespace gpos
 
 			// dtor
 			virtual
-			~CHashSetIter<T, pfnHash, pfnEq, CleanupFn> ()
+			~CHashSetIter<T, HashFn, EqFn, CleanupFn> ()
 			{}
 
 			// advance iterator to next element
 			BOOL Advance()
             {
-                if (m_ulElement < m_pts->m_pdrgElements->Size())
+                if (m_ulElement < m_pts->m_elements->Size())
                 {
                     m_ulElement++;
                     return true;
