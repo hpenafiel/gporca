@@ -93,8 +93,8 @@ CMemoryPoolManager::EresInit
 	GPOS_ASSERT(NULL == CMemoryPoolManager::m_pmpm);
 
 	// raw allocation of memory for internal memory pools
-	void *pvAllocBase = PvMalloc(sizeof(CMemoryPoolAlloc));
-	void *pvAllocInternal = PvMalloc(sizeof(CMemoryPoolTracker));
+	void *pvAllocBase = Malloc(sizeof(CMemoryPoolAlloc));
+	void *pvAllocInternal = Malloc(sizeof(CMemoryPoolTracker));
 
 	// check if any allocation failed
 	if (NULL == pvAllocInternal ||

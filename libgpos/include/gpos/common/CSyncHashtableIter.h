@@ -134,7 +134,7 @@ namespace gpos
                 K &key = m_ht.Key(m_ptInvalid);
 
                 // copy invalid key to invalid element's memory
-                (void) clib::PvMemCpy
+                (void) clib::MemCpy
                 (
                  &key,
                  m_ht.m_pkeyInvalid,

@@ -33,7 +33,7 @@ void
 CBitVector::Clear()
 {
 	GPOS_ASSERT(NULL != m_vec);
-	clib::PvMemSet(m_vec, 0, m_len * BYTES_PER_UNIT);
+	clib::MemSet(m_vec, 0, m_len * BYTES_PER_UNIT);
 }
 
 
@@ -120,7 +120,7 @@ CBitVector::CBitVector
 	CAutoRg<ULLONG> argull;
 	argull = m_vec;
 	
-	clib::PvMemCpy(m_vec, bv.m_vec, BYTES_PER_UNIT * m_len);
+	clib::MemCpy(m_vec, bv.m_vec, BYTES_PER_UNIT * m_len);
 
 	// unhook from protector
 	argull.RgtReset();
@@ -342,7 +342,7 @@ CBitVector::Equals
 		"vectors must be of same size");
 		
 	// compare all components
-	if (0 == clib::IMemCmp(m_vec, vec->m_vec, m_len * BYTES_PER_UNIT))
+	if (0 == clib::MemCmp(m_vec, vec->m_vec, m_len * BYTES_PER_UNIT))
 	{
 		GPOS_ASSERT(this->ContainsAll(vec) && vec->ContainsAll(this));
 		return true;

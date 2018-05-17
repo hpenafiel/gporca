@@ -178,7 +178,7 @@ CDXLUtilsTest::EresUnittest_Encoding()
 	CAutoP<CDXLMemoryManager> a_pmm(GPOS_NEW(pmp) CDXLMemoryManager(pmp));
 
 	const CHAR *sz = "{\"{FUNCEXPR :funcid 1967 :funcresulttype 1184 :funcretset false :funcformat 1 :args ({FUNCEXPR :funcid 1191 :funcresulttype 1184 :funcretset false :funcformat 2 :args ({CONST :consttype 25 :constlen -1 :constbyval false :constisnull false :constvalue 7 [ 0 0 0 7 110 111 119 ]})} {CONST :consttype 23 :constlen 4 :constbyval true :constisnull false :constvalue 4 [ 2 0 0 0 0 0 0 0 ]})}\"}";
-	ULONG ulLen = clib::UlStrLen(sz);
+	ULONG ulLen = clib::StrLen(sz);
 	const XMLByte *pxmlbyte = (const XMLByte *) sz;
 
 	// encode string in base 64
@@ -199,13 +199,13 @@ CDXLUtilsTest::EresUnittest_Encoding()
 	CAutoRg<XMLByte> a_pxmlbyteDecoded;
 	a_pxmlbyteDecoded = Base64::decode(a_pxmlbyteEncoded.Rgt(), &outputLength, a_pmm.Value());
 	CHAR *szDecoded = (CHAR *) (a_pxmlbyteDecoded.Rgt());
-	GPOS_ASSERT(0 == clib::IStrCmp(szDecoded, sz));
+	GPOS_ASSERT(0 == clib::StrCmp(szDecoded, sz));
 
 	// get a byte array from XMLCh representation of encoded string
 	ULONG ulOutputLen = 0;
 	BYTE *pba = CDXLUtils::PbaFromBase64XMLStr(a_pmm.Value(), pxmlch, &ulOutputLen);
 	CHAR *szPba = (CHAR *) pba;
-	GPOS_ASSERT(0 == clib::IStrCmp(szPba, sz));
+	GPOS_ASSERT(0 == clib::StrCmp(szPba, sz));
 
 	{
 		CAutoTrace at(pmp);

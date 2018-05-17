@@ -106,7 +106,7 @@ CWStringStatic::AppendBuffer
 
 	GPOS_ASSERT(m_ulCapacity > ulLength + m_ulLength);
 
-	clib::WszWcsNCpy(m_wszBuf + m_ulLength, wszBuf, ulLength + 1);
+	clib::WcStrNCpy(m_wszBuf + m_ulLength, wszBuf, ulLength + 1);
 	m_ulLength += ulLength;
 	
 	// terminate string
@@ -169,7 +169,7 @@ CWStringStatic::AppendCharArray
 	#ifdef GPOS_DEBUG
 	ULONG ulLen =
 	#endif // GPOS_DEBUG
-		clib::UlMbToWcs(wszBuf, sz, ulLength);
+		clib::MbToWcs(wszBuf, sz, ulLength);
 	GPOS_ASSERT(ulLen == ulLength);
 
 	// check if new length exceeds capacity
@@ -181,7 +181,7 @@ CWStringStatic::AppendCharArray
 	GPOS_ASSERT(m_ulCapacity > ulLength + m_ulLength);
 
 	// append input string to current end of buffer
-	(void) clib::WszWMemCpy(m_wszBuf + m_ulLength, wszBuf, ulLength + 1);
+	(void) clib::WcMemCpy(m_wszBuf + m_ulLength, wszBuf, ulLength + 1);
 
 	m_ulLength += ulLength;
 	m_wszBuf[m_ulLength] = WCHAR_EOS;
@@ -201,16 +201,16 @@ CWStringStatic::AppendCharArray
 void
 CWStringStatic::AppendFormat
 	(
-	const WCHAR *wszFormat,
+	const WCHAR *format,
 	...
 	)
 {
 	VA_LIST	vaArgs;
 
 	// get arguments
-	VA_START(vaArgs, wszFormat);
+	VA_START(vaArgs, format);
 
-	AppendFormatVA(wszFormat, vaArgs);
+	AppendFormatVA(format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);
@@ -228,17 +228,17 @@ CWStringStatic::AppendFormat
 void
 CWStringStatic::AppendFormatVA
 	(
-	const WCHAR *wszFormat,
+	const WCHAR *format,
 	VA_LIST vaArgs
 	)
 {
-	GPOS_ASSERT(NULL != wszFormat);
+	GPOS_ASSERT(NULL != format);
 
 	// available space in buffer
 	ULONG ulAvailable = m_ulCapacity - m_ulLength;
 
 	// format string
-	(void) clib::IVswPrintf(m_wszBuf + m_ulLength, ulAvailable, wszFormat, vaArgs);
+	(void) clib::VswPrintf(m_wszBuf + m_ulLength, ulAvailable, format, vaArgs);
 
 	m_wszBuf[m_ulCapacity - 1] = WCHAR_EOS;
 	m_ulLength = GPOS_WSZ_LENGTH(m_wszBuf);
@@ -300,7 +300,7 @@ CWStringStatic::AppendEscape
 			// check for overflow
 			ULONG ulLengthCopy = std::min(ulLengthReplace, m_ulCapacity - ulLengthNew - 1);
 
-			clib::WszWcsNCpy(m_wszBuf + ulLengthNew, wszReplace, ulLengthCopy);
+			clib::WcStrNCpy(m_wszBuf + ulLengthNew, wszReplace, ulLengthCopy);
 			ulLengthNew += ulLengthCopy;
 		}
 		else

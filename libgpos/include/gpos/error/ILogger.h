@@ -27,11 +27,11 @@
 #define GPOS_TRACE_ERR(wszMsg)   \
 	ILogger::Trace(__FILE__, __LINE__, true /*fErr*/, wszMsg)
 
-#define GPOS_TRACE_FORMAT(szFormat, ...)   \
-	ILogger::TraceFormat(__FILE__, __LINE__, false /*fErr*/, GPOS_WSZ_LIT(szFormat), __VA_ARGS__)
+#define GPOS_TRACE_FORMAT(format, ...)   \
+	ILogger::TraceFormat(__FILE__, __LINE__, false /*fErr*/, GPOS_WSZ_LIT(format), __VA_ARGS__)
 
-#define GPOS_TRACE_FORMAT_ERR(szFormat, ...)   \
-	ILogger::TraceFormat(__FILE__, __LINE__, true /*fErr*/, GPOS_WSZ_LIT(szFormat), __VA_ARGS__)
+#define GPOS_TRACE_FORMAT_ERR(format, ...)   \
+	ILogger::TraceFormat(__FILE__, __LINE__, true /*fErr*/, GPOS_WSZ_LIT(format), __VA_ARGS__)
 
 namespace gpos
 {
@@ -123,7 +123,7 @@ namespace gpos
 				const CHAR *szFilename,
 				ULONG ulLine,
 				BOOL fErr,
-				const WCHAR *wszFormat,
+				const WCHAR *format,
 				...
 				);
 

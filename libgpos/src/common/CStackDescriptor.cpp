@@ -68,13 +68,13 @@ CStackDescriptor::BackTrace
 
 	// retrieve stack context
 	ucontext_t uc;
-	if (0 != clib::IGetContext(&uc))
+	if (0 != clib::GetContext(&uc))
 	{
 		return;
 	}
 
 	// walk stack context to get stack addresses
-	if (0 != clib::IWalkContext(&uc, IGetStackFrames, this))
+	if (0 != clib::WalkContext(&uc, IGetStackFrames, this))
 	{
 		return;
 	}
@@ -198,7 +198,7 @@ CStackDescriptor::AppendSymbolInfo
 		szSymbol = info.dli_sname;
 
 		// demangle C++ symbol
-		CHAR *pcDemangled = clib::SzDemangle(szSymbol, szDemangleBuf, &size, &iStatus);
+		CHAR *pcDemangled = clib::Demangle(szSymbol, szDemangleBuf, &size, &iStatus);
 		GPOS_ASSERT(size <= GPOS_STACK_SYMBOL_SIZE);
 		
 		if (0 == iStatus)

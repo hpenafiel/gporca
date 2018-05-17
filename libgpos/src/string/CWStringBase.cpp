@@ -119,7 +119,7 @@ CWStringBase::Equals
 	GPOS_ASSERT(NULL != wszBuf);
 	ULONG ulLength = GPOS_WSZ_LENGTH(wszBuf);
 	if (UlLength() == ulLength &&
-		0 == clib::IWcsNCmp(Wsz(), wszBuf, ulLength))
+		0 == clib::WcStrNCmp(Wsz(), wszBuf, ulLength))
 	{
 		return true;
 	}

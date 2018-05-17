@@ -40,7 +40,7 @@ void gpos_init(struct gpos_init_params* params) {
 	void (*pfnFree) (void*) = params->free;
 
 	if (NULL == pfnAlloc || NULL == pfnFree) {
-	  pfnAlloc = clib::PvMalloc;
+	  pfnAlloc = clib::Malloc;
 	  pfnFree = clib::Free;
 	}
 

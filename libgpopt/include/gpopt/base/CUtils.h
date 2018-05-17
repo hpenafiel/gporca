@@ -868,7 +868,7 @@ namespace gpopt
 			static
 			void GenerateFileName
 				(
-				CHAR *szBuf,
+				CHAR *buf,
 				const CHAR *szPrefix,
 				const CHAR *szExt,
 				ULONG ulLength,

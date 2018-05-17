@@ -67,7 +67,7 @@ CDatumGenericGPDB::CDatumGenericGPDB
 		GPOS_ASSERT(0 < ulSize);
 
 		m_pbVal = GPOS_NEW_ARRAY(m_pmp, BYTE, ulSize);
-		(void) clib::PvMemCpy(m_pbVal, pv, ulSize);
+		(void) clib::MemCpy(m_pbVal, pv, ulSize);
 	}
 }
 
@@ -241,7 +241,7 @@ CDatumGenericGPDB::FMatch
 
 	if (!pdatumgeneric->FNull() && !FNull())
 	{
-		if (0 == clib::IMemCmp(pdatumgeneric->m_pbVal, m_pbVal, UlSize()))
+		if (0 == clib::MemCmp(pdatumgeneric->m_pbVal, m_pbVal, UlSize()))
 		{
 			return true;
 		}
@@ -397,7 +397,7 @@ CDatumGenericGPDB::FStatsEqual
 	{
 		const BYTE *pb1 = m_pbVal;
 		const BYTE *pb2 = pdatumgenericgpdb->m_pbVal;
-		return (clib::IMemCmp(pb1, pb2, ulSize) == 0);
+		return (clib::MemCmp(pb1, pb2, ulSize) == 0);
 	}
 
 	return false;
@@ -427,7 +427,7 @@ CDatumGenericGPDB::PbaVal
 		ulLength = this->UlSize();;
 		GPOS_ASSERT(ulLength > 0);
 		pba = GPOS_NEW_ARRAY(pmp, BYTE, ulLength);
-		(void) clib::PvMemCpy(pba, this->m_pbVal, ulLength);
+		(void) clib::MemCpy(pba, this->m_pbVal, ulLength);
 	}
 
 	*pulLength = ulLength;
@@ -479,10 +479,10 @@ CDatumGenericGPDB::PdatumPadded
 		BYTE *pba = NULL;
 
 		pba = GPOS_NEW_ARRAY(m_pmp, BYTE, ulAdjustedColWidth);
-		(void) clib::PvMemCpy(pba, pbaOriginal, ulDatumLen);
+		(void) clib::MemCpy(pba, pbaOriginal, ulDatumLen);
 
 		// datum's length smaller than column's size, therefore pad the input datum
-		(void) clib::PvMemSet(pba + ulDatumLen, ' ', ulAdjustedColWidth - ulDatumLen);
+		(void) clib::MemSet(pba + ulDatumLen, ' ', ulAdjustedColWidth - ulDatumLen);
 
 		// create a new datum
 		this->Pmdid()->AddRef();
@@ -639,7 +639,7 @@ CDatumGenericGPDB::FStatsEqualBinary
 	// compare the two BYTEA after offsetting used by the GPDB datum header length
 	const BYTE *pba = this->PbaVal();
 	const BYTE *pbaOther = pdatumOther->PbaVal();
-	INT iResult = gpos::clib::IMemCmp
+	INT iResult = gpos::clib::MemCmp
 								(
 								pba + GPDB_DATUM_HDRSZ,
 								pbaOther + GPDB_DATUM_HDRSZ,
@@ -688,7 +688,7 @@ CDatumGenericGPDB::FStatsLessThanBinary
 	const BYTE *pbaOther = pdatumOther->PbaVal();
 
 	// compare the two BYTEA after offset-ing used by the GPDB datum header length
-	INT iResult = gpos::clib::IMemCmp
+	INT iResult = gpos::clib::MemCmp
 								(
 								pba + GPDB_DATUM_HDRSZ,
 								pbaOther + GPDB_DATUM_HDRSZ,

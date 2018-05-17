@@ -14,7 +14,7 @@
 #include "gpos/base.h"
 #include "gpos/common/clibwrapper.h"
 
-#define GPOS_SZ_LENGTH(x) gpos::clib::UlStrLen(x)
+#define GPOS_SZ_LENGTH(x) gpos::clib::StrLen(x)
 
 // use this character to substitute non-ASCII wide characters
 #define GPOS_WCHAR_UNPRINTABLE	'.'
@@ -91,19 +91,19 @@ namespace gpos
 			}
 
 			// checks whether the string is byte-wise equal to a given string literal
-			BOOL Equals(const CHAR *szBuf) const;
+			BOOL Equals(const CHAR *buf) const;
 
 			// appends a string
 			void Append(const CStringStatic *pstr);
 
 			// appends the contents of a buffer to the current string
-			void AppendBuffer(const CHAR *szBuf);
+			void AppendBuffer(const CHAR *buf);
 
 			// appends a formatted string
-			void AppendFormat(const CHAR *szFormat, ...);
+			void AppendFormat(const CHAR *format, ...);
 
 			// appends a formatted string based on passed va list
-			void AppendFormatVA(const CHAR *szFormat, VA_LIST vaArgs);
+			void AppendFormatVA(const CHAR *format, VA_LIST vaArgs);
 
 			// appends wide character string
 			void AppendConvert(const WCHAR *wsz);

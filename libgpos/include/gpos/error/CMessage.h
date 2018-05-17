@@ -21,7 +21,7 @@
 #include "gpos/common/clibwrapper.h"
 #include "gpos/common/CSyncHashtable.h"
 
-#define GPOS_WSZ_WSZLEN(x)    (L##x), (gpos::clib::UlWcsLen(L##x))
+#define GPOS_WSZ_WSZLEN(x)    (L##x), (gpos::clib::WcStrLen(L##x))
 
 #define GPOS_ERRMSG_FORMAT(...) \
 	gpos::CMessage::FormatMessage(__VA_ARGS__)

@@ -170,7 +170,7 @@ CDoubleTest::EresUnittest_Convert()
 	   << ULLONG(10) << "ul - " << fp << " = " << (ULLONG(10) - fp) << std::endl
 	   << INT(10) << " * " << fp << " = " << (INT(10) * fp) << std::endl
 	   << LINT(10) << "l / " << fp << " = " << (LINT(10) / fp) << std::endl
-	   << "-'10.0' = " << (-CDouble(clib::DStrToD("10.0"))) << std::endl
+	   << "-'10.0' = " << (-CDouble(clib::StrToD("10.0"))) << std::endl
 	   << "Pow(" << ULONG(3)  << ") = " << fp.Pow(ULONG(3)) << std::endl;
 
 	return GPOS_OK;

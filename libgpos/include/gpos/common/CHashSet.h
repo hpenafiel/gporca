@@ -185,7 +185,7 @@ namespace gpos
             {
                 GPOS_ASSERT(ulSize > 0);
 
-                (void) clib::PvMemSet(m_ppdrgchain, 0, m_ulSize * sizeof(HashElemChain*));
+                (void) clib::MemSet(m_ppdrgchain, 0, m_ulSize * sizeof(HashElemChain*));
             }
 
 			// dtor

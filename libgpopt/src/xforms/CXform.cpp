@@ -142,7 +142,7 @@ CXform::FEqualIds
 	const CHAR *szIdTwo
 	)
 {
-	return 0 == clib::IStrCmp(szIdOne, szIdTwo);
+	return 0 == clib::StrCmp(szIdOne, szIdTwo);
 }
 
 //---------------------------------------------------------------------------

@@ -1988,7 +1988,7 @@ CEngine::UllRandomPlanId
 	ULLONG ullPlanId = 0;
 	do
 	{
-		ullPlanId = clib::UlRandR(pulSeed);
+		ullPlanId = clib::Rand(pulSeed);
 	}
 	while (ullPlanId >= ullCount);
 

@@ -3539,7 +3539,7 @@ CUtils::SzFromWsz
 {
 	ULONG ulMaxLength = GPOS_WSZ_LENGTH(wsz) * GPOS_SIZEOF(WCHAR) + 1;
 	CHAR *sz = GPOS_NEW_ARRAY(pmp, CHAR, ulMaxLength);
-	clib::LWcsToMbs(sz, wsz, ulMaxLength);
+	clib::WcsToMbs(sz, wsz, ulMaxLength);
 	sz[ulMaxLength - 1] = '\0';
 
 	return sz;
@@ -3616,7 +3616,7 @@ CUtils::Pdrgpul
 void
 CUtils::GenerateFileName
 	(
-	CHAR *szBuf,
+	CHAR *buf,
 	const CHAR *szPrefix,
 	const CHAR *szExt,
 	ULONG ulLength,
@@ -3642,7 +3642,7 @@ CUtils::GenerateFileName
 #ifdef GPOS_DEBUG
 	TIME *ptm =
 #endif // GPOS_DEBUG
-	clib::PtmLocalTimeR(&tv.tv_sec, &tm);
+	clib::LocalTimeR(&tv.tv_sec, &tm);
 
 	GPOS_ASSERT(NULL != ptm && "Failed to get local time");
 
@@ -3662,11 +3662,11 @@ CUtils::GenerateFileName
 		ulCmdId
 		);
 
-	INT iResult = (INT) clib::LWcsToMbs(szBuf, wszBuf, ulLength);
+	INT iResult = (INT) clib::WcsToMbs(buf, wszBuf, ulLength);
 
 	GPOS_RTL_ASSERT((INT) 0 < iResult && iResult <= (INT) str.UlLength());
 
-	szBuf[ulLength - 1] = '\0';
+	buf[ulLength - 1] = '\0';
 
 	GPOS_DELETE(pstr);
 

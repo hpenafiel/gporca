@@ -197,7 +197,7 @@ CLogger::AppendDate()
 #ifdef GPOS_DEBUG
 	TIME *ptm =
 #endif // GPOS_DEBUG
-	clib::PtmLocalTimeR(&tv.tv_sec, &tm);
+	clib::LocalTimeR(&tv.tv_sec, &tm);
 
 	GPOS_ASSERT(NULL != ptm && "Failed to get local time");
 
@@ -213,7 +213,7 @@ CLogger::AppendDate()
 		tm.tm_sec,
 		tv.tv_usec,
 #ifdef GPOS_SunOS
-		clib::SzGetEnv("TZ")
+		clib::GetEnv("TZ")
 #else
 		tm.tm_zone
 #endif // GPOS_SunOS

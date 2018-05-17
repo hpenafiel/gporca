@@ -46,7 +46,7 @@ CRandom::CRandom(ULONG seed)
 
 ULONG CRandom::Next()
 {
-	return clib::UlRandR(&m_seed);
+	return clib::Rand(&m_seed);
 }
 
 CRandom::~CRandom()

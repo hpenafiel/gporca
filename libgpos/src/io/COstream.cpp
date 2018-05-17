@@ -33,14 +33,14 @@ COstream::COstream
 
 
 IOstream &
-COstream::AppendFormat(const WCHAR *wszFormat, ...)
+COstream::AppendFormat(const WCHAR *format, ...)
 {
 	VA_LIST vl;
 
-	VA_START(vl, wszFormat);
+	VA_START(vl, format);
 
 	m_wss.Reset();
-	m_wss.AppendFormatVA(wszFormat, vl);
+	m_wss.AppendFormatVA(format, vl);
 
 	VA_END(vl);
 

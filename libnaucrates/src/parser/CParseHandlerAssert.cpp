@@ -68,7 +68,7 @@ CParseHandlerAssert::StartElement
 	}
 		
 	CHAR *szErrorCode = CDXLOperatorFactory::SzValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
-	if (NULL == szErrorCode || GPOS_SQLSTATE_LENGTH != clib::UlStrLen(szErrorCode))
+	if (NULL == szErrorCode || GPOS_SQLSTATE_LENGTH != clib::StrLen(szErrorCode))
 	{
 		GPOS_RAISE
 			(

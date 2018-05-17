@@ -170,7 +170,7 @@ CUnittest::Equals
 	)
 	const
 {
-	return 0 == clib::IStrCmp(sz, m_szTitle);
+	return 0 == clib::StrCmp(sz, m_szTitle);
 }
 
 
@@ -452,7 +452,7 @@ CUnittest::SetTraceFlag
 	)
 {
 	CHAR *pcEnd = NULL;
-	LINT lTrace = clib::LStrToL(szTrace, &pcEnd, 0/*iBase*/);
+	LINT lTrace = clib::StrToL(szTrace, &pcEnd, 0/*iBase*/);
 
 	GPOS_SET_TRACE((ULONG) lTrace);
 }

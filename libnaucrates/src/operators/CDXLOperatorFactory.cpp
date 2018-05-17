@@ -2038,7 +2038,7 @@ CDXLOperatorFactory::UllValueFromXmlstr
 	GPOS_ASSERT(NULL != sz);
 
 	CHAR **ppszEnd = NULL;
-	LINT liVal = clib::LStrToLL(sz, ppszEnd, 10 /*ulBase*/);
+	LINT liVal = clib::StrToLL(sz, ppszEnd, 10 /*ulBase*/);
 
 	if ((NULL != ppszEnd && sz == *ppszEnd) ||
 		LINT_MAX == liVal || LINT_MIN == liVal || 0 > liVal)
@@ -3736,7 +3736,7 @@ CDXLOperatorFactory::DValueFromXmlstr
 	GPOS_ASSERT(xmlszAttributeVal != NULL);
 	CHAR *sz = XMLString::transcode(xmlszAttributeVal, pmm);
 
-	CDouble dValue(clib::DStrToD(sz));
+	CDouble dValue(clib::StrToD(sz));
 
 	XMLString::release(&sz, pmm);
 	return dValue;
@@ -3795,7 +3795,7 @@ CDXLOperatorFactory::LValueFromXmlstr
 	CHAR *sz = XMLString::transcode(xmlszAttributeVal, pmm);
 	CHAR *szEnd = NULL;
 
-	LINT lValue = clib::LStrToLL(sz, &szEnd, 10);
+	LINT lValue = clib::StrToLL(sz, &szEnd, 10);
 	XMLString::release(&sz, pmm);
 
 	return lValue;

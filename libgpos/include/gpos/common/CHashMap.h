@@ -195,7 +195,7 @@ namespace gpos
             m_filled_chains(GPOS_NEW(pmp) IntPtrArray(pmp))
             {
                 GPOS_ASSERT(m_num_chains > 0);
-                (void) clib::PvMemSet(m_chains, 0, m_num_chains * sizeof(HashElemChain*));
+                (void) clib::MemSet(m_chains, 0, m_num_chains * sizeof(HashElemChain*));
             }
 
 			// dtor

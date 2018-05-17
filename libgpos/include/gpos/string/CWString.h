@@ -57,7 +57,7 @@ namespace gpos
 
 			// appends a formatted string
 			virtual
-			void AppendFormat(const WCHAR *wszFormat, ...) = 0;
+			void AppendFormat(const WCHAR *format, ...) = 0;
 
 			// appends a string and replaces character with string
 			virtual

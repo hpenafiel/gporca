@@ -1922,7 +1922,7 @@ CHistogram::UlRandomBucketIndex
 	const ULONG ulSize = m_pdrgppbucket->Size();
 	GPOS_ASSERT(0 < ulSize);
 
-	DOUBLE dRandVal = ((DOUBLE) clib::UlRandR(pulSeed)) / RAND_MAX;
+	DOUBLE dRandVal = ((DOUBLE) clib::Rand(pulSeed)) / RAND_MAX;
 	CDouble dAccFreq = 0;
 	for (ULONG ul = 0; ul < ulSize - 1; ul++)
 	{

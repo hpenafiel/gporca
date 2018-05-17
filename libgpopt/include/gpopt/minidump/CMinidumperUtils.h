@@ -44,7 +44,7 @@ namespace gpopt
 			
 			// generate a minidump file name in the provided buffer
 			static
-			void GenerateMinidumpFileName(CHAR *szBuf, ULONG ulLength, ULONG ulSessionId, ULONG ulCmdId, const CHAR *szMinidumpFileName = NULL);
+			void GenerateMinidumpFileName(CHAR *buf, ULONG ulLength, ULONG ulSessionId, ULONG ulCmdId, const CHAR *szMinidumpFileName = NULL);
 			
 			// finalize minidump and dump to a file
 			static 

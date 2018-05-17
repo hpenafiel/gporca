@@ -1060,7 +1060,7 @@ CBucket::DSample
 	}
 
 	DOUBLE dUpperVal = pdatumstatsmapableUpper->DMappingVal().Get();
-	DOUBLE dRandVal = ((DOUBLE) clib::UlRandR(pulSeed)) / RAND_MAX;
+	DOUBLE dRandVal = ((DOUBLE) clib::Rand(pulSeed)) / RAND_MAX;
 
 	return CDouble(dLowerVal + dRandVal * (dUpperVal - dLowerVal));
 }

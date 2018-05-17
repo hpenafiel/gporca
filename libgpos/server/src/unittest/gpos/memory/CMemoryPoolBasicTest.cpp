@@ -235,7 +235,7 @@ CMemoryPoolBasicTest::EresNewDelete
 
 	// use overloaded New operator
 	WCHAR *wsz = GPOS_NEW_ARRAY(pmp, WCHAR, GPOS_ARRAY_SIZE(rgwszText));
-	(void) clib::WszWMemCpy(wsz, rgwszText, GPOS_ARRAY_SIZE(rgwszText));
+	(void) clib::WcMemCpy(wsz, rgwszText, GPOS_ARRAY_SIZE(rgwszText));
 
 #ifdef GPOS_DEBUG
 
@@ -556,7 +556,7 @@ CMemoryPoolBasicTest::Allocate
 		const ULONG ulSize = UlSize(i);
 		rgpb[i] = GPOS_NEW_ARRAY(pmp, BYTE, ulSize);
 #ifdef GPOS_DEBUG
-		(void) clib::PvMemSet(rgpb[i], 1, ulSize);
+		(void) clib::MemSet(rgpb[i], 1, ulSize);
 #endif // GPOS_DEBUG
 
 		if (0 == i % GPOS_MEM_TEST_CFA)
@@ -710,7 +710,7 @@ CMemoryPoolBasicTest::AllocateRandom
 
 	for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgpb); i++)
 	{
-		ULONG ulRand = clib::UlRandR(&ulSeed);
+		ULONG ulRand = clib::Rand(&ulSeed);
 		ULONG ulExp = (1 << (ulRand % ulMaxPower));
 		ULONG ulFactor = ulRand % ulMask + 1;
 		ULONG ulSize = ulFactor * ulExp * ulExp;

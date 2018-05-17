@@ -817,7 +817,7 @@ CDXLTokens::XmlstrFromWsz
 #ifdef GPOS_DEBUG
 	LINT  iLen =
 #endif
-	clib::LWcsToMbs(sz, const_cast<WCHAR *>(wsz), 1 + ulLen);
+	clib::WcsToMbs(sz, const_cast<WCHAR *>(wsz), 1 + ulLen);
 	
 	GPOS_ASSERT(0 <= iLen);
 	XMLCh *pxmlsz = XMLString::transcode(sz, m_pmm);

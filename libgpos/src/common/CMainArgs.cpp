@@ -90,7 +90,7 @@ CMainArgs::Getopt
 {
 	GPOS_ASSERT(NULL != pch);
 	
-	INT res = clib::IGetOpt(m_argc, const_cast<CHAR**>(m_argv), m_fmt);
+	INT res = clib::GetOpt(m_argc, const_cast<CHAR**>(m_argv), m_fmt);
 
 	if (res != -1)
 	{

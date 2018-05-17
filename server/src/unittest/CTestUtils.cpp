@@ -3485,7 +3485,7 @@ CTestUtils::SzMinidumpFileName
 	const ULONG ulWCHARSize = GPOS_SIZEOF(WCHAR);
 	const ULONG ulMaxLength = (ulInputLength + 1) * ulWCHARSize;
 	CHAR *sz = GPOS_NEW_ARRAY(pmp, CHAR, ulMaxLength);
-	gpos::clib::LWcsToMbs(sz, const_cast<WCHAR *>(wsz), ulMaxLength);
+	gpos::clib::WcsToMbs(sz, const_cast<WCHAR *>(wsz), ulMaxLength);
 	sz[ulMaxLength - 1] = '\0';
 
 	GPOS_DELETE(pstrMinidumpFileName);

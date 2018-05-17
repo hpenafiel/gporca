@@ -131,7 +131,7 @@ namespace gpos
                 if (m_size > 0)
                 {
                     GPOS_ASSERT(NULL != m_elems);
-                    clib::PvMemCpy(new_elems, m_elems, sizeof(T*) * m_size);
+                    clib::MemCpy(new_elems, m_elems, sizeof(T*) * m_size);
                     GPOS_DELETE_ARRAY(m_elems);
                 }
 
@@ -214,7 +214,7 @@ namespace gpos
                 if (arr->m_size > 0)
                 {
                     GPOS_ASSERT(NULL != arr->m_elems);
-                    clib::PvMemCpy(m_elems + m_size, arr->m_elems, arr->m_size * sizeof(T*));
+                    clib::MemCpy(m_elems + m_size, arr->m_elems, arr->m_size * sizeof(T*));
                 }
 
                 m_size = total_size;

@@ -36,7 +36,7 @@ CSystemId::CSystemId
 
 	if (ulLength > 0)
 	{
-		clib::WszWcsNCpy(m_wsz, wsz, ulLength);
+		clib::WcStrNCpy(m_wsz, wsz, ulLength);
 	}
 	
 	// ensure string is terminated
@@ -58,7 +58,7 @@ CSystemId::CSystemId
 	:
 	m_emdidt(sysid.Emdidt())
 {
-	clib::WszWcsNCpy(m_wsz, sysid.Wsz(), GPDXL_SYSID_LENGTH);
+	clib::WcStrNCpy(m_wsz, sysid.Wsz(), GPDXL_SYSID_LENGTH);
 }
 
 //---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ CSystemId::Equals
 {
 	ULONG ulLength = GPOS_WSZ_LENGTH(m_wsz);
 	return ulLength == GPOS_WSZ_LENGTH(sysid.m_wsz) &&
-			0 == clib::IWcsNCmp(m_wsz, sysid.m_wsz, ulLength);
+			0 == clib::WcStrNCmp(m_wsz, sysid.m_wsz, ulLength);
 }
 
 //---------------------------------------------------------------------------

@@ -256,13 +256,13 @@ CDatumTest::PdatumGeneric
 {
 	CMDIdGPDB *pmdidChar = GPOS_NEW(pmp) CMDIdGPDB(GPDB_CHAR);
 
-	const CHAR *szVal = "test";
+	const CHAR *val = "test";
 	return GPOS_NEW(pmp) CDatumGenericGPDB
 							(
 							pmp,
 							pmdidChar,
 							IDefaultTypeModifier,
-							szVal,
+							val,
 							5 /*ulLength*/,
 							fNull,
 							0 /*lValue*/,

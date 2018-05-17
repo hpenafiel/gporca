@@ -161,7 +161,7 @@ CMinidumperUtils::PdxlmdLoad
 void
 CMinidumperUtils::GenerateMinidumpFileName
 	(
-	CHAR *szBuf,
+	CHAR *buf,
 	ULONG ulLength,
 	ULONG ulSessionId,
 	ULONG ulCmdId,
@@ -190,17 +190,17 @@ CMinidumperUtils::GenerateMinidumpFileName
 	if (NULL == szMinidumpFileName)
 	{
 		// generate a time-based file name
-		CUtils::GenerateFileName(szBuf, "minidumps/Minidump", "mdp", ulLength, ulSessionId, ulCmdId);
+		CUtils::GenerateFileName(buf, "minidumps/Minidump", "mdp", ulLength, ulSessionId, ulCmdId);
 	}
 	else
 	{
 		// use provided file name
 		const CHAR *szPrefix = "minidumps/";
-		const ULONG ulPrefixLength = clib::UlStrLen(szPrefix);
-		clib::SzStrNCpy(szBuf, szPrefix, ulPrefixLength);
+		const ULONG ulPrefixLength = clib::StrLen(szPrefix);
+		clib::StrNCpy(buf, szPrefix, ulPrefixLength);
 
 		// remove directory path before file name, if any
-		ULONG ulNameLength = clib::UlStrLen(szMinidumpFileName);
+		ULONG ulNameLength = clib::StrLen(szMinidumpFileName);
 		ULONG ulNameStart  = ulNameLength - 1;
 		while (ulNameStart > 0 &&
 				szMinidumpFileName[ulNameStart - 1] != '\\' &&
@@ -209,8 +209,8 @@ CMinidumperUtils::GenerateMinidumpFileName
 			ulNameStart --;
 		}
 
-		ulNameLength = clib::UlStrLen(szMinidumpFileName + ulNameStart);
-		clib::SzStrNCpy(szBuf + ulPrefixLength, szMinidumpFileName + ulNameStart, ulNameLength);
+		ulNameLength = clib::StrLen(szMinidumpFileName + ulNameStart);
+		clib::StrNCpy(buf + ulPrefixLength, szMinidumpFileName + ulNameStart, ulNameLength);
 	}
 }
 

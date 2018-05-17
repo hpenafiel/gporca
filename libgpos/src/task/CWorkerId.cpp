@@ -94,7 +94,7 @@ void
 CWorkerId::Invalid()
 {
 	// reset bytes to 0
-	clib::PvMemSet(this, 0, sizeof(CWorkerId));
+	clib::MemSet(this, 0, sizeof(CWorkerId));
 }
 
 

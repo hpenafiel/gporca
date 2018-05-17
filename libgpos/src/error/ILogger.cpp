@@ -137,7 +137,7 @@ ILogger::TraceFormat
 	const CHAR *szFilename,
 	ULONG ulLine,
 	BOOL fErr,
-	const WCHAR *wszFormat,
+	const WCHAR *format,
 	...
 	)
 {
@@ -149,9 +149,9 @@ ILogger::TraceFormat
 	VA_LIST vaArgs;
 
 	// get arguments
-	VA_START(vaArgs, wszFormat);
+	VA_START(vaArgs, format);
 
-	str.AppendFormatVA(wszFormat, vaArgs);
+	str.AppendFormatVA(format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);

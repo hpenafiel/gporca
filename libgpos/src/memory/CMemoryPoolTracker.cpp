@@ -144,7 +144,7 @@ CMemoryPoolTracker::PvAllocate
 #ifdef GPOS_DEBUG
 	pahHeader->m_sd.BackTrace();
 
-	clib::PvMemSet(pvResult, GPOS_MEM_INIT_PATTERN_CHAR, ulBytes);
+	clib::MemSet(pvResult, GPOS_MEM_INIT_PATTERN_CHAR, ulBytes);
 #endif // GPOS_DEBUG
 
 	return pvResult;
@@ -240,7 +240,7 @@ CMemoryPoolTracker::Free
 
 #ifdef GPOS_DEBUG
 	// mark user memory as unused in debug mode
-	clib::PvMemSet(pv, GPOS_MEM_INIT_PATTERN_CHAR, ulUserSize);
+	clib::MemSet(pv, GPOS_MEM_INIT_PATTERN_CHAR, ulUserSize);
 #endif // GPOS_DEBUG
 
 	ULONG ulTotalSize = GPOS_MEM_BYTES_TOTAL(ulUserSize);

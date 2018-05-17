@@ -75,7 +75,7 @@ CWStringConst::CWStringConst
 	{
 		// make a copy of the string
 		WCHAR *wszTempBuf = GPOS_NEW_ARRAY(pmp, WCHAR, m_ulLength + 1);
-		clib::WszWcsNCpy(wszTempBuf, wszBuf, m_ulLength + 1);
+		clib::WcStrNCpy(wszTempBuf, wszBuf, m_ulLength + 1);
 		m_wszBuf = wszTempBuf;
 	}
 

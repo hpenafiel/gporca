@@ -44,7 +44,7 @@ CIOUtils::Dump
 		CFileWriter fw;
 		fw.Open(szFileName, ulWrPerms);
 		const BYTE *pb = reinterpret_cast<const BYTE*>(sz);
-		ULONG_PTR ulpLength = (ULONG_PTR) clib::UlStrLen(sz);
+		ULONG_PTR ulpLength = (ULONG_PTR) clib::StrLen(sz);
 		fw.Write(pb, ulpLength);
 		fw.Close();
 	}

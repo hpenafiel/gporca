@@ -37,7 +37,7 @@ CCustomAllocator::fnAlloc
   m_ulTotalMemoryAllocation += ulAlloc;
   m_ulLastMemoryAllocation = ulAlloc;
 
-  return clib::PvMalloc(ulAlloc);
+  return clib::Malloc(ulAlloc);
 }
 
 void

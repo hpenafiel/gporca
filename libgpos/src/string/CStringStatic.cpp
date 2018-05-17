@@ -81,14 +81,14 @@ CStringStatic::CStringStatic
 BOOL
 CStringStatic::Equals
 	(
-	const CHAR *szBuf
+	const CHAR *buf
 	)
 	const
 {
-	GPOS_ASSERT(NULL != szBuf);
+	GPOS_ASSERT(NULL != buf);
 
-	ULONG ulLength = clib::UlStrLen(szBuf);
-	return (m_ulLength == ulLength && 0 == clib::IStrNCmp(m_szBuf, szBuf, ulLength));
+	ULONG ulLength = clib::StrLen(buf);
+	return (m_ulLength == ulLength && 0 == clib::StrNCmp(m_szBuf, buf, ulLength));
 }
 
 
@@ -121,11 +121,11 @@ CStringStatic::Append
 void
 CStringStatic::AppendBuffer
 	(
-	const CHAR *szBuf
+	const CHAR *buf
 	)
 {
-	GPOS_ASSERT(NULL != szBuf);
-	ULONG ulLength = clib::UlStrLen(szBuf);
+	GPOS_ASSERT(NULL != buf);
+	ULONG ulLength = clib::StrLen(buf);
 	if (0 == ulLength || m_ulCapacity == m_ulLength)
 	{
 		return;
@@ -140,7 +140,7 @@ CStringStatic::AppendBuffer
 
 	GPOS_ASSERT(m_ulCapacity > ulLength + m_ulLength);
 
-	clib::SzStrNCpy(m_szBuf + m_ulLength, szBuf, ulLength + 1);
+	clib::StrNCpy(m_szBuf + m_ulLength, buf, ulLength + 1);
 	m_ulLength += ulLength;
 
 	// terminate string
@@ -161,16 +161,16 @@ CStringStatic::AppendBuffer
 void
 CStringStatic::AppendFormat
 	(
-	const CHAR *szFormat,
+	const CHAR *format,
 	...
 	)
 {
 	VA_LIST	vaArgs;
 
 	// get arguments
-	VA_START(vaArgs, szFormat);
+	VA_START(vaArgs, format);
 
-	AppendFormatVA(szFormat, vaArgs);
+	AppendFormatVA(format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);
@@ -188,21 +188,21 @@ CStringStatic::AppendFormat
 void
 CStringStatic::AppendFormatVA
 	(
-	const CHAR *szFormat,
+	const CHAR *format,
 	VA_LIST vaArgs
 	)
 {
-	GPOS_ASSERT(NULL != szFormat);
+	GPOS_ASSERT(NULL != format);
 
 	// available space in buffer
 	ULONG ulAvailable = m_ulCapacity - m_ulLength;
 
 	// format string
-	(void) clib::IVsnPrintf(m_szBuf + m_ulLength, ulAvailable, szFormat, vaArgs);
+	(void) clib::VsnPrintf(m_szBuf + m_ulLength, ulAvailable, format, vaArgs);
 
 	// terminate string
 	m_szBuf[m_ulCapacity - 1] = CHAR_EOS;
-	m_ulLength = clib::UlStrLen(m_szBuf);
+	m_ulLength = clib::StrLen(m_szBuf);
 
 	GPOS_ASSERT(m_ulCapacity > m_ulLength);
 
@@ -236,7 +236,7 @@ CStringStatic::AppendConvert
 		CHAR szConvert[MB_LEN_MAX];
 
 		/* convert wide character to multi-byte array */
-		ULONG ulCharLen = clib::IWcToMb(szConvert, wsz[i]);
+		ULONG ulCharLen = clib::WcToMb(szConvert, wsz[i]);
 		GPOS_ASSERT(0 < ulCharLen);
 
 		// check if wide character is ASCII-compatible
@@ -287,7 +287,7 @@ CStringStatic::Reset()
 bool
 CStringStatic::FValid() const
 {
-	return (m_ulLength == clib::UlStrLen(m_szBuf));
+	return (m_ulLength == clib::StrLen(m_szBuf));
 }
 
 #endif // GPOS_DEBUG

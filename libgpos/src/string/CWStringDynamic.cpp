@@ -132,7 +132,7 @@ CWStringDynamic::AppendBuffer
 		IncreaseCapacity(ulNewLength);
 	}
 
-	clib::WszWcsNCpy(m_wszBuf + m_ulLength, wsz, ulLength + 1);
+	clib::WcStrNCpy(m_wszBuf + m_ulLength, wsz, ulLength + 1);
 	m_ulLength = ulNewLength;
 
 	GPOS_ASSERT(FValid());
@@ -186,11 +186,11 @@ CWStringDynamic::AppendCharArray
 #ifdef GPOS_DEBUG
 	ULONG ulLen =
 #endif // GPOS_DEBUG
-		clib::UlMbToWcs(wszBuf, sz, ulLength);
+		clib::MbToWcs(wszBuf, sz, ulLength);
 	GPOS_ASSERT(ulLen == ulLength);
 
 	// append input string to current end of buffer
-	(void) clib::WszWMemCpy(m_wszBuf + m_ulLength, wszBuf, ulLength + 1);
+	(void) clib::WcMemCpy(m_wszBuf + m_ulLength, wszBuf, ulLength + 1);
 	GPOS_DELETE_ARRAY(wszBuf);
 
 	m_wszBuf[ulNewLength] = WCHAR_EOS;
@@ -211,12 +211,12 @@ CWStringDynamic::AppendCharArray
 void
 CWStringDynamic::AppendFormat
 	(
-	const WCHAR *wszFormat,
+	const WCHAR *format,
 	...
 	)
 {
-	GPOS_ASSERT(NULL != wszFormat);
-	using clib::IVswPrintf;
+	GPOS_ASSERT(NULL != format);
+	using clib::VswPrintf;
 
 	VA_LIST	vaArgs;
 
@@ -227,17 +227,17 @@ CWStringDynamic::AppendFormat
 	WCHAR wszBufStatic[GPOS_WSTR_DYNAMIC_STATIC_BUFFER];
 
 	// get arguments
-	VA_START(vaArgs, wszFormat);
+	VA_START(vaArgs, format);
 
 	// try expanding the formatted string in the buffer
-	iRes = IVswPrintf(wszBufStatic, GPOS_ARRAY_SIZE(wszBufStatic), wszFormat, vaArgs);
+	iRes = VswPrintf(wszBufStatic, GPOS_ARRAY_SIZE(wszBufStatic), format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);
 	GPOS_ASSERT(-1 <= iRes);
 
 	// estimated number of characters in expanded format string
-	ULONG ulSize = std::max(GPOS_WSZ_LENGTH(wszFormat), GPOS_ARRAY_SIZE(wszBufStatic));
+	ULONG ulSize = std::max(GPOS_WSZ_LENGTH(format), GPOS_ARRAY_SIZE(wszBufStatic));
 
 	// if the static buffer is too small, find the formatted string
 	// length by trying to store it in a buffer of increasing size
@@ -249,10 +249,10 @@ CWStringDynamic::AppendFormat
 		a_wszBuf = GPOS_NEW_ARRAY(m_pmp, WCHAR, ulSize + 1);
 
 		// get arguments
-		VA_START(vaArgs, wszFormat);
+		VA_START(vaArgs, format);
 
 		// try expanding the formatted string in the buffer
-		iRes = IVswPrintf(a_wszBuf.Rgt(), ulSize, wszFormat, vaArgs);
+		iRes = VswPrintf(a_wszBuf.Rgt(), ulSize, format, vaArgs);
 
 		// reset arguments
 		VA_END(vaArgs);
@@ -270,10 +270,10 @@ CWStringDynamic::AppendFormat
 	}
 
 	// get arguments
-	VA_START(vaArgs, wszFormat);
+	VA_START(vaArgs, format);
 
 	// print vaArgs to string
-	IVswPrintf(m_wszBuf + m_ulLength, iRes + 1, wszFormat, vaArgs);
+	VswPrintf(m_wszBuf + m_ulLength, iRes + 1, format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);
@@ -329,7 +329,7 @@ CWStringDynamic::AppendEscape
 	{
 		if (wc == wsz[i] && !pstr->FEscaped(i))
 		{
-			clib::WszWcsNCpy(m_wszBuf + j, wszReplace, ulLengthReplace);
+			clib::WcStrNCpy(m_wszBuf + j, wszReplace, ulLengthReplace);
 			j += ulLengthReplace;
 		}
 		else
@@ -371,7 +371,7 @@ CWStringDynamic::IncreaseCapacity
 	if (0 < m_ulLength)
 	{
 		// current string is not empty: copy it to the resulting string
-		a_wszNewBuf = clib::WszWcsNCpy(a_wszNewBuf.Rgt(), m_wszBuf, m_ulLength);
+		a_wszNewBuf = clib::WcStrNCpy(a_wszNewBuf.Rgt(), m_wszBuf, m_ulLength);
 	}
 
 	// release old buffer

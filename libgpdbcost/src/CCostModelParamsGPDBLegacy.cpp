@@ -166,7 +166,7 @@ CCostModelParamsGPDBLegacy::PcpLookup
 
 	for (ULONG ul = 0; ul < EcpSentinel; ul++)
 	{
-		if (0 == clib::IStrCmp(szName, rgszCostParamNames[ul]))
+		if (0 == clib::StrCmp(szName, rgszCostParamNames[ul]))
 		{
 			return PcpLookup((ECostParam) ul);
 		}
@@ -223,7 +223,7 @@ CCostModelParamsGPDBLegacy::SetParam
 
 	for (ULONG ul = 0; ul < EcpSentinel; ul++)
 	{
-		if (0 == clib::IStrCmp(szName, rgszCostParamNames[ul]))
+		if (0 == clib::StrCmp(szName, rgszCostParamNames[ul]))
 		{
 			GPOS_DELETE(m_rgpcp[ul]);
 			m_rgpcp[ul] = NULL;

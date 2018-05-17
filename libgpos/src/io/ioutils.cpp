@@ -52,7 +52,7 @@ gpos::ioutils::Stat
 	GPOS_ASSERT(NULL != pfs);
 
 	// reset file state
-	(void) clib::PvMemSet(pfs, 0, sizeof(*pfs));
+	(void) clib::MemSet(pfs, 0, sizeof(*pfs));
 
 	INT iRes = -1;
 
@@ -85,7 +85,7 @@ gpos::ioutils::Fstat
 	GPOS_ASSERT(NULL != pfs);
 
 	// reset file state
-	(void) clib::PvMemSet(pfs, 0, sizeof(*pfs));
+	(void) clib::MemSet(pfs, 0, sizeof(*pfs));
 
 	INT iRes = -1;
 
@@ -521,11 +521,11 @@ gpos::ioutils::SzMkDTemp
 #ifdef GPOS_DEBUG
 	const SIZE_T ulNumOfCmp = 6;
 
-	SIZE_T ulSize = clib::UlStrLen(szTemplate);
+	SIZE_T ulSize = clib::StrLen(szTemplate);
 
 	GPOS_ASSERT(ulSize > ulNumOfCmp);
 
-	GPOS_ASSERT(0 == clib::IMemCmp("XXXXXX", szTemplate + (ulSize - ulNumOfCmp), ulNumOfCmp));
+	GPOS_ASSERT(0 == clib::MemCmp("XXXXXX", szTemplate + (ulSize - ulNumOfCmp), ulNumOfCmp));
 #endif	// GPOS_DEBUG
 
 	CHAR* szRes = NULL;

@@ -67,7 +67,7 @@ namespace gpos
 			void AppendEscape(const CWStringBase *pstr, WCHAR wc, const WCHAR *wszReplace);
 
 			// appends a formatted string
-			void AppendFormat(const WCHAR *wszFormat, ...);
+			void AppendFormat(const WCHAR *format, ...);
 
 			// appends a null terminated character array
 			virtual
