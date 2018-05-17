@@ -68,7 +68,7 @@ namespace gpos
 				void* pv = m_pfnAlloc(ulNumBytes);
 
 #ifdef GPOS_DEBUG
-				if (NULL != ITask::PtskSelf() && GPOS_FTRACE(EtraceSimulateOOM) && NULL == pv)
+				if (NULL != ITask::TaskSelf() && GPOS_FTRACE(EtraceSimulateOOM) && NULL == pv)
 				{
 					GPOS_RAISE(CException::ExmaSystem, CException::ExmiUnexpectedOOMDuringFaultSimulation);
 				}

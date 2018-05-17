@@ -27,7 +27,7 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CAutoSuspendAbort::CAutoSuspendAbort()
 {
-	m_task = CTask::PtskSelf();
+	m_task = CTask::TaskSelf();
 	
 	if (NULL != m_task)
 	{

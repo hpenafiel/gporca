@@ -311,7 +311,7 @@ PvExec
 	)
 {
 	CMainArgs *pma = (CMainArgs*) pv;
-	CBitVector bv(ITask::PtskSelf()->Pmp(), CUnittest::UlTests());
+	CBitVector bv(ITask::TaskSelf()->Pmp(), CUnittest::UlTests());
 
 	CHAR ch = '\0';
 

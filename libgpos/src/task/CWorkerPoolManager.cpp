@@ -516,7 +516,7 @@ CWorkerPoolManager::Cancel
 		if (NULL != ptsk)
 		{
 			ptsk->Cancel();
-			fQueued = (CTask::EtsQueued == ptsk->m_estatus);
+			fQueued = (CTask::EtsQueued == ptsk->m_status);
 		}
 	}
 

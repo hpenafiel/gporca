@@ -164,9 +164,9 @@ CWorker::CheckForAbort
 {
 	// check if there is a task assigned to worker,
 	// task is still running and CFA is not suspended
-	if (NULL != m_ptsk && m_ptsk->FRunning() && !m_ptsk->FAbortSuspended())
+	if (NULL != m_ptsk && m_ptsk->Running() && !m_ptsk->AbortSuspended())
 	{
-		GPOS_ASSERT(!m_ptsk->Perrctxt()->FPending() &&
+		GPOS_ASSERT(!m_ptsk->ErrCtxt()->FPending() &&
 		            "Check-For-Abort while an exception is pending");
 
 #ifdef GPOS_FPSIMULATOR
@@ -174,7 +174,7 @@ CWorker::CheckForAbort
 #endif // GPOS_FPSIMULATOR
 
 		if ((NULL != pfnAbortRequestedBySystem && pfnAbortRequestedBySystem()) ||
-			m_ptsk->FCanceled())
+			m_ptsk->Canceled())
 		{
 			// raise exception
 			GPOS_ABORT;
@@ -241,16 +241,16 @@ CWorker::SimulateAbort
 	ULONG ulLine
 	)
 {
-	if (m_ptsk->FTrace(EtraceSimulateAbort) &&
+	if (m_ptsk->Trace(EtraceSimulateAbort) &&
 		CFSimulator::Pfsim()->FNewStack(CException::ExmaSystem, CException::ExmiAbort))
 	{
 		// GPOS_TRACE has CFA, disable simulation temporarily
-		m_ptsk->FTrace(EtraceSimulateAbort, false);
+		m_ptsk->Trace(EtraceSimulateAbort, false);
 
 		GPOS_TRACE_FORMAT_ERR("Simulating Abort at %s:%d", szFile, ulLine);
 
 		// resume simulation
-		m_ptsk->FTrace(EtraceSimulateAbort, true);
+		m_ptsk->Trace(EtraceSimulateAbort, true);
 
 		m_ptsk->Cancel();
 	}
@@ -296,7 +296,7 @@ CWorker::CheckTimeSlice()
 		
 		ULONG ulThreads = std::max((ULONG) 1, CWorkerPoolManager::Pwpm()->UlWorkersRunning());
 		
-		if (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * ulThreads <= ulInterval && m_ptsk->FRunning())
+		if (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * ulThreads <= ulInterval && m_ptsk->Running())
 		{
 			// get stack trace for last checkpoint
 			WCHAR wszBuffer[GPOS_STACK_TRACE_BUFFER_SIZE];

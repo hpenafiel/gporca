@@ -2139,12 +2139,12 @@ CXformUtils::PstrErrorMessage
 	
 	// during bootstrap there's no context object otherwise, record
 	// all details in the context object
-	if (NULL != ITask::PtskSelf())
+	if (NULL != ITask::TaskSelf())
 	{
 		VA_LIST valist;
 		VA_START(valist, ulMinor);
 
-		ELocale eloc = ITask::PtskSelf()->Eloc();
+		ELocale eloc = ITask::TaskSelf()->Eloc();
 		CMessage *pmsg = CMessageRepository::Pmr()->PmsgLookup(exc, eloc);
 		pmsg->Format(&str, valist);
 

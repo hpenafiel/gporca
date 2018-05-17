@@ -90,7 +90,7 @@ CScheduler::~CScheduler()
 {
 	GPOS_ASSERT_IMP
 		(
-		!ITask::PtskSelf()->FPendingExc(),
+		!ITask::TaskSelf()->PendingExceptions(),
 		0 == m_ulpTotal
 		);
 

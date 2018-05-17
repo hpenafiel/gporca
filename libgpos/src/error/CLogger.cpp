@@ -89,7 +89,7 @@ CLogger::Log
 	{
 		GPOS_CHECK_ABORT;
 
-		BOOL fExc = ITask::PtskSelf()->FPendingExc();
+		BOOL fExc = ITask::TaskSelf()->PendingExceptions();
 
 		// logging is exercised in catch blocks so it cannot throw;
 		// the only propagated exception is Abort;

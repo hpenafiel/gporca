@@ -149,7 +149,7 @@ namespace gpos
                     GPOS_ASSERT(NULL != m_rgulBitMapRecycled);
 
     #ifdef GPOS_DEBUG
-                    if (!ITask::PtskSelf()->FPendingExc())
+                    if (!ITask::TaskSelf()->PendingExceptions())
                     {
                         for (ULONG i = 0; i < m_ulObjs; i++)
                         {

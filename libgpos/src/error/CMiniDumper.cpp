@@ -53,11 +53,11 @@ CMiniDumper::~CMiniDumper()
 {
 	if (m_fInit)
 	{
-		CTask *ptsk = CTask::PtskSelf();
+		CTask *ptsk = CTask::TaskSelf();
 
 		GPOS_ASSERT(NULL != ptsk);
 
-		ptsk->PerrctxtConvert()->Unregister
+		ptsk->ErrCtxtConvert()->Unregister
 			(
 #ifdef GPOS_DEBUG
 			this
@@ -81,13 +81,13 @@ CMiniDumper::Init(COstream *oos)
 	GPOS_ASSERT(!m_fInit);
 	GPOS_ASSERT(!m_fFinal);
 
-	CTask *ptsk = CTask::PtskSelf();
+	CTask *ptsk = CTask::TaskSelf();
 
 	GPOS_ASSERT(NULL != ptsk);
 
 	m_oos = oos;
 
-	ptsk->PerrctxtConvert()->Register(this);
+	ptsk->ErrCtxtConvert()->Register(this);
 
 	m_fInit = true;
 

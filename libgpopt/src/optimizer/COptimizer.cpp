@@ -323,8 +323,8 @@ COptimizer::HandleExceptionAfterFinalizingMinidump
 	CException &ex
 	)
 {
-	if (NULL != ITask::PtskSelf() &&
-		!ITask::PtskSelf()->Perrctxt()->FPending())
+	if (NULL != ITask::TaskSelf() &&
+		!ITask::TaskSelf()->ErrCtxt()->FPending())
 	{
 		// if error context has no pending exception, then minidump creation
 		// might have reset the error,

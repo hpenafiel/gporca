@@ -187,7 +187,7 @@ int gpos_exec
 					aposs = GPOS_NEW(pmp) COstreamString(apwstr.Value());
 					aplogger = GPOS_NEW(pmp) CLoggerStream(*aposs.Value());
 
-					CTaskContext *ptskctxt = ptsk->Ptskctxt();
+					CTaskContext *ptskctxt = ptsk->TaskCtxt();
 					ptskctxt->SetLogOut(aplogger.Value());
 					ptskctxt->SetLogErr(aplogger.Value());
 				}
@@ -196,10 +196,10 @@ int gpos_exec
 				atp.Execute(ptsk);
 
 				// export task result
-				params->result = ptsk->PvRes();
+				params->result = ptsk->Res();
 
 				// check for errors during execution
-				if (CTask::EtsError == ptsk->Ets())
+				if (CTask::EtsError == ptsk->Status())
 				{
 					return 1;
 				}

@@ -159,8 +159,8 @@ CMemoryPool::OsPrint
 {
 	os << "Memory pool: " << this;
 
-	ITask *ptsk = ITask::PtskSelf();
-	if (NULL != ptsk && ptsk->FTrace(EtracePrintMemoryLeakStackTrace))
+	ITask *ptsk = ITask::TaskSelf();
+	if (NULL != ptsk && ptsk->Trace(EtracePrintMemoryLeakStackTrace))
 	{
 		os << ", stack trace: " << std::endl;
 		m_sd.AppendTrace(os, 8 /*ulDepth*/);
@@ -196,7 +196,7 @@ CMemoryPool::AssertEmpty
 	IOstream &os
 	)
 {
-	if (FSupportsLiveObjectWalk() && NULL != ITask::PtskSelf() &&
+	if (FSupportsLiveObjectWalk() && NULL != ITask::TaskSelf() &&
 	    !GPOS_FTRACE(EtraceDisablePrintMemoryLeak))
 	{
 		CMemoryVisitorPrint movpi(os);

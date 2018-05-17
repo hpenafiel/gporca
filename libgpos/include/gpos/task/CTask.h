@@ -53,46 +53,46 @@ namespace gpos
 			IMemoryPool *m_pmp;
 		
 			// task context
-			CTaskContext *m_ptskctxt;
+			CTaskContext *m_task_ctxt;
 
 			// error context
-			IErrorContext *m_perrctxt;
+			IErrorContext *m_err_ctxt;
 				
 			// error handler stack
-			CErrorHandler *m_perrhdl;		
+			CErrorHandler *m_err_handle;		
 
 			// function to execute
-			void *(*m_pfunc)(void *);
+			void *(*m_func)(void *);
 			
 			// function argument
-			void *m_pvArg;
+			void *m_arg;
 			
 			// function result
-			void *m_pvRes;
+			void *m_res;
 
 			// TLS
 			CTaskLocalStorage m_tls;
 			
 			// mutex for status change
-			CMutexBase *m_pmutex;
+			CMutexBase *m_mutex;
 
 			// event to signal status change
-			CEvent *m_pevent;
+			CEvent *m_event;
 
 			// task status
-			volatile ETaskStatus m_estatus;
+			volatile ETaskStatus m_status;
 
 			// cancellation flag
-			volatile BOOL *m_pfCancel;
+			volatile BOOL *m_cancel;
 
 			// local cancellation flag; used when no flag is externally passed
-			volatile BOOL m_fCancel;
+			volatile BOOL m_cancel_local;
 
 			// counter of requests to suspend cancellation
-			ULONG m_ulAbortSuspendCount;
+			ULONG m_abort_suspend_count;
 
 			// flag denoting task completion report
-			BOOL m_fReported;
+			BOOL m_reported;
 
 			// task identifier
 			CTaskId m_tid;
@@ -101,51 +101,51 @@ namespace gpos
 			CTask
 				(
 				IMemoryPool *pmp,
-				CTaskContext *ptskctxt,
-				IErrorContext *perrctxt,
-				CEvent *pevent,
-				volatile BOOL *pfCancel
+				CTaskContext *task_ctxt,
+				IErrorContext *err_ctxt,
+				CEvent *event,
+				volatile BOOL *cancel
 				);
 
 			// no copy ctor
 			CTask(const CTask&);
 
 			// set task status
-			void SetStatus(ETaskStatus ets);
+			void SetStatus(ETaskStatus status);
 
 			// signal task completion or error
-			void Signal(ETaskStatus Ets) throw();
+			void Signal(ETaskStatus status) throw();
 
 			// binding a task structure to a function and its arguments
-			void Bind(void *(*pfunc)(void*), void *pvArg);
+			void Bind(void *(*func)(void*), void *arg);
 
 			// execution, called by the owning worker
 			void Execute();
 
 			// check if task has been scheduled
-			BOOL FScheduled() const;
+			BOOL Scheduled() const;
 
 			// check if task finished executing
-			BOOL FFinished() const;
+			BOOL Finished() const;
 
 			// check if task is currently executing
-			BOOL FRunning() const
+			BOOL Running() const
 			{
-				return EtsRunning == m_estatus;
+				return EtsRunning == m_status;
 			}
 
 			// reported flag accessor
-			BOOL FReported() const
+			BOOL Reported() const
 			{
-				return m_fReported;
+				return m_reported;
 			}
 
 			// set reported flag
 			void SetReported()
 			{
-				GPOS_ASSERT(!m_fReported && "Task already reported as completed");
+				GPOS_ASSERT(!m_reported && "Task already reported as completed");
 
-				m_fReported = true;
+				m_reported = true;
 			}
 
 		public:
@@ -172,112 +172,112 @@ namespace gpos
 			}
 
 			// task context accessor
-			CTaskContext *Ptskctxt() const
+			CTaskContext *TaskCtxt() const
 			{
-				return m_ptskctxt;
+				return m_task_ctxt;
 			}
 
 			// basic output streams
-			ILogger *PlogOut() const
+			ILogger *LogOut() const
 			{
-				return this->m_ptskctxt->PlogOut();
+				return this->m_task_ctxt->LogOut();
 			}
 			
-			ILogger *PlogErr() const
+			ILogger *LogErr() const
 			{
-				return this->m_ptskctxt->PlogErr();
+				return this->m_task_ctxt->LogErr();
 			}
 			
-			BOOL FTrace
+			BOOL Trace
 				(
-				ULONG ulTrace,
-				BOOL fVal
+				ULONG trace,
+				BOOL val
 				)
 			{
-				return this->m_ptskctxt->FTrace(ulTrace, fVal);
+				return this->m_task_ctxt->Trace(trace, val);
 			}
 			
-			BOOL FTrace
+			BOOL Trace
 				(
-				ULONG ulTrace
+				ULONG trace
 				)
 			{
-				return this->m_ptskctxt->FTrace(ulTrace);
+				return this->m_task_ctxt->Trace(trace);
 			}
 
 			
 			// locale
 			ELocale Eloc() const
 			{
-				return m_ptskctxt->Eloc();
+				return m_task_ctxt->Eloc();
 			}
 
 			// check if task is canceled
-			BOOL FCanceled() const
+			BOOL Canceled() const
 			{
-				return *m_pfCancel;
+				return *m_cancel;
 			}
 
 			// reset cancel flag
 			void ResetCancel()
 			{
-				*m_pfCancel = false;
+				*m_cancel = false;
 			}
 
 			// set cancel flag
 			void Cancel()
 			{
-				*m_pfCancel = true;
+				*m_cancel = true;
 			}
 
 			// check if a request to suspend abort was received
-			BOOL FAbortSuspended() const
+			BOOL AbortSuspended() const
 			{
-				return (0 < m_ulAbortSuspendCount);
+				return (0 < m_abort_suspend_count);
 			}
 
 			// increment counter for requests to suspend abort
 			void SuspendAbort()
 			{
-				m_ulAbortSuspendCount++;
+				m_abort_suspend_count++;
 			}
 
 			// decrement counter for requests to suspend abort
  			void ResumeAbort();
 
 			// task status accessor
-			ETaskStatus Ets() const
+			ETaskStatus Status() const
 			{
-				return m_estatus;
+				return m_status;
 			}
 
 			// task result accessor
-			void *PvRes() const
+			void *Res() const
 			{
-				return m_pvRes;
+				return m_res;
 			}
 
 			// error context
-			IErrorContext *Perrctxt() const
+			IErrorContext *ErrCtxt() const
 			{
-				return m_perrctxt;
+				return m_err_ctxt;
 			}
 			
 			// error context
-			CErrorContext *PerrctxtConvert()
+			CErrorContext *ErrCtxtConvert()
 			{
-				return dynamic_cast<CErrorContext*>(m_perrctxt);
+				return dynamic_cast<CErrorContext*>(m_err_ctxt);
 			}
 
 			// pending exceptions
-			BOOL FPendingExc() const
+			BOOL PendingExceptions() const
 			{
-				return m_perrctxt->FPending();
+				return m_err_ctxt->FPending();
 			}
 
 #ifdef GPOS_DEBUG
 			// check if task has expected status
-			BOOL FCheckStatus(BOOL fCompleted);
+			BOOL CheckStatus(BOOL completed);
 #endif // GPOS_DEBUG
 
 			// slink for auto task proxy
@@ -290,9 +290,9 @@ namespace gpos
 			SLink m_linkWpm;
 
 			static
-			CTask *PtskSelf()
+			CTask *TaskSelf()
 			{
-				return dynamic_cast<CTask *>(ITask::PtskSelf());
+				return dynamic_cast<CTask *>(ITask::TaskSelf());
 			}
 
 	}; // class CTask

@@ -46,7 +46,7 @@ CAutoOptCtxt::CAutoOptCtxt
 	}
 
 	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, poconf);
-	ITask::PtskSelf()->Tls().Store(poctxt);
+	ITask::TaskSelf()->Tls().Store(poctxt);
 }
 
 //---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ CAutoOptCtxt::CAutoOptCtxt
 	}
 
 	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, poconf);
-	ITask::PtskSelf()->Tls().Store(poctxt);
+	ITask::TaskSelf()->Tls().Store(poctxt);
 }
 
 //---------------------------------------------------------------------------
@@ -92,8 +92,8 @@ CAutoOptCtxt::CAutoOptCtxt
 //---------------------------------------------------------------------------
 CAutoOptCtxt::~CAutoOptCtxt()
 {
-	CTaskLocalStorageObject *ptlsobj = ITask::PtskSelf()->Tls().Ptlsobj(CTaskLocalStorage::EtlsidxOptCtxt);
-	ITask::PtskSelf()->Tls().Remove(ptlsobj);
+	CTaskLocalStorageObject *ptlsobj = ITask::TaskSelf()->Tls().Ptlsobj(CTaskLocalStorage::EtlsidxOptCtxt);
+	ITask::TaskSelf()->Tls().Remove(ptlsobj);
 	
 	GPOS_DELETE(ptlsobj);
 }

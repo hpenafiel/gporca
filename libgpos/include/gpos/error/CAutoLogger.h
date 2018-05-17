@@ -53,34 +53,34 @@ namespace gpos
 			{
 				GPOS_ASSERT(NULL != plogger);
 
-				ITask *ptsk = ITask::PtskSelf();
+				ITask *ptsk = ITask::TaskSelf();
 				GPOS_ASSERT(NULL != ptsk);
 
 				if (m_fError)
 				{
-					m_ploggerOld = ptsk->PlogErr();
-					ptsk->Ptskctxt()->SetLogErr(plogger);
+					m_ploggerOld = ptsk->LogErr();
+					ptsk->TaskCtxt()->SetLogErr(plogger);
 				}
 				else
 				{
-					m_ploggerOld = ptsk->PlogOut();
-					ptsk->Ptskctxt()->SetLogOut(plogger);
+					m_ploggerOld = ptsk->LogOut();
+					ptsk->TaskCtxt()->SetLogOut(plogger);
 				}
 			}
 
 			// dtor
 			~CAutoLogger()
 			{
-				ITask *ptsk = ITask::PtskSelf();
+				ITask *ptsk = ITask::TaskSelf();
 				GPOS_ASSERT(NULL != ptsk);
 
 				if (m_fError)
 				{
-					ptsk->Ptskctxt()->SetLogErr(m_ploggerOld);
+					ptsk->TaskCtxt()->SetLogErr(m_ploggerOld);
 				}
 				else
 				{
-					ptsk->Ptskctxt()->SetLogOut(m_ploggerOld);
+					ptsk->TaskCtxt()->SetLogOut(m_ploggerOld);
 				}
 			}
 

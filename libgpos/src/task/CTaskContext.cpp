@@ -54,8 +54,8 @@ CTaskContext::CTaskContext
 	)
 	:
 	m_pbs(NULL),
-	m_plogOut(tskctxt.PlogOut()),
-	m_plogErr(tskctxt.PlogErr()),
+	m_plogOut(tskctxt.LogOut()),
+	m_plogErr(tskctxt.LogErr()),
 	m_eloc(tskctxt.Eloc())
 {
 	// allocate bitset and union separately to guard against leaks under OOM
@@ -84,14 +84,14 @@ CTaskContext::~CTaskContext()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTaskContext::FTrace
+//		CTaskContext::Trace
 //
 //	@doc:
 //		Set trace flag; return original setting
 //
 //---------------------------------------------------------------------------
 BOOL
-CTaskContext::FTrace
+CTaskContext::Trace
 	(
 	ULONG ulTrace,
 	BOOL fVal

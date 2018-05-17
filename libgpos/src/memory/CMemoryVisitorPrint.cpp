@@ -87,16 +87,16 @@ CMemoryVisitorPrint::Visit
 		<< " allocated by " << szAllocFilename << ":" << ulAllocLine
 		<< std::endl;
 
-	ITask *ptsk = ITask::PtskSelf();
+	ITask *ptsk = ITask::TaskSelf();
 	if (NULL != ptsk)
 	{
-		if (NULL != psd && ptsk->FTrace(EtracePrintMemoryLeakStackTrace))
+		if (NULL != psd && ptsk->Trace(EtracePrintMemoryLeakStackTrace))
 		{
 			m_os << "Stack trace: " << std::endl;
 			psd->AppendTrace(m_os, 8 /*ulDepth*/);
 		}
 
-		if (ptsk->FTrace(EtracePrintMemoryLeakDump))
+		if (ptsk->Trace(EtracePrintMemoryLeakDump))
 		{
 			m_os << "Memory dump: " << std::endl;
 			gpos::HexDump(m_os, pvTotalAddr, ulTotalSize);

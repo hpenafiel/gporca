@@ -110,11 +110,11 @@ CMemoryPoolInjectFault::Free
 BOOL
 CMemoryPoolInjectFault::FSimulateAllocFailure()
 {
-	ITask *ptsk = ITask::PtskSelf();
+	ITask *ptsk = ITask::TaskSelf();
 	if (NULL != ptsk)
 	{
 		return
-			ptsk->FTrace(EtraceSimulateOOM) &&
+			ptsk->Trace(EtraceSimulateOOM) &&
 			CFSimulator::Pfsim()->FNewStack(CException::ExmaSystem, CException::ExmiOOM);
 	}
 

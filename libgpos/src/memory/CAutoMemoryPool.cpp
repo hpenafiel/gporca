@@ -94,14 +94,14 @@ CAutoMemoryPool::~CAutoMemoryPool()
 
 #ifdef GPOS_DEBUG
 
-	ITask *ptsk = ITask::PtskSelf();
+	ITask *ptsk = ITask::TaskSelf();
 	
 	// ElcExc must be used inside tasks only
 	GPOS_ASSERT_IMP(ElcExc == m_elc, NULL != ptsk);
 	
 	GPOS_TRY
 	{
-		if (ElcStrict == m_elc || (ElcExc == m_elc && !ptsk->Perrctxt()->FPending()))
+		if (ElcStrict == m_elc || (ElcExc == m_elc && !ptsk->ErrCtxt()->FPending()))
 		{
 			gpos::IOstream &os = gpos::oswcerr;
 

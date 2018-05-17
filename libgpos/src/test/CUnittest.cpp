@@ -218,19 +218,19 @@ CUnittest::EresExecLoop
 		GPOS_CATCH_EX(ex)
 		{
 			// check for exception simulation
-			if (ITask::PtskSelf()->FTrace(EtraceSimulateOOM))
+			if (ITask::TaskSelf()->Trace(EtraceSimulateOOM))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiOOM));
 			}
-			else if (ITask::PtskSelf()->FTrace(EtraceSimulateAbort))
+			else if (ITask::TaskSelf()->Trace(EtraceSimulateAbort))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiAbort));
 			}
-			else if (ITask::PtskSelf()->FTrace(EtraceSimulateIOError))
+			else if (ITask::TaskSelf()->Trace(EtraceSimulateIOError))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiIOError));
 			}
-			else if (ITask::PtskSelf()->FTrace(EtraceSimulateNetError))
+			else if (ITask::TaskSelf()->Trace(EtraceSimulateNetError))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiNetError));
 			}
@@ -271,7 +271,7 @@ CUnittest::EresExecTest
 	GPOS_TRY_HDL(&errhdl)
 	{
 		// reset cancellation flag
-		CTask::PtskSelf()->ResetCancel();
+		CTask::TaskSelf()->ResetCancel();
 #ifdef GPOS_DEBUG
 		CWorker::PwrkrSelf()->ResetTimeSlice();
 #endif // GPOS_DEBUG
@@ -333,20 +333,20 @@ CUnittest::FSimulated
 	CException ex
 	)
 {
-	ITask *ptsk = ITask::PtskSelf();
+	ITask *ptsk = ITask::TaskSelf();
 	GPOS_ASSERT(NULL != ptsk);
 
 	return
-		(ptsk->FTrace(EtraceSimulateOOM) &&
+		(ptsk->Trace(EtraceSimulateOOM) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiOOM)) ||
 
-		(ptsk->FTrace(EtraceSimulateAbort) &&
+		(ptsk->Trace(EtraceSimulateAbort) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiAbort)) ||
 
-		(ptsk->FTrace(EtraceSimulateIOError) &&
+		(ptsk->Trace(EtraceSimulateIOError) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiIOError)) ||
 
-		(ptsk->FTrace(EtraceSimulateNetError) &&
+		(ptsk->Trace(EtraceSimulateNetError) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiNetError));
 }
 
@@ -525,7 +525,7 @@ CUnittest::Driver
 	CMainArgs *pma
 	)
 {
-	CBitVector bv(ITask::PtskSelf()->Pmp(), CUnittest::UlTests());
+	CBitVector bv(ITask::TaskSelf()->Pmp(), CUnittest::UlTests());
 
 	CHAR ch = '\0';
 	while (pma->Getopt(&ch))

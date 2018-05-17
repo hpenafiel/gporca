@@ -27,11 +27,11 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CSerializable::CSerializable()
 {
-	CTask *ptsk = CTask::PtskSelf();
+	CTask *ptsk = CTask::TaskSelf();
 
 	GPOS_ASSERT(NULL != ptsk);
 
-	ptsk->PerrctxtConvert()->Register(this);
+	ptsk->ErrCtxtConvert()->Register(this);
 }
 
 
@@ -45,11 +45,11 @@ CSerializable::CSerializable()
 //---------------------------------------------------------------------------
 CSerializable::~CSerializable()
 {
-	CTask *ptsk = CTask::PtskSelf();
+	CTask *ptsk = CTask::TaskSelf();
 
 	GPOS_ASSERT(NULL != ptsk);
 
-	ptsk->PerrctxtConvert()->Unregister(this);
+	ptsk->ErrCtxtConvert()->Unregister(this);
 }
 
 

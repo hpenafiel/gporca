@@ -82,8 +82,8 @@ CAutoTaskProxyTest::EresUnittest_Wait()
 		atp.Wait(rgPtsk[0]);
 		atp.Wait(rgPtsk[1]);
 
-		GPOS_ASSERT(rgRes[0] == *(ULLONG *)rgPtsk[0]->PvRes());
-		GPOS_ASSERT(rgRes[1] == *(ULLONG *)rgPtsk[1]->PvRes());
+		GPOS_ASSERT(rgRes[0] == *(ULLONG *)rgPtsk[0]->Res());
+		GPOS_ASSERT(rgRes[1] == *(ULLONG *)rgPtsk[1]->Res());
 	}
 
 
@@ -127,8 +127,8 @@ CAutoTaskProxyTest::EresUnittest_WaitAny()
 		CTask *ptsk = NULL;
 		atp.WaitAny(&ptsk);
 
-		GPOS_ASSERT(rgPtsk[0]->FCheckStatus(false /*fCompleted*/));
-		GPOS_ASSERT(rgPtsk[1]->FCheckStatus(false /*fCompleted*/));
+		GPOS_ASSERT(rgPtsk[0]->CheckStatus(false /*fCompleted*/));
+		GPOS_ASSERT(rgPtsk[1]->CheckStatus(false /*fCompleted*/));
 
 		GPOS_ASSERT(ptsk == rgPtsk[2]);
 
@@ -139,17 +139,17 @@ CAutoTaskProxyTest::EresUnittest_WaitAny()
 		atp.Cancel(rgPtsk[0]);
 		atp.WaitAny(&ptsk);
 
-		GPOS_ASSERT(rgPtsk[1]->FCheckStatus(false /*fCompleted*/));
+		GPOS_ASSERT(rgPtsk[1]->CheckStatus(false /*fCompleted*/));
 
 		GPOS_ASSERT(ptsk == rgPtsk[0]);
-		GPOS_ASSERT(rgPtsk[0]->FCanceled());
+		GPOS_ASSERT(rgPtsk[0]->Canceled());
 
-		GPOS_ASSERT(CTask::EtsError == rgPtsk[0]->Ets());
-		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Ets());
+		GPOS_ASSERT(CTask::EtsError == rgPtsk[0]->Status());
+		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Status());
 
-		GPOS_ASSERT(NULL == rgPtsk[0]->PvRes());
-		GPOS_ASSERT(NULL == rgPtsk[1]->PvRes());
-		GPOS_ASSERT(rgRes[2] == *(ULLONG *)rgPtsk[2]->PvRes());
+		GPOS_ASSERT(NULL == rgPtsk[0]->Res());
+		GPOS_ASSERT(NULL == rgPtsk[1]->Res());
+		GPOS_ASSERT(rgRes[2] == *(ULLONG *)rgPtsk[2]->Res());
 
 		// ATP cancels running task
 	}
@@ -209,14 +209,14 @@ CAutoTaskProxyTest::EresUnittest_TimedWait()
 		atp.TimedWait(rgPtsk[1], 10);
 		GPOS_ASSERT(GPOS_TIMEOUT == eres);
 
-		GPOS_ASSERT(!rgPtsk[0]->FCanceled());
-		GPOS_ASSERT(!rgPtsk[1]->FCanceled());
+		GPOS_ASSERT(!rgPtsk[0]->Canceled());
+		GPOS_ASSERT(!rgPtsk[1]->Canceled());
 
-		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[0]->Ets());
-		GPOS_ASSERT(rgPtsk[1]->FScheduled() && !rgPtsk[1]->FFinished());
+		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[0]->Status());
+		GPOS_ASSERT(rgPtsk[1]->Scheduled() && !rgPtsk[1]->Finished());
 
-		GPOS_ASSERT(rgRes[0] == *(ULLONG *)rgPtsk[0]->PvRes());
-		GPOS_ASSERT(NULL == rgPtsk[1]->PvRes());
+		GPOS_ASSERT(rgRes[0] == *(ULLONG *)rgPtsk[0]->Res());
+		GPOS_ASSERT(NULL == rgPtsk[1]->Res());
 
 		// ATP cancels running task
 	}
@@ -267,11 +267,11 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 		atp.TimedWaitAny(&ptsk, ULONG_MAX);
 		GPOS_ASSERT(GPOS_OK == eres);
 		GPOS_ASSERT(ptsk == rgPtsk[2]);
-		GPOS_ASSERT(!rgPtsk[2]->FCanceled());
+		GPOS_ASSERT(!rgPtsk[2]->Canceled());
 
-		GPOS_ASSERT(rgPtsk[0]->FScheduled() && !rgPtsk[0]->FFinished());
-		GPOS_ASSERT(rgPtsk[1]->FScheduled() && !rgPtsk[1]->FFinished());
-		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Ets());
+		GPOS_ASSERT(rgPtsk[0]->Scheduled() && !rgPtsk[0]->Finished());
+		GPOS_ASSERT(rgPtsk[1]->Scheduled() && !rgPtsk[1]->Finished());
+		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Status());
 
 		// check if any task is complete - immediate timeout
 #ifdef GPOS_DEBUG
@@ -289,9 +289,9 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 		GPOS_ASSERT(GPOS_TIMEOUT == eres);
 		GPOS_ASSERT(NULL == ptsk);
 
-		GPOS_ASSERT(rgPtsk[0]->FScheduled() && !rgPtsk[0]->FFinished());
-		GPOS_ASSERT(rgPtsk[1]->FScheduled() && !rgPtsk[1]->FFinished());
-		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Ets());
+		GPOS_ASSERT(rgPtsk[0]->Scheduled() && !rgPtsk[0]->Finished());
+		GPOS_ASSERT(rgPtsk[1]->Scheduled() && !rgPtsk[1]->Finished());
+		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Status());
 
 		// cancel task
 		atp.Cancel(rgPtsk[0]);
@@ -305,15 +305,15 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 
 		GPOS_ASSERT(GPOS_OK == eres);
 		GPOS_ASSERT(ptsk == rgPtsk[0]);
-		GPOS_ASSERT(rgPtsk[0]->FCanceled());
+		GPOS_ASSERT(rgPtsk[0]->Canceled());
 
-		GPOS_ASSERT(CTask::EtsError == rgPtsk[0]->Ets());
-		GPOS_ASSERT(rgPtsk[1]->FScheduled() && !rgPtsk[1]->FFinished());
-		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Ets());
+		GPOS_ASSERT(CTask::EtsError == rgPtsk[0]->Status());
+		GPOS_ASSERT(rgPtsk[1]->Scheduled() && !rgPtsk[1]->Finished());
+		GPOS_ASSERT(CTask::EtsCompleted == rgPtsk[2]->Status());
 
-		GPOS_ASSERT(NULL == rgPtsk[0]->PvRes());
-		GPOS_ASSERT(NULL == rgPtsk[1]->PvRes());
-		GPOS_ASSERT(rgRes[2] == *(ULLONG *)rgPtsk[2]->PvRes());
+		GPOS_ASSERT(NULL == rgPtsk[0]->Res());
+		GPOS_ASSERT(NULL == rgPtsk[1]->Res());
+		GPOS_ASSERT(rgRes[2] == *(ULLONG *)rgPtsk[2]->Res());
 
 		// ATP cancels running task
 	}
@@ -369,7 +369,7 @@ CAutoTaskProxyTest::EresUnittest_Destroy()
 			// destroy completed tasks
 			while (0 < atp.TaskCount() && GPOS_OK == atp.TimedWaitAny(&ptsk, 0))
 			{
-				GPOS_ASSERT(CTask::EtsCompleted == ptsk->Ets() || ptsk->FCanceled());
+				GPOS_ASSERT(CTask::EtsCompleted == ptsk->Status() || ptsk->Canceled());
 
 				atp.Destroy(ptsk);
 			}
@@ -402,7 +402,7 @@ CAutoTaskProxyTest::Unittest_ExecuteWaitFunc
 	GPOS_ASSERT(EwtInvalid < ewtCur && EwtSentinel > ewtCur);
 
 	// loop until the task is running or finished
-	while (!(ptsk->FRunning() || ptsk->FFinished()))
+	while (!(ptsk->Running() || ptsk->Finished()))
 	{
 		clib::USleep(1000);
 	}
@@ -410,7 +410,7 @@ CAutoTaskProxyTest::Unittest_ExecuteWaitFunc
 	// cancel the task or not
 	if (fInvokeCancel)
 	{
-		GPOS_ASSERT(ptsk->FRunning());
+		GPOS_ASSERT(ptsk->Running());
 		
 		// cancel the running task
 		atp.Cancel(ptsk);

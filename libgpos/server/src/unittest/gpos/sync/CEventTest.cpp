@@ -56,7 +56,7 @@ GPOS_RESULT
 CEventTest::EresUnittest_ProducerConsumer()
 {
 	// abort simulation will lead to a deadlock
-	if (ITask::PtskSelf()->FTrace(EtraceSimulateAbort))
+	if (ITask::TaskSelf()->Trace(EtraceSimulateAbort))
 	{
 		return GPOS_OK;
 	}
@@ -89,7 +89,7 @@ CEventTest::EresUnittest_ProducerConsumer()
 			// wait for consumer to start up
 			event.Wait();
 
-			GPOS_ASSERT(rgPtsk[0]->FCheckStatus(false /*fCompleted*/));
+			GPOS_ASSERT(rgPtsk[0]->CheckStatus(false /*fCompleted*/));
 		}
 
 		// We got the mutex back and Consumer is the only one waiting on the event;
@@ -171,7 +171,7 @@ CEventTest::EresUnittest_TimedWait()
 				return GPOS_FAILED;
 			}
 
-			GPOS_ASSERT(ptsk->FCheckStatus(false /*fCompleted*/));
+			GPOS_ASSERT(ptsk->CheckStatus(false /*fCompleted*/));
 
 			// signal child to complete
 			event.Signal();

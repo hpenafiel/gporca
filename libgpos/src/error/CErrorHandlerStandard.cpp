@@ -33,12 +33,12 @@ CErrorHandlerStandard::Process
 	CException exc
 	)
 {
-	CTask *ptsk = CTask::PtskSelf();
+	CTask *ptsk = CTask::TaskSelf();
 
 	GPOS_ASSERT(NULL != ptsk && "No task in current context");
 
-	IErrorContext *perrctxt = ptsk->Perrctxt();
-	CLogger *plog = dynamic_cast<CLogger*>(ptsk->PlogErr());
+	IErrorContext *perrctxt = ptsk->ErrCtxt();
+	CLogger *plog = dynamic_cast<CLogger*>(ptsk->LogErr());
 	
 	GPOS_ASSERT(perrctxt->FPending() && "No error to process");
 	GPOS_ASSERT(perrctxt->Exc() == exc && 
