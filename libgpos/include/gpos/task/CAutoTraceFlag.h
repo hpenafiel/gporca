@@ -32,10 +32,10 @@ namespace gpos
 		private:
 
 			// traceflag id
-			ULONG m_ulTrace;
+			ULONG m_trace;
 
 			// original value
-			BOOL m_fOrig;
+			BOOL m_orig;
 
 			// no copy ctor
 			CAutoTraceFlag(const CAutoTraceFlag&);

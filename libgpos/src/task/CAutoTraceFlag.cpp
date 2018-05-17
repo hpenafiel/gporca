@@ -25,15 +25,15 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CAutoTraceFlag::CAutoTraceFlag
 	(
-	ULONG ulTrace,
-	BOOL fVal
+	ULONG trace,
+	BOOL val
 	)
 	:
-	m_ulTrace(ulTrace),
-	m_fOrig(false)
+	m_trace(trace),
+	m_orig(false)
 {
 	GPOS_ASSERT(NULL != ITask::PtskSelf());
-	m_fOrig = ITask::PtskSelf()->FTrace(m_ulTrace, fVal);
+	m_orig = ITask::PtskSelf()->FTrace(m_trace, val);
 }
 
 
@@ -50,7 +50,7 @@ CAutoTraceFlag::~CAutoTraceFlag()
 	GPOS_ASSERT(NULL != ITask::PtskSelf());
 		
 	// reset original value
-	ITask::PtskSelf()->FTrace(m_ulTrace, m_fOrig);
+	ITask::PtskSelf()->FTrace(m_trace, m_orig);
 }
 
 
