@@ -442,7 +442,7 @@ CWorkerPoolManager::EsrTskNext
 		if (!m_ts.IsEmpty())
 		{
 			// assign queued task to worker
-			*pptsk = m_ts.PtskDequeue();
+			*pptsk = m_ts.Dequeue();
 			return EsrExecTask;
 		}
 

@@ -35,14 +35,14 @@ CTaskSchedulerFifo::Enqueue
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTaskSchedulerFifo::PtskDequeue
+//		CTaskSchedulerFifo::Dequeue
 //
 //	@doc:
 //		Get next task to execute
 //
 //---------------------------------------------------------------------------
 CTask *
-CTaskSchedulerFifo::PtskDequeue()
+CTaskSchedulerFifo::Dequeue()
 {
 	GPOS_ASSERT(!m_qtsk.IsEmpty());
 

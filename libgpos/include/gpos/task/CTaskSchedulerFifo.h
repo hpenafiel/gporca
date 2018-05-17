@@ -61,13 +61,13 @@ namespace gpos
 			void Enqueue(CTask *ptsk);
 
 			// get next task to execute
-			CTask *PtskDequeue();
+			CTask *Dequeue();
 
 			// check if task is waiting to be scheduled and remove it
 			GPOS_RESULT EresCancel(CTask *ptsk);
 
 			// get number of waiting tasks
-			ULONG UlQueueSize()
+			ULONG QueueSize()
 			{
 				return m_qtsk.Size();
 			}

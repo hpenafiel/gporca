@@ -51,15 +51,15 @@ namespace gpos
 
 			// get next task to execute
 			virtual
-			CTask *PtskDequeue() = 0;
+			CTask *Dequeue() = 0;
 
 			// check if task is waiting to be scheduled and remove it
 			virtual
-			GPOS_RESULT EresCancel(CTask *ptsk) = 0;
+			GPOS_RESULT EresCancel(CTask *task) = 0;
 
 			// get number of waiting tasks
 			virtual
-			ULONG UlQueueSize() = 0;
+			ULONG QueueSize() = 0;
 
 			// check if task queue is empty
 			virtual
