@@ -165,7 +165,7 @@ int gpos_exec
 				// task handler for this process
 				CAutoTaskProxy atp(pmp, pwpm, true /*fPropagateError*/);
 
-				CTask *ptsk = atp.PtskCreate(params->func, params->arg, params->abort_requested);
+				CTask *ptsk = atp.Create(params->func, params->arg, params->abort_requested);
 
 				// init TLS
 				ptsk->Tls().Reset(pmp);

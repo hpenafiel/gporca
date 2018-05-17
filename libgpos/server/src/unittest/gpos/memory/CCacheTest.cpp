@@ -1177,7 +1177,7 @@ CCacheTest::EresUnittest_ConcurrentAccess()
 			// create tasks
 			for (ULONG i = 0; i < GPOS_CACHE_THREADS; i++)
 			{
-				rgPtsk[i] = atp.PtskCreate
+				rgPtsk[i] = atp.Create
 							(
 							rgPfuncTask[i % ulNumberOfTaskTypes],
 							pcache

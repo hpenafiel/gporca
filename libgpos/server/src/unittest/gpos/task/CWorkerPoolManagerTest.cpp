@@ -251,7 +251,7 @@ CWorkerPoolManagerTest::Unittest_TestSingleTaskPerformance
 
 	for (ULONG i = 0; i < ulWorkers; i++)
 	{
-		argPtsk[i] = atp.PtskCreate(funcRepeated, &ulIterCntPerWorkers);
+		argPtsk[i] = atp.Create(funcRepeated, &ulIterCntPerWorkers);
 	}
 
 	for (ULONG i = 0; i < ulWorkers; i++)
@@ -297,7 +297,7 @@ CWorkerPoolManagerTest::Unittest_TestMultiTaskPerformance
 
 		for (ULONG i = 0; i < ulWorkers; i++)
 		{
-			argPtsk[i] = atp.PtskCreate(funcSingle, &ulRes);
+			argPtsk[i] = atp.Create(funcSingle, &ulRes);
 		}
 
 		for (ULONG i = 0; i < ulWorkers; i++)
@@ -362,7 +362,7 @@ CWorkerPoolManagerTest::Unittest_Stress
 
 		for (ULONG i = 0; i < culTskCnt; i++)
 		{
-			argPtsk[i] = atp.PtskCreate(func, &ulSum);
+			argPtsk[i] = atp.Create(func, &ulSum);
 		}
 
 		for (ULONG i = 0; i < culTskCnt; i++)

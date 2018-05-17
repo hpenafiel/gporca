@@ -100,7 +100,7 @@ CSpinlockTest::EresUnittest_Concurrency()
 
 		for (ULONG i = 0; i < GPOS_SLOCK_THREADS; i++)
 		{
-			rgPtsk[i] = atp.PtskCreate(CSpinlockTest::PvUnittest_ConcurrencyRun, &slock);
+			rgPtsk[i] = atp.Create(CSpinlockTest::PvUnittest_ConcurrencyRun, &slock);
 		}
 
 		for (ULONG i = 0; i < GPOS_SLOCK_THREADS; i++)

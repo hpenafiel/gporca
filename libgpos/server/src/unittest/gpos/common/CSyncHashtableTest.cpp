@@ -513,7 +513,7 @@ CSyncHashtableTest::PvUnittest_IteratorsRun
 		// create tasks
 		for (ULONG i = 0; i < GPOS_SHT_THREADS; i++)
 		{
-			rgtask[i] = atp.PtskCreate
+			rgtask[i] = atp.Create
 							(
 							PvUnittest_IteratorCheck,
 							&elemtest
@@ -676,7 +676,7 @@ CSyncHashtableTest::EresUnittest_Concurrency()
 		for (ULONG i = 0; i < GPOS_SHT_THREADS; i++)
 		{
 			ULONG ulTaskIndex = i % ulTypes;
-			rgtask[i] = atp.PtskCreate
+			rgtask[i] = atp.Create
 							(
 							rgpfuncTask[ulTaskIndex],
 							&elemtest

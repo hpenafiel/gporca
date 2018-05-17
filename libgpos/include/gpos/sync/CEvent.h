@@ -119,7 +119,7 @@ namespace gpos
 			void Wait();
 			
 			// wait signal/broadcast with timeout
-			GPOS_RESULT EresTimedWait(ULONG ulTimeoutMs);
+			GPOS_RESULT TimedWait(ULONG ulTimeoutMs);
 
 			// signal primitive
 			void Signal();

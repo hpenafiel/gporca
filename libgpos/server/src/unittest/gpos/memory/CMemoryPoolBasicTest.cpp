@@ -460,12 +460,12 @@ CMemoryPoolBasicTest::EresConcurrency
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk) / 2; i++)
 		{
-			rgptsk[i] = atp.PtskCreate(AllocateSerial, pmp);
+			rgptsk[i] = atp.Create(AllocateSerial, pmp);
 		}
 
 		for (ULONG i = GPOS_ARRAY_SIZE(rgptsk) / 2; i < GPOS_ARRAY_SIZE(rgptsk); i++)
 		{
-			rgptsk[i] = atp.PtskCreate(AllocateRepeated, pmp);
+			rgptsk[i] = atp.Create(AllocateRepeated, pmp);
 		}
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)
@@ -643,7 +643,7 @@ CMemoryPoolBasicTest::EresStress
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)
 		{
-			rgptsk[i] = atp.PtskCreate(AllocateStress, pmp);
+			rgptsk[i] = atp.Create(AllocateStress, pmp);
 		}
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)

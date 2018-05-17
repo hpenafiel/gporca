@@ -155,7 +155,7 @@ CEvent::Wait()
 #ifdef GPOS_DEBUG
 	GPOS_RESULT eres =
 #endif // GPOS_DEBUG
-	EresTimedWait(ULONG_MAX);
+	TimedWait(ULONG_MAX);
 
 	GPOS_ASSERT(GPOS_OK == eres && "Failed to receive a signal on the event");
 }
@@ -163,7 +163,7 @@ CEvent::Wait()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CEvent::EresTimedWait
+//		CEvent::TimedWait
 //
 //	@doc:
 //		Wait function with timeout, calls internal wait function repeatedly
@@ -171,7 +171,7 @@ CEvent::Wait()
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CEvent::EresTimedWait
+CEvent::TimedWait
 	(
 	ULONG ulTimeoutMs
 	)

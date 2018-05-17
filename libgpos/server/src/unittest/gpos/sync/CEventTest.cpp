@@ -75,8 +75,8 @@ CEventTest::EresUnittest_ProducerConsumer()
 	{
 		CAutoTaskProxy atp(pmp, pwpm);
 		CTask *rgPtsk[2];
-		rgPtsk[0] = atp.PtskCreate(CEventTest::PvUnittest_Consumer, &event);
-		rgPtsk[1] = atp.PtskCreate(CEventTest::PvUnittest_Producer, &event);
+		rgPtsk[0] = atp.Create(CEventTest::PvUnittest_Consumer, &event);
+		rgPtsk[1] = atp.Create(CEventTest::PvUnittest_Producer, &event);
 
 		// OPT-58: take care to avoid race where producer overtakes consumer
 		// synchronize startup through explicit handshake between consumer and main thread
@@ -131,7 +131,7 @@ CEventTest::EresUnittest_TimedWait()
 	{
 		CAutoTaskProxy atp(pmp, pwpm);
 
-		CTask *ptsk = atp.PtskCreate(CEventTest::PvUnittest_TimedWait, &event);
+		CTask *ptsk = atp.Create(CEventTest::PvUnittest_TimedWait, &event);
 
 		// scope for mutex
 		{
@@ -142,31 +142,31 @@ CEventTest::EresUnittest_TimedWait()
 			atp.Schedule(ptsk);
 
 			// test wait with no timeout expiration
-			if (GPOS_OK != event.EresTimedWait(ULONG_MAX))
+			if (GPOS_OK != event.TimedWait(ULONG_MAX))
 			{
 				return GPOS_FAILED;
 			}
 
 			// test zero timeout
-			if (GPOS_TIMEOUT != event.EresTimedWait(0))
+			if (GPOS_TIMEOUT != event.TimedWait(0))
 			{
 				return GPOS_FAILED;
 			}
 
 			// test short timeout
-			if (GPOS_TIMEOUT != event.EresTimedWait(10))
+			if (GPOS_TIMEOUT != event.TimedWait(10))
 			{
 				return GPOS_FAILED;
 			}
 
 			// test medium timeout
-			if (GPOS_TIMEOUT != event.EresTimedWait(100))
+			if (GPOS_TIMEOUT != event.TimedWait(100))
 			{
 				return GPOS_FAILED;
 			}
 
 			// test long timeout
-			if (GPOS_TIMEOUT != event.EresTimedWait(1200))
+			if (GPOS_TIMEOUT != event.TimedWait(1200))
 			{
 				return GPOS_FAILED;
 			}
@@ -177,7 +177,7 @@ CEventTest::EresUnittest_TimedWait()
 			event.Signal();
 
 			// test wait with no timeout expiration
-			if (GPOS_OK != event.EresTimedWait(ULONG_MAX))
+			if (GPOS_OK != event.TimedWait(ULONG_MAX))
 			{
 				return GPOS_FAILED;
 			}
@@ -295,7 +295,7 @@ CEventTest::PvUnittest_TimedWait
 	pevent->Signal();
 
 	// wait for signal - no expiration
-	pevent->EresTimedWait(ULONG_MAX);
+	pevent->TimedWait(ULONG_MAX);
 
 	// signal complete
 	pevent->Signal();

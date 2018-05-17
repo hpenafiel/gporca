@@ -136,7 +136,7 @@ CMutexTest::EresUnittest_Concurrency()
 
 		for (ULONG i = 0; i < GPOS_MUTEX_THREADS; i++)
 		{
-			rgPtsk[i] = atp.PtskCreate(CMutexTest::PvUnittest_ConcurrencyRun, &mutex);
+			rgPtsk[i] = atp.Create(CMutexTest::PvUnittest_ConcurrencyRun, &mutex);
 		}
 
 		for (ULONG i = 0; i < GPOS_MUTEX_THREADS; i++)

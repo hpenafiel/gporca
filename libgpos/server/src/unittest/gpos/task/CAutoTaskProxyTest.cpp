@@ -71,8 +71,8 @@ CAutoTaskProxyTest::EresUnittest_Wait()
 		ULLONG rgRes[2];
 
 		// create tasks
-		rgPtsk[0] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[0]);
-		rgPtsk[1] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Long, &rgRes[1]);
+		rgPtsk[0] = atp.Create(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[0]);
+		rgPtsk[1] = atp.Create(CAutoTaskProxyTest::PvUnittest_Long, &rgRes[1]);
 
 		// start two tasks
 		atp.Schedule(rgPtsk[0]);
@@ -114,9 +114,9 @@ CAutoTaskProxyTest::EresUnittest_WaitAny()
 		ULLONG rgRes[3];
 
 		// create tasks
-		rgPtsk[0] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[0]);
-		rgPtsk[1] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[1]);
-		rgPtsk[2] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[2]);
+		rgPtsk[0] = atp.Create(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[0]);
+		rgPtsk[1] = atp.Create(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[1]);
+		rgPtsk[2] = atp.Create(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[2]);
 
 		// start tasks
 		atp.Schedule(rgPtsk[0]);
@@ -181,8 +181,8 @@ CAutoTaskProxyTest::EresUnittest_TimedWait()
 		ULLONG rgRes[2];
 
 		// create tasks
-		rgPtsk[0] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[0]);
-		rgPtsk[1] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[1]);
+		rgPtsk[0] = atp.Create(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[0]);
+		rgPtsk[1] = atp.Create(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[1]);
 
 		// start tasks
 		atp.Schedule(rgPtsk[0]);
@@ -192,21 +192,21 @@ CAutoTaskProxyTest::EresUnittest_TimedWait()
 #ifdef GPOS_DEBUG
 		GPOS_RESULT eres =
 #endif // GPOS_DEBUG
-		atp.EresTimedWait(rgPtsk[0], ULONG_MAX);
+		atp.TimedWait(rgPtsk[0], ULONG_MAX);
 		GPOS_ASSERT(GPOS_OK == eres);
 
 		// check second task - timeout immediately
 #ifdef GPOS_DEBUG
 		eres =
 #endif // GPOS_DEBUG
-		atp.EresTimedWait(rgPtsk[1], 0);
+		atp.TimedWait(rgPtsk[1], 0);
 		GPOS_ASSERT(GPOS_TIMEOUT == eres);
 
 		// wait for second task - timeout
 #ifdef GPOS_DEBUG
 		eres =
 #endif // GPOS_DEBUG
-		atp.EresTimedWait(rgPtsk[1], 10);
+		atp.TimedWait(rgPtsk[1], 10);
 		GPOS_ASSERT(GPOS_TIMEOUT == eres);
 
 		GPOS_ASSERT(!rgPtsk[0]->FCanceled());
@@ -249,9 +249,9 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 		ULLONG rgRes[3];
 
 		// create tasks
-		rgPtsk[0] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[0]);
-		rgPtsk[1] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[1]);
-		rgPtsk[2] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[2]);
+		rgPtsk[0] = atp.Create(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[0]);
+		rgPtsk[1] = atp.Create(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[1]);
+		rgPtsk[2] = atp.Create(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[2]);
 
 		// start tasks
 		atp.Schedule(rgPtsk[0]);
@@ -264,7 +264,7 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 #ifdef GPOS_DEBUG
 		GPOS_RESULT eres =
 #endif // GPOS_DEBUG
-		atp.EresTimedWaitAny(&ptsk, ULONG_MAX);
+		atp.TimedWaitAny(&ptsk, ULONG_MAX);
 		GPOS_ASSERT(GPOS_OK == eres);
 		GPOS_ASSERT(ptsk == rgPtsk[2]);
 		GPOS_ASSERT(!rgPtsk[2]->FCanceled());
@@ -277,7 +277,7 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 #ifdef GPOS_DEBUG
 		eres =
 #endif // GPOS_DEBUG
-		atp.EresTimedWaitAny(&ptsk, 0);
+		atp.TimedWaitAny(&ptsk, 0);
 		GPOS_ASSERT(GPOS_TIMEOUT == eres);
 		GPOS_ASSERT(NULL == ptsk);
 
@@ -285,7 +285,7 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 #ifdef GPOS_DEBUG
 		eres =
 #endif // GPOS_DEBUG
-		atp.EresTimedWaitAny(&ptsk, 10);
+		atp.TimedWaitAny(&ptsk, 10);
 		GPOS_ASSERT(GPOS_TIMEOUT == eres);
 		GPOS_ASSERT(NULL == ptsk);
 
@@ -301,7 +301,7 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 #ifdef GPOS_DEBUG
 		eres =
 #endif // GPOS_DEBUG
-		atp.EresTimedWaitAny(&ptsk, ULONG_MAX);
+		atp.TimedWaitAny(&ptsk, ULONG_MAX);
 
 		GPOS_ASSERT(GPOS_OK == eres);
 		GPOS_ASSERT(ptsk == rgPtsk[0]);
@@ -355,9 +355,9 @@ CAutoTaskProxyTest::EresUnittest_Destroy()
 			GPOS_CHECK_ABORT;
 
 			// create 3 tasks
-			rgPtsk[3*i] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[3*i]);
-			rgPtsk[3*i + 1] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Long, &rgRes[3*i + 1]);
-			rgPtsk[3*i + 2] = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[3*i + 2]);
+			rgPtsk[3*i] = atp.Create(CAutoTaskProxyTest::PvUnittest_Short, &rgRes[3*i]);
+			rgPtsk[3*i + 1] = atp.Create(CAutoTaskProxyTest::PvUnittest_Long, &rgRes[3*i + 1]);
+			rgPtsk[3*i + 2] = atp.Create(CAutoTaskProxyTest::PvUnittest_Infinite, &rgRes[3*i + 2]);
 
 			atp.Schedule(rgPtsk[3*i]);
 			atp.Schedule(rgPtsk[3*i + 1]);
@@ -367,7 +367,7 @@ CAutoTaskProxyTest::EresUnittest_Destroy()
 			atp.Cancel(rgPtsk[3*i + 2]);
 
 			// destroy completed tasks
-			while (0 < atp.UlTasks() && GPOS_OK == atp.EresTimedWaitAny(&ptsk, 0))
+			while (0 < atp.TaskCount() && GPOS_OK == atp.TimedWaitAny(&ptsk, 0))
 			{
 				GPOS_ASSERT(CTask::EtsCompleted == ptsk->Ets() || ptsk->FCanceled());
 
@@ -430,10 +430,10 @@ CAutoTaskProxyTest::Unittest_ExecuteWaitFunc
 			atp.WaitAny(&finishedTask);
 			break;
 		case EwtTimedWait:
-			atp.EresTimedWait(ptsk, ULONG_MAX);
+			atp.TimedWait(ptsk, ULONG_MAX);
 			break;
 		case EwtTimedWaitAny:
-			atp.EresTimedWaitAny(&finishedTask, ULONG_MAX);
+			atp.TimedWaitAny(&finishedTask, ULONG_MAX);
 			break;
 		case EwtDestroy:
 			atp.Destroy(ptsk);
@@ -488,7 +488,7 @@ CAutoTaskProxyTest::Unittest_PropagateErrorInternal
 
 		for (ULONG ulIdx = 0; ulIdx < ulTaskSize; ++ulIdx)
 		{
-			rgPtsk[ulIdx] = atp.PtskCreate(pfnTaskExec, &rgRes[ulIdx]);
+			rgPtsk[ulIdx] = atp.Create(pfnTaskExec, &rgRes[ulIdx]);
 		}
 
 		// start tasks
@@ -516,7 +516,7 @@ void* CAutoTaskProxyTest::Unittest_CheckExecuteErrorInternal(void* pv)
 	// scope for ATP
 	{
 		CAutoTaskProxy atp(ptd->m_pmp, pwpm, ptd->fPropagateException);
-		CTask *task = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Error, NULL);
+		CTask *task = atp.Create(CAutoTaskProxyTest::PvUnittest_Error, NULL);
 		GPOS_TRY
 		{
 			atp.Execute(task);
@@ -643,12 +643,12 @@ CAutoTaskProxyTest::EresUnittest_CheckErrorPropagation()
 		CTask* ptsk = NULL;
 
 		// error propagation is enable by default
-		ptsk = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Error, NULL);
+		ptsk = atp.Create(CAutoTaskProxyTest::PvUnittest_Error, NULL);
 		atp.Schedule(ptsk);
 		Unittest_ExecuteWaitFunc(atp, ptsk, false /* fInvokeCancel */, EwtWait);
 
 		// disable error propagation
-		ptsk = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Error, NULL);
+		ptsk = atp.Create(CAutoTaskProxyTest::PvUnittest_Error, NULL);
 		atp.SetPropagateError(false /* fPropagateError */);
 		atp.Schedule(ptsk);
 
@@ -657,7 +657,7 @@ CAutoTaskProxyTest::EresUnittest_CheckErrorPropagation()
 		GPOS_ASSERT("Task completed");
 
 		// enable error propagation
-		ptsk = atp.PtskCreate(CAutoTaskProxyTest::PvUnittest_Error, NULL);
+		ptsk = atp.Create(CAutoTaskProxyTest::PvUnittest_Error, NULL);
 		atp.SetPropagateError(true /* fPropagateError */);
 		atp.Schedule(ptsk);
 		Unittest_ExecuteWaitFunc(atp, ptsk, false /* fInvokeCancel */, EwtWait);

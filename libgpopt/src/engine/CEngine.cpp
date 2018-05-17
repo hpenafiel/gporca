@@ -1831,7 +1831,7 @@ CEngine::MultiThreadedOptimize
 				a_rgsc[i].Init(m_pmp, &jf, &sched, this);
 
 				// create scheduling task
-				a_rgptsk[i] = atp.PtskCreate(CScheduler::Run, &a_rgsc[i]);
+				a_rgptsk[i] = atp.Create(CScheduler::Run, &a_rgsc[i]);
 
 				// store a pointer to optimizer's context in current task local storage
 				a_rgptsk[i]->Tls().Reset(m_pmp);

@@ -795,7 +795,7 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessSingleMDA()
 		// create tasks
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgPtsk); i++)
 		{
-			rgPtsk[i] = atp.PtskCreate
+			rgPtsk[i] = atp.Create
 						(
 						rgPfuncTask[i % ulNumberOfTaskTypes],
 						&mdtaskparams
@@ -854,7 +854,7 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessMultipleMDA()
 		// create tasks
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgPtsk); i++)
 		{
-			rgPtsk[i] = atp.PtskCreate
+			rgPtsk[i] = atp.Create
 						(
 						PvInitMDAAndLookup,
 						CMDCache::Pcache()	// task arg
@@ -1026,7 +1026,7 @@ CMDAccessorTest::PvInitMDAAndLookup
 			// create tasks
 			for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgPtsk); i++)
 			{
-				rgPtsk[i] = atp.PtskCreate
+				rgPtsk[i] = atp.Create
 							(
 							rgPfuncTask[i % ulNumberOfTaskTypes],
 							&mdtaskparams

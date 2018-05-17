@@ -114,12 +114,12 @@ CMiniDumperTest::EresUnittest_Concurrency()
 		CTask *rgPtsk[6];
 
 		// one task throws, the other get aborted
-		rgPtsk[0] = atp.PtskCreate(PvRaise, NULL);
-		rgPtsk[1] = atp.PtskCreate(PvLoop, NULL);
-		rgPtsk[2] = atp.PtskCreate(PvLoop, NULL);
-		rgPtsk[3] = atp.PtskCreate(PvLoopSerialize, NULL);
-		rgPtsk[4] = atp.PtskCreate(PvLoopSerialize, NULL);
-		rgPtsk[5] = atp.PtskCreate(PvLoopSerialize, NULL);
+		rgPtsk[0] = atp.Create(PvRaise, NULL);
+		rgPtsk[1] = atp.Create(PvLoop, NULL);
+		rgPtsk[2] = atp.Create(PvLoop, NULL);
+		rgPtsk[3] = atp.Create(PvLoopSerialize, NULL);
+		rgPtsk[4] = atp.Create(PvLoopSerialize, NULL);
+		rgPtsk[5] = atp.Create(PvLoopSerialize, NULL);
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgPtsk); i++)
 		{

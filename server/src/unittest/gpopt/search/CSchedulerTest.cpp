@@ -328,7 +328,7 @@ CSchedulerTest::RunTasks
 			a_rgsc[i].Init(pmp, pjf, psched, peng);
 
 			// create scheduling task
-			a_rgptsk[i] = atp.PtskCreate(CScheduler::Run, &a_rgsc[i]);
+			a_rgptsk[i] = atp.Create(CScheduler::Run, &a_rgsc[i]);
 		}
 
 		// start tasks

@@ -207,7 +207,7 @@ CSyncListTest::ConcurrentPush
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)
 		{
-			rgptsk[i] = atp.PtskCreate(RunPush, parg);
+			rgptsk[i] = atp.Create(RunPush, parg);
 		}
 
 		RunTasks(&atp, rgptsk, GPOS_ARRAY_SIZE(rgptsk));
@@ -243,8 +243,8 @@ CSyncListTest::ConcurrentPushPop
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk) / 2; i++)
 		{
-			rgptsk[i] = atp.PtskCreate(RunPush, parg);
-			rgptsk[i + GPOS_ARRAY_SIZE(rgptsk) / 2] = atp.PtskCreate(RunPop, parg);
+			rgptsk[i] = atp.Create(RunPush, parg);
+			rgptsk[i + GPOS_ARRAY_SIZE(rgptsk) / 2] = atp.Create(RunPop, parg);
 		}
 
 		RunTasks(&atp, rgptsk, GPOS_ARRAY_SIZE(rgptsk));
@@ -279,7 +279,7 @@ CSyncListTest::ConcurrentPop
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)
 		{
-			rgptsk[i] = atp.PtskCreate(RunPop, parg);
+			rgptsk[i] = atp.Create(RunPop, parg);
 		}
 
 		RunTasks(&atp, rgptsk, GPOS_ARRAY_SIZE(rgptsk));
