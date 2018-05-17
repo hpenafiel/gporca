@@ -33,7 +33,7 @@ CErrorHandlerStandard::Process
 	CException exc
 	)
 {
-	CTask *ptsk = CTask::TaskSelf();
+	CTask *ptsk = CTask::Self();
 
 	GPOS_ASSERT(NULL != ptsk && "No task in current context");
 

@@ -164,7 +164,7 @@ CAutoTaskProxy::Create
 	// auto pointer to hold error context
 	CAutoP<CErrorContext> err_ctxt;
 	err_ctxt = GPOS_NEW(pmp) CErrorContext();
-	CTask *task = CTask::TaskSelf();
+	CTask *task = CTask::Self();
 	if (NULL != task)
 	{
 		err_ctxt.Value()->Register(task->ErrCtxtConvert()->Pmdr());
@@ -608,7 +608,7 @@ CAutoTaskProxy::PropagateError
 	// sub-task must be in error status and have a pending exception
 	GPOS_ASSERT(ITask::EtsError == sub_task->Status() && sub_task->PendingExceptions());
 
-	CTask *current_task = CTask::TaskSelf();
+	CTask *current_task = CTask::Self();
 
 	// current task must have no pending error
 	GPOS_ASSERT(NULL != current_task && !current_task->PendingExceptions());

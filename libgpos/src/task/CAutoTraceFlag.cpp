@@ -32,8 +32,8 @@ CAutoTraceFlag::CAutoTraceFlag
 	m_trace(trace),
 	m_orig(false)
 {
-	GPOS_ASSERT(NULL != ITask::TaskSelf());
-	m_orig = ITask::TaskSelf()->Trace(m_trace, val);
+	GPOS_ASSERT(NULL != ITask::Self());
+	m_orig = ITask::Self()->Trace(m_trace, val);
 }
 
 
@@ -47,10 +47,10 @@ CAutoTraceFlag::CAutoTraceFlag
 //---------------------------------------------------------------------------
 CAutoTraceFlag::~CAutoTraceFlag()
 {
-	GPOS_ASSERT(NULL != ITask::TaskSelf());
+	GPOS_ASSERT(NULL != ITask::Self());
 		
 	// reset original value
-	ITask::TaskSelf()->Trace(m_trace, m_orig);
+	ITask::Self()->Trace(m_trace, m_orig);
 }
 
 

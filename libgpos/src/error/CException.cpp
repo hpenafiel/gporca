@@ -145,9 +145,9 @@ CException::Raise
 	
 	// during bootstrap there's no context object otherwise, record
 	// all details in the context object
-	if (NULL != ITask::TaskSelf())
+	if (NULL != ITask::Self())
 	{
-		CErrorContext *perrctxt = CTask::TaskSelf()->ErrCtxtConvert();
+		CErrorContext *perrctxt = CTask::Self()->ErrCtxtConvert();
 
 		VA_LIST valist;
 		VA_START(valist, ulMinor);
@@ -179,9 +179,9 @@ CException::Raise
 
 	// during bootstrap there's no context object otherwise, record
 	// all details in the context object
-	if (NULL != ITask::TaskSelf())
+	if (NULL != ITask::Self())
 	{
-		CErrorContext *perrctxt = CTask::TaskSelf()->ErrCtxtConvert();
+		CErrorContext *perrctxt = CTask::Self()->ErrCtxtConvert();
 
 		VA_LIST valist;
 		VA_START(valist, ulSeverityLevel);
@@ -213,9 +213,9 @@ CException::Reraise
 	BOOL fPropagate
 	)
 {
-	if (NULL != ITask::TaskSelf())
+	if (NULL != ITask::Self())
 	{
-		CErrorContext *perrctxt = CTask::TaskSelf()->ErrCtxtConvert();
+		CErrorContext *perrctxt = CTask::Self()->ErrCtxtConvert();
 		GPOS_ASSERT(perrctxt->FPending());
 
 		perrctxt->SetRethrow();
@@ -248,9 +248,9 @@ CException::Raise
 	)
 {
 #ifdef GPOS_DEBUG
-	if (NULL != ITask::TaskSelf())
+	if (NULL != ITask::Self())
 	{
-		IErrorContext *perrctxt = ITask::TaskSelf()->ErrCtxt();
+		IErrorContext *perrctxt = ITask::Self()->ErrCtxt();
 		GPOS_ASSERT_IMP(perrctxt->FPending(), 
 				perrctxt->Exc() == exc &&
 				"Rethrow inconsistent with current error context");

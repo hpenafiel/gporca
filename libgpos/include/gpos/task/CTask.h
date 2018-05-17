@@ -290,9 +290,9 @@ namespace gpos
 			SLink m_linkWpm;
 
 			static
-			CTask *TaskSelf()
+			CTask *Self()
 			{
-				return dynamic_cast<CTask *>(ITask::TaskSelf());
+				return dynamic_cast<CTask *>(ITask::Self());
 			}
 
 	}; // class CTask

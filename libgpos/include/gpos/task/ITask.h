@@ -17,9 +17,9 @@
 #include "gpos/task/traceflags.h"
 
 // trace flag macro definitions
-#define GPOS_FTRACE(x)       ITask::TaskSelf()->Trace(x)
-#define GPOS_SET_TRACE(x)    (void) ITask::TaskSelf()->Trace(x, true /*fVal*/)
-#define GPOS_UNSET_TRACE(x)  (void) ITask::TaskSelf()->Trace(x, false /*fVal*/)
+#define GPOS_FTRACE(x)       ITask::Self()->Trace(x)
+#define GPOS_SET_TRACE(x)    (void) ITask::Self()->Trace(x, true /*fVal*/)
+#define GPOS_UNSET_TRACE(x)  (void) ITask::Self()->Trace(x, false /*fVal*/)
 
 namespace gpos
 {
@@ -95,7 +95,7 @@ namespace gpos
 			BOOL PendingExceptions() const = 0;
 		
 			static
-			ITask *TaskSelf();
+			ITask *Self();
 
 	}; // class ITask
 }

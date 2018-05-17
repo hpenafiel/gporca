@@ -237,7 +237,7 @@ CMinidumperUtils::Finalize
 
 	if (fSerializeErrCtx)
 	{
-		CErrorContext *perrctxt = CTask::TaskSelf()->ErrCtxtConvert();
+		CErrorContext *perrctxt = CTask::Self()->ErrCtxtConvert();
 		perrctxt->Serialize();
 	}
 	

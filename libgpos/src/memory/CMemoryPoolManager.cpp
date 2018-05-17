@@ -245,7 +245,7 @@ CMemoryPoolManager::PmpCreatePoolStack
 
 	// check if tracking and fault injection on internal allocations
 	// of memory pools is enabled
-	if (NULL != ITask::TaskSelf() && !fMallocType  && GPOS_FTRACE(EtraceTestMemoryPools))
+	if (NULL != ITask::Self() && !fMallocType  && GPOS_FTRACE(EtraceTestMemoryPools))
 	{
 		// put fault injector on top of base pool
 		IMemoryPool *pmpFPSimLow = GPOS_NEW(m_pmpInternal) CMemoryPoolInjectFault

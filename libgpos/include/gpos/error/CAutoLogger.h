@@ -53,7 +53,7 @@ namespace gpos
 			{
 				GPOS_ASSERT(NULL != plogger);
 
-				ITask *ptsk = ITask::TaskSelf();
+				ITask *ptsk = ITask::Self();
 				GPOS_ASSERT(NULL != ptsk);
 
 				if (m_fError)
@@ -71,7 +71,7 @@ namespace gpos
 			// dtor
 			~CAutoLogger()
 			{
-				ITask *ptsk = ITask::TaskSelf();
+				ITask *ptsk = ITask::Self();
 				GPOS_ASSERT(NULL != ptsk);
 
 				if (m_fError)

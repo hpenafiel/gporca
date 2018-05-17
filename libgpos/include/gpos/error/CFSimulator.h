@@ -28,7 +28,7 @@
 // file/line information
 #define GPOS_SIMULATE_FAILURE(etrace, exma, exmi)	\
 		do { \
-			if (ITask::TaskSelf()->Trace(etrace) && \
+			if (ITask::Self()->Trace(etrace) && \
 				CFSimulator::Pfsim()->FNewStack(exma, exmi)) \
 			{ \
 				GPOS_RAISE(exma, exmi); \
@@ -215,7 +215,7 @@ namespace gpos
 			static
 			BOOL FSimulation()
 			{
-				ITask *ptsk = ITask::TaskSelf();
+				ITask *ptsk = ITask::Self();
 				return
 					ptsk->Trace(EtraceSimulateOOM) ||
 					ptsk->Trace(EtraceSimulateAbort) ||

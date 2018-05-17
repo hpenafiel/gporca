@@ -57,13 +57,13 @@ CTaskLocalStorageTest::EresUnittest_Basics()
 	CTestObject tobj;
 
 	// store object in TLS
-	ITask::TaskSelf()->Tls().Store(&tobj);
+	ITask::Self()->Tls().Store(&tobj);
 
 	// assert identiy when looking it up
-	GPOS_ASSERT(&tobj == ITask::TaskSelf()->Tls().Ptlsobj(CTaskLocalStorage::EtlsidxTest));
+	GPOS_ASSERT(&tobj == ITask::Self()->Tls().Ptlsobj(CTaskLocalStorage::EtlsidxTest));
 
 	// clean out TLS
-	ITask::TaskSelf()->Tls().Remove(&tobj);
+	ITask::Self()->Tls().Remove(&tobj);
 
 	return GPOS_OK;
 }

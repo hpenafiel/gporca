@@ -204,7 +204,7 @@ CParseHandlerTest::EresUnittest()
 		};
 
 	// skip OOM and Abort simulation for this test, it takes hours
-	if (ITask::TaskSelf()->Trace(EtraceSimulateOOM) || ITask::TaskSelf()->Trace(EtraceSimulateAbort))
+	if (ITask::Self()->Trace(EtraceSimulateOOM) || ITask::Self()->Trace(EtraceSimulateAbort))
 	{
 		return GPOS_OK;
 	}

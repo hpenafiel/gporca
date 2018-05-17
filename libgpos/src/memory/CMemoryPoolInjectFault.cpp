@@ -110,7 +110,7 @@ CMemoryPoolInjectFault::Free
 BOOL
 CMemoryPoolInjectFault::FSimulateAllocFailure()
 {
-	ITask *ptsk = ITask::TaskSelf();
+	ITask *ptsk = ITask::Self();
 	if (NULL != ptsk)
 	{
 		return

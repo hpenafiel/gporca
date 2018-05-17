@@ -94,7 +94,7 @@ CAutoMemoryPool::~CAutoMemoryPool()
 
 #ifdef GPOS_DEBUG
 
-	ITask *ptsk = ITask::TaskSelf();
+	ITask *ptsk = ITask::Self();
 	
 	// ElcExc must be used inside tasks only
 	GPOS_ASSERT_IMP(ElcExc == m_elc, NULL != ptsk);

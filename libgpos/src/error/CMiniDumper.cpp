@@ -53,7 +53,7 @@ CMiniDumper::~CMiniDumper()
 {
 	if (m_fInit)
 	{
-		CTask *ptsk = CTask::TaskSelf();
+		CTask *ptsk = CTask::Self();
 
 		GPOS_ASSERT(NULL != ptsk);
 
@@ -81,7 +81,7 @@ CMiniDumper::Init(COstream *oos)
 	GPOS_ASSERT(!m_fInit);
 	GPOS_ASSERT(!m_fFinal);
 
-	CTask *ptsk = CTask::TaskSelf();
+	CTask *ptsk = CTask::Self();
 
 	GPOS_ASSERT(NULL != ptsk);
 

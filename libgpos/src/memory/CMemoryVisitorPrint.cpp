@@ -87,7 +87,7 @@ CMemoryVisitorPrint::Visit
 		<< " allocated by " << szAllocFilename << ":" << ulAllocLine
 		<< std::endl;
 
-	ITask *ptsk = ITask::TaskSelf();
+	ITask *ptsk = ITask::Self();
 	if (NULL != ptsk)
 	{
 		if (NULL != psd && ptsk->Trace(EtracePrintMemoryLeakStackTrace))

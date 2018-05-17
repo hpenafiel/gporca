@@ -242,7 +242,7 @@ namespace gpopt
 			{
 				GPOS_ASSERT_IMP
 					(
-					!ITask::TaskSelf()->PendingExceptions(),
+					!ITask::Self()->PendingExceptions(),
 					0 == m_ulpRefs
 					);
 			}

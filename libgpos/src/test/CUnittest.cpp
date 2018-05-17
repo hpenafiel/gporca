@@ -218,19 +218,19 @@ CUnittest::EresExecLoop
 		GPOS_CATCH_EX(ex)
 		{
 			// check for exception simulation
-			if (ITask::TaskSelf()->Trace(EtraceSimulateOOM))
+			if (ITask::Self()->Trace(EtraceSimulateOOM))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiOOM));
 			}
-			else if (ITask::TaskSelf()->Trace(EtraceSimulateAbort))
+			else if (ITask::Self()->Trace(EtraceSimulateAbort))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiAbort));
 			}
-			else if (ITask::TaskSelf()->Trace(EtraceSimulateIOError))
+			else if (ITask::Self()->Trace(EtraceSimulateIOError))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiIOError));
 			}
-			else if (ITask::TaskSelf()->Trace(EtraceSimulateNetError))
+			else if (ITask::Self()->Trace(EtraceSimulateNetError))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiNetError));
 			}
@@ -271,7 +271,7 @@ CUnittest::EresExecTest
 	GPOS_TRY_HDL(&errhdl)
 	{
 		// reset cancellation flag
-		CTask::TaskSelf()->ResetCancel();
+		CTask::Self()->ResetCancel();
 #ifdef GPOS_DEBUG
 		CWorker::PwrkrSelf()->ResetTimeSlice();
 #endif // GPOS_DEBUG
@@ -333,7 +333,7 @@ CUnittest::FSimulated
 	CException ex
 	)
 {
-	ITask *ptsk = ITask::TaskSelf();
+	ITask *ptsk = ITask::Self();
 	GPOS_ASSERT(NULL != ptsk);
 
 	return
@@ -525,7 +525,7 @@ CUnittest::Driver
 	CMainArgs *pma
 	)
 {
-	CBitVector bv(ITask::TaskSelf()->Pmp(), CUnittest::UlTests());
+	CBitVector bv(ITask::Self()->Pmp(), CUnittest::UlTests());
 
 	CHAR ch = '\0';
 	while (pma->Getopt(&ch))

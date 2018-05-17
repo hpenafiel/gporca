@@ -68,7 +68,7 @@ ILogger::Warning
 	// get warning
 	CException exc(ulMajor, ulMinor, szFilename, ulLine);
 
-	ITask *ptsk = ITask::TaskSelf();
+	ITask *ptsk = ITask::Self();
 
 	// get current task's locale
 	ELocale eloc = ElocEnUS_Utf8;
@@ -190,7 +190,7 @@ ILogger::LogTask
 		plog = &CLoggerStream::m_plogStdOut;
 	}
 
-	ITask *ptsk = ITask::TaskSelf();
+	ITask *ptsk = ITask::Self();
 	if (NULL != ptsk)
 	{
 		if (fErr)

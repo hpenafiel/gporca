@@ -71,8 +71,8 @@ namespace gpopt
 			{
 				GPOS_ASSERT_IMP
 					(
-					NULL != ITask::TaskSelf() &&
-					!ITask::TaskSelf()->PendingExceptions(),
+					NULL != ITask::Self() &&
+					!ITask::Self()->PendingExceptions(),
 					m_listjQueued.IsEmpty()
 					);
 			}

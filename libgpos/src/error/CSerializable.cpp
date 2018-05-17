@@ -27,7 +27,7 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CSerializable::CSerializable()
 {
-	CTask *ptsk = CTask::TaskSelf();
+	CTask *ptsk = CTask::Self();
 
 	GPOS_ASSERT(NULL != ptsk);
 
@@ -45,7 +45,7 @@ CSerializable::CSerializable()
 //---------------------------------------------------------------------------
 CSerializable::~CSerializable()
 {
-	CTask *ptsk = CTask::TaskSelf();
+	CTask *ptsk = CTask::Self();
 
 	GPOS_ASSERT(NULL != ptsk);
 
