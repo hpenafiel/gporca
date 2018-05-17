@@ -58,7 +58,7 @@ namespace gpos
                 T *ptCurrent = pt;
 
                 while (NULL != ptCurrent &&
-                       !Base::Sht().m_pfuncEqual(Base::Sht().Key(ptCurrent), m_key))
+                       !Base::Sht().m_eqfn(Base::Sht().Key(ptCurrent), m_key))
                 {
                     ptCurrent = Base::PtNext(ptCurrent);
                 }
@@ -70,9 +70,9 @@ namespace gpos
 			// returns true if current bucket matches key
 			BOOL FMatchingBucket(const K &key) const
             {
-                ULONG ulBucketIndex = Base::Sht().UlBucketIndex(key);
+                ULONG ulBucketIndex = Base::Sht().GetBucketIndex(key);
 
-                return &(Base::Sht().Bucket(ulBucketIndex)) == &(Base::Bucket());
+                return &(Base::Sht().GetBucket(ulBucketIndex)) == &(Base::GetBucket());
             }
 #endif // GPOS_DEBUG
 
@@ -82,7 +82,7 @@ namespace gpos
 			CSyncHashtableAccessByKey<T, K, S>
 				(CSyncHashtable<T, K, S> &ht, const K &key)
             :
-            Base(ht, ht.UlBucketIndex(key)),
+            Base(ht, ht.GetBucketIndex(key)),
             m_key(key)
             {
             }

@@ -73,7 +73,7 @@ namespace gpos
 			void InsertInvalidElement()
             {
                 m_fInvalidInserted = false;
-                while (m_ulBucketIndex < m_ht.m_cSize)
+                while (m_ulBucketIndex < m_ht.m_nbuckets)
                 {
                     CSyncHashtableAccessByIter<T, K, S> shtitacc(*this);
 
@@ -137,8 +137,8 @@ namespace gpos
                 (void) clib::MemCpy
                 (
                  &key,
-                 m_ht.m_pkeyInvalid,
-                 sizeof(*(m_ht.m_pkeyInvalid))
+                 m_ht.m_invalid_key,
+                 sizeof(*(m_ht.m_invalid_key))
                  );
             }
 
@@ -156,7 +156,7 @@ namespace gpos
 			// advances iterator
 			BOOL Advance()
             {
-                GPOS_ASSERT(m_ulBucketIndex < m_ht.m_cSize &&
+                GPOS_ASSERT(m_ulBucketIndex < m_ht.m_nbuckets &&
                             "Advancing an exhausted iterator");
 
                 if (!m_fInvalidInserted)
@@ -178,13 +178,13 @@ namespace gpos
                     }
                 }
 
-                return (m_ulBucketIndex < m_ht.m_cSize);
+                return (m_ulBucketIndex < m_ht.m_nbuckets);
             }
 
 			// rewinds the iterator to the beginning
 			void RewindIterator()
             {
-                GPOS_ASSERT(m_ulBucketIndex >= m_ht.m_cSize &&
+                GPOS_ASSERT(m_ulBucketIndex >= m_ht.m_nbuckets &&
                             "Rewinding an un-exhausted iterator");
                 GPOS_ASSERT(!m_fInvalidInserted && "Invalid element from previous iteration exists, cannot rewind");
 

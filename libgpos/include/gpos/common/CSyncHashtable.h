@@ -93,28 +93,28 @@ namespace gpos
 			};
 
 			// range of buckets
-			SBucket *m_rgbucket;
+			SBucket *m_buckets;
 		
 			// number of ht buckets
-			ULONG m_cSize;
+			ULONG m_nbuckets;
 
 			// number of ht entries
-			volatile ULONG_PTR m_ulpEntries;
+			volatile ULONG_PTR m_size;
 		
 			// offset of key
-			ULONG m_cKeyOffset;
+			ULONG m_key_offset;
 
 			// invalid key - needed for iteration
-			const K *m_pkeyInvalid;
+			const K *m_invalid_key;
 
 			// pointer to hashing function
-			ULONG (*m_pfuncHash)(const K&);
+			ULONG (*m_hashfn)(const K&);
 
 			// pointer to key equality function
-			BOOL (*m_pfuncEqual)(const K&, const K&);
+			BOOL (*m_eqfn)(const K&, const K&);
 				
 			// function to compute bucket index for key
-			ULONG UlBucketIndex
+			ULONG GetBucketIndex
 				(
 				const K &key
 				)
@@ -122,19 +122,19 @@ namespace gpos
 			{
 				GPOS_ASSERT(IsValid(key) && "Invalid key is inaccessible");
 
-				return m_pfuncHash(key) % m_cSize;
+				return m_hashfn(key) % m_nbuckets;
 			}
 
 			// function to get bucket by index
-			SBucket &Bucket
+			SBucket &GetBucket
 				(
 				const ULONG ulIndex
 				)
 				const
 			{
-				GPOS_ASSERT(ulIndex < m_cSize && "Invalid bucket index");
+				GPOS_ASSERT(ulIndex < m_nbuckets && "Invalid bucket index");
 
-				return m_rgbucket[ulIndex];
+				return m_buckets[ulIndex];
 			}
 
 			// extract key out of type
@@ -144,9 +144,9 @@ namespace gpos
 				)
 				const
 			{
-				GPOS_ASSERT(ULONG_MAX != m_cKeyOffset && "Key offset not initialized.");
+				GPOS_ASSERT(ULONG_MAX != m_key_offset && "Key offset not initialized.");
 			
-				K &k = *(K*)((BYTE*)pt + m_cKeyOffset);
+				K &k = *(K*)((BYTE*)pt + m_key_offset);
 
 				return k;
 			}
@@ -158,7 +158,7 @@ namespace gpos
 				)
 				const
 			{
-				return !m_pfuncEqual(key, *m_pkeyInvalid);
+				return !m_eqfn(key, *m_invalid_key);
 			}
 
 		public:
@@ -169,11 +169,11 @@ namespace gpos
 			// ctor
 			CSyncHashtable<T, K, S>()
 				:
-				m_rgbucket(NULL),
-				m_cSize(0),
-				m_ulpEntries(0),
-				m_cKeyOffset(ULONG_MAX),
-				m_pkeyInvalid(NULL)
+				m_buckets(NULL),
+				m_nbuckets(0),
+				m_size(0),
+				m_key_offset(ULONG_MAX),
+				m_invalid_key(NULL)
 			{}
 		
 			// dtor
@@ -196,32 +196,32 @@ namespace gpos
 				BOOL (*pfuncEqual)(const K&, const K&)
 				)
             {
-                GPOS_ASSERT(NULL == m_rgbucket);
-                GPOS_ASSERT(0 == m_cSize);
+                GPOS_ASSERT(NULL == m_buckets);
+                GPOS_ASSERT(0 == m_nbuckets);
                 GPOS_ASSERT(NULL != pkeyInvalid);
                 GPOS_ASSERT(NULL != pfuncHash);
                 GPOS_ASSERT(NULL != pfuncEqual);
 
-                m_cSize = cSize;
-                m_cKeyOffset = cKeyOffset;
-                m_pkeyInvalid = pkeyInvalid;
-                m_pfuncHash = pfuncHash;
-                m_pfuncEqual = pfuncEqual;
+                m_nbuckets = cSize;
+                m_key_offset = cKeyOffset;
+                m_invalid_key = pkeyInvalid;
+                m_hashfn = pfuncHash;
+                m_eqfn = pfuncEqual;
 
-                m_rgbucket = GPOS_NEW_ARRAY(pmp, SBucket, m_cSize);
+                m_buckets = GPOS_NEW_ARRAY(pmp, SBucket, m_nbuckets);
 
                 // NOTE: 03/25/2008; since it's the only allocation in the
                 //		constructor the protection is not needed strictly speaking;
                 //		Using auto range here just for cleanliness;
                 CAutoRg<SBucket> argbucket;
-                argbucket = m_rgbucket;
+                argbucket = m_buckets;
 
-                for(ULONG i = 0; i < m_cSize; i ++)
+                for(ULONG i = 0; i < m_nbuckets; i ++)
                 {
-                    m_rgbucket[i].m_list.Init(cLinkOffset);
+                    m_buckets[i].m_list.Init(cLinkOffset);
     #ifdef GPOS_DEBUG
                     // add serial number
-                    m_rgbucket[i].m_bucket_idx = i;
+                    m_buckets[i].m_bucket_idx = i;
     #endif // GPOS_DEBUG
                 }
 
@@ -232,10 +232,10 @@ namespace gpos
 			// dealloc bucket range and reset members
 			void Cleanup()
             {
-                GPOS_DELETE_ARRAY(m_rgbucket);
-                m_rgbucket = NULL;
+                GPOS_DELETE_ARRAY(m_buckets);
+                m_buckets = NULL;
 
-                m_cSize = 0;
+                m_nbuckets = 0;
             }
 
 			// iterate over all entries and call destroy function on each entry
@@ -280,7 +280,7 @@ namespace gpos
                 GPOS_ASSERT(IsValid(key));
 
                 // determine target bucket
-                SBucket &bucket = Bucket(UlBucketIndex(key));
+                SBucket &bucket = GetBucket(GetBucketIndex(key));
 
                 // acquire auto spinlock
                 CAutoSpinlock alock(bucket.m_lock);
@@ -290,13 +290,13 @@ namespace gpos
                 bucket.m_list.Prepend(pt);
 
                 // increase number of entries
-                (void) UlpExchangeAdd(&m_ulpEntries, 1);
+                (void) UlpExchangeAdd(&m_size, 1);
             }
 
 			// return number of entries
 			ULONG_PTR UlpEntries() const
 			{
-				return m_ulpEntries;
+				return m_size;
 			}
 
 	}; // class CSyncHashtable

@@ -66,7 +66,7 @@ namespace gpos
 				)
             :
             m_ht(ht),
-            m_bucket(m_ht.Bucket(ulBucketIndex))
+            m_bucket(m_ht.GetBucket(ulBucketIndex))
             {
                 // acquire spin lock on bucket
                 m_bucket.m_lock.Lock();
@@ -87,7 +87,7 @@ namespace gpos
 			}
 
 			// accessor to maintained bucket
-			SBucket& Bucket() const
+			SBucket& GetBucket() const
 			{
 				return m_bucket;
 			}
@@ -117,7 +117,7 @@ namespace gpos
                 m_bucket.m_list.Prepend(pt);
 
                 // increase number of entries
-                (void) UlpExchangeAdd(&(m_ht.m_ulpEntries), 1);
+                (void) UlpExchangeAdd(&(m_ht.m_size), 1);
             }
 
 			// adds first element before second element
@@ -131,7 +131,7 @@ namespace gpos
                 m_bucket.m_list.Prepend(pt, ptNext);
 
                 // increase number of entries
-                (void) UlpExchangeAdd(&(m_ht.m_ulpEntries), 1);
+                (void) UlpExchangeAdd(&(m_ht.m_size), 1);
             }
 
 			// adds first element after second element
@@ -145,7 +145,7 @@ namespace gpos
                 m_bucket.m_list.Append(pt, ptPrev);
 
                 // increase number of entries
-                (void) UlpExchangeAdd(&(m_ht.m_ulpEntries), 1);
+                (void) UlpExchangeAdd(&(m_ht.m_size), 1);
             }
 
 		public:
@@ -157,7 +157,7 @@ namespace gpos
                 m_bucket.m_list.Remove(pt);
 
                 // decrease number of entries
-                (void) UlpExchangeAdd(&(m_ht.m_ulpEntries), -1);
+                (void) UlpExchangeAdd(&(m_ht.m_size), -1);
             }
 
 	}; // class CSyncHashtableAccessorBase
