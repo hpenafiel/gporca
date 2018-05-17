@@ -65,7 +65,7 @@ CHashSetIterTest::EresUnittest_Basic()
 		SetIter si(ps);
 		while (si.Advance())
 		{
-			pdrgpulIterValues->Append(si.Value());
+			pdrgpulIterValues->Append(si.Get());
 		}
 
 		pdrgpulIterValues->Sort();

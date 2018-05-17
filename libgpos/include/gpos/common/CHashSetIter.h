@@ -72,7 +72,7 @@ namespace gpos
             }
 
 			// current element
-			const T *Value() const
+			const T *Get() const
             {
 				const typename TSet::CHashSetElem *elem = NULL;
 				T *t = (*(m_set->m_elements))[m_elem_idx-1];
