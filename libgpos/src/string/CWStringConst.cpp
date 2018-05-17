@@ -38,7 +38,7 @@ CWStringConst::CWStringConst
 	m_wszBuf(wszBuf)
 {
 	GPOS_ASSERT(NULL != wszBuf);
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ CWStringConst::CWStringConst
 		m_wszBuf = wszTempBuf;
 	}
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -103,7 +103,7 @@ CWStringConst::CWStringConst
 	m_wszBuf(str.Wsz())
 {
 	GPOS_ASSERT(NULL != m_wszBuf);
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 //---------------------------------------------------------------------------
 //	@function:

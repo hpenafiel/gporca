@@ -1925,7 +1925,7 @@ CUtils::PopAggFunc
 {
 	GPOS_ASSERT(NULL != pmdidAggFunc);
 	GPOS_ASSERT(NULL != pstrAggFunc);
-	GPOS_ASSERT_IMP(NULL != pmdidResolvedReturnType, pmdidResolvedReturnType->FValid());
+	GPOS_ASSERT_IMP(NULL != pmdidResolvedReturnType, pmdidResolvedReturnType->IsValid());
 
 	return GPOS_NEW(pmp) CScalarAggFunc(pmp, pmdidAggFunc, pmdidResolvedReturnType, pstrAggFunc, fDistinct, eaggfuncstage, fSplit);
 }
@@ -2236,7 +2236,7 @@ CUtils::PexprAgg
 	)
 {
 	GPOS_ASSERT(IMDType::EaggGeneric >eagg);
-	GPOS_ASSERT(pcr->Pmdtype()->PmdidAgg(eagg)->FValid());
+	GPOS_ASSERT(pcr->Pmdtype()->PmdidAgg(eagg)->IsValid());
 	
 	const IMDAggregate *pmdagg = pmda->Pmdagg(pcr->Pmdtype()->PmdidAgg(eagg));
 	
@@ -3320,12 +3320,12 @@ CUtils::FHasAllDefaultComparisons(const IMDType *pmdtype)
 {
 	GPOS_ASSERT(NULL != pmdtype);
 
-	return IMDId::FValid(pmdtype->PmdidCmp(IMDType::EcmptEq)) &&
-		IMDId::FValid(pmdtype->PmdidCmp(IMDType::EcmptNEq)) &&
-		IMDId::FValid(pmdtype->PmdidCmp(IMDType::EcmptL)) &&
-		IMDId::FValid(pmdtype->PmdidCmp(IMDType::EcmptLEq)) &&
-		IMDId::FValid(pmdtype->PmdidCmp(IMDType::EcmptG)) &&
-		IMDId::FValid(pmdtype->PmdidCmp(IMDType::EcmptGEq));
+	return IMDId::IsValid(pmdtype->PmdidCmp(IMDType::EcmptEq)) &&
+		IMDId::IsValid(pmdtype->PmdidCmp(IMDType::EcmptNEq)) &&
+		IMDId::IsValid(pmdtype->PmdidCmp(IMDType::EcmptL)) &&
+		IMDId::IsValid(pmdtype->PmdidCmp(IMDType::EcmptLEq)) &&
+		IMDId::IsValid(pmdtype->PmdidCmp(IMDType::EcmptG)) &&
+		IMDId::IsValid(pmdtype->PmdidCmp(IMDType::EcmptGEq));
 }
 
 // determine whether a type is supported for use in contradiction detection.
@@ -3432,7 +3432,7 @@ CUtils::FComparisonPossible
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		const IMDType *pmdtype = pcr->Pmdtype();
-		if (!IMDId::FValid(pmdtype->PmdidCmp(ecmpt)))
+		if (!IMDId::IsValid(pmdtype->PmdidCmp(ecmpt)))
 		{
 			return false;
 		}

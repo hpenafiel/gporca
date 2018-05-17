@@ -43,7 +43,7 @@ CDXLScalarOpExpr::CDXLScalarOpExpr
 	m_pmdidReturnType(pmdidReturnType),
 	m_pstrOpName(pstrOpName)
 {
-	GPOS_ASSERT(m_pmdid->FValid());
+	GPOS_ASSERT(m_pmdid->IsValid());
 
 }
 

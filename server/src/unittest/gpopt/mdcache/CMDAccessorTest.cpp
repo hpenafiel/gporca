@@ -652,7 +652,7 @@ CMDAccessorTest::EresUnittest_Cast()
 	mda.Pmdcast(pmdtypeInt->Pmdid(), pmdtypeBigInt->Pmdid());
 	
 	GPOS_ASSERT(!pmdcastInt2BigInt->FBinaryCoercible());
-	GPOS_ASSERT(pmdcastInt2BigInt->PmdidCastFunc()->FValid());
+	GPOS_ASSERT(pmdcastInt2BigInt->PmdidCastFunc()->IsValid());
 	GPOS_ASSERT(pmdcastInt2BigInt->PmdidSrc()->Equals(pmdtypeInt->Pmdid()));
 	GPOS_ASSERT(pmdcastInt2BigInt->PmdidDest()->Equals(pmdtypeBigInt->Pmdid()));
 	
@@ -662,7 +662,7 @@ CMDAccessorTest::EresUnittest_Cast()
 	mda.Pmdcast(pmdtypeInt->Pmdid(), pmdtypeOid->Pmdid());
 	
 	GPOS_ASSERT(pmdcastInt2Oid->FBinaryCoercible());
-	GPOS_ASSERT(!pmdcastInt2Oid->PmdidCastFunc()->FValid());
+	GPOS_ASSERT(!pmdcastInt2Oid->PmdidCastFunc()->IsValid());
 	
 #ifdef GPOS_DEBUG
 	const IMDCast *pmdcastOid2Int = 
@@ -670,7 +670,7 @@ CMDAccessorTest::EresUnittest_Cast()
 	mda.Pmdcast(pmdtypeOid->Pmdid(), pmdtypeInt->Pmdid());
 	
 	GPOS_ASSERT(pmdcastOid2Int->FBinaryCoercible());
-	GPOS_ASSERT(!pmdcastOid2Int->PmdidCastFunc()->FValid());
+	GPOS_ASSERT(!pmdcastOid2Int->PmdidCastFunc()->IsValid());
 
 	return GPOS_OK;
 }

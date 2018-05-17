@@ -40,8 +40,8 @@ CDXLLogicalTVF::CDXLLogicalTVF
 	m_pmdname(pmdname),
 	m_pdrgdxlcd(pdrgdxlcd)
 {
-	GPOS_ASSERT(m_pmdidFunc->FValid());
-	GPOS_ASSERT(m_pmdidRetType->FValid());
+	GPOS_ASSERT(m_pmdidFunc->IsValid());
+	GPOS_ASSERT(m_pmdidRetType->IsValid());
 }
 
 //---------------------------------------------------------------------------

@@ -76,8 +76,8 @@ CScalarFunc::CScalarFunc
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdidFunc->FValid());
-	GPOS_ASSERT(pmdidRetType->FValid());
+	GPOS_ASSERT(pmdidFunc->IsValid());
+	GPOS_ASSERT(pmdidRetType->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_pmdidFunc);

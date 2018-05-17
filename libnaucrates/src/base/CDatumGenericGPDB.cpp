@@ -60,7 +60,7 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	m_dValue(dValue)
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	
 	if (!FNull())
 	{

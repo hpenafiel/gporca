@@ -71,7 +71,7 @@ CWString::Append
 	{
 		AppendBuffer(pstr->Wsz());
 	}
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 // EOF

@@ -84,7 +84,7 @@ CScalarIsDistinctFrom::PopCommutedOp
 	
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	IMDId *pmdid = PmdidCommuteOp(pmda, pop);
-	if (NULL != pmdid && pmdid->FValid())
+	if (NULL != pmdid && pmdid->IsValid())
 	{
 		return GPOS_NEW(pmp) CScalarIsDistinctFrom(pmp, pmdid, Pstr(pmp, pmda, pmdid));
 	}

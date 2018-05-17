@@ -41,7 +41,7 @@ CDXLScalarBitmapBoolOp::CDXLScalarBitmapBoolOp
 	m_bitmapboolop(bitmapboolop)
 {
 	GPOS_ASSERT(EdxlbitmapSentinel > bitmapboolop);
-	GPOS_ASSERT(IMDId::FValid(pmdidType));
+	GPOS_ASSERT(IMDId::IsValid(pmdidType));
 }
 
 //---------------------------------------------------------------------------

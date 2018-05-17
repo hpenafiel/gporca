@@ -54,7 +54,7 @@ CMDIdGPDBCtas::CMDIdGPDBCtas
 	:
 	CMDIdGPDB(mdidSource.Sysid(), mdidSource.OidObjectId())
 {
-	GPOS_ASSERT(mdidSource.FValid());
+	GPOS_ASSERT(mdidSource.IsValid());
 	GPOS_ASSERT(IMDId::EmdidGPDBCtas == mdidSource.Emdidt());
 	Serialize();
 }
@@ -87,13 +87,13 @@ CMDIdGPDBCtas::Equals
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdGPDBCtas::FValid
+//		CMDIdGPDBCtas::IsValid
 //
 //	@doc:
 //		Is the mdid valid
 //
 //---------------------------------------------------------------------------
-BOOL CMDIdGPDBCtas::FValid() const
+BOOL CMDIdGPDBCtas::IsValid() const
 {
 	return !Equals(&CMDIdGPDBCtas::m_mdidInvalidKey);
 }

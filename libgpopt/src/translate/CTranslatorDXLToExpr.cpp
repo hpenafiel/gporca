@@ -460,7 +460,7 @@ CTranslatorDXLToExpr::PexprLogicalTVF
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
 		const CDXLColDescr *pdxlcoldesc = pdxlop->Pdxlcd(ul);
-		GPOS_ASSERT(pdxlcoldesc->PmdidType()->FValid());
+		GPOS_ASSERT(pdxlcoldesc->PmdidType()->IsValid());
 
 		const IMDType *pmdtype = m_pmda->Pmdtype(pdxlcoldesc->PmdidType());
 
@@ -2115,7 +2115,7 @@ CTranslatorDXLToExpr::Ptabdesc
 
 		BOOL fNullable = pmdcolNext->FNullable();
 
-		GPOS_ASSERT(pdxlcoldesc->PmdidType()->FValid());
+		GPOS_ASSERT(pdxlcoldesc->PmdidType()->IsValid());
 		const IMDType *pmdtype = m_pmda->Pmdtype(pdxlcoldesc->PmdidType());
 
 		GPOS_ASSERT(NULL != pdxlcoldesc->Pmdname()->Pstr()->Wsz());
@@ -2318,7 +2318,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 
 		const CDXLColDescr *pdxlcoldesc = (*pdrgpdxlcd)[ul];
 
-		GPOS_ASSERT(pdxlcoldesc->PmdidType()->FValid());
+		GPOS_ASSERT(pdxlcoldesc->PmdidType()->IsValid());
 		const IMDType *pmdtype = m_pmda->Pmdtype(pdxlcoldesc->PmdidType());
 
 		GPOS_ASSERT(NULL != pdxlcoldesc->Pmdname()->Pstr()->Wsz());

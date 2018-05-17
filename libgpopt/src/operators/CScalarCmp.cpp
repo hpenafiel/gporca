@@ -48,7 +48,7 @@ CScalarCmp::CScalarCmp
 	m_ecmpt(ecmpt),
 	m_fReturnsNullOnNullInput(false)
 {
-	GPOS_ASSERT(pmdidOp->FValid());
+	GPOS_ASSERT(pmdidOp->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(pmda, m_pmdidOp);
@@ -219,7 +219,7 @@ CScalarCmp::PopCommutedOp
 	
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	IMDId *pmdid = PmdidCommuteOp(pmda, pop);
-	if (NULL != pmdid && pmdid->FValid())
+	if (NULL != pmdid && pmdid->IsValid())
 	{
 		return GPOS_NEW(pmp) CScalarCmp(pmp, pmdid, Pstr(pmp, pmda, pmdid), CUtils::Ecmpt(pmdid));
 	}

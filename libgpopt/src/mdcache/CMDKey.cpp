@@ -34,7 +34,7 @@ CMDKey::CMDKey
 	:
 	m_pmdid(pmdid)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 }
 
 //---------------------------------------------------------------------------

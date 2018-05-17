@@ -54,7 +54,7 @@ namespace gpos
 
 #ifdef GPOS_DEBUG
 			// checks whether a string is properly null-terminated
-			bool FValid() const;
+			bool IsValid() const;
 #endif // GPOS_DEBUG
 
 			// private copy ctor

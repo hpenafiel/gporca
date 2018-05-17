@@ -46,8 +46,8 @@ CScalarNullIf::CScalarNullIf
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdidOp->FValid());
-	GPOS_ASSERT(pmdidType->FValid());
+	GPOS_ASSERT(pmdidOp->IsValid());
+	GPOS_ASSERT(pmdidType->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(pmda, m_pmdidOp);

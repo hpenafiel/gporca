@@ -138,7 +138,7 @@ CDXLScalarConstValue::AssertValid
 	const
 {
 	GPOS_ASSERT(0 == pdxln->UlArity());
-	GPOS_ASSERT(m_pdxldatum->Pmdid()->FValid());
+	GPOS_ASSERT(m_pdxldatum->Pmdid()->IsValid());
 }
 #endif // GPOS_DEBUG
 

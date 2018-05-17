@@ -113,7 +113,7 @@ CMDAccessorUtils::FCmpExists
 	if (pmdidLeft->Equals(pmdidRight))
 	{
 		const IMDType *pmdtypeLeft = pmda->Pmdtype(pmdidLeft);
-		return IMDId::FValid(pmdtypeLeft->PmdidCmp(ecmpt));
+		return IMDId::IsValid(pmdtypeLeft->PmdidCmp(ecmpt));
 	}
 
 	GPOS_TRY
@@ -191,7 +191,7 @@ CMDAccessorUtils::FScalarOpReturnsNullOnNullInput
 {
 	GPOS_ASSERT(NULL != pmda);
 
-	if (NULL == pmdidOp || !pmdidOp->FValid())
+	if (NULL == pmdidOp || !pmdidOp->IsValid())
 	{
 		// invalid mdid
 		return false;
@@ -236,7 +236,7 @@ CMDAccessorUtils::FBoolType
 {
 	GPOS_ASSERT(NULL != pmda);
 
-	if (NULL != pmdidType && pmdidType->FValid())
+	if (NULL != pmdidType && pmdidType->IsValid())
 	{
 		return (IMDType::EtiBool == pmda->Pmdtype(pmdidType)->Eti());
 	}

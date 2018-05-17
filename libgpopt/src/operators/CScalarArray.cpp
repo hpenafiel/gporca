@@ -37,8 +37,8 @@ CScalarArray::CScalarArray
 	m_pmdidArray(pmdidArray),
 	m_fMultiDimensional(fMultiDimensional)
 {
-	GPOS_ASSERT(pmdidElem->FValid());
-	GPOS_ASSERT(pmdidArray->FValid());
+	GPOS_ASSERT(pmdidElem->IsValid());
+	GPOS_ASSERT(pmdidArray->IsValid());
 	m_pdrgPconst = GPOS_NEW(pmp) DrgPconst(pmp);
 }
 
@@ -59,8 +59,8 @@ m_pmdidArray(pmdidArray),
 m_fMultiDimensional(fMultiDimensional),
 m_pdrgPconst(pdrgPconst)
 {
-	GPOS_ASSERT(pmdidElem->FValid());
-	GPOS_ASSERT(pmdidArray->FValid());
+	GPOS_ASSERT(pmdidElem->IsValid());
+	GPOS_ASSERT(pmdidArray->IsValid());
 }
 
 // Dtor

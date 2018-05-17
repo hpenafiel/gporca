@@ -60,7 +60,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	m_pdrgpulSource(pdrgpulSource),
 	m_pdrgpiVarTypeMod(pdrgpiVarTypeMod)
 {
-	GPOS_ASSERT(NULL != pmdid && pmdid->FValid());
+	GPOS_ASSERT(NULL != pmdid && pmdid->IsValid());
 	GPOS_ASSERT(NULL != pmdnameRel);
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
 	GPOS_ASSERT(NULL != pdxlctasopt);

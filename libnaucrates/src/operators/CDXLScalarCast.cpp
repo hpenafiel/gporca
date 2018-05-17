@@ -40,7 +40,7 @@ CDXLScalarCast::CDXLScalarCast
 	m_pmdidFunc(pmdidFunc)
 {
 	GPOS_ASSERT(NULL != m_pmdidFunc);
-	GPOS_ASSERT(m_pmdidType->FValid());
+	GPOS_ASSERT(m_pmdidType->IsValid());
 }
 
 

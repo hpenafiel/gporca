@@ -121,7 +121,7 @@ namespace gpmd
 			
 			// is the mdid valid
 			virtual
-			BOOL FValid() const;
+			BOOL IsValid() const;
 
 			// serialize mdid in DXL as the value of the specified attribute 
 			virtual

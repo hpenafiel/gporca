@@ -146,7 +146,7 @@ CStringStatic::AppendBuffer
 	// terminate string
 	m_szBuf[m_ulLength] = CHAR_EOS;
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -206,7 +206,7 @@ CStringStatic::AppendFormatVA
 
 	GPOS_ASSERT(m_ulCapacity > m_ulLength);
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -254,7 +254,7 @@ CStringStatic::AppendConvert
 	}
 
 	m_szBuf[m_ulLength] = CHAR_EOS;
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -278,14 +278,14 @@ CStringStatic::Reset()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CStringStatic::FValid
+//		CStringStatic::IsValid
 //
 //	@doc:
 //		Checks whether a string is properly null-terminated
 //
 //---------------------------------------------------------------------------
 bool
-CStringStatic::FValid() const
+CStringStatic::IsValid() const
 {
 	return (m_ulLength == clib::StrLen(m_szBuf));
 }

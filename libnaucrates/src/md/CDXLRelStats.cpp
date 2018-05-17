@@ -44,7 +44,7 @@ CDXLRelStats::CDXLRelStats
 	m_dRows(dRows),
 	m_fEmpty(fEmpty)
 {
-	GPOS_ASSERT(pmdidRelStats->FValid());
+	GPOS_ASSERT(pmdidRelStats->IsValid());
 	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
 }
 

@@ -46,7 +46,7 @@ COrderSpec::COrderExpression::COrderExpression
 	m_ent(ent)
 {
 	GPOS_ASSERT(NULL != pcr);
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 }
 
 //---------------------------------------------------------------------------

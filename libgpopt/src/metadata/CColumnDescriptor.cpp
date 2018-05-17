@@ -43,7 +43,7 @@ CColumnDescriptor::CColumnDescriptor
 	m_ulWidth(ulWidth)
 {
 	GPOS_ASSERT(NULL != pmdtype);
-	GPOS_ASSERT(pmdtype->Pmdid()->FValid());
+	GPOS_ASSERT(pmdtype->Pmdid()->IsValid());
 
 	if (m_pmdtype->FFixedLength())
 	{

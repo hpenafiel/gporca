@@ -33,7 +33,7 @@ CScalarCaseTest::CScalarCaseTest
 	CScalar(pmp),
 	m_pmdidType(pmdidType)
 {
-	GPOS_ASSERT(pmdidType->FValid());
+	GPOS_ASSERT(pmdidType->IsValid());
 }
 
 //---------------------------------------------------------------------------

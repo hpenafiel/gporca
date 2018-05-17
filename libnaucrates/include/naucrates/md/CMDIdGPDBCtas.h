@@ -63,7 +63,7 @@ namespace gpmd
 			
 			// is the mdid valid
 			virtual
-			BOOL FValid() const;
+			BOOL IsValid() const;
 						
 			// debug print of the metadata id
 			virtual

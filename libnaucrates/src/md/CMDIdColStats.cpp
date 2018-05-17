@@ -34,7 +34,7 @@ CMDIdColStats::CMDIdColStats
 	m_ulPos(ulPos),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
-	GPOS_ASSERT(pmdidRel->FValid());
+	GPOS_ASSERT(pmdidRel->IsValid());
 	
 	// serialize mdid into static string 
 	Serialize();

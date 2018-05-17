@@ -68,7 +68,7 @@ CLogicalRowTrigger::CLogicalRowTrigger
 	m_efs(IMDFunction::EfsImmutable),
 	m_efda(IMDFunction::EfdaNoSQL)
 {
-	GPOS_ASSERT(pmdidRel->FValid());
+	GPOS_ASSERT(pmdidRel->IsValid());
 	GPOS_ASSERT(0 != iType);
 	GPOS_ASSERT(NULL != pdrgpcrNew || NULL != pdrgpcrOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpcrNew && NULL != pdrgpcrOld,

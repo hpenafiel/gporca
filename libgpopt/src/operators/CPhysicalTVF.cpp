@@ -48,8 +48,8 @@ CPhysicalTVF::CPhysicalTVF
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pcrsOutput(pcrsOutput)
 {
-	GPOS_ASSERT(m_pmdidFunc->FValid());
-	GPOS_ASSERT(m_pmdidRetType->FValid());
+	GPOS_ASSERT(m_pmdidFunc->IsValid());
+	GPOS_ASSERT(m_pmdidRetType->IsValid());
 	GPOS_ASSERT(NULL != m_pstr);
 	GPOS_ASSERT(NULL != m_pdrgpcoldesc);
 	GPOS_ASSERT(NULL != m_pcrsOutput);

@@ -39,9 +39,9 @@ CScalarArrayRef::CScalarArrayRef
 	m_pmdidArray(pmdidArray),
 	m_pmdidType(pmdidReturn)
 {
-	GPOS_ASSERT(pmdidElem->FValid());
-	GPOS_ASSERT(pmdidArray->FValid());
-	GPOS_ASSERT(pmdidReturn->FValid());
+	GPOS_ASSERT(pmdidElem->IsValid());
+	GPOS_ASSERT(pmdidArray->IsValid());
+	GPOS_ASSERT(pmdidReturn->IsValid());
 	GPOS_ASSERT(pmdidReturn->Equals(pmdidElem) || pmdidReturn->Equals(pmdidArray));
 }
 

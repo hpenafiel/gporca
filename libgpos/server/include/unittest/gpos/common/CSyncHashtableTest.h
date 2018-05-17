@@ -165,7 +165,7 @@ namespace gpos
 
 #ifdef GPOS_DEBUG
 					static
-					BOOL FValid
+					BOOL IsValid
 						(
 						const ULONG &ulKey
 						)

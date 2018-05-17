@@ -54,7 +54,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	m_pexprResidual(pexprResidual)
 {
 	GPOS_ASSERT(0 < ulScanId);
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
 	GPOS_ASSERT(0 < pdrgpdrgpcr->Size());
 	GPOS_ASSERT(NULL != ppartcnstrmap);
@@ -91,7 +91,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	m_pexprResidual(NULL),
 	m_pexprCombinedPredicate(NULL)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != phmulexprEqPredicates);
 
 	m_phmulexprPredicates = GPOS_NEW(pmp) HMUlExpr(pmp);

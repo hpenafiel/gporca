@@ -58,7 +58,7 @@ CName::CName
 	m_fDeepCopy(fOwnsMemory)
 {
 	GPOS_ASSERT(NULL != m_pstrName);
-	GPOS_ASSERT(m_pstrName->FValid());
+	GPOS_ASSERT(m_pstrName->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -110,7 +110,7 @@ CName::CName
 	m_fDeepCopy(false)
 {
 	GPOS_ASSERT(NULL != m_pstrName->Wsz());
-	GPOS_ASSERT(m_pstrName->FValid());	
+	GPOS_ASSERT(m_pstrName->IsValid());	
 }
 
 
@@ -146,7 +146,7 @@ CName::CName
 //---------------------------------------------------------------------------
 CName::~CName()
 {
-	GPOS_ASSERT(m_pstrName->FValid());
+	GPOS_ASSERT(m_pstrName->IsValid());
 
 	if (m_fDeepCopy)
 	{

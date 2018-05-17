@@ -37,7 +37,7 @@ CDXLScalarIfStmt::CDXLScalarIfStmt
 	CDXLScalar(pmp),
 	m_pmdidResultType(pmdidResultType)
 {
-	GPOS_ASSERT(m_pmdidResultType->FValid());
+	GPOS_ASSERT(m_pmdidResultType->IsValid());
 }
 
 //---------------------------------------------------------------------------

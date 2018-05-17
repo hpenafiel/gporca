@@ -1821,7 +1821,7 @@ CXformUtils::FSupportsMinAgg
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		const IMDType *pmdtype = pcr->Pmdtype();
-		if (!IMDId::FValid(pmdtype->PmdidAgg(IMDType::EaggMin)))
+		if (!IMDId::IsValid(pmdtype->PmdidAgg(IMDType::EaggMin)))
 		{
 			return false;
 		}

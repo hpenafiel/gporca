@@ -72,8 +72,8 @@ CLogicalTVF::CLogicalTVF
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(NULL)
 {
-	GPOS_ASSERT(pmdidFunc->FValid());
-	GPOS_ASSERT(pmdidRetType->FValid());
+	GPOS_ASSERT(pmdidFunc->IsValid());
+	GPOS_ASSERT(pmdidRetType->IsValid());
 	GPOS_ASSERT(NULL != pstr);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 
@@ -113,8 +113,8 @@ CLogicalTVF::CLogicalTVF
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(pdrgpcrOutput)
 {
-	GPOS_ASSERT(pmdidFunc->FValid());
-	GPOS_ASSERT(pmdidRetType->FValid());
+	GPOS_ASSERT(pmdidFunc->IsValid());
+	GPOS_ASSERT(pmdidRetType->IsValid());
 	GPOS_ASSERT(NULL != pstr);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 	GPOS_ASSERT(NULL != pdrgpcrOutput);

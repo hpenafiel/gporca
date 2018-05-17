@@ -74,7 +74,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_phmiulAttno2Pos(NULL),
 	m_pdrgpulNonDroppedCols(NULL)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdcol);
 	GPOS_ASSERT(NULL != pdrgpmdIndexInfo);
 	GPOS_ASSERT(NULL != pdrgpmdidTriggers);

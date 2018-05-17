@@ -35,7 +35,7 @@ CColRefComputed::CColRefComputed
 	CColRef(pmdtype, iTypeModifier, ulId, pname)
 {
 	GPOS_ASSERT(NULL != pmdtype);
-	GPOS_ASSERT(pmdtype->Pmdid()->FValid());
+	GPOS_ASSERT(pmdtype->Pmdid()->IsValid());
 	GPOS_ASSERT(NULL != pname);
 }
 

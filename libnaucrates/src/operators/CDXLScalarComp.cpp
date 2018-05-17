@@ -37,7 +37,7 @@ CDXLScalarComp::CDXLScalarComp
 	m_pmdid(pmdidOp),
 	m_pstrCompOpName(pstrCompOpName)
 {
-	GPOS_ASSERT(m_pmdid->FValid());
+	GPOS_ASSERT(m_pmdid->IsValid());
 }
 
 //---------------------------------------------------------------------------

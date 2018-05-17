@@ -582,7 +582,7 @@ CHistogram::FNormalized
 //		2. Buckets should not overlap
 //		3. Frequencies should add up to less than 1.0
 BOOL
-CHistogram::FValid
+CHistogram::IsValid
 	()
 	const
 {
@@ -629,7 +629,7 @@ CHistogram::PhistFilterNormalized
 
 	CHistogram *phistAfter = PhistFilter(pmp, escmpt, ppoint);
 	*pdScaleFactor = phistAfter->DNormalize();
-	GPOS_ASSERT(phistAfter->FValid());
+	GPOS_ASSERT(phistAfter->IsValid());
 
 	return phistAfter;
 }
@@ -718,7 +718,7 @@ CHistogram::PhistJoinNormalized
 	// bound scale factor by cross product
 	*pdScaleFactor = std::min((*pdScaleFactor).Get(), dCartesianProduct.Get());
 
-	GPOS_ASSERT(phistAfter->FValid());
+	GPOS_ASSERT(phistAfter->IsValid());
 	return phistAfter;
 }
 
@@ -794,7 +794,7 @@ CHistogram::PhistLASJoinNormalized
 		// simply return a copy of the histogram with a scale factor corresponding to default selectivity.
 		CHistogram *phistAfter = PhistCopy(pmp);
 		*pdScaleFactor = CDouble(1.0) / CHistogram::DDefaultSelectivity;
-		GPOS_ASSERT(phistAfter->FValid());
+		GPOS_ASSERT(phistAfter->IsValid());
 
 		return phistAfter;
 	}
@@ -810,7 +810,7 @@ CHistogram::PhistLASJoinNormalized
 		*pdScaleFactor = CDouble(1.0) / CHistogram::DDefaultSelectivity;
 	}
 	*pdScaleFactor = std::min((*pdScaleFactor).Get(), dRows.Get());
-	GPOS_ASSERT(phistAfter->FValid());
+	GPOS_ASSERT(phistAfter->IsValid());
 
 	return phistAfter;
 }

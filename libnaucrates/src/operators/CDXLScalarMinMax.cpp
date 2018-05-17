@@ -38,7 +38,7 @@ CDXLScalarMinMax::CDXLScalarMinMax
 	m_pmdidType(pmdidType),
 	m_emmt(emmt)
 {
-	GPOS_ASSERT(m_pmdidType->FValid());
+	GPOS_ASSERT(m_pmdidType->IsValid());
 	GPOS_ASSERT(EmmtSentinel > emmt);
 }
 

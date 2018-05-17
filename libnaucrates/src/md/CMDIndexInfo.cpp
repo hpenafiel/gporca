@@ -25,7 +25,7 @@ CMDIndexInfo::CMDIndexInfo
 	m_pmdid(pmdid),
 	m_fPartial(fPartial)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 }
 
 // dtor

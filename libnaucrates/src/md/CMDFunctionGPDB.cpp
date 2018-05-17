@@ -51,7 +51,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	m_efdaDataAccess(efdaDataAccess),
 	m_fStrict(fStrict)
 {
-	GPOS_ASSERT(m_pmdid->FValid());
+	GPOS_ASSERT(m_pmdid->IsValid());
 	GPOS_ASSERT(EfsSentinel > efsStability);
 	GPOS_ASSERT(EfdaSentinel > efdaDataAccess);
 

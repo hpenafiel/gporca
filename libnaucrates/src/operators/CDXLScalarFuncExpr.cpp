@@ -43,8 +43,8 @@ CDXLScalarFuncExpr::CDXLScalarFuncExpr
 	m_iRetTypeModifier(iRetTypeModifier),
 	m_fReturnSet(fRetSet)
 {
-	GPOS_ASSERT(m_pmdidFunc->FValid());
-	GPOS_ASSERT(m_pmdidRetType->FValid());
+	GPOS_ASSERT(m_pmdidFunc->IsValid());
+	GPOS_ASSERT(m_pmdidRetType->IsValid());
 }
 
 //---------------------------------------------------------------------------

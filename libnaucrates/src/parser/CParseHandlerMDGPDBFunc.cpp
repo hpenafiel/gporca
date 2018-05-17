@@ -180,7 +180,7 @@ CParseHandlerMDGPDBFunc::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), xmlszLocalname))
 	{
 		// construct the MD func object from its part
-		GPOS_ASSERT(m_pmdid->FValid() && NULL != m_pmdname);
+		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
 		
 		m_pimdobj = GPOS_NEW(m_pmp) CMDFunctionGPDB(m_pmp,
 												m_pmdid,

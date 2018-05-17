@@ -35,8 +35,8 @@ CMDIdScCmp::CMDIdScCmp
 	m_ecmpt(ecmpt),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
-	GPOS_ASSERT(pmdidLeft->FValid());
-	GPOS_ASSERT(pmdidRight->FValid());
+	GPOS_ASSERT(pmdidLeft->IsValid());
+	GPOS_ASSERT(pmdidRight->IsValid());
 	GPOS_ASSERT(IMDType::EcmptOther != ecmpt);
 	
 	GPOS_ASSERT(pmdidLeft->Sysid().Equals(pmdidRight->Sysid()));

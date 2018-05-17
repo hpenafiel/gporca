@@ -44,7 +44,7 @@ CDXLDatum::CDXLDatum
 	m_fNull(fNull),
 	m_ulLength(ulLength)
 {
-	GPOS_ASSERT(m_pmdidType->FValid());
+	GPOS_ASSERT(m_pmdidType->IsValid());
 }
 
 INT

@@ -116,7 +116,7 @@ namespace gpos
     #endif // GPOS_DEBUG
 
                 // make sure this is a valid key
-                GPOS_ASSERT(Base::Sht().FValid(key));
+                GPOS_ASSERT(Base::Sht().IsValid(key));
 
                 // make sure this is the right bucket
                 GPOS_ASSERT(FMatchingBucket(key));

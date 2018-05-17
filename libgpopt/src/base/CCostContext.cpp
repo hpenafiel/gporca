@@ -268,14 +268,14 @@ CCostContext::operator ==
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CCostContext::FValid
+//		CCostContext::IsValid
 //
 //	@doc:
 //		Check validity by comparing derived and required properties
 //
 //---------------------------------------------------------------------------
 BOOL
-CCostContext::FValid
+CCostContext::IsValid
 	(
 	IMemoryPool *pmp
 	)

@@ -191,7 +191,7 @@ CDXLScalarIdent::AssertValid
 	const
 {
 	GPOS_ASSERT(0 == pdxln->UlArity());
-	GPOS_ASSERT(m_pdxlcr->PmdidType()->FValid());
+	GPOS_ASSERT(m_pdxlcr->PmdidType()->IsValid());
 	GPOS_ASSERT(NULL != m_pdxlcr);
 }
 #endif // GPOS_DEBUG

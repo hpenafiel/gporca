@@ -234,7 +234,7 @@ CParseHandlerMDGPDBScalarOp::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOp), xmlszLocalname))
 	{
 		// construct the MD scalar operator object from its part
-		GPOS_ASSERT(m_pmdid->FValid() && NULL != m_pmdname);
+		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
 		
 		GPOS_ASSERT(0 == this->UlLength() || 1 == this->UlLength());
 		

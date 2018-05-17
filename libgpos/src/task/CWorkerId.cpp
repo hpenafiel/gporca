@@ -113,7 +113,7 @@ CWorkerId::HashValue
 	)
 {
 	// don't compute hash value for invalid id
-	GPOS_ASSERT(wid.FValid() && "Invalid worker id.");
+	GPOS_ASSERT(wid.IsValid() && "Invalid worker id.");
 
 	return gpos::HashValue<PTHREAD_T>(&wid.m_pthread);
 }
@@ -123,14 +123,14 @@ CWorkerId::HashValue
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorkerId::FValid
+//		CWorkerId::IsValid
 //
 //	@doc:
 //		Check if worker id is valid
 //
 //---------------------------------------------------------------------------
 BOOL
-CWorkerId::FValid() const
+CWorkerId::IsValid() const
 {
 	return !Equals(m_widInvalid);
 }

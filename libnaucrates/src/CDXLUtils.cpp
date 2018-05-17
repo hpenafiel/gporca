@@ -1058,7 +1058,7 @@ CDXLUtils::PstrSerializeMetadata
 	)
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 
 	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
 	

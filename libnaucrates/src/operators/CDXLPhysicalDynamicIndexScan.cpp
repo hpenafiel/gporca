@@ -231,12 +231,12 @@ CDXLPhysicalDynamicIndexScan::AssertValid
 	// assert validity of the index descriptor
 	GPOS_ASSERT(NULL != m_pdxlid);
 	GPOS_ASSERT(NULL != m_pdxlid->Pmdname());
-	GPOS_ASSERT(m_pdxlid->Pmdname()->Pstr()->FValid());
+	GPOS_ASSERT(m_pdxlid->Pmdname()->Pstr()->IsValid());
 
 	// assert validity of the table descriptor
 	GPOS_ASSERT(NULL != m_pdxltabdesc);
 	GPOS_ASSERT(NULL != m_pdxltabdesc->Pmdname());
-	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->FValid());
+	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->IsValid());
 
 	CDXLNode *pdxlnIndexFilter = (*pdxln)[EdxldisIndexFilter];
 	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxldisIndexCondition];

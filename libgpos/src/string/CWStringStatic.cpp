@@ -112,7 +112,7 @@ CWStringStatic::AppendBuffer
 	// terminate string
 	m_wszBuf[m_ulLength] = WCHAR_EOS;
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -186,7 +186,7 @@ CWStringStatic::AppendCharArray
 	m_ulLength += ulLength;
 	m_wszBuf[m_ulLength] = WCHAR_EOS;
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -245,7 +245,7 @@ CWStringStatic::AppendFormatVA
 
 	GPOS_ASSERT(m_ulCapacity > m_ulLength);
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -316,7 +316,7 @@ CWStringStatic::AppendEscape
 	m_wszBuf[ulLengthNew] = WCHAR_EOS;
 
 	m_ulLength = ulLengthNew;
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 

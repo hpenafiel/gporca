@@ -378,7 +378,7 @@ CParseHandlerMDType::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), xmlszLocalname))
 	{
 		// construct the MD type object from its part
-		GPOS_ASSERT(m_pmdid->FValid());
+		GPOS_ASSERT(m_pmdid->IsValid());
 
 		// TODO:  - Jan 30, 2012; add support for other types of mdids
 		

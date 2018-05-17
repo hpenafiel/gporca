@@ -44,8 +44,8 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	m_pmdidRel(pmdidRel),
 	m_pdxln(pdxln)
 {
-	GPOS_ASSERT(pmdid->FValid());
-	GPOS_ASSERT(pmdidRel->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(pmdidRel->IsValid());
 	GPOS_ASSERT(NULL != pmdname);
 	GPOS_ASSERT(NULL != pdxln);
 

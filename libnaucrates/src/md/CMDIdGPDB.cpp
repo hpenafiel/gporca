@@ -210,7 +210,7 @@ CMDIdGPDB::CMDIdGPDB
 	m_ulVersionMinor(mdidSource.UlVersionMinor()),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
-	GPOS_ASSERT(mdidSource.FValid());
+	GPOS_ASSERT(mdidSource.IsValid());
 	GPOS_ASSERT(IMDId::EmdidGPDB == mdidSource.Emdidt());
 
 	// serialize mdid into static string
@@ -320,14 +320,14 @@ CMDIdGPDB::Equals
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdGPDB::FValid
+//		CMDIdGPDB::IsValid
 //
 //	@doc:
 //		Is the mdid valid
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDIdGPDB::FValid() const
+CMDIdGPDB::IsValid() const
 {
 	return !Equals(&CMDIdGPDB::m_mdidInvalidKey);
 }

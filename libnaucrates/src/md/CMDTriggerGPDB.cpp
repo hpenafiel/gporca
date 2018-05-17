@@ -47,9 +47,9 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	m_iType(iType),
 	m_fEnabled(fEnabled)
 {
-	GPOS_ASSERT(m_pmdid->FValid());
-	GPOS_ASSERT(m_pmdidRel->FValid());
-	GPOS_ASSERT(m_pmdidFunc->FValid());
+	GPOS_ASSERT(m_pmdid->IsValid());
+	GPOS_ASSERT(m_pmdidRel->IsValid());
+	GPOS_ASSERT(m_pmdidFunc->IsValid());
 	GPOS_ASSERT(0 <= iType);
 
 	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);

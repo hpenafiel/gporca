@@ -167,7 +167,7 @@ CDXLLogicalGet::AssertValid
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_pdxltabdesc);
 	GPOS_ASSERT(NULL != m_pdxltabdesc->Pmdname());
-	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->FValid());
+	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

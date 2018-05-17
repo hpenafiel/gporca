@@ -40,9 +40,9 @@ CDXLPhysicalTVF::CDXLPhysicalTVF
 	m_pstr(pstr)
 {
 	GPOS_ASSERT(NULL != m_pmdidFunc);
-	GPOS_ASSERT(m_pmdidFunc->FValid());
+	GPOS_ASSERT(m_pmdidFunc->IsValid());
 	GPOS_ASSERT(NULL != m_pmdidRetType);
-	GPOS_ASSERT(m_pmdidRetType->FValid());
+	GPOS_ASSERT(m_pmdidRetType->IsValid());
 	GPOS_ASSERT(NULL != m_pstr);
 }
 

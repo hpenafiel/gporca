@@ -43,7 +43,7 @@ CScalarIf::CScalarIf
 	m_pmdidType(pmdid),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidType);

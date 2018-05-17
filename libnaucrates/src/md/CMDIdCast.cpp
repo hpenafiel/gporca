@@ -34,8 +34,8 @@ CMDIdCast::CMDIdCast
 	m_pmdidDest(pmdidDest),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
-	GPOS_ASSERT(pmdidSrc->FValid());
-	GPOS_ASSERT(pmdidDest->FValid());
+	GPOS_ASSERT(pmdidSrc->IsValid());
+	GPOS_ASSERT(pmdidDest->IsValid());
 	
 	// serialize mdid into static string 
 	Serialize();

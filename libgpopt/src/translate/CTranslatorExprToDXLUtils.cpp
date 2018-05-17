@@ -1205,7 +1205,7 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 {
 	IMDId *pmdidScCmp = NULL;
 
-	if (IMDId::FValid(pmdidTypeCastExpr))
+	if (IMDId::IsValid(pmdidTypeCastExpr))
 	{
 		pmdidScCmp = CUtils::PmdidScCmp(pmp, pmda, pmdidTypeCastExpr, pmdidTypeExpr, ecmpt);
 	}
@@ -1225,7 +1225,7 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 	pmdidTypePartKey->AddRef();
 	CDXLNode *pdxlnPartBound = GPOS_NEW(pmp) CDXLNode(pmp, GPOS_NEW(pmp) CDXLScalarPartBound(pmp, ulPartLevel, pmdidTypePartKey, fLowerBound));
 	
-	if (IMDId::FValid(pmdidTypeCastExpr))
+	if (IMDId::IsValid(pmdidTypeCastExpr))
 	{
 		GPOS_ASSERT(NULL != pmdidCastFunc);
 		pmdidTypeCastExpr->AddRef();

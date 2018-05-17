@@ -46,7 +46,7 @@ CRange::CRange
 	m_pdatumRight(pdatumRight),
 	m_eriRight(eriRight)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pcomp);
 	GPOS_ASSERT(CUtils::FConstrainableType(pmdid));
 	GPOS_ASSERT_IMP(NULL != pdatumLeft && NULL != pdatumRight,
@@ -78,7 +78,7 @@ CRange::CRange
 {
 	m_pmdid = pdatum->Pmdid();
 
-	GPOS_ASSERT(m_pmdid->FValid());
+	GPOS_ASSERT(m_pmdid->IsValid());
 	GPOS_ASSERT(NULL != pcomp);
 	GPOS_ASSERT(CUtils::FConstrainableType(m_pmdid));
 	m_pmdid->AddRef();

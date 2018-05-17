@@ -41,7 +41,7 @@ CDXLScalarSubqueryQuantified::CDXLScalarSubqueryQuantified
 	m_pmdnameScalarOp(pmdnameScalarOp),
 	m_ulColId(ulColId)
 {
-	GPOS_ASSERT(pmdidScalarOp->FValid());
+	GPOS_ASSERT(pmdidScalarOp->IsValid());
 	GPOS_ASSERT(NULL != pmdnameScalarOp);
 }
 

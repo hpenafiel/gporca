@@ -38,8 +38,8 @@ CDXLScalarArray::CDXLScalarArray
 	m_pmdidArray(pmdidArray),
 	m_fMultiDimensional(fMultiDimensional)
 {
-	GPOS_ASSERT(m_pmdidElem->FValid());
-	GPOS_ASSERT(m_pmdidArray->FValid());
+	GPOS_ASSERT(m_pmdidElem->IsValid());
+	GPOS_ASSERT(m_pmdidArray->IsValid());
 }
 
 //---------------------------------------------------------------------------

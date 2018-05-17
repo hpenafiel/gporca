@@ -748,7 +748,7 @@ namespace gpdxl
 					m_pstr(pstr)
 				{
 					GPOS_ASSERT(edxlt < EdxltokenSentinel);
-					GPOS_ASSERT(pstr->FValid());
+					GPOS_ASSERT(pstr->IsValid());
 				}
 				
 				//dtor

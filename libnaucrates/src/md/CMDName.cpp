@@ -57,7 +57,7 @@ CMDName::CMDName
 	m_fDeepCopy(fOwnsMemory)
 {
 	GPOS_ASSERT(NULL != m_psc);
-	GPOS_ASSERT(m_psc->FValid());
+	GPOS_ASSERT(m_psc->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -77,7 +77,7 @@ CMDName::CMDName
 	m_fDeepCopy(false)
 {
 	GPOS_ASSERT(NULL != m_psc->Wsz());
-	GPOS_ASSERT(m_psc->FValid());	
+	GPOS_ASSERT(m_psc->IsValid());	
 }
 
 
@@ -91,7 +91,7 @@ CMDName::CMDName
 //---------------------------------------------------------------------------
 CMDName::~CMDName()
 {
-	GPOS_ASSERT(m_psc->FValid());
+	GPOS_ASSERT(m_psc->IsValid());
 
 	if (m_fDeepCopy)
 	{

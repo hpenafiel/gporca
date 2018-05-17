@@ -40,7 +40,7 @@ CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 	m_pdrgpulOld(pdrgpulOld),
 	m_pdrgpulNew(pdrgpulNew)
 {
-	GPOS_ASSERT(pmdidRel->FValid());
+	GPOS_ASSERT(pmdidRel->IsValid());
 	GPOS_ASSERT(0 != iType);
 	GPOS_ASSERT(NULL != pdrgpulNew || NULL != pdrgpulOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpulNew && NULL != pdrgpulOld,

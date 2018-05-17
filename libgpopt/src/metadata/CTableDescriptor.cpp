@@ -59,7 +59,7 @@ CTableDescriptor::CTableDescriptor
 	m_fHasPartialIndexes(FDescriptorWithPartialIndexes())
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	
 	m_pdrgpcoldesc = GPOS_NEW(m_pmp) DrgPcoldesc(m_pmp);
 	m_pdrgpcoldescDist = GPOS_NEW(m_pmp) DrgPcoldesc(m_pmp);

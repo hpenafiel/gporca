@@ -404,7 +404,7 @@ CSyncHashtableTest::EresUnittest_NonConcurrentIteration()
 
 		GPOS_ASSERT(NULL != pelem);
 
-		GPOS_ASSERT(SElem::FValid(pelem->m_ulKey));
+		GPOS_ASSERT(SElem::IsValid(pelem->m_ulKey));
 
 		// check if element has been visited before
 		GPOS_ASSERT(!bv.ExchangeSet(pelem->UlId()) &&
@@ -576,7 +576,7 @@ CSyncHashtableTest::PvUnittest_IteratorCheck
 			SElem *pelem = htitacc.Value();
 			if (NULL != pelem)
 			{
-				GPOS_ASSERT(SElem::FValid(pelem->m_ulKey));
+				GPOS_ASSERT(SElem::IsValid(pelem->m_ulKey));
 
 				ulId = pelem->UlId();
 			}
@@ -811,7 +811,7 @@ CSyncHashtableTest::PvUnittest_Iterator
 		SElem *pelem = shtitacc.Value();
 		if (NULL != pelem)
 		{
-			GPOS_ASSERT(SElem::FValid(pelem->m_ulKey));
+			GPOS_ASSERT(SElem::IsValid(pelem->m_ulKey));
 
 			GPOS_ASSERT(!bv.ExchangeSet(pelem->UlId()) &&
 					    "Iterator returned duplicates");

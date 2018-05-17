@@ -59,7 +59,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	m_pdxlctasopt(pdxlctasopt),
 	m_pdrgpiVarTypeMod(pdrgpiVarTypeMod)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdcol);
 	GPOS_ASSERT(NULL != pdxlctasopt);
 	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > m_erelstorage);	

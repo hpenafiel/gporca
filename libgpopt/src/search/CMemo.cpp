@@ -428,7 +428,7 @@ CMemo::PexprExtractPlan
 							cost
 							);
 
-	if (pexpr->Pop()->FPhysical() && !poc->PccBest()->FValid(pmp))
+	if (pexpr->Pop()->FPhysical() && !poc->PccBest()->IsValid(pmp))
 	{
 		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsatisfiedRequiredProperties);
 	}

@@ -37,8 +37,8 @@ CDXLScalarNullIf::CDXLScalarNullIf
 	m_pmdidOp(pmdidOp),
 	m_pmdidType(pmdidType)
 {
-	GPOS_ASSERT(pmdidOp->FValid());
-	GPOS_ASSERT(pmdidType->FValid());
+	GPOS_ASSERT(pmdidOp->IsValid());
+	GPOS_ASSERT(pmdidType->IsValid());
 }
 
 //---------------------------------------------------------------------------

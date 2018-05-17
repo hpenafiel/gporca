@@ -242,7 +242,7 @@ namespace gpopt
 
 
 			// check validity by comparing derived and required properties
-			BOOL FValid(IMemoryPool *pmp);
+			BOOL IsValid(IMemoryPool *pmp);
 
 			// comparison operator
 			BOOL operator == (const CCostContext &cc) const;

@@ -30,8 +30,8 @@ CDXLScalarPartListValues::CDXLScalarPartListValues
 	m_pmdidResult(pmdidResult),
 	m_pmdidElement(pmdidElement)
 {
-	GPOS_ASSERT(pmdidResult->FValid());
-	GPOS_ASSERT(pmdidElement->FValid());
+	GPOS_ASSERT(pmdidResult->IsValid());
+	GPOS_ASSERT(pmdidElement->IsValid());
 }
 
 

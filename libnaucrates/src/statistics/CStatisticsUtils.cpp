@@ -161,7 +161,7 @@ CStatisticsUtils::PhistTransformMCV
 		pdrgpbucketMCV->Append(pbucket);
 	}
 	CHistogram *phist =  GPOS_NEW(pmp) CHistogram(pdrgpbucketMCV);
-	GPOS_ASSERT(phist->FValid());
+	GPOS_ASSERT(phist->IsValid());
 	pdrgpsmcvpair->Release();
 
 	return phist;
@@ -211,13 +211,13 @@ CStatisticsUtils::PhistMergeMcvHist
 	}
 
 	// both MCV and histogram buckets must be sorted
-	GPOS_ASSERT(phistGPDBMcv->FValid());
-	GPOS_ASSERT(phistGPDBHist->FValid());
+	GPOS_ASSERT(phistGPDBMcv->IsValid());
+	GPOS_ASSERT(phistGPDBHist->IsValid());
 
 	DrgPbucket *pdrgpbucketMerged = PdrgpbucketMergeBuckets(pmp, pdrgpbucketMCV, pdrgpbucketHist);
 
 	CHistogram *phistMerged =  GPOS_NEW(pmp) CHistogram(pdrgpbucketMerged);
-	GPOS_ASSERT(phistMerged->FValid());
+	GPOS_ASSERT(phistMerged->IsValid());
 
 	return phistMerged;
 }

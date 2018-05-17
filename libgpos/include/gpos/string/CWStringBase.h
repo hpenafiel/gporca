@@ -84,7 +84,7 @@ namespace gpos
 			virtual BOOL IsEmpty() const;
 			
 			// checks whether a string is properly null-terminated
-			bool FValid() const;
+			bool IsValid() const;
 			
 			// equality operator 
 			BOOL operator == (const CWStringBase &str) const;

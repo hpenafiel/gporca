@@ -120,7 +120,7 @@ namespace gpos
 				)
 				const
 			{
-				GPOS_ASSERT(FValid(key) && "Invalid key is inaccessible");
+				GPOS_ASSERT(IsValid(key) && "Invalid key is inaccessible");
 
 				return m_pfuncHash(key) % m_cSize;
 			}
@@ -152,7 +152,7 @@ namespace gpos
 			}
 
 			// key validity check
-			BOOL FValid
+			BOOL IsValid
 				(
 				const K &key
 				)
@@ -277,7 +277,7 @@ namespace gpos
             {
                 K &key = Key(pt);
 
-                GPOS_ASSERT(FValid(key));
+                GPOS_ASSERT(IsValid(key));
 
                 // determine target bucket
                 SBucket &bucket = Bucket(UlBucketIndex(key));

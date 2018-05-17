@@ -95,7 +95,7 @@ CHistogramTest::EresUnittest_CHistogramInt4()
 	CDouble dScaleFactor(0.0);
 	CHistogram *phist4 = phist->PhistFilterNormalized(pmp, CStatsPred::EstatscmptEq, ppoint4, &dScaleFactor);
 	CCardinalityTestUtils::PrintHist(pmp, "phist4", phist4);
-	GPOS_RTL_ASSERT(phist4->FValid());
+	GPOS_RTL_ASSERT(phist4->IsValid());
 
 	// lasj
 	CHistogram *phist5 = phist->PhistLASJ(pmp, CStatsPred::EstatscmptEq, phist2);
@@ -213,7 +213,7 @@ CHistogramTest::EresUnittest_CHistogramValid()
 		phist->OsPrint(at.Os());
 	}
 
-	if(phist->FValid())
+	if(phist->IsValid())
 	{
 		return GPOS_FAILED;
 	}

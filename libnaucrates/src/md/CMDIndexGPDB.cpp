@@ -56,13 +56,13 @@ CMDIndexGPDB::CMDIndexGPDB
 	m_pdrgpmdidOpClasses(pdrgpmdidOpClasses),
 	m_pmdpartcnstr(pmdpartcnstr)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(IMDIndex::EmdindSentinel > emdindt);
 	GPOS_ASSERT(NULL != pdrgpulKeyCols);
 	GPOS_ASSERT(0 < pdrgpulKeyCols->Size());
 	GPOS_ASSERT(NULL != pdrgpulIncludedCols);
 	GPOS_ASSERT_IMP(NULL != pmdidItemType, IMDIndex::EmdindBitmap == emdindt);
-	GPOS_ASSERT_IMP(IMDIndex::EmdindBitmap == emdindt, NULL != pmdidItemType && pmdidItemType->FValid());
+	GPOS_ASSERT_IMP(IMDIndex::EmdindBitmap == emdindt, NULL != pmdidItemType && pmdidItemType->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdidOpClasses);
 	
 	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);

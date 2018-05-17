@@ -58,7 +58,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 	GPOS_ASSERT(EpimSentinel > epim &&
 				"Invalid manipulator type");
 
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(pdrgppartkeys != NULL);
 	GPOS_ASSERT(0 < pdrgppartkeys->Size());
 	GPOS_ASSERT(NULL != ppartcnstrRel);

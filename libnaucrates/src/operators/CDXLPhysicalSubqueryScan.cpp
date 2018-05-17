@@ -158,7 +158,7 @@ CDXLPhysicalSubqueryScan::AssertValid
 	
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_pmdnameAlias);
-	GPOS_ASSERT(m_pmdnameAlias->Pstr()->FValid());
+	GPOS_ASSERT(m_pmdnameAlias->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

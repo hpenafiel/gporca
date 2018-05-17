@@ -55,8 +55,8 @@ CScalarAggFunc::CScalarAggFunc
 {
 	GPOS_ASSERT(NULL != pmdidAggFunc);
 	GPOS_ASSERT(NULL != pstrAggFunc);
-	GPOS_ASSERT(pmdidAggFunc->FValid());
-	GPOS_ASSERT_IMP(NULL != pmdidResolvedRetType, pmdidResolvedRetType->FValid());
+	GPOS_ASSERT(pmdidAggFunc->IsValid());
+	GPOS_ASSERT_IMP(NULL != pmdidResolvedRetType, pmdidResolvedRetType->IsValid());
 	GPOS_ASSERT(EaggfuncstageSentinel > eaggfuncstage);
 
 	// store id of type obtained by looking up MD cache

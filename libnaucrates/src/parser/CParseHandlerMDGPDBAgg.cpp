@@ -181,7 +181,7 @@ CParseHandlerMDGPDBAgg::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAgg), xmlszLocalname))
 	{
 		// construct the MD agg object from its part
-		GPOS_ASSERT(m_pmdid->FValid() && NULL != m_pmdname);
+		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
 		
 		m_pimdobj = GPOS_NEW(m_pmp) CMDAggregateGPDB(m_pmp,
 												m_pmdid,

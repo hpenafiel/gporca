@@ -42,7 +42,7 @@ CDXLScalarSortCol::CDXLScalarSortCol
 	m_pstrSortOpName(pstrSortOpName),
 	m_fSortNullsFirst(fSortNullsFirst)
 {
-	GPOS_ASSERT(m_pmdidSortOp->FValid());
+	GPOS_ASSERT(m_pmdidSortOp->IsValid());
 }
 
 //---------------------------------------------------------------------------

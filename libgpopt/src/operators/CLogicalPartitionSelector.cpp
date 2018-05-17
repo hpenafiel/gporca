@@ -61,7 +61,7 @@ CLogicalPartitionSelector::CLogicalPartitionSelector
 	m_pdrgpexprFilters(pdrgpexprFilters),
 	m_pcrOid(pcrOid)
 {
-	GPOS_ASSERT(pmdid->FValid());
+	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpexprFilters);
 	GPOS_ASSERT(0 < pdrgpexprFilters->Size());
 	GPOS_ASSERT(NULL != pcrOid);

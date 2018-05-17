@@ -104,9 +104,9 @@ namespace gpmd
 			
 			// is the mdid valid
 			virtual
-			BOOL FValid() const
+			BOOL IsValid() const
 			{
-				return IMDId::FValid(m_pmdidSrc) && IMDId::FValid(m_pmdidDest);
+				return IMDId::IsValid(m_pmdidSrc) && IMDId::IsValid(m_pmdidDest);
 			}
 
 			// serialize mdid in DXL as the value of the specified attribute 

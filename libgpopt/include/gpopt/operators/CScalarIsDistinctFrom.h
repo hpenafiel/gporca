@@ -48,7 +48,7 @@ namespace gpopt
 				:
 				CScalarCmp(pmp, pmdidOp, pstrOp, IMDType::EcmptIDF)
 			{
-				GPOS_ASSERT(pmdidOp->FValid());
+				GPOS_ASSERT(pmdidOp->IsValid());
 			}
 
 			// dtor

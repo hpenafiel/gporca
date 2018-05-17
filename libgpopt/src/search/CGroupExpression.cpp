@@ -492,7 +492,7 @@ CGroupExpression::PccComputeCost
 		}
 		pcc->SetChildContexts(pdrgpoc);
 
-		fValid = pcc->FValid(pmp);
+		fValid = pcc->IsValid(pmp);
 		if (fValid)
 		{
 			CCost cost = CostCompute(pmp, pcc);

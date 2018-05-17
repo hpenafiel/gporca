@@ -49,10 +49,10 @@ CMDCastGPDB::CMDCastGPDB
 	m_pmdidCastFunc(pmdidCastFunc),
 	m_emdPathType(emdPathType)
 {
-	GPOS_ASSERT(m_pmdid->FValid());
-	GPOS_ASSERT(m_pmdidSrc->FValid());
-	GPOS_ASSERT(m_pmdidDest->FValid());
-	GPOS_ASSERT_IMP(!fBinaryCoercible, m_pmdidCastFunc->FValid());
+	GPOS_ASSERT(m_pmdid->IsValid());
+	GPOS_ASSERT(m_pmdidSrc->IsValid());
+	GPOS_ASSERT(m_pmdidDest->IsValid());
+	GPOS_ASSERT_IMP(!fBinaryCoercible, m_pmdidCastFunc->IsValid());
 
 	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
 }
@@ -229,7 +229,7 @@ CMDCastGPDB::DebugPrint
 		os << ", binary-coercible";
 	}
 	
-	if (IMDId::FValid(m_pmdidCastFunc))
+	if (IMDId::IsValid(m_pmdidCastFunc))
 	{
 		os << ", Cast func id: ";
 		PmdidCastFunc()->OsPrint(os);

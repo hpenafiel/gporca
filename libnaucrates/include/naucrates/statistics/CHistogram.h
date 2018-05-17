@@ -396,7 +396,7 @@ namespace gpnaucrates
 			CDouble DDistinct() const;
 
 			// is histogram well formed
-			BOOL FValid() const;
+			BOOL IsValid() const;
 
 			// return copy of histogram
 			CHistogram *PhistCopy(IMemoryPool *pmp) const;

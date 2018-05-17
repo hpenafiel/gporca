@@ -199,7 +199,7 @@ namespace gpmd
 			
 			// is the mdid valid
 			virtual
-			BOOL FValid() const = 0;
+			BOOL IsValid() const = 0;
 			
 			// serialize mdid in DXL as the value for the specified attribute 
 			virtual
@@ -211,9 +211,9 @@ namespace gpmd
 			
 			// safe validity function
 			static
-			BOOL FValid(const IMDId *pmdid)
+			BOOL IsValid(const IMDId *pmdid)
 			{
-				return NULL != pmdid && pmdid->FValid();
+				return NULL != pmdid && pmdid->IsValid();
 			}
 	};
 	

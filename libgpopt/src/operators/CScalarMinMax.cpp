@@ -45,7 +45,7 @@ CScalarMinMax::CScalarMinMax
 	m_esmmt(esmmt),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdidType->FValid());
+	GPOS_ASSERT(pmdidType->IsValid());
 	GPOS_ASSERT(EsmmtSentinel > esmmt);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();

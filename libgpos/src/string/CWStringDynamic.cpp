@@ -135,7 +135,7 @@ CWStringDynamic::AppendBuffer
 	clib::WcStrNCpy(m_wszBuf + m_ulLength, wsz, ulLength + 1);
 	m_ulLength = ulNewLength;
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -196,7 +196,7 @@ CWStringDynamic::AppendCharArray
 	m_wszBuf[ulNewLength] = WCHAR_EOS;
 	m_ulLength = ulNewLength;
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -279,7 +279,7 @@ CWStringDynamic::AppendFormat
 	VA_END(vaArgs);
 
 	m_ulLength = ulNewLength;
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 
@@ -342,7 +342,7 @@ CWStringDynamic::AppendEscape
 	m_wszBuf[ulNewLength] = WCHAR_EOS;
 	m_ulLength = ulNewLength;
 
-	GPOS_ASSERT(FValid());
+	GPOS_ASSERT(IsValid());
 }
 
 

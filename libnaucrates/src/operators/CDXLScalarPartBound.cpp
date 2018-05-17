@@ -41,7 +41,7 @@ CDXLScalarPartBound::CDXLScalarPartBound
 	m_pmdidType(pmdidType),
 	m_fLower(fLower)
 {
-	GPOS_ASSERT(pmdidType->FValid());
+	GPOS_ASSERT(pmdidType->IsValid());
 }
 
 //---------------------------------------------------------------------------

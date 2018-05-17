@@ -36,14 +36,14 @@ CWStringConst *CWStringBase::PStrCopy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWStringBase::FValid
+//		CWStringBase::IsValid
 //
 //	@doc:
 //		Checks if the string is properly NULL-terminated
 //
 //---------------------------------------------------------------------------
 bool
-CWStringBase::FValid() const
+CWStringBase::IsValid() const
 {
 	return (UlLength() == GPOS_WSZ_LENGTH(Wsz()));
 }

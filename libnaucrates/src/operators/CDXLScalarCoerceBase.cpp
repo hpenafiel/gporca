@@ -50,7 +50,7 @@ CDXLScalarCoerceBase::CDXLScalarCoerceBase
 	m_iLoc(iLoc)
 {
 	GPOS_ASSERT(NULL != pmdidType);
-	GPOS_ASSERT(pmdidType->FValid());
+	GPOS_ASSERT(pmdidType->IsValid());
 }
 
 

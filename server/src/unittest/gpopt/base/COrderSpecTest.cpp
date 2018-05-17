@@ -131,7 +131,7 @@ COrderSpecTest::EresUnittest_Basics()
 #endif // GPOS_DEBUG
 		pos1->PmdidSortOp(ul);
 		
-		GPOS_ASSERT(pmdid->FValid());
+		GPOS_ASSERT(pmdid->IsValid());
 		
 		(void) pos1->Ent(ul);
 	}

@@ -55,7 +55,7 @@ CDXLColStats::CDXLColStats
 	m_pdrgpdxlbucket(pdrgpdxlbucket),
 	m_fColStatsMissing(fColStatsMissing)
 {
-	GPOS_ASSERT(pmdidColStats->FValid());
+	GPOS_ASSERT(pmdidColStats->IsValid());
 	GPOS_ASSERT(NULL != pdrgpdxlbucket);
 	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
 }

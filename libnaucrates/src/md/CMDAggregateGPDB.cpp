@@ -49,7 +49,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	m_fSplittable(fSplittable),
 	m_fHashAggCapable(fHashAggCapable)
 	{
-		GPOS_ASSERT(pmdid->FValid());
+		GPOS_ASSERT(pmdid->IsValid());
 		
 		m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
 	}

@@ -53,8 +53,8 @@ CScalarWindowFunc::CScalarWindowFunc
 	m_fSimpleAgg(fSimpleAgg),
 	m_fAgg(false)
 {
-	GPOS_ASSERT(pmdidFunc->FValid());
-	GPOS_ASSERT(pmdidRetType->FValid());
+	GPOS_ASSERT(pmdidFunc->IsValid());
+	GPOS_ASSERT(pmdidRetType->IsValid());
 	m_pmdidFunc = pmdidFunc;
 	m_pmdidRetType = pmdidRetType;
 	m_pstrFunc = pstrFunc;

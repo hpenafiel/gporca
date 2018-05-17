@@ -36,7 +36,7 @@ CDXLScalarCaseTest::CDXLScalarCaseTest
 	CDXLScalar(pmp),
 	m_pmdidType(pmdidType)
 {
-	GPOS_ASSERT(m_pmdidType->FValid());
+	GPOS_ASSERT(m_pmdidType->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -153,7 +153,7 @@ CDXLScalarCaseTest::AssertValid
 	const
 {
 	GPOS_ASSERT(0 == pdxln->UlArity());
-	GPOS_ASSERT(m_pmdidType->FValid());
+	GPOS_ASSERT(m_pmdidType->IsValid());
 }
 #endif // GPOS_DEBUG
 

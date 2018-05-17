@@ -47,7 +47,7 @@ namespace gpos
 
 #ifdef GPOS_DEBUG
 			// check if worker id is valid
-			BOOL FValid() const;
+			BOOL IsValid() const;
 #endif // GPOS_DEBUG
 
 			// comparison operator

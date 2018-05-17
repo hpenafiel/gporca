@@ -38,7 +38,7 @@ CDXLPhysicalPartitionSelector::CDXLPhysicalPartitionSelector
 	m_ulLevels(ulLevels),
 	m_ulScanId(ulScanId)
 {
-	GPOS_ASSERT(pmdidRel->FValid());
+	GPOS_ASSERT(pmdidRel->IsValid());
 	GPOS_ASSERT(0 < ulLevels);
 }
 

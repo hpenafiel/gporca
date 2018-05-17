@@ -46,8 +46,8 @@ CDXLScalarAggref::CDXLScalarAggref
 	m_edxlaggstage(edxlaggstage)
 {
 	GPOS_ASSERT(NULL != pmdidAggOid);
-	GPOS_ASSERT_IMP(NULL != pmdidResolvedRetType, pmdidResolvedRetType->FValid());
-	GPOS_ASSERT(m_pmdidAgg->FValid());
+	GPOS_ASSERT_IMP(NULL != pmdidResolvedRetType, pmdidResolvedRetType->IsValid());
+	GPOS_ASSERT(m_pmdidAgg->IsValid());
 }
 
 //---------------------------------------------------------------------------

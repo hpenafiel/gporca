@@ -37,7 +37,7 @@ CScalarSwitch::CScalarSwitch
 	m_pmdidType(pmdidType),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdidType->FValid());
+	GPOS_ASSERT(pmdidType->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidType);

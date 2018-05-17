@@ -48,7 +48,7 @@ CScalarOp::CScalarOp
 	m_fBoolReturnType(false),
 	m_fCommutative(false)
 {
-	GPOS_ASSERT(pmdidOp->FValid());
+	GPOS_ASSERT(pmdidOp->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 

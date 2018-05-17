@@ -55,7 +55,7 @@ namespace gpos
 
                 T *ptCurrent = pt;
                 while (NULL != ptCurrent &&
-                       !Base::Sht().FValid(Base::Sht().Key(ptCurrent)))
+                       !Base::Sht().IsValid(Base::Sht().Key(ptCurrent)))
                 {
                     ptCurrent = Base::PtNext(ptCurrent);
                 }

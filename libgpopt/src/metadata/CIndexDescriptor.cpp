@@ -43,7 +43,7 @@ CIndexDescriptor::CIndexDescriptor
 	m_fClustered(fClustered)
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(pmdidIndex->FValid());
+	GPOS_ASSERT(pmdidIndex->IsValid());
 	GPOS_ASSERT(NULL != pdrgcoldescKeyCols);
 	GPOS_ASSERT(NULL != pdrgcoldescIncludedCols);
 }

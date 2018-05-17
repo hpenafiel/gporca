@@ -36,7 +36,7 @@ CDXLScalarCoalesce::CDXLScalarCoalesce
 	CDXLScalar(pmp),
 	m_pmdidType(pmdidType)
 {
-	GPOS_ASSERT(m_pmdidType->FValid());
+	GPOS_ASSERT(m_pmdidType->IsValid());
 }
 
 //---------------------------------------------------------------------------

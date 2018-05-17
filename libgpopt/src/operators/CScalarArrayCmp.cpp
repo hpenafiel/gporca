@@ -54,7 +54,7 @@ CScalarArrayCmp::CScalarArrayCmp
 	m_earrccmpt(earrcmpt),
 	m_fReturnsNullOnNullInput(false)
 {
-	GPOS_ASSERT(pmdidOp->FValid());
+	GPOS_ASSERT(pmdidOp->IsValid());
 	GPOS_ASSERT(EarrcmpSentinel > earrcmpt);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -243,7 +243,7 @@ CScalarArrayCmp::PexprExpand
 		pexprIdent->AddRef();
 		const CWStringConst *pstrOpName = popArrayCmp->Pstr();
 		IMDId *pmdidOp = popArrayCmp->PmdidOp();
-		GPOS_ASSERT(IMDId::FValid(pmdidOp));
+		GPOS_ASSERT(IMDId::IsValid(pmdidOp));
 
 		pmdidOp->AddRef();
 

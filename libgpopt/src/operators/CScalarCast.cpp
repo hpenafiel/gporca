@@ -48,7 +48,7 @@ CScalarCast::CScalarCast
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
-	if (NULL != m_pmdidFunc && m_pmdidFunc->FValid())
+	if (NULL != m_pmdidFunc && m_pmdidFunc->IsValid())
 	{
 		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 		const IMDFunction *pmdfunc = pmda->Pmdfunc(m_pmdidFunc);
@@ -80,7 +80,7 @@ CScalarCast::FMatch
 
 		// match if the return type oids are identical
 		return pscop->PmdidType()->Equals(m_pmdidReturnType) &&
-				((!IMDId::FValid(pscop->PmdidFunc()) && !IMDId::FValid(m_pmdidFunc)) || pscop->PmdidFunc()->Equals(m_pmdidFunc));
+				((!IMDId::IsValid(pscop->PmdidFunc()) && !IMDId::IsValid(m_pmdidFunc)) || pscop->PmdidFunc()->Equals(m_pmdidFunc));
 	}
 
 	return false;

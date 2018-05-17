@@ -43,7 +43,7 @@ CPhysicalRowTrigger::CPhysicalRowTrigger
 	m_pdrgpcrNew(pdrgpcrNew),
 	m_pcrsRequiredLocal(NULL)
 {
-	GPOS_ASSERT(pmdidRel->FValid());
+	GPOS_ASSERT(pmdidRel->IsValid());
 	GPOS_ASSERT(0 != iType);
 	GPOS_ASSERT(NULL != pdrgpcrNew || NULL != pdrgpcrOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpcrNew && NULL != pdrgpcrOld,

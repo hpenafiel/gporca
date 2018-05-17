@@ -39,7 +39,7 @@ CDXLColRef::CDXLColRef
 	m_pmdidType(pmdidType),
 	m_iTypeModifer(iTypeModifier)
 {
-	GPOS_ASSERT(m_pmdidType->FValid());
+	GPOS_ASSERT(m_pmdidType->IsValid());
 }
 
 //---------------------------------------------------------------------------

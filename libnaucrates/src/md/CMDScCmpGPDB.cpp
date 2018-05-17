@@ -47,10 +47,10 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	m_ecmpt(ecmpt),
 	m_pmdidOp(pmdidOp)
 {
-	GPOS_ASSERT(m_pmdid->FValid());
-	GPOS_ASSERT(m_pmdidLeft->FValid());
-	GPOS_ASSERT(m_pmdidRight->FValid());
-	GPOS_ASSERT(m_pmdidOp->FValid());
+	GPOS_ASSERT(m_pmdid->IsValid());
+	GPOS_ASSERT(m_pmdidLeft->IsValid());
+	GPOS_ASSERT(m_pmdidRight->IsValid());
+	GPOS_ASSERT(m_pmdidOp->IsValid());
 	GPOS_ASSERT(IMDType::EcmptOther != m_ecmpt);
 
 	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
