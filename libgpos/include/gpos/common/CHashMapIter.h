@@ -40,26 +40,26 @@ namespace gpos
 		private:
 
 			// map to iterate
-			const TMap *m_ptm;
+			const TMap *m_map;
 
 			// current hashchain
-			ULONG m_ulChain;
+			ULONG m_chain;
 
 			// current key
-			ULONG m_ulKey;
+			ULONG m_key_idx;
 
 			// is initialized?
-			BOOL m_fInit;
+			BOOL m_is_initialized;
 
 			// private copy ctor
 			CHashMapIter(const CHashMapIter<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> &);
 			
 			// method to return the current element
-			const typename TMap::CHashMapElem *Phme() const
+			const typename TMap::CHashMapElem *Get() const
             {
                 typename TMap::CHashMapElem *elem = NULL;
-                K *k = (*(m_ptm->m_pdrgKeys))[m_ulKey-1];
-                elem = m_ptm->Lookup(k);
+                K *k = (*(m_map->m_keys))[m_key_idx-1];
+                elem = m_map->Lookup(k);
 
                 return elem;
             }
@@ -69,9 +69,9 @@ namespace gpos
 			// ctor
 			CHashMapIter<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> (TMap *ptm)
             :
-            m_ptm(ptm),
-            m_ulChain(0),
-            m_ulKey(0)
+            m_map(ptm),
+            m_chain(0),
+            m_key_idx(0)
             {
                 GPOS_ASSERT(NULL != ptm);
             }
@@ -84,9 +84,9 @@ namespace gpos
 			// advance iterator to next element
 			BOOL FAdvance()
             {
-                if (m_ulKey < m_ptm->m_pdrgKeys->Size())
+                if (m_key_idx < m_map->m_keys->Size())
                 {
-                    m_ulKey++;
+                    m_key_idx++;
                     return true;
                 }
 
@@ -96,7 +96,7 @@ namespace gpos
 			// current key
 			const K *Key() const
             {
-                const typename TMap::CHashMapElem *elem = Phme();
+                const typename TMap::CHashMapElem *elem = Get();
                 if (NULL != elem)
                 {
                     return elem->Key();
@@ -107,7 +107,7 @@ namespace gpos
 			// current value
 			const T *Value() const
             {
-                const typename TMap::CHashMapElem *elem = Phme();
+                const typename TMap::CHashMapElem *elem = Get();
                 if (NULL != elem)
                 {
                     return elem->Value();
