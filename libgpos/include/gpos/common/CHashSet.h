@@ -213,8 +213,8 @@ namespace gpos
                     m_filled_chains->Append(GPOS_NEW(m_pmp) INT(chain_idx));
                 }
 
-                CHashSetElem *phse = GPOS_NEW(m_pmp) CHashSetElem(value, true /*fOwn*/);
-                (*chain)->Append(phse);
+                CHashSetElem *elem = GPOS_NEW(m_pmp) CHashSetElem(value, true /*fOwn*/);
+                (*chain)->Append(elem);
 
                 m_size++;
                 m_elements->Append(value);

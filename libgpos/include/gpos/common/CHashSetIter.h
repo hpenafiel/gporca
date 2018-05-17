@@ -28,16 +28,16 @@ namespace gpos
 		private:
 
 			// set to iterate
-			const TSet *m_pts;
+			const TSet *m_set;
 
 			// current hashchain
-			ULONG m_ulChain;
+			ULONG m_chain_idx;
 
 			// current element
-			ULONG m_ulElement;
+			ULONG m_elem_idx;
 
 			// is initialized?
-			BOOL m_fInit;
+			BOOL m_is_initialized;
 
 			// private copy ctor
 			CHashSetIter(const CHashSetIter<T, HashFn, EqFn, CleanupFn> &);
@@ -45,13 +45,13 @@ namespace gpos
 		public:
 		
 			// ctor
-			CHashSetIter<T, HashFn, EqFn, CleanupFn> (TSet *pts)
+			CHashSetIter<T, HashFn, EqFn, CleanupFn> (TSet *set)
             :
-            m_pts(pts),
-            m_ulChain(0),
-            m_ulElement(0)
+            m_set(set),
+            m_chain_idx(0),
+            m_elem_idx(0)
             {
-                GPOS_ASSERT(NULL != pts);
+                GPOS_ASSERT(NULL != set);
             }
 
 			// dtor
@@ -62,9 +62,9 @@ namespace gpos
 			// advance iterator to next element
 			BOOL Advance()
             {
-                if (m_ulElement < m_pts->m_elements->Size())
+                if (m_elem_idx < m_set->m_elements->Size())
                 {
-                    m_ulElement++;
+                    m_elem_idx++;
                     return true;
                 }
 
@@ -74,12 +74,12 @@ namespace gpos
 			// current element
 			const T *Value() const
             {
-				const typename TSet::CHashSetElem *phse = NULL;
-				T *t = (*(m_pts->m_elements))[m_ulElement-1];
-				phse = m_pts->Lookup(t);
-                if (NULL != phse)
+				const typename TSet::CHashSetElem *elem = NULL;
+				T *t = (*(m_set->m_elements))[m_elem_idx-1];
+				elem = m_set->Lookup(t);
+                if (NULL != elem)
                 {
-                    return phse->Value();
+                    return elem->Value();
                 }
                 return NULL;
             }

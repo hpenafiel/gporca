@@ -43,7 +43,7 @@ namespace gpos
 			const TMap *m_map;
 
 			// current hashchain
-			ULONG m_chain;
+			ULONG m_chain_idx;
 
 			// current key
 			ULONG m_key_idx;
@@ -70,7 +70,7 @@ namespace gpos
 			CHashMapIter<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> (TMap *ptm)
             :
             m_map(ptm),
-            m_chain(0),
+            m_chain_idx(0),
             m_key_idx(0)
             {
                 GPOS_ASSERT(NULL != ptm);
