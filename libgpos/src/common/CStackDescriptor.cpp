@@ -119,7 +119,7 @@ CStackDescriptor::BackTrace
 
 	// get stack start address
 	ULONG_PTR ulpStackStart = 0;
-	IWorker *pwrkr = IWorker::PwrkrSelf();
+	IWorker *pwrkr = IWorker::Self();
 	if (NULL == pwrkr)
 	{
 		// no worker in stack, return immediately
@@ -127,7 +127,7 @@ CStackDescriptor::BackTrace
 	}
 
 	// get address from worker
-	ulpStackStart = pwrkr->UlpStackStart();
+	ulpStackStart = pwrkr->StackStart();
 
 	// consider the first GPOS_STACK_TRACE_DEPTH frames below worker object
 	for (ULONG ulFrame = 0; ulFrame < GPOS_STACK_TRACE_DEPTH; ulFrame++)

@@ -121,7 +121,7 @@ CExceptionTest::EresUnittest_StackOverflow()
 	};
 
 	// stack checker will throw after a few recursions
-	IWorker::PwrkrSelf()->FCheckStackSize();
+	IWorker::Self()->CheckStackSize();
 
 	// infinite recursion
 	CExceptionTest::EresUnittest_StackOverflow();

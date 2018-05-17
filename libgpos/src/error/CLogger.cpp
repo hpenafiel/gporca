@@ -156,7 +156,7 @@ CLogger::Format
 	{
 		// LOG ENTRY FORMAT: [date],[thread id],[severity],[message],
 
-		ULONG ulThreadId = IWorker::PwrkrSelf()->UlThreadId();
+		ULONG ulThreadId = IWorker::Self()->ThreadId();
 		const CHAR *szSev = CException::m_rgszSeverity[ulSeverity];
 		m_wstrMsg.Append(&strc);
 

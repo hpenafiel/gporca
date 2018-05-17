@@ -26,10 +26,10 @@ using namespace gpos;
 ITask *
 ITask::Self()
 {
-	IWorker *worker = IWorker::PwrkrSelf();
+	IWorker *worker = IWorker::Self();
 	if (NULL != worker)
 	{
-		return worker->Ptsk();
+		return worker->Task();
 	}
 	return NULL;
 }

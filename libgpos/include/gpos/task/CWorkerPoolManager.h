@@ -172,7 +172,7 @@ namespace gpos
 
 			// lookup own worker
 			inline
-			CWorker *PwrkrSelf()
+			CWorker *Self()
 			{
 				CWorkerId widSelf;
 				return Pwrkr(widSelf);

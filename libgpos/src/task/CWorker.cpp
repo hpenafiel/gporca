@@ -50,10 +50,10 @@ CWorker::CWorker
 	GPOS_ASSERT(cStackSize >= 2 * 1024 && "Worker has to have at least 2KB stack");
 
 	// register worker
-	GPOS_ASSERT(NULL == PwrkrSelf() && "Found registered worker!");
+	GPOS_ASSERT(NULL == Self() && "Found registered worker!");
 	
 	CWorkerPoolManager::Pwpm()->RegisterWorker(this);
-	GPOS_ASSERT(this == CWorkerPoolManager::Pwpm()->PwrkrSelf());
+	GPOS_ASSERT(this == CWorkerPoolManager::Pwpm()->Self());
 
 #ifdef GPOS_DEBUG
 	ResetTimeSlice();
@@ -78,11 +78,11 @@ CWorker::~CWorker()
 	// CONSIDER: 03/27/2008; if this is ever a problem on a production system,
 	// introduce emergency release/unlock function which suspends tracking; make 
 	// tracking available in optimized builds
-	GPOS_ASSERT(!FOwnsSpinlocks() && "Cannot destruct worker while holding a spinlock.");
-	GPOS_ASSERT(!FOwnsMutexes() && "Cannot destruct worker while holding a mutex.");
+	GPOS_ASSERT(!OwnsSpinlocks() && "Cannot destruct worker while holding a spinlock.");
+	GPOS_ASSERT(!OwnsMutexes() && "Cannot destruct worker while holding a mutex.");
 	
 	// unregister worker
-	GPOS_ASSERT(this == PwrkrSelf() && "Unidentified worker found.");
+	GPOS_ASSERT(this == Self() && "Unidentified worker found.");
 	CWorkerPoolManager::Pwpm()->PwrkrRemoveWorker(m_wid);
 }
 
@@ -201,7 +201,7 @@ CWorker::CheckForAbort
 //
 //---------------------------------------------------------------------------
 BOOL
-CWorker::FCheckStackSize(ULONG ulRequest) const
+CWorker::CheckStackSize(ULONG ulRequest) const
 {
 	ULONG_PTR ulptr = 0;
 	
@@ -272,7 +272,7 @@ CWorker::SimulateAbort
 void
 CWorker::ResetTimeSlice()
 {
-	if (IWorker::m_fEnforceTimeSlices)
+	if (IWorker::m_enforce_time_slices)
 	{
 		m_sdLastCA.BackTrace();
 		m_timerLastCA.Restart();
@@ -290,7 +290,7 @@ CWorker::ResetTimeSlice()
 void
 CWorker::CheckTimeSlice()
 {
-	if (IWorker::m_fEnforceTimeSlices)
+	if (IWorker::m_enforce_time_slices)
 	{
 		ULONG ulInterval = m_timerLastCA.UlElapsedMS();
 		
@@ -318,7 +318,7 @@ CWorker::CheckTimeSlice()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorker::FOwnsSpinlocks
+//		CWorker::OwnsSpinlocks
 //
 //	@doc:
 //		Check whether any sync objects of a given type are currently owned
@@ -326,7 +326,7 @@ CWorker::CheckTimeSlice()
 //
 //---------------------------------------------------------------------------
 BOOL
-CWorker::FOwnsSpinlocks() const
+CWorker::OwnsSpinlocks() const
 {
 	return !m_listSlock.IsEmpty();
 }
@@ -334,14 +334,14 @@ CWorker::FOwnsSpinlocks() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorker::FCanAcquireSpinlock
+//		CWorker::CanAcquireSpinlock
 //
 //	@doc:
 //		Check if we can legally acquire a given spinlock
 //
 //---------------------------------------------------------------------------
 BOOL
-CWorker::FCanAcquireSpinlock
+CWorker::CanAcquireSpinlock
 	(
 	const CSpinlockBase *pslock
 	)
@@ -369,7 +369,7 @@ CWorker::RegisterSpinlock
 	)
 {
 	// make sure this one can actually be acquired
-	GPOS_ASSERT(FCanAcquireSpinlock(pslock));
+	GPOS_ASSERT(CanAcquireSpinlock(pslock));
 
 	m_listSlock.Prepend(pslock);
 }
@@ -392,7 +392,7 @@ CWorker::UnregisterSpinlock
 	m_listSlock.Remove(pslock);
 	
 	// must be able to re-acquire now
-	GPOS_ASSERT(FCanAcquireSpinlock(pslock));
+	GPOS_ASSERT(CanAcquireSpinlock(pslock));
 }
 
 
@@ -441,14 +441,14 @@ CWorker::UnregisterMutex
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorker::FOwnsMutexes
+//		CWorker::OwnsMutexes
 //
 //	@doc:
 //		does worker hold any mutexes?
 //
 //---------------------------------------------------------------------------
 BOOL
-CWorker::FOwnsMutexes() const
+CWorker::OwnsMutexes() const
 {
 	return !m_listMutex.IsEmpty();
 }

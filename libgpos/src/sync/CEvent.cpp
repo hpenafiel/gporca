@@ -208,9 +208,9 @@ CEvent::TimedWait
 
 #ifdef GPOS_DEBUG
 		// do not enforce time slicing while waiting for event
-		if (IWorker::m_fEnforceTimeSlices)
+		if (IWorker::m_enforce_time_slices)
 		{
-			CWorker::PwrkrSelf()->ResetTimeSlice();
+			CWorker::Self()->ResetTimeSlice();
 		}
 #endif // GPOS_DEBUG
 

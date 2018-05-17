@@ -149,7 +149,7 @@ CAutoTaskProxy::Create
 	CAutoP<CTaskContext> task_ctxt;
 
 	// check if caller is a task
-	ITask *task_parent = CWorker::PwrkrSelf()->Ptsk();
+	ITask *task_parent = CWorker::Self()->Task();
 	if (NULL == task_parent)
 	{
 		// create new task context
@@ -490,7 +490,7 @@ CAutoTaskProxy::Execute
 	GPOS_TRY
 	{
 		// get worker of current thread
-		CWorker *worker = CWorker::PwrkrSelf();
+		CWorker *worker = CWorker::Self();
 		GPOS_ASSERT(NULL != worker);
 
 		// execute task

@@ -384,7 +384,7 @@ CParseHandlerDXL::StartElement
 {		
 	// reset time slice counter to ignore time taken by Xerces XSD grammar loader (OPT-491)
 #ifdef GPOS_DEBUG
-    CWorker::PwrkrSelf()->ResetTimeSlice();
+    CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 	
 	if (0 == XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenDXLMessage)) ||

@@ -58,7 +58,7 @@ CMDProviderMemory::CMDProviderMemory
 	a_pdrgpmdobj = CDXLUtils::PdrgpmdobjParseDXL(pmp, a_szDXL.Rgt(), NULL /*szXSDPath*/);
 	
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
 	

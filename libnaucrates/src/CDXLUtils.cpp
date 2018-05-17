@@ -86,7 +86,7 @@ CDXLUtils::PphdxlParseDXL
 	SAX2XMLReader* pxmlreader = XMLReaderFactory::createXMLReader(pmm);
 
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
 	XMLCh *xmlszXSDPath = NULL;
@@ -121,7 +121,7 @@ CDXLUtils::PphdxlParseDXL
 	    	);
 
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
 	try
@@ -146,7 +146,7 @@ CDXLUtils::PphdxlParseDXL
 
 
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
 	GPOS_CHECK_ABORT;
@@ -160,7 +160,7 @@ CDXLUtils::PphdxlParseDXL
 
 	// reset time slice counter as unloading deleting Xerces SAX2 readers seems to take a lot of time (OPT-491)
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
 	GPOS_CHECK_ABORT;
@@ -231,7 +231,7 @@ CDXLUtils::PphdxlParseDXLFile
 
 		// reset time slice
 #ifdef GPOS_DEBUG
-	    CWorker::PwrkrSelf()->ResetTimeSlice();
+	    CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 	}
 	catch (const XMLException&)
@@ -270,7 +270,7 @@ CDXLUtils::PphdxlParseDXLFile
 	
 	// reset time slice counter as unloading deleting Xerces SAX2 readers seems to take a lot of time (OPT-491)
 #ifdef GPOS_DEBUG
-    CWorker::PwrkrSelf()->ResetTimeSlice();
+    CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
     
 	delete[] xmlszXSDPath;

@@ -157,8 +157,8 @@ namespace gpos
 		void Lock()
         {
 #ifdef GPOS_DEBUG
-            GPOS_ASSERT_IMP(0 < ulRank && IWorker::PwrkrSelf(),
-                            IWorker::PwrkrSelf()->FCanAcquireSpinlock(this) &&
+            GPOS_ASSERT_IMP(0 < ulRank && IWorker::Self(),
+                            IWorker::Self()->CanAcquireSpinlock(this) &&
                             "Tried to acquire spinlock in incorrect order or detected deadlock.");
 #endif // GPOS_DEBUG
 
@@ -212,9 +212,9 @@ namespace gpos
             gpos::UlpExchangeAdd(&m_ulpCollisions, ulAttempts);
 
 #ifdef GPOS_DEBUG
-            if (0 < ulRank && NULL != IWorker::PwrkrSelf())
+            if (0 < ulRank && NULL != IWorker::Self())
             {
-                IWorker::PwrkrSelf()->RegisterSpinlock(this);
+                IWorker::Self()->RegisterSpinlock(this);
             }
 
             m_wid.Current();
@@ -226,9 +226,9 @@ namespace gpos
 		void Unlock()
         {
 #ifdef GPOS_DEBUG
-            if (0 < ulRank && NULL != IWorker::PwrkrSelf())
+            if (0 < ulRank && NULL != IWorker::Self())
             {
-                IWorker::PwrkrSelf()->UnregisterSpinlock(this);
+                IWorker::Self()->UnregisterSpinlock(this);
             }
 
             m_wid.Invalid();

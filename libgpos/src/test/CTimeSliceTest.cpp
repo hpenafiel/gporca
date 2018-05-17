@@ -54,9 +54,9 @@ CTimeSliceTest::EresUnittest()
 GPOS_RESULT
 CTimeSliceTest::EresUnittest_Basic()
 {
-	BOOL fTimeSlices = IWorker::m_fEnforceTimeSlices;
-	IWorker::m_fEnforceTimeSlices = true;
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	BOOL fTimeSlices = IWorker::m_enforce_time_slices;
+	IWorker::m_enforce_time_slices = true;
+	CWorker::Self()->ResetTimeSlice();
 
 	GPOS_RESULT eres = GPOS_OK;
 
@@ -96,7 +96,7 @@ CTimeSliceTest::EresUnittest_Basic()
 	}
 	GPOS_CATCH_END;
 
-	IWorker::m_fEnforceTimeSlices = fTimeSlices;
+	IWorker::m_enforce_time_slices = fTimeSlices;
 	return eres;
 }
 
@@ -114,8 +114,8 @@ CTimeSliceTest::EresUnittest_CheckTimeSlice()
 	// assemble -u option
 	const CHAR *rgsz[] = {"", "-u"};
 
-	BOOL fTimeSlices = IWorker::m_fEnforceTimeSlices;
-	IWorker::m_fEnforceTimeSlices = true;
+	BOOL fTimeSlices = IWorker::m_enforce_time_slices;
+	IWorker::m_enforce_time_slices = true;
 
 	GPOS_RESULT eres = GPOS_OK;
 
@@ -134,7 +134,7 @@ CTimeSliceTest::EresUnittest_CheckTimeSlice()
 	}
 	GPOS_CATCH_END;
 
-	IWorker::m_fEnforceTimeSlices = fTimeSlices;
+	IWorker::m_enforce_time_slices = fTimeSlices;
 	return eres;
 }
 

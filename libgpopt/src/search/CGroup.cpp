@@ -288,7 +288,7 @@ CGroup::CleanupContexts()
 	}
 
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 }
 

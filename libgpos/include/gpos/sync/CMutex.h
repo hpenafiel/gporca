@@ -256,7 +256,7 @@ namespace gpos
 #ifdef GPOS_DEBUG
                 if (!fOwnedAlready && this->FTrackable())
                 {
-                    IWorker::PwrkrSelf()->RegisterMutex(this);
+                    IWorker::Self()->RegisterMutex(this);
                 }
 
                 // track owner
@@ -367,7 +367,7 @@ namespace gpos
                     m_wid.Invalid();
                     if (this->FTrackable())
                     {
-                        IWorker::PwrkrSelf()->UnregisterMutex(this);
+                        IWorker::Self()->UnregisterMutex(this);
                     }
                 }
 #endif // GPOS_DEBUG

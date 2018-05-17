@@ -839,8 +839,8 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessMultipleMDA()
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
 
 #ifdef GPOS_DEBUG
-	BOOL fOld = IWorker::m_fEnforceTimeSlices;
-	IWorker::m_fEnforceTimeSlices = false;
+	BOOL fOld = IWorker::m_enforce_time_slices;
+	IWorker::m_enforce_time_slices = false;
 #endif
 
 	GPOS_TRY
@@ -881,7 +881,7 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessMultipleMDA()
 	GPOS_CATCH_EX(ex)
 	{
 #ifdef GPOS_DEBUG
-		IWorker::m_fEnforceTimeSlices = fOld;
+		IWorker::m_enforce_time_slices = fOld;
 #endif
 
 		GPOS_RETHROW(ex);
@@ -889,7 +889,7 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessMultipleMDA()
 	GPOS_CATCH_END;
 	
 #ifdef GPOS_DEBUG
-	IWorker::m_fEnforceTimeSlices = fOld;
+	IWorker::m_enforce_time_slices = fOld;
 #endif
 
 	return GPOS_OK;

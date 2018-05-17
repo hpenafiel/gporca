@@ -351,7 +351,7 @@ CEnumeratorConfig::DumpSamples
 
 	// reset time slice
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 }
 
@@ -385,7 +385,7 @@ CEnumeratorConfig::DumpCostDistr
 
 	// reset time slice
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 }
 

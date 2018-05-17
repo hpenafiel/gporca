@@ -98,7 +98,7 @@ namespace gpos
 			virtual ~CWorker();
 
 			// thread identification
-			ULONG UlThreadId() const
+			ULONG ThreadId() const
 			{
 				return m_ulThreadId;
 			}
@@ -112,19 +112,19 @@ namespace gpos
 
 			// stack start accessor
 			inline
-			ULONG_PTR UlpStackStart() const
+			ULONG_PTR StackStart() const
 			{
 				return m_ulpStackStart;
 			}
 
 #ifdef GPOS_DEBUG
-			BOOL FCanAcquireSpinlock(const CSpinlockBase *pslock) const;
-			BOOL FOwnsSpinlocks() const;
+			BOOL CanAcquireSpinlock(const CSpinlockBase *pslock) const;
+			BOOL OwnsSpinlocks() const;
 			
 			void RegisterSpinlock(CSpinlockBase *pslock);
 			void UnregisterSpinlock(CSpinlockBase *pslock);				
 
-			BOOL FOwnsMutexes() const;
+			BOOL OwnsMutexes() const;
 			void RegisterMutex(CMutexBase *pmutex);
 			void UnregisterMutex(CMutexBase *pmutex);
 
@@ -134,11 +134,11 @@ namespace gpos
 #endif // GPOS_DEBUG
 
 			// stack check
-			BOOL FCheckStackSize(ULONG ulRequest = 0) const;
+			BOOL CheckStackSize(ULONG ulRequest = 0) const;
 
 			// accessor
 			inline
-			CTask *Ptsk()
+			CTask *Task()
 			{
 				return m_ptsk;
 			}
@@ -150,9 +150,9 @@ namespace gpos
 			CWorkerId m_wid;
 
 			// lookup worker in worker pool manager
-			static CWorker *PwrkrSelf()
+			static CWorker *Self()
 			{
-				return dynamic_cast<CWorker*>(IWorker::PwrkrSelf());
+				return dynamic_cast<CWorker*>(IWorker::Self());
 			}
 
 			// host system callback function to report abort requests

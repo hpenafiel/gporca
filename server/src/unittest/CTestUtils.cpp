@@ -3448,7 +3448,7 @@ CTestUtils::FFaultSimulation()
 	return GPOS_FTRACE(EtraceSimulateAbort) 
 			|| GPOS_FTRACE(EtraceSimulateIOError) 
 			|| GPOS_FTRACE(EtraceSimulateOOM) 
-			|| IWorker::m_fEnforceTimeSlices;
+			|| IWorker::m_enforce_time_slices;
 }
 #endif // GPOS_DEBUG
 

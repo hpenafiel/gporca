@@ -3671,7 +3671,7 @@ CUtils::GenerateFileName
 	GPOS_DELETE(pstr);
 
 #ifdef GPOS_DEBUG
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
 }

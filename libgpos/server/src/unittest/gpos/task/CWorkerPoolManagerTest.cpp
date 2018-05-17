@@ -113,7 +113,7 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 	ULONG ulWorkersMax = pwpm->UlWorkersMax();
 
 #ifdef GPOS_DEBUG
-	BOOL fEnforceTimeSlices = CWorker::m_fEnforceTimeSlices;
+	BOOL fEnforceTimeSlices = CWorker::m_enforce_time_slices;
 #endif // GPOS_DEBUG
 
 	GPOS_TRY
@@ -121,7 +121,7 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 		GPOS_TRACE(GPOS_WSZ_LIT("Stress worker pool : "));
 
 #ifdef GPOS_DEBUG
-		CWorker::m_fEnforceTimeSlices = false;
+		CWorker::m_enforce_time_slices = false;
 #endif // GPOS_DEBUG
 
 		// task function
@@ -143,7 +143,7 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 		pwpm->SetWorkersMax(ulWorkersMax);
 
 #ifdef GPOS_DEBUG
-		CWorker::m_fEnforceTimeSlices = fEnforceTimeSlices;
+		CWorker::m_enforce_time_slices = fEnforceTimeSlices;
 #endif // GPOS_DEBUG
 
 		GPOS_RETHROW(ex);
@@ -155,8 +155,8 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 	pwpm->SetWorkersMax(ulWorkersMax);
 
 #ifdef GPOS_DEBUG
-	CWorker::m_fEnforceTimeSlices = fEnforceTimeSlices;
-	CWorker::PwrkrSelf()->ResetTimeSlice();
+	CWorker::m_enforce_time_slices = fEnforceTimeSlices;
+	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
 	while (ulWorkersMax < pwpm->UlWorkers())

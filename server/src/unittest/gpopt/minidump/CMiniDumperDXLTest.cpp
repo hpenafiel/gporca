@@ -196,7 +196,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		// unless we're simulating faults, the exception must be OOM
 		GPOS_ASSERT_IMP
 			(
-			!GPOS_FTRACE(EtraceSimulateAbort) && !GPOS_FTRACE(EtraceSimulateIOError) && !IWorker::m_fEnforceTimeSlices,
+			!GPOS_FTRACE(EtraceSimulateAbort) && !GPOS_FTRACE(EtraceSimulateIOError) && !IWorker::m_enforce_time_slices,
 			CException::ExmaSystem == ex.UlMajor() && CException::ExmiOOM == ex.UlMinor()
 			);
 		

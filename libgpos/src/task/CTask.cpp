@@ -294,7 +294,7 @@ CTask::ResumeAbort()
 	m_abort_suspend_count--;
 
 #ifdef GPOS_DEBUG
-	CWorker *pwrkr = CWorker::PwrkrSelf();
+	CWorker *pwrkr = CWorker::Self();
 
 	GPOS_ASSERT(NULL != pwrkr);
 	pwrkr->ResetTimeSlice();

@@ -132,7 +132,7 @@ GPOS_RESULT
 CSyncListTest::EresUnittest_Concurrency()
 {
 #ifdef GPOS_DEBUG
-	if (IWorker::m_fEnforceTimeSlices)
+	if (IWorker::m_enforce_time_slices)
  	{
  		return GPOS_OK;
 	}
