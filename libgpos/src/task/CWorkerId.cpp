@@ -19,7 +19,7 @@ using namespace gpos;
 
 
 // invalid worker id
-const CWorkerId CWorkerId::m_widInvalid (false /*fvalid*/);
+const CWorkerId CWorkerId::m_wid_invalid (false /*fvalid*/);
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -31,10 +31,10 @@ const CWorkerId CWorkerId::m_widInvalid (false /*fvalid*/);
 //---------------------------------------------------------------------------
 CWorkerId::CWorkerId
 	(
-	BOOL fValid
+	BOOL valid
 	)
 {
-	if (fValid)
+	if (valid)
 	{
 		Current();
 	}
@@ -132,7 +132,7 @@ CWorkerId::HashValue
 BOOL
 CWorkerId::IsValid() const
 {
-	return !Equals(m_widInvalid);
+	return !Equals(m_wid_invalid);
 }
 
 #endif // GPOS_DEBUG

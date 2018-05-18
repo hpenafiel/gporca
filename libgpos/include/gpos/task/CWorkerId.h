@@ -34,7 +34,7 @@ namespace gpos
 		public:
 		
 			// ctor
-			CWorkerId(BOOL fValid = true);
+			CWorkerId(BOOL valid = true);
 			
 			// simple comparison
 			BOOL Equals(const CWorkerId &wid) const;
@@ -66,10 +66,10 @@ namespace gpos
 			BOOL Equals
 				(
 				const CWorkerId &wid,
-				const CWorkerId &widOther
+				const CWorkerId &wid_other
 				)
 			{
-				return wid == widOther;
+				return wid == wid_other;
 			}
 
 			// primitive hash function
@@ -78,7 +78,7 @@ namespace gpos
 
 			// invalid worker id
 			static
-			const CWorkerId m_widInvalid;
+			const CWorkerId m_wid_invalid;
 
 	}; // class CWorkerId
 }

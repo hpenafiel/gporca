@@ -53,7 +53,7 @@ CWorkerPoolManager::CWorkerPoolManager
 		GPOS_WORKERPOOL_HT_SIZE,
 		GPOS_OFFSET(CWorker, m_link),
 		GPOS_OFFSET(CWorker, m_wid),
-		&(CWorkerId::m_widInvalid),
+		&(CWorkerId::m_wid_invalid),
 		CWorkerId::HashValue,
 		CWorkerId::Equals
 		);
