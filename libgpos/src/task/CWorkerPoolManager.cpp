@@ -324,7 +324,7 @@ CWorkerPoolManager::Pwrkr
 void
 CWorkerPoolManager::RegisterTask
 	(
-	CTask *ptsk
+	CTask *task
 	)
 {
 	GPOS_ASSERT(m_fActive && "Worker pool is not operating");
@@ -332,13 +332,13 @@ CWorkerPoolManager::RegisterTask
 	// scope for hash table accessor
 	{
 		// get access
-		CTaskId &tid = ptsk->m_tid;
+		CTaskId &tid = task->m_tid;
 		CSyncHashtableAccessByKey<CTask, CTaskId, CSpinlockOS> shta(m_shtTS, tid);
 
 		// must be first to register
 		GPOS_ASSERT(NULL == shta.Find() && "Found registered task.");
 
-		shta.Insert(ptsk);
+		shta.Insert(task);
 	}
 }
 
@@ -358,21 +358,21 @@ CWorkerPoolManager::PtskRemoveTask
 	)
 {
 
-	CTask *ptsk = NULL;
+	CTask *task = NULL;
 
 	// scope for hash table accessor
 	{
 		// get access
 		CSyncHashtableAccessByKey<CTask, CTaskId, CSpinlockOS> shta(m_shtTS, tid);
 
-		ptsk = shta.Find();
-		if (NULL != ptsk)
+		task = shta.Find();
+		if (NULL != task)
 		{
-			shta.Remove(ptsk);
+			shta.Remove(task);
 		}
 	}
 
-	return ptsk;
+	return task;
 }
 
 
@@ -387,7 +387,7 @@ CWorkerPoolManager::PtskRemoveTask
 void
 CWorkerPoolManager::Schedule
 	(
-	CTask *ptsk
+	CTask *task
 	)
 {
 	GPOS_ASSERT(m_fActive && "Worker pool is not operating");
@@ -399,7 +399,7 @@ CWorkerPoolManager::Schedule
 		am.Lock();
 
 		// add task to scheduler's queue
-		m_ts.Enqueue(ptsk);
+		m_ts.Enqueue(task);
 
 		// signal arrival of new task
 		m_event.Signal();
@@ -507,23 +507,23 @@ CWorkerPoolManager::Cancel
 {
 	BOOL fQueued = false;
 
-	CTask *ptsk = NULL;
+	CTask *task = NULL;
 
 	// scope for hash table accessor
 	{
 		CSyncHashtableAccessByKey<CTask, CTaskId, CSpinlockOS> shta(m_shtTS, tid);
-		ptsk = shta.Find();
-		if (NULL != ptsk)
+		task = shta.Find();
+		if (NULL != task)
 		{
-			ptsk->Cancel();
-			fQueued = (CTask::EtsQueued == ptsk->m_status);
+			task->Cancel();
+			fQueued = (CTask::EtsQueued == task->m_status);
 		}
 	}
 
 	// remove task from scheduler's queue
 	if (fQueued)
 	{
-		GPOS_ASSERT(NULL != ptsk);
+		GPOS_ASSERT(NULL != task);
 
 		GPOS_RESULT eres = GPOS_OK;
 
@@ -532,13 +532,13 @@ CWorkerPoolManager::Cancel
 			CAutoMutex am(m_mutex);
 			am.Lock();
 
-			eres = m_ts.EresCancel(ptsk);
+			eres = m_ts.EresCancel(task);
 		}
 
 		// if task was dequeued, signal task completion
 		if (GPOS_OK == eres)
 		{
-			ptsk->Signal(CTask::EtsError);
+			task->Signal(CTask::EtsError);
 		}
 	}
 }

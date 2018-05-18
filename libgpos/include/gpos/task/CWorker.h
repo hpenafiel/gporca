@@ -43,29 +43,29 @@ namespace gpos
 		private:
 
 			// current task
-			CTask *m_ptsk;
+			CTask *m_task;
 
 			// thread id
-			ULONG m_ulThreadId;
+			ULONG m_thread_id;
 
 			// available stack
-			ULONG m_cStackSize;
+			ULONG m_stack_size;
 
 			// start address of current thread's stack
-			const ULONG_PTR m_ulpStackStart;
+			const ULONG_PTR m_stack_start;
 
 #ifdef GPOS_DEBUG
 			// currently owned spinlocks
-			CList<CSpinlockBase> m_listSlock;
+			CList<CSpinlockBase> m_spin_lock_list;
 			
 			// currently owned mutexes
-			CList<CMutexBase> m_listMutex;
+			CList<CMutexBase> m_mutex_list;
 
 			// stack descriptor for last abort checkpoint
-			CStackDescriptor m_sdLastCA;
+			CStackDescriptor m_last_ca;
 
 			// timer for measuring intervals between abort checkpoints
-			CTimerUser m_timerLastCA;
+			CTimerUser m_timer_last_ca;
 
 			// check if interval since last abort checkpoint exceeds maximum
 			void CheckTimeSlice();
@@ -76,14 +76,14 @@ namespace gpos
 			void Run();
 
 			// execute single task
-			void Execute(CTask *ptsk);
+			void Execute(CTask *task);
 
 			// check for abort request
-			void CheckForAbort(const CHAR *szFile, ULONG cLine);
+			void CheckForAbort(const CHAR *file, ULONG line_num);
 
 #ifdef GPOS_FPSIMULATOR
 			// simulate abort request, log abort injection
-			void SimulateAbort(const CHAR *szFile, ULONG ulLine);
+			void SimulateAbort(const CHAR *file, ULONG line_num);
 #endif // GPOS_FPSIMULATOR
 
 			// no copy ctor
@@ -92,7 +92,7 @@ namespace gpos
 		public:
 		
 			// ctor
-			CWorker(ULONG ulThreadId, ULONG cStackSize, ULONG_PTR ulpStackStart);
+			CWorker(ULONG thread_id, ULONG stack_size, ULONG_PTR stack_start);
 
 			// dtor
 			virtual ~CWorker();
@@ -100,7 +100,7 @@ namespace gpos
 			// thread identification
 			ULONG ThreadId() const
 			{
-				return m_ulThreadId;
+				return m_thread_id;
 			}
 
 			// worker identification
@@ -114,19 +114,19 @@ namespace gpos
 			inline
 			ULONG_PTR StackStart() const
 			{
-				return m_ulpStackStart;
+				return m_stack_start;
 			}
 
 #ifdef GPOS_DEBUG
-			BOOL CanAcquireSpinlock(const CSpinlockBase *pslock) const;
+			BOOL CanAcquireSpinlock(const CSpinlockBase *slock) const;
 			BOOL OwnsSpinlocks() const;
 			
-			void RegisterSpinlock(CSpinlockBase *pslock);
-			void UnregisterSpinlock(CSpinlockBase *pslock);				
+			void RegisterSpinlock(CSpinlockBase *slock);
+			void UnregisterSpinlock(CSpinlockBase *slock);
 
 			BOOL OwnsMutexes() const;
-			void RegisterMutex(CMutexBase *pmutex);
-			void UnregisterMutex(CMutexBase *pmutex);
+			void RegisterMutex(CMutexBase *mutex);
+			void UnregisterMutex(CMutexBase *mutex);
 
 			// reset abort-related stack descriptor and timer
 			void ResetTimeSlice();
@@ -134,13 +134,13 @@ namespace gpos
 #endif // GPOS_DEBUG
 
 			// stack check
-			BOOL CheckStackSize(ULONG ulRequest = 0) const;
+			BOOL CheckStackSize(ULONG request = 0) const;
 
 			// accessor
 			inline
 			CTask *Task()
 			{
-				return m_ptsk;
+				return m_task;
 			}
 
 			// slink for hashtable
@@ -156,7 +156,7 @@ namespace gpos
 			}
 
 			// host system callback function to report abort requests
-			static bool (*pfnAbortRequestedBySystem) (void);
+			static bool (*abort_requested_by_system) (void);
 
 	}; // class CWorker
 }

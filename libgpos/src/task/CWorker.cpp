@@ -19,7 +19,7 @@
 using namespace gpos;
 
 // host system callback function to report abort requests
-bool (*CWorker::pfnAbortRequestedBySystem) (void);
+bool (*CWorker::abort_requested_by_system) (void);
 
 
 //---------------------------------------------------------------------------
@@ -32,22 +32,22 @@ bool (*CWorker::pfnAbortRequestedBySystem) (void);
 //---------------------------------------------------------------------------
 CWorker::CWorker
 	(
-	ULONG ulThreadId,
-	ULONG cStackSize,
-	ULONG_PTR ulpStackStart
+	ULONG thread_id,
+	ULONG stack_size,
+	ULONG_PTR stack_start
 	)
 	:
-	m_ptsk(NULL),
-	m_ulThreadId(ulThreadId),
-	m_cStackSize(cStackSize),
-	m_ulpStackStart(ulpStackStart)
+	m_task(NULL),
+	m_thread_id(thread_id),
+	m_stack_size(stack_size),
+	m_stack_start(stack_start)
 {
 #ifdef GPOS_DEBUG			
-	m_listSlock.Init(GPOS_OFFSET(CSpinlockBase, m_link));
-	m_listMutex.Init(GPOS_OFFSET(CMutexBase, m_link));
+	m_spin_lock_list.Init(GPOS_OFFSET(CSpinlockBase, m_link));
+	m_mutex_list.Init(GPOS_OFFSET(CMutexBase, m_link));
 #endif // GPOS_DEBUG
 
-	GPOS_ASSERT(cStackSize >= 2 * 1024 && "Worker has to have at least 2KB stack");
+	GPOS_ASSERT(stack_size >= 2 * 1024 && "Worker has to have at least 2KB stack");
 
 	// register worker
 	GPOS_ASSERT(NULL == Self() && "Found registered worker!");
@@ -98,13 +98,13 @@ CWorker::~CWorker()
 void
 CWorker::Run()
 {
-	GPOS_ASSERT(NULL == m_ptsk);
+	GPOS_ASSERT(NULL == m_task);
 
-	CTask *ptsk = NULL;
+	CTask *task = NULL;
 
-	while (CWorkerPoolManager::EsrExecTask == CWorkerPoolManager::Pwpm()->EsrTskNext(&ptsk))
+	while (CWorkerPoolManager::EsrExecTask == CWorkerPoolManager::Pwpm()->EsrTskNext(&task))
 	{
-		Execute(ptsk);
+		Execute(task);
 	}
 }
 
@@ -118,24 +118,24 @@ CWorker::Run()
 //
 //---------------------------------------------------------------------------
 void
-CWorker::Execute(CTask *ptsk)
+CWorker::Execute(CTask *task)
 {
-	GPOS_ASSERT(ptsk);
-	GPOS_ASSERT(NULL == m_ptsk && "Another task is assigned to worker");
+	GPOS_ASSERT(task);
+	GPOS_ASSERT(NULL == m_task && "Another task is assigned to worker");
 
 #ifdef GPOS_DEBUG
 	ResetTimeSlice();
 #endif // GPOS_DEBUG
 
-	m_ptsk = ptsk;
+	m_task = task;
 	GPOS_TRY
 	{
-		m_ptsk->Execute();
-		m_ptsk = NULL;
+		m_task->Execute();
+		m_task = NULL;
 	}
 	GPOS_CATCH_EX(ex)
 	{
-		m_ptsk = NULL;
+		m_task = NULL;
 		GPOS_RETHROW(ex);
 	}
 	GPOS_CATCH_END;
@@ -154,8 +154,8 @@ void
 CWorker::CheckForAbort
 	(
 #ifdef GPOS_FPSIMULATOR
-	const CHAR *szFile,
-	ULONG ulLine
+	const CHAR *file,
+	ULONG line_num
 #else
 	const CHAR *,
 	ULONG
@@ -164,17 +164,17 @@ CWorker::CheckForAbort
 {
 	// check if there is a task assigned to worker,
 	// task is still running and CFA is not suspended
-	if (NULL != m_ptsk && m_ptsk->Running() && !m_ptsk->AbortSuspended())
+	if (NULL != m_task && m_task->Running() && !m_task->AbortSuspended())
 	{
-		GPOS_ASSERT(!m_ptsk->ErrCtxt()->FPending() &&
+		GPOS_ASSERT(!m_task->ErrCtxt()->FPending() &&
 		            "Check-For-Abort while an exception is pending");
 
 #ifdef GPOS_FPSIMULATOR
-		SimulateAbort(szFile, ulLine);
+		SimulateAbort(file, line_num);
 #endif // GPOS_FPSIMULATOR
 
-		if ((NULL != pfnAbortRequestedBySystem && pfnAbortRequestedBySystem()) ||
-			m_ptsk->Canceled())
+		if ((NULL != abort_requested_by_system && abort_requested_by_system()) ||
+			m_task->Canceled())
 		{
 			// raise exception
 			GPOS_ABORT;
@@ -201,22 +201,22 @@ CWorker::CheckForAbort
 //
 //---------------------------------------------------------------------------
 BOOL
-CWorker::CheckStackSize(ULONG ulRequest) const
+CWorker::CheckStackSize(ULONG request) const
 {
-	ULONG_PTR ulptr = 0;
+	ULONG_PTR ptr = 0;
 	
 	// get current stack size
-	ULONG_PTR ulpSize = m_ulpStackStart - (ULONG_PTR)&ulptr;
+	ULONG_PTR size = m_stack_start - (ULONG_PTR)&ptr;
 	
 	// check if we have exceeded stack space
-	if (ulpSize >= m_cStackSize)
+	if (size >= m_stack_size)
 	{
 		// raise stack overflow exception
 		GPOS_RAISE(CException::ExmaSystem, CException::ExmiOutOfStack);
 	}
 
 	// check if there is enough stack space for request
-	if (ulpSize + ulRequest >= m_cStackSize)
+	if (size + request >= m_stack_size)
 	{
 		return false;
 	}
@@ -237,22 +237,22 @@ CWorker::CheckStackSize(ULONG ulRequest) const
 void
 CWorker::SimulateAbort
 	(
-	const CHAR *szFile,
-	ULONG ulLine
+	const CHAR *file,
+	ULONG line_num
 	)
 {
-	if (m_ptsk->Trace(EtraceSimulateAbort) &&
+	if (m_task->Trace(EtraceSimulateAbort) &&
 		CFSimulator::Pfsim()->FNewStack(CException::ExmaSystem, CException::ExmiAbort))
 	{
 		// GPOS_TRACE has CFA, disable simulation temporarily
-		m_ptsk->Trace(EtraceSimulateAbort, false);
+		m_task->Trace(EtraceSimulateAbort, false);
 
-		GPOS_TRACE_FORMAT_ERR("Simulating Abort at %s:%d", szFile, ulLine);
+		GPOS_TRACE_FORMAT_ERR("Simulating Abort at %s:%d", file, line_num);
 
 		// resume simulation
-		m_ptsk->Trace(EtraceSimulateAbort, true);
+		m_task->Trace(EtraceSimulateAbort, true);
 
-		m_ptsk->Cancel();
+		m_task->Cancel();
 	}
 }
 
@@ -274,8 +274,8 @@ CWorker::ResetTimeSlice()
 {
 	if (IWorker::m_enforce_time_slices)
 	{
-		m_sdLastCA.BackTrace();
-		m_timerLastCA.Restart();
+		m_last_ca.BackTrace();
+		m_timer_last_ca.Restart();
 	}
 }
 
@@ -292,23 +292,23 @@ CWorker::CheckTimeSlice()
 {
 	if (IWorker::m_enforce_time_slices)
 	{
-		ULONG ulInterval = m_timerLastCA.UlElapsedMS();
+		ULONG interval = m_timer_last_ca.UlElapsedMS();
 		
-		ULONG ulThreads = std::max((ULONG) 1, CWorkerPoolManager::Pwpm()->UlWorkersRunning());
+		ULONG threads = std::max((ULONG) 1, CWorkerPoolManager::Pwpm()->UlWorkersRunning());
 		
-		if (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * ulThreads <= ulInterval && m_ptsk->Running())
+		if (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * threads <= interval && m_task->Running())
 		{
 			// get stack trace for last checkpoint
-			WCHAR wszBuffer[GPOS_STACK_TRACE_BUFFER_SIZE];
-			CWStringStatic str(wszBuffer, GPOS_ARRAY_SIZE(wszBuffer));
-			m_sdLastCA.AppendTrace(&str);
+			WCHAR buffer[GPOS_STACK_TRACE_BUFFER_SIZE];
+			CWStringStatic str(buffer, GPOS_ARRAY_SIZE(buffer));
+			m_last_ca.AppendTrace(&str);
 
 			ResetTimeSlice();
 			GPOS_RAISE
 				(
 				CException::ExmaSystem,
 				CException::ExmiAbortTimeout,
-				ulInterval,
+				interval,
 				str.Wsz()
 				);
 		}
@@ -328,7 +328,7 @@ CWorker::CheckTimeSlice()
 BOOL
 CWorker::OwnsSpinlocks() const
 {
-	return !m_listSlock.IsEmpty();
+	return !m_spin_lock_list.IsEmpty();
 }
 
 
@@ -343,14 +343,14 @@ CWorker::OwnsSpinlocks() const
 BOOL
 CWorker::CanAcquireSpinlock
 	(
-	const CSpinlockBase *pslock
+	const CSpinlockBase *slock
 	)
 	const
 {
-	GPOS_ASSERT(NULL != pslock);
+	GPOS_ASSERT(NULL != slock);
 
-	CSpinlockBase *pslockLast = m_listSlock.First();
-	return (NULL == pslockLast) || (pslockLast->UlRank() >= pslock->UlRank());
+	CSpinlockBase *slock_last = m_spin_lock_list.First();
+	return (NULL == slock_last) || (slock_last->UlRank() >= slock->UlRank());
 }
 
 
@@ -365,13 +365,13 @@ CWorker::CanAcquireSpinlock
 void
 CWorker::RegisterSpinlock
 	(
-	CSpinlockBase *pslock
+	CSpinlockBase *slock
 	)
 {
 	// make sure this one can actually be acquired
-	GPOS_ASSERT(CanAcquireSpinlock(pslock));
+	GPOS_ASSERT(CanAcquireSpinlock(slock));
 
-	m_listSlock.Prepend(pslock);
+	m_spin_lock_list.Prepend(slock);
 }
 
 
@@ -386,13 +386,13 @@ CWorker::RegisterSpinlock
 void
 CWorker::UnregisterSpinlock
 	(
-	CSpinlockBase *pslock
+	CSpinlockBase *slock
 	)
 {
-	m_listSlock.Remove(pslock);
+	m_spin_lock_list.Remove(slock);
 	
 	// must be able to re-acquire now
-	GPOS_ASSERT(CanAcquireSpinlock(pslock));
+	GPOS_ASSERT(CanAcquireSpinlock(slock));
 }
 
 
@@ -408,13 +408,13 @@ CWorker::UnregisterSpinlock
 void
 CWorker::RegisterMutex
 	(
-	CMutexBase *pmutex
+	CMutexBase *mutex
 	)
 {
-	GPOS_ASSERT(NULL != pmutex);
-	GPOS_ASSERT(GPOS_OK != m_listMutex.Find(pmutex));
+	GPOS_ASSERT(NULL != mutex);
+	GPOS_ASSERT(GPOS_OK != m_mutex_list.Find(mutex));
 
-	m_listMutex.Prepend(pmutex);
+	m_mutex_list.Prepend(mutex);
 }
 
 
@@ -429,13 +429,13 @@ CWorker::RegisterMutex
 void
 CWorker::UnregisterMutex
 	(
-	CMutexBase *pmutex
+	CMutexBase *mutex
 	)
 {
-	GPOS_ASSERT(NULL != pmutex);
-	GPOS_ASSERT(GPOS_OK == m_listMutex.Find(pmutex));
+	GPOS_ASSERT(NULL != mutex);
+	GPOS_ASSERT(GPOS_OK == m_mutex_list.Find(mutex));
 	
-	m_listMutex.Remove(pmutex);
+	m_mutex_list.Remove(mutex);
 }
 
 
@@ -450,7 +450,7 @@ CWorker::UnregisterMutex
 BOOL
 CWorker::OwnsMutexes() const
 {
-	return !m_listMutex.IsEmpty();
+	return !m_mutex_list.IsEmpty();
 }
 
 #endif // GPOS_DEBUG

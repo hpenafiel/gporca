@@ -99,7 +99,7 @@ namespace gpos
 			//-------------------------------------------------------------------
 
 			// add task to scheduler
-			void Schedule(CTask *ptsk);
+			void Schedule(CTask *task);
 
 			// increment AutoTaskProxy reference counter
 			void AtpAddRef()
@@ -119,7 +119,7 @@ namespace gpos
 			}
 
 			// insert task in table
-			void RegisterTask(CTask *ptsk);
+			void RegisterTask(CTask *task);
 
 			// remove task from table
 			CTask *PtskRemoveTask(CTaskId tid);
