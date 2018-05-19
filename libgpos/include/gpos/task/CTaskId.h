@@ -32,17 +32,17 @@ namespace gpos
 		private:
 
 			// task id
-			ULONG_PTR m_ulptid;
+			ULONG_PTR m_task_id;
 
 			// atomic counter
-			static CAtomicULONG_PTR m_aupl;
+			static CAtomicULONG_PTR m_counter;
 
 		public:
 
 			// ctor
 			CTaskId()
 				:
-				m_ulptid(m_aupl.TIncr())
+				m_task_id(m_counter.TIncr())
 			{}
 
 			// simple comparison
@@ -52,7 +52,7 @@ namespace gpos
 				)
 				const
 			{
-				return m_ulptid == tid.m_ulptid;
+				return m_task_id == tid.m_task_id;
 			}
 
 			// comparison operator
@@ -71,22 +71,22 @@ namespace gpos
 			BOOL Equals
 				(
 				const CTaskId &tid,
-				const CTaskId &tidOther
+				const CTaskId &other
 				)
 			{
-				return tid == tidOther;
+				return tid == other;
 			}
 
 			// primitive hash function
 			static
 			ULONG HashValue(const CTaskId &tid)
 			{
-				return gpos::HashValue<ULONG_PTR>(&tid.m_ulptid);
+				return gpos::HashValue<ULONG_PTR>(&tid.m_task_id);
 			}
 
 			// invalid id
 			static
-			const CTaskId m_tidInvalid;
+			const CTaskId m_invalid_tid;
 
 	}; // class CTaskId
 

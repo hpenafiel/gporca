@@ -64,7 +64,7 @@ CWorkerPoolManager::CWorkerPoolManager
 		GPOS_WORKERPOOL_HT_SIZE,
 		GPOS_OFFSET(CTask, m_linkWpm),
 		GPOS_OFFSET(CTask, m_tid),
-		&(CTaskId::m_tidInvalid),
+		&(CTaskId::m_invalid_tid),
 		CTaskId::HashValue,
 		CTaskId::Equals
 		);

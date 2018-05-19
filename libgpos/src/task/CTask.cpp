@@ -18,9 +18,9 @@
 using namespace gpos;
 
 // init CTaskId's atomic counter
-CAtomicULONG_PTR CTaskId::m_aupl(0);
+CAtomicULONG_PTR CTaskId::m_counter(0);
 
-const CTaskId CTaskId::m_tidInvalid;
+const CTaskId CTaskId::m_invalid_tid;
 
 //---------------------------------------------------------------------------
 //	@function:
