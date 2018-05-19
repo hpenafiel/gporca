@@ -92,7 +92,7 @@ CAutoOptCtxt::CAutoOptCtxt
 //---------------------------------------------------------------------------
 CAutoOptCtxt::~CAutoOptCtxt()
 {
-	CTaskLocalStorageObject *ptlsobj = ITask::Self()->Tls().Ptlsobj(CTaskLocalStorage::EtlsidxOptCtxt);
+	CTaskLocalStorageObject *ptlsobj = ITask::Self()->Tls().Get(CTaskLocalStorage::EtlsidxOptCtxt);
 	ITask::Self()->Tls().Remove(ptlsobj);
 	
 	GPOS_DELETE(ptlsobj);

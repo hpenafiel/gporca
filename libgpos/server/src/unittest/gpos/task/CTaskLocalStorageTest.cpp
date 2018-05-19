@@ -60,7 +60,7 @@ CTaskLocalStorageTest::EresUnittest_Basics()
 	ITask::Self()->Tls().Store(&tobj);
 
 	// assert identiy when looking it up
-	GPOS_ASSERT(&tobj == ITask::Self()->Tls().Ptlsobj(CTaskLocalStorage::EtlsidxTest));
+	GPOS_ASSERT(&tobj == ITask::Self()->Tls().Get(CTaskLocalStorage::EtlsidxTest));
 
 	// clean out TLS
 	ITask::Self()->Tls().Remove(&tobj);
