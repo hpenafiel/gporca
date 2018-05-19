@@ -62,7 +62,7 @@ CWorkerPoolManager::CWorkerPoolManager
 		(
 		pmp,
 		GPOS_WORKERPOOL_HT_SIZE,
-		GPOS_OFFSET(CTask, m_linkWpm),
+		GPOS_OFFSET(CTask, m_worker_pool_manager_link),
 		GPOS_OFFSET(CTask, m_tid),
 		&(CTaskId::m_invalid_tid),
 		CTaskId::HashValue,
@@ -532,7 +532,7 @@ CWorkerPoolManager::Cancel
 			CAutoMutex am(m_mutex);
 			am.Lock();
 
-			eres = m_ts.EresCancel(task);
+			eres = m_ts.Cancel(task);
 		}
 
 		// if task was dequeued, signal task completion

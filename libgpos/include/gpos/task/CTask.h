@@ -281,13 +281,13 @@ namespace gpos
 #endif // GPOS_DEBUG
 
 			// slink for auto task proxy
-			SLink m_linkAtp;
+			SLink m_proxy_link;
 
 			// slink for task scheduler
-			SLink m_linkTs;
+			SLink m_task_scheduler_link;
 
 			// slink for worker pool manager
-			SLink m_linkWpm;
+			SLink m_worker_pool_manager_link;
 
 			static
 			CTask *Self()

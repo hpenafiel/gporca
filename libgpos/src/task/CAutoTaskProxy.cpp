@@ -37,7 +37,7 @@ CAutoTaskProxy::CAutoTaskProxy
 	m_pwpm(pwpm),
 	m_propagate_error(propagate_error)
 {
-	m_list.Init(GPOS_OFFSET(CTask, m_linkAtp));
+	m_list.Init(GPOS_OFFSET(CTask, m_proxy_link));
 	m_event.Init(&m_mutex);
 
 	// register new ATP to worker pool
