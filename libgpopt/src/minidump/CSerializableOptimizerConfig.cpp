@@ -79,7 +79,7 @@ CSerializableOptimizerConfig::Serialize
 	CXMLSerializer xmlser(m_pmp, oos, false /*Indent*/);
 
 	// Copy traceflags from global state
-	CBitSet *pbs = CTask::Self()->TaskCtxt()->PbsCopyTraceFlags(m_pmp);
+	CBitSet *pbs = CTask::Self()->TaskCtxt()->copy_trace_flags(m_pmp);
 	m_poconf->Serialize(m_pmp, &xmlser, pbs);
 	pbs->Release();
 }

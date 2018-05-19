@@ -84,7 +84,7 @@ namespace gpos
 
 			// current locale
 			virtual
-			ELocale Eloc() const = 0;
+			ELocale Locale() const = 0;
 
 			// error context
 			virtual

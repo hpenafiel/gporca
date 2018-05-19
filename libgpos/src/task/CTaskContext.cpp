@@ -30,12 +30,12 @@ CTaskContext::CTaskContext
 	IMemoryPool *pmp
 	)
 	:
-	m_pbs(NULL),
-	m_plogOut(&CLoggerStream::m_plogStdOut),
-	m_plogErr(&CLoggerStream::m_plogStdErr),
-	m_eloc(ElocEnUS_Utf8)
+	m_bitset(NULL),
+	m_log_out(&CLoggerStream::m_plogStdOut),
+	m_log_err(&CLoggerStream::m_plogStdErr),
+	m_locale(ElocEnUS_Utf8)
 {
-	m_pbs = GPOS_NEW(pmp) CBitSet(pmp, EtraceSentinel);
+	m_bitset = GPOS_NEW(pmp) CBitSet(pmp, EtraceSentinel);
 }
 
 
@@ -50,21 +50,21 @@ CTaskContext::CTaskContext
 CTaskContext::CTaskContext
 	(
 	IMemoryPool *pmp,
-	const CTaskContext &tskctxt
+	const CTaskContext &task_ctxt
 	)
 	:
-	m_pbs(NULL),
-	m_plogOut(tskctxt.LogOut()),
-	m_plogErr(tskctxt.LogErr()),
-	m_eloc(tskctxt.Eloc())
+	m_bitset(NULL),
+	m_log_out(task_ctxt.LogOut()),
+	m_log_err(task_ctxt.LogErr()),
+	m_locale(task_ctxt.Locale())
 {
 	// allocate bitset and union separately to guard against leaks under OOM
-	CAutoRef<CBitSet> a_pbs;
+	CAutoRef<CBitSet> bitset;
 	
-	a_pbs = GPOS_NEW(pmp) CBitSet(pmp);
-	a_pbs->Union(tskctxt.m_pbs);
+	bitset = GPOS_NEW(pmp) CBitSet(pmp);
+	bitset->Union(task_ctxt.m_bitset);
 	
-	m_pbs = a_pbs.PtReset();
+	m_bitset = bitset.PtReset();
 }
 
 
@@ -78,7 +78,7 @@ CTaskContext::CTaskContext
 //---------------------------------------------------------------------------
 CTaskContext::~CTaskContext()
 {
-    CRefCount::SafeRelease(m_pbs);
+    CRefCount::SafeRelease(m_bitset);
 }
 
 
@@ -93,17 +93,17 @@ CTaskContext::~CTaskContext()
 BOOL
 CTaskContext::Trace
 	(
-	ULONG ulTrace,
-	BOOL fVal
+	ULONG trace,
+	BOOL val
 	)
 {
-	if(fVal)
+	if(val)
 	{
-		return m_pbs->ExchangeSet(ulTrace);
+		return m_bitset->ExchangeSet(trace);
 	}
 	else
 	{
-		return m_pbs->ExchangeClear(ulTrace);
+		return m_bitset->ExchangeClear(trace);
 	}
 }
 

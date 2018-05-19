@@ -74,7 +74,7 @@ ILogger::Warning
 	ELocale eloc = ElocEnUS_Utf8;
 	if (NULL != ptsk)
 	{
-		eloc = ptsk->Eloc();
+		eloc = ptsk->Locale();
 	}
 
 	// retrieve warning message from repository

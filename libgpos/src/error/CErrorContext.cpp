@@ -120,7 +120,7 @@ CErrorContext::Record
 	// store stack, skipping current frame
 	m_sd.BackTrace(1);
 
-	ELocale eloc = ITask::Self()->Eloc();
+	ELocale eloc = ITask::Self()->Locale();
 	CMessage *pmsg = CMessageRepository::Pmr()->PmsgLookup(exc, eloc);
 	pmsg->Format(&m_wss, vl);
 

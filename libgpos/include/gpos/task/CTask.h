@@ -207,9 +207,9 @@ namespace gpos
 
 			
 			// locale
-			ELocale Eloc() const
+			ELocale Locale() const
 			{
-				return m_task_ctxt->Eloc();
+				return m_task_ctxt->Locale();
 			}
 
 			// check if task is canceled
