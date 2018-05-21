@@ -255,7 +255,7 @@ namespace gpos
 			{
 				GPOS_ASSERT(0 != m_ullCacheQuota || "Cannot evict from an unlimited sized cache");
 
-				if (FCompareSwap(&m_ulEvictionLock, 0, 1))
+				if (CompareSwap(&m_ulEvictionLock, 0, 1))
 				{
 					if (m_ullCacheSize > m_ullCacheQuota)
 					{

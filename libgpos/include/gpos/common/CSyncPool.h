@@ -82,7 +82,7 @@ namespace gpos
                     ULONG ulNew = ulBitVal | ulOld;
 
                     // attempt to set the bit
-                    if (FCompareSwap(ulDest, ulOld, ulNew))
+                    if (CompareSwap(ulDest, ulOld, ulNew))
                     {
                         return true;
                     }
@@ -106,7 +106,7 @@ namespace gpos
                     ULONG ulNew = ulBitVal ^ ulOld;
 
                     // attempt to set the bit
-                    if (FCompareSwap(ulDest, ulOld, ulNew))
+                    if (CompareSwap(ulDest, ulOld, ulNew))
                     {
                         return true;
                     }
@@ -207,7 +207,7 @@ namespace gpos
                 for (ULONG i = 0; i < 2 * m_ulObjs; i++)
                 {
                     // move clock index
-                    ULONG_PTR ulpIndex = UlpExchangeAdd(&m_ulpLast, 1) % m_ulObjs;
+                    ULONG_PTR ulpIndex = ExchangeAdd(&m_ulpLast, 1) % m_ulObjs;
 
                     ULONG ulElemOffset = (ULONG) ulpIndex / BITS_PER_ULONG;
                     ULONG ulBitOffset = (ULONG) ulpIndex % BITS_PER_ULONG;

@@ -112,7 +112,7 @@ namespace gpos
     #endif // GPOS_DEBUG
 
                     // attempt to set element as head
-                    if (FCompareSwap<T>((volatile T**) &m_list.m_head, ptHead, pt))
+                    if (CompareSwap<T>((volatile T**) &m_list.m_head, ptHead, pt))
                     {
                         break;
                     }
@@ -142,7 +142,7 @@ namespace gpos
                     T *ptHeadNew = static_cast<T*>(linkElem.m_next);
 
                     // attempt to set new head
-                    if (FCompareSwap<T>((volatile T**) &m_list.m_head, ptHeadOld, ptHeadNew))
+                    if (CompareSwap<T>((volatile T**) &m_list.m_head, ptHeadOld, ptHeadNew))
                     {
                         // reset link
                         linkElem.m_next = NULL;

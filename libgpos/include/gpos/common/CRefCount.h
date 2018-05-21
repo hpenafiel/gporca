@@ -95,7 +95,7 @@ namespace gpos
 #ifdef GPOS_DEBUG
 				Check();
 #endif // GPOS_DEBUG				
-				(void) UlpExchangeAdd(&m_refs, 1);
+				(void) ExchangeAdd(&m_refs, 1);
 			}
 
 			// count down
@@ -104,7 +104,7 @@ namespace gpos
 #ifdef GPOS_DEBUG	
 				Check();
 #endif // GPOS_DEBUG
-				if (1 == UlpExchangeAdd(&m_refs, -1))
+				if (1 == ExchangeAdd(&m_refs, -1))
 				{
 					// the following check is not thread-safe -- we intentionally allow this to capture
 					// the exceptional case where ref-count wrongly reaching zero

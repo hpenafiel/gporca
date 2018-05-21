@@ -955,7 +955,7 @@ CGroup::AddDuplicateGrp
 
 	// keep looping until we add link
 	while (pgroupSrc->m_pgroupDuplicate != pgroupDest &&
-	       !FCompareSwap<CGroup>
+	       !CompareSwap<CGroup>
 				(
 				(volatile CGroup**)&pgroupSrc->m_pgroupDuplicate,
 				NULL,
