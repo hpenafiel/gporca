@@ -42,7 +42,7 @@ namespace gpos
 			// ctor
 			CTaskId()
 				:
-				m_task_id(m_counter.TIncr())
+				m_task_id(m_counter.Incr())
 			{}
 
 			// simple comparison

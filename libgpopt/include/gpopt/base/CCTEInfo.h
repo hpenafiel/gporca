@@ -245,7 +245,7 @@ namespace gpopt
 			// next available CTE id
 			ULONG UlNextId()
 			{
-				return m_ulNextCTEId.TIncr();
+				return m_ulNextCTEId.Incr();
 			}
 
 			// derive the statistics on the CTE producer

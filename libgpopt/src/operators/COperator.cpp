@@ -35,7 +35,7 @@ COperator::COperator
 	IMemoryPool *pmp
 	)
 	:
-	m_ulOpId(m_aulOpIdCounter.TIncr()),
+	m_ulOpId(m_aulOpIdCounter.Incr()),
 	m_pmp(pmp),
 	m_fPattern(false)
 {

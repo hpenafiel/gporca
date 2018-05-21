@@ -173,7 +173,7 @@ namespace gpopt
 			// return a new part index id
 			ULONG UlPartIndexNextVal()
 			{
-				return m_auPartId.TIncr();
+				return m_auPartId.Incr();
 			}
 			
 			// required system columns
