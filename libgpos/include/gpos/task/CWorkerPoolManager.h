@@ -51,7 +51,7 @@ namespace gpos
 
 		private:
 
-			typedef CThreadManager::SThreadDescriptor SThreadDescriptor;
+			typedef CThreadManager::ThreadDescriptor ThreadDescriptor;
 
 			// response to worker scheduling request
 			enum EScheduleResponse
@@ -240,7 +240,7 @@ namespace gpos
 				PTHREAD_T pthrdt
 				)
 			{
-				return m_tm.FRunningThread(pthrdt);
+				return m_tm.IsThreadRunning(pthrdt);
 			}
 
 	}; // class CWorkerPoolManager
