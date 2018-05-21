@@ -763,7 +763,7 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessSingleMDA()
 {
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	
 	// task memory pool
 	CAutoMemoryPool ampTask;
@@ -836,7 +836,7 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessMultipleMDA()
 {
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 #ifdef GPOS_DEBUG
 	BOOL fOld = IWorker::m_enforce_time_slices;
@@ -993,7 +993,7 @@ CMDAccessorTest::PvInitMDAAndLookup
 
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	
 	// task memory pool
 	CAutoMemoryPool ampTask;

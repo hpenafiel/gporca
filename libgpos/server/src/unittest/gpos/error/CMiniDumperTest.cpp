@@ -98,7 +98,7 @@ CMiniDumperTest::EresUnittest_Concurrency()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	CWStringDynamic wstrMinidump(pmp);
 	COstreamString oss(&wstrMinidump);

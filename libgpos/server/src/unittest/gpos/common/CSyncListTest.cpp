@@ -198,7 +198,7 @@ CSyncListTest::ConcurrentPush
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != parg);
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for tasks
 	{
@@ -234,7 +234,7 @@ CSyncListTest::ConcurrentPushPop
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != parg);
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for tasks
 	{
@@ -270,7 +270,7 @@ CSyncListTest::ConcurrentPop
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != parg);
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for tasks
 	{

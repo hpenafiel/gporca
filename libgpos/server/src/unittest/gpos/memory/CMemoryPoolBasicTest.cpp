@@ -451,7 +451,7 @@ CMemoryPoolBasicTest::EresConcurrency
 	// create memory pool
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcExc, eat, true /*fThreadSafe*/);
 	IMemoryPool *pmp = amp.Pmp();
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -634,7 +634,7 @@ CMemoryPoolBasicTest::EresStress
 	// create memory pool
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcExc, eat, true /*fThreadSafe*/);
 	IMemoryPool *pmp = amp.Pmp();
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{

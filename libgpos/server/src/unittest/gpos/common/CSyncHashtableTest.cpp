@@ -500,7 +500,7 @@ CSyncHashtableTest::PvUnittest_IteratorsRun
 	ULONG ulStartIndex
 	)
 {
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for task proxy
 	{
@@ -618,9 +618,9 @@ CSyncHashtableTest::EresUnittest_Concurrency()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
-	GPOS_ASSERT(GPOS_SHT_THREADS <= pwpm->UlWorkersMax() &&
+	GPOS_ASSERT(GPOS_SHT_THREADS <= pwpm->WorkersMax() &&
 				"Insufficient number of workers to run test");
 
 	SElemHashtable sht;

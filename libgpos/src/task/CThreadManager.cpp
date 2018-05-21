@@ -135,7 +135,7 @@ CThreadManager::RunWorker
 	)
 {
 	ThreadDescriptor *descriptor = reinterpret_cast<ThreadDescriptor *>(worker);
-	CWorkerPoolManager *worker_pool_mgr = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *worker_pool_mgr = CWorkerPoolManager::WorkerPoolManager();
 
 	// use try/catch block instead of GPOS_TRY/GPOS_CATCH
 	// to catch any possible exception (not only GPOS-defined)
@@ -148,7 +148,7 @@ CThreadManager::RunWorker
 		new_worker.Run();
 
 		// mark thread as finished
-		worker_pool_mgr->m_tm.SetFinished(descriptor);
+		worker_pool_mgr->m_thread_manager.SetFinished(descriptor);
 	}
 	catch(CException ex)
 	{

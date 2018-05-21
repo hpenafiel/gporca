@@ -319,7 +319,7 @@ CSchedulerTest::RunTasks
 
 	// scope for ATP
 	{
-		CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+		CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 		CAutoTaskProxy atp(pmp, pwpm);
 
 		for (ULONG i = 0; i < ulWorkers; i++)

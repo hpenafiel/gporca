@@ -41,7 +41,7 @@ CAutoTaskProxy::CAutoTaskProxy
 	m_event.Init(&m_mutex);
 
 	// register new ATP to worker pool
-	m_pwpm->AtpAddRef();
+	m_pwpm->AddRef();
 
 }
 
@@ -66,7 +66,7 @@ CAutoTaskProxy::~CAutoTaskProxy()
 	DestroyAll();
 
 	// remove ATP from worker pool
-	m_pwpm->AtpRemoveRef();
+	m_pwpm->RemoveRef();
 }
 
 
@@ -113,7 +113,7 @@ CAutoTaskProxy::Destroy
 	}
 
 	// unregister task from worker pool
-	m_pwpm->PtskRemoveTask(task->Tid());
+	m_pwpm->RemoveTask(task->Tid());
 
 	// remove task from list
 	m_list.Remove(task);

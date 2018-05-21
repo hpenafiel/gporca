@@ -69,7 +69,7 @@ CEventTest::EresUnittest_ProducerConsumer()
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcStrict);
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for tasks
 	{
@@ -125,7 +125,7 @@ CEventTest::EresUnittest_TimedWait()
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcStrict);
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for tasks
 	{

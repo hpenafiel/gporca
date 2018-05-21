@@ -52,8 +52,8 @@ CWorker::CWorker
 	// register worker
 	GPOS_ASSERT(NULL == Self() && "Found registered worker!");
 	
-	CWorkerPoolManager::Pwpm()->RegisterWorker(this);
-	GPOS_ASSERT(this == CWorkerPoolManager::Pwpm()->Self());
+	CWorkerPoolManager::WorkerPoolManager()->RegisterWorker(this);
+	GPOS_ASSERT(this == CWorkerPoolManager::WorkerPoolManager()->Self());
 
 #ifdef GPOS_DEBUG
 	ResetTimeSlice();
@@ -83,7 +83,7 @@ CWorker::~CWorker()
 	
 	// unregister worker
 	GPOS_ASSERT(this == Self() && "Unidentified worker found.");
-	CWorkerPoolManager::Pwpm()->PwrkrRemoveWorker(m_wid);
+	CWorkerPoolManager::WorkerPoolManager()->RemoveWorker(m_wid);
 }
 
 
@@ -102,7 +102,7 @@ CWorker::Run()
 
 	CTask *task = NULL;
 
-	while (CWorkerPoolManager::EsrExecTask == CWorkerPoolManager::Pwpm()->EsrTskNext(&task))
+	while (CWorkerPoolManager::EsrExecTask == CWorkerPoolManager::WorkerPoolManager()->TaskNext(&task))
 	{
 		Execute(task);
 	}
@@ -294,7 +294,7 @@ CWorker::CheckTimeSlice()
 	{
 		ULONG interval = m_timer_last_ca.UlElapsedMS();
 		
-		ULONG threads = std::max((ULONG) 1, CWorkerPoolManager::Pwpm()->UlWorkersRunning());
+		ULONG threads = std::max((ULONG) 1, CWorkerPoolManager::WorkerPoolManager()->NumWorkersRunning());
 		
 		if (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * threads <= interval && m_task->Running())
 		{

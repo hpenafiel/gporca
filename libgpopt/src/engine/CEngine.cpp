@@ -1822,7 +1822,7 @@ CEngine::MultiThreadedOptimize
 
 		// scope for ATP
 		{
-			CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+			CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 			CAutoTaskProxy atp(m_pmp, pwpm);
 
 			for (ULONG i = 0; i < ulWorkers; i++)

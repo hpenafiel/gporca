@@ -108,9 +108,9 @@ CWorkerPoolManagerTest::EresUnittest_Performance()
 GPOS_RESULT
 CWorkerPoolManagerTest::EresUnittest_Stress()
 {
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
-	ULONG ulWorkersMin = pwpm->UlWorkersMin();
-	ULONG ulWorkersMax = pwpm->UlWorkersMax();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
+	ULONG workers_min = pwpm->WorkersMin();
+	ULONG workers_max = pwpm->WorkersMax();
 
 #ifdef GPOS_DEBUG
 	BOOL fEnforceTimeSlices = CWorker::m_enforce_time_slices;
@@ -139,8 +139,8 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 	GPOS_CATCH_EX(ex)
 	{
 		// restore worker count
-		pwpm->SetWorkersMin(ulWorkersMin);
-		pwpm->SetWorkersMax(ulWorkersMax);
+		pwpm->SetWorkersMin(workers_min);
+		pwpm->SetWorkersMax(workers_max);
 
 #ifdef GPOS_DEBUG
 		CWorker::m_enforce_time_slices = fEnforceTimeSlices;
@@ -151,15 +151,15 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 	GPOS_CATCH_END;
 
 	// restore worker count
-	pwpm->SetWorkersMin(ulWorkersMin);
-	pwpm->SetWorkersMax(ulWorkersMax);
+	pwpm->SetWorkersMin(workers_min);
+	pwpm->SetWorkersMax(workers_max);
 
 #ifdef GPOS_DEBUG
 	CWorker::m_enforce_time_slices = fEnforceTimeSlices;
 	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
-	while (ulWorkersMax < pwpm->UlWorkers())
+	while (workers_max < pwpm->NumWorkers())
 	{
 		clib::USleep(1000);
 	}
@@ -242,7 +242,7 @@ CWorkerPoolManagerTest::Unittest_TestSingleTaskPerformance
 	void *funcRepeated(void *)
 	)
 {
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	CAutoTaskProxy atp(pmp, pwpm);
 	CAutoRg<CTask *> argPtsk;
 	argPtsk = GPOS_NEW_ARRAY(pmp, CTask*, ulWorkers);
@@ -284,7 +284,7 @@ CWorkerPoolManagerTest::Unittest_TestMultiTaskPerformance
 	void *funcSingle(void *)
 	)
 {
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	CAutoTaskProxy atp(pmp, pwpm);
 
 	ULONG ulIterCntPerWorkers = ulIterCnt / ulWorkers;
@@ -339,12 +339,12 @@ CWorkerPoolManagerTest::Unittest_Stress
 	IMemoryPool *pmp = amp.Pmp();
 
 	// set worker count
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	pwpm->SetWorkersMin(ulWorkers);
 	pwpm->SetWorkersMax(ulWorkers);
 
 	// test convergence
-	while (ulWorkers != pwpm->UlWorkers())
+	while (ulWorkers != pwpm->NumWorkers())
 	{
 		clib::USleep(1000);
 	}

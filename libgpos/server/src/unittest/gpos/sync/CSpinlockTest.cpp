@@ -91,7 +91,7 @@ CSpinlockTest::EresUnittest_Concurrency()
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcStrict);
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for tasks
 	{

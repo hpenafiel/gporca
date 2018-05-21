@@ -34,9 +34,9 @@ IWorker::Self()
 {
 	IWorker *pwrkr = NULL;
 	
-	if (NULL != CWorkerPoolManager::Pwpm())
+	if (NULL != CWorkerPoolManager::WorkerPoolManager())
 	{
-		pwrkr = CWorkerPoolManager::Pwpm()->Self();
+		pwrkr = CWorkerPoolManager::WorkerPoolManager()->Self();
 	}
 	
 	return pwrkr;

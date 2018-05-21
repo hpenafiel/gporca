@@ -59,7 +59,7 @@ void gpos_init(struct gpos_init_params* params) {
 
 	if (GPOS_OK != gpos::CMessageRepository::EresInit())
 	{
-		CWorkerPoolManager::Pwpm()->Shutdown();
+		CWorkerPoolManager::WorkerPoolManager()->Shutdown();
 		CMemoryPoolManager::Pmpm()->Shutdown();
 		return;
 	}
@@ -73,7 +73,7 @@ void gpos_init(struct gpos_init_params* params) {
 	if (GPOS_OK != gpos::CFSimulator::EresInit())
 	{
 		CMessageRepository::Pmr()->Shutdown();
-		CWorkerPoolManager::Pwpm()->Shutdown();
+		CWorkerPoolManager::WorkerPoolManager()->Shutdown();
 		CMemoryPoolManager::Pmpm()->Shutdown();
 	}
 #endif // GPOS_FPSIMULATOR
@@ -93,7 +93,7 @@ int gpos_set_threads(int min, int max)
 {
 	try
 	{
-		CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+		CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 		// check if worker pool is initialized
 		if (NULL == pwpm)
@@ -136,7 +136,7 @@ int gpos_exec
 
 	try
 	{
-		CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+		CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 		// check if worker pool is initialized
 		if (NULL == pwpm)
@@ -245,7 +245,7 @@ void gpos_terminate()
 	CFSimulator::Pfsim()->Shutdown();
 #endif // GPOS_FPSIMULATOR
 	CMessageRepository::Pmr()->Shutdown();
-	CWorkerPoolManager::Pwpm()->Shutdown();
+	CWorkerPoolManager::WorkerPoolManager()->Shutdown();
 	CCacheFactory::Pcf()->Shutdown();
 	CMemoryPoolManager::Pmpm()->Shutdown();
 #endif // GPOS_DEBUG

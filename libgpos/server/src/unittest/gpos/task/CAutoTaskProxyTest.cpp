@@ -62,7 +62,7 @@ CAutoTaskProxyTest::EresUnittest_Wait()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -105,7 +105,7 @@ CAutoTaskProxyTest::EresUnittest_WaitAny()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -172,7 +172,7 @@ CAutoTaskProxyTest::EresUnittest_TimedWait()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -240,7 +240,7 @@ CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -338,7 +338,7 @@ CAutoTaskProxyTest::EresUnittest_Destroy()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -477,7 +477,7 @@ CAutoTaskProxyTest::Unittest_PropagateErrorInternal
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -512,7 +512,7 @@ void* CAutoTaskProxyTest::Unittest_CheckExecuteErrorInternal(void* pv)
 	STestThreadDescriptor *ptd = reinterpret_cast<STestThreadDescriptor *>(pv);
 	CWorker wrkr(ptd->ulId, GPOS_WORKER_STACK_SIZE, (ULONG_PTR) &ptd);
 	ptd->fException = false;
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	// scope for ATP
 	{
 		CAutoTaskProxy atp(ptd->m_pmp, pwpm, ptd->fPropagateException);
@@ -634,7 +634,7 @@ CAutoTaskProxyTest::EresUnittest_CheckErrorPropagation()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 
-	CWorkerPoolManager *pwpm = CWorkerPoolManager::Pwpm();
+	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
@@ -681,7 +681,7 @@ CAutoTaskProxyTest::PvUnittest_Short
 	void *pv
 	)
 {
-	GPOS_ASSERT(CWorkerPoolManager::Pwpm()->FOwnedThread(gpos::pthread::PthrdtPthreadSelf()));
+	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::PthrdtPthreadSelf()));
 
 	ULLONG *pullSum = (ULLONG *) pv;
 	*pullSum = 0;
@@ -709,7 +709,7 @@ CAutoTaskProxyTest::PvUnittest_Long
 	void *pv
 	)
 {
-	GPOS_ASSERT(CWorkerPoolManager::Pwpm()->FOwnedThread(gpos::pthread::PthrdtPthreadSelf()));
+	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::PthrdtPthreadSelf()));
 
 	ULLONG *pullSum = (ULLONG *) pv;
 	*pullSum = 0;
@@ -741,7 +741,7 @@ CAutoTaskProxyTest::PvUnittest_Infinite
 	void * // pv
 	)
 {
-	GPOS_ASSERT(CWorkerPoolManager::Pwpm()->FOwnedThread(gpos::pthread::PthrdtPthreadSelf()));
+	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::PthrdtPthreadSelf()));
 
 	while (true)
 	{
