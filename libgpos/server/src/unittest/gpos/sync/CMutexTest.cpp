@@ -68,7 +68,7 @@ CMutexTest::EresUnittest_LockRelease()
 	
 	GPOS_ASSERT(!mutex.FOwned());
 	
-	(void)mutex.FTryLock();
+	(void)mutex.TryLock();
 	
 	GPOS_ASSERT(mutex.FOwned());
 	
@@ -182,7 +182,7 @@ CMutexTest::PvUnittest_ConcurrencyRun
 		am.Lock();
 		am.Unlock();
 		
-		if (am.FTryLock())
+		if (am.TryLock())
 		{
 			am.Unlock();
 		}

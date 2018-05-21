@@ -113,7 +113,7 @@ namespace gpos
 			
 			// lock/trylock/unlock
 			virtual void Lock() = 0;
-			virtual BOOL FTryLock() = 0;
+			virtual BOOL TryLock() = 0;
 			virtual void Unlock() = 0;
 					
 #ifdef GPOS_DEBUG
@@ -341,7 +341,7 @@ namespace gpos
             }
 			
 			// attempt locking
-			BOOL FTryLock()
+			BOOL TryLock()
             {
                 GPOS_ASSERT_NO_SPINLOCK;
 
