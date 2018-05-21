@@ -35,7 +35,7 @@ namespace gpos
 			CSpinlockBase &m_lock;
 
 			// flag to indicate ownership
-			BOOL m_fLocked;
+			BOOL m_locked;
 			
 		public:
 
@@ -43,9 +43,9 @@ namespace gpos
 			explicit
 			CAutoSpinlock
 				(
-				CSpinlockBase &slock
+				CSpinlockBase &lock
 				) 
-				: m_lock(slock), m_fLocked(false) {}
+				: m_lock(lock), m_locked(false) {}
 			
 			// dtor
 			~CAutoSpinlock();
@@ -54,16 +54,16 @@ namespace gpos
 			void Lock()
 			{
 				m_lock.Lock();
-				m_fLocked = true;
+				m_locked = true;
 			}
 			
 			// release lock
 			void Unlock()
 			{
-				GPOS_ASSERT(m_fLocked);
+				GPOS_ASSERT(m_locked);
 				
 				m_lock.Unlock();
-				m_fLocked = false;
+				m_locked = false;
 			}
 
 	}; // class CAutoSpinlock
