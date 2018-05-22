@@ -139,7 +139,7 @@ namespace gpos
 
 			// return total allocated size
 			virtual
-			ULLONG UllTotalAllocatedSize() const = 0;
+			ULLONG TotalAllocatedSize() const = 0;
 
 			// forwards to CMemoryPool implementation
 			static

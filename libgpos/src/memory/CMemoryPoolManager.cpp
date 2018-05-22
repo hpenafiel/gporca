@@ -361,14 +361,14 @@ CMemoryPoolManager::Destroy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMemoryPoolManager::UllTotalAllocatedSize
+//		CMemoryPoolManager::TotalAllocatedSize
 //
 //	@doc:
 //		Return total allocated size in bytes
 //
 //---------------------------------------------------------------------------
 ULLONG
-CMemoryPoolManager::UllTotalAllocatedSize()
+CMemoryPoolManager::TotalAllocatedSize()
 {
 	ULLONG ullTotalSize = 0;
 	MemoryPoolIter mpiter(m_sht);
@@ -378,7 +378,7 @@ CMemoryPoolManager::UllTotalAllocatedSize()
 		IMemoryPool *pmp = shtacc.Value();
 		if (NULL != pmp)
 		{
-			ullTotalSize = ullTotalSize + pmp->UllTotalAllocatedSize();
+			ullTotalSize = ullTotalSize + pmp->TotalAllocatedSize();
 		}
 	}
 
@@ -451,7 +451,7 @@ CMemoryPoolManager::PrintOverSizedPools
 
 		if (NULL != pmp)
 		{
-			ULLONG ullSize = pmp->UllTotalAllocatedSize();
+			ULLONG ullSize = pmp->TotalAllocatedSize();
 			if (ullSize > ullSizeThreshold)
 			{
 				CAutoTrace at(pmpTrace);
@@ -500,7 +500,7 @@ void
 CMemoryPoolManager::Cleanup()
 {
 #ifdef GPOS_DEBUG
-	if (0 < m_pmpGlobal->UllTotalAllocatedSize())
+	if (0 < m_pmpGlobal->TotalAllocatedSize())
 	{
 		// allocations made by calling global new operator are not deleted
 		gpos::oswcerr << "Memory leaks detected"<< std::endl << *m_pmpGlobal << std::endl;

@@ -91,7 +91,7 @@ ULLONG
 CMDCache::ULLGetCacheQuota()
 {
 	// make sure that the CMDCache's saved quota is reflected in the underlying CCache
-	GPOS_ASSERT_IMP(NULL != m_pcache, m_pcache->UllCacheQuota() == m_ullCacheQuota);
+	GPOS_ASSERT_IMP(NULL != m_pcache, m_pcache->CacheQuota() == m_ullCacheQuota);
 	return m_ullCacheQuota;
 }
 
@@ -109,7 +109,7 @@ CMDCache::ULLGetCacheEvictionCounter()
 	// make sure that we already initialized our underlying CCache
 	GPOS_ASSERT(NULL != m_pcache);
 
-	return m_pcache->UllEvictionCounter();
+	return m_pcache->EvictionCounter();
 }
 
 //---------------------------------------------------------------------------

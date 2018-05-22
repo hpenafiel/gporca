@@ -106,9 +106,9 @@ namespace gpos
 						    "Accessor already holds an entry");
 
 				CCacheEntry<T, K> *pce =
-						GPOS_NEW(m_pcache->m_pmp) CCacheEntry<T, K>(m_pmp, pKey, pVal, m_pcache->m_ulGClockInitCounter);
+						GPOS_NEW(m_pcache->m_pmp) CCacheEntry<T, K>(m_pmp, pKey, pVal, m_pcache->m_gclock_init_counter);
 
-				CCacheEntry<T, K> *pceReturn = m_pcache->PceInsert(pce);
+				CCacheEntry<T, K> *pceReturn = m_pcache->InsertEntry(pce);
 
 				// check if insertion completed successfully
 				if (pce == pceReturn)
@@ -145,7 +145,7 @@ namespace gpos
 				GPOS_ASSERT(NULL != m_pce);
 
 				typename CCache<T, K>::CCacheHashTableEntry *pce = m_pce;
-				m_pce = m_pcache->PceNext(m_pce);
+				m_pce = m_pcache->Next(m_pce);
 
 				// release previous entry
 				m_pcache->ReleaseEntry(pce);

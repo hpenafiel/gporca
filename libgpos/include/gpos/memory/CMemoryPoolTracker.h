@@ -159,9 +159,9 @@ namespace gpos
 
 			// return total allocated size
 			virtual
-			ULLONG UllTotalAllocatedSize() const
+			ULLONG TotalAllocatedSize() const
 			{
-				return m_mps.UllTotalAllocatedSize();
+				return m_mps.TotalAllocatedSize();
 			}
 
 #ifdef GPOS_DEBUG

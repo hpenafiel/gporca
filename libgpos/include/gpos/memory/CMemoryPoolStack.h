@@ -193,7 +193,7 @@ namespace gpos
 
 			// return total allocated size
 			virtual
-			ULLONG UllTotalAllocatedSize() const
+			ULLONG TotalAllocatedSize() const
 			{
 				return m_ullReserved;
 			}

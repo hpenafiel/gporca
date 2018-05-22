@@ -178,7 +178,7 @@ namespace gpos
 
 			// return total allocated size
 			virtual
-			ULLONG UllTotalAllocatedSize() const
+			ULLONG TotalAllocatedSize() const
 			{
 				GPOS_ASSERT(!"not supported");
 				return 0;

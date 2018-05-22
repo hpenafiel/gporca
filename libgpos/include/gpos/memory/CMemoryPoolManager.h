@@ -174,7 +174,7 @@ namespace gpos
 			}
 
 			// return total allocated size in bytes
-			ULLONG UllTotalAllocatedSize();
+			ULLONG TotalAllocatedSize();
 
 			// initialize global instance
 			static

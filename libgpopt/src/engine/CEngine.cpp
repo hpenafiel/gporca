@@ -1604,9 +1604,9 @@ CEngine::OsPrintMemoryConsumption
 	CMDAccessor::MDCache *pcache = pmda->Pcache();
 
 	os << std::endl << szHeader
-		<<  "Engine: [" << (DOUBLE) m_pmp->UllTotalAllocatedSize() / GPOPT_MEM_UNIT << "] " << GPOPT_MEM_UNIT_NAME
-		<< ", MD Cache: [" << (DOUBLE) (pcache->UllTotalAllocatedSize()) / GPOPT_MEM_UNIT << "] " << GPOPT_MEM_UNIT_NAME
-		<< ", Total: [" << (DOUBLE) (CMemoryPoolManager::Pmpm()->UllTotalAllocatedSize()) / GPOPT_MEM_UNIT << "] " << GPOPT_MEM_UNIT_NAME;
+		<<  "Engine: [" << (DOUBLE) m_pmp->TotalAllocatedSize() / GPOPT_MEM_UNIT << "] " << GPOPT_MEM_UNIT_NAME
+		<< ", MD Cache: [" << (DOUBLE) (pcache->TotalAllocatedSize()) / GPOPT_MEM_UNIT << "] " << GPOPT_MEM_UNIT_NAME
+		<< ", Total: [" << (DOUBLE) (CMemoryPoolManager::Pmpm()->TotalAllocatedSize()) / GPOPT_MEM_UNIT << "] " << GPOPT_MEM_UNIT_NAME;
 
 	return os;
 }

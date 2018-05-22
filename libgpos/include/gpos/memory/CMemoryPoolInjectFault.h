@@ -63,9 +63,9 @@ namespace gpos
 
 			// return total allocated size
 			virtual
-			ULLONG UllTotalAllocatedSize() const
+			ULLONG TotalAllocatedSize() const
 			{
-				return PmpUnderlying()->UllTotalAllocatedSize();
+				return PmpUnderlying()->TotalAllocatedSize();
 			}
 	};
 }
