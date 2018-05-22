@@ -85,18 +85,18 @@ namespace gpopt
 
 			// is search stage timed-out?
 			// if threshold is ULONG_MAX, its the default and we need not time out
-			// UlElapsedMS() is a costly method, so avoid calling unnecesarily
+			// ElapsedMS() is a costly method, so avoid calling unnecesarily
 			BOOL FTimedOut() const
 			{
 				if (m_ulTimeThreshold == ULONG_MAX)
 					return false;
-				return m_timer.UlElapsedMS() > m_ulTimeThreshold;
+				return m_timer.ElapsedMS() > m_ulTimeThreshold;
 			}
 
 			// return elapsed time (in millseconds) since timer was last restarted
 			ULONG UlElapsedTime() const
 			{
-				return m_timer.UlElapsedMS();
+				return m_timer.ElapsedMS();
 			}
 
 			BOOL FAchievedReqdCost() const

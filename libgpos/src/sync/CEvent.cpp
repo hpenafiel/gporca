@@ -192,7 +192,7 @@ CEvent::TimedWait
 	do
 	{
 		// check if timeout has expired
-		ULONG elapsed_ms = clock.UlElapsedMS();
+		ULONG elapsed_ms = clock.ElapsedMS();
 		if (elapsed_ms >= timeout_ms)
 		{
 			return GPOS_TIMEOUT;

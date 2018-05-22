@@ -199,7 +199,7 @@ CWorkerPoolManagerTest::Unittest_TestTaskPerformance
 		// execute multiple iterations in each task
 		Unittest_TestSingleTaskPerformance(pmp, ulWorkers, ulIterCnt, funcRepeated);
 
-		timeSingle = clock.UlElapsedMS();
+		timeSingle = clock.ElapsedMS();
 	}
 
 	// scope for clock
@@ -209,7 +209,7 @@ CWorkerPoolManagerTest::Unittest_TestTaskPerformance
 		// execute one iteration in each task
 		Unittest_TestMultiTaskPerformance(pmp, ulWorkers, ulIterCnt, funcSingle);
 
-		timeMulti = clock.UlElapsedMS();
+		timeMulti = clock.ElapsedMS();
 	}
 
 	// print results
@@ -375,7 +375,7 @@ CWorkerPoolManagerTest::Unittest_Stress
 			atp.Wait(argPtsk[i]);
 		}
 
-		time = clock.UlElapsedMS();
+		time = clock.ElapsedMS();
 	}
 
 	// print results

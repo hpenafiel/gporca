@@ -175,7 +175,7 @@ namespace gpos
                     // check if mutex is already locked
                     if (EBUSY == ret)
                     {
-                        if (GPOS_MUTEX_CHECK_ABORT_INTERVAL_MSEC <= elapsed.UlElapsedMS())
+                        if (GPOS_MUTEX_CHECK_ABORT_INTERVAL_MSEC <= elapsed.ElapsedMS())
                         {
                             GPOS_CHECK_ABORT;
 

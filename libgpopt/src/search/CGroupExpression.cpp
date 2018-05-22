@@ -855,7 +855,7 @@ CGroupExpression::Transform
 	{
 		if (fPrintOptStats)
 		{
-			*pulElapsedTime = timer.UlElapsedMS();
+			*pulElapsedTime = timer.ElapsedMS();
 		}
 		return;
 	}
@@ -868,7 +868,7 @@ CGroupExpression::Transform
 	{
 		if (GPOS_FTRACE(EopttracePrintOptimizationStatistics))
 		{
-			*pulElapsedTime = timer.UlElapsedMS();
+			*pulElapsedTime = timer.ElapsedMS();
 		}
 		return;
 	}
@@ -911,7 +911,7 @@ CGroupExpression::Transform
 
 	if (fPrintOptStats)
 	{
-		*pulElapsedTime = timer.UlElapsedMS();
+		*pulElapsedTime = timer.ElapsedMS();
 	}
 }
 

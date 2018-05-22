@@ -283,7 +283,7 @@ CAutoTaskProxy::TimedWait
 	ULONG elapsed_ms = 0;
 
 	// wait until task finishes or timeout expires
-	while (!task->Finished() && (elapsed_ms = clock.UlElapsedMS()) < timeout_ms)
+	while (!task->Finished() && (elapsed_ms = clock.ElapsedMS()) < timeout_ms)
 	{
 		m_event.TimedWait(timeout_ms - elapsed_ms);
 	}

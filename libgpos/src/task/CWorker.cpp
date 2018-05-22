@@ -292,7 +292,7 @@ CWorker::CheckTimeSlice()
 {
 	if (IWorker::m_enforce_time_slices)
 	{
-		ULONG interval = m_timer_last_ca.UlElapsedMS();
+		ULONG interval = m_timer_last_ca.ElapsedMS();
 		
 		ULONG threads = std::max((ULONG) 1, CWorkerPoolManager::WorkerPoolManager()->NumWorkersRunning());
 		

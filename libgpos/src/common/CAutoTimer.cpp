@@ -51,7 +51,7 @@ CAutoTimer::~CAutoTimer() throw()
 		// suspend cancellation - destructors should not throw
 		CAutoSuspendAbort asa;
 
-		ULONG ulElapsedTimeMS = m_clock.UlElapsedMS();
+		ULONG ulElapsedTimeMS = m_clock.ElapsedMS();
 
 		GPOS_TRACE_FORMAT("timer:%s: %dms", m_sz, ulElapsedTimeMS);
 	}

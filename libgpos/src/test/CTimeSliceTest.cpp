@@ -67,7 +67,7 @@ CTimeSliceTest::EresUnittest_Basic()
 
 		// loop until time slice is exceeded
 		ULONG ulThreads = std::max((ULONG) 1, CWorkerPoolManager::WorkerPoolManager()->NumWorkersRunning());
-		while (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * ulThreads >= timer.UlElapsedMS())
+		while (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * ulThreads >= timer.ElapsedMS())
 		{
 			// burn some CPU
 			for (ULONG i = 0, j = 0; i < 1000; i++)

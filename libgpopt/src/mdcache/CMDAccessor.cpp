@@ -615,7 +615,7 @@ CMDAccessor::Pimdobj
 			if (fPrintOptStats)
 			{
 				// add fetch time in msec
-				CDouble dFetch(timerFetch.UlElapsedUS() / CDouble(GPOS_USEC_IN_MSEC));
+				CDouble dFetch(timerFetch.ElapsedUS() / CDouble(GPOS_USEC_IN_MSEC));
 				m_dFetchTime = CDouble(m_dFetchTime.Get() + dFetch.Get());
 			}
 
@@ -683,7 +683,7 @@ CMDAccessor::Pimdobj
 	if (fPrintOptStats)
 	{
 		// add lookup time in msec
-		CDouble dLookup(timerLookup.UlElapsedUS() / CDouble(GPOS_USEC_IN_MSEC));
+		CDouble dLookup(timerLookup.ElapsedUS() / CDouble(GPOS_USEC_IN_MSEC));
 		m_dLookupTime = CDouble(m_dLookupTime.Get() + dLookup.Get());
 	}
 
