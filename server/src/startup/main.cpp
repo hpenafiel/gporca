@@ -271,7 +271,7 @@ void ConfigureTests()
 #ifdef GPOS_DEBUG
 	// reset xforms factory to exercise xforms ctors and dtors
 	CXformFactory::Pxff()->Shutdown();
-	GPOS_RESULT eres = CXformFactory::EresInit();
+	GPOS_RESULT eres = CXformFactory::Init();
 
 	GPOS_ASSERT(GPOS_OK == eres);
 #endif // GPOS_DEBUG

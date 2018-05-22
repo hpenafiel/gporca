@@ -216,7 +216,7 @@ GPOS_RESULT
 CCacheTest::EresUnittest_Basic()
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::PCacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -333,7 +333,7 @@ GPOS_RESULT
 CCacheTest::EresUnittest_Refcount()
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::PCacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -531,7 +531,7 @@ void
 CCacheTest::TestEvictionForOneCacheSize(ULLONG ullCacheQuota)
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apCache;
-	apCache = CCacheFactory::PCacheCreate<SSimpleObject*, ULONG*>(false, /* not an unique cache */
+	apCache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>(false, /* not an unique cache */
 			ullCacheQuota, SSimpleObject::UlMyHash, SSimpleObject::FMyEqual);
 
 	CCache<SSimpleObject*, ULONG*>* pCache = apCache.Value();
@@ -767,7 +767,7 @@ CCacheTest::EresUnittest_DeepObject()
 	pdoDummy->AddEntry(amp.Pmp(), 2, 2);
 
 	CAutoP<CCache<CDeepObject*, CDeepObject::CDeepObjectList*> > apcache;
-	apcache = CCacheFactory::PCacheCreate<CDeepObject*, CDeepObject::CDeepObjectList*>
+	apcache = CCacheFactory::CacheCreate<CDeepObject*, CDeepObject::CDeepObjectList*>
 			(
 			fUnique,
 			UNLIMITED_CACHE_QUOTA,
@@ -885,7 +885,7 @@ GPOS_RESULT
 CCacheTest::EresUnittest_Iteration()
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::PCacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -951,7 +951,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 	GPOS_ASSERT(GPOS_CACHE_DUPLICATES >= GPOS_CACHE_DUPLICATES_TO_DELETE);
 
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::PCacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -1147,7 +1147,7 @@ CCacheTest::EresUnittest_ConcurrentAccess()
 		GPOS_CHECK_ABORT;
 
 		CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-		apcache = CCacheFactory::PCacheCreate<SSimpleObject*, ULONG*>
+		apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
 					(
 					fUnique,
 					UNLIMITED_CACHE_QUOTA,

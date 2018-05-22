@@ -86,7 +86,7 @@ CWorkerPoolManager::CWorkerPoolManager
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CWorkerPoolManager::EresInit
+CWorkerPoolManager::Init
 	(
 	ULONG workers_min,
 	ULONG workers_max

@@ -46,31 +46,31 @@ void gpos_init(struct gpos_init_params* params) {
 
 	CWorker::abort_requested_by_system = params->abort_requested;
 
-	if (GPOS_OK != gpos::CMemoryPoolManager::EresInit(pfnAlloc, pfnFree))
+	if (GPOS_OK != gpos::CMemoryPoolManager::Init(pfnAlloc, pfnFree))
 	{
 		return;
 	}
 
-	if (GPOS_OK != gpos::CWorkerPoolManager::EresInit(0,0))
+	if (GPOS_OK != gpos::CWorkerPoolManager::Init(0,0))
 	{
 		CMemoryPoolManager::Pmpm()->Shutdown();
 		return;
 	}
 
-	if (GPOS_OK != gpos::CMessageRepository::EresInit())
+	if (GPOS_OK != gpos::CMessageRepository::Init())
 	{
 		CWorkerPoolManager::WorkerPoolManager()->Shutdown();
 		CMemoryPoolManager::Pmpm()->Shutdown();
 		return;
 	}
 
-	if (GPOS_OK != gpos::CCacheFactory::EresInit())
+	if (GPOS_OK != gpos::CCacheFactory::Init())
 	{
 		return;
 	}
 
 #ifdef GPOS_FPSIMULATOR
-	if (GPOS_OK != gpos::CFSimulator::EresInit())
+	if (GPOS_OK != gpos::CFSimulator::Init())
 	{
 		CMessageRepository::Pmr()->Shutdown();
 		CWorkerPoolManager::WorkerPoolManager()->Shutdown();

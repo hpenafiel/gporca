@@ -75,7 +75,7 @@ namespace gpos
 
 			// initializer for global singleton
 			static
-			GPOS_RESULT EresInit();
+			GPOS_RESULT Init();
 
 			// accessor for global singleton
 			static 

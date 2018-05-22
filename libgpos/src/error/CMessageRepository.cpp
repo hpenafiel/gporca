@@ -105,14 +105,14 @@ CMessageRepository::PmsgLookup
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMessageRepository::EresInit
+//		CMessageRepository::Init
 //
 //	@doc:
 //		Initialize global instance of message repository
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CMessageRepository::EresInit()
+CMessageRepository::Init()
 {
 	GPOS_ASSERT(NULL == m_pmr);
 	

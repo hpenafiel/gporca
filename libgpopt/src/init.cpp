@@ -50,7 +50,7 @@ void gpopt_init()
 		(void) amp.Detach();
 	}
 
-	if (GPOS_OK != gpopt::CXformFactory::EresInit())
+	if (GPOS_OK != gpopt::CXformFactory::Init())
 	{
 		return;
 	}

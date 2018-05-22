@@ -197,7 +197,7 @@ namespace gpos
 			
 			// initializer for global f-simulator
 			static
-			GPOS_RESULT EresInit();
+			GPOS_RESULT Init();
 			
 #ifdef GPOS_DEBUG
 			// destroy simulator

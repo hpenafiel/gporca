@@ -337,14 +337,14 @@ CXformFactory::Pxf
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CXformFactory::EresInit
+//		CXformFactory::Init
 //
 //	@doc:
 //		Initializes global instance
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CXformFactory::EresInit()
+CXformFactory::Init()
 {
 	GPOS_ASSERT(NULL == Pxff() &&
 			    "Xform factory was already initialized");

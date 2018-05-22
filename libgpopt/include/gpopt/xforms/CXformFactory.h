@@ -99,7 +99,7 @@ namespace gpopt
 
 			// initialize global factory instance
 			static
-			GPOS_RESULT EresInit();
+			GPOS_RESULT Init();
 
 			// destroy global factory instance
 			void Shutdown();

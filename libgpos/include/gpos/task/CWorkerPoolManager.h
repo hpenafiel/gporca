@@ -187,7 +187,7 @@ namespace gpos
 
 			// initialize worker pool manager
 			static
-			GPOS_RESULT EresInit(ULONG workers_min, ULONG workers_max);
+			GPOS_RESULT Init(ULONG workers_min, ULONG workers_max);
 
 			// de-init global instance
 			static

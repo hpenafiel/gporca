@@ -84,7 +84,7 @@ CMemoryPoolManager::CMemoryPoolManager
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CMemoryPoolManager::EresInit
+CMemoryPoolManager::Init
 	(
 		void* (*pfnAlloc) (SIZE_T),
 		void (*pfnFree) (void*)

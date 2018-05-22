@@ -178,7 +178,7 @@ namespace gpos
 
 			// initialize global instance
 			static
-			GPOS_RESULT EresInit(void* (*) (SIZE_T), void (*) (void*));
+			GPOS_RESULT Init(void* (*) (SIZE_T), void (*) (void*));
 
 			// global accessor
 			static

@@ -140,7 +140,7 @@ CFSimulator::FNewStack
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CFSimulator::EresInit()
+CFSimulator::Init()
 {
 	
 	CAutoMemoryPool amp;
