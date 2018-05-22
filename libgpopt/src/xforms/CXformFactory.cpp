@@ -352,7 +352,7 @@ CXformFactory::Init()
 	GPOS_RESULT eres = GPOS_OK;
 
 	// create xform factory memory pool
-	IMemoryPool *pmp = CMemoryPoolManager::Pmpm()->PmpCreate
+	IMemoryPool *pmp = CMemoryPoolManager::MemoryPoolMgr()->Create
 							(
 							CMemoryPoolManager::EatTracker,
 							true /*fThreadSafe*/,
@@ -366,7 +366,7 @@ CXformFactory::Init()
 	GPOS_CATCH_EX(ex)
 	{
 		// destroy memory pool if global instance was not created
-		CMemoryPoolManager::Pmpm()->Destroy(pmp);
+		CMemoryPoolManager::MemoryPoolMgr()->Destroy(pmp);
 		m_pxff = NULL;
 
 		if (GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiOOM))
@@ -412,7 +412,7 @@ CXformFactory::Shutdown()
 	GPOS_DELETE(pxff);
 
 	// release allocated memory pool
-	CMemoryPoolManager::Pmpm()->Destroy(pmp);
+	CMemoryPoolManager::MemoryPoolMgr()->Destroy(pmp);
 }
 
 

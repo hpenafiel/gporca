@@ -39,7 +39,7 @@ namespace gpos
 		public:
 
 			// different types of pools
-			enum EAllocType
+			enum AllocType
 			{
 				EatTracker,
 				EatStack
@@ -58,27 +58,27 @@ namespace gpos
 
 			// memory pool used to get memory from the underlying system
 			// all created pools use this as their underlying allocator
-			IMemoryPool *m_pmpBase;
+			IMemoryPool *m_base_memory_pool;
 
 			// memory pool in which all objects created by the manager itself
 			// are allocated - must be thread-safe
-			IMemoryPool *m_pmpInternal;
+			IMemoryPool *m_internal_memory_pool;
 
 			// memory pool in which all objects created using global new operator
 			// are allocated
-			IMemoryPool *m_pmpGlobal;
+			IMemoryPool *m_global_memory_pool;
 
 			// are allocations using global new operator allowed?
-			BOOL m_fAllowGlobalNew;
+			BOOL m_allow_global_new;
 
 			// hash table to maintain created pools
-			CSyncHashtable<CMemoryPool, ULONG_PTR, CSpinlockOS> m_sht;
+			CSyncHashtable<CMemoryPool, ULONG_PTR, CSpinlockOS> m_hash_table;
 
 			// global instance
-			static CMemoryPoolManager *m_pmpm;
+			static CMemoryPoolManager *m_memory_pool_mgr;
 
 			// down-cast IMemoryPool to CMemoryPool
-			CMemoryPool *PmpConvert(IMemoryPool *pmp)
+			CMemoryPool *Convert(IMemoryPool *pmp)
 			{
 				GPOS_ASSERT(NULL != pmp);
 
@@ -88,27 +88,27 @@ namespace gpos
 			// private ctor
 			CMemoryPoolManager
 				(
-				IMemoryPool *pmpInternal,
-				IMemoryPool *pmpBase
+				IMemoryPool *internal,
+				IMemoryPool *base
 				);
 
 			// create new pool of given type
-			IMemoryPool *PmpNew
+			IMemoryPool *New
 				(
-				EAllocType eat,
-				IMemoryPool *pmpUnderlying,
-				ULLONG ullCapacity,
-				BOOL fThreadSafe,
-				BOOL fOwnsUnderlying
+				AllocType alloc_type,
+				IMemoryPool *underlying_memory_pool,
+				ULLONG capacity,
+				BOOL thread_safe,
+				BOOL owns_underlying_memory_pool
 				);
 
 #ifdef GPOS_DEBUG
 			// surround new pool with tracker pools
-			IMemoryPool *PmpCreatePoolStack
+			IMemoryPool *CreatePoolStack
 				(
-				EAllocType eat,
-				ULLONG ullCapacity,
-				BOOL fThreadSafe
+				AllocType type,
+				ULLONG capacity,
+				BOOL thread_safe
 				);
 #endif // GPOS_DEBUG
 
@@ -125,11 +125,11 @@ namespace gpos
 		public:
 
 			// create new memory pool
-			IMemoryPool *PmpCreate
+			IMemoryPool *Create
 				(
-				CMemoryPoolManager::EAllocType ept,
-				BOOL fThreadSafe,
-				ULLONG ullCapacity
+				CMemoryPoolManager::AllocType alloc_type,
+				BOOL thread_safe,
+				ULLONG capacity
 				);
 				
 			// release memory pool
@@ -143,34 +143,34 @@ namespace gpos
 			IOstream &OsPrint(IOstream &os);
 
 			// print memory pools whose allocated size above the given threshold
-			void PrintOverSizedPools(IMemoryPool *pmpTrace, ULLONG ullSizeThreshold);
+			void PrintOverSizedPools(IMemoryPool *trace, ULLONG size_threshold);
 #endif // GPOS_DEBUG
 
 			// delete memory pools and release manager
 			void Shutdown();
 
 			// accessor of memory pool used in global new allocations
-			IMemoryPool *PmpGlobal()
+			IMemoryPool *Global()
 			{
-				return m_pmpGlobal;
+				return m_global_memory_pool;
 			}
 
 			// are allocations using global new operator allowed?
-			BOOL FAllowGlobalNew() const
+			BOOL AllowGlobalNew() const
 			{
-				return m_fAllowGlobalNew;
+				return m_allow_global_new;
 			}
 
 			// disable allocations using global new operator
 			void DisableGlobalNew()
 			{
-				m_fAllowGlobalNew = false;
+				m_allow_global_new = false;
 			}
 
 			// enable allocations using global new operator
 			void EnableGlobalNew()
 			{
-				m_fAllowGlobalNew = true;
+				m_allow_global_new = true;
 			}
 
 			// return total allocated size in bytes
@@ -182,9 +182,9 @@ namespace gpos
 
 			// global accessor
 			static
-			CMemoryPoolManager *Pmpm()
+			CMemoryPoolManager *MemoryPoolMgr()
 			{
-				return m_pmpm;
+				return m_memory_pool_mgr;
 			}
 
 	}; // class CMemoryPoolManager

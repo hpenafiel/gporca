@@ -69,7 +69,7 @@ void gpopt_terminate()
 #ifdef GPOS_DEBUG
 	CMDCache::Shutdown();
 
-	CMemoryPoolManager::Pmpm()->Destroy(pmp);
+	CMemoryPoolManager::MemoryPoolMgr()->Destroy(pmp);
 
 	CXformFactory::Pxff()->Shutdown();
 #endif // GPOS_DEBUG

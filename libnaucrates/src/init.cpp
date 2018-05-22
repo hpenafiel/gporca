@@ -159,13 +159,13 @@ void gpdxl_terminate()
 
 	if (NULL != pmpDXL)
 	{
-		(CMemoryPoolManager::Pmpm())->Destroy(pmpDXL);
+		(CMemoryPoolManager::MemoryPoolMgr())->Destroy(pmpDXL);
 		pmpDXL = NULL;
 	}
 
 	if (NULL != pmpXerces)
 	{
-		(CMemoryPoolManager::Pmpm())->Destroy(pmpXerces);
+		(CMemoryPoolManager::MemoryPoolMgr())->Destroy(pmpXerces);
 		pmpXerces = NULL;
 	}
 #endif // GPOS_DEBUG

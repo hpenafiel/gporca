@@ -76,7 +76,7 @@ namespace gpos
 				// check if a memory pool was created but insertion failed
 				if (NULL != m_pmp && !m_inserted)
 				{
-					CMemoryPoolManager::Pmpm()->Destroy(m_pmp);
+					CMemoryPoolManager::MemoryPoolMgr()->Destroy(m_pmp);
 				}
 
 				// release entry if one was created
@@ -161,7 +161,7 @@ namespace gpos
 				GPOS_ASSERT(NULL == m_pmp);
 
 				// construct a memory pool for cache entry
-				m_pmp = CMemoryPoolManager::Pmpm()->PmpCreate
+				m_pmp = CMemoryPoolManager::MemoryPoolMgr()->Create
 						(
 						CMemoryPoolManager::EatTracker,
 						true /*fThreadSafe*/,

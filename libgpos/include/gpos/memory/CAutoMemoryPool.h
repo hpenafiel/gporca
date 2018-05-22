@@ -66,7 +66,7 @@ namespace gpos
 			CAutoMemoryPool
 				(
 				ELeakCheck leak_check_type = ElcExc,
-				CMemoryPoolManager::EAllocType ept = CMemoryPoolManager::EatTracker,
+				CMemoryPoolManager::AllocType ept = CMemoryPoolManager::EatTracker,
 				BOOL thread_safe = true,
 				ULLONG capacity = ULLONG_MAX
 				);

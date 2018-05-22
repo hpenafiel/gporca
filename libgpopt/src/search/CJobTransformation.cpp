@@ -144,7 +144,7 @@ CJobTransformation::EevtTransform
 {
 	// get a job pointer
 	CJobTransformation *pjt = PjConvert(pjOwner);
-	IMemoryPool *pmpGlobal = psc->PmpGlobal();
+	IMemoryPool *pmpGlobal = psc->Global();
 	IMemoryPool *pmpLocal = psc->PmpLocal();
 	CGroupExpression *pgexpr = pjt->m_pgexpr;
 	CXform *pxform = pjt->m_pxform;

@@ -109,7 +109,7 @@ CJobTest::FSpawn
 #ifdef GPOS_DEBUG
 	if (10 == ulpOffset && psc->Psched()->FTrackingJobs())
 	{
-		CWStringDynamic str(psc->PmpGlobal());
+		CWStringDynamic str(psc->Global());
 		COstreamString oss(&str);
 
 		psc->Psched()->OsPrintActiveJobs(oss);
@@ -213,7 +213,7 @@ CJobTest::FQueue
 #ifdef GPOS_DEBUG
 			if (10 > m_ulFanout)
 			{
-				CWStringDynamic str(psc->PmpGlobal());
+				CWStringDynamic str(psc->Global());
 				COstreamString oss(&str);
 				m_pjq->OsPrintQueuedJobs(oss);
 

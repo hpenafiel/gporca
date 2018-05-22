@@ -92,7 +92,7 @@ CMemoryPoolBasicTest::EresUnittest_Print()
 	CWStringStatic str(wsz, GPOS_ARRAY_SIZE(wsz));
 	COstreamString os(&str);
 
-	(void) CMemoryPoolManager::Pmpm()->OsPrint(os);
+	(void) CMemoryPoolManager::MemoryPoolMgr()->OsPrint(os);
 	GPOS_TRACE(str.Wsz());
 
 	return GPOS_OK;
@@ -142,7 +142,7 @@ CMemoryPoolBasicTest::EresUnittest_TestStack()
 GPOS_RESULT
 CMemoryPoolBasicTest::EresTestType
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	if (GPOS_OK != EresNewDelete(eat) ||
@@ -178,8 +178,8 @@ CMemoryPoolBasicTest::EresTestType
 GPOS_RESULT
 CMemoryPoolBasicTest::EresTestExpectedError
 	(
-	GPOS_RESULT (*pfunc)(CMemoryPoolManager::EAllocType),
-	CMemoryPoolManager::EAllocType eat,
+	GPOS_RESULT (*pfunc)(CMemoryPoolManager::AllocType),
+	CMemoryPoolManager::AllocType eat,
 	ULONG ulMinor
 	)
 {
@@ -217,7 +217,7 @@ CMemoryPoolBasicTest::EresTestExpectedError
 GPOS_RESULT
 CMemoryPoolBasicTest::EresNewDelete
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	// create memory pool
@@ -276,7 +276,7 @@ CMemoryPoolBasicTest::EresNewDelete
 GPOS_RESULT
 CMemoryPoolBasicTest::EresOOM
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	CAutoTimer at("OOM test", true /*fPrint*/);
@@ -309,7 +309,7 @@ CMemoryPoolBasicTest::EresOOM
 GPOS_RESULT
 CMemoryPoolBasicTest::EresThrowingCtor
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	CAutoTimer at("ThrowingCtor test", true /*fPrint*/);
@@ -351,7 +351,7 @@ CMemoryPoolBasicTest::EresThrowingCtor
 GPOS_RESULT
 CMemoryPoolBasicTest::EresLeak
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	CAutoTraceFlag atfDump(EtracePrintMemoryLeakDump, true);
@@ -397,7 +397,7 @@ CMemoryPoolBasicTest::EresLeak
 GPOS_RESULT
 CMemoryPoolBasicTest::EresLeakByException
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	CAutoTraceFlag atfDump(EtracePrintMemoryLeakDump, true);
@@ -443,7 +443,7 @@ CMemoryPoolBasicTest::EresLeakByException
 GPOS_RESULT
 CMemoryPoolBasicTest::EresConcurrency
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	CAutoTimer at("Concurrency test", true /*fPrint*/);
@@ -626,7 +626,7 @@ CMemoryPoolBasicTest::UlSize
 GPOS_RESULT
 CMemoryPoolBasicTest::EresStress
 	(
-	CMemoryPoolManager::EAllocType eat
+	CMemoryPoolManager::AllocType eat
 	)
 {
 	CAutoTimer at("Stress test", true /*fPrint*/);

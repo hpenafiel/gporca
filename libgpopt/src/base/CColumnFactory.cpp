@@ -76,7 +76,7 @@ CColumnFactory::~CColumnFactory()
 	m_sht.Cleanup();
 
 	// destroy mem pool
-	CMemoryPoolManager *pmpm = CMemoryPoolManager::Pmpm();
+	CMemoryPoolManager *pmpm = CMemoryPoolManager::MemoryPoolMgr();
 	pmpm->Destroy(m_pmp);
 }
 

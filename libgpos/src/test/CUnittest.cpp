@@ -387,7 +387,7 @@ CUnittest::EresExecute
 #ifdef GPOS_DEBUG
 		{
 			CAutoMemoryPool amp;
-			CMemoryPoolManager::Pmpm()->PrintOverSizedPools(amp.Pmp(), GPOS_OVERSIZED_POOL_SIZE);
+			CMemoryPoolManager::MemoryPoolMgr()->PrintOverSizedPools(amp.Pmp(), GPOS_OVERSIZED_POOL_SIZE);
 		}
 #endif // GPOS_DEBUG
 
@@ -496,7 +496,7 @@ CUnittest::Driver
 #ifdef GPOS_DEBUG
 		{
 			CAutoMemoryPool amp;
-			CMemoryPoolManager::Pmpm()->PrintOverSizedPools(amp.Pmp(), GPOS_OVERSIZED_POOL_SIZE);
+			CMemoryPoolManager::MemoryPoolMgr()->PrintOverSizedPools(amp.Pmp(), GPOS_OVERSIZED_POOL_SIZE);
 		}
 #endif // GPOS_DEBUG
 
@@ -583,7 +583,7 @@ CUnittest::Init
 	m_pfCleanup = pfCleanup;
 
 	// disable allocations using global new operator
-	CMemoryPoolManager::Pmpm()->DisableGlobalNew();
+	CMemoryPoolManager::MemoryPoolMgr()->DisableGlobalNew();
 }
 
 // EOF

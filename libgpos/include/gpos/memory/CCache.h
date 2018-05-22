@@ -325,7 +325,7 @@ namespace gpos
 				// destroy the object before deleting memory pool. This cover the case where object & cacheentry use same memory pool
 				IMemoryPool* pmp = entry->Pmp();
 				GPOS_DELETE(entry);
-				CMemoryPoolManager::Pmpm()->Destroy(pmp);
+				CMemoryPoolManager::MemoryPoolMgr()->Destroy(pmp);
 			}
 
 			// evict entries by making one pass through the hash table buckets

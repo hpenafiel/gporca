@@ -53,14 +53,14 @@ void gpos_init(struct gpos_init_params* params) {
 
 	if (GPOS_OK != gpos::CWorkerPoolManager::Init(0,0))
 	{
-		CMemoryPoolManager::Pmpm()->Shutdown();
+		CMemoryPoolManager::MemoryPoolMgr()->Shutdown();
 		return;
 	}
 
 	if (GPOS_OK != gpos::CMessageRepository::Init())
 	{
 		CWorkerPoolManager::WorkerPoolManager()->Shutdown();
-		CMemoryPoolManager::Pmpm()->Shutdown();
+		CMemoryPoolManager::MemoryPoolMgr()->Shutdown();
 		return;
 	}
 
@@ -74,7 +74,7 @@ void gpos_init(struct gpos_init_params* params) {
 	{
 		CMessageRepository::Pmr()->Shutdown();
 		CWorkerPoolManager::WorkerPoolManager()->Shutdown();
-		CMemoryPoolManager::Pmpm()->Shutdown();
+		CMemoryPoolManager::MemoryPoolMgr()->Shutdown();
 	}
 #endif // GPOS_FPSIMULATOR
 }
@@ -247,7 +247,7 @@ void gpos_terminate()
 	CMessageRepository::Pmr()->Shutdown();
 	CWorkerPoolManager::WorkerPoolManager()->Shutdown();
 	CCacheFactory::Pcf()->Shutdown();
-	CMemoryPoolManager::Pmpm()->Shutdown();
+	CMemoryPoolManager::MemoryPoolMgr()->Shutdown();
 #endif // GPOS_DEBUG
 }
 

@@ -171,7 +171,7 @@ CFSimulator::Shutdown()
 	GPOS_DELETE(CFSimulator::m_pfsim);
 	CFSimulator::m_pfsim = NULL;
 	
-	CMemoryPoolManager::Pmpm()->Destroy(pmp);
+	CMemoryPoolManager::MemoryPoolMgr()->Destroy(pmp);
 }
 #endif // GPOS_DEBUG
 

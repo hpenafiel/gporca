@@ -97,7 +97,7 @@ CWorkerPoolManager::Init
 	GPOS_ASSERT(workers_max <= GPOS_THREAD_MAX);
 
 	IMemoryPool *pmp =
-		CMemoryPoolManager::Pmpm()->PmpCreate
+		CMemoryPoolManager::MemoryPoolMgr()->Create
 			(
 			CMemoryPoolManager::EatTracker,
 			true /*fThreadSafe*/,
@@ -116,7 +116,7 @@ CWorkerPoolManager::Init
 	GPOS_CATCH_EX(ex)
 	{
 		// turn in memory pool in case of failure
-		CMemoryPoolManager::Pmpm()->Destroy(pmp);
+		CMemoryPoolManager::MemoryPoolMgr()->Destroy(pmp);
 
 		CWorkerPoolManager::m_worker_pool_manager = NULL;
 
@@ -174,7 +174,7 @@ CWorkerPoolManager::Shutdown()
 	GPOS_DELETE(worker_pool_manager);
 
 	// release allocated memory pool
-    CMemoryPoolManager::Pmpm()->Destroy(pmp);
+    CMemoryPoolManager::MemoryPoolMgr()->Destroy(pmp);
 }
 
 

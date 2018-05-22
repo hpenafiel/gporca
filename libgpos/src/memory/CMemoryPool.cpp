@@ -70,7 +70,7 @@ CMemoryPool::~CMemoryPool()
 {
 	if (m_owns_underlying_memory_pool)
 	{
-		CMemoryPoolManager::Pmpm()->DeleteUnregistered(m_underlying_memory_pool);
+		CMemoryPoolManager::MemoryPoolMgr()->DeleteUnregistered(m_underlying_memory_pool);
 	}
 }
 

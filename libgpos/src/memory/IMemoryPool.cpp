@@ -44,8 +44,8 @@ IMemoryPool::NewImpl
 	GPOS_ASSERT(ULONG_MAX >= size);
 	GPOS_ASSERT_IMP
 		(
-		(NULL != CMemoryPoolManager::Pmpm()) && (this == CMemoryPoolManager::Pmpm()->PmpGlobal()),
-		CMemoryPoolManager::Pmpm()->FAllowGlobalNew() &&
+		(NULL != CMemoryPoolManager::MemoryPoolMgr()) && (this == CMemoryPoolManager::MemoryPoolMgr()->Global()),
+		CMemoryPoolManager::MemoryPoolMgr()->AllowGlobalNew() &&
 		"Use of new operator without target memory pool is prohibited, use New(...) instead"
 		);
 

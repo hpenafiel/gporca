@@ -161,7 +161,7 @@ CMessageRepository::Pmr()
 void
 CMessageRepository::Shutdown()
 {
-	CMemoryPoolManager::Pmpm()->Destroy(m_pmp);
+	CMemoryPoolManager::MemoryPoolMgr()->Destroy(m_pmp);
 	CMessageRepository::m_pmr = NULL;
 }
 

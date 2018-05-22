@@ -207,7 +207,7 @@ CScheduler::ExecuteJobs
 #ifdef GPOS_DEBUG
 				if (GPOS_FTRACE(EopttracePrintJobScheduler))
 				{
-					CAutoTrace at(psc->PmpGlobal());
+					CAutoTrace at(psc->Global());
 
 					at.Os()
 						<< "Print scheduler:" << std::endl

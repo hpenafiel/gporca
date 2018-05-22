@@ -48,14 +48,14 @@ CSchedulerContext::CSchedulerContext()
 //---------------------------------------------------------------------------
 CSchedulerContext::~CSchedulerContext()
 {
-	GPOS_ASSERT_IMP(FInit(), NULL != PmpGlobal());
+	GPOS_ASSERT_IMP(FInit(), NULL != Global());
 	GPOS_ASSERT_IMP(FInit(), NULL != PmpLocal());
 	GPOS_ASSERT_IMP(FInit(), NULL != Psched());
 
 	// release local memory pool
 	if (FInit())
 	{
-		CMemoryPoolManager::Pmpm()->Destroy(PmpLocal());
+		CMemoryPoolManager::MemoryPoolMgr()->Destroy(PmpLocal());
 	}
 }
 
@@ -84,7 +84,7 @@ CSchedulerContext::Init
 
 	GPOS_ASSERT(!FInit() && "Scheduling context is already initialized");
 
-	m_pmpLocal = CMemoryPoolManager::Pmpm()->PmpCreate
+	m_pmpLocal = CMemoryPoolManager::MemoryPoolMgr()->Create
 					(
 					CMemoryPoolManager::EatStack,
 					false /*fThreadSafe*/,
