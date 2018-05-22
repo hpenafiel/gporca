@@ -52,13 +52,13 @@ namespace gpos
 			struct SBlockDescriptor
 			{
 				// starting address for user data
-				const void *m_pvUser;
+				const void *m_user;
 
 				// total size
-				ULONG m_ulTotal;
+				ULONG m_total_size;
 
 				// used size
-				ULONG m_ulUsed;
+				ULONG m_used_size;
 
 				// link for block list
 				SLink m_link;
@@ -69,49 +69,49 @@ namespace gpos
 					ULONG ulTotal
 					)
 				{
-					m_pvUser = this + 1;
-					m_ulTotal = ulTotal;
-					m_ulUsed = GPOS_MEM_ALIGNED_STRUCT_SIZE(SBlockDescriptor);
+					m_user = this + 1;
+					m_total_size = ulTotal;
+					m_used_size = GPOS_MEM_ALIGNED_STRUCT_SIZE(SBlockDescriptor);
 					m_link.m_next = NULL;
 					m_link.m_prev = NULL;
 				}
 
 				// check if there is enough space for allocation request
-				BOOL FFit
+				BOOL CanFit
 					(
-					ULONG ulAlloc
+					ULONG alloc
 					)
 					const
 				{
-					return (m_ulTotal - m_ulUsed >= ulAlloc);
+					return (m_total_size - m_used_size >= alloc);
 				}
 			};
 
 			// currently used block
-			SBlockDescriptor *m_pbd;
+			SBlockDescriptor *m_block_descriptor;
 
 			// size of reserved memory;
 			// this includes total allocated memory and pending allocations;
-			volatile ULLONG m_ullReserved;
+			volatile ULLONG m_reserved;
 
 			// max memory to allow in the pool;
 			// if equal to ULLONG, checks for exceeding max memory are bypassed
-			const ULLONG m_ullCapacity;
+			const ULLONG m_capacity;
 
 			// default block size
-			const ULONG m_ulBlockSize;
+			const ULONG m_blocksize;
 
 			// list of allocated blocks
-			CList<SBlockDescriptor> m_listBlocks;
+			CList<SBlockDescriptor> m_block_list;
 
 			// spinlock to protect allocations inside the currently used block
 			CSpinlockOS m_lock;
 
 			// allocate block from underlying pool
-			SBlockDescriptor *PbdNew(ULONG ulSize);
+			SBlockDescriptor *New(ULONG size);
 
 			// find block to provide memory for allocation request
-			SBlockDescriptor *PbdProvider(CAutoSpinlock &as, ULONG ulAlloc);
+			SBlockDescriptor *Provider(CAutoSpinlock &as, ULONG alloc);
 
 			// acquire spinlock if pool is thread-safe
 			void SLock(CAutoSpinlock &as)
@@ -145,9 +145,9 @@ namespace gpos
 			CMemoryPoolStack
 				(
 				IMemoryPool *pmp,
-				ULLONG ullCapacity,
-				BOOL fThreadSafe,
-				BOOL fOwnsUnderlying
+				ULLONG capacity,
+				BOOL thread_safe,
+				BOOL owns_underlying_memory_pool
 				);
 
 			// dtor
@@ -158,9 +158,9 @@ namespace gpos
 			virtual
 			void *Allocate
 				(
-				const ULONG ulBytes,
-				const CHAR *szFile,
-				const ULONG ulLine
+				const ULONG bytes,
+				const CHAR *file,
+				const ULONG line
 				);
 
 			// free memory - memory is released when the memory pool is torn down
@@ -168,14 +168,14 @@ namespace gpos
 			void Free
 				(
 #ifdef GPOS_DEBUG
-				void *pv
+				void *ptr
 #else
 				void *
 #endif // GPOS_DEBUG
 				)
 			{
 #ifdef GPOS_DEBUG
-				CheckAllocation(pv);
+				CheckAllocation(ptr);
 #endif // GPOS_DEBUG
 			}
 
@@ -195,7 +195,7 @@ namespace gpos
 			virtual
 			ULLONG TotalAllocatedSize() const
 			{
-				return m_ullReserved;
+				return m_reserved;
 			}
 	};
 }
