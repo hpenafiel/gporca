@@ -49,28 +49,28 @@ namespace gpos
 			IMemoryPool *m_pmp;
 
 			// array of preallocated objects
-			T *m_rgtObjs;
+			T *m_objects;
 
 			// bitmap indicating object reservation
-			volatile ULONG *m_rgulBitMapReserved;
+			volatile ULONG *m_objs_reserved;
 
 			// bitmap indicating object recycle
-			volatile ULONG *m_rgulBitMapRecycled;
+			volatile ULONG *m_objs_recycled;
 
 			// number of allocated objects
-			ULONG m_ulObjs;
+			ULONG m_numobjs;
 
 			// number of elements (ULONG) in bitmap
-			ULONG m_ulBitMapSize;
+			ULONG m_bitmap_size;
 
 			// offset of last lookup - clock index
-			volatile ULONG_PTR m_ulpLast;
+			volatile ULONG_PTR m_last_lookup_idx;
 
 			// offset of id inside the object
-			ULONG m_ulIdOffset;
+			ULONG m_id_offset;
 
 			// atomically set bit if it is unset
-			BOOL FSetBit(volatile ULONG *ulDest, ULONG ulBitVal)
+			BOOL SetBit(volatile ULONG *ulDest, ULONG ulBitVal)
             {
                 GPOS_ASSERT(NULL != ulDest);
 
@@ -94,7 +94,7 @@ namespace gpos
             }
 
 			// atomically unset bit if it is set
-			BOOL FUnsetBit(volatile ULONG *ulDest, ULONG ulBitVal)
+			BOOL UnsetBit(volatile ULONG *ulDest, ULONG ulBitVal)
             {
                 GPOS_ASSERT(NULL != ulDest);
 
@@ -130,44 +130,44 @@ namespace gpos
 				)
             :
             m_pmp(pmp),
-            m_rgtObjs(NULL),
-            m_rgulBitMapReserved(NULL),
-            m_rgulBitMapRecycled(NULL),
-            m_ulObjs(ulSize),
-            m_ulBitMapSize(ulSize / BITS_PER_ULONG + 1),
-            m_ulpLast(0),
-            m_ulIdOffset(ULONG_MAX)
+            m_objects(NULL),
+            m_objs_reserved(NULL),
+            m_objs_recycled(NULL),
+            m_numobjs(ulSize),
+            m_bitmap_size(ulSize / BITS_PER_ULONG + 1),
+            m_last_lookup_idx(0),
+            m_id_offset(ULONG_MAX)
             {}
 
 			// dtor
 			~CSyncPool()
             {
-                if (ULONG_MAX != m_ulIdOffset)
+                if (ULONG_MAX != m_id_offset)
                 {
-                    GPOS_ASSERT(NULL != m_rgtObjs);
-                    GPOS_ASSERT(NULL != m_rgulBitMapReserved);
-                    GPOS_ASSERT(NULL != m_rgulBitMapRecycled);
+                    GPOS_ASSERT(NULL != m_objects);
+                    GPOS_ASSERT(NULL != m_objs_reserved);
+                    GPOS_ASSERT(NULL != m_objs_recycled);
 
     #ifdef GPOS_DEBUG
                     if (!ITask::Self()->PendingExceptions())
                     {
-                        for (ULONG i = 0; i < m_ulObjs; i++)
+                        for (ULONG i = 0; i < m_numobjs; i++)
                         {
                             ULONG ulElemOffset = i / BITS_PER_ULONG;
                             ULONG ulBitOffset = i % BITS_PER_ULONG;
                             ULONG ulBitVal = 1 << ulBitOffset;
 
-                            BOOL fReserved = (ulBitVal == (m_rgulBitMapReserved[ulElemOffset] & ulBitVal));
-                            BOOL fRecycled = (ulBitVal == (m_rgulBitMapRecycled[ulElemOffset] & ulBitVal));
+                            BOOL fReserved = (ulBitVal == (m_objs_reserved[ulElemOffset] & ulBitVal));
+                            BOOL fRecycled = (ulBitVal == (m_objs_recycled[ulElemOffset] & ulBitVal));
 
                             GPOS_ASSERT((!fReserved || fRecycled) && "Object is still in use");
                         }
                     }
     #endif // GPOS_DEBUG
 
-                    GPOS_DELETE_ARRAY(m_rgtObjs);
-                    GPOS_DELETE_ARRAY(m_rgulBitMapReserved);
-                    GPOS_DELETE_ARRAY(m_rgulBitMapRecycled);
+                    GPOS_DELETE_ARRAY(m_objects);
+                    GPOS_DELETE_ARRAY(m_objs_reserved);
+                    GPOS_DELETE_ARRAY(m_objs_recycled);
                 }
             }
 
@@ -176,51 +176,51 @@ namespace gpos
             {
                 GPOS_ASSERT(ALIGNED_32(ulIdOffset));
 
-                m_rgtObjs = GPOS_NEW_ARRAY(m_pmp, T, m_ulObjs);
-                m_rgulBitMapReserved = GPOS_NEW_ARRAY(m_pmp, ULONG, m_ulBitMapSize);
-                m_rgulBitMapRecycled = GPOS_NEW_ARRAY(m_pmp, ULONG, m_ulBitMapSize);
+                m_objects = GPOS_NEW_ARRAY(m_pmp, T, m_numobjs);
+                m_objs_reserved = GPOS_NEW_ARRAY(m_pmp, ULONG, m_bitmap_size);
+                m_objs_recycled = GPOS_NEW_ARRAY(m_pmp, ULONG, m_bitmap_size);
 
-                m_ulIdOffset = ulIdOffset;
+                m_id_offset = ulIdOffset;
 
                 // initialize object ids
-                for (ULONG i = 0; i < m_ulObjs; i++)
+                for (ULONG i = 0; i < m_numobjs; i++)
                 {
-                    ULONG *pulId = (ULONG *) (((BYTE *) &m_rgtObjs[i]) + m_ulIdOffset);
+                    ULONG *pulId = (ULONG *) (((BYTE *) &m_objects[i]) + m_id_offset);
                     *pulId = i;
                 }
 
                 // initialize bitmaps
-                for (ULONG i = 0; i < m_ulBitMapSize; i++)
+                for (ULONG i = 0; i < m_bitmap_size; i++)
                 {
-                    m_rgulBitMapReserved[i] = 0;
-                    m_rgulBitMapRecycled[i] = 0;
+                    m_objs_reserved[i] = 0;
+                    m_objs_recycled[i] = 0;
                 }
             }
 
 			// find unreserved object and reserve it
 			T *PtRetrieve()
             {
-                GPOS_ASSERT(ULONG_MAX != m_ulIdOffset && "Id offset not initialized.");
+                GPOS_ASSERT(ULONG_MAX != m_id_offset && "Id offset not initialized.");
 
                 // iterate over all objects twice (two full clock rotations);
                 // objects marked as recycled cannot be reserved on the first round;
-                for (ULONG i = 0; i < 2 * m_ulObjs; i++)
+                for (ULONG i = 0; i < 2 * m_numobjs; i++)
                 {
                     // move clock index
-                    ULONG_PTR ulpIndex = ExchangeAdd(&m_ulpLast, 1) % m_ulObjs;
+                    ULONG_PTR ulpIndex = ExchangeAdd(&m_last_lookup_idx, 1) % m_numobjs;
 
                     ULONG ulElemOffset = (ULONG) ulpIndex / BITS_PER_ULONG;
                     ULONG ulBitOffset = (ULONG) ulpIndex % BITS_PER_ULONG;
                     ULONG ulBitVal = 1 << ulBitOffset;
 
                     // attempt to reserve object
-                    if (FSetBit(&m_rgulBitMapReserved[ulElemOffset], ulBitVal))
+                    if (SetBit(&m_objs_reserved[ulElemOffset], ulBitVal))
                     {
                         // set id in corresponding object
-                        T *elem = &m_rgtObjs[ulpIndex];
+                        T *elem = &m_objects[ulpIndex];
 
     #ifdef GPOS_DEBUG
-                        ULONG *pulId = (ULONG *) (((BYTE *) elem) + m_ulIdOffset);
+                        ULONG *pulId = (ULONG *) (((BYTE *) elem) + m_id_offset);
                         GPOS_ASSERT(ulpIndex == *pulId);
     #endif // GPOS_DEBUG
 
@@ -228,16 +228,16 @@ namespace gpos
                     }
 
                     // object is reserved, check if it has been marked for recycling
-                    if (ulBitVal == (ulBitVal & m_rgulBitMapRecycled[ulElemOffset]))
+                    if (ulBitVal == (ulBitVal & m_objs_recycled[ulElemOffset]))
                     {
                         // attempt to unset the recycle bit
-                        if (FUnsetBit(&m_rgulBitMapRecycled[ulElemOffset], ulBitVal))
+                        if (UnsetBit(&m_objs_recycled[ulElemOffset], ulBitVal))
                         {
     #ifdef GPOS_DEBUG
                             BOOL fRecycled =
     #endif // GPOS_DEBUG
                             // unset the reserve bit - must succeed
-                            FUnsetBit(&m_rgulBitMapReserved[ulElemOffset], ulBitVal);
+                            UnsetBit(&m_objs_reserved[ulElemOffset], ulBitVal);
 
                             GPOS_ASSERT(fRecycled && "Object was reserved before being recycled");
                         }
@@ -246,7 +246,7 @@ namespace gpos
 
                 // no object is currently available, create a new one
                 T *elem = GPOS_NEW(m_pmp) T();
-                *(ULONG*) (((BYTE *) elem) + m_ulIdOffset) = ULONG_MAX;
+                *(ULONG*) (((BYTE *) elem) + m_id_offset) = ULONG_MAX;
 
                 return elem;
             }
@@ -254,9 +254,9 @@ namespace gpos
 			// recycle reserved object
 			void Recycle(T *elem)
             {
-                GPOS_ASSERT(ULONG_MAX != m_ulIdOffset && "Id offset not initialized.");
+                GPOS_ASSERT(ULONG_MAX != m_id_offset && "Id offset not initialized.");
 
-                ULONG offset = *(ULONG *) (((BYTE *) elem) + m_ulIdOffset);
+                ULONG offset = *(ULONG *) (((BYTE *) elem) + m_id_offset);
                 if (ULONG_MAX == offset)
                 {
                     // object does not belong to the array, delete it
@@ -264,19 +264,19 @@ namespace gpos
                     return;
                 }
 
-                GPOS_ASSERT(offset < m_ulObjs);
+                GPOS_ASSERT(offset < m_numobjs);
 
                 ULONG ulElemOffset = offset / BITS_PER_ULONG;
                 ULONG ulBitOffset = offset % BITS_PER_ULONG;
                 ULONG ulBitVal = 1 << ulBitOffset;
 
     #ifdef GPOS_DEBUG
-                ULONG ulReserved = m_rgulBitMapReserved[ulElemOffset];
+                ULONG ulReserved = m_objs_reserved[ulElemOffset];
                 GPOS_ASSERT((ulBitVal == (ulBitVal & ulReserved)) && "Object is not reserved");
 
                 BOOL fMarkRecycled =
     #endif // GPOS_DEBUG
-                FSetBit(&m_rgulBitMapRecycled[ulElemOffset], ulBitVal);
+                SetBit(&m_objs_recycled[ulElemOffset], ulBitVal);
 
                 GPOS_ASSERT(fMarkRecycled && "Object has already been marked for recycling");
             }
