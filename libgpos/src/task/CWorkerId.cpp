@@ -63,7 +63,7 @@ CWorkerId::Equals
 	// compare on thread id first; if equal then there cannot be a race on the
 	// valid flags
 
-	return pthread::FPthreadEqual(wid.m_pthread, m_pthread);
+	return pthread::PthreadEqual(wid.m_pthread, m_pthread);
 }
 
 
@@ -78,7 +78,7 @@ CWorkerId::Equals
 void
 CWorkerId::Current()
 {
-	m_pthread = pthread::PthrdtPthreadSelf();
+	m_pthread = pthread::PthreadSelf();
 }
 
 

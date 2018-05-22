@@ -380,14 +380,14 @@ INT
 gpos::ioutils::IOpen
 	(
 	const CHAR *szPath,
-	INT iMode,
+	INT mode,
 	INT iPerms
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
 	GPOS_ASSERT(NULL != szPath);
 
-	INT iRes = open(szPath, iMode, iPerms);
+	INT iRes = open(szPath, mode, iPerms);
 
 	GPOS_ASSERT((0 <= iRes) || (EINVAL != errno));
 

@@ -76,7 +76,7 @@ CEvent::Init
 	GPOS_ASSERT(!m_inited && "Event already initialized.");
 	
 	m_mutex = pmutex;
-	if (0 != pthread::IPthreadCondInit(&m_cond, NULL))
+	if (0 != pthread::PthreadCondInit(&m_cond, NULL))
 	{
 		// raise OOM exception
 		GPOS_OOM_CHECK(NULL);
@@ -103,7 +103,7 @@ CEvent::Signal()
 	if (0 < m_num_waiters)
 	{
 		// the condition variable is initialized - ignore returned value
-		(void) pthread::IPthreadCondSignal(&m_cond);
+		(void) pthread::PthreadCondSignal(&m_cond);
 
 		m_num_signals++;
 		m_num_total_signals++;
@@ -129,7 +129,7 @@ CEvent::Broadcast()
 	if (0 < m_num_waiters)
 	{
 		// the condition variable is initialized - ignore returned value
-		(void) pthread::IPthreadCondBroadcast(&m_cond);
+		(void) pthread::PthreadCondBroadcast(&m_cond);
 
 		m_num_total_broadcasts++;
 
@@ -278,7 +278,7 @@ CEvent::InternalTimedWait
 #ifdef GPOS_DEBUG
 	INT ret =
 #endif // GPOS_DEBUG
-	pthread::IPthreadCondTimedWait(&m_cond, m_mutex->Ptmutex(), &ts);
+	pthread::PthreadCondTimedWait(&m_cond, m_mutex->Ptmutex(), &ts);
 
 	m_mutex->Regain();
 

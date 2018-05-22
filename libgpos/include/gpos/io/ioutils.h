@@ -89,7 +89,7 @@ namespace gpos
 		void Unlink(const CHAR *szPath);
 
 		// open a file
-		INT IOpen(const CHAR *szPath, INT iMode, INT iPerms);
+		INT IOpen(const CHAR *szPath, INT mode, INT iPerms);
 
 		// close a file descriptor
 		INT IClose(INT iFildes);
