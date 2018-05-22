@@ -588,7 +588,7 @@ CMDAccessor::Pimdobj
 		CAutoP<CacheAccessorMD> a_pmdcacc;
 		a_pmdcacc = GPOS_NEW(m_pmp) CacheAccessorMD(m_pcache);
 		a_pmdcacc->Lookup(&mdkey);
-		IMDCacheObject *pmdobjNew = a_pmdcacc->PtVal();
+		IMDCacheObject *pmdobjNew = a_pmdcacc->Val();
 		if (NULL == pmdobjNew)
 		{
 			// object not found in MD cache: retrieve it from MD provider
@@ -639,7 +639,7 @@ CMDAccessor::Pimdobj
 #ifdef GPOS_DEBUG
 				IMDCacheObject *pmdobjInserted =
 #endif
-				a_pmdcacc->PtInsert(a_pmdkeyCache.Value(), pmdobjNew);
+				a_pmdcacc->Insert(a_pmdkeyCache.Value(), pmdobjNew);
 
 				GPOS_ASSERT(NULL != pmdobjInserted);
 

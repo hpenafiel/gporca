@@ -235,7 +235,7 @@ CCacheTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 		SSimpleObject *psoReturned =
 #endif // GPOS_DEBUG
-			ca.PtInsert(&(pso->m_ulKey), pso);
+			ca.Insert(&(pso->m_ulKey), pso);
 
 		//release the ownership from pso, but ccacheentry still has the ownership
 		pso->Release();
@@ -253,7 +253,7 @@ CCacheTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 			SSimpleObject *psoReturned =
 #endif // GPOS_DEBUG
-				ca.PtInsert(&(psoDuplicate->m_ulKey), psoDuplicate);
+				ca.Insert(&(psoDuplicate->m_ulKey), psoDuplicate);
 
 			GPOS_ASSERT(psoReturned == pso &&
 						"Duplicate insertion must fail");
@@ -268,7 +268,7 @@ CCacheTest::EresUnittest_Basic()
 			CSimpleObjectCacheAccessor ca(pcache);
 			ULONG ulkey = 1;
 			ca.Lookup(&ulkey);
-			pso = ca.PtVal();
+			pso = ca.Val();
 
 			if (NULL != pso)
 			{
@@ -285,7 +285,7 @@ CCacheTest::EresUnittest_Basic()
 			CSimpleObjectCacheAccessor ca(pcache);
 			ULONG ulkey = 1;
 			ca.Lookup(&ulkey);
-			pso = ca.PtVal();
+			pso = ca.Val();
 
 			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pso);
 
@@ -303,7 +303,7 @@ CCacheTest::EresUnittest_Basic()
 			CSimpleObjectCacheAccessor ca(pcache);
 			ULONG ulkey = 1;
 			ca.Lookup(&ulkey);
-			pso = ca.PtVal();
+			pso = ca.Val();
 
 			GPOS_ASSERT(NULL == pso);
 
@@ -354,7 +354,7 @@ CCacheTest::EresUnittest_Refcount()
 	#ifdef GPOS_DEBUG
 		SSimpleObject *psoReturned =
 	#endif // GPOS_DEBUG
-			ca.PtInsert(&(pso->m_ulKey), pso);
+			ca.Insert(&(pso->m_ulKey), pso);
 
 		// 1 by CRefCount, 2 by CCacheEntry constructor and 3 by CCache Accessor
 		GPOS_ASSERT(3 == pso->RefCount() && "Expected refcount to be 3");
@@ -406,7 +406,7 @@ CCacheTest::InsertOneElement(CCache<SSimpleObject*, ULONG*> *pCache, ULONG ulKey
 		CSimpleObjectCacheAccessor ca(pCache);
 		IMemoryPool *pmp = ca.Pmp();
 		pso = GPOS_NEW(pmp) SSimpleObject(ulKey, ulKey);
-		ca.PtInsert(&(pso->m_ulKey), pso);
+		ca.Insert(&(pso->m_ulKey), pso);
 		GPOS_ASSERT(3 == pso->RefCount() && "Expected pso, cacheentry and cacheaccessor to have ownership");
 		//Remove the ownership of pso. Still CCacheEntry has the ownership
 		pso->Release();
@@ -493,7 +493,7 @@ CCacheTest::CheckGenerationSanityAfterEviction(CCache<SSimpleObject*, ULONG*>* p
 	{
 		CSimpleObjectCacheAccessor ca(pCache);
 		ca.Lookup(&ulKey);
-		SSimpleObject* pso = ca.PtVal();
+		SSimpleObject* pso = ca.Val();
 		if (NULL != pso)
 		{
 			// release object since there is no customer to release it after lookup and before CCache's cleanup
@@ -558,7 +558,7 @@ CCacheTest::TestEvictionForOneCacheSize(ULLONG ullCacheQuota)
 	// this is now pinned as the accessor is not going out of scope; pinned entry is used later for checking non-eviction
 	caBeforeEviction.Lookup(&ulLastKeyThirdGen);
 
-	SSimpleObject* psoBeforeEviction = caBeforeEviction.PtVal();
+	SSimpleObject* psoBeforeEviction = caBeforeEviction.Val();
 
 	if (NULL != psoBeforeEviction)
 	{
@@ -572,7 +572,7 @@ CCacheTest::TestEvictionForOneCacheSize(ULLONG ullCacheQuota)
 		CSimpleObjectCacheAccessor ca(pCache);
 		ca.Lookup(&ulKey);
 
-		SSimpleObject* pso = ca.PtVal();
+		SSimpleObject* pso = ca.Val();
 
 		if (NULL != pso)
 		{
@@ -611,7 +611,7 @@ CCacheTest::TestEvictionForOneCacheSize(ULLONG ullCacheQuota)
 		CSimpleObjectCacheAccessor ca(pCache);
 		ca.Lookup(&ulKey);
 
-		SSimpleObject* pso = ca.PtVal();
+		SSimpleObject* pso = ca.Val();
 
 		if (NULL != pso)
 		{
@@ -673,7 +673,7 @@ CCacheTest::EresInsertDuplicates
 #ifdef GPOS_DEBUG
 			SSimpleObject *psoReturned =
 #endif // GPOS_DEBUG
-					ca.PtInsert(&(pso->m_ulKey), pso);
+					ca.Insert(&(pso->m_ulKey), pso);
 
 			GPOS_ASSERT(NULL != psoReturned);
 
@@ -715,7 +715,7 @@ CCacheTest::EresRemoveDuplicates
 		CSimpleObjectCacheAccessor ca(pcache);
 		ca.Lookup(&i);
 		ULONG ulCount = 0;
-		SSimpleObject* pso = ca.PtVal();
+		SSimpleObject* pso = ca.Val();
 		GPOS_ASSERT(NULL != pso);
 
 		if (NULL != pso)
@@ -788,7 +788,7 @@ CCacheTest::EresUnittest_DeepObject()
 #ifdef GPOS_DEBUG
 		CDeepObject *pdoReturned =
 #endif // GPOS_DEBUG
-			ca.PtInsert(pdo->Key(), pdo);
+			ca.Insert(pdo->Key(), pdo);
 		pdo->Release();
 
 		GPOS_ASSERT(NULL != pdoReturned &&
@@ -806,7 +806,7 @@ CCacheTest::EresUnittest_DeepObject()
 #ifdef GPOS_DEBUG
 			CDeepObject *pdoReturned  =
 #endif // GPOS_DEBUG
-				ca.PtInsert(pdoDuplicate->Key(), pdoDuplicate);
+				ca.Insert(pdoDuplicate->Key(), pdoDuplicate);
 
 			GPOS_ASSERT(pdoReturned == pdo &&
 						"Duplicate insertion must fail");
@@ -820,7 +820,7 @@ CCacheTest::EresUnittest_DeepObject()
 		{
 			CDeepObjectCacheAccessor ca(pcache);
 			ca.Lookup(pdoDummy->Key());
-			pdo = ca.PtVal();
+			pdo = ca.Val();
 
 			if (NULL != pdo)
 			{
@@ -840,7 +840,7 @@ CCacheTest::EresUnittest_DeepObject()
 		{
 			CDeepObjectCacheAccessor ca(pcache);
 			ca.Lookup(pdoDummy->Key());
-			pdo = ca.PtVal();
+			pdo = ca.Val();
 
 			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pdo);
 
@@ -857,7 +857,7 @@ CCacheTest::EresUnittest_DeepObject()
 		{
 			CDeepObjectCacheAccessor ca(pcache);
 			ca.Lookup(pdoDummy->Key());
-			pdo = ca.PtVal();
+			pdo = ca.Val();
 			GPOS_ASSERT(NULL == pdo);
 
 		}
@@ -912,7 +912,7 @@ CCacheTest::EresUnittest_Iteration()
 		CSimpleObjectCacheAccessor ca(pcache);
 		ca.Lookup(&i);
 		ULONG ulCount = 0;
-		SSimpleObject* pso = ca.PtVal();
+		SSimpleObject* pso = ca.Val();
 		GPOS_ASSERT(NULL != pso);
 
 		// release object since there is no customer to release it after lookup and before CCache's cleanup
@@ -988,7 +988,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 		CSimpleObjectCacheAccessor ca(pcache);
 		ca.Lookup(&i);
 		ULONG ulCount = 0;
-		SSimpleObject *pso = ca.PtVal();
+		SSimpleObject *pso = ca.Val();
 		GPOS_ASSERT_IMP(0 < ulRemaining, NULL != pso);
 
 		if (NULL != pso)
@@ -1062,7 +1062,7 @@ CCacheTest::PvLookupTask
 		CSimpleObjectCacheAccessor ca(pcache);
 		ULONG ulkey =  rand.Next() % (10);
 		ca.Lookup(&ulkey);
-		SSimpleObject *pso = ca.PtVal();
+		SSimpleObject *pso = ca.Val();
 
 		if (NULL != pso)
 		{
@@ -1106,7 +1106,7 @@ CCacheTest::PvDeleteTask
 		ULONG ulkey =  rand.Next() % (10);
 		ca.Lookup(&ulkey);
 
-		SSimpleObject *pso = ca.PtVal();
+		SSimpleObject *pso = ca.Val();
 
 		if (NULL != pso)
 		{
