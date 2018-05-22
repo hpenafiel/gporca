@@ -265,7 +265,7 @@ void ConfigureTests()
 		CTestUtils::InitProviderFile(pmp);
 
 		// detach safety
-		(void) amp.PmpDetach();
+		(void) amp.Detach();
 	}
 
 #ifdef GPOS_DEBUG

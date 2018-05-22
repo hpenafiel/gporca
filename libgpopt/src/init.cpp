@@ -47,7 +47,7 @@ void gpopt_init()
 		(void) gpopt::EresExceptionInit(pmp);
 	
 		// detach safety
-		(void) amp.PmpDetach();
+		(void) amp.Detach();
 	}
 
 	if (GPOS_OK != gpopt::CXformFactory::EresInit())

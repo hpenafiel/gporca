@@ -149,7 +149,7 @@ CFSimulator::EresInit()
 	CFSimulator::m_pfsim = GPOS_NEW(pmp) CFSimulator(pmp, GPOS_FSIM_RESOLUTION);
 
 	// detach safety
-	(void) amp.PmpDetach();
+	(void) amp.Detach();
 	
 	return GPOS_OK;
 }

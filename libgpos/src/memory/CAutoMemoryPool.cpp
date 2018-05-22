@@ -40,22 +40,22 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CAutoMemoryPool::CAutoMemoryPool
 	(
-	ELeakCheck elc,
+	ELeakCheck leak_check_type,
 	CMemoryPoolManager::EAllocType ept,
-	BOOL fThreadSafe,
-	ULLONG ullCapacity
+	BOOL thread_safe,
+	ULLONG capacity
 	)
 	:
-	m_elc(elc)
+	m_leak_check_type(leak_check_type)
 {
-	m_pmp = CMemoryPoolManager::Pmpm()->PmpCreate(ept, fThreadSafe, ullCapacity);
+	m_pmp = CMemoryPoolManager::Pmpm()->PmpCreate(ept, thread_safe, capacity);
 }
 
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CAutoMemoryPool::PmpDetach
+//		CAutoMemoryPool::Detach
 //
 //	@doc:
 //		Detach function used when CAutoMemoryPool is used to guard a newly
@@ -63,7 +63,7 @@ CAutoMemoryPool::CAutoMemoryPool
 //
 //---------------------------------------------------------------------------
 IMemoryPool *
-CAutoMemoryPool::PmpDetach()
+CAutoMemoryPool::Detach()
 {
 	IMemoryPool *pmp = m_pmp;
 	m_pmp = NULL;
@@ -94,14 +94,14 @@ CAutoMemoryPool::~CAutoMemoryPool()
 
 #ifdef GPOS_DEBUG
 
-	ITask *ptsk = ITask::Self();
+	ITask *task = ITask::Self();
 	
 	// ElcExc must be used inside tasks only
-	GPOS_ASSERT_IMP(ElcExc == m_elc, NULL != ptsk);
+	GPOS_ASSERT_IMP(ElcExc == m_leak_check_type, NULL != task);
 	
 	GPOS_TRY
 	{
-		if (ElcStrict == m_elc || (ElcExc == m_elc && !ptsk->ErrCtxt()->FPending()))
+		if (ElcStrict == m_leak_check_type || (ElcExc == m_leak_check_type && !task->ErrCtxt()->FPending()))
 		{
 			gpos::IOstream &os = gpos::oswcerr;
 

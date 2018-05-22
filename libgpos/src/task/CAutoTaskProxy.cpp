@@ -180,7 +180,7 @@ CAutoTaskProxy::Create
 	(void) err_ctxt.PtReset();
 
 	// detach task's memory pool from auto memory pool
-	amp.PmpDetach();
+	amp.Detach();
 
 	// bind function and argument
 	task = new_task.Value();

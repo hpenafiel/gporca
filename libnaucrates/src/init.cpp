@@ -128,7 +128,7 @@ void gpdxl_init()
 		CAutoMemoryPool amp;
 
 		// detach safety
-		pmpXerces = amp.PmpDetach();
+		pmpXerces = amp.Detach();
 	}
 	
 	// create memory pool for DXL global allocations
@@ -136,7 +136,7 @@ void gpdxl_init()
 		CAutoMemoryPool amp;
 
 		// detach safety
-		pmpDXL = amp.PmpDetach();
+		pmpDXL = amp.Detach();
 	}
 
 	// add standard exception messages

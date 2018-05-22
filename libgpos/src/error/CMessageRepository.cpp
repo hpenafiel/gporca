@@ -126,7 +126,7 @@ CMessageRepository::EresInit()
 	CMessageRepository::m_pmr = pmr;
 
 	// detach safety
-	(void) amp.PmpDetach();
+	(void) amp.Detach();
 	
 	return GPOS_OK;
 }

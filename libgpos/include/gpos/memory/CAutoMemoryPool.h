@@ -58,17 +58,17 @@ namespace gpos
 			IMemoryPool *m_pmp;
 			
 			// type of leak check to perform
-			ELeakCheck m_elc;
+			ELeakCheck m_leak_check_type;
 
 		public:
 
 			// ctor
 			CAutoMemoryPool
 				(
-				ELeakCheck elc = ElcExc,
+				ELeakCheck leak_check_type = ElcExc,
 				CMemoryPoolManager::EAllocType ept = CMemoryPoolManager::EatTracker,
-				BOOL fThreadSafe = true,
-				ULLONG ullCapacity = ULLONG_MAX
+				BOOL thread_safe = true,
+				ULLONG capacity = ULLONG_MAX
 				);
 
 			// dtor
@@ -81,7 +81,7 @@ namespace gpos
 			}
 			
 			// detach from pool
-			IMemoryPool *PmpDetach();
+			IMemoryPool *Detach();
 
 	}; // CAutoMemoryPool
 }

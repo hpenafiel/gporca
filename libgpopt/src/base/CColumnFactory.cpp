@@ -56,7 +56,7 @@ CColumnFactory::CColumnFactory()
 		);
 
 	// now it's safe to detach the auto pool
-	(void) amp.PmpDetach();
+	(void) amp.Detach();
 }
 
 
