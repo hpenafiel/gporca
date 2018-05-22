@@ -46,7 +46,7 @@ CTask::CTask
 	m_func(NULL),
 	m_arg(NULL),
 	m_res(NULL),
-	m_mutex(pevent->Pmutex()),
+	m_mutex(pevent->Mutex()),
 	m_event(pevent),
 	m_status(EtsInit),
 	m_cancel(pfCancel),

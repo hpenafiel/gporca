@@ -94,7 +94,7 @@ CScheduler::~CScheduler()
 		0 == m_ulpTotal
 		);
 
-	GPOS_ASSERT(0 == m_event.CWaiters());
+	GPOS_ASSERT(0 == m_event.NumWaiters());
 }
 
 

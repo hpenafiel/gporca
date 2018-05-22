@@ -206,7 +206,7 @@ CEventTest::PvUnittest_Producer
 	)
 {
 	CEvent *pevent = (CEvent*)pv;
-	CMutexBase *pmutex = pevent->Pmutex();
+	CMutexBase *pmutex = pevent->Mutex();
 
 	CAutoMutex am(*pmutex);
 	am.Lock();
@@ -245,7 +245,7 @@ CEventTest::PvUnittest_Consumer
 	)
 {
 	CEvent *pevent = (CEvent*)pv;
-	CMutexBase *pmutex = pevent->Pmutex();
+	CMutexBase *pmutex = pevent->Mutex();
 
 	CAutoMutex am(*pmutex);
 	am.Lock();
@@ -286,7 +286,7 @@ CEventTest::PvUnittest_TimedWait
 	)
 {
 	CEvent *pevent = (CEvent *) pv;
-	CMutexBase *pmutex = pevent->Pmutex();
+	CMutexBase *pmutex = pevent->Mutex();
 
 	CAutoMutex am(*pmutex);
 	am.Lock();

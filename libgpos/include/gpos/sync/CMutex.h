@@ -40,7 +40,7 @@ namespace gpos
 	//---------------------------------------------------------------------------
 	class CMutexBase
 	{
-		// CEvent needs access to protected member function Pmutex
+		// CEvent needs access to protected member function Mutex
 		friend class CEvent;
 				
 		private:

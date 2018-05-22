@@ -718,7 +718,7 @@ CSyncHashtableTest::Unittest_WaitTasks
 {
 	CEvent *pevent = pelemtest->Pevent();
 
-	CAutoMutex am(*(pevent->Pmutex()));
+	CAutoMutex am(*(pevent->Mutex()));
 	am.Lock();
 
 	// increase number of started tasks

@@ -225,7 +225,7 @@ namespace gpos
 			// running worker count 
 			ULONG NumWorkersRunning() const
 			{
-				return NumWorkers() - m_event.CWaiters();
+				return NumWorkers() - m_event.NumWaiters();
 			}
 
 			// set min number of workers
