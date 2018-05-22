@@ -217,14 +217,14 @@ namespace gpos
                     if (FSetBit(&m_rgulBitMapReserved[ulElemOffset], ulBitVal))
                     {
                         // set id in corresponding object
-                        T *pt = &m_rgtObjs[ulpIndex];
+                        T *elem = &m_rgtObjs[ulpIndex];
 
     #ifdef GPOS_DEBUG
-                        ULONG *pulId = (ULONG *) (((BYTE *) pt) + m_ulIdOffset);
+                        ULONG *pulId = (ULONG *) (((BYTE *) elem) + m_ulIdOffset);
                         GPOS_ASSERT(ulpIndex == *pulId);
     #endif // GPOS_DEBUG
 
-                        return pt;
+                        return elem;
                     }
 
                     // object is reserved, check if it has been marked for recycling
@@ -245,29 +245,29 @@ namespace gpos
                 }
 
                 // no object is currently available, create a new one
-                T *pt = GPOS_NEW(m_pmp) T();
-                *(ULONG*) (((BYTE *) pt) + m_ulIdOffset) = ULONG_MAX;
+                T *elem = GPOS_NEW(m_pmp) T();
+                *(ULONG*) (((BYTE *) elem) + m_ulIdOffset) = ULONG_MAX;
 
-                return pt;
+                return elem;
             }
 
 			// recycle reserved object
-			void Recycle(T *pt)
+			void Recycle(T *elem)
             {
                 GPOS_ASSERT(ULONG_MAX != m_ulIdOffset && "Id offset not initialized.");
 
-                ULONG ulOffset = *(ULONG *) (((BYTE *) pt) + m_ulIdOffset);
-                if (ULONG_MAX == ulOffset)
+                ULONG offset = *(ULONG *) (((BYTE *) elem) + m_ulIdOffset);
+                if (ULONG_MAX == offset)
                 {
                     // object does not belong to the array, delete it
-                    GPOS_DELETE(pt);
+                    GPOS_DELETE(elem);
                     return;
                 }
 
-                GPOS_ASSERT(ulOffset < m_ulObjs);
+                GPOS_ASSERT(offset < m_ulObjs);
 
-                ULONG ulElemOffset = ulOffset / BITS_PER_ULONG;
-                ULONG ulBitOffset = ulOffset % BITS_PER_ULONG;
+                ULONG ulElemOffset = offset / BITS_PER_ULONG;
+                ULONG ulBitOffset = offset % BITS_PER_ULONG;
                 ULONG ulBitVal = 1 << ulBitOffset;
 
     #ifdef GPOS_DEBUG

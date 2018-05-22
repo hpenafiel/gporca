@@ -604,10 +604,10 @@ CMemoryPoolBasicTest::Allocate
 ULONG
 CMemoryPoolBasicTest::UlSize
 	(
-	ULONG ulOffset
+	ULONG offset
 	)
 {
-	if (0 == (ulOffset & 1))
+	if (0 == (offset & 1))
 	{
 		return GPOS_MEM_TEST_ALLOC_SMALL;
 	}

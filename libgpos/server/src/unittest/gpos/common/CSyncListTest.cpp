@@ -67,7 +67,7 @@ CSyncListTest::EresUnittest_Basics()
 	{
 		list.Push(&rgelem[i]);
 
-		GPOS_ASSERT(GPOS_OK == list.EresFind(&rgelem[i]));
+		GPOS_ASSERT(GPOS_OK == list.Find(&rgelem[i]));
 	}
 
 #ifdef GPOS_DEBUG
@@ -101,7 +101,7 @@ CSyncListTest::EresUnittest_Basics()
 	{
 		list.Push(&rgelem[i - 1]);
 
-		GPOS_ASSERT(GPOS_OK == list.EresFind(&rgelem[i - 1]));
+		GPOS_ASSERT(GPOS_OK == list.Find(&rgelem[i - 1]));
 	}
 
 	// pop elements until empty
@@ -151,7 +151,7 @@ CSyncListTest::EresUnittest_Concurrency()
 	{
 		list.Push(&rgelem[i]);
 
-		GPOS_ASSERT(GPOS_OK == list.EresFind(&rgelem[i]));
+		GPOS_ASSERT(GPOS_OK == list.Find(&rgelem[i]));
 	}
 
 	// pool of elements to add to the list

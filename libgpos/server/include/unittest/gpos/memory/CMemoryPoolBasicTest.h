@@ -50,7 +50,7 @@ namespace gpos
 			static void *AllocateStress(void *pv);
 			static void Allocate(IMemoryPool *pmp, ULONG ulCount);
 			static void AllocateRandom(IMemoryPool *pmp);
-			static ULONG UlSize(ULONG ulOffset);
+			static ULONG UlSize(ULONG offset);
 
 		public:
 
