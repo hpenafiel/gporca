@@ -116,7 +116,7 @@ namespace gpos
 		// add signal to set
 		void SigAddSet(SIGSET_T *set, INT iSignal);
 
-	} // namespace plib
+	} // namespace pthread
 }
 
 #endif
