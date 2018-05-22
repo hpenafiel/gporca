@@ -176,7 +176,7 @@ namespace gpos
 			{
 				GPOS_ASSERT(NULL == m_pce && "Accessor already holds an entry");
 
-				m_pce = m_pcache->PceLookup(pKey);
+				m_pce = m_pcache->Get(pKey);
 
 				if(NULL != m_pce)
 				{

@@ -171,7 +171,7 @@ namespace gpos
 			}
 
 			// returns the first object matching the given key
-			CCacheHashTableEntry *PceLookup(const K pKey)
+			CCacheHashTableEntry *Get(const K pKey)
 			{
 				CCacheHashtableAccessor shtacc(m_sht, pKey);
 
