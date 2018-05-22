@@ -65,7 +65,7 @@ namespace gpos
 			virtual
 			ULLONG TotalAllocatedSize() const
 			{
-				return PmpUnderlying()->TotalAllocatedSize();
+				return UnderlyingMemoryPool()->TotalAllocatedSize();
 			}
 	};
 }

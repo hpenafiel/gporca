@@ -38,14 +38,14 @@ namespace gpos
 
 			//---------------------------------------------------------------------------
 			//	@struct:
-			//		SAllocHeader
+			//		AllocHeader
 			//
 			//	@doc:
 			//		Defines memory block header layout for all allocations;
 			//	 	does not include the pointer to the pool;
 			//
 			//---------------------------------------------------------------------------
-			struct SAllocHeader
+			struct AllocHeader
 			{
 				// sequence number
 				ULLONG m_ullSerial;
@@ -61,7 +61,7 @@ namespace gpos
 
 #ifdef GPOS_DEBUG
 				// allocation stack
-				CStackDescriptor m_sd;
+				CStackDescriptor m_stack_desc;
 #endif // GPOS_DEBUG
 
 				// link for allocation list
@@ -86,7 +86,7 @@ namespace gpos
 			ULLONG m_ullReserved;
 
 			// list of allocated (live) objects
-			CList<SAllocHeader> m_listAllocations;
+			CList<AllocHeader> m_listAllocations;
 
 			// attempt to reserve memory for allocation
 			BOOL FReserve(CAutoSpinlock &as, ULONG ulAlloc);

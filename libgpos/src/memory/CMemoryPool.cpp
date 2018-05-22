@@ -25,7 +25,7 @@ using namespace gpos;
 
 
 // invalid exception
-const ULONG_PTR CMemoryPool::m_ulpInvalid = ULONG_PTR_MAX;
+const ULONG_PTR CMemoryPool::m_invalid = ULONG_PTR_MAX;
 
 
 //---------------------------------------------------------------------------
@@ -38,22 +38,22 @@ const ULONG_PTR CMemoryPool::m_ulpInvalid = ULONG_PTR_MAX;
 //---------------------------------------------------------------------------
 CMemoryPool::CMemoryPool
 	(
-	IMemoryPool *pmpUnderlying,
-	BOOL fOwnsUnderlying,
-	BOOL fThreadSafe
+	IMemoryPool *underlying_memory_pool,
+	BOOL owns_underlying_memory_pool,
+	BOOL thread_safe
 	)
 	:
-	m_ulRef(0),
-	m_ulpKey(0),
-	m_pmpUnderlying(pmpUnderlying),
-	m_fOwnsUnderlying(fOwnsUnderlying),
-	m_fThreadSafe(fThreadSafe)
+	m_ref_counter(0),
+	m_hash_key(0),
+	m_underlying_memory_pool(underlying_memory_pool),
+	m_owns_underlying_memory_pool(owns_underlying_memory_pool),
+	m_thread_safe(thread_safe)
 {
-	GPOS_ASSERT_IMP(fOwnsUnderlying, NULL != pmpUnderlying);
+	GPOS_ASSERT_IMP(owns_underlying_memory_pool, NULL != underlying_memory_pool);
 
-	m_ulpKey = reinterpret_cast<ULONG_PTR>(this);
+	m_hash_key = reinterpret_cast<ULONG_PTR>(this);
 #ifdef GPOS_DEBUG
-	m_sd.BackTrace();
+	m_stack_desc.BackTrace();
 #endif // GPOS_DEBUG
 }
 
@@ -68,39 +68,39 @@ CMemoryPool::CMemoryPool
 //---------------------------------------------------------------------------
 CMemoryPool::~CMemoryPool()
 {
-	if (m_fOwnsUnderlying)
+	if (m_owns_underlying_memory_pool)
 	{
-		CMemoryPoolManager::Pmpm()->DeleteUnregistered(m_pmpUnderlying);
+		CMemoryPoolManager::Pmpm()->DeleteUnregistered(m_underlying_memory_pool);
 	}
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMemoryPool::PvFinalizeAlloc
+//		CMemoryPool::FinalizeAlloc
 //
 //	@doc:
 //		Set allocation header and footer, return pointer to user data
 //
 //---------------------------------------------------------------------------
 void *
-CMemoryPool::PvFinalizeAlloc
+CMemoryPool::FinalizeAlloc
 	(
-	void *pv,
-	ULONG ulAlloc,
+	void *ptr,
+	ULONG alloc,
 	AllocationType eat
 	)
 {
-	GPOS_ASSERT(NULL != pv);
+	GPOS_ASSERT(NULL != ptr);
 
-	SAllocHeader *pah = static_cast<SAllocHeader*>(pv);
-	pah->m_pmp = this;
-	pah->m_ulAlloc = ulAlloc;
+	AllocHeader *header = static_cast<AllocHeader*>(ptr);
+	header->m_pmp = this;
+	header->m_alloc = alloc;
 
-	BYTE *pbAllocType = reinterpret_cast<BYTE*>(pah + 1) + ulAlloc;
-	*pbAllocType = eat;
+	BYTE *alloc_type = reinterpret_cast<BYTE*>(header + 1) + alloc;
+	*alloc_type = eat;
 
-	return pah + 1;
+	return header + 1;
 }
 
 
@@ -115,16 +115,16 @@ CMemoryPool::PvFinalizeAlloc
 void
 CMemoryPool::FreeAlloc
 	(
-	void *pv,
+	void *ptr,
 	AllocationType eat
 	)
 {
-	GPOS_ASSERT(pv != NULL);
+	GPOS_ASSERT(ptr != NULL);
 
-	SAllocHeader *pah = static_cast<SAllocHeader*>(pv) - 1;
-	BYTE *pbAllocType = static_cast<BYTE*>(pv) + pah->m_ulAlloc;
-	GPOS_RTL_ASSERT(*pbAllocType == eat);
-	pah->m_pmp->Free(pah);
+	AllocHeader *header = static_cast<AllocHeader*>(ptr) - 1;
+	BYTE *alloc_type = static_cast<BYTE*>(ptr) + header->m_alloc;
+	GPOS_RTL_ASSERT(*alloc_type == eat);
+	header->m_pmp->Free(header);
 
 }
 
@@ -132,13 +132,13 @@ CMemoryPool::FreeAlloc
 ULONG
 CMemoryPool::SizeOfAlloc
 	(
-	const void *pv
+	const void *ptr
 	)
 {
-	GPOS_ASSERT(NULL != pv);
+	GPOS_ASSERT(NULL != ptr);
 
-	const SAllocHeader *pah = static_cast<const SAllocHeader*>(pv) - 1;
-	return pah->m_ulAlloc;
+	const AllocHeader *header = static_cast<const AllocHeader*>(ptr) - 1;
+	return header->m_alloc;
 }
 
 #ifdef GPOS_DEBUG
@@ -159,11 +159,11 @@ CMemoryPool::OsPrint
 {
 	os << "Memory pool: " << this;
 
-	ITask *ptsk = ITask::Self();
-	if (NULL != ptsk && ptsk->Trace(EtracePrintMemoryLeakStackTrace))
+	ITask *task = ITask::Self();
+	if (NULL != task && task->Trace(EtracePrintMemoryLeakStackTrace))
 	{
 		os << ", stack trace: " << std::endl;
-		m_sd.AppendTrace(os, 8 /*ulDepth*/);
+		m_stack_desc.AppendTrace(os, 8 /*ulDepth*/);
 	}
 	else
 	{
@@ -172,8 +172,8 @@ CMemoryPool::OsPrint
 
 	if (SupportsLiveObjectWalk())
 	{
-		CMemoryVisitorPrint movpi(os);
-		WalkLiveObjects(&movpi);
+		CMemoryVisitorPrint visitor(os);
+		WalkLiveObjects(&visitor);
 	}
 
 	return os;
@@ -199,16 +199,16 @@ CMemoryPool::AssertEmpty
 	if (SupportsLiveObjectWalk() && NULL != ITask::Self() &&
 	    !GPOS_FTRACE(EtraceDisablePrintMemoryLeak))
 	{
-		CMemoryVisitorPrint movpi(os);
-		WalkLiveObjects(&movpi);
+		CMemoryVisitorPrint visitor(os);
+		WalkLiveObjects(&visitor);
 
-		if (0 != movpi.UllVisits())
+		if (0 != visitor.UllVisits())
 		{
 			os
 				<< "Unfreed memory in memory pool "
 				<< (void*)this
 				<< ": "
-				<< movpi.UllVisits()
+				<< visitor.UllVisits()
 				<< " objects leaked"
 				<< std::endl;
 

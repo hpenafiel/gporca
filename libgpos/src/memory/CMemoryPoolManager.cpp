@@ -65,8 +65,8 @@ CMemoryPoolManager::CMemoryPoolManager
 		m_pmpInternal,
 		GPOS_MEMORY_POOL_HT_SIZE,
 		GPOS_OFFSET(CMemoryPool, m_link),
-		GPOS_OFFSET(CMemoryPool, m_ulpKey),
-		&(CMemoryPool::m_ulpInvalid),
+		GPOS_OFFSET(CMemoryPool, m_hash_key),
+		&(CMemoryPool::m_invalid),
 		HashULongPtr,
 		EqualULongPtr
 		);

@@ -31,7 +31,7 @@ using namespace gpos;
 
 
 #define GPOS_MEM_ALLOC_HEADER_SIZE \
-	GPOS_MEM_ALIGNED_STRUCT_SIZE(SAllocHeader)
+	GPOS_MEM_ALIGNED_STRUCT_SIZE(AllocHeader)
 
 #define GPOS_MEM_BYTES_TOTAL(ulNumBytes) \
 	(GPOS_MEM_ALLOC_HEADER_SIZE + GPOS_MEM_ALIGNED_SIZE(ulNumBytes))
@@ -60,7 +60,7 @@ CMemoryPoolTracker::CMemoryPoolTracker
 {
 	GPOS_ASSERT(NULL != pmpUnderlying);
 
-	m_listAllocations.Init(GPOS_OFFSET(SAllocHeader, m_link));
+	m_listAllocations.Init(GPOS_OFFSET(AllocHeader, m_link));
 }
 
 
@@ -105,7 +105,7 @@ CMemoryPoolTracker::Allocate
 	void *pvAlloc;
 	if (fAvailableMem)
 	{
-		pvAlloc = PmpUnderlying()->Allocate(ulAlloc, szFile, ulLine);
+		pvAlloc = UnderlyingMemoryPool()->Allocate(ulAlloc, szFile, ulLine);
 	}
 	else
 	{
@@ -121,7 +121,7 @@ CMemoryPoolTracker::Allocate
 	}
 
 	// successful allocation: update header information and any memory pool data
-	SAllocHeader *pahHeader = static_cast<SAllocHeader*>(pvAlloc);
+	AllocHeader *pahHeader = static_cast<AllocHeader*>(pvAlloc);
 
 	// scope indicating locking
 	{
@@ -142,7 +142,7 @@ CMemoryPoolTracker::Allocate
 	void *pvResult = pahHeader + 1;
 
 #ifdef GPOS_DEBUG
-	pahHeader->m_sd.BackTrace();
+	pahHeader->m_stack_desc.BackTrace();
 
 	clib::MemSet(pvResult, GPOS_MEM_INIT_PATTERN_CHAR, ulBytes);
 #endif // GPOS_DEBUG
@@ -235,7 +235,7 @@ CMemoryPoolTracker::Free
 {
 	CAutoSpinlock as(m_lock);
 
-	SAllocHeader *pah = static_cast<SAllocHeader*>(pv) - 1;
+	AllocHeader *pah = static_cast<AllocHeader*>(pv) - 1;
 	ULONG ulUserSize = pah->m_ulSize;
 
 #ifdef GPOS_DEBUG
@@ -257,7 +257,7 @@ CMemoryPoolTracker::Free
 	}
 
 	// pass request to underlying memory pool;
-	PmpUnderlying()->Free(pah);
+	UnderlyingMemoryPool()->Free(pah);
 
 	// update committed memory value
 	if (m_ullCapacity != ULLONG_MAX)
@@ -285,7 +285,7 @@ CMemoryPoolTracker::TearDown()
 {
 	while (!m_listAllocations.IsEmpty())
 	{
-		SAllocHeader *pah = m_listAllocations.First();
+		AllocHeader *pah = m_listAllocations.First();
 		void *pvUserData = pah + 1;
 		Free(pvUserData);
 	}
@@ -312,7 +312,7 @@ CMemoryPoolTracker::WalkLiveObjects
 {
 	GPOS_ASSERT(NULL != pmov);
 
-	SAllocHeader *pahHeader = m_listAllocations.First();
+	AllocHeader *pahHeader = m_listAllocations.First();
 	while (NULL != pahHeader)
 	{
 		SIZE_T ulTotalSize = GPOS_MEM_BYTES_TOTAL(pahHeader->m_ulSize);
@@ -328,7 +328,7 @@ CMemoryPoolTracker::WalkLiveObjects
 			pahHeader->m_ulLine,
 			pahHeader->m_ullSerial,
 #ifdef GPOS_DEBUG
-			&pahHeader->m_sd
+			&pahHeader->m_stack_desc
 #else
 			NULL
 #endif // GPOS_DEBUG

@@ -71,7 +71,7 @@ CMemoryPoolInjectFault::Allocate
 	}
 #endif
 
-	return PmpUnderlying()->Allocate(ulNumBytes, szFilename, ulLine);
+	return UnderlyingMemoryPool()->Allocate(ulNumBytes, szFilename, ulLine);
 }
 
 
@@ -93,7 +93,7 @@ CMemoryPoolInjectFault::Free
 	void *pvMemory
 	)
 {
-	PmpUnderlying()->Free(pvMemory);
+	UnderlyingMemoryPool()->Free(pvMemory);
 }
 
 

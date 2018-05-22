@@ -193,7 +193,7 @@ CMemoryPoolStack::PbdNew
 	// allocate memory and put block descriptor to the beginning of it
 	SBlockDescriptor *pbd = static_cast<SBlockDescriptor*>
 			(
-			PmpUnderlying()->Allocate(ulBlockSize, __FILE__, __LINE__)
+			UnderlyingMemoryPool()->Allocate(ulBlockSize, __FILE__, __LINE__)
 			);
 
 	if (NULL != pbd)
@@ -220,7 +220,7 @@ CMemoryPoolStack::TearDown()
 
 	while (!m_listBlocks.IsEmpty())
 	{
-		PmpUnderlying()->Free(m_listBlocks.RemoveHead());
+		UnderlyingMemoryPool()->Free(m_listBlocks.RemoveHead());
 	}
 
 	CMemoryPool::TearDown();

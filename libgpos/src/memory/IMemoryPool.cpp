@@ -49,12 +49,12 @@ IMemoryPool::NewImpl
 		"Use of new operator without target memory pool is prohibited, use New(...) instead"
 		);
 
-	ULONG alloc_size = CMemoryPool::UlAllocSize((ULONG) size);
+	ULONG alloc_size = CMemoryPool::GetAllocSize((ULONG) size);
 	void *ptr = Allocate(alloc_size, filename, line);
 
 	GPOS_OOM_CHECK(ptr);
 
-	return dynamic_cast<CMemoryPool*>(this)->PvFinalizeAlloc(ptr, (ULONG) size, eat);
+	return dynamic_cast<CMemoryPool*>(this)->FinalizeAlloc(ptr, (ULONG) size, eat);
 }
 
 //---------------------------------------------------------------------------
