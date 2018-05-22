@@ -43,11 +43,11 @@ gpos::syslib::GetTimeOfDay
 	GPOS_ASSERT(NULL != ptv);
 
 #ifdef GPOS_DEBUG
-	INT iRes =
+	INT res =
 #endif // GPOS_DEBUG
 	gettimeofday(ptv, ptz);
 
-	GPOS_ASSERT(0 == iRes);
+	GPOS_ASSERT(0 == res);
 }
 
 
@@ -68,11 +68,11 @@ gpos::syslib::GetRusage
 	GPOS_ASSERT(NULL != prusage);
 
 #ifdef GPOS_DEBUG
-	INT iRes =
+	INT res =
 #endif // GPOS_DEBUG
 	getrusage(RUSAGE_SELF, prusage);
 
-	GPOS_ASSERT(0 == iRes);
+	GPOS_ASSERT(0 == res);
 }
 
 
@@ -90,11 +90,11 @@ gpos::syslib::SchedYield
 	)
 {
 #ifdef GPOS_DEBUG
-	INT iRes =
+	INT res =
 #endif // GPOS_DEBUG
 	sched_yield();
 
-	GPOS_ASSERT(0 == iRes && "Failed to yield");
+	GPOS_ASSERT(0 == res && "Failed to yield");
 }
 
 

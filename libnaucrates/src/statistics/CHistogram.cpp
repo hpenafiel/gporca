@@ -1123,14 +1123,14 @@ CHistogram::PhistJoinEquality
 			dFreqJoinBuckets1 = dFreqJoinBuckets1 + dFreqIntersect1;
 			dFreqJoinBuckets2 = dFreqJoinBuckets2 + dFreqIntersect2;
 
-			INT iRes = CBucket::ICompareUpperBounds(pbucket1, pbucket2);
-			if (0 == iRes)
+			INT res = CBucket::ICompareUpperBounds(pbucket1, pbucket2);
+			if (0 == res)
 			{
 				// both ubs are equal
 				ul1++;
 				ul2++;
 			}
-			else if (1 > iRes)
+			else if (1 > res)
 			{
 				// pbucket1's ub is smaller than that of the ub of pbucket2
 				ul1++;

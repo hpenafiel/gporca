@@ -112,10 +112,10 @@ CFileDescriptor::CloseInternal()
 
 	while (!fClosed)
 	{
-		INT iRes = ioutils::IClose(m_iFileDescr);
+		INT res = ioutils::IClose(m_iFileDescr);
 
 		// check for error
-		if (0 != iRes)
+		if (0 != res)
 		{
 			GPOS_ASSERT(EINTR == errno || EIO == errno);
 

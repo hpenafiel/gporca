@@ -221,7 +221,7 @@ CWStringDynamic::AppendFormat
 	VA_LIST	vaArgs;
 
 	// determine length of format string after expansion
-	INT iRes = -1;
+	INT res = -1;
 
 	// attempt to fit the formatted string in a static array
 	WCHAR wszBufStatic[GPOS_WSTR_DYNAMIC_STATIC_BUFFER];
@@ -230,18 +230,18 @@ CWStringDynamic::AppendFormat
 	VA_START(vaArgs, format);
 
 	// try expanding the formatted string in the buffer
-	iRes = VswPrintf(wszBufStatic, GPOS_ARRAY_SIZE(wszBufStatic), format, vaArgs);
+	res = VswPrintf(wszBufStatic, GPOS_ARRAY_SIZE(wszBufStatic), format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);
-	GPOS_ASSERT(-1 <= iRes);
+	GPOS_ASSERT(-1 <= res);
 
 	// estimated number of characters in expanded format string
 	ULONG ulSize = std::max(GPOS_WSZ_LENGTH(format), GPOS_ARRAY_SIZE(wszBufStatic));
 
 	// if the static buffer is too small, find the formatted string
 	// length by trying to store it in a buffer of increasing size
-	while (-1 == iRes)
+	while (-1 == res)
 	{
 		// try with a bigger buffer this time
 		ulSize *= 2;
@@ -252,18 +252,18 @@ CWStringDynamic::AppendFormat
 		VA_START(vaArgs, format);
 
 		// try expanding the formatted string in the buffer
-		iRes = VswPrintf(a_wszBuf.Rgt(), ulSize, format, vaArgs);
+		res = VswPrintf(a_wszBuf.Rgt(), ulSize, format, vaArgs);
 
 		// reset arguments
 		VA_END(vaArgs);
 
-		GPOS_ASSERT(-1 <= iRes);
+		GPOS_ASSERT(-1 <= res);
 	}
 	// verify required buffer was not bigger than allowed
-	GPOS_ASSERT(iRes >= 0);
+	GPOS_ASSERT(res >= 0);
 
 	// expand buffer if needed
-	ULONG ulNewLength = m_ulLength + ULONG(iRes);
+	ULONG ulNewLength = m_ulLength + ULONG(res);
 	if (ulNewLength + 1 > m_ulCapacity)
 	{
 		IncreaseCapacity(ulNewLength);
@@ -273,7 +273,7 @@ CWStringDynamic::AppendFormat
 	VA_START(vaArgs, format);
 
 	// print vaArgs to string
-	VswPrintf(m_wszBuf + m_ulLength, iRes + 1, format, vaArgs);
+	VswPrintf(m_wszBuf + m_ulLength, res + 1, format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);

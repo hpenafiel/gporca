@@ -54,12 +54,12 @@ gpos::ioutils::Stat
 	// reset file state
 	(void) clib::MemSet(pfs, 0, sizeof(*pfs));
 
-	INT iRes = -1;
+	INT res = -1;
 
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&iRes, stat(szPath, pfs));
+	GPOS_CHECK_SIM_IO_ERR(&res, stat(szPath, pfs));
 
-	if (0 != iRes)
+	if (0 != res)
 	{
 		GPOS_RAISE(CException::ExmaSystem, CException::ExmiIOError, errno);
 	}
@@ -87,12 +87,12 @@ gpos::ioutils::Fstat
 	// reset file state
 	(void) clib::MemSet(pfs, 0, sizeof(*pfs));
 
-	INT iRes = -1;
+	INT res = -1;
 
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&iRes, fstat(iFd, pfs));
+	GPOS_CHECK_SIM_IO_ERR(&res, fstat(iFd, pfs));
 
-	if (0 != iRes)
+	if (0 != res)
 	{
 		GPOS_RAISE(CException::ExmaSystem, CException::ExmiIOError, errno);
 	}
@@ -118,9 +118,9 @@ gpos::ioutils::FPathExist
 
 	SFileStat fs;
 
-	INT iRes = stat(szPath, &fs);
+	INT res = stat(szPath, &fs);
 
-	return (0 == iRes);
+	return (0 == res);
 }
 
 
@@ -263,12 +263,12 @@ gpos::ioutils::MkDir
 	GPOS_ASSERT_NO_SPINLOCK;
 	GPOS_ASSERT(NULL != szPath);
 
-	INT iRes = -1;
+	INT res = -1;
 
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&iRes, mkdir(szPath, (MODE_T) ulPerms));
+	GPOS_CHECK_SIM_IO_ERR(&res, mkdir(szPath, (MODE_T) ulPerms));
 
-	if (0 != iRes)
+	if (0 != res)
 	{
 		GPOS_RAISE(CException::ExmaSystem, CException::ExmiIOError, errno);
 	}
@@ -293,12 +293,12 @@ gpos::ioutils::RmDir
 	GPOS_ASSERT(NULL != szPath);
 	GPOS_ASSERT(FDir(szPath));
 
-	INT iRes = -1;
+	INT res = -1;
 
 	// delete existing directory and check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&iRes, rmdir(szPath));
+	GPOS_CHECK_SIM_IO_ERR(&res, rmdir(szPath));
 
-	if (0 != iRes)
+	if (0 != res)
 	{
 		GPOS_RAISE(CException::ExmaSystem, CException::ExmiIOError, errno);
 	}
@@ -332,12 +332,12 @@ gpos::ioutils::Move
 		Unlink(szNew);
 	}
 
-	INT iRes = -1;
+	INT res = -1;
 
 	// rename file and check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&iRes, rename(szOld, szNew));
+	GPOS_CHECK_SIM_IO_ERR(&res, rename(szOld, szNew));
 
-	if (0 != iRes)
+	if (0 != res)
 	{
 		GPOS_RAISE(CException::ExmaSystem, CException::ExmiIOError, errno);
 	}
@@ -387,11 +387,11 @@ gpos::ioutils::IOpen
 	GPOS_ASSERT_NO_SPINLOCK;
 	GPOS_ASSERT(NULL != szPath);
 
-	INT iRes = open(szPath, mode, iPerms);
+	INT res = open(szPath, mode, iPerms);
 
-	GPOS_ASSERT((0 <= iRes) || (EINVAL != errno));
+	GPOS_ASSERT((0 <= res) || (EINVAL != errno));
 
-	return iRes;
+	return res;
 }
 
 
@@ -411,11 +411,11 @@ gpos::ioutils::IClose
 {
 	GPOS_ASSERT_NO_SPINLOCK;
 
-	INT iRes = close(iFildes);
+	INT res = close(iFildes);
 
-	GPOS_ASSERT(0 == iRes || EBADF != errno);
+	GPOS_ASSERT(0 == res || EBADF != errno);
 
-	return iRes;
+	return res;
 }
 
 
@@ -437,11 +437,11 @@ gpos::ioutils::IFStat
 	GPOS_ASSERT_NO_SPINLOCK;
 	GPOS_ASSERT(NULL != pstBuf);
 
-	INT iRes = fstat(iFiledes, pstBuf);
+	INT res = fstat(iFiledes, pstBuf);
 
-	GPOS_ASSERT(0 == iRes || EBADF != errno);
+	GPOS_ASSERT(0 == res || EBADF != errno);
 
-	return iRes;
+	return res;
 }
 
 
@@ -466,11 +466,11 @@ gpos::ioutils::IWrite
 	GPOS_ASSERT(0 < ulpCount);
 	GPOS_ASSERT(ULONG_PTR_MAX / 2 > ulpCount);
 
-	SSIZE_T iRes = write(iFd, pvBuf, ulpCount);
+	SSIZE_T res = write(iFd, pvBuf, ulpCount);
 
-	GPOS_ASSERT((0 <= iRes) || EBADF != errno);
+	GPOS_ASSERT((0 <= res) || EBADF != errno);
 
-	return iRes;
+	return res;
 }
 
 
@@ -495,11 +495,11 @@ gpos::ioutils::IRead
 	GPOS_ASSERT(0 < ulpCount);
 	GPOS_ASSERT(ULONG_PTR_MAX / 2 > ulpCount);
 
-	SSIZE_T iRes = read(iFd, pvBuf, ulpCount);
+	SSIZE_T res = read(iFd, pvBuf, ulpCount);
 
-	GPOS_ASSERT((0 <= iRes) || EBADF != errno);
+	GPOS_ASSERT((0 <= res) || EBADF != errno);
 
-	return iRes;
+	return res;
 }
 
 //---------------------------------------------------------------------------
