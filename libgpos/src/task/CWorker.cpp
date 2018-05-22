@@ -350,7 +350,7 @@ CWorker::CanAcquireSpinlock
 	GPOS_ASSERT(NULL != slock);
 
 	CSpinlockBase *slock_last = m_spin_lock_list.First();
-	return (NULL == slock_last) || (slock_last->UlRank() >= slock->UlRank());
+	return (NULL == slock_last) || (slock_last->Rank() >= slock->Rank());
 }
 
 
