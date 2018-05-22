@@ -244,7 +244,7 @@ CMemoryPoolBasicTest::EresNewDelete
 	COstreamString os(&str);
 
 	// dump allocations
-	if (pmp->FSupportsLiveObjectWalk())
+	if (pmp->SupportsLiveObjectWalk())
 	{
 		CMemoryVisitorPrint movp(os);
 		pmp->WalkLiveObjects(&movp);

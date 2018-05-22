@@ -57,7 +57,7 @@ namespace gpos
 
 			// allocate memory
 			virtual
-			void *PvAllocate
+			void *Allocate
 				(
 				ULONG ulNumBytes,
 				const CHAR *, // szFilename

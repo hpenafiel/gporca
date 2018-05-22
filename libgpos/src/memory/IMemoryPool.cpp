@@ -20,8 +20,8 @@ namespace gpos
 {
 
 ULONG
-IMemoryPool::UlSizeOfAlloc(const void *pv) {
-	return CMemoryPool::UlSizeOfAlloc(pv);
+IMemoryPool::SizeOfAlloc(const void *ptr) {
+	return CMemoryPool::SizeOfAlloc(ptr);
 }
 
 //---------------------------------------------------------------------------
@@ -35,13 +35,13 @@ IMemoryPool::UlSizeOfAlloc(const void *pv) {
 void*
 IMemoryPool::NewImpl
 	(
-	SIZE_T cSize,
-	const CHAR *szFilename,
-	ULONG ulLine,
-	IMemoryPool::EAllocationType eat
+	SIZE_T size,
+	const CHAR *filename,
+	ULONG line,
+	IMemoryPool::AllocationType eat
 	)
 {
-	GPOS_ASSERT(ULONG_MAX >= cSize);
+	GPOS_ASSERT(ULONG_MAX >= size);
 	GPOS_ASSERT_IMP
 		(
 		(NULL != CMemoryPoolManager::Pmpm()) && (this == CMemoryPoolManager::Pmpm()->PmpGlobal()),
@@ -49,12 +49,12 @@ IMemoryPool::NewImpl
 		"Use of new operator without target memory pool is prohibited, use New(...) instead"
 		);
 
-	ULONG ulAlloc = CMemoryPool::UlAllocSize((ULONG) cSize);
-	void *pv = PvAllocate(ulAlloc, szFilename, ulLine);
+	ULONG alloc_size = CMemoryPool::UlAllocSize((ULONG) size);
+	void *ptr = Allocate(alloc_size, filename, line);
 
-	GPOS_OOM_CHECK(pv);
+	GPOS_OOM_CHECK(ptr);
 
-	return dynamic_cast<CMemoryPool*>(this)->PvFinalizeAlloc(pv, (ULONG) cSize, eat);
+	return dynamic_cast<CMemoryPool*>(this)->PvFinalizeAlloc(ptr, (ULONG) size, eat);
 }
 
 //---------------------------------------------------------------------------
@@ -68,18 +68,18 @@ IMemoryPool::NewImpl
 void
 IMemoryPool::DeleteImpl
 	(
-	void *pv,
-	EAllocationType eat
+	void *ptr,
+	AllocationType eat
 	)
 {
 	// deletion of NULL pointers is legal
-	if (NULL == pv)
+	if (NULL == ptr)
 	{
 		return;
 	}
 
 	// release allocation
-	CMemoryPool::FreeAlloc(pv, eat);
+	CMemoryPool::FreeAlloc(ptr, eat);
 }
 
 }  // namespace gpos

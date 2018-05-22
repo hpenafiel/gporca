@@ -80,14 +80,14 @@ CMemoryPoolTracker::~CMemoryPoolTracker()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMemoryPoolTracker::PvAllocate
+//		CMemoryPoolTracker::Allocate
 //
 //	@doc:
 //		Allocate memory.
 //
 //---------------------------------------------------------------------------
 void *
-CMemoryPoolTracker::PvAllocate
+CMemoryPoolTracker::Allocate
 	(
 	const ULONG ulBytes,
 	const CHAR *szFile,
@@ -105,7 +105,7 @@ CMemoryPoolTracker::PvAllocate
 	void *pvAlloc;
 	if (fAvailableMem)
 	{
-		pvAlloc = PmpUnderlying()->PvAllocate(ulAlloc, szFile, ulLine);
+		pvAlloc = PmpUnderlying()->Allocate(ulAlloc, szFile, ulLine);
 	}
 	else
 	{

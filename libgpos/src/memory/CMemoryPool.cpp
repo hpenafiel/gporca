@@ -88,7 +88,7 @@ CMemoryPool::PvFinalizeAlloc
 	(
 	void *pv,
 	ULONG ulAlloc,
-	EAllocationType eat
+	AllocationType eat
 	)
 {
 	GPOS_ASSERT(NULL != pv);
@@ -116,7 +116,7 @@ void
 CMemoryPool::FreeAlloc
 	(
 	void *pv,
-	EAllocationType eat
+	AllocationType eat
 	)
 {
 	GPOS_ASSERT(pv != NULL);
@@ -130,7 +130,7 @@ CMemoryPool::FreeAlloc
 
 
 ULONG
-CMemoryPool::UlSizeOfAlloc
+CMemoryPool::SizeOfAlloc
 	(
 	const void *pv
 	)
@@ -170,7 +170,7 @@ CMemoryPool::OsPrint
 		os << std::endl;
 	}
 
-	if (FSupportsLiveObjectWalk())
+	if (SupportsLiveObjectWalk())
 	{
 		CMemoryVisitorPrint movpi(os);
 		WalkLiveObjects(&movpi);
@@ -196,7 +196,7 @@ CMemoryPool::AssertEmpty
 	IOstream &os
 	)
 {
-	if (FSupportsLiveObjectWalk() && NULL != ITask::Self() &&
+	if (SupportsLiveObjectWalk() && NULL != ITask::Self() &&
 	    !GPOS_FTRACE(EtraceDisablePrintMemoryLeak))
 	{
 		CMemoryVisitorPrint movpi(os);

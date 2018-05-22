@@ -47,7 +47,7 @@ CMemoryPoolInjectFault::CMemoryPoolInjectFault
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMemoryPoolInjectFault::PvAllocate
+//		CMemoryPoolInjectFault::Allocate
 //
 //	@doc:
 //	  Allocate memory; it will either simulate an allocation failure
@@ -55,7 +55,7 @@ CMemoryPoolInjectFault::CMemoryPoolInjectFault
 //
 //---------------------------------------------------------------------------
 void *
-CMemoryPoolInjectFault::PvAllocate
+CMemoryPoolInjectFault::Allocate
 	(
 	const ULONG ulNumBytes,
 	const CHAR *szFilename,
@@ -71,7 +71,7 @@ CMemoryPoolInjectFault::PvAllocate
 	}
 #endif
 
-	return PmpUnderlying()->PvAllocate(ulNumBytes, szFilename, ulLine);
+	return PmpUnderlying()->Allocate(ulNumBytes, szFilename, ulLine);
 }
 
 

@@ -50,7 +50,7 @@ namespace gpos
 
 			// allocate memory
 			virtual
-			void *PvAllocate
+			void *Allocate
 				(
 				const ULONG ulNumBytes,
 				const CHAR *szFilename,

@@ -79,7 +79,7 @@ CMemoryPoolStack::~CMemoryPoolStack()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMemoryPoolStack::PvAllocate
+//		CMemoryPoolStack::Allocate
 //
 //	@doc:
 //		Allocate memory, either from the underlying pool directly (for large
@@ -87,7 +87,7 @@ CMemoryPoolStack::~CMemoryPoolStack()
 //
 //---------------------------------------------------------------------------
 void *
-CMemoryPoolStack::PvAllocate
+CMemoryPoolStack::Allocate
 	(
 	ULONG ulBytes,
 	const CHAR *,  // szFile
@@ -110,7 +110,7 @@ CMemoryPoolStack::PvAllocate
 	// find block to allocate memory in it
 	SBlockDescriptor *pbd = PbdProvider(as, ulAlloc);
 
-	GPOS_ASSERT_IMP(FThreadSafe(), m_lock.Owned());
+	GPOS_ASSERT_IMP(ThreadSafe(), m_lock.Owned());
 
 	if (NULL != pbd)
 	{
@@ -193,7 +193,7 @@ CMemoryPoolStack::PbdNew
 	// allocate memory and put block descriptor to the beginning of it
 	SBlockDescriptor *pbd = static_cast<SBlockDescriptor*>
 			(
-			PmpUnderlying()->PvAllocate(ulBlockSize, __FILE__, __LINE__)
+			PmpUnderlying()->Allocate(ulBlockSize, __FILE__, __LINE__)
 			);
 
 	if (NULL != pbd)

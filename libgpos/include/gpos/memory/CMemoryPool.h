@@ -138,14 +138,14 @@ namespace gpos
 
 			// check if memory pool is thread-safe
 			virtual
-			BOOL FThreadSafe() const
+			BOOL ThreadSafe() const
 			{
 				return m_fThreadSafe;
 			}
 
 			// hash key accessor
 			virtual
-			ULONG_PTR UlpKey() const
+			ULONG_PTR HashKey() const
 			{
 				return m_ulpKey;
 			}
@@ -162,16 +162,16 @@ namespace gpos
 			}
 
 			// set allocation header and footer, return pointer to user data
-			void *PvFinalizeAlloc(void *pv, ULONG ulAlloc, EAllocationType eat);
+			void *PvFinalizeAlloc(void *pv, ULONG ulAlloc, AllocationType eat);
 
 			// return allocation to owning memory pool
 			static
-			void FreeAlloc(void *pv, EAllocationType eat);
+			void FreeAlloc(void *pv, AllocationType eat);
 
 			// check if the pool stores a pointer to itself at the end of
 			// the header of each allocated object;
 			virtual
-			BOOL FStoresPoolPointer() const
+			BOOL StoresPoolPointer() const
 			{
 				return false;
 			}
@@ -187,13 +187,13 @@ namespace gpos
 			// determine the size (in bytes) of an allocation that
 			// was made from a CMemoryPool
 			static
-			ULONG UlSizeOfAlloc(const void *pv);
+			ULONG SizeOfAlloc(const void *pv);
 
 #ifdef GPOS_DEBUG
 
 			// check if the memory pool keeps track of live objects
 			virtual
-			BOOL FSupportsLiveObjectWalk() const
+			BOOL SupportsLiveObjectWalk() const
 			{
 				return false;
 			}
@@ -210,7 +210,7 @@ namespace gpos
 
 			// check if statistics tracking is supported
 			virtual
-			BOOL FSupportsStatistics() const
+			BOOL SupportsStatistics() const
 			{
 				return false;
 			}

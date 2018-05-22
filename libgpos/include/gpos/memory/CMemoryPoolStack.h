@@ -116,7 +116,7 @@ namespace gpos
 			// acquire spinlock if pool is thread-safe
 			void SLock(CAutoSpinlock &as)
 			{
-				if (FThreadSafe())
+				if (ThreadSafe())
 				{
 					as.Lock();
 				}
@@ -125,7 +125,7 @@ namespace gpos
 			// release spinlock if pool is thread-safe
 			void SUnlock(CAutoSpinlock &as)
 			{
-				if (FThreadSafe())
+				if (ThreadSafe())
 				{
 					as.Unlock();
 				}
@@ -156,7 +156,7 @@ namespace gpos
 
 			// allocate memory
 			virtual
-			void *PvAllocate
+			void *Allocate
 				(
 				const ULONG ulBytes,
 				const CHAR *szFile,
@@ -186,7 +186,7 @@ namespace gpos
 			// check if the pool stores a pointer to itself at the end of
 			// the header of each allocated object;
 			virtual
-			BOOL FStoresPoolPointer() const
+			BOOL StoresPoolPointer() const
 			{
 				return true;
 			}

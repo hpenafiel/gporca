@@ -114,7 +114,7 @@ CMemoryPoolManager::Init
 			(
 			pmpBase,
 			ULLONG_MAX, // ullMaxMemory
-			true, // FThreadSafe
+			true, // ThreadSafe
 			false //fOwnsUnderlyingPmp
 			);
 
@@ -170,7 +170,7 @@ CMemoryPoolManager::PmpCreate
 
 	// accessor scope
 	{
-		MemoryPoolKeyAccessor shtacc(m_sht, pmp->UlpKey());
+		MemoryPoolKeyAccessor shtacc(m_sht, pmp->HashKey());
 		shtacc.Insert(PmpConvert(pmp));
 	}
 
@@ -314,7 +314,7 @@ CMemoryPoolManager::DeleteUnregistered
 #ifdef GPOS_DEBUG
 	// accessor's scope
 	{
-		MemoryPoolKeyAccessor shtacc(m_sht, pmp->UlpKey());
+		MemoryPoolKeyAccessor shtacc(m_sht, pmp->HashKey());
 
 		// make sure that this pool is not in the hash table
 		IMemoryPool *pmpFound = shtacc.Find();
@@ -349,7 +349,7 @@ CMemoryPoolManager::Destroy
 
 	// accessor scope
 	{
-		MemoryPoolKeyAccessor shtacc(m_sht, pmp->UlpKey());
+		MemoryPoolKeyAccessor shtacc(m_sht, pmp->HashKey());
 		shtacc.Remove(PmpConvert(pmp));
 	}
 
