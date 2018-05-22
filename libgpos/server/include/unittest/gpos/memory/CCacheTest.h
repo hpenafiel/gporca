@@ -162,7 +162,7 @@ namespace gpos
 						);
 
 					// key accessor
-					CDeepObjectList *PKey()
+					CDeepObjectList *Key()
 					{
 						return &m_list;
 					}

@@ -123,7 +123,7 @@ namespace gpos
 				// accessor holds the returned entry in all cases
 				m_pce = pceReturn;
 
-				return pceReturn->PVal();
+				return pceReturn->Val();
 
 			}
 
@@ -133,7 +133,7 @@ namespace gpos
 				T pReturn = NULL;
 				if (NULL != m_pce)
 				{
-					pReturn = m_pce->PVal();
+					pReturn = m_pce->Val();
 				}
 
 				return pReturn;

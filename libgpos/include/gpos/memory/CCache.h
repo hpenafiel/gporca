@@ -147,7 +147,7 @@ namespace gpos
 					EvictEntries();
 				}
 
-				CCacheHashtableAccessor acc(m_hash_table, entry->PKey());
+				CCacheHashtableAccessor acc(m_hash_table, entry->Key());
 
 				// if we allow duplicates, insertion can be directly made;
 				// if we do not allow duplicates, we need to check first
@@ -177,7 +177,7 @@ namespace gpos
 
 				// look for the first unmarked entry matching the given key
 				CCacheHashTableEntry *entry = acc.Find();
-				while (NULL != entry && entry->FMarkedForDeletion())
+				while (NULL != entry && entry->MarkedForDeletion())
 				{
 					entry = acc.Next(entry);
 				}
@@ -199,17 +199,17 @@ namespace gpos
 				GPOS_ASSERT(NULL != entry);
 
 				// CacheEntry's destructor is the only place where ref count go from 1(EXPECTED_REF_COUNT_FOR_DELETE) to 0
-				GPOS_ASSERT(EXPECTED_REF_COUNT_FOR_DELETE < entry->UlRefCount() &&
+				GPOS_ASSERT(EXPECTED_REF_COUNT_FOR_DELETE < entry->RefCount() &&
 						    "Releasing entry for which CCacheEntry has the ownership");
 
 				BOOL deleted = false;
 
 				// scope for hashtable accessor
 				{
-					CCacheHashtableAccessor acc(m_hash_table, entry->PKey());
+					CCacheHashtableAccessor acc(m_hash_table, entry->Key());
 					entry->DecRefCount();
 
-					if (EXPECTED_REF_COUNT_FOR_DELETE == entry->UlRefCount() && entry->FMarkedForDeletion())
+					if (EXPECTED_REF_COUNT_FOR_DELETE == entry->RefCount() && entry->MarkedForDeletion())
 					{
 						// remove entry from hash table
 						acc.Remove(entry);
@@ -230,12 +230,12 @@ namespace gpos
 				GPOS_ASSERT(NULL != entry);
 
 				CCacheHashTableEntry *current = entry;
-				K key = current->PKey();
+				K key = current->Key();
 				CCacheHashtableAccessor acc(m_hash_table, key);
 
 				// move forward until we find unmarked entry with the same key
 				CCacheHashTableEntry *next = acc.Next(current);
-				while (NULL != next && next->FMarkedForDeletion())
+				while (NULL != next && next->MarkedForDeletion())
 				{
 					next = acc.Next(next);
 				}
@@ -311,7 +311,7 @@ namespace gpos
 
 				// This assert is valid only when ccache get deleted. At that point nobody should hold a pointer to an object in CCache.
 				// If ref count is not 1, then we possibly have a leak.
-				GPOS_ASSERT(EXPECTED_REF_COUNT_FOR_DELETE == entry->UlRefCount() && "Expected CCacheEntry's refcount to be 1 before it get deleted");
+				GPOS_ASSERT(EXPECTED_REF_COUNT_FOR_DELETE == entry->RefCount() && "Expected CCacheEntry's refcount to be 1 before it get deleted");
 
 				DestroyCacheEntry(entry);
 			}
@@ -344,13 +344,13 @@ namespace gpos
 						if (NULL != (entry = acc.Value()))
 						{
 							// can only remove when the clock hand points to a entry with 0 gclock counter
-							if (0 == entry->ULGetGClockCounter())
+							if (0 == entry->GetGClockCounter())
 							{
 								// can only remove if no one else is using this entry.
 								// for our self reference we are using CCacheHashtableIterAccessor
 								// to directly access the entry. Therefore, we are not causing a
 								// bump to ref counter
-								if (EXPECTED_REF_COUNT_FOR_DELETE == entry->UlRefCount())
+								if (EXPECTED_REF_COUNT_FOR_DELETE == entry->RefCount())
 								{
 									// remove advances iterator automatically
 									acc.Remove(entry);
@@ -417,9 +417,9 @@ namespace gpos
 					(
 					m_pmp,
 					CACHE_HT_NUM_OF_BUCKETS,
-					GPOS_OFFSET(CCacheHashTableEntry, m_linkHash),
-					GPOS_OFFSET(CCacheHashTableEntry, m_pKey),
-					(&CCacheHashTableEntry::m_pInvalidKey),
+					GPOS_OFFSET(CCacheHashTableEntry, m_link_hash),
+					GPOS_OFFSET(CCacheHashTableEntry, m_key),
+					(&CCacheHashTableEntry::m_invalid_key),
 					m_hash_func,
 					m_equal_func
 					);
@@ -484,7 +484,7 @@ namespace gpos
 
 	// invalid key
 	template <class T, class K>
-	const K CCacheEntry<T, K>::m_pInvalidKey = NULL;
+	const K CCacheEntry<T, K>::m_invalid_key = NULL;
 
 } // namespace gpos
 

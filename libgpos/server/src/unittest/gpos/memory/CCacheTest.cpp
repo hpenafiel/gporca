@@ -788,7 +788,7 @@ CCacheTest::EresUnittest_DeepObject()
 #ifdef GPOS_DEBUG
 		CDeepObject *pdoReturned =
 #endif // GPOS_DEBUG
-			ca.PtInsert(pdo->PKey(), pdo);
+			ca.PtInsert(pdo->Key(), pdo);
 		pdo->Release();
 
 		GPOS_ASSERT(NULL != pdoReturned &&
@@ -806,7 +806,7 @@ CCacheTest::EresUnittest_DeepObject()
 #ifdef GPOS_DEBUG
 			CDeepObject *pdoReturned  =
 #endif // GPOS_DEBUG
-				ca.PtInsert(pdoDuplicate->PKey(), pdoDuplicate);
+				ca.PtInsert(pdoDuplicate->Key(), pdoDuplicate);
 
 			GPOS_ASSERT(pdoReturned == pdo &&
 						"Duplicate insertion must fail");
@@ -819,7 +819,7 @@ CCacheTest::EresUnittest_DeepObject()
 		// lookup - scope for accessor
 		{
 			CDeepObjectCacheAccessor ca(pcache);
-			ca.Lookup(pdoDummy->PKey());
+			ca.Lookup(pdoDummy->Key());
 			pdo = ca.PtVal();
 
 			if (NULL != pdo)
@@ -831,7 +831,7 @@ CCacheTest::EresUnittest_DeepObject()
 			GPOS_ASSERT_IMP(pcache->Unique(), NULL == pdo);
 			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pdo);
 			GPOS_ASSERT_IMP(!pcache->Unique(),
-							3 == CDeepObject::UlMyHash(pdo->PKey()) &&
+							3 == CDeepObject::UlMyHash(pdo->Key()) &&
 							"Incorrect cache entry");
 
 		}
@@ -839,7 +839,7 @@ CCacheTest::EresUnittest_DeepObject()
 		// delete - scope for accessor
 		{
 			CDeepObjectCacheAccessor ca(pcache);
-			ca.Lookup(pdoDummy->PKey());
+			ca.Lookup(pdoDummy->Key());
 			pdo = ca.PtVal();
 
 			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pdo);
@@ -856,7 +856,7 @@ CCacheTest::EresUnittest_DeepObject()
 		// lookup again - scope for accessor
 		{
 			CDeepObjectCacheAccessor ca(pcache);
-			ca.Lookup(pdoDummy->PKey());
+			ca.Lookup(pdoDummy->Key());
 			pdo = ca.PtVal();
 			GPOS_ASSERT(NULL == pdo);
 
@@ -866,7 +866,7 @@ CCacheTest::EresUnittest_DeepObject()
 		// outmost accessor
 
 		GPOS_ASSERT(NULL != pdoReturned &&
-					3 == CDeepObject::UlMyHash(pdoReturned->PKey()));
+					3 == CDeepObject::UlMyHash(pdoReturned->Key()));
 	}
 
 	return GPOS_OK;
