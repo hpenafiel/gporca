@@ -170,7 +170,7 @@ namespace gpos
                 {
                     // attempt to lock the mutex
                     ret = pthread::IPthreadMutexTryLock(&m_mutex);
-                    GPOS_ASSERT(EINVAL != iRet && "Invalid mutex structure");
+                    GPOS_ASSERT(EINVAL != ret && "Invalid mutex structure");
 
                     // check if mutex is already locked
                     if (EBUSY == ret)
@@ -337,7 +337,7 @@ namespace gpos
 #endif // GPOS_DEBUG
                 AttemptLock(true /*fBlocking*/);
 
-                GPOS_ASSERT(0 == iRet && "Unexpectedly failed to lock mutex");
+                GPOS_ASSERT(0 == ret && "Unexpectedly failed to lock mutex");
             }
 			
 			// attempt locking
@@ -363,7 +363,7 @@ namespace gpos
                 BOOL unlock = false;
                 if (1 == m_lock_count)
                 {
-                    funlock = true;
+                    unlock = true;
                     m_wid.Invalid();
                     if (this->Trackable())
                     {
