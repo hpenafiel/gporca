@@ -110,7 +110,7 @@ CMemoryPoolStack::PvAllocate
 	// find block to allocate memory in it
 	SBlockDescriptor *pbd = PbdProvider(as, ulAlloc);
 
-	GPOS_ASSERT_IMP(FThreadSafe(), m_lock.FOwned());
+	GPOS_ASSERT_IMP(FThreadSafe(), m_lock.Owned());
 
 	if (NULL != pbd)
 	{
@@ -216,7 +216,7 @@ CMemoryPoolStack::PbdNew
 void
 CMemoryPoolStack::TearDown()
 {
-	GPOS_ASSERT(!m_lock.FOwned());
+	GPOS_ASSERT(!m_lock.Owned());
 
 	while (!m_listBlocks.IsEmpty())
 	{

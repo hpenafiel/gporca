@@ -77,7 +77,7 @@ namespace gpos
 			
 
 			// decide trackability of spinlock
-			BOOL FTrackable()
+			BOOL Trackable()
 			{
 				// do not track lock of rank 0
 				return 0 < m_ulRank;
@@ -91,7 +91,7 @@ namespace gpos
 #ifdef GPOS_DEBUG
 			// test whether we own the spinlock
 			virtual
-			BOOL FOwned() const = 0;
+			BOOL Owned() const = 0;
 #endif // GPOS_ASSERT
 
 			// link for accounting list
@@ -181,7 +181,7 @@ namespace gpos
                 }
 
                 // assert it is not us who holds the lock
-                GPOS_ASSERT(!FOwned() && "self-deadlock detected");
+                GPOS_ASSERT(!Owned() && "self-deadlock detected");
 
                 // trigger a back-off after a certain number of attempts
                 if (ulAttempts++ > GPOS_SPIN_ATTEMPTS)
@@ -196,7 +196,7 @@ namespace gpos
                     // a non-trackable lock; dependent on OPT-87, OPT-86
 
                     // non-trackable locks don't know about aborts
-                    if (FTrackable())
+                    if (Trackable())
                     {
                         // TODO: 03/09/2008; log that we're burning CPU
 
@@ -241,7 +241,7 @@ namespace gpos
 		
 #ifdef GPOS_DEBUG
 		// test whether we own the spinlock
-		BOOL FOwned() const
+		BOOL Owned() const
         {
             CWorkerId wid;
             return m_fLocked && m_wid.Equals(wid);

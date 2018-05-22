@@ -61,13 +61,13 @@ CAutoMutexTest::EresUnittest_LockRelease()
 
 		amx.Lock();
 
-		GPOS_ASSERT(mutex.FOwned());
+		GPOS_ASSERT(mutex.Owned());
 
 		amx.Unlock();
 		
 		// test trylock routine
 		(void) amx.TryLock();
-		GPOS_ASSERT(mutex.FOwned());
+		GPOS_ASSERT(mutex.Owned());
 		amx.Unlock();
 
 		// dangling lock reference
@@ -101,7 +101,7 @@ CAutoMutexTest::EresUnittest_Recursion()
 			GPOS_ASSERT(amx.TryLock());
 		}
 
-		GPOS_ASSERT(mutex.FOwned());
+		GPOS_ASSERT(mutex.Owned());
 
 	}
 
