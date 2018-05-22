@@ -681,7 +681,7 @@ CAutoTaskProxyTest::PvUnittest_Short
 	void *pv
 	)
 {
-	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::PthreadSelf()));
+	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::Self()));
 
 	ULLONG *pullSum = (ULLONG *) pv;
 	*pullSum = 0;
@@ -709,7 +709,7 @@ CAutoTaskProxyTest::PvUnittest_Long
 	void *pv
 	)
 {
-	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::PthreadSelf()));
+	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::Self()));
 
 	ULLONG *pullSum = (ULLONG *) pv;
 	*pullSum = 0;
@@ -741,7 +741,7 @@ CAutoTaskProxyTest::PvUnittest_Infinite
 	void * // pv
 	)
 {
-	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::PthreadSelf()));
+	GPOS_ASSERT(CWorkerPoolManager::WorkerPoolManager()->OwnedThread(gpos::pthread::Self()));
 
 	while (true)
 	{

@@ -64,14 +64,14 @@ gpos::pthread::IsValidDetachedState
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadAttrInit
+//		pthread::AttrInit
 //
 //	@doc:
 //		Initialize the thread attributes object
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadAttrInit
+gpos::pthread::AttrInit
 	(
 	PTHREAD_ATTR_T *attr
 	)
@@ -93,14 +93,14 @@ gpos::pthread::PthreadAttrInit
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadAttrDestroy
+//		pthread::AttrDestroy
 //
 //	@doc:
 //		Destroy the thread attributes object
 //
 //---------------------------------------------------------------------------
 void
-gpos::pthread::PthreadAttrDestroy
+gpos::pthread::AttrDestroy
 	(
 	PTHREAD_ATTR_T *attr
 	)
@@ -120,14 +120,14 @@ gpos::pthread::PthreadAttrDestroy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadAttrGetDetachState
+//		pthread::AttrGetDetachState
 //
 //	@doc:
 //		Get the detachstate attribute
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadAttrGetDetachState
+gpos::pthread::AttrGetDetachState
 	(
 	const PTHREAD_ATTR_T *attr,
 	INT *state
@@ -151,14 +151,14 @@ gpos::pthread::PthreadAttrGetDetachState
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadAttrSetDetachState
+//		pthread::AttrSetDetachState
 //
 //	@doc:
 //		Set the detachstate attribute
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadAttrSetDetachState
+gpos::pthread::AttrSetDetachState
 	(
 	PTHREAD_ATTR_T *attr,
 	INT state
@@ -182,14 +182,14 @@ gpos::pthread::PthreadAttrSetDetachState
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexAttrInit
+//		pthread::MutexAttrInit
 //
 //	@doc:
 //		Initialize the mutex attributes object
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadMutexAttrInit
+gpos::pthread::MutexAttrInit
 	(
 	PTHREAD_MUTEXATTR_T *attr
 	)
@@ -207,14 +207,14 @@ gpos::pthread::PthreadMutexAttrInit
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexAttrDestroy
+//		pthread::MutexAttrDestroy
 //
 //	@doc:
 //		Destroy the mutex attributes object
 //
 //---------------------------------------------------------------------------
 void
-gpos::pthread::PthreadMutexAttrDestroy
+gpos::pthread::MutexAttrDestroy
 	(
 	PTHREAD_MUTEXATTR_T *attr
 	)
@@ -233,14 +233,14 @@ gpos::pthread::PthreadMutexAttrDestroy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexAttrGettype
+//		pthread::MutexAttrGettype
 //
 //	@doc:
 //		Get the mutex type attribute
 //
 //---------------------------------------------------------------------------
 void
-gpos::pthread::PthreadMutexAttrGettype
+gpos::pthread::MutexAttrGettype
 	(
 	const PTHREAD_MUTEXATTR_T *attr,
 	INT *type
@@ -266,14 +266,14 @@ gpos::pthread::PthreadMutexAttrGettype
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexAttrSettype
+//		pthread::MutexAttrSettype
 //
 //	@doc:
 //		Set the mutex type attribute
 //
 //---------------------------------------------------------------------------
 void
-gpos::pthread::PthreadMutexAttrSettype
+gpos::pthread::MutexAttrSettype
 	(
 	PTHREAD_MUTEXATTR_T *attr,
 	INT type
@@ -294,14 +294,14 @@ gpos::pthread::PthreadMutexAttrSettype
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexInit
+//		pthread::MutexInit
 //
 //	@doc:
 //		Initialize a mutex
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadMutexInit
+gpos::pthread::MutexInit
 	(
 	PTHREAD_MUTEX_T *mutex,
 	const PTHREAD_MUTEXATTR_T *attr
@@ -327,14 +327,14 @@ gpos::pthread::PthreadMutexInit
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexDestroy
+//		pthread::MutexDestroy
 //
 //	@doc:
 //		Destroy a mutex
 //
 //---------------------------------------------------------------------------
 void
-gpos::pthread::PthreadMutexDestroy
+gpos::pthread::MutexDestroy
 	(
 	PTHREAD_MUTEX_T *mutex
 	)
@@ -353,14 +353,14 @@ gpos::pthread::PthreadMutexDestroy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexLock
+//		pthread::MutexLock
 //
 //	@doc:
 //		Lock a mutex
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadMutexLock
+gpos::pthread::MutexLock
 	(
 	PTHREAD_MUTEX_T *mutex
 	)
@@ -384,14 +384,14 @@ gpos::pthread::PthreadMutexLock
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexTryLock
+//		pthread::MutexTryLock
 //
 //	@doc:
 //	        Try lock a mutex
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadMutexTryLock
+gpos::pthread::MutexTryLock
 	(
 	PTHREAD_MUTEX_T *mutex
 	)
@@ -414,14 +414,14 @@ gpos::pthread::PthreadMutexTryLock
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexUnlock
+//		pthread::MutexUnlock
 //
 //	@doc:
 //		Unlock a mutex
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadMutexUnlock
+gpos::pthread::MutexUnlock
 	(
 	PTHREAD_MUTEX_T *mutex
 	)
@@ -445,7 +445,7 @@ gpos::pthread::PthreadMutexUnlock
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadMutexTimedlock
+//		pthread::MutexTimedlock
 //
 //	@doc:
 //		Lock the mutex object referenced by mutex with timeout
@@ -453,7 +453,7 @@ gpos::pthread::PthreadMutexUnlock
 //---------------------------------------------------------------------------
 #ifndef GPOS_Darwin
 INT
-gpos::pthread::PthreadMutexTimedlock
+gpos::pthread::MutexTimedlock
 	(
 	PTHREAD_MUTEX_T *mutex,
 	const TIMESPEC *timeout
@@ -477,14 +477,14 @@ gpos::pthread::PthreadMutexTimedlock
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadCondInit
+//		pthread::CondInit
 //
 //	@doc:
 //		Initialize condition variables
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadCondInit
+gpos::pthread::CondInit
 	(
 	PTHREAD_COND_T *__restrict cond,
 	const PTHREAD_CONDATTR_T *__restrict attr
@@ -509,14 +509,14 @@ gpos::pthread::PthreadCondInit
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadCondDestroy
+//		pthread::CondDestroy
 //
 //	@doc:
 //		Destroy condition variables
 //
 //---------------------------------------------------------------------------
 void
-gpos::pthread::PthreadCondDestroy
+gpos::pthread::CondDestroy
 	(
 	PTHREAD_COND_T *cond
 	)
@@ -535,14 +535,14 @@ gpos::pthread::PthreadCondDestroy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadCondBroadcast
+//		pthread::CondBroadcast
 //
 //	@doc:
 //		Broadcast a condition
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadCondBroadcast
+gpos::pthread::CondBroadcast
 	(
 	PTHREAD_COND_T *cond
 	)
@@ -565,14 +565,14 @@ gpos::pthread::PthreadCondBroadcast
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadCondSignal
+//		pthread::CondSignal
 //
 //	@doc:
 //		Signal a condition
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadCondSignal
+gpos::pthread::CondSignal
 	(
 	PTHREAD_COND_T *cond
 	)
@@ -595,14 +595,14 @@ gpos::pthread::PthreadCondSignal
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadCondTimedWait
+//		pthread::CondTimedWait
 //
 //	@doc:
 //		Wait on a condition
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadCondTimedWait
+gpos::pthread::CondTimedWait
 	(
 	PTHREAD_COND_T *__restrict cond,
 	PTHREAD_MUTEX_T *__restrict mutex,
@@ -628,14 +628,14 @@ gpos::pthread::PthreadCondTimedWait
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadCondWait
+//		pthread::CondWait
 //
 //	@doc:
 //		Signal a condition
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadCondWait
+gpos::pthread::CondWait
 	(
 	PTHREAD_COND_T *__restrict cond,
 	PTHREAD_MUTEX_T *__restrict mutex
@@ -660,18 +660,18 @@ gpos::pthread::PthreadCondWait
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadCreate
+//		pthread::Create
 //
 //	@doc:
 //		thread creation
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadCreate
+gpos::pthread::Create
 	(
 	PTHREAD_T *__restrict thread,
 	const PTHREAD_ATTR_T *__restrict attr,
-	PthreadExecFn func,
+	ExecFn func,
 	void *__restrict arg
 	)
 {
@@ -693,14 +693,14 @@ gpos::pthread::PthreadCreate
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadJoin
+//		pthread::Join
 //
 //	@doc:
 //		Wait for thread termination
 //
 //---------------------------------------------------------------------------
 INT
-gpos::pthread::PthreadJoin
+gpos::pthread::Join
 	(
 	PTHREAD_T thread,
 	void **retval
@@ -724,14 +724,14 @@ gpos::pthread::PthreadJoin
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadEqual
+//		pthread::Equal
 //
 //	@doc:
 //		Compare thread IDs
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::pthread::PthreadEqual
+gpos::pthread::Equal
 	(
 	PTHREAD_T pthread1,
 	PTHREAD_T pthread2
@@ -747,14 +747,14 @@ gpos::pthread::PthreadEqual
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadSelf
+//		pthread::Self
 //
 //	@doc:
 //		Get the calling thread ID
 //
 //---------------------------------------------------------------------------
 PTHREAD_T
-gpos::pthread::PthreadSelf
+gpos::pthread::Self
 	(
 	)
 {
@@ -764,14 +764,14 @@ gpos::pthread::PthreadSelf
 
 //---------------------------------------------------------------------------
 //	@function:
-//		pthread::PthreadSigMask
+//		pthread::SigMask
 //
 //	@doc:
 //		Set signal mask for thread
 //
 //---------------------------------------------------------------------------
 void
-gpos::pthread::PthreadSigMask
+gpos::pthread::SigMask
 	(
 	INT mode,
 	const SIGSET_T *set,

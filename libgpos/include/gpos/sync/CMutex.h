@@ -169,7 +169,7 @@ namespace gpos
                 do
                 {
                     // attempt to lock the mutex
-                    ret = pthread::PthreadMutexTryLock(&m_mutex);
+                    ret = pthread::MutexTryLock(&m_mutex);
                     GPOS_ASSERT(EINVAL != ret && "Invalid mutex structure");
 
                     // check if mutex is already locked
@@ -210,7 +210,7 @@ namespace gpos
                     ts.tv_sec = (ULONG_PTR) (expire_us / GPOS_USEC_IN_SEC);
                     ts.tv_nsec = (ULONG_PTR) ((expire_us % GPOS_USEC_IN_SEC) * (GPOS_NSEC_IN_SEC / GPOS_USEC_IN_SEC));
 
-                    ret = pthread::PthreadMutexTimedlock(&m_mutex, &ts);
+                    ret = pthread::MutexTimedlock(&m_mutex, &ts);
 
                     // check if mutex is already locked
                     if (EBUSY == ret)
@@ -245,7 +245,7 @@ namespace gpos
                 else
                 {
                     // attempt to lock the mutex
-                    ret = pthread::PthreadMutexTryLock(&m_mutex);
+                    ret = pthread::MutexTryLock(&m_mutex);
                 }
 
                 if (0 != ret)
@@ -286,26 +286,26 @@ namespace gpos
                 PTHREAD_MUTEXATTR_T mutex_attr;
 
                 // init can run out of memory
-                if (0 != pthread::PthreadMutexAttrInit(&mutex_attr))
+                if (0 != pthread::MutexAttrInit(&mutex_attr))
                 {
                     // raise OOM exception
                     GPOS_OOM_CHECK(NULL);
                 }
 
                 // ignore return value -- all parameters have been checked already
-                pthread::PthreadMutexAttrSettype(&mutex_attr, mutex_type);
+                pthread::MutexAttrSettype(&mutex_attr, mutex_type);
 
-                if (0 != pthread::PthreadMutexInit(&m_mutex, &mutex_attr))
+                if (0 != pthread::MutexInit(&m_mutex, &mutex_attr))
                 {
                     // cleanup
-                    pthread::PthreadMutexAttrDestroy(&mutex_attr);
+                    pthread::MutexAttrDestroy(&mutex_attr);
 
                     // out of memory/resources
                     GPOS_OOM_CHECK(NULL);
                 }
 
                 // ignore return value -- parameter already checked
-                pthread::PthreadMutexAttrDestroy(&mutex_attr);
+                pthread::MutexAttrDestroy(&mutex_attr);
             }
 					
 			// dtor
@@ -321,7 +321,7 @@ namespace gpos
                 }
 
                 // deallocate resources
-                pthread::PthreadMutexDestroy(&m_mutex);
+                pthread::MutexDestroy(&m_mutex);
             }
 					
 			// acquire lock
@@ -375,7 +375,7 @@ namespace gpos
                 --m_lock_count;
 
                 // ignore return values -- parameters/context have been checked already
-                (void) pthread::PthreadMutexUnlock(&m_mutex);
+                (void) pthread::MutexUnlock(&m_mutex);
 
                 GPOS_ASSERT_IMP(unlock, !Owned());
             }

@@ -31,16 +31,16 @@ CThreadManager::CThreadManager()
 	m_finished_descriptors.Init(GPOS_OFFSET(ThreadDescriptor, m_link));
 
 	// initialize pthread attribute
-	if (0 != pthread::PthreadAttrInit(&m_pthread_attr))
+	if (0 != pthread::AttrInit(&m_pthread_attr))
 	{
 		// raise OOM exception
 		GPOS_OOM_CHECK(NULL);
 	}
 
-	if (0 != pthread::PthreadAttrSetDetachState(&m_pthread_attr, PTHREAD_CREATE_JOINABLE))
+	if (0 != pthread::AttrSetDetachState(&m_pthread_attr, PTHREAD_CREATE_JOINABLE))
 	{
 		// release pthread attribute
-		pthread::PthreadAttrDestroy(&m_pthread_attr);
+		pthread::AttrDestroy(&m_pthread_attr);
 
 		// raise OOM exception
 		GPOS_OOM_CHECK(NULL);
@@ -65,7 +65,7 @@ CThreadManager::CThreadManager()
 //---------------------------------------------------------------------------
 CThreadManager::~CThreadManager()
 {
-	pthread::PthreadAttrDestroy(&m_pthread_attr);
+	pthread::AttrDestroy(&m_pthread_attr);
 }
 
 //---------------------------------------------------------------------------
@@ -98,7 +98,7 @@ CThreadManager::EresCreate()
 		descriptor = m_unused_descriptors.RemoveHead();
 
 		// attempt to create thread
-		INT res = pthread::PthreadCreate(&descriptor->m_pthrdt, NULL /*pthrAttr*/, RunWorker, descriptor);
+		INT res = pthread::Create(&descriptor->m_pthrdt, NULL /*pthrAttr*/, RunWorker, descriptor);
 
 		// check for error
 		if (0 != res)
@@ -218,7 +218,7 @@ CThreadManager::GC()
 		ThreadDescriptor *descriptor = m_finished_descriptors.RemoveHead();
 
 		// join thread
-		pthread::PthreadJoin(descriptor->m_pthrdt, NULL);
+		pthread::Join(descriptor->m_pthrdt, NULL);
 
 		// add thread descriptor to unused list
 		m_unused_descriptors.Prepend(descriptor);
@@ -285,7 +285,7 @@ CThreadManager::SetSignalMask()
 	pthread::SigAddSet(&sigset, SIGTERM);
 	pthread::SigAddSet(&sigset, SIGQUIT);
 
-	pthread::PthreadSigMask(SIG_BLOCK, &sigset, NULL /*psetOld*/);
+	pthread::SigMask(SIG_BLOCK, &sigset, NULL /*psetOld*/);
 }
 
 
