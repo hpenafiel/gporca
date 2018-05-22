@@ -36,10 +36,10 @@ using namespace gpos;
 CMemoryPoolInjectFault::CMemoryPoolInjectFault
 	(
 	IMemoryPool *pmp,
-	BOOL fOwnsUnderlying
+	BOOL owns_underlying_memory_pool
 	)
 	:
-	CMemoryPool(pmp, fOwnsUnderlying, true /*fThreadSafe*/)
+	CMemoryPool(pmp, owns_underlying_memory_pool, true /*fThreadSafe*/)
 {
 	GPOS_ASSERT(pmp != NULL);
 }
@@ -57,21 +57,21 @@ CMemoryPoolInjectFault::CMemoryPoolInjectFault
 void *
 CMemoryPoolInjectFault::Allocate
 	(
-	const ULONG ulNumBytes,
-	const CHAR *szFilename,
-	const ULONG ulLine
+	const ULONG num_bytes,
+	const CHAR *filename,
+	const ULONG line
 	)
 {
 #ifdef GPOS_FPSIMULATOR
-	if (FSimulateAllocFailure())
+	if (SimulateAllocFailure())
 	{
-		GPOS_TRACE_FORMAT_ERR("Simulating OOM at %s:%d", szFilename, ulLine);
+		GPOS_TRACE_FORMAT_ERR("Simulating OOM at %s:%d", filename, line);
 
 		return NULL;
 	}
 #endif
 
-	return UnderlyingMemoryPool()->Allocate(ulNumBytes, szFilename, ulLine);
+	return UnderlyingMemoryPool()->Allocate(num_bytes, filename, line);
 }
 
 
@@ -90,10 +90,10 @@ CMemoryPoolInjectFault::Allocate
 void
 CMemoryPoolInjectFault::Free
 	(
-	void *pvMemory
+	void *memory
 	)
 {
-	UnderlyingMemoryPool()->Free(pvMemory);
+	UnderlyingMemoryPool()->Free(memory);
 }
 
 
@@ -110,11 +110,11 @@ CMemoryPoolInjectFault::Free
 BOOL
 CMemoryPoolInjectFault::FSimulateAllocFailure()
 {
-	ITask *ptsk = ITask::Self();
-	if (NULL != ptsk)
+	ITask *task = ITask::Self();
+	if (NULL != task)
 	{
 		return
-			ptsk->Trace(EtraceSimulateOOM) &&
+			task->Trace(EtraceSimulateOOM) &&
 			CFSimulator::Pfsim()->FNewStack(CException::ExmaSystem, CException::ExmiOOM);
 	}
 

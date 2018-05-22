@@ -32,7 +32,7 @@ namespace gpos
 
 #ifdef GPOS_FPSIMULATOR
 			// check for OOM simulation
-			BOOL FSimulateAllocFailure();
+			BOOL SimulateAllocFailure();
 #endif // GPOS_FPSIMULATOR
 
 			// private copy ctor
@@ -41,7 +41,7 @@ namespace gpos
 		public:
 
 			// ctor
-			CMemoryPoolInjectFault(IMemoryPool *pmp, BOOL fOwnsUnderlying);
+			CMemoryPoolInjectFault(IMemoryPool *pmp, BOOL owns_underlying_memory_pool);
 
 			//dtor
 			virtual
@@ -52,14 +52,14 @@ namespace gpos
 			virtual
 			void *Allocate
 				(
-				const ULONG ulNumBytes,
-				const CHAR *szFilename,
-				const ULONG ulLine
+				const ULONG num_bytes,
+				const CHAR *filename,
+				const ULONG line
 				);
 
 			// free memory
 			virtual
-			void Free(void *pv);
+			void Free(void *ptr);
 
 			// return total allocated size
 			virtual
