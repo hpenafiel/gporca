@@ -47,7 +47,7 @@ CErrorContext::CErrorContext
 	m_wss(m_wsz, GPOS_ARRAY_SIZE(m_wsz)),
 	m_pmdr(pmdr)
 {
-	m_listSerial.Init(GPOS_OFFSET(CSerializable, m_linkErrCtxt));
+	m_listSerial.Init(GPOS_OFFSET(CSerializable, m_err_ctxt_link));
 }
 
 
