@@ -17,7 +17,7 @@
 using namespace gpos;
 
 // invalid locale
-const ELocale CMessageTable::m_elocInvalid = ELocInvalid;
+const ELocale CMessageTable::m_invalid_locale = ELocInvalid;
 
 
 //---------------------------------------------------------------------------
@@ -30,16 +30,16 @@ const ELocale CMessageTable::m_elocInvalid = ELocInvalid;
 CMessageTable::CMessageTable
 	(
 	IMemoryPool *pmp,
-	ULONG ulSize,
-	ELocale eloc
+	ULONG size,
+	ELocale locale
 	)
 	:
-	m_eloc(eloc)
+	m_locale(locale)
 {
-	m_sht.Init
+	m_hash_table.Init
 		(
 		pmp,
-		ulSize,
+		size,
 		GPOS_OFFSET(CMessage, m_link),
 		GPOS_OFFSET(CMessage, m_exc),
 		&(CException::m_invalid_exception),
@@ -51,20 +51,20 @@ CMessageTable::CMessageTable
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMessageTable::PmsgLookup
+//		CMessageTable::LookupMessage
 //
 //	@doc:
 //		Lookup message 
 //
 //---------------------------------------------------------------------------
 CMessage*
-CMessageTable::PmsgLookup
+CMessageTable::LookupMessage
 	(
 	CException exc
 	)
 {
-	MTAccessor shta(m_sht, exc);
-	return shta.Find();
+	MTAccessor acc(m_hash_table, exc);
+	return acc.Find();
 }
 
 
@@ -79,14 +79,14 @@ CMessageTable::PmsgLookup
 void
 CMessageTable::AddMessage
 	(
-	CMessage *pmsg
+	CMessage *msg
 	)
 {
-	MTAccessor shta(m_sht, pmsg->m_exc);
+	MTAccessor acc(m_hash_table, msg->m_exc);
 
-	if (NULL == shta.Find())
+	if (NULL == acc.Find())
 	{
-		shta.Insert(pmsg);
+		acc.Insert(msg);
 	}
 	
 	// TODO: 6/24/2010; raise approp. error for duplicate message

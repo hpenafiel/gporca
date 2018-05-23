@@ -68,7 +68,7 @@ namespace gpos
 			~CMessageRepository();
 
 			// lookup message by error/local
-			CMessage *PmsgLookup(CException exc, ELocale eloc);
+			CMessage *LookupMessage(CException exc, ELocale eloc);
 
 			// add individual message
 			void AddMessage(ELocale eloc, CMessage *pmsg);

@@ -57,14 +57,14 @@ CMessageRepository::~CMessageRepository()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMessageRepository::PmsgLookup
+//		CMessageRepository::LookupMessage
 //
 //	@doc:
 //		Lookup a message by a given CException/Local combination
 //
 //---------------------------------------------------------------------------
 CMessage *
-CMessageRepository::PmsgLookup
+CMessageRepository::LookupMessage
 	(
 	CException exc,
 	ELocale eloc
@@ -87,7 +87,7 @@ CMessageRepository::PmsgLookup
 			if (NULL != pmt)
 			{
 				// try to locate specific message
-				pmsg = pmt->PmsgLookup(exc);
+				pmsg = pmt->LookupMessage(exc);
 				if (NULL != pmsg)
 				{
 					return pmsg;
@@ -185,8 +185,8 @@ CMessageRepository::InitDirectory
 		pmp,
 		128,
 		GPOS_OFFSET(CMessageTable, m_link),
-		GPOS_OFFSET(CMessageTable, m_eloc),
-		&(CMessageTable::m_elocInvalid),
+		GPOS_OFFSET(CMessageTable, m_locale),
+		&(CMessageTable::m_invalid_locale),
 		CMessageTable::HashValue,
 		CMessageTable::Equals
 		);

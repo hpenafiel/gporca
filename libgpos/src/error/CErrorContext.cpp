@@ -121,7 +121,7 @@ CErrorContext::Record
 	m_sd.BackTrace(1);
 
 	ELocale eloc = ITask::Self()->Locale();
-	CMessage *pmsg = CMessageRepository::Pmr()->PmsgLookup(exc, eloc);
+	CMessage *pmsg = CMessageRepository::Pmr()->LookupMessage(exc, eloc);
 	pmsg->Format(&m_wss, vl);
 
 	m_ulSev = pmsg->UlSev();
