@@ -91,7 +91,7 @@ CMemoryPoolStack::Allocate
 	(
 	ULONG bytes,
 	const CHAR *,  // szFile
-	const ULONG    // ulLine
+	const ULONG    // line
 	)
 {
 	GPOS_ASSERT(GPOS_MEM_ALLOC_MAX >= bytes);

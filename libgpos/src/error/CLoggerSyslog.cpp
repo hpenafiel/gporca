@@ -73,15 +73,15 @@ CLoggerSyslog::~CLoggerSyslog()
 void
 CLoggerSyslog::Write
 	(
-	const WCHAR *wszLogEntry,
-	ULONG // ulSev
+	const WCHAR *log_entry,
+	ULONG // severity
 	)
 {
 	CHAR *szBuffer = CLogger::SzMsg();
 
 	// create message
 	CStringStatic str(szBuffer, GPOS_LOG_MESSAGE_BUFFER_SIZE);
-	str.AppendConvert(wszLogEntry);
+	str.AppendConvert(log_entry);
 
 	// send message to syslog
 	syslib::OpenLog(m_szProcName, m_ulInitMask, LOG_USER);
@@ -101,10 +101,10 @@ CLoggerSyslog::Write
 void
 CLoggerSyslog::Alert
 	(
-	const WCHAR *wszMsg
+	const WCHAR *msg
 	)
 {
-	m_loggerAlert.Write(wszMsg, CException::ExsevError);
+	m_loggerAlert.Write(msg, CException::ExsevError);
 }
 
 // EOF

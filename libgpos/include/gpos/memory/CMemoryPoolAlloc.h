@@ -60,8 +60,8 @@ namespace gpos
 			void *Allocate
 				(
 				ULONG num_bytes,
-				const CHAR *, // szFilename
-				const ULONG   // ulLine
+				const CHAR *, // filename
+				const ULONG   // line
 				)
 			{
 

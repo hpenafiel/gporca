@@ -51,24 +51,24 @@ namespace gpos
 			CMutex m_mutex;
 
 			// error logging information level
-			EErrorInfoLevel m_eil;
+			ErrorInfoLevel m_eil;
 
 			// log message
 			void Log
 				(
-				const WCHAR *wszMsg,
-				ULONG ulSeverity,
-				const CHAR *szFilename,
-				ULONG ulLine
+				const WCHAR *msg,
+				ULONG severity,
+				const CHAR *filename,
+				ULONG line
 				);
 
 			// format log message
 			void Format
 				(
-				const WCHAR *wszMsg,
-				ULONG ulSeverity,
-				const CHAR *szFilename,
-				ULONG ulLine
+				const WCHAR *msg,
+				ULONG severity,
+				const CHAR *filename,
+				ULONG line
 				);
 
 			// add date to message
@@ -92,7 +92,7 @@ namespace gpos
 
 			// ctor
 			explicit
-			CLogger(EErrorInfoLevel eil = ILogger::EeilMsgHeaderStack);
+			CLogger(ErrorInfoLevel eil = ILogger::EeilMsgHeaderStack);
 
 			// dtor
 			virtual
@@ -100,7 +100,7 @@ namespace gpos
 
 			// error level accessor
 			virtual
-			EErrorInfoLevel Eil() const
+			ErrorInfoLevel InfoLevel() const
 			{
 				return m_eil;
 			}
@@ -109,7 +109,7 @@ namespace gpos
 			virtual
 			void SetErrorInfoLevel
 				(
-				EErrorInfoLevel eil
+				ErrorInfoLevel eil
 				)
 			{
 				m_eil = eil;

@@ -69,7 +69,7 @@ namespace gpos
 			//
 			// ctor
 			CMessage(CException exc, 
-					 ULONG ulSev,
+					 ULONG severity,
 					 const WCHAR *wszFmt, ULONG ulLenFmt, 
 					 ULONG ulParams,
 					 const WCHAR *wszComment, ULONG ulLenComment);
@@ -96,7 +96,7 @@ namespace gpos
 
 			// format an error message
 			static 
-			void FormatMessage(CWStringStatic *pstr, ULONG ulMajor, ULONG ulMinor, ...);
+			void FormatMessage(CWStringStatic *pstr, ULONG major, ULONG minor, ...);
 			
 #ifdef GPOS_DEBUG
 			// debug print function

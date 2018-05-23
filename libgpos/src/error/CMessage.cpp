@@ -25,13 +25,13 @@ using namespace gpos;
 CMessage::CMessage
 	(
 	CException exc, 
-	ULONG ulSev,
+	ULONG severity,
 	const WCHAR *wszFmt, ULONG ulLenFmt, 
 	ULONG ulParams,
 	const WCHAR *wszComment, ULONG ulLenComment
 	)
 	:
-	m_ulSev(ulSev),
+	m_ulSev(severity),
 	m_wszFmt(wszFmt),
 	m_ulLenFmt(ulLenFmt),
 	m_ulParams(ulParams),
@@ -98,20 +98,20 @@ void
 CMessage::FormatMessage
 	(
 	CWStringStatic *pstr,
-	ULONG ulMajor,
-	ULONG ulMinor,
+	ULONG major,
+	ULONG minor,
 	...
 	)
 {
 	// manufacture actual exception object
-	CException exc(ulMajor, ulMinor);
+	CException exc(major, minor);
 	
 	// during bootstrap there's no context object otherwise, record
 	// all details in the context object
 	if (NULL != ITask::Self())
 	{
 		VA_LIST valist;
-		VA_START(valist, ulMinor);
+		VA_START(valist, minor);
 
 		ELocale eloc = ITask::Self()->Locale();
 		CMessage *pmsg = CMessageRepository::Pmr()->PmsgLookup(exc, eloc);

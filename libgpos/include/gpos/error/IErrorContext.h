@@ -70,7 +70,7 @@ namespace gpos
 
 			// set severity
 			virtual
-			void SetSev(ULONG ulSev) = 0;
+			void SetSev(ULONG severity) = 0;
 
 			// print error stack trace
 			virtual

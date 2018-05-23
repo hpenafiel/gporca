@@ -2126,8 +2126,8 @@ CWStringConst *
 CXformUtils::PstrErrorMessage
 	(
 	IMemoryPool *pmp,
-	ULONG ulMajor,
-	ULONG ulMinor,
+	ULONG major,
+	ULONG minor,
 	...
 	)
 {
@@ -2135,14 +2135,14 @@ CXformUtils::PstrErrorMessage
 	CWStringStatic str(wsz, 1024);
 	
 	// manufacture actual exception object
-	CException exc(ulMajor, ulMinor);
+	CException exc(major, minor);
 	
 	// during bootstrap there's no context object otherwise, record
 	// all details in the context object
 	if (NULL != ITask::Self())
 	{
 		VA_LIST valist;
-		VA_START(valist, ulMinor);
+		VA_START(valist, minor);
 
 		ELocale eloc = ITask::Self()->Locale();
 		CMessage *pmsg = CMessageRepository::Pmr()->PmsgLookup(exc, eloc);

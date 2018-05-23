@@ -68,13 +68,13 @@ const CHAR *rgszFileNames[] =
 struct UnSupportedTestCase
 {
 	// file name of minidump
-	const CHAR *szFilename;
+	const CHAR *filename;
 
 	// expected exception major
-	ULONG ulMajor;
+	ULONG major;
 
 	// expected exception minor
-	ULONG ulMinor;
+	ULONG minor;
 };
 
 // unsupported minidump files
@@ -173,8 +173,8 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 	const ULONG ulTests = GPOS_ARRAY_SIZE(unSupportedTestCases);
 	for (ULONG ul = m_ulUnsupportedTestCounter; ul < ulTests; ul++)
 	{
-		const CHAR *szFilename = unSupportedTestCases[ul].szFilename;
-		CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(pmp, szFilename);
+		const CHAR *filename = unSupportedTestCases[ul].filename;
+		CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(pmp, filename);
 		bool unmatchedException = false;
 		ULONG unmatchedExceptionMajor = 0;
 		ULONG unmatchedExceptionMinor = 0;
@@ -187,7 +187,7 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 			CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 									(
 									pmp, 
-									szFilename,
+									filename,
 									poconf->Pcm()->UlHosts() /*ulSegments*/,
 									1 /*ulSessionId*/, 
 									1, /*ulCmdId*/
@@ -210,8 +210,8 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 			unmatchedExceptionMinor = ex.Minor();
 
 			// verify expected exception
-			if (unSupportedTestCases[ul].ulMajor == unmatchedExceptionMajor
-					&& unSupportedTestCases[ul].ulMinor == unmatchedExceptionMinor)
+			if (unSupportedTestCases[ul].major == unmatchedExceptionMajor
+					&& unSupportedTestCases[ul].minor == unmatchedExceptionMinor)
 			{
 				eres = GPOS_OK;
 			}
@@ -231,7 +231,7 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 		{
 			CAutoTrace at(pmp);
 			at.Os() << "Test failed due to unmatched exceptions." << std::endl;
-			at.Os() << " Expected result: " << unSupportedTestCases[ul].ulMajor << "." << unSupportedTestCases[ul].ulMinor << std::endl;
+			at.Os() << " Expected result: " << unSupportedTestCases[ul].major << "." << unSupportedTestCases[ul].minor << std::endl;
 			at.Os() << " Actual result: " << unmatchedExceptionMajor << "." << unmatchedExceptionMinor << std::endl;
 		}
 	}

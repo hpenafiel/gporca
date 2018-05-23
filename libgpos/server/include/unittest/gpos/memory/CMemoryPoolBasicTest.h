@@ -32,7 +32,7 @@ namespace gpos
 				(
 				GPOS_RESULT (*pfunc)(CMemoryPoolManager::AllocType),
 				CMemoryPoolManager::AllocType eat,
-				ULONG ulMinor
+				ULONG minor
 				);
 
 			static GPOS_RESULT EresNewDelete(CMemoryPoolManager::AllocType eat);

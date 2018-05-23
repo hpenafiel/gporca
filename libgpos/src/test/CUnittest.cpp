@@ -74,8 +74,8 @@ CUnittest::CUnittest
 	const CHAR *szTitle,
 	ETestType ett,
 	GPOS_RESULT (*pfunc)(void),
-	ULONG ulMajor,
-	ULONG ulMinor
+	ULONG major,
+	ULONG minor
 	)
 	:
 	m_szTitle(szTitle),
@@ -84,8 +84,8 @@ CUnittest::CUnittest
 	m_pfuncSubtest(NULL),
 	m_ulSubtest(0),
 	m_fExcep(true),
-	m_ulMajor(ulMajor),
-	m_ulMinor(ulMinor)
+	m_ulMajor(major),
+	m_ulMinor(minor)
 {}
 
 //---------------------------------------------------------------------------
@@ -185,12 +185,12 @@ CUnittest::Equals
 BOOL
 CUnittest::FThrows
 	(
-	ULONG ulMajor,
-	ULONG ulMinor
+	ULONG major,
+	ULONG minor
 	)
 	const
 {
-	return (m_ulMajor == ulMajor && m_ulMinor == ulMinor);
+	return (m_ulMajor == major && m_ulMinor == minor);
 }
 
 

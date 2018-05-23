@@ -180,7 +180,7 @@ CMemoryPoolBasicTest::EresTestExpectedError
 	(
 	GPOS_RESULT (*pfunc)(CMemoryPoolManager::AllocType),
 	CMemoryPoolManager::AllocType eat,
-	ULONG ulMinor
+	ULONG minor
 	)
 {
 	CErrorHandlerStandard errhdl;
@@ -191,7 +191,7 @@ CMemoryPoolBasicTest::EresTestExpectedError
 	GPOS_CATCH_EX(ex)
 	{
 		if (CException::ExmaSystem == ex.Major() &&
-			ulMinor == ex.Minor())
+			minor == ex.Minor())
 		{
 			GPOS_RESET_EX;
 

@@ -182,10 +182,10 @@ namespace gpos
 			virtual
 			void SetSev
 				(
-				ULONG ulSev
+				ULONG severity
 				)
 			{
-				m_ulSev = ulSev;
+				m_ulSev = severity;
 			}
 
 			// print error stack trace

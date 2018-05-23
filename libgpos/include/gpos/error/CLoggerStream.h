@@ -35,11 +35,11 @@ namespace gpos
 			// write string to stream
 			void Write
 				(
-				const WCHAR *wszLogEntry,
-				ULONG // ulSev
+				const WCHAR *log_entry,
+				ULONG // severity
 				)
 			{
-				 m_os = m_os << wszLogEntry;
+				 m_os = m_os << log_entry;
 			}
 
 			// no copy ctor

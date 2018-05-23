@@ -31,7 +31,7 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CLogger::CLogger
 	(
-	EErrorInfoLevel eli
+	ErrorInfoLevel eli
 	)
 	:
 	ILogger(),
@@ -72,10 +72,10 @@ CLogger::~CLogger()
 void
 CLogger::Log
 	(
-	const WCHAR *wszMsg,
-	ULONG ulSeverity,
-	const CHAR *szFilename,
-	ULONG ulLine
+	const WCHAR *msg,
+	ULONG severity,
+	const CHAR *filename,
+	ULONG line
 	)
 {
 	// get exclusive access
@@ -83,7 +83,7 @@ CLogger::Log
 	am.Lock();
 
 	// format log message
-	Format(wszMsg, ulSeverity, szFilename, ulLine);
+	Format(msg, severity, filename, line);
 
 	for (ULONG i = 0; i < GPOS_LOG_WRITE_RETRIES; i++)
 	{
@@ -96,7 +96,7 @@ CLogger::Log
 		GPOS_TRY
 		{
 			// write message to log
-			Write(m_wstrEntry.Wsz(), ulSeverity);
+			Write(m_wstrEntry.Wsz(), severity);
 
 			return;
 		}
@@ -141,23 +141,23 @@ CLogger::Log
 void
 CLogger::Format
 	(
-	const WCHAR *wszMsg,
-	ULONG ulSeverity,
-	const CHAR *, // szFilename
-	ULONG // ulLine
+	const WCHAR *msg,
+	ULONG severity,
+	const CHAR *, // filename
+	ULONG // line
 	)
 {
 	m_wstrEntry.Reset();
 	m_wstrMsg.Reset();
 
-	CWStringConst strc(wszMsg);
+	CWStringConst strc(msg);
 
-	if (ILogger::EeilMsgHeader <= Eil())
+	if (ILogger::EeilMsgHeader <= InfoLevel())
 	{
 		// LOG ENTRY FORMAT: [date],[thread id],[severity],[message],
 
 		ULONG ulThreadId = IWorker::Self()->ThreadId();
-		const CHAR *szSev = CException::m_severity[ulSeverity];
+		const CHAR *szSev = CException::m_severity[severity];
 		m_wstrMsg.Append(&strc);
 
 		AppendDate();

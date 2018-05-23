@@ -43,7 +43,7 @@ namespace gpos
 			CLoggerSyslog(const CLoggerSyslog&);
 
 			// write string to syslog
-			void Write(const WCHAR *wszLogEntry, ULONG ulSev);
+			void Write(const WCHAR *log_entry, ULONG severity);
 
 			static CLoggerSyslog m_loggerAlert;
 
@@ -60,7 +60,7 @@ namespace gpos
 			virtual	~CLoggerSyslog();
 
 			// write alert message to syslog - use ASCII characters only
-			static void Alert(const WCHAR *wszMsg);
+			static void Alert(const WCHAR *msg);
 
 	};	// class CLoggerSyslog
 }

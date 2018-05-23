@@ -54,7 +54,7 @@ CErrorHandlerStandard::Process
 			err_ctxt->AppendErrnoMsg();
 		}
 
-		if (ILogger::EeilMsgHeaderStack <= log->Eil())
+		if (ILogger::EeilMsgHeaderStack <= log->InfoLevel())
 		{
 			err_ctxt->AppendStackTrace();
 		}
