@@ -61,13 +61,13 @@ CMessageTableTest::EresUnittest_Basic()
 	// insert all system messages
 	for (ULONG ul = 0; ul < CException::ExmiSentinel; ul++)
 	{
-		CMessage *pmsg = CMessage::Pmsg(ul);
-		if (CException::m_invalid_exception != pmsg->m_exc)
+		CMessage *pmsg = CMessage::GetMessage(ul);
+		if (CException::m_invalid_exception != pmsg->m_exception)
 		{
 			pmt->AddMessage(pmsg);
 
 #ifdef GPOS_DEBUG
-			CMessage *pmsgLookedup = pmt->LookupMessage(pmsg->m_exc);
+			CMessage *pmsgLookedup = pmt->LookupMessage(pmsg->m_exception);
 			GPOS_ASSERT(pmsg == pmsgLookedup && "Lookup failed");
 #endif // GPOS_DEBUG
 		}

@@ -80,9 +80,9 @@ CMessageTest::EresUnittest_Basic
 	IMemoryPool *pmp = (IMemoryPool*)pv;
 
 	// take pre-defined assertion exc message
-	CMessage *pmsg = CMessage::Pmsg(CException::ExmiAssert);
+	CMessage *pmsg = CMessage::GetMessage(CException::ExmiAssert);
 	
-	GPOS_ASSERT(GPOS_MATCH_EX(pmsg->m_exc,
+	GPOS_ASSERT(GPOS_MATCH_EX(pmsg->m_exception,
 							  CException::ExmaSystem, 
 							  CException::ExmiAssert));
 		

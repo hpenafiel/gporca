@@ -41,7 +41,7 @@ CMessageTable::CMessageTable
 		pmp,
 		size,
 		GPOS_OFFSET(CMessage, m_link),
-		GPOS_OFFSET(CMessage, m_exc),
+		GPOS_OFFSET(CMessage, m_exception),
 		&(CException::m_invalid_exception),
 		CException::HashValue,
 		CException::Equals
@@ -82,7 +82,7 @@ CMessageTable::AddMessage
 	CMessage *msg
 	)
 {
-	MTAccessor acc(m_hash_table, msg->m_exc);
+	MTAccessor acc(m_hash_table, msg->m_exception);
 
 	if (NULL == acc.Find())
 	{

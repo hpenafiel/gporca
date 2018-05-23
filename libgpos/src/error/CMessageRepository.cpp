@@ -99,7 +99,7 @@ CMessageRepository::LookupMessage
 		}
 	}
 
-	return CMessage::Pmsg(CException::ExmiInvalid);
+	return CMessage::GetMessage(CException::ExmiInvalid);
 }
 
 
@@ -278,8 +278,8 @@ CMessageRepository::LoadStandardMessages()
 {
 	for (ULONG ul = 0; ul < CException::ExmiSentinel; ul++)
 	{
-		CMessage *pmsg = CMessage::Pmsg(ul);
-		if (CException::m_invalid_exception != pmsg->m_exc)
+		CMessage *pmsg = CMessage::GetMessage(ul);
+		if (CException::m_invalid_exception != pmsg->m_exception)
 		{
 			AddMessage(ElocEnUS_Utf8, pmsg);
 		}
