@@ -242,7 +242,7 @@ CWorker::SimulateAbort
 	)
 {
 	if (m_task->Trace(EtraceSimulateAbort) &&
-		CFSimulator::Pfsim()->FNewStack(CException::ExmaSystem, CException::ExmiAbort))
+		CFSimulator::FSim()->NewStack(CException::ExmaSystem, CException::ExmiAbort))
 	{
 		// GPOS_TRACE has CFA, disable simulation temporarily
 		m_task->Trace(EtraceSimulateAbort, false);

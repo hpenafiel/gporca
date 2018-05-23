@@ -115,7 +115,7 @@ CMemoryPoolInjectFault::SimulateAllocFailure()
 	{
 		return
 			task->Trace(EtraceSimulateOOM) &&
-			CFSimulator::Pfsim()->FNewStack(CException::ExmaSystem, CException::ExmiOOM);
+			CFSimulator::FSim()->NewStack(CException::ExmaSystem, CException::ExmiOOM);
 	}
 
 	return false;

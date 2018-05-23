@@ -242,7 +242,7 @@ void gpos_terminate()
 {
 #ifdef GPOS_DEBUG
 #ifdef GPOS_FPSIMULATOR
-	CFSimulator::Pfsim()->Shutdown();
+	CFSimulator::FSim()->Shutdown();
 #endif // GPOS_FPSIMULATOR
 	CMessageRepository::Pmr()->Shutdown();
 	CWorkerPoolManager::WorkerPoolManager()->Shutdown();
