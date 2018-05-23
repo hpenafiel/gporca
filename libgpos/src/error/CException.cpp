@@ -224,7 +224,7 @@ CException::Reraise
 		// an exception thrown by a child task
 		if (propagate)
 		{
-			err_ctxt->Psd()->BackTrace();
+			err_ctxt->GetStackDescriptor()->BackTrace();
 			err_ctxt->Serialize();
 		}
 	}
@@ -252,7 +252,7 @@ CException::Raise
 	{
 		IErrorContext *err_ctxt = ITask::Self()->ErrCtxt();
 		GPOS_ASSERT_IMP(err_ctxt->IsPending(),
-				err_ctxt->Exc() == exc &&
+				err_ctxt->GetException() == exc &&
 				"Rethrow inconsistent with current error context");
 	}
 #endif // GPOS_DEBUG

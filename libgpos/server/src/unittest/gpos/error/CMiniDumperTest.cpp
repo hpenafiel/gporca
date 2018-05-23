@@ -371,7 +371,7 @@ CMiniDumperTest::CSerializableStack::Serialize
 	wstr.AppendFormat(GPOS_WSZ_LIT("<STACK_TRACE>\n"));
 
 	CErrorContext *perrctxt = CTask::Self()->ErrCtxtConvert();
-	perrctxt->Psd()->AppendTrace(&wstr);
+	perrctxt->GetStackDescriptor()->AppendTrace(&wstr);
 
 	wstr.AppendFormat(GPOS_WSZ_LIT("</STACK_TRACE>\n"));
 

@@ -191,7 +191,7 @@ namespace gpdxl
 			DrgPmdid *Pdrgpmdid() const;
 
 			// return the MD request object
-			CMDRequest *Pmdr() const;
+			CMDRequest *GetMiniDumper() const;
 
 			// return the root of the parsed scalar expression
 			CDXLNode *PdxlnScalarExpr() const;

@@ -209,14 +209,14 @@ CParseHandlerDXL::Pdrgpmdid() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerDXL::Pmdr
+//		CParseHandlerDXL::GetMiniDumper
 //
 //	@doc:
 //		Return the md request
 //
 //---------------------------------------------------------------------------
 CMDRequest *
-CParseHandlerDXL::Pmdr() const
+CParseHandlerDXL::GetMiniDumper() const
 {
 	return m_pmdr;
 }

@@ -520,7 +520,7 @@ CDXLUtils::PmdrequestParseDXL
 	CAutoP<CParseHandlerDXL> a_pphdxl(pphdxl);
 
 	// collect metadata ids from dxl parse handler
-	CMDRequest *pmdr = pphdxl->Pmdr();
+	CMDRequest *pmdr = pphdxl->GetMiniDumper();
 	GPOS_ASSERT(NULL != pmdr);
 	pmdr->AddRef();
 

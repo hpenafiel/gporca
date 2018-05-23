@@ -75,7 +75,7 @@ CSerializableStackTrace::Serialize
 	str.AppendFormat(CDXLSections::m_wszStackTraceHeader);
 
 	CErrorContext *perrctxt = CTask::Self()->ErrCtxtConvert();
-	perrctxt->Psd()->AppendTrace(&str);
+	perrctxt->GetStackDescriptor()->AppendTrace(&str);
 
 	str.AppendFormat(CDXLSections::m_wszStackTraceFooter);
 

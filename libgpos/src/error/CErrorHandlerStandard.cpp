@@ -41,7 +41,7 @@ CErrorHandlerStandard::Process
 	CLogger *log = dynamic_cast<CLogger*>(task->LogErr());
 	
 	GPOS_ASSERT(err_ctxt->IsPending() && "No error to process");
-	GPOS_ASSERT(err_ctxt->Exc() == exception &&
+	GPOS_ASSERT(err_ctxt->GetException() == exception &&
 			"Exception processed different from pending");
 
 	// print error stack trace

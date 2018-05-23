@@ -54,7 +54,7 @@ namespace gpos
 		
 			// exception accessor
 			virtual
-			CException Exc() const = 0;
+			CException GetException() const = 0;
 
 			// error message accessor
 			virtual

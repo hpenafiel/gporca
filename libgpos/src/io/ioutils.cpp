@@ -575,7 +575,7 @@ FSimulateIOErrorInternal
 	if (NULL != ptsk &&
 	    ptsk->Trace(EtraceSimulateIOError) &&
 	    CFSimulator::FSim()->NewStack(CException::ExmaSystem, CException::ExmiIOError) &&
-	    !GPOS_MATCH_EX(ptsk->ErrCtxt()->Exc(), CException::ExmaSystem, CException::ExmiIOError))
+	    !GPOS_MATCH_EX(ptsk->ErrCtxt()->GetException(), CException::ExmaSystem, CException::ExmiIOError))
 	{
 		// disable simulation temporarily to log injection
 		CAutoTraceFlag(EtraceSimulateIOError, false);

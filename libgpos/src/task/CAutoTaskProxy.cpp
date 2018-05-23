@@ -167,7 +167,7 @@ CAutoTaskProxy::Create
 	CTask *task = CTask::Self();
 	if (NULL != task)
 	{
-		err_ctxt.Value()->Register(task->ErrCtxtConvert()->Pmdr());
+		err_ctxt.Value()->Register(task->ErrCtxtConvert()->GetMiniDumper());
 	}
 
 	// auto pointer to hold new task
@@ -513,7 +513,7 @@ CAutoTaskProxy::Execute
 	{
 		if (m_propagate_error)
 		{
-			GPOS_RETHROW(task->ErrCtxt()->Exc());
+			GPOS_RETHROW(task->ErrCtxt()->GetException());
 		}
 		else
 		{
@@ -622,7 +622,7 @@ CAutoTaskProxy::PropagateError
 	sub_task->ErrCtxt()->Reset();
 
 	// propagate the error
-	CException::Reraise(current_err_ctxt->Exc(), true /*propagate*/);
+	CException::Reraise(current_err_ctxt->GetException(), true /*propagate*/);
 }
 
 
