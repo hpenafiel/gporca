@@ -78,7 +78,7 @@ ILogger::Warning
 	}
 
 	// retrieve warning message from repository
-	CMessage *msg = CMessageRepository::Pmr()->LookupMessage(exc, locale);
+	CMessage *msg = CMessageRepository::GetMessageRepository()->LookupMessage(exc, locale);
 
 	GPOS_ASSERT(CException::ExsevWarning == msg->GetSeverity());
 

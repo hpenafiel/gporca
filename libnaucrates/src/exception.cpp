@@ -250,7 +250,7 @@ gpdxl::EresExceptionInit
 			rgpmsg[i] = GPOS_NEW(pmp) CMessage(rgmsg[i]);
 		}
 
-		CMessageRepository *pmr = CMessageRepository::Pmr();
+		CMessageRepository *pmr = CMessageRepository::GetMessageRepository();
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgmsg); i++)
 		{

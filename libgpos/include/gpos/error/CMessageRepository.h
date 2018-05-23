@@ -30,7 +30,7 @@ namespace gpos
 		
 			// global singleton
 			static
-			CMessageRepository *m_pmr;
+			CMessageRepository *m_repository;
 			
 			// memory pool
 			IMemoryPool *m_pmp;
@@ -48,13 +48,13 @@ namespace gpos
 						CSpinlockOS> TMTAccessor;
 		
 			// basic hash table
-			TMT m_tmt;
+			TMT m_hash_table;
 			
 			// init basic directory
 			void InitDirectory(IMemoryPool *pmp);
 			
 			// install message table for a given locale
-			void AddMessageTable(ELocale eloc);
+			void AddMessageTable(ELocale locale);
 		
 			// pre-load standard messages
 			void LoadStandardMessages();
@@ -68,10 +68,10 @@ namespace gpos
 			~CMessageRepository();
 
 			// lookup message by error/local
-			CMessage *LookupMessage(CException exc, ELocale eloc);
+			CMessage *LookupMessage(CException exc, ELocale locale);
 
 			// add individual message
-			void AddMessage(ELocale eloc, CMessage *pmsg);
+			void AddMessage(ELocale locale, CMessage *msg);
 
 			// initializer for global singleton
 			static
@@ -79,7 +79,7 @@ namespace gpos
 
 			// accessor for global singleton
 			static 
-			CMessageRepository* Pmr();
+			CMessageRepository* GetMessageRepository();
 
 			void Shutdown();
 

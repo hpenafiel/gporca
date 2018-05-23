@@ -72,7 +72,7 @@ void gpos_init(struct gpos_init_params* params) {
 #ifdef GPOS_FPSIMULATOR
 	if (GPOS_OK != gpos::CFSimulator::Init())
 	{
-		CMessageRepository::Pmr()->Shutdown();
+		CMessageRepository::GetMessageRepository()->Shutdown();
 		CWorkerPoolManager::WorkerPoolManager()->Shutdown();
 		CMemoryPoolManager::MemoryPoolMgr()->Shutdown();
 	}
@@ -244,7 +244,7 @@ void gpos_terminate()
 #ifdef GPOS_FPSIMULATOR
 	CFSimulator::FSim()->Shutdown();
 #endif // GPOS_FPSIMULATOR
-	CMessageRepository::Pmr()->Shutdown();
+	CMessageRepository::GetMessageRepository()->Shutdown();
 	CWorkerPoolManager::WorkerPoolManager()->Shutdown();
 	CCacheFactory::GetFactory()->Shutdown();
 	CMemoryPoolManager::MemoryPoolMgr()->Shutdown();

@@ -114,7 +114,7 @@ CMessage::FormatMessage
 		VA_START(valist, minor);
 
 		ELocale locale = ITask::Self()->Locale();
-		CMessage *msg = CMessageRepository::Pmr()->LookupMessage(exc, locale);
+		CMessage *msg = CMessageRepository::GetMessageRepository()->LookupMessage(exc, locale);
 		msg->Format(str, valist);
 
 		VA_END(valist);

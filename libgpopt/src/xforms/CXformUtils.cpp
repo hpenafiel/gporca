@@ -2145,7 +2145,7 @@ CXformUtils::PstrErrorMessage
 		VA_START(valist, minor);
 
 		ELocale eloc = ITask::Self()->Locale();
-		CMessage *pmsg = CMessageRepository::Pmr()->LookupMessage(exc, eloc);
+		CMessage *pmsg = CMessageRepository::GetMessageRepository()->LookupMessage(exc, eloc);
 		pmsg->Format(&str, valist);
 
 		VA_END(valist);

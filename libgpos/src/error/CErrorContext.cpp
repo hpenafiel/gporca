@@ -121,7 +121,7 @@ CErrorContext::Record
 	m_stack_descriptor.BackTrace(1);
 
 	ELocale locale = ITask::Self()->Locale();
-	CMessage *msg = CMessageRepository::Pmr()->LookupMessage(exc, locale);
+	CMessage *msg = CMessageRepository::GetMessageRepository()->LookupMessage(exc, locale);
 	msg->Format(&m_static_buffer, vl);
 
 	m_severity = msg->GetSeverity();
