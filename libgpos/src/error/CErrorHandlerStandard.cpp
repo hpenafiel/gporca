@@ -45,10 +45,10 @@ CErrorHandlerStandard::Process
 			"Exception processed different from pending");
 
 	// print error stack trace
-	if (CException::ExmaSystem == exception.UlMajor() && !err_ctxt->FRethrow())
+	if (CException::ExmaSystem == exception.Major() && !err_ctxt->FRethrow())
 	{
-		if ((CException::ExmiIOError == exception.UlMinor() ||
-		    CException::ExmiNetError == exception.UlMinor() ) &&
+		if ((CException::ExmiIOError == exception.Minor() ||
+		    CException::ExmiNetError == exception.Minor() ) &&
 			0 < errno)
 		{
 			err_ctxt->AppendErrnoMsg();

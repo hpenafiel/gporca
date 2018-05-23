@@ -299,7 +299,7 @@ CUnittest::EresExecTest
 		}
 
 		// check if exception was expected
-		if (ut.FThrows(ex.UlMajor(), ex.UlMinor()))
+		if (ut.FThrows(ex.Major(), ex.Minor()))
 		{
 			GPOS_RESET_EX;
 			return GPOS_OK;

@@ -154,10 +154,10 @@ CThreadManager::RunWorker
 	{
 		std::cerr
 			<< "Unexpected exception reached top of execution stack:"
-			<< " major=" << ex.UlMajor()
-			<< " minor=" << ex.UlMinor()
-			<< " file=" << ex.SzFilename()
-			<< " line=" << ex.UlLine()
+			<< " major=" << ex.Major()
+			<< " minor=" << ex.Minor()
+			<< " file=" << ex.Filename()
+			<< " line=" << ex.Line()
 			<< std::endl;
 
 		GPOS_ASSERT(!"Unexpected exception reached top of execution stack");

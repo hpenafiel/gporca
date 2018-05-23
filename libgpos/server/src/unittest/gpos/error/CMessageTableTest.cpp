@@ -62,7 +62,7 @@ CMessageTableTest::EresUnittest_Basic()
 	for (ULONG ul = 0; ul < CException::ExmiSentinel; ul++)
 	{
 		CMessage *pmsg = CMessage::Pmsg(ul);
-		if (CException::m_excInvalid != pmsg->m_exc)
+		if (CException::m_invalid_exception != pmsg->m_exc)
 		{
 			pmt->AddMessage(pmsg);
 

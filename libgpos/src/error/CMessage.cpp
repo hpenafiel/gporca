@@ -138,7 +138,7 @@ CMessage::OsPrint
 	)
 {
 	os 
-		<< "Message No: " << m_exc.UlMajor() << "-" << m_exc.UlMinor() << std::endl
+		<< "Message No: " << m_exc.Major() << "-" << m_exc.Minor() << std::endl
 		<< "Message:   \"" << m_wszFmt << "\" [" << m_ulLenFmt << "]" << std::endl
 		<< "Parameters: " << m_ulParams << std::endl
 		<< "Comments:  \"" << m_wszComment << "\" [" << m_ulLenComment << "]" << std::endl;

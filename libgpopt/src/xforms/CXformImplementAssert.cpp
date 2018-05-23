@@ -106,7 +106,7 @@ CXformImplementAssert::Transform
 			GPOS_NEW(pmp) CPhysicalAssert
 						(
 						pmp, 
-						GPOS_NEW(pmp) CException(pexc->UlMajor(), pexc->UlMinor(), pexc->SzFilename(), pexc->UlLine())
+						GPOS_NEW(pmp) CException(pexc->Major(), pexc->Minor(), pexc->Filename(), pexc->Line())
 						);
 	
 	CExpression *pexprAssert = 

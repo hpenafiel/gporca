@@ -63,7 +63,7 @@ namespace gpdxl
 			const CWStringConst *PstrOpName() const;
 
 			// error code
-			const CHAR *SzSQLState() const
+			const CHAR *SQLState() const
 			{
 				return m_szSQLState;
 			}

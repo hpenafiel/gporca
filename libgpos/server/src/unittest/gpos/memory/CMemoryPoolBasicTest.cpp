@@ -190,8 +190,8 @@ CMemoryPoolBasicTest::EresTestExpectedError
 	}
 	GPOS_CATCH_EX(ex)
 	{
-		if (CException::ExmaSystem == ex.UlMajor() &&
-			ulMinor == ex.UlMinor())
+		if (CException::ExmaSystem == ex.Major() &&
+			ulMinor == ex.Minor())
 		{
 			GPOS_RESET_EX;
 

@@ -232,7 +232,7 @@ CLogicalAssert::OsPrint
 		return COperator::OsPrint(os);
 	}
 	
-	os << SzId() << " (Error code: " << m_pexc->SzSQLState() << ")";
+	os << SzId() << " (Error code: " << m_pexc->SQLState() << ")";
 	return os;
 }
 

@@ -39,7 +39,7 @@ CErrorContext::CErrorContext
 	CMiniDumper *pmdr
 	)
 	:
-	m_exc(CException::m_excInvalid),
+	m_exc(CException::m_invalid_exception),
 	m_ulSev(CException::ExsevError),
 	m_fPending(false),
 	m_fRethrow(false),
@@ -81,7 +81,7 @@ CErrorContext::Reset()
 	m_fPending = false;
 	m_fRethrow = false;
 	m_fSerializing = false;
-	m_exc = CException::m_excInvalid;
+	m_exc = CException::m_invalid_exception;
 	m_wss.Reset();
 }
 

@@ -1705,7 +1705,7 @@ CTranslatorExprToDXL::PdxlnAssert
 
 	CDXLNode *pdxlnPrL = PdxlnProjList(pcrsOutput, pdrgpcr);
 
-	const CHAR *szSQLState = popAssert->Pexc()->SzSQLState();
+	const CHAR *szSQLState = popAssert->Pexc()->SQLState();
 	CDXLPhysicalAssert *pdxlopAssert = GPOS_NEW(m_pmp) CDXLPhysicalAssert(m_pmp, szSQLState);
 	CDXLNode *pdxlnAssert = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopAssert, pdxlnPrL, pdxlnAssertPredicate, pdxlnChild);
 	

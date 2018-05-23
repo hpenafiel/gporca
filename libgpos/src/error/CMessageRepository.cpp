@@ -70,10 +70,10 @@ CMessageRepository::PmsgLookup
 	ELocale eloc
 	)
 {
-	GPOS_ASSERT(exc != CException::m_excInvalid &&
+	GPOS_ASSERT(exc != CException::m_invalid_exception &&
 				"Cannot lookup invalid exception message");
 
-	if (exc != CException::m_excInvalid)
+	if (exc != CException::m_invalid_exception)
 	{
 		CMessage *pmsg = NULL;
 		ELocale elocSearch = eloc;
@@ -279,7 +279,7 @@ CMessageRepository::LoadStandardMessages()
 	for (ULONG ul = 0; ul < CException::ExmiSentinel; ul++)
 	{
 		CMessage *pmsg = CMessage::Pmsg(ul);
-		if (CException::m_excInvalid != pmsg->m_exc)
+		if (CException::m_invalid_exception != pmsg->m_exc)
 		{
 			AddMessage(ElocEnUS_Utf8, pmsg);
 		}

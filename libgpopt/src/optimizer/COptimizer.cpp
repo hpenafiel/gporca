@@ -331,8 +331,8 @@ COptimizer::HandleExceptionAfterFinalizingMinidump
 		// in this case we need to raise the original exception
 		GPOS_RAISE
 			(
-			ex.UlMajor(),
-			ex.UlMinor(),
+			ex.Major(),
+			ex.Minor(),
 			GPOS_WSZ_LIT("re-raising exception after finalizing minidump")
 			);
 	}

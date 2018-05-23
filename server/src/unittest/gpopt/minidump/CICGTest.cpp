@@ -206,8 +206,8 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 		}
 		GPOS_CATCH_EX(ex)
 		{
-			unmatchedExceptionMajor = ex.UlMajor();
-			unmatchedExceptionMinor = ex.UlMinor();
+			unmatchedExceptionMajor = ex.Major();
+			unmatchedExceptionMinor = ex.Minor();
 
 			// verify expected exception
 			if (unSupportedTestCases[ul].ulMajor == unmatchedExceptionMajor

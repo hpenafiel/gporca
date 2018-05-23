@@ -42,7 +42,7 @@ CMessageTable::CMessageTable
 		ulSize,
 		GPOS_OFFSET(CMessage, m_link),
 		GPOS_OFFSET(CMessage, m_exc),
-		&(CException::m_excInvalid),
+		&(CException::m_invalid_exception),
 		CException::HashValue,
 		CException::Equals
 		);

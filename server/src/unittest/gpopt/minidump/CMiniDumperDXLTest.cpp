@@ -197,7 +197,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		GPOS_ASSERT_IMP
 			(
 			!GPOS_FTRACE(EtraceSimulateAbort) && !GPOS_FTRACE(EtraceSimulateIOError) && !IWorker::m_enforce_time_slices,
-			CException::ExmaSystem == ex.UlMajor() && CException::ExmiOOM == ex.UlMinor()
+			CException::ExmaSystem == ex.Major() && CException::ExmiOOM == ex.Minor()
 			);
 		
 		mdrs.Finalize();
