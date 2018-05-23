@@ -18,7 +18,7 @@
 using namespace gpos;
 
 // initialization of static members
-CLoggerSyslog CLoggerSyslog::m_loggerAlert
+CLoggerSyslog CLoggerSyslog::m_alert_logger
 	(
 	NULL /*szName*/,
 #ifndef GPOS_SunOS
@@ -40,14 +40,14 @@ CLoggerSyslog CLoggerSyslog::m_loggerAlert
 //---------------------------------------------------------------------------
 CLoggerSyslog::CLoggerSyslog
 	(
-	const CHAR *szProcName,
-	ULONG ulInitMask,
-	ULONG ulMessagePriority
+	const CHAR *proc_name,
+	ULONG init_mask,
+	ULONG message_priority
 	)
 	:
-	m_szProcName(szProcName),
-	m_ulInitMask(ulInitMask),
-	m_ulMessagePriority(ulMessagePriority)
+	m_proc_name(proc_name),
+	m_init_mask(init_mask),
+	m_message_priority(message_priority)
 {}
 
 
@@ -77,15 +77,15 @@ CLoggerSyslog::Write
 	ULONG // severity
 	)
 {
-	CHAR *szBuffer = CLogger::Msg();
+	CHAR *buffer = CLogger::Msg();
 
 	// create message
-	CStringStatic str(szBuffer, GPOS_LOG_MESSAGE_BUFFER_SIZE);
+	CStringStatic str(buffer, GPOS_LOG_MESSAGE_BUFFER_SIZE);
 	str.AppendConvert(log_entry);
 
 	// send message to syslog
-	syslib::OpenLog(m_szProcName, m_ulInitMask, LOG_USER);
-	syslib::SysLog(m_ulMessagePriority, szBuffer);
+	syslib::OpenLog(m_proc_name, m_init_mask, LOG_USER);
+	syslib::SysLog(m_message_priority, buffer);
 	syslib::CloseLog();
 }
 
@@ -104,7 +104,7 @@ CLoggerSyslog::Alert
 	const WCHAR *msg
 	)
 {
-	m_loggerAlert.Write(msg, CException::ExsevError);
+	m_alert_logger.Write(msg, CException::ExsevError);
 }
 
 // EOF
