@@ -30,33 +30,33 @@ using namespace gpos;
 void
 CErrorHandlerStandard::Process
 	(
-	CException exc
+	CException exception
 	)
 {
-	CTask *ptsk = CTask::Self();
+	CTask *task = CTask::Self();
 
-	GPOS_ASSERT(NULL != ptsk && "No task in current context");
+	GPOS_ASSERT(NULL != task && "No task in current context");
 
-	IErrorContext *perrctxt = ptsk->ErrCtxt();
-	CLogger *plog = dynamic_cast<CLogger*>(ptsk->LogErr());
+	IErrorContext *err_ctxt = task->ErrCtxt();
+	CLogger *log = dynamic_cast<CLogger*>(task->LogErr());
 	
-	GPOS_ASSERT(perrctxt->FPending() && "No error to process");
-	GPOS_ASSERT(perrctxt->Exc() == exc && 
+	GPOS_ASSERT(err_ctxt->FPending() && "No error to process");
+	GPOS_ASSERT(err_ctxt->Exc() == exception &&
 			"Exception processed different from pending");
 
 	// print error stack trace
-	if (CException::ExmaSystem == exc.UlMajor() && !perrctxt->FRethrow())
+	if (CException::ExmaSystem == exception.UlMajor() && !err_ctxt->FRethrow())
 	{
-		if ((CException::ExmiIOError == exc.UlMinor() ||
-		    CException::ExmiNetError == exc.UlMinor() ) &&
+		if ((CException::ExmiIOError == exception.UlMinor() ||
+		    CException::ExmiNetError == exception.UlMinor() ) &&
 			0 < errno)
 		{
-			perrctxt->AppendErrnoMsg();
+			err_ctxt->AppendErrnoMsg();
 		}
 
-		if (ILogger::EeilMsgHeaderStack <= plog->Eil())
+		if (ILogger::EeilMsgHeaderStack <= log->Eil())
 		{
-			perrctxt->AppendStackTrace();
+			err_ctxt->AppendStackTrace();
 		}
 	}
 
@@ -66,7 +66,7 @@ CErrorHandlerStandard::Process
 		CAutoSuspendAbort asa;
 
 		// log error message
-		plog->Log(perrctxt->WszMsg(), perrctxt->UlSev(), __FILE__, __LINE__);
+		log->Log(err_ctxt->WszMsg(), err_ctxt->UlSev(), __FILE__, __LINE__);
 	}
 }
 
