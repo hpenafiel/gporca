@@ -38,19 +38,19 @@ namespace gpos
 			WCHAR *m_wszBuf;
 
 			// appends the contents of a buffer to the current string
-			virtual void AppendBuffer(const WCHAR *wszBuf) = 0;
+			virtual void AppendBuffer(const WCHAR *wstrbuf) = 0;
 			
 		public:
 
 			// ctor
-			CWString(ULONG ulLength);
+			CWString(ULONG length);
 
 			// dtor
 			virtual ~CWString()
 			{}
 					
 			// returns the wide character buffer storing the string
-			const WCHAR* Wsz() const;
+			const WCHAR* GetBuffer() const;
 			
 			// appends a string
 			void Append(const CWStringBase *pstr);

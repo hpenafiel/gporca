@@ -486,8 +486,8 @@ CParseHandlerTest::EresParseAndSerializePlan
 
 	if (!dstrExpected.Equals(&strPlan))
 	{
-		GPOS_TRACE(dstrExpected.Wsz());
-		GPOS_TRACE(strPlan.Wsz());
+		GPOS_TRACE(dstrExpected.GetBuffer());
+		GPOS_TRACE(strPlan.GetBuffer());
 
 		GPOS_ASSERT(!"Not matching");
 	}
@@ -550,7 +550,7 @@ CParseHandlerTest::EresParseAndSerializeQuery
 
 	if (!dstrExpected.Equals(&wstrQuery))
 	{
-		GPOS_TRACE(wstrQuery.Wsz());
+		GPOS_TRACE(wstrQuery.GetBuffer());
 	}
 
 	// cleanup
@@ -609,7 +609,7 @@ CParseHandlerTest::EresParseAndSerializeMetadata
 	
 	if (!dstrExpected.Equals(pstr))
 	{
-		GPOS_TRACE(pstr->Wsz());
+		GPOS_TRACE(pstr->GetBuffer());
 		GPOS_ASSERT(false);
 	}
 
@@ -809,8 +809,8 @@ CParseHandlerTest::EresParseAndSerializeScalarExpr
 	GPOS_RESULT eres = GPOS_OK;
 	if (!dstrExpected.Equals(pstr))
 	{
-		GPOS_TRACE(dstrExpected.Wsz());
-		GPOS_TRACE(pstr->Wsz());
+		GPOS_TRACE(dstrExpected.GetBuffer());
+		GPOS_TRACE(pstr->GetBuffer());
 
 		GPOS_ASSERT(!"Not matching");
 		eres = GPOS_FAILED;

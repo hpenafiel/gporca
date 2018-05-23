@@ -97,7 +97,7 @@ CParseHandlerProperties::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), xmlszLocalname))
 	{
-		GPOS_ASSERT(1 == this->UlLength());
+		GPOS_ASSERT(1 == this->Length());
 
 		// create and install derived relation statistics parsers
 		CParseHandlerBase *pphStats = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), m_pphm, this);
@@ -111,7 +111,7 @@ CParseHandlerProperties::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -134,10 +134,10 @@ CParseHandlerProperties::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenProperties), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	GPOS_ASSERT((1 == this->UlLength()) || (2 == this->UlLength()));
+	GPOS_ASSERT((1 == this->Length()) || (2 == this->Length()));
 	
 	// assemble the properties container from the cost
 	CParseHandlerCost *pph = dynamic_cast<CParseHandlerCost *>((*this)[0]);
@@ -145,7 +145,7 @@ CParseHandlerProperties::EndElement
 	CDXLOperatorCost *pdxlopcost = pph->Pdxlopcost();
 	pdxlopcost->AddRef();
 	
-	if (2 == this->UlLength())
+	if (2 == this->Length())
 	{
 		CParseHandlerStatsDerivedRelation *pphStats = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[1]);
 

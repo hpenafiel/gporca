@@ -66,7 +66,7 @@ CParseHandlerHashJoin::StartElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalHashJoin), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse and create Hash join operator
@@ -132,7 +132,7 @@ CParseHandlerHashJoin::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalHashJoin), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// construct node from the created child nodes

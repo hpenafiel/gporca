@@ -235,16 +235,16 @@ CMDIdGPDB::Serialize()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdGPDB::Wsz
+//		CMDIdGPDB::GetBuffer
 //
 //	@doc:
 //		Returns the string representation of the mdid
 //
 //---------------------------------------------------------------------------
 const WCHAR *
-CMDIdGPDB::Wsz() const
+CMDIdGPDB::GetBuffer() const
 {
-	return m_str.Wsz();
+	return m_str.GetBuffer();
 }
 
 //---------------------------------------------------------------------------

@@ -521,8 +521,8 @@ CDXLOperatorFactory::PdxlopAgg
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenAggStrategy)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenPhysicalAggregate)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenAggStrategy)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenPhysicalAggregate)->GetBuffer()
 			);		
 	}
 	
@@ -673,7 +673,7 @@ CDXLOperatorFactory::PdxlopScalarCmp
 
 	
 	// copy dynamic string into const string
-	CWStringConst *pstrCompOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrCompOpName->Wsz());
+	CWStringConst *pstrCompOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrCompOpName->GetBuffer());
 
 	// cleanup
 	GPOS_DELETE(pstrCompOpName);
@@ -748,7 +748,7 @@ CDXLOperatorFactory::PdxlopOpExpr
 	}
 	
 	CWStringDynamic *pstrValue = CDXLUtils::PstrFromXMLCh(pmm, xmlszOpName);
-	CWStringConst *pstrValueCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrValue->Wsz());
+	CWStringConst *pstrValueCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrValue->GetBuffer());
 	GPOS_DELETE(pstrValue);
 
 	return GPOS_NEW(pmp) CDXLScalarOpExpr(pmp, pmdidOpNo, pmdidReturnType, pstrValueCopy);
@@ -809,13 +809,13 @@ CDXLOperatorFactory::PdxlopArrayComp
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenOpType)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenScalarArrayComp)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenOpType)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenScalarArrayComp)->GetBuffer()
 			);
 	}
 
 	CWStringDynamic *pstrOpName = CDXLUtils::PstrFromXMLCh(pmm, xmlszOpName);
-	CWStringConst *pstrOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrOpName->Wsz());
+	CWStringConst *pstrOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrOpName->GetBuffer());
 	GPOS_DELETE(pstrOpName);
 
 	return GPOS_NEW(pmp) CDXLScalarArrayComp(pmp, pmdidOpNo, pstrOpNameCopy, edxlarraycomptype);
@@ -1201,8 +1201,8 @@ CDXLOperatorFactory::PdxlopAggFunc
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenAggrefStage)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenScalarAggref)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenAggrefStage)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenScalarAggref)->GetBuffer()
 			);
 	}
 
@@ -1270,8 +1270,8 @@ CDXLOperatorFactory::Edxlfb
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(edxltoken)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenWindowFrame)->Wsz()
+			CDXLTokens::PstrToken(edxltoken)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenWindowFrame)->GetBuffer()
 			);
 	}
 
@@ -1310,8 +1310,8 @@ CDXLOperatorFactory::Edxlfs
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenWindowFrameSpec)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenWindowFrame)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenWindowFrameSpec)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenWindowFrame)->GetBuffer()
 			);
 	}
 
@@ -1363,8 +1363,8 @@ CDXLOperatorFactory::Edxlfes
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenWindowExclusionStrategy)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenWindowFrame)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenWindowExclusionStrategy)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenWindowFrame)->GetBuffer()
 			);
 	}
 
@@ -1550,7 +1550,7 @@ CDXLOperatorFactory::PdxlopSortCol
 								);
 
 	// copy dynamic string into const string
-	CWStringConst *pstrSortOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrSortOpName->Wsz());
+	CWStringConst *pstrSortOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrSortOpName->GetBuffer());
 
 	GPOS_DELETE(pstrSortOpName);
 
@@ -1760,8 +1760,8 @@ CDXLOperatorFactory::Pdxlcd
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenAttno)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenColDescr)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenAttno)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenColDescr)->GetBuffer()
 			);
 	}
 	
@@ -1863,8 +1863,8 @@ CDXLOperatorFactory::Pdxlcr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
-			CDXLTokens::PstrToken(EdxltokenColRef)->Wsz(),
-			CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenColRef)->GetBuffer(),
+			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 			);
 	}
 	
@@ -1935,8 +1935,8 @@ CDXLOperatorFactory::IOutputSegId
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenSegId)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenSegment)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenSegId)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenSegment)->GetBuffer()
 			);
 	}
 
@@ -1969,8 +1969,8 @@ CDXLOperatorFactory::XmlstrFromAttrs
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
-			CDXLTokens::PstrToken(edxltokenAttr)->Wsz(),
-			CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+			CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
+			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 			);
 	}
 
@@ -2007,8 +2007,8 @@ CDXLOperatorFactory::UlValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->Wsz(),
-		CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 		);
 	}
 	return ulId;
@@ -2047,8 +2047,8 @@ CDXLOperatorFactory::UllValueFromXmlstr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(edxltokenAttr)->Wsz(),
-			CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+			CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
+			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 			);
 	}
 
@@ -2088,8 +2088,8 @@ CDXLOperatorFactory::FValueFromXmlstr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(edxltokenAttr)->Wsz(),
-			CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+			CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
+			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 			);
 	}
 
@@ -2127,8 +2127,8 @@ CDXLOperatorFactory::IValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->Wsz(),
-		CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 		);
 	}
 	return iId;
@@ -2205,8 +2205,8 @@ CDXLOperatorFactory::SValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->Wsz(),
-		CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 		);
 	}
 	return sVal;
@@ -2301,8 +2301,8 @@ CDXLOperatorFactory::OidValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->Wsz(),
-		CDXLTokens::PstrToken(edxltokenElement)->Wsz()
+		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
 		);
 	}
 	return oid;
@@ -2581,8 +2581,8 @@ CDXLOperatorFactory::UlGroupingColId
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			pstrTokenColId->Wsz(),
-			pstrTokenGroupingCol->Wsz()
+			pstrTokenColId->GetBuffer(),
+			pstrTokenGroupingCol->GetBuffer()
 			);	
 	}
 	
@@ -3639,8 +3639,8 @@ CDXLOperatorFactory::EdxljtParseJoinType
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenJoinType)->Wsz(),
-			pstrJoinName->Wsz()
+			CDXLTokens::PstrToken(EdxltokenJoinType)->GetBuffer(),
+			pstrJoinName->GetBuffer()
 			);		
 	}
 	
@@ -3684,8 +3684,8 @@ CDXLOperatorFactory::EdxljtParseIndexScanDirection
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenIndexScanDirection)->Wsz(),
-			pstrIndexScan->Wsz()
+			CDXLTokens::PstrToken(EdxltokenIndexScanDirection)->GetBuffer(),
+			pstrIndexScan->GetBuffer()
 			);
 	}
 
@@ -3860,7 +3860,7 @@ CDXLOperatorFactory::Sysid
 	XMLCh *xmlszName = xmlsztokSysid.nextToken();
 	CWStringDynamic *pstrName = CDXLUtils::PstrFromXMLCh(pmm, xmlszName);
 	
-	CSystemId sysid((IMDId::EMDIdType) ulType, pstrName->Wsz(), pstrName->UlLength());	
+	CSystemId sysid((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length());	
 	GPOS_DELETE(pstrName);
 	
 	return sysid;
@@ -3954,7 +3954,7 @@ CDXLOperatorFactory::Ecmpt
 		}
 	}
 	
-	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType)->Wsz(), CDXLTokens::PstrToken(EdxltokenGPDBScalarOp)->Wsz());		
+	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType)->GetBuffer(), CDXLTokens::PstrToken(EdxltokenGPDBScalarOp)->GetBuffer());		
 	return (IMDType::ECmpType) IMDType::EcmptOther;
 }
 
@@ -4064,8 +4064,8 @@ CDXLOperatorFactory::EctascommitFromAttr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
-			CDXLTokens::PstrToken(EdxltokenOnCommitAction)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenCTASOptions)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenOnCommitAction)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenCTASOptions)->GetBuffer()
 			);
 	}
 	
@@ -4090,8 +4090,8 @@ CDXLOperatorFactory::EctascommitFromAttr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenOnCommitAction)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenCTASOptions)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenOnCommitAction)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenCTASOptions)->GetBuffer()
 			);	
 	}
 	
@@ -4130,8 +4130,8 @@ CDXLOperatorFactory::EmdindtFromAttr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenIndexType)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenIndex)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenIndexType)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenIndex)->GetBuffer()
 			);	
 	
 	return IMDIndex::EmdindSentinel;

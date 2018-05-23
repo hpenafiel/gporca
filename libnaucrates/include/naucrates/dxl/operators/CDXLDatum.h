@@ -105,7 +105,7 @@ namespace gpdxl
 
 			// byte array length
 			virtual
-			ULONG UlLength() const;
+			ULONG Length() const;
 
 			// serialize the datum as the given element
 			virtual

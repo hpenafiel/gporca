@@ -77,7 +77,7 @@ CParseHandlerLogicalSetOp::StartElement
 	)
 {
 
-	if (0 == this->UlLength())
+	if (0 == this->Length())
 	{
 		m_edxlsetop = Edxlsetop(xmlszLocalname);
 
@@ -87,7 +87,7 @@ CParseHandlerLogicalSetOp::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->Wsz()
+				CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
 				);
 		}
 
@@ -187,10 +187,10 @@ CParseHandlerLogicalSetOp::EndElement
 	if(EdxlsetopSentinel == edxlsetop && m_edxlsetop != edxlsetop)
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	const ULONG ulLen = this->UlLength();
+	const ULONG ulLen = this->Length();
 	GPOS_ASSERT(3 <= ulLen);
 
 	// get the columns descriptors

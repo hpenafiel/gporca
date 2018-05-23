@@ -114,7 +114,7 @@ CJobTest::FSpawn
 
 		psc->Psched()->OsPrintActiveJobs(oss);
 
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 	}
 #endif // GPOS_DEBUG
 
@@ -217,7 +217,7 @@ CJobTest::FQueue
 				COstreamString oss(&str);
 				m_pjq->OsPrintQueuedJobs(oss);
 
-				GPOS_TRACE(str.Wsz());
+				GPOS_TRACE(str.GetBuffer());
 			}
 #endif // GPOS_DEBUG
 			m_pjq->NotifyCompleted(psc);

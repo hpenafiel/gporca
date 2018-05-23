@@ -282,7 +282,7 @@ CMDAccessorTest::EresUnittest_Datum()
 	oss << "Oid datum" << std::endl;
 	pdatumOid->OsPrint(oss);
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 #endif
 
 	// cleanup
@@ -373,7 +373,7 @@ CMDAccessorTest::EresUnittest_Navigate()
 	pmdscop->DebugPrint(oss);
 	oss << std::endl;
 					
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	
 #endif
 	

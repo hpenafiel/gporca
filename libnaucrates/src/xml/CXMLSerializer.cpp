@@ -43,7 +43,7 @@ void
 CXMLSerializer::StartDocument()
 {
 	GPOS_ASSERT(m_strstackElems->IsEmpty());
-	m_os << CDXLTokens::PstrToken(EdxltokenXMLDocHeader)->Wsz();
+	m_os << CDXLTokens::PstrToken(EdxltokenXMLDocHeader)->GetBuffer();
 	if (m_fIndent)
 	{
 		m_os << std::endl;
@@ -81,7 +81,7 @@ CXMLSerializer::OpenElement
 	// write the closing bracket for the previous element if necessary and add indentation
 	if (m_fOpenTag)
 	{
-		m_os << CDXLTokens::PstrToken(EdxltokenBracketCloseTag)->Wsz(); // >
+		m_os << CDXLTokens::PstrToken(EdxltokenBracketCloseTag)->GetBuffer(); // >
 		if (m_fIndent)
 		{
 			m_os << std::endl;
@@ -91,13 +91,13 @@ CXMLSerializer::OpenElement
 	Indent();
 	
 	// write element to stream
-	m_os << CDXLTokens::PstrToken(EdxltokenBracketOpenTag)->Wsz();			// <
+	m_os << CDXLTokens::PstrToken(EdxltokenBracketOpenTag)->GetBuffer();			// <
 	
 	if(NULL != pstrNamespace)
 	{
-		m_os << pstrNamespace->Wsz() << CDXLTokens::PstrToken(EdxltokenColon)->Wsz();	// "namespace:"
+		m_os << pstrNamespace->GetBuffer() << CDXLTokens::PstrToken(EdxltokenColon)->GetBuffer();	// "namespace:"
 	}
-	m_os << pstrElem->Wsz();
+	m_os << pstrElem->GetBuffer();
 	
 	m_fOpenTag = true;
 	m_ulLevel++;
@@ -134,7 +134,7 @@ CXMLSerializer::CloseElement
 	if (m_fOpenTag)
 	{
 		// singleton element with no children - close the element with "/>"
-		m_os << CDXLTokens::PstrToken(EdxltokenBracketCloseSingletonTag)->Wsz();	// />
+		m_os << CDXLTokens::PstrToken(EdxltokenBracketCloseSingletonTag)->GetBuffer();	// />
 		if (m_fIndent)
 		{
 			m_os << std::endl;
@@ -147,12 +147,12 @@ CXMLSerializer::CloseElement
 		Indent();
 		
 		// write closing tag for element to stream
-		m_os << CDXLTokens::PstrToken(EdxltokenBracketOpenEndTag)->Wsz();		// </
+		m_os << CDXLTokens::PstrToken(EdxltokenBracketOpenEndTag)->GetBuffer();		// </
 		if(NULL != pstrNamespace)
 		{
-			m_os << pstrNamespace->Wsz() << CDXLTokens::PstrToken(EdxltokenColon)->Wsz();	// "namespace:"
+			m_os << pstrNamespace->GetBuffer() << CDXLTokens::PstrToken(EdxltokenColon)->GetBuffer();	// "namespace:"
 		}
-		m_os << pstrElem->Wsz() << CDXLTokens::PstrToken(EdxltokenBracketCloseTag)->Wsz(); // >
+		m_os << pstrElem->GetBuffer() << CDXLTokens::PstrToken(EdxltokenBracketCloseTag)->GetBuffer(); // >
 		if (m_fIndent)
 		{
 			m_os << std::endl;
@@ -182,12 +182,12 @@ CXMLSerializer::AddAttribute
 	GPOS_ASSERT(NULL != pstrValue);
 
 	GPOS_ASSERT(m_fOpenTag);
-	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->Wsz()
-		 << pstrAttr->Wsz()
-		 << CDXLTokens::PstrToken(EdxltokenEq)->Wsz()		// = 
-		 <<  CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// "
+	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->GetBuffer()
+		 << pstrAttr->GetBuffer()
+		 << CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()		// = 
+		 <<  CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// "
 	WriteEscaped(m_os, pstrValue);
-	m_os << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// "
+	m_os << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// "
 }
 
 //---------------------------------------------------------------------------
@@ -209,12 +209,12 @@ CXMLSerializer::AddAttribute
 	GPOS_ASSERT(NULL != szValue);
 
 	GPOS_ASSERT(m_fOpenTag);
-	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->Wsz()
-		 << pstrAttr->Wsz()
-		 << CDXLTokens::PstrToken(EdxltokenEq)->Wsz()		// = 
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz()	// "
+	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->GetBuffer()
+		 << pstrAttr->GetBuffer()
+		 << CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()		// = 
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer()	// "
 		 << szValue
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// "
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// "
 }
 
 //---------------------------------------------------------------------------
@@ -236,12 +236,12 @@ CXMLSerializer::AddAttribute
 	GPOS_ASSERT(NULL != pstrAttr);
 
 	GPOS_ASSERT(m_fOpenTag);
-	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->Wsz()
-		 << pstrAttr->Wsz()
-		 << CDXLTokens::PstrToken(EdxltokenEq)->Wsz()		// = 
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz()	// \"
+	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->GetBuffer()
+		 << pstrAttr->GetBuffer()
+		 << CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()		// = 
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer()	// \"
 		 << ulValue
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// \"
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// \"
 }
 
 //---------------------------------------------------------------------------
@@ -263,12 +263,12 @@ CXMLSerializer::AddAttribute
 	GPOS_ASSERT(NULL != pstrAttr);
 
 	GPOS_ASSERT(m_fOpenTag);
-	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->Wsz()
-		 << pstrAttr->Wsz()
-		 << CDXLTokens::PstrToken(EdxltokenEq)->Wsz()		// =
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz()	// \"
+	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->GetBuffer()
+		 << pstrAttr->GetBuffer()
+		 << CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()		// =
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer()	// \"
 		 << ullValue
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// \"
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// \"
 }
 
 //---------------------------------------------------------------------------
@@ -290,12 +290,12 @@ CXMLSerializer::AddAttribute
 	GPOS_ASSERT(NULL != pstrAttr);
 
 	GPOS_ASSERT(m_fOpenTag);
-	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->Wsz()
-		 << pstrAttr->Wsz()
-		 << CDXLTokens::PstrToken(EdxltokenEq)->Wsz()		// = 
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz()	// \"
+	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->GetBuffer()
+		 << pstrAttr->GetBuffer()
+		 << CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()		// = 
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer()	// \"
 		 << iValue
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// \"
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// \"
 }
 
 //---------------------------------------------------------------------------
@@ -317,12 +317,12 @@ CXMLSerializer::AddAttribute
 	GPOS_ASSERT(NULL != pstrAttr);
 
 	GPOS_ASSERT(m_fOpenTag);
-	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->Wsz()
-		 << pstrAttr->Wsz()
-		 << CDXLTokens::PstrToken(EdxltokenEq)->Wsz()		// =
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz()	// \"
+	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->GetBuffer()
+		 << pstrAttr->GetBuffer()
+		 << CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()		// =
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer()	// \"
 		 << lValue
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// \"
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// \"
 }
 
 //---------------------------------------------------------------------------
@@ -344,12 +344,12 @@ CXMLSerializer::AddAttribute
 	GPOS_ASSERT(NULL != pstrAttr);
 
 	GPOS_ASSERT(m_fOpenTag);
-	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->Wsz()
-		 << pstrAttr->Wsz()
-		 << CDXLTokens::PstrToken(EdxltokenEq)->Wsz()		// = 
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz()	// \"
+	m_os << CDXLTokens::PstrToken(EdxltokenSpace)->GetBuffer()
+		 << pstrAttr->GetBuffer()
+		 << CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()		// = 
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer()	// \"
 		 << dValue
-		 << CDXLTokens::PstrToken(EdxltokenQuote)->Wsz();	// \"
+		 << CDXLTokens::PstrToken(EdxltokenQuote)->GetBuffer();	// \"
 }
 
 //---------------------------------------------------------------------------
@@ -401,7 +401,7 @@ CXMLSerializer::Indent()
 	
 	for (ULONG ul = 0; ul < m_ulLevel; ul++)
 	{
-		m_os << CDXLTokens::PstrToken(EdxltokenIndent)->Wsz();
+		m_os << CDXLTokens::PstrToken(EdxltokenIndent)->GetBuffer();
 	}
 }
 
@@ -422,8 +422,8 @@ CXMLSerializer::WriteEscaped
 {
 	GPOS_ASSERT(NULL != pstr);
 	
-	const ULONG ulLength = pstr->UlLength();
-	const WCHAR *wsz = pstr->Wsz();
+	const ULONG ulLength = pstr->Length();
+	const WCHAR *wsz = pstr->GetBuffer();
 	
 	for (ULONG ulA = 0; ulA < ulLength; ulA++)
 	{

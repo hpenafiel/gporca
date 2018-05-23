@@ -949,8 +949,8 @@ CTranslatorExprToDXL::PdxlnDynamicTableScan
 	
 	if (NULL != pdxlprop)
 	{
-		CWStringDynamic *pstrRows = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, pdxlprop->Pdxlopcost()->PstrRows()->Wsz());
-		CWStringDynamic *pstrCost = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, pdxlprop->Pdxlopcost()->PstrTotalCost()->Wsz());
+		CWStringDynamic *pstrRows = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, pdxlprop->Pdxlopcost()->PstrRows()->GetBuffer());
+		CWStringDynamic *pstrCost = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, pdxlprop->Pdxlopcost()->PstrTotalCost()->GetBuffer());
 
 		pdxlpropDTS->Pdxlopcost()->SetRows(pstrRows);
 		pdxlpropDTS->Pdxlopcost()->SetCost(pstrCost);
@@ -2029,7 +2029,7 @@ CTranslatorExprToDXL::PdxlnTVF
 	IMDId *pmdidRetType = popTVF->PmdidRetType();
 	pmdidRetType->AddRef();
 
-	CWStringConst *pstrFunc = GPOS_NEW(m_pmp) CWStringConst(m_pmp, popTVF->Pstr()->Wsz());
+	CWStringConst *pstrFunc = GPOS_NEW(m_pmp) CWStringConst(m_pmp, popTVF->Pstr()->GetBuffer());
 
 	CDXLPhysicalTVF *pdxlop = GPOS_NEW(m_pmp) CDXLPhysicalTVF(m_pmp, pmdidFunc, pmdidRetType, pstrFunc);
 
@@ -5795,13 +5795,13 @@ CTranslatorExprToDXL::PdxlnScCmp
 
 	GPOS_ASSERT(NULL != popScCmp);
 	GPOS_ASSERT(NULL != popScCmp->Pstr());
-	GPOS_ASSERT(NULL != popScCmp->Pstr()->Wsz());
+	GPOS_ASSERT(NULL != popScCmp->Pstr()->GetBuffer());
 
 	// construct a scalar comparison node
 	IMDId *pmdid = popScCmp->PmdidOp();
 	pmdid->AddRef();
 
-	CWStringConst *pstrName = GPOS_NEW(m_pmp) CWStringConst(m_pmp, popScCmp->Pstr()->Wsz());
+	CWStringConst *pstrName = GPOS_NEW(m_pmp) CWStringConst(m_pmp, popScCmp->Pstr()->GetBuffer());
 
 	CDXLNode *pdxlnCmp = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarComp(m_pmp, pmdid, pstrName));
 
@@ -5878,7 +5878,7 @@ CTranslatorExprToDXL::PdxlnScOp
 	CScalarOp *pscop = CScalarOp::PopConvert(pexprOp->Pop());
 
 	// construct a scalar opexpr node
-	CWStringConst *pstrName = GPOS_NEW(m_pmp) CWStringConst(m_pmp, pscop->Pstr()->Wsz());
+	CWStringConst *pstrName = GPOS_NEW(m_pmp) CWStringConst(m_pmp, pscop->Pstr()->GetBuffer());
 
 	IMDId *pmdidOp = pscop->PmdidOp();
 	pmdidOp->AddRef();
@@ -6987,7 +6987,7 @@ CTranslatorExprToDXL::PdxlnAssertConstraint
 {
 	GPOS_ASSERT(NULL != pexpr);
 	CScalarAssertConstraint *popAssertConstraint = CScalarAssertConstraint::PopConvert(pexpr->Pop());
-	CWStringDynamic *pstrErrorMsg = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, popAssertConstraint->PstrErrorMsg()->Wsz());
+	CWStringDynamic *pstrErrorMsg = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, popAssertConstraint->PstrErrorMsg()->GetBuffer());
 
 	CDXLNode *pdxlnAssertConstraint  = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarAssertConstraint(m_pmp, pstrErrorMsg));
 	TranslateScalarChildren(pexpr, pdxlnAssertConstraint);
@@ -7060,7 +7060,7 @@ CTranslatorExprToDXL::PdxlnArrayCmp
 									(
 									m_pmp,
 									pmdidOp,
-									GPOS_NEW(m_pmp) CWStringConst(m_pmp, pstrOpName->Wsz()),
+									GPOS_NEW(m_pmp) CWStringConst(m_pmp, pstrOpName->GetBuffer()),
 									edxlarrcmpt
 									)
 						);
@@ -7278,7 +7278,7 @@ CTranslatorExprToDXL::Pdxlprop
 	oss << pexpr->Cost();
 
 	CWStringDynamic *pstrStartupcost = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, GPOS_WSZ_LIT("0"));
-	CWStringDynamic *pstrTotalcost = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, str.Wsz());
+	CWStringDynamic *pstrTotalcost = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp, str.GetBuffer());
 
 	CDXLOperatorCost *pdxlopcost = GPOS_NEW(m_pmp) CDXLOperatorCost(pstrStartupcost, pstrTotalcost, pstrRows, pstrWidth);
 	CDXLPhysicalProperties *pdxlprop = GPOS_NEW(m_pmp) CDXLPhysicalProperties(pdxlopcost);
@@ -7657,7 +7657,7 @@ CTranslatorExprToDXL::PdxlnSortColList
 		const IMDScalarOp *pmdscop = m_pmda->Pmdscop(pmdidSortOp);
 		
 		CWStringConst *pstrSortOpName = 
-				GPOS_NEW(m_pmp) CWStringConst(m_pmp, pmdscop->Mdname().Pstr()->Wsz());
+				GPOS_NEW(m_pmp) CWStringConst(m_pmp, pmdscop->Mdname().Pstr()->GetBuffer());
 		
 		BOOL fSortNullsFirst = false;
 		if (COrderSpec::EntFirst == ent)

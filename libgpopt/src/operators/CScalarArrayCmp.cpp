@@ -192,7 +192,7 @@ CScalarArrayCmp::OsPrint
 	const
 {
 	os << SzId() << " " <<  m_rgszCmpType[m_earrccmpt] << " (";
-	os << Pstr()->Wsz();
+	os << Pstr()->GetBuffer();
 	os << ")";
 	
 	return os;

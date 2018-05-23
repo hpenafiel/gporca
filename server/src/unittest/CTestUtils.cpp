@@ -225,7 +225,7 @@ CTestUtils::PtabdescPlainWithColNameFormat
 		pstrName->AppendFormat(wszColNameFormat, i);
 
 		// create a shallow constant string to embed in a name
-		CWStringConst strName(pstrName->Wsz());
+		CWStringConst strName(pstrName->GetBuffer());
 		CName nameColumnInt(&strName);
 
 		CColumnDescriptor *pcoldescInt = GPOS_NEW(pmp) CColumnDescriptor(pmp, pmdtypeint4, IDefaultTypeModifier, nameColumnInt, i + 1, fNullable);
@@ -344,10 +344,10 @@ CTestUtils::PexprLogicalGetNullable
 	const CWStringConst *pstrTableAlias
 	)
 {
-	CWStringConst strName(pstrTableName->Wsz());
+	CWStringConst strName(pstrTableName->GetBuffer());
 	CMDIdGPDB *pmdid = GPOS_NEW(pmp) CMDIdGPDB(oidTable, 1, 1);
 	CTableDescriptor *ptabdesc = CTestUtils::PtabdescPlain(pmp, 3, pmdid, CName(&strName), true /*fNullable*/);
-	CWStringConst strAlias(pstrTableAlias->Wsz());
+	CWStringConst strAlias(pstrTableAlias->GetBuffer());
 
 	return PexprLogicalGet(pmp, ptabdesc, &strAlias);
 }
@@ -378,7 +378,7 @@ CTestUtils::PexprLogicalGet
 									CName(pstrTableName)
 									);
 
-	CWStringConst strAlias(pstrTableAlias->Wsz());
+	CWStringConst strAlias(pstrTableAlias->GetBuffer());
 	return PexprLogicalGet(pmp, ptabdesc, &strAlias);
 }
 
@@ -2532,7 +2532,7 @@ CTestUtils::PexprLogicalSequenceProject
 							pmp,
 							pmdid,
 							pmdidRetType,
-							GPOS_NEW(pmp) CWStringConst(pmp, pmdfunc->Mdname().Pstr()->Wsz()),
+							GPOS_NEW(pmp) CWStringConst(pmp, pmdfunc->Mdname().Pstr()->GetBuffer()),
 							CScalarWindowFunc::EwsImmediate,
 							false /*fDistinct*/,
 							false /*fStarArg*/,
@@ -3123,7 +3123,7 @@ CTestUtils::EresTranslate
 	CWStringDynamic str(pmp);
 	COstreamString oss(&str);
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	// read the dxl document
 	CHAR *szQueryDXL = CDXLUtils::SzRead(pmp, szQueryFileName);
@@ -3184,7 +3184,7 @@ CTestUtils::EresTranslate
 
 	CDXLUtils::SerializePlan(pmp, osTranslatedPlan, pdxlnPlan, poconf->Pec()->UllPlanId(), poconf->Pec()->UllPlanSpaceSize(), true /*fSerializeHeaderFooter*/, true /*fIndent*/);
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	GPOS_RESULT eres = GPOS_OK;
 	if (NULL != szPlanFileName)
 	{
@@ -3229,10 +3229,10 @@ CTestUtils::EresCompare
 	{
 		os << "Output does not match expected DXL document" << std::endl;
 		os << "Actual: " << std::endl;
-		os << pstrActual->Wsz() << std::endl;
+		os << pstrActual->GetBuffer() << std::endl;
 
 		os << "Expected: " << std::endl;
-		os << pstrExpected->Wsz() << std::endl;
+		os << pstrExpected->GetBuffer() << std::endl;
 
 		if (fIgnoreMismatch)
 		{
@@ -3334,11 +3334,11 @@ CTestUtils::FPlanMatch
 
 			at.Os() << "Plan comparison *** FAILED ***" << std::endl;
 			at.Os() << "Actual: " << std::endl;
-			at.Os()  << strActual.Wsz() << std::endl;
+			at.Os()  << strActual.GetBuffer() << std::endl;
 		}
 
 		os << "Expected: " << std::endl;
-		os << strExpected.Wsz() << std::endl;
+		os << strExpected.GetBuffer() << std::endl;
 	}
 	
 	
@@ -3480,7 +3480,7 @@ CTestUtils::SzMinidumpFileName
 	oss << szFileName << "-space-pruned";
 
 	// convert wide char to regular char
-	const WCHAR *wsz = pstrMinidumpFileName->Wsz();
+	const WCHAR *wsz = pstrMinidumpFileName->GetBuffer();
 	const ULONG ulInputLength = GPOS_WSZ_LENGTH(wsz);
 	const ULONG ulWCHARSize = GPOS_SIZEOF(WCHAR);
 	const ULONG ulMaxLength = (ulInputLength + 1) * ulWCHARSize;
@@ -3876,7 +3876,7 @@ CTestUtils::EresSamplePlans
 
 				// print ids of sampled plans
 				CWStringDynamic *pstr = CDXLUtils::PstrSerializeSamplePlans(pmp, poconf->Pec(), true /*fIdent*/);
-				at.Os() << pstr->Wsz();
+				at.Os() << pstr->GetBuffer();
 				GPOS_DELETE(pstr);
 
 				// print fitted cost distribution
@@ -3890,7 +3890,7 @@ CTestUtils::EresSamplePlans
 				// print serialized cost distribution
 				pstr = CDXLUtils::PstrSerializeCostDistr(pmp, poconf->Pec(), true /*fIdent*/);
 
-				at.Os() << pstr->Wsz();
+				at.Os() << pstr->GetBuffer();
 				GPOS_DELETE(pstr);
 
 			}

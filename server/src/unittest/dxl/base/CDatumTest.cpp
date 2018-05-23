@@ -118,7 +118,7 @@ CDatumTest::EresUnittest_Basics()
 	#ifdef GPOS_DEBUG
 			os << std::endl;
 			(void) pdatum->OsPrint(os);
-			os << std::endl << pstrDatum->Wsz() << std::endl;
+			os << std::endl << pstrDatum->GetBuffer() << std::endl;
 	#endif // GPOS_DEBUG
 	
 			os << "Datum type: " << pdatum->Eti() << std::endl;

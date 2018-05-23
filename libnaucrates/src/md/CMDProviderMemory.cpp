@@ -127,7 +127,7 @@ CMDProviderMemory::LoadMetadataObjectsFromArray
 		if (!fInserted)
 		{
 			
-			GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryDuplicate, pmdidKey->Wsz());
+			GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryDuplicate, pmdidKey->GetBuffer());
 		}
 		(void) a_pmdidKey.Reset();
 		(void) a_pstr.Reset();
@@ -194,7 +194,7 @@ CMDProviderMemory::PstrObject
 			case IMDId::EmdidColStats:
 			{
 				CAutoP<CWStringDynamic> a_pstr;
-				a_pstr = GPOS_NEW(pmp) CWStringDynamic(pmp, pmdid->Wsz());
+				a_pstr = GPOS_NEW(pmp) CWStringDynamic(pmp, pmdid->GetBuffer());
 				CAutoP<CMDName> a_pmdname;
 				a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Value());
 				pmdid->AddRef();
@@ -206,14 +206,14 @@ CMDProviderMemory::PstrObject
 			}
 			default:
 			{
-				GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+				GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 			}
 		}
 	}
 	else
 	{
 		// copy string into result
-		a_pstrResult = GPOS_NEW(pmp) CWStringDynamic(pmp, pstrObj->Wsz());
+		a_pstrResult = GPOS_NEW(pmp) CWStringDynamic(pmp, pstrObj->GetBuffer());
 	}
 	
 	GPOS_ASSERT(NULL != a_pstrResult.Value());

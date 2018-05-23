@@ -92,8 +92,8 @@ CParseHandlerScalarSubPlan::Edxlsubplantype
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(EdxltokenScalarSubPlanType)->Wsz(),
-		CDXLTokens::PstrToken(EdxltokenScalarSubPlan)->Wsz()
+		CDXLTokens::PstrToken(EdxltokenScalarSubPlanType)->GetBuffer(),
+		CDXLTokens::PstrToken(EdxltokenScalarSubPlan)->GetBuffer()
 		);
 
 	return EdxlSubPlanTypeSentinel;
@@ -119,7 +119,7 @@ CParseHandlerScalarSubPlan::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlan), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	m_pmdidFirstCol = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarSubPlanParam);
@@ -164,7 +164,7 @@ CParseHandlerScalarSubPlan::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlan), xmlszLocalname) && NULL != m_pdxln)
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	CParseHandlerScalarSubPlanTestExpr *pphTestExpr = dynamic_cast<CParseHandlerScalarSubPlanTestExpr *>((*this)[0]);

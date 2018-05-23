@@ -1886,7 +1886,7 @@ CStatisticsUtils::DDefaultColumnWidth
        CDouble dWidth(CStatistics::DDefaultColumnWidth);
        if (pmdtype->FFixedLength())
        {
-    	   dWidth = CDouble(pmdtype->UlLength());
+    	   dWidth = CDouble(pmdtype->Length());
        }
 
        return dWidth;

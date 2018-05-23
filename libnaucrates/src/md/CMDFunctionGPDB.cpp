@@ -191,11 +191,11 @@ CMDFunctionGPDB::PstrOutArgTypes() const
 		if (ul == ulLen - 1)
 		{
 			// last element: do not print a comma
-			pstr->AppendFormat(GPOS_WSZ_LIT("%ls"), pmdid->Wsz());
+			pstr->AppendFormat(GPOS_WSZ_LIT("%ls"), pmdid->GetBuffer());
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), pmdid->Wsz(), CDXLTokens::PstrToken(EdxltokenComma)->Wsz());
+			pstr->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), pmdid->GetBuffer(), CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
 		}
 	}
 
@@ -309,7 +309,7 @@ CMDFunctionGPDB::DebugPrint
 	Pmdid()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Function name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Function name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	
 	os << "Result type id: ";
 	PmdidTypeResult()->OsPrint(os);
@@ -319,17 +319,17 @@ CMDFunctionGPDB::DebugPrint
 			CDXLTokens::PstrToken(EdxltokenTrue): 
 			CDXLTokens::PstrToken(EdxltokenFalse); 
 
-	os << "Returns set: " << pstrReturnsSet->Wsz() << std::endl;
+	os << "Returns set: " << pstrReturnsSet->GetBuffer() << std::endl;
 
-	os << "Function is " << PstrStability()->Wsz() << std::endl;
+	os << "Function is " << PstrStability()->GetBuffer() << std::endl;
 	
-	os << "Data access: " << PstrDataAccess()->Wsz() << std::endl;
+	os << "Data access: " << PstrDataAccess()->GetBuffer() << std::endl;
 
 	const CWStringConst *pstrIsStrict = FStrict() ? 
 			CDXLTokens::PstrToken(EdxltokenTrue): 
 			CDXLTokens::PstrToken(EdxltokenFalse); 
 
-	os << "Is strict: " << pstrIsStrict->Wsz() << std::endl;
+	os << "Is strict: " << pstrIsStrict->GetBuffer() << std::endl;
 	
 	os << std::endl;	
 }

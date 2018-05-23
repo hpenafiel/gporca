@@ -90,7 +90,7 @@ CDecorrelatorTest::EresUnittest_Decorrelate()
 		CWStringDynamic str(pmp);
 		COstreamString oss(&str);
 		oss	<< std::endl << "INPUT:" << std::endl << *pexpr << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		CExpression *pexprResult = NULL;
@@ -107,7 +107,7 @@ CDecorrelatorTest::EresUnittest_Decorrelate()
 		oss	<< std::endl << "RESIDUAL RELATIONAL:" << std::endl << *pexprResult << std::endl;
 		oss	<< std::endl << "RESIDUAL SCALAR:" << std::endl << *pexprResidual << std::endl;
 
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		pexprResult->Release();

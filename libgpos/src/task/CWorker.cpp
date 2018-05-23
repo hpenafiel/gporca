@@ -309,7 +309,7 @@ CWorker::CheckTimeSlice()
 				CException::ExmaSystem,
 				CException::ExmiAbortTimeout,
 				interval,
-				str.Wsz()
+				str.GetBuffer()
 				);
 		}
 	}

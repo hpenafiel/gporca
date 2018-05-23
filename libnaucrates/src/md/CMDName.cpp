@@ -34,7 +34,7 @@ CMDName::CMDName
 	m_psc(NULL),
 	m_fDeepCopy(true)
 {
-	m_psc = GPOS_NEW(pmp) CWStringConst(pmp, pstr->Wsz());
+	m_psc = GPOS_NEW(pmp) CWStringConst(pmp, pstr->GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ CMDName::CMDName
 	m_psc(name.Pstr()),
 	m_fDeepCopy(false)
 {
-	GPOS_ASSERT(NULL != m_psc->Wsz());
+	GPOS_ASSERT(NULL != m_psc->GetBuffer());
 	GPOS_ASSERT(m_psc->IsValid());	
 }
 

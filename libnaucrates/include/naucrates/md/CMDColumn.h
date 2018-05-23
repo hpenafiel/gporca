@@ -107,7 +107,7 @@ namespace gpmd
 			}
 
 			// length of the column
-			ULONG UlLength() const
+			ULONG Length() const
 			{
 				return m_ulLength;
 			}

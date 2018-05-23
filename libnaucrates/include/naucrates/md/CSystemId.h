@@ -57,7 +57,7 @@ namespace gpmd
 			}
 			
 			// system id string
-			const WCHAR *Wsz() const
+			const WCHAR *GetBuffer() const
 			{
 				return m_wsz;
 			}

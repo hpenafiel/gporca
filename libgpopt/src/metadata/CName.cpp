@@ -35,7 +35,7 @@ CName::CName
 	:m_pstrName(NULL),
 	 m_fDeepCopy(true)
 {
-	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstr->Wsz());
+	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstr->GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -81,10 +81,10 @@ CName::CName
 	m_pstrName(NULL),
 	m_fDeepCopy(false)
 {
-	CWStringDynamic *pstrTmp = GPOS_NEW(pmp) CWStringDynamic(pmp, (nameFirst.Pstr())->Wsz());
+	CWStringDynamic *pstrTmp = GPOS_NEW(pmp) CWStringDynamic(pmp, (nameFirst.Pstr())->GetBuffer());
 	pstrTmp->Append(nameSecond.Pstr());
 	
-	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstrTmp->Wsz());
+	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstrTmp->GetBuffer());
 	m_fDeepCopy = true;
 	
 	// release tmp string
@@ -109,7 +109,7 @@ CName::CName
 	m_pstrName(name.Pstr()),
 	m_fDeepCopy(false)
 {
-	GPOS_ASSERT(NULL != m_pstrName->Wsz());
+	GPOS_ASSERT(NULL != m_pstrName->GetBuffer());
 	GPOS_ASSERT(m_pstrName->IsValid());	
 }
 
@@ -171,7 +171,7 @@ CName::DeepCopy
 	const CWStringConst *pstr
 	)
 {
-	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstr->Wsz());
+	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstr->GetBuffer());
 	m_fDeepCopy = true;
 }
 
@@ -213,7 +213,7 @@ CName::OsPrint
 	)
 	const
 {
-	os << GPOPT_NAME_QUOTE_BEGIN << m_pstrName->Wsz() << GPOPT_NAME_QUOTE_END;
+	os << GPOPT_NAME_QUOTE_BEGIN << m_pstrName->GetBuffer() << GPOPT_NAME_QUOTE_END;
 	return os;
 }
 

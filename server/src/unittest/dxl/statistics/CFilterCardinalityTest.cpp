@@ -958,7 +958,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 												true /*fSerializeHeaderFooter*/,
 												true /*fIndent*/
 												);
-	GPOS_TRACE(pstrInput->Wsz());
+	GPOS_TRACE(pstrInput->GetBuffer());
 	GPOS_DELETE(pstrInput);
 
 	oss << "Serializing Output Statistics Objects (After Filter)" << std::endl;
@@ -970,7 +970,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 												true /*fSerializeHeaderFooter*/,
 												true /*fIndent*/
 												);
-	GPOS_TRACE(pstrOutput->Wsz());
+	GPOS_TRACE(pstrOutput->GetBuffer());
 
 	CWStringDynamic dstrExpected(pmp);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXLOutput);

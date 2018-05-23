@@ -195,12 +195,12 @@ CParseHandlerMetadata::EndElement
 		0 != XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenMdid)))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	GPOS_ASSERT(NULL != m_pdrgpmdobj);
 	
-	const ULONG ulLen = this->UlLength();
+	const ULONG ulLen = this->Length();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CParseHandlerMetadataObject *pphMdObj = dynamic_cast<CParseHandlerMetadataObject *>((*this)[ul]);
@@ -259,7 +259,7 @@ CParseHandlerMetadata::PdrgpsysidParse
 		XMLCh *xmlszName = xmlsztokSysid.nextToken();
 		CWStringDynamic *pstrName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszName);
 		
-		pdrgpsysid->Append(GPOS_NEW(m_pmp) CSystemId((IMDId::EMDIdType) ulType, pstrName->Wsz(), pstrName->UlLength()));	
+		pdrgpsysid->Append(GPOS_NEW(m_pmp) CSystemId((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length()));	
 		
 		GPOS_DELETE(pstrName);
 	}

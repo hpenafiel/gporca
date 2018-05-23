@@ -124,7 +124,7 @@ CParseHandlerOptimizerConfig::StartElement
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOptimizerConfig), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	CParseHandlerBase *pphWindowOids = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenWindowOids), m_pphm, this);
@@ -168,11 +168,11 @@ CParseHandlerOptimizerConfig::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOptimizerConfig), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	GPOS_ASSERT(NULL == m_poconf);
-	GPOS_ASSERT(7 >= this->UlLength());
+	GPOS_ASSERT(7 >= this->Length());
 
 	CParseHandlerEnumeratorConfig *pphEnumeratorConfig = dynamic_cast<CParseHandlerEnumeratorConfig *>((*this)[0]);
 	CEnumeratorConfig *pec = pphEnumeratorConfig->Pec();
@@ -193,7 +193,7 @@ CParseHandlerOptimizerConfig::EndElement
 
 	ICostModel *pcm = NULL;
 	CHint *phint = NULL;
-	if (5 == this->UlLength())
+	if (5 == this->Length())
 	{
 		// no cost model: use default one
 		pcm = ICostModel::PcmDefault(m_pmp);
@@ -206,7 +206,7 @@ CParseHandlerOptimizerConfig::EndElement
 		GPOS_ASSERT(NULL != pcm);
 		pcm->AddRef();
 
-		if (6 == this->UlLength())
+		if (6 == this->Length())
 		{
 			phint = CHint::PhintDefault(m_pmp);
 		}
@@ -221,7 +221,7 @@ CParseHandlerOptimizerConfig::EndElement
 
 	m_poconf = GPOS_NEW(m_pmp) COptimizerConfig(pec, pstatsconf, pcteconfig, pcm, phint, pwindowoidsGPDB);
 
-	CParseHandlerTraceFlags *pphTraceFlags = dynamic_cast<CParseHandlerTraceFlags *>((*this)[this->UlLength() - 1]);
+	CParseHandlerTraceFlags *pphTraceFlags = dynamic_cast<CParseHandlerTraceFlags *>((*this)[this->Length() - 1]);
 	pphTraceFlags->Pbs()->AddRef();
 	m_pbs = pphTraceFlags->Pbs();
 	

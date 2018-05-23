@@ -53,7 +53,7 @@ namespace gpos
 		protected:
 
 			// appends the contents of a buffer to the current string
-			void AppendBuffer(const WCHAR *wszBuf);
+			void AppendBuffer(const WCHAR *wstrbuf);
 
 		public:
 
@@ -61,7 +61,7 @@ namespace gpos
 			CWStringDynamic(IMemoryPool *pmp);
 
 			// ctor - copies passed string
-			CWStringDynamic(IMemoryPool *pmp, const WCHAR *wszBuf);
+			CWStringDynamic(IMemoryPool *pmp, const WCHAR *wstrbuf);
 
 			// appends a string and replaces character with string
 			void AppendEscape(const CWStringBase *pstr, WCHAR wc, const WCHAR *wszReplace);

@@ -90,7 +90,7 @@ CParseHandlerTableDescr::StartElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTableDescr), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse table name from attributes
@@ -123,12 +123,12 @@ CParseHandlerTableDescr::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTableDescr), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// construct node from the created child nodes
 	
-	GPOS_ASSERT(1 == this->UlLength());
+	GPOS_ASSERT(1 == this->Length());
 	
 	// assemble the properties container from the cost
 	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);

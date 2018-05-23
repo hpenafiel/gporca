@@ -70,7 +70,7 @@ CParseHandlerScalarBooleanTest::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->Wsz()
+				CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
 				);
 		}
 		else
@@ -123,12 +123,12 @@ CParseHandlerScalarBooleanTest::EndElement
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLUnexpectedTag,
-			CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->Wsz()
+			CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
 			);
 	}
 	
 	GPOS_ASSERT(edxlBooleanTestType == m_edxlBooleanTestType);
-	GPOS_ASSERT(1 == this->UlLength());
+	GPOS_ASSERT(1 == this->Length());
 
 	CParseHandlerScalarOp *pph = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
 	AddChildFromParseHandler(pph);

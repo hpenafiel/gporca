@@ -625,7 +625,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestRange
 																(
 																pmp,
 																pmdidEq,
-																GPOS_NEW(pmp) CWStringConst(pmp, pmdidEq->Wsz()),
+																GPOS_NEW(pmp) CWStringConst(pmp, pmdidEq->GetBuffer()),
 																Edxlarraycomptypeany
 																),
 													pdxlnScalar,
@@ -751,13 +751,13 @@ CTranslatorExprToDXLUtils::PdxlnRangePointPredicate
 	// generate a predicate of the form "point < col" / "point > col"
 	pmdidCmpExl->AddRef();
 	
-	CWStringConst *pstrCmpExcl = GPOS_NEW(pmp) CWStringConst(pmp, pmda->Pmdscop(pmdidCmpExl)->Mdname().Pstr()->Wsz());
+	CWStringConst *pstrCmpExcl = GPOS_NEW(pmp) CWStringConst(pmp, pmda->Pmdscop(pmdidCmpExl)->Mdname().Pstr()->GetBuffer());
 	CDXLNode *pdxlnPredicateExclusive = GPOS_NEW(pmp) CDXLNode(pmp, GPOS_NEW(pmp) CDXLScalarComp(pmp, pmdidCmpExl, pstrCmpExcl), pdxlnPoint, pdxlnPartBound);
 	
 	// generate a predicate of the form "point <= col and colIncluded" / "point >= col and colIncluded"
 	pmdidCmpIncl->AddRef();
 
-	CWStringConst *pstrCmpIncl = GPOS_NEW(pmp) CWStringConst(pmp, pmda->Pmdscop(pmdidCmpIncl)->Mdname().Pstr()->Wsz());
+	CWStringConst *pstrCmpIncl = GPOS_NEW(pmp) CWStringConst(pmp, pmda->Pmdscop(pmdidCmpIncl)->Mdname().Pstr()->GetBuffer());
 	pdxlnPartBound->AddRef();
 	pdxlnPoint->AddRef();
 	CDXLNode *pdxlnCmpIncl = GPOS_NEW(pmp) CDXLNode(pmp, GPOS_NEW(pmp) CDXLScalarComp(pmp, pmdidCmpIncl, pstrCmpIncl), pdxlnPoint, pdxlnPartBound);
@@ -882,7 +882,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 		GPOS_THROW_EXCEPTION(gpopt::ExmaGPOPT,
 							 gpopt::ExmiUnsupportedOp,
 							 CException::ExsevDebug1,
-							 pstr->Wsz());
+							 pstr->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != pdxlnPartKey);
@@ -921,7 +921,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterScCmp
 															(
 															pmp,
 															pmdidScCmp,
-															GPOS_NEW(pmp) CWStringConst(pmp, pstrScCmp->Wsz()),
+															GPOS_NEW(pmp) CWStringConst(pmp, pstrScCmp->GetBuffer()),
 															Edxlarraycomptypeany
 															),
 												pdxlnOther,
@@ -1170,10 +1170,10 @@ CTranslatorExprToDXLUtils::PdxlpropCopy
 	GPOS_ASSERT(NULL != pdxln->Pdxlprop());
 	CDXLPhysicalProperties *pdxlprop = CDXLPhysicalProperties::PdxlpropConvert(pdxln->Pdxlprop());
 
-	CWStringDynamic *pstrStartupcost = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrStartupCost()->Wsz());
-	CWStringDynamic *pstrCost = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrTotalCost()->Wsz());
-	CWStringDynamic *pstrRows = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrRows()->Wsz());
-	CWStringDynamic *pstrWidth = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrWidth()->Wsz());
+	CWStringDynamic *pstrStartupcost = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrStartupCost()->GetBuffer());
+	CWStringDynamic *pstrCost = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrTotalCost()->GetBuffer());
+	CWStringDynamic *pstrRows = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrRows()->GetBuffer());
+	CWStringDynamic *pstrWidth = GPOS_NEW(pmp) CWStringDynamic(pmp, pdxlprop->Pdxlopcost()->PstrWidth()->GetBuffer());
 
 	return GPOS_NEW(pmp) CDXLPhysicalProperties(GPOS_NEW(pmp) CDXLOperatorCost(pstrStartupcost, pstrCost, pstrRows, pstrWidth));
 }
@@ -1219,7 +1219,7 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 	
 	pmdidScCmp->AddRef();
 	
-	CDXLScalarComp *pdxlopCmp = GPOS_NEW(pmp) CDXLScalarComp(pmp, pmdidScCmp, GPOS_NEW(pmp) CWStringConst(pmp, pstrScCmp->Wsz()));
+	CDXLScalarComp *pdxlopCmp = GPOS_NEW(pmp) CDXLScalarComp(pmp, pmdidScCmp, GPOS_NEW(pmp) CWStringConst(pmp, pstrScCmp->GetBuffer()));
 	CDXLNode *pdxlnScCmp = GPOS_NEW(pmp) CDXLNode(pmp, pdxlopCmp);
 	
 	pmdidTypePartKey->AddRef();

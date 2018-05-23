@@ -149,7 +149,7 @@ CDXLPhysicalMotion::PstrSegIds(const IntPtrArray *pdrgpi) const
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), iSegId, CDXLTokens::PstrToken(EdxltokenComma)->Wsz());
+			pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), iSegId, CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
 		}
 	}
 	

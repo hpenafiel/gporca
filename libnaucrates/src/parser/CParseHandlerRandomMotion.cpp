@@ -66,7 +66,7 @@ CParseHandlerRandomMotion::StartElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRandomMotion), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	m_pdxlop = (CDXLPhysicalRandomMotion *) CDXLOperatorFactory::PdxlopRandomMotion(m_pphm->Pmm(), attrs);
@@ -122,7 +122,7 @@ CParseHandlerRandomMotion::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRandomMotion), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// construct node from the created child nodes

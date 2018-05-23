@@ -326,12 +326,12 @@ CExpressionPreprocessorTest::EresUnittest_PreProcess()
 		COstreamString oss(&str);
 
 		oss	<< std::endl << "EXPR:" << std::endl << *pexpr << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
  		CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr);
 		oss	<< std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		pexprPreprocessed->Release();
@@ -385,12 +385,12 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessWindowFunc()
 	COstreamString oss(&str);
 
 	oss << std::endl << "EXPR:" << std::endl << *pexpr << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
  	CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr);
 	oss << std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	GPOS_ASSERT(FHasNoOuterJoin(pexprPreprocessed) && "unexpected outer join");
 
@@ -549,12 +549,12 @@ CExpressionPreprocessorTest::PreprocessOuterJoin
 		COstreamString oss(&str);
 
 		oss << std::endl << "EXPR:" << std::endl << *pexpr << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr);
 		oss << std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 
 #ifdef GPOS_DEBUG
 		if (fAllowOuterJoin)
@@ -655,8 +655,8 @@ CExpressionPreprocessorTest::EresCompareExpressions
 		{
 			CAutoTrace at(pmp);
 			at.Os() << std::endl << "EXPECTED EQUAL EXPRESSIONS:";
-			at.Os() << std::endl << "EXPR1:" << std::endl << pstrFst->Wsz() << std::endl;
-			at.Os() << std::endl << "EXPR2:" << std::endl << pstrSnd->Wsz() << std::endl;
+			at.Os() << std::endl << "EXPR1:" << std::endl << pstrFst->GetBuffer() << std::endl;
+			at.Os() << std::endl << "EXPR2:" << std::endl << pstrSnd->GetBuffer() << std::endl;
 		}
 		GPOS_ASSERT(fEqual && "expected equal expressions");
 
@@ -893,12 +893,12 @@ CExpressionPreprocessorTest::PreprocessWinFuncWithOuterRefs
 		COstreamString oss(&str);
 
 		oss << std::endl << "EXPR:" << std::endl << *pexpr << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr);
 		oss << std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 
 #ifdef GPOS_DEBUG
 		if (fAllowWinFuncOuterRefs)
@@ -991,12 +991,12 @@ CExpressionPreprocessorTest::PreprocessWinFuncWithDistinctAggs
 	COstreamString oss(&str);
 
 	oss << std::endl << "EXPR:" << std::endl << *pexpr << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
 	CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr);
 	oss << std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 #ifdef GPOS_DEBUG
 	if (fAllowSeqPrj)
@@ -1429,12 +1429,12 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessNestedScalarSubqueries()
 	COstreamString oss(&str);
 
 	oss << std::endl << "EXPR:" << std::endl << *pexprPrj2 << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
  	CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexprPrj2);
 	oss << std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	GPOS_ASSERT(1 == UlScalarSubqs(pexprPreprocessed) &&
 			"expecting ONE scalar subquery in preprocessed expression");
@@ -1739,8 +1739,8 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefilters()
 	if (!fEqual)
 	{
 		CAutoTrace at(pmp);
-		at.Os() << std::endl << "RETURNED EXPRESSION:" << std::endl << strSelect.Wsz();
-		at.Os() << std::endl << "EXPECTED EXPRESSION:" << std::endl << strExpectedDebugPrintForSelect.Wsz();
+		at.Os() << std::endl << "RETURNED EXPRESSION:" << std::endl << strSelect.GetBuffer();
+		at.Os() << std::endl << "EXPECTED EXPRESSION:" << std::endl << strExpectedDebugPrintForSelect.GetBuffer();
 
 		return GPOS_FAILED;
 	}
@@ -1823,8 +1823,8 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefilters()
 	if (!fEqual)
 	{
 		CAutoTrace at(pmp);
-		at.Os() << std::endl << "RETURNED EXPRESSION:" << std::endl << strPreprocessed.Wsz();
-		at.Os() << std::endl << "EXPECTED EXPRESSION:" << std::endl << strExpectedDebugPrintForPreprocessed.Wsz();
+		at.Os() << std::endl << "RETURNED EXPRESSION:" << std::endl << strPreprocessed.GetBuffer();
+		at.Os() << std::endl << "EXPECTED EXPRESSION:" << std::endl << strExpectedDebugPrintForPreprocessed.GetBuffer();
 
 		return GPOS_FAILED;
 	}
@@ -1955,8 +1955,8 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefiltersPartialPush()
 	if (!fEqual)
 	{
 		CAutoTrace at(pmp);
-		at.Os() << std::endl << "RETURNED EXPRESSION:" << std::endl << strPreprocessed.Wsz();
-		at.Os() << std::endl << "EXPECTED EXPRESSION:" << std::endl << strExpectedDebugPrintForPreprocessed.Wsz();
+		at.Os() << std::endl << "RETURNED EXPRESSION:" << std::endl << strPreprocessed.GetBuffer();
+		at.Os() << std::endl << "EXPECTED EXPRESSION:" << std::endl << strExpectedDebugPrintForPreprocessed.GetBuffer();
 
 		return GPOS_FAILED;
 	}

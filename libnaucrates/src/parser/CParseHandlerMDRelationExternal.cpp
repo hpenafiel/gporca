@@ -71,7 +71,7 @@ CParseHandlerMDRelationExternal::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationExternal), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// parse main relation attributes: name, id, distribution policy and keys
@@ -128,7 +128,7 @@ CParseHandlerMDRelationExternal::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationExternal), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// construct metadata object from the created child elements

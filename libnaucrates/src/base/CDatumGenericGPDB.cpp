@@ -187,19 +187,19 @@ CDatumGenericGPDB::Pstr
 	if (FNull())
 	{
 		str.AppendFormat(GPOS_WSZ_LIT("null"));
-		return GPOS_NEW(pmp) CWStringConst(pmp, str.Wsz());
+		return GPOS_NEW(pmp) CWStringConst(pmp, str.GetBuffer());
 	}
 
 	// pretty print datums that can be mapped to LINTs or CDoubles
 	if (FHasStatsLINTMapping())
 	{
 		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), (double) LStatsMapping());
-		return GPOS_NEW(pmp) CWStringConst(pmp, str.Wsz());
+		return GPOS_NEW(pmp) CWStringConst(pmp, str.GetBuffer());
 	}
 	else if (FHasStatsDoubleMapping())
 	{
 		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), DStatsMapping().Get());
-		return GPOS_NEW(pmp) CWStringConst(pmp, str.Wsz());
+		return GPOS_NEW(pmp) CWStringConst(pmp, str.GetBuffer());
 	}
 
 	// print hex representation of bytes
@@ -209,7 +209,7 @@ CDatumGenericGPDB::Pstr
 		str.AppendFormat(GPOS_WSZ_LIT("%02X"), m_pbVal[ul]);
 	}
 
-	return GPOS_NEW(pmp) CWStringConst(pmp, str.Wsz());
+	return GPOS_NEW(pmp) CWStringConst(pmp, str.GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -288,7 +288,7 @@ CDatumGenericGPDB::OsPrint
 	const
 {
 	const CWStringConst *pstr = Pstr(m_pmp);
-	os << pstr->Wsz();
+	os << pstr->GetBuffer();
 	GPOS_DELETE(pstr);
 
 	return os;

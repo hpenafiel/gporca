@@ -77,7 +77,7 @@ CParseHandlerScalarWindowFrameEdge::StartElement
 		if (NULL == m_pdxln)
 		{
 			CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
 		// install a scalar element parser for parsing the frame edge value
@@ -111,7 +111,7 @@ CParseHandlerScalarWindowFrameEdge::EndElement
 	    0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), xmlszLocalname)
 	)
 	{
-		const ULONG ulSize = this->UlLength();
+		const ULONG ulSize = this->Length();
 		if (0 < ulSize)
 		{
 			GPOS_ASSERT(1 == ulSize);
@@ -127,7 +127,7 @@ CParseHandlerScalarWindowFrameEdge::EndElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 

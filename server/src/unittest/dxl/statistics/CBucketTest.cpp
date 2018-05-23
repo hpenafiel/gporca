@@ -332,7 +332,7 @@ CBucketTest::EresUnittest_CBucketIntersect()
 				oss << std::endl;
 				pbucketExpected->OsPrint(oss);
 				oss << std::endl;
-				GPOS_TRACE(str.Wsz());
+				GPOS_TRACE(str.GetBuffer());
 
 			}
 

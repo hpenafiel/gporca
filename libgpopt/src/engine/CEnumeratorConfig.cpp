@@ -345,7 +345,7 @@ CEnumeratorConfig::DumpSamples
 	// dump samples to output file
 	CHAR szFileName[GPOS_FILE_NAME_BUF_SIZE];
 	CUtils::GenerateFileName(szFileName, "SamplePlans", "xml", GPOS_FILE_NAME_BUF_SIZE, ulSessionId, ulCommandId);
-	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(pstr->Wsz()));
+	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(pstr->GetBuffer()));
 	CIOUtils::Dump(szFileName, sz);
 	GPOS_DELETE_ARRAY(sz);
 
@@ -379,7 +379,7 @@ CEnumeratorConfig::DumpCostDistr
 	// dump cost distribution to output file
 	CHAR szFileName[GPOS_FILE_NAME_BUF_SIZE];
 	CUtils::GenerateFileName(szFileName, "CostDistr", "xml", GPOS_FILE_NAME_BUF_SIZE, ulSessionId, ulCommandId);
-	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(pstr->Wsz()));
+	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(pstr->GetBuffer()));
 	CIOUtils::Dump(szFileName, sz);
 	GPOS_DELETE_ARRAY(sz);
 

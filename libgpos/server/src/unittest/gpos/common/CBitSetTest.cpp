@@ -92,7 +92,7 @@ CBitSetTest::EresUnittest_Basics()
 	COstreamString os(&str);
 	
 	os << *pbsCopy << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	
 	pbsCopy->Release();
 

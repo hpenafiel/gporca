@@ -81,7 +81,7 @@ CParseHandlerSortColList::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -108,11 +108,11 @@ CParseHandlerSortColList::EndElement
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLUnexpectedTag,
-			pstr->Wsz()
+			pstr->GetBuffer()
 			);
 	}
 	
-	const ULONG ulLen = this->UlLength();
+	const ULONG ulLen = this->Length();
 	// add sorting columns from child parse handlers
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{

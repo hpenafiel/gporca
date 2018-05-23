@@ -205,7 +205,7 @@ CScalarCmp::Pstr
 	)
 {
 	pmdid->AddRef();
-	return GPOS_NEW(pmp) CWStringConst(pmp, (pmda->Pmdscop(pmdid)->Mdname().Pstr())->Wsz());
+	return GPOS_NEW(pmp) CWStringConst(pmp, (pmda->Pmdscop(pmdid)->Mdname().Pstr())->GetBuffer());
 }
 
 // get commuted scalar comparision operator
@@ -242,7 +242,7 @@ CScalarCmp::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << Pstr()->Wsz();
+	os << Pstr()->GetBuffer();
 	os << ")";
 	
 	return os;

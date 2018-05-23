@@ -433,7 +433,7 @@ void
 CParseHandlerDXL::endDocument()
 {
 	// retrieve plan and/or query and/or list of metadata objects from child parse handler
-	for (ULONG ul = 0; ul < this->UlLength(); ul++)
+	for (ULONG ul = 0; ul < this->Length(); ul++)
 	{
 		CParseHandlerBase *pph = (*this)[ul];
 

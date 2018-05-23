@@ -48,7 +48,7 @@ CDXLColDescr::CDXLColDescr
 	m_fDropped(fDropped),
 	m_ulWidth(ulWidth)
 {
-	GPOS_ASSERT_IMP(m_fDropped, 0 == m_pmdname->Pstr()->UlLength());
+	GPOS_ASSERT_IMP(m_fDropped, 0 == m_pmdname->Pstr()->Length());
 }
 
 //---------------------------------------------------------------------------

@@ -129,10 +129,10 @@ CParseHandlerScalarSwitch::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	const ULONG ulChildren = this->UlLength();
+	const ULONG ulChildren = this->Length();
 	GPOS_ASSERT(1 < ulChildren);
 
 	for (ULONG ul = 0; ul < ulChildren ; ul++)

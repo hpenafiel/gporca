@@ -196,7 +196,7 @@ CDatumOidGPDB::Pstr
 		str.AppendFormat(GPOS_WSZ_LIT("null"));
 	}
 
-	return GPOS_NEW(pmp) CWStringConst(pmp, str.Wsz());
+	return GPOS_NEW(pmp) CWStringConst(pmp, str.GetBuffer());
 }
 
 //---------------------------------------------------------------------------

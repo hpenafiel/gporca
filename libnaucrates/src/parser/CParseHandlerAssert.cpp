@@ -64,7 +64,7 @@ CParseHandlerAssert::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAssert), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 		
 	CHAR *szErrorCode = CDXLOperatorFactory::SzValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
@@ -74,8 +74,8 @@ CParseHandlerAssert::StartElement
 			(
 			gpdxl::ExmaDXL, 
 			gpdxl::ExmiDXLInvalidAttributeValue, 
-			CDXLTokens::PstrToken(EdxltokenPhysicalAssert)->Wsz(),
-			CDXLTokens::PstrToken(EdxltokenErrorCode)->Wsz()
+			CDXLTokens::PstrToken(EdxltokenPhysicalAssert)->GetBuffer(),
+			CDXLTokens::PstrToken(EdxltokenErrorCode)->GetBuffer()
 			);
 	}
 	
@@ -131,7 +131,7 @@ CParseHandlerAssert::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAssert), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// construct node from the created child nodes

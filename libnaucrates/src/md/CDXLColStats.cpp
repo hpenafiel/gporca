@@ -214,7 +214,7 @@ CDXLColStats::DebugPrint
 	Pmdid()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Column name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Column name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	
 	for (ULONG ul = 0; ul < UlBuckets(); ul++)
 	{

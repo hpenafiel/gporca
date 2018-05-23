@@ -282,7 +282,7 @@ CMDTypeGenericGPDB::Pdatum
 	}
 
 	m_pmdid->AddRef();
-	return GPOS_NEW(m_pmp) CDatumGenericGPDB(m_pmp, m_pmdid, pdxldatum->ITypeModifier(), pdxldatum->Pba(), pdxldatum->UlLength(),
+	return GPOS_NEW(m_pmp) CDatumGenericGPDB(m_pmp, m_pmdid, pdxldatum->ITypeModifier(), pdxldatum->Pba(), pdxldatum->Length(),
 											 pdxldatum->FNull(), lValue, dValue);
 }
 
@@ -323,7 +323,7 @@ CMDTypeGenericGPDB::Pdatum
 						m_pmdid,
 						pdxldatumGeneric->ITypeModifier(),
 						pdxldatumGeneric->Pba(),
-						pdxldatumGeneric->UlLength(),
+						pdxldatumGeneric->Length(),
 						pdxldatumGeneric->FNull(),
 						lValue,
 						dValue

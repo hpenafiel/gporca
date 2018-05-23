@@ -82,16 +82,16 @@ CMDIdCast::Serialize()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdCast::Wsz
+//		CMDIdCast::GetBuffer
 //
 //	@doc:
 //		Returns the string representation of the mdid
 //
 //---------------------------------------------------------------------------
 const WCHAR *
-CMDIdCast::Wsz() const
+CMDIdCast::GetBuffer() const
 {
-	return m_str.Wsz();
+	return m_str.GetBuffer();
 }
 
 //---------------------------------------------------------------------------
@@ -182,7 +182,7 @@ CMDIdCast::OsPrint
 	) 
 	const
 {
-	os << "(" << m_str.Wsz() << ")";
+	os << "(" << m_str.GetBuffer() << ")";
 	return os;
 }
 

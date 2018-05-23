@@ -58,7 +58,7 @@ CSystemId::CSystemId
 	:
 	m_emdidt(sysid.Emdidt())
 {
-	clib::WcStrNCpy(m_wsz, sysid.Wsz(), GPDXL_SYSID_LENGTH);
+	clib::WcStrNCpy(m_wsz, sysid.GetBuffer(), GPDXL_SYSID_LENGTH);
 }
 
 //---------------------------------------------------------------------------

@@ -94,7 +94,7 @@ CParseHandlerLogicalJoin::StartElement
 		if(NULL == m_pdxln)
 		{
 			CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
 		// The child can either be a CDXLLogicalOp or CDXLScalar
@@ -128,11 +128,11 @@ CParseHandlerLogicalJoin::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalJoin), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_pdxln );
-	ULONG ulChildrenCount = this->UlLength();
+	ULONG ulChildrenCount = this->Length();
 
 	// Joins must atleast have 3 children (2 logical operators and 1 scalar operator)
 	GPOS_ASSERT(2 < ulChildrenCount);

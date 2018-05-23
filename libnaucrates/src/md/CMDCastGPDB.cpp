@@ -218,7 +218,7 @@ CMDCastGPDB::DebugPrint
 	)
 	const
 {
-	os << "Cast " << (Mdname()).Pstr()->Wsz() << ": ";
+	os << "Cast " << (Mdname()).Pstr()->GetBuffer() << ": ";
 	PmdidSrc()->OsPrint(os);
 	os << "->";
 	PmdidDest()->OsPrint(os);

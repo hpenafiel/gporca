@@ -113,7 +113,7 @@ CContradictionTest::EresUnittest_Constraint()
 		COstreamString oss(&str);
 
 		oss << "EXPR:" << std::endl << *pexpr << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 
@@ -122,14 +122,14 @@ CContradictionTest::EresUnittest_Constraint()
 		(void) pexpr->PdpDerive();
 
 		oss << std::endl << "DERIVED PROPS:" << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 		pexpr->DbgPrint();
 #endif // GPOS_DEBUG
 
  		CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr);
 		oss	<< std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		// cleanup

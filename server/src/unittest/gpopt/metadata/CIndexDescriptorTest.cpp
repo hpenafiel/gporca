@@ -91,7 +91,7 @@ CIndexDescriptorTest::EresUnittest_Basic()
 	COstreamString oss(&str);
 	pindexdesc->OsPrint(oss);
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 #endif // GPOS_DEBUG
 
 	// clean up

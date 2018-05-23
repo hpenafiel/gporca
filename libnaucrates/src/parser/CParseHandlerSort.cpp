@@ -68,7 +68,7 @@ CParseHandlerSort::StartElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalSort), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse and create Sort operator
@@ -137,7 +137,7 @@ CParseHandlerSort::EndElement
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLUnexpectedTag,
-			pstr->Wsz()
+			pstr->GetBuffer()
 			);
 	}
 	

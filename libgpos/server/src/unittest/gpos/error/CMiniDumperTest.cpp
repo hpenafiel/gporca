@@ -76,7 +76,7 @@ CMiniDumperTest::EresUnittest_Basic()
 
 		GPOS_RESET_EX;
 
-		GPOS_TRACE(wstrMinidump.Wsz());
+		GPOS_TRACE(wstrMinidump.GetBuffer());
 	}
 	GPOS_CATCH_END;
 
@@ -137,7 +137,7 @@ CMiniDumperTest::EresUnittest_Concurrency()
 
 		GPOS_RESET_EX;
 
-		GPOS_TRACE(wstrMinidump.Wsz());
+		GPOS_TRACE(wstrMinidump.GetBuffer());
 	}
 	GPOS_CATCH_END;
 
@@ -303,7 +303,7 @@ CMiniDumperTest::CMiniDumperStream::SerializeEntryHeader()
 		CWorker::Self()->GetThreadId()
 		);
 
-	*m_oos << wstr.Wsz();
+	*m_oos << wstr.GetBuffer();
 }
 
 
@@ -375,7 +375,7 @@ CMiniDumperTest::CSerializableStack::Serialize
 
 	wstr.AppendFormat(GPOS_WSZ_LIT("</STACK_TRACE>\n"));
 
-	oos << wstr.Wsz();
+	oos << wstr.GetBuffer();
 }
 
 

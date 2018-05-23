@@ -291,7 +291,7 @@ CStackDescriptor::AppendTrace
 	CWStringStatic str(wsz, GPOS_ARRAY_SIZE(wsz));
 
 	AppendTrace(&str, depth);
-	os << str.Wsz();
+	os << str.GetBuffer();
 }
 
 

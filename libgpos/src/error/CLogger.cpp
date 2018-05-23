@@ -96,8 +96,7 @@ CLogger::Log
 		GPOS_TRY
 		{
 			// write message to log
-			Write(m_entry_wrapper.Wsz(), severity);
-
+			Write(m_entry_wrapper.GetBuffer(), severity);
 			return;
 		}
 		GPOS_CATCH_EX(ex)
@@ -168,7 +167,7 @@ CLogger::Format
 			GPOS_WSZ_LIT(",THD%03d,%s,\"%ls\",\n"),
 			thread_id,
 			sev,
-			m_msg_wrapper.Wsz()
+			m_msg_wrapper.GetBuffer()
 			);
 	}
 	else
@@ -242,7 +241,7 @@ CLogger::ReportFailure()
 
 		m_entry_wrapper.Reset();
 		m_entry_wrapper.AppendFormat(GPOS_WSZ_LIT("%s\n"), m_retrieved_msg);
-		CLoggerSyslog::Alert(m_entry_wrapper.Wsz());
+		CLoggerSyslog::Alert(m_entry_wrapper.GetBuffer());
 		return;
 	}
 

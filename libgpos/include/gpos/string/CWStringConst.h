@@ -35,8 +35,8 @@ namespace gpos
 			
 		public:
 			// ctors
-			CWStringConst(const WCHAR *wszBuf);
-			CWStringConst(IMemoryPool *pmp, const WCHAR *wszBuf);
+			CWStringConst(const WCHAR *wstrbuf);
+			CWStringConst(IMemoryPool *pmp, const WCHAR *wstrbuf);
 			
 			// shallow copy ctor
 			CWStringConst(const CWStringConst&);
@@ -45,7 +45,7 @@ namespace gpos
 			~CWStringConst();
 			
 			// returns the wide character buffer storing the string
-			const WCHAR* Wsz() const;
+			const WCHAR* GetBuffer() const;
 	};
 }
 

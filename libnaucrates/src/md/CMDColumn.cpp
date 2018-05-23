@@ -213,7 +213,7 @@ CMDColumn::DebugPrint
 {
 	os << "Attno: " << IAttno() << std::endl;
 	
-	os << "Column name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Column name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	os << "Column type: ";
 	PmdidType()->OsPrint(os);
 	os << std::endl;
@@ -222,7 +222,7 @@ CMDColumn::DebugPrint
 												CDXLTokens::PstrToken(EdxltokenTrue) :
 												CDXLTokens::PstrToken(EdxltokenFalse);
 	
-	os << "Nulls allowed: " << pstrNullsAllowed->Wsz() << std::endl;
+	os << "Nulls allowed: " << pstrNullsAllowed->GetBuffer() << std::endl;
 }
 
 #endif // GPOS_DEBUG

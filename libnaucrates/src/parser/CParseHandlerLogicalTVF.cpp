@@ -126,7 +126,7 @@ CParseHandlerLogicalTVF::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
@@ -142,7 +142,7 @@ CParseHandlerLogicalTVF::EndElement
 
 	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopTVF);
 
-	const ULONG ulLen = this->UlLength();
+	const ULONG ulLen = this->Length();
 	// loop over arglist children and add them to this parsehandler
 	for (ULONG ul = 1; ul < ulLen; ul++)
 	{

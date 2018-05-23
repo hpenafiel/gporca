@@ -92,7 +92,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 									GPOS_NEW(m_pmp) ULONG(ul)
 									);
 
-		m_pdrgpdoubleColWidths->Append(GPOS_NEW(pmp) CDouble(pmdcol->UlLength()));
+		m_pdrgpdoubleColWidths->Append(GPOS_NEW(pmp) CDouble(pmdcol->Length()));
 	}
 	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
 }
@@ -379,9 +379,9 @@ CMDRelationCtasGPDB::DebugPrint
 	Pmdid()->OsPrint(os);
 	os << std::endl;
 
-	os << "Relation name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 
-	os << "Distribution policy: " << PstrDistrPolicy(m_ereldistrpolicy)->Wsz() << std::endl;
+	os << "Distribution policy: " << PstrDistrPolicy(m_ereldistrpolicy)->GetBuffer() << std::endl;
 
 	os << "Relation columns: " << std::endl;
 	const ULONG ulColumns = UlColumns();
@@ -402,7 +402,7 @@ CMDRelationCtasGPDB::DebugPrint
 		}
 
 		const IMDColumn *pimdcolDistrKey = PmdcolDistrColumn(ul);
-		os << (pimdcolDistrKey->Mdname()).Pstr()->Wsz();
+		os << (pimdcolDistrKey->Mdname()).Pstr()->GetBuffer();
 	}
 
 	os << std::endl;

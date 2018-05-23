@@ -128,7 +128,7 @@ CErrorContext::Record
 
 	if (GPOS_FTRACE(EtracePrintExceptionOnRaise))
 	{
-		std::wcerr << GPOS_WSZ_LIT("Exception: ") << m_static_buffer.Wsz() << std::endl;
+		std::wcerr << GPOS_WSZ_LIT("Exception: ") << m_static_buffer.GetBuffer() << std::endl;
 	}
 }
 

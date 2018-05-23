@@ -32,7 +32,7 @@ CDXLScalarDistinctComp::CDXLScalarDistinctComp
 	IMDId *pmdidOp
 	)
 	:
-	CDXLScalarComp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, CDXLTokens::PstrToken(EdxltokenEq)->Wsz()))
+	CDXLScalarComp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()))
 {
 }
 

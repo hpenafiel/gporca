@@ -47,7 +47,7 @@ namespace gpos
 
 			// size of the string in number of CHAR units,
 			// not counting the terminating '\0'
-			ULONG m_ulLength;
+			ULONG m_length;
 
 			// buffer capacity
 			ULONG m_ulCapacity;
@@ -79,15 +79,15 @@ namespace gpos
 			}
 
 			// returns the string length
-			ULONG UlLength() const
+			ULONG Length() const
 			{
-				return m_ulLength;
+				return m_length;
 			}
 
 			// checks whether the string contains any characters
 			BOOL IsEmpty() const
 			{
-				return (0 == m_ulLength);
+				return (0 == m_length);
 			}
 
 			// checks whether the string is byte-wise equal to a given string literal

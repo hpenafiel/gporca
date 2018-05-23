@@ -131,7 +131,7 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 
 	// serialize stats object
 	CWStringDynamic *pstrOutput = CDXLUtils::PstrSerializeStatistics(pmp, pmda, pdrgpstats, true, true);
-	GPOS_TRACE(pstrOutput->Wsz());
+	GPOS_TRACE(pstrOutput->GetBuffer());
 
 	// get expected output
 	CWStringDynamic str(pmp);
@@ -253,7 +253,7 @@ CMCVTest::EresUnittest_MergeHistMCV()
 
 		// serialize stats object
 		CWStringDynamic *pstrOutput = CDXLUtils::PstrSerializeStatistics(pmp, pmda, pdrgpstats, true, true);
-		GPOS_TRACE(pstrOutput->Wsz());
+		GPOS_TRACE(pstrOutput->GetBuffer());
 
 		// get expected output
 		CWStringDynamic str(pmp);

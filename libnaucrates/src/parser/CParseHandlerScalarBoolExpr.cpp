@@ -98,7 +98,7 @@ CParseHandlerScalarBoolExpr::StartElement
 	{
 		if(NULL == m_pdxln)
 		{
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->Wsz());
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer());
 		}
 
 		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
@@ -132,10 +132,10 @@ CParseHandlerScalarBoolExpr::EndElement
 
 	if(EdxlBoolExprTypeSentinel == edxlBoolType || m_edxlBoolType != edxlBoolType)
 	{
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer());
 	}
 
-	const ULONG ulSize = this->UlLength();
+	const ULONG ulSize = this->Length();
 	// If the operation is NOT then it only has one child.
 	if (
 	    ((((CDXLScalarBoolExpr*) m_pdxln->Pdxlop())->EdxlBoolType() == Edxlnot)
@@ -145,7 +145,7 @@ CParseHandlerScalarBoolExpr::EndElement
 		&& (2 > ulSize))
 	  )
 	{
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLIncorrectNumberOfChildren, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLIncorrectNumberOfChildren, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer());
 	}
 
 	// add constructed children from child parse handlers

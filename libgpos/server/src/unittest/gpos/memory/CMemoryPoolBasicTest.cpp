@@ -93,7 +93,7 @@ CMemoryPoolBasicTest::EresUnittest_Print()
 	COstreamString os(&str);
 
 	(void) CMemoryPoolManager::GetMemoryPoolMgr()->OsPrint(os);
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	return GPOS_OK;
 }
@@ -255,7 +255,7 @@ CMemoryPoolBasicTest::EresNewDelete
 	}
 	os << std::endl;
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 #endif // GPOS_DEBUG
 

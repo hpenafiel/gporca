@@ -95,7 +95,7 @@ namespace gpdxl
 
 			// number of children
 			inline
-			ULONG UlLength() const
+			ULONG Length() const
 			{
 				return m_pdrgpph->Size();
 			}

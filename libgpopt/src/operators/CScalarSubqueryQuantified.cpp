@@ -336,7 +336,7 @@ CScalarSubqueryQuantified::OsPrint
 	const
 {
 	os << SzId();
-	os << "(" << PstrOp()->Wsz() << ")";
+	os << "(" << PstrOp()->GetBuffer() << ")";
 	os << "[";
 	m_pcr->OsPrint(os);
 	os << "]";

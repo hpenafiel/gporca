@@ -184,9 +184,9 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 	{
 		oss << "Output does not match expected DXL document" << std::endl;
 		oss << "Expected: " << std::endl;
-		oss << pstrExpected->Wsz() << std::endl;
+		oss << pstrExpected->GetBuffer() << std::endl;
 		oss << "Actual: " << std::endl;
-		oss << pstrTranslated->Wsz() << std::endl;
+		oss << pstrTranslated->GetBuffer() << std::endl;
 	}
 	else
 	{
@@ -194,7 +194,7 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 		eres = GPOS_OK;
 	}
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	// clean up
 	pexprTranslated->Release();
@@ -227,7 +227,7 @@ CTranslatorDXLToExprTest::Pstr
 	*poss << std::endl;
 	pexpr->OsPrint(*poss);
 
-	CWStringDynamic *pstrExpr = GPOS_NEW(pmp) CWStringDynamic(pmp, str.Wsz());
+	CWStringDynamic *pstrExpr = GPOS_NEW(pmp) CWStringDynamic(pmp, str.GetBuffer());
 
 	GPOS_DELETE(poss);
 
@@ -740,7 +740,7 @@ CTranslatorDXLToExprTest::EresUnittest_Limit()
 	
 	pexprTranslated->OsPrint(*poss);
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	
 	pexprTranslated->Release();
 	GPOS_DELETE(poss);
@@ -786,7 +786,7 @@ CTranslatorDXLToExprTest::EresUnittest_LimitNoOffset()
 	
 	pexprTranslated->OsPrint(*poss);
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	pexprTranslated->Release();
 	GPOS_DELETE(poss);
@@ -832,7 +832,7 @@ CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery()
 	
 	pexprTranslated->OsPrint(*poss);
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	pexprTranslated->Release();
 	GPOS_DELETE(poss);

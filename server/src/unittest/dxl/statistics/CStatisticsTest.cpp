@@ -175,10 +175,10 @@ CStatisticsTest::EresUnittest_UnionAll()
 		{
 			oss << "Output does not match expected DXL document" << std::endl;
 			oss << "Actual: " << std::endl;
-			oss << pstrOutput->Wsz() << std::endl;
+			oss << pstrOutput->GetBuffer() << std::endl;
 			oss << "Expected: " << std::endl;
-			oss << dstrExpected.Wsz() << std::endl;
-			GPOS_TRACE(str.Wsz());
+			oss << dstrExpected.GetBuffer() << std::endl;
+			GPOS_TRACE(str.GetBuffer());
 			
 			eres = GPOS_FAILED;
 		}

@@ -516,7 +516,7 @@ namespace gpdxl
 			}
 			else
 			{
-				a_pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), tValue, CDXLTokens::PstrToken(EdxltokenComma)->Wsz());
+				a_pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), tValue, CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
 			}
 		}
 

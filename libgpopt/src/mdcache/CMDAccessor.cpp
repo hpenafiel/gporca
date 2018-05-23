@@ -708,7 +708,7 @@ CMDAccessor::Pmdrel
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtRel != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDRelation*>(pmdobj);
@@ -733,7 +733,7 @@ CMDAccessor::Pmdtype
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDType*>(pmdobj);
@@ -763,7 +763,7 @@ CMDAccessor::Pmdtype
 	const IMDCacheObject *pmdobj = Pimdobj(a_pmdid.Value());
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdid.Value()->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdid.Value()->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDType*>(pmdobj);
@@ -793,7 +793,7 @@ CMDAccessor::Pmdtype
 	
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDType*>(pmdobj);
@@ -818,7 +818,7 @@ CMDAccessor::Pmdscop
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtOp != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDScalarOp*>(pmdobj);
@@ -843,7 +843,7 @@ CMDAccessor::Pmdfunc
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtFunc != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDFunction*>(pmdobj);
@@ -890,7 +890,7 @@ CMDAccessor::Pmdagg
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtAgg != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDAggregate*>(pmdobj);
@@ -915,7 +915,7 @@ CMDAccessor::Pmdtrigger
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtTrigger != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDTrigger*>(pmdobj);
@@ -940,7 +940,7 @@ CMDAccessor::Pmdindex
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtInd != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDIndex*>(pmdobj);
@@ -965,7 +965,7 @@ CMDAccessor::Pmdcheckconstraint
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtCheckConstraint != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDCheckConstraint*>(pmdobj);
@@ -989,7 +989,7 @@ CMDAccessor::Pmdcolstats
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtColStats != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDColStats*>(pmdobj);
@@ -1013,7 +1013,7 @@ CMDAccessor::Pmdrelstats
 	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
 	if (IMDCacheObject::EmdtRelStats != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
 	}
 
 	return dynamic_cast<const IMDRelStats*>(pmdobj);
@@ -1047,7 +1047,7 @@ CMDAccessor::Pmdcast
 		
 	if (IMDCacheObject::EmdtCastFunc != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdidCast->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdidCast->GetBuffer());
 	}
 	a_pmdidCast.Reset()->Release();
 
@@ -1084,7 +1084,7 @@ CMDAccessor::Pmdsccmp
 		
 	if (IMDCacheObject::EmdtScCmp != pmdobj->Emdt())
 	{
-		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdidScCmp->Wsz());
+		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdidScCmp->GetBuffer());
 	}
 	a_pmdidScCmp.Reset()->Release();
 
@@ -1410,7 +1410,7 @@ CMDAccessor::Serialize
 	// Now that we're done iterating and no longer hold the lock,
 	// serialize the entries.
 	for (ul = 0; ul < nentries; ul++)
-		oos << cacheEntries[ul]->Pstr()->Wsz();
+		oos << cacheEntries[ul]->Pstr()->GetBuffer();
 }
 
 //---------------------------------------------------------------------------
@@ -1445,9 +1445,9 @@ CMDAccessor::SerializeSysid
 			str.AppendFormat(GPOS_WSZ_LIT("%s"), ",");
 		}
 		
-		str.AppendFormat(GPOS_WSZ_LIT("%d.%ls"), sysid.Emdidt(), sysid.Wsz());
+		str.AppendFormat(GPOS_WSZ_LIT("%d.%ls"), sysid.Emdidt(), sysid.GetBuffer());
 
-		oos << str.Wsz();
+		oos << str.GetBuffer();
 		ul++;
 	}
 }

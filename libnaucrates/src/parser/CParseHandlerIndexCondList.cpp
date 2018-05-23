@@ -66,7 +66,7 @@ CParseHandlerIndexCondList::StartElement
 		if (NULL == m_pdxln)
 		{
 			CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
 		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph
@@ -107,11 +107,11 @@ CParseHandlerIndexCondList::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// add constructed children from child parse handlers
-	for (ULONG ul = 0; ul < this->UlLength(); ul++)
+	for (ULONG ul = 0; ul < this->Length(); ul++)
 	{
 		CParseHandlerScalarOp *pphOp =
 				dynamic_cast<CParseHandlerScalarOp*>((*this)[ul]);

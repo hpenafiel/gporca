@@ -249,7 +249,7 @@ CScalarFunc::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << PstrFunc()->Wsz();
+	os << PstrFunc()->GetBuffer();
 	os << ")";
 	
 	return os;

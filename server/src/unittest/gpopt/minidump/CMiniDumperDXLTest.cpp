@@ -207,7 +207,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CWStringDynamic str(pmp);
 		COstreamString oss(&str);
 		oss << std::endl << "Minidump" << std::endl;
-		oss << minidumpstr.Wsz();
+		oss << minidumpstr.GetBuffer();
 		oss << std::endl;
 		
 		// dump the same to a temp file
@@ -217,11 +217,11 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CMinidumperUtils::GenerateMinidumpFileName(szFileName, GPOS_FILE_NAME_BUF_SIZE, ulSessionId, ulCommandId, NULL /*szMinidumpFileName*/);
 
 		std::wofstream osMinidump(szFileName);
-		osMinidump << minidumpstr.Wsz();
+		osMinidump << minidumpstr.GetBuffer();
 
 		oss << "Minidump file: " << szFileName << std::endl;
 
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 	}
 	GPOS_CATCH_END;
 	

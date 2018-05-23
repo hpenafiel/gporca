@@ -130,7 +130,7 @@ CParseHandlerColStats::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -153,14 +153,14 @@ CParseHandlerColStats::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStats), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// get histogram buckets from child parse handlers
 	
 	DrgPdxlbucket *pdrgpdxlbucket = GPOS_NEW(m_pmp) DrgPdxlbucket(m_pmp);
 	
-	for (ULONG ul = 0; ul < this->UlLength(); ul++)
+	for (ULONG ul = 0; ul < this->Length(); ul++)
 	{
 		CParseHandlerColStatsBucket *pphBucket = dynamic_cast<CParseHandlerColStatsBucket *>((*this)[ul]);
 				

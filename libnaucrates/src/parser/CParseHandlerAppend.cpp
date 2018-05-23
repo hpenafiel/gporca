@@ -61,7 +61,7 @@ CParseHandlerAppend::SetupInitialHandlers
 {
 	// seeing a result tag
 	GPOS_ASSERT(m_pdxlop == NULL && "Append dxl node should not have been created yet");
-	GPOS_ASSERT(this->UlLength() == 0 && "No handlers should have been added yet");
+	GPOS_ASSERT(this->Length() == 0 && "No handlers should have been added yet");
 
 	m_pdxlop = (CDXLPhysicalAppend *) CDXLOperatorFactory::PdxlopAppend(m_pphm->Pmm(), attrs);
 
@@ -119,7 +119,7 @@ CParseHandlerAppend::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -142,7 +142,7 @@ CParseHandlerAppend::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAppend), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// construct node from the created child nodes
@@ -157,9 +157,9 @@ CParseHandlerAppend::EndElement
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphFilter);
 
-	GPOS_ASSERT(3 <= this->UlLength());
+	GPOS_ASSERT(3 <= this->Length());
 	
-	const ULONG ulLen = this->UlLength();
+	const ULONG ulLen = this->Length();
 	// an append node can have variable number of children: add them one by one from the respective parse handlers
 	for (ULONG ul = 3; ul < ulLen; ul++)
 	{

@@ -103,10 +103,10 @@ CParseHandlerCondList::EndElement
 			0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMergeCondList), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	const ULONG ulLen = this->UlLength();
+	const ULONG ulLen = this->Length();
 	// add conditions from child parse handlers
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{

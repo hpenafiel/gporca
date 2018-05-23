@@ -162,7 +162,7 @@ CScalarWindowFunc::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << PstrFunc()->Wsz();
+	os << PstrFunc()->GetBuffer();
 	os << " , Agg: " << (m_fAgg ? "true" : "false");
 	os << " , Distinct: " << (m_fDistinct ? "true" : "false");
 	os << " , StarArgument: " << (m_fStarArg ? "true" : "false");

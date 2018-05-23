@@ -96,7 +96,7 @@ ILogger::Warning
 		VA_END(va_args);
 	}
 
-	LogTask(str.Wsz(), CException::ExsevWarning, true /*is_err*/, filename, line);
+	LogTask(str.GetBuffer(), CException::ExsevWarning, true /*is_err*/, filename, line);
 }
 
 
@@ -156,7 +156,7 @@ ILogger::TraceFormat
 	// reset arguments
 	VA_END(va_args);
 
-	LogTask(str.Wsz(), CException::ExsevTrace, is_err, filename, line);
+	LogTask(str.GetBuffer(), CException::ExsevTrace, is_err, filename, line);
 }
 
 

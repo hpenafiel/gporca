@@ -119,7 +119,7 @@ CXformImplementTVF::Transform
 	IMDId *pmdidRetType = popTVF->PmdidRetType();
 	pmdidRetType->AddRef();
 
-	CWStringConst *pstr = GPOS_NEW(pmp) CWStringConst(popTVF->Pstr()->Wsz());
+	CWStringConst *pstr = GPOS_NEW(pmp) CWStringConst(popTVF->Pstr()->GetBuffer());
 
 	DrgPcoldesc *pdrgpcoldesc = popTVF->Pdrgpcoldesc();
 	pdrgpcoldesc->AddRef();

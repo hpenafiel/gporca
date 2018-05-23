@@ -62,7 +62,7 @@ CParseHandlerWindowSpec::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowSpec), xmlszLocalname))
 	{
-		GPOS_ASSERT(0 == this->UlLength());
+		GPOS_ASSERT(0 == this->Length());
 		GPOS_ASSERT(NULL == m_pdxlws);
 		GPOS_ASSERT(NULL == m_pmdname);
 
@@ -107,7 +107,7 @@ CParseHandlerWindowSpec::StartElement
 	else
 	{
 			CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -130,7 +130,7 @@ CParseHandlerWindowSpec::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowSpec), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	// sorting columns
 	CDXLNode *pdxlnSortColList = NULL;
@@ -138,7 +138,7 @@ CParseHandlerWindowSpec::EndElement
 	// window frame associated with the window key
 	CDXLWindowFrame *pdxlwf =  NULL;
 
-	if (1 == this->UlLength())
+	if (1 == this->Length())
 	{
 		if (m_fHasWindowFrame)
 		{
@@ -156,7 +156,7 @@ CParseHandlerWindowSpec::EndElement
 			pdxlnSortColList->AddRef();
 		}
 	}
-	else if (2 == this->UlLength())
+	else if (2 == this->Length())
 	{
 		CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
 		pdxlnSortColList = pphSortColList->Pdxln();

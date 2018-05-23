@@ -66,9 +66,9 @@ namespace gpopt
 				return m_pstrName;
 			}
 			
-			ULONG UlLength() const
+			ULONG Length() const
 			{
-				return m_pstrName->UlLength();
+				return m_pstrName->Length();
 			}
 
 #ifdef GPOS_DEBUG

@@ -79,7 +79,7 @@ CParseHandlerPhysicalTVF::StartElement
 																);
 
 		CWStringDynamic *pstrFuncName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszFuncName);
-		m_pstr = GPOS_NEW(m_pmp) CWStringConst(m_pmp, pstrFuncName->Wsz());
+		m_pstr = GPOS_NEW(m_pmp) CWStringConst(m_pmp, pstrFuncName->GetBuffer());
 		GPOS_DELETE(pstrFuncName);
 
 		// parse return type
@@ -129,7 +129,7 @@ CParseHandlerPhysicalTVF::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalTVF), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	CDXLPhysicalTVF *pdxlop = GPOS_NEW(m_pmp) CDXLPhysicalTVF(m_pmp, m_pmdidFunc, m_pmdidRetType, m_pstr);
@@ -143,7 +143,7 @@ CParseHandlerPhysicalTVF::EndElement
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	AddChildFromParseHandler(pphPrL);
 
-	const ULONG ulSize = this->UlLength();
+	const ULONG ulSize = this->Length();
 	for (ULONG ul = 2; ul < ulSize; ul++)
 	{
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);

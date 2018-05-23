@@ -90,7 +90,7 @@ CScalarAssertConstraint::OsPrint
 	const
 {
 	os << SzId() << " (ErrorMsg: ";
-	os << PstrErrorMsg()->Wsz();
+	os << PstrErrorMsg()->GetBuffer();
 	os << ")";
 	
 	return os;

@@ -89,7 +89,7 @@ CUtils::PrintExpression
 		oss << std::endl << pexpr << std::endl << *pexpr << std::endl;
 	}
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 }
 
@@ -123,7 +123,7 @@ CUtils::PrintMemo
 		oss << std::endl;
 	}
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 }
 
@@ -215,8 +215,8 @@ CUtils::PmdidScCmp
 	else
 	{
 		CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
-		pstr->AppendFormat(GPOS_WSZ_LIT("Cannot generate metadata id for scaler comparison operator between %ls and %ls"), pmdidLeft->Wsz(), pmdidRight->Wsz());
-		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, pstr->Wsz());
+		pstr->AppendFormat(GPOS_WSZ_LIT("Cannot generate metadata id for scaler comparison operator between %ls and %ls"), pmdidLeft->GetBuffer(), pmdidRight->GetBuffer());
+		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, pstr->GetBuffer());
 	}
 
 	// Calling CMDAccessor to raise error on non-comparable data types
@@ -255,7 +255,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(pmp) CExpression
 						(
 						pmp,
-						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.Wsz()), Ecmpt(pmdidOp)),
+						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.GetBuffer()), Ecmpt(pmdidOp)),
 						PexprScalarIdent(pmp, pcrLeft),
 						PexprScalarIdent(pmp, pcrRight)
 						);
@@ -323,7 +323,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(pmp) CExpression
 						(
 						pmp,
-						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.Wsz()), Ecmpt(pmdidOp)),
+						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.GetBuffer()), Ecmpt(pmdidOp)),
 						PexprScalarIdent(pmp, pcrLeft),
 						pexprRight
 						);
@@ -419,7 +419,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(pmp) CExpression
 						(
 						pmp,
-						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.Wsz()), ecmpt),
+						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.GetBuffer()), ecmpt),
 						pexprLeft,
 						PexprScalarIdent(pmp, pcrRight)
 						);
@@ -457,7 +457,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(pmp) CExpression
 						(
 						pmp,
-						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.Wsz()), ecmpt),
+						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.GetBuffer()), ecmpt),
 						pexprLeft,
 						pexprRight
 						);
@@ -504,18 +504,18 @@ CUtils::PexprScalarCmp
 	else
 	{
 		CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
-		pstr->AppendFormat(GPOS_WSZ_LIT("Cannot generate a comparison expression between %ls and %ls"), pmdidLeft->Wsz(), pmdidRight->Wsz());
-		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, pstr->Wsz());
+		pstr->AppendFormat(GPOS_WSZ_LIT("Cannot generate a comparison expression between %ls and %ls"), pmdidLeft->GetBuffer(), pmdidRight->GetBuffer());
+		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, pstr->GetBuffer());
 	}
 
 	pmdidCmpOp->AddRef();
 	const CMDName mdname = pmda->Pmdscop(pmdidCmpOp)->Mdname();
-	CWStringConst strCmpOpName(mdname.Pstr()->Wsz());
+	CWStringConst strCmpOpName(mdname.Pstr()->GetBuffer());
 	
 	CExpression *pexprResult = GPOS_NEW(pmp) CExpression
 					(
 					pmp,
-					GPOS_NEW(pmp) CScalarCmp(pmp, pmdidCmpOp, GPOS_NEW(pmp) CWStringConst(pmp, strCmpOpName.Wsz()), ecmpt),
+					GPOS_NEW(pmp) CScalarCmp(pmp, pmdidCmpOp, GPOS_NEW(pmp) CWStringConst(pmp, strCmpOpName.GetBuffer()), ecmpt),
 					pexprNewLeft,
 					pexprNewRight
 					);
@@ -786,7 +786,7 @@ CUtils::PexprScalarArrayCmp
 	pmdidCmpOp ->AddRef();
 
 	const CMDName mdname = pmda->Pmdscop(pmdidCmpOp)->Mdname();
-	CWStringConst strOp(mdname.Pstr()->Wsz());
+	CWStringConst strOp(mdname.Pstr()->GetBuffer());
 
 	CExpression *pexprArray = GPOS_NEW(pmp) CExpression
 										(
@@ -798,7 +798,7 @@ CUtils::PexprScalarArrayCmp
 	return GPOS_NEW(pmp) CExpression
 				(
 				pmp,
-				GPOS_NEW(pmp) CScalarArrayCmp(pmp, pmdidCmpOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.Wsz()), earrcmptype),
+				GPOS_NEW(pmp) CScalarArrayCmp(pmp, pmdidCmpOp, GPOS_NEW(pmp) CWStringConst(pmp, strOp.GetBuffer()), earrcmptype),
 				CUtils::PexprScalarIdent(pmp, pcr),
 				pexprArray
 				);
@@ -823,12 +823,12 @@ CUtils::PexprCmpWithZero
 	IMDId *pmdidOp = pmdtype->PmdidCmp(ecmptype);
 	pmdidOp->AddRef();
 	const CMDName mdname = pmda->Pmdscop(pmdidOp)->Mdname();
-	CWStringConst strOpName(mdname.Pstr()->Wsz());
+	CWStringConst strOpName(mdname.Pstr()->GetBuffer());
 
 	return GPOS_NEW(pmp) CExpression
 						(
 						pmp,
-						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOpName.Wsz()), ecmptype),
+						GPOS_NEW(pmp) CScalarCmp(pmp, pmdidOp, GPOS_NEW(pmp) CWStringConst(pmp, strOpName.GetBuffer()), ecmptype),
 						pexprLeft,
 						CUtils::PexprScalarConstInt8(pmp, 0 /*iVal*/)
 						);
@@ -873,12 +873,12 @@ CUtils::PexprIDF
 
 	pmdidEqOp->AddRef();
 	const CMDName mdname = pmda->Pmdscop(pmdidEqOp)->Mdname();
-	CWStringConst strEqOpName(mdname.Pstr()->Wsz());
+	CWStringConst strEqOpName(mdname.Pstr()->GetBuffer());
 
 	return GPOS_NEW(pmp) CExpression
 				(
 				pmp,
-				GPOS_NEW(pmp) CScalarIsDistinctFrom(pmp, pmdidEqOp, GPOS_NEW(pmp) CWStringConst(pmp, strEqOpName.Wsz())),
+				GPOS_NEW(pmp) CScalarIsDistinctFrom(pmp, pmdidEqOp, GPOS_NEW(pmp) CWStringConst(pmp, strEqOpName.GetBuffer())),
 				pexprNewLeft,
 				pexprNewRight
 				);
@@ -1792,7 +1792,7 @@ CUtils::PexprScalarOp
 	return GPOS_NEW(pmp) CExpression
 			(
 			pmp,
-			GPOS_NEW(pmp) CScalarOp(pmp, pmdidOp, pmdidReturnType, GPOS_NEW(pmp) CWStringConst(pmp, strOp.Wsz())),
+			GPOS_NEW(pmp) CScalarOp(pmp, pmdidOp, pmdidReturnType, GPOS_NEW(pmp) CWStringConst(pmp, strOp.GetBuffer())),
 			PexprScalarIdent(pmp, pcrLeft),
 			pexprRight
 			);
@@ -2242,7 +2242,7 @@ CUtils::PexprAgg
 	
 	IMDId *pmdidAgg = pmdagg->Pmdid();
 	pmdidAgg->AddRef();
-	CWStringConst *pstr = GPOS_NEW(pmp) CWStringConst(pmp, pmdagg->Mdname().Pstr()->Wsz());
+	CWStringConst *pstr = GPOS_NEW(pmp) CWStringConst(pmp, pmdagg->Mdname().Pstr()->GetBuffer());
 
 	return PexprAggFunc(pmp, pmdidAgg, pstr, pcr, fDistinct, EaggfuncstageGlobal /*fGlobal*/, false /*fSplit*/);
 }
@@ -3631,7 +3631,7 @@ CUtils::GenerateFileName
 	COstreamString oss(pstr);
 	oss << szPrefix << "_%04d%02d%02d_%02d%02d%02d_%d_%d." << szExt;
 
-	const WCHAR *wszFileNameTemplate = pstr->Wsz();
+	const WCHAR *wszFileNameTemplate = pstr->GetBuffer();
 	GPOS_ASSERT(ulLength >= GPOS_FILE_NAME_BUF_SIZE);
 
 	TIMEVAL tv;
@@ -3664,7 +3664,7 @@ CUtils::GenerateFileName
 
 	INT iResult = (INT) clib::WcsToMbs(buf, wszBuf, ulLength);
 
-	GPOS_RTL_ASSERT((INT) 0 < iResult && iResult <= (INT) str.UlLength());
+	GPOS_RTL_ASSERT((INT) 0 < iResult && iResult <= (INT) str.Length());
 
 	buf[ulLength - 1] = '\0';
 

@@ -317,7 +317,7 @@ CParseHandlerFactory::Pph
 	(
 	gpdxl::ExmaDXL,
 	gpdxl::ExmiDXLUnrecognizedOperator,
-	pstr->Wsz()
+	pstr->GetBuffer()
 	);
 
 	return NULL;

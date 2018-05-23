@@ -188,7 +188,7 @@ CExpressionTest::EresUnittest_SimpleOps()
 		COstreamString oss(&str);
 
 		oss << "EXPR:" << std::endl << *pexpr << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 #ifdef GPOS_DEBUG
@@ -196,7 +196,7 @@ CExpressionTest::EresUnittest_SimpleOps()
 		CDrvdPropRelational *pdprel = CDrvdPropRelational::Pdprel(pexpr->PdpDerive());
 
 		oss << std::endl << "DERIVED PROPS:" << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 		pexpr->DbgPrint();
 
@@ -210,7 +210,7 @@ CExpressionTest::EresUnittest_SimpleOps()
 		CExpression *pexprCopy = pexpr->PexprCopyWithRemappedColumns(pmp, phmulcr, true /*fMustExist*/);
 		phmulcr->Release();
 		oss << std::endl << "COPIED EXPRESSION (AFTER MAPPING " << *pcrOld << " TO " << *pcrNew << "):" << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 		pexprCopy->DbgPrint();
 		pexprCopy->Release();
@@ -223,7 +223,7 @@ CExpressionTest::EresUnittest_SimpleOps()
 
 		oss << "Expected risk: " << rgulRisk[i] << std::endl;
 		oss << std::endl << "STATS:" << *pstats << std::endl;
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 
 		GPOS_ASSERT(rgulRisk[i] == pstats->UlStatsEstimationRisk());
 
@@ -273,7 +273,7 @@ CExpressionTest::EresUnittest_Union()
 	COstreamString oss(&str);
 	pexpr->OsPrint(oss);
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	// derive properties on expression
 	(void) pexpr->PdpDerive();
@@ -545,7 +545,7 @@ CExpressionTest::EresUnittest_Const()
 	pexprUl2nd->Release();
 	pexprUlOne->Release();
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	return GPOS_OK;
 }

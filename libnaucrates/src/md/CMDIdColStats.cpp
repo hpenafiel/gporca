@@ -78,16 +78,16 @@ CMDIdColStats::Serialize()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdColStats::Wsz
+//		CMDIdColStats::GetBuffer
 //
 //	@doc:
 //		Returns the string representation of the mdid
 //
 //---------------------------------------------------------------------------
 const WCHAR *
-CMDIdColStats::Wsz() const
+CMDIdColStats::GetBuffer() const
 {
-	return m_str.Wsz();
+	return m_str.GetBuffer();
 }
 
 //---------------------------------------------------------------------------
@@ -178,7 +178,7 @@ CMDIdColStats::OsPrint
 	) 
 	const
 {
-	os << "(" << m_str.Wsz() << ")";
+	os << "(" << m_str.GetBuffer() << ")";
 	return os;
 }
 

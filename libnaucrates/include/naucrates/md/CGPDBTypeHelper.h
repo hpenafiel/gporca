@@ -51,7 +51,7 @@ namespace gpmd
 
                 if (pt->FFixedLength())
                 {
-                    pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeLength), pt->UlLength());
+                    pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeLength), pt->Length());
                 }
 
                 pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeByValue), pt->FByValue());
@@ -85,30 +85,30 @@ namespace gpmd
                 pt->Pmdid()->OsPrint(os);
                 os << std::endl;
 
-                os << "Type name: " << pt->Mdname().Pstr()->Wsz() << std::endl;
+                os << "Type name: " << pt->Mdname().Pstr()->GetBuffer() << std::endl;
 
                 const CWStringConst *pstrRedistributable = pt->FRedistributable() ?
                 CDXLTokens::PstrToken(EdxltokenTrue):
                 CDXLTokens::PstrToken(EdxltokenFalse);
 
-                os << "Redistributable: " << pstrRedistributable->Wsz() << std::endl;
+                os << "Redistributable: " << pstrRedistributable->GetBuffer() << std::endl;
 
                 const CWStringConst *pstrFixedLength = pt->FFixedLength() ?
                 CDXLTokens::PstrToken(EdxltokenTrue):
                 CDXLTokens::PstrToken(EdxltokenFalse);
 
-                os << "Fixed length: " << pstrFixedLength->Wsz() << std::endl;
+                os << "Fixed length: " << pstrFixedLength->GetBuffer() << std::endl;
 
                 if (pt->FFixedLength())
                 {
-                    os << "Type length: " << pt->UlLength() << std::endl;
+                    os << "Type length: " << pt->Length() << std::endl;
                 }
 
                 const CWStringConst *pstrByValue = pt->FByValue() ?
                 CDXLTokens::PstrToken(EdxltokenTrue):
                 CDXLTokens::PstrToken(EdxltokenFalse);
 
-                os << "Pass by value: " << pstrByValue->Wsz() << std::endl;
+                os << "Pass by value: " << pstrByValue->GetBuffer() << std::endl;
 
                 os << "Equality operator id: ";
                 pt->PmdidCmp(IMDType::EcmptEq)->OsPrint(os);

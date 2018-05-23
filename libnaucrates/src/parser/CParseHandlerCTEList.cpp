@@ -89,7 +89,7 @@ CParseHandlerCTEList::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -112,12 +112,12 @@ CParseHandlerCTEList::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTEList), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_pdrgpdxln);
 
-	const ULONG ulLen = this->UlLength();
+	const ULONG ulLen = this->Length();
 
 	// add CTEs
 	for (ULONG ul = 0; ul < ulLen; ul++)

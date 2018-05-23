@@ -160,7 +160,7 @@ namespace gpmd
 			}
 
 			virtual
-			ULONG UlLength() const
+			ULONG Length() const
 			{
 				return GPDB_OID_LENGTH;
 			}

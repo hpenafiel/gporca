@@ -126,7 +126,7 @@ CXformTest::EresUnittest_ApplyXforms()
 		CExpression *pexpr = rgpf[ul](pmp);
 		ApplyExprXforms(pmp, oss, pexpr);
 
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		pexpr->Release();
 	}
 
@@ -206,7 +206,7 @@ CXformTest::EresUnittest_ApplyXforms_CTE()
 
 		ApplyExprXforms(pmp, oss, (*pdrgpexpr)[ul]);
 
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 	}
 	pdrgpexpr->Release();
 

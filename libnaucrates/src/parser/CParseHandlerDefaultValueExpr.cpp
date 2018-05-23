@@ -103,12 +103,12 @@ CParseHandlerDefaultValueExpr::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	if (0 < this->UlLength())
+	if (0 < this->Length())
 	{
-		GPOS_ASSERT(1 == this->UlLength());
+		GPOS_ASSERT(1 == this->Length());
 		
 		// get node for default value expression from child parse handler
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);

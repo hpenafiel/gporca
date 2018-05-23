@@ -86,7 +86,7 @@ CTableDescriptorTest::EresUnittest_Basic()
 	COstreamString oss(&str);
 	ptabdesc->OsPrint(oss);
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 #endif // GPOS_DEBUG
 
 	ptabdesc->Release();

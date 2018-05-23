@@ -168,7 +168,7 @@ namespace gpmd
 
 			// size of type
 			virtual
-			ULONG UlLength() const
+			ULONG Length() const
 			{
 				return GPDB_INT2_LENGTH;
 			}

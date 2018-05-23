@@ -142,7 +142,7 @@ CParseHandlerScalarArrayRef::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRef), xmlszLocalname))
 	{
 		// add constructed children from child parse handlers
-		const ULONG ulSize = this->UlLength();
+		const ULONG ulSize = this->Length();
 		GPOS_ASSERT(3 == ulSize || 4 == ulSize);
 
 		for (ULONG ul = 0; ul < ulSize; ul++)
@@ -169,7 +169,7 @@ CParseHandlerScalarArrayRef::EndElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 

@@ -169,7 +169,7 @@ CDXLRelStats::DebugPrint
 	Pmdid()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Relation name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	
 	os << "Rows: " << DRows() << std::endl;
 
@@ -195,7 +195,7 @@ CDXLRelStats::PdxlrelstatsDummy
 {
 	CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(pmdid);
 	CAutoP<CWStringDynamic> a_pstr;
-	a_pstr = GPOS_NEW(pmp) CWStringDynamic(pmp, pmdidRelStats->Wsz());
+	a_pstr = GPOS_NEW(pmp) CWStringDynamic(pmp, pmdidRelStats->GetBuffer());
 	CAutoP<CMDName> a_pmdname;
 	a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Value());
 	CAutoRef<CDXLRelStats> a_pdxlrelstats;

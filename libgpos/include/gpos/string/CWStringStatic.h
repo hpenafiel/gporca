@@ -43,7 +43,7 @@ namespace gpos
 		protected:
 
 			// appends the contents of a buffer to the current string
-			void AppendBuffer(const WCHAR *wszBuf);
+			void AppendBuffer(const WCHAR *wstrbuf);
 			
 		public:
 

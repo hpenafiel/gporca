@@ -55,7 +55,7 @@ CScalarSubqueryAll::PopCopyWithRemappedColumns
 	IMDId *pmdidScalarOp = PmdidOp();
 	pmdidScalarOp->AddRef();
 
-	CWStringConst *pstrScalarOp = GPOS_NEW(pmp) CWStringConst(pmp, PstrOp()->Wsz());
+	CWStringConst *pstrScalarOp = GPOS_NEW(pmp) CWStringConst(pmp, PstrOp()->GetBuffer());
 
 	return GPOS_NEW(pmp) CScalarSubqueryAll(pmp, pmdidScalarOp, pstrScalarOp, pcr);
 }

@@ -210,7 +210,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -236,10 +236,10 @@ CParseHandlerMDGPDBScalarOp::EndElement
 		// construct the MD scalar operator object from its part
 		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
 		
-		GPOS_ASSERT(0 == this->UlLength() || 1 == this->UlLength());
+		GPOS_ASSERT(0 == this->Length() || 1 == this->Length());
 		
 		DrgPmdid *pdrgpmdidOpClasses = NULL;
-		if (0 < this->UlLength())
+		if (0 < this->Length())
 		{
 			CParseHandlerMetadataIdList *pphMdidOpClasses = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[0]);
 			pdrgpmdidOpClasses = pphMdidOpClasses->Pdrgpmdid();
@@ -273,7 +273,7 @@ CParseHandlerMDGPDBScalarOp::EndElement
 	else if (!FSupportedChildElem(xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 

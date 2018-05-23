@@ -148,7 +148,7 @@ CStateMachineTest::EresUnittest_Basics()
 	// dumping state graph
 	(void) ptm->Psm()->OsDiagramToGraphviz(pmp, oss, GPOS_WSZ_LIT("CTestMachine"));
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	GPOS_ASSERT(!ptm->Psm()->FReachable(pmp));
 #endif // GPOS_DEBUG

@@ -87,7 +87,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 	}
 	else
 	{
-		GPOS_ASSERT(0 == this->UlLength());
+		GPOS_ASSERT(0 == this->Length());
 
 		// parse rows
 		const XMLCh *xmlszRows = CDXLOperatorFactory::XmlstrFromAttrs
@@ -139,15 +139,15 @@ CParseHandlerStatsDerivedRelation::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// must have at least one column stats
-	GPOS_ASSERT(0 < this->UlLength());
+	GPOS_ASSERT(0 < this->Length());
 
 	// array of derived column statistics
 	DrgPdxlstatsdercol *pdrgpdxlstatsdercol = GPOS_NEW(m_pmp) DrgPdxlstatsdercol(m_pmp);
-	const ULONG ulDerCol = this->UlLength();
+	const ULONG ulDerCol = this->Length();
 	for (ULONG ul = 0; ul < ulDerCol; ul++)
 	{
 		CParseHandlerStatsDerivedColumn *pph = dynamic_cast<CParseHandlerStatsDerivedColumn*>( (*this)[ul]);

@@ -125,7 +125,7 @@ CMissingStatsTest::EresUnittest_RunTests()
 			oss << "Number of Missing Columns: " << ulMissingStats;
 			oss << std::endl;
 
-			GPOS_TRACE(str.Wsz());
+			GPOS_TRACE(str.GetBuffer());
 			eres = GPOS_FAILED;
 		}
 

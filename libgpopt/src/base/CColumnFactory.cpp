@@ -116,7 +116,7 @@ CColumnFactory::PcrCreate
 	CWStringDynamic *pstrTempName = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp);
 	CAutoP<CWStringDynamic> a_pstrTempName(pstrTempName);
 	pstrTempName->AppendFormat(wszFmt, ulId);
-	CWStringConst strName(pstrTempName->Wsz());
+	CWStringConst strName(pstrTempName->GetBuffer());
 	return PcrCreate(pmdtype, iTypeModifier, ulId, CName(&strName));
 }
 

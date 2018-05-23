@@ -67,7 +67,7 @@ namespace gpmd
 			BOOL FDropped() const = 0;
 
 			// length of the column
-			virtual ULONG UlLength() const = 0;
+			virtual ULONG Length() const = 0;
 
 #ifdef GPOS_DEBUG
 			// debug print of the column

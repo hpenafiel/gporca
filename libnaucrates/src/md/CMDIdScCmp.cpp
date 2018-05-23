@@ -87,16 +87,16 @@ CMDIdScCmp::Serialize()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdScCmp::Wsz
+//		CMDIdScCmp::GetBuffer
 //
 //	@doc:
 //		Returns the string representation of the mdid
 //
 //---------------------------------------------------------------------------
 const WCHAR *
-CMDIdScCmp::Wsz() const
+CMDIdScCmp::GetBuffer() const
 {
-	return m_str.Wsz();
+	return m_str.GetBuffer();
 }
 
 //---------------------------------------------------------------------------
@@ -206,7 +206,7 @@ CMDIdScCmp::OsPrint
 	) 
 	const
 {
-	os << "(" << m_str.Wsz() << ")";
+	os << "(" << m_str.GetBuffer() << ")";
 	return os;
 }
 

@@ -1466,8 +1466,8 @@ CXformUtils::PexprAssertNotNull
 										pmp, 
 										gpos::CException::ExmaSQL, 
 										gpos::CException::ExmiSQLNotNullViolation,  
-										pcoldesc->Name().Pstr()->Wsz(), 
-										ptabdesc->Name().Pstr()->Wsz()
+										pcoldesc->Name().Pstr()->GetBuffer(), 
+										ptabdesc->Name().Pstr()->GetBuffer()
 										);
 		
 		CExpression *pexprAssertConstraint = GPOS_NEW(pmp) CExpression
@@ -1655,8 +1655,8 @@ CXformUtils::PexprAssertCheckConstraints
 										pmp, 
 										gpos::CException::ExmaSQL, 
 										gpos::CException::ExmiSQLCheckConstraintViolation, 
-										pmdCheckConstraint->Mdname().Pstr()->Wsz(), 
-										ptabdesc->Name().Pstr()->Wsz()
+										pmdCheckConstraint->Mdname().Pstr()->GetBuffer(), 
+										ptabdesc->Name().Pstr()->GetBuffer()
 										);
 			CExpression *pexprAssertConstraint = GPOS_NEW(pmp) CExpression
 													(
@@ -2151,7 +2151,7 @@ CXformUtils::PstrErrorMessage
 		VA_END(valist);
 	}	
 
-	return GPOS_NEW(pmp) CWStringConst(pmp, str.Wsz());
+	return GPOS_NEW(pmp) CWStringConst(pmp, str.GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -2846,7 +2846,7 @@ CXformUtils::PexprBuildIndexPlan
 		ulPartIndex = popDynamicGet->UlScanId();
 		pdrgpcrOutput = popDynamicGet->PdrgpcrOutput();
 		GPOS_ASSERT(NULL != pdrgpcrOutput);
-		pstrAlias = GPOS_NEW(pmp) CWStringConst(pmp, popDynamicGet->Name().Pstr()->Wsz());
+		pstrAlias = GPOS_NEW(pmp) CWStringConst(pmp, popDynamicGet->Name().Pstr()->GetBuffer());
 		pdrgpdrgpcrPart = popDynamicGet->PdrgpdrgpcrPart();
 		ulSecondaryPartIndex = popDynamicGet->UlSecondaryScanId();
 		ppartcnstrRel = popDynamicGet->PpartcnstrRel();
@@ -2857,7 +2857,7 @@ CXformUtils::PexprBuildIndexPlan
 		ptabdesc = popGet->Ptabdesc();
 		pdrgpcrOutput = popGet->PdrgpcrOutput();
 		GPOS_ASSERT(NULL != pdrgpcrOutput);
-		pstrAlias = GPOS_NEW(pmp) CWStringConst(pmp, popGet->Name().Pstr()->Wsz());
+		pstrAlias = GPOS_NEW(pmp) CWStringConst(pmp, popGet->Name().Pstr()->GetBuffer());
 	}
 
 	if (!FIndexApplicable(pmp, pmdindex, pmdrel, pdrgpcrOutput, pcrsReqd, pcrsScalarExpr, emdindtype))
@@ -3177,7 +3177,7 @@ CXformUtils::PexprEqualityOnBoolColumn
 	pmdidOp->AddRef();
 
 	const CMDName mdname = pmda->Pmdscop(pmdidOp)->Mdname();
-	CWStringConst strOpName(mdname.Pstr()->Wsz());
+	CWStringConst strOpName(mdname.Pstr()->GetBuffer());
 
 	return CUtils::PexprScalarCmp
 					(
@@ -4172,7 +4172,7 @@ CXformUtils::PexprPartialDynamicIndexGet
 	CTableDescriptor *ptabdesc = popGet->Ptabdesc();
 	ptabdesc->AddRef();
 
-	CWStringConst strTableAliasName(pmp, popGet->Name().Pstr()->Wsz());
+	CWStringConst strTableAliasName(pmp, popGet->Name().Pstr()->GetBuffer());
 
 	DrgDrgPcr *pdrgpdrgpcrPart = NULL;
 	CPartConstraint *ppartcnstrDIG = NULL;
@@ -4461,7 +4461,7 @@ CXformUtils::PexprWinFuncAgg2ScalarAgg
 				(
 				pmp,
 				pmdidFunc,
-				GPOS_NEW(pmp) CWStringConst(pmp, popScWinFunc->PstrFunc()->Wsz()),
+				GPOS_NEW(pmp) CWStringConst(pmp, popScWinFunc->PstrFunc()->GetBuffer()),
 				popScWinFunc->FDistinct(),
 				EaggfuncstageGlobal,
 				false // fSplit

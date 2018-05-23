@@ -106,7 +106,7 @@ CMiniDumperDXL::SerializeEntryHeader()
 		CWorker::Self()->GetThreadId()
 		);
 
-	*m_oos << str.Wsz();
+	*m_oos << str.GetBuffer();
 }
 
 

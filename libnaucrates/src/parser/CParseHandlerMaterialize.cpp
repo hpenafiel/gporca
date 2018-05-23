@@ -65,7 +65,7 @@ CParseHandlerMaterialize::StartElement
 
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalMaterialize), xmlszLocalname))
 	{
-		GPOS_ASSERT(this->UlLength() == 0 && "No handlers should have been added yet");
+		GPOS_ASSERT(this->Length() == 0 && "No handlers should have been added yet");
 	
 		m_pdxlop = (CDXLPhysicalMaterialize *) CDXLOperatorFactory::PdxlopMaterialize(m_pphm->Pmm(), attrs);
 	
@@ -93,7 +93,7 @@ CParseHandlerMaterialize::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -116,10 +116,10 @@ CParseHandlerMaterialize::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalMaterialize), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	GPOS_ASSERT(4 == this->UlLength());
+	GPOS_ASSERT(4 == this->Length());
 
 	// construct node from the created child nodes	
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);

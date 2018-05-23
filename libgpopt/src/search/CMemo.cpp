@@ -649,7 +649,7 @@ CMemo::Trace()
 
 	OsPrint(oss);
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 }
 
 

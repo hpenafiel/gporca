@@ -501,7 +501,7 @@ CSchedulerTest::BuildMemoMultiThreaded
 	(void) pexprPlan->OsPrint(oss);
 	oss << std::endl << std::endl;
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	pexprPlan->Release();
 	GPOS_DELETE(pqc);
 

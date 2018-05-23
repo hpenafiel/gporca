@@ -78,7 +78,7 @@ CParseHandlerHint::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenHint), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// parse hint configuration options
@@ -119,11 +119,11 @@ CParseHandlerHint::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenHint), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_phint);
-	GPOS_ASSERT(0 == this->UlLength());
+	GPOS_ASSERT(0 == this->Length());
 
 	// deactivate handler
 	m_pphm->DeactivateHandler();

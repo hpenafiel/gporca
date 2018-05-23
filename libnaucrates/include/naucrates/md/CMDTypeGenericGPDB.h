@@ -188,7 +188,7 @@ namespace gpmd
 			}
 
 			virtual
-			ULONG UlLength () const
+			ULONG Length () const
 			{
 				return m_ulLength;
 			}

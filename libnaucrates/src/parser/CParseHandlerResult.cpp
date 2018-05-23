@@ -59,7 +59,7 @@ CParseHandlerResult::SetupInitialHandlers
 {
 	// seeing a result tag
 	GPOS_ASSERT(m_pdxlop == NULL && "Result dxl node should not have been created yet");
-	GPOS_ASSERT(0 == this->UlLength() && "No handlers should have been added yet");
+	GPOS_ASSERT(0 == this->Length() && "No handlers should have been added yet");
 
 	m_pdxlop = (CDXLPhysicalResult *) CDXLOperatorFactory::PdxlopResult(m_pphm->Pmm());
 
@@ -121,7 +121,7 @@ CParseHandlerResult::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -144,7 +144,7 @@ CParseHandlerResult::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalResult), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// construct node from the created child nodes
@@ -162,7 +162,7 @@ CParseHandlerResult::EndElement
 	AddChildFromParseHandler(pphFilter);
 	AddChildFromParseHandler(pphOneTimeFilter);
 
-	if (this->UlLength() == 5)
+	if (this->Length() == 5)
 	{
 		CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
 		AddChildFromParseHandler(pphChild);

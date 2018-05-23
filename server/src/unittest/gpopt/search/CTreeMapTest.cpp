@@ -297,7 +297,7 @@ CTreeMapTest::EresUnittest_Count()
 
 #endif // GPOS_DEBUG
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	GPOS_DELETE(ptmap);
 
 	return GPOS_OK;
@@ -336,7 +336,7 @@ CTreeMapTest::EresUnittest_Unrank()
 		pnd->Release();
 	}
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	GPOS_DELETE(ptmap);
 
 	return GPOS_OK;

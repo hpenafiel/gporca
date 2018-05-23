@@ -298,7 +298,7 @@ CDXLUtils::PphdxlParseDXL
 	)
 {
 	CAutoRg<CHAR> a_sz;
-	a_sz = SzFromWsz(pmp, pstr->Wsz());
+	a_sz = SzFromWsz(pmp, pstr->GetBuffer());
 	CParseHandlerDXL *pphdxl = PphdxlParseDXL(pmp, a_sz.Rgt(), szXSDPath);
 	return pphdxl;
 }
@@ -1492,9 +1492,9 @@ CDXLUtils::SerializeHeader
 	dstrNamespaceAttr.AppendFormat
 						(
 						GPOS_WSZ_LIT("%ls%ls%ls"),
-						CDXLTokens::PstrToken(EdxltokenNamespaceAttr)->Wsz(),
-						CDXLTokens::PstrToken(EdxltokenColon)->Wsz(),
-						CDXLTokens::PstrToken(EdxltokenNamespacePrefix)->Wsz()
+						CDXLTokens::PstrToken(EdxltokenNamespaceAttr)->GetBuffer(),
+						CDXLTokens::PstrToken(EdxltokenColon)->GetBuffer(),
+						CDXLTokens::PstrToken(EdxltokenNamespacePrefix)->GetBuffer()
 						);
 	
 	pxmlser->AddAttribute(&dstrNamespaceAttr, CDXLTokens::PstrToken(EdxltokenNamespaceURI));
@@ -1762,10 +1762,10 @@ CDXLUtils::PByteArrayFromStr
 
 	XMLSize_t xmlBASize = 0;
 
-	const WCHAR *pwc = pstr->Wsz();
+	const WCHAR *pwc = pstr->GetBuffer();
 
 	// We know that the input is encoded using Base64.
-	XMLSize_t srcLen = pstr->UlLength();
+	XMLSize_t srcLen = pstr->Length();
 
 	CAutoRg<XMLByte> a_dataInByte;
 
@@ -1846,7 +1846,7 @@ CDXLUtils::PstrSerializeSz
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%c%ls"), tValue, CDXLTokens::PstrToken(EdxltokenComma)->Wsz());
+			pstr->AppendFormat(GPOS_WSZ_LIT("%c%ls"), tValue, CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
 		}
 	}
 

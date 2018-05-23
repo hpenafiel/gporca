@@ -80,8 +80,8 @@ CParseHandlerScalarArrayRefIndexList::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLInvalidAttributeValue,
-				CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexListBound)->Wsz(),
-				CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexList)->Wsz()
+				CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexListBound)->GetBuffer(),
+				CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexList)->GetBuffer()
 				);
 		}
 
@@ -122,11 +122,11 @@ CParseHandlerScalarArrayRefIndexList::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// add constructed children from child parse handlers
-	const ULONG ulSize = this->UlLength();
+	const ULONG ulSize = this->Length();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);

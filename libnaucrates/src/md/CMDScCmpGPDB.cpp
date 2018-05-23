@@ -214,7 +214,7 @@ CMDScCmpGPDB::DebugPrint
 {
 	os << "ComparisonOp ";
 	PmdidLeft()->OsPrint(os);
-	os << (Mdname()).Pstr()->Wsz() << "(";
+	os << (Mdname()).Pstr()->GetBuffer() << "(";
 	PmdidOp()->OsPrint(os);
 	os << ") ";
 	PmdidLeft()->OsPrint(os);

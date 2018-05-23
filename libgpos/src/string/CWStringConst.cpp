@@ -27,17 +27,17 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CWStringConst::CWStringConst
 	(
-	const WCHAR *wszBuf
+	const WCHAR *wstrbuf
 	)
 	:
 	CWStringBase
 		(
-		GPOS_WSZ_LENGTH(wszBuf),
-		false // fOwnsMemory
+		GPOS_WSZ_LENGTH(wstrbuf),
+		false // owns_memory
 		),
-	m_wszBuf(wszBuf)
+	m_wszBuf(wstrbuf)
 {
-	GPOS_ASSERT(NULL != wszBuf);
+	GPOS_ASSERT(NULL != wstrbuf);
 	GPOS_ASSERT(IsValid());
 }
 
@@ -53,29 +53,29 @@ CWStringConst::CWStringConst
 CWStringConst::CWStringConst
 	(
 	IMemoryPool *pmp,
-	const WCHAR *wszBuf
+	const WCHAR *wstrbuf
 	)
 	:
 	CWStringBase
 		(
-		GPOS_WSZ_LENGTH(wszBuf),
-		true // fOwnsMemory
+		GPOS_WSZ_LENGTH(wstrbuf),
+		true // owns_memory
 		),
 	m_wszBuf(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(NULL != wszBuf);
+	GPOS_ASSERT(NULL != wstrbuf);
 
-	if (0 == m_ulLength)
+	if (0 == m_length)
 	{
 		// string is empty
-		m_wszBuf = &m_wcEmpty;
+		m_wszBuf = &m_empty_wcstr;
 	}
 	else
 	{
 		// make a copy of the string
-		WCHAR *wszTempBuf = GPOS_NEW_ARRAY(pmp, WCHAR, m_ulLength + 1);
-		clib::WcStrNCpy(wszTempBuf, wszBuf, m_ulLength + 1);
+		WCHAR *wszTempBuf = GPOS_NEW_ARRAY(pmp, WCHAR, m_length + 1);
+		clib::WcStrNCpy(wszTempBuf, wstrbuf, m_length + 1);
 		m_wszBuf = wszTempBuf;
 	}
 
@@ -97,10 +97,10 @@ CWStringConst::CWStringConst
 	:
 	CWStringBase
 		(
-		str.UlLength(),
-		false // fOwnsMemory
+		str.Length(),
+		false // owns_memory
 		),
-	m_wszBuf(str.Wsz())
+	m_wszBuf(str.GetBuffer())
 {
 	GPOS_ASSERT(NULL != m_wszBuf);
 	GPOS_ASSERT(IsValid());
@@ -116,7 +116,7 @@ CWStringConst::CWStringConst
 //---------------------------------------------------------------------------
 CWStringConst::~CWStringConst()
 {
-	if (m_fOwnsMemory && m_wszBuf != &m_wcEmpty)
+	if (m_owns_memory && m_wszBuf != &m_empty_wcstr)
 	{
 		GPOS_DELETE_ARRAY(m_wszBuf);
 	}
@@ -124,14 +124,14 @@ CWStringConst::~CWStringConst()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWStringConst::Wsz
+//		CWStringConst::GetBuffer
 //
 //	@doc:
 //		Returns the wide character buffer
 //
 //---------------------------------------------------------------------------
 const WCHAR*
-CWStringConst::Wsz() const
+CWStringConst::GetBuffer() const
 {
 	return m_wszBuf;
 }

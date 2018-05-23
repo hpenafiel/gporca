@@ -237,7 +237,7 @@ CScalarAggFunc::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << PstrAggFunc()->Wsz();
+	os << PstrAggFunc()->GetBuffer();
 	os << " , Distinct: ";
 	os << (m_fDistinct ? "true" : "false");
 	os << " , Aggregate Stage: ";

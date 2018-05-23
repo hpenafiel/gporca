@@ -144,7 +144,7 @@ namespace gpmd
 
 			// type length
 			virtual
-			ULONG UlLength() const = 0;
+			ULONG Length() const = 0;
 
 			// is type passed by value
 			virtual

@@ -200,7 +200,7 @@ CParseHandlerMDGPDBFunc::EndElement
 			0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOutputCols), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -237,8 +237,8 @@ CParseHandlerMDGPDBFunc::EFuncStability
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(EdxltokenGPDBFuncStability)->Wsz(),
-		CDXLTokens::PstrToken(EdxltokenGPDBFunc)->Wsz()
+		CDXLTokens::PstrToken(EdxltokenGPDBFuncStability)->GetBuffer(),
+		CDXLTokens::PstrToken(EdxltokenGPDBFunc)->GetBuffer()
 		);
 
 	return CMDFunctionGPDB::EfsSentinel;
@@ -282,8 +282,8 @@ CParseHandlerMDGPDBFunc::EFuncDataAccess
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(EdxltokenGPDBFuncDataAccess)->Wsz(),
-		CDXLTokens::PstrToken(EdxltokenGPDBFunc)->Wsz()
+		CDXLTokens::PstrToken(EdxltokenGPDBFuncDataAccess)->GetBuffer(),
+		CDXLTokens::PstrToken(EdxltokenGPDBFunc)->GetBuffer()
 		);
 
 	return CMDFunctionGPDB::EfdaSentinel;

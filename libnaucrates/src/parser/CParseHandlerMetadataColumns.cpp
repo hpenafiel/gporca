@@ -96,7 +96,7 @@ CParseHandlerMetadataColumns::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -121,7 +121,7 @@ CParseHandlerMetadataColumns::EndElement
 		// end of the columns' list
 		GPOS_ASSERT(NULL != m_pdrgpmdcol);
 		
-		const ULONG ulSize = this->UlLength();
+		const ULONG ulSize = this->Length();
 		// add parsed columns to the list
 		for (ULONG ul = 0; ul < ulSize; ul++)
 		{
@@ -140,7 +140,7 @@ CParseHandlerMetadataColumns::EndElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 

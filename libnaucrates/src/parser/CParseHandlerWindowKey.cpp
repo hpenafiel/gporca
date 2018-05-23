@@ -72,7 +72,7 @@ CParseHandlerWindowKey::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), xmlszLocalname))
 	{
-		GPOS_ASSERT(1 == this->UlLength());
+		GPOS_ASSERT(1 == this->Length());
 
 		// parse handler for the leading and trailing scalar values
 		CParseHandlerBase *pphWf =
@@ -86,7 +86,7 @@ CParseHandlerWindowKey::StartElement
 	else
 	{
 			CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -109,17 +109,17 @@ CParseHandlerWindowKey::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowKey), xmlszLocalname))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	GPOS_ASSERT(NULL != m_pdxlwk);
-	GPOS_ASSERT(1 <= this->UlLength());
+	GPOS_ASSERT(1 <= this->Length());
 
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
 	CDXLNode *pdxlnSortColList = pphSortColList->Pdxln();
 	pdxlnSortColList->AddRef();
 	m_pdxlwk->SetSortColList(pdxlnSortColList);
 
-	if (2 == this->UlLength())
+	if (2 == this->Length())
 	{
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
 		CDXLWindowFrame *pdxlwf = pphWf->Pdxlwf();

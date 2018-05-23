@@ -69,14 +69,14 @@ CDXLDatum::FNull() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLDatum::UlLength
+//		CDXLDatum::Length
 //
 //	@doc:
 //		Returns the size of the byte array
 //
 //---------------------------------------------------------------------------
 ULONG 
-CDXLDatum::UlLength() const
+CDXLDatum::Length() const
 {
 	return m_ulLength;
 }

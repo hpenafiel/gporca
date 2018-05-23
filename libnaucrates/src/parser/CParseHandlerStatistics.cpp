@@ -145,12 +145,12 @@ CParseHandlerStatistics::EndElement
 	if (0 != XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenStatistics)))
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_pdrgpdxlstatsderrel);
 
-	const ULONG ulStats = this->UlLength();
+	const ULONG ulStats = this->Length();
 	for (ULONG ul = 0; ul < ulStats; ul++)
 	{
 		CParseHandlerStatsDerivedRelation *pph = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[ul]);

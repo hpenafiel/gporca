@@ -436,7 +436,7 @@ CEngine::DeriveStats
 	CWStringDynamic str(m_pmp);
 	COstreamString oss (&str);
 	oss << "\n[OPT]: Statistics Derivation Time (stage " << m_ulCurrSearchStage <<") ";
-	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(str.Wsz()));
+	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(str.GetBuffer()));
 
 	{
 		CAutoTimer at(sz, GPOS_FTRACE(EopttracePrintOptimizationStatistics));

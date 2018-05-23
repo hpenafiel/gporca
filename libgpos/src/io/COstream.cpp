@@ -44,7 +44,7 @@ COstream::AppendFormat(const WCHAR *format, ...)
 
 	VA_END(vl);
 
-	(* this) << m_static_string_buffer.Wsz();
+	(* this) << m_static_string_buffer.GetBuffer();
 	return *this;
 }
 

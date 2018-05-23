@@ -150,7 +150,7 @@ namespace gpmd
 
 		// type length
 		virtual
-		ULONG UlLength() const
+		ULONG Length() const
 		{
 			return GPDB_BOOL_LENGTH;
 		}

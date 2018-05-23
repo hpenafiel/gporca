@@ -197,7 +197,7 @@ CMDTriggerGPDB::DebugPrint
 	m_pmdid->OsPrint(os);
 	os << std::endl;
 
-	os << "Trigger name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Trigger name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 
 	os << "Trigger relation id: ";
 	m_pmdidRel->OsPrint(os);

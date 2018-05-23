@@ -93,7 +93,7 @@ CParseHandlerScalarAssertConstraintList::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -132,7 +132,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 	{
 		GPOS_ASSERT(NULL != m_pdxlopAssertConstraint);
 
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp*>((*this)[this->UlLength() - 1]);
+		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp*>((*this)[this->Length() - 1]);
 		CDXLNode *pdxlnChild = pphChild->Pdxln();
 		GPOS_ASSERT(NULL != pdxlnChild);
 		pdxlnChild->AddRef();
@@ -144,7 +144,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 

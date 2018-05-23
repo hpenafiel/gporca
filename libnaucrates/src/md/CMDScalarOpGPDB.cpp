@@ -350,7 +350,7 @@ CMDScalarOpGPDB::DebugPrint
 	Pmdid()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Operator name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Operator name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	
 	os << "Left operand type id: ";
 	PmdidTypeLeft()->OsPrint(os);

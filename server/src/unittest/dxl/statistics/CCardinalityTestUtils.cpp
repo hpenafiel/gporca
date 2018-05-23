@@ -235,7 +235,7 @@ CCardinalityTestUtils::PrintBucket
 	oss << pcPrefix << " = ";
 	pbucket->OsPrint(oss);
 	oss << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 }
 
 // helper function to print histogram object
@@ -253,7 +253,7 @@ CCardinalityTestUtils::PrintHist
 	oss << pcPrefix << " = ";
 	phist->OsPrint(oss);
 	oss << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 }
 
 // helper function to print the statistics object
@@ -270,7 +270,7 @@ CCardinalityTestUtils::PrintStats
 	oss << "Statistics = ";
 	pstats->OsPrint(oss);
 	oss << std::endl;
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 }
 

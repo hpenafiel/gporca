@@ -47,7 +47,7 @@ CColumnDescriptor::CColumnDescriptor
 
 	if (m_pmdtype->FFixedLength())
 	{
-		ulWidth = m_pmdtype->UlLength();
+		ulWidth = m_pmdtype->Length();
 	}
 }
 

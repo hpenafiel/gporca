@@ -93,7 +93,7 @@ namespace gpmd
 			
 			// string representation of mdid
 			virtual
-			const WCHAR *Wsz() const = 0;
+			const WCHAR *GetBuffer() const = 0;
 			
 			// system id
 			virtual

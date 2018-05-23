@@ -62,7 +62,7 @@ CParseHandlerScalarValuesList::StartElement
 	else
 	{
 		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->Wsz());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
 
@@ -76,7 +76,7 @@ CParseHandlerScalarValuesList::EndElement
 	)
 {
 
-	const ULONG ulArity = this->UlLength();
+	const ULONG ulArity = this->Length();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);

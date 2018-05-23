@@ -32,7 +32,7 @@ CWStringDynamic::CWStringDynamic
 	:
 	CWString
 		(
-		0 // ulLength
+		0 // length
 		),
 	m_pmp(pmp),
 	m_ulCapacity(0)
@@ -51,20 +51,20 @@ CWStringDynamic::CWStringDynamic
 CWStringDynamic::CWStringDynamic
 	(
 	IMemoryPool *pmp,
-	const WCHAR *wszBuf
+	const WCHAR *wstrbuf
 	)
 	:
 	CWString
 		(
-		GPOS_WSZ_LENGTH(wszBuf)
+		GPOS_WSZ_LENGTH(wstrbuf)
 		),
 	m_pmp(pmp),
 	m_ulCapacity(0)
 {
-	GPOS_ASSERT(NULL != wszBuf);
+	GPOS_ASSERT(NULL != wstrbuf);
 
 	Reset();
-	AppendBuffer(wszBuf);
+	AppendBuffer(wstrbuf);
 }
 
 
@@ -93,13 +93,13 @@ CWStringDynamic::~CWStringDynamic()
 void
 CWStringDynamic::Reset()
 {
-	if (NULL != m_wszBuf && &m_wcEmpty != m_wszBuf)
+	if (NULL != m_wszBuf && &m_empty_wcstr != m_wszBuf)
 	{
 		GPOS_DELETE_ARRAY(m_wszBuf);
 	}
 
-	m_wszBuf = const_cast<WCHAR *>(&m_wcEmpty);
-	m_ulLength = 0;
+	m_wszBuf = const_cast<WCHAR *>(&m_empty_wcstr);
+	m_length = 0;
 	m_ulCapacity = 0;
 }
 
@@ -119,21 +119,21 @@ CWStringDynamic::AppendBuffer
 	)
 {
 	GPOS_ASSERT(NULL != wsz);
-	ULONG ulLength = GPOS_WSZ_LENGTH(wsz);
-	if (0 == ulLength)
+	ULONG length = GPOS_WSZ_LENGTH(wsz);
+	if (0 == length)
 	{
 		return;
 	}
 
 	// expand buffer if needed
-	ULONG ulNewLength = m_ulLength + ulLength;
+	ULONG ulNewLength = m_length + length;
 	if (ulNewLength + 1 > m_ulCapacity)
 	{
 		IncreaseCapacity(ulNewLength);
 	}
 
-	clib::WcStrNCpy(m_wszBuf + m_ulLength, wsz, ulLength + 1);
-	m_ulLength = ulNewLength;
+	clib::WcStrNCpy(m_wszBuf + m_length, wsz, length + 1);
+	m_length = ulNewLength;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -174,27 +174,27 @@ CWStringDynamic::AppendCharArray
 	GPOS_ASSERT(NULL != sz);
 
 	// expand buffer if needed
-	const ULONG ulLength = GPOS_SZ_LENGTH(sz);
-	ULONG ulNewLength = m_ulLength + ulLength;
+	const ULONG length = GPOS_SZ_LENGTH(sz);
+	ULONG ulNewLength = m_length + length;
 	if (ulNewLength + 1 > m_ulCapacity)
 	{
 		IncreaseCapacity(ulNewLength);
 	}
-	WCHAR *wszBuf = GPOS_NEW_ARRAY(m_pmp, WCHAR, ulLength + 1);
+	WCHAR *wstrbuf = GPOS_NEW_ARRAY(m_pmp, WCHAR, length + 1);
 
 	// convert input string to wide character buffer
 #ifdef GPOS_DEBUG
 	ULONG ulLen =
 #endif // GPOS_DEBUG
-		clib::MbToWcs(wszBuf, sz, ulLength);
-	GPOS_ASSERT(ulLen == ulLength);
+		clib::MbToWcs(wstrbuf, sz, length);
+	GPOS_ASSERT(ulLen == length);
 
 	// append input string to current end of buffer
-	(void) clib::WcMemCpy(m_wszBuf + m_ulLength, wszBuf, ulLength + 1);
-	GPOS_DELETE_ARRAY(wszBuf);
+	(void) clib::WcMemCpy(m_wszBuf + m_length, wstrbuf, length + 1);
+	GPOS_DELETE_ARRAY(wstrbuf);
 
 	m_wszBuf[ulNewLength] = WCHAR_EOS;
-	m_ulLength = ulNewLength;
+	m_length = ulNewLength;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -263,7 +263,7 @@ CWStringDynamic::AppendFormat
 	GPOS_ASSERT(res >= 0);
 
 	// expand buffer if needed
-	ULONG ulNewLength = m_ulLength + ULONG(res);
+	ULONG ulNewLength = m_length + ULONG(res);
 	if (ulNewLength + 1 > m_ulCapacity)
 	{
 		IncreaseCapacity(ulNewLength);
@@ -273,12 +273,12 @@ CWStringDynamic::AppendFormat
 	VA_START(vaArgs, format);
 
 	// print vaArgs to string
-	VswPrintf(m_wszBuf + m_ulLength, res + 1, format, vaArgs);
+	VswPrintf(m_wszBuf + m_length, res + 1, format, vaArgs);
 
 	// reset arguments
 	VA_END(vaArgs);
 
-	m_ulLength = ulNewLength;
+	m_length = ulNewLength;
 	GPOS_ASSERT(IsValid());
 }
 
@@ -307,27 +307,27 @@ CWStringDynamic::AppendEscape
 	}
 
 	// count how many times the character to be escaped appears in the string
-	ULONG ulOccurences = pstr->UlOccurences(wc);
-	if (0 == ulOccurences)
+	ULONG occurrences = pstr->CountOccurrencesOf(wc);
+	if (0 == occurrences)
 	{
 		Append(pstr);
 		return;
 	}
 
-	ULONG ulLength = pstr->UlLength();
-	const WCHAR * wsz = pstr->Wsz();
+	ULONG length = pstr->Length();
+	const WCHAR * wsz = pstr->GetBuffer();
 
 	ULONG ulLengthReplace =  GPOS_WSZ_LENGTH(wszReplace);
-	ULONG ulNewLength = m_ulLength + ulLength + (ulLengthReplace - 1) * ulOccurences;
+	ULONG ulNewLength = m_length + length + (ulLengthReplace - 1) * occurrences;
 	if (ulNewLength + 1 > m_ulCapacity)
 	{
 		IncreaseCapacity(ulNewLength);
 	}
 
 	// append new contents while replacing character with escaping string
-	for (ULONG i = 0, j = m_ulLength; i < ulLength; i++)
+	for (ULONG i = 0, j = m_length; i < length; i++)
 	{
-		if (wc == wsz[i] && !pstr->FEscaped(i))
+		if (wc == wsz[i] && !pstr->HasEscapedCharAt(i))
 		{
 			clib::WcStrNCpy(m_wszBuf + j, wszReplace, ulLengthReplace);
 			j += ulLengthReplace;
@@ -340,7 +340,7 @@ CWStringDynamic::AppendEscape
 
 	// terminate string
 	m_wszBuf[ulNewLength] = WCHAR_EOS;
-	m_ulLength = ulNewLength;
+	m_length = ulNewLength;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -368,14 +368,14 @@ CWStringDynamic::IncreaseCapacity
 
 	CAutoRg<WCHAR> a_wszNewBuf;
 	a_wszNewBuf = GPOS_NEW_ARRAY(m_pmp, WCHAR, ulCapacity);
-	if (0 < m_ulLength)
+	if (0 < m_length)
 	{
 		// current string is not empty: copy it to the resulting string
-		a_wszNewBuf = clib::WcStrNCpy(a_wszNewBuf.Rgt(), m_wszBuf, m_ulLength);
+		a_wszNewBuf = clib::WcStrNCpy(a_wszNewBuf.Rgt(), m_wszBuf, m_length);
 	}
 
 	// release old buffer
-	if (m_wszBuf != &m_wcEmpty)
+	if (m_wszBuf != &m_empty_wcstr)
 	{
 		GPOS_DELETE_ARRAY(m_wszBuf);
 	}

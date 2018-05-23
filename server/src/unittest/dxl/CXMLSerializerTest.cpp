@@ -169,7 +169,7 @@ CXMLSerializerTest::EresUnittest_Base64()
 	INT i = 1000;
 	pstr = CDXLUtils::PstrFromByteArray(pmp, (BYTE *) &i, sizeof(i));
 	
-	gpos::oswcout << "Base64 encoding of " << i << " is " << pstr->Wsz() << std::endl;
+	gpos::oswcout << "Base64 encoding of " << i << " is " << pstr->GetBuffer() << std::endl;
 	
 	GPOS_DELETE(pstr);
 	

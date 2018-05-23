@@ -188,7 +188,7 @@ CMDAggregateGPDB::DebugPrint
 	Pmdid()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Aggregate name: " << (Mdname()).Pstr()->Wsz() << std::endl;
+	os << "Aggregate name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	
 	os << "Result type id: ";
 	PmdidTypeResult()->OsPrint(os);

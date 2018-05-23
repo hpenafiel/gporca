@@ -102,7 +102,7 @@ CDXLUtilsTest::EresUnittest_SerializeQuery()
 	}
 	
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	// cleanup
 	GPOS_DELETE(presult);
@@ -151,7 +151,7 @@ CDXLUtilsTest::EresUnittest_SerializePlan()
 	}
 	
 	
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 
 	// cleanup
 	pdxln->Release();

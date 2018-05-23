@@ -187,7 +187,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 				oss << "\tNo subquery unnesting output" << std::endl;
 			}
 
-			GPOS_TRACE(str.Wsz());
+			GPOS_TRACE(str.GetBuffer());
 			str.Reset();
 
 			pxfres->Release();
@@ -261,7 +261,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 		oss	<< std::endl << "LOGICAL:" << std::endl << *pexprLogical << std::endl;
 		oss	<< std::endl << "SCALAR:" << std::endl << *pexprScalar << std::endl;
 
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		CXformContext *pxfctxt = GPOS_NEW(pmp) CXformContext(pmp);
@@ -275,7 +275,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 		oss	<< std::endl << "NEW LOGICAL:" << std::endl << *((*pexprResult)[0]) << std::endl;
 		oss	<< std::endl << "RESIDUAL SCALAR:" << std::endl << *((*pexprResult)[1]) << std::endl;
 
-		GPOS_TRACE(str.Wsz());
+		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
 		pxfres->Release();
@@ -337,7 +337,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 	oss	<< std::endl << "LOGICAL:" << std::endl << *pexprLogical << std::endl;
 	oss	<< std::endl << "SCALAR:" << std::endl << *pexprScalar << std::endl;
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
 	CXformContext *pxfctxt = GPOS_NEW(pmp) CXformContext(pmp);
@@ -350,7 +350,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 	oss	<< std::endl << "NEW LOGICAL:" << std::endl << *((*pexprResult)[0]) << std::endl;
 	oss	<< std::endl << "RESIDUAL SCALAR:" << std::endl << *((*pexprResult)[1]) << std::endl;
 
-	GPOS_TRACE(str.Wsz());
+	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
 	pxfres->Release();
