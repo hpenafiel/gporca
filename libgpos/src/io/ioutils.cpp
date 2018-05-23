@@ -581,7 +581,7 @@ FSimulateIOErrorInternal
 		CAutoTraceFlag(EtraceSimulateIOError, false);
 
 		CLogger *plogger = dynamic_cast<CLogger*>(ITask::Self()->TaskCtxt()->LogErr());
-		if (!plogger->FLogging())
+		if (!plogger->Logging())
 		{
 			GPOS_TRACE_FORMAT_ERR("Simulating I/O error at %s:%d", file, line_num);
 		}

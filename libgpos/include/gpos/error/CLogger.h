@@ -33,25 +33,25 @@ namespace gpos
 		private:
 
 			// buffer used to construct the log entry
-			WCHAR m_wszEntry[GPOS_LOG_ENTRY_BUFFER_SIZE];
+			WCHAR m_entry[GPOS_LOG_ENTRY_BUFFER_SIZE];
 
 			// buffer used to construct the log entry
-			WCHAR m_wszMsg[GPOS_LOG_MESSAGE_BUFFER_SIZE];
+			WCHAR m_msg[GPOS_LOG_MESSAGE_BUFFER_SIZE];
 
 			// buffer used to retrieve system error messages
-			CHAR m_szMsg[GPOS_LOG_MESSAGE_BUFFER_SIZE];
+			CHAR m_retrieved_msg[GPOS_LOG_MESSAGE_BUFFER_SIZE];
 
 			// entry buffer wrapper
-			CWStringStatic m_wstrEntry;
+			CWStringStatic m_entry_wrapper;
 
 			// message buffer wrapper
-			CWStringStatic m_wstrMsg;
+			CWStringStatic m_msg_wrapper;
 
 			// mutex for atomic log writes
 			CMutex m_mutex;
 
 			// error logging information level
-			ErrorInfoLevel m_eil;
+			ErrorInfoLevel m_info_level;
 
 			// log message
 			void Log
@@ -83,16 +83,16 @@ namespace gpos
 		protected:
 
 			// accessor for system error buffer
-			CHAR *SzMsg()
+			CHAR *Msg()
 			{
-				return m_szMsg;
+				return m_retrieved_msg;
 			}
 
 		public:
 
 			// ctor
 			explicit
-			CLogger(ErrorInfoLevel eil = ILogger::EeilMsgHeaderStack);
+			CLogger(ErrorInfoLevel info_level = ILogger::EeilMsgHeaderStack);
 
 			// dtor
 			virtual
@@ -102,22 +102,22 @@ namespace gpos
 			virtual
 			ErrorInfoLevel InfoLevel() const
 			{
-				return m_eil;
+				return m_info_level;
 			}
 
 			// set error info level
 			virtual
 			void SetErrorInfoLevel
 				(
-				ErrorInfoLevel eil
+				ErrorInfoLevel info_level
 				)
 			{
-				m_eil = eil;
+				m_info_level = info_level;
 			}
 
 #ifdef GPOS_FPSIMULATOR
 			// check if a message is logged
-			BOOL FLogging() const
+			BOOL Logging() const
 			{
 				return m_mutex.Owned();
 			}

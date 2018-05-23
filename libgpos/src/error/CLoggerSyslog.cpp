@@ -77,7 +77,7 @@ CLoggerSyslog::Write
 	ULONG // severity
 	)
 {
-	CHAR *szBuffer = CLogger::SzMsg();
+	CHAR *szBuffer = CLogger::Msg();
 
 	// create message
 	CStringStatic str(szBuffer, GPOS_LOG_MESSAGE_BUFFER_SIZE);
