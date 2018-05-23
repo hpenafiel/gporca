@@ -32,10 +32,10 @@ namespace gpos
 			IMemoryPool *m_pmp;
 
 			// flag indicating if handler is initialized
-			BOOL m_fInit;
+			BOOL m_initialized;
 
 			// flag indicating if handler is finalized
-			BOOL m_fFinal;
+			BOOL m_finalized;
 
 			// private copy ctor
 			CMiniDumper(const CMiniDumper&);
