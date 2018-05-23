@@ -31,8 +31,8 @@ CTaskContext::CTaskContext
 	)
 	:
 	m_bitset(NULL),
-	m_log_out(&CLoggerStream::m_plogStdOut),
-	m_log_err(&CLoggerStream::m_plogStdErr),
+	m_log_out(&CLoggerStream::m_stdout_stream_logger),
+	m_log_err(&CLoggerStream::m_stderr_stream_logger),
 	m_locale(ElocEnUS_Utf8)
 {
 	m_bitset = GPOS_NEW(pmp) CBitSet(pmp, EtraceSentinel);

@@ -183,11 +183,11 @@ ILogger::LogTask
 
 	if (is_err)
 	{
-		log = &CLoggerStream::m_plogStdErr;
+		log = &CLoggerStream::m_stderr_stream_logger;
 	}
 	else
 	{
-		log = &CLoggerStream::m_plogStdOut;
+		log = &CLoggerStream::m_stdout_stream_logger;
 	}
 
 	ITask *task = ITask::Self();
