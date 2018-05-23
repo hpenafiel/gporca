@@ -47,20 +47,20 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CMemoryPoolTracker::CMemoryPoolTracker
 	(
-	IMemoryPool *pmpUnderlying,
-	ULLONG ullSizeMax,
-	BOOL fThreadSafe,
-	BOOL fOwnsUnderlying
+	IMemoryPool *underlying_memory_pool,
+	ULLONG max_size,
+	BOOL thread_safe,
+	BOOL owns_underlying_memory_pool
 	)
 	:
-	CMemoryPool(pmpUnderlying, fOwnsUnderlying, fThreadSafe),
-	m_ulAllocSequence(0),
-	m_ullCapacity(ullSizeMax),
-	m_ullReserved(0)
+	CMemoryPool(underlying_memory_pool, owns_underlying_memory_pool, thread_safe),
+	m_alloc_sequence(0),
+	m_capacity(max_size),
+	m_reserved(0)
 {
-	GPOS_ASSERT(NULL != pmpUnderlying);
+	GPOS_ASSERT(NULL != underlying_memory_pool);
 
-	m_listAllocations.Init(GPOS_OFFSET(AllocHeader, m_link));
+	m_allocations_list.Init(GPOS_OFFSET(AllocHeader, m_link));
 }
 
 
@@ -74,7 +74,7 @@ CMemoryPoolTracker::CMemoryPoolTracker
 //---------------------------------------------------------------------------
 CMemoryPoolTracker::~CMemoryPoolTracker()
 {
-	GPOS_ASSERT(m_listAllocations.IsEmpty());
+	GPOS_ASSERT(m_allocations_list.IsEmpty());
 }
 
 
@@ -89,103 +89,103 @@ CMemoryPoolTracker::~CMemoryPoolTracker()
 void *
 CMemoryPoolTracker::Allocate
 	(
-	const ULONG ulBytes,
-	const CHAR *szFile,
-	const ULONG ulLine
+	const ULONG bytes,
+	const CHAR *file,
+	const ULONG line
 	)
 {
-	GPOS_ASSERT(GPOS_MEM_ALLOC_MAX >= ulBytes);
+	GPOS_ASSERT(GPOS_MEM_ALLOC_MAX >= bytes);
 
 	CAutoSpinlock as(m_lock);
 
-	ULONG ulAlloc = GPOS_MEM_BYTES_TOTAL(ulBytes);
-	const BOOL fAvailableMem = FReserve(as, ulAlloc);
+	ULONG alloc = GPOS_MEM_BYTES_TOTAL(bytes);
+	const BOOL mem_available = Reserve(as, alloc);
 
 	// allocate from underlying
-	void *pvAlloc;
-	if (fAvailableMem)
+	void *ptr;
+	if (mem_available)
 	{
-		pvAlloc = UnderlyingMemoryPool()->Allocate(ulAlloc, szFile, ulLine);
+		ptr = UnderlyingMemoryPool()->Allocate(alloc, file, line);
 	}
 	else
 	{
-		pvAlloc = NULL;
+		ptr = NULL;
 	}
 
 	// check if allocation failed
-	if (NULL == pvAlloc)
+	if (NULL == ptr)
 	{
-		Unreserve(as, ulAlloc, fAvailableMem);
+		Unreserve(as, alloc, mem_available);
 
 		return NULL;
 	}
 
 	// successful allocation: update header information and any memory pool data
-	AllocHeader *pahHeader = static_cast<AllocHeader*>(pvAlloc);
+	AllocHeader *header = static_cast<AllocHeader*>(ptr);
 
 	// scope indicating locking
 	{
 		SLock(as);
 
-		m_mps.RecordAllocation(ulBytes, ulAlloc);
-		m_listAllocations.Prepend(pahHeader);
-		pahHeader->m_ullSerial = m_ulAllocSequence;
-		++m_ulAllocSequence;
+		m_memory_pool_statistics.RecordAllocation(bytes, alloc);
+		m_allocations_list.Prepend(header);
+		header->m_serial = m_alloc_sequence;
+		++m_alloc_sequence;
 
 		SUnlock(as);
 	}
 
-	pahHeader->m_szFilename = szFile;
-	pahHeader->m_ulLine = ulLine;
-	pahHeader->m_ulSize = ulBytes;
+	header->m_filename = file;
+	header->m_line = line;
+	header->m_size = bytes;
 
-	void *pvResult = pahHeader + 1;
+	void *ptr_result = header + 1;
 
 #ifdef GPOS_DEBUG
-	pahHeader->m_stack_desc.BackTrace();
+	header->m_stack_desc.BackTrace();
 
-	clib::MemSet(pvResult, GPOS_MEM_INIT_PATTERN_CHAR, ulBytes);
+	clib::MemSet(ptr_result, GPOS_MEM_INIT_PATTERN_CHAR, bytes);
 #endif // GPOS_DEBUG
 
-	return pvResult;
+	return ptr_result;
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMemoryPoolTracker::FReserve
+//		CMemoryPoolTracker::Reserve
 //
 //	@doc:
 //		Attempt to reserve memory for allocation
 //
 //---------------------------------------------------------------------------
 BOOL
-CMemoryPoolTracker::FReserve
+CMemoryPoolTracker::Reserve
 	(
 	CAutoSpinlock &as,
-	ULONG ulAlloc
+	ULONG alloc
 	)
 {
-	BOOL fAvailableMem = false;
+	BOOL mem_available = false;
 
-	if (ULLONG_MAX == m_ullCapacity)
+	if (ULLONG_MAX == m_capacity)
 	{
-		fAvailableMem = true;
+		mem_available = true;
 	}
 	else
 	{
 		SLock(as);
 
-		if (ulAlloc + m_ullReserved <= m_ullCapacity)
+		if (alloc + m_reserved <= m_capacity)
 		{
-			m_ullReserved += ulAlloc;
-			fAvailableMem = true;
+			m_reserved += alloc;
+			mem_available = true;
 		}
 
 		SUnlock(as);
 	}
 
-	return fAvailableMem;
+	return mem_available;
 }
 
 
@@ -201,19 +201,19 @@ void
 CMemoryPoolTracker::Unreserve
 	(
 	CAutoSpinlock &as,
-	ULONG ulAlloc,
-	BOOL fAvailableMem
+	ULONG alloc,
+	BOOL mem_available
 	)
 {
 	SLock(as);
 
 	// return reserved memory
-	if (fAvailableMem)
+	if (mem_available)
 	{
-		m_ullReserved -= ulAlloc;
+		m_reserved -= alloc;
 	}
 
-	m_mps.RecordFailedAllocation();
+	m_memory_pool_statistics.RecordFailedAllocation();
 
 	SUnlock(as);
 }
@@ -230,41 +230,41 @@ CMemoryPoolTracker::Unreserve
 void
 CMemoryPoolTracker::Free
 	(
-	void *pv
+	void *ptr
 	)
 {
 	CAutoSpinlock as(m_lock);
 
-	AllocHeader *pah = static_cast<AllocHeader*>(pv) - 1;
-	ULONG ulUserSize = pah->m_ulSize;
+	AllocHeader *header = static_cast<AllocHeader*>(ptr) - 1;
+	ULONG user_size = header->m_size;
 
 #ifdef GPOS_DEBUG
 	// mark user memory as unused in debug mode
-	clib::MemSet(pv, GPOS_MEM_INIT_PATTERN_CHAR, ulUserSize);
+	clib::MemSet(ptr, GPOS_MEM_INIT_PATTERN_CHAR, user_size);
 #endif // GPOS_DEBUG
 
-	ULONG ulTotalSize = GPOS_MEM_BYTES_TOTAL(ulUserSize);
+	ULONG total_size = GPOS_MEM_BYTES_TOTAL(user_size);
 
 	// scope indicating locking
 	{
 		SLock(as);
 
 		// update stats and allocation list
-		m_mps.RecordFree(ulUserSize, ulTotalSize);
-		m_listAllocations.Remove(pah);
+		m_memory_pool_statistics.RecordFree(user_size, total_size);
+		m_allocations_list.Remove(header);
 
 		SUnlock(as);
 	}
 
 	// pass request to underlying memory pool;
-	UnderlyingMemoryPool()->Free(pah);
+	UnderlyingMemoryPool()->Free(header);
 
 	// update committed memory value
-	if (m_ullCapacity != ULLONG_MAX)
+	if (m_capacity != ULLONG_MAX)
 	{
 		SLock(as);
 
-		m_ullReserved -= ulTotalSize;
+		m_reserved -= total_size;
 
 		SUnlock(as);
 	}
@@ -283,11 +283,11 @@ CMemoryPoolTracker::Free
 void
 CMemoryPoolTracker::TearDown()
 {
-	while (!m_listAllocations.IsEmpty())
+	while (!m_allocations_list.IsEmpty())
 	{
-		AllocHeader *pah = m_listAllocations.First();
-		void *pvUserData = pah + 1;
-		Free(pvUserData);
+		AllocHeader *header = m_allocations_list.First();
+		void *user_data = header + 1;
+		Free(user_data);
 	}
 
 	CMemoryPool::TearDown();
@@ -307,34 +307,34 @@ CMemoryPoolTracker::TearDown()
 void
 CMemoryPoolTracker::WalkLiveObjects
 	(
-	gpos::IMemoryVisitor *pmov
+	gpos::IMemoryVisitor *visitor
 	)
 {
-	GPOS_ASSERT(NULL != pmov);
+	GPOS_ASSERT(NULL != visitor);
 
-	AllocHeader *pahHeader = m_listAllocations.First();
-	while (NULL != pahHeader)
+	AllocHeader *header = m_allocations_list.First();
+	while (NULL != header)
 	{
-		SIZE_T ulTotalSize = GPOS_MEM_BYTES_TOTAL(pahHeader->m_ulSize);
-		void *pvUser = pahHeader + 1;
+		SIZE_T total_size = GPOS_MEM_BYTES_TOTAL(header->m_size);
+		void *user = header + 1;
 
 		pmov->Visit
 			(
-			pvUser,
-			pahHeader->m_ulSize,
-			pahHeader,
-			ulTotalSize,
-			pahHeader->m_szFilename,
-			pahHeader->m_ulLine,
-			pahHeader->m_ullSerial,
+			user,
+			header->m_size,
+			header,
+			total_size,
+			header->m_filename,
+			header->m_line,
+			header->m_serial,
 #ifdef GPOS_DEBUG
-			&pahHeader->m_stack_desc
+			&header->m_stack_desc
 #else
 			NULL
 #endif // GPOS_DEBUG
 			);
 
-		pahHeader = m_listAllocations.Next(pahHeader);
+		header = m_allocations_list.Next(header);
 	}
 }
 
@@ -350,13 +350,13 @@ CMemoryPoolTracker::WalkLiveObjects
 void
 CMemoryPoolTracker::UpdateStatistics
 	(
-	CMemoryPoolStatistics &mps
+	CMemoryPoolStatistics &memory_pool_statistics
 	)
 {
 	CAutoSpinlock as(m_lock);
 	SLock(as);
 
-	mps = m_mps;
+	memory_pool_statistics = m_memory_pool_statistics;
 }
 
 

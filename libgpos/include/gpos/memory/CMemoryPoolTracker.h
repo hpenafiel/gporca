@@ -48,16 +48,16 @@ namespace gpos
 			struct AllocHeader
 			{
 				// sequence number
-				ULLONG m_ullSerial;
+				ULLONG m_serial;
 
 				// user-visible size
-				ULONG m_ulSize;
+				ULONG m_size;
 
 				// file name
-				const CHAR *m_szFilename;
+				const CHAR *m_filename;
 
 				// line in file
-				ULONG m_ulLine;
+				ULONG m_line;
 
 #ifdef GPOS_DEBUG
 				// allocation stack
@@ -72,27 +72,27 @@ namespace gpos
 			CSpinlockOS m_lock;
 
 			// statistics
-			CMemoryPoolStatistics m_mps;
+			CMemoryPoolStatistics m_memory_pool_statistics;
 
 			// allocation sequence number
-			ULONG m_ulAllocSequence;
+			ULONG m_alloc_sequence;
 
 			// memory pool capacity;
 			// if equal to ULLONG, checks for exceeding max memory are bypassed
-			const ULLONG m_ullCapacity;
+			const ULLONG m_capacity;
 
 			// size of reserved memory;
 			// this includes total allocated memory and pending allocations;
-			ULLONG m_ullReserved;
+			ULLONG m_reserved;
 
 			// list of allocated (live) objects
-			CList<AllocHeader> m_listAllocations;
+			CList<AllocHeader> m_allocations_list;
 
 			// attempt to reserve memory for allocation
-			BOOL FReserve(CAutoSpinlock &as, ULONG ulAlloc);
+			BOOL Reserve(CAutoSpinlock &as, ULONG ulAlloc);
 
 			// revert memory reservation
-			void Unreserve(CAutoSpinlock &as, ULONG ulAlloc, BOOL fAvailableMem);
+			void Unreserve(CAutoSpinlock &as, ULONG alloc, BOOL mem_available);
 
 			// acquire spinlock if pool is thread-safe
 			void SLock(CAutoSpinlock &as)
@@ -126,24 +126,24 @@ namespace gpos
 			// ctor
 			CMemoryPoolTracker
 				(
-				IMemoryPool *pmpUnderlying,
-				ULLONG ullSize,
-				BOOL fThreadSafe,
-				BOOL fOwnsUnderlying
+				IMemoryPool *underlying_memory_pool,
+				ULLONG size,
+				BOOL thread_safe,
+				BOOL owns_underlying_memory_pool
 				);
 
 			// allocate memory
 			virtual
 			void *Allocate
 				(
-				const ULONG ulBytes,
-				const CHAR *szFile,
-				const ULONG ulLine
+				const ULONG bytes,
+				const CHAR *file,
+				const ULONG line
 				);
 
 			// free memory
 			virtual
-			void Free(void *pv);
+			void Free(void *ptr);
 
 			// prepare the memory pool to be deleted
 			virtual
@@ -161,7 +161,7 @@ namespace gpos
 			virtual
 			ULLONG TotalAllocatedSize() const
 			{
-				return m_mps.TotalAllocatedSize();
+				return m_memory_pool_statistics.TotalAllocatedSize();
 			}
 
 #ifdef GPOS_DEBUG
@@ -175,7 +175,7 @@ namespace gpos
 
 			// walk the live objects
 			virtual
-			void WalkLiveObjects(gpos::IMemoryVisitor *pmov);
+			void WalkLiveObjects(gpos::IMemoryVisitor *visitor);
 
 			// check if statistics tracking is supported
 			virtual
@@ -186,7 +186,7 @@ namespace gpos
 
 			// return the current statistics
 			virtual
-			void UpdateStatistics(CMemoryPoolStatistics &mps);
+			void UpdateStatistics(CMemoryPoolStatistics &memory_pool_statistics);
 
 #endif // GPOS_DEBUG
 
