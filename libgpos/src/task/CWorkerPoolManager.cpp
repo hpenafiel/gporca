@@ -423,7 +423,7 @@ CWorkerPoolManager::Schedule
 //		Respond to worker's request for next task to execute;
 //
 //---------------------------------------------------------------------------
-CWorkerPoolManager::EScheduleResponse
+CWorkerPoolManager::ScheduleResponse
 CWorkerPoolManager::TaskNext
 	(
 	CTask **task

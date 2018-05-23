@@ -54,7 +54,7 @@ namespace gpos
 			typedef CThreadManager::ThreadDescriptor ThreadDescriptor;
 
 			// response to worker scheduling request
-			enum EScheduleResponse
+			enum ScheduleResponse
 			{
 				EsrExecTask,	// run assigned task
 				EsrWorkerExit		// clean up and exit
@@ -135,7 +135,7 @@ namespace gpos
 			CWorker *RemoveWorker(CWorkerId wid);
 
 			// response to worker's request for next task to execute
-			EScheduleResponse TaskNext(CTask **task);
+			ScheduleResponse TaskNext(CTask **task);
 
 			//-------------------------------------------------------------------
 			// Methods for internal use
