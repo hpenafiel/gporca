@@ -124,7 +124,7 @@ CErrorContext::Record
 	CMessage *pmsg = CMessageRepository::Pmr()->LookupMessage(exc, eloc);
 	pmsg->Format(&m_wss, vl);
 
-	m_ulSev = pmsg->UlSev();
+	m_ulSev = pmsg->GetSeverity();
 
 	if (GPOS_FTRACE(EtracePrintExceptionOnRaise))
 	{
@@ -185,7 +185,7 @@ CErrorContext::CopyPropErrCtxt
 	m_wss.Append(&(reinterpret_cast<const CErrorContext*>(perrctxt)->m_wss));
 
 	// copy severity
-	m_ulSev = perrctxt->UlSev();
+	m_ulSev = perrctxt->GetSeverity();
 }
 
 

@@ -101,7 +101,7 @@ CAutoMemoryPool::~CAutoMemoryPool()
 	
 	GPOS_TRY
 	{
-		if (ElcStrict == m_leak_check_type || (ElcExc == m_leak_check_type && !task->ErrCtxt()->FPending()))
+		if (ElcStrict == m_leak_check_type || (ElcExc == m_leak_check_type && !task->ErrCtxt()->IsPending()))
 		{
 			gpos::IOstream &os = gpos::oswcerr;
 

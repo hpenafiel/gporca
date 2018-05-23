@@ -588,7 +588,7 @@ FSimulateIOErrorInternal
 
 		errno = error_no;
 
-		if (ptsk->ErrCtxt()->FPending())
+		if (ptsk->ErrCtxt()->IsPending())
 		{
 			ptsk->ErrCtxt()->Reset();
 		}

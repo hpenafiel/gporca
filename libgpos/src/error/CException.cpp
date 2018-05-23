@@ -216,7 +216,7 @@ CException::Reraise
 	if (NULL != ITask::Self())
 	{
 		CErrorContext *err_ctxt = CTask::Self()->ErrCtxtConvert();
-		GPOS_ASSERT(err_ctxt->FPending());
+		GPOS_ASSERT(err_ctxt->IsPending());
 
 		err_ctxt->SetRethrow();
 
@@ -251,7 +251,7 @@ CException::Raise
 	if (NULL != ITask::Self())
 	{
 		IErrorContext *err_ctxt = ITask::Self()->ErrCtxt();
-		GPOS_ASSERT_IMP(err_ctxt->FPending(),
+		GPOS_ASSERT_IMP(err_ctxt->IsPending(),
 				err_ctxt->Exc() == exc &&
 				"Rethrow inconsistent with current error context");
 	}

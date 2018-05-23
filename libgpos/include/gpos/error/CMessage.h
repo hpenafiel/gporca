@@ -82,7 +82,7 @@ namespace gpos
 			Format(CWStringStatic *pwss, VA_LIST) const;
 
 			// severity accessor
-			ULONG UlSev() const
+			ULONG GetSeverity() const
 			{
 				return m_ulSev;
 			}

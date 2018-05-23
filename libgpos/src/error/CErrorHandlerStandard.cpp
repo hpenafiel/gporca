@@ -40,12 +40,12 @@ CErrorHandlerStandard::Process
 	IErrorContext *err_ctxt = task->ErrCtxt();
 	CLogger *log = dynamic_cast<CLogger*>(task->LogErr());
 	
-	GPOS_ASSERT(err_ctxt->FPending() && "No error to process");
+	GPOS_ASSERT(err_ctxt->IsPending() && "No error to process");
 	GPOS_ASSERT(err_ctxt->Exc() == exception &&
 			"Exception processed different from pending");
 
 	// print error stack trace
-	if (CException::ExmaSystem == exception.Major() && !err_ctxt->FRethrow())
+	if (CException::ExmaSystem == exception.Major() && !err_ctxt->IsRethrown())
 	{
 		if ((CException::ExmiIOError == exception.Minor() ||
 		    CException::ExmiNetError == exception.Minor() ) &&
@@ -66,7 +66,7 @@ CErrorHandlerStandard::Process
 		CAutoSuspendAbort asa;
 
 		// log error message
-		log->Log(err_ctxt->WszMsg(), err_ctxt->UlSev(), __FILE__, __LINE__);
+		log->Log(err_ctxt->GetErrorMsg(), err_ctxt->GetSeverity(), __FILE__, __LINE__);
 	}
 }
 

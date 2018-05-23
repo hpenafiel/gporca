@@ -324,7 +324,7 @@ COptimizer::HandleExceptionAfterFinalizingMinidump
 	)
 {
 	if (NULL != ITask::Self() &&
-		!ITask::Self()->ErrCtxt()->FPending())
+		!ITask::Self()->ErrCtxt()->IsPending())
 	{
 		// if error context has no pending exception, then minidump creation
 		// might have reset the error,

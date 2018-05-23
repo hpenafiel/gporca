@@ -166,7 +166,7 @@ CWorker::CheckForAbort
 	// task is still running and CFA is not suspended
 	if (NULL != m_task && m_task->Running() && !m_task->AbortSuspended())
 	{
-		GPOS_ASSERT(!m_task->ErrCtxt()->FPending() &&
+		GPOS_ASSERT(!m_task->ErrCtxt()->IsPending() &&
 		            "Check-For-Abort while an exception is pending");
 
 #ifdef GPOS_FPSIMULATOR

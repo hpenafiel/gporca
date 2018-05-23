@@ -425,7 +425,7 @@ CTreeMapTest::EresUnittest_Memo()
 						GPOS_RETHROW(ex);
 					}
 					IErrorContext *perrctxt = CTask::Self()->ErrCtxt();
-					at.Os() << perrctxt->WszMsg() << std::endl;
+					at.Os() << perrctxt->GetErrorMsg() << std::endl;
 					GPOS_RESET_EX;
 				}
 				GPOS_CATCH_END;

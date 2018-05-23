@@ -102,7 +102,7 @@ namespace gpos
 			}
 			
 			virtual
-			const WCHAR *WszMsg() const
+			const WCHAR *GetErrorMsg() const
 			{
 				return m_wsz;
 			}
@@ -173,7 +173,7 @@ namespace gpos
 
 			// severity accessor
 			virtual
-			ULONG UlSev() const
+			ULONG GetSeverity() const
 			{
 				return m_ulSev;
 			}
@@ -201,13 +201,13 @@ namespace gpos
 			void AppendErrnoMsg();
 
 			virtual
-			BOOL FPending() const
+			BOOL IsPending() const
 			{
 				return m_fPending;
 			}
 
 			virtual
-			BOOL FRethrow() const
+			BOOL IsRethrown() const
 			{
 				return m_fRethrow;
 			}

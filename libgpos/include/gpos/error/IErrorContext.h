@@ -58,15 +58,15 @@ namespace gpos
 
 			// error message accessor
 			virtual
-			const WCHAR *WszMsg() const = 0;
+			const WCHAR *GetErrorMsg() const = 0;
 			
 			// copy necessary info for error propagation
 			virtual
-			void CopyPropErrCtxt(const IErrorContext *perrctxt) = 0;
+			void CopyPropErrCtxt(const IErrorContext *err_ctxt) = 0;
 
 			// severity accessor
 			virtual
-			ULONG UlSev() const = 0;
+			ULONG GetSeverity() const = 0;
 
 			// set severity
 			virtual
@@ -82,11 +82,11 @@ namespace gpos
 
 			// check if there is a pending exception
 			virtual
-			BOOL FPending() const = 0;
+			BOOL IsPending() const = 0;
 
 			// check if exception is rethrown
 			virtual
-			BOOL FRethrow() const = 0;
+			BOOL IsRethrown() const = 0;
 
 			// mark that exception is rethrown
 			virtual

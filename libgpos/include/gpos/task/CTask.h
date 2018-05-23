@@ -272,7 +272,7 @@ namespace gpos
 			// pending exceptions
 			BOOL PendingExceptions() const
 			{
-				return m_err_ctxt->FPending();
+				return m_err_ctxt->IsPending();
 			}
 
 #ifdef GPOS_DEBUG
