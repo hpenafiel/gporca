@@ -308,13 +308,13 @@ CFileTest::Unittest_DeleteTmpDir
 
 	CAutoTraceFlag atf(EtraceSimulateIOError, false);
 
-	if (ioutils::IsPathExists(szFile))
+	if (ioutils::PathExists(szFile))
 	{
 		// delete temporary file
 		ioutils::Unlink(szFile);
 	}
 
-	if (ioutils::IsPathExists(szDir))
+	if (ioutils::PathExists(szDir))
 	{
 		// delete temporary dir
 		ioutils::RemoveDir(szDir);

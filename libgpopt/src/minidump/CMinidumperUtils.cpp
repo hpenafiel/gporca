@@ -169,7 +169,7 @@ CMinidumperUtils::GenerateMinidumpFileName
 									// if NULL, a time-based name is generated
 	)
 {
-	if (!gpos::ioutils::IsPathExists("minidumps"))
+	if (!gpos::ioutils::PathExists("minidumps"))
 	{
 		GPOS_TRY
 		{

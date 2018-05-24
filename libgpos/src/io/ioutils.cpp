@@ -101,14 +101,14 @@ gpos::ioutils::CheckStateUsingFileDescriptor
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::IsPathExists
+//		ioutils::PathExists
 //
 //	@doc:
 //		Check if path is mapped to an accessible file or directory
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::ioutils::IsPathExists
+gpos::ioutils::PathExists
 	(
 	const CHAR *file_path
 	)
@@ -327,7 +327,7 @@ gpos::ioutils::Move
 	GPOS_ASSERT(IsFile(old_path));
 
 	// delete any existing file with the new path
-	if (IsPathExists(szNew))
+	if (PathExists(szNew))
 	{
 		Unlink(szNew);
 	}

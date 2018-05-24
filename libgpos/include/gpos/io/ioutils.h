@@ -59,7 +59,7 @@ namespace gpos
 		void CheckStateUsingFileDescriptor(const INT file_descriptor, SFileStat *file_state);
 
 		// check if path is mapped to an accessible file or directory
-		BOOL IsPathExists(const CHAR *file_path);
+		BOOL PathExists(const CHAR *file_path);
 
 		// get file size by file path
 		ULLONG FileSize(const CHAR *file_path);
