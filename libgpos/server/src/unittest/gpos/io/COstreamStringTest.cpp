@@ -73,19 +73,19 @@ COstreamStringTest::EresUnittest_Basic()
 	COstreamString osb(&str);
 
 	// non-string, non-number types
-	WCHAR wc = 'W';
+	WCHAR input_wchar = 'W';
 	CHAR c = 'C';
 	ULONG ul = 102;
 	INT i = -10;
-	WCHAR wsz[] = GPOS_WSZ_LIT("some regular string");	
+	WCHAR input_wchar_array[] = GPOS_WSZ_LIT("some regular string");	
 	INT hex = 0xdeadbeef;
 	
 	osb 
-		<< wc 
+		<< input_wchar 
 		<< c 
 		<< ul
 		<< i 
-		<< wsz 
+		<< input_wchar_array 
 		<< COstream::EsmHex 
 		<< hex
 		;

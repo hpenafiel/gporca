@@ -30,9 +30,9 @@ COstreamString::COstreamString
     )
 	: 
     COstream(),
-    m_pws(pws)
+    m_string(pws)
 {
-	GPOS_ASSERT(m_pws && "Backing string cannot be NULL");
+	GPOS_ASSERT(m_string && "Backing string cannot be NULL");
 }
 
 //---------------------------------------------------------------------------
@@ -46,10 +46,10 @@ COstreamString::COstreamString
 IOstream&
 COstreamString::operator << 
     (
-	const WCHAR *wsz
+	const WCHAR *input_wchar_array
     )
 {
-	m_pws->AppendWideCharArray(wsz);
+	m_string->AppendWideCharArray(input_wchar_array);
 
 	return *this;
 }
@@ -65,10 +65,10 @@ COstreamString::operator <<
 IOstream&
 COstreamString::operator <<
     (
-	const CHAR *sz
+	const CHAR *input_char
     )
 {
-	m_pws->AppendCharArray(sz);
+	m_string->AppendCharArray(input_char);
 
 	return *this;
 }
@@ -85,13 +85,13 @@ COstreamString::operator <<
 IOstream&
 COstreamString::operator <<
     (
-	const WCHAR wc
+	const WCHAR input_wchar
     )
 {
-	WCHAR wsz[2];
-	wsz[0] = wc;
-	wsz[1] = L'\0';
-	m_pws->AppendWideCharArray(wsz);
+	WCHAR input_wchar_array[2];
+	input_wchar_array[0] = input_wchar;
+	input_wchar_array[1] = L'\0';
+	m_string->AppendWideCharArray(input_wchar_array);
 
 	return *this;
 }
@@ -111,10 +111,10 @@ COstreamString::operator <<
 	const CHAR c
     )
 {
-	CHAR sz[2];
-	sz[0] = c;
-	sz[1] = '\0';
-	m_pws->AppendCharArray(sz);
+	CHAR input_char[2];
+	input_char[0] = c;
+	input_char[1] = '\0';
+	m_string->AppendCharArray(input_char);
 
 	return *this;
 }

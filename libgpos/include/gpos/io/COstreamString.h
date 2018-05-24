@@ -29,7 +29,7 @@ namespace gpos
 		private:
 			
 			// underlying string
-			CWString *m_pws;
+			CWString *m_string;
 
 			// private copy ctor
 			COstreamString(const COstreamString &);
@@ -48,19 +48,19 @@ namespace gpos
 
 			// implement << operator on wide char array
 			virtual
-			IOstream& operator<< (const WCHAR * wsz);
+			IOstream& operator<< (const WCHAR * input_wchar_array);
 
 			// implement << operator on char array
 			virtual
-			IOstream& operator<< (const CHAR *sz);
+			IOstream& operator<< (const CHAR *input_char_array);
 
 			// implement << operator on wide char
 			virtual
-			IOstream& operator<< (const WCHAR wc);
+			IOstream& operator<< (const WCHAR input_wchar);
 
 			// implement << operator on char
 			virtual
-			IOstream& operator<< (const CHAR c);
+			IOstream& operator<< (const CHAR input_char);
 
 	};
 

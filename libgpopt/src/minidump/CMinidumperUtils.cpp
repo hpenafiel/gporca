@@ -169,13 +169,13 @@ CMinidumperUtils::GenerateMinidumpFileName
 									// if NULL, a time-based name is generated
 	)
 {
-	if (!gpos::ioutils::FPathExist("minidumps"))
+	if (!gpos::ioutils::IsPathExists("minidumps"))
 	{
 		GPOS_TRY
 		{
 			// create a minidumps folder
 			const ULONG ulWrPerms = S_IRUSR  | S_IWUSR  | S_IXUSR;
-			gpos::ioutils::MkDir("minidumps", ulWrPerms);
+			gpos::ioutils::CreateDir("minidumps", ulWrPerms);
 		}
 		GPOS_CATCH_EX(ex)
 		{

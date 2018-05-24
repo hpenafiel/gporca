@@ -1906,10 +1906,10 @@ CDXLUtils::SzRead
 	CFileReader fr;
 	fr.Open(szFileName);
 
-	ULONG_PTR ulpFileSize = (ULONG_PTR) fr.UllSize();
+	ULONG_PTR ulpFileSize = (ULONG_PTR) fr.FileSize();
 	CAutoRg<CHAR> a_szBuffer(GPOS_NEW_ARRAY(pmp, CHAR, ulpFileSize + 1));
 	
-	ULONG_PTR ulpRead = fr.UlpRead((BYTE *) a_szBuffer.Rgt(), ulpFileSize);
+	ULONG_PTR ulpRead = fr.ReadBytesToBuffer((BYTE *) a_szBuffer.Rgt(), ulpFileSize);
 	fr.Close();
 	
 	GPOS_ASSERT(ulpRead == ulpFileSize);

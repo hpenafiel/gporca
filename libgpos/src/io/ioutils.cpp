@@ -34,30 +34,30 @@ using namespace gpos;
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::Stat
+//		ioutils::CheckState
 //
 //	@doc:
 //		Check state of file or directory
 //
 //---------------------------------------------------------------------------
 void
-gpos::ioutils::Stat
+gpos::ioutils::CheckState
 	(
-	const CHAR *szPath,
-	SFileStat *pfs
+	const CHAR *file_path,
+	SFileStat *file_state
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
-	GPOS_ASSERT(NULL != pfs);
+	GPOS_ASSERT(NULL != file_path);
+	GPOS_ASSERT(NULL != file_state);
 
 	// reset file state
-	(void) clib::MemSet(pfs, 0, sizeof(*pfs));
+	(void) clib::MemSet(file_state, 0, sizeof(*file_state));
 
 	INT res = -1;
 
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&res, stat(szPath, pfs));
+	GPOS_CHECK_SIM_IO_ERR(&res, stat(file_path, file_state));
 
 	if (0 != res)
 	{
@@ -75,22 +75,22 @@ gpos::ioutils::Stat
 //
 //---------------------------------------------------------------------------
 void
-gpos::ioutils::Fstat
+gpos::ioutils::CheckStateUsingFileDescriptor
 	(
-	const INT iFd,
-	SFileStat *pfs
+	const INT file_descriptor,
+	SFileStat *file_state
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != pfs);
+	GPOS_ASSERT(NULL != file_state);
 
 	// reset file state
-	(void) clib::MemSet(pfs, 0, sizeof(*pfs));
+	(void) clib::MemSet(file_state, 0, sizeof(*file_state));
 
 	INT res = -1;
 
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&res, fstat(iFd, pfs));
+	GPOS_CHECK_SIM_IO_ERR(&res, fstat(file_descriptor, file_state));
 
 	if (0 != res)
 	{
@@ -101,24 +101,24 @@ gpos::ioutils::Fstat
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::FPathExist
+//		ioutils::IsPathExists
 //
 //	@doc:
 //		Check if path is mapped to an accessible file or directory
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::ioutils::FPathExist
+gpos::ioutils::IsPathExists
 	(
-	const CHAR *szPath
+	const CHAR *file_path
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
+	GPOS_ASSERT(NULL != file_path);
 
 	SFileStat fs;
 
-	INT res = stat(szPath, &fs);
+	INT res = stat(file_path, &fs);
 
 	return (0 == res);
 }
@@ -126,23 +126,23 @@ gpos::ioutils::FPathExist
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::FDir
+//		ioutils::IsDir
 //
 //	@doc:
 //		Check if path is directory
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::ioutils::FDir
+gpos::ioutils::IsDir
 	(
-	const CHAR *szPath
+	const CHAR *file_path
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
+	GPOS_ASSERT(NULL != file_path);
 
 	SFileStat fs;
-	Stat(szPath, &fs);
+	CheckState(file_path, &fs);
 
 	return S_ISDIR(fs.st_mode);
 }
@@ -150,23 +150,23 @@ gpos::ioutils::FDir
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::FFile
+//		ioutils::IsFile
 //
 //	@doc:
 //		Check if path is file
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::ioutils::FFile
+gpos::ioutils::IsFile
 	(
-	const CHAR *szPath
+	const CHAR *file_path
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
+	GPOS_ASSERT(NULL != file_path);
 
 	SFileStat fs;
-	Stat(szPath, &fs);
+	CheckState(file_path, &fs);
 
 	return S_ISREG(fs.st_mode);
 }
@@ -174,24 +174,24 @@ gpos::ioutils::FFile
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::UllFileSize
+//		ioutils::FileSize
 //
 //	@doc:
 //		Get file size by file path
 //
 //---------------------------------------------------------------------------
 ULLONG
-gpos::ioutils::UllFileSize
+gpos::ioutils::FileSize
 	(
-	const CHAR *szPath
+	const CHAR *file_path
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
-	GPOS_ASSERT(FFile(szPath));
+	GPOS_ASSERT(NULL != file_path);
+	GPOS_ASSERT(IsFile(file_path));
 
 	SFileStat fs;
-	Stat(szPath, &fs);
+	CheckState(file_path, &fs);
 
 	return fs.st_size;
 }
@@ -199,22 +199,22 @@ gpos::ioutils::UllFileSize
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::UllFileSize
+//		ioutils::FileSize
 //
 //	@doc:
 //		Get file size by file descriptor
 //
 //---------------------------------------------------------------------------
 ULLONG
-gpos::ioutils::UllFileSize
+gpos::ioutils::FileSize
 	(
-	const INT iFd
+	const INT file_descriptor
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
 
 	SFileStat fs;
-	Fstat(iFd, &fs);
+	CheckStateUsingFileDescriptor(file_descriptor, &fs);
 
 	return fs.st_size;
 }
@@ -222,51 +222,51 @@ gpos::ioutils::UllFileSize
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::FPerms
+//		ioutils::CheckFilePermissions
 //
 //	@doc:
 //		Check permissions
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::ioutils::FPerms
+gpos::ioutils::CheckFilePermissions
 	(
-	const CHAR *szPath,
-	ULONG ulPerms
+	const CHAR *file_path,
+	ULONG permission_bits
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
+	GPOS_ASSERT(NULL != file_path);
 
 	SFileStat fs;
-	Stat(szPath, &fs);
+	CheckState(file_path, &fs);
 
-	return (ulPerms == (fs.st_mode & ulPerms));
+	return (permission_bits == (fs.st_mode & permission_bits));
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::MkDir
+//		ioutils::CreateDir
 //
 //	@doc:
 //		Create directory with specific permissions
 //
 //---------------------------------------------------------------------------
 void
-gpos::ioutils::MkDir
+gpos::ioutils::CreateDir
 	(
-	const CHAR *szPath,
-	ULONG ulPerms
+	const CHAR *file_path,
+	ULONG permission_bits
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
+	GPOS_ASSERT(NULL != file_path);
 
 	INT res = -1;
 
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&res, mkdir(szPath, (MODE_T) ulPerms));
+	GPOS_CHECK_SIM_IO_ERR(&res, mkdir(file_path, (MODE_T) permission_bits));
 
 	if (0 != res)
 	{
@@ -277,26 +277,26 @@ gpos::ioutils::MkDir
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::RmDir
+//		ioutils::RemoveDir
 //
 //	@doc:
 //		Delete directory
 //
 //---------------------------------------------------------------------------
 void
-gpos::ioutils::RmDir
+gpos::ioutils::RemoveDir
 	(
-	const CHAR *szPath
+	const CHAR *file_path
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
-	GPOS_ASSERT(FDir(szPath));
+	GPOS_ASSERT(NULL != file_path);
+	GPOS_ASSERT(IsDir(file_path));
 
 	INT res = -1;
 
 	// delete existing directory and check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&res, rmdir(szPath));
+	GPOS_CHECK_SIM_IO_ERR(&res, rmdir(file_path));
 
 	if (0 != res)
 	{
@@ -317,17 +317,17 @@ gpos::ioutils::RmDir
 void
 gpos::ioutils::Move
 	(
-	const CHAR *szOld,
+	const CHAR *old_path,
 	const CHAR *szNew
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szOld);
+	GPOS_ASSERT(NULL != old_path);
 	GPOS_ASSERT(NULL != szNew);
-	GPOS_ASSERT(FFile(szOld));
+	GPOS_ASSERT(IsFile(old_path));
 
 	// delete any existing file with the new path
-	if (FPathExist(szNew))
+	if (IsPathExists(szNew))
 	{
 		Unlink(szNew);
 	}
@@ -335,7 +335,7 @@ gpos::ioutils::Move
 	INT res = -1;
 
 	// rename file and check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&res, rename(szOld, szNew));
+	GPOS_CHECK_SIM_IO_ERR(&res, rename(old_path, szNew));
 
 	if (0 != res)
 	{
@@ -355,20 +355,20 @@ gpos::ioutils::Move
 void
 gpos::ioutils::Unlink
 	(
-	const CHAR *szPath
+	const CHAR *file_path
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
+	GPOS_ASSERT(NULL != file_path);
 
 	// delete existing file
-	(void) unlink(szPath);
+	(void) unlink(file_path);
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::IOpen
+//		ioutils::OpenFile
 //
 //	@doc:
 //		Open a file;
@@ -377,17 +377,17 @@ gpos::ioutils::Unlink
 //
 //---------------------------------------------------------------------------
 INT
-gpos::ioutils::IOpen
+gpos::ioutils::OpenFile
 	(
-	const CHAR *szPath,
+	const CHAR *file_path,
 	INT mode,
-	INT iPerms
+	INT permission_bits
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != szPath);
+	GPOS_ASSERT(NULL != file_path);
 
-	INT res = open(szPath, mode, iPerms);
+	INT res = open(file_path, mode, permission_bits);
 
 	GPOS_ASSERT((0 <= res) || (EINVAL != errno));
 
@@ -397,21 +397,21 @@ gpos::ioutils::IOpen
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::IClose
+//		ioutils::CloseFile
 //
 //	@doc:
 //		Close a file descriptor
 //
 //---------------------------------------------------------------------------
 INT
-gpos::ioutils::IClose
+gpos::ioutils::CloseFile
 	(
-	INT iFildes
+	INT file_descriptor
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
 
-	INT res = close(iFildes);
+	INT res = close(file_descriptor);
 
 	GPOS_ASSERT(0 == res || EBADF != errno);
 
@@ -421,23 +421,23 @@ gpos::ioutils::IClose
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::IFStat
+//		ioutils::GetFileState
 //
 //	@doc:
 //		Get file status
 //
 //---------------------------------------------------------------------------
 INT
-gpos::ioutils::IFStat
+gpos::ioutils::GetFileState
 	(
-	INT iFiledes,
-	SFileStat *pstBuf
+	INT file_descriptor,
+	SFileStat *file_state
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != pstBuf);
+	GPOS_ASSERT(NULL != file_state);
 
-	INT res = fstat(iFiledes, pstBuf);
+	INT res = fstat(file_descriptor, file_state);
 
 	GPOS_ASSERT(0 == res || EBADF != errno);
 
@@ -447,26 +447,26 @@ gpos::ioutils::IFStat
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::IWrite
+//		ioutils::Write
 //
 //	@doc:
 //		Write to a file descriptor
 //
 //---------------------------------------------------------------------------
 INT_PTR
-gpos::ioutils::IWrite
+gpos::ioutils::Write
 	(
-	INT iFd,
-	const void *pvBuf,
+	INT file_descriptor,
+	const void *buffer,
 	const ULONG_PTR ulpCount
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != pvBuf);
+	GPOS_ASSERT(NULL != buffer);
 	GPOS_ASSERT(0 < ulpCount);
 	GPOS_ASSERT(ULONG_PTR_MAX / 2 > ulpCount);
 
-	SSIZE_T res = write(iFd, pvBuf, ulpCount);
+	SSIZE_T res = write(file_descriptor, buffer, ulpCount);
 
 	GPOS_ASSERT((0 <= res) || EBADF != errno);
 
@@ -476,26 +476,26 @@ gpos::ioutils::IWrite
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::IRead
+//		ioutils::Read
 //
 //	@doc:
 //		Read from a file descriptor
 //
 //---------------------------------------------------------------------------
 INT_PTR
-gpos::ioutils::IRead
+gpos::ioutils::Read
 	(
-	INT iFd,
-	void *pvBuf,
+	INT file_descriptor,
+	void *buffer,
 	const ULONG_PTR ulpCount
 	)
 {
 	GPOS_ASSERT_NO_SPINLOCK;
-	GPOS_ASSERT(NULL != pvBuf);
+	GPOS_ASSERT(NULL != buffer);
 	GPOS_ASSERT(0 < ulpCount);
 	GPOS_ASSERT(ULONG_PTR_MAX / 2 > ulpCount);
 
-	SSIZE_T res = read(iFd, pvBuf, ulpCount);
+	SSIZE_T res = read(file_descriptor, buffer, ulpCount);
 
 	GPOS_ASSERT((0 <= res) || EBADF != errno);
 
@@ -504,28 +504,28 @@ gpos::ioutils::IRead
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::SzMkDTemp
+//		ioutils::CreateTempDir
 //
 //	@doc:
 //		Create a unique temporary directory
 //
 //---------------------------------------------------------------------------
 void
-gpos::ioutils::SzMkDTemp
+gpos::ioutils::CreateTempDir
 	(
-	CHAR *szTemplate
+	CHAR *dir_path
 	)
 {
-	GPOS_ASSERT(NULL != szTemplate);
+	GPOS_ASSERT(NULL != dir_path);
 
 #ifdef GPOS_DEBUG
 	const SIZE_T ulNumOfCmp = 6;
 
-	SIZE_T ulSize = clib::StrLen(szTemplate);
+	SIZE_T ulSize = clib::StrLen(dir_path);
 
 	GPOS_ASSERT(ulSize > ulNumOfCmp);
 
-	GPOS_ASSERT(0 == clib::MemCmp("XXXXXX", szTemplate + (ulSize - ulNumOfCmp), ulNumOfCmp));
+	GPOS_ASSERT(0 == clib::MemCmp("XXXXXX", dir_path + (ulSize - ulNumOfCmp), ulNumOfCmp));
 #endif	// GPOS_DEBUG
 
 	CHAR* szRes = NULL;
@@ -533,12 +533,12 @@ gpos::ioutils::SzMkDTemp
 
 #ifdef GPOS_SunOS
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&szRes, mktemp(szTemplate));
+	GPOS_CHECK_SIM_IO_ERR(&szRes, mktemp(dir_path));
 
-	ioutils::MkDir(szTemplate, S_IRUSR  | S_IWUSR  | S_IXUSR);
+	ioutils::CreateDir(dir_path, S_IRUSR  | S_IWUSR  | S_IXUSR);
 #else
 	// check to simulate I/O error
-	GPOS_CHECK_SIM_IO_ERR(&szRes, mkdtemp(szTemplate));
+	GPOS_CHECK_SIM_IO_ERR(&szRes, mkdtemp(dir_path));
 #endif // GPOS_SunOS
 
 	if (NULL == szRes)
@@ -564,9 +564,9 @@ gpos::ioutils::SzMkDTemp
 static BOOL
 FSimulateIOErrorInternal
 	(
-	INT iErrno,
-	const CHAR *szFile,
-	ULONG ulLine
+	INT error_no,
+	const CHAR *file,
+	ULONG line_num
 	)
 {
 	BOOL fRes = false;
@@ -583,10 +583,10 @@ FSimulateIOErrorInternal
 		CLogger *plogger = dynamic_cast<CLogger*>(ITask::Self()->TaskCtxt()->LogErr());
 		if (!plogger->FLogging())
 		{
-			GPOS_TRACE_FORMAT_ERR("Simulating I/O error at %s:%d", szFile, ulLine);
+			GPOS_TRACE_FORMAT_ERR("Simulating I/O error at %s:%d", file, line_num);
 		}
 
-		errno = iErrno;
+		errno = error_no;
 
 		if (ptsk->ErrCtxt()->FPending())
 		{
@@ -603,7 +603,7 @@ FSimulateIOErrorInternal
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::FSimulateIOError
+//		ioutils::SimulateIOError
 //
 //	@doc:
 //		Inject I/O exception for functions
@@ -611,25 +611,25 @@ FSimulateIOErrorInternal
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::ioutils::FSimulateIOError
+gpos::ioutils::SimulateIOError
 	(
-	INT *piRes,
-	INT iErrno,
-	const CHAR *szFile,
-	ULONG ulLine
+	INT *return_value,
+	INT error_no,
+	const CHAR *file,
+	ULONG line_num
 	)
 {
-	GPOS_ASSERT(NULL != piRes);
+	GPOS_ASSERT(NULL != return_value);
 
-	*piRes = -1;
+	*return_value = -1;
 
-	return FSimulateIOErrorInternal(iErrno, szFile, ulLine);
+	return FSimulateIOErrorInternal(error_no, file, line_num);
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ioutils::FSimulateIOError
+//		ioutils::SimulateIOError
 //
 //	@doc:
 //		Inject I/O exception for functions
@@ -637,19 +637,19 @@ gpos::ioutils::FSimulateIOError
 //
 //---------------------------------------------------------------------------
 BOOL
-gpos::ioutils::FSimulateIOError
+gpos::ioutils::SimulateIOError
 	(
-	CHAR **pszRes,
-	INT iErrno,
-	const CHAR *szFile,
-	ULONG ulLine
+	CHAR **return_value,
+	INT error_no,
+	const CHAR *file,
+	ULONG line_num
 	)
 {
-	GPOS_ASSERT(NULL != pszRes);
+	GPOS_ASSERT(NULL != return_value);
 
-	*pszRes = NULL;
+	*return_value = NULL;
 
-	return FSimulateIOErrorInternal(iErrno, szFile, ulLine);
+	return FSimulateIOErrorInternal(error_no, file, line_num);
 }
 #endif // GPOS_FPSIMULATOR
 

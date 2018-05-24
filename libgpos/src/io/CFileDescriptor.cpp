@@ -43,9 +43,9 @@ CFileDescriptor::CFileDescriptor()
 void
 CFileDescriptor::OpenInternal
 	(
-	const CHAR *szPath,
+	const CHAR *file_path,
 	ULONG ulMode,
-	ULONG ulPerms
+	ULONG permission_bits
 	)
 {
 	GPOS_ASSERT(!FOpened());
@@ -57,7 +57,7 @@ CFileDescriptor::OpenInternal
 		m_iFileDescr = GPOS_FILE_DESCR_INVALID;
 
 		// create file with given mode and permissions and check to simulate I/O error
-		GPOS_CHECK_SIM_IO_ERR(&m_iFileDescr, ioutils::IOpen(szPath, ulMode, ulPerms));
+		GPOS_CHECK_SIM_IO_ERR(&m_iFileDescr, ioutils::OpenFile(file_path, ulMode, permission_bits));
 
 		// check for error
 		if (GPOS_FILE_DESCR_INVALID == m_iFileDescr)
@@ -112,7 +112,7 @@ CFileDescriptor::CloseInternal()
 
 	while (!fClosed)
 	{
-		INT res = ioutils::IClose(m_iFileDescr);
+		INT res = ioutils::CloseFile(m_iFileDescr);
 
 		// check for error
 		if (0 != res)

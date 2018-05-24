@@ -57,16 +57,16 @@ GPOS_RESULT
 COstreamFileTest::EresUnittest_Basic()
 {
 	// create temporary file in new directory under /tmp
-	CHAR szPath[GPOS_FILE_NAME_BUF_SIZE];
+	CHAR file_path[GPOS_FILE_NAME_BUF_SIZE];
 	CHAR szFile[GPOS_FILE_NAME_BUF_SIZE];
 
-	CStringStatic strPath(szPath, GPOS_ARRAY_SIZE(szPath));
+	CStringStatic strPath(file_path, GPOS_ARRAY_SIZE(file_path));
 	CStringStatic strFile(szFile, GPOS_ARRAY_SIZE(szFile));
 
 	strPath.AppendBuffer("/tmp/gpos_test_stream.XXXXXX");
 
 	// create dir
-	(void) ioutils::SzMkDTemp(szPath);
+	(void) ioutils::CreateTempDir(file_path);
 
 	strFile.Append(&strPath);
 	strFile.AppendBuffer("/COstreamFileTest");
@@ -153,7 +153,7 @@ COstreamFileTest::Unittest_CheckOutputFile
 #ifdef GPOS_DEBUG
 	ULONG_PTR ulpRead =
 #endif // GPOS_DEBUG
-	fr.UlpRead((BYTE *) wszReadBuffer, GPOS_ARRAY_SIZE(wszReadBuffer));
+	fr.ReadBytesToBuffer((BYTE *) wszReadBuffer, GPOS_ARRAY_SIZE(wszReadBuffer));
 
 	CWStringConst strExpected(GPOS_WSZ_LIT("WC102-10some regular stringdeadbeef"));
 
@@ -182,16 +182,16 @@ COstreamFileTest::Unittest_DeleteTmpFile
 
 	CAutoTraceFlag atf(EtraceSimulateIOError, false);
 
-	if (ioutils::FPathExist(szFile))
+	if (ioutils::IsPathExists(szFile))
 	{
 		// delete temporary file
 		ioutils::Unlink(szFile);
 	}
 
-	if (ioutils::FPathExist(szDir))
+	if (ioutils::IsPathExists(szDir))
 	{
 		// delete temporary dir
-		ioutils::RmDir(szDir);
+		ioutils::RemoveDir(szDir);
 	}
 }
 
