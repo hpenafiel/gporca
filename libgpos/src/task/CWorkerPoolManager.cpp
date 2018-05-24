@@ -417,7 +417,7 @@ CWorkerPoolManager::Schedule
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorkerPoolManager::TaskNext
+//		CWorkerPoolManager::RespondToNextTaskRequest
 //
 //	@doc:
 //		Respond to worker's request for next task to execute;
@@ -588,7 +588,7 @@ CWorkerPoolManager::SetWorkersLimit
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorkerPoolManager::SetWorkersMin
+//		CWorkerPoolManager::SetMinWorkers
 //
 //	@doc:
 //		Set min number of workers
@@ -606,7 +606,7 @@ CWorkerPoolManager::SetMinWorkers
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWorkerPoolManager::SetWorkersMax
+//		CWorkerPoolManager::SetMaxWorkers
 //
 //	@doc:
 //		Set max number of workers

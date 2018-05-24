@@ -97,7 +97,7 @@ void
 CEvent::Signal()
 {
 	GPOS_ASSERT(m_inited && "Event not initialized.");
-	GPOS_ASSERT(m_mutex->Owned());
+	GPOS_ASSERT(m_mutex->IsOwned());
 
 	// check if anyone is waiting
 	if (0 < m_num_waiters)
@@ -123,7 +123,7 @@ void
 CEvent::Broadcast()
 {
 	GPOS_ASSERT(m_inited && "Event not initialized.");
-	GPOS_ASSERT(m_mutex->Owned());
+	GPOS_ASSERT(m_mutex->IsOwned());
 	
 	// check if anyone is waiting
 	if (0 < m_num_waiters)
@@ -177,7 +177,7 @@ CEvent::TimedWait
 	)
 {
 	GPOS_ASSERT(m_inited && "Event not initialized.");
-	GPOS_ASSERT(m_mutex->Owned());
+	GPOS_ASSERT(m_mutex->IsOwned());
 
 	CWallClock clock;
 
@@ -238,7 +238,7 @@ CEvent::TimedWait
 	}
 	while (GPOS_OK != eres);
 
-	GPOS_ASSERT(m_mutex->Owned());
+	GPOS_ASSERT(m_mutex->IsOwned());
 
 	return eres;
 }
@@ -262,7 +262,7 @@ CEvent::InternalTimedWait
 	)
 {
 	GPOS_ASSERT(m_inited && "Event not initialized.");
-	GPOS_ASSERT(m_mutex->Owned());
+	GPOS_ASSERT(m_mutex->IsOwned());
 
 	// set expiration timer
 	TIMEVAL tv;
@@ -278,11 +278,11 @@ CEvent::InternalTimedWait
 #ifdef GPOS_DEBUG
 	INT ret =
 #endif // GPOS_DEBUG
-	pthread::CondTimedWait(&m_cond, m_mutex->Ptmutex(), &ts);
+	pthread::CondTimedWait(&m_cond, m_mutex->GetMutex(), &ts);
 
 	m_mutex->Regain();
 
-	GPOS_ASSERT(m_mutex->Owned());
+	GPOS_ASSERT(m_mutex->IsOwned());
 	GPOS_ASSERT(0 == ret || ETIMEDOUT == ret);
 }
 

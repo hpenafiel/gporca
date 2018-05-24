@@ -82,7 +82,7 @@ namespace gpos
 			// release lock
 			void Unlock()
 			{
-				GPOS_ASSERT(0 < m_lock_count && "Mutex not locked");
+				GPOS_ASSERT(0 < m_lock_count && "GetMutex not locked");
 				
 				--m_lock_count;
 				m_mutex.Unlock();

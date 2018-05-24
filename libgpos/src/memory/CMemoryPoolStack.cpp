@@ -110,7 +110,7 @@ CMemoryPoolStack::Allocate
 	// find block to allocate memory in it
 	SBlockDescriptor *desc = Provider(as, alloc);
 
-	GPOS_ASSERT_IMP(ThreadSafe(), m_lock.Owned());
+	GPOS_ASSERT_IMP(ThreadSafe(), m_lock.IsOwned());
 
 	if (NULL != desc)
 	{
@@ -216,7 +216,7 @@ CMemoryPoolStack::New
 void
 CMemoryPoolStack::TearDown()
 {
-	GPOS_ASSERT(!m_lock.Owned());
+	GPOS_ASSERT(!m_lock.IsOwned());
 
 	while (!m_block_list.IsEmpty())
 	{

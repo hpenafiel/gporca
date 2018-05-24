@@ -62,15 +62,15 @@ CMutexTest::EresUnittest_LockRelease()
 	CMutex mutex;
 	mutex.Lock();
 
-	GPOS_ASSERT(mutex.Owned());
+	GPOS_ASSERT(mutex.IsOwned());
 
 	mutex.Unlock();
 	
-	GPOS_ASSERT(!mutex.Owned());
+	GPOS_ASSERT(!mutex.IsOwned());
 	
 	(void)mutex.TryLock();
 	
-	GPOS_ASSERT(mutex.Owned());
+	GPOS_ASSERT(mutex.IsOwned());
 	
 	mutex.Unlock();
 
@@ -99,11 +99,11 @@ CMutexTest::EresUnittest_Recursion()
 
 	for(ULONG i = 0; i < c; i++)
 	{
-		GPOS_ASSERT(mutex.Owned());
+		GPOS_ASSERT(mutex.IsOwned());
 		mutex.Unlock();
 	}
 
-	GPOS_ASSERT(!mutex.Owned());
+	GPOS_ASSERT(!mutex.IsOwned());
 
 	return GPOS_OK;
 

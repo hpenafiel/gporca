@@ -435,7 +435,7 @@ gpos::pthread::MutexUnlock
 	(
 		0 == res ||
 		(EINVAL != res && "Uninitialized mutex structure") ||
-		(EPERM != res && "Mutex was not owned by thread") ||
+		(EPERM != res && "GetMutex was not owned by thread") ||
 		(EINTR != res && "Unexpected Error")
 	);
 
@@ -618,7 +618,7 @@ gpos::pthread::CondTimedWait
 	(
 		0 == res ||
 		(EINVAL != res && "Invalid parameters") ||
-		(EPERM != res && "Mutex was not owned by thread") ||
+		(EPERM != res && "GetMutex was not owned by thread") ||
 		(EINTR != res && "Unexpected Error")
 	);
 
@@ -650,7 +650,7 @@ gpos::pthread::CondWait
 	(
 		0 == res ||
 		(EINVAL != res && "Invalid parameters") ||
-		(EPERM != res && "Mutex was not owned by thread") ||
+		(EPERM != res && "GetMutex was not owned by thread") ||
 		(EINTR != res && "Unexpected Error")
 	);
 

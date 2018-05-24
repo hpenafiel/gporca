@@ -94,7 +94,7 @@ CScheduler::~CScheduler()
 		0 == m_ulpTotal
 		);
 
-	GPOS_ASSERT(0 == m_event.NumWaiters());
+	GPOS_ASSERT(0 == m_event.GetNumWaiters());
 }
 
 
@@ -320,7 +320,7 @@ CScheduler::Schedule
 	)
 {
 	GPOS_ASSERT(NULL != pj);
-	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.Owned());
+	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.IsOwned());
 
 	// get job link
 	SJobLink *pjl = m_spjl.PtRetrieve();
@@ -571,7 +571,7 @@ CScheduler::Suspend
 	)
 {
 	GPOS_ASSERT(NULL != pj);
-	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.Owned());
+	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.IsOwned());
 
 #ifdef GPOS_DEBUG
 	if (FTrackingJobs())
@@ -602,7 +602,7 @@ CScheduler::Complete
 	)
 {
 	GPOS_ASSERT(0 == pj->UlpRefs());
-	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.Owned());
+	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.IsOwned());
 
 #ifdef GPOS_DEBUG
 	if (FTrackingJobs())
@@ -675,7 +675,7 @@ CScheduler::ResumeParent
 	)
 {
 	GPOS_ASSERT(0 == pj->UlpRefs());
-	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.Owned());
+	GPOS_ASSERT_IMP(FTrackingJobs(), m_mutex.IsOwned());
 
 	CJob *pjParent = pj->PjParent();
 

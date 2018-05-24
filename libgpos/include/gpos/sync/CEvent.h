@@ -104,13 +104,13 @@ namespace gpos
 			void Init(CMutexBase *);
 
 			// accessor to underlying mutex
-			CMutexBase *Mutex() const
+			CMutexBase *GetMutex() const
 			{
 				return m_mutex;
 			}
 			
 			// accessor to waiter counter
-			ULONG NumWaiters() const
+			ULONG GetNumWaiters() const
 			{
 				return m_num_waiters;
 			}

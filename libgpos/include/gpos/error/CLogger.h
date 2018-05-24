@@ -119,7 +119,7 @@ namespace gpos
 			// check if a message is logged
 			BOOL Logging() const
 			{
-				return m_mutex.Owned();
+				return m_mutex.IsOwned();
 			}
 #endif // GPOS_FPSIMULATOR
 

@@ -40,7 +40,7 @@ namespace gpos
 	//---------------------------------------------------------------------------
 	class CMutexBase
 	{
-		// CEvent needs access to protected member function Mutex
+		// CEvent needs access to protected member function GetMutex
 		friend class CEvent;
 				
 		private:
@@ -49,7 +49,7 @@ namespace gpos
 			CMutexBase(const CMutexBase&);
 
 			// trackability
-			BOOL m_isTrackable;
+			BOOL m_is_trackable;
 
 		protected: 
 		
@@ -67,7 +67,7 @@ namespace gpos
 			// relinquish mutex when waiting for an event
 			void Relinquish()
 			{
-				GPOS_ASSERT(Owned());
+				GPOS_ASSERT(IsOwned());
 
 				m_lock_count = 0;
 #ifdef GPOS_DEBUG
@@ -78,7 +78,7 @@ namespace gpos
 			// regaining mutex after a wait
 			void Regain()
 			{
-				GPOS_ASSERT(!Owned());
+				GPOS_ASSERT(!IsOwned());
 
 #ifdef GPOS_DEBUG
 				m_wid.SetThreadToCurrent();
@@ -87,7 +87,7 @@ namespace gpos
 			}
 
 			// expose raw mutex to CEvent
-			PTHREAD_MUTEX_T *Ptmutex()
+			PTHREAD_MUTEX_T *GetMutex()
 			{
 				return &m_mutex;
 			}
@@ -97,10 +97,10 @@ namespace gpos
 			// ctor
 			CMutexBase
 				(
-				BOOL fTrackable
+				BOOL trackable
 				)
 				: 
-				m_isTrackable(fTrackable),
+				m_is_trackable(trackable),
 				m_lock_count(0)
 #ifdef GPOS_DEBUG
 				,
@@ -117,16 +117,16 @@ namespace gpos
 			virtual void Unlock() = 0;
 					
 #ifdef GPOS_DEBUG
-			BOOL Owned() const
+			BOOL IsOwned() const
             {
                 CWorkerId wid;
                 return 0 != m_lock_count && m_wid.Equals(wid);
             }
 #endif // GPOS_DEBUG
 
-			BOOL Trackable() const
+			BOOL IsTrackable() const
 			{
-				return m_isTrackable;
+				return m_is_trackable;
 			}
 
 			// link for accounting lists
@@ -232,7 +232,7 @@ namespace gpos
 
                 // check whether we own this mutex already; if so, must be recursive mutex;
                 // disallow potentially deadlocking attempts even if the lock function is only trylock
-                BOOL owned_already = this->Owned();
+                BOOL owned_already = this->IsOwned();
                 GPOS_ASSERT_IMP(owned_already, PTHREAD_MUTEX_RECURSIVE == mutex_type && "Self-deadlock detected");
 #endif // GPOS_DEBUG
 
@@ -254,7 +254,7 @@ namespace gpos
                 };
 
 #ifdef GPOS_DEBUG
-                if (!owned_already && this->Trackable())
+                if (!owned_already && this->IsTrackable())
                 {
                     IWorker::Self()->RegisterMutex(this);
                 }
@@ -357,7 +357,7 @@ namespace gpos
 #ifdef GPOS_DEBUG
                 GPOS_ASSERT_NO_SPINLOCK;
 
-                GPOS_ASSERT(Owned());
+                GPOS_ASSERT(IsOwned());
 
                 // prepare for final release of lock
                 BOOL unlock = false;
@@ -365,7 +365,7 @@ namespace gpos
                 {
                     unlock = true;
                     m_wid.SetThreadToInvalid();
-                    if (this->Trackable())
+                    if (this->IsTrackable())
                     {
                         IWorker::Self()->UnregisterMutex(this);
                     }
@@ -377,7 +377,7 @@ namespace gpos
                 // ignore return values -- parameters/context have been checked already
                 (void) pthread::MutexUnlock(&m_mutex);
 
-                GPOS_ASSERT_IMP(unlock, !Owned());
+                GPOS_ASSERT_IMP(unlock, !IsOwned());
             }
 
 	}; // class CMutexTyped<int iMutexType, fTrackable>

@@ -30,7 +30,7 @@ namespace gpos
 	ULONG_PTR ExchangeAdd(volatile ULONG_PTR *ul, INT i);
 
 	// inter-locked add function; returns original value;
-	ULLONG UllExchangeAdd(volatile ULLONG *value, ULLONG inc);
+	ULLONG ExchangeAdd(volatile ULLONG *value, ULLONG inc);
 
 	// compare-and-swap function for integers
 	BOOL CompareSwap(volatile ULONG *dest_val, ULONG old_val, ULONG new_val);

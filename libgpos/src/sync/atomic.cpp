@@ -74,7 +74,7 @@ gpos::ExchangeAdd
 //
 //---------------------------------------------------------------------------
 ULLONG
-gpos::UllExchangeAdd
+gpos::ExchangeAdd
 	(
 	volatile ULLONG *value,
 	ULLONG inc
