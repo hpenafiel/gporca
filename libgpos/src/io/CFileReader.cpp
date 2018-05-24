@@ -61,7 +61,7 @@ CFileReader::Open
 {
 	GPOS_ASSERT(NULL != file_path);
 
-	OpenInternal(file_path, O_RDONLY, permission_bits);
+	OpenFile(file_path, O_RDONLY, permission_bits);
 
 	m_file_size = ioutils::FileSize(file_path);
 }
@@ -78,7 +78,7 @@ CFileReader::Open
 void
 CFileReader::Close()
 {
-	CloseInternal();
+	CloseFile();
 	m_file_size = 0;
 }
 
@@ -98,7 +98,7 @@ CFileReader::ReadBytesToBuffer
 	const ULONG_PTR file_read_size
 	)
 {
-	GPOS_ASSERT(CFileDescriptor::FOpened() && "Attempt to read from invalid file descriptor");
+	GPOS_ASSERT(CFileDescriptor::IsFileOpen() && "Attempt to read from invalid file descriptor");
 	GPOS_ASSERT(0 < file_read_size);
 	GPOS_ASSERT(NULL != read_buffer);
 
@@ -109,7 +109,7 @@ CFileReader::ReadBytesToBuffer
 			INT_PTR current_byte = -1;
 
     	 	// read from file and check to simulate I/O error
-    	 	GPOS_CHECK_SIM_IO_ERR(&current_byte, ioutils::Read(IFileDescr(), read_buffer, bytes_to_read));
+    	 	GPOS_CHECK_SIM_IO_ERR(&current_byte, ioutils::Read(GetFileDescriptor(), read_buffer, bytes_to_read));
 
     	 	// reach the end of file
     	 	if (0 == current_byte)

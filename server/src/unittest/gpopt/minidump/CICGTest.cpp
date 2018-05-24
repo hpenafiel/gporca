@@ -50,7 +50,7 @@ const CHAR *rgszFileNames[] =
 #ifndef GPOS_DEBUG
 		// TODO:  - Jul 14 2015; disabling it for debug build to reduce testing time
 		// "../data/dxl/minidump/HAWQ-TPCH09-NoTopBroadcast.mdp",
-		"../data/dxl/minidump/HAWQ-TPCH-Stat-Derivation.mdp",
+		"../data/dxl/minidump/HAWQ-TPCH-CheckState-Derivation.mdp",
 		"../data/dxl/minidump/HJN-Redistribute-One-Side.mdp",
 		"../data/dxl/minidump/TPCH-Q5.mdp",
 		"../data/dxl/minidump/TPCDS-39-InnerJoin-JoinEstimate.mdp",

@@ -531,7 +531,7 @@ CExpressionHandle::FAttachedToLeafPattern() const
 //		CExpressionHandle::DeriveRootStats
 //
 //	@doc:
-//		Stat derivation at root operator where handle is attached
+//		CheckState derivation at root operator where handle is attached
 //
 //---------------------------------------------------------------------------
 void
@@ -750,7 +750,7 @@ CExpressionHandle::DeriveCostContextStats()
 //		CExpressionHandle::DeriveStats
 //
 //	@doc:
-//		Stat derivation using given properties and context
+//		CheckState derivation using given properties and context
 //
 //---------------------------------------------------------------------------
 void

@@ -509,7 +509,7 @@ CFileTest::Unittest_ReadInconsistentSize
 ULLONG
 CFileTest::CFileWriterInternal::UllSizeInternal() const
 {
-	return ioutils::FileSize(IFileDescr());
+	return ioutils::FileSize(GetFileDescriptor());
 }
 
 
