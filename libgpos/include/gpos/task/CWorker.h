@@ -98,21 +98,21 @@ namespace gpos
 			virtual ~CWorker();
 
 			// thread identification
-			ULONG ThreadId() const
+			ULONG GetThreadId() const
 			{
 				return m_thread_id;
 			}
 
 			// worker identification
 			inline
-			CWorkerId Wid() const
+			CWorkerId GetWid() const
 			{
 				return m_wid;
 			}
 
 			// stack start accessor
 			inline
-			ULONG_PTR StackStart() const
+			ULONG_PTR GetStackStart() const
 			{
 				return m_stack_start;
 			}
@@ -138,7 +138,7 @@ namespace gpos
 
 			// accessor
 			inline
-			CTask *Task()
+			CTask *GetTask()
 			{
 				return m_task;
 			}

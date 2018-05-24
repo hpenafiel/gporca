@@ -40,10 +40,10 @@ namespace gpos
 			BOOL Equals(const CWorkerId &wid) const;
 
 			// set worker id to current thread
-			void Current();
+			void SetThreadToCurrent();
 
 			// reset to invalid id
-			void Invalid();
+			void SetThreadToInvalid();
 
 #ifdef GPOS_DEBUG
 			// check if worker id is valid

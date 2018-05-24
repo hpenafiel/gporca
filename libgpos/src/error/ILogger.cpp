@@ -195,11 +195,11 @@ ILogger::LogTask
 	{
 		if (is_err)
 		{
-			log = dynamic_cast<CLogger*>(task->LogErr());
+			log = dynamic_cast<CLogger*>(task->GetErrorLogger());
 		}
 		else
 		{
-			log = dynamic_cast<CLogger*>(task->LogOut());
+			log = dynamic_cast<CLogger*>(task->GetOutputLogger());
 		}
 	}
 

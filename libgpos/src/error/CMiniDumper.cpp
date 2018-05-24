@@ -57,7 +57,7 @@ CMiniDumper::~CMiniDumper()
 
 		GPOS_ASSERT(NULL != task);
 
-		task->ErrCtxtConvert()->Unregister
+		task->ConvertErrCtxt()->Unregister
 			(
 #ifdef GPOS_DEBUG
 			this
@@ -87,7 +87,7 @@ CMiniDumper::Init(COstream *oos)
 
 	m_oos = oos;
 
-	task->ErrCtxtConvert()->Register(this);
+	task->ConvertErrCtxt()->Register(this);
 
 	m_initialized = true;
 

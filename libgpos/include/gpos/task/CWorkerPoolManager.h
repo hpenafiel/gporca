@@ -54,7 +54,7 @@ namespace gpos
 			typedef CThreadManager::ThreadDescriptor ThreadDescriptor;
 
 			// response to worker scheduling request
-			enum ScheduleResponse
+			enum EScheduleResponse
 			{
 				EsrExecTask,	// run assigned task
 				EsrWorkerExit		// clean up and exit
@@ -77,8 +77,8 @@ namespace gpos
 
 			// current, min and max number of active workers
 			volatile ULONG_PTR m_num_workers;
-			volatile ULONG m_workers_min;
-			volatile ULONG m_workers_max;
+			volatile ULONG m_min_workers;
+			volatile ULONG m_max_workers;
 
 			// auto task proxy counter
 			ULONG_PTR m_auto_task_proxy_counter;
@@ -135,7 +135,7 @@ namespace gpos
 			CWorker *RemoveWorker(CWorkerId wid);
 
 			// response to worker's request for next task to execute
-			ScheduleResponse TaskNext(CTask **task);
+			EScheduleResponse RespondToNextTaskRequest(CTask **task);
 
 			//-------------------------------------------------------------------
 			// Methods for internal use
@@ -148,7 +148,7 @@ namespace gpos
 			CWorker *Worker(CWorkerId wid);
 
 			// set min and max number of workers
-			void SetWorkersLimit(ULONG workers_min, ULONG workers_max);
+			void SetWorkersLimit(ULONG min_workers, ULONG max_workers);
 
 			// check if worker count needs to increase
 			BOOL WorkersIncrease();
@@ -187,7 +187,7 @@ namespace gpos
 
 			// initialize worker pool manager
 			static
-			GPOS_RESULT Init(ULONG workers_min, ULONG workers_max);
+			GPOS_RESULT Init(ULONG min_workers, ULONG max_workers);
 
 			// de-init global instance
 			static
@@ -204,35 +204,35 @@ namespace gpos
 			void Cancel(CTaskId tid);
 
 			// worker count accessor
-			ULONG NumWorkers() const
+			ULONG GetNumWorkers() const
 			{
 				return (ULONG) m_num_workers;
 			}
 
 			// get min allowed number of workers
-			ULONG WorkersMin() const
+			ULONG GetMinWorkers() const
 			{
-				return m_workers_min;
+				return m_min_workers;
 			}
 
 			// get max allowed number of workers
-			ULONG WorkersMax() const
+			ULONG GetMaxWorkers() const
 			{
-				return m_workers_max;
+				return m_max_workers;
 			}
 
 
 			// running worker count 
-			ULONG NumWorkersRunning() const
+			ULONG GetNumWorkersRunning() const
 			{
-				return NumWorkers() - m_event.NumWaiters();
+				return GetNumWorkers() - m_event.NumWaiters();
 			}
 
 			// set min number of workers
-			void SetWorkersMin(volatile ULONG workers_min);
+			void SetMinWorkers(volatile ULONG min_workers);
 
 			// set max number of workers
-			void SetWorkersMax(volatile ULONG workers_max);
+			void SetMaxWorkers(volatile ULONG max_workers);
 
 			// check if given thread is owned by running threads list
 			BOOL OwnedThread

@@ -58,13 +58,13 @@ namespace gpos
 
 				if (m_error)
 				{
-					m_old_logger = task->LogErr();
-					task->TaskCtxt()->SetLogErr(logger);
+					m_old_logger = task->GetErrorLogger();
+					task->GetTaskCtxt()->SetLogErr(logger);
 				}
 				else
 				{
-					m_old_logger = task->LogOut();
-					task->TaskCtxt()->SetLogOut(logger);
+					m_old_logger = task->GetOutputLogger();
+					task->GetTaskCtxt()->SetLogOut(logger);
 				}
 			}
 
@@ -76,11 +76,11 @@ namespace gpos
 
 				if (m_error)
 				{
-					task->TaskCtxt()->SetLogErr(m_old_logger);
+					task->GetTaskCtxt()->SetLogErr(m_old_logger);
 				}
 				else
 				{
-					task->TaskCtxt()->SetLogOut(m_old_logger);
+					task->GetTaskCtxt()->SetLogOut(m_old_logger);
 				}
 			}
 

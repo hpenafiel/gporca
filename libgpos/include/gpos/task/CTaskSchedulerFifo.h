@@ -67,7 +67,7 @@ namespace gpos
 			GPOS_RESULT Cancel(CTask *task);
 
 			// get number of waiting tasks
-			ULONG QueueSize()
+			ULONG GetQueueSize()
 			{
 				return m_task_queue.Size();
 			}

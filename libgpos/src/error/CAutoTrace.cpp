@@ -41,7 +41,7 @@ CAutoTrace::CAutoTrace
 //---------------------------------------------------------------------------
 CAutoTrace::~CAutoTrace()
 {
-	if (0 < m_wstr.UlLength() && !ITask::Self()->ErrCtxt()->IsPending())
+	if (0 < m_wstr.UlLength() && !ITask::Self()->GetErrCtxt()->IsPending())
 	{
 		GPOS_TRACE(m_wstr.Wsz());
 	}

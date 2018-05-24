@@ -29,7 +29,7 @@ ITask::Self()
 	IWorker *worker = IWorker::Self();
 	if (NULL != worker)
 	{
-		return worker->Task();
+		return worker->GetTask();
 	}
 	return NULL;
 }

@@ -209,7 +209,7 @@ namespace gpopt
 			static
 			COptCtxt *PoctxtFromTLS()
 			{
-				return reinterpret_cast<COptCtxt*>(ITask::Self()->Tls().Get(CTaskLocalStorage::EtlsidxOptCtxt));
+				return reinterpret_cast<COptCtxt*>(ITask::Self()->GetTls().Get(CTaskLocalStorage::EtlsidxOptCtxt));
 			}
 			
 			// return true if all enforcers are enabled

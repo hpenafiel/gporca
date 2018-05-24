@@ -90,7 +90,7 @@ CScheduler::~CScheduler()
 {
 	GPOS_ASSERT_IMP
 		(
-		!ITask::Self()->PendingExceptions(),
+		!ITask::Self()->IsPendingExceptions(),
 		0 == m_ulpTotal
 		);
 
@@ -471,7 +471,7 @@ CScheduler::EjrPostExecute
 	)
 {
 	GPOS_ASSERT(NULL != pj);
-	GPOS_ASSERT(0 < pj->UlpRefs() && "Running job is marked as completed");
+	GPOS_ASSERT(0 < pj->UlpRefs() && "IsRunning job is marked as completed");
 
 	// decrement job ref counter
 	ULONG_PTR ulRefs = pj->UlpDecrRefs();

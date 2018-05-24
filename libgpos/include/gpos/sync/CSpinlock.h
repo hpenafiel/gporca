@@ -217,7 +217,7 @@ namespace gpos
                 IWorker::Self()->RegisterSpinlock(this);
             }
 
-            m_wid.Current();
+            m_wid.SetThreadToCurrent();
 #endif // GPOS_DEBUG
             m_locked = true;
         }
@@ -231,7 +231,7 @@ namespace gpos
                 IWorker::Self()->UnregisterSpinlock(this);
             }
 
-            m_wid.Invalid();
+            m_wid.SetThreadToInvalid();
             m_locked = false;
 #endif // GPOS_DEBUG
 

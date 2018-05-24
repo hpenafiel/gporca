@@ -37,8 +37,8 @@ CErrorHandlerStandard::Process
 
 	GPOS_ASSERT(NULL != task && "No task in current context");
 
-	IErrorContext *err_ctxt = task->ErrCtxt();
-	CLogger *log = dynamic_cast<CLogger*>(task->LogErr());
+	IErrorContext *err_ctxt = task->GetErrCtxt();
+	CLogger *log = dynamic_cast<CLogger*>(task->GetErrorLogger());
 	
 	GPOS_ASSERT(err_ctxt->IsPending() && "No error to process");
 	GPOS_ASSERT(err_ctxt->GetException() == exception &&

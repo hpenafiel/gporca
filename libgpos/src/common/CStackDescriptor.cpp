@@ -127,7 +127,7 @@ CStackDescriptor::BackTrace
 	}
 
 	// get address from worker
-	stack_start = worker->StackStart();
+	stack_start = worker->GetStackStart();
 
 	// consider the first GPOS_STACK_TRACE_DEPTH frames below worker object
 	for (ULONG frame_counter = 0; frame_counter < GPOS_STACK_TRACE_DEPTH; frame_counter++)

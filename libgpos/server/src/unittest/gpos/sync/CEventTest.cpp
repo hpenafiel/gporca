@@ -56,7 +56,7 @@ GPOS_RESULT
 CEventTest::EresUnittest_ProducerConsumer()
 {
 	// abort simulation will lead to a deadlock
-	if (ITask::Self()->Trace(EtraceSimulateAbort))
+	if (ITask::Self()->IsTraceSet(EtraceSimulateAbort))
 	{
 		return GPOS_OK;
 	}

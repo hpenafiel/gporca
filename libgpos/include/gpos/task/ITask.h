@@ -17,9 +17,9 @@
 #include "gpos/task/traceflags.h"
 
 // trace flag macro definitions
-#define GPOS_FTRACE(x)       ITask::Self()->Trace(x)
-#define GPOS_SET_TRACE(x)    (void) ITask::Self()->Trace(x, true /*fVal*/)
-#define GPOS_UNSET_TRACE(x)  (void) ITask::Self()->Trace(x, false /*fVal*/)
+#define GPOS_FTRACE(x)       ITask::Self()->IsTraceSet(x)
+#define GPOS_SET_TRACE(x)    (void) ITask::Self()->SetTrace(x, true /*fVal*/)
+#define GPOS_UNSET_TRACE(x)  (void) ITask::Self()->SetTrace(x, false /*fVal*/)
 
 namespace gpos
 {
@@ -64,23 +64,23 @@ namespace gpos
 			
 			// TLS
 			virtual
-			CTaskLocalStorage &Tls()  = 0;
+			CTaskLocalStorage &GetTls()  = 0;
 
 			// task context accessor
 			virtual
-			CTaskContext *TaskCtxt() const = 0;
+			CTaskContext *GetTaskCtxt() const = 0;
 
 			// basic output streams
 			virtual 
-			ILogger *LogOut() const = 0;
+			ILogger *GetOutputLogger() const = 0;
 			virtual
-			ILogger *LogErr() const = 0;
+			ILogger *GetErrorLogger() const = 0;
 		
 			// manipulate traceflags
 			virtual
-			BOOL Trace(ULONG, BOOL) = 0;
+			BOOL SetTrace(ULONG, BOOL) = 0;
 			virtual
-			BOOL Trace(ULONG) = 0;
+			BOOL IsTraceSet(ULONG) = 0;
 
 			// current locale
 			virtual
@@ -88,11 +88,11 @@ namespace gpos
 
 			// error context
 			virtual
-			IErrorContext *ErrCtxt() const = 0;
+			IErrorContext *GetErrCtxt() const = 0;
 			
 			// any pending exceptions?
 			virtual
-			BOOL PendingExceptions() const = 0;
+			BOOL IsPendingExceptions() const = 0;
 		
 			static
 			ITask *Self();

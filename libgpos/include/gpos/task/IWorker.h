@@ -82,10 +82,10 @@ namespace gpos
 			virtual ~IWorker() {}
 
 			// accessors
-			virtual ULONG ThreadId() const = 0;
-			virtual CWorkerId Wid() const = 0;
-			virtual ULONG_PTR StackStart() const = 0;
-			virtual ITask *Task() = 0;
+			virtual ULONG GetThreadId() const = 0;
+			virtual CWorkerId GetWid() const = 0;
+			virtual ULONG_PTR GetStackStart() const = 0;
+			virtual ITask *GetTask() = 0;
 
 			// stack check
 			virtual BOOL CheckStackSize(ULONG request = 0) const = 0;

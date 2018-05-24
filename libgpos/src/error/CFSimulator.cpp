@@ -56,14 +56,14 @@ CFSimulator::AddTracker
 	CAutoTraceFlag atf(EtraceSimulateOOM, false);
 
 	// allocate new tracker before getting the spinlock
-	CStackTracker *new_stack_tracker = GPOS_NEW(m_pmp) CStackTracker(m_pmp, m_cResolution, skey);
+	CStackTracker *new_stack_tracker = GPOS_NEW(m_pmp) CStackTracker(m_pmp, m_resolution, key);
 	
 	// assume somebody overtook
 	BOOL overtaken = true;
 	
 	// scope for accessor
 	{
-		CStackTableAccessor acc(m_stack, skey);
+		CStackTableAccessor acc(m_stack, key);
 		CStackTracker *stack_tracker = acc.Find();
 		
 		if (NULL == stack_tracker)
@@ -112,7 +112,7 @@ CFSimulator::NewStack
 	{
 		// scope for hashtable access
 		{
-			CStackTableAccessor acc(m_stack, skey);
+			CStackTableAccessor acc(m_stack, key);
 			CStackTracker *stack_tracker = acc.Find();
 			
 			// always true once a tracker has been initialized
@@ -191,7 +191,7 @@ CFSimulator::CStackTracker::CStackTracker
 	StackKey key
 	)
 	:
-	m_skey(key),
+	m_key(key),
 	m_bit_vector(NULL)
 {
 	// allocate bit vector
@@ -240,7 +240,7 @@ CFSimulator::CFSimulator
 		m_pmp,
 		1024,
 		GPOS_OFFSET(CStackTracker, m_link),
-		GPOS_OFFSET(CStackTracker, m_skey),
+		GPOS_OFFSET(CStackTracker, m_key),
 		&(CStackTracker::m_invalid_key),
 		CStackTracker::StackKey::HashValue,
 		CStackTracker::StackKey::Equals

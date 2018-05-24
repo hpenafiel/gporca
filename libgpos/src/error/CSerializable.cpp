@@ -31,7 +31,7 @@ CSerializable::CSerializable()
 
 	GPOS_ASSERT(NULL != task);
 
-	task->ErrCtxtConvert()->Register(this);
+	task->ConvertErrCtxt()->Register(this);
 }
 
 
@@ -49,7 +49,7 @@ CSerializable::~CSerializable()
 
 	GPOS_ASSERT(NULL != task);
 
-	task->ErrCtxtConvert()->Unregister(this);
+	task->ConvertErrCtxt()->Unregister(this);
 }
 
 

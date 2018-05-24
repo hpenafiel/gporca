@@ -106,14 +106,14 @@ CAutoTaskProxy::Destroy
 	GPOS_ASSERT(OwnerOf(task) && "Task not owned by this ATP object");
 
 	// cancel scheduled task
-	if (task->Scheduled() && !task->Reported())
+	if (task->IsScheduled() && !task->IsReported())
 	{
 		Cancel(task);
 		Wait(task);
 	}
 
 	// unregister task from worker pool
-	m_pwpm->RemoveTask(task->Tid());
+	m_pwpm->RemoveTask(task->GetTid());
 
 	// remove task from list
 	m_list.Remove(task);
@@ -149,7 +149,7 @@ CAutoTaskProxy::Create
 	CAutoP<CTaskContext> task_ctxt;
 
 	// check if caller is a task
-	ITask *task_parent = CWorker::Self()->Task();
+	ITask *task_parent = CWorker::Self()->GetTask();
 	if (NULL == task_parent)
 	{
 		// create new task context
@@ -158,7 +158,7 @@ CAutoTaskProxy::Create
 	else
 	{
 		// clone parent task's context
-		task_ctxt = GPOS_NEW(pmp) CTaskContext(pmp, *task_parent->TaskCtxt());
+		task_ctxt = GPOS_NEW(pmp) CTaskContext(pmp, *task_parent->GetTaskCtxt());
 	}
 
 	// auto pointer to hold error context
@@ -167,7 +167,7 @@ CAutoTaskProxy::Create
 	CTask *task = CTask::Self();
 	if (NULL != task)
 	{
-		err_ctxt.Value()->Register(task->ErrCtxtConvert()->GetMiniDumper());
+		err_ctxt.Value()->Register(task->ConvertErrCtxt()->GetMiniDumper());
 	}
 
 	// auto pointer to hold new task
@@ -239,11 +239,11 @@ CAutoTaskProxy::Wait
 	am.Lock();
 
 	GPOS_ASSERT(OwnerOf(task) && "Task not owned by this ATP object");
-	GPOS_ASSERT(task->Scheduled() && "Task not scheduled yet");
-	GPOS_ASSERT(!task->Reported() && "Task already reported as completed");
+	GPOS_ASSERT(task->IsScheduled() && "Task not scheduled yet");
+	GPOS_ASSERT(!task->IsReported() && "Task already reported as completed");
 
 	// wait until task finishes
-	while (!task->Finished())
+	while (!task->IsFinished())
 	{
 		m_event.Wait();
 	}
@@ -276,20 +276,20 @@ CAutoTaskProxy::TimedWait
 	am.Lock();
 
 	GPOS_ASSERT(OwnerOf(task) && "Task not owned by this ATP object");
-	GPOS_ASSERT(task->Scheduled() && "Task not scheduled yet");
-	GPOS_ASSERT(!task->Reported() && "Task already reported as completed");
+	GPOS_ASSERT(task->IsScheduled() && "Task not scheduled yet");
+	GPOS_ASSERT(!task->IsReported() && "Task already reported as completed");
 
 	CWallClock clock;
 	ULONG elapsed_ms = 0;
 
 	// wait until task finishes or timeout expires
-	while (!task->Finished() && (elapsed_ms = clock.ElapsedMS()) < timeout_ms)
+	while (!task->IsFinished() && (elapsed_ms = clock.ElapsedMS()) < timeout_ms)
 	{
 		m_event.TimedWait(timeout_ms - elapsed_ms);
 	}
 
 	// check if timeout expired
-	if (!task->Finished())
+	if (!task->IsFinished())
 	{
 		return GPOS_TIMEOUT;
 	}
@@ -435,21 +435,21 @@ CAutoTaskProxy::FindFinished
 	{
 #ifdef GPOS_DEBUG
 		// check if task has been scheduled
-		if (cur_task->Scheduled())
+		if (cur_task->IsScheduled())
 		{
 			scheduled = true;
 		}
 #endif // GPOS_DEBUG
 
 		// check if task has been reported as finished
-		if (!cur_task->Reported())
+		if (!cur_task->IsReported())
 		{
 #ifdef GPOS_DEBUG
 			reported_all = false;
 #endif // GPOS_DEBUG
 
 			// check if task is finished
-			if (cur_task->Finished())
+			if (cur_task->IsFinished())
 			{
 				// mark task as reported
 				cur_task->SetReported();
@@ -509,15 +509,15 @@ CAutoTaskProxy::Execute
 	GPOS_CATCH_END;
 
 	// Raise exception if task encounters an exception
-	if (task->PendingExceptions())
+	if (task->IsPendingExceptions())
 	{
 		if (m_propagate_error)
 		{
-			GPOS_RETHROW(task->ErrCtxt()->GetException());
+			GPOS_RETHROW(task->GetErrCtxt()->GetException());
 		}
 		else
 		{
-			task->ErrCtxt()->Reset();
+			task->GetErrCtxt()->Reset();
 		}
 	}
 
@@ -540,9 +540,9 @@ CAutoTaskProxy::Cancel
 	CTask *task
 	)
 {
-	if (!task->Finished())
+	if (!task->IsFinished())
 	{
-		m_pwpm->Cancel(task->Tid());
+		m_pwpm->Cancel(task->GetTid());
 	}
 }
 
@@ -562,10 +562,10 @@ CAutoTaskProxy::CheckError
 	)
 {
 	// sub-task has a pending error
-	if (sub_task->PendingExceptions())
+	if (sub_task->IsPendingExceptions())
 	{
 		// must be in error status
-		GPOS_ASSERT(ITask::EtsError == sub_task->Status());
+		GPOS_ASSERT(ITask::EtsError == sub_task->GetStatus());
 
 		if (m_propagate_error)
 		{
@@ -576,14 +576,14 @@ CAutoTaskProxy::CheckError
 		{
 			// ignore the pending error from sub task
 			// and reset its error context
-			sub_task->ErrCtxt()->Reset();
+			sub_task->GetErrCtxt()->Reset();
 		}
 	}
 #ifdef GPOS_DEBUG
-	else if (ITask::EtsError == sub_task->Status())
+	else if (ITask::EtsError == sub_task->GetStatus())
 	{
 		// sub-task was canceled without a pending error
-		GPOS_ASSERT(!sub_task->PendingExceptions() && sub_task->Canceled());
+		GPOS_ASSERT(!sub_task->IsPendingExceptions() && sub_task->IsCanceled());
 	}
 #endif // GPOS_DEBUG
 }
@@ -606,20 +606,20 @@ CAutoTaskProxy::PropagateError
 	GPOS_ASSERT(m_propagate_error);
 
 	// sub-task must be in error status and have a pending exception
-	GPOS_ASSERT(ITask::EtsError == sub_task->Status() && sub_task->PendingExceptions());
+	GPOS_ASSERT(ITask::EtsError == sub_task->GetStatus() && sub_task->IsPendingExceptions());
 
 	CTask *current_task = CTask::Self();
 
 	// current task must have no pending error
-	GPOS_ASSERT(NULL != current_task && !current_task->PendingExceptions());
+	GPOS_ASSERT(NULL != current_task && !current_task->IsPendingExceptions());
 
-	IErrorContext *current_err_ctxt = current_task->ErrCtxt();
+	IErrorContext *current_err_ctxt = current_task->GetErrCtxt();
 
 	// copy necessary error info for propagation
-	current_err_ctxt->CopyPropErrCtxt(sub_task->ErrCtxt());
+	current_err_ctxt->CopyPropErrCtxt(sub_task->GetErrCtxt());
 
 	// reset error of sub task
-	sub_task->ErrCtxt()->Reset();
+	sub_task->GetErrCtxt()->Reset();
 
 	// propagate the error
 	CException::Reraise(current_err_ctxt->GetException(), true /*propagate*/);

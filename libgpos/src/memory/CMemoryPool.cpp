@@ -160,7 +160,7 @@ CMemoryPool::OsPrint
 	os << "Memory pool: " << this;
 
 	ITask *task = ITask::Self();
-	if (NULL != task && task->Trace(EtracePrintMemoryLeakStackTrace))
+	if (NULL != task && task->IsTraceSet(EtracePrintMemoryLeakStackTrace))
 	{
 		os << ", stack trace: " << std::endl;
 		m_stack_desc.AppendTrace(os, 8 /*ulDepth*/);

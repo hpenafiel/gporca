@@ -28,7 +28,7 @@
 // file/line information
 #define GPOS_SIMULATE_FAILURE(trace, major, minor)	\
 		do { \
-			if (ITask::Self()->Trace(trace) && \
+			if (ITask::Self()->IsTraceSet(trace) && \
 				CFSimulator::FSim()->NewStack(major, minor)) \
 			{ \
 				GPOS_RAISE(major, minor); \
@@ -165,7 +165,7 @@ namespace gpos
 			IMemoryPool *m_pmp;
 			
 			// resolution
-			ULONG m_cResolution;
+			ULONG m_resolution;
 			
 			// short hands for stack repository and accessor
 			typedef CSyncHashtable<CStackTracker, CStackTracker::StackKey, 
@@ -217,10 +217,10 @@ namespace gpos
 			{
 				ITask *task = ITask::Self();
 				return
-					task->Trace(EtraceSimulateOOM) ||
-					task->Trace(EtraceSimulateAbort) ||
-					task->Trace(EtraceSimulateIOError) ||
-					task->Trace(EtraceSimulateNetError);
+					task->IsTraceSet(EtraceSimulateOOM) ||
+					task->IsTraceSet(EtraceSimulateAbort) ||
+					task->IsTraceSet(EtraceSimulateIOError) ||
+					task->IsTraceSet(EtraceSimulateNetError);
 			}
 
 	}; // class CFSimulator

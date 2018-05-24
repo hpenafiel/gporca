@@ -300,7 +300,7 @@ CMiniDumperTest::CMiniDumperStream::SerializeEntryHeader()
 	wstr.AppendFormat
 		(
 		GPOS_WSZ_LIT("<THREAD ID=%d>\n"),
-		CWorker::Self()->ThreadId()
+		CWorker::Self()->GetThreadId()
 		);
 
 	*m_oos << wstr.Wsz();
@@ -370,7 +370,7 @@ CMiniDumperTest::CSerializableStack::Serialize
 
 	wstr.AppendFormat(GPOS_WSZ_LIT("<STACK_TRACE>\n"));
 
-	CErrorContext *perrctxt = CTask::Self()->ErrCtxtConvert();
+	CErrorContext *perrctxt = CTask::Self()->ConvertErrCtxt();
 	perrctxt->GetStackDescriptor()->AppendTrace(&wstr);
 
 	wstr.AppendFormat(GPOS_WSZ_LIT("</STACK_TRACE>\n"));

@@ -71,7 +71,7 @@ namespace gpos
 
 				m_lock_count = 0;
 #ifdef GPOS_DEBUG
-				m_wid.Invalid();
+				m_wid.SetThreadToInvalid();
 #endif // GPOS_DEBUG
 			}
 
@@ -81,7 +81,7 @@ namespace gpos
 				GPOS_ASSERT(!Owned());
 
 #ifdef GPOS_DEBUG
-				m_wid.Current();
+				m_wid.SetThreadToCurrent();
 #endif // GPOS_DEBUG
 				m_lock_count = 1;
 			}
@@ -260,7 +260,7 @@ namespace gpos
                 }
 
                 // track owner
-                m_wid.Current();
+                m_wid.SetThreadToCurrent();
 #endif // GPOS_DEBUG
 
                 ++m_lock_count;
@@ -364,7 +364,7 @@ namespace gpos
                 if (1 == m_lock_count)
                 {
                     unlock = true;
-                    m_wid.Invalid();
+                    m_wid.SetThreadToInvalid();
                     if (this->Trackable())
                     {
                         IWorker::Self()->UnregisterMutex(this);

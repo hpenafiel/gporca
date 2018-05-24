@@ -54,8 +54,8 @@ CTaskContext::CTaskContext
 	)
 	:
 	m_bitset(NULL),
-	m_log_out(task_ctxt.LogOut()),
-	m_log_err(task_ctxt.LogErr()),
+	m_log_out(task_ctxt.GetOutputLogger()),
+	m_log_err(task_ctxt.GetErrorLogger()),
 	m_locale(task_ctxt.Locale())
 {
 	// allocate bitset and union separately to guard against leaks under OOM
@@ -91,7 +91,7 @@ CTaskContext::~CTaskContext()
 //
 //---------------------------------------------------------------------------
 BOOL
-CTaskContext::Trace
+CTaskContext::SetTrace
 	(
 	ULONG trace,
 	BOOL val

@@ -149,7 +149,7 @@ namespace gpos
                     GPOS_ASSERT(NULL != m_objs_recycled);
 
     #ifdef GPOS_DEBUG
-                    if (!ITask::Self()->PendingExceptions())
+                    if (!ITask::Self()->IsPendingExceptions())
                     {
                         for (ULONG i = 0; i < m_numobjs; i++)
                         {

@@ -89,7 +89,7 @@ CLogger::Log
 	{
 		GPOS_CHECK_ABORT;
 
-		BOOL pending_exceptions = ITask::Self()->PendingExceptions();
+		BOOL pending_exceptions = ITask::Self()->IsPendingExceptions();
 
 		// logging is exercised in catch blocks so it cannot throw;
 		// the only propagated exception is Abort;
@@ -156,7 +156,7 @@ CLogger::Format
 	{
 		// LOG ENTRY FORMAT: [date],[thread id],[severity],[message],
 
-		ULONG thread_id = IWorker::Self()->ThreadId();
+		ULONG thread_id = IWorker::Self()->GetThreadId();
 		const CHAR *sev = CException::m_severity[severity];
 		m_msg_wrapper.Append(&strc);
 

@@ -147,7 +147,7 @@ CException::Raise
 	// all details in the context object
 	if (NULL != ITask::Self())
 	{
-		CErrorContext *err_ctxt = CTask::Self()->ErrCtxtConvert();
+		CErrorContext *err_ctxt = CTask::Self()->ConvertErrCtxt();
 
 		VA_LIST va_list;
 		VA_START(va_list, minor);
@@ -181,7 +181,7 @@ CException::Raise
 	// all details in the context object
 	if (NULL != ITask::Self())
 	{
-		CErrorContext *err_ctxt = CTask::Self()->ErrCtxtConvert();
+		CErrorContext *err_ctxt = CTask::Self()->ConvertErrCtxt();
 
 		VA_LIST va_list;
 		VA_START(va_list, severity_level);
@@ -215,7 +215,7 @@ CException::Reraise
 {
 	if (NULL != ITask::Self())
 	{
-		CErrorContext *err_ctxt = CTask::Self()->ErrCtxtConvert();
+		CErrorContext *err_ctxt = CTask::Self()->ConvertErrCtxt();
 		GPOS_ASSERT(err_ctxt->IsPending());
 
 		err_ctxt->SetRethrow();
@@ -250,7 +250,7 @@ CException::Raise
 #ifdef GPOS_DEBUG
 	if (NULL != ITask::Self())
 	{
-		IErrorContext *err_ctxt = ITask::Self()->ErrCtxt();
+		IErrorContext *err_ctxt = ITask::Self()->GetErrCtxt();
 		GPOS_ASSERT_IMP(err_ctxt->IsPending(),
 				err_ctxt->GetException() == exc &&
 				"Rethrow inconsistent with current error context");

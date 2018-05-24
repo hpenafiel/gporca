@@ -33,32 +33,32 @@ const CTaskId CTaskId::m_invalid_tid;
 CTask::CTask
 	(
 	IMemoryPool *pmp,
-	CTaskContext *ptskctxt,
-	IErrorContext *perrctxt,
-	CEvent *pevent,
-	volatile BOOL *pfCancel
+	CTaskContext *task_ctxt,
+	IErrorContext *err_ctxt,
+	CEvent *event,
+	volatile BOOL *cancel
 	)
 	:
 	m_pmp(pmp),
-	m_task_ctxt(ptskctxt),
-	m_err_ctxt(perrctxt),
+	m_task_ctxt(task_ctxt),
+	m_err_ctxt(err_ctxt),
 	m_err_handle(NULL),
 	m_func(NULL),
 	m_arg(NULL),
 	m_res(NULL),
-	m_mutex(pevent->Mutex()),
-	m_event(pevent),
+	m_mutex(event->Mutex()),
+	m_event(event),
 	m_status(EtsInit),
-	m_cancel(pfCancel),
+	m_cancel(cancel),
 	m_cancel_local(false),
 	m_abort_suspend_count(false),
 	m_reported(false)
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(NULL != ptskctxt);
-	GPOS_ASSERT(NULL != perrctxt);
+	GPOS_ASSERT(NULL != task_ctxt);
+	GPOS_ASSERT(NULL != err_ctxt);
 
-	if (NULL == pfCancel)
+	if (NULL == cancel)
 	{
 		m_cancel = &m_cancel_local;
 	}
@@ -98,14 +98,14 @@ CTask::~CTask()
 void 
 CTask::Bind
 	(
-	void *(*pfunc)(void*),
-	void *pvArg
+	void *(*func)(void*),
+	void *arg
 	)
 {
-	GPOS_ASSERT(NULL != pfunc);
+	GPOS_ASSERT(NULL != func);
 	
-	m_func = pfunc;
-	m_arg = pvArg;
+	m_func = func;
+	m_arg = arg;
 }
 
 
@@ -183,14 +183,14 @@ CTask::SetStatus(ETaskStatus ets)
 
 //---------------------------------------------------------------------------
 //	@function:
-//  	CTask::Scheduled
+//  	CTask::IsScheduled
 //
 //	@doc:
 //		Check if task has been scheduled
 //
 //---------------------------------------------------------------------------
 BOOL
-CTask::Scheduled() const
+CTask::IsScheduled() const
 {
 	switch (m_status)
 	{
@@ -213,14 +213,14 @@ CTask::Scheduled() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTask::Finished
+//		CTask::IsFinished
 //
 //	@doc:
 //		Check if task finished executing
 //
 //---------------------------------------------------------------------------
 BOOL
-CTask::Finished() const
+CTask::IsFinished() const
 {
 	switch (m_status)
 	{
@@ -252,11 +252,11 @@ CTask::Finished() const
 void
 CTask::Signal
 	(
-	ETaskStatus Status
+	ETaskStatus status
 	)
 	throw()
 {
-	GPOS_ASSERT(Scheduled() && !Finished() && "Invalid task status after execution");
+	GPOS_ASSERT(IsScheduled() && !IsFinished() && "Invalid task status after execution");
 
 	// scope for locking mutex
 	{
@@ -268,7 +268,7 @@ CTask::Signal
 		am.Lock();
 
 		// update task status
-		SetStatus(Status);
+		SetStatus(status);
 
 		m_event->Signal();
 
@@ -294,10 +294,10 @@ CTask::ResumeAbort()
 	m_abort_suspend_count--;
 
 #ifdef GPOS_DEBUG
-	CWorker *pwrkr = CWorker::Self();
+	CWorker *worker = CWorker::Self();
 
-	GPOS_ASSERT(NULL != pwrkr);
-	pwrkr->ResetTimeSlice();
+	GPOS_ASSERT(NULL != worker);
+	worker->ResetTimeSlice();
 #endif
 }
 
@@ -316,19 +316,19 @@ CTask::ResumeAbort()
 BOOL
 CTask::CheckStatus
 	(
-	BOOL fCompleted
+	BOOL completed
 	)
 {
-	GPOS_ASSERT(!Canceled());
-	if (fCompleted)
+	GPOS_ASSERT(!IsCanceled());
+	if (completed)
 	{
 		// task must have completed without an error
-		return (CTask::EtsCompleted == Status());
+		return (CTask::EtsCompleted == GetStatus());
 	}
 	else
 	{
 		// task must still be running
-		return (Scheduled() && !Finished());
+		return (IsScheduled() && !IsFinished());
 	}
 }
 

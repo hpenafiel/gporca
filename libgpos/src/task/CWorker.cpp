@@ -102,7 +102,7 @@ CWorker::Run()
 
 	CTask *task = NULL;
 
-	while (CWorkerPoolManager::EsrExecTask == CWorkerPoolManager::WorkerPoolManager()->TaskNext(&task))
+	while (CWorkerPoolManager::EsrExecTask == CWorkerPoolManager::WorkerPoolManager()->RespondToNextTaskRequest(&task))
 	{
 		Execute(task);
 	}
@@ -164,9 +164,9 @@ CWorker::CheckForAbort
 {
 	// check if there is a task assigned to worker,
 	// task is still running and CFA is not suspended
-	if (NULL != m_task && m_task->Running() && !m_task->AbortSuspended())
+	if (NULL != m_task && m_task->IsRunning() && !m_task->IsAbortSuspended())
 	{
-		GPOS_ASSERT(!m_task->ErrCtxt()->IsPending() &&
+		GPOS_ASSERT(!m_task->GetErrCtxt()->IsPending() &&
 		            "Check-For-Abort while an exception is pending");
 
 #ifdef GPOS_FPSIMULATOR
@@ -174,7 +174,7 @@ CWorker::CheckForAbort
 #endif // GPOS_FPSIMULATOR
 
 		if ((NULL != abort_requested_by_system && abort_requested_by_system()) ||
-			m_task->Canceled())
+			m_task->IsCanceled())
 		{
 			// raise exception
 			GPOS_ABORT;
@@ -241,16 +241,16 @@ CWorker::SimulateAbort
 	ULONG line_num
 	)
 {
-	if (m_task->Trace(EtraceSimulateAbort) &&
+	if (m_task->IsTraceSet(EtraceSimulateAbort) &&
 		CFSimulator::FSim()->NewStack(CException::ExmaSystem, CException::ExmiAbort))
 	{
 		// GPOS_TRACE has CFA, disable simulation temporarily
-		m_task->Trace(EtraceSimulateAbort, false);
+		m_task->SetTrace(EtraceSimulateAbort, false);
 
 		GPOS_TRACE_FORMAT_ERR("Simulating Abort at %s:%d", file, line_num);
 
 		// resume simulation
-		m_task->Trace(EtraceSimulateAbort, true);
+		m_task->SetTrace(EtraceSimulateAbort, true);
 
 		m_task->Cancel();
 	}
@@ -294,9 +294,9 @@ CWorker::CheckTimeSlice()
 	{
 		ULONG interval = m_timer_last_ca.ElapsedMS();
 		
-		ULONG threads = std::max((ULONG) 1, CWorkerPoolManager::WorkerPoolManager()->NumWorkersRunning());
+		ULONG threads = std::max((ULONG) 1, CWorkerPoolManager::WorkerPoolManager()->GetNumWorkersRunning());
 		
-		if (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * threads <= interval && m_task->Running())
+		if (GPOS_CHECK_ABORT_MAX_INTERVAL_MSEC * threads <= interval && m_task->IsRunning())
 		{
 			// get stack trace for last checkpoint
 			WCHAR buffer[GPOS_STACK_TRACE_BUFFER_SIZE];

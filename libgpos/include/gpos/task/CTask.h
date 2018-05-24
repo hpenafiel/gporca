@@ -123,19 +123,19 @@ namespace gpos
 			void Execute();
 
 			// check if task has been scheduled
-			BOOL Scheduled() const;
+			BOOL IsScheduled() const;
 
 			// check if task finished executing
-			BOOL Finished() const;
+			BOOL IsFinished() const;
 
 			// check if task is currently executing
-			BOOL Running() const
+			BOOL IsRunning() const
 			{
 				return EtsRunning == m_status;
 			}
 
 			// reported flag accessor
-			BOOL Reported() const
+			BOOL IsReported() const
 			{
 				return m_reported;
 			}
@@ -160,49 +160,49 @@ namespace gpos
 			}
 
 			// TLS accessor
-			CTaskLocalStorage &Tls()
+			CTaskLocalStorage &GetTls()
 			{
 				return m_tls;
 			}
 
 			// task id accessor
-			CTaskId &Tid()
+			CTaskId &GetTid()
 			{
 				return m_tid;
 			}
 
 			// task context accessor
-			CTaskContext *TaskCtxt() const
+			CTaskContext *GetTaskCtxt() const
 			{
 				return m_task_ctxt;
 			}
 
 			// basic output streams
-			ILogger *LogOut() const
+			ILogger *GetOutputLogger() const
 			{
-				return this->m_task_ctxt->LogOut();
+				return this->m_task_ctxt->GetOutputLogger();
 			}
 			
-			ILogger *LogErr() const
+			ILogger *GetErrorLogger() const
 			{
-				return this->m_task_ctxt->LogErr();
+				return this->m_task_ctxt->GetErrorLogger();
 			}
 			
-			BOOL Trace
+			BOOL SetTrace
 				(
 				ULONG trace,
 				BOOL val
 				)
 			{
-				return this->m_task_ctxt->Trace(trace, val);
+				return this->m_task_ctxt->SetTrace(trace, val);
 			}
 			
-			BOOL Trace
+			BOOL IsTraceSet
 				(
 				ULONG trace
 				)
 			{
-				return this->m_task_ctxt->Trace(trace);
+				return this->m_task_ctxt->IsTraceSet(trace);
 			}
 
 			
@@ -213,7 +213,7 @@ namespace gpos
 			}
 
 			// check if task is canceled
-			BOOL Canceled() const
+			BOOL IsCanceled() const
 			{
 				return *m_cancel;
 			}
@@ -231,7 +231,7 @@ namespace gpos
 			}
 
 			// check if a request to suspend abort was received
-			BOOL AbortSuspended() const
+			BOOL IsAbortSuspended() const
 			{
 				return (0 < m_abort_suspend_count);
 			}
@@ -246,31 +246,31 @@ namespace gpos
  			void ResumeAbort();
 
 			// task status accessor
-			ETaskStatus Status() const
+			ETaskStatus GetStatus() const
 			{
 				return m_status;
 			}
 
 			// task result accessor
-			void *Res() const
+			void *GetRes() const
 			{
 				return m_res;
 			}
 
 			// error context
-			IErrorContext *ErrCtxt() const
+			IErrorContext *GetErrCtxt() const
 			{
 				return m_err_ctxt;
 			}
 			
 			// error context
-			CErrorContext *ErrCtxtConvert()
+			CErrorContext *ConvertErrCtxt()
 			{
 				return dynamic_cast<CErrorContext*>(m_err_ctxt);
 			}
 
 			// pending exceptions
-			BOOL PendingExceptions() const
+			BOOL IsPendingExceptions() const
 			{
 				return m_err_ctxt->IsPending();
 			}

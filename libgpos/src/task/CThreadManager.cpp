@@ -77,7 +77,7 @@ CThreadManager::~CThreadManager()
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CThreadManager::EresCreate()
+CThreadManager::Create()
 {
 	ThreadDescriptor *descriptor = NULL;
 

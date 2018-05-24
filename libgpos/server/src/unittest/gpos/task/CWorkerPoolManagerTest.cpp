@@ -109,8 +109,8 @@ GPOS_RESULT
 CWorkerPoolManagerTest::EresUnittest_Stress()
 {
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
-	ULONG workers_min = pwpm->WorkersMin();
-	ULONG workers_max = pwpm->WorkersMax();
+	ULONG workers_min = pwpm->GetMinWorkers();
+	ULONG workers_max = pwpm->GetMaxWorkers();
 
 #ifdef GPOS_DEBUG
 	BOOL fEnforceTimeSlices = CWorker::m_enforce_time_slices;
@@ -139,8 +139,8 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 	GPOS_CATCH_EX(ex)
 	{
 		// restore worker count
-		pwpm->SetWorkersMin(workers_min);
-		pwpm->SetWorkersMax(workers_max);
+		pwpm->SetMinWorkers(workers_min);
+		pwpm->SetMaxWorkers(workers_max);
 
 #ifdef GPOS_DEBUG
 		CWorker::m_enforce_time_slices = fEnforceTimeSlices;
@@ -151,15 +151,15 @@ CWorkerPoolManagerTest::EresUnittest_Stress()
 	GPOS_CATCH_END;
 
 	// restore worker count
-	pwpm->SetWorkersMin(workers_min);
-	pwpm->SetWorkersMax(workers_max);
+	pwpm->SetMinWorkers(workers_min);
+	pwpm->SetMaxWorkers(workers_max);
 
 #ifdef GPOS_DEBUG
 	CWorker::m_enforce_time_slices = fEnforceTimeSlices;
 	CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
-	while (workers_max < pwpm->NumWorkers())
+	while (workers_max < pwpm->GetNumWorkers())
 	{
 		clib::USleep(1000);
 	}
@@ -340,11 +340,11 @@ CWorkerPoolManagerTest::Unittest_Stress
 
 	// set worker count
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
-	pwpm->SetWorkersMin(ulWorkers);
-	pwpm->SetWorkersMax(ulWorkers);
+	pwpm->SetMinWorkers(ulWorkers);
+	pwpm->SetMaxWorkers(ulWorkers);
 
 	// test convergence
-	while (ulWorkers != pwpm->NumWorkers())
+	while (ulWorkers != pwpm->GetNumWorkers())
 	{
 		clib::USleep(1000);
 	}

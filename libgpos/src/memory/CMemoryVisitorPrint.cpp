@@ -90,13 +90,13 @@ CMemoryVisitorPrint::Visit
 	ITask *task = ITask::Self();
 	if (NULL != task)
 	{
-		if (NULL != stack_desc && task->Trace(EtracePrintMemoryLeakStackTrace))
+		if (NULL != stack_desc && task->IsTraceSet(EtracePrintMemoryLeakStackTrace))
 		{
 			m_os << "Stack trace: " << std::endl;
 			stack_desc->AppendTrace(m_os, 8 /*ulDepth*/);
 		}
 
-		if (task->Trace(EtracePrintMemoryLeakDump))
+		if (task->IsTraceSet(EtracePrintMemoryLeakDump))
 		{
 			m_os << "Memory dump: " << std::endl;
 			gpos::HexDump(m_os, total_addr, total_size);

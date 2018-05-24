@@ -62,7 +62,7 @@
 									} while (0)
 
 // to be used inside a catch block
-#define GPOS_RESET_EX				ITask::Self()->ErrCtxt()->Reset()
+#define GPOS_RESET_EX				ITask::Self()->GetErrCtxt()->Reset()
 #define GPOS_RETHROW(exc)			gpos::CException::Reraise(exc)
 	
 // short hands for frequently used exceptions

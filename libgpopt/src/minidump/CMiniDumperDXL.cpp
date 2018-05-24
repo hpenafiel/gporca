@@ -103,7 +103,7 @@ CMiniDumperDXL::SerializeEntryHeader()
 	str.AppendFormat
 		(
 		CDXLSections::m_wszThreadHeaderTemplate,
-		CWorker::Self()->ThreadId()
+		CWorker::Self()->GetThreadId()
 		);
 
 	*m_oos << str.Wsz();

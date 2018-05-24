@@ -97,7 +97,7 @@ namespace gpos
 			~CThreadManager();
 
 			// create new thread
-			GPOS_RESULT EresCreate();
+			GPOS_RESULT Create();
 
 			// check if given thread is in the running threads list
 			BOOL IsThreadRunning(PTHREAD_T thread);

@@ -43,7 +43,7 @@ namespace gpos
 		public:
 		
 			// ctor
-			CAutoTraceFlag(ULONG ulTrace, BOOL fVal);
+			CAutoTraceFlag(ULONG trace, BOOL orig);
 
 			// dtor
 			virtual

@@ -101,8 +101,8 @@ int gpos_set_threads(int min, int max)
 			return 1;
 		}
 
-		pwpm->SetWorkersMin(min);
-		pwpm->SetWorkersMax(max);
+		pwpm->SetMinWorkers(min);
+		pwpm->SetMaxWorkers(max);
 	}
 	catch (...)
 	{
@@ -168,7 +168,7 @@ int gpos_exec
 				CTask *ptsk = atp.Create(params->func, params->arg, params->abort_requested);
 
 				// init TLS
-				ptsk->Tls().Reset(pmp);
+				ptsk->GetTls().Reset(pmp);
 
 				CAutoP<CWStringStatic> apwstr;
 				CAutoP<COstreamString> aposs;
@@ -187,7 +187,7 @@ int gpos_exec
 					aposs = GPOS_NEW(pmp) COstreamString(apwstr.Value());
 					aplogger = GPOS_NEW(pmp) CLoggerStream(*aposs.Value());
 
-					CTaskContext *ptskctxt = ptsk->TaskCtxt();
+					CTaskContext *ptskctxt = ptsk->GetTaskCtxt();
 					ptskctxt->SetLogOut(aplogger.Value());
 					ptskctxt->SetLogErr(aplogger.Value());
 				}
@@ -196,10 +196,10 @@ int gpos_exec
 				atp.Execute(ptsk);
 
 				// export task result
-				params->result = ptsk->Res();
+				params->result = ptsk->GetRes();
 
 				// check for errors during execution
-				if (CTask::EtsError == ptsk->Status())
+				if (CTask::EtsError == ptsk->GetStatus())
 				{
 					return 1;
 				}

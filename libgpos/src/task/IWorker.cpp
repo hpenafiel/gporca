@@ -32,14 +32,14 @@ BOOL IWorker::m_enforce_time_slices(false);
 IWorker *
 IWorker::Self()
 {
-	IWorker *pwrkr = NULL;
+	IWorker *worker = NULL;
 	
 	if (NULL != CWorkerPoolManager::WorkerPoolManager())
 	{
-		pwrkr = CWorkerPoolManager::WorkerPoolManager()->Self();
+		worker = CWorkerPoolManager::WorkerPoolManager()->Self();
 	}
 	
-	return pwrkr;
+	return worker;
 }
 
 
@@ -58,10 +58,10 @@ IWorker::CheckAbort
 	ULONG line_num
 	)
 {
-	IWorker *pwrkr = Self();
-	if (NULL != pwrkr)
+	IWorker *worker = Self();
+	if (NULL != worker)
 	{
-		pwrkr->CheckForAbort(file, line_num);
+		worker->CheckForAbort(file, line_num);
 	}
 }
 

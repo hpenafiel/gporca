@@ -1834,8 +1834,8 @@ CEngine::MultiThreadedOptimize
 				a_rgptsk[i] = atp.Create(CScheduler::Run, &a_rgsc[i]);
 
 				// store a pointer to optimizer's context in current task local storage
-				a_rgptsk[i]->Tls().Reset(m_pmp);
-				a_rgptsk[i]->Tls().Store(COptCtxt::PoctxtFromTLS());
+				a_rgptsk[i]->GetTls().Reset(m_pmp);
+				a_rgptsk[i]->GetTls().Store(COptCtxt::PoctxtFromTLS());
 			}
 
 			// start tasks

@@ -59,7 +59,7 @@ namespace gpos
 
 			// get number of waiting tasks
 			virtual
-			ULONG QueueSize() = 0;
+			ULONG GetQueueSize() = 0;
 
 			// check if task queue is empty
 			virtual

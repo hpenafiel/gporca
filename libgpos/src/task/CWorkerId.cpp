@@ -36,11 +36,11 @@ CWorkerId::CWorkerId
 {
 	if (valid)
 	{
-		Current();
+		SetThreadToCurrent();
 	}
 	else
 	{
-		Invalid();
+		SetThreadToInvalid();
 	}
 }
 
@@ -76,7 +76,7 @@ CWorkerId::Equals
 //
 //---------------------------------------------------------------------------
 void
-CWorkerId::Current()
+CWorkerId::SetThreadToCurrent()
 {
 	m_pthread = pthread::Self();
 }
@@ -91,7 +91,7 @@ CWorkerId::Current()
 //
 //---------------------------------------------------------------------------
 void
-CWorkerId::Invalid()
+CWorkerId::SetThreadToInvalid()
 {
 	// reset bytes to 0
 	clib::MemSet(this, 0, sizeof(CWorkerId));

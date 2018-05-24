@@ -218,19 +218,19 @@ CUnittest::EresExecLoop
 		GPOS_CATCH_EX(ex)
 		{
 			// check for exception simulation
-			if (ITask::Self()->Trace(EtraceSimulateOOM))
+			if (ITask::Self()->IsTraceSet(EtraceSimulateOOM))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiOOM));
 			}
-			else if (ITask::Self()->Trace(EtraceSimulateAbort))
+			else if (ITask::Self()->IsTraceSet(EtraceSimulateAbort))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiAbort));
 			}
-			else if (ITask::Self()->Trace(EtraceSimulateIOError))
+			else if (ITask::Self()->IsTraceSet(EtraceSimulateIOError))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiIOError));
 			}
-			else if (ITask::Self()->Trace(EtraceSimulateNetError))
+			else if (ITask::Self()->IsTraceSet(EtraceSimulateNetError))
 			{
 				GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiNetError));
 			}
@@ -337,16 +337,16 @@ CUnittest::FSimulated
 	GPOS_ASSERT(NULL != ptsk);
 
 	return
-		(ptsk->Trace(EtraceSimulateOOM) &&
+		(ptsk->IsTraceSet(EtraceSimulateOOM) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiOOM)) ||
 
-		(ptsk->Trace(EtraceSimulateAbort) &&
+		(ptsk->IsTraceSet(EtraceSimulateAbort) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiAbort)) ||
 
-		(ptsk->Trace(EtraceSimulateIOError) &&
+		(ptsk->IsTraceSet(EtraceSimulateIOError) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiIOError)) ||
 
-		(ptsk->Trace(EtraceSimulateNetError) &&
+		(ptsk->IsTraceSet(EtraceSimulateNetError) &&
 		 GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiNetError));
 }
 

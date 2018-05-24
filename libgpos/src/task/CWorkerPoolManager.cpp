@@ -41,8 +41,8 @@ CWorkerPoolManager::CWorkerPoolManager
 	:
 	m_pmp(pmp),
 	m_num_workers(0),
-	m_workers_min(0),
-	m_workers_max(0),
+	m_min_workers(0),
+	m_max_workers(0),
 	m_auto_task_proxy_counter(0),
 	m_active(false)
 {
@@ -88,13 +88,13 @@ CWorkerPoolManager::CWorkerPoolManager
 GPOS_RESULT
 CWorkerPoolManager::Init
 	(
-	ULONG workers_min,
-	ULONG workers_max
+	ULONG min_workers,
+	ULONG max_workers
 	)
 {
 	GPOS_ASSERT(NULL == WorkerPoolManager());
-	GPOS_ASSERT(workers_min <= workers_max);
-	GPOS_ASSERT(workers_max <= GPOS_THREAD_MAX);
+	GPOS_ASSERT(min_workers <= max_workers);
+	GPOS_ASSERT(max_workers <= GPOS_THREAD_MAX);
 
 	IMemoryPool *pmp =
 		CMemoryPoolManager::MemoryPoolMgr()->Create
@@ -111,7 +111,7 @@ CWorkerPoolManager::Init
 			GPOS_NEW(pmp) CWorkerPoolManager(pmp);
 
 		// set min and max number of workers
-		CWorkerPoolManager::m_worker_pool_manager->SetWorkersLimit(workers_min, workers_max);
+		CWorkerPoolManager::m_worker_pool_manager->SetWorkersLimit(min_workers, max_workers);
 	}
 	GPOS_CATCH_EX(ex)
 	{
@@ -193,7 +193,7 @@ CWorkerPoolManager::CreateWorkerThread()
 	ULONG_PTR num_workers = ExchangeAdd(&m_num_workers, 1);
 
 	// check if max number of workers is exceeded
-	if (num_workers >= m_workers_max)
+	if (num_workers >= m_max_workers)
 	{
 		// decrement number of active workers
 		ExchangeAdd(&m_num_workers, -1);
@@ -202,7 +202,7 @@ CWorkerPoolManager::CreateWorkerThread()
 	}
 
 	// attempt to create new thread
-	if (GPOS_OK != m_thread_manager.EresCreate())
+	if (GPOS_OK != m_thread_manager.Create())
 	{
 		// decrement number of active workers
 		ExchangeAdd(&m_num_workers, -1);
@@ -230,13 +230,13 @@ CWorkerPoolManager::RegisterWorker
 	// make sure worker registers itself
 	CWorkerId self_wid;
 	GPOS_ASSERT(NULL != worker);
-	GPOS_ASSERT(self_wid.Equals(worker->Wid()));
+	GPOS_ASSERT(self_wid.Equals(worker->GetWid()));
 #endif // GPOS_DEBUG
 
 	// scope for hash table accessor
 	{
 		// get access
-		CWorkerId wid = worker->Wid();
+		CWorkerId wid = worker->GetWid();
 		CSyncHashtableAccessByKey<CWorker, CWorkerId, CSpinlockOS> shta(m_shtWLS, wid);
 		
 		// must be first to register
@@ -246,7 +246,7 @@ CWorkerPoolManager::RegisterWorker
 	}
 
 	// check insertion succeeded
-	GPOS_ASSERT(worker == Worker(worker->Wid()));
+	GPOS_ASSERT(worker == Worker(worker->GetWid()));
 }
 
 
@@ -423,8 +423,8 @@ CWorkerPoolManager::Schedule
 //		Respond to worker's request for next task to execute;
 //
 //---------------------------------------------------------------------------
-CWorkerPoolManager::ScheduleResponse
-CWorkerPoolManager::TaskNext
+CWorkerPoolManager::EScheduleResponse
+CWorkerPoolManager::RespondToNextTaskRequest
 	(
 	CTask **task
 	)
@@ -487,7 +487,7 @@ CWorkerPoolManager::WorkersIncrease()
 BOOL
 CWorkerPoolManager::WorkersDecrease()
 {
-	return (m_num_workers > m_workers_max);
+	return (m_num_workers > m_max_workers);
 }
 
 
@@ -555,24 +555,24 @@ CWorkerPoolManager::Cancel
 void
 CWorkerPoolManager::SetWorkersLimit
 	(
-	ULONG workers_min,
-	ULONG workers_max
+	ULONG min_workers,
+	ULONG max_workers
 	)
 {
-	GPOS_ASSERT(workers_min <= workers_max);
-	GPOS_ASSERT(workers_max <= GPOS_THREAD_MAX);
+	GPOS_ASSERT(min_workers <= max_workers);
+	GPOS_ASSERT(max_workers <= GPOS_THREAD_MAX);
 
-	m_workers_min = workers_min;
-	m_workers_max = workers_max;
+	m_min_workers = min_workers;
+	m_max_workers = max_workers;
 
 	// reach minimum number of workers
-	while (m_workers_min > m_num_workers)
+	while (m_min_workers > m_num_workers)
 	{
 		CreateWorkerThread();
 	}
 
 	// signal workers if their number exceeds maximum
-	if (m_workers_max < m_num_workers)
+	if (m_max_workers < m_num_workers)
 	{
 		CAutoMutex am(m_mutex);
 		am.Lock();
@@ -580,8 +580,8 @@ CWorkerPoolManager::SetWorkersLimit
 		m_event.Signal();
 	}
 
-	GPOS_ASSERT(m_workers_min <= m_num_workers);
-	GPOS_ASSERT(m_workers_min <= m_workers_max);
+	GPOS_ASSERT(m_min_workers <= m_num_workers);
+	GPOS_ASSERT(m_min_workers <= m_max_workers);
 }
 
 
@@ -595,12 +595,12 @@ CWorkerPoolManager::SetWorkersLimit
 //
 //---------------------------------------------------------------------------
 void 
-CWorkerPoolManager::SetWorkersMin
+CWorkerPoolManager::SetMinWorkers
 	(
-	volatile ULONG workers_min
+	volatile ULONG min_workers
 	)
 {
-	SetWorkersLimit(workers_min, std::max(workers_min, m_workers_max));
+	SetWorkersLimit(min_workers, std::max(min_workers, m_max_workers));
 }
 
 
@@ -613,12 +613,12 @@ CWorkerPoolManager::SetWorkersMin
 //
 //---------------------------------------------------------------------------
 void 
-CWorkerPoolManager::SetWorkersMax
+CWorkerPoolManager::SetMaxWorkers
 	(
-	volatile ULONG workers_max
+	volatile ULONG max_workers
 	)
 {
-	SetWorkersLimit(std::min(workers_max, m_workers_min), workers_max);
+	SetWorkersLimit(std::min(max_workers, m_min_workers), max_workers);
 }
 
 

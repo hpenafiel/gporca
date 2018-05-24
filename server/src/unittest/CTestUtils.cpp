@@ -3645,7 +3645,7 @@ CTestUtils::EresRunMinidumps
 		{
 			{
 				CAutoTrace at(pmp);
-				at.Os() << "Running test with EXHAUSTIVE SEARCH:";
+				at.Os() << "IsRunning test with EXHAUSTIVE SEARCH:";
 			}
 
 			eres = EresRunMinidumpsUsingOneMDFile
@@ -3672,7 +3672,7 @@ CTestUtils::EresRunMinidumps
 
 			{
 				CAutoTrace at(pmp);
-				at.Os() << "Running test with BRANCH-AND-BOUND SEARCH:";
+				at.Os() << "IsRunning test with BRANCH-AND-BOUND SEARCH:";
 			}
 
 			// enable space pruning

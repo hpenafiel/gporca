@@ -573,14 +573,14 @@ FSimulateIOErrorInternal
 
 	ITask *ptsk = ITask::Self();
 	if (NULL != ptsk &&
-	    ptsk->Trace(EtraceSimulateIOError) &&
+	    ptsk->IsTraceSet(EtraceSimulateIOError) &&
 	    CFSimulator::FSim()->NewStack(CException::ExmaSystem, CException::ExmiIOError) &&
-	    !GPOS_MATCH_EX(ptsk->ErrCtxt()->GetException(), CException::ExmaSystem, CException::ExmiIOError))
+	    !GPOS_MATCH_EX(ptsk->GetErrCtxt()->GetException(), CException::ExmaSystem, CException::ExmiIOError))
 	{
 		// disable simulation temporarily to log injection
 		CAutoTraceFlag(EtraceSimulateIOError, false);
 
-		CLogger *plogger = dynamic_cast<CLogger*>(ITask::Self()->TaskCtxt()->LogErr());
+		CLogger *plogger = dynamic_cast<CLogger*>(ITask::Self()->GetTaskCtxt()->GetErrorLogger());
 		if (!plogger->Logging())
 		{
 			GPOS_TRACE_FORMAT_ERR("Simulating I/O error at %s:%d", file, line_num);
@@ -588,9 +588,9 @@ FSimulateIOErrorInternal
 
 		errno = error_no;
 
-		if (ptsk->ErrCtxt()->IsPending())
+		if (ptsk->GetErrCtxt()->IsPending())
 		{
-			ptsk->ErrCtxt()->Reset();
+			ptsk->GetErrCtxt()->Reset();
 		}
 
 		// inject I/O error

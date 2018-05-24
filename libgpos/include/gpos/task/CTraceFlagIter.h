@@ -38,7 +38,7 @@ namespace gpos
 			// ctor
 			CTraceFlagIter()
 				:
-				CBitSetIter(*CTask::Self()->TaskCtxt()->m_bitset)
+				CBitSetIter(*CTask::Self()->GetTaskCtxt()->m_bitset)
 			{}
 
 			// dtor

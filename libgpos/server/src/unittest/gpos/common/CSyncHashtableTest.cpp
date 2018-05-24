@@ -620,7 +620,7 @@ CSyncHashtableTest::EresUnittest_Concurrency()
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
-	GPOS_ASSERT(GPOS_SHT_THREADS <= pwpm->WorkersMax() &&
+	GPOS_ASSERT(GPOS_SHT_THREADS <= pwpm->GetMaxWorkers() &&
 				"Insufficient number of workers to run test");
 
 	SElemHashtable sht;

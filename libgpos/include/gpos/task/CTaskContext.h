@@ -51,13 +51,13 @@ namespace gpos
 
 			// accessors
 			inline
-			ILogger *LogOut() const
+			ILogger *GetOutputLogger() const
 			{
 				return m_log_out;
 			}
 			
 			inline
-			ILogger *LogErr() const
+			ILogger *GetErrorLogger() const
 			{
 				return m_log_err;
 			}
@@ -75,11 +75,11 @@ namespace gpos
 			}
 
 			// set trace flag
-			BOOL Trace(ULONG trace, BOOL val);
+			BOOL SetTrace(ULONG trace, BOOL val);
 			
 			// test if tracing on
 			inline
-			BOOL Trace
+			BOOL IsTraceSet
 				(
 				ULONG trace
 				)
