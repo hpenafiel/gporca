@@ -520,7 +520,7 @@ namespace gpdxl
 			}
 		}
 
-		return a_pstr.PtReset();
+		return a_pstr.Reset();
 	}
 
 }

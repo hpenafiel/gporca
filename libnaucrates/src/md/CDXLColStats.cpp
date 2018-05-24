@@ -259,8 +259,8 @@ CDXLColStats::PdxlcolstatsDummy
 					a_pdrgpdxlbucket.Value(),
 					true /* fColStatsMissing */
 					);
-	a_pdrgpdxlbucket.PtReset();
-	return a_pdxlcolstats.PtReset();
+	a_pdrgpdxlbucket.Reset();
+	return a_pdxlcolstats.Reset();
 }
 
 // EOF

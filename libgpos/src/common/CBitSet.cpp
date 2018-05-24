@@ -417,7 +417,7 @@ CBitSet::Union
 			a_pbsl = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, *bsl_other);
 			a_drgpbsl->Append(a_pbsl.Value());
 			
-			a_pbsl.PtReset();
+			a_pbsl.Reset();
 		}
 	}
 

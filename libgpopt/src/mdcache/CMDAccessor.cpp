@@ -474,7 +474,7 @@ CMDAccessor::RegisterProvider
 	
 	// insert provider in the hash table
 	mdhtacc.Insert(a_pmdpelem.Value());
-	a_pmdpelem.PtReset();
+	a_pmdpelem.Reset();
 }
 
 
@@ -644,7 +644,7 @@ CMDAccessor::Pimdobj
 				GPOS_ASSERT(NULL != pmdobjInserted);
 
 				// safely inserted
-				(void) a_pmdkeyCache.PtReset();
+				(void) a_pmdkeyCache.Reset();
 			}
 		}
 
@@ -666,7 +666,7 @@ CMDAccessor::Pimdobj
 
 				// add deletion lock for mdid
 				a_pmdaccelem->Pmdid()->AddDeletionLock();
-				a_pmdaccelem.PtReset();
+				a_pmdaccelem.Reset();
 			}
 		}
 	}
@@ -1049,7 +1049,7 @@ CMDAccessor::Pmdcast
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdidCast->Wsz());
 	}
-	a_pmdidCast.PtReset()->Release();
+	a_pmdidCast.Reset()->Release();
 
 	return dynamic_cast<const IMDCast*>(pmdobj);
 }
@@ -1086,7 +1086,7 @@ CMDAccessor::Pmdsccmp
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdidScCmp->Wsz());
 	}
-	a_pmdidScCmp.PtReset()->Release();
+	a_pmdidScCmp.Reset()->Release();
 
 	return dynamic_cast<const IMDScCmp*>(pmdobj);
 }

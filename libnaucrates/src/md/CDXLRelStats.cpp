@@ -200,8 +200,8 @@ CDXLRelStats::PdxlrelstatsDummy
 	a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Value());
 	CAutoRef<CDXLRelStats> a_pdxlrelstats;
 	a_pdxlrelstats = GPOS_NEW(pmp) CDXLRelStats(pmp, pmdidRelStats, a_pmdname.Value(), CStatistics::DDefaultColumnWidth, false /* fEmpty */);
-	a_pmdname.PtReset();
-	return a_pdxlrelstats.PtReset();
+	a_pmdname.Reset();
+	return a_pdxlrelstats.Reset();
 }
 
 // EOF

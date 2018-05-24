@@ -122,7 +122,7 @@ COptCtxt::PoctxtCreate
 		poctxt = GPOS_NEW(pmp) COptCtxt(pmp, pcf, pmda, pceeval, poconf);
 
 		// detach safety
-		(void) a_pcf.PtReset();
+		(void) a_pcf.Reset();
 	}
 	return poctxt;
 }

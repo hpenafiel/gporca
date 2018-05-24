@@ -64,7 +64,7 @@ CTaskContext::CTaskContext
 	bitset = GPOS_NEW(pmp) CBitSet(pmp);
 	bitset->Union(task_ctxt.m_bitset);
 	
-	m_bitset = bitset.PtReset();
+	m_bitset = bitset.Reset();
 }
 
 

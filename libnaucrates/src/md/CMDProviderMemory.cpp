@@ -129,12 +129,12 @@ CMDProviderMemory::LoadMetadataObjectsFromArray
 			
 			GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryDuplicate, pmdidKey->Wsz());
 		}
-		(void) a_pmdidKey.PtReset();
-		(void) a_pstr.PtReset();
+		(void) a_pmdidKey.Reset();
+		(void) a_pstr.Reset();
 	}
 	
 	// safely completed loading
-	(void) a_pmdmap.PtReset();
+	(void) a_pmdmap.Reset();
 }
 
 //---------------------------------------------------------------------------
@@ -200,7 +200,7 @@ CMDProviderMemory::PstrObject
 				pmdid->AddRef();
 				CAutoRef<CDXLColStats> a_pdxlcolstats;
 				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(pmp, pmdid, a_pmdname.Value(), CStatistics::DDefaultColumnWidth /* dWidth */);
-				a_pmdname.PtReset();
+				a_pmdname.Reset();
 				a_pstrResult = CDXLUtils::PstrSerializeMDObj(pmp, a_pdxlcolstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;
 			}
@@ -218,7 +218,7 @@ CMDProviderMemory::PstrObject
 	
 	GPOS_ASSERT(NULL != a_pstrResult.Value());
 	
-	return a_pstrResult.PtReset();
+	return a_pstrResult.Reset();
 }
 
 //---------------------------------------------------------------------------

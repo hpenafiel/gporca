@@ -70,7 +70,7 @@ CAutoRefTest::EresUnittest_Basics()
 
 	// hand reference over to other auto ref count
 	CAutoRef<CElem> aelem2;
-	aelem2 = aelem.PtReset();
+	aelem2 = aelem.Reset();
 
 	// c'tor
 	CAutoRef<CElem> aelem3(GPOS_NEW(pmp) CElem(10));

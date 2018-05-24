@@ -166,14 +166,14 @@ CColumnFactory::PcrCreate
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
 	CColRef *pcr = GPOS_NEW(m_pmp) CColRefComputed(pmdtype, iTypeModifier, ulId, pnameCopy);
-	(void) a_pnameCopy.PtReset();
+	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 	
 	// ensure uniqueness
 	GPOS_ASSERT(NULL == PcrLookup(ulId));
 	m_sht.Insert(pcr);
 	
-	return a_pcr.PtReset();
+	return a_pcr.Reset();
 }
 
 
@@ -200,14 +200,14 @@ CColumnFactory::PcrCreate
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
 	CColRef *pcr = GPOS_NEW(m_pmp) CColRefTable(pcoldesc, ulId, pnameCopy, ulOpSource);
-	(void) a_pnameCopy.PtReset();
+	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 
 	// ensure uniqueness
 	GPOS_ASSERT(NULL == PcrLookup(ulId));
 	m_sht.Insert(pcr);
 	
-	return a_pcr.PtReset();
+	return a_pcr.Reset();
 }
 
 
@@ -239,14 +239,14 @@ CColumnFactory::PcrCreate
 
 	CColRef *pcr =
 			GPOS_NEW(m_pmp) CColRefTable(pmdtype, iTypeModifier, iAttno, fNullable, ulId, pnameCopy, ulOpSource, ulWidth);
-	(void) a_pnameCopy.PtReset();
+	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 
 	// ensure uniqueness
 	GPOS_ASSERT(NULL == PcrLookup(ulId));
 	m_sht.Insert(pcr);
 
-	return a_pcr.PtReset();
+	return a_pcr.Reset();
 }
 
 //---------------------------------------------------------------------------

@@ -938,7 +938,7 @@ CDXLUtils::PstrSerializeULLONG
 	COstreamString oss(a_pstr.Value());
 	oss << ullVal;
 
-	return a_pstr.PtReset();
+	return a_pstr.Reset();
 }
 
 
@@ -1422,7 +1422,7 @@ CDXLUtils::PstrSerializeMDObj
 	}
 	
 	GPOS_CHECK_ABORT;
-	return a_pstr.PtReset();
+	return a_pstr.Reset();
 }
 
 //---------------------------------------------------------------------------
@@ -1622,7 +1622,7 @@ CDXLUtils::PstrFromSz
 	
 	CAutoP<CWStringDynamic> a_pstr(GPOS_NEW(pmp) CWStringDynamic(pmp));
 	a_pstr->AppendFormat(GPOS_WSZ_LIT("%s"), sz);
-	return a_pstr.PtReset();
+	return a_pstr.Reset();
 }
 
 //---------------------------------------------------------------------------
@@ -1738,7 +1738,7 @@ CDXLUtils::PstrFromByteArray
 	CHAR *szRetBuf = (CHAR *) (a_pxmlbyteBuf.Rgt());
 	a_pstr->AppendCharArray(szRetBuf);
 
-	return a_pstr.PtReset();
+	return a_pstr.Reset();
 }
 
 

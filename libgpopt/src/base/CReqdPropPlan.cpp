@@ -704,7 +704,7 @@ CReqdPropPlan::OsPrint
 	os << "], req partition propagation: [";
 	if (NULL != m_pepp)
 	{
-		os << pp(m_pepp);
+		os << GetPrintablePtr(m_pepp);
 	}
 	os <<  "]";
 	

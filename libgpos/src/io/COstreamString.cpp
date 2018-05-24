@@ -46,10 +46,10 @@ COstreamString::COstreamString
 IOstream&
 COstreamString::operator << 
     (
-	const WCHAR *input_wchar_array
+	const WCHAR *wc_array
     )
 {
-	m_string->AppendWideCharArray(input_wchar_array);
+	m_string->AppendWideCharArray(wc_array);
 
 	return *this;
 }
@@ -65,10 +65,10 @@ COstreamString::operator <<
 IOstream&
 COstreamString::operator <<
     (
-	const CHAR *input_char
+	const CHAR *c
     )
 {
-	m_string->AppendCharArray(input_char);
+	m_string->AppendCharArray(c);
 
 	return *this;
 }
@@ -85,13 +85,13 @@ COstreamString::operator <<
 IOstream&
 COstreamString::operator <<
     (
-	const WCHAR input_wchar
+	const WCHAR wc
     )
 {
-	WCHAR input_wchar_array[2];
-	input_wchar_array[0] = input_wchar;
-	input_wchar_array[1] = L'\0';
-	m_string->AppendWideCharArray(input_wchar_array);
+	WCHAR wc_array[2];
+	wc_array[0] = wc;
+	wc_array[1] = L'\0';
+	m_string->AppendWideCharArray(wc_array);
 
 	return *this;
 }
@@ -111,10 +111,10 @@ COstreamString::operator <<
 	const CHAR c
     )
 {
-	CHAR input_char[2];
-	input_char[0] = c;
-	input_char[1] = '\0';
-	m_string->AppendCharArray(input_char);
+	CHAR char_array[2];
+	char_array[0] = c;
+	char_array[1] = '\0';
+	m_string->AppendCharArray(char_array);
 
 	return *this;
 }

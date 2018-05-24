@@ -176,8 +176,8 @@ CAutoTaskProxy::Create
 	new_task = GPOS_NEW(m_pmp) CTask(pmp, task_ctxt.Value(), err_ctxt.Value(), &m_event, cancel);
 
 	// reset auto pointers - task now handles task and error context
-	(void) task_ctxt.PtReset();
-	(void) err_ctxt.PtReset();
+	(void) task_ctxt.Reset();
+	(void) err_ctxt.Reset();
 
 	// detach task's memory pool from auto memory pool
 	amp.Detach();
@@ -190,7 +190,7 @@ CAutoTaskProxy::Create
 	m_list.Append(task);
 
 	// reset auto pointer - ATP now handles task
-	new_task.PtReset();
+	new_task.Reset();
 
 	// register task to worker pool
 	m_pwpm->RegisterTask(task);

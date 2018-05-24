@@ -83,7 +83,7 @@ CAutoPTest::EresUnittest_Basics()
 	asz2 = NULL;
 
 	// unhooking of object
-	GPOS_DELETE(asz3.PtReset());
+	GPOS_DELETE(asz3.Reset());
 
 	CElem *pelem = GPOS_NEW(pmp) CElem;
 	pelem->m_ul = 3;
