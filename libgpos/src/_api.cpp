@@ -246,7 +246,7 @@ void gpos_terminate()
 #endif // GPOS_FPSIMULATOR
 	CMessageRepository::Pmr()->Shutdown();
 	CWorkerPoolManager::WorkerPoolManager()->Shutdown();
-	CCacheFactory::Pcf()->Shutdown();
+	CCacheFactory::GetFactory()->Shutdown();
 	CMemoryPoolManager::MemoryPoolMgr()->Shutdown();
 #endif // GPOS_DEBUG
 }

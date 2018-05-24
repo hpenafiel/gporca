@@ -163,7 +163,7 @@ CMemoryPoolManager::Create
 {
 	IMemoryPool *pmp =
 #ifdef GPOS_DEBUG
-			CreatePoolStack(eat, ullCapacity, fThreadSafe);
+			CreatePoolStack(alloc_type, capacity, thread_safe);
 #else
 			New(alloc_type, m_base_memory_pool, capacity, thread_safe, false /*owns_underlying_memory_pool*/);
 #endif // GPOS_DEBUG
@@ -241,7 +241,7 @@ CMemoryPoolManager::CreatePoolStack
 	)
 {
 	IMemoryPool *base = m_base_memory_pool;
-	BOOL malloc_type = (EatTracker == eat);
+	BOOL malloc_type = (EatTracker == alloc_type);
 
 	// check if tracking and fault injection on internal allocations
 	// of memory pools is enabled
@@ -258,7 +258,7 @@ CMemoryPoolManager::CreatePoolStack
 		base = New
 				(
 				EatTracker,
-				pmpFPSimLow,
+				FPSim_low,
 				capacity,
 				thread_safe,
 				true /*owns_underlying_memory_pool*/
@@ -281,7 +281,7 @@ CMemoryPoolManager::CreatePoolStack
 	}
 
 	// put fault injector on top of requested pool
-	IMemoryPool *pmpFPSim = GPOS_NEW(m_internal_memory_pool) CMemoryPoolInjectFault
+	IMemoryPool *FPSim = GPOS_NEW(m_internal_memory_pool) CMemoryPoolInjectFault
 				(
 				requested,
 				!malloc_type
@@ -435,7 +435,7 @@ void
 CMemoryPoolManager::PrintOverSizedPools
 	(
 	IMemoryPool *trace,
-	ULLONG ullSizeThreshold // size threshold in bytes
+	ULLONG size_threshold // size threshold in bytes
 	)
 {
 	CAutoTraceFlag Abort(EtraceSimulateAbort, false);
@@ -446,7 +446,7 @@ CMemoryPoolManager::PrintOverSizedPools
 	MemoryPoolIter iter(m_hash_table);
 	while (iter.Advance())
 	{
-		MemoryPoolIterAccessor acc(mpiter);
+		MemoryPoolIterAccessor acc(iter);
 		IMemoryPool *pmp = acc.Value();
 
 		if (NULL != pmp)

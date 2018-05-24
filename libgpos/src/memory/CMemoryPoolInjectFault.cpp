@@ -108,7 +108,7 @@ CMemoryPoolInjectFault::Free
 //
 //---------------------------------------------------------------------------
 BOOL
-CMemoryPoolInjectFault::FSimulateAllocFailure()
+CMemoryPoolInjectFault::SimulateAllocFailure()
 {
 	ITask *task = ITask::Self();
 	if (NULL != task)

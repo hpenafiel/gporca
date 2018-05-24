@@ -318,7 +318,7 @@ CMemoryPoolTracker::WalkLiveObjects
 		SIZE_T total_size = GPOS_MEM_BYTES_TOTAL(header->m_size);
 		void *user = header + 1;
 
-		pmov->Visit
+		visitor->Visit
 			(
 			user,
 			header->m_size,
