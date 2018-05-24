@@ -53,7 +53,7 @@ namespace gpos
 			}
 
 			// open file
-			void OpenFile(const CHAR *file_path, ULONG ulMode, ULONG permission_bits);
+			void OpenFile(const CHAR *file_path, ULONG mode, ULONG permission_bits);
 
 			// close file
 			void CloseFile();
