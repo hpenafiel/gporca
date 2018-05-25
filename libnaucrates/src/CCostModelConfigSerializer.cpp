@@ -11,37 +11,37 @@
 using namespace gpdxl;
 using gpos::CAutoRef;
 
-void CCostModelConfigSerializer::Serialize(CXMLSerializer &xmlser) const
+void CCostModelConfigSerializer::Serialize(CXMLSerializer &xml_serializer) const
 {
-	if (ICostModel::EcmtGPDBLegacy == m_pcm->Ecmt())
+	if (ICostModel::EcmtGPDBLegacy == m_cost_model->Ecmt())
 	{
 		return;
 	}
 
-	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostModelConfig));
-	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostModelType), m_pcm->Ecmt());
-	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenSegmentsForCosting), m_pcm->UlHosts());
+	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostModelConfig));
+	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostModelType), m_cost_model->Ecmt());
+	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenSegmentsForCosting), m_cost_model->UlHosts());
 
-	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParams));
+	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParams));
 
-	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParam));
+	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParam));
 
-	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pcm->Pcp()->SzNameLookup(CCostModelParamsGPDB::EcpNLJFactor));
-	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->Get());
-	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostParamLowerBound), m_pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DLowerBound());
-	xmlser.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostParamUpperBound), m_pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DUpperBound());
-	xmlser.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParam));
+	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_cost_model->Pcp()->SzNameLookup(CCostModelParamsGPDB::EcpNLJFactor));
+	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_cost_model->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->Get());
+	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostParamLowerBound), m_cost_model->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DLowerBound());
+	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenCostParamUpperBound), m_cost_model->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor)->DUpperBound());
+	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParam));
 
-	xmlser.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParams));
+	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostParams));
 
-	xmlser.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostModelConfig));
+	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostModelConfig));
 }
 
 CCostModelConfigSerializer::CCostModelConfigSerializer
 	(
-	const gpopt::ICostModel *pcm
+	const gpopt::ICostModel *cost_model
 	)
 	:
-	m_pcm(pcm)
+	m_cost_model(cost_model)
 {
 }

@@ -61,18 +61,18 @@ SerializeOptimizerConfig
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != poconf);
 
-	CXMLSerializer xmlser(pmp, oos, fIndent);
+	CXMLSerializer xml_serializer(pmp, oos, fIndent);
 
 	// Add XML version and encoding, DXL document header, and namespace
-	CDXLUtils::SerializeHeader(pmp, &xmlser);
+	CDXLUtils::SerializeHeader(pmp, &xml_serializer);
 
 	// Make a dummy bitset
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, 256);
 
-	poconf->Serialize(pmp, &xmlser, pbs);
+	poconf->Serialize(pmp, &xml_serializer, pbs);
 
 	// Add DXL document footer
-	CDXLUtils::SerializeFooter(&xmlser);
+	CDXLUtils::SerializeFooter(&xml_serializer);
 
 	pbs->Release();
 	return;

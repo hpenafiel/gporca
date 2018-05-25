@@ -76,11 +76,11 @@ CSerializableOptimizerConfig::Serialize
 	COstream &oos
 	)
 {
-	CXMLSerializer xmlser(m_pmp, oos, false /*Indent*/);
+	CXMLSerializer xml_serializer(m_pmp, oos, false /*Indent*/);
 
 	// Copy traceflags from global state
 	CBitSet *pbs = CTask::Self()->GetTaskCtxt()->copy_trace_flags(m_pmp);
-	m_poconf->Serialize(m_pmp, &xmlser, pbs);
+	m_poconf->Serialize(m_pmp, &xml_serializer, pbs);
 	pbs->Release();
 }
 

@@ -143,9 +143,9 @@ static gpos::GPOS_RESULT Eres_SerializeCalibratedCostModel()
 
 	CWStringDynamic wsActual(pmp);
 	COstreamString os(&wsActual);
-	CXMLSerializer xmlser(pmp, os, false);
+	CXMLSerializer xml_serializer(pmp, os, false);
 	CCostModelConfigSerializer cmcSerializer(apcm.Value());
-	cmcSerializer.Serialize(xmlser);
+	cmcSerializer.Serialize(xml_serializer);
 
 	GPOS_RTL_ASSERT(apwsExpected->Equals(&wsActual));
 

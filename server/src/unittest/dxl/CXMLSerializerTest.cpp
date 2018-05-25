@@ -62,17 +62,17 @@ CXMLSerializerTest::Pstr
 	// create a string stream to hold the result of serialization
 	COstreamString oss(pstr);
 	
-	CXMLSerializer xmlser(pmp, oss, fIndent);
+	CXMLSerializer xml_serializer(pmp, oss, fIndent);
 	
-	xmlser.StartDocument();
+	xml_serializer.StartDocument();
 	
-	xmlser.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
+	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
 	
 	CWStringConst strSubplan(GPOS_WSZ_LIT("Subplan"));
-	xmlser.OpenElement(NULL, &strSubplan);
-	xmlser.CloseElement(NULL, &strSubplan);
+	xml_serializer.OpenElement(NULL, &strSubplan);
+	xml_serializer.CloseElement(NULL, &strSubplan);
 	
-	xmlser.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
+	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
 
 	return pstr;
 }
