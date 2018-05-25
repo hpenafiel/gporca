@@ -216,7 +216,7 @@ GPOS_RESULT
 CCacheTest::EresUnittest_Basic()
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CreateCache<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -245,7 +245,7 @@ CCacheTest::EresUnittest_Basic()
 		GPOS_ASSERT(1 == pcache->Size());
 
 		// insert duplicate while not allowed
-		if (pcache->Unique())
+		if (pcache->IsUnique())
 		{
 			CSimpleObjectCacheAccessor ca(pcache);
 			SSimpleObject *psoDuplicate = GPOS_NEW(ca.Pmp()) SSimpleObject(1, 5);
@@ -276,8 +276,8 @@ CCacheTest::EresUnittest_Basic()
 				pso->Release();
 			}
 
-			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pso && 2 == pso->m_ulValue);
-			GPOS_ASSERT_IMP(pcache->Unique(), NULL == pso);
+			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pso && 2 == pso->m_ulValue);
+			GPOS_ASSERT_IMP(pcache->IsUnique(), NULL == pso);
 		}
 
 		// delete - scope for accessor
@@ -287,7 +287,7 @@ CCacheTest::EresUnittest_Basic()
 			ca.Lookup(&ulkey);
 			pso = ca.Val();
 
-			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pso);
+			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pso);
 
 			if (NULL != pso)
 			{
@@ -333,7 +333,7 @@ GPOS_RESULT
 CCacheTest::EresUnittest_Refcount()
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CreateCache<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -432,20 +432,20 @@ CCacheTest::ULFillCacheWithoutEviction(CCache<SSimpleObject*, ULONG*> *pCache, U
 #ifdef GPOS_DEBUG
 	// initial size of the cache
 	ULLONG ullInitialCacheSize = pCache->TotalAllocatedSize();
-	ULLONG ullOldEvictionCounter = pCache->EvictionCounter();
+	ULLONG ullOldEvictionCounter = pCache->GetEvictionCounter();
 #endif
 
 	ULLONG ullOneElemSize = InsertOneElement(pCache, ulKeyStart);
 
 #ifdef GPOS_DEBUG
 	ULLONG ullOneElemCacheSize = pCache->TotalAllocatedSize();
-	ULLONG ullNewEvictionCounter = pCache->EvictionCounter();
+	ULLONG ullNewEvictionCounter = pCache->GetEvictionCounter();
 #endif
 
 	GPOS_ASSERT((ullOneElemCacheSize > ullInitialCacheSize || ullOldEvictionCounter < ullNewEvictionCounter)
 			&& "Cache size didn't change upon insertion");
 
-	ULLONG ullCacheCapacity = pCache->CacheQuota() / ullOneElemSize;
+	ULLONG ullCacheCapacity = pCache->GetCacheQuota() / ullOneElemSize;
 
 	// We already have an element in the cache and the eviction happens after we violate.
 	// So, we should not trigger eviction inserting cacheCapacity + 1
@@ -511,7 +511,7 @@ CCacheTest::CheckGenerationSanityAfterEviction(CCache<SSimpleObject*, ULONG*>* p
 	}
 
 #ifdef GPOS_DEBUG
-	ULLONG ullCacheCapacity = pCache->CacheQuota() / ullOneElemSize;
+	ULLONG ullCacheCapacity = pCache->GetCacheQuota() / ullOneElemSize;
 #endif
 
 	// total in-cache entries must be at least as many as the minimum number of in-cache entries after an eviction
@@ -531,7 +531,7 @@ void
 CCacheTest::TestEvictionForOneCacheSize(ULLONG ullCacheQuota)
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apCache;
-	apCache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>(false, /* not an unique cache */
+	apCache = CCacheFactory::CreateCache<SSimpleObject*, ULONG*>(false, /* not an unique cache */
 			ullCacheQuota, SSimpleObject::UlMyHash, SSimpleObject::FMyEqual);
 
 	CCache<SSimpleObject*, ULONG*>* pCache = apCache.Value();
@@ -591,7 +591,7 @@ CCacheTest::TestEvictionForOneCacheSize(ULLONG ullCacheQuota)
 	ULLONG ullNewQuota = static_cast<ULLONG>(static_cast<double>(ullCacheQuota) * 0.5);
 	// drastically reduce the size of the cache
 	pCache->SetCacheQuota(ullNewQuota);
-	GPOS_ASSERT(pCache->CacheQuota() == ullNewQuota);
+	GPOS_ASSERT(pCache->GetCacheQuota() == ullNewQuota);
 	// now ensure that newer gen items are outliving older gen during cache eviction
 	CheckGenerationSanityAfterEviction(pCache, ullOneElemSize, ulLastKeyFirstGen + 2,
 			ulLastKeySecondGen, ulLastKeyThirdGen);
@@ -658,7 +658,7 @@ CCacheTest::EresInsertDuplicates
 	)
 {
 	ULONG ulDuplicates = 1;
-	if (!pcache->Unique())
+	if (!pcache->IsUnique())
 	{
 		ulDuplicates = GPOS_CACHE_DUPLICATES;
 	}
@@ -767,7 +767,7 @@ CCacheTest::EresUnittest_DeepObject()
 	pdoDummy->AddEntry(amp.Pmp(), 2, 2);
 
 	CAutoP<CCache<CDeepObject*, CDeepObject::CDeepObjectList*> > apcache;
-	apcache = CCacheFactory::CacheCreate<CDeepObject*, CDeepObject::CDeepObjectList*>
+	apcache = CCacheFactory::CreateCache<CDeepObject*, CDeepObject::CDeepObjectList*>
 			(
 			fUnique,
 			UNLIMITED_CACHE_QUOTA,
@@ -795,7 +795,7 @@ CCacheTest::EresUnittest_DeepObject()
 				    "Incorrect cache entry was inserted");
 
 		// insert duplicate while not allowed
-		if (pcache->Unique())
+		if (pcache->IsUnique())
 		{
 			CDeepObjectCacheAccessor ca(pcache);
 			IMemoryPool *pmp = ca.Pmp();
@@ -828,9 +828,9 @@ CCacheTest::EresUnittest_DeepObject()
 				pdo->Release();
 			}
 
-			GPOS_ASSERT_IMP(pcache->Unique(), NULL == pdo);
-			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pdo);
-			GPOS_ASSERT_IMP(!pcache->Unique(),
+			GPOS_ASSERT_IMP(pcache->IsUnique(), NULL == pdo);
+			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pdo);
+			GPOS_ASSERT_IMP(!pcache->IsUnique(),
 							3 == CDeepObject::UlMyHash(pdo->Key()) &&
 							"Incorrect cache entry");
 
@@ -842,7 +842,7 @@ CCacheTest::EresUnittest_DeepObject()
 			ca.Lookup(pdoDummy->Key());
 			pdo = ca.Val();
 
-			GPOS_ASSERT_IMP(!pcache->Unique(), NULL != pdo);
+			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pdo);
 
 			if (NULL != pdo)
 			{
@@ -885,7 +885,7 @@ GPOS_RESULT
 CCacheTest::EresUnittest_Iteration()
 {
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CreateCache<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -899,7 +899,7 @@ CCacheTest::EresUnittest_Iteration()
 
 #ifdef GPOS_DEBUG
 	ULONG ulDuplicates = 1;
-	if (!pcache->Unique())
+	if (!pcache->IsUnique())
 	{
 		ulDuplicates = GPOS_CACHE_DUPLICATES;
 	}
@@ -951,7 +951,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 	GPOS_ASSERT(GPOS_CACHE_DUPLICATES >= GPOS_CACHE_DUPLICATES_TO_DELETE);
 
 	CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-	apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
+	apcache = CCacheFactory::CreateCache<SSimpleObject*, ULONG*>
 				(
 				fUnique,
 				UNLIMITED_CACHE_QUOTA,
@@ -963,7 +963,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 
 	CCacheTest::EresInsertDuplicates(pcache);
 
-	if (!pcache->Unique())
+	if (!pcache->IsUnique())
 	{
 		CCacheTest::EresRemoveDuplicates(pcache);
 	}
@@ -971,7 +971,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 #ifdef GPOS_DEBUG
 	ULONG ulDuplicates = 1;
 	ULONG ulDuplicatesToDelete = 0;
-	if (!pcache->Unique())
+	if (!pcache->IsUnique())
 	{
 		ulDuplicates = GPOS_CACHE_DUPLICATES;
 		ulDuplicatesToDelete = GPOS_CACHE_DUPLICATES_TO_DELETE;
@@ -1147,7 +1147,7 @@ CCacheTest::EresUnittest_ConcurrentAccess()
 		GPOS_CHECK_ABORT;
 
 		CAutoP<CCache<SSimpleObject*, ULONG*> > apcache;
-		apcache = CCacheFactory::CacheCreate<SSimpleObject*, ULONG*>
+		apcache = CCacheFactory::CreateCache<SSimpleObject*, ULONG*>
 					(
 					fUnique,
 					UNLIMITED_CACHE_QUOTA,

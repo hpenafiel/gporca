@@ -177,7 +177,7 @@ namespace gpos
 
 				// look for the first unmarked entry matching the given key
 				CCacheHashTableEntry *entry = acc.Find();
-				while (NULL != entry && entry->MarkedForDeletion())
+				while (NULL != entry && entry->IsMarkedForDeletion())
 				{
 					entry = acc.Next(entry);
 				}
@@ -209,7 +209,7 @@ namespace gpos
 					CCacheHashtableAccessor acc(m_hash_table, entry->Key());
 					entry->DecRefCount();
 
-					if (EXPECTED_REF_COUNT_FOR_DELETE == entry->RefCount() && entry->MarkedForDeletion())
+					if (EXPECTED_REF_COUNT_FOR_DELETE == entry->RefCount() && entry->IsMarkedForDeletion())
 					{
 						// remove entry from hash table
 						acc.Remove(entry);
@@ -225,7 +225,7 @@ namespace gpos
 			}
 
 			// returns the next entry in the hash chain with a key matching the given object
-			CCacheHashTableEntry *Next(CCacheHashTableEntry *entry)
+			CCacheHashTableEntry *GetNextEntry(CCacheHashTableEntry *entry)
 			{
 				GPOS_ASSERT(NULL != entry);
 
@@ -235,7 +235,7 @@ namespace gpos
 
 				// move forward until we find unmarked entry with the same key
 				CCacheHashTableEntry *next = acc.Next(current);
-				while (NULL != next && next->MarkedForDeletion())
+				while (NULL != next && next->IsMarkedForDeletion())
 				{
 					next = acc.Next(next);
 				}
@@ -244,7 +244,7 @@ namespace gpos
 				{
 					next->IncRefCount();
 				}
-				GPOS_ASSERT_IMP(Unique(), NULL == next);
+				GPOS_ASSERT_IMP(IsUnique(), NULL == next);
 
 				return next;
 			}
@@ -434,7 +434,7 @@ namespace gpos
 			}
 
 			// does cache allow duplicate keys?
-			BOOL Unique() const
+			BOOL IsUnique() const
 			{
 				return m_unique;
 			}
@@ -452,13 +452,13 @@ namespace gpos
 			}
 
 			// return memory quota of the cache
-			ULLONG CacheQuota()
+			ULLONG GetCacheQuota()
 			{
 				return m_cache_quota;
 			}
 
 			// return number of times this cache underwent eviction
-			ULLONG EvictionCounter()
+			ULLONG GetEvictionCounter()
 			{
 				return m_eviction_counter;
 			}

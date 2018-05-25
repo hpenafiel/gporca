@@ -84,7 +84,7 @@ namespace gpos
 			// create a cache instance
 			template <class T, class K>
 			static
-			CCache<T, K> *CacheCreate
+			CCache<T, K> *CreateCache
 				(
 				BOOL unique,
 				ULLONG cache_quota,

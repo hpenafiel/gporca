@@ -213,7 +213,7 @@ CMDProviderTest::EresUnittest_Negative()
 	// we need to use an auto pointer for the cache here to ensure
 	// deleting memory of cached objects when we throw
 	CAutoP<CMDAccessor::MDCache> apcache;
-	apcache = CCacheFactory::CacheCreate<gpopt::IMDCacheObject*, gpopt::CMDKey*>
+	apcache = CCacheFactory::CreateCache<gpopt::IMDCacheObject*, gpopt::CMDKey*>
 				(
 				true, // fUnique
 				0 /* unlimited cache quota */,

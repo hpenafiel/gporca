@@ -144,7 +144,7 @@ namespace gpos
 			}
 
 			// returns true if entry is marked as deleted
-			BOOL MarkedForDeletion() const
+			BOOL IsMarkedForDeletion() const
 			{
 				return m_deleted;
 			}
