@@ -108,9 +108,9 @@ CMemoryPoolStack::Allocate
 	}
 
 	// find block to allocate memory in it
-	SBlockDescriptor *desc = Provider(as, alloc);
+	SBlockDescriptor *desc = FindMemoryBlock(as, alloc);
 
-	GPOS_ASSERT_IMP(ThreadSafe(), m_lock.IsOwned());
+	GPOS_ASSERT_IMP(IsThreadSafe(), m_lock.IsOwned());
 
 	if (NULL != desc)
 	{
@@ -129,14 +129,14 @@ CMemoryPoolStack::Allocate
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMemoryPoolStack::Provider
+//		CMemoryPoolStack::FindMemoryBlock
 //
 //	@doc:
 //		Find block to provide memory for allocation request.
 //
 //---------------------------------------------------------------------------
 CMemoryPoolStack::SBlockDescriptor *
-CMemoryPoolStack::Provider
+CMemoryPoolStack::FindMemoryBlock
 	(
 	CAutoSpinlock &as,
 	ULONG alloc
@@ -193,7 +193,7 @@ CMemoryPoolStack::New
 	// allocate memory and put block descriptor to the beginning of it
 	SBlockDescriptor *desc = static_cast<SBlockDescriptor*>
 			(
-			UnderlyingMemoryPool()->Allocate(block_size, __FILE__, __LINE__)
+			GetUnderlyingMemoryPool()->Allocate(block_size, __FILE__, __LINE__)
 			);
 
 	if (NULL != desc)
@@ -220,7 +220,7 @@ CMemoryPoolStack::TearDown()
 
 	while (!m_block_list.IsEmpty())
 	{
-		UnderlyingMemoryPool()->Free(m_block_list.RemoveHead());
+		GetUnderlyingMemoryPool()->Free(m_block_list.RemoveHead());
 	}
 
 	CMemoryPool::TearDown();

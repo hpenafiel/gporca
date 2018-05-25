@@ -45,7 +45,7 @@ namespace gpos
 			//	 	does not include the pointer to the pool;
 			//
 			//---------------------------------------------------------------------------
-			struct AllocHeader
+			struct SAllocHeader
 			{
 				// sequence number
 				ULLONG m_serial;
@@ -86,7 +86,7 @@ namespace gpos
 			ULLONG m_reserved;
 
 			// list of allocated (live) objects
-			CList<AllocHeader> m_allocations_list;
+			CList<SAllocHeader> m_allocations_list;
 
 			// attempt to reserve memory for allocation
 			BOOL Reserve(CAutoSpinlock &as, ULONG ulAlloc);
@@ -97,7 +97,7 @@ namespace gpos
 			// acquire spinlock if pool is thread-safe
 			void SLock(CAutoSpinlock &as)
 			{
-				if (ThreadSafe())
+				if (IsThreadSafe())
 				{
 					as.Lock();
 				}
@@ -106,7 +106,7 @@ namespace gpos
 			// release spinlock if pool is thread-safe
 			void SUnlock(CAutoSpinlock &as)
 			{
-				if (ThreadSafe())
+				if (IsThreadSafe())
 				{
 					as.Unlock();
 				}

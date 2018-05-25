@@ -31,7 +31,7 @@ using namespace gpos;
 
 
 #define GPOS_MEM_ALLOC_HEADER_SIZE \
-	GPOS_MEM_ALIGNED_STRUCT_SIZE(AllocHeader)
+	GPOS_MEM_ALIGNED_STRUCT_SIZE(SAllocHeader)
 
 #define GPOS_MEM_BYTES_TOTAL(ulNumBytes) \
 	(GPOS_MEM_ALLOC_HEADER_SIZE + GPOS_MEM_ALIGNED_SIZE(ulNumBytes))
@@ -60,7 +60,7 @@ CMemoryPoolTracker::CMemoryPoolTracker
 {
 	GPOS_ASSERT(NULL != underlying_memory_pool);
 
-	m_allocations_list.Init(GPOS_OFFSET(AllocHeader, m_link));
+	m_allocations_list.Init(GPOS_OFFSET(SAllocHeader, m_link));
 }
 
 
@@ -105,7 +105,7 @@ CMemoryPoolTracker::Allocate
 	void *ptr;
 	if (mem_available)
 	{
-		ptr = UnderlyingMemoryPool()->Allocate(alloc, file, line);
+		ptr = GetUnderlyingMemoryPool()->Allocate(alloc, file, line);
 	}
 	else
 	{
@@ -121,7 +121,7 @@ CMemoryPoolTracker::Allocate
 	}
 
 	// successful allocation: update header information and any memory pool data
-	AllocHeader *header = static_cast<AllocHeader*>(ptr);
+	SAllocHeader *header = static_cast<SAllocHeader*>(ptr);
 
 	// scope indicating locking
 	{
@@ -235,7 +235,7 @@ CMemoryPoolTracker::Free
 {
 	CAutoSpinlock as(m_lock);
 
-	AllocHeader *header = static_cast<AllocHeader*>(ptr) - 1;
+	SAllocHeader *header = static_cast<SAllocHeader*>(ptr) - 1;
 	ULONG user_size = header->m_size;
 
 #ifdef GPOS_DEBUG
@@ -257,7 +257,7 @@ CMemoryPoolTracker::Free
 	}
 
 	// pass request to underlying memory pool;
-	UnderlyingMemoryPool()->Free(header);
+	GetUnderlyingMemoryPool()->Free(header);
 
 	// update committed memory value
 	if (m_capacity != ULLONG_MAX)
@@ -285,7 +285,7 @@ CMemoryPoolTracker::TearDown()
 {
 	while (!m_allocations_list.IsEmpty())
 	{
-		AllocHeader *header = m_allocations_list.First();
+		SAllocHeader *header = m_allocations_list.First();
 		void *user_data = header + 1;
 		Free(user_data);
 	}
@@ -312,7 +312,7 @@ CMemoryPoolTracker::WalkLiveObjects
 {
 	GPOS_ASSERT(NULL != visitor);
 
-	AllocHeader *header = m_allocations_list.First();
+	SAllocHeader *header = m_allocations_list.First();
 	while (NULL != header)
 	{
 		SIZE_T total_size = GPOS_MEM_BYTES_TOTAL(header->m_size);

@@ -66,11 +66,11 @@ namespace gpos
 				// init
 				void Init
 					(
-					ULONG ulTotal
+					ULONG total
 					)
 				{
 					m_user = this + 1;
-					m_total_size = ulTotal;
+					m_total_size = total;
 					m_used_size = GPOS_MEM_ALIGNED_STRUCT_SIZE(SBlockDescriptor);
 					m_link.m_next = NULL;
 					m_link.m_prev = NULL;
@@ -111,12 +111,12 @@ namespace gpos
 			SBlockDescriptor *New(ULONG size);
 
 			// find block to provide memory for allocation request
-			SBlockDescriptor *Provider(CAutoSpinlock &as, ULONG alloc);
+			SBlockDescriptor *FindMemoryBlock(CAutoSpinlock &as, ULONG alloc);
 
 			// acquire spinlock if pool is thread-safe
 			void SLock(CAutoSpinlock &as)
 			{
-				if (ThreadSafe())
+				if (IsThreadSafe())
 				{
 					as.Lock();
 				}
@@ -125,7 +125,7 @@ namespace gpos
 			// release spinlock if pool is thread-safe
 			void SUnlock(CAutoSpinlock &as)
 			{
-				if (ThreadSafe())
+				if (IsThreadSafe())
 				{
 					as.Unlock();
 				}

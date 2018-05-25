@@ -64,7 +64,7 @@ namespace gpos
 				);
 
             // visit counter accessor
-            ULLONG UllVisits() const
+            ULLONG GetNumVisits() const
             {
             	return m_visits;
             }

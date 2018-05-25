@@ -92,7 +92,7 @@ CMemoryPoolBasicTest::EresUnittest_Print()
 	CWStringStatic str(wsz, GPOS_ARRAY_SIZE(wsz));
 	COstreamString os(&str);
 
-	(void) CMemoryPoolManager::MemoryPoolMgr()->OsPrint(os);
+	(void) CMemoryPoolManager::GetMemoryPoolMgr()->OsPrint(os);
 	GPOS_TRACE(str.Wsz());
 
 	return GPOS_OK;

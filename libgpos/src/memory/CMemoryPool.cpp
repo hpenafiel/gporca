@@ -70,7 +70,7 @@ CMemoryPool::~CMemoryPool()
 {
 	if (m_owns_underlying_memory_pool)
 	{
-		CMemoryPoolManager::MemoryPoolMgr()->DeleteUnregistered(m_underlying_memory_pool);
+		CMemoryPoolManager::GetMemoryPoolMgr()->DeleteUnregistered(m_underlying_memory_pool);
 	}
 }
 
@@ -88,7 +88,7 @@ CMemoryPool::FinalizeAlloc
 	(
 	void *ptr,
 	ULONG alloc,
-	AllocationType eat
+	EAllocationType eat
 	)
 {
 	GPOS_ASSERT(NULL != ptr);
@@ -116,7 +116,7 @@ void
 CMemoryPool::FreeAlloc
 	(
 	void *ptr,
-	AllocationType eat
+	EAllocationType eat
 	)
 {
 	GPOS_ASSERT(ptr != NULL);
@@ -202,13 +202,13 @@ CMemoryPool::AssertEmpty
 		CMemoryVisitorPrint visitor(os);
 		WalkLiveObjects(&visitor);
 
-		if (0 != visitor.UllVisits())
+		if (0 != visitor.GetNumVisits())
 		{
 			os
 				<< "Unfreed memory in memory pool "
 				<< (void*)this
 				<< ": "
-				<< visitor.UllVisits()
+				<< visitor.GetNumVisits()
 				<< " objects leaked"
 				<< std::endl;
 

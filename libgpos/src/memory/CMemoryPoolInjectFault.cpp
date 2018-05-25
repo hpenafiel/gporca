@@ -71,7 +71,7 @@ CMemoryPoolInjectFault::Allocate
 	}
 #endif
 
-	return UnderlyingMemoryPool()->Allocate(num_bytes, filename, line);
+	return GetUnderlyingMemoryPool()->Allocate(num_bytes, filename, line);
 }
 
 
@@ -93,7 +93,7 @@ CMemoryPoolInjectFault::Free
 	void *memory
 	)
 {
-	UnderlyingMemoryPool()->Free(memory);
+	GetUnderlyingMemoryPool()->Free(memory);
 }
 
 

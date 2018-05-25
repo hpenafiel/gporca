@@ -38,14 +38,14 @@ IMemoryPool::NewImpl
 	SIZE_T size,
 	const CHAR *filename,
 	ULONG line,
-	IMemoryPool::AllocationType eat
+	IMemoryPool::EAllocationType eat
 	)
 {
 	GPOS_ASSERT(ULONG_MAX >= size);
 	GPOS_ASSERT_IMP
 		(
-		(NULL != CMemoryPoolManager::MemoryPoolMgr()) && (this == CMemoryPoolManager::MemoryPoolMgr()->Global()),
-		CMemoryPoolManager::MemoryPoolMgr()->AllowGlobalNew() &&
+		(NULL != CMemoryPoolManager::GetMemoryPoolMgr()) && (this == CMemoryPoolManager::GetMemoryPoolMgr()->GetGlobalMemoryPool()),
+		CMemoryPoolManager::GetMemoryPoolMgr()->IsGlobalNewAllowed() &&
 		"Use of new operator without target memory pool is prohibited, use New(...) instead"
 		);
 
@@ -69,7 +69,7 @@ void
 IMemoryPool::DeleteImpl
 	(
 	void *ptr,
-	AllocationType eat
+	EAllocationType eat
 	)
 {
 	// deletion of NULL pointers is legal

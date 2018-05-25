@@ -161,7 +161,7 @@ CMessageRepository::GetMessageRepository()
 void
 CMessageRepository::Shutdown()
 {
-	CMemoryPoolManager::MemoryPoolMgr()->Destroy(m_pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
 	CMessageRepository::m_repository = NULL;
 }
 

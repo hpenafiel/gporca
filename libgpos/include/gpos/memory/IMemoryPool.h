@@ -43,7 +43,7 @@ namespace gpos
 		public:
 
 			// type of allocation, simple singleton or array
-			enum AllocationType
+			enum EAllocationType
 			{
 				EatSingleton = 0x7f,
 				EatArray = 0x7e
@@ -64,7 +64,7 @@ namespace gpos
 				SIZE_T size,
 				const CHAR *filename,
 				ULONG line,
-				AllocationType type
+				EAllocationType type
 				);
 
 			// implementation of array-new with memory pool
@@ -102,7 +102,7 @@ namespace gpos
 			void DeleteImpl
 				(
 				void *ptr,
-				AllocationType type
+				EAllocationType type
 				);
 
 			// allocate memory; return NULL if the memory could not be allocated
@@ -131,11 +131,11 @@ namespace gpos
 
 			// check if memory pool is thread-safe
 			virtual
-			BOOL ThreadSafe() const = 0;
+			BOOL IsThreadSafe() const = 0;
 
 			// return the hash key of the memory pool
 			virtual
-			ULONG_PTR HashKey() const = 0;
+			ULONG_PTR GetHashKey() const = 0;
 
 			// return total allocated size
 			virtual

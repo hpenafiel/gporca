@@ -150,13 +150,13 @@ namespace gpos
 			void Shutdown();
 
 			// accessor of memory pool used in global new allocations
-			IMemoryPool *Global()
+			IMemoryPool *GetGlobalMemoryPool()
 			{
 				return m_global_memory_pool;
 			}
 
 			// are allocations using global new operator allowed?
-			BOOL AllowGlobalNew() const
+			BOOL IsGlobalNewAllowed() const
 			{
 				return m_allow_global_new;
 			}
@@ -182,7 +182,7 @@ namespace gpos
 
 			// global accessor
 			static
-			CMemoryPoolManager *MemoryPoolMgr()
+			CMemoryPoolManager *GetMemoryPoolMgr()
 			{
 				return m_memory_pool_mgr;
 			}

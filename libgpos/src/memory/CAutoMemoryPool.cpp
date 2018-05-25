@@ -48,7 +48,7 @@ CAutoMemoryPool::CAutoMemoryPool
 	:
 	m_leak_check_type(leak_check_type)
 {
-	m_pmp = CMemoryPoolManager::MemoryPoolMgr()->Create(ept, thread_safe, capacity);
+	m_pmp = CMemoryPoolManager::GetMemoryPoolMgr()->Create(ept, thread_safe, capacity);
 }
 
 
@@ -110,14 +110,14 @@ CAutoMemoryPool::~CAutoMemoryPool()
 		}
 
 		// release pool
-		CMemoryPoolManager::MemoryPoolMgr()->Destroy(m_pmp);
+		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
 	}
 	GPOS_CATCH_EX(ex)
 	{
 		GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiAssert));
 
 		// release pool
-		CMemoryPoolManager::MemoryPoolMgr()->Destroy(m_pmp);	
+		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);	
 		
 		GPOS_RETHROW(ex);
 	}
@@ -126,7 +126,7 @@ CAutoMemoryPool::~CAutoMemoryPool()
 #else // GPOS_DEBUG
 	
 	// hand in pool and return
-	CMemoryPoolManager::MemoryPoolMgr()->Destroy(m_pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
 
 #endif // GPOS_DEBUG
 }

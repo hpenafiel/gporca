@@ -177,7 +177,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::FApplyXformUsingStatsInfo
 //           +--CLogicalProject
 //              |--CLogicalLeftAntiSemiJoin
 //              |  |--CLogicalCTEConsumer (2), Columns: ["i_item_sk" (342)]
-//              |  |--CLogicalGbAgg( Global ) Grp Cols: ["i_item_sk" (343)][Global], Minimal Grp Cols: [], Generates Duplicates :[ 0 ]
+//              |  |--CLogicalGbAgg( GetGlobalMemoryPool ) Grp Cols: ["i_item_sk" (343)][Global], Minimal Grp Cols: [], Generates Duplicates :[ 0 ]
 //              |  |  |--CLogicalCTEConsumer (3), Columns: ["i_item_sk" (343), "ss_item_sk" (344)]
 //              |  |  +--CScalarProjectList
 //              |  +--CScalarBoolOp (EboolopNot)

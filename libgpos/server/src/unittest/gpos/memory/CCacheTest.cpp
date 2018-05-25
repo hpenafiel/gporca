@@ -687,7 +687,7 @@ CCacheTest::EresInsertDuplicates
 		IMemoryPool *pmp = amp.Pmp();
 		CAutoTrace at(pmp);
 		at.Os() << std::endl << "Total memory consumption by cache: " << pcache->TotalAllocatedSize() << " bytes";
-		at.Os() << std::endl << "Total memory consumption by memory manager: " << CMemoryPoolManager::MemoryPoolMgr()->TotalAllocatedSize() << " bytes";
+		at.Os() << std::endl << "Total memory consumption by memory manager: " << CMemoryPoolManager::GetMemoryPoolMgr()->TotalAllocatedSize() << " bytes";
 	}
 
 	return GPOS_OK;

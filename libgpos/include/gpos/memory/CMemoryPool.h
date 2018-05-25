@@ -111,7 +111,7 @@ namespace gpos
 				);
 
 			// underlying pool accessor
-			IMemoryPool *UnderlyingMemoryPool() const
+			IMemoryPool *GetUnderlyingMemoryPool() const
 			{
 				return m_underlying_memory_pool;
 			}
@@ -138,14 +138,14 @@ namespace gpos
 
 			// check if memory pool is thread-safe
 			virtual
-			BOOL ThreadSafe() const
+			BOOL IsThreadSafe() const
 			{
 				return m_thread_safe;
 			}
 
 			// hash key accessor
 			virtual
-			ULONG_PTR HashKey() const
+			ULONG_PTR GetHashKey() const
 			{
 				return m_hash_key;
 			}
@@ -162,11 +162,11 @@ namespace gpos
 			}
 
 			// set allocation header and footer, return pointer to user data
-			void *FinalizeAlloc(void *ptr, ULONG alloc, AllocationType eat);
+			void *FinalizeAlloc(void *ptr, ULONG alloc, EAllocationType eat);
 
 			// return allocation to owning memory pool
 			static
-			void FreeAlloc(void *ptr, AllocationType eat);
+			void FreeAlloc(void *ptr, EAllocationType eat);
 
 			// check if the pool stores a pointer to itself at the end of
 			// the header of each allocated object;
