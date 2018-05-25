@@ -29,21 +29,21 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CWStringStatic::CWStringStatic
 	(
-	WCHAR wszBuffer[],
-	ULONG ulCapacity
+	WCHAR buffer[],
+	ULONG capacity
 	)
 	:
 	CWString
 		(
 		0 // length
 		),
-	m_ulCapacity(ulCapacity)
+	capacity(capacity)
 {
-	GPOS_ASSERT(NULL != wszBuffer);
-	GPOS_ASSERT(0 < m_ulCapacity);
+	GPOS_ASSERT(NULL != buffer);
+	GPOS_ASSERT(0 < capacity);
 
-	m_wszBuf = wszBuffer;
-	m_wszBuf[0] = WCHAR_EOS;
+	m_buffer = buffer;
+	m_buffer[0] = WCHAR_EOS;
 }
 
 
@@ -57,22 +57,22 @@ CWStringStatic::CWStringStatic
 //---------------------------------------------------------------------------
 CWStringStatic::CWStringStatic
 	(
-	WCHAR wszBuffer[],
-	ULONG ulCapacity,
-	const WCHAR wszInit[]
+	WCHAR buffer[],
+	ULONG capacity,
+	const WCHAR init_str[]
 	)
 	:
 	CWString
 		(
 		0 // length
 		),
-	m_ulCapacity(ulCapacity)
+	capacity(capacity)
 {
-	GPOS_ASSERT(NULL != wszBuffer);
-	GPOS_ASSERT(0 < m_ulCapacity);
+	GPOS_ASSERT(NULL != buffer);
+	GPOS_ASSERT(0 < capacity);
 
-	m_wszBuf = wszBuffer;
-	AppendBuffer(wszInit);
+	m_buffer = buffer;
+	AppendBuffer(init_str);
 }
 
 
@@ -92,25 +92,25 @@ CWStringStatic::AppendBuffer
 {
 	GPOS_ASSERT(NULL != wstrbuf);
 	ULONG length = GPOS_WSZ_LENGTH(wstrbuf);
-	if (0 == length || m_ulCapacity == m_length)
+	if (0 == length || capacity == m_length)
 	{
 		return;
 	}
 	
 	// check if new length exceeds capacity
-	if (m_ulCapacity <= length + m_length)
+	if (capacity <= length + m_length)
 	{
 		// truncate string
-		length = m_ulCapacity - m_length - 1;
+		length = capacity - m_length - 1;
 	}
 
-	GPOS_ASSERT(m_ulCapacity > length + m_length);
+	GPOS_ASSERT(capacity > length + m_length);
 
-	clib::WcStrNCpy(m_wszBuf + m_length, wstrbuf, length + 1);
+	clib::WcStrNCpy(m_buffer + m_length, wstrbuf, length + 1);
 	m_length += length;
 	
 	// terminate string
-	m_wszBuf[m_length] = WCHAR_EOS;
+	m_buffer[m_length] = WCHAR_EOS;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -127,10 +127,10 @@ CWStringStatic::AppendBuffer
 void
 CWStringStatic::AppendWideCharArray
 	(
-	const WCHAR *wsz
+	const WCHAR *wchar_array
 	)
 {
-	AppendBuffer(wsz);
+	AppendBuffer(wchar_array);
 }
 
 
@@ -145,20 +145,20 @@ CWStringStatic::AppendWideCharArray
 void
 CWStringStatic::AppendCharArray
 	(
-	const CHAR *sz
+	const CHAR *char_array
 	)
 {
-	GPOS_ASSERT(NULL != sz);
-	if (0 ==  GPOS_SZ_LENGTH(sz) || m_ulCapacity == m_length)
+	GPOS_ASSERT(NULL != char_array);
+	if (0 ==  GPOS_SZ_LENGTH(char_array) || capacity == m_length)
 	{
 		return;
 	}
 
-	ULONG length = GPOS_SZ_LENGTH(sz);
+	ULONG length = GPOS_SZ_LENGTH(char_array);
 	if (length >= GPOS_STATIC_STR_BUFFER_LENGTH)
 	{
 		// if input string is larger than buffer length, use AppendFormat
-		AppendFormat(GPOS_WSZ_LIT("%s"), sz);
+		AppendFormat(GPOS_WSZ_LIT("%s"), char_array);
 		return;
 	}
 
@@ -169,22 +169,22 @@ CWStringStatic::AppendCharArray
 	#ifdef GPOS_DEBUG
 	ULONG ulLen =
 	#endif // GPOS_DEBUG
-		clib::MbToWcs(wstrbuf, sz, length);
+		clib::MbToWcs(wstrbuf, char_array, length);
 	GPOS_ASSERT(ulLen == length);
 
 	// check if new length exceeds capacity
-	if (m_ulCapacity <= length + m_length)
+	if (capacity <= length + m_length)
 	{
 		// truncate string
-		length = m_ulCapacity - m_length - 1;
+		length = capacity - m_length - 1;
 	}
-	GPOS_ASSERT(m_ulCapacity > length + m_length);
+	GPOS_ASSERT(capacity > length + m_length);
 
 	// append input string to current end of buffer
-	(void) clib::WcMemCpy(m_wszBuf + m_length, wstrbuf, length + 1);
+	(void) clib::WcMemCpy(m_buffer + m_length, wstrbuf, length + 1);
 
 	m_length += length;
-	m_wszBuf[m_length] = WCHAR_EOS;
+	m_buffer[m_length] = WCHAR_EOS;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -205,15 +205,15 @@ CWStringStatic::AppendFormat
 	...
 	)
 {
-	VA_LIST	vaArgs;
+	VA_LIST	va_args;
 
 	// get arguments
-	VA_START(vaArgs, format);
+	VA_START(va_args, format);
 
-	AppendFormatVA(format, vaArgs);
+	AppendFormatVA(format, va_args);
 
 	// reset arguments
-	VA_END(vaArgs);
+	VA_END(va_args);
 }
 
 
@@ -229,21 +229,21 @@ void
 CWStringStatic::AppendFormatVA
 	(
 	const WCHAR *format,
-	VA_LIST vaArgs
+	VA_LIST va_args
 	)
 {
 	GPOS_ASSERT(NULL != format);
 
 	// available space in buffer
-	ULONG ulAvailable = m_ulCapacity - m_length;
+	ULONG ulAvailable = capacity - m_length;
 
 	// format string
-	(void) clib::VswPrintf(m_wszBuf + m_length, ulAvailable, format, vaArgs);
+	(void) clib::VswPrintf(m_buffer + m_length, ulAvailable, format, va_args);
 
-	m_wszBuf[m_ulCapacity - 1] = WCHAR_EOS;
-	m_length = GPOS_WSZ_LENGTH(m_wszBuf);
+	m_buffer[capacity - 1] = WCHAR_EOS;
+	m_length = GPOS_WSZ_LENGTH(m_buffer);
 
-	GPOS_ASSERT(m_ulCapacity > m_length);
+	GPOS_ASSERT(capacity > m_length);
 
 	GPOS_ASSERT(IsValid());
 }
@@ -260,7 +260,7 @@ CWStringStatic::AppendFormatVA
 void
 CWStringStatic::Reset()
 {
-	m_wszBuf[0] = WCHAR_EOS;
+	m_buffer[0] = WCHAR_EOS;
 	m_length = 0;
 }
 
@@ -276,44 +276,44 @@ CWStringStatic::Reset()
 void
 CWStringStatic::AppendEscape
 	(
-	const CWStringBase *pstr,
+	const CWStringBase *str,
 	WCHAR wc,
-	const WCHAR *wszReplace
+	const WCHAR *replace_str
 	)
 {
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 
-	if (pstr->IsEmpty())
+	if (str->IsEmpty())
 	{
 		return;
 	}
 
-	ULONG length = pstr->Length();
-	ULONG ulLengthReplace =  GPOS_WSZ_LENGTH(wszReplace);
+	ULONG length = str->Length();
+	ULONG ulLengthReplace =  GPOS_WSZ_LENGTH(replace_str);
 	ULONG ulLengthNew = m_length;
-	const WCHAR *wsz = pstr->GetBuffer();
+	const WCHAR *wsz = str->GetBuffer();
 
-	for (ULONG i = 0; i < length && ulLengthNew < m_ulCapacity - 1; i++)
+	for (ULONG i = 0; i < length && ulLengthNew < capacity - 1; i++)
 	{
-		if (wc == wsz[i] && !pstr->HasEscapedCharAt(i))
+		if (wc == wsz[i] && !str->HasEscapedCharAt(i))
 		{
 			// check for overflow
-			ULONG ulLengthCopy = std::min(ulLengthReplace, m_ulCapacity - ulLengthNew - 1);
+			ULONG ulLengthCopy = std::min(ulLengthReplace, capacity - ulLengthNew - 1);
 
-			clib::WcStrNCpy(m_wszBuf + ulLengthNew, wszReplace, ulLengthCopy);
+			clib::WcStrNCpy(m_buffer + ulLengthNew, replace_str, ulLengthCopy);
 			ulLengthNew += ulLengthCopy;
 		}
 		else
 		{
-			m_wszBuf[ulLengthNew] = wsz[i];
+			m_buffer[ulLengthNew] = wsz[i];
 			ulLengthNew++;
 		}
 
-		GPOS_ASSERT(ulLengthNew < m_ulCapacity);
+		GPOS_ASSERT(ulLengthNew < capacity);
 	}
 
 	// terminate string
-	m_wszBuf[ulLengthNew] = WCHAR_EOS;
+	m_buffer[ulLengthNew] = WCHAR_EOS;
 
 	m_length = ulLengthNew;
 	GPOS_ASSERT(IsValid());

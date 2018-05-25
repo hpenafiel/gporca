@@ -31,7 +31,7 @@ namespace gpos
 	{
 		private:
 			// null terminated wide character buffer
-			const WCHAR *m_wszBuf;
+			const WCHAR *m_buffer;
 			
 		public:
 			// ctors

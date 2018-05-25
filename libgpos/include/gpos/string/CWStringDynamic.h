@@ -38,7 +38,7 @@ namespace gpos
 			IMemoryPool *m_pmp;
 
 			// string capacity
-			ULONG m_ulCapacity;
+			ULONG capacity;
 
 			// increase string capacity
 			void IncreaseCapacity(ULONG ulRequested);
@@ -64,18 +64,18 @@ namespace gpos
 			CWStringDynamic(IMemoryPool *pmp, const WCHAR *wstrbuf);
 
 			// appends a string and replaces character with string
-			void AppendEscape(const CWStringBase *pstr, WCHAR wc, const WCHAR *wszReplace);
+			void AppendEscape(const CWStringBase *str, WCHAR wc, const WCHAR *replace_str);
 
 			// appends a formatted string
 			void AppendFormat(const WCHAR *format, ...);
 
 			// appends a null terminated character array
 			virtual
-			void AppendCharArray(const CHAR *sz);
+			void AppendCharArray(const CHAR *char_array);
 
 			// appends a null terminated wide character array
 			virtual
-			void AppendWideCharArray(const WCHAR *wsz);
+			void AppendWideCharArray(const WCHAR *wchar_array);
 
 			// dtor
 			virtual ~CWStringDynamic();

@@ -33,7 +33,7 @@ CWString::CWString
 		length,
 		true // owns_memory
 		),
-	m_wszBuf(NULL)
+	m_buffer(NULL)
 {}
 
 
@@ -48,7 +48,7 @@ CWString::CWString
 const WCHAR*
 CWString::GetBuffer() const
 {
-	return m_wszBuf;
+	return m_buffer;
 }
 
 
@@ -63,13 +63,13 @@ CWString::GetBuffer() const
 void
 CWString::Append
 	(
-	const CWStringBase *pstr
+	const CWStringBase *str
 	)
 {
-	GPOS_ASSERT(NULL != pstr);
-	if (0 < pstr->Length())
+	GPOS_ASSERT(NULL != str);
+	if (0 < str->Length())
 	{
-		AppendBuffer(pstr->GetBuffer());
+		AppendBuffer(str->GetBuffer());
 	}
 	GPOS_ASSERT(IsValid());
 }
