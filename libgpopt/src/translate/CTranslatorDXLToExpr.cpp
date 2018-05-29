@@ -1378,7 +1378,7 @@ CTranslatorDXLToExpr::UlMapCTEId
 	ULONG *pulNewId =  m_phmululCTE->Find(&ulIdOld);
 	if (NULL == pulNewId)
 	{
-		pulNewId = GPOS_NEW(m_pmp) ULONG(COptCtxt::PoctxtFromTLS()->Pcteinfo()->UlNextId());
+		pulNewId = GPOS_NEW(m_pmp) ULONG(COptCtxt::PoctxtFromTLS()->Pcteinfo()->next_id());
 
 #ifdef GPOS_DEBUG
 		BOOL fInserted =

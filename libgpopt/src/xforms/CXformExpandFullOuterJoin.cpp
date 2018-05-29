@@ -106,11 +106,11 @@ CXformExpandFullOuterJoin::Transform
 	CExpression *pexprScalar = (*pexpr)[2];
 
 	// 1. create the CTE producers
-	const ULONG ulCTEIdA = COptCtxt::PoctxtFromTLS()->Pcteinfo()->UlNextId();
+	const ULONG ulCTEIdA = COptCtxt::PoctxtFromTLS()->Pcteinfo()->next_id();
 	DrgPcr *pdrgpcrOutA = CDrvdPropRelational::Pdprel(pexprA->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp);
 	(void) CXformUtils::PexprAddCTEProducer(pmp, ulCTEIdA, pdrgpcrOutA, pexprA);
 
-	const ULONG ulCTEIdB = COptCtxt::PoctxtFromTLS()->Pcteinfo()->UlNextId();
+	const ULONG ulCTEIdB = COptCtxt::PoctxtFromTLS()->Pcteinfo()->next_id();
 	DrgPcr *pdrgpcrOutB = CDrvdPropRelational::Pdprel(pexprB->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp);
 	(void) CXformUtils::PexprAddCTEProducer(pmp, ulCTEIdB, pdrgpcrOutB, pexprB);
 

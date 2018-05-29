@@ -243,7 +243,7 @@ namespace gpopt
 			void ReplaceCTEProducer(CExpression *pexprCTEProducer);
 
 			// next available CTE id
-			ULONG UlNextId()
+			ULONG next_id()
 			{
 				return m_ulNextCTEId.Incr();
 			}

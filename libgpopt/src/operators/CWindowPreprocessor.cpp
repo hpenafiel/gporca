@@ -218,7 +218,7 @@ CWindowPreprocessor::CreateCTE
 
 	// create a CTE producer based on SeqPrj child expression
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
-	const ULONG ulCTEId = pcteinfo->UlNextId();
+	const ULONG ulCTEId = pcteinfo->next_id();
 	CExpression *pexprCTEProd = CXformUtils::PexprAddCTEProducer(pmp, ulCTEId, pdrgpcrChildOutput, pexprChild);
 	DrgPcr *pdrgpcrProducerOutput = CDrvdPropRelational::Pdprel(pexprCTEProd->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp);
 

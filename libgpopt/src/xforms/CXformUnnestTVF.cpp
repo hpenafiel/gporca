@@ -202,7 +202,7 @@ CXformUnnestTVF::Transform
 
 	// create a CTE producer on top of the project
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
-	const ULONG ulCTEId = pcteinfo->UlNextId();
+	const ULONG ulCTEId = pcteinfo->next_id();
 
 	// construct CTE producer output from subquery columns
 	DrgPcr *pdrgpcrOutput = GPOS_NEW(pmp) DrgPcr(pmp);

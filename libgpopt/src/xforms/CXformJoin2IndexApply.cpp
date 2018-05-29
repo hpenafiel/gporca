@@ -606,7 +606,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 	}
 
 	DrgPcr *pdrgpcrGet = popDynamicGet->PdrgpcrOutput();
-	const ULONG ulCTEId = COptCtxt::PoctxtFromTLS()->Pcteinfo()->UlNextId();
+	const ULONG ulCTEId = COptCtxt::PoctxtFromTLS()->Pcteinfo()->next_id();
 
 	// outer references mentioned in the scan filter: we need them to generate the IndexApply
 	DrgPcr *pdrgpcrOuterRefsInScan = pcrsOuterRefs->Pdrgpcr(pmp);

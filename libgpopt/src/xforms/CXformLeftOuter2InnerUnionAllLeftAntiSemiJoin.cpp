@@ -229,7 +229,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::Transform
 		return;
 	}
 
-	const ULONG ulCTEOuterId = COptCtxt::PoctxtFromTLS()->Pcteinfo()->UlNextId();
+	const ULONG ulCTEOuterId = COptCtxt::PoctxtFromTLS()->Pcteinfo()->next_id();
 	CColRefSet *pcrsOuter = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
 	DrgPcr *pdrgpcrOuter = pcrsOuter->Pdrgpcr(pmp);
 	(void) CXformUtils::PexprAddCTEProducer(pmp, ulCTEOuterId, pdrgpcrOuter, pexprOuter);
@@ -249,7 +249,7 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::Transform
 
 	CColRefSet *pcrsJoinOutput = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput();
 	DrgPcr *pdrgpcrJoinOutput = pcrsJoinOutput->Pdrgpcr(pmp);
-	const ULONG ulCTEJoinId = COptCtxt::PoctxtFromTLS()->Pcteinfo()->UlNextId();
+	const ULONG ulCTEJoinId = COptCtxt::PoctxtFromTLS()->Pcteinfo()->next_id();
 	(void) CXformUtils::PexprAddCTEProducer(pmp, ulCTEJoinId, pdrgpcrJoinOutput, pexprInnerJoin);
 
 	CColRefSet *pcrsScalar = CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed();

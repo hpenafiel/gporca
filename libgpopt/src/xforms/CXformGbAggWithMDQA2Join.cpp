@@ -114,7 +114,7 @@ CXformGbAggWithMDQA2Join::PexprMDQAs2Join
 
 	// create a CTE producer based on child expression
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
-	const ULONG ulCTEId = pcteinfo->UlNextId();
+	const ULONG ulCTEId = pcteinfo->next_id();
 	(void) CXformUtils::PexprAddCTEProducer(pmp, ulCTEId, pdrgpcrChildOutput, pexprChild);
 
 	// create a CTE consumer with child output columns
