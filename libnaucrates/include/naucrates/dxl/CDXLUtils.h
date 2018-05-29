@@ -400,16 +400,16 @@ namespace gpdxl
 			CWStringDynamic *CreateDynamicStringFromCharArray
 				(
 				IMemoryPool *memory_pool,
-				const CHAR *sz
+				const CHAR *c
 				);
 			
 			// create an MD name from a character array
 			static 
-			CMDName *CreateMDNameFromCharArray(IMemoryPool *memory_pool, const CHAR *sz);	
+			CMDName *CreateMDNameFromCharArray(IMemoryPool *memory_pool, const CHAR *c);
 			
 			// create an MD name from a Xerces character array
 			static 
-			CMDName *PmdnameFromXmlsz(CDXLMemoryManager *memory_manager, const XMLCh *xml_string);
+			CMDName *CreateMDNameFromXMLChar(CDXLMemoryManager *memory_manager, const XMLCh *xml_string);
 		
 			// encode a byte array to a string
 			static 
@@ -482,7 +482,7 @@ namespace gpdxl
 			static
 			void SerializeBound
 					(
-					IDatum *pdatum,
+					IDatum *new_length,
 					const CWStringConst *dxl_string,
 					CXMLSerializer *xml_serializer
 					);

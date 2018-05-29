@@ -73,7 +73,7 @@ CParseHandlerMDScCmp::StartElement
 														EdxltokenGPDBMDScCmp
 														);
 
-	CMDName *pmdname = CDXLUtils::PmdnameFromXmlsz(m_pphm->Pmm(), xmlszOpName);
+	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszOpName);
 
 
 	// parse scalar comparison properties

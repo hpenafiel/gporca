@@ -82,7 +82,7 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
 	{
-		m_pmdnameSchema = CDXLUtils::PmdnameFromXmlsz(m_pphm->Pmm(), xmlszSchema);
+		m_pmdnameSchema = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszSchema);
 	}
 	
 	// parse whether relation is temporary

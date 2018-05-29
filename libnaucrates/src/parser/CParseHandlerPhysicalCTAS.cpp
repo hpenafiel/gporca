@@ -77,12 +77,12 @@ CParseHandlerPhysicalCTAS::StartElement
 	
 	// parse table name
 	const XMLCh *xmlszTableName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenPhysicalCTAS);
-	m_pmdname = CDXLUtils::PmdnameFromXmlsz(m_pphm->Pmm(), xmlszTableName);
+	m_pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszTableName);
 	
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
 	{
-		m_pmdnameSchema = CDXLUtils::PmdnameFromXmlsz(m_pphm->Pmm(), xmlszSchema);
+		m_pmdnameSchema = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszSchema);
 	}
 	
 	// parse distribution policy

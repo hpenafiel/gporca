@@ -76,7 +76,7 @@ CParseHandlerCtasStorageOptions::StartElement
 		const XMLCh *xmlszTablespace = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenTablespace));
 		if (NULL != xmlszTablespace)
 		{
-			m_pmdnameTablespace = CDXLUtils::PmdnameFromXmlsz(m_pphm->Pmm(), xmlszTablespace);
+			m_pmdnameTablespace = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszTablespace);
 		}
 		
 		m_ectascommit = CDXLOperatorFactory::EctascommitFromAttr(attrs);

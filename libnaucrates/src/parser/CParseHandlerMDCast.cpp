@@ -73,7 +73,7 @@ CParseHandlerMDCast::StartElement
 														EdxltokenGPDBCast
 														);
 
-	CMDName *pmdname = CDXLUtils::PmdnameFromXmlsz(m_pphm->Pmm(), xmlszFuncName);
+	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszFuncName);
 
 
 	// parse cast properties

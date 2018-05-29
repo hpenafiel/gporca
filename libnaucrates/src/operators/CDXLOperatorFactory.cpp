@@ -1643,7 +1643,7 @@ CDXLOperatorFactory::Pdxltabdesc
 									EdxltokenTableDescr
 									);
 
-	CMDName *pmdname = CDXLUtils::PmdnameFromXmlsz(pmm, xmlszTableName);
+	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(pmm, xmlszTableName);
 	
 	// parse metadata id
 	IMDId *pmdid = PmdidFromAttrs
