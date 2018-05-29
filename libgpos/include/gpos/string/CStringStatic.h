@@ -50,7 +50,7 @@ namespace gpos
 			ULONG m_length;
 
 			// buffer capacity
-			ULONG capacity;
+			ULONG m_ulCapacity;
 
 #ifdef GPOS_DEBUG
 			// checks whether a string is properly null-terminated
@@ -63,10 +63,10 @@ namespace gpos
 		public:
 
 			// ctor
-			CStringStatic(CHAR szBuffer[], ULONG capacity);
+			CStringStatic(CHAR szBuffer[], ULONG ulCapacity);
 
 			// ctor with string initialization
-			CStringStatic(CHAR buffer[], ULONG capacity, const CHAR init_str[]);
+			CStringStatic(CHAR szBuffer[], ULONG ulCapacity, const CHAR szInit[]);
 
 			// dtor - owner is responsible for releasing the buffer
 			~CStringStatic()
@@ -94,7 +94,7 @@ namespace gpos
 			BOOL Equals(const CHAR *buf) const;
 
 			// appends a string
-			void Append(const CStringStatic *str);
+			void Append(const CStringStatic *pstr);
 
 			// appends the contents of a buffer to the current string
 			void AppendBuffer(const CHAR *buf);
@@ -103,7 +103,7 @@ namespace gpos
 			void AppendFormat(const CHAR *format, ...);
 
 			// appends a formatted string based on passed va list
-			void AppendFormatVA(const CHAR *format, VA_LIST va_args);
+			void AppendFormatVA(const CHAR *format, VA_LIST vaArgs);
 
 			// appends wide character string
 			void AppendConvert(const WCHAR *wsz);

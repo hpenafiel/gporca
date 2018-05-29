@@ -35,7 +35,7 @@ CWStringConst::CWStringConst
 		GPOS_WSZ_LENGTH(wstrbuf),
 		false // owns_memory
 		),
-	m_buffer(wstrbuf)
+	m_wszBuf(wstrbuf)
 {
 	GPOS_ASSERT(NULL != wstrbuf);
 	GPOS_ASSERT(IsValid());
@@ -61,7 +61,7 @@ CWStringConst::CWStringConst
 		GPOS_WSZ_LENGTH(wstrbuf),
 		true // owns_memory
 		),
-	m_buffer(NULL)
+	m_wszBuf(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != wstrbuf);
@@ -69,14 +69,14 @@ CWStringConst::CWStringConst
 	if (0 == m_length)
 	{
 		// string is empty
-		m_buffer = &m_empty_wcstr;
+		m_wszBuf = &m_empty_wcstr;
 	}
 	else
 	{
 		// make a copy of the string
-		WCHAR *temp_buf = GPOS_NEW_ARRAY(pmp, WCHAR, m_length + 1);
-		clib::WcStrNCpy(temp_buf, wstrbuf, m_length + 1);
-		m_buffer = temp_buf;
+		WCHAR *wszTempBuf = GPOS_NEW_ARRAY(pmp, WCHAR, m_length + 1);
+		clib::WcStrNCpy(wszTempBuf, wstrbuf, m_length + 1);
+		m_wszBuf = wszTempBuf;
 	}
 
 	GPOS_ASSERT(IsValid());
@@ -100,9 +100,9 @@ CWStringConst::CWStringConst
 		str.Length(),
 		false // owns_memory
 		),
-	m_buffer(str.GetBuffer())
+	m_wszBuf(str.GetBuffer())
 {
-	GPOS_ASSERT(NULL != m_buffer);
+	GPOS_ASSERT(NULL != m_wszBuf);
 	GPOS_ASSERT(IsValid());
 }
 //---------------------------------------------------------------------------
@@ -116,9 +116,9 @@ CWStringConst::CWStringConst
 //---------------------------------------------------------------------------
 CWStringConst::~CWStringConst()
 {
-	if (m_owns_memory && m_buffer != &m_empty_wcstr)
+	if (m_owns_memory && m_wszBuf != &m_empty_wcstr)
 	{
-		GPOS_DELETE_ARRAY(m_buffer);
+		GPOS_DELETE_ARRAY(m_wszBuf);
 	}
 }
 
@@ -133,7 +133,7 @@ CWStringConst::~CWStringConst()
 const WCHAR*
 CWStringConst::GetBuffer() const
 {
-	return m_buffer;
+	return m_wszBuf;
 }
 
 // EOF

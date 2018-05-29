@@ -35,7 +35,7 @@ namespace gpos
 		protected:
 
 			// null-terminated wide character buffer
-			WCHAR *m_buffer;
+			WCHAR *m_wszBuf;
 
 			// appends the contents of a buffer to the current string
 			virtual void AppendBuffer(const WCHAR *wstrbuf) = 0;
@@ -53,7 +53,7 @@ namespace gpos
 			const WCHAR* GetBuffer() const;
 			
 			// appends a string
-			void Append(const CWStringBase *str);
+			void Append(const CWStringBase *pstr);
 
 			// appends a formatted string
 			virtual
@@ -61,15 +61,15 @@ namespace gpos
 
 			// appends a string and replaces character with string
 			virtual
-			void AppendEscape(const CWStringBase *str, WCHAR wc, const WCHAR *replace_str) = 0;
+			void AppendEscape(const CWStringBase *pstr, WCHAR wc, const WCHAR *wszReplace) = 0;
 
 			// appends a null terminated character array
 			virtual
-			void AppendCharArray(const CHAR *char_array) = 0;
+			void AppendCharArray(const CHAR *sz) = 0;
 
 			// appends a null terminated wide character array
 			virtual
-			void AppendWideCharArray(const WCHAR *wchar_array) = 0;
+			void AppendWideCharArray(const WCHAR *wsz) = 0;
 
 			// resets string
 			virtual void Reset() = 0;
