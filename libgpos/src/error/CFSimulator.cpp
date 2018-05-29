@@ -29,7 +29,7 @@ CFSimulator *CFSimulator::m_fsim = NULL;
 
 
 // invalid stack key
-const CFSimulator::CStackTracker::StackKey
+const CFSimulator::CStackTracker::SStackKey
 	CFSimulator::CStackTracker::m_invalid_key
 		(
 		CException::ExmaInvalid,
@@ -49,7 +49,7 @@ const CFSimulator::CStackTracker::StackKey
 void
 CFSimulator::AddTracker
 	(
-	CStackTracker::StackKey key
+	CStackTracker::SStackKey key
 	)
 {
 	// disable OOM simulation in this scope
@@ -104,7 +104,7 @@ CFSimulator::NewStack
 	stack_desc.BackTrace();
 	ULONG hash = stack_desc.HashValue();
 	
-	CStackTracker::StackKey key(major, minor);
+	CStackTracker::SStackKey key(major, minor);
 	
 	// attempt direct lookup; if we don't have a tracker yet, we 
 	// need to retry exactly once
@@ -188,7 +188,7 @@ CFSimulator::CStackTracker::CStackTracker
 	(
 	IMemoryPool *pmp,
 	ULONG resolution,
-	StackKey key
+	SStackKey key
 	)
 	:
 	m_key(key),
@@ -242,8 +242,8 @@ CFSimulator::CFSimulator
 		GPOS_OFFSET(CStackTracker, m_link),
 		GPOS_OFFSET(CStackTracker, m_key),
 		&(CStackTracker::m_invalid_key),
-		CStackTracker::StackKey::HashValue,
-		CStackTracker::StackKey::Equals
+		CStackTracker::SStackKey::HashValue,
+		CStackTracker::SStackKey::Equals
 		);
 }
 

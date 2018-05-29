@@ -72,7 +72,7 @@ namespace gpos
 				// enforce strict ref-counting unless we're in a pending exception,
 				// e.g., a ctor has thrown
 				GPOS_ASSERT(NULL == ITask::Self() ||
-							ITask::Self()->IsPendingExceptions() ||
+							ITask::Self()->HasPendingExceptions() ||
 							0 == m_refs);
 			}
 

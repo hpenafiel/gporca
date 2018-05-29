@@ -259,14 +259,14 @@ CSubqueryHandler::SSubqueryDesc::SetCorrelatedExecution()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CSubqueryHandler::GetStackDescriptor
+//		CSubqueryHandler::Psd
 //
 //	@doc:
 //		Create subquery descriptor
 //
 //---------------------------------------------------------------------------
 CSubqueryHandler::SSubqueryDesc *
-CSubqueryHandler::GetStackDescriptor
+CSubqueryHandler::Psd
 	(
 	IMemoryPool *pmp,
 	CExpression *pexprSubquery,
@@ -341,7 +341,7 @@ CSubqueryHandler::FRemoveScalarSubquery
 	CScalarSubquery *popScalarSubquery = CScalarSubquery::PopConvert(pexprSubquery->Pop());
 	const CColRef *pcrSubquery = popScalarSubquery->Pcr();
 
-	SSubqueryDesc *psd = GetStackDescriptor(pmp, pexprSubquery, pexprOuter, fDisjunctionOrNegation, esqctxt);
+	SSubqueryDesc *psd = Psd(pmp, pexprSubquery, pexprOuter, fDisjunctionOrNegation, esqctxt);
 	BOOL fSuccess = false;
 	if (psd->m_fProjectCount && !psd->m_fCorrelatedExecution)
 	{
@@ -367,7 +367,7 @@ CSubqueryHandler::FRemoveScalarSubquery
 		GPOS_DELETE(psd);
 		CExpression *pexprNewOuter = NULL;
 		CExpression *pexprResidualScalar = NULL;
-		psd = GetStackDescriptor(pmp, pexprNewSubq, pexprOuter, fDisjunctionOrNegation, esqctxt);
+		psd = Psd(pmp, pexprNewSubq, pexprOuter, fDisjunctionOrNegation, esqctxt);
 		fSuccess = FRemoveScalarSubqueryInternal(pmp, pexprOuter, pexprNewSubq, fDisjunctionOrNegation, EsqctxtValue, psd, sh.m_fEnforceCorrelatedApply, &pexprNewOuter, &pexprResidualScalar);
 
 		if (fSuccess)

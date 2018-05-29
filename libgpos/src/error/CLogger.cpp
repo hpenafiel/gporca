@@ -89,7 +89,7 @@ CLogger::Log
 	{
 		GPOS_CHECK_ABORT;
 
-		BOOL pending_exceptions = ITask::Self()->IsPendingExceptions();
+		BOOL pending_exceptions = ITask::Self()->HasPendingExceptions();
 
 		// logging is exercised in catch blocks so it cannot throw;
 		// the only propagated exception is Abort;

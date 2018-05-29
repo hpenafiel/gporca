@@ -509,7 +509,7 @@ CAutoTaskProxy::Execute
 	GPOS_CATCH_END;
 
 	// Raise exception if task encounters an exception
-	if (task->IsPendingExceptions())
+	if (task->HasPendingExceptions())
 	{
 		if (m_propagate_error)
 		{
@@ -562,7 +562,7 @@ CAutoTaskProxy::CheckError
 	)
 {
 	// sub-task has a pending error
-	if (sub_task->IsPendingExceptions())
+	if (sub_task->HasPendingExceptions())
 	{
 		// must be in error status
 		GPOS_ASSERT(ITask::EtsError == sub_task->GetStatus());
@@ -583,7 +583,7 @@ CAutoTaskProxy::CheckError
 	else if (ITask::EtsError == sub_task->GetStatus())
 	{
 		// sub-task was canceled without a pending error
-		GPOS_ASSERT(!sub_task->IsPendingExceptions() && sub_task->IsCanceled());
+		GPOS_ASSERT(!sub_task->HasPendingExceptions() && sub_task->IsCanceled());
 	}
 #endif // GPOS_DEBUG
 }
@@ -606,12 +606,12 @@ CAutoTaskProxy::PropagateError
 	GPOS_ASSERT(m_propagate_error);
 
 	// sub-task must be in error status and have a pending exception
-	GPOS_ASSERT(ITask::EtsError == sub_task->GetStatus() && sub_task->IsPendingExceptions());
+	GPOS_ASSERT(ITask::EtsError == sub_task->GetStatus() && sub_task->HasPendingExceptions());
 
 	CTask *current_task = CTask::Self();
 
 	// current task must have no pending error
-	GPOS_ASSERT(NULL != current_task && !current_task->IsPendingExceptions());
+	GPOS_ASSERT(NULL != current_task && !current_task->HasPendingExceptions());
 
 	IErrorContext *current_err_ctxt = current_task->GetErrCtxt();
 

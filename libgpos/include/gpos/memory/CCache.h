@@ -225,7 +225,7 @@ namespace gpos
 			}
 
 			// returns the next entry in the hash chain with a key matching the given object
-			CCacheHashTableEntry *GetNextEntry(CCacheHashTableEntry *entry)
+			CCacheHashTableEntry *Next(CCacheHashTableEntry *entry)
 			{
 				GPOS_ASSERT(NULL != entry);
 
@@ -244,7 +244,7 @@ namespace gpos
 				{
 					next->IncRefCount();
 				}
-				GPOS_ASSERT_IMP(IsUnique(), NULL == next);
+				GPOS_ASSERT_IMP(AllowsDuplicateKeys(), NULL == next);
 
 				return next;
 			}
@@ -434,7 +434,7 @@ namespace gpos
 			}
 
 			// does cache allow duplicate keys?
-			BOOL IsUnique() const
+			BOOL AllowsDuplicateKeys() const
 			{
 				return m_unique;
 			}

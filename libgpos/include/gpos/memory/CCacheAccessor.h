@@ -145,7 +145,7 @@ namespace gpos
 				GPOS_ASSERT(NULL != m_entry);
 
 				typename CCache<T, K>::CCacheHashTableEntry *entry = m_entry;
-				m_entry = m_cache->GetNextEntry(m_entry);
+				m_entry = m_cache->Next(m_entry);
 
 				// release previous entry
 				m_cache->ReleaseEntry(entry);

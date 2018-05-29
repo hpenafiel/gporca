@@ -64,7 +64,7 @@ CSerializableStackTrace::Serialize
 	COstream& oos
 	)
 {
-	if (!ITask::Self()->IsPendingExceptions())
+	if (!ITask::Self()->HasPendingExceptions())
 	{
 		// no pending exception: no need to serialize stack trace
 		return;

@@ -245,7 +245,7 @@ CCacheTest::EresUnittest_Basic()
 		GPOS_ASSERT(1 == pcache->Size());
 
 		// insert duplicate while not allowed
-		if (pcache->IsUnique())
+		if (pcache->AllowsDuplicateKeys())
 		{
 			CSimpleObjectCacheAccessor ca(pcache);
 			SSimpleObject *psoDuplicate = GPOS_NEW(ca.Pmp()) SSimpleObject(1, 5);
@@ -276,8 +276,8 @@ CCacheTest::EresUnittest_Basic()
 				pso->Release();
 			}
 
-			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pso && 2 == pso->m_ulValue);
-			GPOS_ASSERT_IMP(pcache->IsUnique(), NULL == pso);
+			GPOS_ASSERT_IMP(!pcache->AllowsDuplicateKeys(), NULL != pso && 2 == pso->m_ulValue);
+			GPOS_ASSERT_IMP(pcache->AllowsDuplicateKeys(), NULL == pso);
 		}
 
 		// delete - scope for accessor
@@ -287,7 +287,7 @@ CCacheTest::EresUnittest_Basic()
 			ca.Lookup(&ulkey);
 			pso = ca.Val();
 
-			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pso);
+			GPOS_ASSERT_IMP(!pcache->AllowsDuplicateKeys(), NULL != pso);
 
 			if (NULL != pso)
 			{
@@ -658,7 +658,7 @@ CCacheTest::EresInsertDuplicates
 	)
 {
 	ULONG ulDuplicates = 1;
-	if (!pcache->IsUnique())
+	if (!pcache->AllowsDuplicateKeys())
 	{
 		ulDuplicates = GPOS_CACHE_DUPLICATES;
 	}
@@ -795,7 +795,7 @@ CCacheTest::EresUnittest_DeepObject()
 				    "Incorrect cache entry was inserted");
 
 		// insert duplicate while not allowed
-		if (pcache->IsUnique())
+		if (pcache->AllowsDuplicateKeys())
 		{
 			CDeepObjectCacheAccessor ca(pcache);
 			IMemoryPool *pmp = ca.Pmp();
@@ -828,9 +828,9 @@ CCacheTest::EresUnittest_DeepObject()
 				pdo->Release();
 			}
 
-			GPOS_ASSERT_IMP(pcache->IsUnique(), NULL == pdo);
-			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pdo);
-			GPOS_ASSERT_IMP(!pcache->IsUnique(),
+			GPOS_ASSERT_IMP(pcache->AllowsDuplicateKeys(), NULL == pdo);
+			GPOS_ASSERT_IMP(!pcache->AllowsDuplicateKeys(), NULL != pdo);
+			GPOS_ASSERT_IMP(!pcache->AllowsDuplicateKeys(),
 							3 == CDeepObject::UlMyHash(pdo->Key()) &&
 							"Incorrect cache entry");
 
@@ -842,7 +842,7 @@ CCacheTest::EresUnittest_DeepObject()
 			ca.Lookup(pdoDummy->Key());
 			pdo = ca.Val();
 
-			GPOS_ASSERT_IMP(!pcache->IsUnique(), NULL != pdo);
+			GPOS_ASSERT_IMP(!pcache->AllowsDuplicateKeys(), NULL != pdo);
 
 			if (NULL != pdo)
 			{
@@ -899,7 +899,7 @@ CCacheTest::EresUnittest_Iteration()
 
 #ifdef GPOS_DEBUG
 	ULONG ulDuplicates = 1;
-	if (!pcache->IsUnique())
+	if (!pcache->AllowsDuplicateKeys())
 	{
 		ulDuplicates = GPOS_CACHE_DUPLICATES;
 	}
@@ -963,7 +963,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 
 	CCacheTest::EresInsertDuplicates(pcache);
 
-	if (!pcache->IsUnique())
+	if (!pcache->AllowsDuplicateKeys())
 	{
 		CCacheTest::EresRemoveDuplicates(pcache);
 	}
@@ -971,7 +971,7 @@ CCacheTest::EresUnittest_IterativeDeletion()
 #ifdef GPOS_DEBUG
 	ULONG ulDuplicates = 1;
 	ULONG ulDuplicatesToDelete = 0;
-	if (!pcache->IsUnique())
+	if (!pcache->AllowsDuplicateKeys())
 	{
 		ulDuplicates = GPOS_CACHE_DUPLICATES;
 		ulDuplicatesToDelete = GPOS_CACHE_DUPLICATES_TO_DELETE;

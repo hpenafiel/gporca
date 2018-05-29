@@ -92,7 +92,7 @@ namespace gpos
 			
 			// any pending exceptions?
 			virtual
-			BOOL IsPendingExceptions() const = 0;
+			BOOL HasPendingExceptions() const = 0;
 		
 			static
 			ITask *Self();

@@ -78,14 +78,14 @@ namespace gpos
 					//		equality operator for hashtable
 					//
 					//---------------------------------------------------------------------------
-					struct StackKey
+					struct SStackKey
 					{
 						// stack trackers are identified by the exceptions they manage
 						ULONG m_major;
 						ULONG m_minor;
 						
 						// ctor
-						StackKey
+						SStackKey
 							(
 							ULONG major,
 							ULONG minor
@@ -98,7 +98,7 @@ namespace gpos
 						// simple comparison
 						BOOL operator ==
 							(
-							const StackKey &key
+							const SStackKey &key
 							)
 							const
 						{
@@ -109,8 +109,8 @@ namespace gpos
 						static
 						BOOL Equals
 							(
-							const StackKey &key,
-							const StackKey &other_key
+							const SStackKey &key,
+							const SStackKey &other_key
 							)
 						{
 							return key == other_key;
@@ -120,7 +120,7 @@ namespace gpos
 						static
 						ULONG HashValue
 							(
-							const StackKey &key
+							const SStackKey &key
 							)
 						{
 							return key.m_major ^ key.m_minor;
@@ -131,7 +131,7 @@ namespace gpos
 								
 					// ctor
         			explicit
-					CStackTracker(IMemoryPool *pmp, ULONG resolution, StackKey key);
+					CStackTracker(IMemoryPool *pmp, ULONG resolution, SStackKey key);
 					
 					// exchange/set function
 					BOOL ExchangeSet(ULONG bit);
@@ -140,11 +140,11 @@ namespace gpos
 					SLink m_link;
 
 					// identifier
-					StackKey m_key;
+					SStackKey m_key;
 
 					// invalid key
 					static
-					const StackKey m_invalid_key;
+					const SStackKey m_invalid_key;
 
 				private:
 				
@@ -168,17 +168,17 @@ namespace gpos
 			ULONG m_resolution;
 			
 			// short hands for stack repository and accessor
-			typedef CSyncHashtable<CStackTracker, CStackTracker::StackKey, 
+			typedef CSyncHashtable<CStackTracker, CStackTracker::SStackKey,
 				CSpinlockOS> CStackTable;
 
-			typedef CSyncHashtableAccessByKey<CStackTracker, CStackTracker::StackKey,
+			typedef CSyncHashtableAccessByKey<CStackTracker, CStackTracker::SStackKey,
 				CSpinlockOS> CStackTableAccessor;
 				
 			// stack repository
 			CStackTable m_stack;
 
 			// insert new tracker 
-			void AddTracker(CStackTracker::StackKey key);
+			void AddTracker(CStackTracker::SStackKey key);
 
 		public:
 		

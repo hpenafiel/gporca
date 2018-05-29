@@ -266,7 +266,7 @@ namespace gpopt
 
 			// create subquery descriptor
 			static
-			SSubqueryDesc *GetStackDescriptor(IMemoryPool *pmp, CExpression *pexprSubquery, CExpression *pexprOuter, BOOL fDisjunctionOrNegation, ESubqueryCtxt esqctxt);
+			SSubqueryDesc *Psd(IMemoryPool *pmp, CExpression *pexprSubquery, CExpression *pexprOuter, BOOL fDisjunctionOrNegation, ESubqueryCtxt esqctxt);
 
 			// detect subqueries with expressions over count aggregate similar to
 			// (SELECT 'abc' || (SELECT count(*) from X))

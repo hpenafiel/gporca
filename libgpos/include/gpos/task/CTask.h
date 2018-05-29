@@ -270,7 +270,7 @@ namespace gpos
 			}
 
 			// pending exceptions
-			BOOL IsPendingExceptions() const
+			BOOL HasPendingExceptions() const
 			{
 				return m_err_ctxt->IsPending();
 			}
