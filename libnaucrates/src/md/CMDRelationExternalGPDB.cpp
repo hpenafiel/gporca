@@ -88,7 +88,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 			m_ulSystemColumns++;
 		}
 		
-		if (pmdcol->FDropped())
+		if (pmdcol->IsDropped())
 		{
 			m_ulDroppedCols++;
 		}
@@ -105,7 +105,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 
 		(void) m_phmiulAttno2Pos->Insert
 									(
-									GPOS_NEW(m_pmp) INT(pmdcol->IAttno()),
+									GPOS_NEW(m_pmp) INT(pmdcol->AttrNum()),
 									GPOS_NEW(m_pmp) ULONG(ul)
 									);
 		m_pdrgpdoubleColWidths->Append(GPOS_NEW(pmp) CDouble(pmdcol->Length()));

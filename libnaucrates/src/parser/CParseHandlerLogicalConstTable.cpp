@@ -125,7 +125,7 @@ CParseHandlerLogicalConstTable::EndElement
 		CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
 		GPOS_ASSERT(NULL != pphColDescr->Pdrgpdxlcd());
 
-		DrgPdxlcd *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
+		column_descr_array *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
 		pdrgpdxlcd->AddRef();
 
 		CDXLLogicalConstTable *pdxlopConstTable = GPOS_NEW(m_pmp) CDXLLogicalConstTable(m_pmp, pdrgpdxlcd, m_pdrgpdrgpdxldatum);

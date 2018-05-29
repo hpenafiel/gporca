@@ -72,34 +72,34 @@ CDXLColRef::Pmdname() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLColRef::PmdidType
+//		CDXLColRef::MDIdType
 //
 //	@doc:
 //		Returns column's type md id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLColRef::PmdidType() const
+CDXLColRef::MDIdType() const
 {
 	return m_pmdidType;
 }
 
 INT
-CDXLColRef::ITypeModifier() const
+CDXLColRef::TypeModifier() const
 {
 	return m_iTypeModifer;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLColRef::UlID
+//		CDXLColRef::Id
 //
 //	@doc:
 //		Returns column's id
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLColRef::UlID() const
+CDXLColRef::Id() const
 {
 	return m_ulId;
 }

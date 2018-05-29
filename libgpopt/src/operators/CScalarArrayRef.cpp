@@ -62,7 +62,7 @@ CScalarArrayRef::~CScalarArrayRef()
 
 
 INT
-CScalarArrayRef::ITypeModifier() const
+CScalarArrayRef::TypeModifier() const
 {
 	return m_iTypeModifier;
 }
@@ -107,7 +107,7 @@ CScalarArrayRef::FMatch
 
 	CScalarArrayRef *popArrayRef = CScalarArrayRef::PopConvert(pop);
 
-	return m_pmdidType->Equals(popArrayRef->PmdidType()) &&
+	return m_pmdidType->Equals(popArrayRef->MDIdType()) &&
 			m_pmdidElem->Equals(popArrayRef->PmdidElem()) &&
 			m_pmdidArray->Equals(popArrayRef->PmdidArray());
 }

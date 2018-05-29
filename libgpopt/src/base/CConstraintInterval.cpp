@@ -1265,14 +1265,14 @@ CConstraintInterval::PciUnbounded
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CConstraintInterval::PmdidType
+//		CConstraintInterval::MDIdType
 //
 //	@doc:
 //		Type of this interval
 //
 //---------------------------------------------------------------------------
 IMDId *
-CConstraintInterval::PmdidType()
+CConstraintInterval::MDIdType()
 {
 	// if there is at least one range, return range type
 	if (0 < m_pdrgprng->Size())

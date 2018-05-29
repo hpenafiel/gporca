@@ -78,7 +78,7 @@ CColumnDescriptorTest::EresUnittest_Basic()
 
 	GPOS_ASSERT(name.Equals(pcdesc->Name()));
 
-	GPOS_ASSERT(1 == pcdesc->IAttno());
+	GPOS_ASSERT(1 == pcdesc->AttrNum());
 
 	pcdesc->Release();
 

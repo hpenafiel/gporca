@@ -80,7 +80,7 @@ namespace gpopt
 
 			// bitmap type id
 			virtual
-			IMDId *PmdidType() const
+			IMDId *MDIdType() const
 			{
 				return m_pmdidBitmapType;
 			}

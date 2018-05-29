@@ -49,7 +49,7 @@ namespace gpdxl
 			CMDName *m_pmdnameRel;
 			
 			// list of columns
-			DrgPdxlcd *m_pdrgpdxlcd;
+			column_descr_array *m_pdrgpdxlcd;
 			
 			// storage options
 			CDXLCtasStorageOptions *m_pdxlctasopt;
@@ -88,7 +88,7 @@ namespace gpdxl
 				IMDId *pmdid,
 				CMDName *pmdnameSchema, 
 				CMDName *pmdnameRel, 
-				DrgPdxlcd *pdrgpdxcd,
+				column_descr_array *pdrgpdxcd,
 				CDXLCtasStorageOptions *pdxlctasopt,
 				IMDRelation::Ereldistrpolicy ereldistrpolicy,
 				ULongPtrArray *pdrgpulDistr, 
@@ -128,7 +128,7 @@ namespace gpdxl
 			}
 			
 			// column descriptors
-			DrgPdxlcd *Pdrgpdxlcd() const
+			column_descr_array *Pdrgpdxlcd() const
 			{
 				return m_pdrgpdxlcd;
 			}

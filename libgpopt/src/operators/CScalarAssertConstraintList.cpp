@@ -63,7 +63,7 @@ CScalarAssertConstraintList::FMatch
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarAssertConstraintList::PmdidType() const
+CScalarAssertConstraintList::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	return pmda->PtMDType<IMDTypeBool>()->Pmdid();

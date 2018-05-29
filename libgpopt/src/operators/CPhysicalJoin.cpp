@@ -470,8 +470,8 @@ CPhysicalJoin::FHashJoinCompatible
 	GPOS_ASSERT(NULL != pexprPredOuter);
 	GPOS_ASSERT(NULL != pexprPredInner);
 
-	IMDId *pmdidTypeOuter = CScalar::PopConvert(pexprPredOuter->Pop())->PmdidType();
-	IMDId *pmdidTypeInner = CScalar::PopConvert(pexprPredInner->Pop())->PmdidType();
+	IMDId *pmdidTypeOuter = CScalar::PopConvert(pexprPredOuter->Pop())->MDIdType();
+	IMDId *pmdidTypeInner = CScalar::PopConvert(pexprPredInner->Pop())->MDIdType();
 
 	CColRefSet *pcrsUsedPredOuter = CDrvdPropScalar::Pdpscalar(pexprPredOuter->PdpDerive())->PcrsUsed();
 	CColRefSet *pcrsUsedPredInner = CDrvdPropScalar::Pdpscalar(pexprPredInner->PdpDerive())->PcrsUsed();

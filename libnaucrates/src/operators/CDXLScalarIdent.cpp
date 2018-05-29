@@ -100,22 +100,22 @@ CDXLScalarIdent::Pdxlcr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarIdent::PmdidType
+//		CDXLScalarIdent::MDIdType
 //
 //	@doc:
 //		Return the id of the column type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarIdent::PmdidType() const
+CDXLScalarIdent::MDIdType() const
 {
-	return m_pdxlcr->PmdidType();
+	return m_pdxlcr->MDIdType();
 }
 
 INT
-CDXLScalarIdent::ITypeModifier() const
+CDXLScalarIdent::TypeModifier() const
 {
-	return m_pdxlcr->ITypeModifier();
+	return m_pdxlcr->TypeModifier();
 }
 
 //---------------------------------------------------------------------------
@@ -141,13 +141,13 @@ CDXLScalarIdent::SerializeToDXL
 	// add col name and col id
 	const CWStringConst *strCName = (m_pdxlcr->Pmdname())->Pstr(); 
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_pdxlcr->UlID());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_pdxlcr->Id());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), strCName);
-	m_pdxlcr->PmdidType()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_pdxlcr->MDIdType()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
-	if (IDefaultTypeModifier != ITypeModifier())
+	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
@@ -170,7 +170,7 @@ CDXLScalarIdent::FBoolean
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pdxlcr->PmdidType())->Eti());
+	return (IMDType::EtiBool == pmda->Pmdtype(m_pdxlcr->MDIdType())->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -191,7 +191,7 @@ CDXLScalarIdent::AssertValid
 	const
 {
 	GPOS_ASSERT(0 == pdxln->UlArity());
-	GPOS_ASSERT(m_pdxlcr->PmdidType()->IsValid());
+	GPOS_ASSERT(m_pdxlcr->MDIdType()->IsValid());
 	GPOS_ASSERT(NULL != m_pdxlcr);
 }
 #endif // GPOS_DEBUG

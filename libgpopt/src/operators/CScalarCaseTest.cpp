@@ -99,7 +99,7 @@ CScalarCaseTest::FMatch
 		CScalarCaseTest *popScCaseTest = CScalarCaseTest::PopConvert(pop);
 
 		// match if return types are identical
-		return popScCaseTest->PmdidType()->Equals(m_pmdidType);
+		return popScCaseTest->MDIdType()->Equals(m_pmdidType);
 	}
 
 	return false;

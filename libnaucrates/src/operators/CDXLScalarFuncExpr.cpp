@@ -119,7 +119,7 @@ CDXLScalarFuncExpr::PmdidRetType() const
 }
 
 INT
-CDXLScalarFuncExpr::ITypeModifier() const
+CDXLScalarFuncExpr::TypeModifier() const
 {
 	return m_iRetTypeModifier;
 }
@@ -161,9 +161,9 @@ CDXLScalarFuncExpr::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenFuncRetSet), m_fReturnSet);
 	m_pmdidRetType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
-	if (IDefaultTypeModifier != ITypeModifier())
+	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);

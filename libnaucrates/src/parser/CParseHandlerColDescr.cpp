@@ -40,7 +40,7 @@ CParseHandlerColDescr::CParseHandlerColDescr
 	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_pdxlcd(NULL)
 {
-	m_pdrgdxlcd = GPOS_NEW(m_pmp) DrgPdxlcd(m_pmp);
+	m_pdrgdxlcd = GPOS_NEW(m_pmp) column_descr_array(m_pmp);
 }
 
 //---------------------------------------------------------------------------
@@ -65,7 +65,7 @@ CParseHandlerColDescr::~CParseHandlerColDescr()
 //		Returns the array of column descriptors.
 //
 //---------------------------------------------------------------------------
-DrgPdxlcd *
+column_descr_array *
 CParseHandlerColDescr::Pdrgpdxlcd()
 {
 	return m_pdrgdxlcd;

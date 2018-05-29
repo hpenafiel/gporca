@@ -103,14 +103,14 @@ CScalarConst::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarConst::PmdidType
+//		CScalarConst::MDIdType
 //
 //	@doc:
 //		Expression type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarConst::PmdidType() const
+CScalarConst::MDIdType() const
 {
 	return m_pdatum->Pmdid();
 }
@@ -238,9 +238,9 @@ CScalarConst::Eber
 }
 
 INT
-CScalarConst::ITypeModifier() const
+CScalarConst::TypeModifier() const
 {
-	return m_pdatum->ITypeModifier();
+	return m_pdatum->TypeModifier();
 }
 
 

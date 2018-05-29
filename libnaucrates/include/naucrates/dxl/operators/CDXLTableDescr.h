@@ -44,7 +44,7 @@ namespace gpdxl
 			CMDName *m_pmdname;
 	
 			// list of column descriptors		
-			DrgPdxlcd *m_pdrgdxlcd;
+			column_descr_array *m_pdrgdxlcd;
 			
 			// id of user the table needs to be accessed with
 			ULONG m_ulExecuteAsUser;
@@ -62,7 +62,7 @@ namespace gpdxl
 			~CDXLTableDescr();
 		
 			// setters
-			void SetColumnDescriptors(DrgPdxlcd *pdrgpdxlcd);
+			void SetColumnDescriptors(column_descr_array *pdrgpdxlcd);
 			
 			void AddColumnDescr(CDXLColDescr *pdxlcd);
 			

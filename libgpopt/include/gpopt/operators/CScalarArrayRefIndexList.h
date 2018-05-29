@@ -99,9 +99,9 @@ namespace gpopt
 
 			// type of expression's result
 			virtual
-			IMDId *PmdidType() const
+			IMDId *MDIdType() const
 			{
-				GPOS_ASSERT(!"Invalid function call: CScalarArrayRefIndexList::PmdidType()");
+				GPOS_ASSERT(!"Invalid function call: CScalarArrayRefIndexList::MDIdType()");
 				return NULL;
 			}
 

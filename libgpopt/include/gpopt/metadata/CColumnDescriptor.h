@@ -86,13 +86,13 @@ namespace gpopt
 			}
 
 			// type modifier
-			INT ITypeModifier() const
+			INT TypeModifier() const
 			{
 				return m_iTypeModifier;
 			}
 			
 			// return attribute number
-			INT IAttno() const
+			INT AttrNum() const
 			{
 				return m_iAttno;
 			}
@@ -112,7 +112,7 @@ namespace gpopt
 
 			// width of the column
 			virtual
-			ULONG UlWidth() const
+			ULONG Width() const
 			{
 				return m_ulWidth;
 			}

@@ -642,8 +642,8 @@ CXformSplitDQA::PcrAggFuncArgument
 
 	CScalar *popScalar = CScalar::PopConvert(pexprArg->Pop());
 	// computed argument to the input
-	const IMDType *pmdtype = pmda->Pmdtype(popScalar->PmdidType());
-	CColRef *pcrAdditionalGrpCol = pcf->PcrCreate(pmdtype, popScalar->ITypeModifier());
+	const IMDType *pmdtype = pmda->Pmdtype(popScalar->MDIdType());
+	CColRef *pcrAdditionalGrpCol = pcf->PcrCreate(pmdtype, popScalar->TypeModifier());
 
 	pexprArg->AddRef();
 	CExpression *pexprPrElNew = CUtils::PexprScalarProjectElement(pmp, pcrAdditionalGrpCol, pexprArg);

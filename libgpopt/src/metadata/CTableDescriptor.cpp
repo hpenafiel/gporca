@@ -158,7 +158,7 @@ CTableDescriptor::UlPosition
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CColumnDescriptor *pcoldesc = (*m_pdrgpcoldesc)[ul];
-		if (pcoldesc->IAttno() == iAttno)
+		if (pcoldesc->AttrNum() == iAttno)
 		{
 			ulPos = ul;
 		}

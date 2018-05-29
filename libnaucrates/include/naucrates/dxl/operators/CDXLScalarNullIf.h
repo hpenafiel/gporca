@@ -68,7 +68,7 @@ namespace gpdxl
 
 			// return type
 			virtual
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
 			// serialize operator in DXL format
 			virtual

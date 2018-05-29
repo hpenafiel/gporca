@@ -58,8 +58,8 @@ CScalarCoerceToDomain::FMatch
 	{
 		CScalarCoerceToDomain *popCoerce = CScalarCoerceToDomain::PopConvert(pop);
 
-		return popCoerce->PmdidType()->Equals(PmdidType()) &&
-				popCoerce->ITypeModifier() == ITypeModifier() &&
+		return popCoerce->MDIdType()->Equals(MDIdType()) &&
+				popCoerce->TypeModifier() == TypeModifier() &&
 				popCoerce->Ecf() == Ecf() &&
 				popCoerce->ILoc() == ILoc();
 	}

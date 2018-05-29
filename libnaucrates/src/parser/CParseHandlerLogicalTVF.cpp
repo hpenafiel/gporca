@@ -134,7 +134,7 @@ CParseHandlerLogicalTVF::EndElement
 	GPOS_ASSERT(NULL != pphColDescr);
 
 	// get column descriptors
-	DrgPdxlcd *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
+	column_descr_array *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
 
 	pdrgpdxlcd->AddRef();

@@ -34,14 +34,14 @@ CColRefTable::CColRefTable
 	ULONG ulOpSource
 	)
 	:
-	CColRef(pcoldesc->Pmdtype(), pcoldesc->ITypeModifier(), ulId, pname),
+	CColRef(pcoldesc->Pmdtype(), pcoldesc->TypeModifier(), ulId, pname),
 	m_iAttno(0),
 	m_ulSourceOpId(ulOpSource),
-	m_ulWidth(pcoldesc->UlWidth())
+	m_ulWidth(pcoldesc->Width())
 {
 	GPOS_ASSERT(NULL != pname);
 
-	m_iAttno = pcoldesc->IAttno();
+	m_iAttno = pcoldesc->AttrNum();
 	m_fNullable = pcoldesc->FNullable();
 }
 

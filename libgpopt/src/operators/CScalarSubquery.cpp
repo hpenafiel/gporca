@@ -58,14 +58,14 @@ CScalarSubquery::~CScalarSubquery()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarSubquery::PmdidType
+//		CScalarSubquery::MDIdType
 //
 //	@doc:
 //		Type of scalar's value
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarSubquery::PmdidType() const
+CScalarSubquery::MDIdType() const
 {
 	return m_pcr->Pmdtype()->Pmdid();
 }

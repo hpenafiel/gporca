@@ -43,14 +43,14 @@ CScalarDMLAction::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarDMLAction::PmdidType
+//		CScalarDMLAction::MDIdType
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarDMLAction::PmdidType() const
+CScalarDMLAction::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	return pmda->PtMDType<IMDTypeInt4>()->Pmdid();

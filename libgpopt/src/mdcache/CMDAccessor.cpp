@@ -1127,7 +1127,7 @@ CMDAccessor::RecordColumnStats
 
 	// extract the the histogram and insert it into the hashmap
 	const IMDRelation *pmdrel = Pmdrel(pmdidRel);
-	IMDId *pmdidType = pmdrel->Pmdcol(ulPos)->PmdidType();
+	IMDId *pmdidType = pmdrel->Pmdcol(ulPos)->MDIdType();
 	CHistogram *phist = Phist(pmp, pmdidType, pmdcolstats);
 	GPOS_ASSERT(NULL != phist);
 	phmulhist->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist);
@@ -1211,7 +1211,7 @@ CMDAccessor::Pstats
 
 		// extract the column identifier, position of the attribute in the system catalog
 		ULONG ulColId = pcrtable->UlId();
-		INT iAttno = pcrtable->IAttno();
+		INT iAttno = pcrtable->AttrNum();
 		ULONG ulPos = pmdrel->UlPosFromAttno(iAttno);
 
 		RecordColumnStats
@@ -1240,7 +1240,7 @@ CMDAccessor::Pstats
 
 		// extract the column identifier, position of the attribute in the system catalog
 		ULONG ulColId = pcrtable->UlId();
-		INT iAttno = pcrtable->IAttno();
+		INT iAttno = pcrtable->AttrNum();
 		ULONG ulPos = pmdrel->UlPosFromAttno(iAttno);
 
 		CDouble *pdWidth = GPOS_NEW(pmp) CDouble(pmdrel->DColWidth(ulPos));

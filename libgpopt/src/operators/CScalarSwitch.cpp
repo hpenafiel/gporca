@@ -91,7 +91,7 @@ CScalarSwitch::FMatch
 		CScalarSwitch *popScSwitch = CScalarSwitch::PopConvert(pop);
 
 		// match if return types are identical
-		return popScSwitch->PmdidType()->Equals(m_pmdidType);
+		return popScSwitch->MDIdType()->Equals(m_pmdidType);
 	}
 
 	return false;

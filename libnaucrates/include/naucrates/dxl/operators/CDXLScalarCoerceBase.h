@@ -75,7 +75,7 @@ namespace gpdxl
 			}
 
 			// return type modifier
-			INT ITypeModifier() const
+			INT TypeModifier() const
 			{
 				return m_iTypeModifier;
 			}

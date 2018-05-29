@@ -91,7 +91,7 @@ CDXLScalarArrayRef::PstrOpName() const
 }
 
 INT
-CDXLScalarArrayRef::ITypeModifier() const
+CDXLScalarArrayRef::TypeModifier() const
 {
 	return m_iTypeModifier;
 }
@@ -116,9 +116,9 @@ CDXLScalarArrayRef::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayElementType));
-	if (IDefaultTypeModifier != ITypeModifier())
+	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
 	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayType));
 	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));

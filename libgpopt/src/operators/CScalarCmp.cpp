@@ -143,14 +143,14 @@ CScalarCmp::FInputOrderSensitive() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarCmp::PmdidType
+//		CScalarCmp::MDIdType
 //
 //	@doc:
 //		Expression type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarCmp::PmdidType() const
+CScalarCmp::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	return pmda->PtMDType<IMDTypeBool>()->Pmdid();

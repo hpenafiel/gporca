@@ -101,11 +101,11 @@ CMDRelationGPDB::CMDRelationGPDB
 
 		(void) m_phmiulAttno2Pos->Insert
 									(
-									GPOS_NEW(m_pmp) INT(pmdcol->IAttno()),
+									GPOS_NEW(m_pmp) INT(pmdcol->AttrNum()),
 									GPOS_NEW(m_pmp) ULONG(ul)
 									);
 
-		if (pmdcol->FDropped())
+		if (pmdcol->IsDropped())
 		{
 			m_ulDroppedCols++;
 		}

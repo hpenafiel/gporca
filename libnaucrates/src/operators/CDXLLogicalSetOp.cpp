@@ -38,7 +38,7 @@ CDXLLogicalSetOp::CDXLLogicalSetOp
 	(
 	IMemoryPool *pmp,
 	EdxlSetOpType edxlsetoptype,
-	DrgPdxlcd *pdrgdxlcd,
+	column_descr_array *pdrgdxlcd,
 	ULongPtrArray2D *ulong_ptr_array_2D,
 	BOOL fCastAcrossInputs
 	)
@@ -192,7 +192,7 @@ CDXLLogicalSetOp::FDefinesColumn
 	const ULONG ulSize = UlArity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = Pdxlcd(ulDescr)->UlID();
+		ULONG ulId = Pdxlcd(ulDescr)->Id();
 		if (ulId == ulColId)
 		{
 			return true;

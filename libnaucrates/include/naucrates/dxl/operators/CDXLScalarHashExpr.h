@@ -54,7 +54,7 @@ namespace gpdxl
 			// name of the operator
 			const CWStringConst *PstrOpName() const;
 			
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 			
 			// serialize operator in DXL format
 			virtual

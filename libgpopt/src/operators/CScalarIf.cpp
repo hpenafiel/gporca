@@ -85,7 +85,7 @@ CScalarIf::FMatch
 		CScalarIf *popScIf = CScalarIf::PopConvert(pop);
 
 		// match if return types are identical
-		return popScIf->PmdidType()->Equals(m_pmdidType);
+		return popScIf->MDIdType()->Equals(m_pmdidType);
 	}
 
 	return false;

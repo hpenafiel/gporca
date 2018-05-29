@@ -46,7 +46,7 @@ namespace gpopt
 
 			// return the type of the scalar expression
 			virtual 
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
 			// match function
 			BOOL FMatch(COperator *pop) const;

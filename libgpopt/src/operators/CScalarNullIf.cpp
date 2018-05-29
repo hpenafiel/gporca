@@ -109,7 +109,7 @@ CScalarNullIf::FMatch
 
 	// match if operators and return types are identical
 	return m_pmdidOp->Equals(popScNullIf->PmdidOp()) &&
-			m_pmdidType->Equals(popScNullIf->PmdidType());
+			m_pmdidType->Equals(popScNullIf->MDIdType());
 }
 
 

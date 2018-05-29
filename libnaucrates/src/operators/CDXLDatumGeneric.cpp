@@ -90,7 +90,7 @@ CDXLDatumGeneric::Serialize
 	)
 {
 	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
-	if (IDefaultTypeModifier != ITypeModifier())
+	if (IDefaultTypeModifier != TypeModifier())
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), m_iTypeModifier);
 	}

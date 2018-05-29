@@ -309,7 +309,7 @@ CUtils::PexprScalarCmp
 	if (IMDType::EcmptOther != ecmpt)
 	{
 		IMDId *pmdidLeft = pcrLeft->Pmdtype()->Pmdid();
-		IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->PmdidType();
+		IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->MDIdType();
 
 		if (FCmpOrCastedCmpExists(pmdidLeft, pmdidRight, ecmpt))
 		{
@@ -404,7 +404,7 @@ CUtils::PexprScalarCmp
 	IMDType::ECmpType ecmpt = Ecmpt(pmdidOp);
 	if (IMDType::EcmptOther != ecmpt)
 	{
-		IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->PmdidType();
+		IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
 		IMDId *pmdidRight = pcrRight->Pmdtype()->Pmdid();
 
 		if (FCmpOrCastedCmpExists(pmdidLeft, pmdidRight, ecmpt))
@@ -442,8 +442,8 @@ CUtils::PexprScalarCmp
 	IMDType::ECmpType ecmpt = Ecmpt(pmdidOp);
 	if (IMDType::EcmptOther != ecmpt)
 	{
-		IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->PmdidType();
-		IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->PmdidType();
+		IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
+		IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->MDIdType();
 
 		if (FCmpOrCastedCmpExists(pmdidLeft, pmdidRight, ecmpt))
 		{
@@ -479,8 +479,8 @@ CUtils::PexprScalarCmp
 	
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->PmdidType();
-	IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->PmdidType();
+	IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
+	IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->MDIdType();
 
 	CExpression *pexprNewLeft = pexprLeft;
 	CExpression *pexprNewRight = pexprRight;
@@ -846,8 +846,8 @@ CUtils::PexprIDF
 	GPOS_ASSERT(NULL != pexprLeft);
 	GPOS_ASSERT(NULL != pexprRight);
 
-	IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->PmdidType();
-	IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->PmdidType();
+	IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
+	IMDId *pmdidRight = CScalar::PopConvert(pexprRight->Pop())->MDIdType();
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
@@ -1995,8 +1995,8 @@ CUtils::PexprCountStar
 
 	// generate a computed column with count(*) type
 	CScalarAggFunc *popScalarAggFunc = CScalarAggFunc::PopConvert(pexprCountStar->Pop());
-	IMDId *pmdidType = popScalarAggFunc->PmdidType();
-	INT iTypeModifier = popScalarAggFunc->ITypeModifier();
+	IMDId *pmdidType = popScalarAggFunc->MDIdType();
+	INT iTypeModifier = popScalarAggFunc->TypeModifier();
 	const IMDType *pmdtype = pmda->Pmdtype(pmdidType);
 	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, iTypeModifier);
 	CExpression *pexprPrjElem = PexprScalarProjectElement(pmp, pcrComputed, pexprCountStar);
@@ -2026,8 +2026,8 @@ CUtils::PexprCountStarAndSum
 
 	// generate a computed column with count(*) type
 	CScalarAggFunc *popScalarAggFunc = CScalarAggFunc::PopConvert(pexprCountStar->Pop());
-	IMDId *pmdidType = popScalarAggFunc->PmdidType();
-	INT iTypeModifier = popScalarAggFunc->ITypeModifier();
+	IMDId *pmdidType = popScalarAggFunc->MDIdType();
+	INT iTypeModifier = popScalarAggFunc->TypeModifier();
 	const IMDType *pmdtype = pmda->Pmdtype(pmdidType);
 	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, iTypeModifier);
 	CExpression *pexprPrjElemCount = PexprScalarProjectElement(pmp, pcrComputed, pexprCountStar);
@@ -2035,8 +2035,8 @@ CUtils::PexprCountStarAndSum
 	// generate sum(col) expression
 	CExpression *pexprSum = PexprSum(pmp, pcr);
 	CScalarAggFunc *popScalarSumFunc = CScalarAggFunc::PopConvert(pexprSum->Pop());
-	const IMDType *pmdtypeSum = pmda->Pmdtype(popScalarSumFunc->PmdidType());
-	CColRef *pcrSum = pcf->PcrCreate(pmdtypeSum, popScalarSumFunc->ITypeModifier());
+	const IMDType *pmdtypeSum = pmda->Pmdtype(popScalarSumFunc->MDIdType());
+	CColRef *pcrSum = pcf->PcrCreate(pmdtypeSum, popScalarSumFunc->TypeModifier());
 	CExpression *pexprPrjElemSum = PexprScalarProjectElement(pmp, pcrSum, pexprSum);
 	CExpression *pexprPrjList = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pexprPrjElemCount, pexprPrjElemSum);
 
@@ -2185,8 +2185,8 @@ CUtils::PexprGbAggSum
 		CColRef *pcr = (*pdrgpcrSum)[ul];
 		CExpression *pexprSum = PexprSum(pmp, pcr);
 		CScalarAggFunc *popScalarAggFunc = CScalarAggFunc::PopConvert(pexprSum->Pop());
-		const IMDType *pmdtypeSum = pmda->Pmdtype(popScalarAggFunc->PmdidType());
-		CColRef *pcrSum = pcf->PcrCreate(pmdtypeSum, popScalarAggFunc->ITypeModifier());
+		const IMDType *pmdtypeSum = pmda->Pmdtype(popScalarAggFunc->MDIdType());
+		CColRef *pcrSum = pcf->PcrCreate(pmdtypeSum, popScalarAggFunc->TypeModifier());
 		CExpression *pexprPrjElemSum = PexprScalarProjectElement(pmp, pcrSum, pexprSum);
 		pdrgpexpr->Append(pexprPrjElemSum);
 	}
@@ -2435,7 +2435,7 @@ CUtils::PexprScalarProjListConst
 		CScalarConst *popScConst = GPOS_NEW(pmp) CScalarConst(pmp, pdatum);
 		CExpression *pexprScConst = GPOS_NEW(pmp) CExpression(pmp, popScConst);
 
-		CColRef *pcrNew = pcf->PcrCreate(pcr->Pmdtype(), pcr->ITypeModifier(), pcr->Name());
+		CColRef *pcrNew = pcf->PcrCreate(pcr->Pmdtype(), pcr->TypeModifier(), pcr->Name());
 		if (NULL != phmulcr)
 		{
 #ifdef GPOS_DEBUG
@@ -2505,8 +2505,8 @@ CUtils::PexprAddProjection
 
 		// generate a computed column with scalar expression type
 		CScalar *popScalar = CScalar::PopConvert(pexprProjected->Pop());
-		const IMDType *pmdtype = pmda->Pmdtype(popScalar->PmdidType());
-		CColRef *pcr = pcf->PcrCreate(pmdtype, popScalar->ITypeModifier());
+		const IMDType *pmdtype = pmda->Pmdtype(popScalar->MDIdType());
+		CColRef *pcr = pcf->PcrCreate(pmdtype, popScalar->TypeModifier());
 
 		pexprProjected->AddRef();
 		pdrgpexprPrjElem->Append(PexprScalarProjectElement(pmp, pcr, pexprProjected));
@@ -4122,7 +4122,7 @@ CUtils::PexprCast
 	)
 {
 	GPOS_ASSERT(NULL != pmdidDest);
-	IMDId *pmdidSrc = CScalar::PopConvert(pexpr->Pop())->PmdidType();
+	IMDId *pmdidSrc = CScalar::PopConvert(pexpr->Pop())->MDIdType();
 	GPOS_ASSERT(CMDAccessorUtils::FCastExists(pmda, pmdidSrc, pmdidDest));
 	
 	const IMDCast *pmdcast = pmda->Pmdcast(pmdidSrc, pmdidDest);
@@ -4142,7 +4142,7 @@ CUtils::PexprCast
 		  pmp,
 		  parrayCoerceCast->PmdidCastFunc(),
 		  pmdidDest,
-		  parrayCoerceCast->ITypeModifier(),
+		  parrayCoerceCast->TypeModifier(),
 		  parrayCoerceCast->FIsExplicit(),
 		  (COperator::ECoercionForm) parrayCoerceCast->Ecf(),
 		  parrayCoerceCast->ILoc()

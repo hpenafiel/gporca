@@ -82,14 +82,14 @@ CDXLScalarCaseTest::PstrOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarCaseTest::PmdidType
+//		CDXLScalarCaseTest::MDIdType
 //
 //	@doc:
 //		Return type id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarCaseTest::PmdidType() const
+CDXLScalarCaseTest::MDIdType() const
 {
 	return m_pmdidType;
 }

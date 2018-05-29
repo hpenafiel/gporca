@@ -154,11 +154,11 @@ namespace gpopt
 			// func id
 			IMDId *PmdidFunc() const;
 
-			virtual INT ITypeModifier() const;
+			virtual INT TypeModifier() const;
 
 			// the type of the scalar expression
 			virtual 
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
 			// function stability
 			IMDFunction::EFuncStbl EfsGetFunctionStability() const;

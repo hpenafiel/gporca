@@ -138,7 +138,7 @@ CDXLLogicalGet::FDefinesColumn
 	const ULONG ulSize = m_pdxltabdesc->UlArity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = m_pdxltabdesc->Pdxlcd(ulDescr)->UlID();
+		ULONG ulId = m_pdxltabdesc->Pdxlcd(ulDescr)->Id();
 		if (ulId == ulColId)
 		{
 			return true;

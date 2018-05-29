@@ -66,7 +66,7 @@ namespace gpdxl
 			}
 
 			// boundary type
-			IMDId *PmdidType() const
+			IMDId *MDIdType() const
 			{
 				return m_pmdidType;
 			}

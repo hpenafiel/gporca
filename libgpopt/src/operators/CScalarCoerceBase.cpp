@@ -66,14 +66,14 @@ CScalarCoerceBase::~CScalarCoerceBase()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarCoerceBase::PmdidType
+//		CScalarCoerceBase::MDIdType
 //
 //	@doc:
 //		Return type of the scalar expression
 //
 //---------------------------------------------------------------------------
 IMDId*
-CScalarCoerceBase::PmdidType() const
+CScalarCoerceBase::MDIdType() const
 {
 	return m_pmdidResultType;
 }
@@ -81,14 +81,14 @@ CScalarCoerceBase::PmdidType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarCoerceBase::ITypeModifier
+//		CScalarCoerceBase::TypeModifier
 //
 //	@doc:
 //		Return type modifier
 //
 //---------------------------------------------------------------------------
 INT
-CScalarCoerceBase::ITypeModifier() const
+CScalarCoerceBase::TypeModifier() const
 {
 	return m_iTypeModifier;
 }

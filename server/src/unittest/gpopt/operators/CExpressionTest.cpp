@@ -345,8 +345,8 @@ CExpressionTest::EresUnittest_BitmapGet()
 
 	// create an index on the first column
 	const IMDColumn *pmdcol = pmdrel->Pmdcol(0);
-	const IMDType *pmdtype = mda.Pmdtype(pmdcol->PmdidType());
-	CColRef *pcrFirst = pcf->PcrCreate(pmdtype, pmdcol->ITypeModifier());
+	const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
+	CColRef *pcrFirst = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 
 	CExpression *pexprIndexCond = CUtils::PexprScalarEqCmp
 								(
@@ -369,8 +369,8 @@ CExpressionTest::EresUnittest_BitmapGet()
 	for (ULONG ul = 0; ul < ulCols; ++ul)
 	{
 		const IMDColumn *pmdcol = pmdrel->Pmdcol(ul);
-		const IMDType *pmdtype = mda.Pmdtype(pmdcol->PmdidType());
-		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->ITypeModifier());
+		const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
+		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 		pdrgpcrTable->Append(pcr);
 	}
 

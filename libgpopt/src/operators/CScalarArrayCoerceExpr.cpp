@@ -145,8 +145,8 @@ CScalarArrayCoerceExpr::FMatch
 	CScalarArrayCoerceExpr *popCoerce = CScalarArrayCoerceExpr::PopConvert(pop);
 
 	return popCoerce->PmdidElementFunc()->Equals(m_pmdidElementFunc) &&
-			popCoerce->PmdidType()->Equals(PmdidType()) &&
-			popCoerce->ITypeModifier() == ITypeModifier() &&
+			popCoerce->MDIdType()->Equals(MDIdType()) &&
+			popCoerce->TypeModifier() == TypeModifier() &&
 			popCoerce->FIsExplicit() == m_fIsExplicit &&
 			popCoerce->Ecf() == Ecf() &&
 			popCoerce->ILoc() == ILoc();

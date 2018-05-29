@@ -138,14 +138,14 @@ CScalarArrayCmp::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarArrayCmp::PmdidType
+//		CScalarArrayCmp::MDIdType
 //
 //	@doc:
 //		Expression type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarArrayCmp::PmdidType() const
+CScalarArrayCmp::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	return pmda->PtMDType<IMDTypeBool>()->Pmdid();

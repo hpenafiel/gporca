@@ -505,8 +505,8 @@ CMDAccessorTest::EresUnittest_CheckConstraint()
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		const IMDColumn *pmdcol = pmdrel->Pmdcol(ul);
-		const IMDType *pmdtype = mda.Pmdtype(pmdcol->PmdidType());
-		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->ITypeModifier());
+		const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
+		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 		pdrgpcr->Append(pcr);
 	}
 
@@ -581,8 +581,8 @@ CMDAccessorTest::EresUnittest_IndexPartConstraint()
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		const IMDColumn *pmdcol = pmdrel->Pmdcol(ul);
-		const IMDType *pmdtype = mda.Pmdtype(pmdcol->PmdidType());
-		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->ITypeModifier());
+		const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
+		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 		pdrgpcr->Append(pcr);
 	}
 

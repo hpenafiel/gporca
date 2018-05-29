@@ -80,14 +80,14 @@ CDXLScalarHashExpr::PstrOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarHashExpr::PmdidType
+//		CDXLScalarHashExpr::MDIdType
 //
 //	@doc:
 //		Hash expression type from the catalog
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarHashExpr::PmdidType() const
+CDXLScalarHashExpr::MDIdType() const
 {
 	return m_pmdidType;
 }

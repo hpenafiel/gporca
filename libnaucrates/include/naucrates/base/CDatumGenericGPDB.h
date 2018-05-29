@@ -84,7 +84,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 		IMDId *Pmdid() const;
 
 		virtual
-		INT ITypeModifier() const;
+		INT TypeModifier() const;
 
 		// accessor of size
 		virtual

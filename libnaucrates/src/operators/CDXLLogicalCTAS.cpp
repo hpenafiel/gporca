@@ -35,7 +35,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	IMDId *pmdid,
 	CMDName *pmdnameSchema, 
 	CMDName *pmdnameRel, 
-	DrgPdxlcd *pdrgpdxlcd,
+	column_descr_array *pdrgpdxlcd,
 	CDXLCtasStorageOptions *pdxlctasopt,
 	IMDRelation::Ereldistrpolicy ereldistrpolicy,
 	ULongPtrArray *pdrgpulDistr,
@@ -139,7 +139,7 @@ CDXLLogicalCTAS::FDefinesColumn
 	const ULONG ulSize = m_pdrgpdxlcd->Size();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = (*m_pdrgpdxlcd)[ulDescr]->UlID();
+		ULONG ulId = (*m_pdrgpdxlcd)[ulDescr]->Id();
 		if (ulId == ulColId)
 		{
 			return true;

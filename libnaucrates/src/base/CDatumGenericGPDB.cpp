@@ -132,7 +132,7 @@ CDatumGenericGPDB::Pmdid() const
 
 
 INT
-CDatumGenericGPDB::ITypeModifier() const
+CDatumGenericGPDB::TypeModifier() const
 {
 	return m_iTypeModifier;
 }
@@ -490,7 +490,7 @@ CDatumGenericGPDB::PdatumPadded
 													(
 													pmp,
 													this->Pmdid(),
-													this->ITypeModifier(),
+													this->TypeModifier(),
 													pba,
 													ulAdjustedColWidth,
 													this->FNull(),

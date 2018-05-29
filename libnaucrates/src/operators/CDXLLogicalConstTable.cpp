@@ -31,7 +31,7 @@ using namespace gpdxl;
 CDXLLogicalConstTable::CDXLLogicalConstTable
 	(
 	IMemoryPool *pmp,		
-	DrgPdxlcd *pdrgpdxlcd,
+	column_descr_array *pdrgpdxlcd,
 	DrgPdrgPdxldatum *pdrgpdrgpdxldatum
 	)
 	:
@@ -200,7 +200,7 @@ CDXLLogicalConstTable::FDefinesColumn
 	const ULONG ulSize = UlArity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = Pdxlcd(ulDescr)->UlID();
+		ULONG ulId = Pdxlcd(ulDescr)->Id();
 		if (ulId == ulColId)
 		{
 			return true;

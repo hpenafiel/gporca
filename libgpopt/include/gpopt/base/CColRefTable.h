@@ -88,7 +88,7 @@ namespace gpopt
 			}
 
 			// accessor of attribute number
-			INT IAttno() const
+			INT AttrNum() const
 			{
 				return m_iAttno;
 			}
@@ -108,7 +108,7 @@ namespace gpopt
 			}
 
 			// width of the column
-			ULONG UlWidth() const
+			ULONG Width() const
 			{
 				return m_ulWidth;
 			}

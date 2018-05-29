@@ -131,7 +131,7 @@ CCastUtils::PexprCast
 		  pmp,
 		  parrayCoerceCast->PmdidCastFunc(),
 		  pmdidDest,
-		  parrayCoerceCast->ITypeModifier(),
+		  parrayCoerceCast->TypeModifier(),
 		  parrayCoerceCast->FIsExplicit(),
 		  (COperator::ECoercionForm) parrayCoerceCast->Ecf(),
 		  parrayCoerceCast->ILoc()
@@ -255,8 +255,8 @@ CCastUtils::PexprAddCast
     CExpression *pexprLeft = (*pexprChild)[0];
     CExpression *pexprRight = (*pexprChild)[1];
 
-    IMDId *pmdidTypeLeft = CScalar::PopConvert(pexprLeft->Pop())->PmdidType();
-    IMDId *pmdidTypeRight = CScalar::PopConvert(pexprRight->Pop())->PmdidType();
+    IMDId *pmdidTypeLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
+    IMDId *pmdidTypeRight = CScalar::PopConvert(pexprRight->Pop())->MDIdType();
 
     CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
@@ -311,7 +311,7 @@ CCastUtils::PexprCast
 	IMDId *pmdidDest
 	)
 {
-    IMDId *pmdidSrc = CScalar::PopConvert(pexpr->Pop())->PmdidType();
+    IMDId *pmdidSrc = CScalar::PopConvert(pexpr->Pop())->MDIdType();
     const IMDCast *pmdcast = pmda->Pmdcast(pmdidSrc, pmdidDest);
 
     pmdidDest->AddRef();
@@ -324,7 +324,7 @@ CCastUtils::PexprCast
         pexprCast = GPOS_NEW(pmp) CExpression
         (
          pmp,
-         GPOS_NEW(pmp) CScalarArrayCoerceExpr(pmp, parrayCoerceCast->PmdidCastFunc(), pmdidDest, parrayCoerceCast->ITypeModifier(), parrayCoerceCast->FIsExplicit(), (COperator::ECoercionForm) parrayCoerceCast->Ecf(), parrayCoerceCast->ILoc()),
+         GPOS_NEW(pmp) CScalarArrayCoerceExpr(pmp, parrayCoerceCast->PmdidCastFunc(), pmdidDest, parrayCoerceCast->TypeModifier(), parrayCoerceCast->FIsExplicit(), (COperator::ECoercionForm) parrayCoerceCast->Ecf(), parrayCoerceCast->ILoc()),
          pexpr
          );
     }

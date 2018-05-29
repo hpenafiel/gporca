@@ -82,14 +82,14 @@ CDXLScalarSwitch::PstrOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSwitch::PmdidType
+//		CDXLScalarSwitch::MDIdType
 //
 //	@doc:
 //		Return type id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarSwitch::PmdidType() const
+CDXLScalarSwitch::MDIdType() const
 {
 	return m_pmdidType;
 }

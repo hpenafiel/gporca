@@ -97,7 +97,7 @@ namespace gpopt
 
 			// type of expression's result
 			virtual
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
 			// conversion function
 			static

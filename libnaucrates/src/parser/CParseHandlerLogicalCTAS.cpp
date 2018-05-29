@@ -170,7 +170,7 @@ CParseHandlerLogicalCTAS::EndElement
 	GPOS_ASSERT(NULL != pphCTASOptions->Pdxlctasopt());
 	GPOS_ASSERT(NULL != pphChild->Pdxln());
 	
-	DrgPdxlcd *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
+	column_descr_array *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
 	pdrgpdxlcd->AddRef();
 	
 	CDXLCtasStorageOptions *pdxlctasopt = pphCTASOptions->Pdxlctasopt();

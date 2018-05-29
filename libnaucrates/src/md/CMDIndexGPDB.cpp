@@ -382,7 +382,7 @@ CMDIndexGPDB::DebugPrint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIndexGPDB::PmdidType
+//		CMDIndexGPDB::MDIdType
 //
 //	@doc:
 //		Type of items returned by the index

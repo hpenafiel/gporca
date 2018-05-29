@@ -74,7 +74,7 @@ namespace gpdxl
 			// return type
 			IMDId *PmdidRetType() const;
 
-			INT ITypeModifier() const;
+			INT TypeModifier() const;
 
 			// does function return a set
 			BOOL FReturnSet() const;

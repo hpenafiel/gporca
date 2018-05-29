@@ -96,7 +96,7 @@ CStatsPredPoint::PdatumPreprocess
 
 	const CColRefTable *pcrTable = CColRefTable::PcrConvert(const_cast<CColRef*>(pcr));
 
-	return pdatum->PdatumPadded(pmp, pcrTable->UlWidth());
+	return pdatum->PdatumPadded(pmp, pcrTable->Width());
 }
 
 // EOF

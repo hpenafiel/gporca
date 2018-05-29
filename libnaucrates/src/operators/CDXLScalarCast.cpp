@@ -88,14 +88,14 @@ CDXLScalarCast::PstrOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarCast::PmdidType
+//		CDXLScalarCast::MDIdType
 //
 //	@doc:
 //		Return the oid of the type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarCast::PmdidType() const
+CDXLScalarCast::MDIdType() const
 {
 	return m_pmdidType;
 }

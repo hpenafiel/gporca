@@ -74,7 +74,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		IMDColumn *pmdcol = (*pdrgpmdcol)[ul];
-		GPOS_ASSERT(!pmdcol->FDropped() && "Cannot create a table with dropped columns");
+		GPOS_ASSERT(!pmdcol->IsDropped() && "Cannot create a table with dropped columns");
 
 		BOOL fSystemCol = pmdcol->FSystemColumn();
 		if (fSystemCol)
@@ -88,7 +88,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 
 		(void) m_phmiulAttno2Pos->Insert
 									(
-									GPOS_NEW(m_pmp) INT(pmdcol->IAttno()),
+									GPOS_NEW(m_pmp) INT(pmdcol->AttrNum()),
 									GPOS_NEW(m_pmp) ULONG(ul)
 									);
 

@@ -54,7 +54,7 @@ CMDArrayCoerceCastGPDB::~CMDArrayCoerceCastGPDB()
 
 // return type modifier
 INT
-CMDArrayCoerceCastGPDB::ITypeModifier() const
+CMDArrayCoerceCastGPDB::TypeModifier() const
 {
 	return m_iTypeModifier;
 }
@@ -102,9 +102,9 @@ CMDArrayCoerceCastGPDB::Serialize
 	m_pmdidDest->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastDestType));
 	m_pmdidCastFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastFuncId));
 
-	if (IDefaultTypeModifier != ITypeModifier())
+	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsExplicit), m_fIsExplicit);

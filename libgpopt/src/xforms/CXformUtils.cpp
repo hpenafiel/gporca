@@ -862,7 +862,7 @@ CXformUtils::SubqueryAnyToAgg
 		const CColRef *pcrSum = CScalarProjectElement::PopConvert((*(*pexprInnerNew)[1])[1]->Pop())->Pcr();
 
 		CExpression *pexprScalarIdentCount = CUtils::PexprScalarIdent(pmp, pcrCount);
-		CExpression *pexprCountEqZero = CUtils::PexprCmpWithZero(pmp, pexprScalarIdentCount, CScalarIdent::PopConvert(pexprScalarIdentCount->Pop())->PmdidType(), IMDType::EcmptEq);
+		CExpression *pexprCountEqZero = CUtils::PexprCmpWithZero(pmp, pexprScalarIdentCount, CScalarIdent::PopConvert(pexprScalarIdentCount->Pop())->MDIdType(), IMDType::EcmptEq);
 		CExpression *pexprCountEqSum = CUtils::PexprScalarEqCmp(pmp, pcrCount, pcrSum);
 
 		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -991,10 +991,10 @@ CXformUtils::SubqueryAllToAgg
 	CExpression *pexprScalarIdentSum = CUtils::PexprScalarIdent(pmp, pcrSum);
 	CExpression *pexprScalarIdentSumNulls = CUtils::PexprScalarIdent(pmp, pcrSumNulls);
 
-	CExpression *pexprSumTest = CUtils::PexprCmpWithZero(pmp, pexprScalarIdentSum, CScalarIdent::PopConvert(pexprScalarIdentSum->Pop())->PmdidType(), IMDType::EcmptEq);
+	CExpression *pexprSumTest = CUtils::PexprCmpWithZero(pmp, pexprScalarIdentSum, CScalarIdent::PopConvert(pexprScalarIdentSum->Pop())->MDIdType(), IMDType::EcmptEq);
 	pexprScalarIdentSum->AddRef();
 	CExpression *pexprIsInnerEmpty = CUtils::PexprIsNull(pmp, pexprScalarIdentSum);
-	CExpression *pexprInnerHasNulls = CUtils::PexprCmpWithZero(pmp, pexprScalarIdentSumNulls, CScalarIdent::PopConvert(pexprScalarIdentSumNulls->Pop())->PmdidType(), IMDType::EcmptG);
+	CExpression *pexprInnerHasNulls = CUtils::PexprCmpWithZero(pmp, pexprScalarIdentSumNulls, CScalarIdent::PopConvert(pexprScalarIdentSumNulls->Pop())->MDIdType(), IMDType::EcmptG);
 	pexprScalarOuter->AddRef();
 	CExpression *pexprIsOuterNull = CUtils::PexprIsNull(pmp, pexprScalarOuter);
 
@@ -1743,8 +1743,8 @@ CXformUtils::PexprAssertUpdateCardinality
 	CExpression *pexprCountStar = CUtils::PexprCountStar(pmp);
 
 	CScalar *pop = CScalar::PopConvert(pexprCountStar->Pop());
-	const IMDType *pmdtype = pmda->Pmdtype(pop->PmdidType());
-	CColRef *pcrProjElem = pcf->PcrCreate(pmdtype, pop->ITypeModifier());
+	const IMDType *pmdtype = pmda->Pmdtype(pop->MDIdType());
+	CColRef *pcrProjElem = pcf->PcrCreate(pmdtype, pop->TypeModifier());
 	 
 	CExpression *pexprProjElem = GPOS_NEW(pmp) CExpression
 									(
@@ -1934,8 +1934,8 @@ CXformUtils::AddMinAggs
 			CExpression *pexprMinAgg = CUtils::PexprMin(pmp, pmda, pcr);
 			CScalar *popMin = CScalar::PopConvert(pexprMinAgg->Pop());
 			
-			const IMDType *pmdtypeMin = pmda->Pmdtype(popMin->PmdidType());
-			pcrNew = pcf->PcrCreate(pmdtypeMin, popMin->ITypeModifier());
+			const IMDType *pmdtypeMin = pmda->Pmdtype(popMin->MDIdType());
+			pcrNew = pcf->PcrCreate(pmdtypeMin, popMin->TypeModifier());
 			CExpression *pexprProjElemMin = GPOS_NEW(pmp) CExpression
 											(
 											pmp,
@@ -2414,9 +2414,9 @@ CXformUtils::PexprWindowWithRowNumber
 
 	// generate a new column reference
 	CScalarWindowFunc *popScWindowFunc = CScalarWindowFunc::PopConvert(pexprScWindowFunc->Pop());
-	const IMDType *pmdtype = COptCtxt::PoctxtFromTLS()->Pmda()->Pmdtype(popScWindowFunc->PmdidType());
+	const IMDType *pmdtype = COptCtxt::PoctxtFromTLS()->Pmda()->Pmdtype(popScWindowFunc->MDIdType());
 	CName name(popScWindowFunc->PstrFunc());
-	CColRef *pcr = COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pmdtype, popScWindowFunc->ITypeModifier(), name);
+	CColRef *pcr = COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pmdtype, popScWindowFunc->TypeModifier(), name);
 
 	// new project element
 	CScalarProjectElement *popScPrEl = GPOS_NEW(pmp) CScalarProjectElement(pmp, pcr);
@@ -3025,7 +3025,7 @@ CXformUtils::PexprScalarBitmapBoolOp
 	
 	CExpression *pexprBitmapBoolOp = (*pdrgpexprBitmap)[0];
 	pexprBitmapBoolOp->AddRef();
-	IMDId *pmdidBitmap = CScalar::PopConvert(pexprBitmapBoolOp->Pop())->PmdidType();
+	IMDId *pmdidBitmap = CScalar::PopConvert(pexprBitmapBoolOp->Pop())->MDIdType();
 	
 	for (ULONG ul = 1; ul < ulBitmapExpr; ul++)
 	{
@@ -3692,7 +3692,7 @@ CXformUtils::FHasAmbiguousType
 				break; // these operators do not have valid return type
 
 			default:
-				IMDId *pmdid = popScalar->PmdidType();
+				IMDId *pmdid = popScalar->MDIdType();
 				if (NULL != pmdid)
 				{
 					// check MD type of scalar node

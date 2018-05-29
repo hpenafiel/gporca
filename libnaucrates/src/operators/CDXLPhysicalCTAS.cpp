@@ -36,7 +36,7 @@ CDXLPhysicalCTAS::CDXLPhysicalCTAS
 	IMemoryPool *pmp,
 	CMDName *pmdnameSchema,
 	CMDName *pmdnameRel,
-	DrgPdxlcd *pdrgpdxlcd,
+	column_descr_array *pdrgpdxlcd,
 	CDXLCtasStorageOptions *pdxlctasopt,
 	IMDRelation::Ereldistrpolicy ereldistrpolicy,
 	ULongPtrArray *pdrgpulDistr,

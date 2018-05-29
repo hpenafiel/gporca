@@ -1116,7 +1116,7 @@ CExpression::FMatchDebug
 		Pop()->FScalar() && 
 			CScalar::EopScalarProjectList != Pop()->Eopid() &&
 			CScalar::EopScalarProjectElement != Pop()->Eopid(),
-		CScalar::PopConvert(pexpr->Pop())->PmdidType()->Equals(CScalar::PopConvert(Pop())->PmdidType())
+		CScalar::PopConvert(pexpr->Pop())->MDIdType()->Equals(CScalar::PopConvert(Pop())->MDIdType())
 		);
 	
 	ULONG ulArity = UlArity();

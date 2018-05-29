@@ -1754,11 +1754,11 @@ CTestUtils::PexprPrjElemWithSum
 
 	// map a computed column to SUM expression
 	CScalar *pop = CScalar::PopConvert(pexprScalarAgg->Pop());
-	IMDId *pmdidType = pop->PmdidType();
+	IMDId *pmdidType = pop->MDIdType();
 	const IMDType *pmdtype = pmda->Pmdtype(pmdidType);
 	CWStringConst str(GPOS_WSZ_LIT("sum_col"));
 	CName name(pmp, &str);
-	CColRef *pcrComputed = COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pmdtype, pop->ITypeModifier(), name);
+	CColRef *pcrComputed = COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pmdtype, pop->TypeModifier(), name);
 
 	return CUtils::PexprScalarProjectElement(pmp, pcrComputed, pexprScalarAgg);
 }

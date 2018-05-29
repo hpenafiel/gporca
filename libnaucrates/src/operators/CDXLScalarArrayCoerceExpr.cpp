@@ -86,9 +86,9 @@ CDXLScalarArrayCoerceExpr::SerializeToDXL
 	m_pmdidElementFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenElementFunc));
 	PmdidResultType()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
-	if (IDefaultTypeModifier != ITypeModifier())
+	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsExplicit), m_fIsExplicit);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCoercionForm), (ULONG) Edxlcf());

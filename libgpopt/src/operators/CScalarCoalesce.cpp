@@ -97,7 +97,7 @@ CScalarCoalesce::FMatch
 		CScalarCoalesce *popScCoalesce = CScalarCoalesce::PopConvert(pop);
 
 		// match if return types are identical
-		return popScCoalesce->PmdidType()->Equals(m_pmdidType);
+		return popScCoalesce->MDIdType()->Equals(m_pmdidType);
 	}
 
 	return false;

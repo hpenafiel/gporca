@@ -76,7 +76,7 @@ namespace gpmd
 
 			// return type modifier
 			virtual
-			INT ITypeModifier() const;
+			INT TypeModifier() const;
 
 			virtual
 			BOOL FIsExplicit() const;

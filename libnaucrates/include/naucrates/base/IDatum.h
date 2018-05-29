@@ -64,7 +64,7 @@ namespace gpnaucrates
 			IMDId *Pmdid() const = 0;
 
 			virtual
-			INT ITypeModifier() const
+			INT TypeModifier() const
 			{
 				return IDefaultTypeModifier;
 			}

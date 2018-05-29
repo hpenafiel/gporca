@@ -97,7 +97,7 @@ namespace gpdxl
 			}
 
 			INT
-			ITypeModifier() const;
+			TypeModifier() const;
 
 			// is datum NULL
 			virtual

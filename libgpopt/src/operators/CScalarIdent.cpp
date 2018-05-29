@@ -103,7 +103,7 @@ CScalarIdent::PopCopyWithRemappedColumns
 			CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 			CName name(m_pcr->Name());
-			pcr = pcf->PcrCreate(m_pcr->Pmdtype(), m_pcr->ITypeModifier(), name);
+			pcr = pcf->PcrCreate(m_pcr->Pmdtype(), m_pcr->TypeModifier(), name);
 
 #ifdef GPOS_DEBUG
 			BOOL fResult =
@@ -122,22 +122,22 @@ CScalarIdent::PopCopyWithRemappedColumns
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarIdent::PmdidType
+//		CScalarIdent::MDIdType
 //
 //	@doc:
 //		Expression type
 //
 //---------------------------------------------------------------------------
 IMDId*
-CScalarIdent::PmdidType() const
+CScalarIdent::MDIdType() const
 {
 	return m_pcr->Pmdtype()->Pmdid();
 }
 
 INT
-CScalarIdent::ITypeModifier() const
+CScalarIdent::TypeModifier() const
 {
-	return m_pcr->ITypeModifier();
+	return m_pcr->TypeModifier();
 }
 
 //---------------------------------------------------------------------------

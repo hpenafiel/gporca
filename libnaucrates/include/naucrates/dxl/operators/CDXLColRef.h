@@ -78,11 +78,11 @@ namespace gpdxl
 			// accessors
 			const CMDName *Pmdname() const;
 
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
-			INT ITypeModifier() const;
+			INT TypeModifier() const;
 
-			ULONG UlID() const;
+			ULONG Id() const;
 
 	};
 }

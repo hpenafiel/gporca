@@ -799,7 +799,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 {
 	GPOS_ASSERT(NULL != pexprPartKey);
 	GPOS_ASSERT(NULL != pmdidTypePartKey);
-	GPOS_ASSERT(CScalar::PopConvert(pexprPartKey->Pop())->PmdidType()->Equals(pmdidTypePartKey));
+	GPOS_ASSERT(CScalar::PopConvert(pexprPartKey->Pop())->MDIdType()->Equals(pmdidTypePartKey));
 
 	CDXLNode *pdxlnPartKey = NULL;
 
@@ -826,11 +826,11 @@ CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 	{
 		// ScalarCast(ScalarIdent) - create an ArrayCoerceExpr over a ScalarPartListValues
 		CScalarCast *pexprScalarCast = CScalarCast::PopConvert(pexprPartKey->Pop());
-		IMDId *pmdidDestElem = pexprScalarCast->PmdidType();
+		IMDId *pmdidDestElem = pexprScalarCast->MDIdType();
 		IMDId *pmdidDestArray = pmda->Pmdtype(pmdidDestElem)->PmdidTypeArray();
 
 		CScalarIdent *pexprScalarIdent = CScalarIdent::PopConvert((*pexprPartKey)[0]->Pop());
-		IMDId *pmdidSrcElem = pexprScalarIdent->PmdidType();
+		IMDId *pmdidSrcElem = pexprScalarIdent->MDIdType();
 		IMDId *pmdidSrcArray = pmda->Pmdtype(pmdidSrcElem)->PmdidTypeArray();
 
 		IMDId *pmdidArrayCastFunc = NULL;
@@ -1535,7 +1535,7 @@ CTranslatorExprToDXLUtils::ReplaceSubplan
 	IMDId *pmdidType = pcr->Pmdtype()->Pmdid();
 	pmdidType->AddRef();
 	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pdxlopPrEl->PmdnameAlias()->Pstr());
-	CDXLColRef *pdxlcr = GPOS_NEW(pmp) CDXLColRef(pmp, pmdname, pdxlopPrEl->UlId(), pmdidType, pcr->ITypeModifier());
+	CDXLColRef *pdxlcr = GPOS_NEW(pmp) CDXLColRef(pmp, pmdname, pdxlopPrEl->UlId(), pmdidType, pcr->TypeModifier());
 	CDXLScalarIdent *pdxlnScId = GPOS_NEW(pmp) CDXLScalarIdent(pmp, pdxlcr);
 	CDXLNode *pdxln = GPOS_NEW(pmp) CDXLNode(pmp, pdxlnScId);
 #ifdef GPOS_DEBUG
@@ -1636,7 +1636,7 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 	IMDId *pmdid = pcr->Pmdtype()->Pmdid();
 	pmdid->AddRef();
 
-	CDXLColRef *pdxlcr = GPOS_NEW(pmp) CDXLColRef(pmp, pmdname, pcr->UlId(), pmdid, pcr->ITypeModifier());
+	CDXLColRef *pdxlcr = GPOS_NEW(pmp) CDXLColRef(pmp, pmdname, pcr->UlId(), pmdid, pcr->TypeModifier());
 	
 	CDXLScalarIdent *pdxlop = GPOS_NEW(pmp) CDXLScalarIdent(pmp, pdxlcr);
 	return GPOS_NEW(pmp) CDXLNode(pmp, pdxlop);
@@ -2426,7 +2426,7 @@ CTranslatorExprToDXLUtils::ExtractCastMdids
 	}
 
 	CScalarCast *popCast = CScalarCast::PopConvert(pop);
-	*ppmdidType = popCast->PmdidType();
+	*ppmdidType = popCast->MDIdType();
 	*ppmdidCastFunc = popCast->PmdidFunc();
 }
 
@@ -2521,7 +2521,7 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 	if (pdxln->Pdxlop()->Edxlop() == EdxlopScalarIdent)
 	{
 		const CDXLColRef *pdxlcr = CDXLScalarIdent::PdxlopConvert(pdxln->Pdxlop())->Pdxlcr();
-		pbs->ExchangeSet(pdxlcr->UlID());
+		pbs->ExchangeSet(pdxlcr->Id());
 	}
 
 	ULONG ulArity = pdxln->UlArity();

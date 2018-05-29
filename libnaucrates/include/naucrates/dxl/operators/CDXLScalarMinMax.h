@@ -66,7 +66,7 @@ namespace gpdxl
 
 			// return type
 			virtual
-			IMDId *PmdidType() const
+			IMDId *MDIdType() const
 			{
 				return m_pmdidType;
 			}

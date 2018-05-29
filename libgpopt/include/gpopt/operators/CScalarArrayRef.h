@@ -82,7 +82,7 @@ namespace gpopt
 			}
 
 			// element type modifier
-			virtual INT ITypeModifier() const;
+			virtual INT TypeModifier() const;
 
 			// array type id
 			IMDId *PmdidArray() const
@@ -119,7 +119,7 @@ namespace gpopt
 
 			// type of expression's result
 			virtual
-			IMDId *PmdidType() const
+			IMDId *MDIdType() const
 			{
 				return m_pmdidType;
 			}

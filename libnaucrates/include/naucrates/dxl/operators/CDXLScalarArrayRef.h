@@ -78,7 +78,7 @@ namespace gpdxl
 
 			// element type modifier
 			INT
-			ITypeModifier() const;
+			TypeModifier() const;
 
 			// array type id
 			IMDId *PmdidArray() const

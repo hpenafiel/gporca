@@ -135,7 +135,7 @@ CParseHandlerTableDescr::EndElement
 	
 	GPOS_ASSERT(NULL != pphColDescr->Pdrgpdxlcd());
 	
-	DrgPdxlcd *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
+	column_descr_array *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
 	pdrgpdxlcd->AddRef();
 	m_pdxltabdesc->SetColumnDescriptors(pdrgpdxlcd);
 			

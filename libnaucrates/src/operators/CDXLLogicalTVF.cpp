@@ -32,7 +32,7 @@ CDXLLogicalTVF::CDXLLogicalTVF
 	IMDId *pmdidFunc,
 	IMDId *pmdidRetType,
 	CMDName *pmdname,
-	DrgPdxlcd *pdrgdxlcd
+	column_descr_array *pdrgdxlcd
 	)
 	:CDXLLogical(pmp),
 	m_pmdidFunc(pmdidFunc),
@@ -138,7 +138,7 @@ CDXLLogicalTVF::FDefinesColumn
 	const ULONG ulSize = UlArity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = Pdxlcd(ulDescr)->UlID();
+		ULONG ulId = Pdxlcd(ulDescr)->Id();
 		if (ulId == ulColId)
 		{
 			return true;

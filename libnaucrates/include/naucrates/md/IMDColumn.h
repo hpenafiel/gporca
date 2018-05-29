@@ -45,10 +45,10 @@ namespace gpmd
 			
 			// id of attribute type
 			virtual 
-			IMDId *PmdidType() const = 0;
+			IMDId *MDIdType() const = 0;
 
 			virtual
-			INT ITypeModifier() const = 0;
+			INT TypeModifier() const = 0;
 
 			// are nulls allowed for this column
 			virtual 
@@ -56,7 +56,7 @@ namespace gpmd
 			
 			// attribute number in the system catalog
 			virtual 
-			INT IAttno() const = 0;
+			INT AttrNum() const = 0;
 			
 			// is this a system column
 			virtual 
@@ -64,7 +64,7 @@ namespace gpmd
 			
 			// is column dropped
 			virtual
-			BOOL FDropped() const = 0;
+			BOOL IsDropped() const = 0;
 
 			// length of the column
 			virtual ULONG Length() const = 0;

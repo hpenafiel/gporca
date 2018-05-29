@@ -89,7 +89,7 @@ namespace gpopt
 					);
 
 			// type of this interval
-			IMDId *PmdidType();
+			IMDId *MDIdType();
 
 			// construct scalar expression
 			virtual

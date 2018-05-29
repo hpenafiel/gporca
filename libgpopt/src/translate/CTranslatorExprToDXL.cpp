@@ -702,7 +702,7 @@ CTranslatorExprToDXL::PdxlnBitmapBoolOp
 	CDXLNode *pdxlnLeft = PdxlnScalar(pexprLeft);
 	CDXLNode *pdxlnRight = PdxlnScalar(pexprRight);
 	
-	IMDId *pmdidType = popBitmapBoolOp->PmdidType();
+	IMDId *pmdidType = popBitmapBoolOp->MDIdType();
 	pmdidType->AddRef();
 	
 	CDXLScalarBitmapBoolOp::EdxlBitmapBoolOp edxlbitmapop = CDXLScalarBitmapBoolOp::EdxlbitmapAnd;
@@ -3218,7 +3218,7 @@ CTranslatorExprToDXL::PdxlnCorrelatedNLJoin
 		CMDName *pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pcr->Name().Pstr());
 		IMDId *pmdid = pcr->Pmdtype()->Pmdid();
 		pmdid->AddRef();
-		CDXLColRef *pdxlcr = GPOS_NEW(m_pmp) CDXLColRef(m_pmp, pmdname, pcr->UlId(), pmdid, pcr->ITypeModifier());
+		CDXLColRef *pdxlcr = GPOS_NEW(m_pmp) CDXLColRef(m_pmp, pmdname, pcr->UlId(), pmdid, pcr->TypeModifier());
 		pdrgdxlcr->Append(pdxlcr);
 	}
 
@@ -4776,7 +4776,7 @@ CTranslatorExprToDXL::ConstructLevelFilters4PartitionSelector
 		if (NULL != pexprEqFilter)
 		{
 			CDXLNode *pdxlnEq = PdxlnScalar(pexprEqFilter);
-			IMDId *pmdidTypeOther = CScalar::PopConvert(pexprEqFilter->Pop())->PmdidType();
+			IMDId *pmdidTypeOther = CScalar::PopConvert(pexprEqFilter->Pop())->MDIdType();
 			fEQComparison = true;
 
 			if (fRangePart)
@@ -5080,7 +5080,7 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 	GPOS_ASSERT(IMDType::EcmptOther != ecmpt);
 
 	CDXLNode *pdxlnOther = PdxlnScalar(pexprOther);
-	IMDId *pmdidTypeOther = CScalar::PopConvert(pexprOther->Pop())->PmdidType();
+	IMDId *pmdidTypeOther = CScalar::PopConvert(pexprOther->Pop())->MDIdType();
 	IMDId *pmdidTypeCastExpr = NULL;
 	IMDId *pmdidCastFunc = NULL;
 
@@ -5116,7 +5116,7 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 	else // list partition
 	{
 		ecmpt = CPredicateUtils::EcmptReverse(ecmpt);
-		IMDId *pmdidTypePartKeyExpr = CScalar::PopConvert(pexprPartKey->Pop())->PmdidType();
+		IMDId *pmdidTypePartKeyExpr = CScalar::PopConvert(pexprPartKey->Pop())->MDIdType();
 
 		CDXLNode *pdxlnPartKeyExpr = CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 																(
@@ -5390,13 +5390,13 @@ CTranslatorExprToDXL::PdxlnCTAS
 	GPOS_ASSERT(ulColumns == pdrgpiVarTypeMod->Size());
 
 	// translate col descriptors
-	DrgPdxlcd *pdrgpdxlcd = GPOS_NEW(m_pmp) DrgPdxlcd(m_pmp);
+	column_descr_array *pdrgpdxlcd = GPOS_NEW(m_pmp) column_descr_array(m_pmp);
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
 		const CColumnDescriptor *pcd = ptabdesc->Pcoldesc(ul);
 
 		CMDName *pmdnameCol = GPOS_NEW(m_pmp) CMDName(m_pmp, pcd->Name().Pstr());
-		CColRef *pcr = m_pcf->PcrCreate(pcd->Pmdtype(), pcd->ITypeModifier(), pcd->Name());
+		CColRef *pcr = m_pcf->PcrCreate(pcd->Pmdtype(), pcd->TypeModifier(), pcd->Name());
 
 		// use the col ref id for the corresponding output output column as 
 		// colid for the dxl column
@@ -5408,11 +5408,11 @@ CTranslatorExprToDXL::PdxlnCTAS
 											m_pmp,
 											pmdnameCol,
 											pcr->UlId(),
-											pcd->IAttno(),
+											pcd->AttrNum(),
 											pmdidColType,
-											pcr->ITypeModifier(),
+											pcr->TypeModifier(),
 											false /* fdropped */,
-											pcd->UlWidth()
+											pcd->Width()
 											);
 
 		pdrgpdxlcd->Append(pdxlcd);
@@ -5426,7 +5426,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 		for (ULONG ul = 0; ul < ulDistrCols; ul++)
 		{
 			const IMDColumn *pmdcol = pmdrel->PmdcolDistrColumn(ul);
-			INT iAttno = pmdcol->IAttno();
+			INT iAttno = pmdcol->AttrNum();
 			GPOS_ASSERT(0 < iAttno);
 			pdrgpulDistr->Append(GPOS_NEW(m_pmp) ULONG(iAttno - 1));
 		}
@@ -6016,7 +6016,7 @@ CTranslatorExprToDXL::PdxlnScFuncExpr
 	IMDId *pmdidFunc = popScFunc->PmdidFunc();
 	pmdidFunc->AddRef();
 
-	IMDId *pmdidRetType = popScFunc->PmdidType();
+	IMDId *pmdidRetType = popScFunc->MDIdType();
 	pmdidRetType->AddRef();
 
 	const IMDFunction *pmdfunc = m_pmda->Pmdfunc(pmdidFunc);
@@ -6024,7 +6024,7 @@ CTranslatorExprToDXL::PdxlnScFuncExpr
 	CDXLNode *pdxlnFuncExpr = GPOS_NEW(m_pmp) CDXLNode
 											(
 											m_pmp,
-											GPOS_NEW(m_pmp) CDXLScalarFuncExpr(m_pmp, pmdidFunc, pmdidRetType, popScFunc->ITypeModifier(), pmdfunc->FReturnsSet())
+											GPOS_NEW(m_pmp) CDXLScalarFuncExpr(m_pmp, pmdidFunc, pmdidRetType, popScFunc->TypeModifier(), pmdfunc->FReturnsSet())
 											);
 
 	// translate children
@@ -6055,7 +6055,7 @@ CTranslatorExprToDXL::PdxlnScWindowFuncExpr
 	IMDId *pmdidFunc = popScWindowFunc->PmdidFunc();
 	pmdidFunc->AddRef();
 
-	IMDId *pmdidRetType = popScWindowFunc->PmdidType();
+	IMDId *pmdidRetType = popScWindowFunc->MDIdType();
 	pmdidRetType->AddRef();
 
 	EdxlWinStage edxlwinstage = Ews(popScWindowFunc->Ews());
@@ -6134,7 +6134,7 @@ CTranslatorExprToDXL::PdxlnScAggref
 	if (popScAggFunc->FHasAmbiguousReturnType())
 	{
 		// Agg has an ambiguous return type, use the resolved type instead
-		pmdidResolvedRetType = popScAggFunc->PmdidType();
+		pmdidResolvedRetType = popScAggFunc->MDIdType();
 		pmdidResolvedRetType->AddRef();
 	}
 
@@ -6188,7 +6188,7 @@ CTranslatorExprToDXL::PdxlnScIfStmt
 
 	CScalarIf *popScIf = CScalarIf::PopConvert(pexprIfStmt->Pop());
 
-	IMDId *pmdidType = popScIf->PmdidType();
+	IMDId *pmdidType = popScIf->MDIdType();
 	pmdidType->AddRef();
 
 	CDXLNode *pdxlnIfStmt = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarIfStmt(m_pmp, pmdidType));
@@ -6215,7 +6215,7 @@ CTranslatorExprToDXL::PdxlnScSwitch
 	GPOS_ASSERT(1 < pexprSwitch->UlArity());
 	CScalarSwitch *pop = CScalarSwitch::PopConvert(pexprSwitch->Pop());
 
-	IMDId *pmdidType = pop->PmdidType();
+	IMDId *pmdidType = pop->MDIdType();
 	pmdidType->AddRef();
 
 	CDXLNode *pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarSwitch(m_pmp, pmdidType));
@@ -6270,7 +6270,7 @@ CTranslatorExprToDXL::PdxlnScNullIf
 	IMDId *pmdid = pop->PmdidOp();
 	pmdid->AddRef();
 
-	IMDId *pmdidType = pop->PmdidType();
+	IMDId *pmdidType = pop->MDIdType();
 	pmdidType->AddRef();
 
 	CDXLScalarNullIf *pdxlop = GPOS_NEW(m_pmp) CDXLScalarNullIf(m_pmp, pmdid, pmdidType);
@@ -6297,7 +6297,7 @@ CTranslatorExprToDXL::PdxlnScCaseTest
 	GPOS_ASSERT(NULL != pexprScCaseTest);
 	CScalarCaseTest *pop = CScalarCaseTest::PopConvert(pexprScCaseTest->Pop());
 
-	IMDId *pmdidType = pop->PmdidType();
+	IMDId *pmdidType = pop->MDIdType();
 	pmdidType->AddRef();
 
 	CDXLScalarCaseTest *pdxlop = GPOS_NEW(m_pmp) CDXLScalarCaseTest(m_pmp, pmdidType);
@@ -6398,7 +6398,7 @@ CTranslatorExprToDXL::PdxlnScCoalesce
 	GPOS_ASSERT(0 < pexprCoalesce->UlArity());
 	CScalarCoalesce *popScCoalesce = CScalarCoalesce::PopConvert(pexprCoalesce->Pop());
 
-	IMDId *pmdidType = popScCoalesce->PmdidType();
+	IMDId *pmdidType = popScCoalesce->MDIdType();
 	pmdidType->AddRef();
 
 	CDXLNode *pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarCoalesce(m_pmp, pmdidType));
@@ -6434,7 +6434,7 @@ CTranslatorExprToDXL::PdxlnScMinMax
 		emmt = CDXLScalarMinMax::EmmtMax;
 	}
 
-	IMDId *pmdidType = popScMinMax->PmdidType();
+	IMDId *pmdidType = popScMinMax->MDIdType();
 	pmdidType->AddRef();
 
 	CDXLNode *pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLScalarMinMax(m_pmp, pmdidType, emmt));
@@ -6485,7 +6485,7 @@ CTranslatorExprToDXL::PdxlnScCast
 	GPOS_ASSERT(NULL != pexprCast);
 	CScalarCast *popScCast = CScalarCast::PopConvert(pexprCast->Pop());
 
-	IMDId *pmdid = popScCast->PmdidType();
+	IMDId *pmdid = popScCast->MDIdType();
 	pmdid->AddRef();
 
 	IMDId *pmdidFunc = popScCast->PmdidFunc();
@@ -6520,7 +6520,7 @@ CTranslatorExprToDXL::PdxlnScCoerceToDomain
 	GPOS_ASSERT(NULL != pexprCoerce);
 	CScalarCoerceToDomain *popScCoerce = CScalarCoerceToDomain::PopConvert(pexprCoerce->Pop());
 
-	IMDId *pmdid = popScCoerce->PmdidType();
+	IMDId *pmdid = popScCoerce->MDIdType();
 	pmdid->AddRef();
 
 
@@ -6532,7 +6532,7 @@ CTranslatorExprToDXL::PdxlnScCoerceToDomain
 					(
 					m_pmp,
 					pmdid,
-					popScCoerce->ITypeModifier(),
+					popScCoerce->TypeModifier(),
 					(EdxlCoercionForm) popScCoerce->Ecf(), // map Coercion Form directly based on position in enum
 					popScCoerce->ILoc()
 					)
@@ -6565,7 +6565,7 @@ CTranslatorExprToDXL::PdxlnScCoerceViaIO
 	GPOS_ASSERT(NULL != pexprCoerce);
 	CScalarCoerceViaIO *popScCerce = CScalarCoerceViaIO::PopConvert(pexprCoerce->Pop());
 
-	IMDId *pmdid = popScCerce->PmdidType();
+	IMDId *pmdid = popScCerce->MDIdType();
 	pmdid->AddRef();
 
 
@@ -6577,7 +6577,7 @@ CTranslatorExprToDXL::PdxlnScCoerceViaIO
 					(
 					m_pmp,
 					pmdid,
-					popScCerce->ITypeModifier(),
+					popScCerce->TypeModifier(),
 					(EdxlCoercionForm) popScCerce->Ecf(), // map Coercion Form directly based on position in enum
 					popScCerce->ILoc()
 					)
@@ -6611,7 +6611,7 @@ CTranslatorExprToDXL::PdxlnScArrayCoerceExpr
 
 	IMDId *pmdidElemFunc = popScArrayCoerceExpr->PmdidElementFunc();
 	pmdidElemFunc->AddRef();
-	IMDId *pmdid = popScArrayCoerceExpr->PmdidType();
+	IMDId *pmdid = popScArrayCoerceExpr->MDIdType();
 	pmdid->AddRef();
 
 	CDXLNode *pdxlnArrayCoerceExpr =
@@ -6623,7 +6623,7 @@ CTranslatorExprToDXL::PdxlnScArrayCoerceExpr
 					m_pmp,
 					pmdidElemFunc,
 					pmdid,
-					popScArrayCoerceExpr->ITypeModifier(),
+					popScArrayCoerceExpr->TypeModifier(),
 					popScArrayCoerceExpr->FIsExplicit(),
 					(EdxlCoercionForm) popScArrayCoerceExpr->Ecf(), // map Coercion Form directly based on position in enum
 					popScArrayCoerceExpr->ILoc()
@@ -6895,7 +6895,7 @@ CTranslatorExprToDXL::PdxlnArrayRef
 	IMDId *pmdidArray = pop->PmdidArray();
 	pmdidArray->AddRef();
 
-	IMDId *pmdidReturn = pop->PmdidType();
+	IMDId *pmdidReturn = pop->MDIdType();
 	pmdidReturn->AddRef();
 
 	CDXLNode *pdxlnArrayref =
@@ -6906,7 +6906,7 @@ CTranslatorExprToDXL::PdxlnArrayRef
 									(
 									m_pmp,
 									pmdidElem,
-									pop->ITypeModifier(),
+									pop->TypeModifier(),
 									pmdidArray,
 									pmdidReturn
 									)
@@ -7194,7 +7194,7 @@ CTranslatorExprToDXL::Pdxltabdesc
 		}
 		else
 		{
-			pcr = m_pcf->PcrCreate(pcd->Pmdtype(), pcd->ITypeModifier(), pcd->Name());
+			pcr = m_pcf->PcrCreate(pcd->Pmdtype(), pcd->TypeModifier(), pcd->Name());
 		}
 
 		// use the col ref id for the corresponding output output column as 
@@ -7207,11 +7207,11 @@ CTranslatorExprToDXL::Pdxltabdesc
 											m_pmp,
 											pmdnameCol,
 											pcr->UlId(),
-											pcd->IAttno(),
+											pcd->AttrNum(),
 											pmdidColType,
-											pcr->ITypeModifier(),
+											pcr->TypeModifier(),
 											false /* fdropped */,
-											pcd->UlWidth()
+											pcd->Width()
 											);
 
 		pdxltabdesc->AddColumnDescr(pdxlcd);
@@ -7705,7 +7705,7 @@ CTranslatorExprToDXL::PdxlnHashExprList
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
 		CScalar *popScalar = CScalar::PopConvert(pexpr->Pop());
-		IMDId *pmdidType = popScalar->PmdidType();
+		IMDId *pmdidType = popScalar->MDIdType();
 		pmdidType->AddRef();
 	
 		// constrct a hash expr node for the col ref

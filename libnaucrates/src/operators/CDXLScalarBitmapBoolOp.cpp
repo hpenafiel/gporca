@@ -74,14 +74,14 @@ CDXLScalarBitmapBoolOp::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBitmapBoolOp::PmdidType
+//		CDXLScalarBitmapBoolOp::MDIdType
 //
 //	@doc:
 //		Return type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarBitmapBoolOp::PmdidType() const
+CDXLScalarBitmapBoolOp::MDIdType() const
 {
 	return m_pmdidType;
 }

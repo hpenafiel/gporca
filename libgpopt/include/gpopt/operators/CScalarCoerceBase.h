@@ -70,10 +70,10 @@ namespace gpopt
 
 			// the type of the scalar expression
 			virtual
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
 			// return type modifier
-			INT ITypeModifier() const;
+			INT TypeModifier() const;
 
 			// return coercion form
 			ECoercionForm Ecf() const;

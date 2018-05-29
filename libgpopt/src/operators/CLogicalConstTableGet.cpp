@@ -312,14 +312,14 @@ CLogicalConstTableGet::PdrgpcoldescMapping
 		if (CColRef::EcrtTable == pcr->Ecrt())
 		{
 			CColRefTable *pcrTable = CColRefTable::PcrConvert(pcr);
-			ulLength = pcrTable->UlWidth();
+			ulLength = pcrTable->Width();
 		}
 
 		CColumnDescriptor *pcoldesc = GPOS_NEW(pmp) CColumnDescriptor
 													(
 													pmp,
 													pcr->Pmdtype(),
-													pcr->ITypeModifier(),
+													pcr->TypeModifier(),
 													pcr->Name(),
 													ul + 1, //iAttno
 													true, // FNullable

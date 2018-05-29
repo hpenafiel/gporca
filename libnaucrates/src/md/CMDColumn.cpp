@@ -81,34 +81,34 @@ CMDColumn::Mdname() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDColumn::IAttno
+//		CMDColumn::AttrNum
 //
 //	@doc:
 //		Attribute number
 //
 //---------------------------------------------------------------------------
 INT
-CMDColumn::IAttno() const
+CMDColumn::AttrNum() const
 {
 	return m_iAttNo;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDColumn::PmdidType
+//		CMDColumn::MDIdType
 //
 //	@doc:
 //		Attribute type id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDColumn::PmdidType() const
+CMDColumn::MDIdType() const
 {
 	return m_pmdidType;
 }
 
 INT
-CMDColumn::ITypeModifier() const
+CMDColumn::TypeModifier() const
 {
 	return m_iTypeModifier;
 }
@@ -129,14 +129,14 @@ CMDColumn::FNullable() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDColumn::FDropped
+//		CMDColumn::IsDropped
 //
 //	@doc:
 //		Returns whether column is dropped
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDColumn::FDropped() const
+CMDColumn::IsDropped() const
 {
 	return m_fDropped;
 }
@@ -163,9 +163,9 @@ CMDColumn::Serialize
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttNo);
 
 	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	if (IDefaultTypeModifier != ITypeModifier())
+	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColumnNullable), m_fNullable);
@@ -211,11 +211,11 @@ CMDColumn::DebugPrint
 	) 
 	const
 {
-	os << "Attno: " << IAttno() << std::endl;
+	os << "Attno: " << AttrNum() << std::endl;
 	
 	os << "Column name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	os << "Column type: ";
-	PmdidType()->OsPrint(os);
+	MDIdType()->OsPrint(os);
 	os << std::endl;
 
 	const CWStringConst *pstrNullsAllowed = FNullable() ?

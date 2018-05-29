@@ -90,14 +90,14 @@ namespace gpmd
 			
 			// column type
 			virtual 
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
 			virtual
-			INT ITypeModifier() const;
+			INT TypeModifier() const;
 
 			// attribute number
 			virtual
-			INT IAttno() const;
+			INT AttrNum() const;
 			
 			// is this a system column
 			virtual
@@ -118,7 +118,7 @@ namespace gpmd
 			
 			// is the column dropped
 			virtual
-			BOOL FDropped() const;
+			BOOL IsDropped() const;
 		
 			// serialize metadata object in DXL format given a serializer object
 			virtual	

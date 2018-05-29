@@ -189,8 +189,8 @@ CSubqueryTestUtils::PexprProjectWithAggSubquery
 
 	// generate a computed column
 	CScalarSubquery *popSubquery = CScalarSubquery::PopConvert(pexprSubq->Pop());
-	const IMDType *pmdtype = pmda->Pmdtype(popSubquery->PmdidType());
-	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, popSubquery->ITypeModifier());
+	const IMDType *pmdtype = pmda->Pmdtype(popSubquery->MDIdType());
+	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, popSubquery->TypeModifier());
 
 	// generate a scalar project list
 	CExpression *pexprPrjElem = CUtils::PexprScalarProjectElement(pmp, pcrComputed, pexprSubq);
@@ -1451,7 +1451,7 @@ CSubqueryTestUtils::PexprProjectWithSubqueries
 	// generate agg subquery
 	CExpression *pexprAggSubquery = PexprSubqueryAgg(pmp, pexprOuter, pexprInner, fCorrelated);
 	const CColRef *pcr = CScalarSubquery::PopConvert(pexprAggSubquery->Pop())->Pcr();
-	pcrComputed = pcf->PcrCreate(pcr->Pmdtype(), pcr->ITypeModifier());
+	pcrComputed = pcf->PcrCreate(pcr->Pmdtype(), pcr->TypeModifier());
 	pexprPrjElem = CUtils::PexprScalarProjectElement(pmp, pcrComputed, pexprAggSubquery);
 	pdrgpexpr->Append(pexprPrjElem);
 
@@ -1589,8 +1589,8 @@ CSubqueryTestUtils::PexprProjectWithSubqueryQuantified
 
 	// generate a computed column
 	CScalarSubqueryQuantified *pop = CScalarSubqueryQuantified::PopConvert(pexprSubqueryQuantified->Pop());
-	const IMDType *pmdtype = pmda->Pmdtype(pop->PmdidType());
-	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, pop->ITypeModifier());
+	const IMDType *pmdtype = pmda->Pmdtype(pop->MDIdType());
+	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, pop->TypeModifier());
 
 	// generate a scalar project list
 	CExpression *pexprPrjElem =  CUtils::PexprScalarProjectElement(pmp, pcrComputed, pexprSubqueryQuantified);
@@ -1716,8 +1716,8 @@ CSubqueryTestUtils::PexprProjectWithSubqueryExistential
 
 	// generate a computed column
 	CScalarSubqueryExistential *pop = CScalarSubqueryExistential::PopConvert(pexprSubqueryExistential->Pop());
-	const IMDType *pmdtype = pmda->Pmdtype(pop->PmdidType());
-	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, pop->ITypeModifier());
+	const IMDType *pmdtype = pmda->Pmdtype(pop->MDIdType());
+	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, pop->TypeModifier());
 
 	// generate a scalar project list
 	CExpression *pexprPrjElem = CUtils::PexprScalarProjectElement(pmp, pcrComputed, pexprSubqueryExistential);

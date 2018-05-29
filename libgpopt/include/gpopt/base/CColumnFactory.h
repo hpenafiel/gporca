@@ -121,7 +121,7 @@ namespace gpopt
 				const CColRef *pcr
 				)
 			{
-				return PcrCreate(pcr->Pmdtype(), pcr->ITypeModifier());
+				return PcrCreate(pcr->Pmdtype(), pcr->TypeModifier());
 			}
 
 			// add mapping between computed column to its used columns

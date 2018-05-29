@@ -51,14 +51,14 @@ CScalarSubqueryExistential::~CScalarSubqueryExistential()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarSubqueryExistential::PmdidType
+//		CScalarSubqueryExistential::MDIdType
 //
 //	@doc:
 //		Type of scalar's value
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarSubqueryExistential::PmdidType() const
+CScalarSubqueryExistential::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	return pmda->PtMDType<IMDTypeBool>()->Pmdid();

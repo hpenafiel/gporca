@@ -185,7 +185,7 @@ CLogical::PosFromIndex
 
 		// get the column and it's attno from the relation
 		const IMDColumn *pmdcol = pmdrel->Pmdcol(ulPosRel);
-		INT iAttno = pmdcol->IAttno();
+		INT iAttno = pmdcol->AttrNum();
 
 		// get the position of the index key column relative to the table descriptor
 		const ULONG ulPosTabDesc = ptabdesc->UlPosition(iAttno);
@@ -1461,7 +1461,7 @@ CLogical::PcrsDist
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldesc)[ul];
 		CColRef *pcr = (*pdrgpcrOutput)[ul];
-		phmicr->Insert(GPOS_NEW(pmp) INT(pcoldesc->IAttno()), pcr);
+		phmicr->Insert(GPOS_NEW(pmp) INT(pcoldesc->AttrNum()), pcr);
 	}
 
 	CColRefSet *pcrsDist = GPOS_NEW(pmp) CColRefSet(pmp);
@@ -1469,7 +1469,7 @@ CLogical::PcrsDist
 	for (ULONG ul2 = 0; ul2 < ulDistCols; ul2++)
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldescDist)[ul2];
-		const INT iAttno = pcoldesc->IAttno();
+		const INT iAttno = pcoldesc->AttrNum();
 		CColRef *pcrMapped = phmicr->Find(&iAttno);
 		GPOS_ASSERT(NULL != pcrMapped);
 		pcrsDist->Include(pcrMapped);

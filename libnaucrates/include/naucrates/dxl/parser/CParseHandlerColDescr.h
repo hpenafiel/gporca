@@ -38,7 +38,7 @@ namespace gpdxl
 		private:
 					
 			// array of column descriptors to build
-			DrgPdxlcd *m_pdrgdxlcd;
+			column_descr_array *m_pdrgdxlcd;
 			
 			// current column descriptor being parsed
 			CDXLColDescr *m_pdxlcd;
@@ -74,7 +74,7 @@ namespace gpdxl
 			
 			virtual ~CParseHandlerColDescr();
 			
-			DrgPdxlcd *Pdrgpdxlcd();
+			column_descr_array *Pdrgpdxlcd();
 	};
 }
 

@@ -588,7 +588,7 @@ CExpressionPreprocessor::FConvert2InIsConvertable(CExpression *pexpr, CScalarBoo
 	{
 		GPOS_ASSERT(0 < pexpr->UlArity());
 		CScalarIdent *pscid = CScalarIdent::PopConvert((*pexpr)[0]->Pop());
-		if (!CUtils::FConstrainableType(pscid->PmdidType()))
+		if (!CUtils::FConstrainableType(pscid->MDIdType()))
 		{
 			fConvertableExpression = false;
 		}
@@ -859,7 +859,7 @@ CExpressionPreprocessor::PexprProjBelowSubquery
 		if (NULL != prcsOutput && !prcsOutput->FMember(pcrSubquery))
 		{
 			CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-			CColRef *pcrNewSubquery = pcf->PcrCreate(pcrSubquery->Pmdtype(), pcrSubquery->ITypeModifier());
+			CColRef *pcrNewSubquery = pcf->PcrCreate(pcrSubquery->Pmdtype(), pcrSubquery->TypeModifier());
 
 			CExpression *pexprPrEl = CUtils::PexprScalarProjectElement(pmp, pcrNewSubquery, CUtils::PexprScalarIdent(pmp, pcrSubquery));
 			CExpression *pexprProjList =  GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pexprPrEl);

@@ -58,9 +58,9 @@ namespace gpdxl
 			// accessors
 			const CDXLColRef *Pdxlcr() const;
 
-			IMDId *PmdidType() const;
+			IMDId *MDIdType() const;
 
-			INT ITypeModifier() const;
+			INT TypeModifier() const;
 
 			// serialize operator in DXL format
 			virtual

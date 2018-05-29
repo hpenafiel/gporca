@@ -48,7 +48,7 @@ CDXLDatum::CDXLDatum
 }
 
 INT
-CDXLDatum::ITypeModifier() const
+CDXLDatum::TypeModifier() const
 {
 	return m_iTypeModifier;
 }

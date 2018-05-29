@@ -287,7 +287,7 @@ CColumnFactory::PcrCopy
 	CName name(pcr->Name());
 	if (CColRef::EcrtComputed == pcr->Ecrt())
 	{
-		return PcrCreate(pcr->Pmdtype(), pcr->ITypeModifier(), name);
+		return PcrCreate(pcr->Pmdtype(), pcr->TypeModifier(), name);
 	}
 
 	GPOS_ASSERT(CColRef::EcrtTable == pcr->Ecrt());
@@ -297,13 +297,13 @@ CColumnFactory::PcrCopy
 	return PcrCreate
 			(
 			pcr->Pmdtype(),
-			pcr->ITypeModifier(),
-			pcrTable->IAttno(),
+			pcr->TypeModifier(),
+			pcrTable->AttrNum(),
 			pcrTable->FNullable(),
 			ulId,
 			name,
 			pcrTable->UlSourceOpId(),
-			pcrTable->UlWidth()
+			pcrTable->Width()
 			);
 }
 
