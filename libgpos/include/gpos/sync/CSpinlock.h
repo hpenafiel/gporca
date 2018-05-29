@@ -171,13 +171,13 @@ namespace gpos
                 if (0 == m_lock_counter)
                 {
                     // attempt sync'd increment
-                    if (0 == gpos::ExchangeAdd(&m_lock_counter, 1))
+                    if (0 == gpos::ExchangeAddUlongPtrWithInt(&m_lock_counter, 1))
                     {
                         break;
                     }
 
                     // count back down
-                    gpos::ExchangeAdd(&m_lock_counter, -1);
+                    gpos::ExchangeAddUlongPtrWithInt(&m_lock_counter, -1);
                 }
 
                 // assert it is not us who holds the lock
@@ -187,7 +187,7 @@ namespace gpos
                 if (attempts++ > GPOS_SPIN_ATTEMPTS)
                 {
                     // up stats
-                    gpos::ExchangeAdd(&m_collisions_counter, attempts);
+                    gpos::ExchangeAddUlongPtrWithInt(&m_collisions_counter, attempts);
                     attempts = 0;
 
                     clib::USleep(GPOS_SPIN_BACKOFF);
@@ -209,7 +209,7 @@ namespace gpos
             GPOS_ASSERT(m_lock_counter > 0);
 
             // final update of collision stats
-            gpos::ExchangeAdd(&m_collisions_counter, attempts);
+            gpos::ExchangeAddUlongPtrWithInt(&m_collisions_counter, attempts);
 
 #ifdef GPOS_DEBUG
             if (0 < rank && NULL != IWorker::Self())
@@ -236,7 +236,7 @@ namespace gpos
 #endif // GPOS_DEBUG
 
             GPOS_ASSERT(m_lock_counter > 0);
-            gpos::ExchangeAdd(&m_lock_counter, -1);
+            gpos::ExchangeAddUlongPtrWithInt(&m_lock_counter, -1);
         }
 		
 #ifdef GPOS_DEBUG

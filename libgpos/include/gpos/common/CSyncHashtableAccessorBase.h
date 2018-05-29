@@ -117,7 +117,7 @@ namespace gpos
                 m_bucket.m_chain.Prepend(value);
 
                 // increase number of entries
-                (void) ExchangeAdd(&(m_ht.m_size), 1);
+                (void) ExchangeAddUlongPtrWithInt(&(m_ht.m_size), 1);
             }
 
 			// adds first element before second element
@@ -131,7 +131,7 @@ namespace gpos
                 m_bucket.m_chain.Prepend(value, ptNext);
 
                 // increase number of entries
-                (void) ExchangeAdd(&(m_ht.m_size), 1);
+                (void) ExchangeAddUlongPtrWithInt(&(m_ht.m_size), 1);
             }
 
 			// adds first element after second element
@@ -145,7 +145,7 @@ namespace gpos
                 m_bucket.m_chain.Append(value, ptPrev);
 
                 // increase number of entries
-                (void) ExchangeAdd(&(m_ht.m_size), 1);
+                (void) ExchangeAddUlongPtrWithInt(&(m_ht.m_size), 1);
             }
 
 		public:
@@ -157,7 +157,7 @@ namespace gpos
                 m_bucket.m_chain.Remove(value);
 
                 // decrease number of entries
-                (void) ExchangeAdd(&(m_ht.m_size), -1);
+                (void) ExchangeAddUlongPtrWithInt(&(m_ht.m_size), -1);
             }
 
 	}; // class CSyncHashtableAccessorBase

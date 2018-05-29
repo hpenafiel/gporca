@@ -57,7 +57,7 @@ namespace gpos
 				T t = (T)-1;
 				GPOS_ASSERT(m_counter < t - 1 && "Counter overflow");
 #endif // GPOS_DEBUG
-				return (T) ExchangeAdd(&m_counter, 1);
+				return (T) ExchangeAddUlongPtrWithInt(&m_counter, 1);
 			}			
 			
 	}; // class CAtomicCounter

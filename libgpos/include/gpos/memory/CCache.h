@@ -157,7 +157,7 @@ namespace gpos
 					(m_unique && NULL == (found = acc.Find())))
 				{
 					acc.Insert(entry);
-					ExchangeAdd((volatile ULLONG *)&m_cache_size, entry->Pmp()->TotalAllocatedSize());
+					ExchangeAddUllongWithUllong((volatile ULLONG *)&m_cache_size, entry->Pmp()->TotalAllocatedSize());
 				}
 				else
 				{
@@ -360,7 +360,7 @@ namespace gpos
 									m_clock_hand_advanced = true;
 
 									ULLONG num_freed = entry->Pmp()->TotalAllocatedSize();
-									ExchangeAdd((volatile ULLONG *) &m_cache_size,
+									ExchangeAddUllongWithUllong((volatile ULLONG *) &m_cache_size,
 											-num_freed);
 									total_freed += num_freed;
 								}

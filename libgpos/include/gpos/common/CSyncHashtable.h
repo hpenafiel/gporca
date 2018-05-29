@@ -290,7 +290,7 @@ namespace gpos
                 bucket.m_chain.Prepend(value);
 
                 // increase number of entries
-                (void) ExchangeAdd(&m_size, 1);
+                (void) ExchangeAddUlongPtrWithInt(&m_size, 1);
             }
 
 			// return number of entries

@@ -25,13 +25,13 @@
 
 using namespace gpos;
 
-// make sure we can cast the target address in ExchangeAdd
+// make sure we can cast the target address in ExchangeAddUlongPtrWithInt
 GPOS_CPL_ASSERT(sizeof(ULONG_PTR) == sizeof(void*));
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ExchangeAdd
+//		ExchangeAddUlongPtrWithInt
 //
 //	@doc:
 //		Atomic add function; returns original value;
@@ -43,7 +43,7 @@ GPOS_CPL_ASSERT(sizeof(ULONG_PTR) == sizeof(void*));
 //
 //---------------------------------------------------------------------------
 ULONG_PTR
-gpos::ExchangeAdd
+gpos::ExchangeAddUlongPtrWithInt
 	(
 	volatile ULONG_PTR *ul,
 	INT i
@@ -62,7 +62,7 @@ gpos::ExchangeAdd
 
 //---------------------------------------------------------------------------
 //	@function:
-//		ExchangeAdd
+//		ExchangeAddUllongWithUllong
 //
 //	@doc:
 //		Atomic add function; returns original value;
@@ -74,7 +74,7 @@ gpos::ExchangeAdd
 //
 //---------------------------------------------------------------------------
 ULLONG
-gpos::ExchangeAdd
+gpos::ExchangeAddUllongWithUllong
 	(
 	volatile ULLONG *value,
 	ULLONG inc

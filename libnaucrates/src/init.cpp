@@ -54,10 +54,10 @@ volatile ULONG_PTR m_ulpShutdownDXL = 0;
 //---------------------------------------------------------------------------
 void InitDXL()
 {
-	if (0 < ExchangeAdd(&m_ulpInitDXL, 1))
+	if (0 < ExchangeAddUlongPtrWithInt(&m_ulpInitDXL, 1))
 	{
 		// DXL support is already initialized by a previous call
-		(void) ExchangeAdd(&m_ulpInitDXL, -1);
+		(void) ExchangeAddUlongPtrWithInt(&m_ulpInitDXL, -1);
 
 		return;
 	}
@@ -94,10 +94,10 @@ void InitDXL()
 //---------------------------------------------------------------------------
 void ShutdownDXL()
 {
-	if (0 < ExchangeAdd(&m_ulpShutdownDXL, 1))
+	if (0 < ExchangeAddUlongPtrWithInt(&m_ulpShutdownDXL, 1))
 	{
 		// DXL support is already shut-down by a previous call
-		(void) ExchangeAdd(&m_ulpShutdownDXL, -1);
+		(void) ExchangeAddUlongPtrWithInt(&m_ulpShutdownDXL, -1);
 
 		return;
 	}

@@ -171,13 +171,13 @@ namespace gpopt
 			// increment reference counter
 			void IncRefs()
 			{
-				(void) ExchangeAdd(&m_ulpRefs, 1);
+				(void) ExchangeAddUlongPtrWithInt(&m_ulpRefs, 1);
 			}
 
 			// decrement reference counter
 			ULONG_PTR UlpDecrRefs()
 			{
-				ULONG_PTR ulpRefs = ExchangeAdd(&m_ulpRefs, -1);
+				ULONG_PTR ulpRefs = ExchangeAddUlongPtrWithInt(&m_ulpRefs, -1);
 				GPOS_ASSERT(0 < ulpRefs && "Decrement counter from 0");
 				return ulpRefs;
 			}

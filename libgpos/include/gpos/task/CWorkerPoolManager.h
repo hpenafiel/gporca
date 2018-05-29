@@ -104,7 +104,7 @@ namespace gpos
 			// increment AutoTaskProxy reference counter
 			void AddRef()
 			{
-				ExchangeAdd(&m_auto_task_proxy_counter, 1);
+				ExchangeAddUlongPtrWithInt(&m_auto_task_proxy_counter, 1);
 			}
 
 			// decrement AutoTaskProxy reference counter
@@ -113,7 +113,7 @@ namespace gpos
 #ifdef GPOS_DEBUG
 				ULONG_PTR auto_task_proxy_counter =
 #endif // GPOS_DEBUG
-				ExchangeAdd(&m_auto_task_proxy_counter, -1);
+				ExchangeAddUlongPtrWithInt(&m_auto_task_proxy_counter, -1);
 				GPOS_ASSERT(auto_task_proxy_counter != 0 &&
 							"AutoTaskProxy counter decremented from 0");
 			}

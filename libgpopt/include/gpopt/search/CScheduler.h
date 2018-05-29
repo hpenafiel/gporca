@@ -174,13 +174,13 @@ namespace gpopt
 			// increment counter of active tasks
 			void IncTasksActive()
 			{
-				(void) ExchangeAdd(&m_ulpTasksActive, 1);
+				(void) ExchangeAddUlongPtrWithInt(&m_ulpTasksActive, 1);
 			}
 
 			// decrement counter of active tasks
 			void DecrTasksActive()
 			{
-				(void) ExchangeAdd(&m_ulpTasksActive, -1);
+				(void) ExchangeAddUlongPtrWithInt(&m_ulpTasksActive, -1);
 			}
 
 			// check if there is enough work for more workers

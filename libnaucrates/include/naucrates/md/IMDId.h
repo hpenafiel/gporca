@@ -118,7 +118,7 @@ namespace gpmd
 			// increase number of deletion locks
 			void AddDeletionLock()
 			{
-				(void) ExchangeAdd(&m_ulpDeletionLocks, 1);
+				(void) ExchangeAddUlongPtrWithInt(&m_ulpDeletionLocks, 1);
 			}
 
 			// decrease number of deletion locks
@@ -126,7 +126,7 @@ namespace gpmd
 			{
 				GPOS_ASSERT(0 < m_ulpDeletionLocks);
 
-				(void) ExchangeAdd(&m_ulpDeletionLocks, -1);
+				(void) ExchangeAddUlongPtrWithInt(&m_ulpDeletionLocks, -1);
 			}
 
 			// return number of deletion locks

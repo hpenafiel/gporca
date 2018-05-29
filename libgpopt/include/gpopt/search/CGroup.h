@@ -275,7 +275,7 @@ namespace gpopt
 			// increment number of optimization contexts
 			ULONG_PTR UlpIncOptCtxts()
 			{
-				return ExchangeAdd(&m_ulpOptCtxts, 1);
+				return ExchangeAddUlongPtrWithInt(&m_ulpOptCtxts, 1);
 			}
 
 			// the following functions are only accessed through group proxy

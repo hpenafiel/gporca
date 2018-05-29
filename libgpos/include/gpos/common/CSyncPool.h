@@ -207,7 +207,7 @@ namespace gpos
                 for (ULONG i = 0; i < 2 * m_numobjs; i++)
                 {
                     // move clock index
-                    ULONG_PTR index = ExchangeAdd(&m_last_lookup_idx, 1) % m_numobjs;
+                    ULONG_PTR index = ExchangeAddUlongPtrWithInt(&m_last_lookup_idx, 1) % m_numobjs;
 
                     ULONG elem_offset = (ULONG) index / BITS_PER_ULONG;
                     ULONG bit_offset = (ULONG) index % BITS_PER_ULONG;

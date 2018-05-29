@@ -370,7 +370,7 @@ CEngine::InsertXformResult
 	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics) && 0 < pxfres->Pdrgpexpr()->Size())
 	{
 		(void) m_pxfs->ExchangeSet(exfidOrigin);
-		(void) ExchangeAdd(&(*m_pdrgpulpXformCalls)[m_ulCurrSearchStage][exfidOrigin], 1);
+		(void) ExchangeAddUlongPtrWithInt(&(*m_pdrgpulpXformCalls)[m_ulCurrSearchStage][exfidOrigin], 1);
 
 		{
 			CAutoMutex am(m_mutexOptStats);

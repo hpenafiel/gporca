@@ -278,7 +278,7 @@ CScheduler::Add
 	pj->SetParent(pjParent);
 
 	// increment total number of jobs
-	(void) ExchangeAdd(&m_ulpTotal, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpTotal, 1);
 
 	Schedule(pj);
 }
@@ -349,10 +349,10 @@ CScheduler::Schedule
 	m_listjlWaiting.Push(pjl);
 
 	// increment number of queued jobs
-	(void) ExchangeAdd(&m_ulpQueued, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpQueued, 1);
 
 	// update statistics
-	(void) ExchangeAdd(&m_ulpStatsQueued, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpStatsQueued, 1);
 
 	// check if there is enough work for another worker
 	if (FIncreaseWorkers())
@@ -392,7 +392,7 @@ CScheduler::PreExecute
 				"Runnable job cannot have pending children");
 
 	// increment number of running jobs
-	(void) ExchangeAdd(&m_ulpRunning, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpRunning, 1);
 
 	// increment job ref counter
 	pj->IncRefs();
@@ -477,7 +477,7 @@ CScheduler::EjrPostExecute
 	ULONG_PTR ulRefs = pj->UlpDecrRefs();
 
 	// decrement number of running jobs
-	(void) ExchangeAdd(&m_ulpRunning, -1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpRunning, -1);
 
 	// check if job completed
 	if (fCompleted)
@@ -529,10 +529,10 @@ CScheduler::PjRetrieve()
 		GPOS_ASSERT(0 == pj->UlpRefs());
 
 		// decrement number of queued jobs
-		(void) ExchangeAdd(&m_ulpQueued, -1);
+		(void) ExchangeAddUlongPtrWithInt(&m_ulpQueued, -1);
 
 		// update statistics
-		(void) ExchangeAdd(&m_ulpStatsDequeued, 1);
+		(void) ExchangeAddUlongPtrWithInt(&m_ulpStatsDequeued, 1);
 
 		// recycle job link
 		m_spjl.Recycle(pjl);
@@ -583,7 +583,7 @@ CScheduler::Suspend
 	}
 #endif // GPOS_DEBUG)
 
-	(void) ExchangeAdd(&m_ulpStatsSuspended, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpStatsSuspended, 1);
 }
 
 
@@ -616,8 +616,8 @@ CScheduler::Complete
 	ResumeParent(pj);
 
 	// update statistics
-	(void) ExchangeAdd(&m_ulpTotal, -1);
-	(void) ExchangeAdd(&m_ulpStatsCompleted, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpTotal, -1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpStatsCompleted, 1);
 }
 
 
@@ -654,9 +654,9 @@ CScheduler::CompleteQueued
 	ResumeParent(pj);
 
 	// update statistics
-	(void) ExchangeAdd(&m_ulpTotal, -1);
-	(void) ExchangeAdd(&m_ulpStatsCompleted, 1);
-	(void) ExchangeAdd(&m_ulpStatsCompletedQueued, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpTotal, -1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpStatsCompleted, 1);
+	(void) ExchangeAddUlongPtrWithInt(&m_ulpStatsCompletedQueued, 1);
 }
 
 
@@ -695,7 +695,7 @@ CScheduler::ResumeParent
 			Resume(pjParent);
 
 			// update statistics
-			(void) ExchangeAdd(&m_ulpStatsResumed, 1);
+			(void) ExchangeAddUlongPtrWithInt(&m_ulpStatsResumed, 1);
 		}
 	}
 }

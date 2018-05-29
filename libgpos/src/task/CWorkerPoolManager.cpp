@@ -190,13 +190,13 @@ void
 CWorkerPoolManager::CreateWorkerThread()
 {
 	// increment worker count
-	ULONG_PTR num_workers = ExchangeAdd(&m_num_workers, 1);
+	ULONG_PTR num_workers = ExchangeAddUlongPtrWithInt(&m_num_workers, 1);
 
 	// check if max number of workers is exceeded
 	if (num_workers >= m_max_workers)
 	{
 		// decrement number of active workers
-		ExchangeAdd(&m_num_workers, -1);
+		ExchangeAddUlongPtrWithInt(&m_num_workers, -1);
 
 		return;
 	}
@@ -205,7 +205,7 @@ CWorkerPoolManager::CreateWorkerThread()
 	if (GPOS_OK != m_thread_manager.Create())
 	{
 		// decrement number of active workers
-		ExchangeAdd(&m_num_workers, -1);
+		ExchangeAddUlongPtrWithInt(&m_num_workers, -1);
 
 		GPOS_ASSERT(!"Failed to create new thread");
 	}

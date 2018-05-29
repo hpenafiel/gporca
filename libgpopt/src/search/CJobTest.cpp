@@ -104,7 +104,7 @@ CJobTest::FSpawn
 	CSchedulerContext *psc
 	)
 {
-	ULONG_PTR ulpOffset = ExchangeAdd(&m_ulpCnt, 1);
+	ULONG_PTR ulpOffset = ExchangeAddUlongPtrWithInt(&m_ulpCnt, 1);
 
 #ifdef GPOS_DEBUG
 	if (10 == ulpOffset && psc->Psched()->FTrackingJobs())
@@ -160,7 +160,7 @@ CJobTest::FStartQueue
 	CSchedulerContext *psc
 	)
 {
-	ULONG_PTR ulpOffset = ExchangeAdd(&m_ulpCnt, 1);
+	ULONG_PTR ulpOffset = ExchangeAddUlongPtrWithInt(&m_ulpCnt, 1);
 
 	if (0 == ulpOffset)
 	{
