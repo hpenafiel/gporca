@@ -31,11 +31,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerCostParam::CParseHandlerCostParam
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_szName(NULL),
 	m_dVal(0),
 	m_dLowerBound(0),
@@ -76,13 +76,13 @@ CParseHandlerCostParam::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParam), xmlstrLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	const XMLCh *xmlstrName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCostParam);
-	CWStringDynamic *pstrName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrName);
-	m_szName = CDXLUtils::SzFromWsz(m_pmp, pstrName->GetBuffer());
+	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrName);
+	m_szName = CDXLUtils::CreateMultiByteCharStringFromWCString(m_pmp, pstrName->GetBuffer());
 	GPOS_DELETE(pstrName);
 
 	m_dVal = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenValue, EdxltokenCostParam);
@@ -109,7 +109,7 @@ CParseHandlerCostParam::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParam), xmlstrLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

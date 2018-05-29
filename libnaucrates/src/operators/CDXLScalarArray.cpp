@@ -138,21 +138,21 @@ CDXLScalarArray::FMultiDimensional() const
 void
 CDXLScalarArray::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidArray->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenArrayType));
-	m_pmdidElem->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenArrayElementType));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenArrayMultiDim),m_fMultiDimensional);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayType));
+	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayElementType));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenArrayMultiDim),m_fMultiDimensional);
 	
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

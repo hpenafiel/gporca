@@ -103,14 +103,14 @@ CExpression *
 CTranslatorDXLToExprTest::Pexpr
 	(
 	IMemoryPool *pmp,
-	const CHAR *szDXLFileName
+	const CHAR *dxl_filename
 	)
 {
 	// get the dxl document
-	CHAR *szDXLExpected = CDXLUtils::SzRead(pmp, szDXLFileName);
+	CHAR *szDXLExpected = CDXLUtils::Read(pmp, dxl_filename);
 
 	// parse the DXL tree from the given DXL document
-	CQueryToDXLResult *ptroutput = CDXLUtils::PdxlnParseDXLQuery(pmp, szDXLExpected, NULL /*szXSDPath*/);
+	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(pmp, szDXLExpected, NULL /*xsd_file_path*/);
 	
 	GPOS_ASSERT(NULL != ptroutput->Pdxln() && NULL != ptroutput->PdrgpdxlnOutputCols());
 
@@ -148,7 +148,7 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresTranslateAndCheck
 	(
 	IMemoryPool *pmp,
-	const CHAR *szDXLFileName,
+	const CHAR *dxl_filename,
 	const CWStringDynamic *pstrExpected
 	)
 {
@@ -169,7 +169,7 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 					);
 
 	// translate the DXL document into Expr Tree
-	CExpression *pexprTranslated = Pexpr(pmp, szDXLFileName);
+	CExpression *pexprTranslated = Pexpr(pmp, dxl_filename);
 
 	// get the string representation of the Expr Tree
 	CWStringDynamic *pstrTranslated = Pstr(pmp, pexprTranslated);

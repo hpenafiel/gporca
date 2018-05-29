@@ -139,25 +139,25 @@ CDXLLogicalConstTable::UlArity() const
 void
 CDXLLogicalConstTable::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *//pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// serialize columns
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	
 	for (ULONG i = 0; i < UlArity(); i++)
 	{
 		CDXLColDescr *pdxlcd = (*m_pdrgpdxlcd)[i];
-		pdxlcd->SerializeToDXL(pxmlser);
+		pdxlcd->SerializeToDXL(xml_serializer);
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	
 	const CWStringConst *pstrElemNameConstTuple = CDXLTokens::PstrToken(EdxltokenConstTuple);
 	const CWStringConst *pstrElemNameDatum = CDXLTokens::PstrToken(EdxltokenDatum);
@@ -166,20 +166,20 @@ CDXLLogicalConstTable::SerializeToDXL
 	for (ULONG ulTuplePos = 0; ulTuplePos < ulTuples; ulTuplePos++)
 	{
 		// serialize a const tuple
-		pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemNameConstTuple);
+		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemNameConstTuple);
 		DrgPdxldatum *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulTuplePos];
 
 		const ULONG ulCols = pdrgpdxldatum->Size();
 		for (ULONG ulColPos = 0; ulColPos < ulCols; ulColPos++)
 		{
 			CDXLDatum *pdxldatum = (*pdrgpdxldatum)[ulColPos];
-			pdxldatum->Serialize(pxmlser, pstrElemNameDatum);
+			pdxldatum->Serialize(xml_serializer, pstrElemNameDatum);
 		}
 
-		pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemNameConstTuple);
+		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemNameConstTuple);
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 //---------------------------------------------------------------------------

@@ -54,17 +54,17 @@ namespace
 					m_aoc(m_amp.Pmp(), &m_mda, NULL /* pceeval */, CTestUtils::Pcm(m_amp.Pmp())),
 					m_pdrgpstat(GPOS_NEW(m_amp.Pmp()) DrgPstat(m_amp.Pmp()))
 			{
-				CHAR *szDXLInput = CDXLUtils::SzRead(Pmp(), szFileName);
+				CHAR *szDXLInput = CDXLUtils::Read(Pmp(), szFileName);
 				GPOS_CHECK_ABORT;
 				// read the stats from the input xml
-				DrgPdxlstatsderrel *pdrgpdxlstatsderrel = CDXLUtils::PdrgpdxlstatsderrelParseDXL(Pmp(), szDXLInput,
+				DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(Pmp(), szDXLInput,
 																								 NULL);
-				DrgPstats *pdrgpstats = CDXLUtils::PdrgpstatsTranslateStats(Pmp(), &m_mda, pdrgpdxlstatsderrel);
+				CStatisticsArray *pdrgpstats = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(Pmp(), &m_mda, dxl_derived_rel_stats_array);
 				GPOS_ASSERT(pdrgpstats != NULL);
 				GPOS_ASSERT(2 == pdrgpstats->Size());
-				// PdrgpstatsTranslateStats returns an array of CStatistics (DrgPstats)
+				// ParseDXLToOptimizerStatisticObjArray returns an array of CStatistics (CStatisticsArray)
 				// and PStatsJoinArray takes an array of IStatistics (DrgPstat) as input
-				// So, iterate through DrgPstats and append members to a DrgPstat
+				// So, iterate through CStatisticsArray and append members to a DrgPstat
 				ULONG ulArity = pdrgpstats->Size();
 				for (ULONG ul = 0; ul < ulArity; ul++)
 				{
@@ -73,7 +73,7 @@ namespace
 					m_pdrgpstat->Append(pstats);
 				}
 				pdrgpstats->Release();
-				pdrgpdxlstatsderrel->Release();
+				dxl_derived_rel_stats_array->Release();
 				GPOS_DELETE_ARRAY(szDXLInput);
 			}
 
@@ -108,7 +108,7 @@ namespace gpnaucrates
 
 		Fixture f(szFileName);
 		IMemoryPool *pmp = f.Pmp();
-		DrgPstat *pdrgpstat = f.PdrgPstat();
+		DrgPstat *statistics_array = f.PdrgPstat();
 
 		CExpression *pexprLgGet = CTestUtils::PexprLogicalGet(pmp);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
@@ -138,7 +138,7 @@ namespace gpnaucrates
 		//	+--CScalarIdent "column_0000" (0)
 		CExpression *pScalarCmp = CUtils::PexprScalarEqCmp(pmp, pexprScOp, pexprScalarIdentRight);
 
-		IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstat, pScalarCmp,
+		IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pScalarCmp,
 																	   IStatistics::EsjtInnerJoin);
 
 		GPOS_ASSERT(NULL != pstatsJoin);
@@ -168,7 +168,7 @@ namespace gpnaucrates
 
 		Fixture f(szFileName);
 		IMemoryPool *pmp = f.Pmp();
-		DrgPstat *pdrgpstat = f.PdrgPstat();
+		DrgPstat *statistics_array = f.PdrgPstat();
 
 		CExpression *pexprLgGet = CTestUtils::PexprLogicalGet(pmp);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
@@ -199,7 +199,7 @@ namespace gpnaucrates
 		//	|  +--CScalarIdent "column_0001" (1)
 		//	+--CScalarIdent "column_0000" (0)
 		CExpression *pScalarCmp = CUtils::PexprScalarEqCmp(pmp, pexprScOp, pexprScalarIdentRight);
-		IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstat, pScalarCmp,
+		IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pScalarCmp,
 																	   IStatistics::EsjtInnerJoin);
 
 		GPOS_ASSERT(NULL != pstatsJoin);
@@ -230,7 +230,7 @@ namespace gpnaucrates
 
 		Fixture f(szFileName);
 		IMemoryPool *pmp = f.Pmp();
-		DrgPstat *pdrgpstat = f.PdrgPstat();
+		DrgPstat *statistics_array = f.PdrgPstat();
 
 		CExpression *pexprLgGet = CTestUtils::PexprLogicalGet(pmp);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
@@ -264,7 +264,7 @@ namespace gpnaucrates
 														 IMDType::EcmptLEq
 		);
 
-		IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstat, pScalarCmp,
+		IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pScalarCmp,
 																	   IStatistics::EsjtInnerJoin);
 
 		GPOS_ASSERT(NULL != pstatsJoin);

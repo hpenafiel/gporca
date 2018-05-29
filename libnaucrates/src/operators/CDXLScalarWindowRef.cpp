@@ -143,25 +143,25 @@ CDXLScalarWindowRef::PstrOpName() const
 void
 CDXLScalarWindowRef::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidFunc->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenWindowrefOid));
-	m_pmdidRetType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefDistinct),m_fDistinct);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefStarArg),m_fStarArg);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefSimpleAgg),m_fSimpleAgg);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefStrategy), PstrWinStage());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefWinSpecPos), m_ulWinspecPos);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenWindowrefOid));
+	m_pmdidRetType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefDistinct),m_fDistinct);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefStarArg),m_fStarArg);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefSimpleAgg),m_fSimpleAgg);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefStrategy), PstrWinStage());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefWinSpecPos), m_ulWinspecPos);
 
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 //---------------------------------------------------------------------------

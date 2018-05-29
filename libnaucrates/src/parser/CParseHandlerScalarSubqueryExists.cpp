@@ -32,11 +32,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarSubqueryExists::CParseHandlerScalarSubqueryExists
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot),
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
 	m_pdxlop(NULL)
 {
 }
@@ -72,7 +72,7 @@ CParseHandlerScalarSubqueryExists::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -103,7 +103,7 @@ CParseHandlerScalarSubqueryExists::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryExists), xmlszLocalname) &&
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryNotExists), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

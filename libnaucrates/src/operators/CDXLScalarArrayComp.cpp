@@ -114,20 +114,20 @@ CDXLScalarArrayComp::PstrOpName() const
 void
 CDXLScalarArrayComp::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_pstrCompOpName);
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenOpNo));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpType), PstrArrayCompType());
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_pstrCompOpName);
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpType), PstrArrayCompType());
 
-	pdxln->SerializeChildrenToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

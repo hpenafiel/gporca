@@ -105,7 +105,7 @@ namespace gpdxl
 			// column width
 			ULONG UlWidth() const;
 			
-			void SerializeToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer) const;
 	};
 
 }

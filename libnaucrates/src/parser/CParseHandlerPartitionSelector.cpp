@@ -36,11 +36,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerPartitionSelector::CParseHandlerPartitionSelector
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerPhysicalOp(pmp, pphm, pphRoot),
+	CParseHandlerPhysicalOp(pmp, parse_handler_mgr, pphRoot),
 	m_pmdidRel(NULL),
 	m_ulLevels(0),
 	m_ulScanId(0)
@@ -170,7 +170,7 @@ CParseHandlerPartitionSelector::EndElement
 
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalPartitionSelector), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

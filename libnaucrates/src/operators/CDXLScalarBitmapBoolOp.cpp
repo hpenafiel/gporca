@@ -148,7 +148,7 @@ CDXLScalarBitmapBoolOp::PstrOpName() const
 void
 CDXLScalarBitmapBoolOp::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
@@ -158,12 +158,12 @@ CDXLScalarBitmapBoolOp::SerializeToDXL
 	const CWStringConst *pstrElemName = PstrOpName();
 
 	GPOS_ASSERT(NULL != pstrElemName);
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	GPOS_CHECK_ABORT;
 }

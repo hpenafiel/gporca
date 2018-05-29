@@ -101,24 +101,24 @@ CDXLWindowKey::SetSortColList
 void
 CDXLWindowKey::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
 	const CWStringConst *pstrElemName = CDXLTokens::PstrToken(EdxltokenWindowKey);
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	if (NULL != m_pdxlnSortColList)
 	{
-		m_pdxlnSortColList->SerializeToDXL(pxmlser);
+		m_pdxlnSortColList->SerializeToDXL(xml_serializer);
 	}
 
 	if (NULL != m_pdxlwf)
 	{
-		m_pdxlwf->SerializeToDXL(pxmlser);
+		m_pdxlwf->SerializeToDXL(xml_serializer);
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 // EOF

@@ -61,20 +61,20 @@ CDXLPhysicalValuesScan::PdxlopConvert
 void
 CDXLPhysicalValuesScan::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

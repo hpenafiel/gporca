@@ -34,11 +34,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarNullTest::CParseHandlerScalarNullTest
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot)
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot)
 {
 }
 
@@ -66,7 +66,7 @@ CParseHandlerScalarNullTest::StartElement
 
 		if( NULL != m_pdxln)
 		{
-			CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
@@ -92,7 +92,7 @@ CParseHandlerScalarNullTest::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -116,7 +116,7 @@ CParseHandlerScalarNullTest::EndElement
 	if ((0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIsNull), xmlszLocalname)) &&
 		(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIsNotNull), xmlszLocalname)))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

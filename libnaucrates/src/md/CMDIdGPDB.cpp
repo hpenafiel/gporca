@@ -343,12 +343,12 @@ CMDIdGPDB::IsValid() const
 void
 CMDIdGPDB::Serialize
 	(
-	CXMLSerializer * pxmlser,
+	CXMLSerializer * xml_serializer,
 	const CWStringConst *pstrAttribute
 	)
 	const
 {
-	pxmlser->AddAttribute(pstrAttribute, &m_str);
+	xml_serializer->AddAttribute(pstrAttribute, &m_str);
 }
 
 //---------------------------------------------------------------------------

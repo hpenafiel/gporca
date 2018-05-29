@@ -105,30 +105,30 @@ CDXLCtasStorageOptions::Pdrgpctasopt() const
 void
 CDXLCtasStorageOptions::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOptions));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOptions));
 	if (NULL != m_pmdnameTablespace)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTablespace), m_pmdnameTablespace->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTablespace), m_pmdnameTablespace->Pstr());
 	}
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenOnCommitAction), PstrOnCommitAction(m_ectascommit));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOnCommitAction), PstrOnCommitAction(m_ectascommit));
 	
 	const ULONG ulOptions = (m_pdrgpctasopt == NULL) ? 0 : m_pdrgpctasopt->Size();
 	for (ULONG ul = 0; ul < ulOptions; ul++)
 	{
 		CDXLCtasOption *pdxlctasopt = (*m_pdrgpctasopt)[ul];
-		pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOption));
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtasOptionType), pdxlctasopt->m_ulType);
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pdxlctasopt->m_pstrName);
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), pdxlctasopt->m_pstrValue);
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), pdxlctasopt->m_fNull);
-		pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOption));
+		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOption));
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtasOptionType), pdxlctasopt->m_ulType);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pdxlctasopt->m_pstrName);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), pdxlctasopt->m_pstrValue);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), pdxlctasopt->m_fNull);
+		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOption));
 	}
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOptions));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOptions));
 }
 
 //---------------------------------------------------------------------------

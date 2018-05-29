@@ -513,10 +513,10 @@ CPhysicalDML::PosComputeRequired
 	}
 	else if (m_ptabdesc->FPartitioned())
 	{
-		COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
+		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
 
 		BOOL fInsertSortOnParquet = FInsertSortOnParquet();
-		BOOL fInsertSortOnRows = FInsertSortOnRows(poconf);
+		BOOL fInsertSortOnRows = FInsertSortOnRows(optimizer_config);
 
 		if (fInsertSortOnParquet || fInsertSortOnRows)
 		{
@@ -559,13 +559,13 @@ CPhysicalDML::FInsertSortOnParquet()
 BOOL
 CPhysicalDML::FInsertSortOnRows
 	(
-	COptimizerConfig *poconf
+	COptimizerConfig *optimizer_config
 	)
 {
-	GPOS_ASSERT(NULL != poconf);
+	GPOS_ASSERT(NULL != optimizer_config);
 
 	return (IMDRelation::ErelstorageAppendOnlyRows == m_ptabdesc->Erelstorage()) &&
-			(poconf->Phint()->UlMinNumOfPartsToRequireSortOnInsert() <= m_ptabdesc->UlPartitions());
+			(optimizer_config->Phint()->UlMinNumOfPartsToRequireSortOnInsert() <= m_ptabdesc->UlPartitions());
 }
 
 //---------------------------------------------------------------------------

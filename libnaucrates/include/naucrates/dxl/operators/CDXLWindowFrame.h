@@ -114,7 +114,7 @@ namespace gpdxl
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer) const;
 	};
 }
 

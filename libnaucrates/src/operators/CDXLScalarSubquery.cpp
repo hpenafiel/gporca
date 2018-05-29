@@ -90,19 +90,19 @@ CDXLScalarSubquery::PstrOpName() const
 void
 CDXLScalarSubquery::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// serialize computed column id
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulColId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulColId);
 
-	pdxln->SerializeChildrenToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

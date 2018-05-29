@@ -88,7 +88,7 @@ namespace gpnaucrates
 			IStatistics *PstatsJoinArray
 				(
 				 IMemoryPool *pmp,
-				 DrgPstat *pdrgpstat,
+				 DrgPstat *statistics_array,
 				 CExpression *pexprScalar,
 				 IStatistics::EStatsJoinType eStatsJoinType
 				 );

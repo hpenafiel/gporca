@@ -67,16 +67,16 @@ CDXLDatumInt2::SValue() const
 void
 CDXLDatumInt2::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 {
-	m_pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), FByValue());
+	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), FByValue());
 	
 	if (!m_fNull)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_sVal);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_sVal);
 	}
 }
 

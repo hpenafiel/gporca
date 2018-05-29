@@ -28,11 +28,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerOp::CParseHandlerOp
 	(
 	IMemoryPool *pmp, 
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_pdxln(NULL)
 {
 }

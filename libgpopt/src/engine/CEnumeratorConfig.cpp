@@ -37,13 +37,13 @@ using namespace gpopt;
 CEnumeratorConfig::CEnumeratorConfig
 	(
 	IMemoryPool *pmp,
-	ULLONG ullPlanId,
+	ULLONG plan_id,
 	ULLONG ullSamples,
 	CDouble dCostThreshold
 	)
 	:
 	m_pmp(pmp),
-	m_ullPlanId(ullPlanId),
+	m_plan_id(plan_id),
 	m_ullSpaceSize(0),
 	m_ullInputSamples(ullSamples),
 	m_costBest(GPOPT_INVALID_COST),
@@ -149,7 +149,7 @@ CEnumeratorConfig::ClearSamples()
 BOOL
 CEnumeratorConfig::FAddSample
 	(
-	ULLONG ullPlanId,
+	ULLONG plan_id,
 	CCost cost
 	)
 {
@@ -159,7 +159,7 @@ CEnumeratorConfig::FAddSample
 					(cost <= m_costBest * m_dCostThreshold);
 	if (fAccept)
 	{
-		m_pdrgpsp->Append(GPOS_NEW(m_pmp) SSamplePlan(ullPlanId, cost));
+		m_pdrgpsp->Append(GPOS_NEW(m_pmp) SSamplePlan(plan_id, cost));
 
 		if (GPOPT_INVALID_COST == m_costMax || cost > m_costMax)
 		{
@@ -345,7 +345,7 @@ CEnumeratorConfig::DumpSamples
 	// dump samples to output file
 	CHAR szFileName[GPOS_FILE_NAME_BUF_SIZE];
 	CUtils::GenerateFileName(szFileName, "SamplePlans", "xml", GPOS_FILE_NAME_BUF_SIZE, ulSessionId, ulCommandId);
-	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(pstr->GetBuffer()));
+	CHAR *sz = CUtils::CreateMultiByteCharStringFromWCString(m_pmp, const_cast<WCHAR *>(pstr->GetBuffer()));
 	CIOUtils::Dump(szFileName, sz);
 	GPOS_DELETE_ARRAY(sz);
 
@@ -379,7 +379,7 @@ CEnumeratorConfig::DumpCostDistr
 	// dump cost distribution to output file
 	CHAR szFileName[GPOS_FILE_NAME_BUF_SIZE];
 	CUtils::GenerateFileName(szFileName, "CostDistr", "xml", GPOS_FILE_NAME_BUF_SIZE, ulSessionId, ulCommandId);
-	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(pstr->GetBuffer()));
+	CHAR *sz = CUtils::CreateMultiByteCharStringFromWCString(m_pmp, const_cast<WCHAR *>(pstr->GetBuffer()));
 	CIOUtils::Dump(szFileName, sz);
 	GPOS_DELETE_ARRAY(sz);
 

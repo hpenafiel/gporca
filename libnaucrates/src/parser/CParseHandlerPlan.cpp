@@ -33,11 +33,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerPlan::CParseHandlerPlan
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_ullId(0),
 	m_ullSpaceSize(0),
 	m_pdxln(NULL),
@@ -116,7 +116,7 @@ CParseHandlerPlan::StartElement
 	
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPlan), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -155,7 +155,7 @@ CParseHandlerPlan::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPlan), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

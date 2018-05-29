@@ -77,29 +77,29 @@ CDXLPhysicalRandomMotion::PstrOpName() const
 void
 CDXLPhysicalRandomMotion::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 	
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	
-	SerializeSegmentInfoToDXL(pxmlser);
+	SerializeSegmentInfoToDXL(xml_serializer);
 	
 	if (m_fDuplicateSensitive)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenDuplicateSensitive), true);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDuplicateSensitive), true);
 	}
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
 }
 
 #ifdef GPOS_DEBUG

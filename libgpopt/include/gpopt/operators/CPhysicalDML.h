@@ -77,7 +77,7 @@ namespace gpopt
 			BOOL FInsertSortOnParquet();
 
 			// do we need to sort on insert
-			BOOL FInsertSortOnRows(COptimizerConfig *poconf);
+			BOOL FInsertSortOnRows(COptimizerConfig *optimizer_config);
 
 			// compute required order spec
 			COrderSpec *PosComputeRequired

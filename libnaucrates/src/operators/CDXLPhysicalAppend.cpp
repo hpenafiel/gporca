@@ -108,25 +108,25 @@ CDXLPhysicalAppend::FIsZapped() const
 void
 CDXLPhysicalAppend::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 	
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsTarget), m_fIsTarget);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsZapped), m_fIsZapped);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsTarget), m_fIsTarget);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsZapped), m_fIsZapped);
 	
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
 }
 
 

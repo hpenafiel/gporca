@@ -29,7 +29,7 @@ using namespace gpmd;
 void
 IMDCacheObject::SerializeMDIdAsElem
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CWStringConst *pstrElem,
 	const IMDId *pmdid
 	)
@@ -40,12 +40,12 @@ IMDCacheObject::SerializeMDIdAsElem
 		return;
 	}
 	
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						pstrElem);
 	
-	pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
+	pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 							pstrElem);
 }
 
@@ -61,27 +61,27 @@ IMDCacheObject::SerializeMDIdAsElem
 void
 IMDCacheObject::SerializeMDIdList
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const DrgPmdid *pdrgpmdid,
 	const CWStringConst *pstrTokenList,
 	const CWStringConst *pstrTokenListItem
 	)
 {
 	// serialize list of metadata ids
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenList);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenList);
 	const ULONG ulLen = pdrgpmdid->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenListItem);
+		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenListItem);
 
 		IMDId *pmdid = (*pdrgpmdid)[ul];
-		pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-		pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenListItem);
+		pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenListItem);
 
 		GPOS_CHECK_ABORT;
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenList);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenList);
 }
 
 // EOF

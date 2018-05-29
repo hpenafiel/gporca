@@ -35,11 +35,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMetadata::CParseHandlerMetadata
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_pdrgpmdobj(NULL),
 	m_pdrgpmdid(NULL),
 	m_pdrgpsysid(NULL)
@@ -194,7 +194,7 @@ CParseHandlerMetadata::EndElement
 	if(0 != XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenMetadata)) &&
 		0 != XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenMdid)))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -257,7 +257,7 @@ CParseHandlerMetadata::PdrgpsysidParse
 		ULONG ulType = CDXLOperatorFactory::UlValueFromXmlstr(m_pphm->Pmm(), xmlszType, edxltokenAttr, edxltokenElement);
 		
 		XMLCh *xmlszName = xmlsztokSysid.nextToken();
-		CWStringDynamic *pstrName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszName);
+		CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszName);
 		
 		pdrgpsysid->Append(GPOS_NEW(m_pmp) CSystemId((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length()));	
 		

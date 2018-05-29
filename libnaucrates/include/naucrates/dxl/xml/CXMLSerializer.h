@@ -45,7 +45,7 @@ namespace gpdxl
 			IOstream &m_os;
 						
 			// should XML document be indented
-			BOOL m_fIndent;
+			BOOL m_indentation;
 			
 			// stack of open elements
 			StrStack *m_strstackElems;
@@ -75,12 +75,12 @@ namespace gpdxl
 				(
 				IMemoryPool *pmp,
 				IOstream &os,
-				BOOL fIndent = true
+				BOOL indentation = true
 				)
 				:
 				m_pmp(pmp),
 				m_os(os),
-				m_fIndent(fIndent),
+				m_indentation(indentation),
 				m_strstackElems(NULL),
 				m_fOpenTag(false),
 				m_ulLevel(0),

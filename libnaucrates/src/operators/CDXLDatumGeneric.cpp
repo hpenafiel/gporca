@@ -86,17 +86,17 @@ CDXLDatumGeneric::Pba() const
 void
 CDXLDatumGeneric::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 {
-	m_pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	if (IDefaultTypeModifier != ITypeModifier())
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), m_iTypeModifier);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), m_iTypeModifier);
 	}
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_fByVal);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_fNull, Pba(), Length());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_fByVal);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_fNull, Pba(), Length());
 }
 
 // EOF

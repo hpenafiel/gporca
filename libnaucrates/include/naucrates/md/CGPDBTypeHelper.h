@@ -30,48 +30,48 @@ namespace gpmd
 		public:
 
 			// serialize object in DXL format
-			static void Serialize(CXMLSerializer *pxmlser, const T *pt)
+			static void Serialize(CXMLSerializer *xml_serializer, const T *pt)
             {
-                pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+                xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
                                      CDXLTokens::PstrToken(EdxltokenMDType));
 
-                pt->Pmdid()->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
+                pt->Pmdid()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-                pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pt->Mdname().Pstr());
-                pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeRedistributable), pt->FRedistributable());
-                pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeHashable), pt->FHashable());
-                pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeComposite), pt->FComposite());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pt->Mdname().Pstr());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeRedistributable), pt->FRedistributable());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeHashable), pt->FHashable());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeComposite), pt->FComposite());
 
                 if (pt->FComposite())
                 {
-                    pt->PmdidBaseRelation()->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeRelid));
+                    pt->PmdidBaseRelation()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeRelid));
                 }
 
-                pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeFixedLength), pt->FFixedLength());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeFixedLength), pt->FFixedLength());
 
                 if (pt->FFixedLength())
                 {
-                    pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeLength), pt->Length());
+                    xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeLength), pt->Length());
                 }
 
-                pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeByValue), pt->FByValue());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeByValue), pt->FByValue());
 
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeEqOp), pt->PmdidCmp(IMDType::EcmptEq));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeNEqOp), pt->PmdidCmp(IMDType::EcmptNEq));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeLTOp), pt->PmdidCmp(IMDType::EcmptL));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeLEqOp), pt->PmdidCmp(IMDType::EcmptLEq));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeGTOp), pt->PmdidCmp(IMDType::EcmptG));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeGEqOp), pt->PmdidCmp(IMDType::EcmptGEq));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeCompOp), pt->PmdidOpComp());
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeArray), pt->PmdidTypeArray());
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeEqOp), pt->PmdidCmp(IMDType::EcmptEq));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeNEqOp), pt->PmdidCmp(IMDType::EcmptNEq));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeLTOp), pt->PmdidCmp(IMDType::EcmptL));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeLEqOp), pt->PmdidCmp(IMDType::EcmptLEq));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeGTOp), pt->PmdidCmp(IMDType::EcmptG));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeGEqOp), pt->PmdidCmp(IMDType::EcmptGEq));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeCompOp), pt->PmdidOpComp());
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeArray), pt->PmdidTypeArray());
 
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeAggMin), pt->PmdidAgg(IMDType::EaggMin));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeAggMax), pt->PmdidAgg(IMDType::EaggMax));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeAggAvg), pt->PmdidAgg(IMDType::EaggAvg));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeAggSum), pt->PmdidAgg(IMDType::EaggSum));
-                pt->SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(EdxltokenMDTypeAggCount), pt->PmdidAgg(IMDType::EaggCount));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeAggMin), pt->PmdidAgg(IMDType::EaggMin));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeAggMax), pt->PmdidAgg(IMDType::EaggMax));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeAggAvg), pt->PmdidAgg(IMDType::EaggAvg));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeAggSum), pt->PmdidAgg(IMDType::EaggSum));
+                pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeAggCount), pt->PmdidAgg(IMDType::EaggCount));
 
-                pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+                xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
                                       CDXLTokens::PstrToken(EdxltokenMDType));
 
                 GPOS_CHECK_ABORT;

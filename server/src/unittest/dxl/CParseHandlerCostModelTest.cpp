@@ -84,10 +84,10 @@ namespace
 				return m_apphCostModel.Value();
 			}
 
-			void Parse(const XMLByte szDXL[], size_t size)
+			void Parse(const XMLByte dxl_string[], size_t size)
 			{
 				MemBufInputSource mbis(
-					szDXL,
+					dxl_string,
 					size,
 					"dxl test",
 					false,
@@ -100,12 +100,12 @@ namespace
 
 static gpos::GPOS_RESULT Eres_ParseCalibratedCostModel()
 {
-	const CHAR szDXLFileName[] = "../data/dxl/parse_tests/CostModelConfigCalibrated.xml";
+	const CHAR dxl_filename[] = "../data/dxl/parse_tests/CostModelConfigCalibrated.xml";
 	Fixture fixture;
 
 	IMemoryPool *pmp = fixture.Pmp();
 
-	gpos::CAutoRg<CHAR> a_szDXL(CDXLUtils::SzRead(pmp, szDXLFileName));
+	gpos::CAutoRg<CHAR> a_szDXL(CDXLUtils::Read(pmp, dxl_filename));
 
 	CParseHandlerCostModel *pphcm = fixture.PphCostModel();
 
@@ -154,12 +154,12 @@ static gpos::GPOS_RESULT Eres_SerializeCalibratedCostModel()
 
 static gpos::GPOS_RESULT Eres_ParseLegacyCostModel()
 {
-	const CHAR szDXLFileName[] = "../data/dxl/parse_tests/CostModelConfigLegacy.xml";
+	const CHAR dxl_filename[] = "../data/dxl/parse_tests/CostModelConfigLegacy.xml";
 	Fixture fixture;
 
 	IMemoryPool *pmp = fixture.Pmp();
 
-	gpos::CAutoRg<CHAR> a_szDXL(CDXLUtils::SzRead(pmp, szDXLFileName));
+	gpos::CAutoRg<CHAR> a_szDXL(CDXLUtils::Read(pmp, dxl_filename));
 
 	CParseHandlerCostModel *pphcm = fixture.PphCostModel();
 

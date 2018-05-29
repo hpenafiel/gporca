@@ -40,7 +40,7 @@ COptCtxt::COptCtxt
 	CColumnFactory *pcf,
 	CMDAccessor *pmda,
 	IConstExprEvaluator *pceeval,
-	COptimizerConfig *poconf
+	COptimizerConfig *optimizer_config
 	)
 	:
 	CTaskLocalStorageObject(CTaskLocalStorage::EtlsidxOptCtxt),
@@ -52,7 +52,7 @@ COptCtxt::COptCtxt
 	m_auPartId(m_ulFirstValidPartId),
 	m_pcteinfo(NULL),
 	m_pdrgpcrSystemCols(NULL),
-	m_poconf(poconf),
+	m_poconf(optimizer_config),
 	m_fDMLQuery(false)
 {
 	GPOS_ASSERT(NULL != pmp);
@@ -60,11 +60,11 @@ COptCtxt::COptCtxt
 	GPOS_ASSERT(NULL != pmda);
 	GPOS_ASSERT(NULL != pceeval);
 	GPOS_ASSERT(NULL != m_pcomp);
-	GPOS_ASSERT(NULL != poconf);
-	GPOS_ASSERT(NULL != poconf->Pcm());
+	GPOS_ASSERT(NULL != optimizer_config);
+	GPOS_ASSERT(NULL != optimizer_config->Pcm());
 	
 	m_pcteinfo = GPOS_NEW(m_pmp) CCTEInfo(m_pmp);
-	m_pcm = poconf->Pcm();
+	m_pcm = optimizer_config->Pcm();
 }
 
 
@@ -102,10 +102,10 @@ COptCtxt::PoctxtCreate
 	IMemoryPool *pmp,
 	CMDAccessor *pmda,
 	IConstExprEvaluator *pceeval,
-	COptimizerConfig *poconf
+	COptimizerConfig *optimizer_config
 	)
 {
-	GPOS_ASSERT(NULL != poconf);
+	GPOS_ASSERT(NULL != optimizer_config);
 
 	// CONSIDER:  - 1/5/09; allocate column factory out of given mem pool
 	// instead of having it create its own;
@@ -119,7 +119,7 @@ COptCtxt::PoctxtCreate
 		a_pcf = pcf;
 		a_pcf.Value()->Initialize();
 
-		poctxt = GPOS_NEW(pmp) COptCtxt(pmp, pcf, pmda, pceeval, poconf);
+		poctxt = GPOS_NEW(pmp) COptCtxt(pmp, pcf, pmda, pceeval, optimizer_config);
 
 		// detach safety
 		(void) a_pcf.Reset();

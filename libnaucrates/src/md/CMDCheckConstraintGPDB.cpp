@@ -49,7 +49,7 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	GPOS_ASSERT(NULL != pmdname);
 	GPOS_ASSERT(NULL != pdxln);
 
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -113,21 +113,21 @@ CMDCheckConstraintGPDB::Pexpr
 void
 CMDCheckConstraintGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenCheckConstraint));
 
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
-	m_pmdidRel->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 
 	// serialize the scalar expression
-	m_pdxln->SerializeToDXL(pxmlser);
+	m_pdxln->SerializeToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenCheckConstraint));
 }
 

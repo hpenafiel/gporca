@@ -36,11 +36,11 @@ using namespace gpopt;
 CParseHandlerDirectDispatchInfo::CParseHandlerDirectDispatchInfo
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_pdrgpdxldatum(NULL),
 	m_pdrgpdrgpdxldatum(NULL),
 	m_pdxlddinfo(NULL)
@@ -97,7 +97,7 @@ CParseHandlerDirectDispatchInfo::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -131,7 +131,7 @@ CParseHandlerDirectDispatchInfo::EndElement
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), xmlstrLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

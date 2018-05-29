@@ -74,28 +74,28 @@ CDXLScalarArrayCoerceExpr::PstrOpName() const
 void
 CDXLScalarArrayCoerceExpr::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	m_pmdidElementFunc->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenElementFunc));
-	PmdidResultType()->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_pmdidElementFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenElementFunc));
+	PmdidResultType()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != ITypeModifier())
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
 	}
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsExplicit), m_fIsExplicit);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenCoercionForm), (ULONG) Edxlcf());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenLocation), ILoc());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsExplicit), m_fIsExplicit);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCoercionForm), (ULONG) Edxlcf());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenLocation), ILoc());
 
-	pdxln->SerializeChildrenToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 // EOF

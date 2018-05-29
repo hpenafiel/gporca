@@ -40,14 +40,14 @@ using namespace gpdxl;
 CSerializableOptimizerConfig::CSerializableOptimizerConfig
 	(
 	IMemoryPool *pmp,
-	const COptimizerConfig *poconf
+	const COptimizerConfig *optimizer_config
 	)
 	:
 	CSerializable(),
 	m_pmp(pmp),
-	m_poconf(poconf)
+	m_poconf(optimizer_config)
 {
-	GPOS_ASSERT(NULL != poconf);
+	GPOS_ASSERT(NULL != optimizer_config);
 }
 
 //---------------------------------------------------------------------------

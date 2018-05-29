@@ -63,7 +63,7 @@ namespace gpmd
 			CDXLBucket(const CDXLBucket &);
 		
 			// serialize the bucket boundary
-			void SerializeBoundaryValue(CXMLSerializer *pxmlser, const CWStringConst *pstrElem, CDXLDatum *pdxldatum, BOOL fBoundClosed) const;
+			void SerializeBoundaryValue(CXMLSerializer *xml_serializer, const CWStringConst *pstrElem, CDXLDatum *pdxldatum, BOOL fBoundClosed) const;
 
 		public:
 			

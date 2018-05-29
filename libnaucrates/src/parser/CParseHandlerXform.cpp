@@ -35,11 +35,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerXform::CParseHandlerXform
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_pxform(NULL)
 {}
 
@@ -75,13 +75,13 @@ CParseHandlerXform::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenXform), xmlstrLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	const XMLCh *xmlstrXformName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenXform);
-	CWStringDynamic *pstrXformName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrXformName);
-	CHAR *szXform = CDXLUtils::SzFromWsz(m_pmp, pstrXformName->GetBuffer());
+	CWStringDynamic *pstrXformName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrXformName);
+	CHAR *szXform = CDXLUtils::CreateMultiByteCharStringFromWCString(m_pmp, pstrXformName->GetBuffer());
 	m_pxform = CXformFactory::Pxff()->Pxf(szXform);
 	GPOS_ASSERT(NULL != m_pxform);
 
@@ -108,7 +108,7 @@ CParseHandlerXform::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenXform), xmlstrLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

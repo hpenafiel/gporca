@@ -54,7 +54,7 @@ CWStringDynamic *
 CXMLSerializerTest::Pstr
 	(
 	IMemoryPool *pmp,
-	BOOL fIndent
+	BOOL indentation
 	)
 {
 	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
@@ -62,7 +62,7 @@ CXMLSerializerTest::Pstr
 	// create a string stream to hold the result of serialization
 	COstreamString oss(pstr);
 	
-	CXMLSerializer xml_serializer(pmp, oss, fIndent);
+	CXMLSerializer xml_serializer(pmp, oss, indentation);
 	
 	xml_serializer.StartDocument();
 	
@@ -91,7 +91,7 @@ CXMLSerializerTest::EresUnittest_Basic()
 	IMemoryPool *pmp = amp.Pmp();
 	
 	// test XML serializer with indentation
-	CWStringDynamic *pstrIndented = Pstr(pmp, true /* fIndent */);
+	CWStringDynamic *pstrIndented = Pstr(pmp, true /* indentation */);
 	
 	CWStringConst strExpectedIndented(GPOS_WSZ_LIT("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dxl:Plan>\n  <Subplan/>\n</dxl:Plan>\n"));
 	
@@ -103,7 +103,7 @@ CXMLSerializerTest::EresUnittest_Basic()
 	}
 	
 	// test XML serializer without indentation
-	CWStringDynamic *pstrNotIndented = Pstr(pmp, false /* fIndent */);
+	CWStringDynamic *pstrNotIndented = Pstr(pmp, false /* indentation */);
 	
 	CWStringConst strExpectedNotIndented(GPOS_WSZ_LIT("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dxl:Plan><Subplan/></dxl:Plan>"));
 	
@@ -147,11 +147,11 @@ CXMLSerializerTest::EresUnittest_Base64()
 		rgulRandArr[i] = cr.Next();
 	}
 	
-	CWStringDynamic *pstr = CDXLUtils::PstrFromByteArray(pmp, (BYTE *) rgulRandArr, sizeof(rgulRandArr));
+	CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(pmp, (BYTE *) rgulRandArr, sizeof(rgulRandArr));
 
 	ULONG len;
 	
-	ULONG *pulRandArrCopy = (ULONG *) CDXLUtils::PByteArrayFromStr(pmp, pstr, &len);
+	ULONG *pulRandArrCopy = (ULONG *) CDXLUtils::DecodeByteArrayFromString(pmp, pstr, &len);
 	
 	GPOS_ASSERT(len == sizeof(rgulRandArr));
 
@@ -167,7 +167,7 @@ CXMLSerializerTest::EresUnittest_Base64()
 	GPOS_DELETE_ARRAY(pulRandArrCopy);
 
 	INT i = 1000;
-	pstr = CDXLUtils::PstrFromByteArray(pmp, (BYTE *) &i, sizeof(i));
+	pstr = CDXLUtils::EncodeByteArrayToString(pmp, (BYTE *) &i, sizeof(i));
 	
 	gpos::oswcout << "Base64 encoding of " << i << " is " << pstr->GetBuffer() << std::endl;
 	

@@ -30,11 +30,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerWindowFrame::CParseHandlerWindowFrame
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_edxlfs(EdxlfsSentinel),
 	m_edxlfes(EdxlfesSentinel),
 	m_pdxlwf(NULL)
@@ -78,7 +78,7 @@ CParseHandlerWindowFrame::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -101,7 +101,7 @@ CParseHandlerWindowFrame::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	GPOS_ASSERT(NULL == m_pdxlwf);

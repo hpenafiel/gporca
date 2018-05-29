@@ -107,7 +107,7 @@ namespace gpmd
 		
 		// serialize object in DXL format
 		virtual 
-		void Serialize(gpdxl::CXMLSerializer *pxmlser) const;
+		void Serialize(gpdxl::CXMLSerializer *xml_serializer) const;
 		
 		// is an ordered aggregate
 		virtual

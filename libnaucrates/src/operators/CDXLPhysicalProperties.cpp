@@ -55,16 +55,16 @@ CDXLPhysicalProperties::~CDXLPhysicalProperties()
 void
 CDXLPhysicalProperties::SerializePropertiesToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenProperties));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenProperties));
 
-	m_pdxlopcost->SerializeToDXL(pxmlser);
-	SerializeStatsToDXL(pxmlser);
+	m_pdxlopcost->SerializeToDXL(xml_serializer);
+	SerializeStatsToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenProperties));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenProperties));
 }
 
 //---------------------------------------------------------------------------

@@ -32,11 +32,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarAssertConstraintList::CParseHandlerScalarAssertConstraintList
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot),
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
 	m_pdxlop(NULL),
 	m_pdxlopAssertConstraint(NULL),
 	m_pdrgpdxlnAssertConstraints(NULL)
@@ -92,7 +92,7 @@ CParseHandlerScalarAssertConstraintList::StartElement
 	}	
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -143,7 +143,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

@@ -129,7 +129,7 @@ namespace gpopt
 			static
 			COptimizerConfig *PoconfDefault(IMemoryPool *pmp, ICostModel *pcm);
 
-			void Serialize(IMemoryPool *pmp, CXMLSerializer *pxmlser, CBitSet *pbsTrace) const;
+			void Serialize(IMemoryPool *pmp, CXMLSerializer *xml_serializer, CBitSet *pbsTrace) const;
 
 	}; // class COptimizerConfig
 

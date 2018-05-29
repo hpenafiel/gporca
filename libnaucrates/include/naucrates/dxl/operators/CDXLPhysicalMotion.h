@@ -52,7 +52,7 @@ namespace gpdxl
 			// list of output segment ids
 			IntPtrArray *m_pdrgpiOutputSegIds;
 
-			void SerializeSegmentInfoToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeSegmentInfoToDXL(CXMLSerializer *xml_serializer) const;
 
 			
 		public:

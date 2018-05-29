@@ -90,11 +90,11 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CSerializableStackTrace serStackTrace;
 		
 		// read the dxl document
-		CHAR *szQueryDXL = CDXLUtils::SzRead(pmp, szQueryFile);
+		CHAR *szQueryDXL = CDXLUtils::Read(pmp, szQueryFile);
 
 		// parse the DXL query tree from the given DXL document
 		CQueryToDXLResult *ptroutput = 
-				CDXLUtils::PdxlnParseDXLQuery(pmp, szQueryDXL, NULL);
+				CDXLUtils::ParseQueryToQueryDXLTree(pmp, szQueryDXL, NULL);
 		GPOS_CHECK_ABORT;
 
 		CSerializableQuery serQuery(pmp, ptroutput->Pdxln(), ptroutput->PdrgpdxlnOutputCols(), ptroutput->PdrgpdxlnCTE());
@@ -124,9 +124,9 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CAutoTraceFlag atfPrintPlan(EopttracePrintPlan, true);
 		CAutoTraceFlag atfTest(EtraceTest, true);
 
-		COptimizerConfig *poconf = GPOS_NEW(pmp) COptimizerConfig
+		COptimizerConfig *optimizer_config = GPOS_NEW(pmp) COptimizerConfig
 												(
-												CEnumeratorConfig::Pec(pmp, 0 /*ullPlanId*/),
+												CEnumeratorConfig::Pec(pmp, 0 /*plan_id*/),
 												CStatisticsConfig::PstatsconfDefault(pmp),
 												CCTEConfig::PcteconfDefault(pmp),
 												ICostModel::PcmDefault(pmp),
@@ -162,7 +162,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 
 		CEngine eng(pmp);
 
-		CSerializableOptimizerConfig serOptConfig(pmp, poconf);
+		CSerializableOptimizerConfig serOptConfig(pmp, optimizer_config);
 		
 		eng.Init(pqc, NULL /*pdrgpss*/);
 		eng.Optimize();
@@ -185,7 +185,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CDXLNode *pdxlnPlan = ptrexprtodxl.PdxlnTranslate(pexprPlan, pqc->PdrgPcr(), pqc->Pdrgpmdname());
 		GPOS_ASSERT(NULL != pdxlnPlan);
 		
-		CSerializablePlan serPlan(pmp, pdxlnPlan, poconf->Pec()->UllPlanId(), poconf->Pec()->UllPlanSpaceSize());
+		CSerializablePlan serPlan(pmp, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize());
 		GPOS_CHECK_ABORT;
 
 		// simulate an exception 

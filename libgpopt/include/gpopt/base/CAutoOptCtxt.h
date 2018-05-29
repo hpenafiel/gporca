@@ -53,7 +53,7 @@ namespace gpopt
 				IMemoryPool *pmp,
 				CMDAccessor *pmda,
 				IConstExprEvaluator *pceeval,
-				COptimizerConfig *poconf
+				COptimizerConfig *optimizer_config
 				);
 			
 			// ctor

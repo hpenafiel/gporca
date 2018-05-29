@@ -69,7 +69,7 @@ namespace gpmd
 
 			// serialize constraint in DXL format
 			virtual
-			void Serialize(CXMLSerializer *pxmlser) const;
+			void Serialize(CXMLSerializer *xml_serializer) const;
 			
 			// the scalar expression of the check constraint
 			virtual

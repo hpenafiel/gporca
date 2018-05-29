@@ -96,14 +96,14 @@ CDXLIndexDescr::Pmdname() const
 void
 CDXLIndexDescr::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexName), m_pmdname->Pstr());
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexName), m_pmdname->Pstr());
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
 }
 
 // EOF

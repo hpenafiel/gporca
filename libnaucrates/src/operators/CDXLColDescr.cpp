@@ -166,35 +166,35 @@ CDXLColDescr::UlWidth() const
 void
 CDXLColDescr::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
 	const CWStringConst *pstrTokenColDescr = CDXLTokens::PstrToken(EdxltokenColDescr);
 	
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenColDescr);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenColDescr);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulId);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttno);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), m_pmdname->Pstr());
-	m_pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttno);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), m_pmdname->Pstr());
+	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != ITypeModifier())
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
 	}
 
 	if (m_fDropped)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColDropped), m_fDropped);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColDropped), m_fDropped);
 	}
 
 	if (ULONG_MAX != m_ulWidth)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_ulWidth);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_ulWidth);
 	}
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenColDescr);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenColDescr);
 
 	GPOS_CHECK_ABORT;
 }

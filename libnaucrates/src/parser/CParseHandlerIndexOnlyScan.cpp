@@ -32,11 +32,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerIndexOnlyScan::CParseHandlerIndexOnlyScan
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerIndexScan(pmp, pphm, pphRoot)
+	CParseHandlerIndexScan(pmp, parse_handler_mgr, pphRoot)
 {
 }
 

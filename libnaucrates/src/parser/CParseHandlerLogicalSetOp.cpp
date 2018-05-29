@@ -36,11 +36,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerLogicalSetOp::CParseHandlerLogicalSetOp
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerLogicalOp(pmp, pphm, pphRoot),
+	CParseHandlerLogicalOp(pmp, parse_handler_mgr, pphRoot),
 	m_edxlsetop(EdxlsetopSentinel),
 	m_pdrgpdrgpulInputColIds(NULL),
 	m_fCastAcrossInputs(false)
@@ -87,7 +87,7 @@ CParseHandlerLogicalSetOp::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
+				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
 				);
 		}
 
@@ -186,7 +186,7 @@ CParseHandlerLogicalSetOp::EndElement
 
 	if(EdxlsetopSentinel == edxlsetop && m_edxlsetop != edxlsetop)
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

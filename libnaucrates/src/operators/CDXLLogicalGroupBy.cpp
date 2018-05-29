@@ -138,7 +138,7 @@ CDXLLogicalGroupBy::PdrgpulGroupingCols() const
 void
 CDXLLogicalGroupBy::SerializeGrpColsToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
@@ -147,20 +147,20 @@ CDXLLogicalGroupBy::SerializeGrpColsToDXL
 		const CWStringConst *pstrTokenGroupingCols = CDXLTokens::PstrToken(EdxltokenGroupingCols);
 		const CWStringConst *pstrTokenGroupingCol = CDXLTokens::PstrToken(EdxltokenGroupingCol);
 
-		pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCols);
+		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCols);
 
 		for (ULONG ul = 0; ul < m_pdrgpulGrpColId->Size(); ul++)
 		{
 			GPOS_ASSERT(NULL != (*m_pdrgpulGrpColId)[ul]);
 			ULONG ulGroupingCol = *((*m_pdrgpulGrpColId)[ul]);
 
-			pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCol);
-			pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), ulGroupingCol);
+			xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCol);
+			xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), ulGroupingCol);
 
-			pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCol);
+			xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCol);
 		}
 
-		pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCols);
+		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenGroupingCols);
 	}
 }
 
@@ -175,22 +175,22 @@ CDXLLogicalGroupBy::SerializeGrpColsToDXL
 void
 CDXLLogicalGroupBy::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// serialize grouping columns
-	SerializeGrpColsToDXL(pxmlser);
+	SerializeGrpColsToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

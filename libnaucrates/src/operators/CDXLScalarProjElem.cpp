@@ -121,24 +121,24 @@ CDXLScalarProjElem::PmdnameAlias() const
 void
 CDXLScalarProjElem::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 		
 	// serialize proj elem id
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulId);
 		
 	// serialize proj element alias
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_pmdname->Pstr());
 	
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

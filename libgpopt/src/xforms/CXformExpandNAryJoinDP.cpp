@@ -68,8 +68,8 @@ CXformExpandNAryJoinDP::Exfp
 	)
 	const
 {
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
-	const CHint *phint = poconf->Phint();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	const CHint *phint = optimizer_config->Phint();
 
 	const ULONG ulArity = exprhdl.UlArity();
 

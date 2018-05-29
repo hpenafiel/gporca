@@ -61,7 +61,7 @@ namespace gpdxl
 			CParseHandlerCost
 				(
 				IMemoryPool *pmp,
-				CParseHandlerManager *pphm,
+				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
 			

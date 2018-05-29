@@ -609,7 +609,7 @@ CMDAccessor::Pimdobj
 				pmp = a_pmdcacc->Pmp();
 			}
 
-			pmdobjNew = gpdxl::CDXLUtils::PimdobjParseDXL(pmp, a_pstr.Value(), NULL /* XSD path */);
+			pmdobjNew = gpdxl::CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, a_pstr.Value(), NULL /* XSD path */);
 			GPOS_ASSERT(NULL != pmdobjNew);
 
 			if (fPrintOptStats)

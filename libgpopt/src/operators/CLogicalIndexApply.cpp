@@ -102,19 +102,19 @@ CLogicalIndexApply::PstatsDerive
 	CExpression *pexprScalar = exprhdl.PexprScalarChild(2 /*ulChildIndex*/);
 
 	// join stats of the children
-	DrgPstat *pdrgpstat = GPOS_NEW(pmp) DrgPstat(pmp);
+	DrgPstat *statistics_array = GPOS_NEW(pmp) DrgPstat(pmp);
 	pstatsOuter->AddRef();
-	pdrgpstat->Append(pstatsOuter);
+	statistics_array->Append(pstatsOuter);
 	pstatsInner->AddRef();
-	pdrgpstat->Append(pstatsInner);
+	statistics_array->Append(pstatsInner);
 	IStatistics::EStatsJoinType eStatsJoinType = IStatistics::EsjtInnerJoin;
 	// we use Inner Join semantics here except in the case of Left Outer Join
 	if (m_fOuterJoin)
 	{
 		eStatsJoinType = IStatistics::EsjtLeftOuterJoin;
 	}
-	IStatistics *pstats = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstat, pexprScalar, eStatsJoinType);
-	pdrgpstat->Release();
+	IStatistics *pstats = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pexprScalar, eStatsJoinType);
+	statistics_array->Release();
 
 	return pstats;
 }

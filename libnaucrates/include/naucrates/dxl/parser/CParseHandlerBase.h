@@ -135,7 +135,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CParseHandlerBase(IMemoryPool *pmp, CParseHandlerManager *pphm, CParseHandlerBase *pphRoot);
+			CParseHandlerBase(IMemoryPool *pmp, CParseHandlerManager *parse_handler_mgr, CParseHandlerBase *pphRoot);
 			
 			//dtor
 			virtual

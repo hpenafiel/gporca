@@ -1302,8 +1302,8 @@ CXformUtils::PexprLogicalDMLOverProject
 	if (CLogicalDML::EdmlInsert == edmlop)
 	{
 		// add assert for check constraints and nullness checks if needed
-		COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
-		if (poconf->Phint()->FEnforceConstraintsOnDML())
+		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+		if (optimizer_config->Phint()->FEnforceConstraintsOnDML())
 		{
 			pexprProject = PexprAssertConstraints(pmp, pexprProject, ptabdesc, pdrgpcr);
 		}

@@ -64,7 +64,7 @@ namespace gpdxl
 
 			// serialize the datum as the given element
 			virtual
-			void Serialize(CXMLSerializer *pxmlser);
+			void Serialize(CXMLSerializer *xml_serializer);
 
 			// datum type
 			virtual

@@ -36,11 +36,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerColStats::CParseHandlerColStats
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, pphm, pphRoot),
+	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
 	m_pmdidColStats(NULL),
 	m_pmdname(NULL),
 	m_dWidth(0.0),
@@ -85,7 +85,7 @@ CParseHandlerColStats::StartElement
 																EdxltokenColumnStats
 																);
 
-		CWStringDynamic *pstrColName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszColName);
+		CWStringDynamic *pstrColName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszColName);
 		
 		// create a copy of the string in the CMDName constructor
 		m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrColName);
@@ -129,7 +129,7 @@ CParseHandlerColStats::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -152,7 +152,7 @@ CParseHandlerColStats::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStats), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

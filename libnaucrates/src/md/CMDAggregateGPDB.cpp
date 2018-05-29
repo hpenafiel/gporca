@@ -51,7 +51,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	{
 		GPOS_ASSERT(pmdid->IsValid());
 		
-		m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+		m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 	}
 
 //---------------------------------------------------------------------------
@@ -139,30 +139,30 @@ CMDAggregateGPDB::PmdidTypeIntermediate() const
 void
 CMDAggregateGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBAgg));
 	
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
 	if (m_fOrdered)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBIsAggOrdered), m_fOrdered);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBIsAggOrdered), m_fOrdered);
 	}
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBAggSplittable), m_fSplittable);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBAggHashAggCapable), m_fHashAggCapable);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBAggSplittable), m_fSplittable);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBAggHashAggCapable), m_fHashAggCapable);
 	
-	SerializeMDIdAsElem(pxmlser, 
+	SerializeMDIdAsElem(xml_serializer, 
 			CDXLTokens::PstrToken(EdxltokenGPDBAggResultTypeId), m_pmdidTypeResult);
-	SerializeMDIdAsElem(pxmlser, 
+	SerializeMDIdAsElem(xml_serializer, 
 			CDXLTokens::PstrToken(EdxltokenGPDBAggIntermediateResultTypeId), m_pmdidTypeIntermediate);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBAgg));
 }
 

@@ -139,23 +139,23 @@ CDXLPhysicalDynamicTableScan::UlPartIndexIdPrintable() const
 void
 CDXLPhysicalDynamicTableScan::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 	
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);	
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
 	if (m_ulPartIndexIdPrintable != m_ulPartIndexId)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_ulPartIndexIdPrintable);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_ulPartIndexIdPrintable);
 	}
-	pdxln->SerializePropertiesToDXL(pxmlser);
-	pdxln->SerializeChildrenToDXL(pxmlser);
-	m_pdxltabdesc->SerializeToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
+	pdxln->SerializePropertiesToDXL(xml_serializer);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
+	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
 }
 
 #ifdef GPOS_DEBUG

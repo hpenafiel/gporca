@@ -52,15 +52,15 @@ CMDIndexInfo::FPartial() const
 void
 CMDIndexInfo::Serialize
 	(
-	gpdxl::CXMLSerializer *pxmlser
+	gpdxl::CXMLSerializer *xml_serializer
 	) const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexInfo));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexInfo));
 
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexPartial), m_fPartial);
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexPartial), m_fPartial);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexInfo));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexInfo));
 }
 
 #ifdef GPOS_DEBUG

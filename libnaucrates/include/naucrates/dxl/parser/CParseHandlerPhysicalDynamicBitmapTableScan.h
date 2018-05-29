@@ -67,11 +67,11 @@ namespace gpdxl
 			CParseHandlerPhysicalDynamicBitmapTableScan
 				(
 				IMemoryPool *pmp,
-				CParseHandlerManager *pphm,
+				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				)
 				:
-				CParseHandlerPhysicalAbstractBitmapScan(pmp, pphm, pphRoot),
+				CParseHandlerPhysicalAbstractBitmapScan(pmp, parse_handler_mgr, pphRoot),
 				m_ulPartIndexId(0),
 				m_ulPartIndexIdPrintable(0)
 			{}

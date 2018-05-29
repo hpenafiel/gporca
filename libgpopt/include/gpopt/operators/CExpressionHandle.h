@@ -103,7 +103,7 @@ namespace gpopt
 			void DerivePlanProps(CDrvdPropCtxtPlan *pdpctxtplan);
 
 			// return an array of stats objects starting from the first stats object referenced by child
-			DrgPstat *PdrgpstatOuterRefs(DrgPstat *pdrgpstat, ULONG ulChildIndex) const;
+			DrgPstat *PdrgpstatOuterRefs(DrgPstat *statistics_array, ULONG ulChildIndex) const;
 
 			// check if stats are derived for attached expression and its children
 			BOOL FStatsDerived() const;

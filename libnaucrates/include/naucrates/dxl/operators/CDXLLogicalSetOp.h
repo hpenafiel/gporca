@@ -70,7 +70,7 @@ namespace gpdxl
 				IMemoryPool *pmp,
 				EdxlSetOpType edxlsetoptype,
 				DrgPdxlcd *pdrgdxlcd,
-				ULongPtrArray2D *pdrgpdrgpul,
+				ULongPtrArray2D *ulong_ptr_array_2D,
 				BOOL fCastAcrossInput
 				);
 
@@ -138,7 +138,7 @@ namespace gpdxl
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *pxmlser, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
 
 			// check if given column is defined by operator
 			virtual

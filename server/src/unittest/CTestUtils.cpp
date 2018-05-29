@@ -3075,10 +3075,10 @@ CTestUtils::PexprReadQuery
 	const CHAR *szQueryFileName
 	)
 {
-	CHAR *szQueryDXL = CDXLUtils::SzRead(pmp, szQueryFileName);
+	CHAR *szQueryDXL = CDXLUtils::Read(pmp, szQueryFileName);
 
 	// parse the DXL query tree from the given DXL document
-	CQueryToDXLResult *ptroutput = CDXLUtils::PdxlnParseDXLQuery(pmp, szQueryDXL, NULL);
+	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(pmp, szQueryDXL, NULL);
 
 	// get md accessor
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -3126,10 +3126,10 @@ CTestUtils::EresTranslate
 	GPOS_TRACE(str.GetBuffer());
 
 	// read the dxl document
-	CHAR *szQueryDXL = CDXLUtils::SzRead(pmp, szQueryFileName);
+	CHAR *szQueryDXL = CDXLUtils::Read(pmp, szQueryFileName);
 
 	// parse the DXL query tree from the given DXL document
-	CQueryToDXLResult *ptroutput = CDXLUtils::PdxlnParseDXLQuery(pmp, szQueryDXL, NULL);
+	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(pmp, szQueryDXL, NULL);
 
 	// get md accessor
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -3177,19 +3177,19 @@ CTestUtils::EresTranslate
 	CDXLNode *pdxlnPlan = ptrexpr2dxl.PdxlnTranslate(pexprPlan, pqc->PdrgPcr(), pqc->Pdrgpmdname());
 	GPOS_ASSERT(NULL != pdxlnPlan);
 
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
 
 	CWStringDynamic strTranslatedPlan(pmp);
 	COstreamString osTranslatedPlan(&strTranslatedPlan);
 
-	CDXLUtils::SerializePlan(pmp, osTranslatedPlan, pdxlnPlan, poconf->Pec()->UllPlanId(), poconf->Pec()->UllPlanSpaceSize(), true /*fSerializeHeaderFooter*/, true /*fIndent*/);
+	CDXLUtils::SerializePlan(pmp, osTranslatedPlan, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize(), true /*serialize_header_footer*/, true /*indentation*/);
 
 	GPOS_TRACE(str.GetBuffer());
 	GPOS_RESULT eres = GPOS_OK;
 	if (NULL != szPlanFileName)
 	{
 		// parse the DXL plan tree from the given DXL file
-		CHAR *szExpectedPlan = CDXLUtils::SzRead(pmp, szPlanFileName);
+		CHAR *szExpectedPlan = CDXLUtils::Read(pmp, szPlanFileName);
 
 		CWStringDynamic strExpectedPlan(pmp);
 		strExpectedPlan.AppendFormat(GPOS_WSZ_LIT("%s"), szExpectedPlan);
@@ -3282,7 +3282,7 @@ CTestUtils::FPlanMatch
 		CAutoTrace at(pmp);
 		at.Os() << "Plan comparison *** FAILED ***" << std::endl;
 		at.Os() << "Expected plan is NULL. Actual: " << std::endl;
-		CDXLUtils::SerializePlan(pmp, at.Os(), pdxlnActual, ullPlanIdActual, ullPlanSpaceSizeActual, false /*fDocumentHeaderFooter*/, true /*fIndent*/);
+		CDXLUtils::SerializePlan(pmp, at.Os(), pdxlnActual, ullPlanIdActual, ullPlanSpaceSizeActual, false /*serialize_document_header_footer*/, true /*indentation*/);
 		at.Os() << std::endl;
 
 		return false;
@@ -3293,7 +3293,7 @@ CTestUtils::FPlanMatch
 		CAutoTrace at(pmp);
 		at.Os() << "Plan comparison *** FAILED ***" << std::endl;
 		at.Os()  << "Actual plan is NULL. Expected: " << std::endl;
-		CDXLUtils::SerializePlan(pmp, at.Os(), pdxlnExpected, ullPlanIdExpected, ullPlanSpaceSizeExpected, false /*fDocumentHeaderFooter*/, true /*fIndent*/);
+		CDXLUtils::SerializePlan(pmp, at.Os(), pdxlnExpected, ullPlanIdExpected, ullPlanSpaceSizeExpected, false /*serialize_document_header_footer*/, true /*indentation*/);
 		at.Os()  << std::endl;
 
 		return false;
@@ -3306,12 +3306,12 @@ CTestUtils::FPlanMatch
 	// overwrite PlanId's and space sizes with zeros to pass string comparison on plan body
 	CWStringDynamic strActual(pmp);
 	COstreamString osActual(&strActual);
-	CDXLUtils::SerializePlan(pmp, osActual, pdxlnActual, 0 /*ullPlanIdActual*/, 0 /*ullPlanSpaceSizeActual*/, false /*fDocumentHeaderFooter*/, true /*fIndent*/);
+	CDXLUtils::SerializePlan(pmp, osActual, pdxlnActual, 0 /*ullPlanIdActual*/, 0 /*ullPlanSpaceSizeActual*/, false /*serialize_document_header_footer*/, true /*indentation*/);
 	GPOS_CHECK_ABORT;
 
 	CWStringDynamic strExpected(pmp);
 	COstreamString osExpected(&strExpected);
-	CDXLUtils::SerializePlan(pmp, osExpected, pdxlnExpected, 0 /*ullPlanIdExpected*/, 0 /*ullPlanSpaceSizeExpected*/, false /*fDocumentHeaderFooter*/, true /*fIndent*/);
+	CDXLUtils::SerializePlan(pmp, osExpected, pdxlnExpected, 0 /*ullPlanIdExpected*/, 0 /*ullPlanSpaceSizeExpected*/, false /*serialize_document_header_footer*/, true /*indentation*/);
 	GPOS_CHECK_ABORT;
 
 	BOOL fResult = strActual.Equals(&strExpected);
@@ -3321,12 +3321,12 @@ CTestUtils::FPlanMatch
 		// serialize plans again to restore id's and space size before printing error message
 		CWStringDynamic strActual(pmp);
 		COstreamString osActual(&strActual);
-		CDXLUtils::SerializePlan(pmp, osActual, pdxlnActual, ullPlanIdActual, ullPlanSpaceSizeActual, false /*fDocumentHeaderFooter*/, true /*fIndent*/);
+		CDXLUtils::SerializePlan(pmp, osActual, pdxlnActual, ullPlanIdActual, ullPlanSpaceSizeActual, false /*serialize_document_header_footer*/, true /*indentation*/);
 		GPOS_CHECK_ABORT;
 
 		CWStringDynamic strExpected(pmp);
 		COstreamString osExpected(&strExpected);
-		CDXLUtils::SerializePlan(pmp, osExpected, pdxlnExpected, ullPlanIdExpected, ullPlanSpaceSizeExpected, false /*fDocumentHeaderFooter*/, true /*fIndent*/);
+		CDXLUtils::SerializePlan(pmp, osExpected, pdxlnExpected, ullPlanIdExpected, ullPlanSpaceSizeExpected, false /*serialize_document_header_footer*/, true /*indentation*/);
 		GPOS_CHECK_ABORT;
 
 		{
@@ -3529,21 +3529,21 @@ CTestUtils::EresRunMinidump
 	CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(pmp, szFileName);
 	GPOS_CHECK_ABORT;
 
-	COptimizerConfig *poconf = pdxlmd->Poconf();
+	COptimizerConfig *optimizer_config = pdxlmd->Poconf();
 
-	if (NULL == poconf)
+	if (NULL == optimizer_config)
 	{
-		poconf = COptimizerConfig::PoconfDefault(pmp);
+		optimizer_config = COptimizerConfig::PoconfDefault(pmp);
 	}
 	else
 	{
-		poconf->AddRef();
+		optimizer_config->AddRef();
 	}
 
-	ULONG ulSegments = UlSegments(poconf);
+	ULONG ulSegments = UlSegments(optimizer_config);
 
 	// allow sampler to throw invalid plan exception
-	poconf->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+	optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 	CDXLNode *pdxlnPlan = NULL;
 
@@ -3558,7 +3558,7 @@ CTestUtils::EresRunMinidump
 					ulSegments,
 					ulSessionId,
 					ulCmdId,
-					poconf,
+					optimizer_config,
 					pceeval
 					);
 
@@ -3578,8 +3578,8 @@ CTestUtils::EresRunMinidump
 			pmp,
 			at.Os(),
 			pdxlnPlan,
-			poconf->Pec()->UllPlanId(),
-			poconf->Pec()->UllPlanSpaceSize(),
+			optimizer_config->Pec()->UllPlanId(),
+			optimizer_config->Pec()->UllPlanSpaceSize(),
 			pdxlmd->PdxlnPlan(),
 			pdxlmd->UllPlanId(),
 			pdxlmd->UllPlanSpaceSize(),
@@ -3602,7 +3602,7 @@ CTestUtils::EresRunMinidump
 	// cleanup
 	GPOS_DELETE(pdxlmd);
 	pdxlnPlan->Release();
-	poconf->Release();
+	optimizer_config->Release();
 
 	(*pulTestCounter)++;
 	return eres;
@@ -3826,13 +3826,13 @@ CTestUtils::EresSamplePlans
 			pdrgpmdp->Append(pmdp);
 		}
 
-		COptimizerConfig *poconf = pdxlmd->Poconf();
+		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
 			
-		if (NULL == poconf)
+		if (NULL == optimizer_config)
 		{
-			poconf = GPOS_NEW(pmp) COptimizerConfig
+			optimizer_config = GPOS_NEW(pmp) COptimizerConfig
 								(
-								GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*ullPlanId*/, 1000 /*ullSamples*/),
+								GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*plan_id*/, 1000 /*ullSamples*/),
 								CStatisticsConfig::PstatsconfDefault(pmp),
 								CCTEConfig::PcteconfDefault(pmp),
 								ICostModel::PcmDefault(pmp),
@@ -3842,13 +3842,13 @@ CTestUtils::EresSamplePlans
 		}
 		else
 		{
-			poconf->AddRef();
+			optimizer_config->AddRef();
 		}
 
-		ULONG ulSegments = UlSegments(poconf);
+		ULONG ulSegments = UlSegments(optimizer_config);
 
 		// allow sampler to throw invalid plan exception
-		poconf->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+		optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 		{
 			// scope for MD accessor
@@ -3863,7 +3863,7 @@ CTestUtils::EresSamplePlans
 							ulSegments,
 							ulSessionId,
 							ulCmdId,
-							poconf,
+							optimizer_config,
 							NULL // pceeval
 							);
 
@@ -3872,23 +3872,23 @@ CTestUtils::EresSamplePlans
 			{
 				CAutoTrace at(pmp);
 
-				at.Os() << "Generated " <<  poconf->Pec()->UlCreatedSamples() <<" samples ... " << std::endl;
+				at.Os() << "Generated " <<  optimizer_config->Pec()->UlCreatedSamples() <<" samples ... " << std::endl;
 
 				// print ids of sampled plans
-				CWStringDynamic *pstr = CDXLUtils::PstrSerializeSamplePlans(pmp, poconf->Pec(), true /*fIdent*/);
+				CWStringDynamic *pstr = CDXLUtils::SerializeSamplePlans(pmp, optimizer_config->Pec(), true /*fIdent*/);
 				at.Os() << pstr->GetBuffer();
 				GPOS_DELETE(pstr);
 
 				// print fitted cost distribution
 				at.Os() << "Cost Distribution: " << std::endl;
-				const ULONG ulSize = poconf->Pec()->UlCostDistrSize();
+				const ULONG ulSize = optimizer_config->Pec()->UlCostDistrSize();
 				for (ULONG ul = 0; ul < ulSize; ul++)
 				{
-					at.Os() << poconf->Pec()->DCostDistrX(ul) << "\t" << poconf->Pec()->DCostDistrY(ul) << std::endl;
+					at.Os() << optimizer_config->Pec()->DCostDistrX(ul) << "\t" << optimizer_config->Pec()->DCostDistrY(ul) << std::endl;
 				}
 
 				// print serialized cost distribution
-				pstr = CDXLUtils::PstrSerializeCostDistr(pmp, poconf->Pec(), true /*fIdent*/);
+				pstr = CDXLUtils::SerializeCostDistr(pmp, optimizer_config->Pec(), true /*fIdent*/);
 
 				at.Os() << pstr->GetBuffer();
 				GPOS_DELETE(pstr);
@@ -3903,7 +3903,7 @@ CTestUtils::EresSamplePlans
 
 
 		// cleanup
-		poconf->Release();
+		optimizer_config->Release();
 		pdrgpmdp->Release();
 
 
@@ -3968,13 +3968,13 @@ CTestUtils::EresCheckPlans
 			pdrgpmdp->Append(pmdp);
 		}
 
-		COptimizerConfig *poconf = pdxlmd->Poconf();
+		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
 
-		if (NULL == poconf)
+		if (NULL == optimizer_config)
 		{
-			poconf = GPOS_NEW(pmp) COptimizerConfig
+			optimizer_config = GPOS_NEW(pmp) COptimizerConfig
 								(
-								GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*ullPlanId*/, 1000 /*ullSamples*/),
+								GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*plan_id*/, 1000 /*ullSamples*/),
 								CStatisticsConfig::PstatsconfDefault(pmp),
 								CCTEConfig::PcteconfDefault(pmp),
 								ICostModel::PcmDefault(pmp),
@@ -3984,16 +3984,16 @@ CTestUtils::EresCheckPlans
 		}
 		else
 		{
-			poconf->AddRef();
+			optimizer_config->AddRef();
 		}
 
-		ULONG ulSegments = UlSegments(poconf);
+		ULONG ulSegments = UlSegments(optimizer_config);
 
 		// set plan checker
-		poconf->Pec()->SetPlanChecker(pfpc);
+		optimizer_config->Pec()->SetPlanChecker(pfpc);
 
 		// allow sampler to throw invalid plan exception
-		poconf->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+		optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 		{
 			// scope for MD accessor
@@ -4008,7 +4008,7 @@ CTestUtils::EresCheckPlans
 							ulSegments,
 							ulSessionId,
 							ulCmdId,
-							poconf,
+							optimizer_config,
 							NULL // pceeval
 							);
 
@@ -4020,7 +4020,7 @@ CTestUtils::EresCheckPlans
 
 		} // end of MDAcessor scope
 
-		poconf->Release();
+		optimizer_config->Release();
 		pdrgpmdp->Release();
 
 		(*pulTestCounter)++;
@@ -4042,14 +4042,14 @@ CTestUtils::EresCheckPlans
 ULONG
 CTestUtils::UlSegments
 	(
-	COptimizerConfig *poconf
+	COptimizerConfig *optimizer_config
 	)
 {
-	GPOS_ASSERT(NULL != poconf);
+	GPOS_ASSERT(NULL != optimizer_config);
 	ULONG ulSegments = GPOPT_TEST_SEGMENTS;
-	if (NULL != poconf->Pcm())
+	if (NULL != optimizer_config->Pcm())
 	{
-		ULONG ulSegs = poconf->Pcm()->UlHosts();
+		ULONG ulSegs = optimizer_config->Pcm()->UlHosts();
 		if (ulSegments < ulSegs)
 		{
 			ulSegments = ulSegs;
@@ -4115,18 +4115,18 @@ CTestUtils::EresCheckOptimizedPlan
 			pdrgpmdp->Append(pmdp);
 		}
 
-		COptimizerConfig *poconf = pdxlmd->Poconf();
-		GPOS_ASSERT(NULL != poconf);
+		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
+		GPOS_ASSERT(NULL != optimizer_config);
 
 		if (NULL != pdrgpcp)
 		{
-			poconf->Pcm()->SetParams(pdrgpcp);
+			optimizer_config->Pcm()->SetParams(pdrgpcp);
 		}
-		poconf->AddRef();
-		ULONG ulSegments = UlSegments(poconf);
+		optimizer_config->AddRef();
+		ULONG ulSegments = UlSegments(optimizer_config);
 
 		// allow sampler to throw invalid plan exception
-		poconf->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+		optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 		{
 			// scope for MD accessor
@@ -4141,7 +4141,7 @@ CTestUtils::EresCheckOptimizedPlan
 							ulSegments,
 							ulSessionId,
 							ulCmdId,
-							poconf,
+							optimizer_config,
 							NULL // pceeval
 							);
 			if (!pfdpc(pdxlnPlan))
@@ -4155,10 +4155,10 @@ CTestUtils::EresCheckOptimizedPlan
 						pmp,
 						at.Os(),
 						pdxlnPlan,
-						0, // ullPlanId
-						0, // ullPlanSpaceSize
-						true, // fSerializeHeaderFooter
-						true // fIndent
+						0, // plan_id
+						0, // plan_space_size
+						true, // serialize_header_footer
+						true // indentation
 						);
 					at.Os() << std::endl;
 				}
@@ -4172,7 +4172,7 @@ CTestUtils::EresCheckOptimizedPlan
 
 		} // end of MDAcessor scope
 
-		poconf->Release();
+		optimizer_config->Release();
 		pdrgpmdp->Release();
 
 		(*pulTestCounter)++;
@@ -4206,7 +4206,7 @@ CTestUtils::PdatumGeneric
 	GPOS_ASSERT(!pmdidType->Equals(&CMDIdGPDB::m_mdidNumeric));
 	const IMDType *pmdtype = pmda->Pmdtype(pmdidType);
 	ULONG ulbaSize = 0;
-	BYTE *pba = CDXLUtils::PByteArrayFromStr(pmp, pstrEncodedValue, &ulbaSize);
+	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(pmp, pstrEncodedValue, &ulbaSize);
 
 	CDXLDatumGeneric *pdxldatum = NULL;
 	if (CMDTypeGenericGPDB::FTimeRelatedType(pmdidType))

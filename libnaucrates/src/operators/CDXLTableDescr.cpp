@@ -187,10 +187,10 @@ CDXLTableDescr::Pdxlcd
 void
 CDXLTableDescr::SerializeMDId
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) const
 {
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 }
 
 //---------------------------------------------------------------------------
@@ -204,35 +204,35 @@ CDXLTableDescr::SerializeMDId
 void
 CDXLTableDescr::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenTableDescr));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenTableDescr));
 	
-	SerializeMDId(pxmlser);
+	SerializeMDId(xml_serializer);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTableName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTableName), m_pmdname->Pstr());
 	
 	if (GPDXL_DEFAULT_USERID != m_ulExecuteAsUser)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecuteAsUser), m_ulExecuteAsUser);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecuteAsUser), m_ulExecuteAsUser);
 	}
 	
 	// serialize columns
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	GPOS_ASSERT(NULL != m_pdrgdxlcd);
 	
 	const ULONG ulArity = UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*m_pdrgdxlcd)[ul];
-		pdxlcd->SerializeToDXL(pxmlser);
+		pdxlcd->SerializeToDXL(xml_serializer);
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenTableDescr));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenTableDescr));
 }
 
 // EOF

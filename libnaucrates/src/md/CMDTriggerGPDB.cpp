@@ -52,7 +52,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	GPOS_ASSERT(m_pmdidFunc->IsValid());
 	GPOS_ASSERT(0 <= iType);
 
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -153,26 +153,26 @@ CMDTriggerGPDB::FUpdate() const
 void
 CMDTriggerGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenGPDBTrigger));
 
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
-	m_pmdidRel->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenRelationMdid));
-	m_pmdidFunc->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenFuncId));
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerRow), FRow());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerBefore), FBefore());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerInsert), Insert());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerDelete), FDelete());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerUpdate), FUpdate());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerEnabled), m_fEnabled);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerRow), FRow());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerBefore), FBefore());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerInsert), Insert());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerDelete), FDelete());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerUpdate), FUpdate());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerEnabled), m_fEnabled);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenGPDBTrigger));
 }
 

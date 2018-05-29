@@ -30,11 +30,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerExternalScan::CParseHandlerExternalScan
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerTableScan(pmp, pphm, pphRoot)
+	CParseHandlerTableScan(pmp, parse_handler_mgr, pphRoot)
 {}
 
 //---------------------------------------------------------------------------

@@ -109,7 +109,7 @@ namespace gpdxl
 
 			// serialize the datum as the given element
 			virtual
-			void Serialize(CXMLSerializer *pxmlser, const CWStringConst *pstrElem);
+			void Serialize(CXMLSerializer *xml_serializer, const CWStringConst *pstrElem);
 
 			// is type passed by value
 			virtual
@@ -117,7 +117,7 @@ namespace gpdxl
 
 			// serialize the datum as the given element
 			virtual
-			void Serialize(CXMLSerializer *pxmlser) = 0;
+			void Serialize(CXMLSerializer *xml_serializer) = 0;
 
 			// ident accessors
 			virtual

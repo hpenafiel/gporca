@@ -57,7 +57,7 @@ namespace gpmd
 			
 			// serialize constraint in DXL format
 			virtual
-			void Serialize(CXMLSerializer *pxmlser) const = 0;
+			void Serialize(CXMLSerializer *xml_serializer) const = 0;
 
 	};
 }

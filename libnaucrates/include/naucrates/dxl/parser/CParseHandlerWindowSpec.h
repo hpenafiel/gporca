@@ -72,7 +72,7 @@ namespace gpdxl
 			CParseHandlerWindowSpec
 				(
 				IMemoryPool *pmp,
-				CParseHandlerManager *pphm,
+				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
 

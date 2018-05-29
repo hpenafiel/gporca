@@ -32,11 +32,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerLogicalLimit::CParseHandlerLogicalLimit
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerLogicalOp(pmp, pphm, pphRoot)
+	CParseHandlerLogicalOp(pmp, parse_handler_mgr, pphRoot)
 {
 }
 
@@ -98,7 +98,7 @@ CParseHandlerLogicalLimit::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -121,7 +121,7 @@ CParseHandlerLogicalLimit::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalLimit), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

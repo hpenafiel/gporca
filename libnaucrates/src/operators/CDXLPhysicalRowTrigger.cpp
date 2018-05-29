@@ -101,39 +101,39 @@ CDXLPhysicalRowTrigger::PstrOpName() const
 void
 CDXLPhysicalRowTrigger::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidRel->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenRelationMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDType), m_iType);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDType), m_iType);
 
 	if (NULL != m_pdrgpulOld)
 	{
-		CWStringDynamic *pstrColsOld = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulOld);
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenOldCols), pstrColsOld);
+		CWStringDynamic *pstrColsOld = CDXLUtils::Serialize(m_pmp, m_pdrgpulOld);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOldCols), pstrColsOld);
 		GPOS_DELETE(pstrColsOld);
 	}
 
 	if (NULL != m_pdrgpulNew)
 	{
-		CWStringDynamic *pstrColsNew = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulNew);
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenNewCols), pstrColsNew);
+		CWStringDynamic *pstrColsNew = CDXLUtils::Serialize(m_pmp, m_pdrgpulNew);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenNewCols), pstrColsNew);
 		GPOS_DELETE(pstrColsNew);
 	}
 
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize project list
-	(*pdxln)[0]->SerializeToDXL(pxmlser);
+	(*pdxln)[0]->SerializeToDXL(xml_serializer);
 
 	// serialize physical child
-	(*pdxln)[1]->SerializeToDXL(pxmlser);
+	(*pdxln)[1]->SerializeToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

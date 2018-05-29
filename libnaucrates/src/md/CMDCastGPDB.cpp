@@ -54,7 +54,7 @@ CMDCastGPDB::CMDCastGPDB
 	GPOS_ASSERT(m_pmdidDest->IsValid());
 	GPOS_ASSERT_IMP(!fBinaryCoercible, m_pmdidCastFunc->IsValid());
 
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -179,24 +179,24 @@ CMDCastGPDB::EmdPathType() const
 void
 CMDCastGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBCast));
 	
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBCastBinaryCoercible), m_fBinaryCoercible);
-	m_pmdidSrc->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenGPDBCastSrcType));
-	m_pmdidDest->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenGPDBCastDestType));
-	m_pmdidCastFunc->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenGPDBCastFuncId));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBCastCoercePathType), m_emdPathType);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBCastBinaryCoercible), m_fBinaryCoercible);
+	m_pmdidSrc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastSrcType));
+	m_pmdidDest->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastDestType));
+	m_pmdidCastFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastFuncId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBCastCoercePathType), m_emdPathType);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBCast));
 }
 

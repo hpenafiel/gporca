@@ -138,29 +138,29 @@ IStatistics *
 CJoinStatsProcessor::PstatsJoinArray
 		(
 		IMemoryPool *pmp,
-		DrgPstat *pdrgpstat,
+		DrgPstat *statistics_array,
 		CExpression *pexprScalar,
 		IStatistics::EStatsJoinType eStatsJoinType
 		)
 {
 	GPOS_ASSERT(NULL != pexprScalar);
-	GPOS_ASSERT(NULL != pdrgpstat);
-	GPOS_ASSERT(0 < pdrgpstat->Size());
+	GPOS_ASSERT(NULL != statistics_array);
+	GPOS_ASSERT(0 < statistics_array->Size());
 	BOOL fLeftOuterJoin = IStatistics::EsjtLeftOuterJoin == eStatsJoinType;
-	GPOS_ASSERT_IMP(fLeftOuterJoin, 2 == pdrgpstat->Size());
+	GPOS_ASSERT_IMP(fLeftOuterJoin, 2 == statistics_array->Size());
 
 
 	// create an empty set of outer references for statistics derivation
 	CColRefSet *pcrsOuterRefs = GPOS_NEW(pmp) CColRefSet(pmp);
 
 	// join statistics objects one by one using relevant predicates in given scalar expression
-	const ULONG ulStats = pdrgpstat->Size();
-	IStatistics *pstats = (*pdrgpstat)[0]->PstatsCopy(pmp);
+	const ULONG ulStats = statistics_array->Size();
+	IStatistics *pstats = (*statistics_array)[0]->PstatsCopy(pmp);
 	CDouble dRowsOuter = pstats->DRows();
 
 	for (ULONG ul = 1; ul < ulStats; ul++)
 	{
-		IStatistics *pstatsCurrent = (*pdrgpstat)[ul];
+		IStatistics *pstatsCurrent = (*statistics_array)[ul];
 
 		DrgPcrs *pdrgpcrsOutput= GPOS_NEW(pmp) DrgPcrs(pmp);
 		pdrgpcrsOutput->Append(pstats->Pcrs(pmp));
@@ -445,13 +445,13 @@ CJoinStatsProcessor::PstatsJoin
 {
 	GPOS_ASSERT(CLogical::EspNone < CLogical::PopConvert(exprhdl.Pop())->Esp(exprhdl));
 
-	DrgPstat *pdrgpstat = GPOS_NEW(pmp) DrgPstat(pmp);
+	DrgPstat *statistics_array = GPOS_NEW(pmp) DrgPstat(pmp);
 	const ULONG ulArity = exprhdl.UlArity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		IStatistics *pstatsChild = exprhdl.Pstats(ul);
 		pstatsChild->AddRef();
-		pdrgpstat->Append(pstatsChild);
+		statistics_array->Append(pstatsChild);
 	}
 
 	CExpression *pexprJoinPred = NULL;
@@ -489,7 +489,7 @@ CJoinStatsProcessor::PstatsJoin
 	}
 
 	// derive stats based on local join condition
-	IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstat, pexprLocal, eStatsJoinType);
+	IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pexprLocal, eStatsJoinType);
 
 	if (exprhdl.FHasOuterRefs() && 0 < pdrgpstatCtxt->Size())
 	{
@@ -502,7 +502,7 @@ CJoinStatsProcessor::PstatsJoin
 	pexprLocal->Release();
 	pexprOuterRefs->Release();
 
-	pdrgpstat->Release();
+	statistics_array->Release();
 
 	return pstatsJoin;
 }
@@ -588,12 +588,12 @@ CJoinStatsProcessor::PstatsDeriveWithOuterRefs
 	CDouble dRowsOuter = pstatsOuter->DRows();
 
 	// join passed stats object and outer stats based on the passed join type
-	DrgPstat *pdrgpstat = GPOS_NEW(pmp) DrgPstat(pmp);
-	pdrgpstat->Append(pstatsOuter);
+	DrgPstat *statistics_array = GPOS_NEW(pmp) DrgPstat(pmp);
+	statistics_array->Append(pstatsOuter);
 	pstats->AddRef();
-	pdrgpstat->Append(pstats);
-	IStatistics *pstatsJoined = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstat, pexprScalar, eStatsJoinType);
-	pdrgpstat->Release();
+	statistics_array->Append(pstats);
+	IStatistics *pstatsJoined = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pexprScalar, eStatsJoinType);
+	statistics_array->Release();
 
 	// scale result using cardinality of outer stats and set number of rebinds of returned stats
 	IStatistics *pstatsResult = pstatsJoined->PstatsScale(pmp, CDouble(1.0/dRowsOuter));

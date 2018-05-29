@@ -35,11 +35,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarBitmapBoolOp::CParseHandlerScalarBitmapBoolOp
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot)
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot)
 {
 }
 
@@ -70,7 +70,7 @@ CParseHandlerScalarBitmapBoolOp::StartElement
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBitmapAnd), xmlszLocalname))
 	{
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer());
 	}
 	
 	IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, edxltoken);
@@ -106,7 +106,7 @@ CParseHandlerScalarBitmapBoolOp::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBitmapOr), xmlszLocalname) &&
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBitmapAnd), xmlszLocalname))
 	{
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer());
 	}
 
 	const ULONG ulSize = this->Length();

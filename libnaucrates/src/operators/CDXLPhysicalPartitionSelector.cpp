@@ -94,46 +94,46 @@ CDXLPhysicalPartitionSelector::PstrOpName() const
 void
 CDXLPhysicalPartitionSelector::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidRel->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenRelationMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorLevels), m_ulLevels);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorScanId), m_ulScanId);
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorLevels), m_ulLevels);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorScanId), m_ulScanId);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize project list and filter lists
-	(*pdxln)[EdxlpsIndexProjList]->SerializeToDXL(pxmlser);
-	(*pdxln)[EdxlpsIndexEqFilters]->SerializeToDXL(pxmlser);
-	(*pdxln)[EdxlpsIndexFilters]->SerializeToDXL(pxmlser);
+	(*pdxln)[EdxlpsIndexProjList]->SerializeToDXL(xml_serializer);
+	(*pdxln)[EdxlpsIndexEqFilters]->SerializeToDXL(xml_serializer);
+	(*pdxln)[EdxlpsIndexFilters]->SerializeToDXL(xml_serializer);
 
 	// serialize residual filter
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarResidualFilter));
-	(*pdxln)[EdxlpsIndexResidualFilter]->SerializeToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarResidualFilter));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarResidualFilter));
+	(*pdxln)[EdxlpsIndexResidualFilter]->SerializeToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarResidualFilter));
 
 	// serialize propagation expression
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPropagationExpr));
-	(*pdxln)[EdxlpsIndexPropExpr]->SerializeToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPropagationExpr));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPropagationExpr));
+	(*pdxln)[EdxlpsIndexPropExpr]->SerializeToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPropagationExpr));
 
 	// serialize printable filter
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPrintableFilter));
-	(*pdxln)[EdxlpsIndexPrintableFilter]->SerializeToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPrintableFilter));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPrintableFilter));
+	(*pdxln)[EdxlpsIndexPrintableFilter]->SerializeToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPrintableFilter));
 
 	// serialize relational child, if any
 	if (7 == pdxln->UlArity())
 	{
-		(*pdxln)[EdxlpsIndexChild]->SerializeToDXL(pxmlser);
+		(*pdxln)[EdxlpsIndexChild]->SerializeToDXL(xml_serializer);
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

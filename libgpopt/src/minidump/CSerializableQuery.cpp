@@ -33,18 +33,18 @@ CSerializableQuery::CSerializableQuery
 	(
 	IMemoryPool *pmp,
 	const CDXLNode *pdxlnQuery,
-	const DrgPdxln *pdrgpdxlnQueryOutput,
-	const DrgPdxln *pdrgpdxlnCTE
+	const DrgPdxln *query_output_dxlnode_array,
+	const DrgPdxln *cte_dxlnode_array
 	)
 	:
 	CSerializable(),
 	m_pmp(pmp),
 	m_pdxlnQuery(pdxlnQuery),
-	m_pdrgpdxlnQueryOutput(pdrgpdxlnQueryOutput),
-	m_pdrgpdxlnCTE(pdrgpdxlnCTE)
+	m_pdrgpdxlnQueryOutput(query_output_dxlnode_array),
+	m_pdrgpdxlnCTE(cte_dxlnode_array)
 {
 	GPOS_ASSERT(NULL != pdxlnQuery);
-	GPOS_ASSERT(NULL != pdrgpdxlnQueryOutput);
+	GPOS_ASSERT(NULL != query_output_dxlnode_array);
 }
 
 
@@ -82,7 +82,7 @@ CSerializableQuery::Serialize
 			m_pdrgpdxlnQueryOutput,
 			m_pdrgpdxlnCTE,
 			false /*fSerializeHeaders*/,
-			false /*fIndent*/
+			false /*indentation*/
 			);
 }
 

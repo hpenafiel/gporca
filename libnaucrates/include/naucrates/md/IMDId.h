@@ -203,7 +203,7 @@ namespace gpmd
 			
 			// serialize mdid in DXL as the value for the specified attribute 
 			virtual
-			void Serialize(CXMLSerializer *pxmlser, const CWStringConst *pstrAttribute) const = 0;
+			void Serialize(CXMLSerializer *xml_serializer, const CWStringConst *pstrAttribute) const = 0;
 
 			// debug print of the metadata id
 			virtual

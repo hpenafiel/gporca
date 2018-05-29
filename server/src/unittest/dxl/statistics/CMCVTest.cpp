@@ -126,17 +126,17 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 									);
 
 	// put stats object in an array in order to serialize
-	DrgPstats *pdrgpstats = GPOS_NEW(pmp) DrgPstats(pmp);
+	CStatisticsArray *pdrgpstats = GPOS_NEW(pmp) CStatisticsArray(pmp);
 	pdrgpstats->Append(pstats);
 
 	// serialize stats object
-	CWStringDynamic *pstrOutput = CDXLUtils::PstrSerializeStatistics(pmp, pmda, pdrgpstats, true, true);
+	CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(pmp, pmda, pdrgpstats, true, true);
 	GPOS_TRACE(pstrOutput->GetBuffer());
 
 	// get expected output
 	CWStringDynamic str(pmp);
 	COstreamString oss(&str);
-	CHAR *szDXLExpected = CDXLUtils::SzRead(pmp, szMCVSortExpectedFileName);
+	CHAR *szDXLExpected = CDXLUtils::Read(pmp, szMCVSortExpectedFileName);
 	CWStringDynamic dstrExpected(pmp);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXLExpected);
 
@@ -195,30 +195,30 @@ CMCVTest::EresUnittest_MergeHistMCV()
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		// read input MCVs DXL file
-		CHAR *szDXLInputMCV = CDXLUtils::SzRead(pmp, rgMergeTestElem[ul].szInputMCVFile);
+		CHAR *szDXLInputMCV = CDXLUtils::Read(pmp, rgMergeTestElem[ul].szInputMCVFile);
 		// read input histogram DXL file
-		CHAR *szDXLInputHist = CDXLUtils::SzRead(pmp, rgMergeTestElem[ul].szInputHistFile);
+		CHAR *szDXLInputHist = CDXLUtils::Read(pmp, rgMergeTestElem[ul].szInputHistFile);
 
 		GPOS_CHECK_ABORT;
 
 		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
 		// parse the stats objects
-		DrgPdxlstatsderrel *pdrgpdxlstatsderrelMCV = CDXLUtils::PdrgpdxlstatsderrelParseDXL(pmp, szDXLInputMCV, NULL);
-		DrgPdxlstatsderrel *pdrgpdxlstatsderrelHist = CDXLUtils::PdrgpdxlstatsderrelParseDXL(pmp, szDXLInputHist, NULL);
+		DrgPdxlstatsderrel *pdrgpdxlstatsderrelMCV = CDXLUtils::ParseDXLToStatsDerivedRelArray(pmp, szDXLInputMCV, NULL);
+		DrgPdxlstatsderrel *pdrgpdxlstatsderrelHist = CDXLUtils::ParseDXLToStatsDerivedRelArray(pmp, szDXLInputHist, NULL);
 
 		GPOS_CHECK_ABORT;
 
 		CDXLStatsDerivedRelation *pdxlstatsderrelMCV = (*pdrgpdxlstatsderrelMCV)[0];
 		const DrgPdxlstatsdercol *pdrgpdxlstatsdercolMCV = pdxlstatsderrelMCV->Pdrgpdxlstatsdercol();
 		CDXLStatsDerivedColumn *pdxlstatsdercolMCV = (*pdrgpdxlstatsdercolMCV)[0];
-		DrgPbucket *pdrgppbucketMCV = CDXLUtils::Pdrgpbucket(pmp, pmda, pdxlstatsdercolMCV);
+		DrgPbucket *pdrgppbucketMCV = CDXLUtils::ParseDXLToBucketsArray(pmp, pmda, pdxlstatsdercolMCV);
 		CHistogram *phistMCV =  GPOS_NEW(pmp) CHistogram(pdrgppbucketMCV);
 
 		CDXLStatsDerivedRelation *pdxlstatsderrelHist = (*pdrgpdxlstatsderrelHist)[0];
 		const DrgPdxlstatsdercol *pdrgpdxlstatsdercolHist = pdxlstatsderrelHist->Pdrgpdxlstatsdercol();
 		CDXLStatsDerivedColumn *pdxlstatsdercolHist = (*pdrgpdxlstatsdercolHist)[0];
-		DrgPbucket *pdrgppbucketHist = CDXLUtils::Pdrgpbucket(pmp, pmda, pdxlstatsdercolHist);
+		DrgPbucket *pdrgppbucketHist = CDXLUtils::ParseDXLToBucketsArray(pmp, pmda, pdxlstatsdercolHist);
 		CHistogram *phistHist =  GPOS_NEW(pmp) CHistogram(pdrgppbucketHist);
 
 		GPOS_CHECK_ABORT;
@@ -248,17 +248,17 @@ CMCVTest::EresUnittest_MergeHistMCV()
 										);
 
 		// put stats object in an array in order to serialize
-		DrgPstats *pdrgpstats = GPOS_NEW(pmp) DrgPstats(pmp);
+		CStatisticsArray *pdrgpstats = GPOS_NEW(pmp) CStatisticsArray(pmp);
 		pdrgpstats->Append(pstats);
 
 		// serialize stats object
-		CWStringDynamic *pstrOutput = CDXLUtils::PstrSerializeStatistics(pmp, pmda, pdrgpstats, true, true);
+		CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(pmp, pmda, pdrgpstats, true, true);
 		GPOS_TRACE(pstrOutput->GetBuffer());
 
 		// get expected output
 		CWStringDynamic str(pmp);
 		COstreamString oss(&str);
-		CHAR *szDXLExpected = CDXLUtils::SzRead(pmp, rgMergeTestElem[ul].szMergedFile);
+		CHAR *szDXLExpected = CDXLUtils::Read(pmp, rgMergeTestElem[ul].szMergedFile);
 		CWStringDynamic dstrExpected(pmp);
 		dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXLExpected);
 

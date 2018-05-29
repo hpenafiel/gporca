@@ -57,7 +57,7 @@ CDXLColStats::CDXLColStats
 {
 	GPOS_ASSERT(pmdidColStats->IsValid());
 	GPOS_ASSERT(NULL != pdrgpdxlbucket);
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -162,20 +162,20 @@ CDXLColStats::Pdxlbucket
 void
 CDXLColStats::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumnStats));
 	
-	m_pmdidColStats->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWidth), m_dWidth);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNullFreq), m_dNullFreq);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNdvRemain), m_dDistinctRemain);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColFreqRemain), m_dFreqRemain);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColStatsMissing), m_fColStatsMissing);
+	m_pmdidColStats->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWidth), m_dWidth);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNullFreq), m_dNullFreq);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNdvRemain), m_dDistinctRemain);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColFreqRemain), m_dFreqRemain);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColStatsMissing), m_fColStatsMissing);
 
 	GPOS_CHECK_ABORT;
 
@@ -183,12 +183,12 @@ CDXLColStats::Serialize
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
 		const CDXLBucket *pdxlbucket = Pdxlbucket(ul);
-		pdxlbucket->Serialize(pxmlser);
+		pdxlbucket->Serialize(xml_serializer);
 
 		GPOS_CHECK_ABORT;
 	}
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumnStats));
 }
 

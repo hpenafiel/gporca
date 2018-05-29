@@ -135,7 +135,7 @@ namespace gpdxl
 			DrgPctasOpt *Pdrgpctasopt() const;
 			
 			// serialize to DXL
-			void Serialize(CXMLSerializer *pxmlser) const;
+			void Serialize(CXMLSerializer *xml_serializer) const;
 	};
 }
 

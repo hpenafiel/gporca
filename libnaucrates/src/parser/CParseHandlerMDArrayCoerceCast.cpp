@@ -27,11 +27,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMDArrayCoerceCast::CParseHandlerMDArrayCoerceCast
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, pphm, pphRoot)
+	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot)
 {}
 
 // invoked by Xerces to process an opening tag
@@ -46,7 +46,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBArrayCoerceCast), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -160,7 +160,7 @@ CParseHandlerMDArrayCoerceCast::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBArrayCoerceCast), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

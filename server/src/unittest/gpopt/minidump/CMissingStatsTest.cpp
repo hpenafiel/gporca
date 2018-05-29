@@ -83,9 +83,9 @@ CMissingStatsTest::EresUnittest_RunTests()
 		ICostModel *pcm = CTestUtils::Pcm(pmp);
 		CAutoTraceFlag atf1(EopttracePrintColsWithMissingStats, true /*fVal*/);
 
-		COptimizerConfig *poconf = GPOS_NEW(pmp) COptimizerConfig
+		COptimizerConfig *optimizer_config = GPOS_NEW(pmp) COptimizerConfig
 												(
-												CEnumeratorConfig::Pec(pmp, 0 /*ullPlanId*/),
+												CEnumeratorConfig::Pec(pmp, 0 /*plan_id*/),
 												CStatisticsConfig::PstatsconfDefault(pmp),
 												CCTEConfig::PcteconfDefault(pmp),
 												pcm,
@@ -101,11 +101,11 @@ CMissingStatsTest::EresUnittest_RunTests()
 												GPOPT_TEST_SEGMENTS /*ulSegments*/,
 												1 /*ulSessionId*/,
 												1, /*ulCmdId*/
-												poconf,
+												optimizer_config,
 												NULL /*pceeval*/
 												);
 
-		CStatisticsConfig *pstatsconf = poconf->Pstatsconf();
+		CStatisticsConfig *pstatsconf = optimizer_config->Pstatsconf();
 
 		DrgPmdid *pdrgmdidCol = GPOS_NEW(pmp) DrgPmdid(pmp);
 		pstatsconf->CollectMissingStatsColumns(pdrgmdidCol);
@@ -130,7 +130,7 @@ CMissingStatsTest::EresUnittest_RunTests()
 		}
 
 		GPOS_CHECK_ABORT;
-		poconf->Release();
+		optimizer_config->Release();
 		pdxlnPlan->Release();
 
 		m_ulMissingStatsTestCounter++;

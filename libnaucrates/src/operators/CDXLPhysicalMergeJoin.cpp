@@ -78,25 +78,25 @@ CDXLPhysicalMergeJoin::PstrOpName() const
 void
 CDXLPhysicalMergeJoin::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 	
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), PstrJoinTypeName());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMergeJoinUniqueOuter), m_fUniqueOuter);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), PstrJoinTypeName());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMergeJoinUniqueOuter), m_fUniqueOuter);
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);		
 }
 
 #ifdef GPOS_DEBUG

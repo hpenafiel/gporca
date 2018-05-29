@@ -191,8 +191,8 @@ CStatisticsUtils::PhistMergeMcvHist
 	GPOS_ASSERT(0 < phistGPDBMcv->UlBuckets());
 	GPOS_ASSERT(0 < phistGPDBHist->UlBuckets());
 
-	const DrgPbucket *pdrgpbucketMCV = phistGPDBMcv->Pdrgpbucket();
-	const DrgPbucket *pdrgpbucketHist = phistGPDBHist->Pdrgpbucket();
+	const DrgPbucket *pdrgpbucketMCV = phistGPDBMcv->ParseDXLToBucketsArray();
+	const DrgPbucket *pdrgpbucketHist = phistGPDBHist->ParseDXLToBucketsArray();
 
 	IDatum *pdatum = (*pdrgpbucketMCV)[0]->PpLower()->Pdatum();
 

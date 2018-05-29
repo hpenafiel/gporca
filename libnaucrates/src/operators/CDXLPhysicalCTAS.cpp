@@ -129,72 +129,72 @@ CDXLPhysicalCTAS::PstrOpName() const
 void
 CDXLPhysicalCTAS::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	if (NULL != m_pmdnameSchema)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_pmdnameSchema->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_pmdnameSchema->Pstr());
 	}
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdnameRel->Pstr());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_fTemporary);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_fHasOids);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdnameRel->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_fTemporary);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_fHasOids);
 	GPOS_ASSERT(NULL != IMDRelation::PstrStorageType(m_erelstorage));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));
 
 	// serialize distribution columns
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), IMDRelation::PstrDistrPolicy(m_ereldistrpolicy));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), IMDRelation::PstrDistrPolicy(m_ereldistrpolicy));
 	
 	if (IMDRelation::EreldistrHash == m_ereldistrpolicy)
 	{
 		GPOS_ASSERT(NULL != m_pdrgpulDistr);
 		
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulDistr);
+		CWStringDynamic *pstrDistrColumns = CDXLUtils::Serialize(m_pmp, m_pdrgpulDistr);
 		GPOS_ASSERT(NULL != pstrDistrColumns);
 		
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenDistrColumns), pstrDistrColumns);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDistrColumns), pstrDistrColumns);
 		GPOS_DELETE(pstrDistrColumns);
 	}
 
 	// serialize input columns
-	CWStringDynamic *pstrCols = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulSource);
+	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_pmp, m_pdrgpulSource);
 	GPOS_ASSERT(NULL != pstrCols);
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrCols);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrCols);
 	GPOS_DELETE(pstrCols);
 	
 	// serialize vartypmod list
-	CWStringDynamic *pstrVarTypeModList = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpiVarTypeMod);
+	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_pmp, m_pdrgpiVarTypeMod);
 	GPOS_ASSERT(NULL != pstrVarTypeModList);
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenVarTypeModList), pstrVarTypeModList);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenVarTypeModList), pstrVarTypeModList);
 	GPOS_DELETE(pstrVarTypeModList);
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize column descriptors
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	
 	const ULONG ulArity = m_pdrgpdxlcd->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*m_pdrgpdxlcd)[ul];
-		pdxlcd->SerializeToDXL(pxmlser);
+		pdxlcd->SerializeToDXL(xml_serializer);
 	}
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 
-	m_pdxlctasopt->Serialize(pxmlser);
+	m_pdxlctasopt->Serialize(xml_serializer);
 	
 	// serialize arguments
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

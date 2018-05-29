@@ -118,30 +118,30 @@ CDXLLogicalWindow::Pdxlws
 void
 CDXLLogicalWindow::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// serialize the list of window specifications
 	const CWStringConst *pstrWindowSpecList = CDXLTokens::PstrToken(EdxltokenWindowSpecList);
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowSpecList);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowSpecList);
 	const ULONG ulSize = m_pdrgpdxlws->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CDXLWindowSpec *pdxlwinspec = (*m_pdrgpdxlws)[ul];
-		pdxlwinspec->SerializeToDXL(pxmlser);
+		pdxlwinspec->SerializeToDXL(xml_serializer);
 	}
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowSpecList);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowSpecList);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

@@ -131,18 +131,18 @@ CDXLSpoolInfo::PstrSpoolType() const
 void
 CDXLSpoolInfo::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_ulSpoolId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_ulSpoolId);
 	
 	const CWStringConst *pstrSpoolType = PstrSpoolType();
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolType), pstrSpoolType);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolType), pstrSpoolType);
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolMultiSlice), m_fMultiSlice);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolMultiSlice), m_fMultiSlice);
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_iExecutorSlice);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_iExecutorSlice);
 	
 
 }

@@ -40,11 +40,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMDType::CParseHandlerMDType
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, pphm, pphRoot),
+	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_pmdidOpEq(NULL),
@@ -132,7 +132,7 @@ CParseHandlerMDType::StartElement
 																EdxltokenMDType
 																);
 
-			CWStringDynamic *pstrTypeName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszTypeName);
+			CWStringDynamic *pstrTypeName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszTypeName);
 
 			// create a copy of the string in the CMDName constructor
 			m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrTypeName);

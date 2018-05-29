@@ -104,42 +104,42 @@ CDXLPhysicalSplit::PstrOpName() const
 void
 CDXLPhysicalSplit::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	CWStringDynamic *pstrColsDel = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulDelete);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenDeleteCols), pstrColsDel);
+	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_pmp, m_pdrgpulDelete);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDeleteCols), pstrColsDel);
 	GPOS_DELETE(pstrColsDel);
 
-	CWStringDynamic *pstrColsIns = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulInsert);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrColsIns);
+	CWStringDynamic *pstrColsIns = CDXLUtils::Serialize(m_pmp, m_pdrgpulInsert);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrColsIns);
 	GPOS_DELETE(pstrColsIns);
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenActionColId), m_ulAction);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ulCtid);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_ulSegmentId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenActionColId), m_ulAction);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ulCtid);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_ulSegmentId);
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_fPreserveOids);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_fPreserveOids);
 
 	if (m_fPreserveOids)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_ulTupleOid);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_ulTupleOid);
 	}
 	
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize project list
-	(*pdxln)[0]->SerializeToDXL(pxmlser);
+	(*pdxln)[0]->SerializeToDXL(xml_serializer);
 
 	// serialize physical child
-	(*pdxln)[1]->SerializeToDXL(pxmlser);
+	(*pdxln)[1]->SerializeToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

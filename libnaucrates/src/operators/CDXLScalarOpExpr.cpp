@@ -163,7 +163,7 @@ CDXLScalarOpExpr::FBoolean
 void
 CDXLScalarOpExpr::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
@@ -173,17 +173,17 @@ CDXLScalarOpExpr::SerializeToDXL
 	const CWStringConst *pstrElemName = PstrOpName();
 	const CWStringConst *pstrOpName = PstrScalarOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), pstrOpName);
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenOpNo));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), pstrOpName);
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 	
 	if (NULL != m_pmdidReturnType)
 	{
-		m_pmdidReturnType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenOpType));
+		m_pmdidReturnType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpType));
 	}
 	
-	pdxln->SerializeChildrenToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	GPOS_CHECK_ABORT;
 }

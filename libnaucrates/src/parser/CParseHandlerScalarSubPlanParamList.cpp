@@ -35,11 +35,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarSubPlanParamList::CParseHandlerScalarSubPlanParamList
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot)
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot)
 {
 	m_pdrgdxlcr = GPOS_NEW(pmp) DrgPdxlcr(pmp);
 	m_fParamList = false;
@@ -98,7 +98,7 @@ CParseHandlerScalarSubPlanParamList::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -121,7 +121,7 @@ CParseHandlerScalarSubPlanParamList::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), xmlszLocalname) && NULL != m_pdxln)
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

@@ -107,46 +107,46 @@ CDXLScalarArrayRef::ITypeModifier() const
 void
 CDXLScalarArrayRef::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidElem->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenArrayElementType));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayElementType));
 	if (IDefaultTypeModifier != ITypeModifier())
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
 	}
-	m_pmdidArray->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenArrayType));
-	m_pmdidReturn->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayType));
+	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	// serialize child nodes
 	const ULONG ulArity = pdxln->UlArity();
 	GPOS_ASSERT(3 == ulArity || 4 == ulArity);
 
 	// first 2 children are index lists
-	(*pdxln)[0]->SerializeToDXL(pxmlser);
-	(*pdxln)[1]->SerializeToDXL(pxmlser);
+	(*pdxln)[0]->SerializeToDXL(xml_serializer);
+	(*pdxln)[1]->SerializeToDXL(xml_serializer);
 
 	// 3rd child is the ref expression
 	const CWStringConst *pstrRefExpr = CDXLTokens::PstrToken(EdxltokenScalarArrayRefExpr);
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrRefExpr);
-	(*pdxln)[2]->SerializeToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrRefExpr);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrRefExpr);
+	(*pdxln)[2]->SerializeToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrRefExpr);
 
 	// 4th child is the optional assign expression
 	const CWStringConst *pstrAssignExpr = CDXLTokens::PstrToken(EdxltokenScalarArrayRefAssignExpr);
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrAssignExpr);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrAssignExpr);
 	if (4 == ulArity)
 	{
-		(*pdxln)[3]->SerializeToDXL(pxmlser);
+		(*pdxln)[3]->SerializeToDXL(xml_serializer);
 	}
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrAssignExpr);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrAssignExpr);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 //---------------------------------------------------------------------------

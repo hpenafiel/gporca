@@ -222,20 +222,20 @@ CExpression *
 CTranslatorDXLToExpr::Pexpr
 	(
 	const CDXLNode *pdxln,
-	const DrgPdxln *pdrgpdxlnQueryOutput,
-	const DrgPdxln *pdrgpdxlnCTE
+	const DrgPdxln *query_output_dxlnode_array,
+	const DrgPdxln *cte_dxlnode_array
 	)
 {
 	GPOS_ASSERT(NULL == m_pdrgpulOutputColRefs);
 	GPOS_ASSERT(NULL == m_phmulpdxlnCTEProducer);
 	GPOS_ASSERT(NULL != pdxln && NULL != pdxln->Pdxlop());
-	GPOS_ASSERT(NULL != pdrgpdxlnQueryOutput);
+	GPOS_ASSERT(NULL != query_output_dxlnode_array);
 	
 	m_phmulpdxlnCTEProducer = GPOS_NEW(m_pmp) HMUlPdxln(m_pmp);
-	const ULONG ulCTEs = pdrgpdxlnCTE->Size();
+	const ULONG ulCTEs = cte_dxlnode_array->Size();
 	for (ULONG ul = 0; ul < ulCTEs; ul++)
 	{
-		CDXLNode *pdxlnCTE = (*pdrgpdxlnCTE)[ul];
+		CDXLNode *pdxlnCTE = (*cte_dxlnode_array)[ul];
 		CDXLLogicalCTEProducer *pdxlopCTEProducer = CDXLLogicalCTEProducer::PdxlopConvert(pdxlnCTE->Pdxlop());
 
 		pdxlnCTE->AddRef();
@@ -259,10 +259,10 @@ CTranslatorDXLToExpr::Pexpr
 
 	BOOL fGenerateRequiredColumns = COperator::EopLogicalUpdate != pexpr->Pop()->Eopid();
 	
-	const ULONG ulLen = pdrgpdxlnQueryOutput->Size();
+	const ULONG ulLen = query_output_dxlnode_array->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		CDXLNode *pdxlnIdent = (*pdrgpdxlnQueryOutput)[ul];
+		CDXLNode *pdxlnIdent = (*query_output_dxlnode_array)[ul];
 
 		// get dxl scalar identifier
 		CDXLScalarIdent *pdxlopIdent = CDXLScalarIdent::PdxlopConvert(pdxlnIdent->Pdxlop());
@@ -342,13 +342,13 @@ CExpression *
 CTranslatorDXLToExpr::PexprTranslateQuery
 	(
 	const CDXLNode *pdxln,
-	const DrgPdxln *pdrgpdxlnQueryOutput,
-	const DrgPdxln *pdrgpdxlnCTE
+	const DrgPdxln *query_output_dxlnode_array,
+	const DrgPdxln *cte_dxlnode_array
 	)
 {
 	CAutoTimer at("\n[OPT]: DXL To Expr Translation Time", GPOS_FTRACE(EopttracePrintOptimizationStatistics));
 
-	return Pexpr(pdxln, pdrgpdxlnQueryOutput, pdrgpdxlnCTE);
+	return Pexpr(pdxln, query_output_dxlnode_array, cte_dxlnode_array);
 }
 
 //---------------------------------------------------------------------------

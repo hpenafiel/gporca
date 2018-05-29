@@ -53,7 +53,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	GPOS_ASSERT(m_pmdidOp->IsValid());
 	GPOS_ASSERT(IMDType::EcmptOther != m_ecmpt);
 
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -171,24 +171,24 @@ CMDScCmpGPDB::Ecmpt() const
 void
 CMDScCmpGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBMDScCmp));
 	
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
 
-	m_pmdidLeft->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpLeftTypeId));
-	m_pmdidRight->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpRightTypeId));
-	m_pmdidOp->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_pmdidLeft->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpLeftTypeId));
+	m_pmdidRight->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpRightTypeId));
+	m_pmdidOp->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBMDScCmp));
 
 	GPOS_CHECK_ABORT;

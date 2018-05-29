@@ -63,7 +63,7 @@ namespace gpdxl
 			CParseHandlerScalarSubqueryExists
 				(
 				IMemoryPool *pmp,
-				CParseHandlerManager *pphm,
+				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
 	};

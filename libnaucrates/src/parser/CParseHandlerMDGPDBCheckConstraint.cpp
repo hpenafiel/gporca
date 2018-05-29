@@ -40,11 +40,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMDGPDBCheckConstraint::CParseHandlerMDGPDBCheckConstraint
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, pphm, pphRoot),
+	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_pmdidRel(NULL)
@@ -70,7 +70,7 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -82,7 +82,7 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 
 	// parse check constraint name
 	const XMLCh *xmlszColName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCheckConstraint);
-	CWStringDynamic *pstrColName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszColName);
+	CWStringDynamic *pstrColName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszColName);
 
 	// create a copy of the string in the CMDName constructor
 	m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrColName);
@@ -117,7 +117,7 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

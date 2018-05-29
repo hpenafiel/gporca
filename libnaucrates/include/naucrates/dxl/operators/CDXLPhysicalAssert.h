@@ -70,7 +70,7 @@ namespace gpdxl
 			
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *pxmlser, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

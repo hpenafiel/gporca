@@ -64,7 +64,7 @@ CMDTypeBoolGPDB::CMDTypeBoolGPDB
 	m_pmdidSum = GPOS_NEW(pmp) CMDIdGPDB(GPDB_BOOL_AGG_SUM);
 	m_pmdidCount = GPOS_NEW(pmp) CMDIdGPDB(GPDB_BOOL_AGG_COUNT);
 
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 
 	m_pmdid->AddRef();
 
@@ -228,11 +228,11 @@ CMDTypeBoolGPDB::Mdname() const
 void
 CMDTypeBoolGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	CGPDBTypeHelper<CMDTypeBoolGPDB>::Serialize(pxmlser, this);
+	CGPDBTypeHelper<CMDTypeBoolGPDB>::Serialize(xml_serializer, this);
 }
 
 

@@ -373,18 +373,18 @@ PvExec
 		CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(pmp, szFileName);
 		GPOS_CHECK_ABORT;
 
-		COptimizerConfig *poconf = pdxlmd->Poconf();
+		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
 
-		if (NULL == poconf)
+		if (NULL == optimizer_config)
 		{
-			poconf = COptimizerConfig::PoconfDefault(pmp);
+			optimizer_config = COptimizerConfig::PoconfDefault(pmp);
 		}
 		else
 		{
-			poconf -> AddRef();
+			optimizer_config -> AddRef();
 		}
 
-		ULONG ulSegments = CTestUtils::UlSegments(poconf);
+		ULONG ulSegments = CTestUtils::UlSegments(optimizer_config);
 
 		CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 								(
@@ -393,12 +393,12 @@ PvExec
 								ulSegments,
 								1 /*ulSessionId*/,
 								1 /*ulCmdId*/,
-								poconf,
+								optimizer_config,
 								NULL /*pceeval*/
 								);
 
 		GPOS_DELETE(pdxlmd);
-		poconf->Release();
+		optimizer_config->Release();
 		pdxlnPlan->Release();
 		CMDCache::Shutdown();
 	}

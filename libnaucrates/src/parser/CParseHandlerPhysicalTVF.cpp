@@ -37,11 +37,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerPhysicalTVF::CParseHandlerPhysicalTVF
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerPhysicalOp(pmp, pphm, pphRoot),
+	CParseHandlerPhysicalOp(pmp, parse_handler_mgr, pphRoot),
 	m_pmdidFunc(NULL),
 	m_pmdidRetType(NULL),
 	m_pstr(NULL)
@@ -78,7 +78,7 @@ CParseHandlerPhysicalTVF::StartElement
 																EdxltokenPhysicalTVF
 																);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszFuncName);
+		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszFuncName);
 		m_pstr = GPOS_NEW(m_pmp) CWStringConst(m_pmp, pstrFuncName->GetBuffer());
 		GPOS_DELETE(pstrFuncName);
 
@@ -128,7 +128,7 @@ CParseHandlerPhysicalTVF::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalTVF), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

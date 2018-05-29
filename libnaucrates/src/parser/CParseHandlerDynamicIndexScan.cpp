@@ -44,11 +44,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerDynamicIndexScan::CParseHandlerDynamicIndexScan
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerIndexScan(pmp, pphm, pphRoot),
+	CParseHandlerIndexScan(pmp, parse_handler_mgr, pphRoot),
 	m_ulPartIndexId(0),
 	m_ulPartIndexIdPrintable(0)
 {

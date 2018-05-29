@@ -45,10 +45,10 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerDXL::CParseHandlerDXL
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm
+	CParseHandlerManager *parse_handler_mgr
 	)
 	:
-	CParseHandlerBase(pmp, pphm, NULL),
+	CParseHandlerBase(pmp, parse_handler_mgr, NULL),
 	m_pbs(NULL),
 	m_poconf(NULL),
 	m_pmdr(NULL),
@@ -62,8 +62,8 @@ CParseHandlerDXL::CParseHandlerDXL
 	m_pdrgpsysid(NULL),
 	m_pdrgpdxlstatsderrel(NULL),
 	m_pdrgpss(NULL),
-	m_ullPlanId(ULLONG_MAX),
-	m_ullPlanSpaceSize(ULLONG_MAX),
+	m_plan_id(ULLONG_MAX),
+	m_plan_space_size(ULLONG_MAX),
 	m_pcp(NULL)
 {}
 
@@ -291,7 +291,7 @@ CParseHandlerDXL::Pdrgpss() const
 ULLONG
 CParseHandlerDXL::UllPlanId() const
 {
-	return m_ullPlanId;
+	return m_plan_id;
 }
 
 
@@ -306,7 +306,7 @@ CParseHandlerDXL::UllPlanId() const
 ULLONG
 CParseHandlerDXL::UllPlanSpaceSize() const
 {
-	return m_ullPlanSpaceSize;
+	return m_plan_space_size;
 }
 
 
@@ -566,8 +566,8 @@ CParseHandlerDXL::ExtractDXLPlan
 	m_pdxlnPlan = pphPlan->Pdxln();
 	m_pdxlnPlan->AddRef();
 
-	m_ullPlanId = pphPlan->UllId();
-	m_ullPlanSpaceSize = pphPlan->UllSpaceSize();
+	m_plan_id = pphPlan->UllId();
+	m_plan_space_size = pphPlan->UllSpaceSize();
 }
 
 //---------------------------------------------------------------------------
@@ -618,11 +618,11 @@ CParseHandlerDXL::ExtractStats
 	CParseHandlerStatistics *pphStats = dynamic_cast<CParseHandlerStatistics *>(pph);
 	GPOS_ASSERT(NULL != pphStats);
 
-	DrgPdxlstatsderrel *pdrgpdxlstatsderrel = pphStats->Pdrgpdxlstatsderrel();
-	GPOS_ASSERT(NULL != pdrgpdxlstatsderrel);
+	DrgPdxlstatsderrel *dxl_derived_rel_stats_array = pphStats->Pdrgpdxlstatsderrel();
+	GPOS_ASSERT(NULL != dxl_derived_rel_stats_array);
 
-	pdrgpdxlstatsderrel->AddRef();
-	m_pdrgpdxlstatsderrel = pdrgpdxlstatsderrel;
+	dxl_derived_rel_stats_array->AddRef();
+	m_pdrgpdxlstatsderrel = dxl_derived_rel_stats_array;
 }
 
 //---------------------------------------------------------------------------

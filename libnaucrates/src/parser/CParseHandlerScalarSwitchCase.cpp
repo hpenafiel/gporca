@@ -31,11 +31,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarSwitchCase::CParseHandlerScalarSwitchCase
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot)
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot)
 {
 }
 
@@ -58,7 +58,7 @@ CParseHandlerScalarSwitchCase::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -96,7 +96,7 @@ CParseHandlerScalarSwitchCase::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

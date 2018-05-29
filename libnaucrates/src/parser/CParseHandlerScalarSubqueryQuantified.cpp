@@ -32,11 +32,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarSubqueryQuantified::CParseHandlerScalarSubqueryQuantified
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot),
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
 	m_pdxlop(NULL)
 {
 }
@@ -70,7 +70,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	}
 	else if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAll), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -91,7 +91,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 										edxltokenElement
 										);
 	
-	CWStringDynamic *pstrScalarOpName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszScalarOpName);
+	CWStringDynamic *pstrScalarOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszScalarOpName);
 	CMDName *pmdnameScalarOp = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrScalarOpName);
 	GPOS_DELETE(pstrScalarOpName);
 		
@@ -144,7 +144,7 @@ CParseHandlerScalarSubqueryQuantified::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAll), xmlszLocalname) &&
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAny), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

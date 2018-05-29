@@ -199,7 +199,7 @@ CCardinalityTestUtils::PpointNumeric
 	const IMDType *pmdtype = pmda->Pmdtype(pmdid);
 
 	ULONG ulbaSize = 0;
-	BYTE *pba = CDXLUtils::PByteArrayFromStr(pmp, pstrEncodedValue, &ulbaSize);
+	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(pmp, pstrEncodedValue, &ulbaSize);
 
 	CDXLDatumStatsDoubleMappable *pdxldatum = GPOS_NEW(pmp) CDXLDatumStatsDoubleMappable
 											(

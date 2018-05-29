@@ -47,7 +47,7 @@ namespace gpdxl
 		protected:
 
 			// serialize statistics in DXL format
-			void SerializeStatsToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeStatsToDXL(CXMLSerializer *xml_serializer) const;
 
 		public:
 
@@ -75,7 +75,7 @@ namespace gpdxl
 
 			// serialize properties in DXL format
 			virtual
-			void SerializePropertiesToDXL(CXMLSerializer *pxmlser) const;
+			void SerializePropertiesToDXL(CXMLSerializer *xml_serializer) const;
 	};
 
 }

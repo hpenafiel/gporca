@@ -436,7 +436,7 @@ CEngine::DeriveStats
 	CWStringDynamic str(m_pmp);
 	COstreamString oss (&str);
 	oss << "\n[OPT]: Statistics Derivation Time (stage " << m_ulCurrSearchStage <<") ";
-	CHAR *sz = CUtils::SzFromWsz(m_pmp, const_cast<WCHAR *>(str.GetBuffer()));
+	CHAR *sz = CUtils::CreateMultiByteCharStringFromWCString(m_pmp, const_cast<WCHAR *>(str.GetBuffer()));
 
 	{
 		CAutoTimer at(sz, GPOS_FTRACE(EopttracePrintOptimizationStatistics));
@@ -690,7 +690,7 @@ CEngine::FSafeToPrune
 MemoTreeMap *
 CEngine::Pmemotmap()
 {
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
 
 	if (NULL == m_pmemo->Pmemotmap())
 	{
@@ -706,7 +706,7 @@ CEngine::Pmemotmap()
 						);
 
 		m_pmemo->BuildTreeMap(poc);
-		poconf->Pec()->SetPlanSpaceSize(m_pmemo->Pmemotmap()->UllCount());
+		optimizer_config->Pec()->SetPlanSpaceSize(m_pmemo->Pmemotmap()->UllCount());
 
 		poc->Release();
 	}
@@ -1325,7 +1325,7 @@ CEngine::Implement()
 void
 CEngine::RecursiveOptimize()
 {
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
 
 	CAutoTimer at("\n[OPT]: Total Optimization Time", GPOS_FTRACE(EopttracePrintOptimizationStatistics));
 
@@ -1380,7 +1380,7 @@ CEngine::RecursiveOptimize()
 		atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_pdrgpss->Size();
 	}
 
-	if (poconf->Pec()->FSample())
+	if (optimizer_config->Pec()->FSample())
 	{
 		SamplePlans();
 	}
@@ -1678,7 +1678,7 @@ CEngine::ProcessTraceFlags()
 void
 CEngine::Optimize()
 {
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
 
 	CAutoTimer at("\n[OPT]: Total Optimization Time", GPOS_FTRACE(EopttracePrintOptimizationStatistics));
 
@@ -1699,7 +1699,7 @@ CEngine::Optimize()
 		}
 	}
 
-	if (poconf->Pec()->FSample())
+	if (optimizer_config->Pec()->FSample())
 	{
 		SamplePlans();
 	}
@@ -1880,19 +1880,19 @@ CEngine::MultiThreadedOptimize
 CExpression *
 CEngine::PexprUnrank
 	(
-	ULLONG ullPlanId
+	ULLONG plan_id
 	)
 {
 	// The CTE map will be updated by the Producer instead of the Sequence operator
 	// because we are doing a DFS traversal of the TreeMap.
 	CDrvdPropCtxtPlan *pdpctxtplan = GPOS_NEW(m_pmp) CDrvdPropCtxtPlan(m_pmp, false /*fUpdateCTEMap*/);
-	CExpression *pexpr = Pmemotmap()->PrUnrank(m_pmp, pdpctxtplan, ullPlanId);
+	CExpression *pexpr = Pmemotmap()->PrUnrank(m_pmp, pdpctxtplan, plan_id);
 	pdpctxtplan->Release();
 
 #ifdef GPOS_DEBUG
 	// check plan using configured plan checker, if any
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
-	CEnumeratorConfig *pec = poconf->Pec();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	CEnumeratorConfig *pec = optimizer_config->Pec();
 	BOOL fCheck = pec->FCheckPlan(pexpr);
 	if (!fCheck)
 	{
@@ -1921,8 +1921,8 @@ CEngine::PexprExtractPlan()
 	GPOS_ASSERT(NULL != m_pmemo->PgroupRoot());
 
 	BOOL fGenerateAlt = false;
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
-	CEnumeratorConfig *pec = poconf->Pec();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	CEnumeratorConfig *pec = optimizer_config->Pec();
 	if (pec->FEnumerate())
 	{
 		CAutoTrace at(m_pmp);
@@ -1985,14 +1985,14 @@ CEngine::UllRandomPlanId
 	)
 {
 	ULLONG ullCount = Pmemotmap()->UllCount();
-	ULLONG ullPlanId = 0;
+	ULLONG plan_id = 0;
 	do
 	{
-		ullPlanId = clib::Rand(pulSeed);
+		plan_id = clib::Rand(pulSeed);
 	}
-	while (ullPlanId >= ullCount);
+	while (plan_id >= ullCount);
 
-	return ullPlanId;
+	return plan_id;
 }
 
 //---------------------------------------------------------------------------
@@ -2008,7 +2008,7 @@ BOOL
 CEngine::FValidPlanSample
 	(
 	CEnumeratorConfig *pec,
-	ULLONG ullPlanId,
+	ULLONG plan_id,
 	CExpression **ppexpr // output: extracted plan
 	)
 {
@@ -2022,7 +2022,7 @@ CEngine::FValidPlanSample
 		// we extract plan and catch invalid plan exception here
 		GPOS_TRY
 		{
-			*ppexpr = PexprUnrank(ullPlanId);
+			*ppexpr = PexprUnrank(plan_id);
 		}
 		GPOS_CATCH_EX(ex)
 		{
@@ -2042,7 +2042,7 @@ CEngine::FValidPlanSample
 	else
 	{
 		// otherwise, we extract plan and leave exception handling to the caller
-		*ppexpr = PexprUnrank(ullPlanId);
+		*ppexpr = PexprUnrank(plan_id);
 	}
 
 	return fValidPlan;
@@ -2060,10 +2060,10 @@ CEngine::FValidPlanSample
 void
 CEngine::SamplePlans()
 {
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
-	GPOS_ASSERT(NULL != poconf);
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	GPOS_ASSERT(NULL != optimizer_config);
 
-	CEnumeratorConfig *pec = poconf->Pec();
+	CEnumeratorConfig *pec = optimizer_config->Pec();
 
 	ULLONG ullSamples = pec->UllInputSamples();
 	GPOS_ASSERT(0 < ullSamples);
@@ -2113,19 +2113,19 @@ CEngine::SamplePlans()
 	while (ullIters < ullMaxIters && ull < ullTargetSamples)
 	{
 		// generate id of plan to be extracted
-		ULLONG ullPlanId = ull;
+		ULLONG plan_id = ull;
 		if (!fGenerateAll)
 		{
-			ullPlanId = UllRandomPlanId(&ulSeed);
+			plan_id = UllRandomPlanId(&ulSeed);
 		}
 
 		pexpr = NULL;
 		BOOL fAccept = false;
-		if (FValidPlanSample(pec, ullPlanId, &pexpr))
+		if (FValidPlanSample(pec, plan_id, &pexpr))
 		{
 			// add plan to the sample if it is below cost threshold
 			CCost cost = pexpr->Cost();
-			fAccept = pec->FAddSample(ullPlanId, cost);
+			fAccept = pec->FAddSample(plan_id, cost);
 			pexpr->Release();
 		}
 

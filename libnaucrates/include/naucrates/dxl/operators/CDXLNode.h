@@ -152,7 +152,7 @@ namespace gpdxl
 				CDXLNode *pdxlnChild
 				);
 
-			void SerializeChildrenToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeChildrenToDXL(CXMLSerializer *xml_serializer) const;
 
 			// setter
 			void SetProperties(CDXLProperties *pdxlprop);
@@ -161,7 +161,7 @@ namespace gpdxl
 			void SetDirectDispatchInfo(CDXLDirectDispatchInfo *pdxlddinfo);
 			
 			// serialize properties in DXL format
-			void SerializePropertiesToDXL(CXMLSerializer *pxmlser) const;
+			void SerializePropertiesToDXL(CXMLSerializer *xml_serializer) const;
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

@@ -96,25 +96,25 @@ CDXLLogicalInsert::PstrOpName() const
 void
 CDXLLogicalInsert::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	CWStringDynamic *pstrCols = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpul);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrCols);
+	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_pmp, m_pdrgpul);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrCols);
 	GPOS_DELETE(pstrCols);
 
 	// serialize table descriptor
-	m_pdxltabdesc->SerializeToDXL(pxmlser);
+	m_pdxltabdesc->SerializeToDXL(xml_serializer);
 	
 	// serialize arguments
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

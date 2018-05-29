@@ -122,13 +122,13 @@ COptimizer::DumpSamples
 {
 	GPOS_ASSERT(NULL != pec);
 
-	CWStringDynamic *pstr = CDXLUtils::PstrSerializeSamplePlans(pmp, pec, true /*fIndent*/);
+	CWStringDynamic *pstr = CDXLUtils::SerializeSamplePlans(pmp, pec, true /*indentation*/);
 	pec->DumpSamples(pstr, ulSessionId, ulCmdId);
 	GPOS_DELETE(pstr);
 	GPOS_CHECK_ABORT;
 
 	pec->FitCostDistribution();
-	pstr = CDXLUtils::PstrSerializeCostDistr(pmp, pec, true /*fIndent*/);
+	pstr = CDXLUtils::SerializeCostDistr(pmp, pec, true /*indentation*/);
 	pec->DumpCostDistr(pstr, ulSessionId, ulCmdId);
 	GPOS_DELETE(pstr);
 }
@@ -184,21 +184,21 @@ COptimizer::PdxlnOptimize
 	IMemoryPool *pmp, 
 	CMDAccessor *pmda,
 	const CDXLNode *pdxlnQuery,
-	const DrgPdxln *pdrgpdxlnQueryOutput, 
-	const DrgPdxln *pdrgpdxlnCTE, 
+	const DrgPdxln *query_output_dxlnode_array, 
+	const DrgPdxln *cte_dxlnode_array, 
 	IConstExprEvaluator *pceeval,
 	ULONG ulHosts,	// actual number of data nodes in the system
 	ULONG ulSessionId,
 	ULONG ulCmdId,
 	DrgPss *pdrgpss,
-	COptimizerConfig *poconf,
+	COptimizerConfig *optimizer_config,
 	const CHAR *szMinidumpFileName 	// name of minidump file to be created
 	)
 {
 	GPOS_ASSERT(NULL != pmda);
 	GPOS_ASSERT(NULL != pdxlnQuery);
-	GPOS_ASSERT(NULL != pdrgpdxlnQueryOutput);
-	GPOS_ASSERT(NULL != poconf);
+	GPOS_ASSERT(NULL != query_output_dxlnode_array);
+	GPOS_ASSERT(NULL != optimizer_config);
 
 	BOOL fMinidump = GPOS_FTRACE(EopttraceMinidump);
 
@@ -227,23 +227,23 @@ COptimizer::PdxlnOptimize
 	GPOS_TRY_HDL(&errhdl)
 	{
 		CSerializableStackTrace serStack;
-		CSerializableOptimizerConfig serOptConfig(pmp, poconf);
+		CSerializableOptimizerConfig serOptConfig(pmp, optimizer_config);
 		CSerializableMDAccessor serMDA(pmda);
-		CSerializableQuery serQuery(pmp, pdxlnQuery, pdrgpdxlnQueryOutput, pdrgpdxlnCTE);
+		CSerializableQuery serQuery(pmp, pdxlnQuery, query_output_dxlnode_array, cte_dxlnode_array);
 
 		{			
-			poconf->AddRef();
+			optimizer_config->AddRef();
 			if (NULL != pceeval)
 			{
 				pceeval->AddRef();
 			}
 
 			// install opt context in TLS
-			CAutoOptCtxt aoc(pmp, pmda, pceeval, poconf);
+			CAutoOptCtxt aoc(pmp, pmda, pceeval, optimizer_config);
 
 			// translate DXL Tree -> Expr Tree
 			CTranslatorDXLToExpr dxltr(pmp, pmda);
-			CExpression *pexprTranslated =	dxltr.PexprTranslateQuery(pdxlnQuery, pdrgpdxlnQueryOutput, pdrgpdxlnCTE);
+			CExpression *pexprTranslated =	dxltr.PexprTranslateQuery(pdxlnQuery, query_output_dxlnode_array, cte_dxlnode_array);
 			GPOS_CHECK_ABORT;
 			gpdxl::ULongPtrArray *pdrgpul = dxltr.PdrgpulOutputColRefs();
 			gpmd::DrgPmdname *pdrgpmdname = dxltr.Pdrgpmdname();
@@ -259,7 +259,7 @@ COptimizer::PdxlnOptimize
 			// if the number of inlinable CTEs is greater than the cutoff, then
 			// disable inlining for this query
 			if (!GPOS_FTRACE(EopttraceEnableCTEInlining) ||
-				CUtils::UlInlinableCTEs(pexprTranslated) > poconf->Pcteconf()->UlCTEInliningCutoff())
+				CUtils::UlInlinableCTEs(pexprTranslated) > optimizer_config->Pcteconf()->UlCTEInliningCutoff())
 			{
 				COptCtxt::PoctxtFromTLS()->Pcteinfo()->DisableInlining();
 			}
@@ -277,14 +277,14 @@ COptimizer::PdxlnOptimize
 
 			if (fMinidump)
 			{
-				CSerializablePlan serPlan(pmp, pdxlnPlan, poconf->Pec()->UllPlanId(), poconf->Pec()->UllPlanSpaceSize());
+				CSerializablePlan serPlan(pmp, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize());
 				CMinidumperUtils::Finalize(&mdmp, true /* fSerializeErrCtxt*/);
 				GPOS_CHECK_ABORT;
 			}
 			
 			if (GPOS_FTRACE(EopttraceSamplePlans))
 			{
-				DumpSamples(pmp, poconf->Pec(), ulSessionId, ulCmdId);
+				DumpSamples(pmp, optimizer_config->Pec(), ulSessionId, ulCmdId);
 				GPOS_CHECK_ABORT;
 			}
 

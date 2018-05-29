@@ -153,7 +153,7 @@ CSearchStrategyTest::EresUnittest_Parsing()
 {
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
-	CParseHandlerDXL *pphDXL = CDXLUtils::PphdxlParseDXLFile(pmp,"../data/dxl/search/strategy0.xml", NULL);
+	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(pmp,"../data/dxl/search/strategy0.xml", NULL);
 	DrgPss *pdrgpss = pphDXL->Pdrgpss();
 	const ULONG ulSize = pdrgpss->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
@@ -185,7 +185,7 @@ CSearchStrategyTest::EresUnittest_Timeout()
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
 	CAutoTraceFlag atf(EopttracePrintOptimizationStatistics, true);
-	CParseHandlerDXL *pphDXL = CDXLUtils::PphdxlParseDXLFile(pmp,"../data/dxl/search/timeout-strategy.xml", NULL);
+	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(pmp,"../data/dxl/search/timeout-strategy.xml", NULL);
 	DrgPss *pdrgpss = pphDXL->Pdrgpss();
 	pdrgpss->AddRef();
 	Optimize(pmp, CTestUtils::PexprLogicalNAryJoin, pdrgpss, CSchedulerTest::BuildMemoMultiThreaded);
@@ -210,7 +210,7 @@ CSearchStrategyTest::EresUnittest_ParsingWithException()
 
 	CAutoMemoryPool amp;
 	IMemoryPool *pmp = amp.Pmp();
-	CParseHandlerDXL *pphDXL = CDXLUtils::PphdxlParseDXLFile(pmp,"../data/dxl/search/wrong-strategy.xml", NULL);
+	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(pmp,"../data/dxl/search/wrong-strategy.xml", NULL);
 	GPOS_DELETE(pphDXL);
 
 	return GPOS_OK;

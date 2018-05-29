@@ -141,19 +141,19 @@ CDXLScalarSortCol::FSortNullsFirst() const
 void
 CDXLScalarSortCol::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *// pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulColId);
-	m_pmdidSortOp->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenSortOpId));	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenSortOpName), m_pstrSortOpName);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenSortNullsFirst), m_fSortNullsFirst);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulColId);
+	m_pmdidSortOp->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenSortOpId));	
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSortOpName), m_pstrSortOpName);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSortNullsFirst), m_fSortNullsFirst);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

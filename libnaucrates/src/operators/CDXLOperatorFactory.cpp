@@ -89,7 +89,7 @@ CDXLOperatorFactory::PdxlopSubqScan
 								EdxltokenPhysicalSubqueryScan
 								);
 
-	CWStringDynamic *pstrAlias = CDXLUtils::PstrFromXMLCh(pmm,xmlszAlias);
+	CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm,xmlszAlias);
 	
 
 	// create a copy of the string in the CMDName constructor
@@ -669,7 +669,7 @@ CDXLOperatorFactory::PdxlopScalarCmp
 	IMDId *pmdidOpNo = PmdidFromAttrs(pmm, attrs, EdxltokenOpNo, EdxltokenScalarComp);
 	
 	// parse comparison operator from string
-	CWStringDynamic *pstrCompOpName = CDXLUtils::PstrFromXMLCh(pmm, xmlszCmpOp);
+	CWStringDynamic *pstrCompOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszCmpOp);
 
 	
 	// copy dynamic string into const string
@@ -747,7 +747,7 @@ CDXLOperatorFactory::PdxlopOpExpr
 		pmdidReturnType = PmdidFromAttrs(pmm, attrs, EdxltokenOpType, EdxltokenScalarOpExpr);
 	}
 	
-	CWStringDynamic *pstrValue = CDXLUtils::PstrFromXMLCh(pmm, xmlszOpName);
+	CWStringDynamic *pstrValue = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszOpName);
 	CWStringConst *pstrValueCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrValue->GetBuffer());
 	GPOS_DELETE(pstrValue);
 
@@ -814,7 +814,7 @@ CDXLOperatorFactory::PdxlopArrayComp
 			);
 	}
 
-	CWStringDynamic *pstrOpName = CDXLUtils::PstrFromXMLCh(pmm, xmlszOpName);
+	CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszOpName);
 	CWStringConst *pstrOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrOpName->GetBuffer());
 	GPOS_DELETE(pstrOpName);
 
@@ -1454,7 +1454,7 @@ CDXLOperatorFactory::PdxlopProjElem
 					EdxltokenScalarProjElem
 					);
 	
-	CWStringDynamic *pstrAlias = CDXLUtils::PstrFromXMLCh(pmm, xmlszAlias);
+	CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszAlias);
 
 	// create a copy of the string in the CMDName constructor
 	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pstrAlias);
@@ -1529,7 +1529,7 @@ CDXLOperatorFactory::PdxlopSortCol
 										EdxltokenSortOpName,
 										EdxltokenScalarSortCol
 										);
-	CWStringDynamic *pstrSortOpName = CDXLUtils::PstrFromXMLCh(pmm, xmlszSortOpName);
+	CWStringDynamic *pstrSortOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszSortOpName);
 
 	// get null first property
 	BOOL fNullsFirst = FValueFromAttrs
@@ -1603,10 +1603,10 @@ CDXLOperatorFactory::Pdxlopcost
 								EdxltokenCost
 								);
 	
-	CWStringDynamic *pstrStartupCost = CDXLUtils::PstrFromXMLCh(pmm, xmlszStartupCost);
-	CWStringDynamic *pstrTotalCost = CDXLUtils::PstrFromXMLCh(pmm, xmlszTotalCost);
-	CWStringDynamic *pstrRows = CDXLUtils::PstrFromXMLCh(pmm, xmlszRows);
-	CWStringDynamic *pstrWidth = CDXLUtils::PstrFromXMLCh(pmm, xmlszWidth);
+	CWStringDynamic *pstrStartupCost = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszStartupCost);
+	CWStringDynamic *pstrTotalCost = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszTotalCost);
+	CWStringDynamic *pstrRows = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszRows);
+	CWStringDynamic *pstrWidth = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszWidth);
 	
 	return GPOS_NEW(pmp) CDXLOperatorCost
 						(
@@ -1692,7 +1692,7 @@ CDXLOperatorFactory::Pdxlid
 									EdxltokenIndexDescr
 									);
 
-	CWStringDynamic *pstrIndexName = CDXLUtils::PstrFromXMLCh(pmm, xmlszIndexName);
+	CWStringDynamic *pstrIndexName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszIndexName);
 
 	// parse metadata id
 	IMDId *pmdid = PmdidFromAttrs
@@ -1817,7 +1817,7 @@ CDXLOperatorFactory::Pdxlcd
 					);
 	}
 
-	CWStringDynamic *pstrColumnName = CDXLUtils::PstrFromXMLCh(pmm,xmlszColumnName);
+	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm,xmlszColumnName);
 
 	// create a copy of the string in the CMDName constructor
 	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pstrColumnName);
@@ -1870,7 +1870,7 @@ CDXLOperatorFactory::Pdxlcr
 	
 	ulId = XMLString::parseInt(xmlszColumnId, pmm);
 		
-	CWStringDynamic *pstrColumnName =  CDXLUtils::PstrFromXMLCh(pmm,xmlszColumnName);
+	CWStringDynamic *pstrColumnName =  CDXLUtils::CreateDynamicStringFromXMLChArray(pmm,xmlszColumnName);
 
 	// create a copy of the string in the CMDName constructor
 	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pstrColumnName);
@@ -2428,7 +2428,7 @@ CDXLOperatorFactory::PstrValueFromAttrs
 											edxltokenAttr,
 											edxltokenElement
 											);
-	return CDXLUtils::PstrFromXMLCh(pmm, xmlszValue);
+	return CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszValue);
 }
 
 //---------------------------------------------------------------------------
@@ -3279,7 +3279,7 @@ CDXLOperatorFactory::Pba
 {
 	const XMLCh *xmlszValue  = XmlstrFromAttrs(attrs, EdxltokenValue, edxltokenElement);
 
-	return CDXLUtils::PbaFromBase64XMLStr(pmm, xmlszValue, pulLength);
+	return CDXLUtils::CreateStringFrom64XMLStr(pmm, xmlszValue, pulLength);
 }
 
 //---------------------------------------------------------------------------
@@ -3435,7 +3435,7 @@ CDXLOperatorFactory::PdrgpdrgpulFromXMLCh
 	// get the memory pool from the memory manager
 	IMemoryPool *pmp = pmm->Pmp();
 		
-	ULongPtrArray2D *pdrgpdrgpul = GPOS_NEW(pmp) ULongPtrArray2D(pmp);
+	ULongPtrArray2D *ulong_ptr_array_2D = GPOS_NEW(pmp) ULongPtrArray2D(pmp);
 	
 	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -3447,10 +3447,10 @@ CDXLOperatorFactory::PdrgpdrgpulFromXMLCh
 		GPOS_ASSERT(NULL != xmlszList);
 		
 		ULongPtrArray *pdrgpul = PdrgpulFromXMLCh(pmm, xmlszList, edxltokenAttr, edxltokenElement);
-		pdrgpdrgpul->Append(pdrgpul);
+		ulong_ptr_array_2D->Append(pdrgpul);
 	}
 	
-	return pdrgpdrgpul;
+	return ulong_ptr_array_2D;
 }
 
 //---------------------------------------------------------------------------
@@ -3523,7 +3523,7 @@ CDXLOperatorFactory::PdrgPstrFromXMLCh
 		XMLCh *xmlszString = xmlsztok.nextToken();
 		GPOS_ASSERT(NULL != xmlszString);
 
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(pmm, xmlszString);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszString);
 		pdrgpstr->Append(pstr);
 	}
 
@@ -3858,7 +3858,7 @@ CDXLOperatorFactory::Sysid
 	ULONG ulType = CDXLOperatorFactory::UlValueFromXmlstr(pmm, xmlszType, edxltokenAttr, edxltokenElement);
 	
 	XMLCh *xmlszName = xmlsztokSysid.nextToken();
-	CWStringDynamic *pstrName = CDXLUtils::PstrFromXMLCh(pmm, xmlszName);
+	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszName);
 	
 	CSystemId sysid((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length());	
 	GPOS_DELETE(pstrName);

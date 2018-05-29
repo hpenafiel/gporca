@@ -368,7 +368,7 @@ namespace gpnaucrates
 			}
 
 			// buckets accessor
-			const DrgPbucket *Pdrgpbucket() const
+			const DrgPbucket *ParseDXLToBucketsArray() const
 			{
 				return m_pdrgppbucket;
 			}

@@ -266,18 +266,18 @@ CDXLNode::SetOperator
 void
 CDXLNode::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
 	if (NULL != m_pdxlop)
 	{
-		m_pdxlop->SerializeToDXL(pxmlser, this);
+		m_pdxlop->SerializeToDXL(xml_serializer, this);
 	}	
 	
 	if (NULL != m_pdxlddinfo && 0 < m_pdxlddinfo->Pdrgpdrgpdxldatum()->Size())
 	{
-		m_pdxlddinfo->Serialize(pxmlser);
+		m_pdxlddinfo->Serialize(xml_serializer);
 	}
 }
 
@@ -292,7 +292,7 @@ CDXLNode::SerializeToDXL
 void
 CDXLNode::SerializeChildrenToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
@@ -303,7 +303,7 @@ CDXLNode::SerializeChildrenToDXL
 		GPOS_CHECK_ABORT;
 
 		CDXLNode *pdxlnChild = (*m_pdrgpdxln)[i];
-		pdxlnChild->SerializeToDXL(pxmlser);
+		pdxlnChild->SerializeToDXL(xml_serializer);
 
 		GPOS_CHECK_ABORT;
 	}
@@ -360,11 +360,11 @@ CDXLNode::SetDirectDispatchInfo
 void
 CDXLNode::SerializePropertiesToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	m_pdxlprop->SerializePropertiesToDXL(pxmlser);
+	m_pdxlprop->SerializePropertiesToDXL(xml_serializer);
 }
 
 #ifdef GPOS_DEBUG

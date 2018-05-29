@@ -124,7 +124,7 @@ namespace gpmd
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,
 				BOOL fConvertHashToRandom,
-				ULongPtrArray2D *pdrgpdrgpul,
+				ULongPtrArray2D *ulong_ptr_array_2D,
 				DrgPmdIndexInfo *pdrgpmdIndexInfo,
 				DrgPmdid *pdrgpmdidTriggers,
 				DrgPmdid *pdrgpmdidCheckConstraint,

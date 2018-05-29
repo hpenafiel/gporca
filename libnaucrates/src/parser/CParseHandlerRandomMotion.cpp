@@ -36,11 +36,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerRandomMotion::CParseHandlerRandomMotion
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerPhysicalOp(pmp, pphm, pphRoot),
+	CParseHandlerPhysicalOp(pmp, parse_handler_mgr, pphRoot),
 	m_pdxlop(NULL)
 {
 }
@@ -65,7 +65,7 @@ CParseHandlerRandomMotion::StartElement
 {	
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRandomMotion), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -121,7 +121,7 @@ CParseHandlerRandomMotion::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRandomMotion), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	

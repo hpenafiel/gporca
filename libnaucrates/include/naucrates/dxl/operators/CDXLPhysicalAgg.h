@@ -61,7 +61,7 @@ namespace gpdxl
 			BOOL m_fStreamSafe;
 			
 			// serialize output grouping columns indices in DXL
-			void SerializeGroupingColsToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeGroupingColsToDXL(CXMLSerializer *xml_serializer) const;
 			
 		public:
 			// ctor
@@ -96,7 +96,7 @@ namespace gpdxl
 			
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *pxmlser, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
 
 			// conversion function
 			static

@@ -63,7 +63,7 @@ namespace gpdxl
 			~CDXLOperatorCost();
 			
 			// serialize operator in DXL format
-			void SerializeToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer) const;
 			
 			// accessors
 			const CWStringDynamic *PstrStartupCost() const;

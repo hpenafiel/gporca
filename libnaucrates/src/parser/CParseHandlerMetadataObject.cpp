@@ -30,11 +30,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMetadataObject::CParseHandlerMetadataObject
 	(
 	IMemoryPool *pmp, 
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_pimdobj(NULL)
 {
 }

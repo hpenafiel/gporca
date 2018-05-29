@@ -28,11 +28,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerLogicalExternalGet::CParseHandlerLogicalExternalGet
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerLogicalGet(pmp, pphm, pphRoot)
+	CParseHandlerLogicalGet(pmp, parse_handler_mgr, pphRoot)
 {}
 
 //---------------------------------------------------------------------------

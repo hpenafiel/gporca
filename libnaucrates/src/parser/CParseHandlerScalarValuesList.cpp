@@ -27,11 +27,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarValuesList::CParseHandlerScalarValuesList
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerOp(pmp, pphm, pphRoot)
+	CParseHandlerOp(pmp, parse_handler_mgr, pphRoot)
 {
 }
 
@@ -61,7 +61,7 @@ CParseHandlerScalarValuesList::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

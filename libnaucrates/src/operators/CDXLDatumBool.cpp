@@ -48,22 +48,22 @@ CDXLDatumBool::CDXLDatumBool
 void
 CDXLDatumBool::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 {
-	m_pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), FByValue());
+	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), FByValue());
 
 	if (!m_fNull)
 	{
 		if(m_fVal)
 		{
-			pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), CDXLTokens::PstrToken(EdxltokenTrue));
+			xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), CDXLTokens::PstrToken(EdxltokenTrue));
 		}
 		else
 		{
-			pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), CDXLTokens::PstrToken(EdxltokenFalse));
+			xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), CDXLTokens::PstrToken(EdxltokenFalse));
 		}
 	}
 }

@@ -466,12 +466,12 @@ CExpressionHandle::DeriveProps
 DrgPstat *
 CExpressionHandle::PdrgpstatOuterRefs
 	(
-	DrgPstat *pdrgpstat,
+	DrgPstat *statistics_array,
 	ULONG ulChildIndex
 	)
 	const
 {
-	GPOS_ASSERT(NULL != pdrgpstat);
+	GPOS_ASSERT(NULL != statistics_array);
 	GPOS_ASSERT(ulChildIndex < UlArity());
 
 	if (FScalarChild(ulChildIndex) || !FHasOuterRefs(ulChildIndex))
@@ -484,11 +484,11 @@ CExpressionHandle::PdrgpstatOuterRefs
 	CColRefSet *pcrsOuter = Pdprel(ulChildIndex)->PcrsOuter();
 	GPOS_ASSERT(0 < pcrsOuter->Size());
 
-	const ULONG ulSize = pdrgpstat->Size();
+	const ULONG ulSize = statistics_array->Size();
 	ULONG ulStartIndex = ULONG_MAX;
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		IStatistics *pstats = (*pdrgpstat)[ul];
+		IStatistics *pstats = (*statistics_array)[ul];
 		CColRefSet *pcrsStats = pstats->Pcrs(m_pmp);
 		BOOL fStatsColsUsed = !pcrsOuter->IsDisjoint(pcrsStats);
 		pcrsStats->Release();
@@ -502,7 +502,7 @@ CExpressionHandle::PdrgpstatOuterRefs
 	if (ULONG_MAX != ulStartIndex)
 	{
 		// copy stats starting from index of outer-most stats object referenced by child
-		CUtils::AddRefAppend<IStatistics, CleanupStats>(pdrgpstatResult, pdrgpstat, ulStartIndex);
+		CUtils::AddRefAppend<IStatistics, CleanupStats>(pdrgpstatResult, statistics_array, ulStartIndex);
 	}
 
 	return pdrgpstatResult;

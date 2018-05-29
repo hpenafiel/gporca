@@ -196,14 +196,14 @@ CDXLPhysicalMotion::PstrOutputSegIds() const
 void
 CDXLPhysicalMotion::SerializeSegmentInfoToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) const
 {
 	CWStringDynamic *pstrInputSegIds = PstrInputSegIds();
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputSegments), pstrInputSegIds);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputSegments), pstrInputSegIds);
 	
 	CWStringDynamic *pstrOutputSegIds = PstrOutputSegIds();
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenOutputSegments), pstrOutputSegIds);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOutputSegments), pstrOutputSegIds);
 		
 	GPOS_DELETE(pstrInputSegIds);
 	GPOS_DELETE(pstrOutputSegIds);

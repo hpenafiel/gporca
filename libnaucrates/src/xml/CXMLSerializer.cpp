@@ -44,7 +44,7 @@ CXMLSerializer::StartDocument()
 {
 	GPOS_ASSERT(m_strstackElems->IsEmpty());
 	m_os << CDXLTokens::PstrToken(EdxltokenXMLDocHeader)->GetBuffer();
-	if (m_fIndent)
+	if (m_indentation)
 	{
 		m_os << std::endl;
 	}
@@ -82,7 +82,7 @@ CXMLSerializer::OpenElement
 	if (m_fOpenTag)
 	{
 		m_os << CDXLTokens::PstrToken(EdxltokenBracketCloseTag)->GetBuffer(); // >
-		if (m_fIndent)
+		if (m_indentation)
 		{
 			m_os << std::endl;
 		}
@@ -135,7 +135,7 @@ CXMLSerializer::CloseElement
 	{
 		// singleton element with no children - close the element with "/>"
 		m_os << CDXLTokens::PstrToken(EdxltokenBracketCloseSingletonTag)->GetBuffer();	// />
-		if (m_fIndent)
+		if (m_indentation)
 		{
 			m_os << std::endl;
 		}
@@ -153,7 +153,7 @@ CXMLSerializer::CloseElement
 			m_os << pstrNamespace->GetBuffer() << CDXLTokens::PstrToken(EdxltokenColon)->GetBuffer();	// "namespace:"
 		}
 		m_os << pstrElem->GetBuffer() << CDXLTokens::PstrToken(EdxltokenBracketCloseTag)->GetBuffer(); // >
-		if (m_fIndent)
+		if (m_indentation)
 		{
 			m_os << std::endl;
 		}
@@ -394,7 +394,7 @@ CXMLSerializer::AddAttribute
 void
 CXMLSerializer::Indent()
 {
-	if (!m_fIndent)
+	if (!m_indentation)
 	{
 		return;
 	}
@@ -481,7 +481,7 @@ CXMLSerializer::AddAttribute
 {
 	if (!fNull)
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromByteArray(m_pmp, pba, ulLen);
+		CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(m_pmp, pba, ulLen);
 		AddAttribute(pstrAttr, pstr);
 		GPOS_DELETE(pstr);
 	}

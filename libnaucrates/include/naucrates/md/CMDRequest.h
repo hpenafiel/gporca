@@ -122,7 +122,7 @@ namespace gpmd
 
 			// serialize request in DXL format
 			virtual
-			void Serialize(gpdxl::CXMLSerializer *pxmlser);
+			void Serialize(gpdxl::CXMLSerializer *xml_serializer);
 				
 	};
 }

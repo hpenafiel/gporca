@@ -65,7 +65,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	GPOS_ASSERT_IMP(IMDIndex::EmdindBitmap == emdindt, NULL != pmdidItemType && pmdidItemType->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdidOpClasses);
 	
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -291,42 +291,42 @@ CMDIndexGPDB::Pmdpartcnstr() const
 void
 CMDIndexGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenIndex));
 	
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexClustered), m_fClustered);
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexClustered), m_fClustered);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexType), PstrIndexType(m_emdindt));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexType), PstrIndexType(m_emdindt));
 	if (NULL != m_pmdidItemType)
 	{
-		m_pmdidItemType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenIndexItemType));
+		m_pmdidItemType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenIndexItemType));
 	}
 		
 	// serialize index keys
-	CWStringDynamic *pstrKeyCols = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulKeyCols);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexKeyCols), pstrKeyCols);
+	CWStringDynamic *pstrKeyCols = CDXLUtils::Serialize(m_pmp, m_pdrgpulKeyCols);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexKeyCols), pstrKeyCols);
 	GPOS_DELETE(pstrKeyCols);
 
-	CWStringDynamic *pstrAvailCols = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpulIncludedCols);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexIncludedCols), pstrAvailCols);
+	CWStringDynamic *pstrAvailCols = CDXLUtils::Serialize(m_pmp, m_pdrgpulIncludedCols);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexIncludedCols), pstrAvailCols);
 	GPOS_DELETE(pstrAvailCols);
 		
 	// serialize operator class information
-	SerializeMDIdList(pxmlser, m_pdrgpmdidOpClasses, 
+	SerializeMDIdList(xml_serializer, m_pdrgpmdidOpClasses, 
 						CDXLTokens::PstrToken(EdxltokenOpClasses), 
 						CDXLTokens::PstrToken(EdxltokenOpClass));
 	
 	if (NULL != m_pmdpartcnstr)
 	{
-		m_pmdpartcnstr->Serialize(pxmlser);
+		m_pmdpartcnstr->Serialize(xml_serializer);
 	}
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenIndex));
 }
 

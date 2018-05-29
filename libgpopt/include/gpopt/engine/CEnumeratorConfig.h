@@ -62,7 +62,7 @@ namespace gpopt
 				private:
 
 					// plan id
-					ULLONG m_ullPlanId;
+					ULLONG m_plan_id;
 
 					// plan cost
 					CCost m_cost;
@@ -72,11 +72,11 @@ namespace gpopt
 					// ctor
 					SSamplePlan
 						(
-						ULLONG ullPlanId,
+						ULLONG plan_id,
 						CCost cost
 						)
 						:
-						m_ullPlanId(ullPlanId),
+						m_plan_id(plan_id),
 						m_cost(cost)
 					{}
 
@@ -88,7 +88,7 @@ namespace gpopt
 					// return plan id
 					ULLONG UllPlanId() const
 					{
-						return m_ullPlanId;
+						return m_plan_id;
 					}
 
 					// return plan cost
@@ -106,7 +106,7 @@ namespace gpopt
 			IMemoryPool *m_pmp;
 
 			// identifier of chosen plan
-			ULLONG m_ullPlanId;
+			ULLONG m_plan_id;
 
 			// size of plan space
 			ULLONG m_ullSpaceSize;
@@ -160,7 +160,7 @@ namespace gpopt
 			CEnumeratorConfig
 				(
 				IMemoryPool *pmp,
-				ULLONG ullPlanId,
+				ULLONG plan_id,
 				ULLONG ullSamples,
 				CDouble dCostThreshold = GPOPT_UNBOUNDED_COST_THRESHOLD
 				);
@@ -172,7 +172,7 @@ namespace gpopt
 			// return plan id
 			ULLONG UllPlanId() const
 			{
-				return m_ullPlanId;
+				return m_plan_id;
 			}
 
 			// return enumerated space size
@@ -205,10 +205,10 @@ namespace gpopt
 			// set plan id
 			void SetPlanId
 				(
-				ULLONG ullPlanId
+				ULLONG plan_id
 				)
 			{
-				m_ullPlanId = ullPlanId;
+				m_plan_id = plan_id;
 			}
 
 			// return cost threshold
@@ -253,7 +253,7 @@ namespace gpopt
 			}
 
 			// add a new plan to sample
-			BOOL FAddSample(ULLONG ullPlanId, CCost cost);
+			BOOL FAddSample(ULLONG plan_id, CCost cost);
 
 			// clear samples
 			void ClearSamples();
@@ -355,7 +355,7 @@ namespace gpopt
 				IMemoryPool *pmp
 				)
 			{
-				return GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*ullPlanId*/, 0 /*ullSamples*/);
+				return GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*plan_id*/, 0 /*ullSamples*/);
 			}
 
 			// generate enumerator configuration for a given plan id
@@ -363,10 +363,10 @@ namespace gpopt
 			CEnumeratorConfig *Pec
 				(
 				IMemoryPool *pmp,
-				ULLONG ullPlanId
+				ULLONG plan_id
 				)
 			{
-				return GPOS_NEW(pmp) CEnumeratorConfig(pmp, ullPlanId, 0/*ullSamples*/);
+				return GPOS_NEW(pmp) CEnumeratorConfig(pmp, plan_id, 0/*ullSamples*/);
 			}
 
 

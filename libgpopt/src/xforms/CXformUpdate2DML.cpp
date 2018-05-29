@@ -156,9 +156,9 @@ CXformUpdate2DML::Transform
 			);
 
 	// add assert checking that no NULL values are inserted for nullable columns or no check constraints are violated
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
 	CExpression *pexprAssertConstraints;
-	if (poconf->Phint()->FEnforceConstraintsOnDML())
+	if (optimizer_config->Phint()->FEnforceConstraintsOnDML())
 	{
 		pexprAssertConstraints = CXformUtils::PexprAssertConstraints
 			(

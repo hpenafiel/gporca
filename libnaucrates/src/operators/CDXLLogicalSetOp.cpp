@@ -39,14 +39,14 @@ CDXLLogicalSetOp::CDXLLogicalSetOp
 	IMemoryPool *pmp,
 	EdxlSetOpType edxlsetoptype,
 	DrgPdxlcd *pdrgdxlcd,
-	ULongPtrArray2D *pdrgpdrgpul,
+	ULongPtrArray2D *ulong_ptr_array_2D,
 	BOOL fCastAcrossInputs
 	)
 	:
 	CDXLLogical(pmp),
 	m_edxlsetoptype(edxlsetoptype),
 	m_pdrgpdxlcd(pdrgdxlcd),
-	m_pdrgpdrgpul(pdrgpdrgpul),
+	m_pdrgpdrgpul(ulong_ptr_array_2D),
 	m_fCastAcrossInputs(fCastAcrossInputs)
 {
 	GPOS_ASSERT(NULL != m_pdrgpdxlcd);
@@ -141,37 +141,37 @@ CDXLLogicalSetOp::PstrOpName() const
 void
 CDXLLogicalSetOp::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// serialize the array of input colid arrays
-	CWStringDynamic *pstrInputColIds = CDXLUtils::PstrSerialize(m_pmp, m_pdrgpdrgpul);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputCols), pstrInputColIds);
+	CWStringDynamic *pstrInputColIds = CDXLUtils::Serialize(m_pmp, m_pdrgpdrgpul);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputCols), pstrInputColIds);
 	GPOS_DELETE(pstrInputColIds);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenCastAcrossInputs), m_fCastAcrossInputs);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCastAcrossInputs), m_fCastAcrossInputs);
 
 	// serialize output columns
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	GPOS_ASSERT(NULL != m_pdrgpdxlcd);
 
 	const ULONG ulLen = m_pdrgpdxlcd->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*m_pdrgpdxlcd)[ul];
-		pdxlcd->SerializeToDXL(pxmlser);
+		pdxlcd->SerializeToDXL(xml_serializer);
 	}
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 //---------------------------------------------------------------------------

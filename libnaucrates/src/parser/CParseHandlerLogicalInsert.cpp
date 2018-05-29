@@ -33,11 +33,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerLogicalInsert::CParseHandlerLogicalInsert
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerLogicalOp(pmp, pphm, pphRoot),
+	CParseHandlerLogicalOp(pmp, parse_handler_mgr, pphRoot),
 	m_pdrgpul(NULL)
 {
 }
@@ -61,7 +61,7 @@ CParseHandlerLogicalInsert::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalInsert), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -101,7 +101,7 @@ CParseHandlerLogicalInsert::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalInsert), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

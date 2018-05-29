@@ -41,11 +41,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarOpList::CParseHandlerScalarOpList
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot),
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
 	m_edxloplisttype(CDXLScalarOpList::EdxloplistSentinel)
 {
 }
@@ -141,7 +141,7 @@ CParseHandlerScalarOpList::EndElement
 	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(xmlszLocalname);
 	if (m_edxloplisttype != edxloplisttype)
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

@@ -68,10 +68,10 @@ namespace gpopt
 			DrgPsysid *m_pdrgpsysid;
 			
 			// plan Id
-			ULLONG m_ullPlanId;
+			ULLONG m_plan_id;
 
 			// plan space size
-			ULLONG m_ullPlanSpaceSize;
+			ULLONG m_plan_space_size;
 
 			// private copy ctor
 			CDXLMinidump(const CDXLMinidump&);
@@ -82,15 +82,15 @@ namespace gpopt
 			CDXLMinidump
 				(
 				CBitSet *pbs, 
-				COptimizerConfig *poconf,
+				COptimizerConfig *optimizer_config,
 				CDXLNode *pdxlnQuery, 
-				DrgPdxln *pdrgpdxlnQueryOutput,
-				DrgPdxln *pdrgpdxlnCTE,
+				DrgPdxln *query_output_dxlnode_array,
+				DrgPdxln *cte_dxlnode_array,
 				CDXLNode *pdxlnPlan, 
 				DrgPimdobj *pdrgpmdobj, 
 				DrgPsysid *pdrgpsysid,
-				ULLONG ullPlanId,
-				ULLONG ullPlanSpaceSize
+				ULLONG plan_id,
+				ULLONG plan_space_size
 				);
 
 			// dtor

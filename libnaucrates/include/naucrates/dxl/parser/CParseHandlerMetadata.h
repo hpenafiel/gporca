@@ -80,7 +80,7 @@ namespace gpdxl
 			
 		public:
 			// ctor
-			CParseHandlerMetadata(IMemoryPool *pmp, CParseHandlerManager *pphm, CParseHandlerBase *pphRoot);
+			CParseHandlerMetadata(IMemoryPool *pmp, CParseHandlerManager *parse_handler_mgr, CParseHandlerBase *pphRoot);
 			
 			// dtor
 			virtual

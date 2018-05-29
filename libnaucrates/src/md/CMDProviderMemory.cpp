@@ -52,10 +52,10 @@ CMDProviderMemory::CMDProviderMemory
 	
 	// read DXL file
 	CAutoRg<CHAR> a_szDXL;
-	a_szDXL = CDXLUtils::SzRead(pmp, szFileName);
+	a_szDXL = CDXLUtils::Read(pmp, szFileName);
 
 	CAutoRef<DrgPimdobj> a_pdrgpmdobj;
-	a_pdrgpmdobj = CDXLUtils::PdrgpmdobjParseDXL(pmp, a_szDXL.Rgt(), NULL /*szXSDPath*/);
+	a_pdrgpmdobj = CDXLUtils::ParseDXLToIMDObjectArray(pmp, a_szDXL.Rgt(), NULL /*xsd_file_path*/);
 	
 #ifdef GPOS_DEBUG
 	CWorker::Self()->ResetTimeSlice();
@@ -120,7 +120,7 @@ CMDProviderMemory::LoadMetadataObjectsFromArray
 		a_pmdidKey = pmdidKey;
 		
 		CAutoP<CWStringDynamic> a_pstr;
-		a_pstr = CDXLUtils::PstrSerializeMDObj(pmp, pmdobj, true /*fSerializeHeaders*/, false /*findent*/);
+		a_pstr = CDXLUtils::SerializeMDObj(pmp, pmdobj, true /*fSerializeHeaders*/, false /*findent*/);
 		
 		GPOS_CHECK_ABORT;
 		BOOL fInserted = m_pmdmap->Insert(pmdidKey, a_pstr.Value());
@@ -188,7 +188,7 @@ CMDProviderMemory::PstrObject
 				pmdid->AddRef();
 				CAutoRef<CDXLRelStats> a_pdxlrelstats;
 				a_pdxlrelstats = CDXLRelStats::PdxlrelstatsDummy(pmp, pmdid);
-				a_pstrResult = CDXLUtils::PstrSerializeMDObj(pmp, a_pdxlrelstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
+				a_pstrResult = CDXLUtils::SerializeMDObj(pmp, a_pdxlrelstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;
 			}
 			case IMDId::EmdidColStats:
@@ -201,7 +201,7 @@ CMDProviderMemory::PstrObject
 				CAutoRef<CDXLColStats> a_pdxlcolstats;
 				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(pmp, pmdid, a_pmdname.Value(), CStatistics::DDefaultColumnWidth /* dWidth */);
 				a_pmdname.Reset();
-				a_pstrResult = CDXLUtils::PstrSerializeMDObj(pmp, a_pdxlcolstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
+				a_pstrResult = CDXLUtils::SerializeMDObj(pmp, a_pdxlcolstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;
 			}
 			default:

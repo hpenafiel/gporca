@@ -61,7 +61,7 @@ namespace gpdxl
 
 			// serialize the datum as the given element
 			virtual
-			void Serialize(CXMLSerializer *pxmlser);
+			void Serialize(CXMLSerializer *xml_serializer);
 
 			// is type passed by value
 			virtual BOOL FByValue() const

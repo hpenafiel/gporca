@@ -44,7 +44,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CQueryToDXLResult(CDXLNode *pdxlnQuery, DrgPdxln *pdrgpdxlnOutput, DrgPdxln *pdrgpdxlnCTE);
+			CQueryToDXLResult(CDXLNode *pdxlnQuery, DrgPdxln *pdrgpdxlnOutput, DrgPdxln *cte_dxlnode_array);
 
 			// dtor
 			~CQueryToDXLResult();

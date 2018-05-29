@@ -142,22 +142,22 @@ CDXLWindowFrame::PstrFS
 void
 CDXLWindowFrame::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
 	const CWStringConst *pstrElemName = CDXLTokens::PstrToken(EdxltokenWindowFrame);
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// add attributes
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowFrameSpec), PstrFS(m_edxlfs));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowExclusionStrategy), PstrES(m_edxlfes));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowFrameSpec), PstrFS(m_edxlfs));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowExclusionStrategy), PstrES(m_edxlfes));
 
 	// add the values representing the window boundary
-	m_pdxlnTrailing->SerializeToDXL(pxmlser);
-	m_pdxlnLeading->SerializeToDXL(pxmlser);
+	m_pdxlnTrailing->SerializeToDXL(xml_serializer);
+	m_pdxlnLeading->SerializeToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 // EOF

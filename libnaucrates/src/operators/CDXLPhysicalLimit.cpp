@@ -75,17 +75,17 @@ CDXLPhysicalLimit::PstrOpName() const
 void
 CDXLPhysicalLimit::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children nodes
 
@@ -96,10 +96,10 @@ CDXLPhysicalLimit::SerializeToDXL
 	for (ULONG i = 0; i < 4; i++)
 	{
 		CDXLNode *pdxlnChild = (*pdrgpdxln)[i];
-		pdxlnChild->SerializeToDXL(pxmlser);
+		pdxlnChild->SerializeToDXL(xml_serializer);
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 

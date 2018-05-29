@@ -850,7 +850,7 @@ namespace gpopt
 
 			// return regular string from wide-character string
 			static
-			CHAR *SzFromWsz(IMemoryPool *pmp, WCHAR *wsz);
+			CHAR *CreateMultiByteCharStringFromWCString(IMemoryPool *pmp, WCHAR *wsz);
 
 			// return column reference defined by project element
 			static

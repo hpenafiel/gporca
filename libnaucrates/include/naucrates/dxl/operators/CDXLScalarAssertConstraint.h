@@ -59,7 +59,7 @@ namespace gpdxl
 			
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *pxmlser, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
 
 			// does the operator return a boolean result
 			virtual

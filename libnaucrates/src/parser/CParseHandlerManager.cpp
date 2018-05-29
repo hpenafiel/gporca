@@ -29,11 +29,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerManager::CParseHandlerManager
 	(
 	CDXLMemoryManager *pmm,
-	SAX2XMLReader *pxmlreader
+	SAX2XMLReader *sax_2_xml_reader
 	)
 	:
 	m_pmm(pmm),
-	m_pxmlreader(pxmlreader),
+	m_pxmlreader(sax_2_xml_reader),
 	m_pphCurrent(NULL),
 	m_ulIterLastCFA(0)
 {

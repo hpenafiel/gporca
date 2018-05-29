@@ -105,14 +105,14 @@ namespace gpopt
 						IMemoryPool *pmp, 
 						CMDAccessor *pmda,						// MD accessor
 						const CDXLNode *pdxlnQuery,
-						const DrgPdxln *pdrgpdxlnQueryOutput, 	// required output columns
-						const DrgPdxln *pdrgpdxlnCTE,
+						const DrgPdxln *query_output_dxlnode_array, 	// required output columns
+						const DrgPdxln *cte_dxlnode_array,
 						IConstExprEvaluator *pceeval,			// constant expression evaluator
 						ULONG ulHosts,							// number of hosts (data nodes) in the system
 						ULONG ulSessionId,						// session id used for logging and minidumps
 						ULONG ulCmdId,							// command id used for logging and minidumps
 						DrgPss *pdrgpss,						// search strategy
-						COptimizerConfig *poconf,				// optimizer configurations
+						COptimizerConfig *optimizer_config,				// optimizer configurations
 						const CHAR *szMinidumpFileName = NULL	// name of minidump file to be created
 						);
 	}; // class COptimizer

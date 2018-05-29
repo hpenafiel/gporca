@@ -861,8 +861,8 @@ CStatistics::Pdxlstatsderrel
 		CDouble *pdWidth = m_phmuldoubleWidth->Find(&ulColId);
 		GPOS_ASSERT(pdWidth);
 
-		CDXLStatsDerivedColumn *pdxlstatsdercol = phist->Pdxlstatsdercol(pmp, pmda, ulColId, *pdWidth);
-		pdrgpdxlstatsdercol->Append(pdxlstatsdercol);
+		CDXLStatsDerivedColumn *dxl_derived_col_stats = phist->Pdxlstatsdercol(pmp, pmda, ulColId, *pdWidth);
+		pdrgpdxlstatsdercol->Append(dxl_derived_col_stats);
 	}
 
 	return GPOS_NEW(pmp) CDXLStatsDerivedRelation(m_dRows, IsEmpty(), pdrgpdxlstatsdercol);

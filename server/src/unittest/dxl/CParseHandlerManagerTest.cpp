@@ -74,32 +74,32 @@ CParseHandlerManagerTest::EresUnittest_Basic()
 		parser = XMLReaderFactory::createXMLReader(pmm);
 	}
 
-	CParseHandlerManager *pphm = GPOS_NEW(pmp) CParseHandlerManager(pmm, parser);
+	CParseHandlerManager *parse_handler_mgr = GPOS_NEW(pmp) CParseHandlerManager(pmm, parser);
 	
 	// create some parse handlers
-	CParseHandlerPlan *pphPlan = GPOS_NEW(pmp) CParseHandlerPlan(pmp, pphm, NULL);
-	CParseHandlerHashJoin *pphHJ = GPOS_NEW(pmp) CParseHandlerHashJoin(pmp, pphm, pphPlan);
+	CParseHandlerPlan *pphPlan = GPOS_NEW(pmp) CParseHandlerPlan(pmp, parse_handler_mgr, NULL);
+	CParseHandlerHashJoin *pphHJ = GPOS_NEW(pmp) CParseHandlerHashJoin(pmp, parse_handler_mgr, pphPlan);
 	
-	pphm->ActivateParseHandler(pphPlan);
-	GPOS_ASSERT(pphPlan == pphm->PphCurrent());
+	parse_handler_mgr->ActivateParseHandler(pphPlan);
+	GPOS_ASSERT(pphPlan == parse_handler_mgr->PphCurrent());
 	GPOS_ASSERT(pphPlan == parser->getContentHandler());
 
-	pphm->ActivateParseHandler(pphHJ);
-	GPOS_ASSERT(pphHJ == pphm->PphCurrent());
+	parse_handler_mgr->ActivateParseHandler(pphHJ);
+	GPOS_ASSERT(pphHJ == parse_handler_mgr->PphCurrent());
 	GPOS_ASSERT(pphHJ == parser->getContentHandler());
 
 
-	pphm->DeactivateHandler();
-	GPOS_ASSERT(pphPlan == pphm->PphCurrent());
+	parse_handler_mgr->DeactivateHandler();
+	GPOS_ASSERT(pphPlan == parse_handler_mgr->PphCurrent());
 	GPOS_ASSERT(pphPlan == parser->getContentHandler());
 	
-	pphm->DeactivateHandler();
+	parse_handler_mgr->DeactivateHandler();
 	// no more parse handlers
-	GPOS_ASSERT(NULL == pphm->PphCurrent());
+	GPOS_ASSERT(NULL == parse_handler_mgr->PphCurrent());
 	GPOS_ASSERT(NULL == parser->getContentHandler());
 
 	// cleanup
-	GPOS_DELETE(pphm);
+	GPOS_DELETE(parse_handler_mgr);
 	delete parser;
 	GPOS_DELETE(pmm);
 	GPOS_DELETE(pphPlan);

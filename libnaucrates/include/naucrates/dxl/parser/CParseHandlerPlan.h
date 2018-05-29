@@ -74,7 +74,7 @@ namespace gpdxl
 			CParseHandlerPlan
 				(
 				IMemoryPool *pmp,
-				CParseHandlerManager *pphm,
+				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
 			

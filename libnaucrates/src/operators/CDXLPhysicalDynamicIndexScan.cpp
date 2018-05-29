@@ -170,39 +170,39 @@ CDXLPhysicalDynamicIndexScan::UlPartIndexIdPrintable() const
 void
 CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	pxmlser->AddAttribute
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->AddAttribute
 				(
 				CDXLTokens::PstrToken(EdxltokenIndexScanDirection),
 				CDXLOperator::PstrIndexScanDirection(m_edxlisd)
 				);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
 	if (m_ulPartIndexIdPrintable != m_ulPartIndexId)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_ulPartIndexIdPrintable);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_ulPartIndexIdPrintable);
 	}
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize index descriptor
-	m_pdxlid->SerializeToDXL(pxmlser);
+	m_pdxlid->SerializeToDXL(xml_serializer);
 
 	// serialize table descriptor
-	m_pdxltabdesc->SerializeToDXL(pxmlser);
+	m_pdxltabdesc->SerializeToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

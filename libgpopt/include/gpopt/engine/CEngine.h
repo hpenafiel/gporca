@@ -183,7 +183,7 @@ namespace gpopt
 			ULLONG UllRandomPlanId(ULONG *pulSeed);
 
 			// extract a plan sample and handle exceptions according to enumerator configurations
-			BOOL FValidPlanSample(CEnumeratorConfig *pec, ULLONG ullPlanId, CExpression **ppexpr);
+			BOOL FValidPlanSample(CEnumeratorConfig *pec, ULLONG plan_id, CExpression **ppexpr);
 
 			// sample possible plans uniformly
 			void SamplePlans();
@@ -221,8 +221,8 @@ namespace gpopt
 			static
 			BOOL FCheckReqdPartPropagation(CPhysical *pop, CEnfdPartitionPropagation *pepp);
 
-			// unrank the plan with the given 'ullPlanId' from the memo
-			CExpression *PexprUnrank(ULLONG ullPlanId);
+			// unrank the plan with the given 'plan_id' from the memo
+			CExpression *PexprUnrank(ULLONG plan_id);
 
 			// determine if a plan, rooted by given group expression, can be safely pruned based on cost bounds
 			// when stats for Dynamic Partition Elimination are derived

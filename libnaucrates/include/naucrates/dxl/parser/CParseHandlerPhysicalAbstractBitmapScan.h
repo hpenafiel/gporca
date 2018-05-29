@@ -59,11 +59,11 @@ namespace gpdxl
 			CParseHandlerPhysicalAbstractBitmapScan
 				(
 				IMemoryPool *pmp,
-				CParseHandlerManager *pphm,
+				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				)
 				:
-				CParseHandlerPhysicalOp(pmp, pphm, pphRoot)
+				CParseHandlerPhysicalOp(pmp, parse_handler_mgr, pphRoot)
 			{}
 	};
 }

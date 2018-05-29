@@ -126,15 +126,15 @@ CStatisticsTest::EresUnittest_UnionAll()
 		SStatsUnionAllSTestCase elem = rgstatsunionalltc[ul];
 
 		// read input/output DXL file
-		CHAR *szDXLInput = CDXLUtils::SzRead(pmp, elem.m_szInputFile);
-		CHAR *szDXLOutput = CDXLUtils::SzRead(pmp, elem.m_szOutputFile);
+		CHAR *szDXLInput = CDXLUtils::Read(pmp, elem.m_szInputFile);
+		CHAR *szDXLOutput = CDXLUtils::Read(pmp, elem.m_szOutputFile);
 
 		GPOS_CHECK_ABORT;
 
 		// parse the input statistics objects
-		DrgPdxlstatsderrel *pdrgpdxlstatsderrel = CDXLUtils::PdrgpdxlstatsderrelParseDXL(pmp, szDXLInput, NULL);
-		DrgPstats *pdrgpstatBefore = CDXLUtils::PdrgpstatsTranslateStats(pmp, pmda, pdrgpdxlstatsderrel);
-		pdrgpdxlstatsderrel->Release();
+		DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(pmp, szDXLInput, NULL);
+		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(pmp, pmda, dxl_derived_rel_stats_array);
+		dxl_derived_rel_stats_array->Release();
 
 		GPOS_ASSERT(NULL != pdrgpstatBefore);
 		GPOS_ASSERT(2 == pdrgpstatBefore->Size());
@@ -151,17 +151,17 @@ CStatisticsTest::EresUnittest_UnionAll()
 
 		GPOS_ASSERT(NULL != pstatsOutput);
 
-		DrgPstats *pdrgpstatOutput = GPOS_NEW(pmp) DrgPstats(pmp);
+		CStatisticsArray *pdrgpstatOutput = GPOS_NEW(pmp) CStatisticsArray(pmp);
 		pdrgpstatOutput->Append(pstatsOutput);
 
 		// serialize and compare against expected stats
-		CWStringDynamic *pstrOutput = CDXLUtils::PstrSerializeStatistics
+		CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics
 													(
 													pmp,
 													pmda,
 													pdrgpstatOutput,
-													true /*fSerializeHeaderFooter*/,
-													true /*fIndent*/
+													true /*serialize_header_footer*/,
+													true /*indentation*/
 													);
 		CWStringDynamic dstrExpected(pmp);
 		dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXLOutput);

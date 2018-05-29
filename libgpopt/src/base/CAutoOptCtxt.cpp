@@ -31,13 +31,13 @@ CAutoOptCtxt::CAutoOptCtxt
 	IMemoryPool *pmp,
 	CMDAccessor *pmda,
 	IConstExprEvaluator *pceeval,
-	COptimizerConfig *poconf
+	COptimizerConfig *optimizer_config
 	)
 {
-	if (NULL == poconf)
+	if (NULL == optimizer_config)
 	{
 		// create default statistics configuration
-		poconf = COptimizerConfig::PoconfDefault(pmp);
+		optimizer_config = COptimizerConfig::PoconfDefault(pmp);
 	}
 	if (NULL == pceeval)
 	{
@@ -45,7 +45,7 @@ CAutoOptCtxt::CAutoOptCtxt
 		pceeval = GPOS_NEW(pmp) CConstExprEvaluatorDefault();
 	}
 
-	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, poconf);
+	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, optimizer_config);
 	ITask::Self()->GetTls().Store(poctxt);
 }
 
@@ -69,7 +69,7 @@ CAutoOptCtxt::CAutoOptCtxt
 	GPOS_ASSERT(NULL != pcm);
 	
 	// create default statistics configuration
-	COptimizerConfig *poconf = COptimizerConfig::PoconfDefault(pmp, pcm);
+	COptimizerConfig *optimizer_config = COptimizerConfig::PoconfDefault(pmp, pcm);
 	
 	if (NULL == pceeval)
 	{
@@ -77,7 +77,7 @@ CAutoOptCtxt::CAutoOptCtxt
 		pceeval = GPOS_NEW(pmp) CConstExprEvaluatorDefault();
 	}
 
-	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, poconf);
+	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, optimizer_config);
 	ITask::Self()->GetTls().Store(poctxt);
 }
 

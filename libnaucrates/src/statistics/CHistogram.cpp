@@ -1338,14 +1338,14 @@ CHistogram::ComputeJoinNDVRemainInfo
 	CDouble dNDVJoinRemain = dNDVJoinFinal - dNDVJoin;
 
 	// compute the frequency of the non-joining buckets in each input histogram
-	CDouble dFreqBuckets1 =  CStatisticsUtils::DFrequency(phist1->Pdrgpbucket());
-	CDouble dFreqBuckets2 =  CStatisticsUtils::DFrequency(phist2->Pdrgpbucket());
+	CDouble dFreqBuckets1 =  CStatisticsUtils::DFrequency(phist1->ParseDXLToBucketsArray());
+	CDouble dFreqBuckets2 =  CStatisticsUtils::DFrequency(phist2->ParseDXLToBucketsArray());
 	CDouble dFreqNonJoinBuckets1 = std::max(CDouble(0), (dFreqBuckets1 - dFreqJoinBuckets1));
 	CDouble dFreqNonJoinBuckets2 = std::max(CDouble(0), (dFreqBuckets2 - dFreqJoinBuckets2));
 
 	// compute the NDV of the non-joining buckets
-	CDouble dNDVNonJoinBuckets1 = CStatisticsUtils::DDistinct(phist1->Pdrgpbucket()) - dNDVJoin;
-	CDouble dNDVNonJoinBuckets2 = CStatisticsUtils::DDistinct(phist2->Pdrgpbucket()) - dNDVJoin;
+	CDouble dNDVNonJoinBuckets1 = CStatisticsUtils::DDistinct(phist1->ParseDXLToBucketsArray()) - dNDVJoin;
+	CDouble dNDVNonJoinBuckets2 = CStatisticsUtils::DDistinct(phist2->ParseDXLToBucketsArray()) - dNDVJoin;
 
 	CDouble dFreqRemain1 = phist1->DFreqRemain();
 	CDouble dFreqRemain2 = phist2->DFreqRemain();
@@ -2057,7 +2057,7 @@ CHistogram::FNDVBasedCardEstimation
 		return true;
 	}
 
-	const IBucket *pbucket = (*phist->Pdrgpbucket())[0];
+	const IBucket *pbucket = (*phist->ParseDXLToBucketsArray())[0];
 
 	IDatum *pdatum = pbucket->PpLower()->Pdatum();
 

@@ -152,46 +152,46 @@ CMDColumn::FDropped() const
 void
 CMDColumn::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumn));
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttNo);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttNo);
 
-	m_pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	if (IDefaultTypeModifier != ITypeModifier())
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
 	}
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColumnNullable), m_fNullable);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColumnNullable), m_fNullable);
 	if (ULONG_MAX != m_ulLength)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_ulLength);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_ulLength);
 	}
 
 	if (m_fDropped)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColDropped), m_fDropped);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColDropped), m_fDropped);
 	}
 	
 	// serialize default value
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumnDefaultValue));
 	
 	if (NULL != m_pdxlnDefaultValue)
 	{
-		m_pdxlnDefaultValue->SerializeToDXL(pxmlser);
+		m_pdxlnDefaultValue->SerializeToDXL(xml_serializer);
 	}
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumnDefaultValue));
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumn));
 }
 

@@ -39,11 +39,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMDRelationExternal::CParseHandlerMDRelationExternal
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMDRelation(pmp, pphm, pphRoot),
+	CParseHandlerMDRelation(pmp, parse_handler_mgr, pphRoot),
 	m_iRejectLimit(GPDXL_DEFAULT_REJLIMIT),
 	m_fRejLimitInRows(false),
 	m_pmdidFmtErrRel(NULL)
@@ -70,7 +70,7 @@ CParseHandlerMDRelationExternal::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationExternal), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -127,7 +127,7 @@ CParseHandlerMDRelationExternal::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationExternal), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

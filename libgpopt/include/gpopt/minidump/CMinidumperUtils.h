@@ -63,7 +63,7 @@ namespace gpopt
 				ULONG ulSegments, 
 				ULONG ulSessionId, 
 				ULONG ulCmdId,
-				COptimizerConfig *poconf,
+				COptimizerConfig *optimizer_config,
 				IConstExprEvaluator *pceeval = NULL
 				);
 			
@@ -77,7 +77,7 @@ namespace gpopt
 				ULONG ulSegments, 
 				ULONG ulSessionId, 
 				ULONG ulCmdId,
-				COptimizerConfig *poconf,
+				COptimizerConfig *optimizer_config,
 				IConstExprEvaluator *pceeval = NULL
 				);
 			
@@ -92,7 +92,7 @@ namespace gpopt
 				ULONG ulSegments,
 				ULONG ulSessionId,
 				ULONG ulCmdId,
-				COptimizerConfig *poconf,
+				COptimizerConfig *optimizer_config,
 				IConstExprEvaluator *pceeval
 				);
 

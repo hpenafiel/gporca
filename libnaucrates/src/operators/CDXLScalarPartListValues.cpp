@@ -92,18 +92,18 @@ CDXLScalarPartListValues::FBoolean
 void
 CDXLScalarPartListValues::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode * // pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartLevel), m_ulLevel);
-	m_pmdidResult->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpResultTypeId));
-	m_pmdidElement->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenArrayElementType));
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartLevel), m_ulLevel);
+	m_pmdidResult->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpResultTypeId));
+	m_pmdidElement->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayElementType));
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

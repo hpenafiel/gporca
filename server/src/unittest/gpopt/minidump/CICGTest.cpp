@@ -183,15 +183,15 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 		{
 			ICostModel *pcm = CTestUtils::Pcm(pmp);
 
-			COptimizerConfig *poconf = pdxlmd->Poconf();
+			COptimizerConfig *optimizer_config = pdxlmd->Poconf();
 			CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 									(
 									pmp, 
 									filename,
-									poconf->Pcm()->UlHosts() /*ulSegments*/,
+									optimizer_config->Pcm()->UlHosts() /*ulSegments*/,
 									1 /*ulSessionId*/, 
 									1, /*ulCmdId*/
-									poconf,
+									optimizer_config,
 									NULL /*pceeval*/
 									);
 
@@ -276,9 +276,9 @@ CICGTest::EresUnittest_NegativeIndexApplyTests()
 		{
 			ICostModel *pcm = CTestUtils::Pcm(pmp);
 
-			COptimizerConfig *poconf = GPOS_NEW(pmp) COptimizerConfig
+			COptimizerConfig *optimizer_config = GPOS_NEW(pmp) COptimizerConfig
 						(
-						CEnumeratorConfig::Pec(pmp, 0 /*ullPlanId*/),
+						CEnumeratorConfig::Pec(pmp, 0 /*plan_id*/),
 						CStatisticsConfig::PstatsconfDefault(pmp),
 						CCTEConfig::PcteconfDefault(pmp),
 						pcm,
@@ -292,11 +292,11 @@ CICGTest::EresUnittest_NegativeIndexApplyTests()
 									GPOPT_TEST_SEGMENTS /*ulSegments*/,
 									1 /*ulSessionId*/,
 									1, /*ulCmdId*/
-									poconf,
+									optimizer_config,
 									NULL /*pceeval*/
 									);
 			GPOS_CHECK_ABORT;
-			poconf->Release();
+			optimizer_config->Release();
 			pdxlnPlan->Release();
 			pcm->Release();
 

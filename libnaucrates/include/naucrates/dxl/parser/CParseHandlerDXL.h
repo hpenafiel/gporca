@@ -93,10 +93,10 @@ namespace gpdxl
 			DrgPss *m_pdrgpss;
 
 			// plan Id
-			ULLONG m_ullPlanId;
+			ULLONG m_plan_id;
 
 			// plan space size
-			ULLONG m_ullPlanSpaceSize;
+			ULLONG m_plan_space_size;
 
 			// cost model params
 			ICostModelParams *m_pcp;
@@ -160,7 +160,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CParseHandlerDXL(IMemoryPool *pmp, CParseHandlerManager *pphm);
+			CParseHandlerDXL(IMemoryPool *pmp, CParseHandlerManager *parse_handler_mgr);
 			
 			//dtor
 			virtual

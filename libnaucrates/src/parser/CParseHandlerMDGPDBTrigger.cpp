@@ -39,11 +39,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMDGPDBTrigger::CParseHandlerMDGPDBTrigger
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, pphm, pphRoot),
+	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_pmdidRel(NULL),
@@ -71,14 +71,14 @@ CParseHandlerMDGPDBTrigger::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBTrigger), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenGPDBTrigger);
 
 	const XMLCh *xmlszName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenGPDBTrigger);
-	CWStringDynamic *pstrName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszName);
+	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszName);
 	m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrName);
 	GPOS_DELETE(pstrName);
 	GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
@@ -128,7 +128,7 @@ CParseHandlerMDGPDBTrigger::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBTrigger), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

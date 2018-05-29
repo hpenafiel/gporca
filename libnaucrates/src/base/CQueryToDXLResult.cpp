@@ -28,12 +28,12 @@ CQueryToDXLResult::CQueryToDXLResult
 	(
 	CDXLNode *pdxln,
 	DrgPdxln *pdrgpdxlnOutput,
-	DrgPdxln *pdrgpdxlnCTE
+	DrgPdxln *cte_dxlnode_array
 	)
 	:
 	m_pdxln(pdxln),
 	m_pdrgpdxlnQueryOutput(pdrgpdxlnOutput),
-	m_pdrgpdxlnCTE(pdrgpdxlnCTE)
+	m_pdrgpdxlnCTE(cte_dxlnode_array)
 {
 	GPOS_ASSERT(NULL != pdxln);
 }

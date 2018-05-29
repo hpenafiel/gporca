@@ -113,15 +113,15 @@ CFilterCardinalityTest::EresUnittest_CStatistics
 		SStatsFilterSTestCase elem = rgstatsdisjtc[ul];
 
 		// read input/output DXL file
-		CHAR *szDXLInput = CDXLUtils::SzRead(pmp, elem.m_szInputFile);
-		CHAR *szDXLOutput = CDXLUtils::SzRead(pmp, elem.m_szOutputFile);
+		CHAR *szDXLInput = CDXLUtils::Read(pmp, elem.m_szInputFile);
+		CHAR *szDXLOutput = CDXLUtils::Read(pmp, elem.m_szOutputFile);
 
 		GPOS_CHECK_ABORT;
 
 		// parse the statistics objects
-		DrgPdxlstatsderrel *pdrgpdxlstatsderrel = CDXLUtils::PdrgpdxlstatsderrelParseDXL(pmp, szDXLInput, NULL);
-		DrgPstats *pdrgpstatBefore = CDXLUtils::PdrgpstatsTranslateStats(pmp, pmda, pdrgpdxlstatsderrel);
-		pdrgpdxlstatsderrel->Release();
+		DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(pmp, szDXLInput, NULL);
+		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(pmp, pmda, dxl_derived_rel_stats_array);
+		dxl_derived_rel_stats_array->Release();
 		GPOS_ASSERT(NULL != pdrgpstatBefore);
 
 		GPOS_CHECK_ABORT;
@@ -772,17 +772,17 @@ CFilterCardinalityTest::EresUnittest_CStatisticsBasicsFromDXLNumeric()
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		// read input DXL file
-		CHAR *szDXLInput = CDXLUtils::SzRead(pmp, rgtcStatistics[ul].szInputFile);
+		CHAR *szDXLInput = CDXLUtils::Read(pmp, rgtcStatistics[ul].szInputFile);
 		// read output DXL file
-		CHAR *szDXLOutput = CDXLUtils::SzRead(pmp, rgtcStatistics[ul].szOutputFile);
+		CHAR *szDXLOutput = CDXLUtils::Read(pmp, rgtcStatistics[ul].szOutputFile);
 
 		GPOS_CHECK_ABORT;
 
 		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 		// parse the statistics objects
-		DrgPdxlstatsderrel *pdrgpdxlstatsderrel = CDXLUtils::PdrgpdxlstatsderrelParseDXL(pmp, szDXLInput, NULL);
-		DrgPstats *pdrgpstatBefore = CDXLUtils::PdrgpstatsTranslateStats(pmp, pmda, pdrgpdxlstatsderrel);
-		pdrgpdxlstatsderrel->Release();
+		DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(pmp, szDXLInput, NULL);
+		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(pmp, pmda, dxl_derived_rel_stats_array);
+		dxl_derived_rel_stats_array->Release();
 
 		GPOS_ASSERT(NULL != pdrgpstatBefore);
 
@@ -878,23 +878,23 @@ CFilterCardinalityTest::EresUnittest_CStatisticsBasicsFromDXL()
 	COstreamString oss(&str);
 
 	// read input DXL file
-	CHAR *szDXLInput = CDXLUtils::SzRead(pmp, szInputDXLFileName);
+	CHAR *szDXLInput = CDXLUtils::Read(pmp, szInputDXLFileName);
 	// read output DXL file
-	CHAR *szDXLOutput = CDXLUtils::SzRead(pmp, szOutputDXLFileName);
+	CHAR *szDXLOutput = CDXLUtils::Read(pmp, szOutputDXLFileName);
 
 	GPOS_CHECK_ABORT;
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// parse the statistics objects
-	DrgPdxlstatsderrel *pdrgpdxlstatsderrel = CDXLUtils::PdrgpdxlstatsderrelParseDXL(pmp, szDXLInput, NULL);
-	DrgPstats *pdrgpstatsBefore = CDXLUtils::PdrgpstatsTranslateStats
+	DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(pmp, szDXLInput, NULL);
+	CStatisticsArray *pdrgpstatsBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray
 									(
 									pmp,
 									pmda,
-									pdrgpdxlstatsderrel
+									dxl_derived_rel_stats_array
 									);
-	pdrgpdxlstatsderrel->Release();
+	dxl_derived_rel_stats_array->Release();
 	GPOS_ASSERT(NULL != pdrgpstatsBefore);
 
 	GPOS_CHECK_ABORT;
@@ -926,7 +926,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 	(
 	IMemoryPool *pmp,
 	CMDAccessor *pmda,
-	DrgPstats *pdrgpstatBefore,
+	CStatisticsArray *pdrgpstatBefore,
 	CStatsPred *pstatspred,
 	const CHAR *szDXLOutput,
 	BOOL fApplyTwice
@@ -946,29 +946,29 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 	CCardinalityTestUtils::PrintStats(pmp, pstatsOutput);
 
 	// output array of stats objects
-	DrgPstats *pdrgpstatOutput = GPOS_NEW(pmp) DrgPstats(pmp);
+	CStatisticsArray *pdrgpstatOutput = GPOS_NEW(pmp) CStatisticsArray(pmp);
 	pdrgpstatOutput->Append(pstatsOutput);
 
 	oss << "Serializing Input Statistics Objects (Before Filter)" << std::endl;
-	CWStringDynamic *pstrInput = CDXLUtils::PstrSerializeStatistics
+	CWStringDynamic *pstrInput = CDXLUtils::SerializeStatistics
 												(
 												pmp,
 												pmda,
 												pdrgpstatBefore,
-												true /*fSerializeHeaderFooter*/,
-												true /*fIndent*/
+												true /*serialize_header_footer*/,
+												true /*indentation*/
 												);
 	GPOS_TRACE(pstrInput->GetBuffer());
 	GPOS_DELETE(pstrInput);
 
 	oss << "Serializing Output Statistics Objects (After Filter)" << std::endl;
-	CWStringDynamic *pstrOutput = CDXLUtils::PstrSerializeStatistics
+	CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics
 												(
 												pmp,
 												pmda,
 												pdrgpstatOutput,
-												true /*fSerializeHeaderFooter*/,
-												true /*fIndent*/
+												true /*serialize_header_footer*/,
+												true /*indentation*/
 												);
 	GPOS_TRACE(pstrOutput->GetBuffer());
 
@@ -991,16 +991,16 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 		CCardinalityTestUtils::PrintStats(pmp, pstatsOutput2);
 
 		// output array of stats objects
-		DrgPstats *pdrgpstatOutput2 = GPOS_NEW(pmp) DrgPstats(pmp);
+		CStatisticsArray *pdrgpstatOutput2 = GPOS_NEW(pmp) CStatisticsArray(pmp);
 		pdrgpstatOutput2->Append(pstatsOutput2);
 
-		CWStringDynamic *pstrOutput2 = CDXLUtils::PstrSerializeStatistics
+		CWStringDynamic *pstrOutput2 = CDXLUtils::SerializeStatistics
 													(
 													pmp,
 													pmda,
 													pdrgpstatOutput2,
-													true /*fSerializeHeaderFooter*/,
-													true /*fIndent*/
+													true /*serialize_header_footer*/,
+													true /*indentation*/
 													);
 		eres = CTestUtils::EresCompare
 					(

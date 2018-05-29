@@ -202,7 +202,7 @@ namespace gpmd
 
 			// serialize object in DXL format
 			virtual 
-			void Serialize(gpdxl::CXMLSerializer *pxmlser) const;
+			void Serialize(gpdxl::CXMLSerializer *xml_serializer) const;
 	
 			// return the null constant for this type
 			virtual

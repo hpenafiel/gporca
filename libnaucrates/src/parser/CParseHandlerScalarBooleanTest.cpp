@@ -33,11 +33,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarBooleanTest::CParseHandlerScalarBooleanTest
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot),
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
 	m_edxlBooleanTestType(EdxlbooleantestSentinel)
 {
 }
@@ -70,7 +70,7 @@ CParseHandlerScalarBooleanTest::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
+				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
 				);
 		}
 		else
@@ -123,7 +123,7 @@ CParseHandlerScalarBooleanTest::EndElement
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLUnexpectedTag,
-			CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
+			CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
 			);
 	}
 	

@@ -59,7 +59,7 @@ namespace gpdxl
 			CParseHandlerPhysicalCTEProducer
 				(
 				IMemoryPool *pmp,
-				CParseHandlerManager *pphm,
+				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
 	};

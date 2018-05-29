@@ -57,7 +57,7 @@ namespace gpmd
 			static
 			void SerializeMDIdList
 				(
-				CXMLSerializer *pxmlser,
+				CXMLSerializer *xml_serializer,
 				const DrgPmdid *pdrgpmdid,
 				const CWStringConst *pstrTokenList,
 				const CWStringConst *pstrTokenListItem
@@ -107,7 +107,7 @@ namespace gpmd
 			virtual 
 			void SerializeMDIdAsElem
 				(
-				gpdxl::CXMLSerializer *pxmlser, 
+				gpdxl::CXMLSerializer *xml_serializer, 
 				const CWStringConst *pstrElem, 
 				const IMDId *pmdid
 				) const;

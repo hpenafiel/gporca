@@ -85,15 +85,15 @@ CMDProviderTest::EresUnittest_Basic()
 	pmdpFile->Release();
 	
 	// test lookup with a memory-based provider
-	CHAR *szDXL = CDXLUtils::SzRead(pmp, szFileName);
+	CHAR *dxl_string = CDXLUtils::Read(pmp, szFileName);
 
-	DrgPimdobj *pdrgpmdobj = CDXLUtils::PdrgpmdobjParseDXL(pmp, szDXL, NULL /*szXSDPath*/);
+	DrgPimdobj *pdrgpmdobj = CDXLUtils::ParseDXLToIMDObjectArray(pmp, dxl_string, NULL /*xsd_file_path*/);
 	
 	CMDProviderMemory *pmdpMemory = GPOS_NEW(pmp) CMDProviderMemory(pmp, pdrgpmdobj);
 	pmdpMemory->AddRef();
 	TestMDLookup(pmp, pmdpMemory);
 
-	GPOS_DELETE_ARRAY(szDXL);
+	GPOS_DELETE_ARRAY(dxl_string);
 	pdrgpmdobj->Release();
 	pmdpMemory->Release();
 	
@@ -126,9 +126,9 @@ CMDProviderTest::TestMDLookup
 
 	GPOS_ASSERT(NULL != pstrMDObject1 && NULL != pstrMDObject2);
 
-	IMDCacheObject *pimdobj1 = CDXLUtils::PimdobjParseDXL(pmp, pstrMDObject1, NULL);
+	IMDCacheObject *pimdobj1 = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrMDObject1, NULL);
 
-	IMDCacheObject *pimdobj2 = CDXLUtils::PimdobjParseDXL(pmp, pstrMDObject2, NULL);
+	IMDCacheObject *pimdobj2 = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrMDObject2, NULL);
 
 	GPOS_ASSERT(NULL != pimdobj1 && pmdid1->Equals(pimdobj1->Pmdid()));
 	GPOS_ASSERT(NULL != pimdobj2 && pmdid2->Equals(pimdobj2->Pmdid()));
@@ -168,7 +168,7 @@ CMDProviderTest::EresUnittest_Stats()
 
 		CWStringBase *pstrRelStats = pmdpFile->PstrObject(pmp, amda.Pmda(), pmdidRelStats);
 		GPOS_ASSERT(NULL != pstrRelStats);
-		IMDCacheObject *pmdobjRelStats = CDXLUtils::PimdobjParseDXL(pmp, pstrRelStats, NULL);
+		IMDCacheObject *pmdobjRelStats = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrRelStats, NULL);
 		GPOS_ASSERT(NULL != pmdobjRelStats);
 
 		CMDIdColStats *pmdidColStats =
@@ -176,7 +176,7 @@ CMDProviderTest::EresUnittest_Stats()
 
 		CWStringBase *pstrColStats = pmdpFile->PstrObject(pmp, amda.Pmda(), pmdidColStats);
 		GPOS_ASSERT(NULL != pstrColStats);
-		IMDCacheObject *pmdobjColStats = CDXLUtils::PimdobjParseDXL(pmp, pstrColStats, NULL);
+		IMDCacheObject *pmdobjColStats = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrColStats, NULL);
 		GPOS_ASSERT(NULL != pmdobjColStats);
 
 		// cleanup

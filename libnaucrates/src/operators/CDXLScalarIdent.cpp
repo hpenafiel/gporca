@@ -129,30 +129,30 @@ CDXLScalarIdent::ITypeModifier() const
 void
 CDXLScalarIdent::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 	
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 		
 	// add col name and col id
 	const CWStringConst *strCName = (m_pdxlcr->Pmdname())->Pstr(); 
 
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_pdxlcr->UlID());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), strCName);
-	m_pdxlcr->PmdidType()->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_pdxlcr->UlID());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), strCName);
+	m_pdxlcr->PmdidType()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != ITypeModifier())
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
 	}
 
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);	
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);	
 }
 
 //---------------------------------------------------------------------------

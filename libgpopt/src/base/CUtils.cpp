@@ -3531,7 +3531,7 @@ CUtils::FLogicalDML
 
 // return regular string from wide-character string
 CHAR *
-CUtils::SzFromWsz
+CUtils::CreateMultiByteCharStringFromWCString
 	(
 	IMemoryPool *pmp,
 	WCHAR *wsz
@@ -4973,8 +4973,8 @@ CUtils::FGeneratePartOid
 	const IMDRelation *pmdrel = pmda->Pmdrel(pmdid);
 	BOOL fInsertSortOnParquet = (!GPOS_FTRACE(EopttraceDisableSortForDMLOnParquet) && pmdrel->Erelstorage() == IMDRelation::ErelstorageAppendOnlyParquet);
 
-	COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
-	BOOL fInsertSortOnRows = (pmdrel->Erelstorage() == IMDRelation::ErelstorageAppendOnlyRows) && (poconf->Phint()->UlMinNumOfPartsToRequireSortOnInsert() <= pmdrel->UlPartitions());
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	BOOL fInsertSortOnRows = (pmdrel->Erelstorage() == IMDRelation::ErelstorageAppendOnlyRows) && (optimizer_config->Phint()->UlMinNumOfPartsToRequireSortOnInsert() <= pmdrel->UlPartitions());
 
 	return fInsertSortOnParquet || fInsertSortOnRows;
 }

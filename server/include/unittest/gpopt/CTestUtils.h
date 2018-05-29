@@ -812,7 +812,7 @@ namespace gpopt
 
 			// return the number of segments, default return GPOPT_TEST_SEGMENTS
 			static
-			ULONG UlSegments(COptimizerConfig *poconf);
+			ULONG UlSegments(COptimizerConfig *optimizer_config);
 
 			// create Equivalence Class based on the breakpoints
 			static

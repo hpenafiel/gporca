@@ -37,11 +37,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMDGPDBScalarOp::CParseHandlerMDGPDBScalarOp
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, pphm, pphRoot),
+	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_pmdidTypeLeft(NULL),
@@ -82,7 +82,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 															EdxltokenGPDBScalarOp
 															);
 
-		CWStringDynamic *pstrOpName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszOpName);
+		CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszOpName);
 		
 		// create a copy of the string in the CMDName constructor
 		m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrOpName);
@@ -209,7 +209,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -272,7 +272,7 @@ CParseHandlerMDGPDBScalarOp::EndElement
 	}
 	else if (!FSupportedChildElem(xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

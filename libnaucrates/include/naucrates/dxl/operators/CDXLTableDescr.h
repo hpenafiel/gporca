@@ -52,7 +52,7 @@ namespace gpdxl
 			// private copy ctor
 			CDXLTableDescr(const CDXLTableDescr &);
 			
-			void SerializeMDId(CXMLSerializer *pxmlser) const;
+			void SerializeMDId(CXMLSerializer *xml_serializer) const;
 		
 		public:
 			// ctor/dtor
@@ -82,7 +82,7 @@ namespace gpdxl
 			const CDXLColDescr *Pdxlcd(ULONG ul) const;
 			
 			// serialize to dxl format
-			void SerializeToDXL(CXMLSerializer *pxmlser) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer) const;
 	};
 }
 

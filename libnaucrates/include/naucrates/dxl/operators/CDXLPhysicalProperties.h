@@ -48,7 +48,7 @@ namespace gpdxl
 			~CDXLPhysicalProperties();
 
 			// serialize properties in DXL format
-			void SerializePropertiesToDXL(CXMLSerializer *pxmlser) const;
+			void SerializePropertiesToDXL(CXMLSerializer *xml_serializer) const;
 
 			// accessors
 			// the cost estimates for the operator node

@@ -35,11 +35,11 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerMetadataColumn::CParseHandlerMetadataColumn
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, pphm, pphRoot),
+	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
 	m_pmdcol(NULL),
 	m_pmdname(NULL),
 	m_pmdidType(NULL),
@@ -80,7 +80,7 @@ CParseHandlerMetadataColumn::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -92,7 +92,7 @@ CParseHandlerMetadataColumn::StartElement
 												EdxltokenMetadataColumn
 												);
 
-	CWStringDynamic *pstrColumnName = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszColumnName);
+	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszColumnName);
 	
 	// create a copy of the string in the CMDName constructor
 	m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrColumnName);
@@ -196,7 +196,7 @@ CParseHandlerMetadataColumn::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), xmlszLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	

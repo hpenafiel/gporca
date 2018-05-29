@@ -144,7 +144,7 @@ namespace gpmd
 
 			// serialize object in DXL format
 			virtual
-			void Serialize(gpdxl::CXMLSerializer *pxmlser) const;
+			void Serialize(gpdxl::CXMLSerializer *xml_serializer) const;
 
 #ifdef GPOS_DEBUG
 			// debug print of the type in the provided stream

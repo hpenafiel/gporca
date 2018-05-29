@@ -57,18 +57,18 @@ CDXLDatumStatsDoubleMappable::CDXLDatumStatsDoubleMappable
 void
 CDXLDatumStatsDoubleMappable::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 {
-	m_pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	if (IDefaultTypeModifier != ITypeModifier())
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), ITypeModifier());
 	}
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_fByVal);
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_fNull, Pba(), Length());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenDoubleValue), DStatsMapping());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_fByVal);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_fNull, Pba(), Length());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDoubleValue), DStatsMapping());
 }
 
 // EOF

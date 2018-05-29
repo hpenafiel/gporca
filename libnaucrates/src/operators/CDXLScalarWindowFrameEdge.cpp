@@ -125,26 +125,26 @@ CDXLScalarWindowFrameEdge::PstrFrameBoundary
 void
 CDXLScalarWindowFrameEdge::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	if (m_fLeading)
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowLeadingBoundary), PstrFrameBoundary(m_edxlfb));
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowLeadingBoundary), PstrFrameBoundary(m_edxlfb));
 	}
 	else
 	{
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowTrailingBoundary), PstrFrameBoundary(m_edxlfb));
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowTrailingBoundary), PstrFrameBoundary(m_edxlfb));
 	}
 
-	pdxln->SerializeChildrenToDXL(pxmlser);
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

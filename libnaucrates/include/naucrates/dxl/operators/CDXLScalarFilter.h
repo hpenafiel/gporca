@@ -44,7 +44,7 @@ namespace gpdxl
 			
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *pxmlser, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
 
 			// conversion function
 			static

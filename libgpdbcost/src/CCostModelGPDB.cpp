@@ -1209,8 +1209,8 @@ CCostModelGPDB::CostMotion
 
 	if(COperator::EopPhysicalMotionBroadcast == eopid)
 	{
-		COptimizerConfig *poconf = COptCtxt::PoctxtFromTLS()->Poconf();
-		ULONG ulBroadcastThreshold = poconf->Phint()->UlBroadcastThreshold();
+		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+		ULONG ulBroadcastThreshold = optimizer_config->Phint()->UlBroadcastThreshold();
 
 		if(dRowsOuter > ulBroadcastThreshold)
 		{

@@ -179,33 +179,33 @@ CDXLPhysicalMaterialize::FEager() const
 void
 CDXLPhysicalMaterialize::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenMaterializeEager), m_fEager);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMaterializeEager), m_fEager);
 
 	if (EdxlspoolMaterialize == m_edxlsptype)
 	{
 		// serialize spool info
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_ulSpoolId);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_ulSpoolId);
 		
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_iExecutorSlice);
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenConsumerSliceCount), m_ulConsumerSlices);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_iExecutorSlice);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenConsumerSliceCount), m_ulConsumerSlices);
 	}
 		
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(pxmlser);
+	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

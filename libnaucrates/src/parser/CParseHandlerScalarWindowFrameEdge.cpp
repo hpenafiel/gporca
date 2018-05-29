@@ -32,12 +32,12 @@ XERCES_CPP_NAMESPACE_USE
 CParseHandlerScalarWindowFrameEdge::CParseHandlerScalarWindowFrameEdge
 	(
 	IMemoryPool *pmp,
-	CParseHandlerManager *pphm,
+	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot,
 	BOOL fLeading
 	)
 	:
-	CParseHandlerScalarOp(pmp, pphm, pphRoot),
+	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
 	m_fLeading(fLeading)
 {
 }
@@ -76,7 +76,7 @@ CParseHandlerScalarWindowFrameEdge::StartElement
 		// we must have seen a Window Frame Edge already and initialized its corresponding node
 		if (NULL == m_pdxln)
 		{
-			CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
@@ -126,7 +126,7 @@ CParseHandlerScalarWindowFrameEdge::EndElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::PstrFromXMLCh(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

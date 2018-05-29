@@ -58,7 +58,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	m_pdrgpmdidOpClasses(pdrgpmdidOpClasses)
 {
 	GPOS_ASSERT(NULL != pdrgpmdidOpClasses);
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 
@@ -255,17 +255,17 @@ CMDScalarOpGPDB::Ecmpt() const
 void
 CMDScalarOpGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBScalarOp));
 	
-	m_pmdid->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenMdid));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenReturnsNullOnNullInput), m_fReturnsNullOnNullInput);
+	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenReturnsNullOnNullInput), m_fReturnsNullOnNullInput);
 
 	Edxltoken rgEdxltoken[6] = {
 							EdxltokenGPDBScalarOpLeftTypeId, EdxltokenGPDBScalarOpRightTypeId, 
@@ -278,7 +278,7 @@ CMDScalarOpGPDB::Serialize
 	
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgEdxltoken); ul++)
 	{
-		SerializeMDIdAsElem(pxmlser, CDXLTokens::PstrToken(rgEdxltoken[ul]), rgMdid[ul]);
+		SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(rgEdxltoken[ul]), rgMdid[ul]);
 
 		GPOS_CHECK_ABORT;
 	}	
@@ -286,12 +286,12 @@ CMDScalarOpGPDB::Serialize
 	// serialize operator class information
 	if (0 < m_pdrgpmdidOpClasses->Size())
 	{
-		SerializeMDIdList(pxmlser, m_pdrgpmdidOpClasses, 
+		SerializeMDIdList(xml_serializer, m_pdrgpmdidOpClasses, 
 						CDXLTokens::PstrToken(EdxltokenOpClasses), 
 						CDXLTokens::PstrToken(EdxltokenOpClass));
 	}
 	
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBScalarOp));
 }
 

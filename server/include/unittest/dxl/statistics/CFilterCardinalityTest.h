@@ -177,7 +177,7 @@ namespace gpnaucrates
 			(
 					IMemoryPool *pmp,
 					CMDAccessor *pmda,
-					DrgPstats *pdrgpstatBefore,
+					CStatisticsArray *pdrgpstatBefore,
 					CStatsPred *pstatspred,
 					const CHAR *szDXLOutput,
 					BOOL fApplyTwice = false

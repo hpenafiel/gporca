@@ -85,11 +85,11 @@ CDXLProperties::Pdxlstatsderrel() const
 void
 CDXLProperties::SerializePropertiesToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
-	SerializeStatsToDXL(pxmlser);
+	SerializeStatsToDXL(xml_serializer);
 }
 
 //---------------------------------------------------------------------------
@@ -103,13 +103,13 @@ CDXLProperties::SerializePropertiesToDXL
 void
 CDXLProperties::SerializeStatsToDXL
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	)
 	const
 {
 	if (NULL != m_pdxlstatsderrel)
 	{
-		m_pdxlstatsderrel->Serialize(pxmlser);
+		m_pdxlstatsderrel->Serialize(xml_serializer);
 	}
 }
 

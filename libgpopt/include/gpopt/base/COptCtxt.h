@@ -100,7 +100,7 @@ namespace gpopt
 				CColumnFactory *pcf,
 				CMDAccessor *pmda,
 				IConstExprEvaluator *pceeval,
-				COptimizerConfig *poconf
+				COptimizerConfig *optimizer_config
 				);
 
 			// dtor
@@ -201,7 +201,7 @@ namespace gpopt
 						IMemoryPool *pmp,
 						CMDAccessor *pmda,
 						IConstExprEvaluator *pceeval,
-						COptimizerConfig *poconf
+						COptimizerConfig *optimizer_config
 						);
 			
 			// shorthand to retrieve opt context from TLS

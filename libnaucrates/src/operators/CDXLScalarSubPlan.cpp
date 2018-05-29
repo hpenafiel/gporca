@@ -156,18 +156,18 @@ CDXLScalarSubPlan::PstrSubplanType() const
 void
 CDXLScalarSubPlan::SerializeToDXL
 	(
-	CXMLSerializer *pxmlser,
+	CXMLSerializer *xml_serializer,
 	const CDXLNode *pdxln
 	)
 	const
 {
 	const CWStringConst *pstrElemName = PstrOpName();
-	pxmlser->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidFirstColType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
-	pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenScalarSubPlanType), PstrSubplanType());
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	m_pmdidFirstColType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenScalarSubPlanType), PstrSubplanType());
 
 	// serialize test expression
-	pxmlser->OpenElement
+	xml_serializer->OpenElement
 					(
 					CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 					CDXLTokens::PstrToken(EdxltokenScalarSubPlanTestExpr)
@@ -175,16 +175,16 @@ CDXLScalarSubPlan::SerializeToDXL
 
 	if (NULL != m_pdxlnTestExpr)
 	{
-		m_pdxlnTestExpr->SerializeToDXL(pxmlser);
+		m_pdxlnTestExpr->SerializeToDXL(xml_serializer);
 	}
 
-	pxmlser->CloseElement
+	xml_serializer->CloseElement
 					(
 					CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 					CDXLTokens::PstrToken(EdxltokenScalarSubPlanTestExpr)
 					);
 
-	pxmlser->OpenElement
+	xml_serializer->OpenElement
 				(
 				CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 				CDXLTokens::PstrToken(EdxltokenScalarSubPlanParamList)
@@ -192,28 +192,28 @@ CDXLScalarSubPlan::SerializeToDXL
 
 	for (ULONG ul = 0; ul < m_pdrgdxlcr->Size(); ul++)
 	{
-		pxmlser->OpenElement
+		xml_serializer->OpenElement
 					(
 					CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 					CDXLTokens::PstrToken(EdxltokenScalarSubPlanParam)
 					);
 
 		ULONG ulid = (*m_pdrgdxlcr)[ul]->UlID();
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), ulid);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), ulid);
 
 		const CMDName *pmdname = (*m_pdrgdxlcr)[ul]->Pmdname();
 		const IMDId *pmdidType = (*m_pdrgdxlcr)[ul]->PmdidType();
-		pxmlser->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), pmdname->Pstr());
-		pmdidType->Serialize(pxmlser, CDXLTokens::PstrToken(EdxltokenTypeId));
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), pmdname->Pstr());
+		pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
-		pxmlser->CloseElement
+		xml_serializer->CloseElement
 					(
 					CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 					CDXLTokens::PstrToken(EdxltokenScalarSubPlanParam)
 					);
 	}
 
-	pxmlser->CloseElement
+	xml_serializer->CloseElement
 				(
 				CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 				CDXLTokens::PstrToken(EdxltokenScalarSubPlanParamList)
@@ -222,9 +222,9 @@ CDXLScalarSubPlan::SerializeToDXL
 	GPOS_ASSERT(1 == pdxln->PdrgpdxlnChildren()->Size());
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(pxmlser);
+	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	pxmlser->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
 #ifdef GPOS_DEBUG

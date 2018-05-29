@@ -100,7 +100,7 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 {
 	GPOS_ASSERT_IMP(m_fFixedLength, 0 < m_ulLength);
 	GPOS_ASSERT_IMP(!m_fFixedLength, 0 > m_iLength);
-	m_pstr = CDXLUtils::PstrSerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*fIndent*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
 
 	m_pmdid->AddRef();
 	m_pdatumNull = GPOS_NEW(m_pmp) CDatumGenericGPDB(m_pmp, m_pmdid, IDefaultTypeModifier, NULL /*pba*/, 0 /*ulLength*/, true /*fConstNull*/, 0 /*lValue */, 0 /*dValue */);
@@ -244,11 +244,11 @@ CMDTypeGenericGPDB::PmdidCmp
 void
 CMDTypeGenericGPDB::Serialize
 	(
-	CXMLSerializer *pxmlser
+	CXMLSerializer *xml_serializer
 	) 
 	const
 {
-	CGPDBTypeHelper<CMDTypeGenericGPDB>::Serialize(pxmlser, this);
+	CGPDBTypeHelper<CMDTypeGenericGPDB>::Serialize(xml_serializer, this);
 }
 
 //---------------------------------------------------------------------------

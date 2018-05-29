@@ -38,9 +38,9 @@ namespace
 				}
 			}
 
-			const CHAR *SzDxl(const CHAR *szDXLFileName)
+			const CHAR *SzDxl(const CHAR *dxl_filename)
 			{
-				m_szDXL = CDXLUtils::SzRead(Pmp(), szDXLFileName);
+				m_szDXL = CDXLUtils::Read(Pmp(), dxl_filename);
 
 				GPOS_CHECK_ABORT;
 
@@ -53,15 +53,15 @@ static void
 SerializeOptimizerConfig
 		(
 		IMemoryPool *pmp,
-		COptimizerConfig *poconf,
+		COptimizerConfig *optimizer_config,
 		COstream &oos,
-		BOOL fIndent
+		BOOL indentation
 		)
 {
 	GPOS_ASSERT(NULL != pmp);
-	GPOS_ASSERT(NULL != poconf);
+	GPOS_ASSERT(NULL != optimizer_config);
 
-	CXMLSerializer xml_serializer(pmp, oos, fIndent);
+	CXMLSerializer xml_serializer(pmp, oos, indentation);
 
 	// Add XML version and encoding, DXL document header, and namespace
 	CDXLUtils::SerializeHeader(pmp, &xml_serializer);
@@ -69,7 +69,7 @@ SerializeOptimizerConfig
 	// Make a dummy bitset
 	CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, 256);
 
-	poconf->Serialize(pmp, &xml_serializer, pbs);
+	optimizer_config->Serialize(pmp, &xml_serializer, pbs);
 
 	// Add DXL document footer
 	CDXLUtils::SerializeFooter(&xml_serializer);
@@ -81,7 +81,7 @@ SerializeOptimizerConfig
 namespace gpdxl
 {
 	// Optimizer Config request file
-	const CHAR *szDXLFileName = "../data/dxl/parse_tests/OptimizerConfig.xml";
+	const CHAR *dxl_filename = "../data/dxl/parse_tests/OptimizerConfig.xml";
 
 	// Parse an optimizer config and verify correctness of serialization.
 	// Serialization of COptimizerConfig is only done for writing to a DXL file as part of creating a minidump
@@ -94,13 +94,13 @@ namespace gpdxl
 		// Please note that most editors will automatically add a newline at the end of the file
 		// This will cause the test to fail, as we do a byte-wise string comparison as opposed to a
 		// comparison of canonicalized XML
-		const CHAR *szDXL = f.SzDxl(szDXLFileName);
+		const CHAR *dxl_string = f.SzDxl(dxl_filename);
 		const CHAR *szValidationPath = f.SzValidationPath(fValidate);
 
 		CWStringDynamic str(pmp);
 		COstreamString oss(&str);
 
-		COptimizerConfig *poc = CDXLUtils::PoptimizerConfigParseDXL(pmp, szDXL, szValidationPath);
+		COptimizerConfig *poc = CDXLUtils::ParseDXLToOptimizerConfig(pmp, dxl_string, szValidationPath);
 
 		GPOS_ASSERT(NULL != poc);
 
@@ -113,7 +113,7 @@ namespace gpdxl
 		GPOS_CHECK_ABORT;
 
 		CWStringDynamic strExpected(pmp);
-		strExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXL);
+		strExpected.AppendFormat(GPOS_WSZ_LIT("%s"), dxl_string);
 
 		GPOS_ASSERT(strExpected.Equals(&str));
 
