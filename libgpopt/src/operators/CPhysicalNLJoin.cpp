@@ -199,7 +199,7 @@ CPhysicalNLJoin::EpetOrder
 	GPOS_ASSERT(NULL != peo);
 	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
 
-	if (FSortColsInOuterChild(m_pmp, exprhdl, peo->PosRequired()))
+	if (FSortColsInOuterChild(m_memory_pool, exprhdl, peo->PosRequired()))
 	{
 		return CEnfdProp::EpetOptional;
 	}

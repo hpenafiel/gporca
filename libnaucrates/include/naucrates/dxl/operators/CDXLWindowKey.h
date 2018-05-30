@@ -32,7 +32,7 @@ namespace gpdxl
 		private:
 
 			// memory pool;
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// window frame associated with the window key
 			CDXLWindowFrame *m_pdxlwf;

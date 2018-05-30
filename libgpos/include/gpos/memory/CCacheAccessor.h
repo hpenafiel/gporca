@@ -48,7 +48,7 @@ namespace gpos
 			CCache<T, K> *m_cache;
 
 			// memory pool of a cached object inserted by the accessor
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// cached object currently held by the accessor
 			typename CCache<T, K>::CCacheHashTableEntry *m_entry;
@@ -62,7 +62,7 @@ namespace gpos
 			CCacheAccessor(CCache<T, K> *cache)
 			:
 			m_cache(cache),
-			m_pmp(NULL),
+			m_memory_pool(NULL),
 			m_entry(NULL),
 			m_inserted(false)
 
@@ -74,9 +74,9 @@ namespace gpos
 			~CCacheAccessor()
 			{
 				// check if a memory pool was created but insertion failed
-				if (NULL != m_pmp && !m_inserted)
+				if (NULL != m_memory_pool && !m_inserted)
 				{
-					CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
+					CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_memory_pool);
 				}
 
 				// release entry if one was created
@@ -97,7 +97,7 @@ namespace gpos
 				T val
 				)
 			{
-				GPOS_ASSERT(NULL != m_pmp);
+				GPOS_ASSERT(NULL != m_memory_pool);
 
 				GPOS_ASSERT(!m_inserted &&
 						    "Accessor was already used for insertion");
@@ -106,7 +106,7 @@ namespace gpos
 						    "Accessor already holds an entry");
 
 				CCacheEntry<T, K> *entry =
-						GPOS_NEW(m_cache->m_pmp) CCacheEntry<T, K>(m_pmp, key, val, m_cache->m_gclock_init_counter);
+						GPOS_NEW(m_cache->m_memory_pool) CCacheEntry<T, K>(m_memory_pool, key, val, m_cache->m_gclock_init_counter);
 
 				CCacheEntry<T, K> *ret = m_cache->InsertEntry(entry);
 
@@ -158,17 +158,17 @@ namespace gpos
 			// creates a new memory pool for allocating a new object
 			IMemoryPool *Pmp()
 			{
-				GPOS_ASSERT(NULL == m_pmp);
+				GPOS_ASSERT(NULL == m_memory_pool);
 
 				// construct a memory pool for cache entry
-				m_pmp = CMemoryPoolManager::GetMemoryPoolMgr()->Create
+				m_memory_pool = CMemoryPoolManager::GetMemoryPoolMgr()->Create
 						(
 						CMemoryPoolManager::EatTracker,
 						true /*fThreadSafe*/,
 						ULLONG_MAX
 						);
 
-				return m_pmp;
+				return m_memory_pool;
 			}
 
 			// finds the first object matching the given key

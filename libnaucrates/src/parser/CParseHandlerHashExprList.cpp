@@ -63,14 +63,14 @@ CParseHandlerHashExprList::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarHashExprList), element_local_name))
 	{
 		// start the hash expr list
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode (m_pmp, GPOS_NEW(m_pmp) CDXLScalarHashExprList(m_pmp));
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarHashExprList(m_memory_pool));
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarHashExpr), element_local_name))
 	{
 		// we must have seen a hash expr list already and initialized the hash expr list node
 		GPOS_ASSERT(NULL != m_pdxln);
 		// start new hash expr element
-		CParseHandlerBase *pphHashExpr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarHashExpr), m_pphm, this);
+		CParseHandlerBase *pphHashExpr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashExpr), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphHashExpr);
 		
 		// store parse handler

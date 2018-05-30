@@ -92,7 +92,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 										);
 	
 	CWStringDynamic *pstrScalarOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszScalarOpName);
-	CMDName *pmdnameScalarOp = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrScalarOpName);
+	CMDName *pmdnameScalarOp = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrScalarOpName);
 	GPOS_DELETE(pstrScalarOpName);
 		
 	// parse column id
@@ -106,18 +106,18 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	
 	if (EdxltokenScalarSubqueryAny == edxltokenElement)
 	{
-		m_pdxlop = GPOS_NEW(m_pmp) CDXLScalarSubqueryAny(m_pmp, pmdidOp, pmdnameScalarOp, ulColId);
+		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
 	}
 	else
 	{
-		m_pdxlop = GPOS_NEW(m_pmp) CDXLScalarSubqueryAll(m_pmp, pmdidOp, pmdnameScalarOp, ulColId);
+		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
 	}
 	
 	// parse handler for the child nodes
-	CParseHandlerBase *pphLgChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+	CParseHandlerBase *pphLgChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphLgChild);
 
-	CParseHandlerBase *pphScChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+	CParseHandlerBase *pphScChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphScChild);
 
 	// store child parse handler in array
@@ -155,7 +155,7 @@ CParseHandlerScalarSubqueryQuantified::EndElement
 	CParseHandlerScalarOp *pphScChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	CParseHandlerLogicalOp *pphLgChild = dynamic_cast<CParseHandlerLogicalOp *>((*this)[1]);
 		
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
 
 	// add constructed child
 	AddChildFromParseHandler(pphScChild);

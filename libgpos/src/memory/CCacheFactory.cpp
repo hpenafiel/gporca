@@ -32,7 +32,7 @@ CCacheFactory::CCacheFactory
 		IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp)
+	m_memory_pool(pmp)
 {
 
 }
@@ -49,7 +49,7 @@ CCacheFactory::CCacheFactory
 IMemoryPool *
 CCacheFactory::Pmp() const
 {
-	return m_pmp;
+	return m_memory_pool;
 }
 
 
@@ -118,7 +118,7 @@ CCacheFactory::Shutdown()
 	GPOS_ASSERT(NULL != factory &&
 			    "Cache factory has not been initialized");
 
-	IMemoryPool *pmp = factory->m_pmp;
+	IMemoryPool *pmp = factory->m_memory_pool;
 
 	// destroy cache factory
 	CCacheFactory::m_factory = NULL;

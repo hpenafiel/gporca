@@ -81,18 +81,18 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
 
 	// parse check constraint name
-	const XMLCh *xmlszColName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCheckConstraint);
-	CWStringDynamic *pstrColName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszColName);
+	const XMLCh *parsed_column_name = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCheckConstraint);
+	CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), parsed_column_name);
 
 	// create a copy of the string in the CMDName constructor
-	m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrColName);
-	GPOS_DELETE(pstrColName);
+	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, column_name);
+	GPOS_DELETE(column_name);
 
 	// parse mdid of relation
 	m_pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenCheckConstraint);
 
 	// create and activate the parse handler for the child scalar expression node
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 	m_pphm->ActivateParseHandler(pph);
 
 	// store parse handler
@@ -128,7 +128,7 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 	GPOS_ASSERT(NULL != pdxlnScExpr);
 	pdxlnScExpr->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_pmp) CMDCheckConstraintGPDB(m_pmp, m_pmdid, m_pmdname, m_pmdidRel, pdxlnScExpr);
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_pmdid, m_pmdname, m_pmdidRel, pdxlnScExpr);
 
 	// deactivate handler
 	m_pphm->DeactivateHandler();

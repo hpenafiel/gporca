@@ -62,7 +62,7 @@ namespace gpopt
 			ULONG m_ulOpId;
 			
 			// memory pool for internal allocations
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 		
 			// is pattern of xform
 			BOOL m_fPattern;

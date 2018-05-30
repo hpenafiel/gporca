@@ -37,7 +37,7 @@ CStatisticsConfig::CStatisticsConfig
 	CDouble dDampingFactorGroupBy
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_dDampingFactorFilter(dDampingFactorFilter),
 	m_dDampingFactorJoin(dDampingFactorJoin),
 	m_dDampingFactorGroupBy(dDampingFactorGroupBy),
@@ -47,8 +47,8 @@ CStatisticsConfig::CStatisticsConfig
 	GPOS_ASSERT(CDouble(0.0) < dDampingFactorJoin);
 	GPOS_ASSERT(CDouble(0.0) < dDampingFactorGroupBy);
 
-	//m_phmmdidcolinfo = New(m_pmp) HMMDIdMissingstatscol(m_pmp);
-	m_phsmdidcolinfo = GPOS_NEW(m_pmp) HSMDId(m_pmp);
+	//m_phmmdidcolinfo = New(m_memory_pool) HMMDIdMissingstatscol(m_memory_pool);
+	m_phsmdidcolinfo = GPOS_NEW(m_memory_pool) HSMDId(m_memory_pool);
 }
 
 

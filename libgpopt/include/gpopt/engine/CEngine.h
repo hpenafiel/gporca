@@ -49,7 +49,7 @@ namespace gpopt
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// query context
 			CQueryContext *m_pqc;

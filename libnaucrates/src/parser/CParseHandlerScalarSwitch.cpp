@@ -67,8 +67,8 @@ CParseHandlerScalarSwitch::StartElement
 		m_pmdidType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarSwitch);
 
 		// construct node
-		CDXLScalarSwitch *pdxlop =  GPOS_NEW(m_pmp) CDXLScalarSwitch(m_pmp, m_pmdidType);
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+		CDXLScalarSwitch *pdxlop =  GPOS_NEW(m_memory_pool) CDXLScalarSwitch(m_memory_pool, m_pmdidType);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), element_local_name))
 	{
@@ -76,7 +76,7 @@ CParseHandlerScalarSwitch::StartElement
 		GPOS_ASSERT(NULL != m_pdxln && m_fArgProcessed && !m_fDefaultProcessed);
 
 		// parse case
-		CParseHandlerBase *pphCase = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), m_pphm, this);
+		CParseHandlerBase *pphCase = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphCase);
 
 		// store parse handlers
@@ -89,7 +89,7 @@ CParseHandlerScalarSwitch::StartElement
 		GPOS_ASSERT(NULL != m_pdxln && !m_fDefaultProcessed);
 
 		// parse scalar child
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 
 		// store parse handlers

@@ -399,7 +399,7 @@ CParseHandlerDXL::StartElement
 		GPOS_ASSERT(FValidStartElement(element_local_name));
 
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
 	
 		m_pphm->ActivateParseHandler(pph);
 			
@@ -678,7 +678,7 @@ CParseHandlerDXL::ExtractMDRequest
 	pdrgpmdid->AddRef();
 	pdrgptr->AddRef();
 	
-	m_pmdr = GPOS_NEW(m_pmp) CMDRequest(m_pmp, pdrgpmdid, pdrgptr);
+	m_pmdr = GPOS_NEW(m_memory_pool) CMDRequest(m_memory_pool, pdrgpmdid, pdrgptr);
 }
 
 

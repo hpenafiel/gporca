@@ -1882,7 +1882,7 @@ CHistogram::Pdxlstatsdercol
 	)
 	const
 {
-	DrgPdxlbucket *pdrgpdxlbucket = GPOS_NEW(pmp) DrgPdxlbucket(pmp);
+	DrgPdxlbucket *stats_bucket_dxl_array = GPOS_NEW(pmp) DrgPdxlbucket(pmp);
 
 	const ULONG ulBuckets = m_pdrgppbucket->Size();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
@@ -1905,10 +1905,10 @@ CHistogram::Pdxlstatsdercol
 											dDistinct
 											);
 
-		pdrgpdxlbucket->Append(pdxlbucket);
+		stats_bucket_dxl_array->Append(pdxlbucket);
 	}
 
-	return GPOS_NEW(pmp) CDXLStatsDerivedColumn(ulColId, dWidth, m_dNullFreq, m_dDistinctRemain, m_dFreqRemain, pdrgpdxlbucket);
+	return GPOS_NEW(pmp) CDXLStatsDerivedColumn(ulColId, dWidth, m_dNullFreq, m_dDistinctRemain, m_dFreqRemain, stats_bucket_dxl_array);
 }
 
 // randomly pick a bucket index based on bucket frequency values

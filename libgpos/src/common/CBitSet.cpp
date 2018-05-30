@@ -216,7 +216,7 @@ CBitSet::CBitSet
 	ULONG vector_size
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_vector_size(vector_size),
 	m_size(0)
 {
@@ -238,7 +238,7 @@ CBitSet::CBitSet
 	const CBitSet &bs
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_vector_size(bs.m_vector_size),
 	m_size(0)
 {
@@ -307,7 +307,7 @@ CBitSet::ExchangeSet
 	CBitSetLink *bsl = FindLinkByOffset(offset);
 	if (NULL == bsl || bsl->GetOffset() != offset)
 	{
-		CBitSetLink *pbsl_new = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, offset, m_vector_size);
+		CBitSetLink *pbsl_new = GPOS_NEW(m_memory_pool) CBitSetLink(m_memory_pool, offset, m_vector_size);
 		if (NULL == bsl)
 		{
 			m_bsllist.Prepend(pbsl_new);
@@ -400,7 +400,7 @@ CBitSet::Union
 	typedef CDynamicPtrArray <CBitSetLink, CleanupNULL> DrgBSL;
 
 	CAutoRef<DrgBSL> a_drgpbsl;
-	a_drgpbsl = GPOS_NEW(m_pmp) DrgBSL(m_pmp);
+	a_drgpbsl = GPOS_NEW(m_memory_pool) DrgBSL(m_memory_pool);
 	
 	// iterate through other's links and copy missing links to array
 	for (
@@ -414,7 +414,7 @@ CBitSet::Union
 		{
 			// need to copy this link
 			CAutoP<CBitSetLink> a_pbsl;
-			a_pbsl = GPOS_NEW(m_pmp) CBitSetLink(m_pmp, *bsl_other);
+			a_pbsl = GPOS_NEW(m_memory_pool) CBitSetLink(m_memory_pool, *bsl_other);
 			a_drgpbsl->Append(a_pbsl.Value());
 			
 			a_pbsl.Reset();
@@ -723,7 +723,7 @@ CBitSet::OsPrint
 void
 CBitSet::DbgPrint() const
 {
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif // GPOS_DEBUG

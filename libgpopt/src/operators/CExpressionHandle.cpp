@@ -52,7 +52,7 @@ CExpressionHandle::CExpressionHandle
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pexpr(NULL),
 	m_pgexpr(NULL),
 	m_pcc(NULL),
@@ -186,7 +186,7 @@ CExpressionHandle::CopyStats()
 
 	// attach child stats
 	GPOS_ASSERT(NULL == m_pdrgpstat);
-	m_pdrgpstat = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
+	m_pdrgpstat = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	const ULONG ulArity = UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -209,7 +209,7 @@ CExpressionHandle::CopyStats()
 			GPOS_ASSERT(FScalarChild(ul));
 
 			// create dummy stats for missing scalar children
-			pstatsChild = CStatistics::PstatsEmpty(m_pmp);
+			pstatsChild = CStatistics::PstatsEmpty(m_memory_pool);
 		}
 
 		m_pdrgpstat->Append(pstatsChild);
@@ -309,7 +309,7 @@ CExpressionHandle::CopyGroupProps()
 
 	// add-ref child groups' properties
 	const ULONG ulArity = UlArity();
-	m_pdrgpdp = GPOS_NEW(m_pmp) DrgPdp(m_pmp, ulArity);
+	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool, ulArity);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDrvdProp *pdpChild = (*m_pgexpr)[ul]->Pdp();
@@ -340,7 +340,7 @@ CExpressionHandle::CopyExprProps()
 
 	// add-ref child expressions' properties
 	const ULONG ulArity = UlArity();
-	m_pdrgpdp = GPOS_NEW(m_pmp) DrgPdp(m_pmp, ulArity);
+	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool, ulArity);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDrvdProp *pdpChild = (*m_pexpr)[ul]->PdpDerive();
@@ -372,7 +372,7 @@ CExpressionHandle::CopyCostCtxtProps()
 
 	// add-ref child group expressions' properties
 	const ULONG ulArity = UlArity();
-	m_pdrgpdp = GPOS_NEW(m_pmp) DrgPdp(m_pmp, ulArity);
+	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool, ulArity);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CGroup *pgroupChild = (*m_pgexpr)[ul];
@@ -435,7 +435,7 @@ CExpressionHandle::DeriveProps
 	CopyStats();
 
 	// extract children's properties
-	m_pdrgpdp = GPOS_NEW(m_pmp) DrgPdp(m_pmp);
+	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool);
 	const ULONG ulArity = m_pexpr->UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -449,8 +449,8 @@ CExpressionHandle::DeriveProps
 	}
 
 	// create/derive local properties
-	m_pdp = Pop()->PdpCreate(m_pmp);
-	m_pdp->Derive(m_pmp, *this, pdpctxt);
+	m_pdp = Pop()->PdpCreate(m_memory_pool);
+	m_pdp->Derive(m_memory_pool, *this, pdpctxt);
 }
 
 //---------------------------------------------------------------------------
@@ -477,10 +477,10 @@ CExpressionHandle::PdrgpstatOuterRefs
 	if (FScalarChild(ulChildIndex) || !FHasOuterRefs(ulChildIndex))
 	{
 		// if child is scalar or has no outer references, return empty array
-		return  GPOS_NEW(m_pmp) DrgPstat(m_pmp);
+		return  GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	}
 
-	DrgPstat *pdrgpstatResult = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
+	DrgPstat *pdrgpstatResult = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	CColRefSet *pcrsOuter = Pdprel(ulChildIndex)->PcrsOuter();
 	GPOS_ASSERT(0 < pcrsOuter->Size());
 
@@ -489,7 +489,7 @@ CExpressionHandle::PdrgpstatOuterRefs
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		IStatistics *pstats = (*statistics_array)[ul];
-		CColRefSet *pcrsStats = pstats->Pcrs(m_pmp);
+		CColRefSet *pcrsStats = pstats->Pcrs(m_memory_pool);
 		BOOL fStatsColsUsed = !pcrsOuter->IsDisjoint(pcrsStats);
 		pcrsStats->Release();
 		if (fStatsColsUsed)
@@ -550,13 +550,13 @@ CExpressionHandle::DeriveRootStats
 		GPOS_ASSERT(NULL != m_pexpr);
 		GPOS_ASSERT(NULL != m_pexpr->Pgexpr());
 
-		pstatsRoot = m_pexpr->Pgexpr()->Pgroup()->PstatsRecursiveDerive(m_pmp, m_pmp, CReqdPropRelational::Prprel(m_prp), pdrgpstatCtxt);
+		pstatsRoot = m_pexpr->Pgexpr()->Pgroup()->PstatsRecursiveDerive(m_memory_pool, m_memory_pool, CReqdPropRelational::Prprel(m_prp), pdrgpstatCtxt);
 		pstatsRoot->AddRef();
 	}
 	else
 	{
 		// otherwise, derive stats using root operator
-		pstatsRoot = popLogical->PstatsDerive(m_pmp, *this, pdrgpstatCtxt);
+		pstatsRoot = popLogical->PstatsDerive(m_memory_pool, *this, pdrgpstatCtxt);
 	}
 	GPOS_ASSERT(NULL != pstatsRoot);
 
@@ -585,11 +585,11 @@ CExpressionHandle::DeriveStats
 	GPOS_ASSERT(NULL != m_pdrgprp);
 
 	// copy input context
-	DrgPstat *pdrgpstatCurrentCtxt = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
+	DrgPstat *pdrgpstatCurrentCtxt = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	CUtils::AddRefAppend<IStatistics, CleanupStats>(pdrgpstatCurrentCtxt, pdrgpstatCtxt);
 
 	// create array of children stats
-	m_pdrgpstat = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
+	m_pdrgpstat = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	ULONG ulMaxChildRisk = 1;
 	const ULONG ulArity = UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
@@ -606,7 +606,7 @@ CExpressionHandle::DeriveStats
 		else
 		{
 			// derive stats recursively on child group
-			pstats = (*Pgexpr())[ul]->PstatsRecursiveDerive(m_pmp, m_pmp, Prprel(ul), pdrgpstatChildCtxt);
+			pstats = (*Pgexpr())[ul]->PstatsRecursiveDerive(m_memory_pool, m_memory_pool, Prprel(ul), pdrgpstatChildCtxt);
 		}
 		GPOS_ASSERT(NULL != pstats);
 
@@ -680,7 +680,7 @@ CExpressionHandle::DeriveCostContextStats()
 	{
 		// derive stats on dynamic table scan using stats of part selector
 		CPhysicalScan *popScan = CPhysicalScan::PopConvert(m_pgexpr->Pop());
-		IStatistics *pstatsDS = popScan->PstatsDerive(m_pmp, *this, m_pcc->Poc()->Prpp(), m_pcc->Poc()->Pdrgpstat());
+		IStatistics *pstatsDS = popScan->PstatsDerive(m_memory_pool, *this, m_pcc->Poc()->Prpp(), m_pcc->Poc()->Pdrgpstat());
 
 		CRefCount::SafeRelease(m_pstats);
 		m_pstats = pstatsDS;
@@ -696,7 +696,7 @@ CExpressionHandle::DeriveCostContextStats()
 	CRefCount::SafeRelease(m_pdrgpstat);
 	m_pdrgpstat = NULL;
 
-	m_pdrgpstat = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
+	m_pdrgpstat = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	const ULONG ulArity = m_pcc->Pdrgpoc()->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -724,7 +724,7 @@ CExpressionHandle::DeriveCostContextStats()
 	CGroupExpression *pgexprForStats = m_pcc->PgexprForStats();
 	GPOS_ASSERT(NULL != pgexprForStats);
 
-	CExpressionHandle exprhdl(m_pmp);
+	CExpressionHandle exprhdl(m_memory_pool);
 	exprhdl.Attach(pgexprForStats);
 	exprhdl.DeriveProps(NULL /*pdpctxt*/);
 	m_pdrgpstat->AddRef();
@@ -830,7 +830,7 @@ CExpressionHandle::DerivePlanProps
 	GPOS_ASSERT(NULL != pdpctxtplan);
 
 	// extract children's properties
-	m_pdrgpdp = GPOS_NEW(m_pmp) DrgPdp(m_pmp);
+	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool);
 	const ULONG ulArity = m_pcc->Pdrgpoc()->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -861,8 +861,8 @@ CExpressionHandle::DerivePlanProps
 	pdpctxtplan->SetExpectedPartitionSelectors(pop, m_pcc);
 
 	// create/derive local properties
-	m_pdp = Pop()->PdpCreate(m_pmp);
-	m_pdp->Derive(m_pmp, *this, pdpctxtplan);
+	m_pdp = Pop()->PdpCreate(m_memory_pool);
+	m_pdp->Derive(m_memory_pool, *this, pdpctxtplan);
 }
 
 
@@ -877,7 +877,7 @@ CExpressionHandle::DerivePlanProps
 void
 CExpressionHandle::DerivePlanProps()
 {
-	CDrvdPropCtxtPlan *pdpctxtplan = GPOS_NEW(m_pmp) CDrvdPropCtxtPlan(m_pmp);
+	CDrvdPropCtxtPlan *pdpctxtplan = GPOS_NEW(m_memory_pool) CDrvdPropCtxtPlan(m_memory_pool);
 
 	// copy stats
 	CopyStats();
@@ -916,12 +916,12 @@ CExpressionHandle::InitReqdProps
 		if (NULL == prpp->Pepp())
 		{
 			CPartInfo *ppartinfo = Pdprel()->Ppartinfo();
-			prpp->InitReqdPartitionPropagation(m_pmp, ppartinfo);
+			prpp->InitReqdPartitionPropagation(m_memory_pool, ppartinfo);
 		}
 	}
 	
 	// compute required properties of children
-	m_pdrgprp = GPOS_NEW(m_pmp) DrgPrp(m_pmp);
+	m_pdrgprp = GPOS_NEW(m_memory_pool) DrgPrp(m_memory_pool);
 
 	// initialize array with input requirements,
 	// the initial requirements are only place holders in the array
@@ -967,8 +967,8 @@ CExpressionHandle::ComputeChildReqdProps
 	else
 	{
 		// compute required properties based on child type
-		prp = Pop()->PrpCreate(m_pmp);
-		prp->Compute(m_pmp, *this, m_prp, ulChildIndex, pdrgpdpCtxt, ulOptReq);
+		prp = Pop()->PrpCreate(m_memory_pool);
+		prp->Compute(m_memory_pool, *this, m_prp, ulChildIndex, pdrgpdpCtxt, ulOptReq);
 	}
 
 	// replace required properties of given child
@@ -1031,8 +1031,8 @@ CExpressionHandle::ComputeChildReqdCols
 	else
 	{
 		// compute required columns
-		prp = Pop()->PrpCreate(m_pmp);
-		CReqdPropPlan::Prpp(prp)->ComputeReqdCols(m_pmp, *this, m_prp, ulChildIndex, pdrgpdpCtxt);
+		prp = Pop()->PrpCreate(m_memory_pool);
+		CReqdPropPlan::Prpp(prp)->ComputeReqdCols(m_memory_pool, *this, m_prp, ulChildIndex, pdrgpdpCtxt);
 	}
 
 	// replace required properties of given child

@@ -48,7 +48,7 @@ CAutoMemoryPool::CAutoMemoryPool
 	:
 	m_leak_check_type(leak_check_type)
 {
-	m_pmp = CMemoryPoolManager::GetMemoryPoolMgr()->Create(ept, thread_safe, capacity);
+	m_memory_pool = CMemoryPoolManager::GetMemoryPoolMgr()->Create(ept, thread_safe, capacity);
 }
 
 
@@ -65,8 +65,8 @@ CAutoMemoryPool::CAutoMemoryPool
 IMemoryPool *
 CAutoMemoryPool::Detach()
 {
-	IMemoryPool *pmp = m_pmp;
-	m_pmp = NULL;
+	IMemoryPool *pmp = m_memory_pool;
+	m_memory_pool = NULL;
 	
 	return pmp;
 }
@@ -84,7 +84,7 @@ CAutoMemoryPool::Detach()
 //---------------------------------------------------------------------------
 CAutoMemoryPool::~CAutoMemoryPool()
 {
-	if (NULL == m_pmp)
+	if (NULL == m_memory_pool)
 	{
 		return;
 	}
@@ -106,18 +106,18 @@ CAutoMemoryPool::~CAutoMemoryPool()
 			gpos::IOstream &os = gpos::oswcerr;
 
 			// check for leaks, use this to trigger standard Assert handling
-			m_pmp->AssertEmpty(os);
+			m_memory_pool->AssertEmpty(os);
 		}
 
 		// release pool
-		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
+		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_memory_pool);
 	}
 	GPOS_CATCH_EX(ex)
 	{
 		GPOS_ASSERT(GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiAssert));
 
 		// release pool
-		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);	
+		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_memory_pool);	
 		
 		GPOS_RETHROW(ex);
 	}
@@ -126,7 +126,7 @@ CAutoMemoryPool::~CAutoMemoryPool()
 #else // GPOS_DEBUG
 	
 	// hand in pool and return
-	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_memory_pool);
 
 #endif // GPOS_DEBUG
 }

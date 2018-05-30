@@ -78,7 +78,7 @@ CParseHandlerMetadataColumns::StartElement
 		// start of a columns' list
 		GPOS_ASSERT(NULL == m_pdrgpmdcol);
 		
-		m_pdrgpmdcol = GPOS_NEW(m_pmp) DrgPmdcol(m_pmp);
+		m_pdrgpmdcol = GPOS_NEW(m_memory_pool) DrgPmdcol(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), element_local_name))
 	{
@@ -86,7 +86,7 @@ CParseHandlerMetadataColumns::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpmdcol);
 		
 		// activate parse handler to parse the column info
-		CParseHandlerBase *pphCol = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_pphm, this);
+		CParseHandlerBase *pphCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_pphm, this);
 		
 		m_pphm->ActivateParseHandler(pphCol);
 		this->Append(pphCol);

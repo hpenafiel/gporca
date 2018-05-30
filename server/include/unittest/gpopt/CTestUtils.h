@@ -107,7 +107,7 @@ namespace gpopt
 
 			// local memory pool
 			static
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// construct an array of segment ids
 			static gpdxl::IntPtrArray *PdrgpiSegments(IMemoryPool *pmp);

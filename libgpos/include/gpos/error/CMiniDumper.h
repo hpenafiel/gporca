@@ -29,7 +29,7 @@ namespace gpos
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// flag indicating if handler is initialized
 			BOOL m_initialized;

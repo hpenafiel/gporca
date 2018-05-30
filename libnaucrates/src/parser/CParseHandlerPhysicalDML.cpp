@@ -129,23 +129,23 @@ CParseHandlerPhysicalDML::StartElement
 	}
 
 	// parse handler for physical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	//parse handler for the table descriptor
-	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
+	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphTabDesc);
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
+	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphPrL);
 
 	//parse handler for the direct dispatch info
-	CParseHandlerBase *pphDirectDispatch = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), m_pphm, this);
+	CParseHandlerBase *pphDirectDispatch = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphDirectDispatch);
 	
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
+	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphProp);
 
 	// store child parse handlers in array
@@ -201,8 +201,8 @@ CParseHandlerPhysicalDML::EndElement
 
 	CDXLDirectDispatchInfo *pdxlddinfo = pphDirectDispatch->Pdxlddinfo();
 	pdxlddinfo->AddRef();
-	CDXLPhysicalDML *pdxlop = GPOS_NEW(m_pmp) CDXLPhysicalDML(m_pmp, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ulCtid, m_ulSegmentId, m_fPreserveOids, m_ulTupleOidColId, pdxlddinfo, m_fInputSorted);
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+	CDXLPhysicalDML *pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ulCtid, m_ulSegmentId, m_fPreserveOids, m_ulTupleOidColId, pdxlddinfo, m_fInputSorted);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	
 	// set statistics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);

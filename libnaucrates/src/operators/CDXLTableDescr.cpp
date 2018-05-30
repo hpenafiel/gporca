@@ -36,7 +36,7 @@ CDXLTableDescr::CDXLTableDescr
 	ULONG ulExecuteAsUser
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pdrgdxlcd(NULL),

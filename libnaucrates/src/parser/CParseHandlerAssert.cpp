@@ -79,19 +79,19 @@ CParseHandlerAssert::StartElement
 			);
 	}
 	
-	m_pdxlop = GPOS_NEW(m_pmp) CDXLPhysicalAssert(m_pmp, szErrorCode);
+	m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalAssert(m_memory_pool, szErrorCode);
 
 	// ctor created a copy of the error code
 	GPOS_DELETE_ARRAY(szErrorCode);
 	
 	// parse handler for child node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	// parse handler for the predicate
 	CParseHandlerBase *pphAssertPredicate = CParseHandlerFactory::Pph
 											(
-											m_pmp, 
+											m_memory_pool, 
 											CDXLTokens::XmlstrToken(EdxltokenScalarAssertConstraintList), 
 											m_pphm, 
 											this
@@ -99,11 +99,11 @@ CParseHandlerAssert::StartElement
 	m_pphm->ActivateParseHandler(pphAssertPredicate);
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
+	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphPrL);
 
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
+	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphProp);
 
 	this->Append(pphProp);
@@ -140,7 +140,7 @@ CParseHandlerAssert::EndElement
 	CParseHandlerScalarAssertConstraintList *pphAssertPredicate = dynamic_cast<CParseHandlerScalarAssertConstraintList *>((*this)[2]);
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[3]);
 
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 
 	// add constructed children

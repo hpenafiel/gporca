@@ -95,7 +95,7 @@ CTestUtils::m_pmdpf = NULL;
 
 // local memory pool
 IMemoryPool *
-CTestUtils::m_pmp = NULL;
+CTestUtils::m_memory_pool = NULL;
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -151,11 +151,11 @@ CTestUtils::InitProviderFile
 	IMemoryPool *pmp
 	)
 {
-	GPOS_ASSERT(NULL == m_pmp);
+	GPOS_ASSERT(NULL == m_memory_pool);
 	GPOS_ASSERT(NULL != pmp);
 
-	m_pmp = pmp;
-	m_pmdpf = GPOS_NEW(m_pmp) CMDProviderMemory(m_pmp, m_szMDFileName);
+	m_memory_pool = pmp;
+	m_pmdpf = GPOS_NEW(m_memory_pool) CMDProviderMemory(m_memory_pool, m_szMDFileName);
 }
 
 
@@ -171,12 +171,12 @@ CTestUtils::InitProviderFile
 void
 CTestUtils::DestroyMDProvider()
 {
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 
 	CRefCount::SafeRelease(m_pmdpf);
 
 	// release local memory pool
-	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_memory_pool);
 }
 
 

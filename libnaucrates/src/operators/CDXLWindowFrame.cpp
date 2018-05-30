@@ -38,13 +38,13 @@ CDXLWindowFrame::CDXLWindowFrame
 	CDXLNode *pdxlnTrailing
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_edxlfs(edxlfs),
 	m_edxlfes(edxlfes),
 	m_pdxlnLeading(pdxlnLeading),
 	m_pdxlnTrailing(pdxlnTrailing)
 {
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 	GPOS_ASSERT(EdxlfsSentinel > m_edxlfs);
 	GPOS_ASSERT(EdxlfesSentinel > m_edxlfes);
 	GPOS_ASSERT(NULL != pdxlnLeading);

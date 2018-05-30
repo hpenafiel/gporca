@@ -207,7 +207,7 @@ namespace gpopt
 		
 		private:
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// metadata cache
 			MDCache *m_pcache;

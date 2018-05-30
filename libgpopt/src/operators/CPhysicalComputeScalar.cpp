@@ -141,7 +141,7 @@ CPhysicalComputeScalar::PosRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	CColRefSet *pcrsSort = posRequired->PcrsUsed(m_pmp);
+	CColRefSet *pcrsSort = posRequired->PcrsUsed(m_memory_pool);
 	BOOL fUsesDefinedCols = FUnaryUsesDefinedColumns(pcrsSort, exprhdl);
 	pcrsSort->Release();
 
@@ -207,7 +207,7 @@ CPhysicalComputeScalar::PdsRequired
 	if (CDistributionSpec::EdtHashed == edtRequired)
 	{
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(pdsRequired);
-		CColRefSet *pcrs = pdshashed->PcrsUsed(m_pmp);
+		CColRefSet *pcrs = pdshashed->PcrsUsed(m_memory_pool);
 		BOOL fUsesDefinedCols = FUnaryUsesDefinedColumns(pcrs, exprhdl);
 		pcrs->Release();
 		if (fUsesDefinedCols)
@@ -219,7 +219,7 @@ CPhysicalComputeScalar::PdsRequired
 	if (CDistributionSpec::EdtRouted == edtRequired)
 	{
 		CDistributionSpecRouted *pdsrouted = CDistributionSpecRouted::PdsConvert(pdsRequired);
-		CColRefSet *pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+		CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 		pcrs->Include(pdsrouted->Pcr());
 		BOOL fUsesDefinedCols = FUnaryUsesDefinedColumns(pcrs, exprhdl);
 		pcrs->Release();
@@ -344,7 +344,7 @@ CPhysicalComputeScalar::FProvidesReqdCols
 	GPOS_ASSERT(NULL != pcrsRequired);
 	GPOS_ASSERT(2 == exprhdl.UlArity());
 
-	CColRefSet *pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 	// include defined columns by scalar project list
 	pcrs->Union(exprhdl.Pdpscalar(1 /*ulChildIndex*/)->PcrsDefined());
 
@@ -463,7 +463,7 @@ CPhysicalComputeScalar::EpetOrder
 
 	// Sort has to go above ComputeScalar if sort columns use any column
 	// defined by ComputeScalar, otherwise, Sort can either go above or below ComputeScalar
-	CColRefSet *pcrsSort = peo->PosRequired()->PcrsUsed(m_pmp);
+	CColRefSet *pcrsSort = peo->PosRequired()->PcrsUsed(m_memory_pool);
 	BOOL fUsesDefinedCols = FUnaryUsesDefinedColumns(pcrsSort, exprhdl);
 	pcrsSort->Release();
 	if (fUsesDefinedCols)

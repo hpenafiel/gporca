@@ -164,7 +164,7 @@ namespace gpopt
 				CleanupDelete<ULONG>, CleanupRelease<CCTEMapEntry> > HMCteMapIter;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// cte map
 			HMCteMap *m_phmcm;

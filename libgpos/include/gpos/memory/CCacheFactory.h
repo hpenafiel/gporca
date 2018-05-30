@@ -48,7 +48,7 @@ namespace gpos
 			static CCacheFactory *m_factory;
 
 			// memory pool allocated to caches
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// private ctor
 			CCacheFactory(IMemoryPool *pmp);

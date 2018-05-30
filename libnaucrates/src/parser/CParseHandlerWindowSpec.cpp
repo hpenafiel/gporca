@@ -71,7 +71,7 @@ CParseHandlerWindowSpec::StartElement
 		if (NULL != xmlszAlias)
 		{
 			CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszAlias);
-			m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrAlias);
+			m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrAlias);
 			GPOS_DELETE(pstrAlias);
 		}
 
@@ -84,7 +84,7 @@ CParseHandlerWindowSpec::StartElement
 	{
 		// parse handler for the sorting column list
 		CParseHandlerBase *pphSortColList =
-					CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_pphm, this);
+					CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphSortColList);
 
 		// store parse handler
@@ -97,7 +97,7 @@ CParseHandlerWindowSpec::StartElement
 
 		// parse handler for the leading and trailing scalar values
 		CParseHandlerBase *pphWf =
-				CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_pphm, this);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphWf);
 
 		// store parse handler
@@ -165,7 +165,7 @@ CParseHandlerWindowSpec::EndElement
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
 		pdxlwf = pphWf->Pdxlwf();
 	}
-	m_pdxlws = GPOS_NEW(m_pmp) CDXLWindowSpec(m_pmp, m_pdrgpulPartCols, m_pmdname, pdxlnSortColList, pdxlwf);
+	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_pmdname, pdxlnSortColList, pdxlwf);
 
 	// deactivate handler
 	m_pphm->DeactivateHandler();

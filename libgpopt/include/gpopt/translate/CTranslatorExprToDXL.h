@@ -101,7 +101,7 @@ namespace gpopt
 			};
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// metadata accessor
 			CMDAccessor *m_pmda;

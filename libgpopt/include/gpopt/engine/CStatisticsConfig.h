@@ -39,7 +39,7 @@ namespace gpopt
 		private:
 
 			// shared memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// damping factor for filter
 			CDouble m_dDampingFactorFilter;

@@ -126,11 +126,11 @@ CParseHandlerMDRelationCtas::StartElement
 						);
 
 	//parse handler for the storage options
-	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_pphm, this);
+	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphCTASOptions);
 	
 	// parse handler for the columns
-	CParseHandlerBase *pphColumns = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_pphm, this);
+	CParseHandlerBase *pphColumns = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphColumns);
 	
 	// store parse handlers
@@ -172,9 +172,9 @@ CParseHandlerMDRelationCtas::EndElement
 	pdrgpmdcol->AddRef();
 	pdxlctasopt->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_pmp) CMDRelationCtasGPDB
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
 								(
-									m_pmp,
+									m_memory_pool,
 									m_pmdid,
 									m_pmdnameSchema,
 									m_pmdname,

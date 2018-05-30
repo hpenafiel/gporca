@@ -44,7 +44,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	DrgPmdid *pdrgpmdidOpClasses
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidTypeLeft(pmdidTypeLeft),
@@ -58,7 +58,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	m_pdrgpmdidOpClasses(pdrgpmdidOpClasses)
 {
 	GPOS_ASSERT(NULL != pdrgpmdidOpClasses);
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 

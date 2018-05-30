@@ -96,7 +96,7 @@ namespace gpopt
 		protected:
 				
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// edges
 			SEdge **m_rgpedge;

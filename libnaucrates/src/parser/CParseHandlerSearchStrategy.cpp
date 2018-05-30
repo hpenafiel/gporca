@@ -72,14 +72,14 @@ CParseHandlerSearchStrategy::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenSearchStrategy), xmlstrLocalname))
 	{
-		m_pdrgpss = GPOS_NEW(m_pmp) DrgPss(m_pmp);
+		m_pdrgpss = GPOS_NEW(m_memory_pool) DrgPss(m_memory_pool);
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenSearchStage), xmlstrLocalname))
 	{
 		GPOS_ASSERT(NULL != m_pdrgpss);
 
 		// start new search stage
-		CParseHandlerBase *pphSearchStage = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenSearchStage), m_pphm, this);
+		CParseHandlerBase *pphSearchStage = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenSearchStage), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphSearchStage);
 
 		// store parse handler
@@ -123,7 +123,7 @@ CParseHandlerSearchStrategy::EndElement
 		CParseHandlerSearchStage *pphSearchStage = dynamic_cast<CParseHandlerSearchStage*>((*this)[ul]);
 		CXformSet *pxfs = pphSearchStage->Pxfs();
 		pxfs->AddRef();
-		CSearchStage *pss = GPOS_NEW(m_pmp) CSearchStage(pxfs, pphSearchStage->UlTimeThreshold(), pphSearchStage->CostThreshold());
+		CSearchStage *pss = GPOS_NEW(m_memory_pool) CSearchStage(pxfs, pphSearchStage->UlTimeThreshold(), pphSearchStage->CostThreshold());
 		m_pdrgpss->Append(pss);
 	}
 

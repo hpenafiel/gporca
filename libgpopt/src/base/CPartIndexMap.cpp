@@ -235,14 +235,14 @@ CPartIndexMap::CPartIndexMap
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pim(NULL),
 	m_ulUnresolved(0),
 	m_ulUnresolvedZeroPropagators(0)
 {
 	GPOS_ASSERT(NULL != pmp);
 
-	m_pim = GPOS_NEW(m_pmp) PartIndexMap(m_pmp);
+	m_pim = GPOS_NEW(m_memory_pool) PartIndexMap(m_memory_pool);
 }
 
 
@@ -285,11 +285,11 @@ CPartIndexMap::Insert
 	if (NULL == ppti)
 	{
 		// no entry is found, create a new entry
-		ppti = GPOS_NEW(m_pmp) CPartTableInfo(ulScanId, ppartcnstrmap, epim, pmdid, pdrgppartkeys, ppartcnstrRel, ulExpectedPropagators);
+		ppti = GPOS_NEW(m_memory_pool) CPartTableInfo(ulScanId, ppartcnstrmap, epim, pmdid, pdrgppartkeys, ppartcnstrRel, ulExpectedPropagators);
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
-		m_pim->Insert(GPOS_NEW(m_pmp) ULONG(ulScanId), ppti);
+		m_pim->Insert(GPOS_NEW(m_memory_pool) ULONG(ulScanId), ppti);
 		GPOS_ASSERT(fSuccess && "failed to insert partition index map entry");
 		
 		// increase number of unresolved consumers
@@ -309,7 +309,7 @@ CPartIndexMap::Insert
 		if (!fEmpty)
 		{
 			// add part constraints to part info
-			ppti->AddPartConstraints(m_pmp, ppartcnstrmap);
+			ppti->AddPartConstraints(m_memory_pool, ppartcnstrmap);
 		}
 		
 		pmdid->Release();
@@ -1085,7 +1085,7 @@ CPartIndexMap::OsPrintPartCnstrMap
 void
 CPartIndexMap::DbgPrint() const
 {
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif // GPOS_DEBUG

@@ -43,7 +43,7 @@ namespace gpmd
 	{
 		private:
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// DXL for object
 			const CWStringDynamic *m_pstr;

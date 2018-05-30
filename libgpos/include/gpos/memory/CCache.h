@@ -99,7 +99,7 @@ namespace gpos
 					CCacheHashtableIterAccessor;
 
 			// memory pool for allocating hashtable and cache entries
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// true if cache does not allow multiple objects with the same key
 			BOOL m_unique;
@@ -395,7 +395,7 @@ namespace gpos
 				EqualFuncPtr equal_func
 				)
 			:
-			m_pmp(pmp),
+			m_memory_pool(pmp),
 			m_unique(unique),
 			m_cache_size(0),
 			m_cache_quota(cache_quota),
@@ -407,7 +407,7 @@ namespace gpos
 			m_hash_func(hash_func),
 			m_equal_func(equal_func)
 			{
-				GPOS_ASSERT(NULL != m_pmp &&
+				GPOS_ASSERT(NULL != m_memory_pool &&
 						    "Cache memory pool could not be initialized");
 
 				GPOS_ASSERT(0 != g_clock_init_counter);
@@ -415,7 +415,7 @@ namespace gpos
 				// initialize hashtable
 				m_hash_table.Init
 					(
-					m_pmp,
+					m_memory_pool,
 					CACHE_HT_NUM_OF_BUCKETS,
 					GPOS_OFFSET(CCacheHashTableEntry, m_link_hash),
 					GPOS_OFFSET(CCacheHashTableEntry, m_key),

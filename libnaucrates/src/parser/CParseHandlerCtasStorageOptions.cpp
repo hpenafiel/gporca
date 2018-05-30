@@ -91,10 +91,10 @@ CParseHandlerCtasStorageOptions::StartElement
 		
 		if (NULL == m_pdrgpctasopt)
 		{
-			m_pdrgpctasopt = GPOS_NEW(m_pmp) CDXLCtasStorageOptions::DrgPctasOpt(m_pmp);
+			m_pdrgpctasopt = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::DrgPctasOpt(m_memory_pool);
 		}
 		m_pdrgpctasopt->Append(
-				GPOS_NEW(m_pmp) CDXLCtasStorageOptions::CDXLCtasOption(ulType, pstrName, pstrValue, fNull));
+				GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::CDXLCtasOption(ulType, pstrName, pstrValue, fNull));
 	}
 	else
 	{
@@ -121,7 +121,7 @@ CParseHandlerCtasStorageOptions::EndElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTASOptions), element_local_name))
 	{
-		m_pdxlctasopt = GPOS_NEW(m_pmp) CDXLCtasStorageOptions(m_pmdnameTablespace, m_ectascommit, m_pdrgpctasopt);
+		m_pdxlctasopt = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions(m_pmdnameTablespace, m_ectascommit, m_pdrgpctasopt);
 		// deactivate handler
 		m_pphm->DeactivateHandler();
 	}

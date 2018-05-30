@@ -50,7 +50,7 @@ CCostContext::CCostContext
 	CGroupExpression *pgexpr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_cost(GPOPT_INVALID_COST),
 	m_estate(estUncosted),
 	m_pgexpr(pgexpr),
@@ -73,7 +73,7 @@ CCostContext::CCostContext
 	if (!m_pgexpr->Pop()->FScalar() &&
 		!CPhysical::PopConvert(m_pgexpr->Pop())->FPassThruStats())
 	{
-		CGroupExpression *pgexprForStats = m_pgexpr->Pgroup()->PgexprBestPromise(m_pmp, m_pgexpr);
+		CGroupExpression *pgexprForStats = m_pgexpr->Pgroup()->PgexprBestPromise(m_memory_pool, m_pgexpr);
 		if (NULL != pgexprForStats)
 		{
 			pgexprForStats->AddRef();
@@ -196,7 +196,7 @@ CCostContext::DeriveStats()
 		return;
 	}
 
-	CExpressionHandle exprhdl(m_pmp);
+	CExpressionHandle exprhdl(m_memory_pool);
 	exprhdl.Attach(this);
 	exprhdl.DeriveCostContextStats();
 	if (NULL == exprhdl.Pstats())
@@ -579,7 +579,7 @@ CCostContext::DRowsPerHost() const
 	{
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(pds);
 		DrgPexpr *pdrgpexpr = pdshashed->Pdrgpexpr();
-		CColRefSet *pcrsUsed = CUtils::PcrsExtractColumns(m_pmp, pdrgpexpr);
+		CColRefSet *pcrsUsed = CUtils::PcrsExtractColumns(m_memory_pool, pdrgpexpr);
 
 		const CColRefSet *pcrsReqdStats = this->Poc()->Prprel()->PcrsStat();
 		if (!pcrsReqdStats->ContainsAll(pcrsUsed))
@@ -592,12 +592,12 @@ CCostContext::DRowsPerHost() const
 			return CDouble(dRows / ulHosts);
 		}
 
-		ULongPtrArray *pdrgpul = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
-		pcrsUsed->ExtractColIds(m_pmp, pdrgpul);
+		ULongPtrArray *pdrgpul = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
+		pcrsUsed->ExtractColIds(m_memory_pool, pdrgpul);
 		pcrsUsed->Release();
 
 		CStatisticsConfig *pstatsconf = poptctxt->Poconf()->Pstatsconf();
-		CDouble dNDVs = CStatisticsUtils::DGroups(m_pmp, Pstats(), pstatsconf, pdrgpul, NULL /*pbsKeys*/);
+		CDouble dNDVs = CStatisticsUtils::DGroups(m_memory_pool, Pstats(), pstatsconf, pdrgpul, NULL /*pbsKeys*/);
 		pdrgpul->Release();
 
 		if (dNDVs < ulHosts)
@@ -676,7 +676,7 @@ CCostContext::OsPrint
 void
 CCostContext::DbgPrint() const
 {
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif // GPOS_DEBUG

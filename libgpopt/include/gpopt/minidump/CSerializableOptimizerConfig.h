@@ -38,7 +38,7 @@ namespace gpopt
 	{
 		private:
 
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// optimizer configurations
 			const COptimizerConfig *m_poconf;

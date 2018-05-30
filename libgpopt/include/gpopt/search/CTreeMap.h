@@ -165,7 +165,7 @@ namespace gpopt
 					};
 
 					// memory pool
-					IMemoryPool *m_pmp;
+					IMemoryPool *m_memory_pool;
 					
 					// id of node
 					ULONG m_ul;
@@ -238,7 +238,7 @@ namespace gpopt
 					// ctor
 					CTreeNode(IMemoryPool *pmp, ULONG ul, const T *value)
                         :
-                        m_pmp(pmp),
+                        m_memory_pool(pmp),
                         m_ul(ul),
                         m_value(value),
                         m_pdrgdrgptn(NULL),
@@ -265,7 +265,7 @@ namespace gpopt
                         ULONG ulLength = m_pdrgdrgptn->Size();
                         for (ULONG ul = ulLength; ul <= ulPos; ul++)
                         {
-                            DrgPtn *pdrg = GPOS_NEW(m_pmp) DrgPtn(m_pmp);
+                            DrgPtn *pdrg = GPOS_NEW(m_memory_pool) DrgPtn(m_memory_pool);
                             m_pdrgdrgptn->Append(pdrg);
                         }
 
@@ -410,7 +410,7 @@ namespace gpopt
 			};
 			
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// counter for nodes
 			ULONG m_ulCountNodes;
@@ -450,7 +450,7 @@ namespace gpopt
 
                 if (NULL == ptn)
                 {
-                    ptn = GPOS_NEW(m_pmp) CTreeNode(m_pmp, ++m_ulCountNodes, value);
+                    ptn = GPOS_NEW(m_memory_pool) CTreeNode(m_memory_pool, ++m_ulCountNodes, value);
                     (void) m_ptmap->Insert(const_cast<T*>(value), ptn);
                 }
 
@@ -465,7 +465,7 @@ namespace gpopt
 			// ctor
 			CTreeMap(IMemoryPool *pmp, PrFn prfn)
                 :
-                m_pmp(pmp),
+                m_memory_pool(pmp),
                 m_ulCountNodes(0),
                 m_ulCountLinks(0),
                 m_prfn(prfn),
@@ -498,7 +498,7 @@ namespace gpopt
                 GPOS_ASSERT(ptParent != ptChild);
 
                 // exit function if link already exists
-                STreeLink *ptlink = GPOS_NEW(m_pmp) STreeLink(ptParent, ulPos, ptChild);
+                STreeLink *ptlink = GPOS_NEW(m_memory_pool) STreeLink(ptParent, ulPos, ptChild);
                 if (NULL != m_plinkmap->Find(ptlink))
                 {
                     GPOS_DELETE(ptlink);
@@ -515,7 +515,7 @@ namespace gpopt
 #ifdef GPOS_DEBUG
                 BOOL fInserted =
 #endif // GPOS_DEBUG
-                m_plinkmap->Insert(ptlink, GPOS_NEW(m_pmp) BOOL(true));
+                m_plinkmap->Insert(ptlink, GPOS_NEW(m_memory_pool) BOOL(true));
                 GPOS_ASSERT(fInserted);		
             }
 

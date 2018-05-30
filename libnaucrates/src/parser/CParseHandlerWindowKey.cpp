@@ -60,11 +60,11 @@ CParseHandlerWindowKey::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowKey), element_local_name))
 	{
 		GPOS_ASSERT(NULL == m_pdxlwk);
-		m_pdxlwk = GPOS_NEW(m_pmp) CDXLWindowKey(m_pmp);
+		m_pdxlwk = GPOS_NEW(m_memory_pool) CDXLWindowKey(m_memory_pool);
 
 		// parse handler for the sorting column list
 		CParseHandlerBase *pphSortColList =
-				CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_pphm, this);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphSortColList);
 
 		// store parse handler
@@ -76,7 +76,7 @@ CParseHandlerWindowKey::StartElement
 
 		// parse handler for the leading and trailing scalar values
 		CParseHandlerBase *pphWf =
-				CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_pphm, this);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphWf);
 
 		// store parse handler

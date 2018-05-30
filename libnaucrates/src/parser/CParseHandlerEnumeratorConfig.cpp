@@ -84,7 +84,7 @@ CParseHandlerEnumeratorConfig::StartElement
 	ULLONG ullPlanSamples = CDXLOperatorFactory::UllValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
 	CDouble dCostThreshold = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenCostThreshold, EdxltokenOptimizerConfig);
 
-	m_pec = GPOS_NEW(m_pmp) CEnumeratorConfig(m_pmp, plan_id, ullPlanSamples, dCostThreshold);
+	m_pec = GPOS_NEW(m_memory_pool) CEnumeratorConfig(m_memory_pool, plan_id, ullPlanSamples, dCostThreshold);
 }
 
 //---------------------------------------------------------------------------

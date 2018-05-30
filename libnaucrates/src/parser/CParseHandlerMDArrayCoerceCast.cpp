@@ -146,7 +146,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 							EdxltokenGPDBArrayCoerceCast
 							);
 
-	m_pimdobj = GPOS_NEW(m_pmp) CMDArrayCoerceCastGPDB(m_pmp, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType, iTypeModifier, fIsExplicit, edcf, iLoc);
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDArrayCoerceCastGPDB(m_memory_pool, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType, iTypeModifier, fIsExplicit, edcf, iLoc);
 }
 
 // invoked by Xerces to process a closing tag

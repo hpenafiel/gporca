@@ -51,7 +51,7 @@ namespace gpdxl
 		private:
 
 			// memory pool;
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// row or range based window specification method
 			EdxlFrameSpec m_edxlfs;

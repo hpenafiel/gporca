@@ -48,7 +48,7 @@ namespace gpopt
 		protected:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// copy function
 			virtual
@@ -66,7 +66,7 @@ namespace gpopt
 				IMemoryPool *pmp
 				)
 				:
-				m_pmp(pmp)
+				m_memory_pool(pmp)
 			{}
 
 			// dtor

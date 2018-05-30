@@ -1511,7 +1511,7 @@ void
 CConstraintInterval::DbgPrint() const
 {
 	CAutoTraceFlag atf(EopttracePrintExpressionProperties, true);
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif  // GPOS_DEBUG

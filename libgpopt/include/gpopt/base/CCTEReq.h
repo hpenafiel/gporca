@@ -122,7 +122,7 @@ namespace gpopt
 				CleanupDelete<ULONG>, CleanupRelease<CCTEReqEntry> > HMCteReqIter;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// cte map
 			HMCteReq *m_phmcter;

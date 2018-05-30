@@ -34,7 +34,7 @@ namespace gpopt
 	{
 		private:
 
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// plan DXL node
 			const CDXLNode *m_pdxlnPlan;

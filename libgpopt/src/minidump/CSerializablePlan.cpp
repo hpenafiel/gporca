@@ -38,7 +38,7 @@ CSerializablePlan::CSerializablePlan
 	)
 	:
 	CSerializable(),
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlnPlan(pdxlnPlan),
 	m_pstrPlan(NULL),
 	m_plan_id(plan_id),
@@ -77,7 +77,7 @@ CSerializablePlan::Serialize
 {
 	CDXLUtils::SerializePlan
 				(
-				m_pmp,
+				m_memory_pool,
 				oos,
 				m_pdxlnPlan,
 				m_plan_id,

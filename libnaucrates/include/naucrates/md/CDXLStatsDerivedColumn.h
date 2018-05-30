@@ -69,7 +69,7 @@ namespace gpmd
 				CDouble dNullFreq,
 				CDouble dDistinctRemain,
 				CDouble dFreqRemain,
-				DrgPdxlbucket *pdrgpdxlbucket
+				DrgPdxlbucket *stats_bucket_dxl_array
 				);
 
 			// dtor

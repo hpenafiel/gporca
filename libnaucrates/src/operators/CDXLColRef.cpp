@@ -33,7 +33,7 @@ CDXLColRef::CDXLColRef
 	INT iTypeModifier
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdname(pmdname),
 	m_ulId(ulId),
 	m_pmdidType(pmdidType),

@@ -50,7 +50,7 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	CDouble dValue
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_ulSize(ulSize),
 	m_pbVal(NULL),
 	m_fNull(fNull),
@@ -66,7 +66,7 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	{
 		GPOS_ASSERT(0 < ulSize);
 
-		m_pbVal = GPOS_NEW_ARRAY(m_pmp, BYTE, ulSize);
+		m_pbVal = GPOS_NEW_ARRAY(m_memory_pool, BYTE, ulSize);
 		(void) clib::MemCpy(m_pbVal, pv, ulSize);
 	}
 }
@@ -287,7 +287,7 @@ CDatumGenericGPDB::OsPrint
 	)
 	const
 {
-	const CWStringConst *pstr = Pstr(m_pmp);
+	const CWStringConst *pstr = Pstr(m_memory_pool);
 	os << pstr->GetBuffer();
 	GPOS_DELETE(pstr);
 
@@ -478,7 +478,7 @@ CDatumGenericGPDB::PdatumPadded
 		const BYTE *pbaOriginal = this->PbaVal();
 		BYTE *pba = NULL;
 
-		pba = GPOS_NEW_ARRAY(m_pmp, BYTE, ulAdjustedColWidth);
+		pba = GPOS_NEW_ARRAY(m_memory_pool, BYTE, ulAdjustedColWidth);
 		(void) clib::MemCpy(pba, pbaOriginal, ulDatumLen);
 
 		// datum's length smaller than column's size, therefore pad the input datum
@@ -486,7 +486,7 @@ CDatumGenericGPDB::PdatumPadded
 
 		// create a new datum
 		this->Pmdid()->AddRef();
-		CDatumGenericGPDB *pdatumNew = GPOS_NEW(m_pmp) CDatumGenericGPDB
+		CDatumGenericGPDB *pdatumNew = GPOS_NEW(m_memory_pool) CDatumGenericGPDB
 													(
 													pmp,
 													this->Pmdid(),

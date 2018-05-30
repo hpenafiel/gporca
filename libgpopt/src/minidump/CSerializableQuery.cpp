@@ -38,7 +38,7 @@ CSerializableQuery::CSerializableQuery
 	)
 	:
 	CSerializable(),
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlnQuery(pdxlnQuery),
 	m_pdrgpdxlnQueryOutput(query_output_dxlnode_array),
 	m_pdrgpdxlnCTE(cte_dxlnode_array)
@@ -76,7 +76,7 @@ CSerializableQuery::Serialize
 {
 	CDXLUtils::SerializeQuery
 			(
-			m_pmp,
+			m_memory_pool,
 			oos,
 			m_pdxlnQuery,
 			m_pdrgpdxlnQueryOutput,

@@ -73,7 +73,7 @@ CParseHandlerScalarSubPlanTestExpr::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name))
 	{
 		// install a scalar element parser for parsing the test expression
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 
 		m_pphm->ActivateParseHandler(pphChild);
 

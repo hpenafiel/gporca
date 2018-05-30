@@ -230,7 +230,7 @@ CPhysicalConstTableGet::FProvidesReqdCols
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
 	
-	CColRefSet *pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 	pcrs->Include(m_pdrgpcrOutput);
 
 	BOOL fResult = pcrs->ContainsAll(pcrsRequired);

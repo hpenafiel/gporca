@@ -58,7 +58,7 @@ CParseHandlerWindowOids::StartElement
 	OID oidRowNumber = CDXLOperatorFactory::OidValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenOidRowNumber, EdxltokenWindowOids);
 	OID oidRank = CDXLOperatorFactory::OidValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenOidRank, EdxltokenWindowOids);
 
-	m_pwindowoids = GPOS_NEW(m_pmp) CWindowOids(oidRowNumber, oidRank);
+	m_pwindowoids = GPOS_NEW(m_memory_pool) CWindowOids(oidRowNumber, oidRank);
 }
 
 // invoked by Xerces to process a closing tag

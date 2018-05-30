@@ -44,7 +44,7 @@ CTableDescriptor::CTableDescriptor
 	ULONG ulExecuteAsUser
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_name(pmp, name),
 	m_pdrgpcoldesc(NULL),
@@ -61,10 +61,10 @@ CTableDescriptor::CTableDescriptor
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(pmdid->IsValid());
 	
-	m_pdrgpcoldesc = GPOS_NEW(m_pmp) DrgPcoldesc(m_pmp);
-	m_pdrgpcoldescDist = GPOS_NEW(m_pmp) DrgPcoldesc(m_pmp);
-	m_pdrgpulPart = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
-	m_pdrgpbsKeys = GPOS_NEW(m_pmp) DrgPbs(m_pmp);
+	m_pdrgpcoldesc = GPOS_NEW(m_memory_pool) DrgPcoldesc(m_memory_pool);
+	m_pdrgpcoldescDist = GPOS_NEW(m_memory_pool) DrgPcoldesc(m_memory_pool);
+	m_pdrgpulPart = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
+	m_pdrgpbsKeys = GPOS_NEW(m_memory_pool) DrgPbs(m_memory_pool);
 }
 
 
@@ -222,7 +222,7 @@ CTableDescriptor::AddPartitionColumn
 	ULONG ulPos
 	)
 {
-	m_pdrgpulPart->Append(GPOS_NEW(m_pmp) ULONG(ulPos));
+	m_pdrgpulPart->Append(GPOS_NEW(m_memory_pool) ULONG(ulPos));
 }
 
 //---------------------------------------------------------------------------

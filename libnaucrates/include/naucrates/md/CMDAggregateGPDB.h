@@ -37,7 +37,7 @@ namespace gpmd
 	class CMDAggregateGPDB : public IMDAggregate
 	{		
 		// memory pool
-		IMemoryPool *m_pmp;
+		IMemoryPool *m_memory_pool;
 		
 		// DXL for object
 		const CWStringDynamic *m_pstr;

@@ -112,7 +112,7 @@ namespace gpos
 			};	// class CHashSetElem
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// number of hash chains
 			ULONG m_num_chains;
@@ -174,11 +174,11 @@ namespace gpos
 			// ctor
 			CHashSet<T, HashFn, EqFn, CleanupFn> (IMemoryPool *pmp, ULONG size = 128)
             :
-            m_pmp(pmp),
+            m_memory_pool(pmp),
             m_num_chains(size),
             m_size(0),
-            m_chains(GPOS_NEW_ARRAY(m_pmp, HashElemChain*, m_num_chains)),
-            m_elements(GPOS_NEW(m_pmp) Elements(m_pmp)),
+            m_chains(GPOS_NEW_ARRAY(m_memory_pool, HashElemChain*, m_num_chains)),
+            m_elements(GPOS_NEW(m_memory_pool) Elements(m_memory_pool)),
             m_filled_chains(GPOS_NEW(pmp) IntPtrArray(pmp))
             {
                 GPOS_ASSERT(size > 0);
@@ -208,12 +208,12 @@ namespace gpos
                 HashElemChain **chain = GetChain(value);
                 if (NULL == *chain)
                 {
-                    *chain = GPOS_NEW(m_pmp) HashElemChain(m_pmp);
+                    *chain = GPOS_NEW(m_memory_pool) HashElemChain(m_memory_pool);
                     INT chain_idx = HashFn(value) % m_num_chains;
-                    m_filled_chains->Append(GPOS_NEW(m_pmp) INT(chain_idx));
+                    m_filled_chains->Append(GPOS_NEW(m_memory_pool) INT(chain_idx));
                 }
 
-                CHashSetElem *elem = GPOS_NEW(m_pmp) CHashSetElem(value, true /*fOwn*/);
+                CHashSetElem *elem = GPOS_NEW(m_memory_pool) CHashSetElem(value, true /*fOwn*/);
                 (*chain)->Append(elem);
 
                 m_size++;

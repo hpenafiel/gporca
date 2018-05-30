@@ -270,12 +270,12 @@ CMDAccessor::CMDAccessor
 	MDCache *pcache
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pcache(pcache),
 	m_dLookupTime(0.0),
 	m_dFetchTime(0.0)
 {
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 	GPOS_ASSERT(NULL != m_pcache);
 	
 	m_pmdpGeneric = GPOS_NEW(pmp) CMDProviderGeneric(pmp);
@@ -299,12 +299,12 @@ CMDAccessor::CMDAccessor
 	IMDProvider *pmdp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pcache(pcache),
 	m_dLookupTime(0.0),
 	m_dFetchTime(0.0)
 {
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 	GPOS_ASSERT(NULL != m_pcache);
 	
 	m_pmdpGeneric = GPOS_NEW(pmp) CMDProviderGeneric(pmp);
@@ -331,12 +331,12 @@ CMDAccessor::CMDAccessor
 	const DrgPmdp *pdrgpmdp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pcache(pcache),
 	m_dLookupTime(0.0),
 	m_dFetchTime(0.0)
 {
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 	GPOS_ASSERT(NULL != m_pcache);
 
 	m_pmdpGeneric = GPOS_NEW(pmp) CMDProviderGeneric(pmp);
@@ -444,7 +444,7 @@ CMDAccessor::~CMDAccessor()
 	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics))
 	{
 		// print fetch time and lookup time
-		CAutoTrace at(m_pmp);
+		CAutoTrace at(m_memory_pool);
 		at.Os() << "[OPT]: Total metadata fetch time: " << m_dFetchTime << "ms" << std::endl;
 		at.Os() << "[OPT]: Total metadata lookup time (including fetch time): " << m_dLookupTime << "ms" << std::endl;
 	}
@@ -466,7 +466,7 @@ CMDAccessor::RegisterProvider
 	)
 {	
 	CAutoP<SMDProviderElem> a_pmdpelem;
-	a_pmdpelem = GPOS_NEW(m_pmp) SMDProviderElem(sysid, pmdp);
+	a_pmdpelem = GPOS_NEW(m_memory_pool) SMDProviderElem(sysid, pmdp);
 	
 	MDPHTAccessor mdhtacc(m_shtProviders, *(a_pmdpelem.Value()));
 
@@ -586,7 +586,7 @@ CMDAccessor::Pimdobj
 		CMDKey mdkey(pmdid);
 				
 		CAutoP<CacheAccessorMD> a_pmdcacc;
-		a_pmdcacc = GPOS_NEW(m_pmp) CacheAccessorMD(m_pcache);
+		a_pmdcacc = GPOS_NEW(m_memory_pool) CacheAccessorMD(m_pcache);
 		a_pmdcacc->Lookup(&mdkey);
 		IMDCacheObject *pmdobjNew = a_pmdcacc->Val();
 		if (NULL == pmdobjNew)
@@ -598,10 +598,10 @@ CMDAccessor::Pimdobj
 				timerFetch.Restart();
 			}
 			CAutoP<CWStringBase> a_pstr;
-			a_pstr = pmdp->PstrObject(m_pmp, this, pmdid);
+			a_pstr = pmdp->PstrObject(m_memory_pool, this, pmdid);
 			
 			GPOS_ASSERT(NULL != a_pstr.Value());
-			IMemoryPool *pmp = m_pmp;
+			IMemoryPool *pmp = m_memory_pool;
 			
 			if (IMDId::EmdidGPDBCtas != pmdid->Emdidt())
 			{
@@ -655,7 +655,7 @@ CMDAccessor::Pimdobj
 			pmdidNew->AddRef();
 
 			CAutoP<SMDAccessorElem> a_pmdaccelem;
-			a_pmdaccelem = GPOS_NEW(m_pmp) SMDAccessorElem(pmdobjNew, pmdidNew);
+			a_pmdaccelem = GPOS_NEW(m_memory_pool) SMDAccessorElem(pmdobjNew, pmdidNew);
 
 			MDHTAccessor mdhtacc(m_shtCacheAccessors, a_pmdaccelem->Pmdid());
 
@@ -759,7 +759,7 @@ CMDAccessor::Pmdtype
 	GPOS_ASSERT(IMDType::EtiGeneric != eti);
 	IMDProvider *pmdp = Pmdp(sysid);
 	CAutoRef<IMDId> a_pmdid;
-	a_pmdid = pmdp->Pmdid(m_pmp, sysid, eti);
+	a_pmdid = pmdp->Pmdid(m_memory_pool, sysid, eti);
 	const IMDCacheObject *pmdobj = Pimdobj(a_pmdid.Value());
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
@@ -1041,7 +1041,7 @@ CMDAccessor::Pmdcast
 	pmdidDest->AddRef();
 	
 	CAutoP<IMDId> a_pmdidCast;
-	a_pmdidCast = GPOS_NEW(m_pmp) CMDIdCast(CMDIdGPDB::PmdidConvert(pmdidSrc), CMDIdGPDB::PmdidConvert(pmdidDest));
+	a_pmdidCast = GPOS_NEW(m_memory_pool) CMDIdCast(CMDIdGPDB::PmdidConvert(pmdidSrc), CMDIdGPDB::PmdidConvert(pmdidDest));
 	
 	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidCast.Value());
 		
@@ -1078,7 +1078,7 @@ CMDAccessor::Pmdsccmp
 	pmdidRight->AddRef();
 	
 	CAutoP<IMDId> a_pmdidScCmp;
-	a_pmdidScCmp = GPOS_NEW(m_pmp) CMDIdScCmp(CMDIdGPDB::PmdidConvert(pmdidLeft), CMDIdGPDB::PmdidConvert(pmdidRight), ecmpt);
+	a_pmdidScCmp = GPOS_NEW(m_memory_pool) CMDIdScCmp(CMDIdGPDB::PmdidConvert(pmdidLeft), CMDIdGPDB::PmdidConvert(pmdidRight), ecmpt);
 	
 	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidScCmp.Value());
 		
@@ -1392,7 +1392,7 @@ CMDAccessor::Serialize
 	// The iterator holds a lock on the hash table, so we must not
 	// do anything non-trivial that might e.g. allocate memory,
 	// while iterating.
-	cacheEntries = GPOS_NEW_ARRAY(m_pmp, IMDCacheObject *, nentries);
+	cacheEntries = GPOS_NEW_ARRAY(m_memory_pool, IMDCacheObject *, nentries);
 	aCacheEntries = cacheEntries;
 	{
 		MDHTIter mdhtit(m_shtCacheAccessors);

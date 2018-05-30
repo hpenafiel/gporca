@@ -199,7 +199,7 @@ CPhysicalJoin::FProvidesReqdCols
 	GPOS_ASSERT(3 == exprhdl.UlArity());
 
 	// union columns from relational children
-	CColRefSet *pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 	ULONG ulArity = exprhdl.UlArity();
 	for (ULONG i = 0; i < ulArity - 1; i++)
 	{

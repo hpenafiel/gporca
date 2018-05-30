@@ -45,7 +45,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	IMDPartConstraint *pmdpartcnstr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_fClustered(fClustered),
@@ -65,7 +65,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	GPOS_ASSERT_IMP(IMDIndex::EmdindBitmap == emdindt, NULL != pmdidItemType && pmdidItemType->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdidOpClasses);
 	
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -308,11 +308,11 @@ CMDIndexGPDB::Serialize
 	}
 		
 	// serialize index keys
-	CWStringDynamic *pstrKeyCols = CDXLUtils::Serialize(m_pmp, m_pdrgpulKeyCols);
+	CWStringDynamic *pstrKeyCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulKeyCols);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexKeyCols), pstrKeyCols);
 	GPOS_DELETE(pstrKeyCols);
 
-	CWStringDynamic *pstrAvailCols = CDXLUtils::Serialize(m_pmp, m_pdrgpulIncludedCols);
+	CWStringDynamic *pstrAvailCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulIncludedCols);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexIncludedCols), pstrAvailCols);
 	GPOS_DELETE(pstrAvailCols);
 		

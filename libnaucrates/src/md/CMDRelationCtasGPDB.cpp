@@ -43,7 +43,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	IntPtrArray *pdrgpiVarTypeMod
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdnameSchema(pmdnameSchema),
 	m_pmdname(pmdname),
@@ -66,8 +66,8 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	GPOS_ASSERT(0 == pdrgpdrgpulKeys->Size());
 	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);
 	
-	m_phmiulAttno2Pos = GPOS_NEW(m_pmp) HMIUl(m_pmp);
-	m_pdrgpulNonDroppedCols = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
+	m_phmiulAttno2Pos = GPOS_NEW(m_memory_pool) HMIUl(m_memory_pool);
+	m_pdrgpulNonDroppedCols = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
 
 	const ULONG ulArity = pdrgpmdcol->Size();
@@ -83,18 +83,18 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 		}
 		else
 		{
-			m_pdrgpulNonDroppedCols->Append(GPOS_NEW(m_pmp) ULONG(ul));
+			m_pdrgpulNonDroppedCols->Append(GPOS_NEW(m_memory_pool) ULONG(ul));
 		}		
 
 		(void) m_phmiulAttno2Pos->Insert
 									(
-									GPOS_NEW(m_pmp) INT(pmdcol->AttrNum()),
-									GPOS_NEW(m_pmp) ULONG(ul)
+									GPOS_NEW(m_memory_pool) INT(pmdcol->AttrNum()),
+									GPOS_NEW(m_memory_pool) ULONG(ul)
 									);
 
 		m_pdrgpdoubleColWidths->Append(GPOS_NEW(pmp) CDouble(pmdcol->Length()));
 	}
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -323,7 +323,7 @@ CMDRelationCtasGPDB::Serialize
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));
 
 	// serialize vartypmod list
-	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_pmp, m_pdrgpiVarTypeMod);
+	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_memory_pool, m_pdrgpiVarTypeMod);
 	GPOS_ASSERT(NULL != pstrVarTypeModList);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenVarTypeModList), pstrVarTypeModList);
@@ -336,7 +336,7 @@ CMDRelationCtasGPDB::Serialize
 		GPOS_ASSERT(NULL != m_pdrgpulDistrColumns);
 
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = PstrColumns(m_pmp, m_pdrgpulDistrColumns);
+		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_pdrgpulDistrColumns);
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDistrColumns), pstrDistrColumns);
 		GPOS_DELETE(pstrDistrColumns);
 	}

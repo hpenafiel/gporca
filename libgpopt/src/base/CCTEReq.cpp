@@ -151,14 +151,14 @@ CCTEReq::CCTEReq
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_phmcter(NULL),
 	m_pdrgpulRequired(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);
 
-	m_phmcter = GPOS_NEW(m_pmp) HMCteReq(m_pmp);
-	m_pdrgpulRequired = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
+	m_phmcter = GPOS_NEW(m_memory_pool) HMCteReq(m_memory_pool);
+	m_pdrgpulRequired = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -193,15 +193,15 @@ CCTEReq::Insert
 	)
 {
 	GPOS_ASSERT(CCTEMap::EctSentinel > ect);
-	CCTEReqEntry *pcre = GPOS_NEW(m_pmp) CCTEReqEntry(ulCteId, ect, fRequired, pdpplan);
+	CCTEReqEntry *pcre = GPOS_NEW(m_memory_pool) CCTEReqEntry(ulCteId, ect, fRequired, pdpplan);
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-	m_phmcter->Insert(GPOS_NEW(m_pmp) ULONG(ulCteId), pcre);
+	m_phmcter->Insert(GPOS_NEW(m_memory_pool) ULONG(ulCteId), pcre);
 	GPOS_ASSERT(fSuccess);
 	if (fRequired)
 	{
-		m_pdrgpulRequired->Append(GPOS_NEW(m_pmp) ULONG(ulCteId));
+		m_pdrgpulRequired->Append(GPOS_NEW(m_memory_pool) ULONG(ulCteId));
 	}
 }
 

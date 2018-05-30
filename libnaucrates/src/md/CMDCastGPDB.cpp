@@ -40,7 +40,7 @@ CMDCastGPDB::CMDCastGPDB
 	EmdCoercepathType emdPathType
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidSrc(pmdidSrc),
@@ -54,7 +54,7 @@ CMDCastGPDB::CMDCastGPDB
 	GPOS_ASSERT(m_pmdidDest->IsValid());
 	GPOS_ASSERT_IMP(!fBinaryCoercible, m_pmdidCastFunc->IsValid());
 
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------

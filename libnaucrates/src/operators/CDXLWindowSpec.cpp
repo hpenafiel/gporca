@@ -41,13 +41,13 @@ CDXLWindowSpec::CDXLWindowSpec
 	CDXLWindowFrame *pdxlwf
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpulPartCol(pdrgpulPartCol),
 	m_pmdname(pmdname),
 	m_pdxlnSortColList(pdxlnSortColList),
 	m_pdxlwf(pdxlwf)
 {
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 	GPOS_ASSERT(NULL != m_pdrgpulPartCol);
 }
 
@@ -88,7 +88,7 @@ CDXLWindowSpec::SerializeToDXL
 	GPOS_ASSERT(NULL != m_pdrgpulPartCol);
 
 	// serialize partition keys
-	CWStringDynamic *pstrPartCols = CDXLUtils::Serialize(m_pmp, m_pdrgpulPartCol);
+	CWStringDynamic *pstrPartCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulPartCol);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartKeys), pstrPartCols);
 	GPOS_DELETE(pstrPartCols);
 

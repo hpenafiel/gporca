@@ -113,14 +113,14 @@ CDXLPhysicalRowTrigger::SerializeToDXL
 
 	if (NULL != m_pdrgpulOld)
 	{
-		CWStringDynamic *pstrColsOld = CDXLUtils::Serialize(m_pmp, m_pdrgpulOld);
+		CWStringDynamic *pstrColsOld = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulOld);
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOldCols), pstrColsOld);
 		GPOS_DELETE(pstrColsOld);
 	}
 
 	if (NULL != m_pdrgpulNew)
 	{
-		CWStringDynamic *pstrColsNew = CDXLUtils::Serialize(m_pmp, m_pdrgpulNew);
+		CWStringDynamic *pstrColsNew = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulNew);
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenNewCols), pstrColsNew);
 		GPOS_DELETE(pstrColsNew);
 	}

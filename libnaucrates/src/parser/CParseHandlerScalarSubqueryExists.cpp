@@ -64,11 +64,11 @@ CParseHandlerScalarSubqueryExists::StartElement
 		
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryExists), element_local_name))
 	{
-		m_pdxlop = GPOS_NEW(m_pmp) CDXLScalarSubqueryExists(m_pmp);
+		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryExists(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryNotExists), element_local_name))
 	{
-		m_pdxlop = GPOS_NEW(m_pmp) CDXLScalarSubqueryNotExists(m_pmp);	
+		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryNotExists(m_memory_pool);	
 	}
 	else
 	{
@@ -77,7 +77,7 @@ CParseHandlerScalarSubqueryExists::StartElement
 	}
 
 	// parse handler for the child node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	// store child parse handler in array
@@ -113,7 +113,7 @@ CParseHandlerScalarSubqueryExists::EndElement
 	
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp *>((*this)[0]);
 		
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
 
 	// add constructed child
 	AddChildFromParseHandler(pphChild);

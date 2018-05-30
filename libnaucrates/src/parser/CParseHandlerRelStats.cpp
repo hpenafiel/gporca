@@ -77,7 +77,7 @@ CParseHandlerRelStats::StartElement
 	CWStringDynamic *pstrTableName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszTableName);
 	
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrTableName);
+	CMDName *pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTableName);
 	
 	GPOS_DELETE(pstrTableName);
 	
@@ -108,7 +108,7 @@ CParseHandlerRelStats::StartElement
 										);
 	}
 
-	m_pimdobj = GPOS_NEW(m_pmp) CDXLRelStats(m_pmp, CMDIdRelStats::PmdidConvert(pmdid), pmdname, dRows, fEmpty);
+	m_pimdobj = GPOS_NEW(m_memory_pool) CDXLRelStats(m_memory_pool, CMDIdRelStats::PmdidConvert(pmdid), pmdname, dRows, fEmpty);
 }
 
 //---------------------------------------------------------------------------

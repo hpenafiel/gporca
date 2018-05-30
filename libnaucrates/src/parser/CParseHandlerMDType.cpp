@@ -135,7 +135,7 @@ CParseHandlerMDType::StartElement
 			CWStringDynamic *pstrTypeName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszTypeName);
 
 			// create a copy of the string in the CMDName constructor
-			m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrTypeName);
+			m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTypeName);
 			GPOS_DELETE(pstrTypeName);
 			
 			// parse if type is redistributable
@@ -387,23 +387,23 @@ CParseHandlerMDType::EndElement
 		switch(pmdidGPDB->OidObjectId())
 		{
 			case GPDB_INT2:
-				m_pimdobj = GPOS_NEW(m_pmp) CMDTypeInt2GPDB(m_pmp);
+				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeInt2GPDB(m_memory_pool);
 				break;
 
 			case GPDB_INT4:
-				m_pimdobj = GPOS_NEW(m_pmp) CMDTypeInt4GPDB(m_pmp);
+				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeInt4GPDB(m_memory_pool);
 				break;
 
 			case GPDB_INT8:
-				m_pimdobj = GPOS_NEW(m_pmp) CMDTypeInt8GPDB(m_pmp);
+				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeInt8GPDB(m_memory_pool);
 				break;
 
 			case GPDB_BOOL:
-				m_pimdobj = GPOS_NEW(m_pmp) CMDTypeBoolGPDB(m_pmp);
+				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeBoolGPDB(m_memory_pool);
 				break;
 
 			case GPDB_OID:
-				m_pimdobj = GPOS_NEW(m_pmp) CMDTypeOidGPDB(m_pmp);
+				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeOidGPDB(m_memory_pool);
 				break;
 
 			default:
@@ -431,9 +431,9 @@ CParseHandlerMDType::EndElement
 				{
 					ulLen = (ULONG) m_iLength;
 				}
-				m_pimdobj = GPOS_NEW(m_pmp) CMDTypeGenericGPDB
+				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeGenericGPDB
 										(
-										m_pmp,
+										m_memory_pool,
 										m_pmdid,
 										m_pmdname,
 										m_fRedistributable,

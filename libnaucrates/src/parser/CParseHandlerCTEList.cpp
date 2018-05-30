@@ -71,14 +71,14 @@ CParseHandlerCTEList::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTEList), element_local_name))
 	{
 		GPOS_ASSERT(NULL == m_pdrgpdxln);
-		m_pdrgpdxln = GPOS_NEW(m_pmp) DrgPdxln(m_pmp);
+		m_pdrgpdxln = GPOS_NEW(m_memory_pool) DrgPdxln(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalCTEProducer), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdrgpdxln);
 
 		// start new CTE producer
-		CParseHandlerBase *pphCTEProducer = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogicalCTEProducer), m_pphm, this);
+		CParseHandlerBase *pphCTEProducer = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalCTEProducer), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphCTEProducer);
 		
 		// store parse handler

@@ -67,8 +67,8 @@ CParseHandlerScalarAssertConstraintList::StartElement
 		GPOS_ASSERT(NULL == m_pdxlopAssertConstraint);
 		GPOS_ASSERT(NULL == m_pdrgpdxlnAssertConstraints);
 		
-		m_pdxlop = GPOS_NEW(m_pmp) CDXLScalarAssertConstraintList(m_pmp);
-		m_pdrgpdxlnAssertConstraints = GPOS_NEW(m_pmp) DrgPdxln(m_pmp);
+		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarAssertConstraintList(m_memory_pool);
+		m_pdrgpdxlnAssertConstraints = GPOS_NEW(m_memory_pool) DrgPdxln(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAssertConstraint), element_local_name))
 	{
@@ -83,9 +83,9 @@ CParseHandlerScalarAssertConstraintList::StartElement
 										EdxltokenErrorMessage, 
 										EdxltokenScalarAssertConstraint
 										);
-		m_pdxlopAssertConstraint = GPOS_NEW(m_pmp) CDXLScalarAssertConstraint(m_pmp, pstrErrorMsg);
+		m_pdxlopAssertConstraint = GPOS_NEW(m_memory_pool) CDXLScalarAssertConstraint(m_memory_pool, pstrErrorMsg);
 		
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 
 		this->Append(pphChild);	
@@ -119,7 +119,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlnAssertConstraints);
 		
 		// assemble final assert predicate node
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, m_pdxlop, m_pdrgpdxlnAssertConstraints);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop, m_pdrgpdxlnAssertConstraints);
 
 #ifdef GPOS_DEBUG
 	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
@@ -137,7 +137,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 		GPOS_ASSERT(NULL != pdxlnChild);
 		pdxlnChild->AddRef();
 		
-		CDXLNode *pdxlnAssertConstraint = GPOS_NEW(m_pmp) CDXLNode(m_pmp, m_pdxlopAssertConstraint, pdxlnChild);
+		CDXLNode *pdxlnAssertConstraint = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlopAssertConstraint, pdxlnChild);
 		m_pdrgpdxlnAssertConstraints->Append(pdxlnAssertConstraint);
 		m_pdxlopAssertConstraint = NULL;
 	}

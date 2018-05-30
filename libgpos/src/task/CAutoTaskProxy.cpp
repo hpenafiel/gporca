@@ -33,7 +33,7 @@ CAutoTaskProxy::CAutoTaskProxy
 	BOOL propagate_error
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pwpm(pwpm),
 	m_propagate_error(propagate_error)
 {
@@ -173,7 +173,7 @@ CAutoTaskProxy::Create
 	// auto pointer to hold new task
 	// task is created inside ATP's memory pool
 	CAutoP<CTask> new_task;
-	new_task = GPOS_NEW(m_pmp) CTask(pmp, task_ctxt.Value(), err_ctxt.Value(), &m_event, cancel);
+	new_task = GPOS_NEW(m_memory_pool) CTask(pmp, task_ctxt.Value(), err_ctxt.Value(), &m_event, cancel);
 
 	// reset auto pointers - task now handles task and error context
 	(void) task_ctxt.Reset();

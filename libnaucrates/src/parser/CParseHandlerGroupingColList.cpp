@@ -75,7 +75,7 @@ CParseHandlerGroupingColList::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList), element_local_name))
 	{
 		// start the grouping column list
-		m_pdrgpulGroupingCols = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
+		m_pdrgpulGroupingCols = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGroupingCol), element_local_name))
 	{
@@ -83,7 +83,7 @@ CParseHandlerGroupingColList::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpulGroupingCols);
 		
 		// parse grouping col id
-		ULONG *pulColId = GPOS_NEW(m_pmp) ULONG(CDXLOperatorFactory::UlGroupingColId(m_pphm->Pmm(), attrs));
+		ULONG *pulColId = GPOS_NEW(m_memory_pool) ULONG(CDXLOperatorFactory::UlGroupingColId(m_pphm->Pmm(), attrs));
 		
 		m_pdrgpulGroupingCols->Append(pulColId);
 	}

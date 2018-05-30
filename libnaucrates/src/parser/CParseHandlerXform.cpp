@@ -81,7 +81,7 @@ CParseHandlerXform::StartElement
 
 	const XMLCh *xmlstrXformName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenXform);
 	CWStringDynamic *pstrXformName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrXformName);
-	CHAR *szXform = CDXLUtils::CreateMultiByteCharStringFromWCString(m_pmp, pstrXformName->GetBuffer());
+	CHAR *szXform = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, pstrXformName->GetBuffer());
 	m_pxform = CXformFactory::Pxff()->Pxf(szXform);
 	GPOS_ASSERT(NULL != m_pxform);
 

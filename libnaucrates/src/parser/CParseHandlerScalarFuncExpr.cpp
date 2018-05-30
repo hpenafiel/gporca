@@ -69,14 +69,14 @@ CParseHandlerScalarFuncExpr::StartElement
 			CDXLScalarFuncExpr *pdxlop = (CDXLScalarFuncExpr*) CDXLOperatorFactory::PdxlopFuncExpr(m_pphm->Pmm(), attrs);
 
 			// construct node from the created scalar FuncExpr
-			m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 
 			m_fInsideFuncExpr = true;
 		}
 		else
 		{
 			// This is to support nested FuncExpr
-			CParseHandlerBase *pphFunc = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_pphm, this);
+			CParseHandlerBase *pphFunc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_pphm, this);
 			m_pphm->ActivateParseHandler(pphFunc);
 
 			// store parse handlers
@@ -89,7 +89,7 @@ CParseHandlerScalarFuncExpr::StartElement
 	{
 		GPOS_ASSERT(m_fInsideFuncExpr);
 
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 
 		// store parse handlers

@@ -217,7 +217,7 @@ CJoinOrder::CJoinOrder
 	DrgPexpr *pdrgpexprConj
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_rgpedge(NULL),
 	m_ulEdges(0),
 	m_rgpcomp(NULL),
@@ -344,7 +344,7 @@ CJoinOrder::MergeComponents()
 	while (ulEdge < m_ulEdges)
 	{
 		// array for conjuncts
-		DrgPexpr *pdrgpexpr = GPOS_NEW(m_pmp) DrgPexpr(m_pmp);
+		DrgPexpr *pdrgpexpr = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
 		
 		// next cover
 		CBitSet *pbsCover = m_rgpedge[ulEdge]->m_pbs;
@@ -399,7 +399,7 @@ CJoinOrder::AddEdge
 	// edge fully subsumed by first component's cover
 	if (pcomp->m_pbs->ContainsAll(pedge->m_pbs))
 	{
-		CExpression *pexprPred = CPredicateUtils::PexprConjunction(m_pmp, pdrgpexpr);
+		CExpression *pexprPred = CPredicateUtils::PexprConjunction(m_memory_pool, pdrgpexpr);
 		if (CUtils::FScalarConstTrue(pexprPred))
 		{
 			pexprPred->Release();
@@ -407,7 +407,7 @@ CJoinOrder::AddEdge
 		else
 		{
 			CExpression *pexprRel = pcomp->m_pexpr;
-			pcomp->m_pexpr = CUtils::PexprCollapseSelect(m_pmp, pexprRel, pexprPred);
+			pcomp->m_pexpr = CUtils::PexprCollapseSelect(m_memory_pool, pexprRel, pexprPred);
 			pexprRel->Release();
 			pexprPred->Release();
 		}
@@ -416,7 +416,7 @@ CJoinOrder::AddEdge
 	}
 	
 	// subtract component cover from edge cover
-	CBitSet *pbsCover = GPOS_NEW(m_pmp) CBitSet(m_pmp, *pedge->m_pbs);
+	CBitSet *pbsCover = GPOS_NEW(m_memory_pool) CBitSet(m_memory_pool, *pedge->m_pbs);
 	GPOS_ASSERT(0 < pbsCover->Size());
 
 	pbsCover->Difference(pcomp->m_pbs);
@@ -444,7 +444,7 @@ CJoinOrder::AddEdge
 		{
 			// determine if combining components can produce edge
 			// coverage without going through further iterations
-			CBitSet *pbsCombined = GPOS_NEW(m_pmp) CBitSet(m_pmp);
+			CBitSet *pbsCombined = GPOS_NEW(m_memory_pool) CBitSet(m_memory_pool);
 			pbsCombined->Union(pcomp->m_pbs);
 			pbsCombined->Union(pcompOther->m_pbs);
 			fCovered = pbsCombined->ContainsAll(pbsCover);
@@ -494,11 +494,11 @@ CJoinOrder::CombineComponents
 	pcompRight->m_pexpr->AddRef();
 	
 	CExpression *pexprResult = 
-		GPOS_NEW(m_pmp) CExpression(m_pmp, 
-							   GPOS_NEW(m_pmp) CLogicalInnerJoin(m_pmp),
+		GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, 
+							   GPOS_NEW(m_memory_pool) CLogicalInnerJoin(m_memory_pool),
 							   pcompLeft->m_pexpr,
 							   pcompRight->m_pexpr,
-							   CPredicateUtils::PexprConjunction(m_pmp, pdrgpexpr));
+							   CPredicateUtils::PexprConjunction(m_memory_pool, pdrgpexpr));
 	
 	pcompLeft->m_pexpr->Release();
 	pcompLeft->m_pexpr = pexprResult;

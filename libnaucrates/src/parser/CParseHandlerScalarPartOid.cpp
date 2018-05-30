@@ -64,7 +64,7 @@ CParseHandlerScalarPartOid::StartElement
 	}
 
 	ULONG ulLevel = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPartLevel, EdxltokenScalarPartOid);
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode (m_pmp, GPOS_NEW(m_pmp) CDXLScalarPartOid(m_pmp, ulLevel));
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartOid(m_memory_pool, ulLevel));
 }
 
 //---------------------------------------------------------------------------

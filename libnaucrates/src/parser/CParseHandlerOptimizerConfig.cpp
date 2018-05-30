@@ -94,7 +94,7 @@ CParseHandlerOptimizerConfig::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenHint), element_local_name))
 	{
 		// install a parse handler for the hint config
-		CParseHandlerBase *pphHint = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenHint), m_pphm, this);
+		CParseHandlerBase *pphHint = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenHint), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphHint);
 		pphHint->startElement(element_uri, element_local_name, element_qname, attrs);
 		this->Append(pphHint);
@@ -104,7 +104,7 @@ CParseHandlerOptimizerConfig::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostModelConfig), element_local_name))
 	{
 		// install a parse handler for the cost model config
-		CParseHandlerBase *pphCostModel = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCostModelConfig), m_pphm, this);
+		CParseHandlerBase *pphCostModel = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostModelConfig), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphCostModel);
 		pphCostModel->startElement(element_uri, element_local_name, element_qname, attrs);
 		this->Append(pphCostModel);
@@ -114,7 +114,7 @@ CParseHandlerOptimizerConfig::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTraceFlags), element_local_name))
 	{
 		// install a parse handler for the trace flags
-		CParseHandlerBase *pphTraceFlags = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenTraceFlags), m_pphm, this);
+		CParseHandlerBase *pphTraceFlags = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTraceFlags), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphTraceFlags);
 		pphTraceFlags->startElement(element_uri, element_local_name, element_qname, attrs);
 		this->Append(pphTraceFlags);
@@ -127,19 +127,19 @@ CParseHandlerOptimizerConfig::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	CParseHandlerBase *pphWindowOids = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenWindowOids), m_pphm, this);
+	CParseHandlerBase *pphWindowOids = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowOids), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphWindowOids);
 
 	// install a parse handler for the CTE configuration
-	CParseHandlerBase *pphCTEConfig = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCTEConfig), m_pphm, this);
+	CParseHandlerBase *pphCTEConfig = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEConfig), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphCTEConfig);
 
 	// install a parse handler for the statistics configuration
-	CParseHandlerBase *pphStatisticsConfig = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenStatisticsConfig), m_pphm, this);
+	CParseHandlerBase *pphStatisticsConfig = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatisticsConfig), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphStatisticsConfig);
 
 	// install a parse handler for the enumerator configuration
-	CParseHandlerBase *pphEnumeratorConfig = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenEnumeratorConfig), m_pphm, this);
+	CParseHandlerBase *pphEnumeratorConfig = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenEnumeratorConfig), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphEnumeratorConfig);
 
 	// store parse handlers
@@ -196,8 +196,8 @@ CParseHandlerOptimizerConfig::EndElement
 	if (5 == this->Length())
 	{
 		// no cost model: use default one
-		pcm = ICostModel::PcmDefault(m_pmp);
-		phint = CHint::PhintDefault(m_pmp);
+		pcm = ICostModel::PcmDefault(m_memory_pool);
+		phint = CHint::PhintDefault(m_memory_pool);
 	}
 	else
 	{
@@ -208,7 +208,7 @@ CParseHandlerOptimizerConfig::EndElement
 
 		if (6 == this->Length())
 		{
-			phint = CHint::PhintDefault(m_pmp);
+			phint = CHint::PhintDefault(m_memory_pool);
 		}
 		else
 		{
@@ -219,7 +219,7 @@ CParseHandlerOptimizerConfig::EndElement
 		}
 	}
 
-	m_poconf = GPOS_NEW(m_pmp) COptimizerConfig(pec, pstatsconf, pcteconfig, pcm, phint, pwindowoidsGPDB);
+	m_poconf = GPOS_NEW(m_memory_pool) COptimizerConfig(pec, pstatsconf, pcteconfig, pcm, phint, pwindowoidsGPDB);
 
 	CParseHandlerTraceFlags *pphTraceFlags = dynamic_cast<CParseHandlerTraceFlags *>((*this)[this->Length() - 1]);
 	pphTraceFlags->Pbs()->AddRef();

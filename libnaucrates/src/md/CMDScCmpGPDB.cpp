@@ -39,7 +39,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	IMDId *pmdidOp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidLeft(pmdidLeft),
@@ -53,7 +53,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	GPOS_ASSERT(m_pmdidOp->IsValid());
 	GPOS_ASSERT(IMDType::EcmptOther != m_ecmpt);
 
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------

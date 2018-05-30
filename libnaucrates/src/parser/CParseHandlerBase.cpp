@@ -35,14 +35,14 @@ CParseHandlerBase::CParseHandlerBase
 	CParseHandlerBase *pphRoot
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pphm(parse_handler_mgr),
 	m_pphRoot(pphRoot)
 {
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != parse_handler_mgr);
 	
-	m_pdrgpph = GPOS_NEW(m_pmp) DrgPph(m_pmp);
+	m_pdrgpph = GPOS_NEW(m_memory_pool) DrgPph(m_memory_pool);
 }
 
 //---------------------------------------------------------------------------

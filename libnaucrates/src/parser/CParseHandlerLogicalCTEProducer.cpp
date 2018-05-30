@@ -72,11 +72,11 @@ CParseHandlerLogicalCTEProducer::StartElement
 	
 	ULongPtrArray *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_pphm->Pmm(), attrs, EdxltokenColumns, EdxltokenLogicalCTEProducer);
 
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLLogicalCTEProducer(m_pmp, ulId, pdrgpulColIds));
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalCTEProducer(m_memory_pool, ulId, pdrgpulColIds));
 
 	// create and activate the parse handler for the child expression node
 	CParseHandlerBase *pphChild =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	// store parse handler

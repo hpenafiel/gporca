@@ -39,7 +39,7 @@ CTask::CTask
 	volatile BOOL *cancel
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_task_ctxt(task_ctxt),
 	m_err_ctxt(err_ctxt),
 	m_err_handle(NULL),
@@ -83,7 +83,7 @@ CTask::~CTask()
 	GPOS_DELETE(m_task_ctxt);
 	GPOS_DELETE(m_err_ctxt);
 
-	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_memory_pool);
 }
 
 

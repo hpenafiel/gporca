@@ -49,7 +49,7 @@ namespace gpdxl
 		private:
 		
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// dxl tree operator class
 			CDXLOperator *m_pdxlop;

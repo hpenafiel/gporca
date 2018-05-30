@@ -73,7 +73,7 @@ namespace gpopt
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// definition of context hash table accessor
 			typedef
@@ -197,7 +197,7 @@ namespace gpopt
 			//private dummy ctor; used for creating invalid gexpr
 			CGroupExpression()
 				:
-				m_pmp(NULL),
+				m_memory_pool(NULL),
 				m_ulId(GPOPT_INVALID_GEXPR_ID),
 				m_pop(NULL),
 				m_pdrgpgroup(NULL),

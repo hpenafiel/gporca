@@ -49,7 +49,7 @@ CParseHandlerScalarPartListNullTest::StartElement
 	ULONG ulLevel = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPartLevel, EdxltokenScalarPartListNullTest);
 	BOOL fIsNull = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenScalarIsNull, EdxltokenScalarPartListNullTest);
 
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode (m_pmp, GPOS_NEW(m_pmp) CDXLScalarPartListNullTest(m_pmp, ulLevel, fIsNull));
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartListNullTest(m_memory_pool, ulLevel, fIsNull));
 }
 
 // Invoked by Xerces to process a closing tag

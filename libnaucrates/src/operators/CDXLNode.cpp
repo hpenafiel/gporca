@@ -31,7 +31,7 @@ CDXLNode::CDXLNode
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlop(NULL),
 	m_pdxlprop(NULL),
 	m_pdxlddinfo(NULL)
@@ -53,7 +53,7 @@ CDXLNode::CDXLNode
 	CDXLOperator *pdxlop
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdxlddinfo(NULL)
@@ -77,7 +77,7 @@ CDXLNode::CDXLNode
 	CDXLNode *pdxlnChild
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(NULL),
@@ -106,7 +106,7 @@ CDXLNode::CDXLNode
 	CDXLNode *pdxlnSnd
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(NULL),
@@ -138,7 +138,7 @@ CDXLNode::CDXLNode
 	CDXLNode *pdxlnThrd
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(NULL),
@@ -170,7 +170,7 @@ CDXLNode::CDXLNode
 	DrgPdxln *pdrgpdxln
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(pdrgpdxln),

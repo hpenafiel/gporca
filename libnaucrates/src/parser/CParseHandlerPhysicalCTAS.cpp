@@ -113,23 +113,23 @@ CParseHandlerPhysicalCTAS::StartElement
 	// create child node parsers
 
 	// parse handler for logical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
+	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphPrL);
 	
 	//parse handler for the storage options
-	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_pphm, this);
+	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphCTASOptions);
 	
 	//parse handler for the column descriptors
-	CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
+	CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphColDescr);
 	
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
+	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphProp);
 
 	// store child parse handler in array
@@ -183,12 +183,12 @@ CParseHandlerPhysicalCTAS::EndElement
 	CDXLCtasStorageOptions *pdxlctasopt = pphCTASOptions->Pdxlctasopt();
 	pdxlctasopt->AddRef();
 	
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode
 							(
-							m_pmp,
-							GPOS_NEW(m_pmp) CDXLPhysicalCTAS
+							m_memory_pool,
+							GPOS_NEW(m_memory_pool) CDXLPhysicalCTAS
 									(
-									m_pmp,
+									m_memory_pool,
 									m_pmdnameSchema,
 									m_pmdname,
 									pdrgpdxlcd,

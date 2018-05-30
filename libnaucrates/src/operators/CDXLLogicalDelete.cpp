@@ -108,7 +108,7 @@ CDXLLogicalDelete::SerializeToDXL
 	const CWStringConst *pstrElemName = PstrOpName();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_pmp, m_pdrgpulDelete);
+	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDelete);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDeleteCols), pstrColsDel);
 	GPOS_DELETE(pstrColsDel);
 

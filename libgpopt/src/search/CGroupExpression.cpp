@@ -54,7 +54,7 @@ CGroupExpression::CGroupExpression
 	BOOL fIntermediate
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_ulId(GPOPT_INVALID_GEXPR_ID),
 	m_pgexprDuplicate(NULL),
 	m_pop(pop),
@@ -1232,7 +1232,7 @@ void
 CGroupExpression::DbgPrint()
 {
 	CAutoTraceFlag atf(EopttracePrintGroupProperties, true);
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif // GPOS_DEBUG

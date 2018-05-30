@@ -67,17 +67,17 @@ CParseHandlerScalarArrayComp::StartElement
 	CDXLScalarArrayComp *pdxlop = (CDXLScalarArrayComp*) CDXLOperatorFactory::PdxlopArrayComp(m_pphm->Pmm(), attrs);
 
 	// construct node from the created child nodes
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
 
 	// parse handler for right scalar node
-	CParseHandlerBase *pphRight = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+	CParseHandlerBase *pphRight = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphRight);
 
 	// parse handler for left scalar node
-	CParseHandlerBase *pphLeft = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+	CParseHandlerBase *pphLeft = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphLeft);
 
 	// store parse handlers

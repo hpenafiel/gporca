@@ -41,7 +41,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	BOOL fStrict
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidTypeResult(pmdidTypeResult),
@@ -56,7 +56,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	GPOS_ASSERT(EfdaSentinel > efdaDataAccess);
 
 	InitDXLTokenArrays();
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------
@@ -182,7 +182,7 @@ CWStringDynamic *
 CMDFunctionGPDB::PstrOutArgTypes() const
 {
 	GPOS_ASSERT(NULL != m_pdrgpmdidTypes);
-	CWStringDynamic *pstr = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp);
+	CWStringDynamic *pstr = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 
 	const ULONG ulLen = m_pdrgpmdidTypes->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)

@@ -77,7 +77,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		CWStringDynamic *pstrAggName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszAggName);
 		
 		// create a copy of the string in the CMDName constructor
-		m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrAggName);
+		m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrAggName);
 		
 		GPOS_DELETE(pstrAggName);
 
@@ -183,7 +183,7 @@ CParseHandlerMDGPDBAgg::EndElement
 		// construct the MD agg object from its part
 		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
 		
-		m_pimdobj = GPOS_NEW(m_pmp) CMDAggregateGPDB(m_pmp,
+		m_pimdobj = GPOS_NEW(m_memory_pool) CMDAggregateGPDB(m_memory_pool,
 												m_pmdid,
 												m_pmdname,
 												m_pmdidTypeResult,

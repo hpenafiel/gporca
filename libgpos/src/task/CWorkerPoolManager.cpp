@@ -39,7 +39,7 @@ CWorkerPoolManager::CWorkerPoolManager
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_num_workers(0),
 	m_min_workers(0),
 	m_max_workers(0),
@@ -167,7 +167,7 @@ CWorkerPoolManager::Shutdown()
 	worker_pool_manager->m_thread_manager.ShutDown();
 
 
-	IMemoryPool *pmp = worker_pool_manager->m_pmp;
+	IMemoryPool *pmp = worker_pool_manager->m_memory_pool;
 
 	// destroy worker pool
 	CWorkerPoolManager::m_worker_pool_manager = NULL;

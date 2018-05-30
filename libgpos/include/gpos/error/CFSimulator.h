@@ -162,7 +162,7 @@ namespace gpos
 			CFSimulator(const CFSimulator&);
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// resolution
 			ULONG m_resolution;

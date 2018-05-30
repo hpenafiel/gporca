@@ -50,7 +50,7 @@ namespace gpopt
 			{
 				private:
 					// memory pool
-					IMemoryPool *m_pmp;
+					IMemoryPool *m_memory_pool;
 
 					// metadata accessor
 					CMDAccessor *m_pmda;
@@ -70,7 +70,7 @@ namespace gpopt
 						INT iVal
 						)
 						:
-						m_pmp(pmp),
+						m_memory_pool(pmp),
 						m_pmda(pmda),
 						m_iVal(iVal)
 					{}

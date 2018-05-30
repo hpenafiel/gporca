@@ -76,7 +76,7 @@ CParseHandlerLogicalTVF::StartElement
 																);
 
 		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszFuncName);
-		m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrFuncName);
+		m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
 		GPOS_DELETE(pstrFuncName);
 
 		// parse function return type
@@ -86,7 +86,7 @@ CParseHandlerLogicalTVF::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// parse handler for columns
-		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
+		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphColDescr);
 
 		// store parse handlers
@@ -97,7 +97,7 @@ CParseHandlerLogicalTVF::StartElement
 	else
 	{
 		// parse scalar child
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 
 		// store parse handlers
@@ -138,9 +138,9 @@ CParseHandlerLogicalTVF::EndElement
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
 
 	pdrgpdxlcd->AddRef();
-	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_pmp) CDXLLogicalTVF(m_pmp, m_pmdidFunc, m_pmdidRetType, m_pmdname, pdrgpdxlcd);
+	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_pmdname, pdrgpdxlcd);
 
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopTVF);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopTVF);
 
 	const ULONG ulLen = this->Length();
 	// loop over arglist children and add them to this parsehandler

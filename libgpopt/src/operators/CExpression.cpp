@@ -58,7 +58,7 @@ CExpression::CExpression
 	CGroupExpression *pgexpr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pop(pop),
 	m_pdrgpexpr(NULL),
 	m_pdprel(NULL),
@@ -96,7 +96,7 @@ CExpression::CExpression
 	CExpression *pexpr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pop(pop),
 	m_pdrgpexpr(NULL),
 	m_pdprel(NULL),
@@ -136,7 +136,7 @@ CExpression::CExpression
 	CExpression *pexprChildSecond
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pop(pop),
 	m_pdrgpexpr(NULL),
 	m_pdprel(NULL),
@@ -180,7 +180,7 @@ CExpression::CExpression
 	CExpression *pexprChildThird
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pop(pop),
 	m_pdrgpexpr(NULL),
 	m_pdprel(NULL),
@@ -224,7 +224,7 @@ CExpression::CExpression
 	DrgPexpr *pdrgpexpr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pop(pop),
 	m_pdrgpexpr(pdrgpexpr),
 	m_pdprel(NULL),
@@ -261,7 +261,7 @@ CExpression::CExpression
 	CCost cost
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pop(pop),
 	m_pdrgpexpr(pdrgpexpr),
 	m_pdprel(NULL),
@@ -539,7 +539,7 @@ CExpression::PdpDerive
 	// see if suitable prop is already cached
 	if (NULL == Pdp(ept))
 	{
-		CExpressionHandle exprhdl(m_pmp);
+		CExpressionHandle exprhdl(m_memory_pool);
 		exprhdl.Attach(this);
 
 		// trigger recursive property derivation
@@ -582,7 +582,7 @@ CExpression::PstatsDerive
 		if (NULL == m_pstats)
 		{
 			// create an empty statistics container
-			m_pstats = CStatistics::PstatsEmpty(m_pmp);
+			m_pstats = CStatistics::PstatsEmpty(m_memory_pool);
 		}
 
 		return m_pstats;
@@ -596,8 +596,8 @@ CExpression::PstatsDerive
 	if (NULL != m_pstats)
 	{
 		prprelInput->Release();
-		CReqdPropRelational *prprelExisting = m_pstats->Prprel(m_pmp);
-		prprelInput = prprel->PrprelDifference(m_pmp, prprelExisting);
+		CReqdPropRelational *prprelExisting = m_pstats->Prprel(m_memory_pool);
+		prprelInput = prprel->PrprelDifference(m_memory_pool, prprelExisting);
 		prprelExisting->Release();
 
 		if (prprelInput->IsEmpty())
@@ -614,7 +614,7 @@ CExpression::PstatsDerive
 	if (NULL == pdrgpstatCtxt)
 	{
 		// create an empty context
-		pdrgpstatCtxtNew = GPOS_NEW(m_pmp) DrgPstat(m_pmp);
+		pdrgpstatCtxtNew = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	}
 	else
 	{
@@ -622,9 +622,9 @@ CExpression::PstatsDerive
 	}
 
 	// trigger recursive property derivation
-	CExpressionHandle exprhdl(m_pmp);
+	CExpressionHandle exprhdl(m_memory_pool);
 	exprhdl.Attach(this);
-	CDrvdPropCtxtRelational *pdpctxtrel = GPOS_NEW(m_pmp) CDrvdPropCtxtRelational(m_pmp);
+	CDrvdPropCtxtRelational *pdpctxtrel = GPOS_NEW(m_memory_pool) CDrvdPropCtxtRelational(m_memory_pool);
 	exprhdl.DeriveProps(pdpctxtrel);
 
 	// compute required relational properties of expression's children
@@ -644,8 +644,8 @@ CExpression::PstatsDerive
 	}
 	else
 	{
-		IStatistics *pstatsCopy = pstats->PstatsCopy(m_pmp);
-		pstatsCopy->AppendStats(m_pmp, m_pstats);
+		IStatistics *pstatsCopy = pstats->PstatsCopy(m_memory_pool);
+		pstatsCopy->AppendStats(m_memory_pool, m_pstats);
 
 		m_pstats->Release();
 		m_pstats = NULL;
@@ -832,7 +832,7 @@ CExpression::PrppDecorate
 		exprhdl.InitReqdProps(prppInput);
 
 		// create array of child derived properties
-		DrgPdp *pdrgpdp = GPOS_NEW(m_pmp) DrgPdp(m_pmp);
+		DrgPdp *pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool);
 
 		const ULONG ulArity =  UlArity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
@@ -1197,7 +1197,7 @@ void
 CExpression::DbgPrint() const
 {
 	CAutoTraceFlag atf(EopttracePrintExpressionProperties, true);
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 
@@ -1433,7 +1433,7 @@ CExpression::FValidPlan
 	GPOS_ASSERT(NULL != prpp);
 	GPOS_ASSERT(NULL != pdpctxtplan);
 
-	CExpressionHandle exprhdl(m_pmp);
+	CExpressionHandle exprhdl(m_memory_pool);
 	exprhdl.Attach(this);
 	exprhdl.DeriveProps(pdpctxtplan);
 	CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan(exprhdl.Pdp());
@@ -1469,7 +1469,7 @@ CExpression::FValidChildrenDistribution
 	GPOS_ASSERT(Pop()->FPhysical());
 
 	CPhysical *pop = CPhysical::PopConvert(Pop());
-	CExpressionHandle exprhdl(m_pmp);
+	CExpressionHandle exprhdl(m_memory_pool);
 	exprhdl.Attach(this);
 	exprhdl.DeriveProps(pdpctxtplan);
 

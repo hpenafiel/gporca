@@ -917,7 +917,7 @@ CMDAccessorTest::PvLookupSingleObj
 	
 	CMDAccessor *pmda = pmdtaskparams->m_pmda;
 
-	IMemoryPool *pmp = pmdtaskparams->m_pmp;
+	IMemoryPool *pmp = pmdtaskparams->m_memory_pool;
 	
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != pmda);
@@ -964,7 +964,7 @@ CMDAccessorTest::PvLookupMultipleObj
 		GPOS_CHECK_ABORT;
 
 		// lookup relation
-		CMDIdGPDB *pmdid = GPOS_NEW(pmdtaskparams->m_pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /*OID*/, 1 /*major*/, ul + 1 /*minor*/);
+		CMDIdGPDB *pmdid = GPOS_NEW(pmdtaskparams->m_memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /*OID*/, 1 /*major*/, ul + 1 /*minor*/);
 		(void) pmda->Pmdrel(pmdid);
 		pmdid->Release();
 	}

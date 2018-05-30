@@ -38,7 +38,7 @@ CDXLDatum::CDXLDatum
 	ULONG ulLength
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdidType(pmdidType),
 	m_iTypeModifier(iTypeModifier),
 	m_fNull(fNull),

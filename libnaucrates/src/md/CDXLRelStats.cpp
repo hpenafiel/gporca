@@ -38,14 +38,14 @@ CDXLRelStats::CDXLRelStats
 	BOOL fEmpty
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdidRelStats(pmdidRelStats),
 	m_pmdname(pmdname),
 	m_dRows(dRows),
 	m_fEmpty(fEmpty)
 {
 	GPOS_ASSERT(pmdidRelStats->IsValid());
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------

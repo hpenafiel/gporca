@@ -97,11 +97,11 @@ CParseHandlerLogicalUpdate::StartElement
 	}
 
 	// parse handler for logical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	//parse handler for the table descriptor
-	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
+	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphTabDesc);
 
 	// store child parse handler in array
@@ -142,10 +142,10 @@ CParseHandlerLogicalUpdate::EndElement
 	CDXLTableDescr *pdxltabdesc = pphTabDesc->Pdxltabdesc();
 	pdxltabdesc->AddRef();
 
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode
 							(
-							m_pmp,
-							GPOS_NEW(m_pmp) CDXLLogicalUpdate(m_pmp, pdxltabdesc, m_ulCtid, m_ulSegmentId, m_pdrgpulDelete, m_pdrgpulInsert, m_fPreserveOids, m_ulTupleOidColId)
+							m_memory_pool,
+							GPOS_NEW(m_memory_pool) CDXLLogicalUpdate(m_memory_pool, pdxltabdesc, m_ulCtid, m_ulSegmentId, m_pdrgpulDelete, m_pdrgpulInsert, m_fPreserveOids, m_ulTupleOidColId)
 							);
 
 	AddChildFromParseHandler(pphChild);

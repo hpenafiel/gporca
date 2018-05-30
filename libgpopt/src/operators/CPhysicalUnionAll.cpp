@@ -358,7 +358,7 @@ const
 	GPOS_ASSERT(NULL != pcrsRequired);
 	GPOS_ASSERT(PdrgpdrgpcrInput()->Size() == exprhdl.UlArity());
 
-	CColRefSet *pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 
 	// include output columns
 	pcrs->Include(PdrgpcrOutput());
@@ -490,8 +490,8 @@ const
 	CPartIndexMap *ppimDrvd = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Ppim();
 	GPOS_ASSERT(NULL != ppimDrvd);
 
-	BOOL fInScope = pepp->FInScope(m_pmp, ppimDrvd);
-	BOOL fResolved = pepp->FResolved(m_pmp, ppimDrvd);
+	BOOL fInScope = pepp->FInScope(m_memory_pool, ppimDrvd);
+	BOOL fResolved = pepp->FResolved(m_memory_pool, ppimDrvd);
 
 	if (fResolved)
 	{
@@ -506,7 +506,7 @@ const
 	}
 
 
-	ULongPtrArray *pdrgpul = ppimReqd->PdrgpulScanIds(m_pmp);
+	ULongPtrArray *pdrgpul = ppimReqd->PdrgpulScanIds(m_memory_pool);
 	const ULONG ulScanIds = pdrgpul->Size();
 
 	const ULONG ulArity = exprhdl.UlNonScalarChildren();

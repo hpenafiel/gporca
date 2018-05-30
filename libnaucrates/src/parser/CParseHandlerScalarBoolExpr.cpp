@@ -79,13 +79,13 @@ CParseHandlerScalarBoolExpr::StartElement
 			CDXLScalarBoolExpr *pdxlop = (CDXLScalarBoolExpr*) CDXLOperatorFactory::PdxlopBoolExpr(m_pphm->Pmm(), m_edxlBoolType);
 
 			// construct node from the created child nodes
-			m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 		}
 		else
 		{
 
 			// This is to support nested BoolExpr. TODO:  - create a separate xml tag for boolean expression
-			CParseHandlerBase *pphBoolExpr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), m_pphm, this);
+			CParseHandlerBase *pphBoolExpr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), m_pphm, this);
 			m_pphm->ActivateParseHandler(pphBoolExpr);
 
 			// store parse handlers
@@ -101,7 +101,7 @@ CParseHandlerScalarBoolExpr::StartElement
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name)->GetBuffer());
 		}
 
-		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphOp);
 
 		// store parse handlers

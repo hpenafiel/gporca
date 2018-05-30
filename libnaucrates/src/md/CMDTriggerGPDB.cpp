@@ -39,7 +39,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	BOOL fEnabled
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidRel(pmdidRel),
@@ -52,7 +52,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	GPOS_ASSERT(m_pmdidFunc->IsValid());
 	GPOS_ASSERT(0 <= iType);
 
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------

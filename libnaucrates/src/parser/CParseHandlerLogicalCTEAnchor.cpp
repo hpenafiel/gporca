@@ -70,11 +70,11 @@ CParseHandlerLogicalCTEAnchor::StartElement
 											EdxltokenLogicalCTEAnchor
 											);
 	
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, GPOS_NEW(m_pmp) CDXLLogicalCTEAnchor(m_pmp, ulId));
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalCTEAnchor(m_memory_pool, ulId));
 
 	// create and activate the parse handler for the child expression node
 	CParseHandlerBase *pphChild =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	// store parse handler

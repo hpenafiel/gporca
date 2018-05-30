@@ -67,7 +67,7 @@ namespace gpopt
 						CSpinlockMemo> ShtAccIter;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 		
 			// id counter for groups
 			CAtomicULONG m_aul;

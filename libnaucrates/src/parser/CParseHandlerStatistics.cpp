@@ -107,7 +107,7 @@ CParseHandlerStatistics::StartElement
 		// start of the statistics section in the DXL document
 		GPOS_ASSERT(NULL == m_pdrgpdxlstatsderrel);
 
-		m_pdrgpdxlstatsderrel = GPOS_NEW(m_pmp) DrgPdxlstatsderrel(m_pmp);
+		m_pdrgpdxlstatsderrel = GPOS_NEW(m_memory_pool) DrgPdxlstatsderrel(m_memory_pool);
 	}
 	else
 	{
@@ -115,7 +115,7 @@ CParseHandlerStatistics::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlstatsderrel);
 
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
 
 		m_pphm->ActivateParseHandler(pph);
 

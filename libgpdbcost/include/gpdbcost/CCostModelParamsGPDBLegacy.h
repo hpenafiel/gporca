@@ -59,7 +59,7 @@ namespace gpopt
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// array of parameters
 			// cost param enum is used as index in this array

@@ -39,7 +39,7 @@ CQueryContext::CQueryContext
 	BOOL fDeriveStats
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_prpp(prpp),
 	m_pdrgpcr(pdrgpcr),
 	m_pdrgpcrSystemCols(NULL),
@@ -285,7 +285,7 @@ CQueryContext::OsPrint
 void
 CQueryContext::DbgPrint() const
 {
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif // GPOS_DEBUG

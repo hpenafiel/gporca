@@ -56,7 +56,7 @@ CFSimulator::AddTracker
 	CAutoTraceFlag atf(EtraceSimulateOOM, false);
 
 	// allocate new tracker before getting the spinlock
-	CStackTracker *new_stack_tracker = GPOS_NEW(m_pmp) CStackTracker(m_pmp, m_resolution, key);
+	CStackTracker *new_stack_tracker = GPOS_NEW(m_memory_pool) CStackTracker(m_memory_pool, m_resolution, key);
 	
 	// assume somebody overtook
 	BOOL overtaken = true;
@@ -167,7 +167,7 @@ CFSimulator::Init()
 void
 CFSimulator::Shutdown()
 {
-	IMemoryPool *pmp = m_pmp;
+	IMemoryPool *pmp = m_memory_pool;
 	GPOS_DELETE(CFSimulator::m_fsim);
 	CFSimulator::m_fsim = NULL;
 	
@@ -231,13 +231,13 @@ CFSimulator::CFSimulator
 	ULONG resolution
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_resolution(resolution)
 {
 	// setup init table
 	m_stack.Init
 		(
-		m_pmp,
+		m_memory_pool,
 		1024,
 		GPOS_OFFSET(CStackTracker, m_link),
 		GPOS_OFFSET(CStackTracker, m_key),

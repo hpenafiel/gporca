@@ -94,7 +94,7 @@ CParseHandlerCostModel::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParams), element_local_name))
 	{
-		CParseHandlerBase *pphCostParams = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCostParams), m_pphm, this);
+		CParseHandlerBase *pphCostParams = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParams), m_pphm, this);
 		m_pphcp = static_cast<CParseHandlerCostParams *>(pphCostParams);
 		m_pphm->ActivateParseHandler(pphCostParams);
 
@@ -132,7 +132,7 @@ CParseHandlerCostModel::EndElement
 	switch (m_ecmt)
 	{
 		case ICostModel::EcmtGPDBLegacy:
-			m_pcm = GPOS_NEW(m_pmp) CCostModelGPDBLegacy(m_pmp, m_ulSegments);
+			m_pcm = GPOS_NEW(m_memory_pool) CCostModelGPDBLegacy(m_memory_pool, m_ulSegments);
 			break;
 		case ICostModel::EcmtGPDBCalibrated:
 			CCostModelParamsGPDB *pcp;
@@ -148,7 +148,7 @@ CParseHandlerCostModel::EndElement
 				GPOS_ASSERT(NULL != pcp);
 				pcp->AddRef();
 			}
-			m_pcm = GPOS_NEW(m_pmp) CCostModelGPDB(m_pmp, m_ulSegments, pcp);
+			m_pcm = GPOS_NEW(m_memory_pool) CCostModelGPDB(m_memory_pool, m_ulSegments, pcp);
 			break;
 		case ICostModel::EcmtSentinel:
 			GPOS_ASSERT(false && "Unexpected cost model type");

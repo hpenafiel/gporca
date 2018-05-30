@@ -79,7 +79,7 @@ CParseHandlerMetadataIdList::StartElement
 		// start of an index or partition metadata id list
 		GPOS_ASSERT(NULL == m_pdrgpmdid);
 		
-		m_pdrgpmdid = GPOS_NEW(m_pmp) DrgPmdid(m_pmp);
+		m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndex), element_local_name))
 	{

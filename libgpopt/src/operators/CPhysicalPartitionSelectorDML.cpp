@@ -133,13 +133,13 @@ CPhysicalPartitionSelectorDML::PdsRequired
 	if (CDistributionSpec::EdtHashed == edtRequired)
 	{
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(pdsInput);
-		pcrs = pdshashed->PcrsUsed(m_pmp);
+		pcrs = pdshashed->PcrsUsed(m_memory_pool);
 	}
 
 	if (CDistributionSpec::EdtRouted == edtRequired)
 	{
 		CDistributionSpecRouted *pdsrouted = CDistributionSpecRouted::PdsConvert(pdsInput);
-		pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+		pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 		pcrs->Include(pdsrouted->Pcr());
 	}
 
@@ -175,7 +175,7 @@ CPhysicalPartitionSelectorDML::PosRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	CColRefSet *pcrsSort = posRequired->PcrsUsed(m_pmp);
+	CColRefSet *pcrsSort = posRequired->PcrsUsed(m_memory_pool);
 	BOOL fUsesDefinedCols = pcrsSort->FMember(m_pcrOid);
 	pcrsSort->Release();
 
@@ -212,7 +212,7 @@ CPhysicalPartitionSelectorDML::FProvidesReqdCols
 	GPOS_ASSERT(NULL != pcrsRequired);
 	GPOS_ASSERT(1 == exprhdl.UlArity());
 
-	CColRefSet *pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 	// include the defined oid column
 	pcrs->Include(m_pcrOid);
 
@@ -297,7 +297,7 @@ CPhysicalPartitionSelectorDML::EpetOrder
 
 	// Sort has to go above if sort columns use any column
 	// defined here, otherwise, Sort can either go above or below
-	CColRefSet *pcrsSort = peo->PosRequired()->PcrsUsed(m_pmp);
+	CColRefSet *pcrsSort = peo->PosRequired()->PcrsUsed(m_memory_pool);
 	BOOL fUsesDefinedCols = pcrsSort->FMember(m_pcrOid);
 	pcrsSort->Release();
 	if (fUsesDefinedCols)

@@ -74,8 +74,8 @@ CParseHandlerMDRequest::StartElement
 	{
 		// start of MD request section
 		GPOS_ASSERT(NULL == m_pdrgpmdid);
-		m_pdrgpmdid = GPOS_NEW(m_pmp) DrgPmdid(m_pmp);
-		m_pdrgptr = GPOS_NEW(m_pmp) CMDRequest::DrgPtr(m_pmp);
+		m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
+		m_pdrgptr = GPOS_NEW(m_memory_pool) CMDRequest::DrgPtr(m_memory_pool);
 		
 		return;
 	}
@@ -100,7 +100,7 @@ CParseHandlerMDRequest::StartElement
 	{		
 		// parse type request
 		IMDType::ETypeInfo eti = (IMDType::ETypeInfo) CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeInfo, EdxltokenMDTypeRequest);
-		m_pdrgptr->Append(GPOS_NEW(m_pmp) CMDRequest::SMDTypeRequest(sysid, eti));
+		m_pdrgptr->Append(GPOS_NEW(m_memory_pool) CMDRequest::SMDTypeRequest(sysid, eti));
 	}
 }
 

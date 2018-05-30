@@ -47,12 +47,12 @@ CParseHandlerScalarValuesList::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarValuesList), element_local_name))
 	{
-		CDXLScalarValuesList *pdxlop = GPOS_NEW(m_pmp) CDXLScalarValuesList(m_pmp);
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+		CDXLScalarValuesList *pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarValuesList(m_memory_pool);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarConstValue), element_local_name))
 	{
-		CParseHandlerBase *pphScConstValue = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
+		CParseHandlerBase *pphScConstValue = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
 		m_pphm->ActivateParseHandler(pphScConstValue);
 
 		this->Append(pphScConstValue);

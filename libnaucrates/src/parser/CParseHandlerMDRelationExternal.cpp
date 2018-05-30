@@ -152,9 +152,9 @@ CParseHandlerMDRelationExternal::EndElement
  	pdrgpmdidTriggers->AddRef();
  	pdrgpmdidCheckConstraint->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_pmp) CMDRelationExternalGPDB
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDRelationExternalGPDB
 								(
-									m_pmp,
+									m_memory_pool,
 									m_pmdid,
 									m_pmdname,
 									m_ereldistrpolicy,

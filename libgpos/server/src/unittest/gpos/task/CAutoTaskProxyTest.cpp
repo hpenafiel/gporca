@@ -515,7 +515,7 @@ void* CAutoTaskProxyTest::Unittest_CheckExecuteErrorInternal(void* pv)
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(ptd->m_pmp, pwpm, ptd->fPropagateException);
+		CAutoTaskProxy atp(ptd->m_memory_pool, pwpm, ptd->fPropagateException);
 		CTask *task = atp.Create(CAutoTaskProxyTest::PvUnittest_Error, NULL);
 		GPOS_TRY
 		{
@@ -585,7 +585,7 @@ CAutoTaskProxyTest::EresUnittest_ExecuteError()
 	// from Unittest_CheckExecuteErrorInternal
 	STestThreadDescriptor st;
 	st.ulId = GPOS_THREAD_MAX + 1;
-	st.m_pmp = pmp;
+	st.m_memory_pool = pmp;
 	st.fException = false;
 	st.fPropagateException = true;
 

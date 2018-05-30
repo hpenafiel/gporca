@@ -132,32 +132,32 @@ CParseHandlerIndexScan::StartElementHelper
 	// order of their expected appearance
 
 	CParseHandlerBase *pphTD =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphTD);
 
 	// parse handler for the index descriptor
 	CParseHandlerBase *pphIdxD =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphIdxD);
 
 	// parse handler for the index condition list
 	CParseHandlerBase *pphIdxCondList =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphIdxCondList);
 
 	// parse handler for the filter
 	CParseHandlerBase *pphFilter =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphFilter);
 
 	// parse handler for the proj list
 	CParseHandlerBase *pphPrL =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphPrL);
 
 	//parse handler for the properties of the operator
 	CParseHandlerBase *pphProp =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphProp);
 
 	// store parse handlers
@@ -209,20 +209,20 @@ CParseHandlerIndexScan::EndElementHelper
 	CDXLPhysical *pdxlop = NULL;
 	if (EdxltokenPhysicalIndexOnlyScan == edxltoken)
 	{
-		pdxlop = GPOS_NEW(m_pmp) CDXLPhysicalIndexOnlyScan(m_pmp, pdxltabdesc, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else if (EdxltokenPhysicalIndexScan == edxltoken)
 	{
-		pdxlop = GPOS_NEW(m_pmp) CDXLPhysicalIndexScan(m_pmp, pdxltabdesc, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == edxltoken);
 
-		pdxlop = GPOS_NEW(m_pmp) CDXLPhysicalDynamicIndexScan(m_pmp, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable, pdxlid, m_edxlisd);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 
 	// set statistics and physical properties

@@ -60,14 +60,14 @@ CParseHandlerArray::StartElement
 	{
 		// parse and create array
 		CDXLScalarArray *pdxlop = (CDXLScalarArray *) CDXLOperatorFactory::PdxlopArray(m_pphm->Pmm(), attrs);
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else
 	{
 		// parse child of array
 		GPOS_ASSERT(NULL != m_pdxln);
 		
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 		this->Append(pphChild);
 		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);

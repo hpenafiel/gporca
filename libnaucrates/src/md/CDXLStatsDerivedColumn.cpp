@@ -33,7 +33,7 @@ CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	CDouble dNullFreq,
 	CDouble dDistinctRemain,
 	CDouble dFreqRemain,
-	DrgPdxlbucket *pdrgpdxlbucket
+	DrgPdxlbucket *stats_bucket_dxl_array
 	)
 	:
 	m_ulColId(ulColId),
@@ -41,7 +41,7 @@ CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	m_dNullFreq(dNullFreq),
 	m_dDistinctRemain(dDistinctRemain),
 	m_dFreqRemain(dFreqRemain),
-	m_pdrgpdxlbucket(pdrgpdxlbucket)
+	m_pdrgpdxlbucket(stats_bucket_dxl_array)
 {
 	GPOS_ASSERT(0 <= m_dWidth);
 	GPOS_ASSERT(0 <= m_dNullFreq);

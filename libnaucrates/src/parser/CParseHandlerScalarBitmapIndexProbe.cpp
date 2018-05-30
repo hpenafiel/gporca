@@ -76,12 +76,12 @@ CParseHandlerScalarBitmapIndexProbe::StartElement
 
 	// parse handler for the index descriptor
 	CParseHandlerBase *pphIdxD =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphIdxD);
 
 	// parse handler for the index condition list
 	CParseHandlerBase *pphIdxCondList =
-			CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_pphm, this);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphIdxCondList);
 
 	// store parse handlers
@@ -122,8 +122,8 @@ CParseHandlerScalarBitmapIndexProbe::EndElement
 	CDXLIndexDescr *pdxlid = pphIdxD->Pdxlid();
 	pdxlid->AddRef();
 
-	CDXLScalar *pdxlop = GPOS_NEW(m_pmp) CDXLScalarBitmapIndexProbe(m_pmp, pdxlid);
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+	CDXLScalar *pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarBitmapIndexProbe(m_memory_pool, pdxlid);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 
 	// add children
 	AddChildFromParseHandler(pphIdxCondList);

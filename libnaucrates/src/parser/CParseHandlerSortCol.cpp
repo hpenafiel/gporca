@@ -65,7 +65,7 @@ CParseHandlerSortCol::StartElement
 	
 	// parse and create sort col operator
 	CDXLScalarSortCol *pdxlop = (CDXLScalarSortCol *) CDXLOperatorFactory::PdxlopSortCol(m_pphm->Pmm(), attrs);
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 }
 
 //---------------------------------------------------------------------------

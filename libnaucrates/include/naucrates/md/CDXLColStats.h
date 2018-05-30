@@ -44,7 +44,7 @@ namespace gpmd
 		private:
 		
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// metadata id of the object
 			CMDIdColStats *m_pmdidColStats;
@@ -87,7 +87,7 @@ namespace gpmd
 				CDouble dNullFreq,
 				CDouble dDistinctRemain,
 				CDouble dFreqRemain,
-				DrgPdxlbucket *pdrgpdxlbucket,
+				DrgPdxlbucket *stats_bucket_dxl_array,
 				BOOL fColStatsMissing
 				);
 			

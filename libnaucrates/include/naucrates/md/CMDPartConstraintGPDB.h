@@ -48,7 +48,7 @@ namespace gpmd
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// included default partitions
 			ULongPtrArray *m_pdrgpulDefaultParts;

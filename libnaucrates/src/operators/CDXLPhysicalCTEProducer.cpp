@@ -104,7 +104,7 @@ CDXLPhysicalCTEProducer::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCTEId), UlId());
 
-	CWStringDynamic *pstrColIds = CDXLUtils::Serialize(m_pmp, m_pdrgpulColIds);
+	CWStringDynamic *pstrColIds = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulColIds);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColumns), pstrColIds);
 	GPOS_DELETE(pstrColIds);
 

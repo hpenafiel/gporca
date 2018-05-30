@@ -48,7 +48,7 @@ CMemo::CMemo
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pgroupRoot(NULL),
 	m_ulpGrps(0),
 	m_pmemotmap(NULL)
@@ -232,7 +232,7 @@ CMemo::FNewGroup
 
 	if (NULL == *ppgroupTarget && NULL == pgexpr)
 	{
-		*ppgroupTarget = GPOS_NEW(m_pmp) CGroup(m_pmp, fScalar);
+		*ppgroupTarget = GPOS_NEW(m_memory_pool) CGroup(m_memory_pool, fScalar);
 
 		return true;
 	}
@@ -644,7 +644,7 @@ CMemo::GroupMerge()
 void
 CMemo::Trace()
 {
-	CWStringDynamic str(m_pmp);
+	CWStringDynamic str(m_memory_pool);
 	COstreamString oss(&str);
 
 	OsPrint(oss);
@@ -671,7 +671,7 @@ CMemo::OsPrint
 	
 	while (NULL != pgroup)
 	{
-		CAutoTrace at(m_pmp);
+		CAutoTrace at(m_memory_pool);
 
 		if (m_pgroupRoot == pgroup)
 		{
@@ -710,9 +710,9 @@ CMemo::DeriveStatsIfAbsent
 		{
 			CGroupExpression *pgexprFirst = CEngine::PgexprFirst(pgroup);
 
-			CExpressionHandle exprhdl(m_pmp);
+			CExpressionHandle exprhdl(m_memory_pool);
 			exprhdl.Attach(pgexprFirst);
-			exprhdl.DeriveStats(pmpLocal, m_pmp, NULL, NULL);
+			exprhdl.DeriveStats(pmpLocal, m_memory_pool, NULL, NULL);
 		}
 
 		pgroup = m_listGroups.Next(pgroup);
@@ -780,8 +780,8 @@ CMemo::BuildTreeMap
 	GPOS_ASSERT(NULL != poc);
 	GPOS_ASSERT(NULL == m_pmemotmap && "tree map is already built");
 
-	m_pmemotmap = GPOS_NEW(m_pmp) MemoTreeMap(m_pmp, CExpression::PexprRehydrate);
-	m_pgroupRoot->BuildTreeMap(m_pmp, poc, NULL /*pccParent*/, ULONG_MAX /*ulChildIndex*/, m_pmemotmap);
+	m_pmemotmap = GPOS_NEW(m_memory_pool) MemoTreeMap(m_memory_pool, CExpression::PexprRehydrate);
+	m_pgroupRoot->BuildTreeMap(m_memory_pool, poc, NULL /*pccParent*/, ULONG_MAX /*ulChildIndex*/, m_pmemotmap);
 }
 
 
@@ -864,7 +864,7 @@ CMemo::UlGrpExprs()
 void
 CMemo::DbgPrint()
 {
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif // GPOS_DEBUG

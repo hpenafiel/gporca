@@ -82,13 +82,13 @@ CParseHandlerMDIndex::StartElement
 		else
 		{
 			// construct an empty keyset
-			m_pdrgpulDefaultParts = GPOS_NEW(m_pmp) ULongPtrArray(m_pmp);
+			m_pdrgpulDefaultParts = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 		}
 
 		m_fPartConstraintUnbounded = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenIndex);
 
 		// parse handler for part constraints
-		CParseHandlerBase *pphPartConstraint= CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphPartConstraint= CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphPartConstraint);
 		this->Append(pphPartConstraint);
 		return;
@@ -107,17 +107,17 @@ CParseHandlerMDIndex::StartElement
 	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenIndex);
 	
 	// parse index name
-	const XMLCh *xmlszColName = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *parsed_column_name = CDXLOperatorFactory::XmlstrFromAttrs
 															(
 															attrs,
 															EdxltokenName,
 															EdxltokenIndex
 															);
-	CWStringDynamic *pstrColName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszColName);
+	CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), parsed_column_name);
 	
 	// create a copy of the string in the CMDName constructor
-	m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrColName);
-	GPOS_DELETE(pstrColName);
+	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, column_name);
+	GPOS_DELETE(column_name);
 
 	// parse index clustering, key columns and included columns information
 	m_fClustered = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenIndexClustered, EdxltokenIndex);
@@ -148,7 +148,7 @@ CParseHandlerMDIndex::StartElement
 													);
 	
 	// parse handler for operator class list
-	CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_pphm, this);
+	CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_pphm, this);
 	this->Append(pphOpClassList);
 	m_pphm->ActivateParseHandler(pphOpClassList);
 }
@@ -176,7 +176,7 @@ CParseHandlerMDIndex::EndElement
 		CParseHandlerScalarOp *pphPartCnstr = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
 		CDXLNode *pdxlnPartConstraint = pphPartCnstr->Pdxln();
 		pdxlnPartConstraint->AddRef();
-		m_ppartcnstr = GPOS_NEW(m_pmp) CMDPartConstraintGPDB(m_pmp, m_pdrgpulDefaultParts, m_fPartConstraintUnbounded, pdxlnPartConstraint);
+		m_ppartcnstr = GPOS_NEW(m_memory_pool) CMDPartConstraintGPDB(m_memory_pool, m_pdrgpulDefaultParts, m_fPartConstraintUnbounded, pdxlnPartConstraint);
 		return;
 	}
 	
@@ -190,9 +190,9 @@ CParseHandlerMDIndex::EndElement
 	DrgPmdid *pdrgpmdidOpClasses = pphMdidOpClasses->Pdrgpmdid();
 	pdrgpmdidOpClasses->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_pmp) CMDIndexGPDB
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDIndexGPDB
 							(
-							m_pmp, 
+							m_memory_pool, 
 							m_pmdid, 
 							m_pmdname,
 							m_fClustered, 

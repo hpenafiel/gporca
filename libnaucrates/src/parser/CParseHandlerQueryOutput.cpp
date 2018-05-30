@@ -94,7 +94,7 @@ CParseHandlerQueryOutput::StartElement
 		// start the query output section in the DXL document
 		GPOS_ASSERT(NULL == m_pdrgpdxln);
 
-		m_pdrgpdxln = GPOS_NEW(m_pmp) DrgPdxln(m_pmp);
+		m_pdrgpdxln = GPOS_NEW(m_memory_pool) DrgPdxln(m_memory_pool);
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIdent), element_local_name))
 	{
@@ -102,7 +102,7 @@ CParseHandlerQueryOutput::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxln);
 
 		// start new scalar ident element
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarIdent), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIdent), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 
 		// store parse handler

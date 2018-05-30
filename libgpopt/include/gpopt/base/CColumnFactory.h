@@ -50,7 +50,7 @@ namespace gpopt
 		private:
 
 			// MTS memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// mapping between column id of computed column and a set of used column references
 			HMCrCrs *m_phmcrcrs;

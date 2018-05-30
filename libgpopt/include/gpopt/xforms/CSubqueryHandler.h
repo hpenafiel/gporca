@@ -133,7 +133,7 @@ namespace gpopt
 			}; // struct SSubqueryDesc
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// enforce using correlated apply for unnesting subqueries
 			BOOL m_fEnforceCorrelatedApply;
@@ -440,7 +440,7 @@ namespace gpopt
 				BOOL fEnforceCorrelatedApply
 				)
 				:
-				m_pmp(pmp),
+				m_memory_pool(pmp),
 				m_fEnforceCorrelatedApply(fEnforceCorrelatedApply)
 			{}
 

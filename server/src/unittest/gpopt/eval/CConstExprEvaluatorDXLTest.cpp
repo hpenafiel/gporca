@@ -55,10 +55,10 @@ CConstExprEvaluatorDXLTest::CDummyConstDXLNodeEvaluator::PdxlnEvaluateExpr
 	const IMDTypeInt4 *pmdtypeint4 = m_pmda->PtMDType<IMDTypeInt4>();
 	pmdtypeint4->Pmdid()->AddRef();
 
-	CDXLDatumInt4 *pdxldatum = GPOS_NEW(m_pmp) CDXLDatumInt4(m_pmp, pmdtypeint4->Pmdid(), false /*fConstNull*/, m_iVal);
-	CDXLScalarConstValue *pdxlnConst = GPOS_NEW(m_pmp) CDXLScalarConstValue(m_pmp, pdxldatum);
+	CDXLDatumInt4 *pdxldatum = GPOS_NEW(m_memory_pool) CDXLDatumInt4(m_memory_pool, pmdtypeint4->Pmdid(), false /*fConstNull*/, m_iVal);
+	CDXLScalarConstValue *pdxlnConst = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, pdxldatum);
 
-	return GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlnConst);
+	return GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlnConst);
 }
 
 //---------------------------------------------------------------------------

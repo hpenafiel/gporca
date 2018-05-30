@@ -141,8 +141,8 @@ CParseHandlerMetadata::StartElement
 		// start of the metadata section in the DXL document
 		GPOS_ASSERT(NULL == m_pdrgpmdobj);
 		
-		m_pdrgpmdobj = GPOS_NEW(m_pmp) DrgPimdobj(m_pmp);
-		m_pdrgpmdid = GPOS_NEW(m_pmp) DrgPmdid(m_pmp);
+		m_pdrgpmdobj = GPOS_NEW(m_memory_pool) DrgPimdobj(m_memory_pool);
+		m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 		
 		m_pdrgpsysid = PdrgpsysidParse
 						(
@@ -164,7 +164,7 @@ CParseHandlerMetadata::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpmdobj);
 		
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
 
 		m_pphm->ActivateParseHandler(pph);
 		
@@ -241,7 +241,7 @@ CParseHandlerMetadata::PdrgpsysidParse
 		return NULL;
 	}
 
-	DrgPsysid *pdrgpsysid = GPOS_NEW(m_pmp) DrgPsysid(m_pmp);
+	DrgPsysid *pdrgpsysid = GPOS_NEW(m_memory_pool) DrgPsysid(m_memory_pool);
 
 	// extract separate system ids 
 	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenComma));
@@ -259,7 +259,7 @@ CParseHandlerMetadata::PdrgpsysidParse
 		XMLCh *xmlszName = xmlsztokSysid.nextToken();
 		CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszName);
 		
-		pdrgpsysid->Append(GPOS_NEW(m_pmp) CSystemId((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length()));	
+		pdrgpsysid->Append(GPOS_NEW(m_memory_pool) CSystemId((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length()));	
 		
 		GPOS_DELETE(pstrName);
 	}

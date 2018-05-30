@@ -66,7 +66,7 @@ namespace gpopt
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// private copy ctor
 			COptimizationContext(const COptimizationContext &);
@@ -107,7 +107,7 @@ namespace gpopt
 			// private dummy ctor; used for creating invalid context
 			COptimizationContext()
 				:
-				m_pmp(NULL),
+				m_memory_pool(NULL),
 				m_ulId(GPOPT_INVALID_OPTCTXT_ID),
 				m_pgroup(NULL),
 				m_prpp(NULL),
@@ -148,7 +148,7 @@ namespace gpopt
 				ULONG ulSearchStageIndex
 				)
 				:
-				m_pmp(pmp),
+				m_memory_pool(pmp),
 				m_ulId(GPOPT_INVALID_OPTCTXT_ID),
 				m_pgroup(pgroup),
 				m_prpp(prpp),

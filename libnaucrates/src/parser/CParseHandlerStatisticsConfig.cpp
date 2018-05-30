@@ -86,7 +86,7 @@ CParseHandlerStatisticsConfig::StartElement
 	CDouble dDampingFactorJoin = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenDampingFactorJoin, EdxltokenStatisticsConfig);
 	CDouble dDampingFactorGroupBy = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenDampingFactorGroupBy, EdxltokenStatisticsConfig);
 
-	m_pstatsconf = GPOS_NEW(m_pmp) CStatisticsConfig(m_pmp, dDampingFactorFilter, dDampingFactorJoin, dDampingFactorGroupBy);
+	m_pstatsconf = GPOS_NEW(m_memory_pool) CStatisticsConfig(m_memory_pool, dDampingFactorFilter, dDampingFactorJoin, dDampingFactorGroupBy);
 }
 
 //---------------------------------------------------------------------------

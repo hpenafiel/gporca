@@ -239,7 +239,7 @@ namespace
 {
 	class GetBuilder
 	{
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			CTableDescriptor *m_ptabdesc;
 			CWStringConst m_strTableName;
 			const IMDTypeInt4 *m_pmdtypeint4;
@@ -251,7 +251,7 @@ namespace
 				CWStringConst strTableName,
 				OID oidTableOid
 				):
-				m_pmp(pmp),
+				m_memory_pool(pmp),
 				m_strTableName(strTableName)
 			{
 				CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -275,13 +275,13 @@ namespace
 
 			void AddIntColumn(CWStringConst strColumnName, int iAttno, BOOL fNullable)
 			{
-				CColumnDescriptor *pcoldesc = GPOS_NEW(m_pmp) CColumnDescriptor(m_pmp, m_pmdtypeint4, IDefaultTypeModifier, CName(&strColumnName), iAttno, fNullable);
+				CColumnDescriptor *pcoldesc = GPOS_NEW(m_memory_pool) CColumnDescriptor(m_memory_pool, m_pmdtypeint4, IDefaultTypeModifier, CName(&strColumnName), iAttno, fNullable);
 				m_ptabdesc->AddColumn(pcoldesc);
 			}
 
 			CExpression *PexprLogicalGet()
 			{
-				return CTestUtils::PexprLogicalGet(m_pmp, m_ptabdesc, &m_strTableName);
+				return CTestUtils::PexprLogicalGet(m_memory_pool, m_ptabdesc, &m_strTableName);
 			}
 	};
 }

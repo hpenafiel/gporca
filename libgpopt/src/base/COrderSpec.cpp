@@ -133,7 +133,7 @@ COrderSpec::COrderSpec
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpoe(NULL)
 {
 	m_pdrgpoe = GPOS_NEW(pmp) DrgPoe(pmp);
@@ -170,7 +170,7 @@ COrderSpec::Append
 	ENullTreatment ent
 	)
 {
-	COrderExpression *poe = GPOS_NEW(m_pmp) COrderExpression(pmdid, pcr, ent);
+	COrderExpression *poe = GPOS_NEW(m_memory_pool) COrderExpression(pmdid, pcr, ent);
 	m_pdrgpoe->Append(poe);
 }
 

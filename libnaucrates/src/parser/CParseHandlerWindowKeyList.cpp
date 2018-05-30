@@ -59,7 +59,7 @@ CParseHandlerWindowKeyList::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowKeyList), element_local_name))
 	{
-		m_pdrgpdxlwk = GPOS_NEW(m_pmp) DrgPdxlwk(m_pmp);
+		m_pdrgpdxlwk = GPOS_NEW(m_memory_pool) DrgPdxlwk(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowKey), element_local_name))
 	{
@@ -67,7 +67,7 @@ CParseHandlerWindowKeyList::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlwk);
 		// start new window key element
 		CParseHandlerBase *pphWk =
-				CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenWindowKey), m_pphm, this);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowKey), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphWk);
 
 		// store parse handler

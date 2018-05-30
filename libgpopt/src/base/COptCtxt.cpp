@@ -44,11 +44,11 @@ COptCtxt::COptCtxt
 	)
 	:
 	CTaskLocalStorageObject(CTaskLocalStorage::EtlsidxOptCtxt),
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pcf(pcf),
 	m_pmda(pmda),
 	m_pceeval(pceeval),
-	m_pcomp(GPOS_NEW(m_pmp) CDefaultComparator(pceeval)),
+	m_pcomp(GPOS_NEW(m_memory_pool) CDefaultComparator(pceeval)),
 	m_auPartId(m_ulFirstValidPartId),
 	m_pcteinfo(NULL),
 	m_pdrgpcrSystemCols(NULL),
@@ -63,7 +63,7 @@ COptCtxt::COptCtxt
 	GPOS_ASSERT(NULL != optimizer_config);
 	GPOS_ASSERT(NULL != optimizer_config->Pcm());
 	
-	m_pcteinfo = GPOS_NEW(m_pmp) CCTEInfo(m_pmp);
+	m_pcteinfo = GPOS_NEW(m_memory_pool) CCTEInfo(m_memory_pool);
 	m_pcm = optimizer_config->Pcm();
 }
 

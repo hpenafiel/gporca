@@ -42,7 +42,7 @@ namespace gpmd
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// check constraint mdid
 			IMDId *m_pmdid;

@@ -89,7 +89,7 @@ namespace gpos
 			CList<CBitSetLink> m_bsllist;
 		
 			// pool to allocate links from
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 		
 			// size of individual bitvectors
 			ULONG m_vector_size;

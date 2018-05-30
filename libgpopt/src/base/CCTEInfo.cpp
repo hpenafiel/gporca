@@ -37,7 +37,7 @@ CCTEInfo::CCTEInfoEntry::CCTEInfoEntry
 	CExpression *pexprCTEProducer
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pexprCTEProducer(pexprCTEProducer),
 	m_phmcrulConsumers(NULL),
 	m_fUsed(true)
@@ -64,7 +64,7 @@ CCTEInfo::CCTEInfoEntry::CCTEInfoEntry
 	BOOL fUsed
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pexprCTEProducer(pexprCTEProducer),
 	m_phmcrulConsumers(NULL),
 	m_fUsed(fUsed)
@@ -116,7 +116,7 @@ CCTEInfo::CCTEInfoEntry::AddConsumerCols
 #ifdef GPOS_DEBUG
 			BOOL fSuccess =
 #endif // GPOS_DEBUG
-				m_phmcrulConsumers->Insert(pcr, GPOS_NEW(m_pmp) ULONG(ul));
+				m_phmcrulConsumers->Insert(pcr, GPOS_NEW(m_memory_pool) ULONG(ul));
 			GPOS_ASSERT(fSuccess);
 		}
 	}
@@ -177,14 +177,14 @@ CCTEInfo::CCTEInfo
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_phmulcteinfoentry(NULL),
 	m_ulNextCTEId(0),
 	m_fEnableInlining(true)
 {
 	GPOS_ASSERT(NULL != pmp);
-	m_phmulcteinfoentry = GPOS_NEW(m_pmp) HMUlCTEInfoEntry(m_pmp);
-	m_phmulprodconsmap = GPOS_NEW(m_pmp) HMUlProdConsMap(m_pmp);
+	m_phmulcteinfoentry = GPOS_NEW(m_memory_pool) HMUlCTEInfoEntry(m_memory_pool);
+	m_phmulprodconsmap = GPOS_NEW(m_memory_pool) HMUlProdConsMap(m_memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -223,15 +223,15 @@ CCTEInfo::PexprPreprocessCTEProducer
 	// get cte output cols for preprocessing use
 	CColRefSet *pcrsOutput = CLogicalCTEProducer::PopConvert(pexprCTEProducer->Pop())->pcrsOutput();
 
-	CExpression *pexprChildPreprocessed = CExpressionPreprocessor::PexprPreprocess(m_pmp, pexprProducerChild, pcrsOutput);
+	CExpression *pexprChildPreprocessed = CExpressionPreprocessor::PexprPreprocess(m_memory_pool, pexprProducerChild, pcrsOutput);
 
 	COperator *pop = pexprCTEProducer->Pop();
 	pop->AddRef();
 
 	CExpression *pexprProducerPreprocessed
-					= GPOS_NEW(m_pmp) CExpression
+					= GPOS_NEW(m_memory_pool) CExpression
 									(
-									m_pmp,
+									m_memory_pool,
 									pop,
 									pexprChildPreprocessed
 									);
@@ -265,7 +265,7 @@ CCTEInfo::AddCTEProducer
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif
-	m_phmulcteinfoentry->Insert(GPOS_NEW(m_pmp) ULONG(ulCTEId), GPOS_NEW(m_pmp) CCTEInfoEntry(m_pmp, pexprProducerToAdd));
+	m_phmulcteinfoentry->Insert(GPOS_NEW(m_memory_pool) ULONG(ulCTEId), GPOS_NEW(m_memory_pool) CCTEInfoEntry(m_memory_pool, pexprProducerToAdd));
 	GPOS_ASSERT(fInserted);
 }
 
@@ -301,7 +301,7 @@ CCTEInfo::ReplaceCTEProducer
 #ifdef GPOS_DEBUG
 	BOOL fReplaced =
 #endif
-		m_phmulcteinfoentry->Replace(&ulCTEId, GPOS_NEW(m_pmp) CCTEInfoEntry(m_pmp, pexprCTEProducerNew, pcteinfoentry->FUsed()));
+		m_phmulcteinfoentry->Replace(&ulCTEId, GPOS_NEW(m_memory_pool) CCTEInfoEntry(m_memory_pool, pexprCTEProducerNew, pcteinfoentry->FUsed()));
 	GPOS_ASSERT(fReplaced);
 }
 
@@ -323,7 +323,7 @@ CCTEInfo::InitDefaultStats
 	// Generate statistics with empty requirement. This handles cases when
 	// the CTE is a N-Ary join that will require statistics calculation
 
-	CReqdPropRelational *prprel = GPOS_NEW(m_pmp) CReqdPropRelational(GPOS_NEW(m_pmp) CColRefSet(m_pmp));
+	CReqdPropRelational *prprel = GPOS_NEW(m_memory_pool) CReqdPropRelational(GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool));
 	(void) pexprCTEProducer->PstatsDerive(prprel, NULL /* pdrgpstatCtxt */);
 
 	// cleanup
@@ -360,10 +360,10 @@ CCTEInfo::DeriveProducerStats
 
 	// Given the subset of CTE consumer columns needed for statistics derivation,
 	// compute its corresponding set of columns in the CTE Producer
-	CColRefSet *pcrsCTEProducer = CUtils::PcrsCTEProducerColumns(m_pmp, pcrsStat, popConsumer);
+	CColRefSet *pcrsCTEProducer = CUtils::PcrsCTEProducerColumns(m_memory_pool, pcrsStat, popConsumer);
 	GPOS_ASSERT(pcrsStat->Size() == pcrsCTEProducer->Size());
 
-	CReqdPropRelational *prprel = GPOS_NEW(m_pmp) CReqdPropRelational(pcrsCTEProducer);
+	CReqdPropRelational *prprel = GPOS_NEW(m_memory_pool) CReqdPropRelational(pcrsCTEProducer);
 	(void) pexprCTEProducer->PstatsDerive(prprel, NULL /* pdrgpstatCtxt */);
 
 	// cleanup
@@ -499,11 +499,11 @@ CCTEInfo::IncrementConsumers
 	HMUlConsumerMap *phmulconsumermap = const_cast<HMUlConsumerMap *>(m_phmulprodconsmap->Find(&ulParentCTEId));
 	if (NULL == phmulconsumermap)
 	{
-		phmulconsumermap = GPOS_NEW(m_pmp) HMUlConsumerMap(m_pmp);
+		phmulconsumermap = GPOS_NEW(m_memory_pool) HMUlConsumerMap(m_memory_pool);
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-		m_phmulprodconsmap->Insert(GPOS_NEW(m_pmp) ULONG(ulParentCTEId), phmulconsumermap);
+		m_phmulprodconsmap->Insert(GPOS_NEW(m_memory_pool) ULONG(ulParentCTEId), phmulconsumermap);
 		GPOS_ASSERT(fInserted);
 	}
 
@@ -515,7 +515,7 @@ CCTEInfo::IncrementConsumers
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-		phmulconsumermap->Insert(GPOS_NEW(m_pmp) ULONG(ulConsumerId), GPOS_NEW(m_pmp) SConsumerCounter(ulConsumerId));
+		phmulconsumermap->Insert(GPOS_NEW(m_memory_pool) ULONG(ulConsumerId), GPOS_NEW(m_memory_pool) SConsumerCounter(ulConsumerId));
 		GPOS_ASSERT(fInserted);
 	}
 	else
@@ -694,7 +694,7 @@ void CCTEInfo::FindConsumersInParent
 		ULONG ulConsumerId = pconsumercounter->UlCTEId();
 		if (pbsUnusedConsumers->Get(ulConsumerId))
 		{
-			pstack->Push(GPOS_NEW(m_pmp) ULONG(ulConsumerId));
+			pstack->Push(GPOS_NEW(m_memory_pool) ULONG(ulConsumerId));
 			pbsUnusedConsumers->ExchangeClear(ulConsumerId);
 		}
 	}
@@ -711,7 +711,7 @@ void CCTEInfo::FindConsumersInParent
 void
 CCTEInfo::MarkUnusedCTEs()
 {
-	CBitSet *pbsUnusedConsumers = GPOS_NEW(m_pmp) CBitSet(m_pmp);
+	CBitSet *pbsUnusedConsumers = GPOS_NEW(m_memory_pool) CBitSet(m_memory_pool);
 
 	// start with all CTEs
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
@@ -722,7 +722,7 @@ CCTEInfo::MarkUnusedCTEs()
 	}
 
 	// start with the main query and find out which CTEs are used there
-	CStack<ULONG> stack(m_pmp);
+	CStack<ULONG> stack(m_memory_pool);
 	FindConsumersInParent(ULONG_MAX, pbsUnusedConsumers, &stack);
 
 	// repeatedly find CTEs that are used in these CTEs

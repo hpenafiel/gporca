@@ -38,7 +38,7 @@ namespace gpmd
 		private:
 			
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// index mdid
 			IMDId *m_pmdid;

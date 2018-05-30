@@ -177,7 +177,7 @@ CPhysicalMotion::PppsRequired
 		}
 
 		ppimResult->AddRequiredPartPropagation(ppimReqd, ulPartIndexId, CPartIndexMap::EppraPreservePropagators);
-		(void) ppfmResult->FCopyPartFilter(m_pmp, ulPartIndexId, ppfmReqd);
+		(void) ppfmResult->FCopyPartFilter(m_memory_pool, ulPartIndexId, ppfmReqd);
 	}
 		
 	pdrgpul->Release();

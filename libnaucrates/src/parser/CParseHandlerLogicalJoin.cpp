@@ -75,12 +75,12 @@ CParseHandlerLogicalJoin::StartElement
 			CDXLLogicalJoin *pdxlopJoin = (CDXLLogicalJoin*) CDXLOperatorFactory::PdxlopLogicalJoin(m_pphm->Pmm(), attrs);
 
 			// construct node from the created child nodes
-			m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopJoin);
+			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopJoin);
 		}
 		else
 		{
 			// This is to support nested join.
-			CParseHandlerBase *pphLgJoin = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogicalJoin), m_pphm, this);
+			CParseHandlerBase *pphLgJoin = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalJoin), m_pphm, this);
 			m_pphm->ActivateParseHandler(pphLgJoin);
 
 			// store parse handlers
@@ -98,7 +98,7 @@ CParseHandlerLogicalJoin::StartElement
 		}
 
 		// The child can either be a CDXLLogicalOp or CDXLScalar
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
 
 		m_pphm->ActivateParseHandler(pphChild);
 

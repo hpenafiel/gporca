@@ -218,7 +218,7 @@ namespace gpopt
 				CleanupDelete<ULONG>, CleanupRelease<CPartTableInfo> > PartIndexMapIter;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// partition index map
 			PartIndexMap *m_pim;

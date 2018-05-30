@@ -61,7 +61,7 @@ namespace gpos
 			};
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 		
 			// mutex for task scheduling and changes to WLS
 			CMutexOS m_mutex;

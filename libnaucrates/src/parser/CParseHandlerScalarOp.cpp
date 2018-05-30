@@ -70,7 +70,7 @@ CParseHandlerScalarOp::StartElement
 	)
 {
 	// instantiate the parse handler
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
 	
 	GPOS_ASSERT(NULL != pph);
 	

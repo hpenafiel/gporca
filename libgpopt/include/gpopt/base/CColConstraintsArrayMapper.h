@@ -24,7 +24,7 @@ namespace gpopt
 			virtual ~CColConstraintsArrayMapper();
 
 		private:
-			gpos::IMemoryPool *m_pmp;
+			gpos::IMemoryPool *m_memory_pool;
 			DrgPcnstr *m_pdrgpcnstr;
 	};
 }

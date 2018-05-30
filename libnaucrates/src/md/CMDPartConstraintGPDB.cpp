@@ -36,7 +36,7 @@ CMDPartConstraintGPDB::CMDPartConstraintGPDB
 	CDXLNode *pdxln
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpulDefaultParts(pdrgpulDefaultParts),
 	m_fUnbounded(fUnbounded),
 	m_pdxln(pdxln)
@@ -130,7 +130,7 @@ CMDPartConstraintGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenPartConstraint));
 	
 	// serialize default parts
-	CWStringDynamic *pstrDefParts = CDXLUtils::Serialize(m_pmp, m_pdrgpulDefaultParts);
+	CWStringDynamic *pstrDefParts = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDefaultParts);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDefaultPartition), pstrDefParts);
 	GPOS_DELETE(pstrDefParts);
 

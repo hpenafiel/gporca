@@ -105,7 +105,7 @@ CPhysical::UpdateOptRequests
 
 	CRefCount::SafeRelease(m_pdrgpulpOptReqsExpanded);
 	m_pdrgpulpOptReqsExpanded = NULL;
-	m_pdrgpulpOptReqsExpanded = GPOS_NEW(m_pmp) DrgPulp(m_pmp);
+	m_pdrgpulpOptReqsExpanded = GPOS_NEW(m_memory_pool) DrgPulp(m_memory_pool);
 	for (ULONG ulOrder = 0; ulOrder < ulOrderRequests; ulOrder++)
 	{
 		for (ULONG ulDistr = 0; ulDistr < ulDistrRequests; ulDistr++)
@@ -114,7 +114,7 @@ CPhysical::UpdateOptRequests
 			{
 				for (ULONG ulPartPropagate = 0; ulPartPropagate < ulPartPropagateRequests; ulPartPropagate++)
 				{
-					ULONG_PTR *pulpRequest = GPOS_NEW_ARRAY(m_pmp, ULONG_PTR, GPOPT_PLAN_PROPS);
+					ULONG_PTR *pulpRequest = GPOS_NEW_ARRAY(m_memory_pool, ULONG_PTR, GPOPT_PLAN_PROPS);
 
 					pulpRequest[0] = ulOrder;
 					pulpRequest[1] = ulDistr;
@@ -1196,8 +1196,8 @@ CPhysical::EpetPartitionPropagation
 	CPartIndexMap *ppimDrvd = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Ppim();
 	GPOS_ASSERT(NULL != ppimDrvd);
 	
-	BOOL fInScope = pepp->FInScope(m_pmp, ppimDrvd);
-	BOOL fResolved = pepp->FResolved(m_pmp, ppimDrvd);
+	BOOL fInScope = pepp->FInScope(m_memory_pool, ppimDrvd);
+	BOOL fResolved = pepp->FResolved(m_memory_pool, ppimDrvd);
 	
 	if (fResolved)
 	{

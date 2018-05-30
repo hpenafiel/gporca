@@ -481,7 +481,7 @@ CXMLSerializer::AddAttribute
 {
 	if (!fNull)
 	{
-		CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(m_pmp, pba, ulLen);
+		CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(m_memory_pool, pba, ulLen);
 		AddAttribute(pstrAttr, pstr);
 		GPOS_DELETE(pstr);
 	}

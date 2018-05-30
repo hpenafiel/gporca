@@ -165,7 +165,7 @@ CGroup::CGroup
 	BOOL fScalar
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_ulId(GPOPT_INVALID_GROUP_ID),
 	m_fScalar(fScalar),
 	m_pdrgpexprHashJoinKeysOuter(NULL),
@@ -1064,12 +1064,12 @@ CGroup::CreateScalarExpression()
 	{
 		COperator *pop = pgexprFirst->Pop();
 		pop->AddRef();
-		m_pexprScalar = GPOS_NEW(m_pmp) CExpression (m_pmp, pop);
+		m_pexprScalar = GPOS_NEW(m_memory_pool) CExpression (m_memory_pool, pop);
 
 		return;
 	}
 
-	DrgPexpr *pdrgpexpr = GPOS_NEW(m_pmp) DrgPexpr(m_pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
 	const ULONG ulArity = pgexprFirst->UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -1083,7 +1083,7 @@ CGroup::CreateScalarExpression()
 
 	COperator *pop = pgexprFirst->Pop();
 	pop->AddRef();
-	m_pexprScalar = GPOS_NEW(m_pmp) CExpression(m_pmp, pop, pdrgpexpr);
+	m_pexprScalar = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, pop, pdrgpexpr);
 }
 
 
@@ -1110,18 +1110,18 @@ CGroup::CreateDummyCostContext()
 	}
 	GPOS_ASSERT(NULL != pgexprFirst);
 
-	COptimizationContext *poc = GPOS_NEW(m_pmp) COptimizationContext
+	COptimizationContext *poc = GPOS_NEW(m_memory_pool) COptimizationContext
 						(
-						m_pmp,
+						m_memory_pool,
 						this,
-						CReqdPropPlan::PrppEmpty(m_pmp),
-						GPOS_NEW(m_pmp) CReqdPropRelational(GPOS_NEW(m_pmp) CColRefSet(m_pmp)),
-						GPOS_NEW(m_pmp) DrgPstat(m_pmp),
+						CReqdPropPlan::PrppEmpty(m_memory_pool),
+						GPOS_NEW(m_memory_pool) CReqdPropRelational(GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool)),
+						GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool),
 						0 // ulSearchStageIndex
 						);
 
 	pgexprFirst->AddRef();
-	m_pccDummy = GPOS_NEW(m_pmp) CCostContext(m_pmp, poc, 0 /*ulOptReq*/, pgexprFirst);
+	m_pccDummy = GPOS_NEW(m_memory_pool) CCostContext(m_memory_pool, poc, 0 /*ulOptReq*/, pgexprFirst);
 	m_pccDummy->SetState(CCostContext::estCosting);
 	m_pccDummy->SetCost(CCost(0.0));
 	m_pccDummy->SetState(CCostContext::estCosted);
@@ -1254,7 +1254,7 @@ CGroup::BuildTreeMap
 
 	// check if link has been processed before,
 	// this is crucial to eliminate unnecessary recursive calls
-	SContextLink *pclink = GPOS_NEW(m_pmp) SContextLink(pccParent, ulChildIndex, poc);
+	SContextLink *pclink = GPOS_NEW(m_memory_pool) SContextLink(pccParent, ulChildIndex, poc);
 	if (m_plinkmap->Find(pclink))
 	{
 		// link is already processed
@@ -1312,7 +1312,7 @@ CGroup::BuildTreeMap
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif  // GPOS_DEBUG
-		m_plinkmap->Insert(pclink, GPOS_NEW(m_pmp) BOOL(true));
+		m_plinkmap->Insert(pclink, GPOS_NEW(m_memory_pool) BOOL(true));
 	GPOS_ASSERT(fInserted);
 }
 
@@ -1931,7 +1931,7 @@ CGroup::ResetLinkMap()
 	GPOS_ASSERT(NULL != m_plinkmap);
 
 	m_plinkmap->Release();
-	m_plinkmap = GPOS_NEW(m_pmp) LinkMap(m_pmp);
+	m_plinkmap = GPOS_NEW(m_memory_pool) LinkMap(m_memory_pool);
 }
 
 
@@ -2048,7 +2048,7 @@ CGroup::PstatsCompute
 		return pstats;
 	}
 
-	pstats = CLogical::PopConvert(pgexpr->Pop())->PstatsDerive(m_pmp, exprhdl, poc->Pdrgpstat());
+	pstats = CLogical::PopConvert(pgexpr->Pop())->PstatsDerive(m_memory_pool, exprhdl, poc->Pdrgpstat());
 	GPOS_ASSERT(NULL != pstats);
 
 #ifdef GPOS_DEBUG
@@ -2202,7 +2202,7 @@ void
 CGroup::DbgPrint()
 {
 	CAutoTraceFlag atf(EopttracePrintGroupProperties, true);
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif

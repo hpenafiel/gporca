@@ -104,7 +104,7 @@ CDXLLogicalInsert::SerializeToDXL
 	const CWStringConst *pstrElemName = PstrOpName();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_pmp, m_pdrgpul);
+	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpul);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrCols);
 	GPOS_DELETE(pstrCols);
 

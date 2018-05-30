@@ -28,7 +28,7 @@ CKeyCollection::CKeyCollection
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpcrs(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);
@@ -51,7 +51,7 @@ CKeyCollection::CKeyCollection
 	CColRefSet *pcrs
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpcrs(NULL)
 {
 	GPOS_ASSERT(NULL != pcrs && 0 < pcrs->Size());
@@ -77,7 +77,7 @@ CKeyCollection::CKeyCollection
 	DrgPcr *pdrgpcr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpcrs(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);

@@ -332,7 +332,7 @@ CSubqueryHandler::FRemoveScalarSubquery
 	CExpression **ppexprResidualScalar
 	)
 {
-	IMemoryPool *pmp = sh.m_pmp;
+	IMemoryPool *pmp = sh.m_memory_pool;
 
 #ifdef GPOS_DEBUG
 	AssertValidArguments(pmp, pexprOuter, pexprSubquery, ppexprNewOuter, ppexprResidualScalar);
@@ -1173,7 +1173,7 @@ CSubqueryHandler::FRemoveAnySubquery
 	CExpression **ppexprResidualScalar
 	)
 {
-	IMemoryPool *pmp = sh.m_pmp;
+	IMemoryPool *pmp = sh.m_memory_pool;
 
 #ifdef GPOS_DEBUG
 	AssertValidArguments(pmp, pexprOuter, pexprSubquery, ppexprNewOuter, ppexprResidualScalar);
@@ -1309,7 +1309,7 @@ CSubqueryHandler::FRemoveAllSubquery
 	CExpression **ppexprResidualScalar
 	)
 {
-	IMemoryPool *pmp = sh.m_pmp;
+	IMemoryPool *pmp = sh.m_memory_pool;
 #ifdef GPOS_DEBUG
 	AssertValidArguments(pmp, pexprOuter, pexprSubquery, ppexprNewOuter, ppexprResidualScalar);
 	COperator *popSubqChild = (*pexprSubquery)[0]->Pop();
@@ -1642,12 +1642,12 @@ CSubqueryHandler::FRemoveExistsSubquery
 {
 	if (sh.m_fEnforceCorrelatedApply)
 	{
-		return FCreateCorrelatedApplyForExistOrQuant(sh.m_pmp, pexprOuter, pexprSubquery, fDisjunctionOrNegation, esqctxt, ppexprNewOuter, ppexprResidualScalar);
+		return FCreateCorrelatedApplyForExistOrQuant(sh.m_memory_pool, pexprOuter, pexprSubquery, fDisjunctionOrNegation, esqctxt, ppexprNewOuter, ppexprResidualScalar);
 	}
 
 	return FRemoveExistentialSubquery
 		(
-		sh.m_pmp,
+		sh.m_memory_pool,
 		COperator::EopScalarSubqueryExists,
 		pexprOuter,
 		pexprSubquery,
@@ -1682,12 +1682,12 @@ CSubqueryHandler::FRemoveNotExistsSubquery
 {
 	if (sh.m_fEnforceCorrelatedApply)
 	{
-		return FCreateCorrelatedApplyForExistOrQuant(sh.m_pmp, pexprOuter, pexprSubquery, fDisjunctionOrNegation, esqctxt, ppexprNewOuter, ppexprResidualScalar);
+		return FCreateCorrelatedApplyForExistOrQuant(sh.m_memory_pool, pexprOuter, pexprSubquery, fDisjunctionOrNegation, esqctxt, ppexprNewOuter, ppexprResidualScalar);
 	}
 
 	return FRemoveExistentialSubquery
 		(
-		sh.m_pmp,
+		sh.m_memory_pool,
 		COperator::EopScalarSubqueryNotExists,
 		pexprOuter,
 		pexprSubquery,
@@ -1722,7 +1722,7 @@ CSubqueryHandler::FRecursiveHandler
 	// protect against stack overflow during recursion
 	GPOS_CHECK_STACK_SIZE;
 
-	IMemoryPool *pmp = sh.m_pmp;
+	IMemoryPool *pmp = sh.m_memory_pool;
 
 #ifdef GPOS_DEBUG
 	AssertValidArguments(pmp, pexprOuter, pexprScalar, ppexprNewOuter, ppexprResidualScalar);
@@ -1807,7 +1807,7 @@ CSubqueryHandler::FProcessScalarOperator
 	CExpression **ppexprResidualScalar
 	)
 {
-	IMemoryPool *pmp = sh.m_pmp;
+	IMemoryPool *pmp = sh.m_memory_pool;
 
 #ifdef GPOS_DEBUG
 	AssertValidArguments(pmp, pexprOuter, pexprScalar, ppexprNewOuter, ppexprResidualScalar);
@@ -1871,7 +1871,7 @@ CSubqueryHandler::FProcess
 	)
 {
 #ifdef GPOS_DEBUG
-	AssertValidArguments(sh.m_pmp, pexprOuter, pexprScalar, ppexprNewOuter, ppexprResidualScalar);
+	AssertValidArguments(sh.m_memory_pool, pexprOuter, pexprScalar, ppexprNewOuter, ppexprResidualScalar);
 #endif // GPOS_DEBUG
 
 	if (!CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->FHasSubquery())

@@ -125,7 +125,7 @@ namespace gpopt
 				private:
 
 					// memory pool
-					IMemoryPool *m_pmp;
+					IMemoryPool *m_memory_pool;
 
 					// logical producer expression
 					CExpression *m_pexprCTEProducer;
@@ -186,7 +186,7 @@ namespace gpopt
 							CleanupDelete<ULONG>, CleanupRelease<CCTEInfoEntry> > HMUlCTEInfoEntryIter;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// mapping from cte producer id -> cte info entry
 			HMUlCTEInfoEntry *m_phmulcteinfoentry;

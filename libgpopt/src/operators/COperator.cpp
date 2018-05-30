@@ -36,7 +36,7 @@ COperator::COperator
 	)
 	:
 	m_ulOpId(m_aulOpIdCounter.Incr()),
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_fPattern(false)
 {
 	GPOS_ASSERT(NULL != pmp);

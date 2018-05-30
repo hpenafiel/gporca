@@ -54,13 +54,13 @@ CPhysicalScan::CPhysicalScan
 	if (ptabdesc->FConvertHashToRandom())
 	{
 		// Treating a hash distributed table as random during planning
-		m_pds = GPOS_NEW(m_pmp) CDistributionSpecRandom();
+		m_pds = GPOS_NEW(m_memory_pool) CDistributionSpecRandom();
 	}
 	else
 	{
-		m_pds = CPhysical::PdsCompute(m_pmp, ptabdesc, pdrgpcrOutput);
+		m_pds = CPhysical::PdsCompute(m_memory_pool, ptabdesc, pdrgpcrOutput);
 	}
-	ComputeTableStats(m_pmp);
+	ComputeTableStats(m_memory_pool);
 }
 
 
@@ -117,7 +117,7 @@ CPhysicalScan::FProvidesReqdCols
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
 
-	CColRefSet 	*pcrs = GPOS_NEW(m_pmp) CColRefSet(m_pmp);
+	CColRefSet 	*pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 	pcrs->Include(m_pdrgpcrOutput);
 
 	BOOL fResult = pcrs->ContainsAll(pcrsRequired);

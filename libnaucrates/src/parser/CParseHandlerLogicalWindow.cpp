@@ -62,15 +62,15 @@ CParseHandlerLogicalWindow::StartElement
 	{
 		// create child node parsers
 		// parse handler for logical operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 
 		// parse handler for the proj list
-		CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
+		CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphPrL);
 
 		// parse handler for window specification list
-		CParseHandlerBase *pphWsL = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenWindowSpecList), m_pphm, this);
+		CParseHandlerBase *pphWsL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowSpecList), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphWsL);
 
 		// store child parse handler in array
@@ -114,8 +114,8 @@ CParseHandlerLogicalWindow::EndElement
 	DrgPdxlws *pdrgpdxlws = pphWsL->Pdrgpdxlws();
 	GPOS_ASSERT(NULL != pdrgpdxlws);
 
-	CDXLLogicalWindow *pdxlopWin = GPOS_NEW(m_pmp) CDXLLogicalWindow(m_pmp, pdrgpdxlws);
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopWin);
+	CDXLLogicalWindow *pdxlopWin = GPOS_NEW(m_memory_pool) CDXLLogicalWindow(m_memory_pool, pdrgpdxlws);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWin);
 	GPOS_ASSERT(NULL != pphPrL->Pdxln());
 	GPOS_ASSERT(NULL != pphLgOp->Pdxln());
 

@@ -76,7 +76,7 @@ CParseHandlerScalarBooleanTest::StartElement
 		else
 		{
 			CParseHandlerBase *pphChild =
-					CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+					CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 
 			m_pphm->ActivateParseHandler(pphChild);
 
@@ -95,7 +95,7 @@ CParseHandlerScalarBooleanTest::StartElement
 			(CDXLScalarBooleanTest*) CDXLOperatorFactory::PdxlopBooleanTest(m_pphm->Pmm(), m_edxlBooleanTestType);
 
 	// construct node from the created child nodes
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 }
 
 //---------------------------------------------------------------------------

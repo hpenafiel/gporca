@@ -79,7 +79,7 @@ CParseHandlerMDGPDBTrigger::StartElement
 
 	const XMLCh *xmlszName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenGPDBTrigger);
 	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszName);
-	m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrName);
+	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrName);
 	GPOS_DELETE(pstrName);
 	GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
 
@@ -133,9 +133,9 @@ CParseHandlerMDGPDBTrigger::EndElement
 	}
 
 	// construct the MD trigger object
-	m_pimdobj = GPOS_NEW(m_pmp) CMDTriggerGPDB
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDTriggerGPDB
 								(
-								m_pmp,
+								m_memory_pool,
 								m_pmdid,
 								m_pmdname,
 								m_pmdidRel,

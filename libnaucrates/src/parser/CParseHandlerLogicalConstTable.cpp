@@ -68,10 +68,10 @@ CParseHandlerLogicalConstTable::StartElement
 		GPOS_ASSERT(NULL == m_pdrgpdrgpdxldatum);
 
 		// initialize the array of const tuples (datum arrays)
-		m_pdrgpdrgpdxldatum = GPOS_NEW(m_pmp) DrgPdrgPdxldatum(m_pmp);
+		m_pdrgpdrgpdxldatum = GPOS_NEW(m_memory_pool) DrgPdrgPdxldatum(m_memory_pool);
 
 		// install a parse handler for the columns
-		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
+		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphColDescr);
 		
 		// store parse handler
@@ -83,7 +83,7 @@ CParseHandlerLogicalConstTable::StartElement
 		GPOS_ASSERT(NULL == m_pdrgpdxldatum);
 
 		// initialize the array of datums (const tuple)
-		m_pdrgpdxldatum = GPOS_NEW(m_pmp) DrgPdxldatum(m_pmp);
+		m_pdrgpdxldatum = GPOS_NEW(m_memory_pool) DrgPdxldatum(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{
@@ -128,8 +128,8 @@ CParseHandlerLogicalConstTable::EndElement
 		ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
 		pdrgpdxlcd->AddRef();
 
-		CDXLLogicalConstTable *pdxlopConstTable = GPOS_NEW(m_pmp) CDXLLogicalConstTable(m_pmp, pdrgpdxlcd, m_pdrgpdrgpdxldatum);
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlopConstTable);
+		CDXLLogicalConstTable *pdxlopConstTable = GPOS_NEW(m_memory_pool) CDXLLogicalConstTable(m_memory_pool, pdrgpdxlcd, m_pdrgpdrgpdxldatum);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstTable);
 
 #ifdef GPOS_DEBUG
 	pdxlopConstTable->AssertValid(m_pdxln, false /* fValidateChildren */);

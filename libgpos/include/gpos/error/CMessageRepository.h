@@ -33,7 +33,7 @@ namespace gpos
 			CMessageRepository *m_repository;
 			
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// short hand for Table of Message Tables (TMT)
 			typedef CSyncHashtable<

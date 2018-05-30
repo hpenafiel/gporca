@@ -119,7 +119,7 @@ CParseHandlerMDScCmp::StartElement
 
 	IMDType::ECmpType ecmpt = CDXLOperatorFactory::Ecmpt(xmlszCmpType);
 	
-	m_pimdobj = GPOS_NEW(m_pmp) CMDScCmpGPDB(m_pmp, pmdid, pmdname, pmdidLeft, pmdidRight, ecmpt, pmdidOp);
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDScCmpGPDB(m_memory_pool, pmdid, pmdname, pmdidLeft, pmdidRight, ecmpt, pmdidOp);
 }
 
 //---------------------------------------------------------------------------

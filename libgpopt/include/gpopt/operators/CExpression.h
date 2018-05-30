@@ -57,7 +57,7 @@ namespace gpopt
 		private:
 		
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// operator class
 			COperator *m_pop;

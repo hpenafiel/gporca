@@ -210,7 +210,7 @@ CPhysicalStreamAgg::PosRequiredStreamAgg
 
 	if (NULL != pkc && pkc->FKey(pcrs, false /*fExactMatch*/))
 	{
-		CColRefSet *pcrsReqd = posRequired->PcrsUsed(m_pmp);
+		CColRefSet *pcrsReqd = posRequired->PcrsUsed(m_memory_pool);
 		BOOL fUsesDefinedCols = FUnaryUsesDefinedColumns(pcrsReqd, exprhdl);
 		pcrsReqd->Release();
 		

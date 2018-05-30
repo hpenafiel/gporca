@@ -144,16 +144,16 @@ CParseHandlerQuery::StartElement
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 
 	// create parse handler for the query output node
-	CParseHandlerBase *pphQueryOutput = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_pphm, this);
+	CParseHandlerBase *pphQueryOutput = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_pphm, this);
 
 	// create parse handler for the CTE list
-	CParseHandlerBase *pphCTE = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_pphm, this);
+	CParseHandlerBase *pphCTE = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_pphm, this);
 
 	// create a parse handler for logical nodes
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
 
 	m_pphm->ActivateParseHandler(pph);
 	m_pphm->ActivateParseHandler(pphCTE);

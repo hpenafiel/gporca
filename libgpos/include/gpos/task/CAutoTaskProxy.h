@@ -37,7 +37,7 @@ namespace gpos
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// worker pool
 			CWorkerPoolManager *m_pwpm;

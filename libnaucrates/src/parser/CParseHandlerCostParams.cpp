@@ -75,14 +75,14 @@ CParseHandlerCostParams::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParams), xmlstrLocalname))
 	{
 		// as of now, we only parse params of GPDB cost model
-		m_pcp = GPOS_NEW(m_pmp) CCostModelParamsGPDB(m_pmp);
+		m_pcp = GPOS_NEW(m_memory_pool) CCostModelParamsGPDB(m_memory_pool);
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParam), xmlstrLocalname))
 	{
 		GPOS_ASSERT(NULL != m_pcp);
 
 		// start new search stage
-		CParseHandlerBase *pphCostParam = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCostParam), m_pphm, this);
+		CParseHandlerBase *pphCostParam = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParam), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphCostParam);
 
 		// store parse handler

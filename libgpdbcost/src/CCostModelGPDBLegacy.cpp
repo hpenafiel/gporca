@@ -98,7 +98,7 @@ CCostModelGPDBLegacy::CCostModelGPDBLegacy
 	DrgPcp *pdrgpcp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_ulSegments(ulSegments)
 {
 	GPOS_ASSERT(0 < ulSegments);
@@ -1077,7 +1077,7 @@ CCostModelGPDBLegacy::Cost
 	}
 	GPOS_ASSERT(NULL != pfnc);
 
-	return pfnc(m_pmp, exprhdl, this, pci);
+	return pfnc(m_memory_pool, exprhdl, this, pci);
 }
 
 // EOF

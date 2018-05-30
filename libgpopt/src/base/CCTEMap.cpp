@@ -29,12 +29,12 @@ CCTEMap::CCTEMap
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_phmcm(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);
 
-	m_phmcm = GPOS_NEW(m_pmp) HMCteMap(m_pmp);
+	m_phmcm = GPOS_NEW(m_memory_pool) HMCteMap(m_memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -73,11 +73,11 @@ CCTEMap::Insert
 		pdpplan->AddRef();
 	}
 
-	CCTEMapEntry *pcme = GPOS_NEW(m_pmp) CCTEMapEntry(ulCteId, ect, pdpplan);
+	CCTEMapEntry *pcme = GPOS_NEW(m_memory_pool) CCTEMapEntry(ulCteId, ect, pdpplan);
 #ifdef GPOS_DEBUG
 	BOOL fSuccess =
 #endif // GPOS_DEBUG
-	m_phmcm->Insert(GPOS_NEW(m_pmp) ULONG(ulCteId), pcme);
+	m_phmcm->Insert(GPOS_NEW(m_memory_pool) ULONG(ulCteId), pcme);
 	GPOS_ASSERT(fSuccess);
 }
 

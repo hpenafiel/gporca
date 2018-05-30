@@ -81,7 +81,7 @@ CCostModelParamsGPDBLegacy::CCostModelParamsGPDBLegacy
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp)
+	m_memory_pool(pmp)
 {
 	GPOS_ASSERT(NULL != pmp);
 
@@ -198,7 +198,7 @@ CCostModelParamsGPDBLegacy::SetParam
 
 	GPOS_DELETE(m_rgpcp[ecp]);
 	m_rgpcp[ecp] = NULL;
-	m_rgpcp[ecp] =  GPOS_NEW(m_pmp) SCostParam(ecp, dVal, dLowerBound, dUpperBound);
+	m_rgpcp[ecp] =  GPOS_NEW(m_memory_pool) SCostParam(ecp, dVal, dLowerBound, dUpperBound);
 }
 
 
@@ -227,7 +227,7 @@ CCostModelParamsGPDBLegacy::SetParam
 		{
 			GPOS_DELETE(m_rgpcp[ul]);
 			m_rgpcp[ul] = NULL;
-			m_rgpcp[ul] = GPOS_NEW(m_pmp) SCostParam(ul, dVal, dLowerBound, dUpperBound);
+			m_rgpcp[ul] = GPOS_NEW(m_memory_pool) SCostParam(ul, dVal, dLowerBound, dUpperBound);
 
 			return;
 		}

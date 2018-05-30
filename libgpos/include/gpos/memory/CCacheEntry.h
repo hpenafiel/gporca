@@ -77,7 +77,7 @@ namespace gpos
 		private:
 
 			// allocated memory pool to the cached object
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// value that needs to be cached
 			T m_val;
@@ -100,7 +100,7 @@ namespace gpos
 				ULONG g_clock_counter
 				)
 				:
-				m_pmp(pmp),
+				m_memory_pool(pmp),
 				m_val(val),
 				m_deleted(false),
 				m_g_clock_counter(g_clock_counter),
@@ -134,7 +134,7 @@ namespace gpos
 			// gets the memory pool of cached object
 			IMemoryPool *Pmp() const
 			{
-				return m_pmp;
+				return m_memory_pool;
 			}
 
 			// marks entry as deleted

@@ -110,7 +110,7 @@ CCostModelGPDB::CCostModelGPDB
 	CCostModelParamsGPDB *pcp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_ulSegments(ulSegments)
 {
 	GPOS_ASSERT(0 < ulSegments);
@@ -1563,7 +1563,7 @@ CCostModelGPDB::Cost
 	COperator::EOperatorId eopid = exprhdl.Pop()->Eopid();
 	if (FUnary(eopid))
 	{
-		return CostUnary(m_pmp, exprhdl, pci, m_pcp);
+		return CostUnary(m_memory_pool, exprhdl, pci, m_pcp);
 	}
 
 	FnCost *pfnc = NULL;
@@ -1579,7 +1579,7 @@ CCostModelGPDB::Cost
 	}
 	GPOS_ASSERT(NULL != pfnc);
 
-	return pfnc(m_pmp, exprhdl, this, pci);
+	return pfnc(m_memory_pool, exprhdl, this, pci);
 }
 
 // EOF

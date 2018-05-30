@@ -97,7 +97,7 @@ CParseHandlerTableDescr::StartElement
 	m_pdxltabdesc = CDXLOperatorFactory::Pdxltabdesc(m_pphm->Pmm(), attrs);
 		
 	// install column descriptor parsers
-	CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
+	CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphColDescr);
 	
 	// store parse handler

@@ -81,12 +81,12 @@ CParseHandlerDirectDispatchInfo::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), xmlstrLocalname))
 	{
-		m_pdrgpdrgpdxldatum = GPOS_NEW(m_pmp) DrgPdrgPdxldatum(m_pmp);
+		m_pdrgpdrgpdxldatum = GPOS_NEW(m_memory_pool) DrgPdrgPdxldatum(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchKeyValue), xmlstrLocalname))
 	{
 		CRefCount::SafeRelease(m_pdrgpdxldatum);
-		m_pdrgpdxldatum = GPOS_NEW(m_pmp) DrgPdxldatum(m_pmp);
+		m_pdrgpdxldatum = GPOS_NEW(m_memory_pool) DrgPdxldatum(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), xmlstrLocalname))
 	{
@@ -120,7 +120,7 @@ CParseHandlerDirectDispatchInfo::EndElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), xmlstrLocalname))
 	{
-		m_pdxlddinfo = GPOS_NEW(m_pmp) CDXLDirectDispatchInfo(m_pdrgpdrgpdxldatum);
+		m_pdxlddinfo = GPOS_NEW(m_memory_pool) CDXLDirectDispatchInfo(m_pdrgpdrgpdxldatum);
 		m_pphm->DeactivateHandler();
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchKeyValue), xmlstrLocalname))

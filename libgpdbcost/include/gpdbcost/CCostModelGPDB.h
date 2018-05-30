@@ -63,7 +63,7 @@ namespace gpdbcost
 			}; // struct SCostMapping
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// number of segments
 			ULONG m_ulSegments;

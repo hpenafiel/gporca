@@ -114,7 +114,7 @@ namespace gpopt
 		protected:
 
 			// memory pool -- used for local computations
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// columns used in this constraint
 			CColRefSet *m_pcrsUsed;

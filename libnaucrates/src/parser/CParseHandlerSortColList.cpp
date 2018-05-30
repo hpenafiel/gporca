@@ -62,7 +62,7 @@ CParseHandlerSortColList::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), element_local_name))
 	{
 		// start the sorting column list
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode (m_pmp, GPOS_NEW(m_pmp) CDXLScalarSortColList(m_pmp));
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSortColList(m_memory_pool));
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), element_local_name))
 	{
@@ -70,7 +70,7 @@ CParseHandlerSortColList::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 
 		// start new sort column
-		CParseHandlerBase *pphSortCol = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_pphm, this);
+		CParseHandlerBase *pphSortCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphSortCol);
 		
 		// store parse handler

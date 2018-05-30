@@ -35,7 +35,7 @@ namespace gpos
 		private:
 
 			// string memory pool used for allocating new memory for the string
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// string capacity
 			ULONG m_ulCapacity;

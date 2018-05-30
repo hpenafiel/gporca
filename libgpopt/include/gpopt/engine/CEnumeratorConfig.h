@@ -103,7 +103,7 @@ namespace gpopt
 			typedef CDynamicPtrArray<SSamplePlan, CleanupDelete> DrgPsp;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// identifier of chosen plan
 			ULLONG m_plan_id;

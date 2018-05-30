@@ -49,11 +49,11 @@ CConstraint::CConstraint
 	)
 	:
 	m_phmcontain(NULL),
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pcrsUsed(NULL),
 	m_pexprScalar(NULL)
 {
-	m_phmcontain = GPOS_NEW(m_pmp) HMConstraintContainment(m_pmp);
+	m_phmcontain = GPOS_NEW(m_memory_pool) HMConstraintContainment(m_memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -882,15 +882,15 @@ CConstraint::FContains
 	while (fContains && crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		CConstraint *pcnstrColThis = Pcnstr(m_pmp, pcr);
+		CConstraint *pcnstrColThis = Pcnstr(m_memory_pool, pcr);
 		GPOS_ASSERT (NULL != pcnstrColThis);
-		CConstraint *pcnstrColOther = pcnstr->Pcnstr(m_pmp, pcr);
+		CConstraint *pcnstrColOther = pcnstr->Pcnstr(m_memory_pool, pcr);
 
 		// convert each of them to interval (if they are not already)
-		CConstraintInterval *pciThis = CConstraintInterval::PciIntervalFromConstraint(m_pmp, pcnstrColThis, pcr);
-		CConstraintInterval *pciOther = CConstraintInterval::PciIntervalFromConstraint(m_pmp, pcnstrColOther, pcr);
+		CConstraintInterval *pciThis = CConstraintInterval::PciIntervalFromConstraint(m_memory_pool, pcnstrColThis, pcr);
+		CConstraintInterval *pciOther = CConstraintInterval::PciIntervalFromConstraint(m_memory_pool, pcnstrColOther, pcr);
 
-		fContains = pciThis->FContainsInterval(m_pmp, pciOther);
+		fContains = pciThis->FContainsInterval(m_memory_pool, pciOther);
 		pciThis->Release();
 		pciOther->Release();
 		pcnstrColThis->Release();
@@ -980,7 +980,7 @@ void
 CConstraint::DbgPrint() const
 {
 	CAutoTraceFlag atf(EopttracePrintExpressionProperties, true);
-	CAutoTrace at(m_pmp);
+	CAutoTrace at(m_memory_pool);
 	(void) this->OsPrint(at.Os());
 }
 #endif  // GPOS_DEBUG

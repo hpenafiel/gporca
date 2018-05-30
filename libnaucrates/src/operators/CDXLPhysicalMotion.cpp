@@ -136,7 +136,7 @@ CDXLPhysicalMotion::PstrSegIds(const IntPtrArray *pdrgpi) const
 {
 	GPOS_ASSERT(pdrgpi != NULL && 0 < pdrgpi->Size());
 	
-	CWStringDynamic *pstr = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp);
+	CWStringDynamic *pstr = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 	
 	ULONG ulNumSegments = pdrgpi->Size();
 	for (ULONG ul = 0; ul < ulNumSegments; ul++)

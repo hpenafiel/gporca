@@ -802,7 +802,7 @@ namespace gpdxl
 
 			// memory pool -- not owned
 			static
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// local dxl memory manager
 			static

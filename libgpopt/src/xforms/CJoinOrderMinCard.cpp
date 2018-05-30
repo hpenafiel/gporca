@@ -86,10 +86,10 @@ CJoinOrderMinCard::PcompCombine
 	SComponent *pcompInner
 	)
 {
-	CBitSet *pbs = GPOS_NEW(m_pmp) CBitSet(m_pmp);
+	CBitSet *pbs = GPOS_NEW(m_memory_pool) CBitSet(m_memory_pool);
 	pbs->Union(pcompOuter->m_pbs);
 	pbs->Union(pcompInner->m_pbs);
-	DrgPexpr *pdrgpexpr = GPOS_NEW(m_pmp) DrgPexpr(m_pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
 	for (ULONG ul = 0; ul < m_ulEdges; ul++)
 	{
 		SEdge *pedge = m_rgpedge[ul];
@@ -110,13 +110,13 @@ CJoinOrderMinCard::PcompCombine
 
 	CExpression *pexprOuter = pcompOuter->m_pexpr;
 	CExpression *pexprInner = pcompInner->m_pexpr;
-	CExpression *pexprScalar = CPredicateUtils::PexprConjunction(m_pmp, pdrgpexpr);
+	CExpression *pexprScalar = CPredicateUtils::PexprConjunction(m_memory_pool, pdrgpexpr);
 
 	CExpression *pexpr = NULL;
 	if (NULL == pexprOuter)
 	{
 		// first call to this function, we create a Select node
-		pexpr = CUtils::PexprCollapseSelect(m_pmp, pexprInner, pexprScalar);
+		pexpr = CUtils::PexprCollapseSelect(m_memory_pool, pexprInner, pexprScalar);
 		pexprScalar->Release();
 	}
 	else
@@ -124,10 +124,10 @@ CJoinOrderMinCard::PcompCombine
 		// not first call, we create an Inner Join
 		pexprInner->AddRef();
 		pexprOuter->AddRef();
-		pexpr = CUtils::PexprLogicalJoin<CLogicalInnerJoin>(m_pmp, pexprOuter, pexprInner, pexprScalar);
+		pexpr = CUtils::PexprLogicalJoin<CLogicalInnerJoin>(m_memory_pool, pexprOuter, pexprInner, pexprScalar);
 	}
 
-	return GPOS_NEW(m_pmp) SComponent(pexpr, pbs);
+	return GPOS_NEW(m_memory_pool) SComponent(pexpr, pbs);
 }
 
 
@@ -154,7 +154,7 @@ CJoinOrderMinCard::MarkUsedEdges()
 	}
 
 	CExpression *pexprScalar = (*pexpr) [pexpr->UlArity() - 1];
-	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(m_pmp, pexprScalar);
+	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(m_memory_pool, pexprScalar);
 	const ULONG ulSize = pdrgpexpr->Size();
 
 	for (ULONG ulEdge = 0; ulEdge < m_ulEdges; ulEdge++)
@@ -221,7 +221,7 @@ CJoinOrderMinCard::PexprExpand()
 {
 	GPOS_ASSERT(NULL == m_pcompResult && "join order is already expanded");
 
-	m_pcompResult = GPOS_NEW(m_pmp) SComponent(m_pmp, NULL /*pexpr*/);
+	m_pcompResult = GPOS_NEW(m_memory_pool) SComponent(m_memory_pool, NULL /*pexpr*/);
 	ULONG ulCoveredComps = 0;
 	while (ulCoveredComps < m_ulComps)
 	{
@@ -240,7 +240,7 @@ CJoinOrderMinCard::PexprExpand()
 
 			// combine component with current result and derive stats
 			CJoinOrder::SComponent *pcompTemp = PcompCombine(m_pcompResult, pcompCurrent);
-			DeriveStats(m_pmp, pcompTemp);
+			DeriveStats(m_memory_pool, pcompTemp);
 			CDouble dRows = pcompTemp->m_pexpr->Pstats()->DRows();
 
 			if (NULL == pcompBestResult || dRows < dMinRows)

@@ -35,7 +35,7 @@ namespace gpdxl
 	{
 		private:
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 						
 			// id and version information for the table
 			IMDId *m_pmdid;

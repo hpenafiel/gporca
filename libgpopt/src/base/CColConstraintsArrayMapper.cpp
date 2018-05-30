@@ -13,7 +13,7 @@ CColConstraintsArrayMapper::PdrgPcnstrLookup
 	)
 {
 	const BOOL fExclusive = true;
-	return CConstraint::PdrgpcnstrOnColumn(m_pmp, m_pdrgpcnstr, pcr, fExclusive);
+	return CConstraint::PdrgpcnstrOnColumn(m_memory_pool, m_pdrgpcnstr, pcr, fExclusive);
 }
 
 CColConstraintsArrayMapper::CColConstraintsArrayMapper
@@ -21,7 +21,7 @@ CColConstraintsArrayMapper::CColConstraintsArrayMapper
 		gpos::IMemoryPool *pmp,
 		DrgPcnstr *pdrgpcnstr
 	) :
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpcnstr(pdrgpcnstr)
 {
 }

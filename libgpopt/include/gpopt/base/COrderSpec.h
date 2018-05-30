@@ -129,7 +129,7 @@ namespace gpopt
 
 		
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 		
 			// components of order spec
 			DrgPoe *m_pdrgpoe;

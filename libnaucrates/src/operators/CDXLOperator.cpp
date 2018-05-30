@@ -28,7 +28,7 @@ CDXLOperator::CDXLOperator
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp)
+	m_memory_pool(pmp)
 {
 }
 

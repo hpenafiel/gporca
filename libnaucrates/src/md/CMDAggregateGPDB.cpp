@@ -40,7 +40,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	BOOL fHashAggCapable
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidTypeResult(pmdidTypeResult),
@@ -51,7 +51,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	{
 		GPOS_ASSERT(pmdid->IsValid());
 		
-		m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+		m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 	}
 
 //---------------------------------------------------------------------------

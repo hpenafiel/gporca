@@ -36,7 +36,7 @@ namespace gpopt
 						CleanupDeleteArray<CHAR>, CleanupNULL<CXform> > HMSzXform;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 		
 			// range of all xforms
 			CXform *m_rgpxf[CXform::ExfSentinel];

@@ -78,7 +78,7 @@ CParseHandlerSearchStage::StartElement
 		// start search stage section in the DXL document
 		GPOS_ASSERT(NULL == m_pxfs);
 
-		m_pxfs = GPOS_NEW(m_pmp) CXformSet(m_pmp);
+		m_pxfs = GPOS_NEW(m_memory_pool) CXformSet(m_memory_pool);
 
 		const XMLCh *xmlszCost =
 			CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenCostThreshold, EdxltokenSearchStage);
@@ -97,7 +97,7 @@ CParseHandlerSearchStage::StartElement
 		GPOS_ASSERT(NULL != m_pxfs);
 
 		// start new xform
-		CParseHandlerBase *pphXform = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenXform), m_pphm, this);
+		CParseHandlerBase *pphXform = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenXform), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphXform);
 
 		// store parse handler

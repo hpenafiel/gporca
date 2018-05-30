@@ -128,7 +128,7 @@ CParseHandlerMDCast::StartElement
 															true		// eCoercePathType is optional
 															);
 
-	m_pimdobj = GPOS_NEW(m_pmp) CMDCastGPDB(m_pmp, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType);
+	m_pimdobj = GPOS_NEW(m_memory_pool) CMDCastGPDB(m_memory_pool, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType);
 }
 
 //---------------------------------------------------------------------------

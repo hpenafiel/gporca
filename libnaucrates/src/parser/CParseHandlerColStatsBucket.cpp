@@ -140,7 +140,7 @@ CParseHandlerColStatsBucket::EndElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), element_local_name))
 	{
-		m_pdxlbucket = GPOS_NEW(m_pmp) CDXLBucket(m_pdxldatumLower, m_pdxldatumUpper, m_fLowerClosed, m_fUpperClosed, m_dFrequency, m_dDistinct);
+		m_pdxlbucket = GPOS_NEW(m_memory_pool) CDXLBucket(m_pdxldatumLower, m_pdxldatumUpper, m_fLowerClosed, m_fUpperClosed, m_dFrequency, m_dDistinct);
 		
 		// deactivate handler
 		m_pphm->DeactivateHandler();

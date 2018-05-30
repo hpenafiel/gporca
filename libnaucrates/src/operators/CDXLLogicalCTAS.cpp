@@ -188,7 +188,7 @@ CDXLLogicalCTAS::SerializeToDXL
 		GPOS_ASSERT(NULL != m_pdrgpulDistr);
 		
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = CDXLUtils::Serialize(m_pmp, m_pdrgpulDistr);
+		CWStringDynamic *pstrDistrColumns = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDistr);
 		GPOS_ASSERT(NULL != pstrDistrColumns);
 		
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDistrColumns), pstrDistrColumns);
@@ -196,14 +196,14 @@ CDXLLogicalCTAS::SerializeToDXL
 	}
 
 	// serialize input columns
-	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_pmp, m_pdrgpulSource);
+	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulSource);
 	GPOS_ASSERT(NULL != pstrCols);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrCols);
 	GPOS_DELETE(pstrCols);
 	
 	// serialize vartypmod list
-	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_pmp, m_pdrgpiVarTypeMod);
+	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_memory_pool, m_pdrgpiVarTypeMod);
 	GPOS_ASSERT(NULL != pstrVarTypeModList);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenVarTypeModList), pstrVarTypeModList);

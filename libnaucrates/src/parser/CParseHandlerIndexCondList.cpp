@@ -59,7 +59,7 @@ CParseHandlerIndexCondList::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), element_local_name))
 	{
 		// start the index condition list
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode (m_pmp, GPOS_NEW(m_pmp) CDXLScalarIndexCondList(m_pmp));
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarIndexCondList(m_memory_pool));
 	}
 	else
 	{
@@ -71,7 +71,7 @@ CParseHandlerIndexCondList::StartElement
 
 		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph
 															(
-															m_pmp,
+															m_memory_pool,
 															CDXLTokens::XmlstrToken(EdxltokenScalar),
 															m_pphm,
 															this

@@ -41,23 +41,23 @@ CDXLColStats::CDXLColStats
 	CDouble dNullFreq,
 	CDouble dDistinctRemain,
 	CDouble dFreqRemain,
-	DrgPdxlbucket *pdrgpdxlbucket,
+	DrgPdxlbucket *stats_bucket_dxl_array,
 	BOOL fColStatsMissing
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pmdidColStats(pmdidColStats),
 	m_pmdname(pmdname),
 	m_dWidth(dWidth),
 	m_dNullFreq(dNullFreq),
 	m_dDistinctRemain(dDistinctRemain),
 	m_dFreqRemain(dFreqRemain),
-	m_pdrgpdxlbucket(pdrgpdxlbucket),
+	m_pdrgpdxlbucket(stats_bucket_dxl_array),
 	m_fColStatsMissing(fColStatsMissing)
 {
 	GPOS_ASSERT(pmdidColStats->IsValid());
-	GPOS_ASSERT(NULL != pdrgpdxlbucket);
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	GPOS_ASSERT(NULL != stats_bucket_dxl_array);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 //---------------------------------------------------------------------------

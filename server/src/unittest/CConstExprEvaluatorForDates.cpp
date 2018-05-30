@@ -86,7 +86,7 @@ CConstExprEvaluatorForDates::PexprEval
 			GPOS_ASSERT(false && "Unsupported comparison");
 			return NULL;
 	}
-	CExpression *pexprResult = CUtils::PexprScalarConstBool(m_pmp, fResult);
+	CExpression *pexprResult = CUtils::PexprScalarConstBool(m_memory_pool, fResult);
 
 	return pexprResult;
 }

@@ -53,7 +53,7 @@ namespace gpopt
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// required plan properties in optimizer's produced plan
 			CReqdPropPlan *m_prpp;

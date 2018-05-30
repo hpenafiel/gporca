@@ -34,7 +34,7 @@ CMessageRepository::CMessageRepository
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp)
+	m_memory_pool(pmp)
 {
 	GPOS_ASSERT(NULL != pmp);
 }
@@ -161,7 +161,7 @@ CMessageRepository::GetMessageRepository()
 void
 CMessageRepository::Shutdown()
 {
-	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(m_memory_pool);
 	CMessageRepository::m_repository = NULL;
 }
 
@@ -248,7 +248,7 @@ CMessageRepository::AddMessageTable
 	)
 {
 	CMessageTable *new_mt =
-		GPOS_NEW(m_pmp) CMessageTable(m_pmp, GPOS_MSGTAB_SIZE, locale);
+		GPOS_NEW(m_memory_pool) CMessageTable(m_memory_pool, GPOS_MSGTAB_SIZE, locale);
 	
 	{
 		TMTAccessor tmta(m_hash_table, locale);

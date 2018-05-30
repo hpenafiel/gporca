@@ -128,15 +128,15 @@ CParseHandlerScalarSubPlan::StartElement
 	m_edxlsubplantype = Edxlsubplantype(xmlszSubplanType);
 
 	// parse handler for child physical node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphChild);
 
 	// parse handler for params
-	CParseHandlerBase *pphParamList = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), m_pphm, this);
+	CParseHandlerBase *pphParamList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphParamList);
 
 	// parse handler for test expression
-	CParseHandlerBase *pphTestExpr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), m_pphm, this);
+	CParseHandlerBase *pphTestExpr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), m_pphm, this);
 	m_pphm->ActivateParseHandler(pphTestExpr);
 
 	// store parse handlers
@@ -181,7 +181,7 @@ CParseHandlerScalarSubPlan::EndElement
 	}
 	CDXLScalarSubPlan *pdxlop = (CDXLScalarSubPlan *) CDXLOperatorFactory::PdxlopSubPlan(m_pphm->Pmm(), m_pmdidFirstCol, pdrgdxlcr, m_edxlsubplantype, pdxlnTestExpr);
 
-	m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 
 	// add constructed children
 	AddChildFromParseHandler(pphChild);

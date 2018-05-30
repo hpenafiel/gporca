@@ -89,7 +89,7 @@ CParseHandlerHint::StartElement
 	ULONG ulBroadcastThreshold = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenBroadcastThreshold, EdxltokenHint, true, BROADCAST_THRESHOLD);
 	ULONG fEnforceConstraintsOnDML = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenEnforceConstraintsOnDML, EdxltokenHint, true, true);
 
-	m_phint = GPOS_NEW(m_pmp) CHint
+	m_phint = GPOS_NEW(m_memory_pool) CHint
 								(
 								ulMinNumOfPartsToRequireSortOnInsert,
 								ulJoinArityForAssociativityCommutativity,

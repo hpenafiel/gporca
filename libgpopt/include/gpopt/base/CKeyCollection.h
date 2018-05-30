@@ -36,7 +36,7 @@ namespace gpopt
 		private:
 		
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 		
 			// array of key sets
 			DrgPcrs *m_pdrgpcrs;

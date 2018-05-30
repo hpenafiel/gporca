@@ -39,7 +39,7 @@ CPhysicalMotionGather::CPhysicalMotionGather
 	GPOS_ASSERT(CDistributionSpecSingleton::EstSentinel != est);
 
 	m_pdssSingeton = GPOS_NEW(pmp) CDistributionSpecSingleton(est);
-	m_pos = GPOS_NEW(m_pmp) COrderSpec(m_pmp);
+	m_pos = GPOS_NEW(m_memory_pool) COrderSpec(m_memory_pool);
 	m_pcrsSort = m_pos->PcrsUsed(pmp);
 }
 

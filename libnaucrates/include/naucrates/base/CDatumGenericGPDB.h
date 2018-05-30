@@ -35,7 +35,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 	private:
 
 		// memory pool
-		IMemoryPool *m_pmp;
+		IMemoryPool *m_memory_pool;
 
 		// size in bytes
 		ULONG m_ulSize;

@@ -69,7 +69,7 @@ CPhysicalDML::CPhysicalDML
 	GPOS_ASSERT_IMP(CLogicalDML::EdmlDelete == edmlop || CLogicalDML::EdmlUpdate == edmlop,
 					NULL != pcrCtid && NULL != pcrSegmentId);
 
-	m_pds = CPhysical::PdsCompute(m_pmp, m_ptabdesc, pdrgpcrSource);
+	m_pds = CPhysical::PdsCompute(m_memory_pool, m_ptabdesc, pdrgpcrSource);
 	m_pos = PosComputeRequired(pmp, ptabdesc);
 	ComputeRequiredLocalColumns(pmp);
 }

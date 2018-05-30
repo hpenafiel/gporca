@@ -77,7 +77,7 @@ namespace gpdxl
 			
 		protected:
 			// memory pool to create DXL objects in
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 			
 			// manager for transitions between parse handlers
 			CParseHandlerManager *m_pphm;

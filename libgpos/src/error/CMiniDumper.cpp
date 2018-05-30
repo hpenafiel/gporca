@@ -32,7 +32,7 @@ CMiniDumper::CMiniDumper
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_initialized(false),
 	m_finalized(false),
 	m_oos(NULL)

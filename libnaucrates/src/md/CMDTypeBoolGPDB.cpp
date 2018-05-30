@@ -46,7 +46,7 @@ CMDTypeBoolGPDB::CMDTypeBoolGPDB
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp)
+	m_memory_pool(pmp)
 {
 	m_pmdid = GPOS_NEW(pmp) CMDIdGPDB(GPDB_BOOL_OID);
 	m_pmdidOpEq = GPOS_NEW(pmp) CMDIdGPDB(GPDB_BOOL_EQ_OP);
@@ -64,7 +64,7 @@ CMDTypeBoolGPDB::CMDTypeBoolGPDB
 	m_pmdidSum = GPOS_NEW(pmp) CMDIdGPDB(GPDB_BOOL_AGG_SUM);
 	m_pmdidCount = GPOS_NEW(pmp) CMDIdGPDB(GPDB_BOOL_AGG_COUNT);
 
-	m_pstr = CDXLUtils::SerializeMDObj(m_pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 
 	m_pmdid->AddRef();
 
@@ -254,7 +254,7 @@ CMDTypeBoolGPDB::Pdatum
 	CDXLDatumBool *pdxldatum = CDXLDatumBool::PdxldatumConvert(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
 	GPOS_ASSERT(pdxldatum->FByValue());
 
-	return GPOS_NEW(m_pmp) CDatumBoolGPDB(m_pmdid->Sysid(), pdxldatum->FValue(), pdxldatum->FNull());
+	return GPOS_NEW(m_memory_pool) CDatumBoolGPDB(m_pmdid->Sysid(), pdxldatum->FValue(), pdxldatum->FNull());
 }
 
 //---------------------------------------------------------------------------

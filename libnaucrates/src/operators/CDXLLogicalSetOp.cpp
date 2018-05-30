@@ -150,7 +150,7 @@ CDXLLogicalSetOp::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	// serialize the array of input colid arrays
-	CWStringDynamic *pstrInputColIds = CDXLUtils::Serialize(m_pmp, m_pdrgpdrgpul);
+	CWStringDynamic *pstrInputColIds = CDXLUtils::Serialize(m_memory_pool, m_pdrgpdrgpul);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputCols), pstrInputColIds);
 	GPOS_DELETE(pstrInputColIds);
 	

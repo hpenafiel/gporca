@@ -31,11 +31,11 @@ CDXLWindowKey::CDXLWindowKey
 	IMemoryPool *pmp
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdxlwf(NULL),
 	m_pdxlnSortColList(NULL)
 {
-	GPOS_ASSERT(NULL != m_pmp);
+	GPOS_ASSERT(NULL != m_memory_pool);
 }
 
 //---------------------------------------------------------------------------

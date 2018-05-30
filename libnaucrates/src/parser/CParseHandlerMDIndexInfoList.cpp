@@ -61,7 +61,7 @@ CParseHandlerMDIndexInfoList::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndexInfoList), element_local_name))
 	{
-		m_pdrgpmdIndexInfo = GPOS_NEW(m_pmp) DrgPmdIndexInfo(m_pmp);
+		m_pdrgpmdIndexInfo = GPOS_NEW(m_memory_pool) DrgPmdIndexInfo(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndexInfo), element_local_name))
 	{
@@ -71,7 +71,7 @@ CParseHandlerMDIndexInfoList::StartElement
 		// parse index partial info
 		BOOL fPartial = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenIndexPartial, EdxltokenIndexInfo);
 
-		CMDIndexInfo *pmdIndexInfo = GPOS_NEW(m_pmp) CMDIndexInfo
+		CMDIndexInfo *pmdIndexInfo = GPOS_NEW(m_memory_pool) CMDIndexInfo
 								(
 								pmdid,
 								fPartial

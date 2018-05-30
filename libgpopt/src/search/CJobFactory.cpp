@@ -35,7 +35,7 @@ CJobFactory::CJobFactory
 	ULONG ulJobs
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_ulJobs(ulJobs),
 	m_pspjTest(NULL),
 	m_pspjGroupOptimization(NULL),

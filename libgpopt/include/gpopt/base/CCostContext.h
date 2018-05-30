@@ -70,7 +70,7 @@ namespace gpopt
 		private:
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// cost of group expression under optimization context
 			CCost m_cost;

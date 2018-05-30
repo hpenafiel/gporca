@@ -85,7 +85,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszOpName);
 		
 		// create a copy of the string in the CMDName constructor
-		m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrOpName);
+		m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrOpName);
 		
 		GPOS_DELETE(pstrOpName);
 
@@ -202,7 +202,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), element_local_name))
 	{
 		// parse handler for operator class list
-		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_pphm, this);
+		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphOpClassList);
 		this->Append(pphOpClassList);
 		pphOpClassList->startElement(element_uri, element_local_name, element_qname, attrs);
@@ -247,11 +247,11 @@ CParseHandlerMDGPDBScalarOp::EndElement
 		}
 		else 
 		{
-			pdrgpmdidOpClasses = GPOS_NEW(m_pmp) DrgPmdid(m_pmp);
+			pdrgpmdidOpClasses = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 		}
-		m_pimdobj = GPOS_NEW(m_pmp) CMDScalarOpGPDB
+		m_pimdobj = GPOS_NEW(m_memory_pool) CMDScalarOpGPDB
 				(
-				m_pmp,
+				m_memory_pool,
 				m_pmdid,
 				m_pmdname,
 				m_pmdidTypeLeft,

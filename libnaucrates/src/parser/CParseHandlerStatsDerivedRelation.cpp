@@ -77,7 +77,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), element_local_name))
 	{
 		// start new derived column element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), m_pphm, this);
 		m_pphm->ActivateParseHandler(pph);
 
 		// store parse handler
@@ -146,7 +146,7 @@ CParseHandlerStatsDerivedRelation::EndElement
 	GPOS_ASSERT(0 < this->Length());
 
 	// array of derived column statistics
-	DrgPdxlstatsdercol *pdrgpdxlstatsdercol = GPOS_NEW(m_pmp) DrgPdxlstatsdercol(m_pmp);
+	DrgPdxlstatsdercol *pdrgpdxlstatsdercol = GPOS_NEW(m_memory_pool) DrgPdxlstatsdercol(m_memory_pool);
 	const ULONG ulDerCol = this->Length();
 	for (ULONG ul = 0; ul < ulDerCol; ul++)
 	{
@@ -157,7 +157,7 @@ CParseHandlerStatsDerivedRelation::EndElement
 		pdrgpdxlstatsdercol->Append(pdxlstatdercol);
 	}
 
-	m_pdxlstatsderrel = GPOS_NEW(m_pmp) CDXLStatsDerivedRelation(m_dRows, m_fEmpty, pdrgpdxlstatsdercol);
+	m_pdxlstatsderrel = GPOS_NEW(m_memory_pool) CDXLStatsDerivedRelation(m_dRows, m_fEmpty, pdrgpdxlstatsdercol);
 
 	// deactivate handler
 	m_pphm->DeactivateHandler();

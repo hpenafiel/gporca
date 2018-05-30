@@ -71,7 +71,7 @@ namespace gpos
 			struct AllocHeader
 			{
 				// pointer to pool
-				IMemoryPool *m_pmp;
+				IMemoryPool *m_memory_pool;
 
 				// allocation request size
 				ULONG m_alloc;

@@ -34,7 +34,7 @@ CMDRequest::CMDRequest
 	DrgPtr *pdrgptr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpmdid(pdrgpmdid),
 	m_pdrgptr(pdrgptr)
 {
@@ -57,15 +57,15 @@ CMDRequest::CMDRequest
 	SMDTypeRequest *pmdtr
 	)
 	:
-	m_pmp(pmp),
+	m_memory_pool(pmp),
 	m_pdrgpmdid(NULL),
 	m_pdrgptr(NULL)
 {
 	GPOS_ASSERT(NULL != pmp);
 	GPOS_ASSERT(NULL != pmdtr);
 	
-	m_pdrgpmdid = GPOS_NEW(m_pmp) DrgPmdid(m_pmp);
-	m_pdrgptr = GPOS_NEW(m_pmp) DrgPtr(m_pmp);
+	m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
+	m_pdrgptr = GPOS_NEW(m_memory_pool) DrgPtr(m_memory_pool);
 	
 	m_pdrgptr->Append(pmdtr);	
 }
@@ -98,7 +98,7 @@ CMDRequest::Pstr
 	CSystemId sysid
 	) 
 {
-	CWStringDynamic *pstr = GPOS_NEW(m_pmp) CWStringDynamic(m_pmp);
+	CWStringDynamic *pstr = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 	pstr->AppendFormat(GPOS_WSZ_LIT("%d.%ls"), sysid.Emdidt(), sysid.GetBuffer());
 	return pstr;
 }

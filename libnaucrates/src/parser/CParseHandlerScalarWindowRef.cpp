@@ -63,7 +63,7 @@ CParseHandlerScalarWindowRef::StartElement
 				(CDXLScalarWindowRef*) CDXLOperatorFactory::PdxlopWindowRef(m_pphm->Pmm(), attrs);
 
 		// construct node from the created scalar window ref
-		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else
 	{
@@ -71,7 +71,7 @@ CParseHandlerScalarWindowRef::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 
 		CParseHandlerBase *pphOp =
-				CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphOp);
 
 		// store parse handlers

@@ -184,7 +184,7 @@ namespace gpopt
 							CleanupRelease<COptimizationContext>, CleanupRelease<IStatistics> > StatsMap;
 
 			// memory pool
-			IMemoryPool *m_pmp;
+			IMemoryPool *m_memory_pool;
 
 			// id is used when printing memo contents
 			ULONG m_ulId;
