@@ -399,9 +399,9 @@ CParseHandlerDXL::StartElement
 		GPOS_ASSERT(FValidStartElement(element_local_name));
 
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 	
-		m_pphm->ActivateParseHandler(pph);
+		m_parse_handler_mgr->ActivateParseHandler(pph);
 			
 		// store parse handler
 		this->Append(pph);
@@ -448,7 +448,7 @@ CParseHandlerDXL::endDocument()
 		}
 	}
 	
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 

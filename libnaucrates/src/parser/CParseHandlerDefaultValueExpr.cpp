@@ -68,12 +68,12 @@ CParseHandlerDefaultValueExpr::StartElement
 		GPOS_ASSERT(m_fDefaultValueStarted);
 		
 		// install a scalar op parse handler to parse the expression
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 		
 		GPOS_ASSERT(NULL != pph);
 
 		// activate the child parse handler
-		m_pphm->ActivateParseHandler(pph);
+		m_parse_handler_mgr->ActivateParseHandler(pph);
 		
 		// pass the startElement message for the specialized parse handler to process
 		pph->startElement(element_uri, element_local_name, element_qname, attrs);
@@ -102,7 +102,7 @@ CParseHandlerDefaultValueExpr::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -117,7 +117,7 @@ CParseHandlerDefaultValueExpr::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

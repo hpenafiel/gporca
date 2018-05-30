@@ -115,9 +115,9 @@ CParseHandlerStatistics::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlstatsderrel);
 
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 
-		m_pphm->ActivateParseHandler(pph);
+		m_parse_handler_mgr->ActivateParseHandler(pph);
 
 		// store parse handler
 		this->Append(pph);
@@ -144,7 +144,7 @@ CParseHandlerStatistics::EndElement
 {
 	if (0 != XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenStatistics)))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -160,7 +160,7 @@ CParseHandlerStatistics::EndElement
 		m_pdrgpdxlstatsderrel->Append(pdxlstatsderrel);
 	}
 
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 

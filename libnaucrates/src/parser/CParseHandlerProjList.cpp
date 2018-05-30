@@ -71,8 +71,8 @@ CParseHandlerProjList::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 
 		// start new project element
-		CParseHandlerBase *pphPrEl = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphPrEl);
+		CParseHandlerBase *pphPrEl = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphPrEl);
 		
 		// store parse handler
 		this->Append(pphPrEl);
@@ -81,7 +81,7 @@ CParseHandlerProjList::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -104,7 +104,7 @@ CParseHandlerProjList::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarProjList), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -117,7 +117,7 @@ CParseHandlerProjList::EndElement
 	}		
 		
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

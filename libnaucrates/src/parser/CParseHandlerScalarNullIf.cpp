@@ -58,12 +58,12 @@ CParseHandlerScalarNullIf::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarNullIf), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	IMDId *pmdidOp = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenOpNo, EdxltokenScalarNullIf);
-	IMDId *pmdidRetType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarNullIf);
+	IMDId *pmdidOp = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenOpNo, EdxltokenScalarNullIf);
+	IMDId *pmdidRetType = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarNullIf);
 
 	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarNullIf(m_memory_pool, pmdidOp, pmdidRetType));
 
@@ -71,12 +71,12 @@ CParseHandlerScalarNullIf::StartElement
 	// order of their expected appearance
 
 	// parse handler for right scalar node
-	CParseHandlerBase *pphRight = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphRight);
+	CParseHandlerBase *pphRight = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphRight);
 
 	// parse handler for left scalar node
-	CParseHandlerBase *pphLeft = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphLeft);
+	CParseHandlerBase *pphLeft = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphLeft);
 
 	// store parse handlers
 	this->Append(pphLeft);
@@ -102,7 +102,7 @@ CParseHandlerScalarNullIf::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarNullIf), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -114,7 +114,7 @@ CParseHandlerScalarNullIf::EndElement
 	AddChildFromParseHandler(pphRight);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

@@ -87,19 +87,19 @@ CParseHandlerLogicalSetOp::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name)->GetBuffer()
+				CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer()
 				);
 		}
 
 		// parse array of input colid arrays
 		const XMLCh *xmlszInputColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenInputCols));
-		m_pdrgpdrgpulInputColIds = CDXLOperatorFactory::PdrgpdrgpulFromXMLCh(m_pphm->Pmm(), xmlszInputColIds, EdxltokenInputCols, EdxltokenLogicalSetOperation);
+		m_pdrgpdrgpulInputColIds = CDXLOperatorFactory::PdrgpdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInputColIds, EdxltokenInputCols, EdxltokenLogicalSetOperation);
 
 		// install column descriptor parsers
-		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphColDescr);
+		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
 
-		m_fCastAcrossInputs = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenCastAcrossInputs, EdxltokenLogicalSetOperation);
+		m_fCastAcrossInputs = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCastAcrossInputs, EdxltokenLogicalSetOperation);
 
 		// store child parse handler in array
 		this->Append(pphColDescr);
@@ -110,8 +110,8 @@ CParseHandlerLogicalSetOp::StartElement
 		GPOS_ASSERT(EdxlsetopSentinel != m_edxlsetop);
 
 		// create child node parsers
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		this->Append(pphChild);
 		
@@ -186,7 +186,7 @@ CParseHandlerLogicalSetOp::EndElement
 
 	if(EdxlsetopSentinel == edxlsetop && m_edxlsetop != edxlsetop)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -214,6 +214,6 @@ CParseHandlerLogicalSetOp::EndElement
 #endif // GPOS_DEBUG
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 // EOF

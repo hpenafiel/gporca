@@ -80,7 +80,7 @@ CParseHandlerMetadataColumn::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -92,7 +92,7 @@ CParseHandlerMetadataColumn::StartElement
 												EdxltokenMetadataColumn
 												);
 
-	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszColumnName);
+	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszColumnName);
 	
 	// create a copy of the string in the CMDName constructor
 	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrColumnName);
@@ -102,7 +102,7 @@ CParseHandlerMetadataColumn::StartElement
 	// parse attribute number
 	m_iAttNo = CDXLOperatorFactory::IValueFromAttrs
 								(
-								m_pphm->Pmm(),
+								m_parse_handler_mgr->Pmm(),
 								attrs,
 								EdxltokenAttno,
 								EdxltokenMetadataColumn
@@ -110,7 +110,7 @@ CParseHandlerMetadataColumn::StartElement
 
 	m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs
 								(
-								m_pphm->Pmm(),
+								m_parse_handler_mgr->Pmm(),
 								attrs,
 								EdxltokenMdid,
 								EdxltokenMetadataColumn
@@ -119,7 +119,7 @@ CParseHandlerMetadataColumn::StartElement
 	// parse optional type modifier
 	m_type_modifier = CDXLOperatorFactory::IValueFromAttrs
 								(
-								m_pphm->Pmm(),
+								m_parse_handler_mgr->Pmm(),
 								attrs,
 								EdxltokenTypeMod,
 								EdxltokenColDescr,
@@ -130,7 +130,7 @@ CParseHandlerMetadataColumn::StartElement
 	// parse attribute number
 	m_fNullable = CDXLOperatorFactory::FValueFromAttrs
 								(
-								m_pphm->Pmm(),
+								m_parse_handler_mgr->Pmm(),
 								attrs,
 								EdxltokenColumnNullable,
 								EdxltokenMetadataColumn
@@ -143,7 +143,7 @@ CParseHandlerMetadataColumn::StartElement
 	{
 		m_ulWidth = CDXLOperatorFactory::UlValueFromXmlstr
 						(
-						m_pphm->Pmm(),
+						m_parse_handler_mgr->Pmm(),
 						xmlszColumnLength,
 						EdxltokenColWidth,
 						EdxltokenColDescr
@@ -157,7 +157,7 @@ CParseHandlerMetadataColumn::StartElement
 	{
 		m_fDropped = CDXLOperatorFactory::FValueFromXmlstr
 						(
-						m_pphm->Pmm(),
+						m_parse_handler_mgr->Pmm(),
 						xmlszDropped,
 						EdxltokenColDropped,
 						EdxltokenMetadataColumn
@@ -169,12 +169,12 @@ CParseHandlerMetadataColumn::StartElement
 										(
 										m_memory_pool,
 										CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue),
-										m_pphm,
+										m_parse_handler_mgr,
 										this
 										);
 		
 	// activate and store parse handler
-	m_pphm->ActivateParseHandler(pph);
+	m_parse_handler_mgr->ActivateParseHandler(pph);
 	this->Append(pph);
 }
 
@@ -196,7 +196,7 @@ CParseHandlerMetadataColumn::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -225,7 +225,7 @@ CParseHandlerMetadataColumn::EndElement
 							);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 

@@ -70,7 +70,7 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -78,22 +78,22 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 	GPOS_ASSERT(NULL == m_pmdid);
 
 	// parse mdid
-	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
+	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
 
 	// parse check constraint name
 	const XMLCh *parsed_column_name = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCheckConstraint);
-	CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), parsed_column_name);
+	CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), parsed_column_name);
 
 	// create a copy of the string in the CMDName constructor
 	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, column_name);
 	GPOS_DELETE(column_name);
 
 	// parse mdid of relation
-	m_pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenCheckConstraint);
+	m_pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenCheckConstraint);
 
 	// create and activate the parse handler for the child scalar expression node
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-	m_pphm->ActivateParseHandler(pph);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pph);
 
 	// store parse handler
 	this->Append(pph);
@@ -117,7 +117,7 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -131,7 +131,7 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_pmdid, m_pmdname, m_pmdidRel, pdxlnScExpr);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

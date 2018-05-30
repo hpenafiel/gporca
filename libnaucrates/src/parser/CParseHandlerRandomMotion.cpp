@@ -65,34 +65,34 @@ CParseHandlerRandomMotion::StartElement
 {	
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRandomMotion), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	m_pdxlop = (CDXLPhysicalRandomMotion *) CDXLOperatorFactory::PdxlopRandomMotion(m_pphm->Pmm(), attrs);
+	m_pdxlop = (CDXLPhysicalRandomMotion *) CDXLOperatorFactory::PdxlopRandomMotion(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
 	
 	// parse handler for child node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphChild);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 	
 	// parse handler for sorting column list
-	CParseHandlerBase *pphSortColList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphSortColList);
+	CParseHandlerBase *pphSortColList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
 
 	// parse handler for the filter
-	CParseHandlerBase *pphFilter = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphFilter);
+	CParseHandlerBase *pphFilter = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
 	
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphPrL);
+	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphPrL);
 	
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphProp);
+	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphProp);
 
 	// store parse handlers
 	this->Append(pphProp);
@@ -121,7 +121,7 @@ CParseHandlerRandomMotion::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRandomMotion), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -144,7 +144,7 @@ CParseHandlerRandomMotion::EndElement
 	AddChildFromParseHandler(pphChild);
 	
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

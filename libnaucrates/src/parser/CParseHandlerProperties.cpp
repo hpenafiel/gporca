@@ -89,8 +89,8 @@ CParseHandlerProperties::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenProperties), element_local_name))
 	{
 		// create and install cost and output column parsers
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCost), m_pphm, this);
-		m_pphm->ActivateParseHandler(pph);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCost), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pph);
 
 		// store parse handler
 		this->Append(pph);
@@ -100,8 +100,8 @@ CParseHandlerProperties::StartElement
 		GPOS_ASSERT(1 == this->Length());
 
 		// create and install derived relation statistics parsers
-		CParseHandlerBase *pphStats = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphStats);
+		CParseHandlerBase *pphStats = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphStats);
 
 		// store parse handler
 		this->Append(pphStats);
@@ -110,7 +110,7 @@ CParseHandlerProperties::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -133,7 +133,7 @@ CParseHandlerProperties::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenProperties), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -157,7 +157,7 @@ CParseHandlerProperties::EndElement
 	m_pdxlprop = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(pdxlopcost);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

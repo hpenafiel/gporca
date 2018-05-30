@@ -66,25 +66,25 @@ CParseHandlerLogicalUpdate::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalUpdate), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	m_ulCtid = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenCtidColId, EdxltokenLogicalUpdate);
-	m_ulSegmentId = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalUpdate);
+	m_ulCtid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, EdxltokenLogicalUpdate);
+	m_ulSegmentId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalUpdate);
 
 	const XMLCh *xmlszDeleteColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
-	m_pdrgpulDelete = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszDeleteColIds, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
+	m_pdrgpulDelete = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszDeleteColIds, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *xmlszInsertColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenLogicalUpdate);
-	m_pdrgpulInsert = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenLogicalUpdate);
+	m_pdrgpulInsert = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *xmlszPreserveOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != xmlszPreserveOids)
 	{
 		m_fPreserveOids = CDXLOperatorFactory::FValueFromXmlstr
 											(
-											m_pphm->Pmm(),
+											m_parse_handler_mgr->Pmm(),
 											xmlszPreserveOids,
 											EdxltokenUpdatePreservesOids,
 											EdxltokenLogicalUpdate
@@ -93,16 +93,16 @@ CParseHandlerLogicalUpdate::StartElement
 	
 	if (m_fPreserveOids)
 	{
-		m_ulTupleOidColId = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenLogicalUpdate);
+		m_ulTupleOidColId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenLogicalUpdate);
 	}
 
 	// parse handler for logical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphChild);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 	//parse handler for the table descriptor
-	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphTabDesc);
+	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphTabDesc);
 
 	// store child parse handler in array
 	this->Append(pphTabDesc);
@@ -127,7 +127,7 @@ CParseHandlerLogicalUpdate::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalUpdate), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -155,6 +155,6 @@ CParseHandlerLogicalUpdate::EndElement
 #endif // GPOS_DEBUG
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 // EOF

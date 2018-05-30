@@ -76,13 +76,13 @@ CParseHandlerScalarWindowFrameEdge::StartElement
 		// we must have seen a Window Frame Edge already and initialized its corresponding node
 		if (NULL == m_pdxln)
 		{
-			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
 		// install a scalar element parser for parsing the frame edge value
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler
 		this->Append(pphChild);
@@ -122,11 +122,11 @@ CParseHandlerScalarWindowFrameEdge::EndElement
 		}
 
 		// deactivate handler
-		m_pphm->DeactivateHandler();
+		m_parse_handler_mgr->DeactivateHandler();
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

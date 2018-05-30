@@ -60,29 +60,29 @@ CParseHandlerPhysicalCTEConsumer::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalCTEConsumer), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 		ULONG ulId = CDXLOperatorFactory::UlValueFromAttrs
 											(
-											m_pphm->Pmm(),
+											m_parse_handler_mgr->Pmm(),
 											attrs,
 											EdxltokenCTEId,
 											EdxltokenPhysicalCTEConsumer
 											);
 
-	ULongPtrArray *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_pphm->Pmm(), attrs, EdxltokenColumns, EdxltokenPhysicalCTEConsumer);
+	ULongPtrArray *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenColumns, EdxltokenPhysicalCTEConsumer);
 
 	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLPhysicalCTEConsumer(m_memory_pool, ulId, pdrgpulColIds));
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphPrL);
+	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphPrL);
 
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphProp);
+	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphProp);
 
 	// store parse handlers
 	this->Append(pphProp);
@@ -107,7 +107,7 @@ CParseHandlerPhysicalCTEConsumer::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalCTEConsumer), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -126,7 +126,7 @@ CParseHandlerPhysicalCTEConsumer::EndElement
 		m_pdxln->Pdxlop()->AssertValid(m_pdxln, false /* fValidateChildren */);
 #endif // GPOS_DEBUG
 
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

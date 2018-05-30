@@ -36,7 +36,7 @@ CParseHandlerBase::CParseHandlerBase
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pphm(parse_handler_mgr),
+	m_parse_handler_mgr(parse_handler_mgr),
 	m_pphRoot(pphRoot)
 {
 	GPOS_ASSERT(NULL != memory_pool);
@@ -160,7 +160,7 @@ CParseHandlerBase::error
 	const SAXParseException& toCatch
 	)
 {
-	CHAR* szMessage = XMLString::transcode(toCatch.getMessage(), m_pphm->Pmm());
+	CHAR* szMessage = XMLString::transcode(toCatch.getMessage(), m_parse_handler_mgr->Pmm());
 	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, szMessage);
 }
 

@@ -70,7 +70,7 @@ CParseHandlerMDRelationCtas::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationCTAS), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -82,13 +82,13 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
 	{
-		m_pmdnameSchema = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszSchema);
+		m_pmdnameSchema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszSchema);
 	}
 	
 	// parse whether relation is temporary
 	m_fTemporary = CDXLOperatorFactory::FValueFromAttrs
 											(
-											m_pphm->Pmm(),
+											m_parse_handler_mgr->Pmm(),
 											attrs,
 											EdxltokenRelTemporary,
 											EdxltokenRelation
@@ -98,7 +98,7 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszHasOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
 	if (NULL != xmlszHasOids)
 	{
-		m_fHasOids = CDXLOperatorFactory::FValueFromXmlstr(m_pphm->Pmm(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
+		m_fHasOids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
 	}
 
 	// parse storage type
@@ -119,19 +119,19 @@ CParseHandlerMDRelationCtas::StartElement
 															);
 	m_pdrgpiVarTypeMod = CDXLOperatorFactory::PdrgpiFromXMLCh
 						(
-						m_pphm->Pmm(),
+						m_parse_handler_mgr->Pmm(),
 						xmlszVarTypeMod,
 						EdxltokenVarTypeModList,
 						EdxltokenRelation
 						);
 
 	//parse handler for the storage options
-	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphCTASOptions);
+	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphCTASOptions);
 	
 	// parse handler for the columns
-	CParseHandlerBase *pphColumns = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphColumns);
+	CParseHandlerBase *pphColumns = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphColumns);
 	
 	// store parse handlers
 	this->Append(pphColumns);
@@ -156,7 +156,7 @@ CParseHandlerMDRelationCtas::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationCTAS), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -190,7 +190,7 @@ CParseHandlerMDRelationCtas::EndElement
 								);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

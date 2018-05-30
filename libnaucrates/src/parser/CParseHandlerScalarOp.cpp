@@ -70,12 +70,12 @@ CParseHandlerScalarOp::StartElement
 	)
 {
 	// instantiate the parse handler
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_pphm, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 	
 	GPOS_ASSERT(NULL != pph);
 	
 	// activate the specialized parse handler
-	m_pphm->ReplaceHandler(pph, m_pphRoot);
+	m_parse_handler_mgr->ReplaceHandler(pph, m_pphRoot);
 	
 	// pass the startElement message for the specialized parse handler to process
 	pph->startElement(element_uri, element_local_name, element_qname, attrs);
@@ -99,7 +99,7 @@ CParseHandlerScalarOp::EndElement
 	const XMLCh* const // element_qname,
 	)
 {
-	CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+	CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 }
 

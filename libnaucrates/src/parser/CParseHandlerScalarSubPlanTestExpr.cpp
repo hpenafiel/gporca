@@ -73,9 +73,9 @@ CParseHandlerScalarSubPlanTestExpr::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name))
 	{
 		// install a scalar element parser for parsing the test expression
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
-		m_pphm->ActivateParseHandler(pphChild);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler
 		this->Append(pphChild);
@@ -102,7 +102,7 @@ CParseHandlerScalarSubPlanTestExpr::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name) && NULL != m_pdxlnTestExpr)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -117,7 +117,7 @@ CParseHandlerScalarSubPlanTestExpr::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

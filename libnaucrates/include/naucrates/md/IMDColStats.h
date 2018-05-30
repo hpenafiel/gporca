@@ -69,7 +69,7 @@ namespace gpmd
 
 			// get the bucket at the given position
 			virtual
-			const CDXLBucket *Pdxlbucket(ULONG ul) const = 0;
+			const CDXLBucket *GetBucketDXL(ULONG ul) const = 0;
 	};
 }
 

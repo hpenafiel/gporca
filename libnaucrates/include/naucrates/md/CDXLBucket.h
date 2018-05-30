@@ -42,22 +42,22 @@ namespace gpmd
 		private:
 		
 			// lower bound value for the bucket
-			CDXLDatum *m_pdxldatumLower;
+			CDXLDatum *m_lower_bound_datum_dxl;
 			
 			// max value for the bucket
-			CDXLDatum *m_pdxldatumUpper;
+			CDXLDatum *m_upper_bound_datum_dxl;
 
 			// is lower bound closed (i.e., the boundary point is included in the bucket)
-			BOOL m_fLowerClosed;
+			BOOL m_is_lower_closed;
 
 			// is upper bound closed (i.e., the boundary point is included in the bucket)
-			BOOL m_fUpperClosed;
+			BOOL m_is_upper_closed;
 
 			// frequency
-			CDouble m_dFrequency;
+			CDouble m_frequency;
 			
 			// distinct values
-			CDouble m_dDistinct;
+			CDouble m_distinct;
 
 			// private copy ctor
 			CDXLBucket(const CDXLBucket &);
@@ -85,13 +85,13 @@ namespace gpmd
 			// is lower bound closed
 			BOOL FLowerClosed() const
 			{
-				return m_fLowerClosed;
+				return m_is_lower_closed;
 			}
 
 			// is upper bound closed
 			BOOL FUpperClosed() const
 			{
-				return m_fUpperClosed;
+				return m_is_upper_closed;
 			}
 
 			// min value for the bucket

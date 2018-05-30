@@ -55,12 +55,12 @@ CParseHandlerValuesScan::StartElement
 		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalValuesScan(m_memory_pool);
 
 		// parse handler for the proj list
-		CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphPrL);
+		CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphPrL);
 
 		//parse handler for the properties of the operator
-		CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphProp);
+		CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphProp);
 
 		// store parse handlers
 		this->Append(pphProp);
@@ -69,8 +69,8 @@ CParseHandlerValuesScan::StartElement
 	else
 	{
 		// parse scalar child
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarValuesList), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarValuesList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler
 		this->Append(pphChild);
@@ -90,7 +90,7 @@ CParseHandlerValuesScan::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalValuesScan), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -117,7 +117,7 @@ CParseHandlerValuesScan::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

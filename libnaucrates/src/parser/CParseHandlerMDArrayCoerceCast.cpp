@@ -46,7 +46,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBArrayCoerceCast), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -58,12 +58,12 @@ CParseHandlerMDArrayCoerceCast::StartElement
 														EdxltokenGPDBArrayCoerceCast
 														);
 
-	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszFuncName);
+	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszFuncName);
 
 	// parse cast properties
 	IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs
 									(
-									m_pphm->Pmm(),
+									m_parse_handler_mgr->Pmm(),
 									attrs,
 									EdxltokenMdid,
 									EdxltokenGPDBArrayCoerceCast
@@ -71,7 +71,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	IMDId *pmdidSrc = CDXLOperatorFactory::PmdidFromAttrs
 									(
-									m_pphm->Pmm(),
+									m_parse_handler_mgr->Pmm(),
 									attrs,
 									EdxltokenGPDBCastSrcType,
 									EdxltokenGPDBArrayCoerceCast
@@ -79,7 +79,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	IMDId *pmdidDest = CDXLOperatorFactory::PmdidFromAttrs
 									(
-									m_pphm->Pmm(),
+									m_parse_handler_mgr->Pmm(),
 									attrs,
 									EdxltokenGPDBCastDestType,
 									EdxltokenGPDBArrayCoerceCast
@@ -87,7 +87,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	IMDId *pmdidCastFunc = CDXLOperatorFactory::PmdidFromAttrs
 									(
-									m_pphm->Pmm(),
+									m_parse_handler_mgr->Pmm(),
 									attrs,
 									EdxltokenGPDBCastFuncId,
 									EdxltokenGPDBArrayCoerceCast
@@ -96,7 +96,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 	// parse whether func returns a set
 	BOOL fBinaryCoercible = CDXLOperatorFactory::FValueFromAttrs
 									(
-									m_pphm->Pmm(),
+									m_parse_handler_mgr->Pmm(),
 									attrs,
 									EdxltokenGPDBCastBinaryCoercible,
 									EdxltokenGPDBArrayCoerceCast
@@ -106,7 +106,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 	IMDCast::EmdCoercepathType eCoercePathType = (IMDCast::EmdCoercepathType)
 													CDXLOperatorFactory::IValueFromAttrs
 															(
-															m_pphm->Pmm(),
+															m_parse_handler_mgr->Pmm(),
 															attrs,
 															EdxltokenGPDBCastCoercePathType,
 															EdxltokenGPDBArrayCoerceCast
@@ -114,7 +114,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	INT type_modifier = CDXLOperatorFactory::IValueFromAttrs
 							(
-							m_pphm->Pmm(),
+							m_parse_handler_mgr->Pmm(),
 							attrs,
 							EdxltokenTypeMod,
 							EdxltokenGPDBArrayCoerceCast,
@@ -124,7 +124,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	BOOL fIsExplicit =CDXLOperatorFactory::FValueFromAttrs
 									(
-									m_pphm->Pmm(),
+									m_parse_handler_mgr->Pmm(),
 									attrs,
 									EdxltokenIsExplicit,
 									EdxltokenGPDBArrayCoerceCast
@@ -132,7 +132,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	EdxlCoercionForm edcf = (EdxlCoercionForm) CDXLOperatorFactory::IValueFromAttrs
 																		(
-																		m_pphm->Pmm(),
+																		m_parse_handler_mgr->Pmm(),
 																		attrs,
 																		EdxltokenCoercionForm,
 																		EdxltokenGPDBArrayCoerceCast
@@ -140,7 +140,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	INT iLoc = CDXLOperatorFactory::IValueFromAttrs
 							(
-							m_pphm->Pmm(),
+							m_parse_handler_mgr->Pmm(),
 							attrs,
 							EdxltokenLocation,
 							EdxltokenGPDBArrayCoerceCast
@@ -160,12 +160,12 @@ CParseHandlerMDArrayCoerceCast::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBArrayCoerceCast), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

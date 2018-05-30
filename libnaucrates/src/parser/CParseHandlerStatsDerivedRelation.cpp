@@ -77,8 +77,8 @@ CParseHandlerStatsDerivedRelation::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), element_local_name))
 	{
 		// start new derived column element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), m_pphm, this);
-		m_pphm->ActivateParseHandler(pph);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pph);
 
 		// store parse handler
 		this->Append(pph);
@@ -99,7 +99,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 
 		m_dRows = CDouble(CDXLOperatorFactory::DValueFromXmlstr
 												(
-												m_pphm->Pmm(),
+												m_parse_handler_mgr->Pmm(),
 												xmlszRows,
 												EdxltokenRows,
 												EdxltokenStatsDerivedRelation
@@ -111,7 +111,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 		{
 			m_fEmpty = CDXLOperatorFactory::FValueFromXmlstr
 											(
-											m_pphm->Pmm(),
+											m_parse_handler_mgr->Pmm(),
 											xmlszEmpty,
 											EdxltokenEmptyRelation,
 											EdxltokenStatsDerivedRelation
@@ -138,7 +138,7 @@ CParseHandlerStatsDerivedRelation::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -160,7 +160,7 @@ CParseHandlerStatsDerivedRelation::EndElement
 	m_pdxlstatsderrel = GPOS_NEW(m_memory_pool) CDXLStatsDerivedRelation(m_dRows, m_fEmpty, pdrgpdxlstatsdercol);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

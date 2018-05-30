@@ -49,16 +49,16 @@ namespace gpnaucrates
 			CPoint *m_ppointUpper;
 
 			// is lower bound closed (does bucket include boundary value)
-			BOOL m_fLowerClosed;
+			BOOL m_is_lower_closed;
 
 			// is upper bound closed (does bucket includes boundary value)
-			BOOL m_fUpperClosed;
+			BOOL m_is_upper_closed;
 
 			// frequency corresponding to bucket
-			CDouble m_dFrequency;
+			CDouble m_frequency;
 
 			// number of distinct elements in bucket
-			CDouble m_dDistinct;
+			CDouble m_distinct;
 
 			// private copy constructor
 			CBucket(const CBucket &);
@@ -98,7 +98,7 @@ namespace gpnaucrates
 			// frequency associated with bucket
 			CDouble DFrequency() const
 			{
-				return m_dFrequency;
+				return m_frequency;
 			}
 
 			// width of bucket
@@ -112,7 +112,7 @@ namespace gpnaucrates
 			{
 				GPOS_ASSERT(CDouble(0) <= dFrequency);
 				GPOS_ASSERT(CDouble(1.0) >= dFrequency);
-				m_dFrequency = dFrequency;
+				m_frequency = dFrequency;
 			}
 
 			// set number of distinct values
@@ -122,13 +122,13 @@ namespace gpnaucrates
 				)
 			{
 				GPOS_ASSERT(CDouble(0) <= dDistinct);
-				m_dDistinct = dDistinct;
+				m_distinct = dDistinct;
 			}
 
 			// number of distinct values in bucket
 			CDouble DDistinct() const
 			{
-				return m_dDistinct;
+				return m_distinct;
 			}
 
 			// lower point
@@ -146,13 +146,13 @@ namespace gpnaucrates
 			// is lower bound closed (does bucket includes boundary value)
 			BOOL FLowerClosed() const
 			{
-				return m_fLowerClosed;
+				return m_is_lower_closed;
 			}
 
 			// is upper bound closed (does bucket includes boundary value)
 			BOOL FUpperClosed() const
 			{
-				return m_fUpperClosed;
+				return m_is_upper_closed;
 			}
 
 			// does bucket's range intersect another's

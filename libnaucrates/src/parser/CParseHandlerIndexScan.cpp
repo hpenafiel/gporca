@@ -110,7 +110,7 @@ CParseHandlerIndexScan::StartElementHelper
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -132,33 +132,33 @@ CParseHandlerIndexScan::StartElementHelper
 	// order of their expected appearance
 
 	CParseHandlerBase *pphTD =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphTD);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphTD);
 
 	// parse handler for the index descriptor
 	CParseHandlerBase *pphIdxD =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphIdxD);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphIdxD);
 
 	// parse handler for the index condition list
 	CParseHandlerBase *pphIdxCondList =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphIdxCondList);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphIdxCondList);
 
 	// parse handler for the filter
 	CParseHandlerBase *pphFilter =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphFilter);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
 
 	// parse handler for the proj list
 	CParseHandlerBase *pphPrL =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphPrL);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphPrL);
 
 	//parse handler for the properties of the operator
 	CParseHandlerBase *pphProp =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphProp);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphProp);
 
 	// store parse handlers
 	this->Append(pphProp);
@@ -188,7 +188,7 @@ CParseHandlerIndexScan::EndElementHelper
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -234,7 +234,7 @@ CParseHandlerIndexScan::EndElementHelper
 	AddChildFromParseHandler(pphIdxCondList);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

@@ -69,25 +69,25 @@ CParseHandlerScalarArrayCoerceExpr::StartElement
 	{
 		if (NULL != m_pdxln)
 		{
-			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
 		// parse and create scalar coerce
-		CDXLScalarArrayCoerceExpr *pdxlop = (CDXLScalarArrayCoerceExpr*) CDXLOperatorFactory::PdxlopArrayCoerceExpr(m_pphm->Pmm(), attrs);
+		CDXLScalarArrayCoerceExpr *pdxlop = (CDXLScalarArrayCoerceExpr*) CDXLOperatorFactory::PdxlopArrayCoerceExpr(m_parse_handler_mgr->Pmm(), attrs);
 
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 
 		// parse handler for child scalar node
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler
 		this->Append(pphChild);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -110,7 +110,7 @@ CParseHandlerScalarArrayCoerceExpr::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayCoerceExpr), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	GPOS_ASSERT(1 == this->Length());
@@ -120,7 +120,7 @@ CParseHandlerScalarArrayCoerceExpr::EndElement
 	AddChildFromParseHandler(pphChild);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

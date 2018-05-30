@@ -78,21 +78,21 @@ CParseHandlerScalarAssertConstraintList::StartElement
 		// parse error message
 		CWStringDynamic *pstrErrorMsg = CDXLOperatorFactory::PstrValueFromAttrs
 										(
-										m_pphm->Pmm(), 
+										m_parse_handler_mgr->Pmm(), 
 										attrs, 
 										EdxltokenErrorMessage, 
 										EdxltokenScalarAssertConstraint
 										);
 		m_pdxlopAssertConstraint = GPOS_NEW(m_memory_pool) CDXLScalarAssertConstraint(m_memory_pool, pstrErrorMsg);
 		
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		this->Append(pphChild);	
 	}	
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -126,7 +126,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 #endif // GPOS_DEBUG
 
 		// deactivate handler
-		m_pphm->DeactivateHandler();	
+		m_parse_handler_mgr->DeactivateHandler();	
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAssertConstraint), element_local_name))
 	{
@@ -143,7 +143,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

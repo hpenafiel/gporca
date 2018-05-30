@@ -82,7 +82,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 															EdxltokenGPDBScalarOp
 															);
 
-		CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszOpName);
+		CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszOpName);
 		
 		// create a copy of the string in the CMDName constructor
 		m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrOpName);
@@ -92,7 +92,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse metadata id info
 		m_pmdid = CDXLOperatorFactory::PmdidFromAttrs
 										(
-										m_pphm->Pmm(),
+										m_parse_handler_mgr->Pmm(),
 										attrs,
 										EdxltokenMdid,
 										EdxltokenGPDBScalarOp
@@ -113,7 +113,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		{
 			m_fReturnsNullOnNullInput = CDXLOperatorFactory::FValueFromAttrs
 								(
-								m_pphm->Pmm(),
+								m_parse_handler_mgr->Pmm(),
 								attrs,
 								EdxltokenReturnsNullOnNullInput,
 								EdxltokenGPDBScalarOp
@@ -128,7 +128,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 
 		m_pmdidTypeLeft = CDXLOperatorFactory::PmdidFromAttrs
 												(
-												m_pphm->Pmm(),
+												m_parse_handler_mgr->Pmm(),
 												attrs, 
 												EdxltokenMdid,
 												EdxltokenGPDBScalarOpLeftTypeId
@@ -141,7 +141,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 
 		m_pmdidTypeRight = CDXLOperatorFactory::PmdidFromAttrs
 													(
-													m_pphm->Pmm(),
+													m_parse_handler_mgr->Pmm(),
 													attrs,
 													EdxltokenMdid,
 													EdxltokenGPDBScalarOpRightTypeId
@@ -154,7 +154,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 
 		m_pmdidTypeResult = CDXLOperatorFactory::PmdidFromAttrs
 													(
-													m_pphm->Pmm(),
+													m_parse_handler_mgr->Pmm(),
 													attrs,
 													EdxltokenMdid,
 													EdxltokenGPDBScalarOpResultTypeId
@@ -167,7 +167,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 
 		m_pmdidFunc = CDXLOperatorFactory::PmdidFromAttrs
 												(
-												m_pphm->Pmm(),
+												m_parse_handler_mgr->Pmm(),
 												attrs, 
 												EdxltokenMdid,
 												EdxltokenGPDBScalarOpFuncId
@@ -180,7 +180,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 
 		m_pmdidOpCommute = CDXLOperatorFactory::PmdidFromAttrs
 													(
-													m_pphm->Pmm(),
+													m_parse_handler_mgr->Pmm(),
 													attrs,
 													EdxltokenMdid,
 													EdxltokenGPDBScalarOpCommOpId
@@ -193,7 +193,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 
 		m_pmdidOpInverse = CDXLOperatorFactory::PmdidFromAttrs
 													(
-													m_pphm->Pmm(),
+													m_parse_handler_mgr->Pmm(),
 													attrs,
 													EdxltokenMdid,
 													EdxltokenGPDBScalarOpInverseOpId
@@ -202,14 +202,14 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), element_local_name))
 	{
 		// parse handler for operator class list
-		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphOpClassList);
+		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphOpClassList);
 		this->Append(pphOpClassList);
 		pphOpClassList->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -267,12 +267,12 @@ CParseHandlerMDGPDBScalarOp::EndElement
 				;
 		
 		// deactivate handler
-		m_pphm->DeactivateHandler();
+		m_parse_handler_mgr->DeactivateHandler();
 
 	}
 	else if (!FSupportedChildElem(element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

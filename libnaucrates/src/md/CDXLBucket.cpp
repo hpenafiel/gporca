@@ -37,17 +37,17 @@ CDXLBucket::CDXLBucket
 	CDouble dDistinct
 	)
 	:
-	m_pdxldatumLower(pdxldatumLower),
-	m_pdxldatumUpper(pdxldatumUpper),
-	m_fLowerClosed(fLowerClosed),
-	m_fUpperClosed(fUpperClosed),
-	m_dFrequency(dFrequency),
-	m_dDistinct(dDistinct)
+	m_lower_bound_datum_dxl(pdxldatumLower),
+	m_upper_bound_datum_dxl(pdxldatumUpper),
+	m_is_lower_closed(fLowerClosed),
+	m_is_upper_closed(fUpperClosed),
+	m_frequency(dFrequency),
+	m_distinct(dDistinct)
 {
 	GPOS_ASSERT(NULL != pdxldatumLower);
 	GPOS_ASSERT(NULL != pdxldatumUpper);
-	GPOS_ASSERT(m_dFrequency >= 0.0 && m_dFrequency <= 1.0);
-	GPOS_ASSERT(m_dDistinct >= 0);
+	GPOS_ASSERT(m_frequency >= 0.0 && m_frequency <= 1.0);
+	GPOS_ASSERT(m_distinct >= 0);
 }
 
 //---------------------------------------------------------------------------
@@ -60,8 +60,8 @@ CDXLBucket::CDXLBucket
 //---------------------------------------------------------------------------
 CDXLBucket::~CDXLBucket()
 {
-	m_pdxldatumLower->Release();
-	m_pdxldatumUpper->Release();
+	m_lower_bound_datum_dxl->Release();
+	m_upper_bound_datum_dxl->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -75,7 +75,7 @@ CDXLBucket::~CDXLBucket()
 const CDXLDatum *
 CDXLBucket::PdxldatumLower() const
 {
-	return m_pdxldatumLower;
+	return m_lower_bound_datum_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ CDXLBucket::PdxldatumLower() const
 const CDXLDatum *
 CDXLBucket::PdxldatumUpper() const
 {
-	return m_pdxldatumUpper;
+	return m_upper_bound_datum_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -103,7 +103,7 @@ CDXLBucket::PdxldatumUpper() const
 CDouble
 CDXLBucket::DFrequency() const
 {
-	return m_dFrequency;
+	return m_frequency;
 }
 
 //---------------------------------------------------------------------------
@@ -117,7 +117,7 @@ CDXLBucket::DFrequency() const
 CDouble
 CDXLBucket::DDistinct() const
 {
-	return m_dDistinct;
+	return m_distinct;
 }
 
 
@@ -139,11 +139,11 @@ CDXLBucket::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumnStatsBucket));
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsFrequency), m_dFrequency);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsDistinct), m_dDistinct);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsFrequency), m_frequency);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsDistinct), m_distinct);
 	
-	SerializeBoundaryValue(xml_serializer, CDXLTokens::PstrToken(EdxltokenStatsBucketLowerBound), m_pdxldatumLower, m_fLowerClosed);
-	SerializeBoundaryValue(xml_serializer, CDXLTokens::PstrToken(EdxltokenStatsBucketUpperBound), m_pdxldatumUpper, m_fUpperClosed);
+	SerializeBoundaryValue(xml_serializer, CDXLTokens::PstrToken(EdxltokenStatsBucketLowerBound), m_lower_bound_datum_dxl, m_is_lower_closed);
+	SerializeBoundaryValue(xml_serializer, CDXLTokens::PstrToken(EdxltokenStatsBucketUpperBound), m_upper_bound_datum_dxl, m_is_upper_closed);
 	
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumnStatsBucket));

@@ -67,7 +67,7 @@ CParseHandlerScalarBitmapIndexProbe::StartElement
 					element_local_name
 					))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -76,13 +76,13 @@ CParseHandlerScalarBitmapIndexProbe::StartElement
 
 	// parse handler for the index descriptor
 	CParseHandlerBase *pphIdxD =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphIdxD);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphIdxD);
 
 	// parse handler for the index condition list
 	CParseHandlerBase *pphIdxCondList =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphIdxCondList);
+			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphIdxCondList);
 
 	// store parse handlers
 	this->Append(pphIdxCondList);
@@ -111,7 +111,7 @@ CParseHandlerScalarBitmapIndexProbe::EndElement
 				element_local_name
 				))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -129,7 +129,7 @@ CParseHandlerScalarBitmapIndexProbe::EndElement
 	AddChildFromParseHandler(pphIdxCondList);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

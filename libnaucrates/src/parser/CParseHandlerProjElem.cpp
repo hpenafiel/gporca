@@ -60,17 +60,17 @@ CParseHandlerProjElem::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse and create proj elem operator
-	m_pdxlop = (CDXLScalarProjElem *) CDXLOperatorFactory::PdxlopProjElem(m_pphm->Pmm(), attrs);
+	m_pdxlop = (CDXLScalarProjElem *) CDXLOperatorFactory::PdxlopProjElem(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the child scalar expression node
 	
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-	m_pphm->ActivateParseHandler(pph);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pph);
 	
 	// store parse handler
 	this->Append(pph);
@@ -94,7 +94,7 @@ CParseHandlerProjElem::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -107,7 +107,7 @@ CParseHandlerProjElem::EndElement
 	AddChildFromParseHandler(pph);
 	
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

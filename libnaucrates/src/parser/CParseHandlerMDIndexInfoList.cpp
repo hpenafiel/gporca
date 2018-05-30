@@ -66,10 +66,10 @@ CParseHandlerMDIndexInfoList::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndexInfo), element_local_name))
 	{
 		// parse mdid
-		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenIndexInfo);
+		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenIndexInfo);
 
 		// parse index partial info
-		BOOL fPartial = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenIndexPartial, EdxltokenIndexInfo);
+		BOOL fPartial = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenIndexPartial, EdxltokenIndexInfo);
 
 		CMDIndexInfo *pmdIndexInfo = GPOS_NEW(m_memory_pool) CMDIndexInfo
 								(
@@ -80,7 +80,7 @@ CParseHandlerMDIndexInfoList::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -97,11 +97,11 @@ CParseHandlerMDIndexInfoList::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndexInfoList), element_local_name))
 	{
 		// deactivate handler
-		m_pphm->DeactivateHandler();
+		m_parse_handler_mgr->DeactivateHandler();
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndexInfo), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

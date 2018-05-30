@@ -66,7 +66,7 @@ CParseHandlerScalarFuncExpr::StartElement
 		if(!m_fInsideFuncExpr)
 		{
 			// parse and create scalar FuncExpr
-			CDXLScalarFuncExpr *pdxlop = (CDXLScalarFuncExpr*) CDXLOperatorFactory::PdxlopFuncExpr(m_pphm->Pmm(), attrs);
+			CDXLScalarFuncExpr *pdxlop = (CDXLScalarFuncExpr*) CDXLOperatorFactory::PdxlopFuncExpr(m_parse_handler_mgr->Pmm(), attrs);
 
 			// construct node from the created scalar FuncExpr
 			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
@@ -76,8 +76,8 @@ CParseHandlerScalarFuncExpr::StartElement
 		else
 		{
 			// This is to support nested FuncExpr
-			CParseHandlerBase *pphFunc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_pphm, this);
-			m_pphm->ActivateParseHandler(pphFunc);
+			CParseHandlerBase *pphFunc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_parse_handler_mgr, this);
+			m_parse_handler_mgr->ActivateParseHandler(pphFunc);
 
 			// store parse handlers
 			this->Append(pphFunc);
@@ -89,8 +89,8 @@ CParseHandlerScalarFuncExpr::StartElement
 	{
 		GPOS_ASSERT(m_fInsideFuncExpr);
 
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handlers
 		this->Append(pphChild);
@@ -118,7 +118,7 @@ CParseHandlerScalarFuncExpr::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -130,7 +130,7 @@ CParseHandlerScalarFuncExpr::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

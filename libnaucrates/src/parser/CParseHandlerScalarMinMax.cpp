@@ -73,13 +73,13 @@ CParseHandlerScalarMinMax::StartElement
 		}
 
 		// parse type id
-		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, edxltoken);
+		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, edxltoken);
 	}
 	else
 	{
 		// parse child
-		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphOp);
+		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphOp);
 
 		// store parse handlers
 		this->Append(pphOp);
@@ -108,7 +108,7 @@ CParseHandlerScalarMinMax::EndElement
 
 	if (CDXLScalarMinMax::EmmtSentinel == emmt || m_emmt != emmt)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -124,7 +124,7 @@ CParseHandlerScalarMinMax::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 //---------------------------------------------------------------------------

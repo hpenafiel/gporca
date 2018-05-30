@@ -65,7 +65,7 @@ CParseHandlerLogicalTVF::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), element_local_name))
 	{
 		// parse function id
-		m_pmdidFunc = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenFuncId, EdxltokenLogicalTVF);
+		m_pmdidFunc = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenLogicalTVF);
 
 		// parse function name
 		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -75,19 +75,19 @@ CParseHandlerLogicalTVF::StartElement
 																EdxltokenLogicalTVF
 																);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszFuncName);
+		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszFuncName);
 		m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
 		GPOS_DELETE(pstrFuncName);
 
 		// parse function return type
-		m_pmdidRetType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenLogicalTVF);
+		m_pmdidRetType = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenLogicalTVF);
 
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// parse handler for columns
-		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphColDescr);
+		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
 
 		// store parse handlers
 		this->Append(pphColDescr);
@@ -97,8 +97,8 @@ CParseHandlerLogicalTVF::StartElement
 	else
 	{
 		// parse scalar child
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handlers
 		this->Append(pphChild);
@@ -125,7 +125,7 @@ CParseHandlerLogicalTVF::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -151,7 +151,7 @@ CParseHandlerLogicalTVF::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

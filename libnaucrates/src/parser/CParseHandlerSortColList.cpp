@@ -70,8 +70,8 @@ CParseHandlerSortColList::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 
 		// start new sort column
-		CParseHandlerBase *pphSortCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphSortCol);
+		CParseHandlerBase *pphSortCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphSortCol);
 		
 		// store parse handler
 		this->Append(pphSortCol);
@@ -80,7 +80,7 @@ CParseHandlerSortColList::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -103,7 +103,7 @@ CParseHandlerSortColList::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,
@@ -125,7 +125,7 @@ CParseHandlerSortColList::EndElement
 #endif // GPOS_DEBUG
 		
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

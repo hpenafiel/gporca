@@ -65,20 +65,20 @@ CParseHandlerWindowFrame::StartElement
 
 		// parse handler for the trailing window frame edge
 		CParseHandlerBase *pphTrailingVal =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphTrailingVal);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphTrailingVal);
 
 		// parse handler for the leading scalar values
 		CParseHandlerBase *pphLeadingVal =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameLeadingEdge), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphLeadingVal);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameLeadingEdge), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphLeadingVal);
 
 		this->Append(pphLeadingVal);
 		this->Append(pphTrailingVal);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -101,7 +101,7 @@ CParseHandlerWindowFrame::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	GPOS_ASSERT(NULL == m_pdxlwf);
@@ -120,7 +120,7 @@ CParseHandlerWindowFrame::EndElement
 	m_pdxlwf = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_edxlfs, m_edxlfes, pdxlnLeading, pdxlnTrailing);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

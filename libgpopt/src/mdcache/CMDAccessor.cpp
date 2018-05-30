@@ -1292,7 +1292,7 @@ CMDAccessor::Phist
 	DrgPbucket *pdrgpbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
-		const CDXLBucket *pdxlbucket = pmdcolstats->Pdxlbucket(ul);
+		const CDXLBucket *pdxlbucket = pmdcolstats->GetBucketDXL(ul);
 		CBucket *pbucket = Pbucket(memory_pool, mdid_type, pdxlbucket);
 		pdrgpbucket->Append(pbucket);
 	}

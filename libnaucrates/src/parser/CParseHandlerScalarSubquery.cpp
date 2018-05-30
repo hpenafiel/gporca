@@ -62,14 +62,14 @@ CParseHandlerScalarSubquery::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubquery), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 		
 	// parse column id
 	ULONG ulColId = CDXLOperatorFactory::UlValueFromAttrs
 										(
-										m_pphm->Pmm(),
+										m_parse_handler_mgr->Pmm(),
 										attrs, 
 										EdxltokenColId,
 										EdxltokenScalarSubquery
@@ -77,8 +77,8 @@ CParseHandlerScalarSubquery::StartElement
 	m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubquery(m_memory_pool, ulColId);
 
 	// parse handler for child node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphChild);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 		
 	// store child parse handler in array
 	this->Append(pphChild);
@@ -102,7 +102,7 @@ CParseHandlerScalarSubquery::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubquery), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -122,7 +122,7 @@ CParseHandlerScalarSubquery::EndElement
 #endif // GPOS_DEBUG
 	
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

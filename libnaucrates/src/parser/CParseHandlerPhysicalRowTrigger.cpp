@@ -63,41 +63,41 @@ CParseHandlerPhysicalRowTrigger::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRowTrigger), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	IMDId *pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalRowTrigger);
+	IMDId *pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalRowTrigger);
 
-	INT iType = CDXLOperatorFactory::IValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
+	INT iType = CDXLOperatorFactory::IValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
 
 	const XMLCh *xmlszOldColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOldCols));
 	ULongPtrArray *pdrgpulOld = NULL;
 	if (NULL != xmlszOldColIds)
 	{
-		pdrgpulOld = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
+		pdrgpulOld = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	const XMLCh *xmlszNewColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenNewCols));
 	ULongPtrArray *pdrgpulNew = NULL;
 	if (NULL != xmlszNewColIds)
 	{
-		pdrgpulNew = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
+		pdrgpulNew = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, pmdidRel, iType, pdrgpulOld, pdrgpulNew);
 
 	// parse handler for physical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphChild);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphPrL);
+	CParseHandlerBase *pphPrL = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphPrL);
 
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphProp);
+	CParseHandlerBase *pphProp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphProp);
 
 	// store child parse handlers in array
 	this->Append(pphProp);
@@ -123,7 +123,7 @@ CParseHandlerPhysicalRowTrigger::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRowTrigger), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -149,7 +149,7 @@ CParseHandlerPhysicalRowTrigger::EndElement
 #endif // GPOS_DEBUG
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

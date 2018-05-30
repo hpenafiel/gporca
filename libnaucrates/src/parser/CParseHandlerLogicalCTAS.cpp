@@ -68,14 +68,14 @@ CParseHandlerLogicalCTAS::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalCTAS), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse metadata id
 	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs
 						(
-						m_pphm->Pmm(),
+						m_parse_handler_mgr->Pmm(),
 						attrs,
 						EdxltokenMdid,
 						EdxltokenLogicalCTAS
@@ -85,12 +85,12 @@ CParseHandlerLogicalCTAS::StartElement
 	
 	// parse table name
 	const XMLCh *xmlszTableName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenLogicalCTAS);
-	m_pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszTableName);
+	m_pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszTableName);
 	
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
 	{
-		m_pmdnameSchema = CDXLUtils::CreateMDNameFromXMLChar(m_pphm->Pmm(), xmlszSchema);
+		m_pmdnameSchema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszSchema);
 	}
 	
 	// parse distribution policy
@@ -101,7 +101,7 @@ CParseHandlerLogicalCTAS::StartElement
 	{
 		// parse distribution columns
 		const XMLCh *xmlszDistrColumns = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDistrColumns, EdxltokenLogicalCTAS);
-		m_pdrgpulDistr = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszDistrColumns, EdxltokenDistrColumns, EdxltokenLogicalCTAS);
+		m_pdrgpulDistr = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszDistrColumns, EdxltokenDistrColumns, EdxltokenLogicalCTAS);
 	}
 	
 	// parse storage type
@@ -109,28 +109,28 @@ CParseHandlerLogicalCTAS::StartElement
 	m_erelstorage = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorage);
 
 	const XMLCh *xmlszSourceColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenLogicalCTAS);
-	m_pdrgpulSource = CDXLOperatorFactory::PdrgpulFromXMLCh(m_pphm->Pmm(), xmlszSourceColIds, EdxltokenInsertCols, EdxltokenLogicalCTAS);
+	m_pdrgpulSource = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszSourceColIds, EdxltokenInsertCols, EdxltokenLogicalCTAS);
 
 	const XMLCh *xmlszVarTypeMod = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenVarTypeModList, EdxltokenLogicalCTAS);
 	m_pdrgpiVarTypeMod =
-			CDXLOperatorFactory::PdrgpiFromXMLCh(m_pphm->Pmm(), xmlszVarTypeMod, EdxltokenVarTypeModList, EdxltokenLogicalCTAS);
+			CDXLOperatorFactory::PdrgpiFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszVarTypeMod, EdxltokenVarTypeModList, EdxltokenLogicalCTAS);
 	
-	m_fTemporary = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenRelTemporary, EdxltokenLogicalCTAS);
-	m_fHasOids = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenRelHasOids, EdxltokenLogicalCTAS);
+	m_fTemporary = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelTemporary, EdxltokenLogicalCTAS);
+	m_fHasOids = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelHasOids, EdxltokenLogicalCTAS);
 
 	// create child node parsers
 
 	// parse handler for logical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphChild);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 	//parse handler for the storage options
-	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphCTASOptions);
+	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphCTASOptions);
 	
 	//parse handler for the column descriptors
-	CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
-	m_pphm->ActivateParseHandler(pphColDescr);
+	CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
 
 	// store child parse handler in array
 	this->Append(pphColDescr);
@@ -156,7 +156,7 @@ CParseHandlerLogicalCTAS::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalCTAS), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -204,7 +204,7 @@ CParseHandlerLogicalCTAS::EndElement
 #endif // GPOS_DEBUG
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

@@ -71,8 +71,8 @@ CParseHandlerLogicalConstTable::StartElement
 		m_pdrgpdrgpdxldatum = GPOS_NEW(m_memory_pool) DXLDatumArrays(m_memory_pool);
 
 		// install a parse handler for the columns
-		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphColDescr);
+		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
 		
 		// store parse handler
 		this->Append(pphColDescr);
@@ -92,12 +92,12 @@ CParseHandlerLogicalConstTable::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
 
 		// translate the datum and add it to the datum array
-		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenScalarConstValue);
+		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_parse_handler_mgr->Pmm(), attrs, EdxltokenScalarConstValue);
 		m_pdrgpdxldatum->Append(datum_dxl);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -136,7 +136,7 @@ CParseHandlerLogicalConstTable::EndElement
 #endif // GPOS_DEBUG
 
 		// deactivate handler
-	  	m_pphm->DeactivateHandler();
+	  	m_parse_handler_mgr->DeactivateHandler();
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), element_local_name))
 	{
@@ -147,7 +147,7 @@ CParseHandlerLogicalConstTable::EndElement
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

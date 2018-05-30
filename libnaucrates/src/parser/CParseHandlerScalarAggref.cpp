@@ -59,7 +59,7 @@ CParseHandlerScalarAggref::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAggref), element_local_name))
 	{
 		// parse and create scalar AggRef
-		CDXLScalarAggref *pdxlop = (CDXLScalarAggref*) CDXLOperatorFactory::PdxlopAggFunc(m_pphm->Pmm(), attrs);
+		CDXLScalarAggref *pdxlop = (CDXLScalarAggref*) CDXLOperatorFactory::PdxlopAggFunc(m_parse_handler_mgr->Pmm(), attrs);
 
 		// construct node from the created scalar AggRef
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
@@ -70,8 +70,8 @@ CParseHandlerScalarAggref::StartElement
 		// we must have seen an aggref already and initialized the aggref node
 		GPOS_ASSERT(NULL != m_pdxln);
 
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pph);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pph);
 
 		// store parse handlers
 		this->Append(pph);
@@ -98,7 +98,7 @@ CParseHandlerScalarAggref::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAggref), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -110,7 +110,7 @@ CParseHandlerScalarAggref::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

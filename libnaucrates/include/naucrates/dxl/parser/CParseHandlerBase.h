@@ -80,7 +80,7 @@ namespace gpdxl
 			IMemoryPool *m_memory_pool;
 			
 			// manager for transitions between parse handlers
-			CParseHandlerManager *m_pphm;
+			CParseHandlerManager *m_parse_handler_mgr;
 
 			// add child parse handler
 			inline

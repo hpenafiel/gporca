@@ -85,9 +85,9 @@ CParseHandlerFilter::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 		
 		// install a scalar element parser for parsing the condition element
-		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
-		m_pphm->ActivateParseHandler(pphOp);
+		m_parse_handler_mgr->ActivateParseHandler(pphOp);
 		
 		// store parse handler
 		this->Append(pphOp);
@@ -118,7 +118,7 @@ CParseHandlerFilter::EndElement
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarOneTimeFilter), element_local_name) &&
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarRecheckCondFilter), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -131,7 +131,7 @@ CParseHandlerFilter::EndElement
 	}
 	
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

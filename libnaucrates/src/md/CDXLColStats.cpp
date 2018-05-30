@@ -134,14 +134,14 @@ CDXLColStats::UlBuckets() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLColStats::Pdxlbucket
+//		CDXLColStats::GetBucketDXL
 //
 //	@doc:
 //		Returns the bucket at the given position
 //
 //---------------------------------------------------------------------------
 const CDXLBucket *
-CDXLColStats::Pdxlbucket
+CDXLColStats::GetBucketDXL
 	(
 	ULONG ul
 	) 
@@ -182,7 +182,7 @@ CDXLColStats::Serialize
 	ULONG ulBuckets = UlBuckets();
 	for (ULONG ul = 0; ul < ulBuckets; ul++)
 	{
-		const CDXLBucket *pdxlbucket = Pdxlbucket(ul);
+		const CDXLBucket *pdxlbucket = GetBucketDXL(ul);
 		pdxlbucket->Serialize(xml_serializer);
 
 		GPOS_CHECK_ABORT;
@@ -218,7 +218,7 @@ CDXLColStats::DebugPrint
 	
 	for (ULONG ul = 0; ul < UlBuckets(); ul++)
 	{
-		const CDXLBucket *pdxlbucket = Pdxlbucket(ul);
+		const CDXLBucket *pdxlbucket = GetBucketDXL(ul);
 		pdxlbucket->DebugPrint(os);
 	}
 }

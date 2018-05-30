@@ -46,25 +46,25 @@ namespace gpdxl
 		private:
 		
 			// frequency
-			CDouble m_dFrequency;
+			CDouble m_frequency;
 			
 			// distinct values
-			CDouble m_dDistinct;
+			CDouble m_distinct;
 
 			// lower bound value for the bucket
-			CDXLDatum *m_pdxldatumLower;
+			CDXLDatum *m_lower_bound_datum_dxl;
 			
 			// upper bound value for the bucket
-			CDXLDatum *m_pdxldatumUpper;
+			CDXLDatum *m_upper_bound_datum_dxl;
 			
 			// is lower bound closed
-			BOOL m_fLowerClosed;
+			BOOL m_is_lower_closed;
 
 			// is upper bound closed
-			BOOL m_fUpperClosed;
+			BOOL m_is_upper_closed;
 
 			// dxl bucket object
-			CDXLBucket *m_pdxlbucket;
+			CDXLBucket *m_bucket_dxl;
 			
 			// private copy ctor
 			CParseHandlerColStatsBucket(const CParseHandlerColStatsBucket&);
@@ -101,7 +101,7 @@ namespace gpdxl
 			~CParseHandlerColStatsBucket();
 			
 			// returns the constructed bucket
-			CDXLBucket *Pdxlbucket() const;
+			CDXLBucket *GetBucketDXL() const;
 	};
 }
 

@@ -141,23 +141,23 @@ CParseHandlerQuery::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenQuery), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	GPOS_ASSERT(NULL != m_memory_pool);
 
 	// create parse handler for the query output node
-	CParseHandlerBase *pphQueryOutput = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_pphm, this);
+	CParseHandlerBase *pphQueryOutput = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_parse_handler_mgr, this);
 
 	// create parse handler for the CTE list
-	CParseHandlerBase *pphCTE = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_pphm, this);
+	CParseHandlerBase *pphCTE = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_parse_handler_mgr, this);
 
 	// create a parse handler for logical nodes
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_pphm, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
 
-	m_pphm->ActivateParseHandler(pph);
-	m_pphm->ActivateParseHandler(pphCTE);
-	m_pphm->ActivateParseHandler(pphQueryOutput);
+	m_parse_handler_mgr->ActivateParseHandler(pph);
+	m_parse_handler_mgr->ActivateParseHandler(pphCTE);
+	m_parse_handler_mgr->ActivateParseHandler(pphQueryOutput);
 
 	// store parse handlers
 	this->Append(pphQueryOutput);
@@ -183,7 +183,7 @@ CParseHandlerQuery::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenQuery), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -208,7 +208,7 @@ CParseHandlerQuery::EndElement
 	m_pdxln->AddRef();
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

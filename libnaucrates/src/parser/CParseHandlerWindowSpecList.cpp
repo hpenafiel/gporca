@@ -67,8 +67,8 @@ CParseHandlerWindowSpecList::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlws);
 		// start new window specification element
 		CParseHandlerBase *pphWs =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowSpec), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphWs);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowSpec), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphWs);
 
 		// store parse handler
 		this->Append(pphWs);
@@ -77,7 +77,7 @@ CParseHandlerWindowSpecList::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -100,7 +100,7 @@ CParseHandlerWindowSpecList::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowSpecList), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	GPOS_ASSERT(NULL != m_pdrgpdxlws);
@@ -114,7 +114,7 @@ CParseHandlerWindowSpecList::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

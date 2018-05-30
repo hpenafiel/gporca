@@ -120,7 +120,7 @@ CParseHandlerMDType::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), element_local_name))
 	{
 		// parse metadata id info
-		m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenMDType);
+		m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenMDType);
 		
 		if (!FBuiltInType(m_pmdid))
 		{
@@ -132,7 +132,7 @@ CParseHandlerMDType::StartElement
 																EdxltokenMDType
 																);
 
-			CWStringDynamic *pstrTypeName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszTypeName);
+			CWStringDynamic *pstrTypeName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszTypeName);
 
 			// create a copy of the string in the CMDName constructor
 			m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTypeName);
@@ -141,7 +141,7 @@ CParseHandlerMDType::StartElement
 			// parse if type is redistributable
 			m_fRedistributable = CDXLOperatorFactory::FValueFromAttrs
 														(
-														m_pphm->Pmm(),
+														m_parse_handler_mgr->Pmm(),
 														attrs,
 														EdxltokenMDTypeRedistributable,
 														EdxltokenMDType
@@ -150,7 +150,7 @@ CParseHandlerMDType::StartElement
 			// parse if type is passed by value
 			m_fByValue = CDXLOperatorFactory::FValueFromAttrs
 												(
-												m_pphm->Pmm(),
+												m_parse_handler_mgr->Pmm(),
 												attrs,
 												EdxltokenMDTypeByValue,
 												EdxltokenMDType
@@ -159,7 +159,7 @@ CParseHandlerMDType::StartElement
 			// parse if type is hashable
 			m_fHashable = CDXLOperatorFactory::FValueFromAttrs
 										(
-										m_pphm->Pmm(),
+										m_parse_handler_mgr->Pmm(),
 										attrs,
 										EdxltokenMDTypeHashable,
 										EdxltokenMDType
@@ -175,7 +175,7 @@ CParseHandlerMDType::StartElement
 			{
 				m_fComposite = CDXLOperatorFactory::FValueFromXmlstr
 										(
-										m_pphm->Pmm(),
+										m_parse_handler_mgr->Pmm(),
 										xmlszAttributeVal,
 										EdxltokenMDTypeComposite,
 										EdxltokenMDType
@@ -187,7 +187,7 @@ CParseHandlerMDType::StartElement
 				// get base relation id
 				m_pmdidBaseRelation = CDXLOperatorFactory::PmdidFromAttrs
 										(
-										m_pphm->Pmm(),
+										m_parse_handler_mgr->Pmm(),
 										attrs,
 										EdxltokenMDTypeRelid,
 										EdxltokenMDType
@@ -197,7 +197,7 @@ CParseHandlerMDType::StartElement
 			// parse if type is fixed-length			
 			m_fFixedLength = CDXLOperatorFactory::FValueFromAttrs
 											(
-											m_pphm->Pmm(),
+											m_parse_handler_mgr->Pmm(),
 											attrs,
 											EdxltokenMDTypeFixedLength,
 											EdxltokenMDType
@@ -207,7 +207,7 @@ CParseHandlerMDType::StartElement
 				// get type length
 				m_iLength = CDXLOperatorFactory::IValueFromAttrs
 											(
-											m_pphm->Pmm(),
+											m_parse_handler_mgr->Pmm(),
 											attrs,
 											EdxltokenMDTypeLength,
 											EdxltokenMDType
@@ -274,7 +274,7 @@ CParseHandlerMDType::ParseMdid
 		(*ppmdid)->Release();
 	}
 	
-	*ppmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, edxltoken);
+	*ppmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, edxltoken);
 }
 
 //---------------------------------------------------------------------------
@@ -462,7 +462,7 @@ CParseHandlerMDType::EndElement
 		}
 		
 		// deactivate handler
-		m_pphm->DeactivateHandler();
+		m_parse_handler_mgr->DeactivateHandler();
 	}
 }
 

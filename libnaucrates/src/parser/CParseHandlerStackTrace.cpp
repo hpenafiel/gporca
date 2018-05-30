@@ -78,7 +78,7 @@ CParseHandlerStacktrace::EndElement
 	)
 {
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

@@ -82,8 +82,8 @@ CParseHandlerCostParams::StartElement
 		GPOS_ASSERT(NULL != m_pcp);
 
 		// start new search stage
-		CParseHandlerBase *pphCostParam = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParam), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphCostParam);
+		CParseHandlerBase *pphCostParam = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParam), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphCostParam);
 
 		// store parse handler
 		this->Append(pphCostParam);
@@ -92,7 +92,7 @@ CParseHandlerCostParams::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -116,7 +116,7 @@ CParseHandlerCostParams::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParams), xmlstrLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -128,7 +128,7 @@ CParseHandlerCostParams::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

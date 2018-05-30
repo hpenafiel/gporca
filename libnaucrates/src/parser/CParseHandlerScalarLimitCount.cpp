@@ -61,7 +61,7 @@ CParseHandlerScalarLimitCount::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), element_local_name))
 	{
 		// parse and create scalar limit count
-		CDXLScalarLimitCount *pdxlop = (CDXLScalarLimitCount*) CDXLOperatorFactory::PdxlopLimitCount(m_pphm->Pmm(), attrs);
+		CDXLScalarLimitCount *pdxlop = (CDXLScalarLimitCount*) CDXLOperatorFactory::PdxlopLimitCount(m_parse_handler_mgr->Pmm(), attrs);
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool,pdxlop);
 	}
 	else
@@ -69,12 +69,12 @@ CParseHandlerScalarLimitCount::StartElement
 		// we must have seen a LIMITCOUNT already and initialized its corresponding node
 		if (NULL == m_pdxln)
 		{
-			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 		// install a scalar element parser for parsing the limit count element
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphChild);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler
 		this->Append(pphChild);
@@ -101,7 +101,7 @@ CParseHandlerScalarLimitCount::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -116,7 +116,7 @@ CParseHandlerScalarLimitCount::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

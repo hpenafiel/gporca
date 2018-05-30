@@ -72,12 +72,12 @@ CParseHandlerScalarIdent::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIdent), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse and create identifier operator
-	m_pdxlop = (CDXLScalarIdent *) CDXLOperatorFactory::PdxlopScalarIdent(m_pphm->Pmm(), attrs);
+	m_pdxlop = (CDXLScalarIdent *) CDXLOperatorFactory::PdxlopScalarIdent(m_parse_handler_mgr->Pmm(), attrs);
 }
 
 //---------------------------------------------------------------------------
@@ -98,7 +98,7 @@ CParseHandlerScalarIdent::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIdent), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -108,7 +108,7 @@ CParseHandlerScalarIdent::EndElement
 	m_pdxln->SetOperator(m_pdxlop);
 			
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

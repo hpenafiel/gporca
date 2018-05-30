@@ -145,7 +145,7 @@ namespace gpmd
 
 			// get the bucket at the given position
 			virtual
-			const CDXLBucket *Pdxlbucket(ULONG ul) const;
+			const CDXLBucket *GetBucketDXL(ULONG ul) const;
 
 			// serialize column stats in DXL format
 			virtual 

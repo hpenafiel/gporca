@@ -86,16 +86,16 @@ CParseHandlerMetadataColumns::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpmdcol);
 		
 		// activate parse handler to parse the column info
-		CParseHandlerBase *pphCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_pphm, this);
+		CParseHandlerBase *pphCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_parse_handler_mgr, this);
 		
-		m_pphm->ActivateParseHandler(pphCol);
+		m_parse_handler_mgr->ActivateParseHandler(pphCol);
 		this->Append(pphCol);
 		
 		pphCol->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -135,11 +135,11 @@ CParseHandlerMetadataColumns::EndElement
 			m_pdrgpmdcol->Append(pmdcol);
 		}
 		// deactivate handler
-		m_pphm->DeactivateHandler();
+		m_parse_handler_mgr->DeactivateHandler();
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

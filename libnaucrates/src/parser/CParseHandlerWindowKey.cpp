@@ -64,8 +64,8 @@ CParseHandlerWindowKey::StartElement
 
 		// parse handler for the sorting column list
 		CParseHandlerBase *pphSortColList =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphSortColList);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
 
 		// store parse handler
 		this->Append(pphSortColList);
@@ -76,8 +76,8 @@ CParseHandlerWindowKey::StartElement
 
 		// parse handler for the leading and trailing scalar values
 		CParseHandlerBase *pphWf =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_pphm, this);
-		m_pphm->ActivateParseHandler(pphWf);
+				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(pphWf);
 
 		// store parse handler
 		this->Append(pphWf);
@@ -85,7 +85,7 @@ CParseHandlerWindowKey::StartElement
 	}
 	else
 	{
-			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -108,7 +108,7 @@ CParseHandlerWindowKey::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowKey), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	GPOS_ASSERT(NULL != m_pdxlwk);
@@ -127,7 +127,7 @@ CParseHandlerWindowKey::EndElement
 	}
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 // EOF

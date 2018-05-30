@@ -40,15 +40,15 @@ CBucket::CBucket
 	:
 	m_ppointLower(ppointLower),
 	m_ppointUpper(ppointUpper),
-	m_fLowerClosed(fLowerClosed),
-	m_fUpperClosed(fUpperClosed),
-	m_dFrequency(dFrequency),
-	m_dDistinct(dDistinct)
+	m_is_lower_closed(fLowerClosed),
+	m_is_upper_closed(fUpperClosed),
+	m_frequency(dFrequency),
+	m_distinct(dDistinct)
 {
 	GPOS_ASSERT(NULL != m_ppointLower);
 	GPOS_ASSERT(NULL != m_ppointUpper);
-	GPOS_ASSERT(0.0 <= m_dFrequency && 1.0 >= m_dFrequency);
-	GPOS_ASSERT(0.0 <= m_dDistinct);
+	GPOS_ASSERT(0.0 <= m_frequency && 1.0 >= m_frequency);
+	GPOS_ASSERT(0.0 <= m_distinct);
 
 	// singleton bucket lower and upper bound are closed
 	GPOS_ASSERT_IMP(FSingleton(), fLowerClosed && fUpperClosed);
@@ -96,13 +96,13 @@ CBucket::FContains
 	}
 
 	// special case if point equal to lower bound
-	if (m_fLowerClosed && m_ppointLower->Equals(ppoint))
+	if (m_is_lower_closed && m_ppointLower->Equals(ppoint))
 	{
 		return true;
 	}
 
 	// special case if point equal to upper bound
-	if (m_fUpperClosed && m_ppointUpper->Equals(ppoint))
+	if (m_is_upper_closed && m_ppointUpper->Equals(ppoint))
 	{
 		return true;
 	}
@@ -127,7 +127,7 @@ CBucket::FBefore
 {
 	GPOS_ASSERT(NULL != ppoint);
 
-	return (m_fLowerClosed && m_ppointLower->FGreaterThan(ppoint)) || (!m_fLowerClosed && m_ppointLower->FGreaterThanOrEqual(ppoint));
+	return (m_is_lower_closed && m_ppointLower->FGreaterThan(ppoint)) || (!m_is_lower_closed && m_ppointLower->FGreaterThanOrEqual(ppoint));
 }
 
 //---------------------------------------------------------------------------
@@ -147,7 +147,7 @@ CBucket::FAfter
 {
 	GPOS_ASSERT(NULL != ppoint);
 
-	return ((m_fUpperClosed && m_ppointUpper->FLessThan(ppoint)) || (!m_fUpperClosed && m_ppointUpper->FLessThanOrEqual(ppoint)));
+	return ((m_is_upper_closed && m_ppointUpper->FLessThan(ppoint)) || (!m_is_upper_closed && m_ppointUpper->FLessThanOrEqual(ppoint)));
 }
 
 //---------------------------------------------------------------------------
@@ -217,7 +217,7 @@ CBucket::OsPrint
 {
 	os << "CBucket(";
 
-	if (m_fLowerClosed)
+	if (m_is_lower_closed)
 	{
 		os << " [";
 	}
@@ -230,7 +230,7 @@ CBucket::OsPrint
 	os << ", ";
 	m_ppointUpper->OsPrint(os);
 
-	if (m_fUpperClosed)
+	if (m_is_upper_closed)
 	{
 		os << "]";
 	}
@@ -240,7 +240,7 @@ CBucket::OsPrint
 	}
 
 	os << " ";
-	os << m_dFrequency << ", " << m_dDistinct ;
+	os << m_frequency << ", " << m_distinct ;
 	os << ")";
 
 	return os;
@@ -343,7 +343,7 @@ CBucket::PbucketScaleUpper
 						(
 						this->m_ppointLower,
 						ppointUpperNew,
-						this->m_fLowerClosed,
+						this->m_is_lower_closed,
 						fIncludeUpper,
 						dFrequencyNew,
 						dDistinctNew
@@ -398,7 +398,7 @@ CBucket::PbucketScaleLower
 						ppointLowerNew,
 						this->m_ppointUpper,
 						fIncludeLower,
-						this->m_fUpperClosed,
+						this->m_is_upper_closed,
 						dFrequencyNew,
 						dDistinctNew
 						);
@@ -427,9 +427,9 @@ CBucket::PbucketSingleton
 
 	// assume that this point is one of the ndistinct values
 	// in the bucket
-	CDouble dDistinctRatio = CDouble(1.0) / this->m_dDistinct;
+	CDouble dDistinctRatio = CDouble(1.0) / this->m_distinct;
 
-	CDouble dFrequencyNew = std::min(DOUBLE(1.0), (this->m_dFrequency * dDistinctRatio).Get());
+	CDouble dFrequencyNew = std::min(DOUBLE(1.0), (this->m_frequency * dDistinctRatio).Get());
 	CDouble dDistinctNew = CDouble(1.0);
 
 	// singleton point is both lower and upper
@@ -465,7 +465,7 @@ CBucket::PbucketCopy
 	m_ppointLower->AddRef();
 	m_ppointUpper->AddRef();
 
-	return GPOS_NEW(memory_pool) CBucket(m_ppointLower, m_ppointUpper, m_fLowerClosed, m_fUpperClosed, m_dFrequency, m_dDistinct);
+	return GPOS_NEW(memory_pool) CBucket(m_ppointLower, m_ppointUpper, m_is_lower_closed, m_is_upper_closed, m_frequency, m_distinct);
 }
 
 //---------------------------------------------------------------------------
@@ -488,9 +488,9 @@ CBucket::PbucketUpdateFrequency
 	m_ppointLower->AddRef();
 	m_ppointUpper->AddRef();
 
-	CDouble dFrequencyNew = (this->m_dFrequency * dRowsOld) / dRowsNew;
+	CDouble dFrequencyNew = (this->m_frequency * dRowsOld) / dRowsNew;
 
-	return GPOS_NEW(memory_pool) CBucket(m_ppointLower, m_ppointUpper, m_fLowerClosed, m_fUpperClosed, dFrequencyNew, m_dDistinct);
+	return GPOS_NEW(memory_pool) CBucket(m_ppointLower, m_ppointUpper, m_is_lower_closed, m_is_upper_closed, dFrequencyNew, m_distinct);
 }
 
 //---------------------------------------------------------------------------
@@ -754,8 +754,8 @@ CBucket::PbucketIntersect
 	CDouble dDistanceNew = 1.0;
 	if (!ppNewLower->Equals(ppNewUpper))
 	{
-		fNewLowerClosed = this->m_fLowerClosed;
-		fNewUpperClosed = this->m_fUpperClosed;
+		fNewLowerClosed = this->m_is_lower_closed;
+		fNewUpperClosed = this->m_is_upper_closed;
 
 		if (ppNewLower->Equals(pbucket->PpLower()))
 		{
@@ -797,8 +797,8 @@ CBucket::PbucketIntersect
 					(
 					std::min
 						(
-						dRatio1.Get() * m_dDistinct.Get(),
-						dRatio2.Get() * pbucket->m_dDistinct.Get()
+						dRatio1.Get() * m_distinct.Get(),
+						dRatio2.Get() * pbucket->m_distinct.Get()
 						)
 					);
 
@@ -808,8 +808,8 @@ CBucket::PbucketIntersect
 	// 1. proportional to the modified frequency values of both buckets
 	// 2. inversely proportional to the max number of distinct values in both buckets
 
-	CDouble dFreqIntersect1 = dRatio1 * m_dFrequency;
-	CDouble dFreqIntersect2 = dRatio2 * pbucket->m_dFrequency;
+	CDouble dFreqIntersect1 = dRatio1 * m_frequency;
+	CDouble dFreqIntersect2 = dRatio2 * pbucket->m_frequency;
 
 	CDouble dFrequencyNew
 					(
@@ -818,7 +818,7 @@ CBucket::PbucketIntersect
 					DOUBLE(1.0) /
 					std::max
 						(
-						dRatio1.Get() * m_dDistinct.Get(),
+						dRatio1.Get() * m_distinct.Get(),
 						dRatio2.Get() * pbucket->DDistinct().Get()
 						)
 					);

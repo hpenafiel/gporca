@@ -83,13 +83,13 @@ CParseHandlerGroupingColList::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpulGroupingCols);
 		
 		// parse grouping col id
-		ULONG *pulColId = GPOS_NEW(m_memory_pool) ULONG(CDXLOperatorFactory::UlGroupingColId(m_pphm->Pmm(), attrs));
+		ULONG *pulColId = GPOS_NEW(m_memory_pool) ULONG(CDXLOperatorFactory::UlGroupingColId(m_parse_handler_mgr->Pmm(), attrs));
 		
 		m_pdrgpulGroupingCols->Append(pulColId);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -113,11 +113,11 @@ CParseHandlerGroupingColList::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList), element_local_name))
 	{
 		// deactivate handler
-		m_pphm->DeactivateHandler();	
+		m_parse_handler_mgr->DeactivateHandler();	
 	}
 	else if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGroupingCol), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

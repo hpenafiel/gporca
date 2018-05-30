@@ -75,14 +75,14 @@ CParseHandlerEnumeratorConfig::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenEnumeratorConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// parse enumerator config options
-	ULLONG plan_id = CDXLOperatorFactory::UllValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPlanId, EdxltokenOptimizerConfig);
-	ULLONG ullPlanSamples = CDXLOperatorFactory::UllValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
-	CDouble dCostThreshold = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenCostThreshold, EdxltokenOptimizerConfig);
+	ULLONG plan_id = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPlanId, EdxltokenOptimizerConfig);
+	ULLONG ullPlanSamples = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
+	CDouble dCostThreshold = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostThreshold, EdxltokenOptimizerConfig);
 
 	m_pec = GPOS_NEW(m_memory_pool) CEnumeratorConfig(m_memory_pool, plan_id, ullPlanSamples, dCostThreshold);
 }
@@ -105,7 +105,7 @@ CParseHandlerEnumeratorConfig::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenEnumeratorConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -113,7 +113,7 @@ CParseHandlerEnumeratorConfig::EndElement
 	GPOS_ASSERT(0 == this->Length());
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 //---------------------------------------------------------------------------

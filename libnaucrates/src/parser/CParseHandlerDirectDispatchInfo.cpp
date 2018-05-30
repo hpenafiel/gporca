@@ -92,12 +92,12 @@ CParseHandlerDirectDispatchInfo::StartElement
 	{
 		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
 
-		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenDirectDispatchInfo);
+		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_parse_handler_mgr->Pmm(), attrs, EdxltokenDirectDispatchInfo);
 		m_pdrgpdxldatum->Append(datum_dxl);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -121,7 +121,7 @@ CParseHandlerDirectDispatchInfo::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), xmlstrLocalname))
 	{
 		m_pdxlddinfo = GPOS_NEW(m_memory_pool) CDXLDirectDispatchInfo(m_pdrgpdrgpdxldatum);
-		m_pphm->DeactivateHandler();
+		m_parse_handler_mgr->DeactivateHandler();
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchKeyValue), xmlstrLocalname))
 	{
@@ -131,7 +131,7 @@ CParseHandlerDirectDispatchInfo::EndElement
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), xmlstrLocalname))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

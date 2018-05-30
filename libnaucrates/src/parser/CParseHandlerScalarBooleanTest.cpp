@@ -70,15 +70,15 @@ CParseHandlerScalarBooleanTest::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name)->GetBuffer()
+				CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer()
 				);
 		}
 		else
 		{
 			CParseHandlerBase *pphChild =
-					CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
+					CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
-			m_pphm->ActivateParseHandler(pphChild);
+			m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 			// store parse handlers
 			this->Append(pphChild);
@@ -92,7 +92,7 @@ CParseHandlerScalarBooleanTest::StartElement
 	m_edxlBooleanTestType = edxlBooleanTestType;
 	// parse and create scalar BooleanTest
 	CDXLScalarBooleanTest *pdxlop =
-			(CDXLScalarBooleanTest*) CDXLOperatorFactory::PdxlopBooleanTest(m_pphm->Pmm(), m_edxlBooleanTestType);
+			(CDXLScalarBooleanTest*) CDXLOperatorFactory::PdxlopBooleanTest(m_parse_handler_mgr->Pmm(), m_edxlBooleanTestType);
 
 	// construct node from the created child nodes
 	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
@@ -123,7 +123,7 @@ CParseHandlerScalarBooleanTest::EndElement
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLUnexpectedTag,
-			CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name)->GetBuffer()
+			CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer()
 			);
 	}
 	
@@ -134,7 +134,7 @@ CParseHandlerScalarBooleanTest::EndElement
 	AddChildFromParseHandler(pph);
 
 	// deactivate handler
-	m_pphm->DeactivateHandler();
+	m_parse_handler_mgr->DeactivateHandler();
 }
 
 //---------------------------------------------------------------------------
