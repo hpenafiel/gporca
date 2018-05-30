@@ -105,7 +105,7 @@ CDXLLogicalSelect::AssertValid
 	BOOL fValidateChildren
 	) const
 {
-	GPOS_ASSERT(2 == pdxln->UlArity());
+	GPOS_ASSERT(2 == pdxln->Arity());
 
 	CDXLNode *pdxlnCond = (*pdxln)[0];
 	CDXLNode *pdxlnChild = (*pdxln)[1];

@@ -112,7 +112,7 @@ CDXLScalarBitmapIndexProbe::AssertValid
 	const
 {
 	// bitmap index probe has 1 child: the index condition list
-	GPOS_ASSERT(1 == pdxln->UlArity());
+	GPOS_ASSERT(1 == pdxln->Arity());
 
 	if (fValidateChildren)
 	{
@@ -122,8 +122,8 @@ CDXLScalarBitmapIndexProbe::AssertValid
 	}
 
 	// assert validity of index descriptor
-	GPOS_ASSERT(NULL != m_pdxlid->Pmdname());
-	GPOS_ASSERT(m_pdxlid->Pmdname()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_pdxlid->MdName());
+	GPOS_ASSERT(m_pdxlid->MdName()->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

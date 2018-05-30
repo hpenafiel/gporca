@@ -34,7 +34,7 @@ CDXLColRef::CDXLColRef
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdname(pmdname),
+	m_mdname(pmdname),
 	m_ulId(ulId),
 	m_mdid_type(mdid_type),
 	m_iTypeModifer(type_modifier)
@@ -52,22 +52,22 @@ CDXLColRef::CDXLColRef
 //---------------------------------------------------------------------------
 CDXLColRef::~CDXLColRef()
 {
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLColRef::Pmdname
+//		CDXLColRef::MdName
 //
 //	@doc:
 //		Returns column's name
 //
 //---------------------------------------------------------------------------
 const CMDName *
-CDXLColRef::Pmdname() const
+CDXLColRef::MdName() const
 {
-	return m_pmdname;
+	return m_mdname;
 }
 
 //---------------------------------------------------------------------------

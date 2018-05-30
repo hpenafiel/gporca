@@ -38,10 +38,10 @@ namespace gpdxl
 	{
 		private:
 			// metadata id comprising of id and version info.
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 					
 			// result type
 			IMDId *m_pmdidTypeResult;

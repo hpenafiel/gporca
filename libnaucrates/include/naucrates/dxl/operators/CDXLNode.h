@@ -98,7 +98,7 @@ namespace gpdxl
 	
 			// arity function, returns the number of children this node has
 			inline
-			ULONG UlArity() const
+			ULONG Arity() const
 			{
 				return (m_pdrgpdxln == NULL) ? 0 : m_pdrgpdxln->Size();
 			}

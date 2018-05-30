@@ -226,17 +226,17 @@ CDXLPhysicalDynamicIndexScan::AssertValid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
 
 	// index scan has only 3 children
-	GPOS_ASSERT(3 == pdxln->UlArity());
+	GPOS_ASSERT(3 == pdxln->Arity());
 
 	// assert validity of the index descriptor
 	GPOS_ASSERT(NULL != m_pdxlid);
-	GPOS_ASSERT(NULL != m_pdxlid->Pmdname());
-	GPOS_ASSERT(m_pdxlid->Pmdname()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_pdxlid->MdName());
+	GPOS_ASSERT(m_pdxlid->MdName()->Pstr()->IsValid());
 
 	// assert validity of the table descriptor
 	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxltabdesc->Pmdname());
-	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_pdxltabdesc->MdName());
+	GPOS_ASSERT(m_pdxltabdesc->MdName()->Pstr()->IsValid());
 
 	CDXLNode *pdxlnIndexFilter = (*pdxln)[EdxldisIndexFilter];
 	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxldisIndexCondition];

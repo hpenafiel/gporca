@@ -58,7 +58,7 @@ namespace gpopt
 
 		private:
 			// range type
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// datum comparator
 			const IComparator *m_pcomp;
@@ -131,7 +131,7 @@ namespace gpopt
 			// range type
 			IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 
 			// range beginning

@@ -425,7 +425,7 @@ CConstraint::PcnstrFromScalarBoolOp
 	GPOS_ASSERT(NULL != ppdrgpcrs);
 	GPOS_ASSERT(NULL == *ppdrgpcrs);
 
-	const ULONG ulArity= pexpr->UlArity();
+	const ULONG ulArity= pexpr->Arity();
 
 	// Large IN/NOT IN lists that can not be converted into
 	// CScalarArrayCmp, are expanded into its disjunctive normal form,

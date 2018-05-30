@@ -86,7 +86,7 @@ namespace gpdxl
 			~CDXLColDescr();
 			
 			// column name
-			const CMDName *Pmdname() const;
+			const CMDName *MdName() const;
 
 			// column identifier
 			ULONG Id() const;

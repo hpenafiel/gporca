@@ -47,7 +47,7 @@ CMDTypeInt4GPDB::CMDTypeInt4GPDB
 	:
 	m_memory_pool(memory_pool)
 {
-	m_pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_OID);
+	m_mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_OID);
 	m_pmdidOpEq = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP);
 	m_pmdidOpNeq = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_NEQ_OP);
 	m_pmdidOpLT = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_LT_OP);
@@ -64,9 +64,9 @@ CMDTypeInt4GPDB::CMDTypeInt4GPDB
 
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 
-	GPOS_ASSERT(GPDB_INT4_OID == CMDIdGPDB::PmdidConvert(m_pmdid)->OidObjectId());
-	m_pmdid->AddRef();
-	m_pdatumNull = GPOS_NEW(memory_pool) CDatumInt4GPDB(m_pmdid, 1 /* value */, true /* is_null */);
+	GPOS_ASSERT(GPDB_INT4_OID == CMDIdGPDB::PmdidConvert(m_mdid)->OidObjectId());
+	m_mdid->AddRef();
+	m_pdatumNull = GPOS_NEW(memory_pool) CDatumInt4GPDB(m_mdid, 1 /* value */, true /* is_null */);
 }
 
 //---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ CMDTypeInt4GPDB::CMDTypeInt4GPDB
 //---------------------------------------------------------------------------
 CMDTypeInt4GPDB::~CMDTypeInt4GPDB()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pmdidOpEq->Release();
 	m_pmdidOpNeq->Release();
 	m_pmdidOpLT->Release();
@@ -115,7 +115,7 @@ CMDTypeInt4GPDB::PdatumInt4
 	)
 	const
 {
-	return GPOS_NEW(memory_pool) CDatumInt4GPDB(m_pmdid->Sysid(), iValue, fNULL);
+	return GPOS_NEW(memory_pool) CDatumInt4GPDB(m_mdid->Sysid(), iValue, fNULL);
 }
 
 
@@ -130,7 +130,7 @@ CMDTypeInt4GPDB::PdatumInt4
 IMDId *
 CMDTypeInt4GPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -251,7 +251,7 @@ CMDTypeInt4GPDB::Pdatum
 	CDXLDatumInt4 *datum_dxl = CDXLDatumInt4::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
 	GPOS_ASSERT(datum_dxl->IsPassedByValue());
 
-	return GPOS_NEW(m_memory_pool) CDatumInt4GPDB(m_pmdid->Sysid(), datum_dxl->Value(), datum_dxl->IsNull());
+	return GPOS_NEW(m_memory_pool) CDatumInt4GPDB(m_mdid->Sysid(), datum_dxl->Value(), datum_dxl->IsNull());
 }
 
 //---------------------------------------------------------------------------
@@ -275,7 +275,7 @@ CMDTypeInt4GPDB::Pdatum
 	INT iVal = pdxldatumint4->Value();
 	BOOL is_null = pdxldatumint4->IsNull();
 
-	return GPOS_NEW(memory_pool) CDatumInt4GPDB(m_pmdid->Sysid(), iVal, is_null);
+	return GPOS_NEW(memory_pool) CDatumInt4GPDB(m_mdid->Sysid(), iVal, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -294,10 +294,10 @@ CMDTypeInt4GPDB::Pdxldatum
 	)
 	const
 {
-	m_pmdid->AddRef();
+	m_mdid->AddRef();
 	CDatumInt4GPDB *pdatumint4 = dynamic_cast<CDatumInt4GPDB*>(pdatum);
 
-	return GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, m_pmdid, pdatumint4->IsNull(), pdatumint4->Value());
+	return GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, m_mdid, pdatumint4->IsNull(), pdatumint4->Value());
 }
 
 //---------------------------------------------------------------------------
@@ -318,8 +318,8 @@ CMDTypeInt4GPDB::PdxlopScConst
 {
 	CDatumInt4GPDB *pdatumint4gpdb = dynamic_cast<CDatumInt4GPDB *>(pdatum);
 
-	m_pmdid->AddRef();
-	CDXLDatumInt4 *datum_dxl = GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, m_pmdid, pdatumint4gpdb->IsNull(), pdatumint4gpdb->Value());
+	m_mdid->AddRef();
+	CDXLDatumInt4 *datum_dxl = GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, m_mdid, pdatumint4gpdb->IsNull(), pdatumint4gpdb->Value());
 
 	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl);
 }
@@ -339,9 +339,9 @@ CMDTypeInt4GPDB::PdxldatumNull
 	)
 	const
 {
-	m_pmdid->AddRef();
+	m_mdid->AddRef();
 
-	return GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, m_pmdid, true /*is_null*/, 1);
+	return GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, m_mdid, true /*is_null*/, 1);
 }
 
 #ifdef GPOS_DEBUG

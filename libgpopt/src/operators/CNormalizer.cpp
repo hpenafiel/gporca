@@ -164,7 +164,7 @@ CNormalizer::PexprRecursiveNormalize
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -251,7 +251,7 @@ CNormalizer::PushThruOuterChild
 	GPOS_ASSERT(NULL != pexprConj);
 	GPOS_ASSERT(NULL != ppexprResult);
 
-	if (0 == pexpr->UlArity())
+	if (0 == pexpr->Arity())
 	{
 		// end recursion early for leaf patterns extracted from memo
 		pexpr->AddRef();
@@ -360,7 +360,7 @@ CNormalizer::FSimplifySelectOnOuterJoin
 	GPOS_ASSERT(pexprPred->Pop()->FScalar());
 	GPOS_ASSERT(NULL != ppexprResult);
 
-	if (0 == pexprOuterJoin->UlArity())
+	if (0 == pexprOuterJoin->Arity())
 	{
 		// exit early for leaf patterns extracted from memo
 		*ppexprResult = NULL;
@@ -544,7 +544,7 @@ CNormalizer::PushThruUnaryWithoutScalarChild
 	)
 {
 	GPOS_ASSERT(NULL != pexprLogical);
-	GPOS_ASSERT(1 == pexprLogical->UlArity());
+	GPOS_ASSERT(1 == pexprLogical->Arity());
 	GPOS_ASSERT(NULL != pexprConj);
 	GPOS_ASSERT(NULL != ppexprResult);
 
@@ -586,7 +586,7 @@ CNormalizer::PushThruUnaryWithScalarChild
 	)
 {
 	GPOS_ASSERT(NULL != pexprLogical);
-	GPOS_ASSERT(2 == pexprLogical->UlArity());
+	GPOS_ASSERT(2 == pexprLogical->Arity());
 	GPOS_ASSERT(NULL != pexprConj);
 	GPOS_ASSERT(NULL != ppexprResult);
 
@@ -741,7 +741,7 @@ CNormalizer::PushThruSetOp
 	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool, pdrgpcrOutput);
 	DrgDrgPcr *pdrgpdrgpcrInput = popSetOp->PdrgpdrgpcrInput();
 	DrgPexpr *pdrgpexprNewChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexprSetOp->UlArity();
+	const ULONG ulArity = pexprSetOp->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprChild = (*pexprSetOp)[ul];
@@ -806,7 +806,7 @@ CNormalizer::PushThruJoin
 	GPOS_ASSERT(NULL != ppexprResult);
 
 	COperator *pop = pexprJoin->Pop();
-	const ULONG ulArity = pexprJoin->UlArity();
+	const ULONG ulArity = pexprJoin->Arity();
 	BOOL fLASApply = CUtils::FLeftAntiSemiApply(pop);
 	COperator::EOperatorId eopid = pop->Eopid();
 	BOOL fOuterJoin =
@@ -892,7 +892,7 @@ CNormalizer::FChild
 	GPOS_ASSERT(NULL != pexprChild);
 
 	BOOL fFound = false;
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; !fFound && ul < ulArity; ul++)
 	{
 		fFound = ((*pexpr)[ul] == pexprChild);
@@ -926,7 +926,7 @@ CNormalizer::PushThru
 
 	// TODO: 01/13/2012 - ; predicate push down with set returning functions
 
-	if (0 == pexprLogical->UlArity())
+	if (0 == pexprLogical->Arity())
 	{
 		// end recursion early for leaf patterns extracted from memo
 		pexprLogical->AddRef();
@@ -1040,7 +1040,7 @@ CNormalizer::PexprNormalize
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_ASSERT(NULL != pexpr);
 
-	if (0 == pexpr->UlArity())
+	if (0 == pexpr->Arity())
 	{
 		// end recursion early for leaf patterns extracted from memo
 		pexpr->AddRef();
@@ -1060,7 +1060,7 @@ CNormalizer::PexprNormalize
 		else
 		{
 			// add-ref all children except scalar predicate
-			const ULONG ulArity = pexpr->UlArity();
+			const ULONG ulArity = pexpr->Arity();
 			DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 			for (ULONG ul = 0; ul < ulArity - 1; ul++)
 			{
@@ -1070,7 +1070,7 @@ CNormalizer::PexprNormalize
 			}
 
 			// normalize scalar predicate and construct a new expression
-			CExpression *pexprPred = (*pexpr)[pexpr->UlArity() - 1];
+			CExpression *pexprPred = (*pexpr)[pexpr->Arity() - 1];
 			CExpression *pexprPredNormalized = PexprRecursiveNormalize(memory_pool, pexprPred);
 			pdrgpexpr->Append(pexprPredNormalized);
 			COperator *pop = pexpr->Pop();
@@ -1112,7 +1112,7 @@ CNormalizer::PexprPullUpAndCombineProjects
 	GPOS_ASSERT(NULL != pfSuccess);
 
 	COperator *pop = pexpr->Pop();
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	if (!pop->FLogical() || 0 == ulArity)
 	{
 		pexpr->AddRef();
@@ -1217,10 +1217,10 @@ CNormalizer::PexprPullUpProjectElements
 	GPOS_ASSERT(NULL != ppdrgpexprPrElPullUp);
 	GPOS_ASSERT(NULL != *ppdrgpexprPrElPullUp);
 
-	if (2 != pexpr->UlArity())
+	if (2 != pexpr->Arity())
 	{
 		// the project's children were not extracted as part of the pattern in this xform
-		GPOS_ASSERT(0 == pexpr->UlArity());
+		GPOS_ASSERT(0 == pexpr->Arity());
 		pexpr->AddRef();
 		return pexpr;
 	}
@@ -1228,7 +1228,7 @@ CNormalizer::PexprPullUpProjectElements
 	DrgPexpr *pdrgpexprPrElNoPullUp = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	CExpression *pexprPrL = (*pexpr)[1];
 
-	const ULONG ulProjElements = pexprPrL->UlArity();
+	const ULONG ulProjElements = pexprPrL->Arity();
 	for (ULONG ul = 0; ul < ulProjElements; ul++)
 	{
 		CExpression *pexprPrEl = (*pexprPrL)[ul];
@@ -1346,7 +1346,7 @@ CNormalizer::FLocalColsSubsetOfInputCols
 
 		CColRefSet *pcrsInput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
-		const ULONG ulArity = exprhdl.UlArity();
+		const ULONG ulArity = exprhdl.Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			if (!exprhdl.FScalarChild(ul))
@@ -1368,7 +1368,7 @@ CNormalizer::FLocalColsSubsetOfInputCols
 	}
 
 	// check if its children are valid
-	const ULONG ulExprArity = pexpr->UlArity();
+	const ULONG ulExprArity = pexpr->Arity();
 	for (ULONG ulChildIdx = 0; ulChildIdx < ulExprArity && fValid; ulChildIdx++)
 	{
 		CExpression *pexprChild = (*pexpr)[ulChildIdx];

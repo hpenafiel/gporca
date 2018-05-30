@@ -80,7 +80,7 @@ CScalar::FHasSubquery
 	}
 
 	// otherwise, iterate over scalar children
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		if (exprhdl.FScalarChild(i))
@@ -325,7 +325,7 @@ CScalar::EberEvaluate
 	COperator *pop = pexprScalar->Pop();
 	GPOS_ASSERT(pop->FScalar());
 
-	const ULONG ulArity = pexprScalar->UlArity();
+	const ULONG ulArity = pexprScalar->Arity();
 	ULongPtrArray *pdrgpulChildren = NULL;
 
 	if (!CUtils::FSubquery(pop))
@@ -371,7 +371,7 @@ CScalar::FHasNonScalarFunction
 	}
 
 	// otherwise, iterate over scalar children
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		if (exprhdl.FScalarChild(i))
@@ -403,7 +403,7 @@ CScalar::PpartinfoDeriveCombineScalar
 	CExpressionHandle &exprhdl
 	)
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	GPOS_ASSERT(0 < ulArity);
 
 	CPartInfo *ppartinfo = GPOS_NEW(memory_pool) CPartInfo(memory_pool);
@@ -436,7 +436,7 @@ CScalar::FHasScalarArrayCmp
 	}
 
 	// otherwise, iterate over scalar children
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		if (exprhdl.FScalarChild(i))

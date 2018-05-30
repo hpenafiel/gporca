@@ -313,7 +313,7 @@ CQueryContext::MapComputedToUsedCols
 	{
 		CExpression *pexprPrL = (*pexpr)[1];
 
-		const ULONG ulArity = pexprPrL->UlArity();
+		const ULONG ulArity = pexprPrL->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CExpression *pexprPrEl = (*pexprPrL)[ul];
@@ -322,7 +322,7 @@ CQueryContext::MapComputedToUsedCols
 	}
 
 	// process children
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		MapComputedToUsedCols(pcf, (*pexpr)[ul]);

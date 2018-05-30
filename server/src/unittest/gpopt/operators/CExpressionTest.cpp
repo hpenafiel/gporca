@@ -1102,7 +1102,7 @@ CExpressionTest::EresCheckCachedReqdCols
 	DrgPdp *pdrgpdp = GPOS_NEW(memory_pool) DrgPdp(memory_pool);
 
 	GPOS_RESULT eres = GPOS_OK;
-	const ULONG ulArity =  pexpr->UlArity();
+	const ULONG ulArity =  pexpr->Arity();
 	for (ULONG ul = 0; GPOS_OK == eres && ul < ulArity; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];

@@ -109,7 +109,7 @@ namespace gpopt
 				)
 				const
 			{
-				return PpcDeriveConstraintPassThru(exprhdl, exprhdl.UlArity() - 1);
+				return PpcDeriveConstraintPassThru(exprhdl, exprhdl.Arity() - 1);
 			}
 
 			//-------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace gpopt
 				)
 				const
 			{
-				const ULONG ulLastChildIndex = exprhdl.UlArity() - 1;
+				const ULONG ulLastChildIndex = exprhdl.Arity() - 1;
 				if (ulChildIndex == ulLastChildIndex)
 				{
 					// only pass through the required stats column to the last child since
@@ -149,7 +149,7 @@ namespace gpopt
 				const
 			{
 				// pass through stats from last child
-				IStatistics *pstats = exprhdl.Pstats(exprhdl.UlArity() - 1);
+				IStatistics *pstats = exprhdl.Pstats(exprhdl.Arity() - 1);
 				pstats->AddRef();
 
 				return pstats;

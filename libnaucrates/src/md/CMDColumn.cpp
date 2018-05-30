@@ -38,7 +38,7 @@ CMDColumn::CMDColumn
 	ULONG length
 	)
 	:
-	m_pmdname(pmdname),
+	m_mdname(pmdname),
 	m_iAttNo(iAttNo),
 	m_mdid_type(mdid_type),
 	m_type_modifier(type_modifier),
@@ -59,7 +59,7 @@ CMDColumn::CMDColumn
 //---------------------------------------------------------------------------
 CMDColumn::~CMDColumn()
 {
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	m_mdid_type->Release();
 	CRefCount::SafeRelease(m_pdxlnDefaultValue);
 }
@@ -76,7 +76,7 @@ CMDColumn::~CMDColumn()
 CMDName
 CMDColumn::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -159,7 +159,7 @@ CMDColumn::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumn));
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttNo);
 
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));

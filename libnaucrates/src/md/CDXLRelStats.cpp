@@ -40,7 +40,7 @@ CDXLRelStats::CDXLRelStats
 	:
 	m_memory_pool(memory_pool),
 	m_pmdidRelStats(pmdidRelStats),
-	m_pmdname(pmdname),
+	m_mdname(pmdname),
 	m_dRows(dRows),
 	m_fEmpty(fEmpty)
 {
@@ -58,7 +58,7 @@ CDXLRelStats::CDXLRelStats
 //---------------------------------------------------------------------------
 CDXLRelStats::~CDXLRelStats()
 {
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_pmdidRelStats->Release();
 }
@@ -88,7 +88,7 @@ CDXLRelStats::MDId() const
 CMDName
 CDXLRelStats::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -137,7 +137,7 @@ CDXLRelStats::Serialize
 						CDXLTokens::PstrToken(EdxltokenRelationStats));
 	
 	m_pmdidRelStats->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRows), m_dRows);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenEmptyRelation), m_fEmpty);
 

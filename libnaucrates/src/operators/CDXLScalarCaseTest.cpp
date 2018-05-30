@@ -152,7 +152,7 @@ CDXLScalarCaseTest::AssertValid
 	)
 	const
 {
-	GPOS_ASSERT(0 == pdxln->UlArity());
+	GPOS_ASSERT(0 == pdxln->Arity());
 	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 #endif // GPOS_DEBUG

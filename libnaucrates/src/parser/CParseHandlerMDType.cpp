@@ -45,8 +45,8 @@ CParseHandlerMDType::CParseHandlerMDType
 	)
 	:
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
-	m_pmdid(NULL),
-	m_pmdname(NULL),
+	m_mdid(NULL),
+	m_mdname(NULL),
 	m_pmdidOpEq(NULL),
 	m_pmdidOpNEq(NULL),
 	m_pmdidOpLT(NULL),
@@ -83,7 +83,7 @@ CParseHandlerMDType::CParseHandlerMDType
 //---------------------------------------------------------------------------
 CParseHandlerMDType::~CParseHandlerMDType()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pmdidOpEq->Release();
 	m_pmdidOpNEq->Release();
 	m_pmdidOpLT->Release();
@@ -120,9 +120,9 @@ CParseHandlerMDType::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), element_local_name))
 	{
 		// parse metadata id info
-		m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenMDType);
+		m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenMDType);
 		
-		if (!FBuiltInType(m_pmdid))
+		if (!FBuiltInType(m_mdid))
 		{
 			// parse type name
 			const XMLCh *xmlszTypeName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -135,7 +135,7 @@ CParseHandlerMDType::StartElement
 			CWStringDynamic *pstrTypeName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszTypeName);
 
 			// create a copy of the string in the CMDName constructor
-			m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTypeName);
+			m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTypeName);
 			GPOS_DELETE(pstrTypeName);
 			
 			// parse if type is redistributable
@@ -378,11 +378,11 @@ CParseHandlerMDType::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), element_local_name))
 	{
 		// construct the MD type object from its part
-		GPOS_ASSERT(m_pmdid->IsValid());
+		GPOS_ASSERT(m_mdid->IsValid());
 
 		// TODO:  - Jan 30, 2012; add support for other types of mdids
 		
-		const CMDIdGPDB *pmdidGPDB = CMDIdGPDB::PmdidConvert(m_pmdid);
+		const CMDIdGPDB *pmdidGPDB = CMDIdGPDB::PmdidConvert(m_mdid);
 		
 		switch(pmdidGPDB->OidObjectId())
 		{
@@ -407,7 +407,7 @@ CParseHandlerMDType::EndElement
 				break;
 
 			default:
-				m_pmdid->AddRef();
+				m_mdid->AddRef();
 				m_pmdidOpEq->AddRef();
 				m_pmdidOpNEq->AddRef();
 				m_pmdidOpLT->AddRef();
@@ -434,8 +434,8 @@ CParseHandlerMDType::EndElement
 				m_imd_obj = GPOS_NEW(m_memory_pool) CMDTypeGenericGPDB
 										(
 										m_memory_pool,
-										m_pmdid,
-										m_pmdname,
+										m_mdid,
+										m_mdname,
 										m_fRedistributable,
 										m_fFixedLength,
 										ulLen,

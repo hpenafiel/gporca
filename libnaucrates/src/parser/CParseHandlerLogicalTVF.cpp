@@ -41,7 +41,7 @@ CParseHandlerLogicalTVF::CParseHandlerLogicalTVF
 	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdidFunc(NULL),
 	m_pmdidRetType(NULL),
-	m_pmdname(NULL)
+	m_mdname(NULL)
 {
 }
 
@@ -76,7 +76,7 @@ CParseHandlerLogicalTVF::StartElement
 																);
 
 		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszFuncName);
-		m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
+		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
 		GPOS_DELETE(pstrFuncName);
 
 		// parse function return type
@@ -138,7 +138,7 @@ CParseHandlerLogicalTVF::EndElement
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
 
 	pdrgpdxlcd->AddRef();
-	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_pmdname, pdrgpdxlcd);
+	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_mdname, pdrgpdxlcd);
 
 	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopTVF);
 

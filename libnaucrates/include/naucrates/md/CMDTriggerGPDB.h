@@ -44,10 +44,10 @@ namespace gpmd
 			const CWStringDynamic *m_pstr;
 
 			// trigger id
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// trigger name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// relation id
 			IMDId *m_pmdidRel;
@@ -91,14 +91,14 @@ namespace gpmd
 			virtual
 			IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 
 			// trigger name
 			virtual
 			CMDName Mdname() const
 			{
-				return *m_pmdname;
+				return *m_mdname;
 			}
 
 			// relation mdid

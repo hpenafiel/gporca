@@ -164,7 +164,7 @@ CDXLScalarWindowFrameEdge::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(1 >= ulArity);
 
 	GPOS_ASSERT_IMP((m_edxlfb == EdxlfbBoundedPreceding || m_edxlfb == EdxlfbBoundedFollowing

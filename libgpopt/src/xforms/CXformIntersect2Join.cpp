@@ -75,7 +75,7 @@ CXformIntersect2Join::Transform
 
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
-	GPOS_ASSERT(2 == pexpr->UlArity());
+	GPOS_ASSERT(2 == pexpr->Arity());
 
 	// extract components
 	CExpression *pexprLeftChild = (*pexpr)[0];

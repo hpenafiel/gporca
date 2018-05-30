@@ -39,11 +39,11 @@ CDXLScalarOpExpr::CDXLScalarOpExpr
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdid(pmdidOp),
+	m_mdid(pmdidOp),
 	m_pmdidReturnType(pmdidReturnType),
 	m_pstrOpName(pstrOpName)
 {
-	GPOS_ASSERT(m_pmdid->IsValid());
+	GPOS_ASSERT(m_mdid->IsValid());
 
 }
 
@@ -57,7 +57,7 @@ CDXLScalarOpExpr::CDXLScalarOpExpr
 //---------------------------------------------------------------------------
 CDXLScalarOpExpr::~CDXLScalarOpExpr()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	CRefCount::SafeRelease(m_pmdidReturnType);
 	GPOS_DELETE(m_pstrOpName);
 }
@@ -115,7 +115,7 @@ CDXLScalarOpExpr::PstrOpName() const
 IMDId *
 CDXLScalarOpExpr::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -147,7 +147,7 @@ CDXLScalarOpExpr::FBoolean
 	)
 	const
 {
-	const IMDScalarOp *pmdscop = pmda->Pmdscop(m_pmdid);
+	const IMDScalarOp *pmdscop = pmda->Pmdscop(m_mdid);
 	IMDId *pmdid = pmda->Pmdfunc(pmdscop->PmdidFunc())->PmdidTypeResult();
 	return (IMDType::EtiBool == pmda->Pmdtype(pmdid)->Eti());
 }
@@ -175,7 +175,7 @@ CDXLScalarOpExpr::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), pstrOpName);
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 	
 	if (NULL != m_pmdidReturnType)
 	{
@@ -205,7 +205,7 @@ CDXLScalarOpExpr::AssertValid
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(1 == ulArity || 2 == ulArity);
 
 	for (ULONG ul = 0; ul < ulArity; ++ul)

@@ -114,7 +114,7 @@ CXformUtils::ExfpExpandJoinOrder
 	CExpressionHandle &exprhdl
 	)
 {
-	if (exprhdl.Pdpscalar(exprhdl.UlArity() - 1)->FHasSubquery() || exprhdl.FHasOuterRefs())
+	if (exprhdl.Pdpscalar(exprhdl.Arity() - 1)->FHasSubquery() || exprhdl.FHasOuterRefs())
 	{
 		// subqueries must be unnested before applying xform
 		return CXform::ExfpNone;
@@ -139,7 +139,7 @@ CXformUtils::ExfpExpandJoinOrder
 			return CXform::ExfpNone;
 		}
 
-		const ULONG ulArity = exprhdl.UlArity();
+		const ULONG ulArity = exprhdl.Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CGroup *pgroupChild = (*exprhdl.Pgexpr())[ul];
@@ -1066,7 +1066,7 @@ CXformUtils::PexprSeparateSubqueryPreds
 
 	// split scalar expression into a conjunction of predicates with and without
 	// subqueries
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	CExpression *pexprScalar = (*pexpr)[ulArity - 1];
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
 	DrgPexpr *pdrgpexprSQ = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -2674,7 +2674,7 @@ CXformUtils::FExtractEquality
 	CExpression **ppexprOther // output: sibling of equality expression, set to NULL if extraction failed
 	)
 {
-	GPOS_ASSERT(2 == pexpr->UlArity());
+	GPOS_ASSERT(2 == pexpr->Arity());
 
 	*ppexprEquality = NULL;
 	*ppexprOther = NULL;
@@ -3704,7 +3704,7 @@ CXformUtils::FHasAmbiguousType
 	if (!fAmbiguous)
 	{
 		// recursively process children
-		const ULONG ulArity = pexpr->UlArity();
+		const ULONG ulArity = pexpr->Arity();
 		for (ULONG ul = 0; !fAmbiguous && ul < ulArity; ul++)
 		{
 			CExpression *pexprChild = (*pexpr)[ul];
@@ -4269,7 +4269,7 @@ CXformUtils::FJoinPredOnSingleChild
 {
 	GPOS_ASSERT(CUtils::FLogicalJoin(exprhdl.Pop()));
 
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	if (0 == exprhdl.Pdpscalar(ulArity - 1)->PcrsUsed()->Size())
 	{
 		// no columns are used in join predicate
@@ -4441,7 +4441,7 @@ CXformUtils::PexprWinFuncAgg2ScalarAgg
 	GPOS_ASSERT(COperator::EopScalarWindowFunc == pexprWinFunc->Pop()->Eopid());
 
 	DrgPexpr *pdrgpexprWinFuncArgs = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArgs = pexprWinFunc->UlArity();
+	const ULONG ulArgs = pexprWinFunc->Arity();
 	for (ULONG ul = 0; ul < ulArgs; ul++)
 	{
 		CExpression *pexprArg = (*pexprWinFunc)[ul];
@@ -4508,7 +4508,7 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 	HMExprDrgPexpr *phmexprdrgpexpr = GPOS_NEW(memory_pool) HMExprDrgPexpr(memory_pool);
 	ULONG ulDifferentDQAs = 0;
 	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
-	const ULONG ulArity = pexprPrjList->UlArity();
+	const ULONG ulArity = pexprPrjList->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprPrjEl = (*pexprPrjList)[ul];
@@ -4532,7 +4532,7 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 		}
 
 		CExpression *pexprKey = NULL;
-		if (fDistinct && 1 == pexprChild->UlArity())
+		if (fDistinct && 1 == pexprChild->Arity())
 		{
 			// use first argument of Distinct Agg as key
 			pexprKey = (*pexprChild)[0];

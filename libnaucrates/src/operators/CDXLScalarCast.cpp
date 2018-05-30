@@ -175,7 +175,7 @@ CDXLScalarCast::AssertValid
 	BOOL fValidateChildren
 	) const
 {
-	GPOS_ASSERT(1 == pdxln->UlArity());
+	GPOS_ASSERT(1 == pdxln->Arity());
 
 	CDXLNode *pdxlnChild = (*pdxln)[0];
 	GPOS_ASSERT(EdxloptypeScalar == pdxlnChild->Pdxlop()->Edxloperatortype());

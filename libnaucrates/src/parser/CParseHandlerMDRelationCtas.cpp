@@ -77,7 +77,7 @@ CParseHandlerMDRelationCtas::StartElement
 	// parse main relation attributes: name, id, distribution policy and keys
 	ParseRelationAttributes(attrs, EdxltokenRelation);
 
-	GPOS_ASSERT(IMDId::EmdidGPDBCtas == m_pmdid->Emdidt());
+	GPOS_ASSERT(IMDId::EmdidGPDBCtas == m_mdid->Emdidt());
 
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
@@ -175,9 +175,9 @@ CParseHandlerMDRelationCtas::EndElement
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
 								(
 									m_memory_pool,
-									m_pmdid,
+									m_mdid,
 									m_pmdnameSchema,
-									m_pmdname,
+									m_mdname,
 									m_fTemporary,
 									m_fHasOids,
 									m_erelstorage,

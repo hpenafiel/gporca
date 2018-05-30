@@ -159,7 +159,7 @@ CDXLPhysicalSplit::AssertValid
 	)
 	const
 {
-	GPOS_ASSERT(2 == pdxln->UlArity());
+	GPOS_ASSERT(2 == pdxln->Arity());
 	CDXLNode *pdxlnChild = (*pdxln)[1];
 	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
 

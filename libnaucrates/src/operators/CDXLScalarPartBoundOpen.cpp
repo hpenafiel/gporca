@@ -110,7 +110,7 @@ CDXLScalarPartBoundOpen::AssertValid
 	)
 	const
 {
-	GPOS_ASSERT(0 == pdxln->UlArity());
+	GPOS_ASSERT(0 == pdxln->Arity());
 }
 #endif // GPOS_DEBUG
 

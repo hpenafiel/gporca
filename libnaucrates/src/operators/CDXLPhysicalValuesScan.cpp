@@ -90,7 +90,7 @@ const
 {
 	GPOS_ASSERT(EdxloptypePhysical == pdxln->Pdxlop()->Edxloperatortype());
 
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(EdxlValIndexSentinel <= ulArity);
 
 	for (ULONG ul = 0; ul < ulArity; ul++)

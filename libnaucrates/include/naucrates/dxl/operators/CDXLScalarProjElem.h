@@ -38,7 +38,7 @@ namespace gpdxl
 			ULONG m_ulId;
 
 			// alias
-			const CMDName *m_pmdname;
+			const CMDName *m_mdname;
 				
 			// private copy ctor
 			CDXLScalarProjElem(CDXLScalarProjElem&);

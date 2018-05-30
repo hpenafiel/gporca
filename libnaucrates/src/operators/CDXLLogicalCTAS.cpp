@@ -47,7 +47,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	)
 	:
 	CDXLLogical(memory_pool), 
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pmdnameSchema(pmdnameSchema),
 	m_pmdnameRel(pmdnameRel),
 	m_pdrgpdxlcd(pdrgpdxlcd),
@@ -82,7 +82,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 //---------------------------------------------------------------------------
 CDXLLogicalCTAS::~CDXLLogicalCTAS()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	GPOS_DELETE(m_pmdnameSchema);
 	GPOS_DELETE(m_pmdnameRel);
 	m_pdrgpdxlcd->Release();
@@ -167,7 +167,7 @@ CDXLLogicalCTAS::SerializeToDXL
 {
 	const CWStringConst *pstrElemName = PstrOpName();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	if (NULL != m_pmdnameSchema)
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_pmdnameSchema->Pstr());
@@ -245,7 +245,7 @@ CDXLLogicalCTAS::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(1 == pdxln->UlArity());
+	GPOS_ASSERT(1 == pdxln->Arity());
 
 	CDXLNode *pdxlnChild = (*pdxln)[0];
 	GPOS_ASSERT(EdxloptypeLogical == pdxlnChild->Pdxlop()->Edxloperatortype());

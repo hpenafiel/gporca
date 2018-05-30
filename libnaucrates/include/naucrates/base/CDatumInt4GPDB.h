@@ -33,7 +33,7 @@ class CDatumInt4GPDB : public IDatumInt4
 	private:
 
 		// type information
-		IMDId *m_pmdid;
+		IMDId *m_mdid;
 	
 		// integer value
 		INT m_iVal;

@@ -63,7 +63,7 @@ CWindowPreprocessor::SplitPrjList
 
 	// iterate over project list and split project elements between
 	// Distinct Aggs list, and Others list
-	const ULONG ulArity = pexprPrjList->UlArity();
+	const ULONG ulArity = pexprPrjList->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprPrjEl = (*pexprPrjList)[ul];
@@ -438,7 +438,7 @@ CWindowPreprocessor::PexprPreprocess
 	}
 
 	// recursively process child expressions
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{

@@ -66,7 +66,7 @@ CXformExpandNAryJoin::Exfp
 	)
 	const
 {
-	if (exprhdl.Pdpscalar(exprhdl.UlArity() - 1)->FHasSubquery())
+	if (exprhdl.Pdpscalar(exprhdl.Arity() - 1)->FHasSubquery())
 	{
 		// subqueries must be unnested before applying xform
 		return CXform::ExfpNone;
@@ -120,7 +120,7 @@ CXformExpandNAryJoin::Transform
 
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	GPOS_ASSERT(ulArity >= 3);
 
 	// create a cluster of inner joins with same order of given relations

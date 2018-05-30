@@ -994,10 +994,10 @@ CPhysical::PpimDeriveCombineRelational
 	CExpressionHandle &exprhdl
 	)
 {
-	GPOS_ASSERT(0 < exprhdl.UlArity());
+	GPOS_ASSERT(0 < exprhdl.Arity());
 
 	CPartIndexMap *ppim = GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
@@ -1074,7 +1074,7 @@ CPhysical::PpfmDeriveCombineRelational
 	)
 {
 	CPartFilterMap *ppfmCombined = GPOS_NEW(memory_pool) CPartFilterMap(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
@@ -1105,10 +1105,10 @@ CPhysical::PcmDerive
 	)
 	const
 {
-	GPOS_ASSERT(0 < exprhdl.UlArity());
+	GPOS_ASSERT(0 < exprhdl.Arity());
 
 	CCTEMap *pcm = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
@@ -1306,7 +1306,7 @@ CPhysical::FCompatibleChildrenDistributions
 	GPOS_ASSERT(exprhdl.Pop() == this);
 	BOOL fSingletonOrUniversalChild = false;
 	BOOL fNotSingletonOrUniversalDistributedChild = false;
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
@@ -1359,7 +1359,7 @@ CPhysical::FUnaryUsesDefinedColumns
 	)
 {
 	GPOS_ASSERT(NULL != pcrs);
-	GPOS_ASSERT(2 == exprhdl.UlArity() && "Not a unary operator");
+	GPOS_ASSERT(2 == exprhdl.Arity() && "Not a unary operator");
 	
 	if (0 == pcrs->Size())
 	{

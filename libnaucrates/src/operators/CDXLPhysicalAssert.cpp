@@ -127,7 +127,7 @@ CDXLPhysicalAssert::AssertValid
 	const
 {
 
-	GPOS_ASSERT(3 == pdxln->UlArity());
+	GPOS_ASSERT(3 == pdxln->Arity());
 	
 	CDXLNode *pdxlnProjList = (*pdxln)[EdxlassertIndexProjList];
 	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->Pdxlop()->Edxlop());

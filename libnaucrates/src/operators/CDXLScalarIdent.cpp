@@ -139,7 +139,7 @@ CDXLScalarIdent::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 		
 	// add col name and col id
-	const CWStringConst *strCName = (m_pdxlcr->Pmdname())->Pstr(); 
+	const CWStringConst *strCName = (m_pdxlcr->MdName())->Pstr(); 
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_pdxlcr->Id());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), strCName);
@@ -190,7 +190,7 @@ CDXLScalarIdent::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(0 == pdxln->UlArity());
+	GPOS_ASSERT(0 == pdxln->Arity());
 	GPOS_ASSERT(m_pdxlcr->MDIdType()->IsValid());
 	GPOS_ASSERT(NULL != m_pdxlcr);
 }

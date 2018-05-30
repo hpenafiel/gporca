@@ -99,7 +99,7 @@ CXformSimplifyGbAgg::FDropGbAgg
 	CExpression *pexprRelational = (*pexpr)[0];
 	CExpression *pexprProjectList = (*pexpr)[1];
 
-	if (0 < pexprProjectList->UlArity())
+	if (0 < pexprProjectList->Arity())
 	{
 		// GbAgg cannot be dropped if Agg functions are computed
 		return false;

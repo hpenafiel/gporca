@@ -154,7 +154,7 @@ CDXLScalarIfStmt::AssertValid
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(3 == ulArity);
 
 	for (ULONG ul = 0; ul < ulArity; ++ul)

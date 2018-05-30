@@ -51,7 +51,7 @@ namespace gpmd
 			CMDIdRelStats *m_pmdidRelStats;
 			
 			// table name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// number of rows
 			CDouble m_dRows;

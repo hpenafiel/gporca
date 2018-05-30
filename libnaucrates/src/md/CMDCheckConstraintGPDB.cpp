@@ -39,8 +39,8 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
-	m_pmdname(pmdname),
+	m_mdid(pmdid),
+	m_mdname(pmdname),
 	m_pmdidRel(pmdidRel),
 	m_pdxln(pdxln)
 {
@@ -62,9 +62,9 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 //---------------------------------------------------------------------------
 CMDCheckConstraintGPDB::~CMDCheckConstraintGPDB()
 {
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pmdidRel->Release();
 	m_pdxln->Release();
 }
@@ -120,8 +120,8 @@ CMDCheckConstraintGPDB::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenCheckConstraint));
 
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 
 	// serialize the scalar expression

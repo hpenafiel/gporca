@@ -127,7 +127,7 @@ CXformPushDownLeftOuterJoin::Transform
 	DrgPexpr *pdrgpexprLOJChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprNAryJoinChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexprNAryJoin->UlArity();
+	const ULONG ulArity = pexprNAryJoin->Arity();
 	CExpression *pexprNAryJoinScalarChild = (*pexprNAryJoin)[ulArity - 1];
 	for (ULONG ul = 0 ; ul < ulArity - 1; ul++)
 	{

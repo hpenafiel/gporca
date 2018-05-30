@@ -44,7 +44,7 @@ CParseHandlerPhysicalCTAS::CParseHandlerPhysicalCTAS
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdnameSchema(NULL),
-	m_pmdname(NULL),	
+	m_mdname(NULL),	
 	m_pdrgpulDistr(NULL),
 	m_pdrgpulSource(NULL),
 	m_fTemporary(false),
@@ -77,7 +77,7 @@ CParseHandlerPhysicalCTAS::StartElement
 	
 	// parse table name
 	const XMLCh *xmlszTableName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenPhysicalCTAS);
-	m_pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszTableName);
+	m_mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszTableName);
 	
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
@@ -190,7 +190,7 @@ CParseHandlerPhysicalCTAS::EndElement
 									(
 									m_memory_pool,
 									m_pmdnameSchema,
-									m_pmdname,
+									m_mdname,
 									pdrgpdxlcd,
 									pdxlctasopt,
 									m_ereldistrpolicy,

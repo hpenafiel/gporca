@@ -73,7 +73,7 @@ namespace gpopt
 				private:
 				
 					// MD id of sort operator
-					gpmd::IMDId *m_pmdid;
+					gpmd::IMDId *m_mdid;
 					
 					// sort column
 					const CColRef *m_pcr;
@@ -96,7 +96,7 @@ namespace gpopt
 					// accessor of sort operator midid
 					gpmd::IMDId *PmdidSortOp() const
 					{
-						return m_pmdid;
+						return m_mdid;
 					}
 					
 					// accessor of sort column

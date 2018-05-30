@@ -446,7 +446,7 @@ CJoinStatsProcessor::PstatsJoin
 	GPOS_ASSERT(CLogical::EspNone < CLogical::PopConvert(exprhdl.Pop())->Esp(exprhdl));
 
 	DrgPstat *statistics_array = GPOS_NEW(memory_pool) DrgPstat(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		IStatistics *pstatsChild = exprhdl.Pstats(ul);

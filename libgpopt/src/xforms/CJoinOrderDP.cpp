@@ -691,7 +691,7 @@ CJoinOrderDP::DCost
 	}
 
 	CDouble dCost(0.0);
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	if (0 == ulArity)
 	{
 		// leaf operator, use its estimated number of rows as cost

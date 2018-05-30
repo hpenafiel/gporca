@@ -60,7 +60,7 @@ CLogicalProject::PcrsDeriveOutput
 	CExpressionHandle &exprhdl
 	)
 {
-	GPOS_ASSERT(2 == exprhdl.UlArity());
+	GPOS_ASSERT(2 == exprhdl.Arity());
 	
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	
@@ -234,7 +234,7 @@ CLogicalProject::PpcDeriveConstraint
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 	DrgPcrs *pdrgpcrs = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
 
-	const ULONG ulProjElems = pexprPrL->UlArity();
+	const ULONG ulProjElems = pexprPrL->Arity();
 	for (ULONG ul = 0; ul < ulProjElems; ul++)
 	{
 		CExpression *pexprPrEl = (*pexprPrL)[ul];
@@ -371,11 +371,11 @@ CLogicalProject::PstatsDerive
 	// extract scalar constant expression that can be used for 
 	// statistics calculation
 	CExpression *pexprPrList = exprhdl.PexprScalarChild(1 /*ulChildIndex*/);
-	const ULONG ulArity = pexprPrList->UlArity();
+	const ULONG ulArity = pexprPrList->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprPrElem = (*pexprPrList)[ul];
-		GPOS_ASSERT(1 == pexprPrElem->UlArity());
+		GPOS_ASSERT(1 == pexprPrElem->Arity());
 		CColRef *pcr = CScalarProjectElement::PopConvert(pexprPrElem->Pop())->Pcr();
 
 		CExpression *pexprScalar = (*pexprPrElem)[0];

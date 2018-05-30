@@ -91,7 +91,7 @@ CDXLPhysicalLimit::SerializeToDXL
 
 	const DrgPdxln *pdrgpdxln = pdxln->PdrgpdxlnChildren();
 
-	GPOS_ASSERT(4 == pdxln->UlArity());
+	GPOS_ASSERT(4 == pdxln->Arity());
 	// serialize the first two children: target-list and plan
 	for (ULONG i = 0; i < 4; i++)
 	{
@@ -120,7 +120,7 @@ CDXLPhysicalLimit::AssertValid
 	BOOL fValidateChildren
 	) const
 {
-	GPOS_ASSERT(4 == pdxln->UlArity());
+	GPOS_ASSERT(4 == pdxln->Arity());
 
 	// Assert proj list is valid
 	CDXLNode *pdxlnProjList = (*pdxln)[EdxllimitIndexProjList];

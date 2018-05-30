@@ -118,7 +118,7 @@ namespace gpopt
 				)
 				const
 			{
-				return PfpDeriveFromScalar(memory_pool, exprhdl, exprhdl.UlArity() - 1);
+				return PfpDeriveFromScalar(memory_pool, exprhdl, exprhdl.Arity() - 1);
 			}
 
 			//-------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ namespace gpopt
 				const
 			{
 				// no stat derivation on Join trees with subqueries
-				if (exprhdl.Pdpscalar(exprhdl.UlArity() - 1)->FHasSubquery())
+				if (exprhdl.Pdpscalar(exprhdl.Arity() - 1)->FHasSubquery())
 				{
 					 return EspLow;
 				}
@@ -173,7 +173,7 @@ namespace gpopt
 					)
 					const
 			{
-				const ULONG ulArity = exprhdl.UlArity();
+				const ULONG ulArity = exprhdl.Arity();
 
 				return PcrsReqdChildStats(memory_pool, exprhdl, pcrsInput, exprhdl.Pdpscalar(ulArity - 1)->PcrsUsed(), ulChildIndex);
 			}

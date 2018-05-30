@@ -50,7 +50,7 @@ CDXLPhysicalAbstractBitmapScan::AssertValid
 	)
 	const
 {
-	GPOS_ASSERT(4 == pdxln->UlArity());
+	GPOS_ASSERT(4 == pdxln->Arity());
 
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
@@ -64,8 +64,8 @@ CDXLPhysicalAbstractBitmapScan::AssertValid
 
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxltabdesc->Pmdname());
-	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_pdxltabdesc->MdName());
+	GPOS_ASSERT(m_pdxltabdesc->MdName()->Pstr()->IsValid());
 
 	if (fValidateChildren)
 	{

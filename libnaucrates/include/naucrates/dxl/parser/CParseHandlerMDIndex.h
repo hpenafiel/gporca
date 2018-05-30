@@ -38,10 +38,10 @@ namespace gpdxl
 		private:
 		
 			// mdid of the index
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// name of the index
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// mdid of the indexed relation
 			IMDId *m_pmdidRel;

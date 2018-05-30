@@ -41,10 +41,10 @@ namespace gpmd
 			IMemoryPool *m_memory_pool;
 			
 			// index mdid
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 						
 			// table name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// is the index clustered
 			BOOL m_fClustered;

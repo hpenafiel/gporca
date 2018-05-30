@@ -52,10 +52,10 @@ namespace gpmd
 			const CWStringDynamic *m_pstr;
 			
 			// relation mdid
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// table name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// is this a temporary relation
 			BOOL m_fTemporary;

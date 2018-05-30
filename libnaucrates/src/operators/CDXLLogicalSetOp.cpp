@@ -189,10 +189,10 @@ CDXLLogicalSetOp::FDefinesColumn
 	)
 	const
 {
-	const ULONG ulSize = UlArity();
+	const ULONG ulSize = Arity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = Pdxlcd(ulDescr)->Id();
+		ULONG ulId = GetColumnDescrAt(ulDescr)->Id();
 		if (ulId == ulColId)
 		{
 			return true;
@@ -218,7 +218,7 @@ CDXLLogicalSetOp::AssertValid
 	BOOL fValidateChildren
 	) const
 {
-	GPOS_ASSERT(2 <= pdxln->UlArity());
+	GPOS_ASSERT(2 <= pdxln->Arity());
 	GPOS_ASSERT(NULL != m_pdrgpdxlcd);
 
 	// validate output columns
@@ -226,7 +226,7 @@ CDXLLogicalSetOp::AssertValid
 	GPOS_ASSERT(0 < ulOutputCols);
 
 	// validate children
-	const ULONG ulChildren = pdxln->UlArity();
+	const ULONG ulChildren = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ++ul)
 	{
 		CDXLNode *pdxlnChild = (*pdxln)[ul];

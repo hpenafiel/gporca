@@ -319,7 +319,7 @@ CPhysicalTVF::PrsDerive
 	)
 	const
 {
-	if (IMDFunction::EfsVolatile == exprhdl.Pdprel()->Pfp()->Efs() || 0 < exprhdl.UlArity())
+	if (IMDFunction::EfsVolatile == exprhdl.Pdprel()->Pfp()->Efs() || 0 < exprhdl.Arity())
 	{
 		return GPOS_NEW(memory_pool) CRewindabilitySpec(CRewindabilitySpec::ErtNone /*ert*/);
 	}

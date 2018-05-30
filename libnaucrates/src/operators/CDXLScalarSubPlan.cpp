@@ -201,7 +201,7 @@ CDXLScalarSubPlan::SerializeToDXL
 		ULONG ulid = (*m_pdrgdxlcr)[ul]->Id();
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), ulid);
 
-		const CMDName *pmdname = (*m_pdrgdxlcr)[ul]->Pmdname();
+		const CMDName *pmdname = (*m_pdrgdxlcr)[ul]->MdName();
 		const IMDId *mdid_type = (*m_pdrgdxlcr)[ul]->MDIdType();
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), pmdname->Pstr());
 		mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
@@ -245,7 +245,7 @@ CDXLScalarSubPlan::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(EdxlSubPlanIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlSubPlanIndexSentinel == pdxln->Arity());
 
 	// assert child plan is a physical plan and is valid
 

@@ -219,7 +219,7 @@ CPredicateUtils::FHasNegatedChild
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (FNot((*pexpr)[ul]))
@@ -242,7 +242,7 @@ CPredicateUtils::CollectChildren
 {
 	GPOS_ASSERT(pexpr->Pop()->FLogical());
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprChild = (*pexpr) [ul];
@@ -272,7 +272,7 @@ CPredicateUtils::CollectConjuncts
 
 	if (FAnd(pexpr))
 	{
-		const ULONG ulArity = pexpr->UlArity();
+		const ULONG ulArity = pexpr->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CollectConjuncts((*pexpr)[ul], pdrgpexpr);
@@ -297,7 +297,7 @@ CPredicateUtils::CollectDisjuncts
 
 	if (FOr(pexpr))
 	{
-		const ULONG ulArity = pexpr->UlArity();
+		const ULONG ulArity = pexpr->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CollectDisjuncts((*pexpr)[ul], pdrgpexpr);
@@ -564,7 +564,7 @@ CPredicateUtils::ExtractLikePredComponents
 	)
 {
 	GPOS_ASSERT(NULL != pexprPred);
-	GPOS_ASSERT(2 == pexprPred->UlArity());
+	GPOS_ASSERT(2 == pexprPred->Arity());
 	GPOS_ASSERT(FLikePredicate(pexprPred));
 
 	CExpression *pexprLeft = (*pexprPred)[0];
@@ -1451,7 +1451,7 @@ CPredicateUtils::FNotNullCheckOnColumn
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(NULL != pcr);
 
-	if(0 == pexpr->UlArity())
+	if(0 == pexpr->Arity())
 		return false;
 
 	return (FNullCheckOnColumn(pexpr, pcr) && FNot(pexpr));
@@ -1484,7 +1484,7 @@ CPredicateUtils::FScArrayCmpOnColumn
 		return false;
 	}
 	
-	const ULONG ulArrayElems = pexprRight->UlArity();
+	const ULONG ulArrayElems = pexprRight->Arity();
 	
 	BOOL fSupported = true;
 	for (ULONG ul = 0; ul < ulArrayElems && fSupported; ul++)
@@ -2162,7 +2162,7 @@ CPredicateUtils::PexprPruneSuperfluosEquality
 
 	// process children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CExpression *pexprChild = PexprPruneSuperfluosEquality(memory_pool, (*pexpr)[ul]);
@@ -2373,7 +2373,7 @@ CPredicateUtils::PexprReplaceColsWithNulls
 
 	// process children recursively
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulChildren = pexprScalar->UlArity();
+	const ULONG ulChildren = pexprScalar->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CExpression *pexprChild = PexprReplaceColsWithNulls(memory_pool, (*pexprScalar)[ul], pcrs);
@@ -2542,7 +2542,7 @@ CPredicateUtils::FContainsVolatileFunction
 	}
 
 	// recursively check children
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		BOOL isVolatile = FContainsVolatileFunction((*pexpr)[ul]);
@@ -2577,7 +2577,7 @@ CPredicateUtils::FConvertToCNF
 	BOOL fExistsChildDoCNF = false;
 
 	// recursively check children
-	const ULONG ulArity = pexprScalar->UlArity();
+	const ULONG ulArity = pexprScalar->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		BOOL fCNFConversion = FConvertToCNF(pexprOuter, pexprInner, (*pexprScalar)[ul]);
@@ -2625,7 +2625,7 @@ CPredicateUtils::CollectGrandChildrenUnionUnionAll
 	)
 {
 	GPOS_ASSERT(NULL != pexpr);
-	GPOS_ASSERT(ulChildIndex < pexpr->UlArity());
+	GPOS_ASSERT(ulChildIndex < pexpr->Arity());
 	GPOS_ASSERT(NULL != pdrgpexprResult);
 	GPOS_ASSERT(NULL != pdrgdrgpcrResult);
 	GPOS_ASSERT(CPredicateUtils::FCollapsibleChildUnionUnionAll(pexpr, ulChildIndex));
@@ -2658,7 +2658,7 @@ CPredicateUtils::CollectGrandChildrenUnionUnionAll
 	}
 
 	DrgDrgPcr *pdrgdrgpcrChild = popChild->PdrgpdrgpcrInput();
-	const ULONG ulArityChild = pexprChild->UlArity();
+	const ULONG ulArityChild = pexprChild->Arity();
 	GPOS_ASSERT(pdrgdrgpcrChild->Size() == ulArityChild);
 
 	for (ULONG ul = 0; ul < ulArityChild; ul++)

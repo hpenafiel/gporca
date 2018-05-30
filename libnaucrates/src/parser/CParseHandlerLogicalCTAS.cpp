@@ -39,9 +39,9 @@ CParseHandlerLogicalCTAS::CParseHandlerLogicalCTAS
 	)
 	:
 	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, pphRoot),
-	m_pmdid(NULL),
+	m_mdid(NULL),
 	m_pmdnameSchema(NULL),	
-	m_pmdname(NULL),	
+	m_mdname(NULL),	
 	m_pdrgpulDistr(NULL),
 	m_pdrgpulSource(NULL),
 	m_pdrgpiVarTypeMod(NULL),
@@ -73,7 +73,7 @@ CParseHandlerLogicalCTAS::StartElement
 	}
 	
 	// parse metadata id
-	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs
+	m_mdid = CDXLOperatorFactory::PmdidFromAttrs
 						(
 						m_parse_handler_mgr->Pmm(),
 						attrs,
@@ -81,11 +81,11 @@ CParseHandlerLogicalCTAS::StartElement
 						EdxltokenLogicalCTAS
 						);
 	
-	GPOS_ASSERT(IMDId::EmdidGPDBCtas == m_pmdid->Emdidt());
+	GPOS_ASSERT(IMDId::EmdidGPDBCtas == m_mdid->Emdidt());
 	
 	// parse table name
 	const XMLCh *xmlszTableName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenLogicalCTAS);
-	m_pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszTableName);
+	m_mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszTableName);
 	
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
@@ -182,9 +182,9 @@ CParseHandlerLogicalCTAS::EndElement
 							GPOS_NEW(m_memory_pool) CDXLLogicalCTAS
 										(
 										m_memory_pool, 
-										m_pmdid, 
+										m_mdid, 
 										m_pmdnameSchema, 
-										m_pmdname, 
+										m_mdname, 
 										pdrgpdxlcd, 
 										pdxlctasopt, 
 										m_ereldistrpolicy, 

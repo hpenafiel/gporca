@@ -60,7 +60,7 @@ CXformUnnestTVF::Exfp
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (exprhdl.Pdpscalar(ul)->FHasSubquery())
@@ -99,7 +99,7 @@ CXformUnnestTVF::PdrgpcrSubqueries
 	GPOS_ASSERT(pdrgpcrProdOutput->Size() == pdrgpcrConsOutput->Size());
 
 	DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
-	const ULONG ulPrjElems = (*pexprProject)[1]->UlArity();
+	const ULONG ulPrjElems = (*pexprProject)[1]->Arity();
 	for (ULONG ulOuter = 0; ulOuter < ulPrjElems; ulOuter++)
 	{
 		CExpression *pexprPrjElem = (*(*pexprProject)[1])[ulOuter];
@@ -140,7 +140,7 @@ CXformUnnestTVF::PexprProjectSubqueries
 
 	// collect subquery arguments
 	DrgPexpr *pdrgpexprSubqueries = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexprTVF->UlArity();
+	const ULONG ulArity = pexprTVF->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprScalarChild = (*pexprTVF)[ul];
@@ -206,7 +206,7 @@ CXformUnnestTVF::Transform
 
 	// construct CTE producer output from subquery columns
 	DrgPcr *pdrgpcrOutput = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
-	const ULONG ulPrjElems = (*pexprProject)[1]->UlArity();
+	const ULONG ulPrjElems = (*pexprProject)[1]->Arity();
 	for (ULONG ulOuter = 0; ulOuter < ulPrjElems; ulOuter++)
 	{
 		CExpression *pexprPrjElem = (*(*pexprProject)[1])[ulOuter];
@@ -235,7 +235,7 @@ CXformUnnestTVF::Transform
 	// create new function arguments by replacing subqueries with columns in CTE consumer output
 	DrgPexpr *pdrgpexprNewArgs = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	ULONG ulIndex = 0;
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprScalarChild = (*pexpr)[ul];

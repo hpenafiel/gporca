@@ -33,7 +33,7 @@ namespace gpopt
 		private:
 
 			// mdid of partitioned table
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// filter expressions corresponding to various levels
 			DrgPexpr *m_pdrgpexprFilters;
@@ -79,7 +79,7 @@ namespace gpopt
 			// partitioned table mdid
 			IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 
 			// oid column

@@ -73,7 +73,7 @@ CXformGbAggDedup2HashAggDedup::Transform
 	// extract components
 	CExpression *pexprRel = (*pexpr)[0];
 	CExpression *pexprScalar = (*pexpr)[1];
-	GPOS_ASSERT(0 == pexprScalar->UlArity());
+	GPOS_ASSERT(0 == pexprScalar->Arity());
 
 	// addref children
 	pexprRel->AddRef();

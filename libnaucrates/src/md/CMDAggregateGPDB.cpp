@@ -41,8 +41,8 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
-	m_pmdname(pmdname),
+	m_mdid(pmdid),
+	m_mdname(pmdname),
 	m_pmdidTypeResult(pmdidTypeResult),
 	m_pmdidTypeIntermediate(pmdidTypeIntermediate),
 	m_fOrdered(fOrdered),
@@ -64,10 +64,10 @@ CMDAggregateGPDB::CMDAggregateGPDB
 //---------------------------------------------------------------------------
 CMDAggregateGPDB::~CMDAggregateGPDB()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pmdidTypeIntermediate->Release();
 	m_pmdidTypeResult->Release();
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 }
 
@@ -82,7 +82,7 @@ CMDAggregateGPDB::~CMDAggregateGPDB()
 IMDId *
 CMDAggregateGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ CMDAggregateGPDB::MDId() const
 CMDName
 CMDAggregateGPDB::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 
@@ -146,9 +146,9 @@ CMDAggregateGPDB::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBAgg));
 	
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	if (m_fOrdered)
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBIsAggOrdered), m_fOrdered);

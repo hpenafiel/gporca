@@ -39,7 +39,7 @@ namespace gpdxl
 			IMDId *m_pmdidRetType;
 
 			// function name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// list of column descriptors		
 			ColumnDescrDXLArray *m_pdrgdxlcd;
@@ -68,9 +68,9 @@ namespace gpdxl
 			const CWStringConst *PstrOpName() const;
 
 			// get function name
-			CMDName *Pmdname() const
+			CMDName *MdName() const
 			{
-				return m_pmdname;
+				return m_mdname;
 			}
 
 			// get function id
@@ -86,7 +86,7 @@ namespace gpdxl
 			}
 
 			// get number of output columns
-			ULONG UlArity() const;
+			ULONG Arity() const;
 			
 			// return the array of column descriptors
 			const ColumnDescrDXLArray *GetColumnDescrDXLArray() const
@@ -95,7 +95,7 @@ namespace gpdxl
 			}
 
 			// get the column descriptor at the given position
-			const CDXLColDescr *Pdxlcd(ULONG ul) const;
+			const CDXLColDescr *GetColumnDescrAt(ULONG ul) const;
 
 			// check if given column is defined by operator
 			virtual

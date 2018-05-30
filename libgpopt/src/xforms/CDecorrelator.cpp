@@ -165,7 +165,7 @@ CDecorrelator::FDelayable
 	}
 
 	// check its children
-	const ULONG ulArity = pexprScalar->UlArity();
+	const ULONG ulArity = pexprScalar->Arity();
 	for (ULONG ul = 0; ul < ulArity && fDelay; ul++)
 	{
 		fDelay = FDelayable(pexprLogical, (*pexprScalar)[ul], fEqualityOnly);
@@ -255,7 +255,7 @@ CDecorrelator::FProcessOperator
 	if (NULL != pfnp)
 	{
 		// subqueries must be processed before reaching here
-		const ULONG ulArity = pexpr->UlArity();
+		const ULONG ulArity = pexpr->Arity();
 		if ((*pexpr)[ulArity - 1]->Pop()->FScalar() && CUtils::FHasSubquery((*pexpr)[ulArity - 1]))
 		{
 			return false;
@@ -487,7 +487,7 @@ CDecorrelator::FProcessJoin
 {
 	GPOS_ASSERT(CUtils::FLogicalJoin(pexpr->Pop()) || CUtils::FApply(pexpr->Pop()));
 
-	ULONG ulArity = pexpr->UlArity();	
+	ULONG ulArity = pexpr->Arity();	
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool, ulArity);
 	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 

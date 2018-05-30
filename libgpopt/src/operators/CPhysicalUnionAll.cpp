@@ -356,7 +356,7 @@ CPhysicalUnionAll::FProvidesReqdCols
 const
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
-	GPOS_ASSERT(PdrgpdrgpcrInput()->Size() == exprhdl.UlArity());
+	GPOS_ASSERT(PdrgpdrgpcrInput()->Size() == exprhdl.Arity());
 
 	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 
@@ -636,7 +636,7 @@ CPhysicalUnionAll::PdshashedDerive
 const
 {
 	BOOL fSuccess = true;
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 
 	// (1) check that all children deliver a hashed distribution that satisfies their input columns
 	for (ULONG ulChild = 0; fSuccess && ulChild < ulArity; ulChild++)
@@ -808,7 +808,7 @@ CPhysicalUnionAll::PdsDeriveFromChildren
 )
 const
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 
 	CDistributionSpec *pdsOuter = exprhdl.Pdpplan(0 /*ulChildIndex*/)->Pds();
 	CDistributionSpec *pds = pdsOuter;
@@ -913,7 +913,7 @@ AssertValidChildDistributions
 		const CHAR *szAssertMsg
 	)
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
 	{
 		CDistributionSpec *pdsChild = exprhdl.Pdpplan(ulChild)->Pds();

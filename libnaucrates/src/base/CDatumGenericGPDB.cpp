@@ -54,7 +54,7 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	m_ulSize(ulSize),
 	m_pbVal(NULL),
 	m_is_null(is_null),
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_type_modifier(type_modifier),
 	m_val(lValue),
 	m_dValue(dValue)
@@ -83,7 +83,7 @@ CDatumGenericGPDB::CDatumGenericGPDB
 CDatumGenericGPDB::~CDatumGenericGPDB()
 {
 	GPOS_DELETE_ARRAY(m_pbVal);
-	m_pmdid->Release();
+	m_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -127,7 +127,7 @@ CDatumGenericGPDB::UlSize() const
 IMDId *
 CDatumGenericGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 
@@ -163,7 +163,7 @@ CDatumGenericGPDB::HashValue() const
 		}
 	}
 
-	return gpos::CombineHashes (m_pmdid->HashValue(), ulHash);
+	return gpos::CombineHashes (m_mdid->HashValue(), ulHash);
 }
 
 
@@ -227,7 +227,7 @@ CDatumGenericGPDB::FMatch
 	)
 	const
 {
-	if(!pdatum->MDId()->Equals(m_pmdid) || (pdatum->UlSize() != UlSize()))
+	if(!pdatum->MDId()->Equals(m_mdid) || (pdatum->UlSize() != UlSize()))
 	{
 		return false;
 	}
@@ -265,10 +265,10 @@ CDatumGenericGPDB::PdatumCopy
 	)
 	const
 {
-	m_pmdid->AddRef();
+	m_mdid->AddRef();
 	
 	// CDatumGenericGPDB makes a copy of the buffer
-	return GPOS_NEW(memory_pool) CDatumGenericGPDB(memory_pool, m_pmdid, m_type_modifier, m_pbVal, m_ulSize, m_is_null, m_val, m_dValue);
+	return GPOS_NEW(memory_pool) CDatumGenericGPDB(memory_pool, m_mdid, m_type_modifier, m_pbVal, m_ulSize, m_is_null, m_val, m_dValue);
 }
 
 

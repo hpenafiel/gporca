@@ -41,7 +41,7 @@ COrderSpec::COrderExpression::COrderExpression
 	ENullTreatment ent
 	)
 	:
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pcr(pcr),
 	m_ent(ent)
 {
@@ -59,7 +59,7 @@ COrderSpec::COrderExpression::COrderExpression
 //---------------------------------------------------------------------------
 COrderSpec::COrderExpression::~COrderExpression()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -80,7 +80,7 @@ COrderSpec::COrderExpression::FMatch
 	GPOS_ASSERT(NULL != poe);
 		
 	return
-		poe->m_pmdid->Equals(m_pmdid) && 
+		poe->m_mdid->Equals(m_mdid) && 
 		poe->m_pcr == m_pcr &&
 		poe->m_ent == m_ent;
 }
@@ -102,7 +102,7 @@ COrderSpec::COrderExpression::OsPrint
 	const
 {
 	os << "( ";
-	m_pmdid->OsPrint(os);
+	m_mdid->OsPrint(os);
 	os << ", ";
 	m_pcr->OsPrint(os);
 	os << ", " << rgszNullCode[m_ent] << " )";

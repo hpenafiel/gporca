@@ -257,7 +257,7 @@ CXformSplitDQA::PexprSplitIntoLocalDQAGlobalAgg
 	DrgPexpr *pdrgpexprPrElFirstStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprPrElLastStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexprPrL->UlArity();
+	const ULONG ulArity = pexprPrL->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprPrEl = (*pexprPrL)[ul];
@@ -281,7 +281,7 @@ CXformSplitDQA::PexprSplitIntoLocalDQAGlobalAgg
 												true /* fSplit */
 												);
 
-			GPOS_ASSERT(1 == pexprAggFunc->UlArity());
+			GPOS_ASSERT(1 == pexprAggFunc->Arity());
 			CExpression *pexprArg = (*pexprAggFunc)[0];
 			CColRef *pcrDistinctCol = phmexprcr->Find(pexprArg);
 			GPOS_ASSERT(NULL != pcrDistinctCol);
@@ -399,7 +399,7 @@ CXformSplitDQA::PexprSplitHelper
 	DrgPexpr *pdrgpexprPrElSecondStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprPrElLastStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexprPrL->UlArity();
+	const ULONG ulArity = pexprPrL->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprPrEl = (*pexprPrL)[ul];
@@ -423,7 +423,7 @@ CXformSplitDQA::PexprSplitHelper
 												false /* fSplit */
 												);
 
-			GPOS_ASSERT(1 == pexprAggFunc->UlArity());
+			GPOS_ASSERT(1 == pexprAggFunc->Arity());
 			CExpression *pexprArg = (*pexprAggFunc)[0];
 
 			CColRef *pcrDistinctCol = phmexprcr->Find(pexprArg);
@@ -812,7 +812,7 @@ CXformSplitDQA::ExtractDistinctCols
 	GPOS_ASSERT(NULL != ppdrgpcrArgDQA);
 	GPOS_ASSERT(NULL != phmexprcr);
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 
 	// use a set to deduplicate distinct aggs arguments
 	CColRefSet *pcrsArgDQA = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
@@ -827,7 +827,7 @@ CXformSplitDQA::ExtractDistinctCols
 
 		if (popScAggFunc->FDistinct() && pmda->Pmdagg(popScAggFunc->MDId())->FSplittable())
 		{
-			GPOS_ASSERT(1 == pexprAggFunc->UlArity());
+			GPOS_ASSERT(1 == pexprAggFunc->Arity());
 			
 			CExpression *pexprArg = (*pexprAggFunc)[0];
 			GPOS_ASSERT(NULL != pexprArg);

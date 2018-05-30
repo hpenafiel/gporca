@@ -214,7 +214,7 @@ CDXLPhysicalCTAS::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(2 == pdxln->UlArity());
+	GPOS_ASSERT(2 == pdxln->Arity());
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
 	CDXLNode *pdxlnChild = (*pdxln)[1];

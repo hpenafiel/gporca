@@ -34,7 +34,7 @@ namespace gpdxl
 		private:
 
 			// operator number in the catalog
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// return type (or invalid if type can be infered from the metadata)
 			IMDId *m_pmdidReturnType;

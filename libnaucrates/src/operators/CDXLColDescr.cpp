@@ -67,14 +67,14 @@ CDXLColDescr::~CDXLColDescr()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLColDescr::Pmdname
+//		CDXLColDescr::MdName
 //
 //	@doc:
 //		Returns the column name
 //
 //---------------------------------------------------------------------------
 const CMDName *
-CDXLColDescr::Pmdname() const
+CDXLColDescr::MdName() const
 {
 	return m_md_name;
 }

@@ -128,7 +128,7 @@ CDXLPhysicalPartitionSelector::SerializeToDXL
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarPrintableFilter));
 
 	// serialize relational child, if any
-	if (7 == pdxln->UlArity())
+	if (7 == pdxln->Arity())
 	{
 		(*pdxln)[EdxlpsIndexChild]->SerializeToDXL(xml_serializer);
 	}
@@ -153,7 +153,7 @@ CDXLPhysicalPartitionSelector::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(6 == ulArity || 7 == ulArity);
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{

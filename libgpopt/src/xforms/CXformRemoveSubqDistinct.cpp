@@ -113,7 +113,7 @@ CXformRemoveSubqDistinct::Transform
 	{
 		CExpression *pexprGbAggProjectList = (*pexprGbAgg)[1];
 		// only consider removing distinct when there is no aggregation functions
-		if (0 == pexprGbAggProjectList->UlArity())
+		if (0 == pexprGbAggProjectList->Arity())
 		{
 			CExpression *pexprNewScalar = NULL;
 			CExpression *pexprRelChild = (*pexprGbAgg)[0];

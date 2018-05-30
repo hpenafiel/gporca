@@ -33,12 +33,12 @@ CDXLIndexDescr::CDXLIndexDescr
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
-	m_pmdname(pmdname)
+	m_mdid(pmdid),
+	m_mdname(pmdname)
 {
-	GPOS_ASSERT(m_pmdid->IsValid());
-	GPOS_ASSERT(NULL != m_pmdname);
-	GPOS_ASSERT(m_pmdname->Pstr()->IsValid());
+	GPOS_ASSERT(m_mdid->IsValid());
+	GPOS_ASSERT(NULL != m_mdname);
+	GPOS_ASSERT(m_mdname->Pstr()->IsValid());
 }
 
 
@@ -52,8 +52,8 @@ CDXLIndexDescr::CDXLIndexDescr
 //---------------------------------------------------------------------------
 CDXLIndexDescr::~CDXLIndexDescr()
 {
-	m_pmdid->Release();
-	GPOS_DELETE(m_pmdname);
+	m_mdid->Release();
+	GPOS_DELETE(m_mdname);
 }
 
 
@@ -68,21 +68,21 @@ CDXLIndexDescr::~CDXLIndexDescr()
 IMDId *
 CDXLIndexDescr::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLIndexDescr::Pmdname
+//		CDXLIndexDescr::MdName
 //
 //	@doc:
 //		Return index name
 //
 //---------------------------------------------------------------------------
 const CMDName *
-CDXLIndexDescr::Pmdname() const
+CDXLIndexDescr::MdName() const
 {
-	return m_pmdname;
+	return m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -101,8 +101,8 @@ CDXLIndexDescr::SerializeToDXL
 	const
 {
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexName), m_pmdname->Pstr());
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexName), m_mdname->Pstr());
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
 }
 

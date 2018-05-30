@@ -217,7 +217,7 @@ CXformSplitGbAgg::PopulateLocalGlobalProjectList
 	// list of project elements for the new local and global aggregates
 	DrgPexpr *pdrgpexprProjElemLocal = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprProjElemGlobal = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexprProjList->UlArity();
+	const ULONG ulArity = pexprProjList->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprProgElem = (*pexprProjList)[ul];
@@ -334,7 +334,7 @@ CXformSplitGbAgg::FApplicable
 	CExpression *pexpr
 	)
 {
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	for (ULONG ul = 0; ul < ulArity; ul++)

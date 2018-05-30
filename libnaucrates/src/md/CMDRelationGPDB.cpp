@@ -51,8 +51,8 @@ CMDRelationGPDB::CMDRelationGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
-	m_pmdname(pmdname),
+	m_mdid(pmdid),
+	m_mdname(pmdname),
 	m_fTemporary(fTemporary),
 	m_erelstorage(erelstorage),
 	m_ereldistrpolicy(ereldistrpolicy),
@@ -134,9 +134,9 @@ CMDRelationGPDB::CMDRelationGPDB
 //---------------------------------------------------------------------------
 CMDRelationGPDB::~CMDRelationGPDB()
 {
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pdrgpmdcol->Release();
 	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
 	CRefCount::SafeRelease(m_pdrgpulPartColumns);
@@ -163,7 +163,7 @@ CMDRelationGPDB::~CMDRelationGPDB()
 IMDId *
 CMDRelationGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -177,7 +177,7 @@ CMDRelationGPDB::MDId() const
 CMDName
 CMDRelationGPDB::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -705,8 +705,8 @@ CMDRelationGPDB::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenRelation));
 	
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_fTemporary);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_fHasOids);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));

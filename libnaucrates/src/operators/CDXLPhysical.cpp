@@ -77,7 +77,7 @@ CDXLPhysical::AssertValid
 {
 	GPOS_ASSERT(NULL != pdxln);
 	
-	GPOS_ASSERT(2 <= pdxln->UlArity());
+	GPOS_ASSERT(2 <= pdxln->Arity());
 	
 	CDXLNode *pdxlnProjList = (*pdxln)[0];
 	CDXLNode *pdxlnFilter = (*pdxln)[1];

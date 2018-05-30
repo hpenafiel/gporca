@@ -126,7 +126,7 @@ CDXLPhysicalRoutedDistributeMotion::AssertValid
 	GPOS_ASSERT(m_pdrgpiOutputSegIds != NULL);
 	GPOS_ASSERT(0 < m_pdrgpiOutputSegIds->Size());
 	
-	GPOS_ASSERT(EdxlroutedmIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlroutedmIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlroutedmIndexChild];
 

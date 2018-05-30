@@ -109,9 +109,9 @@ CDXLScalarFilter::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(1 >= pdxln->UlArity());
+	GPOS_ASSERT(1 >= pdxln->Arity());
 	
-	if (1 == pdxln->UlArity())
+	if (1 == pdxln->Arity())
 	{
 		CDXLNode *pdxlnChild = (*pdxln)[0];
 		

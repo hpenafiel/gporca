@@ -171,7 +171,7 @@ CLogicalSetOp::PcrsDeriveOutput
 	)
 {
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CColRefSet *pcrsChildOutput = exprhdl.Pdprel(ul)->PcrsOutput();
@@ -226,7 +226,7 @@ CLogicalSetOp::PpartinfoDerive
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	GPOS_ASSERT(0 < ulArity);
 
 	// start with the part info of the first child
@@ -310,7 +310,7 @@ CLogicalSetOp::PdrgpcrsOutputEquivClasses
 	)
 	const
 {
-	const ULONG ulChildren = exprhdl.UlArity();
+	const ULONG ulChildren = exprhdl.Arity();
 	DrgPcrs *pdrgpcrs = PdrgpcrsInputMapped(memory_pool, exprhdl, 0 /*ulChild*/);
 
 	for (ULONG ul = 1; ul < ulChildren; ul++)
@@ -407,7 +407,7 @@ CLogicalSetOp::PdrgpcnstrColumn
 		return pdrgpcnstr;
 	}
 
-	const ULONG ulChildren = exprhdl.UlArity();
+	const ULONG ulChildren = exprhdl.Arity();
 	for (ULONG ul = ulStart; ul < ulChildren; ul++)
 	{
 		CConstraint *pcnstr = PcnstrColumn(memory_pool, exprhdl, ulColIndex, ul);
@@ -440,7 +440,7 @@ CLogicalSetOp::PcnstrColumn
 	)
 	const
 {
-	GPOS_ASSERT(ulChild < exprhdl.UlArity());
+	GPOS_ASSERT(ulChild < exprhdl.Arity());
 
 	// constraint from child
 	CConstraint *pcnstrChild = exprhdl.Pdprel(ulChild)->Ppc()->Pcnstr();

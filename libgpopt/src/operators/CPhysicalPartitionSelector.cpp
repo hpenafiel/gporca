@@ -45,7 +45,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	:
 	CPhysical(memory_pool),
 	m_ulScanId(ulScanId),
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pdrgpdrgpcr(pdrgpdrgpcr),
 	m_ppartcnstrmap(ppartcnstrmap),
 	m_ppartcnstr(ppartcnstr),
@@ -82,7 +82,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	:
 	CPhysical(memory_pool),
 	m_ulScanId(0),
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pdrgpdrgpcr(NULL),
 	m_ppartcnstrmap(NULL),
 	m_ppartcnstr(NULL),
@@ -112,7 +112,7 @@ CPhysicalPartitionSelector::~CPhysicalPartitionSelector()
 	CRefCount::SafeRelease(m_ppartcnstr);
 	CRefCount::SafeRelease(m_ppartcnstrmap);
 	m_phmulexprPredicates->Release();
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_phmulexprEqPredicates->Release();
 	CRefCount::SafeRelease(m_pexprResidual);
 	CRefCount::SafeRelease(m_pexprCombinedPredicate);

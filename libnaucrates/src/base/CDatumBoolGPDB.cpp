@@ -48,7 +48,7 @@ CDatumBoolGPDB::CDatumBoolGPDB
 	IMDId *pmdid = dynamic_cast<const CMDTypeBoolGPDB *>(pmda->PtMDType<IMDTypeBool>(sysid))->MDId();
 	pmdid->AddRef();
 	
-	m_pmdid = pmdid;
+	m_mdid = pmdid;
 
 	if (IsNull())
 	{
@@ -72,12 +72,12 @@ CDatumBoolGPDB::CDatumBoolGPDB
 	BOOL is_null
 	)
 	:
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_value(value),
 	m_is_null(is_null)
 {
-	GPOS_ASSERT(NULL != m_pmdid);
-	GPOS_ASSERT(GPDB_BOOL_OID == CMDIdGPDB::PmdidConvert(m_pmdid)->OidObjectId());
+	GPOS_ASSERT(NULL != m_mdid);
+	GPOS_ASSERT(GPDB_BOOL_OID == CMDIdGPDB::PmdidConvert(m_mdid)->OidObjectId());
 
 	if (IsNull())
 	{
@@ -96,7 +96,7 @@ CDatumBoolGPDB::CDatumBoolGPDB
 //---------------------------------------------------------------------------
 CDatumBoolGPDB::~CDatumBoolGPDB()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 }
 
 
@@ -156,7 +156,7 @@ CDatumBoolGPDB::UlSize() const
 IMDId *
 CDatumBoolGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -170,7 +170,7 @@ CDatumBoolGPDB::MDId() const
 ULONG
 CDatumBoolGPDB::HashValue() const
 {
-	return gpos::CombineHashes(m_pmdid->HashValue(), gpos::HashValue<BOOL>(&m_value));
+	return gpos::CombineHashes(m_mdid->HashValue(), gpos::HashValue<BOOL>(&m_value));
 }
 
 //---------------------------------------------------------------------------
@@ -216,7 +216,7 @@ CDatumBoolGPDB::FMatch
 	)
 	const
 {
-	if(!pdatum->MDId()->Equals(m_pmdid))
+	if(!pdatum->MDId()->Equals(m_mdid))
 	{
 		return false;
 	}
@@ -251,8 +251,8 @@ CDatumBoolGPDB::PdatumCopy
 	)
 	const
 {
-	m_pmdid->AddRef();
-	return GPOS_NEW(memory_pool) CDatumBoolGPDB(m_pmdid, m_value, m_is_null);
+	m_mdid->AddRef();
+	return GPOS_NEW(memory_pool) CDatumBoolGPDB(m_mdid, m_value, m_is_null);
 }
 
 //---------------------------------------------------------------------------

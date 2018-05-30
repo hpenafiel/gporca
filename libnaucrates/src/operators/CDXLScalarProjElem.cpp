@@ -34,7 +34,7 @@ CDXLScalarProjElem::CDXLScalarProjElem
 	:
 	CDXLScalar(memory_pool),
 	m_ulId(ulId),
-	m_pmdname(pmdname)
+	m_mdname(pmdname)
 {
 	GPOS_ASSERT(NULL != pmdname);
 }
@@ -49,7 +49,7 @@ CDXLScalarProjElem::CDXLScalarProjElem
 //---------------------------------------------------------------------------
 CDXLScalarProjElem::~CDXLScalarProjElem()
 {
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 }
 
 //---------------------------------------------------------------------------
@@ -106,7 +106,7 @@ CDXLScalarProjElem::UlId() const
 const CMDName *
 CDXLScalarProjElem::PmdnameAlias() const
 {
-	return m_pmdname;
+	return m_mdname;
 }
 
 
@@ -134,7 +134,7 @@ CDXLScalarProjElem::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulId);
 		
 	// serialize proj element alias
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname->Pstr());
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
@@ -158,7 +158,7 @@ CDXLScalarProjElem::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(1 == pdxln->UlArity());
+	GPOS_ASSERT(1 == pdxln->Arity());
 	CDXLNode *pdxlnChild = (*pdxln)[0];
 	
 	GPOS_ASSERT(EdxloptypeScalar == pdxlnChild->Pdxlop()->Edxloperatortype());

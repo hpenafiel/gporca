@@ -226,7 +226,7 @@ CDXLPhysicalMaterialize::AssertValid
 	const
 {
 	GPOS_ASSERT(EdxlspoolNone == m_edxlsptype || EdxlspoolMaterialize == m_edxlsptype);
-	GPOS_ASSERT(EdxlmatIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlmatIndexSentinel == pdxln->Arity());
 
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlmatIndexChild];
 	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());

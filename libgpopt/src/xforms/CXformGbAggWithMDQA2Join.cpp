@@ -216,7 +216,7 @@ CXformGbAggWithMDQA2Join::PexprTransform
 	}
 
 	// recursively process child expressions
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{

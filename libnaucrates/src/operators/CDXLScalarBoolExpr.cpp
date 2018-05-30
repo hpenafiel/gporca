@@ -144,7 +144,7 @@ CDXLScalarBoolExpr::AssertValid
 
 	GPOS_ASSERT( (edxlbooltype == Edxlnot) || (edxlbooltype == Edxlor) || (edxlbooltype == Edxland));
 
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	if(edxlbooltype == Edxlnot)
 	{
 		GPOS_ASSERT(1 == ulArity);

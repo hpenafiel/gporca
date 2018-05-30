@@ -48,7 +48,7 @@ namespace gpdxl
 			IMemoryPool *m_memory_pool;
 			
 			// name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 	
 			// id
 			const ULONG m_ulId;
@@ -76,7 +76,7 @@ namespace gpdxl
 			~CDXLColRef();
 			
 			// accessors
-			const CMDName *Pmdname() const;
+			const CMDName *MdName() const;
 
 			IMDId *MDIdType() const;
 

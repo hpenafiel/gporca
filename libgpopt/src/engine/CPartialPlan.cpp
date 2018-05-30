@@ -46,7 +46,7 @@ CPartialPlan::CPartialPlan
 {
 	GPOS_ASSERT(NULL != pgexpr);
 	GPOS_ASSERT(NULL != prpp);
-	GPOS_ASSERT_IMP(NULL != pccChild, ulChildIndex < pgexpr->UlArity());
+	GPOS_ASSERT_IMP(NULL != pccChild, ulChildIndex < pgexpr->Arity());
 }
 
 
@@ -83,9 +83,9 @@ CPartialPlan::ExtractChildrenCostingInfo
 {
 	GPOS_ASSERT(m_pgexpr == exprhdl.Pgexpr());
 	GPOS_ASSERT(NULL != pci);
-	GPOS_ASSERT_IMP(NULL != m_pccChild, m_ulChildIndex < exprhdl.UlArity());
+	GPOS_ASSERT_IMP(NULL != m_pccChild, m_ulChildIndex < exprhdl.Arity());
 
-	const ULONG ulArity = m_pgexpr->UlArity();
+	const ULONG ulArity = m_pgexpr->Arity();
 	ULONG ulIndex = 0;
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -197,7 +197,7 @@ CPartialPlan::CostCompute
 
 	// create array of child derived properties
 	DrgPdp *pdrgpdp = GPOS_NEW(memory_pool) DrgPdp(memory_pool);
-	const ULONG ulArity =  m_pgexpr->UlArity();
+	const ULONG ulArity =  m_pgexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		// compute required columns of the n-th child

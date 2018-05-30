@@ -95,7 +95,7 @@ namespace gpopt
 
                 CExpression *pexprSetOp = (*pexpr)[0];
                 CExpression *pexprPrjList = (*pexpr)[1];
-                if (0 < pexprPrjList->UlArity())
+                if (0 < pexprPrjList->Arity())
                 {
                     // bail-out if group-by has any aggregate functions
                     return;
@@ -110,7 +110,7 @@ namespace gpopt
                 DrgDrgPcr *pdrgpdrgpcrInput = popSetOp->PdrgpdrgpcrInput();
                 DrgPexpr *pdrgpexprNewChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
                 DrgDrgPcr *pdrgpdrgpcrNewInput = GPOS_NEW(memory_pool) DrgDrgPcr(memory_pool);
-                const ULONG ulArity = pexprSetOp->UlArity();
+                const ULONG ulArity = pexprSetOp->Arity();
 
                 BOOL fNewChild = false;
 

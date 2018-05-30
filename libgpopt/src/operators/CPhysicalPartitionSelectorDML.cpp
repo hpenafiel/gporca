@@ -66,7 +66,7 @@ CPhysicalPartitionSelectorDML::FMatch
 
 	CPhysicalPartitionSelectorDML *popPartSelector = CPhysicalPartitionSelectorDML::PopConvert(pop);
 
-	return popPartSelector->MDId()->Equals(m_pmdid) &&
+	return popPartSelector->MDId()->Equals(m_mdid) &&
 			popPartSelector->PcrOid() == m_pcrOid &&
 			FMatchExprMaps(popPartSelector->m_phmulexprEqPredicates, m_phmulexprEqPredicates);
 }
@@ -82,7 +82,7 @@ CPhysicalPartitionSelectorDML::FMatch
 ULONG
 CPhysicalPartitionSelectorDML::HashValue() const
 {
-	return gpos::CombineHashes(Eopid(), m_pmdid->HashValue());
+	return gpos::CombineHashes(Eopid(), m_mdid->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -210,7 +210,7 @@ CPhysicalPartitionSelectorDML::FProvidesReqdCols
 	const
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
-	GPOS_ASSERT(1 == exprhdl.UlArity());
+	GPOS_ASSERT(1 == exprhdl.Arity());
 
 	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 	// include the defined oid column
@@ -360,7 +360,7 @@ CPhysicalPartitionSelectorDML::OsPrint
 
 	os	<< SzId()
 		<< ", Part Table: ";
-	m_pmdid->OsPrint(os);
+	m_mdid->OsPrint(os);
 
 	return os;
 }

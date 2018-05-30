@@ -33,7 +33,7 @@ CLogicalPartitionSelector::CLogicalPartitionSelector
 	)
 	:
 	CLogical(memory_pool),
-	m_pmdid(NULL),
+	m_mdid(NULL),
 	m_pdrgpexprFilters(NULL),
 	m_pcrOid(NULL)
 {
@@ -57,7 +57,7 @@ CLogicalPartitionSelector::CLogicalPartitionSelector
 	)
 	:
 	CLogical(memory_pool),
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pdrgpexprFilters(pdrgpexprFilters),
 	m_pcrOid(pcrOid)
 {
@@ -77,7 +77,7 @@ CLogicalPartitionSelector::CLogicalPartitionSelector
 //---------------------------------------------------------------------------
 CLogicalPartitionSelector::~CLogicalPartitionSelector()
 {
-	CRefCount::SafeRelease(m_pmdid);
+	CRefCount::SafeRelease(m_mdid);
 	CRefCount::SafeRelease(m_pdrgpexprFilters);
 }
 
@@ -104,7 +104,7 @@ CLogicalPartitionSelector::FMatch
 	CLogicalPartitionSelector *popPartSelector = CLogicalPartitionSelector::PopConvert(pop);
 
 	return popPartSelector->PcrOid() == m_pcrOid &&
-			popPartSelector->MDId()->Equals(m_pmdid) &&
+			popPartSelector->MDId()->Equals(m_mdid) &&
 			popPartSelector->m_pdrgpexprFilters->Equals(m_pdrgpexprFilters);
 }
 
@@ -119,7 +119,7 @@ CLogicalPartitionSelector::FMatch
 ULONG
 CLogicalPartitionSelector::HashValue() const
 {
-	return gpos::CombineHashes(Eopid(), m_pmdid->HashValue());
+	return gpos::CombineHashes(Eopid(), m_mdid->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -141,9 +141,9 @@ CLogicalPartitionSelector::PopCopyWithRemappedColumns
 	CColRef *pcrOid = CUtils::PcrRemap(m_pcrOid, phmulcr, fMustExist);
 	DrgPexpr *pdrgpexpr = CUtils::PdrgpexprRemap(memory_pool, m_pdrgpexprFilters, phmulcr);
 
-	m_pmdid->AddRef();
+	m_mdid->AddRef();
 
-	return GPOS_NEW(memory_pool) CLogicalPartitionSelector(memory_pool, m_pmdid, pdrgpexpr, pcrOid);
+	return GPOS_NEW(memory_pool) CLogicalPartitionSelector(memory_pool, m_mdid, pdrgpexpr, pcrOid);
 }
 
 //---------------------------------------------------------------------------
@@ -226,7 +226,7 @@ CLogicalPartitionSelector::OsPrint
 {
 	os	<< SzId()
 		<< ", Part Table: ";
-	m_pmdid->OsPrint(os);
+	m_mdid->OsPrint(os);
 
 	return os;
 }

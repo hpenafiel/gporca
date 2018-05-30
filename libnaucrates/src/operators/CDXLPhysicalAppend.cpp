@@ -149,7 +149,7 @@ CDXLPhysicalAppend::AssertValid
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
 	
-	const ULONG ulChildren = pdxln->UlArity();
+	const ULONG ulChildren = pdxln->Arity();
 	for (ULONG ul = EdxlappendIndexFirstChild; ul < ulChildren; ul++)
 	{
 		CDXLNode *pdxlnChild = (*pdxln)[ul];

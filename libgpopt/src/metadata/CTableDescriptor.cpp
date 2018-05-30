@@ -45,7 +45,7 @@ CTableDescriptor::CTableDescriptor
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_name(memory_pool, name),
 	m_pdrgpcoldesc(NULL),
 	m_ereldistrpolicy(ereldistrpolicy),
@@ -55,7 +55,7 @@ CTableDescriptor::CTableDescriptor
 	m_pdrgpulPart(NULL),
 	m_pdrgpbsKeys(NULL),
 	m_ulPartitions(0),
-	m_ulExecuteAsUser(ulExecuteAsUser),
+	m_execute_as_user_id(ulExecuteAsUser),
 	m_fHasPartialIndexes(FDescriptorWithPartialIndexes())
 {
 	GPOS_ASSERT(NULL != memory_pool);
@@ -78,7 +78,7 @@ CTableDescriptor::CTableDescriptor
 //---------------------------------------------------------------------------
 CTableDescriptor::~CTableDescriptor()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	
 	m_pdrgpcoldesc->Release();
 	m_pdrgpcoldescDist->Release();
@@ -316,10 +316,10 @@ CTableDescriptor::OsPrint
 ULONG
 CTableDescriptor::UlIndices()
 {
-	GPOS_ASSERT(NULL != m_pmdid);
+	GPOS_ASSERT(NULL != m_mdid);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_pmdid);
+	const IMDRelation *pmdrel = pmda->Pmdrel(m_mdid);
 	const ULONG ulIndices = pmdrel->UlIndices();
 
 	return ulIndices;
@@ -338,10 +338,10 @@ ULONG
 CTableDescriptor::UlPartitions()
 	const
 {
-	GPOS_ASSERT(NULL != m_pmdid);
+	GPOS_ASSERT(NULL != m_mdid);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_pmdid);
+	const IMDRelation *pmdrel = pmda->Pmdrel(m_mdid);
 	const ULONG ulPartitions = pmdrel->UlPartitions();
 
 	return ulPartitions;
@@ -365,7 +365,7 @@ CTableDescriptor::FDescriptorWithPartialIndexes()
 	}
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_pmdid);
+	const IMDRelation *pmdrel = pmda->Pmdrel(m_mdid);
 	for (ULONG ul = 0; ul < ulIndices; ul++)
 	{
 		if (pmdrel->FPartialIndex(pmdrel->PmdidIndex(ul)))

@@ -45,8 +45,8 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
-	m_pmdname(pmdname),
+	m_mdid(pmdid),
+	m_mdname(pmdname),
 	m_pmdidTypeLeft(pmdidTypeLeft),
 	m_pmdidTypeRight(pmdidTypeRight),
 	m_pmdidTypeResult(pmdidTypeResult),
@@ -72,7 +72,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 //---------------------------------------------------------------------------
 CMDScalarOpGPDB::~CMDScalarOpGPDB()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pmdidTypeResult->Release();
 	m_pmdidFunc->Release();	
 
@@ -81,7 +81,7 @@ CMDScalarOpGPDB::~CMDScalarOpGPDB()
 	CRefCount::SafeRelease(m_pmdidOpCommute);
 	CRefCount::SafeRelease(m_pmdidOpInverse);
 	
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_pdrgpmdidOpClasses->Release();
 }
@@ -97,7 +97,7 @@ CMDScalarOpGPDB::~CMDScalarOpGPDB()
 IMDId *
 CMDScalarOpGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ CMDScalarOpGPDB::MDId() const
 CMDName
 CMDScalarOpGPDB::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -262,8 +262,8 @@ CMDScalarOpGPDB::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBScalarOp));
 	
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenReturnsNullOnNullInput), m_fReturnsNullOnNullInput);
 

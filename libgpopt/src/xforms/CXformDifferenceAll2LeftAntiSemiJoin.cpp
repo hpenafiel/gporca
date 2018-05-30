@@ -68,7 +68,7 @@ CXformDifferenceAll2LeftAntiSemiJoin::Transform
 
 	// TODO: , Jan 8th 2013, we currently only handle difference all
 	//  operators with two children
-	GPOS_ASSERT(2 == pexpr->UlArity());
+	GPOS_ASSERT(2 == pexpr->Arity());
 
 	// extract components
 	CExpression *pexprLeftChild = (*pexpr)[0];

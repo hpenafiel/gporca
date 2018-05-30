@@ -141,7 +141,7 @@ CDXLPhysicalTVF::AssertValid
 	GPOS_ASSERT(NULL != m_pmdidFunc);
 	GPOS_ASSERT(NULL != m_pmdidRetType);
 
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];

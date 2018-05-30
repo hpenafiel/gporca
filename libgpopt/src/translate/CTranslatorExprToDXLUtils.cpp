@@ -373,14 +373,14 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 		else
 		{
 			// add nested if statement to the latest leaf if statement as the else case of the already constructed if stmt
-			GPOS_ASSERT(NULL != pdxlnScalarLeafIfStmt && 2 == pdxlnScalarLeafIfStmt->UlArity());
+			GPOS_ASSERT(NULL != pdxlnScalarLeafIfStmt && 2 == pdxlnScalarLeafIfStmt->Arity());
 			pdxlnScalarLeafIfStmt->AddChild(pdxlnScalarIf);
 		}
 		
 		pdxlnScalarLeafIfStmt = pdxlnScalarIf;
 	}
 	
-	GPOS_ASSERT(2 == pdxlnScalarLeafIfStmt->UlArity());
+	GPOS_ASSERT(2 == pdxlnScalarLeafIfStmt->Arity());
 	
 	// add a dummy value for the top and bottom level else cases
 	const IMDType *pmdtypeVoid = pmda->Pmdtype(pmdidRetType);
@@ -388,7 +388,7 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 	CDXLNode *pdxlnNullConst = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl));
 	pdxlnScalarLeafIfStmt->AddChild(pdxlnNullConst);
 	
-	if (2 == pdxlnScalarRootIfStmt->UlArity())
+	if (2 == pdxlnScalarRootIfStmt->Arity())
 	{
 		pdxlnNullConst->AddRef();
 		pdxlnScalarRootIfStmt->AddChild(pdxlnNullConst);
@@ -1380,7 +1380,7 @@ CTranslatorExprToDXLUtils::PdxlnProjListFromChildProjList
 	CDXLNode *pdxlnProjList = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlopPrL);
 	
 	// create a scalar identifier for each project element of the child
-	const ULONG ulArity = pdxlnProjListChild->UlArity();
+	const ULONG ulArity = pdxlnProjListChild->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDXLNode *pdxlnProjElemChild = (*pdxlnProjListChild)[ul];
@@ -1495,7 +1495,7 @@ CTranslatorExprToDXLUtils::PdxlnProjElem
 	const CDXLNode *pdxlnChildProjElem
 	)
 {
-	GPOS_ASSERT(NULL != pdxlnChildProjElem && 1 == pdxlnChildProjElem->UlArity());
+	GPOS_ASSERT(NULL != pdxlnChildProjElem && 1 == pdxlnChildProjElem->Arity());
 	
 	CDXLScalarProjElem *pdxlopPrElChild = dynamic_cast<CDXLScalarProjElem*>(pdxlnChildProjElem->Pdxlop());
 
@@ -1693,7 +1693,7 @@ CTranslatorExprToDXLUtils::FProjectListMatch
 	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->Pdxlop()->Edxlop());
 
 	const ULONG ulLen = pdrgpcr->Size();
-	if (pdxlnPrL->UlArity() != ulLen)
+	if (pdxlnPrL->Arity() != ulLen)
 	{
 		return false;
 	}
@@ -2471,7 +2471,7 @@ CTranslatorExprToDXLUtils::FHasDXLOp
 	}
 
 	// recursively check children
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -2498,7 +2498,7 @@ CTranslatorExprToDXLUtils::FProjListContainsSubplanWithBroadCast
 		return FHasDXLOp(pdxlnPrjList, rgeopidMotion, GPOS_ARRAY_SIZE(rgeopidMotion));
 	}
 
-	const ULONG ulArity = pdxlnPrjList->UlArity();
+	const ULONG ulArity = pdxlnPrjList->Arity();
 
 	for (ULONG ul =0; ul < ulArity; ul++)
 	{
@@ -2524,7 +2524,7 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 		pbs->ExchangeSet(pdxlcr->Id());
 	}
 
-	ULONG ulArity = pdxln->UlArity();
+	ULONG ulArity = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		ExtractIdentColIds((*pdxln)[ul], pbs);
@@ -2562,7 +2562,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 	}
 
 	// recursively check children
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 
 	// In ORCA, inner child of Hash Join is always exhausted first,
 	// so only check the outer child for motions

@@ -27,7 +27,7 @@ namespace gpmd
 		private:
 
 			// index mdid
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// is the index partial
 			BOOL m_fPartial;

@@ -208,7 +208,7 @@ namespace gpopt
 			CReqdPropPlan *Prpp(ULONG ulChildIndex) const;
 	
 			// arity function
-			ULONG UlArity() const;
+			ULONG Arity() const;
 
 			// index of the last non-scalar child
 			ULONG UlLastNonScalarChild() const;

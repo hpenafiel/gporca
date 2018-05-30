@@ -42,8 +42,8 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
-	m_pmdname(pmdname),
+	m_mdid(pmdid),
+	m_mdname(pmdname),
 	m_pmdidTypeResult(pmdidTypeResult),
 	m_pdrgpmdidTypes(pdrgpmdidTypes),
 	m_fReturnsSet(fReturnsSet),
@@ -51,7 +51,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	m_efdaDataAccess(efdaDataAccess),
 	m_fStrict(fStrict)
 {
-	GPOS_ASSERT(m_pmdid->IsValid());
+	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(EfsSentinel > efsStability);
 	GPOS_ASSERT(EfdaSentinel > efdaDataAccess);
 
@@ -69,10 +69,10 @@ CMDFunctionGPDB::CMDFunctionGPDB
 //---------------------------------------------------------------------------
 CMDFunctionGPDB::~CMDFunctionGPDB()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pmdidTypeResult->Release();
 	CRefCount::SafeRelease(m_pdrgpmdidTypes);
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 }
 
@@ -110,7 +110,7 @@ CMDFunctionGPDB::InitDXLTokenArrays()
 IMDId *
 CMDFunctionGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -124,7 +124,7 @@ CMDFunctionGPDB::MDId() const
 CMDName
 CMDFunctionGPDB::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 
@@ -220,9 +220,9 @@ CMDFunctionGPDB::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenGPDBFunc));
 	
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncReturnsSet), m_fReturnsSet);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncStability), PstrStability());

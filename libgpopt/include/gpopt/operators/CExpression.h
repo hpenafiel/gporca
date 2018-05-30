@@ -200,7 +200,7 @@ namespace gpopt
 			};
 	
 			// arity function
-			ULONG UlArity() const
+			ULONG Arity() const
 			{
 				return m_pdrgpexpr == NULL ? 0 : m_pdrgpexpr->Size();
 			}

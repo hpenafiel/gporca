@@ -107,7 +107,7 @@ CDXLScalarLimitOffset::AssertValid
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(1 >= ulArity);
 
 	for (ULONG ul = 0; ul < ulArity; ++ul)

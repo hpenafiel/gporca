@@ -41,7 +41,7 @@ CParseHandlerMetadataColumn::CParseHandlerMetadataColumn
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdcol(NULL),
-	m_pmdname(NULL),
+	m_mdname(NULL),
 	m_mdid_type(NULL),
 	m_pdxlnDefaultValue(NULL),
 	m_ulWidth(ULONG_MAX)
@@ -95,7 +95,7 @@ CParseHandlerMetadataColumn::StartElement
 	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszColumnName);
 	
 	// create a copy of the string in the CMDName constructor
-	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrColumnName);
+	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrColumnName);
 	
 	GPOS_DELETE(pstrColumnName);
 	
@@ -214,7 +214,7 @@ CParseHandlerMetadataColumn::EndElement
 	
 	m_pmdcol = GPOS_NEW(m_memory_pool) CMDColumn
 							(
-							m_pmdname,
+							m_mdname,
 							m_iAttNo,
 							m_mdid_type,
 							m_type_modifier,

@@ -42,7 +42,7 @@ CDatumOidGPDB::CDatumOidGPDB
 	BOOL is_null
 	)
 	:
-	m_pmdid(NULL),
+	m_mdid(NULL),
 	m_oidVal(oidVal),
 	m_is_null(is_null)
 {
@@ -50,7 +50,7 @@ CDatumOidGPDB::CDatumOidGPDB
 	IMDId *pmdid = dynamic_cast<const CMDTypeOidGPDB *>(pmda->PtMDType<IMDTypeOid>(sysid))->MDId();
 	pmdid->AddRef();
 
-	m_pmdid = pmdid;
+	m_mdid = pmdid;
 
 	if (IsNull())
 	{
@@ -74,12 +74,12 @@ CDatumOidGPDB::CDatumOidGPDB
 	BOOL is_null
 	)
 	:
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_oidVal(oidVal),
 	m_is_null(is_null)
 {
-	GPOS_ASSERT(NULL != m_pmdid);
-	GPOS_ASSERT(GPDB_OID_OID == CMDIdGPDB::PmdidConvert(m_pmdid)->OidObjectId());
+	GPOS_ASSERT(NULL != m_mdid);
+	GPOS_ASSERT(GPDB_OID_OID == CMDIdGPDB::PmdidConvert(m_mdid)->OidObjectId());
 
 	if (IsNull())
 	{
@@ -98,7 +98,7 @@ CDatumOidGPDB::CDatumOidGPDB
 //---------------------------------------------------------------------------
 CDatumOidGPDB::~CDatumOidGPDB()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -154,7 +154,7 @@ CDatumOidGPDB::UlSize() const
 IMDId *
 CDatumOidGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -168,7 +168,7 @@ CDatumOidGPDB::MDId() const
 ULONG
 CDatumOidGPDB::HashValue() const
 {
-	return gpos::CombineHashes(m_pmdid->HashValue(), gpos::HashValue<OID>(&m_oidVal));
+	return gpos::CombineHashes(m_mdid->HashValue(), gpos::HashValue<OID>(&m_oidVal));
 }
 
 //---------------------------------------------------------------------------
@@ -214,7 +214,7 @@ CDatumOidGPDB::FMatch
 	)
 	const
 {
-	if(!pdatum->MDId()->Equals(m_pmdid))
+	if(!pdatum->MDId()->Equals(m_mdid))
 	{
 		return false;
 	}
@@ -249,8 +249,8 @@ CDatumOidGPDB::PdatumCopy
 	)
 	const
 {
-	m_pmdid->AddRef();
-	return GPOS_NEW(memory_pool) CDatumOidGPDB(m_pmdid, m_oidVal, m_is_null);
+	m_mdid->AddRef();
+	return GPOS_NEW(memory_pool) CDatumOidGPDB(m_mdid, m_oidVal, m_is_null);
 }
 
 //---------------------------------------------------------------------------

@@ -138,7 +138,7 @@ namespace gpdxl
 			}
 			
 			// table name
-			CMDName *Pmdname() const
+			CMDName *MdName() const
 			{
 				return m_pmdnameRel;
 			}

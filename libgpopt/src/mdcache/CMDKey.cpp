@@ -32,7 +32,7 @@ CMDKey::CMDKey
 	const IMDId *pmdid
 	)
 	:
-	m_pmdid(pmdid)
+	m_mdid(pmdid)
 {
 	GPOS_ASSERT(pmdid->IsValid());
 }
@@ -52,7 +52,7 @@ CMDKey::Equals
 	)
 	const
 {	
-	return mdkey.MDId()->Equals(m_pmdid);
+	return mdkey.MDId()->Equals(m_mdid);
 }
 
 //---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ CMDKey::FEqualMDKey
 ULONG 
 CMDKey::HashValue() const
 {
-	return m_pmdid->HashValue();
+	return m_mdid->HashValue();
 }
 
 //---------------------------------------------------------------------------

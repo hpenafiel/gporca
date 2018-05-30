@@ -195,7 +195,7 @@ CDXLPhysicalWindow::AssertValid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
 	GPOS_ASSERT(NULL != m_pdrgpulPartCols);
 	GPOS_ASSERT(NULL != m_pdrgpdxlwk);
-	GPOS_ASSERT(EdxlwindowIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlwindowIndexSentinel == pdxln->Arity());
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlwindowIndexChild];
 	if (fValidateChildren)
 	{

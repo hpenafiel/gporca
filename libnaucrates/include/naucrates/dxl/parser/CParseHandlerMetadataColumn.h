@@ -38,7 +38,7 @@ namespace gpdxl
 			CMDColumn *m_pmdcol;
 			
 			// column name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// attribute number
 			INT m_iAttNo;

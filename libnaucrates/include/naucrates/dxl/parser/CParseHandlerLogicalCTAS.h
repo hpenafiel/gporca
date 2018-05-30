@@ -35,13 +35,13 @@ namespace gpdxl
 		private:
 			
 			// mdid
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// schema name
 			CMDName *m_pmdnameSchema;
 			
 			// table name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 	
 			// list of distribution column positions		
 			ULongPtrArray *m_pdrgpulDistr;

@@ -86,7 +86,7 @@ CDXLScalarDistinctComp::SerializeToDXL
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);	
@@ -111,7 +111,7 @@ CDXLScalarDistinctComp::AssertValid
 	) 
 	const
 {	
-	GPOS_ASSERT(EdxlscdistcmpSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlscdistcmpSentinel == pdxln->Arity());
 	
 	CDXLNode *pdxlnLeft = (*pdxln)[EdxlscdistcmpIndexLeft];
 	CDXLNode *pdxlnRight = (*pdxln)[EdxlscdistcmpIndexRight];

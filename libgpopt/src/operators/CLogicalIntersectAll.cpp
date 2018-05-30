@@ -183,7 +183,7 @@ CLogicalIntersectAll::PstatsDerive
 	DrgPcrs *pdrgpcrsOutput // output of relational children
 	)
 {
-	GPOS_ASSERT(2 == exprhdl.UlArity());
+	GPOS_ASSERT(2 == exprhdl.Arity());
 
 	IStatistics *pstatsOuter = exprhdl.Pstats(0);
 	IStatistics *pstatsInner = exprhdl.Pstats(1);

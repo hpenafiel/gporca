@@ -83,7 +83,7 @@ CMDAccessor::SMDAccessorElem::SMDAccessorElem
 	)
 	:
 	m_imd_obj(pimdobj),
-	m_pmdid(pmdid)
+	m_mdid(pmdid)
 {
 }
 
@@ -99,7 +99,7 @@ CMDAccessor::SMDAccessorElem::~SMDAccessorElem()
 {
 	// deleting the cache accessor will effectively unpin the cache entry for that object
 	m_imd_obj->Release();
-	m_pmdid->Release();
+	m_mdid->Release();
 }
 
 
@@ -114,7 +114,7 @@ CMDAccessor::SMDAccessorElem::~SMDAccessorElem()
 IMDId *
 CMDAccessor::SMDAccessorElem::MDId()
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -407,7 +407,7 @@ CMDAccessor::InitHashtables
 				memory_pool,
 				GPOPT_CACHEACC_HT_NUM_OF_BUCKETS,
 				GPOS_OFFSET(SMDAccessorElem, m_link),
-				GPOS_OFFSET(SMDAccessorElem, m_pmdid),
+				GPOS_OFFSET(SMDAccessorElem, m_mdid),
 				&(SMDAccessorElem::m_pmdidInvalid),
 				SMDAccessorElem::HashValue,
 				SMDAccessorElem::Equals

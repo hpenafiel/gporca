@@ -934,9 +934,9 @@ CGroupExpression::FMatchNonScalarChildren
 {
 	GPOS_ASSERT(NULL != pgexpr);
 
-	if (0 == UlArity())
+	if (0 == Arity())
 	{
-		return (pgexpr->UlArity() == 0);
+		return (pgexpr->Arity() == 0);
 	}
 
 	return CGroup::FMatchNonScalarGroups(m_pdrgpgroup, pgexpr->m_pdrgpgroup);
@@ -967,7 +967,7 @@ CGroupExpression::FMatch
 	}
 
 	// have same arity
-	if (UlArity() != pgexpr->UlArity())
+	if (Arity() != pgexpr->Arity())
 	{
 		return false;
 	}
@@ -979,13 +979,13 @@ CGroupExpression::FMatch
 	}
 
 	// compare inputs
-	if (0 == UlArity())
+	if (0 == Arity())
 	{
 		return true;
 	}
 	else
 	{
-		if (1 == UlArity() || m_pop->FInputOrderSensitive())
+		if (1 == Arity() || m_pop->FInputOrderSensitive())
 		{
 			return CGroup::FMatchGroups(m_pdrgpgroup, pgexpr->m_pdrgpgroup);
 		}
@@ -1187,7 +1187,7 @@ CGroupExpression::OsPrint
 	}
 	os << " [ ";
 	
-	ULONG ulArity = UlArity();
+	ULONG ulArity = Arity();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		os << (*m_pdrgpgroup)[i]->UlId() << " ";

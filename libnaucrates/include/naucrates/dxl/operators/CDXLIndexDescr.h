@@ -35,10 +35,10 @@ namespace gpdxl
 			IMemoryPool *m_memory_pool;
 
 			// id and version information for the table
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// index name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// private copy ctor
 			CDXLIndexDescr(const CDXLIndexDescr &);
@@ -52,7 +52,7 @@ namespace gpdxl
 			~CDXLIndexDescr();
 
 			// accessors
-			const CMDName *Pmdname() const;
+			const CMDName *MdName() const;
 			IMDId *MDId() const;
 
 			// serialize the operator to a DXL document

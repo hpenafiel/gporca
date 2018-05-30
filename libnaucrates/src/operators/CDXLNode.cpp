@@ -297,7 +297,7 @@ CDXLNode::SerializeChildrenToDXL
 	const
 {
 	// serialize children nodes
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		GPOS_CHECK_ABORT;
@@ -388,7 +388,7 @@ CDXLNode::AssertValid
 		return;
 	}
 	
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDXLNode *pdxlnChild = (*this)[ul];

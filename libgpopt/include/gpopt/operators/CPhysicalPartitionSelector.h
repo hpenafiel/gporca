@@ -35,7 +35,7 @@ namespace gpopt
 			ULONG m_ulScanId;
 
 			// mdid of partitioned table
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// partition keys
 			DrgDrgPcr *m_pdrgpdrgpcr;
@@ -129,7 +129,7 @@ namespace gpopt
 			// partitioned table mdid
 			IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 
 			// partition keys

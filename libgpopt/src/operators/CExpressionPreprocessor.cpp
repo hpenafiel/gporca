@@ -60,7 +60,7 @@ CExpressionPreprocessor::PexprEliminateSelfComparison
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -93,7 +93,7 @@ CExpressionPreprocessor::PexprPruneSuperfluousEquality
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -132,7 +132,7 @@ CExpressionPreprocessor::PexprTrimExistentialSubqueries
 		if (COperator::EopLogicalGbAgg == pexprInner->Pop()->Eopid() &&
 				0 == CLogicalGbAgg::PopConvert(pexprInner->Pop())->Pdrgpcr()->Size())
 		{
-			GPOS_ASSERT(0 < (*pexprInner)[1]->UlArity() &&
+			GPOS_ASSERT(0 < (*pexprInner)[1]->Arity() &&
 					"Project list of GbAgg is expected to be non-empty");
 			BOOL fValue = true;
 			if (COperator::EopScalarSubqueryNotExists == pop->Eopid())
@@ -144,7 +144,7 @@ CExpressionPreprocessor::PexprTrimExistentialSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -230,7 +230,7 @@ CExpressionPreprocessor::PexprSimplifyQuantifiedSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -283,7 +283,7 @@ CExpressionPreprocessor::PexprUnnestScalarSubqueries
 		{
 			CExpression *pexprConstTable = (*pexprSubqChild)[0];
 			CExpression *pexprPrjList = (*pexprSubqChild)[1];
-			GPOS_ASSERT(1 == pexprPrjList->UlArity());
+			GPOS_ASSERT(1 == pexprPrjList->Arity());
 
 			CExpression *pexprPrjElem = (*pexprPrjList)[0];
 			CExpression *pexprInnerSubq = (*pexprPrjElem)[0];
@@ -333,7 +333,7 @@ CExpressionPreprocessor::PexprUnnestScalarSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -374,7 +374,7 @@ CExpressionPreprocessor::PexprRemoveSuperfluousLimit
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
@@ -474,7 +474,7 @@ CExpressionPreprocessor::PexprRemoveSuperfluousOuterRefs
 			// -- constant for each invocation of subquery
 			// select a from t where c in (select count(s.j) from s group by s.i, t.b)
 			//
-			if (0 < pExprProjList->UlArity() || 0 < pdrgpcr->Size())
+			if (0 < pExprProjList->Arity() || 0 < pdrgpcr->Size())
 			{
 				DrgPcr *pdrgpcrMinimal = popAgg->PdrgpcrMinimal();
 				if (NULL != pdrgpcrMinimal)
@@ -522,7 +522,7 @@ CExpressionPreprocessor::PexprRemoveSuperfluousOuterRefs
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -586,7 +586,7 @@ CExpressionPreprocessor::FConvert2InIsConvertable(CExpression *pexpr, CScalarBoo
 
 	if (fConvertableExpression)
 	{
-		GPOS_ASSERT(0 < pexpr->UlArity());
+		GPOS_ASSERT(0 < pexpr->Arity());
 		CScalarIdent *pscid = CScalarIdent::PopConvert((*pexpr)[0]->Pop());
 		if (!CUtils::FConstrainableType(pscid->MDIdType()))
 		{
@@ -621,7 +621,7 @@ CExpressionPreprocessor::PexprConvert2In
 		// and add them to a new AND or OR expression
 		DrgPexpr *pdrgpexprCollapse = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 		DrgPexpr *pdrgpexprRemainder = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-		const ULONG ulArity = pexpr->UlArity();
+		const ULONG ulArity = pexpr->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CExpression *pexprChild = (*pexpr)[ul];
@@ -665,7 +665,7 @@ CExpressionPreprocessor::PexprConvert2In
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgexprChildren = pexpr->PdrgPexpr();
-	for (ULONG ul = 0; ul < pexpr->UlArity(); ul++)
+	for (ULONG ul = 0; ul < pexpr->Arity(); ul++)
 	{
 		pdrgpexpr->Append(PexprConvert2In(memory_pool, (*pdrgexprChildren)[ul]));
 	}
@@ -689,7 +689,7 @@ CExpressionPreprocessor::PexprCollapseInnerJoins
 	GPOS_ASSERT(NULL != pexpr);
 
 	COperator *pop = pexpr->Pop();
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 
 	if (CPredicateUtils::FInnerJoin(pexpr))
 	{
@@ -731,7 +731,7 @@ CExpressionPreprocessor::PexprCollapseInnerJoins
 		ULONG ulJoinArityLimit = optimizer_config->Phint()->UlJoinArityForAssociativityCommutativity();
 
 		// The last child of an n-ary join expression is the scalar expression
-		if (pexprResult->UlArity() - 1 > ulJoinArityLimit)
+		if (pexprResult->Arity() - 1 > ulJoinArityLimit)
 		{
 			GPOPT_DISABLE_XFORM(CXform::ExfJoinCommutativity);
 			GPOPT_DISABLE_XFORM(CXform::ExfJoinAssociativity);
@@ -766,7 +766,7 @@ CExpressionPreprocessor::PexprCollapseProjects
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	// recursively process children
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -877,7 +877,7 @@ CExpressionPreprocessor::PexprProjBelowSubquery
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprChild = PexprProjBelowSubquery(memory_pool, (*pexpr)[ul], fUnderPrListChild);
@@ -902,7 +902,7 @@ CExpressionPreprocessor::PexprCollapseUnionUnionAll
 	GPOS_ASSERT(NULL != pexpr);
 
 	COperator *pop = pexpr->Pop();
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
@@ -994,7 +994,7 @@ CExpressionPreprocessor::PexprOuterJoinToInnerJoin
 	GPOS_ASSERT(NULL != pexpr);
 
 	COperator *pop = pexpr->Pop();
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 
 	if (COperator::EopLogicalSelect == pop->Eopid() &&
 		COperator::EopLogicalLeftOuterJoin == (*pexpr)[0]->Pop()->Eopid())
@@ -1104,7 +1104,7 @@ CExpressionPreprocessor::FEquivClassFromChild
 	GPOS_ASSERT(NULL != pcrs);
 	GPOS_ASSERT(NULL != pexpr);
 
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
@@ -1139,7 +1139,7 @@ CExpressionPreprocessor::PexprAddEqualityPreds
 
 	CDrvdPropRelational *pdprel = CDrvdPropRelational::Pdprel(pexpr->PdpDerive());
 
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	CPropConstraint *ppc = pdprel->Ppc();
 
 	CExpression *pexprPred = NULL;
@@ -1271,7 +1271,7 @@ CExpressionPreprocessor::PexprFromConstraintsScalar
 		return pexpr;
 	}
 
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	for (ULONG ul = 0; ul < ulChildren; ul++)
@@ -1411,7 +1411,7 @@ CExpressionPreprocessor::PexprOuterJoinInferPredsFromOuterChildToInnerChild
 	// not an outer join, process children recursively
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CExpression *pexprChild = PexprOuterJoinInferPredsFromOuterChildToInnerChild(memory_pool, (*pexpr)[ul], pfAddedPredicates);
@@ -1440,7 +1440,7 @@ CExpressionPreprocessor::PexprFromConstraints
 
 	CDrvdPropRelational *pdprel = CDrvdPropRelational::Pdprel(pexpr->PdpDerive());
 
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	CPropConstraint *ppc = pdprel->Ppc();
 	CColRefSet *pcrsNotNull = pdprel->PcrsNotNull();
 
@@ -1527,7 +1527,7 @@ CExpressionPreprocessor::PexprPruneEmptySubtrees
 	// process children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CExpression *pexprChild = PexprPruneEmptySubtrees(memory_pool, (*pexpr)[ul]);
@@ -1554,7 +1554,7 @@ CExpressionPreprocessor::PexprRemoveUnusedCTEs
 		ULONG ulId = CLogicalCTEAnchor::PopConvert(pop)->UlId();
 		if (!COptCtxt::PoctxtFromTLS()->Pcteinfo()->FUsed(ulId))
 		{
-			GPOS_ASSERT(1 == pexpr->UlArity());
+			GPOS_ASSERT(1 == pexpr->Arity());
 			return PexprRemoveUnusedCTEs(memory_pool, (*pexpr)[0]);
 		}
 	}
@@ -1562,7 +1562,7 @@ CExpressionPreprocessor::PexprRemoveUnusedCTEs
 	// process children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CExpression *pexprChild = PexprRemoveUnusedCTEs(memory_pool, (*pexpr)[ul]);
@@ -1620,7 +1620,7 @@ CExpressionPreprocessor::CollectCTEPredicates
 	}
 
 	// process children recursively
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
 		CollectCTEPredicates(memory_pool, (*pexpr)[ul], phm);
@@ -1844,7 +1844,7 @@ CExpressionPreprocessor::PexprPruneUnusedComputedColsRecursive
 
 	// process children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
@@ -1928,7 +1928,7 @@ CExpressionPreprocessor::PexprPruneProjListProjectOrGbAgg
 	{
 		// only remove part of the project elements
 		DrgPexpr *pdrgpexprPrElRemain = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-		const ULONG ulPrjEls = pexprProjList->UlArity();
+		const ULONG ulPrjEls = pexprProjList->Arity();
 		CExpressionHandle exprhdl(memory_pool);
 
 		for (ULONG ul = 0; ul < ulPrjEls; ul++)
@@ -1967,7 +1967,7 @@ CExpressionPreprocessor::PexprReorderScalarCmpChildren
 	COperator *pop = pexpr->Pop();
 	if (CUtils::FScalarCmp(pexpr) || COperator::EopScalarIsDistinctFrom == pexpr->Pop()->Eopid())
 	{
-		GPOS_ASSERT(2 == pexpr->UlArity());
+		GPOS_ASSERT(2 == pexpr->Arity());
 		CExpression *pexprLeft = (*pexpr)[0];
 		CExpression *pexprRight = (*pexpr)[1];
 
@@ -1985,7 +1985,7 @@ CExpressionPreprocessor::PexprReorderScalarCmpChildren
 
 	// process children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulChildren = pexpr->UlArity();
+	const ULONG ulChildren = pexpr->Arity();
 
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
@@ -2069,7 +2069,7 @@ CExpressionPreprocessor::PexprExistWithPredFromINSubq
 	COperator *pop = pexpr->Pop();
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	pop->AddRef();
 
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);

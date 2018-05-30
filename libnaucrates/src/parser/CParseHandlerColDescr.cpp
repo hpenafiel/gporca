@@ -96,7 +96,7 @@ CParseHandlerColDescr::StartElement
 	else if (0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenColumn)))
 	{
 		// start of a new column descriptor
-		m_current_column_descr = CDXLOperatorFactory::Pdxlcd(m_parse_handler_mgr->Pmm(), attrs);
+		m_current_column_descr = CDXLOperatorFactory::GetColumnDescrAt(m_parse_handler_mgr->Pmm(), attrs);
 	}
 	else
 	{

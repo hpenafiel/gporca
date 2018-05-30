@@ -188,7 +188,7 @@ CCastUtils::PexprWithoutBinaryCoercibleCasts
 
     while (FBinaryCoercibleCast(pexprOutput))
 	{
-		GPOS_ASSERT(1 == pexprOutput->UlArity());
+		GPOS_ASSERT(1 == pexprOutput->Arity());
 		pexprOutput = (*pexprOutput)[0];
 	}
 

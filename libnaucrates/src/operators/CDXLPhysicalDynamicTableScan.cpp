@@ -175,12 +175,12 @@ CDXLPhysicalDynamicTableScan::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(2 == pdxln->UlArity());
+	GPOS_ASSERT(2 == pdxln->Arity());
 	
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxltabdesc->Pmdname());
-	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_pdxltabdesc->MdName());
+	GPOS_ASSERT(m_pdxltabdesc->MdName()->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

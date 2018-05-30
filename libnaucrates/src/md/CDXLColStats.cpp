@@ -47,7 +47,7 @@ CDXLColStats::CDXLColStats
 	:
 	m_memory_pool(memory_pool),
 	m_pmdidColStats(pmdidColStats),
-	m_pmdname(pmdname),
+	m_mdname(pmdname),
 	m_dWidth(dWidth),
 	m_dNullFreq(dNullFreq),
 	m_dDistinctRemain(dDistinctRemain),
@@ -70,7 +70,7 @@ CDXLColStats::CDXLColStats
 //---------------------------------------------------------------------------
 CDXLColStats::~CDXLColStats()
 {
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_pmdidColStats->Release();
 	m_pdrgpdxlbucket->Release();
@@ -101,7 +101,7 @@ CDXLColStats::MDId() const
 CMDName
 CDXLColStats::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -170,7 +170,7 @@ CDXLColStats::Serialize
 						CDXLTokens::PstrToken(EdxltokenColumnStats));
 	
 	m_pmdidColStats->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWidth), m_dWidth);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNullFreq), m_dNullFreq);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNdvRemain), m_dDistinctRemain);

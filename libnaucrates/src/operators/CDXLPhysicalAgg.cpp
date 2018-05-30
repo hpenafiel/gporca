@@ -245,7 +245,7 @@ CDXLPhysicalAgg::AssertValid
 	
 	GPOS_ASSERT((EdxlaggstrategySentinel > m_edxlaggstr) && (EdxlaggstrategyPlain <= m_edxlaggstr));
 
-	GPOS_ASSERT(EdxlaggIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlaggIndexSentinel == pdxln->Arity());
 	GPOS_ASSERT(NULL != m_pdrgpulGroupingCols);
 	
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlaggIndexChild];

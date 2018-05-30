@@ -555,7 +555,7 @@ CConstraintInterval::PciIntervalFromScalarBoolOr
 	GPOS_ASSERT(CUtils::FScalarBoolOp(pexpr));
 	GPOS_ASSERT(CScalarBoolOp::EboolopOr == CScalarBoolOp::PopConvert(pexpr->Pop())->Eboolop());
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	GPOS_ASSERT(0 < ulArity);
 
 	CConstraintInterval *pci = PciIntervalFromScalarExpr(memory_pool, (*pexpr)[0], pcr);
@@ -603,7 +603,7 @@ CConstraintInterval::PciIntervalFromScalarBoolAnd
 	GPOS_ASSERT(CUtils::FScalarBoolOp(pexpr));
 	GPOS_ASSERT(CScalarBoolOp::EboolopAnd == CScalarBoolOp::PopConvert(pexpr->Pop())->Eboolop());
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	GPOS_ASSERT(0 < ulArity);
 
 	CConstraintInterval *pci = PciIntervalFromScalarExpr(memory_pool, (*pexpr)[0], pcr);

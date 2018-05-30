@@ -131,7 +131,7 @@ CDXLPhysicalCTEConsumer::AssertValid
 	BOOL fValidateChildren
 	) const
 {
-	GPOS_ASSERT(1 == pdxln->UlArity());
+	GPOS_ASSERT(1 == pdxln->Arity());
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
 	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->Pdxlop()->Edxlop());

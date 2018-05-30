@@ -1712,14 +1712,14 @@ CDXLOperatorFactory::Pdxlid
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::Pdxlcd
+//		CDXLOperatorFactory::GetColumnDescrAt
 //
 //	@doc:
 //		Construct a column descriptor
 //
 //---------------------------------------------------------------------------
 CDXLColDescr *
-CDXLOperatorFactory::Pdxlcd
+CDXLOperatorFactory::GetColumnDescrAt
 	(
 	CDXLMemoryManager *pmm,
 	const Attributes &attrs

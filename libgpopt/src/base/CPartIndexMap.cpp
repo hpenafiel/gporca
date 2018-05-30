@@ -50,7 +50,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 	m_ulScanId(ulScanId),
 	m_ppartcnstrmap(ppartcnstrmap),
 	m_epim(epim),
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pdrgppartkeys(pdrgppartkeys),
 	m_ppartcnstrRel(ppartcnstrRel),
 	m_ulPropagators(ulPropagators)
@@ -78,7 +78,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 CPartIndexMap::CPartTableInfo::~CPartTableInfo()
 {
 	CRefCount::SafeRelease(m_ppartcnstrmap);
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pdrgppartkeys->Release();
 	m_ppartcnstrRel->Release();
 }

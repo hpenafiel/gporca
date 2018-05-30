@@ -38,7 +38,7 @@ CParseHandlerWindowSpec::CParseHandlerWindowSpec
 	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
 	m_pdrgpulPartCols(NULL),
 	m_pdxlws(NULL),
-	m_pmdname(NULL),
+	m_mdname(NULL),
 	m_fHasWindowFrame(false)
 {
 }
@@ -64,14 +64,14 @@ CParseHandlerWindowSpec::StartElement
 	{
 		GPOS_ASSERT(0 == this->Length());
 		GPOS_ASSERT(NULL == m_pdxlws);
-		GPOS_ASSERT(NULL == m_pmdname);
+		GPOS_ASSERT(NULL == m_mdname);
 
 		// parse alias from attributes
 		const XMLCh *xmlszAlias = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenAlias));
 		if (NULL != xmlszAlias)
 		{
 			CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszAlias);
-			m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrAlias);
+			m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrAlias);
 			GPOS_DELETE(pstrAlias);
 		}
 
@@ -165,7 +165,7 @@ CParseHandlerWindowSpec::EndElement
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
 		pdxlwf = pphWf->Pdxlwf();
 	}
-	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_pmdname, pdxlnSortColList, pdxlwf);
+	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_mdname, pdxlnSortColList, pdxlwf);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

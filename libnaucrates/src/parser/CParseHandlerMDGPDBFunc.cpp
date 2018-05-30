@@ -38,8 +38,8 @@ CParseHandlerMDGPDBFunc::CParseHandlerMDGPDBFunc
 	)
 	:
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
-	m_pmdid(NULL),
-	m_pmdname(NULL),
+	m_mdid(NULL),
+	m_mdname(NULL),
 	m_pmdidTypeResult(NULL),
 	m_pdrgpmdidTypes(NULL),
 	m_efuncstbl(CMDFunctionGPDB::EfsSentinel)
@@ -75,12 +75,12 @@ CParseHandlerMDGPDBFunc::StartElement
 		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszFuncName);
 		
 		// create a copy of the string in the CMDName constructor
-		m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
+		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
 		
 		GPOS_DELETE(pstrFuncName);
 
 		// parse metadata id info
-		m_pmdid = CDXLOperatorFactory::PmdidFromAttrs
+		m_mdid = CDXLOperatorFactory::PmdidFromAttrs
 										(
 										m_parse_handler_mgr->Pmm(),
 										attrs,
@@ -128,7 +128,7 @@ CParseHandlerMDGPDBFunc::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncResultTypeId), element_local_name))
 	{
 		// parse result type
-		GPOS_ASSERT(NULL != m_pmdname);
+		GPOS_ASSERT(NULL != m_mdname);
 
 		m_pmdidTypeResult = CDXLOperatorFactory::PmdidFromAttrs
 													(
@@ -141,7 +141,7 @@ CParseHandlerMDGPDBFunc::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOutputCols), element_local_name))
 	{
 		// parse output column type
-		GPOS_ASSERT(NULL != m_pmdname);
+		GPOS_ASSERT(NULL != m_mdname);
 		GPOS_ASSERT(NULL == m_pdrgpmdidTypes);
 
 		const XMLCh *xmlszTypes = CDXLOperatorFactory::XmlstrFromAttrs
@@ -180,11 +180,11 @@ CParseHandlerMDGPDBFunc::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), element_local_name))
 	{
 		// construct the MD func object from its part
-		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
+		GPOS_ASSERT(m_mdid->IsValid() && NULL != m_mdname);
 		
 		m_imd_obj = GPOS_NEW(m_memory_pool) CMDFunctionGPDB(m_memory_pool,
-												m_pmdid,
-												m_pmdname,
+												m_mdid,
+												m_mdname,
 												m_pmdidTypeResult,
 												m_pdrgpmdidTypes,
 												m_fReturnsSet,

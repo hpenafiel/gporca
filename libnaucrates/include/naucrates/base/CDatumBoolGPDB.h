@@ -33,7 +33,7 @@ class CDatumBoolGPDB : public IDatumBool
 	private:
 
 		// type information
-		IMDId *m_pmdid;
+		IMDId *m_mdid;
 	
 		// boolean value
 		BOOL m_value;

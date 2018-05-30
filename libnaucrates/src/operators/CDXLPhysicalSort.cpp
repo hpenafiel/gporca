@@ -131,7 +131,7 @@ CDXLPhysicalSort::AssertValid
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
 	
-	GPOS_ASSERT(EdxlsortIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlsortIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *pdxlnSortColList = (*pdxln)[EdxlsortIndexSortColList];
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlsortIndexChild];
@@ -145,7 +145,7 @@ CDXLPhysicalSort::AssertValid
 	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnLimitOffset->Pdxlop()->Edxlop());
 	
 	// there must be at least one sorting column
-	GPOS_ASSERT(pdxlnSortColList->UlArity() > 0);
+	GPOS_ASSERT(pdxlnSortColList->Arity() > 0);
 	
 	if (fValidateChildren)
 	{

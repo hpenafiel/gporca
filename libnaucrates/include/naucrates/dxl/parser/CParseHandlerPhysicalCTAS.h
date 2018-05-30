@@ -38,7 +38,7 @@ namespace gpdxl
 			CMDName *m_pmdnameSchema;
 		
 			// table name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 	
 			// list of distribution column positions		
 			ULongPtrArray *m_pdrgpulDistr;

@@ -71,7 +71,7 @@ CXformExpandNAryJoinDP::Exfp
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
 	const CHint *phint = optimizer_config->Phint();
 
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 
 	// since the last child of the join operator is a scalar child
 	// defining the join predicate, ignore it.
@@ -111,7 +111,7 @@ CXformExpandNAryJoinDP::Transform
 
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	GPOS_ASSERT(ulArity >= 3);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);

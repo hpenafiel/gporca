@@ -123,7 +123,7 @@ CDXLScalarArrayComp::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_pstrCompOpName);
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpType), PstrArrayCompType());
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
@@ -147,7 +147,7 @@ CDXLScalarArrayComp::AssertValid
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(2 == ulArity);
 
 	for (ULONG ul = 0; ul < ulArity; ++ul)

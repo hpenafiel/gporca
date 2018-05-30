@@ -59,7 +59,7 @@ namespace gpdxl
 			// accessors
 			Edxlopid Edxlop() const;
 			const CWStringConst *PstrOpName() const;
-			const CMDName *Pmdname();
+			const CMDName *MdName();
 			
 			// serialize operator in DXL format
 			virtual

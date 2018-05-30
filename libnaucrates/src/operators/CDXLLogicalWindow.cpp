@@ -160,7 +160,7 @@ CDXLLogicalWindow::AssertValid
 	BOOL fValidateChildren
 	) const
 {
-	GPOS_ASSERT(2 == pdxln->UlArity());
+	GPOS_ASSERT(2 == pdxln->Arity());
 
 	CDXLNode *pdxlnProjList = (*pdxln)[0];
 	CDXLNode *pdxlnChild = (*pdxln)[1];
@@ -174,7 +174,7 @@ CDXLLogicalWindow::AssertValid
 		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
 	}
 
-	const ULONG ulArity = pdxlnProjList->UlArity();
+	const ULONG ulArity = pdxlnProjList->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnPrEl = (*pdxlnProjList)[ul];

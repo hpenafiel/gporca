@@ -34,7 +34,7 @@ namespace gpnaucrates
 		private:
 
 			// type information
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 		
 			// integer value
 			LINT m_lVal;

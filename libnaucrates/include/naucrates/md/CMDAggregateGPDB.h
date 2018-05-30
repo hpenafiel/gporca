@@ -43,10 +43,10 @@ namespace gpmd
 		const CWStringDynamic *m_pstr;
 		
 		// aggregate id
-		IMDId *m_pmdid;
+		IMDId *m_mdid;
 		
 		// aggregate name
-		CMDName *m_pmdname;
+		CMDName *m_mdname;
 		
 		// result type
 		IMDId *m_pmdidTypeResult;

@@ -87,7 +87,7 @@ CJoinOrderTest::EresUnittest_Expand()
 	// build test case
 	CExpression *pexpr = CTestUtils::PexprLogicalNAryJoin(memory_pool);
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	ULONG ulArity = pexpr->UlArity();
+	ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];

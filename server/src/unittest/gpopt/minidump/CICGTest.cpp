@@ -350,7 +350,7 @@ CICGTest::FDXLOpSatisfiesPredicate
 		return false;
 	}
 
-	for (ULONG ul = 0; ul < pdxl->UlArity(); ul++)
+	for (ULONG ul = 0; ul < pdxl->Arity(); ul++)
 	{
 		if (!FDXLOpSatisfiesPredicate((*pdxl)[ul], fdop))
 		{

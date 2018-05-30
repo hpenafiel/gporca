@@ -285,7 +285,7 @@ CPhysicalCTEConsumer::PcmDerive
 	)
 	const
 {
-	GPOS_ASSERT(0 == exprhdl.UlArity());
+	GPOS_ASSERT(0 == exprhdl.Arity());
 
 	CCTEMap *pcmConsumer = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
 	pcmConsumer->Insert(m_ulId, CCTEMap::EctConsumer, NULL /*pdpplan*/);

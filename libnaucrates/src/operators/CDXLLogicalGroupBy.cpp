@@ -213,7 +213,7 @@ CDXLLogicalGroupBy::AssertValid
 	// 1 Child node
 	// 1 Group By project list
 
-	const ULONG ulChildren = pdxln->UlArity();
+	const ULONG ulChildren = pdxln->Arity();
 	GPOS_ASSERT(2 == ulChildren);
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
@@ -231,7 +231,7 @@ CDXLLogicalGroupBy::AssertValid
 		}
 	}
 
-	const ULONG ulArity = pdxlnPrL->UlArity();
+	const ULONG ulArity = pdxlnPrL->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnPrEl = (*pdxlnPrL)[ul];

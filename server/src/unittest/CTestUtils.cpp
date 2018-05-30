@@ -1544,7 +1544,7 @@ CTestUtils::PexprNAryJoinOnLeftOuterJoin
 {
 	CExpression *pexprNAryJoin = PexprLogicalNAryJoin(memory_pool);
 	CColRef *pcrNAryJoin = CDrvdPropRelational::Pdprel((*pexprNAryJoin)[0]->PdpDerive())->PcrsOutput()->PcrAny();
-	CExpression *pexprScalar = (*pexprNAryJoin)[pexprNAryJoin->UlArity() - 1];
+	CExpression *pexprScalar = (*pexprNAryJoin)[pexprNAryJoin->Arity() - 1];
 
 	// copy NAry-Join children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -2917,7 +2917,7 @@ CTestUtils::PexprFindFirstExpressionWithOpId
 		return pexpr;
 	}
 
-	ULONG ulArity = pexpr->UlArity();
+	ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprFound = PexprFindFirstExpressionWithOpId((*pexpr)[ul], eopid);
@@ -4474,7 +4474,7 @@ CTestUtils::PexprFirst
 	}
 
 	// recursively check children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		const CExpression *pexprFirst = PexprFirst((*pexpr)[ul], eopid);

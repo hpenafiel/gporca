@@ -126,7 +126,7 @@ CXformCollapseGbAgg::Transform
 		return;
 	}
 
-	if (0 < pexprTopProjectList->UlArity() || 0 < pexprBottomProjectList->UlArity())
+	if (0 < pexprTopProjectList->Arity() || 0 < pexprBottomProjectList->Arity())
 	{
 		// exit if any of the Gb operators has an aggregate function
 		return;

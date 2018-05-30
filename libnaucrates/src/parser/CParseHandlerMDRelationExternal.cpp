@@ -155,8 +155,8 @@ CParseHandlerMDRelationExternal::EndElement
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationExternalGPDB
 								(
 									m_memory_pool,
-									m_pmdid,
-									m_pmdname,
+									m_mdid,
+									m_mdname,
 									m_ereldistrpolicy,
 									pdrgpmdcol,
 									m_pdrgpulDistrColumns,

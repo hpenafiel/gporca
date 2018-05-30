@@ -129,7 +129,7 @@ CDXLPhysicalRedistributeMotion::AssertValid
 	GPOS_ASSERT(m_pdrgpiOutputSegIds != NULL);
 	GPOS_ASSERT(0 < m_pdrgpiOutputSegIds->Size());
 	
-	GPOS_ASSERT(EdxlrmIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlrmIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlrmIndexChild];
 	CDXLNode *pdxlnHashExprList = (*pdxln)[EdxlrmIndexHashExprList];

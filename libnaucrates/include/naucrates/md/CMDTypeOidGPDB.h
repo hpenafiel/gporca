@@ -68,7 +68,7 @@ namespace gpmd
 			IMemoryPool *m_memory_pool;
 
 			// type id
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// mdids of different comparison operators
 			IMDId *m_pmdidOpEq;

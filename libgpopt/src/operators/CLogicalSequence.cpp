@@ -92,10 +92,10 @@ CLogicalSequence::PcrsDeriveOutput
 	CExpressionHandle &exprhdl
 	)
 {
-	GPOS_ASSERT(1 <= exprhdl.UlArity());
+	GPOS_ASSERT(1 <= exprhdl.Arity());
 	
 	// get output columns of last child
-	CColRefSet *pcrs = exprhdl.Pdprel(exprhdl.UlArity() - 1)->PcrsOutput();
+	CColRefSet *pcrs = exprhdl.Pdprel(exprhdl.Arity() - 1)->PcrsOutput();
 	pcrs->AddRef();
 	
 	return pcrs;
@@ -120,7 +120,7 @@ CLogicalSequence::PkcDeriveKeys
 	const
 {
 	// return key of last child
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	return PkcDeriveKeysPassThru(exprhdl, ulArity - 1 /* ulChild */);
 }
 
@@ -142,7 +142,7 @@ CLogicalSequence::Maxcard
 	const
 {
 	// pass on max card of last child
-	return exprhdl.Pdprel(exprhdl.UlArity() - 1)->Maxcard();
+	return exprhdl.Pdprel(exprhdl.Arity() - 1)->Maxcard();
 }
 
 //---------------------------------------------------------------------------

@@ -67,7 +67,7 @@ CXformSubqJoin2Apply::Exfp
 	)
 	const
 {
-	if (exprhdl.Pdpscalar(exprhdl.UlArity() - 1)->FHasSubquery())
+	if (exprhdl.Pdpscalar(exprhdl.Arity() - 1)->FHasSubquery())
 	{
 		return CXform::ExfpHigh;
 	}
@@ -131,7 +131,7 @@ CXformSubqJoin2Apply::CollectSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
@@ -168,7 +168,7 @@ CXformSubqJoin2Apply::PexprReplaceSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexprScalar->UlArity();
+	const ULONG ulArity = pexprScalar->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -203,7 +203,7 @@ CXformSubqJoin2Apply::PexprSubqueryPushDown
 	GPOS_ASSERT(COperator::EopLogicalSelect == pexpr->Pop()->Eopid());
 
 	CExpression *pexprJoin = (*pexpr)[0];
-	const ULONG ulArity = pexprJoin->UlArity();
+	const ULONG ulArity = pexprJoin->Arity();
 	CExpression *pexprScalar = (*pexpr)[1];
 	CExpression *pexprJoinPred = (*pexprJoin)[ulArity - 1];
 
@@ -318,7 +318,7 @@ CXformSubqJoin2Apply::Transform
 
 	// check if join columns in join condition are still accessible after subquery pushdown
 	CExpression *pexprJoin = (*pexprSubqsPushedDown)[0];
-	CExpression *pexprJoinCondition = (*pexprJoin)[pexprJoin->UlArity() - 1];
+	CExpression *pexprJoinCondition = (*pexprJoin)[pexprJoin->Arity() - 1];
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprJoinCondition->PdpDerive())->PcrsUsed();
 	CColRefSet *pcrsJoinOutput = CDrvdPropRelational::Pdprel(pexprJoin->PdpDerive())->PcrsOutput();
 	if (!pcrsJoinOutput->ContainsAll(pcrsUsed))

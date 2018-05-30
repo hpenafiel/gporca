@@ -73,8 +73,8 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
-	m_pmdname(pmdname),
+	m_mdid(pmdid),
+	m_mdname(pmdname),
 	m_fRedistributable(fRedistributable),
 	m_fFixedLength(fFixedLength),
 	m_length(length),
@@ -102,8 +102,8 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 	GPOS_ASSERT_IMP(!m_fFixedLength, 0 > m_iLength);
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 
-	m_pmdid->AddRef();
-	m_pdatumNull = GPOS_NEW(m_memory_pool) CDatumGenericGPDB(m_memory_pool, m_pmdid, IDefaultTypeModifier, NULL /*pba*/, 0 /*length*/, true /*fConstNull*/, 0 /*lValue */, 0 /*dValue */);
+	m_mdid->AddRef();
+	m_pdatumNull = GPOS_NEW(m_memory_pool) CDatumGenericGPDB(m_memory_pool, m_mdid, IDefaultTypeModifier, NULL /*pba*/, 0 /*length*/, true /*fConstNull*/, 0 /*lValue */, 0 /*dValue */);
 }
 
 //---------------------------------------------------------------------------
@@ -116,7 +116,7 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 //---------------------------------------------------------------------------
 CMDTypeGenericGPDB::~CMDTypeGenericGPDB()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pmdidOpEq->Release();
 	m_pmdidOpNeq->Release();
 	m_pmdidOpLT->Release();
@@ -131,7 +131,7 @@ CMDTypeGenericGPDB::~CMDTypeGenericGPDB()
 	m_pmdidSum->Release();
 	m_pmdidCount->Release();
 	CRefCount::SafeRelease(m_pmdidBaseRelation);
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_pdatumNull->Release();
 }
@@ -181,7 +181,7 @@ CMDTypeGenericGPDB::PmdidAgg
 IMDId *
 CMDTypeGenericGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -195,7 +195,7 @@ CMDTypeGenericGPDB::MDId() const
 CMDName
 CMDTypeGenericGPDB::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -281,8 +281,8 @@ CMDTypeGenericGPDB::Pdatum
 		dValue = datum_dxl->GetDoubleMapping();
 	}
 
-	m_pmdid->AddRef();
-	return GPOS_NEW(m_memory_pool) CDatumGenericGPDB(m_memory_pool, m_pmdid, datum_dxl->TypeModifier(), datum_dxl->GetByteArray(), datum_dxl->Length(),
+	m_mdid->AddRef();
+	return GPOS_NEW(m_memory_pool) CDatumGenericGPDB(m_memory_pool, m_mdid, datum_dxl->TypeModifier(), datum_dxl->GetByteArray(), datum_dxl->Length(),
 											 datum_dxl->IsNull(), lValue, dValue);
 }
 
@@ -302,7 +302,7 @@ CMDTypeGenericGPDB::Pdatum
 	)
 	const
 {
-	m_pmdid->AddRef();
+	m_mdid->AddRef();
 	CDXLDatumGeneric *pdxldatumGeneric = CDXLDatumGeneric::Cast(const_cast<CDXLDatum *>(datum_dxl));
 
 	LINT lValue = 0;
@@ -320,7 +320,7 @@ CMDTypeGenericGPDB::Pdatum
 	return GPOS_NEW(m_memory_pool) CDatumGenericGPDB
 						(
 						memory_pool,
-						m_pmdid,
+						m_mdid,
 						pdxldatumGeneric->TypeModifier(),
 						pdxldatumGeneric->GetByteArray(),
 						pdxldatumGeneric->Length(),
@@ -346,7 +346,7 @@ CMDTypeGenericGPDB::Pdxldatum
 	)
 	const
 {
-	m_pmdid->AddRef();
+	m_mdid->AddRef();
 	CDatumGenericGPDB *pdatumgeneric = dynamic_cast<CDatumGenericGPDB*>(pdatum);
 	ULONG length = 0;
 	BYTE *pba = NULL;
@@ -367,7 +367,7 @@ CMDTypeGenericGPDB::Pdxldatum
 		dValue = pdatumgeneric->GetDoubleMapping();
 	}
 
-	return Pdxldatum(memory_pool, m_pmdid, pdatumgeneric->TypeModifier(), m_fByValue, pdatumgeneric->IsNull(), pba, length, lValue, dValue);
+	return Pdxldatum(memory_pool, m_mdid, pdatumgeneric->TypeModifier(), m_fByValue, pdatumgeneric->IsNull(), pba, length, lValue, dValue);
 }
 
 //---------------------------------------------------------------------------
@@ -381,7 +381,7 @@ CMDTypeGenericGPDB::Pdxldatum
 BOOL
 CMDTypeGenericGPDB::FAmbiguous() const
 {
-	OID oid = CMDIdGPDB::PmdidConvert(m_pmdid)->OidObjectId();
+	OID oid = CMDIdGPDB::PmdidConvert(m_mdid)->OidObjectId();
 	// This should match the IsPolymorphicType() macro in GPDB's pg_type.h
 	return (GPDB_ANYELEMENT_OID == oid ||
 		GPDB_ANYARRAY_OID == oid ||
@@ -540,9 +540,9 @@ CMDTypeGenericGPDB::PdxldatumNull
 	)
 	const
 {
-	m_pmdid->AddRef();
+	m_mdid->AddRef();
 
-	return Pdxldatum(memory_pool, m_pmdid, IDefaultTypeModifier, m_fByValue, true /*fConstNull*/, NULL /*pba*/, 0 /*length*/, 0 /*lValue */, 0 /*dValue */);
+	return Pdxldatum(memory_pool, m_mdid, IDefaultTypeModifier, m_fByValue, true /*fConstNull*/, NULL /*pba*/, 0 /*length*/, 0 /*lValue */, 0 /*dValue */);
 }
 
 //---------------------------------------------------------------------------

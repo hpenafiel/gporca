@@ -38,7 +38,7 @@ namespace gpopt
 	{
 		private:
 			// id of the object in the underlying source
-			const IMDId *m_pmdid;
+			const IMDId *m_mdid;
 			
 		public:
 			// ctors
@@ -52,7 +52,7 @@ namespace gpopt
 			
 			const IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 					
 			// equality function

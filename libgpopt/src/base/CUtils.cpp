@@ -592,7 +592,7 @@ CUtils::UlScalarArrayArity
 {
 	GPOS_ASSERT(FScalarArray(pexprArray));
 
-	ULONG ulArity = pexprArray->UlArity();
+	ULONG ulArity = pexprArray->Arity();
 	if (0 == ulArity)
 	{
 		CScalarArray *popScalarArray = CScalarArray::PopConvert(pexprArray->Pop());
@@ -635,7 +635,7 @@ CUtils::PScalarArrayExprChildAt
 	ULONG ul
 	)
 {
-	ULONG ulArity = pexprArray->UlArity();
+	ULONG ulArity = pexprArray->Arity();
 	if (0 == ulArity)
 	{
 		CScalarArray *popScalarArray = CScalarArray::PopConvert(pexprArray->Pop());
@@ -671,7 +671,7 @@ CUtils::PexprScalarArrayChild
 BOOL
 CUtils::FScalarConstAndScalarIdentArray(CExpression *pexprArray)
 {
-	for (ULONG i = 0; i < pexprArray->UlArity(); ++i)
+	for (ULONG i = 0; i < pexprArray->Arity(); ++i)
 	{
 		CExpression *pexprChild = (*pexprArray)[i];
 
@@ -689,7 +689,7 @@ CUtils::FScalarConstAndScalarIdentArray(CExpression *pexprArray)
 BOOL
 CUtils::FScalarConstArray(CExpression *pexprArray)
 {
-	const ULONG ulArity = pexprArray->UlArity();
+	const ULONG ulArity = pexprArray->Arity();
 
 	BOOL fAllConsts = FScalarArray(pexprArray);
 	for (ULONG ul = 0; fAllConsts && ul < ulArity; ul++)
@@ -704,7 +704,7 @@ CUtils::FScalarConstArray(CExpression *pexprArray)
 BOOL
 CUtils::FScalarArrayCollapsed(CExpression *pexprArray)
 {
-	const ULONG ulExprArity = pexprArray->UlArity();
+	const ULONG ulExprArity = pexprArray->Arity();
 	const ULONG ulConstArity = UlScalarArrayArity(pexprArray);
 
 	return ulExprArity == 0 && ulConstArity > 0;
@@ -721,7 +721,7 @@ CUtils::PexprCollapseConstArray
 {
 	GPOS_ASSERT(NULL != pexprArray);
 
-	const ULONG ulArity = pexprArray->UlArity();
+	const ULONG ulArity = pexprArray->Arity();
 
 	// do not collapse already collapsed array, otherwise we lose the
 	// collapsed constants.
@@ -1044,7 +1044,7 @@ CUtils::FHasSubqueryOrApply
 		}
 	}
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	BOOL fSubqueryOrApply = false;
 	for (ULONG ul = 0; !fSubqueryOrApply && ul < ulArity; ul++)
 	{
@@ -1077,7 +1077,7 @@ CUtils::FHasCorrelatedApply
 		return true;
 	}
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (FHasCorrelatedApply((*pexpr)[ul]))
@@ -1459,7 +1459,7 @@ CUtils::FProjectConstTableWithOneScalarSubq
 		CExpression *pexprScalar = (*pexpr)[1];
 		GPOS_ASSERT(COperator::EopScalarProjectList == pexprScalar->Pop()->Eopid());
 
-		if (1 == pexprScalar->UlArity() && FProjElemWithScalarSubq((*pexprScalar)[0]))
+		if (1 == pexprScalar->Arity() && FProjElemWithScalarSubq((*pexprScalar)[0]))
 		{
 			return true;
 		}
@@ -1492,7 +1492,7 @@ CUtils::FScalarSubqWithConstTblGet
 
 	if (COperator::EopScalarSubquery == pexpr->Pop()->Eopid() &&
 		COperator::EopLogicalConstTableGet == (*pexpr)[0]->Pop()->Eopid() &&
-		1 == pexpr->UlArity())
+		1 == pexpr->Arity())
 	{
 		return true;
 	}
@@ -1630,13 +1630,13 @@ CUtils::Equals
 	}
 
 	// compare number of children and root operators
-	if (pexprLeft->UlArity() != pexprRight->UlArity() ||
+	if (pexprLeft->Arity() != pexprRight->Arity() ||
 		!pexprLeft->Pop()->FMatch(pexprRight->Pop())	)
 	{
 		return false;
 	}
 
-	if (0 < pexprLeft->UlArity() && pexprLeft->Pop()->FInputOrderSensitive())
+	if (0 < pexprLeft->Arity() && pexprLeft->Pop()->FInputOrderSensitive())
 	{
 		return FMatchChildrenOrdered(pexprLeft, pexprRight);
 	}
@@ -1653,8 +1653,8 @@ CUtils::FMatchChildrenUnordered
 	)
 {
 	BOOL fEqual = true;
-	const ULONG ulArity = pexprLeft->UlArity();
-	GPOS_ASSERT(pexprRight->UlArity() == ulArity);
+	const ULONG ulArity = pexprLeft->Arity();
+	GPOS_ASSERT(pexprRight->Arity() == ulArity);
 
 	for (ULONG ul = 0; fEqual && ul < ulArity; ul++)
 	{
@@ -1674,8 +1674,8 @@ CUtils::FMatchChildrenOrdered
 	)
 {
 	BOOL fEqual = true;
-	const ULONG ulArity = pexprLeft->UlArity();
-	GPOS_ASSERT(pexprRight->UlArity() == ulArity);
+	const ULONG ulArity = pexprLeft->Arity();
+	GPOS_ASSERT(pexprRight->Arity() == ulArity);
 
 	for (ULONG ul = 0; fEqual && ul < ulArity; ul++)
 	{
@@ -2094,7 +2094,7 @@ CUtils::FHasCountAgg
 
 	// recursively process children
 	BOOL fHasCountAgg = false;
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; !fHasCountAgg && ul < ulArity; ul++)
 	{
 		fHasCountAgg = FHasCountAgg((*pexpr)[ul], ppcrCount);
@@ -2125,7 +2125,7 @@ CUtils::FHasCountAggMatchingColumn
 	{
 		const CExpression* const pexprProjectList = (*pexpr)[1];
 		GPOS_ASSERT(COperator::EopScalarProjectList == pexprProjectList->Pop()->Eopid());
-		const ULONG ulArity = pexprProjectList->UlArity();
+		const ULONG ulArity = pexprProjectList->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CExpression* const pexprPrjElem = (*pexprProjectList)[ul];
@@ -2140,7 +2140,7 @@ CUtils::FHasCountAggMatchingColumn
 	// recurse
 	else
 	{
-		const ULONG ulArity = pexpr->UlArity();
+		const ULONG ulArity = pexpr->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			const CExpression* pexprChild = (*pexpr)[ul];
@@ -2306,7 +2306,7 @@ CUtils::PexprCollapseSelect
 	if
 		(
 		COperator::EopLogicalSelect == pexpr->Pop()->Eopid() &&
-		2 == pexpr->UlArity() // perform collapsing only when we have a full Select tree
+		2 == pexpr->Arity() // perform collapsing only when we have a full Select tree
 		)
 	{
 		// collapse Selects into one expression
@@ -2340,7 +2340,7 @@ CUtils::PexprLogicalProject
 	if (fNewComputedCol)
 	{
 		CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-		const ULONG ulArity = pexprPrjList->UlArity();
+		const ULONG ulArity = pexprPrjList->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CExpression *pexprPrEl = (*pexprPrjList)[ul];
@@ -2561,7 +2561,7 @@ CUtils::FHasGlobalAggFunc
 	GPOS_ASSERT(COperator::EopScalarProjectList == pexprAggProjList->Pop()->Eopid());
 	BOOL fGlobal = false;
 
-	const ULONG ulArity = pexprAggProjList->UlArity();
+	const ULONG ulArity = pexprAggProjList->Arity();
 
 	for (ULONG ul = 0; ul < ulArity && !fGlobal; ul++)
 	{
@@ -2866,7 +2866,7 @@ CUtils::PdrgpcrsCopyChildEquivClasses
 	)
 {
 	DrgPcrs *pdrgpcrs = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
@@ -2981,7 +2981,7 @@ CUtils::FHasOneStagePhysicalAgg
 	}
 
 	// recursively check children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (FHasOneStagePhysicalAgg((*pexpr)[ul]))
@@ -3036,7 +3036,7 @@ CUtils::FHasOp
 	}
 
 	// recursively check children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (FHasOp((*pexpr)[ul], peopid, ulOps))
@@ -3070,7 +3070,7 @@ CUtils::UlInlinableCTEs
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	ULONG ulChildCTEs = 0;
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -3106,12 +3106,12 @@ CUtils::UlJoins
 		if (COperator::EopLogicalNAryJoin == pop->Eopid())
 		{
 			// N-Ary join is equivalent to a cascade of (Arity - 2) binary joins
-			ulJoins = pexpr->UlArity() - 2;
+			ulJoins = pexpr->Arity() - 2;
 		}
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	ULONG ulChildJoins = 0;
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -3147,7 +3147,7 @@ CUtils::UlSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	ULONG ulChildSubqueries = 0;
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -3372,7 +3372,7 @@ CUtils::FUsesChildColsOnly
 	CExpressionHandle &exprhdl
 	)
 {
-	GPOS_ASSERT(3 == exprhdl.UlArity());
+	GPOS_ASSERT(3 == exprhdl.Arity());
 
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
@@ -3393,7 +3393,7 @@ CUtils::FInnerUsesExternalCols
 	CExpressionHandle &exprhdl
 	)
 {
-	GPOS_ASSERT(3 == exprhdl.UlArity());
+	GPOS_ASSERT(3 == exprhdl.Arity());
 
 	CColRefSet *pcrsOuterRefs = exprhdl.Pdprel(1 /*ulChildIndex*/)->PcrsOuter();
 	if (0 == pcrsOuterRefs->Size())
@@ -3455,7 +3455,7 @@ CUtils::UlCountOperator
 		ulOpCnt += 1;
 	}
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
 	{
 		ulOpCnt += UlCountOperator((*pexpr)[ulChild], eopid);
@@ -4598,7 +4598,7 @@ CUtils::PexprCollapseProjects
 
 	// iterate over the parent project elements and see if we can add it to the child's project node
 	DrgPexpr *pdrgpexprPrEl = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	ULONG ulLenPr = pexprScalar->UlArity();
+	ULONG ulLenPr = pexprScalar->Arity();
 	for (ULONG ul1 = 0; ul1 < ulLenPr; ul1++)
 	{
 		CExpression *pexprPrE = (*pexprScalar)[ul1];
@@ -4664,7 +4664,7 @@ CUtils::PexprCollapseProjects
 	pdrgpexprSetReturnFunc->Release();
 
 	// add all project elements of the origin child project node
-	ULONG ulLenChild = pexprChildScalar->UlArity();
+	ULONG ulLenChild = pexprChildScalar->Arity();
 	for (ULONG ul = 0; ul < ulLenChild; ul++)
 	{
 		CExpression *pexprPrE = (*pexprChildScalar)[ul];
@@ -4903,7 +4903,7 @@ CUtils::ValidateCTEProducerConsumerLocality
 		eelt = CUtils::ExecLocalityType(pdsChild);
 	}
 
-	const ULONG ulLen = pexpr->UlArity();
+	const ULONG ulLen = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
@@ -5026,7 +5026,7 @@ CUtils::FInnerRefInProjectList
 
 	// Project List with one project element
 	CExpression *pexprInner = (*pexpr)[1];
-	GPOS_ASSERT(1 == pexprInner->UlArity());
+	GPOS_ASSERT(1 == pexprInner->Arity());
 	BOOL fExprHasAnyCrFromCrs = CUtils::FExprHasAnyCrFromCrs(pexprInner, pcrsOuterOutput);
 
 	return fExprHasAnyCrFromCrs;
@@ -5070,7 +5070,7 @@ CUtils::FExprHasAnyCrFromCrs
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (FExprHasAnyCrFromCrs((*pexpr)[ul], pcrs))
@@ -5097,7 +5097,7 @@ CUtils::FHasAggWindowFunc
 
 	// process children
 	BOOL fHasAggWindowFunc = false;
-	for (ULONG ul = 0; !fHasAggWindowFunc && ul < pexpr->UlArity() ; ul++)
+	for (ULONG ul = 0; !fHasAggWindowFunc && ul < pexpr->Arity() ; ul++)
 	{
 		fHasAggWindowFunc = FHasAggWindowFunc((*pexpr)[ul]);
 	}
@@ -5116,7 +5116,7 @@ CUtils::FCrossJoin
 	BOOL fCrossJoin = false;
 	if (pexpr->Pop()->Eopid() == COperator::EopLogicalInnerJoin)
 	{
-		GPOS_ASSERT(3 == pexpr->UlArity());
+		GPOS_ASSERT(3 == pexpr->Arity());
 		CExpression *pexprPred = (*pexpr)[2];
 		if (CUtils::FScalarConstTrue(pexprPred))
 			fCrossJoin = true;

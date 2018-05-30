@@ -88,7 +88,7 @@ namespace gpopt
 				CExpressionHandle &exprhdl
 				)
 			{
-				GPOS_ASSERT(3 == exprhdl.UlArity());
+				GPOS_ASSERT(3 == exprhdl.Arity());
 
 				return PcrsDeriveOutputCombineLogical(memory_pool, exprhdl);
 			}

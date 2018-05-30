@@ -54,7 +54,7 @@ CLogicalNAryJoin::Maxcard
 	)
 	const
 {
-	return CLogical::Maxcard(exprhdl, exprhdl.UlArity() - 1, MaxcardDef(exprhdl));
+	return CLogical::Maxcard(exprhdl, exprhdl.Arity() - 1, MaxcardDef(exprhdl));
 }
 
 //---------------------------------------------------------------------------

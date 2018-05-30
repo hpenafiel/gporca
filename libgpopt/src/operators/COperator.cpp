@@ -96,7 +96,7 @@ COperator::EfdaDeriveFromChildren
 {
 	IMDFunction::EFuncDataAcc efda = efdaDefault;
 
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		IMDFunction::EFuncDataAcc efdaChild = exprhdl.PfpChild(ul)->Efda();
@@ -126,7 +126,7 @@ COperator::EfsDeriveFromChildren
 {
 	IMDFunction::EFuncStbl efs = efsDefault;
 
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		IMDFunction::EFuncStbl efsChild = exprhdl.PfpChild(ul)->Efs();

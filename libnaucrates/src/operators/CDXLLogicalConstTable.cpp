@@ -96,14 +96,14 @@ CDXLLogicalConstTable::PstrOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalConstTable::Pdxlcd
+//		CDXLLogicalConstTable::GetColumnDescrAt
 //
 //	@doc:
 //		Type of const table element at given position
 //
 //---------------------------------------------------------------------------
 CDXLColDescr *
-CDXLLogicalConstTable::Pdxlcd
+CDXLLogicalConstTable::GetColumnDescrAt
 	(
 	ULONG ul
 	) 
@@ -115,14 +115,14 @@ CDXLLogicalConstTable::Pdxlcd
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalConstTable::UlArity
+//		CDXLLogicalConstTable::Arity
 //
 //	@doc:
 //		Const table arity
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLLogicalConstTable::UlArity() const
+CDXLLogicalConstTable::Arity() const
 {
 	return m_pdrgpdxlcd->Size();
 }
@@ -151,7 +151,7 @@ CDXLLogicalConstTable::SerializeToDXL
 	// serialize columns
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	
-	for (ULONG i = 0; i < UlArity(); i++)
+	for (ULONG i = 0; i < Arity(); i++)
 	{
 		CDXLColDescr *pdxlcd = (*m_pdrgpdxlcd)[i];
 		pdxlcd->SerializeToDXL(xml_serializer);
@@ -197,10 +197,10 @@ CDXLLogicalConstTable::FDefinesColumn
 	)
 	const
 {
-	const ULONG ulSize = UlArity();
+	const ULONG ulSize = Arity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = Pdxlcd(ulDescr)->Id();
+		ULONG ulId = GetColumnDescrAt(ulDescr)->Id();
 		if (ulId == ulColId)
 		{
 			return true;
@@ -229,7 +229,7 @@ CDXLLogicalConstTable::AssertValid
 	// assert validity of col descr
 	GPOS_ASSERT(m_pdrgpdxlcd != NULL);
 	GPOS_ASSERT(0 < m_pdrgpdxlcd->Size());
-	GPOS_ASSERT(0 == pdxln->UlArity());
+	GPOS_ASSERT(0 == pdxln->Arity());
 }
 #endif // GPOS_DEBUG
 

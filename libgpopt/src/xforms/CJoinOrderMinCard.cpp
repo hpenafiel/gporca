@@ -146,14 +146,14 @@ CJoinOrderMinCard::MarkUsedEdges()
 
 	CExpression *pexpr = m_pcompResult->m_pexpr;
 	COperator::EOperatorId eopid = pexpr->Pop()->Eopid();
-	if (0 == pexpr->UlArity() ||
+	if (0 == pexpr->Arity() ||
 		(COperator::EopLogicalSelect != eopid && COperator::EopLogicalInnerJoin != eopid))
 	{
 		// result component does not have a scalar child, e.g. a Get node
 		return;
 	}
 
-	CExpression *pexprScalar = (*pexpr) [pexpr->UlArity() - 1];
+	CExpression *pexprScalar = (*pexpr) [pexpr->Arity() - 1];
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(m_memory_pool, pexprScalar);
 	const ULONG ulSize = pdrgpexpr->Size();
 

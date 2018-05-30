@@ -42,7 +42,7 @@ namespace gpdxl
 			CDXLWindowSpec *m_pdxlws;
 
 			// name of window specification
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// does the window spec have a frame definition
 			BOOL m_fHasWindowFrame;

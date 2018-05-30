@@ -43,7 +43,7 @@ namespace gpdxl
 			ULongPtrArray *m_pdrgpulPartCol;
 
 			// name of window specification
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// sorting columns
 			CDXLNode *m_pdxlnSortColList;
@@ -96,9 +96,9 @@ namespace gpdxl
 			}
 
 			// window specification name
-			CMDName *Pmdname() const
+			CMDName *MdName() const
 			{
-				return m_pmdname;
+				return m_mdname;
 			}
 	};
 

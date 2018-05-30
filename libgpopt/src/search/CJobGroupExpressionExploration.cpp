@@ -212,7 +212,7 @@ CJobGroupExpressionExploration::ScheduleChildGroupsJobs
 {
 	GPOS_ASSERT(!FChildrenScheduled());
 
-	ULONG ulArity = m_pgexpr->UlArity();
+	ULONG ulArity = m_pgexpr->Arity();
 
 	for (ULONG i = 0; i < ulArity; i++)
 	{

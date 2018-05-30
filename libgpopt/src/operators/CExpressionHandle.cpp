@@ -119,7 +119,7 @@ CExpressionHandle::FStatsDerived() const
 		return false;
 	}
 
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (FScalarChild(ul))
@@ -187,7 +187,7 @@ CExpressionHandle::CopyStats()
 	// attach child stats
 	GPOS_ASSERT(NULL == m_pdrgpstat);
 	m_pdrgpstat = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		IStatistics *pstatsChild = NULL;
@@ -308,7 +308,7 @@ CExpressionHandle::CopyGroupProps()
 	m_pdp = pdp;
 
 	// add-ref child groups' properties
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool, ulArity);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -339,7 +339,7 @@ CExpressionHandle::CopyExprProps()
 	m_pdp = pdp;
 
 	// add-ref child expressions' properties
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool, ulArity);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -371,7 +371,7 @@ CExpressionHandle::CopyCostCtxtProps()
 	m_pdp = pdp;
 
 	// add-ref child group expressions' properties
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool, ulArity);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -436,7 +436,7 @@ CExpressionHandle::DeriveProps
 
 	// extract children's properties
 	m_pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool);
-	const ULONG ulArity = m_pexpr->UlArity();
+	const ULONG ulArity = m_pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprChild = (*m_pexpr)[ul];
@@ -472,7 +472,7 @@ CExpressionHandle::PdrgpstatOuterRefs
 	const
 {
 	GPOS_ASSERT(NULL != statistics_array);
-	GPOS_ASSERT(ulChildIndex < UlArity());
+	GPOS_ASSERT(ulChildIndex < Arity());
 
 	if (FScalarChild(ulChildIndex) || !FHasOuterRefs(ulChildIndex))
 	{
@@ -521,7 +521,7 @@ BOOL
 CExpressionHandle::FAttachedToLeafPattern() const
 {
 	return
-		0 == UlArity() &&
+		0 == Arity() &&
 		NULL != m_pexpr &&
 		NULL != m_pexpr->Pgexpr();
 }
@@ -591,7 +591,7 @@ CExpressionHandle::DeriveStats
 	// create array of children stats
 	m_pdrgpstat = GPOS_NEW(m_memory_pool) DrgPstat(m_memory_pool);
 	ULONG ulMaxChildRisk = 1;
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		// create a new context for outer references used by current child
@@ -926,7 +926,7 @@ CExpressionHandle::InitReqdProps
 	// initialize array with input requirements,
 	// the initial requirements are only place holders in the array
 	// and they are replaced when computing the requirements of each child
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		m_prp->AddRef();
@@ -954,7 +954,7 @@ CExpressionHandle::ComputeChildReqdProps
 {
 	GPOS_ASSERT(NULL != m_prp);
 	GPOS_ASSERT(NULL != m_pdrgprp);
-	GPOS_ASSERT(m_pdrgprp->Size() == UlArity());
+	GPOS_ASSERT(m_pdrgprp->Size() == Arity());
 	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size() && "uninitialized required child properties");
 	GPOS_CHECK_ABORT;
 
@@ -994,7 +994,7 @@ CExpressionHandle::CopyChildReqdProps
 {
 	GPOS_ASSERT(NULL != prp);
 	GPOS_ASSERT(NULL != m_pdrgprp);
-	GPOS_ASSERT(m_pdrgprp->Size() == UlArity());
+	GPOS_ASSERT(m_pdrgprp->Size() == Arity());
 	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size() && "uninitialized required child properties");
 
 	m_pdrgprp->Replace(ulChildIndex, prp);
@@ -1019,7 +1019,7 @@ CExpressionHandle::ComputeChildReqdCols
 {
 	GPOS_ASSERT(NULL != m_prp);
 	GPOS_ASSERT(NULL != m_pdrgprp);
-	GPOS_ASSERT(m_pdrgprp->Size() == UlArity());
+	GPOS_ASSERT(m_pdrgprp->Size() == Arity());
 	GPOS_ASSERT(ulChildIndex < m_pdrgprp->Size() && "uninitialized required child properties");
 
 	CReqdProp *prp = m_prp;
@@ -1057,7 +1057,7 @@ CExpressionHandle::ComputeReqdProps
 	)
 {
 	InitReqdProps(prpInput);
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		ComputeChildReqdProps(ul, NULL /*pdrgpdpCtxt*/, ulOptReq);
@@ -1093,23 +1093,23 @@ CExpressionHandle::FScalarChild
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CExpressionHandle::UlArity
+//		CExpressionHandle::Arity
 //
 //	@doc:
 //		Return number of children of attached expression/group expression
 //
 //---------------------------------------------------------------------------
 ULONG
-CExpressionHandle::UlArity() const
+CExpressionHandle::Arity() const
 {
 	if (NULL != Pexpr())
 	{
-		return Pexpr()->UlArity();
+		return Pexpr()->Arity();
 	}
 
 	GPOS_ASSERT(NULL != Pgexpr());
 
-	return Pgexpr()->UlArity();
+	return Pgexpr()->Arity();
 }
 
 //---------------------------------------------------------------------------
@@ -1118,13 +1118,13 @@ CExpressionHandle::UlArity() const
 //
 //	@doc:
 //		Return the index of the last non-scalar child. This is only valid if
-//		UlArity() is greater than 0
+//		Arity() is greater than 0
 //
 //---------------------------------------------------------------------------
 ULONG
 CExpressionHandle::UlLastNonScalarChild() const
 {
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	if (0 == ulArity)
 	{
 		return ULONG_MAX;
@@ -1153,13 +1153,13 @@ CExpressionHandle::UlLastNonScalarChild() const
 //
 //	@doc:
 //		Return the index of the first non-scalar child. This is only valid if
-//		UlArity() is greater than 0
+//		Arity() is greater than 0
 //
 //---------------------------------------------------------------------------
 ULONG
 CExpressionHandle::UlFirstNonScalarChild() const
 {
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	if (0 == ulArity)
 	{
 		return ULONG_MAX;
@@ -1193,7 +1193,7 @@ CExpressionHandle::UlFirstNonScalarChild() const
 ULONG
 CExpressionHandle::UlNonScalarChildren() const
 {
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	ULONG ulNonScalarChildren = 0;
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -1474,7 +1474,7 @@ CExpressionHandle::Pop
 	)
 	const
 {
-	GPOS_ASSERT(ulChildIndex < UlArity());
+	GPOS_ASSERT(ulChildIndex < Arity());
 
 	if (NULL != m_pexpr)
 	{
@@ -1560,7 +1560,7 @@ CExpressionHandle::PexprScalarChild
 	)
 	const
 {
-	GPOS_ASSERT(ulChildIndex < UlArity());
+	GPOS_ASSERT(ulChildIndex < Arity());
 
 	if (NULL != m_pgexpr)
 	{
@@ -1656,7 +1656,7 @@ CExpressionHandle::PfpChild
 BOOL
 CExpressionHandle::FChildrenHaveVolatileFuncScan() const
 {
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (PfpChild(ul)->FHasVolatileFunctionScan())
@@ -1680,7 +1680,7 @@ CExpressionHandle::FChildrenHaveVolatileFuncScan() const
 ULONG
 CExpressionHandle::UlFirstOptimizedChildIndex() const
 {
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	GPOS_ASSERT(0 < ulArity);
 
 	CPhysical::EChildExecOrder eceo = CPhysical::PopConvert(Pop())->Eceo();
@@ -1705,7 +1705,7 @@ CExpressionHandle::UlFirstOptimizedChildIndex() const
 ULONG
 CExpressionHandle::UlLastOptimizedChildIndex() const
 {
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	GPOS_ASSERT(0 < ulArity);
 
 	CPhysical::EChildExecOrder eceo = CPhysical::PopConvert(Pop())->Eceo();
@@ -1750,7 +1750,7 @@ CExpressionHandle::UlNextOptimizedChildIndex
 	{
 		GPOS_ASSERT(CPhysical::EceoLeftToRight == eceo);
 
-		if (UlArity() - 1 > ulChildIndex)
+		if (Arity() - 1 > ulChildIndex)
 		{
 			ulNextChildIndex = ulChildIndex + 1;
 		}
@@ -1782,7 +1782,7 @@ CExpressionHandle::UlPreviousOptimizedChildIndex
 	ULONG ulPrevChildIndex = ULONG_MAX;
 	if (CPhysical::EceoRightToLeft == eceo)
 	{
-		if (UlArity() - 1 > ulChildIndex)
+		if (Arity() - 1 > ulChildIndex)
 		{
 			ulPrevChildIndex = ulChildIndex + 1;
 		}
@@ -1819,7 +1819,7 @@ CExpressionHandle::FNextChildIndex
 {
 	GPOS_ASSERT(NULL != pulChildIndex);
 
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	if (0 == ulArity)
 	{
 		// operator does not have children
@@ -1859,7 +1859,7 @@ CExpressionHandle::PcrsUsedColumns
 	pcrs->Include(CLogical::PopConvert(pop)->PcrsLocalUsed());
 
 	// get columns used by the scalar children
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (FScalarChild(ul))

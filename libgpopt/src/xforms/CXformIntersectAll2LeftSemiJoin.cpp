@@ -77,7 +77,7 @@ CXformIntersectAll2LeftSemiJoin::Transform
 
 	// TODO: we currently only handle intersect all operators that
 	// have two children
-	GPOS_ASSERT(2 == pexpr->UlArity());
+	GPOS_ASSERT(2 == pexpr->Arity());
 
 	// extract components
 	CExpression *pexprLeftChild = (*pexpr)[0];

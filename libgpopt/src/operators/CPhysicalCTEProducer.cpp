@@ -292,7 +292,7 @@ CPhysicalCTEProducer::PcmDerive
 	)
 	const
 {
-	GPOS_ASSERT(1 == exprhdl.UlArity());
+	GPOS_ASSERT(1 == exprhdl.Arity());
 
 	CCTEMap *pcmChild = exprhdl.Pdpplan(0)->Pcm();
 

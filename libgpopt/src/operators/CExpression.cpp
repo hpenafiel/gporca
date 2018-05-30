@@ -276,7 +276,7 @@ CExpression::CExpression
 {
 	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pop);
-	GPOS_ASSERT(pgexpr->UlArity() == (pdrgpexpr == NULL ? 0 : pdrgpexpr->Size()));
+	GPOS_ASSERT(pgexpr->Arity() == (pdrgpexpr == NULL ? 0 : pdrgpexpr->Size()));
 	GPOS_ASSERT(NULL != pgexpr->Pgroup());
 
 	CopyGroupPropsAndStats(pstatsInput);
@@ -724,7 +724,7 @@ CExpression::ResetDerivedProperties()
 		ResetDerivedProperty(rgept[i]);
 	}
 
-	for (ULONG i = 0; i <  UlArity(); i++)
+	for (ULONG i = 0; i <  Arity(); i++)
 	{
 		// reset children
 		(*this)[i]->ResetDerivedProperties();
@@ -750,7 +750,7 @@ CExpression::ResetStats()
 	CRefCount::SafeRelease(m_pstats);
 	m_pstats = NULL;
 
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul <  ulArity; ul++)
 	{
 		// reset children stats
@@ -834,7 +834,7 @@ CExpression::PrppDecorate
 		// create array of child derived properties
 		DrgPdp *pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool);
 
-		const ULONG ulArity =  UlArity();
+		const ULONG ulArity =  Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			// compute required columns of the n-th child
@@ -885,7 +885,7 @@ CExpression::FMatchPattern
 	}
 	else
 	{
-		ULONG ulArity = UlArity();
+		ULONG ulArity = Arity();
 		BOOL fMultiNode =
 			(
 				(1 == ulArity || 2 == ulArity) && // has 2 or fewer children
@@ -894,7 +894,7 @@ CExpression::FMatchPattern
 		
 		// match operator id and arity
 		if (this->Pop()->Eopid() == pgexpr->Pop()->Eopid() &&
-				(this->UlArity() == pgexpr->UlArity() || (fMultiNode && pgexpr->UlArity() > 1)))
+				(this->Arity() == pgexpr->Arity() || (fMultiNode && pgexpr->Arity() > 1)))
 		{
 			return true;
 		}
@@ -926,8 +926,8 @@ CExpression::FMatch
 		return false;
 	}
 		
-	ULONG ulArity = UlArity();
-	if (ulArity != pexpr->UlArity())
+	ULONG ulArity = Arity();
+	if (ulArity != pexpr->Arity())
 	{
 		return false;
 	}
@@ -967,7 +967,7 @@ CExpression::PexprCopyWithRemappedColumns
 
 	// copy children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = UlArity();
+	const ULONG ulArity = Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CExpression *pexprChild = (*m_pdrgpexpr)[ul];
@@ -1041,8 +1041,8 @@ CExpression::FMatchPatternChildren
 {
 	GPOS_CHECK_STACK_SIZE;
 
-	ULONG ulArity = UlArity();
-	ULONG ulArityPattern = pexprPattern->UlArity();
+	ULONG ulArity = Arity();
+	ULONG ulArityPattern = pexprPattern->Arity();
 		
 	BOOL fMultiNode =
 			(
@@ -1119,9 +1119,9 @@ CExpression::FMatchDebug
 		CScalar::PopConvert(pexpr->Pop())->MDIdType()->Equals(CScalar::PopConvert(Pop())->MDIdType())
 		);
 	
-	ULONG ulArity = UlArity();
+	ULONG ulArity = Arity();
 	
-	if (ulArity != pexpr->UlArity())
+	if (ulArity != pexpr->Arity())
 	{
 		return false;
 	}
@@ -1271,7 +1271,7 @@ CExpression::OsPrint
 	}
 #endif // GPOS_DEBUG
 		
-	const ULONG ulChildren = this->UlArity();
+	const ULONG ulChildren = this->Arity();
 	for (ULONG i = 0; i < ulChildren; i++)
 	{
 		(*this)[i]->OsPrint
@@ -1304,7 +1304,7 @@ CExpression::HashValue
 
 	ULONG ulHash = pexpr->Pop()->HashValue();
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		ulHash = CombineHashes(ulHash, HashValue((*pexpr)[ul]));
@@ -1327,7 +1327,7 @@ CExpression::UlHashDedup
 
 	ULONG ulHash = pexpr->Pop()->HashValue();
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if(pexpr->Pop()->FInputOrderSensitive())
@@ -1379,7 +1379,7 @@ CExpression::PexprRehydrate
 	CCost cost = pcc->Cost();
 	if (pop->FPhysical())
 	{
-		const ULONG ulArity = pgexpr->UlArity();
+		const ULONG ulArity = pgexpr->Arity();
 		DrgPcost *pdrgpcost = GPOS_NEW(memory_pool) DrgPcost(memory_pool);
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{

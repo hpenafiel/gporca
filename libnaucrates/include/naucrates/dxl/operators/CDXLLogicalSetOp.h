@@ -97,13 +97,13 @@ namespace gpdxl
 			}
 
 			// number of output columns
-			ULONG UlArity() const
+			ULONG Arity() const
 			{
 				return m_pdrgpdxlcd->Size();
 			}
 
 			// output column descriptor at a given position
-			const CDXLColDescr *Pdxlcd
+			const CDXLColDescr *GetColumnDescrAt
 				(
 				ULONG ulPos
 				)

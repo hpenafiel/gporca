@@ -114,7 +114,7 @@ CDXLPhysicalHashJoin::AssertValid
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
 	
-	GPOS_ASSERT(EdxlhjIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlhjIndexSentinel == pdxln->Arity());
 	GPOS_ASSERT(EdxljtSentinel > Edxltype());
 	
 	CDXLNode *pdxlnJoinFilter = (*pdxln)[EdxlhjIndexJoinFilter];

@@ -49,7 +49,7 @@ namespace gpopt
 			IMemoryPool *m_memory_pool;
 			
 			// mdid of the table
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// name of table
 			CName m_name;
@@ -83,7 +83,7 @@ namespace gpopt
 			ULONG m_ulPartitions;
 
 			// id of user the table needs to be accessed with
-			ULONG m_ulExecuteAsUser;
+			ULONG m_execute_as_user_id;
 
 			// if true, it means this descriptor has partial indexes
 			BOOL m_fHasPartialIndexes;
@@ -131,7 +131,7 @@ namespace gpopt
 			// mdid accessor
 			IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 			
 			// name accessor
@@ -141,9 +141,9 @@ namespace gpopt
 			}
 			
 			// execute as user accessor
-			ULONG UlExecuteAsUser() const
+			ULONG GetExecuteAsUserId() const
 			{
-				return m_ulExecuteAsUser;
+				return m_execute_as_user_id;
 			}
 			
 			// return the position of a particular attribute (identified by attno)

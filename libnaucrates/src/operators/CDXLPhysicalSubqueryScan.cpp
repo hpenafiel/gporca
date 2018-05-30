@@ -82,14 +82,14 @@ CDXLPhysicalSubqueryScan::PstrOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalSubqueryScan::Pmdname
+//		CDXLPhysicalSubqueryScan::MdName
 //
 //	@doc:
 //		Name for the subquery
 //
 //---------------------------------------------------------------------------
 const CMDName *
-CDXLPhysicalSubqueryScan::Pmdname()
+CDXLPhysicalSubqueryScan::MdName()
 {
 	return m_pmdnameAlias;
 }
@@ -146,7 +146,7 @@ CDXLPhysicalSubqueryScan::AssertValid
 	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
 	
 	// subquery scan has 3 children
-	GPOS_ASSERT(EdxlsubqscanIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlsubqscanIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlsubqscanIndexChild];
 	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());

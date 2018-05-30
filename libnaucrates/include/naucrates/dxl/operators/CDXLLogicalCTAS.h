@@ -40,7 +40,7 @@ namespace gpdxl
 		private:
 			
 			// mdid of table to create
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// schema name
 			CMDName *m_pmdnameSchema;
@@ -112,7 +112,7 @@ namespace gpdxl
 			// mdid of table to create
 			IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 			
 			// schema name
@@ -122,7 +122,7 @@ namespace gpdxl
 			}
 			
 			// table name
-			CMDName *Pmdname() const
+			CMDName *MdName() const
 			{
 				return m_pmdnameRel;
 			}

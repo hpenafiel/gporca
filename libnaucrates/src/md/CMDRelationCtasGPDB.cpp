@@ -44,9 +44,9 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pmdnameSchema(pmdnameSchema),
-	m_pmdname(pmdname),
+	m_mdname(pmdname),
 	m_fTemporary(fTemporary),
 	m_fHasOids(fHasOids),
 	m_erelstorage(erelstorage),
@@ -108,9 +108,9 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 {
 	GPOS_DELETE(m_pmdnameSchema);
-	GPOS_DELETE(m_pmdname);
+	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
-	m_pmdid->Release();
+	m_mdid->Release();
 	m_pdrgpmdcol->Release();
 	m_pdrgpdrgpulKeys->Release();
 	m_pdrgpdoubleColWidths->Release();
@@ -132,7 +132,7 @@ CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 IMDId *
 CMDRelationCtasGPDB::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -146,7 +146,7 @@ CMDRelationCtasGPDB::MDId() const
 CMDName
 CMDRelationCtasGPDB::Mdname() const
 {
-	return *m_pmdname;
+	return *m_mdname;
 }
 
 //---------------------------------------------------------------------------
@@ -312,12 +312,12 @@ CMDRelationCtasGPDB::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenRelationCTAS));
 
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	if (NULL != m_pmdnameSchema)
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_pmdnameSchema->Pstr());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_fTemporary);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_fHasOids);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));

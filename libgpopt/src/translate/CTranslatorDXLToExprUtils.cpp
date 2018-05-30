@@ -286,7 +286,7 @@ CTranslatorDXLToExprUtils::FCastFunc
 {
 	GPOS_ASSERT(NULL != pdxln);
 
-	if (1 != pdxln->UlArity())
+	if (1 != pdxln->Arity())
 	{
 		return false;
 	}

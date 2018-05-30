@@ -136,7 +136,7 @@ CDXLLogicalJoin::AssertValid
 	BOOL fValidateChildren
 	) const
 {
-	const ULONG ulChildren = pdxln->UlArity();
+	const ULONG ulChildren = pdxln->Arity();
 	GPOS_ASSERT(2 < ulChildren);
 
 	for (ULONG ul = 0; ul < ulChildren - 1; ++ul)

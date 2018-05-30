@@ -41,7 +41,7 @@ namespace gpmd
 	{
 		private:
 			// attribute name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// attribute number
 			INT m_iAttNo;

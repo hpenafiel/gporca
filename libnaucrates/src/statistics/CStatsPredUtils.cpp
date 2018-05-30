@@ -804,7 +804,7 @@ CStatsPredUtils::FScalarIdentIsNull
 {
 	GPOS_ASSERT(NULL != pexprPred);
 
-	if (0 == pexprPred->UlArity())
+	if (0 == pexprPred->Arity())
 	{
 		return false;
 	}
@@ -828,7 +828,7 @@ CStatsPredUtils::FScalarIdentIsNotNull
 {
 	GPOS_ASSERT(NULL != pexprPred);
 
-	if (0 == pexprPred->UlArity())
+	if (0 == pexprPred->Arity())
 	{
 		return false;
 	}
@@ -923,7 +923,7 @@ CStatsPredUtils::ProcessArrayCmp
 {
 	GPOS_ASSERT(NULL != pdrgpstatspred);
 	GPOS_ASSERT(NULL != pexprPred);
-	GPOS_ASSERT(2 == pexprPred->UlArity());
+	GPOS_ASSERT(2 == pexprPred->Arity());
 	CExpression *pexprIdent = NULL;
 	CScalarArrayCmp *popScArrayCmp = CScalarArrayCmp::PopConvert(pexprPred->Pop());
 	if (CUtils::FScalarIdent((*pexprPred)[0]))
@@ -1249,13 +1249,13 @@ CStatsPredUtils::Pdrgpstatspredjoin
 	)
 {
 	// in case of subquery in join predicate, we return empty stats
-	if (exprhdl.Pdpscalar(exprhdl.UlArity() - 1)->FHasSubquery())
+	if (exprhdl.Pdpscalar(exprhdl.Arity() - 1)->FHasSubquery())
 	{
 		return GPOS_NEW(memory_pool) DrgPstatspredjoin(memory_pool);
 	}
 
 	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
-	const ULONG ulSize = exprhdl.UlArity();
+	const ULONG ulSize = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulSize - 1; ul++)
 	{
 		CColRefSet *pcrs = exprhdl.Pdprel(ul)->PcrsOutput();
@@ -1264,7 +1264,7 @@ CStatsPredUtils::Pdrgpstatspredjoin
 	}
 
 	// TODO:  02/29/2012 replace with constraint property info once available
-	CExpression *pexprScalar = exprhdl.PexprScalarChild(exprhdl.UlArity() - 1);
+	CExpression *pexprScalar = exprhdl.PexprScalarChild(exprhdl.Arity() - 1);
 	CColRefSet *pcrsOuterRefs = exprhdl.Pdprel()->PcrsOuter();
 
 	DrgPstatspredjoin *pdrgpstats = Pdrgpstatspredjoin(memory_pool, exprhdl, pexprScalar, pdrgpcrsOutput, pcrsOuterRefs);

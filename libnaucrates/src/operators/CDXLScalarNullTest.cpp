@@ -129,7 +129,7 @@ CDXLScalarNullTest::AssertValid
 	)
 	const
 {
-	GPOS_ASSERT(1 == pdxln->UlArity());
+	GPOS_ASSERT(1 == pdxln->Arity());
 
 	CDXLNode *pdxlnArg = (*pdxln)[0];
 	GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->Pdxlop()->Edxloperatortype());

@@ -248,7 +248,7 @@ CEngine::InsertExpressionChildren
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(NULL != pdrgpgroupChildren);
 
-	ULONG ulArity = pexpr->UlArity();
+	ULONG ulArity = pexpr->Arity();
 
 	for (ULONG i = 0; i < ulArity; i++)
 	{
@@ -315,7 +315,7 @@ CEngine::PgroupInsert
 	GPOS_ASSERT_IMP(NULL != pgroupOrigin, NULL == pgroupTarget);
 
 	// insert expression's children to memo by recursive call
-	DrgPgroup *pdrgpgroupChildren = GPOS_NEW(m_memory_pool) DrgPgroup(m_memory_pool, pexpr->UlArity());
+	DrgPgroup *pdrgpgroupChildren = GPOS_NEW(m_memory_pool) DrgPgroup(m_memory_pool, pexpr->Arity());
 	InsertExpressionChildren(pexpr, pdrgpgroupChildren, exfidOrigin, pgexprOrigin);
 
 	COperator *pop = pexpr->Pop();
@@ -791,7 +791,7 @@ CEngine::TransitionGroupExpression
 	pgexpr->SetState(estInitial);
 
 	// transition all child groups
-	ULONG ulArity = pgexpr->UlArity();
+	ULONG ulArity = pgexpr->Arity();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		TransitionGroup(pmpLocal, (*pgexpr)[i], estGroupTargetState);
@@ -1063,7 +1063,7 @@ CEngine::PdrgpocOptimizeChildren
 	GPOS_ASSERT(NULL != exprhdl.Pgexpr());
 
 	CGroupExpression *pgexpr = exprhdl.Pgexpr();
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	if (0 == ulArity)
 	{
 		// return empty array if no children
@@ -1408,7 +1408,7 @@ CEngine::PdrgpocChildren
 	GPOS_ASSERT(NULL != exprhdl.Pgexpr());
 
 	DrgPoc *pdrgpoc = GPOS_NEW(memory_pool) DrgPoc(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CGroup *pgroupChild = (*exprhdl.Pgexpr())[ul];

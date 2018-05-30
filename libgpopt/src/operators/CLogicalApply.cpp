@@ -91,7 +91,7 @@ CLogicalApply::PcrsStat
 	)
 	const
 {
-	GPOS_ASSERT(3 == exprhdl.UlArity());
+	GPOS_ASSERT(3 == exprhdl.Arity());
 
 	CColRefSet *pcrsUsed = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	// add columns used by scalar child

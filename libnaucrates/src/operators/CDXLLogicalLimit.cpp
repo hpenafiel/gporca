@@ -128,7 +128,7 @@ CDXLLogicalLimit::AssertValid
 	) 
 	const
 {
-	GPOS_ASSERT(4 == pdxln->UlArity());
+	GPOS_ASSERT(4 == pdxln->Arity());
 
 	// Assert the validity of sort column list
 	CDXLNode *pdxlnSortColList = (*pdxln)[EdxllogicallimitIndexSortColList];

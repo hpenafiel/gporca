@@ -34,10 +34,10 @@ CDXLScalarComp::CDXLScalarComp
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdid(pmdidOp),
+	m_mdid(pmdidOp),
 	m_pstrCompOpName(pstrCompOpName)
 {
-	GPOS_ASSERT(m_pmdid->IsValid());
+	GPOS_ASSERT(m_mdid->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ CDXLScalarComp::CDXLScalarComp
 //---------------------------------------------------------------------------
 CDXLScalarComp::~CDXLScalarComp()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	GPOS_DELETE(m_pstrCompOpName);
 }
 
@@ -79,7 +79,7 @@ CDXLScalarComp::PstrCmpOpName() const
 IMDId *
 CDXLScalarComp::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -134,7 +134,7 @@ CDXLScalarComp::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenComparisonOp), PstrCmpOpName());
 
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
@@ -159,7 +159,7 @@ CDXLScalarComp::AssertValid
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(2 == ulArity);
 
 	for (ULONG ul = 0; ul < ulArity; ++ul)

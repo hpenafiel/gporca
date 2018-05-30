@@ -45,8 +45,8 @@ CParseHandlerMDGPDBCheckConstraint::CParseHandlerMDGPDBCheckConstraint
 	)
 	:
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
-	m_pmdid(NULL),
-	m_pmdname(NULL),
+	m_mdid(NULL),
+	m_mdname(NULL),
 	m_pmdidRel(NULL)
 {
 }
@@ -75,17 +75,17 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 	}
 
 	// new md object
-	GPOS_ASSERT(NULL == m_pmdid);
+	GPOS_ASSERT(NULL == m_mdid);
 
 	// parse mdid
-	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
+	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
 
 	// parse check constraint name
 	const XMLCh *parsed_column_name = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCheckConstraint);
 	CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), parsed_column_name);
 
 	// create a copy of the string in the CMDName constructor
-	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, column_name);
+	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, column_name);
 	GPOS_DELETE(column_name);
 
 	// parse mdid of relation
@@ -128,7 +128,7 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 	GPOS_ASSERT(NULL != pdxlnScExpr);
 	pdxlnScExpr->AddRef();
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_pmdid, m_pmdname, m_pmdidRel, pdxlnScExpr);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_mdid, m_mdname, m_pmdidRel, pdxlnScExpr);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

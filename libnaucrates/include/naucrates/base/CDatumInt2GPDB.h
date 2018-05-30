@@ -33,7 +33,7 @@ class CDatumInt2GPDB : public IDatumInt2
 	private:
 
 		// type information
-		IMDId *m_pmdid;
+		IMDId *m_mdid;
 	
 		// integer value
 		SINT m_sVal;

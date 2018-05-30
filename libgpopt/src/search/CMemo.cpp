@@ -265,7 +265,7 @@ CMemo::PgroupInsert
 	GPOS_CHECK_ABORT;
 	GPOS_ASSERT(NULL != pexprOrigin);
 	GPOS_ASSERT(pgexpr->Pop() == pexprOrigin->Pop());
-	GPOS_ASSERT(pgexpr->UlArity() == pexprOrigin->UlArity());
+	GPOS_ASSERT(pgexpr->Arity() == pexprOrigin->Arity());
 
 	CGroup *pgroupContainer = NULL;
 	CGroupExpression *pgexprFound = NULL;
@@ -375,7 +375,7 @@ CMemo::PexprExtractPlan
 	// 0: CScalarCmp (>=) [ 1 7 ]
 	// the ulArity is 2, which means the pgexprBest has 2 children:
 	// Group 1 and Group 7. Every single child is a CGroup.
-	ULONG ulArity = pgexprBest->UlArity();
+	ULONG ulArity = pgexprBest->Arity();
 	for (ULONG i = 0; i < ulArity; i++)
 	{
 		CGroup *pgroupChild = (*pgexprBest)[i];

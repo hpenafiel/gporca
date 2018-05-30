@@ -41,7 +41,7 @@ namespace gpdxl
 			IMDId *m_pmdidRetType;
 
 			// function name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// private copy ctor
 			CParseHandlerLogicalTVF(const CParseHandlerLogicalTVF &);

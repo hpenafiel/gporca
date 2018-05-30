@@ -38,13 +38,13 @@ namespace gpdxl
 	{
 		protected:
 			// id and version of the relation
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// schema name
 			CMDName *m_pmdnameSchema;
 			
 			// table name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// is this a temporary relation
 			BOOL m_fTemporary;

@@ -43,7 +43,7 @@ namespace gpdxl
 		protected:
 						
 			// operator number in the catalog
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 					
 			// comparison operator name
 			const CWStringConst *m_pstrCompOpName;

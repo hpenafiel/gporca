@@ -41,9 +41,9 @@ CParseHandlerMDRelation::CParseHandlerMDRelation
 	)
 	:
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
-	m_pmdid(NULL),
+	m_mdid(NULL),
 	m_pmdnameSchema(NULL),
-	m_pmdname(NULL),
+	m_mdname(NULL),
 	m_fTemporary(false),
 	m_fHasOids(false),
 	m_erelstorage(IMDRelation::ErelstorageSentinel),
@@ -260,8 +260,8 @@ CParseHandlerMDRelation::EndElement
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationGPDB
 								(
 									m_memory_pool,
-									m_pmdid,
-									m_pmdname,
+									m_mdid,
+									m_mdname,
 									m_fTemporary,
 									m_erelstorage,
 									m_ereldistrpolicy,
@@ -302,11 +302,11 @@ CParseHandlerMDRelation::ParseRelationAttributes
 	// parse table name
 	const XMLCh *xmlszTableName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, edxltokenElement);
 	CWStringDynamic *pstrTableName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszTableName);
-	m_pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTableName);
+	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTableName);
 	GPOS_DELETE(pstrTableName);
 
 	// parse metadata id info
-	m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, edxltokenElement);
+	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, edxltokenElement);
 
 	// parse distribution policy
 	const XMLCh *xmlszDistrPolicy = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenRelDistrPolicy, edxltokenElement);

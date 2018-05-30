@@ -46,10 +46,10 @@ namespace gpdxl
 			};
 			
 			// id and version of the type
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// type name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// is this a fixed-length type
 			BOOL m_fFixedLength;

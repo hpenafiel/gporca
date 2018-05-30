@@ -50,7 +50,7 @@ namespace gpmd
 			CMDIdColStats *m_pmdidColStats;
 			
 			// column name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// column width
 			CDouble m_dWidth;

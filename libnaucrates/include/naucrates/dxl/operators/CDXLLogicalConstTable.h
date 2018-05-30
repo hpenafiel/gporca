@@ -69,10 +69,10 @@ namespace gpdxl
 			}
 
 			// return the column descriptor at a given position
-			CDXLColDescr *Pdxlcd(ULONG ul) const;
+			CDXLColDescr *GetColumnDescrAt(ULONG ul) const;
 
 			// number of columns
-			ULONG UlArity() const;
+			ULONG Arity() const;
 
 			// number of constant tuples
 			ULONG UlTupleCount() const

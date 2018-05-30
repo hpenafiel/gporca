@@ -189,7 +189,7 @@ CDXLScalarBitmapBoolOp::AssertValid
 
 	GPOS_ASSERT( (edxlbitmapboolop == EdxlbitmapAnd) || (edxlbitmapboolop == EdxlbitmapOr));
 
-	ULONG ulArity = pdxln->UlArity();
+	ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(2 == ulArity);
 	
 

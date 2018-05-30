@@ -1070,7 +1070,7 @@ CGroup::CreateScalarExpression()
 	}
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
-	const ULONG ulArity = pgexprFirst->UlArity();
+	const ULONG ulArity = pgexprFirst->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CGroup *pgroupChild = (*pgexprFirst)[ul];
@@ -1163,7 +1163,7 @@ CGroup::RecursiveBuildTreeMap
 {
 	GPOS_ASSERT(pgexprCurrent->Pop()->FPhysical());
 	GPOS_ASSERT(NULL != ptmap);
-	GPOS_ASSERT_IMP(NULL != pccParent, ulChildIndex < pccParent->Pgexpr()->UlArity());
+	GPOS_ASSERT_IMP(NULL != pccParent, ulChildIndex < pccParent->Pgexpr()->Arity());
 
 	DrgPcc *pdrgpcc = pgexprCurrent->PdrgpccLookupAll(memory_pool, poc);
 	const ULONG ulCCSize = pdrgpcc->Size();
@@ -1191,7 +1191,7 @@ CGroup::RecursiveBuildTreeMap
 		if (NULL != pdrgpoc)
 		{
 			// process children recursively
-			const ULONG ulArity = pgexprCurrent->UlArity();
+			const ULONG ulArity = pgexprCurrent->Arity();
 			for (ULONG ul = 0; ul < ulArity; ul++)
 			{
 				GPOS_CHECK_ABORT;
@@ -1281,13 +1281,13 @@ CGroup::BuildTreeMap
 		{
 			GPOS_ASSERT(pop->FScalar());
 			GPOS_ASSERT(NULL == poc);
-			GPOS_ASSERT(ulChildIndex < pgexprParent->UlArity());
+			GPOS_ASSERT(ulChildIndex < pgexprParent->Arity());
 
 			// this is a scalar group, link parent cost context to group's dummy context
 			ptmap->Insert(pccParent, ulChildIndex, PccDummy());
 
 			// recursively link group's dummy context to child contexts
-			const ULONG ulArity = pgexprCurrent->UlArity();
+			const ULONG ulArity = pgexprCurrent->Arity();
 			for (ULONG ul = 0; ul < ulArity; ul++)
 			{
 				CGroup *pgroupChild = (*pgexprCurrent)[ul];
@@ -1380,7 +1380,7 @@ CGroup::FStatsDerivable
 	}
 
 	BOOL fStatsDerivable = true;
-	const ULONG ulArity = pgexprBest->UlArity();
+	const ULONG ulArity = pgexprBest->Arity();
 	for (ULONG ul = 0; fStatsDerivable && ul < ulArity; ul++)
 	{
 		CGroup *pgroupChild = (*pgexprBest)[ul];
@@ -1451,7 +1451,7 @@ CGroup::EspDerive
 	CLogical::EStatPromise esp = popLogical->Esp(exprhdl);
 
 	// override promise if outer child references columns of inner children
-	if (2 < exprhdl.UlArity() &&
+	if (2 < exprhdl.Arity() &&
 		!exprhdl.FScalarChild(0 /*ulChildIndex*/) &&
 		exprhdl.FHasOuterRefs(0 /*ulChildIndex*/) &&
 		!exprhdl.FHasOuterRefs())
@@ -1976,7 +1976,7 @@ CGroup::FResetStats()
 	// recursively process child groups reachable from current group
 	while (NULL != pgexprCurrent)
 	{
-		const ULONG ulArity = pgexprCurrent->UlArity();
+		const ULONG ulArity = pgexprCurrent->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			GPOS_CHECK_ABORT;

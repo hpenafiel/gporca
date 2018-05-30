@@ -39,7 +39,7 @@ CRange::CRange
 	ERangeInclusion eriRight
 	)
 	:
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_pcomp(pcomp),
 	m_pdatumLeft(pdatumLeft),
 	m_eriLeft(eriLeft),
@@ -69,19 +69,19 @@ CRange::CRange
 	IDatum *pdatum
 	)
 	:
-	m_pmdid(NULL),
+	m_mdid(NULL),
 	m_pcomp(pcomp),
 	m_pdatumLeft(NULL),
 	m_eriLeft(EriExcluded),
 	m_pdatumRight(NULL),
 	m_eriRight(EriExcluded)
 {
-	m_pmdid = pdatum->MDId();
+	m_mdid = pdatum->MDId();
 
-	GPOS_ASSERT(m_pmdid->IsValid());
+	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(NULL != pcomp);
-	GPOS_ASSERT(CUtils::FConstrainableType(m_pmdid));
-	m_pmdid->AddRef();
+	GPOS_ASSERT(CUtils::FConstrainableType(m_mdid));
+	m_mdid->AddRef();
 
 	switch (ecmpt)
 	{
@@ -137,7 +137,7 @@ CRange::CRange
 //---------------------------------------------------------------------------
 CRange::~CRange()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 	CRefCount::SafeRelease(m_pdatumLeft);
 	CRefCount::SafeRelease(m_pdatumRight);
 }
@@ -583,24 +583,24 @@ CRange::PrngIntersect
 
 	if (FOverlapsLeft(prange))
 	{
-		m_pmdid->AddRef();
+		m_mdid->AddRef();
 
 		IDatum *pdatumLeft = prange->PdatumLeft();
 		pdatumLeft->AddRef();
 		m_pdatumRight->AddRef();
 
-		return GPOS_NEW(memory_pool) CRange(m_pmdid, m_pcomp, pdatumLeft, prange->EriLeft(), m_pdatumRight, m_eriRight);
+		return GPOS_NEW(memory_pool) CRange(m_mdid, m_pcomp, pdatumLeft, prange->EriLeft(), m_pdatumRight, m_eriRight);
 	}
 
 	if (FOverlapsRight(prange))
 	{
-		m_pmdid->AddRef();
+		m_mdid->AddRef();
 
 		IDatum *pdatumRight = prange->PdatumRight();
 		pdatumRight->AddRef();
 		m_pdatumLeft->AddRef();
 
-		return GPOS_NEW(memory_pool) CRange(m_pmdid, m_pcomp, m_pdatumLeft, m_eriLeft, pdatumRight, prange->EriRight());
+		return GPOS_NEW(memory_pool) CRange(m_mdid, m_pcomp, m_pdatumLeft, m_eriLeft, pdatumRight, prange->EriRight());
 	}
 
 	return NULL;
@@ -632,7 +632,7 @@ CRange::PrngDifferenceLeft
 
 	if (FStartsBefore(prange) && NULL != prange->PdatumLeft())
 	{
-		m_pmdid->AddRef();
+		m_mdid->AddRef();
 
 		if (NULL != m_pdatumLeft)
 		{
@@ -644,7 +644,7 @@ CRange::PrngDifferenceLeft
 
 		return GPOS_NEW(memory_pool) CRange
 							(
-							m_pmdid,
+							m_mdid,
 							m_pcomp,
 							m_pdatumLeft,
 							m_eriLeft,
@@ -682,7 +682,7 @@ CRange::PrngDifferenceRight
 
 	if (FEndsAfter(prange) && NULL != prange->PdatumRight())
 	{
-		m_pmdid->AddRef();
+		m_mdid->AddRef();
 
 		if (NULL != m_pdatumRight)
 		{
@@ -694,7 +694,7 @@ CRange::PrngDifferenceRight
 
 		return GPOS_NEW(memory_pool) CRange
 							(
-							m_pmdid,
+							m_mdid,
 							m_pcomp,
 							pdatumRight,
 							EriInverseInclusion(prange->EriRight()),
@@ -727,7 +727,7 @@ CRange::PrngExtend
 		(EriIncluded == prange->EriLeft() || EriIncluded == m_eriRight))
 	{
 		// ranges are contiguous so combine them into one
-		m_pmdid->AddRef();
+		m_mdid->AddRef();
 
 		if (NULL != m_pdatumLeft)
 		{
@@ -740,7 +740,7 @@ CRange::PrngExtend
 			pdatumRight->AddRef();
 		}
 
-		return GPOS_NEW(memory_pool) CRange(m_pmdid, m_pcomp, m_pdatumLeft, m_eriLeft, pdatumRight, prange->EriRight());
+		return GPOS_NEW(memory_pool) CRange(m_mdid, m_pcomp, m_pdatumLeft, m_eriLeft, pdatumRight, prange->EriRight());
 	}
 
 	return NULL;

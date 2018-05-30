@@ -126,7 +126,7 @@ CDXLPhysicalRandomMotion::AssertValid
 	GPOS_ASSERT(m_pdrgpiOutputSegIds != NULL);
 	GPOS_ASSERT(0 < m_pdrgpiOutputSegIds->Size());
 
-	GPOS_ASSERT(EdxlrandommIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlrandommIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlrandommIndexChild];
 	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());

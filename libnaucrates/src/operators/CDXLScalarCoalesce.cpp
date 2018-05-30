@@ -139,9 +139,9 @@ CDXLScalarCoalesce::AssertValid
 	)
 	const
 {
-	GPOS_ASSERT(0 < pdxln->UlArity());
+	GPOS_ASSERT(0 < pdxln->Arity());
 
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];

@@ -207,7 +207,7 @@ CDXLScalarFuncExpr::AssertValid
 	) 
 	const
 {
-	for (ULONG ul = 0; ul < pdxln->UlArity(); ++ul)
+	for (ULONG ul = 0; ul < pdxln->Arity(); ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->Pdxlop()->Edxloperatortype());

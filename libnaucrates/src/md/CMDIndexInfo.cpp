@@ -22,7 +22,7 @@ CMDIndexInfo::CMDIndexInfo
 	BOOL fPartial
 	)
 	:
-	m_pmdid(pmdid),
+	m_mdid(pmdid),
 	m_fPartial(fPartial)
 {
 	GPOS_ASSERT(pmdid->IsValid());
@@ -31,14 +31,14 @@ CMDIndexInfo::CMDIndexInfo
 // dtor
 CMDIndexInfo::~CMDIndexInfo()
 {
-	m_pmdid->Release();
+	m_mdid->Release();
 }
 
 // returns the metadata id of this index
 IMDId *
 CMDIndexInfo::MDId() const
 {
-	return m_pmdid;
+	return m_mdid;
 }
 
 // is the index partial
@@ -57,7 +57,7 @@ CMDIndexInfo::Serialize
 {
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexInfo));
 
-	m_pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexPartial), m_fPartial);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexInfo));

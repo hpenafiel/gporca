@@ -43,10 +43,10 @@ namespace gpmd
 			const CWStringDynamic *m_pstr;
 			
 			// operator id
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// operator name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// type of left operand
 			IMDId *m_pmdidTypeLeft;

@@ -94,7 +94,7 @@ CXformExpandNAryJoinMinCard::Transform
 
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	GPOS_ASSERT(ulArity >= 3);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);

@@ -47,10 +47,10 @@ namespace gpmd
 			const CWStringDynamic *m_pstr;
 			
 			// metadata id
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// type name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// can type be redistributed
 			BOOL m_fRedistributable;

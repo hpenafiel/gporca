@@ -119,7 +119,7 @@ CDXLPhysicalBroadcastMotion::AssertValid
 	GPOS_ASSERT(m_pdrgpiOutputSegIds != NULL);
 	GPOS_ASSERT(0 < m_pdrgpiOutputSegIds->Size());
 
-	GPOS_ASSERT(EdxlbmIndexSentinel == pdxln->UlArity());
+	GPOS_ASSERT(EdxlbmIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *pdxlnChild = (*pdxln)[EdxlbmIndexChild];
 	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());

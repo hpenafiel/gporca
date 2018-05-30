@@ -36,10 +36,10 @@ namespace gpdxl
 		private:
 
 			// mdid of the check constraint
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// name of the check constraint
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// mdid of the relation
 			IMDId *m_pmdidRel;

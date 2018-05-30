@@ -218,7 +218,7 @@ CLogical::PcrsDeriveOutputPassThru
 	)
 {
 	// may have additional children that are ignored, e.g., scalar children
-	GPOS_ASSERT(1 <= exprhdl.UlArity());
+	GPOS_ASSERT(1 <= exprhdl.Arity());
 	
 	CColRefSet *pcrs = exprhdl.Pdprel(0)->PcrsOutput();
 	pcrs->AddRef();
@@ -243,7 +243,7 @@ CLogical::PcrsDeriveNotNullPassThruOuter
 	)
 {
 	// may have additional children that are ignored, e.g., scalar children
-	GPOS_ASSERT(1 <= exprhdl.UlArity());
+	GPOS_ASSERT(1 <= exprhdl.Arity());
 
 	CColRefSet *pcrs = exprhdl.Pdprel(0)->PcrsNotNull();
 	pcrs->AddRef();
@@ -271,7 +271,7 @@ CLogical::PcrsDeriveOutputCombineLogical
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// union columns from the first N-1 children
-	ULONG ulArity = exprhdl.UlArity();
+	ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(ul)->PcrsOutput();
@@ -303,7 +303,7 @@ CLogical::PcrsDeriveNotNullCombineLogical
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// union not nullable columns from the first N-1 children
-	ULONG ulArity = exprhdl.UlArity();
+	ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(ul)->PcrsNotNull();
@@ -352,7 +352,7 @@ CLogical::PkcCombineKeys
 	)
 {
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
 		CKeyCollection *pkc = exprhdl.Pdprel(ul)->Pkc();
@@ -429,7 +429,7 @@ CLogical::PpartinfoDeriveCombine
 	CExpressionHandle &exprhdl
 	)
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	GPOS_ASSERT(0 < ulArity);
 
 	CPartInfo *ppartinfo = GPOS_NEW(memory_pool) CPartInfo(memory_pool);
@@ -470,7 +470,7 @@ CLogical::PcrsDeriveOuter
 	CColRefSet *pcrsUsedAdditional
 	)
 {
-	ULONG ulArity = exprhdl.UlArity();
+	ULONG ulArity = exprhdl.Arity();
 	CColRefSet *pcrsOuter = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// collect output columns from relational children
@@ -525,7 +525,7 @@ CLogical::PcrsDeriveOuterIndexGet
 	CExpressionHandle &exprhdl
 	)
 {
-	ULONG ulArity = exprhdl.UlArity();
+	ULONG ulArity = exprhdl.Arity();
 	CColRefSet *pcrsOuter = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	CColRefSet *pcrsOutput = PcrsDeriveOutput(memory_pool, exprhdl);
@@ -567,7 +567,7 @@ CLogical::PcrsDeriveCorrelatedApply
 {
 	GPOS_ASSERT(this == exprhdl.Pop());
 
-	ULONG ulArity = exprhdl.UlArity();
+	ULONG ulArity = exprhdl.Arity();
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	if (CUtils::FCorrelatedApply(exprhdl.Pop()))
@@ -659,7 +659,7 @@ CLogical::PpcDeriveConstraintFromPredicates
 
 	// collect constraint properties from relational children
 	// and predicates from scalar children
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		if (exprhdl.FScalarChild(ul))
@@ -994,7 +994,7 @@ CLogical::PfpDeriveFromScalar
 	)
 {
 	GPOS_CHECK_ABORT;
-	GPOS_ASSERT(ulScalarIndex == exprhdl.UlArity() - 1);
+	GPOS_ASSERT(ulScalarIndex == exprhdl.Arity() - 1);
 	GPOS_ASSERT(exprhdl.FScalarChild(ulScalarIndex));
 
 	// collect stability from all children
@@ -1045,7 +1045,7 @@ CLogical::UlJoinDepth
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 
 	// sum-up join depth of all relational children
 	ULONG ulDepth = 0;
@@ -1074,7 +1074,7 @@ CLogical::MaxcardDef
 	CExpressionHandle &exprhdl
 	)
 {
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 
 	CMaxCard maxcard = exprhdl.Pdprel(0)->Maxcard();
 	for (ULONG ul = 1; ul < ulArity - 1; ul++)
@@ -1139,7 +1139,7 @@ CLogical::PcrsReqdChildStats
 	ULONG ulChildIndex
 	)
 {
-	GPOS_ASSERT(ulChildIndex < exprhdl.UlArity() - 1);
+	GPOS_ASSERT(ulChildIndex < exprhdl.Arity() - 1);
 	GPOS_CHECK_ABORT;
 
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);

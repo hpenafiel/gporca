@@ -75,7 +75,7 @@ CXformImplementUnionAll::Transform
 	CPhysicalUnionAllFactory factory(popUnionAll);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{

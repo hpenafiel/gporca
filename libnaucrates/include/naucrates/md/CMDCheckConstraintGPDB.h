@@ -45,10 +45,10 @@ namespace gpmd
 			IMemoryPool *m_memory_pool;
 
 			// check constraint mdid
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// check constraint name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// relation mdid
 			IMDId *m_pmdidRel;
@@ -79,14 +79,14 @@ namespace gpmd
 			virtual
 			IMDId *MDId() const
 			{
-				return m_pmdid;
+				return m_mdid;
 			}
 
 			// check constraint name
 			virtual
 			CMDName Mdname() const
 			{
-				return *m_pmdname;
+				return *m_mdname;
 			}
 
 			// mdid of the relation

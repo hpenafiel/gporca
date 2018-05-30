@@ -196,11 +196,11 @@ CPhysicalJoin::FProvidesReqdCols
 	const
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
-	GPOS_ASSERT(3 == exprhdl.UlArity());
+	GPOS_ASSERT(3 == exprhdl.Arity());
 
 	// union columns from relational children
 	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
-	ULONG ulArity = exprhdl.UlArity();
+	ULONG ulArity = exprhdl.Arity();
 	for (ULONG i = 0; i < ulArity - 1; i++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(i)->PcrsOutput();
@@ -258,7 +258,7 @@ CPhysicalJoin::FOuterProvidesReqdCols
 	)
 {
 	GPOS_ASSERT(NULL != pcrsRequired);
-	GPOS_ASSERT(3 == exprhdl.UlArity() && "expected binary join");
+	GPOS_ASSERT(3 == exprhdl.Arity() && "expected binary join");
 
 	CColRefSet *pcrsOutput = exprhdl.Pdprel(0 /*ulChildIndex*/)->PcrsOutput();
 
@@ -906,7 +906,7 @@ CPhysicalJoin::PrsRequiredCorrelatedJoin
 	)
 	const
 {
-	GPOS_ASSERT(3 == exprhdl.UlArity());
+	GPOS_ASSERT(3 == exprhdl.Arity());
 	GPOS_ASSERT(2 > ulChildIndex);
 	GPOS_ASSERT(CUtils::FCorrelatedNLJoin(exprhdl.Pop()));
 
@@ -954,7 +954,7 @@ CPhysicalJoin::PdsRequiredCorrelatedJoin
 	)
 	const
 {
-	GPOS_ASSERT(3 == exprhdl.UlArity());
+	GPOS_ASSERT(3 == exprhdl.Arity());
 	GPOS_ASSERT(2 > ulChildIndex);
 	GPOS_ASSERT(CUtils::FCorrelatedNLJoin(exprhdl.Pop()));
 

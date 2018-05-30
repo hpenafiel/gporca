@@ -44,10 +44,10 @@ namespace gpmd
 			const CWStringDynamic *m_pstr;
 			
 			// func id
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// func name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 			
 			// source type
 			IMDId *m_pmdidSrc;

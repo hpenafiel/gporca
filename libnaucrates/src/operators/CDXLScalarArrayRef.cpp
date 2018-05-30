@@ -124,7 +124,7 @@ CDXLScalarArrayRef::SerializeToDXL
 	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	// serialize child nodes
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(3 == ulArity || 4 == ulArity);
 
 	// first 2 children are index lists
@@ -184,7 +184,7 @@ CDXLScalarArrayRef::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->UlArity();
+	const ULONG ulArity = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnChild = (*pdxln)[ul];

@@ -1196,7 +1196,7 @@ namespace gpopt
 		)
 	{
 		GPOS_ASSERT(CUtils::FLogicalJoin(pexprJoin->Pop()));
-		GPOS_ASSERT(3 == pexprJoin->UlArity());
+		GPOS_ASSERT(3 == pexprJoin->Arity());
 		GPOS_ASSERT(NULL != pdrgpexprOuter);
 		GPOS_ASSERT(NULL != pdrgpexprInner);
 		GPOS_ASSERT(NULL != pxfres);

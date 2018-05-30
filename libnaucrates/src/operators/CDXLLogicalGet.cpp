@@ -135,10 +135,10 @@ CDXLLogicalGet::FDefinesColumn
 	)
 	const
 {
-	const ULONG ulSize = m_pdxltabdesc->UlArity();
+	const ULONG ulSize = m_pdxltabdesc->Arity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = m_pdxltabdesc->Pdxlcd(ulDescr)->Id();
+		ULONG ulId = m_pdxltabdesc->GetColumnDescrAt(ulDescr)->Id();
 		if (ulId == ulColId)
 		{
 			return true;
@@ -166,8 +166,8 @@ CDXLLogicalGet::AssertValid
 {
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxltabdesc->Pmdname());
-	GPOS_ASSERT(m_pdxltabdesc->Pmdname()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_pdxltabdesc->MdName());
+	GPOS_ASSERT(m_pdxltabdesc->MdName()->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

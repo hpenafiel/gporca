@@ -223,7 +223,7 @@ CDrvdPropRelational::PdrgpfdChild
 	CExpressionHandle &exprhdl
 	)
 {
-	GPOS_ASSERT(ulChildIndex < exprhdl.UlArity());
+	GPOS_ASSERT(ulChildIndex < exprhdl.Arity());
 	GPOS_ASSERT(!exprhdl.FScalarChild(ulChildIndex));
 
 	// get FD's of the child
@@ -337,7 +337,7 @@ CDrvdPropRelational::Pdrgpfd
 	GPOS_ASSERT(exprhdl.Pop()->FLogical());
 
 	DrgPfd *pdrgpfd = GPOS_NEW(memory_pool) DrgPfd(memory_pool);
-	const ULONG ulArity = exprhdl.UlArity();
+	const ULONG ulArity = exprhdl.Arity();
 
 	// collect applicable FD's from logical children
 	for (ULONG ul = 0; ul < ulArity; ul++)

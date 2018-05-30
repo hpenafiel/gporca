@@ -152,7 +152,7 @@ CScalarSubquery::PcrsUsed
 	CExpressionHandle &exprhdl
 	)
 {
-	GPOS_ASSERT(1 == exprhdl.UlArity());
+	GPOS_ASSERT(1 == exprhdl.Arity());
 
 	// used columns is an empty set unless subquery column is an outer reference
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);

@@ -54,7 +54,7 @@ void CExpressionUtils::UnnestChild
 {
 	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pexpr);
-	GPOS_ASSERT(ulChildIndex < pexpr->UlArity());
+	GPOS_ASSERT(ulChildIndex < pexpr->Arity());
 	GPOS_ASSERT(NULL != pdrgpexpr);
 
 	CExpression *pexprChild = (*pexpr)[ulChildIndex];
@@ -132,7 +132,7 @@ CExpressionUtils::PdrgpexprUnnestChildren
 	BOOL fHasNegatedChild = CPredicateUtils::FHasNegatedChild(pexpr);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		UnnestChild(memory_pool, pexpr, ul, fAnd, fOr, fHasNegatedChild, pdrgpexpr);
@@ -221,7 +221,7 @@ CExpressionUtils::PexprPushNotOneLevel
 		}
 
 		DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-		const ULONG ulArity = pexpr->UlArity();
+		const ULONG ulArity = pexpr->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CExpression *pexprChild = (*pexpr)[ul];
@@ -287,7 +287,7 @@ CExpressionUtils::PexprDedupChildren
 	GPOS_ASSERT(NULL != pexpr);
 
 	// recursively process children
-	const ULONG ulArity = pexpr->UlArity();
+	const ULONG ulArity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{

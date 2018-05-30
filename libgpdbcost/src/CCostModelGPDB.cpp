@@ -566,7 +566,7 @@ CCostModelGPDB::CostScalarAgg
 	// get the number of aggregate columns
 	const ULONG ulAggCols = exprhdl.Pdpscalar(1)->PcrsUsed()->Size();
 	// get the number of aggregate functions
-	const ULONG ulAggFunctions = exprhdl.PexprScalarChild(1)->UlArity();
+	const ULONG ulAggFunctions = exprhdl.PexprScalarChild(1)->Arity();
 
 	const CDouble dHashAggInputTupWidthCostUnit = pcmgpdb->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpHashAggInputTupWidthCostUnit)->Get();
 	GPOS_ASSERT(0 < dHashAggInputTupWidthCostUnit);

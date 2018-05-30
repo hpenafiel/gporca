@@ -226,7 +226,7 @@ CJobGroupExpressionOptimization::Init
 	m_pexprhdlPlan = NULL;
 	m_pexprhdlRel = NULL;
 	m_eceo = CPhysical::PopConvert(pgexpr->Pop())->Eceo();
-	m_ulArity = pgexpr->UlArity();
+	m_ulArity = pgexpr->Arity();
 	m_ulChildIndex = ULONG_MAX;
 
 	m_poc = poc;

@@ -135,7 +135,7 @@ namespace gpopt
 	
 			public:
 				// hash key
-				IMDId *m_pmdid;
+				IMDId *m_mdid;
 				
 				// generic link
 				SLink m_link;

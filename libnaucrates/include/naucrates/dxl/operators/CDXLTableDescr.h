@@ -38,16 +38,16 @@ namespace gpdxl
 			IMemoryPool *m_memory_pool;
 						
 			// id and version information for the table
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 			
 			// table name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 	
 			// list of column descriptors		
-			ColumnDescrDXLArray *m_pdrgdxlcd;
+			ColumnDescrDXLArray *m_column_descr_dxl_array;
 			
 			// id of user the table needs to be accessed with
-			ULONG m_ulExecuteAsUser;
+			ULONG m_execute_as_user_id;
 			
 			// private copy ctor
 			CDXLTableDescr(const CDXLTableDescr &);
@@ -62,24 +62,24 @@ namespace gpdxl
 			~CDXLTableDescr();
 		
 			// setters
-			void SetColumnDescriptors(ColumnDescrDXLArray *pdrgpdxlcd);
+			void SetColumnDescriptors(ColumnDescrDXLArray *column_descr_dxl_array);
 			
 			void AddColumnDescr(CDXLColDescr *pdxlcd);
 			
 			// table name
-			const CMDName *Pmdname() const;
+			const CMDName *MdName() const;
 			
 			// table mdid
 			IMDId *MDId() const;
 			
 			// table arity
-			ULONG UlArity() const;
+			ULONG Arity() const;
 			
 			// user id
-			ULONG UlExecuteAsUser() const;
+			ULONG GetExecuteAsUserId() const;
 			
 			// get the column descriptor at the given position
-			const CDXLColDescr *Pdxlcd(ULONG ul) const;
+			const CDXLColDescr *GetColumnDescrAt(ULONG idx) const;
 			
 			// serialize to dxl format
 			void SerializeToDXL(CXMLSerializer *xml_serializer) const;

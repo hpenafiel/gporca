@@ -47,7 +47,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 		BOOL m_is_null;
 
 		// type information
-		IMDId *m_pmdid;
+		IMDId *m_mdid;
 
 		INT m_type_modifier;
 

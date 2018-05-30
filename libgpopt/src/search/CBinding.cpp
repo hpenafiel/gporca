@@ -85,21 +85,21 @@ CBinding::PexprExpandPattern
 	}
 
 	// re-use first child if it is a multi-leaf/tree
-	if (0 < pexprPattern->UlArity() &&
+	if (0 < pexprPattern->Arity() &&
 		CPattern::FMultiNode((*pexprPattern)[0]->Pop()))
 	{
-		GPOS_ASSERT(pexprPattern->UlArity() <= 2);
+		GPOS_ASSERT(pexprPattern->Arity() <= 2);
 
 		if (ulPos == ulArity - 1)
 		{
 			// special-case last child
-			return (*pexprPattern)[pexprPattern->UlArity() - 1];
+			return (*pexprPattern)[pexprPattern->Arity() - 1];
 		}
 		
 		// otherwise re-use multi-leaf/tree child
 		return (*pexprPattern)[0];
 	}
-	GPOS_ASSERT(pexprPattern->UlArity() > ulPos);
+	GPOS_ASSERT(pexprPattern->Arity() > ulPos);
 
 	return (*pexprPattern)[ulPos];
 }
@@ -168,7 +168,7 @@ CBinding::PexprExtract
 	}
 
 	DrgPexpr *pdrgpexpr = NULL;
-	ULONG ulArity = pgexpr->UlArity();
+	ULONG ulArity = pgexpr->Arity();
 	if (0 == ulArity && NULL != pexprLast)
 	{
 		// no more bindings
@@ -212,7 +212,7 @@ CBinding::FInitChildCursors
 	GPOS_ASSERT(NULL != pexprPattern);
 	GPOS_ASSERT(NULL != pdrgpexpr);
 
-	const ULONG ulArity = pgexpr->UlArity();
+	const ULONG ulArity = pgexpr->Arity();
 
 	// grab first expression from each cursor
 	for (ULONG ul = 0; ul < ulArity; ul++)
@@ -257,7 +257,7 @@ CBinding::FAdvanceChildCursors
 	GPOS_ASSERT(NULL != pexprPattern);
 	GPOS_ASSERT(NULL != pdrgpexpr);
 
-	const ULONG ulArity = pgexpr->UlArity();
+	const ULONG ulArity = pgexpr->Arity();
 	if (NULL == pexprLast)
 	{
 		// first call, initialize cursors
@@ -345,8 +345,8 @@ CBinding::FExtractChildren
 		);
 	GPOS_ASSERT(pexprPattern->FMatchPattern(pgexpr));
 
-	ULONG ulArity = pgexpr->UlArity();
-	if (ulArity < pexprPattern->UlArity())
+	ULONG ulArity = pgexpr->Arity();
+	if (ulArity < pexprPattern->Arity())
 	{
 		// does not have enough children
 		return false;
@@ -354,7 +354,7 @@ CBinding::FExtractChildren
 
 	if (0 == ulArity)
 	{
-		GPOS_ASSERT(0 == pexprPattern->UlArity());
+		GPOS_ASSERT(0 == pexprPattern->Arity());
 		return true;
 	}
 	

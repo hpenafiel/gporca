@@ -38,10 +38,10 @@ namespace gpdxl
 	{
 		private:
 			// trigger id
-			IMDId *m_pmdid;
+			IMDId *m_mdid;
 
 			// trigger name
-			CMDName *m_pmdname;
+			CMDName *m_mdname;
 
 			// relation id
 			IMDId *m_pmdidRel;
