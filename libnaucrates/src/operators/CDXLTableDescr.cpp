@@ -43,7 +43,7 @@ CDXLTableDescr::CDXLTableDescr
 	m_ulExecuteAsUser(ulExecuteAsUser)
 {
 	GPOS_ASSERT(NULL != m_pmdname);
-	m_pdrgdxlcd = GPOS_NEW(pmp) column_descr_array(pmp);
+	m_pdrgdxlcd = GPOS_NEW(pmp) ColumnDescrDXLArray(pmp);
 }
 
 
@@ -130,7 +130,7 @@ CDXLTableDescr::UlExecuteAsUser() const
 void
 CDXLTableDescr::SetColumnDescriptors
 	(
-	column_descr_array *pdrgpdxlcd
+	ColumnDescrDXLArray *pdrgpdxlcd
 	)
 {
 	CRefCount::SafeRelease(m_pdrgdxlcd);

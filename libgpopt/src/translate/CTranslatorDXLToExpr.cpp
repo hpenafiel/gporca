@@ -513,7 +513,7 @@ CTranslatorDXLToExpr::PexprLogicalTVF
 	}
 
 	// construct the mapping between the DXL ColId and CColRef
-	ConstructDXLColId2ColRefMapping(pdxlop->Pdrgpdxlcd(), popTVF->PdrgpcrOutput());
+	ConstructDXLColId2ColRefMapping(pdxlop->GetColumnDescrDXLArray(), popTVF->PdrgpcrOutput());
 
 	return pexpr;
 }
@@ -1051,7 +1051,7 @@ CTranslatorDXLToExpr::PcrCreate
 DrgPcr *
 CTranslatorDXLToExpr::Pdrgpcr
 	(
-	const column_descr_array *pdrgpdxlcd
+	const ColumnDescrDXLArray *pdrgpdxlcd
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
@@ -1083,7 +1083,7 @@ CTranslatorDXLToExpr::Pdrgpcr
 void
 CTranslatorDXLToExpr::ConstructDXLColId2ColRefMapping
 	(
-	const column_descr_array *pdrgpdxlcd,
+	const ColumnDescrDXLArray *pdrgpdxlcd,
 	const DrgPcr *pdrgpcr
 	)
 {
@@ -2192,7 +2192,7 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	pdxlopCTAS->Pdxlctasopt()->AddRef();
 	
 	DrgPmdcol *pdrgpmdcol = GPOS_NEW(m_pmp) DrgPmdcol(m_pmp);
-	column_descr_array *pdrgpdxlcd = pdxlopCTAS->Pdrgpdxlcd();
+	ColumnDescrDXLArray *pdrgpdxlcd = pdxlopCTAS->GetColumnDescrDXLArray();
 	const ULONG ulLength = pdrgpdxlcd->Size();
 	for (ULONG ul = 0; ul < ulLength; ul++)
 	{
@@ -2306,7 +2306,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 						);
 
 	// populate column information from the dxl table descriptor
-	column_descr_array *pdrgpdxlcd = pdxlopCTAS->Pdrgpdxlcd();
+	ColumnDescrDXLArray *pdrgpdxlcd = pdxlopCTAS->GetColumnDescrDXLArray();
 	const ULONG ulColumns = pdrgpdxlcd->Size();
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
@@ -2405,7 +2405,7 @@ CTranslatorDXLToExpr::PexprLogicalConstTableGet
 {
 	CDXLLogicalConstTable *pdxlopConstTable = CDXLLogicalConstTable::PdxlopConvert(pdxlnConstTable->Pdxlop());
 
-	const column_descr_array *pdrgpdxlcd = pdxlopConstTable->Pdrgpdxlcd();
+	const ColumnDescrDXLArray *pdrgpdxlcd = pdxlopConstTable->GetColumnDescrDXLArray();
 
 	// translate the column descriptors
 	DrgPcoldesc *pdrgpcoldesc = GPOS_NEW(m_pmp) DrgPcoldesc(m_pmp);
@@ -2451,7 +2451,7 @@ CTranslatorDXLToExpr::PexprLogicalConstTableGet
 															);
 
 	// construct the mapping between the DXL ColId and CColRef
-	ConstructDXLColId2ColRefMapping(pdxlopConstTable->Pdrgpdxlcd(), popConstTableGet->PdrgpcrOutput());
+	ConstructDXLColId2ColRefMapping(pdxlopConstTable->GetColumnDescrDXLArray(), popConstTableGet->PdrgpcrOutput());
 
 	return GPOS_NEW(m_pmp) CExpression(m_pmp, popConstTableGet);
 }

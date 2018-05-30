@@ -133,9 +133,9 @@ CParseHandlerTableDescr::EndElement
 	// assemble the properties container from the cost
 	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
 	
-	GPOS_ASSERT(NULL != pphColDescr->Pdrgpdxlcd());
+	GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
 	
-	column_descr_array *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
+	ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
 	pdrgpdxlcd->AddRef();
 	m_pdxltabdesc->SetColumnDescriptors(pdrgpdxlcd);
 			

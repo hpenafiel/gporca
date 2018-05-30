@@ -29,7 +29,7 @@ namespace gpdxl
 	class CXMLSerializer;
 	class CDXLColDescr;
 	
-	typedef CDynamicPtrArray<CDXLColDescr, CleanupRelease> column_descr_array;
+	typedef CDynamicPtrArray<CDXLColDescr, CleanupRelease> ColumnDescrDXLArray;
 
 	//---------------------------------------------------------------------------
 	//	@class:

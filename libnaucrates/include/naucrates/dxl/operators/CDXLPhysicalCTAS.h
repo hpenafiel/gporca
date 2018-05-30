@@ -44,7 +44,7 @@ namespace gpdxl
 			CMDName *m_pmdnameRel;
 			
 			// list of columns
-			column_descr_array *m_pdrgpdxlcd;
+			ColumnDescrDXLArray *m_pdrgpdxlcd;
 			
 			// storage options
 			CDXLCtasStorageOptions *m_pdxlctasopt;
@@ -80,7 +80,7 @@ namespace gpdxl
 				IMemoryPool *pmp, 
 				CMDName *pmdnameSchema, 
 				CMDName *pmdnameRel, 
-				column_descr_array *pdrgpdxcd,
+				ColumnDescrDXLArray *pdrgpdxcd,
 				CDXLCtasStorageOptions *pdxlctasopt,
 				IMDRelation::Ereldistrpolicy ereldistrpolicy,
 				ULongPtrArray *pdrgpulDistr, 
@@ -102,7 +102,7 @@ namespace gpdxl
 			const CWStringConst *PstrOpName() const;
 
 			// column descriptors
-			column_descr_array *Pdrgpdxlcd() const
+			ColumnDescrDXLArray *GetColumnDescrDXLArray() const
 			{
 				return m_pdrgpdxlcd;
 			}

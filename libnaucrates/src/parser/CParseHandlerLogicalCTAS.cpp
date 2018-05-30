@@ -166,11 +166,11 @@ CParseHandlerLogicalCTAS::EndElement
 	CParseHandlerCtasStorageOptions *pphCTASOptions = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[1]);
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[2]);
 
-	GPOS_ASSERT(NULL != pphColDescr->Pdrgpdxlcd());
+	GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
 	GPOS_ASSERT(NULL != pphCTASOptions->Pdxlctasopt());
 	GPOS_ASSERT(NULL != pphChild->Pdxln());
 	
-	column_descr_array *pdrgpdxlcd = pphColDescr->Pdrgpdxlcd();
+	ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
 	pdrgpdxlcd->AddRef();
 	
 	CDXLCtasStorageOptions *pdxlctasopt = pphCTASOptions->Pdxlctasopt();

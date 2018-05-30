@@ -35,7 +35,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	IMDId *pmdid,
 	CMDName *pmdnameSchema, 
 	CMDName *pmdnameRel, 
-	column_descr_array *pdrgpdxlcd,
+	ColumnDescrDXLArray *pdrgpdxlcd,
 	CDXLCtasStorageOptions *pdxlctasopt,
 	IMDRelation::Ereldistrpolicy ereldistrpolicy,
 	ULongPtrArray *pdrgpulDistr,

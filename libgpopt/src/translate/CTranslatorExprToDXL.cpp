@@ -5390,7 +5390,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 	GPOS_ASSERT(ulColumns == pdrgpiVarTypeMod->Size());
 
 	// translate col descriptors
-	column_descr_array *pdrgpdxlcd = GPOS_NEW(m_pmp) column_descr_array(m_pmp);
+	ColumnDescrDXLArray *pdrgpdxlcd = GPOS_NEW(m_pmp) ColumnDescrDXLArray(m_pmp);
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
 		const CColumnDescriptor *pcd = ptabdesc->Pcoldesc(ul);

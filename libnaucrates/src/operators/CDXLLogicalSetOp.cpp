@@ -38,7 +38,7 @@ CDXLLogicalSetOp::CDXLLogicalSetOp
 	(
 	IMemoryPool *pmp,
 	EdxlSetOpType edxlsetoptype,
-	column_descr_array *pdrgdxlcd,
+	ColumnDescrDXLArray *pdrgdxlcd,
 	ULongPtrArray2D *ulong_ptr_array_2D,
 	BOOL fCastAcrossInputs
 	)
