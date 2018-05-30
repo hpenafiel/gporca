@@ -32,84 +32,84 @@ CDXLSpoolInfo::CDXLSpoolInfo
 	INT iExecutorSlice
 	)
 	:
-	m_ulSpoolId(ulSpoolId),
-	m_edxlsptype(edxlspstype),
-	m_fMultiSlice(fMultiSlice),
-	m_iExecutorSlice(iExecutorSlice)
+	m_spool_id(ulSpoolId),
+	m_spool_type(edxlspstype),
+	m_is_multi_slice_shared(fMultiSlice),
+	m_executor_slice_id(iExecutorSlice)
 {
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLSpoolInfo::UlSpoolId
+//		CDXLSpoolInfo::GetSpoolId
 //
 //	@doc:
 //		Spool id
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLSpoolInfo::UlSpoolId() const
+CDXLSpoolInfo::GetSpoolId() const
 {
-	return m_ulSpoolId;
+	return m_spool_id;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLSpoolInfo::Edxlsptype
+//		CDXLSpoolInfo::GetSpoolType
 //
 //	@doc:
 //		Type of the underlying operator (Materialize or Sort)
 //
 //---------------------------------------------------------------------------
 Edxlspooltype
-CDXLSpoolInfo::Edxlsptype() const
+CDXLSpoolInfo::GetSpoolType() const
 {
-	return m_edxlsptype;
+	return m_spool_type;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLSpoolInfo::FMultiSlice
+//		CDXLSpoolInfo::IsMultiSlice
 //
 //	@doc:
 //		Is the spool used across slices
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLSpoolInfo::FMultiSlice() const
+CDXLSpoolInfo::IsMultiSlice() const
 {
-	return m_fMultiSlice;
+	return m_is_multi_slice_shared;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLSpoolInfo::IExecutorSlice
+//		CDXLSpoolInfo::GetExecutorSliceId
 //
 //	@doc:
 //		Id of slice executing the underlying operation
 //
 //---------------------------------------------------------------------------
 INT
-CDXLSpoolInfo::IExecutorSlice() const
+CDXLSpoolInfo::GetExecutorSliceId() const
 {
-	return m_iExecutorSlice;
+	return m_executor_slice_id;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLSpoolInfo::PstrSpoolType
+//		CDXLSpoolInfo::GetSpoolTypeName
 //
 //	@doc:
 //		Id of slice executing the underlying operation
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLSpoolInfo::PstrSpoolType() const
+CDXLSpoolInfo::GetSpoolTypeName() const
 {
-	GPOS_ASSERT(EdxlspoolMaterialize == m_edxlsptype || EdxlspoolSort == m_edxlsptype);
+	GPOS_ASSERT(EdxlspoolMaterialize == m_spool_type || EdxlspoolSort == m_spool_type);
 	
-	switch (m_edxlsptype)
+	switch (m_spool_type)
 	{
 		case EdxlspoolMaterialize:
 			return CDXLTokens::PstrToken(EdxltokenSpoolMaterialize);
@@ -135,14 +135,14 @@ CDXLSpoolInfo::SerializeToDXL
 	)
 	const
 {
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_ulSpoolId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_spool_id);
 	
-	const CWStringConst *pstrSpoolType = PstrSpoolType();
+	const CWStringConst *pstrSpoolType = GetSpoolTypeName();
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolType), pstrSpoolType);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolMultiSlice), m_fMultiSlice);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolMultiSlice), m_is_multi_slice_shared);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_iExecutorSlice);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_executor_slice_id);
 	
 
 }
