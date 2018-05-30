@@ -32,15 +32,15 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerColDescr::CParseHandlerColDescr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *parse_handler_base
 	)
 	:
-	CParseHandlerBase(pmp, parse_handler_mgr, parse_handler_base),
-	current_column_descr(NULL)
+	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_base),
+	m_current_column_descr(NULL)
 {
-	m_column_descr_dxl_array = GPOS_NEW(m_memory_pool) ColumnDescrDXLArray(m_memory_pool);
+	m_column_descr_dxl_array = GPOS_NEW(memory_pool) ColumnDescrDXLArray(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -91,12 +91,12 @@ CParseHandlerColDescr::StartElement
 	if (0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenColumns)))
 	{
 		// start of the columns block
-		GPOS_ASSERT(NULL == current_column_descr);
+		GPOS_ASSERT(NULL == m_current_column_descr);
 	}
 	else if (0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenColumn)))
 	{
 		// start of a new column descriptor
-		current_column_descr = CDXLOperatorFactory::Pdxlcd(m_pphm->Pmm(), attrs);
+		m_current_column_descr = CDXLOperatorFactory::Pdxlcd(m_pphm->Pmm(), attrs);
 	}
 	else
 	{
@@ -130,11 +130,11 @@ CParseHandlerColDescr::EndElement
 	else if (0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenColumn)))
 	{
 		// finish up a column descriptor
-		GPOS_ASSERT(NULL != current_column_descr);
+		GPOS_ASSERT(NULL != m_current_column_descr);
 		GPOS_ASSERT(NULL != m_column_descr_dxl_array);
-		m_column_descr_dxl_array->Append(current_column_descr);
+		m_column_descr_dxl_array->Append(m_current_column_descr);
 		// reset column descr
-		current_column_descr = NULL;
+		m_current_column_descr = NULL;
 	}
 	else
 	{

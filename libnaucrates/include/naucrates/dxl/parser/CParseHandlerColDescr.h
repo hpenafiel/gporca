@@ -41,7 +41,7 @@ namespace gpdxl
 			ColumnDescrDXLArray *m_column_descr_dxl_array;
 			
 			// current column descriptor being parsed
-			CDXLColDescr *current_column_descr;
+			CDXLColDescr *m_current_column_descr;
 				
 			// private copy ctor
 			CParseHandlerColDescr(const CParseHandlerColDescr&); 
@@ -67,7 +67,7 @@ namespace gpdxl
 			// ctor/dtor
 			CParseHandlerColDescr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *m_memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *parse_handler_base
 				);
