@@ -31,11 +31,11 @@ using namespace gpdxl;
 CDXLScalarConstValue::CDXLScalarConstValue
 	(
 	IMemoryPool *memory_pool,
-	CDXLDatum *pdxldatum
+	CDXLDatum *datum_dxl
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pdxldatum(pdxldatum)
+	m_pdxldatum(datum_dxl)
 {
 }
 

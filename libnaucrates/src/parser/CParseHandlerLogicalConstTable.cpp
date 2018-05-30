@@ -92,8 +92,8 @@ CParseHandlerLogicalConstTable::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
 
 		// translate the datum and add it to the datum array
-		CDXLDatum *pdxldatum = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenScalarConstValue);
-		m_pdrgpdxldatum->Append(pdxldatum);
+		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenScalarConstValue);
+		m_pdrgpdxldatum->Append(datum_dxl);
 	}
 	else
 	{

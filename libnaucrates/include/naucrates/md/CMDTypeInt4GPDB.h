@@ -217,7 +217,7 @@ namespace gpmd
 	
 			// create typed datum from DXL datum
 			virtual
-			IDatum *Pdatum(IMemoryPool *memory_pool, const CDXLDatum *pdxldatum) const;
+			IDatum *Pdatum(IMemoryPool *memory_pool, const CDXLDatum *datum_dxl) const;
 	
 			// generate the DXL datum from IDatum
 			virtual

@@ -1361,12 +1361,12 @@ CMDAccessor::Pdatum
 	(
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
-	const CDXLDatum *pdxldatum
+	const CDXLDatum *datum_dxl
 	)
 {
 	const IMDType *pmdtype = Pmdtype(mdid_type);
 		
-	return pmdtype->Pdatum(memory_pool, pdxldatum);
+	return pmdtype->Pdatum(memory_pool, datum_dxl);
 }
 
 //---------------------------------------------------------------------------

@@ -92,9 +92,9 @@ CTranslatorDXLToExprUtils::Pdrgpdatum
 	const ULONG ulLen = pdrgpdxldatum->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		CDXLDatum *pdxldatum = (*pdrgpdxldatum)[ul];
-		IMDId *pmdid = pdxldatum->MDId();
-		IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(memory_pool, pdxldatum);
+		CDXLDatum *datum_dxl = (*pdrgpdxldatum)[ul];
+		IMDId *pmdid = datum_dxl->MDId();
+		IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(memory_pool, datum_dxl);
 		pdrgdatum->Append(pdatum);
 	}
 

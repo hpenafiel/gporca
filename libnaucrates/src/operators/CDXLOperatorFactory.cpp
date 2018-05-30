@@ -1045,9 +1045,9 @@ CDXLOperatorFactory::PdxlopConstValue
 {
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = pmm->Pmp();
-	CDXLDatum *pdxldatum = Pdxldatum(pmm, attrs, EdxltokenScalarConstValue);
+	CDXLDatum *datum_dxl = Pdxldatum(pmm, attrs, EdxltokenScalarConstValue);
 	
-	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, pdxldatum);
+	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl);
 }
 
 //---------------------------------------------------------------------------

@@ -96,13 +96,13 @@ namespace gpdxl
 			static
 			CDXLDatumStatsDoubleMappable *Cast
 				(
-				CDXLDatum *pdxldatum
+				CDXLDatum *datum_dxl
 				)
 			{
-				GPOS_ASSERT(NULL != pdxldatum);
-				GPOS_ASSERT(CDXLDatum::EdxldatumStatsDoubleMappable == pdxldatum->GetDatumType());
+				GPOS_ASSERT(NULL != datum_dxl);
+				GPOS_ASSERT(CDXLDatum::EdxldatumStatsDoubleMappable == datum_dxl->GetDatumType());
 
-				return dynamic_cast<CDXLDatumStatsDoubleMappable*>(pdxldatum);
+				return dynamic_cast<CDXLDatumStatsDoubleMappable*>(datum_dxl);
 			}
 	};
 }

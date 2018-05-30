@@ -164,14 +164,14 @@ CDXLBucket::SerializeBoundaryValue
 	(
 	CXMLSerializer *xml_serializer,
 	const CWStringConst *pstrElem,
-	CDXLDatum *pdxldatum,
+	CDXLDatum *datum_dxl,
 	BOOL fBoundClosed
 	)
 	const
 {
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElem);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsBoundClosed), fBoundClosed);
-	pdxldatum->Serialize(xml_serializer);
+	datum_dxl->Serialize(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElem);
 }
 

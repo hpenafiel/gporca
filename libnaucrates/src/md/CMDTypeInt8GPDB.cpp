@@ -255,10 +255,10 @@ CMDTypeInt8GPDB::Pdatum
 	)
 	const
 {
-	CDXLDatumInt8 *pdxldatum = CDXLDatumInt8::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
-	GPOS_ASSERT(pdxldatum->IsPassedByValue());
+	CDXLDatumInt8 *datum_dxl = CDXLDatumInt8::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
+	GPOS_ASSERT(datum_dxl->IsPassedByValue());
 
-	return GPOS_NEW(m_memory_pool) CDatumInt8GPDB(m_pmdid->Sysid(), pdxldatum->LValue(), pdxldatum->IsNull());
+	return GPOS_NEW(m_memory_pool) CDatumInt8GPDB(m_pmdid->Sysid(), datum_dxl->LValue(), datum_dxl->IsNull());
 }
 
 //---------------------------------------------------------------------------
@@ -273,11 +273,11 @@ IDatum*
 CMDTypeInt8GPDB::Pdatum
 	(
 	IMemoryPool *memory_pool,
-	const CDXLDatum *pdxldatum
+	const CDXLDatum *datum_dxl
 	)
 	const
 {
-	CDXLDatumInt8 *pdxldatumint8 = CDXLDatumInt8::Cast(const_cast<CDXLDatum *>(pdxldatum));
+	CDXLDatumInt8 *pdxldatumint8 = CDXLDatumInt8::Cast(const_cast<CDXLDatum *>(datum_dxl));
 	GPOS_ASSERT(pdxldatumint8->IsPassedByValue());
 
 	LINT lVal = pdxldatumint8->LValue();
@@ -327,9 +327,9 @@ CMDTypeInt8GPDB::PdxlopScConst
 	CDatumInt8GPDB *pdatumint8gpdb = dynamic_cast<CDatumInt8GPDB *>(pdatum);
 
 	m_pmdid->AddRef();
-	CDXLDatumInt8 *pdxldatum = GPOS_NEW(memory_pool) CDXLDatumInt8(memory_pool, m_pmdid, pdatumint8gpdb->IsNull(), pdatumint8gpdb->LValue());
+	CDXLDatumInt8 *datum_dxl = GPOS_NEW(memory_pool) CDXLDatumInt8(memory_pool, m_pmdid, pdatumint8gpdb->IsNull(), pdatumint8gpdb->LValue());
 
-	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, pdxldatum);
+	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl);
 }
 
 //---------------------------------------------------------------------------

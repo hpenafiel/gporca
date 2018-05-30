@@ -128,7 +128,7 @@ namespace gpmd
 
 			// construct a datum from a DXL datum
 			virtual 
-			IDatum* Pdatum(IMemoryPool *memory_pool, const CDXLDatum *pdxldatum) const = 0;
+			IDatum* Pdatum(IMemoryPool *memory_pool, const CDXLDatum *datum_dxl) const = 0;
 
 			// is type fixed length
 			virtual

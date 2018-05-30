@@ -278,7 +278,7 @@ namespace gpopt
 			CBucket *Pbucket(IMemoryPool *memory_pool, IMDId *mdid_type, const CDXLBucket *pdxlbucket);
 			
 			// construct a typed datum from a DXL bucket  
-			IDatum *Pdatum(IMemoryPool *memory_pool, IMDId *mdid_type, const CDXLDatum *pdxldatum);
+			IDatum *Pdatum(IMemoryPool *memory_pool, IMDId *mdid_type, const CDXLDatum *datum_dxl);
 
 		public:
 			// ctors

@@ -2922,8 +2922,8 @@ CTranslatorExprToDXL::PdxlnProjectBoolConst
 	IMDId *pmdid = pmdtypebool->MDId();
 	pmdid->AddRef();
 
-	CDXLDatumBool *pdxldatum = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */,  value);
-	CDXLScalarConstValue *pdxlopConstValue = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, pdxldatum);
+	CDXLDatumBool *datum_dxl = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */,  value);
+	CDXLScalarConstValue *pdxlopConstValue = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, datum_dxl);
 	CColRef *pcr = m_pcf->PcrCreate(pmdtypebool, IDefaultTypeModifier);
 	CDXLNode *pdxlnPrEl = PdxlnProjElem(pcr, GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstValue));
 
@@ -3346,8 +3346,8 @@ CTranslatorExprToDXL::PdxlnBooleanScalarWithSubPlan
 	IMDId *pmdid = pmdtypebool->MDId();
 	pmdid->AddRef();
 
-	CDXLDatumBool *pdxldatum = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */, true /* value */);
-	CDXLScalarConstValue *pdxlopConstValue = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, pdxldatum);
+	CDXLDatumBool *datum_dxl = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */, true /* value */);
+	CDXLScalarConstValue *pdxlopConstValue = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, datum_dxl);
 
 	CColRef *pcr = m_pcf->PcrCreate(pmdtypebool, IDefaultTypeModifier);
 
@@ -5528,20 +5528,20 @@ CTranslatorExprToDXL::Pdxlddinfo
 	GPOS_ASSERT(1 >= pci->Pdrgprng()->Size());
 
 	DXLDatumArray *pdrgpdxldatum = GPOS_NEW(m_memory_pool) DXLDatumArray(m_memory_pool);
-	CDXLDatum *pdxldatum = NULL;
+	CDXLDatum *datum_dxl = NULL;
 
 	if (1 == pci->Pdrgprng()->Size())
 	{
 		const CRange *prng = (*pci->Pdrgprng())[0];
-		pdxldatum = CTranslatorExprToDXLUtils::Pdxldatum(m_memory_pool, m_pmda, prng->PdatumLeft());
+		datum_dxl = CTranslatorExprToDXLUtils::Pdxldatum(m_memory_pool, m_pmda, prng->PdatumLeft());
 	}
 	else
 	{
 		GPOS_ASSERT(pci->FIncludesNull());
-		pdxldatum = pcrDistrCol->Pmdtype()->PdxldatumNull(m_memory_pool);
+		datum_dxl = pcrDistrCol->Pmdtype()->PdxldatumNull(m_memory_pool);
 	}
 
-	pdrgpdxldatum->Append(pdxldatum);
+	pdrgpdxldatum->Append(datum_dxl);
 
 	pcnstrDistrCol->Release();
 

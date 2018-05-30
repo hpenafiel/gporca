@@ -93,15 +93,15 @@ namespace gpdxl
 			static
 			CDXLDatumGeneric *Cast
 				(
-				CDXLDatum *pdxldatum
+				CDXLDatum *datum_dxl
 				)
 			{
-				GPOS_ASSERT(NULL != pdxldatum);
-				GPOS_ASSERT(CDXLDatum::EdxldatumGeneric == pdxldatum->GetDatumType()
-						|| CDXLDatum::EdxldatumStatsDoubleMappable == pdxldatum->GetDatumType()
-						|| CDXLDatum::EdxldatumStatsLintMappable == pdxldatum->GetDatumType());
+				GPOS_ASSERT(NULL != datum_dxl);
+				GPOS_ASSERT(CDXLDatum::EdxldatumGeneric == datum_dxl->GetDatumType()
+						|| CDXLDatum::EdxldatumStatsDoubleMappable == datum_dxl->GetDatumType()
+						|| CDXLDatum::EdxldatumStatsLintMappable == datum_dxl->GetDatumType());
 
-				return dynamic_cast<CDXLDatumGeneric*>(pdxldatum);
+				return dynamic_cast<CDXLDatumGeneric*>(datum_dxl);
 			}
 
 			// statistics related APIs

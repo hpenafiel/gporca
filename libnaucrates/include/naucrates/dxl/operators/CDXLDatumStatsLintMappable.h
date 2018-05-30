@@ -80,13 +80,13 @@ namespace gpdxl
 			static
 			CDXLDatumStatsLintMappable *Cast
 				(
-				CDXLDatum *pdxldatum
+				CDXLDatum *datum_dxl
 				)
 			{
-				GPOS_ASSERT(NULL != pdxldatum);
-				GPOS_ASSERT(CDXLDatum::EdxldatumStatsLintMappable == pdxldatum->GetDatumType());
+				GPOS_ASSERT(NULL != datum_dxl);
+				GPOS_ASSERT(CDXLDatum::EdxldatumStatsLintMappable == datum_dxl->GetDatumType());
 
-				return dynamic_cast<CDXLDatumStatsLintMappable*>(pdxldatum);
+				return dynamic_cast<CDXLDatumStatsLintMappable*>(datum_dxl);
 			}
 
 			// statistics related APIs

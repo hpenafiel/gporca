@@ -92,8 +92,8 @@ CParseHandlerDirectDispatchInfo::StartElement
 	{
 		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
 
-		CDXLDatum *pdxldatum = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenDirectDispatchInfo);
-		m_pdrgpdxldatum->Append(pdxldatum);
+		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenDirectDispatchInfo);
+		m_pdrgpdxldatum->Append(datum_dxl);
 	}
 	else
 	{

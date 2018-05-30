@@ -266,24 +266,24 @@ CMDTypeGenericGPDB::Pdatum
 	)
 	const
 {
-	CDXLDatumGeneric *pdxldatum = CDXLDatumGeneric::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
+	CDXLDatumGeneric *datum_dxl = CDXLDatumGeneric::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
 	GPOS_ASSERT(NULL != pdxlop);
 
 	LINT lValue = 0;
-	if (pdxldatum->FHasStatsLINTMapping())
+	if (datum_dxl->FHasStatsLINTMapping())
 	{
-		lValue = pdxldatum->LStatsMapping();
+		lValue = datum_dxl->LStatsMapping();
 	}
 
 	CDouble dValue = 0;
-	if (pdxldatum->FHasStatsDoubleMapping())
+	if (datum_dxl->FHasStatsDoubleMapping())
 	{
-		dValue = pdxldatum->DStatsMapping();
+		dValue = datum_dxl->DStatsMapping();
 	}
 
 	m_pmdid->AddRef();
-	return GPOS_NEW(m_memory_pool) CDatumGenericGPDB(m_memory_pool, m_pmdid, pdxldatum->TypeModifier(), pdxldatum->Pba(), pdxldatum->Length(),
-											 pdxldatum->IsNull(), lValue, dValue);
+	return GPOS_NEW(m_memory_pool) CDatumGenericGPDB(m_memory_pool, m_pmdid, datum_dxl->TypeModifier(), datum_dxl->Pba(), datum_dxl->Length(),
+											 datum_dxl->IsNull(), lValue, dValue);
 }
 
 //---------------------------------------------------------------------------
@@ -298,12 +298,12 @@ IDatum*
 CMDTypeGenericGPDB::Pdatum
 	(
 	IMemoryPool *memory_pool,
-	const CDXLDatum *pdxldatum
+	const CDXLDatum *datum_dxl
 	)
 	const
 {
 	m_pmdid->AddRef();
-	CDXLDatumGeneric *pdxldatumGeneric = CDXLDatumGeneric::Cast(const_cast<CDXLDatum *>(pdxldatum));
+	CDXLDatumGeneric *pdxldatumGeneric = CDXLDatumGeneric::Cast(const_cast<CDXLDatum *>(datum_dxl));
 
 	LINT lValue = 0;
 	if (pdxldatumGeneric->FHasStatsLINTMapping())
@@ -520,9 +520,9 @@ CMDTypeGenericGPDB::PdxlopScConst
 	)
 	const
 {
-	CDXLDatum *pdxldatum = Pdxldatum(memory_pool, pdatum);
+	CDXLDatum *datum_dxl = Pdxldatum(memory_pool, pdatum);
 
-	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, pdxldatum);
+	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl);
 }
 
 //---------------------------------------------------------------------------

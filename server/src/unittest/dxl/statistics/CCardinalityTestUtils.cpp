@@ -201,7 +201,7 @@ CCardinalityTestUtils::PpointNumeric
 	ULONG ulbaSize = 0;
 	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
 
-	CDXLDatumStatsDoubleMappable *pdxldatum = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable
+	CDXLDatumStatsDoubleMappable *datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable
 											(
 											memory_pool,
 											pmdid,
@@ -213,9 +213,9 @@ CCardinalityTestUtils::PpointNumeric
 											dValue
 											);
 
-	IDatum *pdatum = pmdtype->Pdatum(memory_pool, pdxldatum);
+	IDatum *pdatum = pmdtype->Pdatum(memory_pool, datum_dxl);
 	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
-	pdxldatum->Release();
+	datum_dxl->Release();
 
 	return ppoint;
 }

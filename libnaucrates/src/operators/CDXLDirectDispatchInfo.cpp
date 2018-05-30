@@ -92,8 +92,8 @@ CDXLDirectDispatchInfo::Serialize
 		const ULONG ulDatums = pdrgpdxldatum->Size();
 		for (ULONG ulB = 0; ulB < ulDatums; ulB++) 
 		{
-			CDXLDatum *pdxldatum = (*pdrgpdxldatum)[ulB];
-			pdxldatum->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenDatum));
+			CDXLDatum *datum_dxl = (*pdrgpdxldatum)[ulB];
+			datum_dxl->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenDatum));
 		}
 		
 		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchKeyValue));

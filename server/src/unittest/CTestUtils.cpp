@@ -4208,22 +4208,22 @@ CTestUtils::PdatumGeneric
 	ULONG ulbaSize = 0;
 	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
 
-	CDXLDatumGeneric *pdxldatum = NULL;
+	CDXLDatumGeneric *datum_dxl = NULL;
 	if (CMDTypeGenericGPDB::FTimeRelatedType(mdid_type))
 	{
-		pdxldatum = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, CDouble(lValue));
+		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, CDouble(lValue));
 	}
 	else if (mdid_type->Equals(&CMDIdGPDB::m_mdidBPChar))
 	{
-		pdxldatum = GPOS_NEW(memory_pool) CDXLDatumStatsLintMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, lValue);
+		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsLintMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, lValue);
 	}
 	else
 	{
-		pdxldatum = GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize);
+		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize);
 	}
 
-	IDatum *pdatum = pmdtype->Pdatum(memory_pool, pdxldatum);
-	pdxldatum->Release();
+	IDatum *pdatum = pmdtype->Pdatum(memory_pool, datum_dxl);
+	datum_dxl->Release();
 
 	return pdatum;
 }

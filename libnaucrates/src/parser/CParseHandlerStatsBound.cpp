@@ -78,8 +78,8 @@ CParseHandlerStatsBound::StartElement
 		GPOS_ASSERT(NULL == m_pdxldatum);
 
 		// translate the datum and add it to the datum array
-		CDXLDatum *pdxldatum = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenDatum);
-		m_pdxldatum = pdxldatum;
+		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenDatum);
+		m_pdxldatum = datum_dxl;
 
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name))
 		{
