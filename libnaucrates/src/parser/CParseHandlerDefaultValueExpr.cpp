@@ -51,13 +51,13 @@ CParseHandlerDefaultValueExpr::CParseHandlerDefaultValueExpr
 void
 CParseHandlerDefaultValueExpr::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue), xmlszLocalname))
+	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue), element_local_name))
 	{
 		// opening tag for a default expression: assert no other tag has been seen yet
 		GPOS_ASSERT(!m_fDefaultValueStarted);
@@ -68,7 +68,7 @@ CParseHandlerDefaultValueExpr::StartElement
 		GPOS_ASSERT(m_fDefaultValueStarted);
 		
 		// install a scalar op parse handler to parse the expression
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, xmlszLocalname, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
 		
 		GPOS_ASSERT(NULL != pph);
 
@@ -76,7 +76,7 @@ CParseHandlerDefaultValueExpr::StartElement
 		m_pphm->ActivateParseHandler(pph);
 		
 		// pass the startElement message for the specialized parse handler to process
-		pph->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pph->startElement(element_uri, element_local_name, element_qname, attrs);
 		
 		// store parse handlers
 		this->Append(pph);
@@ -95,14 +95,14 @@ CParseHandlerDefaultValueExpr::StartElement
 void
 CParseHandlerDefaultValueExpr::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue), xmlszLocalname))
+	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

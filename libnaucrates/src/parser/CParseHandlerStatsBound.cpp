@@ -66,14 +66,14 @@ CParseHandlerStatsBound::~CParseHandlerStatsBound()
 void
 CParseHandlerStatsBound::StartElement
 	(
-	const XMLCh* const,// xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const,// xmlszQname,
+	const XMLCh* const,// element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const,// element_qname,
 	const Attributes& attrs
 	)
 {
-	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), xmlszLocalname)
-	   || 0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), xmlszLocalname))
+	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name)
+	   || 0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), element_local_name))
 	{
 		GPOS_ASSERT(NULL == m_pdxldatum);
 
@@ -81,7 +81,7 @@ CParseHandlerStatsBound::StartElement
 		CDXLDatum *pdxldatum = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenDatum);
 		m_pdxldatum = pdxldatum;
 
-		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), xmlszLocalname))
+		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name))
 		{
 			m_fStatsBoundClosed = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenStatsBoundClosed, EdxltokenStatsBucketLowerBound);
 		}
@@ -92,7 +92,7 @@ CParseHandlerStatsBound::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -108,15 +108,15 @@ CParseHandlerStatsBound::StartElement
 void
 CParseHandlerStatsBound::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), xmlszLocalname)
-	   && 0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), xmlszLocalname))
+	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name)
+	   && 0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

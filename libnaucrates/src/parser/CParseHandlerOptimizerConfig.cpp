@@ -85,45 +85,45 @@ CParseHandlerOptimizerConfig::~CParseHandlerOptimizerConfig()
 void
 CParseHandlerOptimizerConfig::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes &attrs
 	)
 {	
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenHint), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenHint), element_local_name))
 	{
 		// install a parse handler for the hint config
 		CParseHandlerBase *pphHint = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenHint), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphHint);
-		pphHint->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphHint->startElement(element_uri, element_local_name, element_qname, attrs);
 		this->Append(pphHint);
 		return;
 
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostModelConfig), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostModelConfig), element_local_name))
 	{
 		// install a parse handler for the cost model config
 		CParseHandlerBase *pphCostModel = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenCostModelConfig), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphCostModel);
-		pphCostModel->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphCostModel->startElement(element_uri, element_local_name, element_qname, attrs);
 		this->Append(pphCostModel);
 		return;
 
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTraceFlags), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTraceFlags), element_local_name))
 	{
 		// install a parse handler for the trace flags
 		CParseHandlerBase *pphTraceFlags = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenTraceFlags), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphTraceFlags);
-		pphTraceFlags->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphTraceFlags->startElement(element_uri, element_local_name, element_qname, attrs);
 		this->Append(pphTraceFlags);
 		return;
 
 	}
-	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOptimizerConfig), xmlszLocalname))
+	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOptimizerConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -160,14 +160,14 @@ CParseHandlerOptimizerConfig::StartElement
 void
 CParseHandlerOptimizerConfig::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOptimizerConfig), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOptimizerConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	

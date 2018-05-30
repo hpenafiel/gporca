@@ -58,13 +58,13 @@ CParseHandlerMDGPDBAgg::CParseHandlerMDGPDBAgg
 void
 CParseHandlerMDGPDBAgg::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const, // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAgg), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAgg), element_local_name))
 	{
 		// parse agg name
 		const XMLCh *xmlszAggName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -129,7 +129,7 @@ CParseHandlerMDGPDBAgg::StartElement
 												);
 		}
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggResultTypeId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggResultTypeId), element_local_name))
 	{
 		// parse result type
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -142,7 +142,7 @@ CParseHandlerMDGPDBAgg::StartElement
 													EdxltokenGPDBAggResultTypeId
 													);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggIntermediateResultTypeId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggIntermediateResultTypeId), element_local_name))
 	{
 		// parse intermediate result type
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -157,7 +157,7 @@ CParseHandlerMDGPDBAgg::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -173,12 +173,12 @@ CParseHandlerMDGPDBAgg::StartElement
 void
 CParseHandlerMDGPDBAgg::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAgg), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAgg), element_local_name))
 	{
 		// construct the MD agg object from its part
 		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
@@ -197,10 +197,10 @@ CParseHandlerMDGPDBAgg::EndElement
 		m_pphm->DeactivateHandler();
 
 	}
-	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggResultTypeId), xmlszLocalname) && 
-			 0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggIntermediateResultTypeId), xmlszLocalname))
+	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggResultTypeId), element_local_name) && 
+			 0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAggIntermediateResultTypeId), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

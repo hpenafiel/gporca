@@ -64,13 +64,13 @@ CParseHandlerScalarSubPlanTestExpr::~CParseHandlerScalarSubPlanTestExpr()
 void
 CParseHandlerScalarSubPlanTestExpr::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name))
 	{
 		// install a scalar element parser for parsing the test expression
 		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_pphm, this);
@@ -80,7 +80,7 @@ CParseHandlerScalarSubPlanTestExpr::StartElement
 		// store parse handler
 		this->Append(pphChild);
 
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -95,14 +95,14 @@ CParseHandlerScalarSubPlanTestExpr::StartElement
 void
 CParseHandlerScalarSubPlanTestExpr::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), xmlszLocalname) && NULL != m_pdxlnTestExpr)
+	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name) && NULL != m_pdxlnTestExpr)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

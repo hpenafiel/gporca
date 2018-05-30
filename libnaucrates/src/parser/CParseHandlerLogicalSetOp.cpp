@@ -70,16 +70,16 @@ CParseHandlerLogicalSetOp::~CParseHandlerLogicalSetOp()
 void
 CParseHandlerLogicalSetOp::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
 
 	if (0 == this->Length())
 	{
-		m_edxlsetop = Edxlsetop(xmlszLocalname);
+		m_edxlsetop = Edxlsetop(element_local_name);
 
 		if (EdxlsetopSentinel == m_edxlsetop)
 		{
@@ -87,7 +87,7 @@ CParseHandlerLogicalSetOp::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
+				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name)->GetBuffer()
 				);
 		}
 
@@ -115,7 +115,7 @@ CParseHandlerLogicalSetOp::StartElement
 
 		this->Append(pphChild);
 		
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -130,35 +130,35 @@ CParseHandlerLogicalSetOp::StartElement
 EdxlSetOpType
 CParseHandlerLogicalSetOp::Edxlsetop
 	(
-	const XMLCh* const xmlszLocalname
+	const XMLCh* const element_local_name
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalUnion), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalUnion), element_local_name))
 	{
 		return EdxlsetopUnion;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalUnionAll), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalUnionAll), element_local_name))
 	{
 		return EdxlsetopUnionAll;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalIntersect), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalIntersect), element_local_name))
 	{
 		return EdxlsetopIntersect;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalIntersectAll), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalIntersectAll), element_local_name))
 	{
 		return EdxlsetopIntersectAll;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalDifference), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalDifference), element_local_name))
 	{
 		return EdxlsetopDifference;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalDifferenceAll), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalDifferenceAll), element_local_name))
 	{
 		return EdxlsetopDifferenceAll;
 	}
@@ -177,16 +177,16 @@ CParseHandlerLogicalSetOp::Edxlsetop
 void
 CParseHandlerLogicalSetOp::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	EdxlSetOpType edxlsetop = Edxlsetop(xmlszLocalname);
+	EdxlSetOpType edxlsetop = Edxlsetop(element_local_name);
 
 	if(EdxlsetopSentinel == edxlsetop && m_edxlsetop != edxlsetop)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

@@ -376,9 +376,9 @@ CParseHandlerDXL::FValidStartElement
 void
 CParseHandlerDXL::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {		
@@ -387,26 +387,26 @@ CParseHandlerDXL::StartElement
     CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 	
-	if (0 == XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenDXLMessage)) ||
-		0 == XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenThread)) ||
-		0 == XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenComment)))
+	if (0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenDXLMessage)) ||
+		0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenThread)) ||
+		0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenComment)))
 	{
 		// beginning of DXL document or a new thread info
 		;
 	}
 	else
 	{
-		GPOS_ASSERT(FValidStartElement(xmlszLocalname));
+		GPOS_ASSERT(FValidStartElement(element_local_name));
 
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, xmlszLocalname, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
 	
 		m_pphm->ActivateParseHandler(pph);
 			
 		// store parse handler
 		this->Append(pph);
 		
-		pph->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pph->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -421,9 +421,9 @@ CParseHandlerDXL::StartElement
 void
 CParseHandlerDXL::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const, // xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const, // element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
 	// ignore

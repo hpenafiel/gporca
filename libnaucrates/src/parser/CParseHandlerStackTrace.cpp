@@ -52,9 +52,9 @@ CParseHandlerStacktrace::CParseHandlerStacktrace
 void
 CParseHandlerStacktrace::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const, // xmlszLocalname,
-	const XMLCh* const, // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const, // element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes&  // attrs
 	)
 {
@@ -72,9 +72,9 @@ CParseHandlerStacktrace::StartElement
 void
 CParseHandlerStacktrace::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const, // xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const, // element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
 	// deactivate handler

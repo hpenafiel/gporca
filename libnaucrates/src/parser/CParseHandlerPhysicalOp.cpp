@@ -63,14 +63,14 @@ CParseHandlerPhysicalOp::~CParseHandlerPhysicalOp()
 void
 CParseHandlerPhysicalOp::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
 	// instantiate the parse handler
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, xmlszLocalname, m_pphm, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
 
 	GPOS_ASSERT(NULL != pph);
 
@@ -78,7 +78,7 @@ CParseHandlerPhysicalOp::StartElement
 	m_pphm->ReplaceHandler(pph, m_pphRoot);
 		
 	// pass the startElement message for the specialized parse handler to process
-	pph->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+	pph->startElement(element_uri, element_local_name, element_qname, attrs);
 }
 
 //---------------------------------------------------------------------------
@@ -94,9 +94,9 @@ CParseHandlerPhysicalOp::StartElement
 void
 CParseHandlerPhysicalOp::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const, // xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const, // element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
 	GPOS_ASSERT(!"Invalid call of endElement inside CParseHandlerPhysicalOp");

@@ -65,27 +65,27 @@ CParseHandlerPhysicalDML::CParseHandlerPhysicalDML
 void
 CParseHandlerPhysicalDML::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const, // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes &attrs
 	)
 {
 	Edxltoken edxltoken = EdxltokenPhysicalDMLInsert;
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLInsert), xmlszLocalname) &&
-		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLDelete), xmlszLocalname) &&
-		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLUpdate), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLInsert), element_local_name) &&
+		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLDelete), element_local_name) &&
+		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLUpdate), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLDelete), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLDelete), element_local_name))
 	{
 		edxltoken = EdxltokenPhysicalDMLDelete;
 		m_edxldmltype = Edxldmldelete;
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLUpdate), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLUpdate), element_local_name))
 	{
 		edxltoken = EdxltokenPhysicalDMLUpdate;
 		m_edxldmltype = Edxldmlupdate;
@@ -167,16 +167,16 @@ CParseHandlerPhysicalDML::StartElement
 void
 CParseHandlerPhysicalDML::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	EdxlDmlType edxldmltype = CParseHandlerPhysicalDML::EdxlDmlOpType(xmlszLocalname);
+	EdxlDmlType edxldmltype = CParseHandlerPhysicalDML::EdxlDmlOpType(element_local_name);
 
 	if (EdxldmlSentinel == edxldmltype || m_edxldmltype != edxldmltype)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

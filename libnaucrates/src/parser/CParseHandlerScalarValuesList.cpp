@@ -39,29 +39,29 @@ CParseHandlerScalarValuesList::CParseHandlerScalarValuesList
 void
 CParseHandlerScalarValuesList::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarValuesList), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarValuesList), element_local_name))
 	{
 		CDXLScalarValuesList *pdxlop = GPOS_NEW(m_pmp) CDXLScalarValuesList(m_pmp);
 		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarConstValue), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarConstValue), element_local_name))
 	{
-		CParseHandlerBase *pphScConstValue = CParseHandlerFactory::Pph(m_pmp, xmlszLocalname, m_pphm, this);
+		CParseHandlerBase *pphScConstValue = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
 		m_pphm->ActivateParseHandler(pphScConstValue);
 
 		this->Append(pphScConstValue);
 
-		pphScConstValue->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphScConstValue->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -70,9 +70,9 @@ CParseHandlerScalarValuesList::StartElement
 void
 CParseHandlerScalarValuesList::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const, //xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const, //element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
 

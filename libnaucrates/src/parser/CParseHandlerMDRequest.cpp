@@ -64,13 +64,13 @@ CParseHandlerMDRequest::~CParseHandlerMDRequest()
 void
 CParseHandlerMDRequest::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const, // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDRequest), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDRequest), element_local_name))
 	{
 		// start of MD request section
 		GPOS_ASSERT(NULL == m_pdrgpmdid);
@@ -80,7 +80,7 @@ CParseHandlerMDRequest::StartElement
 		return;
 	}
 	
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMdid), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMdid), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdrgpmdid);
 		
@@ -91,12 +91,12 @@ CParseHandlerMDRequest::StartElement
 		return;
 	}
 	
-	GPOS_ASSERT(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDTypeRequest), xmlszLocalname));
+	GPOS_ASSERT(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDTypeRequest), element_local_name));
 	GPOS_ASSERT(NULL != m_pdrgptr);
 
 	CSystemId sysid = CDXLOperatorFactory::Sysid(m_pphm->Pmm(), attrs, EdxltokenSysid, EdxltokenMDTypeRequest);
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDTypeRequest), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDTypeRequest), element_local_name))
 	{		
 		// parse type request
 		IMDType::ETypeInfo eti = (IMDType::ETypeInfo) CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeInfo, EdxltokenMDTypeRequest);
@@ -115,12 +115,12 @@ CParseHandlerMDRequest::StartElement
 void
 CParseHandlerMDRequest::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDRequest), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDRequest), element_local_name))
 	{
 		// deactivate handler
 		m_pphm->DeactivateHandler();

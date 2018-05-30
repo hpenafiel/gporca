@@ -111,13 +111,13 @@ CParseHandlerMDType::~CParseHandlerMDType()
 void
 CParseHandlerMDType::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const, // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), element_local_name))
 	{
 		// parse metadata id info
 		m_pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenMDType);
@@ -217,7 +217,7 @@ CParseHandlerMDType::StartElement
 	}
 	else
 	{
-		ParseMdid(xmlszLocalname, attrs);
+		ParseMdid(element_local_name, attrs);
 	}
 }
 
@@ -232,7 +232,7 @@ CParseHandlerMDType::StartElement
 void
 CParseHandlerMDType::ParseMdid
 	(
-	const XMLCh *xmlszLocalname, 	
+	const XMLCh *element_local_name, 	
 	const Attributes& attrs
 	)
 {
@@ -258,7 +258,7 @@ CParseHandlerMDType::ParseMdid
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgmdidmap); ul++)
 	{
 		SMdidMapElem mdidmapelem = rgmdidmap[ul];
-		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(mdidmapelem.m_edxltoken), xmlszLocalname))
+		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(mdidmapelem.m_edxltoken), element_local_name))
 		{
 			edxltoken = mdidmapelem.m_edxltoken;
 			ppmdid = mdidmapelem.m_ppmdid;
@@ -370,12 +370,12 @@ CParseHandlerMDType::Ppmdid
 void
 CParseHandlerMDType::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), element_local_name))
 	{
 		// construct the MD type object from its part
 		GPOS_ASSERT(m_pmdid->IsValid());

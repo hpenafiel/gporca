@@ -96,13 +96,13 @@ CParseHandlerStatistics::Pdrgpdxlstatsderrel() const
 void
 CParseHandlerStatistics::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenStatistics)))
+	if (0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenStatistics)))
 	{
 		// start of the statistics section in the DXL document
 		GPOS_ASSERT(NULL == m_pdrgpdxlstatsderrel);
@@ -115,14 +115,14 @@ CParseHandlerStatistics::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlstatsderrel);
 
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, xmlszLocalname, m_pphm, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
 
 		m_pphm->ActivateParseHandler(pph);
 
 		// store parse handler
 		this->Append(pph);
 
-		pph->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pph->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -137,14 +137,14 @@ CParseHandlerStatistics::StartElement
 void
 CParseHandlerStatistics::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 != XMLString::compareString(xmlszLocalname, CDXLTokens::XmlstrToken(EdxltokenStatistics)))
+	if (0 != XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenStatistics)))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

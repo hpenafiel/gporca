@@ -56,13 +56,13 @@ CParseHandlerLogicalTVF::CParseHandlerLogicalTVF
 void
 CParseHandlerLogicalTVF::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes &attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), element_local_name))
 	{
 		// parse function id
 		m_pmdidFunc = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenFuncId, EdxltokenLogicalTVF);
@@ -83,7 +83,7 @@ CParseHandlerLogicalTVF::StartElement
 		m_pmdidRetType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenLogicalTVF);
 
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// parse handler for columns
 		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
@@ -92,7 +92,7 @@ CParseHandlerLogicalTVF::StartElement
 		// store parse handlers
 		this->Append(pphColDescr);
 
-		pphColDescr->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphColDescr->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -103,7 +103,7 @@ CParseHandlerLogicalTVF::StartElement
 		// store parse handlers
 		this->Append(pphChild);
 
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -118,14 +118,14 @@ CParseHandlerLogicalTVF::StartElement
 void
 CParseHandlerLogicalTVF::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

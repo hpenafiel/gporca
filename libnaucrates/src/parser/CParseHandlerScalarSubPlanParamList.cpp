@@ -69,20 +69,20 @@ CParseHandlerScalarSubPlanParamList::~CParseHandlerScalarSubPlanParamList()
 void
 CParseHandlerScalarSubPlanParamList::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes &attrs
 	)
 {
-	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), xmlszLocalname))
+	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), element_local_name))
 	{
 		// we can't have seen a paramlist already
 		GPOS_ASSERT(!m_fParamList);
 		// start the paramlist
 		m_fParamList = true;
 	}
-	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParam), xmlszLocalname))
+	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParam), element_local_name))
 	{
 		// we must have seen a paramlist already
 		GPOS_ASSERT(m_fParamList);
@@ -94,11 +94,11 @@ CParseHandlerScalarSubPlanParamList::StartElement
 		// store parse handler
 		this->Append(pphParam);
 
-		pphParam->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphParam->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -114,14 +114,14 @@ CParseHandlerScalarSubPlanParamList::StartElement
 void
 CParseHandlerScalarSubPlanParamList::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), xmlszLocalname) && NULL != m_pdxln)
+	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), element_local_name) && NULL != m_pdxln)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

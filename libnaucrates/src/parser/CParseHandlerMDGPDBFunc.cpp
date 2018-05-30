@@ -56,13 +56,13 @@ CParseHandlerMDGPDBFunc::CParseHandlerMDGPDBFunc
 void
 CParseHandlerMDGPDBFunc::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const, // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), element_local_name))
 	{
 		// parse func name
 		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -125,7 +125,7 @@ CParseHandlerMDGPDBFunc::StartElement
 
 		m_efuncdataacc = EFuncDataAccess(xmlszDataAcc);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncResultTypeId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncResultTypeId), element_local_name))
 	{
 		// parse result type
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -138,7 +138,7 @@ CParseHandlerMDGPDBFunc::StartElement
 													EdxltokenGPDBFuncResultTypeId
 													);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOutputCols), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOutputCols), element_local_name))
 	{
 		// parse output column type
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -172,12 +172,12 @@ CParseHandlerMDGPDBFunc::StartElement
 void
 CParseHandlerMDGPDBFunc::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), element_local_name))
 	{
 		// construct the MD func object from its part
 		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
@@ -196,10 +196,10 @@ CParseHandlerMDGPDBFunc::EndElement
 		m_pphm->DeactivateHandler();
 
 	}
-	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncResultTypeId), xmlszLocalname) &&
-			0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOutputCols), xmlszLocalname))
+	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncResultTypeId), element_local_name) &&
+			0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOutputCols), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

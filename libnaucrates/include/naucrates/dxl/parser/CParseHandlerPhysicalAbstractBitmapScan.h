@@ -41,14 +41,14 @@ namespace gpdxl
 			// common StartElement functionality for child classes
 			void StartElementHelper
 				(
-				const XMLCh* const xmlszLocalname,
+				const XMLCh* const element_local_name,
 				Edxltoken edxltoken
 				);
 
 			// common EndElement functionality for child classes
 			void EndElementHelper
 				(
-				const XMLCh* const xmlszLocalname,
+				const XMLCh* const element_local_name,
 				Edxltoken edxltoken,
 				ULONG ulPartIndexId = 0,
 				ULONG ulPartIndexIdPrintable = 0

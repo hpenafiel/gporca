@@ -58,13 +58,13 @@ CParseHandlerSequence::CParseHandlerSequence
 void
 CParseHandlerSequence::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (!m_fInsideSequence && 0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalSequence), xmlszLocalname))
+	if (!m_fInsideSequence && 0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalSequence), element_local_name))
 	{
 		// new sequence operator
 		// parse handler for the proj list
@@ -85,10 +85,10 @@ CParseHandlerSequence::StartElement
 	else
 	{
 		// child of the sequence operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, xmlszLocalname, m_pphm, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_pmp, element_local_name, m_pphm, this);
 		m_pphm->ActivateParseHandler(pphChild);
 		this->Append(pphChild);
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 	}	
 }
 
@@ -103,15 +103,15 @@ CParseHandlerSequence::StartElement
 void
 CParseHandlerSequence::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalSequence), 
-										xmlszLocalname))
+										element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

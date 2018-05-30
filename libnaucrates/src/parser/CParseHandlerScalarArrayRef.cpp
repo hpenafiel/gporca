@@ -56,13 +56,13 @@ CParseHandlerScalarArrayRef::CParseHandlerScalarArrayRef
 void
 CParseHandlerScalarArrayRef::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRef), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRef), element_local_name))
 	{
 		// initialize the arrayref node
 		GPOS_ASSERT(NULL == m_pdxln);
@@ -75,7 +75,7 @@ CParseHandlerScalarArrayRef::StartElement
 
 		m_pdxln = GPOS_NEW(m_pmp) CDXLNode (m_pmp, GPOS_NEW(m_pmp) CDXLScalarArrayRef(m_pmp, pmdidElem, iTypeModifier, pmdidArray, pmdidReturn));
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdxln);
 		GPOS_ASSERT(2 > m_ulIndexLists);
@@ -88,9 +88,9 @@ CParseHandlerScalarArrayRef::StartElement
 		this->Append(pphChild);
 		m_ulIndexLists++;
 
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefExpr), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefExpr), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdxln);
 		GPOS_ASSERT(2 == m_ulIndexLists);
@@ -99,7 +99,7 @@ CParseHandlerScalarArrayRef::StartElement
 
 		m_fParsingRefExpr = true;
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefAssignExpr), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefAssignExpr), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdxln);
 		GPOS_ASSERT(2 == m_ulIndexLists);
@@ -119,7 +119,7 @@ CParseHandlerScalarArrayRef::StartElement
 		// store parse handler
 		this->Append(pphChild);
 
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -134,12 +134,12 @@ CParseHandlerScalarArrayRef::StartElement
 void
 CParseHandlerScalarArrayRef::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRef), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRef), element_local_name))
 	{
 		// add constructed children from child parse handlers
 		const ULONG ulSize = this->Length();
@@ -154,13 +154,13 @@ CParseHandlerScalarArrayRef::EndElement
 		// deactivate handler
 		m_pphm->DeactivateHandler();
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefExpr), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefExpr), element_local_name))
 	{
 		GPOS_ASSERT(m_fParsingRefExpr);
 
 		m_fParsingRefExpr = false;
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefAssignExpr), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefAssignExpr), element_local_name))
 	{
 		GPOS_ASSERT(m_fParsingAssignExpr);
 
@@ -168,7 +168,7 @@ CParseHandlerScalarArrayRef::EndElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

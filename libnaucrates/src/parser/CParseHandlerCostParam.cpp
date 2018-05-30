@@ -68,7 +68,7 @@ CParseHandlerCostParam::~CParseHandlerCostParam()
 void
 CParseHandlerCostParam::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
+	const XMLCh* const, // element_uri,
 	const XMLCh* const xmlstrLocalname,
 	const XMLCh* const, // xmlstrQname
 	const Attributes& attrs
@@ -102,7 +102,7 @@ CParseHandlerCostParam::StartElement
 void
 CParseHandlerCostParam::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
+	const XMLCh* const, // element_uri,
 	const XMLCh* const xmlstrLocalname,
 	const XMLCh* const // xmlstrQname
 	)

@@ -52,13 +52,13 @@ CParseHandlerLogicalGet::CParseHandlerLogicalGet
 void
 CParseHandlerLogicalGet::StartElement
 	(
-	const XMLCh* const xmlszLocalname,
+	const XMLCh* const element_local_name,
 	Edxltoken edxltoken
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -83,13 +83,13 @@ CParseHandlerLogicalGet::StartElement
 void
 CParseHandlerLogicalGet::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const, // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes& //attrs
 	)
 {
-	StartElement(xmlszLocalname, EdxltokenLogicalGet);
+	StartElement(element_local_name, EdxltokenLogicalGet);
 }
 
 //---------------------------------------------------------------------------
@@ -103,13 +103,13 @@ CParseHandlerLogicalGet::StartElement
 void
 CParseHandlerLogicalGet::EndElement
 	(
-	const XMLCh* const xmlszLocalname,
+	const XMLCh* const element_local_name,
 	Edxltoken edxltoken
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -149,12 +149,12 @@ CParseHandlerLogicalGet::EndElement
 void
 CParseHandlerLogicalGet::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	EndElement(xmlszLocalname, EdxltokenLogicalGet);
+	EndElement(element_local_name, EdxltokenLogicalGet);
 }
 
 // EOF

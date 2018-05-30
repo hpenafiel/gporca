@@ -50,13 +50,13 @@ CParseHandlerScalarWindowRef::CParseHandlerScalarWindowRef
 void
 CParseHandlerScalarWindowRef::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowref), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowref), element_local_name))
 	{
 		// parse and create scalar WindowRef (window function)
 		CDXLScalarWindowRef *pdxlop =
@@ -77,7 +77,7 @@ CParseHandlerScalarWindowRef::StartElement
 		// store parse handlers
 		this->Append(pphOp);
 
-		pphOp->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphOp->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -92,14 +92,14 @@ CParseHandlerScalarWindowRef::StartElement
 void
 CParseHandlerScalarWindowRef::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowref), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowref), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	const ULONG ulSize = this->Length();

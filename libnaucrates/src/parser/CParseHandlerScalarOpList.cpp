@@ -61,13 +61,13 @@ CParseHandlerScalarOpList::CParseHandlerScalarOpList
 void
 CParseHandlerScalarOpList::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(xmlszLocalname);
+	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(element_local_name);
 	if (NULL == m_pdxln && CDXLScalarOpList::EdxloplistSentinel > edxloplisttype)
 	{
 		// create the list
@@ -86,7 +86,7 @@ CParseHandlerScalarOpList::StartElement
 		// store parse handler
 		this->Append(pphChild);
 
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -101,20 +101,20 @@ CParseHandlerScalarOpList::StartElement
 CDXLScalarOpList::EdxlOpListType
 CParseHandlerScalarOpList::Edxloplisttype
 	(
-	const XMLCh* const xmlszLocalname
+	const XMLCh* const element_local_name
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarOpList), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarOpList), element_local_name))
 	{
 		return CDXLScalarOpList::EdxloplistGeneral;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartLevelEqFilterList), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartLevelEqFilterList), element_local_name))
 	{
 		return CDXLScalarOpList::EdxloplistEqFilterList;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartLevelFilterList), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartLevelFilterList), element_local_name))
 	{
 		return CDXLScalarOpList::EdxloplistFilterList;
 	}
@@ -133,15 +133,15 @@ CParseHandlerScalarOpList::Edxloplisttype
 void
 CParseHandlerScalarOpList::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(xmlszLocalname);
+	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(element_local_name);
 	if (m_edxloplisttype != edxloplisttype)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

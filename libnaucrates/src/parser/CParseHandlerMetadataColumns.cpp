@@ -67,20 +67,20 @@ CParseHandlerMetadataColumns::~CParseHandlerMetadataColumns()
 void
 CParseHandlerMetadataColumns::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), xmlszLocalname))
+	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// start of a columns' list
 		GPOS_ASSERT(NULL == m_pdrgpmdcol);
 		
 		m_pdrgpmdcol = GPOS_NEW(m_pmp) DrgPmdcol(m_pmp);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), element_local_name))
 	{
 		// column list must be initialized already
 		GPOS_ASSERT(NULL != m_pdrgpmdcol);
@@ -91,11 +91,11 @@ CParseHandlerMetadataColumns::StartElement
 		m_pphm->ActivateParseHandler(pphCol);
 		this->Append(pphCol);
 		
-		pphCol->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphCol->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -111,12 +111,12 @@ CParseHandlerMetadataColumns::StartElement
 void
 CParseHandlerMetadataColumns::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), xmlszLocalname))
+	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// end of the columns' list
 		GPOS_ASSERT(NULL != m_pdrgpmdcol);
@@ -139,7 +139,7 @@ CParseHandlerMetadataColumns::EndElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

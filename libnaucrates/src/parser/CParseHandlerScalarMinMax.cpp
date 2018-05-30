@@ -53,21 +53,21 @@ CParseHandlerScalarMinMax::CParseHandlerScalarMinMax
 void
 CParseHandlerScalarMinMax::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (((0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMin), xmlszLocalname)) ||
-		(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), xmlszLocalname))) &&
+	if (((0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMin), element_local_name)) ||
+		(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))) &&
 		CDXLScalarMinMax::EmmtSentinel == m_emmt)
 	{
-		m_emmt = Emmt(xmlszLocalname);
+		m_emmt = Emmt(element_local_name);
 		GPOS_ASSERT(CDXLScalarMinMax::EmmtSentinel != m_emmt);
 
 		Edxltoken edxltoken = EdxltokenScalarMin;
-		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), xmlszLocalname))
+		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))
 		{
 			edxltoken = EdxltokenScalarMax;
 		}
@@ -84,7 +84,7 @@ CParseHandlerScalarMinMax::StartElement
 		// store parse handlers
 		this->Append(pphOp);
 
-		pphOp->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphOp->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -99,16 +99,16 @@ CParseHandlerScalarMinMax::StartElement
 void
 CParseHandlerScalarMinMax::EndElement
 	(
-	const XMLCh* const ,// xmlszUri
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const ,// element_uri
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	CDXLScalarMinMax::EdxlMinMaxType emmt = Emmt(xmlszLocalname);
+	CDXLScalarMinMax::EdxlMinMaxType emmt = Emmt(element_local_name);
 
 	if (CDXLScalarMinMax::EmmtSentinel == emmt || m_emmt != emmt)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -138,15 +138,15 @@ CParseHandlerScalarMinMax::EndElement
 CDXLScalarMinMax::EdxlMinMaxType
 CParseHandlerScalarMinMax::Emmt
 	(
-	const XMLCh *xmlszLocalname
+	const XMLCh *element_local_name
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMin), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMin), element_local_name))
 	{
 		return CDXLScalarMinMax::EmmtMin;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))
 	{
 		return CDXLScalarMinMax::EmmtMax;
 	}

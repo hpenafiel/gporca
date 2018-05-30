@@ -34,12 +34,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerColStatsBucket::CParseHandlerColStatsBucket
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_base
 	)
 	:
-	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_base),
 	m_dFrequency(0.0),
 	m_dDistinct(0.0),
 	m_pdxldatumLower(NULL),
@@ -88,13 +88,13 @@ CParseHandlerColStatsBucket::Pdxlbucket() const
 void
 CParseHandlerColStatsBucket::StartElement
 	(
-	const XMLCh* const , // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const , // xmlszQname,
+	const XMLCh* const , // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const , // element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), element_local_name))
 	{
 		// new column stats bucket
 
@@ -103,13 +103,13 @@ CParseHandlerColStatsBucket::StartElement
 		m_dDistinct = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenStatsDistinct, EdxltokenColumnStatsBucket);
 		
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name))
 	{
 		// parse lower bound
 		m_pdxldatumLower = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenStatsBucketLowerBound);
 		m_fLowerClosed = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenStatsBoundClosed, EdxltokenStatsBucketLowerBound);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), element_local_name))
 	{
 		// parse upper bound
 		m_pdxldatumUpper = CDXLOperatorFactory::Pdxldatum(m_pphm->Pmm(), attrs, EdxltokenStatsBucketUpperBound);
@@ -117,7 +117,7 @@ CParseHandlerColStatsBucket::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -133,22 +133,22 @@ CParseHandlerColStatsBucket::StartElement
 void
 CParseHandlerColStatsBucket::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), element_local_name))
 	{
 		m_pdxlbucket = GPOS_NEW(m_pmp) CDXLBucket(m_pdxldatumLower, m_pdxldatumUpper, m_fLowerClosed, m_fUpperClosed, m_dFrequency, m_dDistinct);
 		
 		// deactivate handler
 		m_pphm->DeactivateHandler();
 	}
-	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), xmlszLocalname) && 
-			0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), xmlszLocalname))
+	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name) && 
+			0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,

@@ -41,23 +41,23 @@ namespace gpdxl
 			CParseHandlerScalarOpList(const CParseHandlerScalarOpList&);
 
 			// return the op list type corresponding to the given operator name
-			CDXLScalarOpList::EdxlOpListType Edxloplisttype(const XMLCh* const xmlszLocalname);
+			CDXLScalarOpList::EdxlOpListType Edxloplisttype(const XMLCh* const element_local_name);
 
 			// process the start of an element
 			void StartElement
 				(
-					const XMLCh* const xmlszUri, 		// URI of element's namespace
- 					const XMLCh* const xmlszLocalname,	// local part of element's name
-					const XMLCh* const xmlszQname,		// element's qname
+					const XMLCh* const element_uri, 		// URI of element's namespace
+ 					const XMLCh* const element_local_name,	// local part of element's name
+					const XMLCh* const element_qname,		// element's qname
 					const Attributes& attr				// element's attributes
 				);
 
 			// process the end of an element
 			void EndElement
 				(
-					const XMLCh* const xmlszUri, 		// URI of element's namespace
-					const XMLCh* const xmlszLocalname,	// local part of element's name
-					const XMLCh* const xmlszQname		// element's qname
+					const XMLCh* const element_uri, 		// URI of element's namespace
+					const XMLCh* const element_local_name,	// local part of element's name
+					const XMLCh* const element_qname		// element's qname
 				);
 
 		public:

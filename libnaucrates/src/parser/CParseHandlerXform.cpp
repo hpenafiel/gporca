@@ -67,7 +67,7 @@ CParseHandlerXform::~CParseHandlerXform()
 void
 CParseHandlerXform::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
+	const XMLCh* const, // element_uri,
 	const XMLCh* const xmlstrLocalname,
 	const XMLCh* const, // xmlstrQname
 	const Attributes& attrs
@@ -101,7 +101,7 @@ CParseHandlerXform::StartElement
 void
 CParseHandlerXform::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
+	const XMLCh* const, // element_uri,
 	const XMLCh* const xmlstrLocalname,
 	const XMLCh* const // xmlstrQname
 	)

@@ -36,17 +36,17 @@ using namespace gpdxl;
 void
 CParseHandlerPhysicalAbstractBitmapScan::StartElementHelper
 	(
- 	const XMLCh* const xmlszLocalname,
+ 	const XMLCh* const element_local_name,
 	Edxltoken edxltoken
 	)
 {
 	if (0 != XMLString::compareString
 				(
 				CDXLTokens::XmlstrToken(edxltoken),
-				xmlszLocalname
+				element_local_name
 				))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -96,7 +96,7 @@ CParseHandlerPhysicalAbstractBitmapScan::StartElementHelper
 void
 CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	(
-	const XMLCh* const xmlszLocalname,
+	const XMLCh* const element_local_name,
 	Edxltoken edxltoken,
 	ULONG ulPartIndexId,
 	ULONG ulPartIndexIdPrintable
@@ -105,10 +105,10 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	if (0 != XMLString::compareString
 				(
 				CDXLTokens::XmlstrToken(edxltoken),
-				xmlszLocalname
+				element_local_name
 				))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

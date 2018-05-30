@@ -47,23 +47,23 @@ namespace gpdxl
 			// process the start of an element
 			void StartElement
 					(
-					const XMLCh* const xmlszUri,
-					const XMLCh* const xmlszLocalname,
-					const XMLCh* const xmlszQname,
+					const XMLCh* const element_uri,
+					const XMLCh* const element_local_name,
+					const XMLCh* const element_qname,
 					const Attributes& attr
 					);
 
 			// process the end of an element
 			void EndElement
 					(
-					const XMLCh* const xmlszUri,
-					const XMLCh* const xmlszLocalname,
-					const XMLCh* const xmlszQname
+					const XMLCh* const element_uri,
+					const XMLCh* const element_local_name,
+					const XMLCh* const element_qname
 					);
 
 			// parse the min/max type from the attribute value
 			static
-			CDXLScalarMinMax::EdxlMinMaxType Emmt(const XMLCh *xmlszLocalname);
+			CDXLScalarMinMax::EdxlMinMaxType Emmt(const XMLCh *element_local_name);
 
 		public:
 			// ctor

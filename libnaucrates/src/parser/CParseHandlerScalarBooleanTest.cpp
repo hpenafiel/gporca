@@ -53,14 +53,14 @@ CParseHandlerScalarBooleanTest::CParseHandlerScalarBooleanTest
 void
 CParseHandlerScalarBooleanTest::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
 	EdxlBooleanTestType edxlBooleanTestType =
-			CParseHandlerScalarBooleanTest::EdxlBooleantestType(xmlszLocalname);
+			CParseHandlerScalarBooleanTest::EdxlBooleantestType(element_local_name);
 
 	if (EdxlbooleantestSentinel == edxlBooleanTestType)
 	{
@@ -70,7 +70,7 @@ CParseHandlerScalarBooleanTest::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
+				CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name)->GetBuffer()
 				);
 		}
 		else
@@ -83,7 +83,7 @@ CParseHandlerScalarBooleanTest::StartElement
 			// store parse handlers
 			this->Append(pphChild);
 
-			pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+			pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 		}
 
 		return;
@@ -109,13 +109,13 @@ CParseHandlerScalarBooleanTest::StartElement
 void
 CParseHandlerScalarBooleanTest::EndElement
 (
-		const XMLCh* const, // xmlszUri,
-		const XMLCh* const xmlszLocalname,
-		const XMLCh* const // xmlszQname
+		const XMLCh* const, // element_uri,
+		const XMLCh* const element_local_name,
+		const XMLCh* const // element_qname
 )
 {
 
-	EdxlBooleanTestType edxlBooleanTestType = CParseHandlerScalarBooleanTest::EdxlBooleantestType(xmlszLocalname);
+	EdxlBooleanTestType edxlBooleanTestType = CParseHandlerScalarBooleanTest::EdxlBooleantestType(element_local_name);
 
 	if (EdxlbooleantestSentinel == edxlBooleanTestType )
 	{
@@ -123,7 +123,7 @@ CParseHandlerScalarBooleanTest::EndElement
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLUnexpectedTag,
-			CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname)->GetBuffer()
+			CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name)->GetBuffer()
 			);
 	}
 	

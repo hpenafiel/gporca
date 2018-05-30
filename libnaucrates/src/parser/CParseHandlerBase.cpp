@@ -118,13 +118,13 @@ CParseHandlerBase::ReplaceParseHandler
 void
 CParseHandlerBase::startElement
 	(
-		const XMLCh* const xmlszUri,
-		const XMLCh* const xmlszLocalname,
-		const XMLCh* const xmlszQname,
+		const XMLCh* const element_uri,
+		const XMLCh* const element_local_name,
+		const XMLCh* const element_qname,
 		const Attributes& attrs
 	)
 {
-	StartElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+	StartElement(element_uri, element_local_name, element_qname, attrs);
 }
 
 //---------------------------------------------------------------------------
@@ -138,12 +138,12 @@ CParseHandlerBase::startElement
 void
 CParseHandlerBase::endElement
 	(
-		const XMLCh* const xmlszUri,
-		const XMLCh* const xmlszLocalname,
-		const XMLCh* const xmlszQname
+		const XMLCh* const element_uri,
+		const XMLCh* const element_local_name,
+		const XMLCh* const element_qname
 	)
 {
-	EndElement(xmlszUri, xmlszLocalname, xmlszQname);
+	EndElement(element_uri, element_local_name, element_qname);
 }
 
 //---------------------------------------------------------------------------

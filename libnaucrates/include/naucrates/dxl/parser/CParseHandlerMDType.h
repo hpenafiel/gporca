@@ -120,22 +120,22 @@ namespace gpdxl
 			// handles a SAX start element event
 			void StartElement
 				(
-					const XMLCh* const xmlszUri, 		// URI of element's namespace
- 					const XMLCh* const xmlszLocalname,	// local part of element's name
-					const XMLCh* const xmlszQname,		// element's qname
+					const XMLCh* const element_uri, 		// URI of element's namespace
+ 					const XMLCh* const element_local_name,	// local part of element's name
+					const XMLCh* const element_qname,		// element's qname
 					const Attributes& attr				// element's attributes
 				);
 			
 			// handles a SAX endelement event
 			void EndElement
 				(
-					const XMLCh* const xmlszUri, 		// URI of element's namespace
-					const XMLCh* const xmlszLocalname,	// local part of element's name
-					const XMLCh* const xmlszQname		// element's qname
+					const XMLCh* const element_uri, 		// URI of element's namespace
+					const XMLCh* const element_local_name,	// local part of element's name
+					const XMLCh* const element_qname		// element's qname
 				);
 			
 			// parse the value for the given mdid variable name from the attributes 
-			void ParseMdid(const XMLCh *xmlszLocalname, const Attributes& attrs);
+			void ParseMdid(const XMLCh *element_local_name, const Attributes& attrs);
 						
 			BOOL FBuiltInType(const IMDId *pmdid) const;
 			

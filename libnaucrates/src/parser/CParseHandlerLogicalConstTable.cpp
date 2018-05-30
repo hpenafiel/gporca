@@ -55,13 +55,13 @@ CParseHandlerLogicalConstTable::CParseHandlerLogicalConstTable
 void
 CParseHandlerLogicalConstTable::StartElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const, // xmlszQname,
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalConstTable), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalConstTable), element_local_name))
 	{
 		// start of a const table operator node
 		GPOS_ASSERT(0 == this->Length());
@@ -77,7 +77,7 @@ CParseHandlerLogicalConstTable::StartElement
 		// store parse handler
 		this->Append(pphColDescr);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdrgpdrgpdxldatum); // we must have already seen a logical const table
 		GPOS_ASSERT(NULL == m_pdrgpdxldatum);
@@ -85,7 +85,7 @@ CParseHandlerLogicalConstTable::StartElement
 		// initialize the array of datums (const tuple)
 		m_pdrgpdxldatum = GPOS_NEW(m_pmp) DrgPdxldatum(m_pmp);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{
 		// we must have already seen a logical const table and a const tuple
 		GPOS_ASSERT(NULL != m_pdrgpdrgpdxldatum);
@@ -97,7 +97,7 @@ CParseHandlerLogicalConstTable::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -113,12 +113,12 @@ CParseHandlerLogicalConstTable::StartElement
 void
 CParseHandlerLogicalConstTable::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalConstTable), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalConstTable), element_local_name))
 	{
 		GPOS_ASSERT(1 == this->Length());
 
@@ -138,16 +138,16 @@ CParseHandlerLogicalConstTable::EndElement
 		// deactivate handler
 	  	m_pphm->DeactivateHandler();
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
 		m_pdrgpdrgpdxldatum->Append(m_pdrgpdxldatum);
 
 		m_pdrgpdxldatum = NULL; // intialize for the parsing the next const tuple (if needed)
 	}
-	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), xmlszLocalname))
+	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

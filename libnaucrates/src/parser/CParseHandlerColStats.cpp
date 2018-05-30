@@ -35,19 +35,19 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerColStats::CParseHandlerColStats
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_base
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
-	m_pmdidColStats(NULL),
-	m_pmdname(NULL),
-	m_dWidth(0.0),
-	m_dNullFreq(0.0),
-	m_dDistinctRemain(0.0),
-	m_dFreqRemain(0.0),
-	m_fColStatsMissing(false)
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, parse_handler_base),
+	m_mdid(NULL),
+	m_md_name(NULL),
+	m_width(0.0),
+	m_null_freq(0.0),
+	m_distinct_remaining(0.0),
+	m_freq_remaining(0.0),
+	m_is_column_stats_missing(false)
 {
 }
 
@@ -62,20 +62,20 @@ CParseHandlerColStats::CParseHandlerColStats
 void
 CParseHandlerColStats::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStats), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStats), element_local_name))
 	{
 		// new column stats object 
-		GPOS_ASSERT(NULL == m_pmdidColStats);
+		GPOS_ASSERT(NULL == m_mdid);
 
 		// parse mdid and name
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenMdid, EdxltokenColumnStats);
-		m_pmdidColStats = CMDIdColStats::PmdidConvert(pmdid);
+		m_mdid = CMDIdColStats::PmdidConvert(pmdid);
 		
 		// parse column name
 		const XMLCh *xmlszColName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -88,48 +88,48 @@ CParseHandlerColStats::StartElement
 		CWStringDynamic *pstrColName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszColName);
 		
 		// create a copy of the string in the CMDName constructor
-		m_pmdname = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrColName);
+		m_md_name = GPOS_NEW(m_pmp) CMDName(m_pmp, pstrColName);
 		GPOS_DELETE(pstrColName);
 		
-		m_dWidth = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenWidth, EdxltokenColumnStats);
+		m_width = CDXLOperatorFactory::DValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenWidth, EdxltokenColumnStats);
 
 		const XMLCh *xmlszNullFreq = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColNullFreq));
 		if (NULL != xmlszNullFreq)
 		{
-			m_dNullFreq = CDXLOperatorFactory::DValueFromXmlstr(m_pphm->Pmm(), xmlszNullFreq, EdxltokenColNullFreq, EdxltokenColumnStats);
+			m_null_freq = CDXLOperatorFactory::DValueFromXmlstr(m_pphm->Pmm(), xmlszNullFreq, EdxltokenColNullFreq, EdxltokenColumnStats);
 		}
 
 		const XMLCh *xmlszDistinctRemain = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColNdvRemain));
 		if (NULL != xmlszDistinctRemain)
 		{
-			m_dDistinctRemain = CDXLOperatorFactory::DValueFromXmlstr(m_pphm->Pmm(), xmlszDistinctRemain, EdxltokenColNdvRemain, EdxltokenColumnStats);
+			m_distinct_remaining = CDXLOperatorFactory::DValueFromXmlstr(m_pphm->Pmm(), xmlszDistinctRemain, EdxltokenColNdvRemain, EdxltokenColumnStats);
 		}
 
 		const XMLCh *xmlszFreqRemain = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColFreqRemain));
 		if (NULL != xmlszFreqRemain)
 		{
-			m_dFreqRemain = CDXLOperatorFactory::DValueFromXmlstr(m_pphm->Pmm(), xmlszFreqRemain, EdxltokenColFreqRemain, EdxltokenColumnStats);
+			m_freq_remaining = CDXLOperatorFactory::DValueFromXmlstr(m_pphm->Pmm(), xmlszFreqRemain, EdxltokenColFreqRemain, EdxltokenColumnStats);
 		}
 
 		const XMLCh *xmlszColStatsMissing = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColStatsMissing));
 		if (NULL != xmlszColStatsMissing)
 		{
-			m_fColStatsMissing = CDXLOperatorFactory::FValueFromXmlstr(m_pphm->Pmm(), xmlszColStatsMissing, EdxltokenColStatsMissing, EdxltokenColumnStats);
+			m_is_column_stats_missing = CDXLOperatorFactory::FValueFromXmlstr(m_pphm->Pmm(), xmlszColStatsMissing, EdxltokenColStatsMissing, EdxltokenColumnStats);
 		}
 
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), element_local_name))
 	{
 		// new bucket
 		CParseHandlerBase *pphStatsBucket = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), m_pphm, this);
 		this->Append(pphStatsBucket);
 		
 		m_pphm->ActivateParseHandler(pphStatsBucket);	
-		pphStatsBucket->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphStatsBucket->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -145,14 +145,14 @@ CParseHandlerColStats::StartElement
 void
 CParseHandlerColStats::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStats), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStats), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -173,14 +173,14 @@ CParseHandlerColStats::EndElement
 	m_pimdobj = GPOS_NEW(m_pmp) CDXLColStats
 							(
 							m_pmp,
-							m_pmdidColStats,
-							m_pmdname,
-							m_dWidth,
-							m_dNullFreq,
-							m_dDistinctRemain,
-							m_dFreqRemain,
+							m_mdid,
+							m_md_name,
+							m_width,
+							m_null_freq,
+							m_distinct_remaining,
+							m_freq_remaining,
 							pdrgpdxlbucket,
-							m_fColStatsMissing
+							m_is_column_stats_missing
 							);
 	
 	// deactivate handler

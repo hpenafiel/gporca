@@ -66,13 +66,13 @@ CParseHandlerMDGPDBScalarOp::CParseHandlerMDGPDBScalarOp
 void
 CParseHandlerMDGPDBScalarOp::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOp), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOp), element_local_name))
 	{
 		// parse operator name
 		const XMLCh *xmlszOpName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -121,7 +121,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		}
 
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpLeftTypeId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpLeftTypeId), element_local_name))
 	{
 		// parse left operand's type
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -134,7 +134,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 												EdxltokenGPDBScalarOpLeftTypeId
 												);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpRightTypeId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpRightTypeId), element_local_name))
 	{
 		// parse right operand's type
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -147,7 +147,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 													EdxltokenGPDBScalarOpRightTypeId
 													);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpResultTypeId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpResultTypeId), element_local_name))
 	{
 		// parse result type
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -160,7 +160,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 													EdxltokenGPDBScalarOpResultTypeId
 													);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpFuncId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpFuncId), element_local_name))
 	{
 		// parse op func id
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -173,7 +173,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 												EdxltokenGPDBScalarOpFuncId
 												);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpCommOpId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpCommOpId), element_local_name))
 	{
 		// parse commutator operator
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -186,7 +186,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 													EdxltokenGPDBScalarOpCommOpId
 													);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpInverseOpId), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpInverseOpId), element_local_name))
 	{
 		// parse inverse operator id
 		GPOS_ASSERT(NULL != m_pmdname);
@@ -199,17 +199,17 @@ CParseHandlerMDGPDBScalarOp::StartElement
 													EdxltokenGPDBScalarOpInverseOpId
 													);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), element_local_name))
 	{
 		// parse handler for operator class list
 		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_pmp, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_pphm, this);
 		m_pphm->ActivateParseHandler(pphOpClassList);
 		this->Append(pphOpClassList);
-		pphOpClassList->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphOpClassList->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -226,12 +226,12 @@ CParseHandlerMDGPDBScalarOp::StartElement
 void
 CParseHandlerMDGPDBScalarOp::EndElement
 	(
-	const XMLCh* const, // xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOp), xmlszLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOp), element_local_name))
 	{
 		// construct the MD scalar operator object from its part
 		GPOS_ASSERT(m_pmdid->IsValid() && NULL != m_pmdname);
@@ -270,9 +270,9 @@ CParseHandlerMDGPDBScalarOp::EndElement
 		m_pphm->DeactivateHandler();
 
 	}
-	else if (!FSupportedChildElem(xmlszLocalname))
+	else if (!FSupportedChildElem(element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

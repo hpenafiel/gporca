@@ -55,13 +55,13 @@ CParseHandlerScalarSwitch::CParseHandlerScalarSwitch
 void
 CParseHandlerScalarSwitch::StartElement
 	(
-	const XMLCh* const xmlszUri,
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const xmlszQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), xmlszLocalname) && NULL == m_pmdidType)
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), element_local_name) && NULL == m_pmdidType)
 	{
 		// parse type id
 		m_pmdidType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarSwitch);
@@ -70,7 +70,7 @@ CParseHandlerScalarSwitch::StartElement
 		CDXLScalarSwitch *pdxlop =  GPOS_NEW(m_pmp) CDXLScalarSwitch(m_pmp, m_pmdidType);
 		m_pdxln = GPOS_NEW(m_pmp) CDXLNode(m_pmp, pdxlop);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), xmlszLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), element_local_name))
 	{
 		// we must have already seen the arg child, but have not seen the DEFAULT child
 		GPOS_ASSERT(NULL != m_pdxln && m_fArgProcessed && !m_fDefaultProcessed);
@@ -82,7 +82,7 @@ CParseHandlerScalarSwitch::StartElement
 		// store parse handlers
 		this->Append(pphCase);
 
-		pphCase->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphCase->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -95,7 +95,7 @@ CParseHandlerScalarSwitch::StartElement
 		// store parse handlers
 		this->Append(pphChild);
 
-		pphChild->startElement(xmlszUri, xmlszLocalname, xmlszQname, attrs);
+		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
 
 		if (!m_fArgProcessed)
 		{
@@ -121,14 +121,14 @@ CParseHandlerScalarSwitch::StartElement
 void
 CParseHandlerScalarSwitch::EndElement
 	(
-	const XMLCh* const ,// xmlszUri
-	const XMLCh* const xmlszLocalname,
-	const XMLCh* const // xmlszQname
+	const XMLCh* const ,// element_uri
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), xmlszLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), xmlszLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_pphm->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
