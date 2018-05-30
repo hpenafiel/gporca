@@ -251,7 +251,7 @@ CMDAccessorTest::EresUnittest_Datum()
 	// create an INT4 datum
 	const IMDTypeInt4 *pmdtypeint4 = mda.PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
 	IDatumInt4 *pdatumInt4 = pmdtypeint4->PdatumInt4(memory_pool, 5, false /* is_null */);
-	GPOS_ASSERT(5 == pdatumInt4->IValue());
+	GPOS_ASSERT(5 == pdatumInt4->Value());
 
 	// create a BOOL datum
 	const IMDTypeBool *pmdtypebool = mda.PtMDType<IMDTypeBool>(CTestUtils::m_sysidDefault);

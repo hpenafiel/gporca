@@ -82,7 +82,7 @@ CStatisticsUtils::PpointNext
 		}
 		else if (pmdtype->Eti() == IMDType::EtiInt4)
 		{
-			INT iValue = dynamic_cast<IDatumInt4 *>(pdatumOld)->IValue() + 1;
+			INT iValue = dynamic_cast<IDatumInt4 *>(pdatumOld)->Value() + 1;
 			pdatumNew = dynamic_cast<const IMDTypeInt4 *>(pmdtype)->PdatumInt4(memory_pool, iValue, false);
 		}
 		else if (pmdtype->Eti() == IMDType::EtiInt8)

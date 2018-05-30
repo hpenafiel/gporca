@@ -103,14 +103,14 @@ CDatumInt4GPDB::~CDatumInt4GPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumInt4GPDB::IValue
+//		CDatumInt4GPDB::Value
 //
 //	@doc:
 //		Accessor of integer value
 //
 //---------------------------------------------------------------------------
 INT
-CDatumInt4GPDB::IValue() const
+CDatumInt4GPDB::Value() const
 {
 	return m_iVal;
 }
@@ -228,7 +228,7 @@ CDatumInt4GPDB::FMatch
 
 	if(!pdatumint4->IsNull() && !IsNull())
 	{
-		return (pdatumint4->IValue() == IValue());
+		return (pdatumint4->Value() == Value());
 	}
 
 	if(pdatumint4->IsNull() && IsNull())

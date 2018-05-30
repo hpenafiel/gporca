@@ -1533,7 +1533,7 @@ CUtils::FScalarConstIntZero
 		case IMDType::EtiInt2:
 			return (0 == dynamic_cast<IDatumInt2 *>(pdatum)->Value());
 		case IMDType::EtiInt4:
-			return (0 == dynamic_cast<IDatumInt4 *>(pdatum)->IValue());
+			return (0 == dynamic_cast<IDatumInt4 *>(pdatum)->Value());
 		case IMDType::EtiInt8:
 			return (0 == dynamic_cast<IDatumInt8 *>(pdatum)->LValue());
 		default:
