@@ -42,7 +42,7 @@ namespace gpdxl
 		private:
 
 			// for statistics computation, map to double
-			CDouble m_dValue;
+			CDouble m_val;
 
 			// private copy ctor
 			CDXLDatumStatsDoubleMappable(const CDXLDatumStatsDoubleMappable &);
@@ -58,7 +58,7 @@ namespace gpdxl
 				BOOL is_null,
 				BYTE *pba,
 				ULONG length,
-				CDouble dValue
+				CDouble val
 				);
 
 			// dtor
@@ -89,7 +89,7 @@ namespace gpdxl
 			virtual
 			CDouble GetDoubleMapping() const
 			{
-				return m_dValue;
+				return m_val;
 			}
 
 			// conversion function

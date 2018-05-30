@@ -39,11 +39,11 @@ CDXLDatumStatsDoubleMappable::CDXLDatumStatsDoubleMappable
 	BOOL is_null,
 	BYTE *pba,
 	ULONG length,
-	CDouble dValue
+	CDouble val
 	)
 	:
 	CDXLDatumGeneric(memory_pool, mdid_type, type_modifier, is_passed_by_value, is_null, pba, length),
-	m_dValue(dValue)
+	m_val(val)
 {
 }
 //---------------------------------------------------------------------------
