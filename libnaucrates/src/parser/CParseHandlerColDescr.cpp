@@ -40,7 +40,7 @@ CParseHandlerColDescr::CParseHandlerColDescr
 	CParseHandlerBase(pmp, parse_handler_mgr, parse_handler_base),
 	current_column_descr(NULL)
 {
-	m_column_descr_dxl_array = GPOS_NEW(m_pmp) ColumnDescrDXLArray(m_pmp);
+	m_column_descr_dxl_array = GPOS_NEW(m_memory_pool) ColumnDescrDXLArray(m_memory_pool);
 }
 
 //---------------------------------------------------------------------------
