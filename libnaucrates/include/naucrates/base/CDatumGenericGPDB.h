@@ -52,7 +52,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 		INT m_type_modifier;
 
 		// long int value used for statistic computation
-		LINT m_lValue;
+		LINT m_val;
 
 		// double value used for statistic computation
 		CDouble m_dValue;
@@ -143,7 +143,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 		{
 			GPOS_ASSERT(IsDatumMappableToLINT());
 
-			return m_lValue;
+			return m_val;
 		}
 
 		//  supports statistical comparisons based on the byte array representation of datum

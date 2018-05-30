@@ -56,7 +56,7 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	m_is_null(is_null),
 	m_pmdid(pmdid),
 	m_type_modifier(type_modifier),
-	m_lValue(lValue),
+	m_val(lValue),
 	m_dValue(dValue)
 {
 	GPOS_ASSERT(NULL != memory_pool);
@@ -268,7 +268,7 @@ CDatumGenericGPDB::PdatumCopy
 	m_pmdid->AddRef();
 	
 	// CDatumGenericGPDB makes a copy of the buffer
-	return GPOS_NEW(memory_pool) CDatumGenericGPDB(memory_pool, m_pmdid, m_type_modifier, m_pbVal, m_ulSize, m_is_null, m_lValue, m_dValue);
+	return GPOS_NEW(memory_pool) CDatumGenericGPDB(memory_pool, m_pmdid, m_type_modifier, m_pbVal, m_ulSize, m_is_null, m_val, m_dValue);
 }
 
 

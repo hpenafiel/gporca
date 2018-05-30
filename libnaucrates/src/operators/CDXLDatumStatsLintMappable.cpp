@@ -37,13 +37,13 @@ CDXLDatumStatsLintMappable::CDXLDatumStatsLintMappable
 	INT type_modifier,
 	BOOL is_passed_by_value,
 	BOOL is_null,
-	BYTE *pba,
+	BYTE *byte_array,
 	ULONG length,
 	LINT lValue
 	)
 	:
-	CDXLDatumGeneric(memory_pool, mdid_type, type_modifier, is_passed_by_value, is_null, pba, length),
-	m_lValue(lValue)
+	CDXLDatumGeneric(memory_pool, mdid_type, type_modifier, is_passed_by_value, is_null, byte_array, length),
+	m_val(lValue)
 {
 }
 

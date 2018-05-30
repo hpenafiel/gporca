@@ -42,7 +42,7 @@ namespace gpdxl
 		private:
 
 			// for statistics computation, map to LINT
-			LINT m_lValue;
+			LINT m_val;
 
 			// private copy ctor
 			CDXLDatumStatsLintMappable(const CDXLDatumStatsLintMappable &);
@@ -56,7 +56,7 @@ namespace gpdxl
 				INT type_modifier,
 				BOOL is_passed_by_value,
 				BOOL is_null,
-				BYTE *pba,
+				BYTE *byte_array,
 				ULONG length,
 				LINT lValue
 				);
@@ -102,7 +102,7 @@ namespace gpdxl
 			virtual
 			LINT GetLINTMapping() const
 			{
-				return m_lValue;
+				return m_val;
 			}
 
 	};
