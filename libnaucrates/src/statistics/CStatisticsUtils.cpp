@@ -77,7 +77,7 @@ CStatisticsUtils::PpointNext
 
 		if (pmdtype->Eti() == IMDType::EtiInt2)
 		{
-			SINT sValue = (SINT) (dynamic_cast<IDatumInt2 *>(pdatumOld)->SValue() + 1);
+			SINT sValue = (SINT) (dynamic_cast<IDatumInt2 *>(pdatumOld)->Value() + 1);
 			pdatumNew = dynamic_cast<const IMDTypeInt2 *>(pmdtype)->PdatumInt2(memory_pool, sValue, false);
 		}
 		else if (pmdtype->Eti() == IMDType::EtiInt4)

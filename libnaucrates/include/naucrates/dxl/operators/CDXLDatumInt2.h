@@ -40,7 +40,7 @@ namespace gpdxl
 	{
 		private:
 			// int2 value
-			SINT m_sVal;
+			SINT m_val;
 
 			// private copy ctor
 			CDXLDatumInt2(const CDXLDatumInt2 &);
@@ -52,7 +52,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				BOOL is_null,
-				SINT sVal
+				SINT val
 				);
 
 			// dtor
@@ -60,7 +60,7 @@ namespace gpdxl
 			~CDXLDatumInt2(){};
 
 			// accessor of int value
-			SINT SValue() const;
+			SINT Value() const;
 
 			// serialize the datum as the given element
 			virtual

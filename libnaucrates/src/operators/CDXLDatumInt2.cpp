@@ -34,26 +34,26 @@ CDXLDatumInt2::CDXLDatumInt2
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
 	BOOL is_null,
-	SINT sVal
+	SINT val
 	)
 	:
 	CDXLDatum(memory_pool, mdid_type, IDefaultTypeModifier, is_null, 2 /*length*/ ),
-	m_sVal(sVal)
+	m_val(val)
 {
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLDatumInt2::SValue
+//		CDXLDatumInt2::Value
 //
 //	@doc:
 //		Return the short integer value
 //
 //---------------------------------------------------------------------------
 SINT
-CDXLDatumInt2::SValue() const
+CDXLDatumInt2::Value() const
 {
-	return m_sVal;
+	return m_val;
 }
 
 //---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ CDXLDatumInt2::Serialize
 	
 	if (!m_is_null)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_sVal);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_val);
 	}
 }
 

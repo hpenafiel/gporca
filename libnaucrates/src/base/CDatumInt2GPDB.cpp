@@ -103,14 +103,14 @@ CDatumInt2GPDB::~CDatumInt2GPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumInt2GPDB::SValue
+//		CDatumInt2GPDB::Value
 //
 //	@doc:
 //		Accessor of integer value
 //
 //---------------------------------------------------------------------------
 SINT
-CDatumInt2GPDB::SValue() const
+CDatumInt2GPDB::Value() const
 {
 	return m_sVal;
 }
@@ -228,7 +228,7 @@ CDatumInt2GPDB::FMatch
 
 	if (!pdatumint2->IsNull() && !IsNull())
 	{
-		return (pdatumint2->SValue() == SValue());
+		return (pdatumint2->Value() == Value());
 	}
 
 	return pdatumint2->IsNull() && IsNull();

@@ -1531,7 +1531,7 @@ CUtils::FScalarConstIntZero
 	switch (pdatum->Eti())
 	{
 		case IMDType::EtiInt2:
-			return (0 == dynamic_cast<IDatumInt2 *>(pdatum)->SValue());
+			return (0 == dynamic_cast<IDatumInt2 *>(pdatum)->Value());
 		case IMDType::EtiInt4:
 			return (0 == dynamic_cast<IDatumInt4 *>(pdatum)->IValue());
 		case IMDType::EtiInt8:

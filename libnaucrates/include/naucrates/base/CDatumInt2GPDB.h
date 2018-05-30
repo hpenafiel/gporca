@@ -64,7 +64,7 @@ class CDatumInt2GPDB : public IDatumInt2
 
 		// accessor of integer value
 		virtual
-		SINT SValue() const;
+		SINT Value() const;
 
 		// accessor of is null
 		virtual
