@@ -54,19 +54,19 @@ namespace gpnaucrates
 
 			// can datum be mapped to a double
 			virtual
-			BOOL FHasStatsDoubleMapping() const = 0;
+			BOOL IsDatumMappableToDouble() const = 0;
 
 			// map to double for statistics computation
 			virtual
-			CDouble DStatsMapping() const = 0;
+			CDouble GetDoubleMapping() const = 0;
 
 			// can datum be mapped to LINT
 			virtual
-			BOOL FHasStatsLINTMapping() const = 0;
+			BOOL IsDatumMappableToLINT() const = 0;
 
 			// map to LINT for statistics computation
 			virtual
-			LINT LStatsMapping() const = 0;
+			LINT GetLINTMapping() const = 0;
 
 			// statistics equality
 			virtual

@@ -2076,7 +2076,7 @@ CHistogram::FNDVBasedCardEstimation
 	{
 		IDatumStatisticsMappable *pdatumMappable = (IDatumStatisticsMappable *) pdatum;
 
-		if (pdatumMappable->FHasStatsDoubleMapping())
+		if (pdatumMappable->IsDatumMappableToDouble())
 		{
 			fRes = false;
 		}

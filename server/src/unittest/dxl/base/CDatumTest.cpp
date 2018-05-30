@@ -127,14 +127,14 @@ CDatumTest::EresUnittest_Basics()
 			{
 				IDatumStatisticsMappable *pdatumMappable = (IDatumStatisticsMappable *) pdatum;
 				
-				if (pdatumMappable->FHasStatsLINTMapping())
+				if (pdatumMappable->IsDatumMappableToLINT())
 				{
-					os << "LINT stats value: " << pdatumMappable->LStatsMapping() << std::endl;
+					os << "LINT stats value: " << pdatumMappable->GetLINTMapping() << std::endl;
 				}
 	
-				if (pdatumMappable->FHasStatsDoubleMapping())
+				if (pdatumMappable->IsDatumMappableToDouble())
 				{
-					os << "Double stats value: " << pdatumMappable->DStatsMapping() << std::endl;
+					os << "Double stats value: " << pdatumMappable->GetDoubleMapping() << std::endl;
 				}
 			}
 			

@@ -3166,7 +3166,7 @@ CDXLOperatorFactory::PdxldatumGeneric
 	
 	if (!fConstNull)
 	{
-		pba = Pba(pmm, attrs, edxltokenElement, &ulPbaLength);
+		pba = GetByteArray(pmm, attrs, edxltokenElement, &ulPbaLength);
 		if (NULL == pba)
 		{
 			// unable to decode value. probably not Base64 encoded.
@@ -3216,7 +3216,7 @@ CDXLOperatorFactory::PdxldatumStatsLintMappable
 	LINT lValue = 0;
 	if (!fConstNull)
 	{
-		pba = Pba(pmm, attrs, edxltokenElement, &ulPbaLength);
+		pba = GetByteArray(pmm, attrs, edxltokenElement, &ulPbaLength);
 		lValue = LValue(pmm, attrs, edxltokenElement, pba);
 	}
 
@@ -3262,14 +3262,14 @@ CDXLOperatorFactory::LValue
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::Pba
+//		CDXLOperatorFactory::GetByteArray
 //
 //	@doc:
 //		Parses a byte array representation of the datum
 //
 //---------------------------------------------------------------------------
 BYTE *
-CDXLOperatorFactory::Pba
+CDXLOperatorFactory::GetByteArray
 	(
 	CDXLMemoryManager *pmm,
 	const Attributes &attrs,
@@ -3310,7 +3310,7 @@ CDXLOperatorFactory::PdxldatumStatsDoubleMappable
 	
 	if (!fConstNull)
 	{
-		pba = Pba(pmm, attrs, edxltokenElement, &ulPbaLength);
+		pba = GetByteArray(pmm, attrs, edxltokenElement, &ulPbaLength);
 		
 		if (NULL == pba)
 		{

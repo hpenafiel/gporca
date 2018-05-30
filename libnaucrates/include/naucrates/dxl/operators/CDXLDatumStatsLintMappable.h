@@ -54,7 +54,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				INT type_modifier,
-				BOOL fByVal,
+				BOOL is_passed_by_value,
 				BOOL is_null,
 				BYTE *pba,
 				ULONG length,
@@ -93,14 +93,14 @@ namespace gpdxl
 
 			// can datum be mapped to LINT
 			virtual
-			BOOL FHasStatsLINTMapping() const
+			BOOL IsDatumMappableToLINT() const
 			{
 				return true;
 			}
 
 			// return the LINT mapping needed for statistics computation
 			virtual
-			LINT LStatsMapping() const
+			LINT GetLINTMapping() const
 			{
 				return m_lValue;
 			}

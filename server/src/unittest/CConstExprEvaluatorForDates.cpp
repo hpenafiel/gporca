@@ -59,8 +59,8 @@ CConstExprEvaluatorForDates::PexprEval
 	IDatumStatisticsMappable *pdatumRight = dynamic_cast<IDatumStatisticsMappable *>(popScalarRight->Pdatum());
 
 	CScalarCmp *popScCmp = dynamic_cast<CScalarCmp *>(pexpr->Pop());
-	CDouble dLeft = pdatumLeft->DStatsMapping();
-	CDouble dRight = pdatumRight->DStatsMapping();
+	CDouble dLeft = pdatumLeft->GetDoubleMapping();
+	CDouble dRight = pdatumRight->GetDoubleMapping();
 	BOOL fResult = false;
 	switch (popScCmp->Ecmpt())
 	{

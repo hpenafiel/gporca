@@ -47,10 +47,10 @@ namespace gpdxl
 		protected:
 
 			// is datum passed by value or by reference
-			BOOL m_fByVal;
+			BOOL m_is_passed_by_value;
 
 			// datum byte array
-			BYTE *m_pba;
+			BYTE *byte_array;
 
 		public:
 			// ctor
@@ -59,7 +59,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				INT type_modifier,
-				BOOL fByVal,
+				BOOL is_passed_by_value,
 				BOOL is_null,
 				BYTE *pba,
 				ULONG length
@@ -70,7 +70,7 @@ namespace gpdxl
 			~CDXLDatumGeneric();
 
 			// byte array
-			const BYTE *Pba() const;
+			const BYTE *GetByteArray() const;
 
 			// serialize the datum as the given element
 			virtual
@@ -79,7 +79,7 @@ namespace gpdxl
 			// is type passed by value
 			virtual BOOL IsPassedByValue() const
 			{
-				return m_fByVal;
+				return m_is_passed_by_value;
 			}
 
 			// datum type
@@ -108,32 +108,32 @@ namespace gpdxl
 
 			// can datum be mapped to LINT
 			virtual
-			BOOL FHasStatsLINTMapping() const
+			BOOL IsDatumMappableToLINT() const
 			{
 				return false;
 			}
 
 			// return the lint mapping needed for statistics computation
 			virtual
-			LINT LStatsMapping() const
+			LINT GetLINTMapping() const
 			{
-				GPOS_ASSERT(FHasStatsLINTMapping());
+				GPOS_ASSERT(IsDatumMappableToLINT());
 
 				return 0;
 			}
 
 			// can datum be mapped to a double
 			virtual
-			BOOL FHasStatsDoubleMapping() const
+			BOOL IsDatumMappableToDouble() const
 			{
 				return false;
 			}
 
 			// return the double mapping needed for statistics computation
 			virtual
-			CDouble DStatsMapping() const
+			CDouble GetDoubleMapping() const
 			{
-				GPOS_ASSERT(FHasStatsDoubleMapping());
+				GPOS_ASSERT(IsDatumMappableToDouble());
 				return 0;
 			}
 	};

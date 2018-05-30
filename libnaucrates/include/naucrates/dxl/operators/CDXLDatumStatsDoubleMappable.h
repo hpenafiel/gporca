@@ -54,7 +54,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				INT type_modifier,
-				BOOL fByVal,
+				BOOL is_passed_by_value,
 				BOOL is_null,
 				BYTE *pba,
 				ULONG length,
@@ -80,14 +80,14 @@ namespace gpdxl
 
 			// can datum be mapped to double
 			virtual
-			BOOL FHasStatsDoubleMapping() const
+			BOOL IsDatumMappableToDouble() const
 			{
 				return true;
 			}
 
 			// return the double mapping needed for statistics computation
 			virtual
-			CDouble DStatsMapping() const
+			CDouble GetDoubleMapping() const
 			{
 				return m_dValue;
 			}

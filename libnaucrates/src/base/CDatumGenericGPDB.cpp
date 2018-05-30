@@ -191,14 +191,14 @@ CDatumGenericGPDB::Pstr
 	}
 
 	// pretty print datums that can be mapped to LINTs or CDoubles
-	if (FHasStatsLINTMapping())
+	if (IsDatumMappableToLINT())
 	{
-		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), (double) LStatsMapping());
+		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), (double) GetLINTMapping());
 		return GPOS_NEW(memory_pool) CWStringConst(memory_pool, str.GetBuffer());
 	}
-	else if (FHasStatsDoubleMapping())
+	else if (IsDatumMappableToDouble())
 	{
-		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), DStatsMapping().Get());
+		str.AppendFormat(GPOS_WSZ_LIT("%0.3f"), GetDoubleMapping().Get());
 		return GPOS_NEW(memory_pool) CWStringConst(memory_pool, str.GetBuffer());
 	}
 
@@ -296,28 +296,28 @@ CDatumGenericGPDB::OsPrint
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumGenericGPDB::FHasStatsDoubleMapping
+//		CDatumGenericGPDB::IsDatumMappableToDouble
 //
 //	@doc:
 //		For statistics computation, can this datum be mapped to a CDouble
 //
 //---------------------------------------------------------------------------
 BOOL
-CDatumGenericGPDB::FHasStatsDoubleMapping() const
+CDatumGenericGPDB::IsDatumMappableToDouble() const
 {
 	return CMDTypeGenericGPDB::FHasByteDoubleMapping(this->MDId());
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumGenericGPDB::FHasStatsLINTMapping
+//		CDatumGenericGPDB::IsDatumMappableToLINT
 //
 //	@doc:
 //		For statistics computation, can this datum be mapped to a LINT
 //
 //---------------------------------------------------------------------------
 BOOL
-CDatumGenericGPDB::FHasStatsLINTMapping() const
+CDatumGenericGPDB::IsDatumMappableToLINT() const
 {
 	return CMDTypeGenericGPDB::FHasByteLintMapping(this->MDId());
 
@@ -376,8 +376,8 @@ CDatumGenericGPDB::FStatsEqual
 	const
 {
 	// if mapping exists, use that to compute equality
-	if (FHasStatsLINTMapping()
-			|| FHasStatsDoubleMapping())
+	if (IsDatumMappableToLINT()
+			|| IsDatumMappableToDouble())
 	{
 		return IDatumStatisticsMappable::FStatsEqual(pdatum);
 	}
@@ -494,7 +494,7 @@ CDatumGenericGPDB::PdatumPadded
 													pba,
 													ulAdjustedColWidth,
 													this->IsNull(),
-													this->LStatsMapping(),
+													this->GetLINTMapping(),
 													0 /* dValue */
 													);
 

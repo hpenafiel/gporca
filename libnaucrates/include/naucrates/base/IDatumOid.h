@@ -54,25 +54,25 @@ namespace gpnaucrates
 			OID OidValue() const = 0;
 
 			// can datum be mapped to a double
-			BOOL FHasStatsDoubleMapping() const
+			BOOL IsDatumMappableToDouble() const
 			{
 				return true;
 			}
 
 			// map to double for stats computation
-			CDouble DStatsMapping() const
+			CDouble GetDoubleMapping() const
 			{
-				return CDouble(LStatsMapping());
+				return CDouble(GetLINTMapping());
 			}
 
 			// can datum be mapped to LINT
-			BOOL FHasStatsLINTMapping() const
+			BOOL IsDatumMappableToLINT() const
 			{
 				return true;
 			}
 
 			// map to LINT for statistics computation
-			LINT LStatsMapping() const
+			LINT GetLINTMapping() const
 			{
 				return LINT(OidValue());
 			}

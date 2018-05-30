@@ -35,17 +35,17 @@ CDXLDatumGeneric::CDXLDatumGeneric
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
 	INT type_modifier,
-	BOOL fByVal,
+	BOOL is_passed_by_value,
 	BOOL is_null,
 	BYTE *pba,
 	ULONG length
 	)
 	:
 	CDXLDatum(memory_pool, mdid_type, type_modifier, is_null, length),
-	m_fByVal(fByVal),
-	m_pba(pba)
+	m_is_passed_by_value(is_passed_by_value),
+	byte_array(pba)
 {
-	GPOS_ASSERT_IMP(m_is_null, (m_pba == NULL) && (m_length == 0));
+	GPOS_ASSERT_IMP(m_is_null, (byte_array == NULL) && (m_length == 0));
 }
 
 //---------------------------------------------------------------------------
@@ -58,21 +58,21 @@ CDXLDatumGeneric::CDXLDatumGeneric
 //---------------------------------------------------------------------------
 CDXLDatumGeneric::~CDXLDatumGeneric()
 {
-	GPOS_DELETE_ARRAY(m_pba);
+	GPOS_DELETE_ARRAY(byte_array);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLDatumGeneric::Pba
+//		CDXLDatumGeneric::GetByteArray
 //
 //	@doc:
 //		Returns the bytearray of the datum
 //
 //---------------------------------------------------------------------------
 const BYTE *
-CDXLDatumGeneric::Pba() const
+CDXLDatumGeneric::GetByteArray() const
 {
-	return m_pba;
+	return byte_array;
 }
 
 //---------------------------------------------------------------------------
@@ -95,8 +95,8 @@ CDXLDatumGeneric::Serialize
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), m_type_modifier);
 	}
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_is_null);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_fByVal);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_is_null, Pba(), Length());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_is_passed_by_value);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_is_null, GetByteArray(), Length());
 }
 
 // EOF

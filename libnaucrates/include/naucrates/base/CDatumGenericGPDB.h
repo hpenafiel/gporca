@@ -122,26 +122,26 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// can datum be mapped to a double
 		virtual
-		BOOL FHasStatsDoubleMapping() const;
+		BOOL IsDatumMappableToDouble() const;
 
 		// map to double for stats computation
 		virtual
-		CDouble DStatsMapping() const
+		CDouble GetDoubleMapping() const
 		{
-			GPOS_ASSERT(FHasStatsDoubleMapping());
+			GPOS_ASSERT(IsDatumMappableToDouble());
 
 			return m_dValue;
 		}
 
 		// can datum be mapped to LINT
 		virtual
-		BOOL FHasStatsLINTMapping() const;
+		BOOL IsDatumMappableToLINT() const;
 
 		// map to LINT for statistics computation
 		virtual
-		LINT LStatsMapping() const
+		LINT GetLINTMapping() const
 		{
-			GPOS_ASSERT(FHasStatsLINTMapping());
+			GPOS_ASSERT(IsDatumMappableToLINT());
 
 			return m_lValue;
 		}

@@ -504,7 +504,7 @@ CStatisticsUtils::FValidBucket
 	const IDatumStatisticsMappable *pdatumsm = dynamic_cast<const IDatumStatisticsMappable*>(pdatum);
 
 	// for types which have integer mapping for stats purposes, e.g. int2,int4, etc.
-	if (pdatumsm->FHasStatsLINTMapping())
+	if (pdatumsm->IsDatumMappableToLINT())
 	{
 		// test if this integer bucket is well-defined
 		CDouble dVal = ppointUpper->DDistance(ppointLower);

@@ -288,7 +288,7 @@ namespace gpmd
 						IMemoryPool *memory_pool,
 						IMDId *pmdid,
 						INT type_modifier,
-						BOOL fByVal,
+						BOOL is_passed_by_value,
 						BOOL is_null,
 						BYTE *pba,
 						ULONG length,

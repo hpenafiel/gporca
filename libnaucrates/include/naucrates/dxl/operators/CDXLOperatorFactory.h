@@ -82,7 +82,7 @@ namespace gpdxl
 
 			// parses a byte array representation of the datum
 			static
-			BYTE *Pba
+			BYTE *GetByteArray
 					(
 					CDXLMemoryManager *pmm,
 					const Attributes &attrs,
