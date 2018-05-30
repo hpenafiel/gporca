@@ -51,7 +51,7 @@ namespace gpnaucrates
 
 			// accessor of integer value
 			virtual
-			LINT LValue() const = 0;
+			LINT Value() const = 0;
 
 			// can datum be mapped to a double
 			BOOL IsDatumMappableToDouble() const
@@ -62,7 +62,7 @@ namespace gpnaucrates
 			// map to double for stats computation
 			CDouble GetDoubleMapping() const
 			{
-				return CDouble(LValue());
+				return CDouble(Value());
 			}
 
 			// can datum be mapped to LINT
@@ -74,7 +74,7 @@ namespace gpnaucrates
 			// map to LINT for statistics computation
 			LINT GetLINTMapping() const
 			{
-				return LValue();
+				return Value();
 			}
 
 			//  supports statistical comparisons based on the byte array representation of datum

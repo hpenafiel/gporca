@@ -40,7 +40,7 @@ namespace gpdxl
 	{
 		private:
 			// long int value
-			LINT m_lVal;
+			LINT m_val;
 
 			// private copy ctor
 			CDXLDatumInt8(const CDXLDatumInt8 &);
@@ -52,7 +52,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				BOOL is_null,
-				LINT lVal
+				LINT val
 				);
 
 			// dtor
@@ -60,7 +60,7 @@ namespace gpdxl
 			~CDXLDatumInt8(){};
 
 			// accessor of value
-			LINT LValue() const;
+			LINT Value() const;
 
 			// serialize the datum as the given element
 			virtual

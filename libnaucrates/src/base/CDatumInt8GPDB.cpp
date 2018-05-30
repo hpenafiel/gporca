@@ -101,14 +101,14 @@ CDatumInt8GPDB::~CDatumInt8GPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumInt8GPDB::LValue
+//		CDatumInt8GPDB::Value
 //
 //	@doc:
 //		Accessor of integer value
 //
 //---------------------------------------------------------------------------
 LINT
-CDatumInt8GPDB::LValue() const
+CDatumInt8GPDB::Value() const
 {
 	return m_lVal;
 }
@@ -226,7 +226,7 @@ CDatumInt8GPDB::FMatch
 
 	if(!pdatumInt8->IsNull() && !IsNull())
 	{
-		return (pdatumInt8->LValue() == LValue());
+		return (pdatumInt8->Value() == Value());
 	}
 
 	if(pdatumInt8->IsNull() && IsNull())

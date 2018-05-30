@@ -72,7 +72,7 @@ namespace gpdxl
 
 			// return the LINT value of byte array
 			static
-			LINT LValue
+			LINT Value
 				(
 				CDXLMemoryManager *pmm,
 				const Attributes &attrs,

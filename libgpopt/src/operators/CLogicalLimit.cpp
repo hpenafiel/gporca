@@ -229,7 +229,7 @@ CLogicalLimit::Maxcard
 		CScalarConst *popScalarConst = CScalarConst::PopConvert(pexprCount->Pop());
 		IDatumInt8 *pdatumInt8 = dynamic_cast<IDatumInt8 *>(popScalarConst->Pdatum());
 
-		return CMaxCard(pdatumInt8->LValue());
+		return CMaxCard(pdatumInt8->Value());
 	}
 
 	// pass on max card of first child

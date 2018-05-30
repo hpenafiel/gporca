@@ -3217,7 +3217,7 @@ CDXLOperatorFactory::PdxldatumStatsLintMappable
 	if (!fConstNull)
 	{
 		pba = GetByteArray(pmm, attrs, edxltokenElement, &ulPbaLength);
-		lValue = LValue(pmm, attrs, edxltokenElement, pba);
+		lValue = Value(pmm, attrs, edxltokenElement, pba);
 	}
 
 	INT type_modifier = IValueFromAttrs
@@ -3235,14 +3235,14 @@ CDXLOperatorFactory::PdxldatumStatsLintMappable
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::LValue
+//		CDXLOperatorFactory::Value
 //
 //	@doc:
 //		Return the LINT value of byte array
 //
 //---------------------------------------------------------------------------
 LINT
-CDXLOperatorFactory::LValue
+CDXLOperatorFactory::Value
 	(
 	CDXLMemoryManager *pmm,
 	const Attributes &attrs,

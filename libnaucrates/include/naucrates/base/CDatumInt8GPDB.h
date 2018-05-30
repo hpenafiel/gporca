@@ -66,7 +66,7 @@ namespace gpnaucrates
 
 			// accessor of integer value
 			virtual
-			LINT LValue() const;
+			LINT Value() const;
 
 			// accessor of is null
 			virtual

@@ -36,30 +36,30 @@ CDXLDatumInt8::CDXLDatumInt8
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
 	BOOL is_null,
-	LINT lVal
+	LINT val
 	)
 	:
 	CDXLDatum(memory_pool, mdid_type, IDefaultTypeModifier, is_null, 8 /*length*/),
-	m_lVal(lVal)
+	m_val(val)
 {
 	if (is_null)
 	{
-		m_lVal = 0;
+		m_val = 0;
 	}
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLDatumInt8::LValue
+//		CDXLDatumInt8::Value
 //
 //	@doc:
 //		Return the long int value
 //
 //---------------------------------------------------------------------------
 LINT
-CDXLDatumInt8::LValue() const
+CDXLDatumInt8::Value() const
 {
-	return m_lVal;
+	return m_val;
 }
 
 //---------------------------------------------------------------------------
@@ -82,7 +82,7 @@ CDXLDatumInt8::Serialize
 	
 	if (!m_is_null)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_lVal);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_val);
 	}
 }
 
