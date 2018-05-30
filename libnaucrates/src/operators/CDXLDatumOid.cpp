@@ -34,11 +34,11 @@ CDXLDatumOid::CDXLDatumOid
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
 	BOOL is_null,
-	OID oidVal
+	OID oid_val
 	)
 	:
 	CDXLDatum(memory_pool, mdid_type, IDefaultTypeModifier, is_null, 4 /*length*/ ),
-	m_oidVal(oidVal)
+	m_oid_val(oid_val)
 {
 }
 
@@ -53,7 +53,7 @@ CDXLDatumOid::CDXLDatumOid
 OID
 CDXLDatumOid::OidValue() const
 {
-	return m_oidVal;
+	return m_oid_val;
 }
 
 //---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ CDXLDatumOid::Serialize
 
 	if (!m_is_null)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_oidVal);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_oid_val);
 	}
 }
 

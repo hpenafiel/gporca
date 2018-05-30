@@ -40,7 +40,7 @@ namespace gpdxl
 	{
 		private:
 			// oid value
-			OID m_oidVal;
+			OID m_oid_val;
 
 			// private copy ctor
 			CDXLDatumOid(const CDXLDatumOid &);
@@ -52,7 +52,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				BOOL is_null,
-				OID oidVal
+				OID oid_val
 				);
 
 			// dtor
