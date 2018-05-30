@@ -94,7 +94,7 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLDatumStatsDoubleMappable *PdxldatumConvert
+			CDXLDatumStatsDoubleMappable *Cast
 				(
 				CDXLDatum *pdxldatum
 				)

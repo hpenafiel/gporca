@@ -292,7 +292,7 @@ CNormalizer::PushThruOuterChild
 		CExpression *pexprNew = GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pexprNewOuter, pexprInner, pexprPred);
 
 		// call push down predicates on the new outer join
-		CExpression *pexprConstTrue = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+		CExpression *pexprConstTrue = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 		PushThru(memory_pool, pexprNew, pexprConstTrue, ppexprResult);
 		pexprConstTrue->Release();
 		pexprNew->Release();
@@ -309,7 +309,7 @@ CNormalizer::PushThruOuterChild
 
 		// call push down on the outer join predicates
 		CExpression *pexprNew = NULL;
-		CExpression *pexprConstTrue = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+		CExpression *pexprConstTrue = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 		PushThru(memory_pool, pexprOuterJoin, pexprConstTrue, &pexprNew);
 		if (pexprOuterJoin != pexpr)
 		{
@@ -1053,7 +1053,7 @@ CNormalizer::PexprNormalize
 	{
 		if (FPushThruOuterChild(pexpr))
 		{
-			CExpression *pexprConstTrue = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+			CExpression *pexprConstTrue = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 			PushThru(memory_pool, pexpr, pexprConstTrue, &pexprResult);
 			pexprConstTrue->Release();
 		}

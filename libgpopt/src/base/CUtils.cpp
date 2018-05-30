@@ -951,7 +951,7 @@ CUtils::PexprIsNotFalse
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	return PexprIDF(memory_pool, pexpr, PexprScalarConstBool(memory_pool, false /*fVal*/));
+	return PexprIDF(memory_pool, pexpr, PexprScalarConstBool(memory_pool, false /*value*/));
 }
 
 // Find if a scalar expression uses a nullable column from the
@@ -2605,7 +2605,7 @@ BOOL
 CUtils::FScalarConstBool
 	(
 	CExpression *pexpr,
-	BOOL fVal
+	BOOL value
 	)
 {
 	GPOS_ASSERT(NULL != pexpr);
@@ -2617,7 +2617,7 @@ CUtils::FScalarConstBool
 		if (IMDType::EtiBool ==  popScalarConst->Pdatum()->Eti())
 		{
 			IDatumBool *pdatum = dynamic_cast<IDatumBool *>(popScalarConst->Pdatum());
-			return !pdatum->IsNull() && pdatum->FValue() == fVal;
+			return !pdatum->IsNull() && pdatum->FValue() == value;
 		}
 	}
 
@@ -2631,7 +2631,7 @@ CUtils::FScalarConstTrue
 	CExpression *pexpr
 	)
 {
-	return FScalarConstBool(pexpr, true /*fVal*/);
+	return FScalarConstBool(pexpr, true /*value*/);
 }
 
 // checks to see if the expression is a scalar const FALSE
@@ -2641,7 +2641,7 @@ CUtils::FScalarConstFalse
 	CExpression *pexpr
 	)
 {
-	return FScalarConstBool(pexpr, false /*fVal*/);
+	return FScalarConstBool(pexpr, false /*value*/);
 }
 
 // return an array of non-system columns in the given set
@@ -4279,7 +4279,7 @@ CUtils::PhmulcnstrBoolConstOnPartKeys
 	(
 	IMemoryPool *memory_pool,
 	DrgDrgPcr *pdrgpdrgpcrPartKey,
-	BOOL fVal
+	BOOL value
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpdrgpcrPartKey);
@@ -4290,7 +4290,7 @@ CUtils::PhmulcnstrBoolConstOnPartKeys
 	{
 		CColRef *pcrPartKey = PcrExtractPartKey(pdrgpdrgpcrPartKey, ul);
 		CConstraint *pcnstr = NULL;
-		if (fVal)
+		if (value)
 		{
 			// unbounded constraint
 			pcnstr = CConstraintInterval::PciUnbounded(memory_pool, pcrPartKey, true /*fIsNull*/);
@@ -4378,12 +4378,12 @@ CUtils::PpartcnstrFromMDPartCnstr
 	HMUlCnstr *phmulcnstr = NULL;
 	if (CUtils::FScalarConstTrue(pexprPartCnstr))
 	{
-		phmulcnstr = PhmulcnstrBoolConstOnPartKeys(memory_pool, pdrgpdrgpcrPartKey, true /*fVal*/);
+		phmulcnstr = PhmulcnstrBoolConstOnPartKeys(memory_pool, pdrgpdrgpcrPartKey, true /*value*/);
 	}
 	else if (CUtils::FScalarConstFalse(pexprPartCnstr))
 	{
 		// contradiction
-		phmulcnstr = PhmulcnstrBoolConstOnPartKeys(memory_pool, pdrgpdrgpcrPartKey, false /*fVal*/);
+		phmulcnstr = PhmulcnstrBoolConstOnPartKeys(memory_pool, pdrgpdrgpcrPartKey, false /*value*/);
 	}
 	else
 	{
@@ -4440,7 +4440,7 @@ CUtils::PexprLogicalCTGDummy
 
 	// generate a bool datum
 	DrgPdatum *pdrgpdatum = GPOS_NEW(memory_pool) DrgPdatum(memory_pool);
-	IDatumBool *pdatum =  pmdtypebool->PdatumBool(memory_pool, false /*fVal*/, false /*is_null*/);
+	IDatumBool *pdatum =  pmdtypebool->PdatumBool(memory_pool, false /*value*/, false /*is_null*/);
 	pdrgpdatum->Append(pdatum);
 	DrgPdrgPdatum *pdrgpdrgpdatum = GPOS_NEW(memory_pool) DrgPdrgPdatum(memory_pool);
 	pdrgpdrgpdatum->Append(pdrgpdatum);

@@ -79,7 +79,7 @@ CMinidumpWithConstExprEvaluatorTest::EresUnittest()
 GPOS_RESULT
 CMinidumpWithConstExprEvaluatorTest::EresUnittest_RunMinidumpTestsWithConstExprEvaluatorOn()
 {
-	CAutoTraceFlag atf(EopttraceEnableConstantExpressionEvaluation, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceEnableConstantExpressionEvaluation, true /*value*/);
 
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
@@ -92,7 +92,7 @@ CMinidumpWithConstExprEvaluatorTest::EresUnittest_RunMinidumpTestsWithConstExprE
 	CAutoTraceFlag atf1(EopttraceEnumeratePlans, fMatchPlans);
 
 	// enable stats derivation for DPE
-	CAutoTraceFlag atf2(EopttraceDeriveStatsForDPE, true /*fVal*/);
+	CAutoTraceFlag atf2(EopttraceDeriveStatsForDPE, true /*value*/);
 
 	const ULONG ulTests = GPOS_ARRAY_SIZE(rgszConstExprEvaluatorOnFileNames);
 

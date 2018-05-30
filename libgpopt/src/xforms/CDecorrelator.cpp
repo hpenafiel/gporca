@@ -528,7 +528,7 @@ CDecorrelator::FProcessJoin
 		// in case entire predicate is being deferred, plug in a 'true'
 		if (NULL == pexprPredicate)
 		{
-			pexprPredicate = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+			pexprPredicate = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 		}
 		
 		pdrgpexpr->Append(pexprPredicate);

@@ -162,7 +162,7 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 {
 
 	// enable (Redistribute, Broadcast) hash join plans
-	CAutoTraceFlag atf1(EopttraceEnableRedistributeBroadcastHashJoin, true /*fVal*/);
+	CAutoTraceFlag atf1(EopttraceEnableRedistributeBroadcastHashJoin, true /*value*/);
 
 	CAutoTraceFlag atf2(EopttraceDisableXformBase + CXform::ExfDynamicGet2DynamicTableScan, true);
 	
@@ -258,7 +258,7 @@ GPOS_RESULT
 CICGTest::EresUnittest_NegativeIndexApplyTests()
 {
 	// enable (Redistribute, Broadcast) hash join plans
-	CAutoTraceFlag atf(EopttraceEnableRedistributeBroadcastHashJoin, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceEnableRedistributeBroadcastHashJoin, true /*value*/);
 
 	// disable physical scans and NLJ to force using index-apply
 	CAutoTraceFlag atfDTS(EopttraceDisableXformBase + CXform::ExfDynamicGet2DynamicTableScan, true);
@@ -420,7 +420,7 @@ CICGTest::EresUnittest_PreferHashJoinVersusIndexJoinWhenRiskIsHigh()
 	IMemoryPool *memory_pool = amp.Pmp();
 
 	// enable (Redistribute, Broadcast) hash join plans
-	CAutoTraceFlag atf(EopttraceEnableRedistributeBroadcastHashJoin, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceEnableRedistributeBroadcastHashJoin, true /*value*/);
 
 	// When the risk threshold is infinite, we should pick index join
 	DrgPcp *pdrgpcpUnlimited = GPOS_NEW(memory_pool) DrgPcp(memory_pool);

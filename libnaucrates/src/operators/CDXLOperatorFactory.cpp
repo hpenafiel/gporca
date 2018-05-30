@@ -3129,13 +3129,13 @@ CDXLOperatorFactory::PdxldatumBool
 	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	GPOS_ASSERT(fConstByVal);
-	BOOL fVal = false;
+	BOOL value = false;
 	if (!fConstNull)
 	{
-		fVal = FValueFromAttrs(pmm, attrs, EdxltokenValue, edxltokenElement);
+		value = FValueFromAttrs(pmm, attrs, EdxltokenValue, edxltokenElement);
 	}
 	
-	return GPOS_NEW(memory_pool) CDXLDatumBool(memory_pool, pmdid, fConstNull, fVal);
+	return GPOS_NEW(memory_pool) CDXLDatumBool(memory_pool, pmdid, fConstNull, value);
 }
 
 

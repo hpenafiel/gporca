@@ -18,8 +18,8 @@
 
 // trace flag macro definitions
 #define GPOS_FTRACE(x)       ITask::Self()->IsTraceSet(x)
-#define GPOS_SET_TRACE(x)    (void) ITask::Self()->SetTrace(x, true /*fVal*/)
-#define GPOS_UNSET_TRACE(x)  (void) ITask::Self()->SetTrace(x, false /*fVal*/)
+#define GPOS_SET_TRACE(x)    (void) ITask::Self()->SetTrace(x, true /*value*/)
+#define GPOS_UNSET_TRACE(x)  (void) ITask::Self()->SetTrace(x, false /*value*/)
 
 namespace gpos
 {

@@ -740,7 +740,7 @@ namespace gpopt
 					);
 
 			// helper to add a project of bool constant
-			CDXLNode *PdxlnProjectBoolConst(CDXLNode *pdxln, BOOL fVal);
+			CDXLNode *PdxlnProjectBoolConst(CDXLNode *pdxln, BOOL value);
 
 			// helper to build a Result expression with project list restricted to required column
 			CDXLNode *PdxlnRestrictResult(CDXLNode *pdxln, CColRef *pcr);

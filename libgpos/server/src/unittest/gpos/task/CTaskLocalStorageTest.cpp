@@ -88,7 +88,7 @@ CTaskLocalStorageTest::EresUnittest_TraceFlags()
 
 	// test auto trace flag
 	{
-		CAutoTraceFlag atf(EtraceTest, false /*fVal*/);
+		CAutoTraceFlag atf(EtraceTest, false /*value*/);
 
 		GPOS_ASSERT(!GPOS_FTRACE(EtraceTest));
 	}

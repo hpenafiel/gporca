@@ -83,10 +83,10 @@ namespace gpopt
 			static
 			BOOL *PfVal
 				(
-				BOOL fVal
+				BOOL value
 				)
 			{
-				if (fVal)
+				if (value)
 				{
 					return &m_fTrue;
 				}

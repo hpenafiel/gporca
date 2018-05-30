@@ -91,7 +91,7 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLDatumGeneric *PdxldatumConvert
+			CDXLDatumGeneric *Cast
 				(
 				CDXLDatum *pdxldatum
 				)

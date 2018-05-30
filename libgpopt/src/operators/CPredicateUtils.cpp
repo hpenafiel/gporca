@@ -943,7 +943,7 @@ CPredicateUtils::PexprEliminateSelfComparison
 			case IMDType::EcmptLEq:
 			case IMDType::EcmptGEq:
 				pexprNew->Release();
-				pexprNew = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+				pexprNew = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 				break;
 
 			case IMDType::EcmptNEq:
@@ -951,7 +951,7 @@ CPredicateUtils::PexprEliminateSelfComparison
 			case IMDType::EcmptG:
 			case IMDType::EcmptIDF:
 				pexprNew->Release();
-				pexprNew = CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/);
+				pexprNew = CUtils::PexprScalarConstBool(memory_pool, false /*value*/);
 				break;
 
 			default:
@@ -1990,7 +1990,7 @@ CPredicateUtils::ExtractIndexPredicates
 		if (CUtils::FScalarIdentBoolType(pexprCond))
 		{
 			// expression is a column identifier of boolean type: convert to "col = true"
-			pexprCond = CUtils::PexprScalarEqCmp(memory_pool, pexprCond, CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/, false /*is_null*/));
+			pexprCond = CUtils::PexprScalarEqCmp(memory_pool, pexprCond, CUtils::PexprScalarConstBool(memory_pool, true /*value*/, false /*is_null*/));
 		}
 		else if (FNot(pexprCond) && CUtils::FScalarIdentBoolType((*pexprCond)[0]))
 		{
@@ -1998,7 +1998,7 @@ CPredicateUtils::ExtractIndexPredicates
 			CExpression *pexprScId = (*pexprCond)[0];
 			pexprCond->Release();
 			pexprScId->AddRef();
-			pexprCond = CUtils::PexprScalarEqCmp(memory_pool, pexprScId, CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, false /*is_null*/));
+			pexprCond = CUtils::PexprScalarEqCmp(memory_pool, pexprScId, CUtils::PexprScalarConstBool(memory_pool, false /*value*/, false /*is_null*/));
 		}
 		else
 		{
@@ -2368,7 +2368,7 @@ CPredicateUtils::PexprReplaceColsWithNulls
 		pcrs->FMember(CScalarIdent::PopConvert(pop)->Pcr()))
 	{
 		// replace column with NULL constant
-		return CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, true /*is_null*/);
+		return CUtils::PexprScalarConstBool(memory_pool, false /*value*/, true /*is_null*/);
 	}
 
 	// process children recursively

@@ -505,11 +505,11 @@ CExpressionTest::EresUnittest_Const()
 					CTestUtils::Pcm(memory_pool)
 					);
 
-	BOOL fVal = true;
-	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, fVal);
+	BOOL value = true;
+	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, value);
 
-	fVal = false;
-	CExpression *pexprFalse = CUtils::PexprScalarConstBool(memory_pool, fVal);
+	value = false;
+	CExpression *pexprFalse = CUtils::PexprScalarConstBool(memory_pool, value);
 
 	ULONG ulVal = 123456;
 	CExpression *pexprUl = CUtils::PexprScalarConstInt4(memory_pool, ulVal);

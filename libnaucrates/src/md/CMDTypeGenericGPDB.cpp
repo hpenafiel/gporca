@@ -266,7 +266,7 @@ CMDTypeGenericGPDB::Pdatum
 	)
 	const
 {
-	CDXLDatumGeneric *pdxldatum = CDXLDatumGeneric::PdxldatumConvert(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
+	CDXLDatumGeneric *pdxldatum = CDXLDatumGeneric::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
 	GPOS_ASSERT(NULL != pdxlop);
 
 	LINT lValue = 0;
@@ -303,7 +303,7 @@ CMDTypeGenericGPDB::Pdatum
 	const
 {
 	m_pmdid->AddRef();
-	CDXLDatumGeneric *pdxldatumGeneric = CDXLDatumGeneric::PdxldatumConvert(const_cast<CDXLDatum *>(pdxldatum));
+	CDXLDatumGeneric *pdxldatumGeneric = CDXLDatumGeneric::Cast(const_cast<CDXLDatum *>(pdxldatum));
 
 	LINT lValue = 0;
 	if (pdxldatumGeneric->FHasStatsLINTMapping())

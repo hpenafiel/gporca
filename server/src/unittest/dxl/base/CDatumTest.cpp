@@ -236,7 +236,7 @@ CDatumTest::PdatumBool
 	BOOL is_null
 	)
 {
-	return GPOS_NEW(memory_pool) CDatumBoolGPDB(CTestUtils::m_sysidDefault, false /*fVal*/, is_null);
+	return GPOS_NEW(memory_pool) CDatumBoolGPDB(CTestUtils::m_sysidDefault, false /*value*/, is_null);
 }
 
 //---------------------------------------------------------------------------

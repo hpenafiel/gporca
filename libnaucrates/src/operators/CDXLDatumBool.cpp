@@ -29,11 +29,11 @@ CDXLDatumBool::CDXLDatumBool
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
 	BOOL is_null,
-	BOOL fVal
+	BOOL value
 	)
 	:
 	CDXLDatum(memory_pool, mdid_type, IDefaultTypeModifier, is_null, 1 /*length*/),
-	m_fVal(fVal)
+	m_value(value)
 {
 }
 
@@ -57,7 +57,7 @@ CDXLDatumBool::Serialize
 
 	if (!m_is_null)
 	{
-		if(m_fVal)
+		if(m_value)
 		{
 			xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), CDXLTokens::PstrToken(EdxltokenTrue));
 		}

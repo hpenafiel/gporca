@@ -82,7 +82,7 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLDatumOid *PdxldatumConvert
+			CDXLDatumOid *Cast
 				(
 				CDXLDatum *pdxldatum
 				)

@@ -37,11 +37,11 @@ using namespace gpmd;
 CDatumBoolGPDB::CDatumBoolGPDB
 	(
 	CSystemId sysid,
-	BOOL fVal,
+	BOOL value,
 	BOOL is_null
 	)
 	:
-	m_fVal(fVal),
+	m_value(value),
 	m_is_null(is_null)
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -53,7 +53,7 @@ CDatumBoolGPDB::CDatumBoolGPDB
 	if (IsNull())
 	{
 		// needed for hash computation
-		m_fVal = false;
+		m_value = false;
 	}
 }
 
@@ -68,12 +68,12 @@ CDatumBoolGPDB::CDatumBoolGPDB
 CDatumBoolGPDB::CDatumBoolGPDB
 	(
 	IMDId *pmdid,
-	BOOL fVal,
+	BOOL value,
 	BOOL is_null
 	)
 	:
 	m_pmdid(pmdid),
-	m_fVal(fVal),
+	m_value(value),
 	m_is_null(is_null)
 {
 	GPOS_ASSERT(NULL != m_pmdid);
@@ -82,7 +82,7 @@ CDatumBoolGPDB::CDatumBoolGPDB
 	if (IsNull())
 	{
 		// needed for hash computation
-		m_fVal = false;
+		m_value = false;
 	}
 }
 
@@ -111,7 +111,7 @@ CDatumBoolGPDB::~CDatumBoolGPDB()
 BOOL
 CDatumBoolGPDB::FValue() const
 {
-	return m_fVal;
+	return m_value;
 }
 
 
@@ -170,7 +170,7 @@ CDatumBoolGPDB::MDId() const
 ULONG
 CDatumBoolGPDB::HashValue() const
 {
-	return gpos::CombineHashes(m_pmdid->HashValue(), gpos::HashValue<BOOL>(&m_fVal));
+	return gpos::CombineHashes(m_pmdid->HashValue(), gpos::HashValue<BOOL>(&m_value));
 }
 
 //---------------------------------------------------------------------------
@@ -191,7 +191,7 @@ CDatumBoolGPDB::Pstr
 	CWStringDynamic str(memory_pool);
 	if (!IsNull())
 	{
-		str.AppendFormat(GPOS_WSZ_LIT("%d"), m_fVal);
+		str.AppendFormat(GPOS_WSZ_LIT("%d"), m_value);
 	}
 	else
 	{
@@ -252,7 +252,7 @@ CDatumBoolGPDB::PdatumCopy
 	const
 {
 	m_pmdid->AddRef();
-	return GPOS_NEW(memory_pool) CDatumBoolGPDB(m_pmdid, m_fVal, m_is_null);
+	return GPOS_NEW(memory_pool) CDatumBoolGPDB(m_pmdid, m_value, m_is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -272,7 +272,7 @@ CDatumBoolGPDB::OsPrint
 {
 	if (!IsNull())
 	{
-		os << m_fVal;
+		os << m_value;
 	}
 	else
 	{

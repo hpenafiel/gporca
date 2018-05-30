@@ -316,7 +316,7 @@ CSubqueryTestUtils::PexprSelectWithAggSubqueryOverJoin
 	}
 	else
 	{
-		pexprPred = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+		pexprPred = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 	}
 
 	// generate N-Ary join
@@ -746,11 +746,11 @@ CSubqueryTestUtils::PexprSelectWithNestedCmpSubquery
 	// generate a parent equality predicate
 	pexprSubqueryPred->AddRef();
 	CExpression *pexprPredicate1 =
-		CUtils::PexprScalarEqCmp(memory_pool, CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/), pexprSubqueryPred);
+		CUtils::PexprScalarEqCmp(memory_pool, CUtils::PexprScalarConstBool(memory_pool, true /*value*/), pexprSubqueryPred);
 
 	// add another nesting level
 	CExpression *pexprPredicate =
-		CUtils::PexprScalarEqCmp(memory_pool, CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/), pexprPredicate1);
+		CUtils::PexprScalarEqCmp(memory_pool, CUtils::PexprScalarConstBool(memory_pool, true /*value*/), pexprPredicate1);
 
 	pexprLogical->AddRef();
 	pexprSelectWithSubquery->Release();

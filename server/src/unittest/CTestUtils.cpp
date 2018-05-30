@@ -3051,10 +3051,10 @@ CPoint *
 CTestUtils::PpointBool
 	(
 	IMemoryPool *memory_pool,
-	BOOL fVal
+	BOOL value
 	)
 {
-	CDatumBoolGPDB *pdatum = GPOS_NEW(memory_pool) CDatumBoolGPDB(m_sysidDefault, fVal);
+	CDatumBoolGPDB *pdatum = GPOS_NEW(memory_pool) CDatumBoolGPDB(m_sysidDefault, value);
 	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
 	return ppoint;
 }
@@ -3676,7 +3676,7 @@ CTestUtils::EresRunMinidumps
 			}
 
 			// enable space pruning
-			CAutoTraceFlag atf(EopttraceEnableSpacePruning, true /*fVal*/);
+			CAutoTraceFlag atf(EopttraceEnableSpacePruning, true /*value*/);
 
 			eres = EresRunMinidumpsUsingOneMDFile
 				(
@@ -4095,7 +4095,7 @@ CTestUtils::EresCheckOptimizedPlan
 		// reset metadata cache
 		CMDCache::Reset();
 
-		CAutoTraceFlag atf1(EopttraceEnableSpacePruning, true /*fVal*/);
+		CAutoTraceFlag atf1(EopttraceEnableSpacePruning, true /*value*/);
 
 		// load dump file
 		CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(memory_pool, rgszFileNames[ul]);
@@ -4567,13 +4567,13 @@ CTestUtils::EresUnittest_RunTests
 	fTestSpacePruning = true;
 #endif // GPOS_Darwin || GPOS_Linux
 	// enable (Redistribute, Broadcast) hash join plans
-	CAutoTraceFlag atf1(EopttraceEnableRedistributeBroadcastHashJoin, true /*fVal*/);
+	CAutoTraceFlag atf1(EopttraceEnableRedistributeBroadcastHashJoin, true /*value*/);
 
 	// enable plan enumeration only if we match plans
 	CAutoTraceFlag atf2(EopttraceEnumeratePlans, fMatchPlans);
 
 	// enable stats derivation for DPE
-	CAutoTraceFlag atf3(EopttraceDeriveStatsForDPE, true /*fVal*/);
+	CAutoTraceFlag atf3(EopttraceDeriveStatsForDPE, true /*value*/);
 
 	// prefer MDQA
 	CAutoTraceFlag atf5(EopttraceForceExpandedMDQAs, true);

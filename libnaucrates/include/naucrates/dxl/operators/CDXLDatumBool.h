@@ -40,7 +40,7 @@ namespace gpdxl
 	{
 		private:
 			// boolean value
-			BOOL m_fVal;
+			BOOL m_value;
 
 			// private copy ctor
 			CDXLDatumBool(const CDXLDatumBool &);
@@ -52,7 +52,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				BOOL is_null,
-				BOOL fVal
+				BOOL value
 				);
 
 			// dtor
@@ -79,12 +79,12 @@ namespace gpdxl
 			// accessor of boolean value
 			BOOL FValue() const
 			{
-				return m_fVal;
+				return m_value;
 			}
 
 			// conversion function
 			static
-			CDXLDatumBool *PdxldatumConvert
+			CDXLDatumBool *Cast
 				(
 				CDXLDatum *pdxldatum
 				)

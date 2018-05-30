@@ -565,7 +565,7 @@ namespace gpopt
 
 			// bool point
 			static
-			CPoint *PpointBool(IMemoryPool *memory_pool, BOOL fVal);
+			CPoint *PpointBool(IMemoryPool *memory_pool, BOOL value);
 
 			// perform DXL(query) -> CExpression(Log) ->CExpression(Ph) -> DXL(plan)
 			// and check whether the resulting plan DXL matches the expected output
@@ -977,7 +977,7 @@ namespace gpopt
 		CColRefSet *pcrsOuter = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
 
 		CExpression *pexprInner = PexprLogicalSelectCorrelated(memory_pool, pcrsOuter, 3);
-		CExpression *pexprPredicate = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+		CExpression *pexprPredicate = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 
 		COperator *pop = GPOS_NEW(memory_pool) T(memory_pool);
 		return GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pexprOuter, pexprInner, pexprPredicate);
@@ -1002,7 +1002,7 @@ namespace gpopt
 		CColRefSet *pcrsOuter = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
 
 		CExpression *pexprInner = PexprLogicalSelectCorrelated(memory_pool, pcrsOuter, 3);
-		CExpression *pexprPredicate = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+		CExpression *pexprPredicate = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 
 		CColRefSet *pcrsOuterRef = CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->PcrsOuter();
 		GPOS_ASSERT(1 == pcrsOuterRef->Size());

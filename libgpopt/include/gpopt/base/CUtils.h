@@ -63,7 +63,7 @@ namespace gpopt
 
 			// check if the expression is a scalar boolean const
 			static
-			BOOL FScalarConstBool(CExpression *pexpr, BOOL fVal);
+			BOOL FScalarConstBool(CExpression *pexpr, BOOL value);
 
 			// check if two expressions have the same children in any order
 			static
@@ -373,7 +373,7 @@ namespace gpopt
 
 			// generate a bool expression
 			static
-			CExpression *PexprScalarConstBool(IMemoryPool *memory_pool, BOOL fVal, BOOL is_null = false);
+			CExpression *PexprScalarConstBool(IMemoryPool *memory_pool, BOOL value, BOOL is_null = false);
 
 			// generate an int4 expression
 			static
@@ -976,7 +976,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				DrgDrgPcr *pdrgpdrgpcrPartKey,
-				BOOL fVal
+				BOOL value
 				);
 
 			// extract part constraint from metadata
@@ -1141,7 +1141,7 @@ namespace gpopt
 		CExpression *pexprScalar = pexprPred;
 		if (NULL == pexprPred)
 		{
-			pexprScalar = PexprScalarConstBool(memory_pool, true /*fVal*/);
+			pexprScalar = PexprScalarConstBool(memory_pool, true /*value*/);
 		}
 
 		return GPOS_NEW(memory_pool) CExpression
@@ -1182,7 +1182,7 @@ namespace gpopt
 		CExpression *pexprScalar = pexprPred;
 		if (NULL == pexprPred)
 		{
-			pexprScalar = PexprScalarConstBool(memory_pool, true /*fVal*/);
+			pexprScalar = PexprScalarConstBool(memory_pool, true /*value*/);
 		}
 
 		DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
@@ -1225,7 +1225,7 @@ namespace gpopt
 		CExpression *pexprScalar = pexprPred;
 		if (NULL == pexprPred)
 		{
-			pexprScalar = PexprScalarConstBool(memory_pool, true /*fVal*/);
+			pexprScalar = PexprScalarConstBool(memory_pool, true /*value*/);
 		}
 
 		return GPOS_NEW(memory_pool) CExpression
@@ -1266,7 +1266,7 @@ namespace gpopt
 		CExpression *pexprScalar = pexprPred;
 		if (NULL == pexprPred)
 		{
-			pexprScalar = PexprScalarConstBool(memory_pool, true /*fVal*/);
+			pexprScalar = PexprScalarConstBool(memory_pool, true /*value*/);
 		}
 
 		if (COperator::EopLogicalSelect != pexprRight->Pop()->Eopid())
@@ -1275,7 +1275,7 @@ namespace gpopt
 			GPOS_ASSERT(!CUtils::FHasOuterRefs(pexprRight) &&
 				"unexpected outer references in inner child of Semi Apply expression ");
 			pexprScalar->Release();
-			pexprScalar = PexprScalarConstBool(memory_pool, true /*fVal*/);
+			pexprScalar = PexprScalarConstBool(memory_pool, true /*value*/);
 		}
 		else
 		{

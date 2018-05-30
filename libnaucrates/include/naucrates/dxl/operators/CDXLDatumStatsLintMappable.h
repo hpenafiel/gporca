@@ -78,7 +78,7 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLDatumStatsLintMappable *PdxldatumConvert
+			CDXLDatumStatsLintMappable *Cast
 				(
 				CDXLDatum *pdxldatum
 				)

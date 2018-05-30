@@ -2078,7 +2078,7 @@ CTranslatorExprToDXL::PdxlnResultFromConstTableGet
 		// no-tuples... only generate one row of NULLS and one-time "false" filter
 		pdrgpdatum = CTranslatorExprToDXLUtils::PdrgpdatumNulls(m_memory_pool, pdrgpcrCTGOutput);
 
-		CExpression *pexprFalse = CUtils::PexprScalarConstBool(m_memory_pool, false /*fVal*/, false /*is_null*/);
+		CExpression *pexprFalse = CUtils::PexprScalarConstBool(m_memory_pool, false /*value*/, false /*is_null*/);
 		CDXLNode *pdxlnFalse = PdxlnScConst(pexprFalse);
 		pexprFalse->Release();
 
@@ -2685,7 +2685,7 @@ CTranslatorExprToDXL::BuildSubplansForCorrelatedLOJ
 		(void) PdxlnExistentialSubplan(pdrgpcrInner, pexprCorrelatedLOJ, pdrgdxlcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 	}
 
-	CExpression *pexprTrue = CUtils::PexprScalarConstBool(m_memory_pool, true /*fVal*/, false /*is_null*/);
+	CExpression *pexprTrue = CUtils::PexprScalarConstBool(m_memory_pool, true /*value*/, false /*is_null*/);
 	*ppdxlnScalar = PdxlnScalar(pexprTrue);
 	pexprTrue->Release();
 }
@@ -2912,7 +2912,7 @@ CDXLNode *
 CTranslatorExprToDXL::PdxlnProjectBoolConst
 	(
 	CDXLNode *pdxln,
-	BOOL fVal
+	BOOL value
 	)
 {
 	GPOS_ASSERT(NULL != pdxln);
@@ -2922,7 +2922,7 @@ CTranslatorExprToDXL::PdxlnProjectBoolConst
 	IMDId *pmdid = pmdtypebool->MDId();
 	pmdid->AddRef();
 
-	CDXLDatumBool *pdxldatum = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */,  fVal);
+	CDXLDatumBool *pdxldatum = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */,  value);
 	CDXLScalarConstValue *pdxlopConstValue = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, pdxldatum);
 	CColRef *pcr = m_pcf->PcrCreate(pmdtypebool, IDefaultTypeModifier);
 	CDXLNode *pdxlnPrEl = PdxlnProjElem(pcr, GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstValue));
@@ -3072,7 +3072,7 @@ CTranslatorExprToDXL::PdxlnExistentialSubplan
 	if (0 == pdxlnInnerProjList->UlArity())
 	{
 		// no requested columns from subplan, add a dummy boolean constant to project list
-		pdxlnInner = PdxlnProjectBoolConst(pdxlnInnerChild, true /*fVal*/);
+		pdxlnInner = PdxlnProjectBoolConst(pdxlnInnerChild, true /*value*/);
 	}
 	else
 	{
@@ -3346,7 +3346,7 @@ CTranslatorExprToDXL::PdxlnBooleanScalarWithSubPlan
 	IMDId *pmdid = pmdtypebool->MDId();
 	pmdid->AddRef();
 
-	CDXLDatumBool *pdxldatum = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */, true /* fVal */);
+	CDXLDatumBool *pdxldatum = GPOS_NEW(m_memory_pool) CDXLDatumBool(m_memory_pool, pmdid, false /* is_null */, true /* value */);
 	CDXLScalarConstValue *pdxlopConstValue = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, pdxldatum);
 
 	CColRef *pcr = m_pcf->PcrCreate(pmdtypebool, IDefaultTypeModifier);
@@ -4278,7 +4278,7 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorDML
 	CDXLNode *pdxlnPropagation = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, pdxldatumNull));
 
 	// true printable filter
-	CDXLNode *pdxlnPrintable = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*fVal*/);
+	CDXLNode *pdxlnPrintable = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*value*/);
 
 	// construct PartitionSelector node
 	IMDId *pmdidRel = popSelector->MDId();
@@ -4354,7 +4354,7 @@ CTranslatorExprToDXL::PdxlnPartFilterList
 		CDXLNode *pdxlnFilter = NULL;
 		if (NULL == pexprFilter)
 		{
-			pdxlnFilter = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*fVal*/);
+			pdxlnFilter = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*value*/);
 		}
 		else
 		{
@@ -4707,7 +4707,7 @@ CTranslatorExprToDXL::TranslatePartitionFilters
 		CExpression *pexprResidual = popSelector->PexprResidualPred();
 		if (NULL == pexprResidual)
 		{
-			*ppdxlnResidual = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*fVal*/);
+			*ppdxlnResidual = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*value*/);
 		}
 		else
 		{
@@ -4722,7 +4722,7 @@ CTranslatorExprToDXL::TranslatePartitionFilters
 	// TODO:  - Apr 11, 2014; translate the residual filter. Take into account
 	// that this might be an arbitrary scalar expression on multiple part keys. Right
 	// now we assume no residual filter in this case
-	*ppdxlnResidual = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*fVal*/);
+	*ppdxlnResidual = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*value*/);
 }
 
 //---------------------------------------------------------------------------
@@ -4864,11 +4864,11 @@ CTranslatorExprToDXL::ConstructLevelFilters4PartitionSelector
 
 		if (NULL == pdxlnFilter)
 		{
-			pdxlnFilter = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*fVal*/);
+			pdxlnFilter = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*value*/);
 		}
 
 		(*ppdxlnFilters)->AddChild(pdxlnFilter);
-		(*ppdxlnEqFilters)->AddChild(CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*fVal*/));
+		(*ppdxlnEqFilters)->AddChild(CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*value*/));
 	}
 
 	if (NULL != pbsDefaultParts)

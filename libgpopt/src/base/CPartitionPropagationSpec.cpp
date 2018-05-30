@@ -237,7 +237,7 @@ CPartitionPropagationSpec::PexprFilter
 	{
 		// condition of the form "pkey": translate into pkey = true
 		pexprScalar->AddRef();
-		pexprScalar = CUtils::PexprScalarEqCmp(memory_pool, pexprScalar, CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/, false /*is_null*/));
+		pexprScalar = CUtils::PexprScalarEqCmp(memory_pool, pexprScalar, CUtils::PexprScalarConstBool(memory_pool, true /*value*/, false /*is_null*/));
 	}
 	else if (CPredicateUtils::FNot(pexprScalar) && CUtils::FScalarIdent((*pexprScalar)[0]))
 	{
@@ -245,7 +245,7 @@ CPartitionPropagationSpec::PexprFilter
 		CExpression *pexprId = (*pexprScalar)[0];
 		pexprId->AddRef();
 
-		pexprScalar = CUtils::PexprScalarEqCmp(memory_pool, pexprId, CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, false /*is_null*/));
+		pexprScalar = CUtils::PexprScalarEqCmp(memory_pool, pexprId, CUtils::PexprScalarConstBool(memory_pool, false /*value*/, false /*is_null*/));
 	}
 	else
 	{

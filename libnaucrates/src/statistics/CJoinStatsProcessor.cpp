@@ -458,7 +458,7 @@ CJoinStatsProcessor::PstatsJoin
 	if (exprhdl.Pdpscalar(ulArity - 1)->FHasSubquery())
 	{
 		// in case of subquery in join predicate, assume join condition is True
-		pexprJoinPred = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+		pexprJoinPred = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 	}
 	else
 	{

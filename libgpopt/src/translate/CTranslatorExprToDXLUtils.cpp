@@ -80,7 +80,7 @@ CTranslatorExprToDXLUtils::PdxlnBoolConst
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
-	BOOL fVal
+	BOOL value
 	)
 {
 	GPOS_ASSERT(NULL != memory_pool);
@@ -88,7 +88,7 @@ CTranslatorExprToDXLUtils::PdxlnBoolConst
 	const IMDTypeBool *pmdtype = pmda->PtMDType<IMDTypeBool>();
 	pmdtype->MDId()->AddRef();
 	
-	CDXLDatumBool *pdxldatum = GPOS_NEW(memory_pool) CDXLDatumBool(memory_pool, pmdtype->MDId(), false /*is_null*/, fVal);
+	CDXLDatumBool *pdxldatum = GPOS_NEW(memory_pool) CDXLDatumBool(memory_pool, pmdtype->MDId(), false /*is_null*/, value);
 	CDXLScalarConstValue *pdxlConst = GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, pdxldatum);
 	
 	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlConst);
@@ -226,7 +226,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTest
 	
 	if (pcnstr->FContradiction())
 	{
-		return PdxlnBoolConst(memory_pool, pmda, false /*fVal*/);
+		return PdxlnBoolConst(memory_pool, pmda, false /*value*/);
 	}
 	
 	switch (pcnstr->Ect())
@@ -1315,7 +1315,7 @@ CTranslatorExprToDXLUtils::FScalarConstTrue
 		const IMDType *pmdtype = pmda->Pmdtype(pdxlopConst->Pdxldatum()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
 		{
-			CDXLDatumBool *pdxldatum = CDXLDatumBool::PdxldatumConvert(const_cast<CDXLDatum*>(pdxlopConst->Pdxldatum()));
+			CDXLDatumBool *pdxldatum = CDXLDatumBool::Cast(const_cast<CDXLDatum*>(pdxlopConst->Pdxldatum()));
 
 			return (!pdxldatum->IsNull() && pdxldatum->FValue());
 		}
@@ -1348,7 +1348,7 @@ CTranslatorExprToDXLUtils::FScalarConstFalse
 		const IMDType *pmdtype = pmda->Pmdtype(pdxlopConst->Pdxldatum()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
 		{
-			CDXLDatumBool *pdxldatum = CDXLDatumBool::PdxldatumConvert(const_cast<CDXLDatum*>(pdxlopConst->Pdxldatum()));
+			CDXLDatumBool *pdxldatum = CDXLDatumBool::Cast(const_cast<CDXLDatum*>(pdxlopConst->Pdxldatum()));
 			return (!pdxldatum->IsNull() && !pdxldatum->FValue());
 		}
 	}

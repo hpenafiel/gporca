@@ -1326,7 +1326,7 @@ CConstraintTest::EresUnittest_NegativeTests()
 GPOS_RESULT
 CConstraintTest::EresUnittest_ConstraintsOnDates()
 {
-	CAutoTraceFlag atf(EopttraceEnableConstantExpressionEvaluation, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceEnableConstantExpressionEvaluation, true /*value*/);
 
 	// create memory pool
 	CAutoMemoryPool amp;

@@ -66,7 +66,7 @@ CMDTypeInt2GPDB::CMDTypeInt2GPDB
 
 	GPOS_ASSERT(GPDB_INT2_OID == CMDIdGPDB::PmdidConvert(m_pmdid)->OidObjectId());
 	m_pmdid->AddRef();
-	m_pdatumNull = GPOS_NEW(memory_pool) CDatumInt2GPDB(m_pmdid, 1 /* fVal */, true /* is_null */);
+	m_pdatumNull = GPOS_NEW(memory_pool) CDatumInt2GPDB(m_pmdid, 1 /* value */, true /* is_null */);
 }
 
 //---------------------------------------------------------------------------
@@ -248,7 +248,7 @@ CMDTypeInt2GPDB::Pdatum
 	)
 	const
 {
-	CDXLDatumInt2 *pdxldatum = CDXLDatumInt2::PdxldatumConvert(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
+	CDXLDatumInt2 *pdxldatum = CDXLDatumInt2::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
 	GPOS_ASSERT(pdxldatum->IsPassedByValue());
 
 	return GPOS_NEW(m_memory_pool) CDatumInt2GPDB(m_pmdid->Sysid(), pdxldatum->SValue(), pdxldatum->IsNull());
@@ -270,7 +270,7 @@ CMDTypeInt2GPDB::Pdatum
 	)
 	const
 {
-	CDXLDatumInt2 *pdxldatumint2 = CDXLDatumInt2::PdxldatumConvert(const_cast<CDXLDatum *>(pdxldatum));
+	CDXLDatumInt2 *pdxldatumint2 = CDXLDatumInt2::Cast(const_cast<CDXLDatum *>(pdxldatum));
 	GPOS_ASSERT(pdxldatumint2->IsPassedByValue());
 	SINT sVal = pdxldatumint2->SValue();
 	BOOL is_null = pdxldatumint2->IsNull();

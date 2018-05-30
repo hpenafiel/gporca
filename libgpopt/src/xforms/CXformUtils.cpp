@@ -1011,26 +1011,26 @@ CXformUtils::SubqueryAllToAgg
 			memory_pool,
 			GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdidBool),
 			pexprIsInnerEmpty,
-			CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/), // if inner is empty, return true
+			CUtils::PexprScalarConstBool(memory_pool, true /*value*/), // if inner is empty, return true
 			GPOS_NEW(memory_pool) CExpression
 					(
 					memory_pool,
 					GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdidBool),
 					pexprInnerHasNulls,
-					CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, true /*is_null*/),	// if inner produced null values, return null
+					CUtils::PexprScalarConstBool(memory_pool, false /*value*/, true /*is_null*/),	// if inner produced null values, return null
 					GPOS_NEW(memory_pool) CExpression
 						(
 						memory_pool,
 						GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdidBool),
 						pexprIsOuterNull,
-						CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, true /*is_null*/), // if outer value is null, return null
+						CUtils::PexprScalarConstBool(memory_pool, false /*value*/, true /*is_null*/), // if outer value is null, return null
 						GPOS_NEW(memory_pool) CExpression
 							(
 							memory_pool,
 							GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdidBool),
 							pexprSumTest,   // otherwise, test number of inner values that match outer value
-							CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/),  // no matches
-							CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/)  // at least one match
+							CUtils::PexprScalarConstBool(memory_pool, true /*value*/),  // no matches
+							CUtils::PexprScalarConstBool(memory_pool, false /*value*/)  // at least one match
 							)
 						)
 					)
@@ -1040,7 +1040,7 @@ CXformUtils::SubqueryAllToAgg
 
 	const CColRef *pcrSubquery = CScalarProjectElement::PopConvert((*(*pexprProjected)[1])[0]->Pop())->Pcr();
 	*ppexprNewSubquery = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarSubquery(memory_pool, pcrSubquery, false /*fGeneratedByExist*/, true /*fGeneratedByQuantified*/), pexprProjected);
-	*ppexprNewScalar = CUtils::PexprScalarCmp(memory_pool, CUtils::PexprScalarIdent(memory_pool, pcrSubquery),CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/), IMDType::EcmptEq);
+	*ppexprNewScalar = CUtils::PexprScalarCmp(memory_pool, CUtils::PexprScalarIdent(memory_pool, pcrSubquery),CUtils::PexprScalarConstBool(memory_pool, true /*value*/), IMDType::EcmptEq);
 }
 
 
@@ -2456,7 +2456,7 @@ CXformUtils::PexprAssertOneRow
 
 	CExpression *pexprSeqPrj = PexprWindowWithRowNumber(memory_pool, pexprChild, NULL /*pdrgpcrInput*/);
 	CColRef *pcrRowNumber = CScalarProjectElement::PopConvert((*(*pexprSeqPrj)[1])[0]->Pop())->Pcr();
-	CExpression *pexprCmp = CUtils::PexprScalarEqCmp(memory_pool, pcrRowNumber, CUtils::PexprScalarConstInt4(memory_pool, 1 /*fVal*/));
+	CExpression *pexprCmp = CUtils::PexprScalarEqCmp(memory_pool, pcrRowNumber, CUtils::PexprScalarConstInt4(memory_pool, 1 /*value*/));
 
 	CWStringConst *pstrErrorMsg = PstrErrorMessage(memory_pool, gpos::CException::ExmaSQL, gpos::CException::ExmiSQLMaxOneRow);
 	CExpression *pexprAssertConstraint = GPOS_NEW(memory_pool) CExpression
@@ -3157,7 +3157,7 @@ CXformUtils::PexprBitmapBoolOp
 //		CXformUtils::PexprConditionOnBoolColumn
 //
 //	@doc:
-// 		Creates a condition of the form col = fVal, where col is the given column.
+// 		Creates a condition of the form col = value, where col is the given column.
 //
 //---------------------------------------------------------------------------
 CExpression *
@@ -3165,12 +3165,12 @@ CXformUtils::PexprEqualityOnBoolColumn
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
-	BOOL fVal,
+	BOOL value,
 	CColRef *pcr
 	)
 {
 	CExpression *pexprConstBool =
-			CUtils::PexprScalarConstBool(memory_pool, fVal, false /*is_null*/);
+			CUtils::PexprScalarConstBool(memory_pool, value, false /*is_null*/);
 
 	const IMDTypeBool *pmdtype = pmda->PtMDType<IMDTypeBool>();
 	IMDId *pmdidOp = pmdtype->PmdidCmp(IMDType::EcmptEq);
@@ -4507,7 +4507,7 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 
 	HMExprDrgPexpr *phmexprdrgpexpr = GPOS_NEW(memory_pool) HMExprDrgPexpr(memory_pool);
 	ULONG ulDifferentDQAs = 0;
-	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 	const ULONG ulArity = pexprPrjList->UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -4729,7 +4729,7 @@ CXformUtils::PexprGbAggOnCTEConsumer2Join
 	CExpression *pexprLastGbAgg = NULL;
 	DrgPcr *pdrgpcrLastGrpCols = NULL;
 	CExpression *pexprJoin = NULL;
-	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 
 	// iterate over map to extract sorted array of array of project elements,
 	// we need to sort arrays here since hash map iteration is non-deterministic,

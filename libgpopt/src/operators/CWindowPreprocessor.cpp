@@ -387,7 +387,7 @@ CWindowPreprocessor::PexprSeqPrj2Join
 	else
 	{
 		// no PARTITION BY, join condition is const True
-		pexprJoinCondition = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
+		pexprJoinCondition = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
 	}
 
 	// create a join between expanded DQAs and Window expressions

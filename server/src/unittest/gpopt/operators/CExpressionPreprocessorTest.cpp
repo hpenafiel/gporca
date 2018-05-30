@@ -1640,7 +1640,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefilters()
 {
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
-	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*value*/);
 
 	// reset metadata cache
 	CMDCache::Reset();
@@ -2028,7 +2028,7 @@ CExpressionPreprocessorTest::EresUnittest_CollapseInnerJoinHelper
 
 	// (5) create Select with predicate that can turn all outer joins into inner joins,
 	// add the Select on top of the top Inner/NAry Join
-	CExpression *pexprCmpLOJInner = CUtils::PexprScalarEqCmp(memory_pool, rgpdprel[1]->PcrsOutput()->PcrFirst(), CUtils::PexprScalarConstInt4(memory_pool, 1 /*fVal*/));
+	CExpression *pexprCmpLOJInner = CUtils::PexprScalarEqCmp(memory_pool, rgpdprel[1]->PcrsOutput()->PcrFirst(), CUtils::PexprScalarConstInt4(memory_pool, 1 /*value*/));
 	CExpression *pexprSelect = CUtils::PexprSafeSelect(memory_pool, pexprJoin3, pexprCmpLOJInner);
 	CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(memory_pool, pexprSelect);
 	{
@@ -2217,7 +2217,7 @@ CExpressionPreprocessorTest::EresUnittest_CollapseInnerJoin()
 GPOS_RESULT
 CExpressionPreprocessorTest::EresUnittest_PreProcessConvert2InPredicate()
 {
-	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*value*/);
 
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
@@ -2325,7 +2325,7 @@ CExpressionPreprocessorTest::PexprCreateConvertableArray
 GPOS_RESULT
 CExpressionPreprocessorTest::EresUnittest_PreProcessConvertArrayWithEquals()
 {
-	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*value*/);
 
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
@@ -2383,7 +2383,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessConvertArrayWithEquals()
 GPOS_RESULT
 CExpressionPreprocessorTest::EresUnittest_PreProcessConvert2InPredicateDeepExpressionTree()
 {
-	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceArrayConstraints, true /*value*/);
 
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();

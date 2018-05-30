@@ -208,7 +208,7 @@ CPartConstraintTest::PcnstrInterval
 GPOS_RESULT
 CPartConstraintTest::EresUnittest_DateIntervals()
 {
-	CAutoTraceFlag atf(EopttraceEnableConstantExpressionEvaluation, true /*fVal*/);
+	CAutoTraceFlag atf(EopttraceEnableConstantExpressionEvaluation, true /*value*/);
 
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();

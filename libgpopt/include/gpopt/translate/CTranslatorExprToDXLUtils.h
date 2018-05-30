@@ -280,7 +280,7 @@ namespace gpopt
 
 			// create a scalar const value expression for the given bool value
 			static
-			CDXLNode *PdxlnBoolConst(IMemoryPool *memory_pool, CMDAccessor *pmda, BOOL fVal);
+			CDXLNode *PdxlnBoolConst(IMemoryPool *memory_pool, CMDAccessor *pmda, BOOL value);
 
 			// create a scalar const value expression for the given int4 value
 			static
