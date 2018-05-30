@@ -16,7 +16,7 @@ namespace gpopt
 		public:
 			CColConstraintsArrayMapper
 				(
-				gpos::IMemoryPool *pmp,
+				gpos::IMemoryPool *memory_pool,
 				DrgPcnstr *pdrgpcnstr
 				);
 			virtual DrgPcnstr *PdrgPcnstrLookup(CColRef *pcr);

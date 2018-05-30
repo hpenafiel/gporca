@@ -53,10 +53,10 @@ CMessageTableTest::EresUnittest_Basic()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CMessageTable *pmt = GPOS_NEW(pmp)
-		CMessageTable(pmp, GPOS_MSGTAB_SIZE, ElocEnUS_Utf8);
+	CMessageTable *pmt = GPOS_NEW(memory_pool)
+		CMessageTable(memory_pool, GPOS_MSGTAB_SIZE, ElocEnUS_Utf8);
 	
 	// insert all system messages
 	for (ULONG ul = 0; ul < CException::ExmiSentinel; ul++)

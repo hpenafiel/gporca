@@ -29,16 +29,16 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarMinMax::CDXLScalarMinMax
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
 	EdxlMinMaxType emmt
 	)
 	:
-	CDXLScalar(pmp),
-	m_pmdidType(pmdidType),
+	CDXLScalar(memory_pool),
+	m_mdid_type(mdid_type),
 	m_emmt(emmt)
 {
-	GPOS_ASSERT(m_pmdidType->IsValid());
+	GPOS_ASSERT(m_mdid_type->IsValid());
 	GPOS_ASSERT(EmmtSentinel > emmt);
 }
 
@@ -52,7 +52,7 @@ CDXLScalarMinMax::CDXLScalarMinMax
 //---------------------------------------------------------------------------
 CDXLScalarMinMax::~CDXLScalarMinMax()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -110,7 +110,7 @@ CDXLScalarMinMax::SerializeToDXL
 	const CWStringConst *pstrElemName = PstrOpName();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
@@ -130,7 +130,7 @@ CDXLScalarMinMax::FBoolean
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pmdidType)->Eti());
+	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
 }
 
 #ifdef GPOS_DEBUG

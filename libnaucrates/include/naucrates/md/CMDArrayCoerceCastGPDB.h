@@ -31,7 +31,7 @@ namespace gpmd
 			const CWStringDynamic *m_pstr;
 
 			// type mod
-			INT m_iTypeModifier;
+			INT m_type_modifier;
 
 			// is explicit
 			BOOL m_fIsExplicit;
@@ -49,7 +49,7 @@ namespace gpmd
 			// ctor
 			CMDArrayCoerceCastGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				IMDId *pmdidSrc,
@@ -57,7 +57,7 @@ namespace gpmd
 				BOOL fBinaryCoercible,
 				IMDId *pmdidCastFunc,
 				EmdCoercepathType emdPathType,
-				INT iTypeModifier,
+				INT type_modifier,
 				BOOL fIsExplicit,
 				EdxlCoercionForm edxlcf,
 				INT iLoc

@@ -90,7 +90,7 @@ namespace gpnaucrates
 			}
 
 			// translate the point into its DXL representation
-			CDXLDatum *Pdxldatum(IMemoryPool *pmp, CMDAccessor *pmda) const;
+			CDXLDatum *Pdxldatum(IMemoryPool *memory_pool, CMDAccessor *pmda) const;
 
 			// minimum of two points using <=
 			static

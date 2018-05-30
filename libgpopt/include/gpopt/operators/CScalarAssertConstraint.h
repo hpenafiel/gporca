@@ -53,7 +53,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CScalarAssertConstraint(IMemoryPool *pmp, CWStringBase *pstrErrorMsg);
+			CScalarAssertConstraint(IMemoryPool *memory_pool, CWStringBase *pstrErrorMsg);
 			
 			// dtor
 			~CScalarAssertConstraint();
@@ -87,7 +87,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

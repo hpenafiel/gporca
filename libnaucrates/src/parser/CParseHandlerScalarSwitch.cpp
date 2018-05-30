@@ -32,13 +32,13 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerScalarSwitch::CParseHandlerScalarSwitch
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
-	m_pmdidType(NULL),
+	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, pphRoot),
+	m_mdid_type(NULL),
 	m_fArgProcessed(false),
 	m_fDefaultProcessed(false)
 {
@@ -61,13 +61,13 @@ CParseHandlerScalarSwitch::StartElement
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), element_local_name) && NULL == m_pmdidType)
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), element_local_name) && NULL == m_mdid_type)
 	{
 		// parse type id
-		m_pmdidType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarSwitch);
+		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarSwitch);
 
 		// construct node
-		CDXLScalarSwitch *pdxlop =  GPOS_NEW(m_memory_pool) CDXLScalarSwitch(m_memory_pool, m_pmdidType);
+		CDXLScalarSwitch *pdxlop =  GPOS_NEW(m_memory_pool) CDXLScalarSwitch(m_memory_pool, m_mdid_type);
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), element_local_name))

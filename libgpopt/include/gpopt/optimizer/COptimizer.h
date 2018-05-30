@@ -60,7 +60,7 @@ namespace gpopt
 			static
 			CExpression *PexprOptimize
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CQueryContext *pqc,
 				DrgPss *pdrgpss
 				);
@@ -69,7 +69,7 @@ namespace gpopt
 			static
 			CDXLNode *Pdxln
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CMDAccessor *pmda,
 						CExpression *pexpr,
 						DrgPcr *pdrgpcr,
@@ -79,30 +79,30 @@ namespace gpopt
 
 			// helper function to print query expression
 			static
-			void PrintQuery(IMemoryPool *pmp, CExpression *pexprTranslated, CQueryContext *pqc);
+			void PrintQuery(IMemoryPool *memory_pool, CExpression *pexprTranslated, CQueryContext *pqc);
 
 			// helper function to print query plan
 			static
-			void PrintPlan(IMemoryPool *pmp, CExpression *pexprPlan);
+			void PrintPlan(IMemoryPool *memory_pool, CExpression *pexprPlan);
 
 			// helper function to dump plan samples
 			static
-			void DumpSamples(IMemoryPool *pmp, CEnumeratorConfig *pec, ULONG ulSessionId, ULONG ulCmdId);
+			void DumpSamples(IMemoryPool *memory_pool, CEnumeratorConfig *pec, ULONG ulSessionId, ULONG ulCmdId);
 
 			// print query or plan tree
 			static
-			void PrintQueryOrPlan(IMemoryPool *pmp, CExpression *pexpr, CQueryContext *pqc = NULL);
+			void PrintQueryOrPlan(IMemoryPool *memory_pool, CExpression *pexpr, CQueryContext *pqc = NULL);
 
 			// Check for a plan with CTE, if both CTEProducer and CTEConsumer are executed on the same locality.
 			static
-			void CheckCTEConsistency(IMemoryPool *pmp, CExpression *pexpr);
+			void CheckCTEConsistency(IMemoryPool *memory_pool, CExpression *pexpr);
 		public:
 			
 			// main optimizer function 
 			static
 			CDXLNode *PdxlnOptimize
 						(
-						IMemoryPool *pmp, 
+						IMemoryPool *memory_pool, 
 						CMDAccessor *pmda,						// MD accessor
 						const CDXLNode *pdxlnQuery,
 						const DrgPdxln *query_output_dxlnode_array, 	// required output columns

@@ -30,14 +30,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalDelete::CDXLLogicalDelete
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLTableDescr *pdxltabdesc,
 	ULONG ulCtid,
 	ULONG ulSegmentId,
 	ULongPtrArray *pdrgpulDelete
 	)
 	:
-	CDXLLogical(pmp),
+	CDXLLogical(memory_pool),
 	m_pdxltabdesc(pdxltabdesc),
 	m_ulCtid(ulCtid),
 	m_ulSegmentId(ulSegmentId),

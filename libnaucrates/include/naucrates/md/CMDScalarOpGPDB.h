@@ -82,7 +82,7 @@ namespace gpmd
 			// ctor/dtor
 			CMDScalarOpGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				IMDId *pmdidTypeLeft,
@@ -107,7 +107,7 @@ namespace gpmd
 			
 			// operator id
 			virtual
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// operator name
 			virtual

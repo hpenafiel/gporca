@@ -773,7 +773,7 @@ CDXLUtils::Pdatum
 	const CDXLDatum *dxl_datum
 	 )
 {
-	IMDId *mdid = dxl_datum->Pmdid();
+	IMDId *mdid = dxl_datum->MDId();
 	return md_accessor->Pmdtype(mdid)->Pdatum(memory_pool, dxl_datum);
 }
 
@@ -1945,7 +1945,7 @@ CDXLUtils::SerializeBound
 				);
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDType *md_type = md_accessor->Pmdtype(new_length->Pmdid());
+	const IMDType *md_type = md_accessor->Pmdtype(new_length->MDId());
 	CDXLScalarConstValue *scalar_const_value_dxl_operator = md_type->PdxlopScConst(xml_serializer->Pmp(), new_length);
 	scalar_const_value_dxl_operator->SerializeToDXL(xml_serializer, NULL);
 

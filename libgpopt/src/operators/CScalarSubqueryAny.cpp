@@ -25,13 +25,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CScalarSubqueryAny::CScalarSubqueryAny
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidScalarOp,
 	const CWStringConst *pstrScalarOp,
 	const CColRef *pcr
 	)
 	:
-	CScalarSubqueryQuantified(pmp, pmdidScalarOp, pstrScalarOp, pcr)
+	CScalarSubqueryQuantified(memory_pool, pmdidScalarOp, pstrScalarOp, pcr)
 {}
 
 //---------------------------------------------------------------------------
@@ -45,7 +45,7 @@ CScalarSubqueryAny::CScalarSubqueryAny
 COperator *
 CScalarSubqueryAny::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
@@ -55,9 +55,9 @@ CScalarSubqueryAny::PopCopyWithRemappedColumns
 	IMDId *pmdidScalarOp = PmdidOp();
 	pmdidScalarOp->AddRef();
 
-	CWStringConst *pstrScalarOp = GPOS_NEW(pmp) CWStringConst(pmp, PstrOp()->GetBuffer());
+	CWStringConst *pstrScalarOp = GPOS_NEW(memory_pool) CWStringConst(memory_pool, PstrOp()->GetBuffer());
 
-	return GPOS_NEW(pmp) CScalarSubqueryAny(pmp, pmdidScalarOp, pstrScalarOp, pcr);
+	return GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, pmdidScalarOp, pstrScalarOp, pcr);
 }
 
 // EOF

@@ -64,7 +64,7 @@ namespace gpopt
 			// ctor
 			CScalarOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidOp,
 				IMDId *pmdidReturnType,
 				const CWStringConst *pstrOp
@@ -114,7 +114,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

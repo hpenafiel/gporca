@@ -49,9 +49,9 @@ namespace gpdxl
 		public:
 			// ctors
 			explicit
-			CDXLPhysicalTableScan(IMemoryPool *pmp);
+			CDXLPhysicalTableScan(IMemoryPool *memory_pool);
 			
-			CDXLPhysicalTableScan(IMemoryPool *pmp, CDXLTableDescr *pdxltabdesc);
+			CDXLPhysicalTableScan(IMemoryPool *memory_pool, CDXLTableDescr *pdxltabdesc);
 			
 			// dtor
 			virtual

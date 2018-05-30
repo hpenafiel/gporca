@@ -40,23 +40,23 @@ namespace gpopt
 			explicit
 			CLogicalLeftSemiApply
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				)
 				:
-				CLogicalApply(pmp)
+				CLogicalApply(memory_pool)
 			{
-				m_pdrgpcrInner = GPOS_NEW(pmp) DrgPcr(pmp);
+				m_pdrgpcrInner = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 			}
 
 			// ctor
 			CLogicalLeftSemiApply
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcr *pdrgpcrInner,
 				EOperatorId eopidOriginSubq
 				)
 				:
-				CLogicalApply(pmp, pdrgpcrInner, eopidOriginSubq)
+				CLogicalApply(memory_pool, pdrgpcrInner, eopidOriginSubq)
 			{}
 
 			// dtor
@@ -96,7 +96,7 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsDeriveOutput
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl
 				);
 
@@ -104,7 +104,7 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsDeriveNotNull
 				(
-				IMemoryPool *,// pmp
+				IMemoryPool *,// memory_pool
 				CExpressionHandle &exprhdl
 				)
 				const
@@ -115,7 +115,7 @@ namespace gpopt
 			// derive keys
 			CKeyCollection *PkcDeriveKeys
 				(
-				IMemoryPool *, // pmp
+				IMemoryPool *, // memory_pool
 				CExpressionHandle &exprhdl
 				)
 				const
@@ -125,13 +125,13 @@ namespace gpopt
 
 			// derive max card
 			virtual
-			CMaxCard Maxcard(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CMaxCard Maxcard(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive constraint property
 			virtual
 			CPropConstraint *PpcDeriveConstraint
 				(
-				IMemoryPool *, //pmp,
+				IMemoryPool *, //memory_pool,
 				CExpressionHandle &exprhdl
 				)
 				const
@@ -145,7 +145,7 @@ namespace gpopt
 
 			// candidate set of xforms
 			virtual
-			CXformSet *PxfsCandidates(IMemoryPool *pmp) const;
+			CXformSet *PxfsCandidates(IMemoryPool *memory_pool) const;
 
 			//-------------------------------------------------------------------------------------
 			//-------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ namespace gpopt
 
 			// return a copy of the operator with remapped columns
 			virtual
-			COperator *PopCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COperator *PopCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			// return true if operator is a left semi apply
 			virtual

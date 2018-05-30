@@ -27,13 +27,13 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalPartitionSelector::CDXLPhysicalPartitionSelector
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidRel,
 	ULONG ulLevels,
 	ULONG ulScanId
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pmdidRel(pmdidRel),
 	m_ulLevels(ulLevels),
 	m_ulScanId(ulScanId)

@@ -29,24 +29,24 @@ CXformFactory* CXformFactory::m_pxff = NULL;
 //---------------------------------------------------------------------------
 CXformFactory::CXformFactory
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_phmszxform(NULL),
 	m_pxfsExploration(NULL),
 	m_pxfsImplementation(NULL)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	
 	// null out array so dtor can be called prematurely
 	for (ULONG i = 0; i < CXform::ExfSentinel; i++)
 	{
 		m_rgpxf[i] = NULL;
 	}
-	m_phmszxform = GPOS_NEW(pmp) HMSzXform(pmp);
-	m_pxfsExploration = GPOS_NEW(pmp) CXformSet(pmp);
-	m_pxfsImplementation = GPOS_NEW(pmp) CXformSet(pmp);
+	m_phmszxform = GPOS_NEW(memory_pool) HMSzXform(memory_pool);
+	m_pxfsExploration = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	m_pxfsImplementation = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 }
 
 
@@ -352,7 +352,7 @@ CXformFactory::Init()
 	GPOS_RESULT eres = GPOS_OK;
 
 	// create xform factory memory pool
-	IMemoryPool *pmp = CMemoryPoolManager::GetMemoryPoolMgr()->Create
+	IMemoryPool *memory_pool = CMemoryPoolManager::GetMemoryPoolMgr()->Create
 							(
 							CMemoryPoolManager::EatTracker,
 							true /*fThreadSafe*/,
@@ -361,12 +361,12 @@ CXformFactory::Init()
 	GPOS_TRY
 	{
 		// create xform factory instance
-		m_pxff = GPOS_NEW(pmp) CXformFactory(pmp);
+		m_pxff = GPOS_NEW(memory_pool) CXformFactory(memory_pool);
 	}
 	GPOS_CATCH_EX(ex)
 	{
 		// destroy memory pool if global instance was not created
-		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(pmp);
+		CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(memory_pool);
 		m_pxff = NULL;
 
 		if (GPOS_MATCH_EX(ex, CException::ExmaSystem, CException::ExmiOOM))
@@ -405,14 +405,14 @@ CXformFactory::Shutdown()
 	GPOS_ASSERT(NULL != pxff &&
 			    "Xform factory has not been initialized");
 
-	IMemoryPool *pmp = pxff->m_memory_pool;
+	IMemoryPool *memory_pool = pxff->m_memory_pool;
 
 	// destroy xform factory
 	CXformFactory::m_pxff = NULL;
 	GPOS_DELETE(pxff);
 
 	// release allocated memory pool
-	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(memory_pool);
 }
 
 

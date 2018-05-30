@@ -28,12 +28,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalNLJoin::CDXLPhysicalNLJoin
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EdxlJoinType edxljt,
 	BOOL fIndexNLJ
 	)
 	:
-	CDXLPhysicalJoin(pmp, edxljt),
+	CDXLPhysicalJoin(memory_pool, edxljt),
 	m_fIndexNLJ(fIndexNLJ)
 {
 }

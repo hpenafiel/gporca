@@ -35,13 +35,13 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarSubqueryQuantified::CScalarSubqueryQuantified
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidScalarOp,
 	const CWStringConst *pstrScalarOp,
 	const CColRef *pcr
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidScalarOp(pmdidScalarOp),
 	m_pstrScalarOp(pstrScalarOp),
 	m_pcr(pcr)
@@ -105,11 +105,11 @@ IMDId *
 CScalarSubqueryQuantified::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *pmdidType = pmda->Pmdscop(m_pmdidScalarOp)->PmdidTypeResult();
+	IMDId *mdid_type = pmda->Pmdscop(m_pmdidScalarOp)->PmdidTypeResult();
 
-	GPOS_ASSERT(pmda->PtMDType<IMDTypeBool>()->Pmdid()->Equals(pmdidType));
+	GPOS_ASSERT(pmda->PtMDType<IMDTypeBool>()->MDId()->Equals(mdid_type));
 
-	return pmdidType;
+	return mdid_type;
 }
 
 //---------------------------------------------------------------------------
@@ -172,12 +172,12 @@ CScalarSubqueryQuantified::FMatch
 CColRefSet *
 CScalarSubqueryQuantified::PcrsUsed
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	 CExpressionHandle &exprhdl
 	)
 {
 	// used columns is an empty set unless subquery column is an outer reference
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	CColRefSet *pcrsChildOutput = exprhdl.Pdprel(0 /* ulChildIndex */)->PcrsOutput();
 	if (!pcrsChildOutput->FMember(m_pcr))
@@ -201,7 +201,7 @@ CScalarSubqueryQuantified::PcrsUsed
 CPartInfo *
 CScalarSubqueryQuantified::PpartinfoDerive
 	(
-	IMemoryPool *, // pmp, 
+	IMemoryPool *, // memory_pool, 
 	CExpressionHandle &exprhdl
 	)
 	const

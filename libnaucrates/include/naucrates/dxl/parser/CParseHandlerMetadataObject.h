@@ -42,13 +42,13 @@ namespace gpdxl
 			
 		protected:
 			// the metadata object constructed by the parse handler
-			IMDCacheObject *m_pimdobj;
+			IMDCacheObject *m_imd_obj;
 						
 		public:
 			// ctor/dtor
 			CParseHandlerMetadataObject
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);

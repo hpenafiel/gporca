@@ -49,7 +49,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CSerializableOptimizerConfig(IMemoryPool *pmp, const COptimizerConfig *optimizer_config);
+			CSerializableOptimizerConfig(IMemoryPool *memory_pool, const COptimizerConfig *optimizer_config);
 
 			// dtor
 			virtual

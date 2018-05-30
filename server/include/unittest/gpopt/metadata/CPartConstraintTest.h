@@ -61,7 +61,7 @@ namespace gpopt
 			static
 			CConstraint *PcnstrInterval
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CColRef *pcr,
 				ULONG ulLeft,
 				ULONG ulRight

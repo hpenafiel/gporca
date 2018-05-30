@@ -32,12 +32,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerPlan::CParseHandlerPlan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
 	m_ullId(0),
 	m_ullSpaceSize(0),
 	m_pdxln(NULL),

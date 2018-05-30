@@ -36,7 +36,7 @@ ULONG COptCtxt::m_ulFirstValidPartId = 1;
 //---------------------------------------------------------------------------
 COptCtxt::COptCtxt
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CColumnFactory *pcf,
 	CMDAccessor *pmda,
 	IConstExprEvaluator *pceeval,
@@ -44,7 +44,7 @@ COptCtxt::COptCtxt
 	)
 	:
 	CTaskLocalStorageObject(CTaskLocalStorage::EtlsidxOptCtxt),
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pcf(pcf),
 	m_pmda(pmda),
 	m_pceeval(pceeval),
@@ -55,7 +55,7 @@ COptCtxt::COptCtxt
 	m_poconf(optimizer_config),
 	m_fDMLQuery(false)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pcf);
 	GPOS_ASSERT(NULL != pmda);
 	GPOS_ASSERT(NULL != pceeval);
@@ -99,7 +99,7 @@ COptCtxt::~COptCtxt()
 COptCtxt *
 COptCtxt::PoctxtCreate
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	IConstExprEvaluator *pceeval,
 	COptimizerConfig *optimizer_config
@@ -109,7 +109,7 @@ COptCtxt::PoctxtCreate
 
 	// CONSIDER:  - 1/5/09; allocate column factory out of given mem pool
 	// instead of having it create its own;
-	CColumnFactory *pcf = GPOS_NEW(pmp) CColumnFactory;
+	CColumnFactory *pcf = GPOS_NEW(memory_pool) CColumnFactory;
 
 	COptCtxt *poctxt = NULL;
 	{
@@ -119,7 +119,7 @@ COptCtxt::PoctxtCreate
 		a_pcf = pcf;
 		a_pcf.Value()->Initialize();
 
-		poctxt = GPOS_NEW(pmp) COptCtxt(pmp, pcf, pmda, pceeval, optimizer_config);
+		poctxt = GPOS_NEW(memory_pool) COptCtxt(memory_pool, pcf, pmda, pceeval, optimizer_config);
 
 		// detach safety
 		(void) a_pcf.Reset();

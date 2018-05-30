@@ -34,15 +34,15 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMetadataColumn::CParseHandlerMetadataColumn
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdcol(NULL),
 	m_pmdname(NULL),
-	m_pmdidType(NULL),
+	m_mdid_type(NULL),
 	m_pdxlnDefaultValue(NULL),
 	m_ulWidth(ULONG_MAX)
 {
@@ -108,7 +108,7 @@ CParseHandlerMetadataColumn::StartElement
 								EdxltokenMetadataColumn
 								);
 
-	m_pmdidType = CDXLOperatorFactory::PmdidFromAttrs
+	m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs
 								(
 								m_pphm->Pmm(),
 								attrs,
@@ -117,7 +117,7 @@ CParseHandlerMetadataColumn::StartElement
 								);
 
 	// parse optional type modifier
-	m_iTypeModifier = CDXLOperatorFactory::IValueFromAttrs
+	m_type_modifier = CDXLOperatorFactory::IValueFromAttrs
 								(
 								m_pphm->Pmm(),
 								attrs,
@@ -216,8 +216,8 @@ CParseHandlerMetadataColumn::EndElement
 							(
 							m_pmdname,
 							m_iAttNo,
-							m_pmdidType,
-							m_iTypeModifier,
+							m_mdid_type,
+							m_type_modifier,
 							m_fNullable,
 							m_fDropped,
 							m_pdxlnDefaultValue,

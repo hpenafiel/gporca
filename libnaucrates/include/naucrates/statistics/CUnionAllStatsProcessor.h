@@ -26,7 +26,7 @@ namespace gpnaucrates
 		static
 		CStatistics *PstatsUnionAll
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						const CStatistics *pstatsFst,
 						const CStatistics *pstatsSnd,
 						ULongPtrArray *pdrgpulOutput,

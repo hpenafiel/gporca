@@ -51,7 +51,7 @@ namespace gpdxl
 			// ctor
 			CDXLScalarFuncExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidFunc,
 				IMDId *pmdidRetType,
 				INT iRetTypeModifier,

@@ -41,7 +41,7 @@ namespace gpdxl
 		private:
 
 			// constants for determining segments to dispatch to
-			DrgPdrgPdxldatum *m_pdrgpdrgpdxldatum;
+			DXLDatumArrays *m_pdrgpdrgpdxldatum;
 		
 			// private copy ctor
 			CDXLDirectDispatchInfo(const CDXLDirectDispatchInfo &);
@@ -49,14 +49,14 @@ namespace gpdxl
 		public:
 			// ctor
 			explicit
-			CDXLDirectDispatchInfo(DrgPdrgPdxldatum *pdrgpdrgpdxldatum);
+			CDXLDirectDispatchInfo(DXLDatumArrays *pdrgpdrgpdxldatum);
 
 			// dtor
 			virtual
 			~CDXLDirectDispatchInfo();
 
 			// accessor to array of datums
-			DrgPdrgPdxldatum *Pdrgpdrgpdxldatum() const
+			DXLDatumArrays *Pdrgpdrgpdxldatum() const
 			{
 				return m_pdrgpdrgpdxldatum;
 			}

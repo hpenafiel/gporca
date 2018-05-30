@@ -144,9 +144,9 @@ CFSimulator::Init()
 {
 	
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
-	CFSimulator::m_fsim = GPOS_NEW(pmp) CFSimulator(pmp, GPOS_FSIM_RESOLUTION);
+	CFSimulator::m_fsim = GPOS_NEW(memory_pool) CFSimulator(memory_pool, GPOS_FSIM_RESOLUTION);
 
 	// detach safety
 	(void) amp.Detach();
@@ -167,11 +167,11 @@ CFSimulator::Init()
 void
 CFSimulator::Shutdown()
 {
-	IMemoryPool *pmp = m_memory_pool;
+	IMemoryPool *memory_pool = m_memory_pool;
 	GPOS_DELETE(CFSimulator::m_fsim);
 	CFSimulator::m_fsim = NULL;
 	
-	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(pmp);
+	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(memory_pool);
 }
 #endif // GPOS_DEBUG
 
@@ -186,7 +186,7 @@ CFSimulator::Shutdown()
 //---------------------------------------------------------------------------
 CFSimulator::CStackTracker::CStackTracker
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG resolution,
 	SStackKey key
 	)
@@ -195,7 +195,7 @@ CFSimulator::CStackTracker::CStackTracker
 	m_bit_vector(NULL)
 {
 	// allocate bit vector
-	m_bit_vector = GPOS_NEW(pmp) CBitVector(pmp, resolution);
+	m_bit_vector = GPOS_NEW(memory_pool) CBitVector(memory_pool, resolution);
 }
 
 
@@ -227,11 +227,11 @@ CFSimulator::CStackTracker::ExchangeSet
 //---------------------------------------------------------------------------
 CFSimulator::CFSimulator
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG resolution
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_resolution(resolution)
 {
 	// setup init table

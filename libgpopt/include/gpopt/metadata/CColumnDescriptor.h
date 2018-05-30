@@ -41,7 +41,7 @@ namespace gpopt
 			const IMDType *m_pmdtype;
 
 			// type modifier
-			const INT m_iTypeModifier;
+			const INT m_type_modifier;
 
 			// name of column -- owned
 			CName m_name;			
@@ -60,9 +60,9 @@ namespace gpopt
 			// ctor
 			CColumnDescriptor
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const IMDType *pmdtype,
-				INT iTypeModifier,
+				INT type_modifier,
 				const CName &name,
 				INT iAttno,
 				BOOL fNullable,
@@ -88,7 +88,7 @@ namespace gpopt
 			// type modifier
 			INT TypeModifier() const
 			{
-				return m_iTypeModifier;
+				return m_type_modifier;
 			}
 			
 			// return attribute number

@@ -31,10 +31,10 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarSubqueryExistential::CScalarSubqueryExistential
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CScalar(pmp)
+	CScalar(memory_pool)
 {}
 
 //---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ IMDId *
 CScalarSubqueryExistential::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeBool>()->Pmdid();
+	return pmda->PtMDType<IMDTypeBool>()->MDId();
 }
 
 
@@ -97,7 +97,7 @@ CScalarSubqueryExistential::FMatch
 CPartInfo *
 CScalarSubqueryExistential::PpartinfoDerive
 	(
-	IMemoryPool *, // pmp, 
+	IMemoryPool *, // memory_pool, 
 	CExpressionHandle &exprhdl
 	)
 	const

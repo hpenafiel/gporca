@@ -52,7 +52,7 @@ CMDKey::Equals
 	)
 	const
 {	
-	return mdkey.Pmdid()->Equals(m_pmdid);
+	return mdkey.MDId()->Equals(m_pmdid);
 }
 
 //---------------------------------------------------------------------------
@@ -82,7 +82,7 @@ CMDKey::FEqualMDKey
 	
 	GPOS_ASSERT(NULL != pvLeft && NULL != pvRight);
 	
-	return pvLeft->Pmdid()->Equals(pvRight->Pmdid());
+	return pvLeft->MDId()->Equals(pvRight->MDId());
 }
 
 //---------------------------------------------------------------------------
@@ -113,7 +113,7 @@ CMDKey::UlHashMDKey
 	CMDKey* const & pv
 	)
 {
-	return pv->Pmdid()->HashValue();
+	return pv->MDId()->HashValue();
 }
 
 // EOF

@@ -76,11 +76,11 @@ GPOS_RESULT
 CMiniDumperDXLTest::EresUnittest_Basic()
 {
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcNone);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CWStringDynamic minidumpstr(pmp);
+	CWStringDynamic minidumpstr(memory_pool);
 	COstreamString oss(&minidumpstr);
-	CMiniDumperDXL mdrs(pmp);
+	CMiniDumperDXL mdrs(memory_pool);
 	mdrs.Init(&oss);
 	
 	CHAR szFileName[GPOS_FILE_NAME_BUF_SIZE];
@@ -90,14 +90,14 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CSerializableStackTrace serStackTrace;
 		
 		// read the dxl document
-		CHAR *szQueryDXL = CDXLUtils::Read(pmp, szQueryFile);
+		CHAR *szQueryDXL = CDXLUtils::Read(memory_pool, szQueryFile);
 
 		// parse the DXL query tree from the given DXL document
 		CQueryToDXLResult *ptroutput = 
-				CDXLUtils::ParseQueryToQueryDXLTree(pmp, szQueryDXL, NULL);
+				CDXLUtils::ParseQueryToQueryDXLTree(memory_pool, szQueryDXL, NULL);
 		GPOS_CHECK_ABORT;
 
-		CSerializableQuery serQuery(pmp, ptroutput->Pdxln(), ptroutput->PdrgpdxlnOutputCols(), ptroutput->PdrgpdxlnCTE());
+		CSerializableQuery serQuery(memory_pool, ptroutput->Pdxln(), ptroutput->PdrgpdxlnOutputCols(), ptroutput->PdrgpdxlnCTE());
 		
 		// setup a file-based provider
 		CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
@@ -116,7 +116,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 
 		CMDAccessor::MDCache *pcache = apcache.Value();
 
-		CMDAccessor mda(pmp, pcache, CTestUtils::m_sysidDefault, pmdp);
+		CMDAccessor mda(memory_pool, pcache, CTestUtils::m_sysidDefault, pmdp);
 
 		CSerializableMDAccessor serMDA(&mda);
 		
@@ -124,27 +124,27 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CAutoTraceFlag atfPrintPlan(EopttracePrintPlan, true);
 		CAutoTraceFlag atfTest(EtraceTest, true);
 
-		COptimizerConfig *optimizer_config = GPOS_NEW(pmp) COptimizerConfig
+		COptimizerConfig *optimizer_config = GPOS_NEW(memory_pool) COptimizerConfig
 												(
-												CEnumeratorConfig::Pec(pmp, 0 /*plan_id*/),
-												CStatisticsConfig::PstatsconfDefault(pmp),
-												CCTEConfig::PcteconfDefault(pmp),
-												ICostModel::PcmDefault(pmp),
-												CHint::PhintDefault(pmp),
-												CWindowOids::Pwindowoids(pmp)
+												CEnumeratorConfig::Pec(memory_pool, 0 /*plan_id*/),
+												CStatisticsConfig::PstatsconfDefault(memory_pool),
+												CCTEConfig::PcteconfDefault(memory_pool),
+												ICostModel::PcmDefault(memory_pool),
+												CHint::PhintDefault(memory_pool),
+												CWindowOids::Pwindowoids(memory_pool)
 												);
 
 		// setup opt ctx
 		CAutoOptCtxt aoc
 						(
-						pmp,
+						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(pmp)
+						CTestUtils::Pcm(memory_pool)
 						);
 
 		// translate DXL Tree -> Expr Tree
-		CTranslatorDXLToExpr *pdxltr = GPOS_NEW(pmp) CTranslatorDXLToExpr(pmp, &mda);
+		CTranslatorDXLToExpr *pdxltr = GPOS_NEW(memory_pool) CTranslatorDXLToExpr(memory_pool, &mda);
 		CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
 													(
 													ptroutput->Pdxln(),
@@ -156,36 +156,36 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		gpmd::DrgPmdname *pdrgpmdname = pdxltr->Pdrgpmdname();
 
 		ULONG ulSegments = GPOPT_TEST_SEGMENTS;
-		CQueryContext *pqc = CQueryContext::PqcGenerate(pmp, pexprTranslated, pdrgul, pdrgpmdname, true /*fDeriveStats*/);
+		CQueryContext *pqc = CQueryContext::PqcGenerate(memory_pool, pexprTranslated, pdrgul, pdrgpmdname, true /*fDeriveStats*/);
 
 		// optimize logical expression tree into physical expression tree.
 
-		CEngine eng(pmp);
+		CEngine eng(memory_pool);
 
-		CSerializableOptimizerConfig serOptConfig(pmp, optimizer_config);
+		CSerializableOptimizerConfig serOptConfig(memory_pool, optimizer_config);
 		
 		eng.Init(pqc, NULL /*pdrgpss*/);
 		eng.Optimize();
 		
 		CExpression *pexprPlan = eng.PexprExtractPlan();
-		(void) pexprPlan->PrppCompute(pmp, pqc->Prpp());
+		(void) pexprPlan->PrppCompute(memory_pool, pqc->Prpp());
 
 		// translate plan into DXL
-		IntPtrArray *pdrgpiSegments = GPOS_NEW(pmp) IntPtrArray(pmp);
+		IntPtrArray *pdrgpiSegments = GPOS_NEW(memory_pool) IntPtrArray(memory_pool);
 
 
 		GPOS_ASSERT(0 < ulSegments);
 
 		for (ULONG ul = 0; ul < ulSegments; ul++)
 		{
-			pdrgpiSegments->Append(GPOS_NEW(pmp) INT(ul));
+			pdrgpiSegments->Append(GPOS_NEW(memory_pool) INT(ul));
 		}
 
-		CTranslatorExprToDXL ptrexprtodxl(pmp, &mda, pdrgpiSegments);
+		CTranslatorExprToDXL ptrexprtodxl(memory_pool, &mda, pdrgpiSegments);
 		CDXLNode *pdxlnPlan = ptrexprtodxl.PdxlnTranslate(pexprPlan, pqc->PdrgPcr(), pqc->Pdrgpmdname());
 		GPOS_ASSERT(NULL != pdxlnPlan);
 		
-		CSerializablePlan serPlan(pmp, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize());
+		CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize());
 		GPOS_CHECK_ABORT;
 
 		// simulate an exception 
@@ -204,7 +204,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 
 		GPOS_RESET_EX;
 
-		CWStringDynamic str(pmp);
+		CWStringDynamic str(memory_pool);
 		COstreamString oss(&str);
 		oss << std::endl << "Minidump" << std::endl;
 		oss << minidumpstr.GetBuffer();
@@ -228,7 +228,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 	// TODO:  - Feb 11, 2013; enable after fixing problems with serializing
 	// XML special characters (OPT-2996)
 //	// try to load minidump file
-//	CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(pmp, szFileName);
+//	CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(memory_pool, szFileName);
 //	GPOS_ASSERT(NULL != pdxlmd);
 //	delete pdxlmd;
 
@@ -251,7 +251,7 @@ GPOS_RESULT
 CMiniDumperDXLTest::EresUnittest_Load()
 {
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcExc);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
 	const CHAR *rgszMinidumps[] =
 	{
@@ -262,7 +262,7 @@ CMiniDumperDXLTest::EresUnittest_Load()
 	GPOS_RESULT eres =
 			CTestUtils::EresRunMinidumps
 						(
-						pmp,
+						memory_pool,
 						rgszMinidumps,
 						1, // ulTests
 						&ulTestCounter,

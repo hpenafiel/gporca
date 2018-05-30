@@ -29,7 +29,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalDML::CDXLPhysicalDML
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const EdxlDmlType edxldmltype,
 	CDXLTableDescr *pdxltabdesc,
 	ULongPtrArray *pdrgpul,
@@ -43,7 +43,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	BOOL fInputSorted
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_edxldmltype(edxldmltype),
 	m_pdxltabdesc(pdxltabdesc),
 	m_pdrgpul(pdrgpul),

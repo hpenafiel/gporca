@@ -28,13 +28,13 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalTVF::CDXLPhysicalTVF
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidFunc,
 	IMDId *pmdidRetType,
 	CWStringConst *pstr
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pmdidFunc(pmdidFunc),
 	m_pmdidRetType(pmdidRetType),
 	m_pstr(pstr)

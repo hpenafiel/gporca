@@ -41,7 +41,7 @@ namespace gpopt
 			IMDId *m_pmdidResultType;
 
 			// output type modifier
-			INT m_iTypeModifier;
+			INT m_type_modifier;
 
 			// coercion form
 			ECoercionForm m_ecf;
@@ -57,9 +57,9 @@ namespace gpopt
 			// ctor
 			CScalarCoerceBase
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				INT iTypeModifier,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				INT type_modifier,
 				ECoercionForm edxlcf,
 				INT iLoc
 				);
@@ -85,7 +85,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				HMUlCr *phmulcr,
 				BOOL fMustExist
 				);

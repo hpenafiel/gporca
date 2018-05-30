@@ -17,7 +17,7 @@ using namespace gpopt;
 CStatistics *
 CLimitStatsProcessor::PstatsLimit
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CStatistics *pstatsInput,
 	CDouble dLimitCount
 	)
@@ -25,7 +25,7 @@ CLimitStatsProcessor::PstatsLimit
 	GPOS_ASSERT(NULL != pstatsInput);
 
 	// copy the hash map from colid -> histogram for resultant structure
-	HMUlHist *phmulhistLimit = pstatsInput->CopyHistograms(pmp);;
+	HMUlHist *phmulhistLimit = pstatsInput->CopyHistograms(memory_pool);;
 
 	CDouble dRowsLimit = CStatistics::DMinRows;
 	if (!pstatsInput->IsEmpty())
@@ -33,11 +33,11 @@ CLimitStatsProcessor::PstatsLimit
 		dRowsLimit = std::max(CStatistics::DMinRows, dLimitCount);
 	}
 	// create an output stats object
-	CStatistics *pstatsLimit = GPOS_NEW(pmp) CStatistics
+	CStatistics *pstatsLimit = GPOS_NEW(memory_pool) CStatistics
 											(
-											pmp,
+											memory_pool,
 											phmulhistLimit,
-											pstatsInput->CopyWidths(pmp),
+											pstatsInput->CopyWidths(memory_pool),
 											dRowsLimit,
 											pstatsInput->IsEmpty(),
 											pstatsInput->UlNumberOfPredicates()
@@ -50,7 +50,7 @@ CLimitStatsProcessor::PstatsLimit
 	// and estimated limit cardinality.
 
 	// modify source id to upper bound card information
-	CStatisticsUtils::ComputeCardUpperBounds(pmp, pstatsInput, pstatsLimit, dRowsLimit, CStatistics::EcbmMin /* ecbm */);
+	CStatisticsUtils::ComputeCardUpperBounds(memory_pool, pstatsInput, pstatsLimit, dRowsLimit, CStatistics::EcbmMin /* ecbm */);
 
 	return pstatsLimit;
 }

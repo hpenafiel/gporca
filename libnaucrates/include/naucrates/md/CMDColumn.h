@@ -47,9 +47,9 @@ namespace gpmd
 			INT m_iAttNo;
 			
 			// column type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
-			INT m_iTypeModifier;
+			INT m_type_modifier;
 
 			// is NULL an allowed value for the attribute
 			BOOL m_fNullable;
@@ -58,7 +58,7 @@ namespace gpmd
 			BOOL m_fDropped;
 			
 			// length of the column
-			ULONG m_ulLength;
+			ULONG m_length;
 			
 			// default value expression
 			gpdxl::CDXLNode *m_pdxlnDefaultValue;
@@ -72,12 +72,12 @@ namespace gpmd
 				(
 				CMDName *pmdname,
 				INT iAttNo,
-				IMDId *pmdidType,
-				INT iTypeModifier,
+				IMDId *mdid_type,
+				INT type_modifier,
 				BOOL fNullable,
 				BOOL fDropped,
 				gpdxl::CDXLNode *pdxnlDefaultValue,
-				ULONG ulLength = ULONG_MAX
+				ULONG length = ULONG_MAX
 				);
 			
 			// dtor
@@ -109,7 +109,7 @@ namespace gpmd
 			// length of the column
 			ULONG Length() const
 			{
-				return m_ulLength;
+				return m_length;
 			}
 
 			// is the column nullable

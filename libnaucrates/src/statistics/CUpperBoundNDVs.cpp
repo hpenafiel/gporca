@@ -29,14 +29,14 @@ using namespace gpopt;
 CUpperBoundNDVs *
 CUpperBoundNDVs::PubndvCopyWithRemap
         (
-        IMemoryPool *pmp,
+        IMemoryPool *memory_pool,
         HMUlCr *phmulcr
         )
         const
 {
         BOOL fMappingNotFound = false;
 
-        CColRefSet *pcrsCopy = GPOS_NEW(pmp) CColRefSet(pmp);
+        CColRefSet *pcrsCopy = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
         CColRefSetIter crsi(*m_pcrs);
         while (crsi.Advance() && !fMappingNotFound)
         {
@@ -54,7 +54,7 @@ CUpperBoundNDVs::PubndvCopyWithRemap
 
         if (0 < pcrsCopy->Size() && !fMappingNotFound)
         {
-                return GPOS_NEW(pmp) CUpperBoundNDVs(pcrsCopy, DUpperBoundNDVs());
+                return GPOS_NEW(memory_pool) CUpperBoundNDVs(pcrsCopy, DUpperBoundNDVs());
         }
 
         pcrsCopy->Release();
@@ -74,13 +74,13 @@ CUpperBoundNDVs::PubndvCopyWithRemap
 CUpperBoundNDVs *
 CUpperBoundNDVs::PubndvCopy
         (
-        IMemoryPool *pmp,
+        IMemoryPool *memory_pool,
         CDouble dUpperBoundNDVs
        )
         const
 {
         m_pcrs->AddRef();
-        CUpperBoundNDVs *pndvCopy = GPOS_NEW(pmp) CUpperBoundNDVs(m_pcrs, dUpperBoundNDVs);
+        CUpperBoundNDVs *pndvCopy = GPOS_NEW(memory_pool) CUpperBoundNDVs(m_pcrs, dUpperBoundNDVs);
 
         return pndvCopy;
 }
@@ -96,11 +96,11 @@ CUpperBoundNDVs::PubndvCopy
 CUpperBoundNDVs *
 CUpperBoundNDVs::PubndvCopy
         (
-        IMemoryPool *pmp
+        IMemoryPool *memory_pool
         )
         const
 {
-        return PubndvCopy(pmp, m_dUpperBoundNDVs);
+        return PubndvCopy(memory_pool, m_dUpperBoundNDVs);
 }
 
 

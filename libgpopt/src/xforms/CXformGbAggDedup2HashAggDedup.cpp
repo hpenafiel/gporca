@@ -29,15 +29,15 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformGbAggDedup2HashAggDedup::CXformGbAggDedup2HashAggDedup
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CXformGbAgg2HashAgg
 		(
 		 // pattern
-		GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CLogicalGbAggDeduplicate(pmp),
-							 GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)),
-							 GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)))
+		GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CLogicalGbAggDeduplicate(memory_pool),
+							 GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)),
+							 GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)))
 		)
 {}
 
@@ -62,7 +62,7 @@ CXformGbAggDedup2HashAggDedup::Transform
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 	CLogicalGbAggDeduplicate *popAggDedup = CLogicalGbAggDeduplicate::PopConvert(pexpr->Pop());
 	DrgPcr *pdrgpcr = popAggDedup->Pdrgpcr();
 	pdrgpcr->AddRef();
@@ -81,12 +81,12 @@ CXformGbAggDedup2HashAggDedup::Transform
 
 	// create alternative expression
 	CExpression *pexprAlt =
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 			(
-			pmp,
-			GPOS_NEW(pmp) CPhysicalHashAggDeduplicate
+			memory_pool,
+			GPOS_NEW(memory_pool) CPhysicalHashAggDeduplicate
 						(
-						pmp,
+						memory_pool,
 						pdrgpcr,
 						popAggDedup->PdrgpcrMinimal(),
 						popAggDedup->Egbaggtype(),

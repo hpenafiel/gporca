@@ -31,7 +31,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CQueryContext::CQueryContext
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr,
 	CReqdPropPlan *prpp,
 	DrgPcr *pdrgpcr,
@@ -39,7 +39,7 @@ CQueryContext::CQueryContext
 	BOOL fDeriveStats
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_prpp(prpp),
 	m_pdrgpcr(pdrgpcr),
 	m_pdrgpcrSystemCols(NULL),
@@ -60,23 +60,23 @@ CQueryContext::CQueryContext
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
 	pcteinfo->MarkUnusedCTEs();
 
-	CColRefSet *pcrsOutputAndOrderingCols = GPOS_NEW(pmp) CColRefSet(pmp);
-	CColRefSet *pcrsOrderSpec = prpp->Peo()->PosRequired()->PcrsUsed(pmp);
+	CColRefSet *pcrsOutputAndOrderingCols = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
+	CColRefSet *pcrsOrderSpec = prpp->Peo()->PosRequired()->PcrsUsed(memory_pool);
 
 	pcrsOutputAndOrderingCols->Include(pdrgpcr);
 	pcrsOutputAndOrderingCols->Include(pcrsOrderSpec);
 	pcrsOrderSpec->Release();
 
-	m_pexpr = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr, pcrsOutputAndOrderingCols);
+	m_pexpr = CExpressionPreprocessor::PexprPreprocess(memory_pool, pexpr, pcrsOutputAndOrderingCols);
 
 	pcrsOutputAndOrderingCols->Release();
 	GPOS_ASSERT(m_pdrgpcr->Size() == ulReqdColumns);
 
 	// collect required system columns
-	SetSystemCols(pmp);
+	SetSystemCols(memory_pool);
 
 	// collect CTE predicates and add them to CTE producer expressions
-	CExpressionPreprocessor::AddPredsToCTEProducers(pmp, m_pexpr);
+	CExpressionPreprocessor::AddPredsToCTEProducers(memory_pool, m_pexpr);
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
@@ -143,13 +143,13 @@ CQueryContext::PopTop
 void
 CQueryContext::SetSystemCols
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	GPOS_ASSERT(NULL == m_pdrgpcrSystemCols);
 	GPOS_ASSERT(NULL != m_pdrgpcr);
 
-	m_pdrgpcrSystemCols = GPOS_NEW(pmp) DrgPcr(pmp);
+	m_pdrgpcrSystemCols = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 	const ULONG ulReqdCols = m_pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulReqdCols; ul++)
 	{
@@ -174,7 +174,7 @@ CQueryContext::SetSystemCols
 CQueryContext *
 CQueryContext::PqcGenerate
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression * pexpr,
 	ULongPtrArray *pdrgpulQueryOutputColRefId,
 	DrgPmdname *pdrgpmdname,
@@ -183,8 +183,8 @@ CQueryContext::PqcGenerate
 {
 	GPOS_ASSERT(NULL != pexpr && NULL != pdrgpulQueryOutputColRefId);
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
-	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
+	DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 
 	COptCtxt *poptctxt = COptCtxt::PoctxtFromTLS();
 	CColumnFactory *pcf = poptctxt->Pcf();
@@ -221,7 +221,7 @@ CQueryContext::PqcGenerate
 	else
 	{
 		// no order required
-		pos = GPOS_NEW(pmp) COrderSpec(pmp);
+		pos = GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 	}
 
 	CDistributionSpec *pds = NULL;
@@ -233,33 +233,33 @@ CQueryContext::PqcGenerate
 	// distribution requirement is Singleton.
 	if (fDML)
 	{
-		pds = GPOS_NEW(pmp) CDistributionSpecAny(COperator::EopSentinel);
+		pds = GPOS_NEW(memory_pool) CDistributionSpecAny(COperator::EopSentinel);
 	}
 	else
 	{
-		pds = GPOS_NEW(pmp) CDistributionSpecSingleton(CDistributionSpecSingleton::EstMaster);
+		pds = GPOS_NEW(memory_pool) CDistributionSpecSingleton(CDistributionSpecSingleton::EstMaster);
 	}
 
 	// By default, no rewindability requirement needs to be satisfied at the top level
-	CRewindabilitySpec *prs = GPOS_NEW(pmp) CRewindabilitySpec(CRewindabilitySpec::ErtNone /*ert*/);
+	CRewindabilitySpec *prs = GPOS_NEW(memory_pool) CRewindabilitySpec(CRewindabilitySpec::ErtNone /*ert*/);
 
 	// Ensure order, distribution and rewindability meet 'satisfy' matching at the top level
-	CEnfdOrder *peo = GPOS_NEW(pmp) CEnfdOrder(pos, CEnfdOrder::EomSatisfy);
-	CEnfdDistribution *ped = GPOS_NEW(pmp) CEnfdDistribution(pds, CEnfdDistribution::EdmSatisfy);
-	CEnfdRewindability *per = GPOS_NEW(pmp) CEnfdRewindability(prs, CEnfdRewindability::ErmSatisfy);
+	CEnfdOrder *peo = GPOS_NEW(memory_pool) CEnfdOrder(pos, CEnfdOrder::EomSatisfy);
+	CEnfdDistribution *ped = GPOS_NEW(memory_pool) CEnfdDistribution(pds, CEnfdDistribution::EdmSatisfy);
+	CEnfdRewindability *per = GPOS_NEW(memory_pool) CEnfdRewindability(prs, CEnfdRewindability::ErmSatisfy);
 
 	// Required CTEs are obtained from the CTEInfo global information in the optimizer context
-	CCTEReq *pcter = poptctxt->Pcteinfo()->PcterProducers(pmp);
+	CCTEReq *pcter = poptctxt->Pcteinfo()->PcterProducers(memory_pool);
 
 	// NB: Partition propagation requirements are not initialized here.  They are
 	// constructed later based on derived relation properties (CPartInfo) by
 	// CReqdPropPlan::InitReqdPartitionPropagation().
 
-	CReqdPropPlan *prpp = GPOS_NEW(pmp) CReqdPropPlan(pcrs, peo, ped, per, pcter);
+	CReqdPropPlan *prpp = GPOS_NEW(memory_pool) CReqdPropPlan(pcrs, peo, ped, per, pcter);
 
 	// Finally, create the CQueryContext
 	pdrgpmdname->AddRef();
-	return GPOS_NEW(pmp) CQueryContext(pmp, pexprResult, prpp, pdrgpcr, pdrgpmdname, fDeriveStats);
+	return GPOS_NEW(memory_pool) CQueryContext(memory_pool, pexprResult, prpp, pdrgpcr, pdrgpmdname, fDeriveStats);
 }
 
 #ifdef GPOS_DEBUG

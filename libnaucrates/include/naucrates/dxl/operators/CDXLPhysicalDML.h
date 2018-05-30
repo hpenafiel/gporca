@@ -84,7 +84,7 @@ namespace gpdxl
 			// ctor
 			CDXLPhysicalDML
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const EdxlDmlType edxldmltype,
 				CDXLTableDescr *pdxltabdesc,
 				ULongPtrArray *pdrgpul,

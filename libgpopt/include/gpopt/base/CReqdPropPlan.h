@@ -73,7 +73,7 @@ namespace gpopt
 			// derived plan properties in the passed context
 			CPartFilterMap *PpfmCombineDerived
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CReqdPropPlan *prppInput,
 				ULONG ulChildIndex,
@@ -130,7 +130,7 @@ namespace gpopt
 			virtual
 			void Compute
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CExpressionHandle &exprhdl,
 					CReqdProp *prpInput,
 					ULONG ulChildIndex,
@@ -141,7 +141,7 @@ namespace gpopt
 			// required columns computation function
 			void ComputeReqdCols
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CExpressionHandle &exprhdl,
 					CReqdProp *prpInput,
 					ULONG ulChildIndex,
@@ -151,7 +151,7 @@ namespace gpopt
 			// required ctes computation function
 			void ComputeReqdCTEs
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CExpressionHandle &exprhdl,
 					CReqdProp *prpInput,
 					ULONG ulChildIndex,
@@ -217,10 +217,10 @@ namespace gpopt
 				const;
 
 			// initialize partition propagation requirements
-			void InitReqdPartitionPropagation(IMemoryPool *pmp, CPartInfo *ppartinfo);
+			void InitReqdPartitionPropagation(IMemoryPool *memory_pool, CPartInfo *ppartinfo);
 			
 			// check if expression attached to handle provides required columns by all plan properties
-			BOOL FProvidesReqdCols(IMemoryPool *pmp, CExpressionHandle &exprhdl, ULONG ulOptReq) const;
+			BOOL FProvidesReqdCols(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, ULONG ulOptReq) const;
 
 			// shorthand for conversion
 			static
@@ -233,7 +233,7 @@ namespace gpopt
 
 			//generate empty required properties
 			static
-			CReqdPropPlan *PrppEmpty(IMemoryPool *pmp);
+			CReqdPropPlan *PrppEmpty(IMemoryPool *memory_pool);
 
 			// hash function used for cost bounding
 			static
@@ -245,7 +245,7 @@ namespace gpopt
 
 			// map input required and derived plan properties into new required plan properties
 			static
-			CReqdPropPlan *PrppRemap(IMemoryPool *pmp, CReqdPropPlan *prppInput, CDrvdPropPlan *pdpplanInput, HMUlCr *phmulcr);
+			CReqdPropPlan *PrppRemap(IMemoryPool *memory_pool, CReqdPropPlan *prppInput, CDrvdPropPlan *pdpplanInput, HMUlCr *phmulcr);
 
 			// print function
 			virtual

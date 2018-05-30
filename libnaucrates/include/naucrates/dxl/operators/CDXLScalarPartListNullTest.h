@@ -31,7 +31,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLScalarPartListNullTest(IMemoryPool *pmp, ULONG ulLevel, BOOL fLower);
+			CDXLScalarPartListNullTest(IMemoryPool *memory_pool, ULONG ulLevel, BOOL fLower);
 
 			// operator type
 			virtual

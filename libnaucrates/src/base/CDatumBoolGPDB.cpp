@@ -38,19 +38,19 @@ CDatumBoolGPDB::CDatumBoolGPDB
 	(
 	CSystemId sysid,
 	BOOL fVal,
-	BOOL fNull
+	BOOL is_null
 	)
 	:
 	m_fVal(fVal),
-	m_fNull(fNull)
+	m_is_null(is_null)
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *pmdid = dynamic_cast<const CMDTypeBoolGPDB *>(pmda->PtMDType<IMDTypeBool>(sysid))->Pmdid();
+	IMDId *pmdid = dynamic_cast<const CMDTypeBoolGPDB *>(pmda->PtMDType<IMDTypeBool>(sysid))->MDId();
 	pmdid->AddRef();
 	
 	m_pmdid = pmdid;
 
-	if (FNull())
+	if (IsNull())
 	{
 		// needed for hash computation
 		m_fVal = false;
@@ -69,17 +69,17 @@ CDatumBoolGPDB::CDatumBoolGPDB
 	(
 	IMDId *pmdid,
 	BOOL fVal,
-	BOOL fNull
+	BOOL is_null
 	)
 	:
 	m_pmdid(pmdid),
 	m_fVal(fVal),
-	m_fNull(fNull)
+	m_is_null(is_null)
 {
 	GPOS_ASSERT(NULL != m_pmdid);
 	GPOS_ASSERT(GPDB_BOOL_OID == CMDIdGPDB::PmdidConvert(m_pmdid)->OidObjectId());
 
-	if (FNull())
+	if (IsNull())
 	{
 		// needed for hash computation
 		m_fVal = false;
@@ -117,16 +117,16 @@ CDatumBoolGPDB::FValue() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumBoolGPDB::FNull
+//		CDatumBoolGPDB::IsNull
 //
 //	@doc:
 //		Accessor of is null
 //
 //---------------------------------------------------------------------------
 BOOL
-CDatumBoolGPDB::FNull() const
+CDatumBoolGPDB::IsNull() const
 {
-	return m_fNull;
+	return m_is_null;
 }
 
 
@@ -147,14 +147,14 @@ CDatumBoolGPDB::UlSize() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumBoolGPDB::Pmdid
+//		CDatumBoolGPDB::MDId
 //
 //	@doc:
 //		Accessor of type information (MDId)
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDatumBoolGPDB::Pmdid() const
+CDatumBoolGPDB::MDId() const
 {
 	return m_pmdid;
 }
@@ -184,12 +184,12 @@ CDatumBoolGPDB::HashValue() const
 const CWStringConst *
 CDatumBoolGPDB::Pstr
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CWStringDynamic str(pmp);
-	if (!FNull())
+	CWStringDynamic str(memory_pool);
+	if (!IsNull())
 	{
 		str.AppendFormat(GPOS_WSZ_LIT("%d"), m_fVal);
 	}
@@ -198,7 +198,7 @@ CDatumBoolGPDB::Pstr
 		str.AppendFormat(GPOS_WSZ_LIT("null"));
 	}
 
-	return GPOS_NEW(pmp) CWStringConst(pmp, str.GetBuffer());
+	return GPOS_NEW(memory_pool) CWStringConst(memory_pool, str.GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -216,19 +216,19 @@ CDatumBoolGPDB::FMatch
 	)
 	const
 {
-	if(!pdatum->Pmdid()->Equals(m_pmdid))
+	if(!pdatum->MDId()->Equals(m_pmdid))
 	{
 		return false;
 	}
 
 	const CDatumBoolGPDB *pdatumbool = dynamic_cast<const CDatumBoolGPDB *>(pdatum);
 
-	if(!pdatumbool->FNull() && !FNull())
+	if(!pdatumbool->IsNull() && !IsNull())
 	{
 		return (pdatumbool->FValue() == FValue());
 	}
 
-	if(pdatumbool->FNull() && FNull())
+	if(pdatumbool->IsNull() && IsNull())
 	{
 		return true;
 	}
@@ -247,12 +247,12 @@ CDatumBoolGPDB::FMatch
 IDatum *
 CDatumBoolGPDB::PdatumCopy
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
 	m_pmdid->AddRef();
-	return GPOS_NEW(pmp) CDatumBoolGPDB(m_pmdid, m_fVal, m_fNull);
+	return GPOS_NEW(memory_pool) CDatumBoolGPDB(m_pmdid, m_fVal, m_is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -270,7 +270,7 @@ CDatumBoolGPDB::OsPrint
 	)
 	const
 {
-	if (!FNull())
+	if (!IsNull())
 	{
 		os << m_fVal;
 	}

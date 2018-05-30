@@ -36,14 +36,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalSetOp::CDXLLogicalSetOp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EdxlSetOpType edxlsetoptype,
 	ColumnDescrDXLArray *pdrgdxlcd,
 	ULongPtrArray2D *ulong_ptr_array_2D,
 	BOOL fCastAcrossInputs
 	)
 	:
-	CDXLLogical(pmp),
+	CDXLLogical(memory_pool),
 	m_edxlsetoptype(edxlsetoptype),
 	m_pdrgpdxlcd(pdrgdxlcd),
 	m_pdrgpdrgpul(ulong_ptr_array_2D),

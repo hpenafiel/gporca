@@ -223,7 +223,7 @@ CMemoryPoolBasicTest::EresNewDelete
 	// create memory pool
 	CAutoTimer at("NewDelete test", true /*fPrint*/);
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcExc, eat, false /*fThreadSafe*/);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	WCHAR rgwszText[] = GPOS_WSZ_LIT(
 							"This is a lengthy test string. "
@@ -234,7 +234,7 @@ CMemoryPoolBasicTest::EresNewDelete
 						);
 
 	// use overloaded New operator
-	WCHAR *wsz = GPOS_NEW_ARRAY(pmp, WCHAR, GPOS_ARRAY_SIZE(rgwszText));
+	WCHAR *wsz = GPOS_NEW_ARRAY(memory_pool, WCHAR, GPOS_ARRAY_SIZE(rgwszText));
 	(void) clib::WcMemCpy(wsz, rgwszText, GPOS_ARRAY_SIZE(rgwszText));
 
 #ifdef GPOS_DEBUG
@@ -244,10 +244,10 @@ CMemoryPoolBasicTest::EresNewDelete
 	COstreamString os(&str);
 
 	// dump allocations
-	if (pmp->SupportsLiveObjectWalk())
+	if (memory_pool->SupportsLiveObjectWalk())
 	{
 		CMemoryVisitorPrint movp(os);
-		pmp->WalkLiveObjects(&movp);
+		memory_pool->WalkLiveObjects(&movp);
 	}
 	else
 	{
@@ -289,10 +289,10 @@ CMemoryPoolBasicTest::EresOOM
 		false /*fThreadSafe*/,
 		4 * 1024 * 1024 /*ullMaxSize*/
 		);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// OOM
-	GPOS_NEW_ARRAY(pmp, BYTE, 128 * 1024 * 1024);
+	GPOS_NEW_ARRAY(memory_pool, BYTE, 128 * 1024 * 1024);
 
 	return GPOS_FAILED;
 }
@@ -316,7 +316,7 @@ CMemoryPoolBasicTest::EresThrowingCtor
 
 	// create memory pool
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcExc, eat, false /*fThreadSafe*/);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// malicious test class
 	class CMyTestClass
@@ -331,7 +331,7 @@ CMemoryPoolBasicTest::EresThrowingCtor
 	};
 
 	// try instantiating the class
-	GPOS_NEW(pmp) CMyTestClass();
+	GPOS_NEW(memory_pool) CMyTestClass();
 
 	// doesn't reach this line
 	return GPOS_FAILED;
@@ -367,12 +367,12 @@ CMemoryPoolBasicTest::EresLeak
 			false /*fThreadSafe*/,
 			4 * 1024 * 1024 /*ullMaxSize*/
 			);
-		IMemoryPool *pmp = amp.Pmp();
+		IMemoryPool *memory_pool = amp.Pmp();
 
 		for (ULONG i = 0; i < 10; i++)
 		{
 			// use overloaded New operator
-			ULONG *rgul = GPOS_NEW_ARRAY(pmp, ULONG, 10);
+			ULONG *rgul = GPOS_NEW_ARRAY(memory_pool, ULONG, 10);
 			rgul[2] = 1;
 
 			if (i < 8)
@@ -414,12 +414,12 @@ CMemoryPoolBasicTest::EresLeakByException
 			false /*fThreadSafe*/,
 			4 * 1024 * 1024 /*ullMaxSize*/
 			);
-		IMemoryPool *pmp = amp.Pmp();
+		IMemoryPool *memory_pool = amp.Pmp();
 
 		for (ULONG i = 0; i < 10; i++)
 		{
 			// use overloaded New operator
-			ULONG *rgul = GPOS_NEW_ARRAY(pmp, ULONG, 3);
+			ULONG *rgul = GPOS_NEW_ARRAY(memory_pool, ULONG, 3);
 			rgul[2] = 1;
 		}
 
@@ -450,22 +450,22 @@ CMemoryPoolBasicTest::EresConcurrency
 
 	// create memory pool
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcExc, eat, true /*fThreadSafe*/);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgptsk[GPOS_MEM_TEST_STRESS_TASKS];
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk) / 2; i++)
 		{
-			rgptsk[i] = atp.Create(AllocateSerial, pmp);
+			rgptsk[i] = atp.Create(AllocateSerial, memory_pool);
 		}
 
 		for (ULONG i = GPOS_ARRAY_SIZE(rgptsk) / 2; i < GPOS_ARRAY_SIZE(rgptsk); i++)
 		{
-			rgptsk[i] = atp.Create(AllocateRepeated, pmp);
+			rgptsk[i] = atp.Create(AllocateRepeated, memory_pool);
 		}
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)
@@ -499,9 +499,9 @@ CMemoryPoolBasicTest::AllocateSerial
 {
 	GPOS_ASSERT(NULL != pv);
 
-	IMemoryPool *pmp = static_cast<IMemoryPool*>(pv);
+	IMemoryPool *memory_pool = static_cast<IMemoryPool*>(pv);
 
-	Allocate(pmp, GPOS_MEM_TEST_LOOP_LONG);
+	Allocate(memory_pool, GPOS_MEM_TEST_LOOP_LONG);
 
 	return NULL;
 }
@@ -523,11 +523,11 @@ CMemoryPoolBasicTest::AllocateRepeated
 {
 	GPOS_ASSERT(NULL != pv);
 
-	IMemoryPool *pmp = static_cast<IMemoryPool*>(pv);
+	IMemoryPool *memory_pool = static_cast<IMemoryPool*>(pv);
 
 	for (ULONG i = 0; i < GPOS_MEM_TEST_REPEAT_SHORT; i++)
 	{
-		Allocate(pmp, GPOS_MEM_TEST_LOOP_SHORT);
+		Allocate(memory_pool, GPOS_MEM_TEST_LOOP_SHORT);
 	}
 
 	return NULL;
@@ -545,16 +545,16 @@ CMemoryPoolBasicTest::AllocateRepeated
 void
 CMemoryPoolBasicTest::Allocate
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulCount
 	)
 {
-	BYTE **rgpb = GPOS_NEW_ARRAY(pmp, BYTE*, ulCount);
+	BYTE **rgpb = GPOS_NEW_ARRAY(memory_pool, BYTE*, ulCount);
 
 	for (ULONG i = 0; i < ulCount; i++)
 	{
 		const ULONG ulSize = UlSize(i);
-		rgpb[i] = GPOS_NEW_ARRAY(pmp, BYTE, ulSize);
+		rgpb[i] = GPOS_NEW_ARRAY(memory_pool, BYTE, ulSize);
 #ifdef GPOS_DEBUG
 		(void) clib::MemSet(rgpb[i], 1, ulSize);
 #endif // GPOS_DEBUG
@@ -633,17 +633,17 @@ CMemoryPoolBasicTest::EresStress
 
 	// create memory pool
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcExc, eat, true /*fThreadSafe*/);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgptsk[GPOS_MEM_TEST_STRESS_TASKS];
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)
 		{
-			rgptsk[i] = atp.Create(AllocateStress, pmp);
+			rgptsk[i] = atp.Create(AllocateStress, memory_pool);
 		}
 
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgptsk); i++)
@@ -677,11 +677,11 @@ CMemoryPoolBasicTest::AllocateStress
 {
 	GPOS_ASSERT(NULL != pv);
 
-	IMemoryPool *pmp = static_cast<IMemoryPool*>(pv);
+	IMemoryPool *memory_pool = static_cast<IMemoryPool*>(pv);
 
 	for (ULONG i = 0; i < GPOS_MEM_TEST_LOOP_SHORT; i++)
 	{
-		AllocateRandom(pmp);
+		AllocateRandom(memory_pool);
 	}
 
 	return NULL;
@@ -699,7 +699,7 @@ CMemoryPoolBasicTest::AllocateStress
 void
 CMemoryPoolBasicTest::AllocateRandom
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	BYTE *rgpb[GPOS_MEM_TEST_LOOP_STRESS];
@@ -714,7 +714,7 @@ CMemoryPoolBasicTest::AllocateRandom
 		ULONG ulExp = (1 << (ulRand % ulMaxPower));
 		ULONG ulFactor = ulRand % ulMask + 1;
 		ULONG ulSize = ulFactor * ulExp * ulExp;
-		rgpb[i] = GPOS_NEW_ARRAY(pmp, BYTE, ulSize);
+		rgpb[i] = GPOS_NEW_ARRAY(memory_pool, BYTE, ulSize);
 
 		if (0 == i % GPOS_MEM_TEST_CFA)
 		{

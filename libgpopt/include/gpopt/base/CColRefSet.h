@@ -67,13 +67,13 @@ namespace gpopt
 				
 			// ctor
 			explicit
-			CColRefSet(IMemoryPool *pmp, ULONG ulSizeBits = GPOPT_COLREFSET_SIZE);
+			CColRefSet(IMemoryPool *memory_pool, ULONG ulSizeBits = GPOPT_COLREFSET_SIZE);
 
 			explicit
-			CColRefSet(IMemoryPool *pmp, const CColRefSet &);
+			CColRefSet(IMemoryPool *memory_pool, const CColRefSet &);
 			
 			// ctor, copy from col refs array
-			CColRefSet(IMemoryPool *pmp, const DrgPcr *pdrgpcr, ULONG ulSizeBits = GPOPT_COLREFSET_SIZE);
+			CColRefSet(IMemoryPool *memory_pool, const DrgPcr *pdrgpcr, ULONG ulSizeBits = GPOPT_COLREFSET_SIZE);
 
 			// dtor
 			~CColRefSet();
@@ -116,7 +116,7 @@ namespace gpopt
 			BOOL FContained(const DrgPcrs *pdrgpcrs);
 
 			// convert to array
-			DrgPcr *Pdrgpcr(IMemoryPool *pmp) const;
+			DrgPcr *Pdrgpcr(IMemoryPool *memory_pool) const;
 
 			// hash function
 			ULONG HashValue();	
@@ -125,7 +125,7 @@ namespace gpopt
 			IOstream &OsPrint(IOstream &os, ULONG ulLenMax = ULONG_MAX) const;
 
 			// extract all column ids
-			void ExtractColIds(IMemoryPool *pmp, ULongPtrArray *pdrgpulColIds) const;
+			void ExtractColIds(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulColIds) const;
 
 			// are the columns in the column reference set covered by the array of column ref sets
 			static

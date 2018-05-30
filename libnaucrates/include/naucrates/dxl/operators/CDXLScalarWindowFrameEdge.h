@@ -61,7 +61,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarWindowFrameEdge(IMemoryPool *pmp, BOOL fLeading, EdxlFrameBoundary edxlfb);
+			CDXLScalarWindowFrameEdge(IMemoryPool *memory_pool, BOOL fLeading, EdxlFrameBoundary edxlfb);
 
 			// ident accessors
 			Edxlopid Edxlop() const;

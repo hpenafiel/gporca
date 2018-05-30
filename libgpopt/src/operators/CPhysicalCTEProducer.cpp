@@ -31,18 +31,18 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalCTEProducer::CPhysicalCTEProducer
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulId,
 	DrgPcr *pdrgpcr
 	)
 	:
-	CPhysical(pmp),
+	CPhysical(memory_pool),
 	m_ulId(ulId),
 	m_pdrgpcr(pdrgpcr),
 	m_pcrs(NULL)
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
-	m_pcrs = GPOS_NEW(pmp) CColRefSet(pmp, m_pdrgpcr);
+	m_pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, m_pdrgpcr);
 }
 
 //---------------------------------------------------------------------------
@@ -70,7 +70,7 @@ CPhysicalCTEProducer::~CPhysicalCTEProducer()
 CColRefSet *
 CPhysicalCTEProducer::PcrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CColRefSet *pcrsRequired,
 	ULONG ulChildIndex,
@@ -81,9 +81,9 @@ CPhysicalCTEProducer::PcrsRequired
 	GPOS_ASSERT(0 == ulChildIndex);
 	GPOS_ASSERT(0 == pcrsRequired->Size());
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, *m_pcrs);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *m_pcrs);
 	pcrs->Union(pcrsRequired);
-	CColRefSet *pcrsChildReqd = PcrsChildReqd(pmp, exprhdl, pcrs, ulChildIndex, ULONG_MAX);
+	CColRefSet *pcrsChildReqd = PcrsChildReqd(memory_pool, exprhdl, pcrs, ulChildIndex, ULONG_MAX);
 
 	GPOS_ASSERT(pcrsChildReqd->Size() == m_pdrgpcr->Size());
 	pcrs->Release();
@@ -102,7 +102,7 @@ CPhysicalCTEProducer::PcrsRequired
 COrderSpec *
 CPhysicalCTEProducer::PosRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	COrderSpec *posRequired,
 	ULONG ulChildIndex,
@@ -113,7 +113,7 @@ CPhysicalCTEProducer::PosRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return PosPassThru(pmp, exprhdl, posRequired, ulChildIndex);
+	return PosPassThru(memory_pool, exprhdl, posRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -127,7 +127,7 @@ CPhysicalCTEProducer::PosRequired
 CDistributionSpec *
 CPhysicalCTEProducer::PdsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CDistributionSpec *pdsRequired,
 	ULONG ulChildIndex,
@@ -138,7 +138,7 @@ CPhysicalCTEProducer::PdsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return PdsPassThru(pmp, exprhdl, pdsRequired, ulChildIndex);
+	return PdsPassThru(memory_pool, exprhdl, pdsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -152,7 +152,7 @@ CPhysicalCTEProducer::PdsRequired
 CRewindabilitySpec *
 CPhysicalCTEProducer::PrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CRewindabilitySpec *prsRequired,
 	ULONG ulChildIndex,
@@ -163,7 +163,7 @@ CPhysicalCTEProducer::PrsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return PrsPassThru(pmp, exprhdl, prsRequired, ulChildIndex);
+	return PrsPassThru(memory_pool, exprhdl, prsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -177,7 +177,7 @@ CPhysicalCTEProducer::PrsRequired
 CPartitionPropagationSpec *
 CPhysicalCTEProducer::PppsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CPartitionPropagationSpec *pppsRequired,
 	ULONG ulChildIndex,
@@ -187,7 +187,7 @@ CPhysicalCTEProducer::PppsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return PppsRequiredPushThru(pmp, exprhdl, pppsRequired, ulChildIndex);
+	return PppsRequiredPushThru(memory_pool, exprhdl, pppsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -201,7 +201,7 @@ CPhysicalCTEProducer::PppsRequired
 CCTEReq *
 CPhysicalCTEProducer::PcteRequired
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &, //exprhdl,
 	CCTEReq *pcter,
 	ULONG
@@ -229,7 +229,7 @@ CPhysicalCTEProducer::PcteRequired
 COrderSpec *
 CPhysicalCTEProducer::PosDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -248,7 +248,7 @@ CPhysicalCTEProducer::PosDerive
 CDistributionSpec *
 CPhysicalCTEProducer::PdsDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -268,7 +268,7 @@ CPhysicalCTEProducer::PdsDerive
 CRewindabilitySpec *
 CPhysicalCTEProducer::PrsDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -287,7 +287,7 @@ CPhysicalCTEProducer::PrsDerive
 CCTEMap *
 CPhysicalCTEProducer::PcmDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -296,11 +296,11 @@ CPhysicalCTEProducer::PcmDerive
 
 	CCTEMap *pcmChild = exprhdl.Pdpplan(0)->Pcm();
 
-	CCTEMap *pcmProducer = GPOS_NEW(pmp) CCTEMap(pmp);
+	CCTEMap *pcmProducer = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
 	// store plan properties of the child in producer's CTE map
 	pcmProducer->Insert(m_ulId, CCTEMap::EctProducer, exprhdl.Pdpplan(0));
 
-	CCTEMap *pcmCombined = CCTEMap::PcmCombine(pmp, *pcmProducer, *pcmChild);
+	CCTEMap *pcmCombined = CCTEMap::PcmCombine(memory_pool, *pcmProducer, *pcmChild);
 	pcmProducer->Release();
 
 	return pcmCombined;

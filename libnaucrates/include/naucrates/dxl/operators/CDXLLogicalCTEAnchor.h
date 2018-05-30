@@ -37,7 +37,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLLogicalCTEAnchor(IMemoryPool *pmp, ULONG ulId);
+			CDXLLogicalCTEAnchor(IMemoryPool *memory_pool, ULONG ulId);
 			
 			// operator type
 			Edxlopid Edxlop() const;

@@ -80,7 +80,7 @@ namespace gpmd
 
 			// serialize an array of column ids into a comma-separated string
 			static
-			CWStringDynamic *PstrColumns(IMemoryPool *pmp, ULongPtrArray *pdrgpul);
+			CWStringDynamic *PstrColumns(IMemoryPool *memory_pool, ULongPtrArray *pdrgpul);
 
 		public:
 			

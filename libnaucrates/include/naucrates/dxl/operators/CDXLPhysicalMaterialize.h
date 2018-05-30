@@ -62,13 +62,13 @@ namespace gpdxl
 			// ctor/dtor
 			CDXLPhysicalMaterialize
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				BOOL fEager
 				);
 			
 			CDXLPhysicalMaterialize
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				BOOL fEager,
 				ULONG ulSpoolId,
 				INT iExecutorSlice,

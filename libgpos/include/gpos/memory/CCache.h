@@ -323,9 +323,9 @@ namespace gpos
 				GPOS_ASSERT(NULL != entry);
 
 				// destroy the object before deleting memory pool. This cover the case where object & cacheentry use same memory pool
-				IMemoryPool* pmp = entry->Pmp();
+				IMemoryPool* memory_pool = entry->Pmp();
 				GPOS_DELETE(entry);
-				CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(pmp);
+				CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(memory_pool);
 			}
 
 			// evict entries by making one pass through the hash table buckets
@@ -387,7 +387,7 @@ namespace gpos
 			// ctor
 			CCache
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				BOOL unique,
 				ULLONG cache_quota,
 				ULONG g_clock_init_counter,
@@ -395,7 +395,7 @@ namespace gpos
 				EqualFuncPtr equal_func
 				)
 			:
-			m_memory_pool(pmp),
+			m_memory_pool(memory_pool),
 			m_unique(unique),
 			m_cache_size(0),
 			m_cache_quota(cache_quota),
@@ -424,7 +424,7 @@ namespace gpos
 					m_equal_func
 					);
 
-				m_clock_hand = GPOS_NEW(pmp) CCacheHashtableIter(m_hash_table);
+				m_clock_hand = GPOS_NEW(memory_pool) CCacheHashtableIter(m_hash_table);
 			}
 
 			// dtor

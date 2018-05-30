@@ -29,11 +29,11 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalAssert::CPhysicalAssert
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CException *pexc
 	)
 	:
-	CPhysical(pmp),
+	CPhysical(memory_pool),
 	m_pexc(pexc)
 {
 	GPOS_ASSERT(NULL != pexc);
@@ -72,7 +72,7 @@ CPhysicalAssert::~CPhysicalAssert()
 CColRefSet *
 CPhysicalAssert::PcrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CColRefSet *pcrsRequired,
 	ULONG ulChildIndex,
@@ -82,7 +82,7 @@ CPhysicalAssert::PcrsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex && "Required properties can only be computed on the relational child");
 
-	return PcrsChildReqd(pmp, exprhdl, pcrsRequired, ulChildIndex, 1 /*ulScalarIndex*/);
+	return PcrsChildReqd(memory_pool, exprhdl, pcrsRequired, ulChildIndex, 1 /*ulScalarIndex*/);
 }
 
 
@@ -97,7 +97,7 @@ CPhysicalAssert::PcrsRequired
 COrderSpec *
 CPhysicalAssert::PosRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	COrderSpec *posRequired,
 	ULONG ulChildIndex,
@@ -108,7 +108,7 @@ CPhysicalAssert::PosRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return PosPassThru(pmp, exprhdl, posRequired, ulChildIndex);
+	return PosPassThru(memory_pool, exprhdl, posRequired, ulChildIndex);
 }
 
 
@@ -123,7 +123,7 @@ CPhysicalAssert::PosRequired
 CDistributionSpec *
 CPhysicalAssert::PdsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CDistributionSpec *pdsRequired,
 	ULONG ulChildIndex,
@@ -144,7 +144,7 @@ CPhysicalAssert::PdsRequired
 		return pdsRequired;
 	}
 
-	return CPhysical::PdsUnary(pmp, exprhdl, pdsRequired, ulChildIndex, ulOptReq);
+	return CPhysical::PdsUnary(memory_pool, exprhdl, pdsRequired, ulChildIndex, ulOptReq);
 }
 
 
@@ -159,7 +159,7 @@ CPhysicalAssert::PdsRequired
 CRewindabilitySpec *
 CPhysicalAssert::PrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CRewindabilitySpec *prsRequired,
 	ULONG ulChildIndex,
@@ -172,10 +172,10 @@ CPhysicalAssert::PrsRequired
 	// if there are outer references, then we need a materialize
 	if (exprhdl.FHasOuterRefs())
 	{
-		return GPOS_NEW(pmp) CRewindabilitySpec(CRewindabilitySpec::ErtGeneral);
+		return GPOS_NEW(memory_pool) CRewindabilitySpec(CRewindabilitySpec::ErtGeneral);
 	}
 
-	return PrsPassThru(pmp, exprhdl, prsRequired, ulChildIndex);
+	return PrsPassThru(memory_pool, exprhdl, prsRequired, ulChildIndex);
 }
 
 
@@ -190,7 +190,7 @@ CPhysicalAssert::PrsRequired
 CPartitionPropagationSpec *
 CPhysicalAssert::PppsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CPartitionPropagationSpec *pppsRequired,
 	ULONG  ulChildIndex,
@@ -201,7 +201,7 @@ CPhysicalAssert::PppsRequired
 	GPOS_ASSERT(0 == ulChildIndex);
 	GPOS_ASSERT(NULL != pppsRequired);
 	
-	return CPhysical::PppsRequiredPushThru(pmp, exprhdl, pppsRequired, ulChildIndex);
+	return CPhysical::PppsRequiredPushThru(memory_pool, exprhdl, pppsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -215,7 +215,7 @@ CPhysicalAssert::PppsRequired
 CCTEReq *
 CPhysicalAssert::PcteRequired
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &, //exprhdl,
 	CCTEReq *pcter,
 	ULONG
@@ -243,7 +243,7 @@ CPhysicalAssert::PcteRequired
 COrderSpec *
 CPhysicalAssert::PosDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -263,7 +263,7 @@ CPhysicalAssert::PosDerive
 CDistributionSpec *
 CPhysicalAssert::PdsDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -283,7 +283,7 @@ CPhysicalAssert::PdsDerive
 CRewindabilitySpec *
 CPhysicalAssert::PrsDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const

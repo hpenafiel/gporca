@@ -38,7 +38,7 @@ namespace gpopt
 			// return the column reference set of included / key columns
 			CColRefSet *Pcrs
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CLogicalGet *popGet,
 				const IMDIndex *pmdindex,
 				BOOL fIncludedColumns
@@ -49,7 +49,7 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CXformSelect2DynamicIndexGet(IMemoryPool *pmp);
+			CXformSelect2DynamicIndexGet(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual

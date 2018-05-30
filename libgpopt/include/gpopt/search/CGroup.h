@@ -310,7 +310,7 @@ namespace gpopt
 			// return true if first promise is better than second promise
 			BOOL FBetterPromise
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CLogical::EStatPromise espFst,
 				CGroupExpression *pgexprFst,
 				CLogical::EStatPromise espSnd,
@@ -335,7 +335,7 @@ namespace gpopt
 			// helper function to add links in child groups
 			void RecursiveBuildTreeMap
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				COptimizationContext *poc,
 				CCostContext *pccParent,
 				CGroupExpression *pgexprCurrent,
@@ -367,7 +367,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CGroup(IMemoryPool *pmp, BOOL fScalar = false);
+			CGroup(IMemoryPool *memory_pool, BOOL fScalar = false);
 			
 			// dtor
 			~CGroup();
@@ -391,7 +391,7 @@ namespace gpopt
 			BOOL FInitStats(IStatistics *pstats);
 
 			// append given stats object to group stats
-			void AppendStats(IMemoryPool *pmp, IStatistics *pstats);
+			void AppendStats(IMemoryPool *memory_pool, IStatistics *pstats);
 			
 			// accessor of maximum optimization level of member group expressions
 			EOptimizationLevel EolMax() const
@@ -495,7 +495,7 @@ namespace gpopt
 			BOOL FResetStats();
 
 			// returns true if stats can be derived on this group
-			BOOL FStatsDerivable(IMemoryPool *pmp);
+			BOOL FStatsDerivable(IMemoryPool *memory_pool);
 
 			// reset group job queues
 			void ResetGroupJobQueues();
@@ -523,10 +523,10 @@ namespace gpopt
 			void MergeGroup();
 
 			// lookup a given context in contexts hash table
-			COptimizationContext *PocLookup(IMemoryPool *pmp, CReqdPropPlan *prpp, ULONG ulSearchStageIndex);
+			COptimizationContext *PocLookup(IMemoryPool *memory_pool, CReqdPropPlan *prpp, ULONG ulSearchStageIndex);
 
 			// lookup the best context across all stages for the given required properties
-			COptimizationContext *PocLookupBest(IMemoryPool *pmp, ULONG ulSearchStages, CReqdPropPlan *prpp);
+			COptimizationContext *PocLookupBest(IMemoryPool *memory_pool, ULONG ulSearchStages, CReqdPropPlan *prpp);
 
 			// insert given context into contexts hash table
 			COptimizationContext *PocInsert(COptimizationContext *poc);
@@ -571,12 +571,12 @@ namespace gpopt
 				);
 
 			// find group expression with best stats promise and the same given children
-			CGroupExpression *PgexprBestPromise(IMemoryPool *pmp, CGroupExpression *pgexprToMatch);
+			CGroupExpression *PgexprBestPromise(IMemoryPool *memory_pool, CGroupExpression *pgexprToMatch);
 
 			// link parent group expression to group members
 			void BuildTreeMap
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				COptimizationContext *poc,
 				CCostContext *pccParent,
 				ULONG ulChildIndex,
@@ -593,7 +593,7 @@ namespace gpopt
 			IStatistics *PstatsCompute(COptimizationContext *poc, CExpressionHandle &exprhdl, CGroupExpression *pgexpr);
 
 			// compute cost lower bound for the plan satisfying given required properties
-			CCost CostLowerBound(IMemoryPool *pmp, CReqdPropPlan *prppInput);
+			CCost CostLowerBound(IMemoryPool *memory_pool, CReqdPropPlan *prppInput);
 
 			// matching of pairs of arrays of groups
 			static

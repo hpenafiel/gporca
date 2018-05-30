@@ -65,10 +65,10 @@ CAutoMemoryPool::CAutoMemoryPool
 IMemoryPool *
 CAutoMemoryPool::Detach()
 {
-	IMemoryPool *pmp = m_memory_pool;
+	IMemoryPool *memory_pool = m_memory_pool;
 	m_memory_pool = NULL;
 	
-	return pmp;
+	return memory_pool;
 }
 
 

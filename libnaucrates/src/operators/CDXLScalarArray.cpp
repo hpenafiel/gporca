@@ -27,13 +27,13 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarArray::CDXLScalarArray
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidElem,
 	IMDId *pmdidArray,
 	BOOL fMultiDimensional
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdidElem(pmdidElem),
 	m_pmdidArray(pmdidArray),
 	m_fMultiDimensional(fMultiDimensional)

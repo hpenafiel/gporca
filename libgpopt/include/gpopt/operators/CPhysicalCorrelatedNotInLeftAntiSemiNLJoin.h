@@ -47,12 +47,12 @@ namespace gpopt
 			// ctor
 			CPhysicalCorrelatedNotInLeftAntiSemiNLJoin
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcr *pdrgpcrInner,
 				EOperatorId eopidOriginSubq
 				)
 				:
-				CPhysicalLeftAntiSemiNLJoinNotIn(pmp),
+				CPhysicalLeftAntiSemiNLJoinNotIn(memory_pool),
 				m_pdrgpcrInner(pdrgpcrInner),
 				m_eopidOriginSubq(eopidOriginSubq)
 			{
@@ -116,7 +116,7 @@ namespace gpopt
 			virtual
 			CDistributionSpec *PdsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CDistributionSpec *pdsRequired,
 				ULONG ulChildIndex,
@@ -125,14 +125,14 @@ namespace gpopt
 				)
 				const
 			{
-				return PdsRequiredCorrelatedJoin(pmp, exprhdl, pdsRequired, ulChildIndex, pdrgpdpCtxt, ulOptReq);
+				return PdsRequiredCorrelatedJoin(memory_pool, exprhdl, pdsRequired, ulChildIndex, pdrgpdpCtxt, ulOptReq);
 			}
 
 			// compute required rewindability of the n-th child
 			virtual
 			CRewindabilitySpec *PrsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CRewindabilitySpec *prsRequired,
 				ULONG ulChildIndex,
@@ -141,7 +141,7 @@ namespace gpopt
 				)
 				const
 			{
-				return PrsRequiredCorrelatedJoin(pmp, exprhdl, prsRequired, ulChildIndex, pdrgpdpCtxt, ulOptReq);
+				return PrsRequiredCorrelatedJoin(memory_pool, exprhdl, prsRequired, ulChildIndex, pdrgpdpCtxt, ulOptReq);
 			}
 
 			// conversion function

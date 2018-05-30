@@ -28,13 +28,13 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalIndexScan::CDXLPhysicalIndexScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLTableDescr *pdxltabdesc,
 	CDXLIndexDescr *pdxlid,
 	EdxlIndexScanDirection edxlisd
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pdxltabdesc(pdxltabdesc),
 	m_pdxlid(pdxlid),
 	m_edxlisd(edxlisd)

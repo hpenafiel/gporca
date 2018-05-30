@@ -55,7 +55,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CSerializablePlan(IMemoryPool *pmp, const CDXLNode *pdxlnPlan, ULLONG plan_id, ULLONG plan_space_size);
+			CSerializablePlan(IMemoryPool *memory_pool, const CDXLNode *pdxlnPlan, ULLONG plan_id, ULLONG plan_space_size);
 
 			// dtor
 			virtual

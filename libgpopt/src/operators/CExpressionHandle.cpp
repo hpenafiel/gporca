@@ -49,10 +49,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CExpressionHandle::CExpressionHandle
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pexpr(NULL),
 	m_pgexpr(NULL),
 	m_pcc(NULL),
@@ -63,7 +63,7 @@ CExpressionHandle::CExpressionHandle
 	m_pdrgpstat(NULL),
 	m_pdrgprp(NULL)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 }
 
 
@@ -1847,13 +1847,13 @@ CExpressionHandle::FNextChildIndex
 CColRefSet *
 CExpressionHandle::PcrsUsedColumns
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	COperator *pop = Pop();
 	GPOS_ASSERT(pop->FLogical());
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// get columns used by the operator itself
 	pcrs->Include(CLogical::PopConvert(pop)->PcrsLocalUsed());

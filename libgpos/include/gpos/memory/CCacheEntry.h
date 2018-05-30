@@ -94,13 +94,13 @@ namespace gpos
 			// ctor
 			CCacheEntry
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				K key,
 				T val,
 				ULONG g_clock_counter
 				)
 				:
-				m_memory_pool(pmp),
+				m_memory_pool(memory_pool),
 				m_val(val),
 				m_deleted(false),
 				m_g_clock_counter(g_clock_counter),

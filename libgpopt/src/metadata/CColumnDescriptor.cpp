@@ -26,9 +26,9 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CColumnDescriptor::CColumnDescriptor
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const IMDType *pmdtype,
-	INT iTypeModifier,
+	INT type_modifier,
 	const CName &name,
 	INT iAttno,
 	BOOL fNullable,
@@ -36,14 +36,14 @@ CColumnDescriptor::CColumnDescriptor
 	)
 	:
 	m_pmdtype(pmdtype),
-	m_iTypeModifier(iTypeModifier),
-	m_name(pmp, name),
+	m_type_modifier(type_modifier),
+	m_name(memory_pool, name),
 	m_iAttno(iAttno),
 	m_fNullable(fNullable),
 	m_ulWidth(ulWidth)
 {
 	GPOS_ASSERT(NULL != pmdtype);
-	GPOS_ASSERT(pmdtype->Pmdid()->IsValid());
+	GPOS_ASSERT(pmdtype->MDId()->IsValid());
 
 	if (m_pmdtype->FFixedLength())
 	{

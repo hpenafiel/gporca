@@ -30,16 +30,16 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerBase::CParseHandlerBase
 	(
-	IMemoryPool *pmp, 
+	IMemoryPool *memory_pool, 
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pphm(parse_handler_mgr),
 	m_pphRoot(pphRoot)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != parse_handler_mgr);
 	
 	m_pdrgpph = GPOS_NEW(m_memory_pool) DrgPph(m_memory_pool);

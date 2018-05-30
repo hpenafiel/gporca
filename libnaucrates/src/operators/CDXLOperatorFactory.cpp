@@ -58,9 +58,9 @@ CDXLOperatorFactory::PdxlopTblScan
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
-	return GPOS_NEW(pmp) CDXLPhysicalTableScan(pmp);
+	return GPOS_NEW(memory_pool) CDXLPhysicalTableScan(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ CDXLOperatorFactory::PdxlopSubqScan
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse subquery name from attributes
 	const XMLCh *xmlszAlias = XmlstrFromAttrs
@@ -93,11 +93,11 @@ CDXLOperatorFactory::PdxlopSubqScan
 	
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdnameAlias = GPOS_NEW(pmp) CMDName(pmp, pstrAlias);
+	CMDName *pmdnameAlias = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrAlias);
 	
 	GPOS_DELETE(pstrAlias);
 
-	return GPOS_NEW(pmp) CDXLPhysicalSubqueryScan(pmp, pmdnameAlias);
+	return GPOS_NEW(memory_pool) CDXLPhysicalSubqueryScan(memory_pool, pmdnameAlias);
 }
 
 //---------------------------------------------------------------------------
@@ -115,9 +115,9 @@ CDXLOperatorFactory::PdxlopResult
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	return GPOS_NEW(pmp) CDXLPhysicalResult(pmp);
+	return GPOS_NEW(memory_pool) CDXLPhysicalResult(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -136,7 +136,7 @@ CDXLOperatorFactory::PdxlopHashJoin
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	const XMLCh *xmlszJoinType = XmlstrFromAttrs
 									(
@@ -147,7 +147,7 @@ CDXLOperatorFactory::PdxlopHashJoin
 	
 	EdxlJoinType edxljt = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalHashJoin));
 	
-	return GPOS_NEW(pmp) CDXLPhysicalHashJoin(pmp, edxljt);
+	return GPOS_NEW(memory_pool) CDXLPhysicalHashJoin(memory_pool, edxljt);
 }
 
 //---------------------------------------------------------------------------
@@ -166,7 +166,7 @@ CDXLOperatorFactory::PdxlopNLJoin
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	const XMLCh *xmlszJoinType = XmlstrFromAttrs
 									(
@@ -190,7 +190,7 @@ CDXLOperatorFactory::PdxlopNLJoin
 
 	EdxlJoinType edxljt = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalNLJoin));
 	
-	return GPOS_NEW(pmp) CDXLPhysicalNLJoin(pmp, edxljt, fIndexNLJ);
+	return GPOS_NEW(memory_pool) CDXLPhysicalNLJoin(memory_pool, edxljt, fIndexNLJ);
 }
 
 //---------------------------------------------------------------------------
@@ -209,7 +209,7 @@ CDXLOperatorFactory::PdxlopMergeJoin
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	const XMLCh *xmlszJoinType = XmlstrFromAttrs
 									(
@@ -228,7 +228,7 @@ CDXLOperatorFactory::PdxlopMergeJoin
 								EdxltokenPhysicalMergeJoin
 								);
 	
-	return GPOS_NEW(pmp) CDXLPhysicalMergeJoin(pmp, edxljt, fUniqueOuter);
+	return GPOS_NEW(memory_pool) CDXLPhysicalMergeJoin(memory_pool, edxljt, fUniqueOuter);
 }
 
 //---------------------------------------------------------------------------
@@ -247,9 +247,9 @@ CDXLOperatorFactory::PdxlopGatherMotion
 	)
 {	
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	CDXLPhysicalGatherMotion *pdxlop = GPOS_NEW(pmp) CDXLPhysicalGatherMotion(pmp);
+	CDXLPhysicalGatherMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalGatherMotion(memory_pool);
 	SetSegmentInfo(pmm, pdxlop, attrs, EdxltokenPhysicalGatherMotion);
 
 	return pdxlop;
@@ -271,9 +271,9 @@ CDXLOperatorFactory::PdxlopBroadcastMotion
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	CDXLPhysicalBroadcastMotion *pdxlop = GPOS_NEW(pmp) CDXLPhysicalBroadcastMotion(pmp);
+	CDXLPhysicalBroadcastMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalBroadcastMotion(memory_pool);
 	SetSegmentInfo(pmm, pdxlop, attrs, EdxltokenPhysicalBroadcastMotion);
 	
 	return pdxlop;
@@ -295,7 +295,7 @@ CDXLOperatorFactory::PdxlopRedistributeMotion
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	BOOL fDuplicateSensitive = false;
 	
@@ -305,7 +305,7 @@ CDXLOperatorFactory::PdxlopRedistributeMotion
 		fDuplicateSensitive = FValueFromXmlstr(pmm, xmlszDuplicateSensitive, EdxltokenDuplicateSensitive, EdxltokenPhysicalRedistributeMotion);
 	}
 		
-	CDXLPhysicalRedistributeMotion *pdxlop = GPOS_NEW(pmp) CDXLPhysicalRedistributeMotion(pmp, fDuplicateSensitive);
+	CDXLPhysicalRedistributeMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalRedistributeMotion(memory_pool, fDuplicateSensitive);
 	SetSegmentInfo(pmm, pdxlop, attrs, EdxltokenPhysicalRedistributeMotion);
 	
 	
@@ -330,11 +330,11 @@ CDXLOperatorFactory::PdxlopRoutedMotion
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	ULONG ulSegmentIdCol = CDXLOperatorFactory::UlValueFromAttrs(pmm, attrs, EdxltokenSegmentIdCol, EdxltokenPhysicalRoutedDistributeMotion);
 	
-	CDXLPhysicalRoutedDistributeMotion *pdxlop = GPOS_NEW(pmp) CDXLPhysicalRoutedDistributeMotion(pmp, ulSegmentIdCol);
+	CDXLPhysicalRoutedDistributeMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalRoutedDistributeMotion(memory_pool, ulSegmentIdCol);
 	SetSegmentInfo(pmm, pdxlop, attrs, EdxltokenPhysicalRoutedDistributeMotion);
 	
 	return pdxlop;
@@ -356,7 +356,7 @@ CDXLOperatorFactory::PdxlopRandomMotion
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	BOOL fDuplicateSensitive = false;
 
@@ -366,7 +366,7 @@ CDXLOperatorFactory::PdxlopRandomMotion
 		fDuplicateSensitive = FValueFromXmlstr(pmm, xmlszDuplicateSensitive, EdxltokenDuplicateSensitive, EdxltokenPhysicalRandomMotion);
 	}
 
-	CDXLPhysicalRandomMotion *pdxlop = GPOS_NEW(pmp) CDXLPhysicalRandomMotion(pmp, fDuplicateSensitive);
+	CDXLPhysicalRandomMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalRandomMotion(memory_pool, fDuplicateSensitive);
 	SetSegmentInfo(pmm, pdxlop, attrs, EdxltokenPhysicalRandomMotion);
 	
 	return pdxlop;
@@ -387,7 +387,7 @@ CDXLOperatorFactory::PdxlopAppend
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	BOOL fIsTarget = FValueFromAttrs
 						(
@@ -405,7 +405,7 @@ CDXLOperatorFactory::PdxlopAppend
 						EdxltokenPhysicalAppend
 						);
 
-	return GPOS_NEW(pmp) CDXLPhysicalAppend(pmp, fIsTarget, fIsZapped);
+	return GPOS_NEW(memory_pool) CDXLPhysicalAppend(memory_pool, fIsTarget, fIsZapped);
 }
 
 //---------------------------------------------------------------------------
@@ -423,9 +423,9 @@ CDXLOperatorFactory::PdxlopLimit
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	return GPOS_NEW(pmp) CDXLPhysicalLimit(pmp);
+	return GPOS_NEW(memory_pool) CDXLPhysicalLimit(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -444,9 +444,9 @@ CDXLOperatorFactory::PdxlopLimitCount
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	return GPOS_NEW(pmp) CDXLScalarLimitCount(pmp);
+	return GPOS_NEW(memory_pool) CDXLScalarLimitCount(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -465,9 +465,9 @@ CDXLOperatorFactory::PdxlopLimitOffset
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	return GPOS_NEW(pmp) CDXLScalarLimitOffset(pmp);
+	return GPOS_NEW(memory_pool) CDXLScalarLimitOffset(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -486,7 +486,7 @@ CDXLOperatorFactory::PdxlopAgg
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	const XMLCh *xmlszAggStrategy = XmlstrFromAttrs
 										(
@@ -540,7 +540,7 @@ CDXLOperatorFactory::PdxlopAgg
 						);
 	}
 
-	return GPOS_NEW(pmp) CDXLPhysicalAgg(pmp, edxlaggstr, fStreamSafe);
+	return GPOS_NEW(memory_pool) CDXLPhysicalAgg(memory_pool, edxlaggstr, fStreamSafe);
 }
 
 
@@ -560,7 +560,7 @@ CDXLOperatorFactory::PdxlopSort
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse discard duplicates and nulls first properties from the attributes
 	BOOL fDiscardDuplicates = FValueFromAttrs
@@ -571,7 +571,7 @@ CDXLOperatorFactory::PdxlopSort
 								EdxltokenPhysicalSort
 								);
 	
-	return GPOS_NEW(pmp) CDXLPhysicalSort(pmp, fDiscardDuplicates);
+	return GPOS_NEW(memory_pool) CDXLPhysicalSort(memory_pool, fDiscardDuplicates);
 }
 
 //---------------------------------------------------------------------------
@@ -590,7 +590,7 @@ CDXLOperatorFactory::PdxlopMaterialize
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse spooling info from the attributes
 	
@@ -608,7 +608,7 @@ CDXLOperatorFactory::PdxlopMaterialize
 	if (1 == attrs.getLength())
 	{
 		// no spooling info specified -> create a non-spooling materialize operator
-		pdxlopMat = GPOS_NEW(pmp) CDXLPhysicalMaterialize(pmp, fEagerMaterialize);
+		pdxlopMat = GPOS_NEW(memory_pool) CDXLPhysicalMaterialize(memory_pool, fEagerMaterialize);
 	}
 	else
 	{
@@ -638,7 +638,7 @@ CDXLOperatorFactory::PdxlopMaterialize
 									EdxltokenPhysicalMaterialize
 									);
 	
-		pdxlopMat = GPOS_NEW(pmp) CDXLPhysicalMaterialize(pmp, fEagerMaterialize, ulSpoolId, iExecutorSlice, ulConsumerSlices);
+		pdxlopMat = GPOS_NEW(memory_pool) CDXLPhysicalMaterialize(memory_pool, fEagerMaterialize, ulSpoolId, iExecutorSlice, ulConsumerSlices);
 	}
 	
 	return pdxlopMat;
@@ -660,7 +660,7 @@ CDXLOperatorFactory::PdxlopScalarCmp
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	 // get comparison operator from attributes
 	const XMLCh *xmlszCmpOp = XmlstrFromAttrs(attrs, EdxltokenComparisonOp, EdxltokenScalarComp);
@@ -673,12 +673,12 @@ CDXLOperatorFactory::PdxlopScalarCmp
 
 	
 	// copy dynamic string into const string
-	CWStringConst *pstrCompOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrCompOpName->GetBuffer());
+	CWStringConst *pstrCompOpNameCopy = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrCompOpName->GetBuffer());
 
 	// cleanup
 	GPOS_DELETE(pstrCompOpName);
 	
-	return GPOS_NEW(pmp) CDXLScalarComp(pmp, pmdidOpNo, pstrCompOpNameCopy);
+	return GPOS_NEW(memory_pool) CDXLScalarComp(memory_pool, pmdidOpNo, pstrCompOpNameCopy);
 }
 
 //---------------------------------------------------------------------------
@@ -697,12 +697,12 @@ CDXLOperatorFactory::PdxlopDistinctCmp
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse operator and function id
 	IMDId *pmdidOpNo = PmdidFromAttrs(pmm, attrs, EdxltokenOpNo,EdxltokenScalarDistinctComp);
 
-	return GPOS_NEW(pmp) CDXLScalarDistinctComp(pmp, pmdidOpNo);
+	return GPOS_NEW(memory_pool) CDXLScalarDistinctComp(memory_pool, pmdidOpNo);
 }
 
 //---------------------------------------------------------------------------
@@ -721,7 +721,7 @@ CDXLOperatorFactory::PdxlopOpExpr
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	// get scalar OpExpr from attributes
 	const XMLCh *xmlszOpName = XmlstrFromAttrs
@@ -748,10 +748,10 @@ CDXLOperatorFactory::PdxlopOpExpr
 	}
 	
 	CWStringDynamic *pstrValue = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszOpName);
-	CWStringConst *pstrValueCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrValue->GetBuffer());
+	CWStringConst *pstrValueCopy = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrValue->GetBuffer());
 	GPOS_DELETE(pstrValue);
 
-	return GPOS_NEW(pmp) CDXLScalarOpExpr(pmp, pmdidOpNo, pmdidReturnType, pstrValueCopy);
+	return GPOS_NEW(memory_pool) CDXLScalarOpExpr(memory_pool, pmdidOpNo, pmdidReturnType, pstrValueCopy);
 }
 
 
@@ -771,7 +771,7 @@ CDXLOperatorFactory::PdxlopArrayComp
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	 // get attributes
 	const XMLCh *xmlszOpName = XmlstrFromAttrs
@@ -815,10 +815,10 @@ CDXLOperatorFactory::PdxlopArrayComp
 	}
 
 	CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszOpName);
-	CWStringConst *pstrOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrOpName->GetBuffer());
+	CWStringConst *pstrOpNameCopy = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrOpName->GetBuffer());
 	GPOS_DELETE(pstrOpName);
 
-	return GPOS_NEW(pmp) CDXLScalarArrayComp(pmp, pmdidOpNo, pstrOpNameCopy, edxlarraycomptype);
+	return GPOS_NEW(memory_pool) CDXLScalarArrayComp(memory_pool, pmdidOpNo, pstrOpNameCopy, edxlarraycomptype);
 }
 
 //---------------------------------------------------------------------------
@@ -837,9 +837,9 @@ CDXLOperatorFactory::PdxlopBoolExpr
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	return GPOS_NEW(pmp) CDXLScalarBoolExpr(pmp,	edxlboolexprType);
+	return GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool,	edxlboolexprType);
 }
 
 //---------------------------------------------------------------------------
@@ -858,9 +858,9 @@ CDXLOperatorFactory::PdxlopBooleanTest
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	return GPOS_NEW(pmp) CDXLScalarBooleanTest(pmp,	edxlbooleantesttype);
+	return GPOS_NEW(memory_pool) CDXLScalarBooleanTest(memory_pool,	edxlbooleantesttype);
 }
 
 //---------------------------------------------------------------------------
@@ -882,9 +882,9 @@ CDXLOperatorFactory::PdxlopSubPlan
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
-	return GPOS_NEW(pmp) CDXLScalarSubPlan(pmp, pmdid, pdrgdxlcr, edxlsubplantype, pdxlnTestExpr);
+	return GPOS_NEW(memory_pool) CDXLScalarSubPlan(memory_pool, pmdid, pdrgdxlcr, edxlsubplantype, pdxlnTestExpr);
 }
 
 //---------------------------------------------------------------------------
@@ -903,9 +903,9 @@ CDXLOperatorFactory::PdxlopNullTest
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
-	return GPOS_NEW(pmp) CDXLScalarNullTest(pmp, fIsNull);
+	return GPOS_NEW(memory_pool) CDXLScalarNullTest(memory_pool, fIsNull);
 }
 
 //---------------------------------------------------------------------------
@@ -924,10 +924,10 @@ CDXLOperatorFactory::PdxlopCast
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse type id and function id
-	IMDId *pmdidType = PmdidFromAttrs
+	IMDId *mdid_type = PmdidFromAttrs
 							(
 							pmm,
 							attrs,
@@ -943,7 +943,7 @@ CDXLOperatorFactory::PdxlopCast
 							EdxltokenScalarCast
 							);
 
-	return GPOS_NEW(pmp) CDXLScalarCast(pmp, pmdidType, pmdidFunc);
+	return GPOS_NEW(memory_pool) CDXLScalarCast(memory_pool, mdid_type, pmdidFunc);
 }
 
 
@@ -963,15 +963,15 @@ CDXLOperatorFactory::PdxlopCoerceToDomain
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	// parse type id and function id
-	IMDId *pmdidType = PmdidFromAttrs(pmm, attrs, EdxltokenTypeId, EdxltokenScalarCoerceToDomain);
-	INT iTypeModifier = IValueFromAttrs(pmm, attrs, EdxltokenTypeMod, EdxltokenScalarCoerceToDomain, true, IDefaultTypeModifier);
+	IMDId *mdid_type = PmdidFromAttrs(pmm, attrs, EdxltokenTypeId, EdxltokenScalarCoerceToDomain);
+	INT type_modifier = IValueFromAttrs(pmm, attrs, EdxltokenTypeMod, EdxltokenScalarCoerceToDomain, true, IDefaultTypeModifier);
 	ULONG ulCoercionForm = UlValueFromAttrs(pmm, attrs, EdxltokenCoercionForm, EdxltokenScalarCoerceToDomain);
 	INT iLoc = IValueFromAttrs(pmm, attrs, EdxltokenLocation, EdxltokenScalarCoerceToDomain);
 
-	return GPOS_NEW(pmp) CDXLScalarCoerceToDomain(pmp, pmdidType, iTypeModifier, (EdxlCoercionForm) ulCoercionForm, iLoc);
+	return GPOS_NEW(memory_pool) CDXLScalarCoerceToDomain(memory_pool, mdid_type, type_modifier, (EdxlCoercionForm) ulCoercionForm, iLoc);
 }
 
 //---------------------------------------------------------------------------
@@ -990,15 +990,15 @@ CDXLOperatorFactory::PdxlopCoerceViaIO
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	// parse type id and function id
-	IMDId *pmdidType = PmdidFromAttrs(pmm, attrs, EdxltokenTypeId, EdxltokenScalarCoerceViaIO);
-	INT iTypeModifier = IValueFromAttrs(pmm, attrs, EdxltokenTypeMod, EdxltokenScalarCoerceViaIO, true, IDefaultTypeModifier);
+	IMDId *mdid_type = PmdidFromAttrs(pmm, attrs, EdxltokenTypeId, EdxltokenScalarCoerceViaIO);
+	INT type_modifier = IValueFromAttrs(pmm, attrs, EdxltokenTypeMod, EdxltokenScalarCoerceViaIO, true, IDefaultTypeModifier);
 	ULONG ulCoercionForm = UlValueFromAttrs(pmm, attrs, EdxltokenCoercionForm, EdxltokenScalarCoerceViaIO);
 	INT iLoc = IValueFromAttrs(pmm, attrs, EdxltokenLocation, EdxltokenScalarCoerceViaIO);
 
-	return GPOS_NEW(pmp) CDXLScalarCoerceViaIO(pmp, pmdidType, iTypeModifier, (EdxlCoercionForm) ulCoercionForm, iLoc);
+	return GPOS_NEW(memory_pool) CDXLScalarCoerceViaIO(memory_pool, mdid_type, type_modifier, (EdxlCoercionForm) ulCoercionForm, iLoc);
 }
 
 //---------------------------------------------------------------------------
@@ -1016,16 +1016,16 @@ CDXLOperatorFactory::PdxlopArrayCoerceExpr
 	const Attributes &attrs
 	)
 {
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	IMDId *pmdidElementFunc = PmdidFromAttrs(pmm, attrs, EdxltokenElementFunc, EdxltokenScalarArrayCoerceExpr);
-	IMDId *pmdidType = PmdidFromAttrs(pmm, attrs, EdxltokenTypeId, EdxltokenScalarArrayCoerceExpr);
-	INT iTypeModifier = IValueFromAttrs(pmm, attrs, EdxltokenTypeMod, EdxltokenScalarArrayCoerceExpr, true, IDefaultTypeModifier);
+	IMDId *mdid_type = PmdidFromAttrs(pmm, attrs, EdxltokenTypeId, EdxltokenScalarArrayCoerceExpr);
+	INT type_modifier = IValueFromAttrs(pmm, attrs, EdxltokenTypeMod, EdxltokenScalarArrayCoerceExpr, true, IDefaultTypeModifier);
 	BOOL fIsExplicit = FValueFromAttrs(pmm, attrs, EdxltokenIsExplicit, EdxltokenScalarArrayCoerceExpr);
 	ULONG ulCoercionForm = UlValueFromAttrs(pmm, attrs, EdxltokenCoercionForm, EdxltokenScalarArrayCoerceExpr);
 	INT iLoc = IValueFromAttrs(pmm, attrs, EdxltokenLocation, EdxltokenScalarArrayCoerceExpr);
 
-	return GPOS_NEW(pmp) CDXLScalarArrayCoerceExpr(pmp, pmdidElementFunc, pmdidType, iTypeModifier, fIsExplicit, (EdxlCoercionForm) ulCoercionForm, iLoc);
+	return GPOS_NEW(memory_pool) CDXLScalarArrayCoerceExpr(memory_pool, pmdidElementFunc, mdid_type, type_modifier, fIsExplicit, (EdxlCoercionForm) ulCoercionForm, iLoc);
 }
 
 //---------------------------------------------------------------------------
@@ -1044,10 +1044,10 @@ CDXLOperatorFactory::PdxlopConstValue
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	CDXLDatum *pdxldatum = Pdxldatum(pmm, attrs, EdxltokenScalarConstValue);
 	
-	return GPOS_NEW(pmp) CDXLScalarConstValue(pmp, pdxldatum);
+	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, pdxldatum);
 }
 
 //---------------------------------------------------------------------------
@@ -1066,10 +1066,10 @@ CDXLOperatorFactory::PdxlopIfStmt
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	// get the type id
-	IMDId *pmdidType = PmdidFromAttrs
+	IMDId *mdid_type = PmdidFromAttrs
 							(
 							pmm,
 							attrs,
@@ -1077,7 +1077,7 @@ CDXLOperatorFactory::PdxlopIfStmt
 							EdxltokenScalarIfStmt
 							);
 
-	return GPOS_NEW(pmp) CDXLScalarIfStmt(pmp, pmdidType);
+	return GPOS_NEW(memory_pool) CDXLScalarIfStmt(memory_pool, mdid_type);
 }
 
 //---------------------------------------------------------------------------
@@ -1096,7 +1096,7 @@ CDXLOperatorFactory::PdxlopFuncExpr
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	IMDId *pmdidFunc = PmdidFromAttrs
 							(
@@ -1122,7 +1122,7 @@ CDXLOperatorFactory::PdxlopFuncExpr
 							EdxltokenScalarFuncExpr
 							);
 
-	INT iTypeModifier = IValueFromAttrs
+	INT type_modifier = IValueFromAttrs
 						(
 						pmm,
 						attrs,
@@ -1132,7 +1132,7 @@ CDXLOperatorFactory::PdxlopFuncExpr
 						IDefaultTypeModifier
 						);
 
-	return GPOS_NEW(pmp) CDXLScalarFuncExpr(pmp, pmdidFunc, pmdidRetType, iTypeModifier, fRetset);
+	return GPOS_NEW(memory_pool) CDXLScalarFuncExpr(memory_pool, pmdidFunc, pmdidRetType, type_modifier, fRetset);
 }
 
 //---------------------------------------------------------------------------
@@ -1151,7 +1151,7 @@ CDXLOperatorFactory::PdxlopAggFunc
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	IMDId *pmdidAgg = PmdidFromAttrs
 							(
@@ -1219,7 +1219,7 @@ CDXLOperatorFactory::PdxlopAggFunc
 									);
 	}
 
-	return GPOS_NEW(pmp) CDXLScalarAggref(pmp, pmdidAgg, pmdidResolvedRetType, fDistinct, edxlaggstage);
+	return GPOS_NEW(memory_pool) CDXLScalarAggref(memory_pool, pmdidAgg, pmdidResolvedRetType, fDistinct, edxlaggstage);
 }
 
 //---------------------------------------------------------------------------
@@ -1387,13 +1387,13 @@ CDXLOperatorFactory::PdxlopArray
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	IMDId *pmdidElem = PmdidFromAttrs(pmm, attrs, EdxltokenArrayElementType, EdxltokenScalarArray);
 	IMDId *pmdidArray = PmdidFromAttrs(pmm, attrs, EdxltokenArrayType, EdxltokenScalarArray);
 	BOOL fMultiDimensional = FValueFromAttrs(pmm, attrs, EdxltokenArrayMultiDim, EdxltokenScalarArray);
 
-	return GPOS_NEW(pmp) CDXLScalarArray(pmp, pmdidElem, pmdidArray, fMultiDimensional);
+	return GPOS_NEW(memory_pool) CDXLScalarArray(memory_pool, pmdidElem, pmdidArray, fMultiDimensional);
 }
 
 //---------------------------------------------------------------------------
@@ -1412,11 +1412,11 @@ CDXLOperatorFactory::PdxlopScalarIdent
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	CDXLColRef *pdxlcr = Pdxlcr(pmm, attrs, EdxltokenScalarIdent);
 
-	return GPOS_NEW(pmp) CDXLScalarIdent(pmp, pdxlcr);
+	return GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, pdxlcr);
 }
 
 //---------------------------------------------------------------------------
@@ -1435,7 +1435,7 @@ CDXLOperatorFactory::PdxlopProjElem
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse alias from attributes	
 	const XMLCh *xmlszAlias = XmlstrFromAttrs
@@ -1457,11 +1457,11 @@ CDXLOperatorFactory::PdxlopProjElem
 	CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszAlias);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pstrAlias);
+	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrAlias);
 	
 	GPOS_DELETE(pstrAlias);
 	
-	return GPOS_NEW(pmp) CDXLScalarProjElem(pmp, ulId, pmdname);
+	return GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, ulId, pmdname);
 }
 
 //---------------------------------------------------------------------------
@@ -1480,11 +1480,11 @@ CDXLOperatorFactory::PdxlopHashExpr
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// get column type id and type name from attributes
 
-	IMDId *pmdidType = PmdidFromAttrs
+	IMDId *mdid_type = PmdidFromAttrs
 							(
 							pmm,
 							attrs,
@@ -1492,7 +1492,7 @@ CDXLOperatorFactory::PdxlopHashExpr
 							EdxltokenScalarHashExpr
 							);
 
-	return GPOS_NEW(pmp) CDXLScalarHashExpr(pmp, pmdidType);
+	return GPOS_NEW(memory_pool) CDXLScalarHashExpr(memory_pool, mdid_type);
 }
 
 //---------------------------------------------------------------------------
@@ -1511,7 +1511,7 @@ CDXLOperatorFactory::PdxlopSortCol
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// get column id from attributes
 	ULONG ulColId = UlValueFromAttrs
@@ -1550,11 +1550,11 @@ CDXLOperatorFactory::PdxlopSortCol
 								);
 
 	// copy dynamic string into const string
-	CWStringConst *pstrSortOpNameCopy = GPOS_NEW(pmp) CWStringConst(pmp, pstrSortOpName->GetBuffer());
+	CWStringConst *pstrSortOpNameCopy = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrSortOpName->GetBuffer());
 
 	GPOS_DELETE(pstrSortOpName);
 
-	return GPOS_NEW(pmp) CDXLScalarSortCol(pmp, ulColId, pmdidSortOp, pstrSortOpNameCopy, fNullsFirst);
+	return GPOS_NEW(memory_pool) CDXLScalarSortCol(memory_pool, ulColId, pmdidSortOp, pstrSortOpNameCopy, fNullsFirst);
 }
 
 //---------------------------------------------------------------------------
@@ -1573,7 +1573,7 @@ CDXLOperatorFactory::Pdxlopcost
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	const XMLCh *xmlszStartupCost = XmlstrFromAttrs
 										(
@@ -1608,7 +1608,7 @@ CDXLOperatorFactory::Pdxlopcost
 	CWStringDynamic *pstrRows = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszRows);
 	CWStringDynamic *pstrWidth = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszWidth);
 	
-	return GPOS_NEW(pmp) CDXLOperatorCost
+	return GPOS_NEW(memory_pool) CDXLOperatorCost
 						(
 						pstrStartupCost,
 						pstrTotalCost,
@@ -1633,7 +1633,7 @@ CDXLOperatorFactory::Pdxltabdesc
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse table descriptor from attributes
 	const XMLCh *xmlszTableName = XmlstrFromAttrs
@@ -1663,7 +1663,7 @@ CDXLOperatorFactory::Pdxltabdesc
 		ulUserId = UlValueFromXmlstr(pmm, xmlszExecuteAsUser, EdxltokenExecuteAsUser, EdxltokenTableDescr);
 	}
 					
-	return GPOS_NEW(pmp) CDXLTableDescr(pmp, pmdid, pmdname, ulUserId);
+	return GPOS_NEW(memory_pool) CDXLTableDescr(memory_pool, pmdid, pmdname, ulUserId);
 }
 
 //---------------------------------------------------------------------------
@@ -1682,7 +1682,7 @@ CDXLOperatorFactory::Pdxlid
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	// parse index descriptor from attributes
 	const XMLCh *xmlszIndexName = XmlstrFromAttrs
@@ -1704,10 +1704,10 @@ CDXLOperatorFactory::Pdxlid
 						);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pstrIndexName);
+	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrIndexName);
 	GPOS_DELETE(pstrIndexName);
 
-	return GPOS_NEW(pmp) CDXLIndexDescr(pmp, pmdid, pmdname);
+	return GPOS_NEW(memory_pool) CDXLIndexDescr(memory_pool, pmdid, pmdname);
 }
 
 //---------------------------------------------------------------------------
@@ -1726,7 +1726,7 @@ CDXLOperatorFactory::Pdxlcd
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	// parse column name from attributes
 	const XMLCh *xmlszColumnName = XmlstrFromAttrs
@@ -1766,7 +1766,7 @@ CDXLOperatorFactory::Pdxlcd
 	}
 	
 	// parse column type id
-	IMDId *pmdidType = PmdidFromAttrs
+	IMDId *mdid_type = PmdidFromAttrs
 							(
 							pmm,
 							attrs,
@@ -1775,7 +1775,7 @@ CDXLOperatorFactory::Pdxlcd
 							);
 
 	// parse optional type modifier from attributes
-	INT iTypeModifier = IValueFromAttrs
+	INT type_modifier = IValueFromAttrs
 						(
 						pmm,
 						attrs,
@@ -1820,11 +1820,11 @@ CDXLOperatorFactory::Pdxlcd
 	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm,xmlszColumnName);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pstrColumnName);
+	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrColumnName);
 	
 	GPOS_DELETE(pstrColumnName);
 	
-	return GPOS_NEW(pmp) CDXLColDescr(pmp, pmdname, ulId, iAttno, pmdidType, iTypeModifier, fColDropped, ulColLen);
+	return GPOS_NEW(memory_pool) CDXLColDescr(memory_pool, pmdname, ulId, iAttno, mdid_type, type_modifier, fColDropped, ulColLen);
 }
 
 //---------------------------------------------------------------------------
@@ -1844,7 +1844,7 @@ CDXLOperatorFactory::Pdxlcr
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	// parse column name from attributes
 	const XMLCh *xmlszColumnName = XmlstrFromAttrs
@@ -1873,11 +1873,11 @@ CDXLOperatorFactory::Pdxlcr
 	CWStringDynamic *pstrColumnName =  CDXLUtils::CreateDynamicStringFromXMLChArray(pmm,xmlszColumnName);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(pmp) CMDName(pmp, pstrColumnName);
+	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrColumnName);
 	
 	GPOS_DELETE(pstrColumnName);
 
-	IMDId *pmdidType = PmdidFromAttrs
+	IMDId *mdid_type = PmdidFromAttrs
 						(
 						pmm,
 						attrs,
@@ -1886,7 +1886,7 @@ CDXLOperatorFactory::Pdxlcr
 						);
 
 	// parse optional type modifier
-	INT iTypeModifier = IValueFromAttrs
+	INT type_modifier = IValueFromAttrs
 						(
 						pmm,
 						attrs,
@@ -1896,7 +1896,7 @@ CDXLOperatorFactory::Pdxlcr
 						IDefaultTypeModifier
 						);
 	
-	return GPOS_NEW(pmp) CDXLColRef(pmp, pmdname, ulId, pmdidType, iTypeModifier);
+	return GPOS_NEW(memory_pool) CDXLColRef(memory_pool, pmdname, ulId, mdid_type, type_modifier);
 }
 
 //---------------------------------------------------------------------------
@@ -2986,7 +2986,7 @@ CDXLOperatorFactory::PdxldatumOid
  )
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	GPOS_ASSERT(fConstByVal);
 	OID oVal = 0;
@@ -2995,7 +2995,7 @@ CDXLOperatorFactory::PdxldatumOid
 		oVal = OidValueFromAttrs(pmm, attrs, EdxltokenValue, edxltokenElement);
 	}
 
-	return GPOS_NEW(pmp) CDXLDatumOid(pmp, pmdid, fConstNull, oVal);
+	return GPOS_NEW(memory_pool) CDXLDatumOid(memory_pool, pmdid, fConstNull, oVal);
 }
 
 //---------------------------------------------------------------------------
@@ -3021,7 +3021,7 @@ CDXLOperatorFactory::PdxldatumInt2
  )
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	GPOS_ASSERT(fConstByVal);
 	SINT sVal = 0;
@@ -3030,7 +3030,7 @@ CDXLOperatorFactory::PdxldatumInt2
 		sVal = SValueFromAttrs(pmm, attrs, EdxltokenValue, edxltokenElement);
 	}
 
-	return GPOS_NEW(pmp) CDXLDatumInt2(pmp, pmdid, fConstNull, sVal);
+	return GPOS_NEW(memory_pool) CDXLDatumInt2(memory_pool, pmdid, fConstNull, sVal);
 }
 
 //---------------------------------------------------------------------------
@@ -3056,7 +3056,7 @@ CDXLOperatorFactory::PdxldatumInt4
  )
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	GPOS_ASSERT(fConstByVal);
 	INT iVal = 0;
@@ -3065,7 +3065,7 @@ CDXLOperatorFactory::PdxldatumInt4
 		iVal = IValueFromAttrs(pmm, attrs, EdxltokenValue, edxltokenElement);
 	}
 	
-	return GPOS_NEW(pmp) CDXLDatumInt4(pmp, pmdid, fConstNull, iVal);
+	return GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, pmdid, fConstNull, iVal);
 }
 
 //---------------------------------------------------------------------------
@@ -3091,7 +3091,7 @@ CDXLOperatorFactory::PdxldatumInt8
  )
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	GPOS_ASSERT(fConstByVal);
 	LINT lVal = 0;
@@ -3100,7 +3100,7 @@ CDXLOperatorFactory::PdxldatumInt8
 		lVal = LValueFromAttrs(pmm, attrs, EdxltokenValue, edxltokenElement);
 	}
 	
-	return GPOS_NEW(pmp) CDXLDatumInt8(pmp, pmdid, fConstNull, lVal);
+	return GPOS_NEW(memory_pool) CDXLDatumInt8(memory_pool, pmdid, fConstNull, lVal);
 }
 
 //---------------------------------------------------------------------------
@@ -3126,7 +3126,7 @@ CDXLOperatorFactory::PdxldatumBool
  )
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	GPOS_ASSERT(fConstByVal);
 	BOOL fVal = false;
@@ -3135,7 +3135,7 @@ CDXLOperatorFactory::PdxldatumBool
 		fVal = FValueFromAttrs(pmm, attrs, EdxltokenValue, edxltokenElement);
 	}
 	
-	return GPOS_NEW(pmp) CDXLDatumBool(pmp, pmdid, fConstNull, fVal);
+	return GPOS_NEW(memory_pool) CDXLDatumBool(memory_pool, pmdid, fConstNull, fVal);
 }
 
 
@@ -3159,7 +3159,7 @@ CDXLOperatorFactory::PdxldatumGeneric
  )
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	ULONG ulPbaLength = 0;
 	BYTE *pba = NULL;
@@ -3174,7 +3174,7 @@ CDXLOperatorFactory::PdxldatumGeneric
 		}
 	}
 
-	INT iTypeModifier = IValueFromAttrs
+	INT type_modifier = IValueFromAttrs
 						(
 						pmm,
 						attrs,
@@ -3184,7 +3184,7 @@ CDXLOperatorFactory::PdxldatumGeneric
 						IDefaultTypeModifier
 						);
 
-	return GPOS_NEW(pmp) CDXLDatumGeneric(pmp, pmdid, iTypeModifier, fConstByVal, fConstNull, pba, ulPbaLength);
+	return GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, pmdid, type_modifier, fConstByVal, fConstNull, pba, ulPbaLength);
 }
 
 
@@ -3208,7 +3208,7 @@ CDXLOperatorFactory::PdxldatumStatsLintMappable
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	ULONG ulPbaLength = 0;
 	BYTE *pba = NULL;
@@ -3220,7 +3220,7 @@ CDXLOperatorFactory::PdxldatumStatsLintMappable
 		lValue = LValue(pmm, attrs, edxltokenElement, pba);
 	}
 
-	INT iTypeModifier = IValueFromAttrs
+	INT type_modifier = IValueFromAttrs
 						(
 						pmm,
 						attrs,
@@ -3230,7 +3230,7 @@ CDXLOperatorFactory::PdxldatumStatsLintMappable
 						-1 /* default value */
 						);
 
-	return GPOS_NEW(pmp) CDXLDatumStatsLintMappable(pmp, pmdid, iTypeModifier, fConstByVal, fConstNull, pba, ulPbaLength, lValue);
+	return GPOS_NEW(memory_pool) CDXLDatumStatsLintMappable(memory_pool, pmdid, type_modifier, fConstByVal, fConstNull, pba, ulPbaLength, lValue);
 }
 
 //---------------------------------------------------------------------------
@@ -3302,7 +3302,7 @@ CDXLOperatorFactory::PdxldatumStatsDoubleMappable
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	ULONG ulPbaLength = 0;
 	BYTE *pba = NULL;
@@ -3320,7 +3320,7 @@ CDXLOperatorFactory::PdxldatumStatsDoubleMappable
 
 		dValue = DValueFromAttrs(pmm, attrs, EdxltokenDoubleValue, edxltokenElement);
 	}
-	INT iTypeModifier = IValueFromAttrs
+	INT type_modifier = IValueFromAttrs
 						(
 						pmm,
 						attrs,
@@ -3329,7 +3329,7 @@ CDXLOperatorFactory::PdxldatumStatsDoubleMappable
 						true,
 						-1 /* default value */
 						);
-	return GPOS_NEW(pmp) CDXLDatumStatsDoubleMappable(pmp, pmdid, iTypeModifier, fConstByVal, fConstNull, pba, ulPbaLength, dValue);
+	return GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, fConstByVal, fConstNull, pba, ulPbaLength, dValue);
 }
 
 //---------------------------------------------------------------------------
@@ -3374,9 +3374,9 @@ CDXLOperatorFactory::PdrgpmdidFromXMLCh
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
-	DrgPmdid *pdrgpmdid = GPOS_NEW(pmp) DrgPmdid(pmp);
+	DrgPmdid *pdrgpmdid = GPOS_NEW(memory_pool) DrgPmdid(memory_pool);
 
 	XMLStringTokenizer xmlsztok(xmlszUlList, CDXLTokens::XmlstrToken(EdxltokenComma));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -3433,9 +3433,9 @@ CDXLOperatorFactory::PdrgpdrgpulFromXMLCh
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 		
-	ULongPtrArray2D *ulong_ptr_array_2D = GPOS_NEW(pmp) ULongPtrArray2D(pmp);
+	ULongPtrArray2D *ulong_ptr_array_2D = GPOS_NEW(memory_pool) ULongPtrArray2D(memory_pool);
 	
 	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -3472,11 +3472,11 @@ CDXLOperatorFactory::PdrgpiParseSegmentIdList
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	
 	GPOS_ASSERT(NULL != xmlszSegIdList);
 	
-	IntPtrArray *pdrgpiSegIds = GPOS_NEW(pmp) IntPtrArray(pmp);
+	IntPtrArray *pdrgpiSegIds = GPOS_NEW(memory_pool) IntPtrArray(memory_pool);
 	
 	XMLStringTokenizer xmlsztok(xmlszSegIdList, CDXLTokens::XmlstrToken(EdxltokenComma));
 	
@@ -3489,7 +3489,7 @@ CDXLOperatorFactory::PdrgpiParseSegmentIdList
 		
 		GPOS_ASSERT(NULL != xmlszSegId);
 		
-		INT *piSegId = GPOS_NEW(pmp) INT(IValueFromXmlstr(pmm, xmlszSegId, edxltokenAttr, edxltokenElement));
+		INT *piSegId = GPOS_NEW(memory_pool) INT(IValueFromXmlstr(pmm, xmlszSegId, edxltokenAttr, edxltokenElement));
 		pdrgpiSegIds->Append(piSegId);
 	}
 	
@@ -3511,9 +3511,9 @@ CDXLOperatorFactory::PdrgPstrFromXMLCh
 	const XMLCh *xmlsz
 	)
 {
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
-	StringPtrArray *pdrgpstr = GPOS_NEW(pmp) StringPtrArray(pmp);
+	StringPtrArray *pdrgpstr = GPOS_NEW(memory_pool) StringPtrArray(memory_pool);
 
 	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -3708,12 +3708,12 @@ CDXLOperatorFactory::PdxlopLogicalJoin
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 
 	const XMLCh *xmlszJoinType = XmlstrFromAttrs(attrs, EdxltokenJoinType, EdxltokenLogicalJoin);
 	EdxlJoinType edxljt = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenLogicalJoin));
 
-	return GPOS_NEW(pmp) CDXLLogicalJoin(pmp, edxljt);
+	return GPOS_NEW(memory_pool) CDXLLogicalJoin(memory_pool, edxljt);
 }
 
 //---------------------------------------------------------------------------
@@ -3882,7 +3882,7 @@ CDXLOperatorFactory::PdxlopWindowRef
 	)
 {
 	// get the memory pool from the memory manager
-	IMemoryPool *pmp = pmm->Pmp();
+	IMemoryPool *memory_pool = pmm->Pmp();
 	IMDId *pmdidFunc = PmdidFromAttrs(pmm, attrs, EdxltokenWindowrefOid, EdxltokenScalarWindowref);
 	IMDId *pmdidRetType = PmdidFromAttrs(pmm, attrs, EdxltokenTypeId, EdxltokenScalarWindowref);
 	BOOL fDistinct = FValueFromAttrs(pmm, attrs, EdxltokenWindowrefDistinct, EdxltokenScalarWindowref);
@@ -3913,7 +3913,7 @@ CDXLOperatorFactory::PdxlopWindowRef
 	}
 	GPOS_ASSERT(EdxlwinstageSentinel != edxlwinstage);
 
-	return GPOS_NEW(pmp) CDXLScalarWindowRef(pmp, pmdidFunc, pmdidRetType, fDistinct, fStarArg, fSimpleAgg, edxlwinstage, ulWinspecPos);
+	return GPOS_NEW(memory_pool) CDXLScalarWindowRef(memory_pool, pmdidFunc, pmdidRetType, fDistinct, fStarArg, fSimpleAgg, edxlwinstage, ulWinspecPos);
 }
 
 //---------------------------------------------------------------------------

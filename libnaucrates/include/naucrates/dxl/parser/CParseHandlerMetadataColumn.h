@@ -44,9 +44,9 @@ namespace gpdxl
 			INT m_iAttNo;
 			
 			// attribute type oid
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
-			INT m_iTypeModifier;
+			INT m_type_modifier;
 
 			// are nulls allowed for this column
 			BOOL m_fNullable;
@@ -84,7 +84,7 @@ namespace gpdxl
 			// ctor/dtor
 			CParseHandlerMetadataColumn
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);

@@ -33,7 +33,7 @@ namespace gpopt
 		private:
 
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// is operator return type BOOL?
 			BOOL m_fBoolReturnType;
@@ -44,7 +44,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CScalarCoalesce(IMemoryPool *pmp, IMDId *pmdidType);
+			CScalarCoalesce(IMemoryPool *memory_pool, IMDId *mdid_type);
 
 			// dtor
 			virtual
@@ -68,7 +68,7 @@ namespace gpopt
 			virtual
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// operator specific hash function
@@ -90,7 +90,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

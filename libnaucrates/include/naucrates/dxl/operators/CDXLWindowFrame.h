@@ -72,7 +72,7 @@ namespace gpdxl
 			// ctor
 			CDXLWindowFrame
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				EdxlFrameSpec edxlfs,
 				EdxlFrameExclusionStrategy edxlfes,
 				CDXLNode *pdxlnLeading,

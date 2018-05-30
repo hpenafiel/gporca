@@ -45,7 +45,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLIndexDescr(IMemoryPool *pmp, IMDId *pmdid, CMDName *pmdname);
+			CDXLIndexDescr(IMemoryPool *memory_pool, IMDId *pmdid, CMDName *pmdname);
 
 			// dtor
 			virtual
@@ -53,7 +53,7 @@ namespace gpdxl
 
 			// accessors
 			const CMDName *Pmdname() const;
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 
 			// serialize the operator to a DXL document
 			void SerializeToDXL(CXMLSerializer *) const;

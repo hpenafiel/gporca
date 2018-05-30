@@ -39,12 +39,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDType::CParseHandlerMDType
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_pmdidOpEq(NULL),
@@ -65,11 +65,11 @@ CParseHandlerMDType::CParseHandlerMDType
 	m_pmdidTypeArray(NULL)
 {
 	// default: no aggregates for type
-	m_pmdidMin = GPOS_NEW(pmp) CMDIdGPDB(0);
-	m_pmdidMax = GPOS_NEW(pmp) CMDIdGPDB(0);
-	m_pmdidAvg = GPOS_NEW(pmp) CMDIdGPDB(0);
-	m_pmdidSum = GPOS_NEW(pmp) CMDIdGPDB(0);
-	m_pmdidCount = GPOS_NEW(pmp) CMDIdGPDB(0);
+	m_pmdidMin = GPOS_NEW(memory_pool) CMDIdGPDB(0);
+	m_pmdidMax = GPOS_NEW(memory_pool) CMDIdGPDB(0);
+	m_pmdidAvg = GPOS_NEW(memory_pool) CMDIdGPDB(0);
+	m_pmdidSum = GPOS_NEW(memory_pool) CMDIdGPDB(0);
+	m_pmdidCount = GPOS_NEW(memory_pool) CMDIdGPDB(0);
 }
 
 
@@ -387,23 +387,23 @@ CParseHandlerMDType::EndElement
 		switch(pmdidGPDB->OidObjectId())
 		{
 			case GPDB_INT2:
-				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeInt2GPDB(m_memory_pool);
+				m_imd_obj = GPOS_NEW(m_memory_pool) CMDTypeInt2GPDB(m_memory_pool);
 				break;
 
 			case GPDB_INT4:
-				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeInt4GPDB(m_memory_pool);
+				m_imd_obj = GPOS_NEW(m_memory_pool) CMDTypeInt4GPDB(m_memory_pool);
 				break;
 
 			case GPDB_INT8:
-				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeInt8GPDB(m_memory_pool);
+				m_imd_obj = GPOS_NEW(m_memory_pool) CMDTypeInt8GPDB(m_memory_pool);
 				break;
 
 			case GPDB_BOOL:
-				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeBoolGPDB(m_memory_pool);
+				m_imd_obj = GPOS_NEW(m_memory_pool) CMDTypeBoolGPDB(m_memory_pool);
 				break;
 
 			case GPDB_OID:
-				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeOidGPDB(m_memory_pool);
+				m_imd_obj = GPOS_NEW(m_memory_pool) CMDTypeOidGPDB(m_memory_pool);
 				break;
 
 			default:
@@ -431,7 +431,7 @@ CParseHandlerMDType::EndElement
 				{
 					ulLen = (ULONG) m_iLength;
 				}
-				m_pimdobj = GPOS_NEW(m_memory_pool) CMDTypeGenericGPDB
+				m_imd_obj = GPOS_NEW(m_memory_pool) CMDTypeGenericGPDB
 										(
 										m_memory_pool,
 										m_pmdid,

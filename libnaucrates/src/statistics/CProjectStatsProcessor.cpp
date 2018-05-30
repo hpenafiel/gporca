@@ -19,7 +19,7 @@ using namespace gpopt;
 CStatistics *
 CProjectStatsProcessor::PstatsProject
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CStatistics *pstatsInput,
 	ULongPtrArray *pdrgpulProjColIds,
 	HMUlDatum *phmuldatum
@@ -30,10 +30,10 @@ CProjectStatsProcessor::PstatsProject
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	// create hash map from colid -> histogram for resultant structure
-	HMUlHist *phmulhistNew = GPOS_NEW(pmp) HMUlHist(pmp);
+	HMUlHist *phmulhistNew = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
 
 	// column ids on which widths are to be computed
-	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
+	HMUlDouble *phmuldoubleWidth = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
 
 	const ULONG ulLen = pdrgpulProjColIds->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -45,7 +45,7 @@ CProjectStatsProcessor::PstatsProject
 		{
 
 			// create histogram for the new project column
-			DrgPbucket *pdrgbucket = GPOS_NEW(pmp) DrgPbucket(pmp);
+			DrgPbucket *pdrgbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
 			CDouble dNullFreq = 0.0;
 
 			BOOL fWellDefined = false;
@@ -55,9 +55,9 @@ CProjectStatsProcessor::PstatsProject
 				if (NULL != pdatum)
 				{
 					fWellDefined = true;
-					if (!pdatum->FNull())
+					if (!pdatum->IsNull())
 					{
-						pdrgbucket->Append(CBucket::PbucketSingleton(pmp, pdatum));
+						pdrgbucket->Append(CBucket::PbucketSingleton(memory_pool, pdatum));
 					}
 					else
 					{
@@ -73,11 +73,11 @@ CProjectStatsProcessor::PstatsProject
 			if (0 == pdrgbucket->Size() && IMDType::EtiBool == pcr->Pmdtype()->Eti())
 			{
 				pdrgbucket->Release();
-			 	phistPrCol = CHistogram::PhistDefaultBoolColStats(pmp);
+			 	phistPrCol = CHistogram::PhistDefaultBoolColStats(memory_pool);
 			}
 			else
 			{
-				phistPrCol = GPOS_NEW(pmp) CHistogram
+				phistPrCol = GPOS_NEW(memory_pool) CHistogram
 										(
 										pdrgbucket,
 										fWellDefined,
@@ -87,11 +87,11 @@ CProjectStatsProcessor::PstatsProject
 										);
 			}
 
-			phmulhistNew->Insert(GPOS_NEW(pmp) ULONG(ulColId), phistPrCol);
+			phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phistPrCol);
 		}
 		else
 		{
-			phmulhistNew->Insert(GPOS_NEW(pmp) ULONG(ulColId), phist->PhistCopy(pmp));
+			phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phist->PhistCopy(memory_pool));
 		}
 
 		// look up width
@@ -102,19 +102,19 @@ CProjectStatsProcessor::PstatsProject
 			GPOS_ASSERT(NULL != pcr);
 
 			CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-			phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(dWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), GPOS_NEW(memory_pool) CDouble(dWidth));
 		}
 		else
 		{
-			phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColId), GPOS_NEW(pmp) CDouble(*pdWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), GPOS_NEW(memory_pool) CDouble(*pdWidth));
 		}
 	}
 
 	CDouble dRowsInput = pstatsInput->DRows();
 	// create an output stats object
-	CStatistics *pstatsProject = GPOS_NEW(pmp) CStatistics
+	CStatistics *pstatsProject = GPOS_NEW(memory_pool) CStatistics
 											(
-											pmp,
+											memory_pool,
 											phmulhistNew,
 											phmuldoubleWidth,
 											dRowsInput,
@@ -124,10 +124,10 @@ CProjectStatsProcessor::PstatsProject
 
 	// In the output statistics object, the upper bound source cardinality of the project column
 	// is equivalent the estimate project cardinality.
-	CStatisticsUtils::ComputeCardUpperBounds(pmp, pstatsInput, pstatsProject, dRowsInput, CStatistics::EcbmInputSourceMaxCard /* ecbm */);
+	CStatisticsUtils::ComputeCardUpperBounds(memory_pool, pstatsInput, pstatsProject, dRowsInput, CStatistics::EcbmInputSourceMaxCard /* ecbm */);
 
 	// add upper bound card information for the project columns
-	CStatistics::CreateAndInsertUpperBoundNDVs(pmp, pstatsProject, pdrgpulProjColIds, dRowsInput);
+	CStatistics::CreateAndInsertUpperBoundNDVs(memory_pool, pstatsProject, pdrgpulProjColIds, dRowsInput);
 
 	return pstatsProject;
 }

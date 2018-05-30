@@ -30,12 +30,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalConstTable::CDXLLogicalConstTable
 	(
-	IMemoryPool *pmp,		
+	IMemoryPool *memory_pool,		
 	ColumnDescrDXLArray *pdrgpdxlcd,
-	DrgPdrgPdxldatum *pdrgpdrgpdxldatum
+	DXLDatumArrays *pdrgpdrgpdxldatum
 	)
 	:
-	CDXLLogical(pmp),
+	CDXLLogical(memory_pool),
 	m_pdrgpdxlcd(pdrgpdxlcd),
 	m_pdrgpdrgpdxldatum(pdrgpdrgpdxldatum)
 {
@@ -46,7 +46,7 @@ CDXLLogicalConstTable::CDXLLogicalConstTable
 	const ULONG ulLen = pdrgpdrgpdxldatum->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		DrgPdxldatum *pdrgpdxldatum = (*pdrgpdrgpdxldatum)[ul];
+		DXLDatumArray *pdrgpdxldatum = (*pdrgpdrgpdxldatum)[ul];
 		GPOS_ASSERT(pdrgpdxldatum->Size() == pdrgpdxlcd->Size());
 	}
 #endif
@@ -167,7 +167,7 @@ CDXLLogicalConstTable::SerializeToDXL
 	{
 		// serialize a const tuple
 		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemNameConstTuple);
-		DrgPdxldatum *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulTuplePos];
+		DXLDatumArray *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulTuplePos];
 
 		const ULONG ulCols = pdrgpdxldatum->Size();
 		for (ULONG ulColPos = 0; ulColPos < ulCols; ulColPos++)

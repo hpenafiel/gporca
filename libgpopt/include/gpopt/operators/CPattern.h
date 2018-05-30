@@ -40,10 +40,10 @@ namespace gpopt
 			explicit
 			CPattern
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				)
 				: 
-				COperator(pmp)
+				COperator(memory_pool)
 			{}
 
 			// dtor
@@ -60,11 +60,11 @@ namespace gpopt
 
 			// create derived properties container
 			virtual
-			CDrvdProp *PdpCreate(IMemoryPool *pmp) const;
+			CDrvdProp *PdpCreate(IMemoryPool *memory_pool) const;
 
 			// create required properties container
 			virtual
-			CReqdProp *PrpCreate(IMemoryPool *pmp) const;
+			CReqdProp *PrpCreate(IMemoryPool *memory_pool) const;
 						
 			// match function
 			BOOL FMatch(COperator *) const;
@@ -80,7 +80,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						HMUlCr *phmulcr,
 						BOOL fMustExist
 						);

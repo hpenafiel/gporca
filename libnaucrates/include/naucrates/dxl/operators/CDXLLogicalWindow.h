@@ -39,7 +39,7 @@ namespace gpdxl
 		public:
 
 			//ctor
-			CDXLLogicalWindow(IMemoryPool *pmp, DrgPdxlws *pdrgpdxlwinspec);
+			CDXLLogicalWindow(IMemoryPool *memory_pool, DrgPdxlws *pdrgpdxlwinspec);
 
 			//dtor
 			virtual

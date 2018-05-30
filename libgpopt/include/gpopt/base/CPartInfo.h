@@ -93,11 +93,11 @@ namespace gpopt
 
 					// create a copy of the current object, and add a set of remapped
 					// part keys to this entry, using the existing keys and the given hashmap
-					CPartInfoEntry *PpartinfoentryAddRemappedKeys(IMemoryPool *pmp, CColRefSet *pcrs, HMUlCr *phmulcr);
+					CPartInfoEntry *PpartinfoentryAddRemappedKeys(IMemoryPool *memory_pool, CColRefSet *pcrs, HMUlCr *phmulcr);
 
 					// mdid of partition table
 					virtual
-					IMDId *Pmdid() const
+					IMDId *MDId() const
 					{
 						return m_pmdid;
 					}
@@ -113,7 +113,7 @@ namespace gpopt
 					IOstream &OsPrint(IOstream &os) const;
 
 					// copy part info entry into given memory pool
-					CPartInfoEntry *PpartinfoentryCopy(IMemoryPool *pmp);
+					CPartInfoEntry *PpartinfoentryCopy(IMemoryPool *memory_pool);
 
 #ifdef GPOS_DEBUG
 					// debug print for interactive debugging sessions only
@@ -138,7 +138,7 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CPartInfo(IMemoryPool *pmp);
+			CPartInfo(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual
@@ -153,7 +153,7 @@ namespace gpopt
 			// add part table consumer
 			void AddPartConsumer
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULONG ulScanId,
 				IMDId *pmdid,
 				DrgDrgPcr *pdrgpdrgpcrPart,
@@ -181,7 +181,7 @@ namespace gpopt
 			// return a new part info object with an additional set of remapped keys
 			CPartInfo *PpartinfoWithRemappedKeys
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcr *pdrgpcrSrc,
 				DrgPcr *pdrgpcrDest
 				)
@@ -194,7 +194,7 @@ namespace gpopt
 			static
 			CPartInfo *PpartinfoCombine
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CPartInfo *ppartinfoFst,
 				CPartInfo *ppartinfoSnd
 				);

@@ -243,13 +243,13 @@ CPoint::PpointMax
 CDXLDatum *
 CPoint::Pdxldatum
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda
 	)
 	const
 {
-	IMDId *pmdid = m_pdatum->Pmdid();
-	return pmda->Pmdtype(pmdid)->Pdxldatum(pmp, m_pdatum);
+	IMDId *pmdid = m_pdatum->MDId();
+	return pmda->Pmdtype(pmdid)->Pdxldatum(memory_pool, m_pdatum);
 }
 
 // EOF

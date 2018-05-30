@@ -88,11 +88,11 @@ IMDRelation::PstrStorageType
 CWStringDynamic *
 IMDRelation::PstrColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpul
 	)
 {
-	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
+	CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
 
 	ULONG ulLen = pdrgpul->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)

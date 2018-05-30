@@ -33,19 +33,19 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CCTEInfo::CCTEInfoEntry::CCTEInfoEntry
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprCTEProducer
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pexprCTEProducer(pexprCTEProducer),
 	m_phmcrulConsumers(NULL),
 	m_fUsed(true)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pexprCTEProducer);
 
-	m_phmcrulConsumers = GPOS_NEW(pmp) HMCrUl(pmp);
+	m_phmcrulConsumers = GPOS_NEW(memory_pool) HMCrUl(memory_pool);
 }
 
 
@@ -59,20 +59,20 @@ CCTEInfo::CCTEInfoEntry::CCTEInfoEntry
 //---------------------------------------------------------------------------
 CCTEInfo::CCTEInfoEntry::CCTEInfoEntry
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprCTEProducer,
 	BOOL fUsed
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pexprCTEProducer(pexprCTEProducer),
 	m_phmcrulConsumers(NULL),
 	m_fUsed(fUsed)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pexprCTEProducer);
 
-	m_phmcrulConsumers = GPOS_NEW(pmp) HMCrUl(pmp);
+	m_phmcrulConsumers = GPOS_NEW(memory_pool) HMCrUl(memory_pool);
 }
 
 
@@ -174,15 +174,15 @@ ULONG CCTEInfo::CCTEInfoEntry::UlCTEId() const
 //---------------------------------------------------------------------------
 CCTEInfo::CCTEInfo
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_phmulcteinfoentry(NULL),
 	m_ulNextCTEId(0),
 	m_fEnableInlining(true)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	m_phmulcteinfoentry = GPOS_NEW(m_memory_pool) HMUlCTEInfoEntry(m_memory_pool);
 	m_phmulprodconsmap = GPOS_NEW(m_memory_pool) HMUlProdConsMap(m_memory_pool);
 }
@@ -540,11 +540,11 @@ CCTEInfo::IncrementConsumers
 CCTEReq *
 CCTEInfo::PcterProducers
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CCTEReq *pcter = GPOS_NEW(pmp) CCTEReq(pmp);
+	CCTEReq *pcter = GPOS_NEW(memory_pool) CCTEReq(memory_pool);
 
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
 	while (hmulei.Advance())
@@ -568,11 +568,11 @@ CCTEInfo::PcterProducers
 DrgPexpr *
 CCTEInfo::PdrgPexpr
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	HMUlCTEInfoEntryIter hmulei(m_phmulcteinfoentry);
 	while (hmulei.Advance())
 	{
@@ -761,7 +761,7 @@ CCTEInfo::MarkUnusedCTEs()
 HMUlCr *
 CCTEInfo::PhmulcrConsumerToProducer
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulCTEId,
 	CColRefSet *pcrs, // set of columns to check
 	DrgPcr *pdrgpcrProducer // producer columns
@@ -770,7 +770,7 @@ CCTEInfo::PhmulcrConsumerToProducer
 	GPOS_ASSERT(NULL != pcrs);
 	GPOS_ASSERT(NULL != pdrgpcrProducer);
 
-	HMUlCr *phmulcr = GPOS_NEW(pmp) HMUlCr(pmp);
+	HMUlCr *phmulcr = GPOS_NEW(memory_pool) HMUlCr(memory_pool);
 
 	CColRefSetIter crsi(*pcrs);
 	while (crsi.Advance())
@@ -786,7 +786,7 @@ CCTEInfo::PhmulcrConsumerToProducer
 #ifdef GPOS_DEBUG
 			BOOL fSuccess =
 #endif // GPOS_DEBUG
-				phmulcr->Insert(GPOS_NEW(pmp) ULONG(pcr->UlId()), pcrProducer);
+				phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcr->UlId()), pcrProducer);
 			GPOS_ASSERT(fSuccess);
 		}
 	}

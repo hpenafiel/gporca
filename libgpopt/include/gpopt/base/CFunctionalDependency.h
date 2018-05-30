@@ -108,11 +108,11 @@ namespace gpopt
 
 			// create a set of all keys in the passed FD's array
 			static
-			CColRefSet *PcrsKeys(IMemoryPool *pmp, const DrgPfd *pdrgpfd);
+			CColRefSet *PcrsKeys(IMemoryPool *memory_pool, const DrgPfd *pdrgpfd);
 
 			// create an array of all keys in the passed FD's array
 			static
-			DrgPcr *PdrgpcrKeys(IMemoryPool *pmp, const DrgPfd *pdrgpfd);
+			DrgPcr *PdrgpcrKeys(IMemoryPool *memory_pool, const DrgPfd *pdrgpfd);
 			
 
 	}; // class CFunctionalDependency

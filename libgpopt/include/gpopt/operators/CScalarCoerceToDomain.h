@@ -48,9 +48,9 @@ namespace gpopt
 			// ctor
 			CScalarCoerceToDomain
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				INT iTypeModifier,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				INT type_modifier,
 				ECoercionForm edxlcf,
 				INT iLoc
 				);

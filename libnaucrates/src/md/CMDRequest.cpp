@@ -29,16 +29,16 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDRequest::CMDRequest
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPmdid *pdrgpmdid,
 	DrgPtr *pdrgptr
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdrgpmdid(pdrgpmdid),
 	m_pdrgptr(pdrgptr)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pdrgpmdid);
 	GPOS_ASSERT(NULL != pdrgptr);
 }
@@ -53,15 +53,15 @@ CMDRequest::CMDRequest
 //---------------------------------------------------------------------------
 CMDRequest::CMDRequest
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	SMDTypeRequest *pmdtr
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdrgpmdid(NULL),
 	m_pdrgptr(NULL)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pmdtr);
 	
 	m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);

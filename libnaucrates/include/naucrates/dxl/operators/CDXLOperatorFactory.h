@@ -841,7 +841,7 @@ namespace gpdxl
 			static
 			void SetSegmentInfo
 				(
-				CDXLMemoryManager *pmp,
+				CDXLMemoryManager *memory_pool,
 				CDXLPhysicalMotion *pdxlopMotion,
 				const Attributes &attrs,
 				Edxltoken edxltokenElement
@@ -909,9 +909,9 @@ namespace gpdxl
 		)
 	{
 		// get the memory pool from the memory manager
-		IMemoryPool *pmp = pmm->Pmp();
+		IMemoryPool *memory_pool = pmm->Pmp();
 
-		CDynamicPtrArray<T, CleanupFn> *pdrgpt = GPOS_NEW(pmp) CDynamicPtrArray<T, CleanupFn>(pmp);
+		CDynamicPtrArray<T, CleanupFn> *pdrgpt = GPOS_NEW(memory_pool) CDynamicPtrArray<T, CleanupFn>(memory_pool);
 
 		XMLStringTokenizer xmlsztok(xmlszUlList, CDXLTokens::XmlstrToken(EdxltokenComma));
 		const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -922,7 +922,7 @@ namespace gpdxl
 
 			GPOS_ASSERT(NULL != xmlszNext);
 
-			T *pt = GPOS_NEW(pmp) T(ValueFromXmlstr(pmm, xmlszNext, edxltokenAttr, edxltokenElement));
+			T *pt = GPOS_NEW(memory_pool) T(ValueFromXmlstr(pmm, xmlszNext, edxltokenAttr, edxltokenElement));
 			pdrgpt->Append(pt);
 		}
 

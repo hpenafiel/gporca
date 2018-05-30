@@ -61,7 +61,7 @@ namespace gpdxl
 			// ctor/dtor
 			CParseHandlerScalarSubPlanParam
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CParseHandlerManager *parse_handler_mgr,
 					CParseHandlerBase *pphRoot
 					);
@@ -77,7 +77,7 @@ namespace gpdxl
 			}
 
 			// return param type
-			IMDId *Pmdid(void)
+			IMDId *MDId(void)
 			const
 			{
 				return m_pdxlcr->MDIdType();

@@ -183,7 +183,7 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CCTEMap(IMemoryPool *pmp);
+			CCTEMap(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual
@@ -219,7 +219,7 @@ namespace gpopt
 			BOOL FSatisfies(const CCTEReq *pcter) const;
 
 			// return producer ids that are in this map but not in the given requirement
-			ULongPtrArray *PdrgpulAdditionalProducers(IMemoryPool *pmp, const CCTEReq *pcter) const;
+			ULongPtrArray *PdrgpulAdditionalProducers(IMemoryPool *memory_pool, const CCTEReq *pcter) const;
 
 			// print function
 			virtual
@@ -227,7 +227,7 @@ namespace gpopt
 
 			// combine the two given maps and return the resulting map
 			static
-			CCTEMap *PcmCombine(IMemoryPool *pmp, const CCTEMap &cmFirst, const CCTEMap &cmSecond);
+			CCTEMap *PcmCombine(IMemoryPool *memory_pool, const CCTEMap &cmFirst, const CCTEMap &cmSecond);
 
 	}; // class CCTEMap
 

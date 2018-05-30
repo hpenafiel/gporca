@@ -28,12 +28,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalLeftSemiHashJoin::CPhysicalLeftSemiHashJoin
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexprOuterKeys,
 	DrgPexpr *pdrgpexprInnerKeys
 	)
 	:
-	CPhysicalHashJoin(pmp, pdrgpexprOuterKeys, pdrgpexprInnerKeys)
+	CPhysicalHashJoin(memory_pool, pdrgpexprOuterKeys, pdrgpexprInnerKeys)
 {
 }
 
@@ -83,7 +83,7 @@ CPhysicalLeftSemiHashJoin::FProvidesReqdCols
 CPartitionPropagationSpec *
 CPhysicalLeftSemiHashJoin::PppsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CPartitionPropagationSpec *pppsRequired,
 	ULONG ulChildIndex,
@@ -91,7 +91,7 @@ CPhysicalLeftSemiHashJoin::PppsRequired
 	ULONG // ulOptReq
 	)
 {
-	return PppsRequiredJoinChild(pmp, exprhdl, pppsRequired, ulChildIndex, pdrgpdpCtxt, false);
+	return PppsRequiredJoinChild(memory_pool, exprhdl, pppsRequired, ulChildIndex, pdrgpdpCtxt, false);
 }
 
 // EOF

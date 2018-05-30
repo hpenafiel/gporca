@@ -45,7 +45,7 @@ namespace gpdxl
 
 			// ctor/dtor
 			explicit
-			CDXLPhysicalLimit(IMemoryPool *pmp);
+			CDXLPhysicalLimit(IMemoryPool *memory_pool);
 
 			Edxlopid Edxlop() const;
 

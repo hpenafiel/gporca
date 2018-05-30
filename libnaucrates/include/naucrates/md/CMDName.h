@@ -39,7 +39,7 @@ namespace gpmd
 		
 		public:
 			// ctor/dtor
-			CMDName(IMemoryPool *pmp, const CWStringBase *pstr);
+			CMDName(IMemoryPool *memory_pool, const CWStringBase *pstr);
 			CMDName(const CWStringConst *, BOOL fOwnsMemory = false);
 			
 			// shallow copy ctor

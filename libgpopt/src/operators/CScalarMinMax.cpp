@@ -35,21 +35,21 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarMinMax::CScalarMinMax
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
 	EScalarMinMaxType esmmt
 	)
 	:
-	CScalar(pmp),
-	m_pmdidType(pmdidType),
+	CScalar(memory_pool),
+	m_mdid_type(mdid_type),
 	m_esmmt(esmmt),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(mdid_type->IsValid());
 	GPOS_ASSERT(EsmmtSentinel > esmmt);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidType);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_mdid_type);
 }
 
 //---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ CScalarMinMax::CScalarMinMax
 //---------------------------------------------------------------------------
 CScalarMinMax::~CScalarMinMax()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -81,7 +81,7 @@ CScalarMinMax::HashValue() const
 
 	return gpos::CombineHashes
 					(
-						m_pmdidType->HashValue(),
+						m_mdid_type->HashValue(),
 						gpos::CombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulminmax))
 					);
 }
@@ -110,7 +110,7 @@ CScalarMinMax::FMatch
 
 	// match if return types are identical
 	return popScMinMax->Esmmt() == m_esmmt &&
-			popScMinMax->MDIdType()->Equals(m_pmdidType);
+			popScMinMax->MDIdType()->Equals(m_mdid_type);
 }
 
 //---------------------------------------------------------------------------

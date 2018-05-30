@@ -27,13 +27,13 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarArrayComp::CDXLScalarArrayComp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
 	const CWStringConst *pstrOpName,
 	EdxlArrayCompType edxlcomptype
 	)
 	:
-	CDXLScalarComp(pmp, pmdidOp, pstrOpName),
+	CDXLScalarComp(memory_pool, pmdidOp, pstrOpName),
 	m_edxlcomptype(edxlcomptype)
 {
 }

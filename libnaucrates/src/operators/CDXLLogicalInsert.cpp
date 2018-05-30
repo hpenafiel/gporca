@@ -30,12 +30,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalInsert::CDXLLogicalInsert
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLTableDescr *pdxltabdesc,
 	ULongPtrArray *pdrgpul
 	)
 	:
-	CDXLLogical(pmp),
+	CDXLLogical(memory_pool),
 	m_pdxltabdesc(pdxltabdesc),
 	m_pdrgpul(pdrgpul)
 {

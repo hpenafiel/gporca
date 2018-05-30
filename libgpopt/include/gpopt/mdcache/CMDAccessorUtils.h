@@ -59,7 +59,7 @@ namespace gpopt
 
 			// return True if passed mdid is for BOOL type
 			static
-			BOOL FBoolType(CMDAccessor *pmda, IMDId *pmdidType);
+			BOOL FBoolType(CMDAccessor *pmda, IMDId *mdid_type);
 
 
 	};

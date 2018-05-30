@@ -50,18 +50,18 @@ namespace gpopt
 			CPhysicalHashJoin(const CPhysicalHashJoin &);
 
 			// create the set of redistribute requests to send to first hash join child
-			void CreateHashRedistributeRequests(IMemoryPool *pmp);
+			void CreateHashRedistributeRequests(IMemoryPool *memory_pool);
 
 			// compute a distribution matching the distribution delivered by given child
-			CDistributionSpec *PdsMatch(IMemoryPool *pmp, CDistributionSpec *pds, ULONG ulSourceChildIndex) const;
+			CDistributionSpec *PdsMatch(IMemoryPool *memory_pool, CDistributionSpec *pds, ULONG ulSourceChildIndex) const;
 
 			// compute required hashed distribution from the n-th child
-			CDistributionSpecHashed *PdshashedRequired(IMemoryPool *pmp, ULONG ulChildIndex, ULONG ulReqIndex) const;
+			CDistributionSpecHashed *PdshashedRequired(IMemoryPool *memory_pool, ULONG ulChildIndex, ULONG ulReqIndex) const;
 
 			// create (redistribute, redistribute) optimization request
 			CDistributionSpec *PdsRequiredRedistribute
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CDistributionSpec *pdsInput,
 				ULONG  ulChildIndex,
@@ -73,7 +73,7 @@ namespace gpopt
 			// create (non-singleton, replicate) optimization request
 			CDistributionSpec *PdsRequiredReplicate
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CDistributionSpec *pdsInput,
 				ULONG  ulChildIndex,
@@ -85,7 +85,7 @@ namespace gpopt
 			// create (singleton, singleton) optimization request
 			CDistributionSpec *PdsRequiredSingleton
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CDistributionSpec *pdsInput,
 				ULONG  ulChildIndex,
@@ -97,7 +97,7 @@ namespace gpopt
 			// return NULL if no such request can be created
 			CDistributionSpecHashed *PdshashedPassThru
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle  &exprhdl,
 				CDistributionSpecHashed *pdshashedInput,
 				ULONG  ulChildIndex,
@@ -112,7 +112,7 @@ namespace gpopt
 		protected:
 			
 			// helper for computing a hashed distribution matching the given distribution
-                        CDistributionSpecHashed *PdshashedMatching(IMemoryPool *pmp, CDistributionSpecHashed *pdshashed, ULONG ulSourceChild) const;
+                        CDistributionSpecHashed *PdshashedMatching(IMemoryPool *memory_pool, CDistributionSpecHashed *pdshashed, ULONG ulSourceChild) const;
 
 			// check whether the hash keys from one child are nullable
 			BOOL FNullableHashKeys(CColRefSet *pcrsNotNullInner, BOOL fInner) const;
@@ -122,7 +122,7 @@ namespace gpopt
 			// ctor
 			CPhysicalHashJoin
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPexpr *pdrgpexprOuterKeys,
 				DrgPexpr *pdrgpexprInnerKeys
 				);
@@ -151,7 +151,7 @@ namespace gpopt
 			virtual
 			COrderSpec *PosRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				COrderSpec *posInput,
 				ULONG ulChildIndex,
@@ -164,7 +164,7 @@ namespace gpopt
 			virtual
 			CRewindabilitySpec *PrsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CRewindabilitySpec *prsRequired,
 				ULONG ulChildIndex,
@@ -177,7 +177,7 @@ namespace gpopt
 			virtual
 			CDistributionSpec *PdsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CDistributionSpec *pdsRequired,
 				ULONG ulChildIndex,
@@ -194,13 +194,13 @@ namespace gpopt
 			virtual
 			COrderSpec *PosDerive
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle & // exprhdl
 				)
 				const
 			{
 				// hash join is not order-preserving
-				return GPOS_NEW(pmp) COrderSpec(pmp);
+				return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 			}
 
 			//-------------------------------------------------------------------------------------

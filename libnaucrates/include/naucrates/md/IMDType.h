@@ -92,7 +92,7 @@ namespace gpmd
 			
 			// md id of cache object
 			virtual 
-			IMDId *Pmdid() const = 0;
+			IMDId *MDId() const = 0;
 			
 			// id of specified specified comparison operator type
 			virtual 
@@ -128,7 +128,7 @@ namespace gpmd
 
 			// construct a datum from a DXL datum
 			virtual 
-			IDatum* Pdatum(IMemoryPool *pmp, const CDXLDatum *pdxldatum) const = 0;
+			IDatum* Pdatum(IMemoryPool *memory_pool, const CDXLDatum *pdxldatum) const = 0;
 
 			// is type fixed length
 			virtual
@@ -148,7 +148,7 @@ namespace gpmd
 
 			// is type passed by value
 			virtual
-			BOOL FByValue() const = 0;
+			BOOL IsPassedByValue() const = 0;
 
 			// return the null constant for this type
 			virtual
@@ -156,15 +156,15 @@ namespace gpmd
 
 			// generate the DXL scalar constant from IDatum
 			virtual
-			CDXLScalarConstValue* PdxlopScConst(IMemoryPool *pmp, IDatum *pdatum) const = 0;
+			CDXLScalarConstValue* PdxlopScConst(IMemoryPool *memory_pool, IDatum *pdatum) const = 0;
 
 			// generate the DXL datum from IDatum
 			virtual
-			CDXLDatum* Pdxldatum(IMemoryPool *pmp, IDatum *pdatum) const = 0;
+			CDXLDatum* Pdxldatum(IMemoryPool *memory_pool, IDatum *pdatum) const = 0;
 
 			// generate the DXL datum representing null value
 			virtual
-			CDXLDatum* PdxldatumNull(IMemoryPool *pmp) const = 0;
+			CDXLDatum* PdxldatumNull(IMemoryPool *memory_pool) const = 0;
 			
 			// is type an ambiguous one? e.g., AnyElement in GPDB
 			virtual

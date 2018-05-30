@@ -34,14 +34,14 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CBitSet::CBitSetLink::CBitSetLink
 	(
-	IMemoryPool *pmp, 
+	IMemoryPool *memory_pool, 
 	ULONG offset, 
 	ULONG vector_size
 	)
 	: 
 	m_offset(offset)
 {
-	m_vec = GPOS_NEW(pmp) CBitVector(pmp, vector_size);
+	m_vec = GPOS_NEW(memory_pool) CBitVector(memory_pool, vector_size);
 }
 
 
@@ -55,13 +55,13 @@ CBitSet::CBitSetLink::CBitSetLink
 //---------------------------------------------------------------------------
 CBitSet::CBitSetLink::CBitSetLink
 	(
-	IMemoryPool *pmp, 
+	IMemoryPool *memory_pool, 
 	const CBitSetLink &bsl
 	)
 	: 
 	m_offset(bsl.m_offset)
 {
-	m_vec = GPOS_NEW(pmp) CBitVector(pmp, *bsl.GetVec());
+	m_vec = GPOS_NEW(memory_pool) CBitVector(memory_pool, *bsl.GetVec());
 }
 
 
@@ -212,11 +212,11 @@ CBitSet::ComputeOffset
 //---------------------------------------------------------------------------
 CBitSet::CBitSet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG vector_size
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_vector_size(vector_size),
 	m_size(0)
 {
@@ -234,11 +234,11 @@ CBitSet::CBitSet
 //---------------------------------------------------------------------------
 CBitSet::CBitSet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CBitSet &bs
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_vector_size(bs.m_vector_size),
 	m_size(0)
 {

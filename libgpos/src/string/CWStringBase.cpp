@@ -28,10 +28,10 @@ const WCHAR CWStringBase::m_empty_wcstr = GPOS_WSZ_LIT('\0');
 //---------------------------------------------------------------------------
 CWStringConst *CWStringBase::Copy
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	) const
 {
-	return GPOS_NEW(pmp) CWStringConst(pmp, GetBuffer());
+	return GPOS_NEW(memory_pool) CWStringConst(memory_pool, GetBuffer());
 }
 
 //---------------------------------------------------------------------------

@@ -65,7 +65,7 @@ namespace gpopt
 			static
 			CExpression *PexprLeftAntiSemiJoinWithInnerGroupBy
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcr *pdrgpcrOuter,
 				DrgPcr *pdrgpcrOuterCopy,
 				CColRefSet *pcrsScalar,
@@ -80,7 +80,7 @@ namespace gpopt
 			static
 			CExpression *PexprProjectOverLeftAntiSemiJoin
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcr *pdrgpcrOuter,
 				CColRefSet *pcrsScalar,
 				CColRefSet *pcrsInner,
@@ -93,7 +93,7 @@ namespace gpopt
 		public:
 			// ctor
 			explicit
-			CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin(IMemoryPool *pmp);
+			CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual

@@ -39,10 +39,10 @@ const WCHAR CLogicalDML::m_rgwszDml[EdmlSentinel][10] =
 //---------------------------------------------------------------------------
 CLogicalDML::CLogicalDML
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_ptabdesc(NULL),
 	m_pdrgpcrSource(NULL),
 	m_pbsModified(NULL),
@@ -65,7 +65,7 @@ CLogicalDML::CLogicalDML
 //---------------------------------------------------------------------------
 CLogicalDML::CLogicalDML
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EDMLOperator edmlop,
 	CTableDescriptor *ptabdesc,
 	DrgPcr *pdrgpcrSource,
@@ -77,7 +77,7 @@ CLogicalDML::CLogicalDML
 	CColRef *pcrTupleOid
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_edmlop(edmlop),
 	m_ptabdesc(ptabdesc),
 	m_pdrgpcrSource(pdrgpcrSource),
@@ -162,7 +162,7 @@ CLogicalDML::FMatch
 			m_pcrCtid == popDML->PcrCtid() &&
 			m_pcrSegmentId == popDML->PcrSegmentId() &&
 			m_pcrTupleOid == popDML->PcrTupleOid() &&
-			m_ptabdesc->Pmdid()->Equals(popDML->Ptabdesc()->Pmdid()) &&
+			m_ptabdesc->MDId()->Equals(popDML->Ptabdesc()->MDId()) &&
 			m_pdrgpcrSource->Equals(popDML->PdrgpcrSource());
 }
 
@@ -177,7 +177,7 @@ CLogicalDML::FMatch
 ULONG
 CLogicalDML::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->MDId()->HashValue());
 	ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrAction));
 	ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(m_pcrTableOid));
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrSource));
@@ -202,12 +202,12 @@ CLogicalDML::HashValue() const
 COperator *
 CLogicalDML::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
-	DrgPcr *pdrgpcr = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrSource, phmulcr, fMustExist);
+	DrgPcr *pdrgpcr = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrSource, phmulcr, fMustExist);
 	CColRef *pcrAction = CUtils::PcrRemap(m_pcrAction, phmulcr, fMustExist);
 	CColRef *pcrTableOid = CUtils::PcrRemap(m_pcrTableOid, phmulcr, fMustExist);
 	
@@ -235,7 +235,7 @@ CLogicalDML::PopCopyWithRemappedColumns
 	
 	m_ptabdesc->AddRef();
 
-	return GPOS_NEW(pmp) CLogicalDML(pmp, m_edmlop, m_ptabdesc, pdrgpcr, m_pbsModified, pcrAction, pcrTableOid, pcrCtid, pcrSegmentId, pcrTupleOid);
+	return GPOS_NEW(memory_pool) CLogicalDML(memory_pool, m_edmlop, m_ptabdesc, pdrgpcr, m_pbsModified, pcrAction, pcrTableOid, pcrCtid, pcrSegmentId, pcrTupleOid);
 }
 
 //---------------------------------------------------------------------------
@@ -249,11 +249,11 @@ CLogicalDML::PopCopyWithRemappedColumns
 CColRefSet *
 CLogicalDML::PcrsDeriveOutput
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle & //exprhdl
 	)
 {
-	CColRefSet *pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	pcrsOutput->Include(m_pdrgpcrSource);
 	if (NULL != m_pcrCtid)
 	{
@@ -283,14 +283,14 @@ CLogicalDML::PcrsDeriveOutput
 CPropConstraint *
 CLogicalDML::PpcDeriveConstraint
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
 {
-	CColRefSet *pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	pcrsOutput->Include(m_pdrgpcrSource);
-	CPropConstraint *ppc = PpcDeriveConstraintRestrict(pmp, exprhdl, pcrsOutput);
+	CPropConstraint *ppc = PpcDeriveConstraintRestrict(memory_pool, exprhdl, pcrsOutput);
 	pcrsOutput->Release();
 
 	return ppc;
@@ -307,7 +307,7 @@ CLogicalDML::PpcDeriveConstraint
 CKeyCollection *
 CLogicalDML::PkcDeriveKeys
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -326,7 +326,7 @@ CLogicalDML::PkcDeriveKeys
 CMaxCard
 CLogicalDML::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -346,11 +346,11 @@ CLogicalDML::Maxcard
 CXformSet *
 CLogicalDML::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementDML);
 	return pxfs;
 }
@@ -366,7 +366,7 @@ CLogicalDML::PxfsCandidates
 IStatistics *
 CLogicalDML::PstatsDerive
 	(
-	IMemoryPool *, // pmp,
+	IMemoryPool *, // memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat * // not used
 	)

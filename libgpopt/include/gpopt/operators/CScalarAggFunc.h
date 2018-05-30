@@ -76,7 +76,7 @@ namespace gpopt
 			// ctor
 			CScalarAggFunc
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidAggFunc,
 				IMDId *pmdidResolvedRetType,
 				const CWStringConst *pstrAggFunc,
@@ -127,7 +127,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)
@@ -153,7 +153,7 @@ namespace gpopt
 			const CWStringConst *PstrAggFunc() const;
 
 			// aggregate func id
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// ident accessors
 			BOOL FDistinct() const

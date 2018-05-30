@@ -60,13 +60,13 @@ GPOS_RESULT
 CAutoTaskProxyTest::EresUnittest_Wait()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgPtsk[2];
 		ULLONG rgRes[2];
 
@@ -103,13 +103,13 @@ GPOS_RESULT
 CAutoTaskProxyTest::EresUnittest_WaitAny()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgPtsk[3];
 		ULLONG rgRes[3];
 
@@ -170,13 +170,13 @@ GPOS_RESULT
 CAutoTaskProxyTest::EresUnittest_TimedWait()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgPtsk[2];
 		ULLONG rgRes[2];
 
@@ -238,13 +238,13 @@ GPOS_RESULT
 CAutoTaskProxyTest::EresUnittest_TimedWaitAny()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgPtsk[3];
 		ULLONG rgRes[3];
 
@@ -336,13 +336,13 @@ CAutoTaskProxyTest::EresUnittest_Destroy()
 	const ULONG culTskCnt = 90;
 
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgPtsk[culTskCnt];
 		ULLONG rgRes[culTskCnt];
 
@@ -475,13 +475,13 @@ CAutoTaskProxyTest::Unittest_PropagateErrorInternal
 	)
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		const ULONG ulTaskSize = EwtSentinel - 1;
 		CTask *rgPtsk[ulTaskSize];
 		ULLONG rgRes[ulTaskSize];
@@ -578,14 +578,14 @@ GPOS_RESULT
 CAutoTaskProxyTest::EresUnittest_ExecuteError()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// Create new thread so worker for this new
 	// thread is available to run the task ("CAutoTaskProxyTest::PvUnittest_Error")
 	// from Unittest_CheckExecuteErrorInternal
 	STestThreadDescriptor st;
 	st.ulId = GPOS_THREAD_MAX + 1;
-	st.m_memory_pool = pmp;
+	st.m_memory_pool = memory_pool;
 	st.fException = false;
 	st.fPropagateException = true;
 
@@ -632,13 +632,13 @@ GPOS_RESULT
 CAutoTaskProxyTest::EresUnittest_CheckErrorPropagation()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 
 		CTask* ptsk = NULL;
 

@@ -71,10 +71,10 @@ namespace gpopt
 
 		public:
 			explicit
-			CScalarFunc(IMemoryPool *pmp);
+			CScalarFunc(IMemoryPool *memory_pool);
 
 			// ctor
-			CScalarFunc(IMemoryPool *pmp, IMDId *pmdidFunc, IMDId *pmdidRetType, INT iRetTypeModifier, const CWStringConst *pstrFunc);
+			CScalarFunc(IMemoryPool *memory_pool, IMDId *pmdidFunc, IMDId *pmdidRetType, INT iRetTypeModifier, const CWStringConst *pstrFunc);
 
 			// dtor
 			virtual 
@@ -110,7 +110,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)
@@ -122,12 +122,12 @@ namespace gpopt
 			virtual
 			CFunctionProp *PfpDerive
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl
 				)
 				const
 			{
-				return PfpDeriveFromChildren(pmp, exprhdl, m_efs, m_efda, false /*fHasVolatileFunctionScan*/, false /*fScan*/);
+				return PfpDeriveFromChildren(memory_pool, exprhdl, m_efs, m_efda, false /*fHasVolatileFunctionScan*/, false /*fScan*/);
 			}
 
 			// derive non-scalar function existence

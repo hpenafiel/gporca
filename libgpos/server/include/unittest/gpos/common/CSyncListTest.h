@@ -87,9 +87,9 @@ namespace gpos
 			static void *RunPop(void *pv);
 
 			// task management functions
-			static void ConcurrentPush(IMemoryPool *pmp, SArg *parg);
-			static void ConcurrentPushPop(IMemoryPool *pmp, SArg *parg);
-			static void ConcurrentPop(IMemoryPool *pmp, SArg *parg);
+			static void ConcurrentPush(IMemoryPool *memory_pool, SArg *parg);
+			static void ConcurrentPushPop(IMemoryPool *memory_pool, SArg *parg);
+			static void ConcurrentPop(IMemoryPool *memory_pool, SArg *parg);
 			static void RunTasks(CAutoTaskProxy *patp, CTask **rgptsk, ULONG ulTasks);
 
 		public:

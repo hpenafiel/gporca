@@ -32,17 +32,17 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLDatumStatsDoubleMappable::CDXLDatumStatsDoubleMappable
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
-	INT iTypeModifier,
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
+	INT type_modifier,
 	BOOL fByVal,
-	BOOL fNull,
+	BOOL is_null,
 	BYTE *pba,
-	ULONG ulLength,
+	ULONG length,
 	CDouble dValue
 	)
 	:
-	CDXLDatumGeneric(pmp, pmdidType, iTypeModifier, fByVal, fNull, pba, ulLength),
+	CDXLDatumGeneric(memory_pool, mdid_type, type_modifier, fByVal, is_null, pba, length),
 	m_dValue(dValue)
 {
 }
@@ -60,14 +60,14 @@ CDXLDatumStatsDoubleMappable::Serialize
 	CXMLSerializer *xml_serializer
 	)
 {
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	if (IDefaultTypeModifier != TypeModifier())
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_is_null);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_fByVal);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_fNull, Pba(), Length());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_is_null, Pba(), Length());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDoubleValue), DStatsMapping());
 }
 

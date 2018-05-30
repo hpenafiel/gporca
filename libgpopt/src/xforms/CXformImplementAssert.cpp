@@ -27,18 +27,18 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformImplementAssert::CXformImplementAssert
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	// pattern
 	CXformImplementation
 		(
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 						(
-						pmp, 
-						GPOS_NEW(pmp) CLogicalAssert(pmp),
-						GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)), // relational child
-						GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp))	// predicate
+						memory_pool, 
+						GPOS_NEW(memory_pool) CLogicalAssert(memory_pool),
+						GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)), // relational child
+						GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool))	// predicate
 						)
 		)
 {}
@@ -89,7 +89,7 @@ CXformImplementAssert::Transform
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// extract components
 	CLogicalAssert *popAssert = CLogicalAssert::PopConvert(pexpr->Pop());
@@ -103,16 +103,16 @@ CXformImplementAssert::Transform
 	
 	// assemble physical operator
 	CPhysicalAssert *popPhysicalAssert = 
-			GPOS_NEW(pmp) CPhysicalAssert
+			GPOS_NEW(memory_pool) CPhysicalAssert
 						(
-						pmp, 
-						GPOS_NEW(pmp) CException(pexc->Major(), pexc->Minor(), pexc->Filename(), pexc->Line())
+						memory_pool, 
+						GPOS_NEW(memory_pool) CException(pexc->Major(), pexc->Minor(), pexc->Filename(), pexc->Line())
 						);
 	
 	CExpression *pexprAssert = 
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 					(
-					pmp, 
+					memory_pool, 
 					popPhysicalAssert,
 					pexprRelational,
 					pexprScalar

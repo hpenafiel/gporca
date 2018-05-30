@@ -39,7 +39,7 @@ class CDatumInt2GPDB : public IDatumInt2
 		SINT m_sVal;
 
 		// is null
-		BOOL m_fNull;
+		BOOL m_is_null;
 
 		// private copy ctor
 		CDatumInt2GPDB(const CDatumInt2GPDB &);
@@ -47,8 +47,8 @@ class CDatumInt2GPDB : public IDatumInt2
 	public:
 
 		// ctors
-		CDatumInt2GPDB(CSystemId sysid, SINT sVal, BOOL fNull = false);
-		CDatumInt2GPDB(IMDId *pmdid, SINT sVal, BOOL fNull = false);
+		CDatumInt2GPDB(CSystemId sysid, SINT sVal, BOOL is_null = false);
+		CDatumInt2GPDB(IMDId *pmdid, SINT sVal, BOOL is_null = false);
 
 		// dtor
 		virtual
@@ -56,7 +56,7 @@ class CDatumInt2GPDB : public IDatumInt2
 
 		// accessor of metadata type id
 		virtual
-		IMDId *Pmdid() const;
+		IMDId *MDId() const;
 
 		// accessor of size
 		virtual
@@ -68,11 +68,11 @@ class CDatumInt2GPDB : public IDatumInt2
 
 		// accessor of is null
 		virtual
-		BOOL FNull() const;
+		BOOL IsNull() const;
 
 		// return string representation
 		virtual
-		const CWStringConst *Pstr(IMemoryPool *pmp) const;
+		const CWStringConst *Pstr(IMemoryPool *memory_pool) const;
 
 		// hash function
 		virtual
@@ -84,7 +84,7 @@ class CDatumInt2GPDB : public IDatumInt2
 
 		// copy datum
 		virtual
-		IDatum *PdatumCopy(IMemoryPool *pmp) const;
+		IDatum *PdatumCopy(IMemoryPool *memory_pool) const;
 		
 		// print function
 		virtual

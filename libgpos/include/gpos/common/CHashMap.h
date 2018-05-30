@@ -185,14 +185,14 @@ namespace gpos
 		public:
 		
 			// ctor
-			CHashMap<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> (IMemoryPool *pmp, ULONG num_chains = 128)
+			CHashMap<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn> (IMemoryPool *memory_pool, ULONG num_chains = 128)
             :
-            m_memory_pool(pmp),
+            m_memory_pool(memory_pool),
             m_num_chains(num_chains),
             m_size(0),
             m_chains(GPOS_NEW_ARRAY(m_memory_pool, HashElemChain*, m_num_chains)),
             m_keys(GPOS_NEW(m_memory_pool) Keys(m_memory_pool)),
-            m_filled_chains(GPOS_NEW(pmp) IntPtrArray(pmp))
+            m_filled_chains(GPOS_NEW(memory_pool) IntPtrArray(memory_pool))
             {
                 GPOS_ASSERT(m_num_chains > 0);
                 (void) clib::MemSet(m_chains, 0, m_num_chains * sizeof(HashElemChain*));

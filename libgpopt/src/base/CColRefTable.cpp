@@ -57,7 +57,7 @@ CColRefTable::CColRefTable
 CColRefTable::CColRefTable
 	(
 	const IMDType *pmdtype,
-	INT iTypeModifier,
+	INT type_modifier,
 	INT iAttno,
 	BOOL fNullable,
 	ULONG ulId,
@@ -66,7 +66,7 @@ CColRefTable::CColRefTable
 	ULONG ulWidth
 	)
 	:
-	CColRef(pmdtype, iTypeModifier, ulId, pname),
+	CColRef(pmdtype, type_modifier, ulId, pname),
 	m_iAttno(iAttno),
 	m_fNullable(fNullable),
 	m_ulSourceOpId(ulOpSource),

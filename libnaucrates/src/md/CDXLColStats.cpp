@@ -34,7 +34,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CDXLColStats::CDXLColStats
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDIdColStats *pmdidColStats,
 	CMDName *pmdname,
 	CDouble dWidth,
@@ -45,7 +45,7 @@ CDXLColStats::CDXLColStats
 	BOOL fColStatsMissing
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdidColStats(pmdidColStats),
 	m_pmdname(pmdname),
 	m_dWidth(dWidth),
@@ -78,14 +78,14 @@ CDXLColStats::~CDXLColStats()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLColStats::Pmdid
+//		CDXLColStats::MDId
 //
 //	@doc:
 //		Returns the metadata id of this column stats object
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLColStats::Pmdid() const
+CDXLColStats::MDId() const
 {
 	return m_pmdidColStats;
 }
@@ -211,7 +211,7 @@ CDXLColStats::DebugPrint
 	const
 {
 	os << "Column id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 	
 	os << "Column name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
@@ -236,7 +236,7 @@ CDXLColStats::DebugPrint
 CDXLColStats *
 CDXLColStats::PdxlcolstatsDummy
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	CDouble dWidth
@@ -245,11 +245,11 @@ CDXLColStats::PdxlcolstatsDummy
 	CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(pmdid);
 
 	CAutoRef<DrgPdxlbucket> a_pdrgpdxlbucket;
-	a_pdrgpdxlbucket = GPOS_NEW(pmp) DrgPdxlbucket(pmp);
+	a_pdrgpdxlbucket = GPOS_NEW(memory_pool) DrgPdxlbucket(memory_pool);
 	CAutoRef<CDXLColStats> a_pdxlcolstats;
-	a_pdxlcolstats = GPOS_NEW(pmp) CDXLColStats
+	a_pdxlcolstats = GPOS_NEW(memory_pool) CDXLColStats
 					(
-					pmp,
+					memory_pool,
 					pmdidColStats,
 					pmdname,
 					dWidth,

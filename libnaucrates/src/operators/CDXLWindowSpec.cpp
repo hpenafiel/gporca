@@ -34,14 +34,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLWindowSpec::CDXLWindowSpec
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulPartCol,
 	CMDName *pmdname,
 	CDXLNode *pdxlnSortColList,
 	CDXLWindowFrame *pdxlwf
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdrgpulPartCol(pdrgpulPartCol),
 	m_pmdname(pmdname),
 	m_pdxlnSortColList(pdxlnSortColList),

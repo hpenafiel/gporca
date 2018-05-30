@@ -43,7 +43,7 @@ namespace gpdxl
 
 		private:
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// min/max type
 			EdxlMinMaxType m_emmt;
@@ -54,7 +54,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarMinMax(IMemoryPool *pmp, IMDId *pmdidType, EdxlMinMaxType emmt);
+			CDXLScalarMinMax(IMemoryPool *memory_pool, IMDId *mdid_type, EdxlMinMaxType emmt);
 
 			//dtor
 			virtual
@@ -68,7 +68,7 @@ namespace gpdxl
 			virtual
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// DXL Operator ID

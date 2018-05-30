@@ -47,15 +47,15 @@ namespace gpdxl
 			IMemoryPool *m_memory_pool;
 			
 			// mdid of the datum's type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
-			const INT m_iTypeModifier;
+			const INT m_type_modifier;
 
 			// is the datum NULL
-			BOOL m_fNull;
+			BOOL m_is_null;
 	
 			// length
-			const ULONG m_ulLength;
+			const ULONG m_length;
 			
 		public:
 
@@ -75,25 +75,25 @@ namespace gpdxl
 			// ctor
 			CDXLDatum
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				INT iTypeModifier,
-				BOOL fNull,
-				ULONG ulLength
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				INT type_modifier,
+				BOOL is_null,
+				ULONG length
 				);
 
 			// dtor
 			virtual
 			~CDXLDatum()
 			{
-				m_pmdidType->Release();
+				m_mdid_type->Release();
 			}
 
 			// mdid type of the datum
 			virtual
-			IMDId *Pmdid() const
+			IMDId *MDId() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			INT
@@ -101,7 +101,7 @@ namespace gpdxl
 
 			// is datum NULL
 			virtual
-			BOOL FNull() const;
+			BOOL IsNull() const;
 
 			// byte array length
 			virtual
@@ -109,11 +109,11 @@ namespace gpdxl
 
 			// serialize the datum as the given element
 			virtual
-			void Serialize(CXMLSerializer *xml_serializer, const CWStringConst *pstrElem);
+			void Serialize(CXMLSerializer *xml_serializer, const CWStringConst *datum_string);
 
 			// is type passed by value
 			virtual
-			BOOL FByValue() const = 0;
+			BOOL IsPassedByValue() const = 0;
 
 			// serialize the datum as the given element
 			virtual
@@ -121,14 +121,14 @@ namespace gpdxl
 
 			// ident accessors
 			virtual
-			EdxldatumType Edxldt() const = 0;
+			EdxldatumType GetDatumType() const = 0;
 	};
 
 	// array of datums
-	typedef CDynamicPtrArray<CDXLDatum, CleanupRelease> DrgPdxldatum;
+	typedef CDynamicPtrArray<CDXLDatum, CleanupRelease> DXLDatumArray;
 
 	// dynamic array of datum arrays -- array owns elements
-	typedef CDynamicPtrArray<DrgPdxldatum, CleanupRelease> DrgPdrgPdxldatum;
+	typedef CDynamicPtrArray<DXLDatumArray, CleanupRelease> DXLDatumArrays;
 }
 
 #endif // !GPDXL_CDXLDatum_H

@@ -36,7 +36,7 @@ namespace gpopt
 			IMDId *m_pmdidOp;
 
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// does operator return NULL on NULL input?
 			BOOL m_fReturnsNullOnNullInput;
@@ -50,7 +50,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CScalarNullIf(IMemoryPool *pmp, IMDId *pmdidOp, IMDId *pmdidType);
+			CScalarNullIf(IMemoryPool *memory_pool, IMDId *pmdidOp, IMDId *mdid_type);
 
 			// dtor
 			virtual
@@ -74,7 +74,7 @@ namespace gpopt
 			virtual
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// return a string for operator name
@@ -103,7 +103,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

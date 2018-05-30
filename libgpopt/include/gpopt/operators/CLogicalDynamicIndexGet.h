@@ -54,11 +54,11 @@ namespace gpopt
 
 			// ctors
 			explicit
-			CLogicalDynamicIndexGet(IMemoryPool *pmp);
+			CLogicalDynamicIndexGet(IMemoryPool *memory_pool);
 
 			CLogicalDynamicIndexGet
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const IMDIndex *pmdindex,
 				CTableDescriptor *ptabdesc,
 				ULONG ulOriginOpId,
@@ -133,7 +133,7 @@ namespace gpopt
 
 			// derive outer references
 			virtual
-			CColRefSet *PcrsDeriveOuter(IMemoryPool *pmp, CExpressionHandle &exprhdl);
+			CColRefSet *PcrsDeriveOuter(IMemoryPool *memory_pool, CExpressionHandle &exprhdl);
 			
 			// sensitivity to order of inputs
 			virtual
@@ -141,7 +141,7 @@ namespace gpopt
 
 			// return a copy of the operator with remapped columns
 			virtual
-			COperator *PopCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COperator *PopCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			//-------------------------------------------------------------------------------------
 			// Required Relational Properties
@@ -151,7 +151,7 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsStat
 				(
-				IMemoryPool *, //pmp
+				IMemoryPool *, //memory_pool
 				CExpressionHandle &, // exprhdl
 				CColRefSet *, //pcrsInput
 				ULONG // ulChildIndex
@@ -166,7 +166,7 @@ namespace gpopt
 			virtual
 			IStatistics *PstatsDerive
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				DrgPstat *pdrgpstatCtxt
 				)
@@ -185,7 +185,7 @@ namespace gpopt
 
 			// candidate set of xforms
 			virtual
-			CXformSet *PxfsCandidates(IMemoryPool *pmp) const;
+			CXformSet *PxfsCandidates(IMemoryPool *memory_pool) const;
 
 			//-------------------------------------------------------------------------------------
 			// conversion function

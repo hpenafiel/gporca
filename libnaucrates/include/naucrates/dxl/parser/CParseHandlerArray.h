@@ -60,7 +60,7 @@ namespace gpdxl
 		public:
 			
 			// ctor
-			CParseHandlerArray(IMemoryPool *pmp, CParseHandlerManager *parse_handler_mgr, CParseHandlerBase *pph);						
+			CParseHandlerArray(IMemoryPool *memory_pool, CParseHandlerManager *parse_handler_mgr, CParseHandlerBase *pph);						
 	};
 }
 

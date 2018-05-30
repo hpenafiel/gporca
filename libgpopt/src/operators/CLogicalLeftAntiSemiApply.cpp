@@ -31,7 +31,7 @@ using namespace gpopt;
 CKeyCollection *
 CLogicalLeftAntiSemiApply::PkcDeriveKeys
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -51,7 +51,7 @@ CLogicalLeftAntiSemiApply::PkcDeriveKeys
 CMaxCard
 CLogicalLeftAntiSemiApply::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -72,11 +72,11 @@ CLogicalLeftAntiSemiApply::Maxcard
 CXformSet *
 CLogicalLeftAntiSemiApply::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
 	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiApply2LeftAntiSemiJoin);
 	(void) pxfs->ExchangeSet(CXform::ExfLeftAntiSemiApply2LeftAntiSemiJoinNoCorrelations);
@@ -95,14 +95,14 @@ CLogicalLeftAntiSemiApply::PxfsCandidates
 COperator *
 CLogicalLeftAntiSemiApply::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
-	DrgPcr *pdrgpcrInner = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrInner, phmulcr, fMustExist);
+	DrgPcr *pdrgpcrInner = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrInner, phmulcr, fMustExist);
 
-	return GPOS_NEW(pmp) CLogicalLeftAntiSemiApply(pmp, pdrgpcrInner, m_eopidOriginSubq);
+	return GPOS_NEW(memory_pool) CLogicalLeftAntiSemiApply(memory_pool, pdrgpcrInner, m_eopidOriginSubq);
 }
 
 // EOF

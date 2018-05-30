@@ -68,7 +68,7 @@ namespace gpopt
 			// construct a comparison expression from the given components and evaluate it
 			BOOL FEvalComparison
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const IDatum *pdatum1,
 				const IDatum *pdatum2,
 				IMDType::ECmpType ecmpt

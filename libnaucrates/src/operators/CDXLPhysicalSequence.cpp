@@ -28,10 +28,10 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalSequence::CDXLPhysicalSequence
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CDXLPhysical(pmp)
+	CDXLPhysical(memory_pool)
 {
 }
 

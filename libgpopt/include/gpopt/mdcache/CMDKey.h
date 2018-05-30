@@ -50,7 +50,7 @@ namespace gpopt
 			{}
 
 			
-			const IMDId *Pmdid() const
+			const IMDId *MDId() const
 			{
 				return m_pmdid;
 			}

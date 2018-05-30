@@ -53,16 +53,16 @@ CXMLSerializerTest::EresUnittest()
 CWStringDynamic *
 CXMLSerializerTest::Pstr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	BOOL indentation
 	)
 {
-	CWStringDynamic *pstr = GPOS_NEW(pmp) CWStringDynamic(pmp);
+	CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
 	
 	// create a string stream to hold the result of serialization
 	COstreamString oss(pstr);
 	
-	CXMLSerializer xml_serializer(pmp, oss, indentation);
+	CXMLSerializer xml_serializer(memory_pool, oss, indentation);
 	
 	xml_serializer.StartDocument();
 	
@@ -88,10 +88,10 @@ GPOS_RESULT
 CXMLSerializerTest::EresUnittest_Basic()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
 	// test XML serializer with indentation
-	CWStringDynamic *pstrIndented = Pstr(pmp, true /* indentation */);
+	CWStringDynamic *pstrIndented = Pstr(memory_pool, true /* indentation */);
 	
 	CWStringConst strExpectedIndented(GPOS_WSZ_LIT("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dxl:Plan>\n  <Subplan/>\n</dxl:Plan>\n"));
 	
@@ -103,7 +103,7 @@ CXMLSerializerTest::EresUnittest_Basic()
 	}
 	
 	// test XML serializer without indentation
-	CWStringDynamic *pstrNotIndented = Pstr(pmp, false /* indentation */);
+	CWStringDynamic *pstrNotIndented = Pstr(memory_pool, false /* indentation */);
 	
 	CWStringConst strExpectedNotIndented(GPOS_WSZ_LIT("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dxl:Plan><Subplan/></dxl:Plan>"));
 	
@@ -136,7 +136,7 @@ GPOS_RESULT
 CXMLSerializerTest::EresUnittest_Base64()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	const ULONG ulraSize=5;
 	ULONG rgulRandArr[ulraSize];
@@ -147,11 +147,11 @@ CXMLSerializerTest::EresUnittest_Base64()
 		rgulRandArr[i] = cr.Next();
 	}
 	
-	CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(pmp, (BYTE *) rgulRandArr, sizeof(rgulRandArr));
+	CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(memory_pool, (BYTE *) rgulRandArr, sizeof(rgulRandArr));
 
 	ULONG len;
 	
-	ULONG *pulRandArrCopy = (ULONG *) CDXLUtils::DecodeByteArrayFromString(pmp, pstr, &len);
+	ULONG *pulRandArrCopy = (ULONG *) CDXLUtils::DecodeByteArrayFromString(memory_pool, pstr, &len);
 	
 	GPOS_ASSERT(len == sizeof(rgulRandArr));
 
@@ -167,7 +167,7 @@ CXMLSerializerTest::EresUnittest_Base64()
 	GPOS_DELETE_ARRAY(pulRandArrCopy);
 
 	INT i = 1000;
-	pstr = CDXLUtils::EncodeByteArrayToString(pmp, (BYTE *) &i, sizeof(i));
+	pstr = CDXLUtils::EncodeByteArrayToString(memory_pool, (BYTE *) &i, sizeof(i));
 	
 	gpos::oswcout << "Base64 encoding of " << i << " is " << pstr->GetBuffer() << std::endl;
 	

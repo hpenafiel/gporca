@@ -62,7 +62,7 @@ namespace gpopt
 			// ctor
 			CScalarBitmapBoolOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				EBitmapBoolOp ebitmapboolop,
 				IMDId *pmdidBitmapType
 				);
@@ -118,7 +118,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

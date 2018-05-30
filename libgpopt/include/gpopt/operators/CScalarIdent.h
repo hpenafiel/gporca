@@ -45,11 +45,11 @@ namespace gpopt
 			// ctor
 			CScalarIdent
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CColRef *pcr
 				)
 				: 
-				CScalar(pmp),
+				CScalar(memory_pool),
 				m_pcr(pcr)
 			{}
 
@@ -88,19 +88,19 @@ namespace gpopt
 				
 			// return a copy of the operator with remapped columns
 			virtual
-			COperator *PopCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COperator *PopCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 
 			// return locally used columns
 			virtual
 			CColRefSet *PcrsUsed
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle & // exprhdl
 
 				)
 			{
-				CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+				CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 				pcrs->Include(m_pcr);
 
 				return pcrs;

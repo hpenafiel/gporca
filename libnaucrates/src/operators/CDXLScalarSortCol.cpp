@@ -29,14 +29,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarSortCol::CDXLScalarSortCol
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulColId,
 	IMDId *pmdidSortOp,
 	CWStringConst *pstrSortOpName,
 	BOOL fSortNullsFirst
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_ulColId(ulColId),
 	m_pmdidSortOp(pmdidSortOp),
 	m_pstrSortOpName(pstrSortOpName),

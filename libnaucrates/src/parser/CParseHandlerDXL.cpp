@@ -44,11 +44,11 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerDXL::CParseHandlerDXL
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr
 	)
 	:
-	CParseHandlerBase(pmp, parse_handler_mgr, NULL),
+	CParseHandlerBase(memory_pool, parse_handler_mgr, NULL),
 	m_pbs(NULL),
 	m_poconf(NULL),
 	m_pmdr(NULL),

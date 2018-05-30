@@ -34,15 +34,15 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerTraceFlags::CParseHandlerTraceFlags
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
 	m_pbs(NULL)
 {
-	m_pbs = GPOS_NEW(pmp) CBitSet(pmp, EopttraceSentinel);
+	m_pbs = GPOS_NEW(memory_pool) CBitSet(memory_pool, EopttraceSentinel);
 }
 
 //---------------------------------------------------------------------------

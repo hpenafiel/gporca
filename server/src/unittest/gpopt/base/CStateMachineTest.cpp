@@ -111,9 +111,9 @@ GPOS_RESULT
 CStateMachineTest::EresUnittest_Basics()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CTestMachine *ptm = GPOS_NEW(pmp) CTestMachine;
+	CTestMachine *ptm = GPOS_NEW(memory_pool) CTestMachine;
 	CRandom rand;
 	EEvents rgev[] = { eeOne, eeTwo, eeThree };
 #ifdef GPOS_DEBUG
@@ -141,16 +141,16 @@ CStateMachineTest::EresUnittest_Basics()
 	}
 
 #ifdef GPOS_DEBUG
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 	(void) ptm->Psm()->OsHistory(oss);
 
 	// dumping state graph
-	(void) ptm->Psm()->OsDiagramToGraphviz(pmp, oss, GPOS_WSZ_LIT("CTestMachine"));
+	(void) ptm->Psm()->OsDiagramToGraphviz(memory_pool, oss, GPOS_WSZ_LIT("CTestMachine"));
 	
 	GPOS_TRACE(str.GetBuffer());
 
-	GPOS_ASSERT(!ptm->Psm()->FReachable(pmp));
+	GPOS_ASSERT(!ptm->Psm()->FReachable(memory_pool));
 #endif // GPOS_DEBUG
 	GPOS_DELETE(ptm);
 	

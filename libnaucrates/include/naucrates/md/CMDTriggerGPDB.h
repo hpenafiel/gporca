@@ -68,7 +68,7 @@ namespace gpmd
 			// ctor
 			CMDTriggerGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				IMDId *pmdidRel,
@@ -89,7 +89,7 @@ namespace gpmd
 
 			// trigger id
 			virtual
-			IMDId *Pmdid() const
+			IMDId *MDId() const
 			{
 				return m_pmdid;
 			}

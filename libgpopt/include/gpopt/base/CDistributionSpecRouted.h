@@ -72,11 +72,11 @@ namespace gpopt
 
 			// return a copy of the distribution spec with remapped columns
 			virtual
-			CDistributionSpec *PdsCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			CDistributionSpec *PdsCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			// append enforcers to dynamic array for the given plan properties
 			virtual
-			void AppendEnforcers(IMemoryPool *pmp, CExpressionHandle &exprhdl, CReqdPropPlan *prpp, DrgPexpr *pdrgpexpr, CExpression *pexpr);
+			void AppendEnforcers(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, CReqdPropPlan *prpp, DrgPexpr *pdrgpexpr, CExpression *pexpr);
 
 			// hash function for routed distribution spec
 			virtual
@@ -84,7 +84,7 @@ namespace gpopt
 			
 			// extract columns used by the distribution spec
 			virtual
-			CColRefSet *PcrsUsed(IMemoryPool *pmp) const;
+			CColRefSet *PcrsUsed(IMemoryPool *memory_pool) const;
 
 			// return distribution partitioning type
 			virtual

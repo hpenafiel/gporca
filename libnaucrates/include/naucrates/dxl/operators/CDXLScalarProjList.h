@@ -37,7 +37,7 @@ namespace gpdxl
 		public:
 			// ctor/dtor
 			explicit
-			CDXLScalarProjList(IMemoryPool *pmp);
+			CDXLScalarProjList(IMemoryPool *memory_pool);
 			
 			virtual
 			~CDXLScalarProjList(){};

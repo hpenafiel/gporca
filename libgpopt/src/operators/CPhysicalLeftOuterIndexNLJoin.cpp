@@ -20,11 +20,11 @@ using namespace gpopt;
 
 CPhysicalLeftOuterIndexNLJoin::CPhysicalLeftOuterIndexNLJoin
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcr
 	)
 	:
-	CPhysicalLeftOuterNLJoin(pmp),
+	CPhysicalLeftOuterNLJoin(memory_pool),
 	m_pdrgpcrOuterRefs(pdrgpcr)
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
@@ -56,7 +56,7 @@ CPhysicalLeftOuterIndexNLJoin::FMatch
 CDistributionSpec *
 CPhysicalLeftOuterIndexNLJoin::PdsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &,//exprhdl,
 	CDistributionSpec *,//pdsRequired,
 	ULONG ulChildIndex,
@@ -72,7 +72,7 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 		// inner (index-scan side) is requested for Any distribution,
 		// we allow outer references on the inner child of the join since it needs
 		// to refer to columns in join's outer child
-		return GPOS_NEW(pmp) CDistributionSpecAny(this->Eopid(), true /*fAllowOuterRefs*/);
+		return GPOS_NEW(memory_pool) CDistributionSpecAny(this->Eopid(), true /*fAllowOuterRefs*/);
 	}
 
 	// we need to match distribution of inner
@@ -83,7 +83,7 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 		CDistributionSpec::EdtUniversal == edtInner)
 	{
 		// enforce executing on the master
-		return GPOS_NEW(pmp) CDistributionSpecSingleton(CDistributionSpecSingleton::EstMaster);
+		return GPOS_NEW(memory_pool) CDistributionSpecSingleton(CDistributionSpecSingleton::EstMaster);
 	}
 
 	if (CDistributionSpec::EdtHashed == edtInner)
@@ -95,7 +95,7 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 		{
 			// request hashed distribution from outer
 			pdshashedEquiv->Pdrgpexpr()->AddRef();
-			return GPOS_NEW(pmp) CDistributionSpecHashed(pdshashedEquiv->Pdrgpexpr(), pdshashedEquiv->FNullsColocated());
+			return GPOS_NEW(memory_pool) CDistributionSpecHashed(pdshashedEquiv->Pdrgpexpr(), pdshashedEquiv->FNullsColocated());
 		}
 	}
 
@@ -103,7 +103,7 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 	GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsupportedOp,
 			GPOS_WSZ_LIT("Left outer index nestloop join broadcasting outer side"));
 	// otherwise, require outer child to be replicated
-	return GPOS_NEW(pmp) CDistributionSpecReplicated();
+	return GPOS_NEW(memory_pool) CDistributionSpecReplicated();
 }
 
 

@@ -46,7 +46,7 @@ namespace gpmd
 			~CMDIndexInfo();
 
 			// index mdid
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 
 			// is the index partial
 			BOOL FPartial() const;

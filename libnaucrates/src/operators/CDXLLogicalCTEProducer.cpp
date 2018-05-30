@@ -31,12 +31,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalCTEProducer::CDXLLogicalCTEProducer
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulId,
 	ULongPtrArray *pdrgpulColIds
 	)
 	:
-	CDXLLogical(pmp),
+	CDXLLogical(memory_pool),
 	m_ulId(ulId),
 	m_pdrgpulColIds(pdrgpulColIds)
 {

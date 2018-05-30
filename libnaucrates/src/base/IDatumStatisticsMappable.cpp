@@ -42,13 +42,13 @@ IDatumStatisticsMappable::FStatsEqual
 
 	GPOS_ASSERT(fDoubleComparison || fLintComparison || fBinaryComparison);
 
-	if (this->FNull())
+	if (this->IsNull())
 	{
 		// nulls are equal from stats point of view
-		return pdatumsm->FNull();
+		return pdatumsm->IsNull();
 	}
 
-	if (pdatumsm->FNull())
+	if (pdatumsm->IsNull())
 	{
 		return false;
 	}
@@ -100,13 +100,13 @@ IDatumStatisticsMappable::FStatsLessThan
 
 	GPOS_ASSERT(fDoubleComparison || fLintComparison || fBinaryComparison);
 
-	if (this->FNull())
+	if (this->IsNull())
 	{
 		// nulls are less than everything else except nulls
-		return !(pdatumsm->FNull());
+		return !(pdatumsm->IsNull());
 	}
 
-	if (pdatumsm->FNull())
+	if (pdatumsm->IsNull())
 	{
 		return false;
 	}
@@ -158,13 +158,13 @@ IDatumStatisticsMappable::DStatsDistance
 
 	GPOS_ASSERT(fDoubleComparison || fLintComparison || fBinaryComparison);
 
-	if (this->FNull())
+	if (this->IsNull())
 	{
 		// nulls are equal from stats point of view
-		return pdatumsm->FNull();
+		return pdatumsm->IsNull();
 	}
 
-	if (pdatumsm->FNull())
+	if (pdatumsm->IsNull())
 	{
 		return false;
 	}
@@ -204,7 +204,7 @@ IDatumStatisticsMappable::DStatsDistance
 CDouble
 IDatumStatisticsMappable::DMappingVal() const
 {
-	if (FNull())
+	if (IsNull())
 	{
 		return CDouble(0.0);
 	}

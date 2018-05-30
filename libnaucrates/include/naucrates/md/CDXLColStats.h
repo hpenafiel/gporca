@@ -80,7 +80,7 @@ namespace gpmd
 			// ctor
 			CDXLColStats
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDIdColStats *pmdidColStats,
 				CMDName *pmdname,
 				CDouble dWidth,
@@ -97,7 +97,7 @@ namespace gpmd
 			
 			// the metadata id
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// relation name
 			virtual 
@@ -159,7 +159,7 @@ namespace gpmd
 
 			// dummy colstats
 			static
-			CDXLColStats *PdxlcolstatsDummy(IMemoryPool *pmp, IMDId *pmdid, CMDName *pmdname, CDouble dWidth);
+			CDXLColStats *PdxlcolstatsDummy(IMemoryPool *memory_pool, IMDId *pmdid, CMDName *pmdname, CDouble dWidth);
 
 	};
 

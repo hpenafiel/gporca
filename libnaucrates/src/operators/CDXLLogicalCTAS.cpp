@@ -31,7 +31,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalCTAS::CDXLLogicalCTAS
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdnameSchema, 
 	CMDName *pmdnameRel, 
@@ -46,7 +46,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	IntPtrArray *pdrgpiVarTypeMod
 	)
 	:
-	CDXLLogical(pmp), 
+	CDXLLogical(memory_pool), 
 	m_pmdid(pmdid),
 	m_pmdnameSchema(pmdnameSchema),
 	m_pmdnameRel(pmdnameRel),

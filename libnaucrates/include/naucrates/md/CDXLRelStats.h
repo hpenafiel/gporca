@@ -69,7 +69,7 @@ namespace gpmd
 			
 			CDXLRelStats
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDIdRelStats *pmdidRelStats,
 				CMDName *pmdname,
 				CDouble dRows,
@@ -81,7 +81,7 @@ namespace gpmd
 			
 			// the metadata id
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// relation name
 			virtual 
@@ -116,7 +116,7 @@ namespace gpmd
 			static
 			CDXLRelStats *PdxlrelstatsDummy
 								(
-								IMemoryPool *pmp,
+								IMemoryPool *memory_pool,
 								IMDId *pmdid
 								);
 	};

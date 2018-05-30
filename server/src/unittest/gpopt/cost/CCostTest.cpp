@@ -68,7 +68,7 @@ GPOS_RESULT
 CCostTest::EresUnittest_Arithmetic()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CCost cost1(2.5);
 	CCost cost2(3.0);
@@ -86,7 +86,7 @@ CCostTest::EresUnittest_Arithmetic()
 	GPOS_ASSERT(costMultiply > cost5);
 	GPOS_ASSERT(costMultiply < cost6);
 
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 	IOstream &os(at.Os());
 
 	os << "Arithmetic operations: " << std::endl
@@ -109,7 +109,7 @@ GPOS_RESULT
 CCostTest::EresUnittest_Bool()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CCost cost1(2.5);
 	CCost cost2(3.5);
@@ -117,7 +117,7 @@ CCostTest::EresUnittest_Bool()
 	GPOS_ASSERT(cost1 < cost2);
 	GPOS_ASSERT(cost2 > cost1);
 
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 	IOstream &os(at.Os());
 
 	os << "Boolean operations: " << std::endl
@@ -138,11 +138,11 @@ CCostTest::EresUnittest_Bool()
 void
 CCostTest::TestParams
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	BOOL fCalibrated
 	)
 {
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 	IOstream &os(at.Os());
 
 	ICostModelParams *pcp =  NULL;
@@ -234,37 +234,37 @@ GPOS_RESULT
 CCostTest::EresUnittest_Params()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 						(
-						pmp,
+						memory_pool,
 						&mda,
 						NULL, /* pceeval */
-						CTestUtils::Pcm(pmp)
+						CTestUtils::Pcm(memory_pool)
 						);
 
-		TestParams(pmp, false /*fCalibrated*/);
+		TestParams(memory_pool, false /*fCalibrated*/);
 	}
 
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 						(
-						pmp,
+						memory_pool,
 						&mda,
 						NULL, /* pceeval */
-						GPOS_NEW(pmp) CCostModelGPDB(pmp, GPOPT_TEST_SEGMENTS)
+						GPOS_NEW(memory_pool) CCostModelGPDB(memory_pool, GPOPT_TEST_SEGMENTS)
 						);
 
-		TestParams(pmp, true /*fCalibrated*/);
+		TestParams(memory_pool, true /*fCalibrated*/);
 	}
 
 	return GPOS_OK;
@@ -283,12 +283,12 @@ GPOS_RESULT
 CCostTest::EresUnittest_Parsing()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
-	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(pmp,"../data/dxl/cost/cost0.xml", NULL);
+	IMemoryPool *memory_pool = amp.Pmp();
+	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(memory_pool,"../data/dxl/cost/cost0.xml", NULL);
 	ICostModelParams *pcp = pphDXL->Pcp();
 
 	{
-		CAutoTrace at(pmp);
+		CAutoTrace at(memory_pool);
 		at.Os() << " Parsed cost params: " << std::endl;
 		pcp->OsPrint(at.Os());
 	}
@@ -311,8 +311,8 @@ CCostTest::EresUnittest_ParsingWithException()
 {
 
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
-	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(pmp,"../data/dxl/cost/wrong-cost.xml", NULL);
+	IMemoryPool *memory_pool = amp.Pmp();
+	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(memory_pool,"../data/dxl/cost/wrong-cost.xml", NULL);
 	GPOS_DELETE(pphDXL);
 
 	return GPOS_OK;
@@ -331,33 +331,33 @@ GPOS_RESULT
 CCostTest::EresUnittest_SetParams()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	ICostModel *pcm = GPOS_NEW(pmp) CCostModelGPDB(pmp, GPOPT_TEST_SEGMENTS);
+	ICostModel *pcm = GPOS_NEW(memory_pool) CCostModelGPDB(memory_pool, GPOPT_TEST_SEGMENTS);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, NULL, /* pceeval */ pcm);
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL, /* pceeval */ pcm);
 
 	// generate in-equality join expression
-	CExpression *pexprOuter = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprOuter = CTestUtils::PexprLogicalGet(memory_pool);
 	const CColRef *pcrOuter = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput()->PcrAny();
-	CExpression *pexprInner = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprInner = CTestUtils::PexprLogicalGet(memory_pool);
 	const CColRef *pcrInner = CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->PcrsOutput()->PcrAny();
-	CExpression *pexprPred = CUtils::PexprScalarCmp(pmp, pcrOuter, pcrInner, IMDType::EcmptNEq);
-	CExpression *pexpr = CUtils::PexprLogicalJoin<CLogicalInnerJoin>(pmp, pexprOuter, pexprInner, pexprPred);
+	CExpression *pexprPred = CUtils::PexprScalarCmp(memory_pool, pcrOuter, pcrInner, IMDType::EcmptNEq);
+	CExpression *pexpr = CUtils::PexprLogicalJoin<CLogicalInnerJoin>(memory_pool, pexprOuter, pexprInner, pexprPred);
 
 	// optimize in-equality join based on default cost model params
 	CExpression *pexprPlan1 = NULL;
 	{
-		CEngine eng(pmp);
+		CEngine eng(memory_pool);
 
 		// generate query context
-		CQueryContext *pqc = CTestUtils::PqcGenerate(pmp, pexpr);
+		CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 		// Initialize engine
 		eng.Init(pqc, NULL /*pdrgpss*/);
@@ -381,10 +381,10 @@ CCostTest::EresUnittest_SetParams()
 	// optimize again after updating NLJ cost factor
 	CExpression *pexprPlan2 = NULL;
 	{
-		CEngine eng(pmp);
+		CEngine eng(memory_pool);
 
 		// generate query context
-		CQueryContext *pqc = CTestUtils::PqcGenerate(pmp, pexpr);
+		CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 		// Initialize engine
 		eng.Init(pqc, NULL /*pdrgpss*/);
@@ -400,7 +400,7 @@ CCostTest::EresUnittest_SetParams()
 	}
 
 	{
-		CAutoTrace at(pmp);
+		CAutoTrace at(memory_pool);
 		at.Os() << "\nPLAN1: \n" << *pexprPlan1;
 		at.Os() << "\nNLJ Cost1: " << (*pexprPlan1)[0]->Cost();
 		at.Os() << "\n\nPLAN2: \n" << *pexprPlan2;

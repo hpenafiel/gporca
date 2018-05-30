@@ -26,13 +26,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CCTEMap::CCTEMap
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_phmcm(NULL)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 
 	m_phmcm = GPOS_NEW(m_memory_pool) HMCteMap(m_memory_pool);
 }
@@ -296,12 +296,12 @@ CCTEMap::Ect
 CCTEMap *
 CCTEMap::PcmCombine
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CCTEMap &cmFirst,
 	const CCTEMap &cmSecond
 	)
 {
-	CCTEMap *pcmResult = GPOS_NEW(pmp) CCTEMap(pmp);
+	CCTEMap *pcmResult = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
 
 	// add entries from first map that are not resolvable based on second map
 	AddUnresolved(cmFirst, cmSecond, pcmResult);
@@ -370,13 +370,13 @@ CCTEMap::FSatisfies
 ULongPtrArray *
 CCTEMap::PdrgpulAdditionalProducers
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CCTEReq *pcter
 	)
 	const
 {
 	GPOS_ASSERT(NULL != pcter);
-	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 
 	HMCteMapIter hmcmi(m_phmcm);
 	while (hmcmi.Advance())
@@ -387,7 +387,7 @@ CCTEMap::PdrgpulAdditionalProducers
 
 		if (CCTEMap::EctProducer == ect && !pcter->FContainsRequirement(ulId, ect))
 		{
-			pdrgpul->Append(GPOS_NEW(pmp) ULONG(ulId));
+			pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(ulId));
 		}
 	}
 

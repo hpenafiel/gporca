@@ -38,12 +38,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CJoinOrderMinCard::CJoinOrderMinCard
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexprComponents,
 	DrgPexpr *pdrgpexprConjuncts
 	)
 	:
-	CJoinOrder(pmp, pdrgpexprComponents, pdrgpexprConjuncts),
+	CJoinOrder(memory_pool, pdrgpexprComponents, pdrgpexprConjuncts),
 	m_pcompResult(NULL)
 {
 #ifdef GPOS_DEBUG
@@ -188,7 +188,7 @@ CJoinOrderMinCard::MarkUsedEdges()
 void
 CJoinOrderMinCard::DeriveStats
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	SComponent *pcomp
 	)
 {
@@ -202,9 +202,9 @@ CJoinOrderMinCard::DeriveStats
 		return;
 	}
 
-	CExpressionHandle exprhdl(pmp);
+	CExpressionHandle exprhdl(memory_pool);
 	exprhdl.Attach(pexpr);
-	exprhdl.DeriveStats(pmp, pmp, NULL /*prprel*/, NULL /*pdrgpstatCtxt*/);
+	exprhdl.DeriveStats(memory_pool, memory_pool, NULL /*prprel*/, NULL /*pdrgpstatCtxt*/);
 }
 
 

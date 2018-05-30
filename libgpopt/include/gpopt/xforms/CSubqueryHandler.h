@@ -147,13 +147,13 @@ namespace gpopt
 
 			// helper for adding nullness check, only if needed, to the given scalar expression
 			static
-			CExpression *PexprIsNotNull(IMemoryPool *pmp, CExpression *pexprOuter, CExpression *pexprLogical, CExpression *pexprScalar);
+			CExpression *PexprIsNotNull(IMemoryPool *memory_pool, CExpression *pexprOuter, CExpression *pexprLogical, CExpression *pexprScalar);
 
 			// helper for adding a Project node with a const TRUE on top of the given expression
 			static
 			void AddProjectNode
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexpr,
 				CExpression *pexprSubquery,
 				CExpression **ppexprResult
@@ -163,7 +163,7 @@ namespace gpopt
 			static
 			CExpression *PexprInnerSelect
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CColRef *pcrInner,
 				CExpression *pexprInner,
 				CExpression *pexprPredicate
@@ -173,7 +173,7 @@ namespace gpopt
 			static
 			BOOL FCreateOuterApplyForScalarSubquery
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprInner,
 				CExpression *pexprSubquery,
@@ -186,7 +186,7 @@ namespace gpopt
 			static
 			BOOL FCreateGrpCols
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprInner,
 				BOOL fExistential,
@@ -199,7 +199,7 @@ namespace gpopt
 			static
 			BOOL FCreateOuterApplyForExistOrQuant
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprInner,
 				CExpression *pexprSubquery,
@@ -212,7 +212,7 @@ namespace gpopt
 			static
 			BOOL FCreateOuterApply
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprInner,
 				CExpression *pexprSubquery,
@@ -223,13 +223,13 @@ namespace gpopt
 
 			// helper for creating a scalar if expression used when generating an outer apply
 			static
-			CExpression *PexprScalarIf(IMemoryPool *pmp, CColRef *pcrBool, CColRef *pcrSum, CColRef *pcrCount, CExpression *pexprSubquery);
+			CExpression *PexprScalarIf(IMemoryPool *memory_pool, CColRef *pcrBool, CColRef *pcrSum, CColRef *pcrCount, CExpression *pexprSubquery);
 
 			// helper for creating a correlated apply expression for existential subquery
 			static
 			BOOL FCreateCorrelatedApplyForExistentialSubquery
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprSubquery,
 				BOOL fDisjunction,
@@ -242,7 +242,7 @@ namespace gpopt
 			static
 			BOOL FCreateCorrelatedApplyForQuantifiedSubquery
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprSubquery,
 				BOOL fDisjunction,
@@ -255,7 +255,7 @@ namespace gpopt
 			static
 			BOOL FCreateCorrelatedApplyForExistOrQuant
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprSubquery,
 				BOOL fDisjunctionOrNegation,
@@ -266,7 +266,7 @@ namespace gpopt
 
 			// create subquery descriptor
 			static
-			SSubqueryDesc *Psd(IMemoryPool *pmp, CExpression *pexprSubquery, CExpression *pexprOuter, BOOL fDisjunctionOrNegation, ESubqueryCtxt esqctxt);
+			SSubqueryDesc *Psd(IMemoryPool *memory_pool, CExpression *pexprSubquery, CExpression *pexprOuter, BOOL fDisjunctionOrNegation, ESubqueryCtxt esqctxt);
 
 			// detect subqueries with expressions over count aggregate similar to
 			// (SELECT 'abc' || (SELECT count(*) from X))
@@ -277,7 +277,7 @@ namespace gpopt
 			static
 			CExpression *PexprReplace
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexpr,
 				CColRef *pcr,
 				CExpression *pexprSubquery
@@ -300,7 +300,7 @@ namespace gpopt
 			static
 			BOOL FGenerateCorrelatedApplyForScalarSubquery
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprSubquery,
 				BOOL fDisjunctionOrNegation,
@@ -315,7 +315,7 @@ namespace gpopt
 			static
 			BOOL FRemoveScalarSubqueryInternal
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprSubquery,
 				BOOL fDisjunctionOrNegation,
@@ -356,7 +356,7 @@ namespace gpopt
 			static
 			BOOL FRemoveExistentialSubquery
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				COperator::EOperatorId eopid,
 				CExpression *pexprOuter,
 				CExpression *pexprSubquery,
@@ -423,7 +423,7 @@ namespace gpopt
 			static
 			void AssertValidArguments
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprOuter,
 				CExpression *pexprScalar,
 				CExpression **ppexprNewOuter,
@@ -436,11 +436,11 @@ namespace gpopt
 			// ctor
 			CSubqueryHandler
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				BOOL fEnforceCorrelatedApply
 				)
 				:
-				m_memory_pool(pmp),
+				m_memory_pool(memory_pool),
 				m_fEnforceCorrelatedApply(fEnforceCorrelatedApply)
 			{}
 

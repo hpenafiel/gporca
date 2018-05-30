@@ -54,7 +54,7 @@ namespace gpopt
 			// ctors
 			CPhysicalIndexScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CIndexDescriptor *pindexdesc,
 				CTableDescriptor *ptabdesc,
 				ULONG ulOriginOpId,
@@ -122,7 +122,7 @@ namespace gpopt
 			virtual
 			COrderSpec *PosDerive
 							(
-							IMemoryPool *,//pmp
+							IMemoryPool *,//memory_pool
 							CExpressionHandle &//exprhdl
 							)
 							const
@@ -135,13 +135,13 @@ namespace gpopt
 			virtual
 			CPartIndexMap *PpimDerive
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &, // exprhdl
 				CDrvdPropCtxt * //pdpctxt
 				)
 				const
 			{
-				return GPOS_NEW(pmp) CPartIndexMap(pmp);
+				return GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
 			}
 			
 			//-------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ namespace gpopt
 			virtual
 			IStatistics *PstatsDerive
 				(
-				IMemoryPool *, // pmp
+				IMemoryPool *, // memory_pool
 				CExpressionHandle &, // exprhdl
 				CReqdPropPlan *, // prpplan
 				DrgPstat * //pdrgpstatCtxt

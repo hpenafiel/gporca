@@ -47,7 +47,7 @@ namespace gpopt
 		private:
 
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// min/max type
 			EScalarMinMaxType m_esmmt;
@@ -61,7 +61,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CScalarMinMax(IMemoryPool *pmp, IMDId *pmdidType, EScalarMinMaxType esmmt);
+			CScalarMinMax(IMemoryPool *memory_pool, IMDId *mdid_type, EScalarMinMaxType esmmt);
 
 			// dtor
 			virtual
@@ -85,7 +85,7 @@ namespace gpopt
 			virtual
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// min/max type
@@ -113,7 +113,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

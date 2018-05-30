@@ -66,20 +66,20 @@ CDatumTest::EresUnittest_Basics()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL, /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	typedef IDatum *(*Pfpdatum)(IMemoryPool*, BOOL);
@@ -103,17 +103,17 @@ CDatumTest::EresUnittest_Basics()
 	{
 		for (ULONG ul2 = 0; ul2 < ulOptions; ul2++)
 		{
-			CAutoTrace at(pmp);
+			CAutoTrace at(memory_pool);
 			IOstream &os(at.Os());
 			
 			// generate datum
-			BOOL fNull = rgf[ul2];
-			IDatum *pdatum = rgpf[ul1](pmp, fNull);
-			IDatum *pdatumCopy = pdatum->PdatumCopy(pmp);
+			BOOL is_null = rgf[ul2];
+			IDatum *pdatum = rgpf[ul1](memory_pool, is_null);
+			IDatum *pdatumCopy = pdatum->PdatumCopy(memory_pool);
 			
 			GPOS_ASSERT(pdatum->FMatch(pdatumCopy));
 			
-			const CWStringConst *pstrDatum = pdatum->Pstr(pmp);
+			const CWStringConst *pstrDatum = pdatum->Pstr(memory_pool);
 			
 	#ifdef GPOS_DEBUG
 			os << std::endl;
@@ -160,11 +160,11 @@ CDatumTest::EresUnittest_Basics()
 IDatum *
 CDatumTest::PdatumOid
 	(
-	IMemoryPool *pmp,
-	BOOL fNull
+	IMemoryPool *memory_pool,
+	BOOL is_null
 	)
 {
-	return GPOS_NEW(pmp) CDatumOidGPDB(CTestUtils::m_sysidDefault, 1 /*oVal*/, fNull);
+	return GPOS_NEW(memory_pool) CDatumOidGPDB(CTestUtils::m_sysidDefault, 1 /*oVal*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -178,11 +178,11 @@ CDatumTest::PdatumOid
 IDatum *
 CDatumTest::PdatumInt2
 	(
-	IMemoryPool *pmp,
-	BOOL fNull
+	IMemoryPool *memory_pool,
+	BOOL is_null
 	)
 {
-	return GPOS_NEW(pmp) CDatumInt2GPDB(CTestUtils::m_sysidDefault, 1 /*sVal*/, fNull);
+	return GPOS_NEW(memory_pool) CDatumInt2GPDB(CTestUtils::m_sysidDefault, 1 /*sVal*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -196,11 +196,11 @@ CDatumTest::PdatumInt2
 IDatum *
 CDatumTest::PdatumInt4
 	(
-	IMemoryPool *pmp,
-	BOOL fNull
+	IMemoryPool *memory_pool,
+	BOOL is_null
 	)
 {
-	return GPOS_NEW(pmp) CDatumInt4GPDB(CTestUtils::m_sysidDefault, 1 /*iVal*/, fNull);
+	return GPOS_NEW(memory_pool) CDatumInt4GPDB(CTestUtils::m_sysidDefault, 1 /*iVal*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -214,11 +214,11 @@ CDatumTest::PdatumInt4
 IDatum *
 CDatumTest::PdatumInt8
 	(
-	IMemoryPool *pmp,
-	BOOL fNull
+	IMemoryPool *memory_pool,
+	BOOL is_null
 	)
 {
-	return GPOS_NEW(pmp) CDatumInt8GPDB(CTestUtils::m_sysidDefault, 1 /*lVal*/, fNull);
+	return GPOS_NEW(memory_pool) CDatumInt8GPDB(CTestUtils::m_sysidDefault, 1 /*lVal*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -232,11 +232,11 @@ CDatumTest::PdatumInt8
 IDatum *
 CDatumTest::PdatumBool
 	(
-	IMemoryPool *pmp,
-	BOOL fNull
+	IMemoryPool *memory_pool,
+	BOOL is_null
 	)
 {
-	return GPOS_NEW(pmp) CDatumBoolGPDB(CTestUtils::m_sysidDefault, false /*fVal*/, fNull);
+	return GPOS_NEW(memory_pool) CDatumBoolGPDB(CTestUtils::m_sysidDefault, false /*fVal*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -250,21 +250,21 @@ CDatumTest::PdatumBool
 IDatum *
 CDatumTest::PdatumGeneric
 	(
-	IMemoryPool *pmp,
-	BOOL fNull
+	IMemoryPool *memory_pool,
+	BOOL is_null
 	)
 {
-	CMDIdGPDB *pmdidChar = GPOS_NEW(pmp) CMDIdGPDB(GPDB_CHAR);
+	CMDIdGPDB *pmdidChar = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_CHAR);
 
 	const CHAR *val = "test";
-	return GPOS_NEW(pmp) CDatumGenericGPDB
+	return GPOS_NEW(memory_pool) CDatumGenericGPDB
 							(
-							pmp,
+							memory_pool,
 							pmdidChar,
 							IDefaultTypeModifier,
 							val,
-							5 /*ulLength*/,
-							fNull,
+							5 /*length*/,
+							is_null,
 							0 /*lValue*/,
 							0/*dValue*/
 							);

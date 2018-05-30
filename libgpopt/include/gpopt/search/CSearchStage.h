@@ -143,7 +143,7 @@ namespace gpopt
 
 			// generate default search strategy
 			static
-			DrgPss *PdrgpssDefault(IMemoryPool *pmp);
+			DrgPss *PdrgpssDefault(IMemoryPool *memory_pool);
 
 	};
 

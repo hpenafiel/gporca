@@ -56,7 +56,7 @@ namespace gpopt
 			// ctor
 			CScalarCast
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidReturnType,
 				IMDId *pmdidFunc,
 				BOOL fBinaryCoercible
@@ -114,7 +114,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

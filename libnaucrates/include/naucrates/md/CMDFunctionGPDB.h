@@ -89,7 +89,7 @@ namespace gpmd
 			// ctor/dtor
 			CMDFunctionGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				IMDId *pmdidTypeResult,
@@ -112,7 +112,7 @@ namespace gpmd
 			
 			// function id
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// function name
 			virtual 

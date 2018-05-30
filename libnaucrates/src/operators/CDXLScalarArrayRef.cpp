@@ -28,16 +28,16 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarArrayRef::CDXLScalarArrayRef
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidElem,
-	INT iTypeModifier,
+	INT type_modifier,
 	IMDId *pmdidArray,
 	IMDId *pmdidReturn
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdidElem(pmdidElem),
-	m_iTypeModifier(iTypeModifier),
+	m_type_modifier(type_modifier),
 	m_pmdidArray(pmdidArray),
 	m_pmdidReturn(pmdidReturn)
 {
@@ -93,7 +93,7 @@ CDXLScalarArrayRef::PstrOpName() const
 INT
 CDXLScalarArrayRef::TypeModifier() const
 {
-	return m_iTypeModifier;
+	return m_type_modifier;
 }
 
 //---------------------------------------------------------------------------

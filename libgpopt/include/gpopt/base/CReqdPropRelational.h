@@ -87,7 +87,7 @@ namespace gpopt
 			virtual
 			void Compute
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CReqdProp *prpInput,
 				ULONG ulChildIndex,
@@ -96,7 +96,7 @@ namespace gpopt
 				);
 
 			// return difference from given properties
-			CReqdPropRelational *PrprelDifference(IMemoryPool *pmp, CReqdPropRelational *prprel);
+			CReqdPropRelational *PrprelDifference(IMemoryPool *memory_pool, CReqdPropRelational *prprel);
 
 			// return true if property container is empty
 			BOOL IsEmpty() const;

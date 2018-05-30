@@ -31,40 +31,40 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLDatum::CDXLDatum
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
-	INT iTypeModifier,
-	BOOL fNull,
-	ULONG ulLength
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
+	INT type_modifier,
+	BOOL is_null,
+	ULONG length
 	)
 	:
-	m_memory_pool(pmp),
-	m_pmdidType(pmdidType),
-	m_iTypeModifier(iTypeModifier),
-	m_fNull(fNull),
-	m_ulLength(ulLength)
+	m_memory_pool(memory_pool),
+	m_mdid_type(mdid_type),
+	m_type_modifier(type_modifier),
+	m_is_null(is_null),
+	m_length(length)
 {
-	GPOS_ASSERT(m_pmdidType->IsValid());
+	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 
 INT
 CDXLDatum::TypeModifier() const
 {
-	return m_iTypeModifier;
+	return m_type_modifier;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLDatum::FNull
+//		CDXLDatum::IsNull
 //
 //	@doc:
 //		Is the datum NULL
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLDatum::FNull() const
+CDXLDatum::IsNull() const
 {
-	return m_fNull;
+	return m_is_null;
 }
 
 //---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ CDXLDatum::FNull() const
 ULONG 
 CDXLDatum::Length() const
 {
-	return m_ulLength;
+	return m_length;
 }
 
 //---------------------------------------------------------------------------
@@ -93,12 +93,12 @@ void
 CDXLDatum::Serialize
 	(
 	CXMLSerializer *xml_serializer,
-	const CWStringConst *pstrElem
+	const CWStringConst *datum_string
 	)
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElem);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), datum_string);
 	Serialize(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElem);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), datum_string);
 }
 
 // EOF

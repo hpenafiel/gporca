@@ -39,7 +39,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CPhysicalInnerIndexNLJoin(IMemoryPool *pmp, DrgPcr *pdrgpcr);
+			CPhysicalInnerIndexNLJoin(IMemoryPool *memory_pool, DrgPcr *pdrgpcr);
 
 			// dtor
 			virtual
@@ -73,7 +73,7 @@ namespace gpopt
 			virtual
 			CDistributionSpec *PdsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CDistributionSpec *pdsRequired,
 				ULONG ulChildIndex,

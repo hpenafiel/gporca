@@ -57,7 +57,7 @@ namespace gpdxl
 			// ctor/dtor		
 			CDXLScalarComp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidOp,
 				const CWStringConst *pstrCompOpName
 				);
@@ -77,7 +77,7 @@ namespace gpdxl
 			const CWStringConst *PstrCmpOpName() const;
 			
 			// operator id
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 						
 			// serialize operator in DXL format
 			virtual

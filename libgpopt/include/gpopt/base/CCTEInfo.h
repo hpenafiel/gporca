@@ -142,8 +142,8 @@ namespace gpopt
 					CMutex m_mutex;
 
 					// ctors
-					CCTEInfoEntry(IMemoryPool *pmp, CExpression *pexprCTEProducer);
-					CCTEInfoEntry(IMemoryPool *pmp, CExpression *pexprCTEProducer, BOOL fUsed);
+					CCTEInfoEntry(IMemoryPool *memory_pool, CExpression *pexprCTEProducer);
+					CCTEInfoEntry(IMemoryPool *memory_pool, CExpression *pexprCTEProducer, BOOL fUsed);
 
 					// dtor
 					~CCTEInfoEntry();
@@ -218,7 +218,7 @@ namespace gpopt
 		public:
 			// ctor
 			explicit
-			CCTEInfo(IMemoryPool *pmp);
+			CCTEInfo(IMemoryPool *memory_pool);
 
 			//dtor
 			virtual
@@ -256,10 +256,10 @@ namespace gpopt
 				);
 
 			// return a CTE requirement with all the producers as optional
-			CCTEReq *PcterProducers(IMemoryPool *pmp) const;
+			CCTEReq *PcterProducers(IMemoryPool *memory_pool) const;
 
 			// return an array of all stored CTE expressions
-			DrgPexpr *PdrgPexpr(IMemoryPool *pmp) const;
+			DrgPexpr *PdrgPexpr(IMemoryPool *memory_pool) const;
 
 			// disable CTE inlining
 			void DisableInlining()
@@ -287,7 +287,7 @@ namespace gpopt
 			ULONG UlConsumerColPos(ULONG ulCTEId, CColRef *pcr);
 
 			// return a map from Id's of consumer columns in the given column set to their corresponding producer columns
-			HMUlCr *PhmulcrConsumerToProducer(IMemoryPool *pmp, ULONG ulCTEId, CColRefSet *pcrs, DrgPcr *pdrgpcrProducer);
+			HMUlCr *PhmulcrConsumerToProducer(IMemoryPool *memory_pool, ULONG ulCTEId, CColRefSet *pcrs, DrgPcr *pdrgpcrProducer);
 
 	}; // CCTEInfo
 }

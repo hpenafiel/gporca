@@ -170,7 +170,7 @@ CParseHandlerColStats::EndElement
 		stats_bucket_dxl_array->Append(bucket_dxl);
 	}
 	
-	m_pimdobj = GPOS_NEW(m_memory_pool) CDXLColStats
+	m_imd_obj = GPOS_NEW(m_memory_pool) CDXLColStats
 							(
 							m_memory_pool,
 							m_mdid,

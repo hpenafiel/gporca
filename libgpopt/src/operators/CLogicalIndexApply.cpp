@@ -13,10 +13,10 @@ using namespace gpopt;
 
 CLogicalIndexApply::CLogicalIndexApply
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalApply(pmp),
+	CLogicalApply(memory_pool),
 	m_pdrgpcrOuterRefs(NULL),
 	m_fOuterJoin(false)
 {
@@ -25,12 +25,12 @@ CLogicalIndexApply::CLogicalIndexApply
 
 CLogicalIndexApply::CLogicalIndexApply
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcrOuterRefs,
 	BOOL fOuterJoin
 	)
 	:
-	CLogicalApply(pmp),
+	CLogicalApply(memory_pool),
 	m_pdrgpcrOuterRefs(pdrgpcrOuterRefs),
 	m_fOuterJoin(fOuterJoin)
 {
@@ -47,7 +47,7 @@ CLogicalIndexApply::~CLogicalIndexApply()
 CMaxCard
 CLogicalIndexApply::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -59,11 +59,11 @@ CLogicalIndexApply::Maxcard
 CXformSet *
 CLogicalIndexApply::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementIndexApply);
 	return pxfs;
 }
@@ -89,7 +89,7 @@ CLogicalIndexApply::FMatch
 IStatistics *
 CLogicalIndexApply::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat* // pdrgpstatCtxt
 	)
@@ -102,7 +102,7 @@ CLogicalIndexApply::PstatsDerive
 	CExpression *pexprScalar = exprhdl.PexprScalarChild(2 /*ulChildIndex*/);
 
 	// join stats of the children
-	DrgPstat *statistics_array = GPOS_NEW(pmp) DrgPstat(pmp);
+	DrgPstat *statistics_array = GPOS_NEW(memory_pool) DrgPstat(memory_pool);
 	pstatsOuter->AddRef();
 	statistics_array->Append(pstatsOuter);
 	pstatsInner->AddRef();
@@ -113,7 +113,7 @@ CLogicalIndexApply::PstatsDerive
 	{
 		eStatsJoinType = IStatistics::EsjtLeftOuterJoin;
 	}
-	IStatistics *pstats = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pexprScalar, eStatsJoinType);
+	IStatistics *pstats = CJoinStatsProcessor::PstatsJoinArray(memory_pool, statistics_array, pexprScalar, eStatsJoinType);
 	statistics_array->Release();
 
 	return pstats;
@@ -123,14 +123,14 @@ CLogicalIndexApply::PstatsDerive
 COperator *
 CLogicalIndexApply::PopCopyWithRemappedColumns
 (
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
-	DrgPcr *pdrgpcr = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrOuterRefs, phmulcr, fMustExist);
+	DrgPcr *pdrgpcr = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrOuterRefs, phmulcr, fMustExist);
 
-	return GPOS_NEW(pmp) CLogicalIndexApply(pmp, pdrgpcr, m_fOuterJoin);
+	return GPOS_NEW(memory_pool) CLogicalIndexApply(memory_pool, pdrgpcr, m_fOuterJoin);
 }
 
 // EOF

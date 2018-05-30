@@ -51,7 +51,7 @@ namespace gpmd
 			}
 
 			// factory function for INT8 datums
-			virtual IDatumInt8 *PdatumInt8(IMemoryPool *pmp, LINT ulValue, BOOL fNULL) const = 0;
+			virtual IDatumInt8 *PdatumInt8(IMemoryPool *memory_pool, LINT ulValue, BOOL fNULL) const = 0;
 
 	};
 

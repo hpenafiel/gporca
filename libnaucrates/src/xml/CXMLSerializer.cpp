@@ -422,10 +422,10 @@ CXMLSerializer::WriteEscaped
 {
 	GPOS_ASSERT(NULL != pstr);
 	
-	const ULONG ulLength = pstr->Length();
+	const ULONG length = pstr->Length();
 	const WCHAR *wsz = pstr->GetBuffer();
 	
-	for (ULONG ulA = 0; ulA < ulLength; ulA++)
+	for (ULONG ulA = 0; ulA < length; ulA++)
 	{
 		const WCHAR wc = wsz[ulA];
 		
@@ -474,12 +474,12 @@ void
 CXMLSerializer::AddAttribute
 	(
 	const CWStringBase *pstrAttr,
-	BOOL fNull,
+	BOOL is_null,
 	const BYTE *pba,
 	ULONG ulLen
 	)
 {
-	if (!fNull)
+	if (!is_null)
 	{
 		CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(m_memory_pool, pba, ulLen);
 		AddAttribute(pstrAttr, pstr);

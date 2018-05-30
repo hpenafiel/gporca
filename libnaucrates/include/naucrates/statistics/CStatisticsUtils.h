@@ -94,7 +94,7 @@ namespace gpnaucrates
 			static
 			DrgPbucket *PdrgpbucketMergeBuckets
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						const DrgPbucket *pdrgpbucketMCV,
 						const DrgPbucket *pdrgpbucketHist
 						);
@@ -103,7 +103,7 @@ namespace gpnaucrates
 			static
 			DrgPbucket *PdrgpbucketSplitHistBucket
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						const CBucket *pbucketHist,
 						const DrgPbucket *pdrgpbucketMCV
 						);
@@ -112,7 +112,7 @@ namespace gpnaucrates
 			static
 			CBucket *PbucketCreateValidBucket
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CPoint *ppointLower,
 					CPoint *ppointUpper,
 					BOOL fLowerClosed,
@@ -133,7 +133,7 @@ namespace gpnaucrates
 			static
 			void SplitHistDriver
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					const CBucket *pbucketHist,
 					const DrgPbucket *pdrgpbucketMCV,
 					DrgPbucket *pdrgpbucketMerged,
@@ -154,7 +154,7 @@ namespace gpnaucrates
 			static
 			void AddNdvForAllGrpCols
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					const CStatistics *pstatsInput,
 					const ULongPtrArray *pdrgpulGrpCol,
 					DrgPdouble *pdrgpdNDV // output array of NDV
@@ -164,7 +164,7 @@ namespace gpnaucrates
 			static
 			CDouble DMaxGroupsFromSource
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						const CStatisticsConfig *pstatsconf,
 						CStatistics *pstatsInput,
 						const ULongPtrArray *pdrgpulPerSrc
@@ -184,7 +184,7 @@ namespace gpnaucrates
 			static
 			CPoint *PpointNext
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				CPoint *ppoint
 				);
@@ -193,7 +193,7 @@ namespace gpnaucrates
 			static
 			CHistogram *PhistTransformMCV
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const IMDType *pmdtype,
 				DrgPdatum *pdrgpdatumMCV,
 				DrgPdouble *pdrgpdFreq,
@@ -204,7 +204,7 @@ namespace gpnaucrates
 			static
 			CHistogram *PhistMergeMcvHist
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CHistogram *phistGPDBMcv,
 				const CHistogram *phistGPDBHist
 				);
@@ -217,7 +217,7 @@ namespace gpnaucrates
 			static
 			void PrintColStats
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CStatsPred *pstatspred,
 					ULONG ulColIdCond,
 					CHistogram *phist,
@@ -229,7 +229,7 @@ namespace gpnaucrates
 			static
 			void ExtractUsedColIds
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CBitSet *pbsColIds, 
 					CStatsPred *pstatspred,
 					ULongPtrArray *pdrgpulColIds
@@ -240,7 +240,7 @@ namespace gpnaucrates
 			static
 			void UpdateDisjStatistics
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CBitSet *pbsStatsNonUpdateableCols,
 					CDouble dRowsInputDisj,
 					CDouble dRowsLocal,
@@ -255,7 +255,7 @@ namespace gpnaucrates
 			static
 			CBitSet *PbsNonUpdatableHistForDisj
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CStatsPredDisj *pstatspred
 						);
 
@@ -263,7 +263,7 @@ namespace gpnaucrates
 			static
 			void AddHistogram
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					ULONG ulColId,
 					const CHistogram *phist,
 					HMUlHist *phmulhist,
@@ -275,7 +275,7 @@ namespace gpnaucrates
 			static
 			HMUlHist *PhmulhistMergeAfterDisjChild
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CBitSet *pbsStatsNonUpdateableCols,
 						HMUlHist *phmulhistPrev,
 						HMUlHist *phmulhistDisjChild,
@@ -285,7 +285,7 @@ namespace gpnaucrates
 
 			// helper method to copy the hash map of histograms
 			static
-			HMUlHist *PhmulhistCopy(IMemoryPool *pmp, HMUlHist *phmulhist);
+			HMUlHist *PhmulhistCopy(IMemoryPool *memory_pool, HMUlHist *phmulhist);
 
 			// return the column identifier of the filter if the predicate is
 			// on a single column else	return ULONG_MAX
@@ -296,7 +296,7 @@ namespace gpnaucrates
 			static
 			void AddRemainingBuckets
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					const DrgPbucket *pdrgpbucketSrc,
 					DrgPbucket *pdrgpbucketDest,
 					ULONG *pulStart
@@ -314,15 +314,15 @@ namespace gpnaucrates
 
 			// derive statistics of dynamic scan based on part-selector stats in the given map
 			static
-			IStatistics *PstatsDynamicScan(IMemoryPool *pmp, CExpressionHandle &exprhdl, ULONG ulPartIndexId, CPartFilterMap *ppfm);
+			IStatistics *PstatsDynamicScan(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, ULONG ulPartIndexId, CPartFilterMap *ppfm);
 
 			// derive statistics of (dynamic) index-get
 			static
-			IStatistics *PstatsIndexGet(IMemoryPool *pmp, CExpressionHandle &exprhdl, DrgPstat *pdrgpstatCtxt);
+			IStatistics *PstatsIndexGet(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, DrgPstat *pdrgpstatCtxt);
 
 			// derive statistics of bitmap table-get
 			static
-			IStatistics *PstatsBitmapTableGet(IMemoryPool *pmp, CExpressionHandle &exprhdl, DrgPstat *pdrgpstatCtxt);
+			IStatistics *PstatsBitmapTableGet(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, DrgPstat *pdrgpstatCtxt);
 
 			// compute the cumulative number of distinct values (NDV) of the group by operator
 			// from the array of NDV of the individual grouping columns
@@ -334,7 +334,7 @@ namespace gpnaucrates
 			static
 			HMUlPdrgpul *PhmpuldrgpulTblOpIdToGrpColsMap
 							(
-							IMemoryPool *pmp,
+							IMemoryPool *memory_pool,
 							CStatistics *pstats,
 							const CColRefSet *pcrsGrpCols,
 							CBitSet *pbsKeys
@@ -344,7 +344,7 @@ namespace gpnaucrates
 			static
 			DrgPdouble *PdrgPdoubleNDV
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CStatisticsConfig *pstatsconf,
 				const IStatistics *pstats,
 				CColRefSet *pcrsGrpCols, // grouping columns
@@ -355,7 +355,7 @@ namespace gpnaucrates
 			static
 			CDouble DGroups
 					(
-					IMemoryPool *pmp, 
+					IMemoryPool *memory_pool, 
 					IStatistics *pstats, 
 					const CStatisticsConfig *pstatsconf,
 					ULongPtrArray *pdrgpulGC, 
@@ -376,7 +376,7 @@ namespace gpnaucrates
 			static
 			void AddGrpColStats
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					const CStatistics *pstatsInput,
 					CColRefSet *pcrsGrpCols,
 					HMUlHist *phmulhistOutput,
@@ -387,7 +387,7 @@ namespace gpnaucrates
 			static
 			CColRefSet *PcrsGrpColsForStats
 							(
-							IMemoryPool *pmp, 
+							IMemoryPool *memory_pool, 
 							const ULongPtrArray *pdrgpulGrpCol, 
 							CColRefSet *pcrsGrpColComputed // output set of grouping columns that are computed attributes
 							);
@@ -412,7 +412,7 @@ namespace gpnaucrates
 
 			// helper method to add width information
 			static
-			void AddWidthInfo(IMemoryPool *pmp, HMUlDouble *phmuldoubleSrc, HMUlDouble *phmuldoubleDest);
+			void AddWidthInfo(IMemoryPool *memory_pool, HMUlDouble *phmuldoubleSrc, HMUlDouble *phmuldoubleDest);
 
 
 			// for the output stats object, compute its upper bound cardinality mapping based on the bounding method
@@ -420,7 +420,7 @@ namespace gpnaucrates
 			static
 			void ComputeCardUpperBounds
 				(
-				IMemoryPool *pmp, // memory pool
+				IMemoryPool *memory_pool, // memory pool
 				const CStatistics *pstatsInput,
 				CStatistics *pstatsOutput, // output statistics object that is to be updated
 				CDouble dRowsOutput, // estimated output cardinality of the operator

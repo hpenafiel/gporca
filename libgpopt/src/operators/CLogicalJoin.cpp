@@ -33,12 +33,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalJoin::CLogicalJoin
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogical(pmp)
+	CLogical(memory_pool)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 }
 
 
@@ -71,13 +71,13 @@ CLogicalJoin::FMatch
 IStatistics *
 CLogicalJoin::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat *pdrgpstatCtxt
 	)
 	const
 {
-	return CJoinStatsProcessor::PstatsJoin(pmp, exprhdl, pdrgpstatCtxt);
+	return CJoinStatsProcessor::PstatsJoin(memory_pool, exprhdl, pdrgpstatCtxt);
 }
 
 // EOF

@@ -72,7 +72,7 @@ namespace gpos
 			virtual ~CWStringBase(){}
 			
 			// deep copy of the string
-			virtual CWStringConst *Copy(IMemoryPool *pmp) const;
+			virtual CWStringConst *Copy(IMemoryPool *memory_pool) const;
 
 			// accessors
 			virtual ULONG Length() const;

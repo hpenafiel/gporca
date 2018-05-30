@@ -31,13 +31,13 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerScalarMinMax::CParseHandlerScalarMinMax
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
-	m_pmdidType(NULL),
+	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, pphRoot),
+	m_mdid_type(NULL),
 	m_emmt(CDXLScalarMinMax::EmmtSentinel)
 {
 }
@@ -73,7 +73,7 @@ CParseHandlerScalarMinMax::StartElement
 		}
 
 		// parse type id
-		m_pmdidType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, edxltoken);
+		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, edxltoken);
 	}
 	else
 	{
@@ -113,7 +113,7 @@ CParseHandlerScalarMinMax::EndElement
 	}
 
 	// construct node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarMinMax(m_memory_pool, m_pmdidType, m_emmt));
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarMinMax(m_memory_pool, m_mdid_type, m_emmt));
 
 	// loop over children and add them to this parsehandler
 	const ULONG ulChildren = this->Length();

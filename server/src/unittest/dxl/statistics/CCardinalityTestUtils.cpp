@@ -32,15 +32,15 @@
 CBucket *
 CCardinalityTestUtils::PbucketIntegerClosedLowerBound
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	INT iLower,
 	INT iUpper,
 	CDouble dFrequency,
 	CDouble dDistinct
 	)
 {
-	CPoint *ppLower = CTestUtils::PpointInt4(pmp, iLower);
-	CPoint *ppUpper = CTestUtils::PpointInt4(pmp, iUpper);
+	CPoint *ppLower = CTestUtils::PpointInt4(memory_pool, iLower);
+	CPoint *ppUpper = CTestUtils::PpointInt4(memory_pool, iUpper);
 
 	BOOL fUpperClosed = false;
 	if (ppLower->Equals(ppUpper))
@@ -48,14 +48,14 @@ CCardinalityTestUtils::PbucketIntegerClosedLowerBound
 		fUpperClosed = true;
 	}
 
-	return GPOS_NEW(pmp) CBucket(ppLower, ppUpper, true /* fLowerClosed */, fUpperClosed, dFrequency, dDistinct);
+	return GPOS_NEW(memory_pool) CBucket(ppLower, ppUpper, true /* fLowerClosed */, fUpperClosed, dFrequency, dDistinct);
 }
 
 // create an integer bucket with the provider upper/lower bound, frequency and NDV information
 CBucket *
 CCardinalityTestUtils::PbucketInteger
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	INT iLower,
 	INT iUpper,
 	BOOL fLowerClosed,
@@ -64,33 +64,33 @@ CCardinalityTestUtils::PbucketInteger
 	CDouble dDistinct
 	)
 {
-	CPoint *ppLower = CTestUtils::PpointInt4(pmp, iLower);
-	CPoint *ppUpper = CTestUtils::PpointInt4(pmp, iUpper);
+	CPoint *ppLower = CTestUtils::PpointInt4(memory_pool, iLower);
+	CPoint *ppUpper = CTestUtils::PpointInt4(memory_pool, iUpper);
 
-	return GPOS_NEW(pmp) CBucket(ppLower, ppUpper, fLowerClosed, fUpperClosed, dFrequency, dDistinct);
+	return GPOS_NEW(memory_pool) CBucket(ppLower, ppUpper, fLowerClosed, fUpperClosed, dFrequency, dDistinct);
 }
 
 // create a singleton bucket containing a boolean value
 CBucket *
 CCardinalityTestUtils::PbucketSingletonBoolVal
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	BOOL fValue,
 	CDouble dFrequency
 	)
 {
-	CPoint *ppLower = CTestUtils::PpointBool(pmp, fValue);
+	CPoint *ppLower = CTestUtils::PpointBool(memory_pool, fValue);
 
 	// lower bound is also upper bound
 	ppLower->AddRef();
-	return GPOS_NEW(pmp) CBucket(ppLower, ppLower, true /* fClosedUpper */, true /* fClosedUpper */, dFrequency, 1.0);
+	return GPOS_NEW(memory_pool) CBucket(ppLower, ppLower, true /* fClosedUpper */, true /* fClosedUpper */, dFrequency, 1.0);
 }
 
 // helper function to generate integer histogram based on the NDV and bucket information provided
 CHistogram*
 CCardinalityTestUtils::PhistInt4Remain
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulBuckets,
 	CDouble dNDVPerBucket,
 	BOOL fNullFreq,
@@ -98,14 +98,14 @@ CCardinalityTestUtils::PhistInt4Remain
 	)
 {
 	// generate histogram of the form [0, 100), [100, 200), [200, 300) ...
-	DrgPbucket *pdrgppbucket = GPOS_NEW(pmp) DrgPbucket(pmp);
+	DrgPbucket *pdrgppbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
 	for (ULONG ulIdx = 0; ulIdx < ulBuckets; ulIdx++)
 	{
 		INT iLower = INT(ulIdx * 100);
 		INT iUpper = INT((ulIdx + 1) * 100);
 		CDouble dFrequency(0.1);
 		CDouble dDistinct = dNDVPerBucket;
-		CBucket *pbucket = PbucketIntegerClosedLowerBound(pmp, iLower, iUpper, dFrequency, dDistinct);
+		CBucket *pbucket = PbucketIntegerClosedLowerBound(memory_pool, iLower, iUpper, dFrequency, dDistinct);
 		pdrgppbucket->Append(pbucket);
 	}
 
@@ -123,54 +123,54 @@ CCardinalityTestUtils::PhistInt4Remain
 		dFreqRemain = CDouble(0.0);
 	}
 
-	return GPOS_NEW(pmp) CHistogram(pdrgppbucket, true, dNullFreq, dNDVRemain, dFreqRemain);
+	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true, dNullFreq, dNDVRemain, dFreqRemain);
 }
 
 // helper function to generate an example int histogram
 CHistogram*
 CCardinalityTestUtils::PhistExampleInt4
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	// generate histogram of the form [0, 10), [10, 20), [20, 30) ... [80, 90)
-	DrgPbucket *pdrgppbucket = GPOS_NEW(pmp) DrgPbucket(pmp);
+	DrgPbucket *pdrgppbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
 	for (ULONG ulIdx = 0; ulIdx < 9; ulIdx++)
 	{
 		INT iLower = INT(ulIdx * 10);
 		INT iUpper = iLower + INT(10);
 		CDouble dFrequency(0.1);
 		CDouble dDistinct(4.0);
-		CBucket *pbucket = CCardinalityTestUtils::PbucketIntegerClosedLowerBound(pmp, iLower, iUpper, dFrequency, dDistinct);
+		CBucket *pbucket = CCardinalityTestUtils::PbucketIntegerClosedLowerBound(memory_pool, iLower, iUpper, dFrequency, dDistinct);
 		pdrgppbucket->Append(pbucket);
 	}
 
 	// add an additional singleton bucket [100, 100]
-	pdrgppbucket->Append(CCardinalityTestUtils::PbucketIntegerClosedLowerBound(pmp, 100, 100, 0.1, 1.0));
+	pdrgppbucket->Append(CCardinalityTestUtils::PbucketIntegerClosedLowerBound(memory_pool, 100, 100, 0.1, 1.0));
 
-	return  GPOS_NEW(pmp) CHistogram(pdrgppbucket);
+	return  GPOS_NEW(memory_pool) CHistogram(pdrgppbucket);
 }
 
 // helper function to generates example bool histogram
 CHistogram*
 CCardinalityTestUtils::PhistExampleBool
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	DrgPbucket *pdrgppbucket = GPOS_NEW(pmp) DrgPbucket(pmp);
-	CBucket *pbucketFalse = CCardinalityTestUtils::PbucketSingletonBoolVal(pmp, false, 0.1);
-	CBucket *pbucketTrue = CCardinalityTestUtils::PbucketSingletonBoolVal(pmp, true, 0.2);
+	DrgPbucket *pdrgppbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
+	CBucket *pbucketFalse = CCardinalityTestUtils::PbucketSingletonBoolVal(memory_pool, false, 0.1);
+	CBucket *pbucketTrue = CCardinalityTestUtils::PbucketSingletonBoolVal(memory_pool, true, 0.2);
 	pdrgppbucket->Append(pbucketFalse);
 	pdrgppbucket->Append(pbucketTrue);
-	return  GPOS_NEW(pmp) CHistogram(pdrgppbucket);
+	return  GPOS_NEW(memory_pool) CHistogram(pdrgppbucket);
 }
 
 // helper function to generate a point from an encoded value of specific datatype
 CPoint *
 CCardinalityTestUtils::PpointGeneric
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	OID oid,
 	CWStringDynamic *pstrEncodedValue,
 	LINT lValue
@@ -178,9 +178,9 @@ CCardinalityTestUtils::PpointGeneric
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	IMDId *pmdid = GPOS_NEW(pmp) CMDIdGPDB(oid);
-	IDatum *pdatum = CTestUtils::PdatumGeneric(pmp, pmda, pmdid, pstrEncodedValue, lValue);
-	CPoint *ppoint = GPOS_NEW(pmp) CPoint(pdatum);
+	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oid);
+	IDatum *pdatum = CTestUtils::PdatumGeneric(memory_pool, pmda, pmdid, pstrEncodedValue, lValue);
+	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
 
 	return ppoint;
 }
@@ -189,32 +189,32 @@ CCardinalityTestUtils::PpointGeneric
 CPoint *
 CCardinalityTestUtils::PpointNumeric
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CWStringDynamic *pstrEncodedValue,
 	CDouble dValue
 	)
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	CMDIdGPDB *pmdid = GPOS_NEW(pmp) CMDIdGPDB(CMDIdGPDB::m_mdidNumeric);
+	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidNumeric);
 	const IMDType *pmdtype = pmda->Pmdtype(pmdid);
 
 	ULONG ulbaSize = 0;
-	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(pmp, pstrEncodedValue, &ulbaSize);
+	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
 
-	CDXLDatumStatsDoubleMappable *pdxldatum = GPOS_NEW(pmp) CDXLDatumStatsDoubleMappable
+	CDXLDatumStatsDoubleMappable *pdxldatum = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable
 											(
-											pmp,
+											memory_pool,
 											pmdid,
 											IDefaultTypeModifier,
-											pmdtype->FByValue() /*fConstByVal*/,
+											pmdtype->IsPassedByValue() /*fConstByVal*/,
 											false /*fConstNull*/,
 											pba,
 											ulbaSize,
 											dValue
 											);
 
-	IDatum *pdatum = pmdtype->Pdatum(pmp, pdxldatum);
-	CPoint *ppoint = GPOS_NEW(pmp) CPoint(pdatum);
+	IDatum *pdatum = pmdtype->Pdatum(memory_pool, pdxldatum);
+	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
 	pdxldatum->Release();
 
 	return ppoint;
@@ -224,12 +224,12 @@ CCardinalityTestUtils::PpointNumeric
 void
 CCardinalityTestUtils::PrintBucket
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const char *pcPrefix,
 	const CBucket *pbucket
 	)
 {
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 
 	oss << pcPrefix << " = ";
@@ -242,12 +242,12 @@ CCardinalityTestUtils::PrintBucket
 void
 CCardinalityTestUtils::PrintHist
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const char *pcPrefix,
 	const CHistogram *phist
 	)
 {
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 
 	oss << pcPrefix << " = ";
@@ -260,11 +260,11 @@ CCardinalityTestUtils::PrintHist
 void
 CCardinalityTestUtils::PrintStats
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CStatistics *pstats
 	)
 {
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 
 	oss << "Statistics = ";

@@ -30,17 +30,17 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarCast::CDXLScalarCast
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
 	IMDId *pmdidFunc
 	)
 	:
-	CDXLScalar(pmp),
-	m_pmdidType(pmdidType),
+	CDXLScalar(memory_pool),
+	m_mdid_type(mdid_type),
 	m_pmdidFunc(pmdidFunc)
 {
 	GPOS_ASSERT(NULL != m_pmdidFunc);
-	GPOS_ASSERT(m_pmdidType->IsValid());
+	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 
 
@@ -54,7 +54,7 @@ CDXLScalarCast::CDXLScalarCast
 //---------------------------------------------------------------------------
 CDXLScalarCast::~CDXLScalarCast()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 	m_pmdidFunc->Release();
 }
 
@@ -97,7 +97,7 @@ CDXLScalarCast::PstrOpName() const
 IMDId *
 CDXLScalarCast::MDIdType() const
 {
-	return m_pmdidType;
+	return m_mdid_type;
 }
 
 //---------------------------------------------------------------------------
@@ -134,7 +134,7 @@ CDXLScalarCast::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
@@ -156,7 +156,7 @@ CDXLScalarCast::FBoolean
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pmdidType)->Eti());
+	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
 }
 
 #ifdef GPOS_DEBUG

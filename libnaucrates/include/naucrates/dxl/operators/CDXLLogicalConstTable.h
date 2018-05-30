@@ -36,7 +36,7 @@ namespace gpdxl
 			ColumnDescrDXLArray *m_pdrgpdxlcd;
 
 			// array of datum arrays (const tuples)
-			DrgPdrgPdxldatum *m_pdrgpdrgpdxldatum;
+			DXLDatumArrays *m_pdrgpdrgpdxldatum;
 
 			// private copy ctor
 			CDXLLogicalConstTable(CDXLLogicalConstTable&);
@@ -45,9 +45,9 @@ namespace gpdxl
 			// ctor
 			CDXLLogicalConstTable
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ColumnDescrDXLArray *pdrgpdxlcd,
-				DrgPdrgPdxldatum *pdrgpdrgpdxldatum
+				DXLDatumArrays *pdrgpdrgpdxldatum
 				);
 
 			//dtor
@@ -81,7 +81,7 @@ namespace gpdxl
 			}
 
 			// return the const tuple (datum array) at a given position
-			const DrgPdxldatum *PrgPdxldatumConstTuple(ULONG ulTuplePos) const
+			const DXLDatumArray *PrgPdxldatumConstTuple(ULONG ulTuplePos) const
 			{
 				return (*m_pdrgpdrgpdxldatum)[ulTuplePos];
 			}

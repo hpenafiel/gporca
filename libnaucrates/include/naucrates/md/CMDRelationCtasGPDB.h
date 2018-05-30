@@ -107,7 +107,7 @@ namespace gpmd
 			// ctor
 			CMDRelationCtasGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdnameSchema,
 				CMDName *pmdname,
@@ -135,7 +135,7 @@ namespace gpmd
 
 			// the metadata id
 			virtual
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 
 			// schema name
 			virtual

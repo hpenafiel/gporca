@@ -151,7 +151,7 @@ namespace gpopt
 			// print transformation
 			void PrintXform
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CXform *pxform,
 				CExpression *pexpr,
 				CXformResult *pxfres
@@ -174,13 +174,13 @@ namespace gpopt
 				);
 
 			// costing scheme
-			CCost CostCompute(IMemoryPool *pmp, CCostContext *pcc) const;
+			CCost CostCompute(IMemoryPool *memory_pool, CCostContext *pcc) const;
 
 			// set optimization level of group expression
 			void SetOptimizationLevel();
 
 			// check validity of group expression
-			BOOL FValidContext(IMemoryPool *pmp, COptimizationContext *poc, DrgPoc *pdrgpocChild);
+			BOOL FValidContext(IMemoryPool *memory_pool, COptimizationContext *poc, DrgPoc *pdrgpocChild);
 			
 			// remove cost context in hash table
 			CCostContext *PccRemove(COptimizationContext *poc, ULONG ulOptReq);
@@ -217,7 +217,7 @@ namespace gpopt
 			// ctor
 			CGroupExpression
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				COperator *pop,
 				DrgPgroup *pdrgpgroup,
 				CXform::EXformId exfid,
@@ -252,10 +252,10 @@ namespace gpopt
 			BOOL FCostContextExists(COptimizationContext *poc, DrgPoc *pdrgpoc);
 
 			// compute and store expression's cost under a given context
-			CCostContext *PccComputeCost(IMemoryPool *pmp, COptimizationContext *poc, ULONG ulOptReq, DrgPoc *pdrgpoc, BOOL fPruned, CCost costLowerBound);
+			CCostContext *PccComputeCost(IMemoryPool *memory_pool, COptimizationContext *poc, ULONG ulOptReq, DrgPoc *pdrgpoc, BOOL fPruned, CCost costLowerBound);
 
 			// compute a cost lower bound for plans, rooted by current group expression, and satisfying the given required properties
-			CCost CostLowerBound(IMemoryPool *pmp, CReqdPropPlan *prppInput, CCostContext *pccChild, ULONG ulChildIndex);
+			CCost CostLowerBound(IMemoryPool *memory_pool, CReqdPropPlan *prppInput, CCostContext *pccChild, ULONG ulChildIndex);
 
 			// initialize group expression
 			void Init(CGroup *pgroup, ULONG ulId);
@@ -385,7 +385,7 @@ namespace gpopt
 			// transform group expression
 			void Transform
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMemoryPool *pmpLocal,
 				CXform *pxform,
 				CXformResult *pxfres,
@@ -422,7 +422,7 @@ namespace gpopt
 			CCostContext *PccLookup(COptimizationContext *poc, ULONG ulOptReq);
 
 			// lookup all cost contexts matching given optimization context
-			DrgPcc *PdrgpccLookupAll(IMemoryPool *pmp, COptimizationContext *poc);
+			DrgPcc *PdrgpccLookupAll(IMemoryPool *memory_pool, COptimizationContext *poc);
 
 			// insert a cost context in hash table
 			CCostContext *PccInsert(CCostContext *pcc);

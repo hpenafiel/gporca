@@ -34,12 +34,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDScCmp::CParseHandlerMDScCmp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot)
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot)
 {}
 
 //---------------------------------------------------------------------------
@@ -119,7 +119,7 @@ CParseHandlerMDScCmp::StartElement
 
 	IMDType::ECmpType ecmpt = CDXLOperatorFactory::Ecmpt(xmlszCmpType);
 	
-	m_pimdobj = GPOS_NEW(m_memory_pool) CMDScCmpGPDB(m_memory_pool, pmdid, pmdname, pmdidLeft, pmdidRight, ecmpt, pmdidOp);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDScCmpGPDB(m_memory_pool, pmdid, pmdname, pmdidLeft, pmdidRight, ecmpt, pmdidOp);
 }
 
 //---------------------------------------------------------------------------

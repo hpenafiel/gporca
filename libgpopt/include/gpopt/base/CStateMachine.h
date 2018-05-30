@@ -151,10 +151,10 @@ namespace gpopt
 					);
 
 			// generic walker function, called for every edge in the graph
-			void Walk(IMemoryPool *pmp, PfWalker Pfpv, void *pvContext) const
+			void Walk(IMemoryPool *memory_pool, PfWalker Pfpv, void *pvContext) const
             {
                 // retrieve all states
-                EsetStates *pesetStates = GPOS_NEW(pmp) EsetStates(pmp);
+                EsetStates *pesetStates = GPOS_NEW(memory_pool) EsetStates(memory_pool);
                 States(pesetStates);
 
                 // loop through all sink states
@@ -171,7 +171,7 @@ namespace gpopt
 
                         // for all pairs of states (source, sink)
                         // compute possible transitions
-                        EsetEvents *pesetEvents = GPOS_NEW(pmp) EsetEvents(pmp);
+                        EsetEvents *pesetEvents = GPOS_NEW(memory_pool) EsetEvents(memory_pool);
                         Transitions(tenumstateSource, tenumstateSink, pesetEvents);
 
                         // loop through all connecting edges
@@ -419,34 +419,34 @@ namespace gpopt
             }
 			
 			// check for unreachable states
-			BOOL FReachable(IMemoryPool *pmp) const
+			BOOL FReachable(IMemoryPool *memory_pool) const
             {
                 TEnumState *pestate = NULL;
                 ULONG ulSize = 0;
-                Unreachable(pmp, &pestate, &ulSize);
+                Unreachable(memory_pool, &pestate, &ulSize);
                 GPOS_DELETE_ARRAY(pestate);
 
                 return  (ulSize == 0);
             }
 			
 			// compute array of unreachable states
-			void Unreachable(IMemoryPool *pmp, TEnumState **ppestate, ULONG *pulSize) const
+			void Unreachable(IMemoryPool *memory_pool, TEnumState **ppestate, ULONG *pulSize) const
             {
                 GPOS_ASSERT(NULL != ppestate);
                 GPOS_ASSERT(NULL != pulSize);
 
                 // initialize output array
-                *ppestate = GPOS_NEW_ARRAY(pmp, TEnumState, tenumstateSentinel);
+                *ppestate = GPOS_NEW_ARRAY(memory_pool, TEnumState, tenumstateSentinel);
                 for (ULONG ul = 0; ul < tenumstateSentinel; ul++)
                 {
                     (*ppestate)[ul] = tenumstateSentinel;
                 }
 
                 // mark all states unreachable at first
-                EsetStates *peset = GPOS_NEW(pmp) EsetStates(pmp);
+                EsetStates *peset = GPOS_NEW(memory_pool) EsetStates(memory_pool);
                 States(peset);
 
-                Walk(pmp, Unreachable, peset);
+                Walk(memory_pool, Unreachable, peset);
 
                 // store remaining states in output array
                 EsetStatesIter esetIter(*peset);
@@ -462,7 +462,7 @@ namespace gpopt
 			// dump Moore diagram in graphviz format
 			IOstream &OsDiagramToGraphviz
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IOstream &os,
 				const WCHAR *wszTitle
 				)
@@ -475,10 +475,10 @@ namespace gpopt
                 << std::endl;
 
                 // get unreachable states
-                EsetStates *peset = GPOS_NEW(pmp) EsetStates(pmp);
+                EsetStates *peset = GPOS_NEW(memory_pool) EsetStates(memory_pool);
                 States(peset);
 
-                Walk(pmp, Unreachable, peset);
+                Walk(memory_pool, Unreachable, peset);
 
                 // print all unreachable nodes using BOXes
                 EsetStatesIter esetIter(*peset);
@@ -492,7 +492,7 @@ namespace gpopt
 
                 // print the remainder of the diagram by writing all edges only;
                 // nodes are implicit;
-                Walk(pmp, Diagram, &os);
+                Walk(memory_pool, Diagram, &os);
 
                 os << "} " << std::endl;
                 return os;

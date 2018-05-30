@@ -50,7 +50,7 @@ namespace gpdxl
 				CWStringBase *m_pstrValue;
 				
 				// does this represent a NULL value
-				BOOL m_fNull;
+				BOOL m_is_null;
 
 				// ctor
 				CDXLCtasOption
@@ -58,13 +58,13 @@ namespace gpdxl
 					ULONG ulType,
 					CWStringBase *pstrName,
 					CWStringBase *pstrValue,
-					BOOL fNull
+					BOOL is_null
 					)
 					:
 					m_ulType(ulType),
 					m_pstrName(pstrName),
 					m_pstrValue(pstrValue),
-					m_fNull(fNull)
+					m_is_null(is_null)
 				{
 					GPOS_ASSERT(NULL != pstrName);
 					GPOS_ASSERT(NULL != pstrValue);

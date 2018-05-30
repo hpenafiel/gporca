@@ -30,7 +30,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CMDScCmpGPDB::CMDScCmpGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidLeft,
@@ -39,7 +39,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	IMDId *pmdidOp
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidLeft(pmdidLeft),
@@ -77,14 +77,14 @@ CMDScCmpGPDB::~CMDScCmpGPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDScCmpGPDB::Pmdid
+//		CMDScCmpGPDB::MDId
 //
 //	@doc:
 //		Mdid of comparison object
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDScCmpGPDB::Pmdid() const
+CMDScCmpGPDB::MDId() const
 {
 	return m_pmdid;
 }

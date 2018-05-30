@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// expression type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// private copy ctor
 			CDXLScalarCaseTest(const CDXLScalarCaseTest&);
@@ -43,7 +43,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarCaseTest(IMemoryPool *pmp, IMDId *pmdidType);
+			CDXLScalarCaseTest(IMemoryPool *memory_pool, IMDId *mdid_type);
 
 			// dtor
 			virtual

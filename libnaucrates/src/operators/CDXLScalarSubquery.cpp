@@ -29,11 +29,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarSubquery::CDXLScalarSubquery
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulColId
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_ulColId(ulColId)
 {
 }

@@ -28,11 +28,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarOpList::CDXLScalarOpList
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EdxlOpListType edxloplisttype
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_edxloplisttype(edxloplisttype)
 {
 	GPOS_ASSERT(EdxloplistSentinel > edxloplisttype);

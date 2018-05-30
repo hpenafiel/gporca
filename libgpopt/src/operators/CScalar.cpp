@@ -31,11 +31,11 @@ using namespace gpopt;
 CDrvdProp *
 CScalar::PdpCreate
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	return GPOS_NEW(pmp) CDrvdPropScalar();
+	return GPOS_NEW(memory_pool) CDrvdPropScalar();
 }
 
 
@@ -50,7 +50,7 @@ CScalar::PdpCreate
 CReqdProp *
 CScalar::PrpCreate
 	(
-	IMemoryPool * // pmp
+	IMemoryPool * // memory_pool
 	)
 	const
 {
@@ -315,7 +315,7 @@ CScalar::EberNullOnAllNullChildren
 CScalar::EBoolEvalResult
 CScalar::EberEvaluate
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar
 	)
 {
@@ -333,13 +333,13 @@ CScalar::EberEvaluate
 		// do not recurse into subqueries
 		if (0 < ulArity)
 		{
-			pdrgpulChildren = GPOS_NEW(pmp) ULongPtrArray(pmp);
+			pdrgpulChildren = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 		}
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
 			CExpression *pexprChild = (*pexprScalar)[ul];
-			EBoolEvalResult eberChild = EberEvaluate(pmp, pexprChild);
-			pdrgpulChildren->Append(GPOS_NEW(pmp) ULONG(eberChild));
+			EBoolEvalResult eberChild = EberEvaluate(memory_pool, pexprChild);
+			pdrgpulChildren->Append(GPOS_NEW(memory_pool) ULONG(eberChild));
 		}
 	}
 
@@ -399,14 +399,14 @@ CScalar::FHasNonScalarFunction
 CPartInfo *
 CScalar::PpartinfoDeriveCombineScalar
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
 	const ULONG ulArity = exprhdl.UlArity();
 	GPOS_ASSERT(0 < ulArity);
 
-	CPartInfo *ppartinfo = GPOS_NEW(pmp) CPartInfo(pmp);
+	CPartInfo *ppartinfo = GPOS_NEW(memory_pool) CPartInfo(memory_pool);
 	
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -414,7 +414,7 @@ CScalar::PpartinfoDeriveCombineScalar
 		{
 			CPartInfo *ppartinfoChild = exprhdl.Pdpscalar(ul)->Ppartinfo();
 			GPOS_ASSERT(NULL != ppartinfoChild);
-			CPartInfo *ppartinfoCombined = CPartInfo::PpartinfoCombine(pmp, ppartinfo, ppartinfoChild);
+			CPartInfo *ppartinfoCombined = CPartInfo::PpartinfoCombine(memory_pool, ppartinfo, ppartinfoChild);
 			ppartinfo->Release();
 			ppartinfo = ppartinfoCombined;
 		}

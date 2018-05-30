@@ -31,12 +31,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalLeftAntiSemiJoin::CLogicalLeftAntiSemiJoin
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalJoin(pmp)
+	CLogicalJoin(memory_pool)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 }
 
 
@@ -51,7 +51,7 @@ CLogicalLeftAntiSemiJoin::CLogicalLeftAntiSemiJoin
 CMaxCard
 CLogicalLeftAntiSemiJoin::MaxCard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -72,11 +72,11 @@ CLogicalLeftAntiSemiJoin::MaxCard
 CXformSet *
 CLogicalLeftAntiSemiJoin::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
 	(void) pxfs->ExchangeSet(CXform::ExfAntiSemiJoinAntiSemiJoinSwap);
 	(void) pxfs->ExchangeSet(CXform::ExfAntiSemiJoinAntiSemiJoinNotInSwap);
@@ -100,7 +100,7 @@ CLogicalLeftAntiSemiJoin::PxfsCandidates
 CColRefSet *
 CLogicalLeftAntiSemiJoin::PcrsDeriveOutput
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 {
@@ -121,7 +121,7 @@ CLogicalLeftAntiSemiJoin::PcrsDeriveOutput
 CKeyCollection *
 CLogicalLeftAntiSemiJoin::PkcDeriveKeys
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -140,7 +140,7 @@ CLogicalLeftAntiSemiJoin::PkcDeriveKeys
 IStatistics *
 CLogicalLeftAntiSemiJoin::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat * // not used
 	)
@@ -149,10 +149,10 @@ CLogicalLeftAntiSemiJoin::PstatsDerive
 	GPOS_ASSERT(Esp(exprhdl) > EspNone);
 	IStatistics *pstatsOuter = exprhdl.Pstats(0);
 	IStatistics *pstatsInner = exprhdl.Pstats(1);
-	DrgPstatspredjoin *pdrgpstatspredjoin = CStatsPredUtils::Pdrgpstatspredjoin(pmp, exprhdl);
+	DrgPstatspredjoin *pdrgpstatspredjoin = CStatsPredUtils::Pdrgpstatspredjoin(memory_pool, exprhdl);
 	IStatistics *pstatsLASJoin = pstatsOuter->PstatsLASJoin
 												(
-												pmp,
+												memory_pool,
 												pstatsInner,
 												pdrgpstatspredjoin,
 												true /* fIgnoreLasjHistComputation */

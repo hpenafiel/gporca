@@ -27,7 +27,7 @@ namespace gpdxl
 	XERCES_CPP_NAMESPACE_USE
 
 	// shorthand for functions creating operator parse handlers 
-	typedef CParseHandlerBase* (PfParseHandlerOpCreator) (IMemoryPool *pmp, CParseHandlerManager *, CParseHandlerBase *);
+	typedef CParseHandlerBase* (PfParseHandlerOpCreator) (IMemoryPool *memory_pool, CParseHandlerManager *, CParseHandlerBase *);
 	
 	// fwd decl
 	class CDXLTokens;
@@ -85,7 +85,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhysOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -94,7 +94,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPlan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -103,7 +103,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMetadata
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -112,7 +112,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDRequest
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -121,7 +121,7 @@ namespace gpdxl
 			static 
 			CParseHandlerBase *PphOptimizerConfig
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -130,7 +130,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphEnumeratorConfig
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -139,7 +139,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphStatisticsConfig
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -148,7 +148,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCTEConfig
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -157,7 +157,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCostModelConfig
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -166,7 +166,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphHint
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -175,7 +175,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowOids
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -184,7 +184,7 @@ namespace gpdxl
 			static 
 			CParseHandlerBase *PphTraceFlags
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -193,7 +193,7 @@ namespace gpdxl
 			static 
 			CParseHandlerBase *PphMetadataRelation
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -202,7 +202,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMetadataRelationExternal
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -211,7 +211,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMetadataRelationCTAS
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -220,7 +220,7 @@ namespace gpdxl
 			static 
 			CParseHandlerBase *PphMDIndex
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -229,7 +229,7 @@ namespace gpdxl
 			static 
 			CParseHandlerBase *PphRelStats
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -238,7 +238,7 @@ namespace gpdxl
 			static 
 			CParseHandlerBase *PphColStats
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -247,7 +247,7 @@ namespace gpdxl
 			static 
 			CParseHandlerBase *PphColStatsBucket
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -256,7 +256,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDGPDBType
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -265,7 +265,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDGPDBScalarOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -274,7 +274,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDGPDBFunc
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -283,7 +283,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDGPDBAgg
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -292,7 +292,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDGPDBTrigger
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -301,7 +301,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDCast
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -310,7 +310,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDScCmp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -319,7 +319,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDGPDBCheckConstraint
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -328,7 +328,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMetadataIdList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -337,7 +337,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMetadataColumns
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -345,7 +345,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase * PphMDIndexInfoList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -354,7 +354,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMetadataColumn
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -363,7 +363,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphColumnDefaultValueExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -372,7 +372,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -381,7 +381,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphProperties
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -390,7 +390,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -399,7 +399,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphTableScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -408,7 +408,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphBitmapTableScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -417,7 +417,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphDynamicBitmapTableScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -426,7 +426,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphExternalScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -435,7 +435,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphSubqScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -444,7 +444,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphResult
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -453,7 +453,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphHashJoin
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -462,7 +462,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphNLJoin
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -471,7 +471,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMergeJoin
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -480,7 +480,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphSort
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -489,7 +489,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphAppend
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -498,7 +498,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMaterialize
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -507,7 +507,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphDynamicTableScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -516,7 +516,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphDynamicIndexScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -525,7 +525,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPartitionSelector
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -534,7 +534,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphSequence
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -543,7 +543,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLimit
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -552,7 +552,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLimitcount
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -561,7 +561,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLimitoffset
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -570,7 +570,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarSubquery
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -579,7 +579,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarBitmapBoolOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -588,7 +588,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarArray
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -597,7 +597,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarArrayRef
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -606,7 +606,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarArrayRefIndexList
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -615,7 +615,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarAssertConstraintList
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -625,7 +625,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarDMLAction
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -634,7 +634,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarOpList
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -643,7 +643,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarPartOid
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -652,7 +652,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarPartDefault
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -661,7 +661,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarPartBound
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -670,7 +670,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarPartBoundInclusion
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -679,7 +679,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarPartBoundOpen
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -688,7 +688,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarPartListValues
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -697,7 +697,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarPartListNullTest
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -706,7 +706,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphDirectDispatchInfo
 				(
-				IMemoryPool* pmp,
+				IMemoryPool* memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -715,7 +715,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphGatherMotion
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -724,7 +724,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphBroadcastMotion
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -733,7 +733,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphRedistributeMotion
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -742,7 +742,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphRoutedMotion
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -751,7 +751,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphRandomMotion
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -760,7 +760,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphAgg
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -769,7 +769,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphAggref
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -778,7 +778,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindow
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -787,7 +787,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowRef
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -796,7 +796,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowFrame
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -805,7 +805,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowKey
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -814,7 +814,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowKeyList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -823,7 +823,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowSpec
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -832,7 +832,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowSpecList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -841,7 +841,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphGroupingColList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -850,7 +850,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarCmp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -859,7 +859,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphDistinctCmp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -868,7 +868,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarId
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -877,7 +877,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarOpexpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -886,7 +886,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarArrayCmp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -895,7 +895,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarBoolExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -904,7 +904,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarMinMax
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -913,7 +913,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphBooleanTest
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -922,7 +922,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarNullTest
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -931,7 +931,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarNullIf
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -940,7 +940,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarCast
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -949,7 +949,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarCoerceToDomain
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -958,7 +958,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarCoerceViaIO
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -967,7 +967,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarArrayCoerceExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -976,7 +976,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarSubPlan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -985,7 +985,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarSubPlanTestExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -994,7 +994,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarSubPlanParamList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1003,7 +1003,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarSubPlanParam
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1012,7 +1012,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLogicalTVF
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1021,7 +1021,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhysicalTVF
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1030,7 +1030,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarCoalesce
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1039,7 +1039,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarSwitch
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1048,7 +1048,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarSwitchCase
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1057,7 +1057,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarCaseTest
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1066,7 +1066,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarConstValue
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1075,7 +1075,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphIfStmt
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1084,7 +1084,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarFuncExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1093,7 +1093,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphProjList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1102,7 +1102,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphProjElem
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1111,7 +1111,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphHashExprList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);		
@@ -1120,7 +1120,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphHashExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1129,7 +1129,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCondList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1138,7 +1138,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphSortColList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1147,7 +1147,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphSortCol
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1156,7 +1156,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCost
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1165,7 +1165,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphTableDesc
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1174,7 +1174,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphColDesc
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1183,7 +1183,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphIndexScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1192,7 +1192,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphIndexOnlyScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1201,7 +1201,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphBitmapIndexProbe
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1210,7 +1210,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphIndexDescr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1219,7 +1219,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphIndexCondList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1229,7 +1229,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphQuery
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1238,7 +1238,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgGet
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1247,7 +1247,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgExternalGet
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1256,7 +1256,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1265,7 +1265,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgProject
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1274,7 +1274,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgCTEProducer
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1283,7 +1283,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgCTEConsumer
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1292,7 +1292,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgCTEAnchor
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1301,7 +1301,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCTEList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1310,7 +1310,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgWindow
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1319,7 +1319,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgInsert
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1328,7 +1328,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgDelete
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1337,7 +1337,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgUpdate
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1346,7 +1346,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgCTAS
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1355,7 +1355,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhCTAS
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1364,7 +1364,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCTASOptions
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1373,7 +1373,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhCTEProducer
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1382,7 +1382,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhCTEConsumer
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1391,7 +1391,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhDML
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1400,7 +1400,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhSplit
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1409,7 +1409,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhRowTrigger
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1418,7 +1418,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphPhAssert
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1427,7 +1427,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgSetOp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1436,7 +1436,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgSelect
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1445,7 +1445,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgJoin
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1454,7 +1454,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphQueryOutput
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1463,7 +1463,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgGrpBy
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);	
@@ -1472,7 +1472,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgLimit
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1481,7 +1481,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphLgConstTable
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1490,7 +1490,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScSubqueryQuantified
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1499,7 +1499,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScSubqueryExists
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1508,7 +1508,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphStacktrace
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pph
 				);
@@ -1517,7 +1517,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphStats
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1526,7 +1526,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphStatsDerivedColumn
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1535,7 +1535,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphStatsDerivedRelation
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1544,7 +1544,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphStatsBucketBound
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1553,7 +1553,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowFrameTrailingEdge
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1562,7 +1562,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphWindowFrameLeadingEdge
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1571,7 +1571,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphSearchStrategy
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1580,7 +1580,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphSearchStage
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1589,7 +1589,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphXform
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1598,7 +1598,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCostParams
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1607,7 +1607,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphCostParam
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1616,7 +1616,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1625,7 +1625,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphScalarValuesList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1634,7 +1634,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphValuesScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1643,7 +1643,7 @@ namespace gpdxl
 			static
 			CParseHandlerBase *PphMDArrayCoerceCast
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);
@@ -1652,13 +1652,13 @@ namespace gpdxl
 			
 			// initialize mappings of tokens to parse handlers
 			static 
-			void Init(IMemoryPool *pmp);
+			void Init(IMemoryPool *memory_pool);
 			
 			// return the parse handler creator for operator with the given name
 			static 
 			CParseHandlerBase *Pph
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const XMLCh *xmlsz,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
@@ -1668,7 +1668,7 @@ namespace gpdxl
 			static 
 			CParseHandlerDXL *Pphdxl
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager*
 				);
 	};

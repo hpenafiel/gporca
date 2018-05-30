@@ -31,14 +31,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CSerializablePlan::CSerializablePlan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CDXLNode *pdxlnPlan,
 	ULLONG plan_id,
 	ULLONG plan_space_size
 	)
 	:
 	CSerializable(),
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlnPlan(pdxlnPlan),
 	m_pstrPlan(NULL),
 	m_plan_id(plan_id),

@@ -53,12 +53,12 @@ GPOS_RESULT
 CContradictionTest::EresUnittest_Constraint()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 
 	typedef CExpression *(*Pfpexpr)(IMemoryPool*);
@@ -96,20 +96,20 @@ CContradictionTest::EresUnittest_Constraint()
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 						(
-						pmp,
+						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(pmp)
+						CTestUtils::Pcm(memory_pool)
 						);
 
 		// generate simple expression
-		CExpression *pexpr = rgpf[i](pmp);
+		CExpression *pexpr = rgpf[i](memory_pool);
 
 		// self-match
 		GPOS_ASSERT(pexpr->FMatchDebug(pexpr));
 
 		// debug print
-		CWStringDynamic str(pmp, GPOS_WSZ_LIT("\n"));
+		CWStringDynamic str(memory_pool, GPOS_WSZ_LIT("\n"));
 		COstreamString oss(&str);
 
 		oss << "EXPR:" << std::endl << *pexpr << std::endl;
@@ -127,7 +127,7 @@ CContradictionTest::EresUnittest_Constraint()
 		pexpr->DbgPrint();
 #endif // GPOS_DEBUG
 
- 		CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(pmp, pexpr);
+ 		CExpression *pexprPreprocessed = CExpressionPreprocessor::PexprPreprocess(memory_pool, pexpr);
 		oss	<< std::endl << "PREPROCESSED EXPR:" << std::endl << *pexprPreprocessed << std::endl;
 		GPOS_TRACE(str.GetBuffer());
 		str.Reset();

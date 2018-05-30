@@ -35,7 +35,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarAggFunc::CScalarAggFunc
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidAggFunc,
 	IMDId *pmdidResolvedRetType,
 	const CWStringConst *pstrAggFunc,
@@ -44,7 +44,7 @@ CScalarAggFunc::CScalarAggFunc
 	BOOL fSplit
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidAggFunc(pmdidAggFunc),
 	m_pmdidResolvedRetType(pmdidResolvedRetType),
 	m_pmdidRetType(NULL),
@@ -81,14 +81,14 @@ CScalarAggFunc::PstrAggFunc() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarAggFunc::Pmdid
+//		CScalarAggFunc::MDId
 //
 //	@doc:
 //		Aggregate function id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarAggFunc::Pmdid() const
+CScalarAggFunc::MDId() const
 {
 	return m_pmdidAggFunc;
 }
@@ -177,7 +177,7 @@ CScalarAggFunc::FMatch
 				(popScAggFunc->FDistinct() ==  m_fDistinct)
 				&& (popScAggFunc->Eaggfuncstage() ==  Eaggfuncstage())
 				&& (popScAggFunc->FSplit() ==  m_fSplit)
-				&& m_pmdidAggFunc->Equals(popScAggFunc->Pmdid())
+				&& m_pmdidAggFunc->Equals(popScAggFunc->MDId())
 				);
 	}
 	

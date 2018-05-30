@@ -28,17 +28,17 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformImplementCTEProducer::CXformImplementCTEProducer
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CXformImplementation
 		(
 		 // pattern
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 				(
-				pmp,
-				GPOS_NEW(pmp) CLogicalCTEProducer(pmp),
-				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp))
+				memory_pool,
+				GPOS_NEW(memory_pool) CLogicalCTEProducer(memory_pool),
+				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool))
 				)
 		)
 {}
@@ -84,7 +84,7 @@ CXformImplementCTEProducer::Transform
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
 	CLogicalCTEProducer *popCTEProducer = CLogicalCTEProducer::PopConvert(pexpr->Pop());
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// extract components for alternative
 	ULONG ulId = popCTEProducer->UlCTEId();
@@ -98,10 +98,10 @@ CXformImplementCTEProducer::Transform
 
 	// create physical CTE Producer
 	CExpression *pexprAlt =
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 			(
-			pmp,
-			GPOS_NEW(pmp) CPhysicalCTEProducer(pmp, ulId, pdrgpcr),
+			memory_pool,
+			GPOS_NEW(memory_pool) CPhysicalCTEProducer(memory_pool, ulId, pdrgpcr),
 			pexprChild
 			);
 

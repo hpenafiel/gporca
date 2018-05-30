@@ -52,7 +52,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CSerializableQuery(IMemoryPool *pmp, const CDXLNode *pdxlnQuery, const DrgPdxln *query_output_dxlnode_array, const DrgPdxln *cte_dxlnode_array);
+			CSerializableQuery(IMemoryPool *memory_pool, const CDXLNode *pdxlnQuery, const DrgPdxln *query_output_dxlnode_array, const DrgPdxln *cte_dxlnode_array);
 
 			// dtor
 			virtual

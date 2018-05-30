@@ -35,7 +35,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLLogicalExternalGet(IMemoryPool *pmp, CDXLTableDescr *pdxltabdesc);
+			CDXLLogicalExternalGet(IMemoryPool *memory_pool, CDXLTableDescr *pdxltabdesc);
 
 			// operator type
 			virtual

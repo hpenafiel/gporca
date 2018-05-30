@@ -32,7 +32,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLDirectDispatchInfo::CDXLDirectDispatchInfo
 	(
-	DrgPdrgPdxldatum *pdrgpdrgdxldatum
+	DXLDatumArrays *pdrgpdrgdxldatum
 	)
 	:
 	m_pdrgpdrgpdxldatum(pdrgpdrgdxldatum)
@@ -40,11 +40,11 @@ CDXLDirectDispatchInfo::CDXLDirectDispatchInfo
 	GPOS_ASSERT(NULL != pdrgpdrgdxldatum);
 	
 #ifdef GPOS_DEBUG
-	const ULONG ulLength = pdrgpdrgdxldatum->Size();
-	if (0 < ulLength)
+	const ULONG length = pdrgpdrgdxldatum->Size();
+	if (0 < length)
 	{
 		ULONG ulDatums = ((*pdrgpdrgdxldatum)[0])->Size();
-		for (ULONG ul = 1; ul < ulLength; ul++)
+		for (ULONG ul = 1; ul < length; ul++)
 		{
 			GPOS_ASSERT(ulDatums == ((*pdrgpdrgdxldatum)[ul])->Size());
 		}
@@ -87,7 +87,7 @@ CDXLDirectDispatchInfo::Serialize
 	{
 		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchKeyValue));
 
-		DrgPdxldatum *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulA];
+		DXLDatumArray *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulA];
 		
 		const ULONG ulDatums = pdrgpdxldatum->Size();
 		for (ULONG ulB = 0; ulB < ulDatums; ulB++) 

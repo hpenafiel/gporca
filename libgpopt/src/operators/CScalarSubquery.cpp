@@ -29,13 +29,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CScalarSubquery::CScalarSubquery
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CColRef *pcr,
 	BOOL fGeneratedByExist,
 	BOOL fGeneratedByQuantified
 	)
 	: 
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pcr(pcr),
 	m_fGeneratedByExist(fGeneratedByExist),
 	m_fGeneratedByQuantified(fGeneratedByQuantified)
@@ -67,7 +67,7 @@ CScalarSubquery::~CScalarSubquery()
 IMDId *
 CScalarSubquery::MDIdType() const
 {
-	return m_pcr->Pmdtype()->Pmdid();
+	return m_pcr->Pmdtype()->MDId();
 }
 
 //---------------------------------------------------------------------------
@@ -126,14 +126,14 @@ CScalarSubquery::FMatch
 COperator *
 CScalarSubquery::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
 	CColRef *pcr = CUtils::PcrRemap(m_pcr, phmulcr, fMustExist);
 
-	return GPOS_NEW(pmp) CScalarSubquery(pmp, pcr, m_fGeneratedByExist, m_fGeneratedByQuantified);
+	return GPOS_NEW(memory_pool) CScalarSubquery(memory_pool, pcr, m_fGeneratedByExist, m_fGeneratedByQuantified);
 }
 
 
@@ -148,14 +148,14 @@ CScalarSubquery::PopCopyWithRemappedColumns
 CColRefSet *
 CScalarSubquery::PcrsUsed
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
 	GPOS_ASSERT(1 == exprhdl.UlArity());
 
 	// used columns is an empty set unless subquery column is an outer reference
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	CColRefSet *pcrsChildOutput = exprhdl.Pdprel(0 /* ulChildIndex */)->PcrsOutput();
 	if (!pcrsChildOutput->FMember(m_pcr))
@@ -178,7 +178,7 @@ CScalarSubquery::PcrsUsed
 CPartInfo *
 CScalarSubquery::PpartinfoDerive
 	(
-	IMemoryPool *, // pmp, 
+	IMemoryPool *, // memory_pool, 
 	CExpressionHandle &exprhdl
 	)
 	const

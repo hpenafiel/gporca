@@ -26,20 +26,20 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLColRef::CDXLColRef
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDName *pmdname,
 	ULONG ulId,
-	IMDId *pmdidType,
-	INT iTypeModifier
+	IMDId *mdid_type,
+	INT type_modifier
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdname(pmdname),
 	m_ulId(ulId),
-	m_pmdidType(pmdidType),
-	m_iTypeModifer(iTypeModifier)
+	m_mdid_type(mdid_type),
+	m_iTypeModifer(type_modifier)
 {
-	GPOS_ASSERT(m_pmdidType->IsValid());
+	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -53,7 +53,7 @@ CDXLColRef::CDXLColRef
 CDXLColRef::~CDXLColRef()
 {
 	GPOS_DELETE(m_pmdname);
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -81,7 +81,7 @@ CDXLColRef::Pmdname() const
 IMDId *
 CDXLColRef::MDIdType() const
 {
-	return m_pmdidType;
+	return m_mdid_type;
 }
 
 INT

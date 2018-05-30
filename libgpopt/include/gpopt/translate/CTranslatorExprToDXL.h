@@ -734,7 +734,7 @@ namespace gpopt
 			// combines the ordered columns and required columns into a single list
 			DrgPcr *PdrgpcrMerge
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					DrgPcr *pdrgpcrOrder,
 					DrgPcr *pdrgpcrRequired
 					);
@@ -823,7 +823,7 @@ namespace gpopt
 			static
 			void AddBitmapFilterColumns
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CPhysicalScan *pop,
 				CExpression *pexprRecheckCond,
 				CExpression *pexprScalar,
@@ -833,7 +833,7 @@ namespace gpopt
 			// ctor
 			CTranslatorExprToDXL
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				IntPtrArray *pdrgpiSegments,
 				BOOL fInitColumnFactory = true

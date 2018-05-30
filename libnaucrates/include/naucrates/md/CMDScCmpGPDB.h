@@ -65,7 +65,7 @@ namespace gpmd
 			// ctor
 			CMDScCmpGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				IMDId *pmdidLeft,
@@ -87,7 +87,7 @@ namespace gpmd
 			
 			// copmarison object id
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// cast object name
 			virtual 

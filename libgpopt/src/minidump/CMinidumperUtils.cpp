@@ -61,7 +61,7 @@ using namespace std;
 CDXLMinidump *
 CMinidumperUtils::PdxlmdLoad
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CHAR *szFileName
 	)
 {
@@ -69,11 +69,11 @@ CMinidumperUtils::PdxlmdLoad
 	CAutoTraceFlag atf2(EtraceSimulateOOM, false);
 
 	{
-		CAutoTrace at(pmp);
+		CAutoTrace at(memory_pool);
 		at.Os() << "parsing DXL File " << szFileName;
 	}
 	
-	CParseHandlerDXL *parse_handler_dxl = CDXLUtils::GetParseHandlerForDXLFile(pmp, szFileName, NULL /*xsd_file_path*/);
+	CParseHandlerDXL *parse_handler_dxl = CDXLUtils::GetParseHandlerForDXLFile(memory_pool, szFileName, NULL /*xsd_file_path*/);
 
 	CBitSet *pbs = parse_handler_dxl->Pbs();
 	COptimizerConfig *optimizer_config = parse_handler_dxl->Poconf();
@@ -134,7 +134,7 @@ CMinidumperUtils::PdxlmdLoad
     CWorker::Self()->ResetTimeSlice();
 #endif // GPOS_DEBUG
 
-	return GPOS_NEW(pmp) CDXLMinidump
+	return GPOS_NEW(memory_pool) CDXLMinidump
 				(
 				pbs,
 				optimizer_config,
@@ -162,7 +162,7 @@ void
 CMinidumperUtils::GenerateMinidumpFileName
 	(
 	CHAR *buf,
-	ULONG ulLength,
+	ULONG length,
 	ULONG ulSessionId,
 	ULONG ulCmdId,
 	const CHAR *szMinidumpFileName // name of minidump file to be created,
@@ -190,7 +190,7 @@ CMinidumperUtils::GenerateMinidumpFileName
 	if (NULL == szMinidumpFileName)
 	{
 		// generate a time-based file name
-		CUtils::GenerateFileName(buf, "minidumps/Minidump", "mdp", ulLength, ulSessionId, ulCmdId);
+		CUtils::GenerateFileName(buf, "minidumps/Minidump", "mdp", length, ulSessionId, ulCmdId);
 	}
 	else
 	{
@@ -255,7 +255,7 @@ CMinidumperUtils::Finalize
 CDXLNode * 
 CMinidumperUtils::PdxlnExecuteMinidump
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CHAR *szFileName,
 	ULONG ulSegments,
 	ULONG ulSessionId,
@@ -270,12 +270,12 @@ CMinidumperUtils::PdxlnExecuteMinidump
 	CAutoTimer at("Minidump", true /*fPrint*/);
 
 	// load dump file
-	CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(pmp, szFileName);
+	CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(memory_pool, szFileName);
 	GPOS_CHECK_ABORT;
 
 	CDXLNode *pdxlnPlan = PdxlnExecuteMinidump
 							(
-							pmp,
+							memory_pool,
 							pdxlmd,
 							szFileName,
 							ulSegments,
@@ -308,7 +308,7 @@ CMinidumperUtils::PdxlnExecuteMinidump
 CDXLNode * 
 CMinidumperUtils::PdxlnExecuteMinidump
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLMinidump *pdxlmd,
 	const CHAR *szFileName,
 	ULONG ulSegments, 
@@ -323,9 +323,9 @@ CMinidumperUtils::PdxlnExecuteMinidump
 	// reset metadata ccache
 	CMDCache::Reset();
 
-	CMetadataAccessorFactory factory(pmp, pdxlmd, szFileName);
+	CMetadataAccessorFactory factory(memory_pool, pdxlmd, szFileName);
 
-	CDXLNode *result = CMinidumperUtils::PdxlnExecuteMinidump(pmp, factory.Pmda(), pdxlmd, szFileName, ulSegments, ulSessionId, ulCmdId, optimizer_config, pceeval);
+	CDXLNode *result = CMinidumperUtils::PdxlnExecuteMinidump(memory_pool, factory.Pmda(), pdxlmd, szFileName, ulSegments, ulSessionId, ulCmdId, optimizer_config, pceeval);
 
 	return result;
 }
@@ -342,7 +342,7 @@ CMinidumperUtils::PdxlnExecuteMinidump
 CDXLNode *
 CMinidumperUtils::PdxlnExecuteMinidump
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CDXLMinidump *pdxlmd,
 	const CHAR *szFileName,
@@ -369,7 +369,7 @@ CMinidumperUtils::PdxlnExecuteMinidump
 	// set trace flags
 	CBitSet *pbsEnabled = NULL;
 	CBitSet *pbsDisabled = NULL;
-	SetTraceflags(pmp, pdxlmd->Pbs(), &pbsEnabled, &pbsDisabled);
+	SetTraceflags(memory_pool, pdxlmd->Pbs(), &pbsEnabled, &pbsDisabled);
 
 	if (NULL == pceeval)
 	{
@@ -383,7 +383,7 @@ CMinidumperUtils::PdxlnExecuteMinidump
 	{
 		pdxlnPlan = COptimizer::PdxlnOptimize
 								(
-								pmp,
+								memory_pool,
 								pmda,
 								pdxlmd->PdxlnQuery(),
 								pdxlmd->PdrgpdxlnQueryOutput(),

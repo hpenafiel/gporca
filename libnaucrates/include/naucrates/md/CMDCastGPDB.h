@@ -68,7 +68,7 @@ namespace gpmd
 			// ctor
 			CMDCastGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				IMDId *pmdidSrc,
@@ -91,7 +91,7 @@ namespace gpmd
 			
 			// cast object id
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// cast object name
 			virtual 

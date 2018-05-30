@@ -53,7 +53,7 @@ namespace gpdxl
 			
 		public:
 			// ctor
-			CDXLPhysicalRedistributeMotion(IMemoryPool *pmp, BOOL fDuplicateSensitive);
+			CDXLPhysicalRedistributeMotion(IMemoryPool *memory_pool, BOOL fDuplicateSensitive);
 			
 			// accessors
 			Edxlopid Edxlop() const;

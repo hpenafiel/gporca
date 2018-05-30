@@ -46,7 +46,7 @@ namespace gpdxl
 			// ctor
 			CDXLPhysicalTVF
 				(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					IMDId *pmdidFunc,
 					IMDId *pmdidRetType,
 					CWStringConst *pstr

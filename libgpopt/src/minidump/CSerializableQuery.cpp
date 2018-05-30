@@ -31,14 +31,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CSerializableQuery::CSerializableQuery
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CDXLNode *pdxlnQuery,
 	const DrgPdxln *query_output_dxlnode_array,
 	const DrgPdxln *cte_dxlnode_array
 	)
 	:
 	CSerializable(),
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlnQuery(pdxlnQuery),
 	m_pdrgpdxlnQueryOutput(query_output_dxlnode_array),
 	m_pdrgpdxlnCTE(cte_dxlnode_array)

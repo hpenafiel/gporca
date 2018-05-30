@@ -30,13 +30,13 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CDXLScalarSubqueryQuantified::CDXLScalarSubqueryQuantified
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidScalarOp,
 	CMDName *pmdnameScalarOp,
 	ULONG ulColId
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdidScalarOp(pmdidScalarOp),
 	m_pmdnameScalarOp(pmdnameScalarOp),
 	m_ulColId(ulColId)

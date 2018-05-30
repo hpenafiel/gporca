@@ -39,10 +39,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalDynamicIndexGet::CLogicalDynamicIndexGet
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalDynamicGetBase(pmp),
+	CLogicalDynamicGetBase(memory_pool),
 	m_pindexdesc(NULL),
 	m_ulOriginOpId(ULONG_MAX),
 	m_pos(NULL)
@@ -59,7 +59,7 @@ CLogicalDynamicIndexGet::CLogicalDynamicIndexGet
 //---------------------------------------------------------------------------
 CLogicalDynamicIndexGet::CLogicalDynamicIndexGet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const IMDIndex *pmdindex,
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
@@ -72,14 +72,14 @@ CLogicalDynamicIndexGet::CLogicalDynamicIndexGet
 	CPartConstraint *ppartcnstrRel
 	)
 	:
-	CLogicalDynamicGetBase(pmp, pnameAlias, ptabdesc, ulPartIndexId, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryPartIndexId, FPartialIndex(ptabdesc, pmdindex), ppartcnstr, ppartcnstrRel),
+	CLogicalDynamicGetBase(memory_pool, pnameAlias, ptabdesc, ulPartIndexId, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryPartIndexId, FPartialIndex(ptabdesc, pmdindex), ppartcnstr, ppartcnstrRel),
 	m_pindexdesc(NULL),
 	m_ulOriginOpId(ulOriginOpId)
 {
 	GPOS_ASSERT(NULL != pmdindex);
 
 	// create the index descriptor
-	m_pindexdesc  = CIndexDescriptor::Pindexdesc(pmp, ptabdesc, pmdindex);
+	m_pindexdesc  = CIndexDescriptor::Pindexdesc(memory_pool, ptabdesc, pmdindex);
 
 	// compute the order spec
 	m_pos = PosFromIndex(m_memory_pool, pmdindex, m_pdrgpcrOutput, ptabdesc);
@@ -112,7 +112,7 @@ CLogicalDynamicIndexGet::HashValue() const
 {
 	return gpos::CombineHashes(COperator::HashValue(),
 	                             gpos::CombineHashes(gpos::HashValue(&m_ulScanId),
-					             m_pindexdesc->Pmdid()->HashValue()));
+					             m_pindexdesc->MDId()->HashValue()));
 }
 
 
@@ -145,11 +145,11 @@ CLogicalDynamicIndexGet::FMatch
 CColRefSet *
 CLogicalDynamicIndexGet::PcrsDeriveOuter
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
-	return PcrsDeriveOuterIndexGet(pmp, exprhdl);
+	return PcrsDeriveOuterIndexGet(memory_pool, exprhdl);
 }
 
 //---------------------------------------------------------------------------
@@ -163,34 +163,34 @@ CLogicalDynamicIndexGet::PcrsDeriveOuter
 COperator *
 CLogicalDynamicIndexGet::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDIndex *pmdindex = pmda->Pmdindex(m_pindexdesc->Pmdid());
-	CName *pnameAlias = GPOS_NEW(pmp) CName(pmp, *m_pnameAlias);
+	const IMDIndex *pmdindex = pmda->Pmdindex(m_pindexdesc->MDId());
+	CName *pnameAlias = GPOS_NEW(memory_pool) CName(memory_pool, *m_pnameAlias);
 
 	DrgPcr *pdrgpcrOutput = NULL;
 	if (fMustExist)
 	{
-		pdrgpcrOutput = CUtils::PdrgpcrRemapAndCreate(pmp, m_pdrgpcrOutput, phmulcr);
+		pdrgpcrOutput = CUtils::PdrgpcrRemapAndCreate(memory_pool, m_pdrgpcrOutput, phmulcr);
 	}
 	else
 	{
-		pdrgpcrOutput = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrOutput, phmulcr, fMustExist);
+		pdrgpcrOutput = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrOutput, phmulcr, fMustExist);
 	}
 
-	DrgDrgPcr *pdrgpdrgpcrPart = CUtils::PdrgpdrgpcrRemap(pmp, m_pdrgpdrgpcrPart, phmulcr, fMustExist);
-	CPartConstraint *ppartcnstr = m_ppartcnstr->PpartcnstrCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
-	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
+	DrgDrgPcr *pdrgpdrgpcrPart = CUtils::PdrgpdrgpcrRemap(memory_pool, m_pdrgpdrgpcrPart, phmulcr, fMustExist);
+	CPartConstraint *ppartcnstr = m_ppartcnstr->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
+	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
 	m_ptabdesc->AddRef();
 
-	return GPOS_NEW(pmp) CLogicalDynamicIndexGet
+	return GPOS_NEW(memory_pool) CLogicalDynamicIndexGet
 						(
-						pmp,
+						memory_pool,
 						pmdindex,
 						m_ptabdesc,
 						m_ulOriginOpId,
@@ -214,8 +214,8 @@ CLogicalDynamicIndexGet::FPartialIndex
 {
 	// refer to the relation on which this index is defined for index partial information
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdesc->Pmdid());
-	return pmdrel->FPartialIndex(pmdindex->Pmdid());
+	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdesc->MDId());
+	return pmdrel->FPartialIndex(pmdindex->MDId());
 }
 
 //---------------------------------------------------------------------------
@@ -243,11 +243,11 @@ CLogicalDynamicIndexGet::FInputOrderSensitive() const
 CXformSet *
 CLogicalDynamicIndexGet::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfDynamicIndexGet2DynamicIndexScan);
 	return pxfs;
 }
@@ -264,13 +264,13 @@ const
 IStatistics *
 CLogicalDynamicIndexGet::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat *pdrgpstatCtxt
 	)
 	const
 {
-	return CStatisticsUtils::PstatsIndexGet(pmp, exprhdl, pdrgpstatCtxt);
+	return CStatisticsUtils::PstatsIndexGet(memory_pool, exprhdl, pdrgpstatCtxt);
 }
 
 

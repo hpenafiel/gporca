@@ -33,7 +33,7 @@ namespace gpdxl
 	{
 		private:
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// private copy ctor
 			CDXLScalarCoalesce(const CDXLScalarCoalesce&);
@@ -41,7 +41,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarCoalesce(IMemoryPool *pmp, IMDId *pmdidType);
+			CDXLScalarCoalesce(IMemoryPool *memory_pool, IMDId *mdid_type);
 
 			//dtor
 			virtual
@@ -55,7 +55,7 @@ namespace gpdxl
 			virtual
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// DXL Operator ID

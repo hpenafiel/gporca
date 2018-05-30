@@ -31,14 +31,14 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CDXLRelStats::CDXLRelStats
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDIdRelStats *pmdidRelStats,
 	CMDName *pmdname,
 	CDouble dRows,
 	BOOL fEmpty
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdidRelStats(pmdidRelStats),
 	m_pmdname(pmdname),
 	m_dRows(dRows),
@@ -65,14 +65,14 @@ CDXLRelStats::~CDXLRelStats()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLRelStats::Pmdid
+//		CDXLRelStats::MDId
 //
 //	@doc:
 //		Returns the metadata id of this relation stats object
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLRelStats::Pmdid() const
+CDXLRelStats::MDId() const
 {
 	return m_pmdidRelStats;
 }
@@ -166,7 +166,7 @@ CDXLRelStats::DebugPrint
 	const
 {
 	os << "Relation id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 	
 	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
@@ -189,17 +189,17 @@ CDXLRelStats::DebugPrint
 CDXLRelStats *
 CDXLRelStats::PdxlrelstatsDummy
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid
 	)
 {
 	CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(pmdid);
 	CAutoP<CWStringDynamic> a_pstr;
-	a_pstr = GPOS_NEW(pmp) CWStringDynamic(pmp, pmdidRelStats->GetBuffer());
+	a_pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, pmdidRelStats->GetBuffer());
 	CAutoP<CMDName> a_pmdname;
-	a_pmdname = GPOS_NEW(pmp) CMDName(pmp, a_pstr.Value());
+	a_pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, a_pstr.Value());
 	CAutoRef<CDXLRelStats> a_pdxlrelstats;
-	a_pdxlrelstats = GPOS_NEW(pmp) CDXLRelStats(pmp, pmdidRelStats, a_pmdname.Value(), CStatistics::DDefaultColumnWidth, false /* fEmpty */);
+	a_pdxlrelstats = GPOS_NEW(memory_pool) CDXLRelStats(memory_pool, pmdidRelStats, a_pmdname.Value(), CStatistics::DDefaultColumnWidth, false /* fEmpty */);
 	a_pmdname.Reset();
 	return a_pdxlrelstats.Reset();
 }

@@ -36,15 +36,15 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDProviderGeneric::CMDProviderGeneric
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	// TODO:  - Jan 25, 2012; those should not be tied to a particular system
-	m_pmdidInt2 = GPOS_NEW(pmp) CMDIdGPDB(GPDB_INT2);
-	m_pmdidInt4 = GPOS_NEW(pmp) CMDIdGPDB(GPDB_INT4);
-	m_pmdidInt8 = GPOS_NEW(pmp) CMDIdGPDB(GPDB_INT8);
-	m_pmdidBool = GPOS_NEW(pmp) CMDIdGPDB(GPDB_BOOL);
-	m_pmdidOid = GPOS_NEW(pmp) CMDIdGPDB(GPDB_OID);
+	m_pmdidInt2 = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT2);
+	m_pmdidInt4 = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4);
+	m_pmdidInt8 = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT8);
+	m_pmdidBool = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_BOOL);
+	m_pmdidOid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_OID);
 }
 
 //---------------------------------------------------------------------------
@@ -66,14 +66,14 @@ CMDProviderGeneric::~CMDProviderGeneric()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDProviderGeneric::Pmdid
+//		CMDProviderGeneric::MDId
 //
 //	@doc:
 //		return the mdid of a requested type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDProviderGeneric::Pmdid
+CMDProviderGeneric::MDId
 	(
 	IMDType::ETypeInfo eti
 	) 

@@ -47,7 +47,7 @@ namespace gpdxl
 
 			// ctor
 			explicit
-			CDXLWindowKey(IMemoryPool *pmp);
+			CDXLWindowKey(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual

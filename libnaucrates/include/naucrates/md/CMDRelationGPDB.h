@@ -129,7 +129,7 @@ namespace gpmd
 			// ctor
 			CMDRelationGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				BOOL fTemporary,
@@ -162,7 +162,7 @@ namespace gpmd
 			
 			// the metadata id
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// relation name
 			virtual 

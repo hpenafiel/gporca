@@ -28,11 +28,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarNullTest::CDXLScalarNullTest
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	BOOL fIsNull
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_fIsNull(fIsNull)
 {
 

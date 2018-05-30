@@ -31,11 +31,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarIdent::CDXLScalarIdent
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLColRef *pdxlcr
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pdxlcr(pdxlcr)
 {
 	GPOS_ASSERT(NULL != m_pdxlcr);

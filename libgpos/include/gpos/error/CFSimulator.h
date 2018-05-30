@@ -131,7 +131,7 @@ namespace gpos
 								
 					// ctor
         			explicit
-					CStackTracker(IMemoryPool *pmp, ULONG resolution, SStackKey key);
+					CStackTracker(IMemoryPool *memory_pool, ULONG resolution, SStackKey key);
 					
 					// exchange/set function
 					BOOL ExchangeSet(ULONG bit);
@@ -183,7 +183,7 @@ namespace gpos
 		public:
 		
 			// ctor
-			CFSimulator(IMemoryPool *pmp, ULONG resolution);
+			CFSimulator(IMemoryPool *memory_pool, ULONG resolution);
 
 			// dtor
 			~CFSimulator() {}

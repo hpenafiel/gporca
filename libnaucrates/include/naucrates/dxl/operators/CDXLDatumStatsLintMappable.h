@@ -51,13 +51,13 @@ namespace gpdxl
 			// ctor
 			CDXLDatumStatsLintMappable
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				INT iTypeModifier,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				INT type_modifier,
 				BOOL fByVal,
-				BOOL fNull,
+				BOOL is_null,
 				BYTE *pba,
-				ULONG ulLength,
+				ULONG length,
 				LINT lValue
 				);
 
@@ -71,7 +71,7 @@ namespace gpdxl
 
 			// datum type
 			virtual
-			EdxldatumType Edxldt() const
+			EdxldatumType GetDatumType() const
 			{
 				return CDXLDatum::EdxldatumStatsLintMappable;
 			}
@@ -84,7 +84,7 @@ namespace gpdxl
 				)
 			{
 				GPOS_ASSERT(NULL != pdxldatum);
-				GPOS_ASSERT(CDXLDatum::EdxldatumStatsLintMappable == pdxldatum->Edxldt());
+				GPOS_ASSERT(CDXLDatum::EdxldatumStatsLintMappable == pdxldatum->GetDatumType());
 
 				return dynamic_cast<CDXLDatumStatsLintMappable*>(pdxldatum);
 			}

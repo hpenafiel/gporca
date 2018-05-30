@@ -28,7 +28,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdnameSchema,
 	CMDName *pmdname,
@@ -43,7 +43,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	IntPtrArray *pdrgpiVarTypeMod
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdnameSchema(pmdnameSchema),
 	m_pmdname(pmdname),
@@ -68,7 +68,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	
 	m_phmiulAttno2Pos = GPOS_NEW(m_memory_pool) HMIUl(m_memory_pool);
 	m_pdrgpulNonDroppedCols = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
-	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
+	m_pdrgpdoubleColWidths = GPOS_NEW(memory_pool) DrgPdouble(memory_pool);
 
 	const ULONG ulArity = pdrgpmdcol->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
@@ -92,7 +92,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 									GPOS_NEW(m_memory_pool) ULONG(ul)
 									);
 
-		m_pdrgpdoubleColWidths->Append(GPOS_NEW(pmp) CDouble(pmdcol->Length()));
+		m_pdrgpdoubleColWidths->Append(GPOS_NEW(memory_pool) CDouble(pmdcol->Length()));
 	}
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
@@ -123,14 +123,14 @@ CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRelationCtasGPDB::Pmdid
+//		CMDRelationCtasGPDB::MDId
 //
 //	@doc:
 //		Returns the metadata id of this relation
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDRelationCtasGPDB::Pmdid() const
+CMDRelationCtasGPDB::MDId() const
 {
 	return m_pmdid;
 }
@@ -376,7 +376,7 @@ CMDRelationCtasGPDB::DebugPrint
 	const
 {
 	os << "CTAS Relation id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 
 	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;

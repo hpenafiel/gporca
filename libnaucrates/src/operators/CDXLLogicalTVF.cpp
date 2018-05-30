@@ -28,13 +28,13 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalTVF::CDXLLogicalTVF
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidFunc,
 	IMDId *pmdidRetType,
 	CMDName *pmdname,
 	ColumnDescrDXLArray *pdrgdxlcd
 	)
-	:CDXLLogical(pmp),
+	:CDXLLogical(memory_pool),
 	m_pmdidFunc(pmdidFunc),
 	m_pmdidRetType(pmdidRetType),
 	m_pmdname(pmdname),

@@ -45,7 +45,7 @@ namespace gpdxl
 		public:
 			// ctor/dtor
 			explicit
-			CDXLPhysicalResult(IMemoryPool *pmp);
+			CDXLPhysicalResult(IMemoryPool *memory_pool);
 
 			// accessors
 			Edxlopid Edxlop() const;

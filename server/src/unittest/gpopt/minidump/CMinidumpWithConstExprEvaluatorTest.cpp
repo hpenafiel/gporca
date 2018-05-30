@@ -82,9 +82,9 @@ CMinidumpWithConstExprEvaluatorTest::EresUnittest_RunMinidumpTestsWithConstExprE
 	CAutoTraceFlag atf(EopttraceEnableConstantExpressionEvaluation, true /*fVal*/);
 
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	IConstExprEvaluator *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	IConstExprEvaluator *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	BOOL fMatchPlans = true;
 
@@ -99,7 +99,7 @@ CMinidumpWithConstExprEvaluatorTest::EresUnittest_RunMinidumpTestsWithConstExprE
 	GPOS_RESULT eres =
 			CTestUtils::EresRunMinidumps
 						(
-						pmp,
+						memory_pool,
 						rgszConstExprEvaluatorOnFileNames,
 						ulTests,
 						&m_ulTestCounter,

@@ -114,7 +114,7 @@ IMDId *
 CScalarBoolOp::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeBool>()->Pmdid();
+	return pmda->PtMDType<IMDTypeBool>()->MDId();
 }
 
 

@@ -28,11 +28,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarArrayRefIndexList::CDXLScalarArrayRefIndexList
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EIndexListBound eilb
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_eilb(eilb)
 {
 	GPOS_ASSERT(EilbSentinel > eilb);

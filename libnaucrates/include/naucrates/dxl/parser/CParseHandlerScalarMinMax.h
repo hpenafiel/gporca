@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// min/max type
 			CDXLScalarMinMax::EdxlMinMaxType m_emmt;
@@ -69,7 +69,7 @@ namespace gpdxl
 			// ctor
 			CParseHandlerScalarMinMax
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CParseHandlerManager *parse_handler_mgr,
 					CParseHandlerBase *pphRoot
 					);

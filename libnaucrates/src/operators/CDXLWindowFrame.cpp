@@ -31,14 +31,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLWindowFrame::CDXLWindowFrame
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EdxlFrameSpec edxlfs,
 	EdxlFrameExclusionStrategy edxlfes,
 	CDXLNode *pdxlnLeading,
 	CDXLNode *pdxlnTrailing
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_edxlfs(edxlfs),
 	m_edxlfes(edxlfes),
 	m_pdxlnLeading(pdxlnLeading),

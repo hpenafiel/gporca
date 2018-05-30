@@ -231,14 +231,14 @@ BOOL
 CMDAccessorUtils::FBoolType
 	(
 	CMDAccessor *pmda,
-	IMDId *pmdidType
+	IMDId *mdid_type
 	)
 {
 	GPOS_ASSERT(NULL != pmda);
 
-	if (NULL != pmdidType && pmdidType->IsValid())
+	if (NULL != mdid_type && mdid_type->IsValid())
 	{
-		return (IMDType::EtiBool == pmda->Pmdtype(pmdidType)->Eti());
+		return (IMDType::EtiBool == pmda->Pmdtype(mdid_type)->Eti());
 	}
 
 	return false;

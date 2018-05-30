@@ -32,11 +32,11 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CDrvdPropCtxtPlan::CDrvdPropCtxtPlan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	BOOL fUpdateCTEMap
 	)
 	:
-	CDrvdPropCtxt(pmp),
+	CDrvdPropCtxt(memory_pool),
 	m_phmulpdpCTEs(NULL),
 	m_ulExpectedPartitionSelectors(0),
 	m_fUpdateCTEMap(fUpdateCTEMap)
@@ -70,11 +70,11 @@ CDrvdPropCtxtPlan::~CDrvdPropCtxtPlan()
 CDrvdPropCtxt *
 CDrvdPropCtxtPlan::PdpctxtCopy
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CDrvdPropCtxtPlan *pdpctxtplan = GPOS_NEW(pmp) CDrvdPropCtxtPlan(pmp);
+	CDrvdPropCtxtPlan *pdpctxtplan = GPOS_NEW(memory_pool) CDrvdPropCtxtPlan(memory_pool);
 	pdpctxtplan->m_ulExpectedPartitionSelectors = m_ulExpectedPartitionSelectors;
 
 	HMUlPdpIter hmulpdpiter(m_phmulpdpCTEs);

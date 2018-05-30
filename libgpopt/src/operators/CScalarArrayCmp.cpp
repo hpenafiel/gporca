@@ -42,13 +42,13 @@ const CHAR CScalarArrayCmp::m_rgszCmpType[EarrcmpSentinel][10] =
 //---------------------------------------------------------------------------
 CScalarArrayCmp::CScalarArrayCmp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
 	const CWStringConst *pstrOp,
 	EArrCmpType earrcmpt
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidOp(pmdidOp),
 	m_pscOp(pstrOp),
 	m_earrccmpt(earrcmpt),
@@ -148,7 +148,7 @@ IMDId *
 CScalarArrayCmp::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeBool>()->Pmdid();
+	return pmda->PtMDType<IMDTypeBool>()->MDId();
 }
 
 
@@ -210,7 +210,7 @@ CScalarArrayCmp::OsPrint
 CExpression *
 CScalarArrayCmp::PexprExpand
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprArrayCmp
 	)
 {
@@ -236,10 +236,10 @@ CScalarArrayCmp::PexprExpand
 		return pexprArrayCmp;
 	}
 
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArrayElems; ul++)
 	{
-		CExpression *pexprArrayElem = CUtils::PScalarArrayExprChildAt(pmp, pexprArray, ul);
+		CExpression *pexprArrayElem = CUtils::PScalarArrayExprChildAt(memory_pool, pexprArray, ul);
 		pexprIdent->AddRef();
 		const CWStringConst *pstrOpName = popArrayCmp->Pstr();
 		IMDId *pmdidOp = popArrayCmp->PmdidOp();
@@ -247,23 +247,23 @@ CScalarArrayCmp::PexprExpand
 
 		pmdidOp->AddRef();
 
-		CExpression *pexprCmp = CUtils::PexprScalarCmp(pmp, pexprIdent, pexprArrayElem, *pstrOpName, pmdidOp);
+		CExpression *pexprCmp = CUtils::PexprScalarCmp(memory_pool, pexprIdent, pexprArrayElem, *pstrOpName, pmdidOp);
 		pdrgpexpr->Append(pexprCmp);
 	}
 	GPOS_ASSERT(0 < pdrgpexpr->Size());
 
 	// deduplicate resulting array
-	DrgPexpr *pdrgpexprDeduped = CUtils::PdrgpexprDedup(pmp, pdrgpexpr);
+	DrgPexpr *pdrgpexprDeduped = CUtils::PdrgpexprDedup(memory_pool, pdrgpexpr);
 	pdrgpexpr->Release();
 
 	EArrCmpType earrcmpt = popArrayCmp->Earrcmpt();
 	if (EarrcmpAny == earrcmpt)
 	{
-		return CPredicateUtils::PexprDisjunction(pmp, pdrgpexprDeduped);
+		return CPredicateUtils::PexprDisjunction(memory_pool, pdrgpexprDeduped);
 	}
 	GPOS_ASSERT(EarrcmpAll == earrcmpt);
 
-	return CPredicateUtils::PexprConjunction(pmp, pdrgpexprDeduped);
+	return CPredicateUtils::PexprConjunction(memory_pool, pdrgpexprDeduped);
 }
 
 

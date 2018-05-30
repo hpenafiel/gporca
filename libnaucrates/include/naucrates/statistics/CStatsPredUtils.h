@@ -50,7 +50,7 @@ namespace gpopt
 			};
 
 			// shorthand for functions for extracting statistics filter from predicate expressions
-			typedef CStatsPred * (PfPstatspred)(IMemoryPool *pmp, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
+			typedef CStatsPred * (PfPstatspred)(IMemoryPool *memory_pool, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
 
 			// pair of predicate type and the corresponding function to extracts is statistics filter
 			struct SScStatsfilterMapping
@@ -72,17 +72,17 @@ namespace gpopt
 
 			// extract statistics filtering information from boolean expression
 			static
-			CStatsPred *PstatspredBoolean(IMemoryPool *pmp, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredBoolean(IMemoryPool *memory_pool, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
 
 			// extract statistics filtering information from a scalar array compare operator
 			static
-			void ProcessArrayCmp(IMemoryPool *pmp, CExpression *pexprPred, DrgPstatspred *pdrgpstatspred);
+			void ProcessArrayCmp(IMemoryPool *memory_pool, CExpression *pexprPred, DrgPstatspred *pdrgpstatspred);
 
 			// create and add statistics filtering information for supported filters
 			static
 			void AddSupportedStatsFilters
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPstatspred *pdrgpstatspred,
 				CExpression *pexprPred,
 				CColRefSet *pcrsOuterRefs
@@ -90,19 +90,19 @@ namespace gpopt
 
 			// create a conjunctive statistics filter composed of the extracted components of the conjunction
 			static
-			CStatsPred *PstatspredConj(IMemoryPool *pmp, CExpression *pexprScalar, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredConj(IMemoryPool *memory_pool, CExpression *pexprScalar, CColRefSet *pcrsOuterRefs);
 
 			// create a disjunction statistics filter composed of the extracted components of the disjunction
 			static
-			CStatsPred *PstatspredDisj(IMemoryPool *pmp, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredDisj(IMemoryPool *memory_pool, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
 
 			// return statistics filter type for the given expression
 			static
-			CStatsPredUtils::EPredicateType Ept(IMemoryPool *pmp, CExpression *pexprPred);
+			CStatsPredUtils::EPredicateType Ept(IMemoryPool *memory_pool, CExpression *pexprPred);
 
 			// is the condition a conjunctive predicate
 			static
-			BOOL FConjunction(IMemoryPool *pmp, CExpression *pexprPred);
+			BOOL FConjunction(IMemoryPool *memory_pool, CExpression *pexprPred);
 
 			// is the condition a boolean predicate
 			static
@@ -130,24 +130,24 @@ namespace gpopt
 
 			// extract statistics filtering information from a point comparison
 			static
-			CStatsPred *PstatspredPoint(IMemoryPool *pmp, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredPoint(IMemoryPool *memory_pool, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
 
 			// extract statistics filtering information from a LIKE comparison
 			static
-			CStatsPred *PstatspredLike(IMemoryPool *pmp, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredLike(IMemoryPool *memory_pool, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
 
 			// extract statistics filtering information from a null test
 			static
-			CStatsPred *PstatspredNullTest(IMemoryPool *pmp, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredNullTest(IMemoryPool *memory_pool, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
 
 			// create an unsupported statistics predicate
 			static
-			CStatsPred *PstatspredUnsupported(IMemoryPool *pmp, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredUnsupported(IMemoryPool *memory_pool, CExpression *pexprPred, CColRefSet *pcrsOuterRefs);
 
 			// generate a point predicate for expressions of the form colid CMP constant for which we support stats calculation;
 			// else return an unsupported stats predicate
 			static
-			CStatsPred *Pstatspred(IMemoryPool *pmp, CExpression *pexpr);
+			CStatsPred *Pstatspred(IMemoryPool *memory_pool, CExpression *pexpr);
 
 			// return the statistics predicate comparison type based on the md identifier
 			static
@@ -157,7 +157,7 @@ namespace gpopt
 			static
 			CStatsPredJoin *PstatsjoinExtract
 								(
-								IMemoryPool *pmp,
+								IMemoryPool *memory_pool,
 								CExpression *pexprJoinPred,
 								DrgPcrs *pdrgpcrsOutput, // array of output columns of join's relational inputs
 								CColRefSet *pcrsOuterRefs,
@@ -179,13 +179,13 @@ namespace gpopt
 
 			// extract statistics filter from scalar expression
 			static
-			CStatsPred *PstatspredExtract(IMemoryPool *pmp, CExpression *pexprScalar, CColRefSet *pcrsOuterRefs);
+			CStatsPred *PstatspredExtract(IMemoryPool *memory_pool, CExpression *pexprScalar, CColRefSet *pcrsOuterRefs);
 
 			// helper function to extract array of statistics join filter from an array of join predicates
 			static
 			DrgPstatspredjoin *PdrgpstatspredjoinExtract
 								(
-								IMemoryPool *pmp,
+								IMemoryPool *memory_pool,
 								CExpression *pexprScalar,
 								DrgPcrs *pdrgpcrsOutput, // array of output columns of join's relational inputs
 								CColRefSet *pcrsOuterRefs,
@@ -194,13 +194,13 @@ namespace gpopt
 
 			// helper function to extract array of statistics join filter from an expression handle
 			static
-			DrgPstatspredjoin *Pdrgpstatspredjoin(IMemoryPool *pmp, CExpressionHandle &exprhdl);
+			DrgPstatspredjoin *Pdrgpstatspredjoin(IMemoryPool *memory_pool, CExpressionHandle &exprhdl);
 
 			// helper function to extract array of statistics join filter from an expression
 			static
 			DrgPstatspredjoin *Pdrgpstatspredjoin
 								(
-								IMemoryPool *pmp,
+								IMemoryPool *memory_pool,
 								CExpressionHandle &exprhdl,
 								CExpression *pexprScalar,
 								DrgPcrs *pdrgpcrsOutput,

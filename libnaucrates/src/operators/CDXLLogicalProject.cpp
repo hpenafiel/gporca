@@ -27,9 +27,9 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalProject::CDXLLogicalProject
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
-	:CDXLLogical(pmp),
+	:CDXLLogical(memory_pool),
 	 m_pmdnameAlias(NULL)
 {
 }

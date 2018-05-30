@@ -34,18 +34,18 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformGbAggWithMDQA2Join::CXformGbAggWithMDQA2Join
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CXformExploration
 		(
 		 // pattern
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 					(
-					pmp,
-					GPOS_NEW(pmp) CLogicalGbAgg(pmp),
-					GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp)), // relational child
-					GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp))  // scalar project list
+					memory_pool,
+					GPOS_NEW(memory_pool) CLogicalGbAgg(memory_pool),
+					GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool)), // relational child
+					GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool))  // scalar project list
 					)
 		)
 {}
@@ -98,7 +98,7 @@ CXformGbAggWithMDQA2Join::Exfp
 CExpression *
 CXformGbAggWithMDQA2Join::PexprMDQAs2Join
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
@@ -110,36 +110,36 @@ CXformGbAggWithMDQA2Join::PexprMDQAs2Join
 	CExpression *pexprChild = (*pexpr)[0];
 
 	CColRefSet *pcrsChildOutput = CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->PcrsOutput();
-	DrgPcr *pdrgpcrChildOutput = pcrsChildOutput->Pdrgpcr(pmp);
+	DrgPcr *pdrgpcrChildOutput = pcrsChildOutput->Pdrgpcr(memory_pool);
 
 	// create a CTE producer based on child expression
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
 	const ULONG ulCTEId = pcteinfo->next_id();
-	(void) CXformUtils::PexprAddCTEProducer(pmp, ulCTEId, pdrgpcrChildOutput, pexprChild);
+	(void) CXformUtils::PexprAddCTEProducer(memory_pool, ulCTEId, pdrgpcrChildOutput, pexprChild);
 
 	// create a CTE consumer with child output columns
 	CExpression *pexprConsumer =
-			GPOS_NEW(pmp) CExpression
+			GPOS_NEW(memory_pool) CExpression
 				(
-				pmp,
-				GPOS_NEW(pmp) CLogicalCTEConsumer(pmp, ulCTEId, pdrgpcrChildOutput)
+				memory_pool,
+				GPOS_NEW(memory_pool) CLogicalCTEConsumer(memory_pool, ulCTEId, pdrgpcrChildOutput)
 				);
 	pcteinfo->IncrementConsumers(ulCTEId);
 
 	// finalize GbAgg expression by replacing its child with CTE consumer
 	pexpr->Pop()->AddRef();
 	(*pexpr)[1]->AddRef();
-	CExpression *pexprGbAggWithConsumer = GPOS_NEW(pmp) CExpression(pmp, pexpr->Pop(), pexprConsumer, (*pexpr)[1]);
+	CExpression *pexprGbAggWithConsumer = GPOS_NEW(memory_pool) CExpression(memory_pool, pexpr->Pop(), pexprConsumer, (*pexpr)[1]);
 
-	CExpression *pexprJoinDQAs = CXformUtils::PexprGbAggOnCTEConsumer2Join(pmp, pexprGbAggWithConsumer);
+	CExpression *pexprJoinDQAs = CXformUtils::PexprGbAggOnCTEConsumer2Join(memory_pool, pexprGbAggWithConsumer);
 	GPOS_ASSERT(NULL != pexprJoinDQAs);
 
 	pexprGbAggWithConsumer->Release();
 
-	return GPOS_NEW(pmp) CExpression
+	return GPOS_NEW(memory_pool) CExpression
 					(
-					pmp,
-					GPOS_NEW(pmp) CLogicalCTEAnchor(pmp, ulCTEId),
+					memory_pool,
+					GPOS_NEW(memory_pool) CLogicalCTEAnchor(memory_pool, ulCTEId),
 					pexprJoinDQAs
 					);
 }
@@ -158,7 +158,7 @@ CXformGbAggWithMDQA2Join::PexprMDQAs2Join
 CExpression *
 CXformGbAggWithMDQA2Join::PexprExpandMDQAs
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
@@ -171,10 +171,10 @@ CXformGbAggWithMDQA2Join::PexprExpandMDQAs
 		BOOL fHasMultipleDistinctAggs = CDrvdPropScalar::Pdpscalar((*pexpr)[1]->PdpDerive())->FHasMultipleDistinctAggs();
 		if (fHasMultipleDistinctAggs)
 		{
-			CExpression *pexprExpanded = PexprMDQAs2Join(pmp, pexpr);
+			CExpression *pexprExpanded = PexprMDQAs2Join(memory_pool, pexpr);
 
 			// recursively process the resulting expression
-			CExpression *pexprResult = PexprTransform(pmp, pexprExpanded);
+			CExpression *pexprResult = PexprTransform(memory_pool, pexprExpanded);
 			pexprExpanded->Release();
 
 			return pexprResult;
@@ -196,19 +196,19 @@ CXformGbAggWithMDQA2Join::PexprExpandMDQAs
 CExpression *
 CXformGbAggWithMDQA2Join::PexprTransform
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
 	// protect against stack overflow during recursion
 	GPOS_CHECK_STACK_SIZE;
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pexpr);
 
 	COperator *pop = pexpr->Pop();
 	if (COperator::EopLogicalGbAgg == pop->Eopid())
 	{
-		CExpression *pexprResult = PexprExpandMDQAs(pmp, pexpr);
+		CExpression *pexprResult = PexprExpandMDQAs(memory_pool, pexpr);
 		if (NULL != pexprResult)
 		{
 			return pexprResult;
@@ -217,15 +217,15 @@ CXformGbAggWithMDQA2Join::PexprTransform
 
 	// recursively process child expressions
 	const ULONG ulArity = pexpr->UlArity();
-	DrgPexpr *pdrgpexprChildren = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		CExpression *pexprChild = PexprTransform(pmp, (*pexpr)[ul]);
+		CExpression *pexprChild = PexprTransform(memory_pool, (*pexpr)[ul]);
 		pdrgpexprChildren->Append(pexprChild);
 	}
 
 	pop->AddRef();
-	return GPOS_NEW(pmp) CExpression(pmp, pop, pdrgpexprChildren);
+	return GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pdrgpexprChildren);
 }
 
 
@@ -252,9 +252,9 @@ CXformGbAggWithMDQA2Join::Transform
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
-	CExpression *pexprResult = PexprTransform(pmp, pexpr);
+	CExpression *pexprResult = PexprTransform(memory_pool, pexpr);
 	if (NULL != pexprResult)
 	{
 		pxfres->Add(pexprResult);

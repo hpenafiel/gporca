@@ -36,7 +36,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalDynamicIndexScan::CPhysicalDynamicIndexScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	BOOL fPartial,
 	CIndexDescriptor *pindexdesc,
 	CTableDescriptor *ptabdesc,
@@ -51,7 +51,7 @@ CPhysicalDynamicIndexScan::CPhysicalDynamicIndexScan
 	COrderSpec *pos
 	)
 	:
-	CPhysicalDynamicScan(pmp, fPartial, ptabdesc, ulOriginOpId, pnameAlias, ulScanId, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryScanId, ppartcnstr, ppartcnstrRel),
+	CPhysicalDynamicScan(memory_pool, fPartial, ptabdesc, ulOriginOpId, pnameAlias, ulScanId, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryScanId, ppartcnstr, ppartcnstrRel),
 	m_pindexdesc(pindexdesc),
 	m_pos(pos)
 {
@@ -117,7 +117,7 @@ CPhysicalDynamicIndexScan::HashValue() const
 	return gpos::CombineHashes (
 	        COperator::HashValue (),
 	        gpos::CombineHashes (gpos::HashValue (&ulScanId),
-	                               m_pindexdesc->Pmdid ()->HashValue ()));
+	                               m_pindexdesc->MDId ()->HashValue ()));
 }
 
 //---------------------------------------------------------------------------
@@ -191,7 +191,7 @@ CPhysicalDynamicIndexScan::OsPrint
 IStatistics *
 CPhysicalDynamicIndexScan::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CReqdPropPlan *prpplan,
 	DrgPstat *pdrgpstatCtxt
@@ -200,7 +200,7 @@ CPhysicalDynamicIndexScan::PstatsDerive
 {
 	GPOS_ASSERT(NULL != prpplan);
 
-	IStatistics *pstatsBaseTable = CStatisticsUtils::PstatsDynamicScan(pmp, exprhdl, UlScanId(), prpplan->Pepp()->PpfmDerived());
+	IStatistics *pstatsBaseTable = CStatisticsUtils::PstatsDynamicScan(memory_pool, exprhdl, UlScanId(), prpplan->Pepp()->PpfmDerived());
 
 	// create a conjunction of index condition and additional filters
 	CExpression *pexprScalar = exprhdl.PexprScalarChild(0 /*ulChidIndex*/);
@@ -210,9 +210,9 @@ CPhysicalDynamicIndexScan::PstatsDerive
 	// get outer references from expression handle
 	CColRefSet *pcrsOuter = exprhdl.Pdprel()->PcrsOuter();
 
-	CPredicateUtils::SeparateOuterRefs(pmp, pexprScalar, pcrsOuter, &pexprLocal, &pexprOuterRefs);
+	CPredicateUtils::SeparateOuterRefs(memory_pool, pexprScalar, pcrsOuter, &pexprLocal, &pexprOuterRefs);
 
-	IStatistics *pstats = CFilterStatsProcessor::PstatsFilterForScalarExpr(pmp, exprhdl, pstatsBaseTable, pexprLocal, pexprOuterRefs, pdrgpstatCtxt);
+	IStatistics *pstats = CFilterStatsProcessor::PstatsFilterForScalarExpr(memory_pool, exprhdl, pstatsBaseTable, pexprLocal, pexprOuterRefs, pdrgpstatCtxt);
 
 	pstatsBaseTable->Release();
 	pexprLocal->Release();

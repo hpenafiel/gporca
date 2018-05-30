@@ -321,7 +321,7 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CCostModelParamsGPDB(IMemoryPool *pmp);
+			CCostModelParamsGPDB(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual

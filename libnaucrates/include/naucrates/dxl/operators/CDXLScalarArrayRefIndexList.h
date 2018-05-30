@@ -55,7 +55,7 @@ namespace gpdxl
 			// ctor
 			CDXLScalarArrayRefIndexList
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				EIndexListBound eilt
 				);
 

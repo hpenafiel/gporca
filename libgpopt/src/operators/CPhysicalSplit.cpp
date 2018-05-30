@@ -32,7 +32,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalSplit::CPhysicalSplit
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcrDelete,
 	DrgPcr *pdrgpcrInsert,
 	CColRef *pcrCtid,
@@ -41,7 +41,7 @@ CPhysicalSplit::CPhysicalSplit
 	CColRef *pcrTupleOid
 	)
 	:
-	CPhysical(pmp),
+	CPhysical(memory_pool),
 	m_pdrgpcrDelete(pdrgpcrDelete),
 	m_pdrgpcrInsert(pdrgpcrInsert),
 	m_pcrCtid(pcrCtid),
@@ -57,7 +57,7 @@ CPhysicalSplit::CPhysicalSplit
 	GPOS_ASSERT(NULL != pcrSegmentId);
 	GPOS_ASSERT(NULL != pcrAction);
 
-	m_pcrsRequiredLocal = GPOS_NEW(pmp) CColRefSet(pmp);
+	m_pcrsRequiredLocal = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	m_pcrsRequiredLocal->Include(m_pdrgpcrDelete);
 	m_pcrsRequiredLocal->Include(m_pdrgpcrInsert);
 	if (NULL != m_pcrTupleOid)
@@ -92,7 +92,7 @@ CPhysicalSplit::~CPhysicalSplit()
 COrderSpec *
 CPhysicalSplit::PosRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &, // exprhdl
 	COrderSpec *, // posRequired
 	ULONG
@@ -108,7 +108,7 @@ CPhysicalSplit::PosRequired
 	GPOS_ASSERT(0 == ulChildIndex);
 
 	// return empty sort order
-	return GPOS_NEW(pmp) COrderSpec(pmp);
+	return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -122,7 +122,7 @@ CPhysicalSplit::PosRequired
 COrderSpec *
 CPhysicalSplit::PosDerive
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -168,7 +168,7 @@ CPhysicalSplit::EpetOrder
 CColRefSet *
 CPhysicalSplit::PcrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &, // exprhdl,
 	CColRefSet *pcrsRequired,
 	ULONG
@@ -182,7 +182,7 @@ CPhysicalSplit::PcrsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, *m_pcrsRequiredLocal);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *m_pcrsRequiredLocal);
 	pcrs->Union(pcrsRequired);
 	pcrs->Exclude(m_pcrAction);
 
@@ -200,7 +200,7 @@ CPhysicalSplit::PcrsRequired
 CDistributionSpec *
 CPhysicalSplit::PdsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &, // exprhdl,
 	CDistributionSpec *, // pdsInput,
 	ULONG
@@ -215,7 +215,7 @@ CPhysicalSplit::PdsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
- 	return GPOS_NEW(pmp) CDistributionSpecAny(this->Eopid());
+ 	return GPOS_NEW(memory_pool) CDistributionSpecAny(this->Eopid());
 }
 
 //---------------------------------------------------------------------------
@@ -229,7 +229,7 @@ CPhysicalSplit::PdsRequired
 CRewindabilitySpec *
 CPhysicalSplit::PrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CRewindabilitySpec *prsRequired,
 	ULONG ulChildIndex,
@@ -240,7 +240,7 @@ CPhysicalSplit::PrsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return PrsPassThru(pmp, exprhdl, prsRequired, ulChildIndex);
+	return PrsPassThru(memory_pool, exprhdl, prsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -254,7 +254,7 @@ CPhysicalSplit::PrsRequired
 CPartitionPropagationSpec *
 CPhysicalSplit::PppsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CPartitionPropagationSpec *pppsRequired,
 	ULONG ulChildIndex,
@@ -265,7 +265,7 @@ CPhysicalSplit::PppsRequired
 	GPOS_ASSERT(0 == ulChildIndex);
 	GPOS_ASSERT(NULL != pppsRequired);
 
-	return CPhysical::PppsRequiredPushThru(pmp, exprhdl, pppsRequired, ulChildIndex);
+	return CPhysical::PppsRequiredPushThru(memory_pool, exprhdl, pppsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -279,7 +279,7 @@ CPhysicalSplit::PppsRequired
 CCTEReq *
 CPhysicalSplit::PcteRequired
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &, //exprhdl,
 	CCTEReq *pcter,
 	ULONG
@@ -340,7 +340,7 @@ CPhysicalSplit::FProvidesReqdCols
 CDistributionSpec *
 CPhysicalSplit::PdsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -355,7 +355,7 @@ CPhysicalSplit::PdsDerive
 	
 	// find out which columns of the target table get modified by the DML and check
 	// whether those participate in the derived hash distribution
-	CColRefSet *pcrsModified = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrsModified = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	const ULONG ulCols = m_pdrgpcrDelete->Size();
 	
 	for (ULONG ul = 0; ul < ulCols; ul++)
@@ -370,24 +370,24 @@ CPhysicalSplit::PdsDerive
 	}
 	
 	CDistributionSpecHashed *pdsHashed = CDistributionSpecHashed::PdsConvert(pdsOuter);
-	CColRefSet *pcrsHashed = CUtils::PcrsExtractColumns(pmp, pdsHashed->Pdrgpexpr());
+	CColRefSet *pcrsHashed = CUtils::PcrsExtractColumns(memory_pool, pdsHashed->Pdrgpexpr());
 	
 	if (!pcrsModified->IsDisjoint(pcrsHashed))
 	{
 		pcrsModified->Release();
 		pcrsHashed->Release();
-		return GPOS_NEW(pmp) CDistributionSpecRandom();
+		return GPOS_NEW(memory_pool) CDistributionSpecRandom();
 	}
 		
 	if (NULL != pdsHashed->PdshashedEquiv())
 	{
-		CColRefSet *pcrsHashedEquiv = CUtils::PcrsExtractColumns(pmp, pdsHashed->PdshashedEquiv()->Pdrgpexpr());
+		CColRefSet *pcrsHashedEquiv = CUtils::PcrsExtractColumns(memory_pool, pdsHashed->PdshashedEquiv()->Pdrgpexpr());
 		if (!pcrsModified->IsDisjoint(pcrsHashedEquiv))
 		{
 			pcrsHashed->Release();
 			pcrsHashedEquiv->Release();
 			pcrsModified->Release();
-			return GPOS_NEW(pmp) CDistributionSpecRandom();
+			return GPOS_NEW(memory_pool) CDistributionSpecRandom();
 		}
 		pcrsHashedEquiv->Release();
 	}
@@ -409,7 +409,7 @@ CPhysicalSplit::PdsDerive
 CRewindabilitySpec *
 CPhysicalSplit::PrsDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const

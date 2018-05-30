@@ -36,12 +36,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerPhysicalTVF::CParseHandlerPhysicalTVF
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerPhysicalOp(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdidFunc(NULL),
 	m_pmdidRetType(NULL),
 	m_pstr(NULL)

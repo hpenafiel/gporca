@@ -32,13 +32,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalPartitionSelectorDML::CPhysicalPartitionSelectorDML
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	HMUlExpr *phmulexprEqPredicates,
 	CColRef *pcrOid
 	)
 	:
-	CPhysicalPartitionSelector(pmp, pmdid, phmulexprEqPredicates),
+	CPhysicalPartitionSelector(memory_pool, pmdid, phmulexprEqPredicates),
 	m_pcrOid(pcrOid)
 {
 	GPOS_ASSERT(NULL != pcrOid);
@@ -66,7 +66,7 @@ CPhysicalPartitionSelectorDML::FMatch
 
 	CPhysicalPartitionSelectorDML *popPartSelector = CPhysicalPartitionSelectorDML::PopConvert(pop);
 
-	return popPartSelector->Pmdid()->Equals(m_pmdid) &&
+	return popPartSelector->MDId()->Equals(m_pmdid) &&
 			popPartSelector->PcrOid() == m_pcrOid &&
 			FMatchExprMaps(popPartSelector->m_phmulexprEqPredicates, m_phmulexprEqPredicates);
 }
@@ -96,7 +96,7 @@ CPhysicalPartitionSelectorDML::HashValue() const
 CPartFilterMap *
 CPhysicalPartitionSelectorDML::PpfmDerive
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -115,7 +115,7 @@ CPhysicalPartitionSelectorDML::PpfmDerive
 CDistributionSpec *
 CPhysicalPartitionSelectorDML::PdsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CDistributionSpec *pdsInput,
 	ULONG ulChildIndex,
@@ -147,10 +147,10 @@ CPhysicalPartitionSelectorDML::PdsRequired
 	CRefCount::SafeRelease(pcrs);
 	if (fUsesDefinedCols)
 	{
-		return GPOS_NEW(pmp) CDistributionSpecAny(this->Eopid());
+		return GPOS_NEW(memory_pool) CDistributionSpecAny(this->Eopid());
 	}
 
-	return PdsPassThru(pmp, exprhdl, pdsInput, ulChildIndex);
+	return PdsPassThru(memory_pool, exprhdl, pdsInput, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -164,7 +164,7 @@ CPhysicalPartitionSelectorDML::PdsRequired
 COrderSpec *
 CPhysicalPartitionSelectorDML::PosRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	COrderSpec *posRequired,
 	ULONG ulChildIndex,
@@ -185,11 +185,11 @@ CPhysicalPartitionSelectorDML::PosRequired
 		// request it from child, and we pass an empty order spec;
 		// order enforcer function takes care of enforcing this order on top of
 		// this operator
-		return GPOS_NEW(pmp) COrderSpec(pmp);
+		return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 	}
 
 	// otherwise, we pass through required order
-	return PosPassThru(pmp, exprhdl, posRequired, ulChildIndex);
+	return PosPassThru(memory_pool, exprhdl, posRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -236,7 +236,7 @@ CPhysicalPartitionSelectorDML::FProvidesReqdCols
 CPartitionPropagationSpec *
 CPhysicalPartitionSelectorDML::PppsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CPartitionPropagationSpec *pppsRequired,
 	ULONG ulChildIndex,
@@ -247,7 +247,7 @@ CPhysicalPartitionSelectorDML::PppsRequired
 	GPOS_ASSERT(0 == ulChildIndex);
 	GPOS_ASSERT(NULL != pppsRequired);
 
-	return CPhysical::PppsRequiredPushThru(pmp, exprhdl, pppsRequired, ulChildIndex);
+	return CPhysical::PppsRequiredPushThru(memory_pool, exprhdl, pppsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -261,7 +261,7 @@ CPhysicalPartitionSelectorDML::PppsRequired
 CPartIndexMap *
 CPhysicalPartitionSelectorDML::PpimDerive
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &exprhdl,
 	CDrvdPropCtxt * //pdpctxt
 	)

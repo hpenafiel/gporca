@@ -28,11 +28,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarBoolExpr::CDXLScalarBoolExpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const EdxlBoolExprType boolexptype
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_boolexptype(boolexptype)
 {
 

@@ -36,7 +36,7 @@ namespace gpdxl
 		public:
 			// ctor/dtor
 			explicit
-			CDXLScalarSortColList(IMemoryPool *pmp);
+			CDXLScalarSortColList(IMemoryPool *memory_pool);
 			
 			virtual
 			~CDXLScalarSortColList(){};

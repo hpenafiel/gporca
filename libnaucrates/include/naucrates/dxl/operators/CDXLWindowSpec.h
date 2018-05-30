@@ -59,7 +59,7 @@ namespace gpdxl
 			// ctor
 			CDXLWindowSpec
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULongPtrArray *pdrgpulPartCol,
 				CMDName *pmdname,
 				CDXLNode *pdxlnSortColList,

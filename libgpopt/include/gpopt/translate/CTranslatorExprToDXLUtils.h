@@ -59,7 +59,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnCmp
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				ULONG ulPartLevel,
 				BOOL fLowerBound,
@@ -76,11 +76,11 @@ namespace gpopt
 			static
 			CColRef *PcrCreate
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				CColumnFactory *pcf,
 				IMDId *pmdid,
-				INT iTypeModifier,
+				INT type_modifier,
 				const WCHAR *wszName
 				);
 
@@ -93,7 +93,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTest
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
@@ -105,7 +105,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTestConjDisj
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CColumnFactory *pcf,
 				DrgPcnstr *pdrgpcnstr,
@@ -118,7 +118,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTestConjunction
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
@@ -130,7 +130,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTestDisjunction
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
@@ -142,7 +142,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTestNegation
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
@@ -154,7 +154,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTestInterval
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CConstraint *pcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
@@ -165,7 +165,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTestRange
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CRange *prng,
 				IMDId *pmdidPartKeyType,
@@ -178,7 +178,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnRangeStartPredicate
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				IDatum *pdatum,
 				CRange::ERangeInclusion eri,
@@ -192,7 +192,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnRangeEndPredicate
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				IDatum *pdatum,
 				CRange::ERangeInclusion eri,
@@ -206,7 +206,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnRangePointPredicate
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				IDatum *pdatum,
 				CRange::ERangeInclusion eri,
@@ -221,7 +221,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnDefaultPartitionTest
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				ULONG ulPartLevel
 				);
 			
@@ -229,7 +229,7 @@ namespace gpopt
 			static
 			CDXLDatum *PdxldatumFromPointConstraint
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda,
 				const CColRef *pcrDistrCol, 
 				CConstraint *pcnstrDistrCol
@@ -237,9 +237,9 @@ namespace gpopt
 			
 			// compute an array of DXL datum arrays from a disjunction of point constraints
 			static
-			DrgPdrgPdxldatum *PdrgpdrgpdxldatumFromDisjPointConstraint
+			DXLDatumArrays *PdrgpdrgpdxldatumFromDisjPointConstraint
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda,
 				const CColRef *pcrDistrCol, 
 				CConstraint *pcnstrDistrCol
@@ -250,7 +250,7 @@ namespace gpopt
 			static
 			CDXLDirectDispatchInfo *Pdxlddinfo
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda,
 				DrgPexpr *pdrgpexprHashed, 
 				CConstraint *pcnstr
@@ -261,7 +261,7 @@ namespace gpopt
 			static
 			CDXLDirectDispatchInfo *PdxlddinfoSingleDistrKey
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda,
 				CExpression *pexprHashed, 
 				CConstraint *pcnstr
@@ -276,21 +276,21 @@ namespace gpopt
 		
 			// construct a default properties container
 			static
-			CDXLPhysicalProperties *Pdxlprop(IMemoryPool *pmp);
+			CDXLPhysicalProperties *Pdxlprop(IMemoryPool *memory_pool);
 
 			// create a scalar const value expression for the given bool value
 			static
-			CDXLNode *PdxlnBoolConst(IMemoryPool *pmp, CMDAccessor *pmda, BOOL fVal);
+			CDXLNode *PdxlnBoolConst(IMemoryPool *memory_pool, CMDAccessor *pmda, BOOL fVal);
 
 			// create a scalar const value expression for the given int4 value
 			static
-			CDXLNode *PdxlnInt4Const(IMemoryPool *pmp, CMDAccessor *pmda, INT iVal);
+			CDXLNode *PdxlnInt4Const(IMemoryPool *memory_pool, CMDAccessor *pmda, INT iVal);
 
 			// construct a filter node for a list partition predicate
 			static
 			CDXLNode *PdxlnListFilterScCmp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				CDXLNode *pdxlnPartKey,
 				CDXLNode *pdxlnScalar,
@@ -305,7 +305,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnListFilterPartKey
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				CExpression *pexprPartKey,
 				IMDId *pmdidTypePartKey,
@@ -316,7 +316,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnRangeFilterScCmp
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
@@ -331,7 +331,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnRangeFilterEqCmp
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
@@ -345,7 +345,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnRangeFilterPartBound
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
@@ -362,7 +362,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnRangeFilterDefaultAndOpenEnded
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				ULONG ulPartLevel,
 				BOOL fLTComparison,
 				BOOL fGTComparison,
@@ -374,7 +374,7 @@ namespace gpopt
 			static 
 			CDXLNode *PdxlnPartialScanTest
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CColumnFactory *pcf,
 				const CPartConstraint *ppartcnstr,
@@ -387,7 +387,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnPropagationExpressionForPartConstraints
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CColumnFactory *pcf,
 				PartCnstrMap *ppartcnstrmap,
@@ -413,7 +413,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnProjListFromChildProjList
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CColumnFactory *pcf, 
 				HMCrDxln *phmcrdxln, 
 				const CDXLNode *pdxlnProjListChild
@@ -423,7 +423,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnPrLPartitionSelector
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				CColumnFactory *pcf,
 				HMCrDxln *phmcrdxln,
@@ -438,7 +438,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnPropExprPartitionSelector
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				CColumnFactory *pcf,
 				BOOL fConditional,
@@ -451,37 +451,37 @@ namespace gpopt
 			// create a DXL project elem node from as a scalar identifier for the
 			// child project element node
 			static
-			CDXLNode *PdxlnProjElem(IMemoryPool *pmp, CColumnFactory *pcf, HMCrDxln *phmcrdxln, const CDXLNode *pdxlnProjElemChild);
+			CDXLNode *PdxlnProjElem(IMemoryPool *memory_pool, CColumnFactory *pcf, HMCrDxln *phmcrdxln, const CDXLNode *pdxlnProjElemChild);
 			
 			// create a scalar identifier node for the given column reference
 			static
-			CDXLNode *PdxlnIdent(IMemoryPool *pmp, HMCrDxln *phmcrdxlnSubplans, HMCrDxln *phmcrdxlnIndexLookup, const CColRef *pcr);
+			CDXLNode *PdxlnIdent(IMemoryPool *memory_pool, HMCrDxln *phmcrdxlnSubplans, HMCrDxln *phmcrdxlnIndexLookup, const CColRef *pcr);
 			
 			// replace subplan entry in the given map with a dxl column reference
 			static
-			void ReplaceSubplan(IMemoryPool *pmp, HMCrDxln *phmcrdxlnSubplans, const CColRef *pcr, CDXLScalarProjElem *pdxlopPrEl);
+			void ReplaceSubplan(IMemoryPool *memory_pool, HMCrDxln *phmcrdxlnSubplans, const CColRef *pcr, CDXLScalarProjElem *pdxlopPrEl);
 
 			// create a project elem from a given col ref
 			static
-			CDXLNode *PdxlnProjElem(IMemoryPool *pmp, HMCrDxln *phmcrdxlnSubplans, const CColRef *pcr);
+			CDXLNode *PdxlnProjElem(IMemoryPool *memory_pool, HMCrDxln *phmcrdxlnSubplans, const CColRef *pcr);
 
 			// construct an array of NULL datums for a given array of columns
 			static
-			DrgPdatum *PdrgpdatumNulls(IMemoryPool *pmp, DrgPcr *pdrgpcr);
+			DrgPdatum *PdrgpdatumNulls(IMemoryPool *memory_pool, DrgPcr *pdrgpcr);
 
 			// map an array of columns to a new array of columns
 			static
-			DrgPcr *PdrgpcrMapColumns(IMemoryPool *pmp, DrgPcr *pdrgpcrInput, HMCrUl *phmcrul, DrgPcr *pdrgpcrMapDest);
+			DrgPcr *PdrgpcrMapColumns(IMemoryPool *memory_pool, DrgPcr *pdrgpcrInput, HMCrUl *phmcrul, DrgPcr *pdrgpcrMapDest);
 
 			// combine two boolean expressions using the given boolean operator
 			static
-			CDXLNode *PdxlnCombineBoolean(IMemoryPool *pmp, CDXLNode *pdxlnFst, CDXLNode *pdxlnSnd, EdxlBoolExprType boolexptype);
+			CDXLNode *PdxlnCombineBoolean(IMemoryPool *memory_pool, CDXLNode *pdxlnFst, CDXLNode *pdxlnSnd, EdxlBoolExprType boolexptype);
 
 			// construct a partition selector node
 			static
 			CDXLNode *PdxlnPartitionSelector
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				ULONG ulPartLevels,
 				ULONG ulScanId,
@@ -499,7 +499,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnResult
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CDXLPhysicalProperties *pdxlprop,
 				CDXLNode *pdxlnPrL,
 				CDXLNode *pdxlnFilter,
@@ -511,7 +511,7 @@ namespace gpopt
 			static
 			CDXLNode *PdxlnValuesScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CDXLPhysicalProperties *pdxlprop,
 				CDXLNode *pdxlnPrL,
 				DrgPdrgPdatum *pdrgpdrgdatum
@@ -520,17 +520,17 @@ namespace gpopt
 			// build hashmap based on a column array, where the key is the column
 			// and the value is the index of that column in the array
 			static
-			HMCrUl *PhmcrulColIndex(IMemoryPool *pmp, DrgPcr *pdrgpcr);
+			HMCrUl *PhmcrulColIndex(IMemoryPool *memory_pool, DrgPcr *pdrgpcr);
 			
 			// set statistics of the operator
 			static
-			void SetStats(IMemoryPool *pmp, CMDAccessor *pmda, CDXLNode *pdxln, const IStatistics *pstats, BOOL fRoot);
+			void SetStats(IMemoryPool *memory_pool, CMDAccessor *pmda, CDXLNode *pdxln, const IStatistics *pstats, BOOL fRoot);
 
 			// set direct dispatch info of the operator
 			static
 			void SetDirectDispatchInfo
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda, 
 				CDXLNode *pdxln, 
 				CDrvdPropRelational *pdpRel, 
@@ -549,18 +549,18 @@ namespace gpopt
 			static
 			CDXLDatum *Pdxldatum
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDAccessor *pmda,
 				IDatum *pdatum
 				)
 			{
-				IMDId *pmdid = pdatum->Pmdid();
-				return pmda->Pmdtype(pmdid)->Pdxldatum(pmp, pdatum);
+				IMDId *pmdid = pdatum->MDId();
+				return pmda->Pmdtype(pmdid)->Pdxldatum(memory_pool, pdatum);
 			}
 
 			// return a copy the dxl node's physical properties
 			static
-			CDXLPhysicalProperties *PdxlpropCopy(IMemoryPool *pmp, CDXLNode *pdxln);
+			CDXLPhysicalProperties *PdxlpropCopy(IMemoryPool *memory_pool, CDXLNode *pdxln);
 
 			// check if given dxl operator exists in the given list
 			static
@@ -576,7 +576,7 @@ namespace gpopt
 
 			// check if the dxl node imposes a motion hazard
 			static
-			BOOL FMotionHazard(IMemoryPool *pmp, CDXLNode *pdxln, const gpdxl::Edxlopid *peopid, ULONG ulOps, CBitSet *pbsPrjCols);
+			BOOL FMotionHazard(IMemoryPool *memory_pool, CDXLNode *pdxln, const gpdxl::Edxlopid *peopid, ULONG ulOps, CBitSet *pbsPrjCols);
 
 			// check if the dxl operator does not impose a motion hazard
 			static

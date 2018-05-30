@@ -46,7 +46,7 @@ namespace gpopt
 			// check if given part index id needs to be enforced on top of the given expression
 			BOOL FRequiresPartitionPropagation
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				CExpression *pexpr, 
 				CExpressionHandle &exprhdl,
 				ULONG ulPartIndexId
@@ -60,7 +60,7 @@ namespace gpopt
 			// as well as the residual predicate
 			void SplitPartPredicates
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprScalar,
 				DrgDrgPcr *pdrgpdrgpcrKeys,
 				HMUlExpr *phmulexprEqFilter,
@@ -72,7 +72,7 @@ namespace gpopt
 			// indicating which predicates have already been used
 			CExpression *PexprResidualFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPexpr *pdrgpexpr,
 				CBitSet *pbsUsed
 				);
@@ -81,7 +81,7 @@ namespace gpopt
 			// an array of predicates on all keys
 			DrgPexpr *PdrgpexprPredicatesOnKey
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPexpr *pdrgpexpr,
 				CColRef *pcr,
 				CColRefSet *pcrsKeys,
@@ -89,10 +89,10 @@ namespace gpopt
 				);
 
 			// return a colrefset containing all the part keys
-			CColRefSet *PcrsKeys(IMemoryPool *pmp, DrgDrgPcr *pdrgpdrgpcrKeys);
+			CColRefSet *PcrsKeys(IMemoryPool *memory_pool, DrgDrgPcr *pdrgpdrgpcrKeys);
 
 			// return the filter expression for the given Scan Id
-			CExpression *PexprFilter(IMemoryPool *pmp, ULONG ulScanId);
+			CExpression *PexprFilter(IMemoryPool *memory_pool, ULONG ulScanId);
 
 		public:
 
@@ -117,7 +117,7 @@ namespace gpopt
 
 			// append enforcers to dynamic array for the given plan properties
 			virtual
-			void AppendEnforcers(IMemoryPool *pmp, CExpressionHandle &exprhdl, CReqdPropPlan *prpp, DrgPexpr *pdrgpexpr, CExpression *pexpr);
+			void AppendEnforcers(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, CReqdPropPlan *prpp, DrgPexpr *pdrgpexpr, CExpression *pexpr);
 
 			// hash function
 			virtual
@@ -127,12 +127,12 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsUsed
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				)
 				const
 			{
 				// return an empty set
-				return GPOS_NEW(pmp) CColRefSet(pmp);
+				return GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 			}
 
 			// property type

@@ -31,10 +31,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalIntersectAll::CLogicalIntersectAll
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalSetOp(pmp)
+	CLogicalSetOp(memory_pool)
 {
 	m_fPattern = true;
 }
@@ -49,12 +49,12 @@ CLogicalIntersectAll::CLogicalIntersectAll
 //---------------------------------------------------------------------------
 CLogicalIntersectAll::CLogicalIntersectAll
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcrOutput,
 	DrgDrgPcr *pdrgpdrgpcrInput
 	)
 	:
-	CLogicalSetOp(pmp, pdrgpcrOutput, pdrgpdrgpcrInput)
+	CLogicalSetOp(memory_pool, pdrgpcrOutput, pdrgpdrgpcrInput)
 {
 }
 
@@ -81,7 +81,7 @@ CLogicalIntersectAll::~CLogicalIntersectAll()
 CMaxCard
 CLogicalIntersectAll::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -114,15 +114,15 @@ CLogicalIntersectAll::Maxcard
 COperator *
 CLogicalIntersectAll::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
-	DrgPcr *pdrgpcrOutput = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrOutput, phmulcr, fMustExist);
-	DrgDrgPcr *pdrgpdrgpcrInput = CUtils::PdrgpdrgpcrRemap(pmp, m_pdrgpdrgpcrInput, phmulcr, fMustExist);
+	DrgPcr *pdrgpcrOutput = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrOutput, phmulcr, fMustExist);
+	DrgDrgPcr *pdrgpdrgpcrInput = CUtils::PdrgpdrgpcrRemap(memory_pool, m_pdrgpdrgpcrInput, phmulcr, fMustExist);
 
-	return GPOS_NEW(pmp) CLogicalIntersectAll(pmp, pdrgpcrOutput, pdrgpdrgpcrInput);
+	return GPOS_NEW(memory_pool) CLogicalIntersectAll(memory_pool, pdrgpcrOutput, pdrgpdrgpcrInput);
 }
 
 //---------------------------------------------------------------------------
@@ -136,7 +136,7 @@ CLogicalIntersectAll::PopCopyWithRemappedColumns
 CKeyCollection *
 CLogicalIntersectAll::PkcDeriveKeys
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle & //exprhdl
 	)
 	const
@@ -156,11 +156,11 @@ CLogicalIntersectAll::PkcDeriveKeys
 CXformSet *
 CLogicalIntersectAll::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfIntersectAll2LeftSemiJoin);
 
 	return pxfs;
@@ -177,7 +177,7 @@ CLogicalIntersectAll::PxfsCandidates
 IStatistics *
 CLogicalIntersectAll::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgDrgPcr *pdrgpdrgpcrInput,
 	DrgPcrs *pdrgpcrsOutput // output of relational children
@@ -192,17 +192,17 @@ CLogicalIntersectAll::PstatsDerive
 	// over a window operation on the individual input (for row_number)
 
 	// TODO:  Jan 8th 2012, add the stats for window operation
-	CExpression *pexprScCond = CUtils::PexprConjINDFCond(pmp, pdrgpdrgpcrInput);
+	CExpression *pexprScCond = CUtils::PexprConjINDFCond(memory_pool, pdrgpdrgpcrInput);
 	CColRefSet *pcrsOuterRefs = exprhdl.Pdprel()->PcrsOuter();
 	DrgPstatspredjoin *pdrgpstatspredjoin = CStatsPredUtils::Pdrgpstatspredjoin
 														(
-														pmp, 
+														memory_pool, 
 														exprhdl, 
 														pexprScCond, 
 														pdrgpcrsOutput, 
 														pcrsOuterRefs
 														);
-	IStatistics *pstatsSemiJoin = CLogicalLeftSemiJoin::PstatsDerive(pmp, pdrgpstatspredjoin, pstatsOuter, pstatsInner);
+	IStatistics *pstatsSemiJoin = CLogicalLeftSemiJoin::PstatsDerive(memory_pool, pdrgpstatspredjoin, pstatsOuter, pstatsInner);
 
 	// clean up
 	pexprScCond->Release();
@@ -222,7 +222,7 @@ CLogicalIntersectAll::PstatsDerive
 IStatistics *
 CLogicalIntersectAll::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat * // not used
 	)
@@ -230,14 +230,14 @@ CLogicalIntersectAll::PstatsDerive
 {
 	GPOS_ASSERT(Esp(exprhdl) > EspNone);
 
-	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(pmp) DrgPcrs(pmp);
+	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
 	const ULONG ulSize = m_pdrgpdrgpcrInput->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, (*m_pdrgpdrgpcrInput)[ul]);
+		CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, (*m_pdrgpdrgpcrInput)[ul]);
 		pdrgpcrsOutput->Append(pcrs);
 	}
-	IStatistics *pstats = PstatsDerive(pmp, exprhdl, m_pdrgpdrgpcrInput, pdrgpcrsOutput);
+	IStatistics *pstats = PstatsDerive(memory_pool, exprhdl, m_pdrgpdrgpcrInput, pdrgpcrsOutput);
 
 	// clean up
 	pdrgpcrsOutput->Release();

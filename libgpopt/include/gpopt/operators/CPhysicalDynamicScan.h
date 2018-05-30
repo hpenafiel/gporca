@@ -69,7 +69,7 @@ namespace gpopt
 			// ctor
 			CPhysicalDynamicScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				BOOL fPartial,
 				CTableDescriptor *ptabdesc,
 				ULONG ulOriginOpId,
@@ -141,7 +141,7 @@ namespace gpopt
 
 			// derive partition index map
 			virtual
-			CPartIndexMap *PpimDerive(IMemoryPool *pmp, CExpressionHandle &exprhdl, CDrvdPropCtxt *pdpctxt) const;
+			CPartIndexMap *PpimDerive(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, CDrvdPropCtxt *pdpctxt) const;
 
 			// return true if operator is dynamic scan
 			virtual

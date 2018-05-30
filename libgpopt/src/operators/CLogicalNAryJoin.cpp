@@ -29,12 +29,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalNAryJoin::CLogicalNAryJoin
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalJoin(pmp)
+	CLogicalJoin(memory_pool)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 }
 
 
@@ -49,7 +49,7 @@ CLogicalNAryJoin::CLogicalNAryJoin
 CMaxCard
 CLogicalNAryJoin::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -68,11 +68,11 @@ CLogicalNAryJoin::Maxcard
 CXformSet *
 CLogicalNAryJoin::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	
 	(void) pxfs->ExchangeSet(CXform::ExfSubqNAryJoin2Apply);
 	(void) pxfs->ExchangeSet(CXform::ExfExpandNAryJoin);

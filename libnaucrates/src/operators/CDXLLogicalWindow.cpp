@@ -36,11 +36,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalWindow::CDXLLogicalWindow
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPdxlws *pdrgpdxlws
 	)
 	:
-	CDXLLogical(pmp),
+	CDXLLogical(memory_pool),
 	m_pdrgpdxlws(pdrgpdxlws)
 {
 	GPOS_ASSERT(NULL != m_pdrgpdxlws);

@@ -40,11 +40,11 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CXformInnerJoin2DynamicIndexGetApply(IMemoryPool *pmp)
+			CXformInnerJoin2DynamicIndexGetApply(IMemoryPool *memory_pool)
 				: CXformJoin2IndexApplyBase
 				 <CLogicalInnerJoin, CLogicalIndexApply, CLogicalDynamicGet,
 				 false /*fWithSelect*/, false /*fPartial*/, IMDIndex::EmdindBtree>
-				(pmp)
+				(memory_pool)
 			{}
 
 			// dtor

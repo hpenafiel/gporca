@@ -18,7 +18,7 @@ using namespace gpmd;
 CStatistics *
 CInnerJoinStatsProcessor::PstatsInnerJoinStatic
 			(
-			IMemoryPool *pmp,
+			IMemoryPool *memory_pool,
 			const IStatistics *pistatsOuter,
 			const IStatistics *pistatsInner,
 			DrgPstatspredjoin *pdrgpstatspredjoin
@@ -31,7 +31,7 @@ CInnerJoinStatsProcessor::PstatsInnerJoinStatic
 
 	return CJoinStatsProcessor::PstatsJoinDriver
 			(
-			pmp,
+			memory_pool,
 			pstatsOuter->PStatsConf(),
 			pistatsOuter,
 			pistatsInner,

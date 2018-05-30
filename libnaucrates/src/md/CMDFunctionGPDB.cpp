@@ -30,7 +30,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CMDFunctionGPDB::CMDFunctionGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidTypeResult,
@@ -41,7 +41,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	BOOL fStrict
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidTypeResult(pmdidTypeResult),
@@ -101,14 +101,14 @@ CMDFunctionGPDB::InitDXLTokenArrays()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDFunctionGPDB::Pmdid
+//		CMDFunctionGPDB::MDId
 //
 //	@doc:
 //		Func id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDFunctionGPDB::Pmdid() const
+CMDFunctionGPDB::MDId() const
 {
 	return m_pmdid;
 }
@@ -306,7 +306,7 @@ CMDFunctionGPDB::DebugPrint
 	const
 {
 	os << "Function id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 	
 	os << "Function name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;

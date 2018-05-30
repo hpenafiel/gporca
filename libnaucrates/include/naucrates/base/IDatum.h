@@ -61,7 +61,7 @@ namespace gpnaucrates
 
 			// accessor of metadata id
 			virtual
-			IMDId *Pmdid() const = 0;
+			IMDId *MDId() const = 0;
 
 			virtual
 			INT TypeModifier() const
@@ -75,11 +75,11 @@ namespace gpnaucrates
 
 			// is datum null?
 			virtual
-			BOOL FNull() const = 0;
+			BOOL IsNull() const = 0;
 
 			// return string representation
 			virtual
-			const CWStringConst *Pstr(IMemoryPool *pmp) const = 0;
+			const CWStringConst *Pstr(IMemoryPool *memory_pool) const = 0;
 
 			// hash function
 			virtual
@@ -91,7 +91,7 @@ namespace gpnaucrates
 			
 			// create a copy of the datum
 			virtual
-			IDatum *PdatumCopy(IMemoryPool *pmp) const = 0;
+			IDatum *PdatumCopy(IMemoryPool *memory_pool) const = 0;
 
 			// print function
 			virtual
@@ -141,7 +141,7 @@ namespace gpnaucrates
 
 			// return the padded datum
 			virtual
-			IDatum *PdatumPadded(IMemoryPool *pmp, ULONG ulColLen) const = 0;
+			IDatum *PdatumPadded(IMemoryPool *memory_pool, ULONG ulColLen) const = 0;
 
 			// does datum support like predicate
 			virtual

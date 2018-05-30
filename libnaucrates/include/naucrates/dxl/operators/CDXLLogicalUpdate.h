@@ -63,7 +63,7 @@ namespace gpdxl
 			// ctor
 			CDXLLogicalUpdate
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CDXLTableDescr *pdxltabdesc,
 				ULONG ulCtid,
 				ULONG ulSegmentId,

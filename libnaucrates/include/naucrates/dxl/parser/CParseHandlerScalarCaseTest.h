@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// private copy ctor
 			CParseHandlerScalarCaseTest(const CParseHandlerScalarCaseTest &);
@@ -62,7 +62,7 @@ namespace gpdxl
 			// ctor
 			CParseHandlerScalarCaseTest
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CParseHandlerManager *parse_handler_mgr,
 					CParseHandlerBase *pphRoot
 					);

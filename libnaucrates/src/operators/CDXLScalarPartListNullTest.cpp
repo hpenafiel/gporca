@@ -18,12 +18,12 @@ using namespace gpdxl;
 // Ctor
 CDXLScalarPartListNullTest::CDXLScalarPartListNullTest
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulLevel,
 	BOOL fIsNull
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_ulLevel(ulLevel),
 	m_fIsNull(fIsNull)
 {

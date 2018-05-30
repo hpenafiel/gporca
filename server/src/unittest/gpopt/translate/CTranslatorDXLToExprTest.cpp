@@ -102,22 +102,22 @@ CTranslatorDXLToExprTest::EresUnittest()
 CExpression *
 CTranslatorDXLToExprTest::Pexpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CHAR *dxl_filename
 	)
 {
 	// get the dxl document
-	CHAR *szDXLExpected = CDXLUtils::Read(pmp, dxl_filename);
+	CHAR *szDXLExpected = CDXLUtils::Read(memory_pool, dxl_filename);
 
 	// parse the DXL tree from the given DXL document
-	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(pmp, szDXLExpected, NULL /*xsd_file_path*/);
+	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(memory_pool, szDXLExpected, NULL /*xsd_file_path*/);
 	
 	GPOS_ASSERT(NULL != ptroutput->Pdxln() && NULL != ptroutput->PdrgpdxlnOutputCols());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// translate DXL Tree -> Expr Tree
-	CTranslatorDXLToExpr *pdxltr = GPOS_NEW(pmp) CTranslatorDXLToExpr(pmp, pmda);
+	CTranslatorDXLToExpr *pdxltr = GPOS_NEW(memory_pool) CTranslatorDXLToExpr(memory_pool, pmda);
 
 	CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
 												(
@@ -147,7 +147,7 @@ CTranslatorDXLToExprTest::Pexpr
 GPOS_RESULT
 CTranslatorDXLToExprTest::EresTranslateAndCheck
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CHAR *dxl_filename,
 	const CWStringDynamic *pstrExpected
 	)
@@ -157,26 +157,26 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
-	CExpression *pexprTranslated = Pexpr(pmp, dxl_filename);
+	CExpression *pexprTranslated = Pexpr(memory_pool, dxl_filename);
 
 	// get the string representation of the Expr Tree
-	CWStringDynamic *pstrTranslated = Pstr(pmp, pexprTranslated);
+	CWStringDynamic *pstrTranslated = Pstr(memory_pool, pexprTranslated);
 
 	GPOS_ASSERT(NULL != pstrExpected && NULL != pstrTranslated);
 
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 
 	// compare the two Expr trees
@@ -215,19 +215,19 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 CWStringDynamic *
 CTranslatorDXLToExprTest::Pstr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	CWStringDynamic str(pmp);
-	COstreamString *poss = GPOS_NEW(pmp) COstreamString(&str);
+	CWStringDynamic str(memory_pool);
+	COstreamString *poss = GPOS_NEW(memory_pool) COstreamString(&str);
 
 	*poss << std::endl;
 	pexpr->OsPrint(*poss);
 
-	CWStringDynamic *pstrExpr = GPOS_NEW(pmp) CWStringDynamic(pmp, str.GetBuffer());
+	CWStringDynamic *pstrExpr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, str.GetBuffer());
 
 	GPOS_DELETE(poss);
 
@@ -247,23 +247,23 @@ namespace
 		public:
 			GetBuilder
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CWStringConst strTableName,
 				OID oidTableOid
 				):
-				m_memory_pool(pmp),
+				m_memory_pool(memory_pool),
 				m_strTableName(strTableName)
 			{
 				CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 				m_pmdtypeint4 = pmda->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
-				CMDIdGPDB *pmdid = GPOS_NEW(pmp) CMDIdGPDB(oidTableOid, 1, 1);
+				CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidTableOid, 1, 1);
 
 				const BOOL fConvertHashToRandom = false;
 				const ULONG ulExecuteAsUser = 0;
 				m_ptabdesc =
-					GPOS_NEW(pmp) CTableDescriptor
+					GPOS_NEW(memory_pool) CTableDescriptor
 						(
-							pmp,
+							memory_pool,
 							pmdid,
 							CName(&strTableName),
 							fConvertHashToRandom,
@@ -298,13 +298,13 @@ namespace
 CExpression *
 CTranslatorDXLToExprTest::PexprGet
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	CWStringConst strTblName(GPOS_WSZ_LIT("r"));
 	const BOOL fNullable = true;
 
-	GetBuilder gb(pmp, strTblName, GPOPT_TEST_REL_OID21);
+	GetBuilder gb(memory_pool, strTblName, GPOPT_TEST_REL_OID21);
 	gb.AddIntColumn(CWStringConst(GPOS_WSZ_LIT("a")), 1, fNullable);
 	gb.AddIntColumn(CWStringConst(GPOS_WSZ_LIT("b")), 2, fNullable);
 
@@ -324,33 +324,33 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_SingleTableQuery()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWStringDynamic *pstrExpected = NULL;
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
-		CExpression *pexprExpected = PexprGet(pmp);
-		pstrExpected = Pstr(pmp, pexprExpected);
+		CExpression *pexprExpected = PexprGet(memory_pool);
+		pstrExpected = Pstr(memory_pool, pexprExpected);
 
 		//clean up
 		pexprExpected->Release();
 	}
 
-	return EresTranslateAndCheck(pmp, szQueryTableScan, pstrExpected);
+	return EresTranslateAndCheck(memory_pool, szQueryTableScan, pstrExpected);
 }
 
 //---------------------------------------------------------------------------
@@ -366,33 +366,33 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_TVF()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWStringDynamic *pstrExpected = NULL;
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
-		CExpression *pexprExpected = CTestUtils::PexprLogicalTVFTwoArgs(pmp);
-		pstrExpected = Pstr(pmp, pexprExpected);
+		CExpression *pexprExpected = CTestUtils::PexprLogicalTVFTwoArgs(memory_pool);
+		pstrExpected = Pstr(memory_pool, pexprExpected);
 
 		//clean up
 		pexprExpected->Release();
 	}
 
-	return EresTranslateAndCheck(pmp, szQueryTVF, pstrExpected);
+	return EresTranslateAndCheck(memory_pool, szQueryTVF, pstrExpected);
 }
 
 //---------------------------------------------------------------------------
@@ -408,27 +408,27 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_SelectQuery()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWStringDynamic *pstrExpected = NULL;
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
-		CExpression *pexprLgGet = PexprGet(pmp);
+		CExpression *pexprLgGet = PexprGet(memory_pool);
 
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
 
@@ -441,16 +441,16 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQuery()
 		CColRef *pcrLeft =  (*pdrgpcr)[0];
 		CColRef *pcrRight = (*pdrgpcr)[1];
 
-		CExpression *pexprPredicate = CUtils::PexprScalarEqCmp(pmp, pcrLeft, pcrRight);
+		CExpression *pexprPredicate = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pcrRight);
 
-		CExpression *pexprExpected =  CUtils::PexprLogicalSelect(pmp, pexprLgGet, pexprPredicate);
-		pstrExpected = Pstr(pmp, pexprExpected);
+		CExpression *pexprExpected =  CUtils::PexprLogicalSelect(memory_pool, pexprLgGet, pexprPredicate);
+		pstrExpected = Pstr(memory_pool, pexprExpected);
 
 		//clean up
 		pexprExpected->Release();
 	}
 
-	return EresTranslateAndCheck(pmp, m_rgszDXLFileNames[0], pstrExpected);
+	return EresTranslateAndCheck(memory_pool, m_rgszDXLFileNames[0], pstrExpected);
 }
 
 
@@ -467,26 +467,26 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConst()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWStringDynamic *pstrExpected = NULL;
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
-		CExpression *pexprLgGet = PexprGet(pmp);
+		CExpression *pexprLgGet = PexprGet(memory_pool);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
 
 		// the output column references from the logical get
@@ -495,17 +495,17 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConst()
 
 		CColRef *pcrLeft =  (*pdrgpcr)[0];
 		ULONG ulVal = 5;
-		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(pmp, ulVal);
-		CExpression *pexprScCmp = CUtils::PexprScalarEqCmp(pmp, pcrLeft, pexprScConst);
+		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(memory_pool, ulVal);
+		CExpression *pexprScCmp = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pexprScConst);
 
-		CExpression *pexprExpected = CUtils::PexprLogicalSelect(pmp, pexprLgGet, pexprScCmp);
-		pstrExpected = Pstr(pmp, pexprExpected);
+		CExpression *pexprExpected = CUtils::PexprLogicalSelect(memory_pool, pexprLgGet, pexprScCmp);
+		pstrExpected = Pstr(memory_pool, pexprExpected);
 
 		//clean up
 		pexprExpected->Release();
 	}
 
-	return EresTranslateAndCheck(pmp, m_rgszDXLFileNames[1], pstrExpected);
+	return EresTranslateAndCheck(memory_pool, m_rgszDXLFileNames[1], pstrExpected);
 }
 
 
@@ -515,26 +515,26 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWStringDynamic *pstrExpected = NULL;
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
-		CExpression *pexprLgGet = PexprGet(pmp);
+		CExpression *pexprLgGet = PexprGet(memory_pool);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
 
 		// the output column references from the logical get
@@ -543,27 +543,27 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList()
 
 		CColRef *pcr =  (*pdrgpcr)[0];
 		ULONG ulVal1 = 5;
-		CExpression *pexprScConst1 = CUtils::PexprScalarConstInt4(pmp, ulVal1);
+		CExpression *pexprScConst1 = CUtils::PexprScalarConstInt4(memory_pool, ulVal1);
 		ULONG ulVal2 = 6;
-		CExpression *pexprScConst2 = CUtils::PexprScalarConstInt4(pmp, ulVal2);
+		CExpression *pexprScConst2 = CUtils::PexprScalarConstInt4(memory_pool, ulVal2);
 		ULONG ulVal3 = 7;
-		CExpression *pexprScConst3 = CUtils::PexprScalarConstInt4(pmp, ulVal3);
-		DrgPexpr *pexprScalarChildren = GPOS_NEW(pmp) DrgPexpr(pmp);
+		CExpression *pexprScConst3 = CUtils::PexprScalarConstInt4(memory_pool, ulVal3);
+		DrgPexpr *pexprScalarChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 		pexprScalarChildren->Append(pexprScConst1);
 		pexprScalarChildren->Append(pexprScConst2);
 		pexprScalarChildren->Append(pexprScConst3);
 
-		CExpression *pexprScalarArrayCmp = CUtils::PexprScalarArrayCmp(pmp, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pexprScalarChildren, pcr);
-		CExpression *pexprScalarArrayCmpCollapsed = CUtils::PexprCollapseConstArray(pmp, pexprScalarArrayCmp);
+		CExpression *pexprScalarArrayCmp = CUtils::PexprScalarArrayCmp(memory_pool, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pexprScalarChildren, pcr);
+		CExpression *pexprScalarArrayCmpCollapsed = CUtils::PexprCollapseConstArray(memory_pool, pexprScalarArrayCmp);
 		pexprScalarArrayCmp->Release();
-		CExpression *pexprExpected = CUtils::PexprLogicalSelect(pmp, pexprLgGet, pexprScalarArrayCmpCollapsed);
-		pstrExpected = Pstr(pmp, pexprExpected);
+		CExpression *pexprExpected = CUtils::PexprLogicalSelect(memory_pool, pexprLgGet, pexprScalarArrayCmpCollapsed);
+		pstrExpected = Pstr(memory_pool, pexprExpected);
 
 		//clean up
 		pexprExpected->Release();
 	}
 
-	return EresTranslateAndCheck(pmp, szScalarConstArray, pstrExpected);
+	return EresTranslateAndCheck(memory_pool, szScalarConstArray, pstrExpected);
 }
 
 
@@ -580,27 +580,27 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithBoolExpr()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWStringDynamic *pstrExpected = NULL;
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
-		CExpression *pexprLgGet = PexprGet(pmp);
+		CExpression *pexprLgGet = PexprGet(memory_pool);
 
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
 
@@ -613,26 +613,26 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithBoolExpr()
 		CColRef *pcrLeft =  (*pdrgpcr)[0];
 
 		ULONG ulVal = 5;
-		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(pmp, ulVal);
+		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(memory_pool, ulVal);
 
-		CExpression *pexprScCmp = CUtils::PexprScalarEqCmp(pmp, pcrLeft, pexprScConst);
+		CExpression *pexprScCmp = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pexprScConst);
 
 		// create a scalar compare for a = b
 		CColRef *pcrRight = (*pdrgpcr)[1];
-		DrgPexpr *pdrgpexprInput = GPOS_NEW(pmp) DrgPexpr(pmp, 2);
+		DrgPexpr *pdrgpexprInput = GPOS_NEW(memory_pool) DrgPexpr(memory_pool, 2);
 		pdrgpexprInput->Append(pexprScCmp);
-		pexprScCmp = CUtils::PexprScalarEqCmp(pmp, pcrLeft, pcrRight);
+		pexprScCmp = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pcrRight);
 
 		pdrgpexprInput->Append(pexprScCmp);
-		CExpression *pexprScBool = CUtils::PexprScalarBoolOp(pmp, CScalarBoolOp::EboolopAnd, pdrgpexprInput);
-		CExpression *pexprExpected = CUtils::PexprLogicalSelect(pmp, pexprLgGet, pexprScBool);
-		pstrExpected = Pstr(pmp, pexprExpected);
+		CExpression *pexprScBool = CUtils::PexprScalarBoolOp(memory_pool, CScalarBoolOp::EboolopAnd, pdrgpexprInput);
+		CExpression *pexprExpected = CUtils::PexprLogicalSelect(memory_pool, pexprLgGet, pexprScBool);
+		pstrExpected = Pstr(memory_pool, pexprExpected);
 
 		//clean up
 		pexprExpected->Release();
 	}
 
-	return EresTranslateAndCheck(pmp, m_rgszDXLFileNames[2], pstrExpected);
+	return EresTranslateAndCheck(memory_pool, m_rgszDXLFileNames[2], pstrExpected);
 }
 
 
@@ -649,27 +649,27 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithScalarOp()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWStringDynamic *pstrExpected = NULL;
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
-		CExpression *pexprLgGet = PexprGet(pmp);
+		CExpression *pexprLgGet = PexprGet(memory_pool);
 
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
 
@@ -682,23 +682,23 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithScalarOp()
 		CColRef *pcrLeft =  (*pdrgpcr)[1];
 
 		ULONG ulVal = 2;
-		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(pmp, ulVal);
+		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(memory_pool, ulVal);
 		CExpression *pexprScOp =
-			CUtils::PexprScalarOp(pmp, pcrLeft, pexprScConst, CWStringConst(GPOS_WSZ_LIT("+")), GPOS_NEW(pmp) CMDIdGPDB(GPDB_INT4_ADD_OP));
+			CUtils::PexprScalarOp(memory_pool, pcrLeft, pexprScConst, CWStringConst(GPOS_WSZ_LIT("+")), GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_ADD_OP));
 
 		// create a scalar compare for a > b + 2
 		CColRef *pcrRight = (*pdrgpcr)[0];
 		CExpression *pexprScCmp =
-			CUtils::PexprScalarCmp(pmp, pcrRight, pexprScOp, CWStringConst(GPOS_WSZ_LIT(">")), GPOS_NEW(pmp) CMDIdGPDB(GPDB_INT4_GT_OP));
+			CUtils::PexprScalarCmp(memory_pool, pcrRight, pexprScOp, CWStringConst(GPOS_WSZ_LIT(">")), GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_GT_OP));
 
-		CExpression *pexprExpected = CUtils::PexprLogicalSelect(pmp, pexprLgGet, pexprScCmp);
-		pstrExpected = Pstr(pmp, pexprExpected);
+		CExpression *pexprExpected = CUtils::PexprLogicalSelect(memory_pool, pexprLgGet, pexprScCmp);
+		pstrExpected = Pstr(memory_pool, pexprExpected);
 
 		//clean up
 		pexprExpected->Release();
 	}
 
-	return EresTranslateAndCheck(pmp, m_rgszDXLFileNames[3], pstrExpected);
+	return EresTranslateAndCheck(memory_pool, m_rgszDXLFileNames[3], pstrExpected);
 }
 
 
@@ -714,27 +714,27 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_Limit()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
-	CExpression *pexprTranslated = Pexpr(pmp, szQueryLimit);
+	CExpression *pexprTranslated = Pexpr(memory_pool, szQueryLimit);
 	
-	CWStringDynamic str(pmp);
-	COstreamString *poss = GPOS_NEW(pmp) COstreamString(&str);
+	CWStringDynamic str(memory_pool);
+	COstreamString *poss = GPOS_NEW(memory_pool) COstreamString(&str);
 
 	*poss << std::endl;
 	
@@ -760,27 +760,27 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_LimitNoOffset()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
-	CExpression *pexprTranslated = Pexpr(pmp, szQueryLimitNoOffset);
+	CExpression *pexprTranslated = Pexpr(memory_pool, szQueryLimitNoOffset);
 	
-	CWStringDynamic str(pmp);
-	COstreamString *poss = GPOS_NEW(pmp) COstreamString(&str);
+	CWStringDynamic str(memory_pool);
+	COstreamString *poss = GPOS_NEW(memory_pool) COstreamString(&str);
 
 	*poss << std::endl;
 	
@@ -805,28 +805,28 @@ GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache());
+	CMDAccessor mda(memory_pool, CMDCache::Pcache());
 	mda.RegisterProvider(CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
-	CExpression *pexprTranslated = Pexpr(pmp, szQueryScalarSubquery);
+	CExpression *pexprTranslated = Pexpr(memory_pool, szQueryScalarSubquery);
 	
-	CWStringDynamic str(pmp);
-	COstreamString *poss = GPOS_NEW(pmp) COstreamString(&str);
+	CWStringDynamic str(memory_pool);
+	COstreamString *poss = GPOS_NEW(memory_pool) COstreamString(&str);
 
 	*poss << std::endl;
 	
@@ -842,21 +842,21 @@ CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery()
 GPOS_RESULT CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CAutoP<CDXLMinidump> apdxlmd(CMinidumperUtils::PdxlmdLoad(pmp, szQueryDroppedColumn));
+	CAutoP<CDXLMinidump> apdxlmd(CMinidumperUtils::PdxlmdLoad(memory_pool, szQueryDroppedColumn));
 
-	CMetadataAccessorFactory factory(pmp, apdxlmd.Value(), szQueryDroppedColumn);
+	CMetadataAccessorFactory factory(memory_pool, apdxlmd.Value(), szQueryDroppedColumn);
 
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					factory.Pmda(),
 					NULL,
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
-	CAutoRef<CExpression> apExpr(CTranslatorDXLToExprTest::Pexpr(pmp, szQueryDroppedColumn));
+	CAutoRef<CExpression> apExpr(CTranslatorDXLToExprTest::Pexpr(memory_pool, szQueryDroppedColumn));
 
 	CLogicalGet *pActualGet = (CLogicalGet *) apExpr->Pop();
 	DrgPcoldesc *pDrgColDesc = pActualGet->Ptabdesc()->Pdrgpcoldesc();

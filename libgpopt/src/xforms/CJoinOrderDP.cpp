@@ -126,18 +126,18 @@ CJoinOrderDP::SComponentPair::~SComponentPair()
 //---------------------------------------------------------------------------
 CJoinOrderDP::CJoinOrderDP
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexprComponents,
 	DrgPexpr *pdrgpexprConjuncts
 	)
 	:
-	CJoinOrder(pmp, pdrgpexprComponents, pdrgpexprConjuncts)
+	CJoinOrder(memory_pool, pdrgpexprComponents, pdrgpexprConjuncts)
 {
-	m_phmcomplink = GPOS_NEW(pmp) HMCompLink(pmp);
-	m_phmbsexpr = GPOS_NEW(pmp) HMBSExpr(pmp);
-	m_phmexprcost = GPOS_NEW(pmp) HMExprCost(pmp);
-	m_pdrgpexprTopKOrders = GPOS_NEW(pmp) DrgPexpr(pmp);
-	m_pexprDummy = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp));
+	m_phmcomplink = GPOS_NEW(memory_pool) HMCompLink(memory_pool);
+	m_phmbsexpr = GPOS_NEW(memory_pool) HMBSExpr(memory_pool);
+	m_phmexprcost = GPOS_NEW(memory_pool) HMExprCost(memory_pool);
+	m_pdrgpexprTopKOrders = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	m_pexprDummy = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool));
 
 #ifdef GPOS_DEBUG
 	for (ULONG ul = 0; ul < m_ulComps; ul++)
@@ -598,7 +598,7 @@ CJoinOrderDP::PexprBestJoinOrderDP
 void
 CJoinOrderDP::GenerateSubsets
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CBitSet *pbsCurrent,
 	ULONG *pulElems,
 	ULONG ulSize,
@@ -620,15 +620,15 @@ CJoinOrderDP::GenerateSubsets
 		return;
 	}
 
-	CBitSet *pbsCopy = GPOS_NEW(pmp) CBitSet(pmp, *pbsCurrent);
+	CBitSet *pbsCopy = GPOS_NEW(memory_pool) CBitSet(memory_pool, *pbsCurrent);
 #ifdef GPOS_DEBUG
 	BOOL fSet =
 #endif // GPOS_DEBUG
 		pbsCopy->ExchangeSet(pulElems[ulIndex]);
 	GPOS_ASSERT(!fSet);
 
-	GenerateSubsets(pmp, pbsCopy, pulElems, ulSize, ulIndex + 1, pdrgpbsSubsets);
-	GenerateSubsets(pmp, pbsCurrent, pulElems, ulSize, ulIndex + 1, pdrgpbsSubsets);
+	GenerateSubsets(memory_pool, pbsCopy, pulElems, ulSize, ulIndex + 1, pdrgpbsSubsets);
+	GenerateSubsets(memory_pool, pbsCurrent, pulElems, ulSize, ulIndex + 1, pdrgpbsSubsets);
 }
 
 //---------------------------------------------------------------------------
@@ -642,12 +642,12 @@ CJoinOrderDP::GenerateSubsets
 DrgPbs *
 CJoinOrderDP::PdrgpbsSubsets
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CBitSet *pbs
 	)
 {
 	const ULONG ulSize = pbs->Size();
-	ULONG *pulElems = GPOS_NEW_ARRAY(pmp, ULONG, ulSize);
+	ULONG *pulElems = GPOS_NEW_ARRAY(memory_pool, ULONG, ulSize);
 	ULONG ul = 0;
 	CBitSetIter bsi(*pbs);
 	while (bsi.Advance())
@@ -655,9 +655,9 @@ CJoinOrderDP::PdrgpbsSubsets
 		pulElems[ul++] = bsi.Bit();
 	}
 
-	CBitSet *pbsCurrent = GPOS_NEW(pmp) CBitSet(pmp);
-	DrgPbs *pdrgpbsSubsets = GPOS_NEW(pmp) DrgPbs(pmp);
-	GenerateSubsets(pmp, pbsCurrent, pulElems, ulSize, 0, pdrgpbsSubsets);
+	CBitSet *pbsCurrent = GPOS_NEW(memory_pool) CBitSet(memory_pool);
+	DrgPbs *pdrgpbsSubsets = GPOS_NEW(memory_pool) DrgPbs(memory_pool);
+	GenerateSubsets(memory_pool, pbsCurrent, pulElems, ulSize, 0, pdrgpbsSubsets);
 	GPOS_DELETE_ARRAY(pulElems);
 
 	return pdrgpbsSubsets;

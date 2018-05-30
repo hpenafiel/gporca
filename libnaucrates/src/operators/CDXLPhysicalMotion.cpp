@@ -26,10 +26,10 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalMotion::CDXLPhysicalMotion
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pdrgpiInputSegIds(NULL),
 	m_pdrgpiOutputSegIds(NULL)
 {

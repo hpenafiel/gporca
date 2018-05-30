@@ -52,7 +52,7 @@ namespace gpopt
 			// ctor
 			CScalarBitmapIndexProbe
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CIndexDescriptor *pindexdesc,
 				IMDId *pmdidBitmapType
 				);
@@ -60,7 +60,7 @@ namespace gpopt
 			// ctor
 			// only for transforms
 			explicit
-			CScalarBitmapIndexProbe(IMemoryPool *pmp);
+			CScalarBitmapIndexProbe(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual
@@ -112,7 +112,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

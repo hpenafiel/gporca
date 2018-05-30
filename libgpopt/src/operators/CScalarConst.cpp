@@ -31,11 +31,11 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarConst::CScalarConst
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IDatum *pdatum
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pdatum(pdatum)
 {
 	GPOS_ASSERT(NULL != pdatum);
@@ -112,7 +112,7 @@ CScalarConst::FMatch
 IMDId *
 CScalarConst::MDIdType() const
 {
-	return m_pdatum->Pmdid();
+	return m_pdatum->MDId();
 }
 
 
@@ -218,7 +218,7 @@ CScalarConst::Eber
 	)
 	const
 {
-	if (m_pdatum->FNull())
+	if (m_pdatum->IsNull())
 	{
 		return EberNull;
 	}

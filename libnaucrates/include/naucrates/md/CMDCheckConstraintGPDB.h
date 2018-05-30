@@ -64,7 +64,7 @@ namespace gpmd
 			// ctor
 			CMDCheckConstraintGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				IMDId *pmdidRel,
@@ -77,7 +77,7 @@ namespace gpmd
 
 			// check constraint mdid
 			virtual
-			IMDId *Pmdid() const
+			IMDId *MDId() const
 			{
 				return m_pmdid;
 			}
@@ -105,7 +105,7 @@ namespace gpmd
 
 			// the scalar expression of the check constraint
 			virtual
-			CExpression *Pexpr(IMemoryPool *pmp, CMDAccessor *pmda, DrgPcr *pdrgpcr) const;
+			CExpression *Pexpr(IMemoryPool *memory_pool, CMDAccessor *pmda, DrgPcr *pdrgpcr) const;
 
 			// serialize MD check constraint in DXL format given a serializer object
 			virtual

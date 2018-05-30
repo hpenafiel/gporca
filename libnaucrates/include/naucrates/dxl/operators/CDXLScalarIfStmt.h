@@ -44,8 +44,8 @@ namespace gpdxl
 			// ctor
 			CDXLScalarIfStmt
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type
 				);
 
 			//dtor

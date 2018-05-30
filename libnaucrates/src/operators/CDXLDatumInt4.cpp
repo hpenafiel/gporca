@@ -31,13 +31,13 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLDatumInt4::CDXLDatumInt4
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
-	BOOL fNull,
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
+	BOOL is_null,
 	INT iVal
 	)
 	:
-	CDXLDatum(pmp, pmdidType, IDefaultTypeModifier, fNull, 4 /*ulLength*/ ),
+	CDXLDatum(memory_pool, mdid_type, IDefaultTypeModifier, is_null, 4 /*length*/ ),
 	m_iVal(iVal)
 {
 }
@@ -70,11 +70,11 @@ CDXLDatumInt4::Serialize
 	CXMLSerializer *xml_serializer
 	)
 {
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_fNull);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), FByValue());
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_is_null);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), IsPassedByValue());
 	
-	if (!m_fNull)
+	if (!m_is_null)
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_iVal);
 	}

@@ -53,7 +53,7 @@ namespace gpdxl
 			explicit
 			CDXLScalarBoolExpr
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const EdxlBoolExprType boolexptype
 				);
 

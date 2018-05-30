@@ -60,7 +60,7 @@ namespace gpmd
 
 			// the scalar expression of the check constraint
 			virtual
-			CExpression *Pexpr(IMemoryPool *pmp, CMDAccessor *pmda, DrgPcr *pdrgpcr) const = 0;
+			CExpression *Pexpr(IMemoryPool *memory_pool, CMDAccessor *pmda, DrgPcr *pdrgpcr) const = 0;
 	};
 }
 

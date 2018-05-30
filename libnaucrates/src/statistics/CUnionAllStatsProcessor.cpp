@@ -18,7 +18,7 @@ using namespace gpopt;
 CStatistics *
 CUnionAllStatsProcessor::PstatsUnionAll
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CStatistics *pstatsFst,
 	const CStatistics *pstatsSnd,
 	ULongPtrArray *pdrgpulOutput,
@@ -26,7 +26,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	ULongPtrArray *pdrgpulInput2
 	)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pstatsSnd);
 
 	// lengths must match
@@ -34,17 +34,17 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	GPOS_ASSERT(pdrgpulOutput->Size() == pdrgpulInput2->Size());
 
 	// create hash map from colid -> histogram for resultant structure
-	HMUlHist *phmulhistNew = GPOS_NEW(pmp) HMUlHist(pmp);
+	HMUlHist *phmulhistNew = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
 
 	// column ids on which widths are to be computed
-	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
+	HMUlDouble *phmuldoubleWidth = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
 
 	BOOL fEmptyUnionAll = pstatsFst->IsEmpty() && pstatsSnd->IsEmpty();
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	CDouble dRowsUnionAll = CStatistics::DMinRows;
 	if (fEmptyUnionAll)
 	{
-		CHistogram::AddDummyHistogramAndWidthInfo(pmp, pcf, phmulhistNew, phmuldoubleWidth, pdrgpulOutput, true /*fEmpty*/);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhistNew, phmuldoubleWidth, pdrgpulOutput, true /*fEmpty*/);
 	}
 	else
 	{
@@ -62,8 +62,8 @@ CUnionAllStatsProcessor::PstatsUnionAll
 
 			if (phistInput1->FWellDefined() || phistInput2->FWellDefined())
 			{
-				CHistogram *phistOutput = phistInput1->PhistUnionAllNormalized(pmp, pstatsFst->DRows(), phistInput2, pstatsSnd->DRows());
-				CStatisticsUtils::AddHistogram(pmp, ulColIdOutput, phistOutput, phmulhistNew);
+				CHistogram *phistOutput = phistInput1->PhistUnionAllNormalized(memory_pool, pstatsFst->DRows(), phistInput2, pstatsSnd->DRows());
+				CStatisticsUtils::AddHistogram(memory_pool, ulColIdOutput, phistOutput, phmulhistNew);
 				GPOS_DELETE(phistOutput);
 			}
 			else
@@ -71,14 +71,14 @@ CUnionAllStatsProcessor::PstatsUnionAll
 				CColRef *pcr = pcf->PcrLookup(ulColIdOutput);
 				GPOS_ASSERT(NULL != pcr);
 
-				CHistogram *phistDummy = CHistogram::PhistDefault(pmp, pcr, false /* fEmpty*/);
-				phmulhistNew->Insert(GPOS_NEW(pmp) ULONG(ulColIdOutput), phistDummy);
+				CHistogram *phistDummy = CHistogram::PhistDefault(memory_pool, pcr, false /* fEmpty*/);
+				phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(ulColIdOutput), phistDummy);
 			}
 
 			// look up width
 			const CDouble *pdWidth = pstatsFst->PdWidth(ulColIdInput1);
 			GPOS_ASSERT(NULL != pdWidth);
-			phmuldoubleWidth->Insert(GPOS_NEW(pmp) ULONG(ulColIdOutput), GPOS_NEW(pmp) CDouble(*pdWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColIdOutput), GPOS_NEW(memory_pool) CDouble(*pdWidth));
 		}
 
 		dRowsUnionAll = pstatsFst->DRows() + pstatsSnd->DRows();
@@ -90,9 +90,9 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	pdrgpulInput2->Release();
 
 	// create an output stats object
-	CStatistics *pstatsUnionAll = GPOS_NEW(pmp) CStatistics
+	CStatistics *pstatsUnionAll = GPOS_NEW(memory_pool) CStatistics
 											(
-											pmp,
+											memory_pool,
 											phmulhistNew,
 											phmuldoubleWidth,
 											dRowsUnionAll,
@@ -104,7 +104,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	// is the estimate union all cardinality.
 
 	// modify upper bound card information
-	CStatisticsUtils::ComputeCardUpperBounds(pmp, pstatsFst, pstatsUnionAll, dRowsUnionAll, CStatistics::EcbmOutputCard /* ecbm */);
+	CStatisticsUtils::ComputeCardUpperBounds(memory_pool, pstatsFst, pstatsUnionAll, dRowsUnionAll, CStatistics::EcbmOutputCard /* ecbm */);
 
 	return pstatsUnionAll;
 }

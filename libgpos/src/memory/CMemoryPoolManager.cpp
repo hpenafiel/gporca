@@ -161,7 +161,7 @@ CMemoryPoolManager::Create
 	ULLONG capacity
 	)
 {
-	IMemoryPool *pmp =
+	IMemoryPool *memory_pool =
 #ifdef GPOS_DEBUG
 			CreatePoolStack(alloc_type, capacity, thread_safe);
 #else
@@ -170,11 +170,11 @@ CMemoryPoolManager::Create
 
 	// accessor scope
 	{
-		MemoryPoolKeyAccessor acc(m_hash_table, pmp->GetHashKey());
-		acc.Insert(Convert(pmp));
+		MemoryPoolKeyAccessor acc(m_hash_table, memory_pool->GetHashKey());
+		acc.Insert(Convert(memory_pool));
 	}
 
-	return pmp;
+	return memory_pool;
 }
 
 
@@ -306,28 +306,28 @@ CMemoryPoolManager::CreatePoolStack
 void
 CMemoryPoolManager::DeleteUnregistered
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	GPOS_ASSERT(pmp != NULL);
+	GPOS_ASSERT(memory_pool != NULL);
 
 #ifdef GPOS_DEBUG
 	// accessor's scope
 	{
-		MemoryPoolKeyAccessor acc(m_hash_table, pmp->GetHashKey());
+		MemoryPoolKeyAccessor acc(m_hash_table, memory_pool->GetHashKey());
 
 		// make sure that this pool is not in the hash table
 		IMemoryPool *found = acc.Find();
 		while (NULL != found)
 		{
-			GPOS_ASSERT(found != pmp && "Attempt to delete a registered memory pool");
+			GPOS_ASSERT(found != memory_pool && "Attempt to delete a registered memory pool");
 
 			found = acc.Next(Convert(found));
 		}
 	}
 #endif // GPOS_DEBUG
 
-	GPOS_DELETE(pmp);
+	GPOS_DELETE(memory_pool);
 }
 
 
@@ -342,20 +342,20 @@ CMemoryPoolManager::DeleteUnregistered
 void
 CMemoryPoolManager::Destroy
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 
 	// accessor scope
 	{
-		MemoryPoolKeyAccessor acc(m_hash_table, pmp->GetHashKey());
-		acc.Remove(Convert(pmp));
+		MemoryPoolKeyAccessor acc(m_hash_table, memory_pool->GetHashKey());
+		acc.Remove(Convert(memory_pool));
 	}
 
-	pmp->TearDown();
+	memory_pool->TearDown();
 
-	GPOS_DELETE(pmp);
+	GPOS_DELETE(memory_pool);
 }
 
 
@@ -375,10 +375,10 @@ CMemoryPoolManager::TotalAllocatedSize()
 	while (iter.Advance())
 	{
 		MemoryPoolIterAccessor acc(iter);
-		IMemoryPool *pmp = acc.Value();
-		if (NULL != pmp)
+		IMemoryPool *memory_pool = acc.Value();
+		if (NULL != memory_pool)
 		{
-			total_size = total_size + pmp->TotalAllocatedSize();
+			total_size = total_size + memory_pool->TotalAllocatedSize();
 		}
 	}
 
@@ -407,15 +407,15 @@ CMemoryPoolManager::OsPrint
 	MemoryPoolIter iter(m_hash_table);
 	while (iter.Advance())
 	{
-		IMemoryPool *pmp = NULL;
+		IMemoryPool *memory_pool = NULL;
 		{
 			MemoryPoolIterAccessor acc(iter);
-			pmp = acc.Value();
+			memory_pool = acc.Value();
 		}
 
-		if (NULL != pmp)
+		if (NULL != memory_pool)
 		{
-			os << *pmp << std::endl;
+			os << *memory_pool << std::endl;
 		}
 	}
 
@@ -447,11 +447,11 @@ CMemoryPoolManager::PrintOverSizedPools
 	while (iter.Advance())
 	{
 		MemoryPoolIterAccessor acc(iter);
-		IMemoryPool *pmp = acc.Value();
+		IMemoryPool *memory_pool = acc.Value();
 
-		if (NULL != pmp)
+		if (NULL != memory_pool)
 		{
-			ULLONG size = pmp->TotalAllocatedSize();
+			ULLONG size = memory_pool->TotalAllocatedSize();
 			if (size > size_threshold)
 			{
 				CAutoTrace at(trace);
@@ -474,17 +474,17 @@ CMemoryPoolManager::PrintOverSizedPools
 void
 CMemoryPoolManager::DestroyMemoryPoolAtShutdown
 	(
-	CMemoryPool *pmp
+	CMemoryPool *memory_pool
 	)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 
 #ifdef GPOS_DEBUG
-	gpos::oswcerr << "Leaked " << *pmp << std::endl;
+	gpos::oswcerr << "Leaked " << *memory_pool << std::endl;
 #endif // GPOS_DEBUG
 
-	pmp->TearDown();
-	GPOS_DELETE(pmp);
+	memory_pool->TearDown();
+	GPOS_DELETE(memory_pool);
 }
 
 

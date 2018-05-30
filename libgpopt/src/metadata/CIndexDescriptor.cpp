@@ -28,7 +28,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CIndexDescriptor::CIndexDescriptor
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidIndex,
 	const CName &name,
 	DrgPcoldesc *pdrgcoldescKeyCols,
@@ -37,12 +37,12 @@ CIndexDescriptor::CIndexDescriptor
 	)
 	:
 	m_pmdidIndex(pmdidIndex),
-	m_name(pmp, name),
+	m_name(memory_pool, name),
 	m_pdrgpcoldescKeyCols(pdrgcoldescKeyCols),
 	m_pdrgpcoldescIncludedCols(pdrgcoldescIncludedCols),
 	m_fClustered(fClustered)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(pmdidIndex->IsValid());
 	GPOS_ASSERT(NULL != pdrgcoldescKeyCols);
 	GPOS_ASSERT(NULL != pdrgcoldescIncludedCols);
@@ -107,19 +107,19 @@ CIndexDescriptor::UlIncludedColumns() const
 CIndexDescriptor *
 CIndexDescriptor::Pindexdesc
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CTableDescriptor *ptabdesc,
 	const IMDIndex *pmdindex
 	)
 {
-	CWStringConst strIndexName(pmp, pmdindex->Mdname().Pstr()->GetBuffer());
+	CWStringConst strIndexName(memory_pool, pmdindex->Mdname().Pstr()->GetBuffer());
 
 	DrgPcoldesc *pdrgpcoldesc = ptabdesc->Pdrgpcoldesc();
 
-	pmdindex->Pmdid()->AddRef();
+	pmdindex->MDId()->AddRef();
 
 	// array of index column descriptors
-	DrgPcoldesc *pdrgcoldescKey = GPOS_NEW(pmp) DrgPcoldesc(pmp);
+	DrgPcoldesc *pdrgcoldescKey = GPOS_NEW(memory_pool) DrgPcoldesc(memory_pool);
 
 	for (ULONG ul = 0; ul < pmdindex->UlKeys(); ul++)
 	{
@@ -129,7 +129,7 @@ CIndexDescriptor::Pindexdesc
 	}
 
 	// array of included column descriptors
-	DrgPcoldesc *pdrgcoldescIncluded = GPOS_NEW(pmp) DrgPcoldesc(pmp);
+	DrgPcoldesc *pdrgcoldescIncluded = GPOS_NEW(memory_pool) DrgPcoldesc(memory_pool);
 	for (ULONG ul = 0; ul < pmdindex->UlIncludedCols(); ul++)
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldesc)[ul];
@@ -139,10 +139,10 @@ CIndexDescriptor::Pindexdesc
 
 
 	// create the index descriptors
-	CIndexDescriptor *pindexdesc = GPOS_NEW(pmp) CIndexDescriptor
+	CIndexDescriptor *pindexdesc = GPOS_NEW(memory_pool) CIndexDescriptor
 											(
-											pmp,
-											pmdindex->Pmdid(),
+											memory_pool,
+											pmdindex->MDId(),
 											CName(&strIndexName),
 											pdrgcoldescKey,
 											pdrgcoldescIncluded,

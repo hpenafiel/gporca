@@ -39,14 +39,14 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CConstExprEvaluatorDXL::CConstExprEvaluatorDXL
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	IConstDXLNodeEvaluator *pconstdxleval
 	)
 	:
 	m_pconstdxleval(pconstdxleval),
-	m_trexpr2dxl(pmp, pmda, NULL /*pdrgpiSegments*/, false /*fInitColumnFactory*/),
-	m_trdxl2expr(pmp, pmda, false /*fInitColumnFactory*/)
+	m_trexpr2dxl(memory_pool, pmda, NULL /*pdrgpiSegments*/, false /*fInitColumnFactory*/),
+	m_trdxl2expr(memory_pool, pmda, false /*fInitColumnFactory*/)
 {
 }
 

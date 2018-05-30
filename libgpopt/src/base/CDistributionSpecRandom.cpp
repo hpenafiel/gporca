@@ -107,7 +107,7 @@ CDistributionSpecRandom::FSatisfies
 void
 CDistributionSpecRandom::AppendEnforcers
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &, // exprhdl
 	CReqdPropPlan *
 #ifdef GPOS_DEBUG
@@ -118,7 +118,7 @@ CDistributionSpecRandom::AppendEnforcers
 	CExpression *pexpr
 	)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != prpp);
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	GPOS_ASSERT(NULL != pexpr);
@@ -136,10 +136,10 @@ CDistributionSpecRandom::AppendEnforcers
 	// add a hashed distribution enforcer
 	AddRef();
 	pexpr->AddRef();
-	CExpression *pexprMotion = GPOS_NEW(pmp) CExpression
+	CExpression *pexprMotion = GPOS_NEW(memory_pool) CExpression
 										(
-										pmp,
-										GPOS_NEW(pmp) CPhysicalMotionRandom(pmp, this),
+										memory_pool,
+										GPOS_NEW(memory_pool) CPhysicalMotionRandom(memory_pool, this),
 										pexpr
 										);
 	pdrgpexpr->Append(pexprMotion);		

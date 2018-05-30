@@ -36,7 +36,7 @@ namespace gpdxl
 			IMDId *m_pmdidElem;
 
 			// element type modifier
-			INT m_iTypeModifier;
+			INT m_type_modifier;
 
 			// array type id
 			IMDId *m_pmdidArray;
@@ -51,9 +51,9 @@ namespace gpdxl
 			// ctor
 			CDXLScalarArrayRef
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidElem,
-				INT iTypeModifier,
+				INT type_modifier,
 				IMDId *pmdidArray,
 				IMDId *pmdidReturn
 				);

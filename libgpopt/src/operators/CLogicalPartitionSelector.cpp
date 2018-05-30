@@ -29,10 +29,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalPartitionSelector::CLogicalPartitionSelector
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pmdid(NULL),
 	m_pdrgpexprFilters(NULL),
 	m_pcrOid(NULL)
@@ -50,13 +50,13 @@ CLogicalPartitionSelector::CLogicalPartitionSelector
 //---------------------------------------------------------------------------
 CLogicalPartitionSelector::CLogicalPartitionSelector
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	DrgPexpr *pdrgpexprFilters,
 	CColRef *pcrOid
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pmdid(pmdid),
 	m_pdrgpexprFilters(pdrgpexprFilters),
 	m_pcrOid(pcrOid)
@@ -104,7 +104,7 @@ CLogicalPartitionSelector::FMatch
 	CLogicalPartitionSelector *popPartSelector = CLogicalPartitionSelector::PopConvert(pop);
 
 	return popPartSelector->PcrOid() == m_pcrOid &&
-			popPartSelector->Pmdid()->Equals(m_pmdid) &&
+			popPartSelector->MDId()->Equals(m_pmdid) &&
 			popPartSelector->m_pdrgpexprFilters->Equals(m_pdrgpexprFilters);
 }
 
@@ -133,17 +133,17 @@ CLogicalPartitionSelector::HashValue() const
 COperator *
 CLogicalPartitionSelector::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
 	CColRef *pcrOid = CUtils::PcrRemap(m_pcrOid, phmulcr, fMustExist);
-	DrgPexpr *pdrgpexpr = CUtils::PdrgpexprRemap(pmp, m_pdrgpexprFilters, phmulcr);
+	DrgPexpr *pdrgpexpr = CUtils::PdrgpexprRemap(memory_pool, m_pdrgpexprFilters, phmulcr);
 
 	m_pmdid->AddRef();
 
-	return GPOS_NEW(pmp) CLogicalPartitionSelector(pmp, m_pmdid, pdrgpexpr, pcrOid);
+	return GPOS_NEW(memory_pool) CLogicalPartitionSelector(memory_pool, m_pmdid, pdrgpexpr, pcrOid);
 }
 
 //---------------------------------------------------------------------------
@@ -157,11 +157,11 @@ CLogicalPartitionSelector::PopCopyWithRemappedColumns
 CColRefSet *
 CLogicalPartitionSelector::PcrsDeriveOutput
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
-	CColRefSet *pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	pcrsOutput->Union(exprhdl.Pdprel(0)->PcrsOutput());
 	pcrsOutput->Include(m_pcrOid);
@@ -180,7 +180,7 @@ CLogicalPartitionSelector::PcrsDeriveOutput
 CMaxCard
 CLogicalPartitionSelector::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -200,11 +200,11 @@ CLogicalPartitionSelector::Maxcard
 CXformSet *
 CLogicalPartitionSelector::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementPartitionSelector);
 	return pxfs;
 }

@@ -32,14 +32,14 @@ CAtomicULONG COperator::m_aulOpIdCounter(0);
 //---------------------------------------------------------------------------
 COperator::COperator
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	m_ulOpId(m_aulOpIdCounter.Incr()),
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_fPattern(false)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 }
 
 
@@ -150,7 +150,7 @@ COperator::EfsDeriveFromChildren
 CFunctionProp *
 COperator::PfpDeriveFromChildren
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	IMDFunction::EFuncStbl efsDefault,
 	IMDFunction::EFuncDataAcc efdaDefault,
@@ -161,7 +161,7 @@ COperator::PfpDeriveFromChildren
 	IMDFunction::EFuncStbl efs = EfsDeriveFromChildren(exprhdl, efsDefault);
 	IMDFunction::EFuncDataAcc efda = EfdaDeriveFromChildren(exprhdl, efdaDefault);
 
-	return GPOS_NEW(pmp) CFunctionProp
+	return GPOS_NEW(memory_pool) CFunctionProp
 						(
 						efs,
 						efda,

@@ -100,12 +100,12 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsUsed
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				)
 				const
 			{
 				// by default, return an empty set
-				return GPOS_NEW(pmp) CColRefSet(pmp);
+				return GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 			}
 
 			// property type
@@ -140,7 +140,7 @@ namespace gpopt
 			virtual
 			CDistributionSpec *PdsCopyWithRemappedColumns
 								(
-								IMemoryPool *, //pmp,
+								IMemoryPool *, //memory_pool,
 								HMUlCr *, //phmulcr,
 								BOOL //fMustExist
 								)

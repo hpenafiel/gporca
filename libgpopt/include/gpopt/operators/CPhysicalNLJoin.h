@@ -40,7 +40,7 @@ namespace gpopt
 			// spec for the children of a nested loop join
 			CPartitionPropagationSpec *PppsRequiredNLJoinChild
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CPartitionPropagationSpec *pppsRequired,
 				ULONG ulChildIndex,
@@ -52,7 +52,7 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CPhysicalNLJoin(IMemoryPool *pmp);
+			CPhysicalNLJoin(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual
@@ -66,7 +66,7 @@ namespace gpopt
 			virtual
 			COrderSpec *PosRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				COrderSpec *posInput,
 				ULONG ulChildIndex,
@@ -79,7 +79,7 @@ namespace gpopt
 			virtual
 			CRewindabilitySpec *PrsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CRewindabilitySpec *prsRequired,
 				ULONG ulChildIndex,
@@ -92,7 +92,7 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CColRefSet *pcrsRequired,
 				ULONG ulChildIndex,
@@ -104,7 +104,7 @@ namespace gpopt
 			virtual
 			CPartitionPropagationSpec *PppsRequired
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				CPartitionPropagationSpec *pppsRequired,
 				ULONG ulChildIndex,
@@ -114,7 +114,7 @@ namespace gpopt
 			{
 				GPOS_ASSERT(ulOptReq < UlPartPropagateRequests());
 
-				return PppsRequiredNLJoinChild(pmp, exprhdl, pppsRequired, ulChildIndex, pdrgpdpCtxt, ulOptReq);
+				return PppsRequiredNLJoinChild(memory_pool, exprhdl, pppsRequired, ulChildIndex, pdrgpdpCtxt, ulOptReq);
 			}
 
 			//-------------------------------------------------------------------------------------

@@ -32,12 +32,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerPhysicalCTEProducer::CParseHandlerPhysicalCTEProducer
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerPhysicalOp(pmp, parse_handler_mgr, pphRoot)
+	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, pphRoot)
 {
 }
 

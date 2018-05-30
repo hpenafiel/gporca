@@ -25,9 +25,9 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLMemoryManager::CDXLMemoryManager
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
-	:m_memory_pool(pmp)
+	:m_memory_pool(memory_pool)
 {
 	GPOS_ASSERT(NULL != m_memory_pool);
 }

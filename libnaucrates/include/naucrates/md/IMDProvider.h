@@ -44,7 +44,7 @@ namespace gpmd
 			static
 			IMDId *PmdidTypeGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CSystemId sysid,
 				IMDType::ETypeInfo eti
 				);
@@ -54,11 +54,11 @@ namespace gpmd
 			
 			// returns the DXL string of the requested metadata object
 			virtual 
-			CWStringBase *PstrObject(IMemoryPool *pmp, CMDAccessor *pmda, IMDId *pmdid) const = 0;
+			CWStringBase *PstrObject(IMemoryPool *memory_pool, CMDAccessor *pmda, IMDId *pmdid) const = 0;
 
 			// return the mdid for the specified system id and type
 			virtual 
-			IMDId *Pmdid(IMemoryPool *pmp, CSystemId sysid, IMDType::ETypeInfo eti) const = 0;
+			IMDId *MDId(IMemoryPool *memory_pool, CSystemId sysid, IMDType::ETypeInfo eti) const = 0;
 	};
 
 	// arrays of MD providers

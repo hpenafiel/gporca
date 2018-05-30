@@ -24,7 +24,7 @@ using namespace gpopt;
 void
 CJoinStatsProcessor::JoinHistograms
 			(
-			IMemoryPool *pmp,
+			IMemoryPool *memory_pool,
 			const CHistogram *phist1,
 			const CHistogram *phist2,
 			CStatsPredJoin *pstatsjoin,
@@ -49,7 +49,7 @@ CJoinStatsProcessor::JoinHistograms
 	{
 		CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 				(
-				pmp,
+				memory_pool,
 				phist1,
 				phist2,
 				pstatsjoin,
@@ -70,8 +70,8 @@ CJoinStatsProcessor::JoinHistograms
 	{
 		// use Cartesian product as scale factor
 		*pdScaleFactor = dRows1 * dRows2;
-		*pphist1 =  GPOS_NEW(pmp) CHistogram(GPOS_NEW(pmp) DrgPbucket(pmp));
-		*pphist2 =  GPOS_NEW(pmp) CHistogram(GPOS_NEW(pmp) DrgPbucket(pmp));
+		*pphist1 =  GPOS_NEW(memory_pool) CHistogram(GPOS_NEW(memory_pool) DrgPbucket(memory_pool));
+		*pphist2 =  GPOS_NEW(memory_pool) CHistogram(GPOS_NEW(memory_pool) DrgPbucket(memory_pool));
 
 		return;
 	}
@@ -94,7 +94,7 @@ CJoinStatsProcessor::JoinHistograms
 	{
 		CHistogram *phistJoin = phist1->PhistJoinNormalized
 				(
-				pmp,
+				memory_pool,
 				escmpt,
 				dRows1,
 				phist2,
@@ -109,7 +109,7 @@ CJoinStatsProcessor::JoinHistograms
 				phistJoin->SetNDVScaled();
 			}
 			*pphist1 = phistJoin;
-			*pphist2 = (*pphist1)->PhistCopy(pmp);
+			*pphist2 = (*pphist1)->PhistCopy(memory_pool);
 			if (phist2->FScaledNDV())
 			{
 				(*pphist2)->SetNDVScaled();
@@ -129,15 +129,15 @@ CJoinStatsProcessor::JoinHistograms
 
 	// for an unsupported join predicate operator or in the case of
 	// missing histograms, copy input histograms and use default scale factor
-	*pphist1 = phist1->PhistCopy(pmp);
-	*pphist2 = phist2->PhistCopy(pmp);
+	*pphist1 = phist1->PhistCopy(memory_pool);
+	*pphist2 = phist2->PhistCopy(memory_pool);
 }
 
 //	derive statistics for the given join's predicate(s)
 IStatistics *
 CJoinStatsProcessor::PstatsJoinArray
 		(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		DrgPstat *statistics_array,
 		CExpression *pexprScalar,
 		IStatistics::EStatsJoinType eStatsJoinType
@@ -151,25 +151,25 @@ CJoinStatsProcessor::PstatsJoinArray
 
 
 	// create an empty set of outer references for statistics derivation
-	CColRefSet *pcrsOuterRefs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrsOuterRefs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// join statistics objects one by one using relevant predicates in given scalar expression
 	const ULONG ulStats = statistics_array->Size();
-	IStatistics *pstats = (*statistics_array)[0]->PstatsCopy(pmp);
+	IStatistics *pstats = (*statistics_array)[0]->PstatsCopy(memory_pool);
 	CDouble dRowsOuter = pstats->DRows();
 
 	for (ULONG ul = 1; ul < ulStats; ul++)
 	{
 		IStatistics *pstatsCurrent = (*statistics_array)[ul];
 
-		DrgPcrs *pdrgpcrsOutput= GPOS_NEW(pmp) DrgPcrs(pmp);
-		pdrgpcrsOutput->Append(pstats->Pcrs(pmp));
-		pdrgpcrsOutput->Append(pstatsCurrent->Pcrs(pmp));
+		DrgPcrs *pdrgpcrsOutput= GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
+		pdrgpcrsOutput->Append(pstats->Pcrs(memory_pool));
+		pdrgpcrsOutput->Append(pstatsCurrent->Pcrs(memory_pool));
 
 		CStatsPred *pstatspredUnsupported = NULL;
 		DrgPstatspredjoin *pdrgpstatspredjoin = CStatsPredUtils::PdrgpstatspredjoinExtract
 				(
-						pmp,
+						memory_pool,
 						pexprScalar,
 						pdrgpcrsOutput,
 						pcrsOuterRefs,
@@ -178,11 +178,11 @@ CJoinStatsProcessor::PstatsJoinArray
 		IStatistics *pstatsNew = NULL;
 		if (fLeftOuterJoin)
 		{
-			pstatsNew = pstats->PstatsLOJ(pmp, pstatsCurrent, pdrgpstatspredjoin);
+			pstatsNew = pstats->PstatsLOJ(memory_pool, pstatsCurrent, pdrgpstatspredjoin);
 		}
 		else
 		{
-			pstatsNew = pstats->PstatsInnerJoin(pmp, pstatsCurrent, pdrgpstatspredjoin);
+			pstatsNew = pstats->PstatsInnerJoin(memory_pool, pstatsCurrent, pdrgpstatspredjoin);
 		}
 		pstats->Release();
 		pstats = pstatsNew;
@@ -192,7 +192,7 @@ CJoinStatsProcessor::PstatsJoinArray
 			// apply the unsupported join filters as a filter on top of the join results.
 			// TODO,  June 13 2014 we currently only cap NDVs for filters
 			// immediately on top of tables.
-			IStatistics *pstatsAfterJoinFilter = CFilterStatsProcessor::PstatsFilter(pmp, dynamic_cast<CStatistics *>(pstats), pstatspredUnsupported, false /* fCapNdvs */);
+			IStatistics *pstatsAfterJoinFilter = CFilterStatsProcessor::PstatsFilter(memory_pool, dynamic_cast<CStatistics *>(pstats), pstatspredUnsupported, false /* fCapNdvs */);
 
 			// If it is outer join and the cardinality after applying the unsupported join
 			// filters is less than the cardinality of outer child, we don't use this stats.
@@ -225,7 +225,7 @@ CJoinStatsProcessor::PstatsJoinArray
 CStatistics *
 CJoinStatsProcessor::PstatsJoinDriver
 		(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		CStatisticsConfig *pstatsconf,
 		const IStatistics *pistatsOuter,
 		const IStatistics *pistatsInner,
@@ -234,7 +234,7 @@ CJoinStatsProcessor::PstatsJoinDriver
 		BOOL fIgnoreLasjHistComputation
 		)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pistatsInner);
 	GPOS_ASSERT(NULL != pistatsOuter);
 
@@ -252,10 +252,10 @@ CJoinStatsProcessor::PstatsJoinDriver
 	const CStatistics *pstatsInner = dynamic_cast<const CStatistics *> (pistatsInner);
 
 	// create hash map from colid -> histogram for resultant structure
-	HMUlHist *phmulhistJoin = GPOS_NEW(pmp) HMUlHist(pmp);
+	HMUlHist *phmulhistJoin = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
 
 	// build a bitset with all join columns
-	CBitSet *pbsJoinColIds = GPOS_NEW(pmp) CBitSet(pmp);
+	CBitSet *pbsJoinColIds = GPOS_NEW(memory_pool) CBitSet(memory_pool);
 	for (ULONG ul = 0; ul < pdrgppredInfo->Size(); ul++)
 	{
 		CStatsPredJoin *pstatsjoin = (*pdrgppredInfo)[ul];
@@ -269,13 +269,13 @@ CJoinStatsProcessor::PstatsJoinDriver
 
 	// histograms on columns that do not appear in join condition will
 	// be copied over to the result structure
-	pstatsOuter->AddNotExcludedHistograms(pmp, pbsJoinColIds, phmulhistJoin);
+	pstatsOuter->AddNotExcludedHistograms(memory_pool, pbsJoinColIds, phmulhistJoin);
 	if (!fSemiJoin)
 	{
-		pstatsInner->AddNotExcludedHistograms(pmp, pbsJoinColIds, phmulhistJoin);
+		pstatsInner->AddNotExcludedHistograms(memory_pool, pbsJoinColIds, phmulhistJoin);
 	}
 
-	DrgPdouble *pdrgpd = GPOS_NEW(pmp) DrgPdouble(pmp);
+	DrgPdouble *pdrgpd = GPOS_NEW(memory_pool) DrgPdouble(memory_pool);
 	const ULONG ulJoinConds = pdrgppredInfo->Size();
 
 	BOOL fEmptyOutput = false;
@@ -300,7 +300,7 @@ CJoinStatsProcessor::PstatsJoinDriver
 		CHistogram *phistInnerAfter = NULL;
 		JoinHistograms
 				(
-						pmp,
+						memory_pool,
 						phistOuter,
 						phistInner,
 						ppredInfo,
@@ -316,15 +316,15 @@ CJoinStatsProcessor::PstatsJoinDriver
 
 		fEmptyOutput = FEmptyJoinStats(pstatsOuter->IsEmpty(), fEmptyOutput, phistOuter, phistInner, phistOuterAfter, eStatsJoinType);
 
-		CStatisticsUtils::AddHistogram(pmp, ulColId1, phistOuterAfter, phmulhistJoin);
+		CStatisticsUtils::AddHistogram(memory_pool, ulColId1, phistOuterAfter, phmulhistJoin);
 		if (!fSemiJoin)
 		{
-			CStatisticsUtils::AddHistogram(pmp, ulColId2, phistInnerAfter, phmulhistJoin);
+			CStatisticsUtils::AddHistogram(memory_pool, ulColId2, phistInnerAfter, phmulhistJoin);
 		}
 		GPOS_DELETE(phistOuterAfter);
 		GPOS_DELETE(phistInnerAfter);
 
-		pdrgpd->Append(GPOS_NEW(pmp) CDouble(dScaleFactorLocal));
+		pdrgpd->Append(GPOS_NEW(memory_pool) CDouble(dScaleFactorLocal));
 	}
 
 
@@ -338,16 +338,16 @@ CJoinStatsProcessor::PstatsJoinDriver
 	pdrgpd->Release();
 	pbsJoinColIds->Release();
 
-	HMUlDouble *phmuldoubleWidthResult = pstatsOuter->CopyWidths(pmp);
+	HMUlDouble *phmuldoubleWidthResult = pstatsOuter->CopyWidths(memory_pool);
 	if (!fSemiJoin)
 	{
-		pstatsInner->CopyWidthsInto(pmp, phmuldoubleWidthResult);
+		pstatsInner->CopyWidthsInto(memory_pool, phmuldoubleWidthResult);
 	}
 
 	// create an output stats object
-	CStatistics *pstatsJoin = GPOS_NEW(pmp) CStatistics
+	CStatistics *pstatsJoin = GPOS_NEW(memory_pool) CStatistics
 			(
-					pmp,
+					memory_pool,
 					phmulhistJoin,
 					phmuldoubleWidthResult,
 					dRowsJoin,
@@ -361,10 +361,10 @@ CJoinStatsProcessor::PstatsJoinDriver
 	// the minimum of the cardinality upper bound of the source column (in the input hash map)
 	// and estimated join cardinality.
 
-	CStatisticsUtils::ComputeCardUpperBounds(pmp, pstatsOuter, pstatsJoin, dRowsJoin, CStatistics::EcbmMin /* ecbm */);
+	CStatisticsUtils::ComputeCardUpperBounds(memory_pool, pstatsOuter, pstatsJoin, dRowsJoin, CStatistics::EcbmMin /* ecbm */);
 	if (!fSemiJoin)
 	{
-		CStatisticsUtils::ComputeCardUpperBounds(pmp, pstatsInner, pstatsJoin, dRowsJoin, CStatistics::EcbmMin /* ecbm */);
+		CStatisticsUtils::ComputeCardUpperBounds(memory_pool, pstatsInner, pstatsJoin, dRowsJoin, CStatistics::EcbmMin /* ecbm */);
 	}
 
 	return pstatsJoin;
@@ -438,14 +438,14 @@ CJoinStatsProcessor::FEmptyJoinStats
 IStatistics *
 CJoinStatsProcessor::PstatsJoin
 		(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		CExpressionHandle &exprhdl,
 		DrgPstat *pdrgpstatCtxt
 		)
 {
 	GPOS_ASSERT(CLogical::EspNone < CLogical::PopConvert(exprhdl.Pop())->Esp(exprhdl));
 
-	DrgPstat *statistics_array = GPOS_NEW(pmp) DrgPstat(pmp);
+	DrgPstat *statistics_array = GPOS_NEW(memory_pool) DrgPstat(memory_pool);
 	const ULONG ulArity = exprhdl.UlArity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
@@ -458,12 +458,12 @@ CJoinStatsProcessor::PstatsJoin
 	if (exprhdl.Pdpscalar(ulArity - 1)->FHasSubquery())
 	{
 		// in case of subquery in join predicate, assume join condition is True
-		pexprJoinPred = CUtils::PexprScalarConstBool(pmp, true /*fVal*/);
+		pexprJoinPred = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
 	}
 	else
 	{
 		// remove implied predicates from join condition to avoid cardinality under-estimation
-		pexprJoinPred = CPredicateUtils::PexprRemoveImpliedConjuncts(pmp, exprhdl.PexprScalarChild(ulArity - 1), exprhdl);
+		pexprJoinPred = CPredicateUtils::PexprRemoveImpliedConjuncts(memory_pool, exprhdl.PexprScalarChild(ulArity - 1), exprhdl);
 	}
 
 	// split join predicate into local predicate and predicate involving outer references
@@ -473,7 +473,7 @@ CJoinStatsProcessor::PstatsJoin
 	// get outer references from expression handle
 	CColRefSet *pcrsOuter = exprhdl.Pdprel()->PcrsOuter();
 
-	CPredicateUtils::SeparateOuterRefs(pmp, pexprJoinPred, pcrsOuter, &pexprLocal, &pexprOuterRefs);
+	CPredicateUtils::SeparateOuterRefs(memory_pool, pexprJoinPred, pcrsOuter, &pexprLocal, &pexprOuterRefs);
 	pexprJoinPred->Release();
 
 	COperator::EOperatorId eopid = exprhdl.Pop()->Eopid();
@@ -489,12 +489,12 @@ CJoinStatsProcessor::PstatsJoin
 	}
 
 	// derive stats based on local join condition
-	IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pexprLocal, eStatsJoinType);
+	IStatistics *pstatsJoin = CJoinStatsProcessor::PstatsJoinArray(memory_pool, statistics_array, pexprLocal, eStatsJoinType);
 
 	if (exprhdl.FHasOuterRefs() && 0 < pdrgpstatCtxt->Size())
 	{
 		// derive stats based on outer references
-		IStatistics *pstats = PstatsDeriveWithOuterRefs(pmp, exprhdl, pexprOuterRefs, pstatsJoin, pdrgpstatCtxt, eStatsJoinType);
+		IStatistics *pstats = PstatsDeriveWithOuterRefs(memory_pool, exprhdl, pexprOuterRefs, pstatsJoin, pdrgpstatCtxt, eStatsJoinType);
 		pstatsJoin->Release();
 		pstatsJoin = pstats;
 	}
@@ -563,7 +563,7 @@ CJoinStatsProcessor::PstatsJoin
 IStatistics *
 CJoinStatsProcessor::PstatsDeriveWithOuterRefs
 		(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		CExpressionHandle &
 #ifdef GPOS_DEBUG
 		exprhdl // handle attached to the logical expression we want to derive stats for
@@ -584,19 +584,19 @@ CJoinStatsProcessor::PstatsDeriveWithOuterRefs
 
 	// join outer stats object based on given scalar expression,
 	// we use inner join semantics here to consider all relevant combinations of outer tuples
-	IStatistics *pstatsOuter = CJoinStatsProcessor::PstatsJoinArray(pmp, pdrgpstatOuter, pexprScalar, IStatistics::EsjtInnerJoin);
+	IStatistics *pstatsOuter = CJoinStatsProcessor::PstatsJoinArray(memory_pool, pdrgpstatOuter, pexprScalar, IStatistics::EsjtInnerJoin);
 	CDouble dRowsOuter = pstatsOuter->DRows();
 
 	// join passed stats object and outer stats based on the passed join type
-	DrgPstat *statistics_array = GPOS_NEW(pmp) DrgPstat(pmp);
+	DrgPstat *statistics_array = GPOS_NEW(memory_pool) DrgPstat(memory_pool);
 	statistics_array->Append(pstatsOuter);
 	pstats->AddRef();
 	statistics_array->Append(pstats);
-	IStatistics *pstatsJoined = CJoinStatsProcessor::PstatsJoinArray(pmp, statistics_array, pexprScalar, eStatsJoinType);
+	IStatistics *pstatsJoined = CJoinStatsProcessor::PstatsJoinArray(memory_pool, statistics_array, pexprScalar, eStatsJoinType);
 	statistics_array->Release();
 
 	// scale result using cardinality of outer stats and set number of rebinds of returned stats
-	IStatistics *pstatsResult = pstatsJoined->PstatsScale(pmp, CDouble(1.0/dRowsOuter));
+	IStatistics *pstatsResult = pstatsJoined->PstatsScale(memory_pool, CDouble(1.0/dRowsOuter));
 	pstatsResult->SetRebinds(dRowsOuter);
 	pstatsJoined->Release();
 

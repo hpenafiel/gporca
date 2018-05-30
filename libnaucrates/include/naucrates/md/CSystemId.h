@@ -45,7 +45,7 @@ namespace gpmd
 
 		public:
 			// ctor
-			CSystemId(IMDId::EMDIdType emdidt, const WCHAR *wsz, ULONG ulLength = GPDXL_SYSID_LENGTH);
+			CSystemId(IMDId::EMDIdType emdidt, const WCHAR *wsz, ULONG length = GPDXL_SYSID_LENGTH);
 			
 			// copy ctor
 			CSystemId(const CSystemId &);

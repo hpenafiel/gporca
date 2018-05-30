@@ -32,16 +32,16 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarArrayCoerceExpr::CScalarArrayCoerceExpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidElementFunc,
 	IMDId *pmdidResultType,
-	INT iTypeModifier,
+	INT type_modifier,
 	BOOL fIsExplicit,
 	ECoercionForm ecf,
 	INT iLoc
 	)
 	:
-	CScalarCoerceBase(pmp, pmdidResultType, iTypeModifier, ecf, iLoc),
+	CScalarCoerceBase(memory_pool, pmdidResultType, type_modifier, ecf, iLoc),
 	m_pmdidElementFunc(pmdidElementFunc),
 	m_fIsExplicit(fIsExplicit)
 {

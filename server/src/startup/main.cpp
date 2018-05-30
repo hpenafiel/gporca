@@ -261,8 +261,8 @@ void ConfigureTests()
 	// load metadata objects into provider file
 	{
 		CAutoMemoryPool amp;
-		IMemoryPool *pmp = amp.Pmp();
-		CTestUtils::InitProviderFile(pmp);
+		IMemoryPool *memory_pool = amp.Pmp();
+		CTestUtils::InitProviderFile(memory_pool);
 
 		// detach safety
 		(void) amp.Detach();
@@ -367,17 +367,17 @@ PvExec
 		CMDCache::Init();
 		
 		CAutoMemoryPool amp;
-		IMemoryPool *pmp = amp.Pmp();
+		IMemoryPool *memory_pool = amp.Pmp();
 
 		// load dump file
-		CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(pmp, szFileName);
+		CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(memory_pool, szFileName);
 		GPOS_CHECK_ABORT;
 
 		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
 
 		if (NULL == optimizer_config)
 		{
-			optimizer_config = COptimizerConfig::PoconfDefault(pmp);
+			optimizer_config = COptimizerConfig::PoconfDefault(memory_pool);
 		}
 		else
 		{
@@ -388,7 +388,7 @@ PvExec
 
 		CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 								(
-								pmp,
+								memory_pool,
 								szFileName,
 								ulSegments,
 								1 /*ulSessionId*/,

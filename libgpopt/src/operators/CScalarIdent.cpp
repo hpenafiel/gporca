@@ -88,7 +88,7 @@ CScalarIdent::FInputOrderSensitive() const
 COperator *
 CScalarIdent::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
@@ -108,7 +108,7 @@ CScalarIdent::PopCopyWithRemappedColumns
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcr->Insert(GPOS_NEW(pmp) ULONG(ulId), pcr);
+			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(ulId), pcr);
 			GPOS_ASSERT(fResult);
 		}
 		else
@@ -117,7 +117,7 @@ CScalarIdent::PopCopyWithRemappedColumns
 		}
 	}
 
-	return GPOS_NEW(pmp) CScalarIdent(pmp, pcr);
+	return GPOS_NEW(memory_pool) CScalarIdent(memory_pool, pcr);
 }
 
 //---------------------------------------------------------------------------
@@ -131,7 +131,7 @@ CScalarIdent::PopCopyWithRemappedColumns
 IMDId*
 CScalarIdent::MDIdType() const
 {
-	return m_pcr->Pmdtype()->Pmdid();
+	return m_pcr->Pmdtype()->MDId();
 }
 
 INT

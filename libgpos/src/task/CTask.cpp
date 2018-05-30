@@ -32,14 +32,14 @@ const CTaskId CTaskId::m_invalid_tid;
 //---------------------------------------------------------------------------
 CTask::CTask
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CTaskContext *task_ctxt,
 	IErrorContext *err_ctxt,
 	CEvent *event,
 	volatile BOOL *cancel
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_task_ctxt(task_ctxt),
 	m_err_ctxt(err_ctxt),
 	m_err_handle(NULL),
@@ -54,7 +54,7 @@ CTask::CTask
 	m_abort_suspend_count(false),
 	m_reported(false)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != task_ctxt);
 	GPOS_ASSERT(NULL != err_ctxt);
 

@@ -184,7 +184,7 @@ namespace gpopt
 						(
 						const CColRef *pcr,
 						const IMDType *pmdtype,
-						INT iTypeModifier,
+						INT type_modifier,
 						BOOL fStoreMapping,
 						ULONG ulColId
 						);
@@ -399,7 +399,7 @@ namespace gpopt
 
 		public:
 			// ctor
-			CTranslatorDXLToExpr(IMemoryPool *pmp, CMDAccessor *pmda, BOOL fInitColumnFactory = true);
+			CTranslatorDXLToExpr(IMemoryPool *memory_pool, CMDAccessor *pmda, BOOL fInitColumnFactory = true);
 
 			// dtor
 			~CTranslatorDXLToExpr();

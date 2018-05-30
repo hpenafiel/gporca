@@ -32,7 +32,7 @@ namespace gpnaucrates
 			static
 			CHistogram *PhistSimpleFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CStatsPred *pstatspred,
 				CBitSet *pbsFilterColIds,
 				CHistogram *phistBefore,
@@ -44,7 +44,7 @@ namespace gpnaucrates
 			static
 			CHistogram *PhistPointFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CStatsPredPoint *pstatspred,
 				CBitSet *pbsFilterColIds,
 				CHistogram *phistBefore,
@@ -56,7 +56,7 @@ namespace gpnaucrates
 			static
 			CHistogram *PhistLikeFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CStatsPredLike *pstatspred,
 				CBitSet *pbsFilterColIds,
 				CHistogram *phistBefore,
@@ -68,7 +68,7 @@ namespace gpnaucrates
 			static
 			CHistogram *PhistUnsupportedPred
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CStatsPredUnsupported *pstatspred,
 				CBitSet *pbsFilterColIds,
 				CHistogram *phistBefore,
@@ -80,7 +80,7 @@ namespace gpnaucrates
 			static
 			HMUlHist *PhmulhistApplyConjOrDisjFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CStatisticsConfig *pstatsconf,
 				HMUlHist *phmulhistInput,
 				CDouble dRowsInput,
@@ -92,7 +92,7 @@ namespace gpnaucrates
 			static
 			HMUlHist *PhmulhistApplyConjFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CStatisticsConfig *pstatsconf,
 				HMUlHist *phmulhistIntermediate,
 				CDouble dRowsInput,
@@ -104,7 +104,7 @@ namespace gpnaucrates
 			static
 			HMUlHist *PhmulhistApplyDisjFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CStatisticsConfig *pstatsconf,
 				HMUlHist *phmulhistInput,
 				CDouble dRowsInput,
@@ -120,13 +120,13 @@ namespace gpnaucrates
 
 		// filter
 		static
-		CStatistics *PstatsFilter(IMemoryPool *pmp, const CStatistics *pstatsInput, CStatsPred *pstatspredBase, BOOL fCapNdvs);
+		CStatistics *PstatsFilter(IMemoryPool *memory_pool, const CStatistics *pstatsInput, CStatsPred *pstatspredBase, BOOL fCapNdvs);
 
 		// derive statistics for filter operation based on given scalar expression
 		static
 		IStatistics *PstatsFilterForScalarExpr
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CExpressionHandle &exprhdl,
 						IStatistics *pstatsChild,
 						CExpression *pexprScalarLocal, // filter expression on local columns only

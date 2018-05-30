@@ -35,7 +35,7 @@ namespace gpmd
                 xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
                                      CDXLTokens::PstrToken(EdxltokenMDType));
 
-                pt->Pmdid()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+                pt->MDId()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
                 xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pt->Mdname().Pstr());
                 xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeRedistributable), pt->FRedistributable());
@@ -54,7 +54,7 @@ namespace gpmd
                     xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeLength), pt->Length());
                 }
 
-                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeByValue), pt->FByValue());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeByValue), pt->IsPassedByValue());
 
                 pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeEqOp), pt->PmdidCmp(IMDType::EcmptEq));
                 pt->SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDTypeNEqOp), pt->PmdidCmp(IMDType::EcmptNEq));
@@ -82,7 +82,7 @@ namespace gpmd
 			static void DebugPrint(IOstream &os, const T *pt)
             {
                 os << "Type id: ";
-                pt->Pmdid()->OsPrint(os);
+                pt->MDId()->OsPrint(os);
                 os << std::endl;
 
                 os << "Type name: " << pt->Mdname().Pstr()->GetBuffer() << std::endl;
@@ -104,7 +104,7 @@ namespace gpmd
                     os << "Type length: " << pt->Length() << std::endl;
                 }
 
-                const CWStringConst *pstrByValue = pt->FByValue() ?
+                const CWStringConst *pstrByValue = pt->IsPassedByValue() ?
                 CDXLTokens::PstrToken(EdxltokenTrue):
                 CDXLTokens::PstrToken(EdxltokenFalse);
 

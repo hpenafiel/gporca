@@ -28,11 +28,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalAssert::CDXLPhysicalAssert
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CHAR *szSQLState
 	)
 	:
-	CDXLPhysical(pmp)
+	CDXLPhysical(memory_pool)
 {
 	GPOS_ASSERT(NULL != szSQLState);
 	GPOS_ASSERT(GPOS_SQLSTATE_LENGTH == clib::StrLen(szSQLState));

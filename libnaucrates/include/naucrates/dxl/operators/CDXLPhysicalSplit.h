@@ -63,7 +63,7 @@ namespace gpdxl
 			// ctor
 			CDXLPhysicalSplit
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULongPtrArray *pdrgpulDelete,
 				ULongPtrArray *pdrgpulInsert,
 				ULONG ulAction,

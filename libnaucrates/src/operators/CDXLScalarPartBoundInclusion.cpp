@@ -30,12 +30,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarPartBoundInclusion::CDXLScalarPartBoundInclusion
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulLevel,
 	BOOL fLower
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_ulLevel(ulLevel),
 	m_fLower(fLower)
 {

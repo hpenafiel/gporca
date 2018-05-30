@@ -131,7 +131,7 @@ namespace gpopt
 		{
 			private:
 				// hashed object
-				IMDCacheObject *m_pimdobj;
+				IMDCacheObject *m_imd_obj;
 	
 			public:
 				// hash key
@@ -152,11 +152,11 @@ namespace gpopt
 				// hashed object
 				IMDCacheObject *Pimdobj()
 				{
-					return m_pimdobj;
+					return m_imd_obj;
 				}
 
 				// return the key for this hashtable element
-				IMDId *Pmdid();
+				IMDId *MDId();
 
 				// equality function for hash tables
 				static
@@ -252,15 +252,15 @@ namespace gpopt
 			IMDProvider *Pmdp(CSystemId sysid);
 			
 			// initialize hash tables
-			void InitHashtables(IMemoryPool *pmp);
+			void InitHashtables(IMemoryPool *memory_pool);
 
 			// return the column statistics meta data object for a given column of a table
-			const IMDColStats *Pmdcolstats(IMemoryPool *pmp, IMDId *pmdidRel, ULONG ulPos);
+			const IMDColStats *Pmdcolstats(IMemoryPool *memory_pool, IMDId *pmdidRel, ULONG ulPos);
 
 			// record histogram and width information for a given column of a table
 			void RecordColumnStats
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					IMDId *pmdidRel,
 					ULONG ulColId,
 					ULONG ulPos,
@@ -272,19 +272,19 @@ namespace gpopt
 					);
 
 			// construct a stats histogram from an MD column stats object  
-			CHistogram *Phist(IMemoryPool *pmp, IMDId *pmdidType, const IMDColStats *pmdcolstats);
+			CHistogram *Phist(IMemoryPool *memory_pool, IMDId *mdid_type, const IMDColStats *pmdcolstats);
 
 			// construct a typed bucket from a DXL bucket  
-			CBucket *Pbucket(IMemoryPool *pmp, IMDId *pmdidType, const CDXLBucket *pdxlbucket);
+			CBucket *Pbucket(IMemoryPool *memory_pool, IMDId *mdid_type, const CDXLBucket *pdxlbucket);
 			
 			// construct a typed datum from a DXL bucket  
-			IDatum *Pdatum(IMemoryPool *pmp, IMDId *pmdidType, const CDXLDatum *pdxldatum);
+			IDatum *Pdatum(IMemoryPool *memory_pool, IMDId *mdid_type, const CDXLDatum *pdxldatum);
 
 		public:
 			// ctors
-			CMDAccessor(IMemoryPool *pmp, MDCache *pcache);
-			CMDAccessor(IMemoryPool *pmp, MDCache *pcache, CSystemId sysid, IMDProvider *pmdp);
-			CMDAccessor(IMemoryPool *pmp, MDCache *pcache, const DrgPsysid *pdrgpsysid, const DrgPmdp *pdrgpmdp);
+			CMDAccessor(IMemoryPool *memory_pool, MDCache *pcache);
+			CMDAccessor(IMemoryPool *memory_pool, MDCache *pcache, CSystemId sysid, IMDProvider *pmdp);
+			CMDAccessor(IMemoryPool *memory_pool, MDCache *pcache, const DrgPsysid *pdrgpsysid, const DrgPmdp *pdrgpmdp);
 			
 			//dtor
 			~CMDAccessor();
@@ -361,7 +361,7 @@ namespace gpopt
 			// construct a statistics object for the columns of the given relation
 			IStatistics *Pstats
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				IMDId *pmdidRel,
 				CColRefSet *pcrsHist,  // set of column references for which stats are needed
 				CColRefSet *pcrsWidth, // set of column references for which the widths are needed

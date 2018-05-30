@@ -113,7 +113,7 @@ CEnfdPartitionPropagation::Epet
 BOOL 
 CEnfdPartitionPropagation::FResolved
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CPartIndexMap *ppim
 	)
 	const
@@ -126,11 +126,11 @@ CEnfdPartitionPropagation::FResolved
 		return true;
 	}
 	
-	ULongPtrArray *pdrgpulPartIndexIds = ppimReqd->PdrgpulScanIds(pmp);
-	const ULONG ulLength = pdrgpulPartIndexIds->Size();
+	ULongPtrArray *pdrgpulPartIndexIds = ppimReqd->PdrgpulScanIds(memory_pool);
+	const ULONG length = pdrgpulPartIndexIds->Size();
 			
 	BOOL fResolved = true;
-	for (ULONG ul = 0; ul < ulLength && fResolved; ul++)
+	for (ULONG ul = 0; ul < length && fResolved; ul++)
 	{
 		ULONG ulPartIndexId = *((*pdrgpulPartIndexIds)[ul]);
 		GPOS_ASSERT(CPartIndexMap::EpimConsumer == ppimReqd->Epim(ulPartIndexId));
@@ -166,7 +166,7 @@ CEnfdPartitionPropagation::FResolved
 BOOL 
 CEnfdPartitionPropagation::FInScope
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CPartIndexMap *ppim
 	)
 	const
@@ -175,17 +175,17 @@ CEnfdPartitionPropagation::FInScope
 	
 	CPartIndexMap *ppimReqd = m_ppps->Ppim();
 	
-	ULongPtrArray *pdrgpulPartIndexIds = ppimReqd->PdrgpulScanIds(pmp);
-	const ULONG ulLength = pdrgpulPartIndexIds->Size();
+	ULongPtrArray *pdrgpulPartIndexIds = ppimReqd->PdrgpulScanIds(memory_pool);
+	const ULONG length = pdrgpulPartIndexIds->Size();
 
-	if (0 == ulLength)
+	if (0 == length)
 	{
 		pdrgpulPartIndexIds->Release();
 		return true;
 	}
 	
 	BOOL fInScope = true;
-	for (ULONG ul = 0; ul < ulLength && fInScope; ul++)
+	for (ULONG ul = 0; ul < length && fInScope; ul++)
 	{
 		ULONG ulPartIndexId = *((*pdrgpulPartIndexIds)[ul]);
 		GPOS_ASSERT(CPartIndexMap::EpimConsumer == ppimReqd->Epim(ulPartIndexId));

@@ -28,17 +28,17 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformCTEAnchor2Sequence::CXformCTEAnchor2Sequence
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CXformExploration
 		(
 		 // pattern
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 				(
-				pmp,
-				GPOS_NEW(pmp) CLogicalCTEAnchor(pmp),
-				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp))
+				memory_pool,
+				GPOS_NEW(memory_pool) CLogicalCTEAnchor(memory_pool),
+				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool))
 				)
 		)
 {}
@@ -92,7 +92,7 @@ CXformCTEAnchor2Sequence::Transform
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
 	CLogicalCTEAnchor *popCTEAnchor = CLogicalCTEAnchor::PopConvert(pexpr->Pop());
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	ULONG ulId = popCTEAnchor->UlId();
 
@@ -107,10 +107,10 @@ CXformCTEAnchor2Sequence::Transform
 
 	// create logical sequence
 	CExpression *pexprSequence =
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 			(
-			pmp,
-			GPOS_NEW(pmp) CLogicalSequence(pmp),
+			memory_pool,
+			GPOS_NEW(memory_pool) CLogicalSequence(memory_pool),
 			pexprProducer,
 			pexprChild
 			);

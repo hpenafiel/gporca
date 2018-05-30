@@ -30,21 +30,21 @@ CMDColumn::CMDColumn
 	(
 	CMDName *pmdname,
 	INT iAttNo,
-	IMDId *pmdidType,
-	INT iTypeModifier,
+	IMDId *mdid_type,
+	INT type_modifier,
 	BOOL fNullable,
 	BOOL fDropped,
 	CDXLNode *pdxnlDefaultValue,
-	ULONG ulLength
+	ULONG length
 	)
 	:
 	m_pmdname(pmdname),
 	m_iAttNo(iAttNo),
-	m_pmdidType(pmdidType),
-	m_iTypeModifier(iTypeModifier),
+	m_mdid_type(mdid_type),
+	m_type_modifier(type_modifier),
 	m_fNullable(fNullable),
 	m_fDropped(fDropped),
-	m_ulLength(ulLength),
+	m_length(length),
 	m_pdxlnDefaultValue(pdxnlDefaultValue)
 {
 }
@@ -60,7 +60,7 @@ CMDColumn::CMDColumn
 CMDColumn::~CMDColumn()
 {
 	GPOS_DELETE(m_pmdname);
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 	CRefCount::SafeRelease(m_pdxlnDefaultValue);
 }
 
@@ -104,13 +104,13 @@ CMDColumn::AttrNum() const
 IMDId *
 CMDColumn::MDIdType() const
 {
-	return m_pmdidType;
+	return m_mdid_type;
 }
 
 INT
 CMDColumn::TypeModifier() const
 {
-	return m_iTypeModifier;
+	return m_type_modifier;
 }
 
 //---------------------------------------------------------------------------
@@ -162,16 +162,16 @@ CMDColumn::Serialize
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdname->Pstr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttNo);
 
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	if (IDefaultTypeModifier != TypeModifier())
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColumnNullable), m_fNullable);
-	if (ULONG_MAX != m_ulLength)
+	if (ULONG_MAX != m_length)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_ulLength);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_length);
 	}
 
 	if (m_fDropped)

@@ -123,13 +123,13 @@ namespace gpopt
 
 			// generate default optimizer configurations
 			static
-			COptimizerConfig *PoconfDefault(IMemoryPool *pmp);
+			COptimizerConfig *PoconfDefault(IMemoryPool *memory_pool);
 			
 			// generate default optimizer configurations with the given cost model
 			static
-			COptimizerConfig *PoconfDefault(IMemoryPool *pmp, ICostModel *pcm);
+			COptimizerConfig *PoconfDefault(IMemoryPool *memory_pool, ICostModel *pcm);
 
-			void Serialize(IMemoryPool *pmp, CXMLSerializer *xml_serializer, CBitSet *pbsTrace) const;
+			void Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serializer, CBitSet *pbsTrace) const;
 
 	}; // class COptimizerConfig
 

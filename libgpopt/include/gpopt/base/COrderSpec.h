@@ -144,7 +144,7 @@ namespace gpopt
 		
 			// ctor
 			explicit
-			COrderSpec(IMemoryPool *pmp);
+			COrderSpec(IMemoryPool *memory_pool);
 			
 			// dtor
 			virtual
@@ -188,7 +188,7 @@ namespace gpopt
 			
 			// extract colref set of order columns
 			virtual
-			CColRefSet *PcrsUsed(IMemoryPool *pmp) const;
+			CColRefSet *PcrsUsed(IMemoryPool *memory_pool) const;
 
 			// property type
 			virtual
@@ -205,7 +205,7 @@ namespace gpopt
 			
 			// append enforcers to dynamic array for the given plan properties
 			virtual
-			void AppendEnforcers(IMemoryPool *pmp, CExpressionHandle &exprhdl, CReqdPropPlan *prpp, DrgPexpr *pdrgpexpr, CExpression *pexpr);
+			void AppendEnforcers(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, CReqdPropPlan *prpp, DrgPexpr *pdrgpexpr, CExpression *pexpr);
 
 			// hash function
 			virtual
@@ -213,11 +213,11 @@ namespace gpopt
 
 			// return a copy of the order spec with remapped columns
 			virtual
-			COrderSpec *PosCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COrderSpec *PosCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			// return a copy of the order spec after excluding the given columns
 			virtual
-			COrderSpec *PosExcludeColumns(IMemoryPool *pmp, CColRefSet *pcrs);
+			COrderSpec *PosExcludeColumns(IMemoryPool *memory_pool, CColRefSet *pcrs);
 
 			// print
 			virtual
@@ -237,11 +237,11 @@ namespace gpopt
 
 			// extract colref set of order columns used by elements of order spec array
 			static
-			CColRefSet *Pcrs(IMemoryPool *pmp, DrgPos *pdrgpos);
+			CColRefSet *Pcrs(IMemoryPool *memory_pool, DrgPos *pdrgpos);
 
 			// filter out array of order specs from order expressions using the passed columns
 			static
-			DrgPos *PdrgposExclude(IMemoryPool *pmp, DrgPos *pdrgpos, CColRefSet *pcrsToExclude);
+			DrgPos *PdrgposExclude(IMemoryPool *memory_pool, DrgPos *pdrgpos, CColRefSet *pcrsToExclude);
 
 						
 	}; // class COrderSpec

@@ -45,14 +45,14 @@ namespace gpopt
 
 			// derive stats on a given component
 			static
-			void DeriveStats(IMemoryPool *pmp, SComponent *pcomp);
+			void DeriveStats(IMemoryPool *memory_pool, SComponent *pcomp);
 
 		public:
 
 			// ctor
 			CJoinOrderMinCard
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPexpr *pdrgpexprComponents,
 				DrgPexpr *pdrgpexprConjuncts
 				);

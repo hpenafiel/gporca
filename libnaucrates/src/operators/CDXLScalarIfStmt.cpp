@@ -30,11 +30,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarIfStmt::CDXLScalarIfStmt
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidResultType
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdidResultType(pmdidResultType)
 {
 	GPOS_ASSERT(m_pmdidResultType->IsValid());

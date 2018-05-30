@@ -45,19 +45,19 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CMemo::CMemo
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pgroupRoot(NULL),
 	m_ulpGrps(0),
 	m_pmemotmap(NULL)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 
 	m_sht.Init
 		(
-		pmp,
+		memory_pool,
 		GPOPT_MEMO_HT_BUCKETS,
 		GPOS_OFFSET(CGroupExpression, m_linkMemo),
 		0, /*cKeyOffset (0 because we use CGroupExpression class as key)*/
@@ -322,7 +322,7 @@ CMemo::PgroupInsert
 CExpression *
 CMemo::PexprExtractPlan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CGroup *pgroupRoot,
 	CReqdPropPlan *prppInput,
 	ULONG ulSearchStages
@@ -352,7 +352,7 @@ CMemo::PexprExtractPlan
 		// or physical expressions. In this case, we lookup the best optimization context
 		// for the given required plan properties, and then retrieve the best group
 		// expression under the optimization context.
-		poc = pgroupRoot->PocLookupBest(pmp, ulSearchStages, prppInput);
+		poc = pgroupRoot->PocLookupBest(memory_pool, ulSearchStages, prppInput);
 		GPOS_ASSERT(NULL != poc);
 
 		pgexprBest = pgroupRoot->PgexprBest(poc);
@@ -369,7 +369,7 @@ CMemo::PexprExtractPlan
 		return NULL;
 	}
 
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	// Get the length of groups for the best group expression
 	// i.e. given the best expression is
 	// 0: CScalarCmp (>=) [ 1 7 ]
@@ -413,14 +413,14 @@ CMemo::PexprExtractPlan
 			prpp = pocChild->Prpp();
 		}
 
-		CExpression *pexprChild = PexprExtractPlan(pmp, pgroupChild, prpp, ulSearchStages);
+		CExpression *pexprChild = PexprExtractPlan(memory_pool, pgroupChild, prpp, ulSearchStages);
 		pdrgpexpr->Append(pexprChild);
 	}
 
 	pgexprBest->Pop()->AddRef();
-	CExpression *pexpr = GPOS_NEW(pmp) CExpression
+	CExpression *pexpr = GPOS_NEW(memory_pool) CExpression
 							(
-							pmp,
+							memory_pool,
 							pgexprBest->Pop(),
 							pgexprBest,
 							pdrgpexpr,
@@ -428,7 +428,7 @@ CMemo::PexprExtractPlan
 							cost
 							);
 
-	if (pexpr->Pop()->FPhysical() && !poc->PccBest()->IsValid(pmp))
+	if (pexpr->Pop()->FPhysical() && !poc->PccBest()->IsValid(memory_pool))
 	{
 		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsatisfiedRequiredProperties);
 	}

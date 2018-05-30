@@ -74,7 +74,7 @@ namespace gpopt
 			BOOL m_fDeriveStats;
 
 			// collect system columns from output columns
-			void SetSystemCols(IMemoryPool *pmp);
+			void SetSystemCols(IMemoryPool *memory_pool);
 
 			// return top level operator in the given expression
 			static
@@ -88,7 +88,7 @@ namespace gpopt
 			// ctor
 			CQueryContext
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexpr,
 				CReqdPropPlan *prpp,
 				DrgPcr *pdrgpcr,
@@ -139,7 +139,7 @@ namespace gpopt
 			static
 			CQueryContext *PqcGenerate
 							(
-							IMemoryPool *pmp, // memory pool
+							IMemoryPool *memory_pool, // memory pool
 							CExpression *pexpr, // expression representing the query
 							ULongPtrArray *pdrgpulQueryOutputColRefId, // array of output column reference id
 							DrgPmdname *pdrgpmdname, // array of output column names

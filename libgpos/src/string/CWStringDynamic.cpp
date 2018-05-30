@@ -27,14 +27,14 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CWStringDynamic::CWStringDynamic
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CWString
 		(
 		0 // length
 		),
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_ulCapacity(0)
 {
 	Reset();
@@ -50,7 +50,7 @@ CWStringDynamic::CWStringDynamic
 //---------------------------------------------------------------------------
 CWStringDynamic::CWStringDynamic
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const WCHAR *wstrbuf
 	)
 	:
@@ -58,7 +58,7 @@ CWStringDynamic::CWStringDynamic
 		(
 		GPOS_WSZ_LENGTH(wstrbuf)
 		),
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_ulCapacity(0)
 {
 	GPOS_ASSERT(NULL != wstrbuf);

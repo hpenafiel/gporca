@@ -50,7 +50,7 @@ namespace gpdxl
 			// ctor
 			CDXLMemoryManager
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				);
 			
 			// MemoryManager interface functions

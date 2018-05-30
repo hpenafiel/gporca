@@ -30,13 +30,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CMDPartConstraintGPDB::CMDPartConstraintGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulDefaultParts,
 	BOOL fUnbounded,
 	CDXLNode *pdxln
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdrgpulDefaultParts(pdrgpulDefaultParts),
 	m_fUnbounded(fUnbounded),
 	m_pdxln(pdxln)
@@ -70,7 +70,7 @@ CMDPartConstraintGPDB::~CMDPartConstraintGPDB()
 CExpression *
 CMDPartConstraintGPDB::Pexpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	DrgPcr *pdrgpcr
 	)
@@ -79,7 +79,7 @@ CMDPartConstraintGPDB::Pexpr
 	GPOS_ASSERT(NULL != pdrgpcr);
 
 	// translate the DXL representation of the part constraint expression
-	CTranslatorDXLToExpr dxltr(pmp, pmda);
+	CTranslatorDXLToExpr dxltr(memory_pool, pmda);
 	return dxltr.PexprTranslateScalar(m_pdxln, pdrgpcr);
 }
 

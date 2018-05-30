@@ -129,7 +129,7 @@ namespace gpopt
 			const CColumnDescriptor *Pcoldesc(ULONG) const;
 			
 			// mdid accessor
-			IMDId *Pmdid() const
+			IMDId *MDId() const
 			{
 				return m_pmdid;
 			}

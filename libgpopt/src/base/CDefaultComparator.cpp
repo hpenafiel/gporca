@@ -63,7 +63,7 @@ CDefaultComparator::CDefaultComparator
 BOOL
 CDefaultComparator::FEvalComparison
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const IDatum *pdatum1,
 	const IDatum *pdatum2,
 	IMDType::ECmpType ecmpt
@@ -72,11 +72,11 @@ CDefaultComparator::FEvalComparison
 {
 	GPOS_ASSERT(m_pceeval->FCanEvalExpressions());
 
-	IDatum *pdatum1Copy = pdatum1->PdatumCopy(pmp);
-	CExpression *pexpr1 = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarConst(pmp, pdatum1Copy));
-	IDatum *pdatum2Copy = pdatum2->PdatumCopy(pmp);
-	CExpression *pexpr2 = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarConst(pmp, pdatum2Copy));
-	CExpression *pexprComp = CUtils::PexprScalarCmp(pmp, pexpr1, pexpr2, ecmpt);
+	IDatum *pdatum1Copy = pdatum1->PdatumCopy(memory_pool);
+	CExpression *pexpr1 = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum1Copy));
+	IDatum *pdatum2Copy = pdatum2->PdatumCopy(memory_pool);
+	CExpression *pexpr2 = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum2Copy));
+	CExpression *pexprComp = CUtils::PexprScalarCmp(memory_pool, pexpr1, pexpr2, ecmpt);
 
 	CExpression *pexprResult = m_pceeval->PexprEval(pexprComp);
 	pexprComp->Release();
@@ -107,14 +107,14 @@ CDefaultComparator::Equals
 	)
 	const
 {
-	if (!CUtils::FConstrainableType(pdatum1->Pmdid()) ||
-			!CUtils::FConstrainableType(pdatum2->Pmdid()))
+	if (!CUtils::FConstrainableType(pdatum1->MDId()) ||
+			!CUtils::FConstrainableType(pdatum2->MDId()))
 	{
 
 		return false;
 	}
-	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->Pmdid()) &&
-			CUtils::FIntType(pdatum2->Pmdid()))
+	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->MDId()) &&
+			CUtils::FIntType(pdatum2->MDId()))
 	{
 
 		return pdatum1->FStatsEqual(pdatum2);
@@ -125,7 +125,7 @@ CDefaultComparator::Equals
 	// NULL is less than everything else. NULL = NULL.
 	// Note : NULL is considered equal to NULL because we are using the comparator for
 	//        interval calculation.
-	if (pdatum1->FNull() && pdatum2->FNull())
+	if (pdatum1->IsNull() && pdatum2->IsNull())
 	{
 		return true;
 	}
@@ -149,14 +149,14 @@ CDefaultComparator::FLessThan
 	)
 	const
 {
-	if (!CUtils::FConstrainableType(pdatum1->Pmdid()) ||
-			!CUtils::FConstrainableType(pdatum2->Pmdid()))
+	if (!CUtils::FConstrainableType(pdatum1->MDId()) ||
+			!CUtils::FConstrainableType(pdatum2->MDId()))
 	{
 
 		return false;
 	}
-	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->Pmdid()) &&
-			CUtils::FIntType(pdatum2->Pmdid()))
+	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->MDId()) &&
+			CUtils::FIntType(pdatum2->MDId()))
 	{
 
 		return pdatum1->FStatsLessThan(pdatum2);
@@ -167,7 +167,7 @@ CDefaultComparator::FLessThan
 	// NULL is less than everything else. NULL = NULL.
 	// Note : NULL is considered equal to NULL because we are using the comparator for
 	//        interval calculation.
-	if (pdatum1->FNull() && !pdatum2->FNull())
+	if (pdatum1->IsNull() && !pdatum2->IsNull())
 	{
 		return true;
 	}
@@ -191,14 +191,14 @@ CDefaultComparator::FLessThanOrEqual
 	)
 	const
 {
-	if (!CUtils::FConstrainableType(pdatum1->Pmdid()) ||
-			!CUtils::FConstrainableType(pdatum2->Pmdid()))
+	if (!CUtils::FConstrainableType(pdatum1->MDId()) ||
+			!CUtils::FConstrainableType(pdatum2->MDId()))
 	{
 
 		return false;
 	}
-	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->Pmdid()) &&
-			CUtils::FIntType(pdatum2->Pmdid()))
+	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->MDId()) &&
+			CUtils::FIntType(pdatum2->MDId()))
 	{
 
 		return pdatum1->FStatsLessThan(pdatum2) || pdatum1->FStatsEqual(pdatum2);
@@ -209,7 +209,7 @@ CDefaultComparator::FLessThanOrEqual
 	// NULL is less than everything else. NULL = NULL.
 	// Note : NULL is considered equal to NULL because we are using the comparator for
 	//        interval calculation.
-	if (pdatum1->FNull())
+	if (pdatum1->IsNull())
 	{
 		// return true since either:
 		// 1. pdatum1 is NULL and pdatum2 is not NULL. Since NULL is considered
@@ -240,14 +240,14 @@ CDefaultComparator::FGreaterThan
 	)
 	const
 {
-	if (!CUtils::FConstrainableType(pdatum1->Pmdid()) ||
-			!CUtils::FConstrainableType(pdatum2->Pmdid()))
+	if (!CUtils::FConstrainableType(pdatum1->MDId()) ||
+			!CUtils::FConstrainableType(pdatum2->MDId()))
 	{
 
 		return false;
 	}
-	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->Pmdid()) &&
-			CUtils::FIntType(pdatum2->Pmdid()))
+	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->MDId()) &&
+			CUtils::FIntType(pdatum2->MDId()))
 	{
 
 		return pdatum1->FStatsGreaterThan(pdatum2);
@@ -258,7 +258,7 @@ CDefaultComparator::FGreaterThan
 	// NULL is less than everything else. NULL = NULL.
 	// Note : NULL is considered equal to NULL because we are using the comparator for
 	//        interval calculation.
-	if (!pdatum1->FNull() && pdatum2->FNull())
+	if (!pdatum1->IsNull() && pdatum2->IsNull())
 	{
 		return true;
 	}
@@ -282,14 +282,14 @@ CDefaultComparator::FGreaterThanOrEqual
 	)
 	const
 {
-	if (!CUtils::FConstrainableType(pdatum1->Pmdid()) ||
-			!CUtils::FConstrainableType(pdatum2->Pmdid()))
+	if (!CUtils::FConstrainableType(pdatum1->MDId()) ||
+			!CUtils::FConstrainableType(pdatum2->MDId()))
 	{
 
 		return false;
 	}
-	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->Pmdid()) &&
-			CUtils::FIntType(pdatum2->Pmdid()))
+	if (FUseBuiltinIntEvaluators() && CUtils::FIntType(pdatum1->MDId()) &&
+			CUtils::FIntType(pdatum2->MDId()))
 	{
 
 		return pdatum1->FStatsGreaterThan(pdatum2) || pdatum1->FStatsEqual(pdatum2);
@@ -300,7 +300,7 @@ CDefaultComparator::FGreaterThanOrEqual
 	// NULL is less than everything else. NULL = NULL.
 	// Note : NULL is considered equal to NULL because we are using the comparator for
 	//        interval calculation.
-	if (pdatum2->FNull())
+	if (pdatum2->IsNull())
 	{
 		// return true since either:
 		// 1. pdatum2 is NULL and pdatum1 is not NULL. Since NULL is considered

@@ -51,7 +51,7 @@ namespace gpmd
 			} 
 			
 			// factory function for INT4 datums
-			virtual IDatumInt4 *PdatumInt4(IMemoryPool *pmp, INT iValue, BOOL fNULL) const = 0;
+			virtual IDatumInt4 *PdatumInt4(IMemoryPool *memory_pool, INT iValue, BOOL fNULL) const = 0;
 		
 	};
 

@@ -27,12 +27,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarProjElem::CDXLScalarProjElem
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulId,
 	const CMDName *pmdname
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_ulId(ulId),
 	m_pmdname(pmdname)
 {

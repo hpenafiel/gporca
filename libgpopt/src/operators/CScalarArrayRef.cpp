@@ -26,18 +26,18 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarArrayRef::CScalarArrayRef
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidElem,
-	INT iTypeModifier,
+	INT type_modifier,
 	IMDId *pmdidArray,
 	IMDId *pmdidReturn
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidElem(pmdidElem),
-	m_iTypeModifier(iTypeModifier),
+	m_type_modifier(type_modifier),
 	m_pmdidArray(pmdidArray),
-	m_pmdidType(pmdidReturn)
+	m_mdid_type(pmdidReturn)
 {
 	GPOS_ASSERT(pmdidElem->IsValid());
 	GPOS_ASSERT(pmdidArray->IsValid());
@@ -57,14 +57,14 @@ CScalarArrayRef::~CScalarArrayRef()
 {
 	m_pmdidElem->Release();
 	m_pmdidArray->Release();
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 
 INT
 CScalarArrayRef::TypeModifier() const
 {
-	return m_iTypeModifier;
+	return m_type_modifier;
 }
 
 //---------------------------------------------------------------------------
@@ -81,7 +81,7 @@ CScalarArrayRef::HashValue() const
 	return gpos::CombineHashes
 					(
 					CombineHashes(m_pmdidElem->HashValue(), m_pmdidArray->HashValue()),
-					m_pmdidType->HashValue()
+					m_mdid_type->HashValue()
 					);
 }
 
@@ -107,7 +107,7 @@ CScalarArrayRef::FMatch
 
 	CScalarArrayRef *popArrayRef = CScalarArrayRef::PopConvert(pop);
 
-	return m_pmdidType->Equals(popArrayRef->MDIdType()) &&
+	return m_mdid_type->Equals(popArrayRef->MDIdType()) &&
 			m_pmdidElem->Equals(popArrayRef->PmdidElem()) &&
 			m_pmdidArray->Equals(popArrayRef->PmdidArray());
 }

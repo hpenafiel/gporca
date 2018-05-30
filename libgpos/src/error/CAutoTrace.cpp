@@ -23,10 +23,10 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CAutoTrace::CAutoTrace
 	(
-	IMemoryPool*pmp
+	IMemoryPool*memory_pool
 	)
 	:
-	m_wstr(pmp),
+	m_wstr(memory_pool),
 	m_os(&m_wstr)
 {}
 

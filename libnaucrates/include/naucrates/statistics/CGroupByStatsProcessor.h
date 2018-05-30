@@ -29,7 +29,7 @@ namespace gpnaucrates
 		static
 		CStatistics *PstatsGroupBy
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						const CStatistics *pstatsInput,
 						ULongPtrArray *pdrgpulGC,
 						ULongPtrArray *pdrgpulAgg,

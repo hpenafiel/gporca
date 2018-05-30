@@ -97,10 +97,10 @@ namespace gpmd
 		public:
 			
 			// ctor
-			CMDRequest(IMemoryPool *pmp, DrgPmdid *pdrgpmdid, DrgPtr *pdrgptr);
+			CMDRequest(IMemoryPool *memory_pool, DrgPmdid *pdrgpmdid, DrgPtr *pdrgptr);
 			
 			// ctor: type request only
-			CMDRequest(IMemoryPool *pmp, SMDTypeRequest *pmdtr);
+			CMDRequest(IMemoryPool *memory_pool, SMDTypeRequest *pmdtr);
 			
 			// dtor
 			virtual

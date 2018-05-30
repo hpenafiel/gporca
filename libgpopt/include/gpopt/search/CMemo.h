@@ -109,7 +109,7 @@ namespace gpopt
 		
 			// ctor
 			explicit
-			CMemo(IMemoryPool *pmp);
+			CMemo(IMemoryPool *memory_pool);
 			
 			// dtor
 			~CMemo();
@@ -148,7 +148,7 @@ namespace gpopt
 			CGroup *PgroupInsert(CGroup *pgroupTarget, CExpression *pexprOrigin, CGroupExpression *pgexpr);
 
 			// extract a plan that delivers the given required properties
-			CExpression *PexprExtractPlan(IMemoryPool *pmp, CGroup *pgroupRoot, CReqdPropPlan *prppInput, ULONG ulSearchStages);
+			CExpression *PexprExtractPlan(IMemoryPool *memory_pool, CGroup *pgroupRoot, CReqdPropPlan *prppInput, ULONG ulSearchStages);
 
 			// merge duplicate groups
 			void GroupMerge();
@@ -163,7 +163,7 @@ namespace gpopt
 			IOstream &OsPrint(IOstream &os);
 
 			// derive stats when no stats not present for the group
-			void DeriveStatsIfAbsent(IMemoryPool *pmp);
+			void DeriveStatsIfAbsent(IMemoryPool *memory_pool);
 
 			// build tree map
 			void BuildTreeMap(COptimizationContext *poc);

@@ -46,7 +46,7 @@ namespace gpopt
 			CColRefSet *m_pcrsOutput;
 
 			// create the inlined version of this consumer as well as the column mapping
-			void CreateInlinedExpr(IMemoryPool *pmp);
+			void CreateInlinedExpr(IMemoryPool *memory_pool);
 
 			// private copy ctor
 			CLogicalCTEConsumer(const CLogicalCTEConsumer &);
@@ -55,10 +55,10 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CLogicalCTEConsumer(IMemoryPool *pmp);
+			CLogicalCTEConsumer(IMemoryPool *memory_pool);
 
 			// ctor
-			CLogicalCTEConsumer(IMemoryPool *pmp, ULONG ulId, DrgPcr *pdrgpcr);
+			CLogicalCTEConsumer(IMemoryPool *memory_pool, ULONG ulId, DrgPcr *pdrgpcr);
 
 			// dtor
 			virtual
@@ -114,7 +114,7 @@ namespace gpopt
 
 			// return a copy of the operator with remapped columns
 			virtual
-			COperator *PopCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COperator *PopCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			//-------------------------------------------------------------------------------------
 			// Derived Relational Properties
@@ -122,37 +122,37 @@ namespace gpopt
 
 			// derive output columns
 			virtual
-			CColRefSet *PcrsDeriveOutput(IMemoryPool *pmp, CExpressionHandle &exprhdl);
+			CColRefSet *PcrsDeriveOutput(IMemoryPool *memory_pool, CExpressionHandle &exprhdl);
 
 			// dervive keys
 			virtual
-			CKeyCollection *PkcDeriveKeys(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CKeyCollection *PkcDeriveKeys(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive max card
 			virtual
-			CMaxCard Maxcard(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CMaxCard Maxcard(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive join depth
 			virtual
-			ULONG UlJoinDepth(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			ULONG UlJoinDepth(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive not nullable output columns
 			virtual
-			CColRefSet *PcrsDeriveNotNull(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CColRefSet *PcrsDeriveNotNull(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive constraint property
 			virtual
-			CPropConstraint *PpcDeriveConstraint(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CPropConstraint *PpcDeriveConstraint(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive partition consumer info
 			virtual
-			CPartInfo *PpartinfoDerive(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CPartInfo *PpartinfoDerive(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// compute required stats columns of the n-th child
 			virtual
 			CColRefSet *PcrsStat
 				(
-				IMemoryPool *,// pmp
+				IMemoryPool *,// memory_pool
 				CExpressionHandle &,// exprhdl
 				CColRefSet *, //pcrsInput,
 				ULONG // ulChildIndex
@@ -174,7 +174,7 @@ namespace gpopt
 			virtual
 			IStatistics *PstatsDerive
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				DrgPstat *pdrgpstatCtxt
 				)
@@ -186,7 +186,7 @@ namespace gpopt
 
 			// candidate set of xforms
 			virtual
-			CXformSet *PxfsCandidates(IMemoryPool *pmp) const;
+			CXformSet *PxfsCandidates(IMemoryPool *memory_pool) const;
 
 			//-------------------------------------------------------------------------------------
 

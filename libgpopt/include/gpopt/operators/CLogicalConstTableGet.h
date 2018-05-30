@@ -44,24 +44,24 @@ namespace gpopt
 			CLogicalConstTableGet(const CLogicalConstTableGet &);
 			
 			// construct column descriptors from column references
-			DrgPcoldesc *PdrgpcoldescMapping(IMemoryPool *pmp, DrgPcr *pdrgpcr)	const;
+			DrgPcoldesc *PdrgpcoldescMapping(IMemoryPool *memory_pool, DrgPcr *pdrgpcr)	const;
 
 		public:
 		
 			// ctors
 			explicit
-			CLogicalConstTableGet(IMemoryPool *pmp);
+			CLogicalConstTableGet(IMemoryPool *memory_pool);
 
 			CLogicalConstTableGet
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcoldesc *pdrgpcoldesc,
 				DrgPdrgPdatum *pdrgpdrgpdatum
 				);
 
 			CLogicalConstTableGet
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcr *pdrgpcrOutput,
 				DrgPdrgPdatum *pdrgpdrgpdatum
 				);
@@ -115,7 +115,7 @@ namespace gpopt
 			
 			// return a copy of the operator with remapped columns
 			virtual
-			COperator *PopCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COperator *PopCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			//-------------------------------------------------------------------------------------
 			// Derived Relational Properties
@@ -127,32 +127,32 @@ namespace gpopt
 				
 			// derive max card
 			virtual
-			CMaxCard Maxcard(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CMaxCard Maxcard(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive partition consumer info
 			virtual
 			CPartInfo *PpartinfoDerive
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle & //exprhdl
 				) 
 				const
 			{
-				return GPOS_NEW(pmp) CPartInfo(pmp);
+				return GPOS_NEW(memory_pool) CPartInfo(memory_pool);
 			}
 
 			// derive constraint property
 			virtual
 			CPropConstraint *PpcDeriveConstraint
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle & // exprhdl
 				)
 				const
 			{
 				// TODO:  - Jan 11, 2013; compute constraints based on the
 				// datum values in this CTG
-				return GPOS_NEW(pmp) CPropConstraint(pmp, GPOS_NEW(pmp) DrgPcrs(pmp), NULL /*pcnstr*/);
+				return GPOS_NEW(memory_pool) CPropConstraint(memory_pool, GPOS_NEW(memory_pool) DrgPcrs(memory_pool), NULL /*pcnstr*/);
 			}
 
 			//-------------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsStat
 				(
-				IMemoryPool *,// pmp
+				IMemoryPool *,// memory_pool
 				CExpressionHandle &,// exprhdl
 				CColRefSet *,// pcrsInput
 				ULONG // ulChildIndex
@@ -178,7 +178,7 @@ namespace gpopt
 			virtual
 			IStatistics *PstatsDerive
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CExpressionHandle &exprhdl,
 						DrgPstat *pdrgpstatCtxt
 						)
@@ -190,7 +190,7 @@ namespace gpopt
 
 			// candidate set of xforms
 			virtual
-			CXformSet *PxfsCandidates(IMemoryPool *pmp) const;
+			CXformSet *PxfsCandidates(IMemoryPool *memory_pool) const;
 
 			// stat promise
 			virtual

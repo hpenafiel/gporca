@@ -35,13 +35,13 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarCast::CScalarCast
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidReturnType,
 	IMDId *pmdidFunc,
 	BOOL fBinaryCoercible
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidReturnType(pmdidReturnType),
 	m_pmdidFunc(pmdidFunc),
 	m_fBinaryCoercible(fBinaryCoercible),

@@ -36,7 +36,7 @@ CMDIndexInfo::~CMDIndexInfo()
 
 // returns the metadata id of this index
 IMDId *
-CMDIndexInfo::Pmdid() const
+CMDIndexInfo::MDId() const
 {
 	return m_pmdid;
 }
@@ -73,7 +73,7 @@ CMDIndexInfo::DebugPrint
 	const
 {
 	os << "Index id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 	os << "Is partial index: " << m_fPartial << std::endl;
 }

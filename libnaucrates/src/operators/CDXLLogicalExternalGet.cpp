@@ -25,11 +25,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalExternalGet::CDXLLogicalExternalGet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLTableDescr *pdxltabdesc
 	)
 	:
-	CDXLLogicalGet(pmp, pdxltabdesc)
+	CDXLLogicalGet(memory_pool, pdxltabdesc)
 {}
 
 //---------------------------------------------------------------------------

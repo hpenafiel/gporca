@@ -82,7 +82,7 @@ namespace gpdxl
 			// ctor
 			CParseHandlerMDGPDBAgg
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);			

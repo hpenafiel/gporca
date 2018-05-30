@@ -100,7 +100,7 @@ namespace gpos
 			// ctor
 			CTask
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CTaskContext *task_ctxt,
 				IErrorContext *err_ctxt,
 				CEvent *event,

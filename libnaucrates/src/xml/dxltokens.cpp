@@ -43,14 +43,14 @@ CDXLTokens::m_pmm = NULL;
 void
 CDXLTokens::Init
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL == m_pmm);
 	GPOS_ASSERT(NULL == m_memory_pool);
 
-	m_memory_pool = pmp;
+	m_memory_pool = memory_pool;
 
 	m_pmm = GPOS_NEW(m_memory_pool) CDXLMemoryManager(m_memory_pool);
 

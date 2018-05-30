@@ -125,7 +125,7 @@ CDXLCtasStorageOptions::Serialize
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtasOptionType), pdxlctasopt->m_ulType);
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pdxlctasopt->m_pstrName);
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), pdxlctasopt->m_pstrValue);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), pdxlctasopt->m_fNull);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), pdxlctasopt->m_is_null);
 		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOption));
 	}
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOptions));

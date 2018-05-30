@@ -34,12 +34,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerRelStats::CParseHandlerRelStats
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot)
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot)
 {
 }
 
@@ -108,7 +108,7 @@ CParseHandlerRelStats::StartElement
 										);
 	}
 
-	m_pimdobj = GPOS_NEW(m_memory_pool) CDXLRelStats(m_memory_pool, CMDIdRelStats::PmdidConvert(pmdid), pmdname, dRows, fEmpty);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CDXLRelStats(m_memory_pool, CMDIdRelStats::PmdidConvert(pmdid), pmdname, dRows, fEmpty);
 }
 
 //---------------------------------------------------------------------------

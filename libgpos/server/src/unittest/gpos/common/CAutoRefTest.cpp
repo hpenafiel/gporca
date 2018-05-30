@@ -53,11 +53,11 @@ CAutoRefTest::EresUnittest_Basics()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// assignment
 	CAutoRef<CElem> aelem;
-	CElem *pelem = GPOS_NEW(pmp) CElem(0);
+	CElem *pelem = GPOS_NEW(memory_pool) CElem(0);
 	aelem = pelem;
 
 	GPOS_ASSERT(aelem->m_ul == pelem->m_ul);
@@ -73,7 +73,7 @@ CAutoRefTest::EresUnittest_Basics()
 	aelem2 = aelem.Reset();
 
 	// c'tor
-	CAutoRef<CElem> aelem3(GPOS_NEW(pmp) CElem(10));
+	CAutoRef<CElem> aelem3(GPOS_NEW(memory_pool) CElem(10));
 	GPOS_ASSERT(aelem3->m_ul == ULONG(10));
 
 	return GPOS_OK;

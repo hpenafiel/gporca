@@ -26,34 +26,34 @@ using namespace gpmd;
 // Ctor
 CScalarArray::CScalarArray
 	(
-	IMemoryPool *pmp, 
+	IMemoryPool *memory_pool, 
 	IMDId *pmdidElem, 
 	IMDId *pmdidArray, 
 	BOOL fMultiDimensional
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidElem(pmdidElem),
 	m_pmdidArray(pmdidArray),
 	m_fMultiDimensional(fMultiDimensional)
 {
 	GPOS_ASSERT(pmdidElem->IsValid());
 	GPOS_ASSERT(pmdidArray->IsValid());
-	m_pdrgPconst = GPOS_NEW(pmp) DrgPconst(pmp);
+	m_pdrgPconst = GPOS_NEW(memory_pool) DrgPconst(memory_pool);
 }
 
 
 // Ctor
 CScalarArray::CScalarArray
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidElem,
 	IMDId *pmdidArray,
 	BOOL fMultiDimensional,
 	DrgPconst *pdrgPconst
 	)
 :
-CScalar(pmp),
+CScalar(memory_pool),
 m_pmdidElem(pmdidElem),
 m_pmdidArray(pmdidArray),
 m_fMultiDimensional(fMultiDimensional),

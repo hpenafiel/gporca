@@ -19,7 +19,7 @@ using namespace gpopt;
 CStatistics *
 CLeftSemiJoinStatsProcessor::PstatsLSJoinStatic
 		(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		const IStatistics *pistatsOuter,
 		const IStatistics *pistatsInner,
 		DrgPstatspredjoin *pdrgpstatspredjoin
@@ -32,18 +32,18 @@ CLeftSemiJoinStatsProcessor::PstatsLSJoinStatic
 	const ULONG ulLen = pdrgpstatspredjoin->Size();
 
 	// iterate over all inner columns and perform a group by to remove duplicates
-	ULongPtrArray *pdrgpulInnerColumnIds = GPOS_NEW(pmp) ULongPtrArray(pmp);
+	ULongPtrArray *pdrgpulInnerColumnIds = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		ULONG ulInnerColId = ((*pdrgpstatspredjoin)[ul])->UlColId2();
-		pdrgpulInnerColumnIds->Append(GPOS_NEW(pmp) ULONG(ulInnerColId));
+		pdrgpulInnerColumnIds->Append(GPOS_NEW(memory_pool) ULONG(ulInnerColId));
 	}
 
 	// dummy agg columns required for group by derivation
-	ULongPtrArray *pdrgpulAgg = GPOS_NEW(pmp) ULongPtrArray(pmp);
+	ULongPtrArray *pdrgpulAgg = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 	IStatistics *pstatsInnerNoDups = CGroupByStatsProcessor::PstatsGroupBy
 			(
-			pmp,
+			memory_pool,
 			dynamic_cast<const CStatistics *>(pistatsInner),
 			pdrgpulInnerColumnIds,
 			pdrgpulAgg,
@@ -53,7 +53,7 @@ CLeftSemiJoinStatsProcessor::PstatsLSJoinStatic
 	const CStatistics *pstatsOuter = dynamic_cast<const CStatistics *> (pistatsOuter);
 	CStatistics *pstatsSemiJoin = CJoinStatsProcessor::PstatsJoinDriver
 			(
-			pmp,
+			memory_pool,
 			pstatsOuter->PStatsConf(),
 			pstatsOuter,
 			pstatsInnerNoDups,

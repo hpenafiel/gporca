@@ -31,7 +31,7 @@ namespace gpnaucrates
 	class CJoinCardinalityTest
 	{
 		// shorthand for functions for generating the join predicates
-		typedef DrgPstatspredjoin *(FnPdrgpstatjoin)(IMemoryPool *pmp);
+		typedef DrgPstatspredjoin *(FnPdrgpstatjoin)(IMemoryPool *memory_pool);
 
 		private:
 
@@ -92,15 +92,15 @@ namespace gpnaucrates
 
 			// helper method to generate a single join predicate
 			static
-			DrgPstatspredjoin *PdrgpstatspredjoinSingleJoinPredicate(IMemoryPool *pmp);
+			DrgPstatspredjoin *PdrgpstatspredjoinSingleJoinPredicate(IMemoryPool *memory_pool);
 
 			// helper method to generate generate multiple join predicates
 			static
-			DrgPstatspredjoin *PdrgpstatspredjoinMultiplePredicates(IMemoryPool *pmp);
+			DrgPstatspredjoin *PdrgpstatspredjoinMultiplePredicates(IMemoryPool *memory_pool);
 
 			// helper method to generate join predicate over columns that contain null values
 			static
-			DrgPstatspredjoin *PdrgpstatspredjoinNullableCols(IMemoryPool *pmp);
+			DrgPstatspredjoin *PdrgpstatspredjoinNullableCols(IMemoryPool *memory_pool);
 
 		public:
 

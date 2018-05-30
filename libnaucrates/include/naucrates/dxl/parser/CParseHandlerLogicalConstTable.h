@@ -37,10 +37,10 @@ namespace gpdxl
 		private:
 
 			// array of datum arrays
-			DrgPdrgPdxldatum *m_pdrgpdrgpdxldatum;
+			DXLDatumArrays *m_pdrgpdrgpdxldatum;
 
 			// array of datums
-			DrgPdxldatum *m_pdrgpdxldatum;
+			DXLDatumArray *m_pdrgpdxldatum;
 
 			// private copy ctor
 			CParseHandlerLogicalConstTable(const CParseHandlerLogicalConstTable &);
@@ -66,7 +66,7 @@ namespace gpdxl
 			// ctor/dtor
 			CParseHandlerLogicalConstTable
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);

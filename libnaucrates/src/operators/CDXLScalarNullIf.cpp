@@ -28,17 +28,17 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarNullIf::CDXLScalarNullIf
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
-	IMDId *pmdidType
+	IMDId *mdid_type
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdidOp(pmdidOp),
-	m_pmdidType(pmdidType)
+	m_mdid_type(mdid_type)
 {
 	GPOS_ASSERT(pmdidOp->IsValid());
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(mdid_type->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -52,7 +52,7 @@ CDXLScalarNullIf::CDXLScalarNullIf
 CDXLScalarNullIf::~CDXLScalarNullIf()
 {
 	m_pmdidOp->Release();
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -94,7 +94,7 @@ CDXLScalarNullIf::PmdidOp() const
 IMDId *
 CDXLScalarNullIf::MDIdType() const
 {
-	return m_pmdidType;
+	return m_mdid_type;
 }
 
 //---------------------------------------------------------------------------
@@ -126,7 +126,7 @@ CDXLScalarNullIf::FBoolean
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pmdidType)->Eti());
+	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
 }
 
 //---------------------------------------------------------------------------
@@ -150,7 +150,7 @@ CDXLScalarNullIf::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
 	m_pmdidOp->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);

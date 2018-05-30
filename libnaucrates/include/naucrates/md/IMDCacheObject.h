@@ -83,7 +83,7 @@ namespace gpmd
 			
 			// md id of cache object
 			virtual 
-			IMDId *Pmdid() const = 0;
+			IMDId *MDId() const = 0;
 
 			// cache object name
 			virtual 

@@ -32,12 +32,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerSortColList::CParseHandlerSortColList
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot)
+	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, pphRoot)
 {
 }
 

@@ -31,13 +31,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalExternalScan::CPhysicalExternalScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CName *pnameAlias,
 	CTableDescriptor *ptabdesc,
 	DrgPcr *pdrgpcrOutput
 	)
 	:
-	CPhysicalTableScan(pmp, pnameAlias, ptabdesc, pdrgpcrOutput)
+	CPhysicalTableScan(memory_pool, pnameAlias, ptabdesc, pdrgpcrOutput)
 {
 	// if this table is master only, then keep the original distribution spec.
 	if (IMDRelation::EreldistrMasterOnly == ptabdesc->Ereldistribution())
@@ -51,7 +51,7 @@ CPhysicalExternalScan::CPhysicalExternalScan
 		m_pds->Release();
 	}
 
-	m_pds = GPOS_NEW(pmp) CDistributionSpecExternal();
+	m_pds = GPOS_NEW(memory_pool) CDistributionSpecExternal();
 }
 
 //---------------------------------------------------------------------------

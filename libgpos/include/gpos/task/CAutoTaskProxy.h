@@ -80,7 +80,7 @@ namespace gpos
 			// ctor
 			CAutoTaskProxy
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CWorkerPoolManager *m_pwpm,
 				BOOL propagate_error = true
 				);

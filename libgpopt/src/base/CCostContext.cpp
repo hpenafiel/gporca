@@ -44,13 +44,13 @@ using namespace gpnaucrates;
 //---------------------------------------------------------------------------
 CCostContext::CCostContext
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	COptimizationContext *poc,
 	ULONG ulOptReq,
 	CGroupExpression *pgexpr
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_cost(GPOPT_INVALID_COST),
 	m_estate(estUncosted),
 	m_pgexpr(pgexpr),
@@ -225,7 +225,7 @@ CCostContext::DeriveStats()
 void
 CCostContext::DerivePlanProps
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	GPOS_ASSERT(NULL != m_pdrgpoc);
@@ -233,7 +233,7 @@ CCostContext::DerivePlanProps
 	if (NULL == m_pdpplan)
 	{
 		// derive properties of the plan carried by cost context
-		CExpressionHandle exprhdl(pmp);
+		CExpressionHandle exprhdl(memory_pool);
 		exprhdl.Attach(this);
 		exprhdl.DerivePlanProps();
 		CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan(exprhdl.Pdp());
@@ -277,7 +277,7 @@ CCostContext::operator ==
 BOOL
 CCostContext::IsValid
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	GPOS_ASSERT(NULL != m_poc);
@@ -288,7 +288,7 @@ CCostContext::IsValid
 	GPOS_ASSERT(NULL != pdprel);
 
 	// derive plan properties
-	DerivePlanProps(pmp);
+	DerivePlanProps(memory_pool);
 
 	// checking for required properties satisfaction
 	BOOL fValid = Poc()->Prpp()->FSatisfied(pdprel, m_pdpplan);
@@ -296,7 +296,7 @@ CCostContext::IsValid
 #ifdef GPOS_DEBUG
 	if (COptCtxt::FAllEnforcersEnabled() && !fValid)
 	{
-		CAutoTrace at(pmp);
+		CAutoTrace at(memory_pool);
 		IOstream &os = at.Os();
 
 		os << std::endl << "PROPERTY MISMATCH:" << std::endl;
@@ -491,7 +491,7 @@ CCostContext::FBetterThan
 CCost
 CCostContext::CostCompute
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcost *pdrgpcostChildren
 	)
 {
@@ -505,11 +505,11 @@ CCostContext::CostCompute
 	}
 
 	m_pstats->AddRef();
-	ICostModel::SCostingInfo ci(pmp, ulArity, GPOS_NEW(pmp) ICostModel::CCostingStats(m_pstats));
+	ICostModel::SCostingInfo ci(memory_pool, ulArity, GPOS_NEW(memory_pool) ICostModel::CCostingStats(m_pstats));
 
 	ICostModel *pcm = COptCtxt::PoctxtFromTLS()->Pcm();
 
-	CExpressionHandle exprhdl(pmp);
+	CExpressionHandle exprhdl(memory_pool);
 	exprhdl.Attach(this);
 
 	// extract local costing info
@@ -521,7 +521,7 @@ CCostContext::CostCompute
 	}
 	ci.SetRows(dRows);
 
-	DOUBLE dWidth = m_pstats->DWidth(pmp, m_poc->Prpp()->PcrsRequired()).Get();
+	DOUBLE dWidth = m_pstats->DWidth(memory_pool, m_poc->Prpp()->PcrsRequired()).Get();
 	ci.SetWidth(dWidth);
 
 	DOUBLE dRebinds = m_pstats->DRebinds().Get();
@@ -544,7 +544,7 @@ CCostContext::CostCompute
 		}
 		ci.SetChildRows(ul, dRowsChild);
 
-		DOUBLE dWidthChild = pstatsChild->DWidth(pmp, pocChild->Prpp()->PcrsRequired()).Get();
+		DOUBLE dWidthChild = pstatsChild->DWidth(memory_pool, pocChild->Prpp()->PcrsRequired()).Get();
 		ci.SetChildWidth(ul, dWidthChild);
 
 		DOUBLE dRebindsChild = pstatsChild->DRebinds().Get();

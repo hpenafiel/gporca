@@ -59,7 +59,7 @@ namespace gpmd
 			BOOL m_fFixedLength;
 			
 			// type length in number of bytes for fixed-length types, 0 otherwise
-			ULONG m_ulLength;
+			ULONG m_length;
 			
 			// is type passed by value or by reference
 			BOOL m_fByValue;
@@ -125,12 +125,12 @@ namespace gpmd
 			// ctor
 			CMDTypeGenericGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				BOOL fRedistributable,
 				BOOL fFixedLength,
-				ULONG ulLength, 
+				ULONG length, 
 				BOOL fByValue,
 				IMDId *pmdidOpEq,
 				IMDId *pmdidOpNEq,
@@ -163,7 +163,7 @@ namespace gpmd
 			}
 			
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			virtual 
 			CMDName Mdname() const;
@@ -190,11 +190,11 @@ namespace gpmd
 			virtual
 			ULONG Length () const
 			{
-				return m_ulLength;
+				return m_length;
 			}
 			
 			virtual
-			BOOL FByValue() const
+			BOOL IsPassedByValue() const
 			{
 				return m_fByValue;
 			}
@@ -243,7 +243,7 @@ namespace gpmd
 
 			// create typed datum from DXL datum
 			virtual
-			IDatum *Pdatum(IMemoryPool *pmp, const CDXLDatum *pdxldatum) const;
+			IDatum *Pdatum(IMemoryPool *memory_pool, const CDXLDatum *pdxldatum) const;
 
 			// return the GPDB length
 			INT
@@ -261,15 +261,15 @@ namespace gpmd
 
 			// generate the DXL datum from IDatum
 			virtual
-			CDXLDatum* Pdxldatum(IMemoryPool *pmp, IDatum *pdatum) const;
+			CDXLDatum* Pdxldatum(IMemoryPool *memory_pool, IDatum *pdatum) const;
 
 			// generate the DXL datum representing null value
 			virtual
-			CDXLDatum* PdxldatumNull(IMemoryPool *pmp) const;
+			CDXLDatum* PdxldatumNull(IMemoryPool *memory_pool) const;
 
 			// generate the DXL scalar constant from IDatum
 			virtual
-			CDXLScalarConstValue* PdxlopScConst(IMemoryPool *pmp, IDatum *pdatum) const;
+			CDXLScalarConstValue* PdxlopScConst(IMemoryPool *memory_pool, IDatum *pdatum) const;
 
 #ifdef GPOS_DEBUG
 			// debug print of the type in the provided stream
@@ -285,13 +285,13 @@ namespace gpmd
 			static
 			CDXLDatum *Pdxldatum
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						IMDId *pmdid,
-						INT iTypeModifier,
+						INT type_modifier,
 						BOOL fByVal,
-						BOOL fNull,
+						BOOL is_null,
 						BYTE *pba,
-						ULONG ulLength,
+						ULONG length,
 						LINT lValue,
 						CDouble dValue
 						);
@@ -300,13 +300,13 @@ namespace gpmd
 			static
 			CDXLDatum *PdxldatumStatsDoubleMappable
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						IMDId *pmdid,
-						INT iTypeModifier,
+						INT type_modifier,
 						BOOL fByValue,
-						BOOL fNull,
+						BOOL is_null,
 						BYTE *pba,
-						ULONG ulLength,
+						ULONG length,
 						LINT lValue,
 						CDouble dValue
 						);
@@ -315,13 +315,13 @@ namespace gpmd
 			static
 			CDXLDatum *PdxldatumStatsLintMappable
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						IMDId *pmdid,
-						INT iTypeModifier,
+						INT type_modifier,
 						BOOL fByValue,
-						BOOL fNull,
+						BOOL is_null,
 						BYTE *pba,
-						ULONG ulLength,
+						ULONG length,
 						LINT lValue,
 						CDouble dValue
 						);

@@ -29,12 +29,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerCtasStorageOptions::CParseHandlerCtasStorageOptions
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerBase(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdnameTablespace(NULL),
 	m_pdxlctasopt(NULL),
 	m_pdrgpctasopt(NULL)
@@ -87,14 +87,14 @@ CParseHandlerCtasStorageOptions::StartElement
 		ULONG ulType = CDXLOperatorFactory::UlValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenCtasOptionType, EdxltokenCTASOption);
 		CWStringBase *pstrName = CDXLOperatorFactory::PstrValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenName, EdxltokenCTASOption);
 		CWStringBase *pstrValue = CDXLOperatorFactory::PstrValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenValue, EdxltokenCTASOption);
-		BOOL fNull = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenIsNull, EdxltokenCTASOption);
+		BOOL is_null = CDXLOperatorFactory::FValueFromAttrs(m_pphm->Pmm(), attrs, EdxltokenIsNull, EdxltokenCTASOption);
 		
 		if (NULL == m_pdrgpctasopt)
 		{
 			m_pdrgpctasopt = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::DrgPctasOpt(m_memory_pool);
 		}
 		m_pdrgpctasopt->Append(
-				GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::CDXLCtasOption(ulType, pstrName, pstrValue, fNull));
+				GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::CDXLCtasOption(ulType, pstrName, pstrValue, is_null));
 	}
 	else
 	{

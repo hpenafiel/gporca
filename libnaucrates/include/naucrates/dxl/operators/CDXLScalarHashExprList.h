@@ -37,7 +37,7 @@ namespace gpdxl
 		public:
 			// ctor/dtor
 			explicit
-			CDXLScalarHashExprList(IMemoryPool *pmp);
+			CDXLScalarHashExprList(IMemoryPool *memory_pool);
 			
 			virtual
 			~CDXLScalarHashExprList(){};

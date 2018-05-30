@@ -28,12 +28,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarComp::CDXLScalarComp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
 	const CWStringConst *pstrCompOpName
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdid(pmdidOp),
 	m_pstrCompOpName(pstrCompOpName)
 {
@@ -70,14 +70,14 @@ CDXLScalarComp::PstrCmpOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarComp::Pmdid
+//		CDXLScalarComp::MDId
 //
 //	@doc:
 //		Comparison operator id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarComp::Pmdid() const
+CDXLScalarComp::MDId() const
 {
 	return m_pmdid;
 }

@@ -83,7 +83,7 @@ namespace gpopt
 			static
 			DrgPrng *Pdrgprng
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						IMDId *pmdid,
 						const SRangeInfo rgRangeInfo[],
 						ULONG ulRanges
@@ -92,7 +92,7 @@ namespace gpopt
 			static
 			CConstraintInterval *PciFirstInterval
 									(
-									IMemoryPool *pmp,
+									IMemoryPool *memory_pool,
 									IMDId *pmdid,
 									CColRef *pcr
 									);
@@ -100,7 +100,7 @@ namespace gpopt
 			static
 			CConstraintInterval *PciSecondInterval
 									(
-									IMemoryPool *pmp,
+									IMemoryPool *memory_pool,
 									IMDId *pmdid,
 									CColRef *pcr
 									);
@@ -109,7 +109,7 @@ namespace gpopt
 			static
 			GPOS_RESULT EresUnittest_CIntervalFromScalarCmp
 							(
-							IMemoryPool *pmp,
+							IMemoryPool *memory_pool,
 							CMDAccessor *pmda,
 							CColRef *pcr
 							);
@@ -118,7 +118,7 @@ namespace gpopt
 			static
 			CExpression *PexprScalarCmp
 							(
-							IMemoryPool *pmp,
+							IMemoryPool *memory_pool,
 							CMDAccessor *pmda,
 							CColRef *pcr,
 							IMDType::ECmpType ecmpt,
@@ -129,19 +129,19 @@ namespace gpopt
 			static
 			GPOS_RESULT EresUnittest_CIntervalFromScalarBoolOp
 							(
-							IMemoryPool *pmp,
+							IMemoryPool *memory_pool,
 							CMDAccessor *pmda,
 							CColRef *pcr
 							);
 
 			// debug print
-			static void PrintConstraint (IMemoryPool *pmp, CConstraint *pcnstr);
+			static void PrintConstraint (IMemoryPool *memory_pool, CConstraint *pcnstr);
 
 			// build a conjunction
 			static
 			CConstraintConjunction *Pcstconjunction
 									(
-									IMemoryPool *pmp,
+									IMemoryPool *memory_pool,
 									IMDId *pmdid,
 									CColRef *pcr
 									);
@@ -150,7 +150,7 @@ namespace gpopt
 			static
 			CConstraintDisjunction *Pcstdisjunction
 									(
-									IMemoryPool *pmp,
+									IMemoryPool *memory_pool,
 									IMDId *pmdid,
 									CColRef *pcr
 									);
@@ -180,7 +180,7 @@ namespace gpopt
 			GPOS_RESULT EresUnittest_ConstraintsOnDates();
 
 			// print equivalence classes
-			static void PrintEquivClasses(IMemoryPool *pmp, DrgPcrs *pdrgpcrs, BOOL fExpected = false);
+			static void PrintEquivClasses(IMemoryPool *memory_pool, DrgPcrs *pdrgpcrs, BOOL fExpected = false);
 	}; // class CConstraintTest
 }
 

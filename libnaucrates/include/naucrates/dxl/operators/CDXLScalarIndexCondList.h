@@ -39,7 +39,7 @@ namespace gpdxl
 
 			// ctor
 			explicit
-			CDXLScalarIndexCondList(IMemoryPool *pmp);
+			CDXLScalarIndexCondList(IMemoryPool *memory_pool);
 
 			// ident accessors
 			Edxlopid Edxlop() const;

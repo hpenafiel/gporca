@@ -35,12 +35,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDRelation::CParseHandlerMDRelation
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdnameSchema(NULL),
 	m_pmdname(NULL),
@@ -257,7 +257,7 @@ CParseHandlerMDRelation::EndElement
  	pdrgpmdidTriggers->AddRef();
  	pdrgpmdidCheckConstraint->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_memory_pool) CMDRelationGPDB
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationGPDB
 								(
 									m_memory_pool,
 									m_pmdid,

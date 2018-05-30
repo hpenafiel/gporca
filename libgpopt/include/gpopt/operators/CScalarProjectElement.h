@@ -46,11 +46,11 @@ namespace gpopt
 			// ctor
 			CScalarProjectElement
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CColRef *pcr
 				)
 				:
-				CScalar(pmp),
+				CScalar(memory_pool),
 				m_pcr(pcr)
 			{
 				GPOS_ASSERT(NULL != pcr);
@@ -91,17 +91,17 @@ namespace gpopt
 
 			// return a copy of the operator with remapped columns
 			virtual
-			COperator *PopCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COperator *PopCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			// return locally defined columns
 			virtual
 			CColRefSet *PcrsDefined
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle & // exprhdl
 				)
 			{
-				CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+				CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 				pcrs->Include(m_pcr);
 
 				return pcrs;

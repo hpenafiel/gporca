@@ -39,7 +39,7 @@ namespace gpdxl
 		public:
 			// ctor
 			explicit
-			CDXLScalarAssertConstraintList(IMemoryPool *pmp);
+			CDXLScalarAssertConstraintList(IMemoryPool *memory_pool);
 
 			// ident accessors
 			virtual

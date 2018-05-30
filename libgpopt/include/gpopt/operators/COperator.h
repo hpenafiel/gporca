@@ -91,7 +91,7 @@ namespace gpopt
 			static
 			CFunctionProp *PfpDeriveFromChildren
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpressionHandle &exprhdl,
 				IMDFunction::EFuncStbl efsDefault,
 				IMDFunction::EFuncDataAcc efdaDefault,
@@ -300,7 +300,7 @@ namespace gpopt
 
 			// ctor
 			explicit
-			COperator(IMemoryPool *pmp);
+			COperator(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual ~COperator() {}
@@ -361,28 +361,28 @@ namespace gpopt
 			
 			// create container for derived properties
 			virtual
-			CDrvdProp *PdpCreate(IMemoryPool *pmp) const = 0;
+			CDrvdProp *PdpCreate(IMemoryPool *memory_pool) const = 0;
 
 			// create container for required properties
 			virtual
-			CReqdProp *PrpCreate(IMemoryPool *pmp) const = 0;
+			CReqdProp *PrpCreate(IMemoryPool *memory_pool) const = 0;
 
 			// return empty container;
 			// caller adds outer references using property derivation
 			virtual
 			CColRefSet *PcrsOuter
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				)
 			{
-				return GPOS_NEW(pmp) CColRefSet(pmp);
+				return GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 			}
 
 			// return a copy of the operator with remapped columns
 			virtual
 			COperator *PopCopyWithRemappedColumns
 							(
-							IMemoryPool *pmp,
+							IMemoryPool *memory_pool,
 							HMUlCr *phmulcr,
 							BOOL fMustExist
 							) = 0;

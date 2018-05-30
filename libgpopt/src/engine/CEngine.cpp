@@ -72,10 +72,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CEngine::CEngine
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pqc(NULL),
 	m_pdrgpss(NULL),
 	m_ulCurrSearchStage(0),
@@ -85,11 +85,11 @@ CEngine::CEngine
 	m_pdrgpulpXformCalls(NULL),
 	m_pdrgpulpXformTimes(NULL)
 {
-	m_pmemo = GPOS_NEW(pmp) CMemo(pmp);
-	m_pexprEnforcerPattern = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp));
-	m_pxfs = GPOS_NEW(pmp) CXformSet(pmp);
-	m_pdrgpulpXformCalls = GPOS_NEW(pmp) DrgPulp(pmp);
-	m_pdrgpulpXformTimes = GPOS_NEW(pmp) DrgPulp(pmp);
+	m_pmemo = GPOS_NEW(memory_pool) CMemo(memory_pool);
+	m_pexprEnforcerPattern = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool));
+	m_pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	m_pdrgpulpXformCalls = GPOS_NEW(memory_pool) DrgPulp(memory_pool);
+	m_pdrgpulpXformTimes = GPOS_NEW(memory_pool) DrgPulp(memory_pool);
 }
 
 
@@ -1401,13 +1401,13 @@ CEngine::RecursiveOptimize()
 DrgPoc *
 CEngine::PdrgpocChildren
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
 	GPOS_ASSERT(NULL != exprhdl.Pgexpr());
 
-	DrgPoc *pdrgpoc = GPOS_NEW(pmp) DrgPoc(pmp);
+	DrgPoc *pdrgpoc = GPOS_NEW(memory_pool) DrgPoc(memory_pool);
 	const ULONG ulArity = exprhdl.UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -1415,7 +1415,7 @@ CEngine::PdrgpocChildren
 		if (!pgroupChild->FScalar())
 		{
 			COptimizationContext *poc =
-				pgroupChild->PocLookupBest(pmp, m_pdrgpss->Size(), exprhdl.Prpp(ul));
+				pgroupChild->PocLookupBest(memory_pool, m_pdrgpss->Size(), exprhdl.Prpp(ul));
 			GPOS_ASSERT(NULL != poc);
 
 			poc->AddRef();
@@ -2184,7 +2184,7 @@ CEngine::SamplePlans()
 BOOL
 CEngine::FCheckEnfdProps
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CGroupExpression *pgexpr,
 	COptimizationContext *poc,
 	ULONG ulOptReq,
@@ -2211,9 +2211,9 @@ CEngine::FCheckEnfdProps
 	poc->AddRef();
 	pgexpr->AddRef();
 	pdrgpoc->AddRef();
-	CCostContext *pcc= GPOS_NEW(pmp) CCostContext(pmp, poc, ulOptReq, pgexpr);
+	CCostContext *pcc= GPOS_NEW(memory_pool) CCostContext(memory_pool, poc, ulOptReq, pgexpr);
 	pcc->SetChildContexts(pdrgpoc);
-	CExpressionHandle exprhdl(pmp);
+	CExpressionHandle exprhdl(memory_pool);
 	exprhdl.Attach(pcc);
 	exprhdl.DerivePlanProps();
 	pcc->Release();
@@ -2223,7 +2223,7 @@ CEngine::FCheckEnfdProps
 
 	// check whether the current physical operator satisfies the CTE requirements
 	// and whether it is a motion over unresolved part consumers
-	if (!FValidCTEAndPartitionProperties(pmp, exprhdl, prpp))
+	if (!FValidCTEAndPartitionProperties(memory_pool, exprhdl, prpp))
 	{
 		return false;
 	}
@@ -2277,7 +2277,7 @@ CEngine::FCheckEnfdProps
 		return false;
 	}
 
-	DrgPexpr *pdrgpexprEnforcers = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprEnforcers = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	// extract a leaf pattern from target group
 	CBinding binding;
@@ -2286,10 +2286,10 @@ CEngine::FCheckEnfdProps
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(pexpr->Pgexpr()->Pgroup() == pgexpr->Pgroup());
 		
-	prpp->Peo()->AppendEnforcers(pmp, prpp, pdrgpexprEnforcers, pexpr, epetOrder, exprhdl);
-	prpp->Ped()->AppendEnforcers(pmp, prpp, pdrgpexprEnforcers, pexpr, epetDistribution, exprhdl);
-	prpp->Per()->AppendEnforcers(pmp, prpp, pdrgpexprEnforcers, pexpr, epetRewindability, exprhdl);
-	prpp->Pepp()->AppendEnforcers(pmp, prpp, pdrgpexprEnforcers, pexpr, epetPartitionPropagation, exprhdl);
+	prpp->Peo()->AppendEnforcers(memory_pool, prpp, pdrgpexprEnforcers, pexpr, epetOrder, exprhdl);
+	prpp->Ped()->AppendEnforcers(memory_pool, prpp, pdrgpexprEnforcers, pexpr, epetDistribution, exprhdl);
+	prpp->Per()->AppendEnforcers(memory_pool, prpp, pdrgpexprEnforcers, pexpr, epetRewindability, exprhdl);
+	prpp->Pepp()->AppendEnforcers(memory_pool, prpp, pdrgpexprEnforcers, pexpr, epetPartitionPropagation, exprhdl);
 
 	if (0 < pdrgpexprEnforcers->Size())
 	{
@@ -2317,7 +2317,7 @@ CEngine::FCheckEnfdProps
 BOOL
 CEngine::FValidCTEAndPartitionProperties
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CReqdPropPlan *prpp
 	)
@@ -2326,7 +2326,7 @@ CEngine::FValidCTEAndPartitionProperties
 	CPartIndexMap *ppimDrvd = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Ppim();
 
 	return popPhysical->FProvidesReqdCTEs(exprhdl, prpp->Pcter()) &&
-			!CUtils::FMotionOverUnresolvedPartConsumers(pmp, exprhdl, prpp->Pepp()->PppsRequired()->Ppim()) &&
+			!CUtils::FMotionOverUnresolvedPartConsumers(memory_pool, exprhdl, prpp->Pepp()->PppsRequired()->Ppim()) &&
 			!ppimDrvd->FContainsRedundantPartitionSelectors(prpp->Pepp()->PppsRequired()->Ppim());
 }
 

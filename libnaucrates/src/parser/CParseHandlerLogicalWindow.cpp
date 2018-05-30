@@ -31,12 +31,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerLogicalWindow::CParseHandlerLogicalWindow
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerLogicalOp(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, pphRoot),
 	m_pdrgpdxlws(NULL)
 {
 }

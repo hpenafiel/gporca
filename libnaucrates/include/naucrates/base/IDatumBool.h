@@ -116,7 +116,7 @@ namespace gpnaucrates
 			virtual
 			IDatum *PdatumPadded
 				(
-				IMemoryPool *, // pmp,
+				IMemoryPool *, // memory_pool,
 				ULONG    // ulColLen
 				)
 				const

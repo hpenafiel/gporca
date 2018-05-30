@@ -70,20 +70,20 @@ namespace gpopt
 
 			// given a colrefset from a table, get colids and attno
 			void
-			ExtractColIdsAttno(IMemoryPool *pmp, CColRefSet *pcrs, ULongPtrArray *pdrgpulColIds, ULongPtrArray *pdrgpulPos) const;
+			ExtractColIdsAttno(IMemoryPool *memory_pool, CColRefSet *pcrs, ULongPtrArray *pdrgpulColIds, ULongPtrArray *pdrgpulPos) const;
 
 			// derive stats from base table using filters on partition and/or index columns
-			IStatistics *PstatsDeriveFilter(IMemoryPool *pmp, CExpressionHandle &exprhdl, CExpression *pexprFilter) const;
+			IStatistics *PstatsDeriveFilter(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, CExpression *pexprFilter) const;
 
 		public:
 		
 			// ctors
 			explicit
-			CLogicalDynamicGetBase(IMemoryPool *pmp);
+			CLogicalDynamicGetBase(IMemoryPool *memory_pool);
 
 			CLogicalDynamicGetBase
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CName *pnameAlias,
 				CTableDescriptor *ptabdesc,
 				ULONG ulScanId,
@@ -97,7 +97,7 @@ namespace gpopt
 			
 			CLogicalDynamicGetBase
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CName *pnameAlias,
 				CTableDescriptor *ptabdesc,
 				ULONG ulScanId
@@ -199,21 +199,21 @@ namespace gpopt
 
 			// derive keys
 			virtual 
-			CKeyCollection *PkcDeriveKeys(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CKeyCollection *PkcDeriveKeys(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 
 			// derive partition consumer info
 			virtual
-			CPartInfo *PpartinfoDerive(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CPartInfo *PpartinfoDerive(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 			
 			// derive constraint property
 			virtual
-			CPropConstraint *PpcDeriveConstraint(IMemoryPool *pmp, CExpressionHandle &exprhdl) const;
+			CPropConstraint *PpcDeriveConstraint(IMemoryPool *memory_pool, CExpressionHandle &exprhdl) const;
 		
 			// derive join depth
 			virtual
 			ULONG UlJoinDepth
 				(
-				IMemoryPool *, // pmp
+				IMemoryPool *, // memory_pool
 				CExpressionHandle & // exprhdl
 				)
 				const

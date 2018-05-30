@@ -29,18 +29,18 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarSwitch::CScalarSwitch
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type
 	)
 	:
-	CScalar(pmp),
-	m_pmdidType(pmdidType),
+	CScalar(memory_pool),
+	m_mdid_type(mdid_type),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(mdid_type->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidType);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_mdid_type);
 }
 
 //---------------------------------------------------------------------------
@@ -53,7 +53,7 @@ CScalarSwitch::CScalarSwitch
 //---------------------------------------------------------------------------
 CScalarSwitch::~CScalarSwitch()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -68,7 +68,7 @@ CScalarSwitch::~CScalarSwitch()
 ULONG
 CScalarSwitch::HashValue() const
 {
-	return gpos::CombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_mdid_type->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ CScalarSwitch::FMatch
 		CScalarSwitch *popScSwitch = CScalarSwitch::PopConvert(pop);
 
 		// match if return types are identical
-		return popScSwitch->MDIdType()->Equals(m_pmdidType);
+		return popScSwitch->MDIdType()->Equals(m_mdid_type);
 	}
 
 	return false;

@@ -26,14 +26,14 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarCaseTest::CScalarCaseTest
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type
 	)
 	:
-	CScalar(pmp),
-	m_pmdidType(pmdidType)
+	CScalar(memory_pool),
+	m_mdid_type(mdid_type)
 {
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(mdid_type->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ CScalarCaseTest::CScalarCaseTest
 //---------------------------------------------------------------------------
 CScalarCaseTest::~CScalarCaseTest()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ CScalarCaseTest::~CScalarCaseTest()
 ULONG
 CScalarCaseTest::HashValue() const
 {
-	return gpos::CombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_mdid_type->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -99,7 +99,7 @@ CScalarCaseTest::FMatch
 		CScalarCaseTest *popScCaseTest = CScalarCaseTest::PopConvert(pop);
 
 		// match if return types are identical
-		return popScCaseTest->MDIdType()->Equals(m_pmdidType);
+		return popScCaseTest->MDIdType()->Equals(m_mdid_type);
 	}
 
 	return false;

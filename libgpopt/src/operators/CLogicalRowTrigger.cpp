@@ -29,10 +29,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalRowTrigger::CLogicalRowTrigger
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pmdidRel(NULL),
 	m_iType(0),
 	m_pdrgpcrOld(NULL),
@@ -53,14 +53,14 @@ CLogicalRowTrigger::CLogicalRowTrigger
 //---------------------------------------------------------------------------
 CLogicalRowTrigger::CLogicalRowTrigger
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidRel,
 	INT iType,
 	DrgPcr *pdrgpcrOld,
 	DrgPcr *pdrgpcrNew
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pmdidRel(pmdidRel),
 	m_iType(iType),
 	m_pdrgpcrOld(pdrgpcrOld),
@@ -237,7 +237,7 @@ CLogicalRowTrigger::HashValue() const
 COperator *
 CLogicalRowTrigger::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
@@ -245,18 +245,18 @@ CLogicalRowTrigger::PopCopyWithRemappedColumns
 	DrgPcr *pdrgpcrOld = NULL;
 	if (NULL != m_pdrgpcrOld)
 	{
-		pdrgpcrOld = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrOld, phmulcr, fMustExist);
+		pdrgpcrOld = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrOld, phmulcr, fMustExist);
 	}
 
 	DrgPcr *pdrgpcrNew = NULL;
 	if (NULL != m_pdrgpcrNew)
 	{
-		pdrgpcrNew = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrNew, phmulcr, fMustExist);
+		pdrgpcrNew = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrNew, phmulcr, fMustExist);
 	}
 
 	m_pmdidRel->AddRef();
 
-	return GPOS_NEW(pmp) CLogicalRowTrigger(pmp, m_pmdidRel, m_iType, pdrgpcrOld, pdrgpcrNew);
+	return GPOS_NEW(memory_pool) CLogicalRowTrigger(memory_pool, m_pmdidRel, m_iType, pdrgpcrOld, pdrgpcrNew);
 }
 
 //---------------------------------------------------------------------------
@@ -270,7 +270,7 @@ CLogicalRowTrigger::PopCopyWithRemappedColumns
 CColRefSet *
 CLogicalRowTrigger::PcrsDeriveOutput
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
@@ -288,7 +288,7 @@ CLogicalRowTrigger::PcrsDeriveOutput
 CKeyCollection *
 CLogicalRowTrigger::PkcDeriveKeys
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -307,7 +307,7 @@ CLogicalRowTrigger::PkcDeriveKeys
 CMaxCard
 CLogicalRowTrigger::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -327,11 +327,11 @@ CLogicalRowTrigger::Maxcard
 CXformSet *
 CLogicalRowTrigger::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementRowTrigger);
 	return pxfs;
 }
@@ -347,7 +347,7 @@ CLogicalRowTrigger::PxfsCandidates
 IStatistics *
 CLogicalRowTrigger::PstatsDerive
 	(
-	IMemoryPool *, // pmp,
+	IMemoryPool *, // memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat * // not used
 	)
@@ -367,12 +367,12 @@ CLogicalRowTrigger::PstatsDerive
 CFunctionProp *
 CLogicalRowTrigger::PfpDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
 {
-	return PfpDeriveFromChildren(pmp, exprhdl, m_efs, m_efda, false /*fHasVolatileFunctionScan*/, false /*fScan*/);
+	return PfpDeriveFromChildren(memory_pool, exprhdl, m_efs, m_efda, false /*fHasVolatileFunctionScan*/, false /*fScan*/);
 }
 
 //---------------------------------------------------------------------------

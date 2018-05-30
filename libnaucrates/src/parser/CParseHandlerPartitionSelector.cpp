@@ -35,12 +35,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerPartitionSelector::CParseHandlerPartitionSelector
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerPhysicalOp(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdidRel(NULL),
 	m_ulLevels(0),
 	m_ulScanId(0)

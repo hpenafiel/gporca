@@ -46,7 +46,7 @@ namespace gpdxl
 		public:
 			
 			// ctor/dtor
-			CDXLLogicalInsert(IMemoryPool *pmp, CDXLTableDescr *pdxltabdesc, ULongPtrArray *pdrgpul);
+			CDXLLogicalInsert(IMemoryPool *memory_pool, CDXLTableDescr *pdxltabdesc, ULongPtrArray *pdrgpul);
 						
 			virtual
 			~CDXLLogicalInsert();

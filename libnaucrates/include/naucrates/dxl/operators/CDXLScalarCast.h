@@ -41,7 +41,7 @@ namespace gpdxl
 		private:
 
 			// catalog MDId of the column's type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// catalog MDId of the function implementing the casting
 			IMDId *m_pmdidFunc;
@@ -53,8 +53,8 @@ namespace gpdxl
 			// ctor/dtor
 			CDXLScalarCast
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
 				IMDId *pmdidOpFunc
 				);
 

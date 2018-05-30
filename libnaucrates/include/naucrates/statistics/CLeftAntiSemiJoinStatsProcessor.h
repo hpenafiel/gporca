@@ -24,7 +24,7 @@ namespace gpnaucrates
 			static
 			void JoinHistogramsLASJ
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					const CHistogram *phist1,
 					const CHistogram *phist2,
 					CStatsPredJoin *pstatsjoin,
@@ -41,7 +41,7 @@ namespace gpnaucrates
 			static
 			CStatistics *PstatsLASJoinStatic
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					const IStatistics *pistatsOuter,
 					const IStatistics *pistatsInner,
 					DrgPstatspredjoin *pdrgpstatspredjoin,

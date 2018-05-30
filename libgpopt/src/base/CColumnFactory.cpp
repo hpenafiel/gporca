@@ -106,7 +106,7 @@ CColRef *
 CColumnFactory::PcrCreate
 	(
 	const IMDType *pmdtype,
-	INT iTypeModifier
+	INT type_modifier
 	)
 {
 	// increment atomic counter
@@ -117,7 +117,7 @@ CColumnFactory::PcrCreate
 	CAutoP<CWStringDynamic> a_pstrTempName(pstrTempName);
 	pstrTempName->AppendFormat(wszFmt, ulId);
 	CWStringConst strName(pstrTempName->GetBuffer());
-	return PcrCreate(pmdtype, iTypeModifier, ulId, CName(&strName));
+	return PcrCreate(pmdtype, type_modifier, ulId, CName(&strName));
 }
 
 
@@ -133,13 +133,13 @@ CColRef *
 CColumnFactory::PcrCreate
 	(
 	const IMDType *pmdtype,
-	INT iTypeModifier,
+	INT type_modifier,
 	const CName &name
 	)
 {
 	ULONG ulId = m_aul.Incr();
 
-	return PcrCreate(pmdtype, iTypeModifier, ulId, name);
+	return PcrCreate(pmdtype, type_modifier, ulId, name);
 }
 	
 	
@@ -157,7 +157,7 @@ CColRef *
 CColumnFactory::PcrCreate
 	(
 	const IMDType *pmdtype,
-	INT iTypeModifier,
+	INT type_modifier,
 	ULONG ulId,
 	const CName &name
 	)
@@ -165,7 +165,7 @@ CColumnFactory::PcrCreate
 	CName *pnameCopy = GPOS_NEW(m_memory_pool) CName(m_memory_pool, name); 
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
-	CColRef *pcr = GPOS_NEW(m_memory_pool) CColRefComputed(pmdtype, iTypeModifier, ulId, pnameCopy);
+	CColRef *pcr = GPOS_NEW(m_memory_pool) CColRefComputed(pmdtype, type_modifier, ulId, pnameCopy);
 	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 	
@@ -225,7 +225,7 @@ CColRef *
 CColumnFactory::PcrCreate
 	(
 	const IMDType *pmdtype,
-	INT iTypeModifier,
+	INT type_modifier,
 	INT iAttno,
 	BOOL fNullable,
 	ULONG ulId,
@@ -238,7 +238,7 @@ CColumnFactory::PcrCreate
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
 	CColRef *pcr =
-			GPOS_NEW(m_memory_pool) CColRefTable(pmdtype, iTypeModifier, iAttno, fNullable, ulId, pnameCopy, ulOpSource, ulWidth);
+			GPOS_NEW(m_memory_pool) CColRefTable(pmdtype, type_modifier, iAttno, fNullable, ulId, pnameCopy, ulOpSource, ulWidth);
 	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 

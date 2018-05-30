@@ -26,12 +26,12 @@ XERCES_CPP_NAMESPACE_USE
 // ctor
 CParseHandlerScalarValuesList::CParseHandlerScalarValuesList
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerOp(pmp, parse_handler_mgr, pphRoot)
+	CParseHandlerOp(memory_pool, parse_handler_mgr, pphRoot)
 {
 }
 

@@ -100,7 +100,7 @@ CReqdPropRelational::~CReqdPropRelational()
 void
 CReqdPropRelational::Compute
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CReqdProp *prpInput,
 	ULONG ulChildIndex,
@@ -113,8 +113,8 @@ CReqdPropRelational::Compute
 	CReqdPropRelational *prprelInput =  CReqdPropRelational::Prprel(prpInput);
 	CLogical *popLogical = CLogical::PopConvert(exprhdl.Pop());
 
-	m_pcrsStat = popLogical->PcrsStat(pmp, exprhdl, prprelInput->PcrsStat(), ulChildIndex);
-	m_pexprPartPred = popLogical->PexprPartPred(pmp, exprhdl, prprelInput->PexprPartPred(), ulChildIndex);
+	m_pcrsStat = popLogical->PcrsStat(memory_pool, exprhdl, prprelInput->PcrsStat(), ulChildIndex);
+	m_pexprPartPred = popLogical->PexprPartPred(memory_pool, exprhdl, prprelInput->PexprPartPred(), ulChildIndex);
 
 	exprhdl.DeriveProducerStats(ulChildIndex, m_pcrsStat);
 }
@@ -148,17 +148,17 @@ CReqdPropRelational::Prprel
 CReqdPropRelational *
 CReqdPropRelational::PrprelDifference
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CReqdPropRelational *prprel
 	)
 {
 	GPOS_ASSERT(NULL != prprel);
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	pcrs->Union(m_pcrsStat);
 	pcrs->Difference(prprel->PcrsStat());
 
-	return GPOS_NEW(pmp) CReqdPropRelational(pcrs);
+	return GPOS_NEW(memory_pool) CReqdPropRelational(pcrs);
 }
 
 

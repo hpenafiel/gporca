@@ -30,20 +30,20 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLTableDescr::CDXLTableDescr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	ULONG ulExecuteAsUser
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pdrgdxlcd(NULL),
 	m_ulExecuteAsUser(ulExecuteAsUser)
 {
 	GPOS_ASSERT(NULL != m_pmdname);
-	m_pdrgdxlcd = GPOS_NEW(pmp) ColumnDescrDXLArray(pmp);
+	m_pdrgdxlcd = GPOS_NEW(memory_pool) ColumnDescrDXLArray(memory_pool);
 }
 
 
@@ -65,14 +65,14 @@ CDXLTableDescr::~CDXLTableDescr()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLTableDescr::Pmdid
+//		CDXLTableDescr::MDId
 //
 //	@doc:
 //		Return the metadata id for the table
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLTableDescr::Pmdid() const
+CDXLTableDescr::MDId() const
 {	
 	return m_pmdid;
 }

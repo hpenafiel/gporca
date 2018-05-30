@@ -28,11 +28,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalRedistributeMotion::CDXLPhysicalRedistributeMotion
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	BOOL fDuplicateSensitive
 	)
 	:
-	CDXLPhysicalMotion(pmp),
+	CDXLPhysicalMotion(memory_pool),
 	m_fDuplicateSensitive(fDuplicateSensitive)
 {
 }

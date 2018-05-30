@@ -71,12 +71,12 @@ namespace gpdxl
 			// ctors
 
 			explicit
-			CDXLNode(IMemoryPool *pmp);			
-			CDXLNode(IMemoryPool *pmp, CDXLOperator *pdxlop);
-			CDXLNode(IMemoryPool *pmp, CDXLOperator *pdxlop, CDXLNode *pdxlnChild);
-			CDXLNode(IMemoryPool *pmp, CDXLOperator *pdxlop, CDXLNode *pdxlnFst, CDXLNode *pdxlnSnd);
-			CDXLNode(IMemoryPool *pmp, CDXLOperator *pdxlop, CDXLNode *pdxlnFst, CDXLNode *pdxlnSnd, CDXLNode *pdxlnThrd);
-			CDXLNode(IMemoryPool *pmp, CDXLOperator *pdxlop, DrgPdxln *pdrgpdxln);
+			CDXLNode(IMemoryPool *memory_pool);			
+			CDXLNode(IMemoryPool *memory_pool, CDXLOperator *pdxlop);
+			CDXLNode(IMemoryPool *memory_pool, CDXLOperator *pdxlop, CDXLNode *pdxlnChild);
+			CDXLNode(IMemoryPool *memory_pool, CDXLOperator *pdxlop, CDXLNode *pdxlnFst, CDXLNode *pdxlnSnd);
+			CDXLNode(IMemoryPool *memory_pool, CDXLOperator *pdxlop, CDXLNode *pdxlnFst, CDXLNode *pdxlnSnd, CDXLNode *pdxlnThrd);
+			CDXLNode(IMemoryPool *memory_pool, CDXLOperator *pdxlop, DrgPdxln *pdrgpdxln);
 			
 			// dtor
 			virtual

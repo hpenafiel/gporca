@@ -29,17 +29,17 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformInlineCTEConsumerUnderSelect::CXformInlineCTEConsumerUnderSelect
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CXformExploration
 		(
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 				(
-				pmp,
-				GPOS_NEW(pmp) CLogicalSelect(pmp),
-				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CLogicalCTEConsumer(pmp)),  // relational child
-				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp))	// predicate tree
+				memory_pool,
+				GPOS_NEW(memory_pool) CLogicalSelect(memory_pool),
+				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CLogicalCTEConsumer(memory_pool)),  // relational child
+				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool))	// predicate tree
 				)
 		)
 {}
@@ -103,7 +103,7 @@ CXformInlineCTEConsumerUnderSelect::Transform
 		return;
 	}
 
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// inline consumer
 	GPOS_ASSERT(NULL != popConsumer->Phmulcr());
@@ -111,9 +111,9 @@ CXformInlineCTEConsumerUnderSelect::Transform
 	pexprInlinedConsumer->AddRef();
 	pexprScalar->AddRef();
 
-	CExpression *pexprSelect = CUtils::PexprLogicalSelect(pmp, pexprInlinedConsumer, pexprScalar);
+	CExpression *pexprSelect = CUtils::PexprLogicalSelect(memory_pool, pexprInlinedConsumer, pexprScalar);
 
-	CExpression *pexprNormalized = CNormalizer::PexprNormalize(pmp, pexprSelect);
+	CExpression *pexprNormalized = CNormalizer::PexprNormalize(memory_pool, pexprSelect);
 	pexprSelect->Release();
 
 	// add alternative to xform result

@@ -118,53 +118,53 @@ CConstraintTest::EresUnittest_CInterval()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->Pmdid();
+	IMDId *pmdid = pmdtypeint8->MDId();
 
-	CExpression *pexprGet = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
 	// first interval
-	CConstraintInterval *pciFirst = PciFirstInterval(pmp, pmdid, pcr);
-	PrintConstraint(pmp, pciFirst);
+	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, pmdid, pcr);
+	PrintConstraint(memory_pool, pciFirst);
 
 	// second interval
-	CConstraintInterval *pciSecond = PciSecondInterval(pmp, pmdid, pcr);
-	PrintConstraint(pmp, pciSecond);
+	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, pmdid, pcr);
+	PrintConstraint(memory_pool, pciSecond);
 
 	// intersection
-	CConstraintInterval *pciIntersect = pciFirst->PciIntersect(pmp, pciSecond);
-	PrintConstraint(pmp, pciIntersect);
+	CConstraintInterval *pciIntersect = pciFirst->PciIntersect(memory_pool, pciSecond);
+	PrintConstraint(memory_pool, pciIntersect);
 
 	// union
-	CConstraintInterval *pciUnion = pciFirst->PciUnion(pmp, pciSecond);
-	PrintConstraint(pmp, pciUnion);
+	CConstraintInterval *pciUnion = pciFirst->PciUnion(memory_pool, pciSecond);
+	PrintConstraint(memory_pool, pciUnion);
 
 	// diff 1
-	CConstraintInterval *pciDiff1 = pciFirst->PciDifference(pmp, pciSecond);
-	PrintConstraint(pmp, pciDiff1);
+	CConstraintInterval *pciDiff1 = pciFirst->PciDifference(memory_pool, pciSecond);
+	PrintConstraint(memory_pool, pciDiff1);
 
 	// diff 2
-	CConstraintInterval *pciDiff2 = pciSecond->PciDifference(pmp, pciFirst);
-	PrintConstraint(pmp, pciDiff2);
+	CConstraintInterval *pciDiff2 = pciSecond->PciDifference(memory_pool, pciFirst);
+	PrintConstraint(memory_pool, pciDiff2);
 
 	// complement
-	CConstraintInterval *pciComp = pciFirst->PciComplement(pmp);
-	PrintConstraint(pmp, pciComp);
+	CConstraintInterval *pciComp = pciFirst->PciComplement(memory_pool);
+	PrintConstraint(memory_pool, pciComp);
 
 	// containment
 	GPOS_ASSERT(!pciFirst->FContains(pciSecond));
@@ -173,7 +173,7 @@ CConstraintTest::EresUnittest_CInterval()
 	GPOS_ASSERT(pciSecond->FContains(pciDiff2));
 
 	// equality
-	CConstraintInterval *pciThird = PciFirstInterval(pmp, pmdid, pcr);
+	CConstraintInterval *pciThird = PciFirstInterval(memory_pool, pmdid, pcr);
 	pciThird->AddRef();
 	CConstraintInterval *pciFourth = pciThird;
 	GPOS_ASSERT(!pciFirst->Equals(pciSecond));
@@ -210,45 +210,45 @@ CConstraintTest::EresUnittest_CConjunction()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->Pmdid();
+	IMDId *pmdid = pmdtypeint8->MDId();
 
-	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs1 = CDrvdPropRelational::Pdprel(pexprGet1->PdpDerive())->PcrsOutput();
 	CColRef *pcr1 =  pcrs1->PcrAny();
 
-	CExpression *pexprGet2 = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet2 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs2 = CDrvdPropRelational::Pdprel(pexprGet2->PdpDerive())->PcrsOutput();
 	CColRef *pcr2 =  pcrs2->PcrAny();
 
-	CConstraintConjunction *pcconj1 = Pcstconjunction(pmp, pmdid, pcr1);
-	PrintConstraint(pmp, pcconj1);
+	CConstraintConjunction *pcconj1 = Pcstconjunction(memory_pool, pmdid, pcr1);
+	PrintConstraint(memory_pool, pcconj1);
 	GPOS_ASSERT(!pcconj1->FContradiction());
 
-	CConstraintConjunction *pcconj2 = Pcstconjunction(pmp, pmdid, pcr2);
-	PrintConstraint(pmp, pcconj2);
+	CConstraintConjunction *pcconj2 = Pcstconjunction(memory_pool, pmdid, pcr2);
+	PrintConstraint(memory_pool, pcconj2);
 
-	DrgPcnstr *pdrgpcst = GPOS_NEW(pmp) DrgPcnstr(pmp);
+	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 	pcconj1->AddRef();
 	pcconj2->AddRef();
 	pdrgpcst->Append(pcconj1);
 	pdrgpcst->Append(pcconj2);
 
-	CConstraintConjunction *pcconjTop = GPOS_NEW(pmp) CConstraintConjunction(pmp, pdrgpcst);
-	PrintConstraint(pmp, pcconjTop);
+	CConstraintConjunction *pcconjTop = GPOS_NEW(memory_pool) CConstraintConjunction(memory_pool, pdrgpcst);
+	PrintConstraint(memory_pool, pcconjTop);
 
 	// containment
 	GPOS_ASSERT(!pcconj1->FContains(pcconj2));
@@ -284,22 +284,22 @@ CConstraintTest::EresUnittest_CConjunction()
 CConstraintConjunction *
 CConstraintTest::Pcstconjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CColRef *pcr
 	)
 {
 	// first interval
-	CConstraintInterval *pciFirst = PciFirstInterval(pmp, pmdid, pcr);
+	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, pmdid, pcr);
 
 	// second interval
-	CConstraintInterval *pciSecond = PciSecondInterval(pmp, pmdid, pcr);
+	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, pmdid, pcr);
 
-	DrgPcnstr *pdrgpcst = GPOS_NEW(pmp) DrgPcnstr(pmp);
+	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 	pdrgpcst->Append(pciFirst);
 	pdrgpcst->Append(pciSecond);
 
-	return GPOS_NEW(pmp) CConstraintConjunction(pmp, pdrgpcst);
+	return GPOS_NEW(memory_pool) CConstraintConjunction(memory_pool, pdrgpcst);
 }
 
 //---------------------------------------------------------------------------
@@ -313,22 +313,22 @@ CConstraintTest::Pcstconjunction
 CConstraintDisjunction *
 CConstraintTest::Pcstdisjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CColRef *pcr
 	)
 {
 	// first interval
-	CConstraintInterval *pciFirst = PciFirstInterval(pmp, pmdid, pcr);
+	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, pmdid, pcr);
 
 	// second interval
-	CConstraintInterval *pciSecond = PciSecondInterval(pmp, pmdid, pcr);
+	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, pmdid, pcr);
 
-	DrgPcnstr *pdrgpcst = GPOS_NEW(pmp) DrgPcnstr(pmp);
+	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 	pdrgpcst->Append(pciFirst);
 	pdrgpcst->Append(pciSecond);
 
-	return GPOS_NEW(pmp) CConstraintDisjunction(pmp, pdrgpcst);
+	return GPOS_NEW(memory_pool) CConstraintDisjunction(memory_pool, pdrgpcst);
 }
 
 //---------------------------------------------------------------------------
@@ -344,45 +344,45 @@ CConstraintTest::EresUnittest_CDisjunction()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->Pmdid();
+	IMDId *pmdid = pmdtypeint8->MDId();
 
-	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs1 = CDrvdPropRelational::Pdprel(pexprGet1->PdpDerive())->PcrsOutput();
 	CColRef *pcr1 =  pcrs1->PcrAny();
 
-	CExpression *pexprGet2 = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet2 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs2 = CDrvdPropRelational::Pdprel(pexprGet2->PdpDerive())->PcrsOutput();
 	CColRef *pcr2 =  pcrs2->PcrAny();
 
-	CConstraintDisjunction *pcdisj1 = Pcstdisjunction(pmp, pmdid, pcr1);
-	PrintConstraint(pmp, pcdisj1);
+	CConstraintDisjunction *pcdisj1 = Pcstdisjunction(memory_pool, pmdid, pcr1);
+	PrintConstraint(memory_pool, pcdisj1);
 	GPOS_ASSERT(!pcdisj1->FContradiction());
 
-	CConstraintDisjunction *pcdisj2 = Pcstdisjunction(pmp, pmdid, pcr2);
-	PrintConstraint(pmp, pcdisj2);
+	CConstraintDisjunction *pcdisj2 = Pcstdisjunction(memory_pool, pmdid, pcr2);
+	PrintConstraint(memory_pool, pcdisj2);
 
-	DrgPcnstr *pdrgpcst = GPOS_NEW(pmp) DrgPcnstr(pmp);
+	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 	pcdisj1->AddRef();
 	pcdisj2->AddRef();
 	pdrgpcst->Append(pcdisj1);
 	pdrgpcst->Append(pcdisj2);
 
-	CConstraintDisjunction *pcdisjTop = GPOS_NEW(pmp) CConstraintDisjunction(pmp, pdrgpcst);
-	PrintConstraint(pmp, pcdisjTop);
+	CConstraintDisjunction *pcdisjTop = GPOS_NEW(memory_pool) CConstraintDisjunction(memory_pool, pdrgpcst);
+	PrintConstraint(memory_pool, pcdisjTop);
 
 	// containment
 	GPOS_ASSERT(!pcdisj1->FContains(pcdisj2));
@@ -419,36 +419,36 @@ CConstraintTest::EresUnittest_CNegation()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->Pmdid();
+	IMDId *pmdid = pmdtypeint8->MDId();
 
-	CExpression *pexprGet = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
-	CConstraintInterval *pci = PciFirstInterval(pmp, pmdid, pcr);
-	PrintConstraint(pmp, pci);
+	CConstraintInterval *pci = PciFirstInterval(memory_pool, pmdid, pcr);
+	PrintConstraint(memory_pool, pci);
 
 	pci->AddRef();
-	CConstraintNegation *pcn1 = GPOS_NEW(pmp) CConstraintNegation(pmp, pci);
-	PrintConstraint(pmp, pcn1);
+	CConstraintNegation *pcn1 = GPOS_NEW(memory_pool) CConstraintNegation(memory_pool, pci);
+	PrintConstraint(memory_pool, pcn1);
 
 	pcn1->AddRef();
-	CConstraintNegation *pcn2 = GPOS_NEW(pmp) CConstraintNegation(pmp, pcn1);
-	PrintConstraint(pmp, pcn2);
+	CConstraintNegation *pcn2 = GPOS_NEW(memory_pool) CConstraintNegation(memory_pool, pcn1);
+	PrintConstraint(memory_pool, pcn2);
 
 	// containment
 	GPOS_ASSERT(!pcn1->FContains(pci));
@@ -485,28 +485,28 @@ CConstraintTest::EresUnittest_CIntervalFromScalarExpr()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
-	CExpression *pexprGet = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
 	// from ScalarCmp
-	GPOS_RESULT eres1 = EresUnittest_CIntervalFromScalarCmp(pmp, &mda, pcr);
+	GPOS_RESULT eres1 = EresUnittest_CIntervalFromScalarCmp(memory_pool, &mda, pcr);
 
 	// from ScalarBool
-	GPOS_RESULT eres2 = EresUnittest_CIntervalFromScalarBoolOp(pmp, &mda, pcr);
+	GPOS_RESULT eres2 = EresUnittest_CIntervalFromScalarBoolOp(memory_pool, &mda, pcr);
 
 	pexprGet->Release();
 	if (GPOS_OK == eres1 && GPOS_OK == eres2)
@@ -530,50 +530,50 @@ CConstraintTest::EresUnittest_CConstraintFromScalarExpr()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
-	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs1 = CDrvdPropRelational::Pdprel(pexprGet1->PdpDerive())->PcrsOutput();
 	CColRef *pcr1 =  pcrs1->PcrAny();
 
-	CExpression *pexprGet2 = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet2 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs2 = CDrvdPropRelational::Pdprel(pexprGet2->PdpDerive())->PcrsOutput();
 	CColRef *pcr2 =  pcrs2->PcrAny();
 
 	DrgPcrs *pdrgpcrs = NULL;
 
 	// expression with 1 column
-	CExpression *pexpr = PexprScalarCmp(pmp, &mda, pcr1, IMDType::EcmptG, 15);
-	CConstraint *pcnstr = CConstraint::PcnstrFromScalarExpr(pmp, pexpr, &pdrgpcrs);
-	PrintConstraint(pmp, pcnstr);
-	PrintEquivClasses(pmp, pdrgpcrs);
+	CExpression *pexpr = PexprScalarCmp(memory_pool, &mda, pcr1, IMDType::EcmptG, 15);
+	CConstraint *pcnstr = CConstraint::PcnstrFromScalarExpr(memory_pool, pexpr, &pdrgpcrs);
+	PrintConstraint(memory_pool, pcnstr);
+	PrintEquivClasses(memory_pool, pdrgpcrs);
 	pdrgpcrs->Release();
 	pdrgpcrs = NULL;
 	pcnstr->Release();
 	pexpr->Release();
 
 	// expression with 2 columns
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
-	pdrgpexpr->Append(PexprScalarCmp(pmp, &mda, pcr1, IMDType::EcmptG, 15));
-	pdrgpexpr->Append(PexprScalarCmp(pmp, &mda, pcr2, IMDType::EcmptL, 20));
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, &mda, pcr1, IMDType::EcmptG, 15));
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, &mda, pcr2, IMDType::EcmptL, 20));
 
-	CExpression *pexprAnd = CUtils::PexprScalarBoolOp(pmp, CScalarBoolOp::EboolopAnd, pdrgpexpr);
+	CExpression *pexprAnd = CUtils::PexprScalarBoolOp(memory_pool, CScalarBoolOp::EboolopAnd, pdrgpexpr);
 	(void) pexprAnd->PdpDerive();
 
-	CConstraint *pcnstrAnd = CConstraint::PcnstrFromScalarExpr(pmp, pexprAnd, &pdrgpcrs);
-	PrintConstraint(pmp, pcnstrAnd);
-	PrintEquivClasses(pmp, pdrgpcrs);
+	CConstraint *pcnstrAnd = CConstraint::PcnstrFromScalarExpr(memory_pool, pexprAnd, &pdrgpcrs);
+	PrintConstraint(memory_pool, pcnstrAnd);
+	PrintEquivClasses(memory_pool, pdrgpcrs);
 	pdrgpcrs->Release();
 	pdrgpcrs = NULL;
 
@@ -581,11 +581,11 @@ CConstraintTest::EresUnittest_CConstraintFromScalarExpr()
 	pexprAnd->Release();
 
 	// equality predicate with 2 columns
-	CExpression *pexprEq = CUtils::PexprScalarEqCmp(pmp, pcr1, pcr2);
+	CExpression *pexprEq = CUtils::PexprScalarEqCmp(memory_pool, pcr1, pcr2);
 	(void) pexprEq->PdpDerive();
-	CConstraint *pcnstrEq = CConstraint::PcnstrFromScalarExpr(pmp, pexprEq, &pdrgpcrs);
-	PrintConstraint(pmp, pcnstrEq);
-	PrintEquivClasses(pmp, pdrgpcrs);
+	CConstraint *pcnstrEq = CConstraint::PcnstrFromScalarExpr(memory_pool, pexprEq, &pdrgpcrs);
+	PrintConstraint(memory_pool, pcnstrEq);
+	PrintEquivClasses(memory_pool, pdrgpcrs);
 
 	pcnstrEq->Release();
 	pexprEq->Release();
@@ -612,17 +612,17 @@ CConstraintTest::EresUnittest_CConstraintIntervalConvertsTo()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	// create a range which should convert to an IN array expression
@@ -635,24 +635,24 @@ CConstraintTest::EresUnittest_CConstraintIntervalConvertsTo()
 
 	// metadata id
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->Pmdid();
+	IMDId *pmdid = pmdtypeint8->MDId();
 
 	// get a column ref
-	CExpression *pexprGet = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
 	// create constraint
-	DrgPrng *pdrgprng = Pdrgprng(pmp, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
-	CConstraintInterval *pcnstin = GPOS_NEW(pmp) CConstraintInterval(pmp, pcr, pdrgprng, true);
+	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	CConstraintInterval *pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true);
 
-	PrintConstraint(pmp, pcnstin);
+	PrintConstraint(memory_pool, pcnstin);
 
 	// should convert to in
 	GPOS_ASSERT(pcnstin->FConvertsToIn());
 	GPOS_ASSERT(!pcnstin->FConvertsToNotIn());
 
-	CConstraintInterval *pcnstNotIn = pcnstin->PciComplement(pmp);
+	CConstraintInterval *pcnstNotIn = pcnstin->PciComplement(memory_pool);
 
 	// should convert to a not in statement after taking the complement
 	GPOS_ASSERT(pcnstNotIn->FConvertsToNotIn());
@@ -679,17 +679,17 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_RTL_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CAutoTraceFlag atf(EopttraceArrayConstraints, true);
@@ -704,10 +704,10 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 
 	// metadata id
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->Pmdid();
+	IMDId *pmdid = pmdtypeint8->MDId();
 
 	// get a column ref
-	CExpression *pexprGet = CTestUtils::PexprLogicalGet(pmp);
+	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
@@ -719,11 +719,11 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// IN CONSTRAINT FOR SIMPLE INTERVAL (WITHOUT NULL)
 
 	// create constraint
-	pdrgprng = Pdrgprng(pmp, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
-	pcnstin = GPOS_NEW(pmp) CConstraintInterval(pmp, pcr, pdrgprng, false);
+	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false);
 
-	pexpr = pcnstin->PexprScalar(pmp); // pexpr is owned by the constraint
-	PrintConstraint(pmp, pcnstin);
+	pexpr = pcnstin->PexprScalar(memory_pool); // pexpr is owned by the constraint
+	PrintConstraint(memory_pool, pcnstin);
 
 	GPOS_RTL_ASSERT(!pcnstin->FConvertsToNotIn());
 	GPOS_RTL_ASSERT(pcnstin->FConvertsToIn());
@@ -736,11 +736,11 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// IN CONSTRAINT FOR SIMPLE INTERVAL WITH NULL
 
 	// create constraint
-	pdrgprng = Pdrgprng(pmp, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
-	pcnstin = GPOS_NEW(pmp) CConstraintInterval(pmp, pcr, pdrgprng, true);
+	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true);
 
-	pexpr = pcnstin->PexprScalar(pmp); // pexpr is owned by the constraint
-	PrintConstraint(pmp, pcnstin);
+	pexpr = pcnstin->PexprScalar(memory_pool); // pexpr is owned by the constraint
+	PrintConstraint(memory_pool, pcnstin);
 
 	GPOS_RTL_ASSERT(!pcnstin->FConvertsToNotIn());
 	GPOS_RTL_ASSERT(pcnstin->FConvertsToIn());
@@ -753,14 +753,14 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// NOT IN CONSTRAINT FOR SIMPLE INTERVAL WITHOUT NULL
 
 	// create constraint
-	pdrgprng = Pdrgprng(pmp, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
-	pcnstin = GPOS_NEW(pmp) CConstraintInterval(pmp, pcr, pdrgprng, true);
+	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true);
 
-	pcnstNotIn = pcnstin->PciComplement(pmp);
+	pcnstNotIn = pcnstin->PciComplement(memory_pool);
 	pcnstin->Release();
 
-	pexpr = pcnstNotIn->PexprScalar(pmp); // pexpr is owned by the constraint
-	PrintConstraint(pmp, pcnstNotIn);
+	pexpr = pcnstNotIn->PexprScalar(memory_pool); // pexpr is owned by the constraint
+	PrintConstraint(memory_pool, pcnstNotIn);
 
 	GPOS_RTL_ASSERT(pcnstNotIn->FConvertsToNotIn());
 	GPOS_RTL_ASSERT(!pcnstNotIn->FConvertsToIn());
@@ -773,14 +773,14 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// NOT IN CONSTRAINT FOR SIMPLE INTERVAL WITH NULL
 
 	// create constraint
-	pdrgprng = Pdrgprng(pmp, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
-	pcnstin = GPOS_NEW(pmp) CConstraintInterval(pmp, pcr, pdrgprng, false);
+	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false);
 
-	pcnstNotIn = pcnstin->PciComplement(pmp);
+	pcnstNotIn = pcnstin->PciComplement(memory_pool);
 	pcnstin->Release();
 
-	pexpr = pcnstNotIn->PexprScalar(pmp); // pexpr is owned by the constraint
-	PrintConstraint(pmp, pcnstNotIn);
+	pexpr = pcnstNotIn->PexprScalar(memory_pool); // pexpr is owned by the constraint
+	PrintConstraint(memory_pool, pcnstNotIn);
 
 	GPOS_RTL_ASSERT(pcnstNotIn->FConvertsToNotIn());
 	GPOS_RTL_ASSERT(!pcnstNotIn->FConvertsToIn());
@@ -808,23 +808,23 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CAutoTraceFlag atf(EopttraceArrayConstraints, true);
 
 	// Create an IN array expression
-	CExpression *pexpr = CTestUtils::PexprLogicalSelectArrayCmp(pmp);
+	CExpression *pexpr = CTestUtils::PexprLogicalSelectArrayCmp(memory_pool);
 	// get a ref to the comparison column
 	CColRef *pcr = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput()->PcrAny();
 
@@ -832,7 +832,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 	CExpression *pexprArrayComp = (*pexpr->PdrgPexpr())[1];
 	GPOS_ASSERT(CUtils::FScalarArrayCmp(pexprArrayComp));
 
-	CConstraintInterval *pcnstIn = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprArrayComp, pcr);
+	CConstraintInterval *pcnstIn = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexprArrayComp, pcr);
 	GPOS_ASSERT(CConstraint::EctInterval == pcnstIn->Ect());
 	GPOS_ASSERT(pcnstIn->Pdrgprng()->Size() == CUtils::UlCountOperator(pexprArrayComp, COperator::EopScalarConst));
 
@@ -841,10 +841,10 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 
 	// test a NOT IN expression
 
-	CExpression *pexprNotIn = CTestUtils::PexprLogicalSelectArrayCmp(pmp, CScalarArrayCmp::EarrcmpAll, IMDType::EcmptNEq);
+	CExpression *pexprNotIn = CTestUtils::PexprLogicalSelectArrayCmp(memory_pool, CScalarArrayCmp::EarrcmpAll, IMDType::EcmptNEq);
 	CExpression *pexprArrayNotInComp = (*pexprNotIn->PdrgPexpr())[1];
 	CColRef *pcrNot = CDrvdPropRelational::Pdprel(pexprNotIn->PdpDerive())->PcrsOutput()->PcrAny();
-	CConstraintInterval *pcnstNotIn = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprArrayNotInComp, pcrNot);
+	CConstraintInterval *pcnstNotIn = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexprArrayNotInComp, pcrNot);
 	GPOS_ASSERT(CConstraint::EctInterval == pcnstNotIn->Ect());
 	// a NOT IN range array should have one more element than the expression array consts
 	GPOS_ASSERT(pcnstNotIn->Pdrgprng()->Size() == 1 + CUtils::UlCountOperator(pexprArrayNotInComp, COperator::EopScalarConst));
@@ -853,28 +853,28 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 	pcnstNotIn->Release();
 
 	// create an IN expression with repeated values
-	IntPtrArray *pdrgpi = GPOS_NEW(pmp) IntPtrArray(pmp);
+	IntPtrArray *pdrgpi = GPOS_NEW(memory_pool) IntPtrArray(memory_pool);
 	INT aiValsRepeat[] = {5,1,2,5,3,4,5};
 	ULONG aiValsLength = sizeof(aiValsRepeat)/sizeof(INT);
 	for (ULONG ul = 0; ul < aiValsLength; ul++)
 	{
-		pdrgpi->Append(GPOS_NEW(pmp) INT(aiValsRepeat[ul]));
+		pdrgpi->Append(GPOS_NEW(memory_pool) INT(aiValsRepeat[ul]));
 	}
 	CExpression *pexprInRepeatsSelect =
-			CTestUtils::PexprLogicalSelectArrayCmp(pmp, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pdrgpi);
+			CTestUtils::PexprLogicalSelectArrayCmp(memory_pool, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pdrgpi);
 	CColRef *pcrInRepeats = CDrvdPropRelational::Pdprel(pexprInRepeatsSelect->PdpDerive())->PcrsOutput()->PcrAny();
 	CExpression *pexprArrayCmpRepeats = (*pexprInRepeatsSelect->PdrgPexpr())[1];
 	// add 2 repeated values and one unique
-	CConstraintInterval *pcnstInRepeats = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprArrayCmpRepeats, pcrInRepeats);
+	CConstraintInterval *pcnstInRepeats = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexprArrayCmpRepeats, pcrInRepeats);
 	GPOS_ASSERT(5 == pcnstInRepeats->Pdrgprng()->Size());
 	pexprInRepeatsSelect->Release();
 	pcnstInRepeats->Release();
 
 	// create a NOT IN expression with repeated values
-	CExpression *pexprNotInRepeatsSelect = CTestUtils::PexprLogicalSelectArrayCmp(pmp, CScalarArrayCmp::EarrcmpAll, IMDType::EcmptNEq, pdrgpi);
+	CExpression *pexprNotInRepeatsSelect = CTestUtils::PexprLogicalSelectArrayCmp(memory_pool, CScalarArrayCmp::EarrcmpAll, IMDType::EcmptNEq, pdrgpi);
 	CColRef *pcrNotInRepeats = CDrvdPropRelational::Pdprel(pexprNotInRepeatsSelect->PdpDerive())->PcrsOutput()->PcrAny();
 	CExpression *pexprNotInArrayCmpRepeats = (*pexprNotInRepeatsSelect->PdrgPexpr())[1];
-	CConstraintInterval *pcnstNotInRepeats = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprNotInArrayCmpRepeats, pcrNotInRepeats);
+	CConstraintInterval *pcnstNotInRepeats = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexprNotInArrayCmpRepeats, pcrNotInRepeats);
 	// a total of 5 unique ScalarConsts in the expression will result in 6 ranges
 	GPOS_ASSERT(6 == pcnstNotInRepeats->Pdrgprng()->Size());
 	pexprNotInRepeatsSelect->Release();
@@ -899,44 +899,44 @@ EresUnittest_CConstraintIntervalFromArrayExprIncludesNull()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CAutoTraceFlag atf(EopttraceArrayConstraints, true);
 
 	// test for includes NULL
 	// create an IN expression with repeated values
-	IntPtrArray *pdrgpi = GPOS_NEW(pmp) IntPtrArray(pmp);
+	IntPtrArray *pdrgpi = GPOS_NEW(memory_pool) IntPtrArray(memory_pool);
 	INT rngiValues[] = {1,2};
 	ULONG ulValsLength = GPOS_ARRAY_SIZE(rngiValues);
 	for (ULONG ul = 0; ul < ulValsLength; ul++)
 	{
-		pdrgpi->Append(GPOS_NEW(pmp) INT(rngiValues[ul]));
+		pdrgpi->Append(GPOS_NEW(memory_pool) INT(rngiValues[ul]));
 	}
 	CExpression *pexprIn =
-		CTestUtils::PexprLogicalSelectArrayCmp(pmp, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pdrgpi);
+		CTestUtils::PexprLogicalSelectArrayCmp(memory_pool, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pdrgpi);
 
 	CExpression *pexprArrayChild = (*(*pexprIn)[1])[1];
 	// create a int4 datum
 	const IMDTypeInt4 *pmdtypeint4 = mda.PtMDType<IMDTypeInt4>();
-	IDatumInt4 *pdatumNull =  pmdtypeint4->PdatumInt4(pmp, 0, true);
+	IDatumInt4 *pdatumNull =  pmdtypeint4->PdatumInt4(memory_pool, 0, true);
 
 	CExpression *pexprConstNull =
-		GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarConst(pmp, (IDatum*) pdatumNull));
+		GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, (IDatum*) pdatumNull));
 	pexprArrayChild->PdrgPexpr()->Append(pexprConstNull);
 
 	CColRef *pcr = CDrvdPropRelational::Pdprel(pexprIn->PdpDerive())->PcrsOutput()->PcrAny();
-	CConstraintInterval *pci = CConstraintInterval::PciIntervalFromScalarExpr(pmp, (*pexprIn)[1], pcr);
+	CConstraintInterval *pci = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, (*pexprIn)[1], pcr);
 	GPOS_RTL_ASSERT(pci->FIncludesNull());
 	GPOS_RTL_ASSERT(2 == pci->Pdrgprng()->Size());
 	pexprIn->Release();
@@ -957,7 +957,7 @@ EresUnittest_CConstraintIntervalFromArrayExprIncludesNull()
 GPOS_RESULT
 CConstraintTest::EresUnittest_CIntervalFromScalarCmp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CColRef *pcr
 	)
@@ -974,9 +974,9 @@ CConstraintTest::EresUnittest_CIntervalFromScalarCmp
 
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgecmpt); ul++)
 	{
-		CExpression *pexprScCmp = PexprScalarCmp(pmp, pmda, pcr, rgecmpt[ul], 4);
-		CConstraintInterval *pci = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexprScCmp, pcr);
-		PrintConstraint(pmp, pci);
+		CExpression *pexprScCmp = PexprScalarCmp(memory_pool, pmda, pcr, rgecmpt[ul], 4);
+		CConstraintInterval *pci = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexprScCmp, pcr);
+		PrintConstraint(memory_pool, pci);
 
 		pci->Release();
 		pexprScCmp->Release();
@@ -996,48 +996,48 @@ CConstraintTest::EresUnittest_CIntervalFromScalarCmp
 GPOS_RESULT
 CConstraintTest::EresUnittest_CIntervalFromScalarBoolOp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CColRef *pcr
 	)
 {
 	// AND
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
-	pdrgpexpr->Append(PexprScalarCmp(pmp, pmda, pcr, IMDType::EcmptL, 5));
-	pdrgpexpr->Append(PexprScalarCmp(pmp, pmda, pcr, IMDType::EcmptGEq, 0));
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptL, 5));
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptGEq, 0));
 
-	CExpression *pexpr = CUtils::PexprScalarBoolOp(pmp, CScalarBoolOp::EboolopAnd, pdrgpexpr);
+	CExpression *pexpr = CUtils::PexprScalarBoolOp(memory_pool, CScalarBoolOp::EboolopAnd, pdrgpexpr);
 	(void) pexpr->PdpDerive();
 
-	CConstraintInterval *pciAnd = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexpr, pcr);
-	PrintConstraint(pmp, pciAnd);
+	CConstraintInterval *pciAnd = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexpr, pcr);
+	PrintConstraint(memory_pool, pciAnd);
 
 	pciAnd->Release();
 	(void) pexpr->Release();
 
 	// OR
-	pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
-	pdrgpexpr->Append(PexprScalarCmp(pmp, pmda, pcr, IMDType::EcmptL, 5));
-	pdrgpexpr->Append(PexprScalarCmp(pmp, pmda, pcr, IMDType::EcmptGEq, 10));
+	pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptL, 5));
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptGEq, 10));
 
-	pexpr = CUtils::PexprScalarBoolOp(pmp, CScalarBoolOp::EboolopOr, pdrgpexpr);
+	pexpr = CUtils::PexprScalarBoolOp(memory_pool, CScalarBoolOp::EboolopOr, pdrgpexpr);
 	(void) pexpr->PdpDerive();
 
-	CConstraintInterval *pciOr = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexpr, pcr);
-	PrintConstraint(pmp, pciOr);
+	CConstraintInterval *pciOr = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexpr, pcr);
+	PrintConstraint(memory_pool, pciOr);
 
 	pciOr->Release();
 	pexpr->Release();
 
 	// NOT
-	pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
-	pdrgpexpr->Append(CUtils::PexprIsNull(pmp, CUtils::PexprScalarIdent(pmp, pcr)));
+	pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	pdrgpexpr->Append(CUtils::PexprIsNull(memory_pool, CUtils::PexprScalarIdent(memory_pool, pcr)));
 
-	pexpr = CUtils::PexprScalarBoolOp(pmp, CScalarBoolOp::EboolopNot, pdrgpexpr);
+	pexpr = CUtils::PexprScalarBoolOp(memory_pool, CScalarBoolOp::EboolopNot, pdrgpexpr);
 	(void) pexpr->PdpDerive();
 
-	CConstraintInterval *pciNot = CConstraintInterval::PciIntervalFromScalarExpr(pmp, pexpr, pcr);
-	PrintConstraint(pmp, pciNot);
+	CConstraintInterval *pciNot = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexpr, pcr);
+	PrintConstraint(memory_pool, pciNot);
 
 	pciNot->Release();
 	pexpr->Release();
@@ -1056,14 +1056,14 @@ CConstraintTest::EresUnittest_CIntervalFromScalarBoolOp
 CExpression *
 CConstraintTest::PexprScalarCmp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CColRef *pcr,
 	IMDType::ECmpType ecmpt,
 	LINT lVal
 	)
 {
-	CExpression *pexprConst = CUtils::PexprScalarConstInt8(pmp, lVal);
+	CExpression *pexprConst = CUtils::PexprScalarConstInt8(memory_pool, lVal);
 
 	const IMDTypeInt8 *pmdtypeint8 = pmda->PtMDType<IMDTypeInt8>();
 	IMDId *pmdidOp = pmdtypeint8->PmdidCmp(ecmpt);
@@ -1073,7 +1073,7 @@ CConstraintTest::PexprScalarCmp
 
 	CWStringConst strOpName(mdname.Pstr()->GetBuffer());
 
-	CExpression *pexpr = CUtils::PexprScalarCmp(pmp, pcr, pexprConst, strOpName, pmdidOp);
+	CExpression *pexpr = CUtils::PexprScalarCmp(memory_pool, pcr, pexprConst, strOpName, pmdidOp);
 	(void) pexpr->PdpDerive();
 	return pexpr;
 }
@@ -1089,7 +1089,7 @@ CConstraintTest::PexprScalarCmp
 CConstraintInterval *
 CConstraintTest::PciFirstInterval
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CColRef *pcr
 	)
@@ -1103,9 +1103,9 @@ CConstraintTest::PciFirstInterval
 				{CRange::EriExcluded, 20, CRange::EriExcluded, 1000},
 			};
 
-	DrgPrng *pdrgprng = Pdrgprng(pmp, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
+	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
 
-	return GPOS_NEW(pmp) CConstraintInterval(pmp, pcr, pdrgprng, true /*fIsNull*/);
+	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true /*fIsNull*/);
 }
 
 //---------------------------------------------------------------------------
@@ -1119,7 +1119,7 @@ CConstraintTest::PciFirstInterval
 CConstraintInterval *
 CConstraintTest::PciSecondInterval
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CColRef *pcr
 	)
@@ -1131,9 +1131,9 @@ CConstraintTest::PciSecondInterval
 				{CRange::EriExcluded, 10, CRange::EriExcluded, 25},
 			};
 
-	DrgPrng *pdrgprng = Pdrgprng(pmp, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
+	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
 
-	return GPOS_NEW(pmp) CConstraintInterval(pmp, pcr, pdrgprng, false /*fIsNull*/);
+	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false /*fIsNull*/);
 }
 
 //---------------------------------------------------------------------------
@@ -1147,25 +1147,25 @@ CConstraintTest::PciSecondInterval
 DrgPrng *
 CConstraintTest::Pdrgprng
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	const SRangeInfo rgRangeInfo[],
 	ULONG ulRanges
 	)
 {
-	DrgPrng *pdrgprng = GPOS_NEW(pmp) DrgPrng(pmp);
+	DrgPrng *pdrgprng = GPOS_NEW(memory_pool) DrgPrng(memory_pool);
 
 	for (ULONG ul = 0; ul < ulRanges; ul++)
 	{
 		SRangeInfo rnginfo = rgRangeInfo[ul];
 		pmdid->AddRef();
-		CRange *prange = GPOS_NEW(pmp) CRange
+		CRange *prange = GPOS_NEW(memory_pool) CRange
 									(
 									pmdid,
 									COptCtxt::PoctxtFromTLS()->Pcomp(),
-									GPOS_NEW(pmp) CDatumInt8GPDB(CTestUtils::m_sysidDefault, (LINT) rnginfo.iLeft),
+									GPOS_NEW(memory_pool) CDatumInt8GPDB(CTestUtils::m_sysidDefault, (LINT) rnginfo.iLeft),
 									rnginfo.eriLeft,
-									GPOS_NEW(pmp) CDatumInt8GPDB(CTestUtils::m_sysidDefault, (LINT) rnginfo.iRight),
+									GPOS_NEW(memory_pool) CDatumInt8GPDB(CTestUtils::m_sysidDefault, (LINT) rnginfo.iRight),
 									rnginfo.eriRight
 									);
 		pdrgprng->Append(prange);
@@ -1186,14 +1186,14 @@ CConstraintTest::Pdrgprng
 void
 CConstraintTest::PrintConstraint
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CConstraint *pcnstr
 	)
 {
-	CExpression *pexpr = pcnstr->PexprScalar(pmp);
+	CExpression *pexpr = pcnstr->PexprScalar(memory_pool);
 
 	// debug print
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 	at.Os() << std::endl;
 	at.Os() << "CONSTRAINT:" << std::endl << *pcnstr << std::endl << "EXPR:" << std::endl << *pexpr << std::endl;
 }
@@ -1209,13 +1209,13 @@ CConstraintTest::PrintConstraint
 void
 CConstraintTest::PrintEquivClasses
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcrs *pdrgpcrs,
 	BOOL fExpected
 	)
 {
 	// debug print
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 	at.Os() << std::endl;
 	if (fExpected)
 	{
@@ -1256,7 +1256,7 @@ CConstraintTest::EresUnittest_NegativeTests()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
@@ -1275,22 +1275,22 @@ CConstraintTest::EresUnittest_NegativeTests()
 
 	CMDAccessor::MDCache *pcache = apcache.Value();
 
-	CMDAccessor mda(pmp, pcache, CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, pcache, CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	const IMDType *pmdtype = mda.Pmdtype(&CMDIdGPDB::m_mdidText);
 	CWStringConst str(GPOS_WSZ_LIT("text_col"));
-	CName name(pmp, &str);
+	CName name(memory_pool, &str);
 	CAutoP<CColRef> pcr(COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pmdtype, IDefaultTypeModifier, name));
 
 	// create a text interval: ['baz', 'foobar')
-	CAutoP<CWStringDynamic> pstrLower1(GPOS_NEW(pmp) CWStringDynamic(pmp, GPOS_WSZ_LIT("AAAAB2Jheg==")));
-	CAutoP<CWStringDynamic> pstrUpper1(GPOS_NEW(pmp) CWStringDynamic(pmp, GPOS_WSZ_LIT("AAAACmZvb2Jhcg==")));
+	CAutoP<CWStringDynamic> pstrLower1(GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, GPOS_WSZ_LIT("AAAAB2Jheg==")));
+	CAutoP<CWStringDynamic> pstrUpper1(GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, GPOS_WSZ_LIT("AAAACmZvb2Jhcg==")));
 	const LINT lLower1 = 571163436;
 	const LINT lUpper1 = 322061118;
 
@@ -1298,7 +1298,7 @@ CConstraintTest::EresUnittest_NegativeTests()
 	CConstraintInterval *pciFirst =
 					CTestUtils::PciGenericInterval
 						(
-						pmp,
+						memory_pool,
 						&mda,
 						CMDIdGPDB::m_mdidText,
 						pcr.Value(),
@@ -1309,7 +1309,7 @@ CConstraintTest::EresUnittest_NegativeTests()
 						lUpper1,
 						CRange::EriExcluded
 						);
-	PrintConstraint(pmp, pciFirst);
+	PrintConstraint(memory_pool, pciFirst);
 	pciFirst->Release();
 
 	return GPOS_OK;
@@ -1330,31 +1330,31 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(pmp) CConstExprEvaluatorForDates(pmp);
+	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, pceeval, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	const IMDType *pmdtype = mda.Pmdtype(&CMDIdGPDB::m_mdidDate);
 	CWStringConst str(GPOS_WSZ_LIT("date_col"));
-	CName name(pmp, &str);
+	CName name(memory_pool, &str);
 	CAutoP<CColRef> pcr(COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pmdtype, IDefaultTypeModifier, name));
 
 	// create a date interval: ['01-01-2012', '01-21-2012')
-	CWStringDynamic pstrLowerDate1(pmp, wszInternalRepresentationFor2012_01_01);
-	CWStringDynamic pstrUpperDate1(pmp, wszInternalRepresentationFor2012_01_21);
+	CWStringDynamic pstrLowerDate1(memory_pool, wszInternalRepresentationFor2012_01_01);
+	CWStringDynamic pstrUpperDate1(memory_pool, wszInternalRepresentationFor2012_01_21);
 	CConstraintInterval *pciFirst =
 			CTestUtils::PciGenericInterval
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
 				pcr.Value(),
@@ -1365,15 +1365,15 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				lInternalRepresentationFor2012_01_21,
 				CRange::EriExcluded
 				);
-	PrintConstraint(pmp, pciFirst);
+	PrintConstraint(memory_pool, pciFirst);
 
 	// create a date interval: ['01-02-2012', '01-22-2012')
-	CWStringDynamic pstrLowerDate2(pmp, wszInternalRepresentationFor2012_01_02);
-	CWStringDynamic pstrUpperDate2(pmp, wszInternalRepresentationFor2012_01_22);
+	CWStringDynamic pstrLowerDate2(memory_pool, wszInternalRepresentationFor2012_01_02);
+	CWStringDynamic pstrUpperDate2(memory_pool, wszInternalRepresentationFor2012_01_22);
 	CConstraintInterval *pciSecond =
 			CTestUtils::PciGenericInterval
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
 				pcr.Value(),
@@ -1384,15 +1384,15 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 				lInternalRepresentationFor2012_01_22,
 				CRange::EriExcluded
 				);
-	PrintConstraint(pmp, pciSecond);
+	PrintConstraint(memory_pool, pciSecond);
 
 	// intersection
-	CConstraintInterval *pciIntersect = pciFirst->PciIntersect(pmp, pciSecond);
-	PrintConstraint(pmp, pciIntersect);
+	CConstraintInterval *pciIntersect = pciFirst->PciIntersect(memory_pool, pciSecond);
+	PrintConstraint(memory_pool, pciIntersect);
 	CConstraintInterval *pciIntersectExpected =
 			CTestUtils::PciGenericInterval
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
 				pcr.Value(),
@@ -1406,12 +1406,12 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 	GPOS_ASSERT(pciIntersectExpected->Equals(pciIntersect));
 
 	// union
-	CConstraintInterval *pciUnion = pciFirst->PciUnion(pmp, pciSecond);
-	PrintConstraint(pmp, pciUnion);
+	CConstraintInterval *pciUnion = pciFirst->PciUnion(memory_pool, pciSecond);
+	PrintConstraint(memory_pool, pciUnion);
 	CConstraintInterval *pciUnionExpected =
 			CTestUtils::PciGenericInterval
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
 				pcr.Value(),
@@ -1425,12 +1425,12 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 	GPOS_ASSERT(pciUnionExpected->Equals(pciUnion));
 
 	// difference between pciFirst and pciSecond
-	CConstraintInterval *pciDiff1 = pciFirst->PciDifference(pmp, pciSecond);
-	PrintConstraint(pmp, pciDiff1);
+	CConstraintInterval *pciDiff1 = pciFirst->PciDifference(memory_pool, pciSecond);
+	PrintConstraint(memory_pool, pciDiff1);
 	CConstraintInterval *pciDiff1Expected =
 			CTestUtils::PciGenericInterval
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
 				pcr.Value(),
@@ -1444,12 +1444,12 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 	GPOS_ASSERT(pciDiff1Expected->Equals(pciDiff1));
 
 	// difference between pciSecond and pciFirst
-	CConstraintInterval *pciDiff2 = pciSecond->PciDifference(pmp, pciFirst);
-	PrintConstraint(pmp, pciDiff2);
+	CConstraintInterval *pciDiff2 = pciSecond->PciDifference(memory_pool, pciFirst);
+	PrintConstraint(memory_pool, pciDiff2);
 	CConstraintInterval *pciDiff2Expected =
 			CTestUtils::PciGenericInterval
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
 				pcr.Value(),
@@ -1475,7 +1475,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 	CConstraintInterval *pciThird =
 			CTestUtils::PciGenericInterval
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				CMDIdGPDB::m_mdidDate,
 				pcr.Value(),

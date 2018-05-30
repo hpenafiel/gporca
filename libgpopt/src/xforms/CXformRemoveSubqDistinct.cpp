@@ -20,18 +20,18 @@ using namespace gpopt;
 
 CXformRemoveSubqDistinct::CXformRemoveSubqDistinct
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	// pattern
 	CXformExploration
 	(
-	GPOS_NEW(pmp) CExpression
+	GPOS_NEW(memory_pool) CExpression
 			(
-			pmp,
-			GPOS_NEW(pmp) CLogicalSelect(pmp),
-			GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)), // relational child
-			GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp))	// predicate tree
+			memory_pool,
+			GPOS_NEW(memory_pool) CLogicalSelect(memory_pool),
+			GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)), // relational child
+			GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool))	// predicate tree
 			)
 	)
 {}
@@ -105,7 +105,7 @@ CXformRemoveSubqDistinct::Transform
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 	CExpression *pexprScalar = (*pexpr)[1];
 	CExpression *pexprGbAgg = (*pexprScalar)[0];
 
@@ -124,21 +124,21 @@ CXformRemoveSubqDistinct::Transform
 			if (CUtils::FExistentialSubquery(pop))
 			{
 				// EXIST/NOT EXIST scalar subquery
-				pexprNewScalar = GPOS_NEW(pmp) CExpression(pmp, pop, pexprRelChild);
+				pexprNewScalar = GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pexprRelChild);
 			}
 			else
 			{
 				// IN/NOT IN scalar subquery
 				CExpression *pexprScalarIdent = (*pexprScalar)[1];
 				pexprScalarIdent->AddRef();
-				pexprNewScalar = GPOS_NEW(pmp) CExpression(pmp, pop, pexprRelChild, pexprScalarIdent);
+				pexprNewScalar = GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pexprRelChild, pexprScalarIdent);
 			}
 
 			pexpr->Pop()->AddRef(); // logical select operator
 			(*pexpr)[0]->AddRef(); // relational child of logical select
 
 			// new logical select expression
-			CExpression *ppexprNew = GPOS_NEW(pmp) CExpression(pmp, pexpr->Pop(), (*pexpr)[0], pexprNewScalar);
+			CExpression *ppexprNew = GPOS_NEW(memory_pool) CExpression(memory_pool, pexpr->Pop(), (*pexpr)[0], pexprNewScalar);
 			pxfres->Add(ppexprNew);
 		}
 	}

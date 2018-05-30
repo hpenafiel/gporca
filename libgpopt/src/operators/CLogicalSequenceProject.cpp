@@ -33,13 +33,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalSequenceProject::CLogicalSequenceProject
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDistributionSpec *pds,
 	DrgPos *pdrgpos,
 	DrgPwf *pdrgpwf
 	)
 	:
-	CLogicalUnary(pmp),
+	CLogicalUnary(memory_pool),
 	m_pds(pds),
 	m_pdrgpos(pdrgpos),
 	m_pdrgpwf(pdrgpwf),
@@ -53,17 +53,17 @@ CLogicalSequenceProject::CLogicalSequenceProject
 			CDistributionSpec::EdtSingleton == pds->Edt());
 
 	// set flags indicating that current operator has non-empty order specs/frame specs
-	SetHasOrderSpecs(pmp);
-	SetHasFrameSpecs(pmp);
+	SetHasOrderSpecs(memory_pool);
+	SetHasFrameSpecs(memory_pool);
 
 	// include columns used by Partition By, Order By, and window frame edges
-	CColRefSet *pcrsSort = COrderSpec::Pcrs(pmp, m_pdrgpos);
+	CColRefSet *pcrsSort = COrderSpec::Pcrs(memory_pool, m_pdrgpos);
 	m_pcrsLocalUsed->Include(pcrsSort);
 	pcrsSort->Release();
 
 	if (CDistributionSpec::EdtHashed == m_pds->Edt())
 	{
-		CColRefSet *pcrsHashed = CDistributionSpecHashed::PdsConvert(m_pds)->PcrsUsed(pmp);
+		CColRefSet *pcrsHashed = CDistributionSpecHashed::PdsConvert(m_pds)->PcrsUsed(memory_pool);
 		m_pcrsLocalUsed->Include(pcrsHashed);
 		pcrsHashed->Release();
 	}
@@ -89,10 +89,10 @@ CLogicalSequenceProject::CLogicalSequenceProject
 //---------------------------------------------------------------------------
 CLogicalSequenceProject::CLogicalSequenceProject
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalUnary(pmp),
+	CLogicalUnary(memory_pool),
 	m_pds(NULL),
 	m_pdrgpos(NULL),
 	m_pdrgpwf(NULL),
@@ -129,30 +129,30 @@ CLogicalSequenceProject::~CLogicalSequenceProject()
 COperator *
 CLogicalSequenceProject::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
-	CDistributionSpec *pds = m_pds->PdsCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
+	CDistributionSpec *pds = m_pds->PdsCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
-	DrgPos *pdrgpos = GPOS_NEW(pmp) DrgPos(pmp);
+	DrgPos *pdrgpos = GPOS_NEW(memory_pool) DrgPos(memory_pool);
 	const ULONG ulOrderSpec = m_pdrgpos->Size();
 	for (ULONG ul = 0; ul < ulOrderSpec; ul++)
 	{
-		COrderSpec *pos = ((*m_pdrgpos)[ul])->PosCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
+		COrderSpec *pos = ((*m_pdrgpos)[ul])->PosCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 		pdrgpos->Append(pos);
 	}
 
-	DrgPwf *pdrgpwf = GPOS_NEW(pmp) DrgPwf(pmp);
+	DrgPwf *pdrgpwf = GPOS_NEW(memory_pool) DrgPwf(memory_pool);
 	const ULONG ulWindowFrames = m_pdrgpwf->Size();
 	for (ULONG ul = 0; ul < ulWindowFrames; ul++)
 	{
-		CWindowFrame *pwf = ((*m_pdrgpwf)[ul])->PwfCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
+		CWindowFrame *pwf = ((*m_pdrgpwf)[ul])->PwfCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 		pdrgpwf->Append(pwf);
 	}
 
-	return GPOS_NEW(pmp) CLogicalSequenceProject(pmp, pds, pdrgpos, pdrgpwf);
+	return GPOS_NEW(memory_pool) CLogicalSequenceProject(memory_pool, pds, pdrgpos, pdrgpwf);
 }
 
 
@@ -167,7 +167,7 @@ CLogicalSequenceProject::PopCopyWithRemappedColumns
 void
 CLogicalSequenceProject::SetHasOrderSpecs
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	GPOS_ASSERT(NULL != m_pdrgpos);
@@ -176,7 +176,7 @@ CLogicalSequenceProject::SetHasOrderSpecs
 	if (0 == ulOrderSpecs)
 	{
 		// if no order specs are given, we add one empty order spec
-		m_pdrgpos->Append(GPOS_NEW(pmp) COrderSpec(pmp));
+		m_pdrgpos->Append(GPOS_NEW(memory_pool) COrderSpec(memory_pool));
 	}
 	BOOL fHasOrderSpecs = false;
 	for (ULONG ul = 0; !fHasOrderSpecs && ul < ulOrderSpecs; ul++)
@@ -198,7 +198,7 @@ CLogicalSequenceProject::SetHasOrderSpecs
 void
 CLogicalSequenceProject::SetHasFrameSpecs
 	(
-	IMemoryPool * // pmp
+	IMemoryPool * // memory_pool
 	)
 {
 	GPOS_ASSERT(NULL != m_pdrgpwf);
@@ -231,13 +231,13 @@ CLogicalSequenceProject::SetHasFrameSpecs
 CColRefSet *
 CLogicalSequenceProject::PcrsDeriveOutput
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
 	GPOS_ASSERT(2 == exprhdl.UlArity());
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	pcrs->Union(exprhdl.Pdprel(0)->PcrsOutput());
 
@@ -259,11 +259,11 @@ CLogicalSequenceProject::PcrsDeriveOutput
 CColRefSet *
 CLogicalSequenceProject::PcrsDeriveOuter
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
-	CColRefSet *pcrsOuter = CLogical::PcrsDeriveOuter(pmp, exprhdl, m_pcrsLocalUsed);
+	CColRefSet *pcrsOuter = CLogical::PcrsDeriveOuter(memory_pool, exprhdl, m_pcrsLocalUsed);
 
 	return pcrsOuter;
 }
@@ -303,7 +303,7 @@ CLogicalSequenceProject::FHasLocalOuterRefs
 CKeyCollection *
 CLogicalSequenceProject::PkcDeriveKeys
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -323,7 +323,7 @@ CLogicalSequenceProject::PkcDeriveKeys
 CMaxCard
 CLogicalSequenceProject::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -393,11 +393,11 @@ CLogicalSequenceProject::HashValue() const
 CXformSet *
 CLogicalSequenceProject::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfSequenceProject2Apply);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementSequenceProject);
 
@@ -416,13 +416,13 @@ CLogicalSequenceProject::PxfsCandidates
 IStatistics *
 CLogicalSequenceProject::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat * // pdrgpstatCtxt
 	)
 	const
 {
-	return PstatsDeriveProject(pmp, exprhdl);
+	return PstatsDeriveProject(memory_pool, exprhdl);
 }
 
 //---------------------------------------------------------------------------
@@ -465,7 +465,7 @@ CLogicalSequenceProject::OsPrint
 CLogicalSequenceProject *
 CLogicalSequenceProject::PopRemoveLocalOuterRefs
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
@@ -475,11 +475,11 @@ CLogicalSequenceProject::PopRemoveLocalOuterRefs
 	CDistributionSpec *pds = m_pds;
 	if (CDistributionSpec::EdtHashed == m_pds->Edt())
 	{
-		pds = CDistributionSpecHashed::PdsConvert(m_pds)->PdshashedExcludeColumns(pmp, pcrsOuter);
+		pds = CDistributionSpecHashed::PdsConvert(m_pds)->PdshashedExcludeColumns(memory_pool, pcrsOuter);
 		if (NULL == pds)
 		{
 			// eliminate Partition clause
-			pds = GPOS_NEW(pmp) CDistributionSpecSingleton(CDistributionSpecSingleton::EstMaster);
+			pds = GPOS_NEW(memory_pool) CDistributionSpecSingleton(CDistributionSpecSingleton::EstMaster);
 		}
 	}
 	else
@@ -487,14 +487,14 @@ CLogicalSequenceProject::PopRemoveLocalOuterRefs
 		pds->AddRef();
 	}
 
-	DrgPos *pdrgpos = COrderSpec::PdrgposExclude(pmp, m_pdrgpos, pcrsOuter);
+	DrgPos *pdrgpos = COrderSpec::PdrgposExclude(memory_pool, m_pdrgpos, pcrsOuter);
 
 	// for window frame edges, outer references cannot be removed since this can change
 	// the semantics of frame edge from delayed-bounding to unbounded,
 	// we re-use the frame edges without changing here
 	m_pdrgpwf->AddRef();
 
-	return GPOS_NEW(pmp) CLogicalSequenceProject(pmp, pds, pdrgpos, m_pdrgpwf);
+	return GPOS_NEW(memory_pool) CLogicalSequenceProject(memory_pool, pds, pdrgpos, m_pdrgpwf);
 }
 
 // EOF

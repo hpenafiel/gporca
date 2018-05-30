@@ -31,13 +31,13 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerScalarCoalesce::CParseHandlerScalarCoalesce
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
-	m_pmdidType(NULL)
+	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, pphRoot),
+	m_mdid_type(NULL)
 {
 }
 
@@ -58,10 +58,10 @@ CParseHandlerScalarCoalesce::StartElement
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarCoalesce), element_local_name) && NULL == m_pmdidType)
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarCoalesce), element_local_name) && NULL == m_mdid_type)
 	{
 		// parse type id
-		m_pmdidType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarCoalesce);
+		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarCoalesce);
 	}
 	else
 	{
@@ -99,7 +99,7 @@ CParseHandlerScalarCoalesce::EndElement
 	}
 
 	// construct node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCoalesce(m_memory_pool, m_pmdidType));
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCoalesce(m_memory_pool, m_mdid_type));
 
 	// loop over children and add them to this parsehandler
 	const ULONG ulChildren = this->Length();

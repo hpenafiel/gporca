@@ -49,7 +49,7 @@ namespace gpos
 			// ctor
 			CMiniDumper
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				);
 
 			// dtor

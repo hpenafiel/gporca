@@ -44,16 +44,16 @@ const WCHAR CScalarBitmapBoolOp::m_rgwszBitmapOpType[EbitmapboolSentinel][30] =
 //---------------------------------------------------------------------------
 CScalarBitmapBoolOp::CScalarBitmapBoolOp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EBitmapBoolOp ebitmapboolop,
 	IMDId *pmdidBitmapType
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_ebitmapboolop(ebitmapboolop),
 	m_pmdidBitmapType(pmdidBitmapType)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(EbitmapboolSentinel > ebitmapboolop);
 	GPOS_ASSERT(NULL != pmdidBitmapType);
 }

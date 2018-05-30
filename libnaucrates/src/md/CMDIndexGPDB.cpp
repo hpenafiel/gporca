@@ -33,7 +33,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDIndexGPDB::CMDIndexGPDB
 	(
-	IMemoryPool *pmp, 
+	IMemoryPool *memory_pool, 
 	IMDId *pmdid, 
 	CMDName *pmdname,
 	BOOL fClustered, 
@@ -45,7 +45,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	IMDPartConstraint *pmdpartcnstr
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_fClustered(fClustered),
@@ -90,14 +90,14 @@ CMDIndexGPDB::~CMDIndexGPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIndexGPDB::Pmdid
+//		CMDIndexGPDB::MDId
 //
 //	@doc:
 //		Returns the metadata id of this index
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDIndexGPDB::Pmdid() const
+CMDIndexGPDB::MDId() const
 {
 	return m_pmdid;
 }
@@ -347,7 +347,7 @@ CMDIndexGPDB::DebugPrint
 	const
 {
 	os << "Index id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 	
 	os << "Index name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;

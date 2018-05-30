@@ -25,13 +25,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformResult::CXformResult
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	m_ulExpr(0)
 {
-	GPOS_ASSERT(NULL != pmp);
-	m_pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	GPOS_ASSERT(NULL != memory_pool);
+	m_pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 }
 
 

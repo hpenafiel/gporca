@@ -34,12 +34,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDIndex::CParseHandlerMDIndex
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_fClustered(false),
@@ -190,7 +190,7 @@ CParseHandlerMDIndex::EndElement
 	DrgPmdid *pdrgpmdidOpClasses = pphMdidOpClasses->Pdrgpmdid();
 	pdrgpmdidOpClasses->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_memory_pool) CMDIndexGPDB
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDIndexGPDB
 							(
 							m_memory_pool, 
 							m_pmdid, 

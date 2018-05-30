@@ -26,12 +26,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalAgg::CDXLPhysicalAgg
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EdxlAggStrategy edxlaggstr,
 	BOOL fStreamSafe
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pdrgpulGroupingCols(NULL),
 	m_edxlaggstr(edxlaggstr),
 	m_fStreamSafe(fStreamSafe)

@@ -33,16 +33,16 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarArrayCoerceExpr::CDXLScalarArrayCoerceExpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidElementFunc,
 	IMDId *pmdidResultType,
-	INT iTypeModifier,
+	INT type_modifier,
 	BOOL fIsExplicit,
 	EdxlCoercionForm edxlcf,
 	INT iLoc
 	)
 	:
-	CDXLScalarCoerceBase(pmp, pmdidResultType, iTypeModifier, edxlcf, iLoc),
+	CDXLScalarCoerceBase(memory_pool, pmdidResultType, type_modifier, edxlcf, iLoc),
 	m_pmdidElementFunc(pmdidElementFunc),
 	m_fIsExplicit(fIsExplicit)
 {

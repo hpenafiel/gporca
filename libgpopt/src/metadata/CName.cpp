@@ -29,13 +29,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CName::CName
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CWStringBase *pstr
 	)
 	:m_pstrName(NULL),
 	 m_fDeepCopy(true)
 {
-	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstr->GetBuffer());
+	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstr->GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -73,7 +73,7 @@ CName::CName
 //---------------------------------------------------------------------------
 CName::CName
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CName &nameFirst,
 	const CName &nameSecond
 	)
@@ -81,10 +81,10 @@ CName::CName
 	m_pstrName(NULL),
 	m_fDeepCopy(false)
 {
-	CWStringDynamic *pstrTmp = GPOS_NEW(pmp) CWStringDynamic(pmp, (nameFirst.Pstr())->GetBuffer());
+	CWStringDynamic *pstrTmp = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, (nameFirst.Pstr())->GetBuffer());
 	pstrTmp->Append(nameSecond.Pstr());
 	
-	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstrTmp->GetBuffer());
+	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrTmp->GetBuffer());
 	m_fDeepCopy = true;
 	
 	// release tmp string
@@ -125,14 +125,14 @@ CName::CName
 //---------------------------------------------------------------------------
 CName::CName
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CName &name
 	)
 	:
 	m_pstrName(NULL),
 	m_fDeepCopy(false)
 {
-	DeepCopy(pmp, name.Pstr());
+	DeepCopy(memory_pool, name.Pstr());
 }
 
 
@@ -167,11 +167,11 @@ CName::~CName()
 void
 CName::DeepCopy
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CWStringConst *pstr
 	)
 {
-	m_pstrName = GPOS_NEW(pmp) CWStringConst(pmp, pstr->GetBuffer());
+	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstr->GetBuffer());
 	m_fDeepCopy = true;
 }
 

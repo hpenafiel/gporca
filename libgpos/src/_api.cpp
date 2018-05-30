@@ -158,17 +158,17 @@ int gpos_exec
 		{
 			// setup task memory
 			CAutoMemoryPool amp(CAutoMemoryPool::ElcStrict);
-			IMemoryPool *pmp = amp.Pmp();
+			IMemoryPool *memory_pool = amp.Pmp();
 
 			// scope for ATP
 			{
 				// task handler for this process
-				CAutoTaskProxy atp(pmp, pwpm, true /*fPropagateError*/);
+				CAutoTaskProxy atp(memory_pool, pwpm, true /*fPropagateError*/);
 
 				CTask *ptsk = atp.Create(params->func, params->arg, params->abort_requested);
 
 				// init TLS
-				ptsk->GetTls().Reset(pmp);
+				ptsk->GetTls().Reset(memory_pool);
 
 				CAutoP<CWStringStatic> apwstr;
 				CAutoP<COstreamString> aposs;
@@ -179,13 +179,13 @@ int gpos_exec
 				{
 					GPOS_ASSERT(0 < params->error_buffer_size);
 
-					apwstr = GPOS_NEW(pmp) CWStringStatic
+					apwstr = GPOS_NEW(memory_pool) CWStringStatic
 						(
 						(WCHAR *) params->error_buffer,
 						params->error_buffer_size / GPOS_SIZEOF(WCHAR)
 						);
-					aposs = GPOS_NEW(pmp) COstreamString(apwstr.Value());
-					aplogger = GPOS_NEW(pmp) CLoggerStream(*aposs.Value());
+					aposs = GPOS_NEW(memory_pool) COstreamString(apwstr.Value());
+					aplogger = GPOS_NEW(memory_pool) CLoggerStream(*aposs.Value());
 
 					CTaskContext *ptskctxt = ptsk->GetTaskCtxt();
 					ptskctxt->SetLogOut(aplogger.Value());

@@ -44,7 +44,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLScalarPartBoundInclusion(IMemoryPool *pmp, ULONG ulLevel, BOOL fLower);
+			CDXLScalarPartBoundInclusion(IMemoryPool *memory_pool, ULONG ulLevel, BOOL fLower);
 
 			// operator type
 			virtual

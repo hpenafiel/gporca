@@ -29,18 +29,18 @@ const ULONG CColRef::m_ulInvalid = ULONG_MAX;
 CColRef::CColRef
 	(
 	const IMDType *pmdtype,
-	const INT iTypeModifier,
+	const INT type_modifier,
 	ULONG ulId,
 	const CName *pname
 	)
 	:
 	m_pmdtype(pmdtype),
-	m_iTypeModifier(iTypeModifier),
+	m_type_modifier(type_modifier),
 	m_pname(pname),
 	m_ulId(ulId)
 {
 	GPOS_ASSERT(NULL != pmdtype);
-	GPOS_ASSERT(pmdtype->Pmdid()->IsValid());
+	GPOS_ASSERT(pmdtype->MDId()->IsValid());
 	GPOS_ASSERT(NULL != pname);
 }
 
@@ -128,16 +128,16 @@ CColRef::OsPrint
 ULongPtrArray *
 CColRef::Pdrgpul
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcr
 	)
 {
-	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray(pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 	const ULONG ulLen = pdrgpcr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		pdrgpul->Append(GPOS_NEW(pmp) ULONG(pcr->UlId()));
+		pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(pcr->UlId()));
 	}
 
 	return pdrgpul;

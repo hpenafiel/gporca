@@ -36,13 +36,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CEnumeratorConfig::CEnumeratorConfig
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULLONG plan_id,
 	ULLONG ullSamples,
 	CDouble dCostThreshold
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_plan_id(plan_id),
 	m_ullSpaceSize(0),
 	m_ullInputSamples(ullSamples),
@@ -57,7 +57,7 @@ CEnumeratorConfig::CEnumeratorConfig
 	m_fSampleValidPlans(true),
 	m_pfpc(NULL)
 {
-	m_pdrgpsp = GPOS_NEW(pmp) DrgPsp(pmp);
+	m_pdrgpsp = GPOS_NEW(memory_pool) DrgPsp(memory_pool);
 }
 
 

@@ -51,7 +51,7 @@ namespace gpmd
 			} 
 			
 			// factory function for INT2 datums
-			virtual IDatumInt2 *PdatumInt2(IMemoryPool *pmp, SINT sValue, BOOL fNULL) const = 0;
+			virtual IDatumInt2 *PdatumInt2(IMemoryPool *memory_pool, SINT sValue, BOOL fNULL) const = 0;
 		
 	};
 

@@ -26,12 +26,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalLeftOuterApply::CLogicalLeftOuterApply
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalApply(pmp)
+	CLogicalApply(memory_pool)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 
 	m_fPattern = true;
 }
@@ -47,12 +47,12 @@ CLogicalLeftOuterApply::CLogicalLeftOuterApply
 //---------------------------------------------------------------------------
 CLogicalLeftOuterApply::CLogicalLeftOuterApply
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcrInner,
 	EOperatorId eopidOriginSubq
 	)
 	:
-	CLogicalApply(pmp, pdrgpcrInner, eopidOriginSubq)
+	CLogicalApply(memory_pool, pdrgpcrInner, eopidOriginSubq)
 {
 	GPOS_ASSERT(0 < pdrgpcrInner->Size());
 }
@@ -80,7 +80,7 @@ CLogicalLeftOuterApply::~CLogicalLeftOuterApply()
 CMaxCard
 CLogicalLeftOuterApply::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -99,11 +99,11 @@ CLogicalLeftOuterApply::Maxcard
 CXformSet *
 CLogicalLeftOuterApply::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
 	(void) pxfs->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoin);
 	(void) pxfs->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoinNoCorrelations);
@@ -123,14 +123,14 @@ CLogicalLeftOuterApply::PxfsCandidates
 COperator *
 CLogicalLeftOuterApply::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
-	DrgPcr *pdrgpcrInner = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrInner, phmulcr, fMustExist);
+	DrgPcr *pdrgpcrInner = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrInner, phmulcr, fMustExist);
 
-	return GPOS_NEW(pmp) CLogicalLeftOuterApply(pmp, pdrgpcrInner, m_eopidOriginSubq);
+	return GPOS_NEW(memory_pool) CLogicalLeftOuterApply(memory_pool, pdrgpcrInner, m_eopidOriginSubq);
 }
 
 // EOF

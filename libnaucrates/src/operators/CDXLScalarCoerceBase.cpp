@@ -36,21 +36,21 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarCoerceBase::CDXLScalarCoerceBase
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
-	INT iTypeModifier,
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
+	INT type_modifier,
 	EdxlCoercionForm edxlcf,
 	INT iLoc
 	)
 	:
-	CDXLScalar(pmp),
-	m_pmdidResultType(pmdidType),
-	m_iTypeModifier(iTypeModifier),
+	CDXLScalar(memory_pool),
+	m_pmdidResultType(mdid_type),
+	m_type_modifier(type_modifier),
 	m_edxlcf(edxlcf),
 	m_iLoc(iLoc)
 {
-	GPOS_ASSERT(NULL != pmdidType);
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(NULL != mdid_type);
+	GPOS_ASSERT(mdid_type->IsValid());
 }
 
 

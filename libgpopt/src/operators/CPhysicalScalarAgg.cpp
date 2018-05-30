@@ -31,7 +31,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalScalarAgg::CPhysicalScalarAgg
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcr,
 	DrgPcr *pdrgpcrMinimal,
 	COperator::EGbAggType egbaggtype,
@@ -40,7 +40,7 @@ CPhysicalScalarAgg::CPhysicalScalarAgg
 	BOOL fMultiStage
 	)
 	:
-	CPhysicalAgg(pmp, pdrgpcr, pdrgpcrMinimal, egbaggtype, fGeneratesDuplicates, pdrgpcrArgDQA, fMultiStage)
+	CPhysicalAgg(memory_pool, pdrgpcr, pdrgpcrMinimal, egbaggtype, fGeneratesDuplicates, pdrgpcrArgDQA, fMultiStage)
 {}
 
 
@@ -67,7 +67,7 @@ CPhysicalScalarAgg::~CPhysicalScalarAgg()
 COrderSpec *
 CPhysicalScalarAgg::PosRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &, // exprhdl
 	COrderSpec *, // posRequired
 	ULONG
@@ -83,7 +83,7 @@ CPhysicalScalarAgg::PosRequired
 	GPOS_ASSERT(0 == ulChildIndex);
 
 	// return empty sort order
-	return GPOS_NEW(pmp) COrderSpec(pmp);
+	return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 }
 
 
@@ -98,13 +98,13 @@ CPhysicalScalarAgg::PosRequired
 COrderSpec *
 CPhysicalScalarAgg::PosDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle & // exprhdl
 	)
 	const
 {
 	// return empty sort order
-	return GPOS_NEW(pmp) COrderSpec(pmp);
+	return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 }
 
 

@@ -51,7 +51,7 @@ namespace gpos
 			TMT m_hash_table;
 			
 			// init basic directory
-			void InitDirectory(IMemoryPool *pmp);
+			void InitDirectory(IMemoryPool *memory_pool);
 			
 			// install message table for a given locale
 			void AddMessageTable(ELocale locale);
@@ -62,7 +62,7 @@ namespace gpos
 		public:
 
 			// ctor
-			CMessageRepository(IMemoryPool *pmp);
+			CMessageRepository(IMemoryPool *memory_pool);
 
 			// dtor
 			~CMessageRepository();

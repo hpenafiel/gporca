@@ -27,12 +27,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLIndexDescr::CDXLIndexDescr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname)
 {
@@ -59,14 +59,14 @@ CDXLIndexDescr::~CDXLIndexDescr()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLIndexDescr::Pmdid
+//		CDXLIndexDescr::MDId
 //
 //	@doc:
 //		Return the metadata id for the index
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLIndexDescr::Pmdid() const
+CDXLIndexDescr::MDId() const
 {
 	return m_pmdid;
 }

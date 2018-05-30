@@ -22,7 +22,7 @@ namespace gpnaucrates
 		static
 		HMUlHist *PhmulhistLOJ
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CStatistics *pstatsOuter,
 				const CStatistics *pstatsInner,
 				CStatistics *pstatsInnerJoin,
@@ -34,7 +34,7 @@ namespace gpnaucrates
 		static
 		void AddHistogramsLOJInner
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CStatistics *pstatsInnerJoin,
 				ULongPtrArray *pdrgpulInnerColId,
 				CDouble dRowsLASJ,
@@ -46,7 +46,7 @@ namespace gpnaucrates
 		static
 		CStatistics *PstatsLOJStatic
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const IStatistics *pstatsOuter,
 				const IStatistics *pstatsInner,
 				DrgPstatspredjoin *pdrgpstatspredjoin

@@ -65,9 +65,9 @@ COstreamStringTest::EresUnittest_Basic()
 {
 	// create memory pool of 128KB
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	
 	// define basic stream over wide char out stream
 	COstreamString osb(&str);
@@ -116,9 +116,9 @@ COstreamStringTest::EresUnittest_OOM()
 		false /*fThreadSafe*/,
 		1024
 		);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	
 	// define basic stream over wide char out stream
 	COstreamString osb(&str);
@@ -146,9 +146,9 @@ COstreamStringTest::EresUnittest_EndlAssert()
 {
 	// create memory pool of 1KB
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	
 	// define basic stream over wide char out stream
 	COstreamString osb(&str);

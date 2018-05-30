@@ -29,14 +29,14 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalRowTrigger::CPhysicalRowTrigger
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidRel,
 	INT iType,
 	DrgPcr *pdrgpcrOld,
 	DrgPcr *pdrgpcrNew
 	)
 	:
-	CPhysical(pmp),
+	CPhysical(memory_pool),
 	m_pmdidRel(pmdidRel),
 	m_iType(iType),
 	m_pdrgpcrOld(pdrgpcrOld),
@@ -49,7 +49,7 @@ CPhysicalRowTrigger::CPhysicalRowTrigger
 	GPOS_ASSERT_IMP(NULL != pdrgpcrNew && NULL != pdrgpcrOld,
 			pdrgpcrNew->Size() == pdrgpcrOld->Size());
 
-	m_pcrsRequiredLocal = GPOS_NEW(pmp) CColRefSet(pmp);
+	m_pcrsRequiredLocal = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	if (NULL != m_pdrgpcrOld)
 	{
 		m_pcrsRequiredLocal->Include(m_pdrgpcrOld);
@@ -88,7 +88,7 @@ CPhysicalRowTrigger::~CPhysicalRowTrigger()
 COrderSpec *
 CPhysicalRowTrigger::PosRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &, //exprhdl,
 	COrderSpec *, //posRequired,
 	ULONG
@@ -103,7 +103,7 @@ CPhysicalRowTrigger::PosRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return GPOS_NEW(pmp) COrderSpec(pmp);
+	return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -117,12 +117,12 @@ CPhysicalRowTrigger::PosRequired
 COrderSpec *
 CPhysicalRowTrigger::PosDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle & //exprhdl
 	)
 	const
 {
-	return GPOS_NEW(pmp) COrderSpec(pmp);
+	return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -162,7 +162,7 @@ CPhysicalRowTrigger::EpetOrder
 CColRefSet *
 CPhysicalRowTrigger::PcrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &, // exprhdl,
 	CColRefSet *pcrsRequired,
 	ULONG
@@ -176,7 +176,7 @@ CPhysicalRowTrigger::PcrsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, *m_pcrsRequiredLocal);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *m_pcrsRequiredLocal);
 	pcrs->Union(pcrsRequired);
 
 	return pcrs;
@@ -193,7 +193,7 @@ CPhysicalRowTrigger::PcrsRequired
 CDistributionSpec *
 CPhysicalRowTrigger::PdsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CDistributionSpec *pdsInput,
 	ULONG ulChildIndex,
@@ -207,10 +207,10 @@ CPhysicalRowTrigger::PdsRequired
 	// if expression has to execute on master then we need a gather
 	if (exprhdl.FMasterOnly())
 	{
-		return PdsEnforceMaster(pmp, exprhdl, pdsInput, ulChildIndex);
+		return PdsEnforceMaster(memory_pool, exprhdl, pdsInput, ulChildIndex);
 	}
 
-	return GPOS_NEW(pmp) CDistributionSpecAny(this->Eopid());
+	return GPOS_NEW(memory_pool) CDistributionSpecAny(this->Eopid());
 }
 
 //---------------------------------------------------------------------------
@@ -224,7 +224,7 @@ CPhysicalRowTrigger::PdsRequired
 CRewindabilitySpec *
 CPhysicalRowTrigger::PrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CRewindabilitySpec *prsRequired,
 	ULONG ulChildIndex,
@@ -235,7 +235,7 @@ CPhysicalRowTrigger::PrsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	return PrsPassThru(pmp, exprhdl, prsRequired, ulChildIndex);
+	return PrsPassThru(memory_pool, exprhdl, prsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -249,7 +249,7 @@ CPhysicalRowTrigger::PrsRequired
 CPartitionPropagationSpec *
 CPhysicalRowTrigger::PppsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CPartitionPropagationSpec *pppsRequired,
 	ULONG ulChildIndex,
@@ -260,7 +260,7 @@ CPhysicalRowTrigger::PppsRequired
 	GPOS_ASSERT(0 == ulChildIndex);
 	GPOS_ASSERT(NULL != pppsRequired);
 
-	return CPhysical::PppsRequiredPushThru(pmp, exprhdl, pppsRequired, ulChildIndex);
+	return CPhysical::PppsRequiredPushThru(memory_pool, exprhdl, pppsRequired, ulChildIndex);
 }
 
 //---------------------------------------------------------------------------
@@ -274,7 +274,7 @@ CPhysicalRowTrigger::PppsRequired
 CCTEReq *
 CPhysicalRowTrigger::PcteRequired
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	CExpressionHandle &, //exprhdl,
 	CCTEReq *pcter,
 	ULONG
@@ -322,7 +322,7 @@ CPhysicalRowTrigger::FProvidesReqdCols
 CDistributionSpec *
 CPhysicalRowTrigger::PdsDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -341,7 +341,7 @@ CPhysicalRowTrigger::PdsDerive
 CRewindabilitySpec *
 CPhysicalRowTrigger::PrsDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const

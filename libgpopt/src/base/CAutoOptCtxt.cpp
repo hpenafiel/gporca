@@ -28,7 +28,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CAutoOptCtxt::CAutoOptCtxt
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	IConstExprEvaluator *pceeval,
 	COptimizerConfig *optimizer_config
@@ -37,15 +37,15 @@ CAutoOptCtxt::CAutoOptCtxt
 	if (NULL == optimizer_config)
 	{
 		// create default statistics configuration
-		optimizer_config = COptimizerConfig::PoconfDefault(pmp);
+		optimizer_config = COptimizerConfig::PoconfDefault(memory_pool);
 	}
 	if (NULL == pceeval)
 	{
 		// use the default constant expression evaluator which cannot evaluate any expression
-		pceeval = GPOS_NEW(pmp) CConstExprEvaluatorDefault();
+		pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorDefault();
 	}
 
-	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, optimizer_config);
+	COptCtxt *poctxt = COptCtxt::PoctxtCreate(memory_pool, pmda, pceeval, optimizer_config);
 	ITask::Self()->GetTls().Store(poctxt);
 }
 
@@ -60,7 +60,7 @@ CAutoOptCtxt::CAutoOptCtxt
 //---------------------------------------------------------------------------
 CAutoOptCtxt::CAutoOptCtxt
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	IConstExprEvaluator *pceeval,
 	ICostModel *pcm
@@ -69,15 +69,15 @@ CAutoOptCtxt::CAutoOptCtxt
 	GPOS_ASSERT(NULL != pcm);
 	
 	// create default statistics configuration
-	COptimizerConfig *optimizer_config = COptimizerConfig::PoconfDefault(pmp, pcm);
+	COptimizerConfig *optimizer_config = COptimizerConfig::PoconfDefault(memory_pool, pcm);
 	
 	if (NULL == pceeval)
 	{
 		// use the default constant expression evaluator which cannot evaluate any expression
-		pceeval = GPOS_NEW(pmp) CConstExprEvaluatorDefault();
+		pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorDefault();
 	}
 
-	COptCtxt *poctxt = COptCtxt::PoctxtCreate(pmp, pmda, pceeval, optimizer_config);
+	COptCtxt *poctxt = COptCtxt::PoctxtCreate(memory_pool, pmda, pceeval, optimizer_config);
 	ITask::Self()->GetTls().Store(poctxt);
 }
 

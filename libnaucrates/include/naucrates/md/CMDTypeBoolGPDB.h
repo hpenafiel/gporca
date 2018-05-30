@@ -106,7 +106,7 @@ namespace gpmd
 	public:
 		// ctor
 		explicit 
-		CMDTypeBoolGPDB(IMemoryPool *pmp);
+		CMDTypeBoolGPDB(IMemoryPool *memory_pool);
 		
 		// dtor
 		virtual 
@@ -121,7 +121,7 @@ namespace gpmd
 		
 		// type id
 		virtual 
-		IMDId *Pmdid() const;
+		IMDId *MDId() const;
 		
 		// type name
 		virtual 
@@ -157,7 +157,7 @@ namespace gpmd
 		
 		// is type passed by value
 		virtual
-		BOOL FByValue() const
+		BOOL IsPassedByValue() const
 		{
 			return true;
 		}
@@ -206,11 +206,11 @@ namespace gpmd
 
 		// factory method for creating constants
 		virtual
-		IDatumBool *PdatumBool(IMemoryPool *pmp, BOOL fValue, BOOL fNULL) const;
+		IDatumBool *PdatumBool(IMemoryPool *memory_pool, BOOL fValue, BOOL fNULL) const;
 		
 		// create typed datum from DXL datum
 		virtual
-		IDatum *Pdatum(IMemoryPool *pmp, const CDXLDatum *pdxldatum) const;
+		IDatum *Pdatum(IMemoryPool *memory_pool, const CDXLDatum *pdxldatum) const;
 
 		// serialize object in DXL format
 		virtual 
@@ -222,15 +222,15 @@ namespace gpmd
 		
 		// generate the DXL datum from IDatum
 		virtual
-		CDXLDatum* Pdxldatum(IMemoryPool *pmp, IDatum *pdatum) const;
+		CDXLDatum* Pdxldatum(IMemoryPool *memory_pool, IDatum *pdatum) const;
 
 		// generate the DXL scalar constant from IDatum
 		virtual
-		CDXLScalarConstValue* PdxlopScConst(IMemoryPool *pmp, IDatum *pdatum) const;
+		CDXLScalarConstValue* PdxlopScConst(IMemoryPool *memory_pool, IDatum *pdatum) const;
 
 		// generate the DXL datum representing null value
 		virtual
-		CDXLDatum* PdxldatumNull(IMemoryPool *pmp) const;
+		CDXLDatum* PdxldatumNull(IMemoryPool *memory_pool) const;
 
 #ifdef GPOS_DEBUG
 		// debug print of the type in the provided stream

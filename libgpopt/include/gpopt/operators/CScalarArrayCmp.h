@@ -71,7 +71,7 @@ namespace gpopt
 			// ctor
 			CScalarArrayCmp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidOp,
 				const CWStringConst *pstrOp,
 				EArrCmpType earrcmpt
@@ -123,7 +123,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)
@@ -164,7 +164,7 @@ namespace gpopt
 
 			// expand array comparison expression into a conjunctive/disjunctive expression
 			static
-			CExpression *PexprExpand(IMemoryPool *pmp, CExpression *pexprArrayCmp);
+			CExpression *PexprExpand(IMemoryPool *memory_pool, CExpression *pexprArrayCmp);
 
 	}; // class CScalarArrayCmp
 

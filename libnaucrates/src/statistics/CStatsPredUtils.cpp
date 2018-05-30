@@ -125,12 +125,12 @@ CStatsPredUtils::Estatscmpt
 CStatsPred *
 CStatsPredUtils::PstatspredUnsupported
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *, // pexprPred,
 	CColRefSet * //pcrsOuterRefs
 	)
 {
-	return GPOS_NEW(pmp) CStatsPredUnsupported(ULONG_MAX, CStatsPred::EstatscmptOther);
+	return GPOS_NEW(memory_pool) CStatsPredUnsupported(ULONG_MAX, CStatsPred::EstatscmptOther);
 }
 
 //---------------------------------------------------------------------------
@@ -143,7 +143,7 @@ CStatsPredUtils::PstatspredUnsupported
 CStatsPred *
 CStatsPredUtils::PstatspredNullTest
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred,
 	CColRefSet * //pcrsOuterRefs
 	)
@@ -169,11 +169,11 @@ CStatsPredUtils::PstatspredNullTest
 		// stats calculations on such datums unsupported
 		pdatum->Release();
 
-		return GPOS_NEW(pmp) CStatsPredUnsupported(pcr->UlId(), escmpt);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt);
 	}
 
-	CPoint *ppoint = GPOS_NEW(pmp) CPoint(pdatum);
-	CStatsPredPoint *pstatspred = GPOS_NEW(pmp) CStatsPredPoint(pcr->UlId(), escmpt, ppoint);
+	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
+	CStatsPredPoint *pstatspred = GPOS_NEW(memory_pool) CStatsPredPoint(pcr->UlId(), escmpt, ppoint);
 
 	return pstatspred;
 }
@@ -189,14 +189,14 @@ CStatsPredUtils::PstatspredNullTest
 CStatsPred *
 CStatsPredUtils::PstatspredPoint
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred,
 	CColRefSet *//pcrsOuterRefs,
 	)
 {
 	GPOS_ASSERT(NULL != pexprPred);
 
-	CStatsPred *pstatspred = Pstatspred(pmp, pexprPred);
+	CStatsPred *pstatspred = Pstatspred(memory_pool, pexprPred);
 	GPOS_ASSERT (NULL != pstatspred);
 
 	return pstatspred;
@@ -245,7 +245,7 @@ CStatsPredUtils::Estatscmptype
 CStatsPred *
 CStatsPredUtils::Pstatspred
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
@@ -299,10 +299,10 @@ CStatsPredUtils::Pstatspred
 		// example: SELECT 1 FROM pg_catalog.pg_class c WHERE c.relname ~ '^(t36)$';
 		// case 2: unsupported stats comparison between the column and datum
 
-		return GPOS_NEW(pmp) CStatsPredUnsupported(pcr->UlId(), escmpt);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt);
 	}
 
-	return GPOS_NEW(pmp) CStatsPredPoint(pmp, pcr, escmpt, pdatum);
+	return GPOS_NEW(memory_pool) CStatsPredPoint(memory_pool, pcr, escmpt, pdatum);
 }
 
 
@@ -408,7 +408,7 @@ CStatsPredUtils::FCmpColsIgnoreCast
 CStatsPred *
 CStatsPredUtils::PstatspredExtract
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CColRefSet *pcrsOuterRefs
 	)
@@ -416,7 +416,7 @@ CStatsPredUtils::PstatspredExtract
 	GPOS_ASSERT(NULL != pexprScalar);
 	if (CPredicateUtils::FOr(pexprScalar))
 	{
-		CStatsPred *pstatspredDisj = PstatspredDisj(pmp, pexprScalar, pcrsOuterRefs);
+		CStatsPred *pstatspredDisj = PstatspredDisj(memory_pool, pexprScalar, pcrsOuterRefs);
 		if (NULL != pstatspredDisj)
 		{
 			return pstatspredDisj;
@@ -424,14 +424,14 @@ CStatsPredUtils::PstatspredExtract
 	}
 	else
 	{
-		CStatsPred *pstatspredConj = PstatspredConj(pmp, pexprScalar, pcrsOuterRefs);
+		CStatsPred *pstatspredConj = PstatspredConj(memory_pool, pexprScalar, pcrsOuterRefs);
 		if (NULL != pstatspredConj)
 		{
 			return pstatspredConj;
 		}
 	}
 
-	return GPOS_NEW(pmp) CStatsPredConj(GPOS_NEW(pmp) DrgPstatspred(pmp));
+	return GPOS_NEW(memory_pool) CStatsPredConj(GPOS_NEW(memory_pool) DrgPstatspred(memory_pool));
 }
 
 
@@ -446,16 +446,16 @@ CStatsPredUtils::PstatspredExtract
 CStatsPred *
 CStatsPredUtils::PstatspredConj
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CColRefSet *pcrsOuterRefs
 	)
 {
 	GPOS_ASSERT(NULL != pexprScalar);
-	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
+	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
 	const ULONG ulLen = pdrgpexprConjuncts->Size();
 
-	DrgPstatspred *pdrgpstatspred = GPOS_NEW(pmp) DrgPstatspred(pmp);
+	DrgPstatspred *pdrgpstatspred = GPOS_NEW(memory_pool) DrgPstatspred(memory_pool);
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprConjuncts)[ul];
@@ -468,7 +468,7 @@ CStatsPredUtils::PstatspredConj
 
 		if (CPredicateUtils::FOr(pexprPred))
 		{
-			CStatsPred *pstatspredDisj = PstatspredDisj(pmp, pexprPred, pcrsOuterRefs);
+			CStatsPred *pstatspredDisj = PstatspredDisj(memory_pool, pexprPred, pcrsOuterRefs);
 			if (NULL != pstatspredDisj)
 			{
 				pdrgpstatspred->Append(pstatspredDisj);
@@ -476,7 +476,7 @@ CStatsPredUtils::PstatspredConj
 		}
 		else
 		{
-			AddSupportedStatsFilters(pmp, pdrgpstatspred, pexprPred, pcrsOuterRefs);
+			AddSupportedStatsFilters(memory_pool, pdrgpstatspred, pexprPred, pcrsOuterRefs);
 		}
 	}
 
@@ -484,7 +484,7 @@ CStatsPredUtils::PstatspredConj
 
 	if (0 < pdrgpstatspred->Size())
 	{
-		return GPOS_NEW(pmp) CStatsPredConj(pdrgpstatspred);
+		return GPOS_NEW(memory_pool) CStatsPredConj(pdrgpstatspred);
 	}
 
 	pdrgpstatspred->Release();
@@ -504,7 +504,7 @@ CStatsPredUtils::PstatspredConj
 CStatsPred *
 CStatsPredUtils::PstatspredDisj
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred,
 	CColRefSet *pcrsOuterRefs
 	)
@@ -512,13 +512,13 @@ CStatsPredUtils::PstatspredDisj
 	GPOS_ASSERT(NULL != pexprPred);
 	GPOS_ASSERT(CPredicateUtils::FOr(pexprPred));
 
-	DrgPstatspred *pdrgpstatspredDisjChild = GPOS_NEW(pmp) DrgPstatspred(pmp);
+	DrgPstatspred *pdrgpstatspredDisjChild = GPOS_NEW(memory_pool) DrgPstatspred(memory_pool);
 
 	// remove duplicate components of the OR tree
-	CExpression *pexprNew = CExpressionUtils::PexprDedupChildren(pmp, pexprPred);
+	CExpression *pexprNew = CExpressionUtils::PexprDedupChildren(memory_pool, pexprPred);
 
 	// extract the components of the OR tree
-	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprDisjuncts(pmp, pexprNew);
+	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprDisjuncts(memory_pool, pexprNew);
 	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -530,7 +530,7 @@ CStatsPredUtils::PstatspredDisj
 			continue;
 		}
 
-		AddSupportedStatsFilters(pmp, pdrgpstatspredDisjChild, pexpr, pcrsOuterRefs);
+		AddSupportedStatsFilters(memory_pool, pdrgpstatspredDisjChild, pexpr, pcrsOuterRefs);
 	}
 
 	// clean up
@@ -539,7 +539,7 @@ CStatsPredUtils::PstatspredDisj
 
 	if (0 < pdrgpstatspredDisjChild->Size())
 	{
-		return GPOS_NEW(pmp) CStatsPredDisj(pdrgpstatspredDisjChild);
+		return GPOS_NEW(memory_pool) CStatsPredDisj(pdrgpstatspredDisjChild);
 	}
 
 	pdrgpstatspredDisjChild->Release();
@@ -557,7 +557,7 @@ CStatsPredUtils::PstatspredDisj
 void
 CStatsPredUtils::AddSupportedStatsFilters
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPstatspred *pdrgpstatspred,
 	CExpression *pexprPred,
 	CColRefSet *pcrsOuterRefs
@@ -577,7 +577,7 @@ CStatsPredUtils::AddSupportedStatsFilters
 	{
 		pdrgpstatspred->Append
 							(
-							GPOS_NEW(pmp) CStatsPredUnsupported
+							GPOS_NEW(memory_pool) CStatsPredUnsupported
 										(
 										ULONG_MAX,
 										CStatsPred::EstatscmptOther,
@@ -590,11 +590,11 @@ CStatsPredUtils::AddSupportedStatsFilters
 
 	if (COperator::EopScalarArrayCmp == pexprPred->Pop()->Eopid())
 	{
-		ProcessArrayCmp(pmp, pexprPred, pdrgpstatspred);
+		ProcessArrayCmp(memory_pool, pexprPred, pdrgpstatspred);
 	}
 	else
 	{
-		CStatsPredUtils::EPredicateType ept = Ept(pmp, pexprPred);
+		CStatsPredUtils::EPredicateType ept = Ept(memory_pool, pexprPred);
 		GPOS_ASSERT(CStatsPredUtils::EptSentinel != ept);
 
 		// array extract function mapping
@@ -620,7 +620,7 @@ CStatsPredUtils::AddSupportedStatsFilters
 			}
 		}
 
-		CStatsPred *pstatspred = pf(pmp, pexprPred, pcrsOuterRefs);
+		CStatsPred *pstatspred = pf(memory_pool, pexprPred, pcrsOuterRefs);
 		if (NULL != pstatspred)
 		{
 			pdrgpstatspred->Append(pstatspred);
@@ -639,7 +639,7 @@ CStatsPredUtils::AddSupportedStatsFilters
 CStatsPredUtils::EPredicateType
 CStatsPredUtils::Ept
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred
 	)
 {
@@ -674,7 +674,7 @@ CStatsPredUtils::Ept
 		return CStatsPredUtils::EptPoint;
 	}
 
-	if (FConjunction(pmp, pexprPred))
+	if (FConjunction(memory_pool, pexprPred))
 	{
 		return CStatsPredUtils::EptConj;
 	}
@@ -698,12 +698,12 @@ CStatsPredUtils::Ept
 BOOL
 CStatsPredUtils::FConjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred
 	)
 {
 	GPOS_ASSERT(NULL != pexprPred);
-	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprPred);
+	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprPred);
 	const ULONG ulLen = pdrgpexprConjuncts->Size();
 	pdrgpexprConjuncts->Release();
 
@@ -849,7 +849,7 @@ CStatsPredUtils::FScalarIdentIsNotNull
 CStatsPred *
 CStatsPredUtils::PstatspredLike
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred,
 	CColRefSet *//pcrsOuterRefs,
 	)
@@ -877,7 +877,7 @@ CStatsPredUtils::PstatspredLike
 
 	if (NULL == pexprScIdent || NULL == pexprScConst)
 	{
-		return GPOS_NEW(pmp) CStatsPredUnsupported(ULONG_MAX, CStatsPred::EstatscmptLike);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(ULONG_MAX, CStatsPred::EstatscmptLike);
 	}
 
 	CScalarIdent *popScalarIdent = CScalarIdent::PopConvert(pexprScIdent->Pop());
@@ -890,7 +890,7 @@ CStatsPredUtils::PstatspredLike
 	if (!IMDType::FStatsComparable(pcr->Pmdtype(), pdatumLiteral))
 	{
 		// unsupported stats comparison between the column and datum
-		return GPOS_NEW(pmp) CStatsPredUnsupported(pcr->UlId(), CStatsPred::EstatscmptLike);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), CStatsPred::EstatscmptLike);
 	}
 
 	CDouble dDefaultScaleFactor(1.0);
@@ -902,7 +902,7 @@ CStatsPredUtils::PstatspredLike
 	pexprLeft->AddRef();
 	pexprRight->AddRef();
 
-	return GPOS_NEW(pmp) CStatsPredLike(ulColId, pexprLeft, pexprRight, dDefaultScaleFactor);
+	return GPOS_NEW(memory_pool) CStatsPredLike(ulColId, pexprLeft, pexprRight, dDefaultScaleFactor);
 }
 
 
@@ -916,7 +916,7 @@ CStatsPredUtils::PstatspredLike
 void
 CStatsPredUtils::ProcessArrayCmp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred,
 	DrgPstatspred *pdrgpstatspred
 	)
@@ -942,7 +942,7 @@ CStatsPredUtils::ProcessArrayCmp
 	if (!fCompareToConstAndScalarIdents)
 	{
 		// unsupported predicate for stats calculations
-		pdrgpstatspred->Append(GPOS_NEW(pmp) CStatsPredUnsupported(ULONG_MAX, CStatsPred::EstatscmptOther));
+		pdrgpstatspred->Append(GPOS_NEW(memory_pool) CStatsPredUnsupported(ULONG_MAX, CStatsPred::EstatscmptOther));
 
 		return;
 	}
@@ -952,7 +952,7 @@ CStatsPredUtils::ProcessArrayCmp
 	DrgPstatspred *pdrgpstatspredChild = pdrgpstatspred;
 	if (fAny)
 	{
-		pdrgpstatspredChild = GPOS_NEW(pmp) DrgPstatspred(pmp);
+		pdrgpstatspredChild = GPOS_NEW(memory_pool) DrgPstatspred(memory_pool);
 	}
 
 	const ULONG ulConstants = CUtils::UlScalarArrayArity(pexprArray);
@@ -965,14 +965,14 @@ CStatsPredUtils::ProcessArrayCmp
 	if (!CHistogram::FSupportsFilter(escmpt))
 	{
 		// unsupported predicate for stats calculations
-		pdrgpstatspred->Append(GPOS_NEW(pmp) CStatsPredUnsupported(pcr->UlId(), escmpt));
+		pdrgpstatspred->Append(GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt));
 
 		return;
 	}
 
 	for (ULONG ul = 0; ul < ulConstants; ul++)
 	{
-		CExpression *pexprConst = CUtils::PScalarArrayExprChildAt(pmp, pexprArray, ul);
+		CExpression *pexprConst = CUtils::PScalarArrayExprChildAt(memory_pool, pexprArray, ul);
 		if (COperator::EopScalarConst == pexprConst->Pop()->Eopid())
 		{
 			CScalarConst *popScalarConst = CScalarConst::PopConvert(pexprConst->Pop());
@@ -981,11 +981,11 @@ CStatsPredUtils::ProcessArrayCmp
 			if (!pdatumLiteral->FStatsComparable(pdatumLiteral))
 			{
 				// stats calculations on such datums unsupported
-				pstatspredChild = GPOS_NEW(pmp) CStatsPredUnsupported(pcr->UlId(), escmpt);
+				pstatspredChild = GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt);
 			}
 			else
 			{
-				pstatspredChild = GPOS_NEW(pmp) CStatsPredPoint(pmp, pcr, escmpt, pdatumLiteral);
+				pstatspredChild = GPOS_NEW(memory_pool) CStatsPredPoint(memory_pool, pcr, escmpt, pdatumLiteral);
 			}
 
 			pdrgpstatspredChild->Append(pstatspredChild);
@@ -995,7 +995,7 @@ CStatsPredUtils::ProcessArrayCmp
 
 	if (fAny)
 	{
-		CStatsPredDisj *pstatspredOr = GPOS_NEW(pmp) CStatsPredDisj(pdrgpstatspredChild);
+		CStatsPredDisj *pstatspredOr = GPOS_NEW(memory_pool) CStatsPredDisj(pdrgpstatspredChild);
 		pdrgpstatspred->Append(pstatspredOr);
 	}
 }
@@ -1011,7 +1011,7 @@ CStatsPredUtils::ProcessArrayCmp
 CStatsPred *
 CStatsPredUtils::PstatspredBoolean
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprPred,
 	CColRefSet * //pcrsOuterRefs
 	)
@@ -1029,13 +1029,13 @@ CStatsPredUtils::PstatspredBoolean
 	if (CPredicateUtils::FBooleanScalarIdent(pexprPred))
 	{
 		CScalarIdent *popScIdent = CScalarIdent::PopConvert(pop);
-		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(pmp, true /* fValue */, false /* fNull */);
+		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, true /* fValue */, false /* is_null */);
 		ulColId = popScIdent->Pcr()->UlId();
 	}
 	else
 	{
 		CExpression *pexprChild = (*pexprPred)[0];
-		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(pmp, false /* fValue */, false /* fNull */);
+		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, false /* fValue */, false /* is_null */);
 		ulColId = CScalarIdent::PopConvert(pexprChild->Pop())->Pcr()->UlId();
 	}
 
@@ -1044,13 +1044,13 @@ CStatsPredUtils::PstatspredBoolean
 		// stats calculations on such datums unsupported
 		pdatum->Release();
 
-		return GPOS_NEW(pmp) CStatsPredUnsupported(ulColId, CStatsPred::EstatscmptEq);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(ulColId, CStatsPred::EstatscmptEq);
 	}
 
 
 	GPOS_ASSERT(NULL != pdatum && ULONG_MAX != ulColId);
 
-	return GPOS_NEW(pmp) CStatsPredPoint(ulColId, CStatsPred::EstatscmptEq, GPOS_NEW(pmp) CPoint(pdatum));
+	return GPOS_NEW(memory_pool) CStatsPredPoint(ulColId, CStatsPred::EstatscmptEq, GPOS_NEW(memory_pool) CPoint(pdatum));
 }
 
 
@@ -1065,7 +1065,7 @@ CStatsPredUtils::PstatspredBoolean
 CStatsPredJoin *
 CStatsPredUtils::PstatsjoinExtract
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprJoinPred,
 	DrgPcrs *pdrgpcrsOutput, // array of output columns of join's relational inputs
 	CColRefSet *pcrsOuterRefs,
@@ -1105,10 +1105,10 @@ CStatsPredUtils::PstatsjoinExtract
 		{
 			if (ulIndexLeft < ulIndexRight)
 			{
-				return GPOS_NEW(pmp) CStatsPredJoin(pcrLeft->UlId(), escmpt, pcrRight->UlId());
+				return GPOS_NEW(memory_pool) CStatsPredJoin(pcrLeft->UlId(), escmpt, pcrRight->UlId());
 			}
 
-			return GPOS_NEW(pmp) CStatsPredJoin(pcrRight->UlId(), escmpt, pcrLeft->UlId());
+			return GPOS_NEW(memory_pool) CStatsPredJoin(pcrRight->UlId(), escmpt, pcrLeft->UlId());
 		}
 	}
 
@@ -1135,7 +1135,7 @@ CStatsPredUtils::PstatsjoinExtract
 DrgPstatspredjoin *
 CStatsPredUtils::PdrgpstatspredjoinExtract
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	DrgPcrs *pdrgpcrsOutput, // array of output columns of join's relational inputs
 	CColRefSet *pcrsOuterRefs,
@@ -1145,19 +1145,19 @@ CStatsPredUtils::PdrgpstatspredjoinExtract
 	GPOS_ASSERT(NULL != pexprScalar);
 	GPOS_ASSERT(NULL != pdrgpcrsOutput);
 
-	DrgPstatspredjoin *pdrgpstatspredjoin = GPOS_NEW(pmp) DrgPstatspredjoin(pmp);
+	DrgPstatspredjoin *pdrgpstatspredjoin = GPOS_NEW(memory_pool) DrgPstatspredjoin(memory_pool);
 
-	DrgPexpr *pdrgpexprUnsupported = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprUnsupported = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	// extract all the conjuncts
-	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
+	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
 	const ULONG ulSize = pdrgpexprConjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprConjuncts) [ul];
 		CStatsPredJoin *pstatsjoin = PstatsjoinExtract
 										(
-										pmp,
+										memory_pool,
 										pexprPred,
 										pdrgpcrsOutput,
 										pcrsOuterRefs,
@@ -1172,13 +1172,13 @@ CStatsPredUtils::PdrgpstatspredjoinExtract
 	const ULONG ulUnsupported = pdrgpexprUnsupported->Size();
 	if (1 == ulUnsupported)
 	{
-		*ppstatspredUnsupported = CStatsPredUtils::PstatspredExtract(pmp, (*pdrgpexprUnsupported)[0], pcrsOuterRefs);
+		*ppstatspredUnsupported = CStatsPredUtils::PstatspredExtract(memory_pool, (*pdrgpexprUnsupported)[0], pcrsOuterRefs);
 	}
 	else if (1 < ulUnsupported)
 	{
 		pdrgpexprUnsupported->AddRef();
-		CExpression *pexprConj = CPredicateUtils::PexprConjDisj(pmp, pdrgpexprUnsupported, true /* fConjunction */);
-		*ppstatspredUnsupported = CStatsPredUtils::PstatspredExtract(pmp, pexprConj, pcrsOuterRefs);
+		CExpression *pexprConj = CPredicateUtils::PexprConjDisj(memory_pool, pdrgpexprUnsupported, true /* fConjunction */);
+		*ppstatspredUnsupported = CStatsPredUtils::PstatspredExtract(memory_pool, pexprConj, pcrsOuterRefs);
 		pexprConj->Release();
 	}
 
@@ -1201,7 +1201,7 @@ CStatsPredUtils::PdrgpstatspredjoinExtract
 DrgPstatspredjoin *
 CStatsPredUtils::Pdrgpstatspredjoin
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CExpression *pexprScalarInput,
 	DrgPcrs *pdrgpcrsOutput, // array of output columns of join's relational inputs
@@ -1211,13 +1211,13 @@ CStatsPredUtils::Pdrgpstatspredjoin
 	GPOS_ASSERT(NULL != pdrgpcrsOutput);
 
 	// remove implied predicates from join condition to avoid cardinality under-estimation
-	CExpression *pexprScalar = CPredicateUtils::PexprRemoveImpliedConjuncts(pmp, pexprScalarInput, exprhdl);
+	CExpression *pexprScalar = CPredicateUtils::PexprRemoveImpliedConjuncts(memory_pool, pexprScalarInput, exprhdl);
 
 	// extract all the conjuncts
 	CStatsPred *pstatspredUnsupported = NULL;
 	DrgPstatspredjoin *pdrgpstatspredjoin = PdrgpstatspredjoinExtract
 										(
-										pmp,
+										memory_pool,
 										pexprScalar,
 										pdrgpcrsOutput,
 										pcrsOuterRefs,
@@ -1244,17 +1244,17 @@ CStatsPredUtils::Pdrgpstatspredjoin
 DrgPstatspredjoin *
 CStatsPredUtils::Pdrgpstatspredjoin
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
 	// in case of subquery in join predicate, we return empty stats
 	if (exprhdl.Pdpscalar(exprhdl.UlArity() - 1)->FHasSubquery())
 	{
-		return GPOS_NEW(pmp) DrgPstatspredjoin(pmp);
+		return GPOS_NEW(memory_pool) DrgPstatspredjoin(memory_pool);
 	}
 
-	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(pmp) DrgPcrs(pmp);
+	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
 	const ULONG ulSize = exprhdl.UlArity();
 	for (ULONG ul = 0; ul < ulSize - 1; ul++)
 	{
@@ -1267,7 +1267,7 @@ CStatsPredUtils::Pdrgpstatspredjoin
 	CExpression *pexprScalar = exprhdl.PexprScalarChild(exprhdl.UlArity() - 1);
 	CColRefSet *pcrsOuterRefs = exprhdl.Pdprel()->PcrsOuter();
 
-	DrgPstatspredjoin *pdrgpstats = Pdrgpstatspredjoin(pmp, exprhdl, pexprScalar, pdrgpcrsOutput, pcrsOuterRefs);
+	DrgPstatspredjoin *pdrgpstats = Pdrgpstatspredjoin(memory_pool, exprhdl, pexprScalar, pdrgpcrsOutput, pcrsOuterRefs);
 
 	// clean up
 	pdrgpcrsOutput->Release();

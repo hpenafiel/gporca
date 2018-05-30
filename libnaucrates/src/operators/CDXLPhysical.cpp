@@ -25,10 +25,10 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysical::CDXLPhysical
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CDXLOperator(pmp)
+	CDXLOperator(memory_pool)
 {
 }
 

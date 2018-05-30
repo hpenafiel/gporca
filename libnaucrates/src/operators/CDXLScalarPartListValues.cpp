@@ -19,13 +19,13 @@ using namespace gpdxl;
 // Ctor
 CDXLScalarPartListValues::CDXLScalarPartListValues
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulLevel,
 	IMDId *pmdidResult,
 	IMDId *pmdidElement
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_ulLevel(ulLevel),
 	m_pmdidResult(pmdidResult),
 	m_pmdidElement(pmdidElement)

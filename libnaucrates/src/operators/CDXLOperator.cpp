@@ -25,10 +25,10 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CDXLOperator::CDXLOperator
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp)
+	m_memory_pool(memory_pool)
 {
 }
 

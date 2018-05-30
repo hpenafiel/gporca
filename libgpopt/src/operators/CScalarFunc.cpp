@@ -34,10 +34,10 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarFunc::CScalarFunc
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidFunc(NULL),
 	m_pmdidRetType(NULL),
 	m_iRetTypeModifier(IDefaultTypeModifier),
@@ -60,14 +60,14 @@ CScalarFunc::CScalarFunc
 //---------------------------------------------------------------------------
 CScalarFunc::CScalarFunc
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidFunc,
 	IMDId *pmdidRetType,
 	INT iRetTypeModifier,
 	const CWStringConst *pstrFunc
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidFunc(pmdidFunc),
 	m_pmdidRetType(pmdidRetType),
 	m_iRetTypeModifier(iRetTypeModifier),

@@ -38,15 +38,15 @@ CPointTest::EresUnittest()
 		};
 
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(pmp, &mda, NULL /* pceeval */, CTestUtils::Pcm(pmp));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /* pceeval */, CTestUtils::Pcm(memory_pool));
 
 	return CUnittest::EresExecute(rgutSharedOptCtxt, GPOS_ARRAY_SIZE(rgutSharedOptCtxt));
 }
@@ -57,11 +57,11 @@ CPointTest::EresUnittest_CPointInt4()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// generate integer points
-	CPoint *ppoint1 = CTestUtils::PpointInt4(pmp, 1);
-	CPoint *ppoint2 = CTestUtils::PpointInt4(pmp, 2);
+	CPoint *ppoint1 = CTestUtils::PpointInt4(memory_pool, 1);
+	CPoint *ppoint2 = CTestUtils::PpointInt4(memory_pool, 2);
 
 	GPOS_RTL_ASSERT_MSG(ppoint1->Equals(ppoint1), "1 == 1");
 	GPOS_RTL_ASSERT_MSG(ppoint1->FLessThan(ppoint2), "1 < 2");
@@ -87,11 +87,11 @@ CPointTest::EresUnittest_CPointBool()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// generate boolean points
-	CPoint *ppoint1 = CTestUtils::PpointBool(pmp, true);
-	CPoint *ppoint2 = CTestUtils::PpointBool(pmp, false);
+	CPoint *ppoint1 = CTestUtils::PpointBool(memory_pool, true);
+	CPoint *ppoint2 = CTestUtils::PpointBool(memory_pool, false);
 
 	// true == true
 	GPOS_RTL_ASSERT_MSG(ppoint1->Equals(ppoint1), "true must be equal to true");

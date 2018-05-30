@@ -39,7 +39,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLScalarPartDefault(IMemoryPool *pmp, ULONG ulLevel);
+			CDXLScalarPartDefault(IMemoryPool *memory_pool, ULONG ulLevel);
 
 			// operator type
 			virtual

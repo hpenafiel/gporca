@@ -51,7 +51,7 @@ CStatsPredPoint::CStatsPredPoint
 //---------------------------------------------------------------------------
 CStatsPredPoint::CStatsPredPoint
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CColRef *pcr,
 	CStatsPred::EStatsCmpType escmpt,
 	IDatum *pdatum
@@ -65,9 +65,9 @@ CStatsPredPoint::CStatsPredPoint
 	GPOS_ASSERT(NULL != pdatum);
 
 	m_ulColId = pcr->UlId();
-	IDatum *pdatumPadded = PdatumPreprocess(pmp, pcr, pdatum);
+	IDatum *pdatumPadded = PdatumPreprocess(memory_pool, pcr, pdatum);
 
-	m_ppoint = GPOS_NEW(pmp) CPoint(pdatumPadded);
+	m_ppoint = GPOS_NEW(memory_pool) CPoint(pdatumPadded);
 }
 
 //---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ CStatsPredPoint::CStatsPredPoint
 IDatum *
 CStatsPredPoint::PdatumPreprocess
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CColRef *pcr,
 	IDatum *pdatum
 	)
@@ -87,7 +87,7 @@ CStatsPredPoint::PdatumPreprocess
 	GPOS_ASSERT(NULL != pcr);
 	GPOS_ASSERT(NULL != pdatum);
 
-	if (!pdatum->FNeedsPadding() || CColRef::EcrtTable != pcr->Ecrt() || pdatum->FNull())
+	if (!pdatum->FNeedsPadding() || CColRef::EcrtTable != pcr->Ecrt() || pdatum->IsNull())
 	{
 		// we do not pad datum for comparison against computed columns
 		pdatum->AddRef();
@@ -96,7 +96,7 @@ CStatsPredPoint::PdatumPreprocess
 
 	const CColRefTable *pcrTable = CColRefTable::PcrConvert(const_cast<CColRef*>(pcr));
 
-	return pdatum->PdatumPadded(pmp, pcrTable->Width());
+	return pdatum->PdatumPadded(memory_pool, pcrTable->Width());
 }
 
 // EOF

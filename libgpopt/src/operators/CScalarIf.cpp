@@ -35,18 +35,18 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarIf::CScalarIf
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid
 	)
 	:
-	CScalar(pmp),
-	m_pmdidType(pmdid),
+	CScalar(memory_pool),
+	m_mdid_type(pmdid),
 	m_fBoolReturnType(false)
 {
 	GPOS_ASSERT(pmdid->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidType);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_mdid_type);
 }
 
 
@@ -62,7 +62,7 @@ CScalarIf::CScalarIf
 ULONG
 CScalarIf::HashValue() const
 {
-	return gpos::CombineHashes(COperator::HashValue(), m_pmdidType->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_mdid_type->HashValue());
 }
 
 //---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ CScalarIf::FMatch
 		CScalarIf *popScIf = CScalarIf::PopConvert(pop);
 
 		// match if return types are identical
-		return popScIf->MDIdType()->Equals(m_pmdidType);
+		return popScIf->MDIdType()->Equals(m_mdid_type);
 	}
 
 	return false;

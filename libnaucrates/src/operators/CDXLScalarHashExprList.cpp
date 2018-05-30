@@ -26,10 +26,10 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarHashExprList::CDXLScalarHashExprList
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CDXLScalar(pmp)
+	CDXLScalar(memory_pool)
 {
 }
 

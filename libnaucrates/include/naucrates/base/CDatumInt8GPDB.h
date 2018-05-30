@@ -40,7 +40,7 @@ namespace gpnaucrates
 			LINT m_lVal;
 
 			// is null
-			BOOL m_fNull;
+			BOOL m_is_null;
 
 
 			// private copy ctor
@@ -49,8 +49,8 @@ namespace gpnaucrates
 		public:
 
 			// ctors
-			CDatumInt8GPDB(CSystemId sysid, LINT lVal, BOOL fNull = false);
-			CDatumInt8GPDB(IMDId *pmdid, LINT lVal, BOOL fNull = false);
+			CDatumInt8GPDB(CSystemId sysid, LINT lVal, BOOL is_null = false);
+			CDatumInt8GPDB(IMDId *pmdid, LINT lVal, BOOL is_null = false);
 
 			// dtor
 			virtual
@@ -58,7 +58,7 @@ namespace gpnaucrates
 
 			// accessor of metadata type id
 			virtual
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 
 			// accessor of size
 			virtual
@@ -70,11 +70,11 @@ namespace gpnaucrates
 
 			// accessor of is null
 			virtual
-			BOOL FNull() const;
+			BOOL IsNull() const;
 
 			// return string representation
 			virtual
-			const CWStringConst *Pstr(IMemoryPool *pmp) const;
+			const CWStringConst *Pstr(IMemoryPool *memory_pool) const;
 
 			// hash function
 			virtual
@@ -86,7 +86,7 @@ namespace gpnaucrates
 
 			// copy datum
 			virtual
-			IDatum *PdatumCopy(IMemoryPool *pmp) const;
+			IDatum *PdatumCopy(IMemoryPool *memory_pool) const;
 
 			// print function
 			virtual

@@ -117,7 +117,7 @@ namespace gpmd
 			// ctor
 			CMDRelationExternalGPDB
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdname,
 				Ereldistrpolicy ereldistrpolicy,
@@ -146,7 +146,7 @@ namespace gpmd
 
 			// the metadata id
 			virtual
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 
 			// relation name
 			virtual

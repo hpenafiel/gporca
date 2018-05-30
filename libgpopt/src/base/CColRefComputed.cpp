@@ -27,15 +27,15 @@ using namespace gpopt;
 CColRefComputed::CColRefComputed
 	(
 	const IMDType *pmdtype,
-	INT iTypeModifier,
+	INT type_modifier,
 	ULONG ulId,
 	const CName *pname
 	)
 	:
-	CColRef(pmdtype, iTypeModifier, ulId, pname)
+	CColRef(pmdtype, type_modifier, ulId, pname)
 {
 	GPOS_ASSERT(NULL != pmdtype);
-	GPOS_ASSERT(pmdtype->Pmdid()->IsValid());
+	GPOS_ASSERT(pmdtype->MDId()->IsValid());
 	GPOS_ASSERT(NULL != pname);
 }
 

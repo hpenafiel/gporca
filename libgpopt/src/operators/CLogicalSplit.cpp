@@ -31,10 +31,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalSplit::CLogicalSplit
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pdrgpcrDelete(NULL),
 	m_pdrgpcrInsert(NULL),
 	m_pcrCtid(NULL),
@@ -55,7 +55,7 @@ CLogicalSplit::CLogicalSplit
 //---------------------------------------------------------------------------
 CLogicalSplit::CLogicalSplit
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcrDelete,
 	DrgPcr *pdrgpcrInsert,
 	CColRef *pcrCtid,
@@ -64,7 +64,7 @@ CLogicalSplit::CLogicalSplit
 	CColRef *pcrTupleOid
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pdrgpcrDelete(pdrgpcrDelete),
 	m_pdrgpcrInsert(pdrgpcrInsert),
 	m_pcrCtid(pcrCtid),
@@ -161,13 +161,13 @@ CLogicalSplit::HashValue() const
 COperator *
 CLogicalSplit::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
-	DrgPcr *pdrgpcrDelete = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrDelete, phmulcr, fMustExist);
-	DrgPcr *pdrgpcrInsert = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrInsert, phmulcr, fMustExist);
+	DrgPcr *pdrgpcrDelete = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrDelete, phmulcr, fMustExist);
+	DrgPcr *pdrgpcrInsert = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrInsert, phmulcr, fMustExist);
 	CColRef *pcrCtid = CUtils::PcrRemap(m_pcrCtid, phmulcr, fMustExist);
 	CColRef *pcrSegmentId = CUtils::PcrRemap(m_pcrSegmentId, phmulcr, fMustExist);
 	CColRef *pcrAction = CUtils::PcrRemap(m_pcrAction, phmulcr, fMustExist);
@@ -178,7 +178,7 @@ CLogicalSplit::PopCopyWithRemappedColumns
 		pcrTupleOid = CUtils::PcrRemap(m_pcrTupleOid, phmulcr, fMustExist);
 	}
 
-	return GPOS_NEW(pmp) CLogicalSplit(pmp, pdrgpcrDelete, pdrgpcrInsert, pcrCtid, pcrSegmentId, pcrAction, pcrTupleOid);
+	return GPOS_NEW(memory_pool) CLogicalSplit(memory_pool, pdrgpcrDelete, pdrgpcrInsert, pcrCtid, pcrSegmentId, pcrAction, pcrTupleOid);
 }
 
 //---------------------------------------------------------------------------
@@ -192,13 +192,13 @@ CLogicalSplit::PopCopyWithRemappedColumns
 CColRefSet *
 CLogicalSplit::PcrsDeriveOutput
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
 	GPOS_ASSERT(2 == exprhdl.UlArity());
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	pcrs->Union(exprhdl.Pdprel(0)->PcrsOutput());
 	pcrs->Include(m_pcrAction);
 	
@@ -222,7 +222,7 @@ CLogicalSplit::PcrsDeriveOutput
 CKeyCollection *
 CLogicalSplit::PkcDeriveKeys
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -242,7 +242,7 @@ CLogicalSplit::PkcDeriveKeys
 CMaxCard
 CLogicalSplit::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -262,11 +262,11 @@ CLogicalSplit::Maxcard
 CXformSet *
 CLogicalSplit::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementSplit);
 	return pxfs;
 }
@@ -282,7 +282,7 @@ CLogicalSplit::PxfsCandidates
 IStatistics *
 CLogicalSplit::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat * // not used
 	)
@@ -291,7 +291,7 @@ CLogicalSplit::PstatsDerive
 	// split returns double the number of tuples coming from its child
 	IStatistics *pstats = exprhdl.Pstats(0);
 
-	return pstats->PstatsScale(pmp, CDouble(2.0) /*dFactor*/);
+	return pstats->PstatsScale(memory_pool, CDouble(2.0) /*dFactor*/);
 }
 
 //---------------------------------------------------------------------------

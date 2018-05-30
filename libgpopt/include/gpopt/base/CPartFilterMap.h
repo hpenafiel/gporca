@@ -119,9 +119,9 @@ namespace gpopt
 
 			// ctors
 			explicit
-			CPartFilterMap(IMemoryPool *pmp);
+			CPartFilterMap(IMemoryPool *memory_pool);
 
-			CPartFilterMap(IMemoryPool *pmp, CPartFilterMap *ppfm);
+			CPartFilterMap(IMemoryPool *memory_pool, CPartFilterMap *ppfm);
 
 			// dtor
 			virtual
@@ -166,22 +166,22 @@ namespace gpopt
 			}
 
 			// extract part Scan id's in the given memory pool
-			ULongPtrArray *PdrgpulScanIds(IMemoryPool *pmp) const;
+			ULongPtrArray *PdrgpulScanIds(IMemoryPool *memory_pool) const;
 
 			// add part filter to map
 			void AddPartFilter
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULONG ulScanId,
 				CExpression *pexpr,
 				IStatistics *pstats
 				);
 
 			// look for given scan id in given map and, if found, copy the corresponding entry to current map
-			BOOL FCopyPartFilter(IMemoryPool *pmp, ULONG ulScanId, CPartFilterMap *ppfmSource);
+			BOOL FCopyPartFilter(IMemoryPool *memory_pool, ULONG ulScanId, CPartFilterMap *ppfmSource);
 
 			// copy all part filters from source map to current map
-			void CopyPartFilterMap(IMemoryPool *pmp, CPartFilterMap *ppfmSource);
+			void CopyPartFilterMap(IMemoryPool *memory_pool, CPartFilterMap *ppfmSource);
 
 			// print function
 			IOstream &OsPrint(IOstream &os) const;

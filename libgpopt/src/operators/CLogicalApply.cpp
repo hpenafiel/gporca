@@ -28,10 +28,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalApply::CLogicalApply
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pdrgpcrInner(NULL),
 	m_eopidOriginSubq(COperator::EopSentinel)
 {}
@@ -47,12 +47,12 @@ CLogicalApply::CLogicalApply
 //---------------------------------------------------------------------------
 CLogicalApply::CLogicalApply
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcrInner,
 	EOperatorId eopidOriginSubq
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pdrgpcrInner(pdrgpcrInner),
 	m_eopidOriginSubq(eopidOriginSubq)
 {
@@ -84,7 +84,7 @@ CLogicalApply::~CLogicalApply()
 CColRefSet *
 CLogicalApply::PcrsStat
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CColRefSet *pcrsInput,
 	ULONG ulChildIndex
@@ -93,7 +93,7 @@ CLogicalApply::PcrsStat
 {
 	GPOS_ASSERT(3 == exprhdl.UlArity());
 
-	CColRefSet *pcrsUsed = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrsUsed = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	// add columns used by scalar child
 	pcrsUsed->Union(exprhdl.Pdpscalar(2)->PcrsUsed());
 
@@ -103,7 +103,7 @@ CLogicalApply::PcrsStat
 		pcrsUsed->Union(exprhdl.Pdprel(1)->PcrsOuter());
 	}
 
-	CColRefSet *pcrsStat = PcrsReqdChildStats(pmp, exprhdl, pcrsInput, pcrsUsed, ulChildIndex);
+	CColRefSet *pcrsStat = PcrsReqdChildStats(memory_pool, exprhdl, pcrsInput, pcrsUsed, ulChildIndex);
 	pcrsUsed->Release();
 
 	return pcrsStat;

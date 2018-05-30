@@ -19,7 +19,7 @@ using namespace gpmd;
 void
 CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 			(
-			IMemoryPool *pmp,
+			IMemoryPool *memory_pool,
 			const CHistogram *phist1,
 			const CHistogram *phist2,
 			CStatsPredJoin *pstatsjoin,
@@ -48,7 +48,7 @@ CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 
 	if (fEmptyInput)
 	{
-		*pphist1 = phist1->PhistCopy(pmp);
+		*pphist1 = phist1->PhistCopy(memory_pool);
 		*pphist2 = NULL;
 
 		return;
@@ -59,7 +59,7 @@ CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 	{
 		*pphist1 = phist1->PhistLASJoinNormalized
 				(
-				pmp,
+				memory_pool,
 				escmpt,
 				dRows1,
 				phist2,
@@ -81,7 +81,7 @@ CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 	// for an unsupported join predicate operator or in the case of missing stats,
 	// copy input histograms and use default scale factor
 	*pdScaleFactor = CDouble(CScaleFactorUtils::DDefaultScaleFactorJoin);
-	*pphist1 = phist1->PhistCopy(pmp);
+	*pphist1 = phist1->PhistCopy(memory_pool);
 	*pphist2 = NULL;
 }
 
@@ -89,7 +89,7 @@ CLeftAntiSemiJoinStatsProcessor::JoinHistogramsLASJ
 CStatistics *
 CLeftAntiSemiJoinStatsProcessor::PstatsLASJoinStatic
 		(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		const IStatistics *pistatsOuter,
 		const IStatistics *pistatsInner,
 		DrgPstatspredjoin *pdrgpstatspredjoin,
@@ -103,7 +103,7 @@ CLeftAntiSemiJoinStatsProcessor::PstatsLASJoinStatic
 
 	return CJoinStatsProcessor::PstatsJoinDriver
 			(
-			pmp,
+			memory_pool,
 			pstatsOuter->PStatsConf(),
 			pistatsOuter,
 			pistatsInner,

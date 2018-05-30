@@ -18,10 +18,10 @@ CColConstraintsArrayMapper::PdrgPcnstrLookup
 
 CColConstraintsArrayMapper::CColConstraintsArrayMapper
 	(
-		gpos::IMemoryPool *pmp,
+		gpos::IMemoryPool *memory_pool,
 		DrgPcnstr *pdrgpcnstr
 	) :
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdrgpcnstr(pdrgpcnstr)
 {
 }

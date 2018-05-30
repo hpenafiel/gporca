@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// was the arg child seen
 			BOOL m_fArgProcessed;
@@ -68,7 +68,7 @@ namespace gpdxl
 			// ctor
 			CParseHandlerScalarSwitch
 					(
-					IMemoryPool *pmp,
+					IMemoryPool *memory_pool,
 					CParseHandlerManager *parse_handler_mgr,
 					CParseHandlerBase *pphRoot
 					);

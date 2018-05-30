@@ -38,12 +38,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDRelationExternal::CParseHandlerMDRelationExternal
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMDRelation(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerMDRelation(memory_pool, parse_handler_mgr, pphRoot),
 	m_iRejectLimit(GPDXL_DEFAULT_REJLIMIT),
 	m_fRejLimitInRows(false),
 	m_pmdidFmtErrRel(NULL)
@@ -152,7 +152,7 @@ CParseHandlerMDRelationExternal::EndElement
  	pdrgpmdidTriggers->AddRef();
  	pdrgpmdidCheckConstraint->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_memory_pool) CMDRelationExternalGPDB
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationExternalGPDB
 								(
 									m_memory_pool,
 									m_pmdid,

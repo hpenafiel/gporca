@@ -31,14 +31,14 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CDXLScalarSubPlan::CDXLScalarSubPlan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidFirstColType,
 	DrgPdxlcr *pdrgdxlcr,
 	EdxlSubPlanType edxlsubplantype,
 	CDXLNode *pdxlnTestExpr
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdidFirstColType(pmdidFirstColType),
 	m_pdrgdxlcr(pdrgdxlcr),
 	m_edxlsubplantype(edxlsubplantype),
@@ -202,9 +202,9 @@ CDXLScalarSubPlan::SerializeToDXL
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), ulid);
 
 		const CMDName *pmdname = (*m_pdrgdxlcr)[ul]->Pmdname();
-		const IMDId *pmdidType = (*m_pdrgdxlcr)[ul]->MDIdType();
+		const IMDId *mdid_type = (*m_pdrgdxlcr)[ul]->MDIdType();
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), pmdname->Pstr());
-		pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+		mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 		xml_serializer->CloseElement
 					(

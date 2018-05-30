@@ -56,7 +56,7 @@ namespace gpopt
 			const IMDType *m_pmdtype;
 
 			// type modifier
-			const INT m_iTypeModifier;
+			const INT m_type_modifier;
 
 			// name: SQL alias or artificial name
 			const CName *m_pname;
@@ -75,7 +75,7 @@ namespace gpopt
 			};
 		
 			// ctor
-			CColRef(const IMDType *pmdtype, const INT iTypeModifier, ULONG ulId, const CName *pname);
+			CColRef(const IMDType *pmdtype, const INT type_modifier, ULONG ulId, const CName *pname);
 
 			// dtor
 			virtual
@@ -90,7 +90,7 @@ namespace gpopt
 			// type modifier
 			INT TypeModifier() const
 			{
-				return m_iTypeModifier;
+				return m_type_modifier;
 			}
 			
 			// name
@@ -146,7 +146,7 @@ namespace gpopt
 
 			// extract array of colids from array of colrefs
 			static
-			ULongPtrArray *Pdrgpul(IMemoryPool *pmp, DrgPcr *pdrgpcr);
+			ULongPtrArray *Pdrgpul(IMemoryPool *memory_pool, DrgPcr *pdrgpcr);
 
 			// check if the the array of column references are equal
 			static

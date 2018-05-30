@@ -34,14 +34,14 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerScalarSubPlanParamList::CParseHandlerScalarSubPlanParamList
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot)
+	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, pphRoot)
 {
-	m_pdrgdxlcr = GPOS_NEW(pmp) DrgPdxlcr(pmp);
+	m_pdrgdxlcr = GPOS_NEW(memory_pool) DrgPdxlcr(memory_pool);
 	m_fParamList = false;
 }
 

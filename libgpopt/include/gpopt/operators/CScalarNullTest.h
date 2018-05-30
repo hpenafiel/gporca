@@ -42,10 +42,10 @@ namespace gpopt
 			explicit
 			CScalarNullTest
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				)
 				:
-				CScalar(pmp)
+				CScalar(memory_pool)
 			{}
 
 			// dtor
@@ -80,7 +80,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

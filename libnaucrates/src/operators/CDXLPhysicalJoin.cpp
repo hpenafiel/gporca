@@ -26,11 +26,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalJoin::CDXLPhysicalJoin
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EdxlJoinType edxljt
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_edxljt(edxljt)
 {
 }

@@ -31,24 +31,24 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CXformCollapseGbAgg::CXformCollapseGbAgg
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CXformExploration
 		(
 		 // pattern
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 					(
-					pmp,
-					GPOS_NEW(pmp) CLogicalGbAgg(pmp),
-					GPOS_NEW(pmp) CExpression
+					memory_pool,
+					GPOS_NEW(memory_pool) CLogicalGbAgg(memory_pool),
+					GPOS_NEW(memory_pool) CExpression
 						(
-						pmp,
-						GPOS_NEW(pmp) CLogicalGbAgg(pmp),
-						GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)),  // relational child
-						GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp))  // scalar project list
+						memory_pool,
+						GPOS_NEW(memory_pool) CLogicalGbAgg(memory_pool),
+						GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)),  // relational child
+						GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool))  // scalar project list
 						),
-					GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp))  // scalar project list
+					GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool))  // scalar project list
 					)
 		)
 {}
@@ -106,7 +106,7 @@ CXformCollapseGbAgg::Transform
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// extract components
 	CLogicalGbAgg *popTopGbAgg = CLogicalGbAgg::PopConvert(pexpr->Pop());
@@ -135,8 +135,8 @@ CXformCollapseGbAgg::Transform
 #ifdef GPOS_DEBUG
 	// for two cascaded GbAgg ops with no agg functions, top grouping
 	// columns must be a subset of bottom grouping columns
-	CColRefSet *pcrsTopGrpCols = GPOS_NEW(pmp) CColRefSet(pmp, popTopGbAgg->Pdrgpcr());
-	CColRefSet *pcrsBottomGrpCols = GPOS_NEW(pmp) CColRefSet(pmp, popBottomGbAgg->Pdrgpcr());
+	CColRefSet *pcrsTopGrpCols = GPOS_NEW(memory_pool) CColRefSet(memory_pool, popTopGbAgg->Pdrgpcr());
+	CColRefSet *pcrsBottomGrpCols = GPOS_NEW(memory_pool) CColRefSet(memory_pool, popBottomGbAgg->Pdrgpcr());
 	GPOS_ASSERT(pcrsBottomGrpCols->ContainsAll(pcrsTopGrpCols));
 
 	pcrsTopGrpCols->Release();
@@ -144,11 +144,11 @@ CXformCollapseGbAgg::Transform
 #endif // GPOS_DEBUG
 
 	pexprChild->AddRef();
-	CExpression *pexprSelect = CUtils::PexprLogicalSelect(pmp, pexprChild, CPredicateUtils::PexprConjunction(pmp, NULL /*pdrgpexpr*/));
+	CExpression *pexprSelect = CUtils::PexprLogicalSelect(memory_pool, pexprChild, CPredicateUtils::PexprConjunction(memory_pool, NULL /*pdrgpexpr*/));
 
 	popTopGbAgg->AddRef();
 	pexprTopProjectList->AddRef();
-	CExpression *pexprGbAggNew = GPOS_NEW(pmp) CExpression(pmp, popTopGbAgg, pexprSelect, pexprTopProjectList);
+	CExpression *pexprGbAggNew = GPOS_NEW(memory_pool) CExpression(memory_pool, popTopGbAgg, pexprSelect, pexprTopProjectList);
 
 	pxfres->Add(pexprGbAggNew);
 }

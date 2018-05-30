@@ -125,11 +125,11 @@ namespace gpos
 			// ctor
 			CSyncPool
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULONG size
 				)
             :
-            m_memory_pool(pmp),
+            m_memory_pool(memory_pool),
             m_objects(NULL),
             m_objs_reserved(NULL),
             m_objs_recycled(NULL),

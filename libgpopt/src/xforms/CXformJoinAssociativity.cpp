@@ -32,30 +32,30 @@ using namespace gpnaucrates;
 //---------------------------------------------------------------------------
 CXformJoinAssociativity::CXformJoinAssociativity
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	CXformExploration
 		(
 		 // pattern
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 					(
-					pmp,
-					GPOS_NEW(pmp) CLogicalInnerJoin(pmp),
-					GPOS_NEW(pmp) CExpression  // left child is a join tree
+					memory_pool,
+					GPOS_NEW(memory_pool) CLogicalInnerJoin(memory_pool),
+					GPOS_NEW(memory_pool) CExpression  // left child is a join tree
 					 	 (
-					 	 pmp,
-					 	 GPOS_NEW(pmp) CLogicalInnerJoin(pmp),
-					 	 GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)), // left child
-					 	 GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)), // right child
-					 	 GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp)) // predicate
+					 	 memory_pool,
+					 	 GPOS_NEW(memory_pool) CLogicalInnerJoin(memory_pool),
+					 	 GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)), // left child
+					 	 GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)), // right child
+					 	 GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool)) // predicate
 					 	 ),
-					GPOS_NEW(pmp) CExpression // right child is a pattern leaf
+					GPOS_NEW(memory_pool) CExpression // right child is a pattern leaf
 								(
-								pmp,
-								GPOS_NEW(pmp) CPatternLeaf(pmp)
+								memory_pool,
+								GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)
 								),
-					GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp)) // join predicate
+					GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool)) // join predicate
 					)
 		)
 {}
@@ -72,7 +72,7 @@ CXformJoinAssociativity::CXformJoinAssociativity
 void
 CXformJoinAssociativity::CreatePredicates
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr,
 	DrgPexpr *pdrgpexprLower,
 	DrgPexpr *pdrgpexprUpper
@@ -86,7 +86,7 @@ CXformJoinAssociativity::CreatePredicates
 	CExpression *pexprLeftLeft = (*pexprLeft)[0];
 	CExpression *pexprRight = (*pexpr)[1];
 	
-	DrgPexpr *pdrgpexprJoins = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprJoins = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	pexprLeft->AddRef();
 	pdrgpexprJoins->Append(pexprLeft);
@@ -95,16 +95,16 @@ CXformJoinAssociativity::CreatePredicates
 	pdrgpexprJoins->Append(pexpr);	
 	
 	// columns for new lower join
-	CColRefSet *pcrsLower = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrsLower = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	pcrsLower->Union(CDrvdPropRelational::Pdprel(pexprLeftLeft->PdpDerive())->PcrsOutput());
 	pcrsLower->Union(CDrvdPropRelational::Pdprel(pexprRight->PdpDerive())->PcrsOutput());
 	
 	// convert current predicates into arrays of conjuncts
-	DrgPexpr *pdrgpexprOrig = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprOrig = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	
 	for (ULONG ul = 0; ul < 2; ul++)
 	{
-		DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(pmp, (*(*pdrgpexprJoins)[ul])[2]);
+		DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(memory_pool, (*(*pdrgpexprJoins)[ul])[2]);
 		ULONG ulLen = pdrgpexprPreds->Size();
 		for (ULONG ulConj = 0; ulConj < ulLen; ulConj++)
 		{	
@@ -138,14 +138,14 @@ CXformJoinAssociativity::CreatePredicates
 	// predicate to be a scalar const "true".
 	if (pdrgpexprLower->Size() == 0)
 	{
-		CExpression *pexprCrossLowerJoinPred = CUtils::PexprScalarConstBool(pmp, true, false);
+		CExpression *pexprCrossLowerJoinPred = CUtils::PexprScalarConstBool(memory_pool, true, false);
 		pdrgpexprLower->Append(pexprCrossLowerJoinPred);
 	}
 	
 	// Same for upper predicates
 	if (pdrgpexprUpper->Size() == 0)
 	{
-		CExpression *pexprCrossUpperJoinPred = CUtils::PexprScalarConstBool(pmp, true, false);
+		CExpression *pexprCrossUpperJoinPred = CUtils::PexprScalarConstBool(memory_pool, true, false);
 		pdrgpexprUpper->Append(pexprCrossUpperJoinPred);
 	}
 
@@ -228,12 +228,12 @@ CXformJoinAssociativity::Transform
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
 	GPOS_ASSERT(FCheckPattern(pexpr));
 
-	IMemoryPool *pmp = pxfctxt->Pmp();
+	IMemoryPool *memory_pool = pxfctxt->Pmp();
 	
 	// create new predicates
-	DrgPexpr *pdrgpexprLower = GPOS_NEW(pmp) DrgPexpr(pmp);
-	DrgPexpr *pdrgpexprUpper = GPOS_NEW(pmp) DrgPexpr(pmp);
-	CreatePredicates(pmp, pexpr, pdrgpexprLower, pdrgpexprUpper);
+	DrgPexpr *pdrgpexprLower = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	DrgPexpr *pdrgpexprUpper = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	CreatePredicates(memory_pool, pexpr, pdrgpexprLower, pdrgpexprUpper);
 	
 	GPOS_ASSERT(pdrgpexprLower->Size() > 0);
 	
@@ -291,18 +291,18 @@ CXformJoinAssociativity::Transform
 		// build new joins
 		CExpression *pexprBottomJoin = CUtils::PexprLogicalJoin<CLogicalInnerJoin>
 										(
-										pmp,
+										memory_pool,
 										pexprLeftLeft,
 										pexprRight,
-										CPredicateUtils::PexprConjunction(pmp, pdrgpexprLower)
+										CPredicateUtils::PexprConjunction(memory_pool, pdrgpexprLower)
 										);
 
 		CExpression *pexprResult = CUtils::PexprLogicalJoin<CLogicalInnerJoin>
 									(
-									pmp,
+									memory_pool,
 									pexprBottomJoin,
 									pexprLeftRight,
-									CPredicateUtils::PexprConjunction(pmp, pdrgpexprUpper)
+									CPredicateUtils::PexprConjunction(memory_pool, pdrgpexprUpper)
 									);
 
 		// add alternative to transformation result

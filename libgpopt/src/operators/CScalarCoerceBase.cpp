@@ -32,21 +32,21 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarCoerceBase::CScalarCoerceBase
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType,
-	INT iTypeModifier,
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type,
+	INT type_modifier,
 	ECoercionForm ecf,
 	INT iLoc
 	)
 	:
-	CScalar(pmp),
-	m_pmdidResultType(pmdidType),
-	m_iTypeModifier(iTypeModifier),
+	CScalar(memory_pool),
+	m_pmdidResultType(mdid_type),
+	m_type_modifier(type_modifier),
 	m_ecf(ecf),
 	m_iLoc(iLoc)
 {
-	GPOS_ASSERT(NULL != pmdidType);
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(NULL != mdid_type);
+	GPOS_ASSERT(mdid_type->IsValid());
 }
 
 
@@ -90,7 +90,7 @@ CScalarCoerceBase::MDIdType() const
 INT
 CScalarCoerceBase::TypeModifier() const
 {
-	return m_iTypeModifier;
+	return m_type_modifier;
 }
 
 
@@ -135,7 +135,7 @@ CScalarCoerceBase::ILoc() const
 COperator*
 CScalarCoerceBase::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *, //pmp,
+	IMemoryPool *, //memory_pool,
 	HMUlCr *, //phmulcr,
 	BOOL //fMustExist
 	)

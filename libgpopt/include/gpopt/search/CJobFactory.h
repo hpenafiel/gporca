@@ -133,7 +133,7 @@ namespace gpopt
 			// ctor
 			CJobFactory
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULONG ulJobs
 				);
 

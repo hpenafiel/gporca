@@ -36,14 +36,14 @@ namespace gpdxl
 		private:
 		
 			// catalog Oid of the expressions's data type 
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 			
 			// private copy ctor
 			CDXLScalarHashExpr(CDXLScalarHashExpr&);
 			
 		public:
 			// ctor/dtor
-			CDXLScalarHashExpr(IMemoryPool *pmp, IMDId *pmdidType);
+			CDXLScalarHashExpr(IMemoryPool *memory_pool, IMDId *mdid_type);
 			
 			virtual
 			~CDXLScalarHashExpr();

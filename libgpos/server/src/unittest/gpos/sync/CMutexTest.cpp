@@ -125,13 +125,13 @@ CMutexTest::EresUnittest_Concurrency()
 	CMutexOS mutex;
 
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcStrict);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 	// scope for tasks
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 		CTask *rgPtsk[GPOS_MUTEX_THREADS];
 
 		for (ULONG i = 0; i < GPOS_MUTEX_THREADS; i++)

@@ -27,12 +27,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalWindow::CDXLPhysicalWindow
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulPartCols,
 	DrgPdxlwk *pdrgpdxlwk
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pdrgpulPartCols(pdrgpulPartCols),
 	m_pdrgpdxlwk(pdrgpdxlwk)
 {

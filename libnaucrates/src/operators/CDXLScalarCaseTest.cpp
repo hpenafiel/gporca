@@ -29,14 +29,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarCaseTest::CDXLScalarCaseTest
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type
 	)
 	:
-	CDXLScalar(pmp),
-	m_pmdidType(pmdidType)
+	CDXLScalar(memory_pool),
+	m_mdid_type(mdid_type)
 {
-	GPOS_ASSERT(m_pmdidType->IsValid());
+	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -49,7 +49,7 @@ CDXLScalarCaseTest::CDXLScalarCaseTest
 //---------------------------------------------------------------------------
 CDXLScalarCaseTest::~CDXLScalarCaseTest()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ CDXLScalarCaseTest::PstrOpName() const
 IMDId *
 CDXLScalarCaseTest::MDIdType() const
 {
-	return m_pmdidType;
+	return m_mdid_type;
 }
 
 //---------------------------------------------------------------------------
@@ -113,7 +113,7 @@ CDXLScalarCaseTest::SerializeToDXL
 	const CWStringConst *pstrElemName = PstrOpName();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }
 
@@ -132,7 +132,7 @@ CDXLScalarCaseTest::FBoolean
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pmdidType)->Eti());
+	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -153,7 +153,7 @@ CDXLScalarCaseTest::AssertValid
 	const
 {
 	GPOS_ASSERT(0 == pdxln->UlArity());
-	GPOS_ASSERT(m_pmdidType->IsValid());
+	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 #endif // GPOS_DEBUG
 

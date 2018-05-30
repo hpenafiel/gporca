@@ -55,7 +55,7 @@ namespace gpopt
 
 			// private ctor
 			explicit
-			CXformFactory(IMemoryPool *pmp);
+			CXformFactory(IMemoryPool *memory_pool);
 
 			// private copy ctor
 			CXformFactory(const CXformFactory &);

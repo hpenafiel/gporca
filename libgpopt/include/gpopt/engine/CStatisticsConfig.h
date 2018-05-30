@@ -61,7 +61,7 @@ namespace gpopt
 			// ctor
 			CStatisticsConfig
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CDouble dDampingFactorFilter,
 				CDouble dDampingFactorJoin,
 				CDouble dDampingFactorGroupBy
@@ -96,11 +96,11 @@ namespace gpopt
 
 			// generate default optimizer configurations
 			static
-			CStatisticsConfig *PstatsconfDefault(IMemoryPool *pmp)
+			CStatisticsConfig *PstatsconfDefault(IMemoryPool *memory_pool)
 			{
-				return GPOS_NEW(pmp) CStatisticsConfig
+				return GPOS_NEW(memory_pool) CStatisticsConfig
 									(
-									pmp,
+									memory_pool,
 									0.75 /* dDampingFactorFilter */,
 									0.01 /* dDampingFactorJoin */,
 									0.75 /* dDampingFactorGroupBy */

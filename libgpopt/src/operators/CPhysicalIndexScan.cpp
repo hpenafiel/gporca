@@ -29,7 +29,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalIndexScan::CPhysicalIndexScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CIndexDescriptor *pindexdesc,
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
@@ -38,7 +38,7 @@ CPhysicalIndexScan::CPhysicalIndexScan
 	COrderSpec *pos
 	)
 	:
-	CPhysicalScan(pmp, pnameAlias, ptabdesc, pdrgpcrOutput),
+	CPhysicalScan(memory_pool, pnameAlias, ptabdesc, pdrgpcrOutput),
 	m_pindexdesc(pindexdesc),
 	m_ulOriginOpId(ulOriginOpId),
 	m_pos(pos)
@@ -106,7 +106,7 @@ CPhysicalIndexScan::HashValue() const
 					COperator::HashValue(),
 					gpos::CombineHashes
 							(
-							m_pindexdesc->Pmdid()->HashValue(),
+							m_pindexdesc->MDId()->HashValue(),
 							gpos::HashPtr<CTableDescriptor>(m_ptabdesc)
 							)
 					);

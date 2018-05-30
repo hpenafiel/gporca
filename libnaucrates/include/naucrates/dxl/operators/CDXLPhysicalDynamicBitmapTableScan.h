@@ -48,13 +48,13 @@ namespace gpdxl
 			// ctor
 			CDXLPhysicalDynamicBitmapTableScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CDXLTableDescr *pdxltabdesc,
 				ULONG ulPartIndexId,
 				ULONG ulPartIndexIdPrintable
 				)
 				:
-				CDXLPhysicalAbstractBitmapScan(pmp, pdxltabdesc),
+				CDXLPhysicalAbstractBitmapScan(memory_pool, pdxltabdesc),
 				m_ulPartIndexId(ulPartIndexId),
 				m_ulPartIndexIdPrintable(ulPartIndexIdPrintable)
 			{

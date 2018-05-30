@@ -41,12 +41,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDRelationCtas::CParseHandlerMDRelationCtas
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMDRelation(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerMDRelation(memory_pool, parse_handler_mgr, pphRoot),
 	m_pdrgpiVarTypeMod(NULL)
 {
 }
@@ -172,7 +172,7 @@ CParseHandlerMDRelationCtas::EndElement
 	pdrgpmdcol->AddRef();
 	pdxlctasopt->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
 								(
 									m_memory_pool,
 									m_pmdid,

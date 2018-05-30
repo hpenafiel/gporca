@@ -43,7 +43,7 @@ namespace gpdxl
 			IMDId *m_pmdidResultType;
 
 			// output type modifier
-			INT m_iTypeModifier;
+			INT m_type_modifier;
 
 			// coercion form
 			EdxlCoercionForm m_edxlcf;
@@ -58,9 +58,9 @@ namespace gpdxl
 			// ctor/dtor
 			CDXLScalarCoerceBase
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				INT iTypeModifier,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				INT type_modifier,
 				EdxlCoercionForm edxlcf,
 				INT iLoc
 				);
@@ -77,7 +77,7 @@ namespace gpdxl
 			// return type modifier
 			INT TypeModifier() const
 			{
-				return m_iTypeModifier;
+				return m_type_modifier;
 			}
 
 			// return coercion form

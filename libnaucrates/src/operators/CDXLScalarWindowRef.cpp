@@ -31,7 +31,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarWindowRef::CDXLScalarWindowRef
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidFunc,
 	IMDId *pmdidRetType,
 	BOOL fDistinct,
@@ -41,7 +41,7 @@ CDXLScalarWindowRef::CDXLScalarWindowRef
 	ULONG ulWinspecPosition
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdidFunc(pmdidFunc),
 	m_pmdidRetType(pmdidRetType),
 	m_fDistinct(fDistinct),

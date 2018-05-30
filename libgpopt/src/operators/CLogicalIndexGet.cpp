@@ -36,10 +36,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalIndexGet::CLogicalIndexGet
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pindexdesc(NULL),
 	m_ptabdesc(NULL),
 	m_ulOriginOpId(ULONG_MAX),
@@ -63,7 +63,7 @@ CLogicalIndexGet::CLogicalIndexGet
 //---------------------------------------------------------------------------
 CLogicalIndexGet::CLogicalIndexGet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const IMDIndex *pmdindex,
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
@@ -71,7 +71,7 @@ CLogicalIndexGet::CLogicalIndexGet
 	DrgPcr *pdrgpcrOutput
 	)
 	:
-	CLogical(pmp),
+	CLogical(memory_pool),
 	m_pindexdesc(NULL),
 	m_ptabdesc(ptabdesc),
 	m_ulOriginOpId(ulOriginOpId),
@@ -86,15 +86,15 @@ CLogicalIndexGet::CLogicalIndexGet
 	GPOS_ASSERT(NULL != pdrgpcrOutput);
 
 	// create the index descriptor
-	m_pindexdesc  = CIndexDescriptor::Pindexdesc(pmp, ptabdesc, pmdindex);
+	m_pindexdesc  = CIndexDescriptor::Pindexdesc(memory_pool, ptabdesc, pmdindex);
 
 	// compute the order spec
 	m_pos = PosFromIndex(m_memory_pool, pmdindex, m_pdrgpcrOutput, ptabdesc);
 
 	// create a set representation of output columns
-	m_pcrsOutput = GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrOutput);
+	m_pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool, pdrgpcrOutput);
 
-	m_pcrsDist = CLogical::PcrsDist(pmp, m_ptabdesc, m_pdrgpcrOutput);
+	m_pcrsDist = CLogical::PcrsDist(memory_pool, m_ptabdesc, m_pdrgpcrOutput);
 }
 
 //---------------------------------------------------------------------------
@@ -129,7 +129,7 @@ ULONG
 CLogicalIndexGet::HashValue() const
 {
 	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(),
-	                                     m_pindexdesc->Pmdid()->HashValue());
+	                                     m_pindexdesc->MDId()->HashValue());
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 	return ulHash;
 }
@@ -164,28 +164,28 @@ CLogicalIndexGet::FMatch
 COperator *
 CLogicalIndexGet::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDIndex *pmdindex = pmda->Pmdindex(m_pindexdesc->Pmdid());
+	const IMDIndex *pmdindex = pmda->Pmdindex(m_pindexdesc->MDId());
 
 	DrgPcr *pdrgpcrOutput = NULL;
 	if (fMustExist)
 	{
-		pdrgpcrOutput = CUtils::PdrgpcrRemapAndCreate(pmp, m_pdrgpcrOutput, phmulcr);
+		pdrgpcrOutput = CUtils::PdrgpcrRemapAndCreate(memory_pool, m_pdrgpcrOutput, phmulcr);
 	}
 	else
 	{
-		pdrgpcrOutput = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrOutput, phmulcr, fMustExist);
+		pdrgpcrOutput = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrOutput, phmulcr, fMustExist);
 	}
-	CName *pnameAlias = GPOS_NEW(pmp) CName(pmp, *m_pnameAlias);
+	CName *pnameAlias = GPOS_NEW(memory_pool) CName(memory_pool, *m_pnameAlias);
 
 	m_ptabdesc->AddRef();
 
-	return GPOS_NEW(pmp) CLogicalIndexGet(pmp, pmdindex, m_ptabdesc, m_ulOriginOpId, pnameAlias, pdrgpcrOutput);
+	return GPOS_NEW(memory_pool) CLogicalIndexGet(memory_pool, pmdindex, m_ptabdesc, m_ulOriginOpId, pnameAlias, pdrgpcrOutput);
 }
 
 //---------------------------------------------------------------------------
@@ -199,11 +199,11 @@ CLogicalIndexGet::PopCopyWithRemappedColumns
 CColRefSet *
 CLogicalIndexGet::PcrsDeriveOutput
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle & // exprhdl
 	)
 {
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	pcrs->Include(m_pdrgpcrOutput);
 
 	return pcrs;
@@ -220,11 +220,11 @@ CLogicalIndexGet::PcrsDeriveOutput
 CColRefSet *
 CLogicalIndexGet::PcrsDeriveOuter
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
-	return PcrsDeriveOuterIndexGet(pmp, exprhdl);
+	return PcrsDeriveOuterIndexGet(memory_pool, exprhdl);
 }
 
 //---------------------------------------------------------------------------
@@ -252,11 +252,11 @@ CLogicalIndexGet::FInputOrderSensitive() const
 CXformSet *
 CLogicalIndexGet::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
 	(void) pxfs->ExchangeSet(CXform::ExfIndexGet2IndexScan);
 
@@ -275,13 +275,13 @@ const
 IStatistics *
 CLogicalIndexGet::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat *pdrgpstatCtxt
 	)
 	const
 {
-	return CStatisticsUtils::PstatsIndexGet(pmp, exprhdl, pdrgpstatCtxt);
+	return CStatisticsUtils::PstatsIndexGet(memory_pool, exprhdl, pdrgpstatCtxt);
 }
 
 

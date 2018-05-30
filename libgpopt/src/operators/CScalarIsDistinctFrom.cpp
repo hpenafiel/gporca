@@ -77,7 +77,7 @@ const
 CScalarIsDistinctFrom *
 CScalarIsDistinctFrom::PopCommutedOp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	COperator *pop
 	)
 {
@@ -86,7 +86,7 @@ CScalarIsDistinctFrom::PopCommutedOp
 	IMDId *pmdid = PmdidCommuteOp(pmda, pop);
 	if (NULL != pmdid && pmdid->IsValid())
 	{
-		return GPOS_NEW(pmp) CScalarIsDistinctFrom(pmp, pmdid, Pstr(pmp, pmda, pmdid));
+		return GPOS_NEW(memory_pool) CScalarIsDistinctFrom(memory_pool, pmdid, Pstr(memory_pool, pmda, pmdid));
 	}
 	return NULL;
 }

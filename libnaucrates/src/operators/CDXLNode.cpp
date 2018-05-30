@@ -28,15 +28,15 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLNode::CDXLNode
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlop(NULL),
 	m_pdxlprop(NULL),
 	m_pdxlddinfo(NULL)
 {
-	m_pdrgpdxln = GPOS_NEW(pmp) DrgPdxln(pmp);
+	m_pdrgpdxln = GPOS_NEW(memory_pool) DrgPdxln(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -49,17 +49,17 @@ CDXLNode::CDXLNode
 //---------------------------------------------------------------------------
 CDXLNode::CDXLNode
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLOperator *pdxlop
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdxlddinfo(NULL)
 {
 	GPOS_ASSERT(NULL != pdxlop);
-	m_pdrgpdxln = GPOS_NEW(pmp) DrgPdxln(pmp);
+	m_pdrgpdxln = GPOS_NEW(memory_pool) DrgPdxln(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -72,12 +72,12 @@ CDXLNode::CDXLNode
 //---------------------------------------------------------------------------
 CDXLNode::CDXLNode
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLOperator *pdxlop,
 	CDXLNode *pdxlnChild
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(NULL),
@@ -86,7 +86,7 @@ CDXLNode::CDXLNode
 	GPOS_ASSERT(NULL != pdxlop);
 	GPOS_ASSERT(NULL != pdxlnChild);
 
-	m_pdrgpdxln = GPOS_NEW(pmp) DrgPdxln(pmp);
+	m_pdrgpdxln = GPOS_NEW(memory_pool) DrgPdxln(memory_pool);
 	m_pdrgpdxln->Append(pdxlnChild);
 }
 
@@ -100,13 +100,13 @@ CDXLNode::CDXLNode
 //---------------------------------------------------------------------------
 CDXLNode::CDXLNode
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLOperator *pdxlop,
 	CDXLNode *pdxlnFst,
 	CDXLNode *pdxlnSnd
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(NULL),
@@ -116,7 +116,7 @@ CDXLNode::CDXLNode
 	GPOS_ASSERT(NULL != pdxlnFst);
 	GPOS_ASSERT(NULL != pdxlnSnd);
 	
-	m_pdrgpdxln = GPOS_NEW(pmp) DrgPdxln(pmp);
+	m_pdrgpdxln = GPOS_NEW(memory_pool) DrgPdxln(memory_pool);
 	m_pdrgpdxln->Append(pdxlnFst);
 	m_pdrgpdxln->Append(pdxlnSnd);
 }
@@ -131,14 +131,14 @@ CDXLNode::CDXLNode
 //---------------------------------------------------------------------------
 CDXLNode::CDXLNode
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLOperator *pdxlop,
 	CDXLNode *pdxlnFst,
 	CDXLNode *pdxlnSnd,
 	CDXLNode *pdxlnThrd
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(NULL),
@@ -149,7 +149,7 @@ CDXLNode::CDXLNode
 	GPOS_ASSERT(NULL != pdxlnSnd);
 	GPOS_ASSERT(NULL != pdxlnThrd);
 	
-	m_pdrgpdxln = GPOS_NEW(pmp) DrgPdxln(pmp);
+	m_pdrgpdxln = GPOS_NEW(memory_pool) DrgPdxln(memory_pool);
 	m_pdrgpdxln->Append(pdxlnFst);
 	m_pdrgpdxln->Append(pdxlnSnd);
 	m_pdrgpdxln->Append(pdxlnThrd);
@@ -165,12 +165,12 @@ CDXLNode::CDXLNode
 //---------------------------------------------------------------------------
 CDXLNode::CDXLNode
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLOperator *pdxlop,
 	DrgPdxln *pdrgpdxln
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pdxlop(pdxlop),
 	m_pdxlprop(NULL),
 	m_pdrgpdxln(pdrgpdxln),

@@ -84,7 +84,7 @@ namespace gpdxl
 			// ctor
 			CDXLLogicalCTAS
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				IMDId *pmdid,
 				CMDName *pmdnameSchema, 
 				CMDName *pmdnameRel, 
@@ -110,7 +110,7 @@ namespace gpdxl
 			const CWStringConst *PstrOpName() const;
 
 			// mdid of table to create
-			IMDId *Pmdid() const
+			IMDId *MDId() const
 			{
 				return m_pmdid;
 			}

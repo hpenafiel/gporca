@@ -33,12 +33,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerLogicalConstTable::CParseHandlerLogicalConstTable
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerLogicalOp(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, pphRoot),
 	m_pdrgpdrgpdxldatum(NULL),
 	m_pdrgpdxldatum(NULL)
 {
@@ -68,7 +68,7 @@ CParseHandlerLogicalConstTable::StartElement
 		GPOS_ASSERT(NULL == m_pdrgpdrgpdxldatum);
 
 		// initialize the array of const tuples (datum arrays)
-		m_pdrgpdrgpdxldatum = GPOS_NEW(m_memory_pool) DrgPdrgPdxldatum(m_memory_pool);
+		m_pdrgpdrgpdxldatum = GPOS_NEW(m_memory_pool) DXLDatumArrays(m_memory_pool);
 
 		// install a parse handler for the columns
 		CParseHandlerBase *pphColDescr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_pphm, this);
@@ -83,7 +83,7 @@ CParseHandlerLogicalConstTable::StartElement
 		GPOS_ASSERT(NULL == m_pdrgpdxldatum);
 
 		// initialize the array of datums (const tuple)
-		m_pdrgpdxldatum = GPOS_NEW(m_memory_pool) DrgPdxldatum(m_memory_pool);
+		m_pdrgpdxldatum = GPOS_NEW(m_memory_pool) DXLDatumArray(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{

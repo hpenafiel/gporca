@@ -58,10 +58,10 @@ namespace gpos
 		public:
 
 			// ctor
-			CWStringDynamic(IMemoryPool *pmp);
+			CWStringDynamic(IMemoryPool *memory_pool);
 
 			// ctor - copies passed string
-			CWStringDynamic(IMemoryPool *pmp, const WCHAR *wstrbuf);
+			CWStringDynamic(IMemoryPool *memory_pool, const WCHAR *wstrbuf);
 
 			// appends a string and replaces character with string
 			void AppendEscape(const CWStringBase *pstr, WCHAR wc, const WCHAR *wszReplace);

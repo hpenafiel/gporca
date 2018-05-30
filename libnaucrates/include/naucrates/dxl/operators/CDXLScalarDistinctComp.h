@@ -46,7 +46,7 @@ namespace gpdxl
 			// ctor/dtor		
 			CDXLScalarDistinctComp
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidOp
 				);
 						

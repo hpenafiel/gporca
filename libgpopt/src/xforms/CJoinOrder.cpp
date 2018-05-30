@@ -67,7 +67,7 @@ INT ICmpEdgesByLength
 //---------------------------------------------------------------------------
 CJoinOrder::SComponent::SComponent
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 	:
@@ -75,7 +75,7 @@ CJoinOrder::SComponent::SComponent
 	m_pexpr(pexpr),
 	m_fUsed(false)
 {	
-	m_pbs = GPOS_NEW(pmp) CBitSet(pmp);
+	m_pbs = GPOS_NEW(memory_pool) CBitSet(memory_pool);
 }
 
 
@@ -153,7 +153,7 @@ const
 //---------------------------------------------------------------------------
 CJoinOrder::SEdge::SEdge
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 	:
@@ -161,7 +161,7 @@ CJoinOrder::SEdge::SEdge
 	m_pexpr(pexpr),
 	m_fUsed(false)
 {	
-	m_pbs = GPOS_NEW(pmp) CBitSet(pmp);
+	m_pbs = GPOS_NEW(memory_pool) CBitSet(memory_pool);
 }
 
 
@@ -212,12 +212,12 @@ CJoinOrder::SEdge::OsPrint
 //---------------------------------------------------------------------------
 CJoinOrder::CJoinOrder
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr,
 	DrgPexpr *pdrgpexprConj
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_rgpedge(NULL),
 	m_ulEdges(0),
 	m_rgpcomp(NULL),
@@ -227,26 +227,26 @@ CJoinOrder::CJoinOrder
 	typedef SEdge* Pedge;
 	
 	m_ulComps = pdrgpexpr->Size();
-	m_rgpcomp = GPOS_NEW_ARRAY(pmp, Pcomp, m_ulComps);
+	m_rgpcomp = GPOS_NEW_ARRAY(memory_pool, Pcomp, m_ulComps);
 	
 	for (ULONG ul = 0; ul < m_ulComps; ul++)
 	{
 		CExpression *pexprComp = (*pdrgpexpr)[ul];
 		pexprComp->AddRef();
-		m_rgpcomp[ul] = GPOS_NEW(pmp) SComponent(pmp, pexprComp);
+		m_rgpcomp[ul] = GPOS_NEW(memory_pool) SComponent(memory_pool, pexprComp);
 		
 		// component always covers itself
 		(void) m_rgpcomp[ul]->m_pbs->ExchangeSet(ul);
 	}
 
 	m_ulEdges = pdrgpexprConj->Size();
-	m_rgpedge = GPOS_NEW_ARRAY(pmp, Pedge, m_ulEdges);
+	m_rgpedge = GPOS_NEW_ARRAY(memory_pool, Pedge, m_ulEdges);
 	
 	for (ULONG ul = 0; ul < m_ulEdges; ul++)
 	{
 		CExpression *pexprEdge = (*pdrgpexprConj)[ul];
 		pexprEdge->AddRef();
-		m_rgpedge[ul] = GPOS_NEW(pmp) SEdge(pmp, pexprEdge);
+		m_rgpedge[ul] = GPOS_NEW(memory_pool) SEdge(memory_pool, pexprEdge);
 	}
 	
 	pdrgpexpr->Release();
@@ -420,7 +420,7 @@ CJoinOrder::AddEdge
 	GPOS_ASSERT(0 < pbsCover->Size());
 
 	pbsCover->Difference(pcomp->m_pbs);
-	ULONG ulLength = pbsCover->Size();
+	ULONG length = pbsCover->Size();
 	
 	// iterate through remaining edge cover
 	BOOL fCovered = false;
@@ -434,8 +434,8 @@ CJoinOrder::AddEdge
 
 		// add predicate after all required components are merged
 		DrgPexpr *pdrgpexprFinal = NULL;
-		ulLength --;
-		if (0 == ulLength)
+		length --;
+		if (0 == length)
 		{
 			// reached end of edge cover, use edge's predicate
 			pdrgpexprFinal = pdrgpexpr;

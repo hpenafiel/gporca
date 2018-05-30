@@ -27,20 +27,20 @@ CSystemId::CSystemId
 	(
 	IMDId::EMDIdType emdidt,
 	const WCHAR *wsz,
-	ULONG ulLength
+	ULONG length
 	)
 	:
 	m_emdidt(emdidt)
 {
-	GPOS_ASSERT(GPDXL_SYSID_LENGTH >= ulLength);
+	GPOS_ASSERT(GPDXL_SYSID_LENGTH >= length);
 
-	if (ulLength > 0)
+	if (length > 0)
 	{
-		clib::WcStrNCpy(m_wsz, wsz, ulLength);
+		clib::WcStrNCpy(m_wsz, wsz, length);
 	}
 	
 	// ensure string is terminated
-	m_wsz[ulLength] = WCHAR_EOS;
+	m_wsz[length] = WCHAR_EOS;
 }
 
 //---------------------------------------------------------------------------
@@ -76,9 +76,9 @@ CSystemId::Equals
 	)
 	const
 {
-	ULONG ulLength = GPOS_WSZ_LENGTH(m_wsz);
-	return ulLength == GPOS_WSZ_LENGTH(sysid.m_wsz) &&
-			0 == clib::WcStrNCmp(m_wsz, sysid.m_wsz, ulLength);
+	ULONG length = GPOS_WSZ_LENGTH(m_wsz);
+	return length == GPOS_WSZ_LENGTH(sysid.m_wsz) &&
+			0 == clib::WcStrNCmp(m_wsz, sysid.m_wsz, length);
 }
 
 //---------------------------------------------------------------------------

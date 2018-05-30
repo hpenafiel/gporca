@@ -39,12 +39,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDGPDBCheckConstraint::CParseHandlerMDGPDBCheckConstraint
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_pmdidRel(NULL)
@@ -128,7 +128,7 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 	GPOS_ASSERT(NULL != pdxlnScExpr);
 	pdxlnScExpr->AddRef();
 
-	m_pimdobj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_pmdid, m_pmdname, m_pmdidRel, pdxlnScExpr);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_pmdid, m_pmdname, m_pmdidRel, pdxlnScExpr);
 
 	// deactivate handler
 	m_pphm->DeactivateHandler();

@@ -44,12 +44,12 @@ class CDatumGenericGPDB : public IDatumGeneric
 		BYTE *m_pbVal;
 
 		// is null
-		BOOL m_fNull;
+		BOOL m_is_null;
 
 		// type information
 		IMDId *m_pmdid;
 
-		INT m_iTypeModifier;
+		INT m_type_modifier;
 
 		// long int value used for statistic computation
 		LINT m_lValue;
@@ -65,12 +65,12 @@ class CDatumGenericGPDB : public IDatumGeneric
 		// ctor
 		CDatumGenericGPDB
 			(
-			IMemoryPool *pmp,
+			IMemoryPool *memory_pool,
 			IMDId *pmdid,
-			INT iTypeModifier,
+			INT type_modifier,
 			const void *pv,
 			ULONG ulSize,
-			BOOL fNull,
+			BOOL is_null,
 			LINT lValue,
 			CDouble dValue
 			);
@@ -81,7 +81,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// accessor of metadata type id
 		virtual
-		IMDId *Pmdid() const;
+		IMDId *MDId() const;
 
 		virtual
 		INT TypeModifier() const;
@@ -92,11 +92,11 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// accessor of is null
 		virtual
-		BOOL FNull() const;
+		BOOL IsNull() const;
 
 		// return string representation
 		virtual
-		const CWStringConst *Pstr(IMemoryPool *pmp) const;
+		const CWStringConst *Pstr(IMemoryPool *memory_pool) const;
 
 		// hash function
 		virtual
@@ -108,7 +108,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// copy datum
 		virtual
-		IDatum *PdatumCopy(IMemoryPool *pmp) const;
+		IDatum *PdatumCopy(IMemoryPool *memory_pool) const;
 		
 		// print function
 		virtual
@@ -116,7 +116,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// accessor to bytearray, creates a copy
 		virtual
-		BYTE *PbaVal(IMemoryPool *pmp, ULONG *pulLength) const;
+		BYTE *PbaVal(IMemoryPool *memory_pool, ULONG *pulLength) const;
 
 		// statistics related APIs
 
@@ -164,7 +164,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// return the padded datum
 		virtual
-		IDatum *PdatumPadded(IMemoryPool *pmp, ULONG ulColLen) const;
+		IDatum *PdatumPadded(IMemoryPool *memory_pool, ULONG ulColLen) const;
 
 		// statistics equality based on byte array representation of datums
 		virtual

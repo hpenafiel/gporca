@@ -140,7 +140,7 @@ namespace gpopt
 
 			// ctor
 			explicit
-			CCTEReq(IMemoryPool *pmp);
+			CCTEReq(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual
@@ -183,14 +183,14 @@ namespace gpopt
 			ULONG HashValue() const;
 
 			// returns a new requirement containing unresolved CTE requirements given a derived CTE map
-			CCTEReq *PcterUnresolved(IMemoryPool *pmp, CCTEMap *pcm);
+			CCTEReq *PcterUnresolved(IMemoryPool *memory_pool, CCTEMap *pcm);
 
 			// unresolved CTE requirements given a derived CTE map for a sequence
 			// operator
-			CCTEReq *PcterUnresolvedSequence(IMemoryPool *pmp, CCTEMap *pcm, DrgPdp *pdrgpdpCtxt);
+			CCTEReq *PcterUnresolvedSequence(IMemoryPool *memory_pool, CCTEMap *pcm, DrgPdp *pdrgpdpCtxt);
 
 			// create a copy of the current requirement where all the entries are marked optional
-			CCTEReq *PcterAllOptional(IMemoryPool *pmp);
+			CCTEReq *PcterAllOptional(IMemoryPool *memory_pool);
 
 			// lookup plan properties for given cte id
 			CDrvdPropPlan *Pdpplan (ULONG ulCteId) const;

@@ -37,7 +37,7 @@ namespace gpdxl
 			IMDId *m_pmdidOp;
 
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// private copy ctor
 			CDXLScalarNullIf(CDXLScalarNullIf&);
@@ -46,9 +46,9 @@ namespace gpdxl
 			// ctor
 			CDXLScalarNullIf
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidOp,
-				IMDId *pmdidType
+				IMDId *mdid_type
 				);
 
 			// dtor

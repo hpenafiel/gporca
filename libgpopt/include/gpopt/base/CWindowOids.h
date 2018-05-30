@@ -51,7 +51,7 @@ namespace gpopt
 
 			// generate default window oids
 			static
-			CWindowOids *Pwindowoids(IMemoryPool *pmp);
+			CWindowOids *Pwindowoids(IMemoryPool *memory_pool);
 
 	}; // class CWindowOids
 }

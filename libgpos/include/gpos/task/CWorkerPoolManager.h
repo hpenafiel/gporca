@@ -162,7 +162,7 @@ namespace gpos
 			// private ctor
 			CWorkerPoolManager
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				);
 
 			// static singleton - global instance of worker pool manager

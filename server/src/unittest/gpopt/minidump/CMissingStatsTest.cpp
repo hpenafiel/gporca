@@ -74,29 +74,29 @@ CMissingStatsTest::EresUnittest_RunTests()
 		};
 
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcNone);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	GPOS_RESULT eres = GPOS_OK;
 	const ULONG ulTests = GPOS_ARRAY_SIZE(rgtc);
 	for (ULONG ul = m_ulMissingStatsTestCounter; ((ul < ulTests) && (GPOS_OK == eres)); ul++)
 	{
-		ICostModel *pcm = CTestUtils::Pcm(pmp);
+		ICostModel *pcm = CTestUtils::Pcm(memory_pool);
 		CAutoTraceFlag atf1(EopttracePrintColsWithMissingStats, true /*fVal*/);
 
-		COptimizerConfig *optimizer_config = GPOS_NEW(pmp) COptimizerConfig
+		COptimizerConfig *optimizer_config = GPOS_NEW(memory_pool) COptimizerConfig
 												(
-												CEnumeratorConfig::Pec(pmp, 0 /*plan_id*/),
-												CStatisticsConfig::PstatsconfDefault(pmp),
-												CCTEConfig::PcteconfDefault(pmp),
+												CEnumeratorConfig::Pec(memory_pool, 0 /*plan_id*/),
+												CStatisticsConfig::PstatsconfDefault(memory_pool),
+												CCTEConfig::PcteconfDefault(memory_pool),
 												pcm,
-												CHint::PhintDefault(pmp),
-												CWindowOids::Pwindowoids(pmp)
+												CHint::PhintDefault(memory_pool),
+												CWindowOids::Pwindowoids(memory_pool)
 												);
 		SMissingStatsTestCase testCase = rgtc[ul];
 
 		CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 												(
-												pmp,
+												memory_pool,
 												testCase.m_szInputFile,
 												GPOPT_TEST_SEGMENTS /*ulSegments*/,
 												1 /*ulSessionId*/,
@@ -107,14 +107,14 @@ CMissingStatsTest::EresUnittest_RunTests()
 
 		CStatisticsConfig *pstatsconf = optimizer_config->Pstatsconf();
 
-		DrgPmdid *pdrgmdidCol = GPOS_NEW(pmp) DrgPmdid(pmp);
+		DrgPmdid *pdrgmdidCol = GPOS_NEW(memory_pool) DrgPmdid(memory_pool);
 		pstatsconf->CollectMissingStatsColumns(pdrgmdidCol);
 		ULONG ulMissingStats = pdrgmdidCol->Size();
 
 		if (ulMissingStats != testCase.m_ulExpectedMissingStats)
 		{
 			// for debug traces
-			CWStringDynamic str(pmp);
+			CWStringDynamic str(memory_pool);
 			COstreamString oss(&str);
 
 			// print objects

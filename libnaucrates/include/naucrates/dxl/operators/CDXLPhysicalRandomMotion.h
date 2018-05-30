@@ -50,7 +50,7 @@ namespace gpdxl
 			
 		public:
 			// ctor
-			CDXLPhysicalRandomMotion(IMemoryPool *pmp, BOOL fDuplicateSensitive);
+			CDXLPhysicalRandomMotion(IMemoryPool *memory_pool, BOOL fDuplicateSensitive);
 			
 			// accessors
 			Edxlopid Edxlop() const;

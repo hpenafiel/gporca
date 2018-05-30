@@ -28,19 +28,19 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalMotionGather::CPhysicalMotionGather
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDistributionSpecSingleton::ESegmentType est
 	)
 	:
-	CPhysicalMotion(pmp),
+	CPhysicalMotion(memory_pool),
 	m_pdssSingeton(NULL),
 	m_pcrsSort(NULL)
 {
 	GPOS_ASSERT(CDistributionSpecSingleton::EstSentinel != est);
 
-	m_pdssSingeton = GPOS_NEW(pmp) CDistributionSpecSingleton(est);
+	m_pdssSingeton = GPOS_NEW(memory_pool) CDistributionSpecSingleton(est);
 	m_pos = GPOS_NEW(m_memory_pool) COrderSpec(m_memory_pool);
-	m_pcrsSort = m_pos->PcrsUsed(pmp);
+	m_pcrsSort = m_pos->PcrsUsed(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -53,12 +53,12 @@ CPhysicalMotionGather::CPhysicalMotionGather
 //---------------------------------------------------------------------------
 CPhysicalMotionGather::CPhysicalMotionGather
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDistributionSpecSingleton::ESegmentType est,
 	COrderSpec *pos
 	)
 	:
-	CPhysicalMotion(pmp),
+	CPhysicalMotion(memory_pool),
 	m_pdssSingeton(NULL),
 	m_pos(pos),
 	m_pcrsSort(NULL)
@@ -66,8 +66,8 @@ CPhysicalMotionGather::CPhysicalMotionGather
 	GPOS_ASSERT(CDistributionSpecSingleton::EstSentinel != est);
 	GPOS_ASSERT(NULL != pos);
 
-	m_pdssSingeton = GPOS_NEW(pmp) CDistributionSpecSingleton(est);
-	m_pcrsSort = m_pos->PcrsUsed(pmp);
+	m_pdssSingeton = GPOS_NEW(memory_pool) CDistributionSpecSingleton(est);
+	m_pcrsSort = m_pos->PcrsUsed(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -122,7 +122,7 @@ CPhysicalMotionGather::FMatch
 CColRefSet *
 CPhysicalMotionGather::PcrsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CColRefSet *pcrsRequired,
 	ULONG ulChildIndex,
@@ -132,10 +132,10 @@ CPhysicalMotionGather::PcrsRequired
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp, *m_pcrsSort);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *m_pcrsSort);
 	pcrs->Union(pcrsRequired);
 	
-	CColRefSet *pcrsChildReqd = PcrsChildReqd(pmp, exprhdl, pcrs, ulChildIndex, ULONG_MAX);
+	CColRefSet *pcrsChildReqd = PcrsChildReqd(memory_pool, exprhdl, pcrs, ulChildIndex, ULONG_MAX);
 	pcrs->Release();
 
 	return pcrsChildReqd;
@@ -208,7 +208,7 @@ CPhysicalMotionGather::EpetOrder
 COrderSpec *
 CPhysicalMotionGather::PosRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	COrderSpec *,//posInput,
 	ULONG ulChildIndex,
@@ -221,10 +221,10 @@ CPhysicalMotionGather::PosRequired
 
 	if (FOrderPreserving())
 	{
-		return PosPassThru(pmp, exprhdl, m_pos, ulChildIndex);
+		return PosPassThru(memory_pool, exprhdl, m_pos, ulChildIndex);
 	}
 
-	return GPOS_NEW(pmp) COrderSpec(pmp);
+	return GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -238,7 +238,7 @@ CPhysicalMotionGather::PosRequired
 COrderSpec *
 CPhysicalMotionGather::PosDerive
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle & // exprhdl
 	)
 	const

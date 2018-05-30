@@ -33,13 +33,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalTableScan::CPhysicalTableScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CName *pnameAlias,
 	CTableDescriptor *ptabdesc,
 	DrgPcr *pdrgpcrOutput
 	)
 	:
-	CPhysicalScan(pmp, pnameAlias, ptabdesc, pdrgpcrOutput)
+	CPhysicalScan(memory_pool, pnameAlias, ptabdesc, pdrgpcrOutput)
 {
 }
 
@@ -54,7 +54,7 @@ CPhysicalTableScan::CPhysicalTableScan
 ULONG
 CPhysicalTableScan::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->MDId()->HashValue());
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
@@ -82,7 +82,7 @@ CPhysicalTableScan::FMatch
 	}
 
 	CPhysicalTableScan *popTableScan = CPhysicalTableScan::PopConvert(pop);
-	return m_ptabdesc->Pmdid()->Equals(popTableScan->Ptabdesc()->Pmdid()) &&
+	return m_ptabdesc->MDId()->Equals(popTableScan->Ptabdesc()->MDId()) &&
 			m_pdrgpcrOutput->Equals(popTableScan->PdrgpcrOutput());
 }
 

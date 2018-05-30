@@ -30,18 +30,18 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarPartBound::CDXLScalarPartBound
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulLevel,
-	IMDId *pmdidType,
+	IMDId *mdid_type,
 	BOOL fLower
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_ulLevel(ulLevel),
-	m_pmdidType(pmdidType),
+	m_mdid_type(mdid_type),
 	m_fLower(fLower)
 {
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(mdid_type->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -54,7 +54,7 @@ CDXLScalarPartBound::CDXLScalarPartBound
 //---------------------------------------------------------------------------
 CDXLScalarPartBound::~CDXLScalarPartBound()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ CDXLScalarPartBound::PstrOpName() const
 BOOL
 CDXLScalarPartBound::FBoolean(CMDAccessor *pmda) const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pmdidType)->Eti());
+	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
 }
 
 //---------------------------------------------------------------------------
@@ -119,7 +119,7 @@ CDXLScalarPartBound::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartLevel), m_ulLevel);
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDType));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDType));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenScalarPartBoundLower), m_fLower);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 }

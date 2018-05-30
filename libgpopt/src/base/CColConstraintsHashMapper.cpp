@@ -22,12 +22,12 @@ static
 HMColConstr *
 PhmcolconstrSingleColConstr
 	(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		DrgPcnstr *drgPcnstr
 	)
 {
 	CAutoRef<DrgPcnstr> arpdrgpcnstr(drgPcnstr);
-	HMColConstr *phmcolconstr = GPOS_NEW(pmp) HMColConstr(pmp);
+	HMColConstr *phmcolconstr = GPOS_NEW(memory_pool) HMColConstr(memory_pool);
 
 	const ULONG ulLen = arpdrgpcnstr->Size();
 
@@ -42,7 +42,7 @@ PhmcolconstrSingleColConstr
 			DrgPcnstr *pcnstrMapped = phmcolconstr->Find(pcr);
 			if (NULL == pcnstrMapped)
 			{
-				pcnstrMapped = GPOS_NEW(pmp) DrgPcnstr(pmp);
+				pcnstrMapped = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 				phmcolconstr->Insert(pcr, pcnstrMapped);
 			}
 			pcnstrChild->AddRef();
@@ -55,10 +55,10 @@ PhmcolconstrSingleColConstr
 
 CColConstraintsHashMapper::CColConstraintsHashMapper
 	(
-		IMemoryPool *pmp,
+		IMemoryPool *memory_pool,
 		DrgPcnstr *pdrgpcnstr
 	) :
-	m_phmColConstr(PhmcolconstrSingleColConstr(pmp, pdrgpcnstr))
+	m_phmColConstr(PhmcolconstrSingleColConstr(memory_pool, pdrgpcnstr))
 {
 }
 

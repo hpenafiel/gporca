@@ -68,25 +68,25 @@ GPOS_RESULT
 CJoinOrderTest::EresUnittest_Expand()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 	
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				NULL,  /* pceeval */
-				CTestUtils::Pcm(pmp)
+				CTestUtils::Pcm(memory_pool)
 				);
 
 	// build test case
-	CExpression *pexpr = CTestUtils::PexprLogicalNAryJoin(pmp);
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	CExpression *pexpr = CTestUtils::PexprLogicalNAryJoin(memory_pool);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	ULONG ulArity = pexpr->UlArity();
 	for (ULONG ul = 0; ul < ulArity - 1; ul++)
 	{
@@ -95,10 +95,10 @@ CJoinOrderTest::EresUnittest_Expand()
 		pdrgpexpr->Append(pexprChild);
 	}
 
-	DrgPexpr *pdrgpexprConj = CPredicateUtils::PdrgpexprConjuncts(pmp, (*pexpr)[ulArity - 1]);
+	DrgPexpr *pdrgpexprConj = CPredicateUtils::PdrgpexprConjuncts(memory_pool, (*pexpr)[ulArity - 1]);
 
 	// add predicates selectively to trigger special case of cross join
-	DrgPexpr *pdrgpexprTest = GPOS_NEW(pmp) DrgPexpr(pmp);	
+	DrgPexpr *pdrgpexprTest = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);	
 	for (ULONG ul = 0; ul < pdrgpexprConj->Size() - 1; ul++)
 	{
 		CExpression *pexprConjunct = (*pdrgpexprConj)[ul];
@@ -110,14 +110,14 @@ CJoinOrderTest::EresUnittest_Expand()
 
 	// single-table predicate
 	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel((*pdrgpexpr)[ulArity - 2]->PdpDerive())->PcrsOutput();
-	CExpression *pexprSingleton = CUtils::PexprScalarEqCmp(pmp, pcrsOutput->PcrAny(), pcrsOutput->PcrAny());
+	CExpression *pexprSingleton = CUtils::PexprScalarEqCmp(memory_pool, pcrsOutput->PcrAny(), pcrsOutput->PcrAny());
 	
 	pdrgpexprTest->Append(pexprSingleton);
 	
-	CJoinOrder jo(pmp, pdrgpexpr, pdrgpexprTest);
+	CJoinOrder jo(memory_pool, pdrgpexpr, pdrgpexprTest);
 	CExpression *pexprResult = jo.PexprExpand();
 	{
-		CAutoTrace at(pmp);
+		CAutoTrace at(memory_pool);
 		at.Os() << std::endl << "INPUT:" << std::endl << *pexpr << std::endl;
 		at.Os() << std::endl << "OUTPUT:" << std::endl << *pexprResult << std::endl;
 	}
@@ -142,7 +142,7 @@ GPOS_RESULT
 CJoinOrderTest::EresUnittest_ExpandMinCard()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// array of relation names
 	CWStringConst rgscRel[] =
@@ -190,41 +190,41 @@ CJoinOrderTest::EresUnittest_ExpandMinCard()
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache());
+	CMDAccessor mda(memory_pool, CMDCache::Pcache());
 	mda.RegisterProvider(CTestUtils::m_sysidDefault, pmdp);
 
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 				(
-				pmp,
+				memory_pool,
 				&mda,
 				NULL,  /* pceeval */
-				CTestUtils::Pcm(pmp)
+				CTestUtils::Pcm(memory_pool)
 				);
 
 		CExpression *pexprNAryJoin =
-				CTestUtils::PexprLogicalNAryJoin(pmp, rgscRel, rgulRel, ulRels, false /*fCrossProduct*/);
+				CTestUtils::PexprLogicalNAryJoin(memory_pool, rgscRel, rgulRel, ulRels, false /*fCrossProduct*/);
 
 		// derive stats on input expression
-		CExpressionHandle exprhdl(pmp);
+		CExpressionHandle exprhdl(memory_pool);
 		exprhdl.Attach(pexprNAryJoin);
-		exprhdl.DeriveStats(pmp, pmp, NULL /*prprel*/, NULL /*pdrgpstatCtxt*/);
+		exprhdl.DeriveStats(memory_pool, memory_pool, NULL /*prprel*/, NULL /*pdrgpstatCtxt*/);
 
-		DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+		DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 		for (ULONG ul = 0; ul < ulRels; ul++)
 		{
 			CExpression *pexprChild = (*pexprNAryJoin)[ul];
 			pexprChild->AddRef();
 			pdrgpexpr->Append(pexprChild);
 		}
-		DrgPexpr *pdrgpexprPred = CPredicateUtils::PdrgpexprConjuncts(pmp, (*pexprNAryJoin)[ulRels]);
+		DrgPexpr *pdrgpexprPred = CPredicateUtils::PdrgpexprConjuncts(memory_pool, (*pexprNAryJoin)[ulRels]);
 		pdrgpexpr->AddRef();
 		pdrgpexprPred->AddRef();
-		CJoinOrderMinCard jomc(pmp, pdrgpexpr, pdrgpexprPred);
+		CJoinOrderMinCard jomc(memory_pool, pdrgpexpr, pdrgpexprPred);
 		CExpression *pexprResult = jomc.PexprExpand();
 		{
-			CAutoTrace at(pmp);
+			CAutoTrace at(memory_pool);
 			at.Os() << std::endl << "INPUT:" << std::endl << *pexprNAryJoin << std::endl;
 			at.Os() << std::endl << "OUTPUT:" << std::endl << *pexprResult << std::endl;
 		}

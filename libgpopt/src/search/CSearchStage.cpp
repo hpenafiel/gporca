@@ -123,14 +123,14 @@ CSearchStage::SetBestExpr
 DrgPss *
 CSearchStage::PdrgpssDefault
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	pxfs->Union(CXformFactory::Pxff()->PxfsExploration());
-	DrgPss *pdrgpss = GPOS_NEW(pmp) DrgPss(pmp);
+	DrgPss *pdrgpss = GPOS_NEW(memory_pool) DrgPss(memory_pool);
 
-	pdrgpss->Append(GPOS_NEW(pmp) CSearchStage(pxfs));
+	pdrgpss->Append(GPOS_NEW(memory_pool) CSearchStage(pxfs));
 
 	return pdrgpss;
 }

@@ -27,11 +27,11 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarAssertConstraint::CScalarAssertConstraint
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CWStringBase *pstrErrorMsg
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pstrErrorMsg(pstrErrorMsg)
 {
 	GPOS_ASSERT(NULL != pstrErrorMsg);
@@ -108,7 +108,7 @@ IMDId *
 CScalarAssertConstraint::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeBool>()->Pmdid();
+	return pmda->PtMDType<IMDTypeBool>()->MDId();
 }
 
 

@@ -28,12 +28,12 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalMergeJoin::CDXLPhysicalMergeJoin
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EdxlJoinType edxljt,
 	BOOL fUniqueOuter
 	)
 	:
-	CDXLPhysicalJoin(pmp, edxljt),
+	CDXLPhysicalJoin(memory_pool, edxljt),
 	m_fUniqueOuter(fUniqueOuter)
 {
 }

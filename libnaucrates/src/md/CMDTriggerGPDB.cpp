@@ -30,7 +30,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CMDTriggerGPDB::CMDTriggerGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidRel,
@@ -39,7 +39,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	BOOL fEnabled
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidRel(pmdidRel),

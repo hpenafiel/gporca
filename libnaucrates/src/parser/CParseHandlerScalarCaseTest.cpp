@@ -29,13 +29,13 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerScalarCaseTest::CParseHandlerScalarCaseTest
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerScalarOp(pmp, parse_handler_mgr, pphRoot),
-	m_pmdidType(NULL)
+	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, pphRoot),
+	m_mdid_type(NULL)
 {
 }
 
@@ -63,7 +63,7 @@ CParseHandlerScalarCaseTest::StartElement
 	}
 
 	// parse type id
-	m_pmdidType = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarCaseTest);
+	m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_pphm->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarCaseTest);
 }
 
 //---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ CParseHandlerScalarCaseTest::EndElement
 	}
 
 	// construct node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCaseTest(m_memory_pool, m_pmdidType));
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCaseTest(m_memory_pool, m_mdid_type));
 
 	// deactivate handler
 	m_pphm->DeactivateHandler();

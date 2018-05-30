@@ -34,13 +34,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalScan::CPhysicalScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CName *pnameAlias,
 	CTableDescriptor *ptabdesc,
 	DrgPcr *pdrgpcrOutput
 	)
 	:
-	CPhysical(pmp),
+	CPhysical(memory_pool),
 	m_pnameAlias(pnameAlias),
 	m_ptabdesc(ptabdesc),
 	m_pdrgpcrOutput(pdrgpcrOutput),
@@ -224,7 +224,7 @@ CPhysicalScan::PexprMatchEqualitySide
 CDistributionSpecHashed *
 CPhysicalScan::PdshashedDeriveWithOuterRefs
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -233,9 +233,9 @@ CPhysicalScan::PdshashedDeriveWithOuterRefs
 	GPOS_ASSERT(CDistributionSpec::EdtHashed == m_pds->Edt());
 
 	CExpression *pexprIndexPred = exprhdl.PexprScalarChild(0 /*ulChildIndex*/);
-	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprIndexPred);
+	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprIndexPred);
 
-	DrgPexpr *pdrgpexprMatching = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprMatching = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(m_pds);
 	DrgPexpr *pdrgpexprHashed = pdshashed->Pdrgpexpr();
 	const ULONG ulSize = pdrgpexprHashed->Size();
@@ -260,10 +260,10 @@ CPhysicalScan::PdshashedDeriveWithOuterRefs
 
 		// create a matching hashed distribution request
 		BOOL fNullsColocated = pdshashed->FNullsColocated();
-		CDistributionSpecHashed *pdshashedEquiv = GPOS_NEW(pmp) CDistributionSpecHashed(pdrgpexprMatching, fNullsColocated);
+		CDistributionSpecHashed *pdshashedEquiv = GPOS_NEW(memory_pool) CDistributionSpecHashed(pdrgpexprMatching, fNullsColocated);
 
 		pdrgpexprHashed->AddRef();
-		CDistributionSpecHashed *pdshashedResult = GPOS_NEW(pmp) CDistributionSpecHashed(pdrgpexprHashed, fNullsColocated, pdshashedEquiv);
+		CDistributionSpecHashed *pdshashedResult = GPOS_NEW(memory_pool) CDistributionSpecHashed(pdrgpexprHashed, fNullsColocated, pdshashedEquiv);
 
 		return pdshashedResult;
 	}
@@ -284,7 +284,7 @@ CPhysicalScan::PdshashedDeriveWithOuterRefs
 CDistributionSpec *
 CPhysicalScan::PdsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -298,7 +298,7 @@ CPhysicalScan::PdsDerive
 		// if index conditions have outer references and index relation is hashed,
 		// check to see if we can derive an equivalent hashed distribution for the
 		// outer references
-		CDistributionSpecHashed *pdshashed = PdshashedDeriveWithOuterRefs(pmp, exprhdl);
+		CDistributionSpecHashed *pdshashed = PdshashedDeriveWithOuterRefs(memory_pool, exprhdl);
 		if (NULL != pdshashed)
 		{
 			return pdshashed;
@@ -321,7 +321,7 @@ CPhysicalScan::PdsDerive
 CPartIndexMap *
 CPhysicalScan::PpimDeriveFromDynamicScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulPartIndexId,
 	IMDId *pmdidRel,
 	DrgDrgPcr *pdrgpdrgpcrPart,
@@ -331,13 +331,13 @@ CPhysicalScan::PpimDeriveFromDynamicScan
 	ULONG ulExpectedPropagators
 	)
 {
-	CPartIndexMap *ppim = GPOS_NEW(pmp) CPartIndexMap(pmp);
-	PartCnstrMap *ppartcnstrmap = GPOS_NEW(pmp) PartCnstrMap(pmp);
+	CPartIndexMap *ppim = GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
+	PartCnstrMap *ppartcnstrmap = GPOS_NEW(memory_pool) PartCnstrMap(memory_pool);
 	
-	(void) ppartcnstrmap->Insert(GPOS_NEW(pmp) ULONG(ulSecondaryPartIndexId), ppartcnstr);
+	(void) ppartcnstrmap->Insert(GPOS_NEW(memory_pool) ULONG(ulSecondaryPartIndexId), ppartcnstr);
 
-	DrgPpartkeys *pdrgppartkeys = GPOS_NEW(pmp) DrgPpartkeys(pmp);
-	pdrgppartkeys->Append(GPOS_NEW(pmp) CPartKeys(pdrgpdrgpcrPart));
+	DrgPpartkeys *pdrgppartkeys = GPOS_NEW(memory_pool) DrgPpartkeys(memory_pool);
+	pdrgppartkeys->Append(GPOS_NEW(memory_pool) CPartKeys(pdrgpdrgpcrPart));
 
 	ppim->Insert(ulPartIndexId, ppartcnstrmap, CPartIndexMap::EpimConsumer, ulExpectedPropagators, pmdidRel, pdrgppartkeys, ppartcnstrRel);
 
@@ -386,16 +386,16 @@ CPhysicalScan::EpetDistribution
 void
 CPhysicalScan::ComputeTableStats
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	GPOS_ASSERT(NULL == m_pstatsBaseTable);
 
-	CColRefSet *pcrsHist = GPOS_NEW(pmp) CColRefSet(pmp);
-	CColRefSet *pcrsWidth = GPOS_NEW(pmp) CColRefSet(pmp, m_pdrgpcrOutput);
+	CColRefSet *pcrsHist = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
+	CColRefSet *pcrsWidth = GPOS_NEW(memory_pool) CColRefSet(memory_pool, m_pdrgpcrOutput);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_pstatsBaseTable = pmda->Pstats(pmp, m_ptabdesc->Pmdid(), pcrsHist, pcrsWidth);
+	m_pstatsBaseTable = pmda->Pstats(memory_pool, m_ptabdesc->MDId(), pcrsHist, pcrsWidth);
 	GPOS_ASSERT(NULL != m_pstatsBaseTable);
 
 	pcrsHist->Release();

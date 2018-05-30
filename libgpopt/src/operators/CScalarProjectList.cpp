@@ -33,10 +33,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CScalarProjectList::CScalarProjectList
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CScalar(pmp)
+	CScalar(memory_pool)
 {
 }
 

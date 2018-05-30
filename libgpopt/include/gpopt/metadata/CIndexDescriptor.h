@@ -61,7 +61,7 @@ namespace gpopt
 			// ctor
 			CIndexDescriptor
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidIndex,
 				const CName &name,
 				DrgPcoldesc *pdrgcoldescKeyCols,
@@ -80,7 +80,7 @@ namespace gpopt
 			ULONG UlIncludedColumns() const;
 
 			// index mdid accessor
-			IMDId *Pmdid() const
+			IMDId *MDId() const
 			{
 				return m_pmdidIndex;
 			}
@@ -112,7 +112,7 @@ namespace gpopt
 			// create an index descriptor
 			static CIndexDescriptor *Pindexdesc
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CTableDescriptor *ptabdesc,
 				const IMDIndex *pmdindex
 				);

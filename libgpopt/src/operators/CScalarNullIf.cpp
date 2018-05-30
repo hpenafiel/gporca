@@ -35,23 +35,23 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarNullIf::CScalarNullIf
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
-	IMDId *pmdidType
+	IMDId *mdid_type
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidOp(pmdidOp),
-	m_pmdidType(pmdidType),
+	m_mdid_type(mdid_type),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
 	GPOS_ASSERT(pmdidOp->IsValid());
-	GPOS_ASSERT(pmdidType->IsValid());
+	GPOS_ASSERT(mdid_type->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(pmda, m_pmdidOp);
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidType);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_mdid_type);
 }
 
 
@@ -66,7 +66,7 @@ CScalarNullIf::CScalarNullIf
 CScalarNullIf::~CScalarNullIf()
 {
 	m_pmdidOp->Release();
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -82,7 +82,7 @@ ULONG
 CScalarNullIf::HashValue() const
 {
 	return gpos::CombineHashes(COperator::HashValue(),
-			gpos::CombineHashes(m_pmdidOp->HashValue(),m_pmdidType->HashValue()));
+			gpos::CombineHashes(m_pmdidOp->HashValue(),m_mdid_type->HashValue()));
 }
 
 //---------------------------------------------------------------------------
@@ -109,7 +109,7 @@ CScalarNullIf::FMatch
 
 	// match if operators and return types are identical
 	return m_pmdidOp->Equals(popScNullIf->PmdidOp()) &&
-			m_pmdidType->Equals(popScNullIf->MDIdType());
+			m_mdid_type->Equals(popScNullIf->MDIdType());
 }
 
 

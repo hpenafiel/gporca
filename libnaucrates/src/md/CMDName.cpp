@@ -27,14 +27,14 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDName::CMDName
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CWStringBase *pstr
 	)
 	:
 	m_psc(NULL),
 	m_fDeepCopy(true)
 {
-	m_psc = GPOS_NEW(pmp) CWStringConst(pmp, pstr->GetBuffer());
+	m_psc = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstr->GetBuffer());
 }
 
 //---------------------------------------------------------------------------

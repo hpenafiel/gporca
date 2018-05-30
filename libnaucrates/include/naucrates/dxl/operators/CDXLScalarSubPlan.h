@@ -71,7 +71,7 @@ namespace gpdxl
 			// ctor/dtor
 			CDXLScalarSubPlan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidFirstColType,
 				DrgPdxlcr *pdrgdxlcr,
 				EdxlSubPlanType edxlsubplantype,

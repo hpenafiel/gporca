@@ -217,11 +217,11 @@ CFunctionalDependency::Equals
 CColRefSet *
 CFunctionalDependency::PcrsKeys
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const DrgPfd *pdrgpfd
 	)
 {
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	if (pdrgpfd != NULL)
 	{
@@ -247,12 +247,12 @@ CFunctionalDependency::PcrsKeys
 DrgPcr *
 CFunctionalDependency::PdrgpcrKeys
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const DrgPfd *pdrgpfd
 	)
 {
-	CColRefSet *pcrs = PcrsKeys(pmp, pdrgpfd);
-	DrgPcr *pdrgpcr = pcrs->Pdrgpcr(pmp);
+	CColRefSet *pcrs = PcrsKeys(memory_pool, pdrgpfd);
+	DrgPcr *pdrgpcr = pcrs->Pdrgpcr(memory_pool);
 	pcrs->Release();
 
 	return pdrgpcr;

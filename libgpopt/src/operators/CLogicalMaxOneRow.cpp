@@ -58,7 +58,7 @@ CLogicalMaxOneRow::Esp
 CColRefSet *
 CLogicalMaxOneRow::PcrsStat
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CColRefSet *pcrsInput,
 	ULONG ulChildIndex
@@ -67,7 +67,7 @@ CLogicalMaxOneRow::PcrsStat
 {
 	GPOS_ASSERT(0 == ulChildIndex);
 
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	pcrs->Union(pcrsInput);
 
 	// intersect with the output columns of relational child
@@ -87,11 +87,11 @@ CLogicalMaxOneRow::PcrsStat
 CXformSet *
 CLogicalMaxOneRow::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfMaxOneRow2Assert);
 	return pxfs;
 }
@@ -108,7 +108,7 @@ CLogicalMaxOneRow::PxfsCandidates
 IStatistics *
 CLogicalMaxOneRow::PstatsDerive
 			(
-			IMemoryPool *pmp,
+			IMemoryPool *memory_pool,
 			CExpressionHandle &exprhdl,
 			DrgPstat * // pdrgpstatCtxt
 			)
@@ -116,7 +116,7 @@ CLogicalMaxOneRow::PstatsDerive
 {
 	// no more than one row can be produced by operator, scale down input statistics accordingly
 	IStatistics *pstats = exprhdl.Pstats(0);
-	return  pstats->PstatsScale(pmp, CDouble(1.0 / pstats->DRows()));
+	return  pstats->PstatsScale(memory_pool, CDouble(1.0 / pstats->DRows()));
 }
 
 

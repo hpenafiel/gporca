@@ -96,7 +96,7 @@ namespace gpopt
 			// ctor
 			COptCtxt
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CColumnFactory *pcf,
 				CMDAccessor *pmda,
 				IConstExprEvaluator *pceeval,
@@ -198,7 +198,7 @@ namespace gpopt
 			static
 			COptCtxt *PoctxtCreate
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CMDAccessor *pmda,
 						IConstExprEvaluator *pceeval,
 						COptimizerConfig *optimizer_config

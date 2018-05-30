@@ -28,7 +28,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLTableDescr *pdxltabdesc,
 	ULONG ulPartIndexId,
 	ULONG ulPartIndexIdPrintable,
@@ -36,7 +36,7 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	EdxlIndexScanDirection edxlisd
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pdxltabdesc(pdxltabdesc),
 	m_ulPartIndexId(ulPartIndexId),
 	m_ulPartIndexIdPrintable(ulPartIndexIdPrintable),

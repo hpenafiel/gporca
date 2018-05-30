@@ -30,10 +30,10 @@ using namespace gpdbcost;
 ICostModel *
 ICostModel::PcmDefault
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	return GPOS_NEW(pmp) CCostModelGPDBLegacy(pmp, GPOPT_DEFAULT_SEGMENT_COUNT);
+	return GPOS_NEW(memory_pool) CCostModelGPDBLegacy(memory_pool, GPOPT_DEFAULT_SEGMENT_COUNT);
 }
 
 

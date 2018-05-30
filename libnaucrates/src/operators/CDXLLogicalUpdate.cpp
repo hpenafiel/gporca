@@ -30,7 +30,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLLogicalUpdate::CDXLLogicalUpdate
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLTableDescr *pdxltabdesc,
 	ULONG ulCtid,
 	ULONG ulSegmentId,
@@ -40,7 +40,7 @@ CDXLLogicalUpdate::CDXLLogicalUpdate
 	ULONG ulTupleOid
 	)
 	:
-	CDXLLogical(pmp),
+	CDXLLogical(memory_pool),
 	m_pdxltabdesc(pdxltabdesc),
 	m_ulCtid(ulCtid),
 	m_ulSegmentId(ulSegmentId),

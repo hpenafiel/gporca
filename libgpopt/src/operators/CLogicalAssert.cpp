@@ -33,10 +33,10 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CLogicalAssert::CLogicalAssert
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalUnary(pmp),
+	CLogicalUnary(memory_pool),
 	m_pexc(NULL)
 {
 	m_fPattern = true;
@@ -52,11 +52,11 @@ CLogicalAssert::CLogicalAssert
 //---------------------------------------------------------------------------
 CLogicalAssert::CLogicalAssert
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CException *pexc
 	)
 	:
-	CLogicalUnary(pmp),
+	CLogicalUnary(memory_pool),
 	m_pexc(pexc)
 {
 	GPOS_ASSERT(NULL != pexc);
@@ -97,7 +97,7 @@ CLogicalAssert::FMatch
 CColRefSet *
 CLogicalAssert::PcrsDeriveOutput
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 {
@@ -116,7 +116,7 @@ CLogicalAssert::PcrsDeriveOutput
 CKeyCollection *
 CLogicalAssert::PkcDeriveKeys
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -136,11 +136,11 @@ CLogicalAssert::PkcDeriveKeys
 CXformSet *
 CLogicalAssert::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementAssert);
 	return pxfs;
 }
@@ -156,7 +156,7 @@ CLogicalAssert::PxfsCandidates
 CMaxCard
 CLogicalAssert::Maxcard
 	(
-	IMemoryPool *, // pmp
+	IMemoryPool *, // memory_pool
 	CExpressionHandle &exprhdl
 	)
 	const
@@ -195,18 +195,18 @@ CLogicalAssert::Maxcard
 IStatistics *
 CLogicalAssert::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat * // not used
 	)
 	const
 {
-	CMaxCard maxcard = CLogicalAssert::PopConvert(exprhdl.Pop())->Maxcard(pmp, exprhdl);
+	CMaxCard maxcard = CLogicalAssert::PopConvert(exprhdl.Pop())->Maxcard(memory_pool, exprhdl);
 	if (1 == maxcard.Ull())
 	{
 		// a max card of one requires re-scaling stats
 		IStatistics *pstats = exprhdl.Pstats(0);
-		return  pstats->PstatsScale(pmp, CDouble(1.0 / pstats->DRows()));
+		return  pstats->PstatsScale(memory_pool, CDouble(1.0 / pstats->DRows()));
 	}
 
 	return PstatsPassThruOuter(exprhdl);

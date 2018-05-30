@@ -32,7 +32,7 @@ using namespace gpopt;
 void
 CWindowPreprocessor::SplitPrjList
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprSeqPrj,
 	DrgPexpr **ppdrgpexprDistinctAggsPrEl, // output: list of project elements with Distinct Aggs
 	DrgPexpr **ppdrgpexprOtherPrEl, // output: list of project elements with Other window functions
@@ -55,11 +55,11 @@ CWindowPreprocessor::SplitPrjList
 	DrgPwf *pdrgpwf = popSeqPrj->Pdrgpwf();
 	BOOL fHasFrameSpecs = popSeqPrj->FHasFrameSpecs();
 
-	DrgPexpr *pdrgpexprDistinctAggsPrEl = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprDistinctAggsPrEl = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	DrgPexpr *pdrgpexprOtherPrEl = GPOS_NEW(pmp) DrgPexpr(pmp);
-	DrgPos *pdrgposOther = GPOS_NEW(pmp) DrgPos(pmp);
-	DrgPwf *pdrgpwfOther = GPOS_NEW(pmp) DrgPwf(pmp);
+	DrgPexpr *pdrgpexprOtherPrEl = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	DrgPos *pdrgposOther = GPOS_NEW(memory_pool) DrgPos(memory_pool);
+	DrgPwf *pdrgpwfOther = GPOS_NEW(memory_pool) DrgPwf(memory_pool);
 
 	// iterate over project list and split project elements between
 	// Distinct Aggs list, and Others list
@@ -74,8 +74,8 @@ CWindowPreprocessor::SplitPrjList
 
 		if (popScWinFunc->FDistinct() && popScWinFunc->FAgg())
 		{
-			CExpression *pexprAgg = CXformUtils::PexprWinFuncAgg2ScalarAgg(pmp, pexprWinFunc);
-			CExpression *pexprNewPrjElem = CUtils::PexprScalarProjectElement(pmp, pcrPrjElem, pexprAgg);
+			CExpression *pexprAgg = CXformUtils::PexprWinFuncAgg2ScalarAgg(memory_pool, pexprWinFunc);
+			CExpression *pexprNewPrjElem = CUtils::PexprScalarProjectElement(memory_pool, pcrPrjElem, pexprAgg);
 			pdrgpexprDistinctAggsPrEl->Append(pexprNewPrjElem);
 		}
 		else
@@ -93,7 +93,7 @@ CWindowPreprocessor::SplitPrjList
 			}
 
 			pexprWinFunc->AddRef();
-			CExpression *pexprNewPrjElem = CUtils::PexprScalarProjectElement(pmp, pcrPrjElem, pexprWinFunc);
+			CExpression *pexprNewPrjElem = CUtils::PexprScalarProjectElement(memory_pool, pcrPrjElem, pexprWinFunc);
 			pdrgpexprOtherPrEl->Append(pexprNewPrjElem);
 		}
 	}
@@ -118,7 +118,7 @@ CWindowPreprocessor::SplitPrjList
 void
 CWindowPreprocessor::SplitSeqPrj
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprSeqPrj,
 	CExpression **ppexprGbAgg,	// output: GbAgg expression containing distinct Aggs
 	CExpression **ppexprOutputSeqPrj // output: SeqPrj expression containing all remaining window functions
@@ -133,7 +133,7 @@ CWindowPreprocessor::SplitSeqPrj
 	DrgPexpr *pdrgpexprOtherPrEl = NULL;
 	DrgPos *pdrgposOther = NULL;
 	DrgPwf *pdrgpwfOther = NULL;
-	SplitPrjList(pmp, pexprSeqPrj, &pdrgpexprDistinctAggsPrEl, &pdrgpexprOtherPrEl, &pdrgposOther, &pdrgpwfOther);
+	SplitPrjList(memory_pool, pexprSeqPrj, &pdrgpexprDistinctAggsPrEl, &pdrgpexprOtherPrEl, &pdrgposOther, &pdrgpwfOther);
 
 	// check distribution spec of original SeqPrj and extract grouping columns
 	// from window (PARTITION BY) clause
@@ -142,25 +142,25 @@ CWindowPreprocessor::SplitSeqPrj
 	DrgPcr *pdrgpcrGrpCols = NULL;
 	if (CDistributionSpec::EdtHashed == pds->Edt())
 	{
-		CColRefSet *pcrs = CUtils::PcrsExtractColumns(pmp, CDistributionSpecHashed::PdsConvert(pds)->Pdrgpexpr());
-		pdrgpcrGrpCols = pcrs->Pdrgpcr(pmp);
+		CColRefSet *pcrs = CUtils::PcrsExtractColumns(memory_pool, CDistributionSpecHashed::PdsConvert(pds)->Pdrgpexpr());
+		pdrgpcrGrpCols = pcrs->Pdrgpcr(memory_pool);
 		pcrs->Release();
 	}
 	else
 	{
 		// no (PARTITION BY) clause
-		pdrgpcrGrpCols = GPOS_NEW(pmp) DrgPcr(pmp);
+		pdrgpcrGrpCols = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 	}
 
 	CExpression *pexprSeqPrjChild = (*pexprSeqPrj)[0];
 	pexprSeqPrjChild->AddRef();
 	*ppexprGbAgg =
-				GPOS_NEW(pmp) CExpression
+				GPOS_NEW(memory_pool) CExpression
 					(
-					pmp,
-					GPOS_NEW(pmp) CLogicalGbAgg(pmp, pdrgpcrGrpCols, COperator::EgbaggtypeGlobal),
+					memory_pool,
+					GPOS_NEW(memory_pool) CLogicalGbAgg(memory_pool, pdrgpcrGrpCols, COperator::EgbaggtypeGlobal),
 					pexprSeqPrjChild,
-					GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pdrgpexprDistinctAggsPrEl)
+					GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarProjectList(memory_pool), pdrgpexprDistinctAggsPrEl)
 					);
 
 	pexprSeqPrjChild->AddRef();
@@ -179,12 +179,12 @@ CWindowPreprocessor::SplitSeqPrj
 	// create a new SeqPrj expression for remaining window functions
 	pds->AddRef();
 	*ppexprOutputSeqPrj =
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 			(
-			pmp,
-			GPOS_NEW(pmp) CLogicalSequenceProject(pmp, pds, pdrgposOther, pdrgpwfOther),
+			memory_pool,
+			GPOS_NEW(memory_pool) CLogicalSequenceProject(memory_pool, pds, pdrgposOther, pdrgpwfOther),
 			pexprSeqPrjChild,
-			GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarProjectList(pmp), pdrgpexprOtherPrEl)
+			GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarProjectList(memory_pool), pdrgpexprOtherPrEl)
 			);
 }
 
@@ -201,7 +201,7 @@ CWindowPreprocessor::SplitSeqPrj
 void
 CWindowPreprocessor::CreateCTE
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprSeqPrj,
 	CExpression **ppexprFirstConsumer,
 	CExpression **ppexprSecondConsumer
@@ -214,30 +214,30 @@ CWindowPreprocessor::CreateCTE
 
 	CExpression *pexprChild = (*pexprSeqPrj)[0];
 	CColRefSet *pcrsChildOutput = CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->PcrsOutput();
-	DrgPcr *pdrgpcrChildOutput = pcrsChildOutput->Pdrgpcr(pmp);
+	DrgPcr *pdrgpcrChildOutput = pcrsChildOutput->Pdrgpcr(memory_pool);
 
 	// create a CTE producer based on SeqPrj child expression
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
 	const ULONG ulCTEId = pcteinfo->next_id();
-	CExpression *pexprCTEProd = CXformUtils::PexprAddCTEProducer(pmp, ulCTEId, pdrgpcrChildOutput, pexprChild);
-	DrgPcr *pdrgpcrProducerOutput = CDrvdPropRelational::Pdprel(pexprCTEProd->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp);
+	CExpression *pexprCTEProd = CXformUtils::PexprAddCTEProducer(memory_pool, ulCTEId, pdrgpcrChildOutput, pexprChild);
+	DrgPcr *pdrgpcrProducerOutput = CDrvdPropRelational::Pdprel(pexprCTEProd->PdpDerive())->PcrsOutput()->Pdrgpcr(memory_pool);
 
 	// first consumer creates new output columns to be used later as input to GbAgg expression
 	*ppexprFirstConsumer =
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 			(
-			pmp,
-			GPOS_NEW(pmp) CLogicalCTEConsumer(pmp, ulCTEId, CUtils::PdrgpcrCopy(pmp, pdrgpcrProducerOutput))
+			memory_pool,
+			GPOS_NEW(memory_pool) CLogicalCTEConsumer(memory_pool, ulCTEId, CUtils::PdrgpcrCopy(memory_pool, pdrgpcrProducerOutput))
 			);
 	pcteinfo->IncrementConsumers(ulCTEId);
 	pdrgpcrProducerOutput->Release();
 
 	// second consumer reuses the same output columns of SeqPrj child to be able to provide any requested columns upstream
 	*ppexprSecondConsumer =
-		GPOS_NEW(pmp) CExpression
+		GPOS_NEW(memory_pool) CExpression
 			(
-			pmp,
-			GPOS_NEW(pmp) CLogicalCTEConsumer(pmp, ulCTEId, pdrgpcrChildOutput)
+			memory_pool,
+			GPOS_NEW(memory_pool) CLogicalCTEConsumer(memory_pool, ulCTEId, pdrgpcrChildOutput)
 			);
 	pcteinfo->IncrementConsumers(ulCTEId);
 }
@@ -303,7 +303,7 @@ CWindowPreprocessor::PdrgpcrGrpCols
 CExpression *
 CWindowPreprocessor::PexprSeqPrj2Join
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprSeqPrj
 	)
 {
@@ -315,23 +315,23 @@ CWindowPreprocessor::PexprSeqPrj2Join
 	// another SeqPrj expression (for remaining window functions)
 	CExpression *pexprGbAgg = NULL;
 	CExpression *pexprWindow = NULL;
-	SplitSeqPrj(pmp, pexprSeqPrj, &pexprGbAgg, &pexprWindow);
+	SplitSeqPrj(memory_pool, pexprSeqPrj, &pexprGbAgg, &pexprWindow);
 
 	// create CTE using SeqPrj child expression
 	CExpression *pexprGbAggConsumer = NULL;
 	CExpression *pexprWindowConsumer = NULL;
-	CreateCTE(pmp, pexprSeqPrj, &pexprGbAggConsumer, &pexprWindowConsumer);
+	CreateCTE(memory_pool, pexprSeqPrj, &pexprGbAggConsumer, &pexprWindowConsumer);
 
 	// extract output columns of SeqPrj child expression
 	CExpression *pexprChild = (*pexprSeqPrj)[0];
-	DrgPcr *pdrgpcrChildOutput = CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->PcrsOutput()->Pdrgpcr(pmp);
+	DrgPcr *pdrgpcrChildOutput = CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->PcrsOutput()->Pdrgpcr(memory_pool);
 
 	// to match requested columns upstream, we have to re-use the same computed
 	// columns that define the aggregates, we avoid recreating new columns during
 	// expression copy by passing fMustExist as false
 	DrgPcr *pdrgpcrConsumerOutput = CLogicalCTEConsumer::PopConvert(pexprGbAggConsumer->Pop())->Pdrgpcr();
-	HMUlCr *phmulcr = CUtils::PhmulcrMapping(pmp, pdrgpcrChildOutput, pdrgpcrConsumerOutput);
-	CExpression *pexprGbAggRemapped = pexprGbAgg->PexprCopyWithRemappedColumns(pmp, phmulcr, false /*fMustExist*/);
+	HMUlCr *phmulcr = CUtils::PhmulcrMapping(memory_pool, pdrgpcrChildOutput, pdrgpcrConsumerOutput);
+	CExpression *pexprGbAggRemapped = pexprGbAgg->PexprCopyWithRemappedColumns(memory_pool, phmulcr, false /*fMustExist*/);
 	phmulcr->Release();
 	pdrgpcrChildOutput->Release();
 	pexprGbAgg->Release();
@@ -339,12 +339,12 @@ CWindowPreprocessor::PexprSeqPrj2Join
 	// finalize GbAgg expression by replacing its child with CTE consumer
 	pexprGbAggRemapped->Pop()->AddRef();
 	(*pexprGbAggRemapped)[1]->AddRef();
-	CExpression *pexprGbAggWithConsumer = GPOS_NEW(pmp) CExpression(pmp, pexprGbAggRemapped->Pop(), pexprGbAggConsumer, (*pexprGbAggRemapped)[1]);
+	CExpression *pexprGbAggWithConsumer = GPOS_NEW(memory_pool) CExpression(memory_pool, pexprGbAggRemapped->Pop(), pexprGbAggConsumer, (*pexprGbAggRemapped)[1]);
 	pexprGbAggRemapped->Release();
 
 	// in case of multiple Distinct Aggs, we need to expand the GbAgg expression
 	// into a join expression where leaves carry single Distinct Aggs
-	CExpression *pexprJoinDQAs = CXformUtils::PexprGbAggOnCTEConsumer2Join(pmp, pexprGbAggWithConsumer);
+	CExpression *pexprJoinDQAs = CXformUtils::PexprGbAggOnCTEConsumer2Join(memory_pool, pexprGbAggWithConsumer);
 	pexprGbAggWithConsumer->Release();
 
 	CExpression *pexprWindowFinal = NULL;
@@ -354,7 +354,7 @@ CWindowPreprocessor::PexprSeqPrj2Join
 		// and replace expression child withCTE consumer
 		pexprWindow->Pop()->AddRef();
 		(*pexprWindow)[1]->AddRef();
-		pexprWindowFinal = GPOS_NEW(pmp) CExpression(pmp, pexprWindow->Pop(), pexprWindowConsumer, (*pexprWindow)[1]);
+		pexprWindowFinal = GPOS_NEW(memory_pool) CExpression(memory_pool, pexprWindow->Pop(), pexprWindowConsumer, (*pexprWindow)[1]);
 	}
 	else
 	{
@@ -374,31 +374,31 @@ CWindowPreprocessor::PexprSeqPrj2Join
 		// extract PARTITION BY columns from original SeqPrj expression
 		CLogicalSequenceProject *popSeqPrj = CLogicalSequenceProject::PopConvert(pexprSeqPrj->Pop());
 		CDistributionSpec *pds = popSeqPrj->Pds();
-		CColRefSet *pcrs = CUtils::PcrsExtractColumns(pmp, CDistributionSpecHashed::PdsConvert(pds)->Pdrgpexpr());
-		DrgPcr *pdrgpcrPartitionBy = pcrs->Pdrgpcr(pmp);
+		CColRefSet *pcrs = CUtils::PcrsExtractColumns(memory_pool, CDistributionSpecHashed::PdsConvert(pds)->Pdrgpexpr());
+		DrgPcr *pdrgpcrPartitionBy = pcrs->Pdrgpcr(memory_pool);
 		pcrs->Release();
 		GPOS_ASSERT(pdrgpcrGrpCols->Size() == pdrgpcrPartitionBy->Size() &&
 				"Partition By columns in window function are not the same as grouping columns in created Aggs");
 
 		// create a conjunction of INDF expressions comparing a GROUP BY column to a PARTITION BY column
-		pexprJoinCondition = CPredicateUtils::PexprINDFConjunction(pmp, pdrgpcrGrpCols, pdrgpcrPartitionBy);
+		pexprJoinCondition = CPredicateUtils::PexprINDFConjunction(memory_pool, pdrgpcrGrpCols, pdrgpcrPartitionBy);
 		pdrgpcrPartitionBy->Release();
 	}
 	else
 	{
 		// no PARTITION BY, join condition is const True
-		pexprJoinCondition = CUtils::PexprScalarConstBool(pmp, true /*fVal*/);
+		pexprJoinCondition = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
 	}
 
 	// create a join between expanded DQAs and Window expressions
 	CExpression *pexprJoin =
-		CUtils::PexprLogicalJoin<CLogicalInnerJoin>(pmp, pexprJoinDQAs, pexprWindowFinal, pexprJoinCondition);
+		CUtils::PexprLogicalJoin<CLogicalInnerJoin>(memory_pool, pexprJoinDQAs, pexprWindowFinal, pexprJoinCondition);
 
 	ULONG ulCTEId = CLogicalCTEConsumer::PopConvert(pexprGbAggConsumer->Pop())->UlCTEId();
-	return GPOS_NEW(pmp) CExpression
+	return GPOS_NEW(memory_pool) CExpression
 				(
-				pmp,
-				GPOS_NEW(pmp) CLogicalCTEAnchor(pmp, ulCTEId),
+				memory_pool,
+				GPOS_NEW(memory_pool) CLogicalCTEAnchor(memory_pool, ulCTEId),
 				pexprJoin
 				);
 }
@@ -415,23 +415,23 @@ CWindowPreprocessor::PexprSeqPrj2Join
 CExpression *
 CWindowPreprocessor::PexprPreprocess
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
 	// protect against stack overflow during recursion
 	GPOS_CHECK_STACK_SIZE;
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pexpr);
 
 	COperator *pop = pexpr->Pop();
 	if (COperator::EopLogicalSequenceProject == pop->Eopid() &&
 		0 < CDrvdPropScalar::Pdpscalar((*pexpr)[1]->PdpDerive())->UlDistinctAggs())
 	{
-		CExpression *pexprJoin = PexprSeqPrj2Join(pmp, pexpr);
+		CExpression *pexprJoin = PexprSeqPrj2Join(memory_pool, pexpr);
 
 		// recursively process the resulting expression
-		CExpression *pexprResult = PexprPreprocess(pmp, pexprJoin);
+		CExpression *pexprResult = PexprPreprocess(memory_pool, pexprJoin);
 		pexprJoin->Release();
 
 		return pexprResult;
@@ -439,15 +439,15 @@ CWindowPreprocessor::PexprPreprocess
 
 	// recursively process child expressions
 	const ULONG ulArity = pexpr->UlArity();
-	DrgPexpr *pdrgpexprChildren = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		CExpression *pexprChild = PexprPreprocess(pmp, (*pexpr)[ul]);
+		CExpression *pexprChild = PexprPreprocess(memory_pool, (*pexpr)[ul]);
 		pdrgpexprChildren->Append(pexprChild);
 	}
 
 	pop->AddRef();
-	return GPOS_NEW(pmp) CExpression(pmp, pop, pdrgpexprChildren);
+	return GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pdrgpexprChildren);
 }
 
 // EOF

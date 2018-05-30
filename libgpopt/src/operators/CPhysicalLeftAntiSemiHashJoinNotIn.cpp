@@ -27,12 +27,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalLeftAntiSemiHashJoinNotIn::CPhysicalLeftAntiSemiHashJoinNotIn
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexprOuterKeys,
 	DrgPexpr *pdrgpexprInnerKeys
 	)
 	:
-	CPhysicalLeftAntiSemiHashJoin(pmp, pdrgpexprOuterKeys, pdrgpexprInnerKeys)
+	CPhysicalLeftAntiSemiHashJoin(memory_pool, pdrgpexprOuterKeys, pdrgpexprInnerKeys)
 {
 }
 
@@ -47,7 +47,7 @@ CPhysicalLeftAntiSemiHashJoinNotIn::CPhysicalLeftAntiSemiHashJoinNotIn
 CDistributionSpec *
 CPhysicalLeftAntiSemiHashJoinNotIn::PdsRequired
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CDistributionSpec *pdsInput,
 	ULONG ulChildIndex,
@@ -68,10 +68,10 @@ CPhysicalLeftAntiSemiHashJoinNotIn::PdsRequired
 		//	  whether the inner is empty, and this needs to be detected everywhere
 		// b. if the inner hash keys are nullable, because every segment needs to
 		//	  detect nulls coming from the inner child
-		return GPOS_NEW(pmp) CDistributionSpecReplicated();
+		return GPOS_NEW(memory_pool) CDistributionSpecReplicated();
 	}
 
-	return CPhysicalHashJoin::PdsRequired(pmp, exprhdl, pdsInput, ulChildIndex, pdrgpdpCtxt, ulOptReq);
+	return CPhysicalHashJoin::PdsRequired(memory_pool, exprhdl, pdsInput, ulChildIndex, pdrgpdpCtxt, ulOptReq);
 }
 
 // EOF

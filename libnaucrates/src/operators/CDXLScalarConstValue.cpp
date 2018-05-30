@@ -30,11 +30,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarConstValue::CDXLScalarConstValue
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLDatum *pdxldatum
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pdxldatum(pdxldatum)
 {
 }
@@ -117,7 +117,7 @@ CDXLScalarConstValue::FBoolean
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pdxldatum->Pmdid())->Eti());
+	return (IMDType::EtiBool == pmda->Pmdtype(m_pdxldatum->MDId())->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -138,7 +138,7 @@ CDXLScalarConstValue::AssertValid
 	const
 {
 	GPOS_ASSERT(0 == pdxln->UlArity());
-	GPOS_ASSERT(m_pdxldatum->Pmdid()->IsValid());
+	GPOS_ASSERT(m_pdxldatum->MDId()->IsValid());
 }
 #endif // GPOS_DEBUG
 

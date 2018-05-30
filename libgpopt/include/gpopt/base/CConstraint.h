@@ -97,19 +97,19 @@ namespace gpopt
 			// add column as a new equivalence class, if it is not already in one of the
 			// existing equivalence classes
 			static
-			void AddColumnToEquivClasses(IMemoryPool *pmp, const CColRef *pcr, DrgPcrs **ppdrgpcrs);
+			void AddColumnToEquivClasses(IMemoryPool *memory_pool, const CColRef *pcr, DrgPcrs **ppdrgpcrs);
 
 			// create constraint from scalar comparison
 			static
-			CConstraint *PcnstrFromScalarCmp(IMemoryPool *pmp, CExpression *pexpr, DrgPcrs **ppdrgpcrs);
+			CConstraint *PcnstrFromScalarCmp(IMemoryPool *memory_pool, CExpression *pexpr, DrgPcrs **ppdrgpcrs);
 
 			// create constraint from scalar boolean expression
 			static
-			CConstraint *PcnstrFromScalarBoolOp(IMemoryPool *pmp, CExpression *pexpr, DrgPcrs **ppdrgpcrs);
+			CConstraint *PcnstrFromScalarBoolOp(IMemoryPool *memory_pool, CExpression *pexpr, DrgPcrs **ppdrgpcrs);
 
 			// create conjunction/disjunction from array of constraints
 			static
-			CConstraint *PcnstrConjDisj(IMemoryPool *pmp, DrgPcnstr *pdrgpcnstr, BOOL fConj);
+			CConstraint *PcnstrConjDisj(IMemoryPool *memory_pool, DrgPcnstr *pdrgpcnstr, BOOL fConj);
 
 		protected:
 
@@ -132,21 +132,21 @@ namespace gpopt
 
 			// construct a conjunction or disjunction scalar expression from an
 			// array of constraints
-			CExpression *PexprScalarConjDisj(IMemoryPool *pmp, DrgPcnstr *pdrgpcnstr, BOOL fConj) const;
+			CExpression *PexprScalarConjDisj(IMemoryPool *memory_pool, DrgPcnstr *pdrgpcnstr, BOOL fConj) const;
 
 			// flatten an array of constraints to be used as constraint children
-			DrgPcnstr *PdrgpcnstrFlatten(IMemoryPool *pmp, DrgPcnstr *pdrgpcnstr, EConstraintType ect) const;
+			DrgPcnstr *PdrgpcnstrFlatten(IMemoryPool *memory_pool, DrgPcnstr *pdrgpcnstr, EConstraintType ect) const;
 
 			// combine any two or more constraints that reference only one particular column
-			DrgPcnstr *PdrgpcnstrDeduplicate(IMemoryPool *pmp, DrgPcnstr *pdrgpcnstr, EConstraintType ect) const;
+			DrgPcnstr *PdrgpcnstrDeduplicate(IMemoryPool *memory_pool, DrgPcnstr *pdrgpcnstr, EConstraintType ect) const;
 
 			// mapping between columns and arrays of constraints
-			HMColConstr *Phmcolconstr(IMemoryPool *pmp, CColRefSet *pcrs, DrgPcnstr *pdrgpcnstr) const;
+			HMColConstr *Phmcolconstr(IMemoryPool *memory_pool, CColRefSet *pcrs, DrgPcnstr *pdrgpcnstr) const;
 
 			// return a copy of the conjunction/disjunction constraint for a different column
 			CConstraint *PcnstrConjDisjRemapForColumn
 							(
-							IMemoryPool *pmp,
+							IMemoryPool *memory_pool,
 							CColRef *pcr,
 							DrgPcnstr *pdrgpcnstr,
 							BOOL fConj
@@ -156,13 +156,13 @@ namespace gpopt
 			// create constraint from scalar array comparison expression originally generated for
 			// "scalar op ANY/ALL (array)" construct
 			static
-			CConstraint *PcnstrFromScalarArrayCmp(IMemoryPool *pmp, CExpression *pexpr, CColRef *pcr);
+			CConstraint *PcnstrFromScalarArrayCmp(IMemoryPool *memory_pool, CExpression *pexpr, CColRef *pcr);
 
 		public:
 
 			// ctor
 			explicit
-			CConstraint(IMemoryPool *pmp);
+			CConstraint(IMemoryPool *memory_pool);
 
 			// dtor
 			virtual
@@ -200,7 +200,7 @@ namespace gpopt
 
 			// scalar expression
 			virtual
-			CExpression *PexprScalar(IMemoryPool *pmp) = 0;
+			CExpression *PexprScalar(IMemoryPool *memory_pool) = 0;
 
 			// check if there is a constraint on the given column
 			virtual
@@ -208,13 +208,13 @@ namespace gpopt
 
 			// return a copy of the constraint with remapped columns
 			virtual
-			CConstraint *PcnstrCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist) = 0;
+			CConstraint *PcnstrCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist) = 0;
 
 			// return constraint on a given column
 			virtual
 			CConstraint *Pcnstr
 							(
-							IMemoryPool *, //pmp,
+							IMemoryPool *, //memory_pool,
 							const CColRef * //pcr
 							)
 			{
@@ -225,7 +225,7 @@ namespace gpopt
 			virtual
 			CConstraint *Pcnstr
 							(
-							IMemoryPool *, //pmp,
+							IMemoryPool *, //memory_pool,
 							CColRefSet * //pcrs
 							)
 			{
@@ -234,7 +234,7 @@ namespace gpopt
 
 			// return a clone of the constraint for a different column
 			virtual
-			CConstraint *PcnstrRemapForColumn(IMemoryPool *pmp, CColRef *pcr) const = 0;
+			CConstraint *PcnstrRemapForColumn(IMemoryPool *memory_pool, CColRef *pcr) const = 0;
 
 			// print
 			virtual
@@ -249,26 +249,26 @@ namespace gpopt
 			static
 			CConstraint *PcnstrFromScalarExpr
 							(
-							IMemoryPool *pmp,
+							IMemoryPool *memory_pool,
 							CExpression *pexpr,
 							DrgPcrs **ppdrgpcrs
 							);
 
 			// create conjunction from array of constraints
 			static
-			CConstraint *PcnstrConjunction(IMemoryPool *pmp, DrgPcnstr *pdrgpcnstr);
+			CConstraint *PcnstrConjunction(IMemoryPool *memory_pool, DrgPcnstr *pdrgpcnstr);
 
 			// create disjunction from array of constraints
 			static
-			CConstraint *PcnstrDisjunction(IMemoryPool *pmp, DrgPcnstr *pdrgpcnstr);
+			CConstraint *PcnstrDisjunction(IMemoryPool *memory_pool, DrgPcnstr *pdrgpcnstr);
 
 			// merge equivalence classes coming from children of a bool op
 			static
-			DrgPcrs *PdrgpcrsMergeFromBoolOp(IMemoryPool *pmp, CExpression *pexpr, DrgPcrs *pdrgpcrsFst, DrgPcrs *pdrgpcrsSnd);
+			DrgPcrs *PdrgpcrsMergeFromBoolOp(IMemoryPool *memory_pool, CExpression *pexpr, DrgPcrs *pdrgpcrsFst, DrgPcrs *pdrgpcrsSnd);
 
 			// subset of the given constraints, which reference the given column
 			static
-			DrgPcnstr *PdrgpcnstrOnColumn(IMemoryPool *pmp, DrgPcnstr *pdrgpcnstr, CColRef *pcr, BOOL fExclusive);
+			DrgPcnstr *PdrgpcnstrOnColumn(IMemoryPool *memory_pool, DrgPcnstr *pdrgpcnstr, CColRef *pcr, BOOL fExclusive);
 #ifdef GPOS_DEBUG
 			void DbgPrint() const;
 #endif  // GPOS_DEBUG

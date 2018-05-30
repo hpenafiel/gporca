@@ -30,7 +30,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CMDAggregateGPDB::CMDAggregateGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidTypeResult,
@@ -40,7 +40,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	BOOL fHashAggCapable
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidTypeResult(pmdidTypeResult),
@@ -73,14 +73,14 @@ CMDAggregateGPDB::~CMDAggregateGPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDAggregateGPDB::Pmdid
+//		CMDAggregateGPDB::MDId
 //
 //	@doc:
 //		Agg id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDAggregateGPDB::Pmdid() const
+CMDAggregateGPDB::MDId() const
 {
 	return m_pmdid;
 }
@@ -185,7 +185,7 @@ CMDAggregateGPDB::DebugPrint
 	const
 {
 	os << "Aggregate id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 	
 	os << "Aggregate name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;

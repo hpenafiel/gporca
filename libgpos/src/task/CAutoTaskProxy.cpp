@@ -28,12 +28,12 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CAutoTaskProxy::CAutoTaskProxy
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CWorkerPoolManager *pwpm,
 	BOOL propagate_error
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pwpm(pwpm),
 	m_propagate_error(propagate_error)
 {
@@ -143,7 +143,7 @@ CAutoTaskProxy::Create
 {
 	// create memory pool for task
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcStrict);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// auto pointer to hold new task context
 	CAutoP<CTaskContext> task_ctxt;
@@ -153,17 +153,17 @@ CAutoTaskProxy::Create
 	if (NULL == task_parent)
 	{
 		// create new task context
-		task_ctxt = GPOS_NEW(pmp) CTaskContext(pmp);
+		task_ctxt = GPOS_NEW(memory_pool) CTaskContext(memory_pool);
 	}
 	else
 	{
 		// clone parent task's context
-		task_ctxt = GPOS_NEW(pmp) CTaskContext(pmp, *task_parent->GetTaskCtxt());
+		task_ctxt = GPOS_NEW(memory_pool) CTaskContext(memory_pool, *task_parent->GetTaskCtxt());
 	}
 
 	// auto pointer to hold error context
 	CAutoP<CErrorContext> err_ctxt;
-	err_ctxt = GPOS_NEW(pmp) CErrorContext();
+	err_ctxt = GPOS_NEW(memory_pool) CErrorContext();
 	CTask *task = CTask::Self();
 	if (NULL != task)
 	{
@@ -173,7 +173,7 @@ CAutoTaskProxy::Create
 	// auto pointer to hold new task
 	// task is created inside ATP's memory pool
 	CAutoP<CTask> new_task;
-	new_task = GPOS_NEW(m_memory_pool) CTask(pmp, task_ctxt.Value(), err_ctxt.Value(), &m_event, cancel);
+	new_task = GPOS_NEW(m_memory_pool) CTask(memory_pool, task_ctxt.Value(), err_ctxt.Value(), &m_event, cancel);
 
 	// reset auto pointers - task now handles task and error context
 	(void) task_ctxt.Reset();

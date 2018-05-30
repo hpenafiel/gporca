@@ -49,9 +49,9 @@ namespace gpdxl
 			// ctor
 			CDXLDatumInt4
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				BOOL fNull,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				BOOL is_null,
 				INT iVal
 				);
 
@@ -68,14 +68,14 @@ namespace gpdxl
 
 			// datum type
 			virtual
-			EdxldatumType Edxldt() const
+			EdxldatumType GetDatumType() const
 			{
 				return CDXLDatum::EdxldatumInt4;
 			}
 
 			// is type passed by value
 			virtual
-			BOOL FByValue() const
+			BOOL IsPassedByValue() const
 			{
 				return true;
 			}
@@ -88,7 +88,7 @@ namespace gpdxl
 				)
 			{
 				GPOS_ASSERT(NULL != pdxldatum);
-				GPOS_ASSERT(CDXLDatum::EdxldatumInt4 == pdxldatum->Edxldt());
+				GPOS_ASSERT(CDXLDatum::EdxldatumInt4 == pdxldatum->GetDatumType());
 
 				return dynamic_cast<CDXLDatumInt4*>(pdxldatum);
 			}

@@ -22,7 +22,7 @@ using namespace gpopt;
 CStatistics *
 CGroupByStatsProcessor::PstatsGroupBy
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CStatistics *pstatsInput,
 	ULongPtrArray *pdrgpulGC,
 	ULongPtrArray *pdrgpulAgg,
@@ -30,10 +30,10 @@ CGroupByStatsProcessor::PstatsGroupBy
 	)
 {
 	// create hash map from colid -> histogram for resultant structure
-	HMUlHist *phmulhist = GPOS_NEW(pmp) HMUlHist(pmp);
+	HMUlHist *phmulhist = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
 
 	// hash map colid -> width
-	HMUlDouble *phmuldoubleWidth = GPOS_NEW(pmp) HMUlDouble(pmp);
+	HMUlDouble *phmuldoubleWidth = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
@@ -42,27 +42,27 @@ CGroupByStatsProcessor::PstatsGroupBy
 	if (pstatsInput->IsEmpty())
 	{
 		// add dummy histograms for the aggregates and grouping columns
-		CHistogram::AddDummyHistogramAndWidthInfo(pmp, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, true /* fEmpty */);
-		CHistogram::AddDummyHistogramAndWidthInfo(pmp, pcf, phmulhist, phmuldoubleWidth, pdrgpulGC, true /* fEmpty */);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, true /* fEmpty */);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulGC, true /* fEmpty */);
 
-		pstatsAgg = GPOS_NEW(pmp) CStatistics(pmp, phmulhist, phmuldoubleWidth, dRowsAgg, true /* fEmpty */);
+		pstatsAgg = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, dRowsAgg, true /* fEmpty */);
 	}
 	else
 	{
 		// for computed aggregates, we're not going to be very smart right now
-		CHistogram::AddDummyHistogramAndWidthInfo(pmp, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, false /* fEmpty */);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, false /* fEmpty */);
 
-		CColRefSet *pcrsGrpColComputed = GPOS_NEW(pmp) CColRefSet(pmp);
-		CColRefSet *pcrsGrpColsForStats = CStatisticsUtils::PcrsGrpColsForStats(pmp, pdrgpulGC, pcrsGrpColComputed);
+		CColRefSet *pcrsGrpColComputed = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
+		CColRefSet *pcrsGrpColsForStats = CStatisticsUtils::PcrsGrpColsForStats(memory_pool, pdrgpulGC, pcrsGrpColComputed);
 
 		// add statistical information of columns (1) used to compute the cardinality of the aggregate
 		// and (2) the grouping columns that are computed
-		CStatisticsUtils::AddGrpColStats(pmp, pstatsInput, pcrsGrpColsForStats, phmulhist, phmuldoubleWidth);
-		CStatisticsUtils::AddGrpColStats(pmp, pstatsInput, pcrsGrpColComputed, phmulhist, phmuldoubleWidth);
+		CStatisticsUtils::AddGrpColStats(memory_pool, pstatsInput, pcrsGrpColsForStats, phmulhist, phmuldoubleWidth);
+		CStatisticsUtils::AddGrpColStats(memory_pool, pstatsInput, pcrsGrpColComputed, phmulhist, phmuldoubleWidth);
 
 		const CStatisticsConfig *pstatsconf = pstatsInput->PStatsConf();
 
-		DrgPdouble *pdrgpdNDV = CStatisticsUtils::PdrgPdoubleNDV(pmp, pstatsconf, pstatsInput, pcrsGrpColsForStats, pbsKeys);
+		DrgPdouble *pdrgpdNDV = CStatisticsUtils::PdrgPdoubleNDV(memory_pool, pstatsconf, pstatsInput, pcrsGrpColsForStats, pbsKeys);
 		CDouble dGroups = CStatisticsUtils::DNumOfDistinctVal(pstatsconf, pdrgpdNDV);
 
 		// clean up
@@ -73,7 +73,7 @@ CGroupByStatsProcessor::PstatsGroupBy
 		dRowsAgg = std::min(std::max(CStatistics::DMinRows.Get(), dGroups.Get()), pstatsInput->DRows().Get());
 
 		// create a new stats object for the output
-		pstatsAgg = GPOS_NEW(pmp) CStatistics(pmp, phmulhist, phmuldoubleWidth, dRowsAgg, pstatsInput->IsEmpty());
+		pstatsAgg = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, dRowsAgg, pstatsInput->IsEmpty());
 	}
 
 	// In the output statistics object, the upper bound source cardinality of the grouping column
@@ -83,7 +83,7 @@ CGroupByStatsProcessor::PstatsGroupBy
 	// and estimated group by cardinality.
 
 	// modify source id to upper bound card information
-	CStatisticsUtils::ComputeCardUpperBounds(pmp, pstatsInput, pstatsAgg, dRowsAgg, CStatistics::EcbmMin /* ecbm */);
+	CStatisticsUtils::ComputeCardUpperBounds(memory_pool, pstatsInput, pstatsAgg, dRowsAgg, CStatistics::EcbmMin /* ecbm */);
 
 	return pstatsAgg;
 }

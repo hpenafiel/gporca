@@ -27,10 +27,10 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalExternalScan::CDXLPhysicalExternalScan
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CDXLPhysicalTableScan(pmp)
+	CDXLPhysicalTableScan(memory_pool)
 {}
 
 //---------------------------------------------------------------------------
@@ -43,11 +43,11 @@ CDXLPhysicalExternalScan::CDXLPhysicalExternalScan
 //---------------------------------------------------------------------------
 CDXLPhysicalExternalScan::CDXLPhysicalExternalScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDXLTableDescr *pdxltabdesc
 	)
 	:
-	CDXLPhysicalTableScan(pmp, pdxltabdesc)
+	CDXLPhysicalTableScan(memory_pool, pdxltabdesc)
 {}
 
 //---------------------------------------------------------------------------

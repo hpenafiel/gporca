@@ -183,7 +183,7 @@ CPredicateUtils::FValidRefsOnly
 BOOL 
 CPredicateUtils::FConjunctionOfEqComparisons
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
@@ -194,7 +194,7 @@ CPredicateUtils::FConjunctionOfEqComparisons
 		return true;
 	}
 	
-	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(pmp, pexpr);
+	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(memory_pool, pexpr);
 	const ULONG ulConjuncts = pdrgpexpr->Size();
 	
 	for (ULONG ul = 0; ul < ulConjuncts; ul++)
@@ -314,11 +314,11 @@ CPredicateUtils::CollectDisjuncts
 DrgPexpr *
 CPredicateUtils::PdrgpexprConjuncts
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	CollectConjuncts(pexpr, pdrgpexpr);
 
 	return pdrgpexpr;
@@ -328,11 +328,11 @@ CPredicateUtils::PdrgpexprConjuncts
 DrgPexpr *
 CPredicateUtils::PdrgpexprDisjuncts
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	CollectDisjuncts(pexpr, pdrgpexpr);
 
 	return pdrgpexpr;
@@ -344,23 +344,23 @@ CPredicateUtils::PdrgpexprDisjuncts
 DrgPexpr *
 CPredicateUtils::PdrgpexprExpandDisjuncts
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexprDisjuncts
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpexprDisjuncts);
 
-	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	const ULONG ulSize = pdrgpexprDisjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprDisjuncts)[ul];
 		if (COperator::EopScalarArrayCmp == pexpr->Pop()->Eopid())
 		{
-			CExpression *pexprExpanded = CScalarArrayCmp::PexprExpand(pmp, pexpr);
+			CExpression *pexprExpanded = CScalarArrayCmp::PexprExpand(memory_pool, pexpr);
 			if (FOr(pexprExpanded))
 			{
-				DrgPexpr *pdrgpexprArrayCmpDisjuncts = PdrgpexprDisjuncts(pmp, pexprExpanded);
+				DrgPexpr *pdrgpexprArrayCmpDisjuncts = PdrgpexprDisjuncts(memory_pool, pexprExpanded);
 				CUtils::AddRefAppend<CExpression, CleanupRelease>(pdrgpexprExpanded, pdrgpexprArrayCmpDisjuncts);
 				pdrgpexprArrayCmpDisjuncts->Release();
 				pexprExpanded->Release();
@@ -375,10 +375,10 @@ CPredicateUtils::PdrgpexprExpandDisjuncts
 
 		if (FAnd(pexpr))
 		{
-			DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(pmp, pexpr);
-			DrgPexpr *pdrgpexprExpandedConjuncts = PdrgpexprExpandConjuncts(pmp, pdrgpexprConjuncts);
+			DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(memory_pool, pexpr);
+			DrgPexpr *pdrgpexprExpandedConjuncts = PdrgpexprExpandConjuncts(memory_pool, pdrgpexprConjuncts);
 			pdrgpexprConjuncts->Release();
-			pdrgpexprExpanded->Append(PexprConjunction(pmp, pdrgpexprExpandedConjuncts));
+			pdrgpexprExpanded->Append(PexprConjunction(memory_pool, pdrgpexprExpandedConjuncts));
 
 			continue;
 		}
@@ -387,7 +387,7 @@ CPredicateUtils::PdrgpexprExpandDisjuncts
 		pdrgpexprExpanded->Append(pexpr);
 	}
 
-	DrgPexpr *pdrgpexprResult = CUtils::PdrgpexprDedup(pmp, pdrgpexprExpanded);
+	DrgPexpr *pdrgpexprResult = CUtils::PdrgpexprDedup(memory_pool, pdrgpexprExpanded);
 	pdrgpexprExpanded->Release();
 
 	return pdrgpexprResult;
@@ -399,23 +399,23 @@ CPredicateUtils::PdrgpexprExpandDisjuncts
 DrgPexpr *
 CPredicateUtils::PdrgpexprExpandConjuncts
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexprConjuncts
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpexprConjuncts);
 
-	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	const ULONG ulSize = pdrgpexprConjuncts->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprConjuncts)[ul];
 		if (COperator::EopScalarArrayCmp == pexpr->Pop()->Eopid())
 		{
-			CExpression *pexprExpanded = CScalarArrayCmp::PexprExpand(pmp, pexpr);
+			CExpression *pexprExpanded = CScalarArrayCmp::PexprExpand(memory_pool, pexpr);
 			if (FAnd(pexprExpanded))
 			{
-				DrgPexpr *pdrgpexprArrayCmpConjuncts = PdrgpexprConjuncts(pmp, pexprExpanded);
+				DrgPexpr *pdrgpexprArrayCmpConjuncts = PdrgpexprConjuncts(memory_pool, pexprExpanded);
 				CUtils::AddRefAppend<CExpression, CleanupRelease>(pdrgpexprExpanded, pdrgpexprArrayCmpConjuncts);
 				pdrgpexprArrayCmpConjuncts->Release();
 				pexprExpanded->Release();
@@ -430,10 +430,10 @@ CPredicateUtils::PdrgpexprExpandConjuncts
 
 		if (FOr(pexpr))
 		{
-			DrgPexpr *pdrgpexprDisjuncts = PdrgpexprDisjuncts(pmp, pexpr);
-			DrgPexpr *pdrgpexprExpandedDisjuncts = PdrgpexprExpandDisjuncts(pmp, pdrgpexprDisjuncts);
+			DrgPexpr *pdrgpexprDisjuncts = PdrgpexprDisjuncts(memory_pool, pexpr);
+			DrgPexpr *pdrgpexprExpandedDisjuncts = PdrgpexprExpandDisjuncts(memory_pool, pdrgpexprDisjuncts);
 			pdrgpexprDisjuncts->Release();
-			pdrgpexprExpanded->Append(PexprDisjunction(pmp, pdrgpexprExpandedDisjuncts));
+			pdrgpexprExpanded->Append(PexprDisjunction(memory_pool, pdrgpexprExpandedDisjuncts));
 
 			continue;
 		}
@@ -442,7 +442,7 @@ CPredicateUtils::PdrgpexprExpandConjuncts
 		pdrgpexprExpanded->Append(pexpr);
 	}
 
-	DrgPexpr *pdrgpexprResult = CUtils::PdrgpexprDedup(pmp, pdrgpexprExpanded);
+	DrgPexpr *pdrgpexprResult = CUtils::PdrgpexprDedup(memory_pool, pdrgpexprExpanded);
 	pdrgpexprExpanded->Release();
 
 	return pdrgpexprResult;
@@ -684,7 +684,7 @@ CPredicateUtils::FIdentCompare
 CExpression *
 CPredicateUtils::PexprConjDisj
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr,
 	BOOL fConjunction
 	)
@@ -697,7 +697,7 @@ CPredicateUtils::PexprConjDisj
 
 	DrgPexpr *pdrgpexprFinal = pdrgpexpr;
 
-	pdrgpexprFinal = GPOS_NEW(pmp) DrgPexpr(pmp);
+	pdrgpexprFinal = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	ULONG ulSize = 0;
 	if (NULL != pdrgpexpr)
 	{
@@ -720,7 +720,7 @@ CPredicateUtils::PexprConjDisj
 			CRefCount::SafeRelease(pdrgpexpr);
 			CRefCount::SafeRelease(pdrgpexprFinal);
 
-			return CUtils::PexprScalarConstBool(pmp, !fConjunction /*fValue*/);
+			return CUtils::PexprScalarConstBool(memory_pool, !fConjunction /*fValue*/);
 		}
 
 		// add conjunct/disjunct to result array
@@ -742,10 +742,10 @@ CPredicateUtils::PexprConjDisj
 			return pexprResult;
 		}
 
-		return CUtils::PexprScalarBoolOp(pmp, eboolop, pdrgpexprFinal);
+		return CUtils::PexprScalarBoolOp(memory_pool, eboolop, pdrgpexprFinal);
 	}
 
-	pexprResult = CUtils::PexprScalarConstBool(pmp, fConjunction /*fValue*/);
+	pexprResult = CUtils::PexprScalarConstBool(memory_pool, fConjunction /*fValue*/);
 	CRefCount::SafeRelease(pdrgpexprFinal);
 
 	return pexprResult;
@@ -755,29 +755,29 @@ CPredicateUtils::PexprConjDisj
 CExpression *
 CPredicateUtils::PexprConjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr
 	)
 {
-	return PexprConjDisj(pmp, pdrgpexpr, true /*fConjunction*/);
+	return PexprConjDisj(memory_pool, pdrgpexpr, true /*fConjunction*/);
 }
 
 // create disjunction from array of components;
 CExpression *
 CPredicateUtils::PexprDisjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr
 	)
 {
-	return PexprConjDisj(pmp, pdrgpexpr, false /*fConjunction*/);
+	return PexprConjDisj(memory_pool, pdrgpexpr, false /*fConjunction*/);
 }
 
 // create a conjunction/disjunction of two components; Does *not* take ownership over given expressions
 CExpression *
 CPredicateUtils::PexprConjDisj
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprOne,
 	CExpression *pexprTwo,
 	BOOL fConjunction
@@ -797,58 +797,58 @@ CPredicateUtils::PexprConjDisj
 
 	if (fConjunction)
 	{
-		pdrgpexprOne = PdrgpexprConjuncts(pmp, pexprOne);
-		pdrgpexprTwo = PdrgpexprConjuncts(pmp, pexprTwo);
+		pdrgpexprOne = PdrgpexprConjuncts(memory_pool, pexprOne);
+		pdrgpexprTwo = PdrgpexprConjuncts(memory_pool, pexprTwo);
 	}
 	else
 	{
-		pdrgpexprOne = PdrgpexprDisjuncts(pmp, pexprOne);
-		pdrgpexprTwo = PdrgpexprDisjuncts(pmp, pexprTwo);
+		pdrgpexprOne = PdrgpexprDisjuncts(memory_pool, pexprOne);
+		pdrgpexprTwo = PdrgpexprDisjuncts(memory_pool, pexprTwo);
 	}
 
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	CUtils::AddRefAppend<CExpression, CleanupRelease>(pdrgpexpr, pdrgpexprOne);
 	CUtils::AddRefAppend<CExpression, CleanupRelease>(pdrgpexpr, pdrgpexprTwo);
 
 	pdrgpexprOne->Release();
 	pdrgpexprTwo->Release();
 
-	return PexprConjDisj(pmp, pdrgpexpr, fConjunction);
+	return PexprConjDisj(memory_pool, pdrgpexpr, fConjunction);
 }
 
 // create a conjunction of two components;
 CExpression *
 CPredicateUtils::PexprConjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprOne,
 	CExpression *pexprTwo
 	)
 {
-	return PexprConjDisj(pmp, pexprOne, pexprTwo, true /*fConjunction*/);
+	return PexprConjDisj(memory_pool, pexprOne, pexprTwo, true /*fConjunction*/);
 }
 
 // create a disjunction of two components;
 CExpression *
 CPredicateUtils::PexprDisjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprOne,
 	CExpression *pexprTwo
 	)
 {
-	return PexprConjDisj(pmp, pexprOne, pexprTwo, false /*fConjunction*/);
+	return PexprConjDisj(memory_pool, pexprOne, pexprTwo, false /*fConjunction*/);
 }
 
 // extract equality predicates over scalar identifiers
 DrgPexpr *
 CPredicateUtils::PdrgpexprPlainEqualities
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr
 	)
 {
-	DrgPexpr *pdrgpexprEqualities = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprEqualities = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	const ULONG ulArity = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -926,7 +926,7 @@ CPredicateUtils::FSelfComparison
 CExpression *
 CPredicateUtils::PexprEliminateSelfComparison
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
@@ -943,7 +943,7 @@ CPredicateUtils::PexprEliminateSelfComparison
 			case IMDType::EcmptLEq:
 			case IMDType::EcmptGEq:
 				pexprNew->Release();
-				pexprNew = CUtils::PexprScalarConstBool(pmp, true /*fVal*/);
+				pexprNew = CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/);
 				break;
 
 			case IMDType::EcmptNEq:
@@ -951,7 +951,7 @@ CPredicateUtils::PexprEliminateSelfComparison
 			case IMDType::EcmptG:
 			case IMDType::EcmptIDF:
 				pexprNew->Release();
-				pexprNew = CUtils::PexprScalarConstBool(pmp, false /*fVal*/);
+				pexprNew = CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/);
 				break;
 
 			default:
@@ -1046,7 +1046,7 @@ CPredicateUtils::FINDF
 CExpression *
 CPredicateUtils::PexprINDFConjunction
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPcr *pdrgpcrFirst,
 	DrgPcr *pdrgpcrSecond
 	)
@@ -1057,13 +1057,13 @@ CPredicateUtils::PexprINDFConjunction
 	GPOS_ASSERT(0 < pdrgpcrFirst->Size());
 
 	const ULONG ulCols = pdrgpcrFirst->Size();
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
-		pdrgpexpr->Append(CUtils::PexprINDF(pmp, (*pdrgpcrFirst)[ul], (*pdrgpcrSecond)[ul]));
+		pdrgpexpr->Append(CUtils::PexprINDF(memory_pool, (*pdrgpcrFirst)[ul], (*pdrgpcrSecond)[ul]));
 	}
 
-	return PexprConjunction(pmp, pdrgpexpr);
+	return PexprConjunction(memory_pool, pdrgpexpr);
 }
 
 // is the given expression a scalar range or equality comparison
@@ -1299,7 +1299,7 @@ CPredicateUtils::FCompareIdentToConstArray
 CExpression *
 CPredicateUtils::PexprPartPruningPredicate
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const DrgPexpr *pdrgpexpr,
 	CColRef *pcrPartKey,
 	CExpression *pexprCol,	// const selection predicate on the given column obtained from query
@@ -1308,7 +1308,7 @@ CPredicateUtils::PexprPartPruningPredicate
 {
 	const ULONG ulSize = pdrgpexpr->Size();
 
-	DrgPexpr *pdrgpexprResult = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprResult = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
@@ -1316,7 +1316,7 @@ CPredicateUtils::PexprPartPruningPredicate
 
 		if (FBoolPredicateOnColumn(pexpr, pcrPartKey) ||
 			FNullCheckOnColumn(pexpr, pcrPartKey) ||
-			FDisjunctionOnColumn(pmp, pexpr, pcrPartKey, pcrsAllowedRefs))
+			FDisjunctionOnColumn(memory_pool, pexpr, pcrPartKey, pcrsAllowedRefs))
 		{
 			pexpr->AddRef();
 			pdrgpexprResult->Append(pexpr);
@@ -1345,7 +1345,7 @@ CPredicateUtils::PexprPartPruningPredicate
 
 	if (pexprCol != NULL && CPredicateUtils::FNotNullCheckOnColumn(pexprCol, pcrPartKey))
 	{
-		CColRefSet *pcrsUsed = CUtils::PcrsExtractColumns(pmp, pdrgpexprResult);
+		CColRefSet *pcrsUsed = CUtils::PcrsExtractColumns(memory_pool, pdrgpexprResult);
 		if (pcrsUsed->FMember(pcrPartKey))
 		{
 			pexprCol = NULL;
@@ -1353,7 +1353,7 @@ CPredicateUtils::PexprPartPruningPredicate
 		pcrsUsed->Release();
 	}
 
-	DrgPexpr *pdrgpexprResultNew = PdrgpexprAppendConjunctsDedup(pmp, pdrgpexprResult, pexprCol);
+	DrgPexpr *pdrgpexprResultNew = PdrgpexprAppendConjunctsDedup(memory_pool, pdrgpexprResult, pexprCol);
 	pdrgpexprResult->Release();
 	pdrgpexprResult = pdrgpexprResultNew;
 
@@ -1363,7 +1363,7 @@ CPredicateUtils::PexprPartPruningPredicate
 		return NULL;
 	}
 	
-	return PexprConjunction(pmp, pdrgpexprResult);
+	return PexprConjunction(memory_pool, pdrgpexprResult);
 }
 
 // append the conjuncts from the given expression to the given array, removing
@@ -1371,7 +1371,7 @@ CPredicateUtils::PexprPartPruningPredicate
 DrgPexpr *
 CPredicateUtils::PdrgpexprAppendConjunctsDedup
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr,
 	CExpression *pexpr
 	)
@@ -1384,10 +1384,10 @@ CPredicateUtils::PdrgpexprAppendConjunctsDedup
 		return pdrgpexpr;
 	}
 
-	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(pmp, pexpr);
+	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(memory_pool, pexpr);
 	CUtils::AddRefAppend(pdrgpexprConjuncts, pdrgpexpr);
 
-	DrgPexpr *pdrgpexprNew = CUtils::PdrgpexprDedup(pmp, pdrgpexprConjuncts);
+	DrgPexpr *pdrgpexprNew = CUtils::PdrgpexprDedup(memory_pool, pdrgpexprConjuncts);
 	pdrgpexprConjuncts->Release();
 	return pdrgpexprNew;
 }
@@ -1504,7 +1504,7 @@ CPredicateUtils::FScArrayCmpOnColumn
 BOOL
 CPredicateUtils::FDisjunctionOnColumn
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr,
 	CColRef *pcr,
 	CColRefSet *pcrsAllowedRefs
@@ -1515,7 +1515,7 @@ CPredicateUtils::FDisjunctionOnColumn
 		return false;
 	}
 
-	DrgPexpr *pdrgpexprDisjuncts = PdrgpexprDisjuncts(pmp, pexpr);
+	DrgPexpr *pdrgpexprDisjuncts = PdrgpexprDisjuncts(memory_pool, pexpr);
 	const ULONG ulDisjuncts = pdrgpexprDisjuncts->Size();
 	for (ULONG ulDisj = 0; ulDisj < ulDisjuncts; ulDisj++)
 	{
@@ -1550,7 +1550,7 @@ CPredicateUtils::FRangeComparison
 CExpression *
 CPredicateUtils::PexprExtractPredicatesOnPartKeys
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	DrgDrgPcr *pdrgpdrgpcrPartKeys,
 	CColRefSet *pcrsAllowedRefs,
@@ -1563,7 +1563,7 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 		return NULL;
 	}
 
-	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(pmp, pexprScalar);
+	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(memory_pool, pexprScalar);
 	DrgPcrs *pdrgpcrsChild = NULL;
 	CConstraint *pcnstr = NULL;
 	(void) pexprScalar->PdpDerive();
@@ -1574,14 +1574,14 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 		// if we have any Array Comparisons, we expand them into conjunctions/disjunctions
 		// of comparison predicates and then reconstruct scalar expression. This is because the
 		// DXL translator for partitions would not previously handle array statements
-		DrgPexpr *pdrgpexprExpandedConjuncts = PdrgpexprExpandConjuncts(pmp, pdrgpexprConjuncts);
+		DrgPexpr *pdrgpexprExpandedConjuncts = PdrgpexprExpandConjuncts(memory_pool, pdrgpexprConjuncts);
 		pdrgpexprConjuncts->Release();
-		CExpression *pexprExpandedScalar = PexprConjunction(pmp, pdrgpexprExpandedConjuncts);
+		CExpression *pexprExpandedScalar = PexprConjunction(memory_pool, pdrgpexprExpandedConjuncts);
 
 		// this will no longer contain array statements
-		pdrgpexprConjuncts = PdrgpexprConjuncts(pmp, pexprExpandedScalar);
+		pdrgpexprConjuncts = PdrgpexprConjuncts(memory_pool, pexprExpandedScalar);
 
-		pcnstr = CConstraint::PcnstrFromScalarExpr(pmp, pexprExpandedScalar, &pdrgpcrsChild);
+		pcnstr = CConstraint::PcnstrFromScalarExpr(memory_pool, pexprExpandedScalar, &pdrgpcrsChild);
 		pexprExpandedScalar->Release();
 	}
 	else
@@ -1591,7 +1591,7 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 		// 2. previously, we expanded array expressions. However, there is now code to handle array
 		// constraints in the DXL translator and therefore, it is unnecessary work to expand arrays
 		// into disjunctions
-		pcnstr = CConstraint::PcnstrFromScalarExpr(pmp, pexprScalar, &pdrgpcrsChild);
+		pcnstr = CConstraint::PcnstrFromScalarExpr(memory_pool, pexprScalar, &pdrgpcrsChild);
 
 	}
 	CRefCount::SafeRelease(pdrgpcrsChild);
@@ -1608,15 +1608,15 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 	}
 
 	const ULONG ulLevels = pdrgpdrgpcrPartKeys->Size();
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
 		CColRef *pcr = CUtils::PcrExtractPartKey(pdrgpdrgpcrPartKeys, ul);
-		CExpression *pexprCol = PexprPredicateCol(pmp, pcnstr, pcr, fUseConstraints);
+		CExpression *pexprCol = PexprPredicateCol(memory_pool, pcnstr, pcr, fUseConstraints);
 
 		// look for a filter on the part key
 		CExpression *pexprCmp =
-			PexprPartPruningPredicate(pmp, pdrgpexprConjuncts, pcr, pexprCol, pcrsAllowedRefs);
+			PexprPartPruningPredicate(memory_pool, pdrgpexprConjuncts, pcr, pexprCol, pcrsAllowedRefs);
 		CRefCount::SafeRelease(pexprCol);
 		GPOS_ASSERT_IMP(NULL != pexprCmp && COperator::EopScalarCmp == pexprCmp->Pop()->Eopid(),
 				IMDType::EcmptOther != CScalarCmp::PopConvert(pexprCmp->Pop())->Ecmpt());
@@ -1639,14 +1639,14 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 		return NULL;
 	}
 
-	return PexprConjunction(pmp, pdrgpexpr);
+	return PexprConjunction(memory_pool, pdrgpexpr);
 }
 
 // extract the constraint on the given column and return the corresponding scalar expression
 CExpression *
 CPredicateUtils::PexprPredicateCol
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CConstraint *pcnstr,
 	CColRef *pcr,
 	BOOL fUseConstraints
@@ -1658,10 +1658,10 @@ CPredicateUtils::PexprPredicateCol
 	}
 
 	CExpression *pexprCol = NULL;
-	CConstraint *pcnstrCol = pcnstr->Pcnstr(pmp, pcr);
+	CConstraint *pcnstrCol = pcnstr->Pcnstr(memory_pool, pcr);
 	if (NULL != pcnstrCol && !pcnstrCol->FUnbounded())
 	{
-		pexprCol = pcnstrCol->PexprScalar(pmp);
+		pexprCol = pcnstrCol->PexprScalar(memory_pool);
 		pexprCol->AddRef();
 	}
 
@@ -1800,7 +1800,7 @@ CPredicateUtils::FColumnDisjunctionOfConst
 CExpression *
 CPredicateUtils::PexprIndexLookupKeyOnLeft
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CExpression *pexprScalar,
 	const IMDIndex *pmdindex,
@@ -1813,7 +1813,7 @@ CPredicateUtils::PexprIndexLookupKeyOnLeft
 	CExpression *pexprLeft = (*pexprScalar)[0];
 	CExpression *pexprRight = (*pexprScalar)[1];
 	
-	CColRefSet *pcrsIndex = GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrIndex);
+	CColRefSet *pcrsIndex = GPOS_NEW(memory_pool) CColRefSet(memory_pool, pdrgpcrIndex);
 			
 	if ((CUtils::FScalarIdent(pexprLeft) && pcrsIndex->FMember(CScalarIdent::PopConvert(pexprLeft->Pop())->Pcr())) ||
 		(CCastUtils::FBinaryCoercibleCast(pexprLeft) && pcrsIndex->FMember(CScalarIdent::PopConvert((*pexprLeft)[0]->Pop())->Pcr())))
@@ -1831,7 +1831,7 @@ CPredicateUtils::PexprIndexLookupKeyOnLeft
 			}
 			else if (NULL != pcrsOuterRefs)
 			{
-				CColRefSet *pcrsOuterRefsRight = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsUsedRight);
+				CColRefSet *pcrsOuterRefsRight = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *pcrsUsedRight);
 				pcrsOuterRefsRight->Difference(pcrsIndex);
 				fSuccess = pcrsOuterRefs->ContainsAll(pcrsOuterRefsRight);
 				pcrsOuterRefsRight->Release();
@@ -1856,7 +1856,7 @@ CPredicateUtils::PexprIndexLookupKeyOnLeft
 CExpression *
 CPredicateUtils::PexprIndexLookupKeyOnRight
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CExpression *pexprScalar,
 	const IMDIndex *pmdindex,
@@ -1871,7 +1871,7 @@ CPredicateUtils::PexprIndexLookupKeyOnRight
 	if (CUtils::FScalarCmp(pexprScalar))
 	{
 		CScalarCmp *popScCmp = CScalarCmp::PopConvert(pexprScalar->Pop());
-		CScalarCmp *popScCmpCommute = popScCmp->PopCommutedOp(pmp, pexprScalar->Pop());
+		CScalarCmp *popScCmpCommute = popScCmp->PopCommutedOp(memory_pool, pexprScalar->Pop());
 
 		if (popScCmpCommute)
 		{
@@ -1879,8 +1879,8 @@ CPredicateUtils::PexprIndexLookupKeyOnRight
 			// build new comparison after switching arguments and using commutative comparison operator
 			pexprRight->AddRef();
 			pexprLeft->AddRef();
-			CExpression *pexprCommuted = GPOS_NEW(pmp) CExpression(pmp, popScCmpCommute, pexprRight, pexprLeft);
-			CExpression *pexprIndexCond = PexprIndexLookupKeyOnLeft(pmp, pmda, pexprCommuted, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
+			CExpression *pexprCommuted = GPOS_NEW(memory_pool) CExpression(memory_pool, popScCmpCommute, pexprRight, pexprLeft);
+			CExpression *pexprIndexCond = PexprIndexLookupKeyOnLeft(memory_pool, pmda, pexprCommuted, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
 			pexprCommuted->Release();
 
 			return pexprIndexCond;
@@ -1901,7 +1901,7 @@ CPredicateUtils::PexprIndexLookupKeyOnRight
 CExpression *
 CPredicateUtils::PexprIndexLookup
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CExpression *pexprScalar,
 	const IMDIndex *pmdindex,
@@ -1930,13 +1930,13 @@ CPredicateUtils::PexprIndexLookup
 		return NULL;
 	}
 
-	CExpression *pexprIndexLookupKeyOnLeft = PexprIndexLookupKeyOnLeft(pmp, pmda, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
+	CExpression *pexprIndexLookupKeyOnLeft = PexprIndexLookupKeyOnLeft(memory_pool, pmda, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
 	if (NULL != pexprIndexLookupKeyOnLeft)
 	{
 		return pexprIndexLookupKeyOnLeft;
 	}
 
-	CExpression *pexprIndexLookupKeyOnRight = PexprIndexLookupKeyOnRight(pmp, pmda, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
+	CExpression *pexprIndexLookupKeyOnRight = PexprIndexLookupKeyOnRight(memory_pool, pmda, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
 	if (NULL != pexprIndexLookupKeyOnRight)
 	{
 		return pexprIndexLookupKeyOnRight;
@@ -1949,7 +1949,7 @@ CPredicateUtils::PexprIndexLookup
 void
 CPredicateUtils::ExtractIndexPredicates
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	DrgPexpr *pdrgpexprPredicate,
 	const IMDIndex *pmdindex,
@@ -1959,17 +1959,17 @@ CPredicateUtils::ExtractIndexPredicates
 	CColRefSet *pcrsAcceptedOuterRefs // outer refs that are acceptable in an index predicate
 	)
 {
-	const ULONG ulLength = pdrgpexprPredicate->Size();
+	const ULONG length = pdrgpexprPredicate->Size();
 	
-	CColRefSet *pcrsIndex = GPOS_NEW(pmp) CColRefSet(pmp, pdrgpcrIndex);
+	CColRefSet *pcrsIndex = GPOS_NEW(memory_pool) CColRefSet(memory_pool, pdrgpcrIndex);
 
-	for (ULONG ul = 0; ul < ulLength; ul++)
+	for (ULONG ul = 0; ul < length; ul++)
 	{
 		CExpression *pexprCond = (*pdrgpexprPredicate)[ul];
 
 		pexprCond->AddRef();
 		
-		CColRefSet *pcrsUsed = GPOS_NEW(pmp) CColRefSet(pmp, *CDrvdPropScalar::Pdpscalar(pexprCond->PdpDerive())->PcrsUsed());
+		CColRefSet *pcrsUsed = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *CDrvdPropScalar::Pdpscalar(pexprCond->PdpDerive())->PcrsUsed());
 		if (NULL != pcrsAcceptedOuterRefs)
 		{
 			// filter out all accepted outer references
@@ -1990,7 +1990,7 @@ CPredicateUtils::ExtractIndexPredicates
 		if (CUtils::FScalarIdentBoolType(pexprCond))
 		{
 			// expression is a column identifier of boolean type: convert to "col = true"
-			pexprCond = CUtils::PexprScalarEqCmp(pmp, pexprCond, CUtils::PexprScalarConstBool(pmp, true /*fVal*/, false /*fNull*/));
+			pexprCond = CUtils::PexprScalarEqCmp(memory_pool, pexprCond, CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/, false /*is_null*/));
 		}
 		else if (FNot(pexprCond) && CUtils::FScalarIdentBoolType((*pexprCond)[0]))
 		{
@@ -1998,12 +1998,12 @@ CPredicateUtils::ExtractIndexPredicates
 			CExpression *pexprScId = (*pexprCond)[0];
 			pexprCond->Release();
 			pexprScId->AddRef();
-			pexprCond = CUtils::PexprScalarEqCmp(pmp, pexprScId, CUtils::PexprScalarConstBool(pmp, false /*fVal*/, false /*fNull*/));
+			pexprCond = CUtils::PexprScalarEqCmp(memory_pool, pexprScId, CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, false /*is_null*/));
 		}
 		else
 		{
 			// attempt building index lookup predicate
-			CExpression *pexprLookupPred = PexprIndexLookup(pmp, pmda, pexprCond, pmdindex, pdrgpcrIndex, pcrsAcceptedOuterRefs);
+			CExpression *pexprLookupPred = PexprIndexLookup(memory_pool, pmda, pexprCond, pmdindex, pdrgpcrIndex, pcrsAcceptedOuterRefs);
 			if (NULL != pexprLookupPred)
 			{
 				pexprCond->Release();
@@ -2027,7 +2027,7 @@ CPredicateUtils::ExtractIndexPredicates
 void
 CPredicateUtils::SeparateOuterRefs
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CColRefSet *pcrsOuter,
 	CExpression **ppexprLocal,
@@ -2045,13 +2045,13 @@ CPredicateUtils::SeparateOuterRefs
 		// if used columns are disjoint from outer references, return input expression
 		pexprScalar->AddRef();
 		*ppexprLocal = pexprScalar;
-		*ppexprOuterRef = CUtils::PexprScalarConstBool(pmp, true /*fval*/);
+		*ppexprOuterRef = CUtils::PexprScalarConstBool(memory_pool, true /*fval*/);
 		return;
 	}
 
-	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(pmp, pexprScalar);
-	DrgPexpr *pdrgpexprLocal = GPOS_NEW(pmp) DrgPexpr(pmp);
-	DrgPexpr *pdrgpexprOuterRefs = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(memory_pool, pexprScalar);
+	DrgPexpr *pdrgpexprLocal = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
+	DrgPexpr *pdrgpexprOuterRefs = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	const ULONG ulSize = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
@@ -2070,8 +2070,8 @@ CPredicateUtils::SeparateOuterRefs
 	}
 	pdrgpexpr->Release();
 
-	*ppexprLocal = PexprConjunction(pmp, pdrgpexprLocal);
-	*ppexprOuterRef = PexprConjunction(pmp, pdrgpexprOuterRefs);
+	*ppexprLocal = PexprConjunction(memory_pool, pdrgpexprLocal);
+	*ppexprOuterRef = PexprConjunction(memory_pool, pdrgpexprOuterRefs);
 }
 
 // convert predicates of the form (a Cmp b) into (a InvCmp b);
@@ -2079,7 +2079,7 @@ CPredicateUtils::SeparateOuterRefs
 CExpression *
 CPredicateUtils::PexprInverseComparison
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprCmp
 	)
 {
@@ -2094,7 +2094,7 @@ CPredicateUtils::PexprInverseComparison
 	(*pexprCmp)[1]->AddRef();
 	pmdidInverseOp->AddRef();
 
-	return CUtils::PexprScalarCmp(pmp, (*pexprCmp)[0], (*pexprCmp)[1], *pstrFirst, pmdidInverseOp);
+	return CUtils::PexprScalarCmp(memory_pool, (*pexprCmp)[0], (*pexprCmp)[1], *pstrFirst, pmdidInverseOp);
 }
 
 // convert predicates of the form (true = (a Cmp b)) into (a Cmp b);
@@ -2102,7 +2102,7 @@ CPredicateUtils::PexprInverseComparison
 CExpression *
 CPredicateUtils::PexprPruneSuperfluosEquality
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr
 	)
 {
@@ -2130,13 +2130,13 @@ CPredicateUtils::PexprPruneSuperfluosEquality
 		{
 			if (fConstTrueLeftChild)
 			{
-				return PexprPruneSuperfluosEquality(pmp, (*pexpr)[1]);
+				return PexprPruneSuperfluosEquality(memory_pool, (*pexpr)[1]);
 			}
 
 			if (fConstFalseLeftChild)
 			{
-				CExpression *pexprInverse = PexprInverseComparison(pmp, (*pexpr)[1]);
-				CExpression *pexprPruned =  PexprPruneSuperfluosEquality(pmp, pexprInverse);
+				CExpression *pexprInverse = PexprInverseComparison(memory_pool, (*pexpr)[1]);
+				CExpression *pexprPruned =  PexprPruneSuperfluosEquality(memory_pool, pexprInverse);
 				pexprInverse->Release();
 				return pexprPruned;
 			}
@@ -2146,13 +2146,13 @@ CPredicateUtils::PexprPruneSuperfluosEquality
 		{
 			if (fConstTrueRightChild)
 			{
-				return PexprPruneSuperfluosEquality(pmp, (*pexpr)[0]);
+				return PexprPruneSuperfluosEquality(memory_pool, (*pexpr)[0]);
 			}
 
 			if (fConstFalseRightChild)
 			{
-				CExpression *pexprInverse = PexprInverseComparison(pmp, (*pexpr)[0]);
-				CExpression *pexprPruned =  PexprPruneSuperfluosEquality(pmp, pexprInverse);
+				CExpression *pexprInverse = PexprInverseComparison(memory_pool, (*pexpr)[0]);
+				CExpression *pexprPruned =  PexprPruneSuperfluosEquality(memory_pool, pexprInverse);
 				pexprInverse->Release();
 
 				return pexprPruned;
@@ -2161,17 +2161,17 @@ CPredicateUtils::PexprPruneSuperfluosEquality
 	}
 
 	// process children
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	const ULONG ulChildren = pexpr->UlArity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
-		CExpression *pexprChild = PexprPruneSuperfluosEquality(pmp, (*pexpr)[ul]);
+		CExpression *pexprChild = PexprPruneSuperfluosEquality(memory_pool, (*pexpr)[ul]);
 		pdrgpexpr->Append(pexprChild);
 	}
 
 	COperator *pop = pexpr->Pop();
 	pop->AddRef();
-	return GPOS_NEW(pmp) CExpression(pmp, pop, pdrgpexpr);
+	return GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pdrgpexpr);
 }
 
 // determine if we should test predicate implication for statistics computation
@@ -2225,18 +2225,18 @@ CPredicateUtils::FImpliedPredicate
 CExpression *
 CPredicateUtils::PexprRemoveImpliedConjuncts
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CExpressionHandle &exprhdl
 	)
 {
 	// extract equivalence classes from logical children
-	DrgPcrs *pdrgpcrs = CUtils::PdrgpcrsCopyChildEquivClasses(pmp, exprhdl);
+	DrgPcrs *pdrgpcrs = CUtils::PdrgpcrsCopyChildEquivClasses(memory_pool, exprhdl);
 
 	// extract all the conjuncts
-	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(pmp, pexprScalar);
+	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(memory_pool, pexprScalar);
 	const ULONG ulSize = pdrgpexprConjuncts->Size();
-	DrgPexpr *pdrgpexprNewConjuncts = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprNewConjuncts = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CExpression *pexprConj = (*pdrgpexprConjuncts)[ul];
@@ -2248,11 +2248,11 @@ CPredicateUtils::PexprRemoveImpliedConjuncts
 
 		// add predicate to current equivalence classes
 		DrgPcrs *pdrgpcrsConj = NULL;
-		CConstraint *pcnstr = CConstraint::PcnstrFromScalarExpr(pmp, pexprConj, &pdrgpcrsConj);
+		CConstraint *pcnstr = CConstraint::PcnstrFromScalarExpr(memory_pool, pexprConj, &pdrgpcrsConj);
 		CRefCount::SafeRelease(pcnstr);
 		if (NULL != pdrgpcrsConj)
 		{
-			DrgPcrs *pdrgpcrsMerged = CUtils::PdrgpcrsMergeEquivClasses(pmp, pdrgpcrs, pdrgpcrsConj);
+			DrgPcrs *pdrgpcrsMerged = CUtils::PdrgpcrsMergeEquivClasses(memory_pool, pdrgpcrs, pdrgpcrsConj);
 			pdrgpcrs->Release();
 			pdrgpcrsConj->Release();
 			pdrgpcrs = pdrgpcrsMerged;
@@ -2266,7 +2266,7 @@ CPredicateUtils::PexprRemoveImpliedConjuncts
 	pdrgpexprConjuncts->Release();
 	pdrgpcrs->Release();
 
-	return PexprConjunction(pmp, pdrgpexprNewConjuncts);
+	return PexprConjunction(memory_pool, pdrgpexprNewConjuncts);
 }
 
 // check if given correlations are valid for (anti)semi-joins;
@@ -2275,7 +2275,7 @@ CPredicateUtils::PexprRemoveImpliedConjuncts
 BOOL
 CPredicateUtils::FValidSemiJoinCorrelations
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprOuter,
 	CExpression *pexprInner,
 	DrgPexpr *pdrgpexprCorrelations
@@ -2288,7 +2288,7 @@ CPredicateUtils::FValidSemiJoinCorrelations
 	CColRefSet *pcrsInnerOuput = CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->PcrsOutput();
 
 	// collect output columns of both children
-	CColRefSet *pcrsChildren = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsOuterOuput);
+	CColRefSet *pcrsChildren = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *pcrsOuterOuput);
 	pcrsChildren->Union(pcrsInnerOuput);
 
 	const ULONG ulCorrs = pdrgpexprCorrelations->Size();
@@ -2313,7 +2313,7 @@ CPredicateUtils::FValidSemiJoinCorrelations
 BOOL
 CPredicateUtils::FSimpleEqualityUsingCols
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CColRefSet *pcrs
 	)
@@ -2324,7 +2324,7 @@ CPredicateUtils::FSimpleEqualityUsingCols
 	GPOS_ASSERT(0 < pcrs->Size());
 
 	// break expression into conjuncts
-	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(pmp, pexprScalar);
+	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(memory_pool, pexprScalar);
 	const ULONG ulSize = pdrgpexpr->Size();
 	BOOL fSuccess = true;
 	for (ULONG ul = 0; fSuccess && ul < ulSize; ul++)
@@ -2346,7 +2346,7 @@ CPredicateUtils::FSimpleEqualityUsingCols
 CExpression *
 CPredicateUtils::PexprReplaceColsWithNulls
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CColRefSet *pcrs
 	)
@@ -2368,20 +2368,20 @@ CPredicateUtils::PexprReplaceColsWithNulls
 		pcrs->FMember(CScalarIdent::PopConvert(pop)->Pcr()))
 	{
 		// replace column with NULL constant
-		return CUtils::PexprScalarConstBool(pmp, false /*fVal*/, true /*fNull*/);
+		return CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, true /*is_null*/);
 	}
 
 	// process children recursively
-	DrgPexpr *pdrgpexpr = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	const ULONG ulChildren = pexprScalar->UlArity();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
-		CExpression *pexprChild = PexprReplaceColsWithNulls(pmp, (*pexprScalar)[ul], pcrs);
+		CExpression *pexprChild = PexprReplaceColsWithNulls(memory_pool, (*pexprScalar)[ul], pcrs);
 		pdrgpexpr->Append(pexprChild);
 	}
 
 	pop->AddRef();
-	return GPOS_NEW(pmp) CExpression(pmp, pop, pdrgpexpr);
+	return GPOS_NEW(memory_pool) CExpression(memory_pool, pop, pdrgpexpr);
 }
 
 // check if scalar expression evaluates to (NOT TRUE) when
@@ -2390,7 +2390,7 @@ CPredicateUtils::PexprReplaceColsWithNulls
 BOOL
 CPredicateUtils::FNullRejecting
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CColRefSet *pcrs
 	)
@@ -2412,10 +2412,10 @@ CPredicateUtils::FNullRejecting
 	}
 
 	// create another expression copy where we replace columns included in the set with NULL values
-	CExpression *pexprColsReplacedWithNulls = PexprReplaceColsWithNulls(pmp, pexprScalar, pcrs);
+	CExpression *pexprColsReplacedWithNulls = PexprReplaceColsWithNulls(memory_pool, pexprScalar, pcrs);
 
 	// evaluate the resulting expression
-	CScalar::EBoolEvalResult eber = CScalar::EberEvaluate(pmp, pexprColsReplacedWithNulls);
+	CScalar::EBoolEvalResult eber = CScalar::EberEvaluate(memory_pool, pexprColsReplacedWithNulls);
 	pexprColsReplacedWithNulls->Release();
 
 	// return TRUE if expression evaluation  result is (NOT TRUE), which means we need to
@@ -2617,7 +2617,7 @@ CPredicateUtils::FConvertToCNF
 void
 CPredicateUtils::CollectGrandChildrenUnionUnionAll
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexpr,
 	ULONG ulChildIndex,
 	DrgPexpr *pdrgpexprResult,
@@ -2648,13 +2648,13 @@ CPredicateUtils::CollectGrandChildrenUnionUnionAll
 	DrgPcr *pdrgpcrOuputChild = popChild->PdrgpcrOutput();
 	GPOS_ASSERT(ulCols <= pdrgpcrOuputChild->Size());
 
-	ULongPtrArray *pdrgpul = GPOS_NEW(pmp) ULongPtrArray (pmp);
+	ULongPtrArray *pdrgpul = GPOS_NEW(memory_pool) ULongPtrArray (memory_pool);
 	for (ULONG ulColIdx = 0; ulColIdx < ulCols; ulColIdx++)
 	{
 		const CColRef *pcr = (*pdrgpcrInputExpected)[ulColIdx];
 		ULONG ulPos = pdrgpcrOuputChild->IndexOf(pcr);
 		GPOS_ASSERT(ULONG_MAX != ulPos);
-		pdrgpul->Append(GPOS_NEW(pmp) ULONG(ulPos));
+		pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(ulPos));
 	}
 
 	DrgDrgPcr *pdrgdrgpcrChild = popChild->PdrgpdrgpcrInput();
@@ -2672,7 +2672,7 @@ CPredicateUtils::CollectGrandChildrenUnionUnionAll
 
 		// collect the correct input columns
 		DrgPcr *pdrgpcrOld = (*pdrgdrgpcrChild)[ul];
-		DrgPcr *pdrgpcrNew = GPOS_NEW(pmp) DrgPcr (pmp);
+		DrgPcr *pdrgpcrNew = GPOS_NEW(memory_pool) DrgPcr (memory_pool);
 		for (ULONG ulColIdx = 0; ulColIdx < ulCols; ulColIdx++)
 		{
 			ULONG ulPos = *(*pdrgpul)[ulColIdx];

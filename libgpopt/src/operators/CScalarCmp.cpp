@@ -36,13 +36,13 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CScalarCmp::CScalarCmp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
 	const CWStringConst *pstrOp,
 	IMDType::ECmpType ecmpt
 	)
 	:
-	CScalar(pmp),
+	CScalar(memory_pool),
 	m_pmdidOp(pmdidOp),
 	m_pstrOp(pstrOp),
 	m_ecmpt(ecmpt),
@@ -153,7 +153,7 @@ IMDId *
 CScalarCmp::MDIdType() const
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeBool>()->Pmdid();
+	return pmda->PtMDType<IMDTypeBool>()->MDId();
 }
 
 
@@ -199,20 +199,20 @@ CScalarCmp::PmdidCommuteOp
 CWStringConst *
 CScalarCmp::Pstr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	IMDId *pmdid
 	)
 {
 	pmdid->AddRef();
-	return GPOS_NEW(pmp) CWStringConst(pmp, (pmda->Pmdscop(pmdid)->Mdname().Pstr())->GetBuffer());
+	return GPOS_NEW(memory_pool) CWStringConst(memory_pool, (pmda->Pmdscop(pmdid)->Mdname().Pstr())->GetBuffer());
 }
 
 // get commuted scalar comparision operator
 CScalarCmp *
 CScalarCmp::PopCommutedOp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	COperator *pop
 	)
 {
@@ -221,7 +221,7 @@ CScalarCmp::PopCommutedOp
 	IMDId *pmdid = PmdidCommuteOp(pmda, pop);
 	if (NULL != pmdid && pmdid->IsValid())
 	{
-		return GPOS_NEW(pmp) CScalarCmp(pmp, pmdid, Pstr(pmp, pmda, pmdid), CUtils::Ecmpt(pmdid));
+		return GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdid, Pstr(memory_pool, pmda, pmdid), CUtils::Ecmpt(pmdid));
 	}
 	return NULL;
 }

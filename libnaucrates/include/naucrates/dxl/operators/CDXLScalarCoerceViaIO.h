@@ -48,9 +48,9 @@ namespace gpdxl
 			// ctor/dtor
 			CDXLScalarCoerceViaIO
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				INT iTypeModifier,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				INT type_modifier,
 				EdxlCoercionForm edxlcf,
 				INT iLoc
 				);

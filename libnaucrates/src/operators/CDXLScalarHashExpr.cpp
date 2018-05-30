@@ -26,14 +26,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarHashExpr::CDXLScalarHashExpr
 	(
-	IMemoryPool *pmp,
-	IMDId *pmdidType
+	IMemoryPool *memory_pool,
+	IMDId *mdid_type
 	)
 	:
-	CDXLScalar(pmp),
-	m_pmdidType(pmdidType)
+	CDXLScalar(memory_pool),
+	m_mdid_type(mdid_type)
 {
-	GPOS_ASSERT(m_pmdidType->IsValid());
+	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ CDXLScalarHashExpr::CDXLScalarHashExpr
 //---------------------------------------------------------------------------
 CDXLScalarHashExpr::~CDXLScalarHashExpr()
 {
-	m_pmdidType->Release();
+	m_mdid_type->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ CDXLScalarHashExpr::PstrOpName() const
 IMDId *
 CDXLScalarHashExpr::MDIdType() const
 {
-	return m_pmdidType;
+	return m_mdid_type;
 }
 
 //---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ CDXLScalarHashExpr::SerializeToDXL
 	const CWStringConst *pstrElemName = PstrOpName();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	m_pmdidType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);

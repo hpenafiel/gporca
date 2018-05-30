@@ -57,13 +57,13 @@ namespace gpmd
 			
 		public:
 			// ctor/dtor
-			CMDProviderGeneric(IMemoryPool *pmp);
+			CMDProviderGeneric(IMemoryPool *memory_pool);
 			
 			// dtor
 			~CMDProviderGeneric();
 			
 			// return the mdid for the requested type
-			IMDId *Pmdid(IMDType::ETypeInfo eti) const;
+			IMDId *MDId(IMDType::ETypeInfo eti) const;
 			
 			// default system id
 			CSystemId SysidDefault() const;

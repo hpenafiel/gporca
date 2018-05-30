@@ -115,8 +115,8 @@ namespace gpos
 		public:
 				
 			// ctor
-			CBitSet(IMemoryPool *pmp, ULONG vector_size = 256);
-			CBitSet(IMemoryPool *pmp, const CBitSet &);
+			CBitSet(IMemoryPool *memory_pool, ULONG vector_size = 256);
+			CBitSet(IMemoryPool *memory_pool, const CBitSet &);
 			
 			// dtor
 			virtual ~CBitSet();

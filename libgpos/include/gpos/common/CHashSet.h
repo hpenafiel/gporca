@@ -172,14 +172,14 @@ namespace gpos
 		public:
 
 			// ctor
-			CHashSet<T, HashFn, EqFn, CleanupFn> (IMemoryPool *pmp, ULONG size = 128)
+			CHashSet<T, HashFn, EqFn, CleanupFn> (IMemoryPool *memory_pool, ULONG size = 128)
             :
-            m_memory_pool(pmp),
+            m_memory_pool(memory_pool),
             m_num_chains(size),
             m_size(0),
             m_chains(GPOS_NEW_ARRAY(m_memory_pool, HashElemChain*, m_num_chains)),
             m_elements(GPOS_NEW(m_memory_pool) Elements(m_memory_pool)),
-            m_filled_chains(GPOS_NEW(pmp) IntPtrArray(pmp))
+            m_filled_chains(GPOS_NEW(memory_pool) IntPtrArray(memory_pool))
             {
                 GPOS_ASSERT(size > 0);
 

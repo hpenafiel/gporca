@@ -106,25 +106,25 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_Basic()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	// lookup different objects
-	CMDIdGPDB *pmdidObject1 = GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 1 /* major version */, 1 /* minor version */);
-	CMDIdGPDB *pmdidObject2 = GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 12 /* version */, 1 /* minor version */);
+	CMDIdGPDB *pmdidObject1 = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 1 /* major version */, 1 /* minor version */);
+	CMDIdGPDB *pmdidObject2 = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 12 /* version */, 1 /* minor version */);
 
 #ifdef GPOS_DEBUG
 	const IMDRelation *pimdrel1 = 
@@ -136,7 +136,7 @@ CMDAccessorTest::EresUnittest_Basic()
 #endif	
 	mda.Pmdrel(pmdidObject2);
 
-	GPOS_ASSERT(pimdrel1->Pmdid()->Equals(pmdidObject1) && pimdrel2->Pmdid()->Equals(pmdidObject2));
+	GPOS_ASSERT(pimdrel1->MDId()->Equals(pmdidObject1) && pimdrel2->MDId()->Equals(pmdidObject2));
 	
 	// access an object again
 #ifdef GPOS_DEBUG
@@ -147,14 +147,14 @@ CMDAccessorTest::EresUnittest_Basic()
 	GPOS_ASSERT(pimdrel1 == pimdrel3);
 	
 	// access GPDB types, operators and aggregates
-	CMDIdGPDB *pmdidType = GPOS_NEW(pmp) CMDIdGPDB(GPDB_INT4, 1, 0);
-	CMDIdGPDB *pmdidOp = GPOS_NEW(pmp) CMDIdGPDB(GPDB_OP_INT4_LT, 1, 0);
-	CMDIdGPDB *pmdidAgg = GPOS_NEW(pmp) CMDIdGPDB(GPDB_AGG_AVG, 1, 0);
+	CMDIdGPDB *mdid_type = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4, 1, 0);
+	CMDIdGPDB *pmdidOp = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_OP_INT4_LT, 1, 0);
+	CMDIdGPDB *pmdidAgg = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_AGG_AVG, 1, 0);
 	
 #ifdef GPOS_DEBUG
 	const IMDType *pimdtype = 
 #endif
-	mda.Pmdtype(pmdidType);
+	mda.Pmdtype(mdid_type);
 	
 #ifdef GPOS_DEBUG
 	const IMDScalarOp *pmdscop = 
@@ -183,7 +183,7 @@ CMDAccessorTest::EresUnittest_Basic()
 	
 #ifdef GPOS_DEBUG
 	// for debug traces
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 	IOstream &os(at.Os());
 
 	// print objects
@@ -215,7 +215,7 @@ CMDAccessorTest::EresUnittest_Basic()
 	pmdidObject2->Release();
 	pmdidAgg->Release();
 	pmdidOp->Release();
-	pmdidType->Release();
+	mdid_type->Release();
 	
 	return GPOS_OK;
 }
@@ -232,41 +232,41 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_Datum()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 	
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	// create an INT4 datum
 	const IMDTypeInt4 *pmdtypeint4 = mda.PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
-	IDatumInt4 *pdatumInt4 = pmdtypeint4->PdatumInt4(pmp, 5, false /* fNull */);
+	IDatumInt4 *pdatumInt4 = pmdtypeint4->PdatumInt4(memory_pool, 5, false /* is_null */);
 	GPOS_ASSERT(5 == pdatumInt4->IValue());
 
 	// create a BOOL datum
 	const IMDTypeBool *pmdtypebool = mda.PtMDType<IMDTypeBool>(CTestUtils::m_sysidDefault);
-	IDatumBool *pdatumBool = pmdtypebool->PdatumBool(pmp, false, false /* fNull */);
+	IDatumBool *pdatumBool = pmdtypebool->PdatumBool(memory_pool, false, false /* is_null */);
 	GPOS_ASSERT(false == pdatumBool->FValue());
 	
 	// create an OID datum
 	const IMDTypeOid *pmdtypeoid = mda.PtMDType<IMDTypeOid>(CTestUtils::m_sysidDefault);
-	IDatumOid *pdatumOid = pmdtypeoid->PdatumOid(pmp, 20, false /* fNull */);
+	IDatumOid *pdatumOid = pmdtypeoid->PdatumOid(memory_pool, 20, false /* is_null */);
 	GPOS_ASSERT(20 == pdatumOid->OidValue());
 
 	
 #ifdef GPOS_DEBUG
 	// for debug traces
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 	
 	// print objects
@@ -305,12 +305,12 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_DatumGeneric()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// attempt to obtain a generic type from the cache should assert
 	(void) mda.PtMDType<IMDTypeGeneric>();
@@ -331,16 +331,16 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_Navigate()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
 
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 	
 	// lookup a function in the MD cache
-	CMDIdGPDB *pmdidFunc = GPOS_NEW(pmp) CMDIdGPDB(GPDB_FUNC_TIMEOFDAY /* OID */, 1 /* major version */, 0 /* minor version */);
+	CMDIdGPDB *pmdidFunc = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_FUNC_TIMEOFDAY /* OID */, 1 /* major version */, 0 /* minor version */);
 
 	const IMDFunction *pmdfunc = mda.Pmdfunc(pmdidFunc);
 	
@@ -358,7 +358,7 @@ CMDAccessorTest::EresUnittest_Navigate()
 		
 #ifdef GPOS_DEBUG
 	// print objects
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 	
 	oss << std::endl;
@@ -395,9 +395,9 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_Indexes()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 
 #ifdef GPOS_DEBUG
 	IOstream &os(at.Os());
@@ -406,19 +406,19 @@ CMDAccessorTest::EresUnittest_Indexes()
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 	
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 	
 	// lookup a relation in the MD cache
-	CMDIdGPDB *pmdidRel =  GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1 /* major */, 1 /* minor version */);
+	CMDIdGPDB *pmdidRel =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1 /* major */, 1 /* minor version */);
 	
 	const IMDRelation *pmdrel = mda.Pmdrel(pmdidRel);
 	
@@ -469,9 +469,9 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_CheckConstraint()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 
 #ifdef GPOS_DEBUG
 	IOstream &os(at.Os());
@@ -480,27 +480,27 @@ CMDAccessorTest::EresUnittest_CheckConstraint()
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	// lookup a relation in the MD cache
-	CMDIdGPDB *pmdidRel =  GPOS_NEW(pmp) CMDIdGPDB(GPOPT_TEST_REL_OID21, 1 /* major */, 1 /* minor version */);
+	CMDIdGPDB *pmdidRel =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID21, 1 /* major */, 1 /* minor version */);
 
 	const IMDRelation *pmdrel = mda.Pmdrel(pmdidRel);
 	GPOS_ASSERT(0 < pmdrel->UlCheckConstraints());
 
 	// create the array of column reference for the table columns
 	// for the DXL to Expr translation
-	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
+	DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 	const ULONG ulCols = pmdrel->UlColumns() - pmdrel->UlSystemColumns();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
@@ -522,7 +522,7 @@ CMDAccessorTest::EresUnittest_CheckConstraint()
 #endif // GPOS_DEBUG
 
 	// extract and then print the check constraint expression	
-	CExpression *pexpr = pmdCheckConstraint->Pexpr(pmp, &mda, pdrgpcr);
+	CExpression *pexpr = pmdCheckConstraint->Pexpr(memory_pool, &mda, pdrgpcr);
 
 #ifdef GPOS_DEBUG
 	pexpr->DbgPrint();
@@ -549,34 +549,34 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_IndexPartConstraint()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	// lookup a relation in the MD cache
-	CMDIdGPDB *pmdidRel =  GPOS_NEW(pmp) CMDIdGPDB(GPOPT_TEST_REL_OID22);
+	CMDIdGPDB *pmdidRel =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID22);
 
 	const IMDRelation *pmdrel = mda.Pmdrel(pmdidRel);
 	GPOS_ASSERT(0 < pmdrel->UlIndices());
 
 	// create the array of column reference for the table columns
 	// for the DXL to Expr translation
-	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
+	DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 	const ULONG ulCols = pmdrel->UlColumns() - pmdrel->UlSystemColumns();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
@@ -595,7 +595,7 @@ CMDAccessorTest::EresUnittest_IndexPartConstraint()
 	IMDPartConstraint *pmdpartcnstr = pmdindex->Pmdpartcnstr();
 	GPOS_ASSERT(NULL != pmdpartcnstr);
 	
-	CExpression *pexpr = pmdpartcnstr->Pexpr(pmp, &mda, pdrgpcr);
+	CExpression *pexpr = pmdpartcnstr->Pexpr(memory_pool, &mda, pdrgpcr);
 
 #ifdef GPOS_DEBUG
 	IOstream &os(at.Os());
@@ -624,22 +624,22 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_Cast()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */ 
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	const IMDType *pmdtypeInt = mda.PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
@@ -649,17 +649,17 @@ CMDAccessorTest::EresUnittest_Cast()
 #ifdef GPOS_DEBUG
 	const IMDCast *pmdcastInt2BigInt = 
 #endif // GPOS_DEBUG
-	mda.Pmdcast(pmdtypeInt->Pmdid(), pmdtypeBigInt->Pmdid());
+	mda.Pmdcast(pmdtypeInt->MDId(), pmdtypeBigInt->MDId());
 	
 	GPOS_ASSERT(!pmdcastInt2BigInt->FBinaryCoercible());
 	GPOS_ASSERT(pmdcastInt2BigInt->PmdidCastFunc()->IsValid());
-	GPOS_ASSERT(pmdcastInt2BigInt->PmdidSrc()->Equals(pmdtypeInt->Pmdid()));
-	GPOS_ASSERT(pmdcastInt2BigInt->PmdidDest()->Equals(pmdtypeBigInt->Pmdid()));
+	GPOS_ASSERT(pmdcastInt2BigInt->PmdidSrc()->Equals(pmdtypeInt->MDId()));
+	GPOS_ASSERT(pmdcastInt2BigInt->PmdidDest()->Equals(pmdtypeBigInt->MDId()));
 	
 #ifdef GPOS_DEBUG
 	const IMDCast *pmdcastInt2Oid = 
 #endif // GPOS_DEBUG
-	mda.Pmdcast(pmdtypeInt->Pmdid(), pmdtypeOid->Pmdid());
+	mda.Pmdcast(pmdtypeInt->MDId(), pmdtypeOid->MDId());
 	
 	GPOS_ASSERT(pmdcastInt2Oid->FBinaryCoercible());
 	GPOS_ASSERT(!pmdcastInt2Oid->PmdidCastFunc()->IsValid());
@@ -667,7 +667,7 @@ CMDAccessorTest::EresUnittest_Cast()
 #ifdef GPOS_DEBUG
 	const IMDCast *pmdcastOid2Int = 
 #endif // GPOS_DEBUG
-	mda.Pmdcast(pmdtypeOid->Pmdid(), pmdtypeInt->Pmdid());
+	mda.Pmdcast(pmdtypeOid->MDId(), pmdtypeInt->MDId());
 	
 	GPOS_ASSERT(pmdcastOid2Int->FBinaryCoercible());
 	GPOS_ASSERT(!pmdcastOid2Int->PmdidCastFunc()->IsValid());
@@ -687,22 +687,22 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_ScCmp()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
-	CAutoTrace at(pmp);
+	CAutoTrace at(memory_pool);
 
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 	const IMDType *pmdtypeInt = mda.PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
@@ -711,11 +711,11 @@ CMDAccessorTest::EresUnittest_ScCmp()
 #ifdef GPOS_DEBUG
 	const IMDScCmp *pmdScEqIntBigInt = 
 #endif // GPOS_DEBUG
-	mda.Pmdsccmp(pmdtypeInt->Pmdid(), pmdtypeBigInt->Pmdid(), IMDType::EcmptEq);
+	mda.Pmdsccmp(pmdtypeInt->MDId(), pmdtypeBigInt->MDId(), IMDType::EcmptEq);
 	
 	GPOS_ASSERT(IMDType::EcmptEq == pmdScEqIntBigInt->Ecmpt());
-	GPOS_ASSERT(pmdScEqIntBigInt->PmdidLeft()->Equals(pmdtypeInt->Pmdid()));
-	GPOS_ASSERT(pmdScEqIntBigInt->PmdidRight()->Equals(pmdtypeBigInt->Pmdid()));
+	GPOS_ASSERT(pmdScEqIntBigInt->PmdidLeft()->Equals(pmdtypeInt->MDId()));
+	GPOS_ASSERT(pmdScEqIntBigInt->PmdidRight()->Equals(pmdtypeBigInt->MDId()));
 
 	return GPOS_OK;
 }
@@ -732,15 +732,15 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_Negative()
 {
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcNone);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 	
 	// lookup a non-existing objects
-	CMDIdGPDB *pmdidNonExistingObject = GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 15 /* version */, 1 /* minor version */);
+	CMDIdGPDB *pmdidNonExistingObject = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 15 /* version */, 1 /* minor version */);
 
 	// call should result in an exception
 	(void) mda.Pmdrel(pmdidNonExistingObject);
@@ -762,7 +762,7 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_ConcurrentAccessSingleMDA()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	
 	// task memory pool
@@ -773,14 +773,14 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessSingleMDA()
 	// Setup an MD cache with a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// task parameters
 	SMDCacheTaskParams mdtaskparams(pmpTask, &mda);
 
 	// scope for ATP
 	{
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 	
 		CTask *rgPtsk[GPOPT_MDCACHE_LOOKUP_THREADS];
 	
@@ -835,7 +835,7 @@ GPOS_RESULT
 CMDAccessorTest::EresUnittest_ConcurrentAccessMultipleMDA()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 
 #ifdef GPOS_DEBUG
@@ -845,7 +845,7 @@ CMDAccessorTest::EresUnittest_ConcurrentAccessMultipleMDA()
 
 	GPOS_TRY
 	{	
-		CAutoTaskProxy atp(pmp, pwpm);
+		CAutoTaskProxy atp(memory_pool, pwpm);
 	
 		// create multiple tasks eash of which will init a separate MD accessor and use it to
 		// lookup objects from the respective accessor using different threads
@@ -917,13 +917,13 @@ CMDAccessorTest::PvLookupSingleObj
 	
 	CMDAccessor *pmda = pmdtaskparams->m_pmda;
 
-	IMemoryPool *pmp = pmdtaskparams->m_memory_pool;
+	IMemoryPool *memory_pool = pmdtaskparams->m_memory_pool;
 	
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pmda);
 	
 	// lookup a cache object
-	CMDIdGPDB *pmdid = GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 1 /* major version */, 1 /* minor version */);
+	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 1 /* major version */, 1 /* minor version */);
 
 	// lookup object
 	(void) pmda->Pmdrel(pmdid);
@@ -992,7 +992,7 @@ CMDAccessorTest::PvInitMDAAndLookup
 	CMDAccessor::MDCache *pcache = (CMDAccessor::MDCache *) pv;
 
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	
 	// task memory pool
@@ -1004,14 +1004,14 @@ CMDAccessorTest::PvInitMDAAndLookup
 		// Setup an MD cache with a file-based provider
 		CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 		pmdp->AddRef();
-		CMDAccessor mda(pmp, pcache, CTestUtils::m_sysidDefault, pmdp);
+		CMDAccessor mda(memory_pool, pcache, CTestUtils::m_sysidDefault, pmdp);
 		
 		// task parameters
 		SMDCacheTaskParams mdtaskparams(pmpTask, &mda);
 
 		// scope for ATP
 		{	
-			CAutoTaskProxy atp(pmp, pwpm);
+			CAutoTaskProxy atp(memory_pool, pwpm);
 	
 			CTask *rgPtsk[GPOPT_MDCACHE_LOOKUP_THREADS];
 	

@@ -23,7 +23,7 @@ using namespace gpdxl;
 // ctor
 CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidSrc,
@@ -31,19 +31,19 @@ CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB
 	BOOL fBinaryCoercible,
 	IMDId *pmdidCastFunc,
 	EmdCoercepathType emdPathType,
-	INT iTypeModifier,
+	INT type_modifier,
 	BOOL fIsExplicit,
 	EdxlCoercionForm edxlcf,
 	INT iLoc
 	)
 	:
-	CMDCastGPDB(pmp, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, emdPathType),
-	m_iTypeModifier(iTypeModifier),
+	CMDCastGPDB(memory_pool, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, emdPathType),
+	m_type_modifier(type_modifier),
 	m_fIsExplicit(fIsExplicit),
 	m_edxlcf(edxlcf),
 	m_iLoc(iLoc)
 {
-	m_pstr = CDXLUtils::SerializeMDObj(pmp, this, false /*fSerializeHeader*/, false /*indentation*/);
+	m_pstr = CDXLUtils::SerializeMDObj(memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
 
 // dtor
@@ -56,7 +56,7 @@ CMDArrayCoerceCastGPDB::~CMDArrayCoerceCastGPDB()
 INT
 CMDArrayCoerceCastGPDB::TypeModifier() const
 {
-	return m_iTypeModifier;
+	return m_type_modifier;
 }
 
 // return is explicit cast
@@ -128,7 +128,7 @@ CMDArrayCoerceCastGPDB::DebugPrint
 {
 	CMDCastGPDB::DebugPrint(os);
 	os << ", Result Type Mod: ";
-	os << m_iTypeModifier;
+	os << m_type_modifier;
 	os << ", isExplicit: ";
 	os << m_fIsExplicit;
 	os << ", coercion form: ";

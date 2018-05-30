@@ -60,7 +60,7 @@ namespace gpdxl
 			// ctor
 			CParseHandlerScalarWindowFrameEdge
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CParseHandlerManager *parse_handler_mgr,
 						CParseHandlerBase *pphRoot,
 						BOOL fLeading

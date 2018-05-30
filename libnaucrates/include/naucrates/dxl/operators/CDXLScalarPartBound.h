@@ -35,7 +35,7 @@ namespace gpdxl
 			ULONG m_ulLevel;
 
 			// boundary type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// whether this represents a lower or upper bound
 			BOOL m_fLower;
@@ -45,7 +45,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLScalarPartBound(IMemoryPool *pmp, ULONG ulLevel, IMDId *pmdidType, BOOL fLower);
+			CDXLScalarPartBound(IMemoryPool *memory_pool, ULONG ulLevel, IMDId *mdid_type, BOOL fLower);
 
 			// dtor
 			virtual
@@ -68,7 +68,7 @@ namespace gpdxl
 			// boundary type
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// is this a lower (or upper) bound

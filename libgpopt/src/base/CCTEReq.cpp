@@ -148,14 +148,14 @@ CCTEReq::CCTEReqEntry::OsPrint
 //---------------------------------------------------------------------------
 CCTEReq::CCTEReq
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_phmcter(NULL),
 	m_pdrgpulRequired(NULL)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 
 	m_phmcter = GPOS_NEW(m_memory_pool) HMCteReq(m_memory_pool);
 	m_pdrgpulRequired = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
@@ -371,12 +371,12 @@ CCTEReq::HashValue() const
 CCTEReq *
 CCTEReq::PcterUnresolved
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CCTEMap *pcm
 	)
 {
 	GPOS_ASSERT(NULL != pcm);
-	CCTEReq *pcterUnresolved = GPOS_NEW(pmp) CCTEReq(pmp);
+	CCTEReq *pcterUnresolved = GPOS_NEW(memory_pool) CCTEReq(memory_pool);
 
 	HMCteReqIter hmcri(m_phmcter);
 	while (hmcri.Advance())
@@ -410,13 +410,13 @@ CCTEReq::PcterUnresolved
 CCTEReq *
 CCTEReq::PcterUnresolvedSequence
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CCTEMap *pcm,
 	DrgPdp *pdrgpdpCtxt // context contains derived plan properties of producer tree
 	)
 {
 	GPOS_ASSERT(NULL != pcm);
-	CCTEReq *pcterUnresolved = GPOS_NEW(pmp) CCTEReq(pmp);
+	CCTEReq *pcterUnresolved = GPOS_NEW(memory_pool) CCTEReq(memory_pool);
 
 	HMCteReqIter hmcri(m_phmcter);
 	while (hmcri.Advance())
@@ -462,7 +462,7 @@ CCTEReq::PcterUnresolvedSequence
 
 	// if something is in pcm and not in the requirments, it has to be a producer
 	// in which case, add the corresponding consumer as unresolved
-	ULongPtrArray *pdrgpulProducers = pcm->PdrgpulAdditionalProducers(pmp, this);
+	ULongPtrArray *pdrgpulProducers = pcm->PdrgpulAdditionalProducers(memory_pool, this);
 	const ULONG ulLen = pdrgpulProducers->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -485,10 +485,10 @@ CCTEReq::PcterUnresolvedSequence
 CCTEReq *
 CCTEReq::PcterAllOptional
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	CCTEReq *pcter = GPOS_NEW(pmp) CCTEReq(pmp);
+	CCTEReq *pcter = GPOS_NEW(memory_pool) CCTEReq(memory_pool);
 
 	HMCteReqIter hmcri(m_phmcter);
 	while (hmcri.Advance())

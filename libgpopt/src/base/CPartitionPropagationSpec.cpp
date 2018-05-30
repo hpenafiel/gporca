@@ -104,7 +104,7 @@ CPartitionPropagationSpec::FMatch
 void
 CPartitionPropagationSpec::AppendEnforcers
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	CReqdPropPlan *
 #ifdef GPOS_DEBUG
@@ -116,11 +116,11 @@ CPartitionPropagationSpec::AppendEnforcers
 	)
 {
 	GPOS_ASSERT(NULL != prpp);
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	GPOS_ASSERT(NULL != pexpr);
 	
-	ULongPtrArray *pdrgpul = m_ppim->PdrgpulScanIds(pmp);
+	ULongPtrArray *pdrgpul = m_ppim->PdrgpulScanIds(memory_pool);
 	const ULONG ulSize = pdrgpul->Size();
 	
 	for (ULONG ul = 0; ul < ulSize; ul++)
@@ -133,7 +133,7 @@ CPartitionPropagationSpec::AppendEnforcers
 			continue;
 		}
 		
-		if (!FRequiresPartitionPropagation(pmp, pexpr, exprhdl, ulScanId))
+		if (!FRequiresPartitionPropagation(memory_pool, pexpr, exprhdl, ulScanId))
 		{
 			continue;
 		}
@@ -151,12 +151,12 @@ CPartitionPropagationSpec::AppendEnforcers
 		pexpr->AddRef();
 		
 		// check if there is a predicate on this part index id
-		HMUlExpr *phmulexprEqFilter = GPOS_NEW(pmp) HMUlExpr(pmp);
-		HMUlExpr *phmulexprFilter = GPOS_NEW(pmp) HMUlExpr(pmp);
+		HMUlExpr *phmulexprEqFilter = GPOS_NEW(memory_pool) HMUlExpr(memory_pool);
+		HMUlExpr *phmulexprFilter = GPOS_NEW(memory_pool) HMUlExpr(memory_pool);
 		CExpression *pexprResidual = NULL;
 		if (m_ppfm->FContainsScanId(ulScanId))
 		{
-			CExpression *pexprScalar = PexprFilter(pmp, ulScanId);
+			CExpression *pexprScalar = PexprFilter(memory_pool, ulScanId);
 			
 			// find out which keys are used in the predicate, in case there are multiple
 			// keys at this point (e.g. from a union of multiple CTE consumers)
@@ -181,7 +181,7 @@ CPartitionPropagationSpec::AppendEnforcers
 			pdrgpdrgpcrKeys->AddRef();
 
 			// split predicates and put them in the appropriate hashmaps
-			SplitPartPredicates(pmp, pexprScalar, pdrgpdrgpcrKeys, phmulexprEqFilter, phmulexprFilter, &pexprResidual);
+			SplitPartPredicates(memory_pool, pexprScalar, pdrgpdrgpcrKeys, phmulexprEqFilter, phmulexprFilter, &pexprResidual);
 			pexprScalar->Release();
 		}
 		else
@@ -192,12 +192,12 @@ CPartitionPropagationSpec::AppendEnforcers
 			pdrgpdrgpcrKeys->AddRef();
 		}
 
-		pexprResolver = GPOS_NEW(pmp) CExpression
+		pexprResolver = GPOS_NEW(memory_pool) CExpression
 									(
-									pmp,
-									GPOS_NEW(pmp) CPhysicalPartitionSelector
+									memory_pool,
+									GPOS_NEW(memory_pool) CPhysicalPartitionSelector
 												(
-												pmp,
+												memory_pool,
 												ulScanId,
 												pmdid,
 												pdrgpdrgpcrKeys,
@@ -226,7 +226,7 @@ CPartitionPropagationSpec::AppendEnforcers
 CExpression *
 CPartitionPropagationSpec::PexprFilter
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulScanId
 	)
 {
@@ -237,7 +237,7 @@ CPartitionPropagationSpec::PexprFilter
 	{
 		// condition of the form "pkey": translate into pkey = true
 		pexprScalar->AddRef();
-		pexprScalar = CUtils::PexprScalarEqCmp(pmp, pexprScalar, CUtils::PexprScalarConstBool(pmp, true /*fVal*/, false /*fNull*/));
+		pexprScalar = CUtils::PexprScalarEqCmp(memory_pool, pexprScalar, CUtils::PexprScalarConstBool(memory_pool, true /*fVal*/, false /*is_null*/));
 	}
 	else if (CPredicateUtils::FNot(pexprScalar) && CUtils::FScalarIdent((*pexprScalar)[0]))
 	{
@@ -245,7 +245,7 @@ CPartitionPropagationSpec::PexprFilter
 		CExpression *pexprId = (*pexprScalar)[0];
 		pexprId->AddRef();
 
-		pexprScalar = CUtils::PexprScalarEqCmp(pmp, pexprId, CUtils::PexprScalarConstBool(pmp, false /*fVal*/, false /*fNull*/));
+		pexprScalar = CUtils::PexprScalarEqCmp(memory_pool, pexprId, CUtils::PexprScalarConstBool(memory_pool, false /*fVal*/, false /*is_null*/));
 	}
 	else
 	{
@@ -267,7 +267,7 @@ CPartitionPropagationSpec::PexprFilter
 BOOL
 CPartitionPropagationSpec::FRequiresPartitionPropagation
 	(
-	IMemoryPool *pmp, 
+	IMemoryPool *memory_pool, 
 	CExpression *pexpr, 
 	CExpressionHandle &exprhdl,
 	ULONG ulPartIndexId
@@ -278,7 +278,7 @@ CPartitionPropagationSpec::FRequiresPartitionPropagation
 	
 	// construct partition propagation spec with the given id only, and check if it needs to be 
 	// enforced on top
-	CPartIndexMap *ppim = GPOS_NEW(pmp) CPartIndexMap(pmp);
+	CPartIndexMap *ppim = GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
 	
 	IMDId *pmdid = m_ppim->PmdidRel(ulPartIndexId);
 	DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(ulPartIndexId);
@@ -291,9 +291,9 @@ CPartitionPropagationSpec::FRequiresPartitionPropagation
 	
 	ppim->Insert(ulPartIndexId, ppartcnstrmap, m_ppim->Epim(ulPartIndexId), m_ppim->UlExpectedPropagators(ulPartIndexId), pmdid, pdrgppartkeys, ppartcnstr);
 	
-	CPartitionPropagationSpec *ppps = GPOS_NEW(pmp) CPartitionPropagationSpec(ppim, GPOS_NEW(pmp) CPartFilterMap(pmp));
+	CPartitionPropagationSpec *ppps = GPOS_NEW(memory_pool) CPartitionPropagationSpec(ppim, GPOS_NEW(memory_pool) CPartFilterMap(memory_pool));
 	
-	CEnfdPartitionPropagation *pepp = GPOS_NEW(pmp) CEnfdPartitionPropagation(ppps, CEnfdPartitionPropagation::EppmSatisfy, GPOS_NEW(pmp) CPartFilterMap(pmp));
+	CEnfdPartitionPropagation *pepp = GPOS_NEW(memory_pool) CEnfdPartitionPropagation(ppps, CEnfdPartitionPropagation::EppmSatisfy, GPOS_NEW(memory_pool) CPartFilterMap(memory_pool));
 	CEnfdProp::EPropEnforcingType epetPartitionPropagation = pepp->Epet(exprhdl, CPhysical::PopConvert(pexpr->Pop()), true /*fPartitionPropagationRequired*/);
 	
 	pepp->Release();
@@ -314,7 +314,7 @@ CPartitionPropagationSpec::FRequiresPartitionPropagation
 void
 CPartitionPropagationSpec::SplitPartPredicates
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	DrgDrgPcr *pdrgpdrgpcrKeys,
 	HMUlExpr *phmulexprEqFilter,	// output
@@ -329,16 +329,16 @@ CPartitionPropagationSpec::SplitPartPredicates
 	GPOS_ASSERT(NULL != ppexprResidual);
 	GPOS_ASSERT(NULL == *ppexprResidual);
 
-	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
-	CBitSet *pbsUsed = GPOS_NEW(pmp) CBitSet(pmp);
-	CColRefSet *pcrsKeys = PcrsKeys(pmp, pdrgpdrgpcrKeys);
+	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
+	CBitSet *pbsUsed = GPOS_NEW(memory_pool) CBitSet(memory_pool);
+	CColRefSet *pcrsKeys = PcrsKeys(memory_pool, pdrgpdrgpcrKeys);
 
 	const ULONG ulLevels = pdrgpdrgpcrKeys->Size();
 	for (ULONG ul = 0; ul < ulLevels; ul++)
 	{
 		CColRef *pcr = CUtils::PcrExtractPartKey(pdrgpdrgpcrKeys, ul);
 		// find conjuncts for this key and mark their positions
-		DrgPexpr *pdrgpexprKey = PdrgpexprPredicatesOnKey(pmp, pdrgpexprConjuncts, pcr, pcrsKeys, &pbsUsed);
+		DrgPexpr *pdrgpexprKey = PdrgpexprPredicatesOnKey(memory_pool, pdrgpexprConjuncts, pcr, pcrsKeys, &pbsUsed);
 		const ULONG ulLen = pdrgpexprKey->Size();
 		if (ulLen == 0)
 		{
@@ -362,7 +362,7 @@ CPartitionPropagationSpec::SplitPartPredicates
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulexprEqFilter->Insert(GPOS_NEW(pmp) ULONG(ul), pexprOther);
+			phmulexprEqFilter->Insert(GPOS_NEW(memory_pool) ULONG(ul), pexprOther);
 			GPOS_ASSERT(fResult);
 			pdrgpexprKey->Release();
 		}
@@ -373,14 +373,14 @@ CPartitionPropagationSpec::SplitPartPredicates
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulexprFilter->Insert(GPOS_NEW(pmp) ULONG(ul), CPredicateUtils::PexprConjunction(pmp, pdrgpexprKey));
+			phmulexprFilter->Insert(GPOS_NEW(memory_pool) ULONG(ul), CPredicateUtils::PexprConjunction(memory_pool, pdrgpexprKey));
 			GPOS_ASSERT(fResult);
 			continue;
 		}
 
 	}
 
-	(*ppexprResidual) = PexprResidualFilter(pmp, pdrgpexprConjuncts, pbsUsed);
+	(*ppexprResidual) = PexprResidualFilter(memory_pool, pdrgpexprConjuncts, pbsUsed);
 
 	pcrsKeys->Release();
 	pdrgpexprConjuncts->Release();
@@ -398,11 +398,11 @@ CPartitionPropagationSpec::SplitPartPredicates
 CColRefSet *
 CPartitionPropagationSpec::PcrsKeys
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgDrgPcr *pdrgpdrgpcrKeys
 	)
 {
-	CColRefSet *pcrs = GPOS_NEW(pmp) CColRefSet(pmp);
+	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	const ULONG ulLevels = pdrgpdrgpcrKeys->Size();
 	for (ULONG ul = 0; ul < ulLevels; ul++)
@@ -426,7 +426,7 @@ CPartitionPropagationSpec::PcrsKeys
 CExpression *
 CPartitionPropagationSpec::PexprResidualFilter
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr,
 	CBitSet *pbsUsed
 	)
@@ -434,7 +434,7 @@ CPartitionPropagationSpec::PexprResidualFilter
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	GPOS_ASSERT(NULL != pbsUsed);
 
-	DrgPexpr *pdrgpexprUnused = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprUnused = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -450,7 +450,7 @@ CPartitionPropagationSpec::PexprResidualFilter
 		pdrgpexprUnused->Append(pexpr);
 	}
 
-	CExpression *pexprResult = CPredicateUtils::PexprConjunction(pmp, pdrgpexprUnused);
+	CExpression *pexprResult = CPredicateUtils::PexprConjunction(memory_pool, pdrgpexprUnused);
 	if (CUtils::FScalarConstTrue(pexprResult))
 	{
 		pexprResult->Release();
@@ -472,7 +472,7 @@ CPartitionPropagationSpec::PexprResidualFilter
 DrgPexpr *
 CPartitionPropagationSpec::PdrgpexprPredicatesOnKey
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	DrgPexpr *pdrgpexpr,
 	CColRef *pcr,
 	CColRefSet *pcrsKeys,
@@ -484,7 +484,7 @@ CPartitionPropagationSpec::PdrgpexprPredicatesOnKey
 	GPOS_ASSERT(NULL != ppbs);
 	GPOS_ASSERT(NULL != *ppbs);
 
-	DrgPexpr *pdrgpexprResult = GPOS_NEW(pmp) DrgPexpr(pmp);
+	DrgPexpr *pdrgpexprResult = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
 	const ULONG ulLen = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -499,7 +499,7 @@ CPartitionPropagationSpec::PdrgpexprPredicatesOnKey
 		GPOS_ASSERT(pexpr->Pop()->FScalar());
 
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed();
-		CColRefSet *pcrsUsedKeys = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsUsed);
+		CColRefSet *pcrsUsedKeys = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *pcrsUsed);
 		pcrsUsedKeys->Intersection(pcrsKeys);
 
 		if (1 == pcrsUsedKeys->Size() && pcrsUsedKeys->FMember(pcr))

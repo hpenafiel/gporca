@@ -54,7 +54,7 @@ namespace gpdxl
 			const ULONG m_ulId;
 
 			// column type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// column type modifier
 			INT m_iTypeModifer;
@@ -66,11 +66,11 @@ namespace gpdxl
 			// ctor/dtor
 			CDXLColRef
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CMDName *pmdname,
 				ULONG ulId,
-				IMDId *pmdidType,
-				INT iTypeModifier
+				IMDId *mdid_type,
+				INT type_modifier
 				);
 
 			~CDXLColRef();

@@ -58,9 +58,9 @@ namespace gpopt
 
 			// generate default optimizer configurations
 			static
-			CCTEConfig *PcteconfDefault(IMemoryPool *pmp)
+			CCTEConfig *PcteconfDefault(IMemoryPool *memory_pool)
 			{
-				return GPOS_NEW(pmp) CCTEConfig(0 /* ulCTEInliningCutoff */);
+				return GPOS_NEW(memory_pool) CCTEConfig(0 /* ulCTEInliningCutoff */);
 			}
 
 	}; // class CCTEConfig

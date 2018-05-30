@@ -73,12 +73,12 @@ namespace gpdxl
 			// ctor/dtor
 			CXMLSerializer
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IOstream &os,
 				BOOL indentation = true
 				)
 				:
-				m_memory_pool(pmp),
+				m_memory_pool(memory_pool),
 				m_os(os),
 				m_indentation(indentation),
 				m_strstackElems(NULL),
@@ -131,7 +131,7 @@ namespace gpdxl
 			void AddAttribute(const CWStringBase *pstrAttr, CDouble dValue);
 
 			// add a byte array attribute
-			void AddAttribute(const CWStringBase *pstrAttr, BOOL fNull, const BYTE *pba, ULONG ulLen);
+			void AddAttribute(const CWStringBase *pstrAttr, BOOL is_null, const BYTE *pba, ULONG ulLen);
 	};
 	
 }

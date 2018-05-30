@@ -70,7 +70,7 @@ namespace gpmd
 		// ctor
 		CMDAggregateGPDB
 			(
-			IMemoryPool *pmp,
+			IMemoryPool *memory_pool,
 			IMDId *pmdid,
 			CMDName *pmdname,
 			IMDId *pmdidTypeResult,
@@ -91,7 +91,7 @@ namespace gpmd
 		
 		// aggregate id
 		virtual 
-		IMDId *Pmdid() const;
+		IMDId *MDId() const;
 		
 		// aggregate name
 		virtual 

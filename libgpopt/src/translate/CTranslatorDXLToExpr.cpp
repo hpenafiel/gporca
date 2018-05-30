@@ -68,12 +68,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CTranslatorDXLToExpr::CTranslatorDXLToExpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	BOOL fInitColumnFactory
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_sysid(IMDId::EmdidGPDB, GPMD_GPDB_SYSID),
 	m_pmda(pmda),
 	m_phmulcr(NULL),
@@ -550,7 +550,7 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	CLogical *popGet = NULL;
 	DrgPcr *pdrgpcr = NULL; 
 
-	const IMDRelation *pmdrel = m_pmda->Pmdrel(pdxltabdesc->Pmdid());
+	const IMDRelation *pmdrel = m_pmda->Pmdrel(pdxltabdesc->MDId());
 	if (pmdrel->FPartitioned())
 	{
 		GPOS_ASSERT(EdxlopLogicalGet == edxlopid);
@@ -817,7 +817,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 		const CDXLColDescr *pdxlcdOutput = pdxlop->Pdxlcd(ulColPos);
 
 		// check if a cast function needs to be introduced
-		IMDId *pmdidSource = pcr->Pmdtype()->Pmdid();
+		IMDId *pmdidSource = pcr->Pmdtype()->MDId();
 		IMDId *pmdidDest = pdxlcdOutput->MDIdType();
 
 		if (FCastingUnknownType(pmdidSource, pmdidDest))
@@ -826,7 +826,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 		}
 
 		const IMDType *pmdtype = m_pmda->Pmdtype(pmdidDest);
-		INT iTypeModifier = pdxlcdOutput->TypeModifier();
+		INT type_modifier = pdxlcdOutput->TypeModifier();
 
 		BOOL fEqualTypes = IMDId::FEqualMDId(pmdidSource, pmdidDest);
 		BOOL fFirstChild = (0 == ulChildIndex);
@@ -837,7 +837,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 			// input column is an outer reference, add a project element for input column
 
 			// add the colref to the hash map between DXL ColId and colref as they can used above the setop
-			CColRef *pcrNew = PcrCreate(pcr, pmdtype, iTypeModifier, fFirstChild, pdxlcdOutput->Id());
+			CColRef *pcrNew = PcrCreate(pcr, pmdtype, type_modifier, fFirstChild, pdxlcdOutput->Id());
 			(*ppdrgpcrChild)->Append(pcrNew);
 
 			CExpression *pexprChildProjElem = NULL;
@@ -872,7 +872,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 		if (fUnionOrUnionAll || fFirstChild)
 		{
 			// add the colref to the hash map between DXL ColId and colref as they can used above the setop
-			CColRef *pcrNew = PcrCreate(pcr, pmdtype, iTypeModifier, fFirstChild, pdxlcdOutput->Id());
+			CColRef *pcrNew = PcrCreate(pcr, pmdtype, type_modifier, fFirstChild, pdxlcdOutput->Id());
 			(*ppdrgpcrChild)->Append(pcrNew);
 
 			// introduce cast expression for input column
@@ -1018,14 +1018,14 @@ CTranslatorDXLToExpr::PcrCreate
 	(
 	const CColRef *pcr,
 	const IMDType *pmdtype,
-	INT iTypeModifier,
+	INT type_modifier,
 	BOOL fStoreMapping,
 	ULONG ulColId
 	)
 {
 	// generate a new column reference
 	CName name(pcr->Name().Pstr());
-	CColRef *pcrNew = m_pcf->PcrCreate(pmdtype, iTypeModifier, name);
+	CColRef *pcrNew = m_pcf->PcrCreate(pmdtype, type_modifier, name);
 
 	if (fStoreMapping)
 	{
@@ -1629,7 +1629,7 @@ CTranslatorDXLToExpr::PexprLogicalLimit
 		COperator *popCount = pexprLimitCount->Pop();
 		BOOL fConst = (COperator::EopScalarConst == popCount->Eopid());
 		if (!fConst ||
-			(fConst && !CScalarConst::PopConvert(popCount)->Pdatum()->FNull()))
+			(fConst && !CScalarConst::PopConvert(popCount)->Pdatum()->IsNull()))
 		{
 			fHasCount = true;
 		}
@@ -1637,7 +1637,7 @@ CTranslatorDXLToExpr::PexprLogicalLimit
 	else
 	{
 		// no limit count is specified, manufacture a null count
-		pexprLimitCount = CUtils::PexprScalarConstInt8(m_memory_pool, 0 /*iVal*/, true /*fNull*/);
+		pexprLimitCount = CUtils::PexprScalarConstInt8(m_memory_pool, 0 /*iVal*/, true /*is_null*/);
 	}
 	
 	// translate offset
@@ -2059,7 +2059,7 @@ CTranslatorDXLToExpr::Ptabdesc
 {
 	CWStringConst strName(m_memory_pool, pdxltabdesc->Pmdname()->Pstr()->GetBuffer());
 
-	IMDId *pmdid = pdxltabdesc->Pmdid();
+	IMDId *pmdid = pdxltabdesc->MDId();
 
 	// get the relation information from the cache
 	const IMDRelation *pmdrel = m_pmda->Pmdrel(pmdid);
@@ -2183,7 +2183,7 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 {
 	GPOS_ASSERT(NULL != pdxlopCTAS);
 	
-	pdxlopCTAS->Pmdid()->AddRef();
+	pdxlopCTAS->MDId()->AddRef();
 	
 	if (NULL != pdxlopCTAS->PdrgpulDistr())
 	{
@@ -2193,8 +2193,8 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	
 	DrgPmdcol *pdrgpmdcol = GPOS_NEW(m_memory_pool) DrgPmdcol(m_memory_pool);
 	ColumnDescrDXLArray *pdrgpdxlcd = pdxlopCTAS->GetColumnDescrDXLArray();
-	const ULONG ulLength = pdrgpdxlcd->Size();
-	for (ULONG ul = 0; ul < ulLength; ul++)
+	const ULONG length = pdrgpdxlcd->Size();
+	for (ULONG ul = 0; ul < length; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*pdrgpdxlcd)[ul];
 		pdxlcd->MDIdType()->AddRef();
@@ -2224,7 +2224,7 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	CMDRelationCtasGPDB *pmdrel = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
 			(
 			m_memory_pool,
-			pdxlopCTAS->Pmdid(),
+			pdxlopCTAS->MDId(),
 			pmdnameSchema,
 			GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlopCTAS->Pmdname()->Pstr()),
 			pdxlopCTAS->FTemporary(),
@@ -2241,7 +2241,7 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	DrgPimdobj *pdrgpmdobj = GPOS_NEW(m_memory_pool) DrgPimdobj(m_memory_pool);
 	pdrgpmdobj->Append(pmdrel);
 	CMDProviderMemory *pmdp = GPOS_NEW(m_memory_pool) CMDProviderMemory(m_memory_pool, pdrgpmdobj);
-	m_pmda->RegisterProvider(pdxlopCTAS->Pmdid()->Sysid(), pmdp);
+	m_pmda->RegisterProvider(pdxlopCTAS->MDId()->Sysid(), pmdp);
 	
 	// cleanup
 	pdrgpmdobj->Release();
@@ -2263,7 +2263,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 {
 	CWStringConst strName(m_memory_pool, pdxlopCTAS->Pmdname()->Pstr()->GetBuffer());
 
-	IMDId *pmdid = pdxlopCTAS->Pmdid();
+	IMDId *pmdid = pdxlopCTAS->MDId();
 
 	// get the relation information from the cache
 	const IMDRelation *pmdrel = m_pmda->Pmdrel(pmdid);
@@ -2437,7 +2437,7 @@ CTranslatorDXLToExpr::PexprLogicalConstTableGet
 	const ULONG ulValues = pdxlopConstTable->UlTupleCount();
 	for (ULONG ul = 0; ul < ulValues; ul++)
 	{
-		const DrgPdxldatum *pdrgpdxldatum = pdxlopConstTable->PrgPdxldatumConstTuple(ul);
+		const DXLDatumArray *pdrgpdxldatum = pdxlopConstTable->PrgPdxldatumConstTuple(ul);
 		DrgPdatum *pdrgpdatum = CTranslatorDXLToExprUtils::Pdrgpdatum(m_memory_pool, m_pmda, pdrgpdxldatum);
 		pdrgpdrgpdatum->Append(pdrgpdatum);
 	}
@@ -2719,7 +2719,7 @@ CTranslatorDXLToExpr::PexprScalarOp
 
 	DrgPexpr *pdrgpexprArgs = PdrgpexprChildren(pdxlnOpExpr);
 
-	IMDId *pmdid = pdxlop->Pmdid();
+	IMDId *pmdid = pdxlop->MDId();
 	pmdid->AddRef();
 	
 	IMDId *pmdidReturnType = pdxlop->PmdidReturnType(); 
@@ -2764,7 +2764,7 @@ CTranslatorDXLToExpr::PexprScalarIsDistinctFrom
 	CExpression *pexprLeft = Pexpr(pdxlnLeft);
 	CExpression *pexprRight = Pexpr(pdxlnRight);
 	
-	IMDId *pmdidOp = pdxlopDistCmp->Pmdid();
+	IMDId *pmdidOp = pdxlopDistCmp->MDId();
 	pmdidOp->AddRef();
 	const IMDScalarOp *pmdscop = m_pmda->Pmdscop(pmdidOp);
 
@@ -2804,10 +2804,10 @@ CTranslatorDXLToExpr::PexprScalarNullIf
 	IMDId *pmdidOp = pdxlop->PmdidOp();
 	pmdidOp->AddRef();
 
-	IMDId *pmdidType = pdxlop->MDIdType();
-	pmdidType->AddRef();
+	IMDId *mdid_type = pdxlop->MDIdType();
+	mdid_type->AddRef();
 
-	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarNullIf(m_memory_pool, pmdidOp, pmdidType), pexprLeft, pexprRight);
+	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarNullIf(m_memory_pool, pmdidOp, mdid_type), pexprLeft, pexprRight);
 }
 
 //---------------------------------------------------------------------------
@@ -2834,7 +2834,7 @@ CTranslatorDXLToExpr::PexprScalarCmp
 	CExpression *pexprLeft = Pexpr(pdxlnLeft);
 	CExpression *pexprRight = Pexpr(pdxlnRight);
 
-	IMDId *pmdid = pdxlopComp->Pmdid();
+	IMDId *pmdid = pdxlopComp->MDId();
 	pmdid->AddRef();
 
 	CScalarCmp *popScCmp = GPOS_NEW(m_memory_pool) CScalarCmp
@@ -3303,7 +3303,7 @@ CTranslatorDXLToExpr::PexprArrayCmp
 {
 	CDXLScalarArrayComp *pdxlop = CDXLScalarArrayComp::PdxlopConvert(pdxln->Pdxlop());
 	
-	IMDId *pmdidOp = pdxlop->Pmdid();
+	IMDId *pmdidOp = pdxlop->MDId();
 	pmdidOp->AddRef();
 
 	const CWStringConst *pstrOpName = pdxlop->PstrCmpOpName();
@@ -3594,14 +3594,14 @@ CTranslatorDXLToExpr::PexprScalarCast
 	CDXLNode *pdxlnChild = (*pdxlnCast)[0];
 	CExpression *pexprChild = Pexpr(pdxlnChild);
 
-	IMDId *pmdidType = pdxlop->MDIdType();
+	IMDId *mdid_type = pdxlop->MDIdType();
 	IMDId *pmdidFunc = pdxlop->PmdidFunc();
-	pmdidType->AddRef();
+	mdid_type->AddRef();
 	pmdidFunc->AddRef();
 	
 	COperator *popChild = pexprChild->Pop();
 	IMDId *pmdidInput = CScalar::PopConvert(popChild)->MDIdType();
-	const IMDCast *pmdcast = m_pmda->Pmdcast(pmdidInput, pmdidType);
+	const IMDCast *pmdcast = m_pmda->Pmdcast(pmdidInput, mdid_type);
 	BOOL fRelabel = pmdcast->FBinaryCoercible();
 
 	CExpression *pexpr;
@@ -3616,7 +3616,7 @@ CTranslatorDXLToExpr::PexprScalarCast
 														(
 														m_memory_pool,
 														parrayCoerceCast->PmdidCastFunc(),
-														pmdidType,
+														mdid_type,
 														parrayCoerceCast->TypeModifier(),
 														parrayCoerceCast->FIsExplicit(),
 														(COperator::ECoercionForm) parrayCoerceCast->Ecf(),
@@ -3631,7 +3631,7 @@ CTranslatorDXLToExpr::PexprScalarCast
 		pexpr= GPOS_NEW(m_memory_pool) CExpression
 									(
 									m_memory_pool,
-									GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, pmdidType, pmdidFunc, fRelabel),
+									GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, mdid_type, pmdidFunc, fRelabel),
 									pexprChild
 									);
 	}
@@ -3663,8 +3663,8 @@ CTranslatorDXLToExpr::PexprScalarCoerceToDomain
 	CDXLNode *pdxlnChild = (*pdxlnCoerce)[0];
 	CExpression *pexprChild = Pexpr(pdxlnChild);
 
-	IMDId *pmdidType = pdxlop->PmdidResultType();
-	pmdidType->AddRef();
+	IMDId *mdid_type = pdxlop->PmdidResultType();
+	mdid_type->AddRef();
 
 	EdxlCoercionForm edxlcf = pdxlop->Edxlcf();
 
@@ -3674,7 +3674,7 @@ CTranslatorDXLToExpr::PexprScalarCoerceToDomain
 				GPOS_NEW(m_memory_pool) CScalarCoerceToDomain
 						(
 						m_memory_pool,
-						pmdidType,
+						mdid_type,
 						pdxlop->TypeModifier(),
 						(COperator::ECoercionForm) edxlcf, // map Coercion Form directly based on position in enum
 						pdxlop->ILoc()
@@ -3707,8 +3707,8 @@ CTranslatorDXLToExpr::PexprScalarCoerceViaIO
 	CDXLNode *pdxlnChild = (*pdxlnCoerce)[0];
 	CExpression *pexprChild = Pexpr(pdxlnChild);
 
-	IMDId *pmdidType = pdxlop->PmdidResultType();
-	pmdidType->AddRef();
+	IMDId *mdid_type = pdxlop->PmdidResultType();
+	mdid_type->AddRef();
 
 	EdxlCoercionForm edxlcf = pdxlop->Edxlcf();
 
@@ -3718,7 +3718,7 @@ CTranslatorDXLToExpr::PexprScalarCoerceViaIO
 				GPOS_NEW(m_memory_pool) CScalarCoerceViaIO
 						(
 						m_memory_pool,
-						pmdidType,
+						mdid_type,
 						pdxlop->TypeModifier(),
 						(COperator::ECoercionForm) edxlcf, // map Coercion Form directly based on position in enum
 						pdxlop->ILoc()

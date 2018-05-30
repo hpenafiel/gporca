@@ -42,11 +42,11 @@ namespace gpopt
 		
 			// ctors
 			explicit
-			CLogicalDynamicGet(IMemoryPool *pmp);
+			CLogicalDynamicGet(IMemoryPool *memory_pool);
 
 			CLogicalDynamicGet
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CName *pnameAlias,
 				CTableDescriptor *ptabdesc,
 				ULONG ulPartIndex,
@@ -60,7 +60,7 @@ namespace gpopt
 			
 			CLogicalDynamicGet
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				const CName *pnameAlias,
 				CTableDescriptor *ptabdesc,
 				ULONG ulPartIndex
@@ -96,7 +96,7 @@ namespace gpopt
 
 			// return a copy of the operator with remapped columns
 			virtual
-			COperator *PopCopyWithRemappedColumns(IMemoryPool *pmp, HMUlCr *phmulcr, BOOL fMustExist);
+			COperator *PopCopyWithRemappedColumns(IMemoryPool *memory_pool, HMUlCr *phmulcr, BOOL fMustExist);
 
 			//-------------------------------------------------------------------------------------
 			// Derived Relational Properties
@@ -107,7 +107,7 @@ namespace gpopt
 			virtual
 			ULONG UlJoinDepth
 				(
-				IMemoryPool *, // pmp
+				IMemoryPool *, // memory_pool
 				CExpressionHandle & // exprhdl
 				)
 				const
@@ -123,7 +123,7 @@ namespace gpopt
 			virtual
 			CColRefSet *PcrsStat
 				(
-				IMemoryPool *, // pmp,
+				IMemoryPool *, // memory_pool,
 				CExpressionHandle &, // exprhdl
 				CColRefSet *, //pcrsInput
 				ULONG // ulChildIndex
@@ -139,7 +139,7 @@ namespace gpopt
 			//-------------------------------------------------------------------------------------
 		
 			// candidate set of xforms
-			CXformSet *PxfsCandidates(IMemoryPool *pmp) const;
+			CXformSet *PxfsCandidates(IMemoryPool *memory_pool) const;
 
 			//-------------------------------------------------------------------------------------
 			// Statistics
@@ -149,7 +149,7 @@ namespace gpopt
 			virtual
 			IStatistics *PstatsDerive
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CExpressionHandle &exprhdl,
 						DrgPstat *pdrgpstatCtxt
 						)

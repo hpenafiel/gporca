@@ -31,14 +31,14 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidRel,
 	CDXLNode *pdxln
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidRel(pmdidRel),
@@ -80,7 +80,7 @@ CMDCheckConstraintGPDB::~CMDCheckConstraintGPDB()
 CExpression *
 CMDCheckConstraintGPDB::Pexpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	DrgPcr *pdrgpcr
 	)
@@ -98,7 +98,7 @@ CMDCheckConstraintGPDB::Pexpr
 #endif // GPOS_DEBUG
 
 	// translate the DXL representation of the check constraint expression
-	CTranslatorDXLToExpr dxltr(pmp, pmda);
+	CTranslatorDXLToExpr dxltr(memory_pool, pmda);
 	return dxltr.PexprTranslateScalar(m_pdxln, pdrgpcr, pmdrel->PdrgpulNonDroppedCols());
 }
 
@@ -148,7 +148,7 @@ CMDCheckConstraintGPDB::DebugPrint
 	const
 {
 	os << "Constraint Id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 
 	os << "Constraint Name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;

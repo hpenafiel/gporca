@@ -40,13 +40,13 @@ using namespace gpopt;
 CScalarConst *
 CTranslatorDXLToExprUtils::PopConst
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	const CDXLScalarConstValue *pdxlop
 	)
 {
 	IDatum *pdatum = CTranslatorDXLToExprUtils::Pdatum(pmda, pdxlop);
-	return GPOS_NEW(pmp) CScalarConst(pmp, pdatum);
+	return GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum);
 }
 
 //---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ CTranslatorDXLToExprUtils::Pdatum
 	const CDXLScalarConstValue *pdxlop
 	)
 {
-	IMDId *pmdid = pdxlop->Pdxldatum()->Pmdid();
+	IMDId *pmdid = pdxlop->Pdxldatum()->MDId();
 	IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(pdxlop);
 
 	return pdatum;
@@ -81,20 +81,20 @@ CTranslatorDXLToExprUtils::Pdatum
 DrgPdatum *
 CTranslatorDXLToExprUtils::Pdrgpdatum
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
-	const DrgPdxldatum *pdrgpdxldatum
+	const DXLDatumArray *pdrgpdxldatum
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpdxldatum);
 
-	DrgPdatum *pdrgdatum = GPOS_NEW(pmp) DrgPdatum(pmp);
+	DrgPdatum *pdrgdatum = GPOS_NEW(memory_pool) DrgPdatum(memory_pool);
 	const ULONG ulLen = pdrgpdxldatum->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CDXLDatum *pdxldatum = (*pdrgpdxldatum)[ul];
-		IMDId *pmdid = pdxldatum->Pmdid();
-		IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(pmp, pdxldatum);
+		IMDId *pmdid = pdxldatum->MDId();
+		IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(memory_pool, pdxldatum);
 		pdrgdatum->Append(pdatum);
 	}
 
@@ -112,14 +112,14 @@ CTranslatorDXLToExprUtils::Pdrgpdatum
 CExpression *
 CTranslatorDXLToExprUtils::PexprConstInt8
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
 	CSystemId sysid,
 	LINT lVal
 	)
 {
-	IDatumInt8 *pdatum = pmda->PtMDType<IMDTypeInt8>(sysid)->PdatumInt8(pmp, lVal, false /* fNull */);
-	CExpression *pexprConst = GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CScalarConst(pmp, pdatum));
+	IDatumInt8 *pdatum = pmda->PtMDType<IMDTypeInt8>(sysid)->PdatumInt8(memory_pool, lVal, false /* is_null */);
+	CExpression *pexprConst = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum));
 
 	return pexprConst;
 }
@@ -136,7 +136,7 @@ CTranslatorDXLToExprUtils::PexprConstInt8
 void
 CTranslatorDXLToExprUtils::AddKeySets
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CTableDescriptor *ptabdesc,
 	const IMDRelation *pmdrel,
 	HMUlUl *phmululColMapping
@@ -148,7 +148,7 @@ CTranslatorDXLToExprUtils::AddKeySets
 	const ULONG ulKeySets = pmdrel->UlKeySets();
 	for (ULONG ul = 0; ul < ulKeySets; ul++)
 	{
-		CBitSet *pbs = GPOS_NEW(pmp) CBitSet(pmp, ptabdesc->UlColumns());
+		CBitSet *pbs = GPOS_NEW(memory_pool) CBitSet(memory_pool, ptabdesc->UlColumns());
 		const ULongPtrArray *pdrgpulKeys = pmdrel->PdrgpulKeyset(ul);
 		const ULONG ulKeys = pdrgpulKeys->Size();
 
@@ -246,14 +246,14 @@ CTranslatorDXLToExprUtils::EBoolOperator
 DrgPcr *
 CTranslatorDXLToExprUtils::Pdrgpcr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	const ULongPtrArray *pdrgpulColIds
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulColIds);
 
-	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
+	DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 
 	for (ULONG ul = 0; ul < pdrgpulColIds->Size(); ul++)
 	{

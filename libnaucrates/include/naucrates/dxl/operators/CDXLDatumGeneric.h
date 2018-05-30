@@ -56,13 +56,13 @@ namespace gpdxl
 			// ctor
 			CDXLDatumGeneric
 				(
-				IMemoryPool *pmp,
-				IMDId *pmdidType,
-				INT iTypeModifier,
+				IMemoryPool *memory_pool,
+				IMDId *mdid_type,
+				INT type_modifier,
 				BOOL fByVal,
-				BOOL fNull,
+				BOOL is_null,
 				BYTE *pba,
-				ULONG ulLength
+				ULONG length
 				);
 
 			// dtor
@@ -77,14 +77,14 @@ namespace gpdxl
 			void Serialize(CXMLSerializer *xml_serializer);
 
 			// is type passed by value
-			virtual BOOL FByValue() const
+			virtual BOOL IsPassedByValue() const
 			{
 				return m_fByVal;
 			}
 
 			// datum type
 			virtual
-			EdxldatumType Edxldt() const
+			EdxldatumType GetDatumType() const
 			{
 				return CDXLDatum::EdxldatumGeneric;
 			}
@@ -97,9 +97,9 @@ namespace gpdxl
 				)
 			{
 				GPOS_ASSERT(NULL != pdxldatum);
-				GPOS_ASSERT(CDXLDatum::EdxldatumGeneric == pdxldatum->Edxldt()
-						|| CDXLDatum::EdxldatumStatsDoubleMappable == pdxldatum->Edxldt()
-						|| CDXLDatum::EdxldatumStatsLintMappable == pdxldatum->Edxldt());
+				GPOS_ASSERT(CDXLDatum::EdxldatumGeneric == pdxldatum->GetDatumType()
+						|| CDXLDatum::EdxldatumStatsDoubleMappable == pdxldatum->GetDatumType()
+						|| CDXLDatum::EdxldatumStatsLintMappable == pdxldatum->GetDatumType());
 
 				return dynamic_cast<CDXLDatumGeneric*>(pdxldatum);
 			}

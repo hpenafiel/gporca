@@ -26,7 +26,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	Ereldistrpolicy ereldistrpolicy,
@@ -42,7 +42,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	IMDId *pmdidFmtErrRel
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_ereldistrpolicy(ereldistrpolicy),
@@ -74,7 +74,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_phmululNonDroppedCols = GPOS_NEW(m_memory_pool) HMUlUl(m_memory_pool);
 	m_phmiulAttno2Pos = GPOS_NEW(m_memory_pool) HMIUl(m_memory_pool);
 	m_pdrgpulNonDroppedCols = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
-	m_pdrgpdoubleColWidths = GPOS_NEW(pmp) DrgPdouble(pmp);
+	m_pdrgpdoubleColWidths = GPOS_NEW(memory_pool) DrgPdouble(memory_pool);
 
 	ULONG ulPosNonDropped = 0;
 	const ULONG ulArity = pdrgpmdcol->Size();
@@ -108,7 +108,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 									GPOS_NEW(m_memory_pool) INT(pmdcol->AttrNum()),
 									GPOS_NEW(m_memory_pool) ULONG(ul)
 									);
-		m_pdrgpdoubleColWidths->Append(GPOS_NEW(pmp) CDouble(pmdcol->Length()));
+		m_pdrgpdoubleColWidths->Append(GPOS_NEW(memory_pool) CDouble(pmdcol->Length()));
 	}
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
@@ -142,14 +142,14 @@ CMDRelationExternalGPDB::~CMDRelationExternalGPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRelationExternalGPDB::Pmdid
+//		CMDRelationExternalGPDB::MDId
 //
 //	@doc:
 //		Returns the metadata id of this relation
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDRelationExternalGPDB::Pmdid() const
+CMDRelationExternalGPDB::MDId() const
 {
 	return m_pmdid;
 }
@@ -503,7 +503,7 @@ CMDRelationExternalGPDB::PmdidIndex
 	)
 	const
 {
-	return (*m_pdrgpmdIndexInfo)[ulPos]->Pmdid();
+	return (*m_pdrgpmdIndexInfo)[ulPos]->MDId();
 }
 
 //---------------------------------------------------------------------------
@@ -671,7 +671,7 @@ CMDRelationExternalGPDB::DebugPrint
 	const
 {
 	os << "External Relation id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 
 	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;

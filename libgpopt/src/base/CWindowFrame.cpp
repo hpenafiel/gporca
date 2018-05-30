@@ -50,7 +50,7 @@ const CWindowFrame CWindowFrame::m_wfEmpty;
 //---------------------------------------------------------------------------
 CWindowFrame::CWindowFrame
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	EFrameSpec efs,
 	EFrameBoundary efbLeading,
 	EFrameBoundary efbTrailing,
@@ -71,7 +71,7 @@ CWindowFrame::CWindowFrame
 	GPOS_ASSERT_IMP(EfbBoundedPreceding == m_efbTrailing || EfbBoundedFollowing == m_efbTrailing, NULL != pexprTrailing);
 
 	// include used columns by frame edges
-	m_pcrsUsed = GPOS_NEW(pmp) CColRefSet(pmp);
+	m_pcrsUsed = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	if (NULL != pexprLeading)
 	{
 		m_pcrsUsed->Include(CDrvdPropScalar::Pdpscalar(pexprLeading->PdpDerive())->PcrsUsed());
@@ -186,7 +186,7 @@ CWindowFrame::HashValue() const
 CWindowFrame *
 CWindowFrame::PwfCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
@@ -200,16 +200,16 @@ CWindowFrame::PwfCopyWithRemappedColumns
 	CExpression *pexprLeading = NULL;
 	if (NULL != m_pexprLeading)
 	{
-		pexprLeading = m_pexprLeading->PexprCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
+		pexprLeading = m_pexprLeading->PexprCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 	}
 
 	CExpression *pexprTrailing = NULL;
 	if (NULL != m_pexprTrailing)
 	{
-		pexprTrailing = m_pexprTrailing->PexprCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
+		pexprTrailing = m_pexprTrailing->PexprCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 	}
 
-	return GPOS_NEW(pmp) CWindowFrame(pmp, m_efs, m_efbLeading, m_efbTrailing, pexprLeading, pexprTrailing, m_efes);
+	return GPOS_NEW(memory_pool) CWindowFrame(memory_pool, m_efs, m_efbLeading, m_efbTrailing, pexprLeading, pexprTrailing, m_efes);
 }
 
 //---------------------------------------------------------------------------

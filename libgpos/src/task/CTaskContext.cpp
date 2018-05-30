@@ -27,7 +27,7 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CTaskContext::CTaskContext
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
 	m_bitset(NULL),
@@ -35,7 +35,7 @@ CTaskContext::CTaskContext
 	m_log_err(&CLoggerStream::m_stderr_stream_logger),
 	m_locale(ElocEnUS_Utf8)
 {
-	m_bitset = GPOS_NEW(pmp) CBitSet(pmp, EtraceSentinel);
+	m_bitset = GPOS_NEW(memory_pool) CBitSet(memory_pool, EtraceSentinel);
 }
 
 
@@ -49,7 +49,7 @@ CTaskContext::CTaskContext
 //---------------------------------------------------------------------------
 CTaskContext::CTaskContext
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CTaskContext &task_ctxt
 	)
 	:
@@ -61,7 +61,7 @@ CTaskContext::CTaskContext
 	// allocate bitset and union separately to guard against leaks under OOM
 	CAutoRef<CBitSet> bitset;
 	
-	bitset = GPOS_NEW(pmp) CBitSet(pmp);
+	bitset = GPOS_NEW(memory_pool) CBitSet(memory_pool);
 	bitset->Union(task_ctxt.m_bitset);
 	
 	m_bitset = bitset.Reset();

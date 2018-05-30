@@ -37,7 +37,7 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CLogicalDynamicBitmapTableGet::CLogicalDynamicBitmapTableGet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
 	const CName *pnameTableAlias,
@@ -52,7 +52,7 @@ CLogicalDynamicBitmapTableGet::CLogicalDynamicBitmapTableGet
 	:
 	CLogicalDynamicGetBase
 	(
-	pmp,
+	memory_pool,
 	pnameTableAlias,
 	ptabdesc,
 	ulPartIndex,
@@ -78,10 +78,10 @@ CLogicalDynamicBitmapTableGet::CLogicalDynamicBitmapTableGet
 //---------------------------------------------------------------------------
 CLogicalDynamicBitmapTableGet::CLogicalDynamicBitmapTableGet
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CLogicalDynamicGetBase(pmp),
+	CLogicalDynamicGetBase(memory_pool),
 	m_ulOriginOpId(ULONG_MAX)
 {
 }
@@ -109,7 +109,7 @@ CLogicalDynamicBitmapTableGet::~CLogicalDynamicBitmapTableGet()
 ULONG
 CLogicalDynamicBitmapTableGet::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->MDId()->HashValue());
 	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue(&m_ulScanId));
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
@@ -147,12 +147,12 @@ CLogicalDynamicBitmapTableGet::FMatch
 CPropConstraint *
 CLogicalDynamicBitmapTableGet::PpcDeriveConstraint
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 	const
 {
-	return PpcDeriveConstraintFromTableWithPredicates(pmp, exprhdl, m_ptabdesc, m_pdrgpcrOutput);
+	return PpcDeriveConstraintFromTableWithPredicates(memory_pool, exprhdl, m_ptabdesc, m_pdrgpcrOutput);
 }
 
 //---------------------------------------------------------------------------
@@ -166,11 +166,11 @@ CLogicalDynamicBitmapTableGet::PpcDeriveConstraint
 CColRefSet *
 CLogicalDynamicBitmapTableGet::PcrsDeriveOuter
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl
 	)
 {
-	return PcrsDeriveOuterIndexGet(pmp, exprhdl);
+	return PcrsDeriveOuterIndexGet(memory_pool, exprhdl);
 }
 
 //---------------------------------------------------------------------------
@@ -184,13 +184,13 @@ CLogicalDynamicBitmapTableGet::PcrsDeriveOuter
 IStatistics *
 CLogicalDynamicBitmapTableGet::PstatsDerive
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
 	DrgPstat *pdrgpstatCtxt
 	)
 	const
 {
-	return CStatisticsUtils::PstatsBitmapTableGet(pmp, exprhdl, pdrgpstatCtxt);
+	return CStatisticsUtils::PstatsBitmapTableGet(memory_pool, exprhdl, pdrgpstatCtxt);
 }
 
 //---------------------------------------------------------------------------
@@ -230,7 +230,7 @@ CLogicalDynamicBitmapTableGet::OsPrint
 COperator *
 CLogicalDynamicBitmapTableGet::PopCopyWithRemappedColumns
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	HMUlCr *phmulcr,
 	BOOL fMustExist
 	)
@@ -238,23 +238,23 @@ CLogicalDynamicBitmapTableGet::PopCopyWithRemappedColumns
 	DrgPcr *pdrgpcrOutput = NULL;
 	if (fMustExist)
 	{
-		pdrgpcrOutput = CUtils::PdrgpcrRemapAndCreate(pmp, m_pdrgpcrOutput, phmulcr);
+		pdrgpcrOutput = CUtils::PdrgpcrRemapAndCreate(memory_pool, m_pdrgpcrOutput, phmulcr);
 	}
 	else
 	{
-		pdrgpcrOutput = CUtils::PdrgpcrRemap(pmp, m_pdrgpcrOutput, phmulcr, fMustExist);
+		pdrgpcrOutput = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrOutput, phmulcr, fMustExist);
 	}
-	CName *pnameAlias = GPOS_NEW(pmp) CName(pmp, *m_pnameAlias);
+	CName *pnameAlias = GPOS_NEW(memory_pool) CName(memory_pool, *m_pnameAlias);
 
 	m_ptabdesc->AddRef();
 
-	DrgDrgPcr *pdrgpdrgpcrPart = CUtils::PdrgpdrgpcrRemap(pmp, m_pdrgpdrgpcrPart, phmulcr, fMustExist);
-	CPartConstraint *ppartcnstr = m_ppartcnstr->PpartcnstrCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
-	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(pmp, phmulcr, fMustExist);
+	DrgDrgPcr *pdrgpdrgpcrPart = CUtils::PdrgpdrgpcrRemap(memory_pool, m_pdrgpdrgpcrPart, phmulcr, fMustExist);
+	CPartConstraint *ppartcnstr = m_ppartcnstr->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
+	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
-	return GPOS_NEW(pmp) CLogicalDynamicBitmapTableGet
+	return GPOS_NEW(memory_pool) CLogicalDynamicBitmapTableGet
 					(
-					pmp,
+					memory_pool,
 					m_ptabdesc,
 					m_ulOriginOpId,
 					pnameAlias,
@@ -279,11 +279,11 @@ CLogicalDynamicBitmapTableGet::PopCopyWithRemappedColumns
 CXformSet *
 CLogicalDynamicBitmapTableGet::PxfsCandidates
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 const
 {
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfImplementDynamicBitmapTableGet);
 
 	return pxfs;

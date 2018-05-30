@@ -75,7 +75,7 @@ CPartialPlan::~CPartialPlan()
 void
 CPartialPlan::ExtractChildrenCostingInfo
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ICostModel *pcm,
 	CExpressionHandle &exprhdl,
 	ICostModel::SCostingInfo *pci
@@ -117,7 +117,7 @@ CPartialPlan::ExtractChildrenCostingInfo
 			}
 
 			pci->SetChildRows(ulIndex, dRowsChild);
-			DOUBLE dWidthChild = pstatsChild->DWidth(pmp, prppChild->PcrsRequired()).Get();
+			DOUBLE dWidthChild = pstatsChild->DWidth(memory_pool, prppChild->PcrsRequired()).Get();
 			pci->SetChildWidth(ulIndex, dWidthChild);
 			pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().Get());
 			pci->SetChildCost(ulIndex, m_pccChild->Cost().Get());
@@ -135,11 +135,11 @@ CPartialPlan::ExtractChildrenCostingInfo
 
 		pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().Get());
 
-		DOUBLE dWidthChild =  pstatsChild->DWidth(pmp, prppChild->PcrsRequired()).Get();
+		DOUBLE dWidthChild =  pstatsChild->DWidth(memory_pool, prppChild->PcrsRequired()).Get();
 		pci->SetChildWidth(ulIndex, dWidthChild);
 
 		// use child group's cost lower bound as the child cost
-		DOUBLE dCostChild = pgroupChild->CostLowerBound(pmp, prppChild).Get();
+		DOUBLE dCostChild = pgroupChild->CostLowerBound(memory_pool, prppChild).Get();
 		pci->SetChildCost(ulIndex, dCostChild);
 
 		// advance to next child
@@ -185,10 +185,10 @@ CPartialPlan::RaiseExceptionIfStatsNull
 CCost
 CPartialPlan::CostCompute
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	CExpressionHandle exprhdl(pmp);
+	CExpressionHandle exprhdl(memory_pool);
 	exprhdl.Attach(m_pgexpr);
 
 	// init required properties of expression
@@ -196,7 +196,7 @@ CPartialPlan::CostCompute
 	exprhdl.InitReqdProps(m_prpp);
 
 	// create array of child derived properties
-	DrgPdp *pdrgpdp = GPOS_NEW(pmp) DrgPdp(pmp);
+	DrgPdp *pdrgpdp = GPOS_NEW(memory_pool) DrgPdp(memory_pool);
 	const ULONG ulArity =  m_pgexpr->UlArity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -209,10 +209,10 @@ CPartialPlan::CostCompute
 	RaiseExceptionIfStatsNull(pstats);
 
 	pstats->AddRef();
-	ICostModel::SCostingInfo ci(pmp, exprhdl.UlNonScalarChildren(), GPOS_NEW(pmp) ICostModel::CCostingStats(pstats));
+	ICostModel::SCostingInfo ci(memory_pool, exprhdl.UlNonScalarChildren(), GPOS_NEW(memory_pool) ICostModel::CCostingStats(pstats));
 
 	ICostModel *pcm = COptCtxt::PoctxtFromTLS()->Pcm();
-	ExtractChildrenCostingInfo(pmp, pcm, exprhdl, &ci);
+	ExtractChildrenCostingInfo(memory_pool, pcm, exprhdl, &ci);
 
 	CDistributionSpec::EDistributionPartitioningType edpt = CDistributionSpec::EdptSentinel;
 	if (NULL != m_prpp->Ped())
@@ -240,7 +240,7 @@ CPartialPlan::CostCompute
 	ci.SetRows(dRows);
 
 	// extract width from stats
-	DOUBLE dWidth = m_pgexpr->Pgroup()->Pstats()->DWidth(pmp, m_prpp->PcrsRequired()).Get();
+	DOUBLE dWidth = m_pgexpr->Pgroup()->Pstats()->DWidth(memory_pool, m_prpp->PcrsRequired()).Get();
 	ci.SetWidth(dWidth);
 
 	// extract rebinds

@@ -37,10 +37,10 @@ namespace gpdxl
 		private:
 
 			// current array of datums being parsed
-			DrgPdxldatum *m_pdrgpdxldatum;
+			DXLDatumArray *m_pdrgpdxldatum;
 			
 			// array of datum combinations
-			DrgPdrgPdxldatum *m_pdrgpdrgpdxldatum;
+			DXLDatumArrays *m_pdrgpdrgpdxldatum;
 		
 			// direct dispatch spec
 			CDXLDirectDispatchInfo *m_pdxlddinfo;
@@ -69,7 +69,7 @@ namespace gpdxl
 			// ctor
 			CParseHandlerDirectDispatchInfo
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *pphRoot
 				);

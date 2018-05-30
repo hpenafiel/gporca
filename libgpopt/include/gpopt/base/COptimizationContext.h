@@ -121,26 +121,26 @@ namespace gpopt
 
 			// check if Agg node should be optimized for the given context
 			static
-			BOOL FOptimizeAgg(IMemoryPool *pmp, CGroupExpression *pgexprParent, CGroupExpression *pgexprAgg, COptimizationContext *poc, ULONG ulSearchStages);
+			BOOL FOptimizeAgg(IMemoryPool *memory_pool, CGroupExpression *pgexprParent, CGroupExpression *pgexprAgg, COptimizationContext *poc, ULONG ulSearchStages);
 
 			// check if Sort node should be optimized for the given context
 			static
-			BOOL FOptimizeSort(IMemoryPool *pmp, CGroupExpression *pgexprParent, CGroupExpression *pgexprSort, COptimizationContext *poc, ULONG ulSearchStages);
+			BOOL FOptimizeSort(IMemoryPool *memory_pool, CGroupExpression *pgexprParent, CGroupExpression *pgexprSort, COptimizationContext *poc, ULONG ulSearchStages);
 
 			// check if Motion node should be optimized for the given context
 			static
-			BOOL FOptimizeMotion(IMemoryPool *pmp, CGroupExpression *pgexprParent, CGroupExpression *pgexprMotion, COptimizationContext *poc, ULONG ulSearchStages);
+			BOOL FOptimizeMotion(IMemoryPool *memory_pool, CGroupExpression *pgexprParent, CGroupExpression *pgexprMotion, COptimizationContext *poc, ULONG ulSearchStages);
 
 			// check if NL join node should be optimized for the given context
 			static
-			BOOL FOptimizeNLJoin(IMemoryPool *pmp, CGroupExpression *pgexprParent, CGroupExpression *pgexprMotion, COptimizationContext *poc, ULONG ulSearchStages);
+			BOOL FOptimizeNLJoin(IMemoryPool *memory_pool, CGroupExpression *pgexprParent, CGroupExpression *pgexprMotion, COptimizationContext *poc, ULONG ulSearchStages);
 
 		public:
 
 			// ctor
 			COptimizationContext
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CGroup *pgroup,
 				CReqdPropPlan *prpp,
 				CReqdPropRelational *prprel, // required relational props -- used during stats derivation
@@ -148,7 +148,7 @@ namespace gpopt
 				ULONG ulSearchStageIndex
 				)
 				:
-				m_memory_pool(pmp),
+				m_memory_pool(memory_pool),
 				m_ulId(GPOPT_INVALID_OPTCTXT_ID),
 				m_pgroup(pgroup),
 				m_prpp(prpp),
@@ -348,7 +348,7 @@ namespace gpopt
 
 			// return true if given group expression should be optimized under given context
 			static
-			BOOL FOptimize(IMemoryPool *pmp, CGroupExpression *pgexprParent, CGroupExpression *pgexprChild, COptimizationContext *pocChild, ULONG ulSearchStages);
+			BOOL FOptimize(IMemoryPool *memory_pool, CGroupExpression *pgexprParent, CGroupExpression *pgexprChild, COptimizationContext *pocChild, ULONG ulSearchStages);
 
 			// compare array of contexts based on context ids
 			static
@@ -356,7 +356,7 @@ namespace gpopt
 
 			// compute required properties to CTE producer based on plan properties of CTE consumer
 			static
-			CReqdPropPlan *PrppCTEProducer(IMemoryPool *pmp, COptimizationContext *poc, ULONG ulSearchStages);
+			CReqdPropPlan *PrppCTEProducer(IMemoryPool *memory_pool, COptimizationContext *poc, ULONG ulSearchStages);
 
 			// link for optimization context hash table in CGroup
 			SLink m_link;

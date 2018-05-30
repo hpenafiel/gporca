@@ -124,7 +124,7 @@ namespace gpopt
 			SLink m_link;
 
 			// ctor
-			CCostContext(IMemoryPool *pmp, COptimizationContext *poc, ULONG ulOptReq, CGroupExpression *pgexpr);
+			CCostContext(IMemoryPool *memory_pool, COptimizationContext *poc, ULONG ulOptReq, CGroupExpression *pgexpr);
 
 			// dtor
 			virtual
@@ -215,7 +215,7 @@ namespace gpopt
 			}
 
 			// derive properties of the plan carried by cost context
-			void DerivePlanProps(IMemoryPool *pmp);
+			void DerivePlanProps(IMemoryPool *memory_pool);
 
 			// set cost context state
 			void SetState
@@ -242,13 +242,13 @@ namespace gpopt
 
 
 			// check validity by comparing derived and required properties
-			BOOL IsValid(IMemoryPool *pmp);
+			BOOL IsValid(IMemoryPool *memory_pool);
 
 			// comparison operator
 			BOOL operator == (const CCostContext &cc) const;
 
 			// compute cost
-			CCost CostCompute(IMemoryPool *pmp, DrgPcost *pdrgpcostChildren);
+			CCost CostCompute(IMemoryPool *memory_pool, DrgPcost *pdrgpcostChildren);
 
 			// is current context better than the given equivalent context based on cost?
 			BOOL FBetterThan(const CCostContext *pcc) const;

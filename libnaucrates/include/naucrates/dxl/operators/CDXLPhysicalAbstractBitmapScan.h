@@ -57,11 +57,11 @@ namespace gpdxl
 			// ctor
 			CDXLPhysicalAbstractBitmapScan
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CDXLTableDescr *pdxltabdesc
 				)
 				:
-				CDXLPhysical(pmp),
+				CDXLPhysical(memory_pool),
 				m_pdxltabdesc(pdxltabdesc)
 			{
 				GPOS_ASSERT(NULL != pdxltabdesc);

@@ -30,11 +30,11 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CColRefSet::CColRefSet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULONG ulSizeBits
 	)
 	:
-	CBitSet(pmp, ulSizeBits)
+	CBitSet(memory_pool, ulSizeBits)
 {}
 
 
@@ -48,11 +48,11 @@ CColRefSet::CColRefSet
 //---------------------------------------------------------------------------
 CColRefSet::CColRefSet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const CColRefSet &bs
 	)
 	:
-	CBitSet(pmp, bs)
+	CBitSet(memory_pool, bs)
 {}
 
 
@@ -66,12 +66,12 @@ CColRefSet::CColRefSet
 //---------------------------------------------------------------------------
 CColRefSet::CColRefSet
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	const DrgPcr *pdrgpcr,
 	ULONG ulSize
 	)
 	:
-	CBitSet(pmp, ulSize)
+	CBitSet(memory_pool, ulSize)
 {
 	Include(pdrgpcr);
 }
@@ -176,8 +176,8 @@ CColRefSet::Include
 	const DrgPcr *pdrgpcr
 	)
 {
-	ULONG ulLength = pdrgpcr->Size();
-	for (ULONG i = 0; i < ulLength; i++)
+	ULONG length = pdrgpcr->Size();
+	for (ULONG i = 0; i < length; i++)
 	{
 		Include((*pdrgpcr)[i]);
 	}
@@ -326,11 +326,11 @@ CColRefSet::Replace
 DrgPcr *
 CColRefSet::Pdrgpcr
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	const
 {
-	DrgPcr *pdrgpcr = GPOS_NEW(pmp) DrgPcr(pmp);
+	DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 	
 	CColRefSetIter crsi(*this);
 	while(crsi.Advance())
@@ -420,7 +420,7 @@ CColRefSet::OsPrint
 void
 CColRefSet::ExtractColIds
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulColIds
 	)
 	const
@@ -430,7 +430,7 @@ CColRefSet::ExtractColIds
 	{
 		CColRef *pcr = crsi.Pcr();
 		ULONG ulColId = pcr->UlId();
-		pdrgpulColIds->Append(GPOS_NEW(pmp) ULONG(ulColId));
+		pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(ulColId));
 	}
 }
 

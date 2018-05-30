@@ -61,7 +61,7 @@ namespace gpmd
 		public:
 
 			// ctor
-			CMDPartConstraintGPDB(IMemoryPool *pmp, ULongPtrArray *pdrgpulDefaultParts, BOOL fUnbounded, CDXLNode *pdxln);
+			CMDPartConstraintGPDB(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulDefaultParts, BOOL fUnbounded, CDXLNode *pdxln);
 
 			// dtor
 			virtual
@@ -73,7 +73,7 @@ namespace gpmd
 			
 			// the scalar expression of the check constraint
 			virtual
-			CExpression *Pexpr(IMemoryPool *pmp, CMDAccessor *pmda, DrgPcr *pdrgpcr) const;
+			CExpression *Pexpr(IMemoryPool *memory_pool, CMDAccessor *pmda, DrgPcr *pdrgpcr) const;
 			
 			// included default partitions
 			virtual

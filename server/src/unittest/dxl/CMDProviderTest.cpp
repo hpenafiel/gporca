@@ -74,24 +74,24 @@ CMDProviderTest::EresUnittest_Basic()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
 	// test lookup with a file-based provider
-	CMDProviderMemory *pmdpFile = GPOS_NEW(pmp) CMDProviderMemory(pmp, szFileName);
+	CMDProviderMemory *pmdpFile = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, szFileName);
 	pmdpFile->AddRef();
 	
-	TestMDLookup(pmp, pmdpFile);
+	TestMDLookup(memory_pool, pmdpFile);
 	
 	pmdpFile->Release();
 	
 	// test lookup with a memory-based provider
-	CHAR *dxl_string = CDXLUtils::Read(pmp, szFileName);
+	CHAR *dxl_string = CDXLUtils::Read(memory_pool, szFileName);
 
-	DrgPimdobj *pdrgpmdobj = CDXLUtils::ParseDXLToIMDObjectArray(pmp, dxl_string, NULL /*xsd_file_path*/);
+	DrgPimdobj *pdrgpmdobj = CDXLUtils::ParseDXLToIMDObjectArray(memory_pool, dxl_string, NULL /*xsd_file_path*/);
 	
-	CMDProviderMemory *pmdpMemory = GPOS_NEW(pmp) CMDProviderMemory(pmp, pdrgpmdobj);
+	CMDProviderMemory *pmdpMemory = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, pdrgpmdobj);
 	pmdpMemory->AddRef();
-	TestMDLookup(pmp, pmdpMemory);
+	TestMDLookup(memory_pool, pmdpMemory);
 
 	GPOS_DELETE_ARRAY(dxl_string);
 	pdrgpmdobj->Release();
@@ -111,27 +111,27 @@ CMDProviderTest::EresUnittest_Basic()
 void
 CMDProviderTest::TestMDLookup
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDProvider *pmdp
 	)
 {
-	CAutoMDAccessor amda(pmp, pmdp, CTestUtils::m_sysidDefault, CMDCache::Pcache());
+	CAutoMDAccessor amda(memory_pool, pmdp, CTestUtils::m_sysidDefault, CMDCache::Pcache());
 
 	// lookup different objects
-	CMDIdGPDB *pmdid1 = GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1 /* major version */, 1 /* minor version */);
-	CMDIdGPDB *pmdid2 = GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 12 /* version */, 1 /* minor version */);
+	CMDIdGPDB *pmdid1 = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1 /* major version */, 1 /* minor version */);
+	CMDIdGPDB *pmdid2 = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 12 /* version */, 1 /* minor version */);
 
-	CWStringBase *pstrMDObject1 = pmdp->PstrObject(pmp, amda.Pmda(), pmdid1);
-	CWStringBase *pstrMDObject2 = pmdp->PstrObject(pmp, amda.Pmda(), pmdid2);
+	CWStringBase *pstrMDObject1 = pmdp->PstrObject(memory_pool, amda.Pmda(), pmdid1);
+	CWStringBase *pstrMDObject2 = pmdp->PstrObject(memory_pool, amda.Pmda(), pmdid2);
 
 	GPOS_ASSERT(NULL != pstrMDObject1 && NULL != pstrMDObject2);
 
-	IMDCacheObject *pimdobj1 = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrMDObject1, NULL);
+	IMDCacheObject *pimdobj1 = CDXLUtils::ParseDXLToIMDIdCacheObj(memory_pool, pstrMDObject1, NULL);
 
-	IMDCacheObject *pimdobj2 = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrMDObject2, NULL);
+	IMDCacheObject *pimdobj2 = CDXLUtils::ParseDXLToIMDIdCacheObj(memory_pool, pstrMDObject2, NULL);
 
-	GPOS_ASSERT(NULL != pimdobj1 && pmdid1->Equals(pimdobj1->Pmdid()));
-	GPOS_ASSERT(NULL != pimdobj2 && pmdid2->Equals(pimdobj2->Pmdid()));
+	GPOS_ASSERT(NULL != pimdobj1 && pmdid1->Equals(pimdobj1->MDId()));
+	GPOS_ASSERT(NULL != pimdobj2 && pmdid2->Equals(pimdobj2->MDId()));
 
 	// cleanup
 	pmdid1->Release();
@@ -155,28 +155,28 @@ CMDProviderTest::EresUnittest_Stats()
 {
 	// create memory pool
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
-	CMDProviderMemory *pmdpFile = GPOS_NEW(pmp) CMDProviderMemory(pmp, szFileName);
+	CMDProviderMemory *pmdpFile = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, szFileName);
 
 	{
 		pmdpFile->AddRef();
-		CAutoMDAccessor amda(pmp, pmdpFile, CTestUtils::m_sysidDefault, CMDCache::Pcache());
+		CAutoMDAccessor amda(memory_pool, pmdpFile, CTestUtils::m_sysidDefault, CMDCache::Pcache());
 
 		// lookup different objects
-		CMDIdRelStats *pmdidRelStats = GPOS_NEW(pmp) CMDIdRelStats(GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1));
+		CMDIdRelStats *pmdidRelStats = GPOS_NEW(memory_pool) CMDIdRelStats(GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1));
 
-		CWStringBase *pstrRelStats = pmdpFile->PstrObject(pmp, amda.Pmda(), pmdidRelStats);
+		CWStringBase *pstrRelStats = pmdpFile->PstrObject(memory_pool, amda.Pmda(), pmdidRelStats);
 		GPOS_ASSERT(NULL != pstrRelStats);
-		IMDCacheObject *pmdobjRelStats = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrRelStats, NULL);
+		IMDCacheObject *pmdobjRelStats = CDXLUtils::ParseDXLToIMDIdCacheObj(memory_pool, pstrRelStats, NULL);
 		GPOS_ASSERT(NULL != pmdobjRelStats);
 
 		CMDIdColStats *pmdidColStats =
-				GPOS_NEW(pmp) CMDIdColStats(GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1), 1 /* ulAttno */);
+				GPOS_NEW(memory_pool) CMDIdColStats(GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1), 1 /* ulAttno */);
 
-		CWStringBase *pstrColStats = pmdpFile->PstrObject(pmp, amda.Pmda(), pmdidColStats);
+		CWStringBase *pstrColStats = pmdpFile->PstrObject(memory_pool, amda.Pmda(), pmdidColStats);
 		GPOS_ASSERT(NULL != pstrColStats);
-		IMDCacheObject *pmdobjColStats = CDXLUtils::ParseDXLToIMDIdCacheObj(pmp, pstrColStats, NULL);
+		IMDCacheObject *pmdobjColStats = CDXLUtils::ParseDXLToIMDIdCacheObj(memory_pool, pstrColStats, NULL);
 		GPOS_ASSERT(NULL != pmdobjColStats);
 
 		// cleanup
@@ -205,9 +205,9 @@ GPOS_RESULT
 CMDProviderTest::EresUnittest_Negative()
 {
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcNone);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 	
-	CMDProviderMemory *pmdpFile = GPOS_NEW(pmp) CMDProviderMemory(pmp, szFileName);
+	CMDProviderMemory *pmdpFile = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, szFileName);
 	pmdpFile->AddRef();
 	
 	// we need to use an auto pointer for the cache here to ensure
@@ -224,13 +224,13 @@ CMDProviderTest::EresUnittest_Negative()
 	CMDAccessor::MDCache *pcache = apcache.Value();
 
 	{
-		CAutoMDAccessor amda(pmp, pmdpFile, CTestUtils::m_sysidDefault, pcache);
+		CAutoMDAccessor amda(memory_pool, pmdpFile, CTestUtils::m_sysidDefault, pcache);
 
 		// lookup a non-existing objects
-		CMDIdGPDB *pmdid = GPOS_NEW(pmp) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 15 /* major version */, 1 /* minor version */);
+		CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 15 /* major version */, 1 /* minor version */);
 
 		// call should result in an exception
-		(void) pmdpFile->PstrObject(pmp, amda.Pmda(), pmdid);
+		(void) pmdpFile->PstrObject(memory_pool, amda.Pmda(), pmdid);
 	}
 	
 	return GPOS_FAILED;

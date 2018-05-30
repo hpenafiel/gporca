@@ -70,7 +70,7 @@ namespace gpdxl
 			// ctor
 			CDXLScalarWindowRef
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidWinfunc,
 				IMDId *pmdidRetType,
 				BOOL fDistinct,

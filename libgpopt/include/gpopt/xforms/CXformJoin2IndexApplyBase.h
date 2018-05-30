@@ -33,7 +33,7 @@ namespace gpopt
 			BOOL
 			FCanLeftOuterIndexApply
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				CExpression *pexprInner,
 				CExpression *pexprScalar
 				) const
@@ -50,7 +50,7 @@ namespace gpopt
 				// now consider hash distributed table
 				CColRefSet *pcrsInnerOutput = CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->PcrsOutput();
 				CColRefSet *pcrsScalarExpr = CDrvdPropScalar::Pdpscalar(pexprScalar->PdpDerive())->PcrsUsed();
-				CColRefSet *pcrsInnerRefs = GPOS_NEW(pmp) CColRefSet(pmp, *pcrsScalarExpr);
+				CColRefSet *pcrsInnerRefs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *pcrsScalarExpr);
 				pcrsInnerRefs->Intersection(pcrsInnerOutput);
 
 				// Distribution key set of inner GET must be subset of inner columns used in
@@ -59,9 +59,9 @@ namespace gpopt
 				pcrsInnerRefs->Release();
 				if (fCanOuterIndexApply)
 				{
-					CColRefSet *pcrsEquivPredInner = GPOS_NEW(pmp) CColRefSet(pmp);
+					CColRefSet *pcrsEquivPredInner = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 					// extract array of join predicates from join condition expression
-					DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(pmp, pexprScalar);
+					DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
 					for (ULONG ul = 0; ul < pdrgpexpr->Size(); ul++)
 					{
 						CExpression *pexprPred = (*pdrgpexpr)[ul];
@@ -95,9 +95,9 @@ namespace gpopt
 			// takes the ownership and responsibility to release
 			// the instance.
 			virtual
-			CLogicalJoin *PopLogicalJoin(IMemoryPool *pmp) const
+			CLogicalJoin *PopLogicalJoin(IMemoryPool *memory_pool) const
 			{
-				return GPOS_NEW(pmp) TJoin(pmp);
+				return GPOS_NEW(memory_pool) TJoin(memory_pool);
 			}
 
 			// return the new instance of logical apply operator
@@ -107,39 +107,39 @@ namespace gpopt
 			virtual
 			CLogicalApply *PopLogicalApply
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				DrgPcr *pdrgpcr
 				) const
 			{
-				return GPOS_NEW(pmp) TApply(pmp, pdrgpcr, m_fOuterJoin);
+				return GPOS_NEW(memory_pool) TApply(memory_pool, pdrgpcr, m_fOuterJoin);
 			}
 
 		public:
 
 			// ctor
 			explicit
-			CXformJoin2IndexApplyBase<TJoin, TApply, TGet, fWithSelect, fPartial, eidxtype>(IMemoryPool *pmp)
+			CXformJoin2IndexApplyBase<TJoin, TApply, TGet, fWithSelect, fPartial, eidxtype>(IMemoryPool *memory_pool)
 			:
 			// pattern
 			CXformJoin2IndexApply
 			(
-				GPOS_NEW(pmp) CExpression
+				GPOS_NEW(memory_pool) CExpression
 				(
-				pmp,
-				GPOS_NEW(pmp) TJoin(pmp),
-				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternLeaf(pmp)), // outer child
+				memory_pool,
+				GPOS_NEW(memory_pool) TJoin(memory_pool),
+				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool)), // outer child
 					fWithSelect
 					?
-					GPOS_NEW(pmp) CExpression  // inner child with Select operator
+					GPOS_NEW(memory_pool) CExpression  // inner child with Select operator
 						(
-						pmp,
-						GPOS_NEW(pmp) CLogicalSelect(pmp),
-						GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) TGet(pmp)), // Get below Select
-						GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp))  // predicate
+						memory_pool,
+						GPOS_NEW(memory_pool) CLogicalSelect(memory_pool),
+						GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) TGet(memory_pool)), // Get below Select
+						GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool))  // predicate
 						)
 					:
-					GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) TGet(pmp)), // inner child with Get operator,
-				GPOS_NEW(pmp) CExpression(pmp, GPOS_NEW(pmp) CPatternTree(pmp))  // predicate tree
+					GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) TGet(memory_pool)), // inner child with Get operator,
+				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternTree(memory_pool))  // predicate tree
 				)
 			)
 			{}
@@ -157,7 +157,7 @@ namespace gpopt
 				GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
 				GPOS_ASSERT(FCheckPattern(pexpr));
 
-				IMemoryPool *pmp = pxfctxt->Pmp();
+				IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 				// extract components
 				CExpression *pexprOuter = (*pexpr)[0];
@@ -170,14 +170,14 @@ namespace gpopt
 				if (fWithSelect)
 				{
 					pexprGet = (*pexprInner)[0];
-					pexprAllPredicates = CPredicateUtils::PexprConjunction(pmp, pexprScalar, (*pexprInner)[1]);
+					pexprAllPredicates = CPredicateUtils::PexprConjunction(memory_pool, pexprScalar, (*pexprInner)[1]);
 				}
 				else
 				{
 					pexprScalar->AddRef();
 				}
 
-				if (m_fOuterJoin && !FCanLeftOuterIndexApply(pmp, pexprGet, pexprScalar))
+				if (m_fOuterJoin && !FCanLeftOuterIndexApply(memory_pool, pexprGet, pexprScalar))
 				{
 					// It is a left outer join, but we can't do outer index apply,
 					// stop transforming and return immediately.
@@ -196,7 +196,7 @@ namespace gpopt
 				{
 					CreatePartialIndexApplyAlternatives
 						(
-						pmp,
+						memory_pool,
 						pexpr->Pop()->UlOpId(),
 						pexprOuter,
 						pexprInner,
@@ -210,7 +210,7 @@ namespace gpopt
 				{
 					CreateHomogeneousIndexApplyAlternatives
 						(
-						pmp,
+						memory_pool,
 						pexpr->Pop()->UlOpId(),
 						pexprOuter,
 						pexprGet,

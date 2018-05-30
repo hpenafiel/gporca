@@ -34,17 +34,17 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CPhysicalBitmapTableScan::CPhysicalBitmapTableScan
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
 	const CName *pnameTableAlias,
 	DrgPcr *pdrgpcrOutput
 	)
 	:
-	CPhysicalScan(pmp, pnameTableAlias, ptabdesc, pdrgpcrOutput),
+	CPhysicalScan(memory_pool, pnameTableAlias, ptabdesc, pdrgpcrOutput),
 	m_ulOriginOpId(ulOriginOpId)
 {
-	GPOS_ASSERT(NULL != pmp);
+	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != ptabdesc);
 	GPOS_ASSERT(NULL != pdrgpcrOutput);
 }
@@ -60,7 +60,7 @@ CPhysicalBitmapTableScan::CPhysicalBitmapTableScan
 ULONG
 CPhysicalBitmapTableScan::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->Pmdid()->HashValue());
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->MDId()->HashValue());
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;

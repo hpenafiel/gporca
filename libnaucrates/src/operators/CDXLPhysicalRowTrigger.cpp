@@ -27,14 +27,14 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidRel,
 	INT iType,
 	ULongPtrArray *pdrgpulOld,
 	ULongPtrArray *pdrgpulNew
 	)
 	:
-	CDXLPhysical(pmp),
+	CDXLPhysical(memory_pool),
 	m_pmdidRel(pmdidRel),
 	m_iType(iType),
 	m_pdrgpulOld(pdrgpulOld),

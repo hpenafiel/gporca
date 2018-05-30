@@ -82,17 +82,17 @@ COptimizerConfig::~COptimizerConfig()
 COptimizerConfig *
 COptimizerConfig::PoconfDefault
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
-	return GPOS_NEW(pmp) COptimizerConfig
+	return GPOS_NEW(memory_pool) COptimizerConfig
 						(
-						GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*plan_id*/, 0 /*ullSamples*/),
-						CStatisticsConfig::PstatsconfDefault(pmp),
-						CCTEConfig::PcteconfDefault(pmp),
-						ICostModel::PcmDefault(pmp),
-						CHint::PhintDefault(pmp),
-						CWindowOids::Pwindowoids(pmp)
+						GPOS_NEW(memory_pool) CEnumeratorConfig(memory_pool, 0 /*plan_id*/, 0 /*ullSamples*/),
+						CStatisticsConfig::PstatsconfDefault(memory_pool),
+						CCTEConfig::PcteconfDefault(memory_pool),
+						ICostModel::PcmDefault(memory_pool),
+						CHint::PhintDefault(memory_pool),
+						CWindowOids::Pwindowoids(memory_pool)
 						);
 }
 
@@ -107,20 +107,20 @@ COptimizerConfig::PoconfDefault
 COptimizerConfig *
 COptimizerConfig::PoconfDefault
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	ICostModel *pcm
 	)
 {
 	GPOS_ASSERT(NULL != pcm);
 	
-	return GPOS_NEW(pmp) COptimizerConfig
+	return GPOS_NEW(memory_pool) COptimizerConfig
 						(
-						GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*plan_id*/, 0 /*ullSamples*/),
-						CStatisticsConfig::PstatsconfDefault(pmp),
-						CCTEConfig::PcteconfDefault(pmp),
+						GPOS_NEW(memory_pool) CEnumeratorConfig(memory_pool, 0 /*plan_id*/, 0 /*ullSamples*/),
+						CStatisticsConfig::PstatsconfDefault(memory_pool),
+						CCTEConfig::PcteconfDefault(memory_pool),
 						pcm,
-						CHint::PhintDefault(pmp),
-						CWindowOids::Pwindowoids(pmp)
+						CHint::PhintDefault(memory_pool),
+						CWindowOids::Pwindowoids(memory_pool)
 						);
 }
 
@@ -133,7 +133,7 @@ COptimizerConfig::PoconfDefault
 //
 //---------------------------------------------------------------------------
 void
-COptimizerConfig::Serialize(IMemoryPool *pmp, CXMLSerializer *xml_serializer, CBitSet *pbsTrace) const
+COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serializer, CBitSet *pbsTrace) const
 {
 
 	GPOS_ASSERT(NULL != xml_serializer);
@@ -176,7 +176,7 @@ COptimizerConfig::Serialize(IMemoryPool *pmp, CXMLSerializer *xml_serializer, CB
 
 	// Serialize traceflags represented in bitset into stream
 	gpos::CBitSetIter bsi(*pbsTrace);
-	CWStringDynamic wsTraceFlags(pmp);
+	CWStringDynamic wsTraceFlags(memory_pool);
 	for (ULONG ul = 0; bsi.Advance(); ul++)
 	{
 		if (0 < ul)

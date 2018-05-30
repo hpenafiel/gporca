@@ -51,7 +51,7 @@ namespace gpdxl
 			// ctor/dtor
 			CDXLLogicalTVF
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdidFunc,
 				IMDId *pmdidRetType,
 				CMDName *pmdname,

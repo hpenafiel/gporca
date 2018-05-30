@@ -30,7 +30,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CMDCastGPDB::CMDCastGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidSrc,
@@ -40,7 +40,7 @@ CMDCastGPDB::CMDCastGPDB
 	EmdCoercepathType emdPathType
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidSrc(pmdidSrc),
@@ -78,14 +78,14 @@ CMDCastGPDB::~CMDCastGPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDCastGPDB::Pmdid
+//		CMDCastGPDB::MDId
 //
 //	@doc:
 //		Mdid of cast object
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDCastGPDB::Pmdid() const
+CMDCastGPDB::MDId() const
 {
 	return m_pmdid;
 }

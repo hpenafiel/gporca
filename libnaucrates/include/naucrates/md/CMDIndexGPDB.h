@@ -78,7 +78,7 @@ namespace gpmd
 			// ctor
 			CMDIndexGPDB
 				(
-				IMemoryPool *pmp, 
+				IMemoryPool *memory_pool, 
 				IMDId *pmdid, 
 				CMDName *pmdname,
 				BOOL fClustered, 
@@ -96,7 +96,7 @@ namespace gpmd
 			
 			// index mdid
 			virtual 
-			IMDId *Pmdid() const;
+			IMDId *MDId() const;
 			
 			// index name
 			virtual 

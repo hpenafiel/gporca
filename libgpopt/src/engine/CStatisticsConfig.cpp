@@ -31,13 +31,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CStatisticsConfig::CStatisticsConfig
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CDouble dDampingFactorFilter,
 	CDouble dDampingFactorJoin,
 	CDouble dDampingFactorGroupBy
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_dDampingFactorFilter(dDampingFactorFilter),
 	m_dDampingFactorJoin(dDampingFactorJoin),
 	m_dDampingFactorGroupBy(dDampingFactorGroupBy),

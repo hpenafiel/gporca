@@ -159,7 +159,7 @@ namespace gpopt
 			// ctor
 			CEnumeratorConfig
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULLONG plan_id,
 				ULLONG ullSamples,
 				CDouble dCostThreshold = GPOPT_UNBOUNDED_COST_THRESHOLD
@@ -352,21 +352,21 @@ namespace gpopt
 			static
 			CEnumeratorConfig *PecDefault
 				(
-				IMemoryPool *pmp
+				IMemoryPool *memory_pool
 				)
 			{
-				return GPOS_NEW(pmp) CEnumeratorConfig(pmp, 0 /*plan_id*/, 0 /*ullSamples*/);
+				return GPOS_NEW(memory_pool) CEnumeratorConfig(memory_pool, 0 /*plan_id*/, 0 /*ullSamples*/);
 			}
 
 			// generate enumerator configuration for a given plan id
 			static
 			CEnumeratorConfig *Pec
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULLONG plan_id
 				)
 			{
-				return GPOS_NEW(pmp) CEnumeratorConfig(pmp, plan_id, 0/*ullSamples*/);
+				return GPOS_NEW(memory_pool) CEnumeratorConfig(memory_pool, plan_id, 0/*ullSamples*/);
 			}
 
 

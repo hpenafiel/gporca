@@ -36,12 +36,12 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerMDGPDBScalarOp::CParseHandlerMDGPDBScalarOp
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *pphRoot
 	)
 	:
-	CParseHandlerMetadataObject(pmp, parse_handler_mgr, pphRoot),
+	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, pphRoot),
 	m_pmdid(NULL),
 	m_pmdname(NULL),
 	m_pmdidTypeLeft(NULL),
@@ -249,7 +249,7 @@ CParseHandlerMDGPDBScalarOp::EndElement
 		{
 			pdrgpmdidOpClasses = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 		}
-		m_pimdobj = GPOS_NEW(m_memory_pool) CMDScalarOpGPDB
+		m_imd_obj = GPOS_NEW(m_memory_pool) CMDScalarOpGPDB
 				(
 				m_memory_pool,
 				m_pmdid,

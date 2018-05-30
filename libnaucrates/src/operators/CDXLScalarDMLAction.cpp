@@ -30,10 +30,10 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLScalarDMLAction::CDXLScalarDMLAction
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 	:
-	CDXLScalar(pmp)
+	CDXLScalar(memory_pool)
 {
 }
 

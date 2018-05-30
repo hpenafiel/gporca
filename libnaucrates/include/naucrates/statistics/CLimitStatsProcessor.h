@@ -26,7 +26,7 @@ namespace gpnaucrates
 
 		// limit
 		static
-		CStatistics *PstatsLimit(IMemoryPool *pmp, const CStatistics *pstatsInput, CDouble dLimitRows);
+		CStatistics *PstatsLimit(IMemoryPool *memory_pool, const CStatistics *pstatsInput, CDouble dLimitRows);
 	};
 }
 

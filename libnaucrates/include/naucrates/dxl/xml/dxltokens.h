@@ -823,7 +823,7 @@ namespace gpdxl
 		
 			// initialize constants. Must be called before constants are accessed.
 			static 
-			void Init(IMemoryPool *pmp);
+			void Init(IMemoryPool *memory_pool);
 
 			// cleanup tokens
 			static 

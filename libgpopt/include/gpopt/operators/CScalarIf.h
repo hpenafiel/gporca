@@ -44,7 +44,7 @@ namespace gpopt
 		private:
 
 			// metadata id in the catalog
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// is operator return type BOOL?
 			BOOL m_fBoolReturnType;
@@ -57,7 +57,7 @@ namespace gpopt
 			// ctor
 			CScalarIf
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				IMDId *pmdid
 				);
 
@@ -65,7 +65,7 @@ namespace gpopt
 			virtual
 			~CScalarIf() 
 			{
-				m_pmdidType->Release();
+				m_mdid_type->Release();
 			}
 
 
@@ -87,7 +87,7 @@ namespace gpopt
 			virtual 
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// operator specific hash function
@@ -106,7 +106,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

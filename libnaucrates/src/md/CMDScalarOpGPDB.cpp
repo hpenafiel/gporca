@@ -30,7 +30,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDScalarOpGPDB::CMDScalarOpGPDB
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdname,
 	IMDId *pmdidTypeLeft,
@@ -44,7 +44,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	DrgPmdid *pdrgpmdidOpClasses
 	)
 	:
-	m_memory_pool(pmp),
+	m_memory_pool(memory_pool),
 	m_pmdid(pmdid),
 	m_pmdname(pmdname),
 	m_pmdidTypeLeft(pmdidTypeLeft),
@@ -88,14 +88,14 @@ CMDScalarOpGPDB::~CMDScalarOpGPDB()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDScalarOpGPDB::Pmdid
+//		CMDScalarOpGPDB::MDId
 //
 //	@doc:
 //		Operator id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDScalarOpGPDB::Pmdid() const
+CMDScalarOpGPDB::MDId() const
 {
 	return m_pmdid;
 }
@@ -347,7 +347,7 @@ CMDScalarOpGPDB::DebugPrint
 	const
 {
 	os << "Operator id: ";
-	Pmdid()->OsPrint(os);
+	MDId()->OsPrint(os);
 	os << std::endl;
 	
 	os << "Operator name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;

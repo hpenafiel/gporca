@@ -64,11 +64,11 @@ namespace gpopt
 			// ctor
 			CScalarBooleanTest
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				EBoolTest ebt
 				)
 				:
-				CScalar(pmp),
+				CScalar(memory_pool),
 				m_ebt(ebt)
 			{
 				GPOS_ASSERT(0 <= ebt && EbtSentinel > ebt);
@@ -111,7 +111,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)

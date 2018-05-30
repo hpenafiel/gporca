@@ -187,7 +187,7 @@ namespace gpos
 			// Initialization of hashtable
 			void Init
 				(
-				IMemoryPool *pmp,
+				IMemoryPool *memory_pool,
 				ULONG size,
 				ULONG link_offset,
 				ULONG key_offset,
@@ -208,7 +208,7 @@ namespace gpos
                 m_hashfn = func_hash;
                 m_eqfn = func_equal;
 
-                m_buckets = GPOS_NEW_ARRAY(pmp, SBucket, m_nbuckets);
+                m_buckets = GPOS_NEW_ARRAY(memory_pool, SBucket, m_nbuckets);
 
                 // NOTE: 03/25/2008; since it's the only allocation in the
                 //		constructor the protection is not needed strictly speaking;

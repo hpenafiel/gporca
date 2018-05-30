@@ -29,7 +29,7 @@ using namespace gpdxl;
 GPOS_RESULT
 gpdxl::EresExceptionInit
 	(
-	IMemoryPool *pmp
+	IMemoryPool *memory_pool
 	)
 {
 	//---------------------------------------------------------------------------
@@ -247,7 +247,7 @@ gpdxl::EresExceptionInit
 		CMessage *rgpmsg[ExmiDXLSentinel];
 		for (ULONG i = 0; i < GPOS_ARRAY_SIZE(rgpmsg); i++)
 		{
-			rgpmsg[i] = GPOS_NEW(pmp) CMessage(rgmsg[i]);
+			rgpmsg[i] = GPOS_NEW(memory_pool) CMessage(rgmsg[i]);
 		}
 
 		CMessageRepository *pmr = CMessageRepository::GetMessageRepository();

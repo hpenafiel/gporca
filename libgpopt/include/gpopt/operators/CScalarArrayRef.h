@@ -41,13 +41,13 @@ namespace gpopt
 			IMDId *m_pmdidElem;
 
 			// element type modifier
-			INT m_iTypeModifier;
+			INT m_type_modifier;
 
 			// array type id
 			IMDId *m_pmdidArray;
 
 			// return type id
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// private copy ctor
 			CScalarArrayRef(const CScalarArrayRef &);
@@ -55,7 +55,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CScalarArrayRef(IMemoryPool *pmp, IMDId *pmdidElem, INT iTypeModifier, IMDId *pmdidArray, IMDId *pmdidReturn);
+			CScalarArrayRef(IMemoryPool *memory_pool, IMDId *pmdidElem, INT type_modifier, IMDId *pmdidArray, IMDId *pmdidReturn);
 
 			// dtor
 			virtual
@@ -109,7 +109,7 @@ namespace gpopt
 			virtual
 			COperator *PopCopyWithRemappedColumns
 						(
-						IMemoryPool *, //pmp,
+						IMemoryPool *, //memory_pool,
 						HMUlCr *, //phmulcr,
 						BOOL //fMustExist
 						)
@@ -121,7 +121,7 @@ namespace gpopt
 			virtual
 			IMDId *MDIdType() const
 			{
-				return m_pmdidType;
+				return m_mdid_type;
 			}
 
 			// conversion function

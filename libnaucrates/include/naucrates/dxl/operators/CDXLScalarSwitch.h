@@ -34,7 +34,7 @@ namespace gpdxl
 	{
 		private:
 			// return type
-			IMDId *m_pmdidType;
+			IMDId *m_mdid_type;
 
 			// private copy ctor
 			CDXLScalarSwitch(const CDXLScalarSwitch&);
@@ -42,7 +42,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarSwitch(IMemoryPool *pmp, IMDId *pmdidType);
+			CDXLScalarSwitch(IMemoryPool *memory_pool, IMDId *mdid_type);
 
 			//dtor
 			virtual

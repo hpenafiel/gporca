@@ -65,12 +65,12 @@ namespace gpopt
 					// ctor
 					CDummyConstDXLNodeEvaluator
 						(
-						IMemoryPool *pmp,
+						IMemoryPool *memory_pool,
 						CMDAccessor *pmda,
 						INT iVal
 						)
 						:
-						m_memory_pool(pmp),
+						m_memory_pool(memory_pool),
 						m_pmda(pmda),
 						m_iVal(iVal)
 					{}

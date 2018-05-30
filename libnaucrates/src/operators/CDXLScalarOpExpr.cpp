@@ -32,13 +32,13 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CDXLScalarOpExpr::CDXLScalarOpExpr
 	(
-	IMemoryPool *pmp,
+	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
 	IMDId *pmdidReturnType,
 	const CWStringConst *pstrOpName
 	)
 	:
-	CDXLScalar(pmp),
+	CDXLScalar(memory_pool),
 	m_pmdid(pmdidOp),
 	m_pmdidReturnType(pmdidReturnType),
 	m_pstrOpName(pstrOpName)
@@ -106,14 +106,14 @@ CDXLScalarOpExpr::PstrOpName() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarOpExpr::Pmdid
+//		CDXLScalarOpExpr::MDId
 //
 //	@doc:
 //		Operator id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarOpExpr::Pmdid() const
+CDXLScalarOpExpr::MDId() const
 {
 	return m_pmdid;
 }

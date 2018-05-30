@@ -90,12 +90,12 @@ GPOS_RESULT
 CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
+	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 	
 	typedef CExpression *(*Pfpexpr)(IMemoryPool*, BOOL);
 	Pfpexpr rgpf[] =
@@ -132,7 +132,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 		};
 
 	// xforms to test
-	CXformSet *pxfs = GPOS_NEW(pmp) CXformSet(pmp);
+	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	(void) pxfs->ExchangeSet(CXform::ExfSubqJoin2Apply);
 	(void) pxfs->ExchangeSet(CXform::ExfSelect2Apply);
 	(void) pxfs->ExchangeSet(CXform::ExfProject2Apply);
@@ -146,17 +146,17 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 
 		// generate expression
-		CExpression *pexpr = rgpf[ulIndex](pmp, fCorrelated);
+		CExpression *pexpr = rgpf[ulIndex](memory_pool, fCorrelated);
 		
 		// check for subq xforms
-		CXformSet *pxfsCand = CLogical::PopConvert(pexpr->Pop())->PxfsCandidates(pmp);
+		CXformSet *pxfsCand = CLogical::PopConvert(pexpr->Pop())->PxfsCandidates(memory_pool);
 		pxfsCand->Intersection(pxfs);
 		
 		CXformSetIter xsi(*pxfsCand);
@@ -165,13 +165,13 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 			CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
 			GPOS_ASSERT(NULL != pxform);
 
-			CWStringDynamic str(pmp);
+			CWStringDynamic str(memory_pool);
 			COstreamString oss(&str);
 
 			oss	<< std::endl << "INPUT:" << std::endl << *pexpr << std::endl;
 
-			CXformContext *pxfctxt = GPOS_NEW(pmp) CXformContext(pmp);
-			CXformResult *pxfres = GPOS_NEW(pmp) CXformResult(pmp);
+			CXformContext *pxfctxt = GPOS_NEW(memory_pool) CXformContext(memory_pool);
+			CXformResult *pxfres = GPOS_NEW(memory_pool) CXformResult(memory_pool);
 
 			// calling the xform to perform subquery to Apply transformation
 			pxform->Transform(pxfctxt, pxfres, pexpr);
@@ -216,7 +216,7 @@ GPOS_RESULT
 CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 {
 	CAutoMemoryPool amp;
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
@@ -236,22 +236,22 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 	CMDAccessor::MDCache *pcache = apcache.Value();
 
 	{
-		CMDAccessor mda(pmp, pcache, CTestUtils::m_sysidDefault, pmdp);
+		CMDAccessor mda(memory_pool, pcache, CTestUtils::m_sysidDefault, pmdp);
 
 		// install opt context in TLS
 		CAutoOptCtxt aoc
 						(
-						pmp,
+						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(pmp)
+						CTestUtils::Pcm(memory_pool)
 						);
 
 		// create a subquery with const table get expression
-		CExpression *pexpr = CSubqueryTestUtils::PexprSubqueryWithDisjunction(pmp);
+		CExpression *pexpr = CSubqueryTestUtils::PexprSubqueryWithDisjunction(memory_pool);
 		CXform *pxform = CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
 
-		CWStringDynamic str(pmp);
+		CWStringDynamic str(memory_pool);
 		COstreamString oss(&str);
 
 		oss	<< std::endl << "EXPRESSION:" << std::endl << *pexpr << std::endl;
@@ -264,8 +264,8 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
-		CXformContext *pxfctxt = GPOS_NEW(pmp) CXformContext(pmp);
-		CXformResult *pxfres = GPOS_NEW(pmp) CXformResult(pmp);
+		CXformContext *pxfctxt = GPOS_NEW(memory_pool) CXformContext(memory_pool);
+		CXformResult *pxfres = GPOS_NEW(memory_pool) CXformResult(memory_pool);
 
 		// calling the xform to perform subquery to Apply transformation;
 		// xform must fail since we do not expect constant subqueries
@@ -300,34 +300,34 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 {
 	// use own memory pool
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcNone);
-	IMemoryPool *pmp = amp.Pmp();
+	IMemoryPool *memory_pool = amp.Pmp();
 
 	// setup a file-based provider
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
-	CMDAccessor mda(pmp, CMDCache::Pcache());
+	CMDAccessor mda(memory_pool, CMDCache::Pcache());
 	mda.RegisterProvider(CTestUtils::m_sysidDefault, pmdp);
 	
 	// install opt context in TLS
 	CAutoOptCtxt aoc
 					(
-					pmp,
+					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(pmp)
+					CTestUtils::Pcm(memory_pool)
 					);
 		
 	// create a subquery with const table get expression
 
 	CExpression *pexprOuter = NULL;
 	CExpression *pexprInner = NULL;
-	CSubqueryTestUtils::GenerateGetExpressions(pmp, &pexprOuter, &pexprInner);
+	CSubqueryTestUtils::GenerateGetExpressions(memory_pool, &pexprOuter, &pexprInner);
 
-	CExpression *pexpr = CSubqueryTestUtils::PexprSelectWithSubqueryBoolOp(pmp, pexprOuter, pexprInner, true /*fCorrelated*/, CScalarBoolOp::EboolopOr);
+	CExpression *pexpr = CSubqueryTestUtils::PexprSelectWithSubqueryBoolOp(memory_pool, pexprOuter, pexprInner, true /*fCorrelated*/, CScalarBoolOp::EboolopOr);
 	
 	CXform *pxform = CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
 
-	CWStringDynamic str(pmp);
+	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 
 	oss	<< std::endl << "EXPRESSION:" << std::endl << *pexpr << std::endl;
@@ -340,8 +340,8 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
-	CXformContext *pxfctxt = GPOS_NEW(pmp) CXformContext(pmp);
-	CXformResult *pxfres = GPOS_NEW(pmp) CXformResult(pmp);
+	CXformContext *pxfctxt = GPOS_NEW(memory_pool) CXformContext(memory_pool);
+	CXformResult *pxfres = GPOS_NEW(memory_pool) CXformResult(memory_pool);
 
 	// calling the xform to perform subquery to Apply transformation
 	pxform->Transform(pxfctxt, pxfres, pexpr);
