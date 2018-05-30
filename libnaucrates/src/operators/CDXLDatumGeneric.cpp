@@ -37,15 +37,15 @@ CDXLDatumGeneric::CDXLDatumGeneric
 	INT type_modifier,
 	BOOL is_passed_by_value,
 	BOOL is_null,
-	BYTE *pba,
+	BYTE *byte_array,
 	ULONG length
 	)
 	:
 	CDXLDatum(memory_pool, mdid_type, type_modifier, is_null, length),
 	m_is_passed_by_value(is_passed_by_value),
-	byte_array(pba)
+	m_byte_array(byte_array)
 {
-	GPOS_ASSERT_IMP(m_is_null, (byte_array == NULL) && (m_length == 0));
+	GPOS_ASSERT_IMP(m_is_null, (m_byte_array == NULL) && (m_length == 0));
 }
 
 //---------------------------------------------------------------------------
@@ -58,7 +58,7 @@ CDXLDatumGeneric::CDXLDatumGeneric
 //---------------------------------------------------------------------------
 CDXLDatumGeneric::~CDXLDatumGeneric()
 {
-	GPOS_DELETE_ARRAY(byte_array);
+	GPOS_DELETE_ARRAY(m_byte_array);
 }
 
 //---------------------------------------------------------------------------
@@ -72,7 +72,7 @@ CDXLDatumGeneric::~CDXLDatumGeneric()
 const BYTE *
 CDXLDatumGeneric::GetByteArray() const
 {
-	return byte_array;
+	return m_byte_array;
 }
 
 //---------------------------------------------------------------------------

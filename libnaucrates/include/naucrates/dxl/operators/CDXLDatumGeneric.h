@@ -50,7 +50,7 @@ namespace gpdxl
 			BOOL m_is_passed_by_value;
 
 			// datum byte array
-			BYTE *byte_array;
+			BYTE *m_byte_array;
 
 		public:
 			// ctor
