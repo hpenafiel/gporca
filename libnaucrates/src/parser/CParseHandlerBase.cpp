@@ -155,7 +155,7 @@ CParseHandlerBase::endElement
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerBase::ProcessError
+CParseHandlerBase::error
 	(
 	const SAXParseException& to_catch
 	)

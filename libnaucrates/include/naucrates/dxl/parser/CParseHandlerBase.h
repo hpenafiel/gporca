@@ -165,7 +165,7 @@ namespace gpdxl
 				);
 			
 			// process a parsing ProcessError
-			void ProcessError(const SAXParseException&);
+			void error(const SAXParseException&);
 	};
 }
 
