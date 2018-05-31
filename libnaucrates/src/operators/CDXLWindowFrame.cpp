@@ -146,8 +146,8 @@ CDXLWindowFrame::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrElemName = CDXLTokens::PstrToken(EdxltokenWindowFrame);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	const CWStringConst *element_name = CDXLTokens::PstrToken(EdxltokenWindowFrame);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	// add attributes
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowFrameSpec), PstrFS(m_edxlfs));
@@ -157,7 +157,7 @@ CDXLWindowFrame::SerializeToDXL
 	m_pdxlnTrailing->SerializeToDXL(xml_serializer);
 	m_pdxlnLeading->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
 
 // EOF

@@ -155,15 +155,15 @@ CDXLScalarBitmapBoolOp::SerializeToDXL
 {
 	GPOS_CHECK_ABORT;
 
-	const CWStringConst *pstrElemName = PstrOpName();
+	const CWStringConst *element_name = PstrOpName();
 
-	GPOS_ASSERT(NULL != pstrElemName);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	GPOS_ASSERT(NULL != element_name);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	GPOS_CHECK_ABORT;
 }

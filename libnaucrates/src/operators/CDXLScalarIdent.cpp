@@ -134,9 +134,9 @@ CDXLScalarIdent::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrElemName = PstrOpName();
+	const CWStringConst *element_name = PstrOpName();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 		
 	// add col name and col id
 	const CWStringConst *strCName = (m_pdxlcr->MdName())->Pstr(); 
@@ -152,7 +152,7 @@ CDXLScalarIdent::SerializeToDXL
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);	
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);	
 }
 
 //---------------------------------------------------------------------------

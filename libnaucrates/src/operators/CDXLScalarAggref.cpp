@@ -193,9 +193,9 @@ CDXLScalarAggref::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrElemName = PstrOpName();
+	const CWStringConst *element_name = PstrOpName();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_pmdidAgg->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenAggrefOid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAggrefDistinct),m_fDistinct);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAggrefStage), PstrAggStage());
@@ -205,7 +205,7 @@ CDXLScalarAggref::SerializeToDXL
 	}
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

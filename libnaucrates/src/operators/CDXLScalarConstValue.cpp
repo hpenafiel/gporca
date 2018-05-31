@@ -98,8 +98,8 @@ CDXLScalarConstValue::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrElemName = PstrOpName();
-	m_pdxldatum->Serialize(xml_serializer, pstrElemName);
+	const CWStringConst *element_name = PstrOpName();
+	m_pdxldatum->Serialize(xml_serializer, element_name);
 }
 
 //---------------------------------------------------------------------------

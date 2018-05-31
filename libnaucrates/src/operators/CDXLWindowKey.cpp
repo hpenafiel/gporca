@@ -105,8 +105,8 @@ CDXLWindowKey::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrElemName = CDXLTokens::PstrToken(EdxltokenWindowKey);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	const CWStringConst *element_name = CDXLTokens::PstrToken(EdxltokenWindowKey);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	if (NULL != m_sort_col_list_dxl)
 	{
@@ -118,7 +118,7 @@ CDXLWindowKey::SerializeToDXL
 		m_window_frame_dxl->SerializeToDXL(xml_serializer);
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
 
 // EOF

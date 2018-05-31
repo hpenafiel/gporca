@@ -82,8 +82,8 @@ CDXLWindowSpec::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrElemName = CDXLTokens::PstrToken(EdxltokenWindowSpec);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	const CWStringConst *element_name = CDXLTokens::PstrToken(EdxltokenWindowSpec);
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	GPOS_ASSERT(NULL != m_pdrgpulPartCol);
 
@@ -109,7 +109,7 @@ CDXLWindowSpec::SerializeToDXL
 		m_pdxlwf->SerializeToDXL(xml_serializer);
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
 
 // EOF

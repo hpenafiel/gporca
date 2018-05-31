@@ -49,8 +49,8 @@ CDXLPhysicalDynamicBitmapTableScan::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrElemName = PstrOpName();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	const CWStringConst *element_name = PstrOpName();
+	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
 	if (m_ulPartIndexIdPrintable != m_ulPartIndexId)
@@ -61,7 +61,7 @@ CDXLPhysicalDynamicBitmapTableScan::SerializeToDXL
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	m_pdxltabdesc->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
+	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
 
 // EOF
