@@ -112,7 +112,7 @@ CTranslatorDXLToExprTest::Pexpr
 	// parse the DXL tree from the given DXL document
 	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(memory_pool, szDXLExpected, NULL /*xsd_file_path*/);
 	
-	GPOS_ASSERT(NULL != ptroutput->Pdxln() && NULL != ptroutput->PdrgpdxlnOutputCols());
+	GPOS_ASSERT(NULL != ptroutput->Pdxln() && NULL != ptroutput->GetOutputColumnsDXLArray());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
@@ -122,8 +122,8 @@ CTranslatorDXLToExprTest::Pexpr
 	CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
 												(
 												ptroutput->Pdxln(),
-												ptroutput->PdrgpdxlnOutputCols(),
-												ptroutput->PdrgpdxlnCTE()
+												ptroutput->GetOutputColumnsDXLArray(),
+												ptroutput->GetCTEProducerDXLArray()
 												);
 	
 	//clean up

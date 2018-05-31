@@ -389,7 +389,7 @@ CTreeMapTest::EresUnittest_Memo()
 		pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 		// Initialize engine
-		peng->Init(pqc, NULL /*pdrgpss*/);
+		peng->Init(pqc, NULL /*search_stage_array*/);
 
 		// optimize query
 		peng->Optimize();

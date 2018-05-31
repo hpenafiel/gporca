@@ -55,7 +55,7 @@ namespace gpopt
 			CQueryContext *m_pqc;
 
 			// search strategy
-			DrgPss *m_pdrgpss;
+			DrgPss *m_search_stage_array;
 
 			// index of current search stage
 			ULONG m_ulCurrSearchStage;
@@ -247,7 +247,7 @@ namespace gpopt
 			void Init
 				(
 				CQueryContext *pqc,
-				DrgPss *pdrgpss
+				DrgPss *search_stage_array
 				);
 
 			// accessor of memo's root group
@@ -366,7 +366,7 @@ namespace gpopt
 			// return current search stage
 			CSearchStage *PssCurrent() const
 			{
-				return (*m_pdrgpss)[m_ulCurrSearchStage];
+				return (*m_search_stage_array)[m_ulCurrSearchStage];
 			}
 
 			// current search stage index accessor
@@ -383,19 +383,19 @@ namespace gpopt
 					return NULL;
 				}
 
-				return (*m_pdrgpss)[m_ulCurrSearchStage - 1];
+				return (*m_search_stage_array)[m_ulCurrSearchStage - 1];
 			}
 
 			// number of search stages accessor
 			ULONG UlSearchStages() const
 			{
-				return m_pdrgpss->Size();
+				return m_search_stage_array->Size();
 			}
 
 			// set of xforms of current stage
 			CXformSet *PxfsCurrentStage() const
 			{
-				return (*m_pdrgpss)[m_ulCurrSearchStage]->Pxfs();
+				return (*m_search_stage_array)[m_ulCurrSearchStage]->Pxfs();
 			}
 
 			// return array of child optimization contexts corresponding to handle requirements

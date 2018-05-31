@@ -62,19 +62,19 @@ void
 IMDCacheObject::SerializeMDIdList
 	(
 	CXMLSerializer *xml_serializer,
-	const DrgPmdid *pdrgpmdid,
+	const DrgPmdid *mdid_array,
 	const CWStringConst *pstrTokenList,
 	const CWStringConst *pstrTokenListItem
 	)
 {
 	// serialize list of metadata ids
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenList);
-	const ULONG ulLen = pdrgpmdid->Size();
+	const ULONG ulLen = mdid_array->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenListItem);
 
-		IMDId *pmdid = (*pdrgpmdid)[ul];
+		IMDId *pmdid = (*mdid_array)[ul];
 		pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenListItem);
 

@@ -373,7 +373,7 @@ PvExec
 		CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(memory_pool, szFileName);
 		GPOS_CHECK_ABORT;
 
-		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
+		COptimizerConfig *optimizer_config = pdxlmd->GetOptimizerConfig();
 
 		if (NULL == optimizer_config)
 		{

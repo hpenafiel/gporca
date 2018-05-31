@@ -39,9 +39,9 @@ CSerializableQuery::CSerializableQuery
 	:
 	CSerializable(),
 	m_memory_pool(memory_pool),
-	m_pdxlnQuery(pdxlnQuery),
+	m_query_dxl_root(pdxlnQuery),
 	m_pdrgpdxlnQueryOutput(query_output_dxlnode_array),
-	m_pdrgpdxlnCTE(cte_dxlnode_array)
+	m_cte_producer_dxl_array(cte_dxlnode_array)
 {
 	GPOS_ASSERT(NULL != pdxlnQuery);
 	GPOS_ASSERT(NULL != query_output_dxlnode_array);
@@ -78,9 +78,9 @@ CSerializableQuery::Serialize
 			(
 			m_memory_pool,
 			oos,
-			m_pdxlnQuery,
+			m_query_dxl_root,
 			m_pdrgpdxlnQueryOutput,
-			m_pdrgpdxlnCTE,
+			m_cte_producer_dxl_array,
 			false /*fSerializeHeaders*/,
 			false /*indentation*/
 			);

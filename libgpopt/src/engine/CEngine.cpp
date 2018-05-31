@@ -77,7 +77,7 @@ CEngine::CEngine
 	:
 	m_memory_pool(memory_pool),
 	m_pqc(NULL),
-	m_pdrgpss(NULL),
+	m_search_stage_array(NULL),
 	m_ulCurrSearchStage(0),
 	m_pmemo(NULL),
 	m_pexprEnforcerPattern(NULL),
@@ -112,7 +112,7 @@ CEngine::~CEngine()
 	m_pdrgpulpXformCalls->Release();
 	m_pdrgpulpXformTimes->Release();
 	m_pexprEnforcerPattern->Release();
-	CRefCount::SafeRelease(m_pdrgpss);
+	CRefCount::SafeRelease(m_search_stage_array);
 #endif // GPOS_DEBUG
 }
 
@@ -151,7 +151,7 @@ void
 CEngine::Init
 	(
 	CQueryContext *pqc,
-	DrgPss *pdrgpss
+	DrgPss *search_stage_array
 	)
 {
 	GPOS_ASSERT(NULL == m_pqc);
@@ -163,17 +163,17 @@ CEngine::Init
 		"requiring columns from a zero column expression"
 		);
 
-	m_pdrgpss = pdrgpss;
-	if (NULL == pdrgpss)
+	m_search_stage_array = search_stage_array;
+	if (NULL == search_stage_array)
 	{
-		m_pdrgpss = CSearchStage::PdrgpssDefault(m_memory_pool);
+		m_search_stage_array = CSearchStage::PdrgpssDefault(m_memory_pool);
 	}
-	GPOS_ASSERT(0 < m_pdrgpss->Size());
+	GPOS_ASSERT(0 < m_search_stage_array->Size());
 
 	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics))
 	{
 		// initialize per-stage xform calls array
-		const ULONG ulStages = m_pdrgpss->Size();
+		const ULONG ulStages = m_search_stage_array->Size();
 		for (ULONG ul = 0; ul < ulStages; ul++)
 		{
 			ULONG_PTR *pulpXformCalls = GPOS_NEW_ARRAY(m_memory_pool, ULONG_PTR, CXform::ExfSentinel);
@@ -690,7 +690,7 @@ CEngine::FSafeToPrune
 MemoTreeMap *
 CEngine::Pmemotmap()
 {
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 
 	if (NULL == m_pmemo->Pmemotmap())
 	{
@@ -1024,7 +1024,7 @@ CEngine::PccOptimizeChild
 	}
 
 	// derive plan properties of child group optimal implementation
-	COptimizationContext *pocFound = pgroupChild->PocLookupBest(m_memory_pool, m_pdrgpss->Size(), exprhdl.Prpp(ulChildIndex));
+	COptimizationContext *pocFound = pgroupChild->PocLookupBest(m_memory_pool, m_search_stage_array->Size(), exprhdl.Prpp(ulChildIndex));
 	GPOS_ASSERT(NULL != pocFound);
 
 	CCostContext *pccChildBest = pocFound->PccBest();
@@ -1325,11 +1325,11 @@ CEngine::Implement()
 void
 CEngine::RecursiveOptimize()
 {
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 
 	CAutoTimer at("\n[OPT]: Total Optimization Time", GPOS_FTRACE(EopttracePrintOptimizationStatistics));
 
-	const ULONG ulSearchStages = m_pdrgpss->Size();
+	const ULONG ulSearchStages = m_search_stage_array->Size();
 	for (ULONG ul = 0; !FSearchTerminated() && ul < ulSearchStages; ul++)
 	{
 		PssCurrent()->RestartTimer();
@@ -1368,7 +1368,7 @@ CEngine::RecursiveOptimize()
 								m_memory_pool,
 								m_pmemo->PgroupRoot(),
 								m_pqc->Prpp(),
-								m_pdrgpss->Size()
+								m_search_stage_array->Size()
 								);
 		PssCurrent()->SetBestExpr(pexprPlan);
 
@@ -1377,7 +1377,7 @@ CEngine::RecursiveOptimize()
 
 	{
 		CAutoTrace atSearch(m_memory_pool);
-		atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_pdrgpss->Size();
+		atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_search_stage_array->Size();
 	}
 
 	if (optimizer_config->Pec()->FSample())
@@ -1415,7 +1415,7 @@ CEngine::PdrgpocChildren
 		if (!pgroupChild->FScalar())
 		{
 			COptimizationContext *poc =
-				pgroupChild->PocLookupBest(memory_pool, m_pdrgpss->Size(), exprhdl.Prpp(ul));
+				pgroupChild->PocLookupBest(memory_pool, m_search_stage_array->Size(), exprhdl.Prpp(ul));
 			GPOS_ASSERT(NULL != poc);
 
 			poc->AddRef();
@@ -1678,7 +1678,7 @@ CEngine::ProcessTraceFlags()
 void
 CEngine::Optimize()
 {
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 
 	CAutoTimer at("\n[OPT]: Total Optimization Time", GPOS_FTRACE(EopttracePrintOptimizationStatistics));
 
@@ -1695,7 +1695,7 @@ CEngine::Optimize()
 		if (GPOS_FTRACE(EopttracePrintOptimizationStatistics))
 		{
 			CAutoTrace atSearch(m_memory_pool);
-			atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_pdrgpss->Size();
+			atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_search_stage_array->Size();
 		}
 	}
 
@@ -1727,7 +1727,7 @@ CEngine::MainThreadOptimize()
 	CSchedulerContext sc;
 	sc.Init(m_memory_pool, &jf, &sched, this);
 
-	const ULONG ulSearchStages = m_pdrgpss->Size();
+	const ULONG ulSearchStages = m_search_stage_array->Size();
 	for (ULONG ul = 0; !FSearchTerminated() && ul < ulSearchStages; ul++)
 	{
 		PssCurrent()->RestartTimer();
@@ -1759,7 +1759,7 @@ CEngine::MainThreadOptimize()
 								m_memory_pool,
 								m_pmemo->PgroupRoot(),
 								m_pqc->Prpp(),
-								m_pdrgpss->Size()
+								m_search_stage_array->Size()
 								);
 		PssCurrent()->SetBestExpr(pexprPlan);
 
@@ -1792,7 +1792,7 @@ CEngine::MultiThreadedOptimize
 	CSchedulerContext sc;
 	sc.Init(m_memory_pool, &jf, &sched, this);
 
-	const ULONG ulSearchStages = m_pdrgpss->Size();
+	const ULONG ulSearchStages = m_search_stage_array->Size();
 	for (ULONG ul = 0; !FSearchTerminated() && ul < ulSearchStages; ul++)
 	{
 		PssCurrent()->RestartTimer();
@@ -1861,7 +1861,7 @@ CEngine::MultiThreadedOptimize
 								m_memory_pool,
 								m_pmemo->PgroupRoot(),
 								m_pqc->Prpp(),
-								m_pdrgpss->Size()
+								m_search_stage_array->Size()
 								);
 		PssCurrent()->SetBestExpr(pexprPlan);
 
@@ -1891,7 +1891,7 @@ CEngine::PexprUnrank
 
 #ifdef GPOS_DEBUG
 	// check plan using configured plan checker, if any
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 	CEnumeratorConfig *pec = optimizer_config->Pec();
 	BOOL fCheck = pec->FCheckPlan(pexpr);
 	if (!fCheck)
@@ -1921,7 +1921,7 @@ CEngine::PexprExtractPlan()
 	GPOS_ASSERT(NULL != m_pmemo->PgroupRoot());
 
 	BOOL fGenerateAlt = false;
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 	CEnumeratorConfig *pec = optimizer_config->Pec();
 	if (pec->FEnumerate())
 	{
@@ -1929,13 +1929,13 @@ CEngine::PexprExtractPlan()
 		ULLONG ullCount = Pmemotmap()->UllCount();
 		at.Os() << "[OPT]: Number of plan alternatives: " << ullCount << std::endl;
 
-		if (0 < pec->UllPlanId())
+		if (0 < pec->GetPlanId())
 		{
 
-			if (pec->UllPlanId() > ullCount)
+			if (pec->GetPlanId() > ullCount)
 			{
 				// an invalid plan number is chosen
-				GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiInvalidPlanAlternative, pec->UllPlanId(), ullCount);
+				GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiInvalidPlanAlternative, pec->GetPlanId(), ullCount);
 			}
 
 			// a valid plan number was chosen
@@ -1946,9 +1946,9 @@ CEngine::PexprExtractPlan()
 	CExpression *pexpr = NULL;
 	if (fGenerateAlt)
 	{
-		pexpr = PexprUnrank(pec->UllPlanId() - 1 /*rank of plan alternative is zero-based*/);
+		pexpr = PexprUnrank(pec->GetPlanId() - 1 /*rank of plan alternative is zero-based*/);
 		CAutoTrace at(m_memory_pool);
-		at.Os() << "[OPT]: Successfully generated plan: " << pec->UllPlanId() << std::endl;
+		at.Os() << "[OPT]: Successfully generated plan: " << pec->GetPlanId() << std::endl;
 	}
 	else
 	{
@@ -1957,7 +1957,7 @@ CEngine::PexprExtractPlan()
 						m_memory_pool,
 						m_pmemo->PgroupRoot(),
 						m_pqc->Prpp(),
-						m_pdrgpss->Size()
+						m_search_stage_array->Size()
 						);
 	}
 
@@ -2060,7 +2060,7 @@ CEngine::FValidPlanSample
 void
 CEngine::SamplePlans()
 {
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 	GPOS_ASSERT(NULL != optimizer_config);
 
 	CEnumeratorConfig *pec = optimizer_config->Pec();
@@ -2094,7 +2094,7 @@ CEngine::SamplePlans()
 				m_memory_pool,
 				m_pmemo->PgroupRoot(),
 				m_pqc->Prpp(),
-				m_pdrgpss->Size()
+				m_search_stage_array->Size()
 				);
 	CCost costBest = pexpr->Cost();
 	pec->SetBestCost(costBest);
@@ -2534,7 +2534,7 @@ CEngine::PrintOptCtxts()
 {
 	CAutoTrace at(m_memory_pool);
 	COptimizationContext *poc =
-		m_pmemo->PgroupRoot()->PocLookupBest(m_memory_pool, m_pdrgpss->Size(), m_pqc->Prpp());
+		m_pmemo->PgroupRoot()->PocLookupBest(m_memory_pool, m_search_stage_array->Size(), m_pqc->Prpp());
 	GPOS_ASSERT(NULL != poc);
 
 	at.Os() << std::endl << "Main Opt Ctxt:" << std::endl;

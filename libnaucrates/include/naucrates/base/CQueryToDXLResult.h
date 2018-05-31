@@ -40,7 +40,7 @@ namespace gpdxl
 			DrgPdxln *m_pdrgpdxlnQueryOutput;
 			
 			// CTE list
-			DrgPdxln *m_pdrgpdxlnCTE;
+			DrgPdxln *m_cte_producer_dxl_array;
 
 		public:
 			// ctor
@@ -53,10 +53,10 @@ namespace gpdxl
 			const CDXLNode *Pdxln() const;
 
 			// return the array of output columns
-			const DrgPdxln *PdrgpdxlnOutputCols() const;
+			const DrgPdxln *GetOutputColumnsDXLArray() const;
 			
 			// return the array of CTEs
-			const DrgPdxln *PdrgpdxlnCTE() const;
+			const DrgPdxln *GetCTEProducerDXLArray() const;
 	};
 }
 

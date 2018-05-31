@@ -40,9 +40,9 @@ CParseHandlerMetadata::CParseHandlerMetadata
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpmdobj(NULL),
-	m_pdrgpmdid(NULL),
-	m_pdrgpsysid(NULL)
+	m_mdid_cached_obj_array(NULL),
+	m_mdid_array(NULL),
+	m_system_id_array(NULL)
 {
 }
 
@@ -57,9 +57,9 @@ CParseHandlerMetadata::CParseHandlerMetadata
 //---------------------------------------------------------------------------
 CParseHandlerMetadata::~CParseHandlerMetadata()
 {
-	CRefCount::SafeRelease(m_pdrgpmdobj);
-	CRefCount::SafeRelease(m_pdrgpmdid);
-	CRefCount::SafeRelease(m_pdrgpsysid);
+	CRefCount::SafeRelease(m_mdid_cached_obj_array);
+	CRefCount::SafeRelease(m_mdid_array);
+	CRefCount::SafeRelease(m_system_id_array);
 }
 
 //---------------------------------------------------------------------------
@@ -79,44 +79,44 @@ CParseHandlerMetadata::GetParseHandlerType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadata::Pdrgpmdobj
+//		CParseHandlerMetadata::GetMdIdCachedObjArray
 //
 //	@doc:
 //		Returns the list of metadata objects constructed by the parser
 //
 //---------------------------------------------------------------------------
 DrgPimdobj *
-CParseHandlerMetadata::Pdrgpmdobj()
+CParseHandlerMetadata::GetMdIdCachedObjArray()
 {
-	return m_pdrgpmdobj;
+	return m_mdid_cached_obj_array;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadata::Pdrgpmdid
+//		CParseHandlerMetadata::GetMdIdArray
 //
 //	@doc:
 //		Returns the list of metadata ids constructed by the parser
 //
 //---------------------------------------------------------------------------
 DrgPmdid *
-CParseHandlerMetadata::Pdrgpmdid()
+CParseHandlerMetadata::GetMdIdArray()
 {
-	return m_pdrgpmdid;
+	return m_mdid_array;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadata::Pdrgpsysid
+//		CParseHandlerMetadata::GetSystemIdArray
 //
 //	@doc:
 //		Returns the list of metadata source system ids constructed by the parser
 //
 //---------------------------------------------------------------------------
 DrgPsysid *
-CParseHandlerMetadata::Pdrgpsysid()
+CParseHandlerMetadata::GetSystemIdArray()
 {
-	return m_pdrgpsysid;
+	return m_system_id_array;
 }
 
 //---------------------------------------------------------------------------
@@ -139,12 +139,12 @@ CParseHandlerMetadata::StartElement
 	if(0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenMetadata)))
 	{
 		// start of the metadata section in the DXL document
-		GPOS_ASSERT(NULL == m_pdrgpmdobj);
+		GPOS_ASSERT(NULL == m_mdid_cached_obj_array);
 		
-		m_pdrgpmdobj = GPOS_NEW(m_memory_pool) DrgPimdobj(m_memory_pool);
-		m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
+		m_mdid_cached_obj_array = GPOS_NEW(m_memory_pool) DrgPimdobj(m_memory_pool);
+		m_mdid_array = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 		
-		m_pdrgpsysid = PdrgpsysidParse
+		m_system_id_array = PdrgpsysidParse
 						(
 						attrs, 
 						EdxltokenSysids,
@@ -154,14 +154,14 @@ CParseHandlerMetadata::StartElement
 	else if (0 == XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenMdid)))
 	{
 		// start of the metadata section in the DXL document
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenValue, EdxltokenMdid);
-		m_pdrgpmdid->Append(pmdid);
+		m_mdid_array->Append(pmdid);
 	}
 	else
 	{
 		// must be a metadata object
-		GPOS_ASSERT(NULL != m_pdrgpmdobj);
+		GPOS_ASSERT(NULL != m_mdid_cached_obj_array);
 		
 		// install a parse handler for the given element
 		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
@@ -198,7 +198,7 @@ CParseHandlerMetadata::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	GPOS_ASSERT(NULL != m_pdrgpmdobj);
+	GPOS_ASSERT(NULL != m_mdid_cached_obj_array);
 	
 	const ULONG ulLen = this->Length();
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -209,7 +209,7 @@ CParseHandlerMetadata::EndElement
 
 		IMDCacheObject *pimdobj = pphMdObj->Pimdobj();
 		pimdobj->AddRef();
-		m_pdrgpmdobj->Append(pimdobj);
+		m_mdid_cached_obj_array->Append(pimdobj);
 	}
 
 	m_parse_handler_mgr->DeactivateHandler();

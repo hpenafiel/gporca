@@ -3376,7 +3376,7 @@ CDXLOperatorFactory::PdrgpmdidFromXMLCh
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = pmm->Pmp();
 
-	DrgPmdid *pdrgpmdid = GPOS_NEW(memory_pool) DrgPmdid(memory_pool);
+	DrgPmdid *mdid_array = GPOS_NEW(memory_pool) DrgPmdid(memory_pool);
 
 	XMLStringTokenizer xmlsztok(xmlszUlList, CDXLTokens::XmlstrToken(EdxltokenComma));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
@@ -3387,10 +3387,10 @@ CDXLOperatorFactory::PdrgpmdidFromXMLCh
 		GPOS_ASSERT(NULL != xmlszMdid);
 
 		IMDId *pmdid = PmdidFromXMLCh(pmm, xmlszMdid, edxltokenAttr, edxltokenElement);
-		pdrgpmdid->Append(pmdid);
+		mdid_array->Append(pmdid);
 	}
 
-	return pdrgpmdid;
+	return mdid_array;
 }
 
 // Parse a comma-separated list of CHAR partition types into a dynamic array.

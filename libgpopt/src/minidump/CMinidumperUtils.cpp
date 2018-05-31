@@ -76,15 +76,15 @@ CMinidumperUtils::PdxlmdLoad
 	CParseHandlerDXL *parse_handler_dxl = CDXLUtils::GetParseHandlerForDXLFile(memory_pool, szFileName, NULL /*xsd_file_path*/);
 
 	CBitSet *pbs = parse_handler_dxl->Pbs();
-	COptimizerConfig *optimizer_config = parse_handler_dxl->Poconf();
-	CDXLNode *pdxlnQuery = parse_handler_dxl->PdxlnQuery();
-	DrgPdxln *query_output_dxlnode_array = parse_handler_dxl->PdrgpdxlnOutputCols();
-	DrgPdxln *cte_dxlnode_array = parse_handler_dxl->PdrgpdxlnCTE();
-	DrgPimdobj *pdrgpmdobj = parse_handler_dxl->Pdrgpmdobj();
-	DrgPsysid *pdrgpsysid = parse_handler_dxl->Pdrgpsysid();
+	COptimizerConfig *optimizer_config = parse_handler_dxl->GetOptimizerConfig();
+	CDXLNode *pdxlnQuery = parse_handler_dxl->GetQueryDXLRoot();
+	DrgPdxln *query_output_dxlnode_array = parse_handler_dxl->GetOutputColumnsDXLArray();
+	DrgPdxln *cte_dxlnode_array = parse_handler_dxl->GetCTEProducerDXLArray();
+	DrgPimdobj *pdrgpmdobj = parse_handler_dxl->GetMdIdCachedObjArray();
+	DrgPsysid *pdrgpsysid = parse_handler_dxl->GetSystemIdArray();
 	CDXLNode *pdxlnPlan = parse_handler_dxl->PdxlnPlan();
-	ULLONG plan_id = parse_handler_dxl->UllPlanId();
-	ULLONG plan_space_size = parse_handler_dxl->UllPlanSpaceSize();
+	ULLONG plan_id = parse_handler_dxl->GetPlanId();
+	ULLONG plan_space_size = parse_handler_dxl->GetPlanSpaceSize();
 
 	if (NULL != pbs)
 	{
@@ -354,11 +354,11 @@ CMinidumperUtils::PdxlnExecuteMinidump
 	)
 {
 	GPOS_ASSERT(NULL != pmda);
-	GPOS_ASSERT(NULL != pdxlmd->PdxlnQuery() &&
+	GPOS_ASSERT(NULL != pdxlmd->GetQueryDXLRoot() &&
 				NULL != pdxlmd->PdrgpdxlnQueryOutput() &&
-				NULL != pdxlmd->PdrgpdxlnCTE() &&
+				NULL != pdxlmd->GetCTEProducerDXLArray() &&
 				"No query found in Minidump");
-	GPOS_ASSERT(NULL != pdxlmd->Pdrgpmdobj() && NULL != pdxlmd->Pdrgpsysid() && "No metadata found in Minidump");
+	GPOS_ASSERT(NULL != pdxlmd->GetMdIdCachedObjArray() && NULL != pdxlmd->GetSystemIdArray() && "No metadata found in Minidump");
 	GPOS_ASSERT(NULL != optimizer_config);
 
 	CDXLNode *pdxlnPlan = NULL;
@@ -385,14 +385,14 @@ CMinidumperUtils::PdxlnExecuteMinidump
 								(
 								memory_pool,
 								pmda,
-								pdxlmd->PdxlnQuery(),
+								pdxlmd->GetQueryDXLRoot(),
 								pdxlmd->PdrgpdxlnQueryOutput(),
-								pdxlmd->PdrgpdxlnCTE(),
+								pdxlmd->GetCTEProducerDXLArray(),
 								pceeval,
 								ulSegments,
 								ulSessionId,
 								ulCmdId,
-								NULL, // pdrgpss
+								NULL, // search_stage_array
 								optimizer_config,
 								szFileName
 								);

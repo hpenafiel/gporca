@@ -128,11 +128,11 @@ CSearchStage::PdrgpssDefault
 {
 	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	pxfs->Union(CXformFactory::Pxff()->PxfsExploration());
-	DrgPss *pdrgpss = GPOS_NEW(memory_pool) DrgPss(memory_pool);
+	DrgPss *search_stage_array = GPOS_NEW(memory_pool) DrgPss(memory_pool);
 
-	pdrgpss->Append(GPOS_NEW(memory_pool) CSearchStage(pxfs));
+	search_stage_array->Append(GPOS_NEW(memory_pool) CSearchStage(pxfs));
 
-	return pdrgpss;
+	return search_stage_array;
 }
 
 // EOF

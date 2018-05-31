@@ -513,7 +513,7 @@ CPhysicalDML::PosComputeRequired
 	}
 	else if (m_ptabdesc->FPartitioned())
 	{
-		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 
 		BOOL fInsertSortOnParquet = FInsertSortOnParquet();
 		BOOL fInsertSortOnRows = FInsertSortOnRows(optimizer_config);

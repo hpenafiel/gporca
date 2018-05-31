@@ -58,14 +58,14 @@ CParseHandlerQueryOutput::~CParseHandlerQueryOutput()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerQueryOutput::PdrgpdxlnOutputCols
+//		CParseHandlerQueryOutput::GetOutputColumnsDXLArray
 //
 //	@doc:
 //		Return the list of query output columns
 //
 //---------------------------------------------------------------------------
 DrgPdxln *
-CParseHandlerQueryOutput::PdrgpdxlnOutputCols()
+CParseHandlerQueryOutput::GetOutputColumnsDXLArray()
 {
 	GPOS_ASSERT(NULL != m_pdrgpdxln);
 	return m_pdrgpdxln;

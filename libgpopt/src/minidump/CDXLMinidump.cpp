@@ -44,13 +44,13 @@ CDXLMinidump::CDXLMinidump
 	)
 	:
 	m_pbs(pbs),
-	m_poconf(optimizer_config),
-	m_pdxlnQuery(pdxlnQuery),
+	m_optimizer_config(optimizer_config),
+	m_query_dxl_root(pdxlnQuery),
 	m_pdrgpdxlnQueryOutput(query_output_dxlnode_array),
-	m_pdrgpdxlnCTE(cte_dxlnode_array),
-	m_pdxlnPlan(pdxlnPlan),
-	m_pdrgpmdobj(pdrgpmdobj),
-	m_pdrgpsysid(pdrgpsysid),
+	m_cte_producer_dxl_array(cte_dxlnode_array),
+	m_plan_dxl_root(pdxlnPlan),
+	m_mdid_cached_obj_array(pdrgpmdobj),
+	m_system_id_array(pdrgpsysid),
 	m_plan_id(plan_id),
 	m_plan_space_size(plan_space_size)
 {}
@@ -68,13 +68,13 @@ CDXLMinidump::~CDXLMinidump()
 {
 	// some of the structures may be NULL as they are not included in the minidump
 	CRefCount::SafeRelease(m_pbs);
-	CRefCount::SafeRelease(m_poconf);
-	CRefCount::SafeRelease(m_pdxlnQuery);
+	CRefCount::SafeRelease(m_optimizer_config);
+	CRefCount::SafeRelease(m_query_dxl_root);
 	CRefCount::SafeRelease(m_pdrgpdxlnQueryOutput);
-	CRefCount::SafeRelease(m_pdrgpdxlnCTE);
-	CRefCount::SafeRelease(m_pdxlnPlan);
-	CRefCount::SafeRelease(m_pdrgpmdobj);
-	CRefCount::SafeRelease(m_pdrgpsysid);
+	CRefCount::SafeRelease(m_cte_producer_dxl_array);
+	CRefCount::SafeRelease(m_plan_dxl_root);
+	CRefCount::SafeRelease(m_mdid_cached_obj_array);
+	CRefCount::SafeRelease(m_system_id_array);
 }
 
 //---------------------------------------------------------------------------
@@ -93,16 +93,16 @@ CDXLMinidump::Pbs() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLMinidump::PdxlnQuery
+//		CDXLMinidump::GetQueryDXLRoot
 //
 //	@doc:
 //		Query object
 //
 //---------------------------------------------------------------------------
 const CDXLNode *
-CDXLMinidump::PdxlnQuery() const
+CDXLMinidump::GetQueryDXLRoot() const
 {
-	return m_pdxlnQuery;
+	return m_query_dxl_root;
 }
 
 //---------------------------------------------------------------------------
@@ -121,16 +121,16 @@ CDXLMinidump::PdrgpdxlnQueryOutput() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLMinidump::PdrgpdxlnCTE
+//		CDXLMinidump::GetCTEProducerDXLArray
 //
 //	@doc:
 //		CTE list
 //
 //---------------------------------------------------------------------------
 const DrgPdxln *
-CDXLMinidump::PdrgpdxlnCTE() const
+CDXLMinidump::GetCTEProducerDXLArray() const
 {
-	return m_pdrgpdxlnCTE;
+	return m_cte_producer_dxl_array;
 }
 
 //---------------------------------------------------------------------------
@@ -144,48 +144,48 @@ CDXLMinidump::PdrgpdxlnCTE() const
 const CDXLNode *
 CDXLMinidump::PdxlnPlan() const
 {
-	return m_pdxlnPlan;
+	return m_plan_dxl_root;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLMinidump::Pdrgpmdobj
+//		CDXLMinidump::GetMdIdCachedObjArray
 //
 //	@doc:
 //		Metadata objects
 //
 //---------------------------------------------------------------------------
 const DrgPimdobj *
-CDXLMinidump::Pdrgpmdobj() const
+CDXLMinidump::GetMdIdCachedObjArray() const
 {
-	return m_pdrgpmdobj;
+	return m_mdid_cached_obj_array;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLMinidump::Pdrgpsysid
+//		CDXLMinidump::GetSystemIdArray
 //
 //	@doc:
 //		Metadata source system ids
 //
 //---------------------------------------------------------------------------
 const DrgPsysid *
-CDXLMinidump::Pdrgpsysid() const
+CDXLMinidump::GetSystemIdArray() const
 {
-	return m_pdrgpsysid;
+	return m_system_id_array;
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLMinidump::UllPlanId
+//		CDXLMinidump::GetPlanId
 //
 //	@doc:
 //		Returns plan id
 //
 //---------------------------------------------------------------------------
 ULLONG
-CDXLMinidump::UllPlanId() const
+CDXLMinidump::GetPlanId() const
 {
 	return m_plan_id;
 }
@@ -193,14 +193,14 @@ CDXLMinidump::UllPlanId() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLMinidump::UllPlanId
+//		CDXLMinidump::GetPlanId
 //
 //	@doc:
 //		Returns plan space size
 //
 //---------------------------------------------------------------------------
 ULLONG
-CDXLMinidump::UllPlanSpaceSize() const
+CDXLMinidump::GetPlanSpaceSize() const
 {
 	return m_plan_space_size;
 }

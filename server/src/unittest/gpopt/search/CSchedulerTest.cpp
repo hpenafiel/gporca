@@ -474,7 +474,7 @@ CSchedulerTest::BuildMemoMultiThreaded
 	(
 	IMemoryPool *memory_pool,
 	CExpression *pexprInput,
-	 DrgPss *pdrgpss
+	 DrgPss *search_stage_array
 	)
 {
 	CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexprInput);
@@ -490,7 +490,7 @@ CSchedulerTest::BuildMemoMultiThreaded
 	(void) pexprInput->OsPrint(oss);
 
 	CEngine eng(memory_pool);
-	eng.Init(pqc, pdrgpss);
+	eng.Init(pqc, search_stage_array);
 	eng.Optimize();
 
 	CExpression *pexprPlan = eng.PexprExtractPlan();

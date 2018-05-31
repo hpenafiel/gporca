@@ -56,7 +56,7 @@ CParseHandlerOptimizerConfig::CParseHandlerOptimizerConfig
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_pbs(NULL),
-	m_poconf(NULL)
+	m_optimizer_config(NULL)
 {
 }
 
@@ -71,7 +71,7 @@ CParseHandlerOptimizerConfig::CParseHandlerOptimizerConfig
 CParseHandlerOptimizerConfig::~CParseHandlerOptimizerConfig()
 {
 	CRefCount::SafeRelease(m_pbs);
-	CRefCount::SafeRelease(m_poconf);
+	CRefCount::SafeRelease(m_optimizer_config);
 }
 
 //---------------------------------------------------------------------------
@@ -171,7 +171,7 @@ CParseHandlerOptimizerConfig::EndElement
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	GPOS_ASSERT(NULL == m_poconf);
+	GPOS_ASSERT(NULL == m_optimizer_config);
 	GPOS_ASSERT(7 >= this->Length());
 
 	CParseHandlerEnumeratorConfig *pphEnumeratorConfig = dynamic_cast<CParseHandlerEnumeratorConfig *>((*this)[0]);
@@ -219,7 +219,7 @@ CParseHandlerOptimizerConfig::EndElement
 		}
 	}
 
-	m_poconf = GPOS_NEW(m_memory_pool) COptimizerConfig(pec, pstatsconf, pcteconfig, pcm, phint, pwindowoidsGPDB);
+	m_optimizer_config = GPOS_NEW(m_memory_pool) COptimizerConfig(pec, pstatsconf, pcteconfig, pcm, phint, pwindowoidsGPDB);
 
 	CParseHandlerTraceFlags *pphTraceFlags = dynamic_cast<CParseHandlerTraceFlags *>((*this)[this->Length() - 1]);
 	pphTraceFlags->Pbs()->AddRef();
@@ -266,9 +266,9 @@ CParseHandlerOptimizerConfig::Pbs() const
 //
 //---------------------------------------------------------------------------
 COptimizerConfig *
-CParseHandlerOptimizerConfig::Poconf() const
+CParseHandlerOptimizerConfig::GetOptimizerConfig() const
 {
-	return m_poconf;
+	return m_optimizer_config;
 }
 
 // EOF

@@ -41,7 +41,7 @@ namespace gpopt
 			IMemoryPool *m_memory_pool;
 
 			// optimizer configurations
-			const COptimizerConfig *m_poconf;
+			const COptimizerConfig *m_optimizer_config;
 
 			// private copy ctor
 			CSerializableOptimizerConfig(const CSerializableOptimizerConfig&);

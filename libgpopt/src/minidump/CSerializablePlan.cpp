@@ -39,7 +39,7 @@ CSerializablePlan::CSerializablePlan
 	:
 	CSerializable(),
 	m_memory_pool(memory_pool),
-	m_pdxlnPlan(pdxlnPlan),
+	m_plan_dxl_root(pdxlnPlan),
 	m_pstrPlan(NULL),
 	m_plan_id(plan_id),
 	m_plan_space_size(plan_space_size)
@@ -79,7 +79,7 @@ CSerializablePlan::Serialize
 				(
 				m_memory_pool,
 				oos,
-				m_pdxlnPlan,
+				m_plan_dxl_root,
 				m_plan_id,
 				m_plan_space_size,
 				false /*fSerializeHeaders*/,

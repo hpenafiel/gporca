@@ -86,7 +86,7 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 		CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 		// Initialize engine
-		eng.Init(pqc, NULL /*pdrgpss*/);
+		eng.Init(pqc, NULL /*search_stage_array*/);
 
 		CGroup *pgroup = eng.PgroupRoot();
 		pqc->Prpp()->AddRef();

@@ -183,7 +183,7 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 		{
 			ICostModel *pcm = CTestUtils::GetCostModel(memory_pool);
 
-			COptimizerConfig *optimizer_config = pdxlmd->Poconf();
+			COptimizerConfig *optimizer_config = pdxlmd->GetOptimizerConfig();
 			CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 									(
 									memory_pool, 

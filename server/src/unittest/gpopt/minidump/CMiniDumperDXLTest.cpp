@@ -97,7 +97,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 				CDXLUtils::ParseQueryToQueryDXLTree(memory_pool, szQueryDXL, NULL);
 		GPOS_CHECK_ABORT;
 
-		CSerializableQuery serQuery(memory_pool, ptroutput->Pdxln(), ptroutput->PdrgpdxlnOutputCols(), ptroutput->PdrgpdxlnCTE());
+		CSerializableQuery serQuery(memory_pool, ptroutput->Pdxln(), ptroutput->GetOutputColumnsDXLArray(), ptroutput->GetCTEProducerDXLArray());
 		
 		// setup a file-based provider
 		CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
@@ -148,8 +148,8 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
 													(
 													ptroutput->Pdxln(),
-													ptroutput->PdrgpdxlnOutputCols(),
-													ptroutput->PdrgpdxlnCTE()
+													ptroutput->GetOutputColumnsDXLArray(),
+													ptroutput->GetCTEProducerDXLArray()
 													);
 		
 		gpdxl::ULongPtrArray *pdrgul = pdxltr->PdrgpulOutputColRefs();
@@ -164,7 +164,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 
 		CSerializableOptimizerConfig serOptConfig(memory_pool, optimizer_config);
 		
-		eng.Init(pqc, NULL /*pdrgpss*/);
+		eng.Init(pqc, NULL /*search_stage_array*/);
 		eng.Optimize();
 		
 		CExpression *pexprPlan = eng.PexprExtractPlan();
@@ -185,7 +185,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CDXLNode *pdxlnPlan = ptrexprtodxl.PdxlnTranslate(pexprPlan, pqc->PdrgPcr(), pqc->Pdrgpmdname());
 		GPOS_ASSERT(NULL != pdxlnPlan);
 		
-		CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize());
+		CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->Pec()->GetPlanId(), optimizer_config->Pec()->GetPlanSpaceSize());
 		GPOS_CHECK_ABORT;
 
 		// simulate an exception 

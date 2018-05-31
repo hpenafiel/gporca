@@ -632,7 +632,7 @@ void CExpressionTest::SetupPlanForFValidPlanTest
 	CEngine eng(memory_pool);
 	CAutoP<CQueryContext> pqc;
 	pqc = CTestUtils::PqcGenerate(memory_pool, *ppexprGby);
-	eng.Init(pqc.Value(), NULL /*pdrgpss*/);
+	eng.Init(pqc.Value(), NULL /*search_stage_array*/);
 	eng.Optimize();
 	*ppexprPlan = eng.PexprExtractPlan();
 }
@@ -708,7 +708,7 @@ CExpressionTest::EresUnittest_FValidPlan()
 		CEngine eng(memory_pool);
 		CAutoP<CQueryContext> pqc;
 		pqc = CTestUtils::PqcGenerate(memory_pool, pexprGby);
-		eng.Init(pqc.Value(), NULL /*pdrgpss*/);
+		eng.Init(pqc.Value(), NULL /*search_stage_array*/);
 		eng.Optimize();
 		CExpression *pexprPlan = eng.PexprExtractPlan();
 
@@ -1186,7 +1186,7 @@ CExpressionTest::EresComputeReqdCols
 		// optimize query
 		CEngine eng(memory_pool);
 		CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
-		eng.Init(pqc, NULL /*pdrgpss*/);
+		eng.Init(pqc, NULL /*search_stage_array*/);
 		eng.Optimize();
 
 		// extract plan and decorate it with required columns

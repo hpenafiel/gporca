@@ -4973,7 +4973,7 @@ CUtils::FGeneratePartOid
 	const IMDRelation *pmdrel = pmda->Pmdrel(pmdid);
 	BOOL fInsertSortOnParquet = (!GPOS_FTRACE(EopttraceDisableSortForDMLOnParquet) && pmdrel->Erelstorage() == IMDRelation::ErelstorageAppendOnlyParquet);
 
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 	BOOL fInsertSortOnRows = (pmdrel->Erelstorage() == IMDRelation::ErelstorageAppendOnlyRows) && (optimizer_config->Phint()->UlMinNumOfPartsToRequireSortOnInsert() <= pmdrel->UlPartitions());
 
 	return fInsertSortOnParquet || fInsertSortOnRows;

@@ -104,7 +104,7 @@ CEngineTest::EresUnittest_Basic()
 	CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 	// Initialize engine
-	eng.Init(pqc, NULL /*pdrgpss*/);
+	eng.Init(pqc, NULL /*search_stage_array*/);
 
 	// optimize query
 	eng.Optimize();
@@ -177,10 +177,10 @@ CEngineTest::EresOptimize
 		{
 			if (pbs->Get(ul))
 			{
-				pfopt(memory_pool, (*pdrgpexprCrossProducts)[ul], NULL /*pdrgpss*/);
+				pfopt(memory_pool, (*pdrgpexprCrossProducts)[ul], NULL /*search_stage_array*/);
 				GPOS_CHECK_ABORT;
 
-				pfopt(memory_pool, (*pdrgpexpr)[ul], NULL /*pdrgpss*/);
+				pfopt(memory_pool, (*pdrgpexpr)[ul], NULL /*search_stage_array*/);
 				GPOS_CHECK_ABORT;
 
 				m_ulTestCounter++;
@@ -289,7 +289,7 @@ CEngineTest::EresUnittest_AppendStats()
 	CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 	// Initialize engine
-	eng.Init(pqc, NULL /*pdrgpss*/);
+	eng.Init(pqc, NULL /*search_stage_array*/);
 
 	CGroupExpression *pgexpr = NULL;
 	{
@@ -403,7 +403,7 @@ CEngineTest::BuildMemoRecursive
 	(
 	IMemoryPool *memory_pool,
 	CExpression *pexprInput,
-	DrgPss *pdrgpss
+	DrgPss *search_stage_array
 	)
 {
 	CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexprInput);
@@ -419,7 +419,7 @@ CEngineTest::BuildMemoRecursive
 	CAutoTraceFlag atf(EopttraceEnableSpacePruning, true /*value*/);
 
 	CEngine eng(memory_pool);
-	eng.Init(pqc, pdrgpss);
+	eng.Init(pqc, search_stage_array);
 	eng.PrintRoot();
 	GPOS_CHECK_ABORT;
 
@@ -480,7 +480,7 @@ CEngineTest::EresTestEngine
 					);
 
 		CExpression *pexpr = rgpf[ul](memory_pool);
-		BuildMemoRecursive(memory_pool, pexpr, NULL /*pdrgpss*/);
+		BuildMemoRecursive(memory_pool, pexpr, NULL /*search_stage_array*/);
 		pexpr->Release();
 
 		m_ulTestCounter++;
@@ -569,7 +569,7 @@ CEngineTest::EresUnittest_BuildMemoWithSubqueries()
 
 				ULONG ulIndex = ul / 2;
 				CExpression *pexpr = rgpf[ulIndex](memory_pool, fCorrelated);
-				BuildMemoRecursive(memory_pool, pexpr, NULL /*pdrgpss*/);
+				BuildMemoRecursive(memory_pool, pexpr, NULL /*search_stage_array*/);
 				pexpr->Release();
 			}
 
@@ -721,7 +721,7 @@ CEngineTest::EresUnittest_BuildMemoWithCTE()
 									pexprScalar
 									);
 
-	BuildMemoRecursive(memory_pool, pexpr, NULL /*pdrgpss*/);
+	BuildMemoRecursive(memory_pool, pexpr, NULL /*search_stage_array*/);
 	pexpr->Release();
 
 	return GPOS_OK;

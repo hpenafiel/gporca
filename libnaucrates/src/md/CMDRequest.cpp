@@ -30,16 +30,16 @@ using namespace gpmd;
 CMDRequest::CMDRequest
 	(
 	IMemoryPool *memory_pool,
-	DrgPmdid *pdrgpmdid,
+	DrgPmdid *mdid_array,
 	DrgPtr *pdrgptr
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pdrgpmdid(pdrgpmdid),
+	m_mdid_array(mdid_array),
 	m_pdrgptr(pdrgptr)
 {
 	GPOS_ASSERT(NULL != memory_pool);
-	GPOS_ASSERT(NULL != pdrgpmdid);
+	GPOS_ASSERT(NULL != mdid_array);
 	GPOS_ASSERT(NULL != pdrgptr);
 }
 
@@ -58,13 +58,13 @@ CMDRequest::CMDRequest
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pdrgpmdid(NULL),
+	m_mdid_array(NULL),
 	m_pdrgptr(NULL)
 {
 	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pmdtr);
 	
-	m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
+	m_mdid_array = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 	m_pdrgptr = GPOS_NEW(m_memory_pool) DrgPtr(m_memory_pool);
 	
 	m_pdrgptr->Append(pmdtr);	
@@ -80,7 +80,7 @@ CMDRequest::CMDRequest
 //---------------------------------------------------------------------------
 CMDRequest::~CMDRequest()
 {
-	m_pdrgpmdid->Release();
+	m_mdid_array->Release();
 	m_pdrgptr->Release();
 }
 
@@ -119,10 +119,10 @@ CMDRequest::Serialize
 {
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMDRequest));
 
-	const ULONG ulMdids = m_pdrgpmdid->Size();
+	const ULONG ulMdids = m_mdid_array->Size();
 	for (ULONG ul = 0; ul < ulMdids; ul++)
 	{
-		IMDId *pmdid = (*m_pdrgpmdid)[ul];
+		IMDId *pmdid = (*m_mdid_array)[ul];
 		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 										CDXLTokens::PstrToken(EdxltokenMdid));				
 		pmdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenValue));

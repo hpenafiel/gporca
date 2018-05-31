@@ -537,8 +537,8 @@ CParseHandlerTest::EresParseAndSerializeQuery
 	oss << "Serializing parsed tree" << std::endl;
 
 	CDXLNode *root_dxl_node = const_cast<CDXLNode *>(pq2dxlresult->Pdxln());
-	DrgPdxln* pdrgpdxln = const_cast<DrgPdxln* >(pq2dxlresult->PdrgpdxlnOutputCols());
-	DrgPdxln* cte_dxlnode_array = const_cast<DrgPdxln* >(pq2dxlresult->PdrgpdxlnCTE());
+	DrgPdxln* pdrgpdxln = const_cast<DrgPdxln* >(pq2dxlresult->GetOutputColumnsDXLArray());
+	DrgPdxln* cte_dxlnode_array = const_cast<DrgPdxln* >(pq2dxlresult->GetCTEProducerDXLArray());
 
 	CWStringDynamic wstrQuery(memory_pool);
 	COstreamString osQuery(&wstrQuery);

@@ -139,13 +139,13 @@ CParseHandlerMDRelationExternal::EndElement
 
 	GPOS_ASSERT(NULL != pphMdCol->Pdrgpmdcol());
 	GPOS_ASSERT(NULL != pphMdlIndexInfo->PdrgpmdIndexInfo());
-	GPOS_ASSERT(NULL != pphMdidlCheckConstraints->Pdrgpmdid());
+	GPOS_ASSERT(NULL != pphMdidlCheckConstraints->GetMdIdArray());
 
 	// refcount child objects
 	DrgPmdcol *pdrgpmdcol = pphMdCol->Pdrgpmdcol();
 	DrgPmdIndexInfo *pdrgpmdIndexInfo = pphMdlIndexInfo->PdrgpmdIndexInfo();
-	DrgPmdid *pdrgpmdidTriggers = pphMdidlTriggers->Pdrgpmdid();
-	DrgPmdid *pdrgpmdidCheckConstraint = pphMdidlCheckConstraints->Pdrgpmdid();
+	DrgPmdid *pdrgpmdidTriggers = pphMdidlTriggers->GetMdIdArray();
+	DrgPmdid *pdrgpmdidCheckConstraint = pphMdidlCheckConstraints->GetMdIdArray();
 
 	pdrgpmdcol->AddRef();
 	pdrgpmdIndexInfo->AddRef();

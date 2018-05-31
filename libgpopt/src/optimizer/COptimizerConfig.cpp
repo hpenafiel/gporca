@@ -142,9 +142,9 @@ COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serial
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenOptimizerConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenEnumeratorConfig));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanId), m_pec->UllPlanId());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanSamples), m_pec->UllPlanId());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCostThreshold), m_pec->UllPlanId());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanId), m_pec->GetPlanId());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanSamples), m_pec->GetPlanId());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCostThreshold), m_pec->GetPlanId());
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenEnumeratorConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenStatisticsConfig));

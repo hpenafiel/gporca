@@ -360,7 +360,7 @@ CCostTest::EresUnittest_SetParams()
 		CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 		// Initialize engine
-		eng.Init(pqc, NULL /*pdrgpss*/);
+		eng.Init(pqc, NULL /*search_stage_array*/);
 
 		// optimize query
 		eng.Optimize();
@@ -387,7 +387,7 @@ CCostTest::EresUnittest_SetParams()
 		CQueryContext *pqc = CTestUtils::PqcGenerate(memory_pool, pexpr);
 
 		// Initialize engine
-		eng.Init(pqc, NULL /*pdrgpss*/);
+		eng.Init(pqc, NULL /*search_stage_array*/);
 
 		// optimize query
 		eng.Optimize();

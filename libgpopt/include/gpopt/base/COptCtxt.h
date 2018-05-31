@@ -82,7 +82,7 @@ namespace gpopt
 			DrgPcr *m_pdrgpcrSystemCols;
 
 			// optimizer configurations
-			COptimizerConfig *m_poconf;
+			COptimizerConfig *m_optimizer_config;
 
 			// whether or not we are optimizing a DML query
 			BOOL m_fDMLQuery;
@@ -114,9 +114,9 @@ namespace gpopt
 			}
 			
 			// optimizer configurations
-			COptimizerConfig *Poconf() const
+			COptimizerConfig *GetOptimizerConfig() const
 			{
-				return m_poconf;
+				return m_optimizer_config;
 			}
 
 			// are we optimizing a DML query

@@ -46,8 +46,8 @@ CParseHandlerQuery::CParseHandlerQuery
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_pdxln(NULL),
-	m_pdrgpdxlnOutputCols(NULL),
-	m_pdrgpdxlnCTE(NULL)
+	m_output_colums_dxl_array(NULL),
+	m_cte_producer_dxl_array(NULL)
 {
 }
 
@@ -62,8 +62,8 @@ CParseHandlerQuery::CParseHandlerQuery
 CParseHandlerQuery::~CParseHandlerQuery()
 {
 	CRefCount::SafeRelease(m_pdxln);
-	CRefCount::SafeRelease(m_pdrgpdxlnOutputCols);
-	CRefCount::SafeRelease(m_pdrgpdxlnCTE);
+	CRefCount::SafeRelease(m_output_colums_dxl_array);
+	CRefCount::SafeRelease(m_cte_producer_dxl_array);
 }
 
 //---------------------------------------------------------------------------
@@ -82,30 +82,30 @@ CParseHandlerQuery::Pdxln() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerQuery::PdrgpdxlnOutputCols
+//		CParseHandlerQuery::GetOutputColumnsDXLArray
 //
 //	@doc:
 //		Returns the list of query output columns
 //
 //---------------------------------------------------------------------------
 DrgPdxln *
-CParseHandlerQuery::PdrgpdxlnOutputCols() const
+CParseHandlerQuery::GetOutputColumnsDXLArray() const
 {
-	return m_pdrgpdxlnOutputCols;
+	return m_output_colums_dxl_array;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerQuery::PdrgpdxlnCTE
+//		CParseHandlerQuery::GetCTEProducerDXLArray
 //
 //	@doc:
 //		Returns the list of CTEs
 //
 //---------------------------------------------------------------------------
 DrgPdxln *
-CParseHandlerQuery::PdrgpdxlnCTE() const
+CParseHandlerQuery::GetCTEProducerDXLArray() const
 {
-	return m_pdrgpdxlnCTE;
+	return m_cte_producer_dxl_array;
 }
 
 //---------------------------------------------------------------------------
@@ -188,17 +188,17 @@ CParseHandlerQuery::EndElement
 	}
 
 	CParseHandlerQueryOutput *pphQueryOutput = dynamic_cast<CParseHandlerQueryOutput *>((*this)[0]);
-	GPOS_ASSERT(NULL != pphQueryOutput && NULL != pphQueryOutput->PdrgpdxlnOutputCols());
+	GPOS_ASSERT(NULL != pphQueryOutput && NULL != pphQueryOutput->GetOutputColumnsDXLArray());
 
 	// store constructed node
-	m_pdrgpdxlnOutputCols = pphQueryOutput->PdrgpdxlnOutputCols();
-	m_pdrgpdxlnOutputCols->AddRef();
+	m_output_colums_dxl_array = pphQueryOutput->GetOutputColumnsDXLArray();
+	m_output_colums_dxl_array->AddRef();
 
 	CParseHandlerCTEList *pphCTE = dynamic_cast<CParseHandlerCTEList *>((*this)[1]);
 	GPOS_ASSERT(NULL != pphCTE && NULL != pphCTE->Pdrgpdxln());
 
-	m_pdrgpdxlnCTE = pphCTE->Pdrgpdxln();
-	m_pdrgpdxlnCTE->AddRef();
+	m_cte_producer_dxl_array = pphCTE->Pdrgpdxln();
+	m_cte_producer_dxl_array->AddRef();
 
 	CParseHandlerLogicalOp *pphLgOp = dynamic_cast<CParseHandlerLogicalOp *>((*this)[2]);
 	GPOS_ASSERT(NULL != pphLgOp && NULL != pphLgOp->Pdxln());

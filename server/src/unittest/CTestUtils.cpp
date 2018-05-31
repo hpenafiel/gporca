@@ -2570,7 +2570,7 @@ CTestUtils::PexprOneWindowFunction
 {
 	CExpression *pexprGet = PexprLogicalGet(memory_pool);
 
-	OID oidRowNumber = COptCtxt::PoctxtFromTLS()->Poconf()->Pwindowoids()->OidRowNumber();
+	OID oidRowNumber = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pwindowoids()->OidRowNumber();
 
 	return PexprLogicalSequenceProject(memory_pool, oidRowNumber, pexprGet);
 }
@@ -2592,7 +2592,7 @@ CTestUtils::PexprTwoWindowFunctions
 {
 	CExpression *pexprWinFunc = PexprOneWindowFunction(memory_pool);
 
-	OID oidRank = COptCtxt::PoctxtFromTLS()->Poconf()->Pwindowoids()->OidRank();
+	OID oidRank = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pwindowoids()->OidRank();
 
 	return PexprLogicalSequenceProject(memory_pool, oidRank, pexprWinFunc);
 }
@@ -3090,8 +3090,8 @@ CTestUtils::PexprReadQuery
 			trdxl2expr.PexprTranslateQuery
 						(
 						ptroutput->Pdxln(),
-						ptroutput->PdrgpdxlnOutputCols(),
-						ptroutput->PdrgpdxlnCTE()
+						ptroutput->GetOutputColumnsDXLArray(),
+						ptroutput->GetCTEProducerDXLArray()
 						);
 
 	GPOS_DELETE(ptroutput);
@@ -3140,8 +3140,8 @@ CTestUtils::EresTranslate
 	CExpression *pexprQuery = ptrdxl2expr.PexprTranslateQuery
 											(
 											ptroutput->Pdxln(),
-											ptroutput->PdrgpdxlnOutputCols(),
-											ptroutput->PdrgpdxlnCTE()
+											ptroutput->GetOutputColumnsDXLArray(),
+											ptroutput->GetCTEProducerDXLArray()
 											);
 
 	CQueryContext *pqc = CQueryContext::PqcGenerate
@@ -3158,7 +3158,7 @@ CTestUtils::EresTranslate
 #endif //GPOS_DEBUG
 
 	gpopt::CEngine eng(memory_pool);
-	eng.Init(pqc, NULL /*pdrgpss*/);
+	eng.Init(pqc, NULL /*search_stage_array*/);
 
 #ifdef GPOS_DEBUG
 	eng.RecursiveOptimize();
@@ -3177,12 +3177,12 @@ CTestUtils::EresTranslate
 	CDXLNode *pdxlnPlan = ptrexpr2dxl.PdxlnTranslate(pexprPlan, pqc->PdrgPcr(), pqc->Pdrgpmdname());
 	GPOS_ASSERT(NULL != pdxlnPlan);
 
-	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 
 	CWStringDynamic strTranslatedPlan(memory_pool);
 	COstreamString osTranslatedPlan(&strTranslatedPlan);
 
-	CDXLUtils::SerializePlan(memory_pool, osTranslatedPlan, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize(), true /*serialize_header_footer*/, true /*indentation*/);
+	CDXLUtils::SerializePlan(memory_pool, osTranslatedPlan, pdxlnPlan, optimizer_config->Pec()->GetPlanId(), optimizer_config->Pec()->GetPlanSpaceSize(), true /*serialize_header_footer*/, true /*indentation*/);
 
 	GPOS_TRACE(str.GetBuffer());
 	GPOS_RESULT eres = GPOS_OK;
@@ -3529,7 +3529,7 @@ CTestUtils::EresRunMinidump
 	CDXLMinidump *pdxlmd = CMinidumperUtils::PdxlmdLoad(memory_pool, szFileName);
 	GPOS_CHECK_ABORT;
 
-	COptimizerConfig *optimizer_config = pdxlmd->Poconf();
+	COptimizerConfig *optimizer_config = pdxlmd->GetOptimizerConfig();
 
 	if (NULL == optimizer_config)
 	{
@@ -3578,11 +3578,11 @@ CTestUtils::EresRunMinidump
 			memory_pool,
 			at.Os(),
 			pdxlnPlan,
-			optimizer_config->Pec()->UllPlanId(),
-			optimizer_config->Pec()->UllPlanSpaceSize(),
+			optimizer_config->Pec()->GetPlanId(),
+			optimizer_config->Pec()->GetPlanSpaceSize(),
 			pdxlmd->PdxlnPlan(),
-			pdxlmd->UllPlanId(),
-			pdxlmd->UllPlanSpaceSize(),
+			pdxlmd->GetPlanId(),
+			pdxlmd->GetPlanSpaceSize(),
 			fMatchPlans,
 			iCmpSpaceSize
 			)
@@ -3744,7 +3744,7 @@ CTestUtils::EresRunMinidumpsUsingOneMDFile
 	CMDProviderMemory *pmdp = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, szMDFilePath);
 	GPOS_CHECK_ABORT;
 
-	const DrgPsysid *pdrgpsysid = pdxlmd->Pdrgpsysid();
+	const DrgPsysid *pdrgpsysid = pdxlmd->GetSystemIdArray();
 	DrgPmdp *pdrgpmdp = GPOS_NEW(memory_pool) DrgPmdp(memory_pool);
 	pdrgpmdp->Append(pmdp);
 
@@ -3816,7 +3816,7 @@ CTestUtils::EresSamplePlans
 		CMDProviderMemory *pmdp = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, rgszFileNames[ul]);
 		GPOS_CHECK_ABORT;
 
-		const DrgPsysid *pdrgpsysid = pdxlmd->Pdrgpsysid();
+		const DrgPsysid *pdrgpsysid = pdxlmd->GetSystemIdArray();
 		DrgPmdp *pdrgpmdp = GPOS_NEW(memory_pool) DrgPmdp(memory_pool);
 		pdrgpmdp->Append(pmdp);
 
@@ -3826,7 +3826,7 @@ CTestUtils::EresSamplePlans
 			pdrgpmdp->Append(pmdp);
 		}
 
-		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
+		COptimizerConfig *optimizer_config = pdxlmd->GetOptimizerConfig();
 			
 		if (NULL == optimizer_config)
 		{
@@ -3958,7 +3958,7 @@ CTestUtils::EresCheckPlans
 		CMDProviderMemory *pmdp = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, rgszFileNames[ul]);
 		GPOS_CHECK_ABORT;
 
-		const DrgPsysid *pdrgpsysid = pdxlmd->Pdrgpsysid();
+		const DrgPsysid *pdrgpsysid = pdxlmd->GetSystemIdArray();
 		DrgPmdp *pdrgpmdp = GPOS_NEW(memory_pool) DrgPmdp(memory_pool);
 		pdrgpmdp->Append(pmdp);
 
@@ -3968,7 +3968,7 @@ CTestUtils::EresCheckPlans
 			pdrgpmdp->Append(pmdp);
 		}
 
-		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
+		COptimizerConfig *optimizer_config = pdxlmd->GetOptimizerConfig();
 
 		if (NULL == optimizer_config)
 		{
@@ -4105,7 +4105,7 @@ CTestUtils::EresCheckOptimizedPlan
 		CMDProviderMemory *pmdp = GPOS_NEW(memory_pool) CMDProviderMemory(memory_pool, rgszFileNames[ul]);
 		GPOS_CHECK_ABORT;
 
-		const DrgPsysid *pdrgpsysid = pdxlmd->Pdrgpsysid();
+		const DrgPsysid *pdrgpsysid = pdxlmd->GetSystemIdArray();
 		DrgPmdp *pdrgpmdp = GPOS_NEW(memory_pool) DrgPmdp(memory_pool);
 		pdrgpmdp->Append(pmdp);
 
@@ -4115,7 +4115,7 @@ CTestUtils::EresCheckOptimizedPlan
 			pdrgpmdp->Append(pmdp);
 		}
 
-		COptimizerConfig *optimizer_config = pdxlmd->Poconf();
+		COptimizerConfig *optimizer_config = pdxlmd->GetOptimizerConfig();
 		GPOS_ASSERT(NULL != optimizer_config);
 
 		if (NULL != pdrgpcp)

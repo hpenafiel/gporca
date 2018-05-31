@@ -37,13 +37,13 @@ namespace gpopt
 			IMemoryPool *m_memory_pool;
 
 			// query DXL node;
-			const CDXLNode *m_pdxlnQuery;
+			const CDXLNode *m_query_dxl_root;
 
 			// query output
 			const DrgPdxln *m_pdrgpdxlnQueryOutput;
 
 			// CTE DXL nodes
-			const DrgPdxln *m_pdrgpdxlnCTE;
+			const DrgPdxln *m_cte_producer_dxl_array;
 
 			
 			// private copy ctor

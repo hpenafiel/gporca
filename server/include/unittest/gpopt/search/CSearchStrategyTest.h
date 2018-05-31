@@ -43,7 +43,7 @@ namespace gpopt
 
 			// run optimize function on given expression
 			static
-			void Optimize(IMemoryPool *memory_pool, Pfpexpr pfnGenerator, DrgPss *pdrgpss, PfnOptimize pfnOptimize);
+			void Optimize(IMemoryPool *memory_pool, Pfpexpr pfnGenerator, DrgPss *search_stage_array, PfnOptimize pfnOptimize);
 
 		public:
 

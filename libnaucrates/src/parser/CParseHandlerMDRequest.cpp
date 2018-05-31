@@ -34,7 +34,7 @@ CParseHandlerMDRequest::CParseHandlerMDRequest
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpmdid(NULL)
+	m_mdid_array(NULL)
 {
 }
 
@@ -48,7 +48,7 @@ CParseHandlerMDRequest::CParseHandlerMDRequest
 //---------------------------------------------------------------------------
 CParseHandlerMDRequest::~CParseHandlerMDRequest()
 {
-	CRefCount::SafeRelease(m_pdrgpmdid);
+	CRefCount::SafeRelease(m_mdid_array);
 	CRefCount::SafeRelease(m_pdrgptr);
 }
 
@@ -73,8 +73,8 @@ CParseHandlerMDRequest::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDRequest), element_local_name))
 	{
 		// start of MD request section
-		GPOS_ASSERT(NULL == m_pdrgpmdid);
-		m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
+		GPOS_ASSERT(NULL == m_mdid_array);
+		m_mdid_array = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 		m_pdrgptr = GPOS_NEW(m_memory_pool) CMDRequest::DrgPtr(m_memory_pool);
 		
 		return;
@@ -82,11 +82,11 @@ CParseHandlerMDRequest::StartElement
 	
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMdid), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 		
 		// parse mdid
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenValue, EdxltokenMdid);
-		m_pdrgpmdid->Append(pmdid);
+		m_mdid_array->Append(pmdid);
 		
 		return;
 	}
@@ -143,16 +143,16 @@ CParseHandlerMDRequest::GetParseHandlerType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMDRequest::Pdrgpmdid
+//		CParseHandlerMDRequest::GetMdIdArray
 //
 //	@doc:
 //		Parsed array of mdids
 //
 //---------------------------------------------------------------------------
 DrgPmdid *
-CParseHandlerMDRequest::Pdrgpmdid() const
+CParseHandlerMDRequest::GetMdIdArray() const
 {
-	return m_pdrgpmdid;
+	return m_mdid_array;
 }
 
 //---------------------------------------------------------------------------

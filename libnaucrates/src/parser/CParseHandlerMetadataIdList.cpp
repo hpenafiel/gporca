@@ -38,7 +38,7 @@ CParseHandlerMetadataIdList::CParseHandlerMetadataIdList
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpmdid(NULL)
+	m_mdid_array(NULL)
 {
 }
 
@@ -52,7 +52,7 @@ CParseHandlerMetadataIdList::CParseHandlerMetadataIdList
 //---------------------------------------------------------------------------
 CParseHandlerMetadataIdList::~CParseHandlerMetadataIdList()
 {
-	CRefCount::SafeRelease(m_pdrgpmdid);
+	CRefCount::SafeRelease(m_mdid_array);
 }
 
 
@@ -77,49 +77,49 @@ CParseHandlerMetadataIdList::StartElement
 	if (FSupportedListType(element_local_name))
 	{
 		// start of an index or partition metadata id list
-		GPOS_ASSERT(NULL == m_pdrgpmdid);
+		GPOS_ASSERT(NULL == m_mdid_array);
 		
-		m_pdrgpmdid = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
+		m_mdid_array = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndex), element_local_name))
 	{
 		// index metadata id: array must be initialized already
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 		
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenIndex);
-		m_pdrgpmdid->Append(pmdid);
+		m_mdid_array->Append(pmdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTrigger), element_local_name))
 	{
 		// trigger metadata id: array must be initialized already
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenTrigger);
-		m_pdrgpmdid->Append(pmdid);
+		m_mdid_array->Append(pmdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartition), element_local_name))
 	{
 		// partition metadata id: array must be initialized already
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 		
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenPartition);
-		m_pdrgpmdid->Append(pmdid);
+		m_mdid_array->Append(pmdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), element_local_name))
 	{
 		// check constraint metadata id: array must be initialized already
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 		
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
-		m_pdrgpmdid->Append(pmdid);
+		m_mdid_array->Append(pmdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClass), element_local_name))
 	{
 		// opclass metadata id: array must be initialized already
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 		
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenOpClass);
-		m_pdrgpmdid->Append(pmdid);
+		m_mdid_array->Append(pmdid);
 	}
 	else
 	{
@@ -150,7 +150,7 @@ CParseHandlerMetadataIdList::EndElement
 		0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), element_local_name))
 	{
 		// end the index or partition metadata id list
-		GPOS_ASSERT(NULL != m_pdrgpmdid);
+		GPOS_ASSERT(NULL != m_mdid_array);
 
 		// deactivate handler
 		m_parse_handler_mgr->DeactivateHandler();
@@ -205,15 +205,15 @@ CParseHandlerMetadataIdList::FSupportedListType
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadataIdList::Pdrgpmdid
+//		CParseHandlerMetadataIdList::GetMdIdArray
 //
 //	@doc:
 //		Return the constructed list of metadata ids
 //
 //---------------------------------------------------------------------------
 DrgPmdid *
-CParseHandlerMetadataIdList::Pdrgpmdid()
+CParseHandlerMetadataIdList::GetMdIdArray()
 {
-	return m_pdrgpmdid;
+	return m_mdid_array;
 }
 // EOF

@@ -45,7 +45,7 @@ CSerializableOptimizerConfig::CSerializableOptimizerConfig
 	:
 	CSerializable(),
 	m_memory_pool(memory_pool),
-	m_poconf(optimizer_config)
+	m_optimizer_config(optimizer_config)
 {
 	GPOS_ASSERT(NULL != optimizer_config);
 }
@@ -80,7 +80,7 @@ CSerializableOptimizerConfig::Serialize
 
 	// Copy traceflags from global state
 	CBitSet *pbs = CTask::Self()->GetTaskCtxt()->copy_trace_flags(m_memory_pool);
-	m_poconf->Serialize(m_memory_pool, &xml_serializer, pbs);
+	m_optimizer_config->Serialize(m_memory_pool, &xml_serializer, pbs);
 	pbs->Release();
 }
 

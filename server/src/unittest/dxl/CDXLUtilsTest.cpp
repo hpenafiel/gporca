@@ -92,8 +92,8 @@ CDXLUtilsTest::EresUnittest_SerializeQuery()
 				memory_pool,
 				oss,
 				presult->Pdxln(),
-				presult->PdrgpdxlnOutputCols(),
-				presult->PdrgpdxlnCTE(),
+				presult->GetOutputColumnsDXLArray(),
+				presult->GetCTEProducerDXLArray(),
 				rgfHeaders[ulHeaders],
 				rgfIndentation[ulIndent]
 				);

@@ -242,7 +242,7 @@ CParseHandlerMDGPDBScalarOp::EndElement
 		if (0 < this->Length())
 		{
 			CParseHandlerMetadataIdList *pphMdidOpClasses = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[0]);
-			pdrgpmdidOpClasses = pphMdidOpClasses->Pdrgpmdid();
+			pdrgpmdidOpClasses = pphMdidOpClasses->GetMdIdArray();
 			pdrgpmdidOpClasses->AddRef();
 		}
 		else 

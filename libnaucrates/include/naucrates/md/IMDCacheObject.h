@@ -58,7 +58,7 @@ namespace gpmd
 			void SerializeMDIdList
 				(
 				CXMLSerializer *xml_serializer,
-				const DrgPmdid *pdrgpmdid,
+				const DrgPmdid *mdid_array,
 				const CWStringConst *pstrTokenList,
 				const CWStringConst *pstrTokenListItem
 				);

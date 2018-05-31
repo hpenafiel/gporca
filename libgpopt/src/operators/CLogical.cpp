@@ -1230,7 +1230,7 @@ CLogical::PstatsBaseTable
 
 	const COptCtxt *poctxt = COptCtxt::PoctxtFromTLS();
 	CMDAccessor *pmda = poctxt->Pmda();
-	CStatisticsConfig *pstatsconf = poctxt->Poconf()->Pstatsconf();
+	CStatisticsConfig *pstatsconf = poctxt->GetOptimizerConfig()->Pstatsconf();
 
 	IStatistics *pstats = pmda->Pstats
 								(

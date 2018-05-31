@@ -43,7 +43,7 @@ namespace gpdxl
 			CBitSet *m_pbs;
 		
 			// optimizer configuration
-			COptimizerConfig *m_poconf;
+			COptimizerConfig *m_optimizer_config;
 			
 			// private copy ctor
 			CParseHandlerOptimizerConfig(const CParseHandlerOptimizerConfig&); 
@@ -83,7 +83,7 @@ namespace gpdxl
 			CBitSet *Pbs() const;
 			
 			// optimizer config
-			COptimizerConfig *Poconf() const;
+			COptimizerConfig *GetOptimizerConfig() const;
 	};
 }
 

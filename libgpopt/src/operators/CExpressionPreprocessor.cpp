@@ -727,7 +727,7 @@ CExpressionPreprocessor::PexprCollapseInnerJoins
 			pexprNAryJoin->Release();
 		}
 
-		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 		ULONG ulJoinArityLimit = optimizer_config->Phint()->UlJoinArityForAssociativityCommutativity();
 
 		// The last child of an n-ary join expression is the scalar expression

@@ -52,7 +52,7 @@ COptCtxt::COptCtxt
 	m_auPartId(m_ulFirstValidPartId),
 	m_pcteinfo(NULL),
 	m_pdrgpcrSystemCols(NULL),
-	m_poconf(optimizer_config),
+	m_optimizer_config(optimizer_config),
 	m_fDMLQuery(false)
 {
 	GPOS_ASSERT(NULL != memory_pool);
@@ -83,7 +83,7 @@ COptCtxt::~COptCtxt()
 	GPOS_DELETE(m_pcomp);
 	m_pceeval->Release();
 	m_pcteinfo->Release();
-	m_poconf->Release();
+	m_optimizer_config->Release();
 	CRefCount::SafeRelease(m_pdrgpcrSystemCols);
 }
 

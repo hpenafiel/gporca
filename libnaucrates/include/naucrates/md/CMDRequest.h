@@ -83,7 +83,7 @@ namespace gpmd
 			IMemoryPool *m_memory_pool;
 			
 			// array of mdids
-			DrgPmdid *m_pdrgpmdid;
+			DrgPmdid *m_mdid_array;
 			
 			// type info requests
 			DrgPtr *m_pdrgptr;
@@ -97,7 +97,7 @@ namespace gpmd
 		public:
 			
 			// ctor
-			CMDRequest(IMemoryPool *memory_pool, DrgPmdid *pdrgpmdid, DrgPtr *pdrgptr);
+			CMDRequest(IMemoryPool *memory_pool, DrgPmdid *mdid_array, DrgPtr *pdrgptr);
 			
 			// ctor: type request only
 			CMDRequest(IMemoryPool *memory_pool, SMDTypeRequest *pmdtr);
@@ -109,9 +109,9 @@ namespace gpmd
 			// accessors
 			
 			// array of mdids
-			DrgPmdid *Pdrgpmdid() const
+			DrgPmdid *GetMdIdArray() const
 			{
-				return m_pdrgpmdid;
+				return m_mdid_array;
 			}
 			
 			// array of type info requests

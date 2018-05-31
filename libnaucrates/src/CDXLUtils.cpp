@@ -337,8 +337,8 @@ CDXLUtils::GetPlanDXLNode
 	
 	// collect plan info from dxl parse handler
 	CDXLNode *root_dxl_node = parse_handler_dxl_wrapper->PdxlnPlan();
-	*plan_id = parse_handler_dxl_wrapper->UllPlanId();
-	*plan_space_size = parse_handler_dxl_wrapper->UllPlanSpaceSize();
+	*plan_id = parse_handler_dxl_wrapper->GetPlanId();
+	*plan_space_size = parse_handler_dxl_wrapper->GetPlanSpaceSize();
 	
 	GPOS_ASSERT(NULL != root_dxl_node);
 	
@@ -378,7 +378,7 @@ CDXLUtils::ParseQueryToQueryDXLTree
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(parse_handler_dxl);
 
 	// collect dxl tree of the query from dxl parse handler
-	CDXLNode *root_dxl_node = parse_handler_dxl->PdxlnQuery();
+	CDXLNode *root_dxl_node = parse_handler_dxl->GetQueryDXLRoot();
 	GPOS_ASSERT(NULL != root_dxl_node);
 	
 #ifdef GPOS_DEBUG
@@ -388,12 +388,12 @@ CDXLUtils::ParseQueryToQueryDXLTree
 	root_dxl_node->AddRef();
 
 	// collect the list of query output columns from the dxl parse handler
-	GPOS_ASSERT(NULL != parse_handler_dxl->PdrgpdxlnOutputCols());
-	DrgPdxln *query_output_cols_dxlnode_array = parse_handler_dxl->PdrgpdxlnOutputCols();
+	GPOS_ASSERT(NULL != parse_handler_dxl->GetOutputColumnsDXLArray());
+	DrgPdxln *query_output_cols_dxlnode_array = parse_handler_dxl->GetOutputColumnsDXLArray();
 	query_output_cols_dxlnode_array->AddRef();
 
 	// collect the list of CTEs
-	DrgPdxln *cte_dxlnode_array = parse_handler_dxl->PdrgpdxlnCTE();
+	DrgPdxln *cte_dxlnode_array = parse_handler_dxl->GetCTEProducerDXLArray();
 	GPOS_ASSERT(NULL != cte_dxlnode_array);
 	cte_dxlnode_array->AddRef();
 
@@ -423,7 +423,7 @@ CDXLUtils::ParseDXLToScalarExprDXLNode
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(GetParseHandlerForDXLString(memory_pool, dxl_string, xsd_file_path));
 
 	// collect dxl tree of the query from dxl parse handler
-	CDXLNode *root_dxl_node = parse_handler_dxl_wrapper->PdxlnScalarExpr();
+	CDXLNode *root_dxl_node = parse_handler_dxl_wrapper->GetScalarExprDXLRoot();
 	GPOS_ASSERT(NULL != root_dxl_node);
 	root_dxl_node->AddRef();
 
@@ -456,7 +456,7 @@ CDXLUtils::ParseDXLToIMDObjectArray
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(parse_handler_dxl);
 	
 	// collect metadata objects from dxl parse handler
-	DrgPimdobj *imd_obj_array = parse_handler_dxl->Pdrgpmdobj();
+	DrgPimdobj *imd_obj_array = parse_handler_dxl->GetMdIdCachedObjArray();
 	imd_obj_array->AddRef();
 	
 	return imd_obj_array;
@@ -485,7 +485,7 @@ CDXLUtils::ParseDXLToMDId
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(parse_handler_dxl);
 	
 	// collect metadata objects from dxl parse handler
-	DrgPmdid *mdid_array = parse_handler_dxl->Pdrgpmdid();
+	DrgPmdid *mdid_array = parse_handler_dxl->GetMdIdArray();
 	
 	GPOS_ASSERT(1 == mdid_array->Size());
 	
@@ -574,7 +574,7 @@ CDXLUtils::ParseDXLToOptimizerConfig
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(parse_handler_dxl);
 
 	// collect optimizer conf from dxl parse handler
-	COptimizerConfig *optimizer_config = parse_handler_dxl->Poconf();
+	COptimizerConfig *optimizer_config = parse_handler_dxl->GetOptimizerConfig();
 	GPOS_ASSERT(NULL != optimizer_config);
 	optimizer_config->AddRef();
 
@@ -607,7 +607,7 @@ CDXLUtils::ParseDXLToStatsDerivedRelArray
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(parse_handler_dxl);
 
 	// collect statistics objects from dxl parse handler
-	DrgPdxlstatsderrel *dxl_derived_rel_stats_array = parse_handler_dxl->Pdrgpdxlstatsderrel();
+	DrgPdxlstatsderrel *dxl_derived_rel_stats_array = parse_handler_dxl->GetStatsDerivedRelDXLArray();
 	dxl_derived_rel_stats_array->AddRef();
 	
 	return dxl_derived_rel_stats_array;
@@ -638,7 +638,7 @@ CDXLUtils::ParseDXLToStatsDerivedRelArray
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(parse_handler_dxl);
 
 	// collect statistics objects from dxl parse handler
-	DrgPdxlstatsderrel *dxl_derived_rel_stats_array = parse_handler_dxl->Pdrgpdxlstatsderrel();
+	DrgPdxlstatsderrel *dxl_derived_rel_stats_array = parse_handler_dxl->GetStatsDerivedRelDXLArray();
 	dxl_derived_rel_stats_array->AddRef();
 	
 	return dxl_derived_rel_stats_array;
@@ -802,7 +802,7 @@ CDXLUtils::ParseDXLToIMDObjectArray
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_wrapper(parse_handler_dxl);
 	
 	// collect metadata objects from dxl parse handler
-	DrgPimdobj *imd_obj_array = parse_handler_dxl->Pdrgpmdobj();
+	DrgPimdobj *imd_obj_array = parse_handler_dxl->GetMdIdCachedObjArray();
 	imd_obj_array->AddRef();
 	
 	return imd_obj_array;
@@ -834,7 +834,7 @@ CDXLUtils::ParseDXLToIMDIdCacheObj
 	CAutoP<CParseHandlerDXL> parse_handler_dxl_array(GetParseHandlerForDXLString(memory_pool, dxl_string, xsd_file_path));
 	
 	// collect metadata objects from dxl parse handler
-	DrgPimdobj *imd_obj_array = parse_handler_dxl_array->Pdrgpmdobj();
+	DrgPimdobj *imd_obj_array = parse_handler_dxl_array->GetMdIdCachedObjArray();
 
 	if (0 == imd_obj_array->Size())
 	{

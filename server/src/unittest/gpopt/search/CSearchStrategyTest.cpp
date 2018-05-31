@@ -74,7 +74,7 @@ CSearchStrategyTest::Optimize
 	(
 	IMemoryPool *memory_pool,
 	Pfpexpr pfnGenerator,
-	DrgPss *pdrgpss,
+	DrgPss *search_stage_array,
 	PfnOptimize pfnOptimize
 	)
 {
@@ -94,7 +94,7 @@ CSearchStrategyTest::Optimize
 						CTestUtils::GetCostModel(memory_pool)
 						);
 		CExpression *pexpr = pfnGenerator(memory_pool);
-		pfnOptimize(memory_pool, pexpr, pdrgpss);
+		pfnOptimize(memory_pool, pexpr, search_stage_array);
 		pexpr->Release();
 	}
 }
@@ -154,15 +154,15 @@ CSearchStrategyTest::EresUnittest_Parsing()
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
 	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(memory_pool,"../data/dxl/search/strategy0.xml", NULL);
-	DrgPss *pdrgpss = pphDXL->Pdrgpss();
-	const ULONG ulSize = pdrgpss->Size();
+	DrgPss *search_stage_array = pphDXL->GetSearchStageArray();
+	const ULONG ulSize = search_stage_array->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CAutoTrace at(memory_pool);
-		(*pdrgpss)[ul]->OsPrint(at.Os());
+		(*search_stage_array)[ul]->OsPrint(at.Os());
 	}
-	pdrgpss->AddRef();
-	Optimize(memory_pool, CTestUtils::PexprLogicalSelectOnOuterJoin, pdrgpss, CSchedulerTest::BuildMemoMultiThreaded);
+	search_stage_array->AddRef();
+	Optimize(memory_pool, CTestUtils::PexprLogicalSelectOnOuterJoin, search_stage_array, CSchedulerTest::BuildMemoMultiThreaded);
 
 	GPOS_DELETE(pphDXL);
 
@@ -186,9 +186,9 @@ CSearchStrategyTest::EresUnittest_Timeout()
 	IMemoryPool *memory_pool = amp.Pmp();
 	CAutoTraceFlag atf(EopttracePrintOptimizationStatistics, true);
 	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(memory_pool,"../data/dxl/search/timeout-strategy.xml", NULL);
-	DrgPss *pdrgpss = pphDXL->Pdrgpss();
-	pdrgpss->AddRef();
-	Optimize(memory_pool, CTestUtils::PexprLogicalNAryJoin, pdrgpss, CSchedulerTest::BuildMemoMultiThreaded);
+	DrgPss *search_stage_array = pphDXL->GetSearchStageArray();
+	search_stage_array->AddRef();
+	Optimize(memory_pool, CTestUtils::PexprLogicalNAryJoin, search_stage_array, CSchedulerTest::BuildMemoMultiThreaded);
 
 	GPOS_DELETE(pphDXL);
 
@@ -231,7 +231,7 @@ CSearchStrategyTest::PdrgpssRandom
 	IMemoryPool *memory_pool
 	)
 {
-	DrgPss *pdrgpss = GPOS_NEW(memory_pool) DrgPss(memory_pool);
+	DrgPss *search_stage_array = GPOS_NEW(memory_pool) DrgPss(memory_pool);
 	CXformSet *pxfsFst = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	CXformSet *pxfsSnd = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
@@ -245,10 +245,10 @@ CSearchStrategyTest::PdrgpssRandom
 	pxfsSnd->Union(CXformFactory::Pxff()->PxfsImplementation());
 	pxfsSnd->Difference(pxfsFst);
 
-	pdrgpss->Append(GPOS_NEW(memory_pool) CSearchStage(pxfsFst, 1000 /*ulTimeThreshold*/, CCost(10E4) /*costThreshold*/));
-	pdrgpss->Append(GPOS_NEW(memory_pool) CSearchStage(pxfsSnd, 10000 /*ulTimeThreshold*/, CCost(10E8) /*costThreshold*/));
+	search_stage_array->Append(GPOS_NEW(memory_pool) CSearchStage(pxfsFst, 1000 /*ulTimeThreshold*/, CCost(10E4) /*costThreshold*/));
+	search_stage_array->Append(GPOS_NEW(memory_pool) CSearchStage(pxfsSnd, 10000 /*ulTimeThreshold*/, CCost(10E8) /*costThreshold*/));
 
-	return pdrgpss;
+	return search_stage_array;
 }
 
 

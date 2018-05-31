@@ -86,7 +86,7 @@ namespace gpopt
 					{};
 
 					// return plan id
-					ULLONG UllPlanId() const
+					ULLONG GetPlanId() const
 					{
 						return m_plan_id;
 					}
@@ -170,13 +170,13 @@ namespace gpopt
 			~CEnumeratorConfig();
 
 			// return plan id
-			ULLONG UllPlanId() const
+			ULLONG GetPlanId() const
 			{
 				return m_plan_id;
 			}
 
 			// return enumerated space size
-			ULLONG UllPlanSpaceSize() const
+			ULLONG GetPlanSpaceSize() const
 			{
 				return m_ullSpaceSize;
 			}
@@ -224,7 +224,7 @@ namespace gpopt
 				)
 				const
 			{
-				return (*m_pdrgpsp)[ulPos]->UllPlanId();
+				return (*m_pdrgpsp)[ulPos]->GetPlanId();
 			}
 
 			// set cost of best plan found

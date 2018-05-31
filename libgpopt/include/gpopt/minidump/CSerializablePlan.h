@@ -37,7 +37,7 @@ namespace gpopt
 			IMemoryPool *m_memory_pool;
 
 			// plan DXL node
-			const CDXLNode *m_pdxlnPlan;
+			const CDXLNode *m_plan_dxl_root;
 
 			// serialized plan
 			CWStringDynamic *m_pstrPlan;

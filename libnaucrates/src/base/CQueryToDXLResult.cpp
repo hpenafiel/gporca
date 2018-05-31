@@ -33,7 +33,7 @@ CQueryToDXLResult::CQueryToDXLResult
 	:
 	m_pdxln(pdxln),
 	m_pdrgpdxlnQueryOutput(pdrgpdxlnOutput),
-	m_pdrgpdxlnCTE(cte_dxlnode_array)
+	m_cte_producer_dxl_array(cte_dxlnode_array)
 {
 	GPOS_ASSERT(NULL != pdxln);
 }
@@ -50,36 +50,36 @@ CQueryToDXLResult::~CQueryToDXLResult()
 {
 	m_pdxln->Release();
 	CRefCount::SafeRelease(m_pdrgpdxlnQueryOutput);
-	CRefCount::SafeRelease(m_pdrgpdxlnCTE);
+	CRefCount::SafeRelease(m_cte_producer_dxl_array);
 
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CQueryToDXLResult::PdrgpdxlnOutputCols
+//		CQueryToDXLResult::GetOutputColumnsDXLArray
 //
 //	@doc:
 //		Return the array of dxl nodes representing the query output
 //
 //---------------------------------------------------------------------------
 const DrgPdxln*
-CQueryToDXLResult::PdrgpdxlnOutputCols() const
+CQueryToDXLResult::GetOutputColumnsDXLArray() const
 {
 	return m_pdrgpdxlnQueryOutput;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CQueryToDXLResult::PdrgpdxlnCTE
+//		CQueryToDXLResult::GetCTEProducerDXLArray
 //
 //	@doc:
 //		Return the array of CTEs
 //
 //---------------------------------------------------------------------------
 const DrgPdxln*
-CQueryToDXLResult::PdrgpdxlnCTE() const
+CQueryToDXLResult::GetCTEProducerDXLArray() const
 {
-	return m_pdrgpdxlnCTE;
+	return m_cte_producer_dxl_array;
 }
 
 //---------------------------------------------------------------------------

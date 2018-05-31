@@ -80,7 +80,7 @@ namespace gpopt
 
 			// build memo by recursive optimization
 			static
-			void BuildMemoRecursive(IMemoryPool *memory_pool, CExpression *pexprInput, DrgPss *pdrgpss);
+			void BuildMemoRecursive(IMemoryPool *memory_pool, CExpression *pexprInput, DrgPss *search_stage_array);
 
 			// test of recursive memo building
 			static

@@ -190,7 +190,7 @@ COptimizer::PdxlnOptimize
 	ULONG ulHosts,	// actual number of data nodes in the system
 	ULONG ulSessionId,
 	ULONG ulCmdId,
-	DrgPss *pdrgpss,
+	DrgPss *search_stage_array,
 	COptimizerConfig *optimizer_config,
 	const CHAR *szMinidumpFileName 	// name of minidump file to be created
 	)
@@ -266,7 +266,7 @@ COptimizer::PdxlnOptimize
 
 			GPOS_CHECK_ABORT;
 			// optimize logical expression tree into physical expression tree.
-			CExpression *pexprPlan = PexprOptimize(memory_pool, pqc, pdrgpss);
+			CExpression *pexprPlan = PexprOptimize(memory_pool, pqc, search_stage_array);
 			GPOS_CHECK_ABORT;
 
 			PrintQueryOrPlan(memory_pool, pexprPlan);
@@ -277,7 +277,7 @@ COptimizer::PdxlnOptimize
 
 			if (fMinidump)
 			{
-				CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->Pec()->UllPlanId(), optimizer_config->Pec()->UllPlanSpaceSize());
+				CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->Pec()->GetPlanId(), optimizer_config->Pec()->GetPlanSpaceSize());
 				CMinidumperUtils::Finalize(&mdmp, true /* fSerializeErrCtxt*/);
 				GPOS_CHECK_ABORT;
 			}
@@ -377,11 +377,11 @@ COptimizer::PexprOptimize
 	(
 	IMemoryPool *memory_pool,
 	CQueryContext *pqc,
-	DrgPss *pdrgpss
+	DrgPss *search_stage_array
 	)
 {
 	CEngine eng(memory_pool);
-	eng.Init(pqc, pdrgpss);
+	eng.Init(pqc, search_stage_array);
 	eng.Optimize();
 
 	GPOS_CHECK_ABORT;

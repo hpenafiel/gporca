@@ -30,7 +30,7 @@ namespace gpdxl
 	XERCES_CPP_NAMESPACE_USE
 	
 	// shorthand for functions for translating GPDB expressions into DXL nodes
-	typedef void (CParseHandlerDXL::*Pfparse)(CParseHandlerBase *pph);
+	typedef void (CParseHandlerDXL::*ParseHandler)(CParseHandlerBase *parse_handler_base);
 
 	
 	//---------------------------------------------------------------------------
@@ -49,48 +49,48 @@ namespace gpdxl
 			// pair of parse handler type and parse handler function
 			struct SParseElem
 			{
-				EDxlParseHandlerType edxlphtype; // parse handler type
-				Pfparse pf; // pointer to corresponding function
+				EDxlParseHandlerType parse_handler_type; // parse handler type
+				ParseHandler parse_handler_func; // pointer to corresponding function
 			};
 
 			// traceflags
-			CBitSet *m_pbs;
+			CBitSet *m_trace_flags_bitset;
 			
 			// optimizer config
-			COptimizerConfig *m_poconf;
+			COptimizerConfig *m_optimizer_config;
 			
 			// MD request
-			CMDRequest *m_pmdr;
+			CMDRequest *m_mdrequest;
 			
 			// the root of the parsed DXL query
-			CDXLNode *m_pdxlnQuery;
+			CDXLNode *m_query_dxl_root;
 			
 			// list of query output columns
-			DrgPdxln *m_pdrgpdxlnOutputCols;
+			DrgPdxln *m_output_colums_dxl_array;
 
 			// list of CTE producers
-			DrgPdxln *m_pdrgpdxlnCTE;
+			DrgPdxln *m_cte_producer_dxl_array;
 
 			// the root of the parsed DXL plan
-			CDXLNode *m_pdxlnPlan;
+			CDXLNode *m_plan_dxl_root;
 
 			// list of parsed metadata objects
-			DrgPimdobj *m_pdrgpmdobj;
+			DrgPimdobj *m_mdid_cached_obj_array;
 			
 			// list of parsed metadata ids
-			DrgPmdid *m_pdrgpmdid;
+			DrgPmdid *m_mdid_array;
 
 			// the root of the parsed scalar expression
-			CDXLNode *m_pdxlnScalarExpr;
+			CDXLNode *m_scalar_expr_dxl;
 
 			// list of source system ids
-			DrgPsysid *m_pdrgpsysid;
+			DrgPsysid *m_system_id_array;
 			
 			// list of parsed statistics objects
-			DrgPdxlstatsderrel *m_pdrgpdxlstatsderrel;
+			DrgPdxlstatsderrel *m_stats_derived_rel_dxl_array;
 
 			// search strategy
-			DrgPss *m_pdrgpss;
+			DrgPss *m_search_stage_array;
 
 			// plan Id
 			ULLONG m_plan_id;
@@ -122,41 +122,41 @@ namespace gpdxl
 				);
 			
 			// find the parse handler function for the given type
-			Pfparse FindParseHandler(EDxlParseHandlerType edxlphtype);
+			ParseHandler FindParseHandler(EDxlParseHandlerType parse_handler_type);
 
 			// extract traceflags
-			void ExtractTraceFlags(CParseHandlerBase *pph);
+			void ExtractTraceFlags(CParseHandlerBase *parse_handler_base);
 			
 			// extract optimizer config
-			void ExtractOptimizerConfig(CParseHandlerBase *pph);
+			void ExtractOptimizerConfig(CParseHandlerBase *parse_handler_base);
 
 			// extract a physical plan
-			void ExtractDXLPlan(CParseHandlerBase *pph);
+			void ExtractDXLPlan(CParseHandlerBase *parse_handler_base);
 
 			// extract metadata objects
-			void ExtractMetadataObjects(CParseHandlerBase *pph);
+			void ExtractMetadataObjects(CParseHandlerBase *parse_handler_base);
 
 			// extract statistics
-			void ExtractStats(CParseHandlerBase *pph);
+			void ExtractStats(CParseHandlerBase *parse_handler_base);
 
 			// extract DXL query
-			void ExtractDXLQuery(CParseHandlerBase *pph);
+			void ExtractDXLQuery(CParseHandlerBase *parse_handler_base);
 
 			// extract mdids of requested objects
-			void ExtractMDRequest(CParseHandlerBase *pph);
+			void ExtractMDRequest(CParseHandlerBase *parse_handler_base);
 			
 			// extract search strategy
-			void ExtractSearchStrategy(CParseHandlerBase *pph);
+			void ExtractSearchStrategy(CParseHandlerBase *parse_handler_base);
 
 			// extract cost params
-			void ExtractCostParams(CParseHandlerBase *pph);
+			void ExtractCostParams(CParseHandlerBase *parse_handler_base);
 
             // extract a top level scalar expression
-			void ExtractScalarExpr(CParseHandlerBase *pph);
+			void ExtractScalarExpr(CParseHandlerBase *parse_handler_base);
 
 			// check if given element name is valid for starting DXL document
 			static
-			BOOL FValidStartElement(const XMLCh* const xmlszName);
+			BOOL IsValidStartElement(const XMLCh* const xmlszName);
 
 		public:
 			// ctor
@@ -170,46 +170,46 @@ namespace gpdxl
 			CBitSet *Pbs() const;
 			
 			// optimizer config
-			COptimizerConfig *Poconf() const;
+			COptimizerConfig *GetOptimizerConfig() const;
 			
 			// returns the root of the parsed DXL query
-			CDXLNode *PdxlnQuery() const;
+			CDXLNode *GetQueryDXLRoot() const;
 			
 			// returns the list of query output columns
-			DrgPdxln *PdrgpdxlnOutputCols() const;
+			DrgPdxln *GetOutputColumnsDXLArray() const;
 
 			// returns the list of CTE producers
-			DrgPdxln *PdrgpdxlnCTE() const;
+			DrgPdxln *GetCTEProducerDXLArray() const;
 
 			// returns the root of the parsed DXL plan
 			CDXLNode *PdxlnPlan() const;
 
 			// return the list of parsed metadata objects
-			DrgPimdobj *Pdrgpmdobj() const;
+			DrgPimdobj *GetMdIdCachedObjArray() const;
 
 			// return the list of parsed metadata ids
-			DrgPmdid *Pdrgpmdid() const;
+			DrgPmdid *GetMdIdArray() const;
 
 			// return the MD request object
 			CMDRequest *GetMiniDumper() const;
 
 			// return the root of the parsed scalar expression
-			CDXLNode *PdxlnScalarExpr() const;
+			CDXLNode *GetScalarExprDXLRoot() const;
 
 			// return the list of parsed source system id objects
-			DrgPsysid *Pdrgpsysid() const;
+			DrgPsysid *GetSystemIdArray() const;
 			
 			// return the list of statistics objects
-			DrgPdxlstatsderrel *Pdrgpdxlstatsderrel() const;
+			DrgPdxlstatsderrel *GetStatsDerivedRelDXLArray() const;
 
 			// return search strategy
-			DrgPss *Pdrgpss() const;
+			DrgPss *GetSearchStageArray() const;
 
 			// return plan id
-			ULLONG UllPlanId() const;
+			ULLONG GetPlanId() const;
 
 			// return plan space size
-			ULLONG UllPlanSpaceSize() const;
+			ULLONG GetPlanSpaceSize() const;
 
 			// return cost params
 			ICostModelParams *GetCostModelParams() const;

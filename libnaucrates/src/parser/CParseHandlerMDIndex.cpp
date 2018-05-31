@@ -187,7 +187,7 @@ CParseHandlerMDIndex::EndElement
 	}
 	
 	CParseHandlerMetadataIdList *pphMdidOpClasses = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[0]);
-	DrgPmdid *pdrgpmdidOpClasses = pphMdidOpClasses->Pdrgpmdid();
+	DrgPmdid *pdrgpmdidOpClasses = pphMdidOpClasses->GetMdIdArray();
 	pdrgpmdidOpClasses->AddRef();
 
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDIndexGPDB

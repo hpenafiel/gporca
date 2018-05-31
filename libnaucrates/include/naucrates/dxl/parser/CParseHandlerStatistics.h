@@ -37,7 +37,7 @@ namespace gpdxl
 		private:
 
 			// list of derived table statistics
-			DrgPdxlstatsderrel *m_pdrgpdxlstatsderrel;
+			DrgPdxlstatsderrel *m_stats_derived_rel_dxl_array;
 
 			// private copy ctor
 			CParseHandlerStatistics(const CParseHandlerStatistics&);
@@ -74,7 +74,7 @@ namespace gpdxl
 			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// return the list of statistics objects
-			DrgPdxlstatsderrel *Pdrgpdxlstatsderrel() const;
+			DrgPdxlstatsderrel *GetStatsDerivedRelDXLArray() const;
 
 	};
 }

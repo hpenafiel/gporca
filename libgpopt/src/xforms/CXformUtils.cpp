@@ -1302,7 +1302,7 @@ CXformUtils::PexprLogicalDMLOverProject
 	if (CLogicalDML::EdmlInsert == edmlop)
 	{
 		// add assert for check constraints and nullness checks if needed
-		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->Poconf();
+		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 		if (optimizer_config->Phint()->FEnforceConstraintsOnDML())
 		{
 			pexprProject = PexprAssertConstraints(memory_pool, pexprProject, ptabdesc, pdrgpcr);
@@ -2356,7 +2356,7 @@ CXformUtils::PexprRowNumber
 	)
 {
 
-	OID oidRowNumber = COptCtxt::PoctxtFromTLS()->Poconf()->Pwindowoids()->OidRowNumber();
+	OID oidRowNumber = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pwindowoids()->OidRowNumber();
 
 	CScalarWindowFunc *popRowNumber = GPOS_NEW(memory_pool) CScalarWindowFunc
 													(

@@ -72,7 +72,7 @@ namespace gpdxl
 
 
 			// return the list of output scalar ident nodes
-			DrgPdxln *PdrgpdxlnOutputCols();
+			DrgPdxln *GetOutputColumnsDXLArray();
 	};
 }
 
