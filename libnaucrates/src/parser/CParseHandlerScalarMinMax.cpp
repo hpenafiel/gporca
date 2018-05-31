@@ -66,14 +66,14 @@ CParseHandlerScalarMinMax::StartElement
 		m_emmt = Emmt(element_local_name);
 		GPOS_ASSERT(CDXLScalarMinMax::EmmtSentinel != m_emmt);
 
-		Edxltoken edxltoken = EdxltokenScalarMin;
+		Edxltoken token_type = EdxltokenScalarMin;
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))
 		{
-			edxltoken = EdxltokenScalarMax;
+			token_type = EdxltokenScalarMax;
 		}
 
 		// parse type id
-		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, edxltoken);
+		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, token_type);
 	}
 	else
 	{

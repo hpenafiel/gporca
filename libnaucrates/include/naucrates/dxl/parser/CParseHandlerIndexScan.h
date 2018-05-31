@@ -65,14 +65,14 @@ namespace gpdxl
 				(
 				const XMLCh* const element_local_name,
 				const Attributes& attrs,
-				Edxltoken edxltoken
+				Edxltoken token_type
 				);
 
 			// common EndElement functionality for IndexScan and IndexOnlyScan
 			void EndElementHelper
 				(
 				const XMLCh* const element_local_name,
-				Edxltoken edxltoken,
+				Edxltoken token_type,
 				ULONG ulPartIndexId = 0,
 				ULONG ulPartIndexIdPrintable = 0
 				);

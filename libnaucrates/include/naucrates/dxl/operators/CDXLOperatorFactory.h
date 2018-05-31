@@ -863,7 +863,7 @@ namespace gpdxl
 			
 			// parse the frame boundary
 			static
-			EdxlFrameBoundary Edxlfb(const Attributes& attrs, Edxltoken edxltoken);
+			EdxlFrameBoundary Edxlfb(const Attributes& attrs, Edxltoken token_type);
 
 			// parse the frame specification
 			static

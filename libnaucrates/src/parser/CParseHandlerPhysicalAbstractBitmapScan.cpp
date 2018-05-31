@@ -37,12 +37,12 @@ void
 CParseHandlerPhysicalAbstractBitmapScan::StartElementHelper
 	(
  	const XMLCh* const element_local_name,
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
 	if (0 != XMLString::compareString
 				(
-				CDXLTokens::XmlstrToken(edxltoken),
+				CDXLTokens::XmlstrToken(token_type),
 				element_local_name
 				))
 	{
@@ -97,14 +97,14 @@ void
 CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	(
 	const XMLCh* const element_local_name,
-	Edxltoken edxltoken,
+	Edxltoken token_type,
 	ULONG ulPartIndexId,
 	ULONG ulPartIndexIdPrintable
 	)
 {
 	if (0 != XMLString::compareString
 				(
-				CDXLTokens::XmlstrToken(edxltoken),
+				CDXLTokens::XmlstrToken(token_type),
 				element_local_name
 				))
 	{
@@ -128,13 +128,13 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	pdxltabdesc->AddRef();
 	CDXLPhysical *pdxlop = NULL;
 
-	if (EdxltokenPhysicalBitmapTableScan == edxltoken)
+	if (EdxltokenPhysicalBitmapTableScan == token_type)
 	{
 		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalBitmapTableScan(m_memory_pool, pdxltabdesc);
 	}
 	else
 	{
-		GPOS_ASSERT(EdxltokenPhysicalDynamicBitmapTableScan == edxltoken);
+		GPOS_ASSERT(EdxltokenPhysicalDynamicBitmapTableScan == token_type);
 		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable);
 	}
 	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);

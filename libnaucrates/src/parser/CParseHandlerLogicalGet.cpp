@@ -53,10 +53,10 @@ void
 CParseHandlerLogicalGet::StartElement
 	(
 	const XMLCh* const element_local_name,
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
@@ -104,10 +104,10 @@ void
 CParseHandlerLogicalGet::EndElement
 	(
 	const XMLCh* const element_local_name,
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
@@ -120,13 +120,13 @@ CParseHandlerLogicalGet::EndElement
 	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
 	pdxltabdesc->AddRef();
 
-	if (EdxltokenLogicalGet == edxltoken)
+	if (EdxltokenLogicalGet == token_type)
 	{
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalGet(m_memory_pool, pdxltabdesc));
 	}
 	else
 	{
-		GPOS_ASSERT(EdxltokenLogicalExternalGet == edxltoken);
+		GPOS_ASSERT(EdxltokenLogicalExternalGet == token_type);
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalExternalGet(m_memory_pool, pdxltabdesc));
 	}
 

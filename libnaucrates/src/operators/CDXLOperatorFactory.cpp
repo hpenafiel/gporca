@@ -1234,10 +1234,10 @@ EdxlFrameBoundary
 CDXLOperatorFactory::Edxlfb
 	(
 	const Attributes& attrs,
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
-	const XMLCh *xmlszBoundary  = XmlstrFromAttrs(attrs, edxltoken, EdxltokenWindowFrame);
+	const XMLCh *xmlszBoundary  = XmlstrFromAttrs(attrs, token_type, EdxltokenWindowFrame);
 
 	EdxlFrameBoundary edxlfb = EdxlfbSentinel;
 	ULONG rgrgulMapping[][2] =
@@ -1270,7 +1270,7 @@ CDXLOperatorFactory::Edxlfb
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(edxltoken)->GetBuffer(),
+			CDXLTokens::PstrToken(token_type)->GetBuffer(),
 			CDXLTokens::PstrToken(EdxltokenWindowFrame)->GetBuffer()
 			);
 	}

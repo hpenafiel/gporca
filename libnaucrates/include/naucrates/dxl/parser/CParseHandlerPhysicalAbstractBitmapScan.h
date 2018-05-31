@@ -42,14 +42,14 @@ namespace gpdxl
 			void StartElementHelper
 				(
 				const XMLCh* const element_local_name,
-				Edxltoken edxltoken
+				Edxltoken token_type
 				);
 
 			// common EndElement functionality for child classes
 			void EndElementHelper
 				(
 				const XMLCh* const element_local_name,
-				Edxltoken edxltoken,
+				Edxltoken token_type,
 				ULONG ulPartIndexId = 0,
 				ULONG ulPartIndexIdPrintable = 0
 				);

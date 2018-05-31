@@ -65,10 +65,10 @@ namespace gpdxl
 		protected:
 
 			// start element helper function
-			void StartElement(const XMLCh* const element_local_name, Edxltoken edxltoken);
+			void StartElement(const XMLCh* const element_local_name, Edxltoken token_type);
 
 			// end element helper function
-			void EndElement(const XMLCh* const element_local_name, Edxltoken edxltoken);
+			void EndElement(const XMLCh* const element_local_name, Edxltoken token_type);
 
 		public:
 			// ctor

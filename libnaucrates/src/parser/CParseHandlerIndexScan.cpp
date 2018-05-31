@@ -105,10 +105,10 @@ CParseHandlerIndexScan::StartElementHelper
 	(
 	const XMLCh* const element_local_name,
 	const Attributes& attrs,
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
@@ -119,12 +119,12 @@ CParseHandlerIndexScan::StartElementHelper
 																	(
 																	attrs,
 																	EdxltokenIndexScanDirection,
-																	edxltoken
+																	token_type
 																	);
 	m_edxlisd = CDXLOperatorFactory::EdxljtParseIndexScanDirection
 										(
 										xmlszIndexScanDirection,
-										CDXLTokens::PstrToken(edxltoken)
+										CDXLTokens::PstrToken(token_type)
 										);
 	GPOS_ASSERT(EdxlisdSentinel != m_edxlisd);
 
@@ -181,12 +181,12 @@ void
 CParseHandlerIndexScan::EndElementHelper
 	(
 	const XMLCh* const element_local_name,
-	Edxltoken edxltoken,
+	Edxltoken token_type,
 	ULONG ulPartIndexId,
 	ULONG ulPartIndexIdPrintable
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
@@ -207,19 +207,19 @@ CParseHandlerIndexScan::EndElementHelper
 	pdxlid->AddRef();
 
 	CDXLPhysical *pdxlop = NULL;
-	if (EdxltokenPhysicalIndexOnlyScan == edxltoken)
+	if (EdxltokenPhysicalIndexOnlyScan == token_type)
 	{
 		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
-	else if (EdxltokenPhysicalIndexScan == edxltoken)
+	else if (EdxltokenPhysicalIndexScan == token_type)
 	{
 		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
 	}
 	else
 	{
-		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == edxltoken);
+		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == token_type);
 
 		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable, pdxlid, m_edxlisd);
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);

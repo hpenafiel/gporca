@@ -23,25 +23,25 @@ using namespace gpdxl;
 
 XERCES_CPP_NAMESPACE_USE
 
-CParseHandlerFactory::HMXMLStrPfPHCreator *
-CParseHandlerFactory::m_phmPHCreators = NULL;
+CParseHandlerFactory::TokenParseHandlerFuncMap *
+CParseHandlerFactory::m_token_parse_handler_func_map = NULL;
 
 // adds a new mapping of token to corresponding parse handler
 void
 CParseHandlerFactory::AddMapping
 	(
-	Edxltoken edxltok,
-	PfParseHandlerOpCreator *pfphopc
+	Edxltoken token_type,
+	PfParseHandlerOpCreator *parse_handler_op_func
 	)
 {
-	GPOS_ASSERT(NULL != m_phmPHCreators);
-	const XMLCh *xmlszTok = CDXLTokens::XmlstrToken(edxltok);
+	GPOS_ASSERT(NULL != m_token_parse_handler_func_map);
+	const XMLCh *xmlszTok = CDXLTokens::XmlstrToken(token_type);
 	GPOS_ASSERT(NULL != xmlszTok);
 	
 #ifdef GPOS_DEBUG
 	BOOL fInserted = 
 #endif
-	m_phmPHCreators->Insert(xmlszTok, pfphopc);
+	m_token_parse_handler_func_map->Insert(xmlszTok, parse_handler_op_func);
 	
 	GPOS_ASSERT(fInserted);
 }
@@ -53,230 +53,230 @@ CParseHandlerFactory::Init
 	IMemoryPool *memory_pool
 	)
 {
-	m_phmPHCreators = GPOS_NEW(memory_pool) HMXMLStrPfPHCreator(memory_pool, HASH_MAP_SIZE);
+	m_token_parse_handler_func_map = GPOS_NEW(memory_pool) TokenParseHandlerFuncMap(memory_pool, HASH_MAP_SIZE);
 	
 	// array mapping XML Token -> Parse Handler Creator mappings to hashmap
 	SParseHandlerMapping rgParseHandlers[] =
 	{
-			{EdxltokenPlan, &PphPlan},
-			{EdxltokenMetadata, &PphMetadata},
-			{EdxltokenMDRequest, &PphMDRequest},
-			{EdxltokenTraceFlags, &PphTraceFlags},
-			{EdxltokenOptimizerConfig, &PphOptimizerConfig},
-			{EdxltokenRelationExternal, &PphMetadataRelationExternal},
-			{EdxltokenRelationCTAS, &PphMetadataRelationCTAS},
-			{EdxltokenEnumeratorConfig, &PphEnumeratorConfig},
-			{EdxltokenStatisticsConfig, &PphStatisticsConfig},
-			{EdxltokenCTEConfig, &PphCTEConfig},
-			{EdxltokenCostModelConfig, &PphCostModelConfig},
-			{EdxltokenHint, &PphHint},
-			{EdxltokenWindowOids, &PphWindowOids},
+			{EdxltokenPlan, &CreatePlanParseHandler},
+			{EdxltokenMetadata, &CreateMetadataParseHandler},
+			{EdxltokenMDRequest, &CreateMDRequestParseHandler},
+			{EdxltokenTraceFlags, &CreateTraceFlagsParseHandler},
+			{EdxltokenOptimizerConfig, &CreateOptimizerCfgParseHandler},
+			{EdxltokenRelationExternal, &CreateMDRelationExtParseHandler},
+			{EdxltokenRelationCTAS, &CreateMDRelationCTASParseHandler},
+			{EdxltokenEnumeratorConfig, &CreateEnumeratorCfgParseHandler},
+			{EdxltokenStatisticsConfig, &CreateStatisticsCfgParseHandler},
+			{EdxltokenCTEConfig, &CreateCTECfgParseHandler},
+			{EdxltokenCostModelConfig, &CreateCostModelCfgParseHandler},
+			{EdxltokenHint, &CreateHintParseHandler},
+			{EdxltokenWindowOids, &CreateWindowOidsParseHandler},
 
-			{EdxltokenRelation, &PphMetadataRelation},
-			{EdxltokenIndex, &PphMDIndex},
-			{EdxltokenMDType, &PphMDGPDBType},
-			{EdxltokenGPDBScalarOp, &PphMDGPDBScalarOp},
-			{EdxltokenGPDBFunc, &PphMDGPDBFunc},
-			{EdxltokenGPDBAgg, &PphMDGPDBAgg},
-			{EdxltokenGPDBTrigger, &PphMDGPDBTrigger},
-			{EdxltokenCheckConstraint, &PphMDGPDBCheckConstraint},
-			{EdxltokenRelationStats, &PphRelStats},
-			{EdxltokenColumnStats, &PphColStats},
-			{EdxltokenMetadataIdList, &PphMetadataIdList},
-			{EdxltokenIndexInfoList, &PphMDIndexInfoList},
-			{EdxltokenMetadataColumns, &PphMetadataColumns},
-			{EdxltokenMetadataColumn, &PphMetadataColumn},
-			{EdxltokenColumnDefaultValue, &PphColumnDefaultValueExpr},
-			{EdxltokenColumnStatsBucket, &PphColStatsBucket},
-			{EdxltokenGPDBCast, &PphMDCast},
-			{EdxltokenGPDBMDScCmp, &PphMDScCmp},
-			{EdxltokenGPDBArrayCoerceCast, &PphMDArrayCoerceCast},
+			{EdxltokenRelation, &CreateMDRelationParseHandler},
+			{EdxltokenIndex, &CreateMDIndexParseHandler},
+			{EdxltokenMDType, &CreateMDTypeParseHandler},
+			{EdxltokenGPDBScalarOp, &CreateMDScalarOpParseHandler},
+			{EdxltokenGPDBFunc, &CreateMDFuncParseHandler},
+			{EdxltokenGPDBAgg, &CreateMDAggParseHandler},
+			{EdxltokenGPDBTrigger, &CreateMDTriggerParseHandler},
+			{EdxltokenCheckConstraint, &CreateMDChkConstraintParseHandler},
+			{EdxltokenRelationStats, &CreateRelStatsParseHandler},
+			{EdxltokenColumnStats, &CreateColStatsParseHandler},
+			{EdxltokenMetadataIdList, &CreateMDIdListParseHandler},
+			{EdxltokenIndexInfoList, &CreateMDIndexInfoListParseHandler},
+			{EdxltokenMetadataColumns, &CreateMDColsParseHandler},
+			{EdxltokenMetadataColumn, &CreateMDColParseHandler},
+			{EdxltokenColumnDefaultValue, &CreateColDefaultValExprParseHandler},
+			{EdxltokenColumnStatsBucket, &CreateColStatsBucketParseHandler},
+			{EdxltokenGPDBCast, &CreateMDCastParseHandler},
+			{EdxltokenGPDBMDScCmp, &CreateMDScCmpParseHandler},
+			{EdxltokenGPDBArrayCoerceCast, &CreateMDArrayCoerceCastParseHandler},
 
-			{EdxltokenPhysical, &PphPhysOp},
+			{EdxltokenPhysical, &CreatePhysicalOpParseHandler},
 
-			{EdxltokenPhysicalAggregate, &PphAgg},
-			{EdxltokenPhysicalTableScan, &PphTableScan},
-			{EdxltokenPhysicalBitmapTableScan, &PphBitmapTableScan},
-			{EdxltokenPhysicalDynamicBitmapTableScan, &PphDynamicBitmapTableScan},
-			{EdxltokenPhysicalExternalScan, &PphExternalScan},
-			{EdxltokenPhysicalHashJoin, &PphHashJoin},
-			{EdxltokenPhysicalNLJoin, &PphNLJoin},
-			{EdxltokenPhysicalMergeJoin, &PphMergeJoin},
-			{EdxltokenPhysicalGatherMotion, &PphGatherMotion},
-			{EdxltokenPhysicalBroadcastMotion, &PphBroadcastMotion},
-			{EdxltokenPhysicalRedistributeMotion, &PphRedistributeMotion},
-			{EdxltokenPhysicalRoutedDistributeMotion, &PphRoutedMotion},
-			{EdxltokenPhysicalRandomMotion, &PphRandomMotion},
-			{EdxltokenPhysicalSubqueryScan, &PphSubqScan},
-			{EdxltokenPhysicalResult, &PphResult},
-			{EdxltokenPhysicalLimit, &PphLimit},
-			{EdxltokenPhysicalSort, &PphSort},
-			{EdxltokenPhysicalAppend, &PphAppend},
-			{EdxltokenPhysicalMaterialize, &PphMaterialize},
-		 	{EdxltokenPhysicalDynamicTableScan, &PphDynamicTableScan},
-		 	{EdxltokenPhysicalDynamicIndexScan, &PphDynamicIndexScan},
-		 	{EdxltokenPhysicalPartitionSelector, &PphPartitionSelector},
-			{EdxltokenPhysicalSequence, &PphSequence},
-			{EdxltokenPhysicalIndexScan, &PphIndexScan},
-			{EdxltokenPhysicalIndexOnlyScan, &PphIndexOnlyScan},
-			{EdxltokenScalarBitmapIndexProbe, &PphBitmapIndexProbe},
-			{EdxltokenIndexDescr, &PphIndexDescr},
+			{EdxltokenPhysicalAggregate, &CreateAggParseHandler},
+			{EdxltokenPhysicalTableScan, &CreateTableScanParseHandler},
+			{EdxltokenPhysicalBitmapTableScan, &CreateBitmapTableScanParseHandler},
+			{EdxltokenPhysicalDynamicBitmapTableScan, &CreateDynBitmapTableScanParseHandler},
+			{EdxltokenPhysicalExternalScan, &CreateExternalScanParseHandler},
+			{EdxltokenPhysicalHashJoin, &CreateHashJoinParseHandler},
+			{EdxltokenPhysicalNLJoin, &CreateNLJoinParseHandler},
+			{EdxltokenPhysicalMergeJoin, &CreateMergeJoinParseHandler},
+			{EdxltokenPhysicalGatherMotion, &CreateGatherMotionParseHandler},
+			{EdxltokenPhysicalBroadcastMotion, &CreateBroadcastMotionParseHandler},
+			{EdxltokenPhysicalRedistributeMotion, &CreateRedistributeMotionParseHandler},
+			{EdxltokenPhysicalRoutedDistributeMotion, &CreateRoutedMotionParseHandler},
+			{EdxltokenPhysicalRandomMotion, &CreateRandomMotionParseHandler},
+			{EdxltokenPhysicalSubqueryScan, &CreateSubqueryScanParseHandler},
+			{EdxltokenPhysicalResult, &CreateResultParseHandler},
+			{EdxltokenPhysicalLimit, &CreateLimitParseHandler},
+			{EdxltokenPhysicalSort, &CreateSortParseHandler},
+			{EdxltokenPhysicalAppend, &CreateAppendParseHandler},
+			{EdxltokenPhysicalMaterialize, &CreateMaterializeParseHandler},
+		 	{EdxltokenPhysicalDynamicTableScan, &CreateDTSParseHandler},
+		 	{EdxltokenPhysicalDynamicIndexScan, &CreateDynamicIdxScanParseHandler},
+		 	{EdxltokenPhysicalPartitionSelector, &CreatePartitionSelectorParseHandler},
+			{EdxltokenPhysicalSequence, &CreateSequenceParseHandler},
+			{EdxltokenPhysicalIndexScan, &CreateIdxScanListParseHandler},
+			{EdxltokenPhysicalIndexOnlyScan, &CreateIdxOnlyScanParseHandler},
+			{EdxltokenScalarBitmapIndexProbe, &CreateBitmapIdxProbeParseHandler},
+			{EdxltokenIndexDescr, &CreateIdxDescrParseHandler},
 
-			{EdxltokenPhysicalWindow, &PphWindow},
-			{EdxltokenScalarWindowref, &PphWindowRef},
-			{EdxltokenWindowFrame, &PphWindowFrame},
-			{EdxltokenScalarWindowFrameLeadingEdge, &PphWindowFrameLeadingEdge},
-			{EdxltokenScalarWindowFrameTrailingEdge, &PphWindowFrameTrailingEdge},
-			{EdxltokenWindowKey, &PphWindowKey},
-			{EdxltokenWindowKeyList, &PphWindowKeyList},
+			{EdxltokenPhysicalWindow, &CreateWindowParseHandler},
+			{EdxltokenScalarWindowref, &CreateWindowRefParseHandler},
+			{EdxltokenWindowFrame, &CreateWindowFrameParseHandler},
+			{EdxltokenScalarWindowFrameLeadingEdge, &CreateFrameLeadingEdgeParseHandler},
+			{EdxltokenScalarWindowFrameTrailingEdge, &CreateFrameTrailingEdgeParseHandler},
+			{EdxltokenWindowKey, &CreateWindowKeyParseHandler},
+			{EdxltokenWindowKeyList, &CreateWindowKeyListParseHandler},
 
-			{EdxltokenScalarIndexCondList, &PphIndexCondList},
+			{EdxltokenScalarIndexCondList, &CreateIdxCondListParseHandler},
  
-			{EdxltokenScalar, &PphScalarOp},
+			{EdxltokenScalar, &CreateScalarOpParseHandler},
 
-			{EdxltokenScalarFilter, &PphFilter},
-			{EdxltokenScalarOneTimeFilter, &PphFilter},
-			{EdxltokenScalarRecheckCondFilter, &PphFilter},
-			{EdxltokenScalarProjList, &PphProjList},
-			{EdxltokenScalarProjElem, &PphProjElem},
-			{EdxltokenScalarAggref, &PphAggref},
-			{EdxltokenScalarSortColList, &PphSortColList},
-			{EdxltokenScalarSortCol, &PphSortCol},
-			{EdxltokenScalarCoalesce, &PphScalarCoalesce},
-			{EdxltokenScalarComp, &PphScalarCmp},
-			{EdxltokenScalarDistinctComp, &PphDistinctCmp},
-			{EdxltokenScalarIdent, &PphScalarId},
-			{EdxltokenScalarOpExpr, &PphScalarOpexpr},
-			{EdxltokenScalarArrayComp, &PphScalarArrayCmp},
-			{EdxltokenScalarBoolOr, &PphScalarBoolExpr},
-			{EdxltokenScalarBoolNot, &PphScalarBoolExpr},
-			{EdxltokenScalarBoolAnd, &PphScalarBoolExpr},
-			{EdxltokenScalarMin, &PphScalarMinMax},
-			{EdxltokenScalarMax, &PphScalarMinMax},
-			{EdxltokenScalarBoolTestIsTrue, &PphBooleanTest},
-			{EdxltokenScalarBoolTestIsNotTrue, &PphBooleanTest},
-			{EdxltokenScalarBoolTestIsFalse, &PphBooleanTest},
-			{EdxltokenScalarBoolTestIsNotFalse, &PphBooleanTest},
-			{EdxltokenScalarBoolTestIsUnknown, &PphBooleanTest},
-			{EdxltokenScalarBoolTestIsNotUnknown, &PphBooleanTest},
-			{EdxltokenScalarSubPlan, &PphScalarSubPlan},
-			{EdxltokenScalarConstValue, &PphScalarConstValue},
-			{EdxltokenScalarIfStmt, &PphIfStmt},
-			{EdxltokenScalarSwitch, &PphScalarSwitch},
-			{EdxltokenScalarSwitchCase, &PphScalarSwitchCase},
-			{EdxltokenScalarCaseTest, &PphScalarCaseTest},
-			{EdxltokenScalarFuncExpr, &PphScalarFuncExpr},
-			{EdxltokenScalarIsNull, &PphScalarNullTest},
-			{EdxltokenScalarIsNotNull, &PphScalarNullTest},
-			{EdxltokenScalarNullIf, &PphScalarNullIf},
-			{EdxltokenScalarCast, &PphScalarCast},
-			{EdxltokenScalarCoerceToDomain, PphScalarCoerceToDomain},
-			{EdxltokenScalarCoerceViaIO, PphScalarCoerceViaIO},
-			{EdxltokenScalarArrayCoerceExpr, PphScalarArrayCoerceExpr},
-			{EdxltokenScalarHashExpr, &PphHashExpr},
-			{EdxltokenScalarHashCondList, &PphCondList},
-			{EdxltokenScalarMergeCondList, &PphCondList},
-			{EdxltokenScalarHashExprList, &PphHashExprList},
-			{EdxltokenScalarGroupingColList, &PphGroupingColList},
-			{EdxltokenScalarLimitOffset, &PphLimitoffset},
-			{EdxltokenScalarLimitCount, &PphLimitcount},
-			{EdxltokenScalarSubPlanTestExpr, &PphScalarSubPlanTestExpr},
-			{EdxltokenScalarSubPlanParamList, &PphScalarSubPlanParamList},
-			{EdxltokenScalarSubPlanParam, &PphScalarSubPlanParam},
-			{EdxltokenScalarOpList, &PphScalarOpList},
-			{EdxltokenScalarPartOid, &PphScalarPartOid},
-			{EdxltokenScalarPartDefault, &PphScalarPartDefault},
-			{EdxltokenScalarPartBound, &PphScalarPartBound},
-			{EdxltokenScalarPartBoundInclusion, &PphScalarPartBoundInclusion},
-			{EdxltokenScalarPartBoundOpen, &PphScalarPartBoundOpen},
-			{EdxltokenScalarPartListValues, &PphScalarPartListValues},
-			{EdxltokenScalarPartListNullTest, &PphScalarPartListNullTest},
+			{EdxltokenScalarFilter, &CreateFilterParseHandler},
+			{EdxltokenScalarOneTimeFilter, &CreateFilterParseHandler},
+			{EdxltokenScalarRecheckCondFilter, &CreateFilterParseHandler},
+			{EdxltokenScalarProjList, &CreateProjListParseHandler},
+			{EdxltokenScalarProjElem, &CreateProjElemParseHandler},
+			{EdxltokenScalarAggref, &CreateAggRefParseHandler},
+			{EdxltokenScalarSortColList, &CreateSortColListParseHandler},
+			{EdxltokenScalarSortCol, &CreateSortColParseHandler},
+			{EdxltokenScalarCoalesce, &CreateScCoalesceParseHandler},
+			{EdxltokenScalarComp, &CreateScCmpParseHandler},
+			{EdxltokenScalarDistinctComp, &CreateDistinctCmpParseHandler},
+			{EdxltokenScalarIdent, &CreateScIdParseHandler},
+			{EdxltokenScalarOpExpr, &CreateScOpExprParseHandler},
+			{EdxltokenScalarArrayComp, &CreateScArrayCmpParseHandler},
+			{EdxltokenScalarBoolOr, &CreateScBoolExprParseHandler},
+			{EdxltokenScalarBoolNot, &CreateScBoolExprParseHandler},
+			{EdxltokenScalarBoolAnd, &CreateScBoolExprParseHandler},
+			{EdxltokenScalarMin, &CreateScMinMaxParseHandler},
+			{EdxltokenScalarMax, &CreateScMinMaxParseHandler},
+			{EdxltokenScalarBoolTestIsTrue, &CreateBooleanTestParseHandler},
+			{EdxltokenScalarBoolTestIsNotTrue, &CreateBooleanTestParseHandler},
+			{EdxltokenScalarBoolTestIsFalse, &CreateBooleanTestParseHandler},
+			{EdxltokenScalarBoolTestIsNotFalse, &CreateBooleanTestParseHandler},
+			{EdxltokenScalarBoolTestIsUnknown, &CreateBooleanTestParseHandler},
+			{EdxltokenScalarBoolTestIsNotUnknown, &CreateBooleanTestParseHandler},
+			{EdxltokenScalarSubPlan, &CreateScSubPlanParseHandler},
+			{EdxltokenScalarConstValue, &CreateScConstValueParseHandler},
+			{EdxltokenScalarIfStmt, &CreateIfStmtParseHandler},
+			{EdxltokenScalarSwitch, &CreateScSwitchParseHandler},
+			{EdxltokenScalarSwitchCase, &CreateScSwitchCaseParseHandler},
+			{EdxltokenScalarCaseTest, &CreateScCaseTestParseHandler},
+			{EdxltokenScalarFuncExpr, &CreateScFuncExprParseHandler},
+			{EdxltokenScalarIsNull, &CreateScNullTestParseHandler},
+			{EdxltokenScalarIsNotNull, &CreateScNullTestParseHandler},
+			{EdxltokenScalarNullIf, &CreateScNullIfParseHandler},
+			{EdxltokenScalarCast, &CreateScCastParseHandler},
+			{EdxltokenScalarCoerceToDomain, CreateScCoerceToDomainParseHandler},
+			{EdxltokenScalarCoerceViaIO, CreateScCoerceViaIOParseHandler},
+			{EdxltokenScalarArrayCoerceExpr, CreateScArrayCoerceExprParseHandler},
+			{EdxltokenScalarHashExpr, &CreateHashExprParseHandler},
+			{EdxltokenScalarHashCondList, &CreateCondListParseHandler},
+			{EdxltokenScalarMergeCondList, &CreateCondListParseHandler},
+			{EdxltokenScalarHashExprList, &CreateHashExprListParseHandler},
+			{EdxltokenScalarGroupingColList, &CreateGroupingColListParseHandler},
+			{EdxltokenScalarLimitOffset, &CreateLimitOffsetParseHandler},
+			{EdxltokenScalarLimitCount, &CreateLimitCountParseHandler},
+			{EdxltokenScalarSubPlanTestExpr, &CreateScSubPlanTestExprParseHandler},
+			{EdxltokenScalarSubPlanParamList, &CreateScSubPlanParamListParseHandler},
+			{EdxltokenScalarSubPlanParam, &CreateScSubPlanParamParseHandler},
+			{EdxltokenScalarOpList, &CreateScOpListParseHandler},
+			{EdxltokenScalarPartOid, &CreateScPartOidParseHandler},
+			{EdxltokenScalarPartDefault, &CreateScPartDefaultParseHandler},
+			{EdxltokenScalarPartBound, &CreateScPartBoundParseHandler},
+			{EdxltokenScalarPartBoundInclusion, &CreateScPartBoundInclParseHandler},
+			{EdxltokenScalarPartBoundOpen, &CreateScPartBoundOpenParseHandler},
+			{EdxltokenScalarPartListValues, &CreateScPartListValuesParseHandler},
+			{EdxltokenScalarPartListNullTest, &CreateScPartListNullTestParseHandler},
 
-			{EdxltokenScalarSubquery, &PphScalarSubquery},
-			{EdxltokenScalarBitmapAnd, &PphScalarBitmapBoolOp},
-			{EdxltokenScalarBitmapOr, &PphScalarBitmapBoolOp},
+			{EdxltokenScalarSubquery, &CreateScSubqueryParseHandler},
+			{EdxltokenScalarBitmapAnd, &CreateScBitmapBoolOpParseHandler},
+			{EdxltokenScalarBitmapOr, &CreateScBitmapBoolOpParseHandler},
 
-			{EdxltokenScalarArray, &PphScalarArray},
-			{EdxltokenScalarArrayRef, &PphScalarArrayRef},
-			{EdxltokenScalarArrayRefIndexList, &PphScalarArrayRefIndexList},
+			{EdxltokenScalarArray, &CreateScArrayParseHandler},
+			{EdxltokenScalarArrayRef, &CreateScArrayRefParseHandler},
+			{EdxltokenScalarArrayRefIndexList, &CreateScArrayRefIdxListParseHandler},
 			
-			{EdxltokenScalarAssertConstraintList, &PphScalarAssertConstraintList},
+			{EdxltokenScalarAssertConstraintList, &CreateScAssertConstraintListParseHandler},
 			
-			{EdxltokenScalarDMLAction, &PphScalarDMLAction},
-			{EdxltokenDirectDispatchInfo, &PphDirectDispatchInfo},
+			{EdxltokenScalarDMLAction, &CreateScDMLActionParseHandler},
+			{EdxltokenDirectDispatchInfo, &CreateDirectDispatchParseHandler},
 
-			{EdxltokenQueryOutput, &PphQueryOutput},
+			{EdxltokenQueryOutput, &CreateLogicalQueryOpParseHandler},
 
-			{EdxltokenCost, &PphCost},
-			{EdxltokenTableDescr, &PphTableDesc},
-			{EdxltokenColumns, &PphColDesc},
-			{EdxltokenProperties, &PphProperties},
-			{EdxltokenPhysicalTVF, &PphPhysicalTVF},
-			{EdxltokenLogicalTVF, &PphLogicalTVF},
+			{EdxltokenCost, &CreateCostParseHandler},
+			{EdxltokenTableDescr, &CreateTableDescParseHandler},
+			{EdxltokenColumns, &CreateColDescParseHandler},
+			{EdxltokenProperties, &CreatePropertiesParseHandler},
+			{EdxltokenPhysicalTVF, &CreatePhysicalTVFParseHandler},
+			{EdxltokenLogicalTVF, &CreateLogicalTVFParseHandler},
 
-			{EdxltokenQuery, &PphQuery},
-			{EdxltokenLogicalGet, &PphLgGet},
-			{EdxltokenLogicalExternalGet, &PphLgExternalGet},
-			{EdxltokenLogical, &PphLgOp},
-			{EdxltokenLogicalProject, &PphLgProject},
-			{EdxltokenLogicalSelect, &PphLgSelect},
-			{EdxltokenLogicalJoin, &PphLgJoin},
-			{EdxltokenLogicalGrpBy, &PphLgGrpBy},
-			{EdxltokenLogicalLimit, &PphLgLimit},
-			{EdxltokenLogicalConstTable, &PphLgConstTable},
-			{EdxltokenLogicalCTEProducer, &PphLgCTEProducer},
-			{EdxltokenLogicalCTEConsumer, &PphLgCTEConsumer},
-			{EdxltokenLogicalCTEAnchor, &PphLgCTEAnchor},
-			{EdxltokenCTEList, &PphCTEList},
+			{EdxltokenQuery, &CreateQueryParseHandler},
+			{EdxltokenLogicalGet, &CreateLogicalGetParseHandler},
+			{EdxltokenLogicalExternalGet, &CreateLogicalExtGetParseHandler},
+			{EdxltokenLogical, &CreateLogicalOpParseHandler},
+			{EdxltokenLogicalProject, &CreateLogicalProjParseHandler},
+			{EdxltokenLogicalSelect, &CreateLogicalSelectParseHandler},
+			{EdxltokenLogicalJoin, &CreateLogicalJoinParseHandler},
+			{EdxltokenLogicalGrpBy, &CreateLogicalGrpByParseHandler},
+			{EdxltokenLogicalLimit, &CreateLogicalLimitParseHandler},
+			{EdxltokenLogicalConstTable, &CreateLogicalConstTableParseHandler},
+			{EdxltokenLogicalCTEProducer, &CreateLogicalCTEProdParseHandler},
+			{EdxltokenLogicalCTEConsumer, &CreateLogicalCTEConsParseHandler},
+			{EdxltokenLogicalCTEAnchor, &CreateLogicalCTEAnchorParseHandler},
+			{EdxltokenCTEList, &CreateCTEListParseHandler},
 
-			{EdxltokenLogicalWindow, &PphLgWindow},
-			{EdxltokenWindowSpec, &PphWindowSpec},
-			{EdxltokenWindowSpecList, &PphWindowSpecList},
+			{EdxltokenLogicalWindow, &CreateLogicalWindowParseHandler},
+			{EdxltokenWindowSpec, &CreateWindowSpecParseHandler},
+			{EdxltokenWindowSpecList, &CreateWindowSpecListParseHandler},
 
-			{EdxltokenLogicalInsert, &PphLgInsert},
-			{EdxltokenLogicalDelete, &PphLgDelete},
-			{EdxltokenLogicalUpdate, &PphLgUpdate},
-			{EdxltokenPhysicalDMLInsert, &PphPhDML},
-			{EdxltokenPhysicalDMLDelete, &PphPhDML},
-			{EdxltokenPhysicalDMLUpdate, &PphPhDML},
-			{EdxltokenPhysicalSplit, &PphPhSplit},
-			{EdxltokenPhysicalRowTrigger, &PphPhRowTrigger},
-			{EdxltokenPhysicalAssert, &PphPhAssert},
-			{EdxltokenPhysicalCTEProducer, &PphPhCTEProducer},
+			{EdxltokenLogicalInsert, &CreateLogicalInsertParseHandler},
+			{EdxltokenLogicalDelete, &CreateLogicalDeleteParseHandler},
+			{EdxltokenLogicalUpdate, &CreateLogicalUpdateParseHandler},
+			{EdxltokenPhysicalDMLInsert, &CreatePhysicalDMLParseHandler},
+			{EdxltokenPhysicalDMLDelete, &CreatePhysicalDMLParseHandler},
+			{EdxltokenPhysicalDMLUpdate, &CreatePhysicalDMLParseHandler},
+			{EdxltokenPhysicalSplit, &CreatePhysicalSplitParseHandler},
+			{EdxltokenPhysicalRowTrigger, &CreatePhysicalRowTriggerParseHandler},
+			{EdxltokenPhysicalAssert, &CreatePhysicalAssertParseHandler},
+			{EdxltokenPhysicalCTEProducer, &CreatePhysicalCTEProdParseHandler},
 			{EdxltokenPhysicalCTEConsumer, &PphPhCTEConsumer},
-			{EdxltokenLogicalCTAS, &PphLgCTAS},
-			{EdxltokenPhysicalCTAS, &PphPhCTAS},
-			{EdxltokenCTASOptions, &PphCTASOptions},
+			{EdxltokenLogicalCTAS, &CreateLogicalCTASParseHandler},
+			{EdxltokenPhysicalCTAS, &CreatePhysicalCTASParseHandler},
+			{EdxltokenCTASOptions, &CreateCTASOptionsParseHandler},
 		
-			{EdxltokenScalarSubqueryAny, &PphScSubqueryQuantified},
-			{EdxltokenScalarSubqueryAll, &PphScSubqueryQuantified},
- 			{EdxltokenScalarSubqueryExists, &PphScSubqueryExists},
-			{EdxltokenScalarSubqueryNotExists, &PphScSubqueryExists},
+			{EdxltokenScalarSubqueryAny, &CreateScScalarSubqueryQuantifiedParseHandler},
+			{EdxltokenScalarSubqueryAll, &CreateScScalarSubqueryQuantifiedParseHandler},
+ 			{EdxltokenScalarSubqueryExists, &CreateScScalarSubqueryExistsParseHandler},
+			{EdxltokenScalarSubqueryNotExists, &CreateScScalarSubqueryExistsParseHandler},
 
-			{EdxltokenStackTrace, &PphStacktrace},
-			{EdxltokenLogicalUnion, &PphLgSetOp},
-			{EdxltokenLogicalUnionAll, &PphLgSetOp},
-			{EdxltokenLogicalIntersect, &PphLgSetOp},
-			{EdxltokenLogicalIntersectAll, &PphLgSetOp},
-			{EdxltokenLogicalDifference, &PphLgSetOp},
-			{EdxltokenLogicalDifferenceAll, &PphLgSetOp},
+			{EdxltokenStackTrace, &CreateStackTraceParseHandler},
+			{EdxltokenLogicalUnion, &CreateLogicalSetOpParseHandler},
+			{EdxltokenLogicalUnionAll, &CreateLogicalSetOpParseHandler},
+			{EdxltokenLogicalIntersect, &CreateLogicalSetOpParseHandler},
+			{EdxltokenLogicalIntersectAll, &CreateLogicalSetOpParseHandler},
+			{EdxltokenLogicalDifference, &CreateLogicalSetOpParseHandler},
+			{EdxltokenLogicalDifferenceAll, &CreateLogicalSetOpParseHandler},
 
-			{EdxltokenStatistics, &PphStats},
-			{EdxltokenStatsDerivedColumn, &PphStatsDerivedColumn},
-			{EdxltokenStatsDerivedRelation, &PphStatsDerivedRelation},
-			{EdxltokenStatsBucketLowerBound, &PphStatsBucketBound},
-			{EdxltokenStatsBucketUpperBound, &PphStatsBucketBound},
+			{EdxltokenStatistics, &CreateStatsParseHandler},
+			{EdxltokenStatsDerivedColumn, &CreateStatsDrvdColParseHandler},
+			{EdxltokenStatsDerivedRelation, &CreateStatsDrvdRelParseHandler},
+			{EdxltokenStatsBucketLowerBound, &CreateStatsBucketBoundParseHandler},
+			{EdxltokenStatsBucketUpperBound, &CreateStatsBucketBoundParseHandler},
 
-			{EdxltokenSearchStrategy, &PphSearchStrategy},
-			{EdxltokenSearchStage, &PphSearchStage},
-			{EdxltokenXform, &PphXform},
+			{EdxltokenSearchStrategy, &CreateSearchStrategyParseHandler},
+			{EdxltokenSearchStage, &CreateSearchStageParseHandler},
+			{EdxltokenXform, &CreateXformParseHandler},
 
-			{EdxltokenCostParams, &PphCostParams},
-			{EdxltokenCostParam, &PphCostParam},
+			{EdxltokenCostParams, &CreateCostParamsParseHandler},
+			{EdxltokenCostParam, &CreateCostParamParseHandler},
 
-			{EdxltokenScalarExpr, &PphScalarExpr},
-			{EdxltokenScalarValuesList, &PphScalarValuesList},
-			{EdxltokenPhysicalValuesScan, &PphValuesScan}
+			{EdxltokenScalarExpr, &CreateScExprParseHandler},
+			{EdxltokenScalarValuesList, &CreateScValuesListParseHandler},
+			{EdxltokenPhysicalValuesScan, &CreateValuesScanParseHandler}
 
 	};
 	
@@ -285,7 +285,7 @@ CParseHandlerFactory::Init
 	for (ULONG ul = 0; ul < ulParsehandlers; ul++)
 	{
 		SParseHandlerMapping elem = rgParseHandlers[ul];
-		AddMapping(elem.edxltoken, elem.pfphopc);
+		AddMapping(elem.token_type, elem.parse_handler_op_func);
 	}
 }
 
@@ -299,9 +299,9 @@ CParseHandlerFactory::Pph
 	CParseHandlerBase *parse_handler_root
 	)
 {
-	GPOS_ASSERT(NULL != m_phmPHCreators);
+	GPOS_ASSERT(NULL != m_token_parse_handler_func_map);
 
-	PfParseHandlerOpCreator *phoc = m_phmPHCreators->Find(xmlszName);
+	PfParseHandlerOpCreator *phoc = m_token_parse_handler_func_map->Find(xmlszName);
 
 	if (phoc != NULL)
 	{
@@ -336,7 +336,7 @@ CParseHandlerFactory::Pphdxl
 
 // creates a parse handler for parsing a Plan
 CParseHandlerBase *
-CParseHandlerFactory::PphPlan
+CParseHandlerFactory::CreatePlanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -348,7 +348,7 @@ CParseHandlerFactory::PphPlan
 
 // creates a parse handler for parsing metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMetadata
+CParseHandlerFactory::CreateMetadataParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -360,7 +360,7 @@ CParseHandlerFactory::PphMetadata
 
 // creates a parse handler for parsing a metadata request
 CParseHandlerBase *
-CParseHandlerFactory::PphMDRequest
+CParseHandlerFactory::CreateMDRequestParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -372,7 +372,7 @@ CParseHandlerFactory::PphMDRequest
 
 // creates a parse handler for parsing trace flags
 CParseHandlerBase *
-CParseHandlerFactory::PphTraceFlags
+CParseHandlerFactory::CreateTraceFlagsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -384,7 +384,7 @@ CParseHandlerFactory::PphTraceFlags
 
 // creates a parse handler for parsing optimizer config
 CParseHandlerBase *
-CParseHandlerFactory::PphOptimizerConfig
+CParseHandlerFactory::CreateOptimizerCfgParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -396,7 +396,7 @@ CParseHandlerFactory::PphOptimizerConfig
 
 // creates a parse handler for parsing enumerator config
 CParseHandlerBase *
-CParseHandlerFactory::PphEnumeratorConfig
+CParseHandlerFactory::CreateEnumeratorCfgParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -408,7 +408,7 @@ CParseHandlerFactory::PphEnumeratorConfig
 
 // creates a parse handler for parsing statistics configuration
 CParseHandlerBase *
-CParseHandlerFactory::PphStatisticsConfig
+CParseHandlerFactory::CreateStatisticsCfgParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -420,7 +420,7 @@ CParseHandlerFactory::PphStatisticsConfig
 
 // creates a parse handler for parsing CTE configuration
 CParseHandlerBase *
-CParseHandlerFactory::PphCTEConfig
+CParseHandlerFactory::CreateCTECfgParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -432,7 +432,7 @@ CParseHandlerFactory::PphCTEConfig
 
 // creates a parse handler for parsing cost model configuration
 CParseHandlerBase *
-CParseHandlerFactory::PphCostModelConfig
+CParseHandlerFactory::CreateCostModelCfgParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -444,7 +444,7 @@ CParseHandlerFactory::PphCostModelConfig
 
 // creates a parse handler for parsing hint configuration
 CParseHandlerBase *
-CParseHandlerFactory::PphHint
+CParseHandlerFactory::CreateHintParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -456,7 +456,7 @@ CParseHandlerFactory::PphHint
 
 // creates a parse handler for parsing window oids configuration
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowOids
+CParseHandlerFactory::CreateWindowOidsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -468,7 +468,7 @@ CParseHandlerFactory::PphWindowOids
 
 // creates a parse handler for parsing relation metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMetadataRelation
+CParseHandlerFactory::CreateMDRelationParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -480,7 +480,7 @@ CParseHandlerFactory::PphMetadataRelation
 
 // creates a parse handler for parsing external relation metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMetadataRelationExternal
+CParseHandlerFactory::CreateMDRelationExtParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -492,7 +492,7 @@ CParseHandlerFactory::PphMetadataRelationExternal
 
 // creates a parse handler for parsing CTAS relation metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMetadataRelationCTAS
+CParseHandlerFactory::CreateMDRelationCTASParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -504,7 +504,7 @@ CParseHandlerFactory::PphMetadataRelationCTAS
 
 // creates a parse handler for parsing a MD index
 CParseHandlerBase *
-CParseHandlerFactory::PphMDIndex
+CParseHandlerFactory::CreateMDIndexParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -516,7 +516,7 @@ CParseHandlerFactory::PphMDIndex
 
 // creates a parse handler for parsing relation stats
 CParseHandlerBase *
-CParseHandlerFactory::PphRelStats
+CParseHandlerFactory::CreateRelStatsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -528,7 +528,7 @@ CParseHandlerFactory::PphRelStats
 
 // creates a parse handler for parsing column stats
 CParseHandlerBase *
-CParseHandlerFactory::PphColStats
+CParseHandlerFactory::CreateColStatsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -540,7 +540,7 @@ CParseHandlerFactory::PphColStats
 
 // creates a parse handler for parsing column stats bucket
 CParseHandlerBase *
-CParseHandlerFactory::PphColStatsBucket
+CParseHandlerFactory::CreateColStatsBucketParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -552,7 +552,7 @@ CParseHandlerFactory::PphColStatsBucket
 
 // creates a parse handler for parsing GPDB type metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDGPDBType
+CParseHandlerFactory::CreateMDTypeParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -564,7 +564,7 @@ CParseHandlerFactory::PphMDGPDBType
 
 // creates a parse handler for parsing GPDB-specific operator metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDGPDBScalarOp
+CParseHandlerFactory::CreateMDScalarOpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -576,7 +576,7 @@ CParseHandlerFactory::PphMDGPDBScalarOp
 
 // creates a parse handler for parsing GPDB-specific function metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDGPDBFunc
+CParseHandlerFactory::CreateMDFuncParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -588,7 +588,7 @@ CParseHandlerFactory::PphMDGPDBFunc
 
 // creates a parse handler for parsing GPDB-specific aggregate metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDGPDBAgg
+CParseHandlerFactory::CreateMDAggParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -600,7 +600,7 @@ CParseHandlerFactory::PphMDGPDBAgg
 
 // creates a parse handler for parsing GPDB-specific trigger metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDGPDBTrigger
+CParseHandlerFactory::CreateMDTriggerParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -612,7 +612,7 @@ CParseHandlerFactory::PphMDGPDBTrigger
 
 // creates a parse handler for parsing GPDB-specific cast metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDCast
+CParseHandlerFactory::CreateMDCastParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -624,7 +624,7 @@ CParseHandlerFactory::PphMDCast
 
 // creates a parse handler for parsing GPDB-specific scalar comparison metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDScCmp
+CParseHandlerFactory::CreateMDScCmpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -636,7 +636,7 @@ CParseHandlerFactory::PphMDScCmp
 
 // creates a parse handler for parsing a list of metadata identifiers
 CParseHandlerBase *
-CParseHandlerFactory::PphMetadataIdList
+CParseHandlerFactory::CreateMDIdListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -648,7 +648,7 @@ CParseHandlerFactory::PphMetadataIdList
 
 // creates a parse handler for parsing a list of column metadata info
 CParseHandlerBase *
-CParseHandlerFactory::PphMetadataColumns
+CParseHandlerFactory::CreateMDColsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -659,7 +659,7 @@ CParseHandlerFactory::PphMetadataColumns
 }
 
 CParseHandlerBase *
-CParseHandlerFactory::PphMDIndexInfoList
+CParseHandlerFactory::CreateMDIndexInfoListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -671,7 +671,7 @@ CParseHandlerFactory::PphMDIndexInfoList
 
 // creates a parse handler for parsing column info
 CParseHandlerBase *
-CParseHandlerFactory::PphMetadataColumn
+CParseHandlerFactory::CreateMDColParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -683,7 +683,7 @@ CParseHandlerFactory::PphMetadataColumn
 
 // creates a parse handler for parsing a a default value for a column
 CParseHandlerBase *
-CParseHandlerFactory::PphColumnDefaultValueExpr
+CParseHandlerFactory::CreateColDefaultValExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -695,7 +695,7 @@ CParseHandlerFactory::PphColumnDefaultValueExpr
 
 // creates a parse handler for parsing a physical operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhysOp
+CParseHandlerFactory::CreatePhysicalOpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -707,7 +707,7 @@ CParseHandlerFactory::PphPhysOp
 
 // creates a parse handler for parsing a scalar operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarOp
+CParseHandlerFactory::CreateScalarOpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -719,7 +719,7 @@ CParseHandlerFactory::PphScalarOp
 
 // creates a parse handler for parsing the properties of a physical operator
 CParseHandlerBase *
-CParseHandlerFactory::PphProperties
+CParseHandlerFactory::CreatePropertiesParseHandler
 	(
 		IMemoryPool *memory_pool,
 		CParseHandlerManager *parse_handler_mgr,
@@ -731,7 +731,7 @@ CParseHandlerFactory::PphProperties
 
 // creates a parse handler for parsing a filter operator
 CParseHandlerBase *
-CParseHandlerFactory::PphFilter
+CParseHandlerFactory::CreateFilterParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -743,7 +743,7 @@ CParseHandlerFactory::PphFilter
 
 // creates a parse handler for parsing a table scan
 CParseHandlerBase *
-CParseHandlerFactory::PphTableScan
+CParseHandlerFactory::CreateTableScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -755,7 +755,7 @@ CParseHandlerFactory::PphTableScan
 
 // creates a parse handler for parsing a bitmap table scan
 CParseHandlerBase *
-CParseHandlerFactory::PphBitmapTableScan
+CParseHandlerFactory::CreateBitmapTableScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -767,7 +767,7 @@ CParseHandlerFactory::PphBitmapTableScan
 
 // creates a parse handler for parsing a dynamic bitmap table scan
 CParseHandlerBase *
-CParseHandlerFactory::PphDynamicBitmapTableScan
+CParseHandlerFactory::CreateDynBitmapTableScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -779,7 +779,7 @@ CParseHandlerFactory::PphDynamicBitmapTableScan
 
 // creates a parse handler for parsing an external scan
 CParseHandlerBase *
-CParseHandlerFactory::PphExternalScan
+CParseHandlerFactory::CreateExternalScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -791,7 +791,7 @@ CParseHandlerFactory::PphExternalScan
 
 // creates a parse handler for parsing a subquery scan
 CParseHandlerBase *
-CParseHandlerFactory::PphSubqScan
+CParseHandlerFactory::CreateSubqueryScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -803,7 +803,7 @@ CParseHandlerFactory::PphSubqScan
 
 // creates a parse handler for parsing a result node
 CParseHandlerBase *
-CParseHandlerFactory::PphResult
+CParseHandlerFactory::CreateResultParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -815,7 +815,7 @@ CParseHandlerFactory::PphResult
 
 // creates a parse handler for parsing a hash join operator
 CParseHandlerBase *
-CParseHandlerFactory::PphHashJoin
+CParseHandlerFactory::CreateHashJoinParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -827,7 +827,7 @@ CParseHandlerFactory::PphHashJoin
 
 // creates a parse handler for parsing a nested loop join operator
 CParseHandlerBase *
-CParseHandlerFactory::PphNLJoin
+CParseHandlerFactory::CreateNLJoinParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -839,7 +839,7 @@ CParseHandlerFactory::PphNLJoin
 
 // creates a parse handler for parsing a merge join operator
 CParseHandlerBase *
-CParseHandlerFactory::PphMergeJoin
+CParseHandlerFactory::CreateMergeJoinParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -851,7 +851,7 @@ CParseHandlerFactory::PphMergeJoin
 
 // creates a parse handler for parsing a sort operator
 CParseHandlerBase *
-CParseHandlerFactory::PphSort
+CParseHandlerFactory::CreateSortParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -863,7 +863,7 @@ CParseHandlerFactory::PphSort
 
 // creates a parse handler for parsing an append operator
 CParseHandlerBase *
-CParseHandlerFactory::PphAppend
+CParseHandlerFactory::CreateAppendParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -875,7 +875,7 @@ CParseHandlerFactory::PphAppend
 
 // creates a parse handler for parsing a materialize operator
 CParseHandlerBase *
-CParseHandlerFactory::PphMaterialize
+CParseHandlerFactory::CreateMaterializeParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -887,7 +887,7 @@ CParseHandlerFactory::PphMaterialize
 
 // creates a parse handler for parsing a dynamic table scan operator
 CParseHandlerBase *
-CParseHandlerFactory::PphDynamicTableScan
+CParseHandlerFactory::CreateDTSParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -899,7 +899,7 @@ CParseHandlerFactory::PphDynamicTableScan
 
 // creates a parse handler for parsing a dynamic index scan operator
 CParseHandlerBase *
-CParseHandlerFactory::PphDynamicIndexScan
+CParseHandlerFactory::CreateDynamicIdxScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -911,7 +911,7 @@ CParseHandlerFactory::PphDynamicIndexScan
 
 // creates a parse handler for parsing a partition selector operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPartitionSelector
+CParseHandlerFactory::CreatePartitionSelectorParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -923,7 +923,7 @@ CParseHandlerFactory::PphPartitionSelector
 
 // creates a parse handler for parsing a sequence operator
 CParseHandlerBase *
-CParseHandlerFactory::PphSequence
+CParseHandlerFactory::CreateSequenceParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -935,7 +935,7 @@ CParseHandlerFactory::PphSequence
 
 // creates a parse handler for parsing a Limit operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLimit
+CParseHandlerFactory::CreateLimitParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -947,7 +947,7 @@ CParseHandlerFactory::PphLimit
 
 // creates a parse handler for parsing a Limit Count operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLimitcount
+CParseHandlerFactory::CreateLimitCountParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -959,7 +959,7 @@ CParseHandlerFactory::PphLimitcount
 
 // creates a parse handler for parsing a scalar subquery operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarSubquery
+CParseHandlerFactory::CreateScSubqueryParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -971,7 +971,7 @@ CParseHandlerFactory::PphScalarSubquery
 
 // creates a parse handler for parsing a scalar bitmap boolean operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarBitmapBoolOp
+CParseHandlerFactory::CreateScBitmapBoolOpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -983,7 +983,7 @@ CParseHandlerFactory::PphScalarBitmapBoolOp
 
 // creates a parse handler for parsing a scalar array operator.
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarArray
+CParseHandlerFactory::CreateScArrayParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -995,7 +995,7 @@ CParseHandlerFactory::PphScalarArray
 
 // creates a parse handler for parsing a scalar arrayref operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarArrayRef
+CParseHandlerFactory::CreateScArrayRefParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1007,7 +1007,7 @@ CParseHandlerFactory::PphScalarArrayRef
 
 // creates a parse handler for parsing an arrayref index list
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarArrayRefIndexList
+CParseHandlerFactory::CreateScArrayRefIdxListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1019,7 +1019,7 @@ CParseHandlerFactory::PphScalarArrayRefIndexList
 
 // creates a parse handler for parsing a scalar assert predicate operator.
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarAssertConstraintList
+CParseHandlerFactory::CreateScAssertConstraintListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1031,7 +1031,7 @@ CParseHandlerFactory::PphScalarAssertConstraintList
 
 // creates a parse handler for parsing a scalar DML action operator.
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarDMLAction
+CParseHandlerFactory::CreateScDMLActionParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1043,7 +1043,7 @@ CParseHandlerFactory::PphScalarDMLAction
 
 // creates a parse handler for parsing a scalar operator list
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarOpList
+CParseHandlerFactory::CreateScOpListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1055,7 +1055,7 @@ CParseHandlerFactory::PphScalarOpList
 
 // creates a parse handler for parsing a scalar part OID
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarPartOid
+CParseHandlerFactory::CreateScPartOidParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1067,7 +1067,7 @@ CParseHandlerFactory::PphScalarPartOid
 
 // creates a parse handler for parsing a scalar part default
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarPartDefault
+CParseHandlerFactory::CreateScPartDefaultParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1079,7 +1079,7 @@ CParseHandlerFactory::PphScalarPartDefault
 
 // creates a parse handler for parsing a scalar part boundary
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarPartBound
+CParseHandlerFactory::CreateScPartBoundParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1091,7 +1091,7 @@ CParseHandlerFactory::PphScalarPartBound
 
 // creates a parse handler for parsing a scalar part bound inclusion
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarPartBoundInclusion
+CParseHandlerFactory::CreateScPartBoundInclParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1103,7 +1103,7 @@ CParseHandlerFactory::PphScalarPartBoundInclusion
 
 // creates a parse handler for parsing a scalar part bound openness
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarPartBoundOpen
+CParseHandlerFactory::CreateScPartBoundOpenParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1115,7 +1115,7 @@ CParseHandlerFactory::PphScalarPartBoundOpen
 
 // creates a parse handler for parsing a scalar part list values
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarPartListValues
+CParseHandlerFactory::CreateScPartListValuesParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1127,7 +1127,7 @@ CParseHandlerFactory::PphScalarPartListValues
 
 // creates a parse handler for parsing a scalar part list null test
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarPartListNullTest
+CParseHandlerFactory::CreateScPartListNullTestParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1139,7 +1139,7 @@ CParseHandlerFactory::PphScalarPartListNullTest
 
 // creates a parse handler for parsing direct dispatch info
 CParseHandlerBase *
-CParseHandlerFactory::PphDirectDispatchInfo
+CParseHandlerFactory::CreateDirectDispatchParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1151,7 +1151,7 @@ CParseHandlerFactory::PphDirectDispatchInfo
 
 // creates a parse handler for parsing a Limit Count operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLimitoffset
+CParseHandlerFactory::CreateLimitOffsetParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1163,7 +1163,7 @@ CParseHandlerFactory::PphLimitoffset
 
 // creates a parse handler for parsing a gather motion operator
 CParseHandlerBase *
-CParseHandlerFactory::PphGatherMotion
+CParseHandlerFactory::CreateGatherMotionParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1175,7 +1175,7 @@ CParseHandlerFactory::PphGatherMotion
 
 // creates a parse handler for parsing a broadcast motion operator
 CParseHandlerBase *
-CParseHandlerFactory::PphBroadcastMotion
+CParseHandlerFactory::CreateBroadcastMotionParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1187,7 +1187,7 @@ CParseHandlerFactory::PphBroadcastMotion
 
 // creates a parse handler for parsing a redistribute motion operator
 CParseHandlerBase *
-CParseHandlerFactory::PphRedistributeMotion
+CParseHandlerFactory::CreateRedistributeMotionParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1199,7 +1199,7 @@ CParseHandlerFactory::PphRedistributeMotion
 
 // creates a parse handler for parsing a routed motion operator
 CParseHandlerBase *
-CParseHandlerFactory::PphRoutedMotion
+CParseHandlerFactory::CreateRoutedMotionParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1211,7 +1211,7 @@ CParseHandlerFactory::PphRoutedMotion
 
 // creates a parse handler for parsing a random motion operator
 CParseHandlerBase *
-CParseHandlerFactory::PphRandomMotion
+CParseHandlerFactory::CreateRandomMotionParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1223,7 +1223,7 @@ CParseHandlerFactory::PphRandomMotion
 
 // creates a parse handler for parsing a group by operator
 CParseHandlerBase *
-CParseHandlerFactory::PphAgg
+CParseHandlerFactory::CreateAggParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1235,7 +1235,7 @@ CParseHandlerFactory::PphAgg
 
 // creates a parse handler for parsing aggref operator
 CParseHandlerBase *
-CParseHandlerFactory::PphAggref
+CParseHandlerFactory::CreateAggRefParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1248,7 +1248,7 @@ CParseHandlerFactory::PphAggref
 // creates a parse handler for parsing a grouping cols list in a group by
 // operator
 CParseHandlerBase *
-CParseHandlerFactory::PphGroupingColList
+CParseHandlerFactory::CreateGroupingColListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1260,7 +1260,7 @@ CParseHandlerFactory::PphGroupingColList
 
 // creates a parse handler for parsing a scalar comparison operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarCmp
+CParseHandlerFactory::CreateScCmpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1272,7 +1272,7 @@ CParseHandlerFactory::PphScalarCmp
 
 // creates a parse handler for parsing a distinct comparison operator
 CParseHandlerBase *
-CParseHandlerFactory::PphDistinctCmp
+CParseHandlerFactory::CreateDistinctCmpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1284,7 +1284,7 @@ CParseHandlerFactory::PphDistinctCmp
 
 // creates a parse handler for parsing a scalar identifier operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarId
+CParseHandlerFactory::CreateScIdParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1296,7 +1296,7 @@ CParseHandlerFactory::PphScalarId
 
 // creates a parse handler for parsing a scalar FuncExpr
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarFuncExpr
+CParseHandlerFactory::CreateScFuncExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1308,7 +1308,7 @@ CParseHandlerFactory::PphScalarFuncExpr
 
 // creates a parse handler for parsing a scalar OpExpr
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarOpexpr
+CParseHandlerFactory::CreateScOpExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1320,7 +1320,7 @@ CParseHandlerFactory::PphScalarOpexpr
 
 // creates a parse handler for parsing a scalar OpExpr
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarArrayCmp
+CParseHandlerFactory::CreateScArrayCmpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1332,7 +1332,7 @@ CParseHandlerFactory::PphScalarArrayCmp
 
 // creates a parse handler for parsing a BoolExpr
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarBoolExpr
+CParseHandlerFactory::CreateScBoolExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1344,7 +1344,7 @@ CParseHandlerFactory::PphScalarBoolExpr
 
 // creates a parse handler for parsing a MinMax
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarMinMax
+CParseHandlerFactory::CreateScMinMaxParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1356,7 +1356,7 @@ CParseHandlerFactory::PphScalarMinMax
 
 // creates a parse handler for parsing a BooleanTest
 CParseHandlerBase *
-CParseHandlerFactory::PphBooleanTest
+CParseHandlerFactory::CreateBooleanTestParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1368,7 +1368,7 @@ CParseHandlerFactory::PphBooleanTest
 
 // creates a parse handler for parsing a NullTest
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarNullTest
+CParseHandlerFactory::CreateScNullTestParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1380,7 +1380,7 @@ CParseHandlerFactory::PphScalarNullTest
 
 // creates a parse handler for parsing a NullIf
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarNullIf
+CParseHandlerFactory::CreateScNullIfParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1392,7 +1392,7 @@ CParseHandlerFactory::PphScalarNullIf
 
 // creates a parse handler for parsing a cast
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarCast
+CParseHandlerFactory::CreateScCastParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1404,7 +1404,7 @@ CParseHandlerFactory::PphScalarCast
 
 // creates a parse handler for parsing a CoerceToDomain operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarCoerceToDomain
+CParseHandlerFactory::CreateScCoerceToDomainParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1416,7 +1416,7 @@ CParseHandlerFactory::PphScalarCoerceToDomain
 
 // creates a parse handler for parsing a CoerceViaIO operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarCoerceViaIO
+CParseHandlerFactory::CreateScCoerceViaIOParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1428,7 +1428,7 @@ CParseHandlerFactory::PphScalarCoerceViaIO
 
 // creates a parse handler for parsing an array coerce expression operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarArrayCoerceExpr
+CParseHandlerFactory::CreateScArrayCoerceExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1440,7 +1440,7 @@ CParseHandlerFactory::PphScalarArrayCoerceExpr
 
 // creates a parse handler for parsing a SubPlan.
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarSubPlan
+CParseHandlerFactory::CreateScSubPlanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1452,7 +1452,7 @@ CParseHandlerFactory::PphScalarSubPlan
 
 // creates a parse handler for parsing a SubPlan test expression
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarSubPlanTestExpr
+CParseHandlerFactory::CreateScSubPlanTestExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1464,7 +1464,7 @@ CParseHandlerFactory::PphScalarSubPlanTestExpr
 
 // creates a parse handler for parsing a SubPlan Params DXL node
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarSubPlanParamList
+CParseHandlerFactory::CreateScSubPlanParamListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1476,7 +1476,7 @@ CParseHandlerFactory::PphScalarSubPlanParamList
 
 // creates a parse handler for parsing a single SubPlan Param
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarSubPlanParam
+CParseHandlerFactory::CreateScSubPlanParamParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1488,7 +1488,7 @@ CParseHandlerFactory::PphScalarSubPlanParam
 
 // creates a parse handler for parsing a logical TVF
 CParseHandlerBase *
-CParseHandlerFactory::PphLogicalTVF
+CParseHandlerFactory::CreateLogicalTVFParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1500,7 +1500,7 @@ CParseHandlerFactory::PphLogicalTVF
 
 // creates a parse handler for parsing a physical TVF
 CParseHandlerBase *
-CParseHandlerFactory::PphPhysicalTVF
+CParseHandlerFactory::CreatePhysicalTVFParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1512,7 +1512,7 @@ CParseHandlerFactory::PphPhysicalTVF
 
 // creates a parse handler for parsing a coalesce operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarCoalesce
+CParseHandlerFactory::CreateScCoalesceParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1524,7 +1524,7 @@ CParseHandlerFactory::PphScalarCoalesce
 
 // creates a parse handler for parsing a Switch operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarSwitch
+CParseHandlerFactory::CreateScSwitchParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1536,7 +1536,7 @@ CParseHandlerFactory::PphScalarSwitch
 
 // creates a parse handler for parsing a SwitchCase operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarSwitchCase
+CParseHandlerFactory::CreateScSwitchCaseParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1548,7 +1548,7 @@ CParseHandlerFactory::PphScalarSwitchCase
 
 // creates a parse handler for parsing a case test
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarCaseTest
+CParseHandlerFactory::CreateScCaseTestParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1560,7 +1560,7 @@ CParseHandlerFactory::PphScalarCaseTest
 
 // creates a parse handler for parsing a Const
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarConstValue
+CParseHandlerFactory::CreateScConstValueParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1572,7 +1572,7 @@ CParseHandlerFactory::PphScalarConstValue
 
 // creates a parse handler for parsing an if statement
 CParseHandlerBase *
-CParseHandlerFactory::PphIfStmt
+CParseHandlerFactory::CreateIfStmtParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1584,7 +1584,7 @@ CParseHandlerFactory::PphIfStmt
 
 // creates a parse handler for parsing a projection list
 CParseHandlerBase *
-CParseHandlerFactory::PphProjList
+CParseHandlerFactory::CreateProjListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1596,7 +1596,7 @@ CParseHandlerFactory::PphProjList
 
 // creates a parse handler for parsing a projection element
 CParseHandlerBase *
-CParseHandlerFactory::PphProjElem
+CParseHandlerFactory::CreateProjElemParseHandler
 	(
 		IMemoryPool *memory_pool,
 		CParseHandlerManager *parse_handler_mgr,
@@ -1608,7 +1608,7 @@ CParseHandlerFactory::PphProjElem
 
 // creates a parse handler for parsing a hash expr list
 CParseHandlerBase *
-CParseHandlerFactory::PphHashExprList
+CParseHandlerFactory::CreateHashExprListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,	
@@ -1621,7 +1621,7 @@ CParseHandlerFactory::PphHashExprList
 // creates a parse handler for parsing a hash expression in a redistribute
 // motion node
 CParseHandlerBase *
-CParseHandlerFactory::PphHashExpr
+CParseHandlerFactory::CreateHashExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1634,7 +1634,7 @@ CParseHandlerFactory::PphHashExpr
 // creates a parse handler for parsing a condition list in a hash join or
 // merge join node
 CParseHandlerBase *
-CParseHandlerFactory::PphCondList
+CParseHandlerFactory::CreateCondListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1646,7 +1646,7 @@ CParseHandlerFactory::PphCondList
 
 // creates a parse handler for parsing a sorting column list in a sort node
 CParseHandlerBase *
-CParseHandlerFactory::PphSortColList
+CParseHandlerFactory::CreateSortColListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1658,7 +1658,7 @@ CParseHandlerFactory::PphSortColList
 
 // creates a parse handler for parsing a sorting column in a sort node
 CParseHandlerBase *
-CParseHandlerFactory::PphSortCol
+CParseHandlerFactory::CreateSortColParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1671,7 +1671,7 @@ CParseHandlerFactory::PphSortCol
 // creates a parse handler for parsing the cost estimates of a physical
 // operator
 CParseHandlerBase *
-CParseHandlerFactory::PphCost
+CParseHandlerFactory::CreateCostParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1683,7 +1683,7 @@ CParseHandlerFactory::PphCost
 
 // creates a parse handler for parsing a table descriptor
 CParseHandlerBase *
-CParseHandlerFactory::PphTableDesc
+CParseHandlerFactory::CreateTableDescParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1695,7 +1695,7 @@ CParseHandlerFactory::PphTableDesc
 
 // creates a parse handler for parsing a column descriptor
 CParseHandlerBase *
-CParseHandlerFactory::PphColDesc				
+CParseHandlerFactory::CreateColDescParseHandler				
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1707,7 +1707,7 @@ CParseHandlerFactory::PphColDesc
 
 // creates a parse handler for parsing an index scan node
 CParseHandlerBase *
-CParseHandlerFactory::PphIndexScan
+CParseHandlerFactory::CreateIdxScanListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1719,7 +1719,7 @@ CParseHandlerFactory::PphIndexScan
 
 // creates a parse handler for parsing an index only scan node
 CParseHandlerBase *
-CParseHandlerFactory::PphIndexOnlyScan
+CParseHandlerFactory::CreateIdxOnlyScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1731,7 +1731,7 @@ CParseHandlerFactory::PphIndexOnlyScan
 
 // creates a parse handler for parsing a bitmap index scan node
 CParseHandlerBase *
-CParseHandlerFactory::PphBitmapIndexProbe
+CParseHandlerFactory::CreateBitmapIdxProbeParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1744,7 +1744,7 @@ CParseHandlerFactory::PphBitmapIndexProbe
 // creates a parse handler for parsing an index descriptor of an
 // index scan node
 CParseHandlerBase *
-CParseHandlerFactory::PphIndexDescr
+CParseHandlerFactory::CreateIdxDescrParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1757,7 +1757,7 @@ CParseHandlerFactory::PphIndexDescr
 // creates a parse handler for parsing the list of index condition in a
 // index scan node
 CParseHandlerBase *
-CParseHandlerFactory::PphIndexCondList
+CParseHandlerFactory::CreateIdxCondListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1769,7 +1769,7 @@ CParseHandlerFactory::PphIndexCondList
 
 // creates a parse handler for parsing a query
 CParseHandlerBase *
-CParseHandlerFactory::PphQuery
+CParseHandlerFactory::CreateQueryParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1781,7 +1781,7 @@ CParseHandlerFactory::PphQuery
 
 // creates a parse handler for parsing a logical operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgOp
+CParseHandlerFactory::CreateLogicalOpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1793,7 +1793,7 @@ CParseHandlerFactory::PphLgOp
 
 // creates a parse handler for parsing a logical get operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgGet
+CParseHandlerFactory::CreateLogicalGetParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1805,7 +1805,7 @@ CParseHandlerFactory::PphLgGet
 
 // creates a parse handler for parsing a logical external get operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgExternalGet
+CParseHandlerFactory::CreateLogicalExtGetParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1817,7 +1817,7 @@ CParseHandlerFactory::PphLgExternalGet
 
 // creates a parse handler for parsing a logical project operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgProject
+CParseHandlerFactory::CreateLogicalProjParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1829,7 +1829,7 @@ CParseHandlerFactory::PphLgProject
 
 // creates a parse handler for parsing a logical CTE producer operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgCTEProducer
+CParseHandlerFactory::CreateLogicalCTEProdParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1841,7 +1841,7 @@ CParseHandlerFactory::PphLgCTEProducer
 
 // creates a parse handler for parsing a logical CTE consumer operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgCTEConsumer
+CParseHandlerFactory::CreateLogicalCTEConsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1853,7 +1853,7 @@ CParseHandlerFactory::PphLgCTEConsumer
 
 // creates a parse handler for parsing a logical CTE anchor operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgCTEAnchor
+CParseHandlerFactory::CreateLogicalCTEAnchorParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1865,7 +1865,7 @@ CParseHandlerFactory::PphLgCTEAnchor
 
 // creates a parse handler for parsing a CTE list
 CParseHandlerBase *
-CParseHandlerFactory::PphCTEList
+CParseHandlerFactory::CreateCTEListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1877,7 +1877,7 @@ CParseHandlerFactory::PphCTEList
 
 // creates a parse handler for parsing a logical set operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgSetOp
+CParseHandlerFactory::CreateLogicalSetOpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1889,7 +1889,7 @@ CParseHandlerFactory::PphLgSetOp
 
 // creates a parse handler for parsing a logical select operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgSelect
+CParseHandlerFactory::CreateLogicalSelectParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1901,7 +1901,7 @@ CParseHandlerFactory::PphLgSelect
 
 // creates a parse handler for parsing a logical join operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgJoin
+CParseHandlerFactory::CreateLogicalJoinParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1913,7 +1913,7 @@ CParseHandlerFactory::PphLgJoin
 
 // creates a parse handler for parsing dxl representing query output
 CParseHandlerBase *
-CParseHandlerFactory::PphQueryOutput
+CParseHandlerFactory::CreateLogicalQueryOpParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1925,7 +1925,7 @@ CParseHandlerFactory::PphQueryOutput
 
 // creates a parse handler for parsing a logical group by operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgGrpBy
+CParseHandlerFactory::CreateLogicalGrpByParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1937,7 +1937,7 @@ CParseHandlerFactory::PphLgGrpBy
 
 // creates a parse handler for parsing a logical limit operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgLimit
+CParseHandlerFactory::CreateLogicalLimitParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1949,7 +1949,7 @@ CParseHandlerFactory::PphLgLimit
 
 // creates a parse handler for parsing a logical constant table operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgConstTable
+CParseHandlerFactory::CreateLogicalConstTableParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1961,7 +1961,7 @@ CParseHandlerFactory::PphLgConstTable
 
 // creates a parse handler for parsing ALL/ANY subquery operators
 CParseHandlerBase *
-CParseHandlerFactory::PphScSubqueryQuantified
+CParseHandlerFactory::CreateScScalarSubqueryQuantifiedParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1973,7 +1973,7 @@ CParseHandlerFactory::PphScSubqueryQuantified
 
 // creates a parse handler for parsing an EXISTS/NOT EXISTS subquery operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScSubqueryExists
+CParseHandlerFactory::CreateScScalarSubqueryExistsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1985,7 +1985,7 @@ CParseHandlerFactory::PphScSubqueryExists
 
 // creates a parse handler for parsing relation statistics
 CParseHandlerBase *
-CParseHandlerFactory::PphStats
+CParseHandlerFactory::CreateStatsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -1997,7 +1997,7 @@ CParseHandlerFactory::PphStats
 
 // creates a pass-through parse handler
 CParseHandlerBase *
-CParseHandlerFactory::PphStacktrace
+CParseHandlerFactory::CreateStackTraceParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2009,7 +2009,7 @@ CParseHandlerFactory::PphStacktrace
 
 // creates a parse handler for parsing relation statistics
 CParseHandlerBase *
-CParseHandlerFactory::PphStatsDerivedRelation
+CParseHandlerFactory::CreateStatsDrvdRelParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2021,7 +2021,7 @@ CParseHandlerFactory::PphStatsDerivedRelation
 
 // creates a parse handler for parsing derived column statistics
 CParseHandlerBase *
-CParseHandlerFactory::PphStatsDerivedColumn
+CParseHandlerFactory::CreateStatsDrvdColParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2033,7 +2033,7 @@ CParseHandlerFactory::PphStatsDerivedColumn
 
 // creates a parse handler for parsing bucket bound in a histogram
 CParseHandlerBase *
-CParseHandlerFactory::PphStatsBucketBound
+CParseHandlerFactory::CreateStatsBucketBoundParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2045,7 +2045,7 @@ CParseHandlerFactory::PphStatsBucketBound
 
 // creates a parse handler for parsing a window node
 CParseHandlerBase *
-CParseHandlerFactory::PphWindow
+CParseHandlerFactory::CreateWindowParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2057,7 +2057,7 @@ CParseHandlerFactory::PphWindow
 
 // creates a parse handler for parsing WindowRef operator
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowRef
+CParseHandlerFactory::CreateWindowRefParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2069,7 +2069,7 @@ CParseHandlerFactory::PphWindowRef
 
 // creates a parse handler for parsing window frame node
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowFrame
+CParseHandlerFactory::CreateWindowFrameParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2081,7 +2081,7 @@ CParseHandlerFactory::PphWindowFrame
 
 // creates a parse handler for parsing window key node
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowKey
+CParseHandlerFactory::CreateWindowKeyParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2093,7 +2093,7 @@ CParseHandlerFactory::PphWindowKey
 
 // creates a parse handler for parsing a list of window keys
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowKeyList
+CParseHandlerFactory::CreateWindowKeyListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2105,7 +2105,7 @@ CParseHandlerFactory::PphWindowKeyList
 
 // creates a parse handler for parsing window specification node
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowSpec
+CParseHandlerFactory::CreateWindowSpecParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2117,7 +2117,7 @@ CParseHandlerFactory::PphWindowSpec
 
 // creates a parse handler for parsing a list of window specifications
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowSpecList
+CParseHandlerFactory::CreateWindowSpecListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2129,7 +2129,7 @@ CParseHandlerFactory::PphWindowSpecList
 
 // creates a parse handler for parsing a logical window operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgWindow
+CParseHandlerFactory::CreateLogicalWindowParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2141,7 +2141,7 @@ CParseHandlerFactory::PphLgWindow
 
 // creates a parse handler for parsing a logical insert operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgInsert
+CParseHandlerFactory::CreateLogicalInsertParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2153,7 +2153,7 @@ CParseHandlerFactory::PphLgInsert
 
 // creates a parse handler for parsing a logical delete operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgDelete
+CParseHandlerFactory::CreateLogicalDeleteParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2165,7 +2165,7 @@ CParseHandlerFactory::PphLgDelete
 
 // creates a parse handler for parsing a logical update operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgUpdate
+CParseHandlerFactory::CreateLogicalUpdateParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2177,7 +2177,7 @@ CParseHandlerFactory::PphLgUpdate
 
 // creates a parse handler for parsing a logical CTAS operator
 CParseHandlerBase *
-CParseHandlerFactory::PphLgCTAS
+CParseHandlerFactory::CreateLogicalCTASParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2189,7 +2189,7 @@ CParseHandlerFactory::PphLgCTAS
 
 // creates a parse handler for parsing a physical CTAS operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhCTAS
+CParseHandlerFactory::CreatePhysicalCTASParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2201,7 +2201,7 @@ CParseHandlerFactory::PphPhCTAS
 
 // creates a parse handler for parsing CTAS storage options
 CParseHandlerBase *
-CParseHandlerFactory::PphCTASOptions
+CParseHandlerFactory::CreateCTASOptionsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2213,7 +2213,7 @@ CParseHandlerFactory::PphCTASOptions
 
 // creates a parse handler for parsing a physical CTE producer operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhCTEProducer
+CParseHandlerFactory::CreatePhysicalCTEProdParseHandler
 (
  IMemoryPool *memory_pool,
  CParseHandlerManager *parse_handler_mgr,
@@ -2237,7 +2237,7 @@ CParseHandlerFactory::PphPhCTEConsumer
 
 // creates a parse handler for parsing a physical DML operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhDML
+CParseHandlerFactory::CreatePhysicalDMLParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2249,7 +2249,7 @@ CParseHandlerFactory::PphPhDML
 
 // creates a parse handler for parsing a physical split operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhSplit
+CParseHandlerFactory::CreatePhysicalSplitParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2261,7 +2261,7 @@ CParseHandlerFactory::PphPhSplit
 
 //	creates a parse handler for parsing a physical row trigger operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhRowTrigger
+CParseHandlerFactory::CreatePhysicalRowTriggerParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2273,7 +2273,7 @@ CParseHandlerFactory::PphPhRowTrigger
 
 // creates a parse handler for parsing a physical assert operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhAssert
+CParseHandlerFactory::CreatePhysicalAssertParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2285,7 +2285,7 @@ CParseHandlerFactory::PphPhAssert
 
 // creates a trailing window frame edge parser
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowFrameTrailingEdge
+CParseHandlerFactory::CreateFrameTrailingEdgeParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2297,7 +2297,7 @@ CParseHandlerFactory::PphWindowFrameTrailingEdge
 
 // creates a leading window frame edge parser
 CParseHandlerBase *
-CParseHandlerFactory::PphWindowFrameLeadingEdge
+CParseHandlerFactory::CreateFrameLeadingEdgeParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2309,7 +2309,7 @@ CParseHandlerFactory::PphWindowFrameLeadingEdge
 
 // creates a parse handler for parsing search strategy
 CParseHandlerBase *
-CParseHandlerFactory::PphSearchStrategy
+CParseHandlerFactory::CreateSearchStrategyParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2321,7 +2321,7 @@ CParseHandlerFactory::PphSearchStrategy
 
 // creates a parse handler for parsing search stage
 CParseHandlerBase *
-CParseHandlerFactory::PphSearchStage
+CParseHandlerFactory::CreateSearchStageParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2333,7 +2333,7 @@ CParseHandlerFactory::PphSearchStage
 
 // creates a parse handler for parsing xform
 CParseHandlerBase *
-CParseHandlerFactory::PphXform
+CParseHandlerFactory::CreateXformParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2345,7 +2345,7 @@ CParseHandlerFactory::PphXform
 
 // creates cost params parse handler
 CParseHandlerBase *
-CParseHandlerFactory::PphCostParams
+CParseHandlerFactory::CreateCostParamsParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2357,7 +2357,7 @@ CParseHandlerFactory::PphCostParams
 
 // creates cost param parse handler
 CParseHandlerBase *
-CParseHandlerFactory::PphCostParam
+CParseHandlerFactory::CreateCostParamParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2369,7 +2369,7 @@ CParseHandlerFactory::PphCostParam
 
 // creates a parse handler for top level scalar expressions
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarExpr
+CParseHandlerFactory::CreateScExprParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2381,7 +2381,7 @@ CParseHandlerFactory::PphScalarExpr
 
 // creates a parse handler for parsing GPDB-specific check constraint
 CParseHandlerBase *
-CParseHandlerFactory::PphMDGPDBCheckConstraint
+CParseHandlerFactory::CreateMDChkConstraintParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2393,7 +2393,7 @@ CParseHandlerFactory::PphMDGPDBCheckConstraint
 
 // creates a parse handler for parsing a Values List operator
 CParseHandlerBase *
-CParseHandlerFactory::PphScalarValuesList
+CParseHandlerFactory::CreateScValuesListParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2405,7 +2405,7 @@ CParseHandlerFactory::PphScalarValuesList
 
 // creates a parse handler for parsing a Values Scan operator
 CParseHandlerBase *
-CParseHandlerFactory::PphValuesScan
+CParseHandlerFactory::CreateValuesScanParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
@@ -2417,7 +2417,7 @@ CParseHandlerFactory::PphValuesScan
 
 // creates a parse handler for parsing GPDB-specific array coerce cast metadata
 CParseHandlerBase *
-CParseHandlerFactory::PphMDArrayCoerceCast
+CParseHandlerFactory::CreateMDArrayCoerceCastParseHandler
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,

@@ -253,19 +253,19 @@ CParseHandlerMDType::ParseMdid
 		{EdxltokenMDTypeAggCount, &m_pmdidCount},
 	};
 	
-	Edxltoken edxltoken = EdxltokenSentinel;
+	Edxltoken token_type = EdxltokenSentinel;
 	IMDId **ppmdid = NULL;
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgmdidmap); ul++)
 	{
 		SMdidMapElem mdidmapelem = rgmdidmap[ul];
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(mdidmapelem.m_edxltoken), element_local_name))
 		{
-			edxltoken = mdidmapelem.m_edxltoken;
+			token_type = mdidmapelem.m_edxltoken;
 			ppmdid = mdidmapelem.m_ppmdid;
 		}
 	}
 
-	GPOS_ASSERT(EdxltokenSentinel != edxltoken);
+	GPOS_ASSERT(EdxltokenSentinel != token_type);
 	GPOS_ASSERT(NULL != ppmdid);
 
 	if (m_pmdidMin == *ppmdid || m_pmdidMax == *ppmdid || m_pmdidAvg == *ppmdid  || 
@@ -274,7 +274,7 @@ CParseHandlerMDType::ParseMdid
 		(*ppmdid)->Release();
 	}
 	
-	*ppmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, edxltoken);
+	*ppmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, token_type);
 }
 
 //---------------------------------------------------------------------------
@@ -323,10 +323,10 @@ CParseHandlerMDType::FBuiltInType
 IMDId **
 CParseHandlerMDType::Ppmdid
 	(
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
-	switch (edxltoken)
+	switch (token_type)
 		{
 			case EdxltokenMDTypeEqOp:
 				return &m_pmdidOpEq;

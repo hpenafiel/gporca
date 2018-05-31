@@ -115,7 +115,7 @@ namespace gpdxl
 			CParseHandlerMDType(const CParseHandlerMDType &);
 			
 			// retrieves the address MDId member variable corresponding to the specified token
-			IMDId **Ppmdid(Edxltoken edxltoken);
+			IMDId **Ppmdid(Edxltoken token_type);
 
 			// handles a SAX start element event
 			void StartElement

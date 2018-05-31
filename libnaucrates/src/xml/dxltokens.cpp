@@ -763,12 +763,12 @@ CDXLTokens::Terminate()
 const CWStringConst *
 CDXLTokens::PstrToken
 	(
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
 	GPOS_ASSERT(NULL != m_pstrmap && "Token map not initialized yet");
 	
-	const CWStringConst *pstr = m_pstrmap[edxltoken].m_pstr;
+	const CWStringConst *pstr = m_pstrmap[token_type].m_pstr;
 	GPOS_ASSERT(NULL != pstr);
 	
 	return pstr;
@@ -785,12 +785,12 @@ CDXLTokens::PstrToken
 const XMLCh*
 CDXLTokens::XmlstrToken
 	(
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
 	GPOS_ASSERT(NULL != m_pxmlszmap && "Token map not initialized yet");
 	
-	const XMLCh *xmlsz = m_pxmlszmap[edxltoken].m_xmlsz;
+	const XMLCh *xmlsz = m_pxmlszmap[token_type].m_xmlsz;
 	GPOS_ASSERT(NULL != xmlsz);
 	
 	return xmlsz;

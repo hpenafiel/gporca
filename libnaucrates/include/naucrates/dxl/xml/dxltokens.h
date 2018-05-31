@@ -816,10 +816,10 @@ namespace gpdxl
 			
 			// retrieve a token in CWStringConst and XMLCh* format, respectively
 			static 
-			const CWStringConst *PstrToken(Edxltoken edxltoken);
+			const CWStringConst *PstrToken(Edxltoken token_type);
 			
 			static 
-			const XMLCh *XmlstrToken(Edxltoken edxltoken);
+			const XMLCh *XmlstrToken(Edxltoken token_type);
 		
 			// initialize constants. Must be called before constants are accessed.
 			static 

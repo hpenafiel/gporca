@@ -77,22 +77,22 @@ void
 CParseHandlerTableScan::StartElement
 	(
 	const XMLCh* const element_local_name,
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	if (EdxltokenPhysicalTableScan == edxltoken)
+	if (EdxltokenPhysicalTableScan == token_type)
 	{
 		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalTableScan(m_memory_pool);
 	}
 	else
 	{
-		GPOS_ASSERT(EdxltokenPhysicalExternalScan == edxltoken);
+		GPOS_ASSERT(EdxltokenPhysicalExternalScan == token_type);
 		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalExternalScan(m_memory_pool);
 	}
 
@@ -152,10 +152,10 @@ void
 CParseHandlerTableScan::EndElement
 	(
 	const XMLCh* const element_local_name,
-	Edxltoken edxltoken
+	Edxltoken token_type
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(edxltoken), element_local_name))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
