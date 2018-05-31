@@ -75,7 +75,7 @@ CParseHandlerScalarOp::StartElement
 	GPOS_ASSERT(NULL != pph);
 	
 	// activate the specialized parse handler
-	m_parse_handler_mgr->ReplaceHandler(pph, m_pphRoot);
+	m_parse_handler_mgr->ReplaceHandler(pph, m_parse_handler_root);
 	
 	// pass the startElement message for the specialized parse handler to process
 	pph->startElement(element_uri, element_local_name, element_qname, attrs);

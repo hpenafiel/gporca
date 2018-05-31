@@ -37,12 +37,12 @@ CParseHandlerBase::CParseHandlerBase
 	:
 	m_memory_pool(memory_pool),
 	m_parse_handler_mgr(parse_handler_mgr),
-	m_pphRoot(parse_handler_root)
+	m_parse_handler_root(parse_handler_root)
 {
 	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != parse_handler_mgr);
 	
-	m_pdrgpph = GPOS_NEW(m_memory_pool) DrgPph(m_memory_pool);
+	m_parse_handler_base_array = GPOS_NEW(m_memory_pool) ParseHandlerBaseArray(m_memory_pool);
 }
 
 //---------------------------------------------------------------------------
@@ -56,7 +56,7 @@ CParseHandlerBase::CParseHandlerBase
 
 CParseHandlerBase::~CParseHandlerBase()
 {
-	m_pdrgpph->Release();
+	m_parse_handler_base_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -85,26 +85,26 @@ CParseHandlerBase::GetParseHandlerType() const
 void
 CParseHandlerBase::ReplaceParseHandler
 	(
-	CParseHandlerBase *pphOld,
-	CParseHandlerBase *pphNew
+	CParseHandlerBase *parse_handler_base_old,
+	CParseHandlerBase *parse_handler_base_new
 	)
 {
-	ULONG ulPos = 0;
+	ULONG idx = 0;
 	
-	GPOS_ASSERT(NULL != m_pdrgpph);
+	GPOS_ASSERT(NULL != m_parse_handler_base_array);
 	
-	for (ulPos = 0; ulPos < m_pdrgpph->Size(); ulPos++)
+	for (idx = 0; idx < m_parse_handler_base_array->Size(); idx++)
 	{
-		if ((*m_pdrgpph)[ulPos] == pphOld)
+		if ((*m_parse_handler_base_array)[idx] == parse_handler_base_old)
 		{
 			break;
 		}
 	}
 	
 	// assert old parse handler was found in array
-	GPOS_ASSERT(ulPos < m_pdrgpph->Size());
+	GPOS_ASSERT(idx < m_parse_handler_base_array->Size());
 	
-	m_pdrgpph->Replace(ulPos, pphNew);
+	m_parse_handler_base_array->Replace(idx, parse_handler_base_new);
 }
 
 //---------------------------------------------------------------------------
@@ -148,20 +148,20 @@ CParseHandlerBase::endElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerBase::error
+//		CParseHandlerBase::ProcessError
 //
 //	@doc:
-//		Invoked by Xerces to process an error
+//		Invoked by Xerces to process an ProcessError
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerBase::error
+CParseHandlerBase::ProcessError
 	(
 	const SAXParseException& toCatch
 	)
 {
-	CHAR* szMessage = XMLString::transcode(toCatch.getMessage(), m_parse_handler_mgr->Pmm());
-	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, szMessage);
+	CHAR* message = XMLString::transcode(toCatch.getMessage(), m_parse_handler_mgr->Pmm());
+	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, message);
 }
 
 // EOF
