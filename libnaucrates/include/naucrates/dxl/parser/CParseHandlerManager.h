@@ -47,7 +47,7 @@ namespace gpdxl
 		private:
 		
 			// the memory manager used for parsing the current document
-			CDXLMemoryManager *m_pmm;
+			CDXLMemoryManager *m_memory_manager_dxl;
 			
 			// parser object responsible for parsing the current XML document
 			SAX2XMLReader *m_pxmlreader;
@@ -77,7 +77,7 @@ namespace gpdxl
 			 // returns the current memory manager
 			CDXLMemoryManager *Pmm()
 			{
-				return m_pmm;
+				return m_memory_manager_dxl;
 			}
 			
 			// activation and deactivation of parsers

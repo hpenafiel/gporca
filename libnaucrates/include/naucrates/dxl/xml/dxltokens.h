@@ -806,7 +806,7 @@ namespace gpdxl
 
 			// local dxl memory manager
 			static
-			CDXLMemoryManager *m_pmm;
+			CDXLMemoryManager *m_memory_manager_dxl;
 
 			// create a string in Xerces XMLCh* format
 			static 

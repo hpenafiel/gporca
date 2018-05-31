@@ -28,16 +28,16 @@ XERCES_CPP_NAMESPACE_USE
 //---------------------------------------------------------------------------
 CParseHandlerManager::CParseHandlerManager
 	(
-	CDXLMemoryManager *pmm,
+	CDXLMemoryManager *memory_manager_dxl,
 	SAX2XMLReader *sax_2_xml_reader
 	)
 	:
-	m_pmm(pmm),
+	m_memory_manager_dxl(memory_manager_dxl),
 	m_pxmlreader(sax_2_xml_reader),
 	m_pphCurrent(NULL),
 	m_ulIterLastCFA(0)
 {
-	m_pphstack = GPOS_NEW(pmm->Pmp()) PHStack(pmm->Pmp());
+	m_pphstack = GPOS_NEW(memory_manager_dxl->Pmp()) PHStack(memory_manager_dxl->Pmp());
 }
 
 //---------------------------------------------------------------------------
