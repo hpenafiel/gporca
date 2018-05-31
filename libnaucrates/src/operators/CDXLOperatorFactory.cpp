@@ -1603,17 +1603,17 @@ CDXLOperatorFactory::GetOperatorCostDXL
 								EdxltokenCost
 								);
 	
-	CWStringDynamic *pstrStartupCost = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszStartupCost);
-	CWStringDynamic *pstrTotalCost = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszTotalCost);
-	CWStringDynamic *pstrRows = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszRows);
-	CWStringDynamic *pstrWidth = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszWidth);
+	CWStringDynamic *startup_cost_str = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszStartupCost);
+	CWStringDynamic *total_cost_str = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszTotalCost);
+	CWStringDynamic *rows_out_str = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszRows);
+	CWStringDynamic *width_str = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszWidth);
 	
 	return GPOS_NEW(memory_pool) CDXLOperatorCost
 						(
-						pstrStartupCost,
-						pstrTotalCost,
-						pstrRows,
-						pstrWidth
+						startup_cost_str,
+						total_cost_str,
+						rows_out_str,
+						width_str
 						);
 }
 

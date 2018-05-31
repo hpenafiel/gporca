@@ -949,10 +949,10 @@ CTranslatorExprToDXL::PdxlnDynamicTableScan
 	
 	if (NULL != pdxlprop)
 	{
-		CWStringDynamic *pstrRows = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->GetOperatorCostDXL()->PstrRows()->GetBuffer());
-		CWStringDynamic *pstrCost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->GetOperatorCostDXL()->PstrTotalCost()->GetBuffer());
+		CWStringDynamic *rows_out_str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->GetOperatorCostDXL()->GetRowsOutStr()->GetBuffer());
+		CWStringDynamic *pstrCost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->GetOperatorCostDXL()->GetTotalCostStr()->GetBuffer());
 
-		pdxlpropDTS->GetOperatorCostDXL()->SetRows(pstrRows);
+		pdxlpropDTS->GetOperatorCostDXL()->SetRows(rows_out_str);
 		pdxlpropDTS->GetOperatorCostDXL()->SetCost(pstrCost);
 		pdxlprop->Release();
 	}
@@ -7237,7 +7237,7 @@ CTranslatorExprToDXL::Pdxlprop
 {
 
 	// extract out rows from statistics object
-	CWStringDynamic *pstrRows = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
+	CWStringDynamic *rows_out_str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 	const IStatistics *pstats = pexpr->Pstats();
 	CDouble dRows = CStatistics::DDefaultRelationRows;
 
@@ -7255,7 +7255,7 @@ CTranslatorExprToDXL::Pdxlprop
 		dRows = dRows * ulSegments;
 	}
 
-	pstrRows->AppendFormat(GPOS_WSZ_LIT("%f"), dRows.Get());
+	rows_out_str->AppendFormat(GPOS_WSZ_LIT("%f"), dRows.Get());
 
 	// extract our width from statistics object
 	CDouble dWidth = CStatistics::DDefaultColumnWidth;
@@ -7263,14 +7263,14 @@ CTranslatorExprToDXL::Pdxlprop
 	CColRefSet *pcrs = prpp->PcrsRequired();
 	ULongPtrArray *pdrgpulColIds = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 	pcrs->ExtractColIds(m_memory_pool, pdrgpulColIds);
-	CWStringDynamic *pstrWidth = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
+	CWStringDynamic *width_str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 
 	if (NULL != pstats)
 	{
 		dWidth = pstats->DWidth(pdrgpulColIds);
 	}
 	pdrgpulColIds->Release();
-	pstrWidth->AppendFormat(GPOS_WSZ_LIT("%lld"), (LINT) dWidth.Get());
+	width_str->AppendFormat(GPOS_WSZ_LIT("%lld"), (LINT) dWidth.Get());
 
 	// get the cost from expression node
 	CWStringDynamic str(m_memory_pool);
@@ -7280,7 +7280,7 @@ CTranslatorExprToDXL::Pdxlprop
 	CWStringDynamic *pstrStartupcost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, GPOS_WSZ_LIT("0"));
 	CWStringDynamic *pstrTotalcost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, str.GetBuffer());
 
-	CDXLOperatorCost *pdxlopcost = GPOS_NEW(m_memory_pool) CDXLOperatorCost(pstrStartupcost, pstrTotalcost, pstrRows, pstrWidth);
+	CDXLOperatorCost *pdxlopcost = GPOS_NEW(m_memory_pool) CDXLOperatorCost(pstrStartupcost, pstrTotalcost, rows_out_str, width_str);
 	CDXLPhysicalProperties *pdxlprop = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(pdxlopcost);
 
 	return pdxlprop;
