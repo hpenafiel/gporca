@@ -79,7 +79,7 @@ CDatumTest::EresUnittest_Basics()
 					memory_pool,
 					&mda,
 					NULL, /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	typedef IDatum *(*Pfpdatum)(IMemoryPool*, BOOL);

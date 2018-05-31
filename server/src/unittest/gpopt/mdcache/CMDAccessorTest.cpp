@@ -119,7 +119,7 @@ CMDAccessorTest::EresUnittest_Basic()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// lookup different objects
@@ -245,7 +245,7 @@ CMDAccessorTest::EresUnittest_Datum()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// create an INT4 datum
@@ -414,7 +414,7 @@ CMDAccessorTest::EresUnittest_Indexes()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 	
 	// lookup a relation in the MD cache
@@ -488,7 +488,7 @@ CMDAccessorTest::EresUnittest_CheckConstraint()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
@@ -564,7 +564,7 @@ CMDAccessorTest::EresUnittest_IndexPartConstraint()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
@@ -639,7 +639,7 @@ CMDAccessorTest::EresUnittest_Cast()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */ 
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	const IMDType *pmdtypeInt = mda.PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
@@ -702,7 +702,7 @@ CMDAccessorTest::EresUnittest_ScCmp()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	const IMDType *pmdtypeInt = mda.PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);

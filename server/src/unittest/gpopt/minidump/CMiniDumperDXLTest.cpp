@@ -140,7 +140,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(memory_pool)
+						CTestUtils::GetCostModel(memory_pool)
 						);
 
 		// translate DXL Tree -> Expr Tree

@@ -66,7 +66,7 @@ namespace gpdbcost
 			IMemoryPool *m_memory_pool;
 
 			// number of segments
-			ULONG m_ulSegments;
+			ULONG m_num_of_segments;
 
 			// cost model parameters
 			CCostModelParamsGPDB *m_pcp;
@@ -203,7 +203,7 @@ namespace gpdbcost
 			// number of segments
 			ULONG UlHosts() const
 			{
-				return m_ulSegments;
+				return m_num_of_segments;
 			}
 
 			// return number of rows per host

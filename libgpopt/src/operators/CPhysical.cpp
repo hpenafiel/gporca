@@ -728,7 +728,7 @@ CPhysical::PcmCombine
 	CCTEMap *pcmCombined = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		CCTEMap *pcmChild = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[ul])->Pcm();
+		CCTEMap *pcmChild = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[ul])->GetCostModel();
 
 		// get the remaining requirements that have not been met by child
 		CCTEMap *pcm = CCTEMap::PcmCombine(memory_pool, *pcmCombined, *pcmChild);
@@ -1113,7 +1113,7 @@ CPhysical::PcmDerive
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{
-			CCTEMap *pcmChild = exprhdl.Pdpplan(ul)->Pcm();
+			CCTEMap *pcmChild = exprhdl.Pdpplan(ul)->GetCostModel();
 			GPOS_ASSERT(NULL != pcmChild);
 
 			CCTEMap *pcmCombined = CCTEMap::PcmCombine(memory_pool, *pcm, *pcmChild);
@@ -1141,7 +1141,7 @@ CPhysical::FProvidesReqdCTEs
 	)
 	const
 {
-	CCTEMap *pcmDrvd = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Pcm();
+	CCTEMap *pcmDrvd = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->GetCostModel();
 	GPOS_ASSERT(NULL != pcmDrvd);
 	return pcmDrvd->FSatisfies(pcter);
 }

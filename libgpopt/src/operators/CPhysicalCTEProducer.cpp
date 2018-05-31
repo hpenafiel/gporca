@@ -294,7 +294,7 @@ CPhysicalCTEProducer::PcmDerive
 {
 	GPOS_ASSERT(1 == exprhdl.Arity());
 
-	CCTEMap *pcmChild = exprhdl.Pdpplan(0)->Pcm();
+	CCTEMap *pcmChild = exprhdl.Pdpplan(0)->GetCostModel();
 
 	CCTEMap *pcmProducer = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
 	// store plan properties of the child in producer's CTE map

@@ -92,7 +92,7 @@ CEngineTest::EresUnittest_Basic()
 					memory_pool,
 					&mda,
 					NULL, /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CEngine eng(memory_pool);
@@ -163,7 +163,7 @@ CEngineTest::EresOptimize
 					memory_pool,
 					&mda,
 					NULL, /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 		// generate cross product expressions
@@ -277,7 +277,7 @@ CEngineTest::EresUnittest_AppendStats()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CEngine eng(memory_pool);
@@ -476,7 +476,7 @@ CEngineTest::EresTestEngine
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 		CExpression *pexpr = rgpf[ul](memory_pool);
@@ -564,7 +564,7 @@ CEngineTest::EresUnittest_BuildMemoWithSubqueries()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 				ULONG ulIndex = ul / 2;
@@ -698,7 +698,7 @@ CEngineTest::EresUnittest_BuildMemoWithCTE()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CExpression *pexprCTE = CTestUtils::PexprCTETree(memory_pool);

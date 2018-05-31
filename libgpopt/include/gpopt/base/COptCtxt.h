@@ -64,7 +64,7 @@ namespace gpopt
 			CMDAccessor *m_pmda;
 
 			// cost model
-			ICostModel *m_pcm;
+			ICostModel *m_cost_model;
 
 			// constant expression evaluator
 			IConstExprEvaluator *m_pceeval;
@@ -147,9 +147,9 @@ namespace gpopt
 			}
 
 			// cost model accessor
-			ICostModel *Pcm() const
+			ICostModel *GetCostModel() const
 			{
-				return m_pcm;
+				return m_cost_model;
 			}
 
 			// constant expression evaluator

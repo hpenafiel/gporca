@@ -234,7 +234,7 @@ CDrvdPropPlan::Equals
 			m_pds->FMatch(pdpplan->Pds()) &&
 			m_prs->FMatch(pdpplan->Prs()) &&
 			m_ppim->Equals(pdpplan->Ppim()) &&
-			m_pcm->Equals(pdpplan->Pcm());
+			m_pcm->Equals(pdpplan->GetCostModel());
 }
 
 //---------------------------------------------------------------------------

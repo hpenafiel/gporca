@@ -81,7 +81,7 @@ CJoinOrderTest::EresUnittest_Expand()
 				memory_pool,
 				&mda,
 				NULL,  /* pceeval */
-				CTestUtils::Pcm(memory_pool)
+				CTestUtils::GetCostModel(memory_pool)
 				);
 
 	// build test case
@@ -200,7 +200,7 @@ CJoinOrderTest::EresUnittest_ExpandMinCard()
 				memory_pool,
 				&mda,
 				NULL,  /* pceeval */
-				CTestUtils::Pcm(memory_pool)
+				CTestUtils::GetCostModel(memory_pool)
 				);
 
 		CExpression *pexprNAryJoin =

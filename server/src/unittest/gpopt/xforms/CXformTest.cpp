@@ -114,7 +114,7 @@ CXformTest::EresUnittest_ApplyXforms()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgpf); ul++)
@@ -158,7 +158,7 @@ CXformTest::EresUnittest_ApplyXforms_CTE()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);

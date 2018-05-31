@@ -7251,7 +7251,7 @@ CTranslatorExprToDXL::Pdxlprop
 	if (CDistributionSpec::EdtReplicated == CDrvdPropPlan::Pdpplan(pexpr->Pdp(CDrvdProp::EptPlan))->Pds()->Edt())
 	{
 		// if distribution is replicated, multiply number of rows by number of segments
-		ULONG ulSegments = COptCtxt::PoctxtFromTLS()->Pcm()->UlHosts();
+		ULONG ulSegments = COptCtxt::PoctxtFromTLS()->GetCostModel()->UlHosts();
 		dRows = dRows * ulSegments;
 	}
 

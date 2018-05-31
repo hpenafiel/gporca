@@ -51,7 +51,7 @@ namespace
 					) :
 					m_amp(),
 					m_mda(m_amp.Pmp(), CMDCache::Pcache(), CTestUtils::m_sysidDefault, Pmdp()),
-					m_aoc(m_amp.Pmp(), &m_mda, NULL /* pceeval */, CTestUtils::Pcm(m_amp.Pmp())),
+					m_aoc(m_amp.Pmp(), &m_mda, NULL /* pceeval */, CTestUtils::GetCostModel(m_amp.Pmp())),
 					m_pdrgpstat(GPOS_NEW(m_amp.Pmp()) DrgPstat(m_amp.Pmp()))
 			{
 				CHAR *szDXLInput = CDXLUtils::Read(Pmp(), szFileName);

@@ -131,7 +131,7 @@ CTestUtils::CTestSetup::CTestSetup()
 		m_amp.Pmp(),
 		&m_mda,
 		NULL,  /* pceeval */
-		CTestUtils::Pcm(m_amp.Pmp())
+		CTestUtils::GetCostModel(m_amp.Pmp())
 		)
 {
 }
@@ -4047,9 +4047,9 @@ CTestUtils::UlSegments
 {
 	GPOS_ASSERT(NULL != optimizer_config);
 	ULONG ulSegments = GPOPT_TEST_SEGMENTS;
-	if (NULL != optimizer_config->Pcm())
+	if (NULL != optimizer_config->GetCostModel())
 	{
-		ULONG ulSegs = optimizer_config->Pcm()->UlHosts();
+		ULONG ulSegs = optimizer_config->GetCostModel()->UlHosts();
 		if (ulSegments < ulSegs)
 		{
 			ulSegments = ulSegs;
@@ -4120,7 +4120,7 @@ CTestUtils::EresCheckOptimizedPlan
 
 		if (NULL != pdrgpcp)
 		{
-			optimizer_config->Pcm()->SetParams(pdrgpcp);
+			optimizer_config->GetCostModel()->SetParams(pdrgpcp);
 		}
 		optimizer_config->AddRef();
 		ULONG ulSegments = UlSegments(optimizer_config);

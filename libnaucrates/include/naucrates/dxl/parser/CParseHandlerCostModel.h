@@ -34,12 +34,12 @@ namespace gpdxl
 	class CParseHandlerCostModel : public CParseHandlerBase
 	{
 		private:
-			ICostModel::ECostModelType m_ecmt;
-			ULONG m_ulSegments;
+			ICostModel::ECostModelType m_cost_model_type;
+			ULONG m_num_of_segments;
 			// cost model
-			ICostModel *m_pcm;
+			ICostModel *m_cost_model;
 
-			CParseHandlerCostParams *m_pphcp;
+			CParseHandlerCostParams *m_parse_handler_cost_params;
 
 			// private copy ctor
 			CParseHandlerCostModel(const CParseHandlerCostModel&);
@@ -73,7 +73,7 @@ namespace gpdxl
 			virtual ~CParseHandlerCostModel();
 
 			// cost model
-			ICostModel *Pcm() const;
+			ICostModel *GetCostModel() const;
 	};
 }
 

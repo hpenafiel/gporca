@@ -507,7 +507,7 @@ CCostContext::CostCompute
 	m_pstats->AddRef();
 	ICostModel::SCostingInfo ci(memory_pool, ulArity, GPOS_NEW(memory_pool) ICostModel::CCostingStats(m_pstats));
 
-	ICostModel *pcm = COptCtxt::PoctxtFromTLS()->Pcm();
+	ICostModel *pcm = COptCtxt::PoctxtFromTLS()->GetCostModel();
 
 	CExpressionHandle exprhdl(memory_pool);
 	exprhdl.Attach(this);
@@ -572,7 +572,7 @@ CCostContext::DRowsPerHost() const
 {
 	DOUBLE dRows = Pstats()->DRows().Get();
 	COptCtxt *poptctxt = COptCtxt::PoctxtFromTLS();
-	const ULONG ulHosts = poptctxt->Pcm()->UlHosts();
+	const ULONG ulHosts = poptctxt->GetCostModel()->UlHosts();
 
 	CDistributionSpec *pds =  Pdpplan()->Pds();
 	if (CDistributionSpec::EdtHashed == pds->Edt())

@@ -105,7 +105,7 @@ CRangeTest::EresUnittest()
 					memory_pool,
 					&mda,
 					NULL, /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));

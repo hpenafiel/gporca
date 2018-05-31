@@ -589,7 +589,7 @@ CReqdPropPlan::FSatisfied
 			pdpplan->Pds()->FSatisfies(this->Ped()->PdsRequired()) &&
 			pdpplan->Prs()->FSatisfies(this->Per()->PrsRequired()) &&
 			pdpplan->Ppim()->FSatisfies(this->Pepp()->PppsRequired()) &&
-			pdpplan->Pcm()->FSatisfies(this->Pcter());
+			pdpplan->GetCostModel()->FSatisfies(this->Pcter());
 	}
 
 	// otherwise, check satisfiability of all plan properties

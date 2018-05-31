@@ -316,7 +316,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcess()
 						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(memory_pool)
+						CTestUtils::GetCostModel(memory_pool)
 						);
 
 		// generate expression
@@ -368,7 +368,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessWindowFunc()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// generate a Select with a null-filtering predicate on top of Outer Join,
@@ -539,7 +539,7 @@ CExpressionPreprocessorTest::PreprocessOuterJoin
 
 	{
 		CAutoMDAccessor amda(memory_pool, pmdp,  CTestUtils::m_sysidDefault);
-		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::Pcm(memory_pool));
+		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::GetCostModel(memory_pool));
 
 		// read query expression
 		CExpression *pexpr = CTestUtils::PexprReadQuery(memory_pool, szFilePath);
@@ -764,7 +764,7 @@ CExpressionPreprocessorTest::EresTestLOJ
 				BOOL fPredBelowWindow = false;
 				for (ULONG ulPredBelowWindowCases = 0; ulPredBelowWindowCases < 2; ulPredBelowWindowCases++)
 				{
-					CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/,  CTestUtils::Pcm(memory_pool));
+					CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/,  CTestUtils::GetCostModel(memory_pool));
 
 					fPredBelowWindow = fAddWindowFunction && !fPredBelowWindow;
 
@@ -883,7 +883,7 @@ CExpressionPreprocessorTest::PreprocessWinFuncWithOuterRefs
 
 	{
 		CAutoMDAccessor amda(memory_pool, pmdp,  CTestUtils::m_sysidDefault);
-		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::Pcm(memory_pool));
+		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::GetCostModel(memory_pool));
 
 		// read query expression
 		CExpression *pexpr = CTestUtils::PexprReadQuery(memory_pool, szFilePath);
@@ -1090,7 +1090,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessWindowFuncWithDistinctAggs()
 
 	{
 		CAutoMDAccessor amda(memory_pool, pmdp,  CTestUtils::m_sysidDefault);
-		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::Pcm(memory_pool));
+		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::GetCostModel(memory_pool));
 
 		for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgszTestsDistinctAggsRemoveWindow); ul++)
 		{
@@ -1175,7 +1175,7 @@ CExpressionPreprocessorTest::EresUnittest_UnnestSubqueries()
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL,  /* pceeval */ CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL,  /* pceeval */ CTestUtils::GetCostModel(memory_pool));
 
 	SUnnestSubqueriesTestCase rgunnesttc[] =
 		{
@@ -1411,7 +1411,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessNestedScalarSubqueries()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
@@ -1467,7 +1467,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOuterJoin()
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::GetCostModel(memory_pool));
 
 	CExpression *pexprLOJ = CTestUtils::PexprLogicalJoin<CLogicalLeftOuterJoin>(memory_pool);
 	CColRefSet *pcrsInner = CDrvdPropRelational::Pdprel((*pexprLOJ)[1]->PdpDerive())->PcrsOutput();
@@ -1649,7 +1649,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefilters()
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::GetCostModel(memory_pool));
 	CExpression *pexprJoin = CTestUtils::PexprLogicalJoin<CLogicalInnerJoin>(memory_pool);
 
 	CColRefSet *pcrsInner = CDrvdPropRelational::Pdprel((*pexprJoin)[1]->PdpDerive())->PcrsOutput();
@@ -1854,7 +1854,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOrPrefiltersPartialPush()
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::GetCostModel(memory_pool));
 	CExpression *pexprJoin = CTestUtils::PexprLogicalJoin<CLogicalInnerJoin>(memory_pool);
 
 	CColRefSet *pcrsInner = CDrvdPropRelational::Pdprel((*pexprJoin)[1]->PdpDerive())->PcrsOutput();
@@ -2113,7 +2113,7 @@ CExpressionPreprocessorTest::EresUnittest_CollapseInnerJoin()
 	CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::GetCostModel(memory_pool));
 
 	CExpression *rgpexpr[GPOS_ARRAY_SIZE(rgscRel)];
 	CDrvdPropRelational *rgpdprel[GPOS_ARRAY_SIZE(rgscRel)];
@@ -2230,7 +2230,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessConvert2InPredicate()
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::GetCostModel(memory_pool));
 
 	CAutoRef<CExpression> apexprGet(CTestUtils::PexprLogicalGet(memory_pool)); // useful for colref
 	COperator *popGet = apexprGet->Pop();
@@ -2338,7 +2338,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessConvertArrayWithEquals()
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::GetCostModel(memory_pool));
 
 	// test the IN OR Eq variant
 	CAutoRef<CExpression> apexprInConvertable(PexprCreateConvertableArray(memory_pool, true));
@@ -2396,7 +2396,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessConvert2InPredicateDeepExpre
 	pmdp->AddRef();
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, NULL /*pceeval*/, CTestUtils::GetCostModel(memory_pool));
 
 	CAutoRef<CExpression> apexprGet(CTestUtils::PexprLogicalGet(memory_pool));
 	COperator *popGet = apexprGet->Pop();

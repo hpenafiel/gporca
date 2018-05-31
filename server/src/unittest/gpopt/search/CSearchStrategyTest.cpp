@@ -91,7 +91,7 @@ CSearchStrategyTest::Optimize
 						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(memory_pool)
+						CTestUtils::GetCostModel(memory_pool)
 						);
 		CExpression *pexpr = pfnGenerator(memory_pool);
 		pfnOptimize(memory_pool, pexpr, pdrgpss);

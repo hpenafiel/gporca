@@ -149,7 +149,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 		// generate expression
@@ -244,7 +244,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(memory_pool)
+						CTestUtils::GetCostModel(memory_pool)
 						);
 
 		// create a subquery with const table get expression
@@ -314,7 +314,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 		
 	// create a subquery with const table get expression

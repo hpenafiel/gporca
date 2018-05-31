@@ -117,7 +117,7 @@ CDrvdPropCtxtPlan::AddProps
 	CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan(pdp);
 
 	ULONG ulProducerId = ULONG_MAX;
-	CDrvdPropPlan *pdpplanProducer = pdpplan->Pcm()->PdpplanProducer(&ulProducerId);
+	CDrvdPropPlan *pdpplanProducer = pdpplan->GetCostModel()->PdpplanProducer(&ulProducerId);
 	if (NULL == pdpplanProducer)
 	{
 		return;

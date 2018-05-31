@@ -174,7 +174,7 @@ CExpressionTest::EresUnittest_SimpleOps()
 						memory_pool,
 						&mda,
 						NULL,  /* pceeval */
-						CTestUtils::Pcm(memory_pool)
+						CTestUtils::GetCostModel(memory_pool)
 						);
 
 		// generate simple expression
@@ -262,7 +262,7 @@ CExpressionTest::EresUnittest_Union()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// build union tree of depth 2
@@ -320,7 +320,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CWStringConst strRelName(GPOS_WSZ_LIT("MyTable"));
@@ -502,7 +502,7 @@ CExpressionTest::EresUnittest_Const()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	BOOL value = true;
@@ -578,7 +578,7 @@ CExpressionTest::EresUnittest_ComparisonTypes()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	const IMDType *pmdtype = mda.PtMDType<IMDTypeInt4>();
@@ -664,7 +664,7 @@ CExpressionTest::EresUnittest_FValidPlan()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 	const IMDType *pmdtype = mda.PtMDType<IMDTypeInt4>();
 
@@ -750,7 +750,7 @@ CExpressionTest::EresUnittest_FValidPlan_InvalidOrder()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CExpression *pexprGby = NULL;
@@ -826,7 +826,7 @@ CExpressionTest::EresUnittest_FValidPlan_InvalidDistribution()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CExpression *pexprGby = NULL;
@@ -885,7 +885,7 @@ CExpressionTest::EresUnittest_FValidPlan_InvalidRewindability()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CExpression *pexprGby = NULL;
@@ -945,7 +945,7 @@ CExpressionTest::EresUnittest_FValidPlan_InvalidCTEs()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CExpression *pexprGby = NULL;
@@ -1015,7 +1015,7 @@ CExpressionTest::EresUnittest_FValidPlanError()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 	const IMDType *pmdtype = mda.PtMDType<IMDTypeInt4>();
 
@@ -1178,7 +1178,7 @@ CExpressionTest::EresComputeReqdCols
 	GPOS_RESULT eres = GPOS_FAILED;
 	{
 		CAutoMDAccessor amda(memory_pool, pmdp,  CTestUtils::m_sysidDefault);
-		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::Pcm(memory_pool));
+		CAutoOptCtxt aoc(memory_pool, amda.Pmda(), NULL,  /* pceeval */ CTestUtils::GetCostModel(memory_pool));
 
 		// read query expression
 		CExpression *pexpr = CTestUtils::PexprReadQuery(memory_pool, szFilePath);
@@ -1277,7 +1277,7 @@ CExpressionTest::EresUnittest_InvalidSetOp()
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	{
-		CAutoOptCtxt aoc(memory_pool, &mda, NULL /* pceeval */, CTestUtils::Pcm(memory_pool));
+		CAutoOptCtxt aoc(memory_pool, &mda, NULL /* pceeval */, CTestUtils::GetCostModel(memory_pool));
 
 		// create two different Get expressions
 		CWStringConst strName1(GPOS_WSZ_LIT("T1"));

@@ -128,7 +128,7 @@ CConstraintTest::EresUnittest_CInterval()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
@@ -220,7 +220,7 @@ CConstraintTest::EresUnittest_CConjunction()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
@@ -354,7 +354,7 @@ CConstraintTest::EresUnittest_CDisjunction()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
@@ -429,7 +429,7 @@ CConstraintTest::EresUnittest_CNegation()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
@@ -495,7 +495,7 @@ CConstraintTest::EresUnittest_CIntervalFromScalarExpr()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
@@ -540,7 +540,7 @@ CConstraintTest::EresUnittest_CConstraintFromScalarExpr()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(memory_pool);
@@ -622,7 +622,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalConvertsTo()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	// create a range which should convert to an IN array expression
@@ -689,7 +689,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_RTL_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CAutoTraceFlag atf(EopttraceArrayConstraints, true);
@@ -818,7 +818,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalFromArrayExpr()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CAutoTraceFlag atf(EopttraceArrayConstraints, true);
@@ -909,7 +909,7 @@ EresUnittest_CConstraintIntervalFromArrayExprIncludesNull()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	CAutoTraceFlag atf(EopttraceArrayConstraints, true);
@@ -1280,7 +1280,7 @@ CConstraintTest::EresUnittest_NegativeTests()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	const IMDType *pmdtype = mda.Pmdtype(&CMDIdGPDB::m_mdidText);
@@ -1340,7 +1340,7 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	const IMDType *pmdtype = mda.Pmdtype(&CMDIdGPDB::m_mdidDate);

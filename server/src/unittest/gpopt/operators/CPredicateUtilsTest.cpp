@@ -71,7 +71,7 @@ CPredicateUtilsTest::EresUnittest_Conjunctions()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// build conjunction
@@ -147,7 +147,7 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// build disjunction
@@ -266,7 +266,7 @@ CPredicateUtilsTest::EresUnittest_PlainEqualities()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CExpression *pexprLeft = CTestUtils::PexprLogicalGet(memory_pool);
@@ -342,7 +342,7 @@ CPredicateUtilsTest::EresUnittest_Implication()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// generate a two cascaded joins

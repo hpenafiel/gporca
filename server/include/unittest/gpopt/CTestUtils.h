@@ -712,7 +712,7 @@ namespace gpopt
 
 			// generate cost model used in tests
 			static
-			ICostModel *Pcm
+			ICostModel *GetCostModel
 				(
 				IMemoryPool *memory_pool
 				)

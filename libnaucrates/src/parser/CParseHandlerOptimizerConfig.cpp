@@ -202,7 +202,7 @@ CParseHandlerOptimizerConfig::EndElement
 	else
 	{
 		CParseHandlerCostModel *pphCostModelConfig = dynamic_cast<CParseHandlerCostModel *>((*this)[4]);
-		pcm = pphCostModelConfig->Pcm();
+		pcm = pphCostModelConfig->GetCostModel();
 		GPOS_ASSERT(NULL != pcm);
 		pcm->AddRef();
 

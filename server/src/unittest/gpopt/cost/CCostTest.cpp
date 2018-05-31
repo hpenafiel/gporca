@@ -157,7 +157,7 @@ CCostTest::TestParams
 
 	if (fCalibrated)
 	{
-		pcp = ((CCostModelGPDB *) COptCtxt::PoctxtFromTLS()->Pcm())->Pcp();
+		pcp = ((CCostModelGPDB *) COptCtxt::PoctxtFromTLS()->GetCostModel())->Pcp();
 
 		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpSeqIOBandwidth)->Get();
 		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpRandomIOBandwidth)->Get();
@@ -170,7 +170,7 @@ CCostTest::TestParams
 	}
 	else
 	{
-		pcp = ((CCostModelGPDBLegacy *) COptCtxt::PoctxtFromTLS()->Pcm())->Pcp();
+		pcp = ((CCostModelGPDBLegacy *) COptCtxt::PoctxtFromTLS()->GetCostModel())->Pcp();
 
 		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpSeqIOBandwidth)->Get();
 		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpRandomIOBandwidth)->Get();
@@ -248,7 +248,7 @@ CCostTest::EresUnittest_Params()
 						memory_pool,
 						&mda,
 						NULL, /* pceeval */
-						CTestUtils::Pcm(memory_pool)
+						CTestUtils::GetCostModel(memory_pool)
 						);
 
 		TestParams(memory_pool, false /*fCalibrated*/);

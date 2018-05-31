@@ -99,7 +99,7 @@ CCostModelGPDBLegacy::CCostModelGPDBLegacy
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_ulSegments(ulSegments)
+	m_num_of_segments(ulSegments)
 {
 	GPOS_ASSERT(0 < ulSegments);
 
@@ -123,7 +123,7 @@ CCostModelGPDBLegacy::DRowsPerHost
 	)
 	const
 {
-	return dRowsTotal / m_ulSegments;
+	return dRowsTotal / m_num_of_segments;
 }
 
 

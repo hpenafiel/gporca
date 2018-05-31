@@ -375,7 +375,7 @@ CTreeMapTest::EresUnittest_Memo()
 				memory_pool,
 				&mda,
 				NULL,  /* pceeval */
-				CTestUtils::Pcm(memory_pool)
+				CTestUtils::GetCostModel(memory_pool)
 				);
 
 		CAutoTraceFlag atf(EopttraceEnumeratePlans, true);

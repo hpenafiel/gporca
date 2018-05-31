@@ -84,7 +84,7 @@ CPartConstraintTest::EresUnittest()
 	CConstExprEvaluatorForDates *pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorForDates(memory_pool);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::Pcm(memory_pool));
+	CAutoOptCtxt aoc(memory_pool, &mda, pceeval, CTestUtils::GetCostModel(memory_pool));
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }

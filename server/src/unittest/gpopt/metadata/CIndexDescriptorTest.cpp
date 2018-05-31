@@ -70,7 +70,7 @@ CIndexDescriptorTest::EresUnittest_Basic()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CWStringConst strName(GPOS_WSZ_LIT("MyTable"));

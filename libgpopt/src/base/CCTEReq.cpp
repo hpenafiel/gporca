@@ -222,7 +222,7 @@ CCTEReq::InsertConsumer
 	)
 {
 	ULONG ulProducerId = ULONG_MAX;
-	CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[0])->Pcm()->PdpplanProducer(&ulProducerId);
+	CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[0])->GetCostModel()->PdpplanProducer(&ulProducerId);
 	GPOS_ASSERT(NULL != pdpplan);
 	GPOS_ASSERT(ulProducerId == ulId && "unexpected CTE producer plan properties");
 

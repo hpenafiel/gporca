@@ -66,7 +66,7 @@ COrderSpecTest::EresUnittest_Basics()
 					memory_pool,
 					&mda,
 					NULL, /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 	
 	// get column factory from optimizer context object

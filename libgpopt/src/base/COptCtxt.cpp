@@ -61,10 +61,10 @@ COptCtxt::COptCtxt
 	GPOS_ASSERT(NULL != pceeval);
 	GPOS_ASSERT(NULL != m_pcomp);
 	GPOS_ASSERT(NULL != optimizer_config);
-	GPOS_ASSERT(NULL != optimizer_config->Pcm());
+	GPOS_ASSERT(NULL != optimizer_config->GetCostModel());
 	
 	m_pcteinfo = GPOS_NEW(m_memory_pool) CCTEInfo(m_memory_pool);
-	m_pcm = optimizer_config->Pcm();
+	m_cost_model = optimizer_config->GetCostModel();
 }
 
 

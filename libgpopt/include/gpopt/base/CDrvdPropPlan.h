@@ -126,7 +126,7 @@ namespace gpopt
 			}
 
 			// cte map
-			CCTEMap *Pcm() const
+			CCTEMap *GetCostModel() const
 			{
 				return m_pcm;
 			}

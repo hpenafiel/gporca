@@ -111,7 +111,7 @@ static gpos::GPOS_RESULT Eres_ParseCalibratedCostModel()
 
 	fixture.Parse((const XMLByte *)a_szDXL.Rgt(), strlen(a_szDXL.Rgt()));
 
-	ICostModel *pcm = pphcm->Pcm();
+	ICostModel *pcm = pphcm->GetCostModel();
 
 	GPOS_RTL_ASSERT(ICostModel::EcmtGPDBCalibrated == pcm->Ecmt());
 	GPOS_RTL_ASSERT(3 == pcm->UlHosts());
@@ -165,7 +165,7 @@ static gpos::GPOS_RESULT Eres_ParseLegacyCostModel()
 
 	fixture.Parse((const XMLByte *)a_szDXL.Rgt(), strlen(a_szDXL.Rgt()));
 
-	ICostModel *pcm = pphcm->Pcm();
+	ICostModel *pcm = pphcm->GetCostModel();
 
 	GPOS_RTL_ASSERT(ICostModel::EcmtGPDBLegacy == pcm->Ecmt());
 	GPOS_RTL_ASSERT(3 == pcm->UlHosts());

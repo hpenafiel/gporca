@@ -81,7 +81,7 @@ CDecorrelatorTest::EresUnittest_Decorrelate()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 		// generate expression

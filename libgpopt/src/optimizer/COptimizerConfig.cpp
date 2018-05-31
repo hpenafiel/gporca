@@ -33,7 +33,7 @@ COptimizerConfig::COptimizerConfig
 	CEnumeratorConfig *pec,
 	CStatisticsConfig *pstatsconf,
 	CCTEConfig *pcteconf,
-	ICostModel *pcm,
+	ICostModel *cost_model,
 	CHint *phint,
 	CWindowOids *pwindowoids
 	)
@@ -41,14 +41,14 @@ COptimizerConfig::COptimizerConfig
 	m_pec(pec),
 	m_pstatsconf(pstatsconf),
 	m_pcteconf(pcteconf),
-	m_pcm(pcm),
+	m_cost_model(cost_model),
 	m_phint(phint),
 	m_pwindowoids(pwindowoids)
 {
 	GPOS_ASSERT(NULL != pec);
 	GPOS_ASSERT(NULL != pstatsconf);
 	GPOS_ASSERT(NULL != pcteconf);
-	GPOS_ASSERT(NULL != pcm);
+	GPOS_ASSERT(NULL != m_cost_model);
 	GPOS_ASSERT(NULL != phint);
 	GPOS_ASSERT(NULL != m_pwindowoids);
 }
@@ -66,7 +66,7 @@ COptimizerConfig::~COptimizerConfig()
 	m_pec->Release();
 	m_pstatsconf->Release();
 	m_pcteconf->Release();
-	m_pcm->Release();
+	m_cost_model->Release();
 	m_phint->Release();
 	m_pwindowoids->Release();
 }
@@ -162,7 +162,7 @@ COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serial
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOidRank), m_pwindowoids->OidRank());
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenWindowOids));
 
-	CCostModelConfigSerializer cmcSerializer(m_pcm);
+	CCostModelConfigSerializer cmcSerializer(m_cost_model);
 	cmcSerializer.Serialize(*xml_serializer);
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenHint));

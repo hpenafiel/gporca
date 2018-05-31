@@ -59,7 +59,7 @@ namespace gpopt
 			CCTEConfig *m_pcteconf;
 			
 			// cost model configuration
-			ICostModel *m_pcm;
+			ICostModel *m_cost_model;
 
 			// hint configuration
 			CHint *m_phint;
@@ -104,9 +104,9 @@ namespace gpopt
 			}
 
 			// cost model configuration
-			ICostModel *Pcm() const
+			ICostModel *GetCostModel() const
 			{
-				return m_pcm;
+				return m_cost_model;
 			}
 			
 			// default window oids

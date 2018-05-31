@@ -182,7 +182,7 @@ CTranslatorExprToDXLTest::EresUnittest_RunTests()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 	
 	const ULONG ulTests = GPOS_ARRAY_SIZE(rgtc);

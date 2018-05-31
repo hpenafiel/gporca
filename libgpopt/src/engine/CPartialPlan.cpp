@@ -211,7 +211,7 @@ CPartialPlan::CostCompute
 	pstats->AddRef();
 	ICostModel::SCostingInfo ci(memory_pool, exprhdl.UlNonScalarChildren(), GPOS_NEW(memory_pool) ICostModel::CCostingStats(pstats));
 
-	ICostModel *pcm = COptCtxt::PoctxtFromTLS()->Pcm();
+	ICostModel *pcm = COptCtxt::PoctxtFromTLS()->GetCostModel();
 	ExtractChildrenCostingInfo(memory_pool, pcm, exprhdl, &ci);
 
 	CDistributionSpec::EDistributionPartitioningType edpt = CDistributionSpec::EdptSentinel;

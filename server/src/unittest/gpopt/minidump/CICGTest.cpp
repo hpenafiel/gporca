@@ -181,14 +181,14 @@ CICGTest::EresUnittest_RunUnsupportedMinidumpTests()
 
 		GPOS_TRY
 		{
-			ICostModel *pcm = CTestUtils::Pcm(memory_pool);
+			ICostModel *pcm = CTestUtils::GetCostModel(memory_pool);
 
 			COptimizerConfig *optimizer_config = pdxlmd->Poconf();
 			CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 									(
 									memory_pool, 
 									filename,
-									optimizer_config->Pcm()->UlHosts() /*ulSegments*/,
+									optimizer_config->GetCostModel()->UlHosts() /*ulSegments*/,
 									1 /*ulSessionId*/, 
 									1, /*ulCmdId*/
 									optimizer_config,
@@ -274,7 +274,7 @@ CICGTest::EresUnittest_NegativeIndexApplyTests()
 	{
 		GPOS_TRY
 		{
-			ICostModel *pcm = CTestUtils::Pcm(memory_pool);
+			ICostModel *pcm = CTestUtils::GetCostModel(memory_pool);
 
 			COptimizerConfig *optimizer_config = GPOS_NEW(memory_pool) COptimizerConfig
 						(

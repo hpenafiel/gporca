@@ -165,7 +165,7 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
@@ -341,7 +341,7 @@ CTranslatorDXLToExprTest::EresUnittest_SingleTableQuery()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 		CExpression *pexprExpected = PexprGet(memory_pool);
 		pstrExpected = Pstr(memory_pool, pexprExpected);
@@ -383,7 +383,7 @@ CTranslatorDXLToExprTest::EresUnittest_TVF()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 		CExpression *pexprExpected = CTestUtils::PexprLogicalTVFTwoArgs(memory_pool);
 		pstrExpected = Pstr(memory_pool, pexprExpected);
@@ -425,7 +425,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQuery()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 		CExpression *pexprLgGet = PexprGet(memory_pool);
@@ -484,7 +484,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConst()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 		CExpression *pexprLgGet = PexprGet(memory_pool);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
@@ -532,7 +532,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 		CExpression *pexprLgGet = PexprGet(memory_pool);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
@@ -597,7 +597,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithBoolExpr()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 		CExpression *pexprLgGet = PexprGet(memory_pool);
@@ -666,7 +666,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithScalarOp()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 		CExpression *pexprLgGet = PexprGet(memory_pool);
@@ -727,7 +727,7 @@ CTranslatorDXLToExprTest::EresUnittest_Limit()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
@@ -773,7 +773,7 @@ CTranslatorDXLToExprTest::EresUnittest_LimitNoOffset()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
@@ -819,7 +819,7 @@ CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery()
 					memory_pool,
 					&mda,
 					NULL,  /* pceeval */
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	// translate the DXL document into Expr Tree
@@ -853,7 +853,7 @@ GPOS_RESULT CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping()
 					memory_pool,
 					factory.Pmda(),
 					NULL,
-					CTestUtils::Pcm(memory_pool)
+					CTestUtils::GetCostModel(memory_pool)
 					);
 
 	CAutoRef<CExpression> apExpr(CTranslatorDXLToExprTest::Pexpr(memory_pool, szQueryDroppedColumn));
