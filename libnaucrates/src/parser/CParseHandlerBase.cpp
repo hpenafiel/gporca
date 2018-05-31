@@ -157,10 +157,10 @@ CParseHandlerBase::endElement
 void
 CParseHandlerBase::ProcessError
 	(
-	const SAXParseException& toCatch
+	const SAXParseException& to_catch
 	)
 {
-	CHAR* message = XMLString::transcode(toCatch.getMessage(), m_parse_handler_mgr->Pmm());
+	CHAR* message = XMLString::transcode(to_catch.getMessage(), m_parse_handler_mgr->Pmm());
 	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, message);
 }
 
