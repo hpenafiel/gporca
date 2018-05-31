@@ -67,7 +67,7 @@ CParseHandlerArray::StartElement
 		// parse child of array
 		GPOS_ASSERT(NULL != m_pdxln);
 		
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 		this->Append(pphChild);
 		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);

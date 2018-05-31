@@ -56,7 +56,7 @@ CParseHandlerLogicalOp::StartElement
 	)
 {
 	// instantiate the parse handler
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 
 	GPOS_ASSERT(NULL != pph);
 

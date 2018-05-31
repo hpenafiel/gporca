@@ -105,7 +105,7 @@ CParseHandlerPlan::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), element_local_name))
 	{
 		GPOS_ASSERT(0 < this->Length());
-		CParseHandlerBase *pphDirectDispatch = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphDirectDispatch = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphDirectDispatch);
 		
 		// store parse handler
@@ -130,7 +130,7 @@ CParseHandlerPlan::StartElement
 
 	// create a parse handler for physical nodes and activate it
 	GPOS_ASSERT(NULL != m_memory_pool);
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pph);
 	
 	// store parse handler

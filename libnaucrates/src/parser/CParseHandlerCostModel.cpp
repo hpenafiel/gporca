@@ -94,7 +94,7 @@ CParseHandlerCostModel::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParams), element_local_name))
 	{
-		CParseHandlerBase *pphCostParams = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParams), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphCostParams = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParams), m_parse_handler_mgr, this);
 		m_parse_handler_cost_params = static_cast<CParseHandlerCostParams *>(pphCostParams);
 		m_parse_handler_mgr->ActivateParseHandler(pphCostParams);
 

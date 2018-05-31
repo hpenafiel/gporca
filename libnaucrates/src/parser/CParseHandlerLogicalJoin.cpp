@@ -80,7 +80,7 @@ CParseHandlerLogicalJoin::StartElement
 		else
 		{
 			// This is to support nested join.
-			CParseHandlerBase *pphLgJoin = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalJoin), m_parse_handler_mgr, this);
+			CParseHandlerBase *pphLgJoin = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalJoin), m_parse_handler_mgr, this);
 			m_parse_handler_mgr->ActivateParseHandler(pphLgJoin);
 
 			// store parse handlers
@@ -98,7 +98,7 @@ CParseHandlerLogicalJoin::StartElement
 		}
 
 		// The child can either be a CDXLLogicalOp or CDXLScalar
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 

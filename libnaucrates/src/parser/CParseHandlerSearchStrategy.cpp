@@ -79,7 +79,7 @@ CParseHandlerSearchStrategy::StartElement
 		GPOS_ASSERT(NULL != m_search_stage_array);
 
 		// start new search stage
-		CParseHandlerBase *pphSearchStage = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenSearchStage), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphSearchStage = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenSearchStage), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphSearchStage);
 
 		// store parse handler

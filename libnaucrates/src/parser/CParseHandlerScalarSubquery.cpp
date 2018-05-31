@@ -77,7 +77,7 @@ CParseHandlerScalarSubquery::StartElement
 	m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubquery(m_memory_pool, ulColId);
 
 	// parse handler for child node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 		
 	// store child parse handler in array

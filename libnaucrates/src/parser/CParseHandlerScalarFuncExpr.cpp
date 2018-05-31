@@ -76,7 +76,7 @@ CParseHandlerScalarFuncExpr::StartElement
 		else
 		{
 			// This is to support nested FuncExpr
-			CParseHandlerBase *pphFunc = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_parse_handler_mgr, this);
+			CParseHandlerBase *pphFunc = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_parse_handler_mgr, this);
 			m_parse_handler_mgr->ActivateParseHandler(pphFunc);
 
 			// store parse handlers
@@ -89,7 +89,7 @@ CParseHandlerScalarFuncExpr::StartElement
 	{
 		GPOS_ASSERT(m_fInsideFuncExpr);
 
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handlers

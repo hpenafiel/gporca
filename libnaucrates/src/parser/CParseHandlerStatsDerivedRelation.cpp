@@ -77,7 +77,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), element_local_name))
 	{
 		// start new derived column element
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), m_parse_handler_mgr, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedColumn), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pph);
 
 		// store parse handler

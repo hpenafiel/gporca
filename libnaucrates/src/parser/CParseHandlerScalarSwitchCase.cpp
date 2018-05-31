@@ -66,11 +66,11 @@ CParseHandlerScalarSwitchCase::StartElement
 	// order of their expected appearance
 
 	// parse handler for result expression
-	CParseHandlerBase *pphResult = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphResult = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphResult);
 
 	// parse handler for condition expression
-	CParseHandlerBase *pphCond = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphCond = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphCond);
 
 	// store parse handlers

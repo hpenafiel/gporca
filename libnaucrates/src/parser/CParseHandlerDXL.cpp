@@ -399,7 +399,7 @@ CParseHandlerDXL::StartElement
 		GPOS_ASSERT(IsValidStartElement(element_local_name));
 
 		// install a parse handler for the given element
-		CParseHandlerBase *parse_handler_base = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *parse_handler_base = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 	
 		m_parse_handler_mgr->ActivateParseHandler(parse_handler_base);
 			

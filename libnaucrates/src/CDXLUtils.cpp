@@ -108,7 +108,7 @@ CDXLUtils::GetParseHandlerForDXLString
 			
 	CParseHandlerManager *parse_handler_mgr = GPOS_NEW(memory_pool) CParseHandlerManager(memory_manager, sax_2_xml_reader);
 
-	CParseHandlerDXL *parse_handler_dxl = CParseHandlerFactory::Pphdxl(memory_pool, parse_handler_mgr);
+	CParseHandlerDXL *parse_handler_dxl = CParseHandlerFactory::GetParseHandlerDXL(memory_pool, parse_handler_mgr);
 
 	parse_handler_mgr->ActivateParseHandler(parse_handler_dxl);
 		
@@ -217,7 +217,7 @@ CDXLUtils::GetParseHandlerForDXLFile
 	}
 
 	CParseHandlerManager parse_handler_mgr(&mm, sax_2_xml_reader);
-	CParseHandlerDXL *parse_handler_dxl = CParseHandlerFactory::Pphdxl(memory_pool, &parse_handler_mgr);
+	CParseHandlerDXL *parse_handler_dxl = CParseHandlerFactory::GetParseHandlerDXL(memory_pool, &parse_handler_mgr);
 	parse_handler_mgr.ActivateParseHandler(parse_handler_dxl);
 	GPOS_CHECK_ABORT;
 

@@ -52,7 +52,7 @@ CParseHandlerScalarValuesList::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarConstValue), element_local_name))
 	{
-		CParseHandlerBase *pphScConstValue = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *pphScConstValue = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphScConstValue);
 
 		this->Append(pphScConstValue);

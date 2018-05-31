@@ -85,7 +85,7 @@ CParseHandlerFilter::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 		
 		// install a scalar element parser for parsing the condition element
-		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
 		m_parse_handler_mgr->ActivateParseHandler(pphOp);
 		

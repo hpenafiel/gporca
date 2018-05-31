@@ -73,7 +73,7 @@ CParseHandlerScalarOpExpr::StartElement
 	{
 		if (2 > m_ulChildCount)
 		{
-			CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+			CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
 			m_parse_handler_mgr->ActivateParseHandler(pphOp);
 

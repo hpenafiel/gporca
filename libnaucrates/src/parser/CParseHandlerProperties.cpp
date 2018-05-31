@@ -89,7 +89,7 @@ CParseHandlerProperties::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenProperties), element_local_name))
 	{
 		// create and install cost and output column parsers
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCost), m_parse_handler_mgr, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCost), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pph);
 
 		// store parse handler
@@ -100,7 +100,7 @@ CParseHandlerProperties::StartElement
 		GPOS_ASSERT(1 == this->Length());
 
 		// create and install derived relation statistics parsers
-		CParseHandlerBase *pphStats = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphStats = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphStats);
 
 		// store parse handler

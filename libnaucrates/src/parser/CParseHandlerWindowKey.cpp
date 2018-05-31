@@ -64,7 +64,7 @@ CParseHandlerWindowKey::StartElement
 
 		// parse handler for the sorting column list
 		CParseHandlerBase *pphSortColList =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
 
 		// store parse handler
@@ -76,7 +76,7 @@ CParseHandlerWindowKey::StartElement
 
 		// parse handler for the leading and trailing scalar values
 		CParseHandlerBase *pphWf =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphWf);
 
 		// store parse handler

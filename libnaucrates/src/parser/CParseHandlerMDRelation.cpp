@@ -97,7 +97,7 @@ CParseHandlerMDRelation::StartElement
 		if (pphMdlIndexInfo->PdrgpmdIndexInfo()->Size() > 0)
 		{
 			// parse handler for part constraints
-			CParseHandlerBase *pphPartConstraint= CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+			CParseHandlerBase *pphPartConstraint= CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 			m_parse_handler_mgr->ActivateParseHandler(pphPartConstraint);
 			this->Append(pphPartConstraint);
 		}
@@ -347,19 +347,19 @@ void
 CParseHandlerMDRelation::ParseChildNodes()
 {
 	// parse handler for check constraints
-	CParseHandlerBase *pphCheckConstraintList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphCheckConstraintList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphCheckConstraintList);
 
 	// parse handler for trigger list
-	CParseHandlerBase *pphTriggerList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphTriggerList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphTriggerList);
 
 	// parse handler for index info list
-	CParseHandlerBase *pphIndexInfoList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexInfoList), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphIndexInfoList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexInfoList), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphIndexInfoList);
 
 	// parse handler for the columns
-	CParseHandlerBase *pphColumns = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphColumns = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphColumns);
 
 	// store parse handlers

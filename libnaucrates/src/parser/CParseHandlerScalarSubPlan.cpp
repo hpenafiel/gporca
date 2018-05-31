@@ -128,15 +128,15 @@ CParseHandlerScalarSubPlan::StartElement
 	m_edxlsubplantype = Edxlsubplantype(xmlszSubplanType);
 
 	// parse handler for child physical node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 	// parse handler for params
-	CParseHandlerBase *pphParamList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphParamList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphParamList);
 
 	// parse handler for test expression
-	CParseHandlerBase *pphTestExpr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphTestExpr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphTestExpr);
 
 	// store parse handlers

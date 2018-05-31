@@ -102,7 +102,7 @@ CParseHandlerQueryOutput::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxln);
 
 		// start new scalar ident element
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIdent), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIdent), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler

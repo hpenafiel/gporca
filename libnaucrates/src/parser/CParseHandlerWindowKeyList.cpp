@@ -67,7 +67,7 @@ CParseHandlerWindowKeyList::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlwk);
 		// start new window key element
 		CParseHandlerBase *pphWk =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowKey), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowKey), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphWk);
 
 		// store parse handler

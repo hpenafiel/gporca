@@ -76,7 +76,7 @@ CParseHandlerLogicalCTEProducer::StartElement
 
 	// create and activate the parse handler for the child expression node
 	CParseHandlerBase *pphChild =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 	// store parse handler

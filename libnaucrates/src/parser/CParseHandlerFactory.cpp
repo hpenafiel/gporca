@@ -291,7 +291,7 @@ CParseHandlerFactory::Init
 
 // creates a parse handler instance given an xml tag
 CParseHandlerBase *
-CParseHandlerFactory::Pph
+CParseHandlerFactory::GetParseHandler
 	(
 	IMemoryPool *memory_pool,
 	const XMLCh *xmlszName,
@@ -325,7 +325,7 @@ CParseHandlerFactory::Pph
 
 // creates a parse handler for parsing a DXL document.
 CParseHandlerDXL *
-CParseHandlerFactory::Pphdxl
+CParseHandlerFactory::GetParseHandlerDXL
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr

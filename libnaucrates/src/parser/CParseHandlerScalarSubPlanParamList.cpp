@@ -88,7 +88,7 @@ CParseHandlerScalarSubPlanParamList::StartElement
 		GPOS_ASSERT(m_fParamList);
 
 		// start new param
-		CParseHandlerBase *pphParam = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParam), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphParam = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParam), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphParam);
 
 		// store parse handler

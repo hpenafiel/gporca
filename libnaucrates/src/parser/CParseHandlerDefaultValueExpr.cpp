@@ -68,7 +68,7 @@ CParseHandlerDefaultValueExpr::StartElement
 		GPOS_ASSERT(m_fDefaultValueStarted);
 		
 		// install a scalar op parse handler to parse the expression
-		CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 		
 		GPOS_ASSERT(NULL != pph);
 

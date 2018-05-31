@@ -70,7 +70,7 @@ CParseHandlerHashExprList::StartElement
 		// we must have seen a hash expr list already and initialized the hash expr list node
 		GPOS_ASSERT(NULL != m_pdxln);
 		// start new hash expr element
-		CParseHandlerBase *pphHashExpr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashExpr), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphHashExpr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashExpr), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphHashExpr);
 		
 		// store parse handler

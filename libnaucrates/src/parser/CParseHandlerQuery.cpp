@@ -147,13 +147,13 @@ CParseHandlerQuery::StartElement
 	GPOS_ASSERT(NULL != m_memory_pool);
 
 	// create parse handler for the query output node
-	CParseHandlerBase *pphQueryOutput = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphQueryOutput = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_parse_handler_mgr, this);
 
 	// create parse handler for the CTE list
-	CParseHandlerBase *pphCTE = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphCTE = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_parse_handler_mgr, this);
 
 	// create a parse handler for logical nodes
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
 
 	m_parse_handler_mgr->ActivateParseHandler(pph);
 	m_parse_handler_mgr->ActivateParseHandler(pphCTE);

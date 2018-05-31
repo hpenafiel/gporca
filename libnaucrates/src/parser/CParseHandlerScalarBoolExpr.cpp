@@ -85,7 +85,7 @@ CParseHandlerScalarBoolExpr::StartElement
 		{
 
 			// This is to support nested BoolExpr. TODO:  - create a separate xml tag for boolean expression
-			CParseHandlerBase *pphBoolExpr = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), m_parse_handler_mgr, this);
+			CParseHandlerBase *pphBoolExpr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), m_parse_handler_mgr, this);
 			m_parse_handler_mgr->ActivateParseHandler(pphBoolExpr);
 
 			// store parse handlers
@@ -101,7 +101,7 @@ CParseHandlerScalarBoolExpr::StartElement
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer());
 		}
 
-		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphOp);
 
 		// store parse handlers

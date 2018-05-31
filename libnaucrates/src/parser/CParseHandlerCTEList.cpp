@@ -78,7 +78,7 @@ CParseHandlerCTEList::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpdxln);
 
 		// start new CTE producer
-		CParseHandlerBase *pphCTEProducer = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalCTEProducer), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphCTEProducer = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalCTEProducer), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphCTEProducer);
 		
 		// store parse handler

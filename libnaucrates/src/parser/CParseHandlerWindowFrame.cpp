@@ -65,12 +65,12 @@ CParseHandlerWindowFrame::StartElement
 
 		// parse handler for the trailing window frame edge
 		CParseHandlerBase *pphTrailingVal =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphTrailingVal);
 
 		// parse handler for the leading scalar values
 		CParseHandlerBase *pphLeadingVal =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameLeadingEdge), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameLeadingEdge), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphLeadingVal);
 
 		this->Append(pphLeadingVal);

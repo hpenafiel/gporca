@@ -121,7 +121,7 @@ CParseHandlerColStats::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), element_local_name))
 	{
 		// new bucket
-		CParseHandlerBase *parse_handler_base_stats_bucket = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), m_parse_handler_mgr, this);
+		CParseHandlerBase *parse_handler_base_stats_bucket = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), m_parse_handler_mgr, this);
 		this->Append(parse_handler_base_stats_bucket);
 		
 		m_parse_handler_mgr->ActivateParseHandler(parse_handler_base_stats_bucket);	

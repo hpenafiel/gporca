@@ -76,7 +76,7 @@ CParseHandlerScalarSwitch::StartElement
 		GPOS_ASSERT(NULL != m_pdxln && m_fArgProcessed && !m_fDefaultProcessed);
 
 		// parse case
-		CParseHandlerBase *pphCase = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphCase = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphCase);
 
 		// store parse handlers
@@ -89,7 +89,7 @@ CParseHandlerScalarSwitch::StartElement
 		GPOS_ASSERT(NULL != m_pdxln && !m_fDefaultProcessed);
 
 		// parse scalar child
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handlers

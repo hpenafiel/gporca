@@ -86,7 +86,7 @@ CParseHandlerMetadataColumns::StartElement
 		GPOS_ASSERT(NULL != m_pdrgpmdcol);
 		
 		// activate parse handler to parse the column info
-		CParseHandlerBase *pphCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphCol = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_parse_handler_mgr, this);
 		
 		m_parse_handler_mgr->ActivateParseHandler(pphCol);
 		this->Append(pphCol);

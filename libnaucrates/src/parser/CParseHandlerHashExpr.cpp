@@ -69,7 +69,7 @@ CParseHandlerHashExpr::StartElement
 	
 	// create and activate the parse handler for the child scalar expression node
 	
-	CParseHandlerBase *pphOp = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphOp);
 	
 	// store child parse handler

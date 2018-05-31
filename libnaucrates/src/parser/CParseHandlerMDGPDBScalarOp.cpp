@@ -202,7 +202,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), element_local_name))
 	{
 		// parse handler for operator class list
-		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphOpClassList);
 		this->Append(pphOpClassList);
 		pphOpClassList->startElement(element_uri, element_local_name, element_qname, attrs);

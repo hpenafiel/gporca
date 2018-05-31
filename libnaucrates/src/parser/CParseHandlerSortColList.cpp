@@ -70,7 +70,7 @@ CParseHandlerSortColList::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 
 		// start new sort column
-		CParseHandlerBase *pphSortCol = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphSortCol = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphSortCol);
 		
 		// store parse handler

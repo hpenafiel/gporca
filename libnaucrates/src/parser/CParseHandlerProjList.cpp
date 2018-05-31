@@ -71,7 +71,7 @@ CParseHandlerProjList::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 
 		// start new project element
-		CParseHandlerBase *pphPrEl = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphPrEl = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphPrEl);
 		
 		// store parse handler

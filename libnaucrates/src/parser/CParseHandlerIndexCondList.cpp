@@ -69,7 +69,7 @@ CParseHandlerIndexCondList::StartElement
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
-		CParseHandlerBase *pphOp = CParseHandlerFactory::Pph
+		CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler
 															(
 															m_memory_pool,
 															CDXLTokens::XmlstrToken(EdxltokenScalar),

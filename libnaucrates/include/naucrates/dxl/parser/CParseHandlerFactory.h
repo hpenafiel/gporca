@@ -1656,7 +1656,7 @@ namespace gpdxl
 			
 			// return the parse handler creator for operator with the given name
 			static 
-			CParseHandlerBase *Pph
+			CParseHandlerBase *GetParseHandler
 				(
 				IMemoryPool *memory_pool,
 				const XMLCh *xmlsz,
@@ -1666,7 +1666,7 @@ namespace gpdxl
 
 			// factory methods for creating parse handlers
 			static 
-			CParseHandlerDXL *Pphdxl
+			CParseHandlerDXL *GetParseHandlerDXL
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager*

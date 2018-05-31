@@ -81,7 +81,7 @@ CParseHandlerScalarArrayRef::StartElement
 		GPOS_ASSERT(2 > m_ulIndexLists);
 
 		// parse index list
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler
@@ -113,7 +113,7 @@ CParseHandlerScalarArrayRef::StartElement
 		// parse scalar child
 		GPOS_ASSERT(m_fParsingRefExpr || m_fParsingAssignExpr);
 
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 
 		// store parse handler

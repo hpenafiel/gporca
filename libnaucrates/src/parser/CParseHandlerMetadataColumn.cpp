@@ -165,7 +165,7 @@ CParseHandlerMetadataColumn::StartElement
 	}
 	
 	// install a parse handler for the default value
-	CParseHandlerBase *pph = CParseHandlerFactory::Pph
+	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler
 										(
 										m_memory_pool,
 										CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue),

@@ -76,12 +76,12 @@ CParseHandlerScalarBitmapIndexProbe::StartElement
 
 	// parse handler for the index descriptor
 	CParseHandlerBase *pphIdxD =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_parse_handler_mgr, this);
+			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphIdxD);
 
 	// parse handler for the index condition list
 	CParseHandlerBase *pphIdxCondList =
-			CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_parse_handler_mgr, this);
+			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(pphIdxCondList);
 
 	// store parse handlers

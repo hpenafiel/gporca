@@ -82,7 +82,7 @@ CParseHandlerCostParams::StartElement
 		GPOS_ASSERT(NULL != m_cost_model_params);
 
 		// start new search stage
-		CParseHandlerBase *parse_handler_cost_params = CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParam), m_parse_handler_mgr, this);
+		CParseHandlerBase *parse_handler_cost_params = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCostParam), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(parse_handler_cost_params);
 
 		// store parse handler

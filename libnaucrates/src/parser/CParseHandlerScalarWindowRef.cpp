@@ -71,7 +71,7 @@ CParseHandlerScalarWindowRef::StartElement
 		GPOS_ASSERT(NULL != m_pdxln);
 
 		CParseHandlerBase *pphOp =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphOp);
 
 		// store parse handlers

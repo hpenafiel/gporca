@@ -69,12 +69,12 @@ CParseHandlerSequence::StartElement
 		// new sequence operator
 		// parse handler for the proj list
 		CParseHandlerBase *pphPrL =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphPrL);
 
 		//parse handler for the properties of the operator
 		CParseHandlerBase *pphProp =
-				CParseHandlerFactory::Pph(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphProp);
 
 		// store child parse handlers in array
@@ -85,7 +85,7 @@ CParseHandlerSequence::StartElement
 	else
 	{
 		// child of the sequence operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::Pph(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
 		this->Append(pphChild);
 		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
