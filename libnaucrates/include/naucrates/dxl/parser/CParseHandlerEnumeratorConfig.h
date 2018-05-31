@@ -34,7 +34,7 @@ namespace gpdxl
 		private:
 
 			// enumerator configuration
-			CEnumeratorConfig *m_pec;
+			CEnumeratorConfig *m_enumerator_cfg;
 
 			// private copy ctor
 			CParseHandlerEnumeratorConfig(const CParseHandlerEnumeratorConfig&);
@@ -73,7 +73,7 @@ namespace gpdxl
 			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// enumerator configuration
-			CEnumeratorConfig *Pec() const;
+			CEnumeratorConfig *GetEnumeratorCfg() const;
 	};
 }
 

@@ -278,7 +278,7 @@ CICGTest::EresUnittest_NegativeIndexApplyTests()
 
 			COptimizerConfig *optimizer_config = GPOS_NEW(memory_pool) COptimizerConfig
 						(
-						CEnumeratorConfig::Pec(memory_pool, 0 /*plan_id*/),
+						CEnumeratorConfig::GetEnumeratorCfg(memory_pool, 0 /*plan_id*/),
 						CStatisticsConfig::PstatsconfDefault(memory_pool),
 						CCTEConfig::PcteconfDefault(memory_pool),
 						pcm,

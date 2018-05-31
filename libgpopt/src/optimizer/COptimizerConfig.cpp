@@ -38,7 +38,7 @@ COptimizerConfig::COptimizerConfig
 	CWindowOids *pwindowoids
 	)
 	:
-	m_pec(pec),
+	m_enumerator_cfg(pec),
 	m_pstatsconf(pstatsconf),
 	m_pcteconf(pcteconf),
 	m_cost_model(cost_model),
@@ -63,7 +63,7 @@ COptimizerConfig::COptimizerConfig
 //---------------------------------------------------------------------------
 COptimizerConfig::~COptimizerConfig()
 {
-	m_pec->Release();
+	m_enumerator_cfg->Release();
 	m_pstatsconf->Release();
 	m_pcteconf->Release();
 	m_cost_model->Release();
@@ -142,9 +142,9 @@ COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serial
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenOptimizerConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenEnumeratorConfig));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanId), m_pec->GetPlanId());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanSamples), m_pec->GetPlanId());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCostThreshold), m_pec->GetPlanId());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanId), m_enumerator_cfg->GetPlanId());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanSamples), m_enumerator_cfg->GetPlanId());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCostThreshold), m_enumerator_cfg->GetPlanId());
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenEnumeratorConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenStatisticsConfig));

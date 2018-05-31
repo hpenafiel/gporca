@@ -3182,7 +3182,7 @@ CTestUtils::EresTranslate
 	CWStringDynamic strTranslatedPlan(memory_pool);
 	COstreamString osTranslatedPlan(&strTranslatedPlan);
 
-	CDXLUtils::SerializePlan(memory_pool, osTranslatedPlan, pdxlnPlan, optimizer_config->Pec()->GetPlanId(), optimizer_config->Pec()->GetPlanSpaceSize(), true /*serialize_header_footer*/, true /*indentation*/);
+	CDXLUtils::SerializePlan(memory_pool, osTranslatedPlan, pdxlnPlan, optimizer_config->GetEnumeratorCfg()->GetPlanId(), optimizer_config->GetEnumeratorCfg()->GetPlanSpaceSize(), true /*serialize_header_footer*/, true /*indentation*/);
 
 	GPOS_TRACE(str.GetBuffer());
 	GPOS_RESULT eres = GPOS_OK;
@@ -3543,7 +3543,7 @@ CTestUtils::EresRunMinidump
 	ULONG ulSegments = UlSegments(optimizer_config);
 
 	// allow sampler to throw invalid plan exception
-	optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+	optimizer_config->GetEnumeratorCfg()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 	CDXLNode *pdxlnPlan = NULL;
 
@@ -3578,8 +3578,8 @@ CTestUtils::EresRunMinidump
 			memory_pool,
 			at.Os(),
 			pdxlnPlan,
-			optimizer_config->Pec()->GetPlanId(),
-			optimizer_config->Pec()->GetPlanSpaceSize(),
+			optimizer_config->GetEnumeratorCfg()->GetPlanId(),
+			optimizer_config->GetEnumeratorCfg()->GetPlanSpaceSize(),
 			pdxlmd->PdxlnPlan(),
 			pdxlmd->GetPlanId(),
 			pdxlmd->GetPlanSpaceSize(),
@@ -3848,7 +3848,7 @@ CTestUtils::EresSamplePlans
 		ULONG ulSegments = UlSegments(optimizer_config);
 
 		// allow sampler to throw invalid plan exception
-		optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+		optimizer_config->GetEnumeratorCfg()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 		{
 			// scope for MD accessor
@@ -3872,23 +3872,23 @@ CTestUtils::EresSamplePlans
 			{
 				CAutoTrace at(memory_pool);
 
-				at.Os() << "Generated " <<  optimizer_config->Pec()->UlCreatedSamples() <<" samples ... " << std::endl;
+				at.Os() << "Generated " <<  optimizer_config->GetEnumeratorCfg()->UlCreatedSamples() <<" samples ... " << std::endl;
 
 				// print ids of sampled plans
-				CWStringDynamic *pstr = CDXLUtils::SerializeSamplePlans(memory_pool, optimizer_config->Pec(), true /*fIdent*/);
+				CWStringDynamic *pstr = CDXLUtils::SerializeSamplePlans(memory_pool, optimizer_config->GetEnumeratorCfg(), true /*fIdent*/);
 				at.Os() << pstr->GetBuffer();
 				GPOS_DELETE(pstr);
 
 				// print fitted cost distribution
 				at.Os() << "Cost Distribution: " << std::endl;
-				const ULONG ulSize = optimizer_config->Pec()->UlCostDistrSize();
+				const ULONG ulSize = optimizer_config->GetEnumeratorCfg()->UlCostDistrSize();
 				for (ULONG ul = 0; ul < ulSize; ul++)
 				{
-					at.Os() << optimizer_config->Pec()->DCostDistrX(ul) << "\t" << optimizer_config->Pec()->DCostDistrY(ul) << std::endl;
+					at.Os() << optimizer_config->GetEnumeratorCfg()->DCostDistrX(ul) << "\t" << optimizer_config->GetEnumeratorCfg()->DCostDistrY(ul) << std::endl;
 				}
 
 				// print serialized cost distribution
-				pstr = CDXLUtils::SerializeCostDistr(memory_pool, optimizer_config->Pec(), true /*fIdent*/);
+				pstr = CDXLUtils::SerializeCostDistr(memory_pool, optimizer_config->GetEnumeratorCfg(), true /*fIdent*/);
 
 				at.Os() << pstr->GetBuffer();
 				GPOS_DELETE(pstr);
@@ -3990,10 +3990,10 @@ CTestUtils::EresCheckPlans
 		ULONG ulSegments = UlSegments(optimizer_config);
 
 		// set plan checker
-		optimizer_config->Pec()->SetPlanChecker(pfpc);
+		optimizer_config->GetEnumeratorCfg()->SetPlanChecker(pfpc);
 
 		// allow sampler to throw invalid plan exception
-		optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+		optimizer_config->GetEnumeratorCfg()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 		{
 			// scope for MD accessor
@@ -4126,7 +4126,7 @@ CTestUtils::EresCheckOptimizedPlan
 		ULONG ulSegments = UlSegments(optimizer_config);
 
 		// allow sampler to throw invalid plan exception
-		optimizer_config->Pec()->SetSampleValidPlans(false /*fSampleValidPlans*/);
+		optimizer_config->GetEnumeratorCfg()->SetSampleValidPlans(false /*fSampleValidPlans*/);
 
 		{
 			// scope for MD accessor

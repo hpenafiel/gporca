@@ -175,7 +175,7 @@ CParseHandlerOptimizerConfig::EndElement
 	GPOS_ASSERT(7 >= this->Length());
 
 	CParseHandlerEnumeratorConfig *pphEnumeratorConfig = dynamic_cast<CParseHandlerEnumeratorConfig *>((*this)[0]);
-	CEnumeratorConfig *pec = pphEnumeratorConfig->Pec();
+	CEnumeratorConfig *pec = pphEnumeratorConfig->GetEnumeratorCfg();
 	pec->AddRef();
 
 	CParseHandlerStatisticsConfig *pphStatisticsConfig = dynamic_cast<CParseHandlerStatisticsConfig *>((*this)[1]);

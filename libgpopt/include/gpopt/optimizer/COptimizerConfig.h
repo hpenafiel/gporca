@@ -50,7 +50,7 @@ namespace gpopt
 		private:
 			
 			// plan enumeration configuration
-			CEnumeratorConfig *m_pec;
+			CEnumeratorConfig *m_enumerator_cfg;
 
 			// statistics configuration
 			CStatisticsConfig *m_pstatsconf;
@@ -86,9 +86,9 @@ namespace gpopt
 
 			
 			// plan enumeration configuration
-			CEnumeratorConfig *Pec() const
+			CEnumeratorConfig *GetEnumeratorCfg() const
 			{
-				return m_pec;
+				return m_enumerator_cfg;
 			}
 
 			// statistics configuration

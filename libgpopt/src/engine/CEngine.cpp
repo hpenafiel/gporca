@@ -706,7 +706,7 @@ CEngine::Pmemotmap()
 						);
 
 		m_pmemo->BuildTreeMap(poc);
-		optimizer_config->Pec()->SetPlanSpaceSize(m_pmemo->Pmemotmap()->UllCount());
+		optimizer_config->GetEnumeratorCfg()->SetPlanSpaceSize(m_pmemo->Pmemotmap()->UllCount());
 
 		poc->Release();
 	}
@@ -1380,7 +1380,7 @@ CEngine::RecursiveOptimize()
 		atSearch.Os() << "[OPT]: Search terminated at stage " << m_ulCurrSearchStage << "/" << m_search_stage_array->Size();
 	}
 
-	if (optimizer_config->Pec()->FSample())
+	if (optimizer_config->GetEnumeratorCfg()->FSample())
 	{
 		SamplePlans();
 	}
@@ -1699,7 +1699,7 @@ CEngine::Optimize()
 		}
 	}
 
-	if (optimizer_config->Pec()->FSample())
+	if (optimizer_config->GetEnumeratorCfg()->FSample())
 	{
 		SamplePlans();
 	}
@@ -1892,7 +1892,7 @@ CEngine::PexprUnrank
 #ifdef GPOS_DEBUG
 	// check plan using configured plan checker, if any
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-	CEnumeratorConfig *pec = optimizer_config->Pec();
+	CEnumeratorConfig *pec = optimizer_config->GetEnumeratorCfg();
 	BOOL fCheck = pec->FCheckPlan(pexpr);
 	if (!fCheck)
 	{
@@ -1922,7 +1922,7 @@ CEngine::PexprExtractPlan()
 
 	BOOL fGenerateAlt = false;
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-	CEnumeratorConfig *pec = optimizer_config->Pec();
+	CEnumeratorConfig *pec = optimizer_config->GetEnumeratorCfg();
 	if (pec->FEnumerate())
 	{
 		CAutoTrace at(m_memory_pool);
@@ -2063,7 +2063,7 @@ CEngine::SamplePlans()
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 	GPOS_ASSERT(NULL != optimizer_config);
 
-	CEnumeratorConfig *pec = optimizer_config->Pec();
+	CEnumeratorConfig *pec = optimizer_config->GetEnumeratorCfg();
 
 	ULLONG ullSamples = pec->UllInputSamples();
 	GPOS_ASSERT(0 < ullSamples);

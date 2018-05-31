@@ -51,8 +51,8 @@ CParseHandlerDummy::error
 	const SAXParseException &sax_parse_ex
 	)
 {
-	CHAR* szMessage = XMLString::transcode(sax_parse_ex.getMessage(), m_memory_manager_dxl);
-	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, szMessage);
+	CHAR* message = XMLString::transcode(sax_parse_ex.getMessage(), m_memory_manager_dxl);
+	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, message);
 }
 
 // EOF

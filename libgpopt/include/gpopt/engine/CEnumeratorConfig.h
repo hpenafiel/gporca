@@ -360,7 +360,7 @@ namespace gpopt
 
 			// generate enumerator configuration for a given plan id
 			static
-			CEnumeratorConfig *Pec
+			CEnumeratorConfig *GetEnumeratorCfg
 				(
 				IMemoryPool *memory_pool,
 				ULLONG plan_id

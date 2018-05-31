@@ -126,7 +126,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 
 		COptimizerConfig *optimizer_config = GPOS_NEW(memory_pool) COptimizerConfig
 												(
-												CEnumeratorConfig::Pec(memory_pool, 0 /*plan_id*/),
+												CEnumeratorConfig::GetEnumeratorCfg(memory_pool, 0 /*plan_id*/),
 												CStatisticsConfig::PstatsconfDefault(memory_pool),
 												CCTEConfig::PcteconfDefault(memory_pool),
 												ICostModel::PcmDefault(memory_pool),
@@ -185,7 +185,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CDXLNode *pdxlnPlan = ptrexprtodxl.PdxlnTranslate(pexprPlan, pqc->PdrgPcr(), pqc->Pdrgpmdname());
 		GPOS_ASSERT(NULL != pdxlnPlan);
 		
-		CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->Pec()->GetPlanId(), optimizer_config->Pec()->GetPlanSpaceSize());
+		CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->GetEnumeratorCfg()->GetPlanId(), optimizer_config->GetEnumeratorCfg()->GetPlanSpaceSize());
 		GPOS_CHECK_ABORT;
 
 		// simulate an exception 

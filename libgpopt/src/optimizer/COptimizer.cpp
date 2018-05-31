@@ -277,14 +277,14 @@ COptimizer::PdxlnOptimize
 
 			if (fMinidump)
 			{
-				CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->Pec()->GetPlanId(), optimizer_config->Pec()->GetPlanSpaceSize());
+				CSerializablePlan serPlan(memory_pool, pdxlnPlan, optimizer_config->GetEnumeratorCfg()->GetPlanId(), optimizer_config->GetEnumeratorCfg()->GetPlanSpaceSize());
 				CMinidumperUtils::Finalize(&mdmp, true /* fSerializeErrCtxt*/);
 				GPOS_CHECK_ABORT;
 			}
 			
 			if (GPOS_FTRACE(EopttraceSamplePlans))
 			{
-				DumpSamples(memory_pool, optimizer_config->Pec(), ulSessionId, ulCmdId);
+				DumpSamples(memory_pool, optimizer_config->GetEnumeratorCfg(), ulSessionId, ulCmdId);
 				GPOS_CHECK_ABORT;
 			}
 

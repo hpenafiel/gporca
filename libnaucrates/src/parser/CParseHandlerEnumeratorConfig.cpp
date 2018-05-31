@@ -39,7 +39,7 @@ CParseHandlerEnumeratorConfig::CParseHandlerEnumeratorConfig
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pec(NULL)
+	m_enumerator_cfg(NULL)
 {
 }
 
@@ -53,7 +53,7 @@ CParseHandlerEnumeratorConfig::CParseHandlerEnumeratorConfig
 //---------------------------------------------------------------------------
 CParseHandlerEnumeratorConfig::~CParseHandlerEnumeratorConfig()
 {
-	CRefCount::SafeRelease(m_pec);
+	CRefCount::SafeRelease(m_enumerator_cfg);
 }
 
 //---------------------------------------------------------------------------
@@ -84,7 +84,7 @@ CParseHandlerEnumeratorConfig::StartElement
 	ULLONG ullPlanSamples = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
 	CDouble dCostThreshold = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostThreshold, EdxltokenOptimizerConfig);
 
-	m_pec = GPOS_NEW(m_memory_pool) CEnumeratorConfig(m_memory_pool, plan_id, ullPlanSamples, dCostThreshold);
+	m_enumerator_cfg = GPOS_NEW(m_memory_pool) CEnumeratorConfig(m_memory_pool, plan_id, ullPlanSamples, dCostThreshold);
 }
 
 //---------------------------------------------------------------------------
@@ -109,7 +109,7 @@ CParseHandlerEnumeratorConfig::EndElement
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pec);
+	GPOS_ASSERT(NULL != m_enumerator_cfg);
 	GPOS_ASSERT(0 == this->Length());
 
 	// deactivate handler
@@ -132,16 +132,16 @@ CParseHandlerEnumeratorConfig::GetParseHandlerType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerEnumeratorConfig::Pec
+//		CParseHandlerEnumeratorConfig::GetEnumeratorCfg
 //
 //	@doc:
 //		Returns the enumerator configuration
 //
 //---------------------------------------------------------------------------
 CEnumeratorConfig *
-CParseHandlerEnumeratorConfig::Pec() const
+CParseHandlerEnumeratorConfig::GetEnumeratorCfg() const
 {
-	return m_pec;
+	return m_enumerator_cfg;
 }
 
 // EOF
