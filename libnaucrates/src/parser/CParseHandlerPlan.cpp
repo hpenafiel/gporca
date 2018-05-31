@@ -73,14 +73,14 @@ CParseHandlerPlan::Pdxln()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerPlan::Edxlphtype
+//		CParseHandlerPlan::GetParseHandlerType
 //
 //	@doc:
 //		Parse handler type
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerPlan::Edxlphtype() const
+CParseHandlerPlan::GetParseHandlerType() const
 {
 	return EdxlphPlan;
 }

@@ -134,14 +134,14 @@ CParseHandlerTraceFlags::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerTraceFlags::Edxlphtype
+//		CParseHandlerTraceFlags::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler.
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerTraceFlags::Edxlphtype() const
+CParseHandlerTraceFlags::GetParseHandlerType() const
 {
 	return EdxlphTraceFlags;
 }

@@ -68,14 +68,14 @@ CParseHandlerScalarExpr::Pdxln() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerScalarExpr::Edxlphtype
+//		CParseHandlerScalarExpr::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler.
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerScalarExpr::Edxlphtype() const
+CParseHandlerScalarExpr::GetParseHandlerType() const
 {
 	return EdxlphScalarExpr;
 }

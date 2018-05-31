@@ -72,7 +72,7 @@ namespace gpdxl
 
 			// type of the parse handler
 			virtual
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// enumerator configuration
 			CCTEConfig *Pcteconf() const;

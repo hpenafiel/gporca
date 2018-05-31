@@ -124,7 +124,7 @@ CParseHandlerCostParams::EndElement
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CParseHandlerCostParam *pphCostParam = dynamic_cast<CParseHandlerCostParam*>((*this)[ul]);
-		m_pcp->SetParam(pphCostParam->SzName(), pphCostParam->Get(), pphCostParam->DLowerBound(), pphCostParam->DUpperBound());
+		m_pcp->SetParam(pphCostParam->GetName(), pphCostParam->Get(), pphCostParam->GetLowerBoundVal(), pphCostParam->GetUpperBoundVal());
 	}
 
 	// deactivate handler

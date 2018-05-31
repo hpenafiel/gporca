@@ -85,7 +85,7 @@ CParseHandlerWindowOids::EndElement
 
 // return the type of the parse handler.
 EDxlParseHandlerType
-CParseHandlerWindowOids::Edxlphtype() const
+CParseHandlerWindowOids::GetParseHandlerType() const
 {
 	return EdxlphWindowOids;
 }

@@ -110,14 +110,14 @@ CParseHandlerQuery::PdrgpdxlnCTE() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerQuery::Edxlphtype
+//		CParseHandlerQuery::GetParseHandlerType
 //
 //	@doc:
 //		Parse handler type
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerQuery::Edxlphtype() const
+CParseHandlerQuery::GetParseHandlerType() const
 {
 	return EdxlphQuery;
 }

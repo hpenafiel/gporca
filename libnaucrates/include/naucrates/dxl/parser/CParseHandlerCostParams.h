@@ -75,7 +75,7 @@ namespace gpdxl
 				return m_pcp;
 			}
 
-			EDxlParseHandlerType Edxlphtype() const
+			EDxlParseHandlerType GetParseHandlerType() const
 			{
 				return EdxlphCostParams;
 			}

@@ -61,7 +61,7 @@ CParseHandlerBase::~CParseHandlerBase()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerBase::Edxlphtype
+//		CParseHandlerBase::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler. Currently we overload this method to 
@@ -69,7 +69,7 @@ CParseHandlerBase::~CParseHandlerBase()
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerBase::Edxlphtype() const
+CParseHandlerBase::GetParseHandlerType() const
 {
 	return EdxlphOther;
 }

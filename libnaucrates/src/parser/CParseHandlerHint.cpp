@@ -131,14 +131,14 @@ CParseHandlerHint::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerHint::Edxlphtype
+//		CParseHandlerHint::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler.
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerHint::Edxlphtype() const
+CParseHandlerHint::GetParseHandlerType() const
 {
 	return EdxlphHint;
 }

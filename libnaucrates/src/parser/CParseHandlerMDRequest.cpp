@@ -129,14 +129,14 @@ CParseHandlerMDRequest::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMDRequest::Edxlphtype
+//		CParseHandlerMDRequest::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerMDRequest::Edxlphtype() const
+CParseHandlerMDRequest::GetParseHandlerType() const
 {
 	return EdxlphMetadataRequest;
 }

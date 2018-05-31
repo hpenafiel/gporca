@@ -34,16 +34,16 @@ namespace gpdxl
 		private:
 
 			// param name
-			CHAR *m_szName;
+			CHAR *m_param_name;
 
 			// param value
-			CDouble m_dVal;
+			CDouble m_value;
 
 			// lower bound value
-			CDouble m_dLowerBound;
+			CDouble m_lower_bound_val;
 
 			// upper bound value
-			CDouble m_dUpperBound;
+			CDouble m_upper_bound_val;
 
 			// private copy ctor
 			CParseHandlerCostParam(const CParseHandlerCostParam&);
@@ -80,30 +80,30 @@ namespace gpdxl
 			~CParseHandlerCostParam();
 
 			// return parsed param name
-			CHAR *SzName() const
+			CHAR *GetName() const
 			{
-				return m_szName;
+				return m_param_name;
 			}
 
 			// return parsed param value
 			CDouble Get() const
 			{
-				return m_dVal;
+				return m_value;
 			}
 
 			// return parsed param lower bound value
-			CDouble DLowerBound() const
+			CDouble GetLowerBoundVal() const
 			{
-				return m_dLowerBound;
+				return m_lower_bound_val;
 			}
 
 			// return parsed param upper bound value
-			CDouble DUpperBound() const
+			CDouble GetUpperBoundVal() const
 			{
-				return m_dUpperBound;
+				return m_upper_bound_val;
 			}
 
-			EDxlParseHandlerType Edxlphtype() const
+			EDxlParseHandlerType GetParseHandlerType() const
 			{
 				return EdxlphCostParam;
 			}

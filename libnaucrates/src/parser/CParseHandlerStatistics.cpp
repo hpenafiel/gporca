@@ -58,7 +58,7 @@ CParseHandlerStatistics::~CParseHandlerStatistics()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerStatistics::Edxlphtype
+//		CParseHandlerStatistics::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler. Currently we overload this method to
@@ -66,7 +66,7 @@ CParseHandlerStatistics::~CParseHandlerStatistics()
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerStatistics::Edxlphtype() const
+CParseHandlerStatistics::GetParseHandlerType() const
 {
 	return EdxlphStatistics;
 }

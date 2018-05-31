@@ -73,7 +73,7 @@ namespace gpdxl
 			
 			// parse handler type
 			virtual 
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// parsed mdids
 			DrgPmdid *Pdrgpmdid() const;	

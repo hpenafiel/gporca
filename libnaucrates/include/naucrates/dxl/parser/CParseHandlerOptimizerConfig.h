@@ -77,7 +77,7 @@ namespace gpdxl
 			virtual ~CParseHandlerOptimizerConfig();
 			
 			// type of the parse handler
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 			
 			// trace flags
 			CBitSet *Pbs() const;

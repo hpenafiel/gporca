@@ -118,14 +118,14 @@ CParseHandlerCTEConfig::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerCTEConfig::Edxlphtype
+//		CParseHandlerCTEConfig::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler.
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerCTEConfig::Edxlphtype() const
+CParseHandlerCTEConfig::GetParseHandlerType() const
 {
 	return EdxlphCTEConfig;
 }

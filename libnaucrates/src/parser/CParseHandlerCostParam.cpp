@@ -36,10 +36,10 @@ CParseHandlerCostParam::CParseHandlerCostParam
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_szName(NULL),
-	m_dVal(0),
-	m_dLowerBound(0),
-	m_dUpperBound(0)
+	m_param_name(NULL),
+	m_value(0),
+	m_lower_bound_val(0),
+	m_upper_bound_val(0)
 {}
 
 
@@ -53,7 +53,7 @@ CParseHandlerCostParam::CParseHandlerCostParam
 //---------------------------------------------------------------------------
 CParseHandlerCostParam::~CParseHandlerCostParam()
 {
-	GPOS_DELETE_ARRAY(m_szName);
+	GPOS_DELETE_ARRAY(m_param_name);
 }
 
 
@@ -82,12 +82,12 @@ CParseHandlerCostParam::StartElement
 
 	const XMLCh *xmlstrName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCostParam);
 	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrName);
-	m_szName = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, pstrName->GetBuffer());
+	m_param_name = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, pstrName->GetBuffer());
 	GPOS_DELETE(pstrName);
 
-	m_dVal = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenValue, EdxltokenCostParam);
-	m_dLowerBound = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostParamLowerBound, EdxltokenCostParam);
-	m_dUpperBound = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostParamUpperBound, EdxltokenCostParam);
+	m_value = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenValue, EdxltokenCostParam);
+	m_lower_bound_val = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostParamLowerBound, EdxltokenCostParam);
+	m_upper_bound_val = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostParamUpperBound, EdxltokenCostParam);
 }
 
 

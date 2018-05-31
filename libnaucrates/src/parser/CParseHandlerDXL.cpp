@@ -437,7 +437,7 @@ CParseHandlerDXL::endDocument()
 	{
 		CParseHandlerBase *pph = (*this)[ul];
 
-		EDxlParseHandlerType edxlphtype = pph->Edxlphtype();
+		EDxlParseHandlerType edxlphtype = pph->GetParseHandlerType();
 
 		// find parse handler for the current type
 		Pfparse pf = FindParseHandler(edxlphtype);

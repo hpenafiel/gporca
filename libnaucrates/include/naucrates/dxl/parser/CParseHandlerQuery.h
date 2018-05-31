@@ -84,7 +84,7 @@ namespace gpdxl
 			// returns the CTEs
 			DrgPdxln *PdrgpdxlnCTE() const;
 
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 
 	};
 }

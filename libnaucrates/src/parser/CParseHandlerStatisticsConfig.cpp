@@ -120,14 +120,14 @@ CParseHandlerStatisticsConfig::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerStatisticsConfig::Edxlphtype
+//		CParseHandlerStatisticsConfig::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler.
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerStatisticsConfig::Edxlphtype() const
+CParseHandlerStatisticsConfig::GetParseHandlerType() const
 {
 	return EdxlphStatisticsConfig;
 }

@@ -55,13 +55,13 @@ namespace gpopt
 					ULONG m_ulId;
 
 					// param value
-					CDouble m_dVal;
+					CDouble m_value;
 
 					// param lower bound
-					CDouble m_dLowerBound;
+					CDouble m_lower_bound_val;
 
 					// param upper bound
-					CDouble m_dUpperBound;
+					CDouble m_upper_bound_val;
 
 				public:
 
@@ -75,9 +75,9 @@ namespace gpopt
 						)
 						:
 						m_ulId(ulId),
-						m_dVal(dVal),
-						m_dLowerBound(dLowerBound),
-						m_dUpperBound(dUpperBound)
+						m_value(dVal),
+						m_lower_bound_val(dLowerBound),
+						m_upper_bound_val(dUpperBound)
 					{
 						GPOS_ASSERT(dVal >= dLowerBound);
 						GPOS_ASSERT(dVal <= dUpperBound);
@@ -97,26 +97,26 @@ namespace gpopt
 					// return value
 					CDouble Get() const
 					{
-						return m_dVal;
+						return m_value;
 					}
 
 					// return lower bound value
-					CDouble DLowerBound() const
+					CDouble GetLowerBoundVal() const
 					{
-						return m_dLowerBound;
+						return m_lower_bound_val;
 					}
 
 					// return upper bound value
-					CDouble DUpperBound() const
+					CDouble GetUpperBoundVal() const
 					{
-						return m_dUpperBound;
+						return m_upper_bound_val;
 					}
 
 					BOOL Equals(SCostParam *pcm) const
 					{
 						return UlId() == pcm->UlId() && Get() == pcm->Get() &&
-							   DLowerBound() == pcm->DLowerBound() &&
-							   DUpperBound() == pcm->DUpperBound();
+							   GetLowerBoundVal() == pcm->GetLowerBoundVal() &&
+							   GetUpperBoundVal() == pcm->GetUpperBoundVal();
 					}
 
 			}; // struct SCostParam

@@ -45,7 +45,7 @@ namespace gpnaucrates
 			{
 				CStatsPred::EStatsCmpType m_escmpt; // comparison operator
 				const WCHAR *m_wsz; // byte array representation
-				CDouble m_dVal; // double value
+				CDouble m_value; // double value
 			}; // SStatsCmpValElem
 
 			// test case for disjunctive filter evaluation

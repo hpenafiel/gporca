@@ -142,7 +142,7 @@ namespace gpdxl
 			~CParseHandlerBase();
 			
 			virtual 
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// replaces a parse handler in the parse handler array with a new one
 			void ReplaceParseHandler(CParseHandlerBase *pphOld, CParseHandlerBase *pphNew);

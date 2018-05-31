@@ -256,7 +256,7 @@ CCostModelParamsGPDBLegacy::OsPrint
 		os
 			<< rgszCostParamNames[ul] << " : "
 			<< pcp->Get()
-			<< "  [" << pcp->DLowerBound() << "," << pcp->DUpperBound() <<"]"
+			<< "  [" << pcp->GetLowerBoundVal() << "," << pcp->GetUpperBoundVal() <<"]"
 			<< std::endl;
 	}
 	return os;

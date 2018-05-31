@@ -41,7 +41,7 @@ namespace gpdxl
 		protected:
             // returns the parse handler type
 			virtual
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// process notification of the beginning of an element.
 			virtual

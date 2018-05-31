@@ -88,7 +88,7 @@ namespace gpdxl
 			
 			// parse hander type
 			virtual
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 			
 			// return the list of parsed metadata objects
 			DrgPimdobj *Pdrgpmdobj();

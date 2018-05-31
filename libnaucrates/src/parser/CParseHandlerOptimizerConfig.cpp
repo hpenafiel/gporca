@@ -231,14 +231,14 @@ CParseHandlerOptimizerConfig::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerOptimizerConfig::Edxlphtype
+//		CParseHandlerOptimizerConfig::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler.
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerOptimizerConfig::Edxlphtype() const
+CParseHandlerOptimizerConfig::GetParseHandlerType() const
 {
 	return EdxlphOptConfig;
 }

@@ -70,7 +70,7 @@ namespace gpdxl
 			~CParseHandlerEnumeratorConfig();
 
 			// type of the parse handler
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// enumerator configuration
 			CEnumeratorConfig *Pec() const;

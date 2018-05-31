@@ -118,14 +118,14 @@ CParseHandlerEnumeratorConfig::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerEnumeratorConfig::Edxlphtype
+//		CParseHandlerEnumeratorConfig::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler.
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerEnumeratorConfig::Edxlphtype() const
+CParseHandlerEnumeratorConfig::GetParseHandlerType() const
 {
 	return EdxlphEnumeratorConfig;
 }

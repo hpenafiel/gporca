@@ -64,7 +64,7 @@ CParseHandlerMetadata::~CParseHandlerMetadata()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadata::Edxlphtype
+//		CParseHandlerMetadata::GetParseHandlerType
 //
 //	@doc:
 //		Return the type of the parse handler. Currently we overload this method to 
@@ -72,7 +72,7 @@ CParseHandlerMetadata::~CParseHandlerMetadata()
 //
 //---------------------------------------------------------------------------
 EDxlParseHandlerType
-CParseHandlerMetadata::Edxlphtype() const
+CParseHandlerMetadata::GetParseHandlerType() const
 {
 	return EdxlphMetadata;
 }

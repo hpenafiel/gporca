@@ -82,7 +82,7 @@ namespace gpdxl
 				return m_pxform;
 			}
 
-			EDxlParseHandlerType Edxlphtype() const
+			EDxlParseHandlerType GetParseHandlerType() const
 			{
 				return EdxlphSearchStrategy;
 			}

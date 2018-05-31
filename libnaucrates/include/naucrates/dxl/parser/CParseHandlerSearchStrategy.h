@@ -75,7 +75,7 @@ namespace gpdxl
 				return m_pdrgpss;
 			}
 
-			EDxlParseHandlerType Edxlphtype() const
+			EDxlParseHandlerType GetParseHandlerType() const
 			{
 				return EdxlphSearchStrategy;
 			}

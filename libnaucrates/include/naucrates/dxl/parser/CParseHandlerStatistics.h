@@ -71,7 +71,7 @@ namespace gpdxl
 			~CParseHandlerStatistics();
 
 			virtual
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// return the list of statistics objects
 			DrgPdxlstatsderrel *Pdrgpdxlstatsderrel() const;

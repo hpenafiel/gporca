@@ -856,7 +856,7 @@ CFilterCardinalityTest::PdrgppredfilterNumeric
 													(
 													ulColId,
 													statsCmpValElem.m_escmpt,
-													CCardinalityTestUtils::PpointNumeric(memory_pool, pstrNumeric, statsCmpValElem.m_dVal)
+													CCardinalityTestUtils::PpointNumeric(memory_pool, pstrNumeric, statsCmpValElem.m_value)
 													);
 	pdrgpstatspred->Append(pstatspred);
 	GPOS_DELETE(pstrNumeric);

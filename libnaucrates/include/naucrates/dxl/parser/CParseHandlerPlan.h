@@ -96,7 +96,7 @@ namespace gpdxl
 				return m_ullSpaceSize;
 			}
 
-			EDxlParseHandlerType Edxlphtype() const;
+			EDxlParseHandlerType GetParseHandlerType() const;
 			
 	};
 }
