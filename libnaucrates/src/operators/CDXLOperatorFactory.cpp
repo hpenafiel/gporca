@@ -1559,14 +1559,14 @@ CDXLOperatorFactory::PdxlopSortCol
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::Pdxlopcost
+//		CDXLOperatorFactory::GetOperatorCostDXL
 //
 //	@doc:
 //		Construct a cost estimates element
 //
 //---------------------------------------------------------------------------
 CDXLOperatorCost *
-CDXLOperatorFactory::Pdxlopcost
+CDXLOperatorFactory::GetOperatorCostDXL
 	(
 	CDXLMemoryManager *pmm,
 	const Attributes &attrs

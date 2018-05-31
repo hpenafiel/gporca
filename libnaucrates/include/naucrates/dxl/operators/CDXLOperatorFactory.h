@@ -360,7 +360,7 @@ namespace gpdxl
 			// create an object representing cost estimates of a physical operator
 			// from the parsed XML attributes
 			static
-			CDXLOperatorCost *Pdxlopcost(CDXLMemoryManager *pmm, const Attributes &attrs);
+			CDXLOperatorCost *GetOperatorCostDXL(CDXLMemoryManager *pmm, const Attributes &attrs);
 			
 			// create a table descriptor element
 			static

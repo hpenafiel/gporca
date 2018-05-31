@@ -92,7 +92,7 @@ void
 CParseHandlerManager::ReplaceHandler
 	(
 	CParseHandlerBase *pph,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_root
 	)
 {
 	CheckForAborts();
@@ -100,9 +100,9 @@ CParseHandlerManager::ReplaceHandler
 	GPOS_ASSERT(NULL != m_pphCurrent);
 	GPOS_ASSERT(NULL != pph);
 	
-	if (NULL != pphRoot)
+	if (NULL != parse_handler_root)
 	{
-		pphRoot->ReplaceParseHandler(m_pphCurrent, pph);
+		parse_handler_root->ReplaceParseHandler(m_pphCurrent, pph);
 	}
 	
 	m_pphCurrent = pph;

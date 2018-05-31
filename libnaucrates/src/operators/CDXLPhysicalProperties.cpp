@@ -28,7 +28,7 @@ CDXLPhysicalProperties::CDXLPhysicalProperties
 	)
 	:
 	CDXLProperties(),
-	m_pdxlopcost(pdxlopcost)
+	m_operator_cost_dxl(pdxlopcost)
 {}
 
 //---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ CDXLPhysicalProperties::CDXLPhysicalProperties
 //---------------------------------------------------------------------------
 CDXLPhysicalProperties::~CDXLPhysicalProperties()
 {
-	CRefCount::SafeRelease(m_pdxlopcost);
+	CRefCount::SafeRelease(m_operator_cost_dxl);
 }
 
 //---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ CDXLPhysicalProperties::SerializePropertiesToDXL
 {
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenProperties));
 
-	m_pdxlopcost->SerializeToDXL(xml_serializer);
+	m_operator_cost_dxl->SerializeToDXL(xml_serializer);
 	SerializeStatsToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenProperties));
@@ -69,16 +69,16 @@ CDXLPhysicalProperties::SerializePropertiesToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalProperties::Pdxlopcost
+//		CDXLPhysicalProperties::GetOperatorCostDXL
 //
 //	@doc:
 //		Return cost of operator
 //
 //---------------------------------------------------------------------------
 CDXLOperatorCost *
-CDXLPhysicalProperties::Pdxlopcost() const
+CDXLPhysicalProperties::GetOperatorCostDXL() const
 {
-	return m_pdxlopcost;
+	return m_operator_cost_dxl;
 }			
 
 // EOF

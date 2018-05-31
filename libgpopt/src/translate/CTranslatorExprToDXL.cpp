@@ -949,11 +949,11 @@ CTranslatorExprToDXL::PdxlnDynamicTableScan
 	
 	if (NULL != pdxlprop)
 	{
-		CWStringDynamic *pstrRows = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->Pdxlopcost()->PstrRows()->GetBuffer());
-		CWStringDynamic *pstrCost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->Pdxlopcost()->PstrTotalCost()->GetBuffer());
+		CWStringDynamic *pstrRows = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->GetOperatorCostDXL()->PstrRows()->GetBuffer());
+		CWStringDynamic *pstrCost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, pdxlprop->GetOperatorCostDXL()->PstrTotalCost()->GetBuffer());
 
-		pdxlpropDTS->Pdxlopcost()->SetRows(pstrRows);
-		pdxlpropDTS->Pdxlopcost()->SetCost(pstrCost);
+		pdxlpropDTS->GetOperatorCostDXL()->SetRows(pstrRows);
+		pdxlpropDTS->GetOperatorCostDXL()->SetCost(pstrCost);
 		pdxlprop->Release();
 	}
 

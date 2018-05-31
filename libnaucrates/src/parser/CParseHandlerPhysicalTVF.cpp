@@ -38,10 +38,10 @@ CParseHandlerPhysicalTVF::CParseHandlerPhysicalTVF
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_root
 	)
 	:
-	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, pphRoot),
+	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_pmdidFunc(NULL),
 	m_pmdidRetType(NULL),
 	m_pstr(NULL)

@@ -43,10 +43,10 @@ CParseHandlerMDRelationCtas::CParseHandlerMDRelationCtas
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_root
 	)
 	:
-	CParseHandlerMDRelation(memory_pool, parse_handler_mgr, pphRoot),
+	CParseHandlerMDRelation(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_pdrgpiVarTypeMod(NULL)
 {
 }

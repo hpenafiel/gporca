@@ -32,12 +32,12 @@ CParseHandlerBase::CParseHandlerBase
 	(
 	IMemoryPool *memory_pool, 
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_root
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_parse_handler_mgr(parse_handler_mgr),
-	m_pphRoot(pphRoot)
+	m_pphRoot(parse_handler_root)
 {
 	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != parse_handler_mgr);

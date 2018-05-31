@@ -96,7 +96,7 @@ namespace gpdxl
 			void ReplaceHandler
 				(
 				CParseHandlerBase *pphNew,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// Deactivates current handler and returns control to the previously active one.

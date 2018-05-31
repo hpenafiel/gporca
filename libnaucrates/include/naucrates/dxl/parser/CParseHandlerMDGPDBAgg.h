@@ -84,7 +84,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);			
 	};
 }

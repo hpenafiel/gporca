@@ -32,7 +32,7 @@ namespace gpdxl
 	{
 		private:
 			// cost estimate
-			CDXLOperatorCost *m_pdxlopcost;
+			CDXLOperatorCost *m_operator_cost_dxl;
 
 			// private copy ctor
 			CDXLPhysicalProperties(const CDXLPhysicalProperties&);
@@ -52,7 +52,7 @@ namespace gpdxl
 
 			// accessors
 			// the cost estimates for the operator node
-			CDXLOperatorCost *Pdxlopcost() const;
+			CDXLOperatorCost *GetOperatorCostDXL() const;
 
 			virtual
 			Edxlprop Edxlproptype() const

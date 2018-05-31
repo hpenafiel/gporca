@@ -32,11 +32,11 @@ CParseHandlerCost::CParseHandlerCost
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_root
 	)
 	:
-	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
-	m_pdxlopcost(NULL)
+	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
+	m_operator_cost_dxl(NULL)
 {
 }
 
@@ -50,21 +50,21 @@ CParseHandlerCost::CParseHandlerCost
 //---------------------------------------------------------------------------
 CParseHandlerCost::~CParseHandlerCost()
 {
-	CRefCount::SafeRelease(m_pdxlopcost);	
+	CRefCount::SafeRelease(m_operator_cost_dxl);	
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerCost::Pdxlopcost
+//		CParseHandlerCost::GetOperatorCostDXL
 //
 //	@doc:
 //		Destructor
 //
 //---------------------------------------------------------------------------
 CDXLOperatorCost *
-CParseHandlerCost::Pdxlopcost()
+CParseHandlerCost::GetOperatorCostDXL()
 {
-	return m_pdxlopcost;
+	return m_operator_cost_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -86,12 +86,12 @@ CParseHandlerCost::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCost), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// get cost estimates from attributes
-	m_pdxlopcost = CDXLOperatorFactory::Pdxlopcost(m_parse_handler_mgr->Pmm(), attrs);
+	m_operator_cost_dxl = CDXLOperatorFactory::GetOperatorCostDXL(m_parse_handler_mgr->Pmm(), attrs);
 }
 
 //---------------------------------------------------------------------------
@@ -112,8 +112,8 @@ CParseHandlerCost::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCost), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// deactivate handler

@@ -87,7 +87,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a GPDB plan parse handler
@@ -96,7 +96,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a metadata parse handler
@@ -105,7 +105,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a metadata request parse handler
@@ -123,7 +123,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a parse handler for the enumerator configuration
@@ -132,7 +132,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a parse handler for the statistics configuration
@@ -141,7 +141,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a parse handler for the CTE configuration
@@ -150,7 +150,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a parse handler for the cost model configuration
@@ -159,7 +159,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct hint parse handler
@@ -168,7 +168,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct window oids parse handler
@@ -177,7 +177,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a trace flag parse handler
@@ -186,7 +186,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a MD relation parse handler
@@ -195,7 +195,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a MD external relation parse handler
@@ -204,7 +204,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a MD CTAS relation parse handler
@@ -213,7 +213,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an MD index parse handler
@@ -222,7 +222,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a relation stats parse handler
@@ -231,7 +231,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a column stats parse handler
@@ -240,7 +240,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a column stats bucket parse handler
@@ -249,7 +249,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an MD type parse handler
@@ -258,7 +258,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an MD scalarop parse handler
@@ -267,7 +267,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an MD function parse handler
@@ -276,7 +276,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an MD aggregate operation parse handler
@@ -285,7 +285,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an MD trigger parse handler
@@ -294,7 +294,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an MD cast parse handler
@@ -303,7 +303,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an MD scalar comparison parse handler
@@ -312,7 +312,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an MD check constraint parse handler
@@ -321,7 +321,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a parse handler for a list of MD ids
@@ -330,7 +330,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a metadata columns parse handler
@@ -339,7 +339,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			static
@@ -347,7 +347,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a column MD parse handler
@@ -356,7 +356,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a column default value expression parse handler
@@ -365,7 +365,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a scalar operator parse handler
@@ -374,7 +374,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a properties parse handler
@@ -383,7 +383,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a filter operator parse handler
@@ -392,7 +392,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a table scan parse handler
@@ -401,7 +401,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a bitmap table scan parse handler
@@ -410,7 +410,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a dynamic bitmap table scan parse handler
@@ -419,7 +419,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an external scan parse handler
@@ -428,7 +428,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a subquery scan parse handler
@@ -437,7 +437,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a result node parse handler
@@ -446,7 +446,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a HJ parse handler
@@ -455,7 +455,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a NLJ parse handler
@@ -464,7 +464,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a merge join parse handler
@@ -473,7 +473,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a sort parse handler
@@ -482,7 +482,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an append parse handler
@@ -491,7 +491,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a materialize parse handler
@@ -500,7 +500,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a dynamic table scan parse handler
@@ -509,7 +509,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a dynamic index scan parse handler
@@ -518,7 +518,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a partition selector parse handler
@@ -527,7 +527,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a sequence parse handler
@@ -536,7 +536,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a limit (physical) parse handler
@@ -545,7 +545,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a limit count parse handler
@@ -554,7 +554,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a limit offset parse handler
@@ -563,7 +563,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a subquery parse handler
@@ -572,7 +572,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a subquery parse handler
@@ -581,7 +581,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an array parse handler
@@ -717,7 +717,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a broadcast motion parse handler
@@ -726,7 +726,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a redistribute motion parse handler
@@ -735,7 +735,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a routed motion parse handler
@@ -744,7 +744,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a random motion parse handler
@@ -753,7 +753,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a physical aggregate parse handler
@@ -762,7 +762,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an aggregate function parse handler
@@ -771,7 +771,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a parse handler for a physical window node
@@ -780,7 +780,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an window function parse handler
@@ -789,7 +789,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an window frame parse handler
@@ -798,7 +798,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an window key parse handler
@@ -807,7 +807,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a parse handler to parse the list of window keys
@@ -816,7 +816,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an window specification parse handler
@@ -825,7 +825,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a parse handler to parse the list of window specifications
@@ -834,7 +834,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a grouping column list parse handler
@@ -843,7 +843,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a comparison operator parse handler
@@ -852,7 +852,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a distinct compare parse handler
@@ -861,7 +861,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a scalar identifier parse handler
@@ -870,7 +870,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a scalar operator parse handler
@@ -879,7 +879,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an array compare parse handler
@@ -888,7 +888,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a boolean expression parse handler
@@ -897,7 +897,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a min/max parse handler
@@ -906,7 +906,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a boolean test parse handler
@@ -915,7 +915,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a null test parse handler
@@ -924,7 +924,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a nullif parse handler
@@ -933,7 +933,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a cast parse handler
@@ -942,7 +942,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a coerce parse handler
@@ -951,7 +951,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a coerceviaio parse handler
@@ -960,7 +960,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a ArrayCoerceExpr parse handler
@@ -969,7 +969,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a sub plan parse handler
@@ -978,7 +978,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// create a parse handler for parsing a SubPlan test expression
@@ -987,7 +987,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a sub plan params parse handler
@@ -996,7 +996,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a sub plan param parse handler
@@ -1005,7 +1005,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical TVF parse handler
@@ -1014,7 +1014,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a physical TVF parse handler
@@ -1023,7 +1023,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a coalesce parse handler
@@ -1032,7 +1032,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a switch parse handler
@@ -1041,7 +1041,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a switch case parse handler
@@ -1050,7 +1050,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a case test parse handler
@@ -1059,7 +1059,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a constant parse handler
@@ -1068,7 +1068,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an if statement parse handler
@@ -1077,7 +1077,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a function parse handler
@@ -1086,7 +1086,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a project list parse handler
@@ -1095,7 +1095,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a project element parse handler
@@ -1104,7 +1104,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a hash expression list parse handler
@@ -1113,7 +1113,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);		
 			
 			// construct a hash expression parse handler
@@ -1122,7 +1122,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a condition list parse handler
@@ -1131,7 +1131,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a sort column list parse handler
@@ -1140,7 +1140,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a sort column parse handler
@@ -1149,7 +1149,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a cost parse handler
@@ -1158,7 +1158,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a table descriptor parse handler
@@ -1167,7 +1167,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a column descriptor parse handler
@@ -1176,7 +1176,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct an index scan list parse handler
@@ -1185,7 +1185,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an index only scan parse handler
@@ -1194,7 +1194,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a bitmap index scan list parse handler
@@ -1203,7 +1203,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an index descriptor list parse handler
@@ -1212,7 +1212,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct an index condition list parse handler
@@ -1221,7 +1221,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 
@@ -1231,7 +1231,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical get parse handler
@@ -1240,7 +1240,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical external get parse handler
@@ -1249,7 +1249,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical operator parse handler
@@ -1258,7 +1258,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical project parse handler
@@ -1267,7 +1267,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical CTE producer parse handler
@@ -1276,7 +1276,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a logical CTE consumer parse handler
@@ -1285,7 +1285,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a logical CTE anchor parse handler
@@ -1294,7 +1294,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a CTE list
@@ -1303,7 +1303,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a logical window parse handler
@@ -1312,7 +1312,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical insert parse handler
@@ -1321,7 +1321,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a logical delete parse handler
@@ -1330,7 +1330,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical update parse handler
@@ -1339,7 +1339,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a logical CTAS parse handler
@@ -1348,7 +1348,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a physical CTAS parse handler
@@ -1357,7 +1357,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a parse handler for parsing CTAS storage options
@@ -1366,7 +1366,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a physical CTE producer parse handler
@@ -1375,7 +1375,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a physical CTE consumer parse handler
@@ -1384,7 +1384,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a physical DML parse handler
@@ -1393,7 +1393,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a physical split parse handler
@@ -1402,7 +1402,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a physical row trigger parse handler
@@ -1411,7 +1411,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a physical assert parse handler
@@ -1420,7 +1420,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a logical set operator parse handler
@@ -1429,7 +1429,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical select parse handler
@@ -1438,7 +1438,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical join parse handler
@@ -1447,7 +1447,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical query output parse handler
@@ -1456,7 +1456,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a logical groupby parse handler
@@ -1465,7 +1465,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);	
 
 			// construct a logical limit parse handler
@@ -1474,7 +1474,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a logical const table parse handler
@@ -1483,7 +1483,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a quantified subquery parse handler
@@ -1492,7 +1492,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 	
 			// construct a subquery parse handler
@@ -1501,7 +1501,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a pass-through parse handler for stack traces
@@ -1519,7 +1519,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a derived column parse handler
@@ -1528,7 +1528,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a derived relation stats parse handler
@@ -1537,7 +1537,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a bucket bound parse handler
@@ -1546,7 +1546,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			// construct a trailing window frame edge parser
@@ -1555,7 +1555,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a leading window frame edge parser
@@ -1564,7 +1564,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct search strategy parse handler
@@ -1573,7 +1573,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct search stage parse handler
@@ -1582,7 +1582,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct xform parse handler
@@ -1591,7 +1591,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct cost params parse handler
@@ -1600,7 +1600,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct cost param parse handler
@@ -1609,7 +1609,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a scalar expression parse handler
@@ -1618,7 +1618,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a scalar values list parse handler
@@ -1627,7 +1627,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a values scan parse handler
@@ -1636,7 +1636,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// construct a values scan parse handler
@@ -1645,7 +1645,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 		public:
@@ -1661,7 +1661,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				const XMLCh *xmlsz,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 
 			// factory methods for creating parse handlers

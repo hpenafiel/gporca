@@ -34,10 +34,10 @@ CParseHandlerLogicalUpdate::CParseHandlerLogicalUpdate
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_root
 	)
 	:
-	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, pphRoot),
+	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_ulCtid(0),
 	m_ulSegmentId(0),
 	m_pdrgpulDelete(NULL),

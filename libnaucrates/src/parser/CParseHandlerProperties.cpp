@@ -31,10 +31,10 @@ CParseHandlerProperties::CParseHandlerProperties
 	(
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *pphRoot
+	CParseHandlerBase *parse_handler_root
 	)
 	:
-	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
+	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_pdxlprop(NULL),
 	m_pdxlstatsderrel(NULL)
 {
@@ -142,7 +142,7 @@ CParseHandlerProperties::EndElement
 	// assemble the properties container from the cost
 	CParseHandlerCost *pph = dynamic_cast<CParseHandlerCost *>((*this)[0]);
 
-	CDXLOperatorCost *pdxlopcost = pph->Pdxlopcost();
+	CDXLOperatorCost *pdxlopcost = pph->GetOperatorCostDXL();
 	pdxlopcost->AddRef();
 	
 	if (2 == this->Length())

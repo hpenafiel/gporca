@@ -34,7 +34,7 @@ namespace gpdxl
 		private:
 
 			// physical operator cost constructed by the parse handler
-			CDXLOperatorCost *m_pdxlopcost;
+			CDXLOperatorCost *m_operator_cost_dxl;
 					
 			// private copy ctor
 			CParseHandlerCost(const CParseHandlerCost &);
@@ -62,13 +62,13 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
-				CParseHandlerBase *pphRoot
+				CParseHandlerBase *parse_handler_root
 				);
 			
 			~CParseHandlerCost();
 			
 			// returns operator cost constructed by the handler
-			CDXLOperatorCost *Pdxlopcost();
+			CDXLOperatorCost *GetOperatorCostDXL();
 						
 	};
 }
