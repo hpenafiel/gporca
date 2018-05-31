@@ -45,7 +45,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLIndexDescr(IMemoryPool *memory_pool, IMDId *pmdid, CMDName *pmdname);
+			CDXLIndexDescr(IMemoryPool *memory_pool, IMDId *pmdid, CMDName *mdname);
 
 			// dtor
 			virtual

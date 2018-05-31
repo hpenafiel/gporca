@@ -73,7 +73,7 @@ CParseHandlerMDCast::StartElement
 														EdxltokenGPDBCast
 														);
 
-	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszFuncName);
+	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszFuncName);
 
 
 	// parse cast properties
@@ -128,7 +128,7 @@ CParseHandlerMDCast::StartElement
 															true		// eCoercePathType is optional
 															);
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCastGPDB(m_memory_pool, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCastGPDB(m_memory_pool, pmdid, mdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType);
 }
 
 //---------------------------------------------------------------------------

@@ -51,7 +51,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
-				CMDName *pmdname,
+				CMDName *mdname,
 				IMDId *pmdidSrc,
 				IMDId *pmdidDest,
 				BOOL fBinaryCoercible,

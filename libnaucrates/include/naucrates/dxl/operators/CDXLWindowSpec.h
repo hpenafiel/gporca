@@ -40,7 +40,7 @@ namespace gpdxl
 			IMemoryPool *m_memory_pool;
 
 			// partition-by column identifiers
-			ULongPtrArray *m_pdrgpulPartCol;
+			ULongPtrArray *m_partition_by_col_id_array;
 
 			// name of window specification
 			CMDName *m_mdname;
@@ -49,7 +49,7 @@ namespace gpdxl
 			CDXLNode *m_sort_col_list_dxl;
 
 			// window frame associated with the window key
-			CDXLWindowFrame *m_pdxlwf;
+			CDXLWindowFrame *m_window_frame;
 
 			// private copy ctor
 			CDXLWindowSpec(const CDXLWindowSpec&);
@@ -60,10 +60,10 @@ namespace gpdxl
 			CDXLWindowSpec
 				(
 				IMemoryPool *memory_pool,
-				ULongPtrArray *pdrgpulPartCol,
-				CMDName *pmdname,
+				ULongPtrArray *partition_by_col_id_array,
+				CMDName *mdname,
 				CDXLNode *sort_col_list_dxl,
-				CDXLWindowFrame *pdxlwf
+				CDXLWindowFrame *window_frame
 				);
 
 			// dtor
@@ -75,18 +75,18 @@ namespace gpdxl
 			void SerializeToDXL(CXMLSerializer *) const;
 
 			// set window frame definition
-			void SetWindowFrame(CDXLWindowFrame *pdxlwf);
+			void SetWindowFrame(CDXLWindowFrame *window_frame);
 
 			// return window frame
 			CDXLWindowFrame *GetWindowFrame() const
 			{
-				return m_pdxlwf;
+				return m_window_frame;
 			}
 
 			// partition-by column identifiers
-			ULongPtrArray *PdrgulPartColList() const
+			ULongPtrArray *GetPartitionByColIdArray() const
 			{
-				return m_pdrgpulPartCol;
+				return m_partition_by_col_id_array;
 			}
 
 			// sort columns
@@ -102,7 +102,7 @@ namespace gpdxl
 			}
 	};
 
-	typedef CDynamicPtrArray<CDXLWindowSpec, CleanupRelease> DrgPdxlws;
+	typedef CDynamicPtrArray<CDXLWindowSpec, CleanupRelease> DXLWindowSpecArray;
 }
 #endif // !GPDXL_CDXLWindowSpec_H
 

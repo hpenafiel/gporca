@@ -48,7 +48,7 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	BOOL fRedistributable,
 	BOOL fFixedLength,
 	ULONG length, 
@@ -74,7 +74,7 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_fRedistributable(fRedistributable),
 	m_fFixedLength(fFixedLength),
 	m_length(length),

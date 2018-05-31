@@ -32,7 +32,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	IMDId *pmdidLeft,
 	IMDId *pmdidRight,
 	IMDType::ECmpType ecmpt,
@@ -41,7 +41,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_pmdidLeft(pmdidLeft),
 	m_pmdidRight(pmdidRight),
 	m_ecmpt(ecmpt),

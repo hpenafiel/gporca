@@ -32,7 +32,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	BOOL fTemporary,
 	Erelstoragetype erelstorage,
 	Ereldistrpolicy ereldistrpolicy,
@@ -52,7 +52,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_fTemporary(fTemporary),
 	m_erelstorage(erelstorage),
 	m_ereldistrpolicy(ereldistrpolicy),

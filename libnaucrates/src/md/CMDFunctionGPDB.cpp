@@ -32,7 +32,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	IMDId *pmdidTypeResult,
 	DrgPmdid *pdrgpmdidTypes,
 	BOOL fReturnsSet,
@@ -43,7 +43,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_pmdidTypeResult(pmdidTypeResult),
 	m_pdrgpmdidTypes(pdrgpmdidTypes),
 	m_fReturnsSet(fReturnsSet),

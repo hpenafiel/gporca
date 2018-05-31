@@ -110,7 +110,7 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *pmdnameSchema,
-				CMDName *pmdname,
+				CMDName *mdname,
 				BOOL fTemporary,
 				BOOL fHasOids,
 				Erelstoragetype erelstorage,

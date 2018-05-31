@@ -32,7 +32,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	IMDId *pmdidTypeLeft,
 	IMDId *pmdidTypeRight,
 	IMDId *pmdidTypeResult,
@@ -46,7 +46,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_pmdidTypeLeft(pmdidTypeLeft),
 	m_pmdidTypeRight(pmdidTypeRight),
 	m_pmdidTypeResult(pmdidTypeResult),

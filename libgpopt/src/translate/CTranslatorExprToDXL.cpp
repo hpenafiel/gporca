@@ -303,7 +303,7 @@ CTranslatorExprToDXL::PdxlnTranslate
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		// desired output column name
-		CMDName *pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, (*pdrgpmdname)[ul]->Pstr());
+		CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, (*pdrgpmdname)[ul]->Pstr());
 
 		// get the old project element for the ColId
 		CDXLNode *pdxlnPrElOld = (*pdxlnPrL)[ul];
@@ -314,7 +314,7 @@ CTranslatorExprToDXL::PdxlnTranslate
 
 		// create a new project element node with the col id and new column name
 		// and add the scalar child
-		CDXLNode *pdxlnPrElNew = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, ulColId, pmdname));
+		CDXLNode *pdxlnPrElNew = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, ulColId, mdname));
 		pdxlnChild->AddRef();
 		pdxlnPrElNew->AddChild(pdxlnChild);
 
@@ -3215,10 +3215,10 @@ CTranslatorExprToDXL::PdxlnCorrelatedNLJoin
 	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		CMDName *pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
+		CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
 		IMDId *pmdid = pcr->Pmdtype()->MDId();
 		pmdid->AddRef();
-		CDXLColRef *pdxlcr = GPOS_NEW(m_memory_pool) CDXLColRef(m_memory_pool, pmdname, pcr->UlId(), pmdid, pcr->TypeModifier());
+		CDXLColRef *pdxlcr = GPOS_NEW(m_memory_pool) CDXLColRef(m_memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
 		pdrgdxlcr->Append(pdxlcr);
 	}
 
@@ -6763,12 +6763,12 @@ CTranslatorExprToDXL::PdxlnWindow
 	const ULONG ulFrames = popSeqPrj->Pdrgpwf()->Size();
 	for (ULONG ul = 0; ul < ulFrames; ul++)
 	{
-		CDXLWindowFrame *pdxlwf = GetWindowFrame((*popSeqPrj->Pdrgpwf())[ul]);
-		if (NULL != pdxlwf)
+		CDXLWindowFrame *window_frame = GetWindowFrame((*popSeqPrj->Pdrgpwf())[ul]);
+		if (NULL != window_frame)
 		{
 			GPOS_ASSERT(ul <= ulOsSize);
 			CDXLWindowKey *pdxlwk = (*pdrgpdxlwk)[ul];
-			pdxlwk->SetWindowFrame(pdxlwf);
+			pdxlwk->SetWindowFrame(window_frame);
 		}
 	}
 
@@ -7584,8 +7584,8 @@ CTranslatorExprToDXL::PdxlnProjElem
 {
 	GPOS_ASSERT(NULL != pcr);
 	
-	CMDName *pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
-	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->UlId(), pmdname));
+	CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
+	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->UlId(), mdname));
 	
 	// attach scalar id expression to proj elem
 	pdxlnPrEl->AddChild(pdxlnValue);
@@ -7613,8 +7613,8 @@ CTranslatorExprToDXL::PdxlnProjElem
 	
 	CColRef *pcr = popScPrEl->Pcr();
 	
-	CMDName *pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
-	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->UlId(), pmdname));
+	CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
+	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->UlId(), mdname));
 	
 	CExpression *pexprChild = (*pexprProjElem)[0];
 	CDXLNode *pdxlnChild = PdxlnScalar(pexprChild);

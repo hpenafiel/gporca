@@ -122,8 +122,8 @@ CParseHandlerWindowKey::EndElement
 	if (2 == this->Length())
 	{
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
-		CDXLWindowFrame *pdxlwf = pphWf->GetWindowFrame();
-		m_pdxlwk->SetWindowFrame(pdxlwf);
+		CDXLWindowFrame *window_frame = pphWf->GetWindowFrame();
+		m_pdxlwk->SetWindowFrame(window_frame);
 	}
 
 	// deactivate handler

@@ -32,7 +32,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	IMDId *pmdidRel,
 	IMDId *pmdidFunc,
 	INT iType,
@@ -41,7 +41,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_pmdidRel(pmdidRel),
 	m_pmdidFunc(pmdidFunc),
 	m_iType(iType),

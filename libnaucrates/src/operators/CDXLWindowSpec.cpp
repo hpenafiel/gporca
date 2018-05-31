@@ -35,20 +35,20 @@ using namespace gpdxl;
 CDXLWindowSpec::CDXLWindowSpec
 	(
 	IMemoryPool *memory_pool,
-	ULongPtrArray *pdrgpulPartCol,
-	CMDName *pmdname,
+	ULongPtrArray *partition_by_col_id_array,
+	CMDName *mdname,
 	CDXLNode *sort_col_list_dxl,
-	CDXLWindowFrame *pdxlwf
+	CDXLWindowFrame *window_frame
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pdrgpulPartCol(pdrgpulPartCol),
-	m_mdname(pmdname),
+	m_partition_by_col_id_array(partition_by_col_id_array),
+	m_mdname(mdname),
 	m_sort_col_list_dxl(sort_col_list_dxl),
-	m_pdxlwf(pdxlwf)
+	m_window_frame(window_frame)
 {
 	GPOS_ASSERT(NULL != m_memory_pool);
-	GPOS_ASSERT(NULL != m_pdrgpulPartCol);
+	GPOS_ASSERT(NULL != m_partition_by_col_id_array);
 }
 
 //---------------------------------------------------------------------------
@@ -61,8 +61,8 @@ CDXLWindowSpec::CDXLWindowSpec
 //---------------------------------------------------------------------------
 CDXLWindowSpec::~CDXLWindowSpec()
 {
-	m_pdrgpulPartCol->Release();
-	CRefCount::SafeRelease(m_pdxlwf);
+	m_partition_by_col_id_array->Release();
+	CRefCount::SafeRelease(m_window_frame);
 	CRefCount::SafeRelease(m_sort_col_list_dxl);
 	GPOS_DELETE(m_mdname);
 }
@@ -85,12 +85,12 @@ CDXLWindowSpec::SerializeToDXL
 	const CWStringConst *element_name = CDXLTokens::PstrToken(EdxltokenWindowSpec);
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
-	GPOS_ASSERT(NULL != m_pdrgpulPartCol);
+	GPOS_ASSERT(NULL != m_partition_by_col_id_array);
 
 	// serialize partition keys
-	CWStringDynamic *pstrPartCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulPartCol);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartKeys), pstrPartCols);
-	GPOS_DELETE(pstrPartCols);
+	CWStringDynamic *partition_by_col_id_string = CDXLUtils::Serialize(m_memory_pool, m_partition_by_col_id_array);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartKeys), partition_by_col_id_string);
+	GPOS_DELETE(partition_by_col_id_string);
 
 	if (NULL != m_mdname)
 	{
@@ -104,9 +104,9 @@ CDXLWindowSpec::SerializeToDXL
 	}
 
 	// serialize window frames
-	if (NULL != m_pdxlwf)
+	if (NULL != m_window_frame)
 	{
-		m_pdxlwf->SerializeToDXL(xml_serializer);
+		m_window_frame->SerializeToDXL(xml_serializer);
 	}
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);

@@ -73,13 +73,13 @@ CDXLLogicalProject::MdName() const
 void
 CDXLLogicalProject::SetAliasName
 	(
-	CMDName *pmdname
+	CMDName *mdname
 	)
 {
 	GPOS_ASSERT(NULL == m_pmdnameAlias);
-	GPOS_ASSERT(NULL != pmdname);
+	GPOS_ASSERT(NULL != mdname);
 
-	m_pmdnameAlias = pmdname;
+	m_pmdnameAlias = mdname;
 }
 
 //---------------------------------------------------------------------------

@@ -71,7 +71,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool,
 				CMDIdRelStats *pmdidRelStats,
-				CMDName *pmdname,
+				CMDName *mdname,
 				CDouble dRows,
 				BOOL fEmpty
 				);

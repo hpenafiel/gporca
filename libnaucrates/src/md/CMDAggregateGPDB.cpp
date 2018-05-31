@@ -32,7 +32,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	IMDId *pmdidTypeResult,
 	IMDId *pmdidTypeIntermediate,
 	BOOL fOrdered,
@@ -42,7 +42,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_pmdidTypeResult(pmdidTypeResult),
 	m_pmdidTypeIntermediate(pmdidTypeIntermediate),
 	m_fOrdered(fOrdered),

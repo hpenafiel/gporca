@@ -148,7 +148,7 @@ namespace gpopt
 
 			// create the array of column reference used in the partition by column
 			// list of a window specification
-			DrgPcr *PdrgpcrPartitionByCol(const ULongPtrArray *pdrgpulPartCol);
+			DrgPcr *PdrgpcrPartitionByCol(const ULongPtrArray *partition_by_col_id_array);
 
 			// translate a DXL logical window into an expr logical project
 			CExpression *PexprCreateWindow(const CDXLNode *pdxlnLgProject);
@@ -289,7 +289,7 @@ namespace gpopt
 			CScalarWindowFunc::EWinStage Ews(EdxlWinStage edxlws) const;
 
 			// translate the DXL representation of window frame into its respective representation in the optimizer
-			CWindowFrame *Pwf(const CDXLWindowFrame *pdxlwf);
+			CWindowFrame *Pwf(const CDXLWindowFrame *window_frame);
 
 			// translate the DXL representation of window frame boundary into its respective representation in the optimizer
 			CWindowFrame::EFrameBoundary Efb(EdxlFrameBoundary edxlfb) const;

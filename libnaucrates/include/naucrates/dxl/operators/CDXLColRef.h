@@ -67,7 +67,7 @@ namespace gpdxl
 			CDXLColRef
 				(
 				IMemoryPool *memory_pool,
-				CMDName *pmdname,
+				CMDName *mdname,
 				ULONG ulId,
 				IMDId *mdid_type,
 				INT type_modifier

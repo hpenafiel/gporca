@@ -32,13 +32,13 @@ CDXLTableDescr::CDXLTableDescr
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	ULONG ulExecuteAsUser
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_column_descr_dxl_array(NULL),
 	m_execute_as_user_id(ulExecuteAsUser)
 {

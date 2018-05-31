@@ -91,7 +91,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
-				CMDName *pmdname,
+				CMDName *mdname,
 				IMDId *pmdidTypeResult,
 				DrgPmdid *pdrgpmdidTypes,
 				BOOL fReturnsSet,

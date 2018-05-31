@@ -29,14 +29,14 @@ CDXLScalarProjElem::CDXLScalarProjElem
 	(
 	IMemoryPool *memory_pool,
 	ULONG ulId,
-	const CMDName *pmdname
+	const CMDName *mdname
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_ulId(ulId),
-	m_mdname(pmdname)
+	m_mdname(mdname)
 {
-	GPOS_ASSERT(NULL != pmdname);
+	GPOS_ASSERT(NULL != mdname);
 }
 
 //---------------------------------------------------------------------------

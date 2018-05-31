@@ -131,7 +131,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
-				CMDName *pmdname,
+				CMDName *mdname,
 				BOOL fTemporary,
 				Erelstoragetype erelstorage, 
 				Ereldistrpolicy ereldistrpolicy,

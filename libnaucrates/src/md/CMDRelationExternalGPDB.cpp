@@ -28,7 +28,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	Ereldistrpolicy ereldistrpolicy,
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
@@ -44,7 +44,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_ereldistrpolicy(ereldistrpolicy),
 	m_pdrgpmdcol(pdrgpmdcol),
 	m_ulDroppedCols(0),

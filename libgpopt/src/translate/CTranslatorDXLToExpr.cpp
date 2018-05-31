@@ -283,8 +283,8 @@ CTranslatorDXLToExpr::Pexpr
 			m_pdrgpulOutputColRefs->Append(pulCopy);
 	
 			// get the column names and add it to the array of output column names
-			CMDName *pmdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlcr->MdName()->Pstr());
-			m_pdrgpmdname->Append(pmdname);
+			CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlcr->MdName()->Pstr());
+			m_pdrgpmdname->Append(mdname);
 		}
 	}
 
@@ -1767,7 +1767,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 		CScalarProjectList *popPrL = GPOS_NEW(m_memory_pool) CScalarProjectList(m_memory_pool);
 		CExpression *pexprProjList = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, popPrL, const_cast<DrgPexpr *>(pdrgpexpr));
 		
-		DrgPcr *pdrgpcr = PdrgpcrPartitionByCol(pdxlws->PdrgulPartColList());
+		DrgPcr *pdrgpcr = PdrgpcrPartitionByCol(pdxlws->GetPartitionByColIdArray());
 		CDistributionSpec *pds = NULL;
 		if (0 < pdrgpcr->Size())
 		{
@@ -1831,14 +1831,14 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 DrgPcr *
 CTranslatorDXLToExpr::PdrgpcrPartitionByCol
 	(
-	const ULongPtrArray *pdrgpulPartCol
+	const ULongPtrArray *partition_by_col_id_array
 	)
 {
-	const ULONG ulSize = pdrgpulPartCol->Size();
+	const ULONG ulSize = partition_by_col_id_array->Size();
 	DrgPcr *pdrgpcr = GPOS_NEW(m_memory_pool) DrgPcr(m_memory_pool);
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		const ULONG *pulColId = (*pdrgpulPartCol)[ul];
+		const ULONG *pulColId = (*partition_by_col_id_array)[ul];
 
 		// get its column reference from the hash map
 		CColRef *pcr =  PcrLookup(m_phmulcr, *pulColId);
@@ -1859,11 +1859,11 @@ CTranslatorDXLToExpr::PdrgpcrPartitionByCol
 CWindowFrame *
 CTranslatorDXLToExpr::Pwf
 	(
-	const CDXLWindowFrame *pdxlwf
+	const CDXLWindowFrame *window_frame
 	)
 {
-	CDXLNode *pdxlnTrail = pdxlwf->PdxlnTrailing();
-	CDXLNode *pdxlnLead = pdxlwf->PdxlnLeading();
+	CDXLNode *pdxlnTrail = window_frame->PdxlnTrailing();
+	CDXLNode *pdxlnLead = window_frame->PdxlnLeading();
 
 	CWindowFrame::EFrameBoundary efbLead = Efb(CDXLScalarWindowFrameEdge::PdxlopConvert(pdxlnLead->Pdxlop())->Edxlfb());
 	CWindowFrame::EFrameBoundary efbTrail = Efb(CDXLScalarWindowFrameEdge::PdxlopConvert(pdxlnTrail->Pdxlop())->Edxlfb());
@@ -1880,9 +1880,9 @@ CTranslatorDXLToExpr::Pwf
 		pexprLead = Pexpr((*pdxlnLead)[0]);
 	}
 
-	CWindowFrame::EFrameExclusionStrategy efes = Efes(pdxlwf->Edxlfes());
+	CWindowFrame::EFrameExclusionStrategy efes = Efes(window_frame->Edxlfes());
 	CWindowFrame::EFrameSpec efs = CWindowFrame::EfsRows;
-	if (EdxlfsRange == pdxlwf->Edxlfs())
+	if (EdxlfsRange == window_frame->Edxlfs())
 	{
 		efs = CWindowFrame::EfsRange;
 	}

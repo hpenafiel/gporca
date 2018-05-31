@@ -35,7 +35,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	(
 	IMemoryPool *memory_pool, 
 	IMDId *pmdid, 
-	CMDName *pmdname,
+	CMDName *mdname,
 	BOOL fClustered, 
 	IMDIndex::EmdindexType emdindt,
 	IMDId *pmdidItemType,
@@ -47,7 +47,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_fClustered(fClustered),
 	m_emdindt(emdindt),
 	m_pmdidItemType(pmdidItemType),

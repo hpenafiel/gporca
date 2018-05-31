@@ -59,7 +59,7 @@ CParseHandlerWindowSpecList::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowSpecList), element_local_name))
 	{
-		m_pdrgpdxlws = GPOS_NEW(m_memory_pool) DrgPdxlws(m_memory_pool);
+		m_pdrgpdxlws = GPOS_NEW(m_memory_pool) DXLWindowSpecArray(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowSpec), element_local_name))
 	{

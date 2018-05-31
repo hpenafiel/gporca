@@ -36,7 +36,7 @@ CDXLColStats::CDXLColStats
 	(
 	IMemoryPool *memory_pool,
 	CMDIdColStats *pmdidColStats,
-	CMDName *pmdname,
+	CMDName *mdname,
 	CDouble dWidth,
 	CDouble dNullFreq,
 	CDouble dDistinctRemain,
@@ -47,7 +47,7 @@ CDXLColStats::CDXLColStats
 	:
 	m_memory_pool(memory_pool),
 	m_pmdidColStats(pmdidColStats),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_dWidth(dWidth),
 	m_dNullFreq(dNullFreq),
 	m_dDistinctRemain(dDistinctRemain),
@@ -238,7 +238,7 @@ CDXLColStats::PdxlcolstatsDummy
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	CDouble dWidth
 	)
 {
@@ -251,7 +251,7 @@ CDXLColStats::PdxlcolstatsDummy
 					(
 					memory_pool,
 					pmdidColStats,
-					pmdname,
+					mdname,
 					dWidth,
 					CHistogram::DDefaultNullFreq,
 					CHistogram::DDefaultNDVRemain,

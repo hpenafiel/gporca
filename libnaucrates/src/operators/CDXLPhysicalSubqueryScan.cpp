@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLPhysicalSubqueryScan::CDXLPhysicalSubqueryScan
 	(
 	IMemoryPool *memory_pool,
-	CMDName *pmdname
+	CMDName *mdname
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pmdnameAlias(pmdname)
+	m_pmdnameAlias(mdname)
 {
 }
 

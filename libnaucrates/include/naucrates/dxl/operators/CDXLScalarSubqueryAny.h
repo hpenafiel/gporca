@@ -47,7 +47,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdidScalarOp,
-				CMDName *pmdname,
+				CMDName *mdname,
 				ULONG ulColId
 				);
 

@@ -2759,8 +2759,8 @@ CTestUtils::PqcGenerate
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pcr->Name().Pstr());
-		pdrgpmdname->Append(pmdname);
+		CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pcr->Name().Pstr());
+		pdrgpmdname->Append(mdname);
 	}
 
 	return GPOS_NEW(memory_pool) CQueryContext(memory_pool, pexpr, prpp, pdrgpcr, pdrgpmdname, true /*fDeriveStats*/);
@@ -2832,8 +2832,8 @@ CTestUtils::PqcGenerate
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pcr->Name().Pstr());
-		pdrgpmdname->Append(pmdname);
+		CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pcr->Name().Pstr());
+		pdrgpmdname->Append(mdname);
 	}
 
 	return GPOS_NEW(memory_pool) CQueryContext(memory_pool, pexpr, prpp, pdrgpcr, pdrgpmdname, true /*fDeriveStats*/);

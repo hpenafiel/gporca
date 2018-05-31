@@ -29,12 +29,12 @@ CDXLIndexDescr::CDXLIndexDescr
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname
+	CMDName *mdname
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname)
+	m_mdname(mdname)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(NULL != m_mdname);

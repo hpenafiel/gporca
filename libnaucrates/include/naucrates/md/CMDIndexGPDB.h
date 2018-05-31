@@ -80,7 +80,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool, 
 				IMDId *pmdid, 
-				CMDName *pmdname,
+				CMDName *mdname,
 				BOOL fClustered, 
 				EmdindexType emdindt,
 				IMDId *pmdidItemType,

@@ -119,7 +119,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
-				CMDName *pmdname,
+				CMDName *mdname,
 				Ereldistrpolicy ereldistrpolicy,
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,

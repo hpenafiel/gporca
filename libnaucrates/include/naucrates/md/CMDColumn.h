@@ -70,7 +70,7 @@ namespace gpmd
 			// ctor
 			CMDColumn
 				(
-				CMDName *pmdname,
+				CMDName *mdname,
 				INT iAttNo,
 				IMDId *mdid_type,
 				INT type_modifier,

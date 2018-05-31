@@ -31,7 +31,7 @@ namespace gpdxl
 	{
 		private:
 			// array of window specifications
-			DrgPdxlws *m_pdrgpdxlws;
+			DXLWindowSpecArray *m_pdrgpdxlws;
 
 			// private copy ctor
 			CDXLLogicalWindow(CDXLLogicalWindow&);
@@ -39,7 +39,7 @@ namespace gpdxl
 		public:
 
 			//ctor
-			CDXLLogicalWindow(IMemoryPool *memory_pool, DrgPdxlws *pdrgpdxlwinspec);
+			CDXLLogicalWindow(IMemoryPool *memory_pool, DXLWindowSpecArray *pdrgpdxlwinspec);
 
 			//dtor
 			virtual

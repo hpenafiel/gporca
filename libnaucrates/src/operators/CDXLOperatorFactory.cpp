@@ -1457,11 +1457,11 @@ CDXLOperatorFactory::PdxlopProjElem
 	CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm, xmlszAlias);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrAlias);
+	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrAlias);
 	
 	GPOS_DELETE(pstrAlias);
 	
-	return GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, ulId, pmdname);
+	return GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, ulId, mdname);
 }
 
 //---------------------------------------------------------------------------
@@ -1643,7 +1643,7 @@ CDXLOperatorFactory::Pdxltabdesc
 									EdxltokenTableDescr
 									);
 
-	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(pmm, xmlszTableName);
+	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(pmm, xmlszTableName);
 	
 	// parse metadata id
 	IMDId *pmdid = PmdidFromAttrs
@@ -1663,7 +1663,7 @@ CDXLOperatorFactory::Pdxltabdesc
 		ulUserId = UlValueFromXmlstr(pmm, xmlszExecuteAsUser, EdxltokenExecuteAsUser, EdxltokenTableDescr);
 	}
 					
-	return GPOS_NEW(memory_pool) CDXLTableDescr(memory_pool, pmdid, pmdname, ulUserId);
+	return GPOS_NEW(memory_pool) CDXLTableDescr(memory_pool, pmdid, mdname, ulUserId);
 }
 
 //---------------------------------------------------------------------------
@@ -1704,10 +1704,10 @@ CDXLOperatorFactory::Pdxlid
 						);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrIndexName);
+	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrIndexName);
 	GPOS_DELETE(pstrIndexName);
 
-	return GPOS_NEW(memory_pool) CDXLIndexDescr(memory_pool, pmdid, pmdname);
+	return GPOS_NEW(memory_pool) CDXLIndexDescr(memory_pool, pmdid, mdname);
 }
 
 //---------------------------------------------------------------------------
@@ -1820,11 +1820,11 @@ CDXLOperatorFactory::GetColumnDescrAt
 	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(pmm,xmlszColumnName);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrColumnName);
+	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrColumnName);
 	
 	GPOS_DELETE(pstrColumnName);
 	
-	return GPOS_NEW(memory_pool) CDXLColDescr(memory_pool, pmdname, ulId, iAttno, mdid_type, type_modifier, fColDropped, ulColLen);
+	return GPOS_NEW(memory_pool) CDXLColDescr(memory_pool, mdname, ulId, iAttno, mdid_type, type_modifier, fColDropped, ulColLen);
 }
 
 //---------------------------------------------------------------------------
@@ -1873,7 +1873,7 @@ CDXLOperatorFactory::Pdxlcr
 	CWStringDynamic *pstrColumnName =  CDXLUtils::CreateDynamicStringFromXMLChArray(pmm,xmlszColumnName);
 
 	// create a copy of the string in the CMDName constructor
-	CMDName *pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrColumnName);
+	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pstrColumnName);
 	
 	GPOS_DELETE(pstrColumnName);
 
@@ -1896,7 +1896,7 @@ CDXLOperatorFactory::Pdxlcr
 						IDefaultTypeModifier
 						);
 	
-	return GPOS_NEW(memory_pool) CDXLColRef(memory_pool, pmdname, ulId, mdid_type, type_modifier);
+	return GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, ulId, mdid_type, type_modifier);
 }
 
 //---------------------------------------------------------------------------

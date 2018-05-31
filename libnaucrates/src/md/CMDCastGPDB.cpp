@@ -32,7 +32,7 @@ CMDCastGPDB::CMDCastGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdname,
+	CMDName *mdname,
 	IMDId *pmdidSrc,
 	IMDId *pmdidDest,
 	BOOL fBinaryCoercible,
@@ -42,7 +42,7 @@ CMDCastGPDB::CMDCastGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_pmdidSrc(pmdidSrc),
 	m_pmdidDest(pmdidDest),
 	m_fBinaryCoercible(fBinaryCoercible),

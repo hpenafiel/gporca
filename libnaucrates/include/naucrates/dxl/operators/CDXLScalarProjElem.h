@@ -49,7 +49,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				ULONG ulId,
-				const CMDName *pmdname
+				const CMDName *mdname
 				);
 			
 			virtual

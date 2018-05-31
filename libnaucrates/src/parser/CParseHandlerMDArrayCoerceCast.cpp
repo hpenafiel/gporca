@@ -58,7 +58,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 														EdxltokenGPDBArrayCoerceCast
 														);
 
-	CMDName *pmdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszFuncName);
+	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszFuncName);
 
 	// parse cast properties
 	IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs
@@ -146,7 +146,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 							EdxltokenGPDBArrayCoerceCast
 							);
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CMDArrayCoerceCastGPDB(m_memory_pool, pmdid, pmdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType, type_modifier, fIsExplicit, edcf, iLoc);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDArrayCoerceCastGPDB(m_memory_pool, pmdid, mdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType, type_modifier, fIsExplicit, edcf, iLoc);
 }
 
 // invoked by Xerces to process a closing tag

@@ -33,14 +33,14 @@ CDXLRelStats::CDXLRelStats
 	(
 	IMemoryPool *memory_pool,
 	CMDIdRelStats *pmdidRelStats,
-	CMDName *pmdname,
+	CMDName *mdname,
 	CDouble dRows,
 	BOOL fEmpty
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_pmdidRelStats(pmdidRelStats),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_dRows(dRows),
 	m_fEmpty(fEmpty)
 {

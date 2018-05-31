@@ -28,7 +28,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDColumn::CMDColumn
 	(
-	CMDName *pmdname,
+	CMDName *mdname,
 	INT iAttNo,
 	IMDId *mdid_type,
 	INT type_modifier,
@@ -38,7 +38,7 @@ CMDColumn::CMDColumn
 	ULONG length
 	)
 	:
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_iAttNo(iAttNo),
 	m_mdid_type(mdid_type),
 	m_type_modifier(type_modifier),

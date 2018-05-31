@@ -37,7 +37,7 @@ using namespace gpdxl;
 CDXLLogicalWindow::CDXLLogicalWindow
 	(
 	IMemoryPool *memory_pool,
-	DrgPdxlws *pdrgpdxlws
+	DXLWindowSpecArray *pdrgpdxlws
 	)
 	:
 	CDXLLogical(memory_pool),

@@ -111,7 +111,7 @@ CParseHandlerLogicalWindow::EndElement
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerLogicalOp *pphLgOp = dynamic_cast<CParseHandlerLogicalOp*>((*this)[2]);
 
-	DrgPdxlws *pdrgpdxlws = pphWsL->Pdrgpdxlws();
+	DXLWindowSpecArray *pdrgpdxlws = pphWsL->Pdrgpdxlws();
 	GPOS_ASSERT(NULL != pdrgpdxlws);
 
 	CDXLLogicalWindow *pdxlopWin = GPOS_NEW(m_memory_pool) CDXLLogicalWindow(m_memory_pool, pdrgpdxlws);

@@ -31,13 +31,13 @@ CDXLLogicalTVF::CDXLLogicalTVF
 	IMemoryPool *memory_pool,
 	IMDId *pmdidFunc,
 	IMDId *pmdidRetType,
-	CMDName *pmdname,
+	CMDName *mdname,
 	ColumnDescrDXLArray *pdrgdxlcd
 	)
 	:CDXLLogical(memory_pool),
 	m_pmdidFunc(pmdidFunc),
 	m_pmdidRetType(pmdidRetType),
-	m_mdname(pmdname),
+	m_mdname(mdname),
 	m_pdrgdxlcd(pdrgdxlcd)
 {
 	GPOS_ASSERT(m_pmdidFunc->IsValid());

@@ -54,7 +54,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *pmdidFunc,
 				IMDId *pmdidRetType,
-				CMDName *pmdname,
+				CMDName *mdname,
 				ColumnDescrDXLArray *pdrgdxlcd
 				);
 						

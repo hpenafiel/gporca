@@ -72,7 +72,7 @@ namespace gpmd
 			(
 			IMemoryPool *memory_pool,
 			IMDId *pmdid,
-			CMDName *pmdname,
+			CMDName *mdname,
 			IMDId *pmdidTypeResult,
 			IMDId *pmdidTypeIntermediate,
 			BOOL fOrderedAgg,

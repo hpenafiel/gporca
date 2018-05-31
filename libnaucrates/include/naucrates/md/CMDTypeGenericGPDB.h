@@ -127,7 +127,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
-				CMDName *pmdname,
+				CMDName *mdname,
 				BOOL fRedistributable,
 				BOOL fFixedLength,
 				ULONG length, 

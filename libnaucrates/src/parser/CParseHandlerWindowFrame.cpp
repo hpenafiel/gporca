@@ -37,7 +37,7 @@ CParseHandlerWindowFrame::CParseHandlerWindowFrame
 	CParseHandlerBase(memory_pool, parse_handler_mgr, pphRoot),
 	m_edxlfs(EdxlfsSentinel),
 	m_edxlfes(EdxlfesSentinel),
-	m_pdxlwf(NULL)
+	m_window_frame(NULL)
 {
 }
 
@@ -104,7 +104,7 @@ CParseHandlerWindowFrame::EndElement
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
-	GPOS_ASSERT(NULL == m_pdxlwf);
+	GPOS_ASSERT(NULL == m_window_frame);
 	GPOS_ASSERT(2 == this->Length());
 
 	CParseHandlerScalarOp *pphTrailingVal = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
@@ -117,7 +117,7 @@ CParseHandlerWindowFrame::EndElement
 	CDXLNode *pdxlnLeading = pphLeadingVal->Pdxln();
 	pdxlnLeading->AddRef();
 
-	m_pdxlwf = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_edxlfs, m_edxlfes, pdxlnLeading, pdxlnTrailing);
+	m_window_frame = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_edxlfs, m_edxlfes, pdxlnLeading, pdxlnTrailing);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

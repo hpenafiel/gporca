@@ -136,7 +136,7 @@ CParseHandlerWindowSpec::EndElement
 	CDXLNode *sort_col_list_dxl = NULL;
 
 	// window frame associated with the window key
-	CDXLWindowFrame *pdxlwf =  NULL;
+	CDXLWindowFrame *window_frame =  NULL;
 
 	if (1 == this->Length())
 	{
@@ -147,7 +147,7 @@ CParseHandlerWindowSpec::EndElement
 			// select b,c, count(c) over (partition by b) from (select * from foo) s;
 			// adds a window frame that is unbounded.
 			CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[0]);
-			pdxlwf = pphWf->GetWindowFrame();
+			window_frame = pphWf->GetWindowFrame();
 		}
 		else
 		{
@@ -163,9 +163,9 @@ CParseHandlerWindowSpec::EndElement
 		sort_col_list_dxl->AddRef();
 
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
-		pdxlwf = pphWf->GetWindowFrame();
+		window_frame = pphWf->GetWindowFrame();
 	}
-	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_mdname, sort_col_list_dxl, pdxlwf);
+	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_mdname, sort_col_list_dxl, window_frame);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
