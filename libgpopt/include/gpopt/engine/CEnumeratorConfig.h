@@ -162,7 +162,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				ULLONG plan_id,
 				ULLONG ullSamples,
-				CDouble dCostThreshold = GPOPT_UNBOUNDED_COST_THRESHOLD
+				CDouble cost_threshold = GPOPT_UNBOUNDED_COST_THRESHOLD
 				);
 
 			// dtor

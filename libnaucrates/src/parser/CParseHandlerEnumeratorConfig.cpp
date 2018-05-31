@@ -75,16 +75,16 @@ CParseHandlerEnumeratorConfig::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenEnumeratorConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	// parse enumerator config options
 	ULLONG plan_id = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPlanId, EdxltokenOptimizerConfig);
-	ULLONG ullPlanSamples = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
-	CDouble dCostThreshold = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostThreshold, EdxltokenOptimizerConfig);
+	ULLONG num_of_plan_samples = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
+	CDouble cost_threshold = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCostThreshold, EdxltokenOptimizerConfig);
 
-	m_enumerator_cfg = GPOS_NEW(m_memory_pool) CEnumeratorConfig(m_memory_pool, plan_id, ullPlanSamples, dCostThreshold);
+	m_enumerator_cfg = GPOS_NEW(m_memory_pool) CEnumeratorConfig(m_memory_pool, plan_id, num_of_plan_samples, cost_threshold);
 }
 
 //---------------------------------------------------------------------------
@@ -105,8 +105,8 @@ CParseHandlerEnumeratorConfig::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenEnumeratorConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_enumerator_cfg);

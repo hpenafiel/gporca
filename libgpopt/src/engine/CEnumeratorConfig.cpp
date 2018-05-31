@@ -39,7 +39,7 @@ CEnumeratorConfig::CEnumeratorConfig
 	IMemoryPool *memory_pool,
 	ULLONG plan_id,
 	ULLONG ullSamples,
-	CDouble dCostThreshold
+	CDouble cost_threshold
 	)
 	:
 	m_memory_pool(memory_pool),
@@ -48,7 +48,7 @@ CEnumeratorConfig::CEnumeratorConfig
 	m_ullInputSamples(ullSamples),
 	m_costBest(GPOPT_INVALID_COST),
 	m_costMax(GPOPT_INVALID_COST),
-	m_dCostThreshold(dCostThreshold),
+	m_dCostThreshold(cost_threshold),
 	m_pdrgpsp(NULL),
 	m_dStep(0.5),
 	m_pdX(NULL),

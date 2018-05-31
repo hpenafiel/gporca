@@ -53,7 +53,7 @@ CParseHandlerFactory::Init
 	IMemoryPool *memory_pool
 	)
 {
-	m_phmPHCreators = GPOS_NEW(memory_pool) HMXMLStrPfPHCreator(memory_pool, ulHashMapSize);
+	m_phmPHCreators = GPOS_NEW(memory_pool) HMXMLStrPfPHCreator(memory_pool, HASH_MAP_SIZE);
 	
 	// array mapping XML Token -> Parse Handler Creator mappings to hashmap
 	SParseHandlerMapping rgParseHandlers[] =

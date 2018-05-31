@@ -32,20 +32,20 @@ namespace gpdxl
 	// fwd decl
 	class CDXLTokens;
 	
-	const ULONG ulHashMapSize = 128;
+	const ULONG HASH_MAP_SIZE = 128;
 	
 	// function for hashing xerces strings
 	inline 
-	ULONG UlHashXMLStr(const XMLCh *xmlsz)
+	ULONG GetHashXMLStr(const XMLCh *xml_str)
 	{
-		return (ULONG) XMLString::hash(xmlsz, ulHashMapSize);
+		return (ULONG) XMLString::hash(xml_str, HASH_MAP_SIZE);
 	}
 	
 	// function for equality on xerces strings
 	inline 
-	BOOL FEqualXMLStr(const XMLCh *xmlsz1, const XMLCh *xmlsz2)
+	BOOL IsXMLStrEqual(const XMLCh *xml_str1, const XMLCh *xml_str2)
 	{
-		return (0 == XMLString::compareString(xmlsz1, xmlsz2));
+		return (0 == XMLString::compareString(xml_str1, xml_str2));
 	}
 
 	
@@ -60,7 +60,7 @@ namespace gpdxl
 	class CParseHandlerFactory
 	{
 		
-		typedef CHashMap<const XMLCh, PfParseHandlerOpCreator, UlHashXMLStr, FEqualXMLStr,
+		typedef CHashMap<const XMLCh, PfParseHandlerOpCreator, GetHashXMLStr, IsXMLStrEqual,
 			CleanupNULL, CleanupNULL > HMXMLStrPfPHCreator;
 
 		// pair of DXL token type and the corresponding parse handler
@@ -1639,7 +1639,7 @@ namespace gpdxl
 				CParseHandlerBase *parse_handler_root
 				);
 
-			// construct a values scan parse handler
+			// construct a md array coerce cast parse handler
 			static
 			CParseHandlerBase *PphMDArrayCoerceCast
 				(
