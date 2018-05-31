@@ -157,7 +157,7 @@ CCostTest::TestParams
 
 	if (fCalibrated)
 	{
-		pcp = ((CCostModelGPDB *) COptCtxt::PoctxtFromTLS()->GetCostModel())->Pcp();
+		pcp = ((CCostModelGPDB *) COptCtxt::PoctxtFromTLS()->GetCostModel())->GetCostModelParams();
 
 		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpSeqIOBandwidth)->Get();
 		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDB::EcpRandomIOBandwidth)->Get();
@@ -170,7 +170,7 @@ CCostTest::TestParams
 	}
 	else
 	{
-		pcp = ((CCostModelGPDBLegacy *) COptCtxt::PoctxtFromTLS()->GetCostModel())->Pcp();
+		pcp = ((CCostModelGPDBLegacy *) COptCtxt::PoctxtFromTLS()->GetCostModel())->GetCostModelParams();
 
 		dSeqIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpSeqIOBandwidth)->Get();
 		dRandomIOBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpRandomIOBandwidth)->Get();
@@ -285,7 +285,7 @@ CCostTest::EresUnittest_Parsing()
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
 	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(memory_pool,"../data/dxl/cost/cost0.xml", NULL);
-	ICostModelParams *pcp = pphDXL->Pcp();
+	ICostModelParams *pcp = pphDXL->GetCostModelParams();
 
 	{
 		CAutoTrace at(memory_pool);
@@ -373,10 +373,10 @@ CCostTest::EresUnittest_SetParams()
 	}
 
 	// change NLJ cost factor
-	ICostModelParams::SCostParam *pcp = pcm->Pcp()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor);
+	ICostModelParams::SCostParam *pcp = pcm->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor);
 	CDouble dNLJFactor = CDouble(2.0);
 	CDouble dVal = pcp->Get() * dNLJFactor;
-	pcm->Pcp()->SetParam(pcp->UlId(), dVal, dVal - 0.5, dVal + 0.5);
+	pcm->GetCostModelParams()->SetParam(pcp->UlId(), dVal, dVal - 0.5, dVal + 0.5);
 
 	// optimize again after updating NLJ cost factor
 	CExpression *pexprPlan2 = NULL;

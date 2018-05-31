@@ -362,7 +362,7 @@ namespace gpopt
 
 			// return cost model parameters
 			virtual
-			ICostModelParams *Pcp() const = 0;
+			ICostModelParams *GetCostModelParams() const = 0;
 
 			// main driver for cost computation
 			virtual

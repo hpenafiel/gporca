@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// cost params
-			ICostModelParams *m_pcp;
+			ICostModelParams *m_cost_model_params;
 
 			// private ctor
 			CParseHandlerCostParams(const CParseHandlerCostParams&);
@@ -43,18 +43,18 @@ namespace gpdxl
 			// process the start of an element
 			void StartElement
 				(
-				const XMLCh* const xmlstrUri, 		// URI of element's namespace
- 				const XMLCh* const xmlstrLocalname,	// local part of element's name
-				const XMLCh* const xmlstrQname,		// element's qname
+				const XMLCh* const element_uri, 		// URI of element's namespace
+ 				const XMLCh* const element_local_name,	// local part of element's name
+				const XMLCh* const element_qname,		// element's qname
 				const Attributes& attr				// element's attributes
 				);
 
 			// process the end of an element
 			void EndElement
 				(
-				const XMLCh* const xmlstrUri, 		// URI of element's namespace
-				const XMLCh* const xmlstrLocalname,	// local part of element's name
-				const XMLCh* const xmlstrQname		// element's qname
+				const XMLCh* const element_uri, 		// URI of element's namespace
+				const XMLCh* const element_local_name,	// local part of element's name
+				const XMLCh* const element_qname		// element's qname
 				);
 
 		public:
@@ -70,9 +70,9 @@ namespace gpdxl
 			~CParseHandlerCostParams();
 
 			// returns the dxl representation of cost parameters
-			ICostModelParams *Pcp()
+			ICostModelParams *GetCostModelParams()
 			{
-				return m_pcp;
+				return m_cost_model_params;
 			}
 
 			EDxlParseHandlerType GetParseHandlerType() const

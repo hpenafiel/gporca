@@ -69,7 +69,7 @@ namespace gpdbcost
 			ULONG m_num_of_segments;
 
 			// cost model parameters
-			CCostModelParamsGPDB *m_pcp;
+			CCostModelParamsGPDB *m_cost_model_params;
 
 			// array of mappings
 			static
@@ -212,9 +212,9 @@ namespace gpdbcost
 
 			// return cost model parameters
 			virtual
-			ICostModelParams *Pcp() const
+			ICostModelParams *GetCostModelParams() const
 			{
-				return m_pcp;
+				return m_cost_model_params;
 			}
 
 

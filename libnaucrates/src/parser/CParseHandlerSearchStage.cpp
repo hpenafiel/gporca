@@ -67,13 +67,13 @@ CParseHandlerSearchStage::~CParseHandlerSearchStage()
 void
 CParseHandlerSearchStage::StartElement
 	(
-	const XMLCh* const xmlstrUri,
-	const XMLCh* const xmlstrLocalname,
-	const XMLCh* const xmlstrQname,
+	const XMLCh* const element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const element_qname,
 	const Attributes& attrs
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenSearchStage), xmlstrLocalname))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenSearchStage), element_local_name))
 	{
 		// start search stage section in the DXL document
 		GPOS_ASSERT(NULL == m_pxfs);
@@ -92,7 +92,7 @@ CParseHandlerSearchStage::StartElement
 		m_ulTimeThreshold =
 			CDXLOperatorFactory::UlValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszTime, EdxltokenTimeThreshold, EdxltokenSearchStage);
 	}
-	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenXform), xmlstrLocalname))
+	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenXform), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pxfs);
 
@@ -103,11 +103,11 @@ CParseHandlerSearchStage::StartElement
 		// store parse handler
 		this->Append(pphXform);
 
-		pphXform->startElement(xmlstrUri, xmlstrLocalname, xmlstrQname, attrs);
+		pphXform->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -124,15 +124,15 @@ CParseHandlerSearchStage::StartElement
 void
 CParseHandlerSearchStage::EndElement
 	(
-	const XMLCh* const, // xmlstrUri,
-	const XMLCh* const xmlstrLocalname,
-	const XMLCh* const // xmlstrQname
+	const XMLCh* const, // element_uri,
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
 
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenSearchStage), xmlstrLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenSearchStage), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

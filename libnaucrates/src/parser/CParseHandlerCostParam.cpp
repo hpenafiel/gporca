@@ -69,14 +69,14 @@ void
 CParseHandlerCostParam::StartElement
 	(
 	const XMLCh* const, // element_uri,
-	const XMLCh* const xmlstrLocalname,
-	const XMLCh* const, // xmlstrQname
+	const XMLCh* const element_local_name,
+	const XMLCh* const, // element_qname
 	const Attributes& attrs
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParam), xmlstrLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParam), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -103,13 +103,13 @@ void
 CParseHandlerCostParam::EndElement
 	(
 	const XMLCh* const, // element_uri,
-	const XMLCh* const xmlstrLocalname,
-	const XMLCh* const // xmlstrQname
+	const XMLCh* const element_local_name,
+	const XMLCh* const // element_qname
 	)
 {
-	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParam), xmlstrLocalname))
+	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostParam), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlstrLocalname);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

@@ -64,7 +64,7 @@ CParseHandlerDXL::CParseHandlerDXL
 	m_pdrgpss(NULL),
 	m_plan_id(ULLONG_MAX),
 	m_plan_space_size(ULLONG_MAX),
-	m_pcp(NULL)
+	m_cost_model_params(NULL)
 {}
 
 
@@ -91,7 +91,7 @@ CParseHandlerDXL::~CParseHandlerDXL()
 	CRefCount::SafeRelease(m_pdrgpsysid);
 	CRefCount::SafeRelease(m_pdrgpdxlstatsderrel);
 	CRefCount::SafeRelease(m_pdrgpss);
-	CRefCount::SafeRelease(m_pcp);
+	CRefCount::SafeRelease(m_cost_model_params);
 
 }
 
@@ -312,16 +312,16 @@ CParseHandlerDXL::UllPlanSpaceSize() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerDXL::Pcp
+//		CParseHandlerDXL::GetCostModelParams
 //
 //	@doc:
 //		Returns cost params
 //
 //---------------------------------------------------------------------------
 ICostModelParams *
-CParseHandlerDXL::Pcp() const
+CParseHandlerDXL::GetCostModelParams() const
 {
-	return m_pcp;
+	return m_cost_model_params;
 }
 
 
@@ -721,12 +721,12 @@ CParseHandlerDXL::ExtractCostParams
 	)
 {
 	CParseHandlerCostParams *pphCostParams = dynamic_cast<CParseHandlerCostParams *>(pph);
-	GPOS_ASSERT(NULL != pphCostParams && NULL != pphCostParams->Pcp());
+	GPOS_ASSERT(NULL != pphCostParams && NULL != pphCostParams->GetCostModelParams());
 
-	ICostModelParams *pcp = pphCostParams->Pcp();
+	ICostModelParams *pcp = pphCostParams->GetCostModelParams();
 
 	pcp->AddRef();
-	m_pcp = pcp;
+	m_cost_model_params = pcp;
 }
 
 //---------------------------------------------------------------------------

@@ -99,7 +99,7 @@ namespace gpdxl
 			ULLONG m_plan_space_size;
 
 			// cost model params
-			ICostModelParams *m_pcp;
+			ICostModelParams *m_cost_model_params;
 
 			// private copy ctor
 			CParseHandlerDXL(const CParseHandlerDXL&);
@@ -212,7 +212,7 @@ namespace gpdxl
 			ULLONG UllPlanSpaceSize() const;
 
 			// return cost params
-			ICostModelParams *Pcp() const;
+			ICostModelParams *GetCostModelParams() const;
 
 			// process the end of the document
 			void endDocument();

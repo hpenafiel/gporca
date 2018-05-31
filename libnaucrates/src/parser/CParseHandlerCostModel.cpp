@@ -144,7 +144,7 @@ CParseHandlerCostModel::EndElement
 			}
 			else
 			{
-				pcp = dynamic_cast<CCostModelParamsGPDB *>(m_parse_handler_cost_params->Pcp());
+				pcp = dynamic_cast<CCostModelParamsGPDB *>(m_parse_handler_cost_params->GetCostModelParams());
 				GPOS_ASSERT(NULL != pcp);
 				pcp->AddRef();
 			}
