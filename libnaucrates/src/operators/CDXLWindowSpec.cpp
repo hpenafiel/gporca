@@ -37,14 +37,14 @@ CDXLWindowSpec::CDXLWindowSpec
 	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulPartCol,
 	CMDName *pmdname,
-	CDXLNode *pdxlnSortColList,
+	CDXLNode *sort_col_list_dxl,
 	CDXLWindowFrame *pdxlwf
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_pdrgpulPartCol(pdrgpulPartCol),
 	m_mdname(pmdname),
-	m_pdxlnSortColList(pdxlnSortColList),
+	m_sort_col_list_dxl(sort_col_list_dxl),
 	m_pdxlwf(pdxlwf)
 {
 	GPOS_ASSERT(NULL != m_memory_pool);
@@ -63,7 +63,7 @@ CDXLWindowSpec::~CDXLWindowSpec()
 {
 	m_pdrgpulPartCol->Release();
 	CRefCount::SafeRelease(m_pdxlwf);
-	CRefCount::SafeRelease(m_pdxlnSortColList);
+	CRefCount::SafeRelease(m_sort_col_list_dxl);
 	GPOS_DELETE(m_mdname);
 }
 
@@ -98,9 +98,9 @@ CDXLWindowSpec::SerializeToDXL
 	}
 
 	// serialize sorting columns
-	if (NULL != m_pdxlnSortColList)
+	if (NULL != m_sort_col_list_dxl)
 	{
-		m_pdxlnSortColList->SerializeToDXL(xml_serializer);
+		m_sort_col_list_dxl->SerializeToDXL(xml_serializer);
 	}
 
 	// serialize window frames

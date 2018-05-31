@@ -133,7 +133,7 @@ CParseHandlerWindowSpec::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	// sorting columns
-	CDXLNode *pdxlnSortColList = NULL;
+	CDXLNode *sort_col_list_dxl = NULL;
 
 	// window frame associated with the window key
 	CDXLWindowFrame *pdxlwf =  NULL;
@@ -147,25 +147,25 @@ CParseHandlerWindowSpec::EndElement
 			// select b,c, count(c) over (partition by b) from (select * from foo) s;
 			// adds a window frame that is unbounded.
 			CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[0]);
-			pdxlwf = pphWf->Pdxlwf();
+			pdxlwf = pphWf->GetWindowFrame();
 		}
 		else
 		{
 			CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-			pdxlnSortColList = pphSortColList->Pdxln();
-			pdxlnSortColList->AddRef();
+			sort_col_list_dxl = pphSortColList->Pdxln();
+			sort_col_list_dxl->AddRef();
 		}
 	}
 	else if (2 == this->Length())
 	{
 		CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-		pdxlnSortColList = pphSortColList->Pdxln();
-		pdxlnSortColList->AddRef();
+		sort_col_list_dxl = pphSortColList->Pdxln();
+		sort_col_list_dxl->AddRef();
 
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
-		pdxlwf = pphWf->Pdxlwf();
+		pdxlwf = pphWf->GetWindowFrame();
 	}
-	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_mdname, pdxlnSortColList, pdxlwf);
+	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_mdname, sort_col_list_dxl, pdxlwf);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

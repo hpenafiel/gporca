@@ -32,8 +32,8 @@ CDXLWindowKey::CDXLWindowKey
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pdxlwf(NULL),
-	m_pdxlnSortColList(NULL)
+	m_window_frame_dxl(NULL),
+	m_sort_col_list_dxl(NULL)
 {
 	GPOS_ASSERT(NULL != m_memory_pool);
 }
@@ -48,8 +48,8 @@ CDXLWindowKey::CDXLWindowKey
 //---------------------------------------------------------------------------
 CDXLWindowKey::~CDXLWindowKey()
 {
-	CRefCount::SafeRelease(m_pdxlwf);
-	CRefCount::SafeRelease(m_pdxlnSortColList);
+	CRefCount::SafeRelease(m_window_frame_dxl);
+	CRefCount::SafeRelease(m_sort_col_list_dxl);
 }
 
 //---------------------------------------------------------------------------
@@ -63,12 +63,12 @@ CDXLWindowKey::~CDXLWindowKey()
 void
 CDXLWindowKey::SetWindowFrame
 	(
-	CDXLWindowFrame *pdxlwf
+	CDXLWindowFrame *window_frame
 	)
 {
 	// allow setting window frame only once
-	GPOS_ASSERT (NULL == m_pdxlwf);
-	m_pdxlwf = pdxlwf;
+	GPOS_ASSERT (NULL == m_window_frame_dxl);
+	m_window_frame_dxl = window_frame;
 }
 
 //---------------------------------------------------------------------------
@@ -82,12 +82,12 @@ CDXLWindowKey::SetWindowFrame
 void
 CDXLWindowKey::SetSortColList
 	(
-	CDXLNode *pdxlnSortColList
+	CDXLNode *sort_col_list_dxl
 	)
 {
 	// allow setting window frame only once
-	GPOS_ASSERT(NULL == m_pdxlnSortColList);
-	m_pdxlnSortColList = pdxlnSortColList;
+	GPOS_ASSERT(NULL == m_sort_col_list_dxl);
+	m_sort_col_list_dxl = sort_col_list_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -108,14 +108,14 @@ CDXLWindowKey::SerializeToDXL
 	const CWStringConst *pstrElemName = CDXLTokens::PstrToken(EdxltokenWindowKey);
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);
 
-	if (NULL != m_pdxlnSortColList)
+	if (NULL != m_sort_col_list_dxl)
 	{
-		m_pdxlnSortColList->SerializeToDXL(xml_serializer);
+		m_sort_col_list_dxl->SerializeToDXL(xml_serializer);
 	}
 
-	if (NULL != m_pdxlwf)
+	if (NULL != m_window_frame_dxl)
 	{
-		m_pdxlwf->SerializeToDXL(xml_serializer);
+		m_window_frame_dxl->SerializeToDXL(xml_serializer);
 	}
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElemName);

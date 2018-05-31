@@ -131,8 +131,8 @@ CDXLLogicalLimit::AssertValid
 	GPOS_ASSERT(4 == pdxln->Arity());
 
 	// Assert the validity of sort column list
-	CDXLNode *pdxlnSortColList = (*pdxln)[EdxllogicallimitIndexSortColList];
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnSortColList->Pdxlop()->Edxloperatortype());
+	CDXLNode *sort_col_list_dxl = (*pdxln)[EdxllogicallimitIndexSortColList];
+	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->Pdxlop()->Edxloperatortype());
 
 	// Assert the validity of Count and Offset
 
@@ -148,7 +148,7 @@ CDXLLogicalLimit::AssertValid
 	
 	if (fValidateChildren)
 	{
-		pdxlnSortColList->Pdxlop()->AssertValid(pdxlnSortColList, fValidateChildren);
+		sort_col_list_dxl->Pdxlop()->AssertValid(sort_col_list_dxl, fValidateChildren);
 		pdxlnOffset->Pdxlop()->AssertValid(pdxlnOffset, fValidateChildren);
 		pdxlnCount->Pdxlop()->AssertValid(pdxlnCount, fValidateChildren);
 		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);

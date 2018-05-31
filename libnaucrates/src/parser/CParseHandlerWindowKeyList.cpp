@@ -59,7 +59,7 @@ CParseHandlerWindowKeyList::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowKeyList), element_local_name))
 	{
-		m_pdrgpdxlwk = GPOS_NEW(m_memory_pool) DrgPdxlwk(m_memory_pool);
+		m_pdrgpdxlwk = GPOS_NEW(m_memory_pool) CDXLWindowKeyArray(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowKey), element_local_name))
 	{

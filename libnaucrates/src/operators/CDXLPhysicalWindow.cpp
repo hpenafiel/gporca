@@ -29,7 +29,7 @@ CDXLPhysicalWindow::CDXLPhysicalWindow
 	(
 	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulPartCols,
-	DrgPdxlwk *pdrgpdxlwk
+	CDXLWindowKeyArray *pdrgpdxlwk
 	)
 	:
 	CDXLPhysical(memory_pool),

@@ -643,7 +643,7 @@ namespace gpopt
 			CDXLNode *PdxlnDMLAction(CExpression *pexpr);
 
 			// translate a window frame
-			CDXLWindowFrame *Pdxlwf(CWindowFrame *pwf);
+			CDXLWindowFrame *GetWindowFrame(CWindowFrame *pwf);
 
 			CDXLTableDescr *Pdxltabdesc(const CTableDescriptor *ptabdesc, const DrgPcr *pdrgpcrOutput);
 
@@ -686,10 +686,10 @@ namespace gpopt
 			CDXLNode *PdxlnProjElem(const CColRef *pcr,CDXLNode *pdxlnValue);
 			
 			// create a DXL sort col list node from an order spec
-			CDXLNode *PdxlnSortColList(const COrderSpec *pos);
+			CDXLNode *GetSortColListDXL(const COrderSpec *pos);
 			
 			// create a DXL sort col list node for a Motion expression
-			CDXLNode *PdxlnSortColList(CExpression *pexprMotion);
+			CDXLNode *GetSortColListDXL(CExpression *pexprMotion);
 
 			// create a DXL hash expr list from an array of hash columns
 			CDXLNode *PdxlnHashExprList(const DrgPexpr *pdrgpexpr);

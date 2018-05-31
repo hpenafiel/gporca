@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// list of window keys
-			DrgPdxlwk *m_pdrgpdxlwk;
+			CDXLWindowKeyArray *m_pdrgpdxlwk;
 
 			// private copy ctor
 			CParseHandlerWindowKeyList(const CParseHandlerWindowKeyList&);
@@ -67,7 +67,7 @@ namespace gpdxl
 				);
 
 			// list of window keys
-			DrgPdxlwk *Pdrgpdxlwk() const
+			CDXLWindowKeyArray *Pdrgpdxlwk() const
 			{
 				return m_pdrgpdxlwk;
 			}

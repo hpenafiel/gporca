@@ -1614,7 +1614,7 @@ CTranslatorDXLToExpr::PexprLogicalLimit
 	GPOS_ASSERT(NULL != pdxln && EdxlopLogicalLimit == pdxln->Pdxlop()->Edxlop());
 
 	// get children
-	CDXLNode *pdxlnSortColList = (*pdxln)[EdxllogicallimitIndexSortColList];
+	CDXLNode *sort_col_list_dxl = (*pdxln)[EdxllogicallimitIndexSortColList];
 	CDXLNode *pdxlnCount = (*pdxln)[EdxllogicallimitIndexLimitCount];
 	CDXLNode *pdxlnOffset = (*pdxln)[EdxllogicallimitIndexLimitOffset];
 	CDXLNode *pdxlnChild = (*pdxln)[EdxllogicallimitIndexChildPlan];
@@ -1657,7 +1657,7 @@ CTranslatorDXLToExpr::PexprLogicalLimit
 	CExpression *pexprChild = PexprLogical(pdxlnChild);
 
 	// translate sort col list
-	COrderSpec *pos = Pos(pdxlnSortColList);
+	COrderSpec *pos = Pos(sort_col_list_dxl);
 	
 	BOOL fNonRemovable = CDXLLogicalLimit::PdxlopConvert(pdxln->Pdxlop())->FTopLimitUnderDML();
 	CLogicalLimit *popLimit =
@@ -1783,9 +1783,9 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 		
 		DrgPwf *pdrgpwf = GPOS_NEW(m_memory_pool) DrgPwf(m_memory_pool);
 		CWindowFrame *pwf = NULL;
-		if (NULL != pdxlws->Pdxlwf()) 
+		if (NULL != pdxlws->GetWindowFrame()) 
 		{
-			pwf = Pwf(pdxlws->Pdxlwf());
+			pwf = Pwf(pdxlws->GetWindowFrame());
 		}
 		else
 		{
@@ -1796,9 +1796,9 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 		pdrgpwf->Append(pwf);
 		
 		DrgPos *pdrgpos = GPOS_NEW(m_memory_pool) DrgPos(m_memory_pool);
-		if (NULL != pdxlws->PdxlnSortColList()) 
+		if (NULL != pdxlws->GetSortColListDXL()) 
 		{
-			COrderSpec *pos = Pos(pdxlws->PdxlnSortColList());
+			COrderSpec *pos = Pos(pdxlws->GetSortColListDXL());
 			pdrgpos->Append(pos);
 		}
 		else

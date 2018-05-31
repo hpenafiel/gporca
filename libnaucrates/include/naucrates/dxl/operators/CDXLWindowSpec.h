@@ -46,7 +46,7 @@ namespace gpdxl
 			CMDName *m_mdname;
 
 			// sorting columns
-			CDXLNode *m_pdxlnSortColList;
+			CDXLNode *m_sort_col_list_dxl;
 
 			// window frame associated with the window key
 			CDXLWindowFrame *m_pdxlwf;
@@ -62,7 +62,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				ULongPtrArray *pdrgpulPartCol,
 				CMDName *pmdname,
-				CDXLNode *pdxlnSortColList,
+				CDXLNode *sort_col_list_dxl,
 				CDXLWindowFrame *pdxlwf
 				);
 
@@ -78,7 +78,7 @@ namespace gpdxl
 			void SetWindowFrame(CDXLWindowFrame *pdxlwf);
 
 			// return window frame
-			CDXLWindowFrame *Pdxlwf() const
+			CDXLWindowFrame *GetWindowFrame() const
 			{
 				return m_pdxlwf;
 			}
@@ -90,9 +90,9 @@ namespace gpdxl
 			}
 
 			// sort columns
-			CDXLNode *PdxlnSortColList() const
+			CDXLNode *GetSortColListDXL() const
 			{
-				return m_pdxlnSortColList;
+				return m_sort_col_list_dxl;
 			}
 
 			// window specification name

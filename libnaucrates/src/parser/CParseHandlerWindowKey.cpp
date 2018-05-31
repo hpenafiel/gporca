@@ -115,14 +115,14 @@ CParseHandlerWindowKey::EndElement
 	GPOS_ASSERT(1 <= this->Length());
 
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-	CDXLNode *pdxlnSortColList = pphSortColList->Pdxln();
-	pdxlnSortColList->AddRef();
-	m_pdxlwk->SetSortColList(pdxlnSortColList);
+	CDXLNode *sort_col_list_dxl = pphSortColList->Pdxln();
+	sort_col_list_dxl->AddRef();
+	m_pdxlwk->SetSortColList(sort_col_list_dxl);
 
 	if (2 == this->Length())
 	{
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
-		CDXLWindowFrame *pdxlwf = pphWf->Pdxlwf();
+		CDXLWindowFrame *pdxlwf = pphWf->GetWindowFrame();
 		m_pdxlwk->SetWindowFrame(pdxlwf);
 	}
 

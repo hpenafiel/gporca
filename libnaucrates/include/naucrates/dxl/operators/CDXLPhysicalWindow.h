@@ -44,7 +44,7 @@ namespace gpdxl
 			ULongPtrArray *m_pdrgpulPartCols;
 
 			// window keys
-			DrgPdxlwk *m_pdrgpdxlwk;
+			CDXLWindowKeyArray *m_pdrgpdxlwk;
 
 			// private copy ctor
 			CDXLPhysicalWindow(CDXLPhysicalWindow&);
@@ -52,7 +52,7 @@ namespace gpdxl
 		public:
 
 			//ctor
-			CDXLPhysicalWindow(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulPartCols, DrgPdxlwk *pdrgpdxlwk);
+			CDXLPhysicalWindow(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulPartCols, CDXLWindowKeyArray *pdrgpdxlwk);
 
 			//dtor
 			virtual
