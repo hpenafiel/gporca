@@ -27,7 +27,7 @@ namespace gpdxl
 	XERCES_CPP_NAMESPACE_USE
 
 	// shorthand for functions creating operator parse handlers 
-	typedef CParseHandlerBase* (PfParseHandlerOpCreator) (IMemoryPool *memory_pool, CParseHandlerManager *, CParseHandlerBase *);
+	typedef CParseHandlerBase* (ParseHandlerOpCreatorFunc) (IMemoryPool *memory_pool, CParseHandlerManager *, CParseHandlerBase *);
 	
 	// fwd decl
 	class CDXLTokens;
@@ -60,7 +60,7 @@ namespace gpdxl
 	class CParseHandlerFactory
 	{
 		
-		typedef CHashMap<const XMLCh, PfParseHandlerOpCreator, GetHashXMLStr, IsXMLStrEqual,
+		typedef CHashMap<const XMLCh, ParseHandlerOpCreatorFunc, GetHashXMLStr, IsXMLStrEqual,
 			CleanupNULL, CleanupNULL > TokenParseHandlerFuncMap;
 
 		// pair of DXL token type and the corresponding parse handler
@@ -70,7 +70,7 @@ namespace gpdxl
 			Edxltoken token_type;
 
 			// translator function pointer
-			PfParseHandlerOpCreator *parse_handler_op_func;
+			ParseHandlerOpCreatorFunc *parse_handler_op_func;
 		};
 		
 		private:
@@ -79,7 +79,7 @@ namespace gpdxl
 			TokenParseHandlerFuncMap *m_token_parse_handler_func_map;
 
 			static 
-			void AddMapping(Edxltoken token_type, PfParseHandlerOpCreator *parse_handler_op_func);
+			void AddMapping(Edxltoken token_type, ParseHandlerOpCreatorFunc *parse_handler_op_func);
 						
 			// construct a physical op parse handlers
 			static
@@ -1380,7 +1380,7 @@ namespace gpdxl
 
 			// construct a physical CTE consumer parse handler
 			static
-			CParseHandlerBase *PphPhCTEConsumer
+			CParseHandlerBase *CreatePhysicalCTEConsParseHandler
 				(
 				IMemoryPool *memory_pool,
 				CParseHandlerManager *parse_handler_mgr,
@@ -1659,7 +1659,7 @@ namespace gpdxl
 			CParseHandlerBase *GetParseHandler
 				(
 				IMemoryPool *memory_pool,
-				const XMLCh *xmlsz,
+				const XMLCh *xml_str,
 				CParseHandlerManager *parse_handler_mgr,
 				CParseHandlerBase *parse_handler_root
 				);

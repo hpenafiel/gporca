@@ -31,19 +31,19 @@ void
 CParseHandlerFactory::AddMapping
 	(
 	Edxltoken token_type,
-	PfParseHandlerOpCreator *parse_handler_op_func
+	ParseHandlerOpCreatorFunc *parse_handler_op_func
 	)
 {
 	GPOS_ASSERT(NULL != m_token_parse_handler_func_map);
-	const XMLCh *xmlszTok = CDXLTokens::XmlstrToken(token_type);
-	GPOS_ASSERT(NULL != xmlszTok);
+	const XMLCh *token_identifier_str = CDXLTokens::XmlstrToken(token_type);
+	GPOS_ASSERT(NULL != token_identifier_str);
 	
 #ifdef GPOS_DEBUG
-	BOOL fInserted = 
+	BOOL success =
 #endif
-	m_token_parse_handler_func_map->Insert(xmlszTok, parse_handler_op_func);
+	m_token_parse_handler_func_map->Insert(token_identifier_str, parse_handler_op_func);
 	
-	GPOS_ASSERT(fInserted);
+	GPOS_ASSERT(success);
 }
 
 // initialize mapping of tokens to parse handlers
@@ -56,7 +56,7 @@ CParseHandlerFactory::Init
 	m_token_parse_handler_func_map = GPOS_NEW(memory_pool) TokenParseHandlerFuncMap(memory_pool, HASH_MAP_SIZE);
 	
 	// array mapping XML Token -> Parse Handler Creator mappings to hashmap
-	SParseHandlerMapping rgParseHandlers[] =
+	SParseHandlerMapping token_parse_handler_map[] =
 	{
 			{EdxltokenPlan, &CreatePlanParseHandler},
 			{EdxltokenMetadata, &CreateMetadataParseHandler},
@@ -243,7 +243,7 @@ CParseHandlerFactory::Init
 			{EdxltokenPhysicalRowTrigger, &CreatePhysicalRowTriggerParseHandler},
 			{EdxltokenPhysicalAssert, &CreatePhysicalAssertParseHandler},
 			{EdxltokenPhysicalCTEProducer, &CreatePhysicalCTEProdParseHandler},
-			{EdxltokenPhysicalCTEConsumer, &PphPhCTEConsumer},
+			{EdxltokenPhysicalCTEConsumer, &CreatePhysicalCTEConsParseHandler},
 			{EdxltokenLogicalCTAS, &CreateLogicalCTASParseHandler},
 			{EdxltokenPhysicalCTAS, &CreatePhysicalCTASParseHandler},
 			{EdxltokenCTASOptions, &CreateCTASOptionsParseHandler},
@@ -280,11 +280,11 @@ CParseHandlerFactory::Init
 
 	};
 	
-	const ULONG ulParsehandlers = GPOS_ARRAY_SIZE(rgParseHandlers);
+	const ULONG num_of_parse_handlers = GPOS_ARRAY_SIZE(token_parse_handler_map);
 
-	for (ULONG ul = 0; ul < ulParsehandlers; ul++)
+	for (ULONG idx = 0; idx < num_of_parse_handlers; idx++)
 	{
-		SParseHandlerMapping elem = rgParseHandlers[ul];
+		SParseHandlerMapping elem = token_parse_handler_map[idx];
 		AddMapping(elem.token_type, elem.parse_handler_op_func);
 	}
 }
@@ -294,30 +294,30 @@ CParseHandlerBase *
 CParseHandlerFactory::GetParseHandler
 	(
 	IMemoryPool *memory_pool,
-	const XMLCh *xmlszName,
+	const XMLCh *token_identifier_str,
 	CParseHandlerManager* parse_handler_mgr,
 	CParseHandlerBase *parse_handler_root
 	)
 {
 	GPOS_ASSERT(NULL != m_token_parse_handler_func_map);
 
-	PfParseHandlerOpCreator *phoc = m_token_parse_handler_func_map->Find(xmlszName);
+	ParseHandlerOpCreatorFunc *create_parse_handler_func = m_token_parse_handler_func_map->Find(token_identifier_str);
 
-	if (phoc != NULL)
+	if (create_parse_handler_func != NULL)
 	{
-		return (*phoc) (memory_pool, parse_handler_mgr, parse_handler_root);
+		return (*create_parse_handler_func) (memory_pool, parse_handler_mgr, parse_handler_root);
 	}
 	
-	CDXLMemoryManager mm(memory_pool);
+	CDXLMemoryManager dxl_memory_manager(memory_pool);
 
 	// did not find the physical operator in the table
-	CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(&mm, xmlszName);;
+	CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(&dxl_memory_manager, token_identifier_str);;
 
 	GPOS_RAISE
 	(
 	gpdxl::ExmaDXL,
 	gpdxl::ExmiDXLUnrecognizedOperator,
-	pstr->GetBuffer()
+	str->GetBuffer()
 	);
 
 	return NULL;
@@ -2225,7 +2225,7 @@ CParseHandlerFactory::CreatePhysicalCTEProdParseHandler
 
 // creates a parse handler for parsing a physical CTE consumer operator
 CParseHandlerBase *
-CParseHandlerFactory::PphPhCTEConsumer
+CParseHandlerFactory::CreatePhysicalCTEConsParseHandler
 (
  IMemoryPool *memory_pool,
  CParseHandlerManager *parse_handler_mgr,
