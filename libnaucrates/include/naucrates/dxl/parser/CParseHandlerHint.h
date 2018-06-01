@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// hint configuration
-			CHint *m_phint;
+			CHint *m_hint;
 
 			// private copy ctor
 			CParseHandlerHint(const CParseHandlerHint&);
@@ -75,7 +75,7 @@ namespace gpdxl
 			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// hint configuration
-			CHint *Phint() const;
+			CHint *GetHint() const;
 	};
 }
 

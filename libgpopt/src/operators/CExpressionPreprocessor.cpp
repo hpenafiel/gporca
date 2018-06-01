@@ -728,7 +728,7 @@ CExpressionPreprocessor::PexprCollapseInnerJoins
 		}
 
 		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-		ULONG ulJoinArityLimit = optimizer_config->Phint()->UlJoinArityForAssociativityCommutativity();
+		ULONG ulJoinArityLimit = optimizer_config->GetHint()->UlJoinArityForAssociativityCommutativity();
 
 		// The last child of an n-ary join expression is the scalar expression
 		if (pexprResult->Arity() - 1 > ulJoinArityLimit)

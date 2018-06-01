@@ -41,7 +41,7 @@ CParseHandlerHint::CParseHandlerHint
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_phint(NULL)
+	m_hint(NULL)
 {
 }
 
@@ -55,7 +55,7 @@ CParseHandlerHint::CParseHandlerHint
 //---------------------------------------------------------------------------
 CParseHandlerHint::~CParseHandlerHint()
 {
-	CRefCount::SafeRelease(m_phint);
+	CRefCount::SafeRelease(m_hint);
 }
 
 //---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ CParseHandlerHint::StartElement
 	ULONG ulBroadcastThreshold = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenBroadcastThreshold, EdxltokenHint, true, BROADCAST_THRESHOLD);
 	ULONG fEnforceConstraintsOnDML = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenEnforceConstraintsOnDML, EdxltokenHint, true, true);
 
-	m_phint = GPOS_NEW(m_memory_pool) CHint
+	m_hint = GPOS_NEW(m_memory_pool) CHint
 								(
 								ulMinNumOfPartsToRequireSortOnInsert,
 								ulJoinArityForAssociativityCommutativity,
@@ -122,7 +122,7 @@ CParseHandlerHint::EndElement
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_phint);
+	GPOS_ASSERT(NULL != m_hint);
 	GPOS_ASSERT(0 == this->Length());
 
 	// deactivate handler
@@ -145,16 +145,16 @@ CParseHandlerHint::GetParseHandlerType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerHint::Phint
+//		CParseHandlerHint::GetHint
 //
 //	@doc:
 //		Returns the hint configuration
 //
 //---------------------------------------------------------------------------
 CHint *
-CParseHandlerHint::Phint() const
+CParseHandlerHint::GetHint() const
 {
-	return m_phint;
+	return m_hint;
 }
 
 // EOF

@@ -112,7 +112,7 @@ CConstraint::PcnstrFromScalarArrayCmp
 		// When array size exceeds the constraint derivation threshold,
 		// don't expand it into a DNF and don't derive constraints
 		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-		ULONG ulArrayExpansionThreshold = optimizer_config->Phint()->UlArrayExpansionThreshold();
+		ULONG ulArrayExpansionThreshold = optimizer_config->GetHint()->UlArrayExpansionThreshold();
 
 		if (ulArity > ulArrayExpansionThreshold)
 		{
@@ -435,7 +435,7 @@ CConstraint::PcnstrFromScalarBoolOp
 	// Deriving constraints from this is quite expensive; hence don't
 	// bother when the arity of OR exceeds the threshold
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-	ULONG ulArrayExpansionThreshold = optimizer_config->Phint()->UlArrayExpansionThreshold();
+	ULONG ulArrayExpansionThreshold = optimizer_config->GetHint()->UlArrayExpansionThreshold();
 
 	if (CPredicateUtils::FOr(pexpr) && ulArity > ulArrayExpansionThreshold)
 	{

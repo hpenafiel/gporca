@@ -62,7 +62,7 @@ namespace gpopt
 			ICostModel *m_cost_model;
 
 			// hint configuration
-			CHint *m_phint;
+			CHint *m_hint;
 
 			// default window oids
 			CWindowOids *m_pwindowoids;
@@ -116,9 +116,9 @@ namespace gpopt
 			}
 
 			// hint configuration
-			CHint *Phint() const
+			CHint *GetHint() const
 			{
-				return m_phint;
+				return m_hint;
 			}
 
 			// generate default optimizer configurations

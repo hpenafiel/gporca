@@ -42,7 +42,7 @@ COptimizerConfig::COptimizerConfig
 	m_pstatsconf(pstatsconf),
 	m_pcteconf(pcteconf),
 	m_cost_model(cost_model),
-	m_phint(phint),
+	m_hint(phint),
 	m_pwindowoids(pwindowoids)
 {
 	GPOS_ASSERT(NULL != pec);
@@ -67,7 +67,7 @@ COptimizerConfig::~COptimizerConfig()
 	m_pstatsconf->Release();
 	m_pcteconf->Release();
 	m_cost_model->Release();
-	m_phint->Release();
+	m_hint->Release();
 	m_pwindowoids->Release();
 }
 
@@ -166,12 +166,12 @@ COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serial
 	cmcSerializer.Serialize(*xml_serializer);
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenHint));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMinNumOfPartsToRequireSortOnInsert), m_phint->UlMinNumOfPartsToRequireSortOnInsert());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinArityForAssociativityCommutativity), m_phint->UlJoinArityForAssociativityCommutativity());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenArrayExpansionThreshold), m_phint->UlArrayExpansionThreshold());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinOrderDPThreshold), m_phint->UlJoinOrderDPLimit());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenBroadcastThreshold), m_phint->UlBroadcastThreshold());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenEnforceConstraintsOnDML), m_phint->FEnforceConstraintsOnDML());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMinNumOfPartsToRequireSortOnInsert), m_hint->UlMinNumOfPartsToRequireSortOnInsert());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinArityForAssociativityCommutativity), m_hint->UlJoinArityForAssociativityCommutativity());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenArrayExpansionThreshold), m_hint->UlArrayExpansionThreshold());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinOrderDPThreshold), m_hint->UlJoinOrderDPLimit());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenBroadcastThreshold), m_hint->UlBroadcastThreshold());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenEnforceConstraintsOnDML), m_hint->FEnforceConstraintsOnDML());
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenHint));
 
 	// Serialize traceflags represented in bitset into stream

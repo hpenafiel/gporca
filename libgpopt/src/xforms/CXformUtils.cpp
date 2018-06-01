@@ -1303,7 +1303,7 @@ CXformUtils::PexprLogicalDMLOverProject
 	{
 		// add assert for check constraints and nullness checks if needed
 		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-		if (optimizer_config->Phint()->FEnforceConstraintsOnDML())
+		if (optimizer_config->GetHint()->FEnforceConstraintsOnDML())
 		{
 			pexprProject = PexprAssertConstraints(memory_pool, pexprProject, ptabdesc, pdrgpcr);
 		}

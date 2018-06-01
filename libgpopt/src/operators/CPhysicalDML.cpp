@@ -565,7 +565,7 @@ CPhysicalDML::FInsertSortOnRows
 	GPOS_ASSERT(NULL != optimizer_config);
 
 	return (IMDRelation::ErelstorageAppendOnlyRows == m_ptabdesc->Erelstorage()) &&
-			(optimizer_config->Phint()->UlMinNumOfPartsToRequireSortOnInsert() <= m_ptabdesc->UlPartitions());
+			(optimizer_config->GetHint()->UlMinNumOfPartsToRequireSortOnInsert() <= m_ptabdesc->UlPartitions());
 }
 
 //---------------------------------------------------------------------------

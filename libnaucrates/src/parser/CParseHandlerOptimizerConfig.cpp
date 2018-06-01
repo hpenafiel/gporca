@@ -213,7 +213,7 @@ CParseHandlerOptimizerConfig::EndElement
 		else
 		{
 			CParseHandlerHint *pphHint = dynamic_cast<CParseHandlerHint *>((*this)[5]);
-			phint = pphHint->Phint();
+			phint = pphHint->GetHint();
 			GPOS_ASSERT(NULL != phint);
 			phint->AddRef();
 		}
