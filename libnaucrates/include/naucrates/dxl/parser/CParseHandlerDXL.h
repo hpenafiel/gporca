@@ -66,10 +66,10 @@ namespace gpdxl
 			CDXLNode *m_query_dxl_root;
 			
 			// list of query output columns
-			DrgPdxln *m_output_colums_dxl_array;
+			DXLNodeArray *m_output_colums_dxl_array;
 
 			// list of CTE producers
-			DrgPdxln *m_cte_producer_dxl_array;
+			DXLNodeArray *m_cte_producer_dxl_array;
 
 			// the root of the parsed DXL plan
 			CDXLNode *m_plan_dxl_root;
@@ -176,10 +176,10 @@ namespace gpdxl
 			CDXLNode *GetQueryDXLRoot() const;
 			
 			// returns the list of query output columns
-			DrgPdxln *GetOutputColumnsDXLArray() const;
+			DXLNodeArray *GetOutputColumnsDXLArray() const;
 
 			// returns the list of CTE producers
-			DrgPdxln *GetCTEProducerDXLArray() const;
+			DXLNodeArray *GetCTEProducerDXLArray() const;
 
 			// returns the root of the parsed DXL plan
 			CDXLNode *PdxlnPlan() const;

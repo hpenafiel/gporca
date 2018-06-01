@@ -132,8 +132,8 @@ CParseHandlerPhysicalTVF::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	CDXLPhysicalTVF *pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_pstr);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+	CDXLPhysicalTVF *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_pstr);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 

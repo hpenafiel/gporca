@@ -244,11 +244,11 @@ CMDTypeInt2GPDB::Serialize
 IDatum*
 CMDTypeInt2GPDB::Pdatum
 	(
-	const CDXLScalarConstValue *pdxlop
+	const CDXLScalarConstValue *dxl_op
 	)
 	const
 {
-	CDXLDatumInt2 *datum_dxl = CDXLDatumInt2::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
+	CDXLDatumInt2 *datum_dxl = CDXLDatumInt2::Cast(const_cast<CDXLDatum*>(dxl_op->Pdxldatum()));
 	GPOS_ASSERT(datum_dxl->IsPassedByValue());
 
 	return GPOS_NEW(m_memory_pool) CDatumInt2GPDB(m_mdid->Sysid(), datum_dxl->Value(), datum_dxl->IsNull());

@@ -153,7 +153,7 @@ void
 CDXLLogicalCTEConsumer::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL // fValidateChildren
+	BOOL // validate_children
 	) const
 {
 	GPOS_ASSERT(0 == pdxln->Arity());

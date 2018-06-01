@@ -56,7 +56,7 @@ namespace gpdxl
 
 #ifdef GPOS_DEBUG
 			virtual
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const = 0;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const = 0;
 #endif // GPOS_DEBUG
 	};
 }

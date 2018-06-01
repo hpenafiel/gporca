@@ -56,13 +56,13 @@ namespace gpdxl
 			static
 			CDXLScalarHashExprList *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarHashExprList == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarHashExprList == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarHashExprList*>(pdxlop);
+				return dynamic_cast<CDXLScalarHashExprList*>(dxl_op);
 			}
 
 			// does the operator return a boolean result
@@ -79,7 +79,7 @@ namespace gpdxl
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 	};
 }

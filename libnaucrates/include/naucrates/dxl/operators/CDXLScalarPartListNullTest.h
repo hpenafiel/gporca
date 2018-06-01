@@ -59,12 +59,12 @@ namespace gpdxl
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
 			virtual
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// conversion function
 			static
-			CDXLScalarPartListNullTest *PdxlopConvert(CDXLOperator *pdxlop);
+			CDXLScalarPartListNullTest *PdxlopConvert(CDXLOperator *dxl_op);
 	};
 }
 

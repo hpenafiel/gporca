@@ -124,7 +124,7 @@ namespace gpmd
 
 			// transformation function for datums
 			virtual 
-			IDatum* Pdatum(const CDXLScalarConstValue *pdxlop) const = 0;
+			IDatum* Pdatum(const CDXLScalarConstValue *dxl_op) const = 0;
 
 			// construct a datum from a DXL datum
 			virtual 

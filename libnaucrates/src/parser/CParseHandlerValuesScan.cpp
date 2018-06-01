@@ -52,7 +52,7 @@ CParseHandlerValuesScan::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalValuesScan), element_local_name))
 	{
-		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalValuesScan(m_memory_pool);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalValuesScan(m_memory_pool);
 
 		// parse handler for the proj list
 		CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -97,7 +97,7 @@ CParseHandlerValuesScan::EndElement
 	const ULONG ulArity = this->Length();
 	GPOS_ASSERT(3 <= ulArity);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 	// valuesscan has properties element as its first child
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);

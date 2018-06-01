@@ -88,19 +88,19 @@ namespace gpdxl
 			static
 			CDXLPhysicalTVF *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopPhysicalTVF == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopPhysicalTVF == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLPhysicalTVF*>(pdxlop);
+				return dynamic_cast<CDXLPhysicalTVF*>(dxl_op);
 			}
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 	};

@@ -40,7 +40,7 @@ CParseHandlerMaterialize::CParseHandlerMaterialize
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -67,7 +67,7 @@ CParseHandlerMaterialize::StartElement
 	{
 		GPOS_ASSERT(this->Length() == 0 && "No handlers should have been added yet");
 	
-		m_pdxlop = (CDXLPhysicalMaterialize *) CDXLOperatorFactory::PdxlopMaterialize(m_parse_handler_mgr->Pmm(), attrs);
+		m_dxl_op = (CDXLPhysicalMaterialize *) CDXLOperatorFactory::PdxlopMaterialize(m_parse_handler_mgr->Pmm(), attrs);
 	
 		// parse handler for child node
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
@@ -127,7 +127,7 @@ CParseHandlerMaterialize::EndElement
 	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[3]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 
@@ -138,7 +138,7 @@ CParseHandlerMaterialize::EndElement
 
 
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

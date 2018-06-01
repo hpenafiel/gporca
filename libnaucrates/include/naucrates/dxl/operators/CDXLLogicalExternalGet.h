@@ -49,13 +49,13 @@ namespace gpdxl
 			static
 			CDXLLogicalExternalGet *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopLogicalExternalGet == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopLogicalExternalGet == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLLogicalExternalGet*>(pdxlop);
+				return dynamic_cast<CDXLLogicalExternalGet*>(dxl_op);
 			}
 
 	};

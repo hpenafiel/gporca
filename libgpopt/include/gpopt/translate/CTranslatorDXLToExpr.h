@@ -106,7 +106,7 @@ namespace gpopt
 			DrgPmdname *m_pdrgpmdname;
 
 			// maintains the mapping between CTE identifier and DXL representation of the corresponding CTE producer
-			HMUlPdxln *m_phmulpdxlnCTEProducer;
+			IdToDXLNodeMap *m_phmulpdxlnCTEProducer;
 
 			// id of CTE that we are currently processing (ULONG_MAX for main query)
 			ULONG m_ulCTEId;
@@ -370,8 +370,8 @@ namespace gpopt
 			CExpression *Pexpr
 				(
 				const CDXLNode *pdxln,
-				const DrgPdxln *query_output_dxlnode_array,
-				const DrgPdxln *cte_dxlnode_array
+				const DXLNodeArray *query_output_dxlnode_array,
+				const DXLNodeArray *cte_dxlnode_array
 				);
 
 			// translate children of a DXL node
@@ -408,8 +408,8 @@ namespace gpopt
 			CExpression *PexprTranslateQuery
 				(
 				const CDXLNode *pdxln,
-				const DrgPdxln *query_output_dxlnode_array,
-				const DrgPdxln *cte_dxlnode_array
+				const DXLNodeArray *query_output_dxlnode_array,
+				const DXLNodeArray *cte_dxlnode_array
 				);
 
 			// translate a dxl scalar expression

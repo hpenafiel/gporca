@@ -36,7 +36,7 @@ CParseHandlerHashExpr::CParseHandlerHashExpr
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -65,7 +65,7 @@ CParseHandlerHashExpr::StartElement
 	}
 	
 	// parse and create hash expr operator
-	m_pdxlop = (CDXLScalarHashExpr *) CDXLOperatorFactory::PdxlopHashExpr(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLScalarHashExpr *) CDXLOperatorFactory::PdxlopHashExpr(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the child scalar expression node
 	
@@ -104,7 +104,7 @@ CParseHandlerHashExpr::EndElement
 	GPOS_ASSERT(NULL != pphOp->Pdxln());
 	
 	// construct node from the parsed expression node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);	
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 			
 	AddChildFromParseHandler(pphOp);
 	

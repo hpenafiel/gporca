@@ -61,12 +61,12 @@ namespace gpopt
 							(
 							IMemoryPool *memory_pool,
 							CMDAccessor *pmda,
-							const CDXLScalarConstValue *pdxlop
+							const CDXLScalarConstValue *dxl_op
 							);
 
 			// create a datum from a DXL scalar const operator
 			static
-			IDatum *Pdatum(CMDAccessor *pmda, const CDXLScalarConstValue *pdxlop);
+			IDatum *Pdatum(CMDAccessor *pmda, const CDXLScalarConstValue *dxl_op);
 
 			// create a datum array from a dxl datum array
 			static

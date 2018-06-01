@@ -100,7 +100,7 @@ void
 CDXLScalarAssertConstraintList::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
@@ -109,12 +109,12 @@ CDXLScalarAssertConstraintList::AssertValid
 	
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
-		CDXLNode *pdxlnChild = (*pdxln)[ul];
-		GPOS_ASSERT(EdxlopScalarAssertConstraint == pdxlnChild->Pdxlop()->Edxlop());
+		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		GPOS_ASSERT(EdxlopScalarAssertConstraint == child_dxlnode->GetOperator()->Edxlop());
 
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

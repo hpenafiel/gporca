@@ -237,23 +237,23 @@ void
 CDXLPhysicalAgg::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	GPOS_ASSERT((EdxlaggstrategySentinel > m_edxlaggstr) && (EdxlaggstrategyPlain <= m_edxlaggstr));
 
 	GPOS_ASSERT(EdxlaggIndexSentinel == pdxln->Arity());
 	GPOS_ASSERT(NULL != m_pdrgpulGroupingCols);
 	
-	CDXLNode *pdxlnChild = (*pdxln)[EdxlaggIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[EdxlaggIndexChild];
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

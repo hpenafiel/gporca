@@ -38,7 +38,7 @@ namespace gpdxl
 		private:
 			
 			// the table scan operator
-			CDXLPhysicalTableScan *m_pdxlop;
+			CDXLPhysicalTableScan *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerTableScan(const CParseHandlerTableScan &);

@@ -37,7 +37,7 @@ namespace gpdxl
 
 
 			// the merge join operator
-			CDXLPhysicalMergeJoin *m_pdxlop;
+			CDXLPhysicalMergeJoin *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerMergeJoin(const CParseHandlerMergeJoin &);

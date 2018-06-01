@@ -174,8 +174,8 @@ CParseHandlerPartitionSelector::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	CDXLPhysicalPartitionSelector *pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalPartitionSelector(m_memory_pool, m_pmdidRel, m_ulLevels, m_ulScanId);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+	CDXLPhysicalPartitionSelector *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalPartitionSelector(m_memory_pool, m_pmdidRel, m_ulLevels, m_ulScanId);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 

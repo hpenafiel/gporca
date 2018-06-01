@@ -145,7 +145,7 @@ CParseHandlerDXL::GetQueryDXLRoot() const
 //		Returns the list of query output objects constructed by the parser
 //
 //---------------------------------------------------------------------------
-DrgPdxln *
+DXLNodeArray *
 CParseHandlerDXL::GetOutputColumnsDXLArray() const
 {
 	return m_output_colums_dxl_array;
@@ -159,7 +159,7 @@ CParseHandlerDXL::GetOutputColumnsDXLArray() const
 //		Returns the list of CTE producers
 //
 //---------------------------------------------------------------------------
-DrgPdxln *
+DXLNodeArray *
 CParseHandlerDXL::GetCTEProducerDXLArray() const
 {
 	return m_cte_producer_dxl_array;

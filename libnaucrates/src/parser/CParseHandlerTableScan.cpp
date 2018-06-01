@@ -40,7 +40,7 @@ CParseHandlerTableScan::CParseHandlerTableScan
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -88,12 +88,12 @@ CParseHandlerTableScan::StartElement
 
 	if (EdxltokenPhysicalTableScan == token_type)
 	{
-		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalTableScan(m_memory_pool);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalTableScan(m_memory_pool);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalExternalScan == token_type);
-		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalExternalScan(m_memory_pool);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalExternalScan(m_memory_pool);
 	}
 
 	// create child node parsers in reverse order of their expected occurrence
@@ -172,9 +172,9 @@ CParseHandlerTableScan::EndElement
 	// set table descriptor
 	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
 	pdxltabdesc->AddRef();
-	m_pdxlop->SetTableDescriptor(pdxltabdesc);
+	m_dxl_op->SetTableDescriptor(pdxltabdesc);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 
@@ -183,7 +183,7 @@ CParseHandlerTableScan::EndElement
 	AddChildFromParseHandler(pphFilter);
 
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

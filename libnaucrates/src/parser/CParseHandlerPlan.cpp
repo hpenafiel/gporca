@@ -41,7 +41,7 @@ CParseHandlerPlan::CParseHandlerPlan
 	m_ullId(0),
 	m_ullSpaceSize(0),
 	m_pdxln(NULL),
-	m_pdxlddinfo(NULL)
+	m_direct_dispatch_info(NULL)
 {}
 
 //---------------------------------------------------------------------------
@@ -170,11 +170,11 @@ CParseHandlerPlan::EndElement
 	if (2 == this->Length())
 	{
 		CParseHandlerDirectDispatchInfo *pphDirectDispatchInfo = dynamic_cast<CParseHandlerDirectDispatchInfo *>((*this)[1]);
-		CDXLDirectDispatchInfo *pdxlddinfo = pphDirectDispatchInfo->Pdxlddinfo();
-		GPOS_ASSERT(NULL != pdxlddinfo);
+		CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatchInfo->GetDXLDirectDispatchInfo();
+		GPOS_ASSERT(NULL != dxl_direct_dispatch_info);
 		
-		pdxlddinfo->AddRef();
-		m_pdxln->SetDirectDispatchInfo(pdxlddinfo);
+		dxl_direct_dispatch_info->AddRef();
+		m_pdxln->SetDirectDispatchInfo(dxl_direct_dispatch_info);
 	}
 	// deactivate handler
 

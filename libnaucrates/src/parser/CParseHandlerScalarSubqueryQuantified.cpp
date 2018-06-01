@@ -37,7 +37,7 @@ CParseHandlerScalarSubqueryQuantified::CParseHandlerScalarSubqueryQuantified
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -60,7 +60,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	)
 {
 	
-	GPOS_ASSERT(NULL == m_pdxlop);
+	GPOS_ASSERT(NULL == m_dxl_op);
 		
 	// is this a subquery any or subquery all operator
 	Edxltoken edxltokenElement = EdxltokenScalarSubqueryAll;
@@ -106,11 +106,11 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	
 	if (EdxltokenScalarSubqueryAny == edxltokenElement)
 	{
-		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
 	}
 	else
 	{
-		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
 	}
 	
 	// parse handler for the child nodes
@@ -149,20 +149,20 @@ CParseHandlerScalarSubqueryQuantified::EndElement
 	}
 
 	// construct node from parsed components
-	GPOS_ASSERT(NULL != m_pdxlop);
+	GPOS_ASSERT(NULL != m_dxl_op);
 	GPOS_ASSERT(2 == this->Length());
 	
 	CParseHandlerScalarOp *pphScChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	CParseHandlerLogicalOp *pphLgChild = dynamic_cast<CParseHandlerLogicalOp *>((*this)[1]);
 		
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 	// add constructed child
 	AddChildFromParseHandler(pphScChild);
 	AddChildFromParseHandler(pphLgChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

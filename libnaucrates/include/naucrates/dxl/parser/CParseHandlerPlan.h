@@ -47,7 +47,7 @@ namespace gpdxl
 			CDXLNode *m_pdxln;
 			
 			// direct dispatch info spec
-			CDXLDirectDispatchInfo *m_pdxlddinfo;
+			CDXLDirectDispatchInfo *m_direct_dispatch_info;
 			
 			// private ctor 
 			CParseHandlerPlan(const CParseHandlerPlan&);

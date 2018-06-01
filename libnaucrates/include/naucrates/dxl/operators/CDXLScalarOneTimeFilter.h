@@ -46,13 +46,13 @@ namespace gpdxl
 			static
 			CDXLScalarOneTimeFilter *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarOneTimeFilter == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarOneTimeFilter == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarOneTimeFilter*>(pdxlop);
+				return dynamic_cast<CDXLScalarOneTimeFilter*>(dxl_op);
 			}
 
 			// serialize operator in DXL format

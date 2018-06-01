@@ -74,9 +74,9 @@ CParseHandlerScalarCoerceViaIO::StartElement
 		}
 
 		// parse and create scalar coerce
-		CDXLScalarCoerceViaIO *pdxlop = (CDXLScalarCoerceViaIO*) CDXLOperatorFactory::PdxlopCoerceViaIO(m_parse_handler_mgr->Pmm(), attrs);
+		CDXLScalarCoerceViaIO *dxl_op = (CDXLScalarCoerceViaIO*) CDXLOperatorFactory::PdxlopCoerceViaIO(m_parse_handler_mgr->Pmm(), attrs);
 
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 		// parse handler for child scalar node
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);

@@ -41,7 +41,7 @@ CParseHandlerBroadcastMotion::CParseHandlerBroadcastMotion
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -70,7 +70,7 @@ CParseHandlerBroadcastMotion::StartElement
 	}
 	
 	// parse and create Broadcast motion operator
-	m_pdxlop = (CDXLPhysicalBroadcastMotion *) CDXLOperatorFactory::PdxlopBroadcastMotion(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalBroadcastMotion *) CDXLOperatorFactory::PdxlopBroadcastMotion(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -126,7 +126,7 @@ CParseHandlerBroadcastMotion::EndElement
 	}
 	
 	// construct node from the created child nodes
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);	
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
@@ -143,7 +143,7 @@ CParseHandlerBroadcastMotion::EndElement
 	AddChildFromParseHandler(pphChild);
 	
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

@@ -35,7 +35,7 @@ CParseHandlerProperties::CParseHandlerProperties
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlprop(NULL),
+	m_dxl_properties(NULL),
 	m_pdxlstatsderrel(NULL)
 {
 }
@@ -50,23 +50,23 @@ CParseHandlerProperties::CParseHandlerProperties
 //---------------------------------------------------------------------------
 CParseHandlerProperties::~CParseHandlerProperties()
 {
-	CRefCount::SafeRelease(m_pdxlprop);
+	CRefCount::SafeRelease(m_dxl_properties);
 	CRefCount::SafeRelease(m_pdxlstatsderrel);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerProperties::Pdxlprop
+//		CParseHandlerProperties::GetProperties
 //
 //	@doc:
 //		Destructor
 //
 //---------------------------------------------------------------------------
 CDXLPhysicalProperties *
-CParseHandlerProperties::Pdxlprop() const
+CParseHandlerProperties::GetProperties() const
 {
-	GPOS_ASSERT(NULL != m_pdxlprop);
-	return m_pdxlprop;
+	GPOS_ASSERT(NULL != m_dxl_properties);
+	return m_dxl_properties;
 }
 
 //---------------------------------------------------------------------------
@@ -154,7 +154,7 @@ CParseHandlerProperties::EndElement
 		m_pdxlstatsderrel = pdxlstatsderrel;
 	}
 
-	m_pdxlprop = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(pdxlopcost);
+	m_dxl_properties = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(pdxlopcost);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

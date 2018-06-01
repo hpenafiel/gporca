@@ -238,8 +238,8 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IOstream& os,
 				const CDXLNode *dxl_query_node,
-				const DrgPdxln *query_output_dxlnode_array,
-				const DrgPdxln *cte_dxlnode_array,
+				const DXLNodeArray *query_output_dxlnode_array,
+				const DXLNodeArray *cte_dxlnode_array,
 				BOOL serialize_document_header_footer,
 				BOOL indentation
 				);

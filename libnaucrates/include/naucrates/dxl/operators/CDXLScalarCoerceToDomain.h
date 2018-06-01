@@ -79,13 +79,13 @@ namespace gpdxl
 			static
 			CDXLScalarCoerceToDomain *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarCoerceToDomain == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarCoerceToDomain == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarCoerceToDomain*>(pdxlop);
+				return dynamic_cast<CDXLScalarCoerceToDomain*>(dxl_op);
 			}
 	};
 }

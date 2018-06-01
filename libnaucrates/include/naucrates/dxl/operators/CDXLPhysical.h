@@ -52,7 +52,7 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			virtual void AssertValid(const CDXLNode *, BOOL fValidateChildren) const;
+			virtual void AssertValid(const CDXLNode *, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 					
 	};

@@ -118,7 +118,7 @@ void
 CDXLPhysicalSequence::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
@@ -128,12 +128,12 @@ CDXLPhysicalSequence::AssertValid
 
 	for (ULONG ul = 1; ul < ulArity; ul++)
 	{
-		CDXLNode *pdxlnChild = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 

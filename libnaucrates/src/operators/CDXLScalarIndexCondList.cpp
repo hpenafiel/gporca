@@ -97,20 +97,20 @@ void
 CDXLScalarIndexCondList::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
 	GPOS_ASSERT(NULL != pdxln);
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
 		const ULONG ulArity = pdxln->Arity();
 		for (ULONG ul = 0; ul < ulArity; ul++)
 		{
-			CDXLNode *pdxlnChild = (*pdxln)[ul];
-			GPOS_ASSERT(EdxloptypeScalar == pdxlnChild->Pdxlop()->Edxloperatortype());
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			CDXLNode *child_dxlnode = (*pdxln)[ul];
+			GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->Edxloperatortype());
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

@@ -262,12 +262,12 @@ CMDTypeGenericGPDB::Serialize
 IDatum*
 CMDTypeGenericGPDB::Pdatum
 	(
-	const CDXLScalarConstValue *pdxlop
+	const CDXLScalarConstValue *dxl_op
 	)
 	const
 {
-	CDXLDatumGeneric *datum_dxl = CDXLDatumGeneric::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
-	GPOS_ASSERT(NULL != pdxlop);
+	CDXLDatumGeneric *datum_dxl = CDXLDatumGeneric::Cast(const_cast<CDXLDatum*>(dxl_op->Pdxldatum()));
+	GPOS_ASSERT(NULL != dxl_op);
 
 	LINT lValue = 0;
 	if (datum_dxl->IsDatumMappableToLINT())

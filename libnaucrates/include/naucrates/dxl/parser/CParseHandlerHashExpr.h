@@ -37,7 +37,7 @@ namespace gpdxl
 		private:
 					
 			// hash expr operator
-			CDXLScalarHashExpr *m_pdxlop;
+			CDXLScalarHashExpr *m_dxl_op;
 						
 			// private copy ctor
 			CParseHandlerHashExpr(const CParseHandlerHashExpr&); 

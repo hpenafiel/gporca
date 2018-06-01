@@ -99,7 +99,7 @@ void
 CDXLScalarMergeCondList::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
@@ -108,12 +108,12 @@ CDXLScalarMergeCondList::AssertValid
 	const ULONG ulArity = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		CDXLNode *pdxlnChild = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnChild->Pdxlop()->Edxloperatortype());
+		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->Edxloperatortype());
 		
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

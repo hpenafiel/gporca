@@ -38,7 +38,7 @@ CParseHandlerScalarComp::CParseHandlerScalarComp
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -78,7 +78,7 @@ CParseHandlerScalarComp::StartElement
 	}
 	
 	// parse and create comparison operator
-	m_pdxlop = (CDXLScalarComp *) CDXLOperatorFactory::PdxlopScalarCmp(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLScalarComp *) CDXLOperatorFactory::PdxlopScalarCmp(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -120,7 +120,7 @@ CParseHandlerScalarComp::EndElement
 	}
 
 	// construct node from the created child nodes
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 	CParseHandlerScalarOp *pphLeft = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	CParseHandlerScalarOp *pphRight = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);

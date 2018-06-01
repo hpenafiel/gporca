@@ -78,10 +78,10 @@ CParseHandlerScalarNullTest::StartElement
 		}
 
 		// parse and create scalar NullTest
-		CDXLScalarNullTest *pdxlop = (CDXLScalarNullTest*) CDXLOperatorFactory::PdxlopNullTest(m_parse_handler_mgr->Pmm(), fIsNull);
+		CDXLScalarNullTest *dxl_op = (CDXLScalarNullTest*) CDXLOperatorFactory::PdxlopNullTest(m_parse_handler_mgr->Pmm(), fIsNull);
 
 		// construct node from the created child node
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 		// parse handler for child scalar node
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);

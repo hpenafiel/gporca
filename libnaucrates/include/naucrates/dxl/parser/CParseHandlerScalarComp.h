@@ -37,7 +37,7 @@ namespace gpdxl
 
 			
 			// the scalar comparison operator
-			CDXLScalarComp *m_pdxlop;
+			CDXLScalarComp *m_dxl_op;
 			
 			// the left side of the comparison
 			CDXLNode *m_pdxlnLeft;

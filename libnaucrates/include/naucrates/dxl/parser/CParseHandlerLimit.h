@@ -34,7 +34,7 @@ namespace gpdxl
 	{
 		private:
 
-				CDXLPhysicalLimit *m_pdxlop;
+				CDXLPhysicalLimit *m_dxl_op;
 
 				// private copy ctor
 				CParseHandlerLimit(const CParseHandlerLimit &);

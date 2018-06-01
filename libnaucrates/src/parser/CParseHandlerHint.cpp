@@ -82,21 +82,21 @@ CParseHandlerHint::StartElement
 	}
 
 	// parse hint configuration options
-	ULONG ulMinNumOfPartsToRequireSortOnInsert = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMinNumOfPartsToRequireSortOnInsert, EdxltokenHint);
-	ULONG ulJoinArityForAssociativityCommutativity = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenJoinArityForAssociativityCommutativity, EdxltokenHint, true, INT_MAX);
-	ULONG ulArrayExpansionThreshold = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenArrayExpansionThreshold, EdxltokenHint, true, INT_MAX);
-	ULONG ulJoinOrderDPThreshold = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenJoinOrderDPThreshold, EdxltokenHint, true, JOIN_ORDER_DP_THRESHOLD);
-	ULONG ulBroadcastThreshold = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenBroadcastThreshold, EdxltokenHint, true, BROADCAST_THRESHOLD);
-	ULONG fEnforceConstraintsOnDML = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenEnforceConstraintsOnDML, EdxltokenHint, true, true);
+	ULONG min_num_of_parts_to_require_sort_on_insert = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMinNumOfPartsToRequireSortOnInsert, EdxltokenHint);
+	ULONG join_arity_for_associativity_commutativity = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenJoinArityForAssociativityCommutativity, EdxltokenHint, true, INT_MAX);
+	ULONG array_expansion_threshold = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenArrayExpansionThreshold, EdxltokenHint, true, INT_MAX);
+	ULONG join_order_dp_threshold = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenJoinOrderDPThreshold, EdxltokenHint, true, JOIN_ORDER_DP_THRESHOLD);
+	ULONG broadcast_threshold = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenBroadcastThreshold, EdxltokenHint, true, BROADCAST_THRESHOLD);
+	ULONG enforce_constraint_on_dml = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenEnforceConstraintsOnDML, EdxltokenHint, true, true);
 
 	m_hint = GPOS_NEW(m_memory_pool) CHint
 								(
-								ulMinNumOfPartsToRequireSortOnInsert,
-								ulJoinArityForAssociativityCommutativity,
-								ulArrayExpansionThreshold,
-								ulJoinOrderDPThreshold,
-								ulBroadcastThreshold,
-								fEnforceConstraintsOnDML
+								min_num_of_parts_to_require_sort_on_insert,
+								join_arity_for_associativity_commutativity,
+								array_expansion_threshold,
+								join_order_dp_threshold,
+								broadcast_threshold,
+								enforce_constraint_on_dml
 								);
 }
 

@@ -59,8 +59,8 @@ CParseHandlerArray::StartElement
 		NULL == m_pdxln)
 	{
 		// parse and create array
-		CDXLScalarArray *pdxlop = (CDXLScalarArray *) CDXLOperatorFactory::PdxlopArray(m_parse_handler_mgr->Pmm(), attrs);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		CDXLScalarArray *dxl_op = (CDXLScalarArray *) CDXLOperatorFactory::PdxlopArray(m_parse_handler_mgr->Pmm(), attrs);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{
@@ -108,7 +108,7 @@ CParseHandlerArray::EndElement
 	}
 	
 #ifdef GPOS_DEBUG
-	m_pdxln->Pdxlop()->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

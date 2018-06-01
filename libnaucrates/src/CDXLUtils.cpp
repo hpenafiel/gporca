@@ -343,7 +343,7 @@ CDXLUtils::GetPlanDXLNode
 	GPOS_ASSERT(NULL != root_dxl_node);
 	
 #ifdef GPOS_DEBUG
-	root_dxl_node->Pdxlop()->AssertValid(root_dxl_node, true /* fValidateChildren */);
+	root_dxl_node->GetOperator()->AssertValid(root_dxl_node, true /* validate_children */);
 #endif
 	
 	root_dxl_node->AddRef();
@@ -382,18 +382,18 @@ CDXLUtils::ParseQueryToQueryDXLTree
 	GPOS_ASSERT(NULL != root_dxl_node);
 	
 #ifdef GPOS_DEBUG
-	root_dxl_node->Pdxlop()->AssertValid(root_dxl_node, true /* fValidateChildren */);
+	root_dxl_node->GetOperator()->AssertValid(root_dxl_node, true /* validate_children */);
 #endif
 		
 	root_dxl_node->AddRef();
 
 	// collect the list of query output columns from the dxl parse handler
 	GPOS_ASSERT(NULL != parse_handler_dxl->GetOutputColumnsDXLArray());
-	DrgPdxln *query_output_cols_dxlnode_array = parse_handler_dxl->GetOutputColumnsDXLArray();
+	DXLNodeArray *query_output_cols_dxlnode_array = parse_handler_dxl->GetOutputColumnsDXLArray();
 	query_output_cols_dxlnode_array->AddRef();
 
 	// collect the list of CTEs
-	DrgPdxln *cte_dxlnode_array = parse_handler_dxl->GetCTEProducerDXLArray();
+	DXLNodeArray *cte_dxlnode_array = parse_handler_dxl->GetCTEProducerDXLArray();
 	GPOS_ASSERT(NULL != cte_dxlnode_array);
 	cte_dxlnode_array->AddRef();
 
@@ -863,8 +863,8 @@ CDXLUtils::SerializeQuery
 	IMemoryPool *memory_pool,
 	IOstream &os,
 	const CDXLNode *dxl_query_node,
-	const DrgPdxln *query_output_dxlnode_array,
-	const DrgPdxln *cte_dxlnode_array,
+	const DXLNodeArray *query_output_dxlnode_array,
+	const DXLNodeArray *cte_dxlnode_array,
 	BOOL serialize_header_footer,
 	BOOL indentation
 	)

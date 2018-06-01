@@ -149,7 +149,7 @@ void
 CDXLPhysicalPartitionSelector::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
@@ -157,10 +157,10 @@ CDXLPhysicalPartitionSelector::AssertValid
 	GPOS_ASSERT(6 == ulArity || 7 == ulArity);
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
-		CDXLNode *pdxlnChild = (*pdxln)[ul];
-		if (fValidateChildren)
+		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		if (validate_children)
 		{
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

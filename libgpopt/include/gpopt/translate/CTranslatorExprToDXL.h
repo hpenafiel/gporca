@@ -157,7 +157,7 @@ namespace gpopt
 						DrgPcr *pdrgpcr,
 						DrgPds *pdrgpdsBaseTables, 
 						CExpression *pexprScalarCond,
-						CDXLPhysicalProperties *pdxlprop
+						CDXLPhysicalProperties *dxl_properties
 						);
 			
 			// create a (dynamic) index scan node after inlining the given scalar condition, if needed
@@ -165,13 +165,13 @@ namespace gpopt
 				(
 				CExpression *pexprIndexScan, 
 				CExpression *pexprScalarCond, 
-				CDXLPhysicalProperties *pdxlprop, 
+				CDXLPhysicalProperties *dxl_properties, 
 				DrgPcr *pdrgpcr, 
 				DrgPds *pdrgpdsBaseTables
 				);
 
 			// translate index scan based on passed properties
-			CDXLNode *PdxlnIndexScan(CExpression *pexprIndexScan, DrgPcr *pdrgpcr, CDXLPhysicalProperties *pdxlprop, CReqdPropPlan *prpp);
+			CDXLNode *PdxlnIndexScan(CExpression *pexprIndexScan, DrgPcr *pdrgpcr, CDXLPhysicalProperties *dxl_properties, CReqdPropPlan *prpp);
 
 			// translate index scan
 			CDXLNode *PdxlnIndexScan
@@ -207,7 +207,7 @@ namespace gpopt
 				DrgPcr *pdrgpcr,
 				DrgPds *pdrgpdsBaseTables, 
 				CExpression *pexprScalar,
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			// translate a partition selector into DXL while inlining the given condition in the child
@@ -221,13 +221,13 @@ namespace gpopt
 			// create a DXL result node for the given project list
 			CDXLNode *PdxlnResult(CDXLNode *pdxlnProjList, CExpression *pexprFilter, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML);
 
-			// given a DXL plan tree pdxlnChild which represents the physical plan pexprRelational, construct a DXL
+			// given a DXL plan tree child_dxlnode which represents the physical plan pexprRelational, construct a DXL
 			// Result node that filters on top of it using the scalar condition pdxlnScalar
 			CDXLNode *PdxlnAddScalarFilterOnRelationalChild
 				(
 				CDXLNode *pdxlnRelationalChild,
 				CDXLNode *pdxlnScalarChild,
-				CDXLPhysicalProperties *pdxlprop,
+				CDXLPhysicalProperties *dxl_properties,
 				CColRefSet *pcrsOutput,
 				DrgPcr *pdrgpcrOrder
 				);
@@ -239,7 +239,7 @@ namespace gpopt
 				DrgPds *pdrgpdsBaseTables,
 				ULONG *pulNonGatherMotions, 
 				BOOL *pfDML, 
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			CDXLNode *PdxlnResult
@@ -250,7 +250,7 @@ namespace gpopt
 				ULONG *pulNonGatherMotions, 
 				BOOL *pfDML, 
 				CDXLNode *pdxlnScalar, 
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			CDXLNode *PdxlnResult
@@ -324,7 +324,7 @@ namespace gpopt
 						DrgPcr *pdrgpcr,
 						DrgPds *pdrgpdsBaseTables, 
 						ULONG *pulNonGatherMotions,
-						CDXLPhysicalProperties *pdxlprop
+						CDXLPhysicalProperties *dxl_properties
 						);
 
 			CDXLNode *PdxlnResultFromNLJoinOuter
@@ -334,7 +334,7 @@ namespace gpopt
 						DrgPcr *pdrgpcr,
 						DrgPds *pdrgpdsBaseTables, 
 						ULONG *pulNonGatherMotions, BOOL *pfDML,
-						CDXLPhysicalProperties *pdxlprop
+						CDXLPhysicalProperties *dxl_properties
 						);
 
 			CDXLNode *PdxlnMotion(CExpression *pexprMotion, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML);
@@ -354,7 +354,7 @@ namespace gpopt
 				DrgPcr *pdrgpcr, 
 				DrgPds *pdrgpdsBaseTables, 
 				CExpression *pexprScalarCond, 
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			// translate a dynamic bitmap table scan
@@ -374,11 +374,11 @@ namespace gpopt
 				DrgPcr *pdrgpcr,
 				DrgPds *pdrgpdsBaseTables, 
 				CExpression *pexprScalar,
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			// translate a dynamic index scan based on passed properties
-			CDXLNode *PdxlnDynamicIndexScan(CExpression *pexprDIS, DrgPcr *pdrgpcr, CDXLPhysicalProperties *pdxlprop, CReqdPropPlan *prpp);
+			CDXLNode *PdxlnDynamicIndexScan(CExpression *pexprDIS, DrgPcr *pdrgpcr, CDXLPhysicalProperties *dxl_properties, CReqdPropPlan *prpp);
 
 			// translate a dynamic index scan
 			CDXLNode *PdxlnDynamicIndexScan(CExpression *pexprDIS, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML);
@@ -407,7 +407,7 @@ namespace gpopt
 				ULONG *pulNonGatherMotions, 
 				BOOL *pfDML, 
 				CExpression *pexprScalarCond, 
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			// translate a DML partition selector
@@ -422,7 +422,7 @@ namespace gpopt
 				ULONG *pulNonGatherMotions, 
 				BOOL *pfDML, 
 				CExpression *pexprScalarCond, 
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			// translate partition filter list
@@ -442,7 +442,7 @@ namespace gpopt
 				ULONG *pulNonGatherMotions,
 				BOOL *pfDML, 
 				CExpression *pexprScalarCond, 
-				CDXLPhysicalProperties *pdxlprop
+				CDXLPhysicalProperties *dxl_properties
 				);
 
 			// translate partition selector filters
@@ -515,7 +515,7 @@ namespace gpopt
 				(
 				CExpression *pexprChild, 
 				CExpression *pexprScalarCond, 
-				CDXLPhysicalProperties *pdxlprop, 
+				CDXLPhysicalProperties *dxl_properties, 
 				DrgPcr *pdrgpcr, 
 				DrgPds *pdrgpdsBaseTables, 
 				ULONG *pulNonGatherMotions, 
@@ -648,7 +648,7 @@ namespace gpopt
 			CDXLTableDescr *Pdxltabdesc(const CTableDescriptor *ptabdesc, const DrgPcr *pdrgpcrOutput);
 
 			// compute physical properties like operator cost from the expression
-			CDXLPhysicalProperties *Pdxlprop(const CExpression *pexpr);
+			CDXLPhysicalProperties *GetProperties(const CExpression *pexpr);
 					
 			// translate a colref set of output col into a dxl proj list
 			CDXLNode *PdxlnProjList(const CColRefSet *pcrsOutput, DrgPcr *pdrgpcr);
@@ -717,7 +717,7 @@ namespace gpopt
 			void TranslateScalarChildren(CExpression *pexpr, CDXLNode *pdxln);
 
 			// add a result node, if required a materialize node is added below result node to avoid deadlock hazard
-			CDXLNode *PdxlnResult(CDXLPhysicalProperties *pdxlprop, CDXLNode *pdxlnPrL, CDXLNode *pdxlnChild);
+			CDXLNode *PdxlnResult(CDXLPhysicalProperties *dxl_properties, CDXLNode *pdxlnPrL, CDXLNode *child_dxlnode);
 		
 			// add a materialize node
 			CDXLNode *PdxlnMaterialize(CDXLNode *pdxln);
@@ -802,13 +802,13 @@ namespace gpopt
 				);
 
 			// compute the direct dispatch info for the given DML expression
-			CDXLDirectDispatchInfo *Pdxlddinfo(CExpression *pexprDML);
+			CDXLDirectDispatchInfo *GetDXLDirectDispatchInfo(CExpression *pexprDML);
 			
 			// check if the motion node is valid
 			void CheckValidity(CDXLPhysicalMotion *pdxlopMotion);
 
 			// check if result node imposes a motion hazard
-			BOOL FNeedsMaterializeUnderResult(CDXLNode *pdxlnProjList, CDXLNode *pdxlnChild);
+			BOOL FNeedsMaterializeUnderResult(CDXLNode *pdxlnProjList, CDXLNode *child_dxlnode);
 
 			// helper to find subplan type from a correlated left outer join expression
 			static

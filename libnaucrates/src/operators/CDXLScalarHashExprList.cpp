@@ -98,7 +98,7 @@ void
 CDXLScalarHashExprList::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren 
+	BOOL validate_children 
 	) 
 	const
 {
@@ -107,12 +107,12 @@ CDXLScalarHashExprList::AssertValid
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		CDXLNode *pdxlnChild = (*pdxln)[ul];
-		GPOS_ASSERT(EdxlopScalarHashExpr == pdxlnChild->Pdxlop()->Edxlop());
+		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		GPOS_ASSERT(EdxlopScalarHashExpr == child_dxlnode->GetOperator()->Edxlop());
 		
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

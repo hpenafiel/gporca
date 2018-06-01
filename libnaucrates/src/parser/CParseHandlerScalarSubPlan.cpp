@@ -179,9 +179,9 @@ CParseHandlerScalarSubPlan::EndElement
 	{
 		pdxlnTestExpr->AddRef();
 	}
-	CDXLScalarSubPlan *pdxlop = (CDXLScalarSubPlan *) CDXLOperatorFactory::PdxlopSubPlan(m_parse_handler_mgr->Pmm(), m_pmdidFirstCol, pdrgdxlcr, m_edxlsubplantype, pdxlnTestExpr);
+	CDXLScalarSubPlan *dxl_op = (CDXLScalarSubPlan *) CDXLOperatorFactory::PdxlopSubPlan(m_parse_handler_mgr->Pmm(), m_pmdidFirstCol, pdrgdxlcr, m_edxlsubplantype, pdxlnTestExpr);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// add constructed children
 	AddChildFromParseHandler(pphChild);

@@ -149,10 +149,10 @@ CParseHandlerDynamicTableScan::EndElement
 	// set table descriptor
 	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
 	pdxltabdesc->AddRef();
-	CDXLPhysicalDynamicTableScan *pdxlop = 
+	CDXLPhysicalDynamicTableScan *dxl_op = 
 			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, pdxltabdesc, m_ulPartIndexId, m_ulPartIndexIdPrintable);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);	
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);	
 	// set statictics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 
@@ -161,7 +161,7 @@ CParseHandlerDynamicTableScan::EndElement
 	AddChildFromParseHandler(pphFilter);
 
 #ifdef GPOS_DEBUG
-	pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

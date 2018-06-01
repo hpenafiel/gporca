@@ -34,7 +34,7 @@ namespace gpdxl
 		private:
 
 			// CTE list
-			DrgPdxln *m_pdrgpdxln;
+			DXLNodeArray *m_dxl_array;
 			
 			// private copy ctor
 			CParseHandlerCTEList(const CParseHandlerCTEList &);
@@ -70,9 +70,9 @@ namespace gpdxl
 			~CParseHandlerCTEList();
 			
 			// CTE list
-			DrgPdxln *Pdrgpdxln() const
+			DXLNodeArray *Pdrgpdxln() const
 			{
-				return m_pdrgpdxln;
+				return m_dxl_array;
 			}
 	};
 }

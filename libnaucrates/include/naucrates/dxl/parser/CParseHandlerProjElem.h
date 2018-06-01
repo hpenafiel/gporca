@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 					
 			// project elem operator
-			CDXLScalarProjElem *m_pdxlop;
+			CDXLScalarProjElem *m_dxl_op;
 						
 			// private copy ctor
 			CParseHandlerProjElem(const CParseHandlerProjElem&); 

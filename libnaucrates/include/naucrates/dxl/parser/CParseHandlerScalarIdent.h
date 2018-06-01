@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 
 			// the scalar identifier
-			CDXLScalarIdent *m_pdxlop;
+			CDXLScalarIdent *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerScalarIdent(const CParseHandlerScalarIdent&);

@@ -37,7 +37,7 @@ namespace gpdxl
 		private:
 
 			// the result operator
-			CDXLPhysicalResult *m_pdxlop;
+			CDXLPhysicalResult *m_dxl_op;
 
 			// private copy ctor
 			CParseHandlerResult(const CParseHandlerResult &);

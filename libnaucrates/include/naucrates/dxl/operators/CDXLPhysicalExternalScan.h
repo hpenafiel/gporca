@@ -52,13 +52,13 @@ namespace gpdxl
 			static
 			CDXLPhysicalExternalScan *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopPhysicalExternalScan == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopPhysicalExternalScan == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLPhysicalExternalScan*>(pdxlop);
+				return dynamic_cast<CDXLPhysicalExternalScan*>(dxl_op);
 			}
 
 	};

@@ -59,11 +59,11 @@ CParseHandlerScalarWindowRef::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowref), element_local_name))
 	{
 		// parse and create scalar WindowRef (window function)
-		CDXLScalarWindowRef *pdxlop =
+		CDXLScalarWindowRef *dxl_op =
 				(CDXLScalarWindowRef*) CDXLOperatorFactory::PdxlopWindowRef(m_parse_handler_mgr->Pmm(), attrs);
 
 		// construct node from the created scalar window ref
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{

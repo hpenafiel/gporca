@@ -149,17 +149,17 @@ void
 CDXLPhysicalRowTrigger::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
-	CDXLNode *pdxlnChild = (*pdxln)[1];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[1];
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 

@@ -38,7 +38,7 @@ namespace gpdxl
 		private:
 
 			// the materialize operator
-			CDXLPhysicalMaterialize *m_pdxlop;
+			CDXLPhysicalMaterialize *m_dxl_op;
 
 			// private copy ctor
 			CParseHandlerMaterialize(const CParseHandlerMaterialize &);

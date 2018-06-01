@@ -85,11 +85,11 @@ CParseHandlerOp::AddChildFromParseHandler
 	GPOS_ASSERT(NULL != pph);
 	
 	// extract constructed element
-	CDXLNode *pdxlnChild = pph->Pdxln();
-	GPOS_ASSERT(NULL != pdxlnChild);
+	CDXLNode *child_dxlnode = pph->Pdxln();
+	GPOS_ASSERT(NULL != child_dxlnode);
 	
-	pdxlnChild->AddRef();
-	m_pdxln->AddChild(pdxlnChild);
+	child_dxlnode->AddRef();
+	m_pdxln->AddChild(child_dxlnode);
 }
 
 

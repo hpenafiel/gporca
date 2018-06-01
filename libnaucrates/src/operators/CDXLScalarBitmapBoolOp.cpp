@@ -181,11 +181,11 @@ void
 CDXLScalarBitmapBoolOp::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
-	EdxlBitmapBoolOp edxlbitmapboolop = ((CDXLScalarBitmapBoolOp *) pdxln->Pdxlop())->Edxlbitmapboolop();
+	EdxlBitmapBoolOp edxlbitmapboolop = ((CDXLScalarBitmapBoolOp *) pdxln->GetOperator())->Edxlbitmapboolop();
 
 	GPOS_ASSERT( (edxlbitmapboolop == EdxlbitmapAnd) || (edxlbitmapboolop == EdxlbitmapOr));
 
@@ -196,13 +196,13 @@ CDXLScalarBitmapBoolOp::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		Edxlopid edxlop = pdxlnArg->Pdxlop()->Edxlop();
+		Edxlopid edxlop = pdxlnArg->GetOperator()->Edxlop();
 		
 		GPOS_ASSERT(EdxlopScalarBitmapBoolOp == edxlop || EdxlopScalarBitmapIndexProbe == edxlop);
 		
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnArg->Pdxlop()->AssertValid(pdxlnArg, fValidateChildren);
+			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
 		}
 	}
 }

@@ -79,19 +79,19 @@ namespace gpdxl
 			static
 			CDXLPhysicalRoutedDistributeMotion *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopPhysicalMotionRoutedDistribute == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopPhysicalMotionRoutedDistribute == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLPhysicalRoutedDistributeMotion*>(pdxlop);
+				return dynamic_cast<CDXLPhysicalRoutedDistributeMotion*>(dxl_op);
 			}
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 			
 	};

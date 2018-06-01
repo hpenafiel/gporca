@@ -223,7 +223,7 @@ void
 CDXLLogicalConstTable::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL //fValidateChildren
+	BOOL //validate_children
 	) const
 {
 	// assert validity of col descr

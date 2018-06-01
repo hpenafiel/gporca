@@ -102,21 +102,21 @@ void
 CDXLLogicalSelect::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
 
 	CDXLNode *pdxlnCond = (*pdxln)[0];
-	CDXLNode *pdxlnChild = (*pdxln)[1];
+	CDXLNode *child_dxlnode = (*pdxln)[1];
 
-	GPOS_ASSERT(EdxloptypeScalar ==  pdxlnCond->Pdxlop()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypeLogical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar ==  pdxlnCond->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnCond->Pdxlop()->AssertValid(pdxlnCond, fValidateChildren);
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		pdxlnCond->GetOperator()->AssertValid(pdxlnCond, validate_children);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

@@ -42,10 +42,10 @@ CTranslatorDXLToExprUtils::PopConst
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
-	const CDXLScalarConstValue *pdxlop
+	const CDXLScalarConstValue *dxl_op
 	)
 {
-	IDatum *pdatum = CTranslatorDXLToExprUtils::Pdatum(pmda, pdxlop);
+	IDatum *pdatum = CTranslatorDXLToExprUtils::Pdatum(pmda, dxl_op);
 	return GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum);
 }
 
@@ -61,11 +61,11 @@ IDatum *
 CTranslatorDXLToExprUtils::Pdatum
 	(
 	CMDAccessor *pmda,
-	const CDXLScalarConstValue *pdxlop
+	const CDXLScalarConstValue *dxl_op
 	)
 {
-	IMDId *pmdid = pdxlop->Pdxldatum()->MDId();
-	IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(pdxlop);
+	IMDId *pmdid = dxl_op->Pdxldatum()->MDId();
+	IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(dxl_op);
 
 	return pdatum;
 }
@@ -186,11 +186,11 @@ CTranslatorDXLToExprUtils::FScalarBool
 {
 	GPOS_ASSERT(NULL != pdxln);
 
-	CDXLOperator *pdxlop = pdxln->Pdxlop();
-	if (EdxlopScalarBoolExpr == pdxlop->Edxlop())
+	CDXLOperator *dxl_op = pdxln->GetOperator();
+	if (EdxlopScalarBoolExpr == dxl_op->Edxlop())
 	{
 		EdxlBoolExprType edxlboolexprtypeNode =
-				CDXLScalarBoolExpr::PdxlopConvert(pdxlop)->EdxlBoolType();
+				CDXLScalarBoolExpr::PdxlopConvert(dxl_op)->EdxlBoolType();
 		return edxlboolexprtype == edxlboolexprtypeNode;
 	}
 
@@ -296,12 +296,12 @@ CTranslatorDXLToExprUtils::FCastFunc
 		return false;
 	}
 
-	if (EdxlopScalarFuncExpr != pdxln->Pdxlop()->Edxlop())
+	if (EdxlopScalarFuncExpr != pdxln->GetOperator()->Edxlop())
 	{
 		return false;
 	}
 
-	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::PdxlopConvert(pdxln->Pdxlop());
+	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::PdxlopConvert(pdxln->GetOperator());
 
 	IMDId *pmdidDest = pdxlopScFunc->PmdidRetType();
 

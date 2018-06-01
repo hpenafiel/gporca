@@ -124,7 +124,7 @@ CParseHandlerLogicalSelect::EndElement
 	AddChildFromParseHandler(pphChild);
 	
 #ifdef GPOS_DEBUG
-	m_pdxln->Pdxlop()->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

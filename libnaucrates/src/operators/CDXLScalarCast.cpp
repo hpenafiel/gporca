@@ -172,17 +172,17 @@ void
 CDXLScalarCast::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	GPOS_ASSERT(1 == pdxln->Arity());
 
-	CDXLNode *pdxlnChild = (*pdxln)[0];
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[0];
+	GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

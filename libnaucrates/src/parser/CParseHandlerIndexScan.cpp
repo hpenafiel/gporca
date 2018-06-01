@@ -206,23 +206,23 @@ CParseHandlerIndexScan::EndElementHelper
 	CDXLIndexDescr *pdxlid = pphIdxD->Pdxlid();
 	pdxlid->AddRef();
 
-	CDXLPhysical *pdxlop = NULL;
+	CDXLPhysical *dxl_op = NULL;
 	if (EdxltokenPhysicalIndexOnlyScan == token_type)
 	{
-		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else if (EdxltokenPhysicalIndexScan == token_type)
 	{
-		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == token_type);
 
-		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable, pdxlid, m_edxlisd);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 
 	// set statistics and physical properties

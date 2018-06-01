@@ -132,7 +132,7 @@ CParseHandlerLogicalConstTable::EndElement
 		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstTable);
 
 #ifdef GPOS_DEBUG
-	pdxlopConstTable->AssertValid(m_pdxln, false /* fValidateChildren */);
+	pdxlopConstTable->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 		// deactivate handler

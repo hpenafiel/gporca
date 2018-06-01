@@ -187,19 +187,19 @@ void
 CDXLPhysicalWindow::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	GPOS_ASSERT(NULL != m_pdrgpulPartCols);
 	GPOS_ASSERT(NULL != m_pdrgpdxlwk);
 	GPOS_ASSERT(EdxlwindowIndexSentinel == pdxln->Arity());
-	CDXLNode *pdxlnChild = (*pdxln)[EdxlwindowIndexChild];
-	if (fValidateChildren)
+	CDXLNode *child_dxlnode = (*pdxln)[EdxlwindowIndexChild];
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

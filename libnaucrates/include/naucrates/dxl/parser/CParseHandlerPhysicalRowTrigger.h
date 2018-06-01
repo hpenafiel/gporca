@@ -33,7 +33,7 @@ namespace gpdxl
 	{
 		private:
 
-			CDXLPhysicalRowTrigger *m_pdxlop;
+			CDXLPhysicalRowTrigger *m_dxl_op;
 
 			// private copy ctor
 			CParseHandlerPhysicalRowTrigger(const CParseHandlerPhysicalRowTrigger &);

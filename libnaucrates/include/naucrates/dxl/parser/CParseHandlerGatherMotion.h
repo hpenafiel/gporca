@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 			
 			// the gather motion operator
-			CDXLPhysicalGatherMotion *m_pdxlop;
+			CDXLPhysicalGatherMotion *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerGatherMotion(const CParseHandlerGatherMotion &);

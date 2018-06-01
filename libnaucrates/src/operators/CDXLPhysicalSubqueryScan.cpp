@@ -138,22 +138,22 @@ void
 CDXLPhysicalSubqueryScan::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	// subquery scan has 3 children
 	GPOS_ASSERT(EdxlsubqscanIndexSentinel == pdxln->Arity());
 	
-	CDXLNode *pdxlnChild = (*pdxln)[EdxlsubqscanIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[EdxlsubqscanIndexChild];
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 	
 	// assert validity of table descriptor

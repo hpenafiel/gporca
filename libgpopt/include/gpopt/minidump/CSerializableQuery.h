@@ -40,10 +40,10 @@ namespace gpopt
 			const CDXLNode *m_query_dxl_root;
 
 			// query output
-			const DrgPdxln *m_pdrgpdxlnQueryOutput;
+			const DXLNodeArray *m_pdrgpdxlnQueryOutput;
 
 			// CTE DXL nodes
-			const DrgPdxln *m_cte_producer_dxl_array;
+			const DXLNodeArray *m_cte_producer_dxl_array;
 
 			
 			// private copy ctor
@@ -52,7 +52,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CSerializableQuery(IMemoryPool *memory_pool, const CDXLNode *pdxlnQuery, const DrgPdxln *query_output_dxlnode_array, const DrgPdxln *cte_dxlnode_array);
+			CSerializableQuery(IMemoryPool *memory_pool, const CDXLNode *pdxlnQuery, const DXLNodeArray *query_output_dxlnode_array, const DXLNodeArray *cte_dxlnode_array);
 
 			// dtor
 			virtual

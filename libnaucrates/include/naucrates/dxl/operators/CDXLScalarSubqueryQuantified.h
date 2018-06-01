@@ -92,14 +92,14 @@ namespace gpdxl
 			static
 			CDXLScalarSubqueryQuantified *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarSubqueryAll == pdxlop->Edxlop() ||
-						EdxlopScalarSubqueryAny == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarSubqueryAll == dxl_op->Edxlop() ||
+						EdxlopScalarSubqueryAny == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarSubqueryQuantified*>(pdxlop);
+				return dynamic_cast<CDXLScalarSubqueryQuantified*>(dxl_op);
 			}
 
 			// does the operator return a boolean result
@@ -116,7 +116,7 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 	};

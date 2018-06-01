@@ -221,7 +221,7 @@ namespace gpmd
 
 			// transformation method for generating datum from CDXLScalarConstValue
 			virtual 
-			IDatum* Pdatum(const CDXLScalarConstValue *pdxlop) const;
+			IDatum* Pdatum(const CDXLScalarConstValue *dxl_op) const;
 	
 			// create typed datum from DXL datum
 			virtual

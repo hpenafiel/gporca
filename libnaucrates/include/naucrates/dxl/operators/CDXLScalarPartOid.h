@@ -74,20 +74,20 @@ namespace gpdxl
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
 			virtual
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// conversion function
 			static
 			CDXLScalarPartOid *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarPartOid == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarPartOid == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarPartOid*>(pdxlop);
+				return dynamic_cast<CDXLScalarPartOid*>(dxl_op);
 			}
 	};
 }

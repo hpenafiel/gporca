@@ -51,7 +51,7 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarValuesList *PdxlopConvert(CDXLOperator *pdxlop);
+			CDXLScalarValuesList *PdxlopConvert(CDXLOperator *dxl_op);
 
 			// does the operator return a boolean result
 			virtual
@@ -60,7 +60,7 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 	};
 }

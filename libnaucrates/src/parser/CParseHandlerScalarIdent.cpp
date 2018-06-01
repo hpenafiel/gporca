@@ -37,7 +37,7 @@ CParseHandlerScalarIdent::CParseHandlerScalarIdent
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -77,7 +77,7 @@ CParseHandlerScalarIdent::StartElement
 	}
 	
 	// parse and create identifier operator
-	m_pdxlop = (CDXLScalarIdent *) CDXLOperatorFactory::PdxlopScalarIdent(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLScalarIdent *) CDXLOperatorFactory::PdxlopScalarIdent(m_parse_handler_mgr->Pmm(), attrs);
 }
 
 //---------------------------------------------------------------------------
@@ -103,9 +103,9 @@ CParseHandlerScalarIdent::EndElement
 	}
 	
 	// construct scalar ident node
-	GPOS_ASSERT(NULL != m_pdxlop);
+	GPOS_ASSERT(NULL != m_dxl_op);
 	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool);
-	m_pdxln->SetOperator(m_pdxlop);
+	m_pdxln->SetOperator(m_dxl_op);
 			
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

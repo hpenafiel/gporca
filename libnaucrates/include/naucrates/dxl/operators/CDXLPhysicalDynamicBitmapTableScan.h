@@ -97,13 +97,13 @@ namespace gpdxl
 			static
 			CDXLPhysicalDynamicBitmapTableScan *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopPhysicalDynamicBitmapTableScan == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopPhysicalDynamicBitmapTableScan == dxl_op->Edxlop());
 
- 	 	 		return dynamic_cast<CDXLPhysicalDynamicBitmapTableScan *>(pdxlop);
+ 	 	 		return dynamic_cast<CDXLPhysicalDynamicBitmapTableScan *>(dxl_op);
 			}
 
 	};  // class CDXLPhysicalDynamicBitmapTableScan

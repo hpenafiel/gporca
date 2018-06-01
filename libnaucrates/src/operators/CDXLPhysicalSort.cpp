@@ -125,32 +125,32 @@ void
 CDXLPhysicalSort::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	GPOS_ASSERT(EdxlsortIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *sort_col_list_dxl = (*pdxln)[EdxlsortIndexSortColList];
-	CDXLNode *pdxlnChild = (*pdxln)[EdxlsortIndexChild];
+	CDXLNode *child_dxlnode = (*pdxln)[EdxlsortIndexChild];
 	CDXLNode *pdxlnLimitCount = (*pdxln)[EdxlsortIndexLimitCount];
 	CDXLNode *pdxlnLimitOffset = (*pdxln)[EdxlsortIndexLimitOffset];
 	
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->Pdxlop()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
-	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnLimitCount->Pdxlop()->Edxlop());
-	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnLimitOffset->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnLimitCount->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnLimitOffset->GetOperator()->Edxlop());
 	
 	// there must be at least one sorting column
 	GPOS_ASSERT(sort_col_list_dxl->Arity() > 0);
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		sort_col_list_dxl->Pdxlop()->AssertValid(sort_col_list_dxl, fValidateChildren);
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		sort_col_list_dxl->GetOperator()->AssertValid(sort_col_list_dxl, validate_children);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

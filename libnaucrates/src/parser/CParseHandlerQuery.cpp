@@ -88,7 +88,7 @@ CParseHandlerQuery::Pdxln() const
 //		Returns the list of query output columns
 //
 //---------------------------------------------------------------------------
-DrgPdxln *
+DXLNodeArray *
 CParseHandlerQuery::GetOutputColumnsDXLArray() const
 {
 	return m_output_colums_dxl_array;
@@ -102,7 +102,7 @@ CParseHandlerQuery::GetOutputColumnsDXLArray() const
 //		Returns the list of CTEs
 //
 //---------------------------------------------------------------------------
-DrgPdxln *
+DXLNodeArray *
 CParseHandlerQuery::GetCTEProducerDXLArray() const
 {
 	return m_cte_producer_dxl_array;

@@ -79,7 +79,7 @@ CParseHandlerAssert::StartElement
 			);
 	}
 	
-	m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalAssert(m_memory_pool, szErrorCode);
+	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalAssert(m_memory_pool, szErrorCode);
 
 	// ctor created a copy of the error code
 	GPOS_DELETE_ARRAY(szErrorCode);
@@ -140,7 +140,7 @@ CParseHandlerAssert::EndElement
 	CParseHandlerScalarAssertConstraintList *pphAssertPredicate = dynamic_cast<CParseHandlerScalarAssertConstraintList *>((*this)[2]);
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[3]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 
 	// add constructed children
@@ -149,7 +149,7 @@ CParseHandlerAssert::EndElement
 	AddChildFromParseHandler(pphChild);
 	
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

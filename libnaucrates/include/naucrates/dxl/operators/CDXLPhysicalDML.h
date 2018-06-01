@@ -71,7 +71,7 @@ namespace gpdxl
 			ULONG m_ulTupleOid;
 			
 			// direct dispatch info for insert statements 
-			CDXLDirectDispatchInfo *m_pdxlddinfo;
+			CDXLDirectDispatchInfo *m_direct_dispatch_info;
 			
 			// needs the data to be sorted or not
 			BOOL m_fInputSorted;
@@ -94,7 +94,7 @@ namespace gpdxl
 				ULONG ulSegmentId,
 				BOOL fPreserveOids,
 				ULONG ulTupleOid,
-				CDXLDirectDispatchInfo *pdxlddinfo,
+				CDXLDirectDispatchInfo *dxl_direct_dispatch_info,
 				BOOL fInputSorted
 				);
 
@@ -163,9 +163,9 @@ namespace gpdxl
 			}
 			
 			// direct dispatch info
-			CDXLDirectDispatchInfo *Pdxlddinfo() const
+			CDXLDirectDispatchInfo *GetDXLDirectDispatchInfo() const
 			{
-				return m_pdxlddinfo;
+				return m_direct_dispatch_info;
 			}
 			
 			// needs the data to be sorted or not
@@ -177,7 +177,7 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// serialize operator in DXL format
@@ -188,13 +188,13 @@ namespace gpdxl
 			static
 			CDXLPhysicalDML *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopPhysicalDML == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopPhysicalDML == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLPhysicalDML*>(pdxlop);
+				return dynamic_cast<CDXLPhysicalDML*>(dxl_op);
 			}
 	};
 }

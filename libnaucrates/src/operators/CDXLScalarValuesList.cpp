@@ -72,13 +72,13 @@ CDXLScalarValuesList::SerializeToDXL
 CDXLScalarValuesList *
 CDXLScalarValuesList::PdxlopConvert
 	(
-	CDXLOperator *pdxlop
+	CDXLOperator *dxl_op
 	)
 {
-	GPOS_ASSERT(NULL != pdxlop);
-	GPOS_ASSERT(EdxlopScalarValuesList == pdxlop->Edxlop());
+	GPOS_ASSERT(NULL != dxl_op);
+	GPOS_ASSERT(EdxlopScalarValuesList == dxl_op->Edxlop());
 
-	return dynamic_cast<CDXLScalarValuesList*>(pdxlop);
+	return dynamic_cast<CDXLScalarValuesList*>(dxl_op);
 }
 
 // does the operator return a boolean result
@@ -99,7 +99,7 @@ void
 CDXLScalarValuesList::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
@@ -108,11 +108,11 @@ CDXLScalarValuesList::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnConstVal = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnConstVal->Pdxlop()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnConstVal->GetOperator()->Edxloperatortype());
 
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnConstVal->Pdxlop()->AssertValid(pdxlnConstVal, fValidateChildren);
+			pdxlnConstVal->GetOperator()->AssertValid(pdxlnConstVal, validate_children);
 		}
 	}
 }

@@ -249,10 +249,10 @@ CDXLOperatorFactory::PdxlopGatherMotion
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
-	CDXLPhysicalGatherMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalGatherMotion(memory_pool);
-	SetSegmentInfo(memory_manager_dxl, pdxlop, attrs, EdxltokenPhysicalGatherMotion);
+	CDXLPhysicalGatherMotion *dxl_op = GPOS_NEW(memory_pool) CDXLPhysicalGatherMotion(memory_pool);
+	SetSegmentInfo(memory_manager_dxl, dxl_op, attrs, EdxltokenPhysicalGatherMotion);
 
-	return pdxlop;
+	return dxl_op;
 }
 
 //---------------------------------------------------------------------------
@@ -273,10 +273,10 @@ CDXLOperatorFactory::PdxlopBroadcastMotion
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
-	CDXLPhysicalBroadcastMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalBroadcastMotion(memory_pool);
-	SetSegmentInfo(memory_manager_dxl, pdxlop, attrs, EdxltokenPhysicalBroadcastMotion);
+	CDXLPhysicalBroadcastMotion *dxl_op = GPOS_NEW(memory_pool) CDXLPhysicalBroadcastMotion(memory_pool);
+	SetSegmentInfo(memory_manager_dxl, dxl_op, attrs, EdxltokenPhysicalBroadcastMotion);
 	
-	return pdxlop;
+	return dxl_op;
 }
 
 //---------------------------------------------------------------------------
@@ -305,12 +305,12 @@ CDXLOperatorFactory::PdxlopRedistributeMotion
 		fDuplicateSensitive = FValueFromXmlstr(memory_manager_dxl, xmlszDuplicateSensitive, EdxltokenDuplicateSensitive, EdxltokenPhysicalRedistributeMotion);
 	}
 		
-	CDXLPhysicalRedistributeMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalRedistributeMotion(memory_pool, fDuplicateSensitive);
-	SetSegmentInfo(memory_manager_dxl, pdxlop, attrs, EdxltokenPhysicalRedistributeMotion);
+	CDXLPhysicalRedistributeMotion *dxl_op = GPOS_NEW(memory_pool) CDXLPhysicalRedistributeMotion(memory_pool, fDuplicateSensitive);
+	SetSegmentInfo(memory_manager_dxl, dxl_op, attrs, EdxltokenPhysicalRedistributeMotion);
 	
 	
 	
-	return pdxlop;
+	return dxl_op;
 }
 
 
@@ -334,10 +334,10 @@ CDXLOperatorFactory::PdxlopRoutedMotion
 
 	ULONG ulSegmentIdCol = CDXLOperatorFactory::UlValueFromAttrs(memory_manager_dxl, attrs, EdxltokenSegmentIdCol, EdxltokenPhysicalRoutedDistributeMotion);
 	
-	CDXLPhysicalRoutedDistributeMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalRoutedDistributeMotion(memory_pool, ulSegmentIdCol);
-	SetSegmentInfo(memory_manager_dxl, pdxlop, attrs, EdxltokenPhysicalRoutedDistributeMotion);
+	CDXLPhysicalRoutedDistributeMotion *dxl_op = GPOS_NEW(memory_pool) CDXLPhysicalRoutedDistributeMotion(memory_pool, ulSegmentIdCol);
+	SetSegmentInfo(memory_manager_dxl, dxl_op, attrs, EdxltokenPhysicalRoutedDistributeMotion);
 	
-	return pdxlop;
+	return dxl_op;
 }
 
 //---------------------------------------------------------------------------
@@ -366,10 +366,10 @@ CDXLOperatorFactory::PdxlopRandomMotion
 		fDuplicateSensitive = FValueFromXmlstr(memory_manager_dxl, xmlszDuplicateSensitive, EdxltokenDuplicateSensitive, EdxltokenPhysicalRandomMotion);
 	}
 
-	CDXLPhysicalRandomMotion *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalRandomMotion(memory_pool, fDuplicateSensitive);
-	SetSegmentInfo(memory_manager_dxl, pdxlop, attrs, EdxltokenPhysicalRandomMotion);
+	CDXLPhysicalRandomMotion *dxl_op = GPOS_NEW(memory_pool) CDXLPhysicalRandomMotion(memory_pool, fDuplicateSensitive);
+	SetSegmentInfo(memory_manager_dxl, dxl_op, attrs, EdxltokenPhysicalRandomMotion);
 	
-	return pdxlop;
+	return dxl_op;
 }
 
 //---------------------------------------------------------------------------

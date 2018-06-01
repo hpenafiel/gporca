@@ -126,18 +126,18 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	// set table descriptor
 	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
 	pdxltabdesc->AddRef();
-	CDXLPhysical *pdxlop = NULL;
+	CDXLPhysical *dxl_op = NULL;
 
 	if (EdxltokenPhysicalBitmapTableScan == token_type)
 	{
-		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalBitmapTableScan(m_memory_pool, pdxltabdesc);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalBitmapTableScan(m_memory_pool, pdxltabdesc);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicBitmapTableScan == token_type);
-		pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable);
 	}
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// set statictics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
@@ -150,7 +150,7 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	AddChildFromParseHandler(pphBitmap);
 
 #ifdef GPOS_DEBUG
-	pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

@@ -113,7 +113,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTest
 	CharPtrArray *pdrgszPartTypes
 	)
 {	
-	DrgPdxln *pdrgpdxln = GPOS_NEW(memory_pool) DrgPdxln(memory_pool);
+	DXLNodeArray *dxl_array = GPOS_NEW(memory_pool) DXLNodeArray(memory_pool);
 
 	const ULONG ulLevels = pdrgpdrgpcrPartKeys->Size();
 	for (ULONG ul = 0; ul < ulLevels; ul++)
@@ -165,18 +165,18 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTest
 			}
 		}
 
-		pdrgpdxln->Append(pdxlnPartialScanTest);
+		dxl_array->Append(pdxlnPartialScanTest);
 	}
 
-	if (1 == pdrgpdxln->Size())
+	if (1 == dxl_array->Size())
 	{
-		CDXLNode *pdxln = (*pdrgpdxln)[0];
+		CDXLNode *pdxln = (*dxl_array)[0];
 		pdxln->AddRef();
-		pdrgpdxln->Release();
+		dxl_array->Release();
 		return pdxln;
 	}
 
-	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxland), pdrgpdxln);
+	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxland), dxl_array);
 }
 
 //---------------------------------------------------------------------------
@@ -479,9 +479,9 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestNegation
 	
 	CConstraint *pcnstrChild = pcnstrNeg->PcnstrChild();
 
-	CDXLNode *pdxlnChild = PdxlnPartialScanTest(memory_pool, pmda, pcf, pcnstrChild, pdrgpdrgpcrPartKeys, fRangePart);
+	CDXLNode *child_dxlnode = PdxlnPartialScanTest(memory_pool, pmda, pcf, pcnstrChild, pdrgpdrgpcrPartKeys, fRangePart);
 	
-	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxlnot), pdxlnChild);
+	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxlnot), child_dxlnode);
 }
 
 //---------------------------------------------------------------------------
@@ -526,8 +526,8 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestInterval
 	for (ULONG ul = 0; ul < ulRanges; ul++)
 	{
 		CRange *prng = (*pdrgprng)[ul];
-		CDXLNode *pdxlnChild = PdxlnPartialScanTestRange(memory_pool, pmda, prng, pmdidPartKeyType, ulPartLevel, fRangePart);
-		pdxlnDisjunction->AddChild(pdxlnChild);
+		CDXLNode *child_dxlnode = PdxlnPartialScanTestRange(memory_pool, pmda, prng, pmdidPartKeyType, ulPartLevel, fRangePart);
+		pdxlnDisjunction->AddChild(child_dxlnode);
 	}
 	
 	return pdxlnDisjunction;
@@ -1167,13 +1167,13 @@ CTranslatorExprToDXLUtils::PdxlpropCopy
 {
 	GPOS_ASSERT(NULL != pdxln);
 
-	GPOS_ASSERT(NULL != pdxln->Pdxlprop());
-	CDXLPhysicalProperties *pdxlprop = CDXLPhysicalProperties::PdxlpropConvert(pdxln->Pdxlprop());
+	GPOS_ASSERT(NULL != pdxln->GetProperties());
+	CDXLPhysicalProperties *dxl_properties = CDXLPhysicalProperties::PdxlpropConvert(pdxln->GetProperties());
 
-	CWStringDynamic *pstrStartupcost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, pdxlprop->GetOperatorCostDXL()->GetStartUpCostStr()->GetBuffer());
-	CWStringDynamic *pstrCost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, pdxlprop->GetOperatorCostDXL()->GetTotalCostStr()->GetBuffer());
-	CWStringDynamic *rows_out_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, pdxlprop->GetOperatorCostDXL()->GetRowsOutStr()->GetBuffer());
-	CWStringDynamic *width_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, pdxlprop->GetOperatorCostDXL()->GetWidthStr()->GetBuffer());
+	CWStringDynamic *pstrStartupcost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetStartUpCostStr()->GetBuffer());
+	CWStringDynamic *pstrCost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetTotalCostStr()->GetBuffer());
+	CWStringDynamic *rows_out_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetRowsOutStr()->GetBuffer());
+	CWStringDynamic *width_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetWidthStr()->GetBuffer());
 
 	return GPOS_NEW(memory_pool) CDXLPhysicalProperties(GPOS_NEW(memory_pool) CDXLOperatorCost(pstrStartupcost, pstrCost, rows_out_str, width_str));
 }
@@ -1268,7 +1268,7 @@ CTranslatorExprToDXLUtils::PcrCreate
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTranslatorExprToDXLUtils::Pdxlprop
+//		CTranslatorExprToDXLUtils::GetProperties
 //
 //	@doc:
 //		Construct a DXL physical properties container with operator costs for
@@ -1276,7 +1276,7 @@ CTranslatorExprToDXLUtils::PcrCreate
 //
 //---------------------------------------------------------------------------
 CDXLPhysicalProperties *
-CTranslatorExprToDXLUtils::Pdxlprop
+CTranslatorExprToDXLUtils::GetProperties
 	(
 	IMemoryPool *memory_pool
 	)
@@ -1307,10 +1307,10 @@ CTranslatorExprToDXLUtils::FScalarConstTrue
 	)
 {
 	GPOS_ASSERT(NULL != pdxln);
-	if (EdxlopScalarConstValue == pdxln->Pdxlop()->Edxlop())
+	if (EdxlopScalarConstValue == pdxln->GetOperator()->Edxlop())
 	{
 		CDXLScalarConstValue *pdxlopConst =
-				CDXLScalarConstValue::PdxlopConvert(pdxln->Pdxlop());
+				CDXLScalarConstValue::PdxlopConvert(pdxln->GetOperator());
 
 		const IMDType *pmdtype = pmda->Pmdtype(pdxlopConst->Pdxldatum()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
@@ -1340,10 +1340,10 @@ CTranslatorExprToDXLUtils::FScalarConstFalse
 	)
 {
 	GPOS_ASSERT(NULL != pdxln);
-	if (EdxlopScalarConstValue == pdxln->Pdxlop()->Edxlop())
+	if (EdxlopScalarConstValue == pdxln->GetOperator()->Edxlop())
 	{
 		CDXLScalarConstValue *pdxlopConst =
-				CDXLScalarConstValue::PdxlopConvert(pdxln->Pdxlop());
+				CDXLScalarConstValue::PdxlopConvert(pdxln->GetOperator());
 
 		const IMDType *pmdtype = pmda->Pmdtype(pdxlopConst->Pdxldatum()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
@@ -1497,7 +1497,7 @@ CTranslatorExprToDXLUtils::PdxlnProjElem
 {
 	GPOS_ASSERT(NULL != pdxlnChildProjElem && 1 == pdxlnChildProjElem->Arity());
 	
-	CDXLScalarProjElem *pdxlopPrElChild = dynamic_cast<CDXLScalarProjElem*>(pdxlnChildProjElem->Pdxlop());
+	CDXLScalarProjElem *pdxlopPrElChild = dynamic_cast<CDXLScalarProjElem*>(pdxlnChildProjElem->GetOperator());
 
     // find the col ref corresponding to this element's id through column factory
     CColRef *pcr = pcf->PcrLookup(pdxlopPrElChild->UlId());
@@ -1578,7 +1578,7 @@ CTranslatorExprToDXLUtils::PdxlnProjElem
 	// create a scalar identifier for the proj element expression
 	CDXLNode *pdxlnScId = PdxlnIdent(memory_pool, phmcrdxlnSubplans, NULL /*phmcrdxlnIndexLookup*/, pcr);
 
-	if (EdxlopScalarSubPlan == pdxlnScId->Pdxlop()->Edxlop())
+	if (EdxlopScalarSubPlan == pdxlnScId->GetOperator()->Edxlop())
 	{
 		// modify map by replacing subplan entry with the projected
 		// column reference so that all subplan references higher up
@@ -1638,8 +1638,8 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 
 	CDXLColRef *pdxlcr = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
 	
-	CDXLScalarIdent *pdxlop = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, pdxlcr);
-	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlop);
+	CDXLScalarIdent *dxl_op = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, pdxlcr);
+	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, dxl_op);
 }
 
 //---------------------------------------------------------------------------
@@ -1690,7 +1690,7 @@ CTranslatorExprToDXLUtils::FProjectListMatch
 {
 	GPOS_ASSERT(NULL != pdxlnPrL);
 	GPOS_ASSERT(NULL != pdrgpcr);
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->Edxlop());
 
 	const ULONG ulLen = pdrgpcr->Size();
 	if (pdxlnPrL->Arity() != ulLen)
@@ -1703,7 +1703,7 @@ CTranslatorExprToDXLUtils::FProjectListMatch
 		CColRef *pcr = (*pdrgpcr)[ul];
 
 		CDXLNode *pdxlnPrEl = (*pdxlnPrL)[ul];
-		CDXLScalarProjElem *pdxlopPrEl = CDXLScalarProjElem::PdxlopConvert(pdxlnPrEl->Pdxlop());
+		CDXLScalarProjElem *pdxlopPrEl = CDXLScalarProjElem::PdxlopConvert(pdxlnPrEl->GetOperator());
 
 		if (pcr->UlId() != pdxlopPrEl->UlId())
 		{
@@ -1772,28 +1772,28 @@ CDXLNode *
 CTranslatorExprToDXLUtils::PdxlnResult
 	(
 	IMemoryPool *memory_pool,
-	CDXLPhysicalProperties *pdxlprop,
+	CDXLPhysicalProperties *dxl_properties,
 	CDXLNode *pdxlnPrL,
 	CDXLNode *pdxlnFilter,
 	CDXLNode *pdxlnOneTimeFilter,
-	CDXLNode *pdxlnChild
+	CDXLNode *child_dxlnode
 	)
 {
-	CDXLPhysicalResult *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalResult(memory_pool);
-	CDXLNode *pdxlnResult = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlop);
-	pdxlnResult->SetProperties(pdxlprop);
+	CDXLPhysicalResult *dxl_op = GPOS_NEW(memory_pool) CDXLPhysicalResult(memory_pool);
+	CDXLNode *pdxlnResult = GPOS_NEW(memory_pool) CDXLNode(memory_pool, dxl_op);
+	pdxlnResult->SetProperties(dxl_properties);
 	
 	pdxlnResult->AddChild(pdxlnPrL);
 	pdxlnResult->AddChild(pdxlnFilter);
 	pdxlnResult->AddChild(pdxlnOneTimeFilter);
 
-	if (NULL != pdxlnChild)
+	if (NULL != child_dxlnode)
 	{
-		pdxlnResult->AddChild(pdxlnChild);
+		pdxlnResult->AddChild(child_dxlnode);
 	}
 
 #ifdef GPOS_DEBUG
-	pdxlop->AssertValid(pdxlnResult, false /* fValidateChildren */);
+	dxl_op->AssertValid(pdxlnResult, false /* validate_children */);
 #endif
 
 	return pdxlnResult;
@@ -1804,14 +1804,14 @@ CDXLNode *
 CTranslatorExprToDXLUtils::PdxlnValuesScan
 	(
 	IMemoryPool *memory_pool,
-	CDXLPhysicalProperties *pdxlprop,
+	CDXLPhysicalProperties *dxl_properties,
 	CDXLNode *pdxlnPrL,
 	DrgPdrgPdatum *pdrgpdrgdatum
 	)
 {
-	CDXLPhysicalValuesScan *pdxlop = GPOS_NEW(memory_pool) CDXLPhysicalValuesScan(memory_pool);
-	CDXLNode *pdxlnValuesScan = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlop);
-	pdxlnValuesScan->SetProperties(pdxlprop);
+	CDXLPhysicalValuesScan *dxl_op = GPOS_NEW(memory_pool) CDXLPhysicalValuesScan(memory_pool);
+	CDXLNode *pdxlnValuesScan = GPOS_NEW(memory_pool) CDXLNode(memory_pool, dxl_op);
+	pdxlnValuesScan->SetProperties(dxl_properties);
 
 	pdxlnValuesScan->AddChild(pdxlnPrL);
 
@@ -1839,7 +1839,7 @@ CTranslatorExprToDXLUtils::PdxlnValuesScan
 	}
 
 #ifdef GPOS_DEBUG
-	pdxlop->AssertValid(pdxlnValuesScan, true /* fValidateChildren */);
+	dxl_op->AssertValid(pdxlnValuesScan, true /* validate_children */);
 #endif
 
 	return pdxlnValuesScan;
@@ -1860,14 +1860,14 @@ CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 	IMDId *pmdid,
 	ULONG ulPartLevels,
 	ULONG ulScanId,
-	CDXLPhysicalProperties *pdxlprop,
+	CDXLPhysicalProperties *dxl_properties,
 	CDXLNode *pdxlnPrL,
 	CDXLNode *pdxlnEqFilters,
 	CDXLNode *pdxlnFilters,
 	CDXLNode *pdxlnResidual,
 	CDXLNode *pdxlnPropagation,
 	CDXLNode *pdxlnPrintable,
-	CDXLNode *pdxlnChild
+	CDXLNode *child_dxlnode
 	)
 {
 	CDXLNode *pdxlnSelector = GPOS_NEW(memory_pool) CDXLNode
@@ -1876,16 +1876,16 @@ CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 										GPOS_NEW(memory_pool) CDXLPhysicalPartitionSelector(memory_pool, pmdid, ulPartLevels, ulScanId)
 										);
 
-	pdxlnSelector->SetProperties(pdxlprop);
+	pdxlnSelector->SetProperties(dxl_properties);
 	pdxlnSelector->AddChild(pdxlnPrL);
 	pdxlnSelector->AddChild(pdxlnEqFilters);
 	pdxlnSelector->AddChild(pdxlnFilters);
 	pdxlnSelector->AddChild(pdxlnResidual);
 	pdxlnSelector->AddChild(pdxlnPropagation);
 	pdxlnSelector->AddChild(pdxlnPrintable);
-	if (NULL != pdxlnChild)
+	if (NULL != child_dxlnode)
 	{
-		pdxlnSelector->AddChild(pdxlnChild);
+		pdxlnSelector->AddChild(child_dxlnode);
 	}
 
 	return pdxlnSelector;
@@ -1903,30 +1903,30 @@ CDXLNode *
 CTranslatorExprToDXLUtils::PdxlnCombineBoolean
 	(
 	IMemoryPool *memory_pool,
-	CDXLNode *pdxlnFst,
-	CDXLNode *pdxlnSnd,
+	CDXLNode *first_child_dxlnode,
+	CDXLNode *second_child_dxlnode,
 	EdxlBoolExprType boolexptype
 	)
 {
 	GPOS_ASSERT(Edxlor == boolexptype ||
 				Edxland == boolexptype);
 
-	if (NULL == pdxlnFst)
+	if (NULL == first_child_dxlnode)
 	{
-		return pdxlnSnd;
+		return second_child_dxlnode;
 	}
 
-	if (NULL == pdxlnSnd)
+	if (NULL == second_child_dxlnode)
 	{
-		return pdxlnFst;
+		return first_child_dxlnode;
 	}
 
 	return  GPOS_NEW(memory_pool) CDXLNode
 						(
 						memory_pool,
 						GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, boolexptype),
-						pdxlnFst,
-						pdxlnSnd
+						first_child_dxlnode,
+						second_child_dxlnode
 						);
 }
 
@@ -1987,7 +1987,7 @@ CTranslatorExprToDXLUtils::SetStats
 		(GPOS_FTRACE(EopttraceExtractDXLStatsAllNodes) || fRoot)
 		)
 	{
-		CDXLPhysicalProperties::PdxlpropConvert(pdxln->Pdxlprop())->SetStats(pstats->Pdxlstatsderrel(memory_pool, pmda));
+		CDXLPhysicalProperties::PdxlpropConvert(pdxln->GetProperties())->SetStats(pstats->Pdxlstatsderrel(memory_pool, pmda));
 	}
 }
 
@@ -2014,7 +2014,7 @@ CTranslatorExprToDXLUtils::SetDirectDispatchInfo
 	GPOS_ASSERT(NULL != pdpRel);
 	GPOS_ASSERT(NULL != pdrgpdsBaseTables);
 	
-	Edxlopid edxlopid = pdxln->Pdxlop()->Edxlop();
+	Edxlopid edxlopid = pdxln->GetOperator()->Edxlop();
 	if (EdxlopPhysicalCTAS == edxlopid || EdxlopPhysicalDML == edxlopid || EdxlopPhysicalRowTrigger == edxlopid)
 	{
 		// direct dispatch for CTAS and DML handled elsewhere
@@ -2047,17 +2047,17 @@ CTranslatorExprToDXLUtils::SetDirectDispatchInfo
 	CDistributionSpecHashed *pdsHashed = CDistributionSpecHashed::PdsConvert(pds);
 	DrgPexpr *pdrgpexprHashed = pdsHashed->Pdrgpexpr();
 	
-	CDXLDirectDispatchInfo *pdxlddinfo = Pdxlddinfo(memory_pool, pmda, pdrgpexprHashed, ppc->Pcnstr());
+	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = GetDXLDirectDispatchInfo(memory_pool, pmda, pdrgpexprHashed, ppc->Pcnstr());
 	
-	if (NULL != pdxlddinfo)
+	if (NULL != dxl_direct_dispatch_info)
 	{
-		pdxln->SetDirectDispatchInfo(pdxlddinfo);
+		pdxln->SetDirectDispatchInfo(dxl_direct_dispatch_info);
 	}
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTranslatorExprToDXLUtils::Pdxlddinfo
+//		CTranslatorExprToDXLUtils::GetDXLDirectDispatchInfo
 //
 //	@doc:
 //		Compute the direct dispatch info spec. Returns NULL if this is not
@@ -2065,7 +2065,7 @@ CTranslatorExprToDXLUtils::SetDirectDispatchInfo
 //
 //---------------------------------------------------------------------------
 CDXLDirectDispatchInfo *
-CTranslatorExprToDXLUtils::Pdxlddinfo
+CTranslatorExprToDXLUtils::GetDXLDirectDispatchInfo
 	(
 	IMemoryPool *memory_pool, 
 	CMDAccessor *pmda,
@@ -2465,7 +2465,7 @@ CTranslatorExprToDXLUtils::FHasDXLOp
 	GPOS_ASSERT(NULL != pdxln);
 	GPOS_ASSERT(NULL != peopid);
 
-	if (FDXLOpExists(pdxln->Pdxlop(), peopid, ulOps))
+	if (FDXLOpExists(pdxln->GetOperator(), peopid, ulOps))
 	{
 		return true;
 	}
@@ -2490,7 +2490,7 @@ CTranslatorExprToDXLUtils::FProjListContainsSubplanWithBroadCast
 	CDXLNode *pdxlnPrjList
 	)
 {
-	if (pdxlnPrjList->Pdxlop()->Edxlop() == EdxlopScalarSubPlan)
+	if (pdxlnPrjList->GetOperator()->Edxlop() == EdxlopScalarSubPlan)
 	{
 		gpdxl::Edxlopid rgeopidMotion[] =	{
 			EdxlopPhysicalMotionBroadcast
@@ -2518,9 +2518,9 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 	CBitSet *pbs
 	)
 {
-	if (pdxln->Pdxlop()->Edxlop() == EdxlopScalarIdent)
+	if (pdxln->GetOperator()->Edxlop() == EdxlopScalarIdent)
 	{
-		const CDXLColRef *pdxlcr = CDXLScalarIdent::PdxlopConvert(pdxln->Pdxlop())->Pdxlcr();
+		const CDXLColRef *pdxlcr = CDXLScalarIdent::PdxlopConvert(pdxln->GetOperator())->Pdxlcr();
 		pbs->ExchangeSet(pdxlcr->Id());
 	}
 
@@ -2548,7 +2548,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 	if (FMotionHazardSafeOp(pdxln))
 		return false;
 
-	if (FDXLOpExists(pdxln->Pdxlop(), peopid, ulOps))
+	if (FDXLOpExists(pdxln->GetOperator(), peopid, ulOps))
 	{
 		// check if the current motion node projects any column from the
 		// input project list.
@@ -2566,7 +2566,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 
 	// In ORCA, inner child of Hash Join is always exhausted first,
 	// so only check the outer child for motions
-	if (pdxln->Pdxlop()->Edxlop() == EdxlopPhysicalHashJoin)
+	if (pdxln->GetOperator()->Edxlop() == EdxlopPhysicalHashJoin)
 	{
 		if (FMotionHazard(memory_pool, (*pdxln)[EdxlhjIndexHashLeft], peopid, ulOps, pbsPrjCols))
 		{
@@ -2594,7 +2594,7 @@ CTranslatorExprToDXLUtils::FMotionHazardSafeOp
 	)
 {
 	BOOL fMotionHazardSafeOp = false;
-	Edxlopid edxlop = pdxln->Pdxlop()->Edxlop();
+	Edxlopid edxlop = pdxln->GetOperator()->Edxlop();
 
 	switch (edxlop)
 	{
@@ -2606,7 +2606,7 @@ CTranslatorExprToDXLUtils::FMotionHazardSafeOp
 
 		case EdxlopPhysicalAgg:
 		{
-			CDXLPhysicalAgg *pdxlnPhysicalAgg = CDXLPhysicalAgg::PdxlopConvert(pdxln->Pdxlop());
+			CDXLPhysicalAgg *pdxlnPhysicalAgg = CDXLPhysicalAgg::PdxlopConvert(pdxln->GetOperator());
 			if (pdxlnPhysicalAgg->Edxlaggstr() == EdxlaggstrategyHashed)
 				fMotionHazardSafeOp = true;
 		}

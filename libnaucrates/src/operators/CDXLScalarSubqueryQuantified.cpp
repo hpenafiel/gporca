@@ -102,7 +102,7 @@ void
 CDXLScalarSubqueryQuantified::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
@@ -111,10 +111,10 @@ CDXLScalarSubqueryQuantified::AssertValid
 	CDXLNode *pdxlnScalarChild = (*pdxln)[EdxlsqquantifiedIndexScalar];
 	CDXLNode *pdxlnRelationalChild = (*pdxln)[EdxlsqquantifiedIndexRelational];
 
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnScalarChild->Pdxlop()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypeLogical == pdxlnRelationalChild->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnScalarChild->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeLogical == pdxlnRelationalChild->GetOperator()->Edxloperatortype());
 
-	pdxln->AssertValid(fValidateChildren);
+	pdxln->AssertValid(validate_children);
 }
 #endif // GPOS_DEBUG
 

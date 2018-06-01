@@ -147,7 +147,7 @@ CParseHandlerPhysicalSplit::EndElement
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[2]);
 	GPOS_ASSERT(NULL != pphChild->Pdxln());
 
-	CDXLPhysicalSplit *pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalSplit
+	CDXLPhysicalSplit *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalSplit
 												(
 												m_memory_pool,
 												m_pdrgpulDelete,
@@ -159,7 +159,7 @@ CParseHandlerPhysicalSplit::EndElement
 												m_ulTupleOidColId
 												);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// set statistics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
@@ -168,7 +168,7 @@ CParseHandlerPhysicalSplit::EndElement
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->Pdxlop()->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

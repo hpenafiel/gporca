@@ -72,19 +72,19 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// conversion function
 			static
 			CDXLLogicalCTEProducer *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopLogicalCTEProducer == pdxlop->Edxlop());
-				return dynamic_cast<CDXLLogicalCTEProducer*>(pdxlop);
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopLogicalCTEProducer == dxl_op->Edxlop());
+				return dynamic_cast<CDXLLogicalCTEProducer*>(dxl_op);
 			}
 	};
 }

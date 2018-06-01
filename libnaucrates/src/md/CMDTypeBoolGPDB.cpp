@@ -247,11 +247,11 @@ CMDTypeBoolGPDB::Serialize
 IDatum *
 CMDTypeBoolGPDB::Pdatum
 	(
-	const CDXLScalarConstValue *pdxlop
+	const CDXLScalarConstValue *dxl_op
 	)
 	const
 {
-	CDXLDatumBool *datum_dxl = CDXLDatumBool::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
+	CDXLDatumBool *datum_dxl = CDXLDatumBool::Cast(const_cast<CDXLDatum*>(dxl_op->Pdxldatum()));
 	GPOS_ASSERT(datum_dxl->IsPassedByValue());
 
 	return GPOS_NEW(m_memory_pool) CDatumBoolGPDB(m_mdid->Sysid(), datum_dxl->FValue(), datum_dxl->IsNull());

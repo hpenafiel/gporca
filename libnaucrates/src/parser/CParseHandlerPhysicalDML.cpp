@@ -183,10 +183,10 @@ CParseHandlerPhysicalDML::EndElement
 	GPOS_ASSERT(5 == this->Length());
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
-	GPOS_ASSERT(NULL != pphProp->Pdxlprop());
+	GPOS_ASSERT(NULL != pphProp->GetProperties());
 
 	CParseHandlerDirectDispatchInfo *pphDirectDispatch = dynamic_cast<CParseHandlerDirectDispatchInfo *>((*this)[1]);
-	GPOS_ASSERT(NULL != pphDirectDispatch->Pdxlddinfo() && NULL != pphDirectDispatch->Pdxlddinfo());
+	GPOS_ASSERT(NULL != pphDirectDispatch->GetDXLDirectDispatchInfo() && NULL != pphDirectDispatch->GetDXLDirectDispatchInfo());
 
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[2]);
 	GPOS_ASSERT(NULL != pphPrL->Pdxln());
@@ -199,10 +199,10 @@ CParseHandlerPhysicalDML::EndElement
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
 	GPOS_ASSERT(NULL != pphChild->Pdxln());
 
-	CDXLDirectDispatchInfo *pdxlddinfo = pphDirectDispatch->Pdxlddinfo();
-	pdxlddinfo->AddRef();
-	CDXLPhysicalDML *pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ulCtid, m_ulSegmentId, m_fPreserveOids, m_ulTupleOidColId, pdxlddinfo, m_fInputSorted);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatch->GetDXLDirectDispatchInfo();
+	dxl_direct_dispatch_info->AddRef();
+	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ulCtid, m_ulSegmentId, m_fPreserveOids, m_ulTupleOidColId, dxl_direct_dispatch_info, m_fInputSorted);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	
 	// set statistics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
@@ -211,7 +211,7 @@ CParseHandlerPhysicalDML::EndElement
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->Pdxlop()->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

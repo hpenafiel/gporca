@@ -43,7 +43,7 @@ CParseHandlerSort::CParseHandlerSort
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -72,7 +72,7 @@ CParseHandlerSort::StartElement
 	}
 	
 	// parse and create Sort operator
-	m_pdxlop = (CDXLPhysicalSort *) CDXLOperatorFactory::PdxlopSort(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalSort *) CDXLOperatorFactory::PdxlopSort(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -150,7 +150,7 @@ CParseHandlerSort::EndElement
 	CParseHandlerScalarLimitOffset *pphOffset = dynamic_cast<CParseHandlerScalarLimitOffset *>((*this)[5]);
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[6]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);	
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 	// set statictics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 
@@ -163,7 +163,7 @@ CParseHandlerSort::EndElement
 	AddChildFromParseHandler(pphChild);
 	
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

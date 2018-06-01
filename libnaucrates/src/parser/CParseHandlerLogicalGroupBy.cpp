@@ -125,7 +125,7 @@ CParseHandlerLogicalGroupBy::EndElement
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphChild);
 
-	CDXLLogicalGroupBy *pdxlopGrpby = static_cast<CDXLLogicalGroupBy*>(m_pdxln->Pdxlop());
+	CDXLLogicalGroupBy *pdxlopGrpby = static_cast<CDXLLogicalGroupBy*>(m_pdxln->GetOperator());
 
 	// set grouping cols list
 	GPOS_ASSERT(NULL != pphGrpCollList->PdrgpulGroupingCols());
@@ -136,7 +136,7 @@ CParseHandlerLogicalGroupBy::EndElement
 
 
 #ifdef GPOS_DEBUG
-	pdxlopGrpby->AssertValid(m_pdxln, false /* fValidateChildren */);
+	pdxlopGrpby->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

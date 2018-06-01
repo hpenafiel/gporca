@@ -79,20 +79,20 @@ namespace gpdxl
 			static
 			CDXLPhysicalTableScan *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopPhysicalTableScan == pdxlop->Edxlop() ||
-							EdxlopPhysicalExternalScan == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopPhysicalTableScan == dxl_op->Edxlop() ||
+							EdxlopPhysicalExternalScan == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLPhysicalTableScan*>(pdxlop);
+				return dynamic_cast<CDXLPhysicalTableScan*>(dxl_op);
 			}
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 			
 	};

@@ -55,20 +55,20 @@ namespace gpopt
 			// ctor
 			CHint
 				(
-				ULONG ulMinNumOfPartsToRequireSortOnInsert,
-				ULONG ulJoinArityForAssociativityCommutativity,
-				ULONG ulArrayExpansionThreshold,
+				ULONG min_num_of_parts_to_require_sort_on_insert,
+				ULONG join_arity_for_associativity_commutativity,
+				ULONG array_expansion_threshold,
 				ULONG ulJoinOrderDPLimit,
-				ULONG ulBroadcastThreshold,
-				BOOL fEnforceConstraintsOnDML
+				ULONG broadcast_threshold,
+				BOOL enforce_constraint_on_dml
 				)
 				:
-				m_ulMinNumOfPartsToRequireSortOnInsert(ulMinNumOfPartsToRequireSortOnInsert),
-				m_ulJoinArityForAssociativityCommutativity(ulJoinArityForAssociativityCommutativity),
-				m_ulArrayExpansionThreshold(ulArrayExpansionThreshold),
+				m_ulMinNumOfPartsToRequireSortOnInsert(min_num_of_parts_to_require_sort_on_insert),
+				m_ulJoinArityForAssociativityCommutativity(join_arity_for_associativity_commutativity),
+				m_ulArrayExpansionThreshold(array_expansion_threshold),
 				m_ulJoinOrderDPLimit(ulJoinOrderDPLimit),
-				m_ulBroadcastThreshold(ulBroadcastThreshold),
-				m_fEnforceConstraintsOnDML(fEnforceConstraintsOnDML)
+				m_ulBroadcastThreshold(broadcast_threshold),
+				m_fEnforceConstraintsOnDML(enforce_constraint_on_dml)
 			{
 			}
 
@@ -128,12 +128,12 @@ namespace gpopt
 			{
 				return GPOS_NEW(memory_pool) CHint
 										(
-										INT_MAX, /* ulMinNumOfPartsToRequireSortOnInsert */
-										INT_MAX, /* ulJoinArityForAssociativityCommutativity */
-										INT_MAX, /* ulArrayExpansionThreshold */
+										INT_MAX, /* min_num_of_parts_to_require_sort_on_insert */
+										INT_MAX, /* join_arity_for_associativity_commutativity */
+										INT_MAX, /* array_expansion_threshold */
 										JOIN_ORDER_DP_THRESHOLD, /*ulJoinOrderDPLimit*/
-										BROADCAST_THRESHOLD, /*ulBroadcastThreshold*/
-										true /* fEnforceConstraintsOnDML */
+										BROADCAST_THRESHOLD, /*broadcast_threshold*/
+										true /* enforce_constraint_on_dml */
 										);
 			}
 

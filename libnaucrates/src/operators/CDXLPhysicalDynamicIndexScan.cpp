@@ -218,12 +218,12 @@ void
 CDXLPhysicalDynamicIndexScan::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 
 	// index scan has only 3 children
 	GPOS_ASSERT(3 == pdxln->Arity());
@@ -242,12 +242,12 @@ CDXLPhysicalDynamicIndexScan::AssertValid
 	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxldisIndexCondition];
 
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->Pdxlop()->Edxlop());
-	GPOS_ASSERT(EdxlopScalarFilter == pdxlnIndexFilter->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarFilter == pdxlnIndexFilter->GetOperator()->Edxlop());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnIndexConds->Pdxlop()->AssertValid(pdxlnIndexConds, fValidateChildren);
+		pdxlnIndexConds->GetOperator()->AssertValid(pdxlnIndexConds, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

@@ -117,12 +117,12 @@ void
 CDXLPhysicalRedistributeMotion::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	GPOS_ASSERT(m_pdrgpiInputSegIds != NULL);
 	GPOS_ASSERT(0 < m_pdrgpiInputSegIds->Size());
@@ -131,15 +131,15 @@ CDXLPhysicalRedistributeMotion::AssertValid
 	
 	GPOS_ASSERT(EdxlrmIndexSentinel == pdxln->Arity());
 	
-	CDXLNode *pdxlnChild = (*pdxln)[EdxlrmIndexChild];
+	CDXLNode *child_dxlnode = (*pdxln)[EdxlrmIndexChild];
 	CDXLNode *pdxlnHashExprList = (*pdxln)[EdxlrmIndexHashExprList];
 
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
-		pdxlnHashExprList->Pdxlop()->AssertValid(pdxlnHashExprList, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
+		pdxlnHashExprList->GetOperator()->AssertValid(pdxlnHashExprList, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

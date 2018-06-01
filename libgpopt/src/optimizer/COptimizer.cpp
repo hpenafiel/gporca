@@ -184,8 +184,8 @@ COptimizer::PdxlnOptimize
 	IMemoryPool *memory_pool, 
 	CMDAccessor *pmda,
 	const CDXLNode *pdxlnQuery,
-	const DrgPdxln *query_output_dxlnode_array, 
-	const DrgPdxln *cte_dxlnode_array, 
+	const DXLNodeArray *query_output_dxlnode_array, 
+	const DXLNodeArray *cte_dxlnode_array, 
 	IConstExprEvaluator *pceeval,
 	ULONG ulHosts,	// actual number of data nodes in the system
 	ULONG ulSessionId,

@@ -33,18 +33,18 @@ CParseHandlerUtils::SetProperties
 	CParseHandlerProperties *pphProp
 	)
 {
-	GPOS_ASSERT(NULL != pphProp->Pdxlprop());
+	GPOS_ASSERT(NULL != pphProp->GetProperties());
 	// set physical properties
-	CDXLPhysicalProperties *pdxlprop = pphProp->Pdxlprop();
-	pdxlprop->AddRef();
-	pdxln->SetProperties(pdxlprop);
+	CDXLPhysicalProperties *dxl_properties = pphProp->GetProperties();
+	dxl_properties->AddRef();
+	pdxln->SetProperties(dxl_properties);
 
 	// set the statistical information
 	CDXLStatsDerivedRelation *pdxlstatsderrel = pphProp->Pdxlstatsderrel();
 	if (NULL != pdxlstatsderrel)
 	{
 		pdxlstatsderrel->AddRef();
-		pdxlprop->SetStats(pdxlstatsderrel);
+		dxl_properties->SetStats(pdxlstatsderrel);
 	}
 }
 

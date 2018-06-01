@@ -43,7 +43,7 @@ namespace gpdxl
 			DXLDatumArrays *m_pdrgpdrgpdxldatum;
 		
 			// direct dispatch spec
-			CDXLDirectDispatchInfo *m_pdxlddinfo;
+			CDXLDirectDispatchInfo *m_direct_dispatch_info;
 			
 			// private copy ctor
 			CParseHandlerDirectDispatchInfo(const CParseHandlerDirectDispatchInfo &);
@@ -78,7 +78,7 @@ namespace gpdxl
 			~CParseHandlerDirectDispatchInfo();
 			
 			// accessor to the parsed direct dispatch spec
-			CDXLDirectDispatchInfo *Pdxlddinfo() const;
+			CDXLDirectDispatchInfo *GetDXLDirectDispatchInfo() const;
 	};
 }
 

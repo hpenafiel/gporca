@@ -89,14 +89,14 @@ CDXLPhysicalLimit::SerializeToDXL
 
 	// serialize children nodes
 
-	const DrgPdxln *pdrgpdxln = pdxln->PdrgpdxlnChildren();
+	const DXLNodeArray *dxl_array = pdxln->GetChildDXLNodeArray();
 
 	GPOS_ASSERT(4 == pdxln->Arity());
 	// serialize the first two children: target-list and plan
 	for (ULONG i = 0; i < 4; i++)
 	{
-		CDXLNode *pdxlnChild = (*pdrgpdxln)[i];
-		pdxlnChild->SerializeToDXL(xml_serializer);
+		CDXLNode *child_dxlnode = (*dxl_array)[i];
+		child_dxlnode->SerializeToDXL(xml_serializer);
 	}
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
@@ -117,34 +117,34 @@ void
 CDXLPhysicalLimit::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	GPOS_ASSERT(4 == pdxln->Arity());
 
 	// Assert proj list is valid
 	CDXLNode *pdxlnProjList = (*pdxln)[EdxllimitIndexProjList];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->Edxlop());
 
 	// assert child plan is a physical plan and is valid
 
-	CDXLNode *pdxlnChild = (*pdxln)[EdxllimitIndexChildPlan];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[EdxllimitIndexChildPlan];
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 
 	// Assert the validity of Count and Offset
 
 	CDXLNode *pdxlnCount = (*pdxln)[EdxllimitIndexLimitCount];
-	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnCount->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnCount->GetOperator()->Edxlop());
 
 	CDXLNode *pdxlnOffset = (*pdxln)[EdxllimitIndexLimitOffset];
-	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnOffset->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnOffset->GetOperator()->Edxlop());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnProjList->Pdxlop()->AssertValid(pdxlnProjList, fValidateChildren);
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
-		pdxlnCount->Pdxlop()->AssertValid(pdxlnCount, fValidateChildren);
-		pdxlnOffset->Pdxlop()->AssertValid(pdxlnOffset, fValidateChildren);
+		pdxlnProjList->GetOperator()->AssertValid(pdxlnProjList, validate_children);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
+		pdxlnCount->GetOperator()->AssertValid(pdxlnCount, validate_children);
+		pdxlnOffset->GetOperator()->AssertValid(pdxlnOffset, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

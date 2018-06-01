@@ -41,7 +41,7 @@ CParseHandlerAppend::CParseHandlerAppend
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -60,10 +60,10 @@ CParseHandlerAppend::SetupInitialHandlers
 	)
 {
 	// seeing a result tag
-	GPOS_ASSERT(m_pdxlop == NULL && "Append dxl node should not have been created yet");
+	GPOS_ASSERT(m_dxl_op == NULL && "Append dxl node should not have been created yet");
 	GPOS_ASSERT(this->Length() == 0 && "No handlers should have been added yet");
 
-	m_pdxlop = (CDXLPhysicalAppend *) CDXLOperatorFactory::PdxlopAppend(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalAppend *) CDXLOperatorFactory::PdxlopAppend(m_parse_handler_mgr->Pmm(), attrs);
 
 	// parse handler for the filter
 	CParseHandlerBase *pphFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -101,12 +101,12 @@ CParseHandlerAppend::StartElement
 {
 
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAppend), element_local_name)
-		&& NULL == m_pdxlop)
+		&& NULL == m_dxl_op)
 	{
 		// open a root Append element
 		SetupInitialHandlers(attrs);
 	}
-	else if (NULL != m_pdxlop)
+	else if (NULL != m_dxl_op)
 	{
 		// install a parse handler for a child node
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
@@ -150,7 +150,7 @@ CParseHandlerAppend::EndElement
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 
 	// add constructed children
@@ -168,7 +168,7 @@ CParseHandlerAppend::EndElement
 	}
 
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

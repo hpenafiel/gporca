@@ -37,7 +37,7 @@ namespace gpdxl
 	private:
 
 		// the ValuesScan operator
-		CDXLPhysicalValuesScan *m_pdxlop;
+		CDXLPhysicalValuesScan *m_dxl_op;
 
 		// private copy ctor
 		CParseHandlerValuesScan(const CParseHandlerValuesScan &);

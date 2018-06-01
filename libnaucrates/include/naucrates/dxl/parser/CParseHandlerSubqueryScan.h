@@ -37,7 +37,7 @@ namespace gpdxl
 		private:
 		
 			// the subquery scan operator
-			CDXLPhysicalSubqueryScan *m_pdxlop;
+			CDXLPhysicalSubqueryScan *m_dxl_op;
 		
 			// private copy ctor
 			CParseHandlerSubqueryScan(const CParseHandlerSubqueryScan &);

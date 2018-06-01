@@ -146,7 +146,7 @@ void
 CDXLScalarMinMax::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
@@ -156,11 +156,11 @@ CDXLScalarMinMax::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->Pdxlop()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->Edxloperatortype());
 
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnArg->Pdxlop()->AssertValid(pdxlnArg, fValidateChildren);
+			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
 		}
 	}
 }

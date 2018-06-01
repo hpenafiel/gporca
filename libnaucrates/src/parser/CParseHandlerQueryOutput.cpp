@@ -38,7 +38,7 @@ CParseHandlerQueryOutput::CParseHandlerQueryOutput
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpdxln(NULL)
+	m_dxl_array(NULL)
 {
 }
 
@@ -52,7 +52,7 @@ CParseHandlerQueryOutput::CParseHandlerQueryOutput
 //---------------------------------------------------------------------------
 CParseHandlerQueryOutput::~CParseHandlerQueryOutput()
 {
-	m_pdrgpdxln->Release();
+	m_dxl_array->Release();
 }
 
 
@@ -64,11 +64,11 @@ CParseHandlerQueryOutput::~CParseHandlerQueryOutput()
 //		Return the list of query output columns
 //
 //---------------------------------------------------------------------------
-DrgPdxln *
+DXLNodeArray *
 CParseHandlerQueryOutput::GetOutputColumnsDXLArray()
 {
-	GPOS_ASSERT(NULL != m_pdrgpdxln);
-	return m_pdrgpdxln;
+	GPOS_ASSERT(NULL != m_dxl_array);
+	return m_dxl_array;
 }
 
 
@@ -92,14 +92,14 @@ CParseHandlerQueryOutput::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenQueryOutput), element_local_name))
 	{
 		// start the query output section in the DXL document
-		GPOS_ASSERT(NULL == m_pdrgpdxln);
+		GPOS_ASSERT(NULL == m_dxl_array);
 
-		m_pdrgpdxln = GPOS_NEW(m_memory_pool) DrgPdxln(m_memory_pool);
+		m_dxl_array = GPOS_NEW(m_memory_pool) DXLNodeArray(m_memory_pool);
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIdent), element_local_name))
 	{
 		// we must have seen a proj list already and initialized the proj list node
-		GPOS_ASSERT(NULL != m_pdrgpdxln);
+		GPOS_ASSERT(NULL != m_dxl_array);
 
 		// start new scalar ident element
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIdent), m_parse_handler_mgr, this);
@@ -148,7 +148,7 @@ CParseHandlerQueryOutput::EndElement
 
 		CDXLNode *pdxlnIdent = pphChild->Pdxln();
 		pdxlnIdent->AddRef();
-		m_pdrgpdxln->Append(pdxlnIdent);
+		m_dxl_array->Append(pdxlnIdent);
 	}
 
 	// deactivate handler

@@ -39,7 +39,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	ULONG ulSegmentId,
 	BOOL fPreserveOids,
 	ULONG ulTupleOid,
-	CDXLDirectDispatchInfo *pdxlddinfo,
+	CDXLDirectDispatchInfo *dxl_direct_dispatch_info,
 	BOOL fInputSorted
 	)
 	:
@@ -53,7 +53,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	m_ulSegmentId(ulSegmentId),
 	m_fPreserveOids(fPreserveOids),
 	m_ulTupleOid(ulTupleOid),
-	m_pdxlddinfo(pdxlddinfo),
+	m_direct_dispatch_info(dxl_direct_dispatch_info),
 	m_fInputSorted(fInputSorted)
 {
 	GPOS_ASSERT(EdxldmlSentinel > edxldmltype);
@@ -73,7 +73,7 @@ CDXLPhysicalDML::~CDXLPhysicalDML()
 {
 	m_pdxltabdesc->Release();
 	m_pdrgpul->Release();
-	CRefCount::SafeRelease(m_pdxlddinfo);
+	CRefCount::SafeRelease(m_direct_dispatch_info);
 }
 
 //---------------------------------------------------------------------------
@@ -155,9 +155,9 @@ CDXLPhysicalDML::SerializeToDXL
 	
 	pdxln->SerializePropertiesToDXL(xml_serializer);
 
-	if (NULL != m_pdxlddinfo)
+	if (NULL != m_direct_dispatch_info)
 	{
-		m_pdxlddinfo->Serialize(xml_serializer);
+		m_direct_dispatch_info->Serialize(xml_serializer);
 	}
 	else
 	{
@@ -191,17 +191,17 @@ void
 CDXLPhysicalDML::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
-	CDXLNode *pdxlnChild = (*pdxln)[1];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[1];
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 

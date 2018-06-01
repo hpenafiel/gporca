@@ -105,8 +105,8 @@ namespace gpopt
 						IMemoryPool *memory_pool, 
 						CMDAccessor *pmda,						// MD accessor
 						const CDXLNode *pdxlnQuery,
-						const DrgPdxln *query_output_dxlnode_array, 	// required output columns
-						const DrgPdxln *cte_dxlnode_array,
+						const DXLNodeArray *query_output_dxlnode_array, 	// required output columns
+						const DXLNodeArray *cte_dxlnode_array,
 						IConstExprEvaluator *pceeval,			// constant expression evaluator
 						ULONG ulHosts,							// number of hosts (data nodes) in the system
 						ULONG ulSessionId,						// session id used for logging and minidumps

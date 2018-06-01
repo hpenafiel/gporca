@@ -40,7 +40,7 @@ CParseHandlerPhysicalRowTrigger::CParseHandlerPhysicalRowTrigger
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -85,7 +85,7 @@ CParseHandlerPhysicalRowTrigger::StartElement
 		pdrgpulNew = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
 	}
 
-	m_pdxlop = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, pmdidRel, iType, pdrgpulOld, pdrgpulNew);
+	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, pmdidRel, iType, pdrgpulOld, pdrgpulNew);
 
 	// parse handler for physical operator
 	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
@@ -131,7 +131,7 @@ CParseHandlerPhysicalRowTrigger::EndElement
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 	// set statistics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
@@ -145,7 +145,7 @@ CParseHandlerPhysicalRowTrigger::EndElement
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->Pdxlop()->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

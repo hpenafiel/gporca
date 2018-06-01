@@ -240,11 +240,11 @@ void
 CDXLScalarAggref::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
-	EdxlAggrefStage edxlaggrefstage = ((CDXLScalarAggref*) pdxln->Pdxlop())->Edxlaggstage();
+	EdxlAggrefStage edxlaggrefstage = ((CDXLScalarAggref*) pdxln->GetOperator())->Edxlaggstage();
 
 	GPOS_ASSERT((EdxlaggstageFinal >= edxlaggrefstage) && (EdxlaggstageNormal <= edxlaggrefstage));
 
@@ -252,11 +252,11 @@ CDXLScalarAggref::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnAggrefArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnAggrefArg->Pdxlop()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnAggrefArg->GetOperator()->Edxloperatortype());
 		
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnAggrefArg->Pdxlop()->AssertValid(pdxlnAggrefArg, fValidateChildren);
+			pdxlnAggrefArg->GetOperator()->AssertValid(pdxlnAggrefArg, validate_children);
 		}
 	}
 }

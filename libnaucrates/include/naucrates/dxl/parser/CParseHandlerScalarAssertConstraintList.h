@@ -35,13 +35,13 @@ namespace gpdxl
 		private:
 			
 			// scalar assert operator
-			CDXLScalarAssertConstraintList *m_pdxlop;
+			CDXLScalarAssertConstraintList *m_dxl_op;
 			
 			// current assert constraint
 			CDXLScalarAssertConstraint *m_pdxlopAssertConstraint;
 			
 			// array of assert constraint nodes parsed so far
-			DrgPdxln *m_pdrgpdxlnAssertConstraints;
+			DXLNodeArray *m_pdrgpdxlnAssertConstraints;
 			
 			// private copy ctor
 			CParseHandlerScalarAssertConstraintList(const CParseHandlerScalarAssertConstraintList&);

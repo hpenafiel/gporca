@@ -103,7 +103,7 @@ void
 CDXLScalarPartOid::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL // fValidateChildren
+	BOOL // validate_children
 	)
 	const
 {

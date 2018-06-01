@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 
 			// the sort operator
-			CDXLPhysicalSort *m_pdxlop;
+			CDXLPhysicalSort *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerSort(const CParseHandlerSort &);

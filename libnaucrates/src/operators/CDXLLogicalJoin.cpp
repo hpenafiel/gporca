@@ -133,7 +133,7 @@ void
 CDXLLogicalJoin::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	const ULONG ulChildren = pdxln->Arity();
@@ -141,12 +141,12 @@ CDXLLogicalJoin::AssertValid
 
 	for (ULONG ul = 0; ul < ulChildren - 1; ++ul)
 	{
-		CDXLNode *pdxlnChild = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeLogical == pdxlnChild->Pdxlop()->Edxloperatortype());
+		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
 		
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 
@@ -154,11 +154,11 @@ CDXLLogicalJoin::AssertValid
 	GPOS_ASSERT(NULL != pdxlnLastChild);
 
 	//The last child is a CDXLScalar operator representing the join qual
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnLastChild->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnLastChild->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnLastChild->Pdxlop()->AssertValid(pdxlnLastChild, fValidateChildren);
+		pdxlnLastChild->GetOperator()->AssertValid(pdxlnLastChild, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

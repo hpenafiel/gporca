@@ -37,14 +37,14 @@ namespace gpdxl
 			CDXLNode *m_pdxln;
 
 			// array of DXL nodes that represent the query output
-			DrgPdxln *m_pdrgpdxlnQueryOutput;
+			DXLNodeArray *m_pdrgpdxlnQueryOutput;
 			
 			// CTE list
-			DrgPdxln *m_cte_producer_dxl_array;
+			DXLNodeArray *m_cte_producer_dxl_array;
 
 		public:
 			// ctor
-			CQueryToDXLResult(CDXLNode *pdxlnQuery, DrgPdxln *pdrgpdxlnOutput, DrgPdxln *cte_dxlnode_array);
+			CQueryToDXLResult(CDXLNode *pdxlnQuery, DXLNodeArray *pdrgpdxlnOutput, DXLNodeArray *cte_dxlnode_array);
 
 			// dtor
 			~CQueryToDXLResult();
@@ -53,10 +53,10 @@ namespace gpdxl
 			const CDXLNode *Pdxln() const;
 
 			// return the array of output columns
-			const DrgPdxln *GetOutputColumnsDXLArray() const;
+			const DXLNodeArray *GetOutputColumnsDXLArray() const;
 			
 			// return the array of CTEs
-			const DrgPdxln *GetCTEProducerDXLArray() const;
+			const DXLNodeArray *GetCTEProducerDXLArray() const;
 	};
 }
 

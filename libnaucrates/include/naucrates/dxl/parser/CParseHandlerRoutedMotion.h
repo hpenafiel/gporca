@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 			
 			// motion operator
-			CDXLPhysicalRoutedDistributeMotion *m_pdxlop;
+			CDXLPhysicalRoutedDistributeMotion *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerRoutedMotion(const CParseHandlerRoutedMotion &);

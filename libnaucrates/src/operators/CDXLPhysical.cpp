@@ -72,7 +72,7 @@ void
 CDXLPhysical::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	GPOS_ASSERT(NULL != pdxln);
@@ -82,13 +82,13 @@ CDXLPhysical::AssertValid
 	CDXLNode *pdxlnProjList = (*pdxln)[0];
 	CDXLNode *pdxlnFilter = (*pdxln)[1];
 	
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->Pdxlop()->Edxlop());
-	GPOS_ASSERT(EdxlopScalarFilter == pdxlnFilter->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarFilter == pdxlnFilter->GetOperator()->Edxlop());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnProjList->Pdxlop()->AssertValid(pdxlnProjList, fValidateChildren);
-		pdxlnFilter->Pdxlop()->AssertValid(pdxlnFilter, fValidateChildren);
+		pdxlnProjList->GetOperator()->AssertValid(pdxlnProjList, validate_children);
+		pdxlnFilter->GetOperator()->AssertValid(pdxlnFilter, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

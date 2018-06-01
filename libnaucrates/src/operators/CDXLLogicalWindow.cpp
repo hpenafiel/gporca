@@ -157,28 +157,28 @@ void
 CDXLLogicalWindow::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
 
 	CDXLNode *pdxlnProjList = (*pdxln)[0];
-	CDXLNode *pdxlnChild = (*pdxln)[1];
+	CDXLNode *child_dxlnode = (*pdxln)[1];
 
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->Pdxlop()->Edxlop());
-	GPOS_ASSERT(EdxloptypeLogical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnProjList->Pdxlop()->AssertValid(pdxlnProjList, fValidateChildren);
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		pdxlnProjList->GetOperator()->AssertValid(pdxlnProjList, validate_children);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 
 	const ULONG ulArity = pdxlnProjList->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnPrEl = (*pdxlnProjList)[ul];
-		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->Pdxlop()->Edxlop());
+		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->Edxlop());
 	}
 
 	GPOS_ASSERT(NULL != m_pdrgpdxlws);

@@ -38,7 +38,7 @@ namespace gpdxl
 
 			
 			// the distinct comparison operator
-			CDXLScalarDistinctComp *m_pdxlop;
+			CDXLScalarDistinctComp *m_dxl_op;
 
 			// private copy ctor
 			CParseHandlerDistinctComp(const CParseHandlerDistinctComp &);

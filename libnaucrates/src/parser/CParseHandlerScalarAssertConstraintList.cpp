@@ -37,7 +37,7 @@ CParseHandlerScalarAssertConstraintList::CParseHandlerScalarAssertConstraintList
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL),
+	m_dxl_op(NULL),
 	m_pdxlopAssertConstraint(NULL),
 	m_pdrgpdxlnAssertConstraints(NULL)
 {
@@ -63,16 +63,16 @@ CParseHandlerScalarAssertConstraintList::StartElement
 {	
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAssertConstraintList), element_local_name))
 	{
-		GPOS_ASSERT(NULL == m_pdxlop);
+		GPOS_ASSERT(NULL == m_dxl_op);
 		GPOS_ASSERT(NULL == m_pdxlopAssertConstraint);
 		GPOS_ASSERT(NULL == m_pdrgpdxlnAssertConstraints);
 		
-		m_pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarAssertConstraintList(m_memory_pool);
-		m_pdrgpdxlnAssertConstraints = GPOS_NEW(m_memory_pool) DrgPdxln(m_memory_pool);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarAssertConstraintList(m_memory_pool);
+		m_pdrgpdxlnAssertConstraints = GPOS_NEW(m_memory_pool) DXLNodeArray(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAssertConstraint), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdxlop);
+		GPOS_ASSERT(NULL != m_dxl_op);
 		GPOS_ASSERT(NULL == m_pdxlopAssertConstraint);
 				
 		// parse error message
@@ -115,14 +115,14 @@ CParseHandlerScalarAssertConstraintList::EndElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAssertConstraintList), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdxlop);
+		GPOS_ASSERT(NULL != m_dxl_op);
 		GPOS_ASSERT(NULL != m_pdrgpdxlnAssertConstraints);
 		
 		// assemble final assert predicate node
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop, m_pdrgpdxlnAssertConstraints);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op, m_pdrgpdxlnAssertConstraints);
 
 #ifdef GPOS_DEBUG
-	m_pdxlop->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 		// deactivate handler
@@ -133,11 +133,11 @@ CParseHandlerScalarAssertConstraintList::EndElement
 		GPOS_ASSERT(NULL != m_pdxlopAssertConstraint);
 
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp*>((*this)[this->Length() - 1]);
-		CDXLNode *pdxlnChild = pphChild->Pdxln();
-		GPOS_ASSERT(NULL != pdxlnChild);
-		pdxlnChild->AddRef();
+		CDXLNode *child_dxlnode = pphChild->Pdxln();
+		GPOS_ASSERT(NULL != child_dxlnode);
+		child_dxlnode->AddRef();
 		
-		CDXLNode *pdxlnAssertConstraint = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlopAssertConstraint, pdxlnChild);
+		CDXLNode *pdxlnAssertConstraint = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlopAssertConstraint, child_dxlnode);
 		m_pdrgpdxlnAssertConstraints->Append(pdxlnAssertConstraint);
 		m_pdxlopAssertConstraint = NULL;
 	}

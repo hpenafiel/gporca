@@ -344,8 +344,8 @@ CICGTest::FDXLOpSatisfiesPredicate
 {
 	using namespace gpdxl;
 
-	CDXLOperator *pdxlop = pdxl->Pdxlop();
-	if (!fdop(pdxlop))
+	CDXLOperator *dxl_op = pdxl->GetOperator();
+	if (!fdop(dxl_op))
 	{
 		return false;
 	}
@@ -373,12 +373,12 @@ CICGTest::FDXLOpSatisfiesPredicate
 BOOL
 CICGTest::FIsNotIndexJoin
 	(
-	CDXLOperator *pdxlop
+	CDXLOperator *dxl_op
 	)
 {
-	if (EdxlopPhysicalNLJoin == pdxlop->Edxlop())
+	if (EdxlopPhysicalNLJoin == dxl_op->Edxlop())
 	{
-		if (CDXLPhysicalNLJoin::PdxlConvert(pdxlop)->FIndexNLJ())
+		if (CDXLPhysicalNLJoin::PdxlConvert(dxl_op)->FIndexNLJ())
 		{
 			return false;
 		}

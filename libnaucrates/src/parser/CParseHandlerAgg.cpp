@@ -41,7 +41,7 @@ CParseHandlerAgg::CParseHandlerAgg
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -70,7 +70,7 @@ CParseHandlerAgg::StartElement
 	}
 	
 	// parse and create group by operator
-	m_pdxlop = (CDXLPhysicalAgg *) CDXLOperatorFactory::PdxlopAgg(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalAgg *) CDXLOperatorFactory::PdxlopAgg(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -141,9 +141,9 @@ CParseHandlerAgg::EndElement
 
 	ULongPtrArray *pdrgpul = pphGrpColList->PdrgpulGroupingCols();
 	pdrgpul->AddRef();
-	m_pdxlop->SetGroupingCols(pdrgpul);
+	m_dxl_op->SetGroupingCols(pdrgpul);
 	
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);	
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 
 	// set physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);

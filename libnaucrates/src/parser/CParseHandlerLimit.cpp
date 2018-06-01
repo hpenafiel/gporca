@@ -40,7 +40,7 @@ CParseHandlerLimit::CParseHandlerLimit
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -66,8 +66,8 @@ CParseHandlerLimit::StartElement
 	{
 
 		// parse and create Limit operator
-		m_pdxlop = (CDXLPhysicalLimit *) CDXLOperatorFactory::PdxlopLimit(m_parse_handler_mgr->Pmm(), attrs);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+		m_dxl_op = (CDXLPhysicalLimit *) CDXLOperatorFactory::PdxlopLimit(m_parse_handler_mgr->Pmm(), attrs);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 		// create and activate the parse handler for the children nodes in reverse
 		// order of their expected appearance

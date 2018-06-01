@@ -179,12 +179,12 @@ void
 CDXLPhysicalTableScan::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	// table scan has only 2 children
 	GPOS_ASSERT(2 == pdxln->Arity());

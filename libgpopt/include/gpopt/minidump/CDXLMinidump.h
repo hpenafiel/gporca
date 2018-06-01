@@ -53,10 +53,10 @@ namespace gpopt
 			CDXLNode *m_query_dxl_root;
 			
 			// Array of DXL nodes that represent the query output
-			DrgPdxln *m_pdrgpdxlnQueryOutput;
+			DXLNodeArray *m_pdrgpdxlnQueryOutput;
 			
 			// Array of DXL nodes that represent the CTE producers
-			DrgPdxln *m_cte_producer_dxl_array;
+			DXLNodeArray *m_cte_producer_dxl_array;
 
 			// DXL plan
 			CDXLNode *m_plan_dxl_root;
@@ -84,8 +84,8 @@ namespace gpopt
 				CBitSet *pbs, 
 				COptimizerConfig *optimizer_config,
 				CDXLNode *pdxlnQuery, 
-				DrgPdxln *query_output_dxlnode_array,
-				DrgPdxln *cte_dxlnode_array,
+				DXLNodeArray *query_output_dxlnode_array,
+				DXLNodeArray *cte_dxlnode_array,
 				CDXLNode *pdxlnPlan, 
 				DrgPimdobj *pdrgpmdobj, 
 				DrgPsysid *pdrgpsysid,
@@ -109,10 +109,10 @@ namespace gpopt
 			const CDXLNode *GetQueryDXLRoot() const;
 			
 			// query output columns
-			const DrgPdxln *PdrgpdxlnQueryOutput() const;
+			const DXLNodeArray *PdrgpdxlnQueryOutput() const;
 			
 			// CTE list
-			const DrgPdxln *GetCTEProducerDXLArray() const;
+			const DXLNodeArray *GetCTEProducerDXLArray() const;
 
 			// plan
 			const CDXLNode *PdxlnPlan() const;

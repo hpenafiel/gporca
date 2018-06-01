@@ -139,7 +139,7 @@ CConstExprEvaluatorDXL::PexprEval
 	CDXLNode *pdxlnExpr = m_trexpr2dxl.PdxlnScalar(pexpr);
 	CDXLNode *pdxlnResult = m_pconstdxleval->PdxlnEvaluateExpr(pdxlnExpr);
 
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnResult->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnResult->GetOperator()->Edxloperatortype());
 
 	CExpression *pexprResult = m_trdxl2expr.PexprTranslateScalar(pdxlnResult, NULL /*pdrgpcr*/);
 	pdxlnResult->Release();

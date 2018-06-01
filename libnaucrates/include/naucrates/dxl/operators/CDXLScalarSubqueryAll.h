@@ -57,13 +57,13 @@ namespace gpdxl
 			static
 			CDXLScalarSubqueryAll *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarSubqueryAll == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarSubqueryAll == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarSubqueryAll*>(pdxlop);
+				return dynamic_cast<CDXLScalarSubqueryAll*>(dxl_op);
 			}
 
 			// does the operator return a boolean result

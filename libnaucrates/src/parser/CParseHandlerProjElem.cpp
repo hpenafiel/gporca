@@ -65,7 +65,7 @@ CParseHandlerProjElem::StartElement
 	}
 	
 	// parse and create proj elem operator
-	m_pdxlop = (CDXLScalarProjElem *) CDXLOperatorFactory::PdxlopProjElem(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLScalarProjElem *) CDXLOperatorFactory::PdxlopProjElem(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the child scalar expression node
 	
@@ -99,7 +99,7 @@ CParseHandlerProjElem::EndElement
 	}
 	
 	// construct node from the parsed expression node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);	
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 		
 	CParseHandlerScalarOp *pph = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
 	

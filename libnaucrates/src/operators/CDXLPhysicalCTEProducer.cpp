@@ -128,21 +128,21 @@ void
 CDXLPhysicalCTEProducer::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
-	CDXLNode *pdxlnChild = (*pdxln)[1];
+	CDXLNode *child_dxlnode = (*pdxln)[1];
 
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->Pdxlop()->Edxlop());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnPrL->Pdxlop()->AssertValid(pdxlnPrL, fValidateChildren);
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		pdxlnPrL->GetOperator()->AssertValid(pdxlnPrL, validate_children);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

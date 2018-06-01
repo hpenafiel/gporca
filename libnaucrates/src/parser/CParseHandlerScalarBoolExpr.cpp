@@ -76,10 +76,10 @@ CParseHandlerScalarBoolExpr::StartElement
 			}
 
 			// parse and create scalar BoolExpr
-			CDXLScalarBoolExpr *pdxlop = (CDXLScalarBoolExpr*) CDXLOperatorFactory::PdxlopBoolExpr(m_parse_handler_mgr->Pmm(), m_edxlBoolType);
+			CDXLScalarBoolExpr *dxl_op = (CDXLScalarBoolExpr*) CDXLOperatorFactory::PdxlopBoolExpr(m_parse_handler_mgr->Pmm(), m_edxlBoolType);
 
 			// construct node from the created child nodes
-			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 		}
 		else
 		{
@@ -138,10 +138,10 @@ CParseHandlerScalarBoolExpr::EndElement
 	const ULONG ulSize = this->Length();
 	// If the operation is NOT then it only has one child.
 	if (
-	    ((((CDXLScalarBoolExpr*) m_pdxln->Pdxlop())->EdxlBoolType() == Edxlnot)
+	    ((((CDXLScalarBoolExpr*) m_pdxln->GetOperator())->EdxlBoolType() == Edxlnot)
 		&& (1 != ulSize))
 		||
-		((((CDXLScalarBoolExpr*) m_pdxln->Pdxlop())->EdxlBoolType() != Edxlnot)
+		((((CDXLScalarBoolExpr*) m_pdxln->GetOperator())->EdxlBoolType() != Edxlnot)
 		&& (2 > ulSize))
 	  )
 	{

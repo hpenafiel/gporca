@@ -122,7 +122,7 @@ void
 CDXLPhysicalAssert::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
@@ -130,21 +130,21 @@ CDXLPhysicalAssert::AssertValid
 	GPOS_ASSERT(3 == pdxln->Arity());
 	
 	CDXLNode *pdxlnProjList = (*pdxln)[EdxlassertIndexProjList];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->Edxlop());
 
 	CDXLNode *pdxlnPredicate = (*pdxln)[EdxlassertIndexFilter];
-	GPOS_ASSERT(EdxlopScalarAssertConstraintList == pdxlnPredicate->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarAssertConstraintList == pdxlnPredicate->GetOperator()->Edxlop());
 
 	CDXLNode *pdxlnPhysicalChild = (*pdxln)[EdxlassertIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnPhysicalChild->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnPhysicalChild->GetOperator()->Edxloperatortype());
 
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
 		for (ULONG ul = 0; ul < 3; ul++)
 		{
-			CDXLNode *pdxlnChild = (*pdxln)[ul];
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			CDXLNode *child_dxlnode = (*pdxln)[ul];
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

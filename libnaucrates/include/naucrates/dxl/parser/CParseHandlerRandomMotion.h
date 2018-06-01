@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 			
 			// motion operator
-			CDXLPhysicalRandomMotion *m_pdxlop;
+			CDXLPhysicalRandomMotion *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerRandomMotion(const CParseHandlerRandomMotion &);

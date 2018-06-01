@@ -248,7 +248,7 @@ namespace gpopt
 			// compute the direct dispatch info  from the constraints
 			// on the distribution keys
 			static
-			CDXLDirectDispatchInfo *Pdxlddinfo
+			CDXLDirectDispatchInfo *GetDXLDirectDispatchInfo
 				(
 				IMemoryPool *memory_pool, 
 				CMDAccessor *pmda,
@@ -276,7 +276,7 @@ namespace gpopt
 		
 			// construct a default properties container
 			static
-			CDXLPhysicalProperties *Pdxlprop(IMemoryPool *memory_pool);
+			CDXLPhysicalProperties *GetProperties(IMemoryPool *memory_pool);
 
 			// create a scalar const value expression for the given bool value
 			static
@@ -475,7 +475,7 @@ namespace gpopt
 
 			// combine two boolean expressions using the given boolean operator
 			static
-			CDXLNode *PdxlnCombineBoolean(IMemoryPool *memory_pool, CDXLNode *pdxlnFst, CDXLNode *pdxlnSnd, EdxlBoolExprType boolexptype);
+			CDXLNode *PdxlnCombineBoolean(IMemoryPool *memory_pool, CDXLNode *first_child_dxlnode, CDXLNode *second_child_dxlnode, EdxlBoolExprType boolexptype);
 
 			// construct a partition selector node
 			static
@@ -485,14 +485,14 @@ namespace gpopt
 				IMDId *pmdid,
 				ULONG ulPartLevels,
 				ULONG ulScanId,
-				CDXLPhysicalProperties *pdxlprop,
+				CDXLPhysicalProperties *dxl_properties,
 				CDXLNode *pdxlnPrL,
 				CDXLNode *pdxlnEqFilters,
 				CDXLNode *pdxlnFilters,
 				CDXLNode *pdxlnResidual,
 				CDXLNode *pdxlnPropagation,
 				CDXLNode *pdxlnPrintable,
-				CDXLNode *pdxlnChild = NULL
+				CDXLNode *child_dxlnode = NULL
 				);
 
 			// create a DXL result node
@@ -500,11 +500,11 @@ namespace gpopt
 			CDXLNode *PdxlnResult
 				(
 				IMemoryPool *memory_pool,
-				CDXLPhysicalProperties *pdxlprop,
+				CDXLPhysicalProperties *dxl_properties,
 				CDXLNode *pdxlnPrL,
 				CDXLNode *pdxlnFilter,
 				CDXLNode *pdxlnOneTimeFilter,
-				CDXLNode *pdxlnChild
+				CDXLNode *child_dxlnode
 				);
 
 			// create a DXL ValuesScan node
@@ -512,7 +512,7 @@ namespace gpopt
 			CDXLNode *PdxlnValuesScan
 				(
 				IMemoryPool *memory_pool,
-				CDXLPhysicalProperties *pdxlprop,
+				CDXLPhysicalProperties *dxl_properties,
 				CDXLNode *pdxlnPrL,
 				DrgPdrgPdatum *pdrgpdrgdatum
 				);

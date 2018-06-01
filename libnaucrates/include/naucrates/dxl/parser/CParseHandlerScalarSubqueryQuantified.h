@@ -36,7 +36,7 @@ namespace gpdxl
 	{
 		private:
 			// scalar subquery operator
-			CDXLScalar *m_pdxlop;
+			CDXLScalar *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerScalarSubqueryQuantified(const CParseHandlerScalarSubqueryQuantified &);

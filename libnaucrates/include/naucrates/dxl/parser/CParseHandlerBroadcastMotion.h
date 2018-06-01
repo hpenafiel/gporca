@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 						
 			// the broadcast motion operator
-			CDXLPhysicalBroadcastMotion *m_pdxlop;
+			CDXLPhysicalBroadcastMotion *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerBroadcastMotion(const CParseHandlerBroadcastMotion &);

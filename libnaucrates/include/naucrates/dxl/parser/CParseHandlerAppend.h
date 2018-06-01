@@ -34,7 +34,7 @@ namespace gpdxl
 	{
 		private:
 
-				CDXLPhysicalAppend *m_pdxlop;
+				CDXLPhysicalAppend *m_dxl_op;
 
 				// private copy ctor
 				CParseHandlerAppend(const CParseHandlerAppend &);

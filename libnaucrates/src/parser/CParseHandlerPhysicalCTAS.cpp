@@ -171,7 +171,7 @@ CParseHandlerPhysicalCTAS::EndElement
 	GPOS_ASSERT(NULL != pphPrL->Pdxln());
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
 
-	GPOS_ASSERT(NULL != pphProp->Pdxlprop());
+	GPOS_ASSERT(NULL != pphProp->GetProperties());
 	GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
 	GPOS_ASSERT(NULL != pphCTASOptions->Pdxlctasopt());
 	GPOS_ASSERT(NULL != pphPrL->Pdxln());
@@ -209,7 +209,7 @@ CParseHandlerPhysicalCTAS::EndElement
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->Pdxlop()->AssertValid(m_pdxln, false /* fValidateChildren */);
+	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

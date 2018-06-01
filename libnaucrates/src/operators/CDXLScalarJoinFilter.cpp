@@ -107,7 +107,7 @@ void
 CDXLScalarJoinFilter::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
@@ -116,11 +116,11 @@ CDXLScalarJoinFilter::AssertValid
 	if (1 == pdxln->Arity())
 	{
 		CDXLNode *pdxlnCond = (*pdxln)[0];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnCond->Pdxlop()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnCond->GetOperator()->Edxloperatortype());
 		
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnCond->Pdxlop()->AssertValid(pdxlnCond, fValidateChildren);
+			pdxlnCond->GetOperator()->AssertValid(pdxlnCond, validate_children);
 		}
 	}
 	

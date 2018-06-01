@@ -62,8 +62,8 @@ CParseHandlerScalarLimitOffset::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), element_local_name))
 	{
 		// parse and create scalar OpExpr
-		CDXLScalarLimitOffset *pdxlop = (CDXLScalarLimitOffset*) CDXLOperatorFactory::PdxlopLimitOffset(m_parse_handler_mgr->Pmm(), attrs);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool,pdxlop);
+		CDXLScalarLimitOffset *dxl_op = (CDXLScalarLimitOffset*) CDXLOperatorFactory::PdxlopLimitOffset(m_parse_handler_mgr->Pmm(), attrs);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool,dxl_op);
 	}
 	else
 	{

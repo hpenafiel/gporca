@@ -161,7 +161,7 @@ void
 CDXLLogicalGet::AssertValid
 	(
 	const CDXLNode *, //pdxln
-	BOOL // fValidateChildren
+	BOOL // validate_children
 	) const
 {
 	// assert validity of table descriptor

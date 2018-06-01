@@ -64,12 +64,12 @@ namespace gpdxl
 			static
 			CDXLPhysicalProperties *PdxlpropConvert
 				(
-				CDXLProperties *pdxlprop
+				CDXLProperties *dxl_properties
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlprop);
-				GPOS_ASSERT(EdxlpropPhysical == pdxlprop->Edxlproptype());
-				return dynamic_cast<CDXLPhysicalProperties *>(pdxlprop);
+				GPOS_ASSERT(NULL != dxl_properties);
+				GPOS_ASSERT(EdxlpropPhysical == dxl_properties->Edxlproptype());
+				return dynamic_cast<CDXLPhysicalProperties *>(dxl_properties);
 			}
 	};
 

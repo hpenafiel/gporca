@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 			
 			// physical assert operator
-			CDXLPhysicalAssert *m_pdxlop;
+			CDXLPhysicalAssert *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerAssert(const CParseHandlerAssert&);

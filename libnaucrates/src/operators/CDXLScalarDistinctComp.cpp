@@ -107,7 +107,7 @@ void
 CDXLScalarDistinctComp::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {	
@@ -117,15 +117,15 @@ CDXLScalarDistinctComp::AssertValid
 	CDXLNode *pdxlnRight = (*pdxln)[EdxlscdistcmpIndexRight];
 	
 	// assert children are of right type (scalar)
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnLeft->Pdxlop()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnRight->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnLeft->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnRight->GetOperator()->Edxloperatortype());
 	
 	GPOS_ASSERT(PstrCmpOpName()->Equals(CDXLTokens::PstrToken(EdxltokenEq)));
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnLeft->Pdxlop()->AssertValid(pdxlnLeft, fValidateChildren);
-		pdxlnRight->Pdxlop()->AssertValid(pdxlnRight, fValidateChildren);
+		pdxlnLeft->GetOperator()->AssertValid(pdxlnLeft, validate_children);
+		pdxlnRight->GetOperator()->AssertValid(pdxlnRight, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

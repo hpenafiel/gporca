@@ -37,7 +37,7 @@ namespace gpdxl
 
 
 			// the hash join operator
-			CDXLPhysicalHashJoin *m_pdxlop;
+			CDXLPhysicalHashJoin *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerHashJoin(const CParseHandlerHashJoin &);

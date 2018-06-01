@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 						
 			// the redistribute motion operator
-			CDXLPhysicalRedistributeMotion *m_pdxlop;
+			CDXLPhysicalRedistributeMotion *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerRedistributeMotion(const CParseHandlerRedistributeMotion &);

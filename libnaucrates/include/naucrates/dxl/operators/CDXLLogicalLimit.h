@@ -70,19 +70,19 @@ namespace gpdxl
 			static
 			CDXLLogicalLimit *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopLogicalLimit == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopLogicalLimit == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLLogicalLimit*>(pdxlop);
+				return dynamic_cast<CDXLLogicalLimit*>(dxl_op);
 			}
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 	};

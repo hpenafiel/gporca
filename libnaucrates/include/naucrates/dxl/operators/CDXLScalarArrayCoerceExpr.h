@@ -94,13 +94,13 @@ namespace gpdxl
 			static
 			CDXLScalarArrayCoerceExpr *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarArrayCoerceExpr == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarArrayCoerceExpr == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarArrayCoerceExpr*>(pdxlop);
+				return dynamic_cast<CDXLScalarArrayCoerceExpr*>(dxl_op);
 			}
 	};
 }

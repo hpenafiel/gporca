@@ -64,10 +64,10 @@ CParseHandlerScalarOpExpr::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarOpExpr), element_local_name) && (NULL == m_pdxln))
 	{
 		// parse and create scalar OpExpr
-		CDXLScalarOpExpr *pdxlop = (CDXLScalarOpExpr*) CDXLOperatorFactory::PdxlopOpExpr(m_parse_handler_mgr->Pmm(), attrs);
+		CDXLScalarOpExpr *dxl_op = (CDXLScalarOpExpr*) CDXLOperatorFactory::PdxlopOpExpr(m_parse_handler_mgr->Pmm(), attrs);
 
 		// construct node from the created child nodes
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else if (NULL != m_pdxln)
 	{

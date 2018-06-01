@@ -56,15 +56,15 @@ CParseHandlerLogicalOp::StartElement
 	)
 {
 	// instantiate the parse handler
-	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+	CParseHandlerBase *logical_op_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 
-	GPOS_ASSERT(NULL != pph);
+	GPOS_ASSERT(NULL != logical_op_parse_handler);
 
 	// activate the parse handler
-	m_parse_handler_mgr->ReplaceHandler(pph, m_parse_handler_root);
+	m_parse_handler_mgr->ReplaceHandler(logical_op_parse_handler, m_parse_handler_root);
 
 	// pass the startElement message for the specialized parse handler to process
-	pph->startElement(element_uri, element_local_name, element_qname, attrs);
+	logical_op_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 }
 
 //---------------------------------------------------------------------------

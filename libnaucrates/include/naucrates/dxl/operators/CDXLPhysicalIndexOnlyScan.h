@@ -63,13 +63,13 @@ namespace gpdxl
 			static
 			CDXLPhysicalIndexOnlyScan *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopPhysicalIndexOnlyScan == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopPhysicalIndexOnlyScan == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLPhysicalIndexOnlyScan*>(pdxlop);
+				return dynamic_cast<CDXLPhysicalIndexOnlyScan*>(dxl_op);
 			}
 	};
 }

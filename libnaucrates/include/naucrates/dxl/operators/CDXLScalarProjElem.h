@@ -86,13 +86,13 @@ namespace gpdxl
 			static
 			CDXLScalarProjElem *PdxlopConvert
 				(
-				CDXLOperator *pdxlop
+				CDXLOperator *dxl_op
 				)
 			{
-				GPOS_ASSERT(NULL != pdxlop);
-				GPOS_ASSERT(EdxlopScalarProjectElem == pdxlop->Edxlop());
+				GPOS_ASSERT(NULL != dxl_op);
+				GPOS_ASSERT(EdxlopScalarProjectElem == dxl_op->Edxlop());
 
-				return dynamic_cast<CDXLScalarProjElem*>(pdxlop);
+				return dynamic_cast<CDXLScalarProjElem*>(dxl_op);
 			}
 
 			// does the operator return a boolean result
@@ -109,7 +109,7 @@ namespace gpdxl
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure
-			void AssertValid(const CDXLNode *pdxln, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 	};
 }

@@ -124,11 +124,11 @@ void
 CDXLPhysicalGatherMotion::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	GPOS_ASSERT(m_pdrgpiInputSegIds != NULL);
 	GPOS_ASSERT(0 < m_pdrgpiInputSegIds->Size());
 	GPOS_ASSERT(m_pdrgpiOutputSegIds != NULL);
@@ -136,12 +136,12 @@ CDXLPhysicalGatherMotion::AssertValid
 
 	GPOS_ASSERT(EdxlgmIndexSentinel == pdxln->Arity());
 	
-	CDXLNode *pdxlnChild = (*pdxln)[EdxlgmIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[EdxlgmIndexChild];
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

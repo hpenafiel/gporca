@@ -196,11 +196,11 @@ void
 CDXLScalarWindowRef::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
-	EdxlWinStage edxlwinrefstage = ((CDXLScalarWindowRef*) pdxln->Pdxlop())->Edxlwinstage();
+	EdxlWinStage edxlwinrefstage = ((CDXLScalarWindowRef*) pdxln->GetOperator())->Edxlwinstage();
 
 	GPOS_ASSERT((EdxlwinstageSentinel >= edxlwinrefstage));
 
@@ -208,11 +208,11 @@ CDXLScalarWindowRef::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnWinrefArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnWinrefArg->Pdxlop()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnWinrefArg->GetOperator()->Edxloperatortype());
 
-		if (fValidateChildren)
+		if (validate_children)
 		{
-			pdxlnWinrefArg->Pdxlop()->AssertValid(pdxlnWinrefArg, fValidateChildren);
+			pdxlnWinrefArg->GetOperator()->AssertValid(pdxlnWinrefArg, validate_children);
 		}
 	}
 }

@@ -67,8 +67,8 @@ CParseHandlerScalarSwitch::StartElement
 		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarSwitch);
 
 		// construct node
-		CDXLScalarSwitch *pdxlop =  GPOS_NEW(m_memory_pool) CDXLScalarSwitch(m_memory_pool, m_mdid_type);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+		CDXLScalarSwitch *dxl_op =  GPOS_NEW(m_memory_pool) CDXLScalarSwitch(m_memory_pool, m_mdid_type);
+		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), element_local_name))
 	{

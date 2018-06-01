@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 						
 			// the aggregate operator
-			CDXLPhysicalAgg *m_pdxlop;
+			CDXLPhysicalAgg *m_dxl_op;
 			
 			// private copy ctor
 			CParseHandlerAgg(const CParseHandlerAgg &);

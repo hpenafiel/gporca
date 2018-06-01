@@ -245,11 +245,11 @@ CMDTypeOidGPDB::Serialize
 IDatum*
 CMDTypeOidGPDB::Pdatum
 	(
-	const CDXLScalarConstValue *pdxlop
+	const CDXLScalarConstValue *dxl_op
 	)
 	const
 {
-	CDXLDatumOid *datum_dxl = CDXLDatumOid::Cast(const_cast<CDXLDatum*>(pdxlop->Pdxldatum()));
+	CDXLDatumOid *datum_dxl = CDXLDatumOid::Cast(const_cast<CDXLDatum*>(dxl_op->Pdxldatum()));
 	GPOS_ASSERT(datum_dxl->IsPassedByValue());
 
 	return GPOS_NEW(m_memory_pool) CDatumOidGPDB(m_mdid->Sysid(), datum_dxl->OidValue(), datum_dxl->IsNull());

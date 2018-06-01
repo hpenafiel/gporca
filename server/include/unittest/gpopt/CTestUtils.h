@@ -602,10 +602,10 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				IOstream &os,
-				const CDXLNode *pdxlnFst,
+				const CDXLNode *first_child_dxlnode,
 				ULLONG ullPlanIdFst,
 				ULLONG ullPlanSpaceSizeFst,
-				const CDXLNode *pdxlnSnd,
+				const CDXLNode *second_child_dxlnode,
 				ULLONG ullPlanIdSnd,
 				ULLONG ullPlanSpaceSizeSnd
 				);
@@ -616,10 +616,10 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				IOstream &os,
-				const CDXLNode *pdxlnFst,
+				const CDXLNode *first_child_dxlnode,
 				ULLONG ullPlanIdFst,
 				ULLONG ullPlanSpaceSizeFst,
-				const CDXLNode *pdxlnSnd,
+				const CDXLNode *second_child_dxlnode,
 				ULLONG ullPlanIdSnd,
 				ULLONG ullPlanSpaceSizeSnd,
 				BOOL fMatchPlans,

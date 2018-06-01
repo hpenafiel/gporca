@@ -36,7 +36,7 @@ namespace gpdxl
 	{
 		private:
 			// physical properties container
-			CDXLPhysicalProperties *m_pdxlprop;
+			CDXLPhysicalProperties *m_dxl_properties;
 			
 			// statistics of the physical plan
 			CDXLStatsDerivedRelation *m_pdxlstatsderrel;
@@ -75,7 +75,7 @@ namespace gpdxl
 			~CParseHandlerProperties();
 					
 			// returns the constructed properties container
-			CDXLPhysicalProperties *Pdxlprop() const;
+			CDXLPhysicalProperties *GetProperties() const;
 
 			// return the derived relation statistics
 			CDXLStatsDerivedRelation *Pdxlstatsderrel() const

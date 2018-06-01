@@ -206,7 +206,7 @@ void
 CDXLLogicalGroupBy::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
@@ -217,17 +217,17 @@ CDXLLogicalGroupBy::AssertValid
 	GPOS_ASSERT(2 == ulChildren);
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->Pdxlop()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->Edxlop());
 
 	CDXLNode *pdxlnOpType = (*pdxln)[1];
-	GPOS_ASSERT(EdxloptypeLogical == pdxlnOpType->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeLogical == pdxlnOpType->GetOperator()->Edxloperatortype());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
 		for(ULONG ul = 0; ul < ulChildren; ul++)
 		{
-			CDXLNode *pdxlnChild = (*pdxln)[ul];
-			pdxlnChild->Pdxlop()->AssertValid(pdxlnChild, fValidateChildren);
+			CDXLNode *child_dxlnode = (*pdxln)[ul];
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 
@@ -235,7 +235,7 @@ CDXLLogicalGroupBy::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnPrEl = (*pdxlnPrL)[ul];
-		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->Pdxlop()->Edxlop());
+		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->Edxlop());
 	}
 }
 #endif // GPOS_DEBUG

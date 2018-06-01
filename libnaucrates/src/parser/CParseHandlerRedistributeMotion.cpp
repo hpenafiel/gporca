@@ -43,7 +43,7 @@ CParseHandlerRedistributeMotion::CParseHandlerRedistributeMotion
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlop(NULL)
+	m_dxl_op(NULL)
 {
 }
 
@@ -72,7 +72,7 @@ CParseHandlerRedistributeMotion::StartElement
 	}
 	
 	// parse and create Redistribute motion operator
-	m_pdxlop = (CDXLPhysicalRedistributeMotion *) CDXLOperatorFactory::PdxlopRedistributeMotion(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalRedistributeMotion *) CDXLOperatorFactory::PdxlopRedistributeMotion(m_parse_handler_mgr->Pmm(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -142,7 +142,7 @@ CParseHandlerRedistributeMotion::EndElement
 	CParseHandlerHashExprList *pphHExprList = dynamic_cast<CParseHandlerHashExprList *>((*this)[4]);
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_pdxlop);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
 	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
 	

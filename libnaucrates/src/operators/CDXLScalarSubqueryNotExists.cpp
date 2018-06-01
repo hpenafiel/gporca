@@ -112,16 +112,16 @@ void
 CDXLScalarSubqueryNotExists::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
 	GPOS_ASSERT(1 == pdxln->Arity());
 	
-	CDXLNode *pdxlnChild = (*pdxln)[0];
-	GPOS_ASSERT(EdxloptypeLogical == pdxlnChild->Pdxlop()->Edxloperatortype());
+	CDXLNode *child_dxlnode = (*pdxln)[0];
+	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
 
-	pdxln->AssertValid(fValidateChildren);
+	pdxln->AssertValid(validate_children);
 }
 #endif // GPOS_DEBUG
 

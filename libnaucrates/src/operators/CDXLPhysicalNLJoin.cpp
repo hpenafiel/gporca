@@ -114,12 +114,12 @@ void
 CDXLPhysicalNLJoin::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	) 
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, fValidateChildren);
+	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	GPOS_ASSERT(EdxlnljIndexSentinel == pdxln->Arity());
 	GPOS_ASSERT(EdxljtSentinel > Edxltype());
@@ -129,15 +129,15 @@ CDXLPhysicalNLJoin::AssertValid
 	CDXLNode *pdxlnRight = (*pdxln)[EdxlnljIndexRightChild];
 	
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->Pdxlop()->Edxlop());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->Pdxlop()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->Pdxlop()->Edxloperatortype());
+	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->GetOperator()->Edxloperatortype());
 	
-	if (fValidateChildren)
+	if (validate_children)
 	{
-		pdxlnJoinFilter->Pdxlop()->AssertValid(pdxlnJoinFilter, fValidateChildren);
-		pdxlnLeft->Pdxlop()->AssertValid(pdxlnLeft, fValidateChildren);
-		pdxlnRight->Pdxlop()->AssertValid(pdxlnRight, fValidateChildren);
+		pdxlnJoinFilter->GetOperator()->AssertValid(pdxlnJoinFilter, validate_children);
+		pdxlnLeft->GetOperator()->AssertValid(pdxlnLeft, validate_children);
+		pdxlnRight->GetOperator()->AssertValid(pdxlnRight, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

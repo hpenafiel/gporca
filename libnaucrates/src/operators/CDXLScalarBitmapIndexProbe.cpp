@@ -107,18 +107,18 @@ void
 CDXLScalarBitmapIndexProbe::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL fValidateChildren
+	BOOL validate_children
 	)
 	const
 {
 	// bitmap index probe has 1 child: the index condition list
 	GPOS_ASSERT(1 == pdxln->Arity());
 
-	if (fValidateChildren)
+	if (validate_children)
 	{
 		CDXLNode *pdxlnIndexCondList = (*pdxln)[0];
-		GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexCondList->Pdxlop()->Edxlop());
-		pdxlnIndexCondList->Pdxlop()->AssertValid(pdxlnIndexCondList, fValidateChildren);
+		GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexCondList->GetOperator()->Edxlop());
+		pdxlnIndexCondList->GetOperator()->AssertValid(pdxlnIndexCondList, validate_children);
 	}
 
 	// assert validity of index descriptor

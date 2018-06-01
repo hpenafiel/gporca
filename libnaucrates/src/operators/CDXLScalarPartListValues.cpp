@@ -112,7 +112,7 @@ void
 CDXLScalarPartListValues::AssertValid
 	(
 	const CDXLNode *pdxln,
-	BOOL // fValidateChildren
+	BOOL // validate_children
 	)
 	const
 {
@@ -124,13 +124,13 @@ CDXLScalarPartListValues::AssertValid
 CDXLScalarPartListValues *
 CDXLScalarPartListValues::PdxlopConvert
 	(
-	CDXLOperator *pdxlop
+	CDXLOperator *dxl_op
 	)
 {
-	GPOS_ASSERT(NULL != pdxlop);
-	GPOS_ASSERT(EdxlopScalarPartListValues == pdxlop->Edxlop());
+	GPOS_ASSERT(NULL != dxl_op);
+	GPOS_ASSERT(EdxlopScalarPartListValues == dxl_op->Edxlop());
 
-	return dynamic_cast<CDXLScalarPartListValues*>(pdxlop);
+	return dynamic_cast<CDXLScalarPartListValues*>(dxl_op);
 }
 
 // EOF

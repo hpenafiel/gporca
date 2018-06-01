@@ -27,8 +27,8 @@ using namespace gpos;
 CQueryToDXLResult::CQueryToDXLResult
 	(
 	CDXLNode *pdxln,
-	DrgPdxln *pdrgpdxlnOutput,
-	DrgPdxln *cte_dxlnode_array
+	DXLNodeArray *pdrgpdxlnOutput,
+	DXLNodeArray *cte_dxlnode_array
 	)
 	:
 	m_pdxln(pdxln),
@@ -62,7 +62,7 @@ CQueryToDXLResult::~CQueryToDXLResult()
 //		Return the array of dxl nodes representing the query output
 //
 //---------------------------------------------------------------------------
-const DrgPdxln*
+const DXLNodeArray*
 CQueryToDXLResult::GetOutputColumnsDXLArray() const
 {
 	return m_pdrgpdxlnQueryOutput;
@@ -76,7 +76,7 @@ CQueryToDXLResult::GetOutputColumnsDXLArray() const
 //		Return the array of CTEs
 //
 //---------------------------------------------------------------------------
-const DrgPdxln*
+const DXLNodeArray*
 CQueryToDXLResult::GetCTEProducerDXLArray() const
 {
 	return m_cte_producer_dxl_array;

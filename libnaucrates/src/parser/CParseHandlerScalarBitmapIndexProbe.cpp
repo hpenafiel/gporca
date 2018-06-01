@@ -122,8 +122,8 @@ CParseHandlerScalarBitmapIndexProbe::EndElement
 	CDXLIndexDescr *pdxlid = pphIdxD->Pdxlid();
 	pdxlid->AddRef();
 
-	CDXLScalar *pdxlop = GPOS_NEW(m_memory_pool) CDXLScalarBitmapIndexProbe(m_memory_pool, pdxlid);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlop);
+	CDXLScalar *dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarBitmapIndexProbe(m_memory_pool, pdxlid);
+	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// add children
 	AddChildFromParseHandler(pphIdxCondList);

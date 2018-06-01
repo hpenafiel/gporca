@@ -54,12 +54,12 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalValuesScan *PdxlopConvert(CDXLOperator *pdxlop);
+			CDXLPhysicalValuesScan *PdxlopConvert(CDXLOperator *dxl_op);
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *, BOOL fValidateChildren) const;
+			void AssertValid(const CDXLNode *, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 	};
