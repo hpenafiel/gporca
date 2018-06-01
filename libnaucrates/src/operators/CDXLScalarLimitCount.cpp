@@ -39,14 +39,14 @@ CDXLScalarLimitCount::CDXLScalarLimitCount
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarLimitCount::Edxlop
+//		CDXLScalarLimitCount::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarLimitCount::Edxlop() const
+CDXLScalarLimitCount::GetDXLOperator() const
 {
 	return EdxlopScalarLimitCount;
 }
@@ -54,14 +54,14 @@ CDXLScalarLimitCount::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarLimitCount::PstrOpName
+//		CDXLScalarLimitCount::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarLimitCount::PstrOpName() const
+CDXLScalarLimitCount::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarLimitCount);
 }
@@ -82,7 +82,7 @@ CDXLScalarLimitCount::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
@@ -112,7 +112,7 @@ CDXLScalarLimitCount::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{

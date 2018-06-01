@@ -52,9 +52,9 @@ namespace gpdxl
 			~CDXLLogicalLimit();
 
 			// accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// the limit is right under a DML or CTAS
 			BOOL FTopLimitUnderDML() const
@@ -68,13 +68,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalLimit *PdxlopConvert
+			CDXLLogicalLimit *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalLimit == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalLimit == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalLimit*>(dxl_op);
 			}

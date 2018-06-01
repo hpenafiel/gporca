@@ -53,8 +53,8 @@ namespace gpdxl
 			CDXLPhysicalAppend(IMemoryPool *memory_pool, BOOL fIsTarget, BOOL fIsZapped);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			BOOL FIsTarget() const;
 			BOOL FIsZapped() const;
@@ -65,13 +65,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalAppend *PdxlopConvert
+			CDXLPhysicalAppend *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalAppend == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalAppend == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalAppend*>(dxl_op);
 			}

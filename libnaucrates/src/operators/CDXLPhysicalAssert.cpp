@@ -54,14 +54,14 @@ CDXLPhysicalAssert::~CDXLPhysicalAssert()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAssert::Edxlop
+//		CDXLPhysicalAssert::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalAssert::Edxlop() const
+CDXLPhysicalAssert::GetDXLOperator() const
 {
 	return EdxlopPhysicalAssert;
 }
@@ -69,14 +69,14 @@ CDXLPhysicalAssert::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAssert::PstrOpName
+//		CDXLPhysicalAssert::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalAssert::PstrOpName() const
+CDXLPhysicalAssert::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalAssert);
 }
@@ -98,7 +98,7 @@ CDXLPhysicalAssert::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenErrorCode), m_szSQLState);
@@ -130,13 +130,13 @@ CDXLPhysicalAssert::AssertValid
 	GPOS_ASSERT(3 == pdxln->Arity());
 	
 	CDXLNode *pdxlnProjList = (*pdxln)[EdxlassertIndexProjList];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->GetDXLOperator());
 
 	CDXLNode *pdxlnPredicate = (*pdxln)[EdxlassertIndexFilter];
-	GPOS_ASSERT(EdxlopScalarAssertConstraintList == pdxlnPredicate->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarAssertConstraintList == pdxlnPredicate->GetOperator()->GetDXLOperator());
 
 	CDXLNode *pdxlnPhysicalChild = (*pdxln)[EdxlassertIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnPhysicalChild->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnPhysicalChild->GetOperator()->GetDXLOperatorType());
 
 	
 	if (validate_children)

@@ -65,14 +65,14 @@ CDXLScalarSubPlan::~CDXLScalarSubPlan()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSubPlan::PstrOpName
+//		CDXLScalarSubPlan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarSubPlan::PstrOpName() const
+CDXLScalarSubPlan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarSubPlan);
 }
@@ -161,7 +161,7 @@ CDXLScalarSubPlan::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_pmdidFirstColType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenScalarSubPlanType), PstrSubplanType());
@@ -251,8 +251,8 @@ CDXLScalarSubPlan::AssertValid
 
 	CDXLNode *child_dxlnode = (*pdxln)[EdxlSubPlanIndexChildPlan];
 	GPOS_ASSERT(NULL != child_dxlnode);
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
-	GPOS_ASSERT_IMP(NULL != m_pdxlnTestExpr, EdxloptypeScalar == m_pdxlnTestExpr->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT_IMP(NULL != m_pdxlnTestExpr, EdxloptypeScalar == m_pdxlnTestExpr->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

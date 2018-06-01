@@ -66,24 +66,24 @@ namespace gpdxl
 
 			// ident accessor
 			virtual
-			Edxlopid Edxlop() const
+			Edxlopid GetDXLOperator() const
 			{
 				return EdxlopScalarCoerceToDomain;
 			}
 
 			// name of the DXL operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// conversion function
 			static
-			CDXLScalarCoerceToDomain *PdxlopConvert
+			CDXLScalarCoerceToDomain *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarCoerceToDomain == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarCoerceToDomain == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarCoerceToDomain*>(dxl_op);
 			}

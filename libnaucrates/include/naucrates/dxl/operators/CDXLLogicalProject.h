@@ -33,7 +33,7 @@ namespace gpdxl
 			CDXLLogicalProject(CDXLLogicalProject&);
 
 			// alias name
-			const CMDName *m_pmdnameAlias;
+			const CMDName *m_mdname_alias;
 
 		public:
 			// ctor
@@ -41,26 +41,26 @@ namespace gpdxl
 			CDXLLogicalProject(IMemoryPool *);
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			const CMDName *MdName() const;
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxl_node) const;
 
 			// set alias name
 			void SetAliasName(CMDName *);
 
 			// conversion function
 			static
-			CDXLLogicalProject *PdxlopConvert
+			CDXLLogicalProject *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalProject == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalProject == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalProject*>(dxl_op);
 			}

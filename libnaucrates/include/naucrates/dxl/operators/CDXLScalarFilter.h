@@ -39,8 +39,8 @@ namespace gpdxl
 			CDXLScalarFilter(IMemoryPool *memory_pool);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// serialize operator in DXL format
 			virtual
@@ -48,13 +48,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarFilter *PdxlopConvert
+			CDXLScalarFilter *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarFilter == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarFilter == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarFilter*>(dxl_op);
 			}

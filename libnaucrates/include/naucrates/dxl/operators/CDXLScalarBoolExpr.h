@@ -59,26 +59,26 @@ namespace gpdxl
 
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// BoolExpr operator type
 			EdxlBoolExprType EdxlBoolType() const;
 
 			// name of the DXL operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// serialize operator in DXL format
 			void SerializeToDXL(CXMLSerializer *, const CDXLNode *) const;
 
 			// conversion function
 			static
-			CDXLScalarBoolExpr *PdxlopConvert
+			CDXLScalarBoolExpr *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarBoolExpr == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarBoolExpr == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarBoolExpr*>(dxl_op);
 			}

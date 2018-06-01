@@ -295,7 +295,7 @@ CTranslatorExprToDXL::PdxlnTranslate
 	}
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->GetDXLOperator());
 
 	const ULONG ulLen = pdrgpmdname->Size();
 	GPOS_ASSERT(ulLen == pdrgpcr->Size());
@@ -307,7 +307,7 @@ CTranslatorExprToDXL::PdxlnTranslate
 
 		// get the old project element for the ColId
 		CDXLNode *pdxlnPrElOld = (*pdxlnPrL)[ul];
-		CDXLScalarProjElem *pdxlopPrElOld = CDXLScalarProjElem::PdxlopConvert(pdxlnPrElOld->GetOperator());
+		CDXLScalarProjElem *pdxlopPrElOld = CDXLScalarProjElem::Cast(pdxlnPrElOld->GetOperator());
 		GPOS_ASSERT(1 == pdxlnPrElOld->Arity());
 		CDXLNode *child_dxlnode = (*pdxlnPrElOld)[0];
 		const ULONG ulColId = pdxlopPrElOld->UlId();
@@ -376,7 +376,7 @@ CTranslatorExprToDXL::CreateDXLNode
 
 	CDXLNode *pdxln = (this->* pf)(pexpr, pdrgpcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 
-	if (!fRemap || EdxlopPhysicalDML == pdxln->GetOperator()->Edxlop())
+	if (!fRemap || EdxlopPhysicalDML == pdxln->GetOperator()->GetDXLOperator())
 	{
 		pdxlnNew = pdxln;
 	}
@@ -384,7 +384,7 @@ CTranslatorExprToDXL::CreateDXLNode
 	{
 		DrgPcr *pdrgpcrRequired = NULL;
 		
-		if (EdxlopPhysicalCTAS == pdxln->GetOperator()->Edxlop())
+		if (EdxlopPhysicalCTAS == pdxln->GetOperator()->GetDXLOperator())
 		{
 			pdrgpcr->AddRef();
 			pdrgpcrRequired = pdrgpcr;
@@ -2222,7 +2222,7 @@ CTranslatorExprToDXL::PdxlnComputeScalar
 					 );
 
 #ifdef GPOS_DEBUG
-	(void) CDXLPhysicalResult::PdxlopConvert(pdxlnResult->GetOperator())->AssertValid(pdxlnResult, false /* validate_children */);
+	(void) CDXLPhysicalResult::Cast(pdxlnResult->GetOperator())->AssertValid(pdxlnResult, false /* validate_children */);
 #endif
 	return pdxlnResult;
 }
@@ -2423,7 +2423,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CDXLNode *pdxlnProjElem = (*pdxlnProjList)[ul];
-		ULONG ulColId = CDXLScalarProjElem::PdxlopConvert(pdxlnProjElem->GetOperator())->UlId();
+		ULONG ulColId = CDXLScalarProjElem::Cast(pdxlnProjElem->GetOperator())->UlId();
 
 		if (NULL == phmululPL->Find(&ulColId))
 		{
@@ -2794,7 +2794,7 @@ CTranslatorExprToDXL::PdxlnRestrictResult
 		for (ULONG ul = 0; ul < ulPrjElems; ul++)
 		{
 			CDXLNode *child_dxlnode = (*pdxlnProjListOld)[ul];
-			CDXLScalarProjElem *pdxlPrjElem = CDXLScalarProjElem::PdxlopConvert(child_dxlnode->GetOperator());
+			CDXLScalarProjElem *pdxlPrjElem = CDXLScalarProjElem::Cast(child_dxlnode->GetOperator());
 			if (pdxlPrjElem->UlId() == pcr->UlId())
 			{
 				// create a new project element that simply points to required column,
@@ -3497,7 +3497,7 @@ CTranslatorExprToDXL::PdxlnResultFromNLJoinOuter
 
 	// In case the OuterChild is a physical sequence, it will already have the filter in the partition selector and
 	// dynamic scan, thus we should not replace the filter.
-	Edxlopid edxlopid = pdxlnResult->GetOperator()->Edxlop();
+	Edxlopid edxlopid = pdxlnResult->GetOperator()->GetDXLOperator();
 	switch (edxlopid)
 	{
 		case EdxlopPhysicalTableScan:
@@ -3514,7 +3514,7 @@ CTranslatorExprToDXL::PdxlnResultFromNLJoinOuter
 			ULONG ulIndexFilter = UlIndexFilter(edxlopid);
 			GPOS_ASSERT(ulIndexFilter != ULONG_MAX);
 			CDXLNode *pdxlnOrigFilter = (*pdxlnResult)[ulIndexFilter];
-			GPOS_ASSERT(EdxlopScalarFilter == pdxlnOrigFilter->GetOperator()->Edxlop());
+			GPOS_ASSERT(EdxlopScalarFilter == pdxlnOrigFilter->GetOperator()->GetDXLOperator());
 			CDXLNode *pdxlnOrigCond = (*pdxlnOrigFilter)[0];
 			pdxlnOrigCond->AddRef();
 
@@ -3923,7 +3923,7 @@ CTranslatorExprToDXL::CheckValidity
 	// validate the input segment info for Gather Motion
 	// if Gather has only 1 segment when there are more hosts
 	// it's obviously invalid and we fall back
-	if (EdxlopPhysicalMotionGather == pdxlopMotion->Edxlop())
+	if (EdxlopPhysicalMotionGather == pdxlopMotion->GetDXLOperator())
 	{
 		if (m_pdrgpiSegments->Size() != pdxlopMotion->PdrgpiInputSegIds()->Size())
 		{

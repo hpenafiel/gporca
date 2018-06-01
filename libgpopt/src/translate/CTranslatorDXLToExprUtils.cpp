@@ -187,10 +187,10 @@ CTranslatorDXLToExprUtils::FScalarBool
 	GPOS_ASSERT(NULL != pdxln);
 
 	CDXLOperator *dxl_op = pdxln->GetOperator();
-	if (EdxlopScalarBoolExpr == dxl_op->Edxlop())
+	if (EdxlopScalarBoolExpr == dxl_op->GetDXLOperator())
 	{
 		EdxlBoolExprType edxlboolexprtypeNode =
-				CDXLScalarBoolExpr::PdxlopConvert(dxl_op)->EdxlBoolType();
+				CDXLScalarBoolExpr::Cast(dxl_op)->EdxlBoolType();
 		return edxlboolexprtype == edxlboolexprtypeNode;
 	}
 
@@ -296,12 +296,12 @@ CTranslatorDXLToExprUtils::FCastFunc
 		return false;
 	}
 
-	if (EdxlopScalarFuncExpr != pdxln->GetOperator()->Edxlop())
+	if (EdxlopScalarFuncExpr != pdxln->GetOperator()->GetDXLOperator())
 	{
 		return false;
 	}
 
-	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::PdxlopConvert(pdxln->GetOperator());
+	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::Cast(pdxln->GetOperator());
 
 	IMDId *pmdidDest = pdxlopScFunc->PmdidRetType();
 

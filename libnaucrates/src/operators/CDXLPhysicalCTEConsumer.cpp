@@ -57,28 +57,28 @@ CDXLPhysicalCTEConsumer::~CDXLPhysicalCTEConsumer()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalCTEConsumer::Edxlop
+//		CDXLPhysicalCTEConsumer::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalCTEConsumer::Edxlop() const
+CDXLPhysicalCTEConsumer::GetDXLOperator() const
 {
 	return EdxlopPhysicalCTEConsumer;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalCTEConsumer::PstrOpName
+//		CDXLPhysicalCTEConsumer::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalCTEConsumer::PstrOpName() const
+CDXLPhysicalCTEConsumer::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalCTEConsumer);
 }
@@ -99,7 +99,7 @@ CDXLPhysicalCTEConsumer::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCTEId), UlId());
@@ -134,7 +134,7 @@ CDXLPhysicalCTEConsumer::AssertValid
 	GPOS_ASSERT(1 == pdxln->Arity());
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->GetDXLOperator());
 
 	if (validate_children)
 	{

@@ -51,14 +51,14 @@ CDXLScalarArrayCoerceExpr::CDXLScalarArrayCoerceExpr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarArrayCoerceExpr::PstrOpName
+//		CDXLScalarArrayCoerceExpr::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarArrayCoerceExpr::PstrOpName() const
+CDXLScalarArrayCoerceExpr::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarArrayCoerceExpr);
 }
@@ -79,7 +79,7 @@ CDXLScalarArrayCoerceExpr::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 

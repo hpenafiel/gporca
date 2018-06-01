@@ -80,11 +80,11 @@ namespace gpdxl
 
 			// operator type
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// index descriptor
 			const CDXLIndexDescr *Pdxlid() const;
@@ -107,13 +107,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalDynamicIndexScan *PdxlopConvert
+			CDXLPhysicalDynamicIndexScan *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalDynamicIndexScan == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalDynamicIndexScan == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalDynamicIndexScan*>(dxl_op);
 			}

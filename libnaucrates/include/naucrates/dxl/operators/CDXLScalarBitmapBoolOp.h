@@ -62,7 +62,7 @@ namespace gpdxl
 
 			// dxl operator type
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// bitmap operator type
 			EdxlBitmapBoolOp Edxlbitmapboolop() const;
@@ -72,7 +72,7 @@ namespace gpdxl
 
 			// name of the DXL operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// does the operator return a boolean result
 			virtual
@@ -92,13 +92,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarBitmapBoolOp *PdxlopConvert
+			CDXLScalarBitmapBoolOp *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarBitmapBoolOp == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarBitmapBoolOp == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarBitmapBoolOp*>(dxl_op);
 			}

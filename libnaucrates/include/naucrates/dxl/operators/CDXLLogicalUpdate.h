@@ -78,10 +78,10 @@ namespace gpdxl
 			~CDXLLogicalUpdate();
 
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// target table descriptor
 			CDXLTableDescr *Pdxltabdesc() const
@@ -137,13 +137,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalUpdate *PdxlopConvert
+			CDXLLogicalUpdate *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalUpdate == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalUpdate == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalUpdate*>(dxl_op);
 			}

@@ -21,14 +21,14 @@ using namespace gpos;
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalBitmapTableScan::PstrOpName
+//		CDXLPhysicalBitmapTableScan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalBitmapTableScan::PstrOpName() const
+CDXLPhysicalBitmapTableScan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalBitmapTableScan);
 }
@@ -49,7 +49,7 @@ CDXLPhysicalBitmapTableScan::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 

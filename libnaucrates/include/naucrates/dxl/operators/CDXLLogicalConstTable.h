@@ -57,10 +57,10 @@ namespace gpdxl
 			// accessors
 
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// column descriptors
 			const ColumnDescrDXLArray *GetColumnDescrDXLArray() const
@@ -96,13 +96,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalConstTable *PdxlopConvert
+			CDXLLogicalConstTable *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalConstTable == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalConstTable == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalConstTable*>(dxl_op);
 			}

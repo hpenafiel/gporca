@@ -53,10 +53,10 @@ namespace gpdxl
 				);
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// name of the DXL operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// NullTest operator type
 			BOOL FIsNullTest() const;
@@ -70,13 +70,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarNullTest *PdxlopConvert
+			CDXLScalarNullTest *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarNullTest == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarNullTest == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarNullTest*>(dxl_op);
 			}

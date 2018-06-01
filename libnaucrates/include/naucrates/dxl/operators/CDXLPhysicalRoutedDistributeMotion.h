@@ -53,10 +53,10 @@ namespace gpdxl
 			CDXLPhysicalRoutedDistributeMotion(IMemoryPool *memory_pool, ULONG ulSegmentIdCol);
 			
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// segment id column
 			ULONG UlSegmentIdCol() const
@@ -77,13 +77,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalRoutedDistributeMotion *PdxlopConvert
+			CDXLPhysicalRoutedDistributeMotion *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalMotionRoutedDistribute == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalMotionRoutedDistribute == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalRoutedDistributeMotion*>(dxl_op);
 			}

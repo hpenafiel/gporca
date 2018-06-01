@@ -104,10 +104,10 @@ namespace gpdxl
 			~CDXLLogicalCTAS();
 		
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// mdid of table to create
 			IMDId *MDId() const
@@ -197,13 +197,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalCTAS *PdxlopConvert
+			CDXLLogicalCTAS *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalCTAS == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalCTAS == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalCTAS*>(dxl_op);
 			}

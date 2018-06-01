@@ -32,14 +32,14 @@ CDXLScalar::CDXLScalar
 
 //---------------------------------------------------------------------------
 //      @function:
-//              CDXLScalar::Edxloperatortype
+//              CDXLScalar::GetDXLOperatorType
 //
 //      @doc:
 //              Operator Type
 //
 //---------------------------------------------------------------------------
 Edxloptype
-CDXLScalar::Edxloperatortype() const
+CDXLScalar::GetDXLOperatorType() const
 {
 	return EdxloptypeScalar;
 }

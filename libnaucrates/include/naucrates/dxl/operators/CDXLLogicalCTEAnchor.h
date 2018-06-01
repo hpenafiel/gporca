@@ -40,10 +40,10 @@ namespace gpdxl
 			CDXLLogicalCTEAnchor(IMemoryPool *memory_pool, ULONG ulId);
 			
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// cte identifier
 			ULONG UlId() const
@@ -64,13 +64,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalCTEAnchor *PdxlopConvert
+			CDXLLogicalCTEAnchor *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalCTEAnchor == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalCTEAnchor == dxl_op->GetDXLOperator());
 				return dynamic_cast<CDXLLogicalCTEAnchor*>(dxl_op);
 			}
 	};

@@ -56,28 +56,28 @@ CDXLPhysicalWindow::~CDXLPhysicalWindow()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalWindow::Edxlop
+//		CDXLPhysicalWindow::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalWindow::Edxlop() const
+CDXLPhysicalWindow::GetDXLOperator() const
 {
 	return EdxlopPhysicalWindow;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalWindow::PstrOpName
+//		CDXLPhysicalWindow::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalWindow::PstrOpName() const
+CDXLPhysicalWindow::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalWindow);
 }
@@ -145,7 +145,7 @@ CDXLPhysicalWindow::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 

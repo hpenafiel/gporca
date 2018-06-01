@@ -41,14 +41,14 @@ CDXLScalarBooleanTest::CDXLScalarBooleanTest
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBooleanTest::Edxlop
+//		CDXLScalarBooleanTest::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarBooleanTest::Edxlop() const
+CDXLScalarBooleanTest::GetDXLOperator() const
 {
 	return EdxlopScalarBooleanTest;
 }
@@ -70,14 +70,14 @@ CDXLScalarBooleanTest::EdxlBoolType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBooleanTest::PstrOpName
+//		CDXLScalarBooleanTest::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarBooleanTest::PstrOpName() const
+CDXLScalarBooleanTest::GetOpNameStr() const
 {
 	switch (m_edxlbooleantesttype)
 	{
@@ -114,7 +114,7 @@ CDXLScalarBooleanTest::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	GPOS_ASSERT(NULL != element_name);
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
@@ -149,7 +149,7 @@ CDXLScalarBooleanTest::AssertValid
 
 	GPOS_ASSERT(1 == pdxln->Arity());
 	CDXLNode *pdxlnArg = (*pdxln)[0];
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

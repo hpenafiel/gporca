@@ -62,28 +62,28 @@ CDXLLogicalWindow::~CDXLLogicalWindow()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalWindow::Edxlop
+//		CDXLLogicalWindow::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalWindow::Edxlop() const
+CDXLLogicalWindow::GetDXLOperator() const
 {
 	return EdxlopLogicalWindow;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalWindow::PstrOpName
+//		CDXLLogicalWindow::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalWindow::PstrOpName() const
+CDXLLogicalWindow::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalWindow);
 }
@@ -123,7 +123,7 @@ CDXLLogicalWindow::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
@@ -165,8 +165,8 @@ CDXLLogicalWindow::AssertValid
 	CDXLNode *pdxlnProjList = (*pdxln)[0];
 	CDXLNode *child_dxlnode = (*pdxln)[1];
 
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->Edxlop());
-	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{
@@ -178,7 +178,7 @@ CDXLLogicalWindow::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnPrEl = (*pdxlnProjList)[ul];
-		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->Edxlop());
+		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->GetDXLOperator());
 	}
 
 	GPOS_ASSERT(NULL != m_pdrgpdxlws);

@@ -36,14 +36,14 @@ CDXLScalarValuesList::~CDXLScalarValuesList()
 
 // operator type
 Edxlopid
-CDXLScalarValuesList::Edxlop() const
+CDXLScalarValuesList::GetDXLOperator() const
 {
 	return EdxlopScalarValuesList;
 }
 
 // operator name
 const CWStringConst *
-CDXLScalarValuesList::PstrOpName() const
+CDXLScalarValuesList::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarValuesList);
 }
@@ -59,7 +59,7 @@ CDXLScalarValuesList::SerializeToDXL
 {
 	GPOS_CHECK_ABORT;
 
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
@@ -70,13 +70,13 @@ CDXLScalarValuesList::SerializeToDXL
 
 // conversion function
 CDXLScalarValuesList *
-CDXLScalarValuesList::PdxlopConvert
+CDXLScalarValuesList::Cast
 	(
 	CDXLOperator *dxl_op
 	)
 {
 	GPOS_ASSERT(NULL != dxl_op);
-	GPOS_ASSERT(EdxlopScalarValuesList == dxl_op->Edxlop());
+	GPOS_ASSERT(EdxlopScalarValuesList == dxl_op->GetDXLOperator());
 
 	return dynamic_cast<CDXLScalarValuesList*>(dxl_op);
 }
@@ -108,7 +108,7 @@ CDXLScalarValuesList::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnConstVal = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnConstVal->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnConstVal->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{

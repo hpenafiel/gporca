@@ -60,14 +60,14 @@ CDXLScalarBitmapBoolOp::~CDXLScalarBitmapBoolOp()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBitmapBoolOp::Edxlop
+//		CDXLScalarBitmapBoolOp::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarBitmapBoolOp::Edxlop() const
+CDXLScalarBitmapBoolOp::GetDXLOperator() const
 {
 	return EdxlopScalarBitmapBoolOp;
 }
@@ -120,14 +120,14 @@ CDXLScalarBitmapBoolOp::FBoolean
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBitmapBoolOp::PstrOpName
+//		CDXLScalarBitmapBoolOp::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarBitmapBoolOp::PstrOpName() const
+CDXLScalarBitmapBoolOp::GetOpNameStr() const
 {
 	if (EdxlbitmapAnd == m_bitmapboolop)
 	{
@@ -155,7 +155,7 @@ CDXLScalarBitmapBoolOp::SerializeToDXL
 {
 	GPOS_CHECK_ABORT;
 
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	GPOS_ASSERT(NULL != element_name);
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
@@ -196,7 +196,7 @@ CDXLScalarBitmapBoolOp::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		Edxlopid edxlop = pdxlnArg->GetOperator()->Edxlop();
+		Edxlopid edxlop = pdxlnArg->GetOperator()->GetDXLOperator();
 		
 		GPOS_ASSERT(EdxlopScalarBitmapBoolOp == edxlop || EdxlopScalarBitmapIndexProbe == edxlop);
 		

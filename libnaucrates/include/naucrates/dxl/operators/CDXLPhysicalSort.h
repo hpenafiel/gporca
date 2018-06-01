@@ -54,8 +54,8 @@ namespace gpdxl
 			CDXLPhysicalSort(IMemoryPool *memory_pool, BOOL fDiscardDuplicates);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			BOOL FDiscardDuplicates() const;
 			
 			// serialize operator in DXL format
@@ -64,13 +64,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalSort *PdxlopConvert
+			CDXLPhysicalSort *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalSort == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalSort == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalSort*>(dxl_op);
 			}

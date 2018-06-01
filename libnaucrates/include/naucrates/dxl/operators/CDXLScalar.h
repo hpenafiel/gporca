@@ -48,7 +48,7 @@ namespace gpdxl
 			virtual
 			~CDXLScalar(){};
 			
-			Edxloptype Edxloperatortype() const;
+			Edxloptype GetDXLOperatorType() const;
 			
 			// does the operator return a boolean result
 			virtual

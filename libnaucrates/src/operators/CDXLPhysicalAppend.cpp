@@ -42,14 +42,14 @@ CDXLPhysicalAppend::CDXLPhysicalAppend
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAppend::Edxlop
+//		CDXLPhysicalAppend::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalAppend::Edxlop() const
+CDXLPhysicalAppend::GetDXLOperator() const
 {
 	return EdxlopPhysicalAppend;
 }
@@ -57,14 +57,14 @@ CDXLPhysicalAppend::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAppend::PstrOpName
+//		CDXLPhysicalAppend::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalAppend::PstrOpName() const
+CDXLPhysicalAppend::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalAppend);
 }
@@ -113,7 +113,7 @@ CDXLPhysicalAppend::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
@@ -153,7 +153,7 @@ CDXLPhysicalAppend::AssertValid
 	for (ULONG ul = EdxlappendIndexFirstChild; ul < ulChildren; ul++)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{

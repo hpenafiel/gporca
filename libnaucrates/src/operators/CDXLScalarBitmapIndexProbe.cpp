@@ -54,14 +54,14 @@ CDXLScalarBitmapIndexProbe::~CDXLScalarBitmapIndexProbe()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBitmapIndexProbe::PstrOpName
+//		CDXLScalarBitmapIndexProbe::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarBitmapIndexProbe::PstrOpName() const
+CDXLScalarBitmapIndexProbe::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarBitmapIndexProbe);
 }
@@ -82,7 +82,7 @@ CDXLScalarBitmapIndexProbe::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	// serialize children
@@ -117,7 +117,7 @@ CDXLScalarBitmapIndexProbe::AssertValid
 	if (validate_children)
 	{
 		CDXLNode *pdxlnIndexCondList = (*pdxln)[0];
-		GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexCondList->GetOperator()->Edxlop());
+		GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexCondList->GetOperator()->GetDXLOperator());
 		pdxlnIndexCondList->GetOperator()->AssertValid(pdxlnIndexCondList, validate_children);
 	}
 

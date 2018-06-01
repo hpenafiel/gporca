@@ -90,14 +90,14 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarSubqueryQuantified *PdxlopConvert
+			CDXLScalarSubqueryQuantified *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarSubqueryAll == dxl_op->Edxlop() ||
-						EdxlopScalarSubqueryAny == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarSubqueryAll == dxl_op->GetDXLOperator() ||
+						EdxlopScalarSubqueryAny == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarSubqueryQuantified*>(dxl_op);
 			}

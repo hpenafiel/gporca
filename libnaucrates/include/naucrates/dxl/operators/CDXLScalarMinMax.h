@@ -62,7 +62,7 @@ namespace gpdxl
 
 			// name of the operator
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// return type
 			virtual
@@ -73,7 +73,7 @@ namespace gpdxl
 
 			// DXL Operator ID
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// min/max type
 			EdxlMinMaxType Emmt() const
@@ -97,13 +97,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarMinMax *PdxlopConvert
+			CDXLScalarMinMax *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarMinMax == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarMinMax == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarMinMax*>(dxl_op);
 			}

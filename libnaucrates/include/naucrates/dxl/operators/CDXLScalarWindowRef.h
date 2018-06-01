@@ -85,10 +85,10 @@ namespace gpdxl
 			~CDXLScalarWindowRef();
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// name of the DXL operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// catalog id of the function
 			IMDId *PmdidFunc() const
@@ -148,13 +148,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarWindowRef *PdxlopConvert
+			CDXLScalarWindowRef *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarWindowRef == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarWindowRef == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarWindowRef*>(dxl_op);
 			}

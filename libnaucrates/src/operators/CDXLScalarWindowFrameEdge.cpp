@@ -39,14 +39,14 @@ CDXLScalarWindowFrameEdge::CDXLScalarWindowFrameEdge
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarWindowFrameEdge::Edxlop
+//		CDXLScalarWindowFrameEdge::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarWindowFrameEdge::Edxlop() const
+CDXLScalarWindowFrameEdge::GetDXLOperator() const
 {
 	return EdxlopScalarWindowFrameEdge;
 }
@@ -54,14 +54,14 @@ CDXLScalarWindowFrameEdge::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarWindowFrameEdge::PstrOpName
+//		CDXLScalarWindowFrameEdge::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarWindowFrameEdge::PstrOpName() const
+CDXLScalarWindowFrameEdge::GetOpNameStr() const
 {
 	if (m_fLeading)
 	{
@@ -131,7 +131,7 @@ CDXLScalarWindowFrameEdge::SerializeToDXL
 	const
 {
 
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	if (m_fLeading)
@@ -174,7 +174,7 @@ CDXLScalarWindowFrameEdge::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{

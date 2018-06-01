@@ -55,14 +55,14 @@ CDXLScalarConstValue::~CDXLScalarConstValue()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarConstValue::Edxlop
+//		CDXLScalarConstValue::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarConstValue::Edxlop() const
+CDXLScalarConstValue::GetDXLOperator() const
 {
 	return EdxlopScalarConstValue;
 }
@@ -70,14 +70,14 @@ CDXLScalarConstValue::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarConstValue::PstrOpName
+//		CDXLScalarConstValue::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarConstValue::PstrOpName() const
+CDXLScalarConstValue::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarConstValue);;
 }
@@ -98,7 +98,7 @@ CDXLScalarConstValue::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	m_pdxldatum->Serialize(xml_serializer, element_name);
 }
 

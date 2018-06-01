@@ -1307,10 +1307,10 @@ CTranslatorExprToDXLUtils::FScalarConstTrue
 	)
 {
 	GPOS_ASSERT(NULL != pdxln);
-	if (EdxlopScalarConstValue == pdxln->GetOperator()->Edxlop())
+	if (EdxlopScalarConstValue == pdxln->GetOperator()->GetDXLOperator())
 	{
 		CDXLScalarConstValue *pdxlopConst =
-				CDXLScalarConstValue::PdxlopConvert(pdxln->GetOperator());
+				CDXLScalarConstValue::Cast(pdxln->GetOperator());
 
 		const IMDType *pmdtype = pmda->Pmdtype(pdxlopConst->Pdxldatum()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
@@ -1340,10 +1340,10 @@ CTranslatorExprToDXLUtils::FScalarConstFalse
 	)
 {
 	GPOS_ASSERT(NULL != pdxln);
-	if (EdxlopScalarConstValue == pdxln->GetOperator()->Edxlop())
+	if (EdxlopScalarConstValue == pdxln->GetOperator()->GetDXLOperator())
 	{
 		CDXLScalarConstValue *pdxlopConst =
-				CDXLScalarConstValue::PdxlopConvert(pdxln->GetOperator());
+				CDXLScalarConstValue::Cast(pdxln->GetOperator());
 
 		const IMDType *pmdtype = pmda->Pmdtype(pdxlopConst->Pdxldatum()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
@@ -1578,7 +1578,7 @@ CTranslatorExprToDXLUtils::PdxlnProjElem
 	// create a scalar identifier for the proj element expression
 	CDXLNode *pdxlnScId = PdxlnIdent(memory_pool, phmcrdxlnSubplans, NULL /*phmcrdxlnIndexLookup*/, pcr);
 
-	if (EdxlopScalarSubPlan == pdxlnScId->GetOperator()->Edxlop())
+	if (EdxlopScalarSubPlan == pdxlnScId->GetOperator()->GetDXLOperator())
 	{
 		// modify map by replacing subplan entry with the projected
 		// column reference so that all subplan references higher up
@@ -1690,7 +1690,7 @@ CTranslatorExprToDXLUtils::FProjectListMatch
 {
 	GPOS_ASSERT(NULL != pdxlnPrL);
 	GPOS_ASSERT(NULL != pdrgpcr);
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->GetDXLOperator());
 
 	const ULONG ulLen = pdrgpcr->Size();
 	if (pdxlnPrL->Arity() != ulLen)
@@ -1703,7 +1703,7 @@ CTranslatorExprToDXLUtils::FProjectListMatch
 		CColRef *pcr = (*pdrgpcr)[ul];
 
 		CDXLNode *pdxlnPrEl = (*pdxlnPrL)[ul];
-		CDXLScalarProjElem *pdxlopPrEl = CDXLScalarProjElem::PdxlopConvert(pdxlnPrEl->GetOperator());
+		CDXLScalarProjElem *pdxlopPrEl = CDXLScalarProjElem::Cast(pdxlnPrEl->GetOperator());
 
 		if (pcr->UlId() != pdxlopPrEl->UlId())
 		{
@@ -2014,7 +2014,7 @@ CTranslatorExprToDXLUtils::SetDirectDispatchInfo
 	GPOS_ASSERT(NULL != pdpRel);
 	GPOS_ASSERT(NULL != pdrgpdsBaseTables);
 	
-	Edxlopid edxlopid = pdxln->GetOperator()->Edxlop();
+	Edxlopid edxlopid = pdxln->GetOperator()->GetDXLOperator();
 	if (EdxlopPhysicalCTAS == edxlopid || EdxlopPhysicalDML == edxlopid || EdxlopPhysicalRowTrigger == edxlopid)
 	{
 		// direct dispatch for CTAS and DML handled elsewhere
@@ -2441,7 +2441,7 @@ CTranslatorExprToDXLUtils::FDXLOpExists
 	GPOS_ASSERT(NULL != pop);
 	GPOS_ASSERT(NULL != peopid);
 
-	gpdxl::Edxlopid eopid = pop->Edxlop();
+	gpdxl::Edxlopid eopid = pop->GetDXLOperator();
 	for (ULONG ul = 0; ul < ulOps; ul++)
 	{
 		if (eopid == peopid[ul])
@@ -2490,7 +2490,7 @@ CTranslatorExprToDXLUtils::FProjListContainsSubplanWithBroadCast
 	CDXLNode *pdxlnPrjList
 	)
 {
-	if (pdxlnPrjList->GetOperator()->Edxlop() == EdxlopScalarSubPlan)
+	if (pdxlnPrjList->GetOperator()->GetDXLOperator() == EdxlopScalarSubPlan)
 	{
 		gpdxl::Edxlopid rgeopidMotion[] =	{
 			EdxlopPhysicalMotionBroadcast
@@ -2518,9 +2518,9 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 	CBitSet *pbs
 	)
 {
-	if (pdxln->GetOperator()->Edxlop() == EdxlopScalarIdent)
+	if (pdxln->GetOperator()->GetDXLOperator() == EdxlopScalarIdent)
 	{
-		const CDXLColRef *pdxlcr = CDXLScalarIdent::PdxlopConvert(pdxln->GetOperator())->Pdxlcr();
+		const CDXLColRef *pdxlcr = CDXLScalarIdent::Cast(pdxln->GetOperator())->Pdxlcr();
 		pbs->ExchangeSet(pdxlcr->Id());
 	}
 
@@ -2566,7 +2566,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 
 	// In ORCA, inner child of Hash Join is always exhausted first,
 	// so only check the outer child for motions
-	if (pdxln->GetOperator()->Edxlop() == EdxlopPhysicalHashJoin)
+	if (pdxln->GetOperator()->GetDXLOperator() == EdxlopPhysicalHashJoin)
 	{
 		if (FMotionHazard(memory_pool, (*pdxln)[EdxlhjIndexHashLeft], peopid, ulOps, pbsPrjCols))
 		{
@@ -2594,7 +2594,7 @@ CTranslatorExprToDXLUtils::FMotionHazardSafeOp
 	)
 {
 	BOOL fMotionHazardSafeOp = false;
-	Edxlopid edxlop = pdxln->GetOperator()->Edxlop();
+	Edxlopid edxlop = pdxln->GetOperator()->GetDXLOperator();
 
 	switch (edxlop)
 	{
@@ -2606,7 +2606,7 @@ CTranslatorExprToDXLUtils::FMotionHazardSafeOp
 
 		case EdxlopPhysicalAgg:
 		{
-			CDXLPhysicalAgg *pdxlnPhysicalAgg = CDXLPhysicalAgg::PdxlopConvert(pdxln->GetOperator());
+			CDXLPhysicalAgg *pdxlnPhysicalAgg = CDXLPhysicalAgg::Cast(pdxln->GetOperator());
 			if (pdxlnPhysicalAgg->Edxlaggstr() == EdxlaggstrategyHashed)
 				fMotionHazardSafeOp = true;
 		}

@@ -59,28 +59,28 @@ CDXLPhysicalIndexScan::~CDXLPhysicalIndexScan()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexScan::Edxlop
+//		CDXLPhysicalIndexScan::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalIndexScan::Edxlop() const
+CDXLPhysicalIndexScan::GetDXLOperator() const
 {
 	return EdxlopPhysicalIndexScan;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexScan::PstrOpName
+//		CDXLPhysicalIndexScan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalIndexScan::PstrOpName() const
+CDXLPhysicalIndexScan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalIndexScan);
 }
@@ -143,7 +143,7 @@ CDXLPhysicalIndexScan::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute
@@ -203,7 +203,7 @@ CDXLPhysicalIndexScan::AssertValid
 	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxlisIndexCondition];
 
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->GetOperator()->GetDXLOperator());
 
 	if (validate_children)
 	{

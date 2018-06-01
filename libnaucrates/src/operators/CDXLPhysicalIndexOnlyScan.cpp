@@ -40,28 +40,28 @@ CDXLPhysicalIndexOnlyScan::CDXLPhysicalIndexOnlyScan
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexOnlyScan::Edxlop
+//		CDXLPhysicalIndexOnlyScan::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalIndexOnlyScan::Edxlop() const
+CDXLPhysicalIndexOnlyScan::GetDXLOperator() const
 {
 	return EdxlopPhysicalIndexOnlyScan;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexOnlyScan::PstrOpName
+//		CDXLPhysicalIndexOnlyScan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalIndexOnlyScan::PstrOpName() const
+CDXLPhysicalIndexOnlyScan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalIndexOnlyScan);
 }

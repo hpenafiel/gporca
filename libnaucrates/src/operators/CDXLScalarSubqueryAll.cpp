@@ -42,14 +42,14 @@ CDXLScalarSubqueryAll::CDXLScalarSubqueryAll
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSubqueryAll::Edxlop
+//		CDXLScalarSubqueryAll::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarSubqueryAll::Edxlop() const
+CDXLScalarSubqueryAll::GetDXLOperator() const
 {
 	return EdxlopScalarSubqueryAll;
 }
@@ -57,14 +57,14 @@ CDXLScalarSubqueryAll::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSubqueryAll::PstrOpName
+//		CDXLScalarSubqueryAll::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarSubqueryAll::PstrOpName() const
+CDXLScalarSubqueryAll::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarSubqueryAll);
 }

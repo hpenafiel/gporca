@@ -40,10 +40,10 @@ namespace gpdxl
 			CDXLScalarHashCondList(IMemoryPool *memory_pool);
 			
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// name of the operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// serialize operator in DXL format
 			virtual
@@ -51,13 +51,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarHashCondList *PdxlopConvert
+			CDXLScalarHashCondList *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarHashCondList == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarHashCondList == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarHashCondList*>(dxl_op);
 			}

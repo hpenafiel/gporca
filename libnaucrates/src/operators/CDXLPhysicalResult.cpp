@@ -38,14 +38,14 @@ CDXLPhysicalResult::CDXLPhysicalResult
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalResult::Edxlop
+//		CDXLPhysicalResult::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalResult::Edxlop() const
+CDXLPhysicalResult::GetDXLOperator() const
 {
 	return EdxlopPhysicalResult;
 }
@@ -53,14 +53,14 @@ CDXLPhysicalResult::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalResult::PstrOpName
+//		CDXLPhysicalResult::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalResult::PstrOpName() const
+CDXLPhysicalResult::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalResult);
 }
@@ -82,7 +82,7 @@ CDXLPhysicalResult::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
@@ -117,7 +117,7 @@ CDXLPhysicalResult::AssertValid
 	
 	// check that one time filter is valid
 	CDXLNode *pdxlnOneTimeFilter = (*pdxln)[EdxlresultIndexOneTimeFilter];
-	GPOS_ASSERT(EdxlopScalarOneTimeFilter == pdxlnOneTimeFilter->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarOneTimeFilter == pdxlnOneTimeFilter->GetOperator()->GetDXLOperator());
 	
 	if (validate_children)
 	{
@@ -127,7 +127,7 @@ CDXLPhysicalResult::AssertValid
 	if (EdxlresultIndexSentinel == pdxln->Arity())
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[EdxlresultIndexChild];
-		GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{

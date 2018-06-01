@@ -37,14 +37,14 @@ CDXLScalarSortColList::CDXLScalarSortColList
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSortColList::Edxlop
+//		CDXLScalarSortColList::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarSortColList::Edxlop() const
+CDXLScalarSortColList::GetDXLOperator() const
 {
 	return EdxlopScalarSortColList;
 }
@@ -52,14 +52,14 @@ CDXLScalarSortColList::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSortColList::PstrOpName
+//		CDXLScalarSortColList::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarSortColList::PstrOpName() const
+CDXLScalarSortColList::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarSortColList);
 }
@@ -80,7 +80,7 @@ CDXLScalarSortColList::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
@@ -107,7 +107,7 @@ CDXLScalarSortColList::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
-		GPOS_ASSERT(EdxlopScalarSortCol == child_dxlnode->GetOperator()->Edxlop());
+		GPOS_ASSERT(EdxlopScalarSortCol == child_dxlnode->GetOperator()->GetDXLOperator());
 		
 		if (validate_children)
 		{

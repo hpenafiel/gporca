@@ -75,7 +75,7 @@ CDXLScalarSubqueryQuantified::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	// serialize operator id and name
@@ -111,8 +111,8 @@ CDXLScalarSubqueryQuantified::AssertValid
 	CDXLNode *pdxlnScalarChild = (*pdxln)[EdxlsqquantifiedIndexScalar];
 	CDXLNode *pdxlnRelationalChild = (*pdxln)[EdxlsqquantifiedIndexRelational];
 
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnScalarChild->GetOperator()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypeLogical == pdxlnRelationalChild->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnScalarChild->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxloptypeLogical == pdxlnRelationalChild->GetOperator()->GetDXLOperatorType());
 
 	pdxln->AssertValid(validate_children);
 }

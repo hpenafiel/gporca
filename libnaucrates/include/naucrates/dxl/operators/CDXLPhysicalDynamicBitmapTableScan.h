@@ -68,14 +68,14 @@ namespace gpdxl
 
 			// operator type
 			virtual
-			Edxlopid Edxlop() const
+			Edxlopid GetDXLOperator() const
 			{
 				return EdxlopPhysicalDynamicBitmapTableScan;
 			}
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// partition index id
 			ULONG UlPartIndexId() const
@@ -95,13 +95,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalDynamicBitmapTableScan *PdxlopConvert
+			CDXLPhysicalDynamicBitmapTableScan *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalDynamicBitmapTableScan == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalDynamicBitmapTableScan == dxl_op->GetDXLOperator());
 
  	 	 		return dynamic_cast<CDXLPhysicalDynamicBitmapTableScan *>(dxl_op);
 			}

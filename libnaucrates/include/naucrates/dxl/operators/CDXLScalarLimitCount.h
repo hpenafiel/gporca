@@ -42,10 +42,10 @@ namespace gpdxl
 			CDXLScalarLimitCount(IMemoryPool *memory_pool);
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// name of the DXL operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -53,13 +53,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarLimitCount *PdxlopConvert
+			CDXLScalarLimitCount *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarLimitCount == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarLimitCount == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarLimitCount*>(dxl_op);
 			}

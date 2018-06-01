@@ -40,14 +40,14 @@ CDXLPhysicalRoutedDistributeMotion::CDXLPhysicalRoutedDistributeMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalRoutedDistributeMotion::Edxlop
+//		CDXLPhysicalRoutedDistributeMotion::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalRoutedDistributeMotion::Edxlop() const
+CDXLPhysicalRoutedDistributeMotion::GetDXLOperator() const
 {
 	return EdxlopPhysicalMotionRoutedDistribute;
 }
@@ -55,14 +55,14 @@ CDXLPhysicalRoutedDistributeMotion::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalRoutedDistributeMotion::PstrOpName
+//		CDXLPhysicalRoutedDistributeMotion::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalRoutedDistributeMotion::PstrOpName() const
+CDXLPhysicalRoutedDistributeMotion::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalRoutedDistributeMotion);
 }
@@ -83,7 +83,7 @@ CDXLPhysicalRoutedDistributeMotion::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
@@ -130,7 +130,7 @@ CDXLPhysicalRoutedDistributeMotion::AssertValid
 	
 	CDXLNode *child_dxlnode = (*pdxln)[EdxlroutedmIndexChild];
 
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{

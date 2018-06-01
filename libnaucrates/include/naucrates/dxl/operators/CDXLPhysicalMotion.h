@@ -78,17 +78,17 @@ namespace gpdxl
 			
 			// conversion function
 			static
-			CDXLPhysicalMotion *PdxlopConvert
+			CDXLPhysicalMotion *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalMotionGather == dxl_op->Edxlop()
-						|| EdxlopPhysicalMotionBroadcast == dxl_op->Edxlop()
-						|| EdxlopPhysicalMotionRedistribute == dxl_op->Edxlop()
-						|| EdxlopPhysicalMotionRoutedDistribute == dxl_op->Edxlop()
-						|| EdxlopPhysicalMotionRandom == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalMotionGather == dxl_op->GetDXLOperator()
+						|| EdxlopPhysicalMotionBroadcast == dxl_op->GetDXLOperator()
+						|| EdxlopPhysicalMotionRedistribute == dxl_op->GetDXLOperator()
+						|| EdxlopPhysicalMotionRoutedDistribute == dxl_op->GetDXLOperator()
+						|| EdxlopPhysicalMotionRandom == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalMotion*>(dxl_op);
 			}

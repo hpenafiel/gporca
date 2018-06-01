@@ -41,9 +41,9 @@ namespace gpdxl
 			CDXLLogicalJoin(IMemoryPool *, 	EdxlJoinType);
 
 			// accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// join type
 			EdxlJoinType Edxltype() const;
@@ -56,13 +56,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalJoin *PdxlopConvert
+			CDXLLogicalJoin *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalJoin == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalJoin == dxl_op->GetDXLOperator());
 				return dynamic_cast<CDXLLogicalJoin*>(dxl_op);
 			}
 

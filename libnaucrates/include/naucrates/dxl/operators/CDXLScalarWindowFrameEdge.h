@@ -64,10 +64,10 @@ namespace gpdxl
 			CDXLScalarWindowFrameEdge(IMemoryPool *memory_pool, BOOL fLeading, EdxlFrameBoundary edxlfb);
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// name of the DXL operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// is it a leading or trailing edge
 			BOOL FLeading() const
@@ -108,13 +108,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarWindowFrameEdge *PdxlopConvert
+			CDXLScalarWindowFrameEdge *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarWindowFrameEdge == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarWindowFrameEdge == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarWindowFrameEdge*>(dxl_op);
 			}

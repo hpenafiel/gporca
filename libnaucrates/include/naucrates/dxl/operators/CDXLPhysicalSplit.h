@@ -78,10 +78,10 @@ namespace gpdxl
 			~CDXLPhysicalSplit();
 
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// deletion column ids
 			ULongPtrArray *PdrgpulDelete() const
@@ -137,13 +137,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalSplit *PdxlopConvert
+			CDXLPhysicalSplit *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalSplit == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalSplit == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalSplit*>(dxl_op);
 			}

@@ -39,18 +39,18 @@ namespace gpdxl
 			CDXLScalarOneTimeFilter(IMemoryPool *memory_pool);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// conversion function
 			static
-			CDXLScalarOneTimeFilter *PdxlopConvert
+			CDXLScalarOneTimeFilter *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarOneTimeFilter == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarOneTimeFilter == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarOneTimeFilter*>(dxl_op);
 			}

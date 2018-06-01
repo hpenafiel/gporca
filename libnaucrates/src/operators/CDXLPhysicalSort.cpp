@@ -39,14 +39,14 @@ CDXLPhysicalSort::CDXLPhysicalSort
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalSort::Edxlop
+//		CDXLPhysicalSort::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalSort::Edxlop() const
+CDXLPhysicalSort::GetDXLOperator() const
 {
 	return EdxlopPhysicalSort;
 }
@@ -54,14 +54,14 @@ CDXLPhysicalSort::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalSort::PstrOpName
+//		CDXLPhysicalSort::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalSort::PstrOpName() const
+CDXLPhysicalSort::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalSort);
 }
@@ -97,7 +97,7 @@ CDXLPhysicalSort::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
 	
@@ -139,10 +139,10 @@ CDXLPhysicalSort::AssertValid
 	CDXLNode *pdxlnLimitOffset = (*pdxln)[EdxlsortIndexLimitOffset];
 	
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->GetOperator()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
-	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnLimitCount->GetOperator()->Edxlop());
-	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnLimitOffset->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnLimitCount->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnLimitOffset->GetOperator()->GetDXLOperator());
 	
 	// there must be at least one sorting column
 	GPOS_ASSERT(sort_col_list_dxl->Arity() > 0);

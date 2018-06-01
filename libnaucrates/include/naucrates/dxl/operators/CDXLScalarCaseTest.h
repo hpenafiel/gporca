@@ -51,7 +51,7 @@ namespace gpdxl
 
 			// name of the operator
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// expression type
 			virtual
@@ -59,7 +59,7 @@ namespace gpdxl
 
 			// DXL Operator ID
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -71,13 +71,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarCaseTest *PdxlopConvert
+			CDXLScalarCaseTest *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarCaseTest == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarCaseTest == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarCaseTest*>(dxl_op);
 			}

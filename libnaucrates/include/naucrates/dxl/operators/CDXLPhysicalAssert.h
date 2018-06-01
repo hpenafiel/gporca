@@ -56,11 +56,11 @@ namespace gpdxl
 			
 			// operator type
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// error code
 			const CHAR *SQLState() const
@@ -80,13 +80,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalAssert *PdxlopConvert
+			CDXLPhysicalAssert *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalAssert == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalAssert == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalAssert*>(dxl_op);
 			}

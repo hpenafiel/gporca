@@ -50,7 +50,7 @@ namespace gpdxl
 
 			// name of the operator
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// return type
 			virtual
@@ -58,7 +58,7 @@ namespace gpdxl
 
 			// DXL Operator ID
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -66,13 +66,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarSwitch *PdxlopConvert
+			CDXLScalarSwitch *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarSwitch == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarSwitch == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarSwitch*>(dxl_op);
 			}

@@ -62,11 +62,11 @@ namespace gpdxl
 			
 			// operator type
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// table descriptor
 			const CDXLTableDescr *Pdxltabdesc();
@@ -77,14 +77,14 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalTableScan *PdxlopConvert
+			CDXLPhysicalTableScan *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalTableScan == dxl_op->Edxlop() ||
-							EdxlopPhysicalExternalScan == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalTableScan == dxl_op->GetDXLOperator() ||
+							EdxlopPhysicalExternalScan == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalTableScan*>(dxl_op);
 			}

@@ -53,8 +53,8 @@ namespace gpdxl
 			CDXLPhysicalMergeJoin(IMemoryPool *memory_pool, EdxlJoinType edxljt, BOOL fUniqueOuter);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// serialize operator in DXL format
 			virtual
@@ -62,13 +62,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalMergeJoin *PdxlopConvert
+			CDXLPhysicalMergeJoin *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalMergeJoin == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalMergeJoin == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalMergeJoin*>(dxl_op);
 			}

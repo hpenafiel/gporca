@@ -63,28 +63,28 @@ CDXLPhysicalDynamicIndexScan::~CDXLPhysicalDynamicIndexScan()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicIndexScan::Edxlop
+//		CDXLPhysicalDynamicIndexScan::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalDynamicIndexScan::Edxlop() const
+CDXLPhysicalDynamicIndexScan::GetDXLOperator() const
 {
 	return EdxlopPhysicalDynamicIndexScan;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicIndexScan::PstrOpName
+//		CDXLPhysicalDynamicIndexScan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalDynamicIndexScan::PstrOpName() const
+CDXLPhysicalDynamicIndexScan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalDynamicIndexScan);
 }
@@ -175,7 +175,7 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute
@@ -242,8 +242,8 @@ CDXLPhysicalDynamicIndexScan::AssertValid
 	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxldisIndexCondition];
 
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->GetOperator()->Edxlop());
-	GPOS_ASSERT(EdxlopScalarFilter == pdxlnIndexFilter->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarFilter == pdxlnIndexFilter->GetOperator()->GetDXLOperator());
 
 	if (validate_children)
 	{

@@ -66,10 +66,10 @@ namespace gpdxl
 			~CDXLScalarSortCol();
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// name of the operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// Id of the sorting column
 			ULONG UlColId() const;
@@ -86,13 +86,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarSortCol *PdxlopConvert
+			CDXLScalarSortCol *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarSortCol == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarSortCol == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarSortCol*>(dxl_op);
 			}

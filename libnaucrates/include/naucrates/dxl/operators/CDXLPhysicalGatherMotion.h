@@ -52,8 +52,8 @@ namespace gpdxl
 			~CDXLPhysicalGatherMotion(){};
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			INT IOutputSegIdx() const;
 			
 			// index of relational child node in the children array
@@ -69,13 +69,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalGatherMotion *PdxlopConvert
+			CDXLPhysicalGatherMotion *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalMotionGather == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalMotionGather == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalGatherMotion*>(dxl_op);
 			}

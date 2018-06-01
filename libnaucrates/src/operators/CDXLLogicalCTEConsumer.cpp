@@ -58,28 +58,28 @@ CDXLLogicalCTEConsumer::~CDXLLogicalCTEConsumer()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalCTEConsumer::Edxlop
+//		CDXLLogicalCTEConsumer::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalCTEConsumer::Edxlop() const
+CDXLLogicalCTEConsumer::GetDXLOperator() const
 {
 	return EdxlopLogicalCTEConsumer;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalCTEConsumer::PstrOpName
+//		CDXLLogicalCTEConsumer::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalCTEConsumer::PstrOpName() const
+CDXLLogicalCTEConsumer::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalCTEConsumer);
 }
@@ -128,7 +128,7 @@ CDXLLogicalCTEConsumer::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCTEId), UlId());

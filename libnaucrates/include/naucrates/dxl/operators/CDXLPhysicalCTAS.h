@@ -96,10 +96,10 @@ namespace gpdxl
 			~CDXLPhysicalCTAS();
 
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// column descriptors
 			ColumnDescrDXLArray *GetColumnDescrDXLArray() const
@@ -167,13 +167,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalCTAS *PdxlopConvert
+			CDXLPhysicalCTAS *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalCTAS == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalCTAS == dxl_op->GetDXLOperator());
 				return dynamic_cast<CDXLPhysicalCTAS*>(dxl_op);
 			}
 	};

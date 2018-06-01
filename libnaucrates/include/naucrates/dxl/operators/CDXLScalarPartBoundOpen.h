@@ -48,11 +48,11 @@ namespace gpdxl
 
 			// operator type
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// partitioning level
 			ULONG UlLevel() const
@@ -90,13 +90,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarPartBoundOpen *PdxlopConvert
+			CDXLScalarPartBoundOpen *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarPartBoundOpen == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarPartBoundOpen == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarPartBoundOpen*>(dxl_op);
 			}

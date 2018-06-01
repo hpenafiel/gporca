@@ -34,14 +34,14 @@ CDXLLogical::CDXLLogical
 
 //---------------------------------------------------------------------------
 //      @function:
-//              CDXLLogical::Edxloperatortype
+//              CDXLLogical::GetDXLOperatorType
 //
 //      @doc:
 //              Operator Type
 //
 //---------------------------------------------------------------------------
 Edxloptype
-CDXLLogical::Edxloperatortype() const
+CDXLLogical::GetDXLOperatorType() const
 {
 	return EdxloptypeLogical;
 }

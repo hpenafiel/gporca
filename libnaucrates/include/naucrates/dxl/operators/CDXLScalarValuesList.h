@@ -40,10 +40,10 @@ namespace gpdxl
 			~CDXLScalarValuesList();
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// name of the DXL operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -51,7 +51,7 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarValuesList *PdxlopConvert(CDXLOperator *dxl_op);
+			CDXLScalarValuesList *Cast(CDXLOperator *dxl_op);
 
 			// does the operator return a boolean result
 			virtual

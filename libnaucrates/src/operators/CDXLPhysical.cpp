@@ -46,14 +46,14 @@ CDXLPhysical::~CDXLPhysical()
 
 //---------------------------------------------------------------------------
 //      @function:
-//              CDXLPhysical::Edxloperatortype
+//              CDXLPhysical::GetDXLOperatorType
 //
 //      @doc:
 //              Operator Type
 //
 //---------------------------------------------------------------------------
 Edxloptype
-CDXLPhysical::Edxloperatortype() const
+CDXLPhysical::GetDXLOperatorType() const
 {
 	return EdxloptypePhysical;
 }
@@ -82,8 +82,8 @@ CDXLPhysical::AssertValid
 	CDXLNode *pdxlnProjList = (*pdxln)[0];
 	CDXLNode *pdxlnFilter = (*pdxln)[1];
 	
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->Edxlop());
-	GPOS_ASSERT(EdxlopScalarFilter == pdxlnFilter->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarFilter == pdxlnFilter->GetOperator()->GetDXLOperator());
 	
 	if (validate_children)
 	{

@@ -49,11 +49,11 @@ namespace gpdxl
 
 			// name of the operator
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// DXL Operator ID
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -61,13 +61,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarSwitchCase *PdxlopConvert
+			CDXLScalarSwitchCase *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarSwitchCase == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarSwitchCase == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarSwitchCase*>(dxl_op);
 			}

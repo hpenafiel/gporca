@@ -47,7 +47,7 @@ namespace gpdxl
 			~CDXLPhysical();
 			
 			// Get operator type
-			Edxloptype Edxloperatortype() const;
+			Edxloptype GetDXLOperatorType() const;
 			
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

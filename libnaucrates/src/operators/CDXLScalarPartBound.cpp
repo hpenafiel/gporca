@@ -59,28 +59,28 @@ CDXLScalarPartBound::~CDXLScalarPartBound()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarPartBound::Edxlop
+//		CDXLScalarPartBound::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarPartBound::Edxlop() const
+CDXLScalarPartBound::GetDXLOperator() const
 {
 	return EdxlopScalarPartBound;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarPartBound::PstrOpName
+//		CDXLScalarPartBound::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarPartBound::PstrOpName() const
+CDXLScalarPartBound::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarPartBound);
 }
@@ -115,7 +115,7 @@ CDXLScalarPartBound::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartLevel), m_ulLevel);

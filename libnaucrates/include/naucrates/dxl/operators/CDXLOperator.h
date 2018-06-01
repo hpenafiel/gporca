@@ -235,14 +235,14 @@ namespace gpdxl
 					
 			// ident accessors
 			virtual
-			Edxlopid Edxlop() const = 0;
+			Edxlopid GetDXLOperator() const = 0;
 			
 			// name of the operator
 			virtual
-			const CWStringConst *PstrOpName() const = 0;
+			const CWStringConst *GetOpNameStr() const = 0;
 			
 			virtual
-			Edxloptype Edxloperatortype() const = 0;
+			Edxloptype GetDXLOperatorType() const = 0;
             
 			// serialize operator in DXL format given a serializer object and the
 			// host DXL node, providing access to the operator's children

@@ -68,28 +68,28 @@ CDXLLogicalConstTable::~CDXLLogicalConstTable()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalConstTable::Edxlop
+//		CDXLLogicalConstTable::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalConstTable::Edxlop() const
+CDXLLogicalConstTable::GetDXLOperator() const
 {
 	return EdxlopLogicalConstTable;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalConstTable::PstrOpName
+//		CDXLLogicalConstTable::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalConstTable::PstrOpName() const
+CDXLLogicalConstTable::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalConstTable);
 }
@@ -144,7 +144,7 @@ CDXLLogicalConstTable::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 

@@ -64,11 +64,11 @@ namespace gpdxl
 
 			// ident accessors
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// element type id
 			IMDId *PmdidElem() const
@@ -109,13 +109,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarArrayRef *PdxlopConvert
+			CDXLScalarArrayRef *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarArrayRef == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarArrayRef == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarArrayRef*>(dxl_op);
 			}

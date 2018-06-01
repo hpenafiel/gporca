@@ -64,28 +64,28 @@ CDXLPhysicalRowTrigger::~CDXLPhysicalRowTrigger()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalRowTrigger::Edxlop
+//		CDXLPhysicalRowTrigger::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalRowTrigger::Edxlop() const
+CDXLPhysicalRowTrigger::GetDXLOperator() const
 {
 	return EdxlopPhysicalRowTrigger;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalRowTrigger::PstrOpName
+//		CDXLPhysicalRowTrigger::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalRowTrigger::PstrOpName() const
+CDXLPhysicalRowTrigger::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalRowTrigger);
 }
@@ -106,7 +106,7 @@ CDXLPhysicalRowTrigger::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDType), m_iType);
@@ -155,7 +155,7 @@ CDXLPhysicalRowTrigger::AssertValid
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
 	CDXLNode *child_dxlnode = (*pdxln)[1];
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

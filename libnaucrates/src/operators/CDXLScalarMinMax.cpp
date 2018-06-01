@@ -57,28 +57,28 @@ CDXLScalarMinMax::~CDXLScalarMinMax()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarMinMax::Edxlop
+//		CDXLScalarMinMax::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarMinMax::Edxlop() const
+CDXLScalarMinMax::GetDXLOperator() const
 {
 	return EdxlopScalarMinMax;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarMinMax::PstrOpName
+//		CDXLScalarMinMax::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarMinMax::PstrOpName() const
+CDXLScalarMinMax::GetOpNameStr() const
 {
 	switch (m_emmt)
 	{
@@ -107,7 +107,7 @@ CDXLScalarMinMax::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
@@ -156,7 +156,7 @@ CDXLScalarMinMax::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{

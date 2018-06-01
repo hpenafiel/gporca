@@ -55,8 +55,8 @@ namespace gpdxl
 			CDXLPhysicalNLJoin(IMemoryPool *memory_pool, EdxlJoinType edxljt, BOOL fIndexNLJ);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// is operator an index nested loops?
 			BOOL FIndexNLJ() const
@@ -76,7 +76,7 @@ namespace gpdxl
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalNLJoin == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalNLJoin == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalNLJoin*>(dxl_op);
 			}

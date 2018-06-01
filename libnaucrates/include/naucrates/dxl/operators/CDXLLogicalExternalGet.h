@@ -39,21 +39,21 @@ namespace gpdxl
 
 			// operator type
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// conversion function
 			static
-			CDXLLogicalExternalGet *PdxlopConvert
+			CDXLLogicalExternalGet *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalExternalGet == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalExternalGet == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalExternalGet*>(dxl_op);
 			}

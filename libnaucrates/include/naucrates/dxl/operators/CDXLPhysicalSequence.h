@@ -43,8 +43,8 @@ namespace gpdxl
 			~CDXLPhysicalSequence();
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -52,13 +52,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalSequence *PdxlopConvert
+			CDXLPhysicalSequence *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalSequence == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalSequence == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalSequence*>(dxl_op);
 			}

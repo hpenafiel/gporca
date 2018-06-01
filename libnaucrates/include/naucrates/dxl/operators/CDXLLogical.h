@@ -45,7 +45,7 @@ namespace gpdxl
 			CDXLLogical(IMemoryPool *memory_pool);
 
 			// Get operator type
-			Edxloptype Edxloperatortype() const;
+			Edxloptype GetDXLOperatorType() const;
 	};
 }
 

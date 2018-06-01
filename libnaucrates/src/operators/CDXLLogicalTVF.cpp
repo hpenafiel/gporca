@@ -62,28 +62,28 @@ CDXLLogicalTVF::~CDXLLogicalTVF()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalTVF::Edxlop
+//		CDXLLogicalTVF::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalTVF::Edxlop() const
+CDXLLogicalTVF::GetDXLOperator() const
 {
 	return EdxlopLogicalTVF;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalTVF::PstrOpName
+//		CDXLLogicalTVF::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalTVF::PstrOpName() const
+CDXLLogicalTVF::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalTVF);
 }
@@ -164,7 +164,7 @@ CDXLLogicalTVF::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
@@ -212,7 +212,7 @@ CDXLLogicalTVF::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{

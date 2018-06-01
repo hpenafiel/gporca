@@ -67,28 +67,28 @@ CDXLPhysicalSplit::~CDXLPhysicalSplit()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalSplit::Edxlop
+//		CDXLPhysicalSplit::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalSplit::Edxlop() const
+CDXLPhysicalSplit::GetDXLOperator() const
 {
 	return EdxlopPhysicalSplit;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalSplit::PstrOpName
+//		CDXLPhysicalSplit::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalSplit::PstrOpName() const
+CDXLPhysicalSplit::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalSplit);
 }
@@ -109,7 +109,7 @@ CDXLPhysicalSplit::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDelete);
@@ -161,7 +161,7 @@ CDXLPhysicalSplit::AssertValid
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
 	CDXLNode *child_dxlnode = (*pdxln)[1];
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

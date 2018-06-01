@@ -53,14 +53,14 @@ namespace gpdxl
 
 			// operator identity
 			virtual
-			Edxlopid Edxlop() const
+			Edxlopid GetDXLOperator() const
 			{
 				return EdxlopScalarRecheckCondFilter;
 			}
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// does the operator return a boolean result
 			virtual
@@ -76,13 +76,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarRecheckCondFilter *PdxlopConvert
+			CDXLScalarRecheckCondFilter *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarRecheckCondFilter == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarRecheckCondFilter == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarRecheckCondFilter*>(dxl_op);
 			}

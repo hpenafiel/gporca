@@ -59,8 +59,8 @@ namespace gpdxl
 			~CDXLPhysicalWindow();
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// number of partition columns
 			ULONG UlPartCols() const;
@@ -83,13 +83,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalWindow *PdxlopConvert
+			CDXLPhysicalWindow *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalWindow == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalWindow == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalWindow*>(dxl_op);
 			}

@@ -55,14 +55,14 @@ namespace gpdxl
 
 			// operator type
 			virtual
-			Edxlopid Edxlop() const
+			Edxlopid GetDXLOperator() const
 			{
 				return EdxlopScalarBitmapIndexProbe;
 			}
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// index descriptor
 			virtual
@@ -95,13 +95,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarBitmapIndexProbe *PdxlopConvert
+			CDXLScalarBitmapIndexProbe *Cast
 				(
 					CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarBitmapIndexProbe== dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarBitmapIndexProbe== dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarBitmapIndexProbe *>(dxl_op);
 			}

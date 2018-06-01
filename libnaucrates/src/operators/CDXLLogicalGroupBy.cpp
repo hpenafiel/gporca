@@ -69,28 +69,28 @@ CDXLLogicalGroupBy::~CDXLLogicalGroupBy()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalGroupBy::Edxlop
+//		CDXLLogicalGroupBy::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalGroupBy::Edxlop() const
+CDXLLogicalGroupBy::GetDXLOperator() const
 {
 	return EdxlopLogicalGrpBy;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalGroupBy::PstrOpName
+//		CDXLLogicalGroupBy::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalGroupBy::PstrOpName() const
+CDXLLogicalGroupBy::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalGrpBy);
 }
@@ -180,7 +180,7 @@ CDXLLogicalGroupBy::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
@@ -217,10 +217,10 @@ CDXLLogicalGroupBy::AssertValid
 	GPOS_ASSERT(2 == ulChildren);
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->Edxlop());
+	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->GetDXLOperator());
 
 	CDXLNode *pdxlnOpType = (*pdxln)[1];
-	GPOS_ASSERT(EdxloptypeLogical == pdxlnOpType->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeLogical == pdxlnOpType->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{
@@ -235,7 +235,7 @@ CDXLLogicalGroupBy::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
 		CDXLNode *pdxlnPrEl = (*pdxlnPrL)[ul];
-		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->Edxlop());
+		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->GetDXLOperator());
 	}
 }
 #endif // GPOS_DEBUG

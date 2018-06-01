@@ -49,10 +49,10 @@ namespace gpdxl
 			~CDXLScalarHashExpr();
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// name of the operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			IMDId *MDIdType() const;
 			
@@ -62,13 +62,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarHashExpr *PdxlopConvert
+			CDXLScalarHashExpr *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarHashExpr == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarHashExpr == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarHashExpr*>(dxl_op);
 			}

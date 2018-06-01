@@ -56,8 +56,8 @@ namespace gpdxl
 			CDXLPhysicalRedistributeMotion(IMemoryPool *memory_pool, BOOL fDuplicateSensitive);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// does motion remove duplicates
 			BOOL FDuplicateSensitive() const
@@ -78,13 +78,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalRedistributeMotion *PdxlopConvert
+			CDXLPhysicalRedistributeMotion *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalMotionRedistribute == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalMotionRedistribute == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalRedistributeMotion*>(dxl_op);
 			}

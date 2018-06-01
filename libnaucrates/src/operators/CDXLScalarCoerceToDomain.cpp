@@ -39,14 +39,14 @@ CDXLScalarCoerceToDomain::CDXLScalarCoerceToDomain
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarCoerceToDomain::PstrOpName
+//		CDXLScalarCoerceToDomain::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarCoerceToDomain::PstrOpName() const
+CDXLScalarCoerceToDomain::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarCoerceToDomain);
 }

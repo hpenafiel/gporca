@@ -63,28 +63,28 @@ CDXLLogicalDelete::~CDXLLogicalDelete()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalDelete::Edxlop
+//		CDXLLogicalDelete::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalDelete::Edxlop() const
+CDXLLogicalDelete::GetDXLOperator() const
 {
 	return EdxlopLogicalDelete;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalDelete::PstrOpName
+//		CDXLLogicalDelete::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalDelete::PstrOpName() const
+CDXLLogicalDelete::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalDelete);
 }
@@ -105,7 +105,7 @@ CDXLLogicalDelete::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDelete);
@@ -141,7 +141,7 @@ CDXLLogicalDelete::AssertValid
 	GPOS_ASSERT(1 == pdxln->Arity());
 
 	CDXLNode *child_dxlnode = (*pdxln)[0];
-	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

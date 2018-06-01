@@ -78,28 +78,28 @@ CDXLPhysicalDML::~CDXLPhysicalDML()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDML::Edxlop
+//		CDXLPhysicalDML::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalDML::Edxlop() const
+CDXLPhysicalDML::GetDXLOperator() const
 {
 	return EdxlopPhysicalDML;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDML::PstrOpName
+//		CDXLPhysicalDML::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalDML::PstrOpName() const
+CDXLPhysicalDML::GetOpNameStr() const
 {
 	switch (m_edxldmltype)
 	{
@@ -130,7 +130,7 @@ CDXLPhysicalDML::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpul);
@@ -197,7 +197,7 @@ CDXLPhysicalDML::AssertValid
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
 	CDXLNode *child_dxlnode = (*pdxln)[1];
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

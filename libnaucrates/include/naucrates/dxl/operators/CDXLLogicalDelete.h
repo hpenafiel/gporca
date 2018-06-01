@@ -59,10 +59,10 @@ namespace gpdxl
 			~CDXLLogicalDelete();
 
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// target table descriptor
 			CDXLTableDescr *Pdxltabdesc() const
@@ -100,13 +100,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalDelete *PdxlopConvert
+			CDXLLogicalDelete *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalDelete == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalDelete == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalDelete*>(dxl_op);
 			}

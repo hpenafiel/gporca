@@ -40,14 +40,14 @@ CDXLPhysicalNLJoin::CDXLPhysicalNLJoin
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalNLJoin::Edxlop
+//		CDXLPhysicalNLJoin::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalNLJoin::Edxlop() const
+CDXLPhysicalNLJoin::GetDXLOperator() const
 {
 	return EdxlopPhysicalNLJoin;
 }
@@ -55,14 +55,14 @@ CDXLPhysicalNLJoin::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalNLJoin::PstrOpName
+//		CDXLPhysicalNLJoin::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalNLJoin::PstrOpName() const
+CDXLPhysicalNLJoin::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalNLJoin);
 }
@@ -83,7 +83,7 @@ CDXLPhysicalNLJoin::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
 	
@@ -129,9 +129,9 @@ CDXLPhysicalNLJoin::AssertValid
 	CDXLNode *pdxlnRight = (*pdxln)[EdxlnljIndexRightChild];
 	
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->Edxlop());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->GetOperator()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{

@@ -59,14 +59,14 @@ CDXLPhysicalDynamicTableScan::~CDXLPhysicalDynamicTableScan()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicTableScan::Edxlop
+//		CDXLPhysicalDynamicTableScan::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalDynamicTableScan::Edxlop() const
+CDXLPhysicalDynamicTableScan::GetDXLOperator() const
 {
 	return EdxlopPhysicalDynamicTableScan;
 }
@@ -74,14 +74,14 @@ CDXLPhysicalDynamicTableScan::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicTableScan::PstrOpName
+//		CDXLPhysicalDynamicTableScan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalDynamicTableScan::PstrOpName() const
+CDXLPhysicalDynamicTableScan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalDynamicTableScan);
 }
@@ -144,7 +144,7 @@ CDXLPhysicalDynamicTableScan::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);

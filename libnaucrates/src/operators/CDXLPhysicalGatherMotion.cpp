@@ -37,14 +37,14 @@ CDXLPhysicalGatherMotion::CDXLPhysicalGatherMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalGatherMotion::Edxlop
+//		CDXLPhysicalGatherMotion::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalGatherMotion::Edxlop() const
+CDXLPhysicalGatherMotion::GetDXLOperator() const
 {
 	return EdxlopPhysicalMotionGather;
 }
@@ -68,14 +68,14 @@ CDXLPhysicalGatherMotion::IOutputSegIdx() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalGatherMotion::PstrOpName
+//		CDXLPhysicalGatherMotion::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalGatherMotion::PstrOpName() const
+CDXLPhysicalGatherMotion::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalGatherMotion);
 }
@@ -96,7 +96,7 @@ CDXLPhysicalGatherMotion::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
@@ -137,7 +137,7 @@ CDXLPhysicalGatherMotion::AssertValid
 	GPOS_ASSERT(EdxlgmIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *child_dxlnode = (*pdxln)[EdxlgmIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{

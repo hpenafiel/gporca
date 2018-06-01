@@ -40,14 +40,14 @@ CDXLScalarOneTimeFilter::CDXLScalarOneTimeFilter
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarOneTimeFilter::Edxlop
+//		CDXLScalarOneTimeFilter::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarOneTimeFilter::Edxlop() const
+CDXLScalarOneTimeFilter::GetDXLOperator() const
 {
 	return EdxlopScalarOneTimeFilter;
 }
@@ -55,14 +55,14 @@ CDXLScalarOneTimeFilter::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarOneTimeFilter::PstrOpName
+//		CDXLScalarOneTimeFilter::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarOneTimeFilter::PstrOpName() const
+CDXLScalarOneTimeFilter::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarOneTimeFilter);
 }
@@ -83,7 +83,7 @@ CDXLScalarOneTimeFilter::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 

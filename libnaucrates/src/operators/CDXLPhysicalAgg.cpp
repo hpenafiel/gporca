@@ -56,14 +56,14 @@ CDXLPhysicalAgg::~CDXLPhysicalAgg()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAgg::Edxlop
+//		CDXLPhysicalAgg::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalAgg::Edxlop() const
+CDXLPhysicalAgg::GetDXLOperator() const
 {
 	return EdxlopPhysicalAgg;
 }
@@ -86,14 +86,14 @@ CDXLPhysicalAgg::Edxlaggstr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAgg::PstrOpName
+//		CDXLPhysicalAgg::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalAgg::PstrOpName() const
+CDXLPhysicalAgg::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalAggregate);
 }
@@ -207,7 +207,7 @@ CDXLPhysicalAgg::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAggStrategy), PstrAggStrategy());
@@ -249,7 +249,7 @@ CDXLPhysicalAgg::AssertValid
 	GPOS_ASSERT(NULL != m_pdrgpulGroupingCols);
 	
 	CDXLNode *child_dxlnode = (*pdxln)[EdxlaggIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{

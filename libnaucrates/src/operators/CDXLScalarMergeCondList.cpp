@@ -37,14 +37,14 @@ CDXLScalarMergeCondList::CDXLScalarMergeCondList
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarMergeCondList::Edxlop
+//		CDXLScalarMergeCondList::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarMergeCondList::Edxlop() const
+CDXLScalarMergeCondList::GetDXLOperator() const
 {
 	return EdxlopScalarMergeCondList;
 }
@@ -52,14 +52,14 @@ CDXLScalarMergeCondList::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarMergeCondList::PstrOpName
+//		CDXLScalarMergeCondList::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarMergeCondList::PstrOpName() const
+CDXLScalarMergeCondList::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarMergeCondList);
 }
@@ -80,7 +80,7 @@ CDXLScalarMergeCondList::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
@@ -109,7 +109,7 @@ CDXLScalarMergeCondList::AssertValid
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{

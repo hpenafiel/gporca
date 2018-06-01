@@ -46,8 +46,8 @@ namespace gpdxl
 			~CDXLLogicalWindow();
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// number of window specs
 			ULONG UlWindowSpecs() const;
@@ -61,13 +61,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalWindow *PdxlopConvert
+			CDXLLogicalWindow *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalWindow == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalWindow == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalWindow*>(dxl_op);
 			}

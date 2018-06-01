@@ -56,10 +56,10 @@ namespace gpdxl
 			~CDXLScalarProjElem();
 			
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// name of the operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// id of the proj element
 			ULONG UlId() const;
@@ -84,13 +84,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarProjElem *PdxlopConvert
+			CDXLScalarProjElem *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarProjectElem == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarProjectElem == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarProjElem*>(dxl_op);
 			}

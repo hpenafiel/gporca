@@ -43,10 +43,10 @@ namespace gpdxl
 			~CDXLPhysicalValuesScan();
 
 			// get operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// get operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -54,7 +54,7 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalValuesScan *PdxlopConvert(CDXLOperator *dxl_op);
+			CDXLPhysicalValuesScan *Cast(CDXLOperator *dxl_op);
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

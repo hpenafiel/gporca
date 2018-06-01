@@ -77,10 +77,10 @@ namespace gpdxl
 			~CDXLPhysicalAgg();
 
 			// accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			EdxlAggStrategy Edxlaggstr() const;
 			
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			const CWStringConst *PstrAggStrategy() const;
 			const CWStringConst *PstrAggLevel() const;
 			const ULongPtrArray *PdrgpulGroupingCols() const;
@@ -100,13 +100,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalAgg *PdxlopConvert
+			CDXLPhysicalAgg *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalAgg == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalAgg == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalAgg*>(dxl_op);
 			}

@@ -47,8 +47,8 @@ namespace gpdxl
 			~CDXLLogicalGet();
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			CDXLTableDescr *Pdxltabdesc() const;
 
 			// serialize operator in DXL format
@@ -61,14 +61,14 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalGet *PdxlopConvert
+			CDXLLogicalGet *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalGet == dxl_op->Edxlop() ||
-							EdxlopLogicalExternalGet == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalGet == dxl_op->GetDXLOperator() ||
+							EdxlopLogicalExternalGet == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalGet*>(dxl_op);
 			}

@@ -33,7 +33,7 @@ CDXLPhysicalSubqueryScan::CDXLPhysicalSubqueryScan
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pmdnameAlias(mdname)
+	m_mdname_alias(mdname)
 {
 }
 
@@ -47,20 +47,20 @@ CDXLPhysicalSubqueryScan::CDXLPhysicalSubqueryScan
 //---------------------------------------------------------------------------
 CDXLPhysicalSubqueryScan::~CDXLPhysicalSubqueryScan()
 {
-	GPOS_DELETE(m_pmdnameAlias);
+	GPOS_DELETE(m_mdname_alias);
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalSubqueryScan::Edxlop
+//		CDXLPhysicalSubqueryScan::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalSubqueryScan::Edxlop() const
+CDXLPhysicalSubqueryScan::GetDXLOperator() const
 {
 	return EdxlopPhysicalSubqueryScan;
 }
@@ -68,14 +68,14 @@ CDXLPhysicalSubqueryScan::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalSubqueryScan::PstrOpName
+//		CDXLPhysicalSubqueryScan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalSubqueryScan::PstrOpName() const
+CDXLPhysicalSubqueryScan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalSubqueryScan);
 }
@@ -91,7 +91,7 @@ CDXLPhysicalSubqueryScan::PstrOpName() const
 const CMDName *
 CDXLPhysicalSubqueryScan::MdName()
 {
-	return m_pmdnameAlias;
+	return m_mdname_alias;
 }
 
 
@@ -111,10 +111,10 @@ CDXLPhysicalSubqueryScan::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_pmdnameAlias->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname_alias->Pstr());
 	
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -149,7 +149,7 @@ CDXLPhysicalSubqueryScan::AssertValid
 	GPOS_ASSERT(EdxlsubqscanIndexSentinel == pdxln->Arity());
 	
 	CDXLNode *child_dxlnode = (*pdxln)[EdxlsubqscanIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{
@@ -157,8 +157,8 @@ CDXLPhysicalSubqueryScan::AssertValid
 	}
 	
 	// assert validity of table descriptor
-	GPOS_ASSERT(NULL != m_pmdnameAlias);
-	GPOS_ASSERT(m_pmdnameAlias->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_mdname_alias);
+	GPOS_ASSERT(m_mdname_alias->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

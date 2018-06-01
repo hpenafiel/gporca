@@ -37,14 +37,14 @@ CDXLPhysicalHashJoin::CDXLPhysicalHashJoin
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalHashJoin::Edxlop
+//		CDXLPhysicalHashJoin::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalHashJoin::Edxlop() const
+CDXLPhysicalHashJoin::GetDXLOperator() const
 {
 	return EdxlopPhysicalHashJoin;
 }
@@ -52,14 +52,14 @@ CDXLPhysicalHashJoin::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalHashJoin::PstrOpName
+//		CDXLPhysicalHashJoin::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalHashJoin::PstrOpName() const
+CDXLPhysicalHashJoin::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalHashJoin);
 }
@@ -80,7 +80,7 @@ CDXLPhysicalHashJoin::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
@@ -123,10 +123,10 @@ CDXLPhysicalHashJoin::AssertValid
 	CDXLNode *pdxlnRight = (*pdxln)[EdxlhjIndexHashRight];
 
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->Edxlop());
-	GPOS_ASSERT(EdxlopScalarHashCondList == pdxlnHashClauses->GetOperator()->Edxlop());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->GetOperator()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarHashCondList == pdxlnHashClauses->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

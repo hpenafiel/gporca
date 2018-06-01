@@ -40,14 +40,14 @@ CDXLPhysicalRedistributeMotion::CDXLPhysicalRedistributeMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalRedistributeMotion::Edxlop
+//		CDXLPhysicalRedistributeMotion::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalRedistributeMotion::Edxlop() const
+CDXLPhysicalRedistributeMotion::GetDXLOperator() const
 {
 	return EdxlopPhysicalMotionRedistribute;
 }
@@ -55,14 +55,14 @@ CDXLPhysicalRedistributeMotion::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalRedistributeMotion::PstrOpName
+//		CDXLPhysicalRedistributeMotion::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalRedistributeMotion::PstrOpName() const
+CDXLPhysicalRedistributeMotion::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalRedistributeMotion);
 }
@@ -83,7 +83,7 @@ CDXLPhysicalRedistributeMotion::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
@@ -134,7 +134,7 @@ CDXLPhysicalRedistributeMotion::AssertValid
 	CDXLNode *child_dxlnode = (*pdxln)[EdxlrmIndexChild];
 	CDXLNode *pdxlnHashExprList = (*pdxln)[EdxlrmIndexHashExprList];
 
-	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{

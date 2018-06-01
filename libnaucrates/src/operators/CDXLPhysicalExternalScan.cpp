@@ -52,28 +52,28 @@ CDXLPhysicalExternalScan::CDXLPhysicalExternalScan
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalExternalScan::Edxlop
+//		CDXLPhysicalExternalScan::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalExternalScan::Edxlop() const
+CDXLPhysicalExternalScan::GetDXLOperator() const
 {
 	return EdxlopPhysicalExternalScan;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalExternalScan::PstrOpName
+//		CDXLPhysicalExternalScan::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalExternalScan::PstrOpName() const
+CDXLPhysicalExternalScan::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalExternalScan);
 }

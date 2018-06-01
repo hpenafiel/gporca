@@ -79,10 +79,10 @@ namespace gpdxl
 			~CDXLLogicalSetOp();
 
 			// operator id
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// set operator type
 			EdxlSetOpType Edxlsetoptype() const
@@ -146,13 +146,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalSetOp *PdxlopConvert
+			CDXLLogicalSetOp *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalSetOp == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalSetOp == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalSetOp*>(dxl_op);
 			}

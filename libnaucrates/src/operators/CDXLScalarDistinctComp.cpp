@@ -39,14 +39,14 @@ CDXLScalarDistinctComp::CDXLScalarDistinctComp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarDistinctComp::Edxlop
+//		CDXLScalarDistinctComp::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarDistinctComp::Edxlop() const
+CDXLScalarDistinctComp::GetDXLOperator() const
 {
 	return EdxlopScalarDistinct;
 }
@@ -54,14 +54,14 @@ CDXLScalarDistinctComp::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarDistinctComp::PstrOpName
+//		CDXLScalarDistinctComp::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarDistinctComp::PstrOpName() const
+CDXLScalarDistinctComp::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarDistinctComp);;
 }
@@ -82,7 +82,7 @@ CDXLScalarDistinctComp::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
@@ -117,8 +117,8 @@ CDXLScalarDistinctComp::AssertValid
 	CDXLNode *pdxlnRight = (*pdxln)[EdxlscdistcmpIndexRight];
 	
 	// assert children are of right type (scalar)
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnLeft->GetOperator()->Edxloperatortype());
-	GPOS_ASSERT(EdxloptypeScalar == pdxlnRight->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnLeft->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxloptypeScalar == pdxlnRight->GetOperator()->GetDXLOperatorType());
 	
 	GPOS_ASSERT(PstrCmpOpName()->Equals(CDXLTokens::PstrToken(EdxltokenEq)));
 	

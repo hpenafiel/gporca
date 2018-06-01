@@ -76,8 +76,8 @@ namespace gpdxl
 				);
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			ULONG UlSpoolId() const;
 			INT IExecutorSlice() const;
 			ULONG UlConsumerSlices() const;
@@ -94,13 +94,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalMaterialize *PdxlopConvert
+			CDXLPhysicalMaterialize *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalMaterialize == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalMaterialize == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalMaterialize*>(dxl_op);
 			}

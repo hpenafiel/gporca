@@ -82,13 +82,13 @@ namespace gpdxl
 			~CDXLScalarSubPlan();
 
 			// Operator type
-			Edxlopid Edxlop() const
+			Edxlopid GetDXLOperator() const
 			{
 				return EdxlopScalarSubPlan;
 			}
 
 			// Operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// type of first output column
 			IMDId *PmdidFirstColType() const;
@@ -117,13 +117,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarSubPlan *PdxlopConvert
+			CDXLScalarSubPlan *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarSubPlan == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarSubPlan == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarSubPlan*>(dxl_op);
 			}

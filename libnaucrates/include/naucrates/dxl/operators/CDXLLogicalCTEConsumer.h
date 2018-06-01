@@ -48,11 +48,11 @@ namespace gpdxl
 
 			// operator type
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// cte identifier
 			ULONG UlId() const
@@ -81,13 +81,13 @@ namespace gpdxl
 			
 			// conversion function
 			static
-			CDXLLogicalCTEConsumer *PdxlopConvert
+			CDXLLogicalCTEConsumer *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalCTEConsumer == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalCTEConsumer == dxl_op->GetDXLOperator());
 				return dynamic_cast<CDXLLogicalCTEConsumer*>(dxl_op);
 			}
 

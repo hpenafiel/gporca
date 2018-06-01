@@ -43,10 +43,10 @@ namespace gpdxl
 			~CDXLScalarProjList(){};
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// name of the operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// serialize operator in DXL format
 			virtual
@@ -54,13 +54,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarProjList *PdxlopConvert
+			CDXLScalarProjList *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarProjectList == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarProjectList == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarProjList*>(dxl_op);
 			}

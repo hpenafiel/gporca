@@ -44,7 +44,7 @@ namespace gpdxl
 		private:
 		
 			// name for the subquery scan node (corresponding to name in GPDB's SubqueryScan)
-			CMDName *m_pmdnameAlias;
+			CMDName *m_mdname_alias;
 			
 			// private copy ctor
 			CDXLPhysicalSubqueryScan(CDXLPhysicalSubqueryScan&);
@@ -57,8 +57,8 @@ namespace gpdxl
 			~CDXLPhysicalSubqueryScan();
 						
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			const CMDName *MdName();
 			
 			// serialize operator in DXL format
@@ -67,13 +67,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalSubqueryScan *PdxlopConvert
+			CDXLPhysicalSubqueryScan *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalSubqueryScan == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalSubqueryScan == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalSubqueryScan*>(dxl_op);
 			}

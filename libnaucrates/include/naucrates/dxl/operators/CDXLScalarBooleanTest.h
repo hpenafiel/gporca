@@ -51,7 +51,7 @@ namespace gpdxl
 			CDXLScalarBooleanTest(const CDXLScalarBooleanTest&);
 
 			// name of the DXL operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 		public:
 			// ctor/dtor
@@ -62,7 +62,7 @@ namespace gpdxl
 				);
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// BooleanTest operator type
 			EdxlBooleanTestType EdxlBoolType() const;
@@ -73,13 +73,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarBooleanTest *PdxlopConvert
+			CDXLScalarBooleanTest *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarBooleanTest == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarBooleanTest == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarBooleanTest*>(dxl_op);
 			}

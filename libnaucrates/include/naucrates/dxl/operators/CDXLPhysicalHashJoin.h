@@ -50,8 +50,8 @@ namespace gpdxl
 			CDXLPhysicalHashJoin(IMemoryPool *memory_pool, EdxlJoinType edxljt);
 			
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// serialize operator in DXL format
 			virtual
@@ -59,13 +59,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalHashJoin *PdxlopConvert
+			CDXLPhysicalHashJoin *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalHashJoin == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalHashJoin == dxl_op->GetDXLOperator());
 				return dynamic_cast<CDXLPhysicalHashJoin*>(dxl_op);
 			}
 

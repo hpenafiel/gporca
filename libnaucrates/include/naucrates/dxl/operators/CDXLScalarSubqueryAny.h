@@ -52,20 +52,20 @@ namespace gpdxl
 				);
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// name of the operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// conversion function
 			static
-			CDXLScalarSubqueryAny *PdxlopConvert
+			CDXLScalarSubqueryAny *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarSubqueryAny == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarSubqueryAny == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarSubqueryAny*>(dxl_op);
 			}

@@ -81,28 +81,28 @@ CDXLLogicalSetOp::~CDXLLogicalSetOp()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalSetOp::Edxlop
+//		CDXLLogicalSetOp::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalSetOp::Edxlop() const
+CDXLLogicalSetOp::GetDXLOperator() const
 {
 	return EdxlopLogicalSetOp;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalSetOp::PstrOpName
+//		CDXLLogicalSetOp::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalSetOp::PstrOpName() const
+CDXLLogicalSetOp::GetOpNameStr() const
 {
 	switch (m_edxlsetoptype)
 	{
@@ -146,7 +146,7 @@ CDXLLogicalSetOp::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	// serialize the array of input colid arrays
@@ -230,7 +230,7 @@ CDXLLogicalSetOp::AssertValid
 	for (ULONG ul = 0; ul < ulChildren; ++ul)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{

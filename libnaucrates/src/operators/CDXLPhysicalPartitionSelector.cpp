@@ -57,28 +57,28 @@ CDXLPhysicalPartitionSelector::~CDXLPhysicalPartitionSelector()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalPartitionSelector::Edxlop
+//		CDXLPhysicalPartitionSelector::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLPhysicalPartitionSelector::Edxlop() const
+CDXLPhysicalPartitionSelector::GetDXLOperator() const
 {
 	return EdxlopPhysicalPartitionSelector;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalPartitionSelector::PstrOpName
+//		CDXLPhysicalPartitionSelector::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalPartitionSelector::PstrOpName() const
+CDXLPhysicalPartitionSelector::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelector);
 }
@@ -99,7 +99,7 @@ CDXLPhysicalPartitionSelector::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));

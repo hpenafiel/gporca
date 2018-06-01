@@ -40,14 +40,14 @@ CDXLScalarJoinFilter::CDXLScalarJoinFilter
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarJoinFilter::Edxlop
+//		CDXLScalarJoinFilter::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLScalarJoinFilter::Edxlop() const
+CDXLScalarJoinFilter::GetDXLOperator() const
 {
 	return EdxlopScalarJoinFilter;
 }
@@ -55,14 +55,14 @@ CDXLScalarJoinFilter::Edxlop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarJoinFilter::PstrOpName
+//		CDXLScalarJoinFilter::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarJoinFilter::PstrOpName() const
+CDXLScalarJoinFilter::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarJoinFilter);
 }
@@ -83,7 +83,7 @@ CDXLScalarJoinFilter::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
@@ -116,7 +116,7 @@ CDXLScalarJoinFilter::AssertValid
 	if (1 == pdxln->Arity())
 	{
 		CDXLNode *pdxlnCond = (*pdxln)[0];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnCond->GetOperator()->Edxloperatortype());
+		GPOS_ASSERT(EdxloptypeScalar == pdxlnCond->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{

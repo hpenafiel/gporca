@@ -94,28 +94,28 @@ CDXLLogicalCTAS::~CDXLLogicalCTAS()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalCTAS::Edxlop
+//		CDXLLogicalCTAS::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalCTAS::Edxlop() const
+CDXLLogicalCTAS::GetDXLOperator() const
 {
 	return EdxlopLogicalCTAS;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalCTAS::PstrOpName
+//		CDXLLogicalCTAS::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalCTAS::PstrOpName() const
+CDXLLogicalCTAS::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalCTAS);
 }
@@ -165,7 +165,7 @@ CDXLLogicalCTAS::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = PstrOpName();
+	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	if (NULL != m_pmdnameSchema)
@@ -248,7 +248,7 @@ CDXLLogicalCTAS::AssertValid
 	GPOS_ASSERT(1 == pdxln->Arity());
 
 	CDXLNode *child_dxlnode = (*pdxln)[0];
-	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->Edxloperatortype());
+	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

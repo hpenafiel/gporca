@@ -48,8 +48,8 @@ namespace gpdxl
 			CDXLPhysicalResult(IMemoryPool *memory_pool);
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// serialize operator in DXL format
 			virtual
@@ -57,13 +57,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalResult *PdxlopConvert
+			CDXLPhysicalResult *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalResult == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalResult == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalResult*>(dxl_op);
 			}

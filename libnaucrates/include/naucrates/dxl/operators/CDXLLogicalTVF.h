@@ -62,10 +62,10 @@ namespace gpdxl
 			~CDXLLogicalTVF();
 		
 			// get operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// get operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// get function name
 			CMDName *MdName() const
@@ -107,13 +107,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalTVF *PdxlopConvert
+			CDXLLogicalTVF *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalTVF == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalTVF == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalTVF*>(dxl_op);
 			}

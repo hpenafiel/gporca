@@ -103,10 +103,10 @@ namespace gpdxl
 			~CDXLPhysicalDML();
 		
 			// operator type
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// DML operator type
 			EdxlDmlType EdxlDmlOpType() const
@@ -186,13 +186,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLPhysicalDML *PdxlopConvert
+			CDXLPhysicalDML *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopPhysicalDML == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopPhysicalDML == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLPhysicalDML*>(dxl_op);
 			}

@@ -48,11 +48,11 @@ namespace gpdxl
 			
 			// ident accessors
 			virtual
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 
 			// operator name
 			virtual
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 
 			// error message
 			CWStringBase *PstrErrorMsg() const;
@@ -81,13 +81,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarAssertConstraint *PdxlopConvert
+			CDXLScalarAssertConstraint *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarAssertConstraint == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarAssertConstraint == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarAssertConstraint*>(dxl_op);
 			}

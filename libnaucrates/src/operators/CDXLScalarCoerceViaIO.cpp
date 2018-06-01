@@ -45,14 +45,14 @@ CDXLScalarCoerceViaIO::CDXLScalarCoerceViaIO
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarCoerceViaIO::PstrOpName
+//		CDXLScalarCoerceViaIO::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarCoerceViaIO::PstrOpName() const
+CDXLScalarCoerceViaIO::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenScalarCoerceViaIO);
 }

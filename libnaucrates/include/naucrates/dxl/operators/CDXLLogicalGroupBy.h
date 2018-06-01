@@ -51,8 +51,8 @@ namespace gpdxl
 			~CDXLLogicalGroupBy();
 
 			// accessors
-			Edxlopid Edxlop() const;
-			const CWStringConst *PstrOpName() const;
+			Edxlopid GetDXLOperator() const;
+			const CWStringConst *GetOpNameStr() const;
 			const ULongPtrArray *PdrgpulGroupingCols() const;
 
 			// set grouping column indices
@@ -64,13 +64,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLLogicalGroupBy *PdxlopConvert
+			CDXLLogicalGroupBy *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopLogicalGrpBy == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopLogicalGrpBy == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLLogicalGroupBy*>(dxl_op);
 			}

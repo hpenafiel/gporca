@@ -44,7 +44,7 @@ namespace gpdxl
 			~CDXLScalarSubquery();
 
 			// ident accessors
-			Edxlopid Edxlop() const;
+			Edxlopid GetDXLOperator() const;
 			
 			// colid of subquery column
 			ULONG UlColId() const
@@ -53,7 +53,7 @@ namespace gpdxl
 			}
 			
 			// name of the operator
-			const CWStringConst *PstrOpName() const;
+			const CWStringConst *GetOpNameStr() const;
 			
 			// serialize operator in DXL format
 			virtual
@@ -61,13 +61,13 @@ namespace gpdxl
 
 			// conversion function
 			static
-			CDXLScalarSubquery *PdxlopConvert
+			CDXLScalarSubquery *Cast
 				(
 				CDXLOperator *dxl_op
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_op);
-				GPOS_ASSERT(EdxlopScalarSubquery == dxl_op->Edxlop());
+				GPOS_ASSERT(EdxlopScalarSubquery == dxl_op->GetDXLOperator());
 
 				return dynamic_cast<CDXLScalarSubquery*>(dxl_op);
 			}

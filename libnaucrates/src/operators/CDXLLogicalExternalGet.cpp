@@ -34,28 +34,28 @@ CDXLLogicalExternalGet::CDXLLogicalExternalGet
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalExternalGet::Edxlop
+//		CDXLLogicalExternalGet::GetDXLOperator
 //
 //	@doc:
 //		Operator type
 //
 //---------------------------------------------------------------------------
 Edxlopid
-CDXLLogicalExternalGet::Edxlop() const
+CDXLLogicalExternalGet::GetDXLOperator() const
 {
 	return EdxlopLogicalExternalGet;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalExternalGet::PstrOpName
+//		CDXLLogicalExternalGet::GetOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLLogicalExternalGet::PstrOpName() const
+CDXLLogicalExternalGet::GetOpNameStr() const
 {
 	return CDXLTokens::PstrToken(EdxltokenLogicalExternalGet);
 }
