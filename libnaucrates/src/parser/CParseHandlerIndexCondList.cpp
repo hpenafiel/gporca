@@ -59,11 +59,11 @@ CParseHandlerIndexCondList::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), element_local_name))
 	{
 		// start the index condition list
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarIndexCondList(m_memory_pool));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarIndexCondList(m_memory_pool));
 	}
 	else
 	{
-		if (NULL == m_pdxln)
+		if (NULL == m_dxl_node)
 		{
 			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
@@ -102,7 +102,7 @@ CParseHandlerIndexCondList::EndElement
 	const XMLCh* const // element_qname
 	)
 {
-	GPOS_ASSERT(NULL != m_pdxln);
+	GPOS_ASSERT(NULL != m_dxl_node);
 
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), element_local_name))
 	{

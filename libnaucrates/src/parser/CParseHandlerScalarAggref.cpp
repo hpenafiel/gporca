@@ -62,13 +62,13 @@ CParseHandlerScalarAggref::StartElement
 		CDXLScalarAggref *dxl_op = (CDXLScalarAggref*) CDXLOperatorFactory::PdxlopAggFunc(m_parse_handler_mgr->Pmm(), attrs);
 
 		// construct node from the created scalar AggRef
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	}
 	else
 	{
 		// we must have seen an aggref already and initialized the aggref node
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 
 		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pph);

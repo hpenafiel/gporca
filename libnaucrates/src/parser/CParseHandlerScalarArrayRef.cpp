@@ -65,7 +65,7 @@ CParseHandlerScalarArrayRef::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRef), element_local_name))
 	{
 		// initialize the arrayref node
-		GPOS_ASSERT(NULL == m_pdxln);
+		GPOS_ASSERT(NULL == m_dxl_node);
 
 		// parse types
 		IMDId *pmdidElem = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenArrayElementType, EdxltokenScalarArrayRef);
@@ -73,11 +73,11 @@ CParseHandlerScalarArrayRef::StartElement
 		IMDId *pmdidReturn = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarArrayRef);
 		INT type_modifier = CDXLOperatorFactory::IValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeMod, EdxltokenScalarArrayRef, true, IDefaultTypeModifier);
 
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRef(m_memory_pool, pmdidElem, type_modifier, pmdidArray, pmdidReturn));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRef(m_memory_pool, pmdidElem, type_modifier, pmdidArray, pmdidReturn));
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 		GPOS_ASSERT(2 > m_ulIndexLists);
 
 		// parse index list
@@ -92,7 +92,7 @@ CParseHandlerScalarArrayRef::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefExpr), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 		GPOS_ASSERT(2 == m_ulIndexLists);
 		GPOS_ASSERT(!m_fParsingRefExpr);
 		GPOS_ASSERT(!m_fParsingAssignExpr);
@@ -101,7 +101,7 @@ CParseHandlerScalarArrayRef::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefAssignExpr), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 		GPOS_ASSERT(2 == m_ulIndexLists);
 		GPOS_ASSERT(!m_fParsingRefExpr);
 		GPOS_ASSERT(!m_fParsingAssignExpr);

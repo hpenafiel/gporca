@@ -143,10 +143,10 @@ CParseHandlerAgg::EndElement
 	pdrgpul->AddRef();
 	m_dxl_op->SetGroupingCols(pdrgpul);
 	
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 
 	// set physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	// add children
 	AddChildFromParseHandler(pphPrL);

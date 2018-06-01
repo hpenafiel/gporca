@@ -272,7 +272,7 @@ COptimizer::PdxlnOptimize
 			PrintQueryOrPlan(memory_pool, pexprPlan);
 
 			// translate plan into DXL
-			pdxlnPlan = Pdxln(memory_pool, pmda, pexprPlan, pqc->PdrgPcr(), pdrgpmdname, ulHosts);
+			pdxlnPlan = CreateDXLNode(memory_pool, pmda, pexprPlan, pqc->PdrgPcr(), pdrgpmdname, ulHosts);
 			GPOS_CHECK_ABORT;
 
 			if (fMinidump)
@@ -399,14 +399,14 @@ COptimizer::PexprOptimize
 
 //---------------------------------------------------------------------------
 //	@function:
-//		COptimizer::Pdxln
+//		COptimizer::CreateDXLNode
 //
 //	@doc:
 //		Translate an optimizer expression into a DXL tree 
 //
 //---------------------------------------------------------------------------
 CDXLNode *
-COptimizer::Pdxln
+COptimizer::CreateDXLNode
 	(
 	IMemoryPool *memory_pool, 
 	CMDAccessor *pmda, 

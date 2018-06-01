@@ -175,12 +175,12 @@ CParseHandlerPartitionSelector::EndElement
 	}
 
 	CDXLPhysicalPartitionSelector *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalPartitionSelector(m_memory_pool, m_pmdidRel, m_ulLevels, m_ulScanId);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	// scalar children
 	for (ULONG ul = 1; ul < 7; ul++)

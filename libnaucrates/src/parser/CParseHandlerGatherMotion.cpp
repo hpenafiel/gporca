@@ -133,9 +133,9 @@ CParseHandlerGatherMotion::EndElement
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 
 	// add children
@@ -145,7 +145,7 @@ CParseHandlerGatherMotion::EndElement
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

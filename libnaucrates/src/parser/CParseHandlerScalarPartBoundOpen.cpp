@@ -66,7 +66,7 @@ CParseHandlerScalarPartBoundOpen::StartElement
 	ULONG ulLevel = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPartLevel, EdxltokenScalarPartBoundOpen);
 	BOOL fLower = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenScalarPartBoundLower, EdxltokenScalarPartBoundOpen);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBoundOpen(m_memory_pool, ulLevel, fLower));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBoundOpen(m_memory_pool, ulLevel, fLower));
 }
 
 //---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ CParseHandlerScalarPartBoundOpen::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pdxln);
+	GPOS_ASSERT(NULL != m_dxl_node);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

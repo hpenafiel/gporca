@@ -200,7 +200,7 @@ CParseHandlerLogicalSetOp::EndElement
 
 	pdrgpdxlcd->AddRef();
 	CDXLLogicalSetOp *dxl_op = GPOS_NEW(m_memory_pool) CDXLLogicalSetOp(m_memory_pool, edxlsetop, pdrgpdxlcd, m_pdrgpdrgpulInputColIds, m_fCastAcrossInputs);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	for (ULONG ul = 1; ul < ulLen; ul++)
 	{
@@ -210,7 +210,7 @@ CParseHandlerLogicalSetOp::EndElement
 	}		
 	
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

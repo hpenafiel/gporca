@@ -109,12 +109,12 @@ CParseHandlerWindowFrame::EndElement
 
 	CParseHandlerScalarOp *pphTrailingVal = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	GPOS_ASSERT(NULL != pphTrailingVal);
-	CDXLNode *pdxlnTrailing = pphTrailingVal->Pdxln();
+	CDXLNode *pdxlnTrailing = pphTrailingVal->CreateDXLNode();
 	pdxlnTrailing->AddRef();
 
 	CParseHandlerScalarOp *pphLeadingVal = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
 	GPOS_ASSERT(NULL != pphLeadingVal);
-	CDXLNode *pdxlnLeading = pphLeadingVal->Pdxln();
+	CDXLNode *pdxlnLeading = pphLeadingVal->CreateDXLNode();
 	pdxlnLeading->AddRef();
 
 	m_window_frame = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_edxlfs, m_edxlfes, pdxlnLeading, pdxlnTrailing);

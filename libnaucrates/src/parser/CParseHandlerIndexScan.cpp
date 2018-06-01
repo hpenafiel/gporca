@@ -210,23 +210,23 @@ CParseHandlerIndexScan::EndElementHelper
 	if (EdxltokenPhysicalIndexOnlyScan == token_type)
 	{
 		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else if (EdxltokenPhysicalIndexScan == token_type)
 	{
 		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, pdxltabdesc, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == token_type);
 
 		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable, pdxlid, m_edxlisd);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	// add children
 	AddChildFromParseHandler(pphPrL);

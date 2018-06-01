@@ -189,7 +189,7 @@ CParseHandlerPhysicalDML::EndElement
 	GPOS_ASSERT(NULL != pphDirectDispatch->GetDXLDirectDispatchInfo() && NULL != pphDirectDispatch->GetDXLDirectDispatchInfo());
 
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[2]);
-	GPOS_ASSERT(NULL != pphPrL->Pdxln());
+	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
 
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
 	GPOS_ASSERT(NULL != pphTabDesc->Pdxltabdesc());
@@ -197,21 +197,21 @@ CParseHandlerPhysicalDML::EndElement
 	pdxltabdesc->AddRef();
 
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
-	GPOS_ASSERT(NULL != pphChild->Pdxln());
+	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
 	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatch->GetDXLDirectDispatchInfo();
 	dxl_direct_dispatch_info->AddRef();
 	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ulCtid, m_ulSegmentId, m_fPreserveOids, m_ulTupleOidColId, dxl_direct_dispatch_info, m_fInputSorted);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

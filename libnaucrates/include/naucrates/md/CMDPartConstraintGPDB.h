@@ -57,7 +57,7 @@ namespace gpmd
 			BOOL m_fUnbounded;
 
 			// the DXL representation of the part constraint
-			CDXLNode *m_pdxln;
+			CDXLNode *m_dxl_node;
 		public:
 
 			// ctor

@@ -112,8 +112,8 @@ CParseHandlerDefaultValueExpr::EndElement
 		
 		// get node for default value expression from child parse handler
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-		m_pdxln = pphChild->Pdxln();
-		m_pdxln->AddRef();
+		m_dxl_node = pphChild->CreateDXLNode();
+		m_dxl_node->AddRef();
 	}
 
 	// deactivate handler

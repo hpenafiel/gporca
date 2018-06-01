@@ -155,14 +155,14 @@ CParseHandlerScalarSubqueryQuantified::EndElement
 	CParseHandlerScalarOp *pphScChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	CParseHandlerLogicalOp *pphLgChild = dynamic_cast<CParseHandlerLogicalOp *>((*this)[1]);
 		
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 	// add constructed child
 	AddChildFromParseHandler(pphScChild);
 	AddChildFromParseHandler(pphLgChild);
 
 #ifdef GPOS_DEBUG
-	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

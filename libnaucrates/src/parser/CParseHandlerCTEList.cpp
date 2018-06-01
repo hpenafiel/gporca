@@ -123,7 +123,7 @@ CParseHandlerCTEList::EndElement
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CParseHandlerLogicalCTEProducer *pphCTE = dynamic_cast<CParseHandlerLogicalCTEProducer *>((*this)[ul]);
-		CDXLNode *pdxlnCTE = pphCTE->Pdxln();
+		CDXLNode *pdxlnCTE = pphCTE->CreateDXLNode();
 		pdxlnCTE->AddRef();
 		m_dxl_array->Append(pdxlnCTE);
 	}

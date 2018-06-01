@@ -91,7 +91,7 @@ CDXLUtilsTest::EresUnittest_SerializeQuery()
 				(
 				memory_pool,
 				oss,
-				presult->Pdxln(),
+				presult->CreateDXLNode(),
 				presult->GetOutputColumnsDXLArray(),
 				presult->GetCTEProducerDXLArray(),
 				rgfHeaders[ulHeaders],

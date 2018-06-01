@@ -63,12 +63,12 @@ CParseHandlerScalarWindowRef::StartElement
 				(CDXLScalarWindowRef*) CDXLOperatorFactory::PdxlopWindowRef(m_parse_handler_mgr->Pmm(), attrs);
 
 		// construct node from the created scalar window ref
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{
 		// we must have seen an window ref already and initialized the window ref node
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 
 		CParseHandlerBase *pphOp =
 				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);

@@ -142,9 +142,9 @@ CParseHandlerRedistributeMotion::EndElement
 	CParseHandlerHashExprList *pphHExprList = dynamic_cast<CParseHandlerHashExprList *>((*this)[4]);
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 	
 	// add children
 	AddChildFromParseHandler(pphPrL);

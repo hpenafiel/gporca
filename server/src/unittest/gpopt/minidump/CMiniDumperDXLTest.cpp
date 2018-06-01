@@ -97,7 +97,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 				CDXLUtils::ParseQueryToQueryDXLTree(memory_pool, szQueryDXL, NULL);
 		GPOS_CHECK_ABORT;
 
-		CSerializableQuery serQuery(memory_pool, ptroutput->Pdxln(), ptroutput->GetOutputColumnsDXLArray(), ptroutput->GetCTEProducerDXLArray());
+		CSerializableQuery serQuery(memory_pool, ptroutput->CreateDXLNode(), ptroutput->GetOutputColumnsDXLArray(), ptroutput->GetCTEProducerDXLArray());
 		
 		// setup a file-based provider
 		CMDProviderMemory *pmdp = CTestUtils::m_pmdpf;
@@ -147,7 +147,7 @@ CMiniDumperDXLTest::EresUnittest_Basic()
 		CTranslatorDXLToExpr *pdxltr = GPOS_NEW(memory_pool) CTranslatorDXLToExpr(memory_pool, &mda);
 		CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
 													(
-													ptroutput->Pdxln(),
+													ptroutput->CreateDXLNode(),
 													ptroutput->GetOutputColumnsDXLArray(),
 													ptroutput->GetCTEProducerDXLArray()
 													);

@@ -64,7 +64,7 @@ CParseHandlerScalarBooleanTest::StartElement
 
 	if (EdxlbooleantestSentinel == edxlBooleanTestType)
 	{
-		if(NULL == m_pdxln)
+		if(NULL == m_dxl_node)
 		{
 			GPOS_RAISE
 				(
@@ -95,7 +95,7 @@ CParseHandlerScalarBooleanTest::StartElement
 			(CDXLScalarBooleanTest*) CDXLOperatorFactory::PdxlopBooleanTest(m_parse_handler_mgr->Pmm(), m_edxlBooleanTestType);
 
 	// construct node from the created child nodes
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 }
 
 //---------------------------------------------------------------------------

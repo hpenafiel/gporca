@@ -104,8 +104,8 @@ CParseHandlerScalarIdent::EndElement
 	
 	// construct scalar ident node
 	GPOS_ASSERT(NULL != m_dxl_op);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool);
-	m_pdxln->SetOperator(m_dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool);
+	m_dxl_node->SetOperator(m_dxl_op);
 			
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

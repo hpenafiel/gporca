@@ -115,7 +115,7 @@ CParseHandlerWindowKey::EndElement
 	GPOS_ASSERT(1 <= this->Length());
 
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-	CDXLNode *sort_col_list_dxl = pphSortColList->Pdxln();
+	CDXLNode *sort_col_list_dxl = pphSortColList->CreateDXLNode();
 	sort_col_list_dxl->AddRef();
 	m_pdxlwk->SetSortColList(sort_col_list_dxl);
 

@@ -56,16 +56,16 @@ CParseHandlerArray::StartElement
 	)
 {	
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArray), element_local_name) &&
-		NULL == m_pdxln)
+		NULL == m_dxl_node)
 	{
 		// parse and create array
 		CDXLScalarArray *dxl_op = (CDXLScalarArray *) CDXLOperatorFactory::PdxlopArray(m_parse_handler_mgr->Pmm(), attrs);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{
 		// parse child of array
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 		
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphChild);
@@ -108,7 +108,7 @@ CParseHandlerArray::EndElement
 	}
 	
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

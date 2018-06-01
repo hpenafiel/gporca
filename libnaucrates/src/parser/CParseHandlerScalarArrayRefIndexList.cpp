@@ -85,12 +85,12 @@ CParseHandlerScalarArrayRefIndexList::StartElement
 				);
 		}
 
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRefIndexList(m_memory_pool, eilb));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRefIndexList(m_memory_pool, eilb));
 	}
 	else
 	{
 		// we must have seen a index list already and initialized the index list node
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 
 		// parse scalar child
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);

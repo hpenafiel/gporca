@@ -35,7 +35,7 @@ CParseHandlerScalarExpr::CParseHandlerScalarExpr
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxln(NULL)
+	m_dxl_node(NULL)
 {
 }
 
@@ -49,21 +49,21 @@ CParseHandlerScalarExpr::CParseHandlerScalarExpr
 //---------------------------------------------------------------------------
 CParseHandlerScalarExpr::~CParseHandlerScalarExpr()
 {
-	CRefCount::SafeRelease(m_pdxln);
+	CRefCount::SafeRelease(m_dxl_node);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerScalarExpr::Pdxln
+//		CParseHandlerScalarExpr::CreateDXLNode
 //
 //	@doc:
 //		Root of constructed DXL expression
 //
 //---------------------------------------------------------------------------
 CDXLNode *
-CParseHandlerScalarExpr::Pdxln() const
+CParseHandlerScalarExpr::CreateDXLNode() const
 {
-	return m_pdxln;
+	return m_dxl_node;
 }
 
 //---------------------------------------------------------------------------
@@ -134,9 +134,9 @@ CParseHandlerScalarExpr::EndElement
 
 	CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	// extract constructed element
-	GPOS_ASSERT(NULL != pphChild && NULL != pphChild->Pdxln());
-	m_pdxln = pphChild->Pdxln();
-	m_pdxln->AddRef();
+	GPOS_ASSERT(NULL != pphChild && NULL != pphChild->CreateDXLNode());
+	m_dxl_node = pphChild->CreateDXLNode();
+	m_dxl_node->AddRef();
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

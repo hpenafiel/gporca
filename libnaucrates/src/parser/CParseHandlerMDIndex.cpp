@@ -174,7 +174,7 @@ CParseHandlerMDIndex::EndElement
 		GPOS_ASSERT(2 == Length());
 		
 		CParseHandlerScalarOp *pphPartCnstr = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
-		CDXLNode *pdxlnPartConstraint = pphPartCnstr->Pdxln();
+		CDXLNode *pdxlnPartConstraint = pphPartCnstr->CreateDXLNode();
 		pdxlnPartConstraint->AddRef();
 		m_ppartcnstr = GPOS_NEW(m_memory_pool) CMDPartConstraintGPDB(m_memory_pool, m_pdrgpulDefaultParts, m_fPartConstraintUnbounded, pdxlnPartConstraint);
 		return;

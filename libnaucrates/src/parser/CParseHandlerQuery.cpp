@@ -45,7 +45,7 @@ CParseHandlerQuery::CParseHandlerQuery
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxln(NULL),
+	m_dxl_node(NULL),
 	m_output_colums_dxl_array(NULL),
 	m_cte_producer_dxl_array(NULL)
 {
@@ -61,23 +61,23 @@ CParseHandlerQuery::CParseHandlerQuery
 //---------------------------------------------------------------------------
 CParseHandlerQuery::~CParseHandlerQuery()
 {
-	CRefCount::SafeRelease(m_pdxln);
+	CRefCount::SafeRelease(m_dxl_node);
 	CRefCount::SafeRelease(m_output_colums_dxl_array);
 	CRefCount::SafeRelease(m_cte_producer_dxl_array);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerQuery::Pdxln
+//		CParseHandlerQuery::CreateDXLNode
 //
 //	@doc:
 //		Root of constructed DXL plan
 //
 //---------------------------------------------------------------------------
 CDXLNode *
-CParseHandlerQuery::Pdxln() const
+CParseHandlerQuery::CreateDXLNode() const
 {
-	return m_pdxln;
+	return m_dxl_node;
 }
 
 //---------------------------------------------------------------------------
@@ -201,11 +201,11 @@ CParseHandlerQuery::EndElement
 	m_cte_producer_dxl_array->AddRef();
 
 	CParseHandlerLogicalOp *pphLgOp = dynamic_cast<CParseHandlerLogicalOp *>((*this)[2]);
-	GPOS_ASSERT(NULL != pphLgOp && NULL != pphLgOp->Pdxln());
+	GPOS_ASSERT(NULL != pphLgOp && NULL != pphLgOp->CreateDXLNode());
 
 	// store constructed node
-	m_pdxln = pphLgOp->Pdxln();
-	m_pdxln->AddRef();
+	m_dxl_node = pphLgOp->CreateDXLNode();
+	m_dxl_node->AddRef();
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

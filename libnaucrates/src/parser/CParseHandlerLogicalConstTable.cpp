@@ -129,10 +129,10 @@ CParseHandlerLogicalConstTable::EndElement
 		pdrgpdxlcd->AddRef();
 
 		CDXLLogicalConstTable *pdxlopConstTable = GPOS_NEW(m_memory_pool) CDXLLogicalConstTable(m_memory_pool, pdrgpdxlcd, m_pdrgpdrgpdxldatum);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstTable);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstTable);
 
 #ifdef GPOS_DEBUG
-	pdxlopConstTable->AssertValid(m_pdxln, false /* validate_children */);
+	pdxlopConstTable->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 		// deactivate handler

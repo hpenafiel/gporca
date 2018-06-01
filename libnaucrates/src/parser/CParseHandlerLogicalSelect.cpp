@@ -70,7 +70,7 @@ CParseHandlerLogicalSelect::StartElement
 {
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalSelect), element_local_name))
 	{
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalSelect(m_memory_pool));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalSelect(m_memory_pool));
 
 		// create child node parsers
 
@@ -115,7 +115,7 @@ CParseHandlerLogicalSelect::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pdxln );
+	GPOS_ASSERT(NULL != m_dxl_node );
 
 	CParseHandlerScalarOp *pphOp = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
@@ -124,7 +124,7 @@ CParseHandlerLogicalSelect::EndElement
 	AddChildFromParseHandler(pphChild);
 	
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

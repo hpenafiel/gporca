@@ -205,7 +205,7 @@ CParseHandlerMetadataColumn::EndElement
 	// get node for default value expression from child parse handler
 	CParseHandlerScalarOp *pphOp = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	
-	m_pdxlnDefaultValue = pphOp->Pdxln();
+	m_pdxlnDefaultValue = pphOp->CreateDXLNode();
 	
 	if (NULL != m_pdxlnDefaultValue)
 	{

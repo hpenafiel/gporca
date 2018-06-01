@@ -74,7 +74,7 @@ CParseHandlerScalarBitmapBoolOp::StartElement
 	}
 	
 	IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, token_type);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarBitmapBoolOp(m_memory_pool, pmdid, edxlbitmapboolop));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarBitmapBoolOp(m_memory_pool, pmdid, edxlbitmapboolop));
 	
 	// install parse handlers for children
 	CParseHandlerBase *pphRight = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);

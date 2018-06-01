@@ -42,7 +42,7 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	m_mdid(pmdid),
 	m_mdname(mdname),
 	m_pmdidRel(pmdidRel),
-	m_pdxln(pdxln)
+	m_dxl_node(pdxln)
 {
 	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(pmdidRel->IsValid());
@@ -66,7 +66,7 @@ CMDCheckConstraintGPDB::~CMDCheckConstraintGPDB()
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
 	m_pmdidRel->Release();
-	m_pdxln->Release();
+	m_dxl_node->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -99,7 +99,7 @@ CMDCheckConstraintGPDB::Pexpr
 
 	// translate the DXL representation of the check constraint expression
 	CTranslatorDXLToExpr dxltr(memory_pool, pmda);
-	return dxltr.PexprTranslateScalar(m_pdxln, pdrgpcr, pmdrel->PdrgpulNonDroppedCols());
+	return dxltr.PexprTranslateScalar(m_dxl_node, pdrgpcr, pmdrel->PdrgpulNonDroppedCols());
 }
 
 //---------------------------------------------------------------------------
@@ -125,7 +125,7 @@ CMDCheckConstraintGPDB::Serialize
 	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 
 	// serialize the scalar expression
-	m_pdxln->SerializeToDXL(xml_serializer);
+	m_dxl_node->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenCheckConstraint));

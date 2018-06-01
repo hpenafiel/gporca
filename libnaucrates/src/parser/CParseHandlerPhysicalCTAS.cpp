@@ -168,14 +168,14 @@ CParseHandlerPhysicalCTAS::EndElement
 	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[1]);
 	CParseHandlerCtasStorageOptions *pphCTASOptions = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[2]);
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[3]);
-	GPOS_ASSERT(NULL != pphPrL->Pdxln());
+	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
 
 	GPOS_ASSERT(NULL != pphProp->GetProperties());
 	GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
 	GPOS_ASSERT(NULL != pphCTASOptions->Pdxlctasopt());
-	GPOS_ASSERT(NULL != pphPrL->Pdxln());
-	GPOS_ASSERT(NULL != pphChild->Pdxln());
+	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 	
 	ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
 	pdrgpdxlcd->AddRef();
@@ -183,7 +183,7 @@ CParseHandlerPhysicalCTAS::EndElement
 	CDXLCtasStorageOptions *pdxlctasopt = pphCTASOptions->Pdxlctasopt();
 	pdxlctasopt->AddRef();
 	
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode
 							(
 							m_memory_pool,
 							GPOS_NEW(m_memory_pool) CDXLPhysicalCTAS
@@ -203,13 +203,13 @@ CParseHandlerPhysicalCTAS::EndElement
 									)
 							);
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 	
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

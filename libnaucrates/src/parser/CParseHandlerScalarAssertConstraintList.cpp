@@ -119,10 +119,10 @@ CParseHandlerScalarAssertConstraintList::EndElement
 		GPOS_ASSERT(NULL != m_pdrgpdxlnAssertConstraints);
 		
 		// assemble final assert predicate node
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op, m_pdrgpdxlnAssertConstraints);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op, m_pdrgpdxlnAssertConstraints);
 
 #ifdef GPOS_DEBUG
-	m_dxl_op->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 		// deactivate handler
@@ -133,7 +133,7 @@ CParseHandlerScalarAssertConstraintList::EndElement
 		GPOS_ASSERT(NULL != m_pdxlopAssertConstraint);
 
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp*>((*this)[this->Length() - 1]);
-		CDXLNode *child_dxlnode = pphChild->Pdxln();
+		CDXLNode *child_dxlnode = pphChild->CreateDXLNode();
 		GPOS_ASSERT(NULL != child_dxlnode);
 		child_dxlnode->AddRef();
 		

@@ -67,7 +67,7 @@ CParseHandlerLimit::StartElement
 
 		// parse and create Limit operator
 		m_dxl_op = (CDXLPhysicalLimit *) CDXLOperatorFactory::PdxlopLimit(m_parse_handler_mgr->Pmm(), attrs);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 		// create and activate the parse handler for the children nodes in reverse
 		// order of their expected appearance
@@ -132,7 +132,7 @@ CParseHandlerLimit::EndElement
 		CParseHandlerScalarOp *pphOffSet = dynamic_cast<CParseHandlerScalarOp *>((*this)[4]);
 		
 		// set statistics and physical properties
-		CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+		CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 		// add constructed children
 		AddChildFromParseHandler(pphPrL);

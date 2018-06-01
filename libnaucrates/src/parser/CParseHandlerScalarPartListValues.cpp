@@ -49,7 +49,7 @@ CParseHandlerScalarPartListValues::StartElement
 	ULONG ulLevel = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPartLevel, EdxltokenScalarPartListValues);
 	IMDId *pmdidResult = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGPDBScalarOpResultTypeId, EdxltokenScalarPartListValues);
 	IMDId *pmdidElement = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenArrayElementType, EdxltokenScalarPartListValues);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartListValues(m_memory_pool, ulLevel, pmdidResult, pmdidElement));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartListValues(m_memory_pool, ulLevel, pmdidResult, pmdidElement));
 }
 
 // Invoked by Xerces to process a closing tag
@@ -67,7 +67,7 @@ CParseHandlerScalarPartListValues::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pdxln);
+	GPOS_ASSERT(NULL != m_dxl_node);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

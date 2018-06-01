@@ -62,12 +62,12 @@ CParseHandlerScalarLimitCount::StartElement
 	{
 		// parse and create scalar limit count
 		CDXLScalarLimitCount *dxl_op = (CDXLScalarLimitCount*) CDXLOperatorFactory::PdxlopLimitCount(m_parse_handler_mgr->Pmm(), attrs);
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool,dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool,dxl_op);
 	}
 	else
 	{
 		// we must have seen a LIMITCOUNT already and initialized its corresponding node
-		if (NULL == m_pdxln)
+		if (NULL == m_dxl_node)
 		{
 			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());

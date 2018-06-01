@@ -536,7 +536,7 @@ CParseHandlerTest::EresParseAndSerializeQuery
 
 	oss << "Serializing parsed tree" << std::endl;
 
-	CDXLNode *root_dxl_node = const_cast<CDXLNode *>(pq2dxlresult->Pdxln());
+	CDXLNode *root_dxl_node = const_cast<CDXLNode *>(pq2dxlresult->CreateDXLNode());
 	DXLNodeArray* dxl_array = const_cast<DXLNodeArray* >(pq2dxlresult->GetOutputColumnsDXLArray());
 	DXLNodeArray* cte_dxlnode_array = const_cast<DXLNodeArray* >(pq2dxlresult->GetCTEProducerDXLArray());
 

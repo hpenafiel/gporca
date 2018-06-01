@@ -101,7 +101,7 @@ CParseHandlerScalarSwitchCase::EndElement
 	}
 
 	// construct node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSwitchCase(m_memory_pool));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSwitchCase(m_memory_pool));
 
 	CParseHandlerScalarOp *pphCond = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	CParseHandlerScalarOp *pphResult = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);

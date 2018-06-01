@@ -31,7 +31,7 @@ CQueryToDXLResult::CQueryToDXLResult
 	DXLNodeArray *cte_dxlnode_array
 	)
 	:
-	m_pdxln(pdxln),
+	m_dxl_node(pdxln),
 	m_pdrgpdxlnQueryOutput(pdrgpdxlnOutput),
 	m_cte_producer_dxl_array(cte_dxlnode_array)
 {
@@ -48,7 +48,7 @@ CQueryToDXLResult::CQueryToDXLResult
 //---------------------------------------------------------------------------
 CQueryToDXLResult::~CQueryToDXLResult()
 {
-	m_pdxln->Release();
+	m_dxl_node->Release();
 	CRefCount::SafeRelease(m_pdrgpdxlnQueryOutput);
 	CRefCount::SafeRelease(m_cte_producer_dxl_array);
 
@@ -84,16 +84,16 @@ CQueryToDXLResult::GetCTEProducerDXLArray() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CQueryToDXLResult::Pdxln
+//		CQueryToDXLResult::CreateDXLNode
 //
 //	@doc:
 //		Return the DXL node representing the query
 //
 //---------------------------------------------------------------------------
 const CDXLNode *
-CQueryToDXLResult::Pdxln() const
+CQueryToDXLResult::CreateDXLNode() const
 {
-	return m_pdxln;
+	return m_dxl_node;
 }
 
 

@@ -152,14 +152,14 @@ CParseHandlerWindowSpec::EndElement
 		else
 		{
 			CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-			sort_col_list_dxl = pphSortColList->Pdxln();
+			sort_col_list_dxl = pphSortColList->CreateDXLNode();
 			sort_col_list_dxl->AddRef();
 		}
 	}
 	else if (2 == this->Length())
 	{
 		CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-		sort_col_list_dxl = pphSortColList->Pdxln();
+		sort_col_list_dxl = pphSortColList->CreateDXLNode();
 		sort_col_list_dxl->AddRef();
 
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);

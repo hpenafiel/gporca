@@ -3089,7 +3089,7 @@ CTestUtils::PexprReadQuery
 	CExpression *pexprQuery =
 			trdxl2expr.PexprTranslateQuery
 						(
-						ptroutput->Pdxln(),
+						ptroutput->CreateDXLNode(),
 						ptroutput->GetOutputColumnsDXLArray(),
 						ptroutput->GetCTEProducerDXLArray()
 						);
@@ -3139,7 +3139,7 @@ CTestUtils::EresTranslate
 	CTranslatorDXLToExpr ptrdxl2expr(memory_pool, pmda);
 	CExpression *pexprQuery = ptrdxl2expr.PexprTranslateQuery
 											(
-											ptroutput->Pdxln(),
+											ptroutput->CreateDXLNode(),
 											ptroutput->GetOutputColumnsDXLArray(),
 											ptroutput->GetCTEProducerDXLArray()
 											);

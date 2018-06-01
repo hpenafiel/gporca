@@ -62,7 +62,7 @@ CParseHandlerLogicalGroupBy::StartElement
 {
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalGrpBy), element_local_name))
 	{
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalGroupBy(m_memory_pool));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalGroupBy(m_memory_pool));
 
 		// create child node parsers
 
@@ -112,20 +112,20 @@ CParseHandlerLogicalGroupBy::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pdxln );
+	GPOS_ASSERT(NULL != m_dxl_node );
 	GPOS_ASSERT(3 == this->Length());
 
 	CParseHandlerGroupingColList *pphGrpCollList = dynamic_cast<CParseHandlerGroupingColList*>((*this)[0]);
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[2]);
 
-	GPOS_ASSERT(NULL != pphPrL->Pdxln());
-	GPOS_ASSERT(NULL != pphChild->Pdxln());
+	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphChild);
 
-	CDXLLogicalGroupBy *pdxlopGrpby = static_cast<CDXLLogicalGroupBy*>(m_pdxln->GetOperator());
+	CDXLLogicalGroupBy *pdxlopGrpby = static_cast<CDXLLogicalGroupBy*>(m_dxl_node->GetOperator());
 
 	// set grouping cols list
 	GPOS_ASSERT(NULL != pphGrpCollList->PdrgpulGroupingCols());
@@ -136,7 +136,7 @@ CParseHandlerLogicalGroupBy::EndElement
 
 
 #ifdef GPOS_DEBUG
-	pdxlopGrpby->AssertValid(m_pdxln, false /* validate_children */);
+	pdxlopGrpby->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

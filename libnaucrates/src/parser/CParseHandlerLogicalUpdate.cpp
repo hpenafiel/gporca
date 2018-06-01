@@ -137,12 +137,12 @@ CParseHandlerLogicalUpdate::EndElement
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
 	GPOS_ASSERT(NULL != pphTabDesc->Pdxltabdesc());
-	GPOS_ASSERT(NULL != pphChild->Pdxln());
+	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
 	CDXLTableDescr *pdxltabdesc = pphTabDesc->Pdxltabdesc();
 	pdxltabdesc->AddRef();
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode
 							(
 							m_memory_pool,
 							GPOS_NEW(m_memory_pool) CDXLLogicalUpdate(m_memory_pool, pdxltabdesc, m_ulCtid, m_ulSegmentId, m_pdrgpulDelete, m_pdrgpulInsert, m_fPreserveOids, m_ulTupleOidColId)
@@ -151,7 +151,7 @@ CParseHandlerLogicalUpdate::EndElement
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

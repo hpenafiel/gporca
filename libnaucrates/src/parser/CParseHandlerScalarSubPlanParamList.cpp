@@ -119,7 +119,7 @@ CParseHandlerScalarSubPlanParamList::EndElement
 	const XMLCh* const // element_qname
 	)
 {
-	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), element_local_name) && NULL != m_pdxln)
+	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), element_local_name) && NULL != m_dxl_node)
 	{
 		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());

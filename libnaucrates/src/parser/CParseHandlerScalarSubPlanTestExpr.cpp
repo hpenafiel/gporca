@@ -109,9 +109,9 @@ CParseHandlerScalarSubPlanTestExpr::EndElement
 	if (0 < this->Length())
 	{
 		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-		if (NULL != pphChild->Pdxln())
+		if (NULL != pphChild->CreateDXLNode())
 		{
-			m_pdxlnTestExpr = pphChild->Pdxln();
+			m_pdxlnTestExpr = pphChild->CreateDXLNode();
 			m_pdxlnTestExpr->AddRef();
 		}
 	}

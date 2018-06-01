@@ -119,10 +119,10 @@ CParseHandlerSequence::EndElement
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 		
 	CDXLPhysicalSequence *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalSequence(m_memory_pool);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);	
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);	
 
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	// add project list
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
@@ -139,7 +139,7 @@ CParseHandlerSequence::EndElement
 	}
 
 #ifdef GPOS_DEBUG
-	dxl_op->AssertValid(m_pdxln, false /* validate_children */);
+	dxl_op->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 	
 	// deactivate handler

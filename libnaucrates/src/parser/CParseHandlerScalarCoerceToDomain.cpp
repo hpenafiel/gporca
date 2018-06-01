@@ -61,7 +61,7 @@ CParseHandlerScalarCoerceToDomain::StartElement
 {
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarCoerceToDomain), element_local_name))
 	{
-		if (NULL != m_pdxln)
+		if (NULL != m_dxl_node)
 		{
 			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
@@ -70,7 +70,7 @@ CParseHandlerScalarCoerceToDomain::StartElement
 		// parse and create scalar coerce
 		CDXLScalarCoerceToDomain *dxl_op = (CDXLScalarCoerceToDomain*) CDXLOperatorFactory::PdxlopCoerceToDomain(m_parse_handler_mgr->Pmm(), attrs);
 
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 		// parse handler for child scalar node
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);

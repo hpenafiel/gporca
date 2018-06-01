@@ -146,7 +146,7 @@ CParseHandlerQueryOutput::EndElement
 
 		GPOS_ASSERT(NULL != pphChild);
 
-		CDXLNode *pdxlnIdent = pphChild->Pdxln();
+		CDXLNode *pdxlnIdent = pphChild->CreateDXLNode();
 		pdxlnIdent->AddRef();
 		m_dxl_array->Append(pdxlnIdent);
 	}

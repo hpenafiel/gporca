@@ -34,7 +34,7 @@ namespace gpdxl
 		private:
 
 			// DXL representing the Query
-			CDXLNode *m_pdxln;
+			CDXLNode *m_dxl_node;
 
 			// array of DXL nodes that represent the query output
 			DXLNodeArray *m_pdrgpdxlnQueryOutput;
@@ -50,7 +50,7 @@ namespace gpdxl
 			~CQueryToDXLResult();
 
 			// return the DXL representation of the query
-			const CDXLNode *Pdxln() const;
+			const CDXLNode *CreateDXLNode() const;
 
 			// return the array of output columns
 			const DXLNodeArray *GetOutputColumnsDXLArray() const;

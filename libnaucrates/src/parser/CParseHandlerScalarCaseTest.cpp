@@ -89,7 +89,7 @@ CParseHandlerScalarCaseTest::EndElement
 	}
 
 	// construct node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCaseTest(m_memory_pool, m_mdid_type));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCaseTest(m_memory_pool, m_mdid_type));
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

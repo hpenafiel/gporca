@@ -73,7 +73,7 @@ CParseHandlerLogicalProject::StartElement
 {
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalProject), element_local_name))
 	{
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalProject(m_memory_pool));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalProject(m_memory_pool));
 
 		// create child node parsers
 
@@ -119,19 +119,19 @@ CParseHandlerLogicalProject::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pdxln );
+	GPOS_ASSERT(NULL != m_dxl_node );
 
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[0]);
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	GPOS_ASSERT(NULL != pphPrL->Pdxln());
-	GPOS_ASSERT(NULL != pphChild->Pdxln());
+	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

@@ -40,7 +40,7 @@ CParseHandlerPlan::CParseHandlerPlan
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_ullId(0),
 	m_ullSpaceSize(0),
-	m_pdxln(NULL),
+	m_dxl_node(NULL),
 	m_direct_dispatch_info(NULL)
 {}
 
@@ -54,21 +54,21 @@ CParseHandlerPlan::CParseHandlerPlan
 //---------------------------------------------------------------------------
 CParseHandlerPlan::~CParseHandlerPlan()
 {
-	CRefCount::SafeRelease(m_pdxln);
+	CRefCount::SafeRelease(m_dxl_node);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerPlan::Pdxln
+//		CParseHandlerPlan::CreateDXLNode
 //
 //	@doc:
 //		Root of constructed DXL plan
 //
 //---------------------------------------------------------------------------
 CDXLNode *
-CParseHandlerPlan::Pdxln()
+CParseHandlerPlan::CreateDXLNode()
 {
-	return m_pdxln;
+	return m_dxl_node;
 }
 
 //---------------------------------------------------------------------------
@@ -161,11 +161,11 @@ CParseHandlerPlan::EndElement
 
 	CParseHandlerPhysicalOp *pph = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[0]);
 	
-	GPOS_ASSERT(NULL != pph->Pdxln());
+	GPOS_ASSERT(NULL != pph->CreateDXLNode());
 
 	// store constructed child
-	m_pdxln = pph->Pdxln();
-	m_pdxln->AddRef();
+	m_dxl_node = pph->CreateDXLNode();
+	m_dxl_node->AddRef();
 	
 	if (2 == this->Length())
 	{
@@ -174,7 +174,7 @@ CParseHandlerPlan::EndElement
 		GPOS_ASSERT(NULL != dxl_direct_dispatch_info);
 		
 		dxl_direct_dispatch_info->AddRef();
-		m_pdxln->SetDirectDispatchInfo(dxl_direct_dispatch_info);
+		m_dxl_node->SetDirectDispatchInfo(dxl_direct_dispatch_info);
 	}
 	// deactivate handler
 

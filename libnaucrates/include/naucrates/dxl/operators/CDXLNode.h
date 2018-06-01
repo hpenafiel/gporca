@@ -92,7 +92,7 @@ namespace gpdxl
 			{
 				GPOS_ASSERT(NULL != m_dxl_array);
 				CDXLNode *dxl_node = (*m_dxl_array)[idx];
-				GPOS_ASSERT(NULL != pdxln);
+				GPOS_ASSERT(NULL != dxl_node);
 				return dxl_node;
 			};
 	

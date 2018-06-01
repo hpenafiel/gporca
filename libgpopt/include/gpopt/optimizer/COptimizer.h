@@ -67,7 +67,7 @@ namespace gpopt
 
 			// translate an optimizer expression into a DXL tree 
 			static
-			CDXLNode *Pdxln
+			CDXLNode *CreateDXLNode
 						(
 						IMemoryPool *memory_pool,
 						CMDAccessor *pmda,

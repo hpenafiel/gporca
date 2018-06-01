@@ -70,7 +70,7 @@ CParseHandlerLogicalCTEAnchor::StartElement
 											EdxltokenLogicalCTEAnchor
 											);
 	
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalCTEAnchor(m_memory_pool, ulId));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalCTEAnchor(m_memory_pool, ulId));
 
 	// create and activate the parse handler for the child expression node
 	CParseHandlerBase *pphChild =
@@ -103,13 +103,13 @@ CParseHandlerLogicalCTEAnchor::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pdxln );
+	GPOS_ASSERT(NULL != m_dxl_node );
 
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[0]);
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-		m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+		m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	m_parse_handler_mgr->DeactivateHandler();

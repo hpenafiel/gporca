@@ -67,7 +67,7 @@ CParseHandlerScalarArrayComp::StartElement
 	CDXLScalarArrayComp *dxl_op = (CDXLScalarArrayComp*) CDXLOperatorFactory::PdxlopArrayComp(m_parse_handler_mgr->Pmm(), attrs);
 
 	// construct node from the created child nodes
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

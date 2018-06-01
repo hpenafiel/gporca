@@ -33,7 +33,7 @@ namespace gpdxl
 		private:
 
 			// the root of the parsed DXL tree constructed by the parse handler
-			CDXLNode *m_pdxln;
+			CDXLNode *m_dxl_node;
 
 			// private copy ctor
 			CParseHandlerScalarExpr(const CParseHandlerScalarExpr &);
@@ -76,7 +76,7 @@ namespace gpdxl
 			~CParseHandlerScalarExpr();
 
 			// root of constructed DXL expression
-			CDXLNode *Pdxln() const;
+			CDXLNode *CreateDXLNode() const;
 	};
 }
 

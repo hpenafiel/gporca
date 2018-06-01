@@ -115,15 +115,15 @@ CParseHandlerLogicalWindow::EndElement
 	GPOS_ASSERT(NULL != pdrgpdxlws);
 
 	CDXLLogicalWindow *pdxlopWin = GPOS_NEW(m_memory_pool) CDXLLogicalWindow(m_memory_pool, pdrgpdxlws);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWin);
-	GPOS_ASSERT(NULL != pphPrL->Pdxln());
-	GPOS_ASSERT(NULL != pphLgOp->Pdxln());
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWin);
+	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	GPOS_ASSERT(NULL != pphLgOp->CreateDXLNode());
 
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphLgOp);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

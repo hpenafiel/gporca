@@ -711,7 +711,7 @@ namespace gpopt
 			EdxlJoinType EdxljtHashJoin(CPhysicalHashJoin *popHJ);
 
 			// main translation routine for Expr tree -> DXL tree
-			CDXLNode *Pdxln(CExpression *pexpr, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML, BOOL fRemap, BOOL fRoot);
+			CDXLNode *CreateDXLNode(CExpression *pexpr, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML, BOOL fRemap, BOOL fRoot);
 
 			// translate expression children and add them as children of the DXL node
 			void TranslateScalarChildren(CExpression *pexpr, CDXLNode *pdxln);

@@ -68,16 +68,16 @@ CParseHandlerScalarOpList::StartElement
 	)
 {
 	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(element_local_name);
-	if (NULL == m_pdxln && CDXLScalarOpList::EdxloplistSentinel > edxloplisttype)
+	if (NULL == m_dxl_node && CDXLScalarOpList::EdxloplistSentinel > edxloplisttype)
 	{
 		// create the list
 		m_edxloplisttype = edxloplisttype;
-		m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpList(m_memory_pool, m_edxloplisttype));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpList(m_memory_pool, m_edxloplisttype));
 	}
 	else
 	{
 		// we must have already initialized the list node
-		GPOS_ASSERT(NULL != m_pdxln);
+		GPOS_ASSERT(NULL != m_dxl_node);
 
 		// parse scalar child
 		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);

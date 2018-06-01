@@ -54,7 +54,7 @@ namespace gpmd
 			IMDId *m_pmdidRel;
 
 			// the DXL representation of the check constraint
-			CDXLNode *m_pdxln;
+			CDXLNode *m_dxl_node;
 
 			// DXL for object
 			const CWStringDynamic *m_pstr;

@@ -142,10 +142,10 @@ CParseHandlerPhysicalSplit::EndElement
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	GPOS_ASSERT(NULL != pphPrL->Pdxln());
+	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
 
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[2]);
-	GPOS_ASSERT(NULL != pphChild->Pdxln());
+	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
 	CDXLPhysicalSplit *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalSplit
 												(
@@ -159,16 +159,16 @@ CParseHandlerPhysicalSplit::EndElement
 												m_ulTupleOidColId
 												);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphChild);
 
 #ifdef GPOS_DEBUG
-	m_pdxln->GetOperator()->AssertValid(m_pdxln, false /* validate_children */);
+	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

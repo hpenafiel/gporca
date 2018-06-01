@@ -64,7 +64,7 @@ CParseHandlerScalarBoolExpr::StartElement
 		(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), element_local_name)) ||
 		(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBoolNot), element_local_name)))
 	{
-		if (NULL == m_pdxln)
+		if (NULL == m_dxl_node)
 		{
 			if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBoolNot), element_local_name))
 			{
@@ -79,7 +79,7 @@ CParseHandlerScalarBoolExpr::StartElement
 			CDXLScalarBoolExpr *dxl_op = (CDXLScalarBoolExpr*) CDXLOperatorFactory::PdxlopBoolExpr(m_parse_handler_mgr->Pmm(), m_edxlBoolType);
 
 			// construct node from the created child nodes
-			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+			m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 		}
 		else
 		{
@@ -96,7 +96,7 @@ CParseHandlerScalarBoolExpr::StartElement
 	}
 	else
 	{
-		if(NULL == m_pdxln)
+		if(NULL == m_dxl_node)
 		{
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer());
 		}
@@ -138,10 +138,10 @@ CParseHandlerScalarBoolExpr::EndElement
 	const ULONG ulSize = this->Length();
 	// If the operation is NOT then it only has one child.
 	if (
-	    ((((CDXLScalarBoolExpr*) m_pdxln->GetOperator())->EdxlBoolType() == Edxlnot)
+	    ((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->EdxlBoolType() == Edxlnot)
 		&& (1 != ulSize))
 		||
-		((((CDXLScalarBoolExpr*) m_pdxln->GetOperator())->EdxlBoolType() != Edxlnot)
+		((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->EdxlBoolType() != Edxlnot)
 		&& (2 > ulSize))
 	  )
 	{

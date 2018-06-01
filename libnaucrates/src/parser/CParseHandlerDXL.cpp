@@ -561,9 +561,9 @@ CParseHandlerDXL::ExtractDXLPlan
 	)
 {
 	CParseHandlerPlan *parse_handler_plan = (CParseHandlerPlan *) parse_handler_base;
-	GPOS_ASSERT(NULL != parse_handler_plan && NULL != parse_handler_plan->Pdxln());
+	GPOS_ASSERT(NULL != parse_handler_plan && NULL != parse_handler_plan->CreateDXLNode());
 
-	m_plan_dxl_root = parse_handler_plan->Pdxln();
+	m_plan_dxl_root = parse_handler_plan->CreateDXLNode();
 	m_plan_dxl_root->AddRef();
 
 	m_plan_id = parse_handler_plan->UllId();
@@ -640,9 +640,9 @@ CParseHandlerDXL::ExtractDXLQuery
 	)
 {
 	CParseHandlerQuery *parse_handler_query = dynamic_cast<CParseHandlerQuery *>(parse_handler_base);
-	GPOS_ASSERT(NULL != parse_handler_query && NULL != parse_handler_query->Pdxln());
+	GPOS_ASSERT(NULL != parse_handler_query && NULL != parse_handler_query->CreateDXLNode());
 
-	m_query_dxl_root = parse_handler_query->Pdxln();
+	m_query_dxl_root = parse_handler_query->CreateDXLNode();
 	m_query_dxl_root->AddRef();
 
 	GPOS_ASSERT(NULL != parse_handler_query->GetOutputColumnsDXLArray());
@@ -744,9 +744,9 @@ CParseHandlerDXL::ExtractScalarExpr
 	)
 {
 	CParseHandlerScalarExpr *parse_handler_scalar_expr = dynamic_cast<CParseHandlerScalarExpr *>(parse_handler_base);
-	GPOS_ASSERT(NULL != parse_handler_scalar_expr && NULL != parse_handler_scalar_expr->Pdxln());
+	GPOS_ASSERT(NULL != parse_handler_scalar_expr && NULL != parse_handler_scalar_expr->CreateDXLNode());
 
-	m_scalar_expr_dxl = parse_handler_scalar_expr->Pdxln();
+	m_scalar_expr_dxl = parse_handler_scalar_expr->CreateDXLNode();
 	m_scalar_expr_dxl->AddRef();
 }
 

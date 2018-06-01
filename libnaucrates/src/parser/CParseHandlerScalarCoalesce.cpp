@@ -99,7 +99,7 @@ CParseHandlerScalarCoalesce::EndElement
 	}
 
 	// construct node
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCoalesce(m_memory_pool, m_mdid_type));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCoalesce(m_memory_pool, m_mdid_type));
 
 	// loop over children and add them to this parsehandler
 	const ULONG ulChildren = this->Length();

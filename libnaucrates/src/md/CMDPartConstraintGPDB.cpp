@@ -39,7 +39,7 @@ CMDPartConstraintGPDB::CMDPartConstraintGPDB
 	m_memory_pool(memory_pool),
 	m_pdrgpulDefaultParts(pdrgpulDefaultParts),
 	m_fUnbounded(fUnbounded),
-	m_pdxln(pdxln)
+	m_dxl_node(pdxln)
 {
 	GPOS_ASSERT(NULL != pdrgpulDefaultParts);
 }
@@ -54,8 +54,8 @@ CMDPartConstraintGPDB::CMDPartConstraintGPDB
 //---------------------------------------------------------------------------
 CMDPartConstraintGPDB::~CMDPartConstraintGPDB()
 {
-	if (NULL != m_pdxln)
-		m_pdxln->Release();
+	if (NULL != m_dxl_node)
+		m_dxl_node->Release();
 	m_pdrgpulDefaultParts->Release();
 }
 
@@ -80,7 +80,7 @@ CMDPartConstraintGPDB::Pexpr
 
 	// translate the DXL representation of the part constraint expression
 	CTranslatorDXLToExpr dxltr(memory_pool, pmda);
-	return dxltr.PexprTranslateScalar(m_pdxln, pdrgpcr);
+	return dxltr.PexprTranslateScalar(m_dxl_node, pdrgpcr);
 }
 
 //---------------------------------------------------------------------------
@@ -137,8 +137,8 @@ CMDPartConstraintGPDB::Serialize
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartConstraintUnbounded), m_fUnbounded);
 
 	// serialize the scalar expression
-	if (NULL != m_pdxln)
-		m_pdxln->SerializeToDXL(xml_serializer);
+	if (NULL != m_dxl_node)
+		m_dxl_node->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
 						CDXLTokens::PstrToken(EdxltokenPartConstraint));

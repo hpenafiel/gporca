@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// the root of the parsed DXL tree constructed by the parse handler
-			CDXLNode *m_pdxln;
+			CDXLNode *m_dxl_node;
 
 			// list of output columns (represented as scalar ident nodes)
 			DXLNodeArray *m_output_colums_dxl_array;
@@ -76,7 +76,7 @@ namespace gpdxl
 			~CParseHandlerQuery();
 
 			// returns the root of constructed DXL plan
-			CDXLNode *Pdxln() const;
+			CDXLNode *CreateDXLNode() const;
 
 			// returns the dxl representation of the query output
 			DXLNodeArray *GetOutputColumnsDXLArray() const;

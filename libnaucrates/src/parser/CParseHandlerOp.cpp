@@ -33,7 +33,7 @@ CParseHandlerOp::CParseHandlerOp
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxln(NULL)
+	m_dxl_node(NULL)
 {
 }
 
@@ -47,21 +47,21 @@ CParseHandlerOp::CParseHandlerOp
 //---------------------------------------------------------------------------
 CParseHandlerOp::~CParseHandlerOp()
 {
-	CRefCount::SafeRelease(m_pdxln);
+	CRefCount::SafeRelease(m_dxl_node);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerOp::Pdxln
+//		CParseHandlerOp::CreateDXLNode
 //
 //	@doc:
 //		Returns the constructed DXL node and passes ownership over it.
 //
 //---------------------------------------------------------------------------
 CDXLNode *
-CParseHandlerOp::Pdxln() const
+CParseHandlerOp::CreateDXLNode() const
 {
-	return m_pdxln;
+	return m_dxl_node;
 }
 
 
@@ -78,18 +78,18 @@ CParseHandlerOp::Pdxln() const
 void
 CParseHandlerOp::AddChildFromParseHandler
 	(
-	const CParseHandlerOp *pph
+	const CParseHandlerOp *parse_handler_op
 	)
 {
-	GPOS_ASSERT(NULL != m_pdxln);
-	GPOS_ASSERT(NULL != pph);
+	GPOS_ASSERT(NULL != m_dxl_node);
+	GPOS_ASSERT(NULL != parse_handler_op);
 	
 	// extract constructed element
-	CDXLNode *child_dxlnode = pph->Pdxln();
+	CDXLNode *child_dxlnode = parse_handler_op->CreateDXLNode();
 	GPOS_ASSERT(NULL != child_dxlnode);
 	
 	child_dxlnode->AddRef();
-	m_pdxln->AddChild(child_dxlnode);
+	m_dxl_node->AddChild(child_dxlnode);
 }
 
 

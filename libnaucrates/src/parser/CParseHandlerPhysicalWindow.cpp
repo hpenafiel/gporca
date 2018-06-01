@@ -131,10 +131,10 @@ CParseHandlerPhysicalWindow::EndElement
 	CParseHandlerWindowKeyList *pphWkL = dynamic_cast<CParseHandlerWindowKeyList *>((*this)[4]);
 	CDXLWindowKeyArray *pdrgpdxlwk = pphWkL->Pdrgpdxlwk();
 	CDXLPhysicalWindow *pdxlopWindow = GPOS_NEW(m_memory_pool) CDXLPhysicalWindow(m_memory_pool, m_pdrgpulPartCols, pdrgpdxlwk);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWindow);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWindow);
 
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_pdxln, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	// add children
 	AddChildFromParseHandler(pphPrL);

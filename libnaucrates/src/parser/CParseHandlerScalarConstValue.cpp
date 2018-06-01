@@ -69,8 +69,8 @@ CParseHandlerScalarConstValue::StartElement
 
 	// construct scalar Const node
 	GPOS_ASSERT(NULL != dxl_op);
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool);
-	m_pdxln->SetOperator(dxl_op);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool);
+	m_dxl_node->SetOperator(dxl_op);
 
 }
 

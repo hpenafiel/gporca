@@ -140,7 +140,7 @@ CParseHandlerLogicalTVF::EndElement
 	pdrgpdxlcd->AddRef();
 	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_mdname, pdrgpdxlcd);
 
-	m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopTVF);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopTVF);
 
 	const ULONG ulLen = this->Length();
 	// loop over arglist children and add them to this parsehandler

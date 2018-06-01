@@ -69,7 +69,7 @@ CParseHandlerScalarFuncExpr::StartElement
 			CDXLScalarFuncExpr *dxl_op = (CDXLScalarFuncExpr*) CDXLOperatorFactory::PdxlopFuncExpr(m_parse_handler_mgr->Pmm(), attrs);
 
 			// construct node from the created scalar FuncExpr
-			m_pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
+			m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 			m_fInsideFuncExpr = true;
 		}
