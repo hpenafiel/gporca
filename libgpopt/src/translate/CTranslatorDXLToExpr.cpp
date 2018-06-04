@@ -1659,7 +1659,7 @@ CTranslatorDXLToExpr::PexprLogicalLimit
 	// translate sort col list
 	COrderSpec *pos = Pos(sort_col_list_dxl);
 	
-	BOOL fNonRemovable = CDXLLogicalLimit::Cast(pdxln->GetOperator())->FTopLimitUnderDML();
+	BOOL fNonRemovable = CDXLLogicalLimit::Cast(pdxln->GetOperator())->IsTopLimitUnderDMLorCTAS();
 	CLogicalLimit *popLimit =
 			GPOS_NEW(m_memory_pool) CLogicalLimit(m_memory_pool, pos, true /*fGlobal*/, fHasCount, fNonRemovable);
 	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, popLimit, pexprChild, pexprLimitOffset, pexprLimitCount);

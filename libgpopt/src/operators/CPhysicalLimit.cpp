@@ -41,7 +41,7 @@ CPhysicalLimit::CPhysicalLimit
 	m_pos(pos),
 	m_fGlobal(fGlobal),
 	m_fHasCount(fHasCount),
-	m_fTopLimitUnderDML(fTopLimitUnderDML),
+	m_top_limit_under_dml(fTopLimitUnderDML),
 	m_pcrsSort(NULL)
 {
 	GPOS_ASSERT(NULL != memory_pool);

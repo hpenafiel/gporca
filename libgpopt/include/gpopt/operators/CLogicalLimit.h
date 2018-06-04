@@ -44,7 +44,7 @@ namespace gpopt
 			BOOL m_fHasCount;
 
 			// the limit must be kept, even if it has no offset, nor count
-			BOOL m_fTopLimitUnderDML;
+			BOOL m_top_limit_under_dml;
 
 			// private copy ctor
 			CLogicalLimit(const CLogicalLimit &);
@@ -98,9 +98,9 @@ namespace gpopt
 			}
 
 			// must the limit be always kept
-			BOOL FTopLimitUnderDML() const
+			BOOL IsTopLimitUnderDMLorCTAS() const
 			{
-				return m_fTopLimitUnderDML;
+				return m_top_limit_under_dml;
 			}
 
 			// match function

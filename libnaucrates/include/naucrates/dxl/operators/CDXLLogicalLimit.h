@@ -39,7 +39,7 @@ namespace gpdxl
 	class CDXLLogicalLimit : public CDXLLogical
 	{
 		private:
-			BOOL m_fTopLimitUnderDML;
+			BOOL m_top_limit_under_dml;
 
 			// private copy ctor
 			CDXLLogicalLimit(CDXLLogicalLimit&);
@@ -57,14 +57,14 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// the limit is right under a DML or CTAS
-			BOOL FTopLimitUnderDML() const
+			BOOL IsTopLimitUnderDMLorCTAS() const
 			{
-				return m_fTopLimitUnderDML;
+				return m_top_limit_under_dml;
 			}
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

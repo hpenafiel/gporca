@@ -30,11 +30,11 @@ using namespace gpdxl;
 CDXLLogicalLimit::CDXLLogicalLimit
 	(
 	IMemoryPool *memory_pool,
-	BOOL fNonRemovableLimit
+	BOOL top_limit_under_dml
 	)
 	:
 	CDXLLogical(memory_pool),
-	m_fTopLimitUnderDML(fNonRemovableLimit)
+	m_top_limit_under_dml(top_limit_under_dml)
 {
 }
 
@@ -89,24 +89,24 @@ void
 CDXLLogicalLimit::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	if (m_fTopLimitUnderDML)
+	if (m_top_limit_under_dml)
 	{
 		xml_serializer->AddAttribute
 					(
 					CDXLTokens::PstrToken(EdxltokenTopLimitUnderDML),
-					m_fTopLimitUnderDML
+					m_top_limit_under_dml
 					);
 	}
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
@@ -123,34 +123,34 @@ CDXLLogicalLimit::SerializeToDXL
 void
 CDXLLogicalLimit::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) 
 	const
 {
-	GPOS_ASSERT(4 == pdxln->Arity());
+	GPOS_ASSERT(4 == node->Arity());
 
 	// Assert the validity of sort column list
-	CDXLNode *sort_col_list_dxl = (*pdxln)[EdxllogicallimitIndexSortColList];
+	CDXLNode *sort_col_list_dxl = (*node)[EdxllogicallimitIndexSortColList];
 	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->GetOperator()->GetDXLOperatorType());
 
 	// Assert the validity of Count and Offset
 
-	CDXLNode *pdxlnCount = (*pdxln)[EdxllogicallimitIndexLimitCount];
-	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnCount->GetOperator()->GetDXLOperator());
+	CDXLNode *limit_count_dxl = (*node)[EdxllogicallimitIndexLimitCount];
+	GPOS_ASSERT(EdxlopScalarLimitCount == limit_count_dxl->GetOperator()->GetDXLOperator());
 	
-	CDXLNode *pdxlnOffset = (*pdxln)[EdxllogicallimitIndexLimitOffset];
-	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnOffset->GetOperator()->GetDXLOperator());
+	CDXLNode *limit_offset_dxl = (*node)[EdxllogicallimitIndexLimitOffset];
+	GPOS_ASSERT(EdxlopScalarLimitOffset == limit_offset_dxl->GetOperator()->GetDXLOperator());
 		
 	// Assert child plan is a logical plan and is valid
-	CDXLNode *child_dxlnode = (*pdxln)[EdxllogicallimitIndexChildPlan];
+	CDXLNode *child_dxlnode = (*node)[EdxllogicallimitIndexChildPlan];
 	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{
 		sort_col_list_dxl->GetOperator()->AssertValid(sort_col_list_dxl, validate_children);
-		pdxlnOffset->GetOperator()->AssertValid(pdxlnOffset, validate_children);
-		pdxlnCount->GetOperator()->AssertValid(pdxlnCount, validate_children);
+		limit_offset_dxl->GetOperator()->AssertValid(limit_offset_dxl, validate_children);
+		limit_count_dxl->GetOperator()->AssertValid(limit_count_dxl, validate_children);
 		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 

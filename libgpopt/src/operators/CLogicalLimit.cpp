@@ -45,7 +45,7 @@ CLogicalLimit::CLogicalLimit
 	m_pos(NULL),
 	m_fGlobal(true),
 	m_fHasCount(false),
-	m_fTopLimitUnderDML(false)
+	m_top_limit_under_dml(false)
 {
 	m_fPattern = true;
 }
@@ -72,7 +72,7 @@ CLogicalLimit::CLogicalLimit
 	m_pos(pos),
 	m_fGlobal(fGlobal),
 	m_fHasCount(fHasCount),
-	m_fTopLimitUnderDML(fTopLimitUnderDML)
+	m_top_limit_under_dml(fTopLimitUnderDML)
 {
 	GPOS_ASSERT(NULL != pos);
 	CColRefSet *pcrsSort = m_pos->PcrsUsed(memory_pool);
@@ -163,7 +163,7 @@ CLogicalLimit::PopCopyWithRemappedColumns
 {
 	COrderSpec *pos = m_pos->PosCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
-	return GPOS_NEW(memory_pool) CLogicalLimit(memory_pool, pos, m_fGlobal, m_fHasCount, m_fTopLimitUnderDML);
+	return GPOS_NEW(memory_pool) CLogicalLimit(memory_pool, pos, m_fGlobal, m_fHasCount, m_top_limit_under_dml);
 }
 
 //---------------------------------------------------------------------------
@@ -328,7 +328,7 @@ CLogicalLimit::OsPrint
 	const
 {
 	os << SzId() << " " << (*m_pos) << " " << (m_fGlobal ? "global" : "local")
-			<< (m_fTopLimitUnderDML ? " NonRemovableLimit" : "");
+			<< (m_top_limit_under_dml ? " NonRemovableLimit" : "");
 	
 	return os;
 }

@@ -366,8 +366,8 @@ CExpressionPreprocessor::PexprRemoveSuperfluousLimit
 			!CLogicalLimit::PopConvert(pop)->FHasCount())
 	{
 		CLogicalLimit *popLgLimit = CLogicalLimit::PopConvert(pop);
-		if (!popLgLimit->FTopLimitUnderDML() ||
-				(popLgLimit->FTopLimitUnderDML() && GPOS_FTRACE(EopttraceRemoveOrderBelowDML)))
+		if (!popLgLimit->IsTopLimitUnderDMLorCTAS() ||
+				(popLgLimit->IsTopLimitUnderDMLorCTAS() && GPOS_FTRACE(EopttraceRemoveOrderBelowDML)))
 		{
 			return PexprRemoveSuperfluousLimit(memory_pool, (*pexpr)[0]);
 		}
@@ -443,7 +443,7 @@ CExpressionPreprocessor::PexprRemoveSuperfluousOuterRefs
 						posNew,
 						popLimit->FGlobal(),
 						popLimit->FHasCount(),
-						popLimit->FTopLimitUnderDML()
+						popLimit->IsTopLimitUnderDMLorCTAS()
 						);
 		}
 		else if (COperator::EopLogicalGbAgg == eopid)

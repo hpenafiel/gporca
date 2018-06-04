@@ -41,7 +41,7 @@ namespace gpopt
 			BOOL m_fHasCount;
 
 			// this is a top limit right under a DML or CTAS operation
-			BOOL m_fTopLimitUnderDML;
+			BOOL m_top_limit_under_dml;
 
 			// columns used by order spec
 			CColRefSet *m_pcrsSort;
@@ -108,9 +108,9 @@ namespace gpopt
 			}
 
 			// must the limit be always kept
-			BOOL FTopLimitUnderDML() const
+			BOOL IsTopLimitUnderDMLorCTAS() const
 			{
-				return m_fTopLimitUnderDML;
+				return m_top_limit_under_dml;
 			}
 
 			// match function

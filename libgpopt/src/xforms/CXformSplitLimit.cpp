@@ -129,7 +129,7 @@ CXformSplitLimit::Transform
 			pos,
 			false, // fGlobal
 			popLimit->FHasCount(),
-			popLimit->FTopLimitUnderDML()
+			popLimit->IsTopLimitUnderDMLorCTAS()
 			);
 
 	// assemble global limit operator
@@ -142,7 +142,7 @@ CXformSplitLimit::Transform
 			pos,
 			true, // fGlobal
 			popLimit->FHasCount(),
-			popLimit->FTopLimitUnderDML()
+			popLimit->IsTopLimitUnderDMLorCTAS()
 			);
 
 	pxfres->Add(pexprLimitGlobal);
