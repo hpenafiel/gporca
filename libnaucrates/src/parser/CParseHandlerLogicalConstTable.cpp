@@ -40,7 +40,7 @@ CParseHandlerLogicalConstTable::CParseHandlerLogicalConstTable
 	:
 	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_const_tuples_datum_array(NULL),
-	m_pdrgpdxldatum(NULL)
+	m_datum_dxl_array(NULL)
 {
 }
 
@@ -71,34 +71,34 @@ CParseHandlerLogicalConstTable::StartElement
 		m_const_tuples_datum_array = GPOS_NEW(m_memory_pool) DXLDatumArrays(m_memory_pool);
 
 		// install a parse handler for the columns
-		CParseHandlerBase *pphColDescr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
+		CParseHandlerBase *col_desc_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(col_desc_parse_handler);
 		
 		// store parse handler
-		this->Append(pphColDescr);
+		this->Append(col_desc_parse_handler);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_const_tuples_datum_array); // we must have already seen a logical const table
-		GPOS_ASSERT(NULL == m_pdrgpdxldatum);
+		GPOS_ASSERT(NULL == m_datum_dxl_array);
 
 		// initialize the array of datums (const tuple)
-		m_pdrgpdxldatum = GPOS_NEW(m_memory_pool) DXLDatumArray(m_memory_pool);
+		m_datum_dxl_array = GPOS_NEW(m_memory_pool) DXLDatumArray(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{
 		// we must have already seen a logical const table and a const tuple
 		GPOS_ASSERT(NULL != m_const_tuples_datum_array);
-		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
+		GPOS_ASSERT(NULL != m_datum_dxl_array);
 
 		// translate the datum and add it to the datum array
 		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_parse_handler_mgr->Pmm(), attrs, EdxltokenScalarConstValue);
-		m_pdrgpdxldatum->Append(datum_dxl);
+		m_datum_dxl_array->Append(datum_dxl);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 
@@ -125,14 +125,14 @@ CParseHandlerLogicalConstTable::EndElement
 		CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
 		GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
 
-		ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
-		pdrgpdxlcd->AddRef();
+		ColumnDescrDXLArray *col_descr_dxl_array = pphColDescr->GetColumnDescrDXLArray();
+		col_descr_dxl_array->AddRef();
 
-		CDXLLogicalConstTable *pdxlopConstTable = GPOS_NEW(m_memory_pool) CDXLLogicalConstTable(m_memory_pool, pdrgpdxlcd, m_const_tuples_datum_array);
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstTable);
+		CDXLLogicalConstTable *lg_const_table_get_dxl_op = GPOS_NEW(m_memory_pool) CDXLLogicalConstTable(m_memory_pool, col_descr_dxl_array, m_const_tuples_datum_array);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, lg_const_table_get_dxl_op);
 
 #ifdef GPOS_DEBUG
-	pdxlopConstTable->AssertValid(m_dxl_node, false /* validate_children */);
+	lg_const_table_get_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 		// deactivate handler
@@ -140,15 +140,15 @@ CParseHandlerLogicalConstTable::EndElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
-		m_const_tuples_datum_array->Append(m_pdrgpdxldatum);
+		GPOS_ASSERT(NULL != m_datum_dxl_array);
+		m_const_tuples_datum_array->Append(m_datum_dxl_array);
 
-		m_pdrgpdxldatum = NULL; // intialize for the parsing the next const tuple (if needed)
+		m_datum_dxl_array = NULL; // intialize for the parsing the next const tuple (if needed)
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 // EOF
