@@ -48,10 +48,10 @@ CDXLPhysicalTableScan::CDXLPhysicalTableScan
 CDXLPhysicalTableScan::CDXLPhysicalTableScan
 	(
 	IMemoryPool *memory_pool,
-	CDXLTableDescr *pdxltabdesc
+	CDXLTableDescr *table_descr
 	)
 	:CDXLPhysical(memory_pool),
-	 m_table_descr_dxl(pdxltabdesc)
+	 m_table_descr_dxl(table_descr)
 {
 }
 
@@ -81,13 +81,13 @@ CDXLPhysicalTableScan::~CDXLPhysicalTableScan()
 void
 CDXLPhysicalTableScan::SetTableDescriptor
 	(
-	CDXLTableDescr *pdxltabdesc
+	CDXLTableDescr *table_descr
 	)
 {
 	// allow setting table descriptor only once
 	GPOS_ASSERT (NULL == m_table_descr_dxl);
 	
-	m_table_descr_dxl = pdxltabdesc;
+	m_table_descr_dxl = table_descr;
 }
 
 //---------------------------------------------------------------------------

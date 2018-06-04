@@ -536,21 +536,21 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	Edxlopid edxlopid = dxl_op->GetDXLOperator();
 
 	// translate the table descriptor
-	CDXLTableDescr *pdxltabdesc = CDXLLogicalGet::Cast(dxl_op)->GetTableDescr();
+	CDXLTableDescr *table_descr = CDXLLogicalGet::Cast(dxl_op)->GetTableDescr();
 
-	GPOS_ASSERT(NULL != pdxltabdesc);
-	GPOS_ASSERT(NULL != pdxltabdesc->MdName()->Pstr());
+	GPOS_ASSERT(NULL != table_descr);
+	GPOS_ASSERT(NULL != table_descr->MdName()->Pstr());
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxltabdesc);
+	CTableDescriptor *ptabdesc = Ptabdesc(table_descr);
 
-	CWStringConst strAlias(m_memory_pool, pdxltabdesc->MdName()->Pstr()->GetBuffer());
+	CWStringConst strAlias(m_memory_pool, table_descr->MdName()->Pstr()->GetBuffer());
 
 	// create a logical get or dynamic get operator
 	CName *pname = GPOS_NEW(m_memory_pool) CName(m_memory_pool, CName(&strAlias));
 	CLogical *popGet = NULL;
 	DrgPcr *pdrgpcr = NULL; 
 
-	const IMDRelation *pmdrel = m_pmda->Pmdrel(pdxltabdesc->MDId());
+	const IMDRelation *pmdrel = m_pmda->Pmdrel(table_descr->MDId());
 	if (pmdrel->FPartitioned())
 	{
 		GPOS_ASSERT(EdxlopLogicalGet == edxlopid);
@@ -596,14 +596,14 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	CExpression *pexpr = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, popGet);
 
 	GPOS_ASSERT(NULL != pdrgpcr);
-	GPOS_ASSERT(pdrgpcr->Size() == pdxltabdesc->Arity());
+	GPOS_ASSERT(pdrgpcr->Size() == table_descr->Arity());
 
 	const ULONG ulColumns = pdrgpcr->Size();
 	// construct the mapping between the DXL ColId and CColRef
 	for(ULONG ul = 0; ul < ulColumns ; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		const CDXLColDescr *pdxlcd = pdxltabdesc->GetColumnDescrAt(ul);
+		const CDXLColDescr *pdxlcd = table_descr->GetColumnDescrAt(ul);
 		GPOS_ASSERT(NULL != pcr);
 		GPOS_ASSERT(NULL != pdxlcd && !pdxlcd-> IsDropped());
 
@@ -2054,12 +2054,12 @@ CTranslatorDXLToExpr::PexprRightOuterJoin
 CTableDescriptor *
 CTranslatorDXLToExpr::Ptabdesc
 	(
-	CDXLTableDescr *pdxltabdesc
+	CDXLTableDescr *table_descr
 	)
 {
-	CWStringConst strName(m_memory_pool, pdxltabdesc->MdName()->Pstr()->GetBuffer());
+	CWStringConst strName(m_memory_pool, table_descr->MdName()->Pstr()->GetBuffer());
 
-	IMDId *pmdid = pdxltabdesc->MDId();
+	IMDId *pmdid = table_descr->MDId();
 
 	// get the relation information from the cache
 	const IMDRelation *pmdrel = m_pmda->Pmdrel(pmdid);
@@ -2100,13 +2100,13 @@ CTranslatorDXLToExpr::Ptabdesc
 						pmdrel->FConvertHashToRandom(),
 						ereldistrpolicy,
 						erelstorage,
-						pdxltabdesc->GetExecuteAsUserId()
+						table_descr->GetExecuteAsUserId()
 						);
 
-	const ULONG ulColumns = pdxltabdesc->Arity();
+	const ULONG ulColumns = table_descr->Arity();
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
-		const CDXLColDescr *pdxlcoldesc = pdxltabdesc->GetColumnDescrAt(ul);
+		const CDXLColDescr *pdxlcoldesc = table_descr->GetColumnDescrAt(ul);
 		INT iAttno = pdxlcoldesc->AttrNum();
 
 		ULONG *pulPos = phmiulAttnoPosMapping->Find(&iAttno);

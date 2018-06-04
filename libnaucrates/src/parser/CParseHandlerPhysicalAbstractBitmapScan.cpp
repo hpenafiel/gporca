@@ -124,18 +124,18 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	GPOS_ASSERT(NULL != pphTD->GetTableDescr());
 
 	// set table descriptor
-	CDXLTableDescr *pdxltabdesc = pphTD->GetTableDescr();
-	pdxltabdesc->AddRef();
+	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	table_descr->AddRef();
 	CDXLPhysical *dxl_op = NULL;
 
 	if (EdxltokenPhysicalBitmapTableScan == token_type)
 	{
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalBitmapTableScan(m_memory_pool, pdxltabdesc);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalBitmapTableScan(m_memory_pool, table_descr);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicBitmapTableScan == token_type);
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan(m_memory_pool, pdxltabdesc, ulPartIndexId, ulPartIndexIdPrintable);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan(m_memory_pool, table_descr, ulPartIndexId, ulPartIndexIdPrintable);
 	}
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 

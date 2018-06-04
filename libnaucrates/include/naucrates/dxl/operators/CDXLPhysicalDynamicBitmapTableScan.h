@@ -49,16 +49,16 @@ namespace gpdxl
 			CDXLPhysicalDynamicBitmapTableScan
 				(
 				IMemoryPool *memory_pool,
-				CDXLTableDescr *pdxltabdesc,
+				CDXLTableDescr *table_descr,
 				ULONG ulPartIndexId,
 				ULONG ulPartIndexIdPrintable
 				)
 				:
-				CDXLPhysicalAbstractBitmapScan(memory_pool, pdxltabdesc),
+				CDXLPhysicalAbstractBitmapScan(memory_pool, table_descr),
 				m_ulPartIndexId(ulPartIndexId),
 				m_ulPartIndexIdPrintable(ulPartIndexIdPrintable)
 			{
-				GPOS_ASSERT(NULL != pdxltabdesc);
+				GPOS_ASSERT(NULL != table_descr);
 			}
 
 			// dtor

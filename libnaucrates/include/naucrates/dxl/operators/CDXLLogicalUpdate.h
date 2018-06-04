@@ -64,7 +64,7 @@ namespace gpdxl
 			CDXLLogicalUpdate
 				(
 				IMemoryPool *memory_pool,
-				CDXLTableDescr *pdxltabdesc,
+				CDXLTableDescr *table_descr,
 				ULONG ulCtid,
 				ULONG ulSegmentId,
 				ULongPtrArray *pdrgpulDelete,

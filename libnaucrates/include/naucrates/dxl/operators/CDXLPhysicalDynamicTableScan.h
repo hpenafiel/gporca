@@ -58,7 +58,7 @@ namespace gpdxl
 			CDXLPhysicalDynamicTableScan
 				(
 				IMemoryPool *memory_pool,
-				CDXLTableDescr *pdxltabdesc,
+				CDXLTableDescr *table_descr,
 				ULONG ulPartIndexId,
 				ULONG ulPartIndexIdPrintable
 				);

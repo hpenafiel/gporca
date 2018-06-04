@@ -44,10 +44,10 @@ CDXLPhysicalExternalScan::CDXLPhysicalExternalScan
 CDXLPhysicalExternalScan::CDXLPhysicalExternalScan
 	(
 	IMemoryPool *memory_pool,
-	CDXLTableDescr *pdxltabdesc
+	CDXLTableDescr *table_descr
 	)
 	:
-	CDXLPhysicalTableScan(memory_pool, pdxltabdesc)
+	CDXLPhysicalTableScan(memory_pool, table_descr)
 {}
 
 //---------------------------------------------------------------------------

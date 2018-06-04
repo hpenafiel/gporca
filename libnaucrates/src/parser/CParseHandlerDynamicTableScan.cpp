@@ -147,10 +147,10 @@ CParseHandlerDynamicTableScan::EndElement
 
 
 	// set table descriptor
-	CDXLTableDescr *pdxltabdesc = pphTD->GetTableDescr();
-	pdxltabdesc->AddRef();
+	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	table_descr->AddRef();
 	CDXLPhysicalDynamicTableScan *dxl_op = 
-			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, pdxltabdesc, m_ulPartIndexId, m_ulPartIndexIdPrintable);
+			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, table_descr, m_ulPartIndexId, m_ulPartIndexIdPrintable);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);	
 	// set statictics and physical properties

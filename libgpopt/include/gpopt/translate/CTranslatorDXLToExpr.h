@@ -378,7 +378,7 @@ namespace gpopt
 			DrgPexpr *PdrgpexprChildren(const CDXLNode *pdxln);
 
 			// construct a table descriptor from DXL
-			CTableDescriptor *Ptabdesc(CDXLTableDescr *pdxltabdesc);
+			CTableDescriptor *Ptabdesc(CDXLTableDescr *table_descr);
 			
 			// construct a table descriptor for a CTAS operator
 			CTableDescriptor *PtabdescFromCTAS(CDXLLogicalCTAS *pdxlopCTAS);

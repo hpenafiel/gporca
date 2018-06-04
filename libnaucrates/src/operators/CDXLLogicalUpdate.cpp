@@ -31,7 +31,7 @@ using namespace gpdxl;
 CDXLLogicalUpdate::CDXLLogicalUpdate
 	(
 	IMemoryPool *memory_pool,
-	CDXLTableDescr *pdxltabdesc,
+	CDXLTableDescr *table_descr,
 	ULONG ulCtid,
 	ULONG ulSegmentId,
 	ULongPtrArray *pdrgpulDelete,
@@ -41,7 +41,7 @@ CDXLLogicalUpdate::CDXLLogicalUpdate
 	)
 	:
 	CDXLLogical(memory_pool),
-	m_table_descr_dxl(pdxltabdesc),
+	m_table_descr_dxl(table_descr),
 	m_ctid_colid(ulCtid),
 	m_segid_colid(ulSegmentId),
 	m_deletion_colid_array(pdrgpulDelete),
@@ -49,7 +49,7 @@ CDXLLogicalUpdate::CDXLLogicalUpdate
 	m_fPreserveOids(fPreserveOids),
 	m_ulTupleOid(ulTupleOid)
 {
-	GPOS_ASSERT(NULL != pdxltabdesc);
+	GPOS_ASSERT(NULL != table_descr);
 	GPOS_ASSERT(NULL != pdrgpulDelete);
 	GPOS_ASSERT(NULL != pdrgpulInsert);
 }

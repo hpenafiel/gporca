@@ -43,10 +43,10 @@ namespace gpdxl
 			CDXLPhysicalBitmapTableScan
 				(
 				IMemoryPool *memory_pool,
-				CDXLTableDescr *pdxltabdesc
+				CDXLTableDescr *table_descr
 				)
 				:
-				CDXLPhysicalAbstractBitmapScan(memory_pool, pdxltabdesc)
+				CDXLPhysicalAbstractBitmapScan(memory_pool, table_descr)
 			{
 			}
 

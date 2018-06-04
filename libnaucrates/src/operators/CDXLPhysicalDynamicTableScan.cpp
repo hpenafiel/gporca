@@ -30,17 +30,17 @@ using namespace gpdxl;
 CDXLPhysicalDynamicTableScan::CDXLPhysicalDynamicTableScan
 	(
 	IMemoryPool *memory_pool,
-	CDXLTableDescr *pdxltabdesc,
+	CDXLTableDescr *table_descr,
 	ULONG ulPartIndexId,
 	ULONG ulPartIndexIdPrintable
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_table_descr_dxl(pdxltabdesc),
+	m_table_descr_dxl(table_descr),
 	m_ulPartIndexId(ulPartIndexId),
 	m_ulPartIndexIdPrintable(ulPartIndexIdPrintable)
 {
-	GPOS_ASSERT(NULL != pdxltabdesc);
+	GPOS_ASSERT(NULL != table_descr);
 }
 
 

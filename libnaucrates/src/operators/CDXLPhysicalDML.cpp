@@ -31,7 +31,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	(
 	IMemoryPool *memory_pool,
 	const EdxlDmlType edxldmltype,
-	CDXLTableDescr *pdxltabdesc,
+	CDXLTableDescr *table_descr,
 	ULongPtrArray *pdrgpul,
 	ULONG ulAction,
 	ULONG ulOid,
@@ -45,7 +45,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	:
 	CDXLPhysical(memory_pool),
 	m_edxldmltype(edxldmltype),
-	m_table_descr_dxl(pdxltabdesc),
+	m_table_descr_dxl(table_descr),
 	m_pdrgpul(pdrgpul),
 	m_ulAction(ulAction),
 	m_ulOid(ulOid),
@@ -57,7 +57,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	m_fInputSorted(fInputSorted)
 {
 	GPOS_ASSERT(EdxldmlSentinel > edxldmltype);
-	GPOS_ASSERT(NULL != pdxltabdesc);
+	GPOS_ASSERT(NULL != table_descr);
 	GPOS_ASSERT(NULL != pdrgpul);
 }
 

@@ -193,15 +193,15 @@ CParseHandlerPhysicalDML::EndElement
 
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
 	GPOS_ASSERT(NULL != pphTabDesc->GetTableDescr());
-	CDXLTableDescr *pdxltabdesc = pphTabDesc->GetTableDescr();
-	pdxltabdesc->AddRef();
+	CDXLTableDescr *table_descr = pphTabDesc->GetTableDescr();
+	table_descr->AddRef();
 
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
 	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
 	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatch->GetDXLDirectDispatchInfo();
 	dxl_direct_dispatch_info->AddRef();
-	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ctid_colid, m_segid_colid, m_fPreserveOids, m_ulTupleOidColId, dxl_direct_dispatch_info, m_fInputSorted);
+	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, table_descr, m_pdrgpul, m_ulAction, m_ulOid, m_ctid_colid, m_segid_colid, m_fPreserveOids, m_ulTupleOidColId, dxl_direct_dispatch_info, m_fInputSorted);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	
 	// set statistics and physical properties

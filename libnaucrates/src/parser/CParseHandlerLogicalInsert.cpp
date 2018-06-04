@@ -113,13 +113,13 @@ CParseHandlerLogicalInsert::EndElement
 	GPOS_ASSERT(NULL != pphTabDesc->GetTableDescr());
 	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
-	CDXLTableDescr *pdxltabdesc = pphTabDesc->GetTableDescr();
-	pdxltabdesc->AddRef();
+	CDXLTableDescr *table_descr = pphTabDesc->GetTableDescr();
+	table_descr->AddRef();
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode
 							(
 							m_memory_pool,
-							GPOS_NEW(m_memory_pool) CDXLLogicalInsert(m_memory_pool, pdxltabdesc, m_pdrgpul)
+							GPOS_NEW(m_memory_pool) CDXLLogicalInsert(m_memory_pool, table_descr, m_pdrgpul)
 							);
 	
 	AddChildFromParseHandler(pphChild);

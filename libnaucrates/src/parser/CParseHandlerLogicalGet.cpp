@@ -117,17 +117,17 @@ CParseHandlerLogicalGet::EndElement
 
 	GPOS_ASSERT(NULL != pphTD->GetTableDescr());
 
-	CDXLTableDescr *pdxltabdesc = pphTD->GetTableDescr();
-	pdxltabdesc->AddRef();
+	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	table_descr->AddRef();
 
 	if (EdxltokenLogicalGet == token_type)
 	{
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalGet(m_memory_pool, pdxltabdesc));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalGet(m_memory_pool, table_descr));
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenLogicalExternalGet == token_type);
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalExternalGet(m_memory_pool, pdxltabdesc));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalExternalGet(m_memory_pool, table_descr));
 	}
 
 #ifdef GPOS_DEBUG

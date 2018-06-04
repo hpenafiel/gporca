@@ -51,7 +51,7 @@ namespace gpdxl
 			explicit
 			CDXLPhysicalTableScan(IMemoryPool *memory_pool);
 			
-			CDXLPhysicalTableScan(IMemoryPool *memory_pool, CDXLTableDescr *pdxltabdesc);
+			CDXLPhysicalTableScan(IMemoryPool *memory_pool, CDXLTableDescr *table_descr);
 			
 			// dtor
 			virtual

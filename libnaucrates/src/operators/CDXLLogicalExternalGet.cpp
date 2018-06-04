@@ -26,10 +26,10 @@ using namespace gpdxl;
 CDXLLogicalExternalGet::CDXLLogicalExternalGet
 	(
 	IMemoryPool *memory_pool,
-	CDXLTableDescr *pdxltabdesc
+	CDXLTableDescr *table_descr
 	)
 	:
-	CDXLLogicalGet(memory_pool, pdxltabdesc)
+	CDXLLogicalGet(memory_pool, table_descr)
 {}
 
 //---------------------------------------------------------------------------

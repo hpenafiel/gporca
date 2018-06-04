@@ -86,7 +86,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				const EdxlDmlType edxldmltype,
-				CDXLTableDescr *pdxltabdesc,
+				CDXLTableDescr *table_descr,
 				ULongPtrArray *pdrgpul,
 				ULONG ulAction,
 				ULONG ulOid,

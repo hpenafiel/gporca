@@ -170,9 +170,9 @@ CParseHandlerTableScan::EndElement
 	GPOS_ASSERT(NULL != pphTD->GetTableDescr());
 
 	// set table descriptor
-	CDXLTableDescr *pdxltabdesc = pphTD->GetTableDescr();
-	pdxltabdesc->AddRef();
-	m_dxl_op->SetTableDescriptor(pdxltabdesc);
+	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	table_descr->AddRef();
+	m_dxl_op->SetTableDescriptor(table_descr);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties

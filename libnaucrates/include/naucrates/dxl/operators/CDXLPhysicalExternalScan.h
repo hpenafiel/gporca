@@ -38,7 +38,7 @@ namespace gpdxl
 			explicit
 			CDXLPhysicalExternalScan(IMemoryPool *memory_pool);
 
-			CDXLPhysicalExternalScan(IMemoryPool *memory_pool, CDXLTableDescr *pdxltabdesc);
+			CDXLPhysicalExternalScan(IMemoryPool *memory_pool, CDXLTableDescr *table_descr);
 
 			// operator type
 			virtual

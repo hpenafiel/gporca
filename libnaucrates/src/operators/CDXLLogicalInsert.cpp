@@ -31,15 +31,15 @@ using namespace gpdxl;
 CDXLLogicalInsert::CDXLLogicalInsert
 	(
 	IMemoryPool *memory_pool,
-	CDXLTableDescr *pdxltabdesc,
+	CDXLTableDescr *table_descr,
 	ULongPtrArray *pdrgpul
 	)
 	:
 	CDXLLogical(memory_pool),
-	m_table_descr_dxl(pdxltabdesc),
+	m_table_descr_dxl(table_descr),
 	m_pdrgpul(pdrgpul)
 {
-	GPOS_ASSERT(NULL != pdxltabdesc);
+	GPOS_ASSERT(NULL != table_descr);
 	GPOS_ASSERT(NULL != pdrgpul);
 }
 
