@@ -262,7 +262,7 @@ namespace gpdxl
 			}
 
 			static
-			const CWStringConst *PstrJoinTypeName(EdxlJoinType );
+			const CWStringConst *GetJoinTypeNameStr(EdxlJoinType );
 
 			// Return the index scan direction
 			static

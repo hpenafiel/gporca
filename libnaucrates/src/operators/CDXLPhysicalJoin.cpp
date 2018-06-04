@@ -31,37 +31,37 @@ CDXLPhysicalJoin::CDXLPhysicalJoin
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_edxljt(edxljt)
+	m_join_type(edxljt)
 {
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalJoin::Edxltype
+//		CDXLPhysicalJoin::GetJoinType
 //
 //	@doc:
 //		Join type
 //
 //---------------------------------------------------------------------------
 EdxlJoinType
-CDXLPhysicalJoin::Edxltype() const
+CDXLPhysicalJoin::GetJoinType() const
 {
-	return m_edxljt;
+	return m_join_type;
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalJoin::PstrJoinTypeName
+//		CDXLPhysicalJoin::GetJoinTypeNameStr
 //
 //	@doc:
 //		Join type name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLPhysicalJoin::PstrJoinTypeName() const
+CDXLPhysicalJoin::GetJoinTypeNameStr() const
 {
-	return CDXLOperator::PstrJoinTypeName(m_edxljt);
+	return CDXLOperator::GetJoinTypeNameStr(m_join_type);
 }
 
 // EOF

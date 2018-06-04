@@ -87,7 +87,7 @@ CDXLPhysicalNLJoin::SerializeToDXL
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), PstrJoinTypeName());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), GetJoinTypeNameStr());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalNLJoinIndex), m_fIndexNLJ);
 
 
@@ -122,7 +122,7 @@ CDXLPhysicalNLJoin::AssertValid
 	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	GPOS_ASSERT(EdxlnljIndexSentinel == pdxln->Arity());
-	GPOS_ASSERT(EdxljtSentinel > Edxltype());
+	GPOS_ASSERT(EdxljtSentinel > GetJoinType());
 	
 	CDXLNode *pdxlnJoinFilter = (*pdxln)[EdxlnljIndexJoinFilter];
 	CDXLNode *pdxlnLeft = (*pdxln)[EdxlnljIndexLeftChild];

@@ -34,7 +34,7 @@ namespace gpdxl
 			CDXLLogicalJoin(CDXLLogicalJoin&);
 
 			// join type (inner, outer, ...)
-			EdxlJoinType m_edxljt;
+			EdxlJoinType m_join_type;
 
 		public:
 			// ctor/dtor
@@ -46,13 +46,13 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// join type
-			EdxlJoinType Edxltype() const;
+			EdxlJoinType GetJoinType() const;
 
-			const CWStringConst *PstrJoinTypeName() const;
+			const CWStringConst *GetJoinTypeNameStr() const;
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

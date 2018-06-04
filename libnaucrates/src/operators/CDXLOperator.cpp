@@ -46,14 +46,14 @@ CDXLOperator::~CDXLOperator()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperator::PstrJoinTypeName
+//		CDXLOperator::GetJoinTypeNameStr
 //
 //	@doc:
 //		Join type name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLOperator::PstrJoinTypeName
+CDXLOperator::GetJoinTypeNameStr
 	(
 	EdxlJoinType edxljt
 	)

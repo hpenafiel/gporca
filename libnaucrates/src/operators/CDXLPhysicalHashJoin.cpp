@@ -84,7 +84,7 @@ CDXLPhysicalHashJoin::SerializeToDXL
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), PstrJoinTypeName());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), GetJoinTypeNameStr());
 	
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -115,7 +115,7 @@ CDXLPhysicalHashJoin::AssertValid
 	CDXLPhysical::AssertValid(pdxln, validate_children);
 	
 	GPOS_ASSERT(EdxlhjIndexSentinel == pdxln->Arity());
-	GPOS_ASSERT(EdxljtSentinel > Edxltype());
+	GPOS_ASSERT(EdxljtSentinel > GetJoinType());
 	
 	CDXLNode *pdxlnJoinFilter = (*pdxln)[EdxlhjIndexJoinFilter];
 	CDXLNode *pdxlnHashClauses = (*pdxln)[EdxlhjIndexHashCondList];

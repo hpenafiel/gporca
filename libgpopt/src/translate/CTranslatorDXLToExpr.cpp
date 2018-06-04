@@ -1977,7 +1977,7 @@ CTranslatorDXLToExpr::PexprLogicalJoin
 	GPOS_ASSERT(NULL != pdxln);
 
 	CDXLLogicalJoin *pdxlopJoin = CDXLLogicalJoin::Cast(pdxln->GetOperator());
-	EdxlJoinType edxljt = pdxlopJoin->Edxltype();
+	EdxlJoinType edxljt = pdxlopJoin->GetJoinType();
 
 	if (EdxljtRight == edxljt)
 	{
@@ -1990,7 +1990,7 @@ CTranslatorDXLToExpr::PexprLogicalJoin
 				(
 				gpopt::ExmaGPOPT,
 				gpopt::ExmiUnsupportedOp,
-				CDXLOperator::PstrJoinTypeName(pdxlopJoin->Edxltype())->GetBuffer()
+				CDXLOperator::GetJoinTypeNameStr(pdxlopJoin->GetJoinType())->GetBuffer()
 				);
 	}
 
@@ -2033,7 +2033,7 @@ CTranslatorDXLToExpr::PexprRightOuterJoin
 	CDXLLogicalJoin *pdxlopJoin = CDXLLogicalJoin::Cast(pdxln->GetOperator());
 	const ULONG ulChildCount = pdxln->Arity();
 #endif //GPOS_DEBUG
-	GPOS_ASSERT(EdxljtRight == pdxlopJoin->Edxltype() && 3 == ulChildCount);
+	GPOS_ASSERT(EdxljtRight == pdxlopJoin->GetJoinType() && 3 == ulChildCount);
 
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
 	pdrgpexprChildren->Append(PexprLogical((*pdxln)[1]));
