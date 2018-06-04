@@ -38,7 +38,7 @@ namespace gpdxl
 			CDXLTableDescr *m_table_descr_dxl;
 
 			// list of source column ids		
-			ULongPtrArray *m_pdrgpul;
+			ULongPtrArray *m_src_colids_array;
 			
 			// private copy ctor
 			CDXLLogicalInsert(const CDXLLogicalInsert &);
@@ -46,7 +46,7 @@ namespace gpdxl
 		public:
 			
 			// ctor/dtor
-			CDXLLogicalInsert(IMemoryPool *memory_pool, CDXLTableDescr *table_descr, ULongPtrArray *pdrgpul);
+			CDXLLogicalInsert(IMemoryPool *memory_pool, CDXLTableDescr *table_descr, ULongPtrArray *src_colids_array);
 						
 			virtual
 			~CDXLLogicalInsert();
@@ -64,20 +64,20 @@ namespace gpdxl
 			}
 			
 			// source column ids
-			ULongPtrArray *Pdrgpul() const
+			ULongPtrArray *GetSrcColIdsArray() const
 			{
-				return m_pdrgpul;
+				return m_src_colids_array;
 			}
 			
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

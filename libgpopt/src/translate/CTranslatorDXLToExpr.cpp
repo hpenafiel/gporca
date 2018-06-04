@@ -1413,7 +1413,7 @@ CTranslatorDXLToExpr::PexprLogicalInsert
 
 	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopInsert->GetTableDescr());
 
-	ULongPtrArray *pdrgpulSourceCols = pdxlopInsert->Pdrgpul();
+	ULongPtrArray *pdrgpulSourceCols = pdxlopInsert->GetSrcColIdsArray();
 	DrgPcr *pdrgpcr = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulSourceCols);
 
 	return GPOS_NEW(m_memory_pool) CExpression
