@@ -57,7 +57,7 @@ namespace gpdxl
 			ULONG m_ulLevel;
 			
 			// steps since last check for aborts
-			ULONG m_ulIterLastCFA;
+			ULONG m_iteration_since_last_abortcheck;
 			
 			// private copy ctor
 			CXMLSerializer(const CXMLSerializer&);
@@ -84,7 +84,7 @@ namespace gpdxl
 				m_strstackElems(NULL),
 				m_fOpenTag(false),
 				m_ulLevel(0),
-				m_ulIterLastCFA(0)
+				m_iteration_since_last_abortcheck(0)
 			{
 				m_strstackElems = GPOS_NEW(m_memory_pool) StrStack(m_memory_pool);
 			}

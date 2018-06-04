@@ -81,21 +81,21 @@ CParseHandlerManagerTest::EresUnittest_Basic()
 	CParseHandlerHashJoin *pphHJ = GPOS_NEW(memory_pool) CParseHandlerHashJoin(memory_pool, parse_handler_mgr, pphPlan);
 	
 	parse_handler_mgr->ActivateParseHandler(pphPlan);
-	GPOS_ASSERT(pphPlan == parse_handler_mgr->PphCurrent());
+	GPOS_ASSERT(pphPlan == parse_handler_mgr->GetCurrentParseHandler());
 	GPOS_ASSERT(pphPlan == parser->getContentHandler());
 
 	parse_handler_mgr->ActivateParseHandler(pphHJ);
-	GPOS_ASSERT(pphHJ == parse_handler_mgr->PphCurrent());
+	GPOS_ASSERT(pphHJ == parse_handler_mgr->GetCurrentParseHandler());
 	GPOS_ASSERT(pphHJ == parser->getContentHandler());
 
 
 	parse_handler_mgr->DeactivateHandler();
-	GPOS_ASSERT(pphPlan == parse_handler_mgr->PphCurrent());
+	GPOS_ASSERT(pphPlan == parse_handler_mgr->GetCurrentParseHandler());
 	GPOS_ASSERT(pphPlan == parser->getContentHandler());
 	
 	parse_handler_mgr->DeactivateHandler();
 	// no more parse handlers
-	GPOS_ASSERT(NULL == parse_handler_mgr->PphCurrent());
+	GPOS_ASSERT(NULL == parse_handler_mgr->GetCurrentParseHandler());
 	GPOS_ASSERT(NULL == parser->getContentHandler());
 
 	// cleanup

@@ -67,12 +67,12 @@ CXMLSerializer::OpenElement
 {
 	GPOS_ASSERT(NULL != pstrElem);
 	
-	m_ulIterLastCFA++;
+	m_iteration_since_last_abortcheck++;
 	
-	if (GPDXL_SERIALIZE_CFA_FREQUENCY < m_ulIterLastCFA)
+	if (GPDXL_SERIALIZE_CFA_FREQUENCY < m_iteration_since_last_abortcheck)
 	{
 		GPOS_CHECK_ABORT;
-		m_ulIterLastCFA = 0;
+		m_iteration_since_last_abortcheck = 0;
 	}
 	
 	// put element on the stack

@@ -30,7 +30,7 @@ namespace gpdxl
 	class CDXLMemoryManager;
 	
 	// stack of parse handlers
-	typedef CStack<CParseHandlerBase> PHStack;
+	typedef CStack<CParseHandlerBase> ParseHandlerStack;
 	
 
 	//---------------------------------------------------------------------------
@@ -50,16 +50,16 @@ namespace gpdxl
 			CDXLMemoryManager *m_memory_manager_dxl;
 			
 			// parser object responsible for parsing the current XML document
-			SAX2XMLReader *m_pxmlreader;
+			SAX2XMLReader *m_xml_reader;
 			
 			// current parse handler
-			CParseHandlerBase *m_pphCurrent;
+			CParseHandlerBase *m_curr_parse_handler;
 			
 			// stack of parse handlers
-			PHStack *m_pphstack;
+			ParseHandlerStack *m_parse_handler_stack;
 		
 			// steps since last check for aborts
-			ULONG m_ulIterLastCFA;
+			ULONG m_iteration_since_last_abortcheck;
 			
 			// check for aborts at regular intervals
 			void CheckForAborts();
@@ -95,7 +95,7 @@ namespace gpdxl
 			// with this function call.
 			void ReplaceHandler
 				(
-				CParseHandlerBase *pphNew,
+				CParseHandlerBase *parse_handler_new,
 				CParseHandlerBase *parse_handler_root
 				);
 			
@@ -103,7 +103,7 @@ namespace gpdxl
 			void DeactivateHandler();
 			
 			// Returns the current parse handler if one exists; used for debugging purposes
-			const CParseHandlerBase *PphCurrent();
+			const CParseHandlerBase *GetCurrentParseHandler();
 			
 	};
 }

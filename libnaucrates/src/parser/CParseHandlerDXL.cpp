@@ -480,9 +480,9 @@ CParseHandlerDXL::FindParseHandler
 		{EdxlphScalarExpr, &CParseHandlerDXL::ExtractScalarExpr},
 	};
 
-	const ULONG ulParseHandlers = GPOS_ARRAY_SIZE(parse_element_type_func_map);
+	const ULONG num_of_parse_handler = GPOS_ARRAY_SIZE(parse_element_type_func_map);
 	ParseHandler parse_handler_func = NULL;
-	for (ULONG idx = 0; idx < ulParseHandlers; idx++)
+	for (ULONG idx = 0; idx < num_of_parse_handler; idx++)
 	{
 		SParseElem elem = parse_element_type_func_map[idx];
 		if (parse_handler_type == elem.parse_handler_type)

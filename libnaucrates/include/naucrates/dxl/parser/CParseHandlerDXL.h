@@ -156,7 +156,7 @@ namespace gpdxl
 
 			// check if given element name is valid for starting DXL document
 			static
-			BOOL IsValidStartElement(const XMLCh* const xmlszName);
+			BOOL IsValidStartElement(const XMLCh* const element_name);
 
 		public:
 			// ctor
