@@ -44,7 +44,7 @@ namespace gpdxl
 			ULONG m_ulPartIndexIdPrintable;
 
 			// index descriptor associated with the scanned table
-			CDXLIndexDescr *m_pdxlid;
+			CDXLIndexDescr *m_index_descr_dxl;
 
 			// scan direction of the index
 			EdxlIndexScanDirection m_edxlisd;
@@ -87,7 +87,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// index descriptor
-			const CDXLIndexDescr *Pdxlid() const;
+			const CDXLIndexDescr *GetIndexDescr() const;
 
 			//table descriptor
 			const CDXLTableDescr *Pdxltabdesc() const;

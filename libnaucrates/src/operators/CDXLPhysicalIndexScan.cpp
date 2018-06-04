@@ -36,11 +36,11 @@ CDXLPhysicalIndexScan::CDXLPhysicalIndexScan
 	:
 	CDXLPhysical(memory_pool),
 	m_pdxltabdesc(pdxltabdesc),
-	m_pdxlid(pdxlid),
+	m_index_descr_dxl(pdxlid),
 	m_edxlisd(edxlisd)
 {
 	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxlid);
+	GPOS_ASSERT(NULL != m_index_descr_dxl);
 }
 
 //---------------------------------------------------------------------------
@@ -53,7 +53,7 @@ CDXLPhysicalIndexScan::CDXLPhysicalIndexScan
 //---------------------------------------------------------------------------
 CDXLPhysicalIndexScan::~CDXLPhysicalIndexScan()
 {
-	m_pdxlid->Release();
+	m_index_descr_dxl->Release();
 	m_pdxltabdesc->Release();
 }
 
@@ -87,16 +87,16 @@ CDXLPhysicalIndexScan::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexScan::Pdxlid
+//		CDXLPhysicalIndexScan::GetIndexDescr
 //
 //	@doc:
 //		Index descriptor for the index scan
 //
 //---------------------------------------------------------------------------
 const CDXLIndexDescr *
-CDXLPhysicalIndexScan::Pdxlid() const
+CDXLPhysicalIndexScan::GetIndexDescr() const
 {
-	return m_pdxlid;
+	return m_index_descr_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -159,7 +159,7 @@ CDXLPhysicalIndexScan::SerializeToDXL
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize index descriptor
-	m_pdxlid->SerializeToDXL(xml_serializer);
+	m_index_descr_dxl->SerializeToDXL(xml_serializer);
 
 	// serialize table descriptor
 	m_pdxltabdesc->SerializeToDXL(xml_serializer);
@@ -191,9 +191,9 @@ CDXLPhysicalIndexScan::AssertValid
 	GPOS_ASSERT(3 == pdxln->Arity());
 
 	// assert validity of the index descriptor
-	GPOS_ASSERT(NULL != m_pdxlid);
-	GPOS_ASSERT(NULL != m_pdxlid->MdName());
-	GPOS_ASSERT(m_pdxlid->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_index_descr_dxl);
+	GPOS_ASSERT(NULL != m_index_descr_dxl->MdName());
+	GPOS_ASSERT(m_index_descr_dxl->MdName()->Pstr()->IsValid());
 
 	// assert validity of the table descriptor
 	GPOS_ASSERT(NULL != m_pdxltabdesc);

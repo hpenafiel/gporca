@@ -28,12 +28,12 @@ using namespace gpdxl;
 CDXLIndexDescr::CDXLIndexDescr
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname)
 {
 	GPOS_ASSERT(m_mdid->IsValid());

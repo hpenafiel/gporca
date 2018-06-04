@@ -203,7 +203,7 @@ CParseHandlerIndexScan::EndElementHelper
 	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
 	pdxltabdesc->AddRef();
 
-	CDXLIndexDescr *pdxlid = pphIdxD->Pdxlid();
+	CDXLIndexDescr *pdxlid = pphIdxD->GetIndexDescr();
 	pdxlid->AddRef();
 
 	CDXLPhysical *dxl_op = NULL;

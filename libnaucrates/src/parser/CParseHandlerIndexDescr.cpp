@@ -44,7 +44,7 @@ CParseHandlerIndexDescr::CParseHandlerIndexDescr
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlid(NULL)
+	m_index_descr_dxl(NULL)
 {
 }
 
@@ -58,21 +58,21 @@ CParseHandlerIndexDescr::CParseHandlerIndexDescr
 //---------------------------------------------------------------------------
 CParseHandlerIndexDescr::~CParseHandlerIndexDescr()
 {
-	CRefCount::SafeRelease(m_pdxlid);
+	CRefCount::SafeRelease(m_index_descr_dxl);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerIndexDescr::Pdxlid
+//		CParseHandlerIndexDescr::GetIndexDescr
 //
 //	@doc:
 //		Returns the index descriptor constructed by the parse handler
 //
 //---------------------------------------------------------------------------
 CDXLIndexDescr *
-CParseHandlerIndexDescr::Pdxlid()
+CParseHandlerIndexDescr::GetIndexDescr()
 {
-	return m_pdxlid;
+	return m_index_descr_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -99,7 +99,7 @@ CParseHandlerIndexDescr::StartElement
 	}
 
 	// generate the index descriptor
-	m_pdxlid = CDXLOperatorFactory::Pdxlid(m_parse_handler_mgr->Pmm(), attrs);
+	m_index_descr_dxl = CDXLOperatorFactory::GetIndexDescr(m_parse_handler_mgr->Pmm(), attrs);
 }
 
 //---------------------------------------------------------------------------

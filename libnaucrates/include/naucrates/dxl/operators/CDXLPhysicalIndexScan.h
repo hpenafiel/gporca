@@ -45,7 +45,7 @@ namespace gpdxl
 			CDXLTableDescr *m_pdxltabdesc;
 
 			// index descriptor associated with the scanned table
-			CDXLIndexDescr *m_pdxlid;
+			CDXLIndexDescr *m_index_descr_dxl;
 
 			// scan direction of the index
 			EdxlIndexScanDirection m_edxlisd;
@@ -78,7 +78,7 @@ namespace gpdxl
 
 			// index descriptor
 			virtual
-			const CDXLIndexDescr *Pdxlid() const;
+			const CDXLIndexDescr *GetIndexDescr() const;
 
 			//table descriptor
 			virtual

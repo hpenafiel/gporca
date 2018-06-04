@@ -36,7 +36,7 @@ namespace gpdxl
 	{
 		private:
 			// index descriptor associated with the scanned table
-			CDXLIndexDescr *m_pdxlid;
+			CDXLIndexDescr *m_index_descr_dxl;
 
 			// disable copy ctor
 			CDXLScalarBitmapIndexProbe(CDXLScalarBitmapIndexProbe &);
@@ -66,9 +66,9 @@ namespace gpdxl
 
 			// index descriptor
 			virtual
-			const CDXLIndexDescr *Pdxlid() const
+			const CDXLIndexDescr *GetIndexDescr() const
 			{
-				return m_pdxlid;
+				return m_index_descr_dxl;
 			}
 
 			// serialize operator in DXL format

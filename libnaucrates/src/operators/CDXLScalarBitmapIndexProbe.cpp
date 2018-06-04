@@ -34,9 +34,9 @@ CDXLScalarBitmapIndexProbe::CDXLScalarBitmapIndexProbe
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pdxlid(pdxlid)
+	m_index_descr_dxl(pdxlid)
 {
-	GPOS_ASSERT(NULL != m_pdxlid);
+	GPOS_ASSERT(NULL != m_index_descr_dxl);
 }
 
 //---------------------------------------------------------------------------
@@ -49,7 +49,7 @@ CDXLScalarBitmapIndexProbe::CDXLScalarBitmapIndexProbe
 //---------------------------------------------------------------------------
 CDXLScalarBitmapIndexProbe::~CDXLScalarBitmapIndexProbe()
 {
-	m_pdxlid->Release();
+	m_index_descr_dxl->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ CDXLScalarBitmapIndexProbe::SerializeToDXL
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize index descriptor
-	m_pdxlid->SerializeToDXL(xml_serializer);
+	m_index_descr_dxl->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
@@ -122,8 +122,8 @@ CDXLScalarBitmapIndexProbe::AssertValid
 	}
 
 	// assert validity of index descriptor
-	GPOS_ASSERT(NULL != m_pdxlid->MdName());
-	GPOS_ASSERT(m_pdxlid->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_index_descr_dxl->MdName());
+	GPOS_ASSERT(m_index_descr_dxl->MdName()->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

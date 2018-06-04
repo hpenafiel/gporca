@@ -38,7 +38,7 @@ namespace gpdxl
 		private:
 
 			// the index descriptor to construct
-			CDXLIndexDescr *m_pdxlid;
+			CDXLIndexDescr *m_index_descr_dxl;
 
 			// private copy ctor
 			CParseHandlerIndexDescr(const CParseHandlerIndexDescr &);
@@ -72,7 +72,7 @@ namespace gpdxl
 			//dtor
 			~CParseHandlerIndexDescr();
 
-			CDXLIndexDescr *Pdxlid();
+			CDXLIndexDescr *GetIndexDescr();
 
 	};
 }

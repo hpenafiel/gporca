@@ -1668,14 +1668,14 @@ CDXLOperatorFactory::Pdxltabdesc
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::Pdxlid
+//		CDXLOperatorFactory::GetIndexDescr
 //
 //	@doc:
 //		Construct an index descriptor
 //
 //---------------------------------------------------------------------------
 CDXLIndexDescr *
-CDXLOperatorFactory::Pdxlid
+CDXLOperatorFactory::GetIndexDescr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs

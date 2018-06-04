@@ -368,7 +368,7 @@ namespace gpdxl
 			
 			// create an index descriptor
 			static
-			CDXLIndexDescr *Pdxlid(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLIndexDescr *GetIndexDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a column descriptor object
 			static
