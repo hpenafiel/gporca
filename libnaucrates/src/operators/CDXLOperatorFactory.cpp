@@ -1619,14 +1619,14 @@ CDXLOperatorFactory::GetOperatorCostDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::Pdxltabdesc
+//		CDXLOperatorFactory::GetTableDescr
 //
 //	@doc:
 //		Construct a table descriptor
 //
 //---------------------------------------------------------------------------
 CDXLTableDescr *
-CDXLOperatorFactory::Pdxltabdesc
+CDXLOperatorFactory::GetTableDescr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs

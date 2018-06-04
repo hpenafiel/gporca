@@ -41,7 +41,7 @@ namespace gpdxl
 		private:
 		
 			// table descriptor for the scanned table
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 			
 			// private copy ctor
 			CDXLPhysicalTableScan(CDXLPhysicalTableScan&);
@@ -69,7 +69,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// table descriptor
-			const CDXLTableDescr *Pdxltabdesc();
+			const CDXLTableDescr *GetTableDescr();
 			
 			// serialize operator in DXL format
 			virtual

@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// target table descriptor
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 
 			// list of source column ids		
 			ULongPtrArray *m_pdrgpul;
@@ -58,9 +58,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// target table descriptor 
-			CDXLTableDescr *Pdxltabdesc() const
+			CDXLTableDescr *GetTableDescr() const
 			{
-				return m_pdxltabdesc;
+				return m_table_descr_dxl;
 			}
 			
 			// source column ids

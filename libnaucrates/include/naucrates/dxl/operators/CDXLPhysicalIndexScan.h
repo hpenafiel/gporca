@@ -42,7 +42,7 @@ namespace gpdxl
 		private:
 
 			// table descriptor for the scanned table
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 
 			// index descriptor associated with the scanned table
 			CDXLIndexDescr *m_index_descr_dxl;
@@ -82,7 +82,7 @@ namespace gpdxl
 
 			//table descriptor
 			virtual
-			const CDXLTableDescr *Pdxltabdesc() const;
+			const CDXLTableDescr *GetTableDescr() const;
 
 			// scan direction
 			virtual

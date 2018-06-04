@@ -38,9 +38,9 @@ CParseHandlerLogicalUpdate::CParseHandlerLogicalUpdate
 	)
 	:
 	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_ulCtid(0),
-	m_ulSegmentId(0),
-	m_pdrgpulDelete(NULL),
+	m_ctid_colid(0),
+	m_segid_colid(0),
+	m_deletion_colid_array(NULL),
 	m_pdrgpulInsert(NULL),
 	m_fPreserveOids(false),
 	m_ulTupleOidColId(0)
@@ -70,11 +70,11 @@ CParseHandlerLogicalUpdate::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	m_ulCtid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, EdxltokenLogicalUpdate);
-	m_ulSegmentId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalUpdate);
+	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, EdxltokenLogicalUpdate);
+	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalUpdate);
 
 	const XMLCh *xmlszDeleteColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
-	m_pdrgpulDelete = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszDeleteColIds, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
+	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszDeleteColIds, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *xmlszInsertColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenLogicalUpdate);
 	m_pdrgpulInsert = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenLogicalUpdate);
@@ -136,16 +136,16 @@ CParseHandlerLogicalUpdate::EndElement
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[0]);
 	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	GPOS_ASSERT(NULL != pphTabDesc->Pdxltabdesc());
+	GPOS_ASSERT(NULL != pphTabDesc->GetTableDescr());
 	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
 
-	CDXLTableDescr *pdxltabdesc = pphTabDesc->Pdxltabdesc();
+	CDXLTableDescr *pdxltabdesc = pphTabDesc->GetTableDescr();
 	pdxltabdesc->AddRef();
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode
 							(
 							m_memory_pool,
-							GPOS_NEW(m_memory_pool) CDXLLogicalUpdate(m_memory_pool, pdxltabdesc, m_ulCtid, m_ulSegmentId, m_pdrgpulDelete, m_pdrgpulInsert, m_fPreserveOids, m_ulTupleOidColId)
+							GPOS_NEW(m_memory_pool) CDXLLogicalUpdate(m_memory_pool, pdxltabdesc, m_ctid_colid, m_segid_colid, m_deletion_colid_array, m_pdrgpulInsert, m_fPreserveOids, m_ulTupleOidColId)
 							);
 
 	AddChildFromParseHandler(pphChild);

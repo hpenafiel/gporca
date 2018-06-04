@@ -35,16 +35,16 @@ namespace gpdxl
 		private:
 
 			// target table descriptor
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 
 			// ctid column id
-			ULONG m_ulCtid;
+			ULONG m_ctid_colid;
 
 			// segmentId column id
-			ULONG m_ulSegmentId;
+			ULONG m_segid_colid;
 
 			// list of deletion column ids
-			ULongPtrArray *m_pdrgpulDelete;
+			ULongPtrArray *m_deletion_colid_array;
 
 			// private copy ctor
 			CDXLLogicalDelete(const CDXLLogicalDelete &);
@@ -65,38 +65,38 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// target table descriptor
-			CDXLTableDescr *Pdxltabdesc() const
+			CDXLTableDescr *GetTableDescr() const
 			{
-				return m_pdxltabdesc;
+				return m_table_descr_dxl;
 			}
 
 			// ctid column
-			ULONG UlCtid() const
+			ULONG GetCtIdColId() const
 			{
-				return m_ulCtid;
+				return m_ctid_colid;
 			}
 
 			// segment id column
-			ULONG UlSegmentId() const
+			ULONG GetSegmentIdColId() const
 			{
-				return m_ulSegmentId;
+				return m_segid_colid;
 			}
 
 			// deletion column ids
-			ULongPtrArray *PdrgpulDelete() const
+			ULongPtrArray *GetDeletionColIdArray() const
 			{
-				return m_pdrgpulDelete;
+				return m_deletion_colid_array;
 			}
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

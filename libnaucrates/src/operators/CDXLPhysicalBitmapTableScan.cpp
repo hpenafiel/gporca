@@ -60,7 +60,7 @@ CDXLPhysicalBitmapTableScan::SerializeToDXL
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize table descriptor
-	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }

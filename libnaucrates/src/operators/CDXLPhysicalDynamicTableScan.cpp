@@ -36,7 +36,7 @@ CDXLPhysicalDynamicTableScan::CDXLPhysicalDynamicTableScan
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pdxltabdesc(pdxltabdesc),
+	m_table_descr_dxl(pdxltabdesc),
 	m_ulPartIndexId(ulPartIndexId),
 	m_ulPartIndexIdPrintable(ulPartIndexIdPrintable)
 {
@@ -54,7 +54,7 @@ CDXLPhysicalDynamicTableScan::CDXLPhysicalDynamicTableScan
 //---------------------------------------------------------------------------
 CDXLPhysicalDynamicTableScan::~CDXLPhysicalDynamicTableScan()
 {
-	m_pdxltabdesc->Release();
+	m_table_descr_dxl->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -88,16 +88,16 @@ CDXLPhysicalDynamicTableScan::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicTableScan::Pdxltabdesc
+//		CDXLPhysicalDynamicTableScan::GetTableDescr
 //
 //	@doc:
 //		Table descriptor for the table scan
 //
 //---------------------------------------------------------------------------
 const CDXLTableDescr *
-CDXLPhysicalDynamicTableScan::Pdxltabdesc() const
+CDXLPhysicalDynamicTableScan::GetTableDescr() const
 {
-	return m_pdxltabdesc;
+	return m_table_descr_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -154,7 +154,7 @@ CDXLPhysicalDynamicTableScan::SerializeToDXL
 	}
 	pdxln->SerializePropertiesToDXL(xml_serializer);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
 }
 
@@ -178,9 +178,9 @@ CDXLPhysicalDynamicTableScan::AssertValid
 	GPOS_ASSERT(2 == pdxln->Arity());
 	
 	// assert validity of table descriptor
-	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxltabdesc->MdName());
-	GPOS_ASSERT(m_pdxltabdesc->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_table_descr_dxl);
+	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
+	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

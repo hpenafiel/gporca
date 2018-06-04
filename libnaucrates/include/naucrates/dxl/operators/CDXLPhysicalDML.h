@@ -47,7 +47,7 @@ namespace gpdxl
 			const EdxlDmlType m_edxldmltype;
 
 			// target table descriptor
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 
 			// list of source column ids		
 			ULongPtrArray *m_pdrgpul;
@@ -59,10 +59,10 @@ namespace gpdxl
 			ULONG m_ulOid;
 
 			// ctid column id
-			ULONG m_ulCtid;
+			ULONG m_ctid_colid;
 
 			// segmentid column id
-			ULONG m_ulSegmentId;
+			ULONG m_segid_colid;
 
 			// should update preserve tuple oids
 			BOOL m_fPreserveOids;	
@@ -115,9 +115,9 @@ namespace gpdxl
 			}
 
 			// target table descriptor 
-			CDXLTableDescr *Pdxltabdesc() const
+			CDXLTableDescr *GetTableDescr() const
 			{
-				return m_pdxltabdesc;
+				return m_table_descr_dxl;
 			}
 			
 			// source column ids
@@ -139,15 +139,15 @@ namespace gpdxl
 			}
 
 			// ctid column id
-			ULONG UlCtid() const
+			ULONG GetCtIdColId() const
 			{
-				return m_ulCtid;
+				return m_ctid_colid;
 			}
 
 			// segmentid column id
-			ULONG UlSegmentId() const
+			ULONG GetSegmentIdColId() const
 			{
-				return m_ulSegmentId;
+				return m_segid_colid;
 			}
 			
 			// does update preserve oids

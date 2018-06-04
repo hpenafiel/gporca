@@ -45,12 +45,12 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	:
 	CDXLPhysical(memory_pool),
 	m_edxldmltype(edxldmltype),
-	m_pdxltabdesc(pdxltabdesc),
+	m_table_descr_dxl(pdxltabdesc),
 	m_pdrgpul(pdrgpul),
 	m_ulAction(ulAction),
 	m_ulOid(ulOid),
-	m_ulCtid(ulCtid),
-	m_ulSegmentId(ulSegmentId),
+	m_ctid_colid(ulCtid),
+	m_segid_colid(ulSegmentId),
 	m_fPreserveOids(fPreserveOids),
 	m_ulTupleOid(ulTupleOid),
 	m_direct_dispatch_info(dxl_direct_dispatch_info),
@@ -71,7 +71,7 @@ CDXLPhysicalDML::CDXLPhysicalDML
 //---------------------------------------------------------------------------
 CDXLPhysicalDML::~CDXLPhysicalDML()
 {
-	m_pdxltabdesc->Release();
+	m_table_descr_dxl->Release();
 	m_pdrgpul->Release();
 	CRefCount::SafeRelease(m_direct_dispatch_info);
 }
@@ -139,8 +139,8 @@ CDXLPhysicalDML::SerializeToDXL
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenActionColId), m_ulAction);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOidColId), m_ulOid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ulCtid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_ulSegmentId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ctid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_segid_colid);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputSorted), m_fInputSorted);
 	
 	if (Edxldmlupdate == m_edxldmltype)
@@ -170,7 +170,7 @@ CDXLPhysicalDML::SerializeToDXL
 	(*pdxln)[0]->SerializeToDXL(xml_serializer);
 
 	// serialize table descriptor
-	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	
 	// serialize physical child
 	(*pdxln)[1]->SerializeToDXL(xml_serializer);

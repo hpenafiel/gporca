@@ -35,16 +35,16 @@ namespace gpdxl
 		private:
 
 			// target table descriptor
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 
 			// ctid column id
-			ULONG m_ulCtid;
+			ULONG m_ctid_colid;
 
 			// segmentId column id
-			ULONG m_ulSegmentId;
+			ULONG m_segid_colid;
 
 			// list of deletion column ids
-			ULongPtrArray *m_pdrgpulDelete;
+			ULongPtrArray *m_deletion_colid_array;
 
 			// list of insertion column ids
 			ULongPtrArray *m_pdrgpulInsert;
@@ -84,27 +84,27 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// target table descriptor
-			CDXLTableDescr *Pdxltabdesc() const
+			CDXLTableDescr *GetTableDescr() const
 			{
-				return m_pdxltabdesc;
+				return m_table_descr_dxl;
 			}
 
 			// ctid column id
-			ULONG UlCtid() const
+			ULONG GetCtIdColId() const
 			{
-				return m_ulCtid;
+				return m_ctid_colid;
 			}
 
 			// segmentid column id
-			ULONG UlSegmentId() const
+			ULONG GetSegmentIdColId() const
 			{
-				return m_ulSegmentId;
+				return m_segid_colid;
 			}
 
 			// deletion column ids
-			ULongPtrArray *PdrgpulDelete() const
+			ULongPtrArray *GetDeletionColIdArray() const
 			{
-				return m_pdrgpulDelete;
+				return m_deletion_colid_array;
 			}
 
 			// insertion column ids

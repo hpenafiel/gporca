@@ -536,7 +536,7 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	Edxlopid edxlopid = dxl_op->GetDXLOperator();
 
 	// translate the table descriptor
-	CDXLTableDescr *pdxltabdesc = CDXLLogicalGet::Cast(dxl_op)->Pdxltabdesc();
+	CDXLTableDescr *pdxltabdesc = CDXLLogicalGet::Cast(dxl_op)->GetTableDescr();
 
 	GPOS_ASSERT(NULL != pdxltabdesc);
 	GPOS_ASSERT(NULL != pdxltabdesc->MdName()->Pstr());
@@ -1411,7 +1411,7 @@ CTranslatorDXLToExpr::PexprLogicalInsert
 	CDXLNode *child_dxlnode = (*pdxln)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopInsert->Pdxltabdesc());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopInsert->GetTableDescr());
 
 	ULongPtrArray *pdrgpulSourceCols = pdxlopInsert->Pdrgpul();
 	DrgPcr *pdrgpcr = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulSourceCols);
@@ -1445,15 +1445,15 @@ CTranslatorDXLToExpr::PexprLogicalDelete
 	CDXLNode *child_dxlnode = (*pdxln)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopDelete->Pdxltabdesc());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopDelete->GetTableDescr());
 
-	ULONG ulCtid = pdxlopDelete->UlCtid();
-	ULONG ulSegmentId = pdxlopDelete->UlSegmentId();
+	ULONG ulCtid = pdxlopDelete->GetCtIdColId();
+	ULONG ulSegmentId = pdxlopDelete->GetSegmentIdColId();
 
 	CColRef *pcrCtid = PcrLookup(m_phmulcr, ulCtid);
 	CColRef *pcrSegmentId = PcrLookup(m_phmulcr, ulSegmentId);
 
-	ULongPtrArray *pdrgpulCols = pdxlopDelete->PdrgpulDelete();
+	ULongPtrArray *pdrgpulCols = pdxlopDelete->GetDeletionColIdArray();
 	DrgPcr *pdrgpcr = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulCols);
 
 	return GPOS_NEW(m_memory_pool) CExpression
@@ -1485,10 +1485,10 @@ CTranslatorDXLToExpr::PexprLogicalUpdate
 	CDXLNode *child_dxlnode = (*pdxln)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopUpdate->Pdxltabdesc());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopUpdate->GetTableDescr());
 
-	ULONG ulCtid = pdxlopUpdate->UlCtid();
-	ULONG ulSegmentId = pdxlopUpdate->UlSegmentId();
+	ULONG ulCtid = pdxlopUpdate->GetCtIdColId();
+	ULONG ulSegmentId = pdxlopUpdate->GetSegmentIdColId();
 
 	CColRef *pcrCtid = PcrLookup(m_phmulcr, ulCtid);
 	CColRef *pcrSegmentId = PcrLookup(m_phmulcr, ulSegmentId);
@@ -1496,7 +1496,7 @@ CTranslatorDXLToExpr::PexprLogicalUpdate
 	ULongPtrArray *pdrgpulInsertCols = pdxlopUpdate->PdrgpulInsert();
 	DrgPcr *pdrgpcrInsert = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulInsertCols);
 
-	ULongPtrArray *pdrgpulDeleteCols = pdxlopUpdate->PdrgpulDelete();
+	ULongPtrArray *pdrgpulDeleteCols = pdxlopUpdate->GetDeletionColIdArray();
 	DrgPcr *pdrgpcrDelete = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulDeleteCols);
 
 	CColRef *pcrTupleOid = NULL;

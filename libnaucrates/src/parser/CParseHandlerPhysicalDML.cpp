@@ -46,8 +46,8 @@ CParseHandlerPhysicalDML::CParseHandlerPhysicalDML
 	m_pdrgpul(NULL),
 	m_ulAction(0),
 	m_ulOid(0),
-	m_ulCtid(0),
-	m_ulSegmentId(0),	
+	m_ctid_colid(0),
+	m_segid_colid(0),	
 	m_fPreserveOids(false),
 	m_ulTupleOidColId(0),
 	m_fInputSorted(false)
@@ -96,8 +96,8 @@ CParseHandlerPhysicalDML::StartElement
 	
 	m_ulAction = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenActionColId, token_type);
 	m_ulOid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenOidColId, token_type);
-	m_ulCtid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, token_type);
-	m_ulSegmentId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGpSegmentIdColId, token_type);
+	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, token_type);
+	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGpSegmentIdColId, token_type);
 
 	const XMLCh *xmlszPreserveOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != xmlszPreserveOids)
@@ -192,8 +192,8 @@ CParseHandlerPhysicalDML::EndElement
 	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
 
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
-	GPOS_ASSERT(NULL != pphTabDesc->Pdxltabdesc());
-	CDXLTableDescr *pdxltabdesc = pphTabDesc->Pdxltabdesc();
+	GPOS_ASSERT(NULL != pphTabDesc->GetTableDescr());
+	CDXLTableDescr *pdxltabdesc = pphTabDesc->GetTableDescr();
 	pdxltabdesc->AddRef();
 
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
@@ -201,7 +201,7 @@ CParseHandlerPhysicalDML::EndElement
 
 	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatch->GetDXLDirectDispatchInfo();
 	dxl_direct_dispatch_info->AddRef();
-	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ulCtid, m_ulSegmentId, m_fPreserveOids, m_ulTupleOidColId, dxl_direct_dispatch_info, m_fInputSorted);
+	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, pdxltabdesc, m_pdrgpul, m_ulAction, m_ulOid, m_ctid_colid, m_segid_colid, m_fPreserveOids, m_ulTupleOidColId, dxl_direct_dispatch_info, m_fInputSorted);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	
 	// set statistics and physical properties

@@ -37,13 +37,13 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pdxltabdesc(pdxltabdesc),
+	m_table_descr_dxl(pdxltabdesc),
 	m_ulPartIndexId(ulPartIndexId),
 	m_ulPartIndexIdPrintable(ulPartIndexIdPrintable),
 	m_index_descr_dxl(pdxlid),
 	m_edxlisd(edxlisd)
 {
-	GPOS_ASSERT(NULL != m_pdxltabdesc);
+	GPOS_ASSERT(NULL != m_table_descr_dxl);
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
 }
 
@@ -58,7 +58,7 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 CDXLPhysicalDynamicIndexScan::~CDXLPhysicalDynamicIndexScan()
 {
 	m_index_descr_dxl->Release();
-	m_pdxltabdesc->Release();
+	m_table_descr_dxl->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -119,16 +119,16 @@ CDXLPhysicalDynamicIndexScan::EdxlScanDirection() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicIndexScan::Pdxltabdesc
+//		CDXLPhysicalDynamicIndexScan::GetTableDescr
 //
 //	@doc:
 //		Return the associated table descriptor
 //
 //---------------------------------------------------------------------------
 const CDXLTableDescr *
-CDXLPhysicalDynamicIndexScan::Pdxltabdesc() const
+CDXLPhysicalDynamicIndexScan::GetTableDescr() const
 {
-	return m_pdxltabdesc;
+	return m_table_descr_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -200,7 +200,7 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	m_index_descr_dxl->SerializeToDXL(xml_serializer);
 
 	// serialize table descriptor
-	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
@@ -234,9 +234,9 @@ CDXLPhysicalDynamicIndexScan::AssertValid
 	GPOS_ASSERT(m_index_descr_dxl->MdName()->Pstr()->IsValid());
 
 	// assert validity of the table descriptor
-	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxltabdesc->MdName());
-	GPOS_ASSERT(m_pdxltabdesc->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_table_descr_dxl);
+	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
+	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
 
 	CDXLNode *pdxlnIndexFilter = (*pdxln)[EdxldisIndexFilter];
 	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxldisIndexCondition];

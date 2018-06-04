@@ -39,11 +39,11 @@ CDXLPhysicalSplit::CDXLPhysicalSplit
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pdrgpulDelete(pdrgpulDelete),
+	m_deletion_colid_array(pdrgpulDelete),
 	m_pdrgpulInsert(pdrgpulInsert),
 	m_ulAction(ulAction),
-	m_ulCtid(ulCtid),
-	m_ulSegmentId(ulSegmentId),
+	m_ctid_colid(ulCtid),
+	m_segid_colid(ulSegmentId),
 	m_fPreserveOids(fPreserveOids),
 	m_ulTupleOid(ulTupleOid)
 {
@@ -61,7 +61,7 @@ CDXLPhysicalSplit::CDXLPhysicalSplit
 //---------------------------------------------------------------------------
 CDXLPhysicalSplit::~CDXLPhysicalSplit()
 {
-	m_pdrgpulDelete->Release();
+	m_deletion_colid_array->Release();
 	m_pdrgpulInsert->Release();
 }
 
@@ -112,7 +112,7 @@ CDXLPhysicalSplit::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
-	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDelete);
+	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_deletion_colid_array);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDeleteCols), pstrColsDel);
 	GPOS_DELETE(pstrColsDel);
 
@@ -121,8 +121,8 @@ CDXLPhysicalSplit::SerializeToDXL
 	GPOS_DELETE(pstrColsIns);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenActionColId), m_ulAction);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ulCtid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_ulSegmentId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ctid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_segid_colid);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_fPreserveOids);
 

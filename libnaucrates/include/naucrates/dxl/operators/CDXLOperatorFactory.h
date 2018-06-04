@@ -364,7 +364,7 @@ namespace gpdxl
 			
 			// create a table descriptor element
 			static
-			CDXLTableDescr *Pdxltabdesc(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLTableDescr *GetTableDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create an index descriptor
 			static

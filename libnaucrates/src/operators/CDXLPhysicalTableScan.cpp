@@ -32,7 +32,7 @@ CDXLPhysicalTableScan::CDXLPhysicalTableScan
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pdxltabdesc(NULL)
+	m_table_descr_dxl(NULL)
 {
 }
 
@@ -51,7 +51,7 @@ CDXLPhysicalTableScan::CDXLPhysicalTableScan
 	CDXLTableDescr *pdxltabdesc
 	)
 	:CDXLPhysical(memory_pool),
-	 m_pdxltabdesc(pdxltabdesc)
+	 m_table_descr_dxl(pdxltabdesc)
 {
 }
 
@@ -66,7 +66,7 @@ CDXLPhysicalTableScan::CDXLPhysicalTableScan
 //---------------------------------------------------------------------------
 CDXLPhysicalTableScan::~CDXLPhysicalTableScan()
 {
-	CRefCount::SafeRelease(m_pdxltabdesc);
+	CRefCount::SafeRelease(m_table_descr_dxl);
 }
 
 
@@ -85,9 +85,9 @@ CDXLPhysicalTableScan::SetTableDescriptor
 	)
 {
 	// allow setting table descriptor only once
-	GPOS_ASSERT (NULL == m_pdxltabdesc);
+	GPOS_ASSERT (NULL == m_table_descr_dxl);
 	
-	m_pdxltabdesc = pdxltabdesc;
+	m_table_descr_dxl = pdxltabdesc;
 }
 
 //---------------------------------------------------------------------------
@@ -121,16 +121,16 @@ CDXLPhysicalTableScan::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalTableScan::Pdxltabdesc
+//		CDXLPhysicalTableScan::GetTableDescr
 //
 //	@doc:
 //		Table descriptor for the table scan
 //
 //---------------------------------------------------------------------------
 const CDXLTableDescr *
-CDXLPhysicalTableScan::Pdxltabdesc()
+CDXLPhysicalTableScan::GetTableDescr()
 {
-	return m_pdxltabdesc;
+	return m_table_descr_dxl;
 }
 
 
@@ -161,7 +161,7 @@ CDXLPhysicalTableScan::SerializeToDXL
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
 	// serialize table descriptor
-	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
 }
@@ -190,9 +190,9 @@ CDXLPhysicalTableScan::AssertValid
 	GPOS_ASSERT(2 == pdxln->Arity());
 	
 	// assert validity of table descriptor
-	GPOS_ASSERT(NULL != m_pdxltabdesc);
-	GPOS_ASSERT(NULL != m_pdxltabdesc->MdName());
-	GPOS_ASSERT(m_pdxltabdesc->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(NULL != m_table_descr_dxl);
+	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
+	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
 }
 #endif // GPOS_DEBUG
 

@@ -167,10 +167,10 @@ CParseHandlerTableScan::EndElement
 	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
 
-	GPOS_ASSERT(NULL != pphTD->Pdxltabdesc());
+	GPOS_ASSERT(NULL != pphTD->GetTableDescr());
 
 	// set table descriptor
-	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
+	CDXLTableDescr *pdxltabdesc = pphTD->GetTableDescr();
 	pdxltabdesc->AddRef();
 	m_dxl_op->SetTableDescriptor(pdxltabdesc);
 

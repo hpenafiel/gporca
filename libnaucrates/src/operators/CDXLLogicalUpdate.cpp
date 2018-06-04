@@ -41,10 +41,10 @@ CDXLLogicalUpdate::CDXLLogicalUpdate
 	)
 	:
 	CDXLLogical(memory_pool),
-	m_pdxltabdesc(pdxltabdesc),
-	m_ulCtid(ulCtid),
-	m_ulSegmentId(ulSegmentId),
-	m_pdrgpulDelete(pdrgpulDelete),
+	m_table_descr_dxl(pdxltabdesc),
+	m_ctid_colid(ulCtid),
+	m_segid_colid(ulSegmentId),
+	m_deletion_colid_array(pdrgpulDelete),
 	m_pdrgpulInsert(pdrgpulInsert),
 	m_fPreserveOids(fPreserveOids),
 	m_ulTupleOid(ulTupleOid)
@@ -64,8 +64,8 @@ CDXLLogicalUpdate::CDXLLogicalUpdate
 //---------------------------------------------------------------------------
 CDXLLogicalUpdate::~CDXLLogicalUpdate()
 {
-	m_pdxltabdesc->Release();
-	m_pdrgpulDelete->Release();
+	m_table_descr_dxl->Release();
+	m_deletion_colid_array->Release();
 	m_pdrgpulInsert->Release();
 }
 
@@ -116,7 +116,7 @@ CDXLLogicalUpdate::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
-	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDelete);
+	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_deletion_colid_array);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDeleteCols), pstrColsDel);
 	GPOS_DELETE(pstrColsDel);
 
@@ -124,8 +124,8 @@ CDXLLogicalUpdate::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrColsIns);
 	GPOS_DELETE(pstrColsIns);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ulCtid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_ulSegmentId);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ctid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_segid_colid);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_fPreserveOids);
 	
 	if (m_fPreserveOids)
@@ -133,7 +133,7 @@ CDXLLogicalUpdate::SerializeToDXL
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_ulTupleOid);
 	}
 	
-	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);

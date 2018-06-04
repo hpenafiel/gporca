@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// deletion col ids
-			ULongPtrArray *m_pdrgpulDelete;
+			ULongPtrArray *m_deletion_colid_array;
 
 			// insertion col ids
 			ULongPtrArray *m_pdrgpulInsert;
@@ -44,10 +44,10 @@ namespace gpdxl
 			ULONG m_ulAction;
 
 			// ctid column id
-			ULONG m_ulCtid;
+			ULONG m_ctid_colid;
 
 			// segmentId column id
-			ULONG m_ulSegmentId;
+			ULONG m_segid_colid;
 
 			// does update preserve oids
 			BOOL m_fPreserveOids;

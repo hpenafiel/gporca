@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// list of deletion column ids
-			ULongPtrArray *m_pdrgpulDelete;
+			ULongPtrArray *m_deletion_colid_array;
 
 			// list of insertion column ids
 			ULongPtrArray *m_pdrgpulInsert;
@@ -44,10 +44,10 @@ namespace gpdxl
 			ULONG m_ulAction;
 
 			// ctid column id
-			ULONG m_ulCtid;
+			ULONG m_ctid_colid;
 
 			// segmentid column id
-			ULONG m_ulSegmentId;
+			ULONG m_segid_colid;
 
 			// should update preserve tuple oids
 			BOOL m_fPreserveOids;	
@@ -84,9 +84,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// deletion column ids
-			ULongPtrArray *PdrgpulDelete() const
+			ULongPtrArray *GetDeletionColIdArray() const
 			{
-				return m_pdrgpulDelete;
+				return m_deletion_colid_array;
 			}
 
 			// insertion column ids
@@ -102,15 +102,15 @@ namespace gpdxl
 			}
 
 			// ctid column id
-			ULONG UlCtid() const
+			ULONG GetCtIdColId() const
 			{
-				return m_ulCtid;
+				return m_ctid_colid;
 			}
 
 			// segmentid column id
-			ULONG UlSegmentId() const
+			ULONG GetSegmentIdColId() const
 			{
-				return m_ulSegmentId;
+				return m_segid_colid;
 			}
 			
 			// does update preserve oids

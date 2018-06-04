@@ -115,9 +115,9 @@ CParseHandlerLogicalGet::EndElement
 
 	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr*>((*this)[0]);
 
-	GPOS_ASSERT(NULL != pphTD->Pdxltabdesc());
+	GPOS_ASSERT(NULL != pphTD->GetTableDescr());
 
-	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
+	CDXLTableDescr *pdxltabdesc = pphTD->GetTableDescr();
 	pdxltabdesc->AddRef();
 
 	if (EdxltokenLogicalGet == token_type)

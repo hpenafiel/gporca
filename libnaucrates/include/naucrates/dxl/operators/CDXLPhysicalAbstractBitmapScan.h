@@ -51,7 +51,7 @@ namespace gpdxl
 
 		protected:
 			// table descriptor for the scanned table
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 
 		public:
 			// ctor
@@ -62,7 +62,7 @@ namespace gpdxl
 				)
 				:
 				CDXLPhysical(memory_pool),
-				m_pdxltabdesc(pdxltabdesc)
+				m_table_descr_dxl(pdxltabdesc)
 			{
 				GPOS_ASSERT(NULL != pdxltabdesc);
 			}
@@ -72,9 +72,9 @@ namespace gpdxl
 			~CDXLPhysicalAbstractBitmapScan();
 
 			// table descriptor
-			const CDXLTableDescr *Pdxltabdesc()
+			const CDXLTableDescr *GetTableDescr()
 			{
-				return m_pdxltabdesc;
+				return m_table_descr_dxl;
 			}
 
 #ifdef GPOS_DEBUG

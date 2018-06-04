@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// table descriptor for the scanned table
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 
 			// part index id
 			ULONG m_ulPartIndexId;
@@ -90,7 +90,7 @@ namespace gpdxl
 			const CDXLIndexDescr *GetIndexDescr() const;
 
 			//table descriptor
-			const CDXLTableDescr *Pdxltabdesc() const;
+			const CDXLTableDescr *GetTableDescr() const;
 
 			// partition index id
 			ULONG UlPartIndexId() const;

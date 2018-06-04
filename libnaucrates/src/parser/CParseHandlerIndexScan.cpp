@@ -200,7 +200,7 @@ CParseHandlerIndexScan::EndElementHelper
 	CParseHandlerIndexDescr *pphIdxD = dynamic_cast<CParseHandlerIndexDescr *>((*this)[4]);
 	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr *>((*this)[5]);
 
-	CDXLTableDescr *pdxltabdesc = pphTD->Pdxltabdesc();
+	CDXLTableDescr *pdxltabdesc = pphTD->GetTableDescr();
 	pdxltabdesc->AddRef();
 
 	CDXLIndexDescr *pdxlid = pphIdxD->GetIndexDescr();

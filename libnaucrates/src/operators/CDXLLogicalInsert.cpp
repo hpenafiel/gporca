@@ -36,7 +36,7 @@ CDXLLogicalInsert::CDXLLogicalInsert
 	)
 	:
 	CDXLLogical(memory_pool),
-	m_pdxltabdesc(pdxltabdesc),
+	m_table_descr_dxl(pdxltabdesc),
 	m_pdrgpul(pdrgpul)
 {
 	GPOS_ASSERT(NULL != pdxltabdesc);
@@ -53,7 +53,7 @@ CDXLLogicalInsert::CDXLLogicalInsert
 //---------------------------------------------------------------------------
 CDXLLogicalInsert::~CDXLLogicalInsert()
 {
-	m_pdxltabdesc->Release();
+	m_table_descr_dxl->Release();
 	m_pdrgpul->Release();
 }
 
@@ -109,7 +109,7 @@ CDXLLogicalInsert::SerializeToDXL
 	GPOS_DELETE(pstrCols);
 
 	// serialize table descriptor
-	m_pdxltabdesc->SerializeToDXL(xml_serializer);
+	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	
 	// serialize arguments
 	pdxln->SerializeChildrenToDXL(xml_serializer);

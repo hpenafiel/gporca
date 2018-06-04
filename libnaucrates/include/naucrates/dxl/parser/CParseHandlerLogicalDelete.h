@@ -35,13 +35,13 @@ namespace gpdxl
 		private:
 
 			// ctid column id
-			ULONG m_ulCtid;
+			ULONG m_ctid_colid;
 
 			// segmentId column id
-			ULONG m_ulSegmentId;
+			ULONG m_segid_colid;
 
 			// delete col ids
-			ULongPtrArray *m_pdrgpulDelete;
+			ULongPtrArray *m_deletion_colid_array;
 
 			// private copy ctor
 			CParseHandlerLogicalDelete(const CParseHandlerLogicalDelete &);

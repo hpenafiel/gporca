@@ -39,7 +39,7 @@ CParseHandlerTableDescr::CParseHandlerTableDescr
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxltabdesc(NULL)
+	m_table_descr_dxl(NULL)
 {
 }
 
@@ -53,21 +53,21 @@ CParseHandlerTableDescr::CParseHandlerTableDescr
 //---------------------------------------------------------------------------
 CParseHandlerTableDescr::~CParseHandlerTableDescr()
 {
-	CRefCount::SafeRelease(m_pdxltabdesc);
+	CRefCount::SafeRelease(m_table_descr_dxl);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerTableDescr::Pdxltabdesc
+//		CParseHandlerTableDescr::GetTableDescr
 //
 //	@doc:
 //		Returns the table descriptor constructed by the parse handler
 //
 //---------------------------------------------------------------------------
 CDXLTableDescr *
-CParseHandlerTableDescr::Pdxltabdesc()
+CParseHandlerTableDescr::GetTableDescr()
 {
-	return m_pdxltabdesc;
+	return m_table_descr_dxl;
 }
 
 //---------------------------------------------------------------------------
@@ -94,7 +94,7 @@ CParseHandlerTableDescr::StartElement
 	}
 	
 	// parse table name from attributes
-	m_pdxltabdesc = CDXLOperatorFactory::Pdxltabdesc(m_parse_handler_mgr->Pmm(), attrs);
+	m_table_descr_dxl = CDXLOperatorFactory::GetTableDescr(m_parse_handler_mgr->Pmm(), attrs);
 		
 	// install column descriptor parsers
 	CParseHandlerBase *pphColDescr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
@@ -137,7 +137,7 @@ CParseHandlerTableDescr::EndElement
 	
 	ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
 	pdrgpdxlcd->AddRef();
-	m_pdxltabdesc->SetColumnDescriptors(pdrgpdxlcd);
+	m_table_descr_dxl->SetColumnDescriptors(pdrgpdxlcd);
 			
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

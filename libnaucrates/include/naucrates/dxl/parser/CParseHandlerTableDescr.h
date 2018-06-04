@@ -38,7 +38,7 @@ namespace gpdxl
 		private:
 
 			// the table descriptor to construct
-			CDXLTableDescr *m_pdxltabdesc;
+			CDXLTableDescr *m_table_descr_dxl;
 				
 			// private copy ctor
 			CParseHandlerTableDescr(const CParseHandlerTableDescr &);
@@ -71,7 +71,7 @@ namespace gpdxl
 			
 			~CParseHandlerTableDescr();
 		
-			CDXLTableDescr *Pdxltabdesc();
+			CDXLTableDescr *GetTableDescr();
 			
 	};
 }
