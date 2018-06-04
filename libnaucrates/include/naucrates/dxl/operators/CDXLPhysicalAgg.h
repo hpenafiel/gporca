@@ -83,7 +83,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 			const CWStringConst *PstrAggStrategy() const;
 			const CWStringConst *PstrAggLevel() const;
-			const ULongPtrArray *PdrgpulGroupingCols() const;
+			const ULongPtrArray *GetGroupingColidArray() const;
 			
 			// set grouping column indices
 			void SetGroupingCols(ULongPtrArray *);

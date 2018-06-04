@@ -67,26 +67,26 @@ CParseHandlerLogicalGroupBy::StartElement
 		// create child node parsers
 
 		// parse handler for logical operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *lg_op_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(lg_op_parse_handler);
 
 		// parse handler for the proj list
-		CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphPrL);
+		CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 
 		//parse handler for the grouping columns list
-		CParseHandlerBase *pphGrpCollList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphGrpCollList);
+		CParseHandlerBase *grouping_col_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(grouping_col_list_parse_handler);
 
 		// store child parse handler in array
-		this->Append(pphGrpCollList);
-		this->Append(pphPrL);
-		this->Append(pphChild);
+		this->Append(grouping_col_list_parse_handler);
+		this->Append(proj_list_parse_handler);
+		this->Append(lg_op_parse_handler);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 
@@ -115,28 +115,28 @@ CParseHandlerLogicalGroupBy::EndElement
 	GPOS_ASSERT(NULL != m_dxl_node );
 	GPOS_ASSERT(3 == this->Length());
 
-	CParseHandlerGroupingColList *pphGrpCollList = dynamic_cast<CParseHandlerGroupingColList*>((*this)[0]);
-	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[2]);
+	CParseHandlerGroupingColList *grouping_col_parse_handler = dynamic_cast<CParseHandlerGroupingColList*>((*this)[0]);
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
+	CParseHandlerLogicalOp *lg_op_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[2]);
 
-	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
-	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
+	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
+	GPOS_ASSERT(NULL != lg_op_parse_handler->CreateDXLNode());
 
-	AddChildFromParseHandler(pphPrL);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(proj_list_parse_handler);
+	AddChildFromParseHandler(lg_op_parse_handler);
 
-	CDXLLogicalGroupBy *pdxlopGrpby = static_cast<CDXLLogicalGroupBy*>(m_dxl_node->GetOperator());
+	CDXLLogicalGroupBy *lg_group_by_dxl = static_cast<CDXLLogicalGroupBy*>(m_dxl_node->GetOperator());
 
 	// set grouping cols list
-	GPOS_ASSERT(NULL != pphGrpCollList->PdrgpulGroupingCols());
+	GPOS_ASSERT(NULL != grouping_col_parse_handler->GetGroupingColidArray());
 
-	ULongPtrArray *pdrgpul = pphGrpCollList->PdrgpulGroupingCols();
-	pdrgpul->AddRef();
-	pdxlopGrpby->SetGroupingColumns(pdrgpul);
+	ULongPtrArray *grouping_col_array = grouping_col_parse_handler->GetGroupingColidArray();
+	grouping_col_array->AddRef();
+	lg_group_by_dxl->SetGroupingColumns(grouping_col_array);
 
 
 #ifdef GPOS_DEBUG
-	pdxlopGrpby->AssertValid(m_dxl_node, false /* validate_children */);
+	lg_group_by_dxl->AssertValid(m_dxl_node, false /* validate_children */);
 #endif // GPOS_DEBUG
 
 	// deactivate handler

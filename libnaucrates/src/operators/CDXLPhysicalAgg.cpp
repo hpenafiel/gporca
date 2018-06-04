@@ -127,14 +127,14 @@ CDXLPhysicalAgg::PstrAggStrategy() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAgg::PdrgpulGroupingCols
+//		CDXLPhysicalAgg::GetGroupingColidArray
 //
 //	@doc:
 //		Grouping column indices
 //
 //---------------------------------------------------------------------------
 const ULongPtrArray *
-CDXLPhysicalAgg::PdrgpulGroupingCols() const
+CDXLPhysicalAgg::GetGroupingColidArray() const
 {
 	return m_pdrgpulGroupingCols; 
 }

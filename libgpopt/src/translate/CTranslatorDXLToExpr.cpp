@@ -1576,7 +1576,7 @@ CTranslatorDXLToExpr::PexprLogicalGroupBy
 	CExpression *pexprProjList = PexprScalarProjList(pdxlnPrL);
 
 	// translate grouping columns
-	DrgPcr *pdrgpcrGroupingCols = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdxlopGrpby->PdrgpulGroupingCols());
+	DrgPcr *pdrgpcrGroupingCols = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdxlopGrpby->GetGroupingColidArray());
 	
 	if (0 != pexprProjList->Arity())
 	{

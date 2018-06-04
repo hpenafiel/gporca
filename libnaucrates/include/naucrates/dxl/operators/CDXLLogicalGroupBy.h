@@ -32,7 +32,7 @@ namespace gpdxl
 		private:
 
 			// grouping column ids
-			ULongPtrArray *m_pdrgpulGrpColId;
+			ULongPtrArray *m_grouping_colid_array;
 
 			// private copy ctor
 			CDXLLogicalGroupBy(CDXLLogicalGroupBy&);
@@ -53,7 +53,7 @@ namespace gpdxl
 			// accessors
 			Edxlopid GetDXLOperator() const;
 			const CWStringConst *GetOpNameStr() const;
-			const ULongPtrArray *PdrgpulGroupingCols() const;
+			const ULongPtrArray *GetGroupingColidArray() const;
 
 			// set grouping column indices
 			void SetGroupingColumns(ULongPtrArray *);

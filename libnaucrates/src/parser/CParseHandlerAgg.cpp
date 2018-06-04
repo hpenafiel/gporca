@@ -137,9 +137,9 @@ CParseHandlerAgg::EndElement
 	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 
 	// set grouping cols list
-	GPOS_ASSERT(NULL != pphGrpColList->PdrgpulGroupingCols());
+	GPOS_ASSERT(NULL != pphGrpColList->GetGroupingColidArray());
 
-	ULongPtrArray *pdrgpul = pphGrpColList->PdrgpulGroupingCols();
+	ULongPtrArray *pdrgpul = pphGrpColList->GetGroupingColidArray();
 	pdrgpul->AddRef();
 	m_dxl_op->SetGroupingCols(pdrgpul);
 	

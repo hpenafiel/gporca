@@ -70,7 +70,7 @@ namespace gpdxl
 			virtual ~CParseHandlerGroupingColList();
 			
 			// accessor
-			ULongPtrArray *PdrgpulGroupingCols();
+			ULongPtrArray *GetGroupingColidArray();
 	};
 }
 
