@@ -275,7 +275,7 @@ CDXLNode::SerializeToDXL
 		m_dxl_op->SerializeToDXL(xml_serializer, this);
 	}	
 	
-	if (NULL != m_direct_dispatch_info && 0 < m_direct_dispatch_info->Pdrgpdrgpdxldatum()->Size())
+	if (NULL != m_direct_dispatch_info && 0 < m_direct_dispatch_info->GetDispatchIdentifierDatumArray()->Size())
 	{
 		m_direct_dispatch_info->Serialize(xml_serializer);
 	}

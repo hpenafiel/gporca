@@ -32,21 +32,21 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLDirectDispatchInfo::CDXLDirectDispatchInfo
 	(
-	DXLDatumArrays *pdrgpdrgdxldatum
+	DXLDatumArrays *dispatch_identifer_datum_array
 	)
 	:
-	m_pdrgpdrgpdxldatum(pdrgpdrgdxldatum)
+	m_dispatch_identifer_datum_array(dispatch_identifer_datum_array)
 {
-	GPOS_ASSERT(NULL != pdrgpdrgdxldatum);
+	GPOS_ASSERT(NULL != dispatch_identifer_datum_array);
 	
 #ifdef GPOS_DEBUG
-	const ULONG length = pdrgpdrgdxldatum->Size();
+	const ULONG length = dispatch_identifer_datum_array->Size();
 	if (0 < length)
 	{
-		ULONG ulDatums = ((*pdrgpdrgdxldatum)[0])->Size();
-		for (ULONG ul = 1; ul < length; ul++)
+		ULONG num_of_datums = ((*dispatch_identifer_datum_array)[0])->Size();
+		for (ULONG idx = 1; idx < length; idx++)
 		{
-			GPOS_ASSERT(ulDatums == ((*pdrgpdrgdxldatum)[ul])->Size());
+			GPOS_ASSERT(num_of_datums == ((*dispatch_identifer_datum_array)[idx])->Size());
 		}
 	}
 #endif // GPOS_DEBUG
@@ -62,7 +62,7 @@ CDXLDirectDispatchInfo::CDXLDirectDispatchInfo
 //---------------------------------------------------------------------------
 CDXLDirectDispatchInfo::~CDXLDirectDispatchInfo()
 {
-	m_pdrgpdrgpdxldatum->Release();
+	m_dispatch_identifer_datum_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -81,18 +81,18 @@ CDXLDirectDispatchInfo::Serialize
 {
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchInfo));
 	
-	const ULONG ulValueCombinations = (m_pdrgpdrgpdxldatum == NULL) ? 0 : m_pdrgpdrgpdxldatum->Size();
+	const ULONG num_of_dispatch_identifiers = (m_dispatch_identifer_datum_array == NULL) ? 0 : m_dispatch_identifer_datum_array->Size();
 	
-	for (ULONG ulA = 0; ulA < ulValueCombinations; ulA++)
+	for (ULONG idx1 = 0; idx1 < num_of_dispatch_identifiers; idx1++)
 	{
 		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchKeyValue));
 
-		DXLDatumArray *pdrgpdxldatum = (*m_pdrgpdrgpdxldatum)[ulA];
+		DXLDatumArray *dispatch_identifier_array = (*m_dispatch_identifer_datum_array)[idx1];
 		
-		const ULONG ulDatums = pdrgpdxldatum->Size();
-		for (ULONG ulB = 0; ulB < ulDatums; ulB++) 
+		const ULONG num_of_datums = dispatch_identifier_array->Size();
+		for (ULONG idx2 = 0; idx2 < num_of_datums; idx2++)
 		{
-			CDXLDatum *datum_dxl = (*pdrgpdxldatum)[ulB];
+			CDXLDatum *datum_dxl = (*dispatch_identifier_array)[idx2];
 			datum_dxl->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenDatum));
 		}
 		
