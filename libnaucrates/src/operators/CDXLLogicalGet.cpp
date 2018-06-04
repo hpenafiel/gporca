@@ -135,11 +135,11 @@ CDXLLogicalGet::IsColDefined
 	)
 	const
 {
-	const ULONG ulSize = m_table_descr_dxl->Arity();
-	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
+	const ULONG size = m_table_descr_dxl->Arity();
+	for (ULONG descr_id = 0; descr_id < size; descr_id++)
 	{
-		ULONG ulId = m_table_descr_dxl->GetColumnDescrAt(ulDescr)->Id();
-		if (ulId == col_id)
+		ULONG id = m_table_descr_dxl->GetColumnDescrAt(descr_id)->Id();
+		if (id == col_id)
 		{
 			return true;
 		}
