@@ -55,7 +55,7 @@ namespace gpdxl
 			EdxlSetOpType m_edxlsetoptype;
 
 			// list of output column descriptors
-			ColumnDescrDXLArray *m_pdrgpdxlcd;
+			ColumnDescrDXLArray *m_col_descr_array;
 
 			// array of input colid arrays
 			ULongPtrArray2D *m_pdrgpdrgpul;
@@ -93,13 +93,13 @@ namespace gpdxl
 			// array of output columns
 			const ColumnDescrDXLArray *GetColumnDescrDXLArray() const
 			{
-				return m_pdrgpdxlcd;
+				return m_col_descr_array;
 			}
 
 			// number of output columns
 			ULONG Arity() const
 			{
-				return m_pdrgpdxlcd->Size();
+				return m_col_descr_array->Size();
 			}
 
 			// output column descriptor at a given position
@@ -109,7 +109,7 @@ namespace gpdxl
 				)
 				const
 			{
-				return (*m_pdrgpdxlcd)[ulPos];
+				return (*m_col_descr_array)[ulPos];
 			}
 
 			// number of inputs to the n-ary set operation
@@ -142,7 +142,7 @@ namespace gpdxl
 
 			// check if given column is defined by operator
 			virtual
-			BOOL FDefinesColumn(ULONG ulColId) const;
+			BOOL IsColDefined(ULONG col_id) const;
 
 			// conversion function
 			static

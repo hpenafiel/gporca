@@ -96,7 +96,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	GPOS_DELETE(pstrScalarOpName);
 		
 	// parse column id
-	ULONG ulColId = CDXLOperatorFactory::UlValueFromAttrs
+	ULONG col_id = CDXLOperatorFactory::UlValueFromAttrs
 										(
 										m_parse_handler_mgr->Pmm(),
 										attrs, 
@@ -106,11 +106,11 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	
 	if (EdxltokenScalarSubqueryAny == edxltokenElement)
 	{
-		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, pmdidOp, pmdnameScalarOp, col_id);
 	}
 	else
 	{
-		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, pmdidOp, pmdnameScalarOp, ulColId);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, pmdidOp, pmdnameScalarOp, col_id);
 	}
 	
 	// parse handler for the child nodes

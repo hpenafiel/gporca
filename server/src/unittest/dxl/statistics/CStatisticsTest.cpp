@@ -579,7 +579,7 @@ void
 CStatisticsTest::StatsFilterInt4
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulColId,
+	ULONG col_id,
 	INT iLower,
 	INT iUpper,
 	DrgPstatspred *pdrgpstatspred
@@ -587,14 +587,14 @@ CStatisticsTest::StatsFilterInt4
 {
 	CStatsPredPoint *pstatspred1 = GPOS_NEW(memory_pool) CStatsPredPoint
 												(
-												ulColId,
+												col_id,
 												CStatsPred::EstatscmptGEq,
 												CTestUtils::PpointInt4(memory_pool, iLower)
 												);
 
 	CStatsPredPoint *pstatspred2 = GPOS_NEW(memory_pool) CStatsPredPoint
 												(
-												ulColId,
+												col_id,
 												CStatsPred::EstatscmptL,
 												CTestUtils::PpointInt4(memory_pool, iUpper)
 												);
@@ -608,14 +608,14 @@ void
 CStatisticsTest::StatsFilterBool
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulColId,
+	ULONG col_id,
 	BOOL fValue,
 	DrgPstatspred *pdrgpstatspred
 	)
 {
 	CStatsPredPoint *pstatspred1 = GPOS_NEW(memory_pool) CStatsPredPoint
 												(
-												ulColId,
+												col_id,
 												CStatsPred::EstatscmptEq,
 												CTestUtils::PpointBool(memory_pool, fValue)
 												);
@@ -628,7 +628,7 @@ void
 CStatisticsTest::StatsFilterNumeric
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulColId,
+	ULONG col_id,
 	CWStringDynamic *pstrLowerEncoded,
 	CWStringDynamic *pstrUpperEncoded,
 	CDouble dValLower,
@@ -638,14 +638,14 @@ CStatisticsTest::StatsFilterNumeric
 {
 	CStatsPredPoint *pstatspred1 = GPOS_NEW(memory_pool) CStatsPredPoint
 												(
-												ulColId,
+												col_id,
 												CStatsPred::EstatscmptGEq,
 												CCardinalityTestUtils::PpointNumeric(memory_pool, pstrLowerEncoded, dValLower)
 												);
 
 	CStatsPredPoint *pstatspred2 = GPOS_NEW(memory_pool) CStatsPredPoint
 												(
-												ulColId,
+												col_id,
 												CStatsPred::EstatscmptL,
 												CCardinalityTestUtils::PpointNumeric(memory_pool, pstrUpperEncoded, dValUpper)
 												);
@@ -659,7 +659,7 @@ void
 CStatisticsTest::StatsFilterGeneric
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulColId,
+	ULONG col_id,
 	OID oid,
 	CWStringDynamic *pstrLowerEncoded,
 	CWStringDynamic *pstrUpperEncoded,
@@ -670,14 +670,14 @@ CStatisticsTest::StatsFilterGeneric
 {
 	CStatsPredPoint *pstatspred1 = GPOS_NEW(memory_pool) CStatsPredPoint
 												(
-												ulColId,
+												col_id,
 												CStatsPred::EstatscmptGEq,
 												CCardinalityTestUtils::PpointGeneric(memory_pool, oid, pstrLowerEncoded, lValueLower)
 												);
 
 	CStatsPredPoint *pstatspred2 = GPOS_NEW(memory_pool) CStatsPredPoint
 												(
-												ulColId,
+												col_id,
 												CStatsPred::EstatscmptL,
 												CCardinalityTestUtils::PpointGeneric(memory_pool, oid, pstrUpperEncoded, lValueUpper)
 												);

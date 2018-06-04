@@ -115,7 +115,7 @@ namespace gpnaucrates
 
 			// skew estimate for given column
 			virtual
-			CDouble DSkew(ULONG ulColId) const = 0;
+			CDouble DSkew(ULONG col_id) const = 0;
 
 			// what is the width in bytes
 			virtual

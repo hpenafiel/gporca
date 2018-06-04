@@ -429,8 +429,8 @@ CColRefSet::ExtractColIds
 	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		ULONG ulColId = pcr->UlId();
-		pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(ulColId));
+		ULONG col_id = pcr->UlId();
+		pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(col_id));
 	}
 }
 

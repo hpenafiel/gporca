@@ -67,14 +67,14 @@ CParseHandlerScalarSubquery::StartElement
 	}
 		
 	// parse column id
-	ULONG ulColId = CDXLOperatorFactory::UlValueFromAttrs
+	ULONG col_id = CDXLOperatorFactory::UlValueFromAttrs
 										(
 										m_parse_handler_mgr->Pmm(),
 										attrs, 
 										EdxltokenColId,
 										EdxltokenScalarSubquery
 										);
-	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubquery(m_memory_pool, ulColId);
+	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubquery(m_memory_pool, col_id);
 
 	// parse handler for child node
 	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);

@@ -230,13 +230,13 @@ CMCVTest::EresUnittest_MergeHistMCV()
 		HMUlHist *phmulhist = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
 
 		// generate int histogram for column 1
-		ULONG ulColId = pdxlstatsdercolMCV->UlColId();
-		phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phistMerged);
+		ULONG col_id = pdxlstatsdercolMCV->UlColId();
+		phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phistMerged);
 
 		// column width for int4
 		HMUlDouble *phmuldoubleWidth = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
 		CDouble dWidth = pdxlstatsdercolMCV->DWidth();
-		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), GPOS_NEW(memory_pool) CDouble(dWidth));
+		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
 
 		CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics
 										(

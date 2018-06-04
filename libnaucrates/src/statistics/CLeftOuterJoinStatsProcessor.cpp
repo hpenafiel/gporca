@@ -125,32 +125,32 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 
 	for (ULONG ul2 = 0; ul2 < ulOuterCols; ul2++)
 	{
-		ULONG ulColId = *(*pdrgpulOuterColId)[ul2];
-		const CHistogram *phistInnerJoin = pstatsInnerJoin->Phist(ulColId);
+		ULONG col_id = *(*pdrgpulOuterColId)[ul2];
+		const CHistogram *phistInnerJoin = pstatsInnerJoin->Phist(col_id);
 		GPOS_ASSERT(NULL != phistInnerJoin);
 
-		if (pbsOuterJoinCol->Get(ulColId))
+		if (pbsOuterJoinCol->Get(col_id))
 		{
 			// add buckets from the outer histogram that do not contribute to the inner join
-			const CHistogram *phistLASJ = pstatsLASJ->Phist(ulColId);
+			const CHistogram *phistLASJ = pstatsLASJ->Phist(col_id);
 			GPOS_ASSERT(NULL != phistLASJ);
 
 			if (phistLASJ->FWellDefined() && !phistLASJ->IsEmpty())
 			{
 				// union the buckets from the inner join and LASJ to get the LOJ buckets
 				CHistogram *phistLOJ = phistLASJ->PhistUnionAllNormalized(memory_pool, dRowsLASJ, phistInnerJoin, dRowsInnerJoin);
-				CStatisticsUtils::AddHistogram(memory_pool, ulColId, phistLOJ, phmulhistLOJ);
+				CStatisticsUtils::AddHistogram(memory_pool, col_id, phistLOJ, phmulhistLOJ);
 				GPOS_DELETE(phistLOJ);
 			}
 			else
 			{
-				CStatisticsUtils::AddHistogram(memory_pool, ulColId, phistInnerJoin, phmulhistLOJ);
+				CStatisticsUtils::AddHistogram(memory_pool, col_id, phistInnerJoin, phmulhistLOJ);
 			}
 		}
 		else
 		{
 			// if column from the outer side that is not a join then just add it
-			CStatisticsUtils::AddHistogram(memory_pool, ulColId, phistInnerJoin, phmulhistLOJ);
+			CStatisticsUtils::AddHistogram(memory_pool, col_id, phistInnerJoin, phmulhistLOJ);
 		}
 	}
 
@@ -193,9 +193,9 @@ CLeftOuterJoinStatsProcessor::AddHistogramsLOJInner
 
 	for (ULONG ul = 0; ul < ulInnerCols; ul++)
 	{
-		ULONG ulColId = *(*pdrgpulInnerColId)[ul];
+		ULONG col_id = *(*pdrgpulInnerColId)[ul];
 
-		const CHistogram *phistInnerJoin = pstatsInnerJoin->Phist(ulColId);
+		const CHistogram *phistInnerJoin = pstatsInnerJoin->Phist(col_id);
 		GPOS_ASSERT(NULL != phistInnerJoin);
 
 		// the number of nulls added to the inner side should be the number of rows of the LASJ on the outer side.
@@ -208,7 +208,7 @@ CLeftOuterJoinStatsProcessor::AddHistogramsLOJInner
 				CHistogram::DDefaultNDVFreqRemain
 				);
 		CHistogram *phistLOJ = phistInnerJoin->PhistUnionAllNormalized(memory_pool, dRowsInnerJoin, phistNull, dRowsLASJ);
-		CStatisticsUtils::AddHistogram(memory_pool, ulColId, phistLOJ, phmulhistLOJ);
+		CStatisticsUtils::AddHistogram(memory_pool, col_id, phistLOJ, phmulhistLOJ);
 
 		GPOS_DELETE(phistNull);
 		GPOS_DELETE(phistLOJ);

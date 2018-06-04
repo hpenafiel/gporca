@@ -57,7 +57,7 @@ namespace gpnaucrates
 			// ctor
 			CStatsPredLike
 				(
-				ULONG ulColId,
+				ULONG col_id,
 				CExpression *pexprLeft,
 				CExpression *pexprRight,
 				CDouble dDefaultScaleFactor

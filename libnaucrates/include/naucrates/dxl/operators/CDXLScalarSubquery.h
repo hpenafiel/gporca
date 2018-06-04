@@ -38,7 +38,7 @@ namespace gpdxl
 			
 		public:
 			// ctor/dtor
-			CDXLScalarSubquery(IMemoryPool *memory_pool, ULONG ulColId);
+			CDXLScalarSubquery(IMemoryPool *memory_pool, ULONG col_id);
 			
 			virtual
 			~CDXLScalarSubquery();

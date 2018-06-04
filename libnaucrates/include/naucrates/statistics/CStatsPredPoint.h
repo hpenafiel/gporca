@@ -60,7 +60,7 @@ namespace gpnaucrates
 			// ctor
 			CStatsPredPoint
 				(
-				ULONG ulColId,
+				ULONG col_id,
 				CStatsPred::EStatsCmpType escmpt,
 				CPoint *ppoint
 				);

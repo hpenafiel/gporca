@@ -78,10 +78,10 @@ namespace gpnaucrates
 			explicit
 			CStatsPred
 				(
-				ULONG ulColId
+				ULONG col_id
 				)
 				:
-				m_ulColId(ulColId)
+				m_ulColId(col_id)
 			{
 			}
 

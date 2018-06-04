@@ -1104,7 +1104,7 @@ CMDAccessor::RecordColumnStats
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdidRel,
-	ULONG ulColId,
+	ULONG col_id,
 	ULONG ulPos,
 	BOOL fSystemCol,
 	BOOL fEmptyTable,
@@ -1123,14 +1123,14 @@ CMDAccessor::RecordColumnStats
 
 	// fetch the column width and insert it into the hashmap
 	CDouble *pdWidth = GPOS_NEW(memory_pool) CDouble(pmdcolstats->DWidth());
-	phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), pdWidth);
+	phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), pdWidth);
 
 	// extract the the histogram and insert it into the hashmap
 	const IMDRelation *pmdrel = Pmdrel(pmdidRel);
 	IMDId *mdid_type = pmdrel->Pmdcol(ulPos)->MDIdType();
 	CHistogram *phist = Phist(memory_pool, mdid_type, pmdcolstats);
 	GPOS_ASSERT(NULL != phist);
-	phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phist);
+	phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);
 
 	BOOL fGuc = GPOS_FTRACE(EopttracePrintColsWithMissingStats);
 	BOOL fRecordMissingStats = !fEmptyTable && fGuc && !fSystemCol
@@ -1210,7 +1210,7 @@ CMDAccessor::Pstats
 		CColRefTable *pcrtable = CColRefTable::PcrConvert(pcrHist);
 
 		// extract the column identifier, position of the attribute in the system catalog
-		ULONG ulColId = pcrtable->UlId();
+		ULONG col_id = pcrtable->UlId();
 		INT iAttno = pcrtable->AttrNum();
 		ULONG ulPos = pmdrel->UlPosFromAttno(iAttno);
 
@@ -1218,7 +1218,7 @@ CMDAccessor::Pstats
 			(
 			memory_pool,
 			pmdidRel,
-			ulColId,
+			col_id,
 			ulPos,
 			pcrtable->FSystemCol(),
 			fEmptyTable,
@@ -1239,12 +1239,12 @@ CMDAccessor::Pstats
 		CColRefTable *pcrtable = CColRefTable::PcrConvert(pcrWidth);
 
 		// extract the column identifier, position of the attribute in the system catalog
-		ULONG ulColId = pcrtable->UlId();
+		ULONG col_id = pcrtable->UlId();
 		INT iAttno = pcrtable->AttrNum();
 		ULONG ulPos = pmdrel->UlPosFromAttno(iAttno);
 
 		CDouble *pdWidth = GPOS_NEW(memory_pool) CDouble(pmdrel->DColWidth(ulPos));
-		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), pdWidth);
+		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), pdWidth);
 	}
 
 	CDouble dRows = std::max(DOUBLE(1.0), pmdRelStats->DRows().Get());

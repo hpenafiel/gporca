@@ -45,8 +45,8 @@ namespace gpnaucrates
 		public:
 
 			// ctors
-			CStatsPredUnsupported(ULONG ulColId, CStatsPred::EStatsCmpType espt);
-			CStatsPredUnsupported(ULONG ulColId, CStatsPred::EStatsCmpType espt, CDouble dDefaultScaleFactor);
+			CStatsPredUnsupported(ULONG col_id, CStatsPred::EStatsCmpType espt);
+			CStatsPredUnsupported(ULONG col_id, CStatsPred::EStatsCmpType espt, CDouble dDefaultScaleFactor);
 
 			// filter type id
 			virtual

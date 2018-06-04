@@ -881,7 +881,7 @@ CStatsPredUtils::PstatspredLike
 	}
 
 	CScalarIdent *popScalarIdent = CScalarIdent::PopConvert(pexprScIdent->Pop());
-	ULONG ulColId = popScalarIdent->Pcr()->UlId();
+	ULONG col_id = popScalarIdent->Pcr()->UlId();
 
 	CScalarConst *popScalarConst = CScalarConst::PopConvert(pexprScConst->Pop());
 	IDatum  *pdatumLiteral = popScalarConst->Pdatum();
@@ -902,7 +902,7 @@ CStatsPredUtils::PstatspredLike
 	pexprLeft->AddRef();
 	pexprRight->AddRef();
 
-	return GPOS_NEW(memory_pool) CStatsPredLike(ulColId, pexprLeft, pexprRight, dDefaultScaleFactor);
+	return GPOS_NEW(memory_pool) CStatsPredLike(col_id, pexprLeft, pexprRight, dDefaultScaleFactor);
 }
 
 
@@ -1024,19 +1024,19 @@ CStatsPredUtils::PstatspredBoolean
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	IDatum *pdatum = NULL;
-	ULONG ulColId = ULONG_MAX;
+	ULONG col_id = ULONG_MAX;
 
 	if (CPredicateUtils::FBooleanScalarIdent(pexprPred))
 	{
 		CScalarIdent *popScIdent = CScalarIdent::PopConvert(pop);
 		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, true /* fValue */, false /* is_null */);
-		ulColId = popScIdent->Pcr()->UlId();
+		col_id = popScIdent->Pcr()->UlId();
 	}
 	else
 	{
 		CExpression *pexprChild = (*pexprPred)[0];
 		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, false /* fValue */, false /* is_null */);
-		ulColId = CScalarIdent::PopConvert(pexprChild->Pop())->Pcr()->UlId();
+		col_id = CScalarIdent::PopConvert(pexprChild->Pop())->Pcr()->UlId();
 	}
 
 	if (!pdatum->FStatsComparable(pdatum))
@@ -1044,13 +1044,13 @@ CStatsPredUtils::PstatspredBoolean
 		// stats calculations on such datums unsupported
 		pdatum->Release();
 
-		return GPOS_NEW(memory_pool) CStatsPredUnsupported(ulColId, CStatsPred::EstatscmptEq);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(col_id, CStatsPred::EstatscmptEq);
 	}
 
 
-	GPOS_ASSERT(NULL != pdatum && ULONG_MAX != ulColId);
+	GPOS_ASSERT(NULL != pdatum && ULONG_MAX != col_id);
 
-	return GPOS_NEW(memory_pool) CStatsPredPoint(ulColId, CStatsPred::EstatscmptEq, GPOS_NEW(memory_pool) CPoint(pdatum));
+	return GPOS_NEW(memory_pool) CStatsPredPoint(col_id, CStatsPred::EstatscmptEq, GPOS_NEW(memory_pool) CPoint(pdatum));
 }
 
 

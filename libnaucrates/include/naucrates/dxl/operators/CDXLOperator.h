@@ -251,9 +251,9 @@ namespace gpdxl
 
 			// check if given column is defined by operator
 			virtual
-			BOOL FDefinesColumn
+			BOOL IsColDefined
 				(
-				ULONG // ulColId
+				ULONG // col_id
 				)
 				const
 			{

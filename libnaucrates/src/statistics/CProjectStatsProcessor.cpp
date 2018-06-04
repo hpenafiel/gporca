@@ -38,8 +38,8 @@ CProjectStatsProcessor::PstatsProject
 	const ULONG ulLen = pdrgpulProjColIds->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		ULONG ulColId = *(*pdrgpulProjColIds)[ul];
-		const CHistogram *phist = pstatsInput->Phist(ulColId);
+		ULONG col_id = *(*pdrgpulProjColIds)[ul];
+		const CHistogram *phist = pstatsInput->Phist(col_id);
 
 		if (NULL == phist)
 		{
@@ -51,7 +51,7 @@ CProjectStatsProcessor::PstatsProject
 			BOOL fWellDefined = false;
 			if (NULL != phmuldatum)
 			{
-				IDatum *pdatum = phmuldatum->Find(&ulColId);
+				IDatum *pdatum = phmuldatum->Find(&col_id);
 				if (NULL != pdatum)
 				{
 					fWellDefined = true;
@@ -67,7 +67,7 @@ CProjectStatsProcessor::PstatsProject
 			}
 
 			CHistogram *phistPrCol = NULL;
-			CColRef *pcr = pcf->PcrLookup(ulColId);
+			CColRef *pcr = pcf->PcrLookup(col_id);
 			GPOS_ASSERT(NULL != pcr);
 
 			if (0 == pdrgbucket->Size() && IMDType::EtiBool == pcr->Pmdtype()->Eti())
@@ -87,26 +87,26 @@ CProjectStatsProcessor::PstatsProject
 										);
 			}
 
-			phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phistPrCol);
+			phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phistPrCol);
 		}
 		else
 		{
-			phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phist->PhistCopy(memory_pool));
+			phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist->PhistCopy(memory_pool));
 		}
 
 		// look up width
-		const CDouble *pdWidth = pstatsInput->PdWidth(ulColId);
+		const CDouble *pdWidth = pstatsInput->PdWidth(col_id);
 		if (NULL == pdWidth)
 		{
-			CColRef *pcr = pcf->PcrLookup(ulColId);
+			CColRef *pcr = pcf->PcrLookup(col_id);
 			GPOS_ASSERT(NULL != pcr);
 
 			CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), GPOS_NEW(memory_pool) CDouble(dWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
 		}
 		else
 		{
-			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), GPOS_NEW(memory_pool) CDouble(*pdWidth));
+			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(*pdWidth));
 		}
 	}
 

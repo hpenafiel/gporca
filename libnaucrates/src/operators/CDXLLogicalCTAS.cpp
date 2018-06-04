@@ -50,7 +50,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	m_mdid(pmdid),
 	m_pmdnameSchema(pmdnameSchema),
 	m_pmdnameRel(pmdnameRel),
-	m_pdrgpdxlcd(pdrgpdxlcd),
+	m_col_descr_array(pdrgpdxlcd),
 	m_pdxlctasopt(pdxlctasopt),
 	m_ereldistrpolicy(ereldistrpolicy),
 	m_pdrgpulDistr(pdrgpulDistr),
@@ -85,7 +85,7 @@ CDXLLogicalCTAS::~CDXLLogicalCTAS()
 	m_mdid->Release();
 	GPOS_DELETE(m_pmdnameSchema);
 	GPOS_DELETE(m_pmdnameRel);
-	m_pdrgpdxlcd->Release();
+	m_col_descr_array->Release();
 	m_pdxlctasopt->Release();
 	CRefCount::SafeRelease(m_pdrgpulDistr);
 	m_pdrgpulSource->Release();
@@ -123,24 +123,24 @@ CDXLLogicalCTAS::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalCTAS::FDefinesColumn
+//		CDXLLogicalCTAS::IsColDefined
 //
 //	@doc:
 //		Check if given column is defined by operator
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLLogicalCTAS::FDefinesColumn
+CDXLLogicalCTAS::IsColDefined
 	(
-	ULONG ulColId
+	ULONG col_id
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgpdxlcd->Size();
+	const ULONG ulSize = m_col_descr_array->Size();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = (*m_pdrgpdxlcd)[ulDescr]->Id();
-		if (ulId == ulColId)
+		ULONG ulId = (*m_col_descr_array)[ulDescr]->Id();
+		if (ulId == col_id)
 		{
 			return true;
 		}
@@ -212,10 +212,10 @@ CDXLLogicalCTAS::SerializeToDXL
 	// serialize column descriptors
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
 	
-	const ULONG ulArity = m_pdrgpdxlcd->Size();
+	const ULONG ulArity = m_col_descr_array->Size();
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
-		CDXLColDescr *pdxlcd = (*m_pdrgpdxlcd)[ul];
+		CDXLColDescr *pdxlcd = (*m_col_descr_array)[ul];
 		pdxlcd->SerializeToDXL(xml_serializer);
 	}
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));

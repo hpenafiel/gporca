@@ -64,7 +64,7 @@ namespace gpmd
 			// ctor
 			CDXLStatsDerivedColumn
 				(
-				ULONG ulColId,
+				ULONG col_id,
 				CDouble dWidth,
 				CDouble dNullFreq,
 				CDouble dDistinctRemain,

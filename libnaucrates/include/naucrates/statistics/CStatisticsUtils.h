@@ -264,7 +264,7 @@ namespace gpnaucrates
 			void AddHistogram
 					(
 					IMemoryPool *memory_pool,
-					ULONG ulColId,
+					ULONG col_id,
 					const CHistogram *phist,
 					HMUlHist *phmulhist,
 					BOOL fReplaceOld = false

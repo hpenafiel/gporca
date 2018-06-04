@@ -39,7 +39,7 @@ CParseHandlerLogicalConstTable::CParseHandlerLogicalConstTable
 	)
 	:
 	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpdrgpdxldatum(NULL),
+	m_const_tuples_datum_array(NULL),
 	m_pdrgpdxldatum(NULL)
 {
 }
@@ -65,10 +65,10 @@ CParseHandlerLogicalConstTable::StartElement
 	{
 		// start of a const table operator node
 		GPOS_ASSERT(0 == this->Length());
-		GPOS_ASSERT(NULL == m_pdrgpdrgpdxldatum);
+		GPOS_ASSERT(NULL == m_const_tuples_datum_array);
 
 		// initialize the array of const tuples (datum arrays)
-		m_pdrgpdrgpdxldatum = GPOS_NEW(m_memory_pool) DXLDatumArrays(m_memory_pool);
+		m_const_tuples_datum_array = GPOS_NEW(m_memory_pool) DXLDatumArrays(m_memory_pool);
 
 		// install a parse handler for the columns
 		CParseHandlerBase *pphColDescr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
@@ -79,7 +79,7 @@ CParseHandlerLogicalConstTable::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), element_local_name))
 	{
-		GPOS_ASSERT(NULL != m_pdrgpdrgpdxldatum); // we must have already seen a logical const table
+		GPOS_ASSERT(NULL != m_const_tuples_datum_array); // we must have already seen a logical const table
 		GPOS_ASSERT(NULL == m_pdrgpdxldatum);
 
 		// initialize the array of datums (const tuple)
@@ -88,7 +88,7 @@ CParseHandlerLogicalConstTable::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))
 	{
 		// we must have already seen a logical const table and a const tuple
-		GPOS_ASSERT(NULL != m_pdrgpdrgpdxldatum);
+		GPOS_ASSERT(NULL != m_const_tuples_datum_array);
 		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
 
 		// translate the datum and add it to the datum array
@@ -128,7 +128,7 @@ CParseHandlerLogicalConstTable::EndElement
 		ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
 		pdrgpdxlcd->AddRef();
 
-		CDXLLogicalConstTable *pdxlopConstTable = GPOS_NEW(m_memory_pool) CDXLLogicalConstTable(m_memory_pool, pdrgpdxlcd, m_pdrgpdrgpdxldatum);
+		CDXLLogicalConstTable *pdxlopConstTable = GPOS_NEW(m_memory_pool) CDXLLogicalConstTable(m_memory_pool, pdrgpdxlcd, m_const_tuples_datum_array);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopConstTable);
 
 #ifdef GPOS_DEBUG
@@ -141,7 +141,7 @@ CParseHandlerLogicalConstTable::EndElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenConstTuple), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_pdrgpdxldatum);
-		m_pdrgpdrgpdxldatum->Append(m_pdrgpdxldatum);
+		m_const_tuples_datum_array->Append(m_pdrgpdxldatum);
 
 		m_pdrgpdxldatum = NULL; // intialize for the parsing the next const tuple (if needed)
 	}

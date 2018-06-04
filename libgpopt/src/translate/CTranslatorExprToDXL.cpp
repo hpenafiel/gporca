@@ -310,11 +310,11 @@ CTranslatorExprToDXL::PdxlnTranslate
 		CDXLScalarProjElem *pdxlopPrElOld = CDXLScalarProjElem::Cast(pdxlnPrElOld->GetOperator());
 		GPOS_ASSERT(1 == pdxlnPrElOld->Arity());
 		CDXLNode *child_dxlnode = (*pdxlnPrElOld)[0];
-		const ULONG ulColId = pdxlopPrElOld->UlId();
+		const ULONG col_id = pdxlopPrElOld->UlId();
 
 		// create a new project element node with the col id and new column name
 		// and add the scalar child
-		CDXLNode *pdxlnPrElNew = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, ulColId, mdname));
+		CDXLNode *pdxlnPrElNew = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, col_id, mdname));
 		child_dxlnode->AddRef();
 		pdxlnPrElNew->AddChild(child_dxlnode);
 
@@ -2423,14 +2423,14 @@ CTranslatorExprToDXL::PdxlnAggregate
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CDXLNode *pdxlnProjElem = (*pdxlnProjList)[ul];
-		ULONG ulColId = CDXLScalarProjElem::Cast(pdxlnProjElem->GetOperator())->UlId();
+		ULONG col_id = CDXLScalarProjElem::Cast(pdxlnProjElem->GetOperator())->UlId();
 
-		if (NULL == phmululPL->Find(&ulColId))
+		if (NULL == phmululPL->Find(&col_id))
 		{
 #ifdef GPOS_DEBUG
 			BOOL fRes =
 #endif
-			phmululPL->Insert(GPOS_NEW(m_memory_pool) ULONG(ulColId), GPOS_NEW(m_memory_pool) ULONG(ulColId));
+			phmululPL->Insert(GPOS_NEW(m_memory_pool) ULONG(col_id), GPOS_NEW(m_memory_pool) ULONG(col_id));
 			GPOS_ASSERT(fRes);
 		}
 	}
@@ -2453,15 +2453,15 @@ CTranslatorExprToDXL::PdxlnAggregate
 
 		pdrgpulGroupingCols->Append(GPOS_NEW(m_memory_pool) ULONG(pcrGroupingCol->UlId()));
 
-		ULONG ulColId = pcrGroupingCol->UlId();
-		if (NULL == phmululPL->Find(&ulColId))
+		ULONG col_id = pcrGroupingCol->UlId();
+		if (NULL == phmululPL->Find(&col_id))
 		{
 			CDXLNode *pdxlnProjElem = CTranslatorExprToDXLUtils::PdxlnProjElem(m_memory_pool, m_phmcrdxln, pcrGroupingCol);
 			pdxlnProjList->AddChild(pdxlnProjElem);
 #ifdef GPOS_DEBUG
 		BOOL fRes =
 #endif
-				phmululPL->Insert(GPOS_NEW(m_memory_pool) ULONG(ulColId), GPOS_NEW(m_memory_pool) ULONG(ulColId));
+				phmululPL->Insert(GPOS_NEW(m_memory_pool) ULONG(col_id), GPOS_NEW(m_memory_pool) ULONG(col_id));
 			GPOS_ASSERT(fRes);
 		}
 	}

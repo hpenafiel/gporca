@@ -1514,7 +1514,7 @@ CDXLOperatorFactory::PdxlopSortCol
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
 	// get column id from attributes
-	ULONG ulColId = UlValueFromAttrs
+	ULONG col_id = UlValueFromAttrs
 						(
 						memory_manager_dxl,
 						attrs,
@@ -1554,7 +1554,7 @@ CDXLOperatorFactory::PdxlopSortCol
 
 	GPOS_DELETE(pstrSortOpName);
 
-	return GPOS_NEW(memory_pool) CDXLScalarSortCol(memory_pool, ulColId, pmdidSortOp, pstrSortOpNameCopy, fNullsFirst);
+	return GPOS_NEW(memory_pool) CDXLScalarSortCol(memory_pool, col_id, pmdidSortOp, pstrSortOpNameCopy, fNullsFirst);
 }
 
 //---------------------------------------------------------------------------

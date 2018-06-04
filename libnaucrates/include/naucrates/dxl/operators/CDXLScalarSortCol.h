@@ -56,7 +56,7 @@ namespace gpdxl
 			CDXLScalarSortCol
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulColId,
+				ULONG col_id,
 				IMDId *pmdidSortOp,
 				CWStringConst *pstrTypeName,
 				BOOL fSortNullsFirst

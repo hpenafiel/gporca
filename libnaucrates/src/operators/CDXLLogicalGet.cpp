@@ -122,16 +122,16 @@ CDXLLogicalGet::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalGet::FDefinesColumn
+//		CDXLLogicalGet::IsColDefined
 //
 //	@doc:
 //		Check if given column is defined by operator
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLLogicalGet::FDefinesColumn
+CDXLLogicalGet::IsColDefined
 	(
-	ULONG ulColId
+	ULONG col_id
 	)
 	const
 {
@@ -139,7 +139,7 @@ CDXLLogicalGet::FDefinesColumn
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
 		ULONG ulId = m_pdxltabdesc->GetColumnDescrAt(ulDescr)->Id();
-		if (ulId == ulColId)
+		if (ulId == col_id)
 		{
 			return true;
 		}

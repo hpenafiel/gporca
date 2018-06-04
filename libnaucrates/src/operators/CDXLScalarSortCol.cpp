@@ -30,14 +30,14 @@ using namespace gpdxl;
 CDXLScalarSortCol::CDXLScalarSortCol
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulColId,
+	ULONG col_id,
 	IMDId *pmdidSortOp,
 	CWStringConst *pstrSortOpName,
 	BOOL fSortNullsFirst
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulColId(ulColId),
+	m_ulColId(col_id),
 	m_pmdidSortOp(pmdidSortOp),
 	m_pstrSortOpName(pstrSortOpName),
 	m_fSortNullsFirst(fSortNullsFirst)

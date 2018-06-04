@@ -44,7 +44,7 @@ namespace gpdxl
 			CMDName *m_pmdnameRel;
 			
 			// list of columns
-			ColumnDescrDXLArray *m_pdrgpdxlcd;
+			ColumnDescrDXLArray *m_col_descr_array;
 			
 			// storage options
 			CDXLCtasStorageOptions *m_pdxlctasopt;
@@ -104,7 +104,7 @@ namespace gpdxl
 			// column descriptors
 			ColumnDescrDXLArray *GetColumnDescrDXLArray() const
 			{
-				return m_pdrgpdxlcd;
+				return m_col_descr_array;
 			}
 			
 			// distribution type

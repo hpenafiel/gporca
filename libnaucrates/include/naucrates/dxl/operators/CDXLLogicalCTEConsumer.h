@@ -71,7 +71,7 @@ namespace gpdxl
 
 			// check if given column is defined by operator
 			virtual
-			BOOL FDefinesColumn(ULONG ulColId) const;
+			BOOL IsColDefined(ULONG col_id) const;
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

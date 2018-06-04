@@ -33,13 +33,13 @@ CDXLScalarSubqueryQuantified::CDXLScalarSubqueryQuantified
 	IMemoryPool *memory_pool,
 	IMDId *pmdidScalarOp,
 	CMDName *pmdnameScalarOp,
-	ULONG ulColId
+	ULONG col_id
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_pmdidScalarOp(pmdidScalarOp),
 	m_pmdnameScalarOp(pmdnameScalarOp),
-	m_ulColId(ulColId)
+	m_ulColId(col_id)
 {
 	GPOS_ASSERT(pmdidScalarOp->IsValid());
 	GPOS_ASSERT(NULL != pmdnameScalarOp);

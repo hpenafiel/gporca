@@ -270,10 +270,10 @@ CTranslatorDXLToExpr::Pexpr
 		// get the dxl column reference
 		const CDXLColRef *pdxlcr = pdxlopIdent->Pdxlcr();
 		GPOS_ASSERT(NULL != pdxlcr);
-		const ULONG ulColId = pdxlcr->Id();
+		const ULONG col_id = pdxlcr->Id();
 
 		// get its column reference from the hash map
-		const CColRef *pcr = PcrLookup(m_phmulcr, ulColId);
+		const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
 		
 		if (fGenerateRequiredColumns)
 		{
@@ -810,8 +810,8 @@ CTranslatorDXLToExpr::BuildSetOpChild
 	for (ULONG ulColPos = 0; ulColPos < ulInputCols; ulColPos++)
 	{
 		// column identifier of the input column
-		ULONG ulColId = *(*pdrgpulInput)[ulColPos];
-		const CColRef *pcr = PcrLookup(m_phmulcr, ulColId);
+		ULONG col_id = *(*pdrgpulInput)[ulColPos];
+		const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
 
 		// corresponding output column descriptor
 		const CDXLColDescr *pdxlcdOutput = dxl_op->GetColumnDescrAt(ulColPos);
@@ -987,17 +987,17 @@ CColRef *
 CTranslatorDXLToExpr::PcrLookup
 	(
 	HMUlCr *phmulcr,
-	ULONG ulColId
+	ULONG col_id
 	)
 {
 	GPOS_ASSERT(NULL != phmulcr);
-	GPOS_ASSERT(ULONG_MAX != ulColId);
+	GPOS_ASSERT(ULONG_MAX != col_id);
 
 	// get its column reference from the hash map
-	CColRef *pcr = phmulcr->Find(&ulColId);
+	CColRef *pcr = phmulcr->Find(&col_id);
     if (NULL == pcr)
     {
-    	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXL2ExprAttributeNotFound, ulColId);
+    	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXL2ExprAttributeNotFound, col_id);
     }
 
 	return pcr;
@@ -1020,7 +1020,7 @@ CTranslatorDXLToExpr::PcrCreate
 	const IMDType *pmdtype,
 	INT type_modifier,
 	BOOL fStoreMapping,
-	ULONG ulColId
+	ULONG col_id
 	)
 {
 	// generate a new column reference
@@ -1032,7 +1032,7 @@ CTranslatorDXLToExpr::PcrCreate
 #ifdef GPOS_DEBUG
 		BOOL fResult =
 #endif // GPOS_DEBUG
-				m_phmulcr->Insert(GPOS_NEW(m_memory_pool) ULONG(ulColId), pcrNew);
+				m_phmulcr->Insert(GPOS_NEW(m_memory_pool) ULONG(col_id), pcrNew);
 
 		GPOS_ASSERT(fResult);
 	}
@@ -2434,10 +2434,10 @@ CTranslatorDXLToExpr::PexprLogicalConstTableGet
 	// translate values
 	DrgPdrgPdatum *pdrgpdrgpdatum = GPOS_NEW(m_memory_pool) DrgPdrgPdatum(m_memory_pool);
 	
-	const ULONG ulValues = pdxlopConstTable->UlTupleCount();
+	const ULONG ulValues = pdxlopConstTable->GetConstTupleCount();
 	for (ULONG ul = 0; ul < ulValues; ul++)
 	{
-		const DXLDatumArray *pdrgpdxldatum = pdxlopConstTable->PrgPdxldatumConstTuple(ul);
+		const DXLDatumArray *pdrgpdxldatum = pdxlopConstTable->GetConstTupleDatumArrayAt(ul);
 		DrgPdatum *pdrgpdatum = CTranslatorDXLToExprUtils::Pdrgpdatum(m_memory_pool, m_pmda, pdrgpdxldatum);
 		pdrgpdrgpdatum->Append(pdrgpdatum);
 	}
@@ -2470,7 +2470,7 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 	Edxlopid edxlopid,
 	IMDId *pmdidScalarOp,
 	const CWStringConst *pstr,
-	ULONG ulColId,
+	ULONG col_id,
 	CDXLNode *pdxlnLogicalChild,
 	CDXLNode *pdxlnScalarChild
 	)
@@ -2486,7 +2486,7 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 	CExpression *pexprScalarChild = Pexpr(pdxlnScalarChild);
 
 	// get colref for subquery colid
-	const CColRef *pcr = PcrLookup(m_phmulcr, ulColId);
+	const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
 
 	CScalar *popScalarSubquery = NULL;
 	if (EdxlopScalarSubqueryAny == edxlopid)
@@ -3346,10 +3346,10 @@ CTranslatorDXLToExpr::PexprScalarIdent
 
 	// get the dxl column reference
 	const CDXLColRef *pdxlcr = dxl_op->Pdxlcr();
-	const ULONG ulColId = pdxlcr->Id();
+	const ULONG col_id = pdxlcr->Id();
 
 	// get its column reference from the hash map
-	const CColRef *pcr =  PcrLookup(m_phmulcr, ulColId);
+	const CColRef *pcr =  PcrLookup(m_phmulcr, col_id);
 	CExpression *pexpr = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarIdent(m_memory_pool, pcr));
 
 	return pexpr;
@@ -3821,8 +3821,8 @@ CTranslatorDXLToExpr::PexprScalarSubquery
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 	
 	// get subquery colref for colid
-	ULONG ulColId = pdxlopSubquery->UlColId();
-	const CColRef *pcr = PcrLookup(m_phmulcr, ulColId);
+	ULONG col_id = pdxlopSubquery->UlColId();
+	const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
 		
 	CScalarSubquery *popScalarSubquery = GPOS_NEW(m_memory_pool) CScalarSubquery(m_memory_pool, pcr, false /*fGeneratedByExist*/, false /*fGeneratedByQuantified*/);
 	GPOS_ASSERT(NULL != popScalarSubquery);
@@ -3941,10 +3941,10 @@ CTranslatorDXLToExpr::Pos
 		CDXLNode *pdxlnSortCol = (*pdxln)[ul];
 		
 		CDXLScalarSortCol *dxl_op = CDXLScalarSortCol::Cast(pdxlnSortCol->GetOperator());
-		const ULONG ulColId = dxl_op->UlColId();
+		const ULONG col_id = dxl_op->UlColId();
 
 		// get its column reference from the hash map
-		CColRef *pcr =  PcrLookup(m_phmulcr, ulColId);
+		CColRef *pcr =  PcrLookup(m_phmulcr, col_id);
 		
 		IMDId *pmdidSortOp = dxl_op->PmdidSortOp();
 		pmdidSortOp->AddRef();

@@ -164,7 +164,7 @@ namespace gpnaucrates
 
 			// skew estimate for given column
 			virtual
-			CDouble DSkew(ULONG ulColId) const;
+			CDouble DSkew(ULONG col_id) const;
 
 			// what is the width in bytes of set of column id's
 			virtual
@@ -189,11 +189,11 @@ namespace gpnaucrates
 			virtual
 			const CHistogram *Phist
 								(
-								ULONG ulColId
+								ULONG col_id
 								)
 								const
 			{
-				return m_phmulhist->Find(&ulColId);
+				return m_phmulhist->Find(&col_id);
 			}
 
 			// look up the number of distinct values of a particular column
@@ -202,7 +202,7 @@ namespace gpnaucrates
 
 			// look up the width of a particular column
 			virtual
-			const CDouble *PdWidth(ULONG ulColId) const;
+			const CDouble *PdWidth(ULONG col_id) const;
 
 			// the risk of errors in cardinality estimation
 			virtual

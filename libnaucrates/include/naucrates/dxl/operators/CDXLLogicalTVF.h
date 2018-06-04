@@ -99,7 +99,7 @@ namespace gpdxl
 
 			// check if given column is defined by operator
 			virtual
-			BOOL FDefinesColumn(ULONG ulColId) const;
+			BOOL IsColDefined(ULONG col_id) const;
 
 			// serialize operator in DXL format
 			virtual

@@ -114,7 +114,7 @@ namespace gpnaucrates
 
 			// check if the column is a new column for statistic calculation
 			static
-			BOOL FNewStatsColumn(ULONG ulColId, ULONG ulColIdLast);
+			BOOL FNewStatsColumn(ULONG col_id, ULONG ulColIdLast);
 
 		public:
 

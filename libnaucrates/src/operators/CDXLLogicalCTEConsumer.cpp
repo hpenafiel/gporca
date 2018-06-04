@@ -86,16 +86,16 @@ CDXLLogicalCTEConsumer::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalCTEConsumer::FDefinesColumn
+//		CDXLLogicalCTEConsumer::IsColDefined
 //
 //	@doc:
 //		Check if given column is defined by operator
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLLogicalCTEConsumer::FDefinesColumn
+CDXLLogicalCTEConsumer::IsColDefined
 	(
-	ULONG ulColId
+	ULONG col_id
 	)
 	const
 {
@@ -103,7 +103,7 @@ CDXLLogicalCTEConsumer::FDefinesColumn
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		ULONG ulId = *((*m_pdrgpulColIds)[ul]);
-		if (ulId == ulColId)
+		if (ulId == col_id)
 		{
 			return true;
 		}

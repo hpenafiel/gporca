@@ -99,11 +99,11 @@ CStatistics::~CStatistics()
 const CDouble *
 CStatistics::PdWidth
 	(
-	ULONG ulColId
+	ULONG col_id
 	)
 	const
 {
-	return m_phmuldoubleWidth->Find(&ulColId);
+	return m_phmuldoubleWidth->Find(&col_id);
 }
 
 
@@ -139,8 +139,8 @@ CStatistics::OsPrint
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
-		os << "Col" << ulColId << ":" << std::endl;
+		ULONG col_id = *(hmiterulhist.Key());
+		os << "Col" << col_id << ":" << std::endl;
 		const CHistogram *phist = hmiterulhist.Value();
 		phist->OsPrint(os);
 		os << std::endl;
@@ -149,8 +149,8 @@ CStatistics::OsPrint
 	HMIterUlDouble hmiteruldouble(m_phmuldoubleWidth);
 	while (hmiteruldouble.Advance())
 	{
-		ULONG ulColId = *(hmiteruldouble.Key());
-		os << "Col" << ulColId << ":" << std::endl;
+		ULONG col_id = *(hmiteruldouble.Key());
+		os << "Col" << col_id << ":" << std::endl;
 		const CDouble *pdWidth = hmiteruldouble.Value();
 		os << " width " << (*pdWidth) << std::endl;
 	}
@@ -178,11 +178,11 @@ CStatistics::DRows() const
 CDouble
 CStatistics::DSkew
 	(
-	ULONG ulColId
+	ULONG col_id
 	)
 	const
 {
-	CHistogram *phist = m_phmulhist->Find(&ulColId);
+	CHistogram *phist = m_phmulhist->Find(&col_id);
 	if (NULL == phist)
 	{
 		return CDouble(1.0);
@@ -220,15 +220,15 @@ CStatistics::DWidth
 	const ULONG ulSize = pdrgpulColIds->Size();
 	for (ULONG ulIdx = 0; ulIdx < ulSize; ulIdx++)
 	{
-		ULONG ulColId = *((*pdrgpulColIds)[ulIdx]);
-		CDouble *pdWidth = m_phmuldoubleWidth->Find(&ulColId);
+		ULONG col_id = *((*pdrgpulColIds)[ulIdx]);
+		CDouble *pdWidth = m_phmuldoubleWidth->Find(&col_id);
 		if (NULL != pdWidth)
 		{
 			dWidth = dWidth + (*pdWidth);
 		}
 		else
 		{
-			CColRef *pcr = pcf->PcrLookup(ulColId);
+			CColRef *pcr = pcf->PcrLookup(col_id);
 			GPOS_ASSERT(NULL != pcr);
 
 			dWidth = dWidth + CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
@@ -303,8 +303,8 @@ CStatistics::CreateAndInsertUpperBoundNDVs
 	const ULONG ulCols = pdrgpulColIds->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
-		ULONG ulColId = *(*pdrgpulColIds)[ul];
-		const CColRef *pcr = pcf->PcrLookup(ulColId);
+		ULONG col_id = *(*pdrgpulColIds)[ul];
+		const CColRef *pcr = pcf->PcrLookup(col_id);
 		if (NULL != pcr)
 		{
 			pcrs->Include(pcr);
@@ -343,14 +343,14 @@ CStatistics::PstatsDummy
 	const ULONG ulHistCol = pdrgpulHistColIds->Size();
 	for (ULONG ul = 0; ul < ulHistCol; ul++)
 	{
-		ULONG ulColId = *(*pdrgpulHistColIds)[ul];
+		ULONG col_id = *(*pdrgpulHistColIds)[ul];
 
-		CColRef *pcr = pcf->PcrLookup(ulColId);
+		CColRef *pcr = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcr);
 
 		// empty histogram
 		CHistogram *phist = CHistogram::PhistDefault(memory_pool, pcr, fEmpty);
-		phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phist);
+		phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);
 	}
 
 	// hashmap from colid -> width (double)
@@ -359,13 +359,13 @@ CStatistics::PstatsDummy
 	const ULONG ulWidthCol = pdrgpulWidthColIds->Size();
 	for (ULONG ul = 0; ul < ulWidthCol; ul++)
 	{
-		ULONG ulColId = *(*pdrgpulWidthColIds)[ul];
+		ULONG col_id = *(*pdrgpulWidthColIds)[ul];
 
-		CColRef *pcr = pcf->PcrLookup(ulColId);
+		CColRef *pcr = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcr);
 
 		CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), GPOS_NEW(memory_pool) CDouble(dWidth));
+		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
 	}
 
 	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, dRows, false /* fEmpty */);
@@ -471,11 +471,11 @@ CStatistics::AddNotExcludedHistograms
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
-		if (!pbsExcludedColIds->Get(ulColId))
+		ULONG col_id = *(hmiterulhist.Key());
+		if (!pbsExcludedColIds->Get(col_id))
 		{
 			const CHistogram *phist = hmiterulhist.Value();
-			CStatisticsUtils::AddHistogram(memory_pool, ulColId, phist, phmulhist);
+			CStatisticsUtils::AddHistogram(memory_pool, col_id, phist, phmulhist);
 		}
 
 		GPOS_CHECK_ABORT;
@@ -521,7 +521,7 @@ CStatistics::CopyHistograms
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
+		ULONG col_id = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
 		CHistogram *phistCopy = NULL;
 		if (fEmpty)
@@ -533,7 +533,7 @@ CStatistics::CopyHistograms
 			phistCopy = phist->PhistCopy(memory_pool);
 		}
 
-		phmulhistCopy->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phistCopy);
+		phmulhistCopy->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phistCopy);
 	}
 
 	return phmulhistCopy;
@@ -558,8 +558,8 @@ CStatistics::Prprel
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
-		CColRef *pcr = pcf->PcrLookup(ulColId);
+		ULONG col_id = *(hmiterulhist.Key());
+		CColRef *pcr = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcr);
 
 		pcrs->Include(pcr);
@@ -701,8 +701,8 @@ CStatistics::PdrgulColIds
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
-		pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(ulColId));
+		ULONG col_id = *(hmiterulhist.Key());
+		pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(col_id));
 	}
 
 	return pdrgpul;
@@ -722,8 +722,8 @@ CStatistics::Pcrs
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
-		CColRef *pcr = pcf->PcrLookup(ulColId);
+		ULONG col_id = *(hmiterulhist.Key());
+		CColRef *pcr = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcr);
 
 		pcrs->Include(pcr);
@@ -777,8 +777,8 @@ CStatistics::AddWidthInfoWithRemap
 	HMIterUlDouble hmiteruldouble(phmuldoubleSrc);
 	while (hmiteruldouble.Advance())
 	{
-		ULONG ulColId = *(hmiteruldouble.Key());
-		CColRef *pcrNew = phmulcr->Find(&ulColId);
+		ULONG col_id = *(hmiteruldouble.Key());
+		CColRef *pcrNew = phmulcr->Find(&col_id);
 		if (fMustExist && NULL == pcrNew)
 		{
 			continue;
@@ -786,17 +786,17 @@ CStatistics::AddWidthInfoWithRemap
 
 		if (NULL != pcrNew)
 		{
-			ulColId = pcrNew->UlId();
+			col_id = pcrNew->UlId();
 		}
 
-		if (NULL == phmuldoubleDest->Find(&ulColId))
+		if (NULL == phmuldoubleDest->Find(&col_id))
 		{
 			const CDouble *pdWidth = hmiteruldouble.Value();
 			CDouble *pdWidthCopy = GPOS_NEW(memory_pool) CDouble(*pdWidth);
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-					phmuldoubleDest->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), pdWidthCopy);
+					phmuldoubleDest->Insert(GPOS_NEW(memory_pool) ULONG(col_id), pdWidthCopy);
 			GPOS_ASSERT(fResult);
 		}
 	}
@@ -855,13 +855,13 @@ CStatistics::Pdxlstatsderrel
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
+		ULONG col_id = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
 
-		CDouble *pdWidth = m_phmuldoubleWidth->Find(&ulColId);
+		CDouble *pdWidth = m_phmuldoubleWidth->Find(&col_id);
 		GPOS_ASSERT(pdWidth);
 
-		CDXLStatsDerivedColumn *dxl_derived_col_stats = phist->Pdxlstatsdercol(memory_pool, pmda, ulColId, *pdWidth);
+		CDXLStatsDerivedColumn *dxl_derived_col_stats = phist->Pdxlstatsdercol(memory_pool, pmda, col_id, *pdWidth);
 		pdrgpdxlstatsdercol->Append(dxl_derived_col_stats);
 	}
 
@@ -901,8 +901,8 @@ CStatistics::DNDV
 	const CColRef *pcr
 	)
 {
-	ULONG ulColId = pcr->UlId();
-	CHistogram *phistCol = m_phmulhist->Find(&ulColId);
+	ULONG col_id = pcr->UlId();
+	CHistogram *phistCol = m_phmulhist->Find(&col_id);
 	if (NULL != phistCol)
 	{
 		return std::min(phistCol->DDistinct(), DUpperBoundNDVs(pcr));

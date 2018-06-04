@@ -26,18 +26,18 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CStatsPredLike::CStatsPredLike
 	(
-	ULONG ulColId,
+	ULONG col_id,
 	CExpression *pexprLeft,
 	CExpression *pexprRight,
 	CDouble dDefaultScaleFactor
 	)
 	:
-	CStatsPred(ulColId),
+	CStatsPred(col_id),
 	m_pexprLeft(pexprLeft),
 	m_pexprRight(pexprRight),
 	m_dDefaultScaleFactor(dDefaultScaleFactor)
 {
-	GPOS_ASSERT(ULONG_MAX != ulColId);
+	GPOS_ASSERT(ULONG_MAX != col_id);
 	GPOS_ASSERT(NULL != pexprLeft);
 	GPOS_ASSERT(NULL != pexprRight);
 	GPOS_ASSERT(0 < dDefaultScaleFactor);

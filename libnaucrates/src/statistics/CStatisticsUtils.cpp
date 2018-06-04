@@ -590,8 +590,8 @@ CStatisticsUtils::PrintColStats
 	)
 {
 	GPOS_ASSERT(NULL != pstatspred);
-	ULONG ulColId  = pstatspred->UlColId();
-	if (ulColId == ulColIdCond && NULL != phist)
+	ULONG col_id  = pstatspred->UlColId();
+	if (col_id == ulColIdCond && NULL != phist)
 	{
 		{
 			CAutoTrace at(memory_pool);
@@ -664,14 +664,14 @@ CStatisticsUtils::ExtractUsedColIds
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
 		CStatsPred *pstatspredCurr = (*pdrgpstatspred)[ul];
-		ULONG ulColId = pstatspredCurr->UlColId();
+		ULONG col_id = pstatspredCurr->UlColId();
 
-		if (ULONG_MAX != ulColId)
+		if (ULONG_MAX != col_id)
 		{
-			if (!pbsColIds->Get(ulColId))
+			if (!pbsColIds->Get(col_id))
 			{
-				(void) pbsColIds->ExchangeSet(ulColId);
-				pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(ulColId));
+				(void) pbsColIds->ExchangeSet(col_id);
+				pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(col_id));
 			}
 		}
 		else if (CStatsPred::EsptUnsupported != pstatspredCurr->Espt())
@@ -701,17 +701,17 @@ CStatisticsUtils::UpdateDisjStatistics
 	CDouble dRowsLocal,
 	CHistogram *phistPrev,
 	HMUlHist *phmulhistResultDisj,
-	ULONG ulColId
+	ULONG col_id
 	)
 {
 	GPOS_ASSERT(NULL != pbsDontUpdateStats);
 	GPOS_ASSERT(NULL != phmulhistResultDisj);
 
-	if (NULL != phistPrev && ULONG_MAX != ulColId && !pbsDontUpdateStats->Get(ulColId))
+	if (NULL != phistPrev && ULONG_MAX != col_id && !pbsDontUpdateStats->Get(col_id))
 	{
-		// 1. the filter is on the same column because ULONG_MAX != ulColId
+		// 1. the filter is on the same column because ULONG_MAX != col_id
 		// 2. the histogram of the column can be updated
-		CHistogram *phistResult = phmulhistResultDisj->Find(&ulColId);
+		CHistogram *phistResult = phmulhistResultDisj->Find(&col_id);
 		if (NULL != phistResult)
 		{
 			// since there is already a histogram for this column,
@@ -734,7 +734,7 @@ CStatisticsUtils::UpdateDisjStatistics
 		AddHistogram
 			(
 			memory_pool,
-			ulColId,
+			col_id,
 			phistPrev,
 			phmulhistResultDisj,
 			true /*fReplaceOldEntries*/
@@ -805,10 +805,10 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 			// used in the disjunction
 			for (ULONG ulUsedColIdx = 0; ulUsedColIdx < ulDisjUsedCol; ulUsedColIdx++)
 			{
-				ULONG ulColId = *(*pdrgpulDisj)[ulUsedColIdx];
-				if (!pbsChild->Get(ulColId))
+				ULONG col_id = *(*pdrgpulDisj)[ulUsedColIdx];
+				if (!pbsChild->Get(col_id))
 				{
-					(void) pbsNonUpdateable->ExchangeSet(ulColId);
+					(void) pbsNonUpdateable->ExchangeSet(col_id);
 				}
 			}
 		}
@@ -839,7 +839,7 @@ void
 CStatisticsUtils::AddHistogram
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulColId,
+	ULONG col_id,
 	const CHistogram *phist,
 	HMUlHist *phmulhist,
 	BOOL fReplaceOld
@@ -847,12 +847,12 @@ CStatisticsUtils::AddHistogram
 {
 	GPOS_ASSERT(NULL != phist);
 
-	if (NULL == phmulhist->Find(&ulColId))
+	if (NULL == phmulhist->Find(&col_id))
 	{
 #ifdef GPOS_DEBUG
 		BOOL fRes =
 #endif
-		phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phist->PhistCopy(memory_pool));
+		phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist->PhistCopy(memory_pool));
 		GPOS_ASSERT(fRes);
 	}
 	else if (fReplaceOld)
@@ -860,7 +860,7 @@ CStatisticsUtils::AddHistogram
 #ifdef GPOS_DEBUG
 		BOOL fRes =
 #endif
-		phmulhist->Replace(&ulColId, phist->PhistCopy(memory_pool));
+		phmulhist->Replace(&col_id, phist->PhistCopy(memory_pool));
 		GPOS_ASSERT(fRes);
 	}
 }
@@ -957,9 +957,9 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	HMIterUlHist hmiterulhist(phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
+		ULONG col_id = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
-		if (NULL != phist && !pbsStatsNonUpdateableCols->Get(ulColId))
+		if (NULL != phist && !pbsStatsNonUpdateableCols->Get(col_id))
 		{
 			if (fEmpty)
 			{
@@ -968,7 +968,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 				AddHistogram
 					(
 					memory_pool,
-					ulColId,
+					col_id,
 					phist,
 					phmulhistMergeResult,
 					true /* fReplaceOld */
@@ -976,7 +976,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 			}
 			else
 			{
-				const CHistogram *phistDisjChild = phmulhistDisjChild->Find(&ulColId);
+				const CHistogram *phistDisjChild = phmulhistDisjChild->Find(&col_id);
 				CHistogram *phistMergeResult = phist->PhistUnionNormalized
 													(
 													memory_pool,
@@ -989,7 +989,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 				AddHistogram
 					(
 					memory_pool,
-					ulColId,
+					col_id,
 					phistMergeResult,
 					phmulhistMergeResult,
 					true /* fReplaceOld */
@@ -1028,9 +1028,9 @@ CStatisticsUtils::PhmulhistCopy
 	HMIterUlHist hmiterulhist(phmulhist);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
+		ULONG col_id = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
-		AddHistogram(memory_pool, ulColId, phist, phmulhistCopy);
+		AddHistogram(memory_pool, col_id, phist, phmulhistCopy);
 		GPOS_CHECK_ABORT;
 	}
 
@@ -1062,12 +1062,12 @@ CStatisticsUtils::UlColId
 	for (ULONG ul = 0; ul < ulLen && fSameCol; ul++)
 	{
 		CStatsPred *pstatspred = (*pdrgpstatspred)[ul];
-		ULONG ulColId =  pstatspred->UlColId();
+		ULONG col_id =  pstatspred->UlColId();
 		if (ULONG_MAX == ulColIdResult)
 		{
-			ulColIdResult = ulColId;
+			ulColIdResult = col_id;
 		}
-		fSameCol = (ulColIdResult == ulColId);
+		fSameCol = (ulColIdResult == col_id);
 	}
 
 	if (fSameCol)
@@ -1328,18 +1328,18 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		ULONG ulColId = pcr->UlId();
-		if (NULL == pbsKeys || pbsKeys->Get(ulColId))
+		ULONG col_id = pcr->UlId();
+		if (NULL == pbsKeys || pbsKeys->Get(col_id))
 		{
 			// if keys are available then only consider grouping columns defined as 
 			// key columns else consider all grouping columns
-			const CColRef *pcr = pcf->PcrLookup(ulColId);
+			const CColRef *pcr = pcf->PcrLookup(col_id);
 			const ULONG ulIdxUpperBoundNDVs = pstats->UlIndexUpperBoundNDVs(pcr);
 			const ULongPtrArray *pdrgpul = phmulpdrgpul->Find(&ulIdxUpperBoundNDVs);
 			if (NULL == pdrgpul)
 			{
 				ULongPtrArray *pdrgpulNew = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
-				pdrgpulNew->Append(GPOS_NEW(memory_pool) ULONG(ulColId));
+				pdrgpulNew->Append(GPOS_NEW(memory_pool) ULONG(col_id));
 #ifdef GPOS_DEBUG
 		BOOL fres =
 #endif // GPOS_DEBUG
@@ -1348,7 +1348,7 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 			}
 			else
 			{
-				(const_cast<ULongPtrArray *>(pdrgpul))->Append(GPOS_NEW(memory_pool) ULONG(ulColId));
+				(const_cast<ULongPtrArray *>(pdrgpul))->Append(GPOS_NEW(memory_pool) ULONG(col_id));
 			}
 		}
 	}
@@ -1381,10 +1381,10 @@ CStatisticsUtils::AddNdvForAllGrpCols
 	// iterate over grouping columns
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
-		ULONG ulColId = (*(*pdrgpulGrpCol)[ul]);
+		ULONG col_id = (*(*pdrgpulGrpCol)[ul]);
 
 		CDouble dDistVals = CStatisticsUtils::DDefaultDistinctVals(pstatsInput->DRows());
-		const CHistogram *phist = pstatsInput->Phist(ulColId);
+		const CHistogram *phist = pstatsInput->Phist(col_id);
 		if (NULL != phist)
 		{
 			dDistVals = phist->DDistinct();
@@ -1474,8 +1474,8 @@ CStatisticsUtils::FExistsCappedGrpCol
 	const ULONG ulCols = pdrgpulGrpCol->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
-		ULONG ulColId = (*(*pdrgpulGrpCol)[ul]);
-		const CHistogram *phist = pstats->Phist(ulColId);
+		ULONG col_id = (*(*pdrgpulGrpCol)[ul]);
+		const CHistogram *phist = pstats->Phist(col_id);
 
 		if (NULL != phist && phist->FScaledNDV())
 		{
@@ -1511,8 +1511,8 @@ CStatisticsUtils::DMaxNdv
 	{
 		CDouble dNdv = CStatisticsUtils::DDefaultDistinctVals(pstats->DRows());
 
-		ULONG ulColId = (*(*pdrgpulGrpCol)[ul]);
-		const CHistogram *phist = pstats->Phist(ulColId);
+		ULONG col_id = (*(*pdrgpulGrpCol)[ul]);
+		const CHistogram *phist = pstats->Phist(col_id);
 		if (NULL != phist)
 		{
 			dNdv = phist->DDistinct();
@@ -1750,8 +1750,8 @@ CStatisticsUtils::PcrsGrpColsForStats
 	// iterate over grouping columns
 	for (ULONG ul = 0; ul < ulGrpCols; ul++)
 	{
-		ULONG ulColId = *(*pdrgpulGrpCol) [ul];
-		CColRef *pcrGrpCol = pcf->PcrLookup(ulColId);
+		ULONG col_id = *(*pdrgpulGrpCol) [ul];
+		CColRef *pcrGrpCol = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcrGrpCol);
 
 		// check to see if the grouping column is a computed attribute
@@ -1904,13 +1904,13 @@ CStatisticsUtils::AddWidthInfo
 	HMIterUlDouble hmiteruldouble(phmuldoubleSrc);
 	while (hmiteruldouble.Advance())
 	{
-		ULONG ulColId = *(hmiteruldouble.Key());
-		BOOL fPresent = (NULL != phmuldoubleDest->Find(&ulColId));
+		ULONG col_id = *(hmiteruldouble.Key());
+		BOOL fPresent = (NULL != phmuldoubleDest->Find(&col_id));
 		if (!fPresent)
 		{
 			const CDouble *pdWidth = hmiteruldouble.Value();
 			CDouble *pdWidthCopy = GPOS_NEW(memory_pool) CDouble(*pdWidth);
-			phmuldoubleDest->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), pdWidthCopy);
+			phmuldoubleDest->Insert(GPOS_NEW(memory_pool) ULONG(col_id), pdWidthCopy);
 		}
 
 		GPOS_CHECK_ABORT;

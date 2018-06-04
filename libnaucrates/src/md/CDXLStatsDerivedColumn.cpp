@@ -28,7 +28,7 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	(
-	ULONG ulColId,
+	ULONG col_id,
 	CDouble dWidth,
 	CDouble dNullFreq,
 	CDouble dDistinctRemain,
@@ -36,7 +36,7 @@ CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	DrgPdxlbucket *stats_bucket_dxl_array
 	)
 	:
-	m_ulColId(ulColId),
+	m_ulColId(col_id),
 	m_dWidth(dWidth),
 	m_dNullFreq(dNullFreq),
 	m_dDistinctRemain(dDistinctRemain),

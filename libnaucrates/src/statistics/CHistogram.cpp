@@ -1877,7 +1877,7 @@ CHistogram::Pdxlstatsdercol
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *pmda,
-	ULONG ulColId,
+	ULONG col_id,
 	CDouble dWidth
 	)
 	const
@@ -1908,7 +1908,7 @@ CHistogram::Pdxlstatsdercol
 		stats_bucket_dxl_array->Append(pdxlbucket);
 	}
 
-	return GPOS_NEW(memory_pool) CDXLStatsDerivedColumn(ulColId, dWidth, m_dNullFreq, m_dDistinctRemain, m_dFreqRemain, stats_bucket_dxl_array);
+	return GPOS_NEW(memory_pool) CDXLStatsDerivedColumn(col_id, dWidth, m_dNullFreq, m_dDistinctRemain, m_dFreqRemain, stats_bucket_dxl_array);
 }
 
 // randomly pick a bucket index based on bucket frequency values
@@ -2097,9 +2097,9 @@ CHistogram::AddHistograms
 	HMIterUlHist hmiterulhist(phmulhistSrc);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
+		ULONG col_id = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
-		CStatisticsUtils::AddHistogram(memory_pool, ulColId, phist, phmulhistDest);
+		CStatisticsUtils::AddHistogram(memory_pool, col_id, phist, phmulhistDest);
 	}
 }
 
@@ -2124,16 +2124,16 @@ CHistogram::AddDummyHistogramAndWidthInfo
 	// for computed aggregates, we're not going to be very smart right now
 	for (ULONG ul = 0; ul < ulCount; ul++)
 	{
-		ULONG ulColId = *(*pdrgpul)[ul];
+		ULONG col_id = *(*pdrgpul)[ul];
 
-		CColRef *pcr = pcf->PcrLookup(ulColId);
+		CColRef *pcr = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcr);
 
 		CHistogram *phist = CHistogram::PhistDefault(memory_pool, pcr, fEmpty);
-		phmulhistOutput->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phist);
+		phmulhistOutput->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);
 
 		CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-		phmuldoubleWidthOutput->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), GPOS_NEW(memory_pool) CDouble(dWidth));
+		phmuldoubleWidthOutput->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
 	}
 }
 
@@ -2152,11 +2152,11 @@ CHistogram::AddEmptyHistogram
 	HMIterUlHist hmiterulhist(phmulhistInput);
 	while (hmiterulhist.Advance())
 	{
-		ULONG ulColId = *(hmiterulhist.Key());
+		ULONG col_id = *(hmiterulhist.Key());
 
 		// empty histogram
 		CHistogram *phist =  GPOS_NEW(memory_pool) CHistogram(GPOS_NEW(memory_pool) DrgPbucket(memory_pool), false /* fWellDefined */);
-		phmulhistOutput->Insert(GPOS_NEW(memory_pool) ULONG(ulColId), phist);
+		phmulhistOutput->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);
 	}
 }
 

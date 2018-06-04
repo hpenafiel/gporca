@@ -122,16 +122,16 @@ CDXLLogicalTVF::GetColumnDescrAt
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalTVF::FDefinesColumn
+//		CDXLLogicalTVF::IsColDefined
 //
 //	@doc:
 //		Check if given column is defined by operator
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLLogicalTVF::FDefinesColumn
+CDXLLogicalTVF::IsColDefined
 	(
-	ULONG ulColId
+	ULONG col_id
 	)
 	const
 {
@@ -139,7 +139,7 @@ CDXLLogicalTVF::FDefinesColumn
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
 		ULONG ulId = GetColumnDescrAt(ulDescr)->Id();
-		if (ulId == ulColId)
+		if (ulId == col_id)
 		{
 			return true;
 		}

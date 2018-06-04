@@ -33,10 +33,10 @@ namespace gpdxl
 		private:
 
 			// list of column descriptors		
-			ColumnDescrDXLArray *m_pdrgpdxlcd;
+			ColumnDescrDXLArray *m_col_descr_array;
 
 			// array of datum arrays (const tuples)
-			DXLDatumArrays *m_pdrgpdrgpdxldatum;
+			DXLDatumArrays *m_const_tuples_datum_array;
 
 			// private copy ctor
 			CDXLLogicalConstTable(CDXLLogicalConstTable&);
@@ -65,7 +65,7 @@ namespace gpdxl
 			// column descriptors
 			const ColumnDescrDXLArray *GetColumnDescrDXLArray() const
 			{
-				return m_pdrgpdxlcd;
+				return m_col_descr_array;
 			}
 
 			// return the column descriptor at a given position
@@ -75,15 +75,15 @@ namespace gpdxl
 			ULONG Arity() const;
 
 			// number of constant tuples
-			ULONG UlTupleCount() const
+			ULONG GetConstTupleCount() const
 			{
-				return m_pdrgpdrgpdxldatum->Size();
+				return m_const_tuples_datum_array->Size();
 			}
 
 			// return the const tuple (datum array) at a given position
-			const DXLDatumArray *PrgPdxldatumConstTuple(ULONG ulTuplePos) const
+			const DXLDatumArray *GetConstTupleDatumArrayAt(ULONG ulTuplePos) const
 			{
-				return (*m_pdrgpdrgpdxldatum)[ulTuplePos];
+				return (*m_const_tuples_datum_array)[ulTuplePos];
 			}
 
 			// serialize operator in DXL format
@@ -92,7 +92,7 @@ namespace gpdxl
 
 			// check if given column is defined by operator
 			virtual
-			BOOL FDefinesColumn(ULONG ulColId) const;
+			BOOL IsColDefined(ULONG col_id) const;
 
 			// conversion function
 			static

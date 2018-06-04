@@ -149,7 +149,7 @@ namespace gpnaucrates
 			DrgPstatspred *PdrgpstatspredInteger
 			(
 					IMemoryPool *memory_pool,
-					ULONG ulColId,
+					ULONG col_id,
 					CStatsPred::EStatsCmpType escmpt,
 					INT *piVals,
 					ULONG ulVals
@@ -157,7 +157,7 @@ namespace gpnaucrates
 
 			// create a numeric predicate on a particular column
 			static
-			DrgPstatspred *PdrgppredfilterNumeric(IMemoryPool *memory_pool, ULONG ulColId, SStatsCmpValElem statsCmpValElem);
+			DrgPstatspred *PdrgppredfilterNumeric(IMemoryPool *memory_pool, ULONG col_id, SStatsCmpValElem statsCmpValElem);
 
 			// create a filter on a column with null values
 			static

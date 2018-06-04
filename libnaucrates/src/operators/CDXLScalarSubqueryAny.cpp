@@ -33,10 +33,10 @@ CDXLScalarSubqueryAny::CDXLScalarSubqueryAny
 	IMemoryPool *memory_pool,
 	IMDId *pmdidScalarOp,
 	CMDName *pmdnameScalarOp,
-	ULONG ulColId
+	ULONG col_id
 	)
 	:
-	CDXLScalarSubqueryQuantified(memory_pool, pmdidScalarOp, pmdnameScalarOp, ulColId)
+	CDXLScalarSubqueryQuantified(memory_pool, pmdidScalarOp, pmdnameScalarOp, col_id)
 {}
 
 //---------------------------------------------------------------------------

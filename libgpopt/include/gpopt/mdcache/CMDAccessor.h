@@ -262,7 +262,7 @@ namespace gpopt
 					(
 					IMemoryPool *memory_pool,
 					IMDId *pmdidRel,
-					ULONG ulColId,
+					ULONG col_id,
 					ULONG ulPos,
 					BOOL fSystemCol,
 					BOOL fEmptyTable,

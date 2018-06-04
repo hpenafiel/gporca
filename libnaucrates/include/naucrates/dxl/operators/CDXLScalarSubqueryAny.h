@@ -48,7 +48,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *pmdidScalarOp,
 				CMDName *mdname,
-				ULONG ulColId
+				ULONG col_id
 				);
 
 			// ident accessors

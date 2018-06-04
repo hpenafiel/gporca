@@ -55,11 +55,11 @@ namespace gpnaucrates
 
 			// create filter on int4 types
 			static
-			void StatsFilterInt4(IMemoryPool *memory_pool, ULONG ulColId, INT iLower, INT iUpper, DrgPstatspred *pgrgpstatspred);
+			void StatsFilterInt4(IMemoryPool *memory_pool, ULONG col_id, INT iLower, INT iUpper, DrgPstatspred *pgrgpstatspred);
 
 			// create filter on boolean types
 			static
-			void StatsFilterBool(IMemoryPool *memory_pool, ULONG ulColId, BOOL fValue, DrgPstatspred *pgrgpstatspred);
+			void StatsFilterBool(IMemoryPool *memory_pool, ULONG col_id, BOOL fValue, DrgPstatspred *pgrgpstatspred);
 
 			// create filter on numeric types
 			static
@@ -67,7 +67,7 @@ namespace gpnaucrates
 			StatsFilterNumeric
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulColId,
+				ULONG col_id,
 				CWStringDynamic *pstrLowerEncoded,
 				CWStringDynamic *pstrUpperEncoded,
 				CDouble dValLower,
@@ -80,7 +80,7 @@ namespace gpnaucrates
 			void StatsFilterGeneric
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulColId,
+				ULONG col_id,
 				OID oid,
 				CWStringDynamic *pstrLowerEncoded,
 				CWStringDynamic *pstrUpperEncoded,

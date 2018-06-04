@@ -73,13 +73,13 @@ namespace gpdxl
 
 			// check if given column is defined by operator
 			virtual
-			BOOL FDefinesColumn
+			BOOL IsColDefined
 				(
-				ULONG ulColId
+				ULONG col_id
 				)
 				const
 			{
-				return (UlId() == ulColId);
+				return (UlId() == col_id);
 			}
 
 			// conversion function
