@@ -151,7 +151,7 @@ CDXLPhysicalAgg::GetGroupingColidArray() const
 void
 CDXLPhysicalAgg::SetGroupingCols(ULongPtrArray *grouping_colids_array)
 {
-	GPOS_ASSERT(NULL != pdrgpul);
+	GPOS_ASSERT(NULL != grouping_colids_array);
 	m_grouping_colids_array = grouping_colids_array;
 }
 
