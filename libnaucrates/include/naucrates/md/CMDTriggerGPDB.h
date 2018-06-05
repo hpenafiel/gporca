@@ -53,7 +53,7 @@ namespace gpmd
 			IMDId *m_pmdidRel;
 
 			// function id
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// trigger type
 			INT m_iType;
@@ -110,9 +110,9 @@ namespace gpmd
 
 			// function mdid
 			virtual
-			IMDId *PmdidFunc() const
+			IMDId *FuncMdId() const
 			{
-				return m_pmdidFunc;
+				return m_func_mdid;
 			}
 
 			// does trigger execute on a row-level

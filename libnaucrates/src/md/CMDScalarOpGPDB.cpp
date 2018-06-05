@@ -50,7 +50,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	m_pmdidTypeLeft(pmdidTypeLeft),
 	m_pmdidTypeRight(pmdidTypeRight),
 	m_pmdidTypeResult(pmdidTypeResult),
-	m_pmdidFunc(pmdidFunc),
+	m_func_mdid(pmdidFunc),
 	m_pmdidOpCommute(pmdidOpCommute),
 	m_pmdidOpInverse(pmdidOpInverse),
 	m_ecmpt(ecmpt),
@@ -74,7 +74,7 @@ CMDScalarOpGPDB::~CMDScalarOpGPDB()
 {
 	m_mdid->Release();
 	m_pmdidTypeResult->Release();
-	m_pmdidFunc->Release();	
+	m_func_mdid->Release();	
 
 	CRefCount::SafeRelease(m_pmdidTypeLeft);
 	CRefCount::SafeRelease(m_pmdidTypeRight);
@@ -158,16 +158,16 @@ CMDScalarOpGPDB::PmdidTypeResult() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDScalarOpGPDB::PmdidFunc
+//		CMDScalarOpGPDB::FuncMdId
 //
 //	@doc:
 //		Id of function which implements the operator
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDScalarOpGPDB::PmdidFunc() const
+CMDScalarOpGPDB::FuncMdId() const
 {
-	return m_pmdidFunc;
+	return m_func_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -274,7 +274,7 @@ CMDScalarOpGPDB::Serialize
 							};
 	
 	IMDId *rgMdid[6] = {m_pmdidTypeLeft, m_pmdidTypeRight, m_pmdidTypeResult, 
-						m_pmdidFunc, m_pmdidOpCommute, m_pmdidOpInverse};
+						m_func_mdid, m_pmdidOpCommute, m_pmdidOpInverse};
 	
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgEdxltoken); ul++)
 	{
@@ -365,7 +365,7 @@ CMDScalarOpGPDB::DebugPrint
 	os << std::endl;
 
 	os << "Operator func id: ";
-	PmdidFunc()->OsPrint(os);
+	FuncMdId()->OsPrint(os);
 	os << std::endl;
 
 	os << "Commute operator id: ";

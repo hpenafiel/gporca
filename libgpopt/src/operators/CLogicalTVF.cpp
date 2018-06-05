@@ -35,8 +35,8 @@ CLogicalTVF::CLogicalTVF
 	)
 	:
 	CLogical(memory_pool),
-	m_pmdidFunc(NULL),
-	m_pmdidRetType(NULL),
+	m_func_mdid(NULL),
+	m_return_type_mdid(NULL),
 	m_pstr(NULL),
 	m_pdrgpcoldesc(NULL),
 	m_pdrgpcrOutput(NULL),
@@ -66,8 +66,8 @@ CLogicalTVF::CLogicalTVF
 	)
 	:
 	CLogical(memory_pool),
-	m_pmdidFunc(pmdidFunc),
-	m_pmdidRetType(pmdidRetType),
+	m_func_mdid(pmdidFunc),
+	m_return_type_mdid(pmdidRetType),
 	m_pstr(pstr),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(NULL)
@@ -81,7 +81,7 @@ CLogicalTVF::CLogicalTVF
 	m_pdrgpcrOutput = PdrgpcrCreateMapping(memory_pool, pdrgpcoldesc, UlOpId());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_pmdidFunc);
+	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
@@ -107,8 +107,8 @@ CLogicalTVF::CLogicalTVF
 	)
 	:
 	CLogical(memory_pool),
-	m_pmdidFunc(pmdidFunc),
-	m_pmdidRetType(pmdidRetType),
+	m_func_mdid(pmdidFunc),
+	m_return_type_mdid(pmdidRetType),
 	m_pstr(pstr),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(pdrgpcrOutput)
@@ -120,7 +120,7 @@ CLogicalTVF::CLogicalTVF
 	GPOS_ASSERT(NULL != pdrgpcrOutput);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_pmdidFunc);
+	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
@@ -137,8 +137,8 @@ CLogicalTVF::CLogicalTVF
 //---------------------------------------------------------------------------
 CLogicalTVF::~CLogicalTVF()
 {
-	CRefCount::SafeRelease(m_pmdidFunc);
-	CRefCount::SafeRelease(m_pmdidRetType);
+	CRefCount::SafeRelease(m_func_mdid);
+	CRefCount::SafeRelease(m_return_type_mdid);
 	CRefCount::SafeRelease(m_pdrgpcoldesc);
 	CRefCount::SafeRelease(m_pdrgpcrOutput);
 	GPOS_DELETE(m_pstr);
@@ -158,9 +158,9 @@ CLogicalTVF::HashValue() const
 	ULONG ulHash = gpos::CombineHashes(
 								COperator::HashValue(),
 								gpos::CombineHashes(
-										m_pmdidFunc->HashValue(),
+										m_func_mdid->HashValue(),
 										gpos::CombineHashes(
-												m_pmdidRetType->HashValue(),
+												m_return_type_mdid->HashValue(),
 												gpos::HashPtr<DrgPcoldesc>(m_pdrgpcoldesc))));
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 	return ulHash;
@@ -188,8 +188,8 @@ CLogicalTVF::FMatch
 
 	CLogicalTVF *popTVF = CLogicalTVF::PopConvert(pop);
 		
-	return m_pmdidFunc->Equals(popTVF->PmdidFunc()) &&
-			m_pmdidRetType->Equals(popTVF->PmdidRetType()) &&
+	return m_func_mdid->Equals(popTVF->FuncMdId()) &&
+			m_return_type_mdid->Equals(popTVF->ReturnTypeMdId()) &&
 			m_pdrgpcoldesc->Equals(popTVF->Pdrgpcoldesc()) &&
 			m_pdrgpcrOutput->Equals(popTVF->PdrgpcrOutput());
 }
@@ -221,11 +221,11 @@ CLogicalTVF::PopCopyWithRemappedColumns
 	}
 
 	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(m_pstr->GetBuffer());
-	m_pmdidFunc->AddRef();
-	m_pmdidRetType->AddRef();
+	m_func_mdid->AddRef();
+	m_return_type_mdid->AddRef();
 	m_pdrgpcoldesc->AddRef();
 
-	return GPOS_NEW(memory_pool) CLogicalTVF(memory_pool, m_pmdidFunc, m_pmdidRetType, pstr, m_pdrgpcoldesc, pdrgpcrOutput);
+	return GPOS_NEW(memory_pool) CLogicalTVF(memory_pool, m_func_mdid, m_return_type_mdid, pstr, m_pdrgpcoldesc, pdrgpcrOutput);
 }
 
 //---------------------------------------------------------------------------

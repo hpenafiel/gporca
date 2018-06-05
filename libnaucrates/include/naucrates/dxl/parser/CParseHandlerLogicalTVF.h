@@ -35,10 +35,10 @@ namespace gpdxl
 		private:
 
 			// catalog id of the function
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// return type
-			IMDId *m_pmdidRetType;
+			IMDId *m_return_type_mdid;
 
 			// function name
 			CMDName *m_mdname;

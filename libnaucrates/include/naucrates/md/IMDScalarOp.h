@@ -57,7 +57,7 @@ namespace gpmd
 			
 			// id of function which implements the operator
 			virtual 
-			IMDId *PmdidFunc() const = 0;
+			IMDId *FuncMdId() const = 0;
 						
 			// id of commute operator
 			virtual 

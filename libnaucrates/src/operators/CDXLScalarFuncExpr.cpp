@@ -38,13 +38,13 @@ CDXLScalarFuncExpr::CDXLScalarFuncExpr
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidFunc(pmdidFunc),
-	m_pmdidRetType(pmdidRetType),
+	m_func_mdid(pmdidFunc),
+	m_return_type_mdid(pmdidRetType),
 	m_iRetTypeModifier(iRetTypeModifier),
 	m_fReturnSet(fRetSet)
 {
-	GPOS_ASSERT(m_pmdidFunc->IsValid());
-	GPOS_ASSERT(m_pmdidRetType->IsValid());
+	GPOS_ASSERT(m_func_mdid->IsValid());
+	GPOS_ASSERT(m_return_type_mdid->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -57,8 +57,8 @@ CDXLScalarFuncExpr::CDXLScalarFuncExpr
 //---------------------------------------------------------------------------
 CDXLScalarFuncExpr::~CDXLScalarFuncExpr()
 {
-	m_pmdidFunc->Release();
-	m_pmdidRetType->Release();
+	m_func_mdid->Release();
+	m_return_type_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -92,30 +92,30 @@ CDXLScalarFuncExpr::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarFuncExpr::PmdidFunc
+//		CDXLScalarFuncExpr::FuncMdId
 //
 //	@doc:
 //		Returns function id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarFuncExpr::PmdidFunc() const
+CDXLScalarFuncExpr::FuncMdId() const
 {
-	return m_pmdidFunc;
+	return m_func_mdid;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarFuncExpr::PmdidRetType
+//		CDXLScalarFuncExpr::ReturnTypeMdId
 //
 //	@doc:
 //		Return type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarFuncExpr::PmdidRetType() const
+CDXLScalarFuncExpr::ReturnTypeMdId() const
 {
-	return m_pmdidRetType;
+	return m_return_type_mdid;
 }
 
 INT
@@ -157,9 +157,9 @@ CDXLScalarFuncExpr::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
+	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenFuncRetSet), m_fReturnSet);
-	m_pmdidRetType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())
 	{
@@ -186,7 +186,7 @@ CDXLScalarFuncExpr::FBoolean
 	)
 	const
 {
-	IMDId *pmdid = pmda->Pmdfunc(m_pmdidFunc)->PmdidTypeResult();
+	IMDId *pmdid = pmda->Pmdfunc(m_func_mdid)->PmdidTypeResult();
 	return (IMDType::EtiBool == pmda->Pmdtype(pmdid)->Eti());
 }
 

@@ -39,8 +39,8 @@ CParseHandlerLogicalTVF::CParseHandlerLogicalTVF
 	)
 	:
 	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pmdidFunc(NULL),
-	m_pmdidRetType(NULL),
+	m_func_mdid(NULL),
+	m_return_type_mdid(NULL),
 	m_mdname(NULL)
 {
 }
@@ -65,7 +65,7 @@ CParseHandlerLogicalTVF::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalTVF), element_local_name))
 	{
 		// parse function id
-		m_pmdidFunc = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenLogicalTVF);
+		m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenLogicalTVF);
 
 		// parse function name
 		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -80,7 +80,7 @@ CParseHandlerLogicalTVF::StartElement
 		GPOS_DELETE(pstrFuncName);
 
 		// parse function return type
-		m_pmdidRetType = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenLogicalTVF);
+		m_return_type_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenLogicalTVF);
 
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
@@ -138,7 +138,7 @@ CParseHandlerLogicalTVF::EndElement
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
 
 	pdrgpdxlcd->AddRef();
-	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_mdname, pdrgpdxlcd);
+	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_func_mdid, m_return_type_mdid, m_mdname, pdrgpdxlcd);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopTVF);
 

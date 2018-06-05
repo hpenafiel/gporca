@@ -42,20 +42,20 @@ CPhysicalTVF::CPhysicalTVF
 	)
 	:
 	CPhysical(memory_pool),
-	m_pmdidFunc(pmdidFunc),
-	m_pmdidRetType(pmdidRetType),
+	m_func_mdid(pmdidFunc),
+	m_return_type_mdid(pmdidRetType),
 	m_pstr(pstr),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pcrsOutput(pcrsOutput)
 {
-	GPOS_ASSERT(m_pmdidFunc->IsValid());
-	GPOS_ASSERT(m_pmdidRetType->IsValid());
+	GPOS_ASSERT(m_func_mdid->IsValid());
+	GPOS_ASSERT(m_return_type_mdid->IsValid());
 	GPOS_ASSERT(NULL != m_pstr);
 	GPOS_ASSERT(NULL != m_pdrgpcoldesc);
 	GPOS_ASSERT(NULL != m_pcrsOutput);
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_pmdfunc = pmda->Pmdfunc(m_pmdidFunc);
+	m_pmdfunc = pmda->Pmdfunc(m_func_mdid);
 }
 
 
@@ -69,8 +69,8 @@ CPhysicalTVF::CPhysicalTVF
 //---------------------------------------------------------------------------
 CPhysicalTVF::~CPhysicalTVF()
 {
-	m_pmdidFunc->Release();
-	m_pmdidRetType->Release();
+	m_func_mdid->Release();
+	m_return_type_mdid->Release();
 	m_pdrgpcoldesc->Release();
 	m_pcrsOutput->Release();
 	GPOS_DELETE(m_pstr);
@@ -95,8 +95,8 @@ CPhysicalTVF::FMatch
 	{
 		CPhysicalTVF *popTVF = CPhysicalTVF::PopConvert(pop);
 
-		return m_pmdidFunc->Equals(popTVF->PmdidFunc()) &&
-				m_pmdidRetType->Equals(popTVF->PmdidRetType()) &&
+		return m_func_mdid->Equals(popTVF->FuncMdId()) &&
+				m_return_type_mdid->Equals(popTVF->ReturnTypeMdId()) &&
 				m_pdrgpcoldesc == popTVF->Pdrgpcoldesc() &&
 				m_pcrsOutput->Equals(popTVF->PcrsOutput());
 	}

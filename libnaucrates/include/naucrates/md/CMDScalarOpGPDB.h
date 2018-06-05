@@ -58,7 +58,7 @@ namespace gpmd
 			IMDId *m_pmdidTypeResult;
 			
 			// id of function which implements the operator
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 			
 			// id of commute operator
 			IMDId *m_pmdidOpCommute;
@@ -127,7 +127,7 @@ namespace gpmd
 
 			// implementer function id
 			virtual
-			IMDId *PmdidFunc() const;
+			IMDId *FuncMdId() const;
 
 			// commutor id
 			virtual

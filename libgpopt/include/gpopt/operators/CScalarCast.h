@@ -37,7 +37,7 @@ namespace gpopt
 			IMDId *m_pmdidReturnType;
 
 			// function to be used for casting
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// whether or not this cast is binary coercible
 			BOOL m_fBinaryCoercible;
@@ -66,7 +66,7 @@ namespace gpopt
 			virtual
 			~CScalarCast() 
 			{
-				m_pmdidFunc->Release();
+				m_func_mdid->Release();
 				m_pmdidReturnType->Release();
 			}
 
@@ -81,9 +81,9 @@ namespace gpopt
 			}
 
 			// func that casts
-			IMDId *PmdidFunc() const
+			IMDId *FuncMdId() const
 			{
-				return m_pmdidFunc;
+				return m_func_mdid;
 			}
 
 			virtual

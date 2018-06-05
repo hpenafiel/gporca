@@ -32,10 +32,10 @@ namespace gpopt
 		private:
 		
 			// function mdid
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 			
 			// return type
-			IMDId *m_pmdidRetType;
+			IMDId *m_return_type_mdid;
 
 			// function name
 			CWStringConst *m_pstr;
@@ -102,15 +102,15 @@ namespace gpopt
 			}
 			
 			// function mdid
-			IMDId *PmdidFunc() const
+			IMDId *FuncMdId() const
 			{
-				return m_pmdidFunc;
+				return m_func_mdid;
 			}
 			
 			// return type
-			IMDId *PmdidRetType() const
+			IMDId *ReturnTypeMdId() const
 			{
-				return m_pmdidRetType;
+				return m_return_type_mdid;
 			}
 
 			// function name

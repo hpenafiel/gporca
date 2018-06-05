@@ -4450,7 +4450,7 @@ CXformUtils::PexprWinFuncAgg2ScalarAgg
 	}
 
 	CScalarWindowFunc *popScWinFunc = CScalarWindowFunc::PopConvert(pexprWinFunc->Pop());
-	IMDId *pmdidFunc = popScWinFunc->PmdidFunc();
+	IMDId *pmdidFunc = popScWinFunc->FuncMdId();
 
 	pmdidFunc->AddRef();
 	return

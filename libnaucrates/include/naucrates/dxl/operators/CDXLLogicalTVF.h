@@ -33,16 +33,16 @@ namespace gpdxl
 	{
 		private:
 			// catalog id of the function
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// return type
-			IMDId *m_pmdidRetType;
+			IMDId *m_return_type_mdid;
 
 			// function name
 			CMDName *m_mdname;
 
 			// list of column descriptors		
-			ColumnDescrDXLArray *m_pdrgdxlcd;
+			ColumnDescrDXLArray *m_col_descr_dxl_array;
 			
 			// private copy ctor
 			CDXLLogicalTVF(const CDXLLogicalTVF &);
@@ -74,15 +74,15 @@ namespace gpdxl
 			}
 
 			// get function id
-			IMDId *PmdidFunc() const
+			IMDId *FuncMdId() const
 			{
-				return m_pmdidFunc;
+				return m_func_mdid;
 			}
 
 			// get return type
-			IMDId *PmdidRetType() const
+			IMDId *ReturnTypeMdId() const
 			{
-				return m_pmdidRetType;
+				return m_return_type_mdid;
 			}
 
 			// get number of output columns
@@ -91,7 +91,7 @@ namespace gpdxl
 			// return the array of column descriptors
 			const ColumnDescrDXLArray *GetColumnDescrDXLArray() const
 			{
-				return m_pdrgdxlcd;
+				return m_col_descr_dxl_array;
 			}
 
 			// get the column descriptor at the given position
@@ -103,7 +103,7 @@ namespace gpdxl
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

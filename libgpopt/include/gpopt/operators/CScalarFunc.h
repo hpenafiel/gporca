@@ -38,10 +38,10 @@ namespace gpopt
 		protected:
 
 			// func id
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// return type
-			IMDId *m_pmdidRetType;
+			IMDId *m_return_type_mdid;
 
 			const INT m_iRetTypeModifier;
 
@@ -152,7 +152,7 @@ namespace gpopt
 			const CWStringConst *PstrFunc() const;
 
 			// func id
-			IMDId *PmdidFunc() const;
+			IMDId *FuncMdId() const;
 
 			virtual INT TypeModifier() const;
 

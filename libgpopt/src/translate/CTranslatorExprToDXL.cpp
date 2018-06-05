@@ -2023,10 +2023,10 @@ CTranslatorExprToDXL::PdxlnTVF
 
 	CColRefSet *pcrsOutput = popTVF->PcrsOutput();
 
-	IMDId *pmdidFunc = popTVF->PmdidFunc();
+	IMDId *pmdidFunc = popTVF->FuncMdId();
 	pmdidFunc->AddRef();
 
-	IMDId *pmdidRetType = popTVF->PmdidRetType();
+	IMDId *pmdidRetType = popTVF->ReturnTypeMdId();
 	pmdidRetType->AddRef();
 
 	CWStringConst *pstrFunc = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, popTVF->Pstr()->GetBuffer());
@@ -6013,7 +6013,7 @@ CTranslatorExprToDXL::PdxlnScFuncExpr
 
 	CScalarFunc *popScFunc = CScalarFunc::PopConvert(pexprFunc->Pop());
 
-	IMDId *pmdidFunc = popScFunc->PmdidFunc();
+	IMDId *pmdidFunc = popScFunc->FuncMdId();
 	pmdidFunc->AddRef();
 
 	IMDId *pmdidRetType = popScFunc->MDIdType();
@@ -6052,7 +6052,7 @@ CTranslatorExprToDXL::PdxlnScWindowFuncExpr
 
 	CScalarWindowFunc *popScWindowFunc = CScalarWindowFunc::PopConvert(pexprWindowFunc->Pop());
 
-	IMDId *pmdidFunc = popScWindowFunc->PmdidFunc();
+	IMDId *pmdidFunc = popScWindowFunc->FuncMdId();
 	pmdidFunc->AddRef();
 
 	IMDId *pmdidRetType = popScWindowFunc->MDIdType();
@@ -6488,7 +6488,7 @@ CTranslatorExprToDXL::PdxlnScCast
 	IMDId *pmdid = popScCast->MDIdType();
 	pmdid->AddRef();
 
-	IMDId *pmdidFunc = popScCast->PmdidFunc();
+	IMDId *pmdidFunc = popScCast->FuncMdId();
 	pmdidFunc->AddRef();
 
 	CDXLNode *pdxlnCast = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCast(m_memory_pool, pmdid, pmdidFunc));

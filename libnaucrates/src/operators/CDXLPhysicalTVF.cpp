@@ -35,14 +35,14 @@ CDXLPhysicalTVF::CDXLPhysicalTVF
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pmdidFunc(pmdidFunc),
-	m_pmdidRetType(pmdidRetType),
+	m_func_mdid(pmdidFunc),
+	m_return_type_mdid(pmdidRetType),
 	m_pstr(pstr)
 {
-	GPOS_ASSERT(NULL != m_pmdidFunc);
-	GPOS_ASSERT(m_pmdidFunc->IsValid());
-	GPOS_ASSERT(NULL != m_pmdidRetType);
-	GPOS_ASSERT(m_pmdidRetType->IsValid());
+	GPOS_ASSERT(NULL != m_func_mdid);
+	GPOS_ASSERT(m_func_mdid->IsValid());
+	GPOS_ASSERT(NULL != m_return_type_mdid);
+	GPOS_ASSERT(m_return_type_mdid->IsValid());
 	GPOS_ASSERT(NULL != m_pstr);
 }
 
@@ -56,8 +56,8 @@ CDXLPhysicalTVF::CDXLPhysicalTVF
 //---------------------------------------------------------------------------
 CDXLPhysicalTVF::~CDXLPhysicalTVF()
 {
-	m_pmdidFunc->Release();
-	m_pmdidRetType->Release();
+	m_func_mdid->Release();
+	m_return_type_mdid->Release();
 	GPOS_DELETE(m_pstr);
 }
 
@@ -107,9 +107,9 @@ CDXLPhysicalTVF::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
+	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pstr);
-	m_pmdidRetType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -138,8 +138,8 @@ CDXLPhysicalTVF::AssertValid
 	const
 {
 	// assert validity of function id and return type
-	GPOS_ASSERT(NULL != m_pmdidFunc);
-	GPOS_ASSERT(NULL != m_pmdidRetType);
+	GPOS_ASSERT(NULL != m_func_mdid);
+	GPOS_ASSERT(NULL != m_return_type_mdid);
 
 	const ULONG ulArity = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)

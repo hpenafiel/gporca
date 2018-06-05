@@ -47,7 +47,7 @@ namespace gpdxl
 			IMDId *m_pmdidRel;
 
 			// function id
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// trigger type
 			INT m_iType;

@@ -148,7 +148,7 @@ CDXLScalarOpExpr::FBoolean
 	const
 {
 	const IMDScalarOp *pmdscop = pmda->Pmdscop(m_mdid);
-	IMDId *pmdid = pmda->Pmdfunc(pmdscop->PmdidFunc())->PmdidTypeResult();
+	IMDId *pmdid = pmda->Pmdfunc(pmdscop->FuncMdId())->PmdidTypeResult();
 	return (IMDType::EtiBool == pmda->Pmdtype(pmdid)->Eti());
 }
 

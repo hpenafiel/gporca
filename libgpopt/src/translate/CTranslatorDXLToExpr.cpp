@@ -482,10 +482,10 @@ CTranslatorDXLToExpr::PexprLogicalTVF
 	}
 
 	// create a logical TVF operator
-	IMDId *pmdidFunc = dxl_op->PmdidFunc();
+	IMDId *pmdidFunc = dxl_op->FuncMdId();
 	pmdidFunc->AddRef();
 
-	IMDId *pmdidRetType = dxl_op->PmdidRetType();
+	IMDId *pmdidRetType = dxl_op->ReturnTypeMdId();
 	pmdidRetType->AddRef();
 	CLogicalTVF *popTVF = GPOS_NEW(m_memory_pool) CLogicalTVF
 										(
@@ -2876,11 +2876,11 @@ CTranslatorDXLToExpr::PexprScalarFunc
 	
 	COperator *pop = NULL;
 
-	IMDId *pmdidFunc = pdxlopFuncExpr->PmdidFunc();
+	IMDId *pmdidFunc = pdxlopFuncExpr->FuncMdId();
 	pmdidFunc->AddRef();
 	const IMDFunction *pmdfunc = m_pmda->Pmdfunc(pmdidFunc);
 
-	IMDId *pmdidRetType = pdxlopFuncExpr->PmdidRetType();
+	IMDId *pmdidRetType = pdxlopFuncExpr->ReturnTypeMdId();
 	pmdidRetType->AddRef();
 
 	DrgPexpr *pdrgpexprArgs = NULL;
@@ -2972,14 +2972,14 @@ CTranslatorDXLToExpr::PexprWindowFunc
 {
 	CDXLScalarWindowRef *pdxlopWinref = CDXLScalarWindowRef::Cast(pdxlnWindowRef->GetOperator());
 
-	IMDId *pmdidFunc = pdxlopWinref->PmdidFunc();
+	IMDId *pmdidFunc = pdxlopWinref->FuncMdId();
 	pmdidFunc->AddRef();
 
 	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, CMDAccessorUtils::PstrWindowFuncName(m_pmda, pmdidFunc)->GetBuffer());
 
 	CScalarWindowFunc::EWinStage ews = Ews(pdxlopWinref->Edxlwinstage());
 
-	IMDId *pmdidRetType = pdxlopWinref->PmdidRetType();
+	IMDId *pmdidRetType = pdxlopWinref->ReturnTypeMdId();
 	pmdidRetType->AddRef();
 	
 	GPOS_ASSERT(NULL != pstrName);
@@ -3595,7 +3595,7 @@ CTranslatorDXLToExpr::PexprScalarCast
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 
 	IMDId *mdid_type = dxl_op->MDIdType();
-	IMDId *pmdidFunc = dxl_op->PmdidFunc();
+	IMDId *pmdidFunc = dxl_op->FuncMdId();
 	mdid_type->AddRef();
 	pmdidFunc->AddRef();
 	

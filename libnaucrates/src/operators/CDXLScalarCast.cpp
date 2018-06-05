@@ -37,9 +37,9 @@ CDXLScalarCast::CDXLScalarCast
 	:
 	CDXLScalar(memory_pool),
 	m_mdid_type(mdid_type),
-	m_pmdidFunc(pmdidFunc)
+	m_func_mdid(pmdidFunc)
 {
-	GPOS_ASSERT(NULL != m_pmdidFunc);
+	GPOS_ASSERT(NULL != m_func_mdid);
 	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 
@@ -55,7 +55,7 @@ CDXLScalarCast::CDXLScalarCast
 CDXLScalarCast::~CDXLScalarCast()
 {
 	m_mdid_type->Release();
-	m_pmdidFunc->Release();
+	m_func_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -102,16 +102,16 @@ CDXLScalarCast::MDIdType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarCast::PmdidFunc
+//		CDXLScalarCast::FuncMdId
 //
 //	@doc:
 //		Casting function id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarCast::PmdidFunc() const
+CDXLScalarCast::FuncMdId() const
 {
-	return m_pmdidFunc;
+	return m_func_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -135,7 +135,7 @@ CDXLScalarCast::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
-	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
+	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);

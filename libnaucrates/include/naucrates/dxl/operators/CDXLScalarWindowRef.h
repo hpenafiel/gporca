@@ -43,10 +43,10 @@ namespace gpdxl
 		private:
 
 			// catalog id of the function
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// return type
-			IMDId *m_pmdidRetType;
+			IMDId *m_return_type_mdid;
 
 			// denotes whether it's agg(DISTINCT ...)
 			BOOL m_fDistinct;
@@ -91,15 +91,15 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// catalog id of the function
-			IMDId *PmdidFunc() const
+			IMDId *FuncMdId() const
 			{
-				return m_pmdidFunc;
+				return m_func_mdid;
 			}
 
 			// return type of the function
-			IMDId *PmdidRetType() const
+			IMDId *ReturnTypeMdId() const
 			{
-				return m_pmdidRetType;
+				return m_return_type_mdid;
 			}
 
 			// window stage

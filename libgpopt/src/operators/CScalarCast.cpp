@@ -43,15 +43,15 @@ CScalarCast::CScalarCast
 	:
 	CScalar(memory_pool),
 	m_pmdidReturnType(pmdidReturnType),
-	m_pmdidFunc(pmdidFunc),
+	m_func_mdid(pmdidFunc),
 	m_fBinaryCoercible(fBinaryCoercible),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
-	if (NULL != m_pmdidFunc && m_pmdidFunc->IsValid())
+	if (NULL != m_func_mdid && m_func_mdid->IsValid())
 	{
 		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-		const IMDFunction *pmdfunc = pmda->Pmdfunc(m_pmdidFunc);
+		const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
 
 		m_fReturnsNullOnNullInput = pmdfunc->FStrict();
 		m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidReturnType);
@@ -80,7 +80,7 @@ CScalarCast::FMatch
 
 		// match if the return type oids are identical
 		return pscop->MDIdType()->Equals(m_pmdidReturnType) &&
-				((!IMDId::IsValid(pscop->PmdidFunc()) && !IMDId::IsValid(m_pmdidFunc)) || pscop->PmdidFunc()->Equals(m_pmdidFunc));
+				((!IMDId::IsValid(pscop->FuncMdId()) && !IMDId::IsValid(m_func_mdid)) || pscop->FuncMdId()->Equals(m_func_mdid));
 	}
 
 	return false;

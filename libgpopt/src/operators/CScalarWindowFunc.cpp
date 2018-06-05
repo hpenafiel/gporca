@@ -55,15 +55,15 @@ CScalarWindowFunc::CScalarWindowFunc
 {
 	GPOS_ASSERT(pmdidFunc->IsValid());
 	GPOS_ASSERT(pmdidRetType->IsValid());
-	m_pmdidFunc = pmdidFunc;
-	m_pmdidRetType = pmdidRetType;
+	m_func_mdid = pmdidFunc;
+	m_return_type_mdid = pmdidRetType;
 	m_pstrFunc = pstrFunc;
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fAgg = pmda->FAggWindowFunc(m_pmdidFunc);
+	m_fAgg = pmda->FAggWindowFunc(m_func_mdid);
 	if (!m_fAgg)
 	{
-		const IMDFunction *pmdfunc = pmda->Pmdfunc(m_pmdidFunc);
+		const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
 		m_efs = pmdfunc->EfsStability();
 		m_efda = pmdfunc->EfdaDataAccess();
 	}
@@ -99,8 +99,8 @@ CScalarWindowFunc::HashValue() const
 									COperator::HashValue(),
 									gpos::CombineHashes
 										(
-											m_pmdidFunc->HashValue(),
-											m_pmdidRetType->HashValue()
+											m_func_mdid->HashValue(),
+											m_return_type_mdid->HashValue()
 										)
 									),
 								m_ewinstage
@@ -138,8 +138,8 @@ CScalarWindowFunc::FMatch
 				&& (popFunc->FStarArg() ==  m_fStarArg)
 				&& (popFunc->FSimpleAgg() ==  m_fSimpleAgg)
 				&& (popFunc->FAgg() == m_fAgg)
-				&& m_pmdidFunc->Equals(popFunc->PmdidFunc())
-				&& m_pmdidRetType->Equals(popFunc->MDIdType())
+				&& m_func_mdid->Equals(popFunc->FuncMdId())
+				&& m_return_type_mdid->Equals(popFunc->MDIdType())
 				&& (popFunc->Ews() == m_ewinstage));
 	}
 

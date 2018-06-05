@@ -40,10 +40,10 @@ namespace gpdxl
 		private:
 
 			// set operation type
-			EdxlSetOpType m_edxlsetop;
+			EdxlSetOpType m_setop_type;
 
 			// array of input column id arrays
-			ULongPtrArray2D *m_pdrgpdrgpulInputColIds;
+			ULongPtrArray2D *m_input_colids_arrays;
 
 			// do the columns across inputs need to be casted
 			BOOL m_cast_across_input_req;
@@ -52,7 +52,7 @@ namespace gpdxl
 			CParseHandlerLogicalSetOp(const CParseHandlerLogicalSetOp &);
 
 			// return the set operation type
-			EdxlSetOpType Edxlsetop(const XMLCh* const element_local_name);
+			EdxlSetOpType GetSetOpType(const XMLCh* const element_local_name);
 
 			// process the start of an element
 			void StartElement

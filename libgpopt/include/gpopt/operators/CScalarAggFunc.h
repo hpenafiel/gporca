@@ -54,7 +54,7 @@ namespace gpopt
 			IMDId *m_pmdidResolvedRetType;
 
 			// return type obtained by looking up MD cache
-			IMDId *m_pmdidRetType;
+			IMDId *m_return_type_mdid;
 
 			// aggregate function name
 			const CWStringConst *m_pstrAggFunc;
@@ -91,7 +91,7 @@ namespace gpopt
 			{
 				m_pmdidAggFunc->Release();
 				CRefCount::SafeRelease(m_pmdidResolvedRetType);
-				CRefCount::SafeRelease(m_pmdidRetType);
+				CRefCount::SafeRelease(m_return_type_mdid);
 				GPOS_DELETE(m_pstrAggFunc);
 			}
 
@@ -185,7 +185,7 @@ namespace gpopt
 			{
 				if (NULL == m_pmdidResolvedRetType)
 				{
-					return m_pmdidRetType;
+					return m_return_type_mdid;
 				}
 
 				return m_pmdidResolvedRetType;

@@ -47,7 +47,7 @@ CScalarAggFunc::CScalarAggFunc
 	CScalar(memory_pool),
 	m_pmdidAggFunc(pmdidAggFunc),
 	m_pmdidResolvedRetType(pmdidResolvedRetType),
-	m_pmdidRetType(NULL),
+	m_return_type_mdid(NULL),
 	m_pstrAggFunc(pstrAggFunc),
 	m_fDistinct(fDistinct),
 	m_eaggfuncstage(eaggfuncstage),
@@ -62,7 +62,7 @@ CScalarAggFunc::CScalarAggFunc
 	// store id of type obtained by looking up MD cache
 	IMDId *pmdid = PmdidLookupReturnType(m_pmdidAggFunc, (EaggfuncstageGlobal == m_eaggfuncstage));
 	pmdid->AddRef();
-	m_pmdidRetType = pmdid;
+	m_return_type_mdid = pmdid;
 }
 
 //---------------------------------------------------------------------------

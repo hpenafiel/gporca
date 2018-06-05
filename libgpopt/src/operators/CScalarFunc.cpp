@@ -38,8 +38,8 @@ CScalarFunc::CScalarFunc
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidFunc(NULL),
-	m_pmdidRetType(NULL),
+	m_func_mdid(NULL),
+	m_return_type_mdid(NULL),
 	m_iRetTypeModifier(IDefaultTypeModifier),
 	m_pstrFunc(NULL),
 	m_efs(IMDFunction::EfsSentinel),
@@ -68,8 +68,8 @@ CScalarFunc::CScalarFunc
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidFunc(pmdidFunc),
-	m_pmdidRetType(pmdidRetType),
+	m_func_mdid(pmdidFunc),
+	m_return_type_mdid(pmdidRetType),
 	m_iRetTypeModifier(iRetTypeModifier),
 	m_pstrFunc(pstrFunc),
 	m_fReturnsSet(false),
@@ -80,14 +80,14 @@ CScalarFunc::CScalarFunc
 	GPOS_ASSERT(pmdidRetType->IsValid());
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_pmdidFunc);
+	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
 	m_fReturnsSet = pmdfunc->FReturnsSet();
 
 	m_fReturnsNullOnNullInput = pmdfunc->FStrict();
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidRetType);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_return_type_mdid);
 }
 
 
@@ -101,8 +101,8 @@ CScalarFunc::CScalarFunc
 //---------------------------------------------------------------------------
 CScalarFunc::~CScalarFunc()
 {
-	CRefCount::SafeRelease(m_pmdidFunc);
-	CRefCount::SafeRelease(m_pmdidRetType);
+	CRefCount::SafeRelease(m_func_mdid);
+	CRefCount::SafeRelease(m_return_type_mdid);
 	GPOS_DELETE(m_pstrFunc);
 }
 
@@ -122,16 +122,16 @@ CScalarFunc::PstrFunc() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarFunc::PmdidFunc
+//		CScalarFunc::FuncMdId
 //
 //	@doc:
 //		Func id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarFunc::PmdidFunc() const
+CScalarFunc::FuncMdId() const
 {
-	return m_pmdidFunc;
+	return m_func_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -163,8 +163,8 @@ CScalarFunc::HashValue() const
 	return gpos::CombineHashes(
 					COperator::HashValue(),
 					gpos::CombineHashes(
-						m_pmdidFunc->HashValue(),
-						m_pmdidRetType->HashValue()));
+						m_func_mdid->HashValue(),
+						m_return_type_mdid->HashValue()));
 }
 
 	
@@ -191,8 +191,8 @@ CScalarFunc::FMatch
 	CScalarFunc *popScFunc = CScalarFunc::PopConvert(pop);
 
 	// match if func ids are identical
-	return popScFunc->PmdidFunc()->Equals(m_pmdidFunc) &&
-			popScFunc->MDIdType()->Equals(m_pmdidRetType);
+	return popScFunc->FuncMdId()->Equals(m_func_mdid) &&
+			popScFunc->MDIdType()->Equals(m_return_type_mdid);
 }
 
 //---------------------------------------------------------------------------
@@ -206,7 +206,7 @@ CScalarFunc::FMatch
 IMDId *
 CScalarFunc::MDIdType() const
 {
-	return m_pmdidRetType;
+	return m_return_type_mdid;
 }
 
 INT

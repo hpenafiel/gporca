@@ -42,16 +42,16 @@ CDXLScalarWindowRef::CDXLScalarWindowRef
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidFunc(pmdidFunc),
-	m_pmdidRetType(pmdidRetType),
+	m_func_mdid(pmdidFunc),
+	m_return_type_mdid(pmdidRetType),
 	m_fDistinct(fDistinct),
 	m_fStarArg(fStarArg),
 	m_fSimpleAgg(fSimpleAgg),
 	m_edxlwinstage(edxlwinstage),
 	m_ulWinspecPos(ulWinspecPosition)
 {
-	GPOS_ASSERT(m_pmdidFunc->IsValid());
-	GPOS_ASSERT(m_pmdidRetType->IsValid());
+	GPOS_ASSERT(m_func_mdid->IsValid());
+	GPOS_ASSERT(m_return_type_mdid->IsValid());
 	GPOS_ASSERT(EdxlwinstageSentinel != m_edxlwinstage);
 }
 
@@ -65,8 +65,8 @@ CDXLScalarWindowRef::CDXLScalarWindowRef
 //---------------------------------------------------------------------------
 CDXLScalarWindowRef::~CDXLScalarWindowRef()
 {
-	m_pmdidFunc->Release();
-	m_pmdidRetType->Release();
+	m_func_mdid->Release();
+	m_return_type_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -151,8 +151,8 @@ CDXLScalarWindowRef::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_pmdidFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenWindowrefOid));
-	m_pmdidRetType->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenWindowrefOid));
+	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefDistinct),m_fDistinct);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefStarArg),m_fStarArg);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefSimpleAgg),m_fSimpleAgg);
@@ -179,7 +179,7 @@ CDXLScalarWindowRef::FBoolean
 	)
 	const
 {
-	IMDId *pmdid = pmda->Pmdfunc(m_pmdidFunc)->PmdidTypeResult();
+	IMDId *pmdid = pmda->Pmdfunc(m_func_mdid)->PmdidTypeResult();
 	return (IMDType::EtiBool == pmda->Pmdtype(pmdid)->Eti());
 }
 

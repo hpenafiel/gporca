@@ -48,7 +48,7 @@ namespace gpdxl
 			IMDId *m_pmdidTypeResult;
 			
 			// id of function which implements the operator
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 			
 			// id of commute operator
 			IMDId *m_pmdidOpCommute;

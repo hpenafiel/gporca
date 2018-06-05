@@ -116,7 +116,7 @@ CLogicalRowTrigger::InitFunctionProperties()
 			continue;
 		}
 
-		const IMDFunction *pmdfunc = pmda->Pmdfunc(pmdtrigger->PmdidFunc());
+		const IMDFunction *pmdfunc = pmda->Pmdfunc(pmdtrigger->FuncMdId());
 		IMDFunction::EFuncStbl efs = pmdfunc->EfsStability();
 		IMDFunction::EFuncDataAcc efda = pmdfunc->EfdaDataAccess();
 

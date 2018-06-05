@@ -303,7 +303,7 @@ CTranslatorDXLToExprUtils::FCastFunc
 
 	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::Cast(pdxln->GetOperator());
 
-	IMDId *pmdidDest = pdxlopScFunc->PmdidRetType();
+	IMDId *pmdidDest = pdxlopScFunc->ReturnTypeMdId();
 
 	if(!CMDAccessorUtils::FCastExists(pmda, pmdidInput, pmdidDest))
 	{
@@ -312,7 +312,7 @@ CTranslatorDXLToExprUtils::FCastFunc
 
 	const IMDCast *pmdcast = pmda->Pmdcast(pmdidInput, pmdidDest);
 
-	return (pmdcast->PmdidCastFunc()->Equals(pdxlopScFunc->PmdidFunc()));
+	return (pmdcast->PmdidCastFunc()->Equals(pdxlopScFunc->FuncMdId()));
 }
 
 

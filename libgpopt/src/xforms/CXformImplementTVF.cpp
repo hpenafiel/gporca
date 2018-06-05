@@ -113,10 +113,10 @@ CXformImplementTVF::Transform
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// create/extract components for alternative
-	IMDId *pmdidFunc = popTVF->PmdidFunc();
+	IMDId *pmdidFunc = popTVF->FuncMdId();
 	pmdidFunc->AddRef();
 
-	IMDId *pmdidRetType = popTVF->PmdidRetType();
+	IMDId *pmdidRetType = popTVF->ReturnTypeMdId();
 	pmdidRetType->AddRef();
 
 	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(popTVF->Pstr()->GetBuffer());

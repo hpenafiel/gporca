@@ -2427,7 +2427,7 @@ CTranslatorExprToDXLUtils::ExtractCastMdids
 
 	CScalarCast *popCast = CScalarCast::PopConvert(pop);
 	*ppmdidType = popCast->MDIdType();
-	*ppmdidCastFunc = popCast->PmdidFunc();
+	*ppmdidCastFunc = popCast->FuncMdId();
 }
 
 BOOL

@@ -42,8 +42,8 @@ CParseHandlerPhysicalTVF::CParseHandlerPhysicalTVF
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pmdidFunc(NULL),
-	m_pmdidRetType(NULL),
+	m_func_mdid(NULL),
+	m_return_type_mdid(NULL),
 	m_pstr(NULL)
 {
 }
@@ -68,7 +68,7 @@ CParseHandlerPhysicalTVF::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalTVF), element_local_name))
 	{
 		// parse function id
-		m_pmdidFunc = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenPhysicalTVF);
+		m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenPhysicalTVF);
 
 		// parse function name
 		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -83,7 +83,7 @@ CParseHandlerPhysicalTVF::StartElement
 		GPOS_DELETE(pstrFuncName);
 
 		// parse return type
-		m_pmdidRetType = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenPhysicalTVF);
+		m_return_type_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenPhysicalTVF);
 
 		// parse handler for the proj list
 		CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -132,7 +132,7 @@ CParseHandlerPhysicalTVF::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	CDXLPhysicalTVF *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalTVF(m_memory_pool, m_pmdidFunc, m_pmdidRetType, m_pstr);
+	CDXLPhysicalTVF *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalTVF(m_memory_pool, m_func_mdid, m_return_type_mdid, m_pstr);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);

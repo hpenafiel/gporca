@@ -67,7 +67,7 @@ namespace gpmd
 
 			// function mdid
 			virtual
-			IMDId *PmdidFunc() const = 0;
+			IMDId *FuncMdId() const = 0;
 
 			// is trigger enabled
 			virtual

@@ -44,7 +44,7 @@ namespace gpdxl
 			IMDId *m_mdid_type;
 
 			// catalog MDId of the function implementing the casting
-			IMDId *m_pmdidFunc;
+			IMDId *m_func_mdid;
 
 			// private copy ctor
 			CDXLScalarCast(const CDXLScalarCast&);
@@ -65,7 +65,7 @@ namespace gpdxl
 			Edxlopid GetDXLOperator() const;
 
 			IMDId *MDIdType() const;
-			IMDId *PmdidFunc() const;
+			IMDId *FuncMdId() const;
 
 			// name of the DXL operator name
 			const CWStringConst *GetOpNameStr() const;

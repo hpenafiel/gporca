@@ -47,7 +47,7 @@ CParseHandlerMDGPDBTrigger::CParseHandlerMDGPDBTrigger
 	m_mdid(NULL),
 	m_mdname(NULL),
 	m_pmdidRel(NULL),
-	m_pmdidFunc(NULL),
+	m_func_mdid(NULL),
 	m_iType(0),
 	m_fEnabled(false)
 {}
@@ -84,7 +84,7 @@ CParseHandlerMDGPDBTrigger::StartElement
 	GPOS_ASSERT(m_mdid->IsValid() && NULL != m_mdname);
 
 	m_pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenGPDBTrigger);
-	m_pmdidFunc = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenGPDBTrigger);
+	m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenGPDBTrigger);
 
 	BOOL rgfProperties[GPMD_TRIGGER_BITMAP_LEN];
 	rgfProperties[GPMD_TRIGGER_ROW_BIT] =
@@ -139,7 +139,7 @@ CParseHandlerMDGPDBTrigger::EndElement
 								m_mdid,
 								m_mdname,
 								m_pmdidRel,
-								m_pmdidFunc,
+								m_func_mdid,
 								m_iType,
 								m_fEnabled
 								);
