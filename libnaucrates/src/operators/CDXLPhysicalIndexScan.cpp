@@ -31,13 +31,13 @@ CDXLPhysicalIndexScan::CDXLPhysicalIndexScan
 	IMemoryPool *memory_pool,
 	CDXLTableDescr *table_descr,
 	CDXLIndexDescr *pdxlid,
-	EdxlIndexScanDirection edxlisd
+	EdxlIndexScanDirection idx_scan_direction
 	)
 	:
 	CDXLPhysical(memory_pool),
 	m_table_descr_dxl(table_descr),
 	m_index_descr_dxl(pdxlid),
-	m_edxlisd(edxlisd)
+	m_edxlisd(idx_scan_direction)
 {
 	GPOS_ASSERT(NULL != m_table_descr_dxl);
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
@@ -149,7 +149,7 @@ CDXLPhysicalIndexScan::SerializeToDXL
 	xml_serializer->AddAttribute
 				(
 				CDXLTokens::PstrToken(EdxltokenIndexScanDirection),
-				CDXLOperator::PstrIndexScanDirection(m_edxlisd)
+				CDXLOperator::GetIdxScanDirectionStr(m_edxlisd)
 				);
 
 	// serialize properties

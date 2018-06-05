@@ -55,12 +55,12 @@ CDXLOperator::~CDXLOperator()
 const CWStringConst *
 CDXLOperator::GetJoinTypeNameStr
 	(
-	EdxlJoinType edxljt
+	EdxlJoinType join_type
 	)
 {
-	GPOS_ASSERT(EdxljtSentinel > edxljt);
+	GPOS_ASSERT(EdxljtSentinel > join_type);
 
-	switch (edxljt)
+	switch (join_type)
 	{
 		case EdxljtInner:
 			return CDXLTokens::PstrToken(EdxltokenJoinInner);
@@ -90,19 +90,19 @@ CDXLOperator::GetJoinTypeNameStr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperator::PstrIndexScanDirection
+//		CDXLOperator::GetIdxScanDirectionStr
 //
 //	@doc:
 //		Return the index scan direction name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLOperator::PstrIndexScanDirection
+CDXLOperator::GetIdxScanDirectionStr
 	(
-	EdxlIndexScanDirection edxlisd
+	EdxlIndexScanDirection idx_scan_direction
 	)
 {
-	switch (edxlisd)
+	switch (idx_scan_direction)
 	{
 		case EdxlisdBackward:
 			return CDXLTokens::PstrToken(EdxltokenIndexScanDirectionBackward);

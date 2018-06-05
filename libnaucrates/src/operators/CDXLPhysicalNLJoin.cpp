@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLPhysicalNLJoin::CDXLPhysicalNLJoin
 	(
 	IMemoryPool *memory_pool,
-	EdxlJoinType edxljt,
+	EdxlJoinType join_type,
 	BOOL fIndexNLJ
 	)
 	:
-	CDXLPhysicalJoin(memory_pool, edxljt),
+	CDXLPhysicalJoin(memory_pool, join_type),
 	m_fIndexNLJ(fIndexNLJ)
 {
 }

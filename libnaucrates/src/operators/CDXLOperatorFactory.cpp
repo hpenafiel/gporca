@@ -145,9 +145,9 @@ CDXLOperatorFactory::PdxlopHashJoin
 									EdxltokenPhysicalHashJoin
 									);
 	
-	EdxlJoinType edxljt = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalHashJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalHashJoin));
 	
-	return GPOS_NEW(memory_pool) CDXLPhysicalHashJoin(memory_pool, edxljt);
+	return GPOS_NEW(memory_pool) CDXLPhysicalHashJoin(memory_pool, join_type);
 }
 
 //---------------------------------------------------------------------------
@@ -188,9 +188,9 @@ CDXLOperatorFactory::PdxlopNLJoin
 						);
 	}
 
-	EdxlJoinType edxljt = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalNLJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalNLJoin));
 	
-	return GPOS_NEW(memory_pool) CDXLPhysicalNLJoin(memory_pool, edxljt, fIndexNLJ);
+	return GPOS_NEW(memory_pool) CDXLPhysicalNLJoin(memory_pool, join_type, fIndexNLJ);
 }
 
 //---------------------------------------------------------------------------
@@ -218,7 +218,7 @@ CDXLOperatorFactory::PdxlopMergeJoin
 									EdxltokenPhysicalMergeJoin
 									);
 	
-	EdxlJoinType edxljt = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalMergeJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalMergeJoin));
 	
 	BOOL fUniqueOuter = FValueFromAttrs
 								(
@@ -228,7 +228,7 @@ CDXLOperatorFactory::PdxlopMergeJoin
 								EdxltokenPhysicalMergeJoin
 								);
 	
-	return GPOS_NEW(memory_pool) CDXLPhysicalMergeJoin(memory_pool, edxljt, fUniqueOuter);
+	return GPOS_NEW(memory_pool) CDXLPhysicalMergeJoin(memory_pool, join_type, fUniqueOuter);
 }
 
 //---------------------------------------------------------------------------
@@ -3596,42 +3596,42 @@ CDXLOperatorFactory::EdxljtParseJoinType
 	const CWStringConst *pstrJoinName
 	)
 {
-	EdxlJoinType edxljt = EdxljtSentinel;
+	EdxlJoinType join_type = EdxljtSentinel;
 	
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenJoinInner),
 			xmlszJoinType))
 	{
-		edxljt = EdxljtInner;
+		join_type = EdxljtInner;
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenJoinLeft),
 					xmlszJoinType))
 	{
-		edxljt = EdxljtLeft;
+		join_type = EdxljtLeft;
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenJoinFull),
 			xmlszJoinType))
 	{
-		edxljt = EdxljtFull;
+		join_type = EdxljtFull;
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenJoinRight),
 				xmlszJoinType))
 	{
-		edxljt = EdxljtRight;
+		join_type = EdxljtRight;
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenJoinIn),
 					xmlszJoinType))
 	{
-		edxljt = EdxljtIn;
+		join_type = EdxljtIn;
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenJoinLeftAntiSemiJoin),
 					xmlszJoinType))
 	{
-		edxljt = EdxljtLeftAntiSemijoin;
+		join_type = EdxljtLeftAntiSemijoin;
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenJoinLeftAntiSemiJoinNotIn),
 					xmlszJoinType))
 	{
-		edxljt = EdxljtLeftAntiSemijoinNotIn;
+		join_type = EdxljtLeftAntiSemijoinNotIn;
 	}
 	else
 	{
@@ -3644,7 +3644,7 @@ CDXLOperatorFactory::EdxljtParseJoinType
 			);		
 	}
 	
-	return edxljt;
+	return join_type;
 }
 
 //---------------------------------------------------------------------------
@@ -3711,9 +3711,9 @@ CDXLOperatorFactory::PdxlopLogicalJoin
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 
 	const XMLCh *xmlszJoinType = XmlstrFromAttrs(attrs, EdxltokenJoinType, EdxltokenLogicalJoin);
-	EdxlJoinType edxljt = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenLogicalJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenLogicalJoin));
 
-	return GPOS_NEW(memory_pool) CDXLLogicalJoin(memory_pool, edxljt);
+	return GPOS_NEW(memory_pool) CDXLLogicalJoin(memory_pool, join_type);
 }
 
 //---------------------------------------------------------------------------

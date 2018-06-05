@@ -31,10 +31,10 @@ CDXLPhysicalIndexOnlyScan::CDXLPhysicalIndexOnlyScan
 	IMemoryPool *memory_pool,
 	CDXLTableDescr *table_descr,
 	CDXLIndexDescr *pdxlid,
-	EdxlIndexScanDirection edxlisd
+	EdxlIndexScanDirection idx_scan_direction
 	)
 	:
-	CDXLPhysicalIndexScan(memory_pool, table_descr, pdxlid, edxlisd)
+	CDXLPhysicalIndexScan(memory_pool, table_descr, pdxlid, idx_scan_direction)
 {
 }
 

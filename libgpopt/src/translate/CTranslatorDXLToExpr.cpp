@@ -1977,14 +1977,14 @@ CTranslatorDXLToExpr::PexprLogicalJoin
 	GPOS_ASSERT(NULL != pdxln);
 
 	CDXLLogicalJoin *pdxlopJoin = CDXLLogicalJoin::Cast(pdxln->GetOperator());
-	EdxlJoinType edxljt = pdxlopJoin->GetJoinType();
+	EdxlJoinType join_type = pdxlopJoin->GetJoinType();
 
-	if (EdxljtRight == edxljt)
+	if (EdxljtRight == join_type)
 	{
 		return PexprRightOuterJoin(pdxln);
 	}
 
-	if (EdxljtInner != edxljt && EdxljtLeft != edxljt && EdxljtFull != edxljt)
+	if (EdxljtInner != join_type && EdxljtLeft != join_type && EdxljtFull != join_type)
 	{
 		GPOS_RAISE
 				(
@@ -2011,7 +2011,7 @@ CTranslatorDXLToExpr::PexprLogicalJoin
 	CExpression *pexprCond = PexprScalar(pdxlnCond);
 	pdrgpexprChildren->Append(pexprCond);
 
-	return CUtils::PexprLogicalJoin(m_memory_pool, edxljt, pdrgpexprChildren);
+	return CUtils::PexprLogicalJoin(m_memory_pool, join_type, pdrgpexprChildren);
 }
 
 //---------------------------------------------------------------------------

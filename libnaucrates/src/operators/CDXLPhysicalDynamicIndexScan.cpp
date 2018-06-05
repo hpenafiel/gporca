@@ -33,7 +33,7 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	ULONG ulPartIndexId,
 	ULONG ulPartIndexIdPrintable,
 	CDXLIndexDescr *pdxlid,
-	EdxlIndexScanDirection edxlisd
+	EdxlIndexScanDirection idx_scan_direction
 	)
 	:
 	CDXLPhysical(memory_pool),
@@ -41,7 +41,7 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	m_ulPartIndexId(ulPartIndexId),
 	m_ulPartIndexIdPrintable(ulPartIndexIdPrintable),
 	m_index_descr_dxl(pdxlid),
-	m_edxlisd(edxlisd)
+	m_edxlisd(idx_scan_direction)
 {
 	GPOS_ASSERT(NULL != m_table_descr_dxl);
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
@@ -181,7 +181,7 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	xml_serializer->AddAttribute
 				(
 				CDXLTokens::PstrToken(EdxltokenIndexScanDirection),
-				CDXLOperator::PstrIndexScanDirection(m_edxlisd)
+				CDXLOperator::GetIdxScanDirectionStr(m_edxlisd)
 				);
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);

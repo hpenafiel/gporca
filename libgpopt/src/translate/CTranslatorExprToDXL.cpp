@@ -3636,40 +3636,40 @@ CTranslatorExprToDXL::PdxlnNLJoin
 			"detected outer references in NL inner child");
 #endif // GPOS_DEBUG
 
-	EdxlJoinType edxljt = EdxljtSentinel;
+	EdxlJoinType join_type = EdxljtSentinel;
 	BOOL fIndexNLJ = false;
 	switch (pop->Eopid())
 	{
 		case COperator::EopPhysicalInnerNLJoin:
-			edxljt = EdxljtInner;
+			join_type = EdxljtInner;
 			break;
 
 		case COperator::EopPhysicalInnerIndexNLJoin:
-			edxljt = EdxljtInner;
+			join_type = EdxljtInner;
 			fIndexNLJ = true;
 			StoreIndexNLJOuterRefs(pop);
 			break;
 
 		case COperator::EopPhysicalLeftOuterIndexNLJoin:
-			edxljt = EdxljtLeft;
+			join_type = EdxljtLeft;
 			fIndexNLJ = true;
 			StoreIndexNLJOuterRefs(pop);
 			break;
 
 		case COperator::EopPhysicalLeftOuterNLJoin:
-			edxljt = EdxljtLeft;
+			join_type = EdxljtLeft;
 			break;
 
 		case COperator::EopPhysicalLeftSemiNLJoin:
-			edxljt = EdxljtIn;
+			join_type = EdxljtIn;
 			break;
 
 		case COperator::EopPhysicalLeftAntiSemiNLJoin:
-			edxljt = EdxljtLeftAntiSemijoin;
+			join_type = EdxljtLeftAntiSemijoin;
 			break;
 
 		case COperator::EopPhysicalLeftAntiSemiNLJoinNotIn:
-			edxljt = EdxljtLeftAntiSemijoinNotIn;
+			join_type = EdxljtLeftAntiSemijoinNotIn;
 			break;
 
 		default:
@@ -3688,7 +3688,7 @@ CTranslatorExprToDXL::PdxlnNLJoin
 	}
 
 	// construct a join node
-	CDXLPhysicalNLJoin *pdxlopNLJ = GPOS_NEW(m_memory_pool) CDXLPhysicalNLJoin(m_memory_pool, edxljt,fIndexNLJ);
+	CDXLPhysicalNLJoin *pdxlopNLJ = GPOS_NEW(m_memory_pool) CDXLPhysicalNLJoin(m_memory_pool, join_type,fIndexNLJ);
 
 	// construct projection list
 	// compute required columns
@@ -3784,7 +3784,7 @@ CTranslatorExprToDXL::PdxlnHashJoin
 	CExpression *pexprInnerChild = (*pexprHJ)[1];
 	CExpression *pexprScalar = (*pexprHJ)[2];
 
-	EdxlJoinType edxljt = EdxljtHashJoin(popHJ);
+	EdxlJoinType join_type = EdxljtHashJoin(popHJ);
 	GPOS_ASSERT(popHJ->PdrgpexprOuterKeys()->Size() == popHJ->PdrgpexprInnerKeys()->Size());
 
 	// translate relational child expression
@@ -3874,7 +3874,7 @@ CTranslatorExprToDXL::PdxlnHashJoin
 	}
 
 	// construct a hash join node
-	CDXLPhysicalHashJoin *pdxlopHJ = GPOS_NEW(m_memory_pool) CDXLPhysicalHashJoin(m_memory_pool, edxljt);
+	CDXLPhysicalHashJoin *pdxlopHJ = GPOS_NEW(m_memory_pool) CDXLPhysicalHashJoin(m_memory_pool, join_type);
 
 	// construct projection list from required columns
 	GPOS_ASSERT(NULL != pexprHJ->Prpp());

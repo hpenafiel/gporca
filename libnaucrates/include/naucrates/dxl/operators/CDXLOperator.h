@@ -266,7 +266,7 @@ namespace gpdxl
 
 			// Return the index scan direction
 			static
-			const CWStringConst *PstrIndexScanDirection(EdxlIndexScanDirection );
+			const CWStringConst *GetIdxScanDirectionStr(EdxlIndexScanDirection );
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

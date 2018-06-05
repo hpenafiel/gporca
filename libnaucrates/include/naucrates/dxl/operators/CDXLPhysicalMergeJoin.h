@@ -50,7 +50,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLPhysicalMergeJoin(IMemoryPool *memory_pool, EdxlJoinType edxljt, BOOL fUniqueOuter);
+			CDXLPhysicalMergeJoin(IMemoryPool *memory_pool, EdxlJoinType join_type, BOOL fUniqueOuter);
 			
 			// accessors
 			Edxlopid GetDXLOperator() const;

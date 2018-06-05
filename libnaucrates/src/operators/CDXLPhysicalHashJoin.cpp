@@ -28,10 +28,10 @@ using namespace gpdxl;
 CDXLPhysicalHashJoin::CDXLPhysicalHashJoin
 	(
 	IMemoryPool *memory_pool,
-	EdxlJoinType edxljt
+	EdxlJoinType join_type
 	)
 	:
-	CDXLPhysicalJoin(memory_pool, edxljt)
+	CDXLPhysicalJoin(memory_pool, join_type)
 {
 }
 

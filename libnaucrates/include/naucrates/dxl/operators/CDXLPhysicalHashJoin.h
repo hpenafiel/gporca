@@ -47,7 +47,7 @@ namespace gpdxl
 
 		public:
 			// ctor/dtor
-			CDXLPhysicalHashJoin(IMemoryPool *memory_pool, EdxlJoinType edxljt);
+			CDXLPhysicalHashJoin(IMemoryPool *memory_pool, EdxlJoinType join_type);
 			
 			// accessors
 			Edxlopid GetDXLOperator() const;
