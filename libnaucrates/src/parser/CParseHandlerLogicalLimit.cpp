@@ -59,47 +59,47 @@ CParseHandlerLogicalLimit::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalLimit), element_local_name))
 	{
-		const XMLCh *xmlszNonRemovableLimit = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenTopLimitUnderDML));
-		BOOL fKeepLimit = false;
-		if (xmlszNonRemovableLimit)
+		const XMLCh *non_removable_limit_str = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenTopLimitUnderDML));
+		BOOL keep_limit = false;
+		if (non_removable_limit_str)
 		{
-			fKeepLimit = CDXLOperatorFactory::FValueFromXmlstr
+			keep_limit = CDXLOperatorFactory::FValueFromXmlstr
 										(
 										m_parse_handler_mgr->Pmm(),
-										xmlszNonRemovableLimit,
+										non_removable_limit_str,
 										EdxltokenTopLimitUnderDML,
 										EdxltokenLogicalLimit
 										);
 		}
 
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalLimit(m_memory_pool, fKeepLimit));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalLimit(m_memory_pool, keep_limit));
 
 		// create child node parsers
 
 		// parse handler for logical operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
-		CParseHandlerBase *pphOffset = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphOffset);
+		CParseHandlerBase *offset_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(offset_parse_handler);
 
-		CParseHandlerBase *pphCount = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphCount);
+		CParseHandlerBase *count_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(count_parse_handler);
 
 		// parse handler for the sorting column list
-		CParseHandlerBase *pphSortColList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
+		CParseHandlerBase *sort_col_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(sort_col_list_parse_handler);
 
 		// store child parse handler in array
-		this->Append(pphSortColList);
-		this->Append(pphCount);
-		this->Append(pphOffset);
-		this->Append(pphChild);
+		this->Append(sort_col_list_parse_handler);
+		this->Append(count_parse_handler);
+		this->Append(offset_parse_handler);
+		this->Append(child_parse_handler);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 
@@ -121,24 +121,24 @@ CParseHandlerLogicalLimit::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalLimit), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_dxl_node );
 	GPOS_ASSERT(4 == this->Length());
 
-	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-	CParseHandlerScalarOp *pphCount = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
-	CParseHandlerScalarOp *pphOffSet = dynamic_cast<CParseHandlerScalarOp *>((*this)[2]);
-	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[3]);
+	CParseHandlerSortColList *sort_col_list_parse_handler = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
+	CParseHandlerScalarOp *count_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
+	CParseHandlerScalarOp *offset_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[2]);
+	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[3]);
 
-	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
+	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 
-	AddChildFromParseHandler(pphSortColList);
-	AddChildFromParseHandler(pphCount);
-	AddChildFromParseHandler(pphOffSet);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(sort_col_list_parse_handler);
+	AddChildFromParseHandler(count_parse_handler);
+	AddChildFromParseHandler(offset_parse_handler);
+	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG
 	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);

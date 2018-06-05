@@ -75,21 +75,21 @@ CParseHandlerLogicalSelect::StartElement
 		// create child node parsers
 
 		// parse handler for logical operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// parse handler for the scalar condition
-		CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphOp);
+		CParseHandlerBase *scalar_cond_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(scalar_cond_parse_handler);
 
 		// store child parse handler in array
-		this->Append(pphOp);
-		this->Append(pphChild);
+		this->Append(scalar_cond_parse_handler);
+		this->Append(child_parse_handler);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 
@@ -111,17 +111,17 @@ CParseHandlerLogicalSelect::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalSelect), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_dxl_node );
 
-	CParseHandlerScalarOp *pphOp = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
-	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
+	CParseHandlerScalarOp *scalar_cond_parse_handler = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
+	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	AddChildFromParseHandler(pphOp);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(scalar_cond_parse_handler);
+	AddChildFromParseHandler(child_parse_handler);
 	
 #ifdef GPOS_DEBUG
 	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);

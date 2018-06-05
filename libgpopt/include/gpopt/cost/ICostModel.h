@@ -212,7 +212,7 @@ namespace gpopt
 					}
 
 					// children accessor
-					ULONG UlChildren() const
+					ULONG ChildCount() const
 					{
 						return m_ulChildren;
 					}

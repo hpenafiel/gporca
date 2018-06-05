@@ -250,7 +250,7 @@ CPartialPlan::CostCompute
 	// compute partial plan cost
 	CCost cost = pcm->Cost(exprhdl, &ci);
 
-	if (0 < ci.UlChildren() && 1.0 < cost.Get())
+	if (0 < ci.ChildCount() && 1.0 < cost.Get())
 	{
 		// cost model implementation adds an artificial const (1.0) to
 		// sum of children cost,

@@ -52,16 +52,16 @@ namespace gpdxl
 			CDXLLogicalSetOp(CDXLLogicalSetOp&);
 
 			// set operation type
-			EdxlSetOpType m_edxlsetoptype;
+			EdxlSetOpType m_set_operation_dxl_type;
 
 			// list of output column descriptors
 			ColumnDescrDXLArray *m_col_descr_array;
 
 			// array of input colid arrays
-			ULongPtrArray2D *m_pdrgpdrgpul;
+			ULongPtrArray2D *m_input_colids_arrays;
 			
 			// do the columns need to be casted accross inputs
-			BOOL m_fCastAcrossInputs;
+			BOOL m_cast_across_input_req;
 
 		public:
 			// ctor
@@ -85,9 +85,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// set operator type
-			EdxlSetOpType Edxlsetoptype() const
+			EdxlSetOpType GetSetOpType() const
 			{
-				return m_edxlsetoptype;
+				return m_set_operation_dxl_type;
 			}
 
 			// array of output columns
@@ -105,35 +105,35 @@ namespace gpdxl
 			// output column descriptor at a given position
 			const CDXLColDescr *GetColumnDescrAt
 				(
-				ULONG ulPos
+				ULONG idx
 				)
 				const
 			{
-				return (*m_col_descr_array)[ulPos];
+				return (*m_col_descr_array)[idx];
 			}
 
 			// number of inputs to the n-ary set operation
-		    ULONG UlChildren() const
+		    ULONG ChildCount() const
 			{
-				return m_pdrgpdrgpul->Size();	
+				return m_input_colids_arrays->Size();	
 			}
 		
 			// column array of the input at a given position 
-			const ULongPtrArray *Pdrgpul
+			const ULongPtrArray *GetInputColIdArrayAt
 				(
-				ULONG ulPos
+				ULONG idx
 				)
 				const
 			{
-				GPOS_ASSERT(ulPos < UlChildren());
+				GPOS_ASSERT(idx < ChildCount());
 				
-				return (*m_pdrgpdrgpul)[ulPos];
+				return (*m_input_colids_arrays)[idx];
 			}
 		
 			// do the columns across inputs need to be casted
-			BOOL FCastAcrossInputs() const
+			BOOL IsCastAcrossInputReq() const
 			{
-				return m_fCastAcrossInputs;
+				return m_cast_across_input_req;
 			}
 
 			// serialize operator in DXL format

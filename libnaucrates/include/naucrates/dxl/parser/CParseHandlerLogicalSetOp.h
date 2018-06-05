@@ -46,7 +46,7 @@ namespace gpdxl
 			ULongPtrArray2D *m_pdrgpdrgpulInputColIds;
 
 			// do the columns across inputs need to be casted
-			BOOL m_fCastAcrossInputs;
+			BOOL m_cast_across_input_req;
 
 			// private copy ctor
 			CParseHandlerLogicalSetOp(const CParseHandlerLogicalSetOp &);

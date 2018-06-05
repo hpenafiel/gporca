@@ -78,22 +78,22 @@ CParseHandlerLogicalProject::StartElement
 		// create child node parsers
 
 		// parse handler for logical operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// parse handler for the proj list
-		CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphPrL);
+		CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 
 
 		// store child parse handler in array
-		this->Append(pphPrL);
-		this->Append(pphChild);
+		this->Append(proj_list_parse_handler);
+		this->Append(child_parse_handler);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 
@@ -115,20 +115,20 @@ CParseHandlerLogicalProject::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalProject), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != m_dxl_node );
 
-	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[0]);
-	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[0]);
+	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
-	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
+	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
+	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 
-	AddChildFromParseHandler(pphPrL);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(proj_list_parse_handler);
+	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG
 	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);

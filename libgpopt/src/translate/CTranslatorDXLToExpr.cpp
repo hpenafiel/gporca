@@ -643,7 +643,7 @@ CTranslatorDXLToExpr::PexprLogicalSetOp
 #endif // GPOS_DEBUG
 
 	GPOS_ASSERT(2 <= ulArity);
-	GPOS_ASSERT(ulArity == dxl_op->UlChildren());
+	GPOS_ASSERT(ulArity == dxl_op->ChildCount());
 
 	// array of input column reference
 	DrgDrgPcr *pdrgdrgpcrInput = GPOS_NEW(m_memory_pool) DrgDrgPcr(m_memory_pool);
@@ -658,7 +658,7 @@ CTranslatorDXLToExpr::PexprLogicalSetOp
 	pdrgpulOutput->Release();
 
 	CLogicalSetOp *pop = NULL;
-	switch (dxl_op->Edxlsetoptype())
+	switch (dxl_op->GetSetOpType())
 	{
 		case EdxlsetopUnion:
 				{
@@ -804,7 +804,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 	// translate child
 	*ppexprChild = PexprLogical(child_dxlnode);
 
-	const ULongPtrArray *pdrgpulInput = dxl_op->Pdrgpul(ulChildIndex);
+	const ULongPtrArray *pdrgpulInput = dxl_op->GetInputColIdArrayAt(ulChildIndex);
 	const ULONG ulInputCols = pdrgpulInput->Size();
 	CColRefSet *pcrsChildOutput = CDrvdPropRelational::Pdprel((*ppexprChild)->PdpDerive())->PcrsOutput();
 	for (ULONG ulColPos = 0; ulColPos < ulInputCols; ulColPos++)
@@ -830,7 +830,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 
 		BOOL fEqualTypes = IMDId::FEqualMDId(pmdidSource, pmdidDest);
 		BOOL fFirstChild = (0 == ulChildIndex);
-		BOOL fUnionOrUnionAll = ((EdxlsetopUnionAll == dxl_op->Edxlsetoptype()) || (EdxlsetopUnion == dxl_op->Edxlsetoptype()));
+		BOOL fUnionOrUnionAll = ((EdxlsetopUnionAll == dxl_op->GetSetOpType()) || (EdxlsetopUnion == dxl_op->GetSetOpType()));
 
 		if (!pcrsChildOutput->FMember(pcr))
 		{
@@ -914,7 +914,7 @@ CTranslatorDXLToExpr::PdrgpexprPreprocessSetOpInputs
 
 	const ULONG ulArity = pdxln->Arity();
 	GPOS_ASSERT(2 <= ulArity);
-	GPOS_ASSERT(ulArity == dxl_op->UlChildren());
+	GPOS_ASSERT(ulArity == dxl_op->ChildCount());
 
 	const ULONG ulOutputCols = dxl_op->Arity();
 

@@ -326,7 +326,7 @@ CCostModelGPDB::CostChildren
 	GPOS_ASSERT(NULL != pcp);
 
 	DOUBLE *pdCost = pci->PdCost();
-	const ULONG ulSize = pci->UlChildren();
+	const ULONG ulSize = pci->ChildCount();
 	BOOL fFilterParent = (COperator::EopPhysicalFilter == exprhdl.Pop()->Eopid());
 
 	DOUBLE dRes = 0.0;
@@ -375,7 +375,7 @@ CCostModelGPDB::CostMaxChild
 	GPOS_ASSERT(NULL != pci);
 
 	DOUBLE *pdCost = pci->PdCost();
-	const ULONG ulSize = pci->UlChildren();
+	const ULONG ulSize = pci->ChildCount();
 
 	DOUBLE dRes = 0.0;
 	for (ULONG ul = 0; ul < ulSize; ul++)
