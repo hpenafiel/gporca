@@ -46,10 +46,10 @@ namespace gpdxl
 			INT m_type_modifier;
 
 			// coercion form
-			EdxlCoercionForm m_edxlcf;
+			EdxlCoercionForm m_dxl_coerce_format;
 
 			// location of token to be coerced
-			INT m_iLoc;
+			INT m_location;
 
 			// private copy ctor
 			CDXLScalarCoerceBase(const CDXLScalarCoerceBase&);
@@ -61,8 +61,8 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				INT type_modifier,
-				EdxlCoercionForm edxlcf,
-				INT iLoc
+				EdxlCoercionForm dxl_coerce_format,
+				INT location
 				);
 
 			virtual
@@ -81,31 +81,31 @@ namespace gpdxl
 			}
 
 			// return coercion form
-			EdxlCoercionForm Edxlcf() const
+			EdxlCoercionForm GetDXLCoercionForm() const
 			{
-				return m_edxlcf;
+				return m_dxl_coerce_format;
 			}
 
 			// return token location
-			INT ILoc() const
+			INT GetLocation() const
 			{
-				return m_iLoc;
+				return m_location;
 			}
 
 			// does the operator return a boolean result
 			virtual
-			BOOL FBoolean(CMDAccessor *pmda) const;
+			BOOL FBoolean(CMDAccessor *md_accessor) const;
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
 			virtual
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 	};
 }
 

@@ -51,8 +51,8 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
 				INT type_modifier,
-				EdxlCoercionForm edxlcf,
-				INT iLoc
+				EdxlCoercionForm dxl_coerce_format,
+				INT location
 				);
 
 			virtual

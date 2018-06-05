@@ -92,7 +92,7 @@ void
 CDXLScalarCoalesce::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -100,7 +100,7 @@ CDXLScalarCoalesce::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -115,11 +115,11 @@ CDXLScalarCoalesce::SerializeToDXL
 BOOL
 CDXLScalarCoalesce::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_mdid_type)->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -134,22 +134,22 @@ CDXLScalarCoalesce::FBoolean
 void
 CDXLScalarCoalesce::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	)
 	const
 {
-	GPOS_ASSERT(0 < pdxln->Arity());
+	GPOS_ASSERT(0 < node->Arity());
 
-	const ULONG ulArity = pdxln->Arity();
+	const ULONG ulArity = node->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
-		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
+		CDXLNode *child_dxlnode = (*node)[ul];
+		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{
-			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

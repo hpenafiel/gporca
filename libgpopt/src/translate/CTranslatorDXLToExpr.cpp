@@ -69,13 +69,13 @@ using namespace gpopt;
 CTranslatorDXLToExpr::CTranslatorDXLToExpr
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	BOOL fInitColumnFactory
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_sysid(IMDId::EmdidGPDB, GPMD_GPDB_SYSID),
-	m_pmda(pmda),
+	m_pmda(md_accessor),
 	m_phmulcr(NULL),
 	m_phmululCTE(NULL),
 	m_pdrgpulOutputColRefs(NULL),
@@ -3666,7 +3666,7 @@ CTranslatorDXLToExpr::PexprScalarCoerceToDomain
 	IMDId *mdid_type = dxl_op->PmdidResultType();
 	mdid_type->AddRef();
 
-	EdxlCoercionForm edxlcf = dxl_op->Edxlcf();
+	EdxlCoercionForm dxl_coerce_format = dxl_op->GetDXLCoercionForm();
 
 	return GPOS_NEW(m_memory_pool) CExpression
 				(
@@ -3676,8 +3676,8 @@ CTranslatorDXLToExpr::PexprScalarCoerceToDomain
 						m_memory_pool,
 						mdid_type,
 						dxl_op->TypeModifier(),
-						(COperator::ECoercionForm) edxlcf, // map Coercion Form directly based on position in enum
-						dxl_op->ILoc()
+						(COperator::ECoercionForm) dxl_coerce_format, // map Coercion Form directly based on position in enum
+						dxl_op->GetLocation()
 						),
 				pexprChild
 				);
@@ -3710,7 +3710,7 @@ CTranslatorDXLToExpr::PexprScalarCoerceViaIO
 	IMDId *mdid_type = dxl_op->PmdidResultType();
 	mdid_type->AddRef();
 
-	EdxlCoercionForm edxlcf = dxl_op->Edxlcf();
+	EdxlCoercionForm dxl_coerce_format = dxl_op->GetDXLCoercionForm();
 
 	return GPOS_NEW(m_memory_pool) CExpression
 				(
@@ -3720,8 +3720,8 @@ CTranslatorDXLToExpr::PexprScalarCoerceViaIO
 						m_memory_pool,
 						mdid_type,
 						dxl_op->TypeModifier(),
-						(COperator::ECoercionForm) edxlcf, // map Coercion Form directly based on position in enum
-						dxl_op->ILoc()
+						(COperator::ECoercionForm) dxl_coerce_format, // map Coercion Form directly based on position in enum
+						dxl_op->GetLocation()
 						),
 				pexprChild
 				);
@@ -3755,7 +3755,7 @@ CTranslatorDXLToExpr::PexprScalarArrayCoerceExpr
 	IMDId *pmdidResultType = dxl_op->PmdidResultType();
 	pmdidResultType->AddRef();
 
-	EdxlCoercionForm edxlcf = dxl_op->Edxlcf();
+	EdxlCoercionForm dxl_coerce_format = dxl_op->GetDXLCoercionForm();
 
 	return GPOS_NEW(m_memory_pool) CExpression
 				(
@@ -3767,8 +3767,8 @@ CTranslatorDXLToExpr::PexprScalarArrayCoerceExpr
 						pmdidResultType,
 						dxl_op->TypeModifier(),
 						dxl_op->FIsExplicit(),
-						(COperator::ECoercionForm) edxlcf, // map Coercion Form directly based on position in enum
-						dxl_op->ILoc()
+						(COperator::ECoercionForm) dxl_coerce_format, // map Coercion Form directly based on position in enum
+						dxl_op->GetLocation()
 						),
 				pexprChild
 				);

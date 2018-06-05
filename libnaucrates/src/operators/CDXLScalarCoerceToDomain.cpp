@@ -29,11 +29,11 @@ CDXLScalarCoerceToDomain::CDXLScalarCoerceToDomain
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
 	INT type_modifier,
-	EdxlCoercionForm edxlcf,
-	INT iLoc
+	EdxlCoercionForm dxl_coerce_format,
+	INT location
 	)
 	:
-	CDXLScalarCoerceBase(memory_pool, mdid_type, type_modifier, edxlcf, iLoc)
+	CDXLScalarCoerceBase(memory_pool, mdid_type, type_modifier, dxl_coerce_format, location)
 {
 }
 

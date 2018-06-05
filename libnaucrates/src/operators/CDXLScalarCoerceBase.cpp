@@ -39,15 +39,15 @@ CDXLScalarCoerceBase::CDXLScalarCoerceBase
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
 	INT type_modifier,
-	EdxlCoercionForm edxlcf,
-	INT iLoc
+	EdxlCoercionForm dxl_coerce_format,
+	INT location
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_pmdidResultType(mdid_type),
 	m_type_modifier(type_modifier),
-	m_edxlcf(edxlcf),
-	m_iLoc(iLoc)
+	m_dxl_coerce_format(dxl_coerce_format),
+	m_location(location)
 {
 	GPOS_ASSERT(NULL != mdid_type);
 	GPOS_ASSERT(mdid_type->IsValid());
@@ -79,7 +79,7 @@ void
 CDXLScalarCoerceBase::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -93,10 +93,10 @@ CDXLScalarCoerceBase::SerializeToDXL
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCoercionForm), (ULONG) m_edxlcf);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenLocation), m_iLoc);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCoercionForm), (ULONG) m_dxl_coerce_format);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenLocation), m_location);
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -112,11 +112,11 @@ CDXLScalarCoerceBase::SerializeToDXL
 BOOL
 CDXLScalarCoerceBase::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pmdidResultType)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pmdidResultType)->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -131,13 +131,13 @@ CDXLScalarCoerceBase::FBoolean
 void
 CDXLScalarCoerceBase::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) const
 {
-	GPOS_ASSERT(1 == pdxln->Arity());
+	GPOS_ASSERT(1 == node->Arity());
 
-	CDXLNode *child_dxlnode = (*pdxln)[0];
+	CDXLNode *child_dxlnode = (*node)[0];
 	GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
