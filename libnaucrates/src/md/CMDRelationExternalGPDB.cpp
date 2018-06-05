@@ -29,7 +29,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *mdname,
-	Ereldistrpolicy ereldistrpolicy,
+	Ereldistrpolicy rel_distr_policy,
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
 	BOOL fConvertHashToRandom,
@@ -45,7 +45,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_ereldistrpolicy(ereldistrpolicy),
+	m_rel_distr_policy(rel_distr_policy),
 	m_pdrgpmdcol(pdrgpmdcol),
 	m_ulDroppedCols(0),
 	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
@@ -68,7 +68,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	GPOS_ASSERT(NULL != pdrgpmdidTriggers);
 	GPOS_ASSERT(NULL != pdrgpmdidCheckConstraint);
 	GPOS_ASSERT_IMP(fConvertHashToRandom,
-				IMDRelation::EreldistrHash == ereldistrpolicy &&
+				IMDRelation::EreldistrHash == rel_distr_policy &&
 				"Converting hash distributed table to random only possible for hash distributed tables");
 
 	m_phmululNonDroppedCols = GPOS_NEW(m_memory_pool) HMUlUl(m_memory_pool);
@@ -179,7 +179,7 @@ CMDRelationExternalGPDB::Mdname() const
 IMDRelation::Ereldistrpolicy
 CMDRelationExternalGPDB::Ereldistribution() const
 {
-	return m_ereldistrpolicy;
+	return m_rel_distr_policy;
 }
 
 //---------------------------------------------------------------------------
@@ -577,9 +577,9 @@ CMDRelationExternalGPDB::Serialize
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_ereldistrpolicy));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_rel_distr_policy));
 
-	if (EreldistrHash == m_ereldistrpolicy)
+	if (EreldistrHash == m_rel_distr_policy)
 	{
 		GPOS_ASSERT(NULL != m_pdrgpulDistrColumns);
 
@@ -676,7 +676,7 @@ CMDRelationExternalGPDB::DebugPrint
 
 	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 
-	os << "Distribution policy: " << PstrDistrPolicy(m_ereldistrpolicy)->GetBuffer() << std::endl;
+	os << "Distribution policy: " << PstrDistrPolicy(m_rel_distr_policy)->GetBuffer() << std::endl;
 
 	os << "Relation columns: " << std::endl;
 	const ULONG ulColumns = UlColumns();

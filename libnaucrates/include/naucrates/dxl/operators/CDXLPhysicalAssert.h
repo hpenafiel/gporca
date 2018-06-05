@@ -41,14 +41,14 @@ namespace gpdxl
 		private:
 			
 			// error code
-			CHAR m_szSQLState[GPOS_SQLSTATE_LENGTH + 1];
+			CHAR m_sql_state[GPOS_SQLSTATE_LENGTH + 1];
 			
 			// private copy ctor
 			CDXLPhysicalAssert(CDXLPhysicalAssert&);
 
 		public:
 			// ctor
-			CDXLPhysicalAssert(IMemoryPool *memory_pool, const CHAR *szSQLState);
+			CDXLPhysicalAssert(IMemoryPool *memory_pool, const CHAR *sql_state);
 
 			// dtor
 			virtual
@@ -63,9 +63,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// error code
-			const CHAR *SQLState() const
+			const CHAR *GetSQLState() const
 			{
-				return m_szSQLState;
+				return m_sql_state;
 			}
 			
 			// serialize operator in DXL format

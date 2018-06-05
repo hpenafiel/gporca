@@ -72,7 +72,7 @@ CException::CException
 	m_line(line)
 {
 	m_severity_level = CException::ExsevSentinel;
-	m_sql_state = SQLState(major, minor);
+	m_sql_state = GetSQLState(major, minor);
 }
 
 // ctor
@@ -91,7 +91,7 @@ CException::CException
 	m_line(line),
 	m_severity_level(severity_level)
 {
-	m_sql_state = SQLState(major, minor);
+	m_sql_state = GetSQLState(major, minor);
 }
 
 //---------------------------------------------------------------------------
@@ -115,7 +115,7 @@ CException::CException
 	m_line(0)
 {
 	m_severity_level = CException::ExsevSentinel;
-	m_sql_state = SQLState(major, minor);
+	m_sql_state = GetSQLState(major, minor);
 }
 
 
@@ -262,14 +262,14 @@ CException::Raise
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CException::SQLState
+//		CException::GetSQLState
 //
 //	@doc:
 //		Get sql state code for exception
 //
 //---------------------------------------------------------------------------
 const CHAR *
-CException::SQLState
+CException::GetSQLState
 	(
 	ULONG major,
 	ULONG minor

@@ -54,22 +54,22 @@ namespace gpmd
 			IMDId *m_mdid;
 
 			// schema name
-			CMDName *m_pmdnameSchema;
+			CMDName *m_mdname_schema;
 			
 			// table name
 			CMDName *m_mdname;
 			
 			// is this a temporary relation
-			BOOL m_fTemporary;
+			BOOL m_is_temp_table;
 			
 			// does this table have oids
-			BOOL m_fHasOids;
+			BOOL m_has_oids;
 			
 			// storage type
-			Erelstoragetype m_erelstorage;
+			Erelstoragetype m_rel_storage_type;
 
 			// distribution policy
-			Ereldistrpolicy m_ereldistrpolicy;
+			Ereldistrpolicy m_rel_distr_policy;
 
 			// columns
 			DrgPmdcol *m_pdrgpmdcol;
@@ -94,7 +94,7 @@ namespace gpmd
 			CDXLCtasStorageOptions *m_pdxlctasopt;
 
 			// vartypemod list
-			IntPtrArray *m_pdrgpiVarTypeMod;
+			IntPtrArray *m_vartypemod_array;
 
 			// array of column widths
 			DrgPdouble *m_pdrgpdoubleColWidths;
@@ -113,8 +113,8 @@ namespace gpmd
 				CMDName *mdname,
 				BOOL fTemporary,
 				BOOL fHasOids,
-				Erelstoragetype erelstorage,
-				Ereldistrpolicy ereldistrpolicy,
+				Erelstoragetype rel_storage_type,
+				Ereldistrpolicy rel_distr_policy,
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,
 				ULongPtrArray2D *pdrgpdrgpulKeys,
@@ -153,21 +153,21 @@ namespace gpmd
 			virtual
 			BOOL FHasOids() const
 			{
-				return m_fHasOids;
+				return m_has_oids;
 			}
 			
 			// is this a temp relation
 			virtual 
 			BOOL FTemporary() const
 			{
-				return m_fTemporary;
+				return m_is_temp_table;
 			}
 			
 			// storage type
 			virtual 
 			Erelstoragetype Erelstorage() const
 			{
-				return m_erelstorage;
+				return m_rel_storage_type;
 			}
 			
 			// CTAS storage options
@@ -297,7 +297,7 @@ namespace gpmd
 			// list of vartypmod for target expressions
 			IntPtrArray *PdrgpiVarTypeMod() const
 			{
-				return m_pdrgpiVarTypeMod;
+				return m_vartypemod_array;
 			}
 
 #ifdef GPOS_DEBUG

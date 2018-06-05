@@ -41,7 +41,7 @@ namespace gpdxl
 			ULongPtrArray *m_insert_colid_array;
 
 			// action column id
-			ULONG m_ulAction;
+			ULONG m_action_colid;
 
 			// ctid column id
 			ULONG m_ctid_colid;

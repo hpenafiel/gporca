@@ -39,7 +39,7 @@ CTableDescriptor::CTableDescriptor
 	IMDId *pmdid,
 	const CName &name,
 	BOOL fConvertHashToRandom,
-	IMDRelation::Ereldistrpolicy ereldistrpolicy,
+	IMDRelation::Ereldistrpolicy rel_distr_policy,
 	IMDRelation::Erelstoragetype erelstoragetype,
 	ULONG ulExecuteAsUser
 	)
@@ -48,7 +48,7 @@ CTableDescriptor::CTableDescriptor
 	m_mdid(pmdid),
 	m_name(memory_pool, name),
 	m_pdrgpcoldesc(NULL),
-	m_ereldistrpolicy(ereldistrpolicy),
+	m_rel_distr_policy(rel_distr_policy),
 	m_erelstoragetype(erelstoragetype),
 	m_pdrgpcoldescDist(NULL),
 	m_fConvertHashToRandom(fConvertHashToRandom),

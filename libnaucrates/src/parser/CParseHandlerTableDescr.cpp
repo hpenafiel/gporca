@@ -97,11 +97,11 @@ CParseHandlerTableDescr::StartElement
 	m_table_descr_dxl = CDXLOperatorFactory::GetTableDescr(m_parse_handler_mgr->Pmm(), attrs);
 		
 	// install column descriptor parsers
-	CParseHandlerBase *pphColDescr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
+	CParseHandlerBase *col_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(col_descr_parse_handler);
 	
 	// store parse handler
-	this->Append(pphColDescr);
+	this->Append(col_descr_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -131,11 +131,11 @@ CParseHandlerTableDescr::EndElement
 	GPOS_ASSERT(1 == this->Length());
 	
 	// assemble the properties container from the cost
-	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
+	CParseHandlerColDescr *col_descr_parse_handler = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
 	
-	GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
+	GPOS_ASSERT(NULL != col_descr_parse_handler->GetColumnDescrDXLArray());
 	
-	ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
+	ColumnDescrDXLArray *pdrgpdxlcd = col_descr_parse_handler->GetColumnDescrDXLArray();
 	pdrgpdxlcd->AddRef();
 	m_table_descr_dxl->SetColumnDescriptors(pdrgpdxlcd);
 			

@@ -38,10 +38,10 @@ namespace gpdxl
 			CParseHandlerPhysicalDynamicBitmapTableScan(const CParseHandlerPhysicalDynamicBitmapTableScan &);
 
 			// part index id
-			ULONG m_ulPartIndexId;
+			ULONG m_part_index_id;
 
 			// printable partition index id
-			ULONG m_ulPartIndexIdPrintable;
+			ULONG m_part_index_id_printable;
 
 			// process the start of an element
 			virtual
@@ -72,8 +72,8 @@ namespace gpdxl
 				)
 				:
 				CParseHandlerPhysicalAbstractBitmapScan(memory_pool, parse_handler_mgr, parse_handler_root),
-				m_ulPartIndexId(0),
-				m_ulPartIndexIdPrintable(0)
+				m_part_index_id(0),
+				m_part_index_id_printable(0)
 			{}
 	};
 }

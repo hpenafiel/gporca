@@ -32,7 +32,7 @@ CParseHandlerPhysicalDynamicBitmapTableScan::StartElement
 	)
 {
 	StartElementHelper(element_local_name, EdxltokenPhysicalDynamicBitmapTableScan);
-	m_ulPartIndexId = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id = CDXLOperatorFactory::UlValueFromAttrs
 						(
 						m_parse_handler_mgr->Pmm(),
 						attrs,
@@ -40,14 +40,14 @@ CParseHandlerPhysicalDynamicBitmapTableScan::StartElement
 						EdxltokenPhysicalDynamicBitmapTableScan
 						);
 
-	m_ulPartIndexIdPrintable = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id_printable = CDXLOperatorFactory::UlValueFromAttrs
 						(
 						m_parse_handler_mgr->Pmm(),
 						attrs,
 						EdxltokenPartIndexIdPrintable,
 						EdxltokenPhysicalDynamicBitmapTableScan,
 						true, //fOptional
-						m_ulPartIndexId
+						m_part_index_id
 						);
 }
 
@@ -67,7 +67,7 @@ CParseHandlerPhysicalDynamicBitmapTableScan::EndElement
 	const XMLCh* const  // element_qname
 	)
 {
-	EndElementHelper(element_local_name, EdxltokenPhysicalDynamicBitmapTableScan, m_ulPartIndexId, m_ulPartIndexIdPrintable);
+	EndElementHelper(element_local_name, EdxltokenPhysicalDynamicBitmapTableScan, m_part_index_id, m_part_index_id_printable);
 }
 
 // EOF

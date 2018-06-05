@@ -34,8 +34,8 @@ CDXLPhysicalAppend::CDXLPhysicalAppend
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_fIsTarget(fIsTarget),
-	m_fIsZapped(fIsZapped)
+	m_used_in_upd_del(fIsTarget),
+	m_is_zapped(fIsZapped)
 {
 }
 
@@ -71,30 +71,30 @@ CDXLPhysicalAppend::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAppend::FIsTarget
+//		CDXLPhysicalAppend::IsUsedInUpdDel
 //
 //	@doc:
 //		Is the append node updating a target relation
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLPhysicalAppend::FIsTarget() const
+CDXLPhysicalAppend::IsUsedInUpdDel() const
 {
-	return m_fIsTarget;
+	return m_used_in_upd_del;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalAppend::FIsZapped
+//		CDXLPhysicalAppend::IsZapped
 //
 //	@doc:
 //		Is the append node zapped
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLPhysicalAppend::FIsZapped() const
+CDXLPhysicalAppend::IsZapped() const
 {
-	return m_fIsZapped;
+	return m_is_zapped;
 }
 
 //---------------------------------------------------------------------------
@@ -117,8 +117,8 @@ CDXLPhysicalAppend::SerializeToDXL
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsTarget), m_fIsTarget);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsZapped), m_fIsZapped);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsTarget), m_used_in_upd_del);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsZapped), m_is_zapped);
 	
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);

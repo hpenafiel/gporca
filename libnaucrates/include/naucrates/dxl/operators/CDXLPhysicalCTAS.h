@@ -38,7 +38,7 @@ namespace gpdxl
 		private:
 
 			// schema name
-			CMDName *m_pmdnameSchema;
+			CMDName *m_mdname_schema;
 		
 			// table name
 			CMDName *m_pmdnameRel;
@@ -50,25 +50,25 @@ namespace gpdxl
 			CDXLCtasStorageOptions *m_pdxlctasopt;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_ereldistrpolicy;
+			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
 	
 			// list of distribution column positions		
-			ULongPtrArray *m_pdrgpulDistr;
+			ULongPtrArray *m_distr_column_pos_array;
 			
 			// is this a temporary table
-			BOOL m_fTemporary;
+			BOOL m_is_temp_table;
 			
 			// does table have oids
-			BOOL m_fHasOids;
+			BOOL m_has_oids;
 			
 			// storage type
-			IMDRelation::Erelstoragetype m_erelstorage;
+			IMDRelation::Erelstoragetype m_rel_storage_type;
 			
 			// list of source column ids		
-			ULongPtrArray *m_pdrgpulSource;
+			ULongPtrArray *m_src_colids_array;
 
 			// list of vartypmod
-			IntPtrArray *m_pdrgpiVarTypeMod;
+			IntPtrArray *m_vartypemod_array;
 
 			// private copy ctor
 			CDXLPhysicalCTAS(CDXLPhysicalCTAS&);
@@ -82,11 +82,11 @@ namespace gpdxl
 				CMDName *pmdnameRel, 
 				ColumnDescrDXLArray *pdrgpdxcd,
 				CDXLCtasStorageOptions *pdxlctasopt,
-				IMDRelation::Ereldistrpolicy ereldistrpolicy,
+				IMDRelation::Ereldistrpolicy rel_distr_policy,
 				ULongPtrArray *pdrgpulDistr, 
 				BOOL fTemporary, 
 				BOOL fHasOids, 
-				IMDRelation::Erelstoragetype erelstorage,
+				IMDRelation::Erelstoragetype rel_storage_type,
 				ULongPtrArray *pdrgpulSource,
 				IntPtrArray *pdrgpiVarTypeMod
 				);
@@ -110,31 +110,31 @@ namespace gpdxl
 			// distribution type
 			IMDRelation::Ereldistrpolicy Ereldistrpolicy() const
 			{
-				return m_ereldistrpolicy;
+				return m_rel_distr_policy;
 			}
 			
 			// distribution column positions
 			ULongPtrArray *PdrgpulDistr() const
 			{
-				return m_pdrgpulDistr;
+				return m_distr_column_pos_array;
 			}
 		
 			// source column ids
 			ULongPtrArray *PdrgpulSource() const
 			{
-				return m_pdrgpulSource;
+				return m_src_colids_array;
 			} 
 			
 			// list of vartypmod for target expressions
 			IntPtrArray *PdrgpiVarTypeMod() const
 			{
-				return m_pdrgpiVarTypeMod;
+				return m_vartypemod_array;
 			}
 
 			// table name
 			CMDName *PmdnameSchema() const
 			{
-				return m_pmdnameSchema;
+				return m_mdname_schema;
 			}
 			
 			// table name
@@ -146,7 +146,7 @@ namespace gpdxl
 			// is temporary
 			BOOL FTemporary() const
 			{
-				return m_fTemporary;
+				return m_is_temp_table;
 			}
 
 			// CTAS storage options

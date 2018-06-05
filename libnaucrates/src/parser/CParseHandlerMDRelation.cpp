@@ -42,12 +42,12 @@ CParseHandlerMDRelation::CParseHandlerMDRelation
 	:
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_mdid(NULL),
-	m_pmdnameSchema(NULL),
+	m_mdname_schema(NULL),
 	m_mdname(NULL),
-	m_fTemporary(false),
-	m_fHasOids(false),
-	m_erelstorage(IMDRelation::ErelstorageSentinel),
-	m_ereldistrpolicy(IMDRelation::EreldistrSentinel),
+	m_is_temp_table(false),
+	m_has_oids(false),
+	m_rel_storage_type(IMDRelation::ErelstorageSentinel),
+	m_rel_distr_policy(IMDRelation::EreldistrSentinel),
 	m_pdrgpulDistrColumns(NULL),
 	m_fConvertHashToRandom(false),
 	m_pdrgpulPartColumns(NULL),
@@ -115,7 +115,7 @@ CParseHandlerMDRelation::StartElement
 	ParseRelationAttributes(attrs, EdxltokenRelation);
 
 	// parse whether relation is temporary
-	m_fTemporary = CDXLOperatorFactory::FValueFromAttrs
+	m_is_temp_table = CDXLOperatorFactory::FValueFromAttrs
 											(
 											m_parse_handler_mgr->Pmm(),
 											attrs,
@@ -127,7 +127,7 @@ CParseHandlerMDRelation::StartElement
 	const XMLCh *xmlszHasOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
 	if (NULL != xmlszHasOids)
 	{
-		m_fHasOids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
+		m_has_oids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
 	}
 
 	// parse storage type
@@ -138,7 +138,7 @@ CParseHandlerMDRelation::StartElement
 															EdxltokenRelation
 															);
 	
-	m_erelstorage = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorageType);
+	m_rel_storage_type = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorageType);
 
 	const XMLCh *xmlszPartColumns = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenPartKeys));
 
@@ -262,9 +262,9 @@ CParseHandlerMDRelation::EndElement
 									m_memory_pool,
 									m_mdid,
 									m_mdname,
-									m_fTemporary,
-									m_erelstorage,
-									m_ereldistrpolicy,
+									m_is_temp_table,
+									m_rel_storage_type,
+									m_rel_distr_policy,
 									pdrgpmdcol,
 									m_pdrgpulDistrColumns,
 									m_pdrgpulPartColumns,
@@ -276,7 +276,7 @@ CParseHandlerMDRelation::EndElement
 									pdrgpmdidTriggers,
 									pdrgpmdidCheckConstraint,
 									m_ppartcnstr,
-									m_fHasOids
+									m_has_oids
 								);
 
 	// deactivate handler
@@ -309,14 +309,14 @@ CParseHandlerMDRelation::ParseRelationAttributes
 	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, edxltokenElement);
 
 	// parse distribution policy
-	const XMLCh *xmlszDistrPolicy = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenRelDistrPolicy, edxltokenElement);
-	m_ereldistrpolicy = CDXLOperatorFactory::EreldistrpolicyFromXmlstr(xmlszDistrPolicy);
+	const XMLCh *rel_distr_policy_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenRelDistrPolicy, edxltokenElement);
+	m_rel_distr_policy = CDXLOperatorFactory::EreldistrpolicyFromXmlstr(rel_distr_policy_xml);
 
-	if (m_ereldistrpolicy == IMDRelation::EreldistrHash)
+	if (m_rel_distr_policy == IMDRelation::EreldistrHash)
 	{
 		// parse distribution columns
-		const XMLCh *xmlszDistrColumns = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDistrColumns, edxltokenElement);
-		m_pdrgpulDistrColumns = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszDistrColumns, EdxltokenDistrColumns, edxltokenElement);
+		const XMLCh *rel_distr_cols_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDistrColumns, edxltokenElement);
+		m_pdrgpulDistrColumns = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), rel_distr_cols_xml, EdxltokenDistrColumns, edxltokenElement);
 	}
 
 	// parse keys

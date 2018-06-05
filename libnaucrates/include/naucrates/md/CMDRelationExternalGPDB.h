@@ -55,7 +55,7 @@ namespace gpmd
 			CMDName *m_mdname;
 
 			// distribution policy
-			Ereldistrpolicy m_ereldistrpolicy;
+			Ereldistrpolicy m_rel_distr_policy;
 
 			// columns
 			DrgPmdcol *m_pdrgpmdcol;
@@ -120,7 +120,7 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *mdname,
-				Ereldistrpolicy ereldistrpolicy,
+				Ereldistrpolicy rel_distr_policy,
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,
 				BOOL fConvertHashToRandom,

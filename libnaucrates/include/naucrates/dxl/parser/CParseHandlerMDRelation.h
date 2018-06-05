@@ -41,22 +41,22 @@ namespace gpdxl
 			IMDId *m_mdid;
 			
 			// schema name
-			CMDName *m_pmdnameSchema;
+			CMDName *m_mdname_schema;
 			
 			// table name
 			CMDName *m_mdname;
 			
 			// is this a temporary relation
-			BOOL m_fTemporary;
+			BOOL m_is_temp_table;
 			
 			// does this relation have oids
-			BOOL m_fHasOids;
+			BOOL m_has_oids;
 
 			// storage type
-			IMDRelation::Erelstoragetype m_erelstorage;
+			IMDRelation::Erelstoragetype m_rel_storage_type;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_ereldistrpolicy;
+			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
 			
 			// distribution columns
 			ULongPtrArray *m_pdrgpulDistrColumns;

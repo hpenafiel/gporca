@@ -41,7 +41,7 @@ namespace gpdxl
 			ULongPtrArray *m_insert_colid_array;
 
 			// action column id
-			ULONG m_ulAction;
+			ULONG m_action_colid;
 
 			// ctid column id
 			ULONG m_ctid_colid;
@@ -66,7 +66,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				ULongPtrArray *delete_colid_array,
 				ULongPtrArray *insert_colid_array,
-				ULONG ulAction,
+				ULONG action_colid,
 				ULONG ctid_colid,
 				ULONG segid_colid,
 				BOOL preserve_oids,
@@ -96,9 +96,9 @@ namespace gpdxl
 			}
 
 			// action column id
-			ULONG UlAction() const
+			ULONG ActionColId() const
 			{
-				return m_ulAction;
+				return m_action_colid;
 			}
 
 			// ctid column id

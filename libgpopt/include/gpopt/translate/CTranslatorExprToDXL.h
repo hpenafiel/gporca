@@ -698,10 +698,10 @@ namespace gpopt
 			CDXLNode *PdxlnFilter(CDXLNode *pdxlnCond);
 			
 			// construct an array with input segment ids for the given motion expression
-			IntPtrArray *PdrgpiInputSegIds(CExpression *pexprMotion);
+			IntPtrArray *GetInputSegIdsArray(CExpression *pexprMotion);
 			
 			// construct an array with output segment ids for the given motion expression
-			IntPtrArray *PdrgpiOutputSegIds(CExpression *pexprMotion);
+			IntPtrArray *GetOutputSegIdsArray(CExpression *pexprMotion);
 
 			// find the position of the given colref in the array
 			ULONG UlPosInArray(const CColRef *pcr, const DrgPcr *pdrgpcr) const;

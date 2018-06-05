@@ -114,10 +114,10 @@ CDXLPhysicalBroadcastMotion::AssertValid
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(pdxln, validate_children);
 
-	GPOS_ASSERT(m_pdrgpiInputSegIds != NULL);
-	GPOS_ASSERT(0 < m_pdrgpiInputSegIds->Size());
-	GPOS_ASSERT(m_pdrgpiOutputSegIds != NULL);
-	GPOS_ASSERT(0 < m_pdrgpiOutputSegIds->Size());
+	GPOS_ASSERT(m_input_segids_array != NULL);
+	GPOS_ASSERT(0 < m_input_segids_array->Size());
+	GPOS_ASSERT(m_output_segids_array != NULL);
+	GPOS_ASSERT(0 < m_output_segids_array->Size());
 
 	GPOS_ASSERT(EdxlbmIndexSentinel == pdxln->Arity());
 	

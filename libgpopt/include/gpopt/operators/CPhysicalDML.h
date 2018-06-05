@@ -71,7 +71,7 @@ namespace gpopt
 			CColRefSet *m_pcrsRequiredLocal;
 
 			// needs the data to be sorted or not
-			BOOL m_fInputSorted;
+			BOOL m_input_sort_req;
 
 			// do we need to sort on parquet table
 			BOOL FInsertSortOnParquet();
@@ -193,9 +193,9 @@ namespace gpopt
 
 			// needs the data to be sorted or not
 			virtual
-			BOOL FInputSorted() const
+			BOOL IsInputSortReq() const
 			{
-				return m_fInputSorted;
+				return m_input_sort_req;
 			}
 					
 			//-------------------------------------------------------------------------------------

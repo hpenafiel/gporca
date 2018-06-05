@@ -63,12 +63,12 @@ CParseHandlerWindowKey::StartElement
 		m_pdxlwk = GPOS_NEW(m_memory_pool) CDXLWindowKey(m_memory_pool);
 
 		// parse handler for the sorting column list
-		CParseHandlerBase *pphSortColList =
+		CParseHandlerBase *sort_col_list_parse_handler =
 				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
+		m_parse_handler_mgr->ActivateParseHandler(sort_col_list_parse_handler);
 
 		// store parse handler
-		this->Append(pphSortColList);
+		this->Append(sort_col_list_parse_handler);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), element_local_name))
 	{
@@ -114,8 +114,8 @@ CParseHandlerWindowKey::EndElement
 	GPOS_ASSERT(NULL != m_pdxlwk);
 	GPOS_ASSERT(1 <= this->Length());
 
-	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-	CDXLNode *sort_col_list_dxl = pphSortColList->CreateDXLNode();
+	CParseHandlerSortColList *sort_col_list_parse_handler = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
+	CDXLNode *sort_col_list_dxl = sort_col_list_parse_handler->CreateDXLNode();
 	sort_col_list_dxl->AddRef();
 	m_pdxlwk->SetSortColList(sort_col_list_dxl);
 

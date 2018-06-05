@@ -37,8 +37,8 @@ CDXLPhysicalDynamicTableScan::CDXLPhysicalDynamicTableScan
 	:
 	CDXLPhysical(memory_pool),
 	m_table_descr_dxl(table_descr),
-	m_ulPartIndexId(part_idx_id),
-	m_ulPartIndexIdPrintable(part_idx_id_printable)
+	m_part_index_id(part_idx_id),
+	m_part_index_id_printable(part_idx_id_printable)
 {
 	GPOS_ASSERT(NULL != table_descr);
 }
@@ -102,16 +102,16 @@ CDXLPhysicalDynamicTableScan::GetTableDescr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicTableScan::UlPartIndexId
+//		CDXLPhysicalDynamicTableScan::GetPartIndexId
 //
 //	@doc:
 //		Id of partition index
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLPhysicalDynamicTableScan::UlPartIndexId() const
+CDXLPhysicalDynamicTableScan::GetPartIndexId() const
 {
-	return m_ulPartIndexId;
+	return m_part_index_id;
 }
 
 //---------------------------------------------------------------------------
@@ -125,7 +125,7 @@ CDXLPhysicalDynamicTableScan::UlPartIndexId() const
 ULONG
 CDXLPhysicalDynamicTableScan::UlPartIndexIdPrintable() const
 {
-	return m_ulPartIndexIdPrintable;
+	return m_part_index_id_printable;
 }
 
 //---------------------------------------------------------------------------
@@ -147,10 +147,10 @@ CDXLPhysicalDynamicTableScan::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
-	if (m_ulPartIndexIdPrintable != m_ulPartIndexId)
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_part_index_id);
+	if (m_part_index_id_printable != m_part_index_id)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_ulPartIndexIdPrintable);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_part_index_id_printable);
 	}
 	pdxln->SerializePropertiesToDXL(xml_serializer);
 	pdxln->SerializeChildrenToDXL(xml_serializer);

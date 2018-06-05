@@ -38,8 +38,8 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	:
 	CDXLPhysical(memory_pool),
 	m_table_descr_dxl(table_descr),
-	m_ulPartIndexId(part_idx_id),
-	m_ulPartIndexIdPrintable(part_idx_id_printable),
+	m_part_index_id(part_idx_id),
+	m_part_index_id_printable(part_idx_id_printable),
 	m_index_descr_dxl(pdxlid),
 	m_edxlisd(idx_scan_direction)
 {
@@ -133,16 +133,16 @@ CDXLPhysicalDynamicIndexScan::GetTableDescr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicIndexScan::UlPartIndexId
+//		CDXLPhysicalDynamicIndexScan::GetPartIndexId
 //
 //	@doc:
 //		Part index id
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLPhysicalDynamicIndexScan::UlPartIndexId() const
+CDXLPhysicalDynamicIndexScan::GetPartIndexId() const
 {
-	return m_ulPartIndexId;
+	return m_part_index_id;
 }
 
 //---------------------------------------------------------------------------
@@ -156,7 +156,7 @@ CDXLPhysicalDynamicIndexScan::UlPartIndexId() const
 ULONG
 CDXLPhysicalDynamicIndexScan::UlPartIndexIdPrintable() const
 {
-	return m_ulPartIndexIdPrintable;
+	return m_part_index_id_printable;
 }
 
 //---------------------------------------------------------------------------
@@ -184,10 +184,10 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 				CDXLOperator::GetIdxScanDirectionStr(m_edxlisd)
 				);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
-	if (m_ulPartIndexIdPrintable != m_ulPartIndexId)
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_part_index_id);
+	if (m_part_index_id_printable != m_part_index_id)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_ulPartIndexIdPrintable);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_part_index_id_printable);
 	}
 
 	// serialize properties

@@ -35,16 +35,16 @@ namespace gpdxl
 		private:
 			
 			// operator type
-			EdxlDmlType m_edxldmltype;
+			EdxlDmlType m_dml_type_dxl;
 
 			// source col ids
-			ULongPtrArray *m_pdrgpul;
+			ULongPtrArray *m_src_colids_array;
 		
 			// action column id
-			ULONG m_ulAction;
+			ULONG m_action_colid;
 
 			// oid column id
-			ULONG m_ulOid;
+			ULONG m_oid_colid;
 
 			// ctid column id
 			ULONG m_ctid_colid;
@@ -59,7 +59,7 @@ namespace gpdxl
 			ULONG m_tuple_oid_col_oid;
 
 			// needs data to be sorted
-			BOOL m_fInputSorted;
+			BOOL m_input_sort_req;
 
 			// private copy ctor
 			CParseHandlerPhysicalDML(const CParseHandlerPhysicalDML &);
@@ -83,7 +83,7 @@ namespace gpdxl
 
 			// parse the dml type from the attribute value
 			static
-			EdxlDmlType EdxlDmlOpType(const XMLCh *xmlszDmlType);
+			EdxlDmlType GetDmlOpType(const XMLCh *xmlszDmlType);
 
 		public:
 			// ctor

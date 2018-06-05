@@ -59,7 +59,7 @@ CPhysicalDML::CPhysicalDML
 	m_pds(NULL),
 	m_pos(NULL),
 	m_pcrsRequiredLocal(NULL),
-	m_fInputSorted(false)
+	m_input_sort_req(false)
 {
 	GPOS_ASSERT(CLogicalDML::EdmlSentinel != edmlop);
 	GPOS_ASSERT(NULL != ptabdesc);
@@ -521,7 +521,7 @@ CPhysicalDML::PosComputeRequired
 		if (fInsertSortOnParquet || fInsertSortOnRows)
 		{
 			GPOS_ASSERT(CLogicalDML::EdmlInsert == m_edmlop);
-			m_fInputSorted = true;
+			m_input_sort_req = true;
 			// if this is an INSERT over a partitioned Parquet or Row-oriented table,
 			// sort tuples by their table oid
 			IMDId *pmdid = m_pcrTableOid->Pmdtype()->PmdidCmp(IMDType::EcmptL);

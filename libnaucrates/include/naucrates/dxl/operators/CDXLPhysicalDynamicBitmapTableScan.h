@@ -36,10 +36,10 @@ namespace gpdxl
 	{
 		private:
 			// id of partition index structure
-			ULONG m_ulPartIndexId;
+			ULONG m_part_index_id;
 
 			// printable partition index id
-			ULONG m_ulPartIndexIdPrintable;
+			ULONG m_part_index_id_printable;
 
 			// private copy ctor
 			CDXLPhysicalDynamicBitmapTableScan(const CDXLPhysicalDynamicBitmapTableScan &);
@@ -55,8 +55,8 @@ namespace gpdxl
 				)
 				:
 				CDXLPhysicalAbstractBitmapScan(memory_pool, table_descr),
-				m_ulPartIndexId(part_idx_id),
-				m_ulPartIndexIdPrintable(part_idx_id_printable)
+				m_part_index_id(part_idx_id),
+				m_part_index_id_printable(part_idx_id_printable)
 			{
 				GPOS_ASSERT(NULL != table_descr);
 			}
@@ -78,20 +78,20 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// partition index id
-			ULONG UlPartIndexId() const
+			ULONG GetPartIndexId() const
 			{
-				return m_ulPartIndexId;
+				return m_part_index_id;
 			}
 
 			// printable partition index id
 			ULONG UlPartIndexIdPrintable() const
 			{
-				return m_ulPartIndexIdPrintable;
+				return m_part_index_id_printable;
 			}
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

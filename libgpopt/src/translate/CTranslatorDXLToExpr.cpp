@@ -2086,10 +2086,10 @@ CTranslatorDXLToExpr::Ptabdesc
 	}
 	
 	// get distribution policy
-	IMDRelation::Ereldistrpolicy ereldistrpolicy = pmdrel->Ereldistribution();
+	IMDRelation::Ereldistrpolicy rel_distr_policy = pmdrel->Ereldistribution();
 
 	// get storage type
-	IMDRelation::Erelstoragetype erelstorage = pmdrel->Erelstorage();
+	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->Erelstorage();
 
 	pmdid->AddRef();
 	CTableDescriptor *ptabdesc = GPOS_NEW(m_memory_pool) CTableDescriptor
@@ -2098,8 +2098,8 @@ CTranslatorDXLToExpr::Ptabdesc
 						pmdid,
 						CName(m_memory_pool, &strName),
 						pmdrel->FConvertHashToRandom(),
-						ereldistrpolicy,
-						erelstorage,
+						rel_distr_policy,
+						rel_storage_type,
 						table_descr->GetExecuteAsUserId()
 						);
 
@@ -2138,7 +2138,7 @@ CTranslatorDXLToExpr::Ptabdesc
 		ptabdesc->AddColumn(pcoldesc);
 	}
 	
-	if (IMDRelation::EreldistrHash == ereldistrpolicy)
+	if (IMDRelation::EreldistrHash == rel_distr_policy)
 	{
 		AddDistributionColumns(ptabdesc, pmdrel, phmiulAttnoColMapping);
 	}
@@ -2288,10 +2288,10 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 	}
 	
 	// get distribution policy
-	IMDRelation::Ereldistrpolicy ereldistrpolicy = pmdrel->Ereldistribution();
+	IMDRelation::Ereldistrpolicy rel_distr_policy = pmdrel->Ereldistribution();
 
 	// get storage type
-	IMDRelation::Erelstoragetype erelstorage = pmdrel->Erelstorage();
+	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->Erelstorage();
 
 	pmdid->AddRef();
 	CTableDescriptor *ptabdesc = GPOS_NEW(m_memory_pool) CTableDescriptor
@@ -2300,8 +2300,8 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 						pmdid,
 						CName(m_memory_pool, &strName),
 						pmdrel->FConvertHashToRandom(),
-						ereldistrpolicy,
-						erelstorage,
+						rel_distr_policy,
+						rel_storage_type,
 						0 // TODO:  - Mar 5, 2014; ulExecuteAsUser
 						);
 
@@ -2341,7 +2341,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 		ptabdesc->AddColumn(pcoldesc);
 	}
 	
-	if (IMDRelation::EreldistrHash == ereldistrpolicy)
+	if (IMDRelation::EreldistrHash == rel_distr_policy)
 	{
 		AddDistributionColumns(ptabdesc, pmdrel, phmiulAttnoColMapping);
 	}

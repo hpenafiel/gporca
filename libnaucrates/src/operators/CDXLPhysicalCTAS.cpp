@@ -38,37 +38,37 @@ CDXLPhysicalCTAS::CDXLPhysicalCTAS
 	CMDName *pmdnameRel,
 	ColumnDescrDXLArray *pdrgpdxlcd,
 	CDXLCtasStorageOptions *pdxlctasopt,
-	IMDRelation::Ereldistrpolicy ereldistrpolicy,
+	IMDRelation::Ereldistrpolicy rel_distr_policy,
 	ULongPtrArray *pdrgpulDistr,
 	BOOL fTemporary,
 	BOOL fHasOids, 
-	IMDRelation::Erelstoragetype erelstorage,
+	IMDRelation::Erelstoragetype rel_storage_type,
 	ULongPtrArray *pdrgpulSource,
 	IntPtrArray *pdrgpiVarTypeMod
 	)
 	:
 	CDXLPhysical(memory_pool), 
-	m_pmdnameSchema(pmdnameSchema),
+	m_mdname_schema(pmdnameSchema),
 	m_pmdnameRel(pmdnameRel),
 	m_col_descr_array(pdrgpdxlcd),
 	m_pdxlctasopt(pdxlctasopt),
-	m_ereldistrpolicy(ereldistrpolicy),
-	m_pdrgpulDistr(pdrgpulDistr),
-	m_fTemporary(fTemporary),
-	m_fHasOids(fHasOids),
-	m_erelstorage(erelstorage),
-	m_pdrgpulSource(pdrgpulSource),
-	m_pdrgpiVarTypeMod(pdrgpiVarTypeMod)
+	m_rel_distr_policy(rel_distr_policy),
+	m_distr_column_pos_array(pdrgpulDistr),
+	m_is_temp_table(fTemporary),
+	m_has_oids(fHasOids),
+	m_rel_storage_type(rel_storage_type),
+	m_src_colids_array(pdrgpulSource),
+	m_vartypemod_array(pdrgpiVarTypeMod)
 {
 	GPOS_ASSERT(NULL != pmdnameRel);
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
 	GPOS_ASSERT(NULL != pdxlctasopt);
-	GPOS_ASSERT_IFF(IMDRelation::EreldistrHash == ereldistrpolicy, NULL != pdrgpulDistr);
+	GPOS_ASSERT_IFF(IMDRelation::EreldistrHash == rel_distr_policy, NULL != pdrgpulDistr);
 	GPOS_ASSERT(NULL != pdrgpulSource);
 	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);
 	GPOS_ASSERT(pdrgpdxlcd->Size() == pdrgpiVarTypeMod->Size());
-	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > erelstorage);
-	GPOS_ASSERT(IMDRelation::EreldistrSentinel > ereldistrpolicy);
+	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > rel_storage_type);
+	GPOS_ASSERT(IMDRelation::EreldistrSentinel > rel_distr_policy);
 }
 
 //---------------------------------------------------------------------------
@@ -81,13 +81,13 @@ CDXLPhysicalCTAS::CDXLPhysicalCTAS
 //---------------------------------------------------------------------------
 CDXLPhysicalCTAS::~CDXLPhysicalCTAS()
 {
-	GPOS_DELETE(m_pmdnameSchema);
+	GPOS_DELETE(m_mdname_schema);
 	GPOS_DELETE(m_pmdnameRel);
 	m_col_descr_array->Release();
 	m_pdxlctasopt->Release();
-	CRefCount::SafeRelease(m_pdrgpulDistr);
-	m_pdrgpulSource->Release();
-	m_pdrgpiVarTypeMod->Release();
+	CRefCount::SafeRelease(m_distr_column_pos_array);
+	m_src_colids_array->Release();
+	m_vartypemod_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -136,25 +136,25 @@ CDXLPhysicalCTAS::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	if (NULL != m_pmdnameSchema)
+	if (NULL != m_mdname_schema)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_pmdnameSchema->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_mdname_schema->Pstr());
 	}
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pmdnameRel->Pstr());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_fTemporary);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_fHasOids);
-	GPOS_ASSERT(NULL != IMDRelation::PstrStorageType(m_erelstorage));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_is_temp_table);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_has_oids);
+	GPOS_ASSERT(NULL != IMDRelation::PstrStorageType(m_rel_storage_type));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_rel_storage_type));
 
 	// serialize distribution columns
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), IMDRelation::PstrDistrPolicy(m_ereldistrpolicy));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), IMDRelation::PstrDistrPolicy(m_rel_distr_policy));
 	
-	if (IMDRelation::EreldistrHash == m_ereldistrpolicy)
+	if (IMDRelation::EreldistrHash == m_rel_distr_policy)
 	{
-		GPOS_ASSERT(NULL != m_pdrgpulDistr);
+		GPOS_ASSERT(NULL != m_distr_column_pos_array);
 		
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDistr);
+		CWStringDynamic *pstrDistrColumns = CDXLUtils::Serialize(m_memory_pool, m_distr_column_pos_array);
 		GPOS_ASSERT(NULL != pstrDistrColumns);
 		
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDistrColumns), pstrDistrColumns);
@@ -162,14 +162,14 @@ CDXLPhysicalCTAS::SerializeToDXL
 	}
 
 	// serialize input columns
-	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulSource);
+	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_memory_pool, m_src_colids_array);
 	GPOS_ASSERT(NULL != pstrCols);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrCols);
 	GPOS_DELETE(pstrCols);
 	
 	// serialize vartypmod list
-	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_memory_pool, m_pdrgpiVarTypeMod);
+	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_memory_pool, m_vartypemod_array);
 	GPOS_ASSERT(NULL != pstrVarTypeModList);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenVarTypeModList), pstrVarTypeModList);

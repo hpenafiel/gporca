@@ -58,13 +58,13 @@ namespace gpmd
 			CMDName *m_mdname;
 			
 			// is this a temporary relation
-			BOOL m_fTemporary;
+			BOOL m_is_temp_table;
 			
 			// storage type
-			Erelstoragetype m_erelstorage;
+			Erelstoragetype m_rel_storage_type;
 			
 			// distribution policy
-			Ereldistrpolicy m_ereldistrpolicy;
+			Ereldistrpolicy m_rel_distr_policy;
 			
 			// columns
 			DrgPmdcol *m_pdrgpmdcol;
@@ -103,7 +103,7 @@ namespace gpmd
 			IMDPartConstraint *m_pmdpartcnstr;
 
 			// does this table have oids
-			BOOL m_fHasOids;
+			BOOL m_has_oids;
 
 			// number of system columns
 			ULONG m_ulSystemColumns;
@@ -133,8 +133,8 @@ namespace gpmd
 				IMDId *pmdid,
 				CMDName *mdname,
 				BOOL fTemporary,
-				Erelstoragetype erelstorage, 
-				Ereldistrpolicy ereldistrpolicy,
+				Erelstoragetype rel_storage_type, 
+				Ereldistrpolicy rel_distr_policy,
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,
 				ULongPtrArray *pdrgpulPartColumns,

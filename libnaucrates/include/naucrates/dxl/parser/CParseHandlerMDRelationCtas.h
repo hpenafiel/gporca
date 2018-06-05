@@ -37,7 +37,7 @@ namespace gpdxl
 		private:
 
 			// vartypemod list
-			IntPtrArray *m_pdrgpiVarTypeMod;
+			IntPtrArray *m_vartypemod_array;
 
 			// private copy ctor
 			CParseHandlerMDRelationCtas(const CParseHandlerMDRelationCtas &);

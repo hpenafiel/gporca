@@ -36,10 +36,10 @@ namespace gpdxl
 		private:
 
 			// part index id
-			ULONG m_ulPartIndexId;
+			ULONG m_part_index_id;
 			
 			// printable partition index id
-			ULONG m_ulPartIndexIdPrintable;
+			ULONG m_part_index_id_printable;
 
 			// private copy ctor
 			CParseHandlerDynamicIndexScan(const CParseHandlerDynamicIndexScan &);

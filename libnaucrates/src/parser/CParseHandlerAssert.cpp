@@ -67,8 +67,8 @@ CParseHandlerAssert::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 		
-	CHAR *szErrorCode = CDXLOperatorFactory::SzValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
-	if (NULL == szErrorCode || GPOS_SQLSTATE_LENGTH != clib::StrLen(szErrorCode))
+	CHAR *error_code = CDXLOperatorFactory::SzValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
+	if (NULL == error_code || GPOS_SQLSTATE_LENGTH != clib::StrLen(error_code))
 	{
 		GPOS_RAISE
 			(
@@ -79,24 +79,24 @@ CParseHandlerAssert::StartElement
 			);
 	}
 	
-	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalAssert(m_memory_pool, szErrorCode);
+	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalAssert(m_memory_pool, error_code);
 
 	// ctor created a copy of the error code
-	GPOS_DELETE_ARRAY(szErrorCode);
+	GPOS_DELETE_ARRAY(error_code);
 	
 	// parse handler for child node
 	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	// parse handler for the predicate
-	CParseHandlerBase *pphAssertPredicate = CParseHandlerFactory::GetParseHandler
+	CParseHandlerBase *assert_pred_parse_handler = CParseHandlerFactory::GetParseHandler
 											(
 											m_memory_pool, 
 											CDXLTokens::XmlstrToken(EdxltokenScalarAssertConstraintList), 
 											m_parse_handler_mgr, 
 											this
 											);
-	m_parse_handler_mgr->ActivateParseHandler(pphAssertPredicate);
+	m_parse_handler_mgr->ActivateParseHandler(assert_pred_parse_handler);
 
 	// parse handler for the proj list
 	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -108,7 +108,7 @@ CParseHandlerAssert::StartElement
 
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
-	this->Append(pphAssertPredicate);
+	this->Append(assert_pred_parse_handler);
 	this->Append(child_parse_handler);
 }
 
@@ -137,7 +137,7 @@ CParseHandlerAssert::EndElement
 	// construct node from the created child nodes
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	CParseHandlerScalarAssertConstraintList *pphAssertPredicate = dynamic_cast<CParseHandlerScalarAssertConstraintList *>((*this)[2]);
+	CParseHandlerScalarAssertConstraintList *assert_pred_parse_handler = dynamic_cast<CParseHandlerScalarAssertConstraintList *>((*this)[2]);
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[3]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
@@ -145,7 +145,7 @@ CParseHandlerAssert::EndElement
 
 	// add constructed children
 	AddChildFromParseHandler(proj_list_parse_handler);
-	AddChildFromParseHandler(pphAssertPredicate);
+	AddChildFromParseHandler(assert_pred_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);
 	
 #ifdef GPOS_DEBUG

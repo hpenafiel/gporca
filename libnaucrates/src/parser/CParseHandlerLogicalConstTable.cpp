@@ -122,10 +122,10 @@ CParseHandlerLogicalConstTable::EndElement
 	{
 		GPOS_ASSERT(1 == this->Length());
 
-		CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
-		GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
+		CParseHandlerColDescr *col_descr_parse_handler = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
+		GPOS_ASSERT(NULL != col_descr_parse_handler->GetColumnDescrDXLArray());
 
-		ColumnDescrDXLArray *col_descr_dxl_array = pphColDescr->GetColumnDescrDXLArray();
+		ColumnDescrDXLArray *col_descr_dxl_array = col_descr_parse_handler->GetColumnDescrDXLArray();
 		col_descr_dxl_array->AddRef();
 
 		CDXLLogicalConstTable *lg_const_table_get_dxl_op = GPOS_NEW(m_memory_pool) CDXLLogicalConstTable(m_memory_pool, col_descr_dxl_array, m_const_tuples_datum_array);

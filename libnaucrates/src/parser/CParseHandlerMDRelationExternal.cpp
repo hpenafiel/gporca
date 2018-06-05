@@ -48,7 +48,7 @@ CParseHandlerMDRelationExternal::CParseHandlerMDRelationExternal
 	m_fRejLimitInRows(false),
 	m_pmdidFmtErrRel(NULL)
 {
-	m_erelstorage = IMDRelation::ErelstorageExternal;
+	m_rel_storage_type = IMDRelation::ErelstorageExternal;
 }
 
 //---------------------------------------------------------------------------
@@ -157,7 +157,7 @@ CParseHandlerMDRelationExternal::EndElement
 									m_memory_pool,
 									m_mdid,
 									m_mdname,
-									m_ereldistrpolicy,
+									m_rel_distr_policy,
 									pdrgpmdcol,
 									m_pdrgpulDistrColumns,
 									m_fConvertHashToRandom,

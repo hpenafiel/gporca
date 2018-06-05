@@ -34,8 +34,8 @@ CMDRelationGPDB::CMDRelationGPDB
 	IMDId *pmdid,
 	CMDName *mdname,
 	BOOL fTemporary,
-	Erelstoragetype erelstorage,
-	Ereldistrpolicy ereldistrpolicy,
+	Erelstoragetype rel_storage_type,
+	Ereldistrpolicy rel_distr_policy,
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
 	ULongPtrArray *pdrgpulPartColumns,
@@ -53,9 +53,9 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_fTemporary(fTemporary),
-	m_erelstorage(erelstorage),
-	m_ereldistrpolicy(ereldistrpolicy),
+	m_is_temp_table(fTemporary),
+	m_rel_storage_type(rel_storage_type),
+	m_rel_distr_policy(rel_distr_policy),
 	m_pdrgpmdcol(pdrgpmdcol),
 	m_ulDroppedCols(0),
 	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
@@ -68,7 +68,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_pdrgpmdidTriggers(pdrgpmdidTriggers),
 	m_pdrgpmdidCheckConstraint(pdrgpmdidCheckConstraint),
 	m_pmdpartcnstr(pmdpartcnstr),
-	m_fHasOids(fHasOids),
+	m_has_oids(fHasOids),
 	m_ulSystemColumns(0),
 	m_phmululNonDroppedCols(NULL),
 	m_phmiulAttno2Pos(NULL),
@@ -80,7 +80,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	GPOS_ASSERT(NULL != pdrgpmdidTriggers);
 	GPOS_ASSERT(NULL != pdrgpmdidCheckConstraint);
 	GPOS_ASSERT_IMP(fConvertHashToRandom,
-			IMDRelation::EreldistrHash == ereldistrpolicy &&
+			IMDRelation::EreldistrHash == rel_distr_policy &&
 			"Converting hash distributed table to random only possible for hash distributed tables");
 	
 	m_phmululNonDroppedCols = GPOS_NEW(m_memory_pool) HMUlUl(m_memory_pool);
@@ -191,7 +191,7 @@ CMDRelationGPDB::Mdname() const
 BOOL
 CMDRelationGPDB::FTemporary() const
 {
-	return m_fTemporary;
+	return m_is_temp_table;
 }
 
 //---------------------------------------------------------------------------
@@ -205,7 +205,7 @@ CMDRelationGPDB::FTemporary() const
 IMDRelation::Erelstoragetype
 CMDRelationGPDB::Erelstorage() const
 {
-	return m_erelstorage;
+	return m_rel_storage_type;
 }
 
 //---------------------------------------------------------------------------
@@ -219,7 +219,7 @@ CMDRelationGPDB::Erelstorage() const
 IMDRelation::Ereldistrpolicy
 CMDRelationGPDB::Ereldistribution() const
 {
-	return m_ereldistrpolicy;
+	return m_rel_distr_policy;
 }
 
 //---------------------------------------------------------------------------
@@ -414,7 +414,7 @@ CMDRelationGPDB::UlDistrColumns() const
 BOOL
 CMDRelationGPDB::FHasOids() const
 {
-	return m_fHasOids;
+	return m_has_oids;
 }
 
 //---------------------------------------------------------------------------
@@ -707,12 +707,12 @@ CMDRelationGPDB::Serialize
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_fTemporary);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_fHasOids);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_ereldistrpolicy));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_is_temp_table);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_has_oids);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_rel_storage_type));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_rel_distr_policy));
 	
-	if (EreldistrHash == m_ereldistrpolicy)
+	if (EreldistrHash == m_rel_distr_policy)
 	{
 		GPOS_ASSERT(NULL != m_pdrgpulDistrColumns);
 		
@@ -827,9 +827,9 @@ CMDRelationGPDB::DebugPrint
 	
 	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 	
-	os << "Storage type: " << IMDRelation::PstrStorageType(m_erelstorage)->GetBuffer() << std::endl;
+	os << "Storage type: " << IMDRelation::PstrStorageType(m_rel_storage_type)->GetBuffer() << std::endl;
 	
-	os << "Distribution policy: " << PstrDistrPolicy(m_ereldistrpolicy)->GetBuffer() << std::endl;
+	os << "Distribution policy: " << PstrDistrPolicy(m_rel_distr_policy)->GetBuffer() << std::endl;
 	
 	os << "Relation columns: " << std::endl;
 	const ULONG ulColumns = UlColumns(); 

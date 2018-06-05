@@ -28,10 +28,10 @@ using namespace gpmd;
 const CWStringConst *
 IMDRelation::PstrDistrPolicy
 	(
-	Ereldistrpolicy ereldistrpolicy
+	Ereldistrpolicy rel_distr_policy
 	)
 {
-	switch (ereldistrpolicy)
+	switch (rel_distr_policy)
 	{
 		case EreldistrMasterOnly:
 			return CDXLTokens::PstrToken(EdxltokenRelDistrMasterOnly);
@@ -55,10 +55,10 @@ IMDRelation::PstrDistrPolicy
 const CWStringConst *
 IMDRelation::PstrStorageType
 	(
-	IMDRelation::Erelstoragetype erelstorage
+	IMDRelation::Erelstoragetype rel_storage_type
 	)
 {
-	switch (erelstorage)
+	switch (rel_storage_type)
 	{
 		case ErelstorageHeap:
 			return CDXLTokens::PstrToken(EdxltokenRelStorageHeap);

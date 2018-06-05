@@ -47,7 +47,7 @@ CParseHandlerMDRelationCtas::CParseHandlerMDRelationCtas
 	)
 	:
 	CParseHandlerMDRelation(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpiVarTypeMod(NULL)
+	m_vartypemod_array(NULL)
 {
 }
 
@@ -82,11 +82,11 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
 	{
-		m_pmdnameSchema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszSchema);
+		m_mdname_schema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszSchema);
 	}
 	
 	// parse whether relation is temporary
-	m_fTemporary = CDXLOperatorFactory::FValueFromAttrs
+	m_is_temp_table = CDXLOperatorFactory::FValueFromAttrs
 											(
 											m_parse_handler_mgr->Pmm(),
 											attrs,
@@ -98,7 +98,7 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszHasOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
 	if (NULL != xmlszHasOids)
 	{
-		m_fHasOids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
+		m_has_oids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
 	}
 
 	// parse storage type
@@ -108,26 +108,26 @@ CParseHandlerMDRelationCtas::StartElement
 															EdxltokenRelStorageType,
 															EdxltokenRelation
 															);
-	m_erelstorage = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorageType);
+	m_rel_storage_type = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorageType);
 
 	// parse vartypemod
-	const XMLCh *xmlszVarTypeMod = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *vartypemod_xml = CDXLOperatorFactory::XmlstrFromAttrs
 															(
 															attrs,
 															EdxltokenVarTypeModList,
 															EdxltokenRelation
 															);
-	m_pdrgpiVarTypeMod = CDXLOperatorFactory::PdrgpiFromXMLCh
+	m_vartypemod_array = CDXLOperatorFactory::PdrgpiFromXMLCh
 						(
 						m_parse_handler_mgr->Pmm(),
-						xmlszVarTypeMod,
+						vartypemod_xml,
 						EdxltokenVarTypeModList,
 						EdxltokenRelation
 						);
 
 	//parse handler for the storage options
-	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphCTASOptions);
+	CParseHandlerBase *ctas_options_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(ctas_options_parse_handler);
 	
 	// parse handler for the columns
 	CParseHandlerBase *pphColumns = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_parse_handler_mgr, this);
@@ -135,7 +135,7 @@ CParseHandlerMDRelationCtas::StartElement
 	
 	// store parse handlers
 	this->Append(pphColumns);
-	this->Append(pphCTASOptions);
+	this->Append(ctas_options_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -161,13 +161,13 @@ CParseHandlerMDRelationCtas::EndElement
 	}
 
 	CParseHandlerMetadataColumns *pphMdCol = dynamic_cast<CParseHandlerMetadataColumns *>((*this)[0]);
-	CParseHandlerCtasStorageOptions *pphCTASOptions = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[1]);
+	CParseHandlerCtasStorageOptions *ctas_options_parse_handler = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[1]);
 
 	GPOS_ASSERT(NULL != pphMdCol->Pdrgpmdcol());
-	GPOS_ASSERT(NULL != pphCTASOptions->Pdxlctasopt());
+	GPOS_ASSERT(NULL != ctas_options_parse_handler->Pdxlctasopt());
 
 	DrgPmdcol *pdrgpmdcol = pphMdCol->Pdrgpmdcol();
-	CDXLCtasStorageOptions *pdxlctasopt = pphCTASOptions->Pdxlctasopt();
+	CDXLCtasStorageOptions *pdxlctasopt = ctas_options_parse_handler->Pdxlctasopt();
 
 	pdrgpmdcol->AddRef();
 	pdxlctasopt->AddRef();
@@ -176,17 +176,17 @@ CParseHandlerMDRelationCtas::EndElement
 								(
 									m_memory_pool,
 									m_mdid,
-									m_pmdnameSchema,
+									m_mdname_schema,
 									m_mdname,
-									m_fTemporary,
-									m_fHasOids,
-									m_erelstorage,
-									m_ereldistrpolicy,
+									m_is_temp_table,
+									m_has_oids,
+									m_rel_storage_type,
+									m_rel_distr_policy,
 									pdrgpmdcol,
 									m_pdrgpulDistrColumns,
 									m_pdrgpdrgpulKeys,									
 									pdxlctasopt,
-									m_pdrgpiVarTypeMod
+									m_vartypemod_array
 								);
 
 	// deactivate handler

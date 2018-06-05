@@ -49,8 +49,8 @@ CParseHandlerDynamicIndexScan::CParseHandlerDynamicIndexScan
 	)
 	:
 	CParseHandlerIndexScan(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_ulPartIndexId(0),
-	m_ulPartIndexIdPrintable(0)
+	m_part_index_id(0),
+	m_part_index_id_printable(0)
 {
 }
 
@@ -73,8 +73,8 @@ CParseHandlerDynamicIndexScan::StartElement
 {
 	StartElementHelper(element_local_name, attrs, EdxltokenPhysicalDynamicIndexScan);
 	
-	m_ulPartIndexId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPartIndexId, EdxltokenPhysicalDynamicIndexScan);
-	m_ulPartIndexIdPrintable = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPartIndexIdPrintable, EdxltokenPhysicalDynamicIndexScan, true /*fOptional*/, m_ulPartIndexId);
+	m_part_index_id = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPartIndexId, EdxltokenPhysicalDynamicIndexScan);
+	m_part_index_id_printable = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPartIndexIdPrintable, EdxltokenPhysicalDynamicIndexScan, true /*fOptional*/, m_part_index_id);
 }
 
 //---------------------------------------------------------------------------
@@ -93,7 +93,7 @@ CParseHandlerDynamicIndexScan::EndElement
 	const XMLCh* const // element_qname
 	)
 {
-	EndElementHelper(element_local_name, EdxltokenPhysicalDynamicIndexScan, m_ulPartIndexId, m_ulPartIndexIdPrintable);
+	EndElementHelper(element_local_name, EdxltokenPhysicalDynamicIndexScan, m_part_index_id, m_part_index_id_printable);
 }
 
 

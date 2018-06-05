@@ -1705,8 +1705,8 @@ CTranslatorExprToDXL::PdxlnAssert
 
 	CDXLNode *pdxlnPrL = PdxlnProjList(pcrsOutput, pdrgpcr);
 
-	const CHAR *szSQLState = popAssert->Pexc()->SQLState();
-	CDXLPhysicalAssert *pdxlopAssert = GPOS_NEW(m_memory_pool) CDXLPhysicalAssert(m_memory_pool, szSQLState);
+	const CHAR *sql_state = popAssert->Pexc()->GetSQLState();
+	CDXLPhysicalAssert *pdxlopAssert = GPOS_NEW(m_memory_pool) CDXLPhysicalAssert(m_memory_pool, sql_state);
 	CDXLNode *pdxlnAssert = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopAssert, pdxlnPrL, pdxlnAssertPredicate, child_dxlnode);
 	
 	pdxlnAssert->SetProperties(dxl_properties);
@@ -3925,7 +3925,7 @@ CTranslatorExprToDXL::CheckValidity
 	// it's obviously invalid and we fall back
 	if (EdxlopPhysicalMotionGather == pdxlopMotion->GetDXLOperator())
 	{
-		if (m_pdrgpiSegments->Size() != pdxlopMotion->PdrgpiInputSegIds()->Size())
+		if (m_pdrgpiSegments->Size() != pdxlopMotion->GetInputSegIdsArray()->Size())
 		{
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiExpr2DXLUnsupportedFeature, GPOS_WSZ_LIT("GatherMotion input segments number does not match with the number of segments in the system"));
 		}
@@ -4007,7 +4007,7 @@ CTranslatorExprToDXL::PdxlnMotion
 	CDXLNode *proj_list_dxlnode = CTranslatorExprToDXLUtils::PdxlnProjListFromChildProjList(m_memory_pool, m_pcf, m_phmcrdxln, pdxlnProjListChild);
 
 	// set input and output segment information
-	pdxlopMotion->SetSegmentInfo(PdrgpiInputSegIds(pexprMotion), PdrgpiOutputSegIds(pexprMotion));
+	pdxlopMotion->SetSegmentInfo(GetInputSegIdsArray(pexprMotion), GetOutputSegIdsArray(pexprMotion));
 
 	CheckValidity(pdxlopMotion);
 
@@ -5262,8 +5262,8 @@ CTranslatorExprToDXL::PdxlnDML
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(1 == pexpr->Arity());
 
-	ULONG ulAction = 0;
-	ULONG ulOid = 0;
+	ULONG action_colid = 0;
+	ULONG oid_colid = 0;
 	ULONG ctid_colid = 0;
 	ULONG segid_colid = 0;
 
@@ -5275,7 +5275,7 @@ CTranslatorExprToDXL::PdxlnDML
 		return PdxlnCTAS(pexpr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 	}
 
-	EdxlDmlType edxldmltype = Edxldmloptype(popDML->Edmlop());
+	EdxlDmlType dml_type_dxl = Edxldmloptype(popDML->Edmlop());
 
 	CExpression *pexprChild = (*pexpr)[0];
 	CTableDescriptor *ptabdesc = popDML->Ptabdesc();
@@ -5283,12 +5283,12 @@ CTranslatorExprToDXL::PdxlnDML
 
 	CColRef *pcrAction = popDML->PcrAction();
 	GPOS_ASSERT(NULL != pcrAction);
-	ulAction = pcrAction->UlId();
+	action_colid = pcrAction->UlId();
 
 	CColRef *pcrOid = popDML->PcrTableOid();
 	if (pcrOid != NULL)
 	{
-		ulOid = pcrOid->UlId();
+		oid_colid = pcrOid->UlId();
 	}
 
 	CColRef *pcrCtid = popDML->PcrCtid();
@@ -5318,17 +5318,17 @@ CTranslatorExprToDXL::PdxlnDML
 	CDXLPhysicalDML *pdxlopDML = GPOS_NEW(m_memory_pool) CDXLPhysicalDML
 									(
 									m_memory_pool,
-									edxldmltype,
+									dml_type_dxl,
 									table_descr,
 									pdrgpul,
-									ulAction,
-									ulOid,
+									action_colid,
+									oid_colid,
 									ctid_colid,
 									segid_colid,
 									preserve_oids,
 									tuple_oid,
 									dxl_direct_dispatch_info,
-									popDML->FInputSorted()
+									popDML->IsInputSortReq()
 									);
 
 	// project list
@@ -5571,7 +5571,7 @@ CTranslatorExprToDXL::PdxlnSplit
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(2 == pexpr->Arity());
 
-	ULONG ulAction = 0;
+	ULONG action_colid = 0;
 	ULONG ctid_colid = 0;
 	ULONG segid_colid = 0;
 	ULONG tuple_oid = 0;
@@ -5584,7 +5584,7 @@ CTranslatorExprToDXL::PdxlnSplit
 
 	CColRef *pcrAction = popSplit->PcrAction();
 	GPOS_ASSERT(NULL != pcrAction);
-	ulAction = pcrAction->UlId();
+	action_colid = pcrAction->UlId();
 
 	CColRef *pcrCtid = popSplit->PcrCtid();
 	GPOS_ASSERT(NULL != pcrCtid);
@@ -5622,7 +5622,7 @@ CTranslatorExprToDXL::PdxlnSplit
 													m_memory_pool,
 													delete_colid_array,
 													insert_colid_array,
-													ulAction,
+													action_colid,
 													ctid_colid,
 													segid_colid,
 													preserve_oids,
@@ -7758,7 +7758,7 @@ CTranslatorExprToDXL::GetSortColListDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTranslatorExprToDXL::PdrgpiOutputSegIds
+//		CTranslatorExprToDXL::GetOutputSegIdsArray
 //
 //	@doc:
 //		Construct an array with output segment indices for the given Motion
@@ -7766,7 +7766,7 @@ CTranslatorExprToDXL::GetSortColListDXL
 //
 //---------------------------------------------------------------------------
 IntPtrArray *
-CTranslatorExprToDXL::PdrgpiOutputSegIds
+CTranslatorExprToDXL::GetOutputSegIdsArray
 	(
 	CExpression *pexprMotion
 	)
@@ -7812,7 +7812,7 @@ CTranslatorExprToDXL::PdrgpiOutputSegIds
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTranslatorExprToDXL::PdrgpiInputSegIds
+//		CTranslatorExprToDXL::GetInputSegIdsArray
 //
 //	@doc:
 //		Construct an array with input segment indices for the given Motion
@@ -7820,7 +7820,7 @@ CTranslatorExprToDXL::PdrgpiOutputSegIds
 //
 //---------------------------------------------------------------------------
 IntPtrArray *
-CTranslatorExprToDXL::PdrgpiInputSegIds
+CTranslatorExprToDXL::GetInputSegIdsArray
 	(
 	CExpression *pexprMotion
 	)

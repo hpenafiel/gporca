@@ -38,10 +38,10 @@ namespace gpdxl
 			CDXLTableDescr *m_table_descr_dxl;
 
 			// part index id
-			ULONG m_ulPartIndexId;
+			ULONG m_part_index_id;
 			
 			// printable partition index id
-			ULONG m_ulPartIndexIdPrintable;
+			ULONG m_part_index_id_printable;
 
 			// index descriptor associated with the scanned table
 			CDXLIndexDescr *m_index_descr_dxl;
@@ -93,7 +93,7 @@ namespace gpdxl
 			const CDXLTableDescr *GetTableDescr() const;
 
 			// partition index id
-			ULONG UlPartIndexId() const;
+			ULONG GetPartIndexId() const;
 			
 			// printable partition index id
 			ULONG UlPartIndexIdPrintable() const;

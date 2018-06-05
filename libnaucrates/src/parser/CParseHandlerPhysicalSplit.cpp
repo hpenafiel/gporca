@@ -41,7 +41,7 @@ CParseHandlerPhysicalSplit::CParseHandlerPhysicalSplit
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_deletion_colid_array(NULL),
 	m_insert_colid_array(NULL),
-	m_ulAction(0),
+	m_action_colid(0),
 	m_ctid_colid(0),
 	m_segid_colid(0),	
 	m_preserve_oids(false),
@@ -78,7 +78,7 @@ CParseHandlerPhysicalSplit::StartElement
 	const XMLCh *xmlszInsertColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenPhysicalSplit);
 	m_insert_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenPhysicalSplit);
 
-	m_ulAction = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenActionColId, EdxltokenPhysicalSplit);
+	m_action_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenActionColId, EdxltokenPhysicalSplit);
 	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, EdxltokenPhysicalSplit);
 	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGpSegmentIdColId, EdxltokenPhysicalSplit);
 
@@ -152,7 +152,7 @@ CParseHandlerPhysicalSplit::EndElement
 												m_memory_pool,
 												m_deletion_colid_array,
 												m_insert_colid_array,
-												m_ulAction,
+												m_action_colid,
 												m_ctid_colid,
 												m_segid_colid,
 												m_preserve_oids,

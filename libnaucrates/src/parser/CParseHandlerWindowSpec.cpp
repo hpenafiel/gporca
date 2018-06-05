@@ -83,13 +83,13 @@ CParseHandlerWindowSpec::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), element_local_name))
 	{
 		// parse handler for the sorting column list
-		CParseHandlerBase *pphSortColList =
+		CParseHandlerBase *sort_col_list_parse_handler =
 					CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
+		m_parse_handler_mgr->ActivateParseHandler(sort_col_list_parse_handler);
 
 		// store parse handler
-		this->Append(pphSortColList);
-		pphSortColList->startElement(element_uri, element_local_name, element_qname, attrs);
+		this->Append(sort_col_list_parse_handler);
+		sort_col_list_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), element_local_name))
 	{
@@ -151,15 +151,15 @@ CParseHandlerWindowSpec::EndElement
 		}
 		else
 		{
-			CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-			sort_col_list_dxl = pphSortColList->CreateDXLNode();
+			CParseHandlerSortColList *sort_col_list_parse_handler = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
+			sort_col_list_dxl = sort_col_list_parse_handler->CreateDXLNode();
 			sort_col_list_dxl->AddRef();
 		}
 	}
 	else if (2 == this->Length())
 	{
-		CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
-		sort_col_list_dxl = pphSortColList->CreateDXLNode();
+		CParseHandlerSortColList *sort_col_list_parse_handler = dynamic_cast<CParseHandlerSortColList*>((*this)[0]);
+		sort_col_list_dxl = sort_col_list_parse_handler->CreateDXLNode();
 		sort_col_list_dxl->AddRef();
 
 		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);

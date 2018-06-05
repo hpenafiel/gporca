@@ -29,15 +29,15 @@ using namespace gpdxl;
 CDXLPhysicalAssert::CDXLPhysicalAssert
 	(
 	IMemoryPool *memory_pool,
-	const CHAR *szSQLState
+	const CHAR *sql_state
 	)
 	:
 	CDXLPhysical(memory_pool)
 {
-	GPOS_ASSERT(NULL != szSQLState);
-	GPOS_ASSERT(GPOS_SQLSTATE_LENGTH == clib::StrLen(szSQLState));
-	clib::StrNCpy(m_szSQLState, szSQLState, GPOS_SQLSTATE_LENGTH);
-	m_szSQLState[GPOS_SQLSTATE_LENGTH] = '\0';
+	GPOS_ASSERT(NULL != sql_state);
+	GPOS_ASSERT(GPOS_SQLSTATE_LENGTH == clib::StrLen(sql_state));
+	clib::StrNCpy(m_sql_state, sql_state, GPOS_SQLSTATE_LENGTH);
+	m_sql_state[GPOS_SQLSTATE_LENGTH] = '\0';
 }
 
 //---------------------------------------------------------------------------
@@ -101,7 +101,7 @@ CDXLPhysicalAssert::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenErrorCode), m_szSQLState);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenErrorCode), m_sql_state);
 	
 	pdxln->SerializePropertiesToDXL(xml_serializer);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
@@ -132,11 +132,11 @@ CDXLPhysicalAssert::AssertValid
 	CDXLNode *proj_list_dxlnode = (*pdxln)[EdxlassertIndexProjList];
 	GPOS_ASSERT(EdxlopScalarProjectList == proj_list_dxlnode->GetOperator()->GetDXLOperator());
 
-	CDXLNode *pdxlnPredicate = (*pdxln)[EdxlassertIndexFilter];
-	GPOS_ASSERT(EdxlopScalarAssertConstraintList == pdxlnPredicate->GetOperator()->GetDXLOperator());
+	CDXLNode *predicate_dxlnode = (*pdxln)[EdxlassertIndexFilter];
+	GPOS_ASSERT(EdxlopScalarAssertConstraintList == predicate_dxlnode->GetOperator()->GetDXLOperator());
 
-	CDXLNode *pdxlnPhysicalChild = (*pdxln)[EdxlassertIndexChild];
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnPhysicalChild->GetOperator()->GetDXLOperatorType());
+	CDXLNode *physical_child_dxlnode = (*pdxln)[EdxlassertIndexChild];
+	GPOS_ASSERT(EdxloptypePhysical == physical_child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	
 	if (validate_children)

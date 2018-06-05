@@ -414,7 +414,7 @@ CPhysicalAssert::OsPrint
 		return COperator::OsPrint(os);
 	}
 	
-	os << SzId() << " (Error code: " << m_pexc->SQLState() << ")";
+	os << SzId() << " (Error code: " << m_pexc->GetSQLState() << ")";
 	return os;
 }
 

@@ -45,20 +45,20 @@ void
 CDXLPhysicalDynamicBitmapTableScan::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_ulPartIndexId);
-	if (m_ulPartIndexIdPrintable != m_ulPartIndexId)
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_part_index_id);
+	if (m_part_index_id_printable != m_part_index_id)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_ulPartIndexIdPrintable);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_part_index_id_printable);
 	}
-	pdxln->SerializePropertiesToDXL(xml_serializer);
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializePropertiesToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);

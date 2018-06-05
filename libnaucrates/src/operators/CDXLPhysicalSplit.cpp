@@ -31,7 +31,7 @@ CDXLPhysicalSplit::CDXLPhysicalSplit
 	IMemoryPool *memory_pool,
 	ULongPtrArray *delete_colid_array,
 	ULongPtrArray *insert_colid_array,
-	ULONG ulAction,
+	ULONG action_colid,
 	ULONG ctid_colid,
 	ULONG segid_colid,
 	BOOL preserve_oids,
@@ -41,7 +41,7 @@ CDXLPhysicalSplit::CDXLPhysicalSplit
 	CDXLPhysical(memory_pool),
 	m_deletion_colid_array(delete_colid_array),
 	m_insert_colid_array(insert_colid_array),
-	m_ulAction(ulAction),
+	m_action_colid(action_colid),
 	m_ctid_colid(ctid_colid),
 	m_segid_colid(segid_colid),
 	m_preserve_oids(preserve_oids),
@@ -120,7 +120,7 @@ CDXLPhysicalSplit::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrColsIns);
 	GPOS_DELETE(pstrColsIns);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenActionColId), m_ulAction);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenActionColId), m_action_colid);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ctid_colid);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_segid_colid);
 

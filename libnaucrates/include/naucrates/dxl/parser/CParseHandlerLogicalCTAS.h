@@ -38,31 +38,31 @@ namespace gpdxl
 			IMDId *m_mdid;
 			
 			// schema name
-			CMDName *m_pmdnameSchema;
+			CMDName *m_mdname_schema;
 			
 			// table name
 			CMDName *m_mdname;
 	
 			// list of distribution column positions		
-			ULongPtrArray *m_pdrgpulDistr;
+			ULongPtrArray *m_distr_column_pos_array;
 			
 			// list of source column ids		
-			ULongPtrArray *m_pdrgpulSource;
+			ULongPtrArray *m_src_colids_array;
 			
 			// list of vartypmod
-			IntPtrArray *m_pdrgpiVarTypeMod;
+			IntPtrArray *m_vartypemod_array;
 
 			// is this a temporary table
-			BOOL m_fTemporary;
+			BOOL m_is_temp_table;
 			
 			// does table have oids
-			BOOL m_fHasOids;
+			BOOL m_has_oids;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_ereldistrpolicy;
+			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
 			
 			// storage type
-			IMDRelation::Erelstoragetype m_erelstorage;
+			IMDRelation::Erelstoragetype m_rel_storage_type;
 		
 			// private copy ctor
 			CParseHandlerLogicalCTAS(const CParseHandlerLogicalCTAS &);

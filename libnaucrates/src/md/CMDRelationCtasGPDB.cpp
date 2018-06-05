@@ -34,8 +34,8 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	CMDName *mdname,
 	BOOL fTemporary,
 	BOOL fHasOids,
-	Erelstoragetype erelstorage,
-	Ereldistrpolicy ereldistrpolicy,
+	Erelstoragetype rel_storage_type,
+	Ereldistrpolicy rel_distr_policy,
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
 	ULongPtrArray2D *pdrgpdrgpulKeys,
@@ -45,24 +45,24 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_pmdnameSchema(pmdnameSchema),
+	m_mdname_schema(pmdnameSchema),
 	m_mdname(mdname),
-	m_fTemporary(fTemporary),
-	m_fHasOids(fHasOids),
-	m_erelstorage(erelstorage),
-	m_ereldistrpolicy(ereldistrpolicy),
+	m_is_temp_table(fTemporary),
+	m_has_oids(fHasOids),
+	m_rel_storage_type(rel_storage_type),
+	m_rel_distr_policy(rel_distr_policy),
 	m_pdrgpmdcol(pdrgpmdcol),
 	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
 	m_ulSystemColumns(0),
 	m_pdrgpulNonDroppedCols(NULL),
 	m_pdxlctasopt(pdxlctasopt),
-	m_pdrgpiVarTypeMod(pdrgpiVarTypeMod)
+	m_vartypemod_array(pdrgpiVarTypeMod)
 {
 	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdcol);
 	GPOS_ASSERT(NULL != pdxlctasopt);
-	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > m_erelstorage);	
+	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > m_rel_storage_type);	
 	GPOS_ASSERT(0 == pdrgpdrgpulKeys->Size());
 	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);
 	
@@ -107,7 +107,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 //---------------------------------------------------------------------------
 CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 {
-	GPOS_DELETE(m_pmdnameSchema);
+	GPOS_DELETE(m_mdname_schema);
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
@@ -118,7 +118,7 @@ CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 	CRefCount::SafeRelease(m_phmiulAttno2Pos);
 	CRefCount::SafeRelease(m_pdrgpulNonDroppedCols);
 	m_pdxlctasopt->Release();
-	m_pdrgpiVarTypeMod->Release();
+	m_vartypemod_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -160,7 +160,7 @@ CMDRelationCtasGPDB::Mdname() const
 CMDName *
 CMDRelationCtasGPDB::PmdnameSchema() const
 {
-	return m_pmdnameSchema;
+	return m_mdname_schema;
 }
 
 //---------------------------------------------------------------------------
@@ -174,7 +174,7 @@ CMDRelationCtasGPDB::PmdnameSchema() const
 IMDRelation::Ereldistrpolicy
 CMDRelationCtasGPDB::Ereldistribution() const
 {
-	return m_ereldistrpolicy;
+	return m_rel_distr_policy;
 }
 
 //---------------------------------------------------------------------------
@@ -313,25 +313,25 @@ CMDRelationCtasGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenRelationCTAS));
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	if (NULL != m_pmdnameSchema)
+	if (NULL != m_mdname_schema)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_pmdnameSchema->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_mdname_schema->Pstr());
 	}
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_fTemporary);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_fHasOids);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_erelstorage));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_is_temp_table);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_has_oids);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_rel_storage_type));
 
 	// serialize vartypmod list
-	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_memory_pool, m_pdrgpiVarTypeMod);
+	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_memory_pool, m_vartypemod_array);
 	GPOS_ASSERT(NULL != pstrVarTypeModList);
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenVarTypeModList), pstrVarTypeModList);
 	GPOS_DELETE(pstrVarTypeModList);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_ereldistrpolicy));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_rel_distr_policy));
 
-	if (EreldistrHash == m_ereldistrpolicy)
+	if (EreldistrHash == m_rel_distr_policy)
 	{
 		GPOS_ASSERT(NULL != m_pdrgpulDistrColumns);
 
@@ -381,7 +381,7 @@ CMDRelationCtasGPDB::DebugPrint
 
 	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 
-	os << "Distribution policy: " << PstrDistrPolicy(m_ereldistrpolicy)->GetBuffer() << std::endl;
+	os << "Distribution policy: " << PstrDistrPolicy(m_rel_distr_policy)->GetBuffer() << std::endl;
 
 	os << "Relation columns: " << std::endl;
 	const ULONG ulColumns = UlColumns();

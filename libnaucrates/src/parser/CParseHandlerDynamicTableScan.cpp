@@ -70,7 +70,7 @@ CParseHandlerDynamicTableScan::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	m_ulPartIndexId = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id = CDXLOperatorFactory::UlValueFromAttrs
 											(
 											m_parse_handler_mgr->Pmm(), 
 											attrs, 
@@ -78,14 +78,14 @@ CParseHandlerDynamicTableScan::StartElement
 											EdxltokenPhysicalDynamicTableScan
 											);
 
-	m_ulPartIndexIdPrintable = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id_printable = CDXLOperatorFactory::UlValueFromAttrs
 											(
 											m_parse_handler_mgr->Pmm(),
 											attrs,
 											EdxltokenPartIndexIdPrintable,
 											EdxltokenPhysicalDynamicTableScan,
 											true, //fOptional
-											m_ulPartIndexId
+											m_part_index_id
 											);
 
 	// create child node parsers in reverse order of their expected occurrence
@@ -150,7 +150,7 @@ CParseHandlerDynamicTableScan::EndElement
 	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
 	table_descr->AddRef();
 	CDXLPhysicalDynamicTableScan *dxl_op = 
-			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, table_descr, m_ulPartIndexId, m_ulPartIndexIdPrintable);
+			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, table_descr, m_part_index_id, m_part_index_id_printable);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);	
 	// set statictics and physical properties

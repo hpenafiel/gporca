@@ -45,10 +45,10 @@ namespace gpdxl
 			CDXLTableDescr *m_table_descr_dxl;
 			
 			// id of partition index structure
-			ULONG m_ulPartIndexId;
+			ULONG m_part_index_id;
 			
 			// printable partition index id
-			ULONG m_ulPartIndexIdPrintable;
+			ULONG m_part_index_id_printable;
 
 			// private copy ctor
 			CDXLPhysicalDynamicTableScan(CDXLPhysicalDynamicTableScan&);
@@ -77,7 +77,7 @@ namespace gpdxl
 			const CDXLTableDescr *GetTableDescr() const;
 
 			// partition index id
-			ULONG UlPartIndexId() const;
+			ULONG GetPartIndexId() const;
 			
 			// printable partition index id
 			ULONG UlPartIndexIdPrintable() const;

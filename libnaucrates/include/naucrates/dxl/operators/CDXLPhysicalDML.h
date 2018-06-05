@@ -44,19 +44,19 @@ namespace gpdxl
 		private:
 
 			// operator type
-			const EdxlDmlType m_edxldmltype;
+			const EdxlDmlType m_dml_type_dxl;
 
 			// target table descriptor
 			CDXLTableDescr *m_table_descr_dxl;
 
 			// list of source column ids		
-			ULongPtrArray *m_pdrgpul;
+			ULongPtrArray *m_src_colids_array;
 			
 			// action column id
-			ULONG m_ulAction;
+			ULONG m_action_colid;
 
 			// oid column id
-			ULONG m_ulOid;
+			ULONG m_oid_colid;
 
 			// ctid column id
 			ULONG m_ctid_colid;
@@ -74,7 +74,7 @@ namespace gpdxl
 			CDXLDirectDispatchInfo *m_direct_dispatch_info;
 			
 			// needs the data to be sorted or not
-			BOOL m_fInputSorted;
+			BOOL m_input_sort_req;
 
 			// private copy ctor
 			CDXLPhysicalDML(const CDXLPhysicalDML &);
@@ -85,17 +85,17 @@ namespace gpdxl
 			CDXLPhysicalDML
 				(
 				IMemoryPool *memory_pool,
-				const EdxlDmlType edxldmltype,
+				const EdxlDmlType dml_type_dxl,
 				CDXLTableDescr *table_descr,
-				ULongPtrArray *pdrgpul,
-				ULONG ulAction,
-				ULONG ulOid,
+				ULongPtrArray *src_colids_array,
+				ULONG action_colid,
+				ULONG oid_colid,
 				ULONG ctid_colid,
 				ULONG segid_colid,
 				BOOL preserve_oids,
 				ULONG tuple_oid,
 				CDXLDirectDispatchInfo *dxl_direct_dispatch_info,
-				BOOL fInputSorted
+				BOOL input_sort_req
 				);
 
 			// dtor
@@ -109,9 +109,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// DML operator type
-			EdxlDmlType EdxlDmlOpType() const
+			EdxlDmlType GetDmlOpType() const
 			{
-				return m_edxldmltype;
+				return m_dml_type_dxl;
 			}
 
 			// target table descriptor 
@@ -121,21 +121,21 @@ namespace gpdxl
 			}
 			
 			// source column ids
-			ULongPtrArray *Pdrgpul() const
+			ULongPtrArray *GetSrcColIdsArray() const
 			{
-				return m_pdrgpul;
+				return m_src_colids_array;
 			}
 
 			// action column id
-			ULONG UlAction() const
+			ULONG ActionColId() const
 			{
-				return m_ulAction;
+				return m_action_colid;
 			}
 
 			// oid column id
-			ULONG UlOid() const
+			ULONG OidColId() const
 			{
-				return m_ulOid;
+				return m_oid_colid;
 			}
 
 			// ctid column id
@@ -169,20 +169,20 @@ namespace gpdxl
 			}
 			
 			// needs the data to be sorted or not
-			BOOL FInputSorted() const
+			BOOL IsInputSortReq() const
 			{
-				return m_fInputSorted;
+				return m_input_sort_req;
 			}
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

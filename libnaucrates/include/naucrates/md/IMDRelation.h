@@ -221,11 +221,11 @@ namespace gpmd
 			
 			// relation distribution policy as a string value
 			static
-			const CWStringConst *PstrDistrPolicy(Ereldistrpolicy ereldistrpolicy);
+			const CWStringConst *PstrDistrPolicy(Ereldistrpolicy rel_distr_policy);
 			
 			// name of storage type
 			static
-			const CWStringConst *PstrStorageType(IMDRelation::Erelstoragetype erelstorage);
+			const CWStringConst *PstrStorageType(IMDRelation::Erelstoragetype rel_storage_type);
 	};
 
 	// common structure over relation and external relation metadata for index info

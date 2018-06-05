@@ -2716,7 +2716,7 @@ CDXLOperatorFactory::PmdidGPDB
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->Size());
 
 	XMLCh *xmlszOid = (*pdrgpxmlsz)[0];
-	ULONG ulOid = UlValueFromXmlstr(memory_manager_dxl, xmlszOid, edxltokenAttr, edxltokenElement);
+	ULONG oid_colid = UlValueFromXmlstr(memory_manager_dxl, xmlszOid, edxltokenAttr, edxltokenElement);
 
 	XMLCh *xmlszVersionMajor = (*pdrgpxmlsz)[1];
 	ULONG ulVersionMajor = UlValueFromXmlstr(memory_manager_dxl, xmlszVersionMajor, edxltokenAttr, edxltokenElement);
@@ -2725,7 +2725,7 @@ CDXLOperatorFactory::PmdidGPDB
 	ULONG ulVersionMinor = UlValueFromXmlstr(memory_manager_dxl, xmlszVersionMinor, edxltokenAttr, edxltokenElement);
 
 	// construct metadata id object
-	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdGPDB(ulOid, ulVersionMajor, ulVersionMinor);
+	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdGPDB(oid_colid, ulVersionMajor, ulVersionMinor);
 }
 
 //---------------------------------------------------------------------------
@@ -2748,10 +2748,10 @@ CDXLOperatorFactory::PmdidGPDBCTAS
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->Size());
 
 	XMLCh *xmlszOid = (*pdrgpxmlsz)[0];
-	ULONG ulOid = UlValueFromXmlstr(memory_manager_dxl, xmlszOid, edxltokenAttr, edxltokenElement);
+	ULONG oid_colid = UlValueFromXmlstr(memory_manager_dxl, xmlszOid, edxltokenAttr, edxltokenElement);
 
 	// construct metadata id object
-	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdGPDBCtas(ulOid);
+	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdGPDBCtas(oid_colid);
 }
 
 //---------------------------------------------------------------------------
@@ -3973,22 +3973,22 @@ CDXLOperatorFactory::EreldistrpolicyFromXmlstr
 	)
 {
 	GPOS_ASSERT(NULL != xmlsz);
-	IMDRelation::Ereldistrpolicy ereldistrpolicy = IMDRelation::EreldistrSentinel;
+	IMDRelation::Ereldistrpolicy rel_distr_policy = IMDRelation::EreldistrSentinel;
 	
 	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelDistrMasterOnly)))
 	{
-		ereldistrpolicy = IMDRelation::EreldistrMasterOnly;
+		rel_distr_policy = IMDRelation::EreldistrMasterOnly;
 	}
 	else if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelDistrHash)))
 	{
-		ereldistrpolicy = IMDRelation::EreldistrHash;
+		rel_distr_policy = IMDRelation::EreldistrHash;
 	}
 	else if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelDistrRandom)))
 	{
-		ereldistrpolicy = IMDRelation::EreldistrRandom;
+		rel_distr_policy = IMDRelation::EreldistrRandom;
 	}
 	
-	return ereldistrpolicy;
+	return rel_distr_policy;
 }
 
 //---------------------------------------------------------------------------

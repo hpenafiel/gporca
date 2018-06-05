@@ -181,7 +181,7 @@ namespace gpos
 
 			// get sql error code for given exception
 			static
-			const CHAR *SQLState(ULONG major, ULONG minor);
+			const CHAR *GetSQLState(ULONG major, ULONG minor);
 			
 		public:
 
@@ -235,7 +235,7 @@ namespace gpos
 				return m_severity_level;
 			}
 
-			const CHAR *SQLState() const
+			const CHAR *GetSQLState() const
 			{
 				return m_sql_state;
 			}

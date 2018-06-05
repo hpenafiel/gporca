@@ -79,8 +79,8 @@ CParseHandlerRoutedMotion::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 	
 	// parse handler for sorting column list
-	CParseHandlerBase *pphSortColList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
+	CParseHandlerBase *sort_col_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(sort_col_list_parse_handler);
 
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -98,7 +98,7 @@ CParseHandlerRoutedMotion::StartElement
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(pphSortColList);
+	this->Append(sort_col_list_parse_handler);
 	this->Append(child_parse_handler);
 
 }
@@ -130,7 +130,7 @@ CParseHandlerRoutedMotion::EndElement
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
+	CParseHandlerSortColList *sort_col_list_parse_handler = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
@@ -140,7 +140,7 @@ CParseHandlerRoutedMotion::EndElement
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
-	AddChildFromParseHandler(pphSortColList);
+	AddChildFromParseHandler(sort_col_list_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);
 	
 	// deactivate handler
