@@ -92,7 +92,7 @@ void
 CDXLPhysicalGatherMotion::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -103,10 +103,10 @@ CDXLPhysicalGatherMotion::SerializeToDXL
 	SerializeSegmentInfoToDXL(xml_serializer);
 	
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	node->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
 }
@@ -123,20 +123,20 @@ CDXLPhysicalGatherMotion::SerializeToDXL
 void
 CDXLPhysicalGatherMotion::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, validate_children);
+	CDXLPhysical::AssertValid(node, validate_children);
 	GPOS_ASSERT(m_input_segids_array != NULL);
 	GPOS_ASSERT(0 < m_input_segids_array->Size());
 	GPOS_ASSERT(m_output_segids_array != NULL);
 	GPOS_ASSERT(1 == m_output_segids_array->Size());
 
-	GPOS_ASSERT(EdxlgmIndexSentinel == pdxln->Arity());
+	GPOS_ASSERT(EdxlgmIndexSentinel == node->Arity());
 	
-	CDXLNode *child_dxlnode = (*pdxln)[EdxlgmIndexChild];
+	CDXLNode *child_dxlnode = (*node)[EdxlgmIndexChild];
 	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
