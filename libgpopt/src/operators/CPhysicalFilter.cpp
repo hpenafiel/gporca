@@ -222,22 +222,22 @@ CPhysicalFilter::PppsRequired
 	
 	for (ULONG ul = 0; ul < ulPartIndexIds; ul++)
 	{
-		ULONG ulPartIndexId = *((*pdrgpul)[ul]);
+		ULONG part_idx_id = *((*pdrgpul)[ul]);
 
-		if (!ppartinfo->FContainsScanId(ulPartIndexId))
+		if (!ppartinfo->FContainsScanId(part_idx_id))
 		{
 			// part index id does not exist in child nodes: no need to push through
 			// the request
 			continue;
 		}
 
-		ppimResult->AddRequiredPartPropagation(ppimReqd, ulPartIndexId, CPartIndexMap::EppraPreservePropagators);
+		ppimResult->AddRequiredPartPropagation(ppimReqd, part_idx_id, CPartIndexMap::EppraPreservePropagators);
 		
 		// look for a filter on the part key
 		CExpression *pexprScalar = exprhdl.PexprScalarChild(1 /*ulChildIndex*/);
 
 		CExpression *pexprCmp = NULL;
-		DrgPpartkeys *pdrgppartkeys = ppimReqd->Pdrgppartkeys(ulPartIndexId);
+		DrgPpartkeys *pdrgppartkeys = ppimReqd->Pdrgppartkeys(part_idx_id);
 		const ULONG ulKeysets = pdrgppartkeys->Size();
 		for (ULONG ulKey = 0; NULL == pexprCmp && ulKey < ulKeysets; ulKey++)
 		{
@@ -259,9 +259,9 @@ CPhysicalFilter::PppsRequired
 		{
 			// no comparison found in filter: check if a comparison was already
 			// specified in the required partition propagation
-			if (ppfmReqd->FContainsScanId(ulPartIndexId))
+			if (ppfmReqd->FContainsScanId(part_idx_id))
 			{
-				pexprCmp = ppfmReqd->Pexpr(ulPartIndexId);
+				pexprCmp = ppfmReqd->Pexpr(part_idx_id);
 				pexprCmp->AddRef();
 			}
 			
@@ -272,7 +272,7 @@ CPhysicalFilter::PppsRequired
 		if (NULL != pexprCmp)
 		{
 			// interesting filter found
-			ppfmResult->AddPartFilter(memory_pool, ulPartIndexId, pexprCmp, NULL /*pstats */);
+			ppfmResult->AddPartFilter(memory_pool, part_idx_id, pexprCmp, NULL /*pstats */);
 		}
 	}
 	

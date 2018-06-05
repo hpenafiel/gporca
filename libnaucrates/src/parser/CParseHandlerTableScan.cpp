@@ -99,8 +99,8 @@ CParseHandlerTableScan::StartElement
 	// create child node parsers in reverse order of their expected occurrence
 
 	// parse handler for table descriptor
-	CParseHandlerBase *pphTD = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphTD);
+	CParseHandlerBase *table_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(table_descr_parse_handler);
 
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -118,7 +118,7 @@ CParseHandlerTableScan::StartElement
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(pphTD);
+	this->Append(table_descr_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -165,12 +165,12 @@ CParseHandlerTableScan::EndElement
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
+	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
 
-	GPOS_ASSERT(NULL != pphTD->GetTableDescr());
+	GPOS_ASSERT(NULL != table_descr_parse_handler->GetTableDescr());
 
 	// set table descriptor
-	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
 	table_descr->AddRef();
 	m_dxl_op->SetTableDescriptor(table_descr);
 

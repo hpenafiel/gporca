@@ -49,7 +49,7 @@ namespace gpopt
 				IMemoryPool *memory_pool, 
 				CExpression *pexpr, 
 				CExpressionHandle &exprhdl,
-				ULONG ulPartIndexId
+				ULONG part_idx_id
 				)
 				const;
 			

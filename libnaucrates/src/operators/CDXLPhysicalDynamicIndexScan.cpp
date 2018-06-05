@@ -30,16 +30,16 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	(
 	IMemoryPool *memory_pool,
 	CDXLTableDescr *table_descr,
-	ULONG ulPartIndexId,
-	ULONG ulPartIndexIdPrintable,
+	ULONG part_idx_id,
+	ULONG part_idx_id_printable,
 	CDXLIndexDescr *pdxlid,
 	EdxlIndexScanDirection idx_scan_direction
 	)
 	:
 	CDXLPhysical(memory_pool),
 	m_table_descr_dxl(table_descr),
-	m_ulPartIndexId(ulPartIndexId),
-	m_ulPartIndexIdPrintable(ulPartIndexIdPrintable),
+	m_ulPartIndexId(part_idx_id),
+	m_ulPartIndexIdPrintable(part_idx_id_printable),
 	m_index_descr_dxl(pdxlid),
 	m_edxlisd(idx_scan_direction)
 {

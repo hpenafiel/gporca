@@ -167,17 +167,17 @@ CPhysicalMotion::PppsRequired
 	
 	for (ULONG ul = 0; ul < ulPartIndexSize; ul++)
 	{
-		ULONG ulPartIndexId = *((*pdrgpul)[ul]);
+		ULONG part_idx_id = *((*pdrgpul)[ul]);
 
-		if (!ppartinfo->FContainsScanId(ulPartIndexId))
+		if (!ppartinfo->FContainsScanId(part_idx_id))
 		{
 			// part index id does not exist in child nodes: do not push it below 
 			// the motion
 			continue;
 		}
 
-		ppimResult->AddRequiredPartPropagation(ppimReqd, ulPartIndexId, CPartIndexMap::EppraPreservePropagators);
-		(void) ppfmResult->FCopyPartFilter(m_memory_pool, ulPartIndexId, ppfmReqd);
+		ppimResult->AddRequiredPartPropagation(ppimReqd, part_idx_id, CPartIndexMap::EppraPreservePropagators);
+		(void) ppfmResult->FCopyPartFilter(m_memory_pool, part_idx_id, ppfmReqd);
 	}
 		
 	pdrgpul->Release();

@@ -68,8 +68,8 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CDXLTableDescr *table_descr,
-				ULONG ulPartIndexId,
-				ULONG ulPartIndexIdPrintable,
+				ULONG part_idx_id,
+				ULONG part_idx_id_printable,
 				CDXLIndexDescr *pdxlid,
 				EdxlIndexScanDirection idx_scan_direction
 				);

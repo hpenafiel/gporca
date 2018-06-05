@@ -91,9 +91,9 @@ CParseHandlerDynamicTableScan::StartElement
 	// create child node parsers in reverse order of their expected occurrence
 
 	// parse handler for table descriptor
-	CParseHandlerBase *pphTD = 
+	CParseHandlerBase *table_descr_parse_handler = 
 			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphTD);
+	m_parse_handler_mgr->ActivateParseHandler(table_descr_parse_handler);
 
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -113,7 +113,7 @@ CParseHandlerDynamicTableScan::StartElement
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(pphTD);
+	this->Append(table_descr_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -143,11 +143,11 @@ CParseHandlerDynamicTableScan::EndElement
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter*>((*this)[2]);
-	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
+	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
 
 
 	// set table descriptor
-	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
 	table_descr->AddRef();
 	CDXLPhysicalDynamicTableScan *dxl_op = 
 			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, table_descr, m_ulPartIndexId, m_ulPartIndexIdPrintable);

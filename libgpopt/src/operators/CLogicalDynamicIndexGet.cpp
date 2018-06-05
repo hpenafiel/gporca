@@ -64,7 +64,7 @@ CLogicalDynamicIndexGet::CLogicalDynamicIndexGet
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
 	const CName *pnameAlias,
-	ULONG ulPartIndexId,
+	ULONG part_idx_id,
 	DrgPcr *pdrgpcrOutput,
 	DrgDrgPcr *pdrgpdrgpcrPart,
 	ULONG ulSecondaryPartIndexId,
@@ -72,7 +72,7 @@ CLogicalDynamicIndexGet::CLogicalDynamicIndexGet
 	CPartConstraint *ppartcnstrRel
 	)
 	:
-	CLogicalDynamicGetBase(memory_pool, pnameAlias, ptabdesc, ulPartIndexId, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryPartIndexId, FPartialIndex(ptabdesc, pmdindex), ppartcnstr, ppartcnstrRel),
+	CLogicalDynamicGetBase(memory_pool, pnameAlias, ptabdesc, part_idx_id, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryPartIndexId, FPartialIndex(ptabdesc, pmdindex), ppartcnstr, ppartcnstrRel),
 	m_pindexdesc(NULL),
 	m_ulOriginOpId(ulOriginOpId)
 {

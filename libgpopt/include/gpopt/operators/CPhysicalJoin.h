@@ -251,7 +251,7 @@ namespace gpopt
 				CPartIndexMap *ppimSource,
 				CPartFilterMap *ppfmSource,
 				ULONG ulChildIndex,
-				ULONG ulPartIndexId,
+				ULONG part_idx_id,
 				BOOL fOuterPartConsumer,
 				CPartIndexMap *ppimResult,
 				CPartFilterMap *ppfmResult,
@@ -265,7 +265,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				CExpression *pexprScalar,
 				CPartIndexMap *ppimSource,
-				ULONG ulPartIndexId,
+				ULONG part_idx_id,
 				CColRefSet *pcrsAllowedRefs
 				);
 

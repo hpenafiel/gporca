@@ -826,13 +826,13 @@ CPhysical::PppsRequiredPushThruNAry
 	// and which to the inner side of the n-ary op
 	for (ULONG ul = 0; ul < ulPartIndexIds; ul++)
 	{
-		ULONG ulPartIndexId = *((*pdrgpul)[ul]);
-		GPOS_ASSERT(ppimReqd->FContains(ulPartIndexId));
+		ULONG part_idx_id = *((*pdrgpul)[ul]);
+		GPOS_ASSERT(ppimReqd->FContains(part_idx_id));
 
 		CBitSet *pbsPartConsumer = GPOS_NEW(memory_pool) CBitSet(memory_pool);
 		for (ULONG ulChildIdx = 0; ulChildIdx < ulArity; ulChildIdx++)
 		{
-			if (exprhdl.Pdprel(ulChildIdx)->Ppartinfo()->FContainsScanId(ulPartIndexId))
+			if (exprhdl.Pdprel(ulChildIdx)->Ppartinfo()->FContainsScanId(part_idx_id))
 			{
 				(void) pbsPartConsumer->ExchangeSet(ulChildIdx);
 			}
@@ -861,17 +861,17 @@ CPhysical::PppsRequiredPushThruNAry
 		// clean up
 		pbsPartConsumer->Release();
 
-		DrgPpartkeys *pdrgppartkeys = exprhdl.Pdprel(ulChildIndex)->Ppartinfo()->PdrgppartkeysByScanId(ulPartIndexId);
+		DrgPpartkeys *pdrgppartkeys = exprhdl.Pdprel(ulChildIndex)->Ppartinfo()->PdrgppartkeysByScanId(part_idx_id);
 		GPOS_ASSERT(NULL != pdrgppartkeys);
 		pdrgppartkeys->AddRef();
 
 		// push requirements to child node
-		ppimResult->AddRequiredPartPropagation(ppimReqd, ulPartIndexId, CPartIndexMap::EppraPreservePropagators, pdrgppartkeys);
+		ppimResult->AddRequiredPartPropagation(ppimReqd, part_idx_id, CPartIndexMap::EppraPreservePropagators, pdrgppartkeys);
 
 		// check if there is a filter on the part index id and propagate that further down
-		if (ppfmReqd->FContainsScanId(ulPartIndexId))
+		if (ppfmReqd->FContainsScanId(part_idx_id))
 		{
-			CExpression *pexpr = ppfmReqd->Pexpr(ulPartIndexId);
+			CExpression *pexpr = ppfmReqd->Pexpr(part_idx_id);
 			// if the current child is inner child and the predicate is IsNull check and the parent is outer join,
 			// don't push IsNull check predicate to the partition filter.
 			// for all the other cases, push the filter down.
@@ -881,7 +881,7 @@ CPhysical::PppsRequiredPushThruNAry
 				)
 			{
 				pexpr->AddRef();
-				ppfmResult->AddPartFilter(memory_pool, ulPartIndexId, pexpr, NULL /*pstats */);
+				ppfmResult->AddPartFilter(memory_pool, part_idx_id, pexpr, NULL /*pstats */);
 			}
 		}
 	}
@@ -955,20 +955,20 @@ CPhysical::PppsRequiredPushThruUnresolvedUnary
 	// iterate over required part index ids and decide which ones to push through
 	for (ULONG ul = 0; ul < ulPartIndexIds; ul++)
 	{
-		ULONG ulPartIndexId = *((*pdrgpul)[ul]);
-		GPOS_ASSERT(ppimReqd->FContains(ulPartIndexId));
+		ULONG part_idx_id = *((*pdrgpul)[ul]);
+		GPOS_ASSERT(ppimReqd->FContains(part_idx_id));
 
 		// if part index id is defined in child, push it to the child
-		if (ppartinfo->FContainsScanId(ulPartIndexId))
+		if (ppartinfo->FContainsScanId(part_idx_id))
 		{
 			// push requirements to child node
-			ppimResult->AddRequiredPartPropagation(ppimReqd, ulPartIndexId, CPartIndexMap::EppraPreservePropagators);
+			ppimResult->AddRequiredPartPropagation(ppimReqd, part_idx_id, CPartIndexMap::EppraPreservePropagators);
 			if (CPhysical::EppcAllowed == eppcPropogate)
 			{
 				// for some logical operators such as limit while we push the part index map, we cannot push the constraints
 				// since they are NOT semantically equivalent. So only push the constraints when the operator asks this
 				// utility function to do so
-				(void) ppfmResult->FCopyPartFilter(memory_pool, ulPartIndexId, ppfmReqd);
+				(void) ppfmResult->FCopyPartFilter(memory_pool, part_idx_id, ppfmReqd);
 			}
 		}
 	}

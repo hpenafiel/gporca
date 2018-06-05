@@ -108,7 +108,7 @@ namespace gpopt
 					const CHAR *m_szManipulator[EpimSentinel];
 
 					// add a part constraint
-					void AddPartConstraint(IMemoryPool *memory_pool, ULONG ulPartIndexId, CPartConstraint *ppartcnstr);
+					void AddPartConstraint(IMemoryPool *memory_pool, ULONG part_idx_id, CPartConstraint *ppartcnstr);
 
 					// private copy ctor
 					CPartTableInfo(const CPartTableInfo &);
@@ -257,7 +257,7 @@ namespace gpopt
 
 			// print part constraint map
 			static
-			IOstream &OsPrintPartCnstrMap(ULONG ulPartIndexId, PartCnstrMap *ppartcnstrmap, IOstream &os);
+			IOstream &OsPrintPartCnstrMap(ULONG part_idx_id, PartCnstrMap *ppartcnstrmap, IOstream &os);
 			
 		public:
 

@@ -716,7 +716,7 @@ CPhysicalJoin::AddFilterOnPartKey
 	CPartIndexMap *ppimSource,
 	CPartFilterMap *ppfmSource,
 	ULONG ulChildIndex,
-	ULONG ulPartIndexId,
+	ULONG part_idx_id,
 	BOOL fOuterPartConsumer,
 	CPartIndexMap *ppimResult,
 	CPartFilterMap *ppfmResult,
@@ -737,13 +737,13 @@ CPhysicalJoin::AddFilterOnPartKey
 	}
 
 	// look for a filter on the part key
-	CExpression *pexprCmp = PexprJoinPredOnPartKeys(memory_pool, pexprScalar, ppimSource, ulPartIndexId, pcrsAllowedRefs);
+	CExpression *pexprCmp = PexprJoinPredOnPartKeys(memory_pool, pexprScalar, ppimSource, part_idx_id, pcrsAllowedRefs);
 
 	// TODO:  - Aug 14, 2013; create a conjunction of the two predicates when the partition resolver framework supports this
-	if (NULL == pexprCmp && ppfmSource->FContainsScanId(ulPartIndexId))
+	if (NULL == pexprCmp && ppfmSource->FContainsScanId(part_idx_id))
 	{
 		// look if a predicates was propagated from an above level
-		pexprCmp = ppfmSource->Pexpr(ulPartIndexId);
+		pexprCmp = ppfmSource->Pexpr(part_idx_id);
 		pexprCmp->AddRef();
 	}
 
@@ -755,14 +755,14 @@ CPhysicalJoin::AddFilterOnPartKey
 			{
 				// we know that we will be requesting the selector from the second child
 				// so we need to increment the number of expected propagators here and pass through
-				ppimResult->AddRequiredPartPropagation(ppimSource, ulPartIndexId, CPartIndexMap::EppraIncrementPropagators);
+				ppimResult->AddRequiredPartPropagation(ppimSource, part_idx_id, CPartIndexMap::EppraIncrementPropagators);
 				pexprCmp->Release();
 			}
 			else
 			{
 				// an interesting condition found - request partition selection on the inner child
-				ppimResult->AddRequiredPartPropagation(ppimSource, ulPartIndexId, CPartIndexMap::EppraZeroPropagators);
-				ppfmResult->AddPartFilter(memory_pool, ulPartIndexId, pexprCmp, NULL /*pstats*/);
+				ppimResult->AddRequiredPartPropagation(ppimSource, part_idx_id, CPartIndexMap::EppraZeroPropagators);
+				ppfmResult->AddPartFilter(memory_pool, part_idx_id, pexprCmp, NULL /*pstats*/);
 			}
 		}
 		else
@@ -774,7 +774,7 @@ CPhysicalJoin::AddFilterOnPartKey
 	else if (FProcessingChildWithPartConsumer(fOuterPartConsumerTest, ulChildIndexToTestFirst, ulChildIndexToTestSecond, ulChildIndex))
 	{
 		// no interesting condition found - push through partition propagation request
-		ppimResult->AddRequiredPartPropagation(ppimSource, ulPartIndexId, CPartIndexMap::EppraPreservePropagators);
+		ppimResult->AddRequiredPartPropagation(ppimSource, part_idx_id, CPartIndexMap::EppraPreservePropagators);
 	}
 }
 
@@ -813,14 +813,14 @@ CPhysicalJoin::PexprJoinPredOnPartKeys
 	IMemoryPool *memory_pool,
 	CExpression *pexprScalar,
 	CPartIndexMap *ppimSource,
-	ULONG ulPartIndexId,
+	ULONG part_idx_id,
 	CColRefSet *pcrsAllowedRefs
 	)
 {
 	GPOS_ASSERT(NULL != pcrsAllowedRefs);
 
 	CExpression *pexprPred = NULL;
-	DrgPpartkeys *pdrgppartkeys = ppimSource->Pdrgppartkeys(ulPartIndexId);
+	DrgPpartkeys *pdrgppartkeys = ppimSource->Pdrgppartkeys(part_idx_id);
 	const ULONG ulKeysets = pdrgppartkeys->Size();
 	for (ULONG ulKey = 0; NULL == pexprPred && ulKey < ulKeysets; ulKey++)
 	{
@@ -1120,18 +1120,18 @@ CPhysicalJoin::PppsRequiredCompute
 
 	for (ULONG ul = 0; ul < ulPartIndexIds; ul++)
 	{
-		ULONG ulPartIndexId = *((*pdrgpul)[ul]);
+		ULONG part_idx_id = *((*pdrgpul)[ul]);
 
-		if (ppfm->FContainsScanId(ulPartIndexId))
+		if (ppfm->FContainsScanId(part_idx_id))
 		{
-			GPOS_ASSERT(NULL != ppfm->Pexpr(ulPartIndexId));
+			GPOS_ASSERT(NULL != ppfm->Pexpr(part_idx_id));
 			// a selection-based propagation request pushed from above: do not propagate any
 			// further as the join will reduce cardinality and thus may select more partitions
 			// for scanning
 			continue;
 		}
 
-		BOOL fOuterPartConsumer = ppartinfo->FContainsScanId(ulPartIndexId);
+		BOOL fOuterPartConsumer = ppartinfo->FContainsScanId(part_idx_id);
 
 		// in order to find interesting join predicates that can be used for DPE,
 		// one side of the predicate must be the partition key, while the other side must only contain
@@ -1148,17 +1148,17 @@ CPhysicalJoin::PppsRequiredCompute
 			{
 				// always push through required partition propagation for consumers on the
 				// outer side of the nested loop join
-				DrgPpartkeys *pdrgppartkeys = ppartinfo->PdrgppartkeysByScanId(ulPartIndexId);
+				DrgPpartkeys *pdrgppartkeys = ppartinfo->PdrgppartkeysByScanId(part_idx_id);
 				GPOS_ASSERT(NULL != pdrgppartkeys);
 				pdrgppartkeys->AddRef();
 
-				ppimResult->AddRequiredPartPropagation(ppim, ulPartIndexId, CPartIndexMap::EppraPreservePropagators, pdrgppartkeys);
+				ppimResult->AddRequiredPartPropagation(ppim, part_idx_id, CPartIndexMap::EppraPreservePropagators, pdrgppartkeys);
 			}
 			else
 			{
 				// check if there is an interesting condition involving the partition key
 				CExpression *pexprScalar = exprhdl.PexprScalarChild(2 /*ulChildIndex*/);
-				AddFilterOnPartKey(memory_pool, true /*fNLJoin*/, pexprScalar, ppim, ppfm, ulChildIndex, ulPartIndexId, fOuterPartConsumer, ppimResult, ppfmResult, pcrsAllowedRefs);
+				AddFilterOnPartKey(memory_pool, true /*fNLJoin*/, pexprScalar, ppim, ppfm, ulChildIndex, part_idx_id, fOuterPartConsumer, ppimResult, ppfmResult, pcrsAllowedRefs);
 			}
 		}
 		else
@@ -1167,17 +1167,17 @@ CPhysicalJoin::PppsRequiredCompute
 			{
 				// always push through required partition propagation for consumers on the
 				// inner side of the hash join
-				DrgPpartkeys *pdrgppartkeys = exprhdl.Pdprel(1 /*ulChildIndex*/)->Ppartinfo()->PdrgppartkeysByScanId(ulPartIndexId);
+				DrgPpartkeys *pdrgppartkeys = exprhdl.Pdprel(1 /*ulChildIndex*/)->Ppartinfo()->PdrgppartkeysByScanId(part_idx_id);
 				GPOS_ASSERT(NULL != pdrgppartkeys);
 				pdrgppartkeys->AddRef();
 
-				ppimResult->AddRequiredPartPropagation(ppim, ulPartIndexId, CPartIndexMap::EppraPreservePropagators, pdrgppartkeys);
+				ppimResult->AddRequiredPartPropagation(ppim, part_idx_id, CPartIndexMap::EppraPreservePropagators, pdrgppartkeys);
 			}
 			else
 			{
 				// look for a filter on the part key
 				CExpression *pexprScalar = exprhdl.PexprScalarChild(2 /*ulChildIndex*/);
-				AddFilterOnPartKey(memory_pool, false /*fNLJoin*/, pexprScalar, ppim, ppfm, ulChildIndex, ulPartIndexId, fOuterPartConsumer, ppimResult, ppfmResult, pcrsAllowedRefs);
+				AddFilterOnPartKey(memory_pool, false /*fNLJoin*/, pexprScalar, ppim, ppfm, ulChildIndex, part_idx_id, fOuterPartConsumer, ppimResult, ppfmResult, pcrsAllowedRefs);
 			}
 		}
 	}

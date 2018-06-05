@@ -46,23 +46,23 @@ CParseHandlerPhysicalAbstractBitmapScan::StartElementHelper
 				element_local_name
 				))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	// create child node parsers in reverse order of their expected occurrence
 	// parse handler for table descriptor
-	CParseHandlerBase *pphTD = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphTD);
+	CParseHandlerBase *table_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(table_descr_parse_handler);
 
 	// parse handler for the bitmap access path
-	CParseHandlerBase *pphBitmap = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphBitmap);
+	CParseHandlerBase *bitmap_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(bitmap_parse_handler);
 
 	// parse handler for the recheck condition
-	CParseHandlerBase *pphRecheckCond =
+	CParseHandlerBase *recheck_cond_parse_handler =
 			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarRecheckCondFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphRecheckCond);
+	m_parse_handler_mgr->ActivateParseHandler(recheck_cond_parse_handler);
 
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -80,9 +80,9 @@ CParseHandlerPhysicalAbstractBitmapScan::StartElementHelper
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(pphRecheckCond);
-	this->Append(pphBitmap);
-	this->Append(pphTD);
+	this->Append(recheck_cond_parse_handler);
+	this->Append(bitmap_parse_handler);
+	this->Append(table_descr_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -98,8 +98,8 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	(
 	const XMLCh* const element_local_name,
 	Edxltoken token_type,
-	ULONG ulPartIndexId,
-	ULONG ulPartIndexIdPrintable
+	ULONG part_idx_id,
+	ULONG part_idx_id_printable
 	)
 {
 	if (0 != XMLString::compareString
@@ -108,23 +108,23 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 				element_local_name
 				))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	// construct nodes from the created child nodes
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerFilter *pphRecheckCond = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
-	CParseHandlerScalarOp *pphBitmap =
+	CParseHandlerFilter *recheck_cond_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
+	CParseHandlerScalarOp *bitmap_parse_handler =
 			dynamic_cast<CParseHandlerScalarOp*>((*this)[4]);
-	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr*>((*this)[5]);
+	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[5]);
 
-	GPOS_ASSERT(NULL != pphTD->GetTableDescr());
+	GPOS_ASSERT(NULL != table_descr_parse_handler->GetTableDescr());
 
 	// set table descriptor
-	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
 	table_descr->AddRef();
 	CDXLPhysical *dxl_op = NULL;
 
@@ -135,7 +135,7 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicBitmapTableScan == token_type);
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan(m_memory_pool, table_descr, ulPartIndexId, ulPartIndexIdPrintable);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan(m_memory_pool, table_descr, part_idx_id, part_idx_id_printable);
 	}
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
@@ -145,9 +145,9 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	// add constructed children
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
-	AddChildFromParseHandler(pphRecheckCond);
+	AddChildFromParseHandler(recheck_cond_parse_handler);
 
-	AddChildFromParseHandler(pphBitmap);
+	AddChildFromParseHandler(bitmap_parse_handler);
 
 #ifdef GPOS_DEBUG
 	dxl_op->AssertValid(m_dxl_node, false /* validate_children */);

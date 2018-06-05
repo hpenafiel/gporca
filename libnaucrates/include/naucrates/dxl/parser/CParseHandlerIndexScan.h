@@ -73,8 +73,8 @@ namespace gpdxl
 				(
 				const XMLCh* const element_local_name,
 				Edxltoken token_type,
-				ULONG ulPartIndexId = 0,
-				ULONG ulPartIndexIdPrintable = 0
+				ULONG part_idx_id = 0,
+				ULONG part_idx_id_printable = 0
 				);
 
 		public:

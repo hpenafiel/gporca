@@ -1120,7 +1120,7 @@ CStatisticsUtils::PstatsDynamicScan
 	(
 	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
-	ULONG ulPartIndexId,
+	ULONG part_idx_id,
 	CPartFilterMap *ppfm
 	)
 {
@@ -1135,15 +1135,15 @@ CStatisticsUtils::PstatsDynamicScan
 		return pstatsBase;
 	}
 
-	if(!ppfm->FContainsScanId(ulPartIndexId) || NULL == ppfm->Pstats(ulPartIndexId))
+	if(!ppfm->FContainsScanId(part_idx_id) || NULL == ppfm->Pstats(part_idx_id))
 	{
 		// no corresponding entry is found in map, return base stats
 		pstatsBase->AddRef();
 		return pstatsBase;
 	}
 
-	IStatistics *pstatsPartSelector = ppfm->Pstats(ulPartIndexId);
-	CExpression *pexprScalar = ppfm->Pexpr(ulPartIndexId);
+	IStatistics *pstatsPartSelector = ppfm->Pstats(part_idx_id);
+	CExpression *pexprScalar = ppfm->Pexpr(part_idx_id);
 
 	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
 	pdrgpcrsOutput->Append(pstatsBase->Pcrs(memory_pool));

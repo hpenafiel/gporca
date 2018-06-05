@@ -58,7 +58,7 @@ namespace gpopt
 			CPartIndexMap *PpimDeriveFromDynamicScan
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulPartIndexId,
+				ULONG part_idx_id,
 				IMDId *pmdidRel,
 				DrgDrgPcr *pdrgpdrgpcrPart,
 				ULONG ulSecondaryPartIndexId,

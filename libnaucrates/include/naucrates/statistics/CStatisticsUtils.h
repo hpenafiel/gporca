@@ -314,7 +314,7 @@ namespace gpnaucrates
 
 			// derive statistics of dynamic scan based on part-selector stats in the given map
 			static
-			IStatistics *PstatsDynamicScan(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, ULONG ulPartIndexId, CPartFilterMap *ppfm);
+			IStatistics *PstatsDynamicScan(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, ULONG part_idx_id, CPartFilterMap *ppfm);
 
 			// derive statistics of (dynamic) index-get
 			static

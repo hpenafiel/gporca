@@ -131,9 +131,9 @@ CParseHandlerIndexScan::StartElementHelper
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
 
-	CParseHandlerBase *pphTD =
+	CParseHandlerBase *table_descr_parse_handler =
 			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphTD);
+	m_parse_handler_mgr->ActivateParseHandler(table_descr_parse_handler);
 
 	// parse handler for the index descriptor
 	CParseHandlerBase *pphIdxD =
@@ -166,7 +166,7 @@ CParseHandlerIndexScan::StartElementHelper
 	this->Append(filter_parse_handler);
 	this->Append(pphIdxCondList);
 	this->Append(pphIdxD);
-	this->Append(pphTD);
+	this->Append(table_descr_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -182,8 +182,8 @@ CParseHandlerIndexScan::EndElementHelper
 	(
 	const XMLCh* const element_local_name,
 	Edxltoken token_type,
-	ULONG ulPartIndexId,
-	ULONG ulPartIndexIdPrintable
+	ULONG part_idx_id,
+	ULONG part_idx_id_printable
 	)
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
@@ -198,9 +198,9 @@ CParseHandlerIndexScan::EndElementHelper
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerIndexCondList *pphIdxCondList = dynamic_cast<CParseHandlerIndexCondList *>((*this)[3]);
 	CParseHandlerIndexDescr *pphIdxD = dynamic_cast<CParseHandlerIndexDescr *>((*this)[4]);
-	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr *>((*this)[5]);
+	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr *>((*this)[5]);
 
-	CDXLTableDescr *table_descr = pphTD->GetTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
 	table_descr->AddRef();
 
 	CDXLIndexDescr *pdxlid = pphIdxD->GetIndexDescr();
@@ -221,7 +221,7 @@ CParseHandlerIndexScan::EndElementHelper
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == token_type);
 
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, table_descr, ulPartIndexId, ulPartIndexIdPrintable, pdxlid, m_edxlisd);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, table_descr, part_idx_id, part_idx_id_printable, pdxlid, m_edxlisd);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 

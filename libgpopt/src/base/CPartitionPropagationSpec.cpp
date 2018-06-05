@@ -270,26 +270,26 @@ CPartitionPropagationSpec::FRequiresPartitionPropagation
 	IMemoryPool *memory_pool, 
 	CExpression *pexpr, 
 	CExpressionHandle &exprhdl,
-	ULONG ulPartIndexId
+	ULONG part_idx_id
 	)
 	const
 {
-	GPOS_ASSERT(m_ppim->FContains(ulPartIndexId));
+	GPOS_ASSERT(m_ppim->FContains(part_idx_id));
 	
 	// construct partition propagation spec with the given id only, and check if it needs to be 
 	// enforced on top
 	CPartIndexMap *ppim = GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
 	
-	IMDId *pmdid = m_ppim->PmdidRel(ulPartIndexId);
-	DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(ulPartIndexId);
-	CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(ulPartIndexId);
-	PartCnstrMap *ppartcnstrmap = m_ppim->Ppartcnstrmap(ulPartIndexId);
+	IMDId *pmdid = m_ppim->PmdidRel(part_idx_id);
+	DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(part_idx_id);
+	CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(part_idx_id);
+	PartCnstrMap *ppartcnstrmap = m_ppim->Ppartcnstrmap(part_idx_id);
 	pmdid->AddRef();
 	pdrgppartkeys->AddRef();
 	ppartcnstr->AddRef();
 	ppartcnstrmap->AddRef();
 	
-	ppim->Insert(ulPartIndexId, ppartcnstrmap, m_ppim->Epim(ulPartIndexId), m_ppim->UlExpectedPropagators(ulPartIndexId), pmdid, pdrgppartkeys, ppartcnstr);
+	ppim->Insert(part_idx_id, ppartcnstrmap, m_ppim->Epim(part_idx_id), m_ppim->UlExpectedPropagators(part_idx_id), pmdid, pdrgppartkeys, ppartcnstr);
 	
 	CPartitionPropagationSpec *ppps = GPOS_NEW(memory_pool) CPartitionPropagationSpec(ppim, GPOS_NEW(memory_pool) CPartFilterMap(memory_pool));
 	

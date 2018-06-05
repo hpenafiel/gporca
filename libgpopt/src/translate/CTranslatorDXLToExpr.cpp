@@ -556,8 +556,8 @@ CTranslatorDXLToExpr::PexprLogicalGet
 		GPOS_ASSERT(EdxlopLogicalGet == edxlopid);
 
 		// generate a part index id
-		ULONG ulPartIndexId = COptCtxt::PoctxtFromTLS()->UlPartIndexNextVal();
-		popGet = GPOS_NEW(m_memory_pool) CLogicalDynamicGet(m_memory_pool, pname, ptabdesc, ulPartIndexId);	
+		ULONG part_idx_id = COptCtxt::PoctxtFromTLS()->UlPartIndexNextVal();
+		popGet = GPOS_NEW(m_memory_pool) CLogicalDynamicGet(m_memory_pool, pname, ptabdesc, part_idx_id);	
 		CLogicalDynamicGet *popDynamicGet = CLogicalDynamicGet::PopConvert(popGet);
 
 		// get the output column references from the dynamic get
