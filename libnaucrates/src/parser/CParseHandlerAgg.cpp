@@ -65,8 +65,8 @@ CParseHandlerAgg::StartElement
 {	
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAggregate), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// parse and create group by operator
@@ -88,8 +88,8 @@ CParseHandlerAgg::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 	
 	//parse handler for the grouping columns list
-	CParseHandlerBase *pphGrpColList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphGrpColList);
+	CParseHandlerBase *grouping_col_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(grouping_col_list_parse_handler);
 
 	//parse handler for the properties of the operator
 	CParseHandlerBase *prop_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
@@ -97,7 +97,7 @@ CParseHandlerAgg::StartElement
 	
 	// store parse handlers
 	this->Append(prop_parse_handler);
-	this->Append(pphGrpColList);
+	this->Append(grouping_col_list_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
 	this->Append(child_parse_handler);
@@ -122,8 +122,8 @@ CParseHandlerAgg::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAggregate), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// construct node from the created child nodes
@@ -131,17 +131,17 @@ CParseHandlerAgg::EndElement
 	GPOS_ASSERT(5 == this->Length());
 	
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
-	CParseHandlerGroupingColList *pphGrpColList = dynamic_cast<CParseHandlerGroupingColList*>((*this)[1]);
+	CParseHandlerGroupingColList *grouping_col_list_parse_handler = dynamic_cast<CParseHandlerGroupingColList*>((*this)[1]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[2]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 
 	// set grouping cols list
-	GPOS_ASSERT(NULL != pphGrpColList->GetGroupingColidArray());
+	GPOS_ASSERT(NULL != grouping_col_list_parse_handler->GetGroupingColidArray());
 
-	ULongPtrArray *pdrgpul = pphGrpColList->GetGroupingColidArray();
-	pdrgpul->AddRef();
-	m_dxl_op->SetGroupingCols(pdrgpul);
+	ULongPtrArray *grouping_colid_array = grouping_col_list_parse_handler->GetGroupingColidArray();
+	grouping_colid_array->AddRef();
+	m_dxl_op->SetGroupingCols(grouping_colid_array);
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 
