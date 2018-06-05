@@ -45,7 +45,7 @@ CParseHandlerPhysicalSplit::CParseHandlerPhysicalSplit
 	m_ctid_colid(0),
 	m_segid_colid(0),	
 	m_preserve_oids(false),
-	m_ulTupleOidColId(0)
+	m_tuple_oid_col_oid(0)
 {
 }
 
@@ -95,7 +95,7 @@ CParseHandlerPhysicalSplit::StartElement
 	}	
 	if (m_preserve_oids)
 	{
-		m_ulTupleOidColId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalSplit);
+		m_tuple_oid_col_oid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalSplit);
 	}
 
 	// parse handler for physical operator
@@ -156,7 +156,7 @@ CParseHandlerPhysicalSplit::EndElement
 												m_ctid_colid,
 												m_segid_colid,
 												m_preserve_oids,
-												m_ulTupleOidColId
+												m_tuple_oid_col_oid
 												);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);

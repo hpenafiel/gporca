@@ -49,7 +49,7 @@ CParseHandlerPhysicalDML::CParseHandlerPhysicalDML
 	m_ctid_colid(0),
 	m_segid_colid(0),	
 	m_preserve_oids(false),
-	m_ulTupleOidColId(0),
+	m_tuple_oid_col_oid(0),
 	m_fInputSorted(false)
 {
 }
@@ -113,7 +113,7 @@ CParseHandlerPhysicalDML::StartElement
 	
 	if (m_preserve_oids)
 	{
-		m_ulTupleOidColId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalDMLUpdate);
+		m_tuple_oid_col_oid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalDMLUpdate);
 	}
 
 	const XMLCh *xmlszInputSorted = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenInputSorted));
@@ -201,7 +201,7 @@ CParseHandlerPhysicalDML::EndElement
 
 	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatch->GetDXLDirectDispatchInfo();
 	dxl_direct_dispatch_info->AddRef();
-	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, table_descr, m_pdrgpul, m_ulAction, m_ulOid, m_ctid_colid, m_segid_colid, m_preserve_oids, m_ulTupleOidColId, dxl_direct_dispatch_info, m_fInputSorted);
+	CDXLPhysicalDML *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDML(m_memory_pool, m_edxldmltype, table_descr, m_pdrgpul, m_ulAction, m_ulOid, m_ctid_colid, m_segid_colid, m_preserve_oids, m_tuple_oid_col_oid, dxl_direct_dispatch_info, m_fInputSorted);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	
 	// set statistics and physical properties

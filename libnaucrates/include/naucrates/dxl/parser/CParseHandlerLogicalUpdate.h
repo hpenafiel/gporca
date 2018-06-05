@@ -50,7 +50,7 @@ namespace gpdxl
 			BOOL m_preserve_oids;
 			
 			// tuple oid column id
-			ULONG m_ulTupleOidColId;
+			ULONG m_tuple_oid_col_oid;
 
 			// private copy ctor
 			CParseHandlerLogicalUpdate(const CParseHandlerLogicalUpdate &);
