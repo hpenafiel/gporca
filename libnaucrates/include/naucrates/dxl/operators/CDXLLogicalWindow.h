@@ -31,7 +31,7 @@ namespace gpdxl
 	{
 		private:
 			// array of window specifications
-			DXLWindowSpecArray *m_pdrgpdxlws;
+			DXLWindowSpecArray *m_window_spec_array;
 
 			// private copy ctor
 			CDXLLogicalWindow(CDXLLogicalWindow&);
@@ -50,14 +50,14 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// number of window specs
-			ULONG UlWindowSpecs() const;
+			ULONG NumOfWindowSpecs() const;
 
 			// return the window key at a given position
-			CDXLWindowSpec *Pdxlws(ULONG ulPos) const;
+			CDXLWindowSpec *GetWindowKeyAt(ULONG idx) const;
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

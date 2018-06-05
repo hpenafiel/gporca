@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// list of window specifications
-			DXLWindowSpecArray *m_pdrgpdxlws;
+			DXLWindowSpecArray *m_window_spec_array;
 
 			// private copy ctor
 			CParseHandlerWindowSpecList(const CParseHandlerWindowSpecList&);
@@ -69,7 +69,7 @@ namespace gpdxl
 			// list of window keys
 			DXLWindowSpecArray *Pdrgpdxlws() const
 			{
-				return m_pdrgpdxlws;
+				return m_window_spec_array;
 			}
 	};
 }

@@ -1760,7 +1760,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 	while (hmiterulpdrgexpr.Advance())
 	{
 		ULONG ulPos = *(hmiterulpdrgexpr.Key());
-		CDXLWindowSpec *pdxlws = pdxlopWindow->Pdxlws(ulPos);
+		CDXLWindowSpec *pdxlws = pdxlopWindow->GetWindowKeyAt(ulPos);
 		
 		const DrgPexpr *pdrgpexpr = hmiterulpdrgexpr.Value();
 		GPOS_ASSERT(NULL != pdrgpexpr);

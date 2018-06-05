@@ -37,7 +37,7 @@ CParseHandlerLogicalWindow::CParseHandlerLogicalWindow
 	)
 	:
 	CParseHandlerLogicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpdxlws(NULL)
+	m_window_spec_array(NULL)
 {
 }
 
@@ -111,10 +111,10 @@ CParseHandlerLogicalWindow::EndElement
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerLogicalOp *pphLgOp = dynamic_cast<CParseHandlerLogicalOp*>((*this)[2]);
 
-	DXLWindowSpecArray *pdrgpdxlws = pphWsL->Pdrgpdxlws();
-	GPOS_ASSERT(NULL != pdrgpdxlws);
+	DXLWindowSpecArray *window_spec_array = pphWsL->Pdrgpdxlws();
+	GPOS_ASSERT(NULL != window_spec_array);
 
-	CDXLLogicalWindow *pdxlopWin = GPOS_NEW(m_memory_pool) CDXLLogicalWindow(m_memory_pool, pdrgpdxlws);
+	CDXLLogicalWindow *pdxlopWin = GPOS_NEW(m_memory_pool) CDXLLogicalWindow(m_memory_pool, window_spec_array);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWin);
 	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
 	GPOS_ASSERT(NULL != pphLgOp->CreateDXLNode());
