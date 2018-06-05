@@ -92,11 +92,11 @@ CParseHandlerBroadcastMotion::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 	
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphProp);
+	CParseHandlerBase *prop_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(prop_parse_handler);
 	
 	// store parse handlers in parse handler array
-	this->Append(pphProp);
+	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
 	this->Append(pphSortColList);
@@ -128,13 +128,13 @@ CParseHandlerBroadcastMotion::EndElement
 	// construct node from the created child nodes
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 
-	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
+	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerSortColList *pphSortCl = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 	
-	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
 
 	// add children nodes
 	AddChildFromParseHandler(proj_list_parse_handler);

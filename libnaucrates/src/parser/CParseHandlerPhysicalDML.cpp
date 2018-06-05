@@ -145,11 +145,11 @@ CParseHandlerPhysicalDML::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(pphDirectDispatch);
 	
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphProp);
+	CParseHandlerBase *prop_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(prop_parse_handler);
 
 	// store child parse handlers in array
-	this->Append(pphProp);
+	this->Append(prop_parse_handler);
 	this->Append(pphDirectDispatch);
 	this->Append(proj_list_parse_handler);
 	this->Append(pphTabDesc);
@@ -182,8 +182,8 @@ CParseHandlerPhysicalDML::EndElement
 
 	GPOS_ASSERT(5 == this->Length());
 
-	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
-	GPOS_ASSERT(NULL != pphProp->GetProperties());
+	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
+	GPOS_ASSERT(NULL != prop_parse_handler->GetProperties());
 
 	CParseHandlerDirectDispatchInfo *pphDirectDispatch = dynamic_cast<CParseHandlerDirectDispatchInfo *>((*this)[1]);
 	GPOS_ASSERT(NULL != pphDirectDispatch->GetDXLDirectDispatchInfo() && NULL != pphDirectDispatch->GetDXLDirectDispatchInfo());
@@ -205,7 +205,7 @@ CParseHandlerPhysicalDML::EndElement
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
 
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);

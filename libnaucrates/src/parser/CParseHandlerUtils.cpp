@@ -30,17 +30,17 @@ void
 CParseHandlerUtils::SetProperties
 	(
 	CDXLNode *pdxln,
-	CParseHandlerProperties *pphProp
+	CParseHandlerProperties *prop_parse_handler
 	)
 {
-	GPOS_ASSERT(NULL != pphProp->GetProperties());
+	GPOS_ASSERT(NULL != prop_parse_handler->GetProperties());
 	// set physical properties
-	CDXLPhysicalProperties *dxl_properties = pphProp->GetProperties();
+	CDXLPhysicalProperties *dxl_properties = prop_parse_handler->GetProperties();
 	dxl_properties->AddRef();
 	pdxln->SetProperties(dxl_properties);
 
 	// set the statistical information
-	CDXLStatsDerivedRelation *pdxlstatsderrel = pphProp->Pdxlstatsderrel();
+	CDXLStatsDerivedRelation *pdxlstatsderrel = prop_parse_handler->Pdxlstatsderrel();
 	if (NULL != pdxlstatsderrel)
 	{
 		pdxlstatsderrel->AddRef();

@@ -104,11 +104,11 @@ CParseHandlerPartitionSelector::StartElement
 			m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 			
 			// parse handler for the properties of the operator
-			CParseHandlerBase *pphProp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
-			m_parse_handler_mgr->ActivateParseHandler(pphProp);
+			CParseHandlerBase *prop_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+			m_parse_handler_mgr->ActivateParseHandler(prop_parse_handler);
 			
 			// store parse handlers
-			this->Append(pphProp);
+			this->Append(prop_parse_handler);
 			this->Append(proj_list_parse_handler);
 			this->Append(pphOpListEqFilters);
 			this->Append(pphOpListFilters);
@@ -177,10 +177,10 @@ CParseHandlerPartitionSelector::EndElement
 	CDXLPhysicalPartitionSelector *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalPartitionSelector(m_memory_pool, m_pmdidRel, m_ulLevels, m_ulScanId);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
-	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
+	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
 
 	// scalar children
 	for (ULONG ul = 1; ul < 7; ul++)

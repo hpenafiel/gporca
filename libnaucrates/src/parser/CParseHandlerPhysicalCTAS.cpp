@@ -129,11 +129,11 @@ CParseHandlerPhysicalCTAS::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
 	
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphProp);
+	CParseHandlerBase *prop_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(prop_parse_handler);
 
 	// store child parse handler in array
-	this->Append(pphProp);
+	this->Append(prop_parse_handler);
 	this->Append(pphColDescr);
 	this->Append(pphCTASOptions);
 	this->Append(proj_list_parse_handler);	
@@ -164,14 +164,14 @@ CParseHandlerPhysicalCTAS::EndElement
 
 	GPOS_ASSERT(5 == this->Length());
 
-	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
+	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[1]);
 	CParseHandlerCtasStorageOptions *pphCTASOptions = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[2]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[3]);
 	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
 
-	GPOS_ASSERT(NULL != pphProp->GetProperties());
+	GPOS_ASSERT(NULL != prop_parse_handler->GetProperties());
 	GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
 	GPOS_ASSERT(NULL != pphCTASOptions->Pdxlctasopt());
 	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
@@ -203,7 +203,7 @@ CParseHandlerPhysicalCTAS::EndElement
 									)
 							);
 	// set statistics and physical properties
-	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
 	
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);

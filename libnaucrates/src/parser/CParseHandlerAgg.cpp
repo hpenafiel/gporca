@@ -92,11 +92,11 @@ CParseHandlerAgg::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(pphGrpColList);
 
 	//parse handler for the properties of the operator
-	CParseHandlerBase *pphProp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphProp);
+	CParseHandlerBase *prop_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(prop_parse_handler);
 	
 	// store parse handlers
-	this->Append(pphProp);
+	this->Append(prop_parse_handler);
 	this->Append(pphGrpColList);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
@@ -130,7 +130,7 @@ CParseHandlerAgg::EndElement
 	
 	GPOS_ASSERT(5 == this->Length());
 	
-	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
+	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerGroupingColList *pphGrpColList = dynamic_cast<CParseHandlerGroupingColList*>((*this)[1]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[2]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
@@ -146,7 +146,7 @@ CParseHandlerAgg::EndElement
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 
 	// set physical properties
-	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
+	CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
 
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
