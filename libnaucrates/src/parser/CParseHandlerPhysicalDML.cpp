@@ -137,8 +137,8 @@ CParseHandlerPhysicalDML::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(pphTabDesc);
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphPrL);
+	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 
 	//parse handler for the direct dispatch info
 	CParseHandlerBase *pphDirectDispatch = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), m_parse_handler_mgr, this);
@@ -151,7 +151,7 @@ CParseHandlerPhysicalDML::StartElement
 	// store child parse handlers in array
 	this->Append(pphProp);
 	this->Append(pphDirectDispatch);
-	this->Append(pphPrL);
+	this->Append(proj_list_parse_handler);
 	this->Append(pphTabDesc);
 	this->Append(child_parse_handler);
 }
@@ -188,8 +188,8 @@ CParseHandlerPhysicalDML::EndElement
 	CParseHandlerDirectDispatchInfo *pphDirectDispatch = dynamic_cast<CParseHandlerDirectDispatchInfo *>((*this)[1]);
 	GPOS_ASSERT(NULL != pphDirectDispatch->GetDXLDirectDispatchInfo() && NULL != pphDirectDispatch->GetDXLDirectDispatchInfo());
 
-	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[2]);
-	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[2]);
+	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
 	GPOS_ASSERT(NULL != pphTabDesc->GetTableDescr());
@@ -207,7 +207,7 @@ CParseHandlerPhysicalDML::EndElement
 	// set statistics and physical properties
 	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
-	AddChildFromParseHandler(pphPrL);
+	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG

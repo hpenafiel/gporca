@@ -86,8 +86,8 @@ CParseHandlerPhysicalTVF::StartElement
 		m_return_type_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenPhysicalTVF);
 
 		// parse handler for the proj list
-		CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphPrL);
+		CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 
 		//parse handler for the properties of the operator
 		CParseHandlerBase *pphProp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
@@ -95,7 +95,7 @@ CParseHandlerPhysicalTVF::StartElement
 
 		// store parse handlers
 		this->Append(pphProp);
-		this->Append(pphPrL);
+		this->Append(proj_list_parse_handler);
 	}
 	else
 	{
@@ -140,8 +140,8 @@ CParseHandlerPhysicalTVF::EndElement
 	// set statistics and physical properties
 	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
-	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	AddChildFromParseHandler(pphPrL);
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
+	AddChildFromParseHandler(proj_list_parse_handler);
 
 	const ULONG ulSize = this->Length();
 	for (ULONG ul = 2; ul < ulSize; ul++)

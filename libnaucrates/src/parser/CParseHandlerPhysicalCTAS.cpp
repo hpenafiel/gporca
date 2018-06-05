@@ -117,8 +117,8 @@ CParseHandlerPhysicalCTAS::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphPrL);
+	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 	
 	//parse handler for the storage options
 	CParseHandlerBase *pphCTASOptions = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTASOptions), m_parse_handler_mgr, this);
@@ -136,7 +136,7 @@ CParseHandlerPhysicalCTAS::StartElement
 	this->Append(pphProp);
 	this->Append(pphColDescr);
 	this->Append(pphCTASOptions);
-	this->Append(pphPrL);	
+	this->Append(proj_list_parse_handler);	
 	this->Append(child_parse_handler);	
 }
 
@@ -167,14 +167,14 @@ CParseHandlerPhysicalCTAS::EndElement
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[1]);
 	CParseHandlerCtasStorageOptions *pphCTASOptions = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[2]);
-	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[3]);
-	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[3]);
+	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
 
 	GPOS_ASSERT(NULL != pphProp->GetProperties());
 	GPOS_ASSERT(NULL != pphColDescr->GetColumnDescrDXLArray());
 	GPOS_ASSERT(NULL != pphCTASOptions->Pdxlctasopt());
-	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 	
 	ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
@@ -205,7 +205,7 @@ CParseHandlerPhysicalCTAS::EndElement
 	// set statistics and physical properties
 	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 	
-	AddChildFromParseHandler(pphPrL);
+	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG

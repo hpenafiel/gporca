@@ -66,8 +66,8 @@ CParseHandlerLogicalWindow::StartElement
 		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// parse handler for the proj list
-		CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphPrL);
+		CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 
 		// parse handler for window specification list
 		CParseHandlerBase *pphWsL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowSpecList), m_parse_handler_mgr, this);
@@ -75,7 +75,7 @@ CParseHandlerLogicalWindow::StartElement
 
 		// store child parse handler in array
 		this->Append(pphWsL);
-		this->Append(pphPrL);
+		this->Append(proj_list_parse_handler);
 		this->Append(child_parse_handler);
 	}
 	else
@@ -108,7 +108,7 @@ CParseHandlerLogicalWindow::EndElement
 	}
 
 	CParseHandlerWindowSpecList *pphWsL = dynamic_cast<CParseHandlerWindowSpecList*>((*this)[0]);
-	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerLogicalOp *pphLgOp = dynamic_cast<CParseHandlerLogicalOp*>((*this)[2]);
 
 	DXLWindowSpecArray *window_spec_array = pphWsL->Pdrgpdxlws();
@@ -116,10 +116,10 @@ CParseHandlerLogicalWindow::EndElement
 
 	CDXLLogicalWindow *pdxlopWin = GPOS_NEW(m_memory_pool) CDXLLogicalWindow(m_memory_pool, window_spec_array);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWin);
-	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
+	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 	GPOS_ASSERT(NULL != pphLgOp->CreateDXLNode());
 
-	AddChildFromParseHandler(pphPrL);
+	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(pphLgOp);
 
 #ifdef GPOS_DEBUG

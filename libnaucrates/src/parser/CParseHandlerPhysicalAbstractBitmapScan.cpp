@@ -69,8 +69,8 @@ CParseHandlerPhysicalAbstractBitmapScan::StartElementHelper
 	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
 
 	// parse handler for the proj list
-	CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphPrL);
+	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(proj_list_parse_handler);
 
 	//parse handler for the properties of the operator
 	CParseHandlerBase *pphProp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenProperties), m_parse_handler_mgr, this);
@@ -78,7 +78,7 @@ CParseHandlerPhysicalAbstractBitmapScan::StartElementHelper
 
 	// store child parse handlers in array
 	this->Append(pphProp);
-	this->Append(pphPrL);
+	this->Append(proj_list_parse_handler);
 	this->Append(pphFilter);
 	this->Append(pphRecheckCond);
 	this->Append(pphBitmap);
@@ -114,7 +114,7 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 
 	// construct nodes from the created child nodes
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
-	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerFilter *pphRecheckCond = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
 	CParseHandlerScalarOp *pphBitmap =
@@ -143,7 +143,7 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	// add constructed children
-	AddChildFromParseHandler(pphPrL);
+	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(pphFilter);
 	AddChildFromParseHandler(pphRecheckCond);
 
