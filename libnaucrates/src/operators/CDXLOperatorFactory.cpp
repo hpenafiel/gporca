@@ -495,7 +495,7 @@ CDXLOperatorFactory::PdxlopAgg
 										EdxltokenPhysicalAggregate
 										);
 	
-	EdxlAggStrategy edxlaggstr = EdxlaggstrategySentinel;
+	EdxlAggStrategy agg_strategy_dxl = EdxlaggstrategySentinel;
 	
 	if (0 == XMLString::compareString
 							(
@@ -503,17 +503,17 @@ CDXLOperatorFactory::PdxlopAgg
 							xmlszAggStrategy
 							))
 	{
-		edxlaggstr = EdxlaggstrategyPlain;
+		agg_strategy_dxl = EdxlaggstrategyPlain;
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenAggStrategySorted),
 									xmlszAggStrategy))
 	{
-		edxlaggstr = EdxlaggstrategySorted;
+		agg_strategy_dxl = EdxlaggstrategySorted;
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenAggStrategyHashed),
 									xmlszAggStrategy))
 	{
-		edxlaggstr = EdxlaggstrategyHashed;
+		agg_strategy_dxl = EdxlaggstrategyHashed;
 	}
 	else
 	{
@@ -526,12 +526,12 @@ CDXLOperatorFactory::PdxlopAgg
 			);		
 	}
 	
-	BOOL fStreamSafe = false;
+	BOOL stream_safe = false;
 
 	const XMLCh *xmlszStreamSafe = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenAggStreamSafe));
 	if (NULL != xmlszStreamSafe)
 	{
-		fStreamSafe = FValueFromXmlstr
+		stream_safe = FValueFromXmlstr
 						(
 						memory_manager_dxl,
 						xmlszStreamSafe,
@@ -540,7 +540,7 @@ CDXLOperatorFactory::PdxlopAgg
 						);
 	}
 
-	return GPOS_NEW(memory_pool) CDXLPhysicalAgg(memory_pool, edxlaggstr, fStreamSafe);
+	return GPOS_NEW(memory_pool) CDXLPhysicalAgg(memory_pool, agg_strategy_dxl, stream_safe);
 }
 
 

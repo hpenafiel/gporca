@@ -2607,7 +2607,7 @@ CTranslatorExprToDXLUtils::FMotionHazardSafeOp
 		case EdxlopPhysicalAgg:
 		{
 			CDXLPhysicalAgg *pdxlnPhysicalAgg = CDXLPhysicalAgg::Cast(pdxln->GetOperator());
-			if (pdxlnPhysicalAgg->Edxlaggstr() == EdxlaggstrategyHashed)
+			if (pdxlnPhysicalAgg->GetAggStrategy() == EdxlaggstrategyHashed)
 				fMotionHazardSafeOp = true;
 		}
 			break;

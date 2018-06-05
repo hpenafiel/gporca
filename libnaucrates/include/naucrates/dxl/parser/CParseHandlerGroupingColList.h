@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 			
 			// array of grouping column ids
-			ULongPtrArray *m_pdrgpulGroupingCols;
+			ULongPtrArray *m_grouping_colids_array;
 		
 			// private copy ctor
 			CParseHandlerGroupingColList(const CParseHandlerGroupingColList&); 

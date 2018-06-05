@@ -2255,26 +2255,26 @@ CTranslatorExprToDXL::PdxlnAggregate
 				COperator::EopPhysicalHashAgg == eopid ||
 				COperator::EopPhysicalScalarAgg == eopid);
 
-	EdxlAggStrategy edxlaggstr = EdxlaggstrategySentinel;
+	EdxlAggStrategy agg_strategy_dxl = EdxlaggstrategySentinel;
 
 	switch (eopid)
 	{
 		case COperator::EopPhysicalStreamAgg:
 						{
 							popAgg = CPhysicalStreamAgg::PopConvert(pexprAgg->Pop());
-							edxlaggstr = EdxlaggstrategySorted;
+							agg_strategy_dxl = EdxlaggstrategySorted;
 							break;
 						}
 		case COperator::EopPhysicalHashAgg:
 						{
 							popAgg = CPhysicalHashAgg::PopConvert(pexprAgg->Pop());
-							edxlaggstr = EdxlaggstrategyHashed;
+							agg_strategy_dxl = EdxlaggstrategyHashed;
 							break;
 						}
 		case COperator::EopPhysicalScalarAgg:
 						{
 							popAgg = CPhysicalScalarAgg::PopConvert(pexprAgg->Pop());
-							edxlaggstr = EdxlaggstrategyPlain;
+							agg_strategy_dxl = EdxlaggstrategyPlain;
 							break;
 						}
 		default:
@@ -2292,7 +2292,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 			pdrgpdsBaseTables, 
 			pulNonGatherMotions,
 			pfDML,
-			edxlaggstr,
+			agg_strategy_dxl,
 			pdrgpcrGroupingCols,
 			NULL /*pcrsKeys*/
 			);
@@ -2322,7 +2322,7 @@ CTranslatorExprToDXL::PdxlnAggregateDedup
 	GPOS_ASSERT(COperator::EopPhysicalStreamAggDeduplicate == eopid ||
 				COperator::EopPhysicalHashAggDeduplicate == eopid);
 
-	EdxlAggStrategy edxlaggstr = EdxlaggstrategySentinel;
+	EdxlAggStrategy agg_strategy_dxl = EdxlaggstrategySentinel;
 	const DrgPcr *pdrgpcrGroupingCols = NULL;
 	CColRefSet *pcrsKeys = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 
@@ -2331,14 +2331,14 @@ CTranslatorExprToDXL::PdxlnAggregateDedup
 		CPhysicalStreamAggDeduplicate *popAggDedup = CPhysicalStreamAggDeduplicate::PopConvert(pexprAgg->Pop());
 		pcrsKeys->Include(popAggDedup->PdrgpcrKeys());
 		pdrgpcrGroupingCols = popAggDedup->PdrgpcrGroupingCols();
-		edxlaggstr = EdxlaggstrategySorted;
+		agg_strategy_dxl = EdxlaggstrategySorted;
 	}
 	else
 	{
 		CPhysicalHashAggDeduplicate *popAggDedup = CPhysicalHashAggDeduplicate::PopConvert(pexprAgg->Pop());
 		pcrsKeys->Include(popAggDedup->PdrgpcrKeys());
 		pdrgpcrGroupingCols = popAggDedup->PdrgpcrGroupingCols();
-		edxlaggstr = EdxlaggstrategyHashed;
+		agg_strategy_dxl = EdxlaggstrategyHashed;
 	}
 
 	CDXLNode *pdxlnAgg = PdxlnAggregate
@@ -2348,7 +2348,7 @@ CTranslatorExprToDXL::PdxlnAggregateDedup
 							pdrgpdsBaseTables, 
 							pulNonGatherMotions,
 							pfDML,
-							edxlaggstr,
+							agg_strategy_dxl,
 							pdrgpcrGroupingCols,
 							pcrsKeys
 							);
@@ -2373,7 +2373,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 	DrgPds *pdrgpdsBaseTables, 
 	ULONG *pulNonGatherMotions,
 	BOOL *pfDML,
-	EdxlAggStrategy edxlaggstr,
+	EdxlAggStrategy agg_strategy_dxl,
 	const DrgPcr *pdrgpcrGroupingCols,
 	CColRefSet *pcrsKeys
 	)
@@ -2388,7 +2388,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 #endif //GPOS_DEBUG
 
 	// is it safe to stream the local hash aggregate
-	BOOL fStreamSafe = CTranslatorExprToDXLUtils::FLocalHashAggStreamSafe(pexprAgg);
+	BOOL stream_safe = CTranslatorExprToDXLUtils::FLocalHashAggStreamSafe(pexprAgg);
 
 	CExpression *pexprChild = (*pexprAgg)[0];
 	CExpression *pexprProjList = (*pexprAgg)[1];
@@ -2468,7 +2468,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 	
 	phmululPL->Release();
 
-	CDXLPhysicalAgg *pdxlopAgg = GPOS_NEW(m_memory_pool) CDXLPhysicalAgg(m_memory_pool, edxlaggstr, fStreamSafe);
+	CDXLPhysicalAgg *pdxlopAgg = GPOS_NEW(m_memory_pool) CDXLPhysicalAgg(m_memory_pool, agg_strategy_dxl, stream_safe);
 	pdxlopAgg->SetGroupingCols(pdrgpulGroupingCols);
 
 	CDXLNode *pdxlnAgg = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopAgg);
