@@ -30,14 +30,14 @@ CDXLPhysicalIndexScan::CDXLPhysicalIndexScan
 	(
 	IMemoryPool *memory_pool,
 	CDXLTableDescr *table_descr,
-	CDXLIndexDescr *pdxlid,
+	CDXLIndexDescr *index_descr_dxl,
 	EdxlIndexScanDirection idx_scan_direction
 	)
 	:
 	CDXLPhysical(memory_pool),
 	m_table_descr_dxl(table_descr),
-	m_index_descr_dxl(pdxlid),
-	m_edxlisd(idx_scan_direction)
+	m_index_descr_dxl(index_descr_dxl),
+	m_index_scan_dir(idx_scan_direction)
 {
 	GPOS_ASSERT(NULL != m_table_descr_dxl);
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
@@ -101,16 +101,16 @@ CDXLPhysicalIndexScan::GetIndexDescr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexScan::EdxlScanDirection
+//		CDXLPhysicalIndexScan::GetIndexScanDir
 //
 //	@doc:
 //		Return the scan direction of the index
 //
 //---------------------------------------------------------------------------
 EdxlIndexScanDirection
-CDXLPhysicalIndexScan::EdxlScanDirection() const
+CDXLPhysicalIndexScan::GetIndexScanDir() const
 {
-	return m_edxlisd;
+	return m_index_scan_dir;
 }
 
 //---------------------------------------------------------------------------
@@ -149,7 +149,7 @@ CDXLPhysicalIndexScan::SerializeToDXL
 	xml_serializer->AddAttribute
 				(
 				CDXLTokens::PstrToken(EdxltokenIndexScanDirection),
-				CDXLOperator::GetIdxScanDirectionStr(m_edxlisd)
+				CDXLOperator::GetIdxScanDirectionStr(m_index_scan_dir)
 				);
 
 	// serialize properties
@@ -200,14 +200,14 @@ CDXLPhysicalIndexScan::AssertValid
 	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
 	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
 
-	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxlisIndexCondition];
+	CDXLNode *index_cond_dxlnode = (*pdxln)[EdxlisIndexCondition];
 
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarIndexCondList == index_cond_dxlnode->GetOperator()->GetDXLOperator());
 
 	if (validate_children)
 	{
-		pdxlnIndexConds->GetOperator()->AssertValid(pdxlnIndexConds, validate_children);
+		index_cond_dxlnode->GetOperator()->AssertValid(index_cond_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

@@ -48,7 +48,7 @@ namespace gpdxl
 			CDXLIndexDescr *m_index_descr_dxl;
 
 			// scan direction of the index
-			EdxlIndexScanDirection m_edxlisd;
+			EdxlIndexScanDirection m_index_scan_dir;
 
 			// private copy ctor
 			CDXLPhysicalIndexScan(CDXLPhysicalIndexScan&);
@@ -60,7 +60,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CDXLTableDescr *table_descr,
-				CDXLIndexDescr *pdxlid,
+				CDXLIndexDescr *index_descr_dxl,
 				EdxlIndexScanDirection idx_scan_direction
 				);
 
@@ -86,7 +86,7 @@ namespace gpdxl
 
 			// scan direction
 			virtual
-			EdxlIndexScanDirection EdxlScanDirection() const;
+			EdxlIndexScanDirection GetIndexScanDir() const;
 
 			// serialize operator in DXL format
 			virtual

@@ -47,7 +47,7 @@ namespace gpdxl
 			CDXLIndexDescr *m_index_descr_dxl;
 
 			// scan direction of the index
-			EdxlIndexScanDirection m_edxlisd;
+			EdxlIndexScanDirection m_index_scan_dir;
 
 			// private copy ctor
 			CDXLPhysicalDynamicIndexScan(CDXLPhysicalDynamicIndexScan&);
@@ -70,7 +70,7 @@ namespace gpdxl
 				CDXLTableDescr *table_descr,
 				ULONG part_idx_id,
 				ULONG part_idx_id_printable,
-				CDXLIndexDescr *pdxlid,
+				CDXLIndexDescr *index_descr_dxl,
 				EdxlIndexScanDirection idx_scan_direction
 				);
 
@@ -96,14 +96,14 @@ namespace gpdxl
 			ULONG GetPartIndexId() const;
 			
 			// printable partition index id
-			ULONG UlPartIndexIdPrintable() const;
+			ULONG GetPartIndexIdPrintable() const;
 
 			// scan direction
-			EdxlIndexScanDirection EdxlScanDirection() const;
+			EdxlIndexScanDirection GetIndexScanDir() const;
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

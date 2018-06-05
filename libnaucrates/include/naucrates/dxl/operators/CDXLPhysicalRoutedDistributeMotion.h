@@ -66,7 +66,7 @@ namespace gpdxl
 			
 			// index of relational child node in the children array
 			virtual 
-			ULONG UlChildIndex() const
+			ULONG GetRelationChildIdx() const
 			{
 				return EdxlroutedmIndexChild;
 			}

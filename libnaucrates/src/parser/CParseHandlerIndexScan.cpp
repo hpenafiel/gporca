@@ -49,7 +49,7 @@ CParseHandlerIndexScan::CParseHandlerIndexScan
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_edxlisd(EdxlisdSentinel)
+	m_index_scan_dir(EdxlisdSentinel)
 {
 }
 
@@ -121,12 +121,12 @@ CParseHandlerIndexScan::StartElementHelper
 																	EdxltokenIndexScanDirection,
 																	token_type
 																	);
-	m_edxlisd = CDXLOperatorFactory::EdxljtParseIndexScanDirection
+	m_index_scan_dir = CDXLOperatorFactory::EdxljtParseIndexScanDirection
 										(
 										xmlszIndexScanDirection,
 										CDXLTokens::PstrToken(token_type)
 										);
-	GPOS_ASSERT(EdxlisdSentinel != m_edxlisd);
+	GPOS_ASSERT(EdxlisdSentinel != m_index_scan_dir);
 
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -203,25 +203,25 @@ CParseHandlerIndexScan::EndElementHelper
 	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
 	table_descr->AddRef();
 
-	CDXLIndexDescr *pdxlid = pphIdxD->GetIndexDescr();
-	pdxlid->AddRef();
+	CDXLIndexDescr *index_descr_dxl = pphIdxD->GetIndexDescr();
+	index_descr_dxl->AddRef();
 
 	CDXLPhysical *dxl_op = NULL;
 	if (EdxltokenPhysicalIndexOnlyScan == token_type)
 	{
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, table_descr, pdxlid, m_edxlisd);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, table_descr, index_descr_dxl, m_index_scan_dir);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else if (EdxltokenPhysicalIndexScan == token_type)
 	{
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, table_descr, pdxlid, m_edxlisd);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, table_descr, index_descr_dxl, m_index_scan_dir);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == token_type);
 
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, table_descr, part_idx_id, part_idx_id_printable, pdxlid, m_edxlisd);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, table_descr, part_idx_id, part_idx_id_printable, index_descr_dxl, m_index_scan_dir);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 

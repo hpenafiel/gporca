@@ -32,7 +32,7 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	CDXLTableDescr *table_descr,
 	ULONG part_idx_id,
 	ULONG part_idx_id_printable,
-	CDXLIndexDescr *pdxlid,
+	CDXLIndexDescr *index_descr_dxl,
 	EdxlIndexScanDirection idx_scan_direction
 	)
 	:
@@ -40,8 +40,8 @@ CDXLPhysicalDynamicIndexScan::CDXLPhysicalDynamicIndexScan
 	m_table_descr_dxl(table_descr),
 	m_part_index_id(part_idx_id),
 	m_part_index_id_printable(part_idx_id_printable),
-	m_index_descr_dxl(pdxlid),
-	m_edxlisd(idx_scan_direction)
+	m_index_descr_dxl(index_descr_dxl),
+	m_index_scan_dir(idx_scan_direction)
 {
 	GPOS_ASSERT(NULL != m_table_descr_dxl);
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
@@ -105,16 +105,16 @@ CDXLPhysicalDynamicIndexScan::GetIndexDescr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicIndexScan::EdxlScanDirection
+//		CDXLPhysicalDynamicIndexScan::GetIndexScanDir
 //
 //	@doc:
 //		Return the scan direction of the index
 //
 //---------------------------------------------------------------------------
 EdxlIndexScanDirection
-CDXLPhysicalDynamicIndexScan::EdxlScanDirection() const
+CDXLPhysicalDynamicIndexScan::GetIndexScanDir() const
 {
-	return m_edxlisd;
+	return m_index_scan_dir;
 }
 
 //---------------------------------------------------------------------------
@@ -147,14 +147,14 @@ CDXLPhysicalDynamicIndexScan::GetPartIndexId() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicIndexScan::UlPartIndexIdPrintable
+//		CDXLPhysicalDynamicIndexScan::GetPartIndexIdPrintable
 //
 //	@doc:
 //		Printable partition index id
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLPhysicalDynamicIndexScan::UlPartIndexIdPrintable() const
+CDXLPhysicalDynamicIndexScan::GetPartIndexIdPrintable() const
 {
 	return m_part_index_id_printable;
 }
@@ -171,7 +171,7 @@ void
 CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -181,7 +181,7 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	xml_serializer->AddAttribute
 				(
 				CDXLTokens::PstrToken(EdxltokenIndexScanDirection),
-				CDXLOperator::GetIdxScanDirectionStr(m_edxlisd)
+				CDXLOperator::GetIdxScanDirectionStr(m_index_scan_dir)
 				);
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_part_index_id);
@@ -191,10 +191,10 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	}
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	node->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize index descriptor
 	m_index_descr_dxl->SerializeToDXL(xml_serializer);
@@ -217,16 +217,16 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 void
 CDXLPhysicalDynamicIndexScan::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	)
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, validate_children);
+	CDXLPhysical::AssertValid(node, validate_children);
 
 	// index scan has only 3 children
-	GPOS_ASSERT(3 == pdxln->Arity());
+	GPOS_ASSERT(3 == node->Arity());
 
 	// assert validity of the index descriptor
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
@@ -238,16 +238,16 @@ CDXLPhysicalDynamicIndexScan::AssertValid
 	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
 	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
 
-	CDXLNode *pdxlnIndexFilter = (*pdxln)[EdxldisIndexFilter];
-	CDXLNode *pdxlnIndexConds = (*pdxln)[EdxldisIndexCondition];
+	CDXLNode *index_filter_dxlnode = (*node)[EdxldisIndexFilter];
+	CDXLNode *index_cond_dxlnode = (*node)[EdxldisIndexCondition];
 
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexConds->GetOperator()->GetDXLOperator());
-	GPOS_ASSERT(EdxlopScalarFilter == pdxlnIndexFilter->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarIndexCondList == index_cond_dxlnode->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarFilter == index_filter_dxlnode->GetOperator()->GetDXLOperator());
 
 	if (validate_children)
 	{
-		pdxlnIndexConds->GetOperator()->AssertValid(pdxlnIndexConds, validate_children);
+		index_cond_dxlnode->GetOperator()->AssertValid(index_cond_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

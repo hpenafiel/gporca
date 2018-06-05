@@ -30,11 +30,11 @@ using namespace gpdxl;
 CDXLScalarBitmapIndexProbe::CDXLScalarBitmapIndexProbe
 	(
 	IMemoryPool *memory_pool,
-	CDXLIndexDescr *pdxlid
+	CDXLIndexDescr *index_descr_dxl
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_index_descr_dxl(pdxlid)
+	m_index_descr_dxl(index_descr_dxl)
 {
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
 }

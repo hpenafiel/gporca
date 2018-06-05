@@ -84,7 +84,7 @@ namespace gpdxl
 			}
 
 			// printable partition index id
-			ULONG UlPartIndexIdPrintable() const
+			ULONG GetPartIndexIdPrintable() const
 			{
 				return m_part_index_id_printable;
 			}

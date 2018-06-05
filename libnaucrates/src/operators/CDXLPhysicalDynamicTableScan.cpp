@@ -116,14 +116,14 @@ CDXLPhysicalDynamicTableScan::GetPartIndexId() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicTableScan::UlPartIndexIdPrintable
+//		CDXLPhysicalDynamicTableScan::GetPartIndexIdPrintable
 //
 //	@doc:
 //		Printable partition index id
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLPhysicalDynamicTableScan::UlPartIndexIdPrintable() const
+CDXLPhysicalDynamicTableScan::GetPartIndexIdPrintable() const
 {
 	return m_part_index_id_printable;
 }
@@ -140,7 +140,7 @@ void
 CDXLPhysicalDynamicTableScan::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -152,8 +152,8 @@ CDXLPhysicalDynamicTableScan::SerializeToDXL
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_part_index_id_printable);
 	}
-	pdxln->SerializePropertiesToDXL(xml_serializer);
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializePropertiesToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
 }
@@ -170,12 +170,12 @@ CDXLPhysicalDynamicTableScan::SerializeToDXL
 void
 CDXLPhysicalDynamicTableScan::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL // validate_children
 	) 
 	const
 {
-	GPOS_ASSERT(2 == pdxln->Arity());
+	GPOS_ASSERT(2 == node->Arity());
 	
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_table_descr_dxl);

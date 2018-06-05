@@ -80,11 +80,11 @@ namespace gpdxl
 			ULONG GetPartIndexId() const;
 			
 			// printable partition index id
-			ULONG UlPartIndexIdPrintable() const;
+			ULONG GetPartIndexIdPrintable() const;
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

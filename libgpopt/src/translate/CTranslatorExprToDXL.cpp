@@ -575,11 +575,11 @@ CTranslatorExprToDXL::PdxlnIndexScan
 	CMDName *pmdnameIndex = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pindexdesc->Name().Pstr());
 	IMDId *pmdidIndex = pindexdesc->MDId();
 	pmdidIndex->AddRef();
-	CDXLIndexDescr *pdxlid = GPOS_NEW(m_memory_pool) CDXLIndexDescr(m_memory_pool, pmdidIndex, pmdnameIndex);
+	CDXLIndexDescr *index_descr_dxl = GPOS_NEW(m_memory_pool) CDXLIndexDescr(m_memory_pool, pmdidIndex, pmdnameIndex);
 
 	// TODO: vrgahavan; we assume that the index are always forward access.
 	// create the physical index scan operator
-	CDXLPhysicalIndexScan *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, table_descr, pdxlid, EdxlisdForward);
+	CDXLPhysicalIndexScan *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, table_descr, index_descr_dxl, EdxlisdForward);
 	CDXLNode *pdxlnIndexScan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// set properties
@@ -652,8 +652,8 @@ CTranslatorExprToDXL::PdxlnBitmapIndexProbe
 	IMDId *pmdidIndex = pindexdesc->MDId();
 	pmdidIndex->AddRef();
 
-	CDXLIndexDescr *pdxlid = GPOS_NEW(m_memory_pool) CDXLIndexDescr(m_memory_pool, pmdidIndex, pmdnameIndex);
-	CDXLScalarBitmapIndexProbe *dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarBitmapIndexProbe(m_memory_pool, pdxlid);
+	CDXLIndexDescr *index_descr_dxl = GPOS_NEW(m_memory_pool) CDXLIndexDescr(m_memory_pool, pmdidIndex, pmdnameIndex);
+	CDXLScalarBitmapIndexProbe *dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarBitmapIndexProbe(m_memory_pool, index_descr_dxl);
 	CDXLNode *pdxlnBitmapIndexProbe = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// translate index predicates
@@ -1142,7 +1142,7 @@ CTranslatorExprToDXL::PdxlnDynamicIndexScan
 	CMDName *pmdnameIndex = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pindexdesc->Name().Pstr());
 	IMDId *pmdidIndex = pindexdesc->MDId();
 	pmdidIndex->AddRef();
-	CDXLIndexDescr *pdxlid = GPOS_NEW(m_memory_pool) CDXLIndexDescr(m_memory_pool, pmdidIndex, pmdnameIndex);
+	CDXLIndexDescr *index_descr_dxl = GPOS_NEW(m_memory_pool) CDXLIndexDescr(m_memory_pool, pmdidIndex, pmdnameIndex);
 
 	// TODO: vrgahavan; we assume that the index are always forward access.
 	// create the physical index scan operator
@@ -1155,7 +1155,7 @@ CTranslatorExprToDXL::PdxlnDynamicIndexScan
 													table_descr,
 													popDIS->UlSecondaryScanId(),
 													popDIS->UlScanId(),
-													pdxlid,
+													index_descr_dxl,
 													EdxlisdForward
 													)
 									);

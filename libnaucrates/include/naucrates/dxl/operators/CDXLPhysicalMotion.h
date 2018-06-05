@@ -74,7 +74,7 @@ namespace gpdxl
 
 			// index of relational child node in the children array
 			virtual 
-			ULONG UlChildIndex() const = 0;
+			ULONG GetRelationChildIdx() const = 0;
 			
 			// conversion function
 			static
