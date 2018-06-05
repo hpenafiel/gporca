@@ -129,8 +129,8 @@ CParseHandlerPhysicalDML::StartElement
 	}
 
 	// parse handler for physical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	//parse handler for the table descriptor
 	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
@@ -153,7 +153,7 @@ CParseHandlerPhysicalDML::StartElement
 	this->Append(pphDirectDispatch);
 	this->Append(pphPrL);
 	this->Append(pphTabDesc);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -196,8 +196,8 @@ CParseHandlerPhysicalDML::EndElement
 	CDXLTableDescr *table_descr = pphTabDesc->GetTableDescr();
 	table_descr->AddRef();
 
-	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
-	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
+	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);
+	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 
 	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatch->GetDXLDirectDispatchInfo();
 	dxl_direct_dispatch_info->AddRef();
@@ -208,7 +208,7 @@ CParseHandlerPhysicalDML::EndElement
 	CParseHandlerUtils::SetProperties(m_dxl_node, pphProp);
 
 	AddChildFromParseHandler(pphPrL);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG
 	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);

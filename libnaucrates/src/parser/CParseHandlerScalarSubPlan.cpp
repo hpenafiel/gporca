@@ -128,8 +128,8 @@ CParseHandlerScalarSubPlan::StartElement
 	m_edxlsubplantype = Edxlsubplantype(xmlszSubplanType);
 
 	// parse handler for child physical node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	// parse handler for params
 	CParseHandlerBase *pphParamList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), m_parse_handler_mgr, this);
@@ -142,7 +142,7 @@ CParseHandlerScalarSubPlan::StartElement
 	// store parse handlers
 	this->Append(pphTestExpr);
 	this->Append(pphParamList);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -169,7 +169,7 @@ CParseHandlerScalarSubPlan::EndElement
 
 	CParseHandlerScalarSubPlanTestExpr *pphTestExpr = dynamic_cast<CParseHandlerScalarSubPlanTestExpr *>((*this)[0]);
 	CParseHandlerScalarSubPlanParamList *pphParamList = dynamic_cast<CParseHandlerScalarSubPlanParamList *>((*this)[1]);
-	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[2]);
+	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[2]);
 
 	DrgPdxlcr *pdrgdxlcr = pphParamList->Pdrgdxlcr();
 	pdrgdxlcr->AddRef();
@@ -184,7 +184,7 @@ CParseHandlerScalarSubPlan::EndElement
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	// add constructed children
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(child_parse_handler);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

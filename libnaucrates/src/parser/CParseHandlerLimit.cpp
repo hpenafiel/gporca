@@ -78,8 +78,8 @@ CParseHandlerLimit::StartElement
 		CParseHandlerBase *pphCount = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(pphCount);
 
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// parse handler for the proj list
 		CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -92,7 +92,7 @@ CParseHandlerLimit::StartElement
 		// store parse handlers
 		this->Append(pphProp);
 		this->Append(pphPrL);
-		this->Append(pphChild);
+		this->Append(child_parse_handler);
 		this->Append(pphCount);
 		this->Append(pphOffset);
 	}
@@ -127,7 +127,7 @@ CParseHandlerLimit::EndElement
 		CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 
 		CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-		CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[2]);
+		CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[2]);
 		CParseHandlerScalarOp *pphCount = dynamic_cast<CParseHandlerScalarOp *>((*this)[3]);
 		CParseHandlerScalarOp *pphOffSet = dynamic_cast<CParseHandlerScalarOp *>((*this)[4]);
 		
@@ -136,7 +136,7 @@ CParseHandlerLimit::EndElement
 
 		// add constructed children
 		AddChildFromParseHandler(pphPrL);
-		AddChildFromParseHandler(pphChild);
+		AddChildFromParseHandler(child_parse_handler);
 		AddChildFromParseHandler(pphCount);
 		AddChildFromParseHandler(pphOffSet);
 

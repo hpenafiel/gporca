@@ -85,10 +85,10 @@ CParseHandlerScalarAssertConstraintList::StartElement
 										);
 		m_pdxlopAssertConstraint = GPOS_NEW(m_memory_pool) CDXLScalarAssertConstraint(m_memory_pool, pstrErrorMsg);
 		
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
-		this->Append(pphChild);	
+		this->Append(child_parse_handler);	
 	}	
 	else
 	{
@@ -132,8 +132,8 @@ CParseHandlerScalarAssertConstraintList::EndElement
 	{
 		GPOS_ASSERT(NULL != m_pdxlopAssertConstraint);
 
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp*>((*this)[this->Length() - 1]);
-		CDXLNode *child_dxlnode = pphChild->CreateDXLNode();
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp*>((*this)[this->Length() - 1]);
+		CDXLNode *child_dxlnode = child_parse_handler->CreateDXLNode();
 		GPOS_ASSERT(NULL != child_dxlnode);
 		child_dxlnode->AddRef();
 		

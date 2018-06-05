@@ -88,8 +88,8 @@ CParseHandlerPhysicalRowTrigger::StartElement
 	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, pmdidRel, iType, pdrgpulOld, pdrgpulNew);
 
 	// parse handler for physical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	// parse handler for the proj list
 	CParseHandlerBase *pphPrL = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -102,7 +102,7 @@ CParseHandlerPhysicalRowTrigger::StartElement
 	// store child parse handlers in array
 	this->Append(pphProp);
 	this->Append(pphPrL);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -140,9 +140,9 @@ CParseHandlerPhysicalRowTrigger::EndElement
 	GPOS_ASSERT(NULL != pphPrL->CreateDXLNode());
 	AddChildFromParseHandler(pphPrL);
 
-	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[2]);
-	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
-	AddChildFromParseHandler(pphChild);
+	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[2]);
+	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
+	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG
 	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);

@@ -71,8 +71,8 @@ CParseHandlerLogicalDelete::StartElement
 	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), deletion_colids, EdxltokenDeleteCols, EdxltokenLogicalDelete);
 
 	// parse handler for logical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	//parse handler for the table descriptor
 	CParseHandlerBase *table_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
@@ -80,7 +80,7 @@ CParseHandlerLogicalDelete::StartElement
 
 	// store child parse handler in array
 	this->Append(table_descr_parse_handler);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 }
 
 //---------------------------------------------------------------------------

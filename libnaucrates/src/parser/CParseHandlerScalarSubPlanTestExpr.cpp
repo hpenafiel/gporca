@@ -73,14 +73,14 @@ CParseHandlerScalarSubPlanTestExpr::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name))
 	{
 		// install a scalar element parser for parsing the test expression
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// store parse handler
-		this->Append(pphChild);
+		this->Append(child_parse_handler);
 
-		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -108,10 +108,10 @@ CParseHandlerScalarSubPlanTestExpr::EndElement
 
 	if (0 < this->Length())
 	{
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-		if (NULL != pphChild->CreateDXLNode())
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+		if (NULL != child_parse_handler->CreateDXLNode())
 		{
-			m_pdxlnTestExpr = pphChild->CreateDXLNode();
+			m_pdxlnTestExpr = child_parse_handler->CreateDXLNode();
 			m_pdxlnTestExpr->AddRef();
 		}
 	}

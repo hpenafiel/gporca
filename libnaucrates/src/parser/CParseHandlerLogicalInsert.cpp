@@ -71,8 +71,8 @@ CParseHandlerLogicalInsert::StartElement
 	// create child node parsers
 
 	// parse handler for logical operator
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	//parse handler for the table descriptor
 	CParseHandlerBase *pphTabDesc = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenTableDescr), m_parse_handler_mgr, this);
@@ -80,7 +80,7 @@ CParseHandlerLogicalInsert::StartElement
 
 	// store child parse handler in array
 	this->Append(pphTabDesc);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -108,10 +108,10 @@ CParseHandlerLogicalInsert::EndElement
 	GPOS_ASSERT(2 == this->Length());
 
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[0]);
-	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
+	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
 	GPOS_ASSERT(NULL != pphTabDesc->GetTableDescr());
-	GPOS_ASSERT(NULL != pphChild->CreateDXLNode());
+	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 
 	CDXLTableDescr *table_descr = pphTabDesc->GetTableDescr();
 	table_descr->AddRef();
@@ -122,7 +122,7 @@ CParseHandlerLogicalInsert::EndElement
 							GPOS_NEW(m_memory_pool) CDXLLogicalInsert(m_memory_pool, table_descr, m_pdrgpul)
 							);
 	
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG
 	m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);

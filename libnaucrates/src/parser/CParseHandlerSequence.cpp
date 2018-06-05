@@ -85,10 +85,10 @@ CParseHandlerSequence::StartElement
 	else
 	{
 		// child of the sequence operator
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
-		this->Append(pphChild);
-		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
+		this->Append(child_parse_handler);
+		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}	
 }
 
@@ -133,9 +133,9 @@ CParseHandlerSequence::EndElement
 	// add constructed children from child parse handlers
 	for (ULONG ul = 2; ul < ulLen; ul++)
 	{
-		CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[ul]);
-		GPOS_ASSERT(NULL != pphChild);
-		AddChildFromParseHandler(pphChild);
+		CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[ul]);
+		GPOS_ASSERT(NULL != child_parse_handler);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 
 #ifdef GPOS_DEBUG

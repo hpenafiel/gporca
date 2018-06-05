@@ -75,12 +75,12 @@ CParseHandlerLogicalCTEProducer::StartElement
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalCTEProducer(m_memory_pool, ulId, pdrgpulColIds));
 
 	// create and activate the parse handler for the child expression node
-	CParseHandlerBase *pphChild =
+	CParseHandlerBase *child_parse_handler =
 			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	// store parse handler
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -107,8 +107,8 @@ CParseHandlerLogicalCTEProducer::EndElement
 
 	GPOS_ASSERT(NULL != m_dxl_node );
 
-	CParseHandlerLogicalOp *pphChild = dynamic_cast<CParseHandlerLogicalOp*>((*this)[0]);
-	AddChildFromParseHandler(pphChild);
+	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[0]);
+	AddChildFromParseHandler(child_parse_handler);
 
 #ifdef GPOS_DEBUG
 		m_dxl_node->GetOperator()->AssertValid(m_dxl_node, false /* validate_children */);

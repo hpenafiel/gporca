@@ -111,8 +111,8 @@ CParseHandlerDefaultValueExpr::EndElement
 		GPOS_ASSERT(1 == this->Length());
 		
 		// get node for default value expression from child parse handler
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-		m_dxl_node = pphChild->CreateDXLNode();
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+		m_dxl_node = child_parse_handler->CreateDXLNode();
 		m_dxl_node->AddRef();
 	}
 

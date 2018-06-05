@@ -75,8 +75,8 @@ CParseHandlerRoutedMotion::StartElement
 	// order of their expected appearance
 	
 	// parse handler for child node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 	
 	// parse handler for sorting column list
 	CParseHandlerBase *pphSortColList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
@@ -99,7 +99,7 @@ CParseHandlerRoutedMotion::StartElement
 	this->Append(pphPrL);
 	this->Append(pphFilter);
 	this->Append(pphSortColList);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 
 }
 
@@ -131,7 +131,7 @@ CParseHandlerRoutedMotion::EndElement
 	CParseHandlerProjList *pphPrL = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
-	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
+	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
@@ -141,7 +141,7 @@ CParseHandlerRoutedMotion::EndElement
 	AddChildFromParseHandler(pphPrL);
 	AddChildFromParseHandler(pphFilter);
 	AddChildFromParseHandler(pphSortColList);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(child_parse_handler);
 	
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

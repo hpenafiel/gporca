@@ -67,10 +67,10 @@ CParseHandlerArray::StartElement
 		// parse child of array
 		GPOS_ASSERT(NULL != m_dxl_node);
 		
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
-		this->Append(pphChild);
-		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
+		this->Append(child_parse_handler);
+		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -102,9 +102,9 @@ CParseHandlerArray::EndElement
 	
 	for (ULONG ul = 0; ul < this->Length(); ul++)
 	{
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp*>((*this)[ul]);
-		GPOS_ASSERT(NULL != pphChild);
-		AddChildFromParseHandler(pphChild);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp*>((*this)[ul]);
+		GPOS_ASSERT(NULL != child_parse_handler);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 	
 #ifdef GPOS_DEBUG

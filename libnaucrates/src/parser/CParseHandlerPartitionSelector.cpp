@@ -70,16 +70,16 @@ CParseHandlerPartitionSelector::StartElement
 		if (NULL != m_pmdidRel)
 		{
 			// instantiate the parse handler
-			CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+			CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 			
-			GPOS_ASSERT(NULL != pphChild);
+			GPOS_ASSERT(NULL != child_parse_handler);
 			
 			// activate the parse handler
-			m_parse_handler_mgr->ActivateParseHandler(pphChild);
-			this->Append(pphChild);
+			m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
+			this->Append(child_parse_handler);
 			
 			// pass the startElement message for the specialized parse handler to process
-			pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+			child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 		}
 		else
 		{
@@ -135,13 +135,13 @@ CParseHandlerPartitionSelector::StartElement
 	else
 	{
 		// parse physical child
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// store parse handler
-		this->Append(pphChild);
+		this->Append(child_parse_handler);
 
-		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -185,15 +185,15 @@ CParseHandlerPartitionSelector::EndElement
 	// scalar children
 	for (ULONG ul = 1; ul < 7; ul++)
 	{
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
-		AddChildFromParseHandler(pphChild);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 
 	// optional physical child
 	if (8 == this->Length())
 	{
-		CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[7]);
-		AddChildFromParseHandler(pphChild);
+		CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[7]);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 
 	// deactivate handler

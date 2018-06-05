@@ -73,13 +73,13 @@ CParseHandlerCondList::StartElement
 		// we must have seen a cond list already and initialized the cond list node
 		GPOS_ASSERT(NULL != m_dxl_node);
 		// start new hash cond element
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 		
 		// store parse handler
-		this->Append(pphChild);
+		this->Append(child_parse_handler);
 		
-		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -110,9 +110,9 @@ CParseHandlerCondList::EndElement
 	// add conditions from child parse handlers
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
 		
-		AddChildFromParseHandler(pphChild);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 		
 	// deactivate handler

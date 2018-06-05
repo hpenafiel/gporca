@@ -78,8 +78,8 @@ CParseHandlerSort::StartElement
 	// order of their expected appearance
 	
 	// parse handler for the child
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 	// create parse handlers for the limit count and offset expressions
 	CParseHandlerBase *pphOffset = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), m_parse_handler_mgr, this);
@@ -111,7 +111,7 @@ CParseHandlerSort::StartElement
 	this->Append(pphSortColList);
 	this->Append(pphCount);
 	this->Append(pphOffset);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -148,7 +148,7 @@ CParseHandlerSort::EndElement
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
 	CParseHandlerScalarLimitCount *pphCount = dynamic_cast<CParseHandlerScalarLimitCount *>((*this)[4]);
 	CParseHandlerScalarLimitOffset *pphOffset = dynamic_cast<CParseHandlerScalarLimitOffset *>((*this)[5]);
-	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[6]);
+	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[6]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 	// set statictics and physical properties
@@ -160,7 +160,7 @@ CParseHandlerSort::EndElement
 	AddChildFromParseHandler(pphSortColList);
 	AddChildFromParseHandler(pphCount);
 	AddChildFromParseHandler(pphOffset);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(child_parse_handler);
 	
 #ifdef GPOS_DEBUG
 	m_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);

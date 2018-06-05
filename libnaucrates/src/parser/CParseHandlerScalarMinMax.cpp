@@ -119,8 +119,8 @@ CParseHandlerScalarMinMax::EndElement
 	const ULONG ulChildren = this->Length();
 	for (ULONG ul = 0; ul < ulChildren; ul++)
 	{
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
-		AddChildFromParseHandler(pphChild);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 
 	// deactivate handler

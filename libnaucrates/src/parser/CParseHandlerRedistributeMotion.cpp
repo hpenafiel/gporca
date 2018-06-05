@@ -78,8 +78,8 @@ CParseHandlerRedistributeMotion::StartElement
 	// order of their expected appearance
 	
 	// parse handler for child node
-	CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphChild);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 	
 	// parse handler for hash expr list
 	CParseHandlerBase *pphHExprList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashExprList), m_parse_handler_mgr, this);
@@ -107,7 +107,7 @@ CParseHandlerRedistributeMotion::StartElement
 	this->Append(pphFilter);
 	this->Append(pphSortColList);
 	this->Append(pphHExprList);
-	this->Append(pphChild);
+	this->Append(child_parse_handler);
 
 }
 
@@ -140,7 +140,7 @@ CParseHandlerRedistributeMotion::EndElement
 	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
 	CParseHandlerHashExprList *pphHExprList = dynamic_cast<CParseHandlerHashExprList *>((*this)[4]);
-	CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
+	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
@@ -151,7 +151,7 @@ CParseHandlerRedistributeMotion::EndElement
 	AddChildFromParseHandler(pphFilter);
 	AddChildFromParseHandler(pphSortColList);
 	AddChildFromParseHandler(pphHExprList);
-	AddChildFromParseHandler(pphChild);
+	AddChildFromParseHandler(child_parse_handler);
 	
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

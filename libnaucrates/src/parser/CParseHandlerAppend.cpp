@@ -109,12 +109,12 @@ CParseHandlerAppend::StartElement
 	else if (NULL != m_dxl_op)
 	{
 		// install a parse handler for a child node
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
-		this->Append(pphChild);
+		this->Append(child_parse_handler);
 
-		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -163,8 +163,8 @@ CParseHandlerAppend::EndElement
 	// an append node can have variable number of children: add them one by one from the respective parse handlers
 	for (ULONG ul = 3; ul < ulLen; ul++)
 	{
-		CParseHandlerPhysicalOp *pphChild = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[ul]);
-		AddChildFromParseHandler(pphChild);
+		CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[ul]);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 
 #ifdef GPOS_DEBUG
