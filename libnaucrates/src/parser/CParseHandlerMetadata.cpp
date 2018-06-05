@@ -155,7 +155,7 @@ CParseHandlerMetadata::StartElement
 	{
 		// start of the metadata section in the DXL document
 		GPOS_ASSERT(NULL != m_mdid_array);
-		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenValue, EdxltokenMdid);
+		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenMdid);
 		m_mdid_array->Append(pmdid);
 	}
 	else
@@ -194,7 +194,7 @@ CParseHandlerMetadata::EndElement
 	if(0 != XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenMetadata)) &&
 		0 != XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenMdid)))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
@@ -254,10 +254,10 @@ CParseHandlerMetadata::PdrgpsysidParse
 		GPOS_ASSERT(2 == xmlsztokSysid.countTokens());
 		
 		XMLCh *xmlszType = xmlsztokSysid.nextToken();
-		ULONG ulType = CDXLOperatorFactory::UlValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszType, edxltokenAttr, edxltokenElement);
+		ULONG ulType = CDXLOperatorFactory::UlValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszType, edxltokenAttr, edxltokenElement);
 		
 		XMLCh *xmlszName = xmlsztokSysid.nextToken();
-		CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszName);
+		CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszName);
 		
 		pdrgpsysid->Append(GPOS_NEW(m_memory_pool) CSystemId((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length()));	
 		

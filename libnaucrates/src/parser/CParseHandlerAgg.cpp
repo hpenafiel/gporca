@@ -65,12 +65,12 @@ CParseHandlerAgg::StartElement
 {	
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAggregate), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// parse and create group by operator
-	m_dxl_op = (CDXLPhysicalAgg *) CDXLOperatorFactory::PdxlopAgg(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalAgg *) CDXLOperatorFactory::PdxlopAgg(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -122,7 +122,7 @@ CParseHandlerAgg::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAggregate), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	

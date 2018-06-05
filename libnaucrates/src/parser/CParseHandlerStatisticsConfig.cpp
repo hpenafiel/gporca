@@ -77,14 +77,14 @@ CParseHandlerStatisticsConfig::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatisticsConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// parse statistics configuration options
-	CDouble dDampingFactorFilter = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenDampingFactorFilter, EdxltokenStatisticsConfig);
-	CDouble dDampingFactorJoin = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenDampingFactorJoin, EdxltokenStatisticsConfig);
-	CDouble dDampingFactorGroupBy = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenDampingFactorGroupBy, EdxltokenStatisticsConfig);
+	CDouble dDampingFactorFilter = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorFilter, EdxltokenStatisticsConfig);
+	CDouble dDampingFactorJoin = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorJoin, EdxltokenStatisticsConfig);
+	CDouble dDampingFactorGroupBy = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorGroupBy, EdxltokenStatisticsConfig);
 
 	m_pstatsconf = GPOS_NEW(m_memory_pool) CStatisticsConfig(m_memory_pool, dDampingFactorFilter, dDampingFactorJoin, dDampingFactorGroupBy);
 }
@@ -107,7 +107,7 @@ CParseHandlerStatisticsConfig::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatisticsConfig), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

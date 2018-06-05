@@ -72,7 +72,7 @@ CParseHandlerMDGPDBFunc::StartElement
 															EdxltokenGPDBFunc
 															);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszFuncName);
+		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszFuncName);
 		
 		// create a copy of the string in the CMDName constructor
 		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
@@ -82,7 +82,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		// parse metadata id info
 		m_mdid = CDXLOperatorFactory::PmdidFromAttrs
 										(
-										m_parse_handler_mgr->Pmm(),
+										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs,
 										EdxltokenMdid,
 										EdxltokenGPDBFunc
@@ -91,7 +91,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		// parse whether func returns a set
 		m_fReturnsSet = CDXLOperatorFactory::FValueFromAttrs
 												(
-												m_parse_handler_mgr->Pmm(),
+												m_parse_handler_mgr->GetDXLMemoryManager(),
 												attrs,
 												EdxltokenGPDBFuncReturnsSet,
 												EdxltokenGPDBFunc
@@ -99,7 +99,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		// parse whether func is strict
 		m_fStrict = CDXLOperatorFactory::FValueFromAttrs
 											(
-											m_parse_handler_mgr->Pmm(),
+											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
 											EdxltokenGPDBFuncStrict,
 											EdxltokenGPDBFunc
@@ -132,7 +132,7 @@ CParseHandlerMDGPDBFunc::StartElement
 
 		m_pmdidTypeResult = CDXLOperatorFactory::PmdidFromAttrs
 													(
-													m_parse_handler_mgr->Pmm(),
+													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
 													EdxltokenMdid,
 													EdxltokenGPDBFuncResultTypeId
@@ -153,7 +153,7 @@ CParseHandlerMDGPDBFunc::StartElement
 
 		m_pdrgpmdidTypes = CDXLOperatorFactory::PdrgpmdidFromXMLCh
 													(
-													m_parse_handler_mgr->Pmm(),
+													m_parse_handler_mgr->GetDXLMemoryManager(),
 													xmlszTypes,
 													EdxltokenTypeIds,
 													EdxltokenOutputCols
@@ -199,7 +199,7 @@ CParseHandlerMDGPDBFunc::EndElement
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncResultTypeId), element_local_name) &&
 			0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOutputCols), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

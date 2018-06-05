@@ -76,7 +76,7 @@ CParseHandlerScalarBoolExpr::StartElement
 			}
 
 			// parse and create scalar BoolExpr
-			CDXLScalarBoolExpr *dxl_op = (CDXLScalarBoolExpr*) CDXLOperatorFactory::PdxlopBoolExpr(m_parse_handler_mgr->Pmm(), m_edxlBoolType);
+			CDXLScalarBoolExpr *dxl_op = (CDXLScalarBoolExpr*) CDXLOperatorFactory::PdxlopBoolExpr(m_parse_handler_mgr->GetDXLMemoryManager(), m_edxlBoolType);
 
 			// construct node from the created child nodes
 			m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
@@ -98,7 +98,7 @@ CParseHandlerScalarBoolExpr::StartElement
 	{
 		if(NULL == m_dxl_node)
 		{
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer());
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 		}
 
 		CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
@@ -132,7 +132,7 @@ CParseHandlerScalarBoolExpr::EndElement
 
 	if(EdxlBoolExprTypeSentinel == edxlBoolType || m_edxlBoolType != edxlBoolType)
 	{
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 	}
 
 	const ULONG ulSize = this->Length();
@@ -145,7 +145,7 @@ CParseHandlerScalarBoolExpr::EndElement
 		&& (2 > ulSize))
 	  )
 	{
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLIncorrectNumberOfChildren, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer());
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLIncorrectNumberOfChildren, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 	}
 
 	// add constructed children from child parse handlers

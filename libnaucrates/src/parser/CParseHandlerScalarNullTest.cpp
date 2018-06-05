@@ -66,7 +66,7 @@ CParseHandlerScalarNullTest::StartElement
 
 		if( NULL != m_dxl_node)
 		{
-			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 
@@ -78,7 +78,7 @@ CParseHandlerScalarNullTest::StartElement
 		}
 
 		// parse and create scalar NullTest
-		CDXLScalarNullTest *dxl_op = (CDXLScalarNullTest*) CDXLOperatorFactory::PdxlopNullTest(m_parse_handler_mgr->Pmm(), fIsNull);
+		CDXLScalarNullTest *dxl_op = (CDXLScalarNullTest*) CDXLOperatorFactory::PdxlopNullTest(m_parse_handler_mgr->GetDXLMemoryManager(), fIsNull);
 
 		// construct node from the created child node
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
@@ -92,7 +92,7 @@ CParseHandlerScalarNullTest::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -116,7 +116,7 @@ CParseHandlerScalarNullTest::EndElement
 	if ((0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIsNull), element_local_name)) &&
 		(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIsNotNull), element_local_name)))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

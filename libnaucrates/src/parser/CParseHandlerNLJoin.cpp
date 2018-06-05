@@ -63,12 +63,12 @@ CParseHandlerNLJoin::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalNLJoin), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// parse and create Hash join operator
-	m_dxl_op = (CDXLPhysicalNLJoin *) CDXLOperatorFactory::PdxlopNLJoin(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalNLJoin *) CDXLOperatorFactory::PdxlopNLJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -124,7 +124,7 @@ CParseHandlerNLJoin::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalNLJoin), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,

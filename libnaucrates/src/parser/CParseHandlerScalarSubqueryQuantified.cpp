@@ -70,14 +70,14 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	}
 	else if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAll), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// parse operator id
 	IMDId *pmdidOp = CDXLOperatorFactory::PmdidFromAttrs
 							(
-							m_parse_handler_mgr->Pmm(),
+							m_parse_handler_mgr->GetDXLMemoryManager(),
 							attrs,
 							EdxltokenOpNo,
 							edxltokenElement
@@ -91,14 +91,14 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 										edxltokenElement
 										);
 	
-	CWStringDynamic *pstrScalarOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszScalarOpName);
+	CWStringDynamic *pstrScalarOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszScalarOpName);
 	CMDName *pmdnameScalarOp = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrScalarOpName);
 	GPOS_DELETE(pstrScalarOpName);
 		
 	// parse column id
 	ULONG col_id = CDXLOperatorFactory::UlValueFromAttrs
 										(
-										m_parse_handler_mgr->Pmm(),
+										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs, 
 										EdxltokenColId,
 										edxltokenElement
@@ -144,7 +144,7 @@ CParseHandlerScalarSubqueryQuantified::EndElement
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAll), element_local_name) &&
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAny), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

@@ -70,13 +70,13 @@ CParseHandlerWindowSpec::StartElement
 		const XMLCh *xmlszAlias = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenAlias));
 		if (NULL != xmlszAlias)
 		{
-			CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszAlias);
+			CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszAlias);
 			m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrAlias);
 			GPOS_DELETE(pstrAlias);
 		}
 
 		const XMLCh *xmlszPartCols= CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenPartKeys, EdxltokenPhysicalWindow);
-		m_pdrgpulPartCols = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszPartCols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
+		m_pdrgpulPartCols = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPartCols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
 		GPOS_ASSERT(NULL != m_pdrgpulPartCols);
 
 	}
@@ -106,7 +106,7 @@ CParseHandlerWindowSpec::StartElement
 	}
 	else
 	{
-			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -129,7 +129,7 @@ CParseHandlerWindowSpec::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowSpec), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	// sorting columns

@@ -65,7 +65,7 @@ CParseHandlerLogicalLimit::StartElement
 		{
 			keep_limit = CDXLOperatorFactory::FValueFromXmlstr
 										(
-										m_parse_handler_mgr->Pmm(),
+										m_parse_handler_mgr->GetDXLMemoryManager(),
 										non_removable_limit_str,
 										EdxltokenTopLimitUnderDML,
 										EdxltokenLogicalLimit
@@ -98,7 +98,7 @@ CParseHandlerLogicalLimit::StartElement
 	}
 	else
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
@@ -121,7 +121,7 @@ CParseHandlerLogicalLimit::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalLimit), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 

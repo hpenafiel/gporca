@@ -70,7 +70,7 @@ CParseHandlerMDRelationExternal::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationExternal), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -81,15 +81,15 @@ CParseHandlerMDRelationExternal::StartElement
 	const XMLCh *xmlszRejLimit = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelRejLimit));
 	if (NULL != xmlszRejLimit)
 	{
-		m_iRejectLimit = CDXLOperatorFactory::IValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszRejLimit, EdxltokenExtRelRejLimit, EdxltokenRelationExternal);
-		m_fRejLimitInRows = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenExtRelRejLimitInRows, EdxltokenRelationExternal);
+		m_iRejectLimit = CDXLOperatorFactory::IValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszRejLimit, EdxltokenExtRelRejLimit, EdxltokenRelationExternal);
+		m_fRejLimitInRows = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenExtRelRejLimitInRows, EdxltokenRelationExternal);
 	}
 
 	// format error table id
 	const XMLCh *xmlszErrRel = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelFmtErrRel));
 	if (NULL != xmlszErrRel)
 	{
-		m_pmdidFmtErrRel = CDXLOperatorFactory::PmdidFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszErrRel, EdxltokenExtRelFmtErrRel, EdxltokenRelationExternal);
+		m_pmdidFmtErrRel = CDXLOperatorFactory::PmdidFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszErrRel, EdxltokenExtRelFmtErrRel, EdxltokenRelationExternal);
 	}
 
 	// parse whether a hash distributed relation needs to be considered as random distributed
@@ -98,7 +98,7 @@ CParseHandlerMDRelationExternal::StartElement
 	{
 		m_fConvertHashToRandom = CDXLOperatorFactory::FValueFromXmlstr
 										(
-										m_parse_handler_mgr->Pmm(),
+										m_parse_handler_mgr->GetDXLMemoryManager(),
 										xmlszConvertHashToRandom,
 										EdxltokenConvertHashToRandom,
 										EdxltokenRelationExternal
@@ -127,7 +127,7 @@ CParseHandlerMDRelationExternal::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationExternal), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

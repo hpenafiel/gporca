@@ -76,7 +76,7 @@ CParseHandlerPhysicalDML::StartElement
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLDelete), element_local_name) &&
 		0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDMLUpdate), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
@@ -92,19 +92,19 @@ CParseHandlerPhysicalDML::StartElement
 	}
 
 	const XMLCh *src_colids_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenColumns, token_type);
-	m_src_colids_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), src_colids_xml, EdxltokenColumns, token_type);
+	m_src_colids_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), src_colids_xml, EdxltokenColumns, token_type);
 	
-	m_action_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenActionColId, token_type);
-	m_oid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenOidColId, token_type);
-	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, token_type);
-	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenGpSegmentIdColId, token_type);
+	m_action_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenActionColId, token_type);
+	m_oid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidColId, token_type);
+	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtidColId, token_type);
+	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, token_type);
 
 	const XMLCh *preserve_oids_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != preserve_oids_xml)
 	{
 		m_preserve_oids = CDXLOperatorFactory::FValueFromXmlstr
 											(
-											m_parse_handler_mgr->Pmm(),
+											m_parse_handler_mgr->GetDXLMemoryManager(),
 											preserve_oids_xml,
 											EdxltokenUpdatePreservesOids,
 											EdxltokenPhysicalDMLUpdate
@@ -113,7 +113,7 @@ CParseHandlerPhysicalDML::StartElement
 	
 	if (m_preserve_oids)
 	{
-		m_tuple_oid_col_oid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalDMLUpdate);
+		m_tuple_oid_col_oid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalDMLUpdate);
 	}
 
 	const XMLCh *input_sort_req_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenInputSorted));
@@ -121,7 +121,7 @@ CParseHandlerPhysicalDML::StartElement
 	{
 		m_input_sort_req = CDXLOperatorFactory::FValueFromXmlstr
 											(
-											m_parse_handler_mgr->Pmm(),
+											m_parse_handler_mgr->GetDXLMemoryManager(),
 											input_sort_req_xml,
 											EdxltokenInputSorted,
 											EdxltokenPhysicalDMLInsert
@@ -176,7 +176,7 @@ CParseHandlerPhysicalDML::EndElement
 
 	if (EdxldmlSentinel == dml_type_dxl || m_dml_type_dxl != dml_type_dxl)
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 

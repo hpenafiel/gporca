@@ -87,19 +87,19 @@ CParseHandlerLogicalSetOp::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLUnexpectedTag,
-				CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name)->GetBuffer()
+				CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer()
 				);
 		}
 
 		// parse array of input colid arrays
 		const XMLCh *input_colids_array_str = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenInputCols));
-		m_input_colids_arrays = CDXLOperatorFactory::PdrgpdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), input_colids_array_str, EdxltokenInputCols, EdxltokenLogicalSetOperation);
+		m_input_colids_arrays = CDXLOperatorFactory::PdrgpdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), input_colids_array_str, EdxltokenInputCols, EdxltokenLogicalSetOperation);
 
 		// install column descriptor parsers
 		CParseHandlerBase *col_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(col_descr_parse_handler);
 
-		m_cast_across_input_req = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCastAcrossInputs, EdxltokenLogicalSetOperation);
+		m_cast_across_input_req = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCastAcrossInputs, EdxltokenLogicalSetOperation);
 
 		// store child parse handler in array
 		this->Append(col_descr_parse_handler);
@@ -186,7 +186,7 @@ CParseHandlerLogicalSetOp::EndElement
 
 	if(EdxlsetopSentinel == setop_type && m_setop_type != setop_type)
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 

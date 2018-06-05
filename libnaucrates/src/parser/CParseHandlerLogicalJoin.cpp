@@ -72,7 +72,7 @@ CParseHandlerLogicalJoin::StartElement
 		if(NULL == m_dxl_node)
 		{
 			// parse and create logical join operator
-			CDXLLogicalJoin *pdxlopJoin = (CDXLLogicalJoin*) CDXLOperatorFactory::PdxlopLogicalJoin(m_parse_handler_mgr->Pmm(), attrs);
+			CDXLLogicalJoin *pdxlopJoin = (CDXLLogicalJoin*) CDXLOperatorFactory::PdxlopLogicalJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 			// construct node from the created child nodes
 			m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopJoin);
@@ -93,7 +93,7 @@ CParseHandlerLogicalJoin::StartElement
 	{
 		if(NULL == m_dxl_node)
 		{
-			CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+			CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 		}
 
@@ -127,7 +127,7 @@ CParseHandlerLogicalJoin::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenLogicalJoin), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 

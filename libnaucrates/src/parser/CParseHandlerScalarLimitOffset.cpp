@@ -62,7 +62,7 @@ CParseHandlerScalarLimitOffset::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), element_local_name))
 	{
 		// parse and create scalar OpExpr
-		CDXLScalarLimitOffset *dxl_op = (CDXLScalarLimitOffset*) CDXLOperatorFactory::PdxlopLimitOffset(m_parse_handler_mgr->Pmm(), attrs);
+		CDXLScalarLimitOffset *dxl_op = (CDXLScalarLimitOffset*) CDXLOperatorFactory::PdxlopLimitOffset(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool,dxl_op);
 	}
 	else
@@ -70,7 +70,7 @@ CParseHandlerScalarLimitOffset::StartElement
 		// we must have seen a LIMITOffset already and initialized its corresponding node
 		if (NULL == m_dxl_node)
 		{
-			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+			CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 		}
 		// install a scalar element parser for parsing the limit offset element
@@ -102,7 +102,7 @@ CParseHandlerScalarLimitOffset::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

@@ -75,7 +75,7 @@ namespace gpdxl
 			
 			
 			 // returns the current memory manager
-			CDXLMemoryManager *Pmm()
+			CDXLMemoryManager *GetDXLMemoryManager()
 			{
 				return m_memory_manager_dxl;
 			}

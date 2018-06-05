@@ -60,7 +60,7 @@ CParseHandlerScalarWindowRef::StartElement
 	{
 		// parse and create scalar WindowRef (window function)
 		CDXLScalarWindowRef *dxl_op =
-				(CDXLScalarWindowRef*) CDXLOperatorFactory::PdxlopWindowRef(m_parse_handler_mgr->Pmm(), attrs);
+				(CDXLScalarWindowRef*) CDXLOperatorFactory::PdxlopWindowRef(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 		// construct node from the created scalar window ref
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
@@ -99,7 +99,7 @@ CParseHandlerScalarWindowRef::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowref), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	const ULONG ulSize = this->Length();

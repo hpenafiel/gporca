@@ -63,26 +63,26 @@ CParseHandlerPhysicalRowTrigger::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRowTrigger), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	IMDId *pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalRowTrigger);
+	IMDId *pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalRowTrigger);
 
-	INT iType = CDXLOperatorFactory::IValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
+	INT iType = CDXLOperatorFactory::IValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
 
 	const XMLCh *xmlszOldColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOldCols));
 	ULongPtrArray *pdrgpulOld = NULL;
 	if (NULL != xmlszOldColIds)
 	{
-		pdrgpulOld = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
+		pdrgpulOld = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	const XMLCh *xmlszNewColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenNewCols));
 	ULongPtrArray *pdrgpulNew = NULL;
 	if (NULL != xmlszNewColIds)
 	{
-		pdrgpulNew = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
+		pdrgpulNew = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, pmdidRel, iType, pdrgpulOld, pdrgpulNew);
@@ -123,7 +123,7 @@ CParseHandlerPhysicalRowTrigger::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRowTrigger), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

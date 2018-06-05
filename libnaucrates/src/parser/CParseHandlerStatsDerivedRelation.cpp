@@ -99,7 +99,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 
 		m_dRows = CDouble(CDXLOperatorFactory::DValueFromXmlstr
 												(
-												m_parse_handler_mgr->Pmm(),
+												m_parse_handler_mgr->GetDXLMemoryManager(),
 												xmlszRows,
 												EdxltokenRows,
 												EdxltokenStatsDerivedRelation
@@ -111,7 +111,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 		{
 			m_fEmpty = CDXLOperatorFactory::FValueFromXmlstr
 											(
-											m_parse_handler_mgr->Pmm(),
+											m_parse_handler_mgr->GetDXLMemoryManager(),
 											xmlszEmpty,
 											EdxltokenEmptyRelation,
 											EdxltokenStatsDerivedRelation
@@ -138,7 +138,7 @@ CParseHandlerStatsDerivedRelation::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

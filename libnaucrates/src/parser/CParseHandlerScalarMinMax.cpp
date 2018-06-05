@@ -73,7 +73,7 @@ CParseHandlerScalarMinMax::StartElement
 		}
 
 		// parse type id
-		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, token_type);
+		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, token_type);
 	}
 	else
 	{
@@ -108,7 +108,7 @@ CParseHandlerScalarMinMax::EndElement
 
 	if (CDXLScalarMinMax::EmmtSentinel == emmt || m_emmt != emmt)
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

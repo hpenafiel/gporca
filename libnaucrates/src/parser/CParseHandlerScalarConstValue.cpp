@@ -60,12 +60,12 @@ CParseHandlerScalarConstValue::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarConstValue), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// parse and create scalar const operator
-	CDXLScalarConstValue *dxl_op = (CDXLScalarConstValue*) CDXLOperatorFactory::PdxlopConstValue(m_parse_handler_mgr->Pmm(), attrs);
+	CDXLScalarConstValue *dxl_op = (CDXLScalarConstValue*) CDXLOperatorFactory::PdxlopConstValue(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 	// construct scalar Const node
 	GPOS_ASSERT(NULL != dxl_op);
@@ -92,7 +92,7 @@ CParseHandlerScalarConstValue::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarConstValue), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

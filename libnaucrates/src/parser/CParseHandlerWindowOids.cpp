@@ -50,13 +50,13 @@ CParseHandlerWindowOids::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowOids), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
 	// parse window function oids
-	OID oidRowNumber = CDXLOperatorFactory::OidValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenOidRowNumber, EdxltokenWindowOids);
-	OID oidRank = CDXLOperatorFactory::OidValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenOidRank, EdxltokenWindowOids);
+	OID oidRowNumber = CDXLOperatorFactory::OidValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRowNumber, EdxltokenWindowOids);
+	OID oidRank = CDXLOperatorFactory::OidValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRank, EdxltokenWindowOids);
 
 	m_pwindowoids = GPOS_NEW(m_memory_pool) CWindowOids(oidRowNumber, oidRank);
 }
@@ -72,7 +72,7 @@ CParseHandlerWindowOids::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowOids), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

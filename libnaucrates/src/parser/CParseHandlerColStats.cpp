@@ -74,7 +74,7 @@ CParseHandlerColStats::StartElement
 		GPOS_ASSERT(NULL == m_mdid);
 
 		// parse mdid and name
-		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenMdid, EdxltokenColumnStats);
+		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenColumnStats);
 		m_mdid = CMDIdColStats::PmdidConvert(pmdid);
 		
 		// parse column name
@@ -85,36 +85,36 @@ CParseHandlerColStats::StartElement
 																EdxltokenColumnStats
 																);
 
-		CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), parsed_column_name);
+		CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_column_name);
 		
 		// create a copy of the string in the CMDName constructor
 		m_md_name = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, column_name);
 		GPOS_DELETE(column_name);
 		
-		m_width = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenWidth, EdxltokenColumnStats);
+		m_width = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenWidth, EdxltokenColumnStats);
 
 		const XMLCh *parsed_null_freq = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColNullFreq));
 		if (NULL != parsed_null_freq)
 		{
-			m_null_freq = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->Pmm(), parsed_null_freq, EdxltokenColNullFreq, EdxltokenColumnStats);
+			m_null_freq = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_null_freq, EdxltokenColNullFreq, EdxltokenColumnStats);
 		}
 
 		const XMLCh *parsed_distinct_remaining = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColNdvRemain));
 		if (NULL != parsed_distinct_remaining)
 		{
-			m_distinct_remaining = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->Pmm(), parsed_distinct_remaining, EdxltokenColNdvRemain, EdxltokenColumnStats);
+			m_distinct_remaining = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_distinct_remaining, EdxltokenColNdvRemain, EdxltokenColumnStats);
 		}
 
 		const XMLCh *parsed_freq_remaining = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColFreqRemain));
 		if (NULL != parsed_freq_remaining)
 		{
-			m_freq_remaining = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->Pmm(), parsed_freq_remaining, EdxltokenColFreqRemain, EdxltokenColumnStats);
+			m_freq_remaining = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_freq_remaining, EdxltokenColFreqRemain, EdxltokenColumnStats);
 		}
 
 		const XMLCh *parsed_is_column_stats_missing = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColStatsMissing));
 		if (NULL != parsed_is_column_stats_missing)
 		{
-			m_is_column_stats_missing = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->Pmm(), parsed_is_column_stats_missing, EdxltokenColStatsMissing, EdxltokenColumnStats);
+			m_is_column_stats_missing = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_is_column_stats_missing, EdxltokenColStatsMissing, EdxltokenColumnStats);
 		}
 
 	}
@@ -129,7 +129,7 @@ CParseHandlerColStats::StartElement
 	}
 	else
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
@@ -152,7 +152,7 @@ CParseHandlerColStats::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStats), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

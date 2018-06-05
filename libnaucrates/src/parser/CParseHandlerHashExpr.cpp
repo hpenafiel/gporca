@@ -60,12 +60,12 @@ CParseHandlerHashExpr::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarHashExpr), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse and create hash expr operator
-	m_dxl_op = (CDXLScalarHashExpr *) CDXLOperatorFactory::PdxlopHashExpr(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLScalarHashExpr *) CDXLOperatorFactory::PdxlopHashExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the child scalar expression node
 	
@@ -95,7 +95,7 @@ CParseHandlerHashExpr::EndElement
 	
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarHashExpr), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	

@@ -85,7 +85,7 @@ CParseHandlerMDRequest::StartElement
 		GPOS_ASSERT(NULL != m_mdid_array);
 		
 		// parse mdid
-		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenValue, EdxltokenMdid);
+		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenMdid);
 		m_mdid_array->Append(pmdid);
 		
 		return;
@@ -94,12 +94,12 @@ CParseHandlerMDRequest::StartElement
 	GPOS_ASSERT(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDTypeRequest), element_local_name));
 	GPOS_ASSERT(NULL != m_pdrgptr);
 
-	CSystemId sysid = CDXLOperatorFactory::Sysid(m_parse_handler_mgr->Pmm(), attrs, EdxltokenSysid, EdxltokenMDTypeRequest);
+	CSystemId sysid = CDXLOperatorFactory::Sysid(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenSysid, EdxltokenMDTypeRequest);
 
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDTypeRequest), element_local_name))
 	{		
 		// parse type request
-		IMDType::ETypeInfo eti = (IMDType::ETypeInfo) CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeInfo, EdxltokenMDTypeRequest);
+		IMDType::ETypeInfo eti = (IMDType::ETypeInfo) CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeInfo, EdxltokenMDTypeRequest);
 		m_pdrgptr->Append(GPOS_NEW(m_memory_pool) CMDRequest::SMDTypeRequest(sysid, eti));
 	}
 }

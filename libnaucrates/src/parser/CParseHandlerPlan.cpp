@@ -116,17 +116,17 @@ CParseHandlerPlan::StartElement
 	
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPlan), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse plan id
 	const XMLCh *xmlszPlanId = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenPlanId, EdxltokenPlan);
-	m_ullId = CDXLOperatorFactory::UllValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszPlanId, EdxltokenPlanId, EdxltokenPlan);
+	m_ullId = CDXLOperatorFactory::UllValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanId, EdxltokenPlanId, EdxltokenPlan);
 
 	// parse plan space size
 	const XMLCh *xmlszPlanSpaceSize = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenPlanSpaceSize, EdxltokenPlan);
-	m_ullSpaceSize = CDXLOperatorFactory::UllValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszPlanSpaceSize, EdxltokenPlanSpaceSize, EdxltokenPlan);
+	m_ullSpaceSize = CDXLOperatorFactory::UllValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanSpaceSize, EdxltokenPlanSpaceSize, EdxltokenPlan);
 
 	// create a parse handler for physical nodes and activate it
 	GPOS_ASSERT(NULL != m_memory_pool);
@@ -155,7 +155,7 @@ CParseHandlerPlan::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPlan), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

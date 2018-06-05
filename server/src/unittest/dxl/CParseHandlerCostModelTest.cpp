@@ -52,8 +52,8 @@ namespace
 	public:
 			Fixture():
 					m_apmm(GPOS_NEW(Pmp()) CDXLMemoryManager(Pmp())),
-					m_apxmlreader(XMLReaderFactory::createXMLReader(Pmm())),
-					m_apphm(GPOS_NEW(Pmp()) CParseHandlerManager(Pmm(), Pxmlreader())),
+					m_apxmlreader(XMLReaderFactory::createXMLReader(GetDXLMemoryManager())),
+					m_apphm(GPOS_NEW(Pmp()) CParseHandlerManager(GetDXLMemoryManager(), Pxmlreader())),
 					m_apphCostModel(GPOS_NEW(Pmp()) CParseHandlerCostModel(Pmp(), Pphm(), NULL))
 			{
 				m_apphm->ActivateParseHandler(PphCostModel());
@@ -64,7 +64,7 @@ namespace
 				return m_amp.Pmp();
 			}
 
-			CDXLMemoryManager *Pmm()
+			CDXLMemoryManager *GetDXLMemoryManager()
 			{
 				return m_apmm.Value();
 			}
@@ -91,7 +91,7 @@ namespace
 					size,
 					"dxl test",
 					false,
-					Pmm()
+					GetDXLMemoryManager()
 				);
 				Pxmlreader()->parse(mbis);
 			}

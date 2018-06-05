@@ -68,7 +68,7 @@ CParseHandlerPhysicalTVF::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalTVF), element_local_name))
 	{
 		// parse function id
-		m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenPhysicalTVF);
+		m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenFuncId, EdxltokenPhysicalTVF);
 
 		// parse function name
 		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
@@ -78,12 +78,12 @@ CParseHandlerPhysicalTVF::StartElement
 																EdxltokenPhysicalTVF
 																);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszFuncName);
+		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszFuncName);
 		m_pstr = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrFuncName->GetBuffer());
 		GPOS_DELETE(pstrFuncName);
 
 		// parse return type
-		m_return_type_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenPhysicalTVF);
+		m_return_type_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenPhysicalTVF);
 
 		// parse handler for the proj list
 		CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -128,7 +128,7 @@ CParseHandlerPhysicalTVF::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalTVF), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

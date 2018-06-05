@@ -67,12 +67,12 @@ CParseHandlerRedistributeMotion::StartElement
 {	
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRedistributeMotion), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	// parse and create Redistribute motion operator
-	m_dxl_op = (CDXLPhysicalRedistributeMotion *) CDXLOperatorFactory::PdxlopRedistributeMotion(m_parse_handler_mgr->Pmm(), attrs);
+	m_dxl_op = (CDXLPhysicalRedistributeMotion *) CDXLOperatorFactory::PdxlopRedistributeMotion(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -129,7 +129,7 @@ CParseHandlerRedistributeMotion::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalRedistributeMotion), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	

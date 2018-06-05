@@ -70,7 +70,7 @@ CParseHandlerMDRelationCtas::StartElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationCTAS), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
@@ -82,13 +82,13 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
 	if (NULL != xmlszSchema)
 	{
-		m_mdname_schema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->Pmm(), xmlszSchema);
+		m_mdname_schema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszSchema);
 	}
 	
 	// parse whether relation is temporary
 	m_is_temp_table = CDXLOperatorFactory::FValueFromAttrs
 											(
-											m_parse_handler_mgr->Pmm(),
+											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
 											EdxltokenRelTemporary,
 											EdxltokenRelation
@@ -98,7 +98,7 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszHasOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
 	if (NULL != xmlszHasOids)
 	{
-		m_has_oids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
+		m_has_oids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
 	}
 
 	// parse storage type
@@ -119,7 +119,7 @@ CParseHandlerMDRelationCtas::StartElement
 															);
 	m_vartypemod_array = CDXLOperatorFactory::PdrgpiFromXMLCh
 						(
-						m_parse_handler_mgr->Pmm(),
+						m_parse_handler_mgr->GetDXLMemoryManager(),
 						vartypemod_xml,
 						EdxltokenVarTypeModList,
 						EdxltokenRelation
@@ -156,7 +156,7 @@ CParseHandlerMDRelationCtas::EndElement
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelationCTAS), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

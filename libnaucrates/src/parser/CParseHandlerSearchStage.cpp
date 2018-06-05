@@ -84,13 +84,13 @@ CParseHandlerSearchStage::StartElement
 			CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenCostThreshold, EdxltokenSearchStage);
 
 		m_costThreshold =
-			CCost(CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszCost, EdxltokenCostThreshold, EdxltokenSearchStage));
+			CCost(CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszCost, EdxltokenCostThreshold, EdxltokenSearchStage));
 
 		const XMLCh *xmlszTime =
 			CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenTimeThreshold, EdxltokenSearchStage);
 
 		m_ulTimeThreshold =
-			CDXLOperatorFactory::UlValueFromXmlstr(m_parse_handler_mgr->Pmm(), xmlszTime, EdxltokenTimeThreshold, EdxltokenSearchStage);
+			CDXLOperatorFactory::UlValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTime, EdxltokenTimeThreshold, EdxltokenSearchStage);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenXform), element_local_name))
 	{
@@ -107,7 +107,7 @@ CParseHandlerSearchStage::StartElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }
@@ -132,7 +132,7 @@ CParseHandlerSearchStage::EndElement
 
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenSearchStage), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

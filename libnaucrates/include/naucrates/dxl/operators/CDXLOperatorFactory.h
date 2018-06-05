@@ -216,7 +216,7 @@ namespace gpdxl
 			
 			// create a gather motion operator
 			static
-			CDXLPhysical *PdxlopGatherMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLGatherMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a broadcast motion operator
 			static

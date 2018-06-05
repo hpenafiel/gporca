@@ -63,11 +63,11 @@ CParseHandlerAssert::StartElement
 {	
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAssert), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 		
-	CHAR *error_code = CDXLOperatorFactory::SzValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
+	CHAR *error_code = CDXLOperatorFactory::SzValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
 	if (NULL == error_code || GPOS_SQLSTATE_LENGTH != clib::StrLen(error_code))
 	{
 		GPOS_RAISE
@@ -130,7 +130,7 @@ CParseHandlerAssert::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalAssert), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

@@ -66,13 +66,13 @@ CParseHandlerDynamicTableScan::StartElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDynamicTableScan), 
 									element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
 	m_part_index_id = CDXLOperatorFactory::UlValueFromAttrs
 											(
-											m_parse_handler_mgr->Pmm(), 
+											m_parse_handler_mgr->GetDXLMemoryManager(), 
 											attrs, 
 											EdxltokenPartIndexId, 
 											EdxltokenPhysicalDynamicTableScan
@@ -80,7 +80,7 @@ CParseHandlerDynamicTableScan::StartElement
 
 	m_part_index_id_printable = CDXLOperatorFactory::UlValueFromAttrs
 											(
-											m_parse_handler_mgr->Pmm(),
+											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
 											EdxltokenPartIndexIdPrintable,
 											EdxltokenPhysicalDynamicTableScan,
@@ -135,7 +135,7 @@ CParseHandlerDynamicTableScan::EndElement
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalDynamicTableScan), 
 									element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 

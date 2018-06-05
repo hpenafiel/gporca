@@ -68,10 +68,10 @@ CParseHandlerScalarArrayRef::StartElement
 		GPOS_ASSERT(NULL == m_dxl_node);
 
 		// parse types
-		IMDId *pmdidElem = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenArrayElementType, EdxltokenScalarArrayRef);
-		IMDId *pmdidArray = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenArrayType, EdxltokenScalarArrayRef);
-		IMDId *pmdidReturn = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenScalarArrayRef);
-		INT type_modifier = CDXLOperatorFactory::IValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeMod, EdxltokenScalarArrayRef, true, IDefaultTypeModifier);
+		IMDId *pmdidElem = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayElementType, EdxltokenScalarArrayRef);
+		IMDId *pmdidArray = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayType, EdxltokenScalarArrayRef);
+		IMDId *pmdidReturn = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarArrayRef);
+		INT type_modifier = CDXLOperatorFactory::IValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeMod, EdxltokenScalarArrayRef, true, IDefaultTypeModifier);
 
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRef(m_memory_pool, pmdidElem, type_modifier, pmdidArray, pmdidReturn));
 	}
@@ -168,7 +168,7 @@ CParseHandlerScalarArrayRef::EndElement
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 }

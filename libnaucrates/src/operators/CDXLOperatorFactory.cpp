@@ -231,16 +231,9 @@ CDXLOperatorFactory::PdxlopMergeJoin
 	return GPOS_NEW(memory_pool) CDXLPhysicalMergeJoin(memory_pool, join_type, fUniqueOuter);
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLOperatorFactory::PdxlopGatherMotion
-//
-//	@doc:
 //		Construct a gather motion operator
-//
-//---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopGatherMotion
+CDXLOperatorFactory::MakeDXLGatherMotion
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
