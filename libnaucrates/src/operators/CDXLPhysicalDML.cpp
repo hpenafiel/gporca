@@ -35,10 +35,10 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	ULongPtrArray *pdrgpul,
 	ULONG ulAction,
 	ULONG ulOid,
-	ULONG ulCtid,
-	ULONG ulSegmentId,
-	BOOL fPreserveOids,
-	ULONG ulTupleOid,
+	ULONG ctid_colid,
+	ULONG segid_colid,
+	BOOL preserve_oids,
+	ULONG tuple_oid,
 	CDXLDirectDispatchInfo *dxl_direct_dispatch_info,
 	BOOL fInputSorted
 	)
@@ -49,10 +49,10 @@ CDXLPhysicalDML::CDXLPhysicalDML
 	m_pdrgpul(pdrgpul),
 	m_ulAction(ulAction),
 	m_ulOid(ulOid),
-	m_ctid_colid(ulCtid),
-	m_segid_colid(ulSegmentId),
-	m_fPreserveOids(fPreserveOids),
-	m_ulTupleOid(ulTupleOid),
+	m_ctid_colid(ctid_colid),
+	m_segid_colid(segid_colid),
+	m_preserve_oids(preserve_oids),
+	m_tuple_oid(tuple_oid),
 	m_direct_dispatch_info(dxl_direct_dispatch_info),
 	m_fInputSorted(fInputSorted)
 {
@@ -145,12 +145,12 @@ CDXLPhysicalDML::SerializeToDXL
 	
 	if (Edxldmlupdate == m_edxldmltype)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_fPreserveOids);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_preserve_oids);
 	}
 
-	if (m_fPreserveOids)
+	if (m_preserve_oids)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_ulTupleOid);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_tuple_oid);
 	}
 	
 	pdxln->SerializePropertiesToDXL(xml_serializer);

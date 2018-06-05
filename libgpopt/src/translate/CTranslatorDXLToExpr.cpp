@@ -1447,11 +1447,11 @@ CTranslatorDXLToExpr::PexprLogicalDelete
 
 	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopDelete->GetTableDescr());
 
-	ULONG ulCtid = pdxlopDelete->GetCtIdColId();
-	ULONG ulSegmentId = pdxlopDelete->GetSegmentIdColId();
+	ULONG ctid_colid = pdxlopDelete->GetCtIdColId();
+	ULONG segid_colid = pdxlopDelete->GetSegmentIdColId();
 
-	CColRef *pcrCtid = PcrLookup(m_phmulcr, ulCtid);
-	CColRef *pcrSegmentId = PcrLookup(m_phmulcr, ulSegmentId);
+	CColRef *pcrCtid = PcrLookup(m_phmulcr, ctid_colid);
+	CColRef *pcrSegmentId = PcrLookup(m_phmulcr, segid_colid);
 
 	ULongPtrArray *pdrgpulCols = pdxlopDelete->GetDeletionColIdArray();
 	DrgPcr *pdrgpcr = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulCols);
@@ -1487,23 +1487,23 @@ CTranslatorDXLToExpr::PexprLogicalUpdate
 
 	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopUpdate->GetTableDescr());
 
-	ULONG ulCtid = pdxlopUpdate->GetCtIdColId();
-	ULONG ulSegmentId = pdxlopUpdate->GetSegmentIdColId();
+	ULONG ctid_colid = pdxlopUpdate->GetCtIdColId();
+	ULONG segid_colid = pdxlopUpdate->GetSegmentIdColId();
 
-	CColRef *pcrCtid = PcrLookup(m_phmulcr, ulCtid);
-	CColRef *pcrSegmentId = PcrLookup(m_phmulcr, ulSegmentId);
+	CColRef *pcrCtid = PcrLookup(m_phmulcr, ctid_colid);
+	CColRef *pcrSegmentId = PcrLookup(m_phmulcr, segid_colid);
 
-	ULongPtrArray *pdrgpulInsertCols = pdxlopUpdate->PdrgpulInsert();
+	ULongPtrArray *pdrgpulInsertCols = pdxlopUpdate->GetInsertionColIdArray();
 	DrgPcr *pdrgpcrInsert = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulInsertCols);
 
 	ULongPtrArray *pdrgpulDeleteCols = pdxlopUpdate->GetDeletionColIdArray();
 	DrgPcr *pdrgpcrDelete = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulDeleteCols);
 
 	CColRef *pcrTupleOid = NULL;
-	if (pdxlopUpdate->FPreserveOids())
+	if (pdxlopUpdate->IsOidsPreserved())
 	{
-		ULONG ulTupleOid = pdxlopUpdate->UlTupleOid();
-		pcrTupleOid = PcrLookup(m_phmulcr, ulTupleOid);
+		ULONG tuple_oid = pdxlopUpdate->GetTupleOid();
+		pcrTupleOid = PcrLookup(m_phmulcr, tuple_oid);
 	}
 	
 	return GPOS_NEW(m_memory_pool) CExpression

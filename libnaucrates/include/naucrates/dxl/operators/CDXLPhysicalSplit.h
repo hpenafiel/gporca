@@ -38,7 +38,7 @@ namespace gpdxl
 			ULongPtrArray *m_deletion_colid_array;
 
 			// list of insertion column ids
-			ULongPtrArray *m_pdrgpulInsert;
+			ULongPtrArray *m_insert_colid_array;
 
 			// action column id
 			ULONG m_ulAction;
@@ -50,10 +50,10 @@ namespace gpdxl
 			ULONG m_segid_colid;
 
 			// should update preserve tuple oids
-			BOOL m_fPreserveOids;	
+			BOOL m_preserve_oids;	
 
 			// tuple oid column id
-			ULONG m_ulTupleOid;
+			ULONG m_tuple_oid;
 			
 			// private copy ctor
 			CDXLPhysicalSplit(const CDXLPhysicalSplit &);
@@ -64,13 +64,13 @@ namespace gpdxl
 			CDXLPhysicalSplit
 				(
 				IMemoryPool *memory_pool,
-				ULongPtrArray *pdrgpulDelete,
-				ULongPtrArray *pdrgpulInsert,
+				ULongPtrArray *delete_colid_array,
+				ULongPtrArray *insert_colid_array,
 				ULONG ulAction,
-				ULONG ulCtid,
-				ULONG ulSegmentId,
-				BOOL fPreserveOids,
-				ULONG ulTupleOid
+				ULONG ctid_colid,
+				ULONG segid_colid,
+				BOOL preserve_oids,
+				ULONG tuple_oid
 				);
 
 			// dtor
@@ -90,9 +90,9 @@ namespace gpdxl
 			}
 
 			// insertion column ids
-			ULongPtrArray *PdrgpulInsert() const
+			ULongPtrArray *GetInsertionColIdArray() const
 			{
-				return m_pdrgpulInsert;
+				return m_insert_colid_array;
 			}
 
 			// action column id
@@ -114,15 +114,15 @@ namespace gpdxl
 			}
 			
 			// does update preserve oids
-			BOOL FPreserveOids() const
+			BOOL IsOidsPreserved() const
 			{
-				return m_fPreserveOids;
+				return m_preserve_oids;
 			}
 
 			// tuple oid column id
-			ULONG UlTupleOid() const
+			ULONG GetTupleOid() const
 			{
-				return m_ulTupleOid;
+				return m_tuple_oid;
 			}
 
 #ifdef GPOS_DEBUG

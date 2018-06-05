@@ -29,26 +29,26 @@ using namespace gpdxl;
 CDXLPhysicalSplit::CDXLPhysicalSplit
 	(
 	IMemoryPool *memory_pool,
-	ULongPtrArray *pdrgpulDelete,
-	ULongPtrArray *pdrgpulInsert,
+	ULongPtrArray *delete_colid_array,
+	ULongPtrArray *insert_colid_array,
 	ULONG ulAction,
-	ULONG ulCtid,
-	ULONG ulSegmentId,
-	BOOL fPreserveOids,
-	ULONG ulTupleOid
+	ULONG ctid_colid,
+	ULONG segid_colid,
+	BOOL preserve_oids,
+	ULONG tuple_oid
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_deletion_colid_array(pdrgpulDelete),
-	m_pdrgpulInsert(pdrgpulInsert),
+	m_deletion_colid_array(delete_colid_array),
+	m_insert_colid_array(insert_colid_array),
 	m_ulAction(ulAction),
-	m_ctid_colid(ulCtid),
-	m_segid_colid(ulSegmentId),
-	m_fPreserveOids(fPreserveOids),
-	m_ulTupleOid(ulTupleOid)
+	m_ctid_colid(ctid_colid),
+	m_segid_colid(segid_colid),
+	m_preserve_oids(preserve_oids),
+	m_tuple_oid(tuple_oid)
 {
-	GPOS_ASSERT(NULL != pdrgpulDelete);
-	GPOS_ASSERT(NULL != pdrgpulInsert);
+	GPOS_ASSERT(NULL != delete_colid_array);
+	GPOS_ASSERT(NULL != insert_colid_array);
 }
 
 //---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ CDXLPhysicalSplit::CDXLPhysicalSplit
 CDXLPhysicalSplit::~CDXLPhysicalSplit()
 {
 	m_deletion_colid_array->Release();
-	m_pdrgpulInsert->Release();
+	m_insert_colid_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -116,7 +116,7 @@ CDXLPhysicalSplit::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDeleteCols), pstrColsDel);
 	GPOS_DELETE(pstrColsDel);
 
-	CWStringDynamic *pstrColsIns = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulInsert);
+	CWStringDynamic *pstrColsIns = CDXLUtils::Serialize(m_memory_pool, m_insert_colid_array);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), pstrColsIns);
 	GPOS_DELETE(pstrColsIns);
 
@@ -124,11 +124,11 @@ CDXLPhysicalSplit::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ctid_colid);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_segid_colid);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_fPreserveOids);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_preserve_oids);
 
-	if (m_fPreserveOids)
+	if (m_preserve_oids)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_ulTupleOid);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_tuple_oid);
 	}
 	
 	pdxln->SerializePropertiesToDXL(xml_serializer);

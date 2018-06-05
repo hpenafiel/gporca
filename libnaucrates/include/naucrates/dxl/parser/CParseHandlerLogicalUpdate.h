@@ -44,10 +44,10 @@ namespace gpdxl
 			ULongPtrArray *m_deletion_colid_array;
 
 			// insert col ids
-			ULongPtrArray *m_pdrgpulInsert;
+			ULongPtrArray *m_insert_colid_array;
 			
 			// does update preserve oids
-			BOOL m_fPreserveOids;
+			BOOL m_preserve_oids;
 			
 			// tuple oid column id
 			ULONG m_ulTupleOidColId;

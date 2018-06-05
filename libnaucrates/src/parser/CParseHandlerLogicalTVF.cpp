@@ -68,16 +68,16 @@ CParseHandlerLogicalTVF::StartElement
 		m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenFuncId, EdxltokenLogicalTVF);
 
 		// parse function name
-		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *func_name = CDXLOperatorFactory::XmlstrFromAttrs
 																(
 																attrs,
 																EdxltokenName,
 																EdxltokenLogicalTVF
 																);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), xmlszFuncName);
-		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
-		GPOS_DELETE(pstrFuncName);
+		CWStringDynamic *func_name_str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), func_name);
+		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, func_name_str);
+		GPOS_DELETE(func_name_str);
 
 		// parse function return type
 		m_return_type_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTypeId, EdxltokenLogicalTVF);
@@ -86,24 +86,24 @@ CParseHandlerLogicalTVF::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// parse handler for columns
-		CParseHandlerBase *pphColDescr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphColDescr);
+		CParseHandlerBase *cold_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(cold_descr_parse_handler);
 
 		// store parse handlers
-		this->Append(pphColDescr);
+		this->Append(cold_descr_parse_handler);
 
-		pphColDescr->startElement(element_uri, element_local_name, element_qname, attrs);
+		cold_descr_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
 		// parse scalar child
-		CParseHandlerBase *pphChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphChild);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// store parse handlers
-		this->Append(pphChild);
+		this->Append(child_parse_handler);
 
-		pphChild->startElement(element_uri, element_local_name, element_qname, attrs);
+		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -129,25 +129,25 @@ CParseHandlerLogicalTVF::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	CParseHandlerColDescr *pphColDescr = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
+	CParseHandlerColDescr *col_descr_parse_handler = dynamic_cast<CParseHandlerColDescr *>((*this)[0]);
 
-	GPOS_ASSERT(NULL != pphColDescr);
+	GPOS_ASSERT(NULL != col_descr_parse_handler);
 
 	// get column descriptors
-	ColumnDescrDXLArray *pdrgpdxlcd = pphColDescr->GetColumnDescrDXLArray();
-	GPOS_ASSERT(NULL != pdrgpdxlcd);
+	ColumnDescrDXLArray *cold_descr_dxl_array = col_descr_parse_handler->GetColumnDescrDXLArray();
+	GPOS_ASSERT(NULL != cold_descr_dxl_array);
 
-	pdrgpdxlcd->AddRef();
-	CDXLLogicalTVF *pdxlopTVF = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_func_mdid, m_return_type_mdid, m_mdname, pdrgpdxlcd);
+	cold_descr_dxl_array->AddRef();
+	CDXLLogicalTVF *lg_tvf_op = GPOS_NEW(m_memory_pool) CDXLLogicalTVF(m_memory_pool, m_func_mdid, m_return_type_mdid, m_mdname, cold_descr_dxl_array);
 
-	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopTVF);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, lg_tvf_op);
 
-	const ULONG ulLen = this->Length();
+	const ULONG length = this->Length();
 	// loop over arglist children and add them to this parsehandler
-	for (ULONG ul = 1; ul < ulLen; ul++)
+	for (ULONG idx = 1; idx < length; idx++)
 	{
-		CParseHandlerScalarOp *pphChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
-		AddChildFromParseHandler(pphChild);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[idx]);
+		AddChildFromParseHandler(child_parse_handler);
 	}
 
 	// deactivate handler

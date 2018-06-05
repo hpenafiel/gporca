@@ -41,8 +41,8 @@ CParseHandlerLogicalUpdate::CParseHandlerLogicalUpdate
 	m_ctid_colid(0),
 	m_segid_colid(0),
 	m_deletion_colid_array(NULL),
-	m_pdrgpulInsert(NULL),
-	m_fPreserveOids(false),
+	m_insert_colid_array(NULL),
+	m_preserve_oids(false),
 	m_ulTupleOidColId(0)
 {
 }
@@ -77,12 +77,12 @@ CParseHandlerLogicalUpdate::StartElement
 	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszDeleteColIds, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *xmlszInsertColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenLogicalUpdate);
-	m_pdrgpulInsert = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenLogicalUpdate);
+	m_insert_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *xmlszPreserveOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != xmlszPreserveOids)
 	{
-		m_fPreserveOids = CDXLOperatorFactory::FValueFromXmlstr
+		m_preserve_oids = CDXLOperatorFactory::FValueFromXmlstr
 											(
 											m_parse_handler_mgr->Pmm(),
 											xmlszPreserveOids,
@@ -91,7 +91,7 @@ CParseHandlerLogicalUpdate::StartElement
 											);
 	}
 	
-	if (m_fPreserveOids)
+	if (m_preserve_oids)
 	{
 		m_ulTupleOidColId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenLogicalUpdate);
 	}
@@ -145,7 +145,7 @@ CParseHandlerLogicalUpdate::EndElement
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode
 							(
 							m_memory_pool,
-							GPOS_NEW(m_memory_pool) CDXLLogicalUpdate(m_memory_pool, table_descr, m_ctid_colid, m_segid_colid, m_deletion_colid_array, m_pdrgpulInsert, m_fPreserveOids, m_ulTupleOidColId)
+							GPOS_NEW(m_memory_pool) CDXLLogicalUpdate(m_memory_pool, table_descr, m_ctid_colid, m_segid_colid, m_deletion_colid_array, m_insert_colid_array, m_preserve_oids, m_ulTupleOidColId)
 							);
 
 	AddChildFromParseHandler(pphChild);

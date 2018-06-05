@@ -65,10 +65,10 @@ namespace gpdxl
 			ULONG m_segid_colid;
 
 			// should update preserve tuple oids
-			BOOL m_fPreserveOids;	
+			BOOL m_preserve_oids;	
 
 			// tuple oid column id
-			ULONG m_ulTupleOid;
+			ULONG m_tuple_oid;
 			
 			// direct dispatch info for insert statements 
 			CDXLDirectDispatchInfo *m_direct_dispatch_info;
@@ -90,10 +90,10 @@ namespace gpdxl
 				ULongPtrArray *pdrgpul,
 				ULONG ulAction,
 				ULONG ulOid,
-				ULONG ulCtid,
-				ULONG ulSegmentId,
-				BOOL fPreserveOids,
-				ULONG ulTupleOid,
+				ULONG ctid_colid,
+				ULONG segid_colid,
+				BOOL preserve_oids,
+				ULONG tuple_oid,
 				CDXLDirectDispatchInfo *dxl_direct_dispatch_info,
 				BOOL fInputSorted
 				);
@@ -151,15 +151,15 @@ namespace gpdxl
 			}
 			
 			// does update preserve oids
-			BOOL FPreserveOids() const
+			BOOL IsOidsPreserved() const
 			{
-				return m_fPreserveOids;
+				return m_preserve_oids;
 			}
 
 			// tuple oid column id
-			ULONG UlTupleOid() const
+			ULONG GetTupleOid() const
 			{
-				return m_ulTupleOid;
+				return m_tuple_oid;
 			}
 			
 			// direct dispatch info

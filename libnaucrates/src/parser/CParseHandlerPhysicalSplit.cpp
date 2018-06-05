@@ -40,11 +40,11 @@ CParseHandlerPhysicalSplit::CParseHandlerPhysicalSplit
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_deletion_colid_array(NULL),
-	m_pdrgpulInsert(NULL),
+	m_insert_colid_array(NULL),
 	m_ulAction(0),
 	m_ctid_colid(0),
 	m_segid_colid(0),	
-	m_fPreserveOids(false),
+	m_preserve_oids(false),
 	m_ulTupleOidColId(0)
 {
 }
@@ -76,7 +76,7 @@ CParseHandlerPhysicalSplit::StartElement
 	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszDeleteColIds, EdxltokenDeleteCols, EdxltokenPhysicalSplit);
 
 	const XMLCh *xmlszInsertColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenPhysicalSplit);
-	m_pdrgpulInsert = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenPhysicalSplit);
+	m_insert_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->Pmm(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenPhysicalSplit);
 
 	m_ulAction = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenActionColId, EdxltokenPhysicalSplit);
 	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenCtidColId, EdxltokenPhysicalSplit);
@@ -85,7 +85,7 @@ CParseHandlerPhysicalSplit::StartElement
 	const XMLCh *xmlszPreserveOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != xmlszPreserveOids)
 	{
-		m_fPreserveOids = CDXLOperatorFactory::FValueFromXmlstr
+		m_preserve_oids = CDXLOperatorFactory::FValueFromXmlstr
 											(
 											m_parse_handler_mgr->Pmm(),
 											xmlszPreserveOids,
@@ -93,7 +93,7 @@ CParseHandlerPhysicalSplit::StartElement
 											EdxltokenPhysicalSplit
 											);
 	}	
-	if (m_fPreserveOids)
+	if (m_preserve_oids)
 	{
 		m_ulTupleOidColId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalSplit);
 	}
@@ -151,11 +151,11 @@ CParseHandlerPhysicalSplit::EndElement
 												(
 												m_memory_pool,
 												m_deletion_colid_array,
-												m_pdrgpulInsert,
+												m_insert_colid_array,
 												m_ulAction,
 												m_ctid_colid,
 												m_segid_colid,
-												m_fPreserveOids,
+												m_preserve_oids,
 												m_ulTupleOidColId
 												);
 

@@ -32,19 +32,19 @@ CDXLLogicalDelete::CDXLLogicalDelete
 	(
 	IMemoryPool *memory_pool,
 	CDXLTableDescr *table_descr,
-	ULONG ulCtid,
-	ULONG ulSegmentId,
-	ULongPtrArray *pdrgpulDelete
+	ULONG ctid_colid,
+	ULONG segid_colid,
+	ULongPtrArray *delete_colid_array
 	)
 	:
 	CDXLLogical(memory_pool),
 	m_table_descr_dxl(table_descr),
-	m_ctid_colid(ulCtid),
-	m_segid_colid(ulSegmentId),
-	m_deletion_colid_array(pdrgpulDelete)
+	m_ctid_colid(ctid_colid),
+	m_segid_colid(segid_colid),
+	m_deletion_colid_array(delete_colid_array)
 {
 	GPOS_ASSERT(NULL != table_descr);
-	GPOS_ASSERT(NULL != pdrgpulDelete);
+	GPOS_ASSERT(NULL != delete_colid_array);
 }
 
 //---------------------------------------------------------------------------

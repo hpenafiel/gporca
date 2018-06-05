@@ -47,13 +47,13 @@ namespace gpdxl
 			ULongPtrArray *m_deletion_colid_array;
 
 			// list of insertion column ids
-			ULongPtrArray *m_pdrgpulInsert;
+			ULongPtrArray *m_insert_colid_array;
 			
 			// should update preserve tuple oids
-			BOOL m_fPreserveOids;	
+			BOOL m_preserve_oids;	
 
 			// tuple oid column id
-			ULONG m_ulTupleOid;
+			ULONG m_tuple_oid;
 			
 			// private copy ctor
 			CDXLLogicalUpdate(const CDXLLogicalUpdate &);
@@ -65,12 +65,12 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CDXLTableDescr *table_descr,
-				ULONG ulCtid,
-				ULONG ulSegmentId,
-				ULongPtrArray *pdrgpulDelete,
-				ULongPtrArray *pdrgpulInsert,
-				BOOL fPreserveOids,
-				ULONG ulTupleOid
+				ULONG ctid_colid,
+				ULONG segid_colid,
+				ULongPtrArray *delete_colid_array,
+				ULongPtrArray *insert_colid_array,
+				BOOL preserve_oids,
+				ULONG tuple_oid
 				);
 
 			// dtor
@@ -108,27 +108,27 @@ namespace gpdxl
 			}
 
 			// insertion column ids
-			ULongPtrArray *PdrgpulInsert() const
+			ULongPtrArray *GetInsertionColIdArray() const
 			{
-				return m_pdrgpulInsert;
+				return m_insert_colid_array;
 			}
 			
 			// does update preserve oids
-			BOOL FPreserveOids() const
+			BOOL IsOidsPreserved() const
 			{
-				return m_fPreserveOids;
+				return m_preserve_oids;
 			}
 
 			// tuple oid column id
-			ULONG UlTupleOid() const
+			ULONG GetTupleOid() const
 			{
-				return m_ulTupleOid;
+				return m_tuple_oid;
 			}
 			
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// serialize operator in DXL format
