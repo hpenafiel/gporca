@@ -75,12 +75,12 @@ CParseHandlerMergeJoin::StartElement
 	// order of their expected appearance
 	
 	// parse handler for right child
-	CParseHandlerBase *pphRight = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphRight);
+	CParseHandlerBase *right_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(right_child_parse_handler);
 	
 	// parse handler for left child
-	CParseHandlerBase *pphLeft = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphLeft);
+	CParseHandlerBase *left_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(left_child_parse_handler);
 
 	// parse handler for the merge clauses
 	CParseHandlerBase *pphMergeCl = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarMergeCondList), m_parse_handler_mgr, this);
@@ -91,8 +91,8 @@ CParseHandlerMergeJoin::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(ppHjFilter);
 	
 	// parse handler for the filter
-	CParseHandlerBase *pphFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
+	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(filter_parse_handler);
 	
 	// parse handler for the proj list
 	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -105,11 +105,11 @@ CParseHandlerMergeJoin::StartElement
 	// store parse handlers
 	this->Append(pphProp);
 	this->Append(proj_list_parse_handler);
-	this->Append(pphFilter);
+	this->Append(filter_parse_handler);
 	this->Append(ppHjFilter);
 	this->Append(pphMergeCl);
-	this->Append(pphLeft);
-	this->Append(pphRight);
+	this->Append(left_child_parse_handler);
+	this->Append(right_child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -137,11 +137,11 @@ CParseHandlerMergeJoin::EndElement
 	// construct node from the created child nodes
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
+	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerFilter *ppHjFilter = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
 	CParseHandlerCondList *pphMergeCl = dynamic_cast<CParseHandlerCondList *>((*this)[4]);
-	CParseHandlerPhysicalOp *pphLeft = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
-	CParseHandlerPhysicalOp *pphRight = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[6]);
+	CParseHandlerPhysicalOp *left_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
+	CParseHandlerPhysicalOp *right_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[6]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 	// set statictics and physical properties
@@ -149,11 +149,11 @@ CParseHandlerMergeJoin::EndElement
 
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
-	AddChildFromParseHandler(pphFilter);
+	AddChildFromParseHandler(filter_parse_handler);
 	AddChildFromParseHandler(ppHjFilter);
 	AddChildFromParseHandler(pphMergeCl);
-	AddChildFromParseHandler(pphLeft);
-	AddChildFromParseHandler(pphRight);
+	AddChildFromParseHandler(left_child_parse_handler);
+	AddChildFromParseHandler(right_child_parse_handler);
 	
 #ifdef GPOS_DEBUG
 	m_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);

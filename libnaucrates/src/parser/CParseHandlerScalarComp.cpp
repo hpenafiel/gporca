@@ -84,16 +84,16 @@ CParseHandlerScalarComp::StartElement
 	// order of their expected appearance
 	
 	// parse handler for right scalar node
-	CParseHandlerBase *pphRight = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphRight);
+	CParseHandlerBase *right_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(right_child_parse_handler);
 	
 	// parse handler for left scalar node
-	CParseHandlerBase *pphLeft = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphLeft);
+	CParseHandlerBase *left_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(left_child_parse_handler);
 	
 	// store parse handlers
-	this->Append(pphLeft);
-	this->Append(pphRight);
+	this->Append(left_child_parse_handler);
+	this->Append(right_child_parse_handler);
 
 }
 
@@ -122,12 +122,12 @@ CParseHandlerScalarComp::EndElement
 	// construct node from the created child nodes
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
-	CParseHandlerScalarOp *pphLeft = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-	CParseHandlerScalarOp *pphRight = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
+	CParseHandlerScalarOp *left_child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+	CParseHandlerScalarOp *right_child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
 
 	// add constructed children
-	AddChildFromParseHandler(pphLeft);
-	AddChildFromParseHandler(pphRight);
+	AddChildFromParseHandler(left_child_parse_handler);
+	AddChildFromParseHandler(right_child_parse_handler);
 	
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

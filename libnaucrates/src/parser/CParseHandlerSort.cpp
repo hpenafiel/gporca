@@ -93,8 +93,8 @@ CParseHandlerSort::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(pphSortColList);
 	
 	// parse handler for the filter
-	CParseHandlerBase *pphFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
+	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(filter_parse_handler);
 	
 	// parse handler for the proj list
 	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -107,7 +107,7 @@ CParseHandlerSort::StartElement
 	// store parse handlers
 	this->Append(pphProp);
 	this->Append(proj_list_parse_handler);
-	this->Append(pphFilter);
+	this->Append(filter_parse_handler);
 	this->Append(pphSortColList);
 	this->Append(pphCount);
 	this->Append(pphOffset);
@@ -144,7 +144,7 @@ CParseHandlerSort::EndElement
 	// construct node from the created child nodes
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
+	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerSortColList *pphSortColList = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
 	CParseHandlerScalarLimitCount *pphCount = dynamic_cast<CParseHandlerScalarLimitCount *>((*this)[4]);
 	CParseHandlerScalarLimitOffset *pphOffset = dynamic_cast<CParseHandlerScalarLimitOffset *>((*this)[5]);
@@ -156,7 +156,7 @@ CParseHandlerSort::EndElement
 
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
-	AddChildFromParseHandler(pphFilter);
+	AddChildFromParseHandler(filter_parse_handler);
 	AddChildFromParseHandler(pphSortColList);
 	AddChildFromParseHandler(pphCount);
 	AddChildFromParseHandler(pphOffset);

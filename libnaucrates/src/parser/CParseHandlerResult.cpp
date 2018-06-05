@@ -68,8 +68,8 @@ CParseHandlerResult::SetupInitialHandlers
 	m_parse_handler_mgr->ActivateParseHandler(pphOneTimeFilter);
 	
 	// parse handler for the filter
-	CParseHandlerBase *pphFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
+	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(filter_parse_handler);
 
 	// parse handler for the proj list
 	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -81,7 +81,7 @@ CParseHandlerResult::SetupInitialHandlers
 
 	this->Append(pphProp);
 	this->Append(proj_list_parse_handler);
-	this->Append(pphFilter);
+	this->Append(filter_parse_handler);
 	this->Append(pphOneTimeFilter);
 }
 
@@ -150,7 +150,7 @@ CParseHandlerResult::EndElement
 	// construct node from the created child nodes
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
+	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerFilter *pphOneTimeFilter = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
@@ -159,7 +159,7 @@ CParseHandlerResult::EndElement
 
 	// add constructed children
 	AddChildFromParseHandler(proj_list_parse_handler);
-	AddChildFromParseHandler(pphFilter);
+	AddChildFromParseHandler(filter_parse_handler);
 	AddChildFromParseHandler(pphOneTimeFilter);
 
 	if (this->Length() == 5)

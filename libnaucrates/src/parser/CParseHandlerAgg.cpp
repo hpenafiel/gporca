@@ -80,8 +80,8 @@ CParseHandlerAgg::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 	
 	// parse handler for the filter
-	CParseHandlerBase *pphFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
+	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(filter_parse_handler);
 	
 	// parse handler for the proj list
 	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -99,7 +99,7 @@ CParseHandlerAgg::StartElement
 	this->Append(pphProp);
 	this->Append(pphGrpColList);
 	this->Append(proj_list_parse_handler);
-	this->Append(pphFilter);
+	this->Append(filter_parse_handler);
 	this->Append(child_parse_handler);
 
 }
@@ -133,7 +133,7 @@ CParseHandlerAgg::EndElement
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerGroupingColList *pphGrpColList = dynamic_cast<CParseHandlerGroupingColList*>((*this)[1]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[2]);
-	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
+	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 
 	// set grouping cols list
@@ -150,7 +150,7 @@ CParseHandlerAgg::EndElement
 
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
-	AddChildFromParseHandler(pphFilter);
+	AddChildFromParseHandler(filter_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);
 	
 	// deactivate handler

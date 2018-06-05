@@ -77,14 +77,14 @@ CParseHandlerScalarBitmapBoolOp::StartElement
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarBitmapBoolOp(m_memory_pool, pmdid, edxlbitmapboolop));
 	
 	// install parse handlers for children
-	CParseHandlerBase *pphRight = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphRight);
+	CParseHandlerBase *right_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(right_child_parse_handler);
 	
-	CParseHandlerBase *pphLeft = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphLeft);
+	CParseHandlerBase *left_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(left_child_parse_handler);
 
-	this->Append(pphLeft);
-	this->Append(pphRight);
+	this->Append(left_child_parse_handler);
+	this->Append(right_child_parse_handler);
 }
 
 //---------------------------------------------------------------------------

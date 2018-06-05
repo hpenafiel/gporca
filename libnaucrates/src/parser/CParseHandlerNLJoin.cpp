@@ -63,8 +63,8 @@ CParseHandlerNLJoin::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalNLJoin), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// parse and create Hash join operator
@@ -74,20 +74,20 @@ CParseHandlerNLJoin::StartElement
 	// order of their expected appearance
 	
 	// parse handler for right child
-	CParseHandlerBase *pphRight = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphRight);
+	CParseHandlerBase *right_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(right_child_parse_handler);
 	
 	// parse handler for left child
-	CParseHandlerBase *pphLeft = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphLeft);
+	CParseHandlerBase *left_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(left_child_parse_handler);
 
 	// parse handler for the join filter
-	CParseHandlerBase *pphJoinFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphJoinFilter);
+	CParseHandlerBase *join_filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(join_filter_parse_handler);
 
 	// parse handler for the filter
-	CParseHandlerBase *pphFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
+	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(filter_parse_handler);
 	
 	// parse handler for the proj list
 	CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -100,10 +100,10 @@ CParseHandlerNLJoin::StartElement
 	// store parse handlers
 	this->Append(pphProp);
 	this->Append(proj_list_parse_handler);
-	this->Append(pphFilter);
-	this->Append(pphJoinFilter);
-	this->Append(pphLeft);
-	this->Append(pphRight);
+	this->Append(filter_parse_handler);
+	this->Append(join_filter_parse_handler);
+	this->Append(left_child_parse_handler);
+	this->Append(right_child_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -124,22 +124,22 @@ CParseHandlerNLJoin::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalNLJoin), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLUnexpectedTag,
-			pstr->GetBuffer()
+			str->GetBuffer()
 			);
 	}
 	
 	// construct node from the created child nodes
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerFilter *pphJoinFilter = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
-	CParseHandlerPhysicalOp *pphLeft = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
-	CParseHandlerPhysicalOp *pphRight = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
+	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
+	CParseHandlerFilter *join_filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
+	CParseHandlerPhysicalOp *left_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
+	CParseHandlerPhysicalOp *right_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
@@ -147,10 +147,10 @@ CParseHandlerNLJoin::EndElement
 	
 	// add constructed children
 	AddChildFromParseHandler(proj_list_parse_handler);
-	AddChildFromParseHandler(pphFilter);
-	AddChildFromParseHandler(pphJoinFilter);
-	AddChildFromParseHandler(pphLeft);
-	AddChildFromParseHandler(pphRight);
+	AddChildFromParseHandler(filter_parse_handler);
+	AddChildFromParseHandler(join_filter_parse_handler);
+	AddChildFromParseHandler(left_child_parse_handler);
+	AddChildFromParseHandler(right_child_parse_handler);
 	
 #ifdef GPOS_DEBUG
 	m_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);

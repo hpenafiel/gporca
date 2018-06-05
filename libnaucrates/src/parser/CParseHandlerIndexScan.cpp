@@ -146,9 +146,9 @@ CParseHandlerIndexScan::StartElementHelper
 	m_parse_handler_mgr->ActivateParseHandler(pphIdxCondList);
 
 	// parse handler for the filter
-	CParseHandlerBase *pphFilter =
+	CParseHandlerBase *filter_parse_handler =
 			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphFilter);
+	m_parse_handler_mgr->ActivateParseHandler(filter_parse_handler);
 
 	// parse handler for the proj list
 	CParseHandlerBase *proj_list_parse_handler =
@@ -163,7 +163,7 @@ CParseHandlerIndexScan::StartElementHelper
 	// store parse handlers
 	this->Append(pphProp);
 	this->Append(proj_list_parse_handler);
-	this->Append(pphFilter);
+	this->Append(filter_parse_handler);
 	this->Append(pphIdxCondList);
 	this->Append(pphIdxD);
 	this->Append(pphTD);
@@ -195,7 +195,7 @@ CParseHandlerIndexScan::EndElementHelper
 	// construct node from the created child nodes
 	CParseHandlerProperties *pphProp = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
-	CParseHandlerFilter *pphFilter = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
+	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerIndexCondList *pphIdxCondList = dynamic_cast<CParseHandlerIndexCondList *>((*this)[3]);
 	CParseHandlerIndexDescr *pphIdxD = dynamic_cast<CParseHandlerIndexDescr *>((*this)[4]);
 	CParseHandlerTableDescr *pphTD = dynamic_cast<CParseHandlerTableDescr *>((*this)[5]);
@@ -230,7 +230,7 @@ CParseHandlerIndexScan::EndElementHelper
 
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
-	AddChildFromParseHandler(pphFilter);
+	AddChildFromParseHandler(filter_parse_handler);
 	AddChildFromParseHandler(pphIdxCondList);
 
 	// deactivate handler
