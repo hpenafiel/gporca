@@ -120,16 +120,9 @@ CDXLOperatorFactory::PdxlopResult
 	return GPOS_NEW(memory_pool) CDXLPhysicalResult(memory_pool);
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLOperatorFactory::PdxlopHashJoin
-//
-//	@doc:
 //		Construct a hashjoin operator
-//
-//---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopHashJoin
+CDXLOperatorFactory::MakeDXLHashJoin
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs

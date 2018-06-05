@@ -204,7 +204,7 @@ namespace gpdxl
 
 			// create a hashjoin operator
 			static
-			CDXLPhysical *PdxlopHashJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLHashJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a nested loop join operator
 			static

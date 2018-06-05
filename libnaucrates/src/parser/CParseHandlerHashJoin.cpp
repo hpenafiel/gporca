@@ -65,12 +65,12 @@ CParseHandlerHashJoin::StartElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalHashJoin), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// parse and create Hash join operator
-	m_dxl_op = (CDXLPhysicalHashJoin *) CDXLOperatorFactory::PdxlopHashJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalHashJoin *) CDXLOperatorFactory::MakeDXLHashJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance
@@ -84,12 +84,12 @@ CParseHandlerHashJoin::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(left_child_parse_handler);
 
 	// parse handler for the hash clauses
-	CParseHandlerBase *pphHashCondList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashCondList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphHashCondList);
+	CParseHandlerBase *hash_clauses_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashCondList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(hash_clauses_parse_handler);
 	
 	// parse handler for the join filter
-	CParseHandlerBase *ppHJFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(ppHJFilter);
+	CParseHandlerBase *hashjoin_filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(hashjoin_filter_parse_handler);
 	
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -107,8 +107,8 @@ CParseHandlerHashJoin::StartElement
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(ppHJFilter);
-	this->Append(pphHashCondList);
+	this->Append(hashjoin_filter_parse_handler);
+	this->Append(hash_clauses_parse_handler);
 	this->Append(left_child_parse_handler);
 	this->Append(right_child_parse_handler);
 }
@@ -131,16 +131,16 @@ CParseHandlerHashJoin::EndElement
 {
 	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalHashJoin), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	// construct node from the created child nodes
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerFilter *ppHJFilter = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
-	CParseHandlerCondList *pphHashCondList = dynamic_cast<CParseHandlerCondList *>((*this)[4]);
+	CParseHandlerFilter *hashjoin_filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
+	CParseHandlerCondList *hash_clauses_parse_handler = dynamic_cast<CParseHandlerCondList *>((*this)[4]);
 	CParseHandlerPhysicalOp *left_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
 	CParseHandlerPhysicalOp *right_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[6]);
 
@@ -151,8 +151,8 @@ CParseHandlerHashJoin::EndElement
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
-	AddChildFromParseHandler(ppHJFilter);
-	AddChildFromParseHandler(pphHashCondList);
+	AddChildFromParseHandler(hashjoin_filter_parse_handler);
+	AddChildFromParseHandler(hash_clauses_parse_handler);
 	AddChildFromParseHandler(left_child_parse_handler);
 	AddChildFromParseHandler(right_child_parse_handler);
 	
