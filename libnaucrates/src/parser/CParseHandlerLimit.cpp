@@ -72,11 +72,11 @@ CParseHandlerLimit::StartElement
 		// create and activate the parse handler for the children nodes in reverse
 		// order of their expected appearance
 
-		CParseHandlerBase *pphOffset = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphOffset);
+		CParseHandlerBase *offset_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitOffset), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(offset_parse_handler);
 
-		CParseHandlerBase *pphCount = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphCount);
+		CParseHandlerBase *count_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(count_parse_handler);
 
 		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
@@ -93,13 +93,13 @@ CParseHandlerLimit::StartElement
 		this->Append(prop_parse_handler);
 		this->Append(proj_list_parse_handler);
 		this->Append(child_parse_handler);
-		this->Append(pphCount);
-		this->Append(pphOffset);
+		this->Append(count_parse_handler);
+		this->Append(offset_parse_handler);
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 
@@ -128,8 +128,8 @@ CParseHandlerLimit::EndElement
 
 		CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 		CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[2]);
-		CParseHandlerScalarOp *pphCount = dynamic_cast<CParseHandlerScalarOp *>((*this)[3]);
-		CParseHandlerScalarOp *pphOffSet = dynamic_cast<CParseHandlerScalarOp *>((*this)[4]);
+		CParseHandlerScalarOp *count_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[3]);
+		CParseHandlerScalarOp *offset_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[4]);
 		
 		// set statistics and physical properties
 		CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
@@ -137,16 +137,16 @@ CParseHandlerLimit::EndElement
 		// add constructed children
 		AddChildFromParseHandler(proj_list_parse_handler);
 		AddChildFromParseHandler(child_parse_handler);
-		AddChildFromParseHandler(pphCount);
-		AddChildFromParseHandler(pphOffSet);
+		AddChildFromParseHandler(count_parse_handler);
+		AddChildFromParseHandler(offset_parse_handler);
 
 		// deactivate handler
 		m_parse_handler_mgr->DeactivateHandler();
 	}
 	else
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 

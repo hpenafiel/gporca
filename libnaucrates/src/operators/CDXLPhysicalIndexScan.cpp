@@ -139,7 +139,7 @@ void
 CDXLPhysicalIndexScan::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -153,10 +153,10 @@ CDXLPhysicalIndexScan::SerializeToDXL
 				);
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	node->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize index descriptor
 	m_index_descr_dxl->SerializeToDXL(xml_serializer);
@@ -179,16 +179,16 @@ CDXLPhysicalIndexScan::SerializeToDXL
 void
 CDXLPhysicalIndexScan::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	)
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, validate_children);
+	CDXLPhysical::AssertValid(node, validate_children);
 
 	// index scan has only 3 children
-	GPOS_ASSERT(3 == pdxln->Arity());
+	GPOS_ASSERT(3 == node->Arity());
 
 	// assert validity of the index descriptor
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
@@ -200,7 +200,7 @@ CDXLPhysicalIndexScan::AssertValid
 	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
 	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
 
-	CDXLNode *index_cond_dxlnode = (*pdxln)[EdxlisIndexCondition];
+	CDXLNode *index_cond_dxlnode = (*node)[EdxlisIndexCondition];
 
 	// assert children are of right type (physical/scalar)
 	GPOS_ASSERT(EdxlopScalarIndexCondList == index_cond_dxlnode->GetOperator()->GetDXLOperator());

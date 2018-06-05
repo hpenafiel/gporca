@@ -110,12 +110,12 @@ CParseHandlerIndexScan::StartElementHelper
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	// get the index scan direction from the attribute
-	const XMLCh *xmlszIndexScanDirection = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *index_scan_direction = CDXLOperatorFactory::XmlstrFromAttrs
 																	(
 																	attrs,
 																	EdxltokenIndexScanDirection,
@@ -123,7 +123,7 @@ CParseHandlerIndexScan::StartElementHelper
 																	);
 	m_index_scan_dir = CDXLOperatorFactory::EdxljtParseIndexScanDirection
 										(
-										xmlszIndexScanDirection,
+										index_scan_direction,
 										CDXLTokens::PstrToken(token_type)
 										);
 	GPOS_ASSERT(EdxlisdSentinel != m_index_scan_dir);
@@ -136,14 +136,14 @@ CParseHandlerIndexScan::StartElementHelper
 	m_parse_handler_mgr->ActivateParseHandler(table_descr_parse_handler);
 
 	// parse handler for the index descriptor
-	CParseHandlerBase *pphIdxD =
+	CParseHandlerBase *index_descr_parse_handler =
 			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenIndexDescr), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphIdxD);
+	m_parse_handler_mgr->ActivateParseHandler(index_descr_parse_handler);
 
 	// parse handler for the index condition list
-	CParseHandlerBase *pphIdxCondList =
+	CParseHandlerBase *index_condition_list_parse_handler =
 			CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarIndexCondList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphIdxCondList);
+	m_parse_handler_mgr->ActivateParseHandler(index_condition_list_parse_handler);
 
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler =
@@ -164,8 +164,8 @@ CParseHandlerIndexScan::StartElementHelper
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(pphIdxCondList);
-	this->Append(pphIdxD);
+	this->Append(index_condition_list_parse_handler);
+	this->Append(index_descr_parse_handler);
 	this->Append(table_descr_parse_handler);
 }
 
@@ -188,40 +188,40 @@ CParseHandlerIndexScan::EndElementHelper
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(token_type), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	// construct node from the created child nodes
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerIndexCondList *pphIdxCondList = dynamic_cast<CParseHandlerIndexCondList *>((*this)[3]);
-	CParseHandlerIndexDescr *pphIdxD = dynamic_cast<CParseHandlerIndexDescr *>((*this)[4]);
+	CParseHandlerIndexCondList *index_condition_list_parse_handler = dynamic_cast<CParseHandlerIndexCondList *>((*this)[3]);
+	CParseHandlerIndexDescr *index_descr_parse_handler = dynamic_cast<CParseHandlerIndexDescr *>((*this)[4]);
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr *>((*this)[5]);
 
-	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
-	table_descr->AddRef();
+	CDXLTableDescr *table_descr_dxl = table_descr_parse_handler->GetTableDescr();
+	table_descr_dxl->AddRef();
 
-	CDXLIndexDescr *index_descr_dxl = pphIdxD->GetIndexDescr();
+	CDXLIndexDescr *index_descr_dxl = index_descr_parse_handler->GetIndexDescr();
 	index_descr_dxl->AddRef();
 
 	CDXLPhysical *dxl_op = NULL;
 	if (EdxltokenPhysicalIndexOnlyScan == token_type)
 	{
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, table_descr, index_descr_dxl, m_index_scan_dir);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexOnlyScan(m_memory_pool, table_descr_dxl, index_descr_dxl, m_index_scan_dir);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else if (EdxltokenPhysicalIndexScan == token_type)
 	{
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, table_descr, index_descr_dxl, m_index_scan_dir);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalIndexScan(m_memory_pool, table_descr_dxl, index_descr_dxl, m_index_scan_dir);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else
 	{
 		GPOS_ASSERT(EdxltokenPhysicalDynamicIndexScan == token_type);
 
-		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, table_descr, part_idx_id, part_idx_id_printable, index_descr_dxl, m_index_scan_dir);
+		dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicIndexScan(m_memory_pool, table_descr_dxl, part_idx_id, part_idx_id_printable, index_descr_dxl, m_index_scan_dir);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 
@@ -231,7 +231,7 @@ CParseHandlerIndexScan::EndElementHelper
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
-	AddChildFromParseHandler(pphIdxCondList);
+	AddChildFromParseHandler(index_condition_list_parse_handler);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
