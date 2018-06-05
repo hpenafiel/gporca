@@ -43,20 +43,20 @@ namespace gpdxl
 		private:
 
 			// table id
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 
 			// number of partitioning levels
-			ULONG m_ulLevels;
+			ULONG m_num_of_part_levels;
 			
 			// scan id
-			ULONG m_ulScanId;
+			ULONG m_scan_id;
 
 			// private copy ctor
 			CDXLPhysicalPartitionSelector(CDXLPhysicalPartitionSelector&);
 
 		public:
 			// ctor
-			CDXLPhysicalPartitionSelector(IMemoryPool *memory_pool, IMDId *pmdidRel, ULONG ulLevels, ULONG ulScanId);
+			CDXLPhysicalPartitionSelector(IMemoryPool *memory_pool, IMDId *pmdidRel, ULONG ulLevels, ULONG scan_id);
 			
 			// dtor
 			virtual
@@ -73,19 +73,19 @@ namespace gpdxl
 			// table id
 			IMDId *PmdidRel() const
 			{
-				return m_pmdidRel;
+				return m_rel_mdid;
 			}
 
 			// number of partitioning levels
 			ULONG UlLevels() const
 			{
-				return m_ulLevels;
+				return m_num_of_part_levels;
 			}
 
 			// scan id
 			ULONG UlScanId() const
 			{
-				return m_ulScanId;
+				return m_scan_id;
 			}
 
 			// serialize operator in DXL format

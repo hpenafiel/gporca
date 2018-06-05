@@ -61,7 +61,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				CDXLTableDescr *table_descr,
 				CDXLIndexDescr *pdxlid,
-				EdxlIndexScanDirection edxlisd
+				EdxlIndexScanDirection idx_scan_direction
 				);
 
 			//dtor

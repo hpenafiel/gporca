@@ -30,13 +30,13 @@ CDXLPhysicalPartitionSelector::CDXLPhysicalPartitionSelector
 	IMemoryPool *memory_pool,
 	IMDId *pmdidRel,
 	ULONG ulLevels,
-	ULONG ulScanId
+	ULONG scan_id
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pmdidRel(pmdidRel),
-	m_ulLevels(ulLevels),
-	m_ulScanId(ulScanId)
+	m_rel_mdid(pmdidRel),
+	m_num_of_part_levels(ulLevels),
+	m_scan_id(scan_id)
 {
 	GPOS_ASSERT(pmdidRel->IsValid());
 	GPOS_ASSERT(0 < ulLevels);
@@ -52,7 +52,7 @@ CDXLPhysicalPartitionSelector::CDXLPhysicalPartitionSelector
 //---------------------------------------------------------------------------
 CDXLPhysicalPartitionSelector::~CDXLPhysicalPartitionSelector()
 {
-	m_pmdidRel->Release();
+	m_rel_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -102,9 +102,9 @@ CDXLPhysicalPartitionSelector::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorLevels), m_ulLevels);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorScanId), m_ulScanId);
+	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorLevels), m_num_of_part_levels);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalPartitionSelectorScanId), m_scan_id);
 	pdxln->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize project list and filter lists

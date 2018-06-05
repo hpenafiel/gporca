@@ -129,8 +129,8 @@ CDXLPhysicalAssert::AssertValid
 
 	GPOS_ASSERT(3 == pdxln->Arity());
 	
-	CDXLNode *pdxlnProjList = (*pdxln)[EdxlassertIndexProjList];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->GetDXLOperator());
+	CDXLNode *proj_list_dxlnode = (*pdxln)[EdxlassertIndexProjList];
+	GPOS_ASSERT(EdxlopScalarProjectList == proj_list_dxlnode->GetOperator()->GetDXLOperator());
 
 	CDXLNode *pdxlnPredicate = (*pdxln)[EdxlassertIndexFilter];
 	GPOS_ASSERT(EdxlopScalarAssertConstraintList == pdxlnPredicate->GetOperator()->GetDXLOperator());

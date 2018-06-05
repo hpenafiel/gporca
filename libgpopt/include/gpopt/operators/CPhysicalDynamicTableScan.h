@@ -43,7 +43,7 @@ namespace gpopt
 				const CName *pname, 
 				CTableDescriptor *ptabdesc,
 				ULONG ulOriginOpId,
-				ULONG ulScanId,
+				ULONG scan_id,
 				DrgPcr *pdrgpcr,
 				DrgDrgPcr *pdrgpdrgpcrParts,
 				ULONG ulSecondaryScanId,

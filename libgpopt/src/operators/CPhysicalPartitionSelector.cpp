@@ -33,7 +33,7 @@ using namespace gpopt;
 CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulScanId,
+	ULONG scan_id,
 	IMDId *pmdid,
 	DrgDrgPcr *pdrgpdrgpcr,
 	PartCnstrMap *ppartcnstrmap,
@@ -44,7 +44,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	)
 	:
 	CPhysical(memory_pool),
-	m_ulScanId(ulScanId),
+	m_scan_id(scan_id),
 	m_mdid(pmdid),
 	m_pdrgpdrgpcr(pdrgpdrgpcr),
 	m_ppartcnstrmap(ppartcnstrmap),
@@ -53,7 +53,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	m_phmulexprPredicates(phmulexprPredicates),
 	m_pexprResidual(pexprResidual)
 {
-	GPOS_ASSERT(0 < ulScanId);
+	GPOS_ASSERT(0 < scan_id);
 	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
 	GPOS_ASSERT(0 < pdrgpdrgpcr->Size());
@@ -81,7 +81,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	)
 	:
 	CPhysical(memory_pool),
-	m_ulScanId(0),
+	m_scan_id(0),
 	m_mdid(pmdid),
 	m_pdrgpdrgpcr(NULL),
 	m_ppartcnstrmap(NULL),
@@ -258,7 +258,7 @@ CPhysicalPartitionSelector::FMatch
 
 	CPhysicalPartitionSelector *popPartSelector = CPhysicalPartitionSelector::PopConvert(pop);
 
-	BOOL fScanIdCmp = popPartSelector->UlScanId() == m_ulScanId;
+	BOOL fScanIdCmp = popPartSelector->UlScanId() == m_scan_id;
 	BOOL fMdidCmp = popPartSelector->MDId()->Equals(MDId());
 	BOOL fPartCnstrMapCmp = FMatchPartCnstr(popPartSelector->m_ppartcnstrmap);
 	BOOL fColRefCmp = CColRef::Equals(popPartSelector->Pdrgpdrgpcr(), m_pdrgpdrgpcr) ;
@@ -284,7 +284,7 @@ CPhysicalPartitionSelector::HashValue() const
 	return gpos::CombineHashes
 				(
 				Eopid(),
-				gpos::CombineHashes(m_ulScanId, MDId()->HashValue())
+				gpos::CombineHashes(m_scan_id, MDId()->HashValue())
 				);
 }
 
@@ -450,7 +450,7 @@ CPhysicalPartitionSelector::PpfmDerive
 	GPOS_ASSERT(NULL != pstats);
 	m_pexprCombinedPredicate->AddRef();
 	pstats->AddRef();
-	ppfm->AddPartFilter(memory_pool, m_ulScanId, m_pexprCombinedPredicate, pstats);
+	ppfm->AddPartFilter(memory_pool, m_scan_id, m_pexprCombinedPredicate, pstats);
 	return ppfm;
 }
 
@@ -533,7 +533,7 @@ CPhysicalPartitionSelector::PdsRequired
 
 	CDrvdPropRelational *pdprelDrvd = exprhdl.Pdprel();
 	CPartInfo *ppartinfo = pdprelDrvd->Ppartinfo();
-	BOOL fCovered = ppartinfo->FContainsScanId(m_ulScanId);
+	BOOL fCovered = ppartinfo->FContainsScanId(m_scan_id);
 
 	if (fCovered)
 	{
@@ -611,33 +611,33 @@ CPhysicalPartitionSelector::PppsRequired
 
 	for (ULONG ul = 0; ul < ulScanIds; ul++)
 	{
-		ULONG ulScanId = *((*pdrgpulInputScanIds)[ul]);
-		ULONG ulExpectedPropagators = ppimInput->UlExpectedPropagators(ulScanId);
+		ULONG scan_id = *((*pdrgpulInputScanIds)[ul]);
+		ULONG ulExpectedPropagators = ppimInput->UlExpectedPropagators(scan_id);
 
-		if (ulScanId == m_ulScanId)
+		if (scan_id == m_scan_id)
 		{
 			// partition propagation resolved - do not need to require from children
 			continue;
 		}
 
-		if (!ppartinfo->FContainsScanId(ulScanId) && ppartinfo->FContainsScanId(m_ulScanId))
+		if (!ppartinfo->FContainsScanId(scan_id) && ppartinfo->FContainsScanId(m_scan_id))
 		{
 		    // dynamic scan for the required id not defined below, but the current one is: do not push request down
 			continue;
 		}
 
-		IMDId *pmdid = ppimInput->PmdidRel(ulScanId);
-		DrgPpartkeys *pdrgppartkeys = ppimInput->Pdrgppartkeys(ulScanId);
-		PartCnstrMap *ppartcnstrmap = ppimInput->Ppartcnstrmap(ulScanId);
-		CPartConstraint *ppartcnstr = ppimInput->PpartcnstrRel(ulScanId);
-		CPartIndexMap::EPartIndexManipulator epim = ppimInput->Epim(ulScanId);
+		IMDId *pmdid = ppimInput->PmdidRel(scan_id);
+		DrgPpartkeys *pdrgppartkeys = ppimInput->Pdrgppartkeys(scan_id);
+		PartCnstrMap *ppartcnstrmap = ppimInput->Ppartcnstrmap(scan_id);
+		CPartConstraint *ppartcnstr = ppimInput->PpartcnstrRel(scan_id);
+		CPartIndexMap::EPartIndexManipulator epim = ppimInput->Epim(scan_id);
 		pmdid->AddRef();
 		pdrgppartkeys->AddRef();
 		ppartcnstrmap->AddRef();
 		ppartcnstr->AddRef();
 
-		ppim->Insert(ulScanId, ppartcnstrmap, epim, ulExpectedPropagators, pmdid, pdrgppartkeys, ppartcnstr);
-		(void) ppfm->FCopyPartFilter(m_memory_pool, ulScanId, ppfmInput);
+		ppim->Insert(scan_id, ppartcnstrmap, epim, ulExpectedPropagators, pmdid, pdrgppartkeys, ppartcnstr);
+		(void) ppfm->FCopyPartFilter(m_memory_pool, scan_id, ppfmInput);
 	}
 
 	// cleanup
@@ -757,8 +757,8 @@ CPhysicalPartitionSelector::PpimDerive
 
 	ULONG ulExpectedPartitionSelectors = CDrvdPropCtxtPlan::PdpctxtplanConvert(pdpctxt)->UlExpectedPartitionSelectors();
 
-	CPartIndexMap *ppim = ppimInput->PpimPartitionSelector(memory_pool, m_ulScanId, ulExpectedPartitionSelectors);
-	if (!ppim->FContains(m_ulScanId))
+	CPartIndexMap *ppim = ppimInput->PpimPartitionSelector(memory_pool, m_scan_id, ulExpectedPartitionSelectors);
+	if (!ppim->FContains(m_scan_id))
 	{
 		// the consumer of this scan id does not come from the child, i.e. it
 		// is on the other side of a join
@@ -770,7 +770,7 @@ CPhysicalPartitionSelector::PpimDerive
 		DrgPpartkeys *pdrgppartkeys = GPOS_NEW(memory_pool) DrgPpartkeys(memory_pool);
 		pdrgppartkeys->Append(GPOS_NEW(memory_pool) CPartKeys(m_pdrgpdrgpcr));
 
-		ppim->Insert(m_ulScanId, m_ppartcnstrmap, CPartIndexMap::EpimPropagator, 0 /*ulExpectedPropagators*/, MDId(), pdrgppartkeys, m_ppartcnstr);
+		ppim->Insert(m_scan_id, m_ppartcnstrmap, CPartIndexMap::EpimPropagator, 0 /*ulExpectedPropagators*/, MDId(), pdrgppartkeys, m_ppartcnstr);
 	}
 
 	return ppim;
@@ -820,14 +820,14 @@ CPhysicalPartitionSelector::EpetDistribution
 	}
 
 	CPartIndexMap *ppimDrvd = pdpplan->Ppim();
-	if (!ppimDrvd->FContains(m_ulScanId))
+	if (!ppimDrvd->FContains(m_scan_id))
 	{
 		// part consumer is defined above: prohibit adding a motion on top of the
 		// part resolver as this will create two slices
 		return CEnfdProp::EpetProhibited;
 	}
 
-	GPOS_ASSERT(CPartIndexMap::EpimConsumer == ppimDrvd->Epim(m_ulScanId));
+	GPOS_ASSERT(CPartIndexMap::EpimConsumer == ppimDrvd->Epim(m_scan_id));
 
 	// part consumer found below: enforce distribution on top of part resolver
 	return CEnfdProp::EpetRequired;
@@ -889,7 +889,7 @@ CPhysicalPartitionSelector::OsPrint
 {
 
 	os	<< SzId()
-		<< ", Scan Id: " << m_ulScanId
+		<< ", Scan Id: " << m_scan_id
 		<< ", Part Table: ";
 	MDId()->OsPrint(os);
 

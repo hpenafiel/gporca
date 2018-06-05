@@ -149,7 +149,7 @@ namespace gpopt
 				DrgPcr *pdrgpcrRightSchema,
 				CExpression *pexprLeftChild,
 				CExpression *pexprRightChild,
-				ULONG ulScanId
+				ULONG scan_id
 				) const;
 
 			//	construct a CTE Anchor over the given UnionAll and adds it to the given

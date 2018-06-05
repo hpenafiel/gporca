@@ -37,7 +37,7 @@ CPhysicalRowTrigger::CPhysicalRowTrigger
 	)
 	:
 	CPhysical(memory_pool),
-	m_pmdidRel(pmdidRel),
+	m_rel_mdid(pmdidRel),
 	m_iType(iType),
 	m_pdrgpcrOld(pdrgpcrOld),
 	m_pdrgpcrNew(pdrgpcrNew),
@@ -71,7 +71,7 @@ CPhysicalRowTrigger::CPhysicalRowTrigger
 //---------------------------------------------------------------------------
 CPhysicalRowTrigger::~CPhysicalRowTrigger()
 {
-	m_pmdidRel->Release();
+	m_rel_mdid->Release();
 	CRefCount::SafeRelease(m_pdrgpcrOld);
 	CRefCount::SafeRelease(m_pdrgpcrNew);
 	m_pcrsRequiredLocal->Release();
@@ -360,7 +360,7 @@ CPhysicalRowTrigger::PrsDerive
 ULONG
 CPhysicalRowTrigger::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_pmdidRel->HashValue());
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_rel_mdid->HashValue());
 	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
 
 	if(NULL != m_pdrgpcrOld)
@@ -401,7 +401,7 @@ CPhysicalRowTrigger::FMatch
 	DrgPcr *pdrgpcrOld = popRowTrigger->PdrgpcrOld();
 	DrgPcr *pdrgpcrNew = popRowTrigger->PdrgpcrNew();
 
-	return m_pmdidRel->Equals(popRowTrigger->PmdidRel()) &&
+	return m_rel_mdid->Equals(popRowTrigger->PmdidRel()) &&
 			m_iType == popRowTrigger->IType() &&
 			CUtils::Equals(m_pdrgpcrOld, pdrgpcrOld) &&
 			CUtils::Equals(m_pdrgpcrNew, pdrgpcrNew);

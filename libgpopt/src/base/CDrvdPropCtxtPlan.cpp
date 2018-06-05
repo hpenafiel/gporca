@@ -226,25 +226,25 @@ CDrvdPropCtxtPlan::SetExpectedPartitionSelectors
 	CCostContext *pcc
 	)
 {
-	ULONG ulScanId = 0;
+	ULONG scan_id = 0;
 	if (CUtils::FPhysicalScan(pop) && CPhysicalScan::PopConvert(pop)->FDynamicScan())
 	{
-		ulScanId = CPhysicalDynamicScan::PopConvert(pop)->UlScanId();
+		scan_id = CPhysicalDynamicScan::PopConvert(pop)->UlScanId();
 	}
 	else if (COperator::EopPhysicalSerialUnionAll == pop->Eopid() && CPhysicalUnionAll::PopConvert(pop)->FPartialIndex())
 	{
-		ulScanId = CPhysicalUnionAll::PopConvert(pop)->UlScanIdPartialIndex();
+		scan_id = CPhysicalUnionAll::PopConvert(pop)->UlScanIdPartialIndex();
 	}
 	else if (COperator::EopPhysicalPartitionSelector == pop->Eopid())
 	{
-		ulScanId = CPhysicalPartitionSelector::PopConvert(pop)->UlScanId();
+		scan_id = CPhysicalPartitionSelector::PopConvert(pop)->UlScanId();
 	}
 	else
 	{
 		return;
 	}
 
-	m_ulExpectedPartitionSelectors = pcc->Poc()->Prpp()->Pepp()->PppsRequired()->Ppim()->UlExpectedPropagators(ulScanId);
+	m_ulExpectedPartitionSelectors = pcc->Poc()->Prpp()->Pepp()->PppsRequired()->Ppim()->UlExpectedPropagators(scan_id);
 }
 
 // EOF

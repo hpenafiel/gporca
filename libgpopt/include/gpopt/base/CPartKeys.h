@@ -41,7 +41,7 @@ namespace gpopt
 			DrgDrgPcr *m_pdrgpdrgpcr;
 
 			// number of levels
-			ULONG m_ulLevels;
+			ULONG m_num_of_part_levels;
 
 			// private copy ctor
 			CPartKeys(const CPartKeys &);
@@ -67,7 +67,7 @@ namespace gpopt
 			// number of levels
 			ULONG UlLevels() const
 			{
-				return m_ulLevels;
+				return m_num_of_part_levels;
 			}
 
 			// copy part key into the given memory pool

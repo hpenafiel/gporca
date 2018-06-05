@@ -55,7 +55,7 @@ namespace gpopt
 				private:
 
 					// scan id
-					ULONG m_ulScanId;
+					ULONG m_scan_id;
 
 					// partition table mdid
 					IMDId *m_mdid;
@@ -72,7 +72,7 @@ namespace gpopt
 				public:
 
 					// ctor
-					CPartInfoEntry(ULONG ulScanId, IMDId *pmdid, DrgPpartkeys *pdrgppartkeys, CPartConstraint *ppartcnstrRel);
+					CPartInfoEntry(ULONG scan_id, IMDId *pmdid, DrgPpartkeys *pdrgppartkeys, CPartConstraint *ppartcnstrRel);
 
 					// dtor
 					virtual
@@ -82,7 +82,7 @@ namespace gpopt
 					virtual
 					ULONG UlScanId() const
 					{
-						return m_ulScanId;
+						return m_scan_id;
 					}
 
 					// relation part constraint
@@ -154,7 +154,7 @@ namespace gpopt
 			void AddPartConsumer
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulScanId,
+				ULONG scan_id,
 				IMDId *pmdid,
 				DrgDrgPcr *pdrgpdrgpcrPart,
 				CPartConstraint *ppartcnstrRel
@@ -173,10 +173,10 @@ namespace gpopt
 			CPartConstraint *Ppartcnstr(ULONG ulPos) const;
 
 			// check if part info contains given scan id
-			BOOL FContainsScanId(ULONG ulScanId) const;
+			BOOL FContainsScanId(ULONG scan_id) const;
 
 			// part keys of the entry with the given scan id
-			DrgPpartkeys *PdrgppartkeysByScanId(ULONG ulScanId) const;
+			DrgPpartkeys *PdrgppartkeysByScanId(ULONG scan_id) const;
 
 			// return a new part info object with an additional set of remapped keys
 			CPartInfo *PpartinfoWithRemappedKeys

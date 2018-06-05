@@ -125,26 +125,26 @@ CPartitionPropagationSpec::AppendEnforcers
 	
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		ULONG ulScanId = *((*pdrgpul)[ul]);
-		GPOS_ASSERT(m_ppim->FContains(ulScanId));
+		ULONG scan_id = *((*pdrgpul)[ul]);
+		GPOS_ASSERT(m_ppim->FContains(scan_id));
 		
-		if (CPartIndexMap::EpimConsumer != m_ppim->Epim(ulScanId) || 0 < m_ppim->UlExpectedPropagators(ulScanId))
+		if (CPartIndexMap::EpimConsumer != m_ppim->Epim(scan_id) || 0 < m_ppim->UlExpectedPropagators(scan_id))
 		{
 			continue;
 		}
 		
-		if (!FRequiresPartitionPropagation(memory_pool, pexpr, exprhdl, ulScanId))
+		if (!FRequiresPartitionPropagation(memory_pool, pexpr, exprhdl, scan_id))
 		{
 			continue;
 		}
 		
 		CExpression *pexprResolver = NULL;
 
-		IMDId *pmdid = m_ppim->PmdidRel(ulScanId);
+		IMDId *pmdid = m_ppim->PmdidRel(scan_id);
 		DrgDrgPcr *pdrgpdrgpcrKeys = NULL;
-		DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(ulScanId);
-		CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(ulScanId);
-		PartCnstrMap *ppartcnstrmap = m_ppim->Ppartcnstrmap(ulScanId);
+		DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(scan_id);
+		CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(scan_id);
+		PartCnstrMap *ppartcnstrmap = m_ppim->Ppartcnstrmap(scan_id);
 		pmdid->AddRef();
 		ppartcnstr->AddRef();
 		ppartcnstrmap->AddRef();
@@ -154,9 +154,9 @@ CPartitionPropagationSpec::AppendEnforcers
 		HMUlExpr *phmulexprEqFilter = GPOS_NEW(memory_pool) HMUlExpr(memory_pool);
 		HMUlExpr *phmulexprFilter = GPOS_NEW(memory_pool) HMUlExpr(memory_pool);
 		CExpression *pexprResidual = NULL;
-		if (m_ppfm->FContainsScanId(ulScanId))
+		if (m_ppfm->FContainsScanId(scan_id))
 		{
-			CExpression *pexprScalar = PexprFilter(memory_pool, ulScanId);
+			CExpression *pexprScalar = PexprFilter(memory_pool, scan_id);
 			
 			// find out which keys are used in the predicate, in case there are multiple
 			// keys at this point (e.g. from a union of multiple CTE consumers)
@@ -198,7 +198,7 @@ CPartitionPropagationSpec::AppendEnforcers
 									GPOS_NEW(memory_pool) CPhysicalPartitionSelector
 												(
 												memory_pool,
-												ulScanId,
+												scan_id,
 												pmdid,
 												pdrgpdrgpcrKeys,
 												ppartcnstrmap,
@@ -227,10 +227,10 @@ CExpression *
 CPartitionPropagationSpec::PexprFilter
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulScanId
+	ULONG scan_id
 	)
 {
-	CExpression *pexprScalar = m_ppfm->Pexpr(ulScanId);
+	CExpression *pexprScalar = m_ppfm->Pexpr(scan_id);
 	GPOS_ASSERT(NULL != pexprScalar);
 
 	if (CUtils::FScalarIdent(pexprScalar))

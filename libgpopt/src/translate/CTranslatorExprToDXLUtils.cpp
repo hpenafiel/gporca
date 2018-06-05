@@ -1377,7 +1377,7 @@ CTranslatorExprToDXLUtils::PdxlnProjListFromChildProjList
 	GPOS_ASSERT(NULL != pdxlnProjListChild);
 	
 	CDXLScalarProjList *pdxlopPrL = GPOS_NEW(memory_pool) CDXLScalarProjList(memory_pool);
-	CDXLNode *pdxlnProjList = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlopPrL);
+	CDXLNode *proj_list_dxlnode = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlopPrL);
 	
 	// create a scalar identifier for each project element of the child
 	const ULONG ulArity = pdxlnProjListChild->Arity();
@@ -1387,10 +1387,10 @@ CTranslatorExprToDXLUtils::PdxlnProjListFromChildProjList
 		
 		// translate proj elem
 		CDXLNode *pdxlnProjElem = PdxlnProjElem(memory_pool, pcf, phmcrdxln, pdxlnProjElemChild);
-		pdxlnProjList->AddChild(pdxlnProjElem);
+		proj_list_dxlnode->AddChild(pdxlnProjElem);
 	}
 		
-	return pdxlnProjList;
+	return proj_list_dxlnode;
 }
 
 //---------------------------------------------------------------------------
@@ -1464,14 +1464,14 @@ CTranslatorExprToDXLUtils::PdxlnPropExprPartitionSelector
 	BOOL fConditional,
 	PartCnstrMap *ppartcnstrmap,
 	DrgDrgPcr *pdrgpdrgpcrKeys,
-	ULONG ulScanId,
+	ULONG scan_id,
 	CharPtrArray *pdrgszPartTypes
 	)
 {
 	if (!fConditional)
 	{
 		// unconditional propagation
-		return PdxlnInt4Const(memory_pool, pmda, (INT) ulScanId);
+		return PdxlnInt4Const(memory_pool, pmda, (INT) scan_id);
 	}
 
 	return PdxlnPropagationExpressionForPartConstraints(memory_pool, pmda, pcf, ppartcnstrmap, pdrgpdrgpcrKeys, pdrgszPartTypes);
@@ -1774,7 +1774,7 @@ CTranslatorExprToDXLUtils::PdxlnResult
 	IMemoryPool *memory_pool,
 	CDXLPhysicalProperties *dxl_properties,
 	CDXLNode *pdxlnPrL,
-	CDXLNode *pdxlnFilter,
+	CDXLNode *filter_dxlnode,
 	CDXLNode *pdxlnOneTimeFilter,
 	CDXLNode *child_dxlnode
 	)
@@ -1784,7 +1784,7 @@ CTranslatorExprToDXLUtils::PdxlnResult
 	pdxlnResult->SetProperties(dxl_properties);
 	
 	pdxlnResult->AddChild(pdxlnPrL);
-	pdxlnResult->AddChild(pdxlnFilter);
+	pdxlnResult->AddChild(filter_dxlnode);
 	pdxlnResult->AddChild(pdxlnOneTimeFilter);
 
 	if (NULL != child_dxlnode)
@@ -1859,7 +1859,7 @@ CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	ULONG ulPartLevels,
-	ULONG ulScanId,
+	ULONG scan_id,
 	CDXLPhysicalProperties *dxl_properties,
 	CDXLNode *pdxlnPrL,
 	CDXLNode *pdxlnEqFilters,
@@ -1873,7 +1873,7 @@ CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 	CDXLNode *pdxlnSelector = GPOS_NEW(memory_pool) CDXLNode
 										(
 										memory_pool,
-										GPOS_NEW(memory_pool) CDXLPhysicalPartitionSelector(memory_pool, pmdid, ulPartLevels, ulScanId)
+										GPOS_NEW(memory_pool) CDXLPhysicalPartitionSelector(memory_pool, pmdid, ulPartLevels, scan_id)
 										);
 
 	pdxlnSelector->SetProperties(dxl_properties);

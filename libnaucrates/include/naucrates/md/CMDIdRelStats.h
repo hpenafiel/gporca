@@ -41,7 +41,7 @@ namespace gpmd
 		private:
 		
 			// mdid of base relation
-			CMDIdGPDB *m_pmdidRel;
+			CMDIdGPDB *m_rel_mdid;
 						
 			// buffer for the serialzied mdid
 			WCHAR m_wszBuffer[GPDXL_MDID_LENGTH];
@@ -79,7 +79,7 @@ namespace gpmd
 			virtual
 			CSystemId Sysid() const
 			{
-				return m_pmdidRel->Sysid();
+				return m_rel_mdid->Sysid();
 			}
 			
 			// accessors
@@ -93,14 +93,14 @@ namespace gpmd
 			virtual
 			ULONG HashValue() const
 			{
-				return m_pmdidRel->HashValue();
+				return m_rel_mdid->HashValue();
 			}
 			
 			// is the mdid valid
 			virtual
 			BOOL IsValid() const
 			{
-				return IMDId::IsValid(m_pmdidRel);
+				return IMDId::IsValid(m_rel_mdid);
 			}
 
 			// serialize mdid in DXL as the value of the specified attribute 

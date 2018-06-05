@@ -110,7 +110,7 @@ ULONG
 CLogicalDynamicBitmapTableGet::HashValue() const
 {
 	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ptabdesc->MDId()->HashValue());
-	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue(&m_ulScanId));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue(&m_scan_id));
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
 	return ulHash;
@@ -211,7 +211,7 @@ CLogicalDynamicBitmapTableGet::OsPrint
 	os << SzId() << " ";
 	os << ", Table Name: (";
 	m_ptabdesc->Name().OsPrint(os);
-	os <<") Scan Id: " << m_ulScanId;
+	os <<") Scan Id: " << m_scan_id;
 	os << ", Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
 	os << "]";
@@ -258,7 +258,7 @@ CLogicalDynamicBitmapTableGet::PopCopyWithRemappedColumns
 					m_ptabdesc,
 					m_ulOriginOpId,
 					pnameAlias,
-					m_ulScanId,
+					m_scan_id,
 					pdrgpcrOutput,
 					pdrgpdrgpcrPart,
 					m_ulSecondaryScanId,

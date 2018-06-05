@@ -32,7 +32,7 @@ namespace gpopt
 		protected:
 
 			// Scan id
-			ULONG m_ulScanId;
+			ULONG m_scan_id;
 
 			// mdid of partitioned table
 			IMDId *m_mdid;
@@ -92,7 +92,7 @@ namespace gpopt
 			CPhysicalPartitionSelector
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulScanId,
+				ULONG scan_id,
 				IMDId *pmdid,
 				DrgDrgPcr *pdrgpdrgpcr,
 				PartCnstrMap *ppartcnstrmap,
@@ -123,7 +123,7 @@ namespace gpopt
 			// scan id
 			ULONG UlScanId() const
 			{
-				return m_ulScanId;
+				return m_scan_id;
 			}
 
 			// partitioned table mdid

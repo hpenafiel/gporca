@@ -51,7 +51,7 @@ namespace gpmd
 			CMDName *m_mdname;
 
 			// relation mdid
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 
 			// the DXL representation of the check constraint
 			CDXLNode *m_dxl_node;
@@ -93,7 +93,7 @@ namespace gpmd
 			virtual
 			IMDId *PmdidRel() const
 			{
-				return m_pmdidRel;
+				return m_rel_mdid;
 			}
 
 			// DXL string for check constraint

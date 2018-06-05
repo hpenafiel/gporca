@@ -30,7 +30,7 @@ CMDIdColStats::CMDIdColStats
 	ULONG ulPos
 	)
 	:
-	m_pmdidRel(pmdidRel),
+	m_rel_mdid(pmdidRel),
 	m_ulPos(ulPos),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
@@ -50,7 +50,7 @@ CMDIdColStats::CMDIdColStats
 //---------------------------------------------------------------------------
 CMDIdColStats::~CMDIdColStats()
 {
-	m_pmdidRel->Release();
+	m_rel_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -69,9 +69,9 @@ CMDIdColStats::Serialize()
 			(
 			GPOS_WSZ_LIT("%d.%d.%d.%d.%d"), 
 			Emdidt(), 
-			m_pmdidRel->OidObjectId(),
-			m_pmdidRel->UlVersionMajor(),
-			m_pmdidRel->UlVersionMinor(),
+			m_rel_mdid->OidObjectId(),
+			m_rel_mdid->UlVersionMajor(),
+			m_rel_mdid->UlVersionMinor(),
 			m_ulPos
 			);
 }
@@ -101,7 +101,7 @@ CMDIdColStats::GetBuffer() const
 IMDId *
 CMDIdColStats::PmdidRel() const
 {
-	return m_pmdidRel;
+	return m_rel_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -140,7 +140,7 @@ CMDIdColStats::Equals
 	
 	const CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(pmdid);
 	
-	return m_pmdidRel->Equals(pmdidColStats->PmdidRel()) && 
+	return m_rel_mdid->Equals(pmdidColStats->PmdidRel()) && 
 			m_ulPos == pmdidColStats->UlPos(); 
 }
 

@@ -41,7 +41,7 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_pmdidRel(pmdidRel),
+	m_rel_mdid(pmdidRel),
 	m_dxl_node(pdxln)
 {
 	GPOS_ASSERT(pmdid->IsValid());
@@ -65,7 +65,7 @@ CMDCheckConstraintGPDB::~CMDCheckConstraintGPDB()
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
-	m_pmdidRel->Release();
+	m_rel_mdid->Release();
 	m_dxl_node->Release();
 }
 
@@ -88,7 +88,7 @@ CMDCheckConstraintGPDB::Pexpr
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
 
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_pmdidRel);
+	const IMDRelation *pmdrel = pmda->Pmdrel(m_rel_mdid);
 #ifdef GPOS_DEBUG
 	const ULONG ulLen = pdrgpcr->Size();
 	GPOS_ASSERT(ulLen > 0);
@@ -122,7 +122,7 @@ CMDCheckConstraintGPDB::Serialize
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
-	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 
 	// serialize the scalar expression
 	m_dxl_node->SerializeToDXL(xml_serializer);

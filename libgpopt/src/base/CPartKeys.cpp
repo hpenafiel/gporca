@@ -32,7 +32,7 @@ CPartKeys::CPartKeys
 	m_pdrgpdrgpcr(pdrgpdrgpcr)
 {
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
-	m_ulLevels = pdrgpdrgpcr->Size();
+	m_num_of_part_levels = pdrgpdrgpcr->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -63,7 +63,7 @@ CPartKeys::PcrKey
 	)
 	const
 {
-	GPOS_ASSERT(ulLevel < m_ulLevels);
+	GPOS_ASSERT(ulLevel < m_num_of_part_levels);
 	DrgPcr *pdrgpcr = (*m_pdrgpdrgpcr)[ulLevel];
 	return (*pdrgpcr)[0];
 }
@@ -83,7 +83,7 @@ CPartKeys::FOverlap
 	)
 	const
 {
-	for (ULONG ul = 0; ul < m_ulLevels; ul++)
+	for (ULONG ul = 0; ul < m_num_of_part_levels; ul++)
 	{
 		CColRef *pcr = PcrKey(ul);
 		if (pcrs->FMember(pcr))
@@ -174,7 +174,7 @@ CPartKeys::PpartkeysRemap
 	GPOS_ASSERT(NULL != phmulcr);
 	DrgDrgPcr *pdrgpdrgpcr = GPOS_NEW(memory_pool) DrgDrgPcr(memory_pool);
 
-	for (ULONG ul = 0; ul < m_ulLevels; ul++)
+	for (ULONG ul = 0; ul < m_num_of_part_levels; ul++)
 	{
 		CColRef *pcr = CUtils::PcrRemap(PcrKey(ul), phmulcr, false /*fMustExist*/);
 
@@ -203,13 +203,13 @@ CPartKeys::OsPrint
 	const
 {
 	os << "(";
-	for (ULONG ul = 0; ul < m_ulLevels; ul++)
+	for (ULONG ul = 0; ul < m_num_of_part_levels; ul++)
 	{
 		CColRef *pcr = PcrKey(ul);
 		os << *pcr;
 
 		// separator
-		os << (ul == m_ulLevels - 1 ? "" : ", ");
+		os << (ul == m_num_of_part_levels - 1 ? "" : ", ");
 	}
 
 	os << ")";

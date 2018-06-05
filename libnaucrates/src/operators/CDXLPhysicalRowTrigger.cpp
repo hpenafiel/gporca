@@ -35,7 +35,7 @@ CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pmdidRel(pmdidRel),
+	m_rel_mdid(pmdidRel),
 	m_iType(iType),
 	m_pdrgpulOld(pdrgpulOld),
 	m_pdrgpulNew(pdrgpulNew)
@@ -57,7 +57,7 @@ CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 //---------------------------------------------------------------------------
 CDXLPhysicalRowTrigger::~CDXLPhysicalRowTrigger()
 {
-	m_pmdidRel->Release();
+	m_rel_mdid->Release();
 	CRefCount::SafeRelease(m_pdrgpulOld);
 	CRefCount::SafeRelease(m_pdrgpulNew);
 }
@@ -108,7 +108,7 @@ CDXLPhysicalRowTrigger::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDType), m_iType);
 
 	if (NULL != m_pdrgpulOld)

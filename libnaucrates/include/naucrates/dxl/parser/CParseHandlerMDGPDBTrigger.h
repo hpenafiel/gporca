@@ -44,7 +44,7 @@ namespace gpdxl
 			CMDName *m_mdname;
 
 			// relation id
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 
 			// function id
 			IMDId *m_func_mdid;

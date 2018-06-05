@@ -297,14 +297,14 @@ CReqdPropPlan::PpfmCombineDerived
 	// copy part filters from input requirements
 	for (ULONG ul = 0; ul < ulConsumers; ul++)
 	{
-		ULONG ulScanId = ppartinfo->UlScanId(ul);
-		BOOL fCopied = ppfmDerived->FCopyPartFilter(memory_pool, ulScanId, prppInput->Pepp()->PpfmDerived());
+		ULONG scan_id = ppartinfo->UlScanId(ul);
+		BOOL fCopied = ppfmDerived->FCopyPartFilter(memory_pool, scan_id, prppInput->Pepp()->PpfmDerived());
 		if (fCopied)
 		{
 #ifdef GPOS_DEBUG
 			BOOL fSet =
 #endif // GPOS_DEBUG
-				pbs->ExchangeSet(ulScanId);
+				pbs->ExchangeSet(scan_id);
 			GPOS_ASSERT(!fSet);
 		}
 	}
@@ -316,18 +316,18 @@ CReqdPropPlan::PpfmCombineDerived
 		CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[ulDrvdProps]);
 		for (ULONG ul = 0; ul < ulConsumers; ul++)
 		{
-			ULONG ulScanId = ppartinfo->UlScanId(ul);
-			BOOL fFound = pbs->Get(ulScanId);
+			ULONG scan_id = ppartinfo->UlScanId(ul);
+			BOOL fFound = pbs->Get(scan_id);
 
 			if (!fFound)
 			{
-				BOOL fCopied = ppfmDerived->FCopyPartFilter(memory_pool, ulScanId, pdpplan->Ppfm());
+				BOOL fCopied = ppfmDerived->FCopyPartFilter(memory_pool, scan_id, pdpplan->Ppfm());
 				if (fCopied)
 				{
 #ifdef GPOS_DEBUG
 					BOOL fSet =
 #endif // GPOS_DEBUG
-						pbs->ExchangeSet(ulScanId);
+						pbs->ExchangeSet(scan_id);
 					GPOS_ASSERT(!fSet);
 				}
 			}
@@ -361,7 +361,7 @@ CReqdPropPlan::InitReqdPartitionPropagation
 	CEnfdPartitionPropagation::EPartitionPropagationMatching eppm = CEnfdPartitionPropagation::EppmSatisfy;
 	for (ULONG ul = 0; ul < ppartinfo->UlConsumers(); ul++)
 	{
-		ULONG ulScanId = ppartinfo->UlScanId(ul);
+		ULONG scan_id = ppartinfo->UlScanId(ul);
 		IMDId *pmdid = ppartinfo->PmdidRel(ul);
 		DrgPpartkeys *pdrgppartkeys = ppartinfo->Pdrgppartkeys(ul);
 		CPartConstraint *ppartcnstr = ppartinfo->Ppartcnstr(ul);
@@ -372,7 +372,7 @@ CReqdPropPlan::InitReqdPartitionPropagation
 
 		ppim->Insert
 			(
-			ulScanId,
+			scan_id,
 			GPOS_NEW(memory_pool) PartCnstrMap(memory_pool), 
 			CPartIndexMap::EpimConsumer,
 			0, //ulExpectedPropagators

@@ -42,7 +42,7 @@ namespace gpopt
 			CTableDescriptor *m_ptabdesc;
 			
 			// dynamic scan id
-			ULONG m_ulScanId;
+			ULONG m_scan_id;
 			
 			// output columns
 			DrgPcr *m_pdrgpcrOutput;
@@ -86,7 +86,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				const CName *pnameAlias,
 				CTableDescriptor *ptabdesc,
-				ULONG ulScanId,
+				ULONG scan_id,
 				DrgPcr *pdrgpcr,
 				DrgDrgPcr *pdrgpdrgpcrPart,
 				ULONG ulSecondaryScanId,
@@ -100,7 +100,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				const CName *pnameAlias,
 				CTableDescriptor *ptabdesc,
-				ULONG ulScanId
+				ULONG scan_id
 				);
 
 			// dtor
@@ -139,7 +139,7 @@ namespace gpopt
 			virtual
 			ULONG UlScanId() const
 			{
-				return m_ulScanId;
+				return m_scan_id;
 			}
 			
 			// return the partition columns
@@ -183,7 +183,7 @@ namespace gpopt
 			
 			// set secondary scan id
 			virtual
-			void SetSecondaryScanId(ULONG ulScanId);
+			void SetSecondaryScanId(ULONG scan_id);
 			
 			// set scan to partial
 			virtual

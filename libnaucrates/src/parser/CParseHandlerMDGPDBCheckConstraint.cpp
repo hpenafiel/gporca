@@ -47,7 +47,7 @@ CParseHandlerMDGPDBCheckConstraint::CParseHandlerMDGPDBCheckConstraint
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_mdid(NULL),
 	m_mdname(NULL),
-	m_pmdidRel(NULL)
+	m_rel_mdid(NULL)
 {
 }
 
@@ -89,7 +89,7 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 	GPOS_DELETE(column_name);
 
 	// parse mdid of relation
-	m_pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenCheckConstraint);
+	m_rel_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenCheckConstraint);
 
 	// create and activate the parse handler for the child scalar expression node
 	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
@@ -128,7 +128,7 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 	GPOS_ASSERT(NULL != pdxlnScExpr);
 	pdxlnScExpr->AddRef();
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_mdid, m_mdname, m_pmdidRel, pdxlnScExpr);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_mdid, m_mdname, m_rel_mdid, pdxlnScExpr);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

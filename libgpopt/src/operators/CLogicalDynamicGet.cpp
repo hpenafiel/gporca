@@ -172,7 +172,7 @@ CLogicalDynamicGet::PopCopyWithRemappedColumns
 	CPartConstraint *ppartcnstr = m_ppartcnstr->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
-	return GPOS_NEW(memory_pool) CLogicalDynamicGet(memory_pool, pnameAlias, m_ptabdesc, m_ulScanId, pdrgpcrOutput, pdrgpdrgpcrPart, m_ulSecondaryScanId, m_fPartial, ppartcnstr, ppartcnstrRel);
+	return GPOS_NEW(memory_pool) CLogicalDynamicGet(memory_pool, pnameAlias, m_ptabdesc, m_scan_id, pdrgpcrOutput, pdrgpdrgpcrPart, m_ulSecondaryScanId, m_fPartial, ppartcnstr, ppartcnstrRel);
 }
 
 //---------------------------------------------------------------------------
@@ -244,7 +244,7 @@ CLogicalDynamicGet::OsPrint
 		m_ppartcnstr->OsPrint(os);
 		os << "), Columns: [";
 		CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
-		os << "] Scan Id: " << m_ulScanId << "." << m_ulSecondaryScanId;
+		os << "] Scan Id: " << m_scan_id << "." << m_ulSecondaryScanId;
 		
 		if (!m_ppartcnstr->FUnbounded())
 		{

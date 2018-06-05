@@ -54,7 +54,7 @@ namespace gpopt
 			CBitSet *m_pbsDefaultParts;
 			
 			// number of levels;
-			ULONG m_ulLevels;
+			ULONG m_num_of_part_levels;
 
 			// is constraint unbounded
 			BOOL m_fUnbounded;

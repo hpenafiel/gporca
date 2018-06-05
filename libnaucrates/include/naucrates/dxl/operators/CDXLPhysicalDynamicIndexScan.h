@@ -71,7 +71,7 @@ namespace gpdxl
 				ULONG ulPartIndexId,
 				ULONG ulPartIndexIdPrintable,
 				CDXLIndexDescr *pdxlid,
-				EdxlIndexScanDirection edxlisd
+				EdxlIndexScanDirection idx_scan_direction
 				);
 
 			//dtor

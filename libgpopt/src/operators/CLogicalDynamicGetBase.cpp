@@ -46,7 +46,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	CLogical(memory_pool),
 	m_pnameAlias(NULL),
 	m_ptabdesc(NULL),
-	m_ulScanId(0),
+	m_scan_id(0),
 	m_pdrgpcrOutput(NULL),
 	m_pdrgpdrgpcrPart(NULL),
 	m_ulSecondaryScanId(0),
@@ -72,7 +72,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	IMemoryPool *memory_pool,
 	const CName *pnameAlias,
 	CTableDescriptor *ptabdesc,
-	ULONG ulScanId,
+	ULONG scan_id,
 	DrgPcr *pdrgpcrOutput, 
 	DrgDrgPcr *pdrgpdrgpcrPart,
 	ULONG ulSecondaryScanId,
@@ -84,7 +84,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	CLogical(memory_pool),
 	m_pnameAlias(pnameAlias),
 	m_ptabdesc(ptabdesc),
-	m_ulScanId(ulScanId),
+	m_scan_id(scan_id),
 	m_pdrgpcrOutput(pdrgpcrOutput),
 	m_pdrgpdrgpcrPart(pdrgpdrgpcrPart),
 	m_ulSecondaryScanId(ulSecondaryScanId),
@@ -100,7 +100,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	GPOS_ASSERT(NULL != ppartcnstr);
 	GPOS_ASSERT(NULL != ppartcnstrRel);
 
-	GPOS_ASSERT_IMP(ulScanId != ulSecondaryScanId, NULL != ppartcnstr);
+	GPOS_ASSERT_IMP(scan_id != ulSecondaryScanId, NULL != ppartcnstr);
 	GPOS_ASSERT_IMP(fPartial, NULL != m_ppartcnstr->PcnstrCombined() && "Partial scan with unsupported constraint type");
 
 	m_pcrsDist = CLogical::PcrsDist(memory_pool, m_ptabdesc, m_pdrgpcrOutput);
@@ -120,15 +120,15 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	IMemoryPool *memory_pool,
 	const CName *pnameAlias,
 	CTableDescriptor *ptabdesc,
-	ULONG ulScanId
+	ULONG scan_id
 	)
 	:
 	CLogical(memory_pool),
 	m_pnameAlias(pnameAlias),
 	m_ptabdesc(ptabdesc),
-	m_ulScanId(ulScanId),
+	m_scan_id(scan_id),
 	m_pdrgpcrOutput(NULL),
-	m_ulSecondaryScanId(ulScanId),
+	m_ulSecondaryScanId(scan_id),
 	m_fPartial(false),
 	m_ppartcnstr(NULL),
 	m_ppartcnstrRel(NULL),
@@ -257,7 +257,7 @@ CLogicalDynamicGetBase::PpartinfoDerive
 	m_ppartcnstrRel->AddRef(); 
 	
 	CPartInfo *ppartinfo = GPOS_NEW(memory_pool) CPartInfo(memory_pool);
-	ppartinfo->AddPartConsumer(memory_pool, m_ulScanId, pmdid, m_pdrgpdrgpcrPart, m_ppartcnstrRel);
+	ppartinfo->AddPartConsumer(memory_pool, m_scan_id, pmdid, m_pdrgpdrgpcrPart, m_ppartcnstrRel);
 	
 	return ppartinfo;
 }
@@ -299,10 +299,10 @@ CLogicalDynamicGetBase::SetPartConstraint
 void
 CLogicalDynamicGetBase::SetSecondaryScanId
 	(
-	ULONG ulScanId
+	ULONG scan_id
 	)
 {
-	m_ulSecondaryScanId = ulScanId;
+	m_ulSecondaryScanId = scan_id;
 }
 
 //---------------------------------------------------------------------------

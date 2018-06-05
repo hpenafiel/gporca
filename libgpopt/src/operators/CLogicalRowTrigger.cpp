@@ -33,7 +33,7 @@ CLogicalRowTrigger::CLogicalRowTrigger
 	)
 	:
 	CLogical(memory_pool),
-	m_pmdidRel(NULL),
+	m_rel_mdid(NULL),
 	m_iType(0),
 	m_pdrgpcrOld(NULL),
 	m_pdrgpcrNew(NULL),
@@ -61,7 +61,7 @@ CLogicalRowTrigger::CLogicalRowTrigger
 	)
 	:
 	CLogical(memory_pool),
-	m_pmdidRel(pmdidRel),
+	m_rel_mdid(pmdidRel),
 	m_iType(iType),
 	m_pdrgpcrOld(pdrgpcrOld),
 	m_pdrgpcrNew(pdrgpcrNew),
@@ -86,7 +86,7 @@ CLogicalRowTrigger::CLogicalRowTrigger
 //---------------------------------------------------------------------------
 CLogicalRowTrigger::~CLogicalRowTrigger()
 {
-	CRefCount::SafeRelease(m_pmdidRel);
+	CRefCount::SafeRelease(m_rel_mdid);
 	CRefCount::SafeRelease(m_pdrgpcrOld);
 	CRefCount::SafeRelease(m_pdrgpcrNew);
 }
@@ -103,7 +103,7 @@ void
 CLogicalRowTrigger::InitFunctionProperties()
 {
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_pmdidRel);
+	const IMDRelation *pmdrel = pmda->Pmdrel(m_rel_mdid);
 	const ULONG ulTriggers = pmdrel->UlTriggers();
 
 	for (ULONG ul = 0; ul < ulTriggers; ul++)
@@ -193,7 +193,7 @@ CLogicalRowTrigger::FMatch
 
 	CLogicalRowTrigger *popRowTrigger = CLogicalRowTrigger::PopConvert(pop);
 
-	return m_pmdidRel->Equals(popRowTrigger->PmdidRel()) &&
+	return m_rel_mdid->Equals(popRowTrigger->PmdidRel()) &&
 			m_iType == popRowTrigger->IType() &&
 			m_pdrgpcrOld->Equals(popRowTrigger->PdrgpcrOld()) &&
 			m_pdrgpcrNew->Equals(popRowTrigger->PdrgpcrNew());
@@ -210,7 +210,7 @@ CLogicalRowTrigger::FMatch
 ULONG
 CLogicalRowTrigger::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_pmdidRel->HashValue());
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_rel_mdid->HashValue());
 	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
 
 	if (NULL != m_pdrgpcrOld)
@@ -254,9 +254,9 @@ CLogicalRowTrigger::PopCopyWithRemappedColumns
 		pdrgpcrNew = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrNew, phmulcr, fMustExist);
 	}
 
-	m_pmdidRel->AddRef();
+	m_rel_mdid->AddRef();
 
-	return GPOS_NEW(memory_pool) CLogicalRowTrigger(memory_pool, m_pmdidRel, m_iType, pdrgpcrOld, pdrgpcrNew);
+	return GPOS_NEW(memory_pool) CLogicalRowTrigger(memory_pool, m_rel_mdid, m_iType, pdrgpcrOld, pdrgpcrNew);
 }
 
 //---------------------------------------------------------------------------

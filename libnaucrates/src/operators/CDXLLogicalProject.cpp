@@ -146,22 +146,22 @@ CDXLLogicalProject::AssertValid
 {
 	GPOS_ASSERT(2 == pdxln->Arity());
 
-	CDXLNode *pdxlnProjList = (*pdxln)[0];
+	CDXLNode *proj_list_dxlnode = (*pdxln)[0];
 	CDXLNode *child_dxlnode = (*pdxln)[1];
 
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarProjectList == proj_list_dxlnode->GetOperator()->GetDXLOperator());
 	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{
-		pdxlnProjList->GetOperator()->AssertValid(pdxlnProjList, validate_children);
+		proj_list_dxlnode->GetOperator()->AssertValid(proj_list_dxlnode, validate_children);
 		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);		
 	}
 
-	const ULONG ulArity = pdxlnProjList->Arity();
+	const ULONG ulArity = proj_list_dxlnode->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
-		CDXLNode *pdxlnPrEl = (*pdxlnProjList)[ul];
+		CDXLNode *pdxlnPrEl = (*proj_list_dxlnode)[ul];
 		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->GetDXLOperator());
 	}
 }

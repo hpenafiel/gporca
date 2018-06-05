@@ -48,7 +48,7 @@ namespace gpopt
 			BOOL m_fPartial;
 
 			// id of the dynamic scan
-			ULONG m_ulScanId;
+			ULONG m_scan_id;
 
 			// partition keys
 			DrgDrgPcr *m_pdrgpdrgpcrPart;
@@ -74,7 +74,7 @@ namespace gpopt
 				CTableDescriptor *ptabdesc,
 				ULONG ulOriginOpId,
 				const CName *pnameAlias,
-				ULONG ulScanId,
+				ULONG scan_id,
 				DrgPcr *pdrgpcrOutput,
 				DrgDrgPcr *pdrgpdrgpcrParts,
 				ULONG ulSecondaryScanId,
@@ -101,7 +101,7 @@ namespace gpopt
 			// return scan id
 			ULONG UlScanId() const
 			{
-				return m_ulScanId;
+				return m_scan_id;
 			}
 
 			// partition keys

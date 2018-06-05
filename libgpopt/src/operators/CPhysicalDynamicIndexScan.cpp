@@ -43,7 +43,7 @@ CPhysicalDynamicIndexScan::CPhysicalDynamicIndexScan
 	ULONG ulOriginOpId,
 	const CName *pnameAlias,
 	DrgPcr *pdrgpcrOutput,
-	ULONG ulScanId,
+	ULONG scan_id,
 	DrgDrgPcr *pdrgpdrgpcrPart,
 	ULONG ulSecondaryScanId,
 	CPartConstraint *ppartcnstr,
@@ -51,7 +51,7 @@ CPhysicalDynamicIndexScan::CPhysicalDynamicIndexScan
 	COrderSpec *pos
 	)
 	:
-	CPhysicalDynamicScan(memory_pool, fPartial, ptabdesc, ulOriginOpId, pnameAlias, ulScanId, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryScanId, ppartcnstr, ppartcnstrRel),
+	CPhysicalDynamicScan(memory_pool, fPartial, ptabdesc, ulOriginOpId, pnameAlias, scan_id, pdrgpcrOutput, pdrgpdrgpcrPart, ulSecondaryScanId, ppartcnstr, ppartcnstrRel),
 	m_pindexdesc(pindexdesc),
 	m_pos(pos)
 {
@@ -113,10 +113,10 @@ CPhysicalDynamicIndexScan::EpetOrder
 ULONG
 CPhysicalDynamicIndexScan::HashValue() const
 {
-	ULONG ulScanId = UlScanId();
+	ULONG scan_id = UlScanId();
 	return gpos::CombineHashes (
 	        COperator::HashValue (),
-	        gpos::CombineHashes (gpos::HashValue (&ulScanId),
+	        gpos::CombineHashes (gpos::HashValue (&scan_id),
 	                               m_pindexdesc->MDId ()->HashValue ()));
 }
 

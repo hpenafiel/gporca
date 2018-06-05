@@ -31,7 +31,7 @@ namespace gpopt
 		private:
 
 			// relation id on which triggers are to be executed
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 
 			// trigger type
 			INT m_iType;
@@ -94,7 +94,7 @@ namespace gpopt
 			// relation id
 			IMDId *PmdidRel() const
 			{
-				return m_pmdidRel;
+				return m_rel_mdid;
 			}
 
 			// trigger type

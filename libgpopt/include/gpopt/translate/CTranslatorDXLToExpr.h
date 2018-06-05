@@ -344,7 +344,7 @@ namespace gpopt
 			CExpression *PexprScalarConst(const CDXLNode *pdxlnConst);
 			
 			// translate a DXL project list node into a project list expression
-			CExpression *PexprScalarProjList(const CDXLNode *pdxlnProjList);
+			CExpression *PexprScalarProjList(const CDXLNode *proj_list_dxlnode);
 
 			// translate a DXL project elem node into a project elem expression
 			CExpression *PexprScalarProjElem(const CDXLNode *pdxlnProjElem);

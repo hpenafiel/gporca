@@ -42,7 +42,7 @@ namespace gpdxl
 			CMDName *m_mdname;
 
 			// mdid of the relation
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 
 			// private copy ctor
 			CParseHandlerMDGPDBCheckConstraint(const CParseHandlerMDGPDBCheckConstraint&);

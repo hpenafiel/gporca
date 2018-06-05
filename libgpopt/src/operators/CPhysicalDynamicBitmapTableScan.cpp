@@ -45,7 +45,7 @@ CPhysicalDynamicBitmapTableScan::CPhysicalDynamicBitmapTableScan
 		CTableDescriptor *ptabdesc,
 		ULONG ulOriginOpId,
 		const CName *pnameAlias,
-		ULONG ulScanId,
+		ULONG scan_id,
 		DrgPcr *pdrgpcrOutput,
 		DrgDrgPcr *pdrgpdrgpcrParts,
 		ULONG ulSecondaryScanId,
@@ -53,7 +53,7 @@ CPhysicalDynamicBitmapTableScan::CPhysicalDynamicBitmapTableScan
 		CPartConstraint *ppartcnstrRel
 	)
 	:
-	CPhysicalDynamicScan(memory_pool, fPartial, ptabdesc, ulOriginOpId, pnameAlias, ulScanId, pdrgpcrOutput, pdrgpdrgpcrParts, ulSecondaryScanId, ppartcnstr, ppartcnstrRel)
+	CPhysicalDynamicScan(memory_pool, fPartial, ptabdesc, ulOriginOpId, pnameAlias, scan_id, pdrgpcrOutput, pdrgpdrgpcrParts, ulSecondaryScanId, ppartcnstr, ppartcnstrRel)
 {}
 
 //---------------------------------------------------------------------------

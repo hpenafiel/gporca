@@ -923,7 +923,7 @@ CXformJoin2IndexApply::PexprConstructUnionAll
 	DrgPcr *pdrgpcrRightSchema,
 	CExpression *pexprLeftChild,
 	CExpression *pexprRightChild,
-	ULONG ulScanId
+	ULONG scan_id
 	) const
 {
 	DrgDrgPcr *pdrgpdrgpcrInput = GPOS_NEW(memory_pool) DrgDrgPcr(memory_pool);
@@ -934,7 +934,7 @@ CXformJoin2IndexApply::PexprConstructUnionAll
 	return GPOS_NEW(memory_pool) CExpression
 				(
 				memory_pool,
-				GPOS_NEW(memory_pool) CLogicalUnionAll(memory_pool, pdrgpcrLeftSchema, pdrgpdrgpcrInput, ulScanId),
+				GPOS_NEW(memory_pool) CLogicalUnionAll(memory_pool, pdrgpcrLeftSchema, pdrgpdrgpcrInput, scan_id),
 				pexprLeftChild,
 				pexprRightChild
 				);

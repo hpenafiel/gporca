@@ -56,7 +56,7 @@ namespace gpopt
 				private:
 
 					// scan id
-					ULONG m_ulScanId;
+					ULONG m_scan_id;
 
 					// scalar expression
 					CExpression *m_pexpr;
@@ -69,7 +69,7 @@ namespace gpopt
 					// ctor
 					CPartFilter
 						(
-						ULONG ulScanId,
+						ULONG scan_id,
 						CExpression *pexpr,
 						IStatistics *pstats = NULL
 						);
@@ -84,7 +84,7 @@ namespace gpopt
 					// return scan id
 					ULONG UlScanId() const
 					{
-						return m_ulScanId;
+						return m_scan_id;
 					}
 
 					// return scalar expression
@@ -130,18 +130,18 @@ namespace gpopt
 			// check whether map contains the given scan id
 			BOOL FContainsScanId
 				(
-				ULONG ulScanId
+				ULONG scan_id
 				)
 				const
 			{
-				return (NULL != m_phmulpf->Find(&ulScanId));
+				return (NULL != m_phmulpf->Find(&scan_id));
 			}
 
 			// the expression associated with the given scan id
-			CExpression *Pexpr(ULONG ulScanId) const;
+			CExpression *Pexpr(ULONG scan_id) const;
 
 			// stats associated with the given scan id
-			IStatistics *Pstats(ULONG ulScanId) const;
+			IStatistics *Pstats(ULONG scan_id) const;
 
 			// check whether the map is empty
 			BOOL IsEmpty() const
@@ -172,13 +172,13 @@ namespace gpopt
 			void AddPartFilter
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulScanId,
+				ULONG scan_id,
 				CExpression *pexpr,
 				IStatistics *pstats
 				);
 
 			// look for given scan id in given map and, if found, copy the corresponding entry to current map
-			BOOL FCopyPartFilter(IMemoryPool *memory_pool, ULONG ulScanId, CPartFilterMap *ppfmSource);
+			BOOL FCopyPartFilter(IMemoryPool *memory_pool, ULONG scan_id, CPartFilterMap *ppfmSource);
 
 			// copy all part filters from source map to current map
 			void CopyPartFilterMap(IMemoryPool *memory_pool, CPartFilterMap *ppfmSource);

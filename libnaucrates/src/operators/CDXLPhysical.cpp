@@ -71,24 +71,24 @@ CDXLPhysical::GetDXLOperatorType() const
 void
 CDXLPhysical::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) const
 {
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != node);
 	
-	GPOS_ASSERT(2 <= pdxln->Arity());
+	GPOS_ASSERT(2 <= node->Arity());
 	
-	CDXLNode *pdxlnProjList = (*pdxln)[0];
-	CDXLNode *pdxlnFilter = (*pdxln)[1];
+	CDXLNode *proj_list_dxlnode = (*node)[0];
+	CDXLNode *filter_dxlnode = (*node)[1];
 	
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->GetDXLOperator());
-	GPOS_ASSERT(EdxlopScalarFilter == pdxlnFilter->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarProjectList == proj_list_dxlnode->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarFilter == filter_dxlnode->GetOperator()->GetDXLOperator());
 	
 	if (validate_children)
 	{
-		pdxlnProjList->GetOperator()->AssertValid(pdxlnProjList, validate_children);
-		pdxlnFilter->GetOperator()->AssertValid(pdxlnFilter, validate_children);
+		proj_list_dxlnode->GetOperator()->AssertValid(proj_list_dxlnode, validate_children);
+		filter_dxlnode->GetOperator()->AssertValid(filter_dxlnode, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

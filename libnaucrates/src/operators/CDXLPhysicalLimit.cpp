@@ -123,8 +123,8 @@ CDXLPhysicalLimit::AssertValid
 	GPOS_ASSERT(4 == pdxln->Arity());
 
 	// Assert proj list is valid
-	CDXLNode *pdxlnProjList = (*pdxln)[EdxllimitIndexProjList];
-	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnProjList->GetOperator()->GetDXLOperator());
+	CDXLNode *proj_list_dxlnode = (*pdxln)[EdxllimitIndexProjList];
+	GPOS_ASSERT(EdxlopScalarProjectList == proj_list_dxlnode->GetOperator()->GetDXLOperator());
 
 	// assert child plan is a physical plan and is valid
 
@@ -141,7 +141,7 @@ CDXLPhysicalLimit::AssertValid
 
 	if (validate_children)
 	{
-		pdxlnProjList->GetOperator()->AssertValid(pdxlnProjList, validate_children);
+		proj_list_dxlnode->GetOperator()->AssertValid(proj_list_dxlnode, validate_children);
 		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		pdxlnCount->GetOperator()->AssertValid(pdxlnCount, validate_children);
 		pdxlnOffset->GetOperator()->AssertValid(pdxlnOffset, validate_children);

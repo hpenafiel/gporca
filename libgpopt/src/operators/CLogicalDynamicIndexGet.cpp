@@ -111,7 +111,7 @@ ULONG
 CLogicalDynamicIndexGet::HashValue() const
 {
 	return gpos::CombineHashes(COperator::HashValue(),
-	                             gpos::CombineHashes(gpos::HashValue(&m_ulScanId),
+	                             gpos::CombineHashes(gpos::HashValue(&m_scan_id),
 					             m_pindexdesc->MDId()->HashValue()));
 }
 
@@ -195,7 +195,7 @@ CLogicalDynamicIndexGet::PopCopyWithRemappedColumns
 						m_ptabdesc,
 						m_ulOriginOpId,
 						pnameAlias,
-						m_ulScanId,
+						m_scan_id,
 						pdrgpcrOutput,
 						pdrgpdrgpcrPart,
 						m_ulSecondaryScanId,
@@ -306,7 +306,7 @@ const
 	m_ppartcnstr->OsPrint(os);
 	os << ", Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
-	os << "] Scan Id: " << m_ulScanId << "." << m_ulSecondaryScanId;
+	os << "] Scan Id: " << m_scan_id << "." << m_ulSecondaryScanId;
 
 	if (!m_ppartcnstr->FUnbounded())
 	{

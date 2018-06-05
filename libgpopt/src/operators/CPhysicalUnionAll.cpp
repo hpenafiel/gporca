@@ -512,12 +512,12 @@ const
 	const ULONG ulArity = exprhdl.UlNonScalarChildren();
 	for (ULONG ul = 0; ul < ulScanIds; ul++)
 	{
-		ULONG ulScanId = *((*pdrgpul)[ul]);
+		ULONG scan_id = *((*pdrgpul)[ul]);
 
 		ULONG ulChildrenWithConsumers = 0;
 		for (ULONG ulChildIdx = 0; ulChildIdx < ulArity; ulChildIdx++)
 		{
-			if (exprhdl.Pdprel(ulChildIdx)->Ppartinfo()->FContainsScanId(ulScanId))
+			if (exprhdl.Pdprel(ulChildIdx)->Ppartinfo()->FContainsScanId(scan_id))
 			{
 				ulChildrenWithConsumers++;
 			}

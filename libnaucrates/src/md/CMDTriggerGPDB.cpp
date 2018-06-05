@@ -42,13 +42,13 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_pmdidRel(pmdidRel),
+	m_rel_mdid(pmdidRel),
 	m_func_mdid(pmdidFunc),
 	m_iType(iType),
 	m_fEnabled(fEnabled)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
-	GPOS_ASSERT(m_pmdidRel->IsValid());
+	GPOS_ASSERT(m_rel_mdid->IsValid());
 	GPOS_ASSERT(m_func_mdid->IsValid());
 	GPOS_ASSERT(0 <= iType);
 
@@ -66,7 +66,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 CMDTriggerGPDB::~CMDTriggerGPDB()
 {
 	m_mdid->Release();
-	m_pmdidRel->Release();
+	m_rel_mdid->Release();
 	m_func_mdid->Release();
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
@@ -162,7 +162,7 @@ CMDTriggerGPDB::Serialize
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
-	m_pmdidRel->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
+	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBTriggerRow), FRow());
@@ -200,7 +200,7 @@ CMDTriggerGPDB::DebugPrint
 	os << "Trigger name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
 
 	os << "Trigger relation id: ";
-	m_pmdidRel->OsPrint(os);
+	m_rel_mdid->OsPrint(os);
 	os << std::endl;
 
 	os << "Trigger function id: ";

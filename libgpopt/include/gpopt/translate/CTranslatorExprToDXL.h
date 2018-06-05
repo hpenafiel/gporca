@@ -219,7 +219,7 @@ namespace gpopt
 			CDXLNode *PdxlnResult(CExpression *pexprFilter, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML);
 
 			// create a DXL result node for the given project list
-			CDXLNode *PdxlnResult(CDXLNode *pdxlnProjList, CExpression *pexprFilter, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML);
+			CDXLNode *PdxlnResult(CDXLNode *proj_list_dxlnode, CExpression *pexprFilter, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML);
 
 			// given a DXL plan tree child_dxlnode which represents the physical plan pexprRelational, construct a DXL
 			// Result node that filters on top of it using the scalar condition pdxlnScalar
@@ -808,7 +808,7 @@ namespace gpopt
 			void CheckValidity(CDXLPhysicalMotion *pdxlopMotion);
 
 			// check if result node imposes a motion hazard
-			BOOL FNeedsMaterializeUnderResult(CDXLNode *pdxlnProjList, CDXLNode *child_dxlnode);
+			BOOL FNeedsMaterializeUnderResult(CDXLNode *proj_list_dxlnode, CDXLNode *child_dxlnode);
 
 			// helper to find subplan type from a correlated left outer join expression
 			static

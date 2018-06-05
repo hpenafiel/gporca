@@ -27,13 +27,13 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPartInfo::CPartInfoEntry::CPartInfoEntry
 	(
-	ULONG ulScanId,
+	ULONG scan_id,
 	IMDId *pmdid,
 	DrgPpartkeys *pdrgppartkeys,
 	CPartConstraint *ppartcnstrRel
 	)
 	:
-	m_ulScanId(ulScanId),
+	m_scan_id(scan_id),
 	m_mdid(pmdid),
 	m_pdrgppartkeys(pdrgppartkeys),
 	m_ppartcnstrRel(ppartcnstrRel)
@@ -96,7 +96,7 @@ CPartInfo::CPartInfoEntry::PpartinfoentryAddRemappedKeys
 	m_mdid->AddRef();
 	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, false /*fMustExist*/);
 
-	return GPOS_NEW(memory_pool) CPartInfoEntry(m_ulScanId, m_mdid, pdrgppartkeys, ppartcnstrRel);
+	return GPOS_NEW(memory_pool) CPartInfoEntry(m_scan_id, m_mdid, pdrgppartkeys, ppartcnstrRel);
 }
 
 //---------------------------------------------------------------------------
@@ -114,7 +114,7 @@ CPartInfo::CPartInfoEntry::OsPrint
 	)
 	const
 {
-	os << m_ulScanId;
+	os << m_scan_id;
 
 	return os;
 }
@@ -218,7 +218,7 @@ void
 CPartInfo::AddPartConsumer
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulScanId,
+	ULONG scan_id,
 	IMDId *pmdid,
 	DrgDrgPcr *pdrgpdrgpcrPart,
 	CPartConstraint *ppartcnstrRel
@@ -227,7 +227,7 @@ CPartInfo::AddPartConsumer
 	DrgPpartkeys *pdrgppartkeys = GPOS_NEW(memory_pool) DrgPpartkeys(memory_pool);
 	pdrgppartkeys->Append(GPOS_NEW(memory_pool) CPartKeys(pdrgpdrgpcrPart));
 
-	m_pdrgppartentries->Append(GPOS_NEW(memory_pool) CPartInfoEntry(ulScanId, pmdid, pdrgppartkeys, ppartcnstrRel));
+	m_pdrgppartentries->Append(GPOS_NEW(memory_pool) CPartInfoEntry(scan_id, pmdid, pdrgppartkeys, ppartcnstrRel));
 }
 
 //---------------------------------------------------------------------------
@@ -241,7 +241,7 @@ CPartInfo::AddPartConsumer
 BOOL
 CPartInfo::FContainsScanId
 	(
-	ULONG ulScanId
+	ULONG scan_id
 	)
 	const
 {
@@ -250,7 +250,7 @@ CPartInfo::FContainsScanId
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
-		if (ulScanId == ppartinfoentry->UlScanId())
+		if (scan_id == ppartinfoentry->UlScanId())
 		{
 			return true;
 		}
@@ -342,7 +342,7 @@ CPartInfo::Ppartcnstr
 DrgPpartkeys *
 CPartInfo::PdrgppartkeysByScanId
 	(
-	ULONG ulScanId
+	ULONG scan_id
 	)
 	const
 {
@@ -351,7 +351,7 @@ CPartInfo::PdrgppartkeysByScanId
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
-		if (ulScanId == ppartinfoentry->UlScanId())
+		if (scan_id == ppartinfoentry->UlScanId())
 		{
 			return ppartinfoentry->Pdrgppartkeys();
 		}

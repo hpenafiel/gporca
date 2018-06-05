@@ -92,7 +92,7 @@ namespace gpopt
 			CColRefSet *PcrsKeys(IMemoryPool *memory_pool, DrgDrgPcr *pdrgpdrgpcrKeys);
 
 			// return the filter expression for the given Scan Id
-			CExpression *PexprFilter(IMemoryPool *memory_pool, ULONG ulScanId);
+			CExpression *PexprFilter(IMemoryPool *memory_pool, ULONG scan_id);
 
 		public:
 

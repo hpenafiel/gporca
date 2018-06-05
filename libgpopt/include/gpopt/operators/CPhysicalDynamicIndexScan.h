@@ -58,7 +58,7 @@ namespace gpopt
 				ULONG ulOriginOpId,
 				const CName *pnameAlias,
 				DrgPcr *pdrgpcrOutput,
-				ULONG ulScanId,
+				ULONG scan_id,
 				DrgDrgPcr *pdrgpdrgpcrPart,
 				ULONG ulSecondaryScanId,
 				CPartConstraint *ppartcnstr,

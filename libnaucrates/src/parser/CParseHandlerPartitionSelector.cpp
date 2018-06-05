@@ -41,9 +41,9 @@ CParseHandlerPartitionSelector::CParseHandlerPartitionSelector
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pmdidRel(NULL),
-	m_ulLevels(0),
-	m_ulScanId(0)
+	m_rel_mdid(NULL),
+	m_num_of_part_levels(0),
+	m_scan_id(0)
 {
 }
 
@@ -67,7 +67,7 @@ CParseHandlerPartitionSelector::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalPartitionSelector), element_local_name))
 	{
 		// PartitionSelector node may have another PartitionSelector node as a child
-		if (NULL != m_pmdidRel)
+		if (NULL != m_rel_mdid)
 		{
 			// instantiate the parse handler
 			CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
@@ -84,20 +84,20 @@ CParseHandlerPartitionSelector::StartElement
 		else
 		{
 			// parse table id
-			m_pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalPartitionSelector);
+			m_rel_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalPartitionSelector);
 			
 			// parse number of levels
-			m_ulLevels = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPhysicalPartitionSelectorLevels, EdxltokenPhysicalPartitionSelector);
+			m_num_of_part_levels = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPhysicalPartitionSelectorLevels, EdxltokenPhysicalPartitionSelector);
 			
 			// parse scan id
-			m_ulScanId = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPhysicalPartitionSelectorScanId, EdxltokenPhysicalPartitionSelector);
+			m_scan_id = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->Pmm(), attrs, EdxltokenPhysicalPartitionSelectorScanId, EdxltokenPhysicalPartitionSelector);
 			
 			// parse handlers for all the scalar children
-			CParseHandlerBase *pphOpListFilters = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarOpList), m_parse_handler_mgr, this);
-			m_parse_handler_mgr->ActivateParseHandler(pphOpListFilters);
+			CParseHandlerBase *op_list_filters_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarOpList), m_parse_handler_mgr, this);
+			m_parse_handler_mgr->ActivateParseHandler(op_list_filters_parse_handler);
 			
-			CParseHandlerBase *pphOpListEqFilters = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarOpList), m_parse_handler_mgr, this);
-			m_parse_handler_mgr->ActivateParseHandler(pphOpListEqFilters);
+			CParseHandlerBase *op_list_eq_filters_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarOpList), m_parse_handler_mgr, this);
+			m_parse_handler_mgr->ActivateParseHandler(op_list_eq_filters_parse_handler);
 			
 			// parse handler for the proj list
 			CParseHandlerBase *proj_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjList), m_parse_handler_mgr, this);
@@ -110,27 +110,27 @@ CParseHandlerPartitionSelector::StartElement
 			// store parse handlers
 			this->Append(prop_parse_handler);
 			this->Append(proj_list_parse_handler);
-			this->Append(pphOpListEqFilters);
-			this->Append(pphOpListFilters);
+			this->Append(op_list_eq_filters_parse_handler);
+			this->Append(op_list_filters_parse_handler);
 		}
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarResidualFilter), element_local_name))
 	{
-		CParseHandlerBase *pphResidual = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphResidual);
-		this->Append(pphResidual);
+		CParseHandlerBase *residual_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(residual_parse_handler);
+		this->Append(residual_parse_handler);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarPropagationExpr), element_local_name))
 	{
-		CParseHandlerBase *pphPropagation = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphPropagation);
-		this->Append(pphPropagation);
+		CParseHandlerBase *propagation_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(propagation_parse_handler);
+		this->Append(propagation_parse_handler);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarPrintableFilter), element_local_name))
 	{
-		CParseHandlerBase *pphPrintFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphPrintFilter);
-		this->Append(pphPrintFilter);
+		CParseHandlerBase *printable_filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(printable_filter_parse_handler);
+		this->Append(printable_filter_parse_handler);
 	}
 	else
 	{
@@ -170,11 +170,11 @@ CParseHandlerPartitionSelector::EndElement
 
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalPartitionSelector), element_local_name))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->Pmm(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	CDXLPhysicalPartitionSelector *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalPartitionSelector(m_memory_pool, m_pmdidRel, m_ulLevels, m_ulScanId);
+	CDXLPhysicalPartitionSelector *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalPartitionSelector(m_memory_pool, m_rel_mdid, m_num_of_part_levels, m_scan_id);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
@@ -183,9 +183,9 @@ CParseHandlerPartitionSelector::EndElement
 	CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
 
 	// scalar children
-	for (ULONG ul = 1; ul < 7; ul++)
+	for (ULONG idx = 1; idx < 7; idx++)
 	{
-		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[idx]);
 		AddChildFromParseHandler(child_parse_handler);
 	}
 

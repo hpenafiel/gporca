@@ -40,7 +40,7 @@ namespace gpmd
 	{
 		private:
 			// mdid of base relation
-			CMDIdGPDB *m_pmdidRel;
+			CMDIdGPDB *m_rel_mdid;
 			
 			// position of the attribute in the base relation
 			ULONG m_ulPos;
@@ -79,7 +79,7 @@ namespace gpmd
 			virtual
 			CSystemId Sysid() const
 			{
-				return m_pmdidRel->Sysid();
+				return m_rel_mdid->Sysid();
 			}
 			
 			// accessors
@@ -94,7 +94,7 @@ namespace gpmd
 			virtual
 			ULONG HashValue() const
 			{
-				return gpos::CombineHashes(m_pmdidRel->HashValue(),
+				return gpos::CombineHashes(m_rel_mdid->HashValue(),
 											gpos::HashValue(&m_ulPos));
 			}
 			
@@ -102,7 +102,7 @@ namespace gpmd
 			virtual
 			BOOL IsValid() const
 			{
-				return IMDId::IsValid(m_pmdidRel);
+				return IMDId::IsValid(m_rel_mdid);
 			}
 
 			// serialize mdid in DXL as the value of the specified attribute 

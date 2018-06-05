@@ -41,7 +41,7 @@ CPhysicalDynamicTableScan::CPhysicalDynamicTableScan
 	const CName *pnameAlias,
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
-	ULONG ulScanId,
+	ULONG scan_id,
 	DrgPcr *pdrgpcrOutput,
 	DrgDrgPcr *pdrgpdrgpcrParts,
 	ULONG ulSecondaryScanId,
@@ -49,7 +49,7 @@ CPhysicalDynamicTableScan::CPhysicalDynamicTableScan
 	CPartConstraint *ppartcnstrRel
 	)
 	:
-	CPhysicalDynamicScan(memory_pool, fPartial, ptabdesc, ulOriginOpId, pnameAlias, ulScanId, pdrgpcrOutput, pdrgpdrgpcrParts, ulSecondaryScanId, ppartcnstr, ppartcnstrRel)
+	CPhysicalDynamicScan(memory_pool, fPartial, ptabdesc, ulOriginOpId, pnameAlias, scan_id, pdrgpcrOutput, pdrgpdrgpcrParts, ulSecondaryScanId, ppartcnstr, ppartcnstrRel)
 {}
 
 //---------------------------------------------------------------------------

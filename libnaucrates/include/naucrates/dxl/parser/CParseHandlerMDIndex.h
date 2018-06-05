@@ -44,7 +44,7 @@ namespace gpdxl
 			CMDName *m_mdname;
 
 			// mdid of the indexed relation
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 			
 			// is the index clustered
 			BOOL m_fClustered;

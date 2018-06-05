@@ -50,7 +50,7 @@ namespace gpmd
 			CMDName *m_mdname;
 
 			// relation id
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 
 			// function id
 			IMDId *m_func_mdid;
@@ -105,7 +105,7 @@ namespace gpmd
 			virtual
 			IMDId *PmdidRel() const
 			{
-				return m_pmdidRel;
+				return m_rel_mdid;
 			}
 
 			// function mdid

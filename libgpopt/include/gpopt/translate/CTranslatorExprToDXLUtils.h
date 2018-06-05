@@ -444,7 +444,7 @@ namespace gpopt
 				BOOL fConditional,
 				PartCnstrMap *ppartcnstrmap,
 				DrgDrgPcr *pdrgpdrgpcrKeys,
-				ULONG ulScanId,
+				ULONG scan_id,
 				CharPtrArray *pdrgszPartTypes
 				);
 
@@ -484,7 +484,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				ULONG ulPartLevels,
-				ULONG ulScanId,
+				ULONG scan_id,
 				CDXLPhysicalProperties *dxl_properties,
 				CDXLNode *pdxlnPrL,
 				CDXLNode *pdxlnEqFilters,
@@ -502,7 +502,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				CDXLPhysicalProperties *dxl_properties,
 				CDXLNode *pdxlnPrL,
-				CDXLNode *pdxlnFilter,
+				CDXLNode *filter_dxlnode,
 				CDXLNode *pdxlnOneTimeFilter,
 				CDXLNode *child_dxlnode
 				);

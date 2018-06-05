@@ -42,7 +42,7 @@ CPhysicalDynamicScan::CPhysicalDynamicScan
 	CTableDescriptor *ptabdesc,
 	ULONG ulOriginOpId,
 	const CName *pnameAlias,
-	ULONG ulScanId,
+	ULONG scan_id,
 	DrgPcr *pdrgpcrOutput,
 	DrgDrgPcr *pdrgpdrgpcrParts,
 	ULONG ulSecondaryScanId,
@@ -53,7 +53,7 @@ CPhysicalDynamicScan::CPhysicalDynamicScan
 	CPhysicalScan(memory_pool, pnameAlias, ptabdesc, pdrgpcrOutput),
 	m_ulOriginOpId(ulOriginOpId),
 	m_fPartial(fPartial),
-	m_ulScanId(ulScanId),
+	m_scan_id(scan_id),
 	m_pdrgpdrgpcrPart(pdrgpdrgpcrParts),
 	m_ulSecondaryScanId(ulSecondaryScanId),
 	m_ppartcnstr(ppartcnstr),
@@ -92,7 +92,7 @@ ULONG
 CPhysicalDynamicScan::HashValue() const
 {
 	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(),
-								gpos::CombineHashes(gpos::HashValue(&m_ulScanId),
+								gpos::CombineHashes(gpos::HashValue(&m_scan_id),
 								                      m_ptabdesc->MDId()->HashValue()));
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcrOutput));
 
@@ -124,7 +124,7 @@ CPhysicalDynamicScan::PpimDerive
 	m_ppartcnstrRel->AddRef();
 	ULONG ulExpectedPartitionSelectors = CDrvdPropCtxtPlan::PdpctxtplanConvert(pdpctxt)->UlExpectedPartitionSelectors();
 
-	return PpimDeriveFromDynamicScan(memory_pool, m_ulScanId, pmdid, m_pdrgpdrgpcrPart, m_ulSecondaryScanId, m_ppartcnstr, m_ppartcnstrRel, ulExpectedPartitionSelectors);
+	return PpimDeriveFromDynamicScan(memory_pool, m_scan_id, pmdid, m_pdrgpdrgpcrPart, m_ulSecondaryScanId, m_ppartcnstr, m_ppartcnstrRel, ulExpectedPartitionSelectors);
 }
 
 //---------------------------------------------------------------------------
@@ -152,7 +152,7 @@ CPhysicalDynamicScan::OsPrint
 	m_ptabdesc->Name().OsPrint(os);
 	os << "), Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
-	os << "] Scan Id: " << m_ulScanId << "." << m_ulSecondaryScanId;
+	os << "] Scan Id: " << m_scan_id << "." << m_ulSecondaryScanId;
 
 	if (!m_ppartcnstr->FUnbounded())
 	{

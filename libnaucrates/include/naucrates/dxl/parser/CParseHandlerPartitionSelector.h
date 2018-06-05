@@ -34,13 +34,13 @@ namespace gpdxl
 		private:
 
 			// table id
-			IMDId *m_pmdidRel;
+			IMDId *m_rel_mdid;
 
 			// number of partitioning levels
-			ULONG m_ulLevels;
+			ULONG m_num_of_part_levels;
 
 			// scan id
-			ULONG m_ulScanId;
+			ULONG m_scan_id;
 
 			// private copy ctor
 			CParseHandlerPartitionSelector(const CParseHandlerPartitionSelector&);

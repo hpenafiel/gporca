@@ -29,7 +29,7 @@ CMDIdRelStats::CMDIdRelStats
 	CMDIdGPDB *pmdidRel
 	)
 	:
-	m_pmdidRel(pmdidRel),
+	m_rel_mdid(pmdidRel),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
 	// serialize mdid into static string 
@@ -46,7 +46,7 @@ CMDIdRelStats::CMDIdRelStats
 //---------------------------------------------------------------------------
 CMDIdRelStats::~CMDIdRelStats()
 {
-	m_pmdidRel->Release();
+	m_rel_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -65,9 +65,9 @@ CMDIdRelStats::Serialize()
 			(
 			GPOS_WSZ_LIT("%d.%d.%d.%d"), 
 			Emdidt(), 
-			m_pmdidRel->OidObjectId(),
-			m_pmdidRel->UlVersionMajor(),
-			m_pmdidRel->UlVersionMinor()
+			m_rel_mdid->OidObjectId(),
+			m_rel_mdid->UlVersionMajor(),
+			m_rel_mdid->UlVersionMinor()
 			);
 }
 
@@ -96,7 +96,7 @@ CMDIdRelStats::GetBuffer() const
 IMDId *
 CMDIdRelStats::PmdidRel() const
 {
-	return m_pmdidRel;
+	return m_rel_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -121,7 +121,7 @@ CMDIdRelStats::Equals
 	
 	const CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(pmdid);
 	
-	return m_pmdidRel->Equals(pmdidRelStats->PmdidRel()); 
+	return m_rel_mdid->Equals(pmdidRelStats->PmdidRel()); 
 }
 
 //---------------------------------------------------------------------------
