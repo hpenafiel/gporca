@@ -92,7 +92,7 @@ CParseHandlerScalarBooleanTest::StartElement
 	m_edxlBooleanTestType = edxlBooleanTestType;
 	// parse and create scalar BooleanTest
 	CDXLScalarBooleanTest *dxl_op =
-			(CDXLScalarBooleanTest*) CDXLOperatorFactory::PdxlopBooleanTest(m_parse_handler_mgr->GetDXLMemoryManager(), m_edxlBooleanTestType);
+			(CDXLScalarBooleanTest*) CDXLOperatorFactory::MakeDXLBooleanTest(m_parse_handler_mgr->GetDXLMemoryManager(), m_edxlBooleanTestType);
 
 	// construct node from the created child nodes
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);

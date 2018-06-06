@@ -70,7 +70,7 @@ CParseHandlerAgg::StartElement
 	}
 	
 	// parse and create group by operator
-	m_dxl_op = (CDXLPhysicalAgg *) CDXLOperatorFactory::PdxlopAgg(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalAgg *) CDXLOperatorFactory::MakeDXLAgg(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

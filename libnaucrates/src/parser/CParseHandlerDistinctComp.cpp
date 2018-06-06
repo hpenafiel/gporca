@@ -67,7 +67,7 @@ CParseHandlerDistinctComp::StartElement
 	}
 	
 	// parse and create distinct operator
-	m_dxl_op = (CDXLScalarDistinctComp *) CDXLOperatorFactory::PdxlopDistinctCmp(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLScalarDistinctComp *) CDXLOperatorFactory::MakeDXLDistinctCmp(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

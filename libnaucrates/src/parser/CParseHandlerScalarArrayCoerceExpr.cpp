@@ -74,7 +74,7 @@ CParseHandlerScalarArrayCoerceExpr::StartElement
 		}
 
 		// parse and create scalar coerce
-		CDXLScalarArrayCoerceExpr *dxl_op = (CDXLScalarArrayCoerceExpr*) CDXLOperatorFactory::PdxlopArrayCoerceExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		CDXLScalarArrayCoerceExpr *dxl_op = (CDXLScalarArrayCoerceExpr*) CDXLOperatorFactory::MakeDXLArrayCoerceExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 

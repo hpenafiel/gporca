@@ -44,14 +44,14 @@ XERCES_CPP_NAMESPACE_USE
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopTblScan
+//		CDXLOperatorFactory::MakeDXLTblScan
 //
 //	@doc:
 //		Construct a table scan operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopTblScan
+CDXLOperatorFactory::MakeDXLTblScan
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes & // attrs
@@ -65,14 +65,14 @@ CDXLOperatorFactory::PdxlopTblScan
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopSubqScan
+//		CDXLOperatorFactory::MakeDXLSubqScan
 //
 //	@doc:
 //		Construct a subquery scan operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopSubqScan
+CDXLOperatorFactory::MakeDXLSubqScan
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -102,14 +102,14 @@ CDXLOperatorFactory::PdxlopSubqScan
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopResult
+//		CDXLOperatorFactory::MakeDXLResult
 //
 //	@doc:
 //		Construct a result operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopResult
+CDXLOperatorFactory::MakeDXLResult
 	(
 	CDXLMemoryManager *memory_manager_dxl
 	)
@@ -145,14 +145,14 @@ CDXLOperatorFactory::MakeDXLHashJoin
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopNLJoin
+//		CDXLOperatorFactory::MakeDXLNLJoin
 //
 //	@doc:
 //		Construct a nested loop join operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopNLJoin
+CDXLOperatorFactory::MakeDXLNLJoin
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -188,14 +188,14 @@ CDXLOperatorFactory::PdxlopNLJoin
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopMergeJoin
+//		CDXLOperatorFactory::MakeDXLMergeJoin
 //
 //	@doc:
 //		Construct a merge join operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopMergeJoin
+CDXLOperatorFactory::MakeDXLMergeJoin
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -243,14 +243,14 @@ CDXLOperatorFactory::MakeDXLGatherMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopBroadcastMotion
+//		CDXLOperatorFactory::MakeDXLBroadcastMotion
 //
 //	@doc:
 //		Construct a broadcast motion operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopBroadcastMotion
+CDXLOperatorFactory::MakeDXLBroadcastMotion
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -267,14 +267,14 @@ CDXLOperatorFactory::PdxlopBroadcastMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopRedistributeMotion
+//		CDXLOperatorFactory::MakeDXLRedistributeMotion
 //
 //	@doc:
 //		Construct a redistribute motion operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopRedistributeMotion
+CDXLOperatorFactory::MakeDXLRedistributeMotion
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -302,14 +302,14 @@ CDXLOperatorFactory::PdxlopRedistributeMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopRoutedMotion
+//		CDXLOperatorFactory::MakeDXLRoutedMotion
 //
 //	@doc:
 //		Construct a routed motion operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopRoutedMotion
+CDXLOperatorFactory::MakeDXLRoutedMotion
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -328,14 +328,14 @@ CDXLOperatorFactory::PdxlopRoutedMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopRandomMotion
+//		CDXLOperatorFactory::MakeDXLRandomMotion
 //
 //	@doc:
 //		Construct a random motion operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopRandomMotion
+CDXLOperatorFactory::MakeDXLRandomMotion
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -360,13 +360,13 @@ CDXLOperatorFactory::PdxlopRandomMotion
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopAppend
+//		CDXLOperatorFactory::MakeDXLAppend
 //	@doc:
 //		Construct an Append operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopAppend
+CDXLOperatorFactory::MakeDXLAppend
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -396,13 +396,13 @@ CDXLOperatorFactory::PdxlopAppend
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopLimit
+//		CDXLOperatorFactory::MakeDXLLimit
 //	@doc:
 //		Construct a Limit operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical*
-CDXLOperatorFactory::PdxlopLimit
+CDXLOperatorFactory::MakeDXLLimit
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes & // attrs
@@ -416,14 +416,14 @@ CDXLOperatorFactory::PdxlopLimit
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopLimitCount
+//		CDXLOperatorFactory::MakeDXLLimitCount
 //
 //	@doc:
 //		Construct a Limit Count operator
 //
 //---------------------------------------------------------------------------
 CDXLScalar*
-CDXLOperatorFactory::PdxlopLimitCount
+CDXLOperatorFactory::MakeDXLLimitCount
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes & // attrs
@@ -437,14 +437,14 @@ CDXLOperatorFactory::PdxlopLimitCount
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopLimitOffset
+//		CDXLOperatorFactory::MakeDXLLimitOffset
 //
 //	@doc:
 //		Construct a Limit Offset operator
 //
 //---------------------------------------------------------------------------
 CDXLScalar*
-CDXLOperatorFactory::PdxlopLimitOffset
+CDXLOperatorFactory::MakeDXLLimitOffset
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes & // attrs
@@ -458,14 +458,14 @@ CDXLOperatorFactory::PdxlopLimitOffset
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopAgg
+//		CDXLOperatorFactory::MakeDXLAgg
 //
 //	@doc:
 //		Construct an aggregate operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopAgg
+CDXLOperatorFactory::MakeDXLAgg
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes & attrs
@@ -532,14 +532,14 @@ CDXLOperatorFactory::PdxlopAgg
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopSort
+//		CDXLOperatorFactory::MakeDXLSort
 //
 //	@doc:
 //		Construct a sort operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopSort
+CDXLOperatorFactory::MakeDXLSort
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -562,14 +562,14 @@ CDXLOperatorFactory::PdxlopSort
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopMaterialize
+//		CDXLOperatorFactory::MakeDXLMaterialize
 //
 //	@doc:
 //		Construct a materialize operator
 //
 //---------------------------------------------------------------------------
 CDXLPhysical *
-CDXLOperatorFactory::PdxlopMaterialize
+CDXLOperatorFactory::MakeDXLMaterialize
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -632,14 +632,14 @@ CDXLOperatorFactory::PdxlopMaterialize
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopScalarCmp
+//		CDXLOperatorFactory::MakeDXLScalarCmp
 //
 //	@doc:
 //		Construct a scalar comparison operator
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopScalarCmp
+CDXLOperatorFactory::MakeDXLScalarCmp
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -669,14 +669,14 @@ CDXLOperatorFactory::PdxlopScalarCmp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopDistinctCmp
+//		CDXLOperatorFactory::MakeDXLDistinctCmp
 //
 //	@doc:
 //		Construct a scalar distinct comparison operator
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopDistinctCmp
+CDXLOperatorFactory::MakeDXLDistinctCmp
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -693,14 +693,14 @@ CDXLOperatorFactory::PdxlopDistinctCmp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopOpExpr
+//		CDXLOperatorFactory::MakeDXLOpExpr
 //
 //	@doc:
 //		Construct a scalar OpExpr
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopOpExpr
+CDXLOperatorFactory::MakeDXLOpExpr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -809,14 +809,14 @@ CDXLOperatorFactory::PdxlopArrayComp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopBoolExpr
+//		CDXLOperatorFactory::MakeDXLBoolExpr
 //
 //	@doc:
 //		Construct a scalar BoolExpr
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopBoolExpr
+CDXLOperatorFactory::MakeDXLBoolExpr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const EdxlBoolExprType edxlboolexprType
@@ -830,14 +830,14 @@ CDXLOperatorFactory::PdxlopBoolExpr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopBooleanTest
+//		CDXLOperatorFactory::MakeDXLBooleanTest
 //
 //	@doc:
 //		Construct a scalar BooleanTest
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopBooleanTest
+CDXLOperatorFactory::MakeDXLBooleanTest
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const EdxlBooleanTestType edxlbooleantesttype
@@ -851,14 +851,14 @@ CDXLOperatorFactory::PdxlopBooleanTest
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopSubPlan
+//		CDXLOperatorFactory::MakeDXLSubPlan
 //
 //	@doc:
 //		Construct a SubPlan node
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopSubPlan
+CDXLOperatorFactory::MakeDXLSubPlan
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	IMDId *pmdid,
@@ -875,14 +875,14 @@ CDXLOperatorFactory::PdxlopSubPlan
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopNullTest
+//		CDXLOperatorFactory::MakeDXLNullTest
 //
 //	@doc:
 //		Construct a scalar NullTest
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopNullTest
+CDXLOperatorFactory::MakeDXLNullTest
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const BOOL fIsNull
@@ -896,14 +896,14 @@ CDXLOperatorFactory::PdxlopNullTest
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopCast
+//		CDXLOperatorFactory::MakeDXLCast
 //
 //	@doc:
 //		Construct a scalar RelabelType
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopCast
+CDXLOperatorFactory::MakeDXLCast
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -935,14 +935,14 @@ CDXLOperatorFactory::PdxlopCast
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopCoerceToDomain
+//		CDXLOperatorFactory::MakeDXLCoerceToDomain
 //
 //	@doc:
 //		Construct a scalar coerce
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopCoerceToDomain
+CDXLOperatorFactory::MakeDXLCoerceToDomain
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -962,14 +962,14 @@ CDXLOperatorFactory::PdxlopCoerceToDomain
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopCoerceViaIO
+//		CDXLOperatorFactory::MakeDXLCoerceViaIO
 //
 //	@doc:
 //		Construct a scalar coerce
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopCoerceViaIO
+CDXLOperatorFactory::MakeDXLCoerceViaIO
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -989,14 +989,14 @@ CDXLOperatorFactory::PdxlopCoerceViaIO
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopArrayCoerceExpr
+//		CDXLOperatorFactory::MakeDXLArrayCoerceExpr
 //
 //	@doc:
 //		Construct a scalar array coerce expression
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopArrayCoerceExpr
+CDXLOperatorFactory::MakeDXLArrayCoerceExpr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -1016,14 +1016,14 @@ CDXLOperatorFactory::PdxlopArrayCoerceExpr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopConstValue
+//		CDXLOperatorFactory::MakeDXLConstValue
 //
 //	@doc:
 //		Construct a scalar Const
 //
 //---------------------------------------------------------------------------
 CDXLScalar *
-CDXLOperatorFactory::PdxlopConstValue
+CDXLOperatorFactory::MakeDXLConstValue
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -1038,14 +1038,14 @@ CDXLOperatorFactory::PdxlopConstValue
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopIfStmt
+//		CDXLOperatorFactory::MakeDXLIfStmt
 //
 //	@doc:
 //		Construct an if statement operator
 //
 //---------------------------------------------------------------------------
 CDXLScalar*
-CDXLOperatorFactory::PdxlopIfStmt
+CDXLOperatorFactory::MakeDXLIfStmt
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -1066,16 +1066,10 @@ CDXLOperatorFactory::PdxlopIfStmt
 	return GPOS_NEW(memory_pool) CDXLScalarIfStmt(memory_pool, mdid_type);
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLOperatorFactory::PdxlopFuncExpr
-//
-//	@doc:
+
 //		Construct an funcexpr operator
-//
-//---------------------------------------------------------------------------
 CDXLScalar*
-CDXLOperatorFactory::PdxlopFuncExpr
+CDXLOperatorFactory::MakeDXLFuncExpr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs
@@ -1123,14 +1117,14 @@ CDXLOperatorFactory::PdxlopFuncExpr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::PdxlopAggFunc
+//		CDXLOperatorFactory::MakeDXLAggFunc
 //
 //	@doc:
 //		Construct an AggRef operator
 //
 //---------------------------------------------------------------------------
 CDXLScalar*
-CDXLOperatorFactory::PdxlopAggFunc
+CDXLOperatorFactory::MakeDXLAggFunc
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs

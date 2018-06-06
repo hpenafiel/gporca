@@ -78,7 +78,7 @@ CParseHandlerScalarComp::StartElement
 	}
 	
 	// parse and create comparison operator
-	m_dxl_op = (CDXLScalarComp *) CDXLOperatorFactory::PdxlopScalarCmp(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLScalarComp *) CDXLOperatorFactory::MakeDXLScalarCmp(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

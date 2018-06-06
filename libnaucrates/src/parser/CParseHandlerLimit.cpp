@@ -66,7 +66,7 @@ CParseHandlerLimit::StartElement
 	{
 
 		// parse and create Limit operator
-		m_dxl_op = (CDXLPhysicalLimit *) CDXLOperatorFactory::PdxlopLimit(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		m_dxl_op = (CDXLPhysicalLimit *) CDXLOperatorFactory::MakeDXLLimit(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 		// create and activate the parse handler for the children nodes in reverse

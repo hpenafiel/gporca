@@ -72,7 +72,7 @@ CParseHandlerSort::StartElement
 	}
 	
 	// parse and create Sort operator
-	m_dxl_op = (CDXLPhysicalSort *) CDXLOperatorFactory::PdxlopSort(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalSort *) CDXLOperatorFactory::MakeDXLSort(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

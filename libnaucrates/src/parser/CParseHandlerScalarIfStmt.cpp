@@ -62,7 +62,7 @@ CParseHandlerScalarIfStmt::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIfStmt), element_local_name))
 	{
 		// parse and create scalar if statment
-		CDXLScalarIfStmt *dxl_op = (CDXLScalarIfStmt*) CDXLOperatorFactory::PdxlopIfStmt(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		CDXLScalarIfStmt *dxl_op = (CDXLScalarIfStmt*) CDXLOperatorFactory::MakeDXLIfStmt(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 		// construct node
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);

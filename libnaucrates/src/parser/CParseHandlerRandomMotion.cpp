@@ -69,7 +69,7 @@ CParseHandlerRandomMotion::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	m_dxl_op = (CDXLPhysicalRandomMotion *) CDXLOperatorFactory::PdxlopRandomMotion(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalRandomMotion *) CDXLOperatorFactory::MakeDXLRandomMotion(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

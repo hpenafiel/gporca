@@ -72,7 +72,7 @@ CParseHandlerRedistributeMotion::StartElement
 	}
 	
 	// parse and create Redistribute motion operator
-	m_dxl_op = (CDXLPhysicalRedistributeMotion *) CDXLOperatorFactory::PdxlopRedistributeMotion(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalRedistributeMotion *) CDXLOperatorFactory::MakeDXLRedistributeMotion(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

@@ -68,7 +68,7 @@ CParseHandlerScalarCast::StartElement
 		}
 
 		// parse and create scalar cast
-		CDXLScalarCast *dxl_op = (CDXLScalarCast*) CDXLOperatorFactory::PdxlopCast(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		CDXLScalarCast *dxl_op = (CDXLScalarCast*) CDXLOperatorFactory::MakeDXLCast(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 

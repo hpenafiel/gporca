@@ -69,7 +69,7 @@ CParseHandlerMergeJoin::StartElement
 	}
 	
 	// parse and create Merge join operator
-	m_dxl_op = (CDXLPhysicalMergeJoin *) CDXLOperatorFactory::PdxlopMergeJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalMergeJoin *) CDXLOperatorFactory::MakeDXLMergeJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

@@ -179,7 +179,7 @@ CParseHandlerScalarSubPlan::EndElement
 	{
 		pdxlnTestExpr->AddRef();
 	}
-	CDXLScalarSubPlan *dxl_op = (CDXLScalarSubPlan *) CDXLOperatorFactory::PdxlopSubPlan(m_parse_handler_mgr->GetDXLMemoryManager(), m_pmdidFirstCol, pdrgdxlcr, m_edxlsubplantype, pdxlnTestExpr);
+	CDXLScalarSubPlan *dxl_op = (CDXLScalarSubPlan *) CDXLOperatorFactory::MakeDXLSubPlan(m_parse_handler_mgr->GetDXLMemoryManager(), m_pmdidFirstCol, pdrgdxlcr, m_edxlsubplantype, pdxlnTestExpr);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 

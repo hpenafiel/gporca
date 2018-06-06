@@ -192,15 +192,15 @@ namespace gpdxl
 
 			// create a table scan operator
 			static
-			CDXLPhysical *PdxlopTblScan(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLTblScan(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a subquery scan operator
 			static
-			CDXLPhysical *PdxlopSubqScan(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLSubqScan(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a result operator
 			static
-			CDXLPhysical *PdxlopResult(CDXLMemoryManager *memory_manager_dxl);
+			CDXLPhysical *MakeDXLResult(CDXLMemoryManager *memory_manager_dxl);
 
 			// create a hashjoin operator
 			static
@@ -208,11 +208,11 @@ namespace gpdxl
 
 			// create a nested loop join operator
 			static
-			CDXLPhysical *PdxlopNLJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLNLJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a merge join operator
 			static
-			CDXLPhysical *PdxlopMergeJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLMergeJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a gather motion operator
 			static
@@ -220,59 +220,59 @@ namespace gpdxl
 			
 			// create a broadcast motion operator
 			static
-			CDXLPhysical *PdxlopBroadcastMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLBroadcastMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a redistribute motion operator
 			static
-			CDXLPhysical *PdxlopRedistributeMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLRedistributeMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a routed motion operator
 			static
-			CDXLPhysical *PdxlopRoutedMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLRoutedMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a random motion operator
 			static
-			CDXLPhysical *PdxlopRandomMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLRandomMotion(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create an append operator
 			static
-			CDXLPhysical *PdxlopAppend(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLAppend(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a limit operator
 			static
-			CDXLPhysical *PdxlopLimit(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLLimit(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create an aggregation operator
 			static
-			CDXLPhysical *PdxlopAgg(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLAgg(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a sort operator
 			static
-			CDXLPhysical *PdxlopSort(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLSort(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a materialize operator
 			static
-			CDXLPhysical *PdxlopMaterialize(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLPhysical *MakeDXLMaterialize(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a limit count operator
 			static
-			CDXLScalar *PdxlopLimitCount(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLLimitCount(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a limit offset operator
 			static
-			CDXLScalar *PdxlopLimitOffset(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLLimitOffset(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a scalar comparison operator
 			static
-			CDXLScalar *PdxlopScalarCmp(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLScalarCmp(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a distinct comparison operator
 			static
-			CDXLScalar *PdxlopDistinctCmp(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLDistinctCmp(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a scalar OpExpr
 			static
-			CDXLScalar *PdxlopOpExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLOpExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a scalar ArrayComp
 			static
@@ -280,15 +280,15 @@ namespace gpdxl
 
 			// create a BoolExpr
 			static
-			CDXLScalar *PdxlopBoolExpr(CDXLMemoryManager *memory_manager_dxl, const EdxlBoolExprType);
+			CDXLScalar *MakeDXLBoolExpr(CDXLMemoryManager *memory_manager_dxl, const EdxlBoolExprType);
 
 			// create a boolean test
 			static
-			CDXLScalar *PdxlopBooleanTest(CDXLMemoryManager *memory_manager_dxl, const EdxlBooleanTestType);
+			CDXLScalar *MakeDXLBooleanTest(CDXLMemoryManager *memory_manager_dxl, const EdxlBooleanTestType);
 
 			// create a subplan operator
 			static
-			CDXLScalar *PdxlopSubPlan
+			CDXLScalar *MakeDXLSubPlan
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				IMDId *pmdid,
@@ -299,23 +299,23 @@ namespace gpdxl
 
 			// create a NullTest
 			static
-			CDXLScalar *PdxlopNullTest(CDXLMemoryManager *memory_manager_dxl, const BOOL );
+			CDXLScalar *MakeDXLNullTest(CDXLMemoryManager *memory_manager_dxl, const BOOL );
 
 			// create a cast
 			static
-			CDXLScalar *PdxlopCast(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLCast(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a coerce
 			static
-			CDXLScalar *PdxlopCoerceToDomain(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLCoerceToDomain(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a CoerceViaIo
 			static
-			CDXLScalar *PdxlopCoerceViaIO(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLCoerceViaIO(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a ArrayCoerceExpr
 			static
-			CDXLScalar *PdxlopArrayCoerceExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLArrayCoerceExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a scalar identifier operator
 			static
@@ -323,19 +323,19 @@ namespace gpdxl
 
 			// create a scalar Const
 			static
-			CDXLScalar *PdxlopConstValue(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLConstValue(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a CaseStmt
 			static
-			CDXLScalar *PdxlopIfStmt(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLIfStmt(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a FuncExpr
 			static
-			CDXLScalar *PdxlopFuncExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLFuncExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a AggRef
 			static
-			CDXLScalar *PdxlopAggFunc(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLAggFunc(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a scalar window function (WindowRef)
 			static

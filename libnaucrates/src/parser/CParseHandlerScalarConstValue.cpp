@@ -65,7 +65,7 @@ CParseHandlerScalarConstValue::StartElement
 	}
 
 	// parse and create scalar const operator
-	CDXLScalarConstValue *dxl_op = (CDXLScalarConstValue*) CDXLOperatorFactory::PdxlopConstValue(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	CDXLScalarConstValue *dxl_op = (CDXLScalarConstValue*) CDXLOperatorFactory::MakeDXLConstValue(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 	// construct scalar Const node
 	GPOS_ASSERT(NULL != dxl_op);

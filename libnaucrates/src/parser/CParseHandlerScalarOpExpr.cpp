@@ -64,7 +64,7 @@ CParseHandlerScalarOpExpr::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarOpExpr), element_local_name) && (NULL == m_dxl_node))
 	{
 		// parse and create scalar OpExpr
-		CDXLScalarOpExpr *dxl_op = (CDXLScalarOpExpr*) CDXLOperatorFactory::PdxlopOpExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		CDXLScalarOpExpr *dxl_op = (CDXLScalarOpExpr*) CDXLOperatorFactory::MakeDXLOpExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 		// construct node from the created child nodes
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);

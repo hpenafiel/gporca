@@ -70,7 +70,7 @@ CParseHandlerBroadcastMotion::StartElement
 	}
 	
 	// parse and create Broadcast motion operator
-	m_dxl_op = (CDXLPhysicalBroadcastMotion *) CDXLOperatorFactory::PdxlopBroadcastMotion(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalBroadcastMotion *) CDXLOperatorFactory::MakeDXLBroadcastMotion(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the children nodes in reverse
 	// order of their expected appearance

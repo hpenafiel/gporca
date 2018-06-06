@@ -61,7 +61,7 @@ CParseHandlerScalarLimitCount::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarLimitCount), element_local_name))
 	{
 		// parse and create scalar limit count
-		CDXLScalarLimitCount *dxl_op = (CDXLScalarLimitCount*) CDXLOperatorFactory::PdxlopLimitCount(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		CDXLScalarLimitCount *dxl_op = (CDXLScalarLimitCount*) CDXLOperatorFactory::MakeDXLLimitCount(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool,dxl_op);
 	}
 	else

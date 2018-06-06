@@ -59,7 +59,7 @@ CParseHandlerScalarAggref::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarAggref), element_local_name))
 	{
 		// parse and create scalar AggRef
-		CDXLScalarAggref *dxl_op = (CDXLScalarAggref*) CDXLOperatorFactory::PdxlopAggFunc(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		CDXLScalarAggref *dxl_op = (CDXLScalarAggref*) CDXLOperatorFactory::MakeDXLAggFunc(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 		// construct node from the created scalar AggRef
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);

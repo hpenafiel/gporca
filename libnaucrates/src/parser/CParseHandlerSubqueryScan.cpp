@@ -68,7 +68,7 @@ CParseHandlerSubqueryScan::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	m_dxl_op = (CDXLPhysicalSubqueryScan *) CDXLOperatorFactory::PdxlopSubqScan(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLPhysicalSubqueryScan *) CDXLOperatorFactory::MakeDXLSubqScan(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create child node parsers in reverse order of their expected occurrence
 

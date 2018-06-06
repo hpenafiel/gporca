@@ -61,7 +61,7 @@ CParseHandlerResult::SetupInitialHandlers
 	GPOS_ASSERT(m_dxl_op == NULL && "Result dxl node should not have been created yet");
 	GPOS_ASSERT(0 == this->Length() && "No handlers should have been added yet");
 
-	m_dxl_op = (CDXLPhysicalResult *) CDXLOperatorFactory::PdxlopResult(m_parse_handler_mgr->GetDXLMemoryManager());
+	m_dxl_op = (CDXLPhysicalResult *) CDXLOperatorFactory::MakeDXLResult(m_parse_handler_mgr->GetDXLMemoryManager());
 
 	// parse handler for the one-time filter
 	CParseHandlerBase *pphOneTimeFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarOneTimeFilter), m_parse_handler_mgr, this);
