@@ -52,7 +52,7 @@ CScalarSubqueryAll::PopCopyWithRemappedColumns
 {
 	CColRef *pcr = CUtils::PcrRemap(Pcr(), phmulcr, fMustExist);
 
-	IMDId *pmdidScalarOp = PmdidOp();
+	IMDId *pmdidScalarOp = MdIdOp();
 	pmdidScalarOp->AddRef();
 
 	CWStringConst *pstrScalarOp = GPOS_NEW(memory_pool) CWStringConst(memory_pool, PstrOp()->GetBuffer());

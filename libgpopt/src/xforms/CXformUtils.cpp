@@ -1143,8 +1143,8 @@ CXformUtils::PexprInversePred
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// get mdid and name of the inverse of the comparison operator used by subquery
-	IMDId *pmdidOp = popSqAll->PmdidOp();
-	IMDId *pmdidInverseOp = md_accessor->Pmdscop(pmdidOp)->PmdidOpInverse();
+	IMDId *mdid_op = popSqAll->MdIdOp();
+	IMDId *pmdidInverseOp = md_accessor->Pmdscop(mdid_op)->PmdidOpInverse();
 	const CWStringConst *pstrFirst = md_accessor->Pmdscop(pmdidInverseOp)->Mdname().GetMDName();
 
 	// generate a predicate for the inversion of the comparison involved in the subquery
@@ -3173,10 +3173,10 @@ CXformUtils::PexprEqualityOnBoolColumn
 			CUtils::PexprScalarConstBool(memory_pool, value, false /*is_null*/);
 
 	const IMDTypeBool *pmdtype = md_accessor->PtMDType<IMDTypeBool>();
-	IMDId *pmdidOp = pmdtype->PmdidCmp(IMDType::EcmptEq);
-	pmdidOp->AddRef();
+	IMDId *mdid_op = pmdtype->PmdidCmp(IMDType::EcmptEq);
+	mdid_op->AddRef();
 
-	const CMDName mdname = md_accessor->Pmdscop(pmdidOp)->Mdname();
+	const CMDName mdname = md_accessor->Pmdscop(mdid_op)->Mdname();
 	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
 
 	return CUtils::PexprScalarCmp
@@ -3185,7 +3185,7 @@ CXformUtils::PexprEqualityOnBoolColumn
 					pcr,
 					pexprConstBool,
 					strOpName,
-					pmdidOp
+					mdid_op
 					);
 }
 

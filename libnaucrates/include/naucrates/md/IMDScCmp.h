@@ -57,7 +57,7 @@ namespace gpmd
 
 			// comparison operator id
 			virtual 
-			IMDId *PmdidOp() const = 0;
+			IMDId *MdIdOp() const = 0;
 	};
 		
 }

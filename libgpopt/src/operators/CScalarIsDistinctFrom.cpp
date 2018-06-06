@@ -67,7 +67,7 @@ const
 		CScalarIsDistinctFrom *popIDF = CScalarIsDistinctFrom::PopConvert(pop);
 		
 		// match if operator mdids are identical
-		return PmdidOp()->Equals(popIDF->PmdidOp());
+		return MdIdOp()->Equals(popIDF->MdIdOp());
 	}
 	
 	return false;

@@ -282,7 +282,7 @@ CStatsPredUtils::Pstatspred
 
 		// Comparison semantics for statistics purposes is looser
 		// than regular comparison
-		escmpt = Estatscmptype(popScCmp->PmdidOp());
+		escmpt = Estatscmptype(popScCmp->MdIdOp());
 	}
 
 	GPOS_ASSERT(COperator::EopScalarIdent == pexprLeft->Pop()->Eopid() || CScalarIdent::FCastedScId(pexprLeft));
@@ -360,7 +360,7 @@ CStatsPredUtils::FCmpColsIgnoreCast
 
 		// Comparison semantics for stats purposes is looser
 		// than regular comparison.
-		(*pescmpt) = CStatsPredUtils::Estatscmpt(popScCmp->PmdidOp());
+		(*pescmpt) = CStatsPredUtils::Estatscmpt(popScCmp->MdIdOp());
 
 		pexprLeft = (*pexpr)[0];
 		pexprRight = (*pexpr)[1];
@@ -957,7 +957,7 @@ CStatsPredUtils::ProcessArrayCmp
 
 	const ULONG ulConstants = CUtils::UlScalarArrayArity(pexprArray);
 	// comparison semantics for statistics purposes is looser than regular comparison.
-	CStatsPred::EStatsCmpType escmpt = Estatscmptype(popScArrayCmp->PmdidOp());
+	CStatsPred::EStatsCmpType escmpt = Estatscmptype(popScArrayCmp->MdIdOp());
 
 	CScalarIdent *popScalarIdent = CScalarIdent::PopConvert(pexprIdent->Pop());
 	const CColRef *pcr = popScalarIdent->Pcr();

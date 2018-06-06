@@ -124,19 +124,19 @@ namespace gpopt
 			
 			// generate a comparison expression for two column references
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, const CColRef *pcrRight, CWStringConst strOp, IMDId *pmdidOp);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, const CColRef *pcrRight, CWStringConst strOp, IMDId *mdid_op);
 	
 			// generate a comparison expression for a column reference and an expression
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexprRight, CWStringConst strOp, IMDId *pmdidOp);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexprRight, CWStringConst strOp, IMDId *mdid_op);
 
 			// generate a comparison expression for an expression and a column reference
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, const CColRef *pcrRight, CWStringConst strOp, IMDId *pmdidOp);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, const CColRef *pcrRight, CWStringConst strOp, IMDId *mdid_op);
 
 			// generate a comparison expression for two expressions
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, CExpression *pexprRight, CWStringConst strOp, IMDId *pmdidOp);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, CExpression *pexprRight, CWStringConst strOp, IMDId *mdid_op);
 
 			// generate a comparison expression for a column reference and an expression
 			static
@@ -208,7 +208,7 @@ namespace gpopt
 
 			// generate a scalar op expression for a column reference and an expression
 			static
-			CExpression *PexprScalarOp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexpr, CWStringConst strOp, IMDId *pmdidOp, IMDId *pmdidReturnType = NULL);
+			CExpression *PexprScalarOp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexpr, CWStringConst strOp, IMDId *mdid_op, IMDId *pmdidReturnType = NULL);
 
 			// generate a scalar bool op expression
 			static

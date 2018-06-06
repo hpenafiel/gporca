@@ -214,7 +214,7 @@ CConstraintInterval::PcnstrIntervalFromScalarArrayCmp
 #endif // GPOS_DEBUG
 
 	CScalarArrayCmp *popScArrayCmp = CScalarArrayCmp::PopConvert(pexpr->Pop());
-	IMDType::ECmpType ecmpt = CUtils::Ecmpt(popScArrayCmp->PmdidOp());
+	IMDType::ECmpType ecmpt = CUtils::Ecmpt(popScArrayCmp->MdIdOp());
 
 
 	CExpression *pexprArray = CUtils::PexprScalarArrayChild(pexpr);

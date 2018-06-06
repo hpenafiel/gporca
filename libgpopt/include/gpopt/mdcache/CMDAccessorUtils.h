@@ -51,11 +51,11 @@ namespace gpopt
 
 			// is scalar operator commutative? this can be used with ScalarOp and ScalarCmp
 			static
-			BOOL FCommutativeScalarOp(CMDAccessor *md_accessor, IMDId *pmdidOp);
+			BOOL FCommutativeScalarOp(CMDAccessor *md_accessor, IMDId *mdid_op);
 
 			// does scalar operator return NULL on NULL input?
 			static
-			BOOL FScalarOpReturnsNullOnNullInput(CMDAccessor *md_accessor, IMDId *pmdidOp);
+			BOOL FScalarOpReturnsNullOnNullInput(CMDAccessor *md_accessor, IMDId *mdid_op);
 
 			// return True if passed mdid is for BOOL type
 			static

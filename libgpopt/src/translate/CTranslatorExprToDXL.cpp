@@ -5798,7 +5798,7 @@ CTranslatorExprToDXL::PdxlnScCmp
 	GPOS_ASSERT(NULL != popScCmp->Pstr()->GetBuffer());
 
 	// construct a scalar comparison node
-	IMDId *pmdid = popScCmp->PmdidOp();
+	IMDId *pmdid = popScCmp->MdIdOp();
 	pmdid->AddRef();
 
 	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, popScCmp->Pstr()->GetBuffer());
@@ -5844,7 +5844,7 @@ CTranslatorExprToDXL::PdxlnScDistinctCmp
 	CScalarIsDistinctFrom *popScIDF = CScalarIsDistinctFrom::PopConvert(pexprScDist->Pop());
 
 	// construct a scalar distinct comparison node
-	IMDId *pmdid = popScIDF->PmdidOp();
+	IMDId *pmdid = popScIDF->MdIdOp();
 	pmdid->AddRef();
 
 	CDXLNode *pdxlnDistCmp = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarDistinctComp(m_memory_pool, pmdid));
@@ -5880,8 +5880,8 @@ CTranslatorExprToDXL::PdxlnScOp
 	// construct a scalar opexpr node
 	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pscop->Pstr()->GetBuffer());
 
-	IMDId *pmdidOp = pscop->PmdidOp();
-	pmdidOp->AddRef();
+	IMDId *mdid_op = pscop->MdIdOp();
+	mdid_op->AddRef();
 
 	IMDId *pmdidReturnType = pscop->PmdidReturnType();
 	if (NULL != pmdidReturnType)
@@ -5889,7 +5889,7 @@ CTranslatorExprToDXL::PdxlnScOp
 		pmdidReturnType->AddRef();
 	}
 
-	CDXLNode *pdxlnOpExpr = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpExpr(m_memory_pool, pmdidOp, pmdidReturnType, pstrName));
+	CDXLNode *pdxlnOpExpr = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpExpr(m_memory_pool, mdid_op, pmdidReturnType, pstrName));
 
 	TranslateScalarChildren(pexprOp, pdxlnOpExpr);
 
@@ -6267,7 +6267,7 @@ CTranslatorExprToDXL::PdxlnScNullIf
 
 	CScalarNullIf *pop = CScalarNullIf::PopConvert(pexprScNullIf->Pop());
 
-	IMDId *pmdid = pop->PmdidOp();
+	IMDId *pmdid = pop->MdIdOp();
 	pmdid->AddRef();
 
 	IMDId *mdid_type = pop->MDIdType();
@@ -7039,8 +7039,8 @@ CTranslatorExprToDXL::PdxlnArrayCmp
 	GPOS_ASSERT(NULL != pexpr);
 	CScalarArrayCmp *pop = CScalarArrayCmp::PopConvert(pexpr->Pop());
 
-	IMDId *pmdidOp = pop->PmdidOp();
-	pmdidOp->AddRef();
+	IMDId *mdid_op = pop->MdIdOp();
+	mdid_op->AddRef();
 
 	const CWStringConst *pstrOpName = pop->Pstr();
 
@@ -7059,7 +7059,7 @@ CTranslatorExprToDXL::PdxlnArrayCmp
 						GPOS_NEW(m_memory_pool) CDXLScalarArrayComp
 									(
 									m_memory_pool,
-									pmdidOp,
+									mdid_op,
 									GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrOpName->GetBuffer()),
 									edxlarrcmpt
 									)

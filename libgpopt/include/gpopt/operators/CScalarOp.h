@@ -39,7 +39,7 @@ namespace gpopt
 		private:
 
 			// metadata id in the catalog
-			IMDId *m_pmdidOp;
+			IMDId *m_mdid_op;
 
 			// return type id or NULL if it can be inferred from the metadata
 			IMDId *m_pmdidReturnType;
@@ -65,7 +65,7 @@ namespace gpopt
 			CScalarOp
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
+				IMDId *mdid_op,
 				IMDId *pmdidReturnType,
 				const CWStringConst *pstrOp
 				);
@@ -74,7 +74,7 @@ namespace gpopt
 			virtual
 			~CScalarOp()
 			{
-				m_pmdidOp->Release();
+				m_mdid_op->Release();
 				CRefCount::SafeRelease(m_pmdidReturnType);
 				GPOS_DELETE(m_pstrOp);
 			}
@@ -147,7 +147,7 @@ namespace gpopt
 			const CWStringConst *Pstr() const;
 
 			// metadata id
-			IMDId *PmdidOp() const;
+			IMDId *MdIdOp() const;
 
 			// print
 			virtual

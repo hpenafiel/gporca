@@ -50,7 +50,7 @@ namespace gpdxl
 			CDXLScalarOpExpr
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
+				IMDId *mdid_op,
 				IMDId *pmdidReturnType,
 				const CWStringConst *pstrOpName
 				);

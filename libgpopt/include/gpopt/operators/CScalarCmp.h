@@ -37,7 +37,7 @@ namespace gpopt
 		private:
 
 			// metadata id in the catalog
-			IMDId *m_pmdidOp;
+			IMDId *m_mdid_op;
 
 			// comparison operator name
 			const CWStringConst *m_pstrOp;
@@ -60,7 +60,7 @@ namespace gpopt
 			CScalarCmp
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
+				IMDId *mdid_op,
 				const CWStringConst *pstrOp,
 				IMDType::ECmpType ecmpt
 				);
@@ -69,7 +69,7 @@ namespace gpopt
 			virtual 
 			~CScalarCmp()
 			{
-				m_pmdidOp->Release();
+				m_mdid_op->Release();
 				GPOS_DELETE(m_pstrOp);
 			}
 
@@ -127,7 +127,7 @@ namespace gpopt
 			const CWStringConst *Pstr() const;
 
 			// metadata id
-			IMDId *PmdidOp() const;
+			IMDId *MdIdOp() const;
 			
 			// the type of the scalar expression
 			virtual 

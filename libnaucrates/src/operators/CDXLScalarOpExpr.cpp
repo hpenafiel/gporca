@@ -33,13 +33,13 @@ using namespace gpmd;
 CDXLScalarOpExpr::CDXLScalarOpExpr
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidOp,
+	IMDId *mdid_op,
 	IMDId *pmdidReturnType,
 	const CWStringConst *pstrOpName
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_mdid(pmdidOp),
+	m_mdid(mdid_op),
 	m_pmdidReturnType(pmdidReturnType),
 	m_pstrOpName(pstrOpName)
 {

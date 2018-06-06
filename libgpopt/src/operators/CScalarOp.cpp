@@ -35,25 +35,25 @@ using namespace gpopt;
 CScalarOp::CScalarOp
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidOp,
+	IMDId *mdid_op,
 	IMDId *pmdidReturnType,
 	const CWStringConst *pstrOp
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidOp(pmdidOp),
+	m_mdid_op(mdid_op),
 	m_pmdidReturnType(pmdidReturnType),
 	m_pstrOp(pstrOp),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false),
 	m_fCommutative(false)
 {
-	GPOS_ASSERT(pmdidOp->IsValid());
+	GPOS_ASSERT(mdid_op->IsValid());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_pmdidOp);
-	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_pmdidOp);
+	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
+	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_mdid_op);
 	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_pmdidReturnType);
 }
 
@@ -74,16 +74,16 @@ CScalarOp::Pstr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarOp::PmdidOp
+//		CScalarOp::MdIdOp
 //
 //	@doc:
 //		Scalar operator metadata id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarOp::PmdidOp() const
+CScalarOp::MdIdOp() const
 {
-	return m_pmdidOp;
+	return m_mdid_op;
 }
 
 //---------------------------------------------------------------------------
@@ -98,7 +98,7 @@ CScalarOp::PmdidOp() const
 ULONG
 CScalarOp::HashValue() const
 {
-	return gpos::CombineHashes(COperator::HashValue(), m_pmdidOp->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_mdid_op->HashValue());
 }
 
 
@@ -122,7 +122,7 @@ CScalarOp::FMatch
 		CScalarOp *pscop = CScalarOp::PopConvert(pop);
 
 		// match if operator oid are identical
-		return m_pmdidOp->Equals(pscop->PmdidOp());
+		return m_mdid_op->Equals(pscop->MdIdOp());
 	}
 
 	return false;
@@ -159,7 +159,7 @@ CScalarOp::MDIdType() const
 	}
 	
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	return md_accessor->Pmdscop(m_pmdidOp)->PmdidTypeResult();
+	return md_accessor->Pmdscop(m_mdid_op)->PmdidTypeResult();
 }
 
 //---------------------------------------------------------------------------

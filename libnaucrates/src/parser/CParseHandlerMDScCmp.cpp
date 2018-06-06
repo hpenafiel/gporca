@@ -101,7 +101,7 @@ CParseHandlerMDScCmp::StartElement
 									EdxltokenGPDBMDScCmp
 									);
 	
-	IMDId *pmdidOp = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *mdid_op = CDXLOperatorFactory::PmdidFromAttrs
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -119,7 +119,7 @@ CParseHandlerMDScCmp::StartElement
 
 	IMDType::ECmpType ecmpt = CDXLOperatorFactory::Ecmpt(xmlszCmpType);
 	
-	m_imd_obj = GPOS_NEW(m_memory_pool) CMDScCmpGPDB(m_memory_pool, pmdid, mdname, pmdidLeft, pmdidRight, ecmpt, pmdidOp);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDScCmpGPDB(m_memory_pool, pmdid, mdname, pmdidLeft, pmdidRight, ecmpt, mdid_op);
 }
 
 //---------------------------------------------------------------------------

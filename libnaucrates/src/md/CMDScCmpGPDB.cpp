@@ -36,7 +36,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	IMDId *pmdidLeft,
 	IMDId *pmdidRight,
 	IMDType::ECmpType ecmpt,
-	IMDId *pmdidOp
+	IMDId *mdid_op
 	)
 	:
 	m_memory_pool(memory_pool),
@@ -45,12 +45,12 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	m_pmdidLeft(pmdidLeft),
 	m_pmdidRight(pmdidRight),
 	m_ecmpt(ecmpt),
-	m_pmdidOp(pmdidOp)
+	m_mdid_op(mdid_op)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(m_pmdidLeft->IsValid());
 	GPOS_ASSERT(m_pmdidRight->IsValid());
-	GPOS_ASSERT(m_pmdidOp->IsValid());
+	GPOS_ASSERT(m_mdid_op->IsValid());
 	GPOS_ASSERT(IMDType::EcmptOther != m_ecmpt);
 
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
@@ -69,7 +69,7 @@ CMDScCmpGPDB::~CMDScCmpGPDB()
 	m_mdid->Release();
 	m_pmdidLeft->Release();
 	m_pmdidRight->Release();
-	m_pmdidOp->Release();
+	m_mdid_op->Release();
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 }
@@ -133,16 +133,16 @@ CMDScCmpGPDB::PmdidRight() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDScCmpGPDB::PmdidOp
+//		CMDScCmpGPDB::MdIdOp
 //
 //	@doc:
 //		Cast function id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDScCmpGPDB::PmdidOp() const
+CMDScCmpGPDB::MdIdOp() const
 {
-	return m_pmdidOp;
+	return m_mdid_op;
 }
 
 //---------------------------------------------------------------------------
@@ -186,7 +186,7 @@ CMDScCmpGPDB::Serialize
 
 	m_pmdidLeft->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpLeftTypeId));
 	m_pmdidRight->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpRightTypeId));
-	m_pmdidOp->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
+	m_mdid_op->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBMDScCmp));
@@ -215,7 +215,7 @@ CMDScCmpGPDB::DebugPrint
 	os << "ComparisonOp ";
 	PmdidLeft()->OsPrint(os);
 	os << (Mdname()).GetMDName()->GetBuffer() << "(";
-	PmdidOp()->OsPrint(os);
+	MdIdOp()->OsPrint(os);
 	os << ") ";
 	PmdidLeft()->OsPrint(os);
 

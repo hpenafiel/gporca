@@ -56,7 +56,7 @@ namespace gpmd
 			IMDType::ECmpType m_ecmpt;
 			
 			// comparison operator id
-			IMDId *m_pmdidOp;
+			IMDId *m_mdid_op;
 			
 			// private copy ctor
 			CMDScCmpGPDB(const CMDScCmpGPDB &);
@@ -71,7 +71,7 @@ namespace gpmd
 				IMDId *pmdidLeft,
 				IMDId *pmdidRight,
 				IMDType::ECmpType ecmpt,
-				IMDId *pmdidOp
+				IMDId *mdid_op
 				);
 			
 			// dtor
@@ -107,7 +107,7 @@ namespace gpmd
 			
 			// comparison operator id
 			virtual 
-			IMDId *PmdidOp() const;
+			IMDId *MdIdOp() const;
 		
 			// serialize object in DXL format
 			virtual 

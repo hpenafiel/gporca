@@ -148,7 +148,7 @@ CMDAccessorTest::EresUnittest_Basic()
 	
 	// access GPDB types, operators and aggregates
 	CMDIdGPDB *mdid_type = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4, 1, 0);
-	CMDIdGPDB *pmdidOp = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_OP_INT4_LT, 1, 0);
+	CMDIdGPDB *mdid_op = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_OP_INT4_LT, 1, 0);
 	CMDIdGPDB *pmdidAgg = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_AGG_AVG, 1, 0);
 	
 #ifdef GPOS_DEBUG
@@ -159,7 +159,7 @@ CMDAccessorTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 	const IMDScalarOp *pmdscop = 
 #endif
-	mda.Pmdscop(pmdidOp);
+	mda.Pmdscop(mdid_op);
 
 	GPOS_ASSERT(IMDType::EcmptL == pmdscop->Ecmpt());
 	
@@ -214,7 +214,7 @@ CMDAccessorTest::EresUnittest_Basic()
 	pmdidObject1->Release();
 	pmdidObject2->Release();
 	pmdidAgg->Release();
-	pmdidOp->Release();
+	mdid_op->Release();
 	mdid_type->Release();
 	
 	return GPOS_OK;

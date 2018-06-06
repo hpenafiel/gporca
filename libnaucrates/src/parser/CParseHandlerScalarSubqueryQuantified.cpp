@@ -75,7 +75,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	}
 
 	// parse operator id
-	IMDId *pmdidOp = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *mdid_op = CDXLOperatorFactory::PmdidFromAttrs
 							(
 							m_parse_handler_mgr->GetDXLMemoryManager(),
 							attrs,
@@ -106,11 +106,11 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	
 	if (EdxltokenScalarSubqueryAny == edxltokenElement)
 	{
-		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, pmdidOp, pmdnameScalarOp, col_id);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, mdid_op, pmdnameScalarOp, col_id);
 	}
 	else
 	{
-		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, pmdidOp, pmdnameScalarOp, col_id);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, mdid_op, pmdnameScalarOp, col_id);
 	}
 	
 	// parse handler for the child nodes

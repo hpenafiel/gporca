@@ -549,7 +549,7 @@ CPredicateUtils::FLikePredicate
 	}
 
 	CScalarCmp *popScCmp = CScalarCmp::PopConvert(pop);
-	IMDId *pmdid = popScCmp->PmdidOp();
+	IMDId *pmdid = popScCmp->MdIdOp();
 
 	return FLikePredicate(pmdid);
 }
@@ -1920,7 +1920,7 @@ CPredicateUtils::PexprIndexLookup
 	}
 	else if (CUtils::FScalarArrayCmp(pexprScalar))
 	{
-		cmptype = CUtils::Ecmpt(CScalarArrayCmp::PopConvert(pexprScalar->Pop())->PmdidOp());
+		cmptype = CUtils::Ecmpt(CScalarArrayCmp::PopConvert(pexprScalar->Pop())->MdIdOp());
 	}
 
 	if (cmptype == IMDType::EcmptNEq ||
@@ -2085,8 +2085,8 @@ CPredicateUtils::PexprInverseComparison
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	IMDId *pmdidOp = CScalarCmp::PopConvert(pexprCmp->Pop())->PmdidOp();
-	IMDId *pmdidInverseOp = md_accessor->Pmdscop(pmdidOp)->PmdidOpInverse();
+	IMDId *mdid_op = CScalarCmp::PopConvert(pexprCmp->Pop())->MdIdOp();
+	IMDId *pmdidInverseOp = md_accessor->Pmdscop(mdid_op)->PmdidOpInverse();
 	const CWStringConst *pstrFirst = md_accessor->Pmdscop(pmdidInverseOp)->Mdname().GetMDName();
 
 	// generate a predicate for the inversion of the comparison involved in the subquery
@@ -2476,12 +2476,12 @@ CPredicateUtils::FCompatibleIndexPredicate
 	if (COperator::EopScalarCmp == pexprPred->Pop()->Eopid())
 	{
 		CScalarCmp *popScCmp = CScalarCmp::PopConvert(pexprPred->Pop());
-		pmdobjScCmp = md_accessor->Pmdscop(popScCmp->PmdidOp());
+		pmdobjScCmp = md_accessor->Pmdscop(popScCmp->MdIdOp());
 	}
 	else if (COperator::EopScalarArrayCmp == pexprPred->Pop()->Eopid())
 	{
 		CScalarArrayCmp *popScArrCmp = CScalarArrayCmp::PopConvert(pexprPred->Pop());
-		pmdobjScCmp = md_accessor->Pmdscop(popScArrCmp->PmdidOp());
+		pmdobjScCmp = md_accessor->Pmdscop(popScArrCmp->MdIdOp());
 	}
 	else
 	{

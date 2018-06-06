@@ -202,15 +202,15 @@ CUtils::PmdidScCmp
 	
 	if (CMDAccessorUtils::FCmpExists(md_accessor, pmdidLeft, pmdidRight, ecmpt))
 	{
-		return md_accessor->Pmdsccmp(pmdidLeft, pmdidRight, ecmpt)->PmdidOp();
+		return md_accessor->Pmdsccmp(pmdidLeft, pmdidRight, ecmpt)->MdIdOp();
 	}
 	else if (CMDAccessorUtils::FCmpExists(md_accessor, pmdidRight, pmdidRight, ecmpt) && CMDAccessorUtils::FCastExists(md_accessor, pmdidLeft, pmdidRight))
 	{
-		return md_accessor->Pmdsccmp(pmdidRight, pmdidRight, ecmpt)->PmdidOp();
+		return md_accessor->Pmdsccmp(pmdidRight, pmdidRight, ecmpt)->MdIdOp();
 	}
 	else if (CMDAccessorUtils::FCmpExists(md_accessor, pmdidLeft, pmdidLeft, ecmpt) && CMDAccessorUtils::FCastExists(md_accessor, pmdidRight, pmdidLeft))
 	{
-		return md_accessor->Pmdsccmp(pmdidLeft, pmdidLeft, ecmpt)->PmdidOp();
+		return md_accessor->Pmdsccmp(pmdidLeft, pmdidLeft, ecmpt)->MdIdOp();
 	}
 	else
 	{
@@ -220,7 +220,7 @@ CUtils::PmdidScCmp
 	}
 
 	// Calling CMDAccessor to raise error on non-comparable data types
-	return md_accessor->Pmdsccmp(pmdidLeft, pmdidRight, ecmpt)->PmdidOp();
+	return md_accessor->Pmdsccmp(pmdidLeft, pmdidRight, ecmpt)->MdIdOp();
 }
 
 // generate a comparison expression over two columns
@@ -231,13 +231,13 @@ CUtils::PexprScalarCmp
 	const CColRef *pcrLeft,
 	const CColRef *pcrRight,
 	CWStringConst strOp,
-	IMDId *pmdidOp
+	IMDId *mdid_op
 	)
 {
 	GPOS_ASSERT(NULL != pcrLeft);
 	GPOS_ASSERT(NULL != pcrRight);
 
-	IMDType::ECmpType ecmpt = Ecmpt(pmdidOp);
+	IMDType::ECmpType ecmpt = Ecmpt(mdid_op);
 	if (IMDType::EcmptOther != ecmpt)
 	{
 		IMDId *pmdidLeft = pcrLeft->Pmdtype()->MDId();
@@ -246,7 +246,7 @@ CUtils::PexprScalarCmp
 		if (FCmpOrCastedCmpExists(pmdidLeft, pmdidRight, ecmpt))
 		{
 			CExpression *pexprScCmp = PexprScalarCmp(memory_pool, pcrLeft, pcrRight, ecmpt);
-			pmdidOp->Release();
+			mdid_op->Release();
 
 			return pexprScCmp;
 		}
@@ -255,7 +255,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(memory_pool) CExpression
 						(
 						memory_pool,
-						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), Ecmpt(pmdidOp)),
+						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, mdid_op, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), Ecmpt(mdid_op)),
 						PexprScalarIdent(memory_pool, pcrLeft),
 						PexprScalarIdent(memory_pool, pcrRight)
 						);
@@ -299,13 +299,13 @@ CUtils::PexprScalarCmp
 	const CColRef *pcrLeft,
 	CExpression *pexprRight,
 	CWStringConst strOp,
-	IMDId *pmdidOp
+	IMDId *mdid_op
 	)
 {
 	GPOS_ASSERT(NULL != pcrLeft);
 	GPOS_ASSERT(NULL != pexprRight);
 
-	IMDType::ECmpType ecmpt = Ecmpt(pmdidOp);
+	IMDType::ECmpType ecmpt = Ecmpt(mdid_op);
 	if (IMDType::EcmptOther != ecmpt)
 	{
 		IMDId *pmdidLeft = pcrLeft->Pmdtype()->MDId();
@@ -314,7 +314,7 @@ CUtils::PexprScalarCmp
 		if (FCmpOrCastedCmpExists(pmdidLeft, pmdidRight, ecmpt))
 		{
 			CExpression *pexprScCmp = PexprScalarCmp(memory_pool, pcrLeft, pexprRight, ecmpt);
-			pmdidOp->Release();
+			mdid_op->Release();
 
 			return pexprScCmp;
 		}
@@ -323,7 +323,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(memory_pool) CExpression
 						(
 						memory_pool,
-						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), Ecmpt(pmdidOp)),
+						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, mdid_op, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), Ecmpt(mdid_op)),
 						PexprScalarIdent(memory_pool, pcrLeft),
 						pexprRight
 						);
@@ -395,13 +395,13 @@ CUtils::PexprScalarCmp
 	CExpression *pexprLeft,
 	const CColRef *pcrRight,
 	CWStringConst strOp,
-	IMDId *pmdidOp
+	IMDId *mdid_op
 	)
 {
 	GPOS_ASSERT(NULL != pexprLeft);
 	GPOS_ASSERT(NULL != pcrRight);
 
-	IMDType::ECmpType ecmpt = Ecmpt(pmdidOp);
+	IMDType::ECmpType ecmpt = Ecmpt(mdid_op);
 	if (IMDType::EcmptOther != ecmpt)
 	{
 		IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
@@ -410,7 +410,7 @@ CUtils::PexprScalarCmp
 		if (FCmpOrCastedCmpExists(pmdidLeft, pmdidRight, ecmpt))
 		{
 			CExpression *pexprScCmp = PexprScalarCmp(memory_pool, pexprLeft, pcrRight, ecmpt);
-			pmdidOp->Release();
+			mdid_op->Release();
 	    
 			return pexprScCmp;
 		}
@@ -419,7 +419,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(memory_pool) CExpression
 						(
 						memory_pool,
-						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), ecmpt),
+						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, mdid_op, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), ecmpt),
 						pexprLeft,
 						PexprScalarIdent(memory_pool, pcrRight)
 						);
@@ -433,13 +433,13 @@ CUtils::PexprScalarCmp
 	CExpression *pexprLeft,
 	CExpression *pexprRight,
 	CWStringConst strOp,
-	IMDId *pmdidOp
+	IMDId *mdid_op
 	)
 {
 	GPOS_ASSERT(NULL != pexprLeft);
 	GPOS_ASSERT(NULL != pexprRight);
 
-	IMDType::ECmpType ecmpt = Ecmpt(pmdidOp);
+	IMDType::ECmpType ecmpt = Ecmpt(mdid_op);
 	if (IMDType::EcmptOther != ecmpt)
 	{
 		IMDId *pmdidLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
@@ -448,7 +448,7 @@ CUtils::PexprScalarCmp
 		if (FCmpOrCastedCmpExists(pmdidLeft, pmdidRight, ecmpt))
 		{
 			CExpression *pexprScCmp = PexprScalarCmp(memory_pool, pexprLeft, pexprRight, ecmpt);
-			pmdidOp->Release();
+			mdid_op->Release();
 
 			return pexprScCmp;
 		}
@@ -457,7 +457,7 @@ CUtils::PexprScalarCmp
 	return GPOS_NEW(memory_pool) CExpression
 						(
 						memory_pool,
-						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), ecmpt),
+						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, mdid_op, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer()), ecmpt),
 						pexprLeft,
 						pexprRight
 						);
@@ -820,15 +820,15 @@ CUtils::PexprCmpWithZero
 	const IMDType *pmdtype = md_accessor->Pmdtype(pmdidTypeLeft);
 	GPOS_ASSERT(pmdtype->Eti() == IMDType::EtiInt8 && "left expression must be of type int8");
 
-	IMDId *pmdidOp = pmdtype->PmdidCmp(ecmptype);
-	pmdidOp->AddRef();
-	const CMDName mdname = md_accessor->Pmdscop(pmdidOp)->Mdname();
+	IMDId *mdid_op = pmdtype->PmdidCmp(ecmptype);
+	mdid_op->AddRef();
+	const CMDName mdname = md_accessor->Pmdscop(mdid_op)->Mdname();
 	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
 
 	return GPOS_NEW(memory_pool) CExpression
 						(
 						memory_pool,
-						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOpName.GetBuffer()), ecmptype),
+						GPOS_NEW(memory_pool) CScalarCmp(memory_pool, mdid_op, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOpName.GetBuffer()), ecmptype),
 						pexprLeft,
 						CUtils::PexprScalarConstInt8(memory_pool, 0 /*iVal*/)
 						);
@@ -1782,7 +1782,7 @@ CUtils::PexprScalarOp
 	const CColRef *pcrLeft,
 	CExpression *pexprRight,
 	const CWStringConst strOp,
-	IMDId *pmdidOp,
+	IMDId *mdid_op,
 	IMDId *pmdidReturnType
 	)
 {
@@ -1792,7 +1792,7 @@ CUtils::PexprScalarOp
 	return GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarOp(memory_pool, pmdidOp, pmdidReturnType, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer())),
+			GPOS_NEW(memory_pool) CScalarOp(memory_pool, mdid_op, pmdidReturnType, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer())),
 			PexprScalarIdent(memory_pool, pcrLeft),
 			pexprRight
 			);

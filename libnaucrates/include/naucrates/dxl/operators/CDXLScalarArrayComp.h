@@ -50,7 +50,7 @@ namespace gpdxl
 			CDXLScalarArrayComp
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
+				IMDId *mdid_op,
 				const CWStringConst *pstrOpName,
 				EdxlArrayCompType edxlcomptype
 				);

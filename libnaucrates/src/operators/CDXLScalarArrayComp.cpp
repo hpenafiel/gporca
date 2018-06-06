@@ -28,12 +28,12 @@ using namespace gpdxl;
 CDXLScalarArrayComp::CDXLScalarArrayComp
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidOp,
+	IMDId *mdid_op,
 	const CWStringConst *pstrOpName,
 	EdxlArrayCompType edxlcomptype
 	)
 	:
-	CDXLScalarComp(memory_pool, pmdidOp, pstrOpName),
+	CDXLScalarComp(memory_pool, mdid_op, pstrOpName),
 	m_edxlcomptype(edxlcomptype)
 {
 }

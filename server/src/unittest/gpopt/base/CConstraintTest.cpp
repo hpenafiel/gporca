@@ -1066,14 +1066,14 @@ CConstraintTest::PexprScalarCmp
 	CExpression *pexprConst = CUtils::PexprScalarConstInt8(memory_pool, lVal);
 
 	const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>();
-	IMDId *pmdidOp = pmdtypeint8->PmdidCmp(ecmpt);
-	pmdidOp->AddRef();
+	IMDId *mdid_op = pmdtypeint8->PmdidCmp(ecmpt);
+	mdid_op->AddRef();
 
-	const CMDName mdname = md_accessor->Pmdscop(pmdidOp)->Mdname();
+	const CMDName mdname = md_accessor->Pmdscop(mdid_op)->Mdname();
 
 	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
 
-	CExpression *pexpr = CUtils::PexprScalarCmp(memory_pool, pcr, pexprConst, strOpName, pmdidOp);
+	CExpression *pexpr = CUtils::PexprScalarCmp(memory_pool, pcr, pexprConst, strOpName, mdid_op);
 	(void) pexpr->PdpDerive();
 	return pexpr;
 }

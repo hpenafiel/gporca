@@ -33,7 +33,7 @@ namespace gpopt
 		private:
 
 			// operator id
-			IMDId *m_pmdidOp;
+			IMDId *m_mdid_op;
 
 			// return type
 			IMDId *m_mdid_type;
@@ -50,7 +50,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CScalarNullIf(IMemoryPool *memory_pool, IMDId *pmdidOp, IMDId *mdid_type);
+			CScalarNullIf(IMemoryPool *memory_pool, IMDId *mdid_op, IMDId *mdid_type);
 
 			// dtor
 			virtual
@@ -65,9 +65,9 @@ namespace gpopt
 
 			// operator id
 			virtual
-			IMDId *PmdidOp() const
+			IMDId *MdIdOp() const
 			{
-				return m_pmdidOp;
+				return m_mdid_op;
 			}
 
 			// return type

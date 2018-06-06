@@ -81,14 +81,14 @@ CScalarSubqueryQuantified::PstrOp() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarSubqueryQuantified::PmdidOp
+//		CScalarSubqueryQuantified::MdIdOp
 //
 //	@doc:
 //		Scalar operator metadata id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarSubqueryQuantified::PmdidOp() const
+CScalarSubqueryQuantified::MdIdOp() const
 {
 	return m_pmdidScalarOp;
 }
@@ -157,7 +157,7 @@ CScalarSubqueryQuantified::FMatch
 
 	// match if contents are identical
 	CScalarSubqueryQuantified *popSsq = CScalarSubqueryQuantified::PopConvert(pop);
-	return popSsq->Pcr() == m_pcr && popSsq->PmdidOp()->Equals(m_pmdidScalarOp);
+	return popSsq->Pcr() == m_pcr && popSsq->MdIdOp()->Equals(m_pmdidScalarOp);
 }
 
 
@@ -310,11 +310,11 @@ CScalarSubqueryQuantified::PexprSubqueryPred
 	CScalarSubqueryQuantified *popSqQuantified = CScalarSubqueryQuantified::PopConvert(pexprSubquery->Pop());
 
 	const CColRef *pcr = popSqQuantified->Pcr();
-	IMDId *pmdidOp = popSqQuantified->PmdidOp();
+	IMDId *mdid_op = popSqQuantified->MdIdOp();
 	const CWStringConst *str = popSqQuantified->PstrOp();
 
-	pmdidOp->AddRef();
-	CExpression *pexprPredicate = CUtils::PexprScalarCmp(m_memory_pool, pexprNewScalar, pcr, *str, pmdidOp);
+	mdid_op->AddRef();
+	CExpression *pexprPredicate = CUtils::PexprScalarCmp(m_memory_pool, pexprNewScalar, pcr, *str, mdid_op);
 
 	return pexprPredicate;
 }

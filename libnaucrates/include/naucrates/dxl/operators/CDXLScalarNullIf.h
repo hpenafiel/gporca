@@ -34,7 +34,7 @@ namespace gpdxl
 		private:
 
 			// operator number
-			IMDId *m_pmdidOp;
+			IMDId *m_mdid_op;
 
 			// return type
 			IMDId *m_mdid_type;
@@ -47,7 +47,7 @@ namespace gpdxl
 			CDXLScalarNullIf
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
+				IMDId *mdid_op,
 				IMDId *mdid_type
 				);
 
@@ -64,7 +64,7 @@ namespace gpdxl
 
 			// operator id
 			virtual
-			IMDId *PmdidOp() const;
+			IMDId *MdIdOp() const;
 
 			// return type
 			virtual

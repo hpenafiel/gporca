@@ -37,22 +37,22 @@ using namespace gpmd;
 CScalarCmp::CScalarCmp
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidOp,
+	IMDId *mdid_op,
 	const CWStringConst *pstrOp,
 	IMDType::ECmpType ecmpt
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidOp(pmdidOp),
+	m_mdid_op(mdid_op),
 	m_pstrOp(pstrOp),
 	m_ecmpt(ecmpt),
 	m_fReturnsNullOnNullInput(false)
 {
-	GPOS_ASSERT(pmdidOp->IsValid());
+	GPOS_ASSERT(mdid_op->IsValid());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_pmdidOp);
-	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_pmdidOp);
+	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
+	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_mdid_op);
 }
 
 
@@ -72,16 +72,16 @@ CScalarCmp::Pstr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarCmp::PmdidOp
+//		CScalarCmp::MdIdOp
 //
 //	@doc:
 //		Comparison operator metadata id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarCmp::PmdidOp() const
+CScalarCmp::MdIdOp() const
 {
-	return m_pmdidOp;
+	return m_mdid_op;
 }
 
 //---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ CScalarCmp::PmdidOp() const
 ULONG
 CScalarCmp::HashValue() const
 {
-	return gpos::CombineHashes(COperator::HashValue(), m_pmdidOp->HashValue());
+	return gpos::CombineHashes(COperator::HashValue(), m_mdid_op->HashValue());
 }
 
 	
@@ -120,7 +120,7 @@ CScalarCmp::FMatch
 		CScalarCmp *popScCmp = CScalarCmp::PopConvert(pop);
 		
 		// match if operator oid are identical
-		return m_pmdidOp->Equals(popScCmp->PmdidOp());
+		return m_mdid_op->Equals(popScCmp->MdIdOp());
 	}
 	
 	return false;
@@ -189,7 +189,7 @@ CScalarCmp::PmdidCommuteOp
 	)
 {
 	CScalarCmp *popScalarCmp = dynamic_cast<CScalarCmp *>(pop);
-	const IMDScalarOp *pmdScalarCmpOp = md_accessor->Pmdscop(popScalarCmp->PmdidOp());
+	const IMDScalarOp *pmdScalarCmpOp = md_accessor->Pmdscop(popScalarCmp->MdIdOp());
 
 	IMDId *pmdidScalarCmpCommute = pmdScalarCmpOp->PmdidOpCommute();
 	return pmdidScalarCmpCommute;

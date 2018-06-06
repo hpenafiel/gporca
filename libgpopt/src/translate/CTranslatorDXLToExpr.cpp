@@ -2630,8 +2630,8 @@ CTranslatorDXLToExpr::PexprCollapseNot
 		Edxlopid edxlopidNew = (EdxlopScalarSubqueryAny == edxlopid)? EdxlopScalarSubqueryAll : EdxlopScalarSubqueryAny;
 
 		// get mdid and name of the inverse of the comparison operator used by quantified subquery
-		IMDId *pmdidOp = pdxlopSubqueryQuantified->PmdidScalarOp();
-		IMDId *pmdidInverseOp = m_pmda->Pmdscop(pmdidOp)->PmdidOpInverse();
+		IMDId *mdid_op = pdxlopSubqueryQuantified->PmdidScalarOp();
+		IMDId *pmdidInverseOp = m_pmda->Pmdscop(mdid_op)->PmdidOpInverse();
 
 		// if inverse operator cannot be found in metadata, the optimizer won't collapse NOT node
 		if (NULL == pmdidInverseOp)
@@ -2765,14 +2765,14 @@ CTranslatorDXLToExpr::PexprScalarIsDistinctFrom
 	CExpression *pexprLeft = Pexpr(pdxlnLeft);
 	CExpression *pexprRight = Pexpr(pdxlnRight);
 	
-	IMDId *pmdidOp = pdxlopDistCmp->MDId();
-	pmdidOp->AddRef();
-	const IMDScalarOp *pmdscop = m_pmda->Pmdscop(pmdidOp);
+	IMDId *mdid_op = pdxlopDistCmp->MDId();
+	mdid_op->AddRef();
+	const IMDScalarOp *pmdscop = m_pmda->Pmdscop(mdid_op);
 
 	CScalarIsDistinctFrom *popScIDF = GPOS_NEW(m_memory_pool) CScalarIsDistinctFrom
 													(
 													m_memory_pool,
-													pmdidOp,
+													mdid_op,
 													GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, (pmdscop->Mdname().GetMDName())->GetBuffer())
 													);
 
@@ -2802,13 +2802,13 @@ CTranslatorDXLToExpr::PexprScalarNullIf
 	CExpression *pexprLeft = Pexpr((*pdxlnNullIf)[0]);
 	CExpression *pexprRight = Pexpr((*pdxlnNullIf)[1]);
 
-	IMDId *pmdidOp = dxl_op->PmdidOp();
-	pmdidOp->AddRef();
+	IMDId *mdid_op = dxl_op->MdIdOp();
+	mdid_op->AddRef();
 
 	IMDId *mdid_type = dxl_op->MDIdType();
 	mdid_type->AddRef();
 
-	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarNullIf(m_memory_pool, pmdidOp, mdid_type), pexprLeft, pexprRight);
+	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarNullIf(m_memory_pool, mdid_op, mdid_type), pexprLeft, pexprRight);
 }
 
 //---------------------------------------------------------------------------
@@ -3304,8 +3304,8 @@ CTranslatorDXLToExpr::PexprArrayCmp
 {
 	CDXLScalarArrayComp *dxl_op = CDXLScalarArrayComp::Cast(dxlnode->GetOperator());
 	
-	IMDId *pmdidOp = dxl_op->MDId();
-	pmdidOp->AddRef();
+	IMDId *mdid_op = dxl_op->MDId();
+	mdid_op->AddRef();
 
 	const CWStringConst *pstrOpName = dxl_op->GetComparisonOpName();
 	
@@ -3321,7 +3321,7 @@ CTranslatorDXLToExpr::PexprArrayCmp
 		earrcmpt = CScalarArrayCmp::EarrcmpAny;
 	}
 	
-	CScalarArrayCmp *popArrayCmp = GPOS_NEW(m_memory_pool) CScalarArrayCmp(m_memory_pool, pmdidOp, GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrOpName->GetBuffer()), earrcmpt);
+	CScalarArrayCmp *popArrayCmp = GPOS_NEW(m_memory_pool) CScalarArrayCmp(m_memory_pool, mdid_op, GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrOpName->GetBuffer()), earrcmpt);
 	
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(dxlnode);
 

@@ -48,7 +48,7 @@ namespace gpopt
 		private:
 
 			// compare operator mdid
-			IMDId *m_pmdidOp;
+			IMDId *m_mdid_op;
 
 			// comparison operator name
 			const CWStringConst *m_pscOp;
@@ -72,7 +72,7 @@ namespace gpopt
 			CScalarArrayCmp
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
+				IMDId *mdid_op,
 				const CWStringConst *pstrOp,
 				EArrCmpType earrcmpt
 				);
@@ -81,7 +81,7 @@ namespace gpopt
 			virtual 
 			~CScalarArrayCmp()
 			{
-				m_pmdidOp->Release();
+				m_mdid_op->Release();
 				GPOS_DELETE(m_pscOp);
 			}
 
@@ -148,7 +148,7 @@ namespace gpopt
 			const CWStringConst *Pstr() const;
 
 			// operator mdid
-			IMDId *PmdidOp() const;
+			IMDId *MdIdOp() const;
 			
 			// the type of the scalar expression
 			virtual 

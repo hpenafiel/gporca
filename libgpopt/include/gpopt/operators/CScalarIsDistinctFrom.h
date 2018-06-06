@@ -42,13 +42,13 @@ namespace gpopt
 			CScalarIsDistinctFrom
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
+				IMDId *mdid_op,
 				const CWStringConst *pstrOp
 				)
 				:
-				CScalarCmp(memory_pool, pmdidOp, pstrOp, IMDType::EcmptIDF)
+				CScalarCmp(memory_pool, mdid_op, pstrOp, IMDType::EcmptIDF)
 			{
-				GPOS_ASSERT(pmdidOp->IsValid());
+				GPOS_ASSERT(mdid_op->IsValid());
 			}
 
 			// dtor

@@ -74,7 +74,7 @@ namespace gpopt
 		public:
 
 			// operator mdid accessor
-			IMDId *PmdidOp() const;
+			IMDId *MdIdOp() const;
 
 			// operator name accessor
 			const CWStringConst *PstrOp() const;
