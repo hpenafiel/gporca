@@ -254,7 +254,7 @@ CParseHandlerMetadata::PdrgpsysidParse
 		GPOS_ASSERT(2 == xmlsztokSysid.countTokens());
 		
 		XMLCh *xmlszType = xmlsztokSysid.nextToken();
-		ULONG ulType = CDXLOperatorFactory::UlValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszType, edxltokenAttr, edxltokenElement);
+		ULONG ulType = CDXLOperatorFactory::ConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszType, edxltokenAttr, edxltokenElement);
 		
 		XMLCh *xmlszName = xmlsztokSysid.nextToken();
 		CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszName);

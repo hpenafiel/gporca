@@ -72,7 +72,7 @@ namespace gpdxl
 			//dtor
 			~CParseHandlerIndexDescr();
 
-			CDXLIndexDescr *GetIndexDescr();
+			CDXLIndexDescr *MakeDXLIndexDescr();
 
 	};
 }

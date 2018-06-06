@@ -70,19 +70,19 @@ CParseHandlerLogicalUpdate::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtidColId, EdxltokenLogicalUpdate);
-	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalUpdate);
+	m_ctid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtidColId, EdxltokenLogicalUpdate);
+	m_segid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalUpdate);
 
-	const XMLCh *delete_colids_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
+	const XMLCh *delete_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
 	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), delete_colids_xml, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
 
-	const XMLCh *insert_colids_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenLogicalUpdate);
+	const XMLCh *insert_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenInsertCols, EdxltokenLogicalUpdate);
 	m_insert_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), insert_colids_xml, EdxltokenInsertCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *preserve_oids_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != preserve_oids_xml)
 	{
-		m_preserve_oids = CDXLOperatorFactory::FValueFromXmlstr
+		m_preserve_oids = CDXLOperatorFactory::ConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											preserve_oids_xml,
@@ -93,7 +93,7 @@ CParseHandlerLogicalUpdate::StartElement
 	
 	if (m_preserve_oids)
 	{
-		m_tuple_oid_col_oid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTupleOidColId, EdxltokenLogicalUpdate);
+		m_tuple_oid_col_oid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTupleOidColId, EdxltokenLogicalUpdate);
 	}
 
 	// parse handler for logical operator
@@ -136,10 +136,10 @@ CParseHandlerLogicalUpdate::EndElement
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[0]);
 	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	GPOS_ASSERT(NULL != table_descr_parse_handler->GetTableDescr());
+	GPOS_ASSERT(NULL != table_descr_parse_handler->MakeDXLTableDescr());
 	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 
-	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
 	table_descr->AddRef();
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode

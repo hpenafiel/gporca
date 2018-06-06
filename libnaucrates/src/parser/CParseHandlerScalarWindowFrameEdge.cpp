@@ -62,13 +62,13 @@ CParseHandlerScalarWindowFrameEdge::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameLeadingEdge), element_local_name))
 	{
 		GPOS_ASSERT(NULL == m_dxl_node);
-		EdxlFrameBoundary edxlfb = CDXLOperatorFactory::Edxlfb(attrs, EdxltokenWindowLeadingBoundary);
+		EdxlFrameBoundary edxlfb = CDXLOperatorFactory::ParseDXLFrameBoundary(attrs, EdxltokenWindowLeadingBoundary);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarWindowFrameEdge(m_memory_pool, true /*fLeading*/, edxlfb));
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), element_local_name))
 	{
 		GPOS_ASSERT(NULL == m_dxl_node);
-		EdxlFrameBoundary edxlfb = CDXLOperatorFactory::Edxlfb(attrs, EdxltokenWindowTrailingBoundary);
+		EdxlFrameBoundary edxlfb = CDXLOperatorFactory::ParseDXLFrameBoundary(attrs, EdxltokenWindowTrailingBoundary);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarWindowFrameEdge(m_memory_pool, false /*fLeading*/, edxlfb));
 	}
 	else

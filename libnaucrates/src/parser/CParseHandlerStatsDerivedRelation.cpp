@@ -90,7 +90,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 		GPOS_ASSERT(0 == this->Length());
 
 		// parse rows
-		const XMLCh *xmlszRows = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszRows = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenRows,
@@ -109,7 +109,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 		const XMLCh *xmlszEmpty = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenEmptyRelation));
 		if (NULL != xmlszEmpty)
 		{
-			m_fEmpty = CDXLOperatorFactory::FValueFromXmlstr
+			m_fEmpty = CDXLOperatorFactory::ConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											xmlszEmpty,

@@ -73,8 +73,8 @@ CParseHandlerDynamicIndexScan::StartElement
 {
 	StartElementHelper(element_local_name, attrs, EdxltokenPhysicalDynamicIndexScan);
 	
-	m_part_index_id = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartIndexId, EdxltokenPhysicalDynamicIndexScan);
-	m_part_index_id_printable = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartIndexIdPrintable, EdxltokenPhysicalDynamicIndexScan, true /*fOptional*/, m_part_index_id);
+	m_part_index_id = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartIndexId, EdxltokenPhysicalDynamicIndexScan);
+	m_part_index_id_printable = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartIndexIdPrintable, EdxltokenPhysicalDynamicIndexScan, true /*fOptional*/, m_part_index_id);
 }
 
 //---------------------------------------------------------------------------

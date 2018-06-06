@@ -83,7 +83,7 @@ CParseHandlerGroupingColList::StartElement
 		GPOS_ASSERT(NULL != m_grouping_colids_array);
 		
 		// parse grouping col id
-		ULONG *pulColId = GPOS_NEW(m_memory_pool) ULONG(CDXLOperatorFactory::UlGroupingColId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs));
+		ULONG *pulColId = GPOS_NEW(m_memory_pool) ULONG(CDXLOperatorFactory::ParseGroupingColId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs));
 		
 		m_grouping_colids_array->Append(pulColId);
 	}

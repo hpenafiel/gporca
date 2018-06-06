@@ -81,8 +81,8 @@ CParseHandlerMDRelationExternal::StartElement
 	const XMLCh *xmlszRejLimit = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelRejLimit));
 	if (NULL != xmlszRejLimit)
 	{
-		m_iRejectLimit = CDXLOperatorFactory::IValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszRejLimit, EdxltokenExtRelRejLimit, EdxltokenRelationExternal);
-		m_fRejLimitInRows = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenExtRelRejLimitInRows, EdxltokenRelationExternal);
+		m_iRejectLimit = CDXLOperatorFactory::ConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszRejLimit, EdxltokenExtRelRejLimit, EdxltokenRelationExternal);
+		m_fRejLimitInRows = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenExtRelRejLimitInRows, EdxltokenRelationExternal);
 	}
 
 	// format error table id
@@ -96,7 +96,7 @@ CParseHandlerMDRelationExternal::StartElement
 	const XMLCh *xmlszConvertHashToRandom = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenConvertHashToRandom));
 	if (NULL != xmlszConvertHashToRandom)
 	{
-		m_fConvertHashToRandom = CDXLOperatorFactory::FValueFromXmlstr
+		m_fConvertHashToRandom = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										xmlszConvertHashToRandom,

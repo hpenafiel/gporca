@@ -83,13 +83,13 @@ namespace gpdxl
 			virtual
 			~CDXLWindowFrame();
 
-			EdxlFrameSpec Edxlfs() const
+			EdxlFrameSpec ParseDXLFrameSpec() const
 			{
 				return  m_edxlfs;
 			}
 
 			// exclusion strategy
-			EdxlFrameExclusionStrategy Edxlfes() const
+			EdxlFrameExclusionStrategy ParseFrameExclusionStrategy() const
 			{
 				return m_edxlfes;
 			}

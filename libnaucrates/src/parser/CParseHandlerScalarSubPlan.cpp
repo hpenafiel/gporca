@@ -124,7 +124,7 @@ CParseHandlerScalarSubPlan::StartElement
 
 	m_pmdidFirstCol = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarSubPlanParam);
 
-	const XMLCh *xmlszSubplanType  = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenScalarSubPlanType, EdxltokenScalarSubPlan);
+	const XMLCh *xmlszSubplanType  = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenScalarSubPlanType, EdxltokenScalarSubPlan);
 	m_edxlsubplantype = Edxlsubplantype(xmlszSubplanType);
 
 	// parse handler for child physical node

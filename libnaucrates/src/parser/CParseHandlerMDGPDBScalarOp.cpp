@@ -75,7 +75,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOp), element_local_name))
 	{
 		// parse operator name
-		const XMLCh *xmlszOpName = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszOpName = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenName,
@@ -98,7 +98,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 										EdxltokenGPDBScalarOp
 										);
 		
-		const XMLCh *xmlszCmpType = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszCmpType = CDXLOperatorFactory::ExtractAttrValue
 									(
 									attrs,
 									EdxltokenGPDBScalarOpCmpType,
@@ -111,7 +111,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		const XMLCh *xmlszReturnsNullOnNullInput = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenReturnsNullOnNullInput));
 		if (NULL != xmlszReturnsNullOnNullInput)
 		{
-			m_fReturnsNullOnNullInput = CDXLOperatorFactory::FValueFromAttrs
+			m_fReturnsNullOnNullInput = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,

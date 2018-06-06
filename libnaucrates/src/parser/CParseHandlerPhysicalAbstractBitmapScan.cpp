@@ -121,10 +121,10 @@ CParseHandlerPhysicalAbstractBitmapScan::EndElementHelper
 			dynamic_cast<CParseHandlerScalarOp*>((*this)[4]);
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[5]);
 
-	GPOS_ASSERT(NULL != table_descr_parse_handler->GetTableDescr());
+	GPOS_ASSERT(NULL != table_descr_parse_handler->MakeDXLTableDescr());
 
 	// set table descriptor
-	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
 	table_descr->AddRef();
 	CDXLPhysical *dxl_op = NULL;
 

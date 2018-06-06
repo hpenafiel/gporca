@@ -80,7 +80,7 @@ CParseHandlerCostParam::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	const XMLCh *xmlstrName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCostParam);
+	const XMLCh *xmlstrName = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenCostParam);
 	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlstrName);
 	m_param_name = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, pstrName->GetBuffer());
 	GPOS_DELETE(pstrName);

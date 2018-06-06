@@ -51,7 +51,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 	}
 
 	// parse func name
-	const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszFuncName = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenName,
@@ -94,7 +94,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									);
 
 	// parse whether func returns a set
-	BOOL fBinaryCoercible = CDXLOperatorFactory::FValueFromAttrs
+	BOOL fBinaryCoercible = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -104,7 +104,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 
 	// parse coercion path type
 	IMDCast::EmdCoercepathType eCoercePathType = (IMDCast::EmdCoercepathType)
-													CDXLOperatorFactory::IValueFromAttrs
+													CDXLOperatorFactory::ExtractConvertAttrValueToInt
 															(
 															m_parse_handler_mgr->GetDXLMemoryManager(),
 															attrs,
@@ -112,7 +112,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 															EdxltokenGPDBArrayCoerceCast
 															);
 
-	INT type_modifier = CDXLOperatorFactory::IValueFromAttrs
+	INT type_modifier = CDXLOperatorFactory::ExtractConvertAttrValueToInt
 							(
 							m_parse_handler_mgr->GetDXLMemoryManager(),
 							attrs,
@@ -122,7 +122,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 							IDefaultTypeModifier
 							);
 
-	BOOL fIsExplicit =CDXLOperatorFactory::FValueFromAttrs
+	BOOL fIsExplicit =CDXLOperatorFactory::ExtractConvertAttrValueToBool
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -130,7 +130,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	EdxlCoercionForm edcf = (EdxlCoercionForm) CDXLOperatorFactory::IValueFromAttrs
+	EdxlCoercionForm edcf = (EdxlCoercionForm) CDXLOperatorFactory::ExtractConvertAttrValueToInt
 																		(
 																		m_parse_handler_mgr->GetDXLMemoryManager(),
 																		attrs,
@@ -138,7 +138,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 																		EdxltokenGPDBArrayCoerceCast
 																		);
 
-	INT iLoc = CDXLOperatorFactory::IValueFromAttrs
+	INT iLoc = CDXLOperatorFactory::ExtractConvertAttrValueToInt
 							(
 							m_parse_handler_mgr->GetDXLMemoryManager(),
 							attrs,

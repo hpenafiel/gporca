@@ -104,14 +104,14 @@ CDXLLogicalTVF::Arity() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalTVF::GetColumnDescrAt
+//		CDXLLogicalTVF::MakeDXLColumnDescr
 //
 //	@doc:
 //		Get the column descriptor at the given position
 //
 //---------------------------------------------------------------------------
 const CDXLColDescr *
-CDXLLogicalTVF::GetColumnDescrAt
+CDXLLogicalTVF::MakeDXLColumnDescr
 	(
 	ULONG ul
 	)
@@ -138,7 +138,7 @@ CDXLLogicalTVF::IsColDefined
 	const ULONG ulSize = Arity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = GetColumnDescrAt(ulDescr)->Id();
+		ULONG ulId = MakeDXLColumnDescr(ulDescr)->Id();
 		if (ulId == col_id)
 		{
 			return true;

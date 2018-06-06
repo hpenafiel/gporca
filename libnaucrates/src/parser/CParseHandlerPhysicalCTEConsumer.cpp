@@ -64,7 +64,7 @@ CParseHandlerPhysicalCTEConsumer::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-		ULONG ulId = CDXLOperatorFactory::UlValueFromAttrs
+		ULONG ulId = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,

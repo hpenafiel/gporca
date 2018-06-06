@@ -86,7 +86,7 @@ CParseHandlerMDRelationCtas::StartElement
 	}
 	
 	// parse whether relation is temporary
-	m_is_temp_table = CDXLOperatorFactory::FValueFromAttrs
+	m_is_temp_table = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -98,11 +98,11 @@ CParseHandlerMDRelationCtas::StartElement
 	const XMLCh *xmlszHasOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
 	if (NULL != xmlszHasOids)
 	{
-		m_has_oids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
+		m_has_oids = CDXLOperatorFactory::ConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
 	}
 
 	// parse storage type
-	const XMLCh *xmlszStorageType = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszStorageType = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenRelStorageType,
@@ -111,7 +111,7 @@ CParseHandlerMDRelationCtas::StartElement
 	m_rel_storage_type = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorageType);
 
 	// parse vartypemod
-	const XMLCh *vartypemod_xml = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *vartypemod_xml = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenVarTypeModList,

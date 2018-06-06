@@ -82,7 +82,7 @@ CParseHandlerTraceFlags::StartElement
 	}
 	
 	// parse and tokenize traceflags
-	const XMLCh *xmlszTraceFlags = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszTraceFlags = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenValue,

@@ -63,14 +63,14 @@ CParseHandlerIndexDescr::~CParseHandlerIndexDescr()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerIndexDescr::GetIndexDescr
+//		CParseHandlerIndexDescr::MakeDXLIndexDescr
 //
 //	@doc:
 //		Returns the index descriptor constructed by the parse handler
 //
 //---------------------------------------------------------------------------
 CDXLIndexDescr *
-CParseHandlerIndexDescr::GetIndexDescr()
+CParseHandlerIndexDescr::MakeDXLIndexDescr()
 {
 	return m_index_descr_dxl;
 }
@@ -99,7 +99,7 @@ CParseHandlerIndexDescr::StartElement
 	}
 
 	// generate the index descriptor
-	m_index_descr_dxl = CDXLOperatorFactory::GetIndexDescr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_index_descr_dxl = CDXLOperatorFactory::MakeDXLIndexDescr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 }
 
 //---------------------------------------------------------------------------

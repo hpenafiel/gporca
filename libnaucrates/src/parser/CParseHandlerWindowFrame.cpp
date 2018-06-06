@@ -60,8 +60,8 @@ CParseHandlerWindowFrame::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), element_local_name))
 	{
-		m_edxlfs = CDXLOperatorFactory::Edxlfs(attrs);
-		m_edxlfes = CDXLOperatorFactory::Edxlfes(attrs);
+		m_edxlfs = CDXLOperatorFactory::ParseDXLFrameSpec(attrs);
+		m_edxlfes = CDXLOperatorFactory::ParseFrameExclusionStrategy(attrs);
 
 		// parse handler for the trailing window frame edge
 		CParseHandlerBase *pphTrailingVal =

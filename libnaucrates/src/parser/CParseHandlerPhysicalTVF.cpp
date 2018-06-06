@@ -71,7 +71,7 @@ CParseHandlerPhysicalTVF::StartElement
 		m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenFuncId, EdxltokenPhysicalTVF);
 
 		// parse function name
-		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszFuncName = CDXLOperatorFactory::ExtractAttrValue
 																(
 																attrs,
 																EdxltokenName,

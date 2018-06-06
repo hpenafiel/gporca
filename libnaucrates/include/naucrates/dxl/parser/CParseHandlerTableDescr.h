@@ -71,7 +71,7 @@ namespace gpdxl
 			
 			~CParseHandlerTableDescr();
 		
-			CDXLTableDescr *GetTableDescr();
+			CDXLTableDescr *MakeDXLTableDescr();
 			
 	};
 }

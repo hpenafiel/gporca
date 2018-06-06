@@ -55,8 +55,8 @@ CParseHandlerWindowOids::StartElement
 	}
 
 	// parse window function oids
-	OID oidRowNumber = CDXLOperatorFactory::OidValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRowNumber, EdxltokenWindowOids);
-	OID oidRank = CDXLOperatorFactory::OidValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRank, EdxltokenWindowOids);
+	OID oidRowNumber = CDXLOperatorFactory::ExtractConvertAttrValueToOid(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRowNumber, EdxltokenWindowOids);
+	OID oidRank = CDXLOperatorFactory::ExtractConvertAttrValueToOid(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRank, EdxltokenWindowOids);
 
 	m_pwindowoids = GPOS_NEW(m_memory_pool) CWindowOids(oidRowNumber, oidRank);
 }

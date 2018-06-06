@@ -80,8 +80,8 @@ CParseHandlerEnumeratorConfig::StartElement
 	}
 
 	// parse enumerator config options
-	ULLONG plan_id = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPlanId, EdxltokenOptimizerConfig);
-	ULLONG num_of_plan_samples = CDXLOperatorFactory::UllValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
+	ULLONG plan_id = CDXLOperatorFactory::ExtractConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPlanId, EdxltokenOptimizerConfig);
+	ULLONG num_of_plan_samples = CDXLOperatorFactory::ExtractConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPlanSamples, EdxltokenOptimizerConfig);
 	CDouble cost_threshold = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCostThreshold, EdxltokenOptimizerConfig);
 
 	m_enumerator_cfg = GPOS_NEW(m_memory_pool) CEnumeratorConfig(m_memory_pool, plan_id, num_of_plan_samples, cost_threshold);

@@ -75,7 +75,7 @@ CParseHandlerWindowSpec::StartElement
 			GPOS_DELETE(pstrAlias);
 		}
 
-		const XMLCh *xmlszPartCols= CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenPartKeys, EdxltokenPhysicalWindow);
+		const XMLCh *xmlszPartCols= CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPartKeys, EdxltokenPhysicalWindow);
 		m_pdrgpulPartCols = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPartCols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
 		GPOS_ASSERT(NULL != m_pdrgpulPartCols);
 

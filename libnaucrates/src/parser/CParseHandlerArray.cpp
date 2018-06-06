@@ -59,7 +59,7 @@ CParseHandlerArray::StartElement
 		NULL == m_dxl_node)
 	{
 		// parse and create array
-		CDXLScalarArray *dxl_op = (CDXLScalarArray *) CDXLOperatorFactory::PdxlopArray(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+		CDXLScalarArray *dxl_op = (CDXLScalarArray *) CDXLOperatorFactory::MakeDXLArray(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 	}
 	else

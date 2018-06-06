@@ -70,7 +70,7 @@ CParseHandlerDynamicTableScan::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	m_part_index_id = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(), 
 											attrs, 
@@ -78,7 +78,7 @@ CParseHandlerDynamicTableScan::StartElement
 											EdxltokenPhysicalDynamicTableScan
 											);
 
-	m_part_index_id_printable = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id_printable = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -147,7 +147,7 @@ CParseHandlerDynamicTableScan::EndElement
 
 
 	// set table descriptor
-	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
 	table_descr->AddRef();
 	CDXLPhysicalDynamicTableScan *dxl_op = 
 			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, table_descr, m_part_index_id, m_part_index_id_printable);

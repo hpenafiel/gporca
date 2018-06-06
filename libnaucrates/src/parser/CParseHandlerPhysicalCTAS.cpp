@@ -76,7 +76,7 @@ CParseHandlerPhysicalCTAS::StartElement
 	}
 	
 	// parse table name
-	const XMLCh *table_name_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenPhysicalCTAS);
+	const XMLCh *table_name_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenPhysicalCTAS);
 	m_mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), table_name_xml);
 	
 	const XMLCh *schema_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
@@ -86,29 +86,29 @@ CParseHandlerPhysicalCTAS::StartElement
 	}
 	
 	// parse distribution policy
-	const XMLCh *rel_distr_policy_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenRelDistrPolicy, EdxltokenPhysicalCTAS);
+	const XMLCh *rel_distr_policy_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenRelDistrPolicy, EdxltokenPhysicalCTAS);
 	m_rel_distr_policy = CDXLOperatorFactory::EreldistrpolicyFromXmlstr(rel_distr_policy_xml);
 
 	if (IMDRelation::EreldistrHash == m_rel_distr_policy)
 	{
 		// parse distribution columns
-		const XMLCh *rel_distr_cols_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDistrColumns, EdxltokenPhysicalCTAS);
+		const XMLCh *rel_distr_cols_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenDistrColumns, EdxltokenPhysicalCTAS);
 		m_distr_column_pos_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), rel_distr_cols_xml, EdxltokenDistrColumns, EdxltokenPhysicalCTAS);
 	}
 	
 	// parse storage type
-	const XMLCh *rel_storage_type_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenRelStorageType, EdxltokenPhysicalCTAS);
+	const XMLCh *rel_storage_type_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenRelStorageType, EdxltokenPhysicalCTAS);
 	m_rel_storage_type = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(rel_storage_type_xml);
 
-	const XMLCh *src_colids_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenPhysicalCTAS);
+	const XMLCh *src_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenInsertCols, EdxltokenPhysicalCTAS);
 	m_src_colids_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), src_colids_xml, EdxltokenInsertCols, EdxltokenPhysicalCTAS);
 	
-	const XMLCh *vartypemod_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenVarTypeModList, EdxltokenPhysicalCTAS);
+	const XMLCh *vartypemod_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenVarTypeModList, EdxltokenPhysicalCTAS);
 	m_vartypemod_array =
 			CDXLOperatorFactory::PdrgpiFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), vartypemod_xml, EdxltokenVarTypeModList, EdxltokenPhysicalCTAS);
 
-	m_is_temp_table = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelTemporary, EdxltokenPhysicalCTAS);
-	m_has_oids = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelHasOids, EdxltokenPhysicalCTAS);
+	m_is_temp_table = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelTemporary, EdxltokenPhysicalCTAS);
+	m_has_oids = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelHasOids, EdxltokenPhysicalCTAS);
 
 	// create child node parsers
 

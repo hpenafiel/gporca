@@ -84,10 +84,10 @@ CParseHandlerCtasStorageOptions::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTASOption), element_local_name))
 	{
 		// parse option name and value
-		ULONG ulType = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtasOptionType, EdxltokenCTASOption);
-		CWStringBase *pstrName = CDXLOperatorFactory::PstrValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenName, EdxltokenCTASOption);
-		CWStringBase *pstrValue = CDXLOperatorFactory::PstrValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenCTASOption);
-		BOOL is_null = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIsNull, EdxltokenCTASOption);
+		ULONG ulType = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtasOptionType, EdxltokenCTASOption);
+		CWStringBase *pstrName = CDXLOperatorFactory::ExtractConvertAttrValueToStr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenName, EdxltokenCTASOption);
+		CWStringBase *pstrValue = CDXLOperatorFactory::ExtractConvertAttrValueToStr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenCTASOption);
+		BOOL is_null = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIsNull, EdxltokenCTASOption);
 		
 		if (NULL == m_pdrgpctasopt)
 		{

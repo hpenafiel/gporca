@@ -76,7 +76,7 @@ CParseHandlerScalarAssertConstraintList::StartElement
 		GPOS_ASSERT(NULL == m_pdxlopAssertConstraint);
 				
 		// parse error message
-		CWStringDynamic *pstrErrorMsg = CDXLOperatorFactory::PstrValueFromAttrs
+		CWStringDynamic *pstrErrorMsg = CDXLOperatorFactory::ExtractConvertAttrValueToStr
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(), 
 										attrs, 

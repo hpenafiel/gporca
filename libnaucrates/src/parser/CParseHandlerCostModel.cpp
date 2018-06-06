@@ -85,10 +85,10 @@ CParseHandlerCostModel::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCostModelConfig), element_local_name))
 	{
-		m_num_of_segments = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenSegmentsForCosting,
+		m_num_of_segments = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenSegmentsForCosting,
 															 EdxltokenCostModelConfig);
 
-		m_cost_model_type = (ICostModel::ECostModelType) CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs,
+		m_cost_model_type = (ICostModel::ECostModelType) CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs,
 																					EdxltokenCostModelType,
 																					EdxltokenCostModelConfig);
 	}

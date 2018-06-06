@@ -81,16 +81,16 @@ CParseHandlerSearchStage::StartElement
 		m_pxfs = GPOS_NEW(m_memory_pool) CXformSet(m_memory_pool);
 
 		const XMLCh *xmlszCost =
-			CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenCostThreshold, EdxltokenSearchStage);
+			CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenCostThreshold, EdxltokenSearchStage);
 
 		m_costThreshold =
 			CCost(CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszCost, EdxltokenCostThreshold, EdxltokenSearchStage));
 
 		const XMLCh *xmlszTime =
-			CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenTimeThreshold, EdxltokenSearchStage);
+			CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenTimeThreshold, EdxltokenSearchStage);
 
 		m_ulTimeThreshold =
-			CDXLOperatorFactory::UlValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTime, EdxltokenTimeThreshold, EdxltokenSearchStage);
+			CDXLOperatorFactory::ConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTime, EdxltokenTimeThreshold, EdxltokenSearchStage);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenXform), element_local_name))
 	{

@@ -62,7 +62,7 @@ CParseHandlerScalarArrayRefIndexList::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), element_local_name))
 	{
 		// start the index list
-		const XMLCh *xmlszOpType = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszOpType = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenScalarArrayRefIndexListBound,

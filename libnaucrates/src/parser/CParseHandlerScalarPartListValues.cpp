@@ -46,7 +46,7 @@ CParseHandlerScalarPartListValues::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	ULONG ulLevel = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartLevel, EdxltokenScalarPartListValues);
+	ULONG ulLevel = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartLevel, EdxltokenScalarPartListValues);
 	IMDId *pmdidResult = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGPDBScalarOpResultTypeId, EdxltokenScalarPartListValues);
 	IMDId *pmdidElement = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayElementType, EdxltokenScalarPartListValues);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartListValues(m_memory_pool, ulLevel, pmdidResult, pmdidElement));

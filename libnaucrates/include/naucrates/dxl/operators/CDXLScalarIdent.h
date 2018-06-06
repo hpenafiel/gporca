@@ -56,7 +56,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// accessors
-			const CDXLColRef *Pdxlcr() const;
+			const CDXLColRef *MakeDXLColRef() const;
 
 			IMDId *MDIdType() const;
 

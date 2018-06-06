@@ -142,7 +142,7 @@ CParseHandlerProperties::EndElement
 	// assemble the properties container from the cost
 	CParseHandlerCost *pph = dynamic_cast<CParseHandlerCost *>((*this)[0]);
 
-	CDXLOperatorCost *pdxlopcost = pph->GetOperatorCostDXL();
+	CDXLOperatorCost *pdxlopcost = pph->MakeDXLOperatorCost();
 	pdxlopcost->AddRef();
 	
 	if (2 == this->Length())

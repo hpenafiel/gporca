@@ -78,7 +78,7 @@ CParseHandlerColStats::StartElement
 		m_mdid = CMDIdColStats::PmdidConvert(pmdid);
 		
 		// parse column name
-		const XMLCh *parsed_column_name = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *parsed_column_name = CDXLOperatorFactory::ExtractAttrValue
 																(
 																attrs,
 																EdxltokenName,
@@ -114,7 +114,7 @@ CParseHandlerColStats::StartElement
 		const XMLCh *parsed_is_column_stats_missing = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColStatsMissing));
 		if (NULL != parsed_is_column_stats_missing)
 		{
-			m_is_column_stats_missing = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_is_column_stats_missing, EdxltokenColStatsMissing, EdxltokenColumnStats);
+			m_is_column_stats_missing = CDXLOperatorFactory::ConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_is_column_stats_missing, EdxltokenColStatsMissing, EdxltokenColumnStats);
 		}
 
 	}

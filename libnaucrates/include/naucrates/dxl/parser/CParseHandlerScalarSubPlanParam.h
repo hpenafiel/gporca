@@ -70,7 +70,7 @@ namespace gpdxl
 			~CParseHandlerScalarSubPlanParam();
 
 			// return column reference
-			CDXLColRef *Pdxlcr(void)
+			CDXLColRef *MakeDXLColRef(void)
 			const
 			{
 				return m_pdxlcr;

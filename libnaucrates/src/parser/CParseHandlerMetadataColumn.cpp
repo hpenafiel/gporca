@@ -85,7 +85,7 @@ CParseHandlerMetadataColumn::StartElement
 	}
 	
 	// parse column name
-	const XMLCh *xmlszColumnName = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszColumnName = CDXLOperatorFactory::ExtractAttrValue
 												(
 												attrs,
 												EdxltokenName,
@@ -100,7 +100,7 @@ CParseHandlerMetadataColumn::StartElement
 	GPOS_DELETE(pstrColumnName);
 	
 	// parse attribute number
-	m_iAttNo = CDXLOperatorFactory::IValueFromAttrs
+	m_iAttNo = CDXLOperatorFactory::ExtractConvertAttrValueToInt
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,
@@ -117,7 +117,7 @@ CParseHandlerMetadataColumn::StartElement
 								);
 
 	// parse optional type modifier
-	m_type_modifier = CDXLOperatorFactory::IValueFromAttrs
+	m_type_modifier = CDXLOperatorFactory::ExtractConvertAttrValueToInt
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,
@@ -128,7 +128,7 @@ CParseHandlerMetadataColumn::StartElement
 								);
 
 	// parse attribute number
-	m_fNullable = CDXLOperatorFactory::FValueFromAttrs
+	m_fNullable = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,
@@ -141,7 +141,7 @@ CParseHandlerMetadataColumn::StartElement
 
 	if (NULL != xmlszColumnLength)
 	{
-		m_ulWidth = CDXLOperatorFactory::UlValueFromXmlstr
+		m_ulWidth = CDXLOperatorFactory::ConvertAttrValueToUlong
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
 						xmlszColumnLength,
@@ -155,7 +155,7 @@ CParseHandlerMetadataColumn::StartElement
 
 	if (NULL != xmlszDropped)
 	{
-		m_fDropped = CDXLOperatorFactory::FValueFromXmlstr
+		m_fDropped = CDXLOperatorFactory::ConvertAttrValueToBool
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
 						xmlszDropped,

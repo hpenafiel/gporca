@@ -86,14 +86,14 @@ CDXLScalarIdent::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarIdent::Pdxlcr
+//		CDXLScalarIdent::MakeDXLColRef
 //
 //	@doc:
 //		Return column reference of the identifier operator
 //
 //---------------------------------------------------------------------------
 const CDXLColRef *
-CDXLScalarIdent::Pdxlcr() const
+CDXLScalarIdent::MakeDXLColRef() const
 {
 	return m_pdxlcr;
 }

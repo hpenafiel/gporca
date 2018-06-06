@@ -84,7 +84,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// target table descriptor
-			CDXLTableDescr *GetTableDescr() const
+			CDXLTableDescr *MakeDXLTableDescr() const
 			{
 				return m_table_descr_dxl;
 			}

@@ -32,7 +32,7 @@ CParseHandlerPhysicalDynamicBitmapTableScan::StartElement
 	)
 {
 	StartElementHelper(element_local_name, EdxltokenPhysicalDynamicBitmapTableScan);
-	m_part_index_id = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
 						attrs,
@@ -40,7 +40,7 @@ CParseHandlerPhysicalDynamicBitmapTableScan::StartElement
 						EdxltokenPhysicalDynamicBitmapTableScan
 						);
 
-	m_part_index_id_printable = CDXLOperatorFactory::UlValueFromAttrs
+	m_part_index_id_printable = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
 						attrs,

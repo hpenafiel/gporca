@@ -99,7 +99,7 @@ CParseHandlerLogicalSetOp::StartElement
 		CParseHandlerBase *col_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(col_descr_parse_handler);
 
-		m_cast_across_input_req = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCastAcrossInputs, EdxltokenLogicalSetOperation);
+		m_cast_across_input_req = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCastAcrossInputs, EdxltokenLogicalSetOperation);
 
 		// store child parse handler in array
 		this->Append(col_descr_parse_handler);

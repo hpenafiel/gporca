@@ -65,7 +65,7 @@ CParseHandlerMDGPDBFunc::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), element_local_name))
 	{
 		// parse func name
-		const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszFuncName = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenName,
@@ -89,7 +89,7 @@ CParseHandlerMDGPDBFunc::StartElement
 										);
 		
 		// parse whether func returns a set
-		m_fReturnsSet = CDXLOperatorFactory::FValueFromAttrs
+		m_fReturnsSet = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												attrs,
@@ -97,7 +97,7 @@ CParseHandlerMDGPDBFunc::StartElement
 												EdxltokenGPDBFunc
 												);
 		// parse whether func is strict
-		m_fStrict = CDXLOperatorFactory::FValueFromAttrs
+		m_fStrict = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -106,7 +106,7 @@ CParseHandlerMDGPDBFunc::StartElement
 											);
 		
 		// parse func stability property
-		const XMLCh *xmlszStbl = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszStbl = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenGPDBFuncStability,
@@ -116,7 +116,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		m_efuncstbl = EFuncStability(xmlszStbl);
 
 		// parse func data access property
-		const XMLCh *xmlszDataAcc = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszDataAcc = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenGPDBFuncDataAccess,
@@ -144,7 +144,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		GPOS_ASSERT(NULL != m_mdname);
 		GPOS_ASSERT(NULL == m_pdrgpmdidTypes);
 
-		const XMLCh *xmlszTypes = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszTypes = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenTypeIds,

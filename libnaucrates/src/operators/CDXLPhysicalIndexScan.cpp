@@ -87,14 +87,14 @@ CDXLPhysicalIndexScan::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexScan::GetIndexDescr
+//		CDXLPhysicalIndexScan::MakeDXLIndexDescr
 //
 //	@doc:
 //		Index descriptor for the index scan
 //
 //---------------------------------------------------------------------------
 const CDXLIndexDescr *
-CDXLPhysicalIndexScan::GetIndexDescr() const
+CDXLPhysicalIndexScan::MakeDXLIndexDescr() const
 {
 	return m_index_descr_dxl;
 }
@@ -115,14 +115,14 @@ CDXLPhysicalIndexScan::GetIndexScanDir() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalIndexScan::GetTableDescr
+//		CDXLPhysicalIndexScan::MakeDXLTableDescr
 //
 //	@doc:
 //		Return the associated table descriptor
 //
 //---------------------------------------------------------------------------
 const CDXLTableDescr *
-CDXLPhysicalIndexScan::GetTableDescr() const
+CDXLPhysicalIndexScan::MakeDXLTableDescr() const
 {
 	return m_table_descr_dxl;
 }

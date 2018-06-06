@@ -457,7 +457,7 @@ CTranslatorExprToDXL::PdxlnTblScan
 	DrgPcr *pdrgpcrOutput = popTblScan->PdrgpcrOutput();
 	
 	// translate table descriptor
-	CDXLTableDescr *table_descr = GetTableDescr(popTblScan->Ptabdesc(), pdrgpcrOutput);
+	CDXLTableDescr *table_descr = MakeDXLTableDescr(popTblScan->Ptabdesc(), pdrgpcrOutput);
 
 	// construct plan costs, if there are not passed as a parameter
 	if (NULL == dxl_properties)
@@ -568,7 +568,7 @@ CTranslatorExprToDXL::PdxlnIndexScan
 	DrgPcr *pdrgpcrOutput = popIs->PdrgpcrOutput();
 
 	// translate table descriptor
-	CDXLTableDescr *table_descr = GetTableDescr(popIs->Ptabdesc(), pdrgpcrOutput);
+	CDXLTableDescr *table_descr = MakeDXLTableDescr(popIs->Ptabdesc(), pdrgpcrOutput);
 
 	// create index descriptor
 	CIndexDescriptor *pindexdesc = popIs->Pindexdesc();
@@ -831,7 +831,7 @@ CTranslatorExprToDXL::PdxlnBitmapTableScan
 	CPhysicalBitmapTableScan *pop = CPhysicalBitmapTableScan::PopConvert(pexprBitmapTableScan->Pop());
 
 	// translate table descriptor
-	CDXLTableDescr *table_descr = GetTableDescr(pop->Ptabdesc(), pop->PdrgpcrOutput());
+	CDXLTableDescr *table_descr = MakeDXLTableDescr(pop->Ptabdesc(), pop->PdrgpcrOutput());
 
 	CDXLPhysicalBitmapTableScan *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalBitmapTableScan(m_memory_pool, table_descr);
 	CDXLNode *pdxlnBitmapTableScan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
@@ -942,18 +942,18 @@ CTranslatorExprToDXL::PdxlnDynamicTableScan
 	DrgPcr *pdrgpcrOutput = popDTS->PdrgpcrOutput();
 	
 	// translate table descriptor
-	CDXLTableDescr *table_descr = GetTableDescr(popDTS->Ptabdesc(), pdrgpcrOutput);
+	CDXLTableDescr *table_descr = MakeDXLTableDescr(popDTS->Ptabdesc(), pdrgpcrOutput);
 
 	// construct plan costs
 	CDXLPhysicalProperties *pdxlpropDTS = GetProperties(pexprDTS);
 	
 	if (NULL != dxl_properties)
 	{
-		CWStringDynamic *rows_out_str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, dxl_properties->GetOperatorCostDXL()->GetRowsOutStr()->GetBuffer());
-		CWStringDynamic *pstrCost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, dxl_properties->GetOperatorCostDXL()->GetTotalCostStr()->GetBuffer());
+		CWStringDynamic *rows_out_str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, dxl_properties->MakeDXLOperatorCost()->GetRowsOutStr()->GetBuffer());
+		CWStringDynamic *pstrCost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, dxl_properties->MakeDXLOperatorCost()->GetTotalCostStr()->GetBuffer());
 
-		pdxlpropDTS->GetOperatorCostDXL()->SetRows(rows_out_str);
-		pdxlpropDTS->GetOperatorCostDXL()->SetCost(pstrCost);
+		pdxlpropDTS->MakeDXLOperatorCost()->SetRows(rows_out_str);
+		pdxlpropDTS->MakeDXLOperatorCost()->SetCost(pstrCost);
 		dxl_properties->Release();
 	}
 
@@ -1052,7 +1052,7 @@ CTranslatorExprToDXL::PdxlnDynamicBitmapTableScan
 	CPhysicalDynamicBitmapTableScan *pop = CPhysicalDynamicBitmapTableScan::PopConvert(pexprScan->Pop());
 	DrgPcr *pdrgpcrOutput = pop->PdrgpcrOutput();
 
-	CDXLTableDescr *table_descr = GetTableDescr(pop->Ptabdesc(), pdrgpcrOutput);
+	CDXLTableDescr *table_descr = MakeDXLTableDescr(pop->Ptabdesc(), pdrgpcrOutput);
 	CDXLPhysicalDynamicBitmapTableScan *pdxlopScan =
 			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicBitmapTableScan
 						(
@@ -1135,7 +1135,7 @@ CTranslatorExprToDXL::PdxlnDynamicIndexScan
 	DrgPcr *pdrgpcrOutput = popDIS->PdrgpcrOutput();
 	
 	// translate table descriptor
-	CDXLTableDescr *table_descr = GetTableDescr(popDIS->Ptabdesc(), pdrgpcrOutput);
+	CDXLTableDescr *table_descr = MakeDXLTableDescr(popDIS->Ptabdesc(), pdrgpcrOutput);
 
 	// create index descriptor
 	CIndexDescriptor *pindexdesc = popDIS->Pindexdesc();
@@ -5311,7 +5311,7 @@ CTranslatorExprToDXL::PdxlnDML
 
 	CDXLNode *child_dxlnode = CreateDXLNode(pexprChild, pdrgpcrSource, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, false /*fRemap*/, false /*fRoot*/);
 
-	CDXLTableDescr *table_descr = GetTableDescr(ptabdesc, NULL /*pdrgpcrOutput*/);
+	CDXLTableDescr *table_descr = MakeDXLTableDescr(ptabdesc, NULL /*pdrgpcrOutput*/);
 	ULongPtrArray *pdrgpul = CUtils::Pdrgpul(m_memory_pool, pdrgpcrSource);
 
 	CDXLDirectDispatchInfo *dxl_direct_dispatch_info = GetDXLDirectDispatchInfo(pexpr);
@@ -7152,14 +7152,14 @@ CTranslatorExprToDXL::PdxlnFilter
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTranslatorExprToDXL::GetTableDescr
+//		CTranslatorExprToDXL::MakeDXLTableDescr
 //
 //	@doc:
 //		Create a DXL table descriptor from the corresponding optimizer structure
 //
 //---------------------------------------------------------------------------
 CDXLTableDescr *
-CTranslatorExprToDXL::GetTableDescr
+CTranslatorExprToDXL::MakeDXLTableDescr
 	(
 	const CTableDescriptor *ptabdesc,
 	const DrgPcr *pdrgpcrOutput

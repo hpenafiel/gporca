@@ -67,7 +67,7 @@ CParseHandlerMDGPDBAgg::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAgg), element_local_name))
 	{
 		// parse agg name
-		const XMLCh *xmlszAggName = CDXLOperatorFactory::XmlstrFromAttrs
+		const XMLCh *xmlszAggName = CDXLOperatorFactory::ExtractAttrValue
 										(
 										attrs,
 										EdxltokenName,
@@ -94,7 +94,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		const XMLCh *xmlszOrderedAgg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBIsAggOrdered));
 		if (NULL != xmlszOrderedAgg)
 		{
-			m_fOrdered = CDXLOperatorFactory::FValueFromXmlstr
+			m_fOrdered = CDXLOperatorFactory::ConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												xmlszOrderedAgg,
@@ -107,7 +107,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		const XMLCh *xmlszSplittableAgg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBAggSplittable));
 		if (NULL != xmlszSplittableAgg)
 		{
-			m_fSplittable = CDXLOperatorFactory::FValueFromXmlstr
+			m_fSplittable = CDXLOperatorFactory::ConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												xmlszSplittableAgg,
@@ -120,7 +120,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		const XMLCh *xmlszHashAggCapableAgg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBAggHashAggCapable));
 		if (NULL != xmlszHashAggCapableAgg)
 		{
-			m_fHashAggCapable = CDXLOperatorFactory::FValueFromXmlstr
+			m_fHashAggCapable = CDXLOperatorFactory::ConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												xmlszHashAggCapableAgg,

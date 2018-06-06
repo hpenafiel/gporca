@@ -103,7 +103,7 @@ namespace gpdxl
 			}
 
 			// output column descriptor at a given position
-			const CDXLColDescr *GetColumnDescrAt
+			const CDXLColDescr *MakeDXLColumnDescr
 				(
 				ULONG idx
 				)

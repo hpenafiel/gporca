@@ -84,7 +84,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 							);
 
 	// parse operator name
-	const XMLCh *xmlszScalarOpName = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszScalarOpName = CDXLOperatorFactory::ExtractAttrValue
 										(
 										attrs,
 										EdxltokenOpName,
@@ -96,7 +96,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	GPOS_DELETE(pstrScalarOpName);
 		
 	// parse column id
-	ULONG col_id = CDXLOperatorFactory::UlValueFromAttrs
+	ULONG col_id = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs, 

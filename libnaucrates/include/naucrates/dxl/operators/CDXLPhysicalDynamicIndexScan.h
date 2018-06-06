@@ -87,10 +87,10 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// index descriptor
-			const CDXLIndexDescr *GetIndexDescr() const;
+			const CDXLIndexDescr *MakeDXLIndexDescr() const;
 
 			//table descriptor
-			const CDXLTableDescr *GetTableDescr() const;
+			const CDXLTableDescr *MakeDXLTableDescr() const;
 
 			// partition index id
 			ULONG GetPartIndexId() const;

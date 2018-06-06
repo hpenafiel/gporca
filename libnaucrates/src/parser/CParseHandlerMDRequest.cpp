@@ -99,7 +99,7 @@ CParseHandlerMDRequest::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDTypeRequest), element_local_name))
 	{		
 		// parse type request
-		IMDType::ETypeInfo eti = (IMDType::ETypeInfo) CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeInfo, EdxltokenMDTypeRequest);
+		IMDType::ETypeInfo eti = (IMDType::ETypeInfo) CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeInfo, EdxltokenMDTypeRequest);
 		m_pdrgptr->Append(GPOS_NEW(m_memory_pool) CMDRequest::SMDTypeRequest(sysid, eti));
 	}
 }

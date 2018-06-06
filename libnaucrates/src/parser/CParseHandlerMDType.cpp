@@ -125,7 +125,7 @@ CParseHandlerMDType::StartElement
 		if (!FBuiltInType(m_mdid))
 		{
 			// parse type name
-			const XMLCh *xmlszTypeName = CDXLOperatorFactory::XmlstrFromAttrs
+			const XMLCh *xmlszTypeName = CDXLOperatorFactory::ExtractAttrValue
 																(
 																attrs,
 																EdxltokenName,
@@ -139,7 +139,7 @@ CParseHandlerMDType::StartElement
 			GPOS_DELETE(pstrTypeName);
 			
 			// parse if type is redistributable
-			m_fRedistributable = CDXLOperatorFactory::FValueFromAttrs
+			m_fRedistributable = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 														(
 														m_parse_handler_mgr->GetDXLMemoryManager(),
 														attrs,
@@ -148,7 +148,7 @@ CParseHandlerMDType::StartElement
 														);
 
 			// parse if type is passed by value
-			m_fByValue = CDXLOperatorFactory::FValueFromAttrs
+			m_fByValue = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												attrs,
@@ -157,7 +157,7 @@ CParseHandlerMDType::StartElement
 												);
 			
 			// parse if type is hashable
-			m_fHashable = CDXLOperatorFactory::FValueFromAttrs
+			m_fHashable = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs,
@@ -173,7 +173,7 @@ CParseHandlerMDType::StartElement
 			}
 			else
 			{
-				m_fComposite = CDXLOperatorFactory::FValueFromXmlstr
+				m_fComposite = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										xmlszAttributeVal,
@@ -195,7 +195,7 @@ CParseHandlerMDType::StartElement
 			}
 
 			// parse if type is fixed-length			
-			m_fFixedLength = CDXLOperatorFactory::FValueFromAttrs
+			m_fFixedLength = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -205,7 +205,7 @@ CParseHandlerMDType::StartElement
 			if (m_fFixedLength)
 			{
 				// get type length
-				m_iLength = CDXLOperatorFactory::IValueFromAttrs
+				m_iLength = CDXLOperatorFactory::ExtractConvertAttrValueToInt
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,

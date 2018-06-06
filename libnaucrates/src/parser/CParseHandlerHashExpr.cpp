@@ -65,7 +65,7 @@ CParseHandlerHashExpr::StartElement
 	}
 	
 	// parse and create hash expr operator
-	m_dxl_op = (CDXLScalarHashExpr *) CDXLOperatorFactory::PdxlopHashExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLScalarHashExpr *) CDXLOperatorFactory::MakeDXLHashExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the child scalar expression node
 	

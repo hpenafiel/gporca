@@ -121,12 +121,12 @@ CParseHandlerPlan::StartElement
 	}
 	
 	// parse plan id
-	const XMLCh *xmlszPlanId = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenPlanId, EdxltokenPlan);
-	m_ullId = CDXLOperatorFactory::UllValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanId, EdxltokenPlanId, EdxltokenPlan);
+	const XMLCh *xmlszPlanId = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPlanId, EdxltokenPlan);
+	m_ullId = CDXLOperatorFactory::ConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanId, EdxltokenPlanId, EdxltokenPlan);
 
 	// parse plan space size
-	const XMLCh *xmlszPlanSpaceSize = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenPlanSpaceSize, EdxltokenPlan);
-	m_ullSpaceSize = CDXLOperatorFactory::UllValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanSpaceSize, EdxltokenPlanSpaceSize, EdxltokenPlan);
+	const XMLCh *xmlszPlanSpaceSize = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPlanSpaceSize, EdxltokenPlan);
+	m_ullSpaceSize = CDXLOperatorFactory::ConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanSpaceSize, EdxltokenPlanSpaceSize, EdxltokenPlan);
 
 	// create a parse handler for physical nodes and activate it
 	GPOS_ASSERT(NULL != m_memory_pool);

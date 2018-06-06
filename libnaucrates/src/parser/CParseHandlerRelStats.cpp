@@ -67,7 +67,7 @@ CParseHandlerRelStats::StartElement
 	}
 	
 	// parse table name
-	const XMLCh *xmlszTableName = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszTableName = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenName,
@@ -99,7 +99,7 @@ CParseHandlerRelStats::StartElement
 	const XMLCh *xmlszEmpty = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenEmptyRelation));
 	if (NULL != xmlszEmpty)
 	{
-		fEmpty = CDXLOperatorFactory::FValueFromXmlstr
+		fEmpty = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										xmlszEmpty,

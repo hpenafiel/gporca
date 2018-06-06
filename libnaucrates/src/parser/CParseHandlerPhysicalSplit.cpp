@@ -72,20 +72,20 @@ CParseHandlerPhysicalSplit::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	const XMLCh *xmlszDeleteColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDeleteCols, EdxltokenPhysicalSplit);
+	const XMLCh *xmlszDeleteColIds = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenDeleteCols, EdxltokenPhysicalSplit);
 	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszDeleteColIds, EdxltokenDeleteCols, EdxltokenPhysicalSplit);
 
-	const XMLCh *xmlszInsertColIds = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenPhysicalSplit);
+	const XMLCh *xmlszInsertColIds = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenInsertCols, EdxltokenPhysicalSplit);
 	m_insert_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszInsertColIds, EdxltokenInsertCols, EdxltokenPhysicalSplit);
 
-	m_action_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenActionColId, EdxltokenPhysicalSplit);
-	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtidColId, EdxltokenPhysicalSplit);
-	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, EdxltokenPhysicalSplit);
+	m_action_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenActionColId, EdxltokenPhysicalSplit);
+	m_ctid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtidColId, EdxltokenPhysicalSplit);
+	m_segid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, EdxltokenPhysicalSplit);
 
 	const XMLCh *xmlszPreserveOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != xmlszPreserveOids)
 	{
-		m_preserve_oids = CDXLOperatorFactory::FValueFromXmlstr
+		m_preserve_oids = CDXLOperatorFactory::ConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											xmlszPreserveOids,
@@ -95,7 +95,7 @@ CParseHandlerPhysicalSplit::StartElement
 	}	
 	if (m_preserve_oids)
 	{
-		m_tuple_oid_col_oid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalSplit);
+		m_tuple_oid_col_oid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalSplit);
 	}
 
 	// parse handler for physical operator

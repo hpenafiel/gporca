@@ -55,14 +55,14 @@ CParseHandlerCost::~CParseHandlerCost()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerCost::GetOperatorCostDXL
+//		CParseHandlerCost::MakeDXLOperatorCost
 //
 //	@doc:
 //		Destructor
 //
 //---------------------------------------------------------------------------
 CDXLOperatorCost *
-CParseHandlerCost::GetOperatorCostDXL()
+CParseHandlerCost::MakeDXLOperatorCost()
 {
 	return m_operator_cost_dxl;
 }
@@ -91,7 +91,7 @@ CParseHandlerCost::StartElement
 	}
 	
 	// get cost estimates from attributes
-	m_operator_cost_dxl = CDXLOperatorFactory::GetOperatorCostDXL(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_operator_cost_dxl = CDXLOperatorFactory::MakeDXLOperatorCost(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 }
 
 //---------------------------------------------------------------------------

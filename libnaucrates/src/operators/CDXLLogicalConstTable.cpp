@@ -96,14 +96,14 @@ CDXLLogicalConstTable::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalConstTable::GetColumnDescrAt
+//		CDXLLogicalConstTable::MakeDXLColumnDescr
 //
 //	@doc:
 //		Type of const table element at given position
 //
 //---------------------------------------------------------------------------
 CDXLColDescr *
-CDXLLogicalConstTable::GetColumnDescrAt
+CDXLLogicalConstTable::MakeDXLColumnDescr
 	(
 	ULONG idx
 	) 
@@ -200,7 +200,7 @@ CDXLLogicalConstTable::IsColDefined
 	const ULONG size = Arity();
 	for (ULONG descr_idx = 0; descr_idx < size; descr_idx++)
 	{
-		ULONG id = GetColumnDescrAt(descr_idx)->Id();
+		ULONG id = MakeDXLColumnDescr(descr_idx)->Id();
 		if (id == col_id)
 		{
 			return true;

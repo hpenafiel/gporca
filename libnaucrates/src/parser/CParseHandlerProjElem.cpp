@@ -65,7 +65,7 @@ CParseHandlerProjElem::StartElement
 	}
 	
 	// parse and create proj elem operator
-	m_dxl_op = (CDXLScalarProjElem *) CDXLOperatorFactory::PdxlopProjElem(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_dxl_op = (CDXLScalarProjElem *) CDXLOperatorFactory::MakeDXLProjElem(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 	
 	// create and activate the parse handler for the child scalar expression node
 	

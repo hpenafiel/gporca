@@ -81,7 +81,7 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
 
 	// parse check constraint name
-	const XMLCh *parsed_column_name = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, EdxltokenCheckConstraint);
+	const XMLCh *parsed_column_name = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenCheckConstraint);
 	CWStringDynamic *column_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_column_name);
 
 	// create a copy of the string in the CMDName constructor

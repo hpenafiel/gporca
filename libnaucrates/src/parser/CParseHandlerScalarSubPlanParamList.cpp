@@ -131,7 +131,7 @@ CParseHandlerScalarSubPlanParamList::EndElement
 	{
 		CParseHandlerScalarSubPlanParam *pphParam = dynamic_cast<CParseHandlerScalarSubPlanParam *>((*this)[ul]);
 
-		CDXLColRef *pdxlcr = pphParam->Pdxlcr();
+		CDXLColRef *pdxlcr = pphParam->MakeDXLColRef();
 		pdxlcr->AddRef();
 		m_pdrgdxlcr->Append(pdxlcr);
 	}

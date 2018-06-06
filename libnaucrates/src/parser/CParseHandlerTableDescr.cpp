@@ -58,14 +58,14 @@ CParseHandlerTableDescr::~CParseHandlerTableDescr()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerTableDescr::GetTableDescr
+//		CParseHandlerTableDescr::MakeDXLTableDescr
 //
 //	@doc:
 //		Returns the table descriptor constructed by the parse handler
 //
 //---------------------------------------------------------------------------
 CDXLTableDescr *
-CParseHandlerTableDescr::GetTableDescr()
+CParseHandlerTableDescr::MakeDXLTableDescr()
 {
 	return m_table_descr_dxl;
 }
@@ -94,7 +94,7 @@ CParseHandlerTableDescr::StartElement
 	}
 	
 	// parse table name from attributes
-	m_table_descr_dxl = CDXLOperatorFactory::GetTableDescr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+	m_table_descr_dxl = CDXLOperatorFactory::MakeDXLTableDescr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 		
 	// install column descriptor parsers
 	CParseHandlerBase *col_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);

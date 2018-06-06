@@ -85,7 +85,7 @@ CParseHandlerMDIndex::StartElement
 			m_pdrgpulDefaultParts = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 		}
 
-		m_fPartConstraintUnbounded = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenIndex);
+		m_fPartConstraintUnbounded = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenIndex);
 
 		// parse handler for part constraints
 		CParseHandlerBase *pphPartConstraint= CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
@@ -107,7 +107,7 @@ CParseHandlerMDIndex::StartElement
 	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndex);
 	
 	// parse index name
-	const XMLCh *parsed_column_name = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *parsed_column_name = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenName,
@@ -120,7 +120,7 @@ CParseHandlerMDIndex::StartElement
 	GPOS_DELETE(column_name);
 
 	// parse index clustering, key columns and included columns information
-	m_fClustered = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIndexClustered, EdxltokenIndex);
+	m_fClustered = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIndexClustered, EdxltokenIndex);
 	
 	m_emdindt = CDXLOperatorFactory::EmdindtFromAttr(attrs);
 	const XMLCh *xmlszItemType = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenIndexItemType));
@@ -135,10 +135,10 @@ CParseHandlerMDIndex::StartElement
 							);
 	}
 
-	const XMLCh *xmlszIndexKeys = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenIndexKeyCols, EdxltokenIndex);
+	const XMLCh *xmlszIndexKeys = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenIndexKeyCols, EdxltokenIndex);
 	m_pdrgpulKeyCols = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszIndexKeys, EdxltokenIndexKeyCols, EdxltokenIndex);
 
-	const XMLCh *xmlszIndexIncludedCols = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenIndexIncludedCols, EdxltokenIndex);
+	const XMLCh *xmlszIndexIncludedCols = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenIndexIncludedCols, EdxltokenIndex);
 	m_pdrgpulIncludedCols = CDXLOperatorFactory::PdrgpulFromXMLCh
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),

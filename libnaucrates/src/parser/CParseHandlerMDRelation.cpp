@@ -90,7 +90,7 @@ CParseHandlerMDRelation::StartElement
 			// construct an empty keyset
 			m_pdrgpulDefaultParts = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 		}
-		m_fPartConstraintUnbounded = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenRelation);
+		m_fPartConstraintUnbounded = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenRelation);
 
 		CParseHandlerMDIndexInfoList *pphMdlIndexInfo = dynamic_cast<CParseHandlerMDIndexInfoList*>((*this)[1]);
 		// relcache translator will send partition constraint expression only when a partitioned relation has indices
@@ -115,7 +115,7 @@ CParseHandlerMDRelation::StartElement
 	ParseRelationAttributes(attrs, EdxltokenRelation);
 
 	// parse whether relation is temporary
-	m_is_temp_table = CDXLOperatorFactory::FValueFromAttrs
+	m_is_temp_table = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -127,11 +127,11 @@ CParseHandlerMDRelation::StartElement
 	const XMLCh *xmlszHasOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
 	if (NULL != xmlszHasOids)
 	{
-		m_has_oids = CDXLOperatorFactory::FValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
+		m_has_oids = CDXLOperatorFactory::ConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
 	}
 
 	// parse storage type
-	const XMLCh *xmlszStorageType = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszStorageType = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenRelStorageType,
@@ -170,7 +170,7 @@ CParseHandlerMDRelation::StartElement
 
 	if (NULL != xmlszPartitions)
 	{
-		m_ulPartitions = CDXLOperatorFactory::UlValueFromXmlstr
+		m_ulPartitions = CDXLOperatorFactory::ConvertAttrValueToUlong
 														(
 														m_parse_handler_mgr->GetDXLMemoryManager(),
 														xmlszPartitions,
@@ -183,7 +183,7 @@ CParseHandlerMDRelation::StartElement
 	const XMLCh *xmlszConvertHashToRandom = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenConvertHashToRandom));
 	if (NULL != xmlszConvertHashToRandom)
 	{
-		m_fConvertHashToRandom = CDXLOperatorFactory::FValueFromXmlstr
+		m_fConvertHashToRandom = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(), 
 										xmlszConvertHashToRandom,
@@ -300,7 +300,7 @@ CParseHandlerMDRelation::ParseRelationAttributes
 	)
 {
 	// parse table name
-	const XMLCh *xmlszTableName = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenName, edxltokenElement);
+	const XMLCh *xmlszTableName = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, edxltokenElement);
 	CWStringDynamic *pstrTableName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTableName);
 	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTableName);
 	GPOS_DELETE(pstrTableName);
@@ -309,13 +309,13 @@ CParseHandlerMDRelation::ParseRelationAttributes
 	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, edxltokenElement);
 
 	// parse distribution policy
-	const XMLCh *rel_distr_policy_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenRelDistrPolicy, edxltokenElement);
+	const XMLCh *rel_distr_policy_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenRelDistrPolicy, edxltokenElement);
 	m_rel_distr_policy = CDXLOperatorFactory::EreldistrpolicyFromXmlstr(rel_distr_policy_xml);
 
 	if (m_rel_distr_policy == IMDRelation::EreldistrHash)
 	{
 		// parse distribution columns
-		const XMLCh *rel_distr_cols_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenDistrColumns, edxltokenElement);
+		const XMLCh *rel_distr_cols_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenDistrColumns, edxltokenElement);
 		m_pdrgpulDistrColumns = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), rel_distr_cols_xml, EdxltokenDistrColumns, edxltokenElement);
 	}
 
@@ -331,7 +331,7 @@ CParseHandlerMDRelation::ParseRelationAttributes
 		m_pdrgpdrgpulKeys = GPOS_NEW(m_memory_pool) ULongPtrArray2D(m_memory_pool);
 	}
 
-	m_ulPartitions = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenNumLeafPartitions, edxltokenElement,
+	m_ulPartitions = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenNumLeafPartitions, edxltokenElement,
 															true /* optional */, 0 /* default value */);
 }
 

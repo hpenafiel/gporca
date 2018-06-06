@@ -1172,10 +1172,10 @@ CTranslatorExprToDXLUtils::PdxlpropCopy
 	GPOS_ASSERT(NULL != pdxln->GetProperties());
 	CDXLPhysicalProperties *dxl_properties = CDXLPhysicalProperties::PdxlpropConvert(pdxln->GetProperties());
 
-	CWStringDynamic *pstrStartupcost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetStartUpCostStr()->GetBuffer());
-	CWStringDynamic *pstrCost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetTotalCostStr()->GetBuffer());
-	CWStringDynamic *rows_out_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetRowsOutStr()->GetBuffer());
-	CWStringDynamic *width_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->GetOperatorCostDXL()->GetWidthStr()->GetBuffer());
+	CWStringDynamic *pstrStartupcost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->MakeDXLOperatorCost()->GetStartUpCostStr()->GetBuffer());
+	CWStringDynamic *pstrCost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->MakeDXLOperatorCost()->GetTotalCostStr()->GetBuffer());
+	CWStringDynamic *rows_out_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->MakeDXLOperatorCost()->GetRowsOutStr()->GetBuffer());
+	CWStringDynamic *width_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->MakeDXLOperatorCost()->GetWidthStr()->GetBuffer());
 
 	return GPOS_NEW(memory_pool) CDXLPhysicalProperties(GPOS_NEW(memory_pool) CDXLOperatorCost(pstrStartupcost, pstrCost, rows_out_str, width_str));
 }
@@ -2522,7 +2522,7 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 {
 	if (pdxln->GetOperator()->GetDXLOperator() == EdxlopScalarIdent)
 	{
-		const CDXLColRef *pdxlcr = CDXLScalarIdent::Cast(pdxln->GetOperator())->Pdxlcr();
+		const CDXLColRef *pdxlcr = CDXLScalarIdent::Cast(pdxln->GetOperator())->MakeDXLColRef();
 		pbs->ExchangeSet(pdxlcr->Id());
 	}
 

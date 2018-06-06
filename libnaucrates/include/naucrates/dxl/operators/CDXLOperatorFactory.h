@@ -276,7 +276,7 @@ namespace gpdxl
 
 			// create a scalar ArrayComp
 			static
-			CDXLScalar *PdxlopArrayComp(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLArrayComp(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a BoolExpr
 			static
@@ -319,7 +319,7 @@ namespace gpdxl
 
 			// create a scalar identifier operator
 			static
-			CDXLScalar *PdxlopScalarIdent(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLScalarIdent(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a scalar Const
 			static
@@ -343,40 +343,40 @@ namespace gpdxl
 
 			// create an array
 			static
-			CDXLScalar *PdxlopArray(CDXLMemoryManager *memory_manager_dxl, const Attributes &attr);
+			CDXLScalar *MakeDXLArray(CDXLMemoryManager *memory_manager_dxl, const Attributes &attr);
 
 			// create a proj elem
 			static
-			CDXLScalar *PdxlopProjElem(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLProjElem(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a hash expr 
 			static
-			CDXLScalar *PdxlopHashExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLHashExpr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a sort col
 			static
-			CDXLScalar *PdxlopSortCol(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeDXLSortCol(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create an object representing cost estimates of a physical operator
 			// from the parsed XML attributes
 			static
-			CDXLOperatorCost *GetOperatorCostDXL(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLOperatorCost *MakeDXLOperatorCost(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a table descriptor element
 			static
-			CDXLTableDescr *GetTableDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLTableDescr *MakeDXLTableDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create an index descriptor
 			static
-			CDXLIndexDescr *GetIndexDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLIndexDescr *MakeDXLIndexDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create a column descriptor object
 			static
-			CDXLColDescr *GetColumnDescrAt(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLColDescr *MakeDXLColumnDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a column reference object
 			static
-			CDXLColRef *Pdxlcr(CDXLMemoryManager *memory_manager_dxl, const Attributes &, Edxltoken);
+			CDXLColRef *MakeDXLColRef(CDXLMemoryManager *memory_manager_dxl, const Attributes &, Edxltoken);
 			
 			// create a logical join 
 			static
@@ -384,17 +384,17 @@ namespace gpdxl
 
 			// parse an output segment index
 			static
-			INT IOutputSegId(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			INT ParseOutputSegId(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// parse a grouping column id
 			static
-			ULONG UlGroupingColId(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			ULONG ParseGroupingColId(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// extracts the value for the given attribute.
 			// if there is no such attribute defined, and the given optional
 			// flag is set to false then it will raise an exception
 			static
-			const XMLCh *XmlstrFromAttrs
+			const XMLCh *ExtractAttrValue
 				(
 				const Attributes &,
 				Edxltoken edxltokenAttr,
@@ -405,7 +405,7 @@ namespace gpdxl
 			// extracts the boolean value for the given attribute
 			// will raise an exception if value cannot be converted to a boolean
 			static
-			BOOL FValueFromXmlstr
+			BOOL ConvertAttrValueToBool
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -458,7 +458,7 @@ namespace gpdxl
 			// converts the XMLCh into ULONG. Will raise an exception if the 
 			// argument cannot be converted to ULONG
 			static
-			ULONG UlValueFromXmlstr
+			ULONG ConvertAttrValueToUlong
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -469,7 +469,7 @@ namespace gpdxl
 			// converts the XMLCh into ULLONG. Will raise an exception if the
 			// argument cannot be converted to ULLONG
 			static
-			ULLONG UllValueFromXmlstr
+			ULLONG ConvertAttrValueToUllong
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -480,7 +480,7 @@ namespace gpdxl
 			// converts the XMLCh into INT. Will raise an exception if the 
 			// argument cannot be converted to INT
 			static
-			INT IValueFromXmlstr
+			INT ConvertAttrValueToInt
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -491,7 +491,7 @@ namespace gpdxl
 			// parse a INT value from the value for a given attribute
 			// will raise an exception if the argument cannot be converted to INT
 			static
-			INT IValueFromAttrs
+			INT ExtractConvertAttrValueToInt
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -504,7 +504,7 @@ namespace gpdxl
 			// converts the XMLCh into short int. Will raise an exception if the
 			// argument cannot be converted to short int
 			static
-			SINT SValueFromXmlstr
+			SINT ConvertAttrValueToShortInt
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -515,7 +515,7 @@ namespace gpdxl
 			// parse a short int value from the value for a given attribute
 			// will raise an exception if the argument cannot be converted to short int
 			static
-			SINT SValueFromAttrs
+			SINT ExtractConvertAttrValueToShortInt
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -528,7 +528,7 @@ namespace gpdxl
 			// converts the XMLCh into char. Will raise an exception if the
 			// argument cannot be converted to char
 			static
-			CHAR CValueFromXmlstr
+			CHAR ConvertAttrValueToChar
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -539,7 +539,7 @@ namespace gpdxl
 			// converts the XMLCh into oid. Will raise an exception if the
 			// argument cannot be converted to OID
 			static
-			OID OidValueFromXmlstr
+			OID ConvertAttrValueToOid
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -550,7 +550,7 @@ namespace gpdxl
 			// parse an oid value from the value for a given attribute
 			// will raise an exception if the argument cannot be converted to OID
 			static
-			OID OidValueFromAttrs
+			OID ExtractConvertAttrValueToOid
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -562,7 +562,7 @@ namespace gpdxl
 
 			// parse a bool value from the value for a given attribute
 			static
-			BOOL FValueFromAttrs
+			BOOL ExtractConvertAttrValueToBool
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -574,7 +574,7 @@ namespace gpdxl
 			
 			// parse a string value from the value for a given attribute
 			static
-			CHAR *SzValueFromAttrs
+			CHAR *ExtractConvertAttrValueToSz
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -586,7 +586,7 @@ namespace gpdxl
 
 			// parse a string value from the value for a given attribute
 			static
-			CHAR* SzValueFromXmlstr
+			CHAR* ConvertAttrValueToSz
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -596,7 +596,7 @@ namespace gpdxl
 			
 			// parse a string value from the value for a given attribute
 			static
-			CWStringDynamic *PstrValueFromAttrs
+			CWStringDynamic *ExtractConvertAttrValueToStr
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -607,7 +607,7 @@ namespace gpdxl
 			// parse a ULONG value from the value for a given attribute
 			// will raise an exception if the argument cannot be converted to ULONG
 			static
-			ULONG UlValueFromAttrs
+			ULONG ExtractConvertAttrValueToUlong
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -620,7 +620,7 @@ namespace gpdxl
 			// parse a ULLONG value from the value for a given attribute
 			// will raise an exception if the argument cannot be converted to ULLONG
 			static
-			ULLONG UllValueFromAttrs
+			ULLONG ExtractConvertAttrValueToUllong
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -765,7 +765,7 @@ namespace gpdxl
 				Edxltoken edxltokenElement
 				)
 			{
-				return PdrgptFromXMLCh<ULONG, CleanupDelete, UlValueFromXmlstr>
+				return PdrgptFromXMLCh<ULONG, CleanupDelete, ConvertAttrValueToUlong>
 						(
 						memory_manager_dxl,
 						xmlszUl,
@@ -783,7 +783,7 @@ namespace gpdxl
 				Edxltoken edxltokenElement
 				)
 			{
-				return PdrgptFromXMLCh<INT, CleanupDelete, IValueFromXmlstr>
+				return PdrgptFromXMLCh<INT, CleanupDelete, ConvertAttrValueToInt>
 						(
 						memory_manager_dxl,
 						xmlszUl,
@@ -863,15 +863,15 @@ namespace gpdxl
 			
 			// parse the frame boundary
 			static
-			EdxlFrameBoundary Edxlfb(const Attributes& attrs, Edxltoken token_type);
+			EdxlFrameBoundary ParseDXLFrameBoundary(const Attributes& attrs, Edxltoken token_type);
 
 			// parse the frame specification
 			static
-			EdxlFrameSpec Edxlfs(const Attributes& attrs);
+			EdxlFrameSpec ParseDXLFrameSpec(const Attributes& attrs);
 
 			// parse the frame exclusion strategy
 			static
-			EdxlFrameExclusionStrategy Edxlfes(const Attributes& attrs);
+			EdxlFrameExclusionStrategy ParseFrameExclusionStrategy(const Attributes& attrs);
 			
 			// parse comparison operator type
 			static

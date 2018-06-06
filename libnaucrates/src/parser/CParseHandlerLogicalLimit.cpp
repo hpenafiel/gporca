@@ -63,7 +63,7 @@ CParseHandlerLogicalLimit::StartElement
 		BOOL keep_limit = false;
 		if (non_removable_limit_str)
 		{
-			keep_limit = CDXLOperatorFactory::FValueFromXmlstr
+			keep_limit = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										non_removable_limit_str,

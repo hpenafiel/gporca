@@ -68,7 +68,7 @@ namespace gpdxl
 			~CParseHandlerCost();
 			
 			// returns operator cost constructed by the handler
-			CDXLOperatorCost *GetOperatorCostDXL();
+			CDXLOperatorCost *MakeDXLOperatorCost();
 						
 	};
 }

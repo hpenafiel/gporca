@@ -69,7 +69,7 @@ CParseHandlerPhysicalRowTrigger::StartElement
 
 	IMDId *pmdidRel = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalRowTrigger);
 
-	INT iType = CDXLOperatorFactory::IValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
+	INT iType = CDXLOperatorFactory::ExtractConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
 
 	const XMLCh *xmlszOldColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOldCols));
 	ULongPtrArray *pdrgpulOld = NULL;

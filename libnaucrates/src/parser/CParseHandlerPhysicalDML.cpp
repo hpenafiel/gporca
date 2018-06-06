@@ -91,18 +91,18 @@ CParseHandlerPhysicalDML::StartElement
 		m_dml_type_dxl = Edxldmlupdate;
 	}
 
-	const XMLCh *src_colids_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenColumns, token_type);
+	const XMLCh *src_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenColumns, token_type);
 	m_src_colids_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), src_colids_xml, EdxltokenColumns, token_type);
 	
-	m_action_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenActionColId, token_type);
-	m_oid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidColId, token_type);
-	m_ctid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtidColId, token_type);
-	m_segid_colid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, token_type);
+	m_action_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenActionColId, token_type);
+	m_oid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidColId, token_type);
+	m_ctid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtidColId, token_type);
+	m_segid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, token_type);
 
 	const XMLCh *preserve_oids_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != preserve_oids_xml)
 	{
-		m_preserve_oids = CDXLOperatorFactory::FValueFromXmlstr
+		m_preserve_oids = CDXLOperatorFactory::ConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											preserve_oids_xml,
@@ -113,13 +113,13 @@ CParseHandlerPhysicalDML::StartElement
 	
 	if (m_preserve_oids)
 	{
-		m_tuple_oid_col_oid = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalDMLUpdate);
+		m_tuple_oid_col_oid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTupleOidColId, EdxltokenPhysicalDMLUpdate);
 	}
 
 	const XMLCh *input_sort_req_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenInputSorted));
 	if (NULL != input_sort_req_xml)
 	{
-		m_input_sort_req = CDXLOperatorFactory::FValueFromXmlstr
+		m_input_sort_req = CDXLOperatorFactory::ConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											input_sort_req_xml,
@@ -192,8 +192,8 @@ CParseHandlerPhysicalDML::EndElement
 	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
-	GPOS_ASSERT(NULL != table_descr_parse_handler->GetTableDescr());
-	CDXLTableDescr *table_descr = table_descr_parse_handler->GetTableDescr();
+	GPOS_ASSERT(NULL != table_descr_parse_handler->MakeDXLTableDescr());
+	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
 	table_descr->AddRef();
 
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);

@@ -82,7 +82,7 @@ CParseHandlerCTEConfig::StartElement
 	}
 
 	// parse CTE configuration options
-	ULONG ulCTEInliningCutoff = CDXLOperatorFactory::UlValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCTEInliningCutoff, EdxltokenCTEConfig);
+	ULONG ulCTEInliningCutoff = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCTEInliningCutoff, EdxltokenCTEConfig);
 
 	m_pcteconf = GPOS_NEW(m_memory_pool) CCTEConfig(ulCTEInliningCutoff);
 }

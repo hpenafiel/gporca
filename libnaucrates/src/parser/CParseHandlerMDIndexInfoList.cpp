@@ -69,7 +69,7 @@ CParseHandlerMDIndexInfoList::StartElement
 		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndexInfo);
 
 		// parse index partial info
-		BOOL fPartial = CDXLOperatorFactory::FValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIndexPartial, EdxltokenIndexInfo);
+		BOOL fPartial = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIndexPartial, EdxltokenIndexInfo);
 
 		CMDIndexInfo *pmdIndexInfo = GPOS_NEW(m_memory_pool) CMDIndexInfo
 								(

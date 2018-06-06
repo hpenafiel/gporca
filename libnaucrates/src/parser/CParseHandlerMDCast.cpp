@@ -66,7 +66,7 @@ CParseHandlerMDCast::StartElement
 	}
 	
 	// parse func name
-	const XMLCh *xmlszFuncName = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszFuncName = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenName,
@@ -110,7 +110,7 @@ CParseHandlerMDCast::StartElement
 									);
 
 	// parse whether func returns a set
-	BOOL fBinaryCoercible = CDXLOperatorFactory::FValueFromAttrs
+	BOOL fBinaryCoercible = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -119,7 +119,7 @@ CParseHandlerMDCast::StartElement
 											);
 
 	IMDCast::EmdCoercepathType eCoercePathType = (IMDCast::EmdCoercepathType)
-													CDXLOperatorFactory::IValueFromAttrs
+													CDXLOperatorFactory::ExtractConvertAttrValueToInt
 															(
 															m_parse_handler_mgr->GetDXLMemoryManager(),
 															attrs,

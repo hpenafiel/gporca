@@ -66,7 +66,7 @@ CParseHandlerMDScCmp::StartElement
 	}
 	
 	// parse operator name
-	const XMLCh *xmlszOpName = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszOpName = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenName,
@@ -110,7 +110,7 @@ CParseHandlerMDScCmp::StartElement
 									);
 		
 	// parse comparison type
-	const XMLCh *xmlszCmpType = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *xmlszCmpType = CDXLOperatorFactory::ExtractAttrValue
 								(
 								attrs,
 								EdxltokenGPDBScalarOpCmpType,

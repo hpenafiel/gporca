@@ -80,7 +80,7 @@ CParseHandlerScalarSubPlanParam::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	m_pdxlcr = CDXLOperatorFactory::Pdxlcr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenScalarSubPlanParam);
+	m_pdxlcr = CDXLOperatorFactory::MakeDXLColRef(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenScalarSubPlanParam);
 }
 
 //---------------------------------------------------------------------------

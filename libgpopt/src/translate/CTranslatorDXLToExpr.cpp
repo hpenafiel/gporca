@@ -268,7 +268,7 @@ CTranslatorDXLToExpr::Pexpr
 		CDXLScalarIdent *pdxlopIdent = CDXLScalarIdent::Cast(pdxlnIdent->GetOperator());
 
 		// get the dxl column reference
-		const CDXLColRef *pdxlcr = pdxlopIdent->Pdxlcr();
+		const CDXLColRef *pdxlcr = pdxlopIdent->MakeDXLColRef();
 		GPOS_ASSERT(NULL != pdxlcr);
 		const ULONG col_id = pdxlcr->Id();
 
@@ -459,7 +459,7 @@ CTranslatorDXLToExpr::PexprLogicalTVF
 
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
-		const CDXLColDescr *pdxlcoldesc = dxl_op->GetColumnDescrAt(ul);
+		const CDXLColDescr *pdxlcoldesc = dxl_op->MakeDXLColumnDescr(ul);
 		GPOS_ASSERT(pdxlcoldesc->MDIdType()->IsValid());
 
 		const IMDType *pmdtype = m_pmda->Pmdtype(pdxlcoldesc->MDIdType());
@@ -537,7 +537,7 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	Edxlopid edxlopid = dxl_op->GetDXLOperator();
 
 	// translate the table descriptor
-	CDXLTableDescr *table_descr = CDXLLogicalGet::Cast(dxl_op)->GetTableDescr();
+	CDXLTableDescr *table_descr = CDXLLogicalGet::Cast(dxl_op)->MakeDXLTableDescr();
 
 	GPOS_ASSERT(NULL != table_descr);
 	GPOS_ASSERT(NULL != table_descr->MdName()->GetMDName());
@@ -604,7 +604,7 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	for(ULONG ul = 0; ul < ulColumns ; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		const CDXLColDescr *pdxlcd = table_descr->GetColumnDescrAt(ul);
+		const CDXLColDescr *pdxlcd = table_descr->MakeDXLColumnDescr(ul);
 		GPOS_ASSERT(NULL != pcr);
 		GPOS_ASSERT(NULL != pdxlcd && !pdxlcd-> IsDropped());
 
@@ -815,7 +815,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 		const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
 
 		// corresponding output column descriptor
-		const CDXLColDescr *pdxlcdOutput = dxl_op->GetColumnDescrAt(ulColPos);
+		const CDXLColDescr *pdxlcdOutput = dxl_op->MakeDXLColumnDescr(ulColPos);
 
 		// check if a cast function needs to be introduced
 		IMDId *pmdidSource = pcr->Pmdtype()->MDId();
@@ -951,7 +951,7 @@ CTranslatorDXLToExpr::PdrgpexprPreprocessSetOpInputs
 	// create the set operation's array of output column identifiers
 	for (ULONG ulOutputColPos = 0; ulOutputColPos < ulOutputCols; ulOutputColPos++)
 	{
-		const CDXLColDescr *pdxlcdOutput = dxl_op->GetColumnDescrAt(ulOutputColPos);
+		const CDXLColDescr *pdxlcdOutput = dxl_op->MakeDXLColumnDescr(ulOutputColPos);
 		pdrgpulOutput->Append(GPOS_NEW(m_memory_pool) ULONG (pdxlcdOutput->Id()));
 	}
 	
@@ -1412,7 +1412,7 @@ CTranslatorDXLToExpr::PexprLogicalInsert
 	CDXLNode *child_dxlnode = (*pdxln)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopInsert->GetTableDescr());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopInsert->MakeDXLTableDescr());
 
 	ULongPtrArray *pdrgpulSourceCols = pdxlopInsert->GetSrcColIdsArray();
 	DrgPcr *pdrgpcr = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulSourceCols);
@@ -1446,7 +1446,7 @@ CTranslatorDXLToExpr::PexprLogicalDelete
 	CDXLNode *child_dxlnode = (*pdxln)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopDelete->GetTableDescr());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopDelete->MakeDXLTableDescr());
 
 	ULONG ctid_colid = pdxlopDelete->GetCtIdColId();
 	ULONG segid_colid = pdxlopDelete->GetSegmentIdColId();
@@ -1486,7 +1486,7 @@ CTranslatorDXLToExpr::PexprLogicalUpdate
 	CDXLNode *child_dxlnode = (*pdxln)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopUpdate->GetTableDescr());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopUpdate->MakeDXLTableDescr());
 
 	ULONG ctid_colid = pdxlopUpdate->GetCtIdColId();
 	ULONG segid_colid = pdxlopUpdate->GetSegmentIdColId();
@@ -1866,8 +1866,8 @@ CTranslatorDXLToExpr::Pwf
 	CDXLNode *pdxlnTrail = window_frame->PdxlnTrailing();
 	CDXLNode *pdxlnLead = window_frame->PdxlnLeading();
 
-	CWindowFrame::EFrameBoundary efbLead = Efb(CDXLScalarWindowFrameEdge::Cast(pdxlnLead->GetOperator())->Edxlfb());
-	CWindowFrame::EFrameBoundary efbTrail = Efb(CDXLScalarWindowFrameEdge::Cast(pdxlnTrail->GetOperator())->Edxlfb());
+	CWindowFrame::EFrameBoundary efbLead = Efb(CDXLScalarWindowFrameEdge::Cast(pdxlnLead->GetOperator())->ParseDXLFrameBoundary());
+	CWindowFrame::EFrameBoundary efbTrail = Efb(CDXLScalarWindowFrameEdge::Cast(pdxlnTrail->GetOperator())->ParseDXLFrameBoundary());
 
 	CExpression *pexprTrail = NULL;
 	if (0 != pdxlnTrail->Arity())
@@ -1881,9 +1881,9 @@ CTranslatorDXLToExpr::Pwf
 		pexprLead = Pexpr((*pdxlnLead)[0]);
 	}
 
-	CWindowFrame::EFrameExclusionStrategy efes = Efes(window_frame->Edxlfes());
+	CWindowFrame::EFrameExclusionStrategy efes = Efes(window_frame->ParseFrameExclusionStrategy());
 	CWindowFrame::EFrameSpec efs = CWindowFrame::EfsRows;
-	if (EdxlfsRange == window_frame->Edxlfs())
+	if (EdxlfsRange == window_frame->ParseDXLFrameSpec())
 	{
 		efs = CWindowFrame::EfsRange;
 	}
@@ -2107,7 +2107,7 @@ CTranslatorDXLToExpr::Ptabdesc
 	const ULONG ulColumns = table_descr->Arity();
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
-		const CDXLColDescr *pdxlcoldesc = table_descr->GetColumnDescrAt(ul);
+		const CDXLColDescr *pdxlcoldesc = table_descr->MakeDXLColumnDescr(ul);
 		INT iAttno = pdxlcoldesc->AttrNum();
 
 		ULONG *pulPos = phmiulAttnoPosMapping->Find(&iAttno);
@@ -3346,7 +3346,7 @@ CTranslatorDXLToExpr::PexprScalarIdent
 	CDXLScalarIdent *dxl_op = CDXLScalarIdent::Cast(pdxlnIdent->GetOperator());
 
 	// get the dxl column reference
-	const CDXLColRef *pdxlcr = dxl_op->Pdxlcr();
+	const CDXLColRef *pdxlcr = dxl_op->MakeDXLColRef();
 	const ULONG col_id = pdxlcr->Id();
 
 	// get its column reference from the hash map

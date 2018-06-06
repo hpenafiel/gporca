@@ -76,7 +76,7 @@ namespace gpdxl
 			}
 
 			// return the dxl representation the frame boundary
-			EdxlFrameBoundary Edxlfb() const
+			EdxlFrameBoundary ParseDXLFrameBoundary() const
 			{
 				return m_edxlfb;
 			}

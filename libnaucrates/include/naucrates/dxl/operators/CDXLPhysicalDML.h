@@ -115,7 +115,7 @@ namespace gpdxl
 			}
 
 			// target table descriptor 
-			CDXLTableDescr *GetTableDescr() const
+			CDXLTableDescr *MakeDXLTableDescr() const
 			{
 				return m_table_descr_dxl;
 			}

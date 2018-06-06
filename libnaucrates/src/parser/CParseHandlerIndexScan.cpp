@@ -115,7 +115,7 @@ CParseHandlerIndexScan::StartElementHelper
 	}
 
 	// get the index scan direction from the attribute
-	const XMLCh *index_scan_direction = CDXLOperatorFactory::XmlstrFromAttrs
+	const XMLCh *index_scan_direction = CDXLOperatorFactory::ExtractAttrValue
 																	(
 																	attrs,
 																	EdxltokenIndexScanDirection,
@@ -200,10 +200,10 @@ CParseHandlerIndexScan::EndElementHelper
 	CParseHandlerIndexDescr *index_descr_parse_handler = dynamic_cast<CParseHandlerIndexDescr *>((*this)[4]);
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr *>((*this)[5]);
 
-	CDXLTableDescr *table_descr_dxl = table_descr_parse_handler->GetTableDescr();
+	CDXLTableDescr *table_descr_dxl = table_descr_parse_handler->MakeDXLTableDescr();
 	table_descr_dxl->AddRef();
 
-	CDXLIndexDescr *index_descr_dxl = index_descr_parse_handler->GetIndexDescr();
+	CDXLIndexDescr *index_descr_dxl = index_descr_parse_handler->MakeDXLIndexDescr();
 	index_descr_dxl->AddRef();
 
 	CDXLPhysical *dxl_op = NULL;

@@ -82,7 +82,7 @@ CParseHandlerStatsDerivedColumn::StartElement
 		GPOS_ASSERT(0 == this->Length());
 
 		// parse column id
-		m_ulColId = CDXLOperatorFactory::UlValueFromAttrs
+		m_ulColId = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,

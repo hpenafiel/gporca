@@ -65,7 +65,7 @@ CParseHandlerLogicalInsert::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 	
-	const XMLCh *src_colids_xml = CDXLOperatorFactory::XmlstrFromAttrs(attrs, EdxltokenInsertCols, EdxltokenLogicalInsert);
+	const XMLCh *src_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenInsertCols, EdxltokenLogicalInsert);
 	m_pdrgpul = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), src_colids_xml, EdxltokenInsertCols, EdxltokenLogicalInsert);
 	
 	// create child node parsers
@@ -110,10 +110,10 @@ CParseHandlerLogicalInsert::EndElement
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[0]);
 	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	GPOS_ASSERT(NULL != pphTabDesc->GetTableDescr());
+	GPOS_ASSERT(NULL != pphTabDesc->MakeDXLTableDescr());
 	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 
-	CDXLTableDescr *table_descr = pphTabDesc->GetTableDescr();
+	CDXLTableDescr *table_descr = pphTabDesc->MakeDXLTableDescr();
 	table_descr->AddRef();
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode

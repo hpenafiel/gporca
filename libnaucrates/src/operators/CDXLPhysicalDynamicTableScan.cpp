@@ -88,14 +88,14 @@ CDXLPhysicalDynamicTableScan::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLPhysicalDynamicTableScan::GetTableDescr
+//		CDXLPhysicalDynamicTableScan::MakeDXLTableDescr
 //
 //	@doc:
 //		Table descriptor for the table scan
 //
 //---------------------------------------------------------------------------
 const CDXLTableDescr *
-CDXLPhysicalDynamicTableScan::GetTableDescr() const
+CDXLPhysicalDynamicTableScan::MakeDXLTableDescr() const
 {
 	return m_table_descr_dxl;
 }

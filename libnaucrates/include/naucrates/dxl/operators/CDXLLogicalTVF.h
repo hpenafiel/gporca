@@ -95,7 +95,7 @@ namespace gpdxl
 			}
 
 			// get the column descriptor at the given position
-			const CDXLColDescr *GetColumnDescrAt(ULONG ul) const;
+			const CDXLColDescr *MakeDXLColumnDescr(ULONG ul) const;
 
 			// check if given column is defined by operator
 			virtual

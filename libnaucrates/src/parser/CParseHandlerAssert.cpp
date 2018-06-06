@@ -67,7 +67,7 @@ CParseHandlerAssert::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 		
-	CHAR *error_code = CDXLOperatorFactory::SzValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
+	CHAR *error_code = CDXLOperatorFactory::ExtractConvertAttrValueToSz(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenErrorCode, EdxltokenPhysicalAssert);
 	if (NULL == error_code || GPOS_SQLSTATE_LENGTH != clib::StrLen(error_code))
 	{
 		GPOS_RAISE
