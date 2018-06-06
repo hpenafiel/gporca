@@ -104,7 +104,7 @@ void
 CDXLScalarHashExpr::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -113,7 +113,7 @@ CDXLScalarHashExpr::SerializeToDXL
 
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -129,13 +129,13 @@ CDXLScalarHashExpr::SerializeToDXL
 void
 CDXLScalarHashExpr::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children 
 	) 
 	const
 {
-	GPOS_ASSERT(1 == pdxln->Arity());
-	CDXLNode *child_dxlnode = (*pdxln)[0];
+	GPOS_ASSERT(1 == node->Arity());
+	CDXLNode *child_dxlnode = (*node)[0];
 	
 	GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
