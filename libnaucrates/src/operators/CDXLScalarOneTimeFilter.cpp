@@ -79,7 +79,7 @@ void
 CDXLScalarOneTimeFilter::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode * dxlnode
+	const CDXLNode *dxlnode
 	)
 	const
 {
