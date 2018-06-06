@@ -66,16 +66,16 @@ CParseHandlerScalarSwitchCase::StartElement
 	// order of their expected appearance
 
 	// parse handler for result expression
-	CParseHandlerBase *pphResult = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphResult);
+	CParseHandlerBase *parse_handler_result = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_result);
 
 	// parse handler for condition expression
-	CParseHandlerBase *pphCond = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphCond);
+	CParseHandlerBase *parse_handler_condition_expr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_condition_expr);
 
 	// store parse handlers
-	this->Append(pphCond);
-	this->Append(pphResult);
+	this->Append(parse_handler_condition_expr);
+	this->Append(parse_handler_result);
 }
 
 //---------------------------------------------------------------------------
@@ -103,12 +103,12 @@ CParseHandlerScalarSwitchCase::EndElement
 	// construct node
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSwitchCase(m_memory_pool));
 
-	CParseHandlerScalarOp *pphCond = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-	CParseHandlerScalarOp *pphResult = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
+	CParseHandlerScalarOp *parse_handler_condition_expr = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+	CParseHandlerScalarOp *parse_handler_result = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
 
 	// add constructed children
-	AddChildFromParseHandler(pphCond);
-	AddChildFromParseHandler(pphResult);
+	AddChildFromParseHandler(parse_handler_condition_expr);
+	AddChildFromParseHandler(parse_handler_result);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

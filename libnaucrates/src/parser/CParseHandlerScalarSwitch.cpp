@@ -39,8 +39,8 @@ CParseHandlerScalarSwitch::CParseHandlerScalarSwitch
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_mdid_type(NULL),
-	m_fArgProcessed(false),
-	m_fDefaultProcessed(false)
+	m_arg_processed(false),
+	m_default_val_processed(false)
 {
 }
 
@@ -73,20 +73,20 @@ CParseHandlerScalarSwitch::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), element_local_name))
 	{
 		// we must have already seen the arg child, but have not seen the DEFAULT child
-		GPOS_ASSERT(NULL != m_dxl_node && m_fArgProcessed && !m_fDefaultProcessed);
+		GPOS_ASSERT(NULL != m_dxl_node && m_arg_processed && !m_default_val_processed);
 
 		// parse case
-		CParseHandlerBase *pphCase = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphCase);
+		CParseHandlerBase *parse_handler_case = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSwitchCase), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_case);
 
 		// store parse handlers
-		this->Append(pphCase);
+		this->Append(parse_handler_case);
 
-		pphCase->startElement(element_uri, element_local_name, element_qname, attrs);
+		parse_handler_case->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
-		GPOS_ASSERT(NULL != m_dxl_node && !m_fDefaultProcessed);
+		GPOS_ASSERT(NULL != m_dxl_node && !m_default_val_processed);
 
 		// parse scalar child
 		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
@@ -97,15 +97,15 @@ CParseHandlerScalarSwitch::StartElement
 
 		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 
-		if (!m_fArgProcessed)
+		if (!m_arg_processed)
 		{
 			// this child was the arg child
-			m_fArgProcessed = true;
+			m_arg_processed = true;
 		}
 		else
 		{
 			// that was the default expr child
-			m_fDefaultProcessed = true;
+			m_default_val_processed = true;
 		}
 	}
 }
@@ -132,10 +132,10 @@ CParseHandlerScalarSwitch::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulChildren = this->Length();
-	GPOS_ASSERT(1 < ulChildren);
+	const ULONG arity = this->Length();
+	GPOS_ASSERT(1 < arity);
 
-	for (ULONG ul = 0; ul < ulChildren ; ul++)
+	for (ULONG ul = 0; ul < arity ; ul++)
 	{
 		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
 		AddChildFromParseHandler(child_parse_handler);
