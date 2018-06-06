@@ -76,13 +76,13 @@ void
 CDXLScalarSortColList::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -98,15 +98,15 @@ CDXLScalarSortColList::SerializeToDXL
 void
 CDXLScalarSortColList::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) 
 	const
 {
-	const ULONG arity = pdxln->Arity();
+	const ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
-		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		CDXLNode *child_dxlnode = (*dxlnode)[ul];
 		GPOS_ASSERT(EdxlopScalarSortCol == child_dxlnode->GetOperator()->GetDXLOperator());
 		
 		if (validate_children)

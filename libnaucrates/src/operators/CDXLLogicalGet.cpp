@@ -106,7 +106,7 @@ void
 CDXLLogicalGet::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *//pdxln
+	const CDXLNode *//dxlnode
 	)
 	const
 {
@@ -160,7 +160,7 @@ CDXLLogicalGet::IsColDefined
 void
 CDXLLogicalGet::AssertValid
 	(
-	const CDXLNode *, //pdxln
+	const CDXLNode *, //dxlnode
 	BOOL // validate_children
 	) const
 {

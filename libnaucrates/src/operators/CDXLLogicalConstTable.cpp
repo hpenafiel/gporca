@@ -140,7 +140,7 @@ void
 CDXLLogicalConstTable::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *//pdxln
+	const CDXLNode *//dxlnode
 	)
 	const
 {

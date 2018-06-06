@@ -93,7 +93,7 @@ void
 CDXLPhysicalSort::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -104,10 +104,10 @@ CDXLPhysicalSort::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortDiscardDuplicates), m_fDiscardDuplicates);
 	
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	dxlnode->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
@@ -124,19 +124,19 @@ CDXLPhysicalSort::SerializeToDXL
 void
 CDXLPhysicalSort::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, validate_children);
+	CDXLPhysical::AssertValid(dxlnode, validate_children);
 	
-	GPOS_ASSERT(EdxlsortIndexSentinel == pdxln->Arity());
+	GPOS_ASSERT(EdxlsortIndexSentinel == dxlnode->Arity());
 	
-	CDXLNode *sort_col_list_dxl = (*pdxln)[EdxlsortIndexSortColList];
-	CDXLNode *child_dxlnode = (*pdxln)[EdxlsortIndexChild];
-	CDXLNode *pdxlnLimitCount = (*pdxln)[EdxlsortIndexLimitCount];
-	CDXLNode *pdxlnLimitOffset = (*pdxln)[EdxlsortIndexLimitOffset];
+	CDXLNode *sort_col_list_dxl = (*dxlnode)[EdxlsortIndexSortColList];
+	CDXLNode *child_dxlnode = (*dxlnode)[EdxlsortIndexChild];
+	CDXLNode *pdxlnLimitCount = (*dxlnode)[EdxlsortIndexLimitCount];
+	CDXLNode *pdxlnLimitOffset = (*dxlnode)[EdxlsortIndexLimitOffset];
 	
 	// assert children are of right type (physical/scalar)
 	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->GetOperator()->GetDXLOperatorType());

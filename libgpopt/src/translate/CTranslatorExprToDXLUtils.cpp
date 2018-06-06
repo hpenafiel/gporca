@@ -170,10 +170,10 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTest
 
 	if (1 == dxl_array->Size())
 	{
-		CDXLNode *pdxln = (*dxl_array)[0];
-		pdxln->AddRef();
+		CDXLNode *dxlnode = (*dxl_array)[0];
+		dxlnode->AddRef();
 		dxl_array->Release();
-		return pdxln;
+		return dxlnode;
 	}
 
 	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxland), dxl_array);
@@ -296,8 +296,8 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestConjDisj
 	for (ULONG ul = 0; ul < length; ul++)
 	{
 		CConstraint *pcnstr = (*pdrgpcnstr)[ul];
-		CDXLNode *pdxln = PdxlnPartialScanTest(memory_pool, md_accessor, pcf, pcnstr, pdrgpdrgpcrPartKeys, fRangePart);
-		pdxlnResult->AddChild(pdxln);
+		CDXLNode *dxlnode = PdxlnPartialScanTest(memory_pool, md_accessor, pcf, pcnstr, pdrgpdrgpcrPartKeys, fRangePart);
+		pdxlnResult->AddChild(dxlnode);
 	}
 	
 	return pdxlnResult;
@@ -1164,13 +1164,13 @@ CDXLPhysicalProperties *
 CTranslatorExprToDXLUtils::PdxlpropCopy
 	(
 	IMemoryPool *memory_pool,
-	CDXLNode *pdxln
+	CDXLNode *dxlnode
 	)
 {
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != dxlnode);
 
-	GPOS_ASSERT(NULL != pdxln->GetProperties());
-	CDXLPhysicalProperties *dxl_properties = CDXLPhysicalProperties::PdxlpropConvert(pdxln->GetProperties());
+	GPOS_ASSERT(NULL != dxlnode->GetProperties());
+	CDXLPhysicalProperties *dxl_properties = CDXLPhysicalProperties::PdxlpropConvert(dxlnode->GetProperties());
 
 	CWStringDynamic *pstrStartupcost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->MakeDXLOperatorCost()->GetStartUpCostStr()->GetBuffer());
 	CWStringDynamic *pstrCost = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, dxl_properties->MakeDXLOperatorCost()->GetTotalCostStr()->GetBuffer());
@@ -1305,14 +1305,14 @@ BOOL
 CTranslatorExprToDXLUtils::FScalarConstTrue
 	(
 	CMDAccessor *md_accessor,
-	CDXLNode *pdxln
+	CDXLNode *dxlnode
 	)
 {
-	GPOS_ASSERT(NULL != pdxln);
-	if (EdxlopScalarConstValue == pdxln->GetOperator()->GetDXLOperator())
+	GPOS_ASSERT(NULL != dxlnode);
+	if (EdxlopScalarConstValue == dxlnode->GetOperator()->GetDXLOperator())
 	{
 		CDXLScalarConstValue *pdxlopConst =
-				CDXLScalarConstValue::Cast(pdxln->GetOperator());
+				CDXLScalarConstValue::Cast(dxlnode->GetOperator());
 
 		const IMDType *pmdtype = md_accessor->Pmdtype(pdxlopConst->GetDatumVal()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
@@ -1338,14 +1338,14 @@ BOOL
 CTranslatorExprToDXLUtils::FScalarConstFalse
 	(
 	CMDAccessor *md_accessor,
-	CDXLNode *pdxln
+	CDXLNode *dxlnode
 	)
 {
-	GPOS_ASSERT(NULL != pdxln);
-	if (EdxlopScalarConstValue == pdxln->GetOperator()->GetDXLOperator())
+	GPOS_ASSERT(NULL != dxlnode);
+	if (EdxlopScalarConstValue == dxlnode->GetOperator()->GetDXLOperator())
 	{
 		CDXLScalarConstValue *pdxlopConst =
-				CDXLScalarConstValue::Cast(pdxln->GetOperator());
+				CDXLScalarConstValue::Cast(dxlnode->GetOperator());
 
 		const IMDType *pmdtype = md_accessor->Pmdtype(pdxlopConst->GetDatumVal()->MDId());
 		if (IMDType::EtiBool ==  pmdtype->Eti())
@@ -1539,11 +1539,11 @@ CTranslatorExprToDXLUtils::ReplaceSubplan
 	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pdxlopPrEl->PmdnameAlias()->GetMDName());
 	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pdxlopPrEl->UlId(), mdid_type, pcr->TypeModifier());
 	CDXLScalarIdent *pdxlnScId = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, dxl_colref);
-	CDXLNode *pdxln = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlnScId);
+	CDXLNode *dxlnode = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlnScId);
 #ifdef GPOS_DEBUG
 	BOOL fReplaced =
 #endif // GPOS_DEBUG
-		phmcrdxlnSubplans->Replace(pcr, pdxln);
+		phmcrdxlnSubplans->Replace(pcr, dxlnode);
 	GPOS_ASSERT(fReplaced);
 }
 
@@ -1615,12 +1615,12 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 	GPOS_ASSERT(NULL != pcr);
 	GPOS_ASSERT(NULL != phmcrdxlnSubplans);
 	
-	CDXLNode *pdxln = phmcrdxlnSubplans->Find(pcr);
+	CDXLNode *dxlnode = phmcrdxlnSubplans->Find(pcr);
 
-	if (NULL != pdxln)
+	if (NULL != dxlnode)
 	{
-		pdxln->AddRef();
-		return pdxln;
+		dxlnode->AddRef();
+		return dxlnode;
 	}
 
 	if (NULL != phmcrdxlnIndexLookup)
@@ -1980,7 +1980,7 @@ CTranslatorExprToDXLUtils::SetStats
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor,
-	CDXLNode *pdxln,
+	CDXLNode *dxlnode,
 	const IStatistics *pstats,
 	BOOL fRoot
 	)
@@ -1989,7 +1989,7 @@ CTranslatorExprToDXLUtils::SetStats
 		(GPOS_FTRACE(EopttraceExtractDXLStatsAllNodes) || fRoot)
 		)
 	{
-		CDXLPhysicalProperties::PdxlpropConvert(pdxln->GetProperties())->SetStats(pstats->Pdxlstatsderrel(memory_pool, md_accessor));
+		CDXLPhysicalProperties::PdxlpropConvert(dxlnode->GetProperties())->SetStats(pstats->Pdxlstatsderrel(memory_pool, md_accessor));
 	}
 }
 
@@ -2007,16 +2007,16 @@ CTranslatorExprToDXLUtils::SetDirectDispatchInfo
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor,
-	CDXLNode *pdxln,
+	CDXLNode *dxlnode,
 	CDrvdPropRelational *pdpRel,
 	DrgPds *pdrgpdsBaseTables
 	)
 {
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != dxlnode);
 	GPOS_ASSERT(NULL != pdpRel);
 	GPOS_ASSERT(NULL != pdrgpdsBaseTables);
 	
-	Edxlopid edxlopid = pdxln->GetOperator()->GetDXLOperator();
+	Edxlopid edxlopid = dxlnode->GetOperator()->GetDXLOperator();
 	if (EdxlopPhysicalCTAS == edxlopid || EdxlopPhysicalDML == edxlopid || EdxlopPhysicalRowTrigger == edxlopid)
 	{
 		// direct dispatch for CTAS and DML handled elsewhere
@@ -2053,7 +2053,7 @@ CTranslatorExprToDXLUtils::SetDirectDispatchInfo
 	
 	if (NULL != dxl_direct_dispatch_info)
 	{
-		pdxln->SetDirectDispatchInfo(dxl_direct_dispatch_info);
+		dxlnode->SetDirectDispatchInfo(dxl_direct_dispatch_info);
 	}
 }
 
@@ -2458,26 +2458,26 @@ CTranslatorExprToDXLUtils::FDXLOpExists
 BOOL
 CTranslatorExprToDXLUtils::FHasDXLOp
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	const gpdxl::Edxlopid *peopid,
 	ULONG ulOps
 	)
 {
 	GPOS_CHECK_STACK_SIZE;
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != dxlnode);
 	GPOS_ASSERT(NULL != peopid);
 
-	if (FDXLOpExists(pdxln->GetOperator(), peopid, ulOps))
+	if (FDXLOpExists(dxlnode->GetOperator(), peopid, ulOps))
 	{
 		return true;
 	}
 
 	// recursively check children
-	const ULONG arity = pdxln->Arity();
+	const ULONG arity = dxlnode->Arity();
 
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
-		if (FHasDXLOp((*pdxln)[ul], peopid, ulOps))
+		if (FHasDXLOp((*dxlnode)[ul], peopid, ulOps))
 		{
 			return true;
 		}
@@ -2516,20 +2516,20 @@ CTranslatorExprToDXLUtils::FProjListContainsSubplanWithBroadCast
 void
 CTranslatorExprToDXLUtils::ExtractIdentColIds
 	(
-	CDXLNode *pdxln,
+	CDXLNode *dxlnode,
 	CBitSet *pbs
 	)
 {
-	if (pdxln->GetOperator()->GetDXLOperator() == EdxlopScalarIdent)
+	if (dxlnode->GetOperator()->GetDXLOperator() == EdxlopScalarIdent)
 	{
-		const CDXLColRef *dxl_colref = CDXLScalarIdent::Cast(pdxln->GetOperator())->MakeDXLColRef();
+		const CDXLColRef *dxl_colref = CDXLScalarIdent::Cast(dxlnode->GetOperator())->MakeDXLColRef();
 		pbs->ExchangeSet(dxl_colref->Id());
 	}
 
-	ULONG arity = pdxln->Arity();
+	ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
-		ExtractIdentColIds((*pdxln)[ul], pbs);
+		ExtractIdentColIds((*dxlnode)[ul], pbs);
 	}
 }
 
@@ -2537,7 +2537,7 @@ BOOL
 CTranslatorExprToDXLUtils::FMotionHazard
 	(
 	IMemoryPool *memory_pool,
-	CDXLNode *pdxln,
+	CDXLNode *dxlnode,
 	const gpdxl::Edxlopid *peopid,
 	ULONG ulOps,
 	CBitSet *pbsPrjCols
@@ -2547,16 +2547,16 @@ CTranslatorExprToDXLUtils::FMotionHazard
 
 	// non-streaming operator/Gather motion neutralizes any motion hazard that its subtree imposes
 	// hence stop recursing further
-	if (FMotionHazardSafeOp(pdxln))
+	if (FMotionHazardSafeOp(dxlnode))
 		return false;
 
-	if (FDXLOpExists(pdxln->GetOperator(), peopid, ulOps))
+	if (FDXLOpExists(dxlnode->GetOperator(), peopid, ulOps))
 	{
 		// check if the current motion node projects any column from the
 		// input project list.
 		// If yes, then we have detected a motion hazard for the parent Result node.
 		CBitSet *pbsPrjList = GPOS_NEW(memory_pool) CBitSet(memory_pool);
-		ExtractIdentColIds((*pdxln)[0], pbsPrjList);
+		ExtractIdentColIds((*dxlnode)[0], pbsPrjList);
 		BOOL fDisJoint = pbsPrjCols->IsDisjoint(pbsPrjList);
 		pbsPrjList->Release();
 
@@ -2564,13 +2564,13 @@ CTranslatorExprToDXLUtils::FMotionHazard
 	}
 
 	// recursively check children
-	const ULONG arity = pdxln->Arity();
+	const ULONG arity = dxlnode->Arity();
 
 	// In ORCA, inner child of Hash Join is always exhausted first,
 	// so only check the outer child for motions
-	if (pdxln->GetOperator()->GetDXLOperator() == EdxlopPhysicalHashJoin)
+	if (dxlnode->GetOperator()->GetDXLOperator() == EdxlopPhysicalHashJoin)
 	{
-		if (FMotionHazard(memory_pool, (*pdxln)[EdxlhjIndexHashLeft], peopid, ulOps, pbsPrjCols))
+		if (FMotionHazard(memory_pool, (*dxlnode)[EdxlhjIndexHashLeft], peopid, ulOps, pbsPrjCols))
 		{
 			return true;
 		}
@@ -2579,7 +2579,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 	{
 		for (ULONG ul = 0; ul < arity; ul++)
 		{
-			if (FMotionHazard(memory_pool, (*pdxln)[ul], peopid, ulOps, pbsPrjCols))
+			if (FMotionHazard(memory_pool, (*dxlnode)[ul], peopid, ulOps, pbsPrjCols))
 			{
 				return true;
 			}
@@ -2592,11 +2592,11 @@ CTranslatorExprToDXLUtils::FMotionHazard
 BOOL
 CTranslatorExprToDXLUtils::FMotionHazardSafeOp
 	(
-	CDXLNode *pdxln
+	CDXLNode *dxlnode
 	)
 {
 	BOOL fMotionHazardSafeOp = false;
-	Edxlopid edxlop = pdxln->GetOperator()->GetDXLOperator();
+	Edxlopid edxlop = dxlnode->GetOperator()->GetDXLOperator();
 
 	switch (edxlop)
 	{
@@ -2608,7 +2608,7 @@ CTranslatorExprToDXLUtils::FMotionHazardSafeOp
 
 		case EdxlopPhysicalAgg:
 		{
-			CDXLPhysicalAgg *pdxlnPhysicalAgg = CDXLPhysicalAgg::Cast(pdxln->GetOperator());
+			CDXLPhysicalAgg *pdxlnPhysicalAgg = CDXLPhysicalAgg::Cast(dxlnode->GetOperator());
 			if (pdxlnPhysicalAgg->GetAggStrategy() == EdxlaggstrategyHashed)
 				fMotionHazardSafeOp = true;
 		}

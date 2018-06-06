@@ -180,13 +180,13 @@ CTranslatorDXLToExprUtils::AddKeySets
 BOOL
 CTranslatorDXLToExprUtils::FScalarBool
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	EdxlBoolExprType edxlboolexprtype
 	)
 {
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != dxlnode);
 
-	CDXLOperator *dxl_op = pdxln->GetOperator();
+	CDXLOperator *dxl_op = dxlnode->GetOperator();
 	if (EdxlopScalarBoolExpr == dxl_op->GetDXLOperator())
 	{
 		EdxlBoolExprType edxlboolexprtypeNode =
@@ -280,13 +280,13 @@ BOOL
 CTranslatorDXLToExprUtils::FCastFunc
 	(
 	CMDAccessor *md_accessor,
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	IMDId *pmdidInput
 	)
 {
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != dxlnode);
 
-	if (1 != pdxln->Arity())
+	if (1 != dxlnode->Arity())
 	{
 		return false;
 	}
@@ -296,12 +296,12 @@ CTranslatorDXLToExprUtils::FCastFunc
 		return false;
 	}
 
-	if (EdxlopScalarFuncExpr != pdxln->GetOperator()->GetDXLOperator())
+	if (EdxlopScalarFuncExpr != dxlnode->GetOperator()->GetDXLOperator())
 	{
 		return false;
 	}
 
-	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::Cast(pdxln->GetOperator());
+	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::Cast(dxlnode->GetOperator());
 
 	IMDId *pmdidDest = pdxlopScFunc->ReturnTypeMdId();
 

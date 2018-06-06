@@ -149,7 +149,7 @@ void
 CDXLScalarBitmapBoolOp::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -161,7 +161,7 @@ CDXLScalarBitmapBoolOp::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 	
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
@@ -180,22 +180,22 @@ CDXLScalarBitmapBoolOp::SerializeToDXL
 void
 CDXLScalarBitmapBoolOp::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) 
 	const
 {
-	EdxlBitmapBoolOp edxlbitmapboolop = ((CDXLScalarBitmapBoolOp *) pdxln->GetOperator())->Edxlbitmapboolop();
+	EdxlBitmapBoolOp edxlbitmapboolop = ((CDXLScalarBitmapBoolOp *) dxlnode->GetOperator())->Edxlbitmapboolop();
 
 	GPOS_ASSERT( (edxlbitmapboolop == EdxlbitmapAnd) || (edxlbitmapboolop == EdxlbitmapOr));
 
-	ULONG arity = pdxln->Arity();
+	ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(2 == arity);
 	
 
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
-		CDXLNode *dxlnode_arg = (*pdxln)[ul];
+		CDXLNode *dxlnode_arg = (*dxlnode)[ul];
 		Edxlopid edxlop = dxlnode_arg->GetOperator()->GetDXLOperator();
 		
 		GPOS_ASSERT(EdxlopScalarBitmapBoolOp == edxlop || EdxlopScalarBitmapIndexProbe == edxlop);

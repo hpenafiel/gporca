@@ -61,7 +61,7 @@ namespace gpmd
 		public:
 
 			// ctor
-			CMDPartConstraintGPDB(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulDefaultParts, BOOL fUnbounded, CDXLNode *pdxln);
+			CMDPartConstraintGPDB(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulDefaultParts, BOOL fUnbounded, CDXLNode *dxlnode);
 
 			// dtor
 			virtual

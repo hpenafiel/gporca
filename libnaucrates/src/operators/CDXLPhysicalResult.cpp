@@ -78,7 +78,7 @@ void
 CDXLPhysicalResult::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -87,10 +87,10 @@ CDXLPhysicalResult::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	dxlnode->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
@@ -107,16 +107,16 @@ CDXLPhysicalResult::SerializeToDXL
 void
 CDXLPhysicalResult::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) 
 	const
 {
 
-	GPOS_ASSERT(EdxlresultIndexSentinel >= pdxln->Arity());
+	GPOS_ASSERT(EdxlresultIndexSentinel >= dxlnode->Arity());
 	
 	// check that one time filter is valid
-	CDXLNode *pdxlnOneTimeFilter = (*pdxln)[EdxlresultIndexOneTimeFilter];
+	CDXLNode *pdxlnOneTimeFilter = (*dxlnode)[EdxlresultIndexOneTimeFilter];
 	GPOS_ASSERT(EdxlopScalarOneTimeFilter == pdxlnOneTimeFilter->GetOperator()->GetDXLOperator());
 	
 	if (validate_children)
@@ -124,9 +124,9 @@ CDXLPhysicalResult::AssertValid
 		pdxlnOneTimeFilter->GetOperator()->AssertValid(pdxlnOneTimeFilter, validate_children);
 	}
 	
-	if (EdxlresultIndexSentinel == pdxln->Arity())
+	if (EdxlresultIndexSentinel == dxlnode->Arity())
 	{
-		CDXLNode *child_dxlnode = (*pdxln)[EdxlresultIndexChild];
+		CDXLNode *child_dxlnode = (*dxlnode)[EdxlresultIndexChild];
 		GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)

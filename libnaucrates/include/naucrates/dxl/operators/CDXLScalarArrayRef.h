@@ -94,7 +94,7 @@ namespace gpdxl
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const;
 
 			// does the operator return a boolean result
 			virtual
@@ -104,7 +104,7 @@ namespace gpdxl
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
 			virtual
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// conversion function

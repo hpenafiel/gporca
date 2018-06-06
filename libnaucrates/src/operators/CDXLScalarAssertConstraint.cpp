@@ -105,7 +105,7 @@ void
 CDXLScalarAssertConstraint::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -114,7 +114,7 @@ CDXLScalarAssertConstraint::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenErrorMessage), m_pstrErrorMsg);
 		
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -131,14 +131,14 @@ CDXLScalarAssertConstraint::SerializeToDXL
 void
 CDXLScalarAssertConstraint::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	)
 	const
 {
-	GPOS_ASSERT(1 == pdxln->Arity());
+	GPOS_ASSERT(1 == dxlnode->Arity());
 	
-	CDXLNode *child_dxlnode = (*pdxln)[0];
+	CDXLNode *child_dxlnode = (*dxlnode)[0];
 	GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)

@@ -84,7 +84,7 @@ namespace gpopt
 
 			// check if a dxl node is a boolean expression of the given type
 			static
-			BOOL FScalarBool(const CDXLNode *pdxln, EdxlBoolExprType edxlboolexprtype);
+			BOOL FScalarBool(const CDXLNode *dxlnode, EdxlBoolExprType edxlboolexprtype);
 
 			// returns the equivalent bool expression type in the optimizer for
 			// a given DXL bool expression type
@@ -97,7 +97,7 @@ namespace gpopt
 
 			// is the given expression is a scalar function that casts
 			static
-			BOOL FCastFunc(CMDAccessor *md_accessor, const CDXLNode *pdxln, IMDId *pmdidInput);
+			BOOL FCastFunc(CMDAccessor *md_accessor, const CDXLNode *dxlnode, IMDId *pmdidInput);
 	};
 }
 

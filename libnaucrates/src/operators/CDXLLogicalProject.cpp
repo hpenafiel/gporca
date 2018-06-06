@@ -108,7 +108,7 @@ void
 CDXLLogicalProject::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -123,7 +123,7 @@ CDXLLogicalProject::SerializeToDXL
 	}
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
@@ -140,14 +140,14 @@ CDXLLogicalProject::SerializeToDXL
 void
 CDXLLogicalProject::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) const
 {
-	GPOS_ASSERT(2 == pdxln->Arity());
+	GPOS_ASSERT(2 == dxlnode->Arity());
 
-	CDXLNode *proj_list_dxlnode = (*pdxln)[0];
-	CDXLNode *child_dxlnode = (*pdxln)[1];
+	CDXLNode *proj_list_dxlnode = (*dxlnode)[0];
+	CDXLNode *child_dxlnode = (*dxlnode)[1];
 
 	GPOS_ASSERT(EdxlopScalarProjectList == proj_list_dxlnode->GetOperator()->GetDXLOperator());
 	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());

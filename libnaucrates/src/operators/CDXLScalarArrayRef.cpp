@@ -108,7 +108,7 @@ void
 CDXLScalarArrayRef::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -124,17 +124,17 @@ CDXLScalarArrayRef::SerializeToDXL
 	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	// serialize child nodes
-	const ULONG arity = pdxln->Arity();
+	const ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(3 == arity || 4 == arity);
 
 	// first 2 children are index lists
-	(*pdxln)[0]->SerializeToDXL(xml_serializer);
-	(*pdxln)[1]->SerializeToDXL(xml_serializer);
+	(*dxlnode)[0]->SerializeToDXL(xml_serializer);
+	(*dxlnode)[1]->SerializeToDXL(xml_serializer);
 
 	// 3rd child is the ref expression
 	const CWStringConst *pstrRefExpr = CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefExpr);
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrRefExpr);
-	(*pdxln)[2]->SerializeToDXL(xml_serializer);
+	(*dxlnode)[2]->SerializeToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrRefExpr);
 
 	// 4th child is the optional assign expression
@@ -142,7 +142,7 @@ CDXLScalarArrayRef::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrAssignExpr);
 	if (4 == arity)
 	{
-		(*pdxln)[3]->SerializeToDXL(xml_serializer);
+		(*dxlnode)[3]->SerializeToDXL(xml_serializer);
 	}
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrAssignExpr);
 
@@ -179,15 +179,15 @@ CDXLScalarArrayRef::HasBoolResult
 void
 CDXLScalarArrayRef::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	)
 	const
 {
-	const ULONG arity = pdxln->Arity();
+	const ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
-		CDXLNode *child_dxlnode = (*pdxln)[ul];
+		CDXLNode *child_dxlnode = (*dxlnode)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)

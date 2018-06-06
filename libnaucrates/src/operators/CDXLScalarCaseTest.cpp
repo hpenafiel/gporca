@@ -106,7 +106,7 @@ void
 CDXLScalarCaseTest::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode * //pdxln
+	const CDXLNode * //dxlnode
 	)
 	const
 {
@@ -147,12 +147,12 @@ CDXLScalarCaseTest::HasBoolResult
 void
 CDXLScalarCaseTest::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL // validate_children
 	)
 	const
 {
-	GPOS_ASSERT(0 == pdxln->Arity());
+	GPOS_ASSERT(0 == dxlnode->Arity());
 	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 #endif // GPOS_DEBUG

@@ -29,7 +29,7 @@ using namespace gpnaucrates;
 void
 CParseHandlerUtils::SetProperties
 	(
-	CDXLNode *pdxln,
+	CDXLNode *dxlnode,
 	CParseHandlerProperties *prop_parse_handler
 	)
 {
@@ -37,7 +37,7 @@ CParseHandlerUtils::SetProperties
 	// set physical properties
 	CDXLPhysicalProperties *dxl_properties = prop_parse_handler->GetProperties();
 	dxl_properties->AddRef();
-	pdxln->SetProperties(dxl_properties);
+	dxlnode->SetProperties(dxl_properties);
 
 	// set the statistical information
 	CDXLStatsDerivedRelation *pdxlstatsderrel = prop_parse_handler->Pdxlstatsderrel();

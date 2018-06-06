@@ -146,7 +146,7 @@ void
 CDXLPhysicalTableScan::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -155,10 +155,10 @@ CDXLPhysicalTableScan::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	dxlnode->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	
 	// serialize table descriptor
 	m_table_descr_dxl->SerializeToDXL(xml_serializer);
@@ -178,16 +178,16 @@ CDXLPhysicalTableScan::SerializeToDXL
 void
 CDXLPhysicalTableScan::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) 
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, validate_children);
+	CDXLPhysical::AssertValid(dxlnode, validate_children);
 	
 	// table scan has only 2 children
-	GPOS_ASSERT(2 == pdxln->Arity());
+	GPOS_ASSERT(2 == dxlnode->Arity());
 	
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_table_descr_dxl);

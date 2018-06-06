@@ -91,7 +91,7 @@ void
 CDXLScalarSubquery::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -101,7 +101,7 @@ CDXLScalarSubquery::SerializeToDXL
 	// serialize computed column id
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -117,17 +117,17 @@ CDXLScalarSubquery::SerializeToDXL
 void
 CDXLScalarSubquery::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) 
 	const
 {
-	GPOS_ASSERT(1 == pdxln->Arity());
+	GPOS_ASSERT(1 == dxlnode->Arity());
 	
-	CDXLNode *child_dxlnode = (*pdxln)[0];
+	CDXLNode *child_dxlnode = (*dxlnode)[0];
 	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
-	pdxln->AssertValid(validate_children);
+	dxlnode->AssertValid(validate_children);
 }
 #endif // GPOS_DEBUG
 

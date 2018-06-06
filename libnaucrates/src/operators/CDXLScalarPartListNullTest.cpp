@@ -48,7 +48,7 @@ void
 CDXLScalarPartListNullTest::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode * // pdxln
+	const CDXLNode * // dxlnode
 	)
 	const
 {
@@ -90,12 +90,12 @@ CDXLScalarPartListNullTest::HasBoolResult
 void
 CDXLScalarPartListNullTest::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL // validate_children
 	)
 	const
 {
-	GPOS_ASSERT(0 == pdxln->Arity());
+	GPOS_ASSERT(0 == dxlnode->Arity());
 }
 #endif // GPOS_DEBUG
 

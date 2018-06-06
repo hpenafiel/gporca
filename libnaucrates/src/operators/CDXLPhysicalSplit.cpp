@@ -105,7 +105,7 @@ void
 CDXLPhysicalSplit::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -131,13 +131,13 @@ CDXLPhysicalSplit::SerializeToDXL
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTupleOidColId), m_tuple_oid);
 	}
 	
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	dxlnode->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize project list
-	(*pdxln)[0]->SerializeToDXL(xml_serializer);
+	(*dxlnode)[0]->SerializeToDXL(xml_serializer);
 
 	// serialize physical child
-	(*pdxln)[1]->SerializeToDXL(xml_serializer);
+	(*dxlnode)[1]->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
@@ -154,13 +154,13 @@ CDXLPhysicalSplit::SerializeToDXL
 void
 CDXLPhysicalSplit::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	)
 	const
 {
-	GPOS_ASSERT(2 == pdxln->Arity());
-	CDXLNode *child_dxlnode = (*pdxln)[1];
+	GPOS_ASSERT(2 == dxlnode->Arity());
+	CDXLNode *child_dxlnode = (*dxlnode)[1];
 	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)

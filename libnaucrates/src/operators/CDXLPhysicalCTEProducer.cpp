@@ -95,7 +95,7 @@ void
 CDXLPhysicalCTEProducer::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -109,9 +109,9 @@ CDXLPhysicalCTEProducer::SerializeToDXL
 	GPOS_DELETE(pstrColIds);
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	dxlnode->SerializePropertiesToDXL(xml_serializer);
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -127,14 +127,14 @@ CDXLPhysicalCTEProducer::SerializeToDXL
 void
 CDXLPhysicalCTEProducer::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) const
 {
-	GPOS_ASSERT(2 == pdxln->Arity());
+	GPOS_ASSERT(2 == dxlnode->Arity());
 
-	CDXLNode *pdxlnPrL = (*pdxln)[0];
-	CDXLNode *child_dxlnode = (*pdxln)[1];
+	CDXLNode *pdxlnPrL = (*dxlnode)[0];
+	CDXLNode *child_dxlnode = (*dxlnode)[1];
 
 	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->GetDXLOperator());
 	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());

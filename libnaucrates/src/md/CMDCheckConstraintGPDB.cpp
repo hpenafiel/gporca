@@ -35,19 +35,19 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	IMDId *pmdid,
 	CMDName *mdname,
 	IMDId *pmdidRel,
-	CDXLNode *pdxln
+	CDXLNode *dxlnode
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
 	m_rel_mdid(pmdidRel),
-	m_dxl_node(pdxln)
+	m_dxl_node(dxlnode)
 {
 	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(pmdidRel->IsValid());
 	GPOS_ASSERT(NULL != mdname);
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != dxlnode);
 
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }

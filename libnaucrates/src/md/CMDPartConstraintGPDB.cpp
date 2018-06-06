@@ -33,13 +33,13 @@ CMDPartConstraintGPDB::CMDPartConstraintGPDB
 	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulDefaultParts,
 	BOOL fUnbounded,
-	CDXLNode *pdxln
+	CDXLNode *dxlnode
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_pdrgpulDefaultParts(pdrgpulDefaultParts),
 	m_fUnbounded(fUnbounded),
-	m_dxl_node(pdxln)
+	m_dxl_node(dxlnode)
 {
 	GPOS_ASSERT(NULL != pdrgpulDefaultParts);
 }

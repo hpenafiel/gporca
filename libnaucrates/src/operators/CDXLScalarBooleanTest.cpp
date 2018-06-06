@@ -110,7 +110,7 @@ void
 CDXLScalarBooleanTest::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -119,7 +119,7 @@ CDXLScalarBooleanTest::SerializeToDXL
 	GPOS_ASSERT(NULL != element_name);
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
@@ -136,19 +136,19 @@ CDXLScalarBooleanTest::SerializeToDXL
 void
 CDXLScalarBooleanTest::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) 
 	const
 {
 
-	EdxlBooleanTestType edxlbooltype = ((CDXLScalarBooleanTest *) pdxln->GetOperator())->EdxlBoolType();
+	EdxlBooleanTestType edxlbooltype = ((CDXLScalarBooleanTest *) dxlnode->GetOperator())->EdxlBoolType();
 
 	GPOS_ASSERT( (EdxlbooleantestIsTrue == edxlbooltype) || (EdxlbooleantestIsNotTrue == edxlbooltype) || (EdxlbooleantestIsFalse == edxlbooltype)
 			|| (EdxlbooleantestIsNotFalse == edxlbooltype)|| (EdxlbooleantestIsUnknown == edxlbooltype)|| (EdxlbooleantestIsNotUnknown == edxlbooltype));
 
-	GPOS_ASSERT(1 == pdxln->Arity());
-	CDXLNode *dxlnode_arg = (*pdxln)[0];
+	GPOS_ASSERT(1 == dxlnode->Arity());
+	CDXLNode *dxlnode_arg = (*dxlnode)[0];
 	GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)

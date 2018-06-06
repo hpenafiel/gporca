@@ -78,7 +78,7 @@ void
 CDXLScalarBitmapIndexProbe::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -86,7 +86,7 @@ CDXLScalarBitmapIndexProbe::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize index descriptor
 	m_index_descr_dxl->SerializeToDXL(xml_serializer);
@@ -106,17 +106,17 @@ CDXLScalarBitmapIndexProbe::SerializeToDXL
 void
 CDXLScalarBitmapIndexProbe::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	)
 	const
 {
 	// bitmap index probe has 1 child: the index condition list
-	GPOS_ASSERT(1 == pdxln->Arity());
+	GPOS_ASSERT(1 == dxlnode->Arity());
 
 	if (validate_children)
 	{
-		CDXLNode *pdxlnIndexCondList = (*pdxln)[0];
+		CDXLNode *pdxlnIndexCondList = (*dxlnode)[0];
 		GPOS_ASSERT(EdxlopScalarIndexCondList == pdxlnIndexCondList->GetOperator()->GetDXLOperator());
 		pdxlnIndexCondList->GetOperator()->AssertValid(pdxlnIndexCondList, validate_children);
 	}

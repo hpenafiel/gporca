@@ -79,7 +79,7 @@ void
 CDXLScalarOneTimeFilter::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode * pdxln
+	const CDXLNode * dxlnode
 	)
 	const
 {
@@ -88,7 +88,7 @@ CDXLScalarOneTimeFilter::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serilize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }

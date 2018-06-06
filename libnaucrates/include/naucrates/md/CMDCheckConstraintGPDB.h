@@ -68,7 +68,7 @@ namespace gpmd
 				IMDId *pmdid,
 				CMDName *mdname,
 				IMDId *pmdidRel,
-				CDXLNode *pdxln
+				CDXLNode *dxlnode
 				);
 
 			// dtor

@@ -26,16 +26,16 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CQueryToDXLResult::CQueryToDXLResult
 	(
-	CDXLNode *pdxln,
+	CDXLNode *dxlnode,
 	DXLNodeArray *pdrgpdxlnOutput,
 	DXLNodeArray *cte_dxlnode_array
 	)
 	:
-	m_dxl_node(pdxln),
+	m_dxl_node(dxlnode),
 	m_pdrgpdxlnQueryOutput(pdrgpdxlnOutput),
 	m_cte_producer_dxl_array(cte_dxlnode_array)
 {
-	GPOS_ASSERT(NULL != pdxln);
+	GPOS_ASSERT(NULL != dxlnode);
 }
 
 //---------------------------------------------------------------------------

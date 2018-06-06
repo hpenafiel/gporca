@@ -71,7 +71,7 @@ void
 CDXLScalarSubqueryQuantified::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -85,7 +85,7 @@ CDXLScalarSubqueryQuantified::SerializeToDXL
 	// serialize computed column id
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -101,20 +101,20 @@ CDXLScalarSubqueryQuantified::SerializeToDXL
 void
 CDXLScalarSubqueryQuantified::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	)
 	const
 {
-	GPOS_ASSERT(2 == pdxln->Arity());
+	GPOS_ASSERT(2 == dxlnode->Arity());
 
-	CDXLNode *pdxlnScalarChild = (*pdxln)[EdxlsqquantifiedIndexScalar];
-	CDXLNode *pdxlnRelationalChild = (*pdxln)[EdxlsqquantifiedIndexRelational];
+	CDXLNode *pdxlnScalarChild = (*dxlnode)[EdxlsqquantifiedIndexScalar];
+	CDXLNode *pdxlnRelationalChild = (*dxlnode)[EdxlsqquantifiedIndexRelational];
 
 	GPOS_ASSERT(EdxloptypeScalar == pdxlnScalarChild->GetOperator()->GetDXLOperatorType());
 	GPOS_ASSERT(EdxloptypeLogical == pdxlnRelationalChild->GetOperator()->GetDXLOperatorType());
 
-	pdxln->AssertValid(validate_children);
+	dxlnode->AssertValid(validate_children);
 }
 #endif // GPOS_DEBUG
 

@@ -714,19 +714,19 @@ namespace gpopt
 			CDXLNode *CreateDXLNode(CExpression *pexpr, DrgPcr *pdrgpcr, DrgPds *pdrgpdsBaseTables, ULONG *pulNonGatherMotions, BOOL *pfDML, BOOL fRemap, BOOL fRoot);
 
 			// translate expression children and add them as children of the DXL node
-			void TranslateScalarChildren(CExpression *pexpr, CDXLNode *pdxln);
+			void TranslateScalarChildren(CExpression *pexpr, CDXLNode *dxlnode);
 
 			// add a result node, if required a materialize node is added below result node to avoid deadlock hazard
 			CDXLNode *PdxlnResult(CDXLPhysicalProperties *dxl_properties, CDXLNode *pdxlnPrL, CDXLNode *child_dxlnode);
 		
 			// add a materialize node
-			CDXLNode *PdxlnMaterialize(CDXLNode *pdxln);
+			CDXLNode *PdxlnMaterialize(CDXLNode *dxlnode);
 
 			// add result node if necessary
 			CDXLNode *PdxlnRemapOutputColumns
 						(
 						CExpression *pexpr,
-						CDXLNode *pdxln,
+						CDXLNode *dxlnode,
 						DrgPcr *pdrgpcrRequired,
 						DrgPcr *pdrgpcrOrder
 						);
@@ -740,10 +740,10 @@ namespace gpopt
 					);
 
 			// helper to add a project of bool constant
-			CDXLNode *PdxlnProjectBoolConst(CDXLNode *pdxln, BOOL value);
+			CDXLNode *PdxlnProjectBoolConst(CDXLNode *dxlnode, BOOL value);
 
 			// helper to build a Result expression with project list restricted to required column
-			CDXLNode *PdxlnRestrictResult(CDXLNode *pdxln, CColRef *pcr);
+			CDXLNode *PdxlnRestrictResult(CDXLNode *dxlnode, CColRef *pcr);
 
 			//	helper to build subplans from correlated LOJ
 			void BuildSubplansForCorrelatedLOJ

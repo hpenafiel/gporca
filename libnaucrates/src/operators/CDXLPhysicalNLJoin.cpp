@@ -79,7 +79,7 @@ void
 CDXLPhysicalNLJoin::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -92,10 +92,10 @@ CDXLPhysicalNLJoin::SerializeToDXL
 
 
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	dxlnode->SerializePropertiesToDXL(xml_serializer);
 	
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 }
@@ -113,20 +113,20 @@ CDXLPhysicalNLJoin::SerializeToDXL
 void
 CDXLPhysicalNLJoin::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	) 
 	const
 {
 	// assert proj list and filter are valid
-	CDXLPhysical::AssertValid(pdxln, validate_children);
+	CDXLPhysical::AssertValid(dxlnode, validate_children);
 	
-	GPOS_ASSERT(EdxlnljIndexSentinel == pdxln->Arity());
+	GPOS_ASSERT(EdxlnljIndexSentinel == dxlnode->Arity());
 	GPOS_ASSERT(EdxljtSentinel > GetJoinType());
 	
-	CDXLNode *pdxlnJoinFilter = (*pdxln)[EdxlnljIndexJoinFilter];
-	CDXLNode *pdxlnLeft = (*pdxln)[EdxlnljIndexLeftChild];
-	CDXLNode *pdxlnRight = (*pdxln)[EdxlnljIndexRightChild];
+	CDXLNode *pdxlnJoinFilter = (*dxlnode)[EdxlnljIndexJoinFilter];
+	CDXLNode *pdxlnLeft = (*dxlnode)[EdxlnljIndexLeftChild];
+	CDXLNode *pdxlnRight = (*dxlnode)[EdxlnljIndexRightChild];
 	
 	// assert children are of right type (physical/scalar)
 	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->GetDXLOperator());

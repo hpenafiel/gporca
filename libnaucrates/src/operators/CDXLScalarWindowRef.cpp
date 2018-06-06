@@ -144,7 +144,7 @@ void
 CDXLScalarWindowRef::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *dxlnode
 	)
 	const
 {
@@ -159,7 +159,7 @@ CDXLScalarWindowRef::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefStrategy), PstrWinStage());
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefWinSpecPos), m_ulWinspecPos);
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
@@ -195,19 +195,19 @@ CDXLScalarWindowRef::HasBoolResult
 void
 CDXLScalarWindowRef::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *dxlnode,
 	BOOL validate_children
 	)
 	const
 {
-	EdxlWinStage edxlwinrefstage = ((CDXLScalarWindowRef*) pdxln->GetOperator())->Edxlwinstage();
+	EdxlWinStage edxlwinrefstage = ((CDXLScalarWindowRef*) dxlnode->GetOperator())->Edxlwinstage();
 
 	GPOS_ASSERT((EdxlwinstageSentinel >= edxlwinrefstage));
 
-	const ULONG arity = pdxln->Arity();
+	const ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
-		CDXLNode *pdxlnWinrefArg = (*pdxln)[ul];
+		CDXLNode *pdxlnWinrefArg = (*dxlnode)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == pdxlnWinrefArg->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)

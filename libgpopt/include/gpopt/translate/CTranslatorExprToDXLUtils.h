@@ -397,11 +397,11 @@ namespace gpopt
 			
 			// check if the DXL Node is a scalar const TRUE
 			static
-			BOOL FScalarConstTrue(CMDAccessor *md_accessor, CDXLNode *pdxln);
+			BOOL FScalarConstTrue(CMDAccessor *md_accessor, CDXLNode *dxlnode);
 
 			// check if the DXL Node is a scalar const false
 			static
-			BOOL FScalarConstFalse(CMDAccessor *md_accessor, CDXLNode *pdxln);
+			BOOL FScalarConstFalse(CMDAccessor *md_accessor, CDXLNode *dxlnode);
 
 			// check whether a project list has the same columns in the given array
 			// and in the same order
@@ -524,7 +524,7 @@ namespace gpopt
 			
 			// set statistics of the operator
 			static
-			void SetStats(IMemoryPool *memory_pool, CMDAccessor *md_accessor, CDXLNode *pdxln, const IStatistics *pstats, BOOL fRoot);
+			void SetStats(IMemoryPool *memory_pool, CMDAccessor *md_accessor, CDXLNode *dxlnode, const IStatistics *pstats, BOOL fRoot);
 
 			// set direct dispatch info of the operator
 			static
@@ -532,7 +532,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool, 
 				CMDAccessor *md_accessor, 
-				CDXLNode *pdxln, 
+				CDXLNode *dxlnode, 
 				CDrvdPropRelational *pdpRel, 
 				DrgPds *pdrgpdsBaseTables
 				);
@@ -560,7 +560,7 @@ namespace gpopt
 
 			// return a copy the dxl node's physical properties
 			static
-			CDXLPhysicalProperties *PdxlpropCopy(IMemoryPool *memory_pool, CDXLNode *pdxln);
+			CDXLPhysicalProperties *PdxlpropCopy(IMemoryPool *memory_pool, CDXLNode *dxlnode);
 
 			// check if given dxl operator exists in the given list
 			static
@@ -568,7 +568,7 @@ namespace gpopt
 
 			// check if given dxl node has any operator in the given list
 			static
-			BOOL FHasDXLOp(const CDXLNode *pdxln, const gpdxl::Edxlopid *peopid, ULONG ulOps);
+			BOOL FHasDXLOp(const CDXLNode *dxlnode, const gpdxl::Edxlopid *peopid, ULONG ulOps);
 
 			// check if the project lists contains subplans with broadcast motion
 			static
@@ -576,15 +576,15 @@ namespace gpopt
 
 			// check if the dxl node imposes a motion hazard
 			static
-			BOOL FMotionHazard(IMemoryPool *memory_pool, CDXLNode *pdxln, const gpdxl::Edxlopid *peopid, ULONG ulOps, CBitSet *pbsPrjCols);
+			BOOL FMotionHazard(IMemoryPool *memory_pool, CDXLNode *dxlnode, const gpdxl::Edxlopid *peopid, ULONG ulOps, CBitSet *pbsPrjCols);
 
 			// check if the dxl operator does not impose a motion hazard
 			static
-			BOOL FMotionHazardSafeOp(CDXLNode *pdxln);
+			BOOL FMotionHazardSafeOp(CDXLNode *dxlnode);
 
 			// extract the column ids of the ident from project list
 			static
-			void ExtractIdentColIds(CDXLNode *pdxln, CBitSet *pbs);
+			void ExtractIdentColIds(CDXLNode *dxlnode, CBitSet *pbs);
 	};
 }
 
