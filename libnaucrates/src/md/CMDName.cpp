@@ -73,7 +73,7 @@ CMDName::CMDName
 	const CMDName &name
 	)
 	:
-	m_psc(name.Pstr()),
+	m_psc(name.GetMDName()),
 	m_fDeepCopy(false)
 {
 	GPOS_ASSERT(NULL != m_psc->GetBuffer());

@@ -203,7 +203,7 @@ CDXLScalarSubPlan::SerializeToDXL
 
 		const CMDName *mdname = (*m_pdrgdxlcr)[ul]->MdName();
 		const IMDId *mdid_type = (*m_pdrgdxlcr)[ul]->MDIdType();
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), mdname->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), mdname->GetMDName());
 		mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 		xml_serializer->CloseElement

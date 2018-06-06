@@ -576,7 +576,7 @@ CMDRelationExternalGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenRelationExternal));
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_rel_distr_policy));
 
 	if (EreldistrHash == m_rel_distr_policy)
@@ -674,7 +674,7 @@ CMDRelationExternalGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 
-	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Relation name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 
 	os << "Distribution policy: " << PstrDistrPolicy(m_rel_distr_policy)->GetBuffer() << std::endl;
 
@@ -697,7 +697,7 @@ CMDRelationExternalGPDB::DebugPrint
 		}
 
 		const IMDColumn *pimdcolDistrKey = PmdcolDistrColumn(ul);
-		os << (pimdcolDistrKey->Mdname()).Pstr()->GetBuffer();
+		os << (pimdcolDistrKey->Mdname()).GetMDName()->GetBuffer();
 	}
 
 	os << std::endl;

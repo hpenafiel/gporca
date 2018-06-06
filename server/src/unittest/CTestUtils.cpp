@@ -2532,7 +2532,7 @@ CTestUtils::PexprLogicalSequenceProject
 							memory_pool,
 							pmdid,
 							pmdidRetType,
-							GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdfunc->Mdname().Pstr()->GetBuffer()),
+							GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdfunc->Mdname().GetMDName()->GetBuffer()),
 							CScalarWindowFunc::EwsImmediate,
 							false /*fDistinct*/,
 							false /*fStarArg*/,

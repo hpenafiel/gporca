@@ -148,7 +148,7 @@ CMDAggregateGPDB::Serialize
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	if (m_fOrdered)
 	{
 		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBIsAggOrdered), m_fOrdered);
@@ -188,7 +188,7 @@ CMDAggregateGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Aggregate name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Aggregate name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	
 	os << "Result type id: ";
 	PmdidTypeResult()->OsPrint(os);

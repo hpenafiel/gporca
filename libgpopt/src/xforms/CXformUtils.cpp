@@ -1145,7 +1145,7 @@ CXformUtils::PexprInversePred
 	// get mdid and name of the inverse of the comparison operator used by subquery
 	IMDId *pmdidOp = popSqAll->PmdidOp();
 	IMDId *pmdidInverseOp = pmda->Pmdscop(pmdidOp)->PmdidOpInverse();
-	const CWStringConst *pstrFirst = pmda->Pmdscop(pmdidInverseOp)->Mdname().Pstr();
+	const CWStringConst *pstrFirst = pmda->Pmdscop(pmdidInverseOp)->Mdname().GetMDName();
 
 	// generate a predicate for the inversion of the comparison involved in the subquery
 	pexprScalar->AddRef();
@@ -1654,8 +1654,8 @@ CXformUtils::PexprAssertCheckConstraints
 										(
 										memory_pool, 
 										gpos::CException::ExmaSQL, 
-										gpos::CException::ExmiSQLCheckConstraintViolation, 
-										pmdCheckConstraint->Mdname().Pstr()->GetBuffer(), 
+										gpos::CException::ExmiSQLCheckConstraintViolation,
+										pmdCheckConstraint->Mdname().GetMDName()->GetBuffer(), 
 										ptabdesc->Name().Pstr()->GetBuffer()
 										);
 			CExpression *pexprAssertConstraint = GPOS_NEW(memory_pool) CExpression
@@ -3177,7 +3177,7 @@ CXformUtils::PexprEqualityOnBoolColumn
 	pmdidOp->AddRef();
 
 	const CMDName mdname = pmda->Pmdscop(pmdidOp)->Mdname();
-	CWStringConst strOpName(mdname.Pstr()->GetBuffer());
+	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
 
 	return CUtils::PexprScalarCmp
 					(

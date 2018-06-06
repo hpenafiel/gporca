@@ -38,7 +38,7 @@ CDXLIndexDescr::CDXLIndexDescr
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(NULL != m_mdname);
-	GPOS_ASSERT(m_mdname->Pstr()->IsValid());
+	GPOS_ASSERT(m_mdname->GetMDName()->IsValid());
 }
 
 
@@ -102,7 +102,7 @@ CDXLIndexDescr::SerializeToDXL
 {
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexName), m_mdname->GetMDName());
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
 }
 

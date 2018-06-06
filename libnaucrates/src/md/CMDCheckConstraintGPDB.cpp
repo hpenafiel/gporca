@@ -121,7 +121,7 @@ CMDCheckConstraintGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenCheckConstraint));
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 
 	// serialize the scalar expression
@@ -151,7 +151,7 @@ CMDCheckConstraintGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 
-	os << "Constraint Name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Constraint Name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 
 	os << "Relation id: ";
 	PmdidRel()->OsPrint(os);

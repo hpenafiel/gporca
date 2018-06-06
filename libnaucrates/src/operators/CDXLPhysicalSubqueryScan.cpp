@@ -114,7 +114,7 @@ CDXLPhysicalSubqueryScan::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname_alias->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname_alias->GetMDName());
 	
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -158,7 +158,7 @@ CDXLPhysicalSubqueryScan::AssertValid
 	
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_mdname_alias);
-	GPOS_ASSERT(m_mdname_alias->Pstr()->IsValid());
+	GPOS_ASSERT(m_mdname_alias->GetMDName()->IsValid());
 }
 #endif // GPOS_DEBUG
 

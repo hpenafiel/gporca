@@ -112,7 +112,7 @@ CIndexDescriptor::Pindexdesc
 	const IMDIndex *pmdindex
 	)
 {
-	CWStringConst strIndexName(memory_pool, pmdindex->Mdname().Pstr()->GetBuffer());
+	CWStringConst strIndexName(memory_pool, pmdindex->Mdname().GetMDName()->GetBuffer());
 
 	DrgPcoldesc *pdrgpcoldesc = ptabdesc->Pdrgpcoldesc();
 

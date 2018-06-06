@@ -221,7 +221,7 @@ CExpressionPreprocessor::PexprSimplifyQuantifiedSubqueries
 
 			CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 			IMDId *pmdid = popSubqQuantified->PmdidOp();
-			const CWStringConst *pstr = pmda->Pmdscop(pmdid)->Mdname().Pstr();
+			const CWStringConst *pstr = pmda->Pmdscop(pmdid)->Mdname().GetMDName();
 			pmdid->AddRef();
 			pexprScalar->AddRef();
 
@@ -2028,7 +2028,7 @@ CExpressionPreprocessor::ConvertInToSimpleExists
 
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	IMDId *pmdid = CScalarSubqueryAny::PopConvert(pop)->PmdidOp();
-	const CWStringConst *pstr = pmda->Pmdscop(pmdid)->Mdname().Pstr();
+	const CWStringConst *pstr = pmda->Pmdscop(pmdid)->Mdname().GetMDName();
 
 	pmdid->AddRef();
 	pexprRight->AddRef();

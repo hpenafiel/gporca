@@ -64,7 +64,7 @@ CScalarArrayCmp::CScalarArrayCmp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarArrayCmp::Pstr
+//		CScalarArrayCmp::GetMDName
 //
 //	@doc:
 //		Comparison operator name

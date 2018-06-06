@@ -176,7 +176,7 @@ CDatumInt8GPDB::HashValue() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumInt8GPDB::Pstr
+//		CDatumInt8GPDB::GetMDName
 //
 //	@doc:
 //		Return string representation

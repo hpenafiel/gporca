@@ -177,7 +177,7 @@ CDatumInt2GPDB::HashValue() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumInt2GPDB::Pstr
+//		CDatumInt2GPDB::GetMDName
 //
 //	@doc:
 //		Return string representation

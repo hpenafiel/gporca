@@ -60,7 +60,7 @@ CScalarOp::CScalarOp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarOp::Pstr
+//		CScalarOp::GetMDName
 //
 //	@doc:
 //		Operator name

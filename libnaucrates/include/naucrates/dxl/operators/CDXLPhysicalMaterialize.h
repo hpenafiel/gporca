@@ -40,20 +40,20 @@ namespace gpdxl
 	{
 		private:
 			// eager materialization
-			BOOL m_fEager;
+			BOOL m_is_eager;
 			
 			// spool info
 			// id of the spooling operator
-			ULONG m_ulSpoolId;
+			ULONG m_spooling_op_id;
 
 			// type of the underlying spool
-			Edxlspooltype m_edxlsptype;
+			Edxlspooltype m_spool_type;
 			
 			// slice executing the underlying sort or materialize
-			INT m_iExecutorSlice;
+			INT m_executor_slice;
 			
 			// number of consumers in case the materialize is a spooling operator
-			ULONG m_ulConsumerSlices;
+			ULONG m_num_consumer_slices;
 
 			// private copy ctor
 			CDXLPhysicalMaterialize(CDXLPhysicalMaterialize&);
@@ -63,34 +63,34 @@ namespace gpdxl
 			CDXLPhysicalMaterialize
 				(
 				IMemoryPool *memory_pool,
-				BOOL fEager
+				BOOL is_eager
 				);
 			
 			CDXLPhysicalMaterialize
 				(
 				IMemoryPool *memory_pool,
-				BOOL fEager,
-				ULONG ulSpoolId,
-				INT iExecutorSlice,
-				ULONG ulConsumerSlices
+				BOOL is_eager,
+				ULONG spooling_op_id,
+				INT executor_slice,
+				ULONG num_consumer_slices
 				);
 
 			// accessors
 			Edxlopid GetDXLOperator() const;
 			const CWStringConst *GetOpNameStr() const;
-			ULONG UlSpoolId() const;
-			INT IExecutorSlice() const;
-			ULONG UlConsumerSlices() const;
+			ULONG GetSpoolingOpId() const;
+			INT GetExecutorSlice() const;
+			ULONG GetNumConsumerSlices() const;
 			
 			// is the operator spooling to other operators
-			BOOL FSpooling() const;
+			BOOL IsSpooling() const;
 
 			// does the operator do eager materialization
-			BOOL FEager() const;
+			BOOL IsEager() const;
 			
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static

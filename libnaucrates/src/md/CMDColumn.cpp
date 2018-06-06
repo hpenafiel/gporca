@@ -159,7 +159,7 @@ CMDColumn::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
 						CDXLTokens::PstrToken(EdxltokenColumn));
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttNo);
 
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
@@ -213,7 +213,7 @@ CMDColumn::DebugPrint
 {
 	os << "Attno: " << AttrNum() << std::endl;
 	
-	os << "Column name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Column name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	os << "Column type: ";
 	MDIdType()->OsPrint(os);
 	os << std::endl;

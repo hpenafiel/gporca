@@ -180,7 +180,7 @@ CMDScCmpGPDB::Serialize
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
 
@@ -214,7 +214,7 @@ CMDScCmpGPDB::DebugPrint
 {
 	os << "ComparisonOp ";
 	PmdidLeft()->OsPrint(os);
-	os << (Mdname()).Pstr()->GetBuffer() << "(";
+	os << (Mdname()).GetMDName()->GetBuffer() << "(";
 	PmdidOp()->OsPrint(os);
 	os << ") ";
 	PmdidLeft()->OsPrint(os);

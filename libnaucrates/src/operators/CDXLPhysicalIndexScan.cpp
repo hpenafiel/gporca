@@ -193,12 +193,12 @@ CDXLPhysicalIndexScan::AssertValid
 	// assert validity of the index descriptor
 	GPOS_ASSERT(NULL != m_index_descr_dxl);
 	GPOS_ASSERT(NULL != m_index_descr_dxl->MdName());
-	GPOS_ASSERT(m_index_descr_dxl->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(m_index_descr_dxl->MdName()->GetMDName()->IsValid());
 
 	// assert validity of the table descriptor
 	GPOS_ASSERT(NULL != m_table_descr_dxl);
 	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
-	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(m_table_descr_dxl->MdName()->GetMDName()->IsValid());
 
 	CDXLNode *index_cond_dxlnode = (*node)[EdxlisIndexCondition];
 

@@ -112,7 +112,7 @@ CDXLCtasStorageOptions::Serialize
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTASOptions));
 	if (NULL != m_pmdnameTablespace)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTablespace), m_pmdnameTablespace->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTablespace), m_pmdnameTablespace->GetMDName());
 	}
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOnCommitAction), PstrOnCommitAction(m_ectascommit));

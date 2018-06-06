@@ -706,7 +706,7 @@ CMDRelationGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenRelation));
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_is_temp_table);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_has_oids);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_rel_storage_type));
@@ -825,7 +825,7 @@ CMDRelationGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Relation name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	
 	os << "Storage type: " << IMDRelation::PstrStorageType(m_rel_storage_type)->GetBuffer() << std::endl;
 	
@@ -850,7 +850,7 @@ CMDRelationGPDB::DebugPrint
 		}
 		
 		const IMDColumn *pimdcolDistrKey = PmdcolDistrColumn(ul);
-		os << (pimdcolDistrKey->Mdname()).Pstr()->GetBuffer();		
+		os << (pimdcolDistrKey->Mdname()).GetMDName()->GetBuffer();		
 	}
 	
 	os << std::endl;
@@ -865,7 +865,7 @@ CMDRelationGPDB::DebugPrint
 		}
 		
 		const IMDColumn *pmdcolPartKey = PmdcolPartColumn(ul);
-		os << (pmdcolPartKey->Mdname()).Pstr()->GetBuffer();		
+		os << (pmdcolPartKey->Mdname()).GetMDName()->GetBuffer();		
 	}
 		
 	os << std::endl;

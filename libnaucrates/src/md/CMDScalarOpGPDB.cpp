@@ -263,7 +263,7 @@ CMDScalarOpGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenGPDBScalarOp));
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenReturnsNullOnNullInput), m_fReturnsNullOnNullInput);
 
@@ -350,7 +350,7 @@ CMDScalarOpGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Operator name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Operator name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	
 	os << "Left operand type id: ";
 	PmdidTypeLeft()->OsPrint(os);

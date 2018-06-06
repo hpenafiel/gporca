@@ -169,7 +169,7 @@ CDatumGenericGPDB::HashValue() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDatumGenericGPDB::Pstr
+//		CDatumGenericGPDB::GetMDName
 //
 //	@doc:
 //		Return string representation

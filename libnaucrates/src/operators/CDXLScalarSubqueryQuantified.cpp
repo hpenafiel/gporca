@@ -79,7 +79,7 @@ CDXLScalarSubqueryQuantified::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	// serialize operator id and name
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_pmdnameScalarOp->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_pmdnameScalarOp->GetMDName());
 	m_pmdidScalarOp->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 
 	// serialize computed column id

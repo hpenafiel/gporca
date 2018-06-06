@@ -119,7 +119,7 @@ CDXLLogicalProject::SerializeToDXL
 	// serialize alias
 	if (NULL != m_mdname_alias)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDerivedTableName), m_mdname_alias->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDerivedTableName), m_mdname_alias->GetMDName());
 	}
 
 	// serialize children

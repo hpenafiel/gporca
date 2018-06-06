@@ -29,15 +29,15 @@ using namespace gpdxl;
 CDXLPhysicalMaterialize::CDXLPhysicalMaterialize
 	(
 	IMemoryPool *memory_pool,
-	BOOL fEager
+	BOOL is_eager
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_fEager(fEager),
-	m_ulSpoolId(0),
-	m_edxlsptype(EdxlspoolNone),
-	m_iExecutorSlice(-1),
-	m_ulConsumerSlices(0)
+	m_is_eager(is_eager),
+	m_spooling_op_id(0),
+	m_spool_type(EdxlspoolNone),
+	m_executor_slice(-1),
+	m_num_consumer_slices(0)
 {
 }
 
@@ -52,18 +52,18 @@ CDXLPhysicalMaterialize::CDXLPhysicalMaterialize
 CDXLPhysicalMaterialize::CDXLPhysicalMaterialize
 	(
 	IMemoryPool *memory_pool,
-	BOOL fEager,
-	ULONG ulSpoolId,
-	INT iExecutorSlice,
-	ULONG ulConsumerSlices
+	BOOL is_eager,
+	ULONG spooling_op_id,
+	INT executor_slice,
+	ULONG num_consumer_slices
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_fEager(fEager),
-	m_ulSpoolId(ulSpoolId),
-	m_edxlsptype(EdxlspoolMaterialize),
-	m_iExecutorSlice(iExecutorSlice),
-	m_ulConsumerSlices(ulConsumerSlices)
+	m_is_eager(is_eager),
+	m_spooling_op_id(spooling_op_id),
+	m_spool_type(EdxlspoolMaterialize),
+	m_executor_slice(executor_slice),
+	m_num_consumer_slices(num_consumer_slices)
 {
 }
 
@@ -97,90 +97,48 @@ CDXLPhysicalMaterialize::GetOpNameStr() const
 	return CDXLTokens::PstrToken(EdxltokenPhysicalMaterialize);
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLPhysicalMaterialize::FSpooling
-//
-//	@doc:
 //		Is this a spooling materialize operator
-//
-//---------------------------------------------------------------------------
 BOOL
-CDXLPhysicalMaterialize::FSpooling() const
+CDXLPhysicalMaterialize::IsSpooling() const
 {
-	return (EdxlspoolNone != m_edxlsptype);
+	return (EdxlspoolNone != m_spool_type);
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLPhysicalMaterialize::UlSpoolId
-//
-//	@doc:
 //		Id of the spool if the materialize node is spooling
-//
-//---------------------------------------------------------------------------
 ULONG
-CDXLPhysicalMaterialize::UlSpoolId() const
+CDXLPhysicalMaterialize::GetSpoolingOpId() const
 {
-	return m_ulSpoolId;
+	return m_spooling_op_id;
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLPhysicalMaterialize::IExecutorSlice
-//
-//	@doc:
 //		Id of the slice executing the spool
-//
-//---------------------------------------------------------------------------
 INT
-CDXLPhysicalMaterialize::IExecutorSlice() const
+CDXLPhysicalMaterialize::GetExecutorSlice() const
 {
-	return m_iExecutorSlice;
+	return m_executor_slice;
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLPhysicalMaterialize::UlConsumerSlices
-//
-//	@doc:
 //		Number of slices consuming the spool
-//
-//---------------------------------------------------------------------------
 ULONG
-CDXLPhysicalMaterialize::UlConsumerSlices() const
+CDXLPhysicalMaterialize::GetNumConsumerSlices() const
 {
-	return m_ulConsumerSlices;
+	return m_num_consumer_slices;
 }
 
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLPhysicalMaterialize::FEager
-//
-//	@doc:
 //		Does the materialize node do eager materialization
-//
-//---------------------------------------------------------------------------
 BOOL
-CDXLPhysicalMaterialize::FEager() const
+CDXLPhysicalMaterialize::IsEager() const
 {
-	return m_fEager;
+	return m_is_eager;
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLPhysicalMaterialize::SerializeToDXL
-//
-//	@doc:
 //		Serialize operator in DXL format
-//
-//---------------------------------------------------------------------------
 void
 CDXLPhysicalMaterialize::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -188,22 +146,22 @@ CDXLPhysicalMaterialize::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMaterializeEager), m_fEager);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMaterializeEager), m_is_eager);
 
-	if (EdxlspoolMaterialize == m_edxlsptype)
+	if (EdxlspoolMaterialize == m_spool_type)
 	{
 		// serialize spool info
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_ulSpoolId);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_spooling_op_id);
 		
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_iExecutorSlice);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenConsumerSliceCount), m_ulConsumerSlices);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_executor_slice);
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenConsumerSliceCount), m_num_consumer_slices);
 	}
 		
 	// serialize properties
-	pdxln->SerializePropertiesToDXL(xml_serializer);
+	node->SerializePropertiesToDXL(xml_serializer);
 
 	// serialize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 }
@@ -220,15 +178,15 @@ CDXLPhysicalMaterialize::SerializeToDXL
 void
 CDXLPhysicalMaterialize::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) 
 	const
 {
-	GPOS_ASSERT(EdxlspoolNone == m_edxlsptype || EdxlspoolMaterialize == m_edxlsptype);
-	GPOS_ASSERT(EdxlmatIndexSentinel == pdxln->Arity());
+	GPOS_ASSERT(EdxlspoolNone == m_spool_type || EdxlspoolMaterialize == m_spool_type);
+	GPOS_ASSERT(EdxlmatIndexSentinel == node->Arity());
 
-	CDXLNode *child_dxlnode = (*pdxln)[EdxlmatIndexChild];
+	CDXLNode *child_dxlnode = (*node)[EdxlmatIndexChild];
 	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)

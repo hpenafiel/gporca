@@ -86,7 +86,7 @@ CMDRequest::~CMDRequest()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRequest::Pstr
+//		CMDRequest::GetMDName
 //
 //	@doc:
 //		Serialize system id

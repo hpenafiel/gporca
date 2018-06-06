@@ -212,7 +212,7 @@ CDXLTableDescr::SerializeToDXL
 	
 	SerializeMDId(xml_serializer);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTableName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTableName), m_mdname->GetMDName());
 	
 	if (GPDXL_DEFAULT_USERID != m_execute_as_user_id)
 	{

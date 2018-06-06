@@ -188,7 +188,7 @@ CMDCastGPDB::Serialize
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBCastBinaryCoercible), m_fBinaryCoercible);
 	m_pmdidSrc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastSrcType));
@@ -218,7 +218,7 @@ CMDCastGPDB::DebugPrint
 	)
 	const
 {
-	os << "Cast " << (Mdname()).Pstr()->GetBuffer() << ": ";
+	os << "Cast " << (Mdname()).GetMDName()->GetBuffer() << ": ";
 	PmdidSrc()->OsPrint(os);
 	os << "->";
 	PmdidDest()->OsPrint(os);

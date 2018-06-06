@@ -58,7 +58,7 @@ CScalarCmp::CScalarCmp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarCmp::Pstr
+//		CScalarCmp::GetMDName
 //
 //	@doc:
 //		Comparison operator name
@@ -205,7 +205,7 @@ CScalarCmp::Pstr
 	)
 {
 	pmdid->AddRef();
-	return GPOS_NEW(memory_pool) CWStringConst(memory_pool, (pmda->Pmdscop(pmdid)->Mdname().Pstr())->GetBuffer());
+	return GPOS_NEW(memory_pool) CWStringConst(memory_pool, (pmda->Pmdscop(pmdid)->Mdname().GetMDName())->GetBuffer());
 }
 
 // get commuted scalar comparision operator

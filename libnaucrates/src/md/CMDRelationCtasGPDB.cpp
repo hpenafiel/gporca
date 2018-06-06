@@ -315,9 +315,9 @@ CMDRelationCtasGPDB::Serialize
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 	if (NULL != m_mdname_schema)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_mdname_schema->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSchema), m_mdname_schema->GetMDName());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_is_temp_table);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_has_oids);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_rel_storage_type));
@@ -379,7 +379,7 @@ CMDRelationCtasGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 
-	os << "Relation name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Relation name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 
 	os << "Distribution policy: " << PstrDistrPolicy(m_rel_distr_policy)->GetBuffer() << std::endl;
 
@@ -402,7 +402,7 @@ CMDRelationCtasGPDB::DebugPrint
 		}
 
 		const IMDColumn *pimdcolDistrKey = PmdcolDistrColumn(ul);
-		os << (pimdcolDistrKey->Mdname()).Pstr()->GetBuffer();
+		os << (pimdcolDistrKey->Mdname()).GetMDName()->GetBuffer();
 	}
 
 	os << std::endl;

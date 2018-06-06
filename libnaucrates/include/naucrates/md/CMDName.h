@@ -48,7 +48,7 @@ namespace gpmd
 			~CMDName();
 
 			// accessors
-			const CWStringConst *Pstr() const
+			const CWStringConst *GetMDName() const
 			{
 				return m_psc;
 			}

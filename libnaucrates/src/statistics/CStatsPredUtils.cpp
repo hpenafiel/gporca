@@ -110,7 +110,7 @@ CStatsPredUtils::Estatscmpt
 
 	// Simply go by operator name.
 	// If the name of the operator is "<", then it is a LessThan etc.
-	const CWStringConst *pstrOpName = pmdscop->Mdname().Pstr();
+	const CWStringConst *pstrOpName = pmdscop->Mdname().GetMDName();
 
 	return Estatscmpt(pstrOpName);
 }

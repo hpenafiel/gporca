@@ -522,7 +522,7 @@ CPredicateUtils::FLikePredicate
 	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
 	const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdid);
 
-	const CWStringConst *pstrOpName = pmdscop->Mdname().Pstr();
+	const CWStringConst *pstrOpName = pmdscop->Mdname().GetMDName();
 
 	// comparison semantics for statistics purposes is looser
 	// than regular comparison
@@ -2087,7 +2087,7 @@ CPredicateUtils::PexprInverseComparison
 
 	IMDId *pmdidOp = CScalarCmp::PopConvert(pexprCmp->Pop())->PmdidOp();
 	IMDId *pmdidInverseOp = pmda->Pmdscop(pmdidOp)->PmdidOpInverse();
-	const CWStringConst *pstrFirst = pmda->Pmdscop(pmdidInverseOp)->Mdname().Pstr();
+	const CWStringConst *pstrFirst = pmda->Pmdscop(pmdidInverseOp)->Mdname().GetMDName();
 
 	// generate a predicate for the inversion of the comparison involved in the subquery
 	(*pexprCmp)[0]->AddRef();

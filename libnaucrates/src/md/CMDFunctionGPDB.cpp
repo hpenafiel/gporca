@@ -222,7 +222,7 @@ CMDFunctionGPDB::Serialize
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncReturnsSet), m_fReturnsSet);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncStability), PstrStability());
@@ -309,7 +309,7 @@ CMDFunctionGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Function name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Function name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	
 	os << "Result type id: ";
 	PmdidTypeResult()->OsPrint(os);

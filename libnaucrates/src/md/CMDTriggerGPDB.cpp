@@ -161,7 +161,7 @@ CMDTriggerGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenGPDBTrigger));
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
 	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
 
@@ -197,7 +197,7 @@ CMDTriggerGPDB::DebugPrint
 	m_mdid->OsPrint(os);
 	os << std::endl;
 
-	os << "Trigger name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Trigger name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 
 	os << "Trigger relation id: ";
 	m_rel_mdid->OsPrint(os);

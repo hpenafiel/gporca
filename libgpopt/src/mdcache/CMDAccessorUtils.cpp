@@ -48,12 +48,12 @@ CMDAccessorUtils::PstrWindowFuncName
 	{
 		const IMDAggregate *pmdagg = pmda->Pmdagg(pmdidFunc);
 		
-		return pmdagg->Mdname().Pstr();
+		return pmdagg->Mdname().GetMDName();
 	}
 
 	const IMDFunction *pmdfunc = pmda->Pmdfunc(pmdidFunc);
 
-	return pmdfunc->Mdname().Pstr();
+	return pmdfunc->Mdname().GetMDName();
 }
 
 //---------------------------------------------------------------------------

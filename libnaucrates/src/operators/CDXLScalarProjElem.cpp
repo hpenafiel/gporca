@@ -134,7 +134,7 @@ CDXLScalarProjElem::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulId);
 		
 	// serialize proj element alias
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname->GetMDName());
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	

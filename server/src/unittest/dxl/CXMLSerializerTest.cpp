@@ -44,7 +44,7 @@ CXMLSerializerTest::EresUnittest()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CXMLSerializerTest::Pstr
+//		CXMLSerializerTest::GetMDName
 //
 //	@doc:
 //		Generate an XML string with or without identation using the XML serializer

@@ -37,7 +37,7 @@ namespace gpmd
 
                 pt->MDId()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
 
-                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pt->Mdname().Pstr());
+                xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), pt->Mdname().GetMDName());
                 xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeRedistributable), pt->FRedistributable());
                 xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeHashable), pt->FHashable());
                 xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDTypeComposite), pt->FComposite());
@@ -85,7 +85,7 @@ namespace gpmd
                 pt->MDId()->OsPrint(os);
                 os << std::endl;
 
-                os << "Type name: " << pt->Mdname().Pstr()->GetBuffer() << std::endl;
+                os << "Type name: " << pt->Mdname().GetMDName()->GetBuffer() << std::endl;
 
                 const CWStringConst *pstrRedistributable = pt->FRedistributable() ?
                 CDXLTokens::PstrToken(EdxltokenTrue):

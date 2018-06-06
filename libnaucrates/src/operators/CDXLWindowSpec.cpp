@@ -94,7 +94,7 @@ CDXLWindowSpec::SerializeToDXL
 
 	if (NULL != m_mdname)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname->Pstr());
+		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname->GetMDName());
 	}
 
 	// serialize sorting columns

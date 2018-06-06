@@ -48,7 +48,7 @@ CDXLColDescr::CDXLColDescr
 	m_is_dropped(is_dropped),
 	m_column_width(width)
 {
-	GPOS_ASSERT_IMP(m_is_dropped, 0 == m_md_name->Pstr()->Length());
+	GPOS_ASSERT_IMP(m_is_dropped, 0 == m_md_name->GetMDName()->Length());
 }
 
 //---------------------------------------------------------------------------
@@ -176,7 +176,7 @@ CDXLColDescr::SerializeToDXL
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_column_id);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_attr_no);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), m_md_name->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), m_md_name->GetMDName());
 	m_column_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())

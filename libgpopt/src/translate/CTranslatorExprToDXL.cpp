@@ -303,7 +303,7 @@ CTranslatorExprToDXL::PdxlnTranslate
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		// desired output column name
-		CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, (*pdrgpmdname)[ul]->Pstr());
+		CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, (*pdrgpmdname)[ul]->GetMDName());
 
 		// get the old project element for the ColId
 		CDXLNode *pdxlnPrElOld = (*pdxlnPrL)[ul];
@@ -5435,7 +5435,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 	CMDName *pmdnameSchema = NULL;
 	if (NULL != pmdrel->PmdnameSchema())
 	{
-		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->PmdnameSchema()->Pstr());
+		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->PmdnameSchema()->GetMDName());
 	}
 
 	pdrgpiVarTypeMod->AddRef();
@@ -5443,7 +5443,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 									(
 									m_memory_pool,
 									pmdnameSchema,
-									GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->Mdname().Pstr()),
+									GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->Mdname().GetMDName()),
 									pdrgpdxlcd,
 									pmdrel->Pdxlctasopt(),
 									pmdrel->Ereldistribution(),
@@ -7657,7 +7657,7 @@ CTranslatorExprToDXL::GetSortColListDXL
 		const IMDScalarOp *pmdscop = m_pmda->Pmdscop(pmdidSortOp);
 		
 		CWStringConst *pstrSortOpName = 
-				GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pmdscop->Mdname().Pstr()->GetBuffer());
+				GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pmdscop->Mdname().GetMDName()->GetBuffer());
 		
 		BOOL fSortNullsFirst = false;
 		if (COrderSpec::EntFirst == ent)

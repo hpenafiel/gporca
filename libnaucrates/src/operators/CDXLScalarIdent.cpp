@@ -139,7 +139,7 @@ CDXLScalarIdent::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 		
 	// add col name and col id
-	const CWStringConst *strCName = (m_pdxlcr->MdName())->Pstr(); 
+	const CWStringConst *strCName = (m_pdxlcr->MdName())->GetMDName(); 
 
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_pdxlcr->Id());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), strCName);

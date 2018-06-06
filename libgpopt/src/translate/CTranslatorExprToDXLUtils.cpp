@@ -751,13 +751,15 @@ CTranslatorExprToDXLUtils::PdxlnRangePointPredicate
 	// generate a predicate of the form "point < col" / "point > col"
 	pmdidCmpExl->AddRef();
 	
-	CWStringConst *pstrCmpExcl = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmda->Pmdscop(pmdidCmpExl)->Mdname().Pstr()->GetBuffer());
+	CWStringConst *pstrCmpExcl = GPOS_NEW(memory_pool) CWStringConst(memory_pool,
+																	 pmda->Pmdscop(pmdidCmpExl)->Mdname().GetMDName()->GetBuffer());
 	CDXLNode *pdxlnPredicateExclusive = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarComp(memory_pool, pmdidCmpExl, pstrCmpExcl), pdxlnPoint, pdxlnPartBound);
 	
 	// generate a predicate of the form "point <= col and colIncluded" / "point >= col and colIncluded"
 	pmdidCmpIncl->AddRef();
 
-	CWStringConst *pstrCmpIncl = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmda->Pmdscop(pmdidCmpIncl)->Mdname().Pstr()->GetBuffer());
+	CWStringConst *pstrCmpIncl = GPOS_NEW(memory_pool) CWStringConst(memory_pool,
+																	 pmda->Pmdscop(pmdidCmpIncl)->Mdname().GetMDName()->GetBuffer());
 	pdxlnPartBound->AddRef();
 	pdxlnPoint->AddRef();
 	CDXLNode *pdxlnCmpIncl = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarComp(memory_pool, pmdidCmpIncl, pstrCmpIncl), pdxlnPoint, pdxlnPartBound);
@@ -911,7 +913,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterScCmp
 	pmdidScCmp = CUtils::PmdidScCmp(memory_pool, pmda, pmdidTypeOther, pmdidTypePartKey, ecmpt);
 
 	const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdidScCmp);
-	const CWStringConst *pstrScCmp = pmdscop->Mdname().Pstr();
+	const CWStringConst *pstrScCmp = pmdscop->Mdname().GetMDName();
 
 	pmdidScCmp->AddRef();
 	CDXLNode *pdxlnScCmp = GPOS_NEW(memory_pool) CDXLNode
@@ -1215,7 +1217,7 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 	}
 	
 	const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdidScCmp); 
-	const CWStringConst *pstrScCmp = pmdscop->Mdname().Pstr();
+	const CWStringConst *pstrScCmp = pmdscop->Mdname().GetMDName();
 	
 	pmdidScCmp->AddRef();
 	
@@ -1534,7 +1536,7 @@ CTranslatorExprToDXLUtils::ReplaceSubplan
 
 	IMDId *mdid_type = pcr->Pmdtype()->MDId();
 	mdid_type->AddRef();
-	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pdxlopPrEl->PmdnameAlias()->Pstr());
+	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pdxlopPrEl->PmdnameAlias()->GetMDName());
 	CDXLColRef *pdxlcr = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pdxlopPrEl->UlId(), mdid_type, pcr->TypeModifier());
 	CDXLScalarIdent *pdxlnScId = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, pdxlcr);
 	CDXLNode *pdxln = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlnScId);

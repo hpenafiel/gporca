@@ -123,7 +123,7 @@ CDXLScalarBitmapIndexProbe::AssertValid
 
 	// assert validity of index descriptor
 	GPOS_ASSERT(NULL != m_index_descr_dxl->MdName());
-	GPOS_ASSERT(m_index_descr_dxl->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(m_index_descr_dxl->MdName()->GetMDName()->IsValid());
 }
 #endif // GPOS_DEBUG
 

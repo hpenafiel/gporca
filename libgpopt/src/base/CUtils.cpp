@@ -510,7 +510,7 @@ CUtils::PexprScalarCmp
 
 	pmdidCmpOp->AddRef();
 	const CMDName mdname = pmda->Pmdscop(pmdidCmpOp)->Mdname();
-	CWStringConst strCmpOpName(mdname.Pstr()->GetBuffer());
+	CWStringConst strCmpOpName(mdname.GetMDName()->GetBuffer());
 	
 	CExpression *pexprResult = GPOS_NEW(memory_pool) CExpression
 					(
@@ -786,7 +786,7 @@ CUtils::PexprScalarArrayCmp
 	pmdidCmpOp ->AddRef();
 
 	const CMDName mdname = pmda->Pmdscop(pmdidCmpOp)->Mdname();
-	CWStringConst strOp(mdname.Pstr()->GetBuffer());
+	CWStringConst strOp(mdname.GetMDName()->GetBuffer());
 
 	CExpression *pexprArray = GPOS_NEW(memory_pool) CExpression
 										(
@@ -823,7 +823,7 @@ CUtils::PexprCmpWithZero
 	IMDId *pmdidOp = pmdtype->PmdidCmp(ecmptype);
 	pmdidOp->AddRef();
 	const CMDName mdname = pmda->Pmdscop(pmdidOp)->Mdname();
-	CWStringConst strOpName(mdname.Pstr()->GetBuffer());
+	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
 
 	return GPOS_NEW(memory_pool) CExpression
 						(
@@ -873,7 +873,7 @@ CUtils::PexprIDF
 
 	pmdidEqOp->AddRef();
 	const CMDName mdname = pmda->Pmdscop(pmdidEqOp)->Mdname();
-	CWStringConst strEqOpName(mdname.Pstr()->GetBuffer());
+	CWStringConst strEqOpName(mdname.GetMDName()->GetBuffer());
 
 	return GPOS_NEW(memory_pool) CExpression
 				(
@@ -2242,7 +2242,7 @@ CUtils::PexprAgg
 	
 	IMDId *pmdidAgg = pmdagg->MDId();
 	pmdidAgg->AddRef();
-	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdagg->Mdname().Pstr()->GetBuffer());
+	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdagg->Mdname().GetMDName()->GetBuffer());
 
 	return PexprAggFunc(memory_pool, pmdidAgg, pstr, pcr, fDistinct, EaggfuncstageGlobal /*fGlobal*/, false /*fSplit*/);
 }

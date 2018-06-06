@@ -65,7 +65,7 @@ CDXLPhysicalAbstractBitmapScan::AssertValid
 	// assert validity of table descriptor
 	GPOS_ASSERT(NULL != m_table_descr_dxl);
 	GPOS_ASSERT(NULL != m_table_descr_dxl->MdName());
-	GPOS_ASSERT(m_table_descr_dxl->MdName()->Pstr()->IsValid());
+	GPOS_ASSERT(m_table_descr_dxl->MdName()->GetMDName()->IsValid());
 
 	if (validate_children)
 	{

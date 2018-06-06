@@ -106,7 +106,7 @@ CDXLColStats::Mdname() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLColStats::Pstr
+//		CDXLColStats::GetMDName
 //
 //	@doc:
 //		Returns the DXL string for this object
@@ -170,7 +170,7 @@ CDXLColStats::Serialize
 						CDXLTokens::PstrToken(EdxltokenColumnStats));
 	
 	m_pmdidColStats->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWidth), m_dWidth);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNullFreq), m_dNullFreq);
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNdvRemain), m_dDistinctRemain);
@@ -214,7 +214,7 @@ CDXLColStats::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Column name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Column name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	
 	for (ULONG ul = 0; ul < UlBuckets(); ul++)
 	{

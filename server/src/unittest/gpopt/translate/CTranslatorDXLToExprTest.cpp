@@ -206,7 +206,7 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CTranslatorDXLToExprTest::Pstr
+//		CTranslatorDXLToExprTest::GetMDName
 //
 //	@doc:
 //		Generate a string representation of an Expr Tree

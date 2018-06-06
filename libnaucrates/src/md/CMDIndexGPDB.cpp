@@ -298,7 +298,7 @@ CMDIndexGPDB::Serialize
 						CDXLTokens::PstrToken(EdxltokenIndex));
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->Pstr());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexClustered), m_fClustered);
 	
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexType), PstrIndexType(m_emdindt));
@@ -350,7 +350,7 @@ CMDIndexGPDB::DebugPrint
 	MDId()->OsPrint(os);
 	os << std::endl;
 	
-	os << "Index name: " << (Mdname()).Pstr()->GetBuffer() << std::endl;
+	os << "Index name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	os << "Index type: " << PstrIndexType(m_emdindt)->GetBuffer() << std::endl;
 
 	os << "Index keys: ";

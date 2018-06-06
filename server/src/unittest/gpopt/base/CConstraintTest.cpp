@@ -1071,7 +1071,7 @@ CConstraintTest::PexprScalarCmp
 
 	const CMDName mdname = pmda->Pmdscop(pmdidOp)->Mdname();
 
-	CWStringConst strOpName(mdname.Pstr()->GetBuffer());
+	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
 
 	CExpression *pexpr = CUtils::PexprScalarCmp(memory_pool, pcr, pexprConst, strOpName, pmdidOp);
 	(void) pexpr->PdpDerive();
