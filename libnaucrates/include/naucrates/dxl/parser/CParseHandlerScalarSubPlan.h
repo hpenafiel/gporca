@@ -35,16 +35,16 @@ namespace gpdxl
 		private:
 	
 			// first col type
-			IMDId *m_pmdidFirstCol;
+			IMDId *m_mdid_first_col;
 
 			// subplan type
-			EdxlSubPlanType m_edxlsubplantype;
+			EdxlSubPlanType m_dxl_subplan_type;
 
 			// private copy ctor
 			CParseHandlerScalarSubPlan(const CParseHandlerScalarSubPlan &);
 	
 			// map character sequence to subplan type
-			EdxlSubPlanType Edxlsubplantype(const XMLCh *xmlszSubplanType);
+			EdxlSubPlanType GetDXLSubplanType(const XMLCh *xml_subplan_type);
 
 			// process the start of an element
 			void StartElement

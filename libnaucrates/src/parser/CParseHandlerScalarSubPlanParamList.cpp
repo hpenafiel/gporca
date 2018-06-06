@@ -41,8 +41,8 @@ CParseHandlerScalarSubPlanParamList::CParseHandlerScalarSubPlanParamList
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root)
 {
-	m_pdrgdxlcr = GPOS_NEW(memory_pool) DrgPdxlcr(memory_pool);
-	m_fParamList = false;
+	m_dxl_colref_array = GPOS_NEW(memory_pool) DrgPdxlcr(memory_pool);
+	m_has_param_list = false;
 }
 
 //---------------------------------------------------------------------------
@@ -55,7 +55,7 @@ CParseHandlerScalarSubPlanParamList::CParseHandlerScalarSubPlanParamList
 //---------------------------------------------------------------------------
 CParseHandlerScalarSubPlanParamList::~CParseHandlerScalarSubPlanParamList()
 {
-	m_pdrgdxlcr->Release();
+	m_dxl_colref_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -78,23 +78,23 @@ CParseHandlerScalarSubPlanParamList::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParamList), element_local_name))
 	{
 		// we can't have seen a paramlist already
-		GPOS_ASSERT(!m_fParamList);
+		GPOS_ASSERT(!m_has_param_list);
 		// start the paramlist
-		m_fParamList = true;
+		m_has_param_list = true;
 	}
 	else if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParam), element_local_name))
 	{
 		// we must have seen a paramlist already
-		GPOS_ASSERT(m_fParamList);
+		GPOS_ASSERT(m_has_param_list);
 
 		// start new param
-		CParseHandlerBase *pphParam = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParam), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphParam);
+		CParseHandlerBase *parse_handler_subplan_param = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanParam), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_subplan_param);
 
 		// store parse handler
-		this->Append(pphParam);
+		this->Append(parse_handler_subplan_param);
 
-		pphParam->startElement(element_uri, element_local_name, element_qname, attrs);
+		parse_handler_subplan_param->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -125,15 +125,15 @@ CParseHandlerScalarSubPlanParamList::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
+	const ULONG arity = this->Length();
 	// add constructed children from child parse handlers
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
-		CParseHandlerScalarSubPlanParam *pphParam = dynamic_cast<CParseHandlerScalarSubPlanParam *>((*this)[ul]);
+		CParseHandlerScalarSubPlanParam *parse_handler_subplan_param = dynamic_cast<CParseHandlerScalarSubPlanParam *>((*this)[ul]);
 
-		CDXLColRef *dxl_colref = pphParam->MakeDXLColRef();
+		CDXLColRef *dxl_colref = parse_handler_subplan_param->MakeDXLColRef();
 		dxl_colref->AddRef();
-		m_pdrgdxlcr->Append(dxl_colref);
+		m_dxl_colref_array->Append(dxl_colref);
 	}
 
 	// deactivate handler
