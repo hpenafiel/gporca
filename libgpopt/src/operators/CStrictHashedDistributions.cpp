@@ -16,8 +16,8 @@ DrgDrgPcr *pdrgpdrgpcrInput
 DrgPds(memory_pool)
 {
 	const ULONG ulCols = pdrgpcrOutput->Size();
-	const ULONG ulArity = pdrgpdrgpcrInput->Size();
-	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
+	const ULONG arity = pdrgpdrgpcrInput->Size();
+	for (ULONG ulChild = 0; ulChild < arity; ulChild++)
 	{
 		DrgPcr *pdrgpcr = (*pdrgpdrgpcrInput)[ulChild];
 		DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);

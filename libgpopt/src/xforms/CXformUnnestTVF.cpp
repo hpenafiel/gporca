@@ -60,8 +60,8 @@ CXformUnnestTVF::Exfp
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (exprhdl.Pdpscalar(ul)->FHasSubquery())
 		{
@@ -140,8 +140,8 @@ CXformUnnestTVF::PexprProjectSubqueries
 
 	// collect subquery arguments
 	DrgPexpr *pdrgpexprSubqueries = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexprTVF->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprTVF->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprScalarChild = (*pexprTVF)[ul];
 		if (CDrvdPropScalar::Pdpscalar(pexprScalarChild->PdpDerive())->FHasSubquery())
@@ -235,8 +235,8 @@ CXformUnnestTVF::Transform
 	// create new function arguments by replacing subqueries with columns in CTE consumer output
 	DrgPexpr *pdrgpexprNewArgs = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	ULONG ulIndex = 0;
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprScalarChild = (*pexpr)[ul];
 		if (CDrvdPropScalar::Pdpscalar(pexprScalarChild->PdpDerive())->FHasSubquery())

@@ -1231,8 +1231,8 @@ CDXLOperatorFactory::ParseDXLFrameBoundary
 					{EdxlfbDelayedBoundedFollowing, EdxltokenWindowBoundaryDelayedBoundedFollowing}
 					};
 
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ULONG *pulElem = rgrgulMapping[ul];
 		Edxltoken edxltk = (Edxltoken) pulElem[1];
@@ -1324,8 +1324,8 @@ CDXLOperatorFactory::ParseFrameExclusionStrategy
 			};
 
 	EdxlFrameExclusionStrategy edxlfes = EdxlfesSentinel;
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ULONG *pulElem = rgrgulMapping[ul];
 		Edxltoken edxltk = (Edxltoken) pulElem[1];
@@ -3880,8 +3880,8 @@ CDXLOperatorFactory::PdxlopWindowRef
 					{EdxlwinstageRowKey, EdxltokenWindowrefStageRowKey}
 					};
 
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ULONG *pulElem = rgrgulMapping[ul];
 		Edxltoken edxltk = (Edxltoken) pulElem[1];

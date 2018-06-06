@@ -271,8 +271,8 @@ CLogical::PcrsDeriveOutputCombineLogical
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// union columns from the first N-1 children
-	ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(ul)->PcrsOutput();
 		GPOS_ASSERT(pcrs->IsDisjoint(pcrsChild) && "Input columns are not disjoint");
@@ -303,8 +303,8 @@ CLogical::PcrsDeriveNotNullCombineLogical
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// union not nullable columns from the first N-1 children
-	ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(ul)->PcrsNotNull();
 		GPOS_ASSERT(pcrs->IsDisjoint(pcrsChild) && "Input columns are not disjoint");
@@ -352,8 +352,8 @@ CLogical::PkcCombineKeys
 	)
 {
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CKeyCollection *pkc = exprhdl.Pdprel(ul)->Pkc();
 		if (NULL == pkc)
@@ -429,12 +429,12 @@ CLogical::PpartinfoDeriveCombine
 	CExpressionHandle &exprhdl
 	)
 {
-	const ULONG ulArity = exprhdl.Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = exprhdl.Arity();
+	GPOS_ASSERT(0 < arity);
 
 	CPartInfo *ppartinfo = GPOS_NEW(memory_pool) CPartInfo(memory_pool);
 	
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CPartInfo *ppartinfoChild = NULL;
 		if (exprhdl.FScalarChild(ul))
@@ -470,7 +470,7 @@ CLogical::PcrsDeriveOuter
 	CColRefSet *pcrsUsedAdditional
 	)
 {
-	ULONG ulArity = exprhdl.Arity();
+	ULONG arity = exprhdl.Arity();
 	CColRefSet *pcrsOuter = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// collect output columns from relational children
@@ -478,7 +478,7 @@ CLogical::PcrsDeriveOuter
 	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	CColRefSet *pcrsUsed = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
-	for (ULONG i = 0; i < ulArity; i++)
+	for (ULONG i = 0; i < arity; i++)
 	{
 		if (exprhdl.FScalarChild(i))
 		{
@@ -525,13 +525,13 @@ CLogical::PcrsDeriveOuterIndexGet
 	CExpressionHandle &exprhdl
 	)
 {
-	ULONG ulArity = exprhdl.Arity();
+	ULONG arity = exprhdl.Arity();
 	CColRefSet *pcrsOuter = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	CColRefSet *pcrsOutput = PcrsDeriveOutput(memory_pool, exprhdl);
 	
 	CColRefSet *pcrsUsed = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
-	for (ULONG i = 0; i < ulArity; i++)
+	for (ULONG i = 0; i < arity; i++)
 	{
 		GPOS_ASSERT(exprhdl.FScalarChild(i));
 		CDrvdPropScalar *pdpscalar = exprhdl.Pdpscalar(i);
@@ -567,7 +567,7 @@ CLogical::PcrsDeriveCorrelatedApply
 {
 	GPOS_ASSERT(this == exprhdl.Pop());
 
-	ULONG ulArity = exprhdl.Arity();
+	ULONG arity = exprhdl.Arity();
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	if (CUtils::FCorrelatedApply(exprhdl.Pop()))
@@ -577,7 +577,7 @@ CLogical::PcrsDeriveCorrelatedApply
 	}
 
 	// combine correlated-apply columns from logical children
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{
@@ -659,8 +659,8 @@ CLogical::PpcDeriveConstraintFromPredicates
 
 	// collect constraint properties from relational children
 	// and predicates from scalar children
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (exprhdl.FScalarChild(ul))
 		{
@@ -1045,11 +1045,11 @@ CLogical::UlJoinDepth
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 
 	// sum-up join depth of all relational children
 	ULONG ulDepth = 0;
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{
@@ -1074,10 +1074,10 @@ CLogical::MaxcardDef
 	CExpressionHandle &exprhdl
 	)
 {
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 
 	CMaxCard maxcard = exprhdl.Pdprel(0)->Maxcard();
-	for (ULONG ul = 1; ul < ulArity - 1; ul++)
+	for (ULONG ul = 1; ul < arity - 1; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{

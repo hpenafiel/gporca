@@ -123,10 +123,10 @@ CDXLPhysicalSequence::AssertValid
 	const
 {
 
-	const ULONG ulArity = pdxln->Arity();  
-	GPOS_ASSERT(1 < ulArity);
+	const ULONG arity = pdxln->Arity();  
+	GPOS_ASSERT(1 < arity);
 
-	for (ULONG ul = 1; ul < ulArity; ul++)
+	for (ULONG ul = 1; ul < arity; ul++)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());

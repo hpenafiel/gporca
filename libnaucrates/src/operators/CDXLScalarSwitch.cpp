@@ -153,10 +153,10 @@ CDXLScalarSwitch::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(1 < ulArity);
+	const ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(1 < arity);
 
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *dxlnode_arg = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());

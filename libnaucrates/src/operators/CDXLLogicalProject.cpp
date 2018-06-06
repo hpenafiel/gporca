@@ -158,8 +158,8 @@ CDXLLogicalProject::AssertValid
 		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);		
 	}
 
-	const ULONG ulArity = proj_list_dxlnode->Arity();
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	const ULONG arity = proj_list_dxlnode->Arity();
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *pdxlnPrEl = (*proj_list_dxlnode)[ul];
 		GPOS_ASSERT(EdxlopScalarIdent != pdxlnPrEl->GetOperator()->GetDXLOperator());

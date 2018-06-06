@@ -298,8 +298,8 @@ namespace gpopt
 
                             ULLONG ullCount = 1;
 
-                            ULONG ulArity = m_pdrgdrgptn->Size();
-                            for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
+                            ULONG arity = m_pdrgdrgptn->Size();
+                            for (ULONG ulChild = 0; ulChild < arity; ulChild++)
                             {
                                 ULLONG ull = UllCount(ulChild);
                                 if (0 == ull)

@@ -371,8 +371,8 @@ CLogicalProject::PstatsDerive
 	// extract scalar constant expression that can be used for 
 	// statistics calculation
 	CExpression *pexprPrList = exprhdl.PexprScalarChild(1 /*ulChildIndex*/);
-	const ULONG ulArity = pexprPrList->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprPrList->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprPrElem = (*pexprPrList)[ul];
 		GPOS_ASSERT(1 == pexprPrElem->Arity());

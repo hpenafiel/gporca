@@ -107,8 +107,8 @@ CPhysicalUnionAll::CPhysicalUnionAll
 
 	// build set representation of input columns
 	m_pdrgpcrsInput = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
-	const ULONG ulArity = m_pdrgpdrgpcrInput->Size();
-	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
+	const ULONG arity = m_pdrgpdrgpcrInput->Size();
+	for (ULONG ulChild = 0; ulChild < arity; ulChild++)
 	{
 		DrgPcr *pdrgpcr = (*m_pdrgpdrgpcrInput)[ulChild];
 		m_pdrgpcrsInput->Append(GPOS_NEW(memory_pool) CColRefSet(memory_pool, pdrgpcr));
@@ -509,13 +509,13 @@ const
 	ULongPtrArray *pdrgpul = ppimReqd->PdrgpulScanIds(m_memory_pool);
 	const ULONG ulScanIds = pdrgpul->Size();
 
-	const ULONG ulArity = exprhdl.UlNonScalarChildren();
+	const ULONG arity = exprhdl.UlNonScalarChildren();
 	for (ULONG ul = 0; ul < ulScanIds; ul++)
 	{
 		ULONG scan_id = *((*pdrgpul)[ul]);
 
 		ULONG ulChildrenWithConsumers = 0;
-		for (ULONG ulChildIdx = 0; ulChildIdx < ulArity; ulChildIdx++)
+		for (ULONG ulChildIdx = 0; ulChildIdx < arity; ulChildIdx++)
 		{
 			if (exprhdl.Pdprel(ulChildIdx)->Ppartinfo()->FContainsScanId(scan_id))
 			{
@@ -636,10 +636,10 @@ CPhysicalUnionAll::PdshashedDerive
 const
 {
 	BOOL fSuccess = true;
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 
 	// (1) check that all children deliver a hashed distribution that satisfies their input columns
-	for (ULONG ulChild = 0; fSuccess && ulChild < ulArity; ulChild++)
+	for (ULONG ulChild = 0; fSuccess && ulChild < arity; ulChild++)
 	{
 		CDistributionSpec *pdsChild = exprhdl.Pdpplan(ulChild)->Pds();
 		CDistributionSpec::EDistributionType edtChild = pdsChild->Edt();
@@ -663,7 +663,7 @@ const
 	}
 
 	ULongPtrArray *pdrgpulChild = NULL;
-	for (ULONG ulChild = 1; fSuccess && ulChild < ulArity; ulChild++)
+	for (ULONG ulChild = 1; fSuccess && ulChild < arity; ulChild++)
 	{
 		pdrgpulChild = PdrgpulMap(memory_pool, CDistributionSpecHashed::PdsConvert(exprhdl.Pdpplan(ulChild)->Pds())->Pdrgpexpr(), ulChild);
 
@@ -808,14 +808,14 @@ CPhysicalUnionAll::PdsDeriveFromChildren
 )
 const
 {
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 
 	CDistributionSpec *pdsOuter = exprhdl.Pdpplan(0 /*ulChildIndex*/)->Pds();
 	CDistributionSpec *pds = pdsOuter;
 	BOOL fUniversalOuterChild = (CDistributionSpec::EdtUniversal == pdsOuter->Edt());
 	BOOL fSingletonChild = false;
 	BOOL fReplicatedChild = false;
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDistributionSpec *pdsChild = exprhdl.Pdpplan(ul /*ulChildIndex*/)->Pds();
 		CDistributionSpec::EDistributionType edtChild = pdsChild->Edt();
@@ -913,8 +913,8 @@ AssertValidChildDistributions
 		const CHAR *szAssertMsg
 	)
 {
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ulChild = 0; ulChild < arity; ulChild++)
 	{
 		CDistributionSpec *pdsChild = exprhdl.Pdpplan(ulChild)->Pds();
 		CDistributionSpec::EDistributionType edtChild = pdsChild->Edt();

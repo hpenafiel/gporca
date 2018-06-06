@@ -120,8 +120,8 @@ CLogicalSequence::PkcDeriveKeys
 	const
 {
 	// return key of last child
-	const ULONG ulArity = exprhdl.Arity();
-	return PkcDeriveKeysPassThru(exprhdl, ulArity - 1 /* ulChild */);
+	const ULONG arity = exprhdl.Arity();
+	return PkcDeriveKeysPassThru(exprhdl, arity - 1 /* ulChild */);
 }
 
 

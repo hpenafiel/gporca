@@ -110,11 +110,11 @@ namespace gpopt
                 DrgDrgPcr *pdrgpdrgpcrInput = popSetOp->PdrgpdrgpcrInput();
                 DrgPexpr *pdrgpexprNewChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
                 DrgDrgPcr *pdrgpdrgpcrNewInput = GPOS_NEW(memory_pool) DrgDrgPcr(memory_pool);
-                const ULONG ulArity = pexprSetOp->Arity();
+                const ULONG arity = pexprSetOp->Arity();
 
                 BOOL fNewChild = false;
 
-                for (ULONG ulChild = 0; ulChild < ulArity; ulChild++)
+                for (ULONG ulChild = 0; ulChild < arity; ulChild++)
                 {
                     CExpression *pexprChild = (*pexprSetOp)[ulChild];
                     DrgPcr *pdrgpcrChild = (*pdrgpdrgpcrInput)[ulChild];

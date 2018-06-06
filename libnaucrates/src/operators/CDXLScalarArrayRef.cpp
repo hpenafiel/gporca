@@ -124,8 +124,8 @@ CDXLScalarArrayRef::SerializeToDXL
 	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	// serialize child nodes
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(3 == ulArity || 4 == ulArity);
+	const ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(3 == arity || 4 == arity);
 
 	// first 2 children are index lists
 	(*pdxln)[0]->SerializeToDXL(xml_serializer);
@@ -140,7 +140,7 @@ CDXLScalarArrayRef::SerializeToDXL
 	// 4th child is the optional assign expression
 	const CWStringConst *pstrAssignExpr = CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefAssignExpr);
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrAssignExpr);
-	if (4 == ulArity)
+	if (4 == arity)
 	{
 		(*pdxln)[3]->SerializeToDXL(xml_serializer);
 	}
@@ -184,8 +184,8 @@ CDXLScalarArrayRef::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	const ULONG arity = pdxln->Arity();
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());

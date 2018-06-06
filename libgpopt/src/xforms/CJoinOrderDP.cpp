@@ -691,8 +691,8 @@ CJoinOrderDP::DCost
 	}
 
 	CDouble dCost(0.0);
-	const ULONG ulArity = pexpr->Arity();
-	if (0 == ulArity)
+	const ULONG arity = pexpr->Arity();
+	if (0 == arity)
 	{
 		// leaf operator, use its estimated number of rows as cost
 		dCost = CDouble(pexpr->Pstats()->DRows());
@@ -701,7 +701,7 @@ CJoinOrderDP::DCost
 	{
 		// inner join operator, sum-up cost of its children
 		DOUBLE rgdRows[2] = {0.0,  0.0};
-		for (ULONG ul = 0; ul < ulArity - 1; ul++)
+		for (ULONG ul = 0; ul < arity - 1; ul++)
 		{
 			CExpression *pexprChild = (*pexpr)[ul];
 

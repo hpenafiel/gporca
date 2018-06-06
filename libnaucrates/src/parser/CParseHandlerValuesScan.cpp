@@ -94,8 +94,8 @@ CParseHandlerValuesScan::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulArity = this->Length();
-	GPOS_ASSERT(3 <= ulArity);
+	const ULONG arity = this->Length();
+	GPOS_ASSERT(3 <= arity);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
@@ -110,7 +110,7 @@ CParseHandlerValuesScan::EndElement
 	AddChildFromParseHandler(proj_list_parse_handler);
 
 	// valuesscan child value list begins with third child
-	for (ULONG ul = 2; ul < ulArity; ul++)
+	for (ULONG ul = 2; ul < arity; ul++)
 	{
 		CParseHandlerScalarValuesList *pphPScValuesList = dynamic_cast<CParseHandlerScalarValuesList *>((*this)[ul]);
 		AddChildFromParseHandler(pphPScValuesList);

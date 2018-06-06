@@ -546,9 +546,9 @@ ULONG
 CPhysicalAgg::HashValue() const
 {
 	ULONG ulHash = COperator::HashValue();
-	const ULONG ulArity = m_pdrgpcr->Size();
+	const ULONG arity = m_pdrgpcr->Size();
 	ULONG ulGbaggtype = (ULONG) m_egbaggtype;
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CColRef *pcr = (*m_pdrgpcr)[ul];
 		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(pcr));

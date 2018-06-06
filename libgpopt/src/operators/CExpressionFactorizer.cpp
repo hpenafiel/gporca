@@ -70,9 +70,9 @@ CExpressionFactorizer::PexprProcessDisjDescendents
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->Arity();
+	const ULONG arity = pexpr->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = PexprProcessDisjDescendents
 					(
@@ -727,9 +727,9 @@ CExpressionFactorizer::PcrsColumnsProducedByChildren
 	)
 {
 	GPOS_ASSERT(NULL != pexpr);
-	const ULONG ulArity = pexpr->Arity();
+	const ULONG arity = pexpr->Arity();
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
-	for (ULONG ulTop = 0; ulTop < ulArity; ulTop++)
+	for (ULONG ulTop = 0; ulTop < arity; ulTop++)
 	{
 		CExpression *pexprChild = (*pexpr)[ulTop];
 		const ULONG ulChildArity = pexprChild->Arity();
@@ -769,8 +769,8 @@ CExpressionFactorizer::PexprExtractInferredFiltersFromDisj
 	GPOS_ASSERT(CPredicateUtils::FOr(pexpr) && "input must be an OR expression");
 	GPOS_ASSERT(NULL != pexprLowestLogicalAncestor);
 
-	const ULONG ulArity = pexpr->Arity();
-	GPOS_ASSERT(2 <= ulArity);
+	const ULONG arity = pexpr->Arity();
+	GPOS_ASSERT(2 <= arity);
 
 	// for each source operator, create a map entry which, for every disjunct,
 	// has the array of comparisons using that operator
@@ -786,7 +786,7 @@ CExpressionFactorizer::PexprExtractInferredFiltersFromDisj
 		pcrsProducedByChildren = PcrsColumnsProducedByChildren(memory_pool, pexprLowestLogicalAncestor);
 	}
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprCurrent = (*pexpr)[ul];
 		BOOL fFirst = 0 == ul;

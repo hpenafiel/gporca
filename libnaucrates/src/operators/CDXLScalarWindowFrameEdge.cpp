@@ -99,8 +99,8 @@ CDXLScalarWindowFrameEdge::PstrFrameBoundary
 					{EdxlfbDelayedBoundedFollowing, EdxltokenWindowBoundaryDelayedBoundedFollowing}
 					};
 
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ULONG *pulElem = rgrgulMapping[ul];
 		if ((ULONG) edxlfb == pulElem[0])
@@ -164,14 +164,14 @@ CDXLScalarWindowFrameEdge::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(1 >= ulArity);
+	const ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(1 >= arity);
 
 	GPOS_ASSERT_IMP((m_edxlfb == EdxlfbBoundedPreceding || m_edxlfb == EdxlfbBoundedFollowing
-					|| m_edxlfb == EdxlfbDelayedBoundedPreceding || m_edxlfb == EdxlfbDelayedBoundedFollowing), 1 == ulArity);
-	GPOS_ASSERT_IMP((m_edxlfb == EdxlfbUnboundedPreceding || m_edxlfb == EdxlfbUnboundedFollowing || m_edxlfb == EdxlfbCurrentRow), 0 == ulArity);
+					|| m_edxlfb == EdxlfbDelayedBoundedPreceding || m_edxlfb == EdxlfbDelayedBoundedFollowing), 1 == arity);
+	GPOS_ASSERT_IMP((m_edxlfb == EdxlfbUnboundedPreceding || m_edxlfb == EdxlfbUnboundedFollowing || m_edxlfb == EdxlfbCurrentRow), 0 == arity);
 
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *dxlnode_arg = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());

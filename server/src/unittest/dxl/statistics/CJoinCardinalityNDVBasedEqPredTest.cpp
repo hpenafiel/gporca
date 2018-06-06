@@ -65,8 +65,8 @@ namespace
 				// ParseDXLToOptimizerStatisticObjArray returns an array of CStatistics (CStatisticsArray)
 				// and PStatsJoinArray takes an array of IStatistics (DrgPstat) as input
 				// So, iterate through CStatisticsArray and append members to a DrgPstat
-				ULONG ulArity = pdrgpstats->Size();
-				for (ULONG ul = 0; ul < ulArity; ul++)
+				ULONG arity = pdrgpstats->Size();
+				for (ULONG ul = 0; ul < arity; ul++)
 				{
 					IStatistics *pstats = (*pdrgpstats)[ul];
 					pstats->AddRef();

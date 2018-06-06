@@ -373,10 +373,10 @@ CMemo::PexprExtractPlan
 	// Get the length of groups for the best group expression
 	// i.e. given the best expression is
 	// 0: CScalarCmp (>=) [ 1 7 ]
-	// the ulArity is 2, which means the pgexprBest has 2 children:
+	// the arity is 2, which means the pgexprBest has 2 children:
 	// Group 1 and Group 7. Every single child is a CGroup.
-	ULONG ulArity = pgexprBest->Arity();
-	for (ULONG i = 0; i < ulArity; i++)
+	ULONG arity = pgexprBest->Arity();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		CGroup *pgroupChild = (*pgexprBest)[i];
 		CReqdPropPlan * prpp = NULL;

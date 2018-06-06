@@ -80,8 +80,8 @@ CScalar::FHasSubquery
 	}
 
 	// otherwise, iterate over scalar children
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG i = 0; i < ulArity; i++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		if (exprhdl.FScalarChild(i))
 		{
@@ -325,17 +325,17 @@ CScalar::EberEvaluate
 	COperator *pop = pexprScalar->Pop();
 	GPOS_ASSERT(pop->FScalar());
 
-	const ULONG ulArity = pexprScalar->Arity();
+	const ULONG arity = pexprScalar->Arity();
 	ULongPtrArray *pdrgpulChildren = NULL;
 
 	if (!CUtils::FSubquery(pop))
 	{
 		// do not recurse into subqueries
-		if (0 < ulArity)
+		if (0 < arity)
 		{
 			pdrgpulChildren = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 		}
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CExpression *pexprChild = (*pexprScalar)[ul];
 			EBoolEvalResult eberChild = EberEvaluate(memory_pool, pexprChild);
@@ -371,8 +371,8 @@ CScalar::FHasNonScalarFunction
 	}
 
 	// otherwise, iterate over scalar children
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG i = 0; i < ulArity; i++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		if (exprhdl.FScalarChild(i))
 		{
@@ -403,12 +403,12 @@ CScalar::PpartinfoDeriveCombineScalar
 	CExpressionHandle &exprhdl
 	)
 {
-	const ULONG ulArity = exprhdl.Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = exprhdl.Arity();
+	GPOS_ASSERT(0 < arity);
 
 	CPartInfo *ppartinfo = GPOS_NEW(memory_pool) CPartInfo(memory_pool);
 	
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (exprhdl.FScalarChild(ul))
 		{
@@ -436,8 +436,8 @@ CScalar::FHasScalarArrayCmp
 	}
 
 	// otherwise, iterate over scalar children
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG i = 0; i < ulArity; i++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		if (exprhdl.FScalarChild(i))
 		{

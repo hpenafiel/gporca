@@ -446,8 +446,8 @@ CJoinStatsProcessor::PstatsJoin
 	GPOS_ASSERT(CLogical::EspNone < CLogical::PopConvert(exprhdl.Pop())->Esp(exprhdl));
 
 	DrgPstat *statistics_array = GPOS_NEW(memory_pool) DrgPstat(memory_pool);
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		IStatistics *pstatsChild = exprhdl.Pstats(ul);
 		pstatsChild->AddRef();
@@ -455,7 +455,7 @@ CJoinStatsProcessor::PstatsJoin
 	}
 
 	CExpression *pexprJoinPred = NULL;
-	if (exprhdl.Pdpscalar(ulArity - 1)->FHasSubquery())
+	if (exprhdl.Pdpscalar(arity - 1)->FHasSubquery())
 	{
 		// in case of subquery in join predicate, assume join condition is True
 		pexprJoinPred = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
@@ -463,7 +463,7 @@ CJoinStatsProcessor::PstatsJoin
 	else
 	{
 		// remove implied predicates from join condition to avoid cardinality under-estimation
-		pexprJoinPred = CPredicateUtils::PexprRemoveImpliedConjuncts(memory_pool, exprhdl.PexprScalarChild(ulArity - 1), exprhdl);
+		pexprJoinPred = CPredicateUtils::PexprRemoveImpliedConjuncts(memory_pool, exprhdl.PexprScalarChild(arity - 1), exprhdl);
 	}
 
 	// split join predicate into local predicate and predicate involving outer references

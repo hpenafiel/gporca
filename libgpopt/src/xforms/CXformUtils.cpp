@@ -139,8 +139,8 @@ CXformUtils::ExfpExpandJoinOrder
 			return CXform::ExfpNone;
 		}
 
-		const ULONG ulArity = exprhdl.Arity();
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		const ULONG arity = exprhdl.Arity();
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CGroup *pgroupChild = (*exprhdl.Pgexpr())[ul];
 			if (!pgroupChild->FScalar() && !pgroupChild->FStatsDerivable(memory_pool))
@@ -1066,8 +1066,8 @@ CXformUtils::PexprSeparateSubqueryPreds
 
 	// split scalar expression into a conjunction of predicates with and without
 	// subqueries
-	const ULONG ulArity = pexpr->Arity();
-	CExpression *pexprScalar = (*pexpr)[ulArity - 1];
+	const ULONG arity = pexpr->Arity();
+	CExpression *pexprScalar = (*pexpr)[arity - 1];
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
 	DrgPexpr *pdrgpexprSQ = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprNonSQ = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -1094,7 +1094,7 @@ CXformUtils::PexprSeparateSubqueryPreds
 	// build children array from logical children and a conjunction of
 	// non-subquery predicates
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
 		pexprChild->AddRef();
@@ -3704,8 +3704,8 @@ CXformUtils::FHasAmbiguousType
 	if (!fAmbiguous)
 	{
 		// recursively process children
-		const ULONG ulArity = pexpr->Arity();
-		for (ULONG ul = 0; !fAmbiguous && ul < ulArity; ul++)
+		const ULONG arity = pexpr->Arity();
+		for (ULONG ul = 0; !fAmbiguous && ul < arity; ul++)
 		{
 			CExpression *pexprChild = (*pexpr)[ul];
 			fAmbiguous = FHasAmbiguousType(pexprChild, md_accessor);
@@ -4269,8 +4269,8 @@ CXformUtils::FJoinPredOnSingleChild
 {
 	GPOS_ASSERT(CUtils::FLogicalJoin(exprhdl.Pop()));
 
-	const ULONG ulArity = exprhdl.Arity();
-	if (0 == exprhdl.Pdpscalar(ulArity - 1)->PcrsUsed()->Size())
+	const ULONG arity = exprhdl.Arity();
+	if (0 == exprhdl.Pdpscalar(arity - 1)->PcrsUsed()->Size())
 	{
 		// no columns are used in join predicate
 		return false;
@@ -4278,21 +4278,21 @@ CXformUtils::FJoinPredOnSingleChild
 
 	// construct array of children output columns
 	DrgPcrs *pdrgpcrs = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CColRefSet *pcrsOutput = exprhdl.Pdprel(ul)->PcrsOutput();
 		pcrsOutput->AddRef();
 		pdrgpcrs->Append(pcrsOutput);
 	}
 
-	DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(memory_pool, exprhdl.PexprScalarChild(ulArity- 1));
+	DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(memory_pool, exprhdl.PexprScalarChild(arity- 1));
 	const ULONG ulPreds = pdrgpexprPreds->Size();
 	BOOL fPredUsesSingleChild = false;
 	for (ULONG ulPred = 0; !fPredUsesSingleChild && ulPred < ulPreds; ulPred++)
 	{
 		CExpression *pexpr = (*pdrgpexprPreds)[ulPred];
 		CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed();
-		for (ULONG ulChild = 0; !fPredUsesSingleChild && ulChild < ulArity - 1; ulChild++)
+		for (ULONG ulChild = 0; !fPredUsesSingleChild && ulChild < arity - 1; ulChild++)
 		{
 			fPredUsesSingleChild = (*pdrgpcrs)[ulChild]->ContainsAll(pcrsUsed);
 		}
@@ -4508,8 +4508,8 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 	HMExprDrgPexpr *phmexprdrgpexpr = GPOS_NEW(memory_pool) HMExprDrgPexpr(memory_pool);
 	ULONG ulDifferentDQAs = 0;
 	CExpression *pexprTrue = CUtils::PexprScalarConstBool(memory_pool, true /*value*/);
-	const ULONG ulArity = pexprPrjList->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprPrjList->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprPrjEl = (*pexprPrjList)[ul];
 		CExpression *pexprChild = (*pexprPrjEl)[0];

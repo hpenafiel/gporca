@@ -135,8 +135,8 @@ CSubqueryHandler::PexprReplace
 	// process children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexprInput->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprInput->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = PexprReplace(memory_pool, (*pexprInput)[ul], pcr, pexprScalar);
 		pdrgpexpr->Append(pexprChild);
@@ -1749,8 +1749,8 @@ CSubqueryHandler::FRecursiveHandler
 	// save the current logical expression
 	CExpression *pexprCurrentOuter = pexprOuter;
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexprScalar->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprScalar->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprScalarChild = (*pexprScalar)[ul];
 		CExpression *pexprNewLogical = NULL;

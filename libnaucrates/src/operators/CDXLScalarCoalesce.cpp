@@ -141,8 +141,8 @@ CDXLScalarCoalesce::AssertValid
 {
 	GPOS_ASSERT(0 < node->Arity());
 
-	const ULONG ulArity = node->Arity();
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	const ULONG arity = node->Arity();
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *child_dxlnode = (*node)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());

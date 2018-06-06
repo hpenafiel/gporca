@@ -107,21 +107,21 @@ CConstraint::PcnstrFromScalarArrayCmp
 		IMDType::ECmpType ecmpt = CUtils::Ecmpt(popScArrayCmp->PmdidOp());
 		CExpression *pexprArray = CUtils::PexprScalarArrayChild(pexpr);
 
-		const ULONG ulArity = CUtils::UlScalarArrayArity(pexprArray);
+		const ULONG arity = CUtils::UlScalarArrayArity(pexprArray);
 
 		// When array size exceeds the constraint derivation threshold,
 		// don't expand it into a DNF and don't derive constraints
 		COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 		ULONG array_expansion_threshold = optimizer_config->GetHint()->UlArrayExpansionThreshold();
 
-		if (ulArity > array_expansion_threshold)
+		if (arity > array_expansion_threshold)
 		{
 			return NULL;
 		}
 
 		DrgPcnstr *pdrgpcnstr = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CScalarConst *popScConst = CUtils::PScalarArrayConstChildAt(pexprArray,ul);
 			CConstraintInterval *pci =  CConstraintInterval::PciIntervalFromColConstCmp(memory_pool, pcr, ecmpt, popScConst);
@@ -425,7 +425,7 @@ CConstraint::PcnstrFromScalarBoolOp
 	GPOS_ASSERT(NULL != ppdrgpcrs);
 	GPOS_ASSERT(NULL == *ppdrgpcrs);
 
-	const ULONG ulArity= pexpr->Arity();
+	const ULONG arity= pexpr->Arity();
 
 	// Large IN/NOT IN lists that can not be converted into
 	// CScalarArrayCmp, are expanded into its disjunctive normal form,
@@ -437,7 +437,7 @@ CConstraint::PcnstrFromScalarBoolOp
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 	ULONG array_expansion_threshold = optimizer_config->GetHint()->UlArrayExpansionThreshold();
 
-	if (CPredicateUtils::FOr(pexpr) && ulArity > array_expansion_threshold)
+	if (CPredicateUtils::FOr(pexpr) && arity > array_expansion_threshold)
 	{
 		return NULL;
 	}
@@ -445,7 +445,7 @@ CConstraint::PcnstrFromScalarBoolOp
 	*ppdrgpcrs = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
 	DrgPcnstr *pdrgpcnstr = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		DrgPcrs *pdrgpcrsChild = NULL;
 		CConstraint *pcnstrChild = PcnstrFromScalarExpr(memory_pool, (*pexpr)[ul], &pdrgpcrsChild);
@@ -955,10 +955,10 @@ CConstraint::PrintConjunctionDisjunction
 	GPOS_ASSERT(EctConjunction == ect || EctDisjunction == ect);
 
 	os << "(";
-	const ULONG ulArity = pdrgpcnstr->Size();
+	const ULONG arity = pdrgpcnstr->Size();
 	(*pdrgpcnstr)[0]->OsPrint(os);
 
-	for (ULONG ul = 1; ul < ulArity; ul++)
+	for (ULONG ul = 1; ul < arity; ul++)
 	{
 		if (EctConjunction == ect)
 		{

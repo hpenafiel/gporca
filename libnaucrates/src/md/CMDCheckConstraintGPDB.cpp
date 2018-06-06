@@ -93,8 +93,8 @@ CMDCheckConstraintGPDB::Pexpr
 	const ULONG ulLen = pdrgpcr->Size();
 	GPOS_ASSERT(ulLen > 0);
 
-	const ULONG ulArity = pmdrel->UlNonDroppedCols() - pmdrel->UlSystemColumns();
-	GPOS_ASSERT(ulArity == ulLen);
+	const ULONG arity = pmdrel->UlNonDroppedCols() - pmdrel->UlSystemColumns();
+	GPOS_ASSERT(arity == ulLen);
 #endif // GPOS_DEBUG
 
 	// translate the DXL representation of the check constraint expression

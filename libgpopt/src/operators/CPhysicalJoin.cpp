@@ -200,8 +200,8 @@ CPhysicalJoin::FProvidesReqdCols
 
 	// union columns from relational children
 	CColRefSet *pcrs = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
-	ULONG ulArity = exprhdl.Arity();
-	for (ULONG i = 0; i < ulArity - 1; i++)
+	ULONG arity = exprhdl.Arity();
+	for (ULONG i = 0; i < arity - 1; i++)
 	{
 		CColRefSet *pcrsChild = exprhdl.Pdprel(i)->PcrsOutput();
 		pcrs->Union(pcrsChild);

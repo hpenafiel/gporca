@@ -156,8 +156,8 @@ CCostContext::FNeedsNewStats() const
 
 	// we need to derive stats if any child has modified stats
 	BOOL fDeriveStats = false;
-	const ULONG ulArity = Pdrgpoc()->Size();
-	for (ULONG ul = 0; !fDeriveStats && ul < ulArity; ul++)
+	const ULONG arity = Pdrgpoc()->Size();
+	for (ULONG ul = 0; !fDeriveStats && ul < arity; ul++)
 	{
 		COptimizationContext *pocChild = (*Pdrgpoc())[ul];
 		CCostContext *pccChild = pocChild->PccBest();
@@ -498,14 +498,14 @@ CCostContext::CostCompute
 	// derive context stats
 	DeriveStats();
 
-	ULONG ulArity = 0;
+	ULONG arity = 0;
 	if (NULL != m_pdrgpoc)
 	{
-		ulArity = Pdrgpoc()->Size();
+		arity = Pdrgpoc()->Size();
 	}
 
 	m_pstats->AddRef();
-	ICostModel::SCostingInfo ci(memory_pool, ulArity, GPOS_NEW(memory_pool) ICostModel::CCostingStats(m_pstats));
+	ICostModel::SCostingInfo ci(memory_pool, arity, GPOS_NEW(memory_pool) ICostModel::CCostingStats(m_pstats));
 
 	ICostModel *pcm = COptCtxt::PoctxtFromTLS()->GetCostModel();
 
@@ -529,7 +529,7 @@ CCostContext::CostCompute
 	GPOS_ASSERT_IMP(!exprhdl.FHasOuterRefs(), GPOPT_DEFAULT_REBINDS == (ULONG) (dRebinds) && "invalid number of rebinds when there are no outer references");
 
 	// extract children costing info
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		COptimizationContext *pocChild = (*m_pdrgpoc)[ul];
 		CCostContext *pccChild = pocChild->PccBest();
@@ -634,15 +634,15 @@ CCostContext::OsPrint
 	if (NULL != m_pdrgpoc)
 	{
 		os << ", child ctxts:[";
-		ULONG ulArity = m_pdrgpoc->Size();
-		if (0 < ulArity)
+		ULONG arity = m_pdrgpoc->Size();
+		if (0 < arity)
 		{
-			for (ULONG i = 0; i < ulArity - 1; i++)
+			for (ULONG i = 0; i < arity - 1; i++)
 			{
 				os << (*m_pdrgpoc)[i]->UlId();
 				os << ", ";
 			}
-			os << (*m_pdrgpoc)[ulArity - 1]->UlId();
+			os << (*m_pdrgpoc)[arity - 1]->UlId();
 		}
 		os << "]";
 	}

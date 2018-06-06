@@ -499,8 +499,8 @@ CTranslatorDXLToExpr::PexprLogicalTVF
 
 	// create expression containing the logical TVF operator
 	CExpression *pexpr = NULL;
-	const ULONG ulArity = pdxln->Arity();
-	if (0 < ulArity)
+	const ULONG arity = pdxln->Arity();
+	if (0 < arity)
 	{
 		// translate function arguments
 		DrgPexpr *pdrgpexprArgs = PdrgpexprChildren(pdxln);
@@ -640,11 +640,11 @@ CTranslatorDXLToExpr::PexprLogicalSetOp
 	CDXLLogicalSetOp *dxl_op = CDXLLogicalSetOp::Cast(pdxln->GetOperator());
 
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = pdxln->Arity();
+	const ULONG arity = pdxln->Arity();
 #endif // GPOS_DEBUG
 
-	GPOS_ASSERT(2 <= ulArity);
-	GPOS_ASSERT(ulArity == dxl_op->ChildCount());
+	GPOS_ASSERT(2 <= arity);
+	GPOS_ASSERT(arity == dxl_op->ChildCount());
 
 	// array of input column reference
 	DrgDrgPcr *pdrgdrgpcrInput = GPOS_NEW(m_memory_pool) DrgDrgPcr(m_memory_pool);
@@ -913,13 +913,13 @@ CTranslatorDXLToExpr::PdrgpexprPreprocessSetOpInputs
 
 	CDXLLogicalSetOp *dxl_op = CDXLLogicalSetOp::Cast(pdxln->GetOperator());
 
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(2 <= ulArity);
-	GPOS_ASSERT(ulArity == dxl_op->ChildCount());
+	const ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(2 <= arity);
+	GPOS_ASSERT(arity == dxl_op->ChildCount());
 
 	const ULONG ulOutputCols = dxl_op->Arity();
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = NULL;
 		DrgPcr *pdrgpcrInput = NULL;
@@ -1693,10 +1693,10 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 
 	CDXLNode *pdxlnPrL = (*pdxln)[0];
 	GPOS_ASSERT(EdxlopScalarProjectList == pdxlnPrL->GetOperator()->GetDXLOperator());
-	const ULONG ulArity = pdxlnPrL->Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = pdxlnPrL->Arity();
+	GPOS_ASSERT(0 < arity);
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLNode *pdxlnProjElem = (*pdxlnPrL)[ul];
 
@@ -1920,8 +1920,8 @@ CTranslatorDXLToExpr::Efb
 	};
 
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	GPOS_ASSERT(ulArity > (ULONG) edxlfb  && "Invalid window frame boundary");
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	GPOS_ASSERT(arity > (ULONG) edxlfb  && "Invalid window frame boundary");
 #endif
 	CWindowFrame::EFrameBoundary efb = (CWindowFrame::EFrameBoundary)rgrgulMapping[(ULONG) edxlfb][1];
 	
@@ -1953,8 +1953,8 @@ const
 	};
 
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	GPOS_ASSERT(ulArity > (ULONG) edxlfeb  && "Invalid window frame exclusion strategy");
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	GPOS_ASSERT(arity > (ULONG) edxlfeb  && "Invalid window frame exclusion strategy");
 #endif
 	CWindowFrame::EFrameExclusionStrategy efeb = (CWindowFrame::EFrameExclusionStrategy)rgrgulMapping[(ULONG) edxlfeb][1];
 
@@ -3024,8 +3024,8 @@ CTranslatorDXLToExpr::Ews
 		{EdxlwinstageRowKey, CScalarWindowFunc::EwsRowKey}
 	};
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	GPOS_ASSERT(ulArity > (ULONG) edxlws  && "Invalid window stage");
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	GPOS_ASSERT(arity > (ULONG) edxlws  && "Invalid window stage");
 #endif
 	CScalarWindowFunc::EWinStage ews= (CScalarWindowFunc::EWinStage)rgrgulMapping[(ULONG) edxlws][1];
 	
@@ -3372,8 +3372,8 @@ CTranslatorDXLToExpr::PdrgpexprChildren
 {
 	DrgPexpr *pdrgpexpr = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
 
-	const ULONG ulArity = pdxln->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pdxln->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		// get next child and translate it
 		CDXLNode *child_dxlnode = (*pdxln)[ul];

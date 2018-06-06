@@ -104,10 +104,10 @@ CDXLScalarAssertConstraintList::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(0 < arity);
 	
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
 		GPOS_ASSERT(EdxlopScalarAssertConstraint == child_dxlnode->GetOperator()->GetDXLOperator());

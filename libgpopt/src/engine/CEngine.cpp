@@ -248,9 +248,9 @@ CEngine::InsertExpressionChildren
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(NULL != pdrgpgroupChildren);
 
-	ULONG ulArity = pexpr->Arity();
+	ULONG arity = pexpr->Arity();
 
-	for (ULONG i = 0; i < ulArity; i++)
+	for (ULONG i = 0; i < arity; i++)
 	{
 		CGroup *pgroupChild = NULL;
 		COperator *popChild = (*pexpr)[i]->Pop();
@@ -791,8 +791,8 @@ CEngine::TransitionGroupExpression
 	pgexpr->SetState(estInitial);
 
 	// transition all child groups
-	ULONG ulArity = pgexpr->Arity();
-	for (ULONG i = 0; i < ulArity; i++)
+	ULONG arity = pgexpr->Arity();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		TransitionGroup(pmpLocal, (*pgexpr)[i], estGroupTargetState);
 
@@ -1063,8 +1063,8 @@ CEngine::PdrgpocOptimizeChildren
 	GPOS_ASSERT(NULL != exprhdl.Pgexpr());
 
 	CGroupExpression *pgexpr = exprhdl.Pgexpr();
-	const ULONG ulArity = exprhdl.Arity();
-	if (0 == ulArity)
+	const ULONG arity = exprhdl.Arity();
+	if (0 == arity)
 	{
 		// return empty array if no children
 		return GPOS_NEW(m_memory_pool) DrgPoc(m_memory_pool);
@@ -1408,8 +1408,8 @@ CEngine::PdrgpocChildren
 	GPOS_ASSERT(NULL != exprhdl.Pgexpr());
 
 	DrgPoc *pdrgpoc = GPOS_NEW(memory_pool) DrgPoc(memory_pool);
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CGroup *pgroupChild = (*exprhdl.Pgexpr())[ul];
 		if (!pgroupChild->FScalar())

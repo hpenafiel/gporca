@@ -257,8 +257,8 @@ CXformSplitDQA::PexprSplitIntoLocalDQAGlobalAgg
 	DrgPexpr *pdrgpexprPrElFirstStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprPrElLastStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexprPrL->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprPrL->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprPrEl = (*pexprPrL)[ul];
 		CScalarProjectElement *popScPrEl = CScalarProjectElement::PopConvert(pexprPrEl->Pop());
@@ -399,8 +399,8 @@ CXformSplitDQA::PexprSplitHelper
 	DrgPexpr *pdrgpexprPrElSecondStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprPrElLastStage = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulArity = pexprPrL->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprPrL->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprPrEl = (*pexprPrL)[ul];
 		CScalarProjectElement *popScPrEl = CScalarProjectElement::PopConvert(pexprPrEl->Pop());
@@ -812,12 +812,12 @@ CXformSplitDQA::ExtractDistinctCols
 	GPOS_ASSERT(NULL != ppdrgpcrArgDQA);
 	GPOS_ASSERT(NULL != phmexprcr);
 
-	const ULONG ulArity = pexpr->Arity();
+	const ULONG arity = pexpr->Arity();
 
 	// use a set to deduplicate distinct aggs arguments
 	CColRefSet *pcrsArgDQA = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 	ULONG ulDistinct = 0;
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprPrEl = (*pexpr)[ul];
 

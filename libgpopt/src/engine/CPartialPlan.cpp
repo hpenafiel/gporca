@@ -85,9 +85,9 @@ CPartialPlan::ExtractChildrenCostingInfo
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT_IMP(NULL != m_pccChild, m_ulChildIndex < exprhdl.Arity());
 
-	const ULONG ulArity = m_pgexpr->Arity();
+	const ULONG arity = m_pgexpr->Arity();
 	ULONG ulIndex = 0;
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CGroup *pgroupChild = (*m_pgexpr)[ul];
 		if (pgroupChild->FScalar())
@@ -197,8 +197,8 @@ CPartialPlan::CostCompute
 
 	// create array of child derived properties
 	DrgPdp *pdrgpdp = GPOS_NEW(memory_pool) DrgPdp(memory_pool);
-	const ULONG ulArity =  m_pgexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity =  m_pgexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		// compute required columns of the n-th child
 		exprhdl.ComputeChildReqdCols(ul, pdrgpdp);

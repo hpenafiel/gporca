@@ -144,17 +144,17 @@ CDXLScalarBoolExpr::AssertValid
 
 	GPOS_ASSERT( (edxlbooltype == Edxlnot) || (edxlbooltype == Edxlor) || (edxlbooltype == Edxland));
 
-	const ULONG ulArity = pdxln->Arity();
+	const ULONG arity = pdxln->Arity();
 	if(edxlbooltype == Edxlnot)
 	{
-		GPOS_ASSERT(1 == ulArity);
+		GPOS_ASSERT(1 == arity);
 	}
 	else
 	{
-		GPOS_ASSERT(2 <= ulArity);
+		GPOS_ASSERT(2 <= arity);
 	}
 
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *dxlnode_arg = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());

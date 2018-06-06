@@ -219,8 +219,8 @@ CPredicateUtils::FHasNegatedChild
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (FNot((*pexpr)[ul]))
 		{
@@ -242,8 +242,8 @@ CPredicateUtils::CollectChildren
 {
 	GPOS_ASSERT(pexpr->Pop()->FLogical());
 
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = (*pexpr) [ul];
 		pexprChild->AddRef();
@@ -272,8 +272,8 @@ CPredicateUtils::CollectConjuncts
 
 	if (FAnd(pexpr))
 	{
-		const ULONG ulArity = pexpr->Arity();
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		const ULONG arity = pexpr->Arity();
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CollectConjuncts((*pexpr)[ul], pdrgpexpr);
 		}
@@ -297,8 +297,8 @@ CPredicateUtils::CollectDisjuncts
 
 	if (FOr(pexpr))
 	{
-		const ULONG ulArity = pexpr->Arity();
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		const ULONG arity = pexpr->Arity();
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CollectDisjuncts((*pexpr)[ul], pdrgpexpr);
 		}
@@ -849,8 +849,8 @@ CPredicateUtils::PdrgpexprPlainEqualities
 	)
 {
 	DrgPexpr *pdrgpexprEqualities = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pdrgpexpr->Size();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pdrgpexpr->Size();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprCurr = (*pdrgpexpr)[ul];
 
@@ -2577,8 +2577,8 @@ CPredicateUtils::FConvertToCNF
 	BOOL fExistsChildDoCNF = false;
 
 	// recursively check children
-	const ULONG ulArity = pexprScalar->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprScalar->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		BOOL fCNFConversion = FConvertToCNF(pexprOuter, pexprInner, (*pexprScalar)[ul]);
 

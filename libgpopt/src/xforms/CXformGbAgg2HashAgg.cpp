@@ -180,10 +180,10 @@ CXformGbAgg2HashAgg::FApplicable
 	const
 {
 	CExpression *pexprPrjList = (*pexpr)[1];
-	ULONG ulArity = pexprPrjList->Arity();
+	ULONG arity = pexprPrjList->Arity();
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprPrjEl = (*pexprPrjList)[ul];
 		CExpression *pexprAggFunc = (*pexprPrjEl)[0];

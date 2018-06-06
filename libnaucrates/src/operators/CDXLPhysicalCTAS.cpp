@@ -181,8 +181,8 @@ CDXLPhysicalCTAS::SerializeToDXL
 	// serialize column descriptors
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	
-	const ULONG ulArity = m_col_descr_array->Size();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = m_col_descr_array->Size();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*m_col_descr_array)[ul];
 		pdxlcd->SerializeToDXL(xml_serializer);

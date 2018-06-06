@@ -71,9 +71,9 @@ CXformUnion2UnionAll::Transform
 	DrgDrgPcr *pdrgpdrgpcrInput = popUnion->PdrgpdrgpcrInput();
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexpr->Arity();
+	const ULONG arity = pexpr->Arity();
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
 		pexprChild->AddRef();

@@ -107,8 +107,8 @@ CPhysicalSequence::PcrsRequired
 	ULONG // ulOptReq
 	)
 {
-	const ULONG ulArity = exprhdl.Arity();
-	if (ulChildIndex == ulArity - 1)
+	const ULONG arity = exprhdl.Arity();
+	if (ulChildIndex == arity - 1)
 	{
 		// request required columns from the last child of the sequence
 		return PcrsChildReqd(memory_pool, exprhdl, pcrsRequired, ulChildIndex, ULONG_MAX);
@@ -200,10 +200,10 @@ CPhysicalSequence::FProvidesReqdCols
 	GPOS_ASSERT(NULL != pcrsRequired);
 
 	// last child must provide required columns
-	ULONG ulArity = exprhdl.Arity();
-	GPOS_ASSERT(0 < ulArity);
+	ULONG arity = exprhdl.Arity();
+	GPOS_ASSERT(0 < arity);
 	
-	CColRefSet *pcrsChild = exprhdl.Pdprel(ulArity - 1)->PcrsOutput();
+	CColRefSet *pcrsChild = exprhdl.Pdprel(arity - 1)->PcrsOutput();
 
 	return pcrsChild->ContainsAll(pcrsRequired);
 }
@@ -344,11 +344,11 @@ CPhysicalSequence::PosDerive
 	const
 {
 	// pass through sort order from last child
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 	
-	GPOS_ASSERT(1 <= ulArity);
+	GPOS_ASSERT(1 <= arity);
 	
-	COrderSpec *pos = exprhdl.Pdpplan(ulArity - 1 /*ulChildIndex*/)->Pos();
+	COrderSpec *pos = exprhdl.Pdpplan(arity - 1 /*ulChildIndex*/)->Pos();
 	pos->AddRef();
 
 	return pos;
@@ -371,11 +371,11 @@ CPhysicalSequence::PdsDerive
 	const
 {
 	// pass through distribution from last child
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 	
-	GPOS_ASSERT(1 <= ulArity);
+	GPOS_ASSERT(1 <= arity);
 	
-	CDistributionSpec *pds = exprhdl.Pdpplan(ulArity - 1 /*ulChildIndex*/)->Pds();
+	CDistributionSpec *pds = exprhdl.Pdpplan(arity - 1 /*ulChildIndex*/)->Pds();
 	pds->AddRef();
 
 	return pds;

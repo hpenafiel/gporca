@@ -337,10 +337,10 @@ CDrvdPropRelational::Pdrgpfd
 	GPOS_ASSERT(exprhdl.Pop()->FLogical());
 
 	DrgPfd *pdrgpfd = GPOS_NEW(memory_pool) DrgPfd(memory_pool);
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 
 	// collect applicable FD's from logical children
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{

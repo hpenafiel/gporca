@@ -120,8 +120,8 @@ CXformExpandNAryJoin::Transform
 
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
-	const ULONG ulArity = pexpr->Arity();
-	GPOS_ASSERT(ulArity >= 3);
+	const ULONG arity = pexpr->Arity();
+	GPOS_ASSERT(arity >= 3);
 
 	// create a cluster of inner joins with same order of given relations
 	// and dummy join condition
@@ -135,13 +135,13 @@ CXformExpandNAryJoin::Transform
 	(*pexpr)[0]->AddRef();
 	(*pexpr)[1]->AddRef();
 	CExpression *pexprJoin = CUtils::PexprLogicalJoin<CLogicalInnerJoin>(memory_pool, (*pexpr)[0], (*pexpr)[1], CPredicateUtils::PexprConjunction(memory_pool, NULL));
-	for (ULONG ul = 2; ul < ulArity - 1; ul++)
+	for (ULONG ul = 2; ul < arity - 1; ul++)
 	{
 		(*pexpr)[ul]->AddRef();
 		pexprJoin = CUtils::PexprLogicalJoin<CLogicalInnerJoin>(memory_pool, pexprJoin, (*pexpr)[ul], CPredicateUtils::PexprConjunction(memory_pool, NULL));
 	}
 
-	CExpression *pexprScalar = (*pexpr)[ulArity - 1];
+	CExpression *pexprScalar = (*pexpr)[arity - 1];
 	pexprScalar->AddRef();
 
 	// create a logical select with the join expression and scalar condition child

@@ -90,10 +90,10 @@ const
 {
 	GPOS_ASSERT(EdxloptypePhysical == pdxln->GetOperator()->GetDXLOperatorType());
 
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(EdxlValIndexSentinel <= ulArity);
+	const ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(EdxlValIndexSentinel <= arity);
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());

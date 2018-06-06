@@ -215,10 +215,10 @@ COrderSpec::FSatisfies
 	)
 	const
 {	
-	const ULONG ulArity = pos->m_pdrgpoe->Size();
-	BOOL fSatisfies = (m_pdrgpoe->Size() >= ulArity);
+	const ULONG arity = pos->m_pdrgpoe->Size();
+	BOOL fSatisfies = (m_pdrgpoe->Size() >= arity);
 	
-	for (ULONG ul = 0; fSatisfies && ul < ulArity; ul++)
+	for (ULONG ul = 0; fSatisfies && ul < arity; ul++)
 	{
 		fSatisfies = (*m_pdrgpoe)[ul]->FMatch((*(pos->m_pdrgpoe))[ul]);
 	}
@@ -280,9 +280,9 @@ ULONG
 COrderSpec::HashValue() const
 {
 	ULONG ulHash = 0;
-	ULONG ulArity = m_pdrgpoe->Size();
+	ULONG arity = m_pdrgpoe->Size();
 	
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		COrderExpression *poe = (*m_pdrgpoe)[ul];
 		ulHash = gpos::CombineHashes(ulHash, gpos::HashPtr<CColRef>(poe->Pcr()));
@@ -515,14 +515,14 @@ COrderSpec::OsPrint
 	)
 	const
 {
-	const ULONG ulArity = m_pdrgpoe->Size();
-	if (0 == ulArity)
+	const ULONG arity = m_pdrgpoe->Size();
+	if (0 == arity)
 	{
 		os << "<empty>";
 	}
 	else 
 	{
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			(*m_pdrgpoe)[ul]->OsPrint(os) << " ";
 		}

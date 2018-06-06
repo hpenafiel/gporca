@@ -124,8 +124,8 @@ CTableDescriptor::UlPos
 	GPOS_ASSERT(NULL != pcoldesc);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 	
-	ULONG ulArity = pdrgpcoldesc->Size();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	ULONG arity = pdrgpcoldesc->Size();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (pcoldesc == (*pdrgpcoldesc)[ul])
 		{
@@ -133,7 +133,7 @@ CTableDescriptor::UlPos
 		}
 	}
 	
-	return ulArity;
+	return arity;
 }
 
 //---------------------------------------------------------------------------
@@ -153,9 +153,9 @@ CTableDescriptor::UlPosition
 {
 	GPOS_ASSERT(NULL != m_pdrgpcoldesc);
 	ULONG ulPos = ULONG_MAX;
-	ULONG ulArity = m_pdrgpcoldesc->Size();
+	ULONG arity = m_pdrgpcoldesc->Size();
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CColumnDescriptor *pcoldesc = (*m_pdrgpcoldesc)[ul];
 		if (pcoldesc->AttrNum() == iAttno)

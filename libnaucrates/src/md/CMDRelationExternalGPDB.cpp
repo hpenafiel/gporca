@@ -77,8 +77,8 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_pdrgpdoubleColWidths = GPOS_NEW(memory_pool) DrgPdouble(memory_pool);
 
 	ULONG ulPosNonDropped = 0;
-	const ULONG ulArity = pdrgpmdcol->Size();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pdrgpmdcol->Size();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		IMDColumn *pmdcol = (*pdrgpmdcol)[ul];
 

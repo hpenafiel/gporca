@@ -1382,8 +1382,8 @@ CTranslatorExprToDXLUtils::PdxlnProjListFromChildProjList
 	CDXLNode *proj_list_dxlnode = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlopPrL);
 	
 	// create a scalar identifier for each project element of the child
-	const ULONG ulArity = pdxlnProjListChild->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pdxlnProjListChild->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLNode *pdxlnProjElemChild = (*pdxlnProjListChild)[ul];
 		
@@ -2473,9 +2473,9 @@ CTranslatorExprToDXLUtils::FHasDXLOp
 	}
 
 	// recursively check children
-	const ULONG ulArity = pdxln->Arity();
+	const ULONG arity = pdxln->Arity();
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (FHasDXLOp((*pdxln)[ul], peopid, ulOps))
 		{
@@ -2500,9 +2500,9 @@ CTranslatorExprToDXLUtils::FProjListContainsSubplanWithBroadCast
 		return FHasDXLOp(pdxlnPrjList, rgeopidMotion, GPOS_ARRAY_SIZE(rgeopidMotion));
 	}
 
-	const ULONG ulArity = pdxlnPrjList->Arity();
+	const ULONG arity = pdxlnPrjList->Arity();
 
-	for (ULONG ul =0; ul < ulArity; ul++)
+	for (ULONG ul =0; ul < arity; ul++)
 	{
 		if (FProjListContainsSubplanWithBroadCast((*pdxlnPrjList)[ul]))
 		{
@@ -2526,8 +2526,8 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 		pbs->ExchangeSet(dxl_colref->Id());
 	}
 
-	ULONG ulArity = pdxln->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	ULONG arity = pdxln->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ExtractIdentColIds((*pdxln)[ul], pbs);
 	}
@@ -2564,7 +2564,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 	}
 
 	// recursively check children
-	const ULONG ulArity = pdxln->Arity();
+	const ULONG arity = pdxln->Arity();
 
 	// In ORCA, inner child of Hash Join is always exhausted first,
 	// so only check the outer child for motions
@@ -2577,7 +2577,7 @@ CTranslatorExprToDXLUtils::FMotionHazard
 	}
 	else
 	{
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			if (FMotionHazard(memory_pool, (*pdxln)[ul], peopid, ulOps, pbsPrjCols))
 			{

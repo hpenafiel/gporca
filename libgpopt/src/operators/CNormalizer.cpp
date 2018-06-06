@@ -164,9 +164,9 @@ CNormalizer::PexprRecursiveNormalize
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	const ULONG ulArity = pexpr->Arity();
+	const ULONG arity = pexpr->Arity();
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = PexprNormalize(memory_pool, (*pexpr)[ul]);
 		pdrgpexpr->Append(pexprChild);
@@ -741,8 +741,8 @@ CNormalizer::PushThruSetOp
 	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool, pdrgpcrOutput);
 	DrgDrgPcr *pdrgpdrgpcrInput = popSetOp->PdrgpdrgpcrInput();
 	DrgPexpr *pdrgpexprNewChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = pexprSetOp->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprSetOp->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = (*pexprSetOp)[ul];
 		DrgPcr *pdrgpcrChild = (*pdrgpdrgpcrInput)[ul];
@@ -806,7 +806,7 @@ CNormalizer::PushThruJoin
 	GPOS_ASSERT(NULL != ppexprResult);
 
 	COperator *pop = pexprJoin->Pop();
-	const ULONG ulArity = pexprJoin->Arity();
+	const ULONG arity = pexprJoin->Arity();
 	BOOL fLASApply = CUtils::FLeftAntiSemiApply(pop);
 	COperator::EOperatorId eopid = pop->Eopid();
 	BOOL fOuterJoin =
@@ -824,7 +824,7 @@ CNormalizer::PushThruJoin
 	}
 
 	// combine conjunct with join predicate
-	CExpression *pexprScalar = (*pexprJoin)[ulArity - 1];
+	CExpression *pexprScalar = (*pexprJoin)[arity - 1];
 	CExpression *pexprPred =  CPredicateUtils::PexprConjunction(memory_pool, pexprScalar, pexprConj);
 
 	// break predicate to conjuncts
@@ -834,7 +834,7 @@ CNormalizer::PushThruJoin
 	// push predicates through children and compute new child expressions
 	DrgPexpr *pdrgpexprChildren =  GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CExpression *pexprChild = (*pexprJoin)[ul];
 		CExpression *pexprNewChild = NULL;
@@ -892,8 +892,8 @@ CNormalizer::FChild
 	GPOS_ASSERT(NULL != pexprChild);
 
 	BOOL fFound = false;
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; !fFound && ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; !fFound && ul < arity; ul++)
 	{
 		fFound = ((*pexpr)[ul] == pexprChild);
 	}
@@ -1060,9 +1060,9 @@ CNormalizer::PexprNormalize
 		else
 		{
 			// add-ref all children except scalar predicate
-			const ULONG ulArity = pexpr->Arity();
+			const ULONG arity = pexpr->Arity();
 			DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-			for (ULONG ul = 0; ul < ulArity - 1; ul++)
+			for (ULONG ul = 0; ul < arity - 1; ul++)
 			{
 				CExpression *pexprChild = (*pexpr)[ul];
 				pexprChild->AddRef();
@@ -1112,8 +1112,8 @@ CNormalizer::PexprPullUpAndCombineProjects
 	GPOS_ASSERT(NULL != pfSuccess);
 
 	COperator *pop = pexpr->Pop();
-	const ULONG ulArity = pexpr->Arity();
-	if (!pop->FLogical() || 0 == ulArity)
+	const ULONG arity = pexpr->Arity();
+	if (!pop->FLogical() || 0 == arity)
 	{
 		pexpr->AddRef();
 		return pexpr;
@@ -1128,7 +1128,7 @@ CNormalizer::PexprPullUpAndCombineProjects
 
 	// extract the columns used by the scalar expression and the operator itself (for grouping, sorting, etc.)
 	CColRefSet *pcrsUsed = exprhdl.PcrsUsedColumns(memory_pool);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = PexprPullUpAndCombineProjects(memory_pool, (*pexpr)[ul], pfSuccess);
 		if (pop->FLogical() && CLogical::PopConvert(pop)->FCanPullProjectionsUp(ul) &&
@@ -1346,8 +1346,8 @@ CNormalizer::FLocalColsSubsetOfInputCols
 
 		CColRefSet *pcrsInput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
-		const ULONG ulArity = exprhdl.Arity();
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		const ULONG arity = exprhdl.Arity();
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			if (!exprhdl.FScalarChild(ul))
 			{

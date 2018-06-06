@@ -152,8 +152,8 @@ CDXLScalarMinMax::AssertValid
 {
 	GPOS_ASSERT(0 < pdxln->Arity());
 
-	const ULONG ulArity = pdxln->Arity();
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	const ULONG arity = pdxln->Arity();
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *dxlnode_arg = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());

@@ -248,8 +248,8 @@ CDXLScalarAggref::AssertValid
 
 	GPOS_ASSERT((EdxlaggstageFinal >= edxlaggrefstage) && (EdxlaggstageNormal <= edxlaggrefstage));
 
-	const ULONG ulArity = pdxln->Arity();
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	const ULONG arity = pdxln->Arity();
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *pdxlnAggrefArg = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == pdxlnAggrefArg->GetOperator()->GetDXLOperatorType());

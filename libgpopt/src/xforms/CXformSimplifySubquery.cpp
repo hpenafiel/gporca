@@ -195,10 +195,10 @@ CXformSimplifySubquery::FSimplify
 	}
 
 	// otherwise, recursively process children
-	const ULONG ulArity = pexprScalar->Arity();
+	const ULONG arity = pexprScalar->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	BOOL fSuccess = true;
-	for (ULONG ul = 0; fSuccess && ul < ulArity; ul++)
+	for (ULONG ul = 0; fSuccess && ul < arity; ul++)
 	{
 		CExpression *pexprChild = NULL;
 		fSuccess = FSimplify(memory_pool, (*pexprScalar)[ul], &pexprChild, pfnsimplify, pfnmatch);

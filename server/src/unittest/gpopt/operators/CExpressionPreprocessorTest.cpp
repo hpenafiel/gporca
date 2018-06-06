@@ -218,9 +218,9 @@ CExpressionPreprocessorTest::FHasOuterRefs
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->Arity();
+	const ULONG arity = pexpr->Arity();
 	fHasOuterRefs = false;
-	for (ULONG ul = 0; !fHasOuterRefs && ul < ulArity; ul++)
+	for (ULONG ul = 0; !fHasOuterRefs && ul < arity; ul++)
 	{
 		fHasOuterRefs = FHasOuterRefs((*pexpr)[ul]);
 	}
@@ -1142,9 +1142,9 @@ CExpressionPreprocessorTest::UlScalarSubqs
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->Arity();
+	const ULONG arity = pexpr->Arity();
 	ULONG ulChildSubqs = 0;
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ulChildSubqs += UlScalarSubqs((*pexpr)[ul]);
 	}
@@ -2047,8 +2047,8 @@ CExpressionPreprocessorTest::EresUnittest_CollapseInnerJoinHelper
 			"root operator is expected to be NAryJoin");
 
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = pexprPreprocessed->Arity();
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	const ULONG arity = pexprPreprocessed->Arity();
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CExpression *pexprChild = (*pexprPreprocessed)[ul];
 		GPOS_ASSERT(1 == CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->UlJoinDepth() &&

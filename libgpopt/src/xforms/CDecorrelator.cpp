@@ -165,8 +165,8 @@ CDecorrelator::FDelayable
 	}
 
 	// check its children
-	const ULONG ulArity = pexprScalar->Arity();
-	for (ULONG ul = 0; ul < ulArity && fDelay; ul++)
+	const ULONG arity = pexprScalar->Arity();
+	for (ULONG ul = 0; ul < arity && fDelay; ul++)
 	{
 		fDelay = FDelayable(pexprLogical, (*pexprScalar)[ul], fEqualityOnly);
 	}
@@ -255,8 +255,8 @@ CDecorrelator::FProcessOperator
 	if (NULL != pfnp)
 	{
 		// subqueries must be processed before reaching here
-		const ULONG ulArity = pexpr->Arity();
-		if ((*pexpr)[ulArity - 1]->Pop()->FScalar() && CUtils::FHasSubquery((*pexpr)[ulArity - 1]))
+		const ULONG arity = pexpr->Arity();
+		if ((*pexpr)[arity - 1]->Pop()->FScalar() && CUtils::FHasSubquery((*pexpr)[arity - 1]))
 		{
 			return false;
 		}
@@ -487,12 +487,12 @@ CDecorrelator::FProcessJoin
 {
 	GPOS_ASSERT(CUtils::FLogicalJoin(pexpr->Pop()) || CUtils::FApply(pexpr->Pop()));
 
-	ULONG ulArity = pexpr->Arity();	
-	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool, ulArity);
+	ULONG arity = pexpr->Arity();	
+	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool, arity);
 	CColRefSet *pcrsOutput = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 
 	// decorrelate all relational children
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CExpression *pexprInput = NULL;
 		if (FProcess(memory_pool, (*pexpr)[ul], fEqualityOnly, &pexprInput, pdrgpexprCorrelations))
@@ -520,7 +520,7 @@ CDecorrelator::FProcessJoin
 
 	// decorrelate predicate and build new join operator
 	CExpression *pexprPredicate = NULL;
-	BOOL fSuccess = FProcessPredicate(memory_pool, pexpr, (*pexpr)[ulArity - 1], fEqualityOnly, pcrsOutput, &pexprPredicate, pdrgpexprCorrelations);
+	BOOL fSuccess = FProcessPredicate(memory_pool, pexpr, (*pexpr)[arity - 1], fEqualityOnly, pcrsOutput, &pexprPredicate, pdrgpexprCorrelations);
 	pcrsOutput->Release();
 
 	if (fSuccess)

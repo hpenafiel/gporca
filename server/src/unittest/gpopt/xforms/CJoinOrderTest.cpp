@@ -87,15 +87,15 @@ CJoinOrderTest::EresUnittest_Expand()
 	// build test case
 	CExpression *pexpr = CTestUtils::PexprLogicalNAryJoin(memory_pool);
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
 		pexprChild->AddRef();
 		pdrgpexpr->Append(pexprChild);
 	}
 
-	DrgPexpr *pdrgpexprConj = CPredicateUtils::PdrgpexprConjuncts(memory_pool, (*pexpr)[ulArity - 1]);
+	DrgPexpr *pdrgpexprConj = CPredicateUtils::PdrgpexprConjuncts(memory_pool, (*pexpr)[arity - 1]);
 
 	// add predicates selectively to trigger special case of cross join
 	DrgPexpr *pdrgpexprTest = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);	
@@ -109,7 +109,7 @@ CJoinOrderTest::EresUnittest_Expand()
 	pdrgpexprConj->Release();
 
 	// single-table predicate
-	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel((*pdrgpexpr)[ulArity - 2]->PdpDerive())->PcrsOutput();
+	CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel((*pdrgpexpr)[arity - 2]->PdpDerive())->PcrsOutput();
 	CExpression *pexprSingleton = CUtils::PexprScalarEqCmp(memory_pool, pcrsOutput->PcrAny(), pcrsOutput->PcrAny());
 	
 	pdrgpexprTest->Append(pexprSingleton);

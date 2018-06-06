@@ -102,8 +102,8 @@ CDXLScalarWindowRef::PstrWinStage() const
 					{EdxlwinstageRowKey, EdxltokenWindowrefStageRowKey}
 					};
 
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ULONG *pulElem = rgrgulMapping[ul];
 		if ((ULONG) m_edxlwinstage == pulElem[0])
@@ -204,8 +204,8 @@ CDXLScalarWindowRef::AssertValid
 
 	GPOS_ASSERT((EdxlwinstageSentinel >= edxlwinrefstage));
 
-	const ULONG ulArity = pdxln->Arity();
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	const ULONG arity = pdxln->Arity();
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *pdxlnWinrefArg = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == pdxlnWinrefArg->GetOperator()->GetDXLOperatorType());

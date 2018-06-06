@@ -555,8 +555,8 @@ CConstraintInterval::PciIntervalFromScalarBoolOr
 	GPOS_ASSERT(CUtils::FScalarBoolOp(pexpr));
 	GPOS_ASSERT(CScalarBoolOp::EboolopOr == CScalarBoolOp::PopConvert(pexpr->Pop())->Eboolop());
 
-	const ULONG ulArity = pexpr->Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = pexpr->Arity();
+	GPOS_ASSERT(0 < arity);
 
 	CConstraintInterval *pci = PciIntervalFromScalarExpr(memory_pool, (*pexpr)[0], pcr);
 	if (NULL == pci)
@@ -564,7 +564,7 @@ CConstraintInterval::PciIntervalFromScalarBoolOr
 		return NULL;
 	}
 
-	for (ULONG ul = 1; ul < ulArity; ul++)
+	for (ULONG ul = 1; ul < arity; ul++)
 	{
 		CConstraintInterval *pciChild = PciIntervalFromScalarExpr(memory_pool, (*pexpr)[ul], pcr);
 
@@ -603,11 +603,11 @@ CConstraintInterval::PciIntervalFromScalarBoolAnd
 	GPOS_ASSERT(CUtils::FScalarBoolOp(pexpr));
 	GPOS_ASSERT(CScalarBoolOp::EboolopAnd == CScalarBoolOp::PopConvert(pexpr->Pop())->Eboolop());
 
-	const ULONG ulArity = pexpr->Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = pexpr->Arity();
+	GPOS_ASSERT(0 < arity);
 
 	CConstraintInterval *pci = PciIntervalFromScalarExpr(memory_pool, (*pexpr)[0], pcr);
-	for (ULONG ul = 1; ul < ulArity; ul++)
+	for (ULONG ul = 1; ul < arity; ul++)
 	{
 		CConstraintInterval *pciChild = PciIntervalFromScalarExpr(memory_pool, (*pexpr)[ul], pcr);
 		// here is where we will return a NULL child from not being able to create a

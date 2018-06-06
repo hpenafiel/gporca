@@ -313,8 +313,8 @@ CQueryContext::MapComputedToUsedCols
 	{
 		CExpression *pexprPrL = (*pexpr)[1];
 
-		const ULONG ulArity = pexprPrL->Arity();
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		const ULONG arity = pexprPrL->Arity();
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CExpression *pexprPrEl = (*pexprPrL)[ul];
 			pcf->AddComputedToUsedColsMap(pexprPrEl);

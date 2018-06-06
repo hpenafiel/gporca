@@ -95,8 +95,8 @@ CScalarProjectList::UlDistinctAggs
 	GPOS_ASSERT(COperator::EopScalarProjectList == pexprPrjList->Pop()->Eopid());
 
 	ULONG ulDistinctAggs = 0;
-	const ULONG ulArity = pexprPrjList->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexprPrjList->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprPrjEl = (*pexprPrjList)[ul];
 		CExpression *pexprChild = (*pexprPrjEl)[0];

@@ -223,8 +223,8 @@ CDXLTableDescr::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	GPOS_ASSERT(NULL != m_column_descr_dxl_array);
 	
-	const ULONG ulArity = Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLColDescr *pdxlcd = (*m_column_descr_dxl_array)[ul];
 		pdxlcd->SerializeToDXL(xml_serializer);

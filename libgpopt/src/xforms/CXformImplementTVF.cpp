@@ -74,8 +74,8 @@ CXformImplementTVF::Exfp
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (exprhdl.Pdpscalar(ul)->FHasSubquery())
 		{

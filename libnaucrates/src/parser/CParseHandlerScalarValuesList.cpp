@@ -76,8 +76,8 @@ CParseHandlerScalarValuesList::EndElement
 	)
 {
 
-	const ULONG ulArity = this->Length();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = this->Length();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
 		AddChildFromParseHandler(child_parse_handler);

@@ -2917,8 +2917,8 @@ CTestUtils::PexprFindFirstExpressionWithOpId
 		return pexpr;
 	}
 
-	ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprFound = PexprFindFirstExpressionWithOpId((*pexpr)[ul], eopid);
 		if (NULL != pexprFound)
@@ -4474,8 +4474,8 @@ CTestUtils::PexprFirst
 	}
 
 	// recursively check children
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		const CExpression *pexprFirst = PexprFirst((*pexpr)[ul], eopid);
 		if (NULL != pexprFirst)

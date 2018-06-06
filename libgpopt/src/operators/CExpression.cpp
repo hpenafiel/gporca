@@ -750,8 +750,8 @@ CExpression::ResetStats()
 	CRefCount::SafeRelease(m_pstats);
 	m_pstats = NULL;
 
-	const ULONG ulArity = Arity();
-	for (ULONG ul = 0; ul <  ulArity; ul++)
+	const ULONG arity = Arity();
+	for (ULONG ul = 0; ul <  arity; ul++)
 	{
 		// reset children stats
 		(*this)[ul]->ResetStats();
@@ -834,8 +834,8 @@ CExpression::PrppDecorate
 		// create array of child derived properties
 		DrgPdp *pdrgpdp = GPOS_NEW(m_memory_pool) DrgPdp(m_memory_pool);
 
-		const ULONG ulArity =  Arity();
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		const ULONG arity =  Arity();
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			// compute required columns of the n-th child
 			exprhdl.ComputeChildReqdCols(ul, pdrgpdp);
@@ -885,10 +885,10 @@ CExpression::FMatchPattern
 	}
 	else
 	{
-		ULONG ulArity = Arity();
+		ULONG arity = Arity();
 		BOOL fMultiNode =
 			(
-				(1 == ulArity || 2 == ulArity) && // has 2 or fewer children
+				(1 == arity || 2 == arity) && // has 2 or fewer children
 				CPattern::FMultiNode((*this)[0]->Pop()) // child is multileaf or a multitree
 			);
 		
@@ -926,14 +926,14 @@ CExpression::FMatch
 		return false;
 	}
 		
-	ULONG ulArity = Arity();
-	if (ulArity != pexpr->Arity())
+	ULONG arity = Arity();
+	if (arity != pexpr->Arity())
 	{
 		return false;
 	}
 	
 	// decend into children
-	for(ULONG ul = 0; ul < ulArity; ul++)
+	for(ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!(*this)[ul]->FMatch((*pexpr)[ul]))
 		{
@@ -967,8 +967,8 @@ CExpression::PexprCopyWithRemappedColumns
 
 	// copy children
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulArity = Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = (*m_pdrgpexpr)[ul];
 		pdrgpexpr->Append(pexprChild->PexprCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist));
@@ -976,7 +976,7 @@ CExpression::PexprCopyWithRemappedColumns
 
 	COperator *pop = m_pop->PopCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
-	if (0 == ulArity)
+	if (0 == arity)
 	{
 		pdrgpexpr->Release();
 		return GPOS_NEW(memory_pool) CExpression(memory_pool, pop);
@@ -1041,7 +1041,7 @@ CExpression::FMatchPatternChildren
 {
 	GPOS_CHECK_STACK_SIZE;
 
-	ULONG ulArity = Arity();
+	ULONG arity = Arity();
 	ULONG ulArityPattern = pexprPattern->Arity();
 		
 	BOOL fMultiNode =
@@ -1056,24 +1056,24 @@ CExpression::FMatchPatternChildren
 		// allow only-children to match multi children against its own pattern in asserts;
 		if (1 == ulArityPattern)
 		{
-			return ulArity > 0;
+			return arity > 0;
 		}
 		else 
 		{
 			// check last child explicitly
-			CExpression *pexpr = (*this)[ulArity - 1];
-			return ulArity > 1 && pexpr->FMatchPattern((*pexprPattern)[ulArityPattern - 1]);
+			CExpression *pexpr = (*this)[arity - 1];
+			return arity > 1 && pexpr->FMatchPattern((*pexprPattern)[ulArityPattern - 1]);
 		}
 	}
 
 	// all other matches must have same arity
-	if (ulArity != ulArityPattern)
+	if (arity != ulArityPattern)
 	{
 		return false;
 	}
 
 	BOOL fMatch = true;
-	for (ULONG ul = 0; ul < ulArity && fMatch; ul++)
+	for (ULONG ul = 0; ul < arity && fMatch; ul++)
 	{
 		CExpression *pexpr = (*this)[ul];
 		fMatch = fMatch && pexpr->FMatchPattern((*pexprPattern)[ul]);
@@ -1119,21 +1119,21 @@ CExpression::FMatchDebug
 		CScalar::PopConvert(pexpr->Pop())->MDIdType()->Equals(CScalar::PopConvert(Pop())->MDIdType())
 		);
 	
-	ULONG ulArity = Arity();
+	ULONG arity = Arity();
 	
-	if (ulArity != pexpr->Arity())
+	if (arity != pexpr->Arity())
 	{
 		return false;
 	}
 	// inner nodes have same sensitivity
 	GPOS_ASSERT_IMP
 		(
-		0 < ulArity,
+		0 < arity,
 		Pop()->FInputOrderSensitive() == pexpr->Pop()->FInputOrderSensitive()
 		);
 	
 	// decend into children
-	for(ULONG ul = 0; ul < ulArity; ul++)
+	for(ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!(*this)[ul]->FMatchDebug((*pexpr)[ul]))
 		{
@@ -1304,8 +1304,8 @@ CExpression::HashValue
 
 	ULONG ulHash = pexpr->Pop()->HashValue();
 
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		ulHash = CombineHashes(ulHash, HashValue((*pexpr)[ul]));
 	}
@@ -1327,8 +1327,8 @@ CExpression::UlHashDedup
 
 	ULONG ulHash = pexpr->Pop()->HashValue();
 
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if(pexpr->Pop()->FInputOrderSensitive())
 		{
@@ -1379,9 +1379,9 @@ CExpression::PexprRehydrate
 	CCost cost = pcc->Cost();
 	if (pop->FPhysical())
 	{
-		const ULONG ulArity = pgexpr->Arity();
+		const ULONG arity = pgexpr->Arity();
 		DrgPcost *pdrgpcost = GPOS_NEW(memory_pool) DrgPcost(memory_pool);
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CExpression *pexprChild = (*pdrgpexpr)[ul];
 			CCost costChild = pexprChild->Cost();

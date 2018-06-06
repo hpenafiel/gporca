@@ -173,9 +173,9 @@ namespace gpopt
 					)
 					const
 			{
-				const ULONG ulArity = exprhdl.Arity();
+				const ULONG arity = exprhdl.Arity();
 
-				return PcrsReqdChildStats(memory_pool, exprhdl, pcrsInput, exprhdl.Pdpscalar(ulArity - 1)->PcrsUsed(), ulChildIndex);
+				return PcrsReqdChildStats(memory_pool, exprhdl, pcrsInput, exprhdl.Pdpscalar(arity - 1)->PcrsUsed(), ulChildIndex);
 			}
 
 			// return true if operator can select a subset of input tuples based on some predicate

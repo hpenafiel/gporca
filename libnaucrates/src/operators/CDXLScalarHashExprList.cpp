@@ -102,10 +102,10 @@ CDXLScalarHashExprList::AssertValid
 	) 
 	const
 {
-	const ULONG ulArity = node->Arity();
-	GPOS_ASSERT(1 <= ulArity);
+	const ULONG arity = node->Arity();
+	GPOS_ASSERT(1 <= arity);
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLNode *child_dxlnode = (*node)[ul];
 		GPOS_ASSERT(EdxlopScalarHashExpr == child_dxlnode->GetOperator()->GetDXLOperator());

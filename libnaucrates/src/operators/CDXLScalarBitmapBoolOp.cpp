@@ -189,11 +189,11 @@ CDXLScalarBitmapBoolOp::AssertValid
 
 	GPOS_ASSERT( (edxlbitmapboolop == EdxlbitmapAnd) || (edxlbitmapboolop == EdxlbitmapOr));
 
-	ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(2 == ulArity);
+	ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(2 == arity);
 	
 
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *dxlnode_arg = (*pdxln)[ul];
 		Edxlopid edxlop = dxlnode_arg->GetOperator()->GetDXLOperator();

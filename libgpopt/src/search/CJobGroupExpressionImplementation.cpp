@@ -211,9 +211,9 @@ CJobGroupExpressionImplementation::ScheduleChildGroupsJobs
 {
 	GPOS_ASSERT(!FChildrenScheduled());
 
-	ULONG ulArity = m_pgexpr->Arity();
+	ULONG arity = m_pgexpr->Arity();
 
-	for (ULONG i = 0; i < ulArity; i++)
+	for (ULONG i = 0; i < arity; i++)
 	{
 		CJobGroupImplementation::ScheduleJob(psc, (*(m_pgexpr))[i], this);
 	}

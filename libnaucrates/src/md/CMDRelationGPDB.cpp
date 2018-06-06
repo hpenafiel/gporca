@@ -88,9 +88,9 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_pdrgpulNonDroppedCols = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 	m_pdrgpdoubleColWidths = GPOS_NEW(memory_pool) DrgPdouble(memory_pool);
 
-	const ULONG ulArity = pdrgpmdcol->Size();
+	const ULONG arity = pdrgpmdcol->Size();
 	ULONG ulPosNonDropped = 0;
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		IMDColumn *pmdcol = (*pdrgpmdcol)[ul];
 		BOOL fSystemCol = pmdcol->FSystemColumn();

@@ -79,7 +79,7 @@ namespace gpopt
 				(
 				CExpression *pexpr,
 				ULONG ulPos,
-				ULONG ulArity
+				ULONG arity
 				);
 			
 			// get binding for children

@@ -86,10 +86,10 @@ CLogicalUnionAll::Maxcard
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 
 	CMaxCard maxcard = exprhdl.Pdprel(0)->Maxcard();
-	for (ULONG ul = 1; ul < ulArity; ul++)
+	for (ULONG ul = 1; ul < arity; ul++)
 	{
 		maxcard += exprhdl.Pdprel(ul)->Maxcard();
 	}
@@ -184,8 +184,8 @@ CLogicalUnionAll::PstatsDeriveUnionAll
 
 	IStatistics *pstatsResult = exprhdl.Pstats(0);
 	pstatsResult->AddRef();
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 1; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 1; ul < arity; ul++)
 	{
 		IStatistics *pstatsChild = exprhdl.Pstats(ul);
 		CStatistics *pstats = CUnionAllStatsProcessor::PstatsUnionAll

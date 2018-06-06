@@ -107,8 +107,8 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::Exfp
 	}
 
 	// check if stats are derivable on child groups
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CGroup *pgroupChild = (*exprhdl.Pgexpr())[ul];
 		if (!pgroupChild->FScalar() && !pgroupChild->FStatsDerivable(memory_pool))

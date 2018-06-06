@@ -1022,8 +1022,8 @@ CGroupExpression::HashValue
 	
 	ULONG ulHash = pop->HashValue();
 	
-	ULONG ulArity = pdrgpgroup->Size();
-	for (ULONG i = 0; i < ulArity; i++)
+	ULONG arity = pdrgpgroup->Size();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		ulHash = CombineHashes(ulHash, (*pdrgpgroup)[i]->HashValue());
 	}
@@ -1187,8 +1187,8 @@ CGroupExpression::OsPrint
 	}
 	os << " [ ";
 	
-	ULONG ulArity = Arity();
-	for (ULONG i = 0; i < ulArity; i++)
+	ULONG arity = Arity();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		os << (*m_pdrgpgroup)[i]->UlId() << " ";
 	}

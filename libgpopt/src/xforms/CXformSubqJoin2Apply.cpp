@@ -131,8 +131,8 @@ CXformSubqJoin2Apply::CollectSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
 		CollectSubqueries(memory_pool, pexprChild, pdrgpcrs, pdrgpdrgpexprSubqs);
@@ -168,9 +168,9 @@ CXformSubqJoin2Apply::PexprReplaceSubqueries
 	}
 
 	// recursively process children
-	const ULONG ulArity = pexprScalar->Arity();
+	const ULONG arity = pexprScalar->Arity();
 	DrgPexpr *pdrgpexprChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = PexprReplaceSubqueries(memory_pool, (*pexprScalar)[ul], phmexprcr);
 		pdrgpexprChildren->Append(pexprChild);
@@ -203,14 +203,14 @@ CXformSubqJoin2Apply::PexprSubqueryPushDown
 	GPOS_ASSERT(COperator::EopLogicalSelect == pexpr->Pop()->Eopid());
 
 	CExpression *pexprJoin = (*pexpr)[0];
-	const ULONG ulArity = pexprJoin->Arity();
+	const ULONG arity = pexprJoin->Arity();
 	CExpression *pexprScalar = (*pexpr)[1];
-	CExpression *pexprJoinPred = (*pexprJoin)[ulArity - 1];
+	CExpression *pexprJoinPred = (*pexprJoin)[arity - 1];
 
 	// collect output columns of all logical children
 	DrgPcrs *pdrgpcrs = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
 	DrgPdrgPexpr *pdrgpdrgpexprSubqs = GPOS_NEW(memory_pool) DrgPdrgPexpr(memory_pool);
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CExpression *pexprChild = (*pexprJoin)[ul];
 		CColRefSet *pcrsOutput = CDrvdPropRelational::Pdprel(pexprChild->PdpDerive())->PcrsOutput();
@@ -227,7 +227,7 @@ CXformSubqJoin2Apply::PexprSubqueryPushDown
 	// of corresponding join children
 	DrgPexpr *pdrgpexprNewChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	HMExprCr *phmexprcr = GPOS_NEW(memory_pool) HMExprCr(memory_pool);
-	for (ULONG ulChild = 0; ulChild < ulArity - 1; ulChild++)
+	for (ULONG ulChild = 0; ulChild < arity - 1; ulChild++)
 	{
 		CExpression *pexprChild = (*pexprJoin)[ulChild];
 		pexprChild->AddRef();

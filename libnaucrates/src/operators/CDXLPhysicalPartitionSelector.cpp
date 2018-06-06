@@ -153,9 +153,9 @@ CDXLPhysicalPartitionSelector::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(6 == ulArity || 7 == ulArity);
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	const ULONG arity = pdxln->Arity();
+	GPOS_ASSERT(6 == arity || 7 == arity);
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
 		if (validate_children)

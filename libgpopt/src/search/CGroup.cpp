@@ -774,10 +774,10 @@ CGroup::FMatchGroups
 	DrgPgroup *pdrgpgroupSnd
 	)
 {
-	ULONG ulArity = pdrgpgroupFst->Size();
-	GPOS_ASSERT(pdrgpgroupSnd->Size() == ulArity);
+	ULONG arity = pdrgpgroupFst->Size();
+	GPOS_ASSERT(pdrgpgroupSnd->Size() == arity);
 	
-	for (ULONG i = 0; i < ulArity; i++)
+	for (ULONG i = 0; i < arity; i++)
 	{
 		CGroup *pgroupFst = (*pdrgpgroupFst)[i];
 		CGroup *pgroupSnd = (*pdrgpgroupSnd)[i];
@@ -813,10 +813,10 @@ CGroup::FMatchNonScalarGroups
 		return false;
 	}
 
-	ULONG ulArity = pdrgpgroupFst->Size();
-	GPOS_ASSERT(pdrgpgroupSnd->Size() == ulArity);
+	ULONG arity = pdrgpgroupFst->Size();
+	GPOS_ASSERT(pdrgpgroupSnd->Size() == arity);
 
-	for (ULONG i = 0; i < ulArity; i++)
+	for (ULONG i = 0; i < arity; i++)
 	{
 		CGroup *pgroupFst = (*pdrgpgroupFst)[i];
 		CGroup *pgroupSnd = (*pdrgpgroupSnd)[i];
@@ -1070,8 +1070,8 @@ CGroup::CreateScalarExpression()
 	}
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
-	const ULONG ulArity = pgexprFirst->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pgexprFirst->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CGroup *pgroupChild = (*pgexprFirst)[ul];
 		GPOS_ASSERT(pgroupChild->FScalar());
@@ -1191,8 +1191,8 @@ CGroup::RecursiveBuildTreeMap
 		if (NULL != pdrgpoc)
 		{
 			// process children recursively
-			const ULONG ulArity = pgexprCurrent->Arity();
-			for (ULONG ul = 0; ul < ulArity; ul++)
+			const ULONG arity = pgexprCurrent->Arity();
+			for (ULONG ul = 0; ul < arity; ul++)
 			{
 				GPOS_CHECK_ABORT;
 
@@ -1287,8 +1287,8 @@ CGroup::BuildTreeMap
 			ptmap->Insert(pccParent, ulChildIndex, PccDummy());
 
 			// recursively link group's dummy context to child contexts
-			const ULONG ulArity = pgexprCurrent->Arity();
-			for (ULONG ul = 0; ul < ulArity; ul++)
+			const ULONG arity = pgexprCurrent->Arity();
+			for (ULONG ul = 0; ul < arity; ul++)
 			{
 				CGroup *pgroupChild = (*pgexprCurrent)[ul];
 				GPOS_ASSERT(pgroupChild->FScalar());
@@ -1380,8 +1380,8 @@ CGroup::FStatsDerivable
 	}
 
 	BOOL fStatsDerivable = true;
-	const ULONG ulArity = pgexprBest->Arity();
-	for (ULONG ul = 0; fStatsDerivable && ul < ulArity; ul++)
+	const ULONG arity = pgexprBest->Arity();
+	for (ULONG ul = 0; fStatsDerivable && ul < arity; ul++)
 	{
 		CGroup *pgroupChild = (*pgexprBest)[ul];
 		fStatsDerivable = (pgroupChild->FScalar() || pgroupChild->FStatsDerivable(memory_pool));
@@ -1976,8 +1976,8 @@ CGroup::FResetStats()
 	// recursively process child groups reachable from current group
 	while (NULL != pgexprCurrent)
 	{
-		const ULONG ulArity = pgexprCurrent->Arity();
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		const ULONG arity = pgexprCurrent->Arity();
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			GPOS_CHECK_ABORT;
 

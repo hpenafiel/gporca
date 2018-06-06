@@ -103,8 +103,8 @@ CDXLScalarProjList::AssertValid
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pdxln->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLNode *child_dxlnode = (*pdxln)[ul];
 		GPOS_ASSERT(EdxlopScalarProjectElem == child_dxlnode->GetOperator()->GetDXLOperator());

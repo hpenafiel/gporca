@@ -4119,8 +4119,8 @@ CTranslatorExprToDXL::PdxlnSequence
 {
 	GPOS_ASSERT(NULL != pexprSequence);
 
-	const ULONG ulArity = pexprSequence->Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = pexprSequence->Arity();
+	GPOS_ASSERT(0 < arity);
 
 	// construct sequence node
 	CDXLPhysicalSequence *pdxlopSequence = GPOS_NEW(m_memory_pool) CDXLPhysicalSequence(m_memory_pool);
@@ -4131,12 +4131,12 @@ CTranslatorExprToDXL::PdxlnSequence
 	// translate children
 	DXLNodeArray *pdrgpdxlnChildren = GPOS_NEW(m_memory_pool) DXLNodeArray(m_memory_pool);
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = (*pexprSequence)[ul];
 
 		DrgPcr *pdrgpcrChildOutput = NULL;
-		if (ul == ulArity - 1)
+		if (ul == arity - 1)
 		{
 			// impose output columns on last child
 			pdrgpcrChildOutput = pdrgpcr;
@@ -4147,14 +4147,14 @@ CTranslatorExprToDXL::PdxlnSequence
 	}
 
 	// construct project list from the project list of the last child
-	CDXLNode *pdxlnLastChild = (*pdrgpdxlnChildren)[ulArity - 1];
+	CDXLNode *pdxlnLastChild = (*pdrgpdxlnChildren)[arity - 1];
 	CDXLNode *pdxlnProjListChild = (*pdxlnLastChild)[0];
 
 	CDXLNode *proj_list_dxlnode = CTranslatorExprToDXLUtils::PdxlnProjListFromChildProjList(m_memory_pool, m_pcf, m_phmcrdxln, pdxlnProjListChild);
 	pdxlnSequence->AddChild(proj_list_dxlnode);
 
 	// add children
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CDXLNode *pdxlnChid = (*pdrgpdxlnChildren)[ul];
 		pdxlnChid->AddRef();
@@ -6101,8 +6101,8 @@ CTranslatorExprToDXL::Ews
 		{EdxlwinstageRowKey, CScalarWindowFunc::EwsRowKey}
 	};
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	GPOS_ASSERT(ulArity > (ULONG) ews);
+	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	GPOS_ASSERT(arity > (ULONG) ews);
 #endif
 	ULONG *pulElem = rgrgulMapping[(ULONG) ews];
 	EdxlWinStage edxlws = (EdxlWinStage) pulElem[0];
@@ -6458,8 +6458,8 @@ CTranslatorExprToDXL::TranslateScalarChildren
 	CDXLNode *pdxln
 	)
 {
-	const ULONG ulArity = pexpr->Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pexpr->Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
 		CDXLNode *child_dxlnode = PdxlnScalar(pexprChild);
@@ -6859,9 +6859,9 @@ CTranslatorExprToDXL::PdxlnArray
 									)
 						);
 
-	const ULONG ulArity = CUtils::UlScalarArrayArity(pexpr);
+	const ULONG arity = CUtils::UlScalarArrayArity(pexpr);
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CExpression *pexprChild = CUtils::PScalarArrayExprChildAt(m_memory_pool, pexpr, ul);
 		CDXLNode *child_dxlnode = PdxlnScalar(pexprChild);
@@ -7526,10 +7526,10 @@ CTranslatorExprToDXL::PdxlnProjListFromConstTableGet
 
 	if (NULL != pdrgpcrReqOutput)
 	{
-		const ULONG ulArity = pdrgpcrReqOutput->Size();
+		const ULONG arity = pdrgpcrReqOutput->Size();
 		DrgPdatum *pdrgpdatumOrdered = GPOS_NEW(m_memory_pool) DrgPdatum(m_memory_pool);
 
-		for (ULONG ul = 0; ul < ulArity; ul++)
+		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CColRef *pcr = (*pdrgpcrReqOutput)[ul];
 			ULONG ulPos = UlPosInArray(pcr, pdrgpcrCTGOutput);

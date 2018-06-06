@@ -660,8 +660,8 @@ CStatisticsUtils::ExtractUsedColIds
 	}
 
 	GPOS_ASSERT(NULL != pdrgpstatspred);
-	const ULONG ulArity = pdrgpstatspred->Size();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pdrgpstatspred->Size();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CStatsPred *pstatspredCurr = (*pdrgpstatspred)[ul];
 		ULONG col_id = pstatspredCurr->UlColId();
@@ -789,8 +789,8 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 	ExtractUsedColIds(memory_pool, pbsDisj, pstatspred, pdrgpulDisj);
 	const ULONG ulDisjUsedCol = pdrgpulDisj->Size();
 
-	const ULONG ulArity = pstatspred->UlFilters();
-	for (ULONG ulChildIdx = 0; ulChildIdx < ulArity; ulChildIdx++)
+	const ULONG arity = pstatspred->UlFilters();
+	for (ULONG ulChildIdx = 0; ulChildIdx < arity; ulChildIdx++)
 	{
 		CStatsPred *pstatspredChild = pstatspred->Pstatspred(ulChildIdx);
 		CBitSet *pbsChild = GPOS_NEW(memory_pool) CBitSet(memory_pool);

@@ -103,9 +103,9 @@ CDXLScalarValuesList::AssertValid
 	)
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
+	const ULONG arity = pdxln->Arity();
 
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *pdxlnConstVal = (*pdxln)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == pdxlnConstVal->GetOperator()->GetDXLOperatorType());

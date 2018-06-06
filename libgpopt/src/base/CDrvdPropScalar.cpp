@@ -91,8 +91,8 @@ CDrvdPropScalar::Derive
 	m_pfp = popScalar->PfpDerive(memory_pool, exprhdl);
 
 	// add defined and used columns of children
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG i = 0; i < ulArity; i++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG i = 0; i < arity; i++)
 	{
 		// only propagate properties from scalar children
 		if (exprhdl.FScalarChild(i))

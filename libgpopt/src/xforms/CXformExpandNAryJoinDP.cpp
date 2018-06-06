@@ -71,11 +71,11 @@ CXformExpandNAryJoinDP::Exfp
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
 	const CHint *phint = optimizer_config->GetHint();
 
-	const ULONG ulArity = exprhdl.Arity();
+	const ULONG arity = exprhdl.Arity();
 
 	// since the last child of the join operator is a scalar child
 	// defining the join predicate, ignore it.
-	const ULONG ulRelChild = ulArity - 1;
+	const ULONG ulRelChild = arity - 1;
 
 	if (ulRelChild > phint->UlJoinOrderDPLimit())
 	{
@@ -111,18 +111,18 @@ CXformExpandNAryJoinDP::Transform
 
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
-	const ULONG ulArity = pexpr->Arity();
-	GPOS_ASSERT(ulArity >= 3);
+	const ULONG arity = pexpr->Arity();
+	GPOS_ASSERT(arity >= 3);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	for (ULONG ul = 0; ul < ulArity - 1; ul++)
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		CExpression *pexprChild = (*pexpr)[ul];
 		pexprChild->AddRef();
 		pdrgpexpr->Append(pexprChild);
 	}
 
-	CExpression *pexprScalar = (*pexpr)[ulArity - 1];
+	CExpression *pexprScalar = (*pexpr)[arity - 1];
 	DrgPexpr *pdrgpexprPreds = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
 
 	// create join order using dynamic programming

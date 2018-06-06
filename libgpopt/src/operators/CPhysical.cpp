@@ -820,7 +820,7 @@ CPhysical::PppsRequiredPushThruNAry
 	CPartFilterMap *ppfmResult = GPOS_NEW(memory_pool) CPartFilterMap(memory_pool);
 
 	const ULONG ulPartIndexIds = pdrgpul->Size();
-	const ULONG ulArity = exprhdl.UlNonScalarChildren();
+	const ULONG arity = exprhdl.UlNonScalarChildren();
 
 	// iterate over required part index ids and decide which ones to push to the outer
 	// and which to the inner side of the n-ary op
@@ -830,7 +830,7 @@ CPhysical::PppsRequiredPushThruNAry
 		GPOS_ASSERT(ppimReqd->FContains(part_idx_id));
 
 		CBitSet *pbsPartConsumer = GPOS_NEW(memory_pool) CBitSet(memory_pool);
-		for (ULONG ulChildIdx = 0; ulChildIdx < ulArity; ulChildIdx++)
+		for (ULONG ulChildIdx = 0; ulChildIdx < arity; ulChildIdx++)
 		{
 			if (exprhdl.Pdprel(ulChildIdx)->Ppartinfo()->FContainsScanId(part_idx_id))
 			{
@@ -838,11 +838,11 @@ CPhysical::PppsRequiredPushThruNAry
 			}
 		}
 
-		if (ulArity == pbsPartConsumer->Size() &&
+		if (arity == pbsPartConsumer->Size() &&
 			COperator::EopPhysicalSequence == exprhdl.Pop()->Eopid() &&
 			(*(exprhdl.Pgexpr()))[0]->FHasCTEProducer())
 		{
-			GPOS_ASSERT(2 == ulArity);
+			GPOS_ASSERT(2 == arity);
 
 			// this is a part index id that comes from both sides of a sequence
 			// with a CTE producer on the outer side, so pretend that part index
@@ -997,8 +997,8 @@ CPhysical::PpimDeriveCombineRelational
 	GPOS_ASSERT(0 < exprhdl.Arity());
 
 	CPartIndexMap *ppim = GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{
@@ -1074,8 +1074,8 @@ CPhysical::PpfmDeriveCombineRelational
 	)
 {
 	CPartFilterMap *ppfmCombined = GPOS_NEW(memory_pool) CPartFilterMap(memory_pool);
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{
@@ -1108,8 +1108,8 @@ CPhysical::PcmDerive
 	GPOS_ASSERT(0 < exprhdl.Arity());
 
 	CCTEMap *pcm = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{
@@ -1306,8 +1306,8 @@ CPhysical::FCompatibleChildrenDistributions
 	GPOS_ASSERT(exprhdl.Pop() == this);
 	BOOL fSingletonOrUniversalChild = false;
 	BOOL fNotSingletonOrUniversalDistributedChild = false;
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!exprhdl.FScalarChild(ul))
 		{

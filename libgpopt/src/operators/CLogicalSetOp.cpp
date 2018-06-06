@@ -171,8 +171,8 @@ CLogicalSetOp::PcrsDeriveOutput
 	)
 {
 #ifdef GPOS_DEBUG
-	const ULONG ulArity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = exprhdl.Arity();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CColRefSet *pcrsChildOutput = exprhdl.Pdprel(ul)->PcrsOutput();
 		CColRefSet *pcrsInput = (*m_pdrgpcrsInput)[ul];
@@ -226,14 +226,14 @@ CLogicalSetOp::PpartinfoDerive
 	)
 	const
 {
-	const ULONG ulArity = exprhdl.Arity();
-	GPOS_ASSERT(0 < ulArity);
+	const ULONG arity = exprhdl.Arity();
+	GPOS_ASSERT(0 < arity);
 
 	// start with the part info of the first child
 	CPartInfo *ppartinfo = exprhdl.Pdprel(0 /*ulChildIndex*/)->Ppartinfo();
 	ppartinfo->AddRef();
 
-	for (ULONG ul = 1; ul < ulArity; ul++)
+	for (ULONG ul = 1; ul < arity; ul++)
 	{
 		CPartInfo *ppartinfoChild = exprhdl.Pdprel(ul)->Ppartinfo();
 		GPOS_ASSERT(NULL != ppartinfoChild);
@@ -274,15 +274,15 @@ CLogicalSetOp::FMatch
 
 	CLogicalSetOp *popSetOp = CLogicalSetOp::PopConvert(pop);
 	DrgDrgPcr *pdrgpdrgpcrInput = popSetOp->PdrgpdrgpcrInput();
-	const ULONG ulArity = pdrgpdrgpcrInput->Size();
+	const ULONG arity = pdrgpdrgpcrInput->Size();
 
-	if (ulArity != m_pdrgpdrgpcrInput->Size() ||
+	if (arity != m_pdrgpdrgpcrInput->Size() ||
 		!m_pdrgpcrOutput->Equals(popSetOp->PdrgpcrOutput()))
 	{
 		return false;
 	}
 
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		if (!(*m_pdrgpdrgpcrInput)[ul]->Equals((*pdrgpdrgpcrInput)[ul]))
 		{

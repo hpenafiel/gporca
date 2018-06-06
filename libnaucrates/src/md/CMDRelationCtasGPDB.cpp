@@ -70,8 +70,8 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	m_pdrgpulNonDroppedCols = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 	m_pdrgpdoubleColWidths = GPOS_NEW(memory_pool) DrgPdouble(memory_pool);
 
-	const ULONG ulArity = pdrgpmdcol->Size();
-	for (ULONG ul = 0; ul < ulArity; ul++)
+	const ULONG arity = pdrgpmdcol->Size();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		IMDColumn *pmdcol = (*pdrgpmdcol)[ul];
 		GPOS_ASSERT(!pmdcol->IsDropped() && "Cannot create a table with dropped columns");
