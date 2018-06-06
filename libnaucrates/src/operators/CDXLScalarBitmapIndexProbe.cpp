@@ -63,7 +63,7 @@ CDXLScalarBitmapIndexProbe::~CDXLScalarBitmapIndexProbe()
 const CWStringConst *
 CDXLScalarBitmapIndexProbe::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarBitmapIndexProbe);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBitmapIndexProbe);
 }
 
 //---------------------------------------------------------------------------
@@ -83,7 +83,7 @@ CDXLScalarBitmapIndexProbe::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
@@ -91,7 +91,7 @@ CDXLScalarBitmapIndexProbe::SerializeToDXL
 	// serialize index descriptor
 	m_index_descr_dxl->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

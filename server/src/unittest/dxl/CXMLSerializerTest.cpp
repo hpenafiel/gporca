@@ -66,13 +66,13 @@ CXMLSerializerTest::Pstr
 	
 	xml_serializer.StartDocument();
 	
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenPlan));
 	
 	CWStringConst strSubplan(GPOS_WSZ_LIT("Subplan"));
 	xml_serializer.OpenElement(NULL, &strSubplan);
 	xml_serializer.CloseElement(NULL, &strSubplan);
 	
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenPlan));
 
 	return pstr;
 }

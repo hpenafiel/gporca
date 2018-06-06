@@ -190,7 +190,7 @@ CDXLTableDescr::SerializeMDId
 	CXMLSerializer *xml_serializer
 	) const
 {
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 }
 
 //---------------------------------------------------------------------------
@@ -208,19 +208,19 @@ CDXLTableDescr::SerializeToDXL
 	)
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenTableDescr));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenTableDescr));
 	
 	SerializeMDId(xml_serializer);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTableName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTableName), m_mdname->GetMDName());
 	
 	if (GPDXL_DEFAULT_USERID != m_execute_as_user_id)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecuteAsUser), m_execute_as_user_id);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenExecuteAsUser), m_execute_as_user_id);
 	}
 	
 	// serialize columns
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	GPOS_ASSERT(NULL != m_column_descr_dxl_array);
 	
 	const ULONG ulArity = Arity();
@@ -230,9 +230,9 @@ CDXLTableDescr::SerializeToDXL
 		pdxlcd->SerializeToDXL(xml_serializer);
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenTableDescr));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenTableDescr));
 }
 
 // EOF

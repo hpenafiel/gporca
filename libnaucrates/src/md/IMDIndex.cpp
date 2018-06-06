@@ -34,9 +34,9 @@ IMDIndex::PstrIndexType
 	switch (emdindt)
 	{
 		case EmdindBtree:
-			return CDXLTokens::PstrToken(EdxltokenIndexTypeBtree);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenIndexTypeBtree);
 		case EmdindBitmap:
-			return CDXLTokens::PstrToken(EdxltokenIndexTypeBitmap);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenIndexTypeBitmap);
 		default:
 			GPOS_ASSERT(!"Unrecognized index type");
 			return NULL;

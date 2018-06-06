@@ -100,10 +100,10 @@ CDXLIndexDescr::SerializeToDXL
 	)
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIndexName), m_mdname->GetMDName());
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenIndexDescr));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenIndexDescr));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIndexName), m_mdname->GetMDName());
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenIndexDescr));
 }
 
 // EOF

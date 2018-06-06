@@ -53,7 +53,7 @@ CDXLScalarPartListValues::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarPartListValues::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarPartListValues);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartListValues);
 }
 
 // partitioning level
@@ -99,11 +99,11 @@ CDXLScalarPartListValues::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartLevel), m_ulLevel);
-	m_pmdidResult->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpResultTypeId));
-	m_pmdidElement->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayElementType));
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
+	m_pmdidResult->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpResultTypeId));
+	m_pmdidElement->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayElementType));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

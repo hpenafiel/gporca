@@ -83,9 +83,9 @@ CDXLScalarMinMax::GetOpNameStr() const
 	switch (m_emmt)
 	{
 		case EmmtMin:
-				return CDXLTokens::PstrToken(EdxltokenScalarMin);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarMin);
 		case EmmtMax:
-				return CDXLTokens::PstrToken(EdxltokenScalarMax);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarMax);
 		default:
 			return NULL;
 	}
@@ -109,10 +109,10 @@ CDXLScalarMinMax::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

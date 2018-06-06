@@ -702,15 +702,15 @@ CMDRelationGPDB::Serialize
 {
 	GPOS_CHECK_ABORT;
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenRelation));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenRelation));
 	
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelTemporary), m_is_temp_table);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelHasOids), m_has_oids);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_rel_storage_type));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_rel_distr_policy));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRelTemporary), m_is_temp_table);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRelHasOids), m_has_oids);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRelStorageType), IMDRelation::PstrStorageType(m_rel_storage_type));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRelDistrPolicy), PstrDistrPolicy(m_rel_distr_policy));
 	
 	if (EreldistrHash == m_rel_distr_policy)
 	{
@@ -718,7 +718,7 @@ CMDRelationGPDB::Serialize
 		
 		// serialize distribution columns
 		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_pdrgpulDistrColumns);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDistrColumns), pstrDistrColumns);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDistrColumns), pstrDistrColumns);
 		GPOS_DELETE(pstrDistrColumns);
 	}
 	
@@ -726,7 +726,7 @@ CMDRelationGPDB::Serialize
 	if (m_pdrgpdrgpulKeys != NULL && m_pdrgpdrgpulKeys->Size() > 0)
 	{
 		CWStringDynamic *pstrKeys = CDXLUtils::Serialize(m_memory_pool, m_pdrgpdrgpulKeys);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenKeys), pstrKeys);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenKeys), pstrKeys);
 		GPOS_DELETE(pstrKeys);
 	}
 	
@@ -734,7 +734,7 @@ CMDRelationGPDB::Serialize
 	{
 		// serialize partition keys
 		CWStringDynamic *pstrPartKeys = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulPartColumns);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartKeys), pstrPartKeys);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartKeys), pstrPartKeys);
 		GPOS_DELETE(pstrPartKeys);
 	}
 
@@ -742,20 +742,20 @@ CMDRelationGPDB::Serialize
 	{
 		// serialize partition types
 		CWStringDynamic *pstrPartTypes = CDXLUtils::SerializeToCommaSeparatedString(m_memory_pool, m_pdrgpszPartTypes);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartTypes), pstrPartTypes);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartTypes), pstrPartTypes);
 		GPOS_DELETE(pstrPartTypes);
 	}
 	
 	if (m_fConvertHashToRandom)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenConvertHashToRandom), m_fConvertHashToRandom);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenConvertHashToRandom), m_fConvertHashToRandom);
 	}
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenNumLeafPartitions), m_ulPartitions);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenNumLeafPartitions), m_ulPartitions);
 
 	// serialize columns
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	for (ULONG ul = 0; ul < m_pdrgpmdcol->Size(); ul++)
 	{
 		CMDColumn *pmdcol = (*m_pdrgpmdcol)[ul];
@@ -764,12 +764,12 @@ CMDRelationGPDB::Serialize
 		GPOS_CHECK_ABORT;
 	}
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	
 	// serialize index infos
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-						CDXLTokens::PstrToken(EdxltokenIndexInfoList));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+						CDXLTokens::GetDXLTokenStr(EdxltokenIndexInfoList));
 	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
@@ -779,19 +779,19 @@ CMDRelationGPDB::Serialize
 		GPOS_CHECK_ABORT;
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-						CDXLTokens::PstrToken(EdxltokenIndexInfoList));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+						CDXLTokens::GetDXLTokenStr(EdxltokenIndexInfoList));
 
 
 	// serialize trigger information
 	SerializeMDIdList(xml_serializer, m_pdrgpmdidTriggers,
-						CDXLTokens::PstrToken(EdxltokenTriggers),
-						CDXLTokens::PstrToken(EdxltokenTrigger)); 
+						CDXLTokens::GetDXLTokenStr(EdxltokenTriggers),
+						CDXLTokens::GetDXLTokenStr(EdxltokenTrigger)); 
 
 	// serialize check constraint information
 	SerializeMDIdList(xml_serializer, m_pdrgpmdidCheckConstraint,
-						CDXLTokens::PstrToken(EdxltokenCheckConstraints),
-						CDXLTokens::PstrToken(EdxltokenCheckConstraint));
+						CDXLTokens::GetDXLTokenStr(EdxltokenCheckConstraints),
+						CDXLTokens::GetDXLTokenStr(EdxltokenCheckConstraint));
 
 	// serialize part constraint
 	if (NULL != m_pmdpartcnstr)
@@ -799,8 +799,8 @@ CMDRelationGPDB::Serialize
 		m_pmdpartcnstr->Serialize(xml_serializer);
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenRelation));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenRelation));
 
 	GPOS_CHECK_ABORT;
 }

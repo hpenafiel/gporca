@@ -64,7 +64,7 @@ CDXLPhysicalRoutedDistributeMotion::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalRoutedDistributeMotion::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalRoutedDistributeMotion);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalRoutedDistributeMotion);
 }
 
 //---------------------------------------------------------------------------
@@ -85,9 +85,9 @@ CDXLPhysicalRoutedDistributeMotion::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSegmentIdCol), m_ulSegmentIdCol);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSegmentIdCol), m_ulSegmentIdCol);
 	
 	SerializeSegmentInfoToDXL(xml_serializer);
 	
@@ -97,7 +97,7 @@ CDXLPhysicalRoutedDistributeMotion::SerializeToDXL
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 

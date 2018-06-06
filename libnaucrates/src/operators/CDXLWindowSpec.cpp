@@ -82,19 +82,19 @@ CDXLWindowSpec::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = CDXLTokens::PstrToken(EdxltokenWindowSpec);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	const CWStringConst *element_name = CDXLTokens::GetDXLTokenStr(EdxltokenWindowSpec);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	GPOS_ASSERT(NULL != m_partition_by_col_id_array);
 
 	// serialize partition keys
 	CWStringDynamic *partition_by_col_id_string = CDXLUtils::Serialize(m_memory_pool, m_partition_by_col_id_array);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartKeys), partition_by_col_id_string);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartKeys), partition_by_col_id_string);
 	GPOS_DELETE(partition_by_col_id_string);
 
 	if (NULL != m_mdname)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname->GetMDName());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAlias), m_mdname->GetMDName());
 	}
 
 	// serialize sorting columns
@@ -109,7 +109,7 @@ CDXLWindowSpec::SerializeToDXL
 		m_window_frame->SerializeToDXL(xml_serializer);
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 // EOF

@@ -138,7 +138,7 @@ CDXLOperatorFactory::MakeDXLHashJoin
 									EdxltokenPhysicalHashJoin
 									);
 	
-	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalHashJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalHashJoin));
 	
 	return GPOS_NEW(memory_pool) CDXLPhysicalHashJoin(memory_pool, join_type);
 }
@@ -181,7 +181,7 @@ CDXLOperatorFactory::PdxlopNLJoin
 						);
 	}
 
-	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalNLJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalNLJoin));
 	
 	return GPOS_NEW(memory_pool) CDXLPhysicalNLJoin(memory_pool, join_type, fIndexNLJ);
 }
@@ -211,7 +211,7 @@ CDXLOperatorFactory::PdxlopMergeJoin
 									EdxltokenPhysicalMergeJoin
 									);
 	
-	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenPhysicalMergeJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalMergeJoin));
 	
 	BOOL fUniqueOuter = FValueFromAttrs
 								(
@@ -507,8 +507,8 @@ CDXLOperatorFactory::PdxlopAgg
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenAggStrategy)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenPhysicalAggregate)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenAggStrategy)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalAggregate)->GetBuffer()
 			);		
 	}
 	
@@ -795,8 +795,8 @@ CDXLOperatorFactory::PdxlopArrayComp
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenOpType)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenScalarArrayComp)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenOpType)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayComp)->GetBuffer()
 			);
 	}
 
@@ -1187,8 +1187,8 @@ CDXLOperatorFactory::PdxlopAggFunc
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenAggrefStage)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenScalarAggref)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenAggrefStage)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenScalarAggref)->GetBuffer()
 			);
 	}
 
@@ -1256,8 +1256,8 @@ CDXLOperatorFactory::Edxlfb
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(token_type)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenWindowFrame)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(token_type)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenWindowFrame)->GetBuffer()
 			);
 	}
 
@@ -1296,8 +1296,8 @@ CDXLOperatorFactory::Edxlfs
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenWindowFrameSpec)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenWindowFrame)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenWindowFrameSpec)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenWindowFrame)->GetBuffer()
 			);
 	}
 
@@ -1349,8 +1349,8 @@ CDXLOperatorFactory::Edxlfes
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenWindowExclusionStrategy)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenWindowFrame)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenWindowExclusionStrategy)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenWindowFrame)->GetBuffer()
 			);
 	}
 
@@ -1746,8 +1746,8 @@ CDXLOperatorFactory::GetColumnDescrAt
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenAttno)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenColDescr)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenAttno)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenColDescr)->GetBuffer()
 			);
 	}
 	
@@ -1849,8 +1849,8 @@ CDXLOperatorFactory::Pdxlcr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
-			CDXLTokens::PstrToken(EdxltokenColRef)->GetBuffer(),
-			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenColRef)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 			);
 	}
 	
@@ -1921,8 +1921,8 @@ CDXLOperatorFactory::IOutputSegId
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenSegId)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenSegment)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenSegId)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenSegment)->GetBuffer()
 			);
 	}
 
@@ -1955,8 +1955,8 @@ CDXLOperatorFactory::XmlstrFromAttrs
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
-			CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
-			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 			);
 	}
 
@@ -1993,8 +1993,8 @@ CDXLOperatorFactory::UlValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 		);
 	}
 	return ulId;
@@ -2033,8 +2033,8 @@ CDXLOperatorFactory::UllValueFromXmlstr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
-			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 			);
 	}
 
@@ -2074,8 +2074,8 @@ CDXLOperatorFactory::FValueFromXmlstr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
-			CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 			);
 	}
 
@@ -2113,8 +2113,8 @@ CDXLOperatorFactory::IValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 		);
 	}
 	return iId;
@@ -2191,8 +2191,8 @@ CDXLOperatorFactory::SValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 		);
 	}
 	return sVal;
@@ -2287,8 +2287,8 @@ CDXLOperatorFactory::OidValueFromXmlstr
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::PstrToken(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 		);
 	}
 	return oid;
@@ -2555,8 +2555,8 @@ CDXLOperatorFactory::UlGroupingColId
 	const Attributes &attrs
 	)
 {
-	const CWStringConst *pstrTokenGroupingCol = CDXLTokens::PstrToken(EdxltokenGroupingCol);
-	const CWStringConst *pstrTokenColId = CDXLTokens::PstrToken(EdxltokenColId);
+	const CWStringConst *pstrTokenGroupingCol = CDXLTokens::GetDXLTokenStr(EdxltokenGroupingCol);
+	const CWStringConst *pstrTokenColId = CDXLTokens::GetDXLTokenStr(EdxltokenColId);
 
 	// get grouping column id from attributes	
 	INT iColId = IValueFromAttrs(memory_manager_dxl, attrs, EdxltokenColId, EdxltokenGroupingCol);
@@ -3156,7 +3156,7 @@ CDXLOperatorFactory::PdxldatumGeneric
 		if (NULL == pba)
 		{
 			// unable to decode value. probably not Base64 encoded.
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::PstrToken(edxltokenElement));
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(edxltokenElement));
 		}
 	}
 
@@ -3239,7 +3239,7 @@ CDXLOperatorFactory::Value
 	if (NULL == pba)
 	{
 		// unable to decode value. probably not Base64 encoded.
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::PstrToken(edxltokenElement));
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(edxltokenElement));
 	}
 
 	return LValueFromAttrs(memory_manager_dxl, attrs, EdxltokenLintValue, edxltokenElement);
@@ -3301,7 +3301,7 @@ CDXLOperatorFactory::PdxldatumStatsDoubleMappable
 		if (NULL == pba)
 		{
 			// unable to decode value. probably not Base64 encoded.
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::PstrToken(edxltokenElement));
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(edxltokenElement));
 		}
 
 		dValue = DValueFromAttrs(memory_manager_dxl, attrs, EdxltokenDoubleValue, edxltokenElement);
@@ -3625,7 +3625,7 @@ CDXLOperatorFactory::EdxljtParseJoinType
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenJoinType)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenJoinType)->GetBuffer(),
 			pstrJoinName->GetBuffer()
 			);		
 	}
@@ -3670,7 +3670,7 @@ CDXLOperatorFactory::EdxljtParseIndexScanDirection
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenIndexScanDirection)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenIndexScanDirection)->GetBuffer(),
 			pstrIndexScan->GetBuffer()
 			);
 	}
@@ -3697,7 +3697,7 @@ CDXLOperatorFactory::PdxlopLogicalJoin
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 
 	const XMLCh *xmlszJoinType = XmlstrFromAttrs(attrs, EdxltokenJoinType, EdxltokenLogicalJoin);
-	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::PstrToken(EdxltokenLogicalJoin));
+	EdxlJoinType join_type = EdxljtParseJoinType(xmlszJoinType, CDXLTokens::GetDXLTokenStr(EdxltokenLogicalJoin));
 
 	return GPOS_NEW(memory_pool) CDXLLogicalJoin(memory_pool, join_type);
 }
@@ -3940,7 +3940,7 @@ CDXLOperatorFactory::Ecmpt
 		}
 	}
 	
-	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType)->GetBuffer(), CDXLTokens::PstrToken(EdxltokenGPDBScalarOp)->GetBuffer());		
+	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpCmpType)->GetBuffer(), CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOp)->GetBuffer());		
 	return (IMDType::ECmpType) IMDType::EcmptOther;
 }
 
@@ -4050,8 +4050,8 @@ CDXLOperatorFactory::EctascommitFromAttr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
-			CDXLTokens::PstrToken(EdxltokenOnCommitAction)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenCTASOptions)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenOnCommitAction)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenCTASOptions)->GetBuffer()
 			);
 	}
 	
@@ -4076,8 +4076,8 @@ CDXLOperatorFactory::EctascommitFromAttr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenOnCommitAction)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenCTASOptions)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenOnCommitAction)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenCTASOptions)->GetBuffer()
 			);	
 	}
 	
@@ -4116,8 +4116,8 @@ CDXLOperatorFactory::EmdindtFromAttr
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::PstrToken(EdxltokenIndexType)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenIndex)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenIndexType)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenIndex)->GetBuffer()
 			);	
 	
 	return IMDIndex::EmdindSentinel;

@@ -57,7 +57,7 @@ CDXLLogicalExternalGet::GetDXLOperator() const
 const CWStringConst *
 CDXLLogicalExternalGet::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalExternalGet);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalExternalGet);
 }
 
 // EOF

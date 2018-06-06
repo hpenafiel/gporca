@@ -82,7 +82,7 @@ CDXLScalarArray::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarArray::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarArray);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArray);
 }
 
 //---------------------------------------------------------------------------
@@ -145,14 +145,14 @@ CDXLScalarArray::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayType));
-	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayElementType));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenArrayMultiDim),m_fMultiDimensional);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayType));
+	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayElementType));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenArrayMultiDim),m_fMultiDimensional);
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

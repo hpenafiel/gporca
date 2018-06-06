@@ -48,7 +48,7 @@ CDXLScalarCoerceToDomain::CDXLScalarCoerceToDomain
 const CWStringConst *
 CDXLScalarCoerceToDomain::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarCoerceToDomain);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarCoerceToDomain);
 }
 
 // EOF

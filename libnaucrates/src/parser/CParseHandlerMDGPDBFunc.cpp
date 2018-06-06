@@ -237,8 +237,8 @@ CParseHandlerMDGPDBFunc::EFuncStability
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(EdxltokenGPDBFuncStability)->GetBuffer(),
-		CDXLTokens::PstrToken(EdxltokenGPDBFunc)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncStability)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFunc)->GetBuffer()
 		);
 
 	return CMDFunctionGPDB::EfsSentinel;
@@ -282,8 +282,8 @@ CParseHandlerMDGPDBFunc::EFuncDataAccess
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(EdxltokenGPDBFuncDataAccess)->GetBuffer(),
-		CDXLTokens::PstrToken(EdxltokenGPDBFunc)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncDataAccess)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFunc)->GetBuffer()
 		);
 
 	return CMDFunctionGPDB::EfdaSentinel;

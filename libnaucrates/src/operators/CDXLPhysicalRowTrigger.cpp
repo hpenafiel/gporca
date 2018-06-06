@@ -87,7 +87,7 @@ CDXLPhysicalRowTrigger::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalRowTrigger::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalRowTrigger);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalRowTrigger);
 }
 
 //---------------------------------------------------------------------------
@@ -107,21 +107,21 @@ CDXLPhysicalRowTrigger::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenRelationMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMDType), m_iType);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenRelationMdid));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenMDType), m_iType);
 
 	if (NULL != m_pdrgpulOld)
 	{
 		CWStringDynamic *pstrColsOld = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulOld);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOldCols), pstrColsOld);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOldCols), pstrColsOld);
 		GPOS_DELETE(pstrColsOld);
 	}
 
 	if (NULL != m_pdrgpulNew)
 	{
 		CWStringDynamic *pstrColsNew = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulNew);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenNewCols), pstrColsNew);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenNewCols), pstrColsNew);
 		GPOS_DELETE(pstrColsNew);
 	}
 
@@ -133,7 +133,7 @@ CDXLPhysicalRowTrigger::SerializeToDXL
 	// serialize physical child
 	(*pdxln)[1]->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

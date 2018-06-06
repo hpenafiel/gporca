@@ -63,7 +63,7 @@ CDXLScalarArrayRefIndexList::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarArrayRefIndexList::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexList);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexList);
 }
 
 //---------------------------------------------------------------------------
@@ -84,12 +84,12 @@ CDXLScalarArrayRefIndexList::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexListBound), PstrIndexListBound(m_eilb));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListBound), PstrIndexListBound(m_eilb));
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------
@@ -109,10 +109,10 @@ CDXLScalarArrayRefIndexList::PstrIndexListBound
 	switch (eilb)
 	{
 		case EilbLower:
-			return CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexListLower);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListLower);
 
 		case EilbUpper:
-			return CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexListUpper);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListUpper);
 
 		default:
 			GPOS_ASSERT("Invalid array bound");

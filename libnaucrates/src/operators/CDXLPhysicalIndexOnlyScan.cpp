@@ -63,7 +63,7 @@ CDXLPhysicalIndexOnlyScan::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalIndexOnlyScan::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalIndexOnlyScan);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalIndexOnlyScan);
 }
 
 // EOF

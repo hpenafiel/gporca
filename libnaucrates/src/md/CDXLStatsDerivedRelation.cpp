@@ -81,11 +81,11 @@ CDXLStatsDerivedRelation::Serialize
 	)
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-						CDXLTokens::PstrToken(EdxltokenStatsDerivedRelation));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+						CDXLTokens::GetDXLTokenStr(EdxltokenStatsDerivedRelation));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRows), m_dRows);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenEmptyRelation), m_fEmpty);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRows), m_dRows);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenEmptyRelation), m_fEmpty);
 
 	const ULONG ulColStats = m_pdrgpdxlstatsdercol->Size();
 	for (ULONG ul = 0; ul < ulColStats; ul++)
@@ -98,8 +98,8 @@ CDXLStatsDerivedRelation::Serialize
 		GPOS_CHECK_ABORT;
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-						CDXLTokens::PstrToken(EdxltokenStatsDerivedRelation));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+						CDXLTokens::GetDXLTokenStr(EdxltokenStatsDerivedRelation));
 }
 
 #ifdef GPOS_DEBUG

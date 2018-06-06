@@ -82,7 +82,7 @@ CDXLScalarPartBound::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarPartBound::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarPartBound);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartBound);
 }
 
 //---------------------------------------------------------------------------
@@ -117,11 +117,11 @@ CDXLScalarPartBound::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartLevel), m_ulLevel);
-	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMDType));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenScalarPartBoundLower), m_fLower);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMDType));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartBoundLower), m_fLower);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

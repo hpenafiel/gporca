@@ -61,7 +61,7 @@ CDXLPhysicalLimit::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalLimit::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalLimit);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalLimit);
 }
 
 //---------------------------------------------------------------------------
@@ -82,7 +82,7 @@ CDXLPhysicalLimit::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize properties
 	node->SerializePropertiesToDXL(xml_serializer);
@@ -99,7 +99,7 @@ CDXLPhysicalLimit::SerializeToDXL
 		child_dxlnode->SerializeToDXL(xml_serializer);
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 

@@ -107,14 +107,14 @@ CDXLOperatorCost::SerializeToDXL
 	)
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCost));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCost));
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStartupCost), m_startup_cost_str);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTotalCost), m_total_cost_str);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenRows), m_rows_out_str);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWidth), m_width_str);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenStartupCost), m_startup_cost_str);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTotalCost), m_total_cost_str);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRows), m_rows_out_str);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_width_str);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCost));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCost));
 }
 
 // EOF

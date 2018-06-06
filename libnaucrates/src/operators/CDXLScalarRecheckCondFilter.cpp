@@ -32,7 +32,7 @@ using namespace gpdxl;
 const CWStringConst *
 CDXLScalarRecheckCondFilter::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarRecheckCondFilter);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarRecheckCondFilter);
 }
 
 // EOF

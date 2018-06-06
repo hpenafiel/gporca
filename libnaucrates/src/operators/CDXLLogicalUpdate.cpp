@@ -94,7 +94,7 @@ CDXLLogicalUpdate::GetDXLOperator() const
 const CWStringConst *
 CDXLLogicalUpdate::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalUpdate);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalUpdate);
 }
 
 //---------------------------------------------------------------------------
@@ -114,29 +114,29 @@ CDXLLogicalUpdate::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	CWStringDynamic *deletion_colids = CDXLUtils::Serialize(m_memory_pool, m_deletion_colid_array);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDeleteCols), deletion_colids);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDeleteCols), deletion_colids);
 	GPOS_DELETE(deletion_colids);
 
 	CWStringDynamic *insertion_colids = CDXLUtils::Serialize(m_memory_pool, m_insert_colid_array);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), insertion_colids);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInsertCols), insertion_colids);
 	GPOS_DELETE(insertion_colids);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ctid_colid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_segid_colid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_preserve_oids);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCtidColId), m_ctid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGpSegmentIdColId), m_segid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenUpdatePreservesOids), m_preserve_oids);
 	
 	if (m_preserve_oids)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_tuple_oid);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTupleOidColId), m_tuple_oid);
 	}
 	
 	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	node->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

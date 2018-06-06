@@ -87,7 +87,7 @@ CDXLScalarArrayRef::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarArrayRef::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarArrayRef);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRef);
 }
 
 INT
@@ -114,14 +114,14 @@ CDXLScalarArrayRef::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayElementType));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayElementType));
 	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
-	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenArrayType));
-	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayType));
+	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	// serialize child nodes
 	const ULONG ulArity = pdxln->Arity();
@@ -132,21 +132,21 @@ CDXLScalarArrayRef::SerializeToDXL
 	(*pdxln)[1]->SerializeToDXL(xml_serializer);
 
 	// 3rd child is the ref expression
-	const CWStringConst *pstrRefExpr = CDXLTokens::PstrToken(EdxltokenScalarArrayRefExpr);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrRefExpr);
+	const CWStringConst *pstrRefExpr = CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefExpr);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrRefExpr);
 	(*pdxln)[2]->SerializeToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrRefExpr);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrRefExpr);
 
 	// 4th child is the optional assign expression
-	const CWStringConst *pstrAssignExpr = CDXLTokens::PstrToken(EdxltokenScalarArrayRefAssignExpr);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrAssignExpr);
+	const CWStringConst *pstrAssignExpr = CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefAssignExpr);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrAssignExpr);
 	if (4 == ulArity)
 	{
 		(*pdxln)[3]->SerializeToDXL(xml_serializer);
 	}
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrAssignExpr);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrAssignExpr);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

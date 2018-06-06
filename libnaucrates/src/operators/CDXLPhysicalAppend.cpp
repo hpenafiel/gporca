@@ -66,7 +66,7 @@ CDXLPhysicalAppend::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalAppend::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalAppend);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalAppend);
 }
 
 //---------------------------------------------------------------------------
@@ -115,10 +115,10 @@ CDXLPhysicalAppend::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsTarget), m_used_in_upd_del);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAppendIsZapped), m_is_zapped);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAppendIsTarget), m_used_in_upd_del);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAppendIsZapped), m_is_zapped);
 	
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -126,7 +126,7 @@ CDXLPhysicalAppend::SerializeToDXL
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 }
 
 

@@ -64,7 +64,7 @@ CDXLScalarSubqueryAny::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarSubqueryAny::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarSubqueryAny);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubqueryAny);
 }
 
 // EOF

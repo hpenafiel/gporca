@@ -65,10 +65,10 @@ CDXLScalarWindowFrameEdge::GetOpNameStr() const
 {
 	if (m_fLeading)
 	{
-		return CDXLTokens::PstrToken(EdxltokenScalarWindowFrameLeadingEdge);
+		return CDXLTokens::GetDXLTokenStr(EdxltokenScalarWindowFrameLeadingEdge);
 	}
 
-	return CDXLTokens::PstrToken(EdxltokenScalarWindowFrameTrailingEdge);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarWindowFrameTrailingEdge);
 }
 
 //---------------------------------------------------------------------------
@@ -106,7 +106,7 @@ CDXLScalarWindowFrameEdge::PstrFrameBoundary
 		if ((ULONG) edxlfb == pulElem[0])
 		{
 			Edxltoken edxltk = (Edxltoken) pulElem[1];
-			return CDXLTokens::PstrToken(edxltk);
+			return CDXLTokens::GetDXLTokenStr(edxltk);
 		}
 	}
 
@@ -132,19 +132,19 @@ CDXLScalarWindowFrameEdge::SerializeToDXL
 {
 
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	if (m_fLeading)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowLeadingBoundary), PstrFrameBoundary(m_edxlfb));
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowLeadingBoundary), PstrFrameBoundary(m_edxlfb));
 	}
 	else
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowTrailingBoundary), PstrFrameBoundary(m_edxlfb));
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowTrailingBoundary), PstrFrameBoundary(m_edxlfb));
 	}
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

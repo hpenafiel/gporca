@@ -156,43 +156,43 @@ CMDColumn::Serialize
 	) 
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumn));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumn));
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_iAttNo);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAttno), m_iAttNo);
 
-	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColumnNullable), m_fNullable);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumnNullable), m_fNullable);
 	if (ULONG_MAX != m_length)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_length);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColWidth), m_length);
 	}
 
 	if (m_fDropped)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColDropped), m_fDropped);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColDropped), m_fDropped);
 	}
 	
 	// serialize default value
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumnDefaultValue));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumnDefaultValue));
 	
 	if (NULL != m_pdxlnDefaultValue)
 	{
 		m_pdxlnDefaultValue->SerializeToDXL(xml_serializer);
 	}
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumnDefaultValue));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumnDefaultValue));
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumn));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumn));
 }
 
 #ifdef GPOS_DEBUG
@@ -219,8 +219,8 @@ CMDColumn::DebugPrint
 	os << std::endl;
 
 	const CWStringConst *pstrNullsAllowed = FNullable() ?
-												CDXLTokens::PstrToken(EdxltokenTrue) :
-												CDXLTokens::PstrToken(EdxltokenFalse);
+												CDXLTokens::GetDXLTokenStr(EdxltokenTrue) :
+												CDXLTokens::GetDXLTokenStr(EdxltokenFalse);
 	
 	os << "Nulls allowed: " << pstrNullsAllowed->GetBuffer() << std::endl;
 }

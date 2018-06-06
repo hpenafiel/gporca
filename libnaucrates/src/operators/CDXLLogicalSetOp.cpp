@@ -107,22 +107,22 @@ CDXLLogicalSetOp::GetOpNameStr() const
 	switch (m_set_operation_dxl_type)
 	{
 		case EdxlsetopUnion:
-				return CDXLTokens::PstrToken(EdxltokenLogicalUnion);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalUnion);
 
 		case EdxlsetopUnionAll:
-				return CDXLTokens::PstrToken(EdxltokenLogicalUnionAll);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalUnionAll);
 
 		case EdxlsetopIntersect:
-				return CDXLTokens::PstrToken(EdxltokenLogicalIntersect);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalIntersect);
 
 		case EdxlsetopIntersectAll:
-				return CDXLTokens::PstrToken(EdxltokenLogicalIntersectAll);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalIntersectAll);
 
 		case EdxlsetopDifference:
-				return CDXLTokens::PstrToken(EdxltokenLogicalDifference);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalDifference);
 
 		case EdxlsetopDifferenceAll:
-				return CDXLTokens::PstrToken(EdxltokenLogicalDifferenceAll);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalDifferenceAll);
 
 		default:
 			GPOS_ASSERT(!"Unrecognized set operator type");
@@ -147,17 +147,17 @@ CDXLLogicalSetOp::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize the array of input colid arrays
 	CWStringDynamic *input_colids_array_str = CDXLUtils::Serialize(m_memory_pool, m_input_colids_arrays);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputCols), input_colids_array_str);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInputCols), input_colids_array_str);
 	GPOS_DELETE(input_colids_array_str);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCastAcrossInputs), m_cast_across_input_req);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCastAcrossInputs), m_cast_across_input_req);
 
 	// serialize output columns
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	GPOS_ASSERT(NULL != m_col_descr_array);
 
 	const ULONG length = m_col_descr_array->Size();
@@ -166,12 +166,12 @@ CDXLLogicalSetOp::SerializeToDXL
 		CDXLColDescr *col_descr_dxl = (*m_col_descr_array)[idx];
 		col_descr_dxl->SerializeToDXL(xml_serializer);
 	}
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenColumns));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 
 	// serialize children
 	node->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

@@ -816,7 +816,7 @@ namespace gpdxl
 			
 			// retrieve a token in CWStringConst and XMLCh* format, respectively
 			static 
-			const CWStringConst *PstrToken(Edxltoken token_type);
+			const CWStringConst *GetDXLTokenStr(Edxltoken token_type);
 			
 			static 
 			const XMLCh *XmlstrToken(Edxltoken token_type);

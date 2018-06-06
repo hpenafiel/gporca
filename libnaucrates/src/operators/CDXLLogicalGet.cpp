@@ -76,7 +76,7 @@ CDXLLogicalGet::GetDXLOperator() const
 const CWStringConst *
 CDXLLogicalGet::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalGet);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalGet);
 }
 
 //---------------------------------------------------------------------------
@@ -112,12 +112,12 @@ CDXLLogicalGet::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize table descriptor
 	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

@@ -183,21 +183,21 @@ CMDCastGPDB::Serialize
 	) 
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBCast));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBCast));
 	
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBCastBinaryCoercible), m_fBinaryCoercible);
-	m_pmdidSrc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastSrcType));
-	m_pmdidDest->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastDestType));
-	m_pmdidCastFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBCastFuncId));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBCastCoercePathType), m_emdPathType);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBCastBinaryCoercible), m_fBinaryCoercible);
+	m_pmdidSrc->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBCastSrcType));
+	m_pmdidDest->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBCastDestType));
+	m_pmdidCastFunc->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBCastFuncId));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBCastCoercePathType), m_emdPathType);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBCast));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBCast));
 }
 
 

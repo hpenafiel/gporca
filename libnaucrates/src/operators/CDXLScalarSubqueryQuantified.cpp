@@ -76,17 +76,17 @@ CDXLScalarSubqueryQuantified::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize operator id and name
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_pmdnameScalarOp->GetMDName());
-	m_pmdidScalarOp->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpName), m_pmdnameScalarOp->GetMDName());
+	m_pmdidScalarOp->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 
 	// serialize computed column id
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulColId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

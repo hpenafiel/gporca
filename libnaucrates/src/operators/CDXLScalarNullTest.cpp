@@ -81,9 +81,9 @@ CDXLScalarNullTest::GetOpNameStr() const
 {
 	if(m_fIsNull)
 	{
-		return CDXLTokens::PstrToken(EdxltokenScalarIsNull);
+		return CDXLTokens::GetDXLTokenStr(EdxltokenScalarIsNull);
 	}
-	return CDXLTokens::PstrToken(EdxltokenScalarIsNotNull);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarIsNotNull);
 }
 
 //---------------------------------------------------------------------------
@@ -104,11 +104,11 @@ CDXLScalarNullTest::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 }
 

@@ -112,11 +112,11 @@ CDXLSpoolInfo::GetSpoolTypeName() const
 	switch (m_spool_type)
 	{
 		case EdxlspoolMaterialize:
-			return CDXLTokens::PstrToken(EdxltokenSpoolMaterialize);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenSpoolMaterialize);
 		case EdxlspoolSort:
-			return CDXLTokens::PstrToken(EdxltokenSpoolSort);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenSpoolSort);
 		default:
-			return CDXLTokens::PstrToken(EdxltokenUnknown);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenUnknown);
 	}
 }
 
@@ -135,14 +135,14 @@ CDXLSpoolInfo::SerializeToDXL
 	)
 	const
 {
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_spool_id);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSpoolId), m_spool_id);
 	
 	const CWStringConst *pstrSpoolType = GetSpoolTypeName();
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolType), pstrSpoolType);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSpoolType), pstrSpoolType);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolMultiSlice), m_is_multi_slice_shared);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSpoolMultiSlice), m_is_multi_slice_shared);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_executor_slice_id);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenExecutorSliceId), m_executor_slice_id);
 	
 
 }

@@ -75,7 +75,7 @@ CDXLLogicalLimit::GetDXLOperator() const
 const CWStringConst *
 CDXLLogicalLimit::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalLimit);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalLimit);
 }
 //---------------------------------------------------------------------------
 //	@function:
@@ -95,12 +95,12 @@ CDXLLogicalLimit::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	if (m_top_limit_under_dml)
 	{
 		xml_serializer->AddAttribute
 					(
-					CDXLTokens::PstrToken(EdxltokenTopLimitUnderDML),
+					CDXLTokens::GetDXLTokenStr(EdxltokenTopLimitUnderDML),
 					m_top_limit_under_dml
 					);
 	}
@@ -108,7 +108,7 @@ CDXLLogicalLimit::SerializeToDXL
 	// serialize children
 	node->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

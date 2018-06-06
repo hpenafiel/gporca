@@ -64,7 +64,7 @@ CDXLPhysicalNLJoin::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalNLJoin::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalNLJoin);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalNLJoin);
 }
 
 //---------------------------------------------------------------------------
@@ -85,10 +85,10 @@ CDXLPhysicalNLJoin::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), GetJoinTypeNameStr());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPhysicalNLJoinIndex), m_fIndexNLJ);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenJoinType), GetJoinTypeNameStr());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalNLJoinIndex), m_fIndexNLJ);
 
 
 	// serialize properties
@@ -97,7 +97,7 @@ CDXLPhysicalNLJoin::SerializeToDXL
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 }
 
 

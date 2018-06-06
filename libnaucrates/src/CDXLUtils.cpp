@@ -881,31 +881,31 @@ CDXLUtils::SerializeQuery
 		SerializeHeader(memory_pool, &xml_serializer);
 	}
 	
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenQuery));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenQuery));
 
 	// serialize the query output columns
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenQueryOutput));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenQueryOutput));
 	for (ULONG ul = 0; ul < query_output_dxlnode_array->Size(); ++ul)
 	{
 		CDXLNode *scalar_ident = (*query_output_dxlnode_array)[ul];
 		scalar_ident->SerializeToDXL(&xml_serializer);
 	}
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenQueryOutput));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenQueryOutput));
 
 	// serialize the CTE list
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTEList));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTEList));
 	const ULONG ulCTEs = cte_dxlnode_array->Size();
 	for (ULONG ul = 0; ul < ulCTEs; ++ul)
 	{
 		CDXLNode *cte = (*cte_dxlnode_array)[ul];
 		cte->SerializeToDXL(&xml_serializer);
 	}
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCTEList));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTEList));
 
 	
 	dxl_query_node->SerializeToDXL(&xml_serializer);
 
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenQuery));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenQuery));
 	
 	if (serialize_header_footer)
 	{
@@ -974,16 +974,16 @@ CDXLUtils::SerializePlan
 		SerializeHeader(memory_pool, &xml_serializer);
 	}
 	
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenPlan));
 
 	// serialize plan id and space size attributes
 
-	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanId), plan_id);
-	xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanSpaceSize), plan_space_size);
+	xml_serializer.AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPlanId), plan_id);
+	xml_serializer.AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPlanSpaceSize), plan_space_size);
 
 	node->SerializeToDXL(&xml_serializer);
 
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenPlan));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenPlan));
 	
 	if (serialize_header_footer)
 	{
@@ -1020,7 +1020,7 @@ CDXLUtils::SerializeMetadata
 		SerializeHeader(memory_pool, &xml_serializer);
 	}
 	
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMetadata));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMetadata));
 
 
 	for (ULONG ul = 0; ul < imd_obj_array->Size(); ul++)
@@ -1029,7 +1029,7 @@ CDXLUtils::SerializeMetadata
 		imd_cache_obj->Serialize(&xml_serializer);
 	}
 
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMetadata));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMetadata));
 
 	if (serialize_header_footer)
 	{
@@ -1072,15 +1072,15 @@ CDXLUtils::SerializeMetadata
 		SerializeHeader(memory_pool, &xml_serializer);
 	}
 	
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMetadata));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMetadata));
 	
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-									CDXLTokens::PstrToken(EdxltokenMdid));				
-	mdid->Serialize(&xml_serializer, CDXLTokens::PstrToken(EdxltokenValue));
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-					CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+									CDXLTokens::GetDXLTokenStr(EdxltokenMdid));				
+	mdid->Serialize(&xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenValue));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+					CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMetadata));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMetadata));
 
 	if (serialize_header_footer)
 	{
@@ -1117,19 +1117,19 @@ CDXLUtils::SerializeSamplePlans
 	CXMLSerializer xml_serializer(memory_pool, oss, indentation);
 	SerializeHeader(memory_pool, &xml_serializer);
 
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenSamplePlans));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenSamplePlans));
 
 	const ULONG size = enumerator_cfg->UlCreatedSamples();
 	for (ULONG ul = 0; ul < size; ul++)
 	{
-		xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenSamplePlan));
+		xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenSamplePlan));
 		// we add 1 to plan id since id's are zero-based internally, and we reserve 0 for best plan
-		xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenPlanId), enumerator_cfg->UllPlanSample(ul) + 1);
-		xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenRelativeCost), enumerator_cfg->CostPlanSample(ul) / enumerator_cfg->CostBest());
-		xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenSamplePlan));
+		xml_serializer.AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPlanId), enumerator_cfg->UllPlanSample(ul) + 1);
+		xml_serializer.AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRelativeCost), enumerator_cfg->CostPlanSample(ul) / enumerator_cfg->CostBest());
+		xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenSamplePlan));
 	}
 
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenSamplePlans));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenSamplePlans));
 
 	SerializeFooter(&xml_serializer);
 
@@ -1163,18 +1163,18 @@ CDXLUtils::SerializeCostDistr
 	CXMLSerializer xml_serializer(memory_pool, oss, indentation);
 	SerializeHeader(memory_pool, &xml_serializer);
 
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostDistr));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCostDistr));
 
 	const ULONG size = enumerator_cfg->UlCostDistrSize();
 	for (ULLONG ul = 0; ul < size; ul++)
 	{
-		xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenValue));
-		xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenX), enumerator_cfg->DCostDistrX(ul));
-		xml_serializer.AddAttribute(CDXLTokens::PstrToken(EdxltokenY), enumerator_cfg->DCostDistrY(ul));
-		xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenValue));
+		xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenValue));
+		xml_serializer.AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenX), enumerator_cfg->DCostDistrX(ul));
+		xml_serializer.AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenY), enumerator_cfg->DCostDistrY(ul));
+		xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenValue));
 	}
 
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenCostDistr));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCostDistr));
 
 	SerializeFooter(&xml_serializer);
 
@@ -1249,13 +1249,13 @@ CDXLUtils::SerializeMDRequest
 		SerializeHeader(memory_pool, &xml_serializer);
 	}
 
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMDRequest));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMDRequest));
 
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMdid));
-	mdid->Serialize(&xml_serializer, CDXLTokens::PstrToken(EdxltokenValue));
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMdid));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+	mdid->Serialize(&xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenValue));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMDRequest));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMDRequest));
 
 	if (serialize_header_footer)
 	{
@@ -1326,7 +1326,7 @@ CDXLUtils::SerializeStatistics
 		SerializeHeader(memory_pool, &xml_serializer);
 	}
 
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenStatistics));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenStatistics));
 
 	GPOS_ASSERT(NULL != statistics_array);
 
@@ -1338,7 +1338,7 @@ CDXLUtils::SerializeStatistics
 		stats_derived_relation_dxl->Release();
 	}
 
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenStatistics));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenStatistics));
 
 	if (serialize_header_footer)
 	{
@@ -1408,7 +1408,7 @@ CDXLUtils::SerializeMDObj
 	if (serialize_header_footer)
 	{
 		SerializeHeader(memory_pool, &xml_serializer);
-		xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMetadata));
+		xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMetadata));
 	}
 	GPOS_CHECK_ABORT;
 	
@@ -1417,7 +1417,7 @@ CDXLUtils::SerializeMDObj
 		
 	if (serialize_header_footer)
 	{
-		xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenMetadata));
+		xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenMetadata));
 		SerializeFooter(&xml_serializer);
 	}
 	
@@ -1454,11 +1454,11 @@ CDXLUtils::SerializeScalarExpr
 	{
 		SerializeHeader(memory_pool, &xml_serializer);
 	}
-	xml_serializer.OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarExpr));
+	xml_serializer.OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenScalarExpr));
 
 	// serialize the content of the scalar expression
 	node->SerializeToDXL(&xml_serializer);
-	xml_serializer.CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenScalarExpr));
+	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenScalarExpr));
 	if (serialize_header_footer)
 	{
 		SerializeFooter(&xml_serializer);
@@ -1485,19 +1485,19 @@ CDXLUtils::SerializeHeader
 	
 	xml_serializer->StartDocument();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDXLMessage));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDXLMessage));
 	
 	// add namespace specification xmlns:dxl="...."
 	CWStringDynamic namespace_specification_string(memory_pool);
 	namespace_specification_string.AppendFormat
 						(
 						GPOS_WSZ_LIT("%ls%ls%ls"),
-						CDXLTokens::PstrToken(EdxltokenNamespaceAttr)->GetBuffer(),
-						CDXLTokens::PstrToken(EdxltokenColon)->GetBuffer(),
-						CDXLTokens::PstrToken(EdxltokenNamespacePrefix)->GetBuffer()
+						CDXLTokens::GetDXLTokenStr(EdxltokenNamespaceAttr)->GetBuffer(),
+						CDXLTokens::GetDXLTokenStr(EdxltokenColon)->GetBuffer(),
+						CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix)->GetBuffer()
 						);
 	
-	xml_serializer->AddAttribute(&namespace_specification_string, CDXLTokens::PstrToken(EdxltokenNamespaceURI));
+	xml_serializer->AddAttribute(&namespace_specification_string, CDXLTokens::GetDXLTokenStr(EdxltokenNamespaceURI));
 }
 
 //---------------------------------------------------------------------------
@@ -1516,7 +1516,7 @@ CDXLUtils::SerializeFooter
 {
 	GPOS_ASSERT(NULL != xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDXLMessage));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDXLMessage));
 }
 
 //---------------------------------------------------------------------------
@@ -1846,7 +1846,7 @@ CDXLUtils::SerializeToCommaSeparatedString
 		}
 		else
 		{
-			dxl_string->AppendFormat(GPOS_WSZ_LIT("%c%ls"), value, CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
+			dxl_string->AppendFormat(GPOS_WSZ_LIT("%c%ls"), value, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 
@@ -1940,7 +1940,7 @@ CDXLUtils::SerializeBound
 {
 	xml_serializer->OpenElement
 				(
-				CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+				CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 				dxl_string
 				);
 
@@ -1949,7 +1949,7 @@ CDXLUtils::SerializeBound
 	CDXLScalarConstValue *scalar_const_value_dxl_operator = md_type->PdxlopScConst(xml_serializer->Pmp(), new_length);
 	scalar_const_value_dxl_operator->SerializeToDXL(xml_serializer, NULL);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						dxl_string);
 	scalar_const_value_dxl_operator->Release();
 }

@@ -166,16 +166,16 @@ CDXLColStats::Serialize
 	) 
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumnStats));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumnStats));
 	
-	m_pmdidColStats->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWidth), m_dWidth);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNullFreq), m_dNullFreq);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColNdvRemain), m_dDistinctRemain);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColFreqRemain), m_dFreqRemain);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColStatsMissing), m_fColStatsMissing);
+	m_pmdidColStats->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_dWidth);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNullFreq), m_dNullFreq);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNdvRemain), m_dDistinctRemain);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColFreqRemain), m_dFreqRemain);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColStatsMissing), m_fColStatsMissing);
 
 	GPOS_CHECK_ABORT;
 
@@ -188,8 +188,8 @@ CDXLColStats::Serialize
 		GPOS_CHECK_ABORT;
 	}
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumnStats));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumnStats));
 }
 
 

@@ -77,7 +77,7 @@ CDXLScalarCaseTest::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarCaseTest::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarCaseTest);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarCaseTest);
 }
 
 //---------------------------------------------------------------------------
@@ -112,9 +112,9 @@ CDXLScalarCaseTest::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

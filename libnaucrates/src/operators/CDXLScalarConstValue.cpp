@@ -79,7 +79,7 @@ CDXLScalarConstValue::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarConstValue::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarConstValue);;
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarConstValue);;
 }
 
 //---------------------------------------------------------------------------

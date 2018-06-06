@@ -60,7 +60,7 @@ CDXLScalarHashCondList::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarHashCondList::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarHashCondList);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarHashCondList);
 }
 
 //---------------------------------------------------------------------------
@@ -80,9 +80,9 @@ CDXLScalarHashCondList::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

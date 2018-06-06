@@ -195,7 +195,7 @@ CMDFunctionGPDB::PstrOutArgTypes() const
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), pmdid->GetBuffer(), CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
+			pstr->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), pmdid->GetBuffer(), CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 
@@ -217,35 +217,35 @@ CMDFunctionGPDB::Serialize
 	) 
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBFunc));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFunc));
 	
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncReturnsSet), m_fReturnsSet);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncStability), PstrStability());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncDataAccess), PstrDataAccess());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBFuncStrict), m_fStrict);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncReturnsSet), m_fReturnsSet);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncStability), PstrStability());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncDataAccess), PstrDataAccess());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncStrict), m_fStrict);
 
-	SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBFuncResultTypeId), m_pmdidTypeResult);
+	SerializeMDIdAsElem(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncResultTypeId), m_pmdidTypeResult);
 
 	if (NULL != m_pdrgpmdidTypes)
 	{
-		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-							CDXLTokens::PstrToken(EdxltokenOutputCols));
+		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+							CDXLTokens::GetDXLTokenStr(EdxltokenOutputCols));
 
 		CWStringDynamic *pstrOutArgTypes = PstrOutArgTypes();
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeIds), pstrOutArgTypes);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeIds), pstrOutArgTypes);
 		GPOS_DELETE(pstrOutArgTypes);
 
-		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-							CDXLTokens::PstrToken(EdxltokenOutputCols));
+		xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+							CDXLTokens::GetDXLTokenStr(EdxltokenOutputCols));
 
 	}
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBFunc));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFunc));
 }
 
 //---------------------------------------------------------------------------
@@ -261,7 +261,7 @@ CMDFunctionGPDB::PstrStability() const
 {
 	if (EfsSentinel > m_efsStability)
 	{
-		return CDXLTokens::PstrToken(m_drgDxlStability[m_efsStability]);
+		return CDXLTokens::GetDXLTokenStr(m_drgDxlStability[m_efsStability]);
 	}
 
 	GPOS_ASSERT(!"Unrecognized function stability setting");
@@ -281,7 +281,7 @@ CMDFunctionGPDB::PstrDataAccess() const
 {
 	if (EfdaSentinel > m_efdaDataAccess)
 	{
-		return CDXLTokens::PstrToken(m_drgDxlDataAccess[m_efdaDataAccess]);
+		return CDXLTokens::GetDXLTokenStr(m_drgDxlDataAccess[m_efdaDataAccess]);
 	}
 
 	GPOS_ASSERT(!"Unrecognized function data access setting");
@@ -316,8 +316,8 @@ CMDFunctionGPDB::DebugPrint
 	os << std::endl;
 	
 	const CWStringConst *pstrReturnsSet = FReturnsSet() ? 
-			CDXLTokens::PstrToken(EdxltokenTrue): 
-			CDXLTokens::PstrToken(EdxltokenFalse); 
+			CDXLTokens::GetDXLTokenStr(EdxltokenTrue): 
+			CDXLTokens::GetDXLTokenStr(EdxltokenFalse); 
 
 	os << "Returns set: " << pstrReturnsSet->GetBuffer() << std::endl;
 
@@ -326,8 +326,8 @@ CMDFunctionGPDB::DebugPrint
 	os << "Data access: " << PstrDataAccess()->GetBuffer() << std::endl;
 
 	const CWStringConst *pstrIsStrict = FStrict() ? 
-			CDXLTokens::PstrToken(EdxltokenTrue): 
-			CDXLTokens::PstrToken(EdxltokenFalse); 
+			CDXLTokens::GetDXLTokenStr(EdxltokenTrue): 
+			CDXLTokens::GetDXLTokenStr(EdxltokenFalse); 
 
 	os << "Is strict: " << pstrIsStrict->GetBuffer() << std::endl;
 	

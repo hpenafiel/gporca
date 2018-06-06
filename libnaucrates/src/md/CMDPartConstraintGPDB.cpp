@@ -126,22 +126,22 @@ CMDPartConstraintGPDB::Serialize
 	)
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-						CDXLTokens::PstrToken(EdxltokenPartConstraint));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+						CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraint));
 	
 	// serialize default parts
 	CWStringDynamic *pstrDefParts = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDefaultParts);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDefaultPartition), pstrDefParts);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDefaultPartition), pstrDefParts);
 	GPOS_DELETE(pstrDefParts);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartConstraintUnbounded), m_fUnbounded);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraintUnbounded), m_fUnbounded);
 
 	// serialize the scalar expression
 	if (NULL != m_dxl_node)
 		m_dxl_node->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix),
-						CDXLTokens::PstrToken(EdxltokenPartConstraint));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+						CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraint));
 
 	GPOS_CHECK_ABORT;
 }

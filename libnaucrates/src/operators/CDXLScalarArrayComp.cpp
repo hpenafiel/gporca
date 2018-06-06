@@ -80,9 +80,9 @@ CDXLScalarArrayComp::PstrArrayCompType() const
 	switch (m_edxlcomptype)
 	{
 		case Edxlarraycomptypeany:
-			return CDXLTokens::PstrToken(EdxltokenOpTypeAny);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenOpTypeAny);
 		case Edxlarraycomptypeall:
-			return CDXLTokens::PstrToken(EdxltokenOpTypeAll);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenOpTypeAll);
 		default:
 			GPOS_ASSERT(!"Unrecognized array operation type");
 			return NULL;
@@ -100,7 +100,7 @@ CDXLScalarArrayComp::PstrArrayCompType() const
 const CWStringConst *
 CDXLScalarArrayComp::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarArrayComp);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayComp);
 }
 
 //---------------------------------------------------------------------------
@@ -121,13 +121,13 @@ CDXLScalarArrayComp::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_comparison_operator_name);
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpType), PstrArrayCompType());
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpName), m_comparison_operator_name);
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpType), PstrArrayCompType());
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

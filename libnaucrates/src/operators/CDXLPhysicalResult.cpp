@@ -62,7 +62,7 @@ CDXLPhysicalResult::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalResult::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalResult);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalResult);
 }
 
 
@@ -84,7 +84,7 @@ CDXLPhysicalResult::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -92,7 +92,7 @@ CDXLPhysicalResult::SerializeToDXL
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

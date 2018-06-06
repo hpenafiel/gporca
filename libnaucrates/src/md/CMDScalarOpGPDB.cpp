@@ -259,13 +259,13 @@ CMDScalarOpGPDB::Serialize
 	) 
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBScalarOp));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOp));
 	
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenReturnsNullOnNullInput), m_fReturnsNullOnNullInput);
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenReturnsNullOnNullInput), m_fReturnsNullOnNullInput);
 
 	Edxltoken rgEdxltoken[6] = {
 							EdxltokenGPDBScalarOpLeftTypeId, EdxltokenGPDBScalarOpRightTypeId, 
@@ -278,7 +278,7 @@ CMDScalarOpGPDB::Serialize
 	
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgEdxltoken); ul++)
 	{
-		SerializeMDIdAsElem(xml_serializer, CDXLTokens::PstrToken(rgEdxltoken[ul]), rgMdid[ul]);
+		SerializeMDIdAsElem(xml_serializer, CDXLTokens::GetDXLTokenStr(rgEdxltoken[ul]), rgMdid[ul]);
 
 		GPOS_CHECK_ABORT;
 	}	
@@ -287,12 +287,12 @@ CMDScalarOpGPDB::Serialize
 	if (0 < m_pdrgpmdidOpClasses->Size())
 	{
 		SerializeMDIdList(xml_serializer, m_pdrgpmdidOpClasses, 
-						CDXLTokens::PstrToken(EdxltokenOpClasses), 
-						CDXLTokens::PstrToken(EdxltokenOpClass));
+						CDXLTokens::GetDXLTokenStr(EdxltokenOpClasses), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenOpClass));
 	}
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBScalarOp));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOp));
 }
 
 //---------------------------------------------------------------------------

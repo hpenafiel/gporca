@@ -93,7 +93,7 @@ CDXLLogicalProject::SetAliasName
 const CWStringConst *
 CDXLLogicalProject::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalProject);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalProject);
 }
 
 //---------------------------------------------------------------------------
@@ -114,18 +114,18 @@ CDXLLogicalProject::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize alias
 	if (NULL != m_mdname_alias)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDerivedTableName), m_mdname_alias->GetMDName());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDerivedTableName), m_mdname_alias->GetMDName());
 	}
 
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

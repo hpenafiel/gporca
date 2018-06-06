@@ -74,7 +74,7 @@ CDXLScalarSubqueryNotExists::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarSubqueryNotExists::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarSubqueryNotExists);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubqueryNotExists);
 }
 
 //---------------------------------------------------------------------------
@@ -94,9 +94,9 @@ CDXLScalarSubqueryNotExists::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

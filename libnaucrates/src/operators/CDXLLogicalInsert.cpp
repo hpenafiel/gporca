@@ -82,7 +82,7 @@ CDXLLogicalInsert::GetDXLOperator() const
 const CWStringConst *
 CDXLLogicalInsert::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalInsert);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalInsert);
 }
 
 //---------------------------------------------------------------------------
@@ -102,10 +102,10 @@ CDXLLogicalInsert::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	CWStringDynamic *src_colids = CDXLUtils::Serialize(m_memory_pool, m_src_colids_array);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInsertCols), src_colids);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInsertCols), src_colids);
 	GPOS_DELETE(src_colids);
 
 	// serialize table descriptor
@@ -114,7 +114,7 @@ CDXLLogicalInsert::SerializeToDXL
 	// serialize arguments
 	node->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

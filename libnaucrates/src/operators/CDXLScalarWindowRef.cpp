@@ -109,7 +109,7 @@ CDXLScalarWindowRef::PstrWinStage() const
 		if ((ULONG) m_edxlwinstage == pulElem[0])
 		{
 			Edxltoken edxltk = (Edxltoken) pulElem[1];
-			return CDXLTokens::PstrToken(edxltk);
+			return CDXLTokens::GetDXLTokenStr(edxltk);
 			break;
 		}
 	}
@@ -129,7 +129,7 @@ CDXLScalarWindowRef::PstrWinStage() const
 const CWStringConst *
 CDXLScalarWindowRef::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarWindowref);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarWindowref);
 }
 
 //---------------------------------------------------------------------------
@@ -150,18 +150,18 @@ CDXLScalarWindowRef::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenWindowrefOid));
-	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefDistinct),m_fDistinct);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefStarArg),m_fStarArg);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefSimpleAgg),m_fSimpleAgg);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefStrategy), PstrWinStage());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowrefWinSpecPos), m_ulWinspecPos);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_func_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefOid));
+	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefDistinct),m_fDistinct);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefStarArg),m_fStarArg);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefSimpleAgg),m_fSimpleAgg);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefStrategy), PstrWinStage());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowrefWinSpecPos), m_ulWinspecPos);
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

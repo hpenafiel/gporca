@@ -86,7 +86,7 @@ CDXLPhysicalDynamicIndexScan::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalDynamicIndexScan::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalDynamicIndexScan);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalDynamicIndexScan);
 }
 
 //---------------------------------------------------------------------------
@@ -177,17 +177,17 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute
 				(
-				CDXLTokens::PstrToken(EdxltokenIndexScanDirection),
+				CDXLTokens::GetDXLTokenStr(EdxltokenIndexScanDirection),
 				CDXLOperator::GetIdxScanDirectionStr(m_index_scan_dir)
 				);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexId), m_part_index_id);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartIndexId), m_part_index_id);
 	if (m_part_index_id_printable != m_part_index_id)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartIndexIdPrintable), m_part_index_id_printable);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartIndexIdPrintable), m_part_index_id_printable);
 	}
 
 	// serialize properties
@@ -202,7 +202,7 @@ CDXLPhysicalDynamicIndexScan::SerializeToDXL
 	// serialize table descriptor
 	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

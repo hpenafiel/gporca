@@ -82,17 +82,17 @@ CDXLScalarBooleanTest::GetOpNameStr() const
 	switch (m_edxlbooleantesttype)
 	{
 		case EdxlbooleantestIsTrue:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolTestIsTrue);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolTestIsTrue);
 		case EdxlbooleantestIsNotTrue:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolTestIsNotTrue);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolTestIsNotTrue);
 		case EdxlbooleantestIsFalse:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolTestIsFalse);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolTestIsFalse);
 		case EdxlbooleantestIsNotFalse:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolTestIsNotFalse);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolTestIsNotFalse);
 		case EdxlbooleantestIsUnknown:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolTestIsUnknown);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolTestIsUnknown);
 		case EdxlbooleantestIsNotUnknown:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolTestIsNotUnknown);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolTestIsNotUnknown);
 		default:
 			return NULL;
 	}
@@ -117,11 +117,11 @@ CDXLScalarBooleanTest::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	GPOS_ASSERT(NULL != element_name);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

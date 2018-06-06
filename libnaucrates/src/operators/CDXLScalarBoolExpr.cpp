@@ -83,11 +83,11 @@ CDXLScalarBoolExpr::GetOpNameStr() const
 	switch (m_boolexptype)
 	{
 		case Edxland:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolAnd);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolAnd);
 		case Edxlor:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolOr);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolOr);
 		case Edxlnot:
-				return CDXLTokens::PstrToken(EdxltokenScalarBoolNot);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolNot);
 		default:
 			return NULL;
 	}
@@ -114,11 +114,11 @@ CDXLScalarBoolExpr::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	GPOS_ASSERT(NULL != element_name);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	GPOS_CHECK_ABORT;
 }

@@ -86,7 +86,7 @@ CDXLPhysicalTVF::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalTVF::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalTVF);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalTVF);
 }
 
 //---------------------------------------------------------------------------
@@ -106,10 +106,10 @@ CDXLPhysicalTVF::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_func_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenFuncId));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_pstr);
-	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_func_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenFuncId));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_pstr);
+	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -117,7 +117,7 @@ CDXLPhysicalTVF::SerializeToDXL
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

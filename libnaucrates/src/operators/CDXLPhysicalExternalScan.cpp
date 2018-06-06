@@ -75,7 +75,7 @@ CDXLPhysicalExternalScan::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalExternalScan::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalExternalScan);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalExternalScan);
 }
 
 // EOF

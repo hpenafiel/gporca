@@ -63,7 +63,7 @@ CDXLPhysicalRandomMotion::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalRandomMotion::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalRandomMotion);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalRandomMotion);
 }
 
 //---------------------------------------------------------------------------
@@ -84,13 +84,13 @@ CDXLPhysicalRandomMotion::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	SerializeSegmentInfoToDXL(xml_serializer);
 	
 	if (m_fDuplicateSensitive)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenDuplicateSensitive), true);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDuplicateSensitive), true);
 	}
 
 	// serialize properties
@@ -99,7 +99,7 @@ CDXLPhysicalRandomMotion::SerializeToDXL
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 }
 
 #ifdef GPOS_DEBUG

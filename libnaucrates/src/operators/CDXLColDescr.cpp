@@ -170,31 +170,31 @@ CDXLColDescr::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *pstrTokenColDescr = CDXLTokens::PstrToken(EdxltokenColDescr);
+	const CWStringConst *pstrTokenColDescr = CDXLTokens::GetDXLTokenStr(EdxltokenColDescr);
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenColDescr);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrTokenColDescr);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_column_id);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAttno), m_attr_no);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColName), m_md_name->GetMDName());
-	m_column_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_column_id);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAttno), m_attr_no);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColName), m_md_name->GetMDName());
+	m_column_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
 
 	if (m_is_dropped)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColDropped), m_is_dropped);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColDropped), m_is_dropped);
 	}
 
 	if (ULONG_MAX != m_column_width)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColWidth), m_column_width);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColWidth), m_column_width);
 	}
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrTokenColDescr);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrTokenColDescr);
 
 	GPOS_CHECK_ABORT;
 }

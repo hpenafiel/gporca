@@ -64,7 +64,7 @@ CDXLScalarDMLAction::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarDMLAction::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarDMLAction);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarDMLAction);
 }
 
 
@@ -86,8 +86,8 @@ CDXLScalarDMLAction::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 //---------------------------------------------------------------------------

@@ -97,7 +97,7 @@ CDXLWindowFrame::PstrES
 		if ((ULONG) edxles == pulElem[0])
 		{
 			Edxltoken edxltk = (Edxltoken) pulElem[1];
-			return CDXLTokens::PstrToken(edxltk);
+			return CDXLTokens::GetDXLTokenStr(edxltk);
 			break;
 		}
 	}
@@ -125,10 +125,10 @@ CDXLWindowFrame::PstrFS
 
 	if (EdxlfsRow == edxlfs)
 	{
-		return CDXLTokens::PstrToken(EdxltokenWindowFSRow);
+		return CDXLTokens::GetDXLTokenStr(EdxltokenWindowFSRow);
 	}
 
-	return CDXLTokens::PstrToken(EdxltokenWindowFSRange);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenWindowFSRange);
 }
 
 //---------------------------------------------------------------------------
@@ -146,18 +146,18 @@ CDXLWindowFrame::SerializeToDXL
 	)
 	const
 {
-	const CWStringConst *element_name = CDXLTokens::PstrToken(EdxltokenWindowFrame);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	const CWStringConst *element_name = CDXLTokens::GetDXLTokenStr(EdxltokenWindowFrame);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// add attributes
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowFrameSpec), PstrFS(m_edxlfs));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenWindowExclusionStrategy), PstrES(m_edxlfes));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowFrameSpec), PstrFS(m_edxlfs));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowExclusionStrategy), PstrES(m_edxlfes));
 
 	// add the values representing the window boundary
 	m_pdxlnTrailing->SerializeToDXL(xml_serializer);
 	m_pdxlnLeading->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 // EOF

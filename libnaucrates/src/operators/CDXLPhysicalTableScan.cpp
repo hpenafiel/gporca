@@ -116,7 +116,7 @@ CDXLPhysicalTableScan::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalTableScan::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalTableScan);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalTableScan);
 }
 
 //---------------------------------------------------------------------------
@@ -152,7 +152,7 @@ CDXLPhysicalTableScan::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -163,7 +163,7 @@ CDXLPhysicalTableScan::SerializeToDXL
 	// serialize table descriptor
 	m_table_descr_dxl->SerializeToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 }
 
 #ifdef GPOS_DEBUG

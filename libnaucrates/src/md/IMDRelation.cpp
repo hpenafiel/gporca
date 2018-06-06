@@ -34,11 +34,11 @@ IMDRelation::PstrDistrPolicy
 	switch (rel_distr_policy)
 	{
 		case EreldistrMasterOnly:
-			return CDXLTokens::PstrToken(EdxltokenRelDistrMasterOnly);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelDistrMasterOnly);
 		case EreldistrHash:
-			return CDXLTokens::PstrToken(EdxltokenRelDistrHash);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelDistrHash);
 		case EreldistrRandom:
-			return CDXLTokens::PstrToken(EdxltokenRelDistrRandom);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelDistrRandom);
 		default:
 			return NULL;
 	}
@@ -61,17 +61,17 @@ IMDRelation::PstrStorageType
 	switch (rel_storage_type)
 	{
 		case ErelstorageHeap:
-			return CDXLTokens::PstrToken(EdxltokenRelStorageHeap);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelStorageHeap);
 		case ErelstorageAppendOnlyCols:
-			return CDXLTokens::PstrToken(EdxltokenRelStorageAppendOnlyCols);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelStorageAppendOnlyCols);
 		case ErelstorageAppendOnlyRows:
-			return CDXLTokens::PstrToken(EdxltokenRelStorageAppendOnlyRows);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelStorageAppendOnlyRows);
 		case ErelstorageAppendOnlyParquet:
-			return CDXLTokens::PstrToken(EdxltokenRelStorageAppendOnlyParquet);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelStorageAppendOnlyParquet);
 		case ErelstorageExternal:
-			return CDXLTokens::PstrToken(EdxltokenRelStorageExternal);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelStorageExternal);
 		case ErelstorageVirtual:
-			return CDXLTokens::PstrToken(EdxltokenRelStorageVirtual);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenRelStorageVirtual);
 		default:
 			return NULL;
 	}
@@ -105,7 +105,7 @@ IMDRelation::PstrColumns
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), ulId, CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
+			pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), ulId, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 

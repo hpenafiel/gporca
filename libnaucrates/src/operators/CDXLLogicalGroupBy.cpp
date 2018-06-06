@@ -92,7 +92,7 @@ CDXLLogicalGroupBy::GetDXLOperator() const
 const CWStringConst *
 CDXLLogicalGroupBy::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalGrpBy);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalGrpBy);
 }
 
 //---------------------------------------------------------------------------
@@ -144,23 +144,23 @@ CDXLLogicalGroupBy::SerializeGrpColsToDXL
 {
 	if(NULL != m_grouping_colid_array)
 	{
-		const CWStringConst *grouping_cols_str = CDXLTokens::PstrToken(EdxltokenGroupingCols);
-		const CWStringConst *grouping_col_str = CDXLTokens::PstrToken(EdxltokenGroupingCol);
+		const CWStringConst *grouping_cols_str = CDXLTokens::GetDXLTokenStr(EdxltokenGroupingCols);
+		const CWStringConst *grouping_col_str = CDXLTokens::GetDXLTokenStr(EdxltokenGroupingCol);
 
-		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), grouping_cols_str);
+		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), grouping_cols_str);
 
 		for (ULONG idx = 0; idx < m_grouping_colid_array->Size(); idx++)
 		{
 			GPOS_ASSERT(NULL != (*m_grouping_colid_array)[idx]);
 			ULONG grouping_col = *((*m_grouping_colid_array)[idx]);
 
-			xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), grouping_col_str);
-			xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), grouping_col);
+			xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), grouping_col_str);
+			xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), grouping_col);
 
-			xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), grouping_col_str);
+			xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), grouping_col_str);
 		}
 
-		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), grouping_cols_str);
+		xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), grouping_cols_str);
 	}
 }
 
@@ -182,7 +182,7 @@ CDXLLogicalGroupBy::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize grouping columns
 	SerializeGrpColsToDXL(xml_serializer);
@@ -190,7 +190,7 @@ CDXLLogicalGroupBy::SerializeToDXL
 	// serialize children
 	node->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

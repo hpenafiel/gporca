@@ -175,21 +175,21 @@ CMDScCmpGPDB::Serialize
 	) 
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBMDScCmp));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBMDScCmp));
 	
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenMdid));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenName), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
 
-	m_pmdidLeft->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpLeftTypeId));
-	m_pmdidRight->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenGPDBScalarOpRightTypeId));
-	m_pmdidOp->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_pmdidLeft->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpLeftTypeId));
+	m_pmdidRight->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpRightTypeId));
+	m_pmdidOp->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenGPDBMDScCmp));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBMDScCmp));
 
 	GPOS_CHECK_ABORT;
 }

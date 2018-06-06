@@ -104,11 +104,11 @@ CDXLPhysicalDML::GetOpNameStr() const
 	switch (m_dml_type_dxl)
 	{
 		case Edxldmlinsert:
-				return CDXLTokens::PstrToken(EdxltokenPhysicalDMLInsert);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalDMLInsert);
 		case Edxldmldelete:
-				return CDXLTokens::PstrToken(EdxltokenPhysicalDMLDelete);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalDMLDelete);
 		case Edxldmlupdate:
-				return CDXLTokens::PstrToken(EdxltokenPhysicalDMLUpdate);
+				return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalDMLUpdate);
 		default:
 			return NULL;
 	}
@@ -131,26 +131,26 @@ CDXLPhysicalDML::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_memory_pool, m_src_colids_array);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColumns), pstrCols);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumns), pstrCols);
 	GPOS_DELETE(pstrCols);
 
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenActionColId), m_action_colid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOidColId), m_oid_colid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCtidColId), m_ctid_colid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenGpSegmentIdColId), m_segid_colid);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputSorted), m_input_sort_req);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenActionColId), m_action_colid);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOidColId), m_oid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCtidColId), m_ctid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGpSegmentIdColId), m_segid_colid);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInputSorted), m_input_sort_req);
 	
 	if (Edxldmlupdate == m_dml_type_dxl)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenUpdatePreservesOids), m_preserve_oids);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenUpdatePreservesOids), m_preserve_oids);
 	}
 
 	if (m_preserve_oids)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTupleOidColId), m_tuple_oid);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTupleOidColId), m_tuple_oid);
 	}
 	
 	node->SerializePropertiesToDXL(xml_serializer);
@@ -162,8 +162,8 @@ CDXLPhysicalDML::SerializeToDXL
 	else
 	{
 		// TODO:  - Oct 22, 2014; clean this code once the direct dispatch code for DML and SELECT is unified
-		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchInfo));
-		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchInfo));
+		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDirectDispatchInfo));
+		xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDirectDispatchInfo));
 	}
 	
 	// serialize project list
@@ -175,7 +175,7 @@ CDXLPhysicalDML::SerializeToDXL
 	// serialize physical child
 	(*node)[1]->SerializeToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

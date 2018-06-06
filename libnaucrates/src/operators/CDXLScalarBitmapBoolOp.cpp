@@ -131,10 +131,10 @@ CDXLScalarBitmapBoolOp::GetOpNameStr() const
 {
 	if (EdxlbitmapAnd == m_bitmapboolop)
 	{
-		return CDXLTokens::PstrToken(EdxltokenScalarBitmapAnd);
+		return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBitmapAnd);
 	}
 	
-	return CDXLTokens::PstrToken(EdxltokenScalarBitmapOr);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBitmapOr);
 }
 
 //---------------------------------------------------------------------------
@@ -158,12 +158,12 @@ CDXLScalarBitmapBoolOp::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	GPOS_ASSERT(NULL != element_name);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	GPOS_CHECK_ABORT;
 }

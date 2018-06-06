@@ -149,7 +149,7 @@ CDXLPhysicalMotion::GetSegIdsCommaSeparatedStr(const IntPtrArray *pdrgpi) const
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), iSegId, CDXLTokens::PstrToken(EdxltokenComma)->GetBuffer());
+			pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), iSegId, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 	
@@ -200,10 +200,10 @@ CDXLPhysicalMotion::SerializeSegmentInfoToDXL
 	) const
 {
 	CWStringDynamic *pstrInputSegIds = GetInputSegIdsStr();
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenInputSegments), pstrInputSegIds);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInputSegments), pstrInputSegIds);
 	
 	CWStringDynamic *pstrOutputSegIds = GetOutputSegIdsStr();
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOutputSegments), pstrOutputSegIds);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOutputSegments), pstrOutputSegIds);
 		
 	GPOS_DELETE(pstrInputSegIds);
 	GPOS_DELETE(pstrOutputSegIds);

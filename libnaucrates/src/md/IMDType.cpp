@@ -38,7 +38,7 @@ IMDType::PstrCmpType
 	Edxltoken rgdxltoken[] = {EdxltokenCmpEq, EdxltokenCmpNeq, EdxltokenCmpLt, EdxltokenCmpLeq, EdxltokenCmpGt, EdxltokenCmpGeq, EdxltokenCmpIDF, EdxltokenCmpOther};
 	
 	GPOS_ASSERT(IMDType::EcmptOther + 1 == GPOS_ARRAY_SIZE(rgdxltoken));
-	return CDXLTokens::PstrToken(rgdxltoken[ecmpt]);
+	return CDXLTokens::GetDXLTokenStr(rgdxltoken[ecmpt]);
 }
 
 

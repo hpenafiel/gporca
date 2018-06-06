@@ -51,19 +51,19 @@ CDXLDatumBool::Serialize
 	CXMLSerializer *xml_serializer
 	)
 {
-	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_is_null);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), IsPassedByValue());
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsNull), m_is_null);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsByValue), IsPassedByValue());
 
 	if (!m_is_null)
 	{
 		if(m_value)
 		{
-			xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), CDXLTokens::PstrToken(EdxltokenTrue));
+			xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenValue), CDXLTokens::GetDXLTokenStr(EdxltokenTrue));
 		}
 		else
 		{
-			xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), CDXLTokens::PstrToken(EdxltokenFalse));
+			xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenValue), CDXLTokens::GetDXLTokenStr(EdxltokenFalse));
 		}
 	}
 }

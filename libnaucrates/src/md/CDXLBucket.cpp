@@ -136,17 +136,17 @@ CDXLBucket::Serialize
 	) 
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumnStatsBucket));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumnStatsBucket));
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsFrequency), m_frequency);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsDistinct), m_distinct);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenStatsFrequency), m_frequency);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenStatsDistinct), m_distinct);
 	
-	SerializeBoundaryValue(xml_serializer, CDXLTokens::PstrToken(EdxltokenStatsBucketLowerBound), m_lower_bound_datum_dxl, m_is_lower_closed);
-	SerializeBoundaryValue(xml_serializer, CDXLTokens::PstrToken(EdxltokenStatsBucketUpperBound), m_upper_bound_datum_dxl, m_is_upper_closed);
+	SerializeBoundaryValue(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenStatsBucketLowerBound), m_lower_bound_datum_dxl, m_is_lower_closed);
+	SerializeBoundaryValue(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenStatsBucketUpperBound), m_upper_bound_datum_dxl, m_is_upper_closed);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), 
-						CDXLTokens::PstrToken(EdxltokenColumnStatsBucket));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
+						CDXLTokens::GetDXLTokenStr(EdxltokenColumnStatsBucket));
 
 	GPOS_CHECK_ABORT;
 }
@@ -169,10 +169,10 @@ CDXLBucket::SerializeBoundaryValue
 	)
 	const
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElem);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenStatsBoundClosed), fBoundClosed);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrElem);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenStatsBoundClosed), fBoundClosed);
 	datum_dxl->Serialize(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrElem);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrElem);
 }
 
 #ifdef GPOS_DEBUG

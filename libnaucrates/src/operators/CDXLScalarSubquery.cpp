@@ -76,7 +76,7 @@ CDXLScalarSubquery::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarSubquery::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarSubquery);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubquery);
 }
 
 //---------------------------------------------------------------------------
@@ -96,13 +96,13 @@ CDXLScalarSubquery::SerializeToDXL
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize computed column id
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulColId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
 
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

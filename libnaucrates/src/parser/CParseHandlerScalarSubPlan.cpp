@@ -92,8 +92,8 @@ CParseHandlerScalarSubPlan::Edxlsubplantype
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::PstrToken(EdxltokenScalarSubPlanType)->GetBuffer(),
-		CDXLTokens::PstrToken(EdxltokenScalarSubPlan)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlanType)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlan)->GetBuffer()
 		);
 
 	return EdxlSubPlanTypeSentinel;

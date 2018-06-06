@@ -40,7 +40,7 @@ CDXLScalarPartListNullTest::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarPartListNullTest::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarPartListNullTest);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartListNullTest);
 }
 
 // Serialize operator in DXL format
@@ -54,10 +54,10 @@ CDXLScalarPartListNullTest::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartLevel), m_ulLevel);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenScalarIsNull), m_fIsNull);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarIsNull), m_fIsNull);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 // partitioning level

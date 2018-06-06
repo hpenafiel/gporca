@@ -54,7 +54,7 @@ CDXLScalarCoerceViaIO::CDXLScalarCoerceViaIO
 const CWStringConst *
 CDXLScalarCoerceViaIO::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarCoerceViaIO);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarCoerceViaIO);
 }
 
 // EOF

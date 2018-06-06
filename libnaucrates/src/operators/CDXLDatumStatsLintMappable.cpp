@@ -62,15 +62,15 @@ CDXLDatumStatsLintMappable::Serialize
 	CXMLSerializer *xml_serializer
 	)
 {
-	m_mdid_type->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsNull), m_is_null);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsByValue), m_is_passed_by_value);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenValue), m_is_null, GetByteArray(), Length());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenLintValue), GetLINTMapping());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsNull), m_is_null);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsByValue), m_is_passed_by_value);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenValue), m_is_null, GetByteArray(), Length());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenLintValue), GetLINTMapping());
 }
 
 

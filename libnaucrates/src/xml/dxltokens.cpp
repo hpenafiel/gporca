@@ -754,14 +754,14 @@ CDXLTokens::Terminate()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLTokens::PstrToken
+//		CDXLTokens::GetDXLTokenStr
 //
 //	@doc:
 //		Returns the token with the given token id in CWStringConst format
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLTokens::PstrToken
+CDXLTokens::GetDXLTokenStr
 	(
 	Edxltoken token_type
 	)

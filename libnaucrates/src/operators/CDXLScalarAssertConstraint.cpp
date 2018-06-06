@@ -76,7 +76,7 @@ CDXLScalarAssertConstraint::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarAssertConstraint::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarAssertConstraint);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarAssertConstraint);
 }
 
 //---------------------------------------------------------------------------
@@ -111,11 +111,11 @@ CDXLScalarAssertConstraint::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenErrorMessage), m_pstrErrorMsg);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenErrorMessage), m_pstrErrorMsg);
 		
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 

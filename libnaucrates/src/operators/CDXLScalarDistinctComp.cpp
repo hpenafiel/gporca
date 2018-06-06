@@ -32,7 +32,7 @@ CDXLScalarDistinctComp::CDXLScalarDistinctComp
 	IMDId *pmdidOp
 	)
 	:
-	CDXLScalarComp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, CDXLTokens::PstrToken(EdxltokenEq)->GetBuffer()))
+	CDXLScalarComp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, CDXLTokens::GetDXLTokenStr(EdxltokenEq)->GetBuffer()))
 {
 }
 
@@ -63,7 +63,7 @@ CDXLScalarDistinctComp::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarDistinctComp::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarDistinctComp);;
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarDistinctComp);;
 }
 
 //---------------------------------------------------------------------------
@@ -84,12 +84,12 @@ CDXLScalarDistinctComp::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 	
 	node->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);	
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);	
 }
 
 
@@ -120,7 +120,7 @@ CDXLScalarDistinctComp::AssertValid
 	GPOS_ASSERT(EdxloptypeScalar == dxlnode_left->GetOperator()->GetDXLOperatorType());
 	GPOS_ASSERT(EdxloptypeScalar == dxlnode_right->GetOperator()->GetDXLOperatorType());
 	
-	GPOS_ASSERT(GetComparisonOpName()->Equals(CDXLTokens::PstrToken(EdxltokenEq)));
+	GPOS_ASSERT(GetComparisonOpName()->Equals(CDXLTokens::GetDXLTokenStr(EdxltokenEq)));
 	
 	if (validate_children)
 	{

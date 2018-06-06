@@ -60,7 +60,7 @@ CDXLScalarArrayCoerceExpr::CDXLScalarArrayCoerceExpr
 const CWStringConst *
 CDXLScalarArrayCoerceExpr::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarArrayCoerceExpr);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayCoerceExpr);
 }
 
 //---------------------------------------------------------------------------
@@ -81,21 +81,21 @@ CDXLScalarArrayCoerceExpr::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
-	m_pmdidElementFunc->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenElementFunc));
-	PmdidResultType()->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenTypeId));
+	m_pmdidElementFunc->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenElementFunc));
+	PmdidResultType()->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())
 	{
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenTypeMod), TypeModifier());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenIsExplicit), m_fIsExplicit);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCoercionForm), (ULONG) GetDXLCoercionForm());
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenLocation), GetLocation());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsExplicit), m_fIsExplicit);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCoercionForm), (ULONG) GetDXLCoercionForm());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenLocation), GetLocation());
 
 	node->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 // EOF

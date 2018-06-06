@@ -63,7 +63,7 @@ CDXLPhysicalSort::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalSort::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalSort);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalSort);
 }
 
 //---------------------------------------------------------------------------
@@ -99,9 +99,9 @@ CDXLPhysicalSort::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSortDiscardDuplicates), m_fDiscardDuplicates);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortDiscardDuplicates), m_fDiscardDuplicates);
 	
 	// serialize properties
 	pdxln->SerializePropertiesToDXL(xml_serializer);
@@ -109,7 +109,7 @@ CDXLPhysicalSort::SerializeToDXL
 	// serialize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

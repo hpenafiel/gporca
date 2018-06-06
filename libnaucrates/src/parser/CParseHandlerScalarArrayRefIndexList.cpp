@@ -80,8 +80,8 @@ CParseHandlerScalarArrayRefIndexList::StartElement
 				(
 				gpdxl::ExmaDXL,
 				gpdxl::ExmiDXLInvalidAttributeValue,
-				CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexListBound)->GetBuffer(),
-				CDXLTokens::PstrToken(EdxltokenScalarArrayRefIndexList)->GetBuffer()
+				CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListBound)->GetBuffer(),
+				CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexList)->GetBuffer()
 				);
 		}
 

@@ -78,7 +78,7 @@ CDXLScalarProjElem::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarProjElem::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarProjElem);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarProjElem);
 }
 
 //---------------------------------------------------------------------------
@@ -128,17 +128,17 @@ CDXLScalarProjElem::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 		
 	// serialize proj elem id
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenColId), m_ulId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulId);
 		
 	// serialize proj element alias
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenAlias), m_mdname->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAlias), m_mdname->GetMDName());
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

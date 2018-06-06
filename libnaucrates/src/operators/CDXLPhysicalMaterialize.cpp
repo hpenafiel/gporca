@@ -94,7 +94,7 @@ CDXLPhysicalMaterialize::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalMaterialize::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalMaterialize);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalMaterialize);
 }
 
 //		Is this a spooling materialize operator
@@ -144,17 +144,17 @@ CDXLPhysicalMaterialize::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenMaterializeEager), m_is_eager);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenMaterializeEager), m_is_eager);
 
 	if (EdxlspoolMaterialize == m_spool_type)
 	{
 		// serialize spool info
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenSpoolId), m_spooling_op_id);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSpoolId), m_spooling_op_id);
 		
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenExecutorSliceId), m_executor_slice);
-		xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenConsumerSliceCount), m_num_consumer_slices);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenExecutorSliceId), m_executor_slice);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenConsumerSliceCount), m_num_consumer_slices);
 	}
 		
 	// serialize properties
@@ -163,7 +163,7 @@ CDXLPhysicalMaterialize::SerializeToDXL
 	// serialize children
 	node->SerializeChildrenToDXL(xml_serializer);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

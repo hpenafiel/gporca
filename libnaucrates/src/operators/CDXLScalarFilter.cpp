@@ -63,7 +63,7 @@ CDXLScalarFilter::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarFilter::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarFilter);;
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarFilter);;
 }
 
 //---------------------------------------------------------------------------
@@ -84,12 +84,12 @@ CDXLScalarFilter::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	// serilize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);	
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);	
 }
 
 #ifdef GPOS_DEBUG

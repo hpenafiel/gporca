@@ -61,7 +61,7 @@ CDXLPhysicalHashJoin::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalHashJoin::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalHashJoin);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalHashJoin);
 }
 
 //---------------------------------------------------------------------------
@@ -82,9 +82,9 @@ CDXLPhysicalHashJoin::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenJoinType), GetJoinTypeNameStr());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenJoinType), GetJoinTypeNameStr());
 	
 	// serialize properties
 	node->SerializePropertiesToDXL(xml_serializer);
@@ -92,7 +92,7 @@ CDXLPhysicalHashJoin::SerializeToDXL
 	// serialize children
 	node->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);		
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 }
 
 #ifdef GPOS_DEBUG

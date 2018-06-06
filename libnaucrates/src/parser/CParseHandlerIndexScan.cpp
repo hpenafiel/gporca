@@ -124,7 +124,7 @@ CParseHandlerIndexScan::StartElementHelper
 	m_index_scan_dir = CDXLOperatorFactory::EdxljtParseIndexScanDirection
 										(
 										index_scan_direction,
-										CDXLTokens::PstrToken(token_type)
+										CDXLTokens::GetDXLTokenStr(token_type)
 										);
 	GPOS_ASSERT(EdxlisdSentinel != m_index_scan_dir);
 

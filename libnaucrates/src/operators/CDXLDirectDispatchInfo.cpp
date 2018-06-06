@@ -79,13 +79,13 @@ CDXLDirectDispatchInfo::Serialize
 	CXMLSerializer *xml_serializer
 	)
 {
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchInfo));
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDirectDispatchInfo));
 	
 	const ULONG num_of_dispatch_identifiers = (m_dispatch_identifer_datum_array == NULL) ? 0 : m_dispatch_identifer_datum_array->Size();
 	
 	for (ULONG idx1 = 0; idx1 < num_of_dispatch_identifiers; idx1++)
 	{
-		xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchKeyValue));
+		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDirectDispatchKeyValue));
 
 		DXLDatumArray *dispatch_identifier_array = (*m_dispatch_identifer_datum_array)[idx1];
 		
@@ -93,13 +93,13 @@ CDXLDirectDispatchInfo::Serialize
 		for (ULONG idx2 = 0; idx2 < num_of_datums; idx2++)
 		{
 			CDXLDatum *datum_dxl = (*dispatch_identifier_array)[idx2];
-			datum_dxl->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenDatum));
+			datum_dxl->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenDatum));
 		}
 		
-		xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchKeyValue));
+		xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDirectDispatchKeyValue));
 	}
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), CDXLTokens::PstrToken(EdxltokenDirectDispatchInfo));
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenDirectDispatchInfo));
 }
 
 // EOF

@@ -79,7 +79,7 @@ CDXLPhysicalWindow::GetDXLOperator() const
 const CWStringConst *
 CDXLPhysicalWindow::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenPhysicalWindow);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalWindow);
 }
 
 //---------------------------------------------------------------------------
@@ -147,11 +147,11 @@ CDXLPhysicalWindow::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize partition keys
 	CWStringDynamic *pstrPartCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulPartCols);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenPartKeys), pstrPartCols);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartKeys), pstrPartCols);
 	GPOS_DELETE(pstrPartCols);
 
 	// serialize properties
@@ -161,17 +161,17 @@ CDXLPhysicalWindow::SerializeToDXL
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 
 	// serialize the list of window keys
-	const CWStringConst *pstrWindowKeyList = CDXLTokens::PstrToken(EdxltokenWindowKeyList);
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowKeyList);
+	const CWStringConst *pstrWindowKeyList = CDXLTokens::GetDXLTokenStr(EdxltokenWindowKeyList);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrWindowKeyList);
 	const ULONG ulSize = m_pdrgpdxlwk->Size();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		CDXLWindowKey *pdxlwk = (*m_pdrgpdxlwk)[ul];
 		pdxlwk->SerializeToDXL(xml_serializer);
 	}
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), pstrWindowKeyList);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrWindowKeyList);
 
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

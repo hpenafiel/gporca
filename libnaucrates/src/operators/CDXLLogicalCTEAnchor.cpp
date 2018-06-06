@@ -62,7 +62,7 @@ CDXLLogicalCTEAnchor::GetDXLOperator() const
 const CWStringConst *
 CDXLLogicalCTEAnchor::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenLogicalCTEAnchor);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalCTEAnchor);
 }
 
 //---------------------------------------------------------------------------
@@ -83,11 +83,11 @@ CDXLLogicalCTEAnchor::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenCTEId), UlId());
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEId), UlId());
 	
 	pdxln->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 #ifdef GPOS_DEBUG

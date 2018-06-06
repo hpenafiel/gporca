@@ -64,7 +64,7 @@ CDXLScalarJoinFilter::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarJoinFilter::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarJoinFilter);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarJoinFilter);
 }
 
 //---------------------------------------------------------------------------
@@ -85,12 +85,12 @@ CDXLScalarJoinFilter::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	// serilize children
 	pdxln->SerializeChildrenToDXL(xml_serializer);
 	
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);	
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);	
 }
 
 

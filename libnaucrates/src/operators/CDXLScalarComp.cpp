@@ -108,7 +108,7 @@ CDXLScalarComp::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarComp::GetOpNameStr() const
 {
-	return CDXLTokens::PstrToken(EdxltokenScalarComp);
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarComp);
 }
 
 //---------------------------------------------------------------------------
@@ -131,13 +131,13 @@ CDXLScalarComp::SerializeToDXL
 
 	const CWStringConst *element_name = GetOpNameStr();
 	
-	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenComparisonOp), GetComparisonOpName());
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenComparisonOp), GetComparisonOpName());
 
-	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
+	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 	
 	node->SerializeChildrenToDXL(xml_serializer);
-	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	GPOS_CHECK_ABORT;
 }

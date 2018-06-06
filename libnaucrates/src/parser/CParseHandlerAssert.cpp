@@ -74,8 +74,8 @@ CParseHandlerAssert::StartElement
 			(
 			gpdxl::ExmaDXL, 
 			gpdxl::ExmiDXLInvalidAttributeValue, 
-			CDXLTokens::PstrToken(EdxltokenPhysicalAssert)->GetBuffer(),
-			CDXLTokens::PstrToken(EdxltokenErrorCode)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalAssert)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(EdxltokenErrorCode)->GetBuffer()
 			);
 	}
 	
