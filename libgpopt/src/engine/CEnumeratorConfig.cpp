@@ -333,19 +333,19 @@ CEnumeratorConfig::FitCostDistribution()
 void
 CEnumeratorConfig::DumpSamples
 	(
-	CWStringDynamic *pstr, // samples dump
+	CWStringDynamic *str, // samples dump
 	ULONG ulSessionId,
 	ULONG ulCommandId
 	)
 {
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 
 	CAutoSuspendAbort asa;
 
 	// dump samples to output file
 	CHAR szFileName[GPOS_FILE_NAME_BUF_SIZE];
 	CUtils::GenerateFileName(szFileName, "SamplePlans", "xml", GPOS_FILE_NAME_BUF_SIZE, ulSessionId, ulCommandId);
-	CHAR *sz = CUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, const_cast<WCHAR *>(pstr->GetBuffer()));
+	CHAR *sz = CUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, const_cast<WCHAR *>(str->GetBuffer()));
 	CIOUtils::Dump(szFileName, sz);
 	GPOS_DELETE_ARRAY(sz);
 
@@ -367,19 +367,19 @@ CEnumeratorConfig::DumpSamples
 void
 CEnumeratorConfig::DumpCostDistr
 	(
-	CWStringDynamic *pstr, // cost distribution dump
+	CWStringDynamic *str, // cost distribution dump
 	ULONG ulSessionId,
 	ULONG ulCommandId
 	)
 {
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 
 	CAutoSuspendAbort asa;
 
 	// dump cost distribution to output file
 	CHAR szFileName[GPOS_FILE_NAME_BUF_SIZE];
 	CUtils::GenerateFileName(szFileName, "CostDistr", "xml", GPOS_FILE_NAME_BUF_SIZE, ulSessionId, ulCommandId);
-	CHAR *sz = CUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, const_cast<WCHAR *>(pstr->GetBuffer()));
+	CHAR *sz = CUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, const_cast<WCHAR *>(str->GetBuffer()));
 	CIOUtils::Dump(szFileName, sz);
 	GPOS_DELETE_ARRAY(sz);
 

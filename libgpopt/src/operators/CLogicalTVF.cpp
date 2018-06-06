@@ -61,20 +61,20 @@ CLogicalTVF::CLogicalTVF
 	IMemoryPool *memory_pool,
 	IMDId *mdid_func,
 	IMDId *mdid_return_type,
-	CWStringConst *pstr,
+	CWStringConst *str,
 	DrgPcoldesc *pdrgpcoldesc
 	)
 	:
 	CLogical(memory_pool),
 	m_func_mdid(mdid_func),
 	m_return_type_mdid(mdid_return_type),
-	m_pstr(pstr),
+	m_pstr(str),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(NULL)
 {
 	GPOS_ASSERT(mdid_func->IsValid());
 	GPOS_ASSERT(mdid_return_type->IsValid());
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 
 	// generate a default column set for the list of column descriptors
@@ -101,7 +101,7 @@ CLogicalTVF::CLogicalTVF
 	IMemoryPool *memory_pool,
 	IMDId *mdid_func,
 	IMDId *mdid_return_type,
-	CWStringConst *pstr,
+	CWStringConst *str,
 	DrgPcoldesc *pdrgpcoldesc,
 	DrgPcr *pdrgpcrOutput
 	)
@@ -109,13 +109,13 @@ CLogicalTVF::CLogicalTVF
 	CLogical(memory_pool),
 	m_func_mdid(mdid_func),
 	m_return_type_mdid(mdid_return_type),
-	m_pstr(pstr),
+	m_pstr(str),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(pdrgpcrOutput)
 {
 	GPOS_ASSERT(mdid_func->IsValid());
 	GPOS_ASSERT(mdid_return_type->IsValid());
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 	GPOS_ASSERT(NULL != pdrgpcrOutput);
 
@@ -220,12 +220,12 @@ CLogicalTVF::PopCopyWithRemappedColumns
 		pdrgpcrOutput = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcrOutput, phmulcr, fMustExist);
 	}
 
-	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(m_pstr->GetBuffer());
+	CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(m_pstr->GetBuffer());
 	m_func_mdid->AddRef();
 	m_return_type_mdid->AddRef();
 	m_pdrgpcoldesc->AddRef();
 
-	return GPOS_NEW(memory_pool) CLogicalTVF(memory_pool, m_func_mdid, m_return_type_mdid, pstr, m_pdrgpcoldesc, pdrgpcrOutput);
+	return GPOS_NEW(memory_pool) CLogicalTVF(memory_pool, m_func_mdid, m_return_type_mdid, str, m_pdrgpcoldesc, pdrgpcrOutput);
 }
 
 //---------------------------------------------------------------------------

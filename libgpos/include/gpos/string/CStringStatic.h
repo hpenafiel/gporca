@@ -94,7 +94,7 @@ namespace gpos
 			BOOL Equals(const CHAR *buf) const;
 
 			// appends a string
-			void Append(const CStringStatic *pstr);
+			void Append(const CStringStatic *str);
 
 			// appends the contents of a buffer to the current string
 			void AppendBuffer(const CHAR *buf);

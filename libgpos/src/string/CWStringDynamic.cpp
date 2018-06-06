@@ -294,28 +294,28 @@ CWStringDynamic::AppendFormat
 void
 CWStringDynamic::AppendEscape
 	(
-	const CWStringBase *pstr,
+	const CWStringBase *str,
 	WCHAR wc,
 	const WCHAR *wszReplace
 	)
 {
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 
-	if (pstr->IsEmpty())
+	if (str->IsEmpty())
 	{
 		return;
 	}
 
 	// count how many times the character to be escaped appears in the string
-	ULONG occurrences = pstr->CountOccurrencesOf(wc);
+	ULONG occurrences = str->CountOccurrencesOf(wc);
 	if (0 == occurrences)
 	{
-		Append(pstr);
+		Append(str);
 		return;
 	}
 
-	ULONG length = pstr->Length();
-	const WCHAR * wsz = pstr->GetBuffer();
+	ULONG length = str->Length();
+	const WCHAR * wsz = str->GetBuffer();
 
 	ULONG ulLengthReplace =  GPOS_WSZ_LENGTH(wszReplace);
 	ULONG ulNewLength = m_length + length + (ulLengthReplace - 1) * occurrences;
@@ -327,7 +327,7 @@ CWStringDynamic::AppendEscape
 	// append new contents while replacing character with escaping string
 	for (ULONG i = 0, j = m_length; i < length; i++)
 	{
-		if (wc == wsz[i] && !pstr->HasEscapedCharAt(i))
+		if (wc == wsz[i] && !str->HasEscapedCharAt(i))
 		{
 			clib::WcStrNCpy(m_wszBuf + j, wszReplace, ulLengthReplace);
 			j += ulLengthReplace;

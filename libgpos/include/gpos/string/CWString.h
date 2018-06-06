@@ -53,7 +53,7 @@ namespace gpos
 			const WCHAR* GetBuffer() const;
 			
 			// appends a string
-			void Append(const CWStringBase *pstr);
+			void Append(const CWStringBase *str);
 
 			// appends a formatted string
 			virtual
@@ -61,7 +61,7 @@ namespace gpos
 
 			// appends a string and replaces character with string
 			virtual
-			void AppendEscape(const CWStringBase *pstr, WCHAR wc, const WCHAR *wszReplace) = 0;
+			void AppendEscape(const CWStringBase *str, WCHAR wc, const WCHAR *wszReplace) = 0;
 
 			// appends a null terminated character array
 			virtual

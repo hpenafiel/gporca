@@ -128,7 +128,7 @@ namespace gpopt
 				(
 				Edxlopid edxlopid,
 				IMDId *pmdidScalarOp,
-				const CWStringConst *pstr,
+				const CWStringConst *str,
 				ULONG col_id,
 				CDXLNode *pdxlnLogicalChild,
 				CDXLNode *pdxlnScalarChild

@@ -57,10 +57,10 @@ CXMLSerializerTest::Pstr
 	BOOL indentation
 	)
 {
-	CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
+	CWStringDynamic *str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
 	
 	// create a string stream to hold the result of serialization
-	COstreamString oss(pstr);
+	COstreamString oss(str);
 	
 	CXMLSerializer xml_serializer(memory_pool, oss, indentation);
 	
@@ -74,7 +74,7 @@ CXMLSerializerTest::Pstr
 	
 	xml_serializer.CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenPlan));
 
-	return pstr;
+	return str;
 }
 //---------------------------------------------------------------------------
 //	@function:
@@ -147,11 +147,11 @@ CXMLSerializerTest::EresUnittest_Base64()
 		rgulRandArr[i] = cr.Next();
 	}
 	
-	CWStringDynamic *pstr = CDXLUtils::EncodeByteArrayToString(memory_pool, (BYTE *) rgulRandArr, sizeof(rgulRandArr));
+	CWStringDynamic *str = CDXLUtils::EncodeByteArrayToString(memory_pool, (BYTE *) rgulRandArr, sizeof(rgulRandArr));
 
 	ULONG len;
 	
-	ULONG *pulRandArrCopy = (ULONG *) CDXLUtils::DecodeByteArrayFromString(memory_pool, pstr, &len);
+	ULONG *pulRandArrCopy = (ULONG *) CDXLUtils::DecodeByteArrayFromString(memory_pool, str, &len);
 	
 	GPOS_ASSERT(len == sizeof(rgulRandArr));
 
@@ -163,15 +163,15 @@ CXMLSerializerTest::EresUnittest_Base64()
 		}
 	}
 
-	GPOS_DELETE(pstr);
+	GPOS_DELETE(str);
 	GPOS_DELETE_ARRAY(pulRandArrCopy);
 
 	INT i = 1000;
-	pstr = CDXLUtils::EncodeByteArrayToString(memory_pool, (BYTE *) &i, sizeof(i));
+	str = CDXLUtils::EncodeByteArrayToString(memory_pool, (BYTE *) &i, sizeof(i));
 	
-	gpos::oswcout << "Base64 encoding of " << i << " is " << pstr->GetBuffer() << std::endl;
+	gpos::oswcout << "Base64 encoding of " << i << " is " << str->GetBuffer() << std::endl;
 	
-	GPOS_DELETE(pstr);
+	GPOS_DELETE(str);
 	
 	return GPOS_OK;
 }

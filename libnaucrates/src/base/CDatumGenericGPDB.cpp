@@ -287,9 +287,9 @@ CDatumGenericGPDB::OsPrint
 	)
 	const
 {
-	const CWStringConst *pstr = Pstr(m_memory_pool);
-	os << pstr->GetBuffer();
-	GPOS_DELETE(pstr);
+	const CWStringConst *str = Pstr(m_memory_pool);
+	os << str->GetBuffer();
+	GPOS_DELETE(str);
 
 	return os;
 }

@@ -214,9 +214,9 @@ CUtils::PmdidScCmp
 	}
 	else
 	{
-		CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
-		pstr->AppendFormat(GPOS_WSZ_LIT("Cannot generate metadata id for scaler comparison operator between %ls and %ls"), pmdidLeft->GetBuffer(), pmdidRight->GetBuffer());
-		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, pstr->GetBuffer());
+		CWStringDynamic *str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
+		str->AppendFormat(GPOS_WSZ_LIT("Cannot generate metadata id for scaler comparison operator between %ls and %ls"), pmdidLeft->GetBuffer(), pmdidRight->GetBuffer());
+		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, str->GetBuffer());
 	}
 
 	// Calling CMDAccessor to raise error on non-comparable data types
@@ -503,9 +503,9 @@ CUtils::PexprScalarCmp
 	}
 	else
 	{
-		CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
-		pstr->AppendFormat(GPOS_WSZ_LIT("Cannot generate a comparison expression between %ls and %ls"), pmdidLeft->GetBuffer(), pmdidRight->GetBuffer());
-		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, pstr->GetBuffer());
+		CWStringDynamic *str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
+		str->AppendFormat(GPOS_WSZ_LIT("Cannot generate a comparison expression between %ls and %ls"), pmdidLeft->GetBuffer(), pmdidRight->GetBuffer());
+		GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnexpectedOp, str->GetBuffer());
 	}
 
 	pmdidCmpOp->AddRef();
@@ -1970,9 +1970,9 @@ CUtils::PexprCountStar
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_COUNT_STAR);
-	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("count"));
+	CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("count"));
 
-	CScalarAggFunc *popScAggFunc = PopAggFunc(memory_pool, pmdid, pstr, false /*fDistinct*/, EaggfuncstageGlobal /*eaggfuncstage*/, false /*fSplit*/);
+	CScalarAggFunc *popScAggFunc = PopAggFunc(memory_pool, pmdid, str, false /*fDistinct*/, EaggfuncstageGlobal /*eaggfuncstage*/, false /*fSplit*/);
 
 	CExpression *pexprCountStar = GPOS_NEW(memory_pool) CExpression(memory_pool, popScAggFunc, pdrgpexpr);
 
@@ -2242,9 +2242,9 @@ CUtils::PexprAgg
 	
 	IMDId *pmdidAgg = pmdagg->MDId();
 	pmdidAgg->AddRef();
-	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdagg->Mdname().GetMDName()->GetBuffer());
+	CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdagg->Mdname().GetMDName()->GetBuffer());
 
-	return PexprAggFunc(memory_pool, pmdidAgg, pstr, pcr, fDistinct, EaggfuncstageGlobal /*fGlobal*/, false /*fSplit*/);
+	return PexprAggFunc(memory_pool, pmdidAgg, str, pcr, fDistinct, EaggfuncstageGlobal /*fGlobal*/, false /*fSplit*/);
 }
 
 // generate a select expression
@@ -3627,11 +3627,11 @@ CUtils::GenerateFileName
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
 
-	CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
-	COstreamString oss(pstr);
+	CWStringDynamic *filename_template = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
+	COstreamString oss(filename_template);
 	oss << szPrefix << "_%04d%02d%02d_%02d%02d%02d_%d_%d." << szExt;
 
-	const WCHAR *wszFileNameTemplate = pstr->GetBuffer();
+	const WCHAR *wszFileNameTemplate = filename_template->GetBuffer();
 	GPOS_ASSERT(length >= GPOS_FILE_NAME_BUF_SIZE);
 
 	TIMEVAL tv;
@@ -3668,7 +3668,7 @@ CUtils::GenerateFileName
 
 	buf[length - 1] = '\0';
 
-	GPOS_DELETE(pstr);
+	GPOS_DELETE(filename_template);
 
 #ifdef GPOS_DEBUG
 	CWorker::Self()->ResetTimeSlice();

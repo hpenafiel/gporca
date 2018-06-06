@@ -30,12 +30,12 @@ using namespace gpopt;
 CName::CName
 	(
 	IMemoryPool *memory_pool,
-	const CWStringBase *pstr
+	const CWStringBase *str
 	)
 	:m_pstrName(NULL),
 	 m_fDeepCopy(true)
 {
-	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstr->GetBuffer());
+	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, str->GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -50,11 +50,11 @@ CName::CName
 //---------------------------------------------------------------------------
 CName::CName
 	(
-	const CWStringConst *pstr,
+	const CWStringConst *str,
 	BOOL fOwnsMemory
 	)
 	:
-	m_pstrName(pstr),
+	m_pstrName(str),
 	m_fDeepCopy(fOwnsMemory)
 {
 	GPOS_ASSERT(NULL != m_pstrName);
@@ -168,10 +168,10 @@ void
 CName::DeepCopy
 	(
 	IMemoryPool *memory_pool,
-	const CWStringConst *pstr
+	const CWStringConst *str
 	)
 {
-	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstr->GetBuffer());
+	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, str->GetBuffer());
 	m_fDeepCopy = true;
 }
 

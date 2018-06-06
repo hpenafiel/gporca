@@ -36,7 +36,7 @@ CPhysicalTVF::CPhysicalTVF
 	IMemoryPool *memory_pool,
 	IMDId *mdid_func,
 	IMDId *mdid_return_type,
-	CWStringConst *pstr,
+	CWStringConst *str,
 	DrgPcoldesc *pdrgpcoldesc,
 	CColRefSet *pcrsOutput
 	)
@@ -44,7 +44,7 @@ CPhysicalTVF::CPhysicalTVF
 	CPhysical(memory_pool),
 	m_func_mdid(mdid_func),
 	m_return_type_mdid(mdid_return_type),
-	m_pstr(pstr),
+	m_pstr(str),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pcrsOutput(pcrsOutput)
 {

@@ -1053,7 +1053,7 @@ CTestUtils::PexprLogicalSubqueryWithConstTableGet
 	pcrs = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
 	const CColRef *pcrOuter = pcrs->PcrAny();
 
-	const CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
+	const CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
 
 	CExpression *pexprSubquery = NULL;
 	if (COperator::EopScalarSubqueryAny == eopid)
@@ -1062,7 +1062,7 @@ CTestUtils::PexprLogicalSubqueryWithConstTableGet
 		pexprSubquery = GPOS_NEW(memory_pool) CExpression
 									(
 									memory_pool,
-									GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), pstr, pcrInner),
+									GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), str, pcrInner),
 									pexprConstTableGet,
 									CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 									);
@@ -1073,7 +1073,7 @@ CTestUtils::PexprLogicalSubqueryWithConstTableGet
 		pexprSubquery = GPOS_NEW(memory_pool) CExpression
 									(
 									memory_pool,
-									GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), pstr, pcrInner),
+									GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), str, pcrInner),
 									pexprConstTableGet,
 									CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 									);
@@ -3875,9 +3875,9 @@ CTestUtils::EresSamplePlans
 				at.Os() << "Generated " <<  optimizer_config->GetEnumeratorCfg()->UlCreatedSamples() <<" samples ... " << std::endl;
 
 				// print ids of sampled plans
-				CWStringDynamic *pstr = CDXLUtils::SerializeSamplePlans(memory_pool, optimizer_config->GetEnumeratorCfg(), true /*fIdent*/);
-				at.Os() << pstr->GetBuffer();
-				GPOS_DELETE(pstr);
+				CWStringDynamic *str = CDXLUtils::SerializeSamplePlans(memory_pool, optimizer_config->GetEnumeratorCfg(), true /*fIdent*/);
+				at.Os() << str->GetBuffer();
+				GPOS_DELETE(str);
 
 				// print fitted cost distribution
 				at.Os() << "Cost Distribution: " << std::endl;
@@ -3888,10 +3888,10 @@ CTestUtils::EresSamplePlans
 				}
 
 				// print serialized cost distribution
-				pstr = CDXLUtils::SerializeCostDistr(memory_pool, optimizer_config->GetEnumeratorCfg(), true /*fIdent*/);
+				str = CDXLUtils::SerializeCostDistr(memory_pool, optimizer_config->GetEnumeratorCfg(), true /*fIdent*/);
 
-				at.Os() << pstr->GetBuffer();
-				GPOS_DELETE(pstr);
+				at.Os() << str->GetBuffer();
+				GPOS_DELETE(str);
 
 			}
 

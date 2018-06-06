@@ -72,10 +72,10 @@ namespace gpdxl
 			const CWStringDynamic *GetWidthStr() const;
 			
 			// set the number of rows
-			void SetRows(CWStringDynamic *pstr);
+			void SetRows(CWStringDynamic *str);
 			
 			// set the total cost
-			void SetCost(CWStringDynamic *pstr);
+			void SetCost(CWStringDynamic *str);
 	};
 }
 

@@ -119,7 +119,7 @@ CXformImplementTVF::Transform
 	IMDId *mdid_return_type = popTVF->ReturnTypeMdId();
 	mdid_return_type->AddRef();
 
-	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(popTVF->Pstr()->GetBuffer());
+	CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(popTVF->Pstr()->GetBuffer());
 
 	DrgPcoldesc *pdrgpcoldesc = popTVF->Pdrgpcoldesc();
 	pdrgpcoldesc->AddRef();
@@ -130,7 +130,7 @@ CXformImplementTVF::Transform
 
 	DrgPexpr *pdrgpexpr = pexpr->PdrgPexpr();
 
-	CPhysicalTVF *pphTVF = GPOS_NEW(memory_pool) CPhysicalTVF(memory_pool, mdid_func, mdid_return_type, pstr, pdrgpcoldesc, pcrs);
+	CPhysicalTVF *pphTVF = GPOS_NEW(memory_pool) CPhysicalTVF(memory_pool, mdid_func, mdid_return_type, str, pdrgpcoldesc, pcrs);
 
 	CExpression *pexprAlt = NULL;
 	// create alternative expression

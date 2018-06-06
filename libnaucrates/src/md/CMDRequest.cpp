@@ -98,9 +98,9 @@ CMDRequest::Pstr
 	CSystemId sysid
 	) 
 {
-	CWStringDynamic *pstr = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
-	pstr->AppendFormat(GPOS_WSZ_LIT("%d.%ls"), sysid.Emdidt(), sysid.GetBuffer());
-	return pstr;
+	CWStringDynamic *str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
+	str->AppendFormat(GPOS_WSZ_LIT("%d.%ls"), sysid.Emdidt(), sysid.GetBuffer());
+	return str;
 }
 
 //---------------------------------------------------------------------------
@@ -137,9 +137,9 @@ CMDRequest::Serialize
 		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 										CDXLTokens::GetDXLTokenStr(EdxltokenMDTypeRequest));				
 		
-		CWStringDynamic *pstr = Pstr(pmdtr->m_sysid);
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSysid), pstr);
-		GPOS_DELETE(pstr);
+		CWStringDynamic *str = Pstr(pmdtr->m_sysid);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSysid), str);
+		GPOS_DELETE(str);
 		
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeInfo), pmdtr->m_eti);
 		

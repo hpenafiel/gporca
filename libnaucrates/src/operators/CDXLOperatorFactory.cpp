@@ -3503,8 +3503,8 @@ CDXLOperatorFactory::PdrgPstrFromXMLCh
 		XMLCh *xmlszString = xmlsztok.nextToken();
 		GPOS_ASSERT(NULL != xmlszString);
 
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszString);
-		pdrgpstr->Append(pstr);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszString);
+		pdrgpstr->Append(str);
 	}
 
 	return pdrgpstr;

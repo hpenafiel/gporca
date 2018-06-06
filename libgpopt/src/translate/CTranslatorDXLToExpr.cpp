@@ -2470,14 +2470,14 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 	(
 	Edxlopid edxlopid,
 	IMDId *pmdidScalarOp,
-	const CWStringConst *pstr,
+	const CWStringConst *str,
 	ULONG col_id,
 	CDXLNode *pdxlnLogicalChild,
 	CDXLNode *pdxlnScalarChild
 	)
 {
 	GPOS_ASSERT(EdxlopScalarSubqueryAny == edxlopid || EdxlopScalarSubqueryAll == edxlopid);
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 	GPOS_ASSERT(NULL != pdxlnLogicalChild);
 	GPOS_ASSERT(NULL != pdxlnScalarChild);
 
@@ -2496,7 +2496,7 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 								(
 								m_memory_pool,
 								pmdidScalarOp,
-								GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstr->GetBuffer()),
+								GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, str->GetBuffer()),
 								pcr
 								);
 	}
@@ -2506,7 +2506,7 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 								(
 								m_memory_pool,
 								pmdidScalarOp,
-								GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstr->GetBuffer()),
+								GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, str->GetBuffer()),
 								pcr
 								);
 	}

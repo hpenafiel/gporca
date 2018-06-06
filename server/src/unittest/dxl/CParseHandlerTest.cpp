@@ -600,21 +600,21 @@ CParseHandlerTest::EresParseAndSerializeMetadata
 	GPOS_CHECK_ABORT;
 
 	oss << "Serializing metadata objects" << std::endl;
-	CWStringDynamic *pstr = CDXLUtils::SerializeMetadata(memory_pool, pdrgpmdobj, true /*serialize_header_footer*/, true /*indentation*/);
+	CWStringDynamic *metadata_str = CDXLUtils::SerializeMetadata(memory_pool, pdrgpmdobj, true /*serialize_header_footer*/, true /*indentation*/);
 
 	GPOS_CHECK_ABORT;
 
 	CWStringDynamic dstrExpected(memory_pool);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), dxl_string);
 	
-	if (!dstrExpected.Equals(pstr))
+	if (!dstrExpected.Equals(metadata_str))
 	{
-		GPOS_TRACE(pstr->GetBuffer());
+		GPOS_TRACE(metadata_str->GetBuffer());
 		GPOS_ASSERT(false);
 	}
 
 	pdrgpmdobj->Release();
-	GPOS_DELETE(pstr);
+	GPOS_DELETE(metadata_str);
 	GPOS_DELETE_ARRAY(dxl_string);
 	
 	return GPOS_OK;
@@ -744,7 +744,7 @@ CParseHandlerTest::EresParseAndSerializeStatistics
 	GPOS_CHECK_ABORT;
 
 	oss << "Serializing Statistics Objects" << std::endl;
-	CWStringDynamic *pstr = CDXLUtils::SerializeStatistics
+	CWStringDynamic *statistics_str = CDXLUtils::SerializeStatistics
 											(
 											memory_pool,
 											&mda,
@@ -756,12 +756,12 @@ CParseHandlerTest::EresParseAndSerializeStatistics
 	CWStringDynamic dstrExpected(memory_pool);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), dxl_string);
 
-	GPOS_ASSERT(dstrExpected.Equals(pstr));
+	GPOS_ASSERT(dstrExpected.Equals(statistics_str));
 
 	statistics_array->Release();
 
 	GPOS_DELETE_ARRAY(dxl_string);
-	GPOS_DELETE(pstr);
+	GPOS_DELETE(statistics_str);
 	return GPOS_OK;
 }
 
@@ -800,17 +800,17 @@ CParseHandlerTest::EresParseAndSerializeScalarExpr
 	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 	oss << "Serializing parsed tree" << std::endl;
-	CWStringDynamic *pstr = CDXLUtils::SerializeScalarExpr(memory_pool, root_dxl_node, true /*serialize_header_footer*/, true /*indentation*/);
+	CWStringDynamic *scalar_expr_str = CDXLUtils::SerializeScalarExpr(memory_pool, root_dxl_node, true /*serialize_header_footer*/, true /*indentation*/);
 	GPOS_CHECK_ABORT;
 
 	CWStringDynamic dstrExpected(memory_pool);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), dxl_string);
 
 	GPOS_RESULT eres = GPOS_OK;
-	if (!dstrExpected.Equals(pstr))
+	if (!dstrExpected.Equals(scalar_expr_str))
 	{
 		GPOS_TRACE(dstrExpected.GetBuffer());
-		GPOS_TRACE(pstr->GetBuffer());
+		GPOS_TRACE(scalar_expr_str->GetBuffer());
 
 		GPOS_ASSERT(!"Not matching");
 		eres = GPOS_FAILED;
@@ -818,7 +818,7 @@ CParseHandlerTest::EresParseAndSerializeScalarExpr
 
 	// cleanup
 	root_dxl_node->Release();
-	GPOS_DELETE(pstr);
+	GPOS_DELETE(scalar_expr_str);
 	GPOS_DELETE_ARRAY(dxl_string);
 
 	return eres;

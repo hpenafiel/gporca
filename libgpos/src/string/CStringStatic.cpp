@@ -103,10 +103,10 @@ CStringStatic::Equals
 void
 CStringStatic::Append
 	(
-	const CStringStatic *pstr
+	const CStringStatic *str
 	)
 {
-	AppendBuffer(pstr->Sz());
+	AppendBuffer(str->Sz());
 }
 
 

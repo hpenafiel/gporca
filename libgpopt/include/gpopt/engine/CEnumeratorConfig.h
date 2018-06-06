@@ -336,10 +336,10 @@ namespace gpopt
 			}
 
 			// dump samples to an output file
-			void DumpSamples(CWStringDynamic *pstr, ULONG ulSessionId, ULONG ulCommandId);
+			void DumpSamples(CWStringDynamic *str, ULONG ulSessionId, ULONG ulCommandId);
 
 			// dump fitted cost distribution to an output file
-			void DumpCostDistr(CWStringDynamic *pstr, ULONG ulSessionId, ULONG ulCommandId);
+			void DumpCostDistr(CWStringDynamic *str, ULONG ulSessionId, ULONG ulCommandId);
 
 			// print ids of plans in the generated sample
 			void PrintPlanSample() const;

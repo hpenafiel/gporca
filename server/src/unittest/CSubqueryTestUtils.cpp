@@ -1088,21 +1088,21 @@ CSubqueryTestUtils::PexprSubqueryQuantified
 	// return a quantified subquery expression
 	if (COperator::EopScalarSubqueryAny == eopid)
 	{
-		const CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
+		const CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
 		return GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), pstr, pcrInner),
+			GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), str, pcrInner),
 			pexprSelect,
 			CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 			);
 	}
 
-	const CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("<>"));
+	const CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("<>"));
 	return GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_NEQ_OP), pstr, pcrInner),
+			GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_NEQ_OP), str, pcrInner),
 			pexprSelect,
 			CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 			);
@@ -1537,21 +1537,21 @@ CSubqueryTestUtils::PexprSelectWithQuantifiedAggSubquery
 	CExpression *pexprSubqueryQuantified = NULL;
 	if (COperator::EopScalarSubqueryAny == eopid)
 	{
-		const CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
+		const CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
 		pexprSubqueryQuantified = GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), pstr, pcrInner),
+			GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), str, pcrInner),
 			pexprGb,
 			CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 			);
 	}
 
-	const CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("<>"));
+	const CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("<>"));
 	pexprSubqueryQuantified = GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_NEQ_OP), pstr, pcrInner),
+			GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_NEQ_OP), str, pcrInner),
 			pexprGb,
 			CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 			);
@@ -1762,7 +1762,7 @@ CSubqueryTestUtils::PexprSubqueryWithConstTableGet
 	pcrs = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
 	const CColRef *pcrOuter = pcrs->PcrAny();
 
-	const CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
+	const CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
 
 	CExpression *pexprSubquery = NULL;
 	if (COperator::EopScalarSubqueryAny == eopid)
@@ -1771,7 +1771,7 @@ CSubqueryTestUtils::PexprSubqueryWithConstTableGet
 		pexprSubquery = GPOS_NEW(memory_pool) CExpression
 									(
 									memory_pool,
-									GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), pstr, pcrInner),
+									GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), str, pcrInner),
 									pexprConstTableGet,
 									CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 									);
@@ -1782,7 +1782,7 @@ CSubqueryTestUtils::PexprSubqueryWithConstTableGet
 		pexprSubquery = GPOS_NEW(memory_pool) CExpression
 									(
 									memory_pool,
-									GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), pstr, pcrInner),
+									GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), str, pcrInner),
 									pexprConstTableGet,
 									CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 									);
@@ -1825,12 +1825,12 @@ CSubqueryTestUtils::PexprSubqueryWithDisjunction
 	pcrs = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
 	const CColRef *pcrOuter = pcrs->PcrAny();
 
-	const CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
+	const CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("="));
 
 	CExpression *pexprSubquery = GPOS_NEW(memory_pool) CExpression
 									(
 									memory_pool,
-									GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), pstr, pcrInner),
+									GPOS_NEW(memory_pool) CScalarSubqueryAny(memory_pool, GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_EQ_OP), str, pcrInner),
 									pexprConstTableGet,
 									CUtils::PexprScalarIdent(memory_pool, pcrOuter)
 									);

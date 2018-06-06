@@ -59,7 +59,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				IMDId *mdid_func,
 				IMDId *mdid_return_type,
-				CWStringConst *pstr,
+				CWStringConst *str,
 				DrgPcoldesc *pdrgpcoldesc,
 				CColRefSet *pcrsOutput
 				);

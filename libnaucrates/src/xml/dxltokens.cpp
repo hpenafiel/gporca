@@ -768,10 +768,10 @@ CDXLTokens::GetDXLTokenStr
 {
 	GPOS_ASSERT(NULL != m_pstrmap && "Token map not initialized yet");
 	
-	const CWStringConst *pstr = m_pstrmap[token_type].m_pstr;
-	GPOS_ASSERT(NULL != pstr);
+	const CWStringConst *str = m_pstrmap[token_type].m_pstr;
+	GPOS_ASSERT(NULL != str);
 	
-	return pstr;
+	return str;
 }
 
 //---------------------------------------------------------------------------

@@ -67,7 +67,7 @@ namespace gpdxl
 			
 			// escape the given string and write it to the given stream
 			static
-			void WriteEscaped(IOstream &os, const CWStringBase *pstr);
+			void WriteEscaped(IOstream &os, const CWStringBase *str);
 			
 		public:
 			// ctor/dtor

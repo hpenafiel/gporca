@@ -194,8 +194,8 @@ CParseHandlerMetadata::EndElement
 	if(0 != XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenMetadata)) &&
 		0 != XMLString::compareString(element_local_name, CDXLTokens::XmlstrToken(EdxltokenMdid)))
 	{
-		CWStringDynamic *pstr = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
 	GPOS_ASSERT(NULL != m_mdid_cached_obj_array);

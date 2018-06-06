@@ -182,7 +182,7 @@ CWStringDynamic *
 CMDFunctionGPDB::PstrOutArgTypes() const
 {
 	GPOS_ASSERT(NULL != m_pdrgpmdidTypes);
-	CWStringDynamic *pstr = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
+	CWStringDynamic *str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 
 	const ULONG ulLen = m_pdrgpmdidTypes->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
@@ -191,15 +191,15 @@ CMDFunctionGPDB::PstrOutArgTypes() const
 		if (ul == ulLen - 1)
 		{
 			// last element: do not print a comma
-			pstr->AppendFormat(GPOS_WSZ_LIT("%ls"), pmdid->GetBuffer());
+			str->AppendFormat(GPOS_WSZ_LIT("%ls"), pmdid->GetBuffer());
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), pmdid->GetBuffer(), CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
+			str->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), pmdid->GetBuffer(), CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 
-	return pstr;
+	return str;
 }
 
 //---------------------------------------------------------------------------

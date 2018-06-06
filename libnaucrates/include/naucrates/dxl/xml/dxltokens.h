@@ -741,14 +741,14 @@ namespace gpdxl
 				SStrMapElem
 					(
 					Edxltoken edxlt,
-					CWStringConst *pstr
+					CWStringConst *str
 					)
 					:
 					m_edxlt(edxlt),
-					m_pstr(pstr)
+					m_pstr(str)
 				{
 					GPOS_ASSERT(edxlt < EdxltokenSentinel);
-					GPOS_ASSERT(pstr->IsValid());
+					GPOS_ASSERT(str->IsValid());
 				}
 				
 				//dtor

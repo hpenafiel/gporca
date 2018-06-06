@@ -276,26 +276,26 @@ CWStringStatic::Reset()
 void
 CWStringStatic::AppendEscape
 	(
-	const CWStringBase *pstr,
+	const CWStringBase *str,
 	WCHAR wc,
 	const WCHAR *wszReplace
 	)
 {
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 
-	if (pstr->IsEmpty())
+	if (str->IsEmpty())
 	{
 		return;
 	}
 
-	ULONG length = pstr->Length();
+	ULONG length = str->Length();
 	ULONG ulLengthReplace =  GPOS_WSZ_LENGTH(wszReplace);
 	ULONG ulLengthNew = m_length;
-	const WCHAR *wsz = pstr->GetBuffer();
+	const WCHAR *wsz = str->GetBuffer();
 
 	for (ULONG i = 0; i < length && ulLengthNew < m_ulCapacity - 1; i++)
 	{
-		if (wc == wsz[i] && !pstr->HasEscapedCharAt(i))
+		if (wc == wsz[i] && !str->HasEscapedCharAt(i))
 		{
 			// check for overflow
 			ULONG ulLengthCopy = std::min(ulLengthReplace, m_ulCapacity - ulLengthNew - 1);

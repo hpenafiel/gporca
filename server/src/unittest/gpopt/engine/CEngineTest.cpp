@@ -137,14 +137,14 @@ GPOS_RESULT
 CEngineTest::EresOptimize
 	(
 	FnOptimize *pfopt,
-	CWStringConst *pstr, // array of relation names
+	CWStringConst *str, // array of relation names
 	ULONG *pul,// array of relation OIDs
 	ULONG ulRels, // number of array entries
 	CBitSet *pbs // if a bit is set, the corresponding join expression will be optimized
 	)
 {
 	GPOS_ASSERT(NULL != pfopt);
-	GPOS_ASSERT(NULL != pstr);
+	GPOS_ASSERT(NULL != str);
 	GPOS_ASSERT(NULL != pul);
 	GPOS_ASSERT(NULL != pbs);
 
@@ -167,10 +167,10 @@ CEngineTest::EresOptimize
 					);
 
 		// generate cross product expressions
-		DrgPexprJoins *pdrgpexprCrossProducts = CTestUtils::PdrgpexprJoins(memory_pool, pstr, pul, ulRels, true /*fCrossProduct*/);
+		DrgPexprJoins *pdrgpexprCrossProducts = CTestUtils::PdrgpexprJoins(memory_pool, str, pul, ulRels, true /*fCrossProduct*/);
 
 		// generate join expressions
-		DrgPexprJoins *pdrgpexpr = CTestUtils::PdrgpexprJoins(memory_pool, pstr, pul, ulRels, false  /*fCrossProduct*/);
+		DrgPexprJoins *pdrgpexpr = CTestUtils::PdrgpexprJoins(memory_pool, str, pul, ulRels, false  /*fCrossProduct*/);
 
 		// build memo for each expression
 		for (ULONG ul = m_ulTestCounter; ul < ulRels; ul++)

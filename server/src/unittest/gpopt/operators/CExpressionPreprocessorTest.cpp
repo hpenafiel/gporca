@@ -804,10 +804,10 @@ CExpressionPreprocessorTest::EresTestLOJ
 #endif // GPOS_DEBUG
 
 					// store string representation of preprocessed expression
-					CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
-					COstreamString oss(pstr);
+					CWStringDynamic *str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
+					COstreamString oss(str);
 					oss << *pexprPreprocessed;
-					rgstrResult[ulTestCases] = pstr;
+					rgstrResult[ulTestCases] = str;
 					ulTestCases++;
 
 					pexprSelect->Release();

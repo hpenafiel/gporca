@@ -54,7 +54,7 @@ namespace gpos
 			CWStringStatic(WCHAR wszBuffer[], ULONG ulCapacity, const WCHAR wszInit[]);
 
 			// appends a string and replaces character with string
-			void AppendEscape(const CWStringBase *pstr, WCHAR wc, const WCHAR *wszReplace);
+			void AppendEscape(const CWStringBase *str, WCHAR wc, const WCHAR *wszReplace);
 
 			// appends a formatted string
 			void AppendFormat(const WCHAR *format, ...);

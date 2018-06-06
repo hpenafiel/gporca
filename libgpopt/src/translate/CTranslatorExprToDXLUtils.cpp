@@ -878,13 +878,13 @@ CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 	else
 	{
 		// Not supported - should be unreachable.
-		CWStringDynamic *pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
-		pstr->AppendFormat(GPOS_WSZ_LIT("Unsupported part filter operator for list partitions : %ls"),
+		CWStringDynamic *str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
+		str->AppendFormat(GPOS_WSZ_LIT("Unsupported part filter operator for list partitions : %ls"),
 						   pexprPartKey->Pop()->SzId());
 		GPOS_THROW_EXCEPTION(gpopt::ExmaGPOPT,
 							 gpopt::ExmiUnsupportedOp,
 							 CException::ExsevDebug1,
-							 pstr->GetBuffer());
+							 str->GetBuffer());
 	}
 
 	GPOS_ASSERT(NULL != pdxlnPartKey);

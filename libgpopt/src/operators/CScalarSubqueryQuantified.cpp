@@ -311,10 +311,10 @@ CScalarSubqueryQuantified::PexprSubqueryPred
 
 	const CColRef *pcr = popSqQuantified->Pcr();
 	IMDId *pmdidOp = popSqQuantified->PmdidOp();
-	const CWStringConst *pstr = popSqQuantified->PstrOp();
+	const CWStringConst *str = popSqQuantified->PstrOp();
 
 	pmdidOp->AddRef();
-	CExpression *pexprPredicate = CUtils::PexprScalarCmp(m_memory_pool, pexprNewScalar, pcr, *pstr, pmdidOp);
+	CExpression *pexprPredicate = CUtils::PexprScalarCmp(m_memory_pool, pexprNewScalar, pcr, *str, pmdidOp);
 
 	return pexprPredicate;
 }

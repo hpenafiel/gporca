@@ -70,7 +70,7 @@ namespace gpopt
 			GPOS_RESULT EresOptimize
 				(
 				FnOptimize *pfopt, // optimization function
-				CWStringConst *pstr, // array of relation names
+				CWStringConst *str, // array of relation names
 				ULONG *pul,// array of relation OIDs
 				ULONG ulRels, // number of array entries
 				CBitSet *pbs // if a bit is set, the corresponding join expression will be optimized

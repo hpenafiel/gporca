@@ -49,7 +49,7 @@ namespace gpdxl
 					IMemoryPool *memory_pool,
 					IMDId *mdid_func,
 					IMDId *mdid_return_type,
-					CWStringConst *pstr
+					CWStringConst *str
 				);
 
 			// dtor

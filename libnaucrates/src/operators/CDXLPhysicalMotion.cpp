@@ -136,7 +136,7 @@ CDXLPhysicalMotion::GetSegIdsCommaSeparatedStr(const IntPtrArray *pdrgpi) const
 {
 	GPOS_ASSERT(pdrgpi != NULL && 0 < pdrgpi->Size());
 	
-	CWStringDynamic *pstr = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
+	CWStringDynamic *str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 	
 	ULONG ulNumSegments = pdrgpi->Size();
 	for (ULONG ul = 0; ul < ulNumSegments; ul++)
@@ -145,15 +145,15 @@ CDXLPhysicalMotion::GetSegIdsCommaSeparatedStr(const IntPtrArray *pdrgpi) const
 		if (ul == ulNumSegments - 1)
 		{
 			// last element: do not print a comma
-			pstr->AppendFormat(GPOS_WSZ_LIT("%d"), iSegId);
+			str->AppendFormat(GPOS_WSZ_LIT("%d"), iSegId);
 		}
 		else
 		{
-			pstr->AppendFormat(GPOS_WSZ_LIT("%d%ls"), iSegId, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
+			str->AppendFormat(GPOS_WSZ_LIT("%d%ls"), iSegId, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 	
-	return pstr;
+	return str;
 }
 
 
