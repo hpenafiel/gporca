@@ -127,7 +127,7 @@ namespace gpopt
 			volatile ULONG_PTR m_ulpRefs;
 
 			// job id - set by job factory
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// job type
 			EJobType m_ejt;
@@ -218,9 +218,9 @@ namespace gpopt
 		protected:
 
 			// id accessor
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 
 			// ctor
@@ -229,7 +229,7 @@ namespace gpopt
 				m_pjParent(NULL),
 				m_pjq(NULL),
 				m_ulpRefs(0),
-				m_ulId(0),
+				m_id(0),
 				m_fInit(false)
 #ifdef GPOS_DEBUG
 				,

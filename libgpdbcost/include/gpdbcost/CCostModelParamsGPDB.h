@@ -329,7 +329,7 @@ namespace gpopt
 
 			// lookup param by id
 			virtual
-			SCostParam *PcpLookup(ULONG ulId) const;
+			SCostParam *PcpLookup(ULONG id) const;
 
 			// lookup param by name
 			virtual
@@ -337,7 +337,7 @@ namespace gpopt
 
 			// set param by id
 			virtual
-			void SetParam(ULONG ulId, CDouble dVal, CDouble dLowerBound, CDouble dUpperBound);
+			void SetParam(ULONG id, CDouble dVal, CDouble dLowerBound, CDouble dUpperBound);
 
 			// set param by name
 			virtual
@@ -351,7 +351,7 @@ namespace gpopt
 			Equals(ICostModelParams *pcm) const;
 
 			virtual const CHAR *
-			SzNameLookup(ULONG ulId) const;
+			SzNameLookup(ULONG id) const;
 
 	}; // class CCostModelParamsGPDB
 

@@ -31,11 +31,11 @@ using namespace gpdxl;
 CDXLScalarPartDefault::CDXLScalarPartDefault
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulLevel
+	ULONG partitioning_level
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulLevel(ulLevel)
+	m_partitioning_level(partitioning_level)
 {
 }
 
@@ -86,7 +86,7 @@ CDXLScalarPartDefault::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_partitioning_level);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 

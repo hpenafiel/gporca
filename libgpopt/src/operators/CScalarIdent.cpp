@@ -93,8 +93,8 @@ CScalarIdent::PopCopyWithRemappedColumns
 	BOOL fMustExist
 	)
 {
-	ULONG ulId = m_pcr->UlId();
-	CColRef *pcr = phmulcr->Find(&ulId);
+	ULONG id = m_pcr->Id();
+	CColRef *pcr = phmulcr->Find(&id);
 	if (NULL == pcr)
 	{
 		if (fMustExist)
@@ -108,7 +108,7 @@ CScalarIdent::PopCopyWithRemappedColumns
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(ulId), pcr);
+			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(id), pcr);
 			GPOS_ASSERT(fResult);
 		}
 		else

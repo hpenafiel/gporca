@@ -58,13 +58,13 @@ CXformCTEAnchor2TrivialSelect::Exfp
 	)
 	const
 {
-	ULONG ulId = CLogicalCTEAnchor::PopConvert(exprhdl.Pop())->UlId();
+	ULONG id = CLogicalCTEAnchor::PopConvert(exprhdl.Pop())->Id();
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
-	const ULONG ulConsumers = pcteinfo->UlConsumers(ulId);
+	const ULONG ulConsumers = pcteinfo->UlConsumers(id);
 	GPOS_ASSERT(0 < ulConsumers);
 
 	if ((pcteinfo->FEnableInlining() || 1 == ulConsumers) &&
-		CXformUtils::FInlinableCTE(ulId))
+		CXformUtils::FInlinableCTE(id))
 	{
 		return CXform::ExfpHigh;
 	}

@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 			// id of column defined by this project element:
 			// for computed columns this is a new id, for colrefs: id of the original column
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// alias
 			const CMDName *m_mdname;
@@ -48,7 +48,7 @@ namespace gpdxl
 			CDXLScalarProjElem
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulId,
+				ULONG id,
 				const CMDName *mdname
 				);
 			
@@ -62,10 +62,10 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 			
 			// id of the proj element
-			ULONG UlId() const;
+			ULONG Id() const;
 			
 			// alias of the proj elem
-			const CMDName *PmdnameAlias() const;
+			const CMDName *GetMdNameAlias() const;
 			
 			// serialize operator in DXL format
 			virtual
@@ -79,7 +79,7 @@ namespace gpdxl
 				)
 				const
 			{
-				return (UlId() == col_id);
+				return (Id() == col_id);
 			}
 
 			// conversion function

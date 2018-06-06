@@ -19,12 +19,12 @@ using namespace gpdxl;
 CDXLScalarPartListNullTest::CDXLScalarPartListNullTest
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulLevel,
+	ULONG partitioning_level,
 	BOOL is_null
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulLevel(ulLevel),
+	m_partitioning_level(partitioning_level),
 	m_is_null(is_null)
 {
 }
@@ -55,7 +55,7 @@ CDXLScalarPartListNullTest::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_partitioning_level);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarIsNull), m_is_null);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
@@ -64,7 +64,7 @@ CDXLScalarPartListNullTest::SerializeToDXL
 ULONG
 CDXLScalarPartListNullTest::UlLevel() const
 {
-	return m_ulLevel;
+	return m_partitioning_level;
 }
 
 // Null Test type (true for 'is null', false for 'is not null')

@@ -264,7 +264,7 @@ CSyncHashtableTest::EresUnittest_ComplexEquality()
 #ifdef GPOS_DEBUG
 		SElem *pelem = shtacc.Find();
 		GPOS_ASSERT(NULL != pelem && pelem != &elem);
-		GPOS_ASSERT(pelem->UlId() == GPOS_SHT_ELEMENTS + j);
+		GPOS_ASSERT(pelem->Id() == GPOS_SHT_ELEMENTS + j);
 #endif // GPOS_DEBUG
 
 	}
@@ -407,7 +407,7 @@ CSyncHashtableTest::EresUnittest_NonConcurrentIteration()
 		GPOS_ASSERT(SElem::IsValid(pelem->m_ulKey));
 
 		// check if element has been visited before
-		GPOS_ASSERT(!bv.ExchangeSet(pelem->UlId()) &&
+		GPOS_ASSERT(!bv.ExchangeSet(pelem->Id()) &&
 				    "Iterator returned duplicates");
 
 		ulCount++;
@@ -559,7 +559,7 @@ CSyncHashtableTest::PvUnittest_IteratorCheck
 
 #ifdef GPOS_DEBUG
 	SElem *rgelem = pelemtest->Rgelem();
-	ULONG ulStartId = rgelem[0].UlId();
+	ULONG ulStartId = rgelem[0].Id();
 	CBitVector bv(amp.Pmp(), GPOS_SHT_ELEMENTS);
 #endif	// GPOS_DEBUG
 
@@ -568,7 +568,7 @@ CSyncHashtableTest::PvUnittest_IteratorCheck
 	ULONG ulCount = 0;
 	while (htit.Advance())
 	{
-		ULONG ulId = ULONG_MAX;
+		ULONG id = ULONG_MAX;
 
 		// accessor scope
 		{
@@ -578,17 +578,17 @@ CSyncHashtableTest::PvUnittest_IteratorCheck
 			{
 				GPOS_ASSERT(SElem::IsValid(pelem->m_ulKey));
 
-				ulId = pelem->UlId();
+				id = pelem->Id();
 			}
 		}
 
-		if (ulId != ULONG_MAX)
+		if (id != ULONG_MAX)
 		{
 			// check if element has been visited before
-			GPOS_ASSERT(!bv.ExchangeSet(ulId) &&
+			GPOS_ASSERT(!bv.ExchangeSet(id) &&
 					    "Iterator returned duplicates");
 
-			GPOS_ASSERT(ulId >= ulStartId && ulId < GPOS_SHT_ELEMENTS);
+			GPOS_ASSERT(id >= ulStartId && id < GPOS_SHT_ELEMENTS);
 
 			ulCount++;
 		}
@@ -813,7 +813,7 @@ CSyncHashtableTest::PvUnittest_Iterator
 		{
 			GPOS_ASSERT(SElem::IsValid(pelem->m_ulKey));
 
-			GPOS_ASSERT(!bv.ExchangeSet(pelem->UlId()) &&
+			GPOS_ASSERT(!bv.ExchangeSet(pelem->Id()) &&
 					    "Iterator returned duplicates");
 
 			ulCount++;

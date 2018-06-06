@@ -80,13 +80,13 @@ CDrvdPropCtxtPlan::PdpctxtCopy
 	HMUlPdpIter hmulpdpiter(m_phmulpdpCTEs);
 	while (hmulpdpiter.Advance())
 	{
-		ULONG ulId = *(hmulpdpiter.Key());
+		ULONG id = *(hmulpdpiter.Key());
 		CDrvdPropPlan *pdpplan = const_cast<CDrvdPropPlan *>(hmulpdpiter.Value());
 		pdpplan->AddRef();
 	#ifdef GPOS_DEBUG
 		BOOL fInserted =
 	#endif // GPOS_DEBUG
-			pdpctxtplan->m_phmulpdpCTEs->Insert(GPOS_NEW(m_memory_pool) ULONG(ulId), pdpplan);
+			pdpctxtplan->m_phmulpdpCTEs->Insert(GPOS_NEW(m_memory_pool) ULONG(id), pdpplan);
 		GPOS_ASSERT(fInserted);
 	}
 
@@ -154,10 +154,10 @@ CDrvdPropCtxtPlan::OsPrint
 	HMUlPdpIter hmulpdpiter(m_phmulpdpCTEs);
 	while (hmulpdpiter.Advance())
 	{
-		ULONG ulId = *(hmulpdpiter.Key());
+		ULONG id = *(hmulpdpiter.Key());
 		CDrvdPropPlan *pdpplan = const_cast<CDrvdPropPlan *>(hmulpdpiter.Value());
 
-		os << ulId << "-->" << *pdpplan << std::endl;
+		os << id << "-->" << *pdpplan << std::endl;
 	}
 
 	return os;

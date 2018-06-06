@@ -32,7 +32,7 @@ namespace gpdxl
 		private:
 
 			// cte id
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// output column ids
 			ULongPtrArray *m_pdrgpulColIds;
@@ -42,7 +42,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLPhysicalCTEProducer(IMemoryPool *memory_pool, ULONG ulId, ULongPtrArray *pdrgpulColIds);
+			CDXLPhysicalCTEProducer(IMemoryPool *memory_pool, ULONG id, ULongPtrArray *pdrgpulColIds);
 
 			// dtor
 			virtual
@@ -57,9 +57,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// cte identifier
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 
 			ULongPtrArray *PdrgpulColIds() const

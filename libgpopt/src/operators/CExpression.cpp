@@ -364,8 +364,8 @@ CExpression::CopyGroupPropsAndStats
 		m_pstats = pstats;
 	}
 
-	m_ulOriginGrpExprId = m_pgexpr->UlId();
-	m_ulOriginGrpId = m_pgexpr->Pgroup()->UlId();
+	m_ulOriginGrpExprId = m_pgexpr->Id();
+	m_ulOriginGrpId = m_pgexpr->Pgroup()->Id();
 }
 
 

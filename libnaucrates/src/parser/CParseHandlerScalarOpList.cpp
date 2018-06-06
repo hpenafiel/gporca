@@ -46,7 +46,7 @@ CParseHandlerScalarOpList::CParseHandlerScalarOpList
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_edxloplisttype(CDXLScalarOpList::EdxloplistSentinel)
+	m_dxl_op_list_type(CDXLScalarOpList::EdxloplistSentinel)
 {
 }
 
@@ -67,12 +67,12 @@ CParseHandlerScalarOpList::StartElement
 	const Attributes& attrs
 	)
 {
-	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(element_local_name);
-	if (NULL == m_dxl_node && CDXLScalarOpList::EdxloplistSentinel > edxloplisttype)
+	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = Edxloplisttype(element_local_name);
+	if (NULL == m_dxl_node && CDXLScalarOpList::EdxloplistSentinel > dxl_op_list_type)
 	{
 		// create the list
-		m_edxloplisttype = edxloplisttype;
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpList(m_memory_pool, m_edxloplisttype));
+		m_dxl_op_list_type = dxl_op_list_type;
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpList(m_memory_pool, m_dxl_op_list_type));
 	}
 	else
 	{
@@ -138,8 +138,8 @@ CParseHandlerScalarOpList::EndElement
 	const XMLCh* const // element_qname
 	)
 {
-	CDXLScalarOpList::EdxlOpListType edxloplisttype = Edxloplisttype(element_local_name);
-	if (m_edxloplisttype != edxloplisttype)
+	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = Edxloplisttype(element_local_name);
+	if (m_dxl_op_list_type != dxl_op_list_type)
 	{
 		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());

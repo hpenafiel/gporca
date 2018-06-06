@@ -72,7 +72,7 @@ namespace gpopt
 			COptimizationContext(const COptimizationContext &);
 
 			// unique id within owner group, used for debugging
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// back pointer to owner group, used for debugging
 			CGroup *m_pgroup;
@@ -108,7 +108,7 @@ namespace gpopt
 			COptimizationContext()
 				:
 				m_memory_pool(NULL),
-				m_ulId(GPOPT_INVALID_OPTCTXT_ID),
+				m_id(GPOPT_INVALID_OPTCTXT_ID),
 				m_pgroup(NULL),
 				m_prpp(NULL),
 				m_prprel(NULL),
@@ -149,7 +149,7 @@ namespace gpopt
 				)
 				:
 				m_memory_pool(memory_pool),
-				m_ulId(GPOPT_INVALID_OPTCTXT_ID),
+				m_id(GPOPT_INVALID_OPTCTXT_ID),
 				m_pgroup(pgroup),
 				m_prpp(prpp),
 				m_prprel(prprel),
@@ -176,9 +176,9 @@ namespace gpopt
 			BOOL FMatch(const COptimizationContext *poc) const;
 
 			// get id
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 
 			// group accessor
@@ -238,12 +238,12 @@ namespace gpopt
 			// set optimization context id
 			void SetId
 				(
-				ULONG ulId
+				ULONG id
 				)
 			{
-				GPOS_ASSERT(m_ulId == GPOPT_INVALID_OPTCTXT_ID);
+				GPOS_ASSERT(m_id == GPOPT_INVALID_OPTCTXT_ID);
 
-				m_ulId = ulId;
+				m_id = id;
 			}
 
 			// set optimization context state

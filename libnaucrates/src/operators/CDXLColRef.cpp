@@ -28,14 +28,14 @@ CDXLColRef::CDXLColRef
 	(
 	IMemoryPool *memory_pool,
 	CMDName *mdname,
-	ULONG ulId,
+	ULONG id,
 	IMDId *mdid_type,
 	INT type_modifier
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdname(mdname),
-	m_ulId(ulId),
+	m_id(id),
 	m_mdid_type(mdid_type),
 	m_iTypeModifer(type_modifier)
 {
@@ -101,7 +101,7 @@ CDXLColRef::TypeModifier() const
 ULONG
 CDXLColRef::Id() const
 {
-	return m_ulId;
+	return m_id;
 }
 
 

@@ -65,7 +65,7 @@ CParseHandlerPhysicalCTEProducer::StartElement
 	}
 
 	// parse cteid and create cte operator
-	ULONG ulId = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
+	ULONG id = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -75,7 +75,7 @@ CParseHandlerPhysicalCTEProducer::StartElement
 
 	ULongPtrArray *pdrgpulColIds = CDXLOperatorFactory::PdrgpulFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenColumns, EdxltokenPhysicalCTEProducer);
 
-	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLPhysicalCTEProducer(m_memory_pool, ulId, pdrgpulColIds));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLPhysicalCTEProducer(m_memory_pool, id, pdrgpulColIds));
 
 	// create and activate the parse handler for the child expression node
 	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);

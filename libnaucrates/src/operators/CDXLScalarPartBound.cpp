@@ -31,15 +31,15 @@ using namespace gpdxl;
 CDXLScalarPartBound::CDXLScalarPartBound
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulLevel,
+	ULONG partitioning_level,
 	IMDId *mdid_type,
-	BOOL fLower
+	BOOL is_lower_bound
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulLevel(ulLevel),
+	m_partitioning_level(partitioning_level),
 	m_mdid_type(mdid_type),
-	m_fLower(fLower)
+	m_is_lower_bound(is_lower_bound)
 {
 	GPOS_ASSERT(mdid_type->IsValid());
 }
@@ -118,9 +118,9 @@ CDXLScalarPartBound::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_partitioning_level);
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMDType));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartBoundLower), m_fLower);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartBoundLower), m_is_lower_bound);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 

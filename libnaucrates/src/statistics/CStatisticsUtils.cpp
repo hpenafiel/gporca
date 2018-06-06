@@ -1328,7 +1328,7 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		ULONG col_id = pcr->UlId();
+		ULONG col_id = pcr->Id();
 		if (NULL == pbsKeys || pbsKeys->Get(col_id))
 		{
 			// if keys are available then only consider grouping columns defined as 
@@ -1697,7 +1697,7 @@ CStatisticsUtils::AddGrpColStats
 	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		ULONG ulGrpColId = pcr->UlId();
+		ULONG ulGrpColId = pcr->Id();
 
 		CDouble dDistVals(CHistogram::DMinDistinct);
 		const CHistogram *phist = pstatsInput->Phist(ulGrpColId);

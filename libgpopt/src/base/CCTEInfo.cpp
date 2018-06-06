@@ -786,7 +786,7 @@ CCTEInfo::PhmulcrConsumerToProducer
 #ifdef GPOS_DEBUG
 			BOOL fSuccess =
 #endif // GPOS_DEBUG
-				phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcr->UlId()), pcrProducer);
+				phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcr->Id()), pcrProducer);
 			GPOS_ASSERT(fSuccess);
 		}
 	}

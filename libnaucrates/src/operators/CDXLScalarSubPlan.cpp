@@ -32,20 +32,20 @@ using namespace gpopt;
 CDXLScalarSubPlan::CDXLScalarSubPlan
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidFirstColType,
-	DrgPdxlcr *pdrgdxlcr,
-	EdxlSubPlanType edxlsubplantype,
-	CDXLNode *pdxlnTestExpr
+	IMDId *first_col_type_mdid,
+	DrgPdxlcr *dxl_colref_array,
+	EdxlSubPlanType dxl_subplan_type,
+	CDXLNode *dxlnode_test_expr
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidFirstColType(pmdidFirstColType),
-	m_pdrgdxlcr(pdrgdxlcr),
-	m_edxlsubplantype(edxlsubplantype),
-	m_pdxlnTestExpr(pdxlnTestExpr)
+	m_first_col_type_mdid(first_col_type_mdid),
+	m_dxl_colref_array(dxl_colref_array),
+	m_dxl_subplan_type(dxl_subplan_type),
+	m_dxlnode_test_expr(dxlnode_test_expr)
 {
-	GPOS_ASSERT(EdxlSubPlanTypeSentinel > edxlsubplantype);
-	GPOS_ASSERT_IMP(EdxlSubPlanTypeAny == edxlsubplantype || EdxlSubPlanTypeAll == edxlsubplantype, NULL != pdxlnTestExpr);
+	GPOS_ASSERT(EdxlSubPlanTypeSentinel > dxl_subplan_type);
+	GPOS_ASSERT_IMP(EdxlSubPlanTypeAny == dxl_subplan_type || EdxlSubPlanTypeAll == dxl_subplan_type, NULL != dxlnode_test_expr);
 }
 
 //---------------------------------------------------------------------------
@@ -58,9 +58,9 @@ CDXLScalarSubPlan::CDXLScalarSubPlan
 //---------------------------------------------------------------------------
 CDXLScalarSubPlan::~CDXLScalarSubPlan()
 {
-	m_pmdidFirstColType->Release();
-	m_pdrgdxlcr->Release();
-	CRefCount::SafeRelease(m_pdxlnTestExpr);
+	m_first_col_type_mdid->Release();
+	m_dxl_colref_array->Release();
+	CRefCount::SafeRelease(m_dxlnode_test_expr);
 }
 
 //---------------------------------------------------------------------------
@@ -79,16 +79,16 @@ CDXLScalarSubPlan::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSubPlan::PmdidFirstColType
+//		CDXLScalarSubPlan::GetFirstColTypeMdId
 //
 //	@doc:
 //		Return type id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarSubPlan::PmdidFirstColType() const
+CDXLScalarSubPlan::GetFirstColTypeMdId() const
 {
-	return m_pmdidFirstColType;
+	return m_first_col_type_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -106,22 +106,22 @@ CDXLScalarSubPlan::HasBoolResult
 	)
 	const
 {
-	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pmdidFirstColType)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_first_col_type_mdid)->Eti());
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSubPlan::PstrSubplanType
+//		CDXLScalarSubPlan::GetSubplanTypeStr
 //
 //	@doc:
 //		Return a string representation of Subplan type
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarSubPlan::PstrSubplanType() const
+CDXLScalarSubPlan::GetSubplanTypeStr() const
 {
-	switch (m_edxlsubplantype)
+	switch (m_dxl_subplan_type)
 	{
 		case EdxlSubPlanTypeScalar:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlanTypeScalar);
@@ -163,8 +163,8 @@ CDXLScalarSubPlan::SerializeToDXL
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	m_pmdidFirstColType->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlanType), PstrSubplanType());
+	m_first_col_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlanType), GetSubplanTypeStr());
 
 	// serialize test expression
 	xml_serializer->OpenElement
@@ -173,9 +173,9 @@ CDXLScalarSubPlan::SerializeToDXL
 					CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlanTestExpr)
 					);
 
-	if (NULL != m_pdxlnTestExpr)
+	if (NULL != m_dxlnode_test_expr)
 	{
-		m_pdxlnTestExpr->SerializeToDXL(xml_serializer);
+		m_dxlnode_test_expr->SerializeToDXL(xml_serializer);
 	}
 
 	xml_serializer->CloseElement
@@ -190,7 +190,7 @@ CDXLScalarSubPlan::SerializeToDXL
 				CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlanParamList)
 				);
 
-	for (ULONG ul = 0; ul < m_pdrgdxlcr->Size(); ul++)
+	for (ULONG ul = 0; ul < m_dxl_colref_array->Size(); ul++)
 	{
 		xml_serializer->OpenElement
 					(
@@ -198,11 +198,11 @@ CDXLScalarSubPlan::SerializeToDXL
 					CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubPlanParam)
 					);
 
-		ULONG ulid = (*m_pdrgdxlcr)[ul]->Id();
+		ULONG ulid = (*m_dxl_colref_array)[ul]->Id();
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), ulid);
 
-		const CMDName *mdname = (*m_pdrgdxlcr)[ul]->MdName();
-		const IMDId *mdid_type = (*m_pdrgdxlcr)[ul]->MDIdType();
+		const CMDName *mdname = (*m_dxl_colref_array)[ul]->MdName();
+		const IMDId *mdid_type = (*m_dxl_colref_array)[ul]->MDIdType();
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColName), mdname->GetMDName());
 		mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
@@ -252,7 +252,7 @@ CDXLScalarSubPlan::AssertValid
 	CDXLNode *child_dxlnode = (*dxlnode)[EdxlSubPlanIndexChildPlan];
 	GPOS_ASSERT(NULL != child_dxlnode);
 	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
-	GPOS_ASSERT_IMP(NULL != m_pdxlnTestExpr, EdxloptypeScalar == m_pdxlnTestExpr->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT_IMP(NULL != m_dxlnode_test_expr, EdxloptypeScalar == m_dxlnode_test_expr->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{

@@ -68,11 +68,11 @@ namespace gpopt
 			CColumnFactory(const CColumnFactory &);
 
 			// implementation of factory methods
-			CColRef *PcrCreate(const IMDType *pmdtype, INT type_modifier, ULONG ulId, const CName &name);
+			CColRef *PcrCreate(const IMDType *pmdtype, INT type_modifier, ULONG id, const CName &name);
 			CColRef *PcrCreate
 					(
 					const CColumnDescriptor *pcoldesc,
-					ULONG ulId,
+					ULONG id,
 					const CName &name,
 					ULONG ulOpSource
 					);
@@ -109,7 +109,7 @@ namespace gpopt
 				INT type_modifier,
 				INT iAttno,
 				BOOL fNullable,
-				ULONG ulId,
+				ULONG id,
 				const CName &name,
 				ULONG ulOpSource,
 				ULONG ulWidth = ULONG_MAX
@@ -134,7 +134,7 @@ namespace gpopt
 			CColRef *PcrCopy(const CColRef* pcr);
 
 			// lookup by id
-			CColRef *PcrLookup(ULONG ulId);
+			CColRef *PcrLookup(ULONG id);
 			
 			// destructor
 			void Destroy(CColRef *);

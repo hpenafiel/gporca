@@ -166,7 +166,7 @@ CGroup::CGroup
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_ulId(GPOPT_INVALID_GROUP_ID),
+	m_id(GPOPT_INVALID_GROUP_ID),
 	m_fScalar(fScalar),
 	m_pdrgpexprHashJoinKeysOuter(NULL),
 	m_pdrgpexprHashJoinKeysInner(NULL),
@@ -479,14 +479,14 @@ CGroup::PgexprBest
 void
 CGroup::SetId
 	(
-	ULONG ulId
+	ULONG id
 	)
 {
 	GPOS_ASSERT(m_lock.IsOwned());
-	GPOS_ASSERT(GPOPT_INVALID_GROUP_ID == m_ulId &&
+	GPOS_ASSERT(GPOPT_INVALID_GROUP_ID == m_id &&
 				"Overwriting previously assigned group id");
 
-	m_ulId = ulId;
+	m_id = id;
 }
 
 
@@ -604,14 +604,14 @@ CGroup::SetHashJoinKeys
 ULONG
 CGroup::HashValue() const
 {
-	ULONG ulId = m_ulId;
+	ULONG id = m_id;
 	if (FDuplicateGroup() && 0 == m_ulGExprs)
 	{
 		// group has been merged into another group
-	 	ulId = PgroupDuplicate()->UlId();
+	 	id = PgroupDuplicate()->Id();
 	}
 
-	return gpos::HashValue<ULONG>(&ulId);
+	return gpos::HashValue<ULONG>(&id);
 }
 
 
@@ -948,7 +948,7 @@ CGroup::AddDuplicateGrp
 	// add link following monotonic ordering of group IDs
 	CGroup *pgroupSrc = this;
 	CGroup *pgroupDest = pgroup;
-	if (pgroupSrc->UlId() > pgroupDest->UlId())
+	if (pgroupSrc->Id() > pgroupDest->Id())
 	{
 		std::swap(pgroupSrc, pgroupDest);
 	}
@@ -963,7 +963,7 @@ CGroup::AddDuplicateGrp
 				))
 	{
 		pgroupSrc = pgroupSrc->m_pgroupDuplicate;
-		if (pgroupSrc->UlId() > pgroupDest->UlId())
+		if (pgroupSrc->Id() > pgroupDest->Id())
 		{
 			std::swap(pgroupSrc, pgroupDest);
 		}
@@ -989,7 +989,7 @@ CGroup::ResolveDuplicateMaster()
 	CGroup *pgroupTarget = m_pgroupDuplicate;
 	while (NULL != pgroupTarget->m_pgroupDuplicate)
 	{
-		GPOS_ASSERT(pgroupTarget->UlId() < pgroupTarget->m_pgroupDuplicate->UlId());
+		GPOS_ASSERT(pgroupTarget->Id() < pgroupTarget->m_pgroupDuplicate->Id());
 		pgroupTarget = pgroupTarget->m_pgroupDuplicate;
 	}
 
@@ -2088,7 +2088,7 @@ CGroup::OsPrint
 	)
 {
 	const CHAR *szPrefix = "  ";
-	os << std::endl << "Group " << m_ulId << " (";
+	os << std::endl << "Group " << m_id << " (";
 	if (!FScalar())
 	{
 		os << "#GExprs: " << m_listGExprs.Size();
@@ -2099,7 +2099,7 @@ CGroup::OsPrint
 		}
 		if (FDuplicateGroup())
 		{
-			os << ", Duplicate Group: " << m_pgroupDuplicate->UlId();
+			os << ", Duplicate Group: " << m_pgroupDuplicate->Id();
 		}
 	}
 	os << "):" << std::endl;

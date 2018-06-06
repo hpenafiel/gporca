@@ -55,7 +55,7 @@ CGroupExpression::CGroupExpression
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_ulId(GPOPT_INVALID_GEXPR_ID),
+	m_id(GPOPT_INVALID_GEXPR_ID),
 	m_pgexprDuplicate(NULL),
 	m_pop(pop),
 	m_pdrgpgroup(pdrgpgroup),
@@ -176,11 +176,11 @@ void
 CGroupExpression::Init
 	(
 	CGroup *pgroup,
-	ULONG ulId
+	ULONG id
 	)
 {
 	SetGroup(pgroup);
-	SetId(ulId);
+	SetId(id);
 	SetOptimizationLevel();
 }
 
@@ -284,12 +284,12 @@ CGroupExpression::FValidContext
 void 
 CGroupExpression::SetId
 	(
-	ULONG ulId
+	ULONG id
 	)
 {
-	GPOS_ASSERT(GPOPT_INVALID_GEXPR_ID == m_ulId);
+	GPOS_ASSERT(GPOPT_INVALID_GEXPR_ID == m_id);
 
-	m_ulId = ulId;
+	m_id = id;
 }
 
 
@@ -1178,7 +1178,7 @@ CGroupExpression::OsPrint
 	const CHAR *szPrefix
 	)
 {
-	os << szPrefix << m_ulId << ": ";
+	os << szPrefix << m_id << ": ";
 	(void) m_pop->OsPrint(os);
 
 	if (EolHigh == m_eol)
@@ -1190,15 +1190,15 @@ CGroupExpression::OsPrint
 	ULONG arity = Arity();
 	for (ULONG i = 0; i < arity; i++)
 	{
-		os << (*m_pdrgpgroup)[i]->UlId() << " ";
+		os << (*m_pdrgpgroup)[i]->Id() << " ";
 	}
 	os << "]";
 
 	if (NULL != m_pgexprDuplicate)
 	{
 		os
-			<< " Dup. of GrpExpr " << m_pgexprDuplicate->UlId()
-			<< " in Grp " << m_pgexprDuplicate->Pgroup()->UlId();
+			<< " Dup. of GrpExpr " << m_pgexprDuplicate->Id()
+			<< " in Grp " << m_pgexprDuplicate->Pgroup()->Id();
 	}
 
 	if (GPOS_FTRACE(EopttracePrintXform) && ExfidOrigin() != CXform::ExfInvalid)
@@ -1209,7 +1209,7 @@ CGroupExpression::OsPrint
 			os << "intermediate result of ";
 		}
 		os << "(xform: " << CXformFactory::Pxff()->Pxf(ExfidOrigin())->SzId();
-		os << ", Grp: " << m_pgexprOrigin->Pgroup()->UlId() << ", GrpExpr: " << m_pgexprOrigin->UlId() << ")";
+		os << ", Grp: " << m_pgexprOrigin->Pgroup()->Id() << ", GrpExpr: " << m_pgexprOrigin->Id() << ")";
 	}
 	os << std::endl;
 

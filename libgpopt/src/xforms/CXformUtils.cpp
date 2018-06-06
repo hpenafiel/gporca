@@ -4195,7 +4195,7 @@ CXformUtils::PexprPartialDynamicIndexGet
 #ifdef GPOS_DEBUG
 				BOOL fInserted =
 #endif
-				phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcrOld->UlId()), pcrNew);
+				phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcrOld->Id()), pcrNew);
 				GPOS_ASSERT(fInserted);
 			}
 		}
@@ -4601,8 +4601,8 @@ CXformUtils::ICmpPrjElemsArr
 
 	CExpression *pexprPrjElemFst = (*pdrgpexprFst)[0];
 	CExpression *pexprPrjElemSnd = (*pdrgpexprSnd)[0];
-	ULONG ulIdFst = CScalarProjectElement::PopConvert(pexprPrjElemFst->Pop())->Pcr()->UlId();
-	ULONG ulIdSnd = CScalarProjectElement::PopConvert(pexprPrjElemSnd->Pop())->Pcr()->UlId();
+	ULONG ulIdFst = CScalarProjectElement::PopConvert(pexprPrjElemFst->Pop())->Pcr()->Id();
+	ULONG ulIdSnd = CScalarProjectElement::PopConvert(pexprPrjElemSnd->Pop())->Pcr()->Id();
 
 	if (ulIdFst < ulIdSnd)
 	{

@@ -230,7 +230,7 @@ COptimizationContext::FEqualContextIds
 	BOOL fEqual = true;
 	for (ULONG ul = 0; fEqual && ul < ulCtxts; ul++)
 	{
-		fEqual = (*pdrgpocFst)[ul]->UlId() == (*pdrgpocSnd)[ul]->UlId();
+		fEqual = (*pdrgpocFst)[ul]->Id() == (*pdrgpocSnd)[ul]->Id();
 	}
 
 	return fEqual;
@@ -477,10 +477,10 @@ COptimizationContext::OsPrint
 	const
 {
 
-	os << szPrefix << m_ulId << " (stage " << m_ulSearchStageIndex << "): (" << *m_prpp <<  ") => Best Expr:";
+	os << szPrefix << m_id << " (stage " << m_ulSearchStageIndex << "): (" << *m_prpp <<  ") => Best Expr:";
 	if (NULL != PgexprBest())
 	{
-		os << PgexprBest()->UlId();
+		os << PgexprBest()->Id();
 	}
 	os << std::endl;
 

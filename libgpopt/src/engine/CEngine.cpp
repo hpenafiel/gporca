@@ -2196,8 +2196,8 @@ CEngine::FCheckEnfdProps
 	if (GPOS_FTRACE(EopttracePrintMemoEnforcement))
 	{
 		CAutoTrace at(m_memory_pool);
-		at.Os() << "CEngine::FCheckEnfdProps (Group ID: " << pgexpr->Pgroup()->UlId() <<
-				" Expression ID: " <<  pgexpr->UlId() << ")"<< std::endl;
+		at.Os() << "CEngine::FCheckEnfdProps (Group ID: " << pgexpr->Pgroup()->Id() <<
+				" Expression ID: " <<  pgexpr->Id() << ")"<< std::endl;
 		m_pmemo->OsPrint(at.Os());
 	}
 
@@ -2456,8 +2456,8 @@ CEngine::FCheckReqdProps
 	if (GPOS_FTRACE(EopttracePrintMemoEnforcement))
 	{
 		CAutoTrace at(m_memory_pool);
-		at.Os() << "CEngine::FCheckReqdProps (Group ID: " << exprhdl.Pgexpr()->Pgroup()->UlId() <<
-				" Expression ID: " <<  exprhdl.Pgexpr()->UlId() << ")" << std::endl;
+		at.Os() << "CEngine::FCheckReqdProps (Group ID: " << exprhdl.Pgexpr()->Pgroup()->Id() <<
+				" Expression ID: " <<  exprhdl.Pgexpr()->Id() << ")" << std::endl;
 		m_pmemo->OsPrint(at.Os());
 	}
 
@@ -2516,7 +2516,7 @@ CEngine::PrintRoot()
 {
 	CAutoTrace at(m_memory_pool);
 	at.Os() << "Root Group:" << std::endl;
-	m_pmemo->Pgroup(m_pmemo->PgroupRoot()->UlId())->OsPrint(at.Os());
+	m_pmemo->Pgroup(m_pmemo->PgroupRoot()->Id())->OsPrint(at.Os());
 	at.Os() << std::endl;
 }
 

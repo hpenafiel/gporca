@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// op list type
-			CDXLScalarOpList::EdxlOpListType m_edxloplisttype;
+			CDXLScalarOpList::EdxlOpListType m_dxl_op_list_type;
 
 			// private copy ctor
 			CParseHandlerScalarOpList(const CParseHandlerScalarOpList&);

@@ -310,7 +310,7 @@ CTranslatorExprToDXL::PdxlnTranslate
 		CDXLScalarProjElem *pdxlopPrElOld = CDXLScalarProjElem::Cast(pdxlnPrElOld->GetOperator());
 		GPOS_ASSERT(1 == pdxlnPrElOld->Arity());
 		CDXLNode *child_dxlnode = (*pdxlnPrElOld)[0];
-		const ULONG col_id = pdxlopPrElOld->UlId();
+		const ULONG col_id = pdxlopPrElOld->Id();
 
 		// create a new project element node with the col id and new column name
 		// and add the scalar child
@@ -2423,7 +2423,7 @@ CTranslatorExprToDXL::PdxlnAggregate
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CDXLNode *pdxlnProjElem = (*proj_list_dxlnode)[ul];
-		ULONG col_id = CDXLScalarProjElem::Cast(pdxlnProjElem->GetOperator())->UlId();
+		ULONG col_id = CDXLScalarProjElem::Cast(pdxlnProjElem->GetOperator())->Id();
 
 		if (NULL == phmululPL->Find(&col_id))
 		{
@@ -2451,9 +2451,9 @@ CTranslatorExprToDXL::PdxlnAggregate
 			continue;
 		}
 
-		pdrgpulGroupingCols->Append(GPOS_NEW(m_memory_pool) ULONG(pcrGroupingCol->UlId()));
+		pdrgpulGroupingCols->Append(GPOS_NEW(m_memory_pool) ULONG(pcrGroupingCol->Id()));
 
-		ULONG col_id = pcrGroupingCol->UlId();
+		ULONG col_id = pcrGroupingCol->Id();
 		if (NULL == phmululPL->Find(&col_id))
 		{
 			CDXLNode *pdxlnProjElem = CTranslatorExprToDXLUtils::PdxlnProjElem(m_memory_pool, m_phmcrdxln, pcrGroupingCol);
@@ -2635,7 +2635,7 @@ void
 CTranslatorExprToDXL::BuildSubplansForCorrelatedLOJ
 	(
 	CExpression *pexprCorrelatedLOJ,
-	DrgPdxlcr *pdrgdxlcr,
+	DrgPdxlcr *dxl_colref_array,
 	CDXLNode **ppdxlnScalar, // output: scalar condition after replacing inner child reference with subplan
 	DrgPds *pdrgpdsBaseTables,
 	ULONG *pulNonGatherMotions,
@@ -2651,12 +2651,12 @@ CTranslatorExprToDXL::BuildSubplansForCorrelatedLOJ
 	DrgPcr *pdrgpcrInner = CPhysicalNLJoin::PopConvert(pexprCorrelatedLOJ->Pop())->PdrgPcrInner();
 	GPOS_ASSERT(NULL != pdrgpcrInner);
 
-	EdxlSubPlanType edxlsubplantype = Edxlsubplantype(pexprCorrelatedLOJ);
+	EdxlSubPlanType dxl_subplan_type = Edxlsubplantype(pexprCorrelatedLOJ);
 
-	if (EdxlSubPlanTypeScalar == edxlsubplantype)
+	if (EdxlSubPlanTypeScalar == dxl_subplan_type)
 	{
 		// for correlated left outer join for scalar subplan type, we generate a scalar subplan
-		BuildScalarSubplans(pdrgpcrInner, pexprInner, pdrgdxlcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+		BuildScalarSubplans(pdrgpcrInner, pexprInner, dxl_colref_array, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 
 		// now translate the scalar - references to the inner child will be
 		// replaced by the subplan
@@ -2667,22 +2667,22 @@ CTranslatorExprToDXL::BuildSubplansForCorrelatedLOJ
 
 	GPOS_ASSERT
 		(
-		EdxlSubPlanTypeAny == edxlsubplantype ||
-		EdxlSubPlanTypeAll == edxlsubplantype ||
-		EdxlSubPlanTypeExists == edxlsubplantype ||
-		EdxlSubPlanTypeNotExists == edxlsubplantype
+		EdxlSubPlanTypeAny == dxl_subplan_type ||
+		EdxlSubPlanTypeAll == dxl_subplan_type ||
+		EdxlSubPlanTypeExists == dxl_subplan_type ||
+		EdxlSubPlanTypeNotExists == dxl_subplan_type
 		);
 
 	// for correlated left outer join with non-scalar subplan type,
 	// we need to generate quantified/exitential subplan
-	if (EdxlSubPlanTypeAny == edxlsubplantype || EdxlSubPlanTypeAll == edxlsubplantype)
+	if (EdxlSubPlanTypeAny == dxl_subplan_type || EdxlSubPlanTypeAll == dxl_subplan_type)
 	{
-		(void) PdxlnQuantifiedSubplan(pdrgpcrInner, pexprCorrelatedLOJ, pdrgdxlcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+		(void) PdxlnQuantifiedSubplan(pdrgpcrInner, pexprCorrelatedLOJ, dxl_colref_array, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 	}
 	else
 	{
-		GPOS_ASSERT(EdxlSubPlanTypeExists == edxlsubplantype || EdxlSubPlanTypeNotExists == edxlsubplantype);
-		(void) PdxlnExistentialSubplan(pdrgpcrInner, pexprCorrelatedLOJ, pdrgdxlcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+		GPOS_ASSERT(EdxlSubPlanTypeExists == dxl_subplan_type || EdxlSubPlanTypeNotExists == dxl_subplan_type);
+		(void) PdxlnExistentialSubplan(pdrgpcrInner, pexprCorrelatedLOJ, dxl_colref_array, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 	}
 
 	CExpression *pexprTrue = CUtils::PexprScalarConstBool(m_memory_pool, true /*value*/, false /*is_null*/);
@@ -2703,7 +2703,7 @@ void
 CTranslatorExprToDXL::BuildSubplans
 	(
 	CExpression *pexprCorrelatedNLJoin,
-	DrgPdxlcr *pdrgdxlcr,
+	DrgPdxlcr *dxl_colref_array,
 	CDXLNode **ppdxlnScalar, // output: scalar condition after replacing inner child reference with subplan
 	DrgPds *pdrgpdsBaseTables, 
 	ULONG *pulNonGatherMotions,
@@ -2724,11 +2724,11 @@ CTranslatorExprToDXL::BuildSubplans
 	switch (eopid)
 	{
 		case COperator::EopPhysicalCorrelatedLeftOuterNLJoin:
-			BuildSubplansForCorrelatedLOJ(pexprCorrelatedNLJoin, pdrgdxlcr, ppdxlnScalar, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+			BuildSubplansForCorrelatedLOJ(pexprCorrelatedNLJoin, dxl_colref_array, ppdxlnScalar, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 			return;
 
 		case COperator::EopPhysicalCorrelatedInnerNLJoin:
-			BuildScalarSubplans(pdrgpcrInner, pexprInner, pdrgdxlcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+			BuildScalarSubplans(pdrgpcrInner, pexprInner, dxl_colref_array, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 
 			// now translate the scalar - references to the inner child will be
 			// replaced by the subplan
@@ -2737,14 +2737,14 @@ CTranslatorExprToDXL::BuildSubplans
 
 		case COperator::EopPhysicalCorrelatedInLeftSemiNLJoin:
 		case COperator::EopPhysicalCorrelatedNotInLeftAntiSemiNLJoin:
-			pdxlnSubPlan = PdxlnQuantifiedSubplan(pdrgpcrInner, pexprCorrelatedNLJoin, pdrgdxlcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+			pdxlnSubPlan = PdxlnQuantifiedSubplan(pdrgpcrInner, pexprCorrelatedNLJoin, dxl_colref_array, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 			pdxlnSubPlan->AddRef();
 			*ppdxlnScalar = pdxlnSubPlan;
 			return;
 
 		case COperator::EopPhysicalCorrelatedLeftSemiNLJoin:
 		case COperator::EopPhysicalCorrelatedLeftAntiSemiNLJoin:
-			pdxlnSubPlan = PdxlnExistentialSubplan(pdrgpcrInner, pexprCorrelatedNLJoin, pdrgdxlcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+			pdxlnSubPlan = PdxlnExistentialSubplan(pdrgpcrInner, pexprCorrelatedNLJoin, dxl_colref_array, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 			pdxlnSubPlan->AddRef();
 			*ppdxlnScalar = pdxlnSubPlan;
 			return;
@@ -2795,7 +2795,7 @@ CTranslatorExprToDXL::PdxlnRestrictResult
 		{
 			CDXLNode *child_dxlnode = (*pdxlnProjListOld)[ul];
 			CDXLScalarProjElem *pdxlPrjElem = CDXLScalarProjElem::Cast(child_dxlnode->GetOperator());
-			if (pdxlPrjElem->UlId() == pcr->UlId())
+			if (pdxlPrjElem->Id() == pcr->Id())
 			{
 				// create a new project element that simply points to required column,
 				// we cannot re-use child_dxlnode here since it may have a deep expression with columns inaccessible
@@ -2832,7 +2832,7 @@ CTranslatorExprToDXL::PdxlnQuantifiedSubplan
 	(
 	DrgPcr *pdrgpcrInner,
 	CExpression *pexprCorrelatedNLJoin,
-	DrgPdxlcr *pdrgdxlcr,
+	DrgPdxlcr *dxl_colref_array,
 	DrgPds *pdrgpdsBaseTables, 
 	ULONG *pulNonGatherMotions,
 	BOOL *pfDML
@@ -2845,8 +2845,8 @@ CTranslatorExprToDXL::PdxlnQuantifiedSubplan
 			COperator::EopPhysicalCorrelatedNotInLeftAntiSemiNLJoin == eopid ||
 			fCorrelatedLOJ);
 
-	EdxlSubPlanType edxlsubplantype = Edxlsubplantype(pexprCorrelatedNLJoin);
-	GPOS_ASSERT_IMP(fCorrelatedLOJ, EdxlSubPlanTypeAny == edxlsubplantype || EdxlSubPlanTypeAll == edxlsubplantype);
+	EdxlSubPlanType dxl_subplan_type = Edxlsubplantype(pexprCorrelatedNLJoin);
+	GPOS_ASSERT_IMP(fCorrelatedLOJ, EdxlSubPlanTypeAny == dxl_subplan_type || EdxlSubPlanTypeAll == dxl_subplan_type);
 
 	CExpression *pexprInner = (*pexprCorrelatedNLJoin)[1];
 	CExpression *pexprScalar = (*pexprCorrelatedNLJoin)[2];
@@ -2880,14 +2880,14 @@ CTranslatorExprToDXL::PdxlnQuantifiedSubplan
 	}
 
 	// translate test expression
-	CDXLNode *pdxlnTestExpr = PdxlnScalar(pexprScalar);
+	CDXLNode *dxlnode_test_expr = PdxlnScalar(pexprScalar);
 
 	const IMDTypeBool *pmdtypebool = m_pmda->PtMDType<IMDTypeBool>();
 	IMDId *pmdid = pmdtypebool->MDId();
 	pmdid->AddRef();
 
 	// construct a subplan node, with the inner child under it
-	CDXLNode *pdxlnSubPlan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, pdrgdxlcr, edxlsubplantype, pdxlnTestExpr));
+	CDXLNode *pdxlnSubPlan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, dxl_colref_array, dxl_subplan_type, dxlnode_test_expr));
 	pdxlnSubPlan->AddChild(pdxlnInner);
 
 	// add to hashmap
@@ -3046,7 +3046,7 @@ CTranslatorExprToDXL::PdxlnExistentialSubplan
 	(
 	DrgPcr *pdrgpcrInner,
 	CExpression *pexprCorrelatedNLJoin,
-	DrgPdxlcr *pdrgdxlcr,
+	DrgPdxlcr *dxl_colref_array,
 	DrgPds *pdrgpdsBaseTables, 
 	ULONG *pulNonGatherMotions,
 	BOOL *pfDML
@@ -3060,8 +3060,8 @@ CTranslatorExprToDXL::PdxlnExistentialSubplan
 			COperator::EopPhysicalCorrelatedLeftAntiSemiNLJoin == eopid ||
 			fCorrelatedLOJ);
 
-	EdxlSubPlanType edxlsubplantype = Edxlsubplantype(pexprCorrelatedNLJoin);
-	GPOS_ASSERT_IMP(fCorrelatedLOJ, EdxlSubPlanTypeExists == edxlsubplantype || EdxlSubPlanTypeNotExists == edxlsubplantype);
+	EdxlSubPlanType dxl_subplan_type = Edxlsubplantype(pexprCorrelatedNLJoin);
+	GPOS_ASSERT_IMP(fCorrelatedLOJ, EdxlSubPlanTypeExists == dxl_subplan_type || EdxlSubPlanTypeNotExists == dxl_subplan_type);
 
 	// translate inner child
 	CExpression *pexprInner = (*pexprCorrelatedNLJoin)[1];
@@ -3091,7 +3091,7 @@ CTranslatorExprToDXL::PdxlnExistentialSubplan
 
 	// construct a subplan node, with the inner child under it
 	CDXLNode *pdxlnSubPlan =
-		GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, pdrgdxlcr, edxlsubplantype, NULL /*pdxlnTestExpr*/));
+		GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, dxl_colref_array, dxl_subplan_type, NULL /*dxlnode_test_expr*/));
 	pdxlnSubPlan->AddChild(pdxlnInner);
 
 	// add to hashmap
@@ -3118,7 +3118,7 @@ CTranslatorExprToDXL::BuildScalarSubplans
 	(
 	DrgPcr *pdrgpcrInner,
 	CExpression *pexprInner,
-	DrgPdxlcr *pdrgdxlcr,
+	DrgPdxlcr *dxl_colref_array,
 	DrgPds *pdrgpdsBaseTables, 
 	ULONG *pulNonGatherMotions,
 	BOOL *pfDML
@@ -3146,10 +3146,10 @@ CTranslatorExprToDXL::BuildScalarSubplans
 		if (0 < ul)
 		{
 			// if there is more than one subplan, we need to add-ref passed arrays
-			pdrgdxlcr->AddRef();
+			dxl_colref_array->AddRef();
 		}
 		const CColRef *pcrInner = (*pdrgpcrInner)[ul];
-		BuildDxlnSubPlan(pdxlnInner, pcrInner, pdrgdxlcr);
+		BuildDxlnSubPlan(pdxlnInner, pcrInner, dxl_colref_array);
 	}
 
 	pdrgpdxlnInner->Release();
@@ -3208,7 +3208,7 @@ CTranslatorExprToDXL::PdxlnCorrelatedNLJoin
 	CExpression *pexprScalar = (*pexpr)[2];
 
 	// outer references in the inner child
-	DrgPdxlcr *pdrgdxlcr = GPOS_NEW(m_memory_pool) DrgPdxlcr(m_memory_pool);
+	DrgPdxlcr *dxl_colref_array = GPOS_NEW(m_memory_pool) DrgPdxlcr(m_memory_pool);
 
 	CColRefSet *pcrsOuter = PcrsOuterRefsForCorrelatedNLJoin(pexpr);
 	CColRefSetIter crsi(*pcrsOuter);
@@ -3218,8 +3218,8 @@ CTranslatorExprToDXL::PdxlnCorrelatedNLJoin
 		CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
 		IMDId *pmdid = pcr->Pmdtype()->MDId();
 		pmdid->AddRef();
-		CDXLColRef *dxl_colref = GPOS_NEW(m_memory_pool) CDXLColRef(m_memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
-		pdrgdxlcr->Append(dxl_colref);
+		CDXLColRef *dxl_colref = GPOS_NEW(m_memory_pool) CDXLColRef(m_memory_pool, mdname, pcr->Id(), pmdid, pcr->TypeModifier());
+		dxl_colref_array->Append(dxl_colref);
 	}
 
 	COperator::EOperatorId eopid = pexpr->Pop()->Eopid();
@@ -3249,11 +3249,11 @@ CTranslatorExprToDXL::PdxlnCorrelatedNLJoin
 
 		// if the filter predicate is a constant TRUE, create a subplan that returns
 		// Boolean from the inner child, and use that as the scalar condition
-		pdxlnCond = PdxlnBooleanScalarWithSubPlan(pdxlnInnerChild, pdrgdxlcr);
+		pdxlnCond = PdxlnBooleanScalarWithSubPlan(pdxlnInnerChild, dxl_colref_array);
 	}
 	else
 	{
-		BuildSubplans(pexpr, pdrgdxlcr, &pdxlnCond, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
+		BuildSubplans(pexpr, dxl_colref_array, &pdxlnCond, pdrgpdsBaseTables, pulNonGatherMotions, pfDML);
 	}
 
 	// extract dxl properties from correlated join
@@ -3304,7 +3304,7 @@ CTranslatorExprToDXL::BuildDxlnSubPlan
 	(
 	CDXLNode *pdxlnRelChild,
 	const CColRef *pcr,
-	DrgPdxlcr *pdrgdxlcr
+	DrgPdxlcr *dxl_colref_array
 	)
 {
 	GPOS_ASSERT(NULL != pcr);
@@ -3312,7 +3312,7 @@ CTranslatorExprToDXL::BuildDxlnSubPlan
 	pmdid->AddRef();
 
 	// construct a subplan node, with the inner child under it
-	CDXLNode *pdxlnSubPlan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, pdrgdxlcr, EdxlSubPlanTypeScalar, NULL));
+	CDXLNode *pdxlnSubPlan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, dxl_colref_array, EdxlSubPlanTypeScalar, NULL));
 	pdxlnSubPlan->AddChild(pdxlnRelChild);
 
 	// add to hashmap
@@ -3338,7 +3338,7 @@ CDXLNode *
 CTranslatorExprToDXL::PdxlnBooleanScalarWithSubPlan
 	(
 	CDXLNode *pdxlnRelChild,
-	DrgPdxlcr *pdrgdxlcr
+	DrgPdxlcr *dxl_colref_array
 	)
 {
 	// create a new project element (const:true), and replace the first child with it
@@ -3366,7 +3366,7 @@ CTranslatorExprToDXL::PdxlnBooleanScalarWithSubPlan
 
 	// construct a subplan node, with the Result node under it
 	pmdid->AddRef();
-	CDXLNode *pdxlnSubPlan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, pdrgdxlcr, EdxlSubPlanTypeScalar, NULL));
+	CDXLNode *pdxlnSubPlan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarSubPlan(m_memory_pool, pmdid, dxl_colref_array, EdxlSubPlanTypeScalar, NULL));
 	pdxlnSubPlan->AddChild(pdxlnResult);
 
 	return pdxlnSubPlan;
@@ -3986,7 +3986,7 @@ CTranslatorExprToDXL::PdxlnMotion
 						CPhysicalMotionRoutedDistribute::PopConvert(pexprMotion->Pop());
 				CColRef *pcrSegmentId = dynamic_cast<const CDistributionSpecRouted* >(popMotion->Pds())->Pcr();
 
-				pdxlopMotion = GPOS_NEW(m_memory_pool) CDXLPhysicalRoutedDistributeMotion(m_memory_pool, pcrSegmentId->UlId());
+				pdxlopMotion = GPOS_NEW(m_memory_pool) CDXLPhysicalRoutedDistributeMotion(m_memory_pool, pcrSegmentId->Id());
 				break;
 			}
 		default:
@@ -5283,12 +5283,12 @@ CTranslatorExprToDXL::PdxlnDML
 
 	CColRef *pcrAction = popDML->PcrAction();
 	GPOS_ASSERT(NULL != pcrAction);
-	action_colid = pcrAction->UlId();
+	action_colid = pcrAction->Id();
 
 	CColRef *pcrOid = popDML->PcrTableOid();
 	if (pcrOid != NULL)
 	{
-		oid_colid = pcrOid->UlId();
+		oid_colid = pcrOid->Id();
 	}
 
 	CColRef *pcrCtid = popDML->PcrCtid();
@@ -5296,8 +5296,8 @@ CTranslatorExprToDXL::PdxlnDML
 	if (NULL != pcrCtid)
 	{
 		GPOS_ASSERT(NULL != pcrSegmentId);
-		ctid_colid = pcrCtid->UlId();
-		segid_colid = pcrSegmentId->UlId();
+		ctid_colid = pcrCtid->Id();
+		segid_colid = pcrSegmentId->Id();
 	}
 
 	CColRef *pcrTupleOid = popDML->PcrTupleOid();
@@ -5306,7 +5306,7 @@ CTranslatorExprToDXL::PdxlnDML
 	if (NULL != pcrTupleOid)
 	{
 		preserve_oids = true;
-		tuple_oid = pcrTupleOid->UlId();
+		tuple_oid = pcrTupleOid->Id();
 	}
 
 	CDXLNode *child_dxlnode = CreateDXLNode(pexprChild, pdrgpcrSource, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, false /*fRemap*/, false /*fRoot*/);
@@ -5407,7 +5407,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 											(
 											m_memory_pool,
 											pmdnameCol,
-											pcr->UlId(),
+											pcr->Id(),
 											pcd->AttrNum(),
 											pmdidColType,
 											pcr->TypeModifier(),
@@ -5584,22 +5584,22 @@ CTranslatorExprToDXL::PdxlnSplit
 
 	CColRef *pcrAction = popSplit->PcrAction();
 	GPOS_ASSERT(NULL != pcrAction);
-	action_colid = pcrAction->UlId();
+	action_colid = pcrAction->Id();
 
 	CColRef *pcrCtid = popSplit->PcrCtid();
 	GPOS_ASSERT(NULL != pcrCtid);
-	ctid_colid = pcrCtid->UlId();
+	ctid_colid = pcrCtid->Id();
 
 	CColRef *pcrSegmentId = popSplit->PcrSegmentId();
 	GPOS_ASSERT(NULL != pcrSegmentId);
-	segid_colid = pcrSegmentId->UlId();
+	segid_colid = pcrSegmentId->Id();
 
 	CColRef *pcrTupleOid = popSplit->PcrTupleOid();
 	BOOL preserve_oids = false;
 	if (NULL != pcrTupleOid)
 	{
 		preserve_oids = true;
-		tuple_oid = pcrTupleOid->UlId();
+		tuple_oid = pcrTupleOid->Id();
 	}
 
 	DrgPcr *pdrgpcrDelete = popSplit->PdrgpcrDelete();
@@ -6743,7 +6743,7 @@ CTranslatorExprToDXL::PdxlnWindow
 		{
 			CExpression *pexpr = (*pdrgpexprPartCol)[ul];
 			CScalarIdent *popScId = CScalarIdent::PopConvert(pexpr->Pop());
-			pdrgpulColIds->Append(GPOS_NEW(m_memory_pool) ULONG(popScId->Pcr()->UlId()));
+			pdrgpulColIds->Append(GPOS_NEW(m_memory_pool) ULONG(popScId->Pcr()->Id()));
 		}
 	}
 
@@ -7206,7 +7206,7 @@ CTranslatorExprToDXL::MakeDXLTableDescr
 											(
 											m_memory_pool,
 											pmdnameCol,
-											pcr->UlId(),
+											pcr->Id(),
 											pcd->AttrNum(),
 											pmdidColType,
 											pcr->TypeModifier(),
@@ -7387,7 +7387,7 @@ CTranslatorExprToDXL::PdxlnProjList
 		const CScalarProjectElement *popScPrEl =
 				CScalarProjectElement::PopConvert(pexprProjElem->Pop());
 
-		ULONG *pulKey = GPOS_NEW(m_memory_pool) ULONG(popScPrEl->Pcr()->UlId());
+		ULONG *pulKey = GPOS_NEW(m_memory_pool) ULONG(popScPrEl->Pcr()->Id());
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif // GPOS_DEBUG
@@ -7419,7 +7419,7 @@ CTranslatorExprToDXL::PdxlnProjList
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrCopy)[ul];
-		ULONG ulKey = pcr->UlId();
+		ULONG ulKey = pcr->Id();
 		CDXLNode *pdxlnProjElem = phmComputedColumns->Find(&ulKey);
 
 		if (NULL == pdxlnProjElem)
@@ -7585,7 +7585,7 @@ CTranslatorExprToDXL::PdxlnProjElem
 	GPOS_ASSERT(NULL != pcr);
 	
 	CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
-	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->UlId(), mdname));
+	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->Id(), mdname));
 	
 	// attach scalar id expression to proj elem
 	pdxlnPrEl->AddChild(pdxlnValue);
@@ -7614,7 +7614,7 @@ CTranslatorExprToDXL::PdxlnProjElem
 	CColRef *pcr = popScPrEl->Pcr();
 	
 	CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
-	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->UlId(), mdname));
+	CDXLNode *pdxlnPrEl = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarProjElem(m_memory_pool, pcr->Id(), mdname));
 	
 	CExpression *pexprChild = (*pexprProjElem)[0];
 	CDXLNode *child_dxlnode = PdxlnScalar(pexprChild);
@@ -7669,7 +7669,7 @@ CTranslatorExprToDXL::GetSortColListDXL
 				GPOS_NEW(m_memory_pool) CDXLScalarSortCol
 							(
 							m_memory_pool, 
-							pcr->UlId(), 
+							pcr->Id(), 
 							pmdidSortOp,
 							pstrSortOpName,
 							fSortNullsFirst

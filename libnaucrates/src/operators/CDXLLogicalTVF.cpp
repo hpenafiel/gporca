@@ -138,8 +138,8 @@ CDXLLogicalTVF::IsColDefined
 	const ULONG ulSize = Arity();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = MakeDXLColumnDescr(ulDescr)->Id();
-		if (ulId == col_id)
+		ULONG id = MakeDXLColumnDescr(ulDescr)->Id();
+		if (id == col_id)
 		{
 			return true;
 		}

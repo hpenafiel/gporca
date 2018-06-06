@@ -76,7 +76,7 @@ namespace gpopt
 				private:
 
 					// cte id
-					ULONG m_ulId;
+					ULONG m_id;
 
 					// cte type
 					CCTEMap::ECteType m_ect;
@@ -92,12 +92,12 @@ namespace gpopt
 					// ctor
 					CCTEMapEntry
 						(
-						ULONG ulId,
+						ULONG id,
 						CCTEMap::ECteType ect,
 						CDrvdPropPlan *pdpplan
 						)
 						:
-						m_ulId(ulId),
+						m_id(id),
 						m_ect(ect),
 						m_pdpplan(pdpplan)
 					{
@@ -113,9 +113,9 @@ namespace gpopt
 					}
 
 					// cte id
-					ULONG UlId() const
+					ULONG Id() const
 					{
-						return m_ulId;
+						return m_id;
 					}
 
 					// cte type
@@ -133,7 +133,7 @@ namespace gpopt
 					// hash function
 					ULONG HashValue() const
 					{
-						return gpos::CombineHashes(gpos::HashValue<ULONG>(&m_ulId), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
+						return gpos::CombineHashes(gpos::HashValue<ULONG>(&m_id), gpos::HashValue<CCTEMap::ECteType>(&m_ect));
 					}
 
 					// print function
@@ -144,7 +144,7 @@ namespace gpopt
 						)
 						const
 					{
-						os << m_ulId << (EctProducer == m_ect ? "p" : "c");
+						os << m_id << (EctProducer == m_ect ? "p" : "c");
 						if (NULL != m_pdpplan)
 						{
 							os << "(" << *m_pdpplan << ")";
@@ -190,7 +190,7 @@ namespace gpopt
 			~CCTEMap();
 
 			// return the CTE type associated with the given ID in the map
-			ECteType Ect(const ULONG ulId) const;
+			ECteType Ect(const ULONG id) const;
 
 			// inserting a new map entry, no entry with the same id can already exist
 			void Insert(ULONG ulCteId, ECteType ect, CDrvdPropPlan *pdpplan);

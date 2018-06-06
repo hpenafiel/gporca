@@ -156,7 +156,7 @@ CSyncListTest::EresUnittest_Concurrency()
 
 	// pool of elements to add to the list
 	CSyncPool<SElem> spe(memory_pool, GPOS_SLIST_STRESS_TASKS * GPOS_SLIST_STRESS_ITER);
-	spe.Init(GPOS_OFFSET(SElem, m_ulId));
+	spe.Init(GPOS_OFFSET(SElem, m_id));
 
 	SArg arg(&list, &spe, GPOS_SLIST_STRESS_TASKS);
 

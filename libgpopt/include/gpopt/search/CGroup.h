@@ -187,7 +187,7 @@ namespace gpopt
 			IMemoryPool *m_memory_pool;
 
 			// id is used when printing memo contents
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// true if group hold scalar expressions
 			BOOL m_fScalar;
@@ -281,7 +281,7 @@ namespace gpopt
 			// the following functions are only accessed through group proxy
 
 			// setter of group id
-			void SetId(ULONG ulId);
+			void SetId(ULONG id);
 
 			// setter of group state
 			void SetState(EState estNewState);
@@ -373,9 +373,9 @@ namespace gpopt
 			~CGroup();
 			
 			// id accessor
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 			
 			// group properties accessor

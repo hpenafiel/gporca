@@ -54,7 +54,7 @@ namespace gpopt
 				private:
 
 					// cte id
-					ULONG m_ulId;
+					ULONG m_id;
 
 					// cte type
 					CCTEMap::ECteType m_ect;
@@ -71,16 +71,16 @@ namespace gpopt
 				public:
 
 					// ctor
-					CCTEReqEntry(ULONG ulId, CCTEMap::ECteType ect, BOOL fRequired, CDrvdPropPlan *pdpplan);
+					CCTEReqEntry(ULONG id, CCTEMap::ECteType ect, BOOL fRequired, CDrvdPropPlan *pdpplan);
 
 					// dtor
 					virtual
 					~CCTEReqEntry();
 
 					// cte id
-					ULONG UlId() const
+					ULONG Id() const
 					{
-						return m_ulId;
+						return m_id;
 					}
 
 					// cte type
@@ -153,14 +153,14 @@ namespace gpopt
 			}
 
 			// return the CTE type associated with the given ID in the requirements
-			CCTEMap::ECteType Ect(const ULONG ulId) const;
+			CCTEMap::ECteType Ect(const ULONG id) const;
 
 			// insert a new entry, no entry with the same id can already exist
 			void Insert(ULONG ulCteId, CCTEMap::ECteType ect, BOOL fRequired, CDrvdPropPlan *pdpplan);
 
 			// insert a new consumer entry with the given id. The plan properties are
 			// taken from the given context
-			void InsertConsumer(ULONG ulId, DrgPdp *pdrgpdpCtxt);
+			void InsertConsumer(ULONG id, DrgPdp *pdrgpdpCtxt);
 
 			// check if two cte requirements are equal
 			BOOL Equals
@@ -177,7 +177,7 @@ namespace gpopt
 			BOOL FSubset(const CCTEReq *pcter) const;
 
 			// check if the given CTE is in the requirements
-			BOOL FContainsRequirement(const ULONG ulId, const CCTEMap::ECteType ect) const;
+			BOOL FContainsRequirement(const ULONG id, const CCTEMap::ECteType ect) const;
 
 			// hash function
 			ULONG HashValue() const;

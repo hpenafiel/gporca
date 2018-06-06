@@ -753,7 +753,7 @@ CStatistics::AddHistogramsWithRemap
 		const CColRef *pcrDest = hmiterulcr.Value();
 		GPOS_ASSERT_IMP(fMustExist, NULL != pcrDest);
 
-		ULONG ulColIdDest = pcrDest->UlId();
+		ULONG ulColIdDest = pcrDest->Id();
 
 		const CHistogram *phistSrc = phmulhistSrc->Find(&ulColIdSrc);
 		if (NULL != phistSrc)
@@ -786,7 +786,7 @@ CStatistics::AddWidthInfoWithRemap
 
 		if (NULL != pcrNew)
 		{
-			col_id = pcrNew->UlId();
+			col_id = pcrNew->Id();
 		}
 
 		if (NULL == phmuldoubleDest->Find(&col_id))
@@ -901,7 +901,7 @@ CStatistics::DNDV
 	const CColRef *pcr
 	)
 {
-	ULONG col_id = pcr->UlId();
+	ULONG col_id = pcr->Id();
 	CHistogram *phistCol = m_phmulhist->Find(&col_id);
 	if (NULL != phistCol)
 	{
@@ -917,7 +917,7 @@ CStatistics::DNDV
 		CAutoMemoryPool amp;
 		CAutoTrace at(amp.Pmp());
 
-		at.Os() << "\nREQUESTED NDVs FOR COL (" << pcr->UlId()  << ") WITH A MISSING HISTOGRAM";
+		at.Os() << "\nREQUESTED NDVs FOR COL (" << pcr->Id()  << ") WITH A MISSING HISTOGRAM";
 	}
 #endif //GPOS_DEBUG
 

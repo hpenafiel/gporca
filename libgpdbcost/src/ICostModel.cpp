@@ -61,7 +61,7 @@ ICostModel::SetParams
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
 		ICostModelParams::SCostParam *pcp = (*pdrgpcp)[ul];
-		GetCostModelParams()->SetParam(pcp->UlId(), pcp->Get(), pcp->GetLowerBoundVal(), pcp->GetUpperBoundVal());
+		GetCostModelParams()->SetParam(pcp->Id(), pcp->Get(), pcp->GetLowerBoundVal(), pcp->GetUpperBoundVal());
 	}
 }
 

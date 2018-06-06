@@ -121,7 +121,7 @@ CLogicalProject::PdrgpcrsEquivClassFromScIdent
 
 	CScalarIdent *popScIdent = CScalarIdent::PopConvert(pexprScalar->Pop());
 	const CColRef *pcrScIdent =  popScIdent->Pcr();
-	GPOS_ASSERT(pcrPrEl->UlId() != pcrScIdent->UlId());
+	GPOS_ASSERT(pcrPrEl->Id() != pcrScIdent->Id());
 	GPOS_ASSERT(pcrPrEl->Pmdtype()->MDId()->Equals(pcrScIdent->Pmdtype()->MDId()));
 
 	if (!CUtils::FConstrainableType(pcrPrEl->Pmdtype()->MDId()))
@@ -389,7 +389,7 @@ CLogicalProject::PstatsDerive
 #ifdef GPOS_DEBUG
 				BOOL fInserted =
 #endif
-						phmuldatum->Insert(GPOS_NEW(memory_pool) ULONG(pcr->UlId()), pdatum);
+						phmuldatum->Insert(GPOS_NEW(memory_pool) ULONG(pcr->Id()), pdatum);
 				GPOS_ASSERT(fInserted);
 			}
 		}

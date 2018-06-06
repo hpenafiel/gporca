@@ -87,10 +87,10 @@ CXformInlineCTEConsumerUnderSelect::Transform
 	CExpression *pexprScalar = (*pexpr)[1];
 
 	CLogicalCTEConsumer *popConsumer = CLogicalCTEConsumer::PopConvert(pexprConsumer->Pop());
-	ULONG ulId = popConsumer->UlCTEId();
+	ULONG id = popConsumer->UlCTEId();
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
 	// only continue if inlining is enabled or if this CTE has only 1 consumer
-	if (!pcteinfo->FEnableInlining() && 1 < pcteinfo->UlConsumers(ulId))
+	if (!pcteinfo->FEnableInlining() && 1 < pcteinfo->UlConsumers(id))
 	{
 		return;
 	}
@@ -98,7 +98,7 @@ CXformInlineCTEConsumerUnderSelect::Transform
 	// don't push down selects with a const true or false, in case we end up
 	// with a select(1) (coming from the anchor) right on top of the consumer
 	if (CUtils::FScalarConstTrue(pexprScalar) || CUtils::FScalarConstFalse(pexprScalar) ||
-		!CXformUtils::FInlinableCTE(ulId))
+		!CXformUtils::FInlinableCTE(id))
 	{
 		return;
 	}

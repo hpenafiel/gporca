@@ -283,7 +283,7 @@ CLogicalGbAggDeduplicate::PstatsDerive
 	for (ULONG ul = 0; ul < ulKeys; ul++)
 	{
 		CColRef *pcr = (*m_pdrgpcrKeys)[ul];
-		pbsKeys->ExchangeSet(pcr->UlId());
+		pbsKeys->ExchangeSet(pcr->Id());
 	}
 
 	IStatistics *pstats = CLogicalGbAgg::PstatsDerive(memory_pool, pstatsChild, Pdrgpcr(), pdrgpulComputedCols, pbsKeys);

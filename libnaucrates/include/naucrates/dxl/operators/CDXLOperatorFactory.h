@@ -292,9 +292,9 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				IMDId *pmdid,
-				DrgPdxlcr *pdrgdxlcr,
-				EdxlSubPlanType edxlsubplantype,
-				CDXLNode *pdxlnTestExpr
+				DrgPdxlcr *dxl_colref_array,
+				EdxlSubPlanType dxl_subplan_type,
+				CDXLNode *dxlnode_test_expr
 				);
 
 			// create a NullTest

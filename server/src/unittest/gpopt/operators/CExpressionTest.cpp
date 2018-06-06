@@ -205,7 +205,7 @@ CExpressionTest::EresUnittest_SimpleOps()
 		CColRef *pcrNew = COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pcrOld);
 		HMUlCr *phmulcr = GPOS_NEW(memory_pool) HMUlCr(memory_pool);
 
-		BOOL fResult = phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcrOld->UlId()), pcrNew);
+		BOOL fResult = phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcrOld->Id()), pcrNew);
 		GPOS_ASSERT(fResult);
 		CExpression *pexprCopy = pexpr->PexprCopyWithRemappedColumns(memory_pool, phmulcr, true /*fMustExist*/);
 		phmulcr->Release();

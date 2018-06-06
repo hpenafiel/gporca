@@ -31,7 +31,7 @@ namespace gpopt
 		private:
 
 			// cte identifier
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// private copy ctor
 			CLogicalCTEAnchor(const CLogicalCTEAnchor &);
@@ -43,7 +43,7 @@ namespace gpopt
 			CLogicalCTEAnchor(IMemoryPool *memory_pool);
 
 			// ctor
-			CLogicalCTEAnchor(IMemoryPool *memory_pool, ULONG ulId);
+			CLogicalCTEAnchor(IMemoryPool *memory_pool, ULONG id);
 
 			// dtor
 			virtual
@@ -64,9 +64,9 @@ namespace gpopt
 			}
 
 			// cte identifier
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 
 			// operator specific hash function

@@ -176,7 +176,7 @@ namespace gpopt
 
 #ifdef GPOS_DEBUG
 			// get group by id
-			CGroup *Pgroup(ULONG ulId);
+			CGroup *Pgroup(ULONG id);
 
 			// debug print for interactive debugging sessions only
 			void DbgPrint();

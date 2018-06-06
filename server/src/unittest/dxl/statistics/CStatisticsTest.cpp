@@ -368,7 +368,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 			PtabdescTwoColumnSource(memory_pool, CName(&strRelAlias), pmdtypeint4, strColA, strColB);
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool, ptabdesc, &strRelAlias);
 
-	if (NULL == pcf->PcrLookup(1 /*ulId*/))
+	if (NULL == pcf->PcrLookup(1 /*id*/))
 	{
 		// create column references for grouping columns
 		(void) pcf->PcrCreate
@@ -377,13 +377,13 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 				IDefaultTypeModifier,
 				0 /* iAttno */,
 				false /*FNullable*/,
-				1 /* ulId */,
+				1 /* id */,
 				CName(&strColA),
 				pexprGet->Pop()->UlOpId()
 				);
 	}
 
-	if (NULL == pcf->PcrLookup(2 /*ulId*/))
+	if (NULL == pcf->PcrLookup(2 /*id*/))
 	{
 		(void) pcf->PcrCreate
 				(
@@ -391,7 +391,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 				IDefaultTypeModifier,
 				1 /* iAttno */,
 				false /*FNullable*/,
-				2 /* ulId */,
+				2 /* id */,
 				CName(&strColB),
 				pexprGet->Pop()->UlOpId()
 				);

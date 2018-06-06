@@ -318,8 +318,8 @@ COrderSpec::PosCopyWithRemappedColumns
 		pmdid->AddRef();
 
 		const CColRef *pcr = poe->Pcr();
-		ULONG ulId = pcr->UlId();
-		CColRef *pcrMapped = phmulcr->Find(&ulId);
+		ULONG id = pcr->Id();
+		CColRef *pcrMapped = phmulcr->Find(&id);
 		if (NULL == pcrMapped)
 		{
 			if (fMustExist)
@@ -331,7 +331,7 @@ COrderSpec::PosCopyWithRemappedColumns
 #ifdef GPOS_DEBUG
 				BOOL fResult =
 #endif // GPOS_DEBUG
-				phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(ulId), pcrMapped);
+				phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(id), pcrMapped);
 				GPOS_ASSERT(fResult);
 			}
 			else

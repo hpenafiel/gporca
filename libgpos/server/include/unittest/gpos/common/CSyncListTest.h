@@ -36,7 +36,7 @@ namespace gpos
 			struct SElem
 			{
 				// object id
-				ULONG m_ulId;
+				ULONG m_id;
 
 				// generic link for list
 				SLink m_link;
@@ -44,7 +44,7 @@ namespace gpos
 				// ctor
 				SElem()
 					:
-					m_ulId(0)
+					m_id(0)
 				{}
 			};
 

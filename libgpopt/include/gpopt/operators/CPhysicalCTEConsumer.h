@@ -29,7 +29,7 @@ namespace gpopt
 		private:
 
 			// cte identifier
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// cte columns
 			DrgPcr *m_pdrgpcr;
@@ -43,7 +43,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CPhysicalCTEConsumer(IMemoryPool *memory_pool, ULONG ulId, DrgPcr *pdrgpcr, HMUlCr *phmulcr);
+			CPhysicalCTEConsumer(IMemoryPool *memory_pool, ULONG id, DrgPcr *pdrgpcr, HMUlCr *phmulcr);
 
 			// dtor
 			virtual
@@ -65,7 +65,7 @@ namespace gpopt
 			// cte identifier
 			ULONG UlCTEId() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 
 			// cte columns

@@ -21,7 +21,7 @@ namespace gpdxl
 		private:
 
 			// partitioning level
-			ULONG m_ulLevel;
+			ULONG m_partitioning_level;
 
 			// Null Test type (true for 'is null', false for 'is not null')
 			BOOL m_is_null;
@@ -31,7 +31,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLScalarPartListNullTest(IMemoryPool *memory_pool, ULONG ulLevel, BOOL fLower);
+			CDXLScalarPartListNullTest(IMemoryPool *memory_pool, ULONG partitioning_level, BOOL fLower);
 
 			// operator type
 			virtual

@@ -29,13 +29,13 @@ using namespace gpdxl;
 CDXLScalarOpList::CDXLScalarOpList
 	(
 	IMemoryPool *memory_pool,
-	EdxlOpListType edxloplisttype
+	EdxlOpListType dxl_op_list_type
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_edxloplisttype(edxloplisttype)
+	m_dxl_op_list_type(dxl_op_list_type)
 {
-	GPOS_ASSERT(EdxloplistSentinel > edxloplisttype);
+	GPOS_ASSERT(EdxloplistSentinel > dxl_op_list_type);
 }
 
 //---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ const CWStringConst *
 CDXLScalarOpList::GetOpNameStr() const
 {
 	Edxltoken edxlt = EdxltokenSentinel;
-	switch (m_edxloplisttype)
+	switch (m_dxl_op_list_type)
 	{
 		case EdxloplistEqFilterList:
 			edxlt = EdxltokenPartLevelEqFilterList;

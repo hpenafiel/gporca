@@ -611,10 +611,10 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestRange
 		CDXLNode *pdxlnScalar = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl));
 		// TODO: what if part key type is varchar, the value type is text?
 		const IMDType *pmdtype = md_accessor->Pmdtype(pmdidPartKeyType);
-		IMDId *pmdidResult = pmdtype->PmdidTypeArray();
-		pmdidResult->AddRef();
+		IMDId *result_type_mdid = pmdtype->PmdidTypeArray();
+		result_type_mdid->AddRef();
 		pmdidPartKeyType->AddRef();
-		CDXLNode *pdxlnPartList = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartListValues(memory_pool, ulPartLevel, pmdidResult, pmdidPartKeyType));
+		CDXLNode *pdxlnPartList = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartListValues(memory_pool, ulPartLevel, result_type_mdid, pmdidPartKeyType));
 
 		IMDId *pmdidEq = pmdtype->PmdidCmp(IMDType::EcmptEq);
 		pmdidEq->AddRef();
@@ -1439,7 +1439,7 @@ CTranslatorExprToDXLUtils::PdxlnPrLPartitionSelector
 		}
 
 		CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pcrOid->Name().Pstr());
-		CDXLScalarProjElem *pdxlopPrEl = GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, pcrOid->UlId(), mdname);
+		CDXLScalarProjElem *pdxlopPrEl = GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, pcrOid->Id(), mdname);
 		CDXLNode *pdxlnPrEl = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlopPrEl);
 		CDXLNode *pdxlnPartOid = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartOid(memory_pool, ulPartLevels-1));
 		pdxlnPrEl->AddChild(pdxlnPartOid);
@@ -1502,10 +1502,10 @@ CTranslatorExprToDXLUtils::PdxlnProjElem
 	CDXLScalarProjElem *pdxlopPrElChild = dynamic_cast<CDXLScalarProjElem*>(pdxlnChildProjElem->GetOperator());
 
     // find the col ref corresponding to this element's id through column factory
-    CColRef *pcr = pcf->PcrLookup(pdxlopPrElChild->UlId());
+    CColRef *pcr = pcf->PcrLookup(pdxlopPrElChild->Id());
     if (NULL == pcr)
     {
-    	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiExpr2DXLAttributeNotFound, pdxlopPrElChild->UlId());
+    	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiExpr2DXLAttributeNotFound, pdxlopPrElChild->Id());
     }
     
     CDXLNode *pdxlnProjElemResult = PdxlnProjElem(memory_pool, phmcrdxln, pcr);
@@ -1532,12 +1532,12 @@ CTranslatorExprToDXLUtils::ReplaceSubplan
 {
 	GPOS_ASSERT(NULL != phmcrdxlnSubplans);
 	GPOS_ASSERT(NULL != pcr);
-	GPOS_ASSERT(pdxlopPrEl->UlId() == pcr->UlId());
+	GPOS_ASSERT(pdxlopPrEl->Id() == pcr->Id());
 
 	IMDId *mdid_type = pcr->Pmdtype()->MDId();
 	mdid_type->AddRef();
-	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pdxlopPrEl->PmdnameAlias()->GetMDName());
-	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pdxlopPrEl->UlId(), mdid_type, pcr->TypeModifier());
+	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pdxlopPrEl->GetMdNameAlias()->GetMDName());
+	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pdxlopPrEl->Id(), mdid_type, pcr->TypeModifier());
 	CDXLScalarIdent *pdxlnScId = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, dxl_colref);
 	CDXLNode *dxlnode = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlnScId);
 #ifdef GPOS_DEBUG
@@ -1574,7 +1574,7 @@ CTranslatorExprToDXLUtils::PdxlnProjElem
 	
 	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pcr->Name().Pstr());
 	
-	CDXLScalarProjElem *pdxlopPrEl = GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, pcr->UlId(), mdname);
+	CDXLScalarProjElem *pdxlopPrEl = GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, pcr->Id(), mdname);
 	CDXLNode *pdxlnPrEl = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlopPrEl);
 	
 	// create a scalar identifier for the proj element expression
@@ -1638,7 +1638,7 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 	IMDId *pmdid = pcr->Pmdtype()->MDId();
 	pmdid->AddRef();
 
-	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
+	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pcr->Id(), pmdid, pcr->TypeModifier());
 	
 	CDXLScalarIdent *dxl_op = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, dxl_colref);
 	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, dxl_op);
@@ -1707,7 +1707,7 @@ CTranslatorExprToDXLUtils::FProjectListMatch
 		CDXLNode *pdxlnPrEl = (*pdxlnPrL)[ul];
 		CDXLScalarProjElem *pdxlopPrEl = CDXLScalarProjElem::Cast(pdxlnPrEl->GetOperator());
 
-		if (pcr->UlId() != pdxlopPrEl->UlId())
+		if (pcr->Id() != pdxlopPrEl->Id())
 		{
 			return false;
 		}

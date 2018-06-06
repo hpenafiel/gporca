@@ -2441,7 +2441,7 @@ CUtils::PexprScalarProjListConst
 #ifdef GPOS_DEBUG
 			BOOL fInserted =
 #endif
-			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcr->UlId()), pcrNew);
+			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcr->Id()), pcrNew);
 			GPOS_ASSERT(fInserted);
 		}
 
@@ -3605,7 +3605,7 @@ CUtils::Pdrgpul
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		ULONG *pul = GPOS_NEW(memory_pool) ULONG(pcr->UlId());
+		ULONG *pul = GPOS_NEW(memory_pool) ULONG(pcr->Id());
 		pdrgpul->Append(pul);
 	}
 
@@ -3691,8 +3691,8 @@ CUtils::PcrRemap
 	GPOS_ASSERT(NULL != pcr);
 	GPOS_ASSERT(NULL != phmulcr);
 
-	ULONG ulId = pcr->UlId();
-	CColRef *pcrMapped = phmulcr->Find(&ulId);
+	ULONG id = pcr->Id();
+	CColRef *pcrMapped = phmulcr->Find(&id);
 
 	if (NULL != pcrMapped)
 	{
@@ -3779,8 +3779,8 @@ CUtils::PdrgpcrRemapAndCreate
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		ULONG ulId = pcr->UlId();
-		CColRef *pcrMapped = phmulcr->Find(&ulId);
+		ULONG id = pcr->Id();
+		CColRef *pcrMapped = phmulcr->Find(&id);
 		if (NULL == pcrMapped)
 		{
 			// not found in hashmap, so create a new colref and add to hashmap
@@ -3789,7 +3789,7 @@ CUtils::PdrgpcrRemapAndCreate
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG
-			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(ulId), pcrMapped);
+			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(id), pcrMapped);
 			GPOS_ASSERT(fResult);
 		}
 
@@ -3887,7 +3887,7 @@ CUtils::AddColumnMapping
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
 		CColRef *pcrFrom = (*pdrgpcrFrom)[ul];
-		ULONG ulFromId = pcrFrom->UlId();
+		ULONG ulFromId = pcrFrom->Id();
 		CColRef *pcrTo = (*pdrgpcrTo)[ul];
 		GPOS_ASSERT(pcrFrom != pcrTo);
 
@@ -3971,7 +3971,7 @@ CUtils::PdrgpcrCopy
 #ifdef GPOS_DEBUG
 			BOOL fInserted =
 #endif
-			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcr->UlId()), pcrNew);
+			phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcr->Id()), pcrNew);
 			GPOS_ASSERT(fInserted);
 		}
 	}

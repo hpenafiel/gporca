@@ -1210,7 +1210,7 @@ CMDAccessor::Pstats
 		CColRefTable *pcrtable = CColRefTable::PcrConvert(pcrHist);
 
 		// extract the column identifier, position of the attribute in the system catalog
-		ULONG col_id = pcrtable->UlId();
+		ULONG col_id = pcrtable->Id();
 		INT iAttno = pcrtable->AttrNum();
 		ULONG ulPos = pmdrel->UlPosFromAttno(iAttno);
 
@@ -1239,7 +1239,7 @@ CMDAccessor::Pstats
 		CColRefTable *pcrtable = CColRefTable::PcrConvert(pcrWidth);
 
 		// extract the column identifier, position of the attribute in the system catalog
-		ULONG col_id = pcrtable->UlId();
+		ULONG col_id = pcrtable->Id();
 		INT iAttno = pcrtable->AttrNum();
 		ULONG ulPos = pmdrel->UlPosFromAttno(iAttno);
 

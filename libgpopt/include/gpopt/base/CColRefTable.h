@@ -60,7 +60,7 @@ namespace gpopt
 			CColRefTable
 				(
 				const CColumnDescriptor *pcd,
-				ULONG ulId,
+				ULONG id,
 				const CName *pname,
 				ULONG ulOpSource
 				);
@@ -71,7 +71,7 @@ namespace gpopt
 				INT type_modifier,
 				INT iAttno,
 				BOOL fNullable,
-				ULONG ulId, 
+				ULONG id, 
 				const CName *pname,
 				ULONG ulOpSource,
 				ULONG ulWidth = ULONG_MAX

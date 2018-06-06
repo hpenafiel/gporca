@@ -139,8 +139,8 @@ CDXLLogicalCTAS::IsColDefined
 	const ULONG ulSize = m_col_descr_array->Size();
 	for (ULONG ulDescr = 0; ulDescr < ulSize; ulDescr++)
 	{
-		ULONG ulId = (*m_col_descr_array)[ulDescr]->Id();
-		if (ulId == col_id)
+		ULONG id = (*m_col_descr_array)[ulDescr]->Id();
+		if (id == col_id)
 		{
 			return true;
 		}

@@ -74,7 +74,7 @@ namespace gpos
 				private:
 
 					// element's unique id
-					ULONG m_ulId;
+					ULONG m_id;
 
 				public:
 
@@ -106,7 +106,7 @@ namespace gpos
 						const SElem &elem
 						)
 					{
-						return elem.m_ulId;
+						return elem.m_id;
 					}
 
 					// equality for object-based comparison
@@ -116,7 +116,7 @@ namespace gpos
 						)
 						const
 					{
-						return elem.m_ulId == m_ulId;
+						return elem.m_id == m_id;
 					}
 
 					// key equality function for hashtable
@@ -144,11 +144,11 @@ namespace gpos
 					// ctor
 					SElem
 						(
-						ULONG ulId,
+						ULONG id,
 						ULONG ulKey
 						)
 						:
-						m_ulId(ulId),
+						m_id(id),
 						m_ulKey(ulKey)
 					{
 					}
@@ -159,7 +159,7 @@ namespace gpos
 						const SElem &elem
 						)
 					{
-						m_ulId = elem.m_ulId;
+						m_id = elem.m_id;
 						m_ulKey = elem.m_ulKey;
 					}
 
@@ -180,9 +180,9 @@ namespace gpos
 					}
 
 					// Id accessor
-					ULONG UlId() const
+					ULONG Id() const
 					{
-						return m_ulId;
+						return m_id;
 					}
 
 			}; // struct SElem

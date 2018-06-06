@@ -60,7 +60,7 @@ CScheduler::CScheduler
 #endif // GPOS_DEBUG
 {
 	// initialize pool of job links
-	m_spjl.Init(GPOS_OFFSET(SJobLink, m_ulId));
+	m_spjl.Init(GPOS_OFFSET(SJobLink, m_id));
 
 	// initialize list of waiting new jobs
 	m_listjlWaiting.Init(GPOS_OFFSET(SJobLink, m_link));

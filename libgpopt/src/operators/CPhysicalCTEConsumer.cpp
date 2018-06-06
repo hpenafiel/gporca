@@ -30,13 +30,13 @@ using namespace gpopt;
 CPhysicalCTEConsumer::CPhysicalCTEConsumer
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulId,
+	ULONG id,
 	DrgPcr *pdrgpcr,
 	HMUlCr *phmulcr
 	)
 	:
 	CPhysical(memory_pool),
-	m_ulId(ulId),
+	m_id(id),
 	m_pdrgpcr(pdrgpcr),
 	m_phmulcr(phmulcr)
 {
@@ -288,7 +288,7 @@ CPhysicalCTEConsumer::PcmDerive
 	GPOS_ASSERT(0 == exprhdl.Arity());
 
 	CCTEMap *pcmConsumer = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
-	pcmConsumer->Insert(m_ulId, CCTEMap::EctConsumer, NULL /*pdpplan*/);
+	pcmConsumer->Insert(m_id, CCTEMap::EctConsumer, NULL /*pdpplan*/);
 
 	return pcmConsumer;
 }
@@ -396,7 +396,7 @@ CPhysicalCTEConsumer::FMatch
 
 	CPhysicalCTEConsumer *popCTEConsumer = CPhysicalCTEConsumer::PopConvert(pop);
 
-	return m_ulId == popCTEConsumer->UlCTEId() &&
+	return m_id == popCTEConsumer->UlCTEId() &&
 			m_pdrgpcr->Equals(popCTEConsumer->Pdrgpcr());
 }
 
@@ -411,7 +411,7 @@ CPhysicalCTEConsumer::FMatch
 ULONG
 CPhysicalCTEConsumer::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ulId);
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_id);
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 
 	return ulHash;
@@ -433,7 +433,7 @@ CPhysicalCTEConsumer::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << m_ulId;
+	os << m_id;
 	os << "), Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcr);
 	os	<< "]";

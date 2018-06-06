@@ -2791,7 +2791,7 @@ CTestUtils::PqcGenerate
 	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		if (1 != pcr->UlId() % GPOPT_TEST_REL_WIDTH)
+		if (1 != pcr->Id() % GPOPT_TEST_REL_WIDTH)
 		{
 			pcrsOutput->Include(pcr);
 		}

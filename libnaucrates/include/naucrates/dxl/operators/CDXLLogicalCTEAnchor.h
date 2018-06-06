@@ -30,14 +30,14 @@ namespace gpdxl
 		private:
 
 			// cte id
-			ULONG m_ulId;
+			ULONG m_id;
 			
 			// private copy ctor
 			CDXLLogicalCTEAnchor(CDXLLogicalCTEAnchor&);
 
 		public:
 			// ctor
-			CDXLLogicalCTEAnchor(IMemoryPool *memory_pool, ULONG ulId);
+			CDXLLogicalCTEAnchor(IMemoryPool *memory_pool, ULONG id);
 			
 			// operator type
 			Edxlopid GetDXLOperator() const;
@@ -46,9 +46,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// cte identifier
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 			
 			// serialize operator in DXL format

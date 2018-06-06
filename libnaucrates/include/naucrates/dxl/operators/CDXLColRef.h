@@ -51,7 +51,7 @@ namespace gpdxl
 			CMDName *m_mdname;
 	
 			// id
-			const ULONG m_ulId;
+			const ULONG m_id;
 
 			// column type
 			IMDId *m_mdid_type;
@@ -68,7 +68,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				CMDName *mdname,
-				ULONG ulId,
+				ULONG id,
 				IMDId *mdid_type,
 				INT type_modifier
 				);

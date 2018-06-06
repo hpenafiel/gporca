@@ -29,12 +29,12 @@ using namespace gpmd;
 CColRefTable::CColRefTable
 	(
 	const CColumnDescriptor *pcoldesc,
-	ULONG ulId,
+	ULONG id,
 	const CName *pname,
 	ULONG ulOpSource
 	)
 	:
-	CColRef(pcoldesc->Pmdtype(), pcoldesc->TypeModifier(), ulId, pname),
+	CColRef(pcoldesc->Pmdtype(), pcoldesc->TypeModifier(), id, pname),
 	m_iAttno(0),
 	m_ulSourceOpId(ulOpSource),
 	m_ulWidth(pcoldesc->Width())
@@ -60,13 +60,13 @@ CColRefTable::CColRefTable
 	INT type_modifier,
 	INT iAttno,
 	BOOL fNullable,
-	ULONG ulId,
+	ULONG id,
 	const CName *pname,
 	ULONG ulOpSource,
 	ULONG ulWidth
 	)
 	:
-	CColRef(pmdtype, type_modifier, ulId, pname),
+	CColRef(pmdtype, type_modifier, id, pname),
 	m_iAttno(iAttno),
 	m_fNullable(fNullable),
 	m_ulSourceOpId(ulOpSource),

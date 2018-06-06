@@ -102,7 +102,7 @@ namespace gpopt
 
 
 			// expression id
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// duplicate group expression
 			CGroupExpression *m_pgexprDuplicate;
@@ -146,7 +146,7 @@ namespace gpopt
 			void SetGroup(CGroup *pgroup);
 
 			// set group expression id
-			void SetId(ULONG ulId);
+			void SetId(ULONG id);
 
 			// print transformation
 			void PrintXform
@@ -198,7 +198,7 @@ namespace gpopt
 			CGroupExpression()
 				:
 				m_memory_pool(NULL),
-				m_ulId(GPOPT_INVALID_GEXPR_ID),
+				m_id(GPOPT_INVALID_GEXPR_ID),
 				m_pop(NULL),
 				m_pdrgpgroup(NULL),
 				m_pdrgpgroupSorted(NULL),
@@ -258,17 +258,17 @@ namespace gpopt
 			CCost CostLowerBound(IMemoryPool *memory_pool, CReqdPropPlan *prppInput, CCostContext *pccChild, ULONG ulChildIndex);
 
 			// initialize group expression
-			void Init(CGroup *pgroup, ULONG ulId);
+			void Init(CGroup *pgroup, ULONG id);
 
 			// reset group expression
 			void Reset
 				(
 				CGroup *pgroup,
-				ULONG ulId
+				ULONG id
 				)
 			{
 				m_pgroup = pgroup;
-				m_ulId = ulId;
+				m_id = id;
 			}
 
 			// optimization level accessor
@@ -312,9 +312,9 @@ namespace gpopt
 			}
 
 			// accessor for id
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 
 			// accessor for containing group

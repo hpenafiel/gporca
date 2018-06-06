@@ -76,7 +76,7 @@ namespace gpopt
 			struct SJobLink
 			{
 				// link id, set by sync set
-				ULONG m_ulId;
+				ULONG m_id;
 
 				// pointer to job
 				CJob *m_pj;

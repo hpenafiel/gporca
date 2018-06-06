@@ -305,14 +305,14 @@ namespace gpopt
 						(
 						CDXLNode *pdxlnRelChild,
 						const CColRef *pcr,
-						DrgPdxlcr *pdrgdxlcr
+						DrgPdxlcr *dxl_colref_array
 						);
 
 			// build a boolean scalar dxl node with a subplan as its child
 			CDXLNode *PdxlnBooleanScalarWithSubPlan
 						(
 						CDXLNode *pdxlnRelChild,
-						DrgPdxlcr *pdrgdxlcr
+						DrgPdxlcr *dxl_colref_array
 						);
 
 			CDXLNode *PdxlnScBoolExpr(EdxlBoolExprType boolexptype,	CDXLNode *pdxlnLeft, CDXLNode *pdxlnRight);
@@ -749,7 +749,7 @@ namespace gpopt
 			void BuildSubplansForCorrelatedLOJ
 				(
 				CExpression *pexprCorrelatedLOJ,
-				DrgPdxlcr *pdrgdxlcr,
+				DrgPdxlcr *dxl_colref_array,
 				CDXLNode **ppdxlnScalar, // output: scalar condition after replacing inner child reference with subplan
 				DrgPds *pdrgpdsBaseTables,
 				ULONG *pulNonGatherMotions,
@@ -760,7 +760,7 @@ namespace gpopt
 			void BuildSubplans
 				(
 				CExpression *pexprCorrelatedNLJoin,
-				DrgPdxlcr *pdrgdxlcr,
+				DrgPdxlcr *dxl_colref_array,
 				CDXLNode **ppdxlnScalar, // output: scalar condition after replacing inner child reference with subplan
 				DrgPds *pdrgpdsBaseTables, 
 				ULONG *pulNonGatherMotions, 
@@ -773,7 +773,7 @@ namespace gpopt
 				(
 				DrgPcr *pdrgpcrInner,
 				CExpression *pexprInner,
-				DrgPdxlcr *pdrgdxlcr,
+				DrgPdxlcr *dxl_colref_array,
 				DrgPds *pdrgpdsBaseTables, 
 				ULONG *pulNonGatherMotions, 
 				BOOL *pfDML
@@ -784,7 +784,7 @@ namespace gpopt
 				(
 				DrgPcr *pdrgpcrInner,
 				CExpression *pexprCorrelatedNLJoin,
-				DrgPdxlcr *pdrgdxlcr,
+				DrgPdxlcr *dxl_colref_array,
 				DrgPds *pdrgpdsBaseTables, 
 				ULONG *pulNonGatherMotions, 
 				BOOL *pfDML
@@ -795,7 +795,7 @@ namespace gpopt
 				(
 				DrgPcr *pdrgpcrInner,
 				CExpression *pexprCorrelatedNLJoin,
-				DrgPdxlcr *pdrgdxlcr,
+				DrgPdxlcr *dxl_colref_array,
 				DrgPds *pdrgpdsBaseTables, 
 				ULONG *pulNonGatherMotions, 
 				BOOL *pfDML

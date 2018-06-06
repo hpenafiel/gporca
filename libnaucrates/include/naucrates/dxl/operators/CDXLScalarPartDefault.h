@@ -32,14 +32,14 @@ namespace gpdxl
 		private:
 
 			// partitioning level
-			ULONG m_ulLevel;
+			ULONG m_partitioning_level;
 
 			// private copy ctor
 			CDXLScalarPartDefault(const CDXLScalarPartDefault&);
 
 		public:
 			// ctor
-			CDXLScalarPartDefault(IMemoryPool *memory_pool, ULONG ulLevel);
+			CDXLScalarPartDefault(IMemoryPool *memory_pool, ULONG partitioning_level);
 
 			// operator type
 			virtual
@@ -50,9 +50,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// partitioning level
-			ULONG UlLevel() const
+			ULONG GetPartitioningLevel() const
 			{
-				return m_ulLevel;
+				return m_partitioning_level;
 			}
 
 			// serialize operator in DXL format

@@ -49,7 +49,7 @@ CColumnFactory::CColumnFactory()
 		m_memory_pool,
 		GPOPT_COLFACTORY_HT_BUCKETS,
 		GPOS_OFFSET(CColRef, m_link),
-		GPOS_OFFSET(CColRef, m_ulId),
+		GPOS_OFFSET(CColRef, m_id),
 		&(CColRef::m_ulInvalid),
 		CColRef::HashValue,
 		CColRef::Equals
@@ -110,14 +110,14 @@ CColumnFactory::PcrCreate
 	)
 {
 	// increment atomic counter
-	ULONG ulId = m_aul.Incr();
+	ULONG id = m_aul.Incr();
 	
 	WCHAR wszFmt[] = GPOS_WSZ_LIT("ColRef_%04d");
 	CWStringDynamic *pstrTempName = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 	CAutoP<CWStringDynamic> a_pstrTempName(pstrTempName);
-	pstrTempName->AppendFormat(wszFmt, ulId);
+	pstrTempName->AppendFormat(wszFmt, id);
 	CWStringConst strName(pstrTempName->GetBuffer());
-	return PcrCreate(pmdtype, type_modifier, ulId, CName(&strName));
+	return PcrCreate(pmdtype, type_modifier, id, CName(&strName));
 }
 
 
@@ -137,9 +137,9 @@ CColumnFactory::PcrCreate
 	const CName &name
 	)
 {
-	ULONG ulId = m_aul.Incr();
+	ULONG id = m_aul.Incr();
 
-	return PcrCreate(pmdtype, type_modifier, ulId, name);
+	return PcrCreate(pmdtype, type_modifier, id, name);
 }
 	
 	
@@ -158,19 +158,19 @@ CColumnFactory::PcrCreate
 	(
 	const IMDType *pmdtype,
 	INT type_modifier,
-	ULONG ulId,
+	ULONG id,
 	const CName &name
 	)
 {
 	CName *pnameCopy = GPOS_NEW(m_memory_pool) CName(m_memory_pool, name); 
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
-	CColRef *pcr = GPOS_NEW(m_memory_pool) CColRefComputed(pmdtype, type_modifier, ulId, pnameCopy);
+	CColRef *pcr = GPOS_NEW(m_memory_pool) CColRefComputed(pmdtype, type_modifier, id, pnameCopy);
 	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 	
 	// ensure uniqueness
-	GPOS_ASSERT(NULL == PcrLookup(ulId));
+	GPOS_ASSERT(NULL == PcrLookup(id));
 	m_sht.Insert(pcr);
 	
 	return a_pcr.Reset();
@@ -191,7 +191,7 @@ CColRef *
 CColumnFactory::PcrCreate
 	(
 	const CColumnDescriptor *pcoldesc,
-	ULONG ulId,
+	ULONG id,
 	const CName &name,
 	ULONG ulOpSource
 	)
@@ -199,12 +199,12 @@ CColumnFactory::PcrCreate
 	CName *pnameCopy = GPOS_NEW(m_memory_pool) CName(m_memory_pool, name);
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
-	CColRef *pcr = GPOS_NEW(m_memory_pool) CColRefTable(pcoldesc, ulId, pnameCopy, ulOpSource);
+	CColRef *pcr = GPOS_NEW(m_memory_pool) CColRefTable(pcoldesc, id, pnameCopy, ulOpSource);
 	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 
 	// ensure uniqueness
-	GPOS_ASSERT(NULL == PcrLookup(ulId));
+	GPOS_ASSERT(NULL == PcrLookup(id));
 	m_sht.Insert(pcr);
 	
 	return a_pcr.Reset();
@@ -228,7 +228,7 @@ CColumnFactory::PcrCreate
 	INT type_modifier,
 	INT iAttno,
 	BOOL fNullable,
-	ULONG ulId,
+	ULONG id,
 	const CName &name,
 	ULONG ulOpSource,
 	ULONG ulWidth
@@ -238,12 +238,12 @@ CColumnFactory::PcrCreate
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
 	CColRef *pcr =
-			GPOS_NEW(m_memory_pool) CColRefTable(pmdtype, type_modifier, iAttno, fNullable, ulId, pnameCopy, ulOpSource, ulWidth);
+			GPOS_NEW(m_memory_pool) CColRefTable(pmdtype, type_modifier, iAttno, fNullable, id, pnameCopy, ulOpSource, ulWidth);
 	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 
 	// ensure uniqueness
-	GPOS_ASSERT(NULL == PcrLookup(ulId));
+	GPOS_ASSERT(NULL == PcrLookup(id));
 	m_sht.Insert(pcr);
 
 	return a_pcr.Reset();
@@ -265,9 +265,9 @@ CColumnFactory::PcrCreate
 	ULONG ulOpSource
 	)
 {
-	ULONG ulId = m_aul.Incr();
+	ULONG id = m_aul.Incr();
 	
-	return PcrCreate(pcoldesc, ulId, name, ulOpSource);
+	return PcrCreate(pcoldesc, id, name, ulOpSource);
 }
 
 //---------------------------------------------------------------------------
@@ -291,7 +291,7 @@ CColumnFactory::PcrCopy
 	}
 
 	GPOS_ASSERT(CColRef::EcrtTable == pcr->Ecrt());
-	ULONG ulId = m_aul.Incr();
+	ULONG id = m_aul.Incr();
 	CColRefTable *pcrTable = CColRefTable::PcrConvert(const_cast<CColRef*>(pcr));
 
 	return PcrCreate
@@ -300,7 +300,7 @@ CColumnFactory::PcrCopy
 			pcr->TypeModifier(),
 			pcrTable->AttrNum(),
 			pcrTable->FNullable(),
-			ulId,
+			id,
 			name,
 			pcrTable->UlSourceOpId(),
 			pcrTable->Width()
@@ -318,11 +318,11 @@ CColumnFactory::PcrCopy
 CColRef *
 CColumnFactory::PcrLookup
 	(
-	ULONG ulId
+	ULONG id
 	)
 {
 	CSyncHashtableAccessByKey<CColRef, ULONG,
-		CSpinlockColumnFactory> shtacc(m_sht, ulId);
+		CSpinlockColumnFactory> shtacc(m_sht, id);
 	
 	CColRef *pcr = shtacc.Find();
 	
@@ -346,12 +346,12 @@ CColumnFactory::Destroy
 {
 	GPOS_ASSERT(NULL != pcr);
 
-	ULONG ulId = pcr->m_ulId;
+	ULONG id = pcr->m_id;
 	
 	{
 		// scope for the hash table accessor
 		CSyncHashtableAccessByKey<CColRef, ULONG, CSpinlockColumnFactory>
-			shtacc(m_sht, ulId);
+			shtacc(m_sht, id);
 		
 		CColRef *pcrFound = shtacc.Find();
 		GPOS_ASSERT(pcr == pcrFound);

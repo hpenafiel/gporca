@@ -31,7 +31,7 @@ namespace gpopt
 		private:
 
 			// cte identifier
-			ULONG m_ulId;
+			ULONG m_id;
 
 			// mapped cte columns
 			DrgPcr *m_pdrgpcr;
@@ -58,7 +58,7 @@ namespace gpopt
 			CLogicalCTEConsumer(IMemoryPool *memory_pool);
 
 			// ctor
-			CLogicalCTEConsumer(IMemoryPool *memory_pool, ULONG ulId, DrgPcr *pdrgpcr);
+			CLogicalCTEConsumer(IMemoryPool *memory_pool, ULONG id, DrgPcr *pdrgpcr);
 
 			// dtor
 			virtual
@@ -80,7 +80,7 @@ namespace gpopt
 			// cte identifier
 			ULONG UlCTEId() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 
 			// cte columns

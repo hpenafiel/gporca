@@ -87,7 +87,7 @@ CXformImplementCTEProducer::Transform
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// extract components for alternative
-	ULONG ulId = popCTEProducer->UlCTEId();
+	ULONG id = popCTEProducer->UlCTEId();
 
 	DrgPcr *pdrgpcr = popCTEProducer->Pdrgpcr();
 	pdrgpcr->AddRef();
@@ -101,7 +101,7 @@ CXformImplementCTEProducer::Transform
 		GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CPhysicalCTEProducer(memory_pool, ulId, pdrgpcr),
+			GPOS_NEW(memory_pool) CPhysicalCTEProducer(memory_pool, id, pdrgpcr),
 			pexprChild
 			);
 

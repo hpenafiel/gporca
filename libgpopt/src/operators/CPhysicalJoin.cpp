@@ -1082,9 +1082,9 @@ CPhysicalJoin::PpprCreate
 		return NULL;
 	}
 
-	ULONG ulOuterChild = (*exprhdl.Pgexpr())[0]->UlId();
-	ULONG ulInnerChild = (*exprhdl.Pgexpr())[1]->UlId();
-	ULONG ulScalarChild = (*exprhdl.Pgexpr())[2]->UlId();
+	ULONG ulOuterChild = (*exprhdl.Pgexpr())[0]->Id();
+	ULONG ulInnerChild = (*exprhdl.Pgexpr())[1]->Id();
+	ULONG ulScalarChild = (*exprhdl.Pgexpr())[2]->Id();
 
 	pppsRequired->AddRef();
 	return  GPOS_NEW(memory_pool) CPartPropReq(pppsRequired, ulChildIndex, ulOuterChild, ulInnerChild, ulScalarChild);

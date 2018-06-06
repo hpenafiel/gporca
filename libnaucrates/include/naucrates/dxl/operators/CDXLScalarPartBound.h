@@ -32,20 +32,20 @@ namespace gpdxl
 		private:
 
 			// partitioning level
-			ULONG m_ulLevel;
+			ULONG m_partitioning_level;
 
 			// boundary type
 			IMDId *m_mdid_type;
 
 			// whether this represents a lower or upper bound
-			BOOL m_fLower;
+			BOOL m_is_lower_bound;
 
 			// private copy ctor
 			CDXLScalarPartBound(const CDXLScalarPartBound&);
 
 		public:
 			// ctor
-			CDXLScalarPartBound(IMemoryPool *memory_pool, ULONG ulLevel, IMDId *mdid_type, BOOL fLower);
+			CDXLScalarPartBound(IMemoryPool *memory_pool, ULONG partitioning_level, IMDId *mdid_type, BOOL is_lower_bound);
 
 			// dtor
 			virtual
@@ -62,7 +62,7 @@ namespace gpdxl
 			// partitioning level
 			ULONG UlLevel() const
 			{
-				return m_ulLevel;
+				return m_partitioning_level;
 			}
 
 			// boundary type
@@ -72,9 +72,9 @@ namespace gpdxl
 			}
 
 			// is this a lower (or upper) bound
-			BOOL FLower() const
+			BOOL IsLowerBound() const
 			{
-				return m_fLower;
+				return m_is_lower_bound;
 			}
 
 			// serialize operator in DXL format

@@ -86,7 +86,7 @@ CXformImplementCTEConsumer::Transform
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// extract components for alternative
-	ULONG ulId = popCTEConsumer->UlCTEId();
+	ULONG id = popCTEConsumer->UlCTEId();
 
 	DrgPcr *pdrgpcr = popCTEConsumer->Pdrgpcr();
 	pdrgpcr->AddRef();
@@ -100,7 +100,7 @@ CXformImplementCTEConsumer::Transform
 		GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CPhysicalCTEConsumer(memory_pool, ulId, pdrgpcr, phmulcr)
+			GPOS_NEW(memory_pool) CPhysicalCTEConsumer(memory_pool, id, pdrgpcr, phmulcr)
 			);
 
 	// add alternative to transformation result

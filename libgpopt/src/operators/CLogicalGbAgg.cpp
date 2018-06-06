@@ -630,7 +630,7 @@ CLogicalGbAgg::PstatsDerive
 	for (ULONG ul = 0; ul < ulGroupingCols; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrGroupingCols)[ul];
-		pdrgpulGroupingCols->Append(GPOS_NEW(memory_pool) ULONG(pcr->UlId()));
+		pdrgpulGroupingCols->Append(GPOS_NEW(memory_pool) ULONG(pcr->Id()));
 	}
 
 	IStatistics *pstats = CGroupByStatsProcessor::PstatsGroupBy(memory_pool, dynamic_cast<CStatistics *>(pstatsChild), pdrgpulGroupingCols, pdrgpulComputedCols, pbsKeys);

@@ -32,12 +32,12 @@ using namespace gpdxl;
 CDXLLogicalCTEProducer::CDXLLogicalCTEProducer
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulId,
+	ULONG id,
 	ULongPtrArray *pdrgpulColIds
 	)
 	:
 	CDXLLogical(memory_pool),
-	m_ulId(ulId),
+	m_id(id),
 	m_pdrgpulColIds(pdrgpulColIds)
 {
 	GPOS_ASSERT(NULL != pdrgpulColIds);
@@ -103,7 +103,7 @@ CDXLLogicalCTEProducer::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEId), UlId());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEId), Id());
 	
 	CWStringDynamic *pstrColIds = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulColIds);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumns), pstrColIds);

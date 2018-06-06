@@ -45,7 +45,7 @@ namespace gpos
 				PTHREAD_T m_pthrdt;
 
 				// thread id
-				ULONG ulId;
+				ULONG id;
 
 				// return value
 				BOOL fException;

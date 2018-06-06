@@ -30,14 +30,14 @@ CColRef::CColRef
 	(
 	const IMDType *pmdtype,
 	const INT type_modifier,
-	ULONG ulId,
+	ULONG id,
 	const CName *pname
 	)
 	:
 	m_pmdtype(pmdtype),
 	m_type_modifier(type_modifier),
 	m_pname(pname),
-	m_ulId(ulId)
+	m_id(id)
 {
 	GPOS_ASSERT(NULL != pmdtype);
 	GPOS_ASSERT(pmdtype->MDId()->IsValid());
@@ -91,8 +91,8 @@ CColRef::HashValue
 	const CColRef *pcr
 	)
 {
-	ULONG ulId = pcr->UlId();
-	return gpos::HashValue<ULONG>(&ulId);
+	ULONG id = pcr->Id();
+	return gpos::HashValue<ULONG>(&id);
 }
 
 
@@ -112,7 +112,7 @@ CColRef::OsPrint
 	const
 {
 	m_pname->OsPrint(os);
-	os << " (" << UlId() << ")";
+	os << " (" << Id() << ")";
 	
 	return os;
 }
@@ -137,7 +137,7 @@ CColRef::Pdrgpul
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(pcr->UlId()));
+		pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(pcr->Id()));
 	}
 
 	return pdrgpul;

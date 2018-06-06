@@ -75,7 +75,7 @@ namespace gpopt
 			};
 		
 			// ctor
-			CColRef(const IMDType *pmdtype, const INT type_modifier, ULONG ulId, const CName *pname);
+			CColRef(const IMDType *pmdtype, const INT type_modifier, ULONG id, const CName *pname);
 
 			// dtor
 			virtual
@@ -100,9 +100,9 @@ namespace gpopt
 			}
 
 			// id
-			ULONG UlId() const
+			ULONG Id() const
 			{
-				return m_ulId;
+				return m_id;
 			}
 			
 			// overloaded equality operator
@@ -112,7 +112,7 @@ namespace gpopt
 				)
 				const
 			{
-				return Equals(m_ulId, cr.UlId());
+				return Equals(m_id, cr.Id());
 			}
 
 			// static hash functions
@@ -141,7 +141,7 @@ namespace gpopt
 				const CColRef *pcrSecond
 				)
 			{
-				return Equals(pcrFirst->UlId(), pcrSecond->UlId());
+				return Equals(pcrFirst->Id(), pcrSecond->Id());
 			}
 
 			// extract array of colids from array of colrefs
@@ -171,7 +171,7 @@ namespace gpopt
 			SLink m_link;
 
 			// id, serves as hash key
-			const ULONG m_ulId;
+			const ULONG m_id;
 			
 			// invalid key
 			static

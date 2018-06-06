@@ -32,7 +32,7 @@ CLogicalCTEAnchor::CLogicalCTEAnchor
 	)
 	:
 	CLogical(memory_pool),
-	m_ulId(0)
+	m_id(0)
 {
 	m_fPattern = true;
 }
@@ -48,11 +48,11 @@ CLogicalCTEAnchor::CLogicalCTEAnchor
 CLogicalCTEAnchor::CLogicalCTEAnchor
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulId
+	ULONG id
 	)
 	:
 	CLogical(memory_pool),
-	m_ulId(ulId)
+	m_id(id)
 {}
 
 //---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ CLogicalCTEAnchor::PpartinfoDerive
 	CPartInfo *ppartinfoChild = exprhdl.Pdprel(0 /*ulChildIndex*/)->Ppartinfo();
 	GPOS_ASSERT(NULL != ppartinfoChild);
 
-	CExpression *pexprProducer = COptCtxt::PoctxtFromTLS()->Pcteinfo()->PexprCTEProducer(m_ulId);
+	CExpression *pexprProducer = COptCtxt::PoctxtFromTLS()->Pcteinfo()->PexprCTEProducer(m_id);
 	GPOS_ASSERT(NULL != pexprProducer);
 	CPartInfo *ppartinfoCTEProducer = CDrvdPropRelational::Pdprel(pexprProducer->PdpDerive())->Ppartinfo();
 
@@ -160,7 +160,7 @@ CLogicalCTEAnchor::FMatch
 
 	CLogicalCTEAnchor *popCTEAnchor = CLogicalCTEAnchor::PopConvert(pop);
 
-	return m_ulId == popCTEAnchor->UlId();
+	return m_id == popCTEAnchor->Id();
 }
 
 //---------------------------------------------------------------------------
@@ -174,7 +174,7 @@ CLogicalCTEAnchor::FMatch
 ULONG
 CLogicalCTEAnchor::HashValue() const
 {
-	return gpos::CombineHashes(COperator::HashValue(), m_ulId);
+	return gpos::CombineHashes(COperator::HashValue(), m_id);
 }
 
 //---------------------------------------------------------------------------
@@ -214,7 +214,7 @@ CLogicalCTEAnchor::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << m_ulId;
+	os << m_id;
 	os << ")";
 
 	return os;

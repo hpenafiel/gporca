@@ -328,11 +328,11 @@ CCostModelParamsGPDB::~CCostModelParamsGPDB()
 CCostModelParamsGPDB::SCostParam *
 CCostModelParamsGPDB::PcpLookup
 	(
-	ULONG ulId
+	ULONG id
 	)
 	const
 {
-	ECostParam ecp = (ECostParam) ulId;
+	ECostParam ecp = (ECostParam) id;
 	GPOS_ASSERT(EcpSentinel > ecp);
 
 	return m_rgpcp[ecp];
@@ -380,13 +380,13 @@ CCostModelParamsGPDB::PcpLookup
 void
 CCostModelParamsGPDB::SetParam
 	(
-	ULONG ulId,
+	ULONG id,
 	CDouble dVal,
 	CDouble dLowerBound,
 	CDouble dUpperBound
 	)
 {
-	ECostParam ecp = (ECostParam) ulId;
+	ECostParam ecp = (ECostParam) id;
 	GPOS_ASSERT(EcpSentinel > ecp);
 
 	GPOS_DELETE(m_rgpcp[ecp]);
@@ -471,9 +471,9 @@ BOOL CCostModelParamsGPDB::Equals(ICostModelParams *pcm) const
 }
 
 const CHAR *
-CCostModelParamsGPDB::SzNameLookup(ULONG ulId) const
+CCostModelParamsGPDB::SzNameLookup(ULONG id) const
 {
-	ECostParam ecp = (ECostParam) ulId;
+	ECostParam ecp = (ECostParam) id;
 	GPOS_ASSERT(EcpSentinel > ecp);
 	return rgszCostParamNames[ecp];
 }

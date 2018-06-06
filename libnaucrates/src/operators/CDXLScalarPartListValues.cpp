@@ -20,26 +20,26 @@ using namespace gpdxl;
 CDXLScalarPartListValues::CDXLScalarPartListValues
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulLevel,
-	IMDId *pmdidResult,
-	IMDId *pmdidElement
+	ULONG partitioning_level,
+	IMDId *result_type_mdid,
+	IMDId *elem_type_mdid
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulLevel(ulLevel),
-	m_pmdidResult(pmdidResult),
-	m_pmdidElement(pmdidElement)
+	m_partitioning_level(partitioning_level),
+	m_result_type_mdid(result_type_mdid),
+	m_elem_type_mdid(elem_type_mdid)
 {
-	GPOS_ASSERT(pmdidResult->IsValid());
-	GPOS_ASSERT(pmdidElement->IsValid());
+	GPOS_ASSERT(result_type_mdid->IsValid());
+	GPOS_ASSERT(elem_type_mdid->IsValid());
 }
 
 
 // Dtor
 CDXLScalarPartListValues::~CDXLScalarPartListValues()
 {
-	m_pmdidResult->Release();
-	m_pmdidElement->Release();
+	m_result_type_mdid->Release();
+	m_elem_type_mdid->Release();
 }
 
 // Operator type
@@ -60,21 +60,21 @@ CDXLScalarPartListValues::GetOpNameStr() const
 ULONG
 CDXLScalarPartListValues::UlLevel() const
 {
-	return m_ulLevel;
+	return m_partitioning_level;
 }
 
 // result type
 IMDId *
-CDXLScalarPartListValues::PmdidResult() const
+CDXLScalarPartListValues::GetResultTypeMdId() const
 {
-	return m_pmdidResult;
+	return m_result_type_mdid;
 }
 
 // element type
 IMDId *
-CDXLScalarPartListValues::PmdidElement() const
+CDXLScalarPartListValues::GetElemTypeMdId() const
 {
-	return m_pmdidElement;
+	return m_elem_type_mdid;
 }
 
 // does the operator return a boolean result
@@ -100,9 +100,9 @@ CDXLScalarPartListValues::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
-	m_pmdidResult->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpResultTypeId));
-	m_pmdidElement->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayElementType));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_partitioning_level);
+	m_result_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpResultTypeId));
+	m_elem_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayElementType));
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 

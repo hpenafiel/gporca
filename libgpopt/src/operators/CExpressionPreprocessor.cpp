@@ -1551,8 +1551,8 @@ CExpressionPreprocessor::PexprRemoveUnusedCTEs
 	COperator *pop = pexpr->Pop();
 	if (COperator::EopLogicalCTEAnchor == pop->Eopid())
 	{
-		ULONG ulId = CLogicalCTEAnchor::PopConvert(pop)->UlId();
-		if (!COptCtxt::PoctxtFromTLS()->Pcteinfo()->FUsed(ulId))
+		ULONG id = CLogicalCTEAnchor::PopConvert(pop)->Id();
+		if (!COptCtxt::PoctxtFromTLS()->Pcteinfo()->FUsed(id))
 		{
 			GPOS_ASSERT(1 == pexpr->Arity());
 			return PexprRemoveUnusedCTEs(memory_pool, (*pexpr)[0]);

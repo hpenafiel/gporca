@@ -52,16 +52,16 @@ namespace gpdxl
 		private:
 
 			// catalog MDId of the first column type
-			IMDId *m_pmdidFirstColType;
+			IMDId *m_first_col_type_mdid;
 
 			// array of outer column references
-			DrgPdxlcr *m_pdrgdxlcr;
+			DrgPdxlcr *m_dxl_colref_array;
 
 			// subplan type
-			EdxlSubPlanType m_edxlsubplantype;
+			EdxlSubPlanType m_dxl_subplan_type;
 
 			// test expression -- not null if quantified/existential subplan
-			CDXLNode *m_pdxlnTestExpr;
+			CDXLNode *m_dxlnode_test_expr;
 
 			// private copy ctor
 			CDXLScalarSubPlan(CDXLScalarSubPlan&);
@@ -72,10 +72,10 @@ namespace gpdxl
 			CDXLScalarSubPlan
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidFirstColType,
-				DrgPdxlcr *pdrgdxlcr,
-				EdxlSubPlanType edxlsubplantype,
-				CDXLNode *pdxlnTestExpr
+				IMDId *first_col_type_mdid,
+				DrgPdxlcr *dxl_colref_array,
+				EdxlSubPlanType dxl_subplan_type,
+				CDXLNode *dxlnode_test_expr
 				);
 
 			virtual
@@ -91,24 +91,24 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// type of first output column
-			IMDId *PmdidFirstColType() const;
+			IMDId *GetFirstColTypeMdId() const;
 
 			// outer references
-			const DrgPdxlcr *DrgdxlcrOuterRefs() const
+			const DrgPdxlcr *GetDxlOuterColRefsArray() const
 			{
-				return m_pdrgdxlcr;
+				return m_dxl_colref_array;
 			}
 
 			// return subplan type
-			EdxlSubPlanType Edxlsptype() const
+			EdxlSubPlanType GetDxlSubplanType() const
 			{
-				return m_edxlsubplantype;
+				return m_dxl_subplan_type;
 			}
 
 			// return test expression
-			CDXLNode *PdxlnTestExpr() const
+			CDXLNode *GetDxlTestExpr() const
 			{
-				return m_pdxlnTestExpr;
+				return m_dxlnode_test_expr;
 			}
 
 			// serialize operator in DXL format
@@ -133,7 +133,7 @@ namespace gpdxl
 			BOOL HasBoolResult(CMDAccessor *md_accessor) const;
 
 			// return a string representation of Subplan type
-			const CWStringConst *PstrSubplanType() const;
+			const CWStringConst *GetSubplanTypeStr() const;
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

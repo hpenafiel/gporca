@@ -629,7 +629,7 @@ CCostContext::OsPrint
 	)
 	const
 {
-	os << "main ctxt (stage " << m_poc->UlSearchStageIndex() << ")" << m_poc->UlId() << "." << m_ulOptReq;
+	os << "main ctxt (stage " << m_poc->UlSearchStageIndex() << ")" << m_poc->Id() << "." << m_ulOptReq;
 
 	if (NULL != m_pdrgpoc)
 	{
@@ -639,10 +639,10 @@ CCostContext::OsPrint
 		{
 			for (ULONG i = 0; i < arity - 1; i++)
 			{
-				os << (*m_pdrgpoc)[i]->UlId();
+				os << (*m_pdrgpoc)[i]->Id();
 				os << ", ";
 			}
-			os << (*m_pdrgpoc)[arity - 1]->UlId();
+			os << (*m_pdrgpoc)[arity - 1]->Id();
 		}
 		os << "]";
 	}

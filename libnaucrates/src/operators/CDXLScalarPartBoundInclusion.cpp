@@ -31,13 +31,13 @@ using namespace gpdxl;
 CDXLScalarPartBoundInclusion::CDXLScalarPartBoundInclusion
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulLevel,
-	BOOL fLower
+	ULONG partitioning_level,
+	BOOL is_lower_bound
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulLevel(ulLevel),
-	m_fLower(fLower)
+	m_partitioning_level(partitioning_level),
+	m_is_lower_bound(is_lower_bound)
 {
 }
 
@@ -88,8 +88,8 @@ CDXLScalarPartBoundInclusion::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartBoundLower), m_fLower);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_partitioning_level);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarPartBoundLower), m_is_lower_bound);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 

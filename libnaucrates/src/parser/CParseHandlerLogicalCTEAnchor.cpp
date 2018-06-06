@@ -62,7 +62,7 @@ CParseHandlerLogicalCTEAnchor::StartElement
 	}
 
 	// parse cteid and create cte operator
-	ULONG ulId = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
+	ULONG id = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -70,7 +70,7 @@ CParseHandlerLogicalCTEAnchor::StartElement
 											EdxltokenLogicalCTEAnchor
 											);
 	
-	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalCTEAnchor(m_memory_pool, ulId));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLLogicalCTEAnchor(m_memory_pool, id));
 
 	// create and activate the parse handler for the child expression node
 	CParseHandlerBase *child_parse_handler =

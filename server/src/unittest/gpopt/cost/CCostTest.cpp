@@ -376,7 +376,7 @@ CCostTest::EresUnittest_SetParams()
 	ICostModelParams::SCostParam *pcp = pcm->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpNLJFactor);
 	CDouble dNLJFactor = CDouble(2.0);
 	CDouble dVal = pcp->Get() * dNLJFactor;
-	pcm->GetCostModelParams()->SetParam(pcp->UlId(), dVal, dVal - 0.5, dVal + 0.5);
+	pcm->GetCostModelParams()->SetParam(pcp->Id(), dVal, dVal - 0.5, dVal + 0.5);
 
 	// optimize again after updating NLJ cost factor
 	CExpression *pexprPlan2 = NULL;

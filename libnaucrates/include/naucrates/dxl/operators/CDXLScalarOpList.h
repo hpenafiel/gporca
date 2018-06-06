@@ -43,14 +43,14 @@ namespace gpdxl
 		private:
 
 			// operator list type
-			EdxlOpListType m_edxloplisttype;
+			EdxlOpListType m_dxl_op_list_type;
 
 			// private copy ctor
 			CDXLScalarOpList(const CDXLScalarOpList&);
 
 		public:
 			// ctor
-			CDXLScalarOpList(IMemoryPool *memory_pool, EdxlOpListType edxloplisttype = EdxloplistGeneral);
+			CDXLScalarOpList(IMemoryPool *memory_pool, EdxlOpListType dxl_op_list_type = EdxloplistGeneral);
 
 			// operator type
 			virtual

@@ -94,7 +94,7 @@ namespace gpopt
 				if (NULL == pspt)
 				{
 					pspt = GPOS_NEW(m_memory_pool) CSyncPool<T>(m_memory_pool, m_ulJobs);
-					pspt->Init(GPOS_OFFSET(T, m_ulId));
+					pspt->Init(GPOS_OFFSET(T, m_id));
 				}
 
 				return pspt->PtRetrieve();

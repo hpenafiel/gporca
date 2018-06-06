@@ -104,7 +104,7 @@ CColRefSet::FMember
 	)
 	const
 {
-	return CBitSet::Get(pcr->UlId());
+	return CBitSet::Get(pcr->Id());
 }
 
 
@@ -158,7 +158,7 @@ CColRefSet::Include
 	const CColRef *pcr
 	)
 {
-	CBitSet::ExchangeSet(pcr->UlId());
+	CBitSet::ExchangeSet(pcr->Id());
 }
 
 
@@ -220,7 +220,7 @@ CColRefSet::Exclude
 	const CColRef *pcr
 	)
 {
-	CBitSet::ExchangeClear(pcr->UlId());
+	CBitSet::ExchangeClear(pcr->Id());
 }
 
 
@@ -429,7 +429,7 @@ CColRefSet::ExtractColIds
 	while (crsi.Advance())
 	{
 		CColRef *pcr = crsi.Pcr();
-		ULONG col_id = pcr->UlId();
+		ULONG col_id = pcr->Id();
 		pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(col_id));
 	}
 }

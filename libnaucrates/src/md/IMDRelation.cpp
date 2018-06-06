@@ -97,15 +97,15 @@ IMDRelation::PstrColumns
 	ULONG ulLen = pdrgpul->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		ULONG ulId = *((*pdrgpul)[ul]);
+		ULONG id = *((*pdrgpul)[ul]);
 		if (ul == ulLen - 1)
 		{
 			// last element: do not print a comma
-			str->AppendFormat(GPOS_WSZ_LIT("%d"), ulId);
+			str->AppendFormat(GPOS_WSZ_LIT("%d"), id);
 		}
 		else
 		{
-			str->AppendFormat(GPOS_WSZ_LIT("%d%ls"), ulId, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
+			str->AppendFormat(GPOS_WSZ_LIT("%d%ls"), id, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 

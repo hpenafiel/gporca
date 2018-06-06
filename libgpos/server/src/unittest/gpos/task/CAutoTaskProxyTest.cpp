@@ -510,7 +510,7 @@ void* CAutoTaskProxyTest::Unittest_CheckExecuteErrorInternal(void* pv)
 {
 	GPOS_ASSERT(NULL != pv);
 	STestThreadDescriptor *ptd = reinterpret_cast<STestThreadDescriptor *>(pv);
-	CWorker wrkr(ptd->ulId, GPOS_WORKER_STACK_SIZE, (ULONG_PTR) &ptd);
+	CWorker wrkr(ptd->id, GPOS_WORKER_STACK_SIZE, (ULONG_PTR) &ptd);
 	ptd->fException = false;
 	CWorkerPoolManager *pwpm = CWorkerPoolManager::WorkerPoolManager();
 	// scope for ATP
@@ -584,7 +584,7 @@ CAutoTaskProxyTest::EresUnittest_ExecuteError()
 	// thread is available to run the task ("CAutoTaskProxyTest::PvUnittest_Error")
 	// from Unittest_CheckExecuteErrorInternal
 	STestThreadDescriptor st;
-	st.ulId = GPOS_THREAD_MAX + 1;
+	st.id = GPOS_THREAD_MAX + 1;
 	st.m_memory_pool = memory_pool;
 	st.fException = false;
 	st.fPropagateException = true;

@@ -811,7 +811,7 @@ CXformJoin2IndexApply::PexprJoinOverCTEConsumer
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-		phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcrOld->UlId()), pcrNew);
+		phmulcr->Insert(GPOS_NEW(memory_pool) ULONG(pcrOld->Id()), pcrNew);
 		GPOS_ASSERT(fInserted);
 	}
 

@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLLogicalCTEAnchor::CDXLLogicalCTEAnchor
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulId
+	ULONG id
 	)
 	:
 	CDXLLogical(memory_pool),
-	m_ulId(ulId)
+	m_id(id)
 {
 }
 
@@ -84,7 +84,7 @@ CDXLLogicalCTEAnchor::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEId), UlId());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEId), Id());
 	
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);

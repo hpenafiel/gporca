@@ -169,11 +169,11 @@ CStatsPredUtils::PstatspredNullTest
 		// stats calculations on such datums unsupported
 		pdatum->Release();
 
-		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->Id(), escmpt);
 	}
 
 	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
-	CStatsPredPoint *pstatspred = GPOS_NEW(memory_pool) CStatsPredPoint(pcr->UlId(), escmpt, ppoint);
+	CStatsPredPoint *pstatspred = GPOS_NEW(memory_pool) CStatsPredPoint(pcr->Id(), escmpt, ppoint);
 
 	return pstatspred;
 }
@@ -299,7 +299,7 @@ CStatsPredUtils::Pstatspred
 		// example: SELECT 1 FROM pg_catalog.pg_class c WHERE c.relname ~ '^(t36)$';
 		// case 2: unsupported stats comparison between the column and datum
 
-		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->Id(), escmpt);
 	}
 
 	return GPOS_NEW(memory_pool) CStatsPredPoint(memory_pool, pcr, escmpt, pdatum);
@@ -881,7 +881,7 @@ CStatsPredUtils::PstatspredLike
 	}
 
 	CScalarIdent *popScalarIdent = CScalarIdent::PopConvert(pexprScIdent->Pop());
-	ULONG col_id = popScalarIdent->Pcr()->UlId();
+	ULONG col_id = popScalarIdent->Pcr()->Id();
 
 	CScalarConst *popScalarConst = CScalarConst::PopConvert(pexprScConst->Pop());
 	IDatum  *pdatumLiteral = popScalarConst->Pdatum();
@@ -890,7 +890,7 @@ CStatsPredUtils::PstatspredLike
 	if (!IMDType::FStatsComparable(pcr->Pmdtype(), pdatumLiteral))
 	{
 		// unsupported stats comparison between the column and datum
-		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), CStatsPred::EstatscmptLike);
+		return GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->Id(), CStatsPred::EstatscmptLike);
 	}
 
 	CDouble dDefaultScaleFactor(1.0);
@@ -965,7 +965,7 @@ CStatsPredUtils::ProcessArrayCmp
 	if (!CHistogram::FSupportsFilter(escmpt))
 	{
 		// unsupported predicate for stats calculations
-		pdrgpstatspred->Append(GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt));
+		pdrgpstatspred->Append(GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->Id(), escmpt));
 
 		return;
 	}
@@ -981,7 +981,7 @@ CStatsPredUtils::ProcessArrayCmp
 			if (!pdatumLiteral->FStatsComparable(pdatumLiteral))
 			{
 				// stats calculations on such datums unsupported
-				pstatspredChild = GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->UlId(), escmpt);
+				pstatspredChild = GPOS_NEW(memory_pool) CStatsPredUnsupported(pcr->Id(), escmpt);
 			}
 			else
 			{
@@ -1030,13 +1030,13 @@ CStatsPredUtils::PstatspredBoolean
 	{
 		CScalarIdent *popScIdent = CScalarIdent::PopConvert(pop);
 		pdatum = md_accessor->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, true /* fValue */, false /* is_null */);
-		col_id = popScIdent->Pcr()->UlId();
+		col_id = popScIdent->Pcr()->Id();
 	}
 	else
 	{
 		CExpression *pexprChild = (*pexprPred)[0];
 		pdatum = md_accessor->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, false /* fValue */, false /* is_null */);
-		col_id = CScalarIdent::PopConvert(pexprChild->Pop())->Pcr()->UlId();
+		col_id = CScalarIdent::PopConvert(pexprChild->Pop())->Pcr()->Id();
 	}
 
 	if (!pdatum->FStatsComparable(pdatum))
@@ -1105,10 +1105,10 @@ CStatsPredUtils::PstatsjoinExtract
 		{
 			if (ulIndexLeft < ulIndexRight)
 			{
-				return GPOS_NEW(memory_pool) CStatsPredJoin(pcrLeft->UlId(), escmpt, pcrRight->UlId());
+				return GPOS_NEW(memory_pool) CStatsPredJoin(pcrLeft->Id(), escmpt, pcrRight->Id());
 			}
 
-			return GPOS_NEW(memory_pool) CStatsPredJoin(pcrRight->UlId(), escmpt, pcrLeft->UlId());
+			return GPOS_NEW(memory_pool) CStatsPredJoin(pcrRight->Id(), escmpt, pcrLeft->Id());
 		}
 	}
 

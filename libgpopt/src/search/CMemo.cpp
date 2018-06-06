@@ -145,14 +145,14 @@ CMemo::Add
 	}
 	GPOS_ASSERT(NULL != pdp);
 
-	ULONG ulId = m_aul.Incr();
+	ULONG id = m_aul.Incr();
 	pdp->AddRef();
 #ifdef GPOS_DEBUG
 	CGroupExpression *pgexpr = NULL;
 #endif  // GPOS_DEBUG
 	{
 		CGroupProxy gp(pgroup);
-		gp.SetId(ulId);
+		gp.SetId(id);
 		gp.InitProperties(pdp);
 #ifdef GPOS_DEBUG
 		pgexpr = gp.PgexprFirst();
@@ -449,14 +449,14 @@ CMemo::PexprExtractPlan
 CGroup *
 CMemo::Pgroup
 	(
-	ULONG ulId
+	ULONG id
 	)
 {
 	CGroup *pgroup = m_listGroups.PtFirst();
 
 	while (NULL != pgroup)
 	{
-		if (ulId == pgroup->UlId())
+		if (id == pgroup->Id())
 		{
 			return pgroup;
 		}

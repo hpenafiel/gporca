@@ -32,12 +32,12 @@ using namespace gpopt;
 CPhysicalCTEProducer::CPhysicalCTEProducer
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulId,
+	ULONG id,
 	DrgPcr *pdrgpcr
 	)
 	:
 	CPhysical(memory_pool),
-	m_ulId(ulId),
+	m_id(id),
 	m_pdrgpcr(pdrgpcr),
 	m_pcrs(NULL)
 {
@@ -298,7 +298,7 @@ CPhysicalCTEProducer::PcmDerive
 
 	CCTEMap *pcmProducer = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
 	// store plan properties of the child in producer's CTE map
-	pcmProducer->Insert(m_ulId, CCTEMap::EctProducer, exprhdl.Pdpplan(0));
+	pcmProducer->Insert(m_id, CCTEMap::EctProducer, exprhdl.Pdpplan(0));
 
 	CCTEMap *pcmCombined = CCTEMap::PcmCombine(memory_pool, *pcmProducer, *pcmChild);
 	pcmProducer->Release();
@@ -405,7 +405,7 @@ CPhysicalCTEProducer::FMatch
 
 	CPhysicalCTEProducer *popCTEProducer = CPhysicalCTEProducer::PopConvert(pop);
 
-	return m_ulId == popCTEProducer->UlCTEId() &&
+	return m_id == popCTEProducer->UlCTEId() &&
 			m_pdrgpcr->Equals(popCTEProducer->Pdrgpcr());
 }
 
@@ -420,7 +420,7 @@ CPhysicalCTEProducer::FMatch
 ULONG
 CPhysicalCTEProducer::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ulId);
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_id);
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 
 	return ulHash;
@@ -442,7 +442,7 @@ CPhysicalCTEProducer::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << m_ulId;
+	os << m_id;
 	os << "), Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcr);
 	os	<< "]";

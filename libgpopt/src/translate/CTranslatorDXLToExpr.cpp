@@ -242,7 +242,7 @@ CTranslatorDXLToExpr::Pexpr
 #ifdef GPOS_DEBUG
 		BOOL fres =
 #endif // GPOS_DEBUG
-				m_phmulpdxlnCTEProducer->Insert(GPOS_NEW(m_memory_pool) ULONG(pdxlopCTEProducer->UlId()), pdxlnCTE);
+				m_phmulpdxlnCTEProducer->Insert(GPOS_NEW(m_memory_pool) ULONG(pdxlopCTEProducer->Id()), pdxlnCTE);
 		GPOS_ASSERT(fres);
 	}
 
@@ -277,7 +277,7 @@ CTranslatorDXLToExpr::Pexpr
 		
 		if (fGenerateRequiredColumns)
 		{
-			const ULONG ulColRefId =  pcr->UlId();
+			const ULONG ulColRefId =  pcr->Id();
 			ULONG *pulCopy = GPOS_NEW(m_memory_pool) ULONG(ulColRefId);
 			// add to the array of output column reference ids
 			m_pdrgpulOutputColRefs->Append(pulCopy);
@@ -1190,16 +1190,16 @@ CTranslatorDXLToExpr::PexprLogicalCTEAnchor
 {
 	GPOS_ASSERT(NULL != dxlnode);
 	CDXLLogicalCTEAnchor *pdxlopCTEAnchor = CDXLLogicalCTEAnchor::Cast(dxlnode->GetOperator());
-	ULONG ulCTEId = pdxlopCTEAnchor->UlId();
+	ULONG ulCTEId = pdxlopCTEAnchor->Id();
 
 	CDXLNode *pdxlnCTEProducer = m_phmulpdxlnCTEProducer->Find(&ulCTEId);
 	GPOS_ASSERT(NULL != pdxlnCTEProducer);
 
-	ULONG ulId = UlMapCTEId(ulCTEId);
+	ULONG id = UlMapCTEId(ulCTEId);
 	// mark that we are about to start processing this new CTE and keep track
 	// of the previous one
 	ULONG ulCTEPrevious = m_ulCTEId;
-	m_ulCTEId = ulId;
+	m_ulCTEId = id;
 	CExpression *pexprProducer = Pexpr(pdxlnCTEProducer);
 	GPOS_ASSERT(NULL != pexprProducer);
 	m_ulCTEId = ulCTEPrevious;
@@ -1224,7 +1224,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEAnchor
 	return GPOS_NEW(m_memory_pool) CExpression
 						(
 						m_memory_pool,
-						GPOS_NEW(m_memory_pool) CLogicalCTEAnchor(m_memory_pool, ulId),
+						GPOS_NEW(m_memory_pool) CLogicalCTEAnchor(m_memory_pool, id),
 						pexprChild
 						);
 }
@@ -1245,7 +1245,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEProducer
 {
 	GPOS_ASSERT(NULL != dxlnode);
 	CDXLLogicalCTEProducer *pdxlopCTEProducer = CDXLLogicalCTEProducer::Cast(dxlnode->GetOperator());
-	ULONG ulId = UlMapCTEId(pdxlopCTEProducer->UlId());
+	ULONG id = UlMapCTEId(pdxlopCTEProducer->Id());
 
 	// translate the child dxl node
 	CExpression *pexprChild = PexprLogical((*dxlnode)[0]);
@@ -1308,7 +1308,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEProducer
 	return GPOS_NEW(m_memory_pool) CExpression
 						(
 						m_memory_pool,
-						GPOS_NEW(m_memory_pool) CLogicalCTEProducer(m_memory_pool, ulId, pdrgpcr),
+						GPOS_NEW(m_memory_pool) CLogicalCTEProducer(m_memory_pool, id, pdrgpcr),
 						pexprChild
 						);
 }
@@ -1330,13 +1330,13 @@ CTranslatorDXLToExpr::PexprLogicalCTEConsumer
 	GPOS_ASSERT(NULL != dxlnode);
 
 	CDXLLogicalCTEConsumer *pdxlopCTEConsumer = CDXLLogicalCTEConsumer::Cast(dxlnode->GetOperator());
-	ULONG ulId = UlMapCTEId(pdxlopCTEConsumer->UlId());
+	ULONG id = UlMapCTEId(pdxlopCTEConsumer->Id());
 
 	ULongPtrArray *pdrgpulCols = pdxlopCTEConsumer->PdrgpulColIds();
 
 	// create new col refs
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
-	CExpression *pexprProducer = pcteinfo->PexprCTEProducer(ulId);
+	CExpression *pexprProducer = pcteinfo->PexprCTEProducer(id);
 	GPOS_ASSERT(NULL != pexprProducer);
 
 	DrgPcr *pdrgpcrProducer = CLogicalCTEProducer::PopConvert(pexprProducer->Pop())->Pdrgpcr();
@@ -1357,8 +1357,8 @@ CTranslatorDXLToExpr::PexprLogicalCTEConsumer
 		GPOS_ASSERT(fResult);
 	}
 
-	pcteinfo->IncrementConsumers(ulId, m_ulCTEId);
-	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CLogicalCTEConsumer(m_memory_pool, ulId, pdrgpcrConsumer));
+	pcteinfo->IncrementConsumers(id, m_ulCTEId);
+	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CLogicalCTEConsumer(m_memory_pool, id, pdrgpcrConsumer));
 }
 
 //---------------------------------------------------------------------------
@@ -1718,7 +1718,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 			IMDId *pmdid = popScalar->MDIdType();
 			const IMDType *pmdtype = m_pmda->Pmdtype(pmdid);
 
-			CName name(pdxlopPrEl->PmdnameAlias()->GetMDName());
+			CName name(pdxlopPrEl->GetMdNameAlias()->GetMDName());
 
 			// generate a new column reference
 			CColRef *pcr = m_pcf->PcrCreate(pmdtype, popScalar->TypeModifier(), name);
@@ -1728,7 +1728,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 #ifdef GPOS_DEBUG
 		BOOL fInserted =
 #endif
-			m_phmulcr->Insert(GPOS_NEW(m_memory_pool) ULONG(pdxlopPrEl->UlId()), pcr);
+			m_phmulcr->Insert(GPOS_NEW(m_memory_pool) ULONG(pdxlopPrEl->Id()), pcr);
 			GPOS_ASSERT(fInserted);
 
 			// generate a project element
@@ -3860,7 +3860,7 @@ CTranslatorDXLToExpr::PexprScalarProjElem
 	IMDId *pmdid = popScalar->MDIdType();
 	const IMDType *pmdtype = m_pmda->Pmdtype(pmdid);
 
-	CName name(pdxlopPrEl->PmdnameAlias()->GetMDName());
+	CName name(pdxlopPrEl->GetMdNameAlias()->GetMDName());
 	
 	// generate a new column reference
 	CColRef *pcr = m_pcf->PcrCreate(pmdtype, popScalar->TypeModifier(), name);
@@ -3869,7 +3869,7 @@ CTranslatorDXLToExpr::PexprScalarProjElem
 #ifdef GPOS_DEBUG
 	BOOL fInserted =
 #endif
-	m_phmulcr->Insert(GPOS_NEW(m_memory_pool) ULONG(pdxlopPrEl->UlId()), pcr);
+	m_phmulcr->Insert(GPOS_NEW(m_memory_pool) ULONG(pdxlopPrEl->Id()), pcr);
 	
 	GPOS_ASSERT(fInserted);
 	

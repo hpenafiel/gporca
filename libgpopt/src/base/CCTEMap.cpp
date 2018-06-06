@@ -116,7 +116,7 @@ CCTEMap::PdpplanProducer
 		{
 			GPOS_ASSERT(NULL != pdpplan);
 			pdpplanProducer = pdpplan;
-			*pulId = pcme->UlId();
+			*pulId = pcme->Id();
 		}
 	}
 
@@ -157,24 +157,24 @@ CCTEMap::AddUnresolved
 	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
-		ULONG ulId = pcme->UlId();
+		ULONG id = pcme->Id();
 		ECteType ectFirst = pcme->Ect();
 		CDrvdPropPlan *pdpplanFirst = pcme->Pdpplan();
 
-		if (NULL != pcmResult->PcmeLookup(ulId))
+		if (NULL != pcmResult->PcmeLookup(id))
 		{
 			// skip entries already in the result map
 			continue;
 		}
 
 		// check if entry exists in second map
-		CCTEMapEntry *pcmeSecond = cmSecond.PcmeLookup(ulId);
+		CCTEMapEntry *pcmeSecond = cmSecond.PcmeLookup(id);
 
 		// if entry does not exist in second map, or exists with the same cte type
 		// then it should be in the result
 		if (NULL == pcmeSecond || ectFirst == pcmeSecond->Ect())
 		{
-			pcmResult->Insert(ulId, ectFirst, pdpplanFirst);
+			pcmResult->Insert(id, ectFirst, pdpplanFirst);
 		}
 	}
 }
@@ -223,7 +223,7 @@ CCTEMap::FSubset
 	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
-		CCTEMapEntry *pcmeOther = pcm->PcmeLookup(pcme->UlId());
+		CCTEMapEntry *pcmeOther = pcm->PcmeLookup(pcme->Id());
 		if (NULL == pcmeOther || pcmeOther->Ect() != pcme->Ect())
 		{
 			return false;
@@ -272,11 +272,11 @@ CCTEMap::HashValue() const
 CCTEMap::ECteType
 CCTEMap::Ect
 	(
-	const ULONG ulId
+	const ULONG id
 	)
 	const
 {
-	CCTEMapEntry *pcme = PcmeLookup(ulId);
+	CCTEMapEntry *pcme = PcmeLookup(id);
 	if (NULL == pcme)
 	{
 		return EctSentinel;
@@ -350,7 +350,7 @@ CCTEMap::FSatisfies
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
 		ECteType ect = pcme->Ect();
-		if (CCTEMap::EctConsumer == ect && !pcter->FContainsRequirement(pcme->UlId(), ect))
+		if (CCTEMap::EctConsumer == ect && !pcter->FContainsRequirement(pcme->Id(), ect))
 		{
 			return false;
 		}
@@ -382,12 +382,12 @@ CCTEMap::PdrgpulAdditionalProducers
 	while (hmcmi.Advance())
 	{
 		const CCTEMapEntry *pcme = hmcmi.Value();
-		ULONG ulId = pcme->UlId();
+		ULONG id = pcme->Id();
 		ECteType ect = pcme->Ect();
 
-		if (CCTEMap::EctProducer == ect && !pcter->FContainsRequirement(ulId, ect))
+		if (CCTEMap::EctProducer == ect && !pcter->FContainsRequirement(id, ect))
 		{
-			pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(ulId));
+			pdrgpul->Append(GPOS_NEW(memory_pool) ULONG(id));
 		}
 	}
 

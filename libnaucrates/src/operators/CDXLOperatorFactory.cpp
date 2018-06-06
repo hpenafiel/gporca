@@ -862,15 +862,15 @@ CDXLOperatorFactory::MakeDXLSubPlan
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	IMDId *pmdid,
-	DrgPdxlcr *pdrgdxlcr,
-	EdxlSubPlanType edxlsubplantype,
-	CDXLNode *pdxlnTestExpr
+	DrgPdxlcr *dxl_colref_array,
+	EdxlSubPlanType dxl_subplan_type,
+	CDXLNode *dxlnode_test_expr
 	)
 {
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 
-	return GPOS_NEW(memory_pool) CDXLScalarSubPlan(memory_pool, pmdid, pdrgdxlcr, edxlsubplantype, pdxlnTestExpr);
+	return GPOS_NEW(memory_pool) CDXLScalarSubPlan(memory_pool, pmdid, dxl_colref_array, dxl_subplan_type, dxlnode_test_expr);
 }
 
 //---------------------------------------------------------------------------
@@ -1426,7 +1426,7 @@ CDXLOperatorFactory::MakeDXLProjElem
 								);
 	
 	// parse column id
-	ULONG ulId = ExtractConvertAttrValueToUlong
+	ULONG id = ExtractConvertAttrValueToUlong
 					(
 					memory_manager_dxl,
 					attrs,
@@ -1441,7 +1441,7 @@ CDXLOperatorFactory::MakeDXLProjElem
 	
 	GPOS_DELETE(pstrAlias);
 	
-	return GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, ulId, mdname);
+	return GPOS_NEW(memory_pool) CDXLScalarProjElem(memory_pool, id, mdname);
 }
 
 //---------------------------------------------------------------------------
@@ -1717,7 +1717,7 @@ CDXLOperatorFactory::MakeDXLColumnDescr
 										);
 
 	// parse column id
-	ULONG ulId = ExtractConvertAttrValueToUlong
+	ULONG id = ExtractConvertAttrValueToUlong
 					(
 					memory_manager_dxl,
 					attrs,
@@ -1804,7 +1804,7 @@ CDXLOperatorFactory::MakeDXLColumnDescr
 	
 	GPOS_DELETE(pstrColumnName);
 	
-	return GPOS_NEW(memory_pool) CDXLColDescr(memory_pool, mdname, ulId, iAttno, mdid_type, type_modifier, fColDropped, ulColLen);
+	return GPOS_NEW(memory_pool) CDXLColDescr(memory_pool, mdname, id, iAttno, mdid_type, type_modifier, fColDropped, ulColLen);
 }
 
 //---------------------------------------------------------------------------
@@ -1835,7 +1835,7 @@ CDXLOperatorFactory::MakeDXLColRef
 									);
 
 	// parse column id
-	ULONG ulId = 0;
+	ULONG id = 0;
 	const XMLCh *xmlszColumnId = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColId));
 	if(NULL == xmlszColumnId)
 	{
@@ -1848,7 +1848,7 @@ CDXLOperatorFactory::MakeDXLColRef
 			);
 	}
 	
-	ulId = XMLString::parseInt(xmlszColumnId, memory_manager_dxl);
+	id = XMLString::parseInt(xmlszColumnId, memory_manager_dxl);
 		
 	CWStringDynamic *pstrColumnName =  CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl,xmlszColumnName);
 
@@ -1876,7 +1876,7 @@ CDXLOperatorFactory::MakeDXLColRef
 						IDefaultTypeModifier
 						);
 	
-	return GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, ulId, mdid_type, type_modifier);
+	return GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, id, mdid_type, type_modifier);
 }
 
 //---------------------------------------------------------------------------
@@ -1975,10 +1975,10 @@ CDXLOperatorFactory::ConvertAttrValueToUlong
 	)
 {
 	GPOS_ASSERT(xmlszAttributeVal != NULL);
-	ULONG ulId = 0;
+	ULONG id = 0;
 	try
 	{
-		ulId = XMLString::parseInt(xmlszAttributeVal, memory_manager_dxl);
+		id = XMLString::parseInt(xmlszAttributeVal, memory_manager_dxl);
 	}
 	catch (const NumberFormatException& toCatch)
 	{
@@ -1991,7 +1991,7 @@ CDXLOperatorFactory::ConvertAttrValueToUlong
 		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
 		);
 	}
-	return ulId;
+	return id;
 }
 
 

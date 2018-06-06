@@ -104,7 +104,7 @@ CColRefSetIterTest::EresUnittest_Basics()
 		GPOS_ASSERT(pcr->Name().Equals(name));
 
 		// to avoid unused variable warnings
-		(void) pcr->UlId();
+		(void) pcr->Id();
 
 		ulCount++;
 	}

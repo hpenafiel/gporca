@@ -53,9 +53,9 @@ namespace gpopt
 			~CGroupProxy();
 
 			// set group id
-			void SetId(ULONG ulId)
+			void SetId(ULONG id)
 			{
-				m_pgroup->SetId(ulId);
+				m_pgroup->SetId(id);
 			}
 
 			// set group state

@@ -30,7 +30,7 @@ CLogicalCTEProducer::CLogicalCTEProducer
 	)
 	:
 	CLogical(memory_pool),
-	m_ulId(0),
+	m_id(0),
 	m_pdrgpcr(NULL),
 	m_pcrsOutput(NULL)
 {
@@ -48,12 +48,12 @@ CLogicalCTEProducer::CLogicalCTEProducer
 CLogicalCTEProducer::CLogicalCTEProducer
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulId,
+	ULONG id,
 	DrgPcr *pdrgpcr
 	)
 	:
 	CLogical(memory_pool),
-	m_ulId(ulId),
+	m_id(id),
 	m_pdrgpcr(pdrgpcr)
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
@@ -180,7 +180,7 @@ CLogicalCTEProducer::FMatch
 
 	CLogicalCTEProducer *popCTEProducer = CLogicalCTEProducer::PopConvert(pop);
 
-	return m_ulId == popCTEProducer->UlCTEId() &&
+	return m_id == popCTEProducer->UlCTEId() &&
 			m_pdrgpcr->Equals(popCTEProducer->Pdrgpcr());
 }
 
@@ -195,7 +195,7 @@ CLogicalCTEProducer::FMatch
 ULONG
 CLogicalCTEProducer::HashValue() const
 {
-	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_ulId);
+	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_id);
 	ulHash = gpos::CombineHashes(ulHash, CUtils::UlHashColArray(m_pdrgpcr));
 
 	return ulHash;
@@ -219,7 +219,7 @@ CLogicalCTEProducer::PopCopyWithRemappedColumns
 {
 	DrgPcr *pdrgpcr = CUtils::PdrgpcrRemap(memory_pool, m_pdrgpcr, phmulcr, fMustExist);
 
-	return GPOS_NEW(memory_pool) CLogicalCTEProducer(memory_pool, m_ulId, pdrgpcr);
+	return GPOS_NEW(memory_pool) CLogicalCTEProducer(memory_pool, m_id, pdrgpcr);
 }
 
 //---------------------------------------------------------------------------
@@ -258,7 +258,7 @@ CLogicalCTEProducer::OsPrint
 	const
 {
 	os << SzId() << " (";
-	os << m_ulId;
+	os << m_id;
 	os << "), Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcr);
 	os	<< "]";

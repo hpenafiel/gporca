@@ -28,12 +28,12 @@ using namespace gpdxl;
 CDXLScalarProjElem::CDXLScalarProjElem
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulId,
+	ULONG id,
 	const CMDName *mdname
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulId(ulId),
+	m_id(id),
 	m_mdname(mdname)
 {
 	GPOS_ASSERT(NULL != mdname);
@@ -83,28 +83,28 @@ CDXLScalarProjElem::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarProjElem::UlId
+//		CDXLScalarProjElem::Id
 //
 //	@doc:
 //		Col id for this project element
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLScalarProjElem::UlId() const
+CDXLScalarProjElem::Id() const
 {
-	return m_ulId;
+	return m_id;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarProjElem::PmdnameAlias
+//		CDXLScalarProjElem::GetMdNameAlias
 //
 //	@doc:
 //		Alias
 //
 //---------------------------------------------------------------------------
 const CMDName *
-CDXLScalarProjElem::PmdnameAlias() const
+CDXLScalarProjElem::GetMdNameAlias() const
 {
 	return m_mdname;
 }
@@ -131,7 +131,7 @@ CDXLScalarProjElem::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 		
 	// serialize proj elem id
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_id);
 		
 	// serialize proj element alias
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAlias), m_mdname->GetMDName());
