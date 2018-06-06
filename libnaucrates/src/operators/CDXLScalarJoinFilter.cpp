@@ -79,7 +79,7 @@ void
 CDXLScalarJoinFilter::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode * pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -88,7 +88,7 @@ CDXLScalarJoinFilter::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	// serilize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);	
 }
@@ -106,21 +106,21 @@ CDXLScalarJoinFilter::SerializeToDXL
 void
 CDXLScalarJoinFilter::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) 
 	const
 {
-	GPOS_ASSERT(1 >= pdxln->Arity());
+	GPOS_ASSERT(1 >= node->Arity());
 	
-	if (1 == pdxln->Arity())
+	if (1 == node->Arity())
 	{
-		CDXLNode *pdxlnCond = (*pdxln)[0];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnCond->GetOperator()->GetDXLOperatorType());
+		CDXLNode *dxlnode_condition = (*node)[0];
+		GPOS_ASSERT(EdxloptypeScalar == dxlnode_condition->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{
-			pdxlnCond->GetOperator()->AssertValid(pdxlnCond, validate_children);
+			dxlnode_condition->GetOperator()->AssertValid(dxlnode_condition, validate_children);
 		}
 	}
 	
