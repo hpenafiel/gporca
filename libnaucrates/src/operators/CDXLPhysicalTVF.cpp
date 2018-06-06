@@ -144,12 +144,12 @@ CDXLPhysicalTVF::AssertValid
 	const ULONG ulArity = pdxln->Arity();
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
-		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
+		CDXLNode *dxlnode_arg = (*pdxln)[ul];
+		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
 		{
-			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
+			dxlnode_arg->GetOperator()->AssertValid(dxlnode_arg, validate_children);
 		}
 	}
 }

@@ -78,14 +78,14 @@ void
 CDXLScalarLimitCount::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -101,22 +101,22 @@ CDXLScalarLimitCount::SerializeToDXL
 void
 CDXLScalarLimitCount::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(1 >= ulArity);
+	const ULONG arity = node->Arity();
+	GPOS_ASSERT(1 >= arity);
 
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG idx = 0; idx < arity; ++idx)
 	{
-		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
+		CDXLNode *dxlnode_arg = (*node)[idx];
+		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{
-			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
+			dxlnode_arg->GetOperator()->AssertValid(dxlnode_arg, validate_children);
 		}
 	}
 }

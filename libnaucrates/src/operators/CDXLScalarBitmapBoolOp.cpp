@@ -195,14 +195,14 @@ CDXLScalarBitmapBoolOp::AssertValid
 
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
-		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		Edxlopid edxlop = pdxlnArg->GetOperator()->GetDXLOperator();
+		CDXLNode *dxlnode_arg = (*pdxln)[ul];
+		Edxlopid edxlop = dxlnode_arg->GetOperator()->GetDXLOperator();
 		
 		GPOS_ASSERT(EdxlopScalarBitmapBoolOp == edxlop || EdxlopScalarBitmapIndexProbe == edxlop);
 		
 		if (validate_children)
 		{
-			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
+			dxlnode_arg->GetOperator()->AssertValid(dxlnode_arg, validate_children);
 		}
 	}
 }
