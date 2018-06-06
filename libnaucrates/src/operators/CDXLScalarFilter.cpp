@@ -78,7 +78,7 @@ void
 CDXLScalarFilter::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode * pdxln
+	const CDXLNode * node
 	)
 	const
 {
@@ -87,7 +87,7 @@ CDXLScalarFilter::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	// serilize children
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);	
 }
@@ -104,16 +104,16 @@ CDXLScalarFilter::SerializeToDXL
 void
 CDXLScalarFilter::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children 
 	) 
 	const
 {
-	GPOS_ASSERT(1 >= pdxln->Arity());
+	GPOS_ASSERT(1 >= node->Arity());
 	
-	if (1 == pdxln->Arity())
+	if (1 == node->Arity())
 	{
-		CDXLNode *child_dxlnode = (*pdxln)[0];
+		CDXLNode *child_dxlnode = (*node)[0];
 		
 		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
