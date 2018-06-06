@@ -80,7 +80,7 @@ void
 CDXLScalarDMLAction::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode * // pdxln
+	const CDXLNode * // node
 	)
 	const
 {
@@ -120,12 +120,12 @@ CDXLScalarDMLAction::HasBoolResult
 void
 CDXLScalarDMLAction::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL // validate_children
 	) 
 	const
 {
-	GPOS_ASSERT(0 == pdxln->Arity());
+	GPOS_ASSERT(0 == node->Arity());
 }
 #endif // GPOS_DEBUG
 
