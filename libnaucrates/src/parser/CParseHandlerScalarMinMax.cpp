@@ -78,13 +78,13 @@ CParseHandlerScalarMinMax::StartElement
 	else
 	{
 		// parse child
-		CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphOp);
+		CParseHandlerBase *op_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(op_parse_handler);
 
 		// store parse handlers
-		this->Append(pphOp);
+		this->Append(op_parse_handler);
 
-		pphOp->startElement(element_uri, element_local_name, element_qname, attrs);
+		op_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 

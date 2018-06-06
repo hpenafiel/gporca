@@ -70,14 +70,14 @@ CParseHandlerScalarWindowRef::StartElement
 		// we must have seen an window ref already and initialized the window ref node
 		GPOS_ASSERT(NULL != m_dxl_node);
 
-		CParseHandlerBase *pphOp =
+		CParseHandlerBase *op_parse_handler =
 				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphOp);
+		m_parse_handler_mgr->ActivateParseHandler(op_parse_handler);
 
 		// store parse handlers
-		this->Append(pphOp);
+		this->Append(op_parse_handler);
 
-		pphOp->startElement(element_uri, element_local_name, element_qname, attrs);
+		op_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -105,8 +105,8 @@ CParseHandlerScalarWindowRef::EndElement
 	const ULONG ulSize = this->Length();
 	for (ULONG ul = 0; ul < ulSize; ul++)
 	{
-		CParseHandlerScalarOp *pphOp = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
-		AddChildFromParseHandler(pphOp);
+		CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		AddChildFromParseHandler(op_parse_handler);
 	}
 
 	// deactivate handler

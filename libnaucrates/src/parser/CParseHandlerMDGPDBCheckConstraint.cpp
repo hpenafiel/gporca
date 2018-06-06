@@ -122,9 +122,9 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 	}
 
 	// get node for default value expression from child parse handler
-	CParseHandlerScalarOp *pphOp = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+	CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 
-	CDXLNode *pdxlnScExpr = pphOp->CreateDXLNode();
+	CDXLNode *pdxlnScExpr = op_parse_handler->CreateDXLNode();
 	GPOS_ASSERT(NULL != pdxlnScExpr);
 	pdxlnScExpr->AddRef();
 

@@ -203,9 +203,9 @@ CParseHandlerMetadataColumn::EndElement
 	GPOS_ASSERT(1 == this->Length());
 	
 	// get node for default value expression from child parse handler
-	CParseHandlerScalarOp *pphOp = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+	CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	
-	m_pdxlnDefaultValue = pphOp->CreateDXLNode();
+	m_pdxlnDefaultValue = op_parse_handler->CreateDXLNode();
 	
 	if (NULL != m_pdxlnDefaultValue)
 	{

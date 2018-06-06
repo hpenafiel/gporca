@@ -85,14 +85,14 @@ CParseHandlerFilter::StartElement
 		GPOS_ASSERT(NULL != m_dxl_node);
 		
 		// install a scalar element parser for parsing the condition element
-		CParseHandlerBase *pphOp = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *op_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
-		m_parse_handler_mgr->ActivateParseHandler(pphOp);
+		m_parse_handler_mgr->ActivateParseHandler(op_parse_handler);
 		
 		// store parse handler
-		this->Append(pphOp);
+		this->Append(op_parse_handler);
 		
-		pphOp->startElement(element_uri, element_local_name, element_qname, attrs);
+		op_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 		
 	}
 }
@@ -125,9 +125,9 @@ CParseHandlerFilter::EndElement
 	if (0 < this->Length())
 	{
 		// filter node was not empty 
-		CParseHandlerScalarOp *pphOp = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+		CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 		
-		AddChildFromParseHandler(pphOp);	
+		AddChildFromParseHandler(op_parse_handler);	
 	}
 	
 	// deactivate handler
