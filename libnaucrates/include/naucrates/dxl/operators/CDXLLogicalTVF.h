@@ -52,8 +52,8 @@ namespace gpdxl
 			CDXLLogicalTVF
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidFunc,
-				IMDId *pmdidRetType,
+				IMDId *mdid_func,
+				IMDId *mdid_return_type,
 				CMDName *mdname,
 				ColumnDescrDXLArray *pdrgdxlcd
 				);

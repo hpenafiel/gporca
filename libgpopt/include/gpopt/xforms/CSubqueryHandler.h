@@ -84,7 +84,7 @@ namespace gpopt
 			struct SSubqueryDesc
 			{
 				// subquery can return more than one row
-				BOOL m_fReturnSet;
+				BOOL m_returns_set;
 
 				// subquery has volatile functions
 				BOOL m_fHasVolatileFunctions;
@@ -113,7 +113,7 @@ namespace gpopt
 				// ctor
 				SSubqueryDesc()
 					:
-					m_fReturnSet(false),
+					m_returns_set(false),
 					m_fHasVolatileFunctions(false),
 					m_fHasOuterRefs(false),
 					m_fHasSkipLevelCorrelations(false),

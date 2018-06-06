@@ -2023,15 +2023,15 @@ CTranslatorExprToDXL::PdxlnTVF
 
 	CColRefSet *pcrsOutput = popTVF->PcrsOutput();
 
-	IMDId *pmdidFunc = popTVF->FuncMdId();
-	pmdidFunc->AddRef();
+	IMDId *mdid_func = popTVF->FuncMdId();
+	mdid_func->AddRef();
 
-	IMDId *pmdidRetType = popTVF->ReturnTypeMdId();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = popTVF->ReturnTypeMdId();
+	mdid_return_type->AddRef();
 
 	CWStringConst *pstrFunc = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, popTVF->Pstr()->GetBuffer());
 
-	CDXLPhysicalTVF *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalTVF(m_memory_pool, pmdidFunc, pmdidRetType, pstrFunc);
+	CDXLPhysicalTVF *dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalTVF(m_memory_pool, mdid_func, mdid_return_type, pstrFunc);
 
 	CDXLPhysicalProperties *dxl_properties = GetProperties(pexprTVF);
 	CDXLNode *pdxlnTVF = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
@@ -6013,18 +6013,18 @@ CTranslatorExprToDXL::PdxlnScFuncExpr
 
 	CScalarFunc *popScFunc = CScalarFunc::PopConvert(pexprFunc->Pop());
 
-	IMDId *pmdidFunc = popScFunc->FuncMdId();
-	pmdidFunc->AddRef();
+	IMDId *mdid_func = popScFunc->FuncMdId();
+	mdid_func->AddRef();
 
-	IMDId *pmdidRetType = popScFunc->MDIdType();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = popScFunc->MDIdType();
+	mdid_return_type->AddRef();
 
-	const IMDFunction *pmdfunc = m_pmda->Pmdfunc(pmdidFunc);
+	const IMDFunction *pmdfunc = m_pmda->Pmdfunc(mdid_func);
 
 	CDXLNode *pdxlnFuncExpr = GPOS_NEW(m_memory_pool) CDXLNode
 											(
 											m_memory_pool,
-											GPOS_NEW(m_memory_pool) CDXLScalarFuncExpr(m_memory_pool, pmdidFunc, pmdidRetType, popScFunc->TypeModifier(), pmdfunc->FReturnsSet())
+											GPOS_NEW(m_memory_pool) CDXLScalarFuncExpr(m_memory_pool, mdid_func, mdid_return_type, popScFunc->TypeModifier(), pmdfunc->FReturnsSet())
 											);
 
 	// translate children
@@ -6052,18 +6052,18 @@ CTranslatorExprToDXL::PdxlnScWindowFuncExpr
 
 	CScalarWindowFunc *popScWindowFunc = CScalarWindowFunc::PopConvert(pexprWindowFunc->Pop());
 
-	IMDId *pmdidFunc = popScWindowFunc->FuncMdId();
-	pmdidFunc->AddRef();
+	IMDId *mdid_func = popScWindowFunc->FuncMdId();
+	mdid_func->AddRef();
 
-	IMDId *pmdidRetType = popScWindowFunc->MDIdType();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = popScWindowFunc->MDIdType();
+	mdid_return_type->AddRef();
 
 	EdxlWinStage edxlwinstage = Ews(popScWindowFunc->Ews());
 	CDXLScalarWindowRef *pdxlopWindowref = GPOS_NEW(m_memory_pool) CDXLScalarWindowRef
 															(
 															m_memory_pool,
-															pmdidFunc,
-															pmdidRetType,
+															mdid_func,
+															mdid_return_type,
 															popScWindowFunc->FDistinct(),
 															popScWindowFunc->FStarArg(),
 															popScWindowFunc->FSimpleAgg(),
@@ -6488,10 +6488,10 @@ CTranslatorExprToDXL::PdxlnScCast
 	IMDId *pmdid = popScCast->MDIdType();
 	pmdid->AddRef();
 
-	IMDId *pmdidFunc = popScCast->FuncMdId();
-	pmdidFunc->AddRef();
+	IMDId *mdid_func = popScCast->FuncMdId();
+	mdid_func->AddRef();
 
-	CDXLNode *pdxlnCast = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCast(m_memory_pool, pmdid, pmdidFunc));
+	CDXLNode *pdxlnCast = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCast(m_memory_pool, pmdid, mdid_func));
 
 	// translate child
 	GPOS_ASSERT(1 == pexprCast->Arity());

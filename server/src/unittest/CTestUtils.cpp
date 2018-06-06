@@ -2238,14 +2238,14 @@ CTestUtils::PexprLogicalTVF
 	DrgPcoldesc *pdrgpcoldesc = GPOS_NEW(memory_pool) DrgPcoldesc(memory_pool);
 	pdrgpcoldesc->Append(pcoldescInt);
 
-	IMDId *pmdidRetType = pmdtypeint8->MDId();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = pmdtypeint8->MDId();
+	mdid_return_type->AddRef();
 
 	CLogicalTVF *popTVF = GPOS_NEW(memory_pool) CLogicalTVF
 										(
 										memory_pool,
 										pmdid,
-										pmdidRetType,
+										mdid_return_type,
 										pstrFuncName,
 										pdrgpcoldesc
 										);
@@ -2520,8 +2520,8 @@ CTestUtils::PexprLogicalSequenceProject
 	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidFunc);
 	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdid);
 
-	IMDId *pmdidRetType = pmdfunc->PmdidTypeResult();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = pmdfunc->PmdidTypeResult();
+	mdid_return_type->AddRef();
 
 	CExpression *pexprWinFunc =
 			GPOS_NEW(memory_pool) CExpression
@@ -2531,7 +2531,7 @@ CTestUtils::PexprLogicalSequenceProject
 							(
 							memory_pool,
 							pmdid,
-							pmdidRetType,
+							mdid_return_type,
 							GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdfunc->Mdname().GetMDName()->GetBuffer()),
 							CScalarWindowFunc::EwsImmediate,
 							false /*fDistinct*/,

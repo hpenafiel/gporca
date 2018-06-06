@@ -4450,9 +4450,9 @@ CXformUtils::PexprWinFuncAgg2ScalarAgg
 	}
 
 	CScalarWindowFunc *popScWinFunc = CScalarWindowFunc::PopConvert(pexprWinFunc->Pop());
-	IMDId *pmdidFunc = popScWinFunc->FuncMdId();
+	IMDId *mdid_func = popScWinFunc->FuncMdId();
 
-	pmdidFunc->AddRef();
+	mdid_func->AddRef();
 	return
 		GPOS_NEW(memory_pool) CExpression
 			(
@@ -4460,7 +4460,7 @@ CXformUtils::PexprWinFuncAgg2ScalarAgg
 			CUtils::PopAggFunc
 				(
 				memory_pool,
-				pmdidFunc,
+				mdid_func,
 				GPOS_NEW(memory_pool) CWStringConst(memory_pool, popScWinFunc->PstrFunc()->GetBuffer()),
 				popScWinFunc->FDistinct(),
 				EaggfuncstageGlobal,

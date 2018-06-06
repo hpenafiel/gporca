@@ -39,10 +39,10 @@ namespace gpdxl
 			// return type
 			IMDId *m_return_type_mdid;
 
-			const INT m_iRetTypeModifier;
+			const INT m_return_type_modifier;
 
 			// does the func return a set
-			BOOL m_fReturnSet;
+			BOOL m_returns_set;
 
 			// private copy ctor
 			CDXLScalarFuncExpr(const CDXLScalarFuncExpr&);
@@ -52,10 +52,10 @@ namespace gpdxl
 			CDXLScalarFuncExpr
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidFunc,
-				IMDId *pmdidRetType,
-				INT iRetTypeModifier,
-				BOOL fretset
+				IMDId *mdid_func,
+				IMDId *mdid_return_type,
+				INT return_type_modifier,
+				BOOL returns_set
 				);
 
 			//dtor
@@ -77,7 +77,7 @@ namespace gpdxl
 			INT TypeModifier() const;
 
 			// does function return a set
-			BOOL FReturnSet() const;
+			BOOL ReturnsSet() const;
 
 			// serialize operator in DXL format
 			virtual

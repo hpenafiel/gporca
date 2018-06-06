@@ -40,7 +40,7 @@ CScalarFunc::CScalarFunc
 	CScalar(memory_pool),
 	m_func_mdid(NULL),
 	m_return_type_mdid(NULL),
-	m_iRetTypeModifier(IDefaultTypeModifier),
+	m_return_type_modifier(IDefaultTypeModifier),
 	m_pstrFunc(NULL),
 	m_efs(IMDFunction::EfsSentinel),
 	m_efda(IMDFunction::EfdaSentinel),
@@ -61,23 +61,23 @@ CScalarFunc::CScalarFunc
 CScalarFunc::CScalarFunc
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidFunc,
-	IMDId *pmdidRetType,
-	INT iRetTypeModifier,
+	IMDId *mdid_func,
+	IMDId *mdid_return_type,
+	INT return_type_modifier,
 	const CWStringConst *pstrFunc
 	)
 	:
 	CScalar(memory_pool),
-	m_func_mdid(pmdidFunc),
-	m_return_type_mdid(pmdidRetType),
-	m_iRetTypeModifier(iRetTypeModifier),
+	m_func_mdid(mdid_func),
+	m_return_type_mdid(mdid_return_type),
+	m_return_type_modifier(return_type_modifier),
 	m_pstrFunc(pstrFunc),
 	m_fReturnsSet(false),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
-	GPOS_ASSERT(pmdidFunc->IsValid());
-	GPOS_ASSERT(pmdidRetType->IsValid());
+	GPOS_ASSERT(mdid_func->IsValid());
+	GPOS_ASSERT(mdid_return_type->IsValid());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
@@ -212,7 +212,7 @@ CScalarFunc::MDIdType() const
 INT
 CScalarFunc::TypeModifier() const
 {
-	return m_iRetTypeModifier;
+	return m_return_type_modifier;
 }
 
 //---------------------------------------------------------------------------

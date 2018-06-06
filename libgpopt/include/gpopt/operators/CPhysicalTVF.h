@@ -57,8 +57,8 @@ namespace gpopt
 			CPhysicalTVF
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidFunc,
-				IMDId *pmdidRetType,
+				IMDId *mdid_func,
+				IMDId *mdid_return_type,
 				CWStringConst *pstr,
 				DrgPcoldesc *pdrgpcoldesc,
 				CColRefSet *pcrsOutput

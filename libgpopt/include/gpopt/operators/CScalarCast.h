@@ -58,7 +58,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdidReturnType,
-				IMDId *pmdidFunc,
+				IMDId *mdid_func,
 				BOOL fBinaryCoercible
 				);
 

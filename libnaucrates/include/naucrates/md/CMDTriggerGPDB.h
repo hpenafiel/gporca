@@ -72,7 +72,7 @@ namespace gpmd
 				IMDId *pmdid,
 				CMDName *mdname,
 				IMDId *pmdidRel,
-				IMDId *pmdidFunc,
+				IMDId *mdid_func,
 				INT iType,
 				BOOL fEnabled
 				);

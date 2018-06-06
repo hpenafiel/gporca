@@ -251,7 +251,7 @@ CSubqueryHandler::SSubqueryDesc::SetCorrelatedExecution()
 {
 	// check conditions of correlated execution
 	m_fCorrelatedExecution =
-		m_fReturnSet || // subquery produces > 1 rows, we need correlated execution to check for cardinality at runtime
+		m_returns_set || // subquery produces > 1 rows, we need correlated execution to check for cardinality at runtime
 		m_fHasVolatileFunctions || // volatile functions cannot be decorrelated
 		(m_fHasCountAgg && m_fHasSkipLevelCorrelations); // count() with skip-level correlations cannot be decorrelated due to their NULL semantics
 }
@@ -284,7 +284,7 @@ CSubqueryHandler::Psd
 	CColRefSet *pcrsOuterOutput = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
 
 	SSubqueryDesc *psd = GPOS_NEW(memory_pool) SSubqueryDesc();
-	psd->m_fReturnSet = (1 < CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->Maxcard().Ull());
+	psd->m_returns_set = (1 < CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->Maxcard().Ull());
 	psd->m_fHasOuterRefs = pexprInner->FHasOuterRefs();
 	psd->m_fHasVolatileFunctions = (IMDFunction::EfsVolatile == CDrvdPropScalar::Pdpscalar(pexprSubquery->PdpDerive())->Pfp()->Efs());
 	psd->m_fHasSkipLevelCorrelations = 0 < pcrsOuter->Size() && !pcrsOuterOutput->ContainsAll(pcrsOuter);

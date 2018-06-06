@@ -921,7 +921,7 @@ CDXLOperatorFactory::MakeDXLCast
 							EdxltokenScalarCast
 							);
 
-	IMDId *pmdidFunc = PmdidFromAttrs
+	IMDId *mdid_func = PmdidFromAttrs
 							(
 							memory_manager_dxl,
 							attrs,
@@ -929,7 +929,7 @@ CDXLOperatorFactory::MakeDXLCast
 							EdxltokenScalarCast
 							);
 
-	return GPOS_NEW(memory_pool) CDXLScalarCast(memory_pool, mdid_type, pmdidFunc);
+	return GPOS_NEW(memory_pool) CDXLScalarCast(memory_pool, mdid_type, mdid_func);
 }
 
 
@@ -1078,7 +1078,7 @@ CDXLOperatorFactory::MakeDXLFuncExpr
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
-	IMDId *pmdidFunc = PmdidFromAttrs
+	IMDId *mdid_func = PmdidFromAttrs
 							(
 							memory_manager_dxl,
 							attrs,
@@ -1094,7 +1094,7 @@ CDXLOperatorFactory::MakeDXLFuncExpr
 					EdxltokenScalarFuncExpr
 					);
 
-	IMDId *pmdidRetType = PmdidFromAttrs
+	IMDId *mdid_return_type = PmdidFromAttrs
 							(
 							memory_manager_dxl,
 							attrs,
@@ -1112,7 +1112,7 @@ CDXLOperatorFactory::MakeDXLFuncExpr
 						IDefaultTypeModifier
 						);
 
-	return GPOS_NEW(memory_pool) CDXLScalarFuncExpr(memory_pool, pmdidFunc, pmdidRetType, type_modifier, fRetset);
+	return GPOS_NEW(memory_pool) CDXLScalarFuncExpr(memory_pool, mdid_func, mdid_return_type, type_modifier, fRetset);
 }
 
 //---------------------------------------------------------------------------
@@ -3863,8 +3863,8 @@ CDXLOperatorFactory::PdxlopWindowRef
 {
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
-	IMDId *pmdidFunc = PmdidFromAttrs(memory_manager_dxl, attrs, EdxltokenWindowrefOid, EdxltokenScalarWindowref);
-	IMDId *pmdidRetType = PmdidFromAttrs(memory_manager_dxl, attrs, EdxltokenTypeId, EdxltokenScalarWindowref);
+	IMDId *mdid_func = PmdidFromAttrs(memory_manager_dxl, attrs, EdxltokenWindowrefOid, EdxltokenScalarWindowref);
+	IMDId *mdid_return_type = PmdidFromAttrs(memory_manager_dxl, attrs, EdxltokenTypeId, EdxltokenScalarWindowref);
 	BOOL fDistinct = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefDistinct, EdxltokenScalarWindowref);
 	BOOL fStarArg = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefStarArg, EdxltokenScalarWindowref);
 	BOOL fSimpleAgg = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefSimpleAgg, EdxltokenScalarWindowref);
@@ -3893,7 +3893,7 @@ CDXLOperatorFactory::PdxlopWindowRef
 	}
 	GPOS_ASSERT(EdxlwinstageSentinel != edxlwinstage);
 
-	return GPOS_NEW(memory_pool) CDXLScalarWindowRef(memory_pool, pmdidFunc, pmdidRetType, fDistinct, fStarArg, fSimpleAgg, edxlwinstage, ulWinspecPos);
+	return GPOS_NEW(memory_pool) CDXLScalarWindowRef(memory_pool, mdid_func, mdid_return_type, fDistinct, fStarArg, fSimpleAgg, edxlwinstage, ulWinspecPos);
 }
 
 //---------------------------------------------------------------------------

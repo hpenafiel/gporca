@@ -67,8 +67,8 @@ namespace gpopt
 			CLogicalTVF
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidFunc,
-				IMDId *pmdidRetType,
+				IMDId *mdid_func,
+				IMDId *mdid_return_type,
 				CWStringConst *pstr,
 				DrgPcoldesc *pdrgpcoldesc
 				);
@@ -76,8 +76,8 @@ namespace gpopt
 			CLogicalTVF
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidFunc,
-				IMDId *pmdidRetType,
+				IMDId *mdid_func,
+				IMDId *mdid_return_type,
 				CWStringConst *pstr,
 				DrgPcoldesc *pdrgpcoldesc,
 				DrgPcr *pdrgpcrOutput

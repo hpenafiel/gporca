@@ -340,9 +340,9 @@ CMDAccessorTest::EresUnittest_Navigate()
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 	
 	// lookup a function in the MD cache
-	CMDIdGPDB *pmdidFunc = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_FUNC_TIMEOFDAY /* OID */, 1 /* major version */, 0 /* minor version */);
+	CMDIdGPDB *mdid_func = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_FUNC_TIMEOFDAY /* OID */, 1 /* major version */, 0 /* minor version */);
 
-	const IMDFunction *pmdfunc = mda.Pmdfunc(pmdidFunc);
+	const IMDFunction *pmdfunc = mda.Pmdfunc(mdid_func);
 	
 	// lookup function return type
 	IMDId *pmdidFuncReturnType = pmdfunc->PmdidTypeResult();
@@ -377,7 +377,7 @@ CMDAccessorTest::EresUnittest_Navigate()
 	
 #endif
 	
-	pmdidFunc->Release();
+	mdid_func->Release();
 	
 	return GPOS_OK;
 }

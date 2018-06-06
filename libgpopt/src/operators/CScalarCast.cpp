@@ -37,13 +37,13 @@ CScalarCast::CScalarCast
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdidReturnType,
-	IMDId *pmdidFunc,
+	IMDId *mdid_func,
 	BOOL fBinaryCoercible
 	)
 	:
 	CScalar(memory_pool),
 	m_pmdidReturnType(pmdidReturnType),
-	m_func_mdid(pmdidFunc),
+	m_func_mdid(mdid_func),
 	m_fBinaryCoercible(fBinaryCoercible),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)

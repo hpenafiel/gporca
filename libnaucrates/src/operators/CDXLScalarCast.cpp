@@ -32,12 +32,12 @@ CDXLScalarCast::CDXLScalarCast
 	(
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
-	IMDId *pmdidFunc
+	IMDId *mdid_func
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_mdid_type(mdid_type),
-	m_func_mdid(pmdidFunc)
+	m_func_mdid(mdid_func)
 {
 	GPOS_ASSERT(NULL != m_func_mdid);
 	GPOS_ASSERT(m_mdid_type->IsValid());

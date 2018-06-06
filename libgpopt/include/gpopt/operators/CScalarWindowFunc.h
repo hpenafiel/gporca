@@ -77,8 +77,8 @@ namespace gpopt
 			CScalarWindowFunc
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidFunc,
-				IMDId *pmdidRetType,
+				IMDId *mdid_func,
+				IMDId *mdid_return_type,
 				const CWStringConst *pstrFunc,
 				EWinStage ewinstage,
 				BOOL fDistinct,

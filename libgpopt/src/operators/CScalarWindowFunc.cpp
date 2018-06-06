@@ -37,8 +37,8 @@ using namespace gpmd;
 CScalarWindowFunc::CScalarWindowFunc
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidFunc,
-	IMDId *pmdidRetType,
+	IMDId *mdid_func,
+	IMDId *mdid_return_type,
 	const CWStringConst *pstrFunc,
 	EWinStage ewinstage,
 	BOOL fDistinct,
@@ -53,10 +53,10 @@ CScalarWindowFunc::CScalarWindowFunc
 	m_fSimpleAgg(fSimpleAgg),
 	m_fAgg(false)
 {
-	GPOS_ASSERT(pmdidFunc->IsValid());
-	GPOS_ASSERT(pmdidRetType->IsValid());
-	m_func_mdid = pmdidFunc;
-	m_return_type_mdid = pmdidRetType;
+	GPOS_ASSERT(mdid_func->IsValid());
+	GPOS_ASSERT(mdid_return_type->IsValid());
+	m_func_mdid = mdid_func;
+	m_return_type_mdid = mdid_return_type;
 	m_pstrFunc = pstrFunc;
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();

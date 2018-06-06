@@ -59,21 +59,21 @@ CLogicalTVF::CLogicalTVF
 CLogicalTVF::CLogicalTVF
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidFunc,
-	IMDId *pmdidRetType,
+	IMDId *mdid_func,
+	IMDId *mdid_return_type,
 	CWStringConst *pstr,
 	DrgPcoldesc *pdrgpcoldesc
 	)
 	:
 	CLogical(memory_pool),
-	m_func_mdid(pmdidFunc),
-	m_return_type_mdid(pmdidRetType),
+	m_func_mdid(mdid_func),
+	m_return_type_mdid(mdid_return_type),
 	m_pstr(pstr),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(NULL)
 {
-	GPOS_ASSERT(pmdidFunc->IsValid());
-	GPOS_ASSERT(pmdidRetType->IsValid());
+	GPOS_ASSERT(mdid_func->IsValid());
+	GPOS_ASSERT(mdid_return_type->IsValid());
 	GPOS_ASSERT(NULL != pstr);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 
@@ -99,22 +99,22 @@ CLogicalTVF::CLogicalTVF
 CLogicalTVF::CLogicalTVF
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidFunc,
-	IMDId *pmdidRetType,
+	IMDId *mdid_func,
+	IMDId *mdid_return_type,
 	CWStringConst *pstr,
 	DrgPcoldesc *pdrgpcoldesc,
 	DrgPcr *pdrgpcrOutput
 	)
 	:
 	CLogical(memory_pool),
-	m_func_mdid(pmdidFunc),
-	m_return_type_mdid(pmdidRetType),
+	m_func_mdid(mdid_func),
+	m_return_type_mdid(mdid_return_type),
 	m_pstr(pstr),
 	m_pdrgpcoldesc(pdrgpcoldesc),
 	m_pdrgpcrOutput(pdrgpcrOutput)
 {
-	GPOS_ASSERT(pmdidFunc->IsValid());
-	GPOS_ASSERT(pmdidRetType->IsValid());
+	GPOS_ASSERT(mdid_func->IsValid());
+	GPOS_ASSERT(mdid_return_type->IsValid());
 	GPOS_ASSERT(NULL != pstr);
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 	GPOS_ASSERT(NULL != pdrgpcrOutput);

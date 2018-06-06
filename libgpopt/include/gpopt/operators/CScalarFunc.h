@@ -43,7 +43,7 @@ namespace gpopt
 			// return type
 			IMDId *m_return_type_mdid;
 
-			const INT m_iRetTypeModifier;
+			const INT m_return_type_modifier;
 
 			// function name
 			const CWStringConst *m_pstrFunc;
@@ -74,7 +74,7 @@ namespace gpopt
 			CScalarFunc(IMemoryPool *memory_pool);
 
 			// ctor
-			CScalarFunc(IMemoryPool *memory_pool, IMDId *pmdidFunc, IMDId *pmdidRetType, INT iRetTypeModifier, const CWStringConst *pstrFunc);
+			CScalarFunc(IMemoryPool *memory_pool, IMDId *mdid_func, IMDId *mdid_return_type, INT return_type_modifier, const CWStringConst *pstrFunc);
 
 			// dtor
 			virtual 

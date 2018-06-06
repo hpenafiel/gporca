@@ -41,17 +41,17 @@ const CWStringConst *
 CMDAccessorUtils::PstrWindowFuncName
 	(
 	CMDAccessor *md_accessor,
-	IMDId *pmdidFunc
+	IMDId *mdid_func
 	)
 {
-	if (md_accessor->FAggWindowFunc(pmdidFunc))
+	if (md_accessor->FAggWindowFunc(mdid_func))
 	{
-		const IMDAggregate *pmdagg = md_accessor->Pmdagg(pmdidFunc);
+		const IMDAggregate *pmdagg = md_accessor->Pmdagg(mdid_func);
 		
 		return pmdagg->Mdname().GetMDName();
 	}
 
-	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdidFunc);
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(mdid_func);
 
 	return pmdfunc->Mdname().GetMDName();
 }
@@ -68,17 +68,17 @@ IMDId *
 CMDAccessorUtils::PmdidWindowReturnType
 	(
 	CMDAccessor *md_accessor,
-	IMDId *pmdidFunc
+	IMDId *mdid_func
 	)
 {
 
-	if (md_accessor->FAggWindowFunc(pmdidFunc))
+	if (md_accessor->FAggWindowFunc(mdid_func))
 	{
-		const IMDAggregate *pmdagg = md_accessor->Pmdagg(pmdidFunc);
+		const IMDAggregate *pmdagg = md_accessor->Pmdagg(mdid_func);
 		return pmdagg->PmdidTypeResult();
 	}
 
-	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdidFunc);
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(mdid_func);
 	return pmdfunc->PmdidTypeResult();
 }
 

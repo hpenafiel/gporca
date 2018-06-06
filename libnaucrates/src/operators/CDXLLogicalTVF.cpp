@@ -29,14 +29,14 @@ using namespace gpdxl;
 CDXLLogicalTVF::CDXLLogicalTVF
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidFunc,
-	IMDId *pmdidRetType,
+	IMDId *mdid_func,
+	IMDId *mdid_return_type,
 	CMDName *mdname,
 	ColumnDescrDXLArray *pdrgdxlcd
 	)
 	:CDXLLogical(memory_pool),
-	m_func_mdid(pmdidFunc),
-	m_return_type_mdid(pmdidRetType),
+	m_func_mdid(mdid_func),
+	m_return_type_mdid(mdid_return_type),
 	m_mdname(mdname),
 	m_col_descr_dxl_array(pdrgdxlcd)
 {

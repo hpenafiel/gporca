@@ -88,7 +88,7 @@ namespace gpmd
 				IMDId *pmdidTypeLeft,
 				IMDId *pmdidTypeRight,
 				IMDId *pmdidTypeResult,
-				IMDId *pmdidFunc,
+				IMDId *mdid_func,
 				IMDId *pmdidOpCommute,
 				IMDId *pmdidOpInverse,
 				IMDType::ECmpType ecmpt,

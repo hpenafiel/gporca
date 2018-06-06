@@ -31,17 +31,17 @@ using namespace gpdxl;
 CDXLScalarFuncExpr::CDXLScalarFuncExpr
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidFunc,
-	IMDId *pmdidRetType,
-	INT iRetTypeModifier,
+	IMDId *mdid_func,
+	IMDId *mdid_return_type,
+	INT return_type_modifier,
 	BOOL fRetSet
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_func_mdid(pmdidFunc),
-	m_return_type_mdid(pmdidRetType),
-	m_iRetTypeModifier(iRetTypeModifier),
-	m_fReturnSet(fRetSet)
+	m_func_mdid(mdid_func),
+	m_return_type_mdid(mdid_return_type),
+	m_return_type_modifier(return_type_modifier),
+	m_returns_set(fRetSet)
 {
 	GPOS_ASSERT(m_func_mdid->IsValid());
 	GPOS_ASSERT(m_return_type_mdid->IsValid());
@@ -121,21 +121,21 @@ CDXLScalarFuncExpr::ReturnTypeMdId() const
 INT
 CDXLScalarFuncExpr::TypeModifier() const
 {
-	return m_iRetTypeModifier;
+	return m_return_type_modifier;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarFuncExpr::FReturnSet
+//		CDXLScalarFuncExpr::ReturnsSet
 //
 //	@doc:
 //		Returns whether the function returns a set
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarFuncExpr::FReturnSet() const
+CDXLScalarFuncExpr::ReturnsSet() const
 {
-	return m_fReturnSet;
+	return m_returns_set;
 }
 
 //---------------------------------------------------------------------------
@@ -158,7 +158,7 @@ CDXLScalarFuncExpr::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	m_func_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenFuncId));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenFuncRetSet), m_fReturnSet);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenFuncRetSet), m_returns_set);
 	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())

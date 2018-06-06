@@ -34,7 +34,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	IMDId *pmdid,
 	CMDName *mdname,
 	IMDId *pmdidRel,
-	IMDId *pmdidFunc,
+	IMDId *mdid_func,
 	INT iType,
 	BOOL fEnabled
 	)
@@ -43,7 +43,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	m_mdid(pmdid),
 	m_mdname(mdname),
 	m_rel_mdid(pmdidRel),
-	m_func_mdid(pmdidFunc),
+	m_func_mdid(mdid_func),
 	m_iType(iType),
 	m_fEnabled(fEnabled)
 {

@@ -72,7 +72,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdidWinfunc,
-				IMDId *pmdidRetType,
+				IMDId *mdid_return_type,
 				BOOL fDistinct,
 				BOOL fStarArg,
 				BOOL fSimpleAgg,

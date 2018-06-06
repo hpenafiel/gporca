@@ -339,7 +339,7 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 	CDXLNode *pdxlnScalarLeafIfStmt = NULL;
 	
 	const IMDTypeInt4 *pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>();
-	IMDId *pmdidRetType = pmdtypeint4->MDId();
+	IMDId *mdid_return_type = pmdtypeint4->MDId();
 
 	while (pcmi.Advance())
 	{
@@ -357,11 +357,11 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 		
 		CDXLNode *pdxlnPropagate = PdxlnInt4Const(memory_pool, md_accessor, (INT) ulSecondaryScanId);
 		
-		pmdidRetType->AddRef();
+		mdid_return_type->AddRef();
 		CDXLNode *pdxlnScalarIf = GPOS_NEW(memory_pool) CDXLNode
 										(
 										memory_pool, 
-										GPOS_NEW(memory_pool) CDXLScalarIfStmt(memory_pool, pmdidRetType),
+										GPOS_NEW(memory_pool) CDXLScalarIfStmt(memory_pool, mdid_return_type),
 										pdxlnTest, 
 										pdxlnPropagate
 										);
@@ -383,7 +383,7 @@ CTranslatorExprToDXLUtils::PdxlnPropagationExpressionForPartConstraints
 	GPOS_ASSERT(2 == pdxlnScalarLeafIfStmt->Arity());
 	
 	// add a dummy value for the top and bottom level else cases
-	const IMDType *pmdtypeVoid = md_accessor->Pmdtype(pmdidRetType);
+	const IMDType *pmdtypeVoid = md_accessor->Pmdtype(mdid_return_type);
 	CDXLDatum *datum_dxl = pmdtypeVoid->PdxldatumNull(memory_pool);
 	CDXLNode *pdxlnNullConst = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl));
 	pdxlnScalarLeafIfStmt->AddChild(pdxlnNullConst);

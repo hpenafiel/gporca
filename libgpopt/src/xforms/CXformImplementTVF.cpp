@@ -113,11 +113,11 @@ CXformImplementTVF::Transform
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// create/extract components for alternative
-	IMDId *pmdidFunc = popTVF->FuncMdId();
-	pmdidFunc->AddRef();
+	IMDId *mdid_func = popTVF->FuncMdId();
+	mdid_func->AddRef();
 
-	IMDId *pmdidRetType = popTVF->ReturnTypeMdId();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = popTVF->ReturnTypeMdId();
+	mdid_return_type->AddRef();
 
 	CWStringConst *pstr = GPOS_NEW(memory_pool) CWStringConst(popTVF->Pstr()->GetBuffer());
 
@@ -130,7 +130,7 @@ CXformImplementTVF::Transform
 
 	DrgPexpr *pdrgpexpr = pexpr->PdrgPexpr();
 
-	CPhysicalTVF *pphTVF = GPOS_NEW(memory_pool) CPhysicalTVF(memory_pool, pmdidFunc, pmdidRetType, pstr, pdrgpcoldesc, pcrs);
+	CPhysicalTVF *pphTVF = GPOS_NEW(memory_pool) CPhysicalTVF(memory_pool, mdid_func, mdid_return_type, pstr, pdrgpcoldesc, pcrs);
 
 	CExpression *pexprAlt = NULL;
 	// create alternative expression

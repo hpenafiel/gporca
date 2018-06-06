@@ -482,16 +482,16 @@ CTranslatorDXLToExpr::PexprLogicalTVF
 	}
 
 	// create a logical TVF operator
-	IMDId *pmdidFunc = dxl_op->FuncMdId();
-	pmdidFunc->AddRef();
+	IMDId *mdid_func = dxl_op->FuncMdId();
+	mdid_func->AddRef();
 
-	IMDId *pmdidRetType = dxl_op->ReturnTypeMdId();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = dxl_op->ReturnTypeMdId();
+	mdid_return_type->AddRef();
 	CLogicalTVF *popTVF = GPOS_NEW(m_memory_pool) CLogicalTVF
 										(
 										m_memory_pool,
-										pmdidFunc,
-										pmdidRetType,
+										mdid_func,
+										mdid_return_type,
 										GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool,
 																			  dxl_op->MdName()->GetMDName()->GetBuffer()),
 										pdrgpcoldesc
@@ -2877,12 +2877,12 @@ CTranslatorDXLToExpr::PexprScalarFunc
 	
 	COperator *pop = NULL;
 
-	IMDId *pmdidFunc = pdxlopFuncExpr->FuncMdId();
-	pmdidFunc->AddRef();
-	const IMDFunction *pmdfunc = m_pmda->Pmdfunc(pmdidFunc);
+	IMDId *mdid_func = pdxlopFuncExpr->FuncMdId();
+	mdid_func->AddRef();
+	const IMDFunction *pmdfunc = m_pmda->Pmdfunc(mdid_func);
 
-	IMDId *pmdidRetType = pdxlopFuncExpr->ReturnTypeMdId();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = pdxlopFuncExpr->ReturnTypeMdId();
+	mdid_return_type->AddRef();
 
 	DrgPexpr *pdrgpexprArgs = NULL;
 	IMDId *pmdidInput = NULL;
@@ -2904,7 +2904,7 @@ CTranslatorDXLToExpr::PexprScalarFunc
 
 	if (CTranslatorDXLToExprUtils::FCastFunc(m_pmda, pdxlnFunc, pmdidInput))
 	{
-		const IMDCast *pmdcast = m_pmda->Pmdcast(pmdidInput, pmdidRetType);
+		const IMDCast *pmdcast = m_pmda->Pmdcast(pmdidInput, mdid_return_type);
 
 		if (pmdcast->EmdPathType() == IMDCast::EmdtArrayCoerce)
 		{
@@ -2913,7 +2913,7 @@ CTranslatorDXLToExpr::PexprScalarFunc
 					(
 					m_memory_pool,
 					parrayCoerceCast->PmdidCastFunc(),
-					pmdidRetType,
+					mdid_return_type,
 					parrayCoerceCast->TypeModifier(),
 					parrayCoerceCast->FIsExplicit(),
 					(COperator::ECoercionForm) parrayCoerceCast->Ecf(),
@@ -2925,8 +2925,8 @@ CTranslatorDXLToExpr::PexprScalarFunc
 			pop = GPOS_NEW(m_memory_pool) CScalarCast
 					(
 					m_memory_pool,
-					pmdidRetType,
-					pmdidFunc,
+					mdid_return_type,
+					mdid_func,
 					pmdcast->FBinaryCoercible()
 					);
 		}
@@ -2936,8 +2936,8 @@ CTranslatorDXLToExpr::PexprScalarFunc
 		pop = GPOS_NEW(m_memory_pool) CScalarFunc
 				(
 				m_memory_pool,
-				pmdidFunc,
-				pmdidRetType,
+				mdid_func,
+				mdid_return_type,
 				pdxlopFuncExpr->TypeModifier(),
 				GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, (pmdfunc->Mdname().GetMDName())->GetBuffer())
 				);
@@ -2973,18 +2973,18 @@ CTranslatorDXLToExpr::PexprWindowFunc
 {
 	CDXLScalarWindowRef *pdxlopWinref = CDXLScalarWindowRef::Cast(pdxlnWindowRef->GetOperator());
 
-	IMDId *pmdidFunc = pdxlopWinref->FuncMdId();
-	pmdidFunc->AddRef();
+	IMDId *mdid_func = pdxlopWinref->FuncMdId();
+	mdid_func->AddRef();
 
-	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, CMDAccessorUtils::PstrWindowFuncName(m_pmda, pmdidFunc)->GetBuffer());
+	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, CMDAccessorUtils::PstrWindowFuncName(m_pmda, mdid_func)->GetBuffer());
 
 	CScalarWindowFunc::EWinStage ews = Ews(pdxlopWinref->Edxlwinstage());
 
-	IMDId *pmdidRetType = pdxlopWinref->ReturnTypeMdId();
-	pmdidRetType->AddRef();
+	IMDId *mdid_return_type = pdxlopWinref->ReturnTypeMdId();
+	mdid_return_type->AddRef();
 	
 	GPOS_ASSERT(NULL != pstrName);
-	CScalarWindowFunc *popWindowFunc = GPOS_NEW(m_memory_pool) CScalarWindowFunc(m_memory_pool, pmdidFunc, pmdidRetType, pstrName, ews, pdxlopWinref->FDistinct(), pdxlopWinref->FStarArg(), pdxlopWinref->FSimpleAgg());
+	CScalarWindowFunc *popWindowFunc = GPOS_NEW(m_memory_pool) CScalarWindowFunc(m_memory_pool, mdid_func, mdid_return_type, pstrName, ews, pdxlopWinref->FDistinct(), pdxlopWinref->FStarArg(), pdxlopWinref->FSimpleAgg());
 
 	CExpression *pexprWindowFunc = NULL;
 	if (0 < pdxlnWindowRef->Arity())
@@ -3596,9 +3596,9 @@ CTranslatorDXLToExpr::PexprScalarCast
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 
 	IMDId *mdid_type = dxl_op->MDIdType();
-	IMDId *pmdidFunc = dxl_op->FuncMdId();
+	IMDId *mdid_func = dxl_op->FuncMdId();
 	mdid_type->AddRef();
-	pmdidFunc->AddRef();
+	mdid_func->AddRef();
 	
 	COperator *popChild = pexprChild->Pop();
 	IMDId *pmdidInput = CScalar::PopConvert(popChild)->MDIdType();
@@ -3632,7 +3632,7 @@ CTranslatorDXLToExpr::PexprScalarCast
 		pexpr= GPOS_NEW(m_memory_pool) CExpression
 									(
 									m_memory_pool,
-									GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, mdid_type, pmdidFunc, fRelabel),
+									GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, mdid_type, mdid_func, fRelabel),
 									pexprChild
 									);
 	}
