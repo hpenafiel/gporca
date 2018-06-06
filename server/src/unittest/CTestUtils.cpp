@@ -4273,7 +4273,7 @@ CTestUtils::PciGenericInterval
 				);
 	pdrgprng->Append(prange);
 
-	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false /*fIsNull*/);
+	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false /*is_null*/);
 }
 
 

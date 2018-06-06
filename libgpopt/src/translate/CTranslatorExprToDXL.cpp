@@ -4911,7 +4911,7 @@ CTranslatorExprToDXL::PdxlnPredOnPartKey
 		GPOS_ASSERT(CUtils::FScalarIdent(pexprChild, pcrPartKey) || CCastUtils::FBinaryCoercibleCastedScId(pexprChild, pcrPartKey));
 #endif //GPOS_DEBUG
 
-		return PdxlnScNullTestPartKey(pmdidTypePartKey, ulPartLevel, fRangePart, true /*fIsNull*/);
+		return PdxlnScNullTestPartKey(pmdidTypePartKey, ulPartLevel, fRangePart, true /*is_null*/);
 	}
 
 	if (CUtils::FScalarNotNull(pexprPred))
@@ -4923,7 +4923,7 @@ CTranslatorExprToDXL::PdxlnPredOnPartKey
 #endif //GPOS_DEBUG
 
 		*pfEQComparison = true;
-		return PdxlnScNullTestPartKey(pmdidTypePartKey, ulPartLevel, fRangePart, false /*fIsNull*/);
+		return PdxlnScNullTestPartKey(pmdidTypePartKey, ulPartLevel, fRangePart, false /*is_null*/);
 	}
 
 	if (CPredicateUtils::FCompareIdentToConstArray(pexprPred))
@@ -5156,12 +5156,12 @@ CTranslatorExprToDXL::PdxlnScNullTestPartKey
 	IMDId *pmdidTypePartKey,
 	ULONG ulPartLevel,
 	BOOL fRangePart,
-	BOOL fIsNull
+	BOOL is_null
 	)
 {
 	if (!fRangePart) // list partition
 	{
-		CDXLNode *pdxlnPartListNullTest = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartListNullTest(m_memory_pool, ulPartLevel, fIsNull));
+		CDXLNode *pdxlnPartListNullTest = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartListNullTest(m_memory_pool, ulPartLevel, is_null));
 		CDXLNode *pdxlnDefault = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartDefault(m_memory_pool, ulPartLevel));
 		return GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarBoolExpr(m_memory_pool, Edxlor), pdxlnPartListNullTest, pdxlnDefault);
 	}
@@ -5170,7 +5170,7 @@ CTranslatorExprToDXL::PdxlnScNullTestPartKey
 	CDXLNode *pdxlnPredicateMin = GPOS_NEW(m_memory_pool) CDXLNode
 							(
 							m_memory_pool,
-							GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, fIsNull),
+							GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, is_null),
 							GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBound(m_memory_pool, ulPartLevel, pmdidTypePartKey, true /*fLower*/))
 							);
 
@@ -5178,7 +5178,7 @@ CTranslatorExprToDXL::PdxlnScNullTestPartKey
 	CDXLNode *pdxlnPredicateMax = GPOS_NEW(m_memory_pool) CDXLNode
 							(
 							m_memory_pool,
-							GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, fIsNull),
+							GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, is_null),
 							GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBound(m_memory_pool, ulPartLevel, pmdidTypePartKey, false /*fLower*/))
 							);
 
@@ -6324,7 +6324,7 @@ CTranslatorExprToDXL::PdxlnScNullTest
 	CDXLNode *pdxlnNullTest = GPOS_NEW(m_memory_pool) CDXLNode
 											(
 											m_memory_pool,
-											GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, true /* fIsNull */));
+											GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, true /* is_null */));
 
 	// translate child
 	GPOS_ASSERT(1 == pexprNullTest->Arity());

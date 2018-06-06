@@ -885,13 +885,13 @@ CDXLScalar *
 CDXLOperatorFactory::MakeDXLNullTest
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const BOOL fIsNull
+	const BOOL is_null
 	)
 {
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
-	return GPOS_NEW(memory_pool) CDXLScalarNullTest(memory_pool, fIsNull);
+	return GPOS_NEW(memory_pool) CDXLScalarNullTest(memory_pool, is_null);
 }
 
 //---------------------------------------------------------------------------

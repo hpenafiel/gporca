@@ -4293,12 +4293,12 @@ CUtils::PhmulcnstrBoolConstOnPartKeys
 		if (value)
 		{
 			// unbounded constraint
-			pcnstr = CConstraintInterval::PciUnbounded(memory_pool, pcrPartKey, true /*fIsNull*/);
+			pcnstr = CConstraintInterval::PciUnbounded(memory_pool, pcrPartKey, true /*is_null*/);
 		}
 		else
 		{
 			// empty constraint (contradiction)
-			pcnstr = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcrPartKey, GPOS_NEW(memory_pool) DrgPrng(memory_pool), false /*fIsNull*/);
+			pcnstr = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcrPartKey, GPOS_NEW(memory_pool) DrgPrng(memory_pool), false /*is_null*/);
 		}
 
 		if (NULL != pcnstr)
@@ -4398,7 +4398,7 @@ CUtils::PpartcnstrFromMDPartCnstr
 			CConstraint *pcnstrLevel = pcnstr->Pcnstr(memory_pool, pcrPartKey);
 			if (NULL == pcnstrLevel)
 			{
-				pcnstrLevel = CConstraintInterval::PciUnbounded(memory_pool, pcrPartKey, true /*fIsNull*/);
+				pcnstrLevel = CConstraintInterval::PciUnbounded(memory_pool, pcrPartKey, true /*is_null*/);
 			}
 
 			if (NULL != pcnstrLevel)

@@ -506,7 +506,7 @@ namespace gpopt
 				IMDId *pmdidTypePartKey,
 				ULONG ulPartLevel,
 				BOOL fRangePart,
-				BOOL fIsNull
+				BOOL is_null
 				);
 
 			// translate the child of a partition selector expression, pushing the given

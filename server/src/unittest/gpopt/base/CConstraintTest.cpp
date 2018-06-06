@@ -1105,7 +1105,7 @@ CConstraintTest::PciFirstInterval
 
 	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
 
-	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true /*fIsNull*/);
+	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true /*is_null*/);
 }
 
 //---------------------------------------------------------------------------
@@ -1133,7 +1133,7 @@ CConstraintTest::PciSecondInterval
 
 	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
 
-	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false /*fIsNull*/);
+	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false /*is_null*/);
 }
 
 //---------------------------------------------------------------------------

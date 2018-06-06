@@ -39,7 +39,7 @@ namespace gpdxl
 
 		private:
 			// is nul or is not null operation
-			BOOL m_fIsNull;
+			BOOL m_is_null;
 
 			// private copy ctor
 			CDXLScalarNullTest(const CDXLScalarNullTest&);
@@ -49,7 +49,7 @@ namespace gpdxl
 			CDXLScalarNullTest
 				(
 				IMemoryPool *memory_pool,
-				BOOL fIsNull
+				BOOL is_null
 				);
 
 			// ident accessors
@@ -59,7 +59,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// NullTest operator type
-			BOOL FIsNullTest() const;
+			BOOL IsNullTest() const;
 
 			// name of the operator
 			const CWStringConst *PstrTestName() const;

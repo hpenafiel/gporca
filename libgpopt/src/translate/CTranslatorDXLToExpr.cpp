@@ -3520,7 +3520,7 @@ CTranslatorDXLToExpr::PexprScalarNullTest
 	
 	CExpression *pexpr = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarNullTest(m_memory_pool), pexprChild);
 	
-	if (!dxl_op->FIsNullTest())
+	if (!dxl_op->IsNullTest())
 	{
 		// IS NOT NULL test: add a not expression on top
 		pexpr = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarBoolOp(m_memory_pool, CScalarBoolOp::EboolopNot), pexpr);

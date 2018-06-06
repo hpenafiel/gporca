@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLScalarNullTest::CDXLScalarNullTest
 	(
 	IMemoryPool *memory_pool,
-	BOOL fIsNull
+	BOOL is_null
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_fIsNull(fIsNull)
+	m_is_null(is_null)
 {
 
 }
@@ -54,16 +54,16 @@ CDXLScalarNullTest::GetDXLOperator() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarNullTest::FIsNullTest
+//		CDXLScalarNullTest::IsNullTest
 //
 //	@doc:
 //		Null Test type (is null or is not null)
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarNullTest::FIsNullTest() const
+CDXLScalarNullTest::IsNullTest() const
 {
-	return m_fIsNull;
+	return m_is_null;
 }
 
 
@@ -79,7 +79,7 @@ CDXLScalarNullTest::FIsNullTest() const
 const CWStringConst *
 CDXLScalarNullTest::GetOpNameStr() const
 {
-	if(m_fIsNull)
+	if(m_is_null)
 	{
 		return CDXLTokens::GetDXLTokenStr(EdxltokenScalarIsNull);
 	}

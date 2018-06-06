@@ -70,15 +70,15 @@ CParseHandlerScalarNullTest::StartElement
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 		}
 
-		BOOL fIsNull = true;
+		BOOL is_null = true;
 
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarIsNotNull), element_local_name))
 		{
-			fIsNull = false;
+			is_null = false;
 		}
 
 		// parse and create scalar NullTest
-		CDXLScalarNullTest *dxl_op = (CDXLScalarNullTest*) CDXLOperatorFactory::MakeDXLNullTest(m_parse_handler_mgr->GetDXLMemoryManager(), fIsNull);
+		CDXLScalarNullTest *dxl_op = (CDXLScalarNullTest*) CDXLOperatorFactory::MakeDXLNullTest(m_parse_handler_mgr->GetDXLMemoryManager(), is_null);
 
 		// construct node from the created child node
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);

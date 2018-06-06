@@ -163,7 +163,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CConstraintInterval(IMemoryPool *memory_pool, const CColRef *pcr, DrgPrng *pdrgprng, BOOL fIsNull);
+			CConstraintInterval(IMemoryPool *memory_pool, const CColRef *pcr, DrgPrng *pdrgprng, BOOL is_null);
 
 			// dtor
 			virtual

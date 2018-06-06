@@ -20,12 +20,12 @@ CDXLScalarPartListNullTest::CDXLScalarPartListNullTest
 	(
 	IMemoryPool *memory_pool,
 	ULONG ulLevel,
-	BOOL fIsNull
+	BOOL is_null
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_ulLevel(ulLevel),
-	m_fIsNull(fIsNull)
+	m_is_null(is_null)
 {
 }
 
@@ -56,7 +56,7 @@ CDXLScalarPartListNullTest::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartLevel), m_ulLevel);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarIsNull), m_fIsNull);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarIsNull), m_is_null);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -71,7 +71,7 @@ CDXLScalarPartListNullTest::UlLevel() const
 BOOL
 CDXLScalarPartListNullTest::FIsNull() const
 {
-	return m_fIsNull;
+	return m_is_null;
 }
 
 // does the operator return a boolean result

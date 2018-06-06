@@ -24,7 +24,7 @@ namespace gpdxl
 			ULONG m_ulLevel;
 
 			// Null Test type (true for 'is null', false for 'is not null')
-			BOOL m_fIsNull;
+			BOOL m_is_null;
 
 			// private copy ctor
 			CDXLScalarPartListNullTest(const CDXLScalarPartListNullTest&);

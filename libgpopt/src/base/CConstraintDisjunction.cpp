@@ -172,7 +172,7 @@ CConstraintDisjunction::Pcnstr
 		CConstraint *pcnstrCol = (*pdrgpcnstrCol)[ul]->Pcnstr(memory_pool, pcr);
 		if (NULL == pcnstrCol)
 		{
-			pcnstrCol = CConstraintInterval::PciUnbounded(memory_pool, pcr, true /*fIsNull*/);
+			pcnstrCol = CConstraintInterval::PciUnbounded(memory_pool, pcr, true /*is_null*/);
 		}
 		if (pcnstrCol->FUnbounded())
 		{

@@ -413,7 +413,7 @@ CLogicalSetOp::PdrgpcnstrColumn
 		CConstraint *pcnstr = PcnstrColumn(memory_pool, exprhdl, ulColIndex, ul);
 		if (NULL == pcnstr)
 		{
-			pcnstr = CConstraintInterval::PciUnbounded(memory_pool, pcr, true /*fIsNull*/);
+			pcnstr = CConstraintInterval::PciUnbounded(memory_pool, pcr, true /*is_null*/);
 		}
 		GPOS_ASSERT (NULL != pcnstr);
 		pdrgpcnstr->Append(pcnstr);
