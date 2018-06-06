@@ -134,14 +134,14 @@ CDXLScalarOpExpr::PmdidReturnType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarOpExpr::FBoolean
+//		CDXLScalarOpExpr::HasBoolResult
 //
 //	@doc:
 //		Does the operator return boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarOpExpr::FBoolean
+CDXLScalarOpExpr::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

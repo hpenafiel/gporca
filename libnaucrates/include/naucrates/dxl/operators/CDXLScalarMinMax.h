@@ -87,7 +87,7 @@ namespace gpdxl
 
 			// does the operator return a boolean result
 			virtual
-			BOOL FBoolean(CMDAccessor *md_accessor) const;
+			BOOL HasBoolResult(CMDAccessor *md_accessor) const;
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and

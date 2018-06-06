@@ -76,7 +76,7 @@ CDXLScalarPartListNullTest::FIsNull() const
 
 // does the operator return a boolean result
 BOOL
-CDXLScalarPartListNullTest::FBoolean
+CDXLScalarPartListNullTest::HasBoolResult
 	(
 	CMDAccessor * //md_accessor
 	)

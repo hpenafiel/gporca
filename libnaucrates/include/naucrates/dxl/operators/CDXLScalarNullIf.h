@@ -76,7 +76,7 @@ namespace gpdxl
 
 			// does the operator return a boolean result
 			virtual
-			BOOL FBoolean(CMDAccessor *md_accessor) const;
+			BOOL HasBoolResult(CMDAccessor *md_accessor) const;
 
 			// conversion function
 			static

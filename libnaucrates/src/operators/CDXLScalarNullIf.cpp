@@ -113,14 +113,14 @@ CDXLScalarNullIf::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarNullIf::FBoolean
+//		CDXLScalarNullIf::HasBoolResult
 //
 //	@doc:
 //		Does the operator return boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarNullIf::FBoolean
+CDXLScalarNullIf::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

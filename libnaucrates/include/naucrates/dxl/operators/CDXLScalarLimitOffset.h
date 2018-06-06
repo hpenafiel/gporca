@@ -65,7 +65,7 @@ namespace gpdxl
 
 			// does the operator return a boolean result
 			virtual
-			BOOL FBoolean
+			BOOL HasBoolResult
 					(
 					CMDAccessor *//md_accessor
 					)

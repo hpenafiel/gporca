@@ -210,14 +210,14 @@ CDXLScalarAggref::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarAggref::FBoolean
+//		CDXLScalarAggref::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarAggref::FBoolean
+CDXLScalarAggref::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

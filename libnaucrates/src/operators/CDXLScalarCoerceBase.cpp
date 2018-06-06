@@ -103,14 +103,14 @@ CDXLScalarCoerceBase::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarCoerceBase::FBoolean
+//		CDXLScalarCoerceBase::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarCoerceBase::FBoolean
+CDXLScalarCoerceBase::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

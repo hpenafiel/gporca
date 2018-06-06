@@ -93,14 +93,14 @@ CDXLScalarSubPlan::PmdidFirstColType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSubPlan::FBoolean
+//		CDXLScalarSubPlan::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarSubPlan::FBoolean
+CDXLScalarSubPlan::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

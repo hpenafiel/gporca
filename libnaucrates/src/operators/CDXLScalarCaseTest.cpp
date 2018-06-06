@@ -119,14 +119,14 @@ CDXLScalarCaseTest::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarCaseTest::FBoolean
+//		CDXLScalarCaseTest::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarCaseTest::FBoolean
+CDXLScalarCaseTest::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

@@ -79,7 +79,7 @@ CDXLScalarPartListValues::PmdidElement() const
 
 // does the operator return a boolean result
 BOOL
-CDXLScalarPartListValues::FBoolean
+CDXLScalarPartListValues::HasBoolResult
 	(
 	CMDAccessor * //md_accessor
 	)

@@ -29,10 +29,10 @@ using namespace gpdxl;
 CDXLScalarDistinctComp::CDXLScalarDistinctComp
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidOp
+	IMDId *mdid_op
 	)
 	:
-	CDXLScalarComp(memory_pool, pmdidOp, GPOS_NEW(memory_pool) CWStringConst(memory_pool, CDXLTokens::GetDXLTokenStr(EdxltokenEq)->GetBuffer()))
+	CDXLScalarComp(memory_pool, mdid_op, GPOS_NEW(memory_pool) CWStringConst(memory_pool, CDXLTokens::GetDXLTokenStr(EdxltokenEq)->GetBuffer()))
 {
 }
 

@@ -117,14 +117,14 @@ CDXLScalarMinMax::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarMinMax::FBoolean
+//		CDXLScalarMinMax::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarMinMax::FBoolean
+CDXLScalarMinMax::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

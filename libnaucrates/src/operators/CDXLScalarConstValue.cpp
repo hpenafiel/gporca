@@ -104,14 +104,14 @@ CDXLScalarConstValue::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarConstValue::FBoolean
+//		CDXLScalarConstValue::HasBoolResult
 //
 //	@doc:
 //		Does the operator return boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarConstValue::FBoolean
+CDXLScalarConstValue::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

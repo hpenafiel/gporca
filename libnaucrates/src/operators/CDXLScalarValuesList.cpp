@@ -83,7 +83,7 @@ CDXLScalarValuesList::Cast
 
 // does the operator return a boolean result
 BOOL
-CDXLScalarValuesList::FBoolean
+CDXLScalarValuesList::HasBoolResult
 	(
 	CMDAccessor * //md_accessor
 	)

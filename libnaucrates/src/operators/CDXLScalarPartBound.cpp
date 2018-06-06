@@ -87,14 +87,14 @@ CDXLScalarPartBound::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarPartBound::FBoolean
+//		CDXLScalarPartBound::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarPartBound::FBoolean(CMDAccessor *md_accessor) const
+CDXLScalarPartBound::HasBoolResult(CMDAccessor *md_accessor) const
 {
 	return (IMDType::EtiBool == md_accessor->Pmdtype(m_mdid_type)->Eti());
 }

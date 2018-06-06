@@ -120,14 +120,14 @@ CDXLScalarSwitch::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSwitch::FBoolean
+//		CDXLScalarSwitch::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarSwitch::FBoolean
+CDXLScalarSwitch::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

@@ -166,14 +166,14 @@ CDXLScalarWindowRef::SerializeToDXL
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarWindowRef::FBoolean
+//		CDXLScalarWindowRef::HasBoolResult
 //
 //	@doc:
 //		Does the operator return a boolean result
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarWindowRef::FBoolean
+CDXLScalarWindowRef::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	)

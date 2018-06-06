@@ -102,14 +102,14 @@ CDXLScalarBitmapBoolOp::Edxlbitmapboolop() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBitmapBoolOp::FBoolean
+//		CDXLScalarBitmapBoolOp::HasBoolResult
 //
 //	@doc:
 //		Is operator returning a boolean value
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarBitmapBoolOp::FBoolean
+CDXLScalarBitmapBoolOp::HasBoolResult
 	(
 	CMDAccessor *md_accessor
 	) 

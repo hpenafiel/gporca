@@ -62,7 +62,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			//accessors
-			BOOL FBoolean() const;
+			BOOL HasBoolResult() const;
 			EdxlArrayCompType Edxlarraycomptype() const;
 
 			// serialize operator in DXL format
@@ -84,7 +84,7 @@ namespace gpdxl
 
 			// does the operator return a boolean result
 			virtual
-			BOOL FBoolean
+			BOOL HasBoolResult
 					(
 					CMDAccessor *//md_accessor
 					)
