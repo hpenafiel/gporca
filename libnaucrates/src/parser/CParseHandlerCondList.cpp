@@ -106,9 +106,9 @@ CParseHandlerCondList::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	
-	const ULONG ulLen = this->Length();
+	const ULONG arity = this->Length();
 	// add conditions from child parse handlers
-	for (ULONG ul = 0; ul < ulLen; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
 		

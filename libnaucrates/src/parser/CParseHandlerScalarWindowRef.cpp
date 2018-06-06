@@ -102,8 +102,8 @@ CParseHandlerScalarWindowRef::EndElement
 		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
-	const ULONG ulSize = this->Length();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG arity = this->Length();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
 		AddChildFromParseHandler(op_parse_handler);

@@ -34,11 +34,11 @@ CParseHandlerScalarWindowFrameEdge::CParseHandlerScalarWindowFrameEdge
 	IMemoryPool *memory_pool,
 	CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *parse_handler_root,
-	BOOL fLeading
+	BOOL leading_edge
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_fLeading(fLeading)
+	m_leading_edge(leading_edge)
 {
 }
 
@@ -62,14 +62,14 @@ CParseHandlerScalarWindowFrameEdge::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameLeadingEdge), element_local_name))
 	{
 		GPOS_ASSERT(NULL == m_dxl_node);
-		EdxlFrameBoundary edxlfb = CDXLOperatorFactory::ParseDXLFrameBoundary(attrs, EdxltokenWindowLeadingBoundary);
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarWindowFrameEdge(m_memory_pool, true /*fLeading*/, edxlfb));
+		EdxlFrameBoundary dxl_frame_bound = CDXLOperatorFactory::ParseDXLFrameBoundary(attrs, EdxltokenWindowLeadingBoundary);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarWindowFrameEdge(m_memory_pool, true /*fLeading*/, dxl_frame_bound));
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), element_local_name))
 	{
 		GPOS_ASSERT(NULL == m_dxl_node);
-		EdxlFrameBoundary edxlfb = CDXLOperatorFactory::ParseDXLFrameBoundary(attrs, EdxltokenWindowTrailingBoundary);
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarWindowFrameEdge(m_memory_pool, false /*fLeading*/, edxlfb));
+		EdxlFrameBoundary dxl_frame_bound = CDXLOperatorFactory::ParseDXLFrameBoundary(attrs, EdxltokenWindowTrailingBoundary);
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarWindowFrameEdge(m_memory_pool, false /*fLeading*/, dxl_frame_bound));
 	}
 	else
 	{
@@ -111,10 +111,10 @@ CParseHandlerScalarWindowFrameEdge::EndElement
 	    0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), element_local_name)
 	)
 	{
-		const ULONG ulSize = this->Length();
-		if (0 < ulSize)
+		const ULONG arity = this->Length();
+		if (0 < arity)
 		{
-			GPOS_ASSERT(1 == ulSize);
+			GPOS_ASSERT(1 == arity);
 			// limit count node was not empty
 			CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 

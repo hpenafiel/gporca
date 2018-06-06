@@ -34,7 +34,7 @@ namespace gpdxl
 	{
 		private:
 			// identify if the parser is for a leading or trailing edge
-			BOOL m_fLeading;
+			BOOL m_leading_edge;
 
 			// private copy ctor
 			CParseHandlerScalarWindowFrameEdge(const CParseHandlerScalarWindowFrameEdge &);
@@ -63,7 +63,7 @@ namespace gpdxl
 						IMemoryPool *memory_pool,
 						CParseHandlerManager *parse_handler_mgr,
 						CParseHandlerBase *parse_handler_root,
-						BOOL fLeading
+						BOOL leading_edge
 						);
 
 		};
