@@ -46,7 +46,7 @@ namespace gpdxl
 			IMDId *m_mdid;
 					
 			// comparison operator name
-			const CWStringConst *m_pstrCompOpName;
+			const CWStringConst *m_comparison_operator_name;
 
 		private:
 
@@ -58,8 +58,8 @@ namespace gpdxl
 			CDXLScalarComp
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidOp,
-				const CWStringConst *pstrCompOpName
+				IMDId *operator_mdid,
+				const CWStringConst *comparison_operator_name
 				);
 			
 			virtual
@@ -74,14 +74,14 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// name of the comparison operator
-			const CWStringConst *PstrCmpOpName() const;
+			const CWStringConst *GetComparisonOpName() const;
 			
 			// operator id
 			IMDId *MDId() const;
 						
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static
@@ -102,7 +102,7 @@ namespace gpdxl
 			virtual
 			BOOL FBoolean
 					(
-					CMDAccessor *//pmda
+					CMDAccessor *//md_accessor
 					)
 					const
 
@@ -113,7 +113,7 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 	};
 }

@@ -30,12 +30,12 @@ CDXLScalarComp::CDXLScalarComp
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdidOp,
-	const CWStringConst *pstrCompOpName
+	const CWStringConst *comparison_operator_name
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_mdid(pmdidOp),
-	m_pstrCompOpName(pstrCompOpName)
+	m_comparison_operator_name(comparison_operator_name)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 }
@@ -51,7 +51,7 @@ CDXLScalarComp::CDXLScalarComp
 CDXLScalarComp::~CDXLScalarComp()
 {
 	m_mdid->Release();
-	GPOS_DELETE(m_pstrCompOpName);
+	GPOS_DELETE(m_comparison_operator_name);
 }
 
 //---------------------------------------------------------------------------
@@ -63,9 +63,9 @@ CDXLScalarComp::~CDXLScalarComp()
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarComp::PstrCmpOpName() const
+CDXLScalarComp::GetComparisonOpName() const
 {
-	return m_pstrCompOpName;
+	return m_comparison_operator_name;
 }
 
 //---------------------------------------------------------------------------
@@ -123,7 +123,7 @@ void
 CDXLScalarComp::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -132,11 +132,11 @@ CDXLScalarComp::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenComparisonOp), PstrCmpOpName());
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenComparisonOp), GetComparisonOpName());
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 	
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
 
 	GPOS_CHECK_ABORT;
@@ -154,23 +154,23 @@ CDXLScalarComp::SerializeToDXL
 void
 CDXLScalarComp::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
+	const ULONG ulArity = node->Arity();
 	GPOS_ASSERT(2 == ulArity);
 
 	for (ULONG ul = 0; ul < ulArity; ++ul)
 	{
-		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType() ||
-					EdxloptypeLogical == pdxlnArg->GetOperator()->GetDXLOperatorType());
+		CDXLNode *child_dxlnode = (*node)[ul];
+		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType() ||
+					EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{
-			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
+			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 		}
 	}
 }

@@ -2841,7 +2841,7 @@ CTranslatorDXLToExpr::PexprScalarCmp
 										(
 										m_memory_pool,
 										pmdid,
-										GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pdxlopComp->PstrCmpOpName()->GetBuffer()),
+										GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pdxlopComp->GetComparisonOpName()->GetBuffer()),
 										CUtils::Ecmpt(pmdid)
 										);
 
@@ -3306,7 +3306,7 @@ CTranslatorDXLToExpr::PexprArrayCmp
 	IMDId *pmdidOp = dxl_op->MDId();
 	pmdidOp->AddRef();
 
-	const CWStringConst *pstrOpName = dxl_op->PstrCmpOpName();
+	const CWStringConst *pstrOpName = dxl_op->GetComparisonOpName();
 	
 	EdxlArrayCompType edxlarrcmp = dxl_op->Edxlarraycomptype();
 	CScalarArrayCmp::EArrCmpType earrcmpt = CScalarArrayCmp::EarrcmpSentinel;

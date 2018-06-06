@@ -122,7 +122,7 @@ CDXLScalarArrayComp::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::PstrToken(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_pstrCompOpName);
+	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpName), m_comparison_operator_name);
 	m_mdid->Serialize(xml_serializer, CDXLTokens::PstrToken(EdxltokenOpNo));
 	xml_serializer->AddAttribute(CDXLTokens::PstrToken(EdxltokenOpType), PstrArrayCompType());
 
