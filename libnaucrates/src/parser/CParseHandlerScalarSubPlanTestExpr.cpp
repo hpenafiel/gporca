@@ -37,7 +37,7 @@ CParseHandlerScalarSubPlanTestExpr::CParseHandlerScalarSubPlanTestExpr
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlnTestExpr(NULL)
+	m_dxl_test_expr(NULL)
 {}
 
 //---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ CParseHandlerScalarSubPlanTestExpr::CParseHandlerScalarSubPlanTestExpr
 //---------------------------------------------------------------------------
 CParseHandlerScalarSubPlanTestExpr::~CParseHandlerScalarSubPlanTestExpr()
 {
-	CRefCount::SafeRelease(m_pdxlnTestExpr);
+	CRefCount::SafeRelease(m_dxl_test_expr);
 }
 
 //---------------------------------------------------------------------------
@@ -100,7 +100,7 @@ CParseHandlerScalarSubPlanTestExpr::EndElement
 	const XMLCh* const // element_qname
 	)
 {
-	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name) && NULL != m_pdxlnTestExpr)
+	if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubPlanTestExpr), element_local_name) && NULL != m_dxl_test_expr)
 	{
 		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
@@ -111,8 +111,8 @@ CParseHandlerScalarSubPlanTestExpr::EndElement
 		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 		if (NULL != child_parse_handler->CreateDXLNode())
 		{
-			m_pdxlnTestExpr = child_parse_handler->CreateDXLNode();
-			m_pdxlnTestExpr->AddRef();
+			m_dxl_test_expr = child_parse_handler->CreateDXLNode();
+			m_dxl_test_expr->AddRef();
 		}
 	}
 

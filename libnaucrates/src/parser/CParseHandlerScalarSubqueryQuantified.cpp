@@ -63,10 +63,10 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	GPOS_ASSERT(NULL == m_dxl_op);
 		
 	// is this a subquery any or subquery all operator
-	Edxltoken edxltokenElement = EdxltokenScalarSubqueryAll;
+	Edxltoken dxl_token = EdxltokenScalarSubqueryAll;
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAny), element_local_name))
 	{
-		edxltokenElement = EdxltokenScalarSubqueryAny;
+		dxl_token = EdxltokenScalarSubqueryAny;
 	}
 	else if(0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSubqueryAll), element_local_name))
 	{
@@ -80,7 +80,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 							m_parse_handler_mgr->GetDXLMemoryManager(),
 							attrs,
 							EdxltokenOpNo,
-							edxltokenElement
+							dxl_token
 							);
 
 	// parse operator name
@@ -88,12 +88,12 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 										(
 										attrs,
 										EdxltokenOpName,
-										edxltokenElement
+										dxl_token
 										);
 	
-	CWStringDynamic *pstrScalarOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszScalarOpName);
-	CMDName *pmdnameScalarOp = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrScalarOpName);
-	GPOS_DELETE(pstrScalarOpName);
+	CWStringDynamic *op_name_str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszScalarOpName);
+	CMDName *md_op_name = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, op_name_str);
+	GPOS_DELETE(op_name_str);
 		
 	// parse column id
 	ULONG col_id = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
@@ -101,28 +101,28 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs, 
 										EdxltokenColId,
-										edxltokenElement
+										dxl_token
 										);
 	
-	if (EdxltokenScalarSubqueryAny == edxltokenElement)
+	if (EdxltokenScalarSubqueryAny == dxl_token)
 	{
-		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, mdid_op, pmdnameScalarOp, col_id);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAny(m_memory_pool, mdid_op, md_op_name, col_id);
 	}
 	else
 	{
-		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, mdid_op, pmdnameScalarOp, col_id);
+		m_dxl_op = GPOS_NEW(m_memory_pool) CDXLScalarSubqueryAll(m_memory_pool, mdid_op, md_op_name, col_id);
 	}
 	
 	// parse handler for the child nodes
-	CParseHandlerBase *pphLgChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphLgChild);
+	CParseHandlerBase *parse_handler_logical_child = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_logical_child);
 
-	CParseHandlerBase *pphScChild = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphScChild);
+	CParseHandlerBase *parse_handler_scalar_child = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_scalar_child);
 
 	// store child parse handler in array
-	this->Append(pphScChild);
-	this->Append(pphLgChild);
+	this->Append(parse_handler_scalar_child);
+	this->Append(parse_handler_logical_child);
 }
 
 //---------------------------------------------------------------------------
@@ -152,14 +152,14 @@ CParseHandlerScalarSubqueryQuantified::EndElement
 	GPOS_ASSERT(NULL != m_dxl_op);
 	GPOS_ASSERT(2 == this->Length());
 	
-	CParseHandlerScalarOp *pphScChild = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-	CParseHandlerLogicalOp *pphLgChild = dynamic_cast<CParseHandlerLogicalOp *>((*this)[1]);
+	CParseHandlerScalarOp *parse_handler_scalar_child = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+	CParseHandlerLogicalOp *parse_handler_logical_child = dynamic_cast<CParseHandlerLogicalOp *>((*this)[1]);
 		
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 
 	// add constructed child
-	AddChildFromParseHandler(pphScChild);
-	AddChildFromParseHandler(pphLgChild);
+	AddChildFromParseHandler(parse_handler_scalar_child);
+	AddChildFromParseHandler(parse_handler_logical_child);
 
 #ifdef GPOS_DEBUG
 	m_dxl_op->AssertValid(m_dxl_node, false /* validate_children */);

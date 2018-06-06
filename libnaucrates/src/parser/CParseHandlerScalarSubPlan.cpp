@@ -174,7 +174,7 @@ CParseHandlerScalarSubPlan::EndElement
 	DrgPdxlcr *pdrgdxlcr = pphParamList->Pdrgdxlcr();
 	pdrgdxlcr->AddRef();
 
-	CDXLNode *pdxlnTestExpr = pphTestExpr->PdxlnTestExpr();
+	CDXLNode *pdxlnTestExpr = pphTestExpr->GetDXLTestExpr();
 	if (NULL != pdxlnTestExpr)
 	{
 		pdxlnTestExpr->AddRef();

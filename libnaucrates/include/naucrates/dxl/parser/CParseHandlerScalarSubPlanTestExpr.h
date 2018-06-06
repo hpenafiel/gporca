@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// child test expression
-			CDXLNode *m_pdxlnTestExpr;
+			CDXLNode *m_dxl_test_expr;
 
 			// private copy ctor
 			CParseHandlerScalarSubPlanTestExpr(const CParseHandlerScalarSubPlanTestExpr &);
@@ -70,9 +70,9 @@ namespace gpdxl
 			~CParseHandlerScalarSubPlanTestExpr();
 
 			// return test expression
-			CDXLNode *PdxlnTestExpr() const
+			CDXLNode *GetDXLTestExpr() const
 			{
-				return m_pdxlnTestExpr;
+				return m_dxl_test_expr;
 			}
 	};
 }
