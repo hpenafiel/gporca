@@ -143,13 +143,13 @@ CDXLScalarOpExpr::PmdidReturnType() const
 BOOL
 CDXLScalarOpExpr::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	const IMDScalarOp *pmdscop = pmda->Pmdscop(m_mdid);
-	IMDId *pmdid = pmda->Pmdfunc(pmdscop->FuncMdId())->PmdidTypeResult();
-	return (IMDType::EtiBool == pmda->Pmdtype(pmdid)->Eti());
+	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(m_mdid);
+	IMDId *pmdid = md_accessor->Pmdfunc(pmdscop->FuncMdId())->PmdidTypeResult();
+	return (IMDType::EtiBool == md_accessor->Pmdtype(pmdid)->Eti());
 }
 
 //---------------------------------------------------------------------------

@@ -50,7 +50,7 @@ namespace gpopt
 			CExpression *PexprConstInt8
 							(
 							IMemoryPool *memory_pool,
-							CMDAccessor *pmda,
+							CMDAccessor *md_accessor,
 							CSystemId sysid,
 							LINT liValue
 							);
@@ -60,17 +60,17 @@ namespace gpopt
 			CScalarConst *PopConst
 							(
 							IMemoryPool *memory_pool,
-							CMDAccessor *pmda,
+							CMDAccessor *md_accessor,
 							const CDXLScalarConstValue *dxl_op
 							);
 
 			// create a datum from a DXL scalar const operator
 			static
-			IDatum *Pdatum(CMDAccessor *pmda, const CDXLScalarConstValue *dxl_op);
+			IDatum *Pdatum(CMDAccessor *md_accessor, const CDXLScalarConstValue *dxl_op);
 
 			// create a datum array from a dxl datum array
 			static
-			DrgPdatum *Pdrgpdatum(IMemoryPool *memory_pool, CMDAccessor *pmda, const DXLDatumArray *pdrgpdatum);
+			DrgPdatum *Pdrgpdatum(IMemoryPool *memory_pool, CMDAccessor *md_accessor, const DXLDatumArray *pdrgpdatum);
 
 			// update table descriptor's key sets info from the MD cache object
 			static
@@ -97,7 +97,7 @@ namespace gpopt
 
 			// is the given expression is a scalar function that casts
 			static
-			BOOL FCastFunc(CMDAccessor *pmda, const CDXLNode *pdxln, IMDId *pmdidInput);
+			BOOL FCastFunc(CMDAccessor *md_accessor, const CDXLNode *pdxln, IMDId *pmdidInput);
 	};
 }
 

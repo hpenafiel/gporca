@@ -490,11 +490,11 @@ CPhysicalJoin::FHashJoinCompatible
 		(fPredOuterUsesJoinOuterChild && fPredInnerUsesJoinInnerChild) ||
 		(fPredOuterUsesJoinInnerChild && fPredInnerUsesJoinOuterChild);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	return fHashJoinCompatiblePred &&
-					pmda->Pmdtype(pmdidTypeOuter)->FHashable() &&
-					pmda->Pmdtype(pmdidTypeInner)->FHashable();
+					md_accessor->Pmdtype(pmdidTypeOuter)->FHashable() &&
+					md_accessor->Pmdtype(pmdidTypeInner)->FHashable();
 }
 
 

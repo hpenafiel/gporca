@@ -1031,7 +1031,7 @@ CDXLOperatorFactory::MakeDXLConstValue
 {
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
-	CDXLDatum *datum_dxl = Pdxldatum(memory_manager_dxl, attrs, EdxltokenScalarConstValue);
+	CDXLDatum *datum_dxl = GetDatumVal(memory_manager_dxl, attrs, EdxltokenScalarConstValue);
 	
 	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl);
 }
@@ -2862,14 +2862,14 @@ CDXLOperatorFactory::PmdidScCmp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::Pdxldatum
+//		CDXLOperatorFactory::GetDatumVal
 //
 //	@doc:
 //		Parses a DXL datum from the given attributes
 //
 //---------------------------------------------------------------------------
 CDXLDatum *
-CDXLOperatorFactory::Pdxldatum
+CDXLOperatorFactory::GetDatumVal
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,

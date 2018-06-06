@@ -46,8 +46,8 @@ CDatumOidGPDB::CDatumOidGPDB
 	m_oidVal(oidVal),
 	m_is_null(is_null)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *pmdid = dynamic_cast<const CMDTypeOidGPDB *>(pmda->PtMDType<IMDTypeOid>(sysid))->MDId();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	IMDId *pmdid = dynamic_cast<const CMDTypeOidGPDB *>(md_accessor->PtMDType<IMDTypeOid>(sysid))->MDId();
 	pmdid->AddRef();
 
 	m_mdid = pmdid;

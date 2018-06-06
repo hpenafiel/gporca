@@ -80,8 +80,8 @@ CLogicalTVF::CLogicalTVF
 	// generate a default column set for the list of column descriptors
 	m_pdrgpcrOutput = PdrgpcrCreateMapping(memory_pool, pdrgpcoldesc, UlOpId());
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
@@ -119,8 +119,8 @@ CLogicalTVF::CLogicalTVF
 	GPOS_ASSERT(NULL != pdrgpcoldesc);
 	GPOS_ASSERT(NULL != pdrgpcrOutput);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();

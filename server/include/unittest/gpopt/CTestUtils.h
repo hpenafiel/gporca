@@ -662,7 +662,7 @@ namespace gpopt
 			GPOS_RESULT EresRunMinidump
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				const CHAR *rgszFileName,
 				ULONG *pulTestCounter,
 				ULONG ulSessionId,
@@ -722,7 +722,7 @@ namespace gpopt
 
 			// create a datum with a given type, encoded value and int value
 			static
-			IDatum *PdatumGeneric(IMemoryPool *memory_pool, CMDAccessor *pmda, IMDId *mdid_type, CWStringDynamic *pstrEncodedValue, LINT lValue);
+			IDatum *PdatumGeneric(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *mdid_type, CWStringDynamic *pstrEncodedValue, LINT lValue);
 
 			// create an interval for generic data types
 			// does not take ownership of mdid_type
@@ -730,7 +730,7 @@ namespace gpopt
 			CConstraintInterval *PciGenericInterval
 			        (
 			        IMemoryPool *memory_pool,
-			        CMDAccessor *pmda,
+			        CMDAccessor *md_accessor,
 			        const CMDIdGPDB &mdidType,
 			        CColRef *pcr,
 			        CWStringDynamic *pstrLower,

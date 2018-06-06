@@ -102,13 +102,13 @@ CLogicalRowTrigger::~CLogicalRowTrigger()
 void
 CLogicalRowTrigger::InitFunctionProperties()
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_rel_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(m_rel_mdid);
 	const ULONG ulTriggers = pmdrel->UlTriggers();
 
 	for (ULONG ul = 0; ul < ulTriggers; ul++)
 	{
-		const IMDTrigger *pmdtrigger = pmda->Pmdtrigger(pmdrel->PmdidTrigger(ul));
+		const IMDTrigger *pmdtrigger = md_accessor->Pmdtrigger(pmdrel->PmdidTrigger(ul));
 		if (!pmdtrigger->FEnabled() ||
 			!pmdtrigger->FRow() ||
 			(ITriggerType(pmdtrigger) & m_iType) != m_iType)
@@ -116,7 +116,7 @@ CLogicalRowTrigger::InitFunctionProperties()
 			continue;
 		}
 
-		const IMDFunction *pmdfunc = pmda->Pmdfunc(pmdtrigger->FuncMdId());
+		const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdtrigger->FuncMdId());
 		IMDFunction::EFuncStbl efs = pmdfunc->EfsStability();
 		IMDFunction::EFuncDataAcc efda = pmdfunc->EfdaDataAccess();
 

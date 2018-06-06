@@ -79,15 +79,15 @@ CScalarFunc::CScalarFunc
 	GPOS_ASSERT(pmdidFunc->IsValid());
 	GPOS_ASSERT(pmdidRetType->IsValid());
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
 	m_fReturnsSet = pmdfunc->FReturnsSet();
 
 	m_fReturnsNullOnNullInput = pmdfunc->FStrict();
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_return_type_mdid);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_return_type_mdid);
 }
 
 

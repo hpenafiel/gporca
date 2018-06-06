@@ -399,7 +399,7 @@ namespace gpopt
 
 		public:
 			// ctor
-			CTranslatorDXLToExpr(IMemoryPool *memory_pool, CMDAccessor *pmda, BOOL fInitColumnFactory = true);
+			CTranslatorDXLToExpr(IMemoryPool *memory_pool, CMDAccessor *md_accessor, BOOL fInitColumnFactory = true);
 
 			// dtor
 			~CTranslatorDXLToExpr();

@@ -85,7 +85,7 @@ CDXLScalarValuesList::Cast
 BOOL
 CDXLScalarValuesList::FBoolean
 	(
-	CMDAccessor * //pmda
+	CMDAccessor * //md_accessor
 	)
 	const
 {

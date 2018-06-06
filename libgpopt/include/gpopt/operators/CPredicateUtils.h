@@ -77,7 +77,7 @@ namespace gpopt
 			CExpression *PexprIndexLookupKeyOnLeft
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprScalar,
 				const IMDIndex *pmdindex,
 				DrgPcr *pdrgpcrIndex, 
@@ -89,7 +89,7 @@ namespace gpopt
 			CExpression *PexprIndexLookupKeyOnRight
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprScalar,
 				const IMDIndex *pmdindex,
 				DrgPcr *pdrgpcrIndex, 
@@ -468,7 +468,7 @@ namespace gpopt
 			void ExtractIndexPredicates
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				DrgPexpr *pdrgpexprPredicate,
 				const IMDIndex *pmdindex,
 				DrgPcr *pdrgpcrIndex,
@@ -514,7 +514,7 @@ namespace gpopt
 			CExpression *PexprIndexLookup
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexpPred, 
 				const IMDIndex *pmdindex,
 				DrgPcr *pdrgpcrIndex, 
@@ -548,7 +548,7 @@ namespace gpopt
 				CExpression *pexprPred,
 				const IMDIndex *pmdindex,
 				DrgPcr *pdrgpcrIndex,
-				CMDAccessor *pmda
+				CMDAccessor *md_accessor
 				);
 
 			// returns true iff all predicates in the given array are compatible with the given index
@@ -558,7 +558,7 @@ namespace gpopt
 				DrgPexpr *pdrgpexprPred,
 				const IMDIndex *pmdindex,
 				DrgPcr *pdrgpcrIndex,
-				CMDAccessor *pmda
+				CMDAccessor *md_accessor
 				);
 
 			// check if the expensive CNF conversion is beneficial in finding predicate for hash join

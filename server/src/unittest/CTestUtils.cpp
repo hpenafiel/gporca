@@ -204,9 +204,9 @@ CTestUtils::PtabdescPlainWithColNameFormat
 {
 	GPOS_ASSERT(0 < ulCols);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	const IMDTypeInt4 *pmdtypeint4 = pmda->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
+	const IMDTypeInt4 *pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
 	CWStringDynamic *pstrName = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
 	CTableDescriptor *ptabdesc = GPOS_NEW(memory_pool) CTableDescriptor
 											(
@@ -1736,7 +1736,7 @@ CTestUtils::PexprPrjElemWithSum
 	CColRef *pcr
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// generate a SUM expression
 	CMDIdGPDB *pmdidSumAgg = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_SUM_AGG);
@@ -1755,7 +1755,7 @@ CTestUtils::PexprPrjElemWithSum
 	// map a computed column to SUM expression
 	CScalar *pop = CScalar::PopConvert(pexprScalarAgg->Pop());
 	IMDId *mdid_type = pop->MDIdType();
-	const IMDType *pmdtype = pmda->Pmdtype(mdid_type);
+	const IMDType *pmdtype = md_accessor->Pmdtype(mdid_type);
 	CWStringConst str(GPOS_WSZ_LIT("sum_col"));
 	CName name(memory_pool, &str);
 	CColRef *pcrComputed = COptCtxt::PoctxtFromTLS()->Pcf()->PcrCreate(pmdtype, pop->TypeModifier(), name);
@@ -1876,9 +1876,9 @@ CTestUtils::PexprConstTableGet
 {
 	GPOS_ASSERT(0 < ulElements);
 	
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	const IMDTypeInt4 *pmdtypeint4 = pmda->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
+	const IMDTypeInt4 *pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
 
 	// create an integer column descriptor
 	CWStringConst strName(GPOS_WSZ_LIT("A"));
@@ -2220,14 +2220,14 @@ CTestUtils::PexprLogicalTVF
 	ULONG ulArgs
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	const WCHAR *wszFuncName = GPOS_WSZ_LIT("generate_series");
 
 	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT8_GENERATE_SERIES);
 	CWStringConst *pstrFuncName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, wszFuncName);
 
-	const IMDTypeInt8 *pmdtypeint8 = pmda->PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
+	const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
 
 	// create an integer column descriptor
 	CWStringConst strName(GPOS_WSZ_LIT("generate_series"));
@@ -2500,7 +2500,7 @@ CTestUtils::PexprLogicalSequenceProject
 	CExpression *pexprInput
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -2518,7 +2518,7 @@ CTestUtils::PexprLogicalSequenceProject
 				);
 
 	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidFunc);
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(pmdid);
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdid);
 
 	IMDId *pmdidRetType = pmdfunc->PmdidTypeResult();
 	pmdidRetType->AddRef();
@@ -2540,7 +2540,7 @@ CTestUtils::PexprLogicalSequenceProject
 							)
 				);
 	// window function call is not a cast and so does not need a type modifier
-	CColRef *pcrComputed = pcf->PcrCreate(pmda->Pmdtype(pmdfunc->PmdidTypeResult()), IDefaultTypeModifier);
+	CColRef *pcrComputed = pcf->PcrCreate(md_accessor->Pmdtype(pmdfunc->PmdidTypeResult()), IDefaultTypeModifier);
 
 	CExpression *pexprPrjList =
 		GPOS_NEW(memory_pool) CExpression
@@ -3081,11 +3081,11 @@ CTestUtils::PexprReadQuery
 	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(memory_pool, szQueryDXL, NULL);
 
 	// get md accessor
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	GPOS_ASSERT(NULL != pmda);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	GPOS_ASSERT(NULL != md_accessor);
 
 	// translate DXL tree into CExpression
-	CTranslatorDXLToExpr trdxl2expr(memory_pool, pmda);
+	CTranslatorDXLToExpr trdxl2expr(memory_pool, md_accessor);
 	CExpression *pexprQuery =
 			trdxl2expr.PexprTranslateQuery
 						(
@@ -3132,11 +3132,11 @@ CTestUtils::EresTranslate
 	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(memory_pool, szQueryDXL, NULL);
 
 	// get md accessor
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	GPOS_ASSERT(NULL != pmda);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	GPOS_ASSERT(NULL != md_accessor);
 
 	// translate DXL tree into CExpression
-	CTranslatorDXLToExpr ptrdxl2expr(memory_pool, pmda);
+	CTranslatorDXLToExpr ptrdxl2expr(memory_pool, md_accessor);
 	CExpression *pexprQuery = ptrdxl2expr.PexprTranslateQuery
 											(
 											ptroutput->CreateDXLNode(),
@@ -3173,7 +3173,7 @@ CTestUtils::EresTranslate
 	pexprPlan->OsPrint(oss);
 
 	// translate plan back to DXL
-	CTranslatorExprToDXL ptrexpr2dxl(memory_pool, pmda, PdrgpiSegments(memory_pool));
+	CTranslatorExprToDXL ptrexpr2dxl(memory_pool, md_accessor, PdrgpiSegments(memory_pool));
 	CDXLNode *pdxlnPlan = ptrexpr2dxl.PdxlnTranslate(pexprPlan, pqc->PdrgPcr(), pqc->Pdrgpmdname());
 	GPOS_ASSERT(NULL != pdxlnPlan);
 
@@ -3506,7 +3506,7 @@ GPOS_RESULT
 CTestUtils::EresRunMinidump
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	const CHAR *szFileName,
 	ULONG *pulTestCounter,
 	ULONG ulSessionId,
@@ -3516,7 +3516,7 @@ CTestUtils::EresRunMinidump
 	IConstExprEvaluator *pceeval
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 
 	GPOS_RESULT eres = GPOS_OK;
 
@@ -3552,7 +3552,7 @@ CTestUtils::EresRunMinidump
 	pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 					(
 					memory_pool,
-					pmda,
+					md_accessor,
 					pdxlmd,
 					szMinidumpFileName,
 					ulSegments,
@@ -4195,16 +4195,16 @@ IDatum *
 CTestUtils::PdatumGeneric
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *mdid_type,
 	CWStringDynamic *pstrEncodedValue,
 	LINT lValue
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 
 	GPOS_ASSERT(!mdid_type->Equals(&CMDIdGPDB::m_mdidNumeric));
-	const IMDType *pmdtype = pmda->Pmdtype(mdid_type);
+	const IMDType *pmdtype = md_accessor->Pmdtype(mdid_type);
 	ULONG ulbaSize = 0;
 	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
 
@@ -4242,7 +4242,7 @@ CConstraintInterval *
 CTestUtils::PciGenericInterval
         (
         IMemoryPool *memory_pool,
-        CMDAccessor *pmda,
+        CMDAccessor *md_accessor,
         const CMDIdGPDB &mdidType,
         CColRef *pcr,
         CWStringDynamic *pstrLower,
@@ -4253,12 +4253,12 @@ CTestUtils::PciGenericInterval
         CRange::ERangeInclusion eriRight
         )
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 
 	IDatum *pdatumLower =
-			CTestUtils::PdatumGeneric(memory_pool, pmda, GPOS_NEW(memory_pool) CMDIdGPDB(mdidType), pstrLower, lLower);
+			CTestUtils::PdatumGeneric(memory_pool, md_accessor, GPOS_NEW(memory_pool) CMDIdGPDB(mdidType), pstrLower, lLower);
 	IDatum *pdatumUpper =
-			CTestUtils::PdatumGeneric(memory_pool, pmda, GPOS_NEW(memory_pool) CMDIdGPDB(mdidType), pstrUpper, lUpper);
+			CTestUtils::PdatumGeneric(memory_pool, md_accessor, GPOS_NEW(memory_pool) CMDIdGPDB(mdidType), pstrUpper, lUpper);
 
 	DrgPrng *pdrgprng = GPOS_NEW(memory_pool) DrgPrng(memory_pool);
 	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidDate);

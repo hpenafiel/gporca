@@ -222,7 +222,7 @@ namespace gpmd
 		
 		// generate the DXL datum from IDatum
 		virtual
-		CDXLDatum* Pdxldatum(IMemoryPool *memory_pool, IDatum *pdatum) const;
+		CDXLDatum* GetDatumVal(IMemoryPool *memory_pool, IDatum *pdatum) const;
 
 		// generate the DXL scalar constant from IDatum
 		virtual

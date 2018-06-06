@@ -101,7 +101,7 @@ CDXLScalarDMLAction::SerializeToDXL
 BOOL
 CDXLScalarDMLAction::FBoolean
 	(
-	CMDAccessor * // pmda
+	CMDAccessor * // md_accessor
 	)
 	const
 {

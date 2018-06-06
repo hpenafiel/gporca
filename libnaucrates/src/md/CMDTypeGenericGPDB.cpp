@@ -266,7 +266,7 @@ CMDTypeGenericGPDB::Pdatum
 	)
 	const
 {
-	CDXLDatumGeneric *datum_dxl = CDXLDatumGeneric::Cast(const_cast<CDXLDatum*>(dxl_op->Pdxldatum()));
+	CDXLDatumGeneric *datum_dxl = CDXLDatumGeneric::Cast(const_cast<CDXLDatum*>(dxl_op->GetDatumVal()));
 	GPOS_ASSERT(NULL != dxl_op);
 
 	LINT lValue = 0;
@@ -332,14 +332,14 @@ CMDTypeGenericGPDB::Pdatum
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDTypeGenericGPDB::Pdxldatum
+//		CMDTypeGenericGPDB::GetDatumVal
 //
 //	@doc:
 // 		Generate dxl datum
 //
 //---------------------------------------------------------------------------
 CDXLDatum *
-CMDTypeGenericGPDB::Pdxldatum
+CMDTypeGenericGPDB::GetDatumVal
 	(
 	IMemoryPool *memory_pool,
 	IDatum *pdatum
@@ -367,7 +367,7 @@ CMDTypeGenericGPDB::Pdxldatum
 		dValue = pdatumgeneric->GetDoubleMapping();
 	}
 
-	return Pdxldatum(memory_pool, m_mdid, pdatumgeneric->TypeModifier(), m_fByValue, pdatumgeneric->IsNull(), pba, length, lValue, dValue);
+	return GetDatumVal(memory_pool, m_mdid, pdatumgeneric->TypeModifier(), m_fByValue, pdatumgeneric->IsNull(), pba, length, lValue, dValue);
 }
 
 //---------------------------------------------------------------------------
@@ -391,14 +391,14 @@ CMDTypeGenericGPDB::FAmbiguous() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDTypeGenericGPDB::Pdxldatum
+//		CMDTypeGenericGPDB::GetDatumVal
 //
 //	@doc:
 // 		Create a dxl datum
 //
 //---------------------------------------------------------------------------
 CDXLDatum *
-CMDTypeGenericGPDB::Pdxldatum
+CMDTypeGenericGPDB::GetDatumVal
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
@@ -520,7 +520,7 @@ CMDTypeGenericGPDB::PdxlopScConst
 	)
 	const
 {
-	CDXLDatum *datum_dxl = Pdxldatum(memory_pool, pdatum);
+	CDXLDatum *datum_dxl = GetDatumVal(memory_pool, pdatum);
 
 	return GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl);
 }
@@ -542,7 +542,7 @@ CMDTypeGenericGPDB::PdxldatumNull
 {
 	m_mdid->AddRef();
 
-	return Pdxldatum(memory_pool, m_mdid, IDefaultTypeModifier, m_fByValue, true /*fConstNull*/, NULL /*pba*/, 0 /*length*/, 0 /*lValue */, 0 /*dValue */);
+	return GetDatumVal(memory_pool, m_mdid, IDefaultTypeModifier, m_fByValue, true /*fConstNull*/, NULL /*pba*/, 0 /*length*/, 0 /*lValue */, 0 /*dValue */);
 }
 
 //---------------------------------------------------------------------------

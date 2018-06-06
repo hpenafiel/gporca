@@ -251,7 +251,7 @@ CMDTypeBoolGPDB::Pdatum
 	)
 	const
 {
-	CDXLDatumBool *datum_dxl = CDXLDatumBool::Cast(const_cast<CDXLDatum*>(dxl_op->Pdxldatum()));
+	CDXLDatumBool *datum_dxl = CDXLDatumBool::Cast(const_cast<CDXLDatum*>(dxl_op->GetDatumVal()));
 	GPOS_ASSERT(datum_dxl->IsPassedByValue());
 
 	return GPOS_NEW(m_memory_pool) CDatumBoolGPDB(m_mdid->Sysid(), datum_dxl->FValue(), datum_dxl->IsNull());
@@ -283,14 +283,14 @@ CMDTypeBoolGPDB::Pdatum
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDTypeBoolGPDB::Pdxldatum
+//		CMDTypeBoolGPDB::GetDatumVal
 //
 //	@doc:
 // 		Generate dxl datum
 //
 //---------------------------------------------------------------------------
 CDXLDatum *
-CMDTypeBoolGPDB::Pdxldatum
+CMDTypeBoolGPDB::GetDatumVal
 	(
 	IMemoryPool *memory_pool,
 	IDatum *pdatum

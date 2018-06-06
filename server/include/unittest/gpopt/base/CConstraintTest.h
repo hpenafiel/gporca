@@ -110,7 +110,7 @@ namespace gpopt
 			GPOS_RESULT EresUnittest_CIntervalFromScalarCmp
 							(
 							IMemoryPool *memory_pool,
-							CMDAccessor *pmda,
+							CMDAccessor *md_accessor,
 							CColRef *pcr
 							);
 
@@ -119,7 +119,7 @@ namespace gpopt
 			CExpression *PexprScalarCmp
 							(
 							IMemoryPool *memory_pool,
-							CMDAccessor *pmda,
+							CMDAccessor *md_accessor,
 							CColRef *pcr,
 							IMDType::ECmpType ecmpt,
 							LINT lVal
@@ -130,7 +130,7 @@ namespace gpopt
 			GPOS_RESULT EresUnittest_CIntervalFromScalarBoolOp
 							(
 							IMemoryPool *memory_pool,
-							CMDAccessor *pmda,
+							CMDAccessor *md_accessor,
 							CColRef *pcr
 							);
 

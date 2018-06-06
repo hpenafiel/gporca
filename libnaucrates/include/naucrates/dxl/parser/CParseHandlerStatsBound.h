@@ -38,7 +38,7 @@ namespace gpdxl
 		private:
 
 			// dxl datum representing the bound
-			CDXLDatum *m_pdxldatum;
+			CDXLDatum *m_dxl_datum;
 
 			// is stats bound closed
 			BOOL m_fStatsBoundClosed;
@@ -76,9 +76,9 @@ namespace gpdxl
 			~CParseHandlerStatsBound();
 
 			// return the dxl datum representing the bound point
-			CDXLDatum *Pdxldatum() const
+			CDXLDatum *GetDatumVal() const
 			{
-				return m_pdxldatum;
+				return m_dxl_datum;
 			}
 
 			// is stats bound closed

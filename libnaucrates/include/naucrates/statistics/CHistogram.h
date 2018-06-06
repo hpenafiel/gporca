@@ -418,7 +418,7 @@ namespace gpnaucrates
 			CDXLStatsDerivedColumn *Pdxlstatsdercol
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				ULONG col_id,
 				CDouble dWidth
 				)

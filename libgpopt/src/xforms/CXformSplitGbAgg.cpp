@@ -212,7 +212,7 @@ CXformSplitGbAgg::PopulateLocalGlobalProjectList
 	)
 {
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// list of project elements for the new local and global aggregates
 	DrgPexpr *pdrgpexprProjElemLocal = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -252,8 +252,8 @@ CXformSplitGbAgg::PopulateLocalGlobalProjectList
 														);
 
 		// determine column reference for the new project element
-		const IMDAggregate *pmdagg = pmda->Pmdagg(popScAggFunc->MDId());
-		const IMDType *pmdtype = pmda->Pmdtype(pmdagg->PmdidTypeIntermediate());
+		const IMDAggregate *pmdagg = md_accessor->Pmdagg(popScAggFunc->MDId());
+		const IMDType *pmdtype = md_accessor->Pmdtype(pmdagg->PmdidTypeIntermediate());
 		CColRef *pcrLocal = pcf->PcrCreate(pmdtype, IDefaultTypeModifier);
 		CColRef *pcrGlobal = popScPrEl->Pcr();
 
@@ -335,7 +335,7 @@ CXformSplitGbAgg::FApplicable
 	)
 {
 	const ULONG ulArity = pexpr->Arity();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -345,7 +345,7 @@ CXformSplitGbAgg::FApplicable
 		CExpression *pexprAggFunc = (*pexprPrEl)[0];
 		CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprAggFunc->Pop());
 
-		if (popScAggFunc->FDistinct() || !pmda->Pmdagg(popScAggFunc->MDId())->FSplittable())
+		if (popScAggFunc->FDistinct() || !md_accessor->Pmdagg(popScAggFunc->MDId())->FSplittable())
 		{
 			return false;
 		}

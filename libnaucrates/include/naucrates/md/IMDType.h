@@ -160,7 +160,7 @@ namespace gpmd
 
 			// generate the DXL datum from IDatum
 			virtual
-			CDXLDatum* Pdxldatum(IMemoryPool *memory_pool, IDatum *pdatum) const = 0;
+			CDXLDatum* GetDatumVal(IMemoryPool *memory_pool, IDatum *pdatum) const = 0;
 
 			// generate the DXL datum representing null value
 			virtual

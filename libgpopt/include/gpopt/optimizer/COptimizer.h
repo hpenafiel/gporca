@@ -70,7 +70,7 @@ namespace gpopt
 			CDXLNode *CreateDXLNode
 						(
 						IMemoryPool *memory_pool,
-						CMDAccessor *pmda,
+						CMDAccessor *md_accessor,
 						CExpression *pexpr,
 						DrgPcr *pdrgpcr,
 						DrgPmdname *pdrgpmdname,
@@ -103,7 +103,7 @@ namespace gpopt
 			CDXLNode *PdxlnOptimize
 						(
 						IMemoryPool *memory_pool, 
-						CMDAccessor *pmda,						// MD accessor
+						CMDAccessor *md_accessor,						// MD accessor
 						const CDXLNode *pdxlnQuery,
 						const DXLNodeArray *query_output_dxlnode_array, 	// required output columns
 						const DXLNodeArray *cte_dxlnode_array,

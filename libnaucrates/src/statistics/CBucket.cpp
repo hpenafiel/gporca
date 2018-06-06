@@ -270,8 +270,8 @@ CBucket::PbucketGreaterThan
 	}
 
 	CBucket *pbucketGT = NULL;
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	CPoint *ppointNew = CStatisticsUtils::PpointNext(memory_pool, pmda, ppoint);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	CPoint *ppointNew = CStatisticsUtils::PpointNext(memory_pool, md_accessor, ppoint);
 
 	if (NULL != ppointNew)
 	{

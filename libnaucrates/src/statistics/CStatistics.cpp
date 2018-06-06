@@ -846,7 +846,7 @@ CDXLStatsDerivedRelation *
 CStatistics::Pdxlstatsderrel
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
@@ -861,7 +861,7 @@ CStatistics::Pdxlstatsderrel
 		CDouble *pdWidth = m_phmuldoubleWidth->Find(&col_id);
 		GPOS_ASSERT(pdWidth);
 
-		CDXLStatsDerivedColumn *dxl_derived_col_stats = phist->Pdxlstatsdercol(memory_pool, pmda, col_id, *pdWidth);
+		CDXLStatsDerivedColumn *dxl_derived_col_stats = phist->Pdxlstatsdercol(memory_pool, md_accessor, col_id, *pdWidth);
 		pdrgpdxlstatsdercol->Append(dxl_derived_col_stats);
 	}
 

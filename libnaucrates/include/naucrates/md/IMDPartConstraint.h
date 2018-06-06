@@ -45,7 +45,7 @@ namespace gpmd
 			// extract the scalar expression of the constraint with the given
 			// column mappings
 			virtual
-			CExpression *Pexpr(IMemoryPool *memory_pool, CMDAccessor *pmda, DrgPcr *pdrgpcr) const = 0;
+			CExpression *Pexpr(IMemoryPool *memory_pool, CMDAccessor *md_accessor, DrgPcr *pdrgpcr) const = 0;
 			
 			// included default partitions
 			virtual

@@ -104,7 +104,7 @@ CExpression *
 CCastUtils::PexprCast
     (
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	const CColRef *pcr,
 	IMDId *pmdidDest
 	)
@@ -112,9 +112,9 @@ CCastUtils::PexprCast
 	GPOS_ASSERT(NULL != pmdidDest);
 
     IMDId *pmdidSrc = pcr->Pmdtype()->MDId();
-	GPOS_ASSERT(CMDAccessorUtils::FCastExists(pmda, pmdidSrc, pmdidDest));
+	GPOS_ASSERT(CMDAccessorUtils::FCastExists(md_accessor, pmdidSrc, pmdidDest));
 
-	const IMDCast *pmdcast = pmda->Pmdcast(pmdidSrc, pmdidDest);
+	const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidSrc, pmdidDest);
 
     pmdidDest->AddRef();
 	pmdcast->PmdidCastFunc()->AddRef();
@@ -258,13 +258,13 @@ CCastUtils::PexprAddCast
     IMDId *pmdidTypeLeft = CScalar::PopConvert(pexprLeft->Pop())->MDIdType();
     IMDId *pmdidTypeRight = CScalar::PopConvert(pexprRight->Pop())->MDIdType();
 
-    CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+    CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
     CExpression *pexprNewPred = NULL;
 
     BOOL fTypesEqual = pmdidTypeLeft->Equals(pmdidTypeRight);
-    BOOL fCastLtoR = CMDAccessorUtils::FCastExists(pmda, pmdidTypeLeft, pmdidTypeRight);
-    BOOL fCastRtoL = CMDAccessorUtils::FCastExists(pmda, pmdidTypeRight, pmdidTypeLeft);
+    BOOL fCastLtoR = CMDAccessorUtils::FCastExists(md_accessor, pmdidTypeLeft, pmdidTypeRight);
+    BOOL fCastRtoL = CMDAccessorUtils::FCastExists(md_accessor, pmdidTypeRight, pmdidTypeLeft);
 
     if (fTypesEqual || !(fCastLtoR || fCastRtoL))
     {
@@ -279,12 +279,12 @@ CCastUtils::PexprAddCast
 
     if (fCastLtoR)
     {
-        pexprNewLeft = PexprCast(memory_pool, pmda, pexprLeft, pmdidTypeRight);
+        pexprNewLeft = PexprCast(memory_pool, md_accessor, pexprLeft, pmdidTypeRight);
     }
     else
     {
         GPOS_ASSERT(fCastRtoL);
-        pexprNewRight = PexprCast(memory_pool, pmda, pexprRight, pmdidTypeLeft);;
+        pexprNewRight = PexprCast(memory_pool, md_accessor, pexprRight, pmdidTypeLeft);;
     }
 
     GPOS_ASSERT(NULL != pexprNewLeft && NULL != pexprNewRight);
@@ -306,13 +306,13 @@ CExpression *
 CCastUtils::PexprCast
     (
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CExpression *pexpr,
 	IMDId *pmdidDest
 	)
 {
     IMDId *pmdidSrc = CScalar::PopConvert(pexpr->Pop())->MDIdType();
-    const IMDCast *pmdcast = pmda->Pmdcast(pmdidSrc, pmdidDest);
+    const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidSrc, pmdidDest);
 
     pmdidDest->AddRef();
     pmdcast->PmdidCastFunc()->AddRef();

@@ -71,20 +71,20 @@ using namespace gpnaucrates;
 CTranslatorExprToDXL::CTranslatorExprToDXL
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IntPtrArray *pdrgpiSegments,
 	BOOL fInitColumnFactory
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmda(pmda),
+	m_pmda(md_accessor),
 	m_pdpplan(NULL),
 	m_pcf(NULL),
 	m_pdrgpiSegments(pdrgpiSegments),
 	m_iMasterId(GPOPT_MASTER_SEGMENT_ID)
 {
 	GPOS_ASSERT(NULL != memory_pool);
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT_IMP(NULL != pdrgpiSegments, (0 < pdrgpiSegments->Size()));
 
 	InitScalarTranslators();
@@ -5533,7 +5533,7 @@ CTranslatorExprToDXL::GetDXLDirectDispatchInfo
 	if (1 == pci->Pdrgprng()->Size())
 	{
 		const CRange *prng = (*pci->Pdrgprng())[0];
-		datum_dxl = CTranslatorExprToDXLUtils::Pdxldatum(m_memory_pool, m_pmda, prng->PdatumLeft());
+		datum_dxl = CTranslatorExprToDXLUtils::GetDatumVal(m_memory_pool, m_pmda, prng->PdatumLeft());
 	}
 	else
 	{
@@ -7117,8 +7117,8 @@ CTranslatorExprToDXL::PdxlnScConst
 	CScalarConst *popScConst = CScalarConst::PopConvert(pexprScConst->Pop());
 
 	IDatum *pdatum = popScConst->Pdatum();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDType *pmdtype = pmda->Pmdtype(pdatum->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDType *pmdtype = md_accessor->Pmdtype(pdatum->MDId());
 
 	CDXLNode *pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pmdtype->PdxlopScConst(m_memory_pool, pdatum));
 

@@ -105,8 +105,8 @@ CStatsPredUtils::Estatscmpt
 	IMDId *pmdid
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdid);
 
 	// Simply go by operator name.
 	// If the name of the operator is "<", then it is a LessThan etc.
@@ -1021,7 +1021,7 @@ CStatsPredUtils::PstatspredBoolean
 
 	COperator *pop = pexprPred->Pop();
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	IDatum *pdatum = NULL;
 	ULONG col_id = ULONG_MAX;
@@ -1029,13 +1029,13 @@ CStatsPredUtils::PstatspredBoolean
 	if (CPredicateUtils::FBooleanScalarIdent(pexprPred))
 	{
 		CScalarIdent *popScIdent = CScalarIdent::PopConvert(pop);
-		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, true /* fValue */, false /* is_null */);
+		pdatum = md_accessor->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, true /* fValue */, false /* is_null */);
 		col_id = popScIdent->Pcr()->UlId();
 	}
 	else
 	{
 		CExpression *pexprChild = (*pexprPred)[0];
-		pdatum = pmda->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, false /* fValue */, false /* is_null */);
+		pdatum = md_accessor->PtMDType<IMDTypeBool>()->PdatumBool(memory_pool, false /* fValue */, false /* is_null */);
 		col_id = CScalarIdent::PopConvert(pexprChild->Pop())->Pcr()->UlId();
 	}
 

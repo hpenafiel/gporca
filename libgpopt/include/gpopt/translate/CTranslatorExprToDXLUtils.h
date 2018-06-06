@@ -60,7 +60,7 @@ namespace gpopt
 			CDXLNode *PdxlnCmp
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				ULONG ulPartLevel,
 				BOOL fLowerBound,
 				CDXLNode *pdxlnScalar, 
@@ -77,7 +77,7 @@ namespace gpopt
 			CColRef *PcrCreate
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CColumnFactory *pcf,
 				IMDId *pmdid,
 				INT type_modifier,
@@ -94,7 +94,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTest
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
@@ -106,7 +106,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTestConjDisj
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CColumnFactory *pcf,
 				DrgPcnstr *pdrgpcnstr,
 				BOOL fConjunction,
@@ -119,7 +119,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTestConjunction
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
@@ -131,7 +131,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTestDisjunction
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
@@ -143,7 +143,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTestNegation
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CColumnFactory *pcf,
 				CConstraint *pcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
@@ -155,7 +155,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTestInterval
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CConstraint *pcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
 				BOOL fRangePart
@@ -166,7 +166,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTestRange
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CRange *prng,
 				IMDId *pmdidPartKeyType,
 				ULONG ulPartLevel,
@@ -179,7 +179,7 @@ namespace gpopt
 			CDXLNode *PdxlnRangeStartPredicate
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				IDatum *pdatum,
 				CRange::ERangeInclusion eri,
 				IMDId *pmdidPartKeyType,
@@ -193,7 +193,7 @@ namespace gpopt
 			CDXLNode *PdxlnRangeEndPredicate
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				IDatum *pdatum,
 				CRange::ERangeInclusion eri,
 				IMDId *pmdidPartKeyType,
@@ -207,7 +207,7 @@ namespace gpopt
 			CDXLNode *PdxlnRangePointPredicate
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				IDatum *pdatum,
 				CRange::ERangeInclusion eri,
 				IMDId *pmdidPartKeyType,
@@ -230,7 +230,7 @@ namespace gpopt
 			CDXLDatum *PdxldatumFromPointConstraint
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				const CColRef *pcrDistrCol, 
 				CConstraint *pcnstrDistrCol
 				);
@@ -240,7 +240,7 @@ namespace gpopt
 			DXLDatumArrays *PdrgpdrgpdxldatumFromDisjPointConstraint
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				const CColRef *pcrDistrCol, 
 				CConstraint *pcnstrDistrCol
 				);
@@ -251,7 +251,7 @@ namespace gpopt
 			CDXLDirectDispatchInfo *GetDXLDirectDispatchInfo
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				DrgPexpr *pdrgpexprHashed, 
 				CConstraint *pcnstr
 				);
@@ -262,7 +262,7 @@ namespace gpopt
 			CDXLDirectDispatchInfo *PdxlddinfoSingleDistrKey
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprHashed, 
 				CConstraint *pcnstr
 				);
@@ -280,18 +280,18 @@ namespace gpopt
 
 			// create a scalar const value expression for the given bool value
 			static
-			CDXLNode *PdxlnBoolConst(IMemoryPool *memory_pool, CMDAccessor *pmda, BOOL value);
+			CDXLNode *PdxlnBoolConst(IMemoryPool *memory_pool, CMDAccessor *md_accessor, BOOL value);
 
 			// create a scalar const value expression for the given int4 value
 			static
-			CDXLNode *PdxlnInt4Const(IMemoryPool *memory_pool, CMDAccessor *pmda, INT iVal);
+			CDXLNode *PdxlnInt4Const(IMemoryPool *memory_pool, CMDAccessor *md_accessor, INT iVal);
 
 			// construct a filter node for a list partition predicate
 			static
 			CDXLNode *PdxlnListFilterScCmp
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CDXLNode *pdxlnPartKey,
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
@@ -306,7 +306,7 @@ namespace gpopt
 			CDXLNode *PdxlnListFilterPartKey
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprPartKey,
 				IMDId *pmdidTypePartKey,
 				ULONG ulPartLevel
@@ -317,7 +317,7 @@ namespace gpopt
 			CDXLNode *PdxlnRangeFilterScCmp
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeOther,
@@ -332,7 +332,7 @@ namespace gpopt
 			CDXLNode *PdxlnRangeFilterEqCmp
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeOther,
@@ -346,7 +346,7 @@ namespace gpopt
 			CDXLNode *PdxlnRangeFilterPartBound
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeOther,
@@ -375,7 +375,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartialScanTest
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CColumnFactory *pcf,
 				const CPartConstraint *ppartcnstr,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
@@ -388,7 +388,7 @@ namespace gpopt
 			CDXLNode *PdxlnPropagationExpressionForPartConstraints
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CColumnFactory *pcf,
 				PartCnstrMap *ppartcnstrmap,
 				DrgDrgPcr *pdrgpdrgpcrPartKeys,
@@ -397,11 +397,11 @@ namespace gpopt
 			
 			// check if the DXL Node is a scalar const TRUE
 			static
-			BOOL FScalarConstTrue(CMDAccessor *pmda, CDXLNode *pdxln);
+			BOOL FScalarConstTrue(CMDAccessor *md_accessor, CDXLNode *pdxln);
 
 			// check if the DXL Node is a scalar const false
 			static
-			BOOL FScalarConstFalse(CMDAccessor *pmda, CDXLNode *pdxln);
+			BOOL FScalarConstFalse(CMDAccessor *md_accessor, CDXLNode *pdxln);
 
 			// check whether a project list has the same columns in the given array
 			// and in the same order
@@ -424,7 +424,7 @@ namespace gpopt
 			CDXLNode *PdxlnPrLPartitionSelector
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CColumnFactory *pcf,
 				HMCrDxln *phmcrdxln,
 				BOOL fUseChildProjList,
@@ -439,7 +439,7 @@ namespace gpopt
 			CDXLNode *PdxlnPropExprPartitionSelector
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CColumnFactory *pcf,
 				BOOL fConditional,
 				PartCnstrMap *ppartcnstrmap,
@@ -524,14 +524,14 @@ namespace gpopt
 			
 			// set statistics of the operator
 			static
-			void SetStats(IMemoryPool *memory_pool, CMDAccessor *pmda, CDXLNode *pdxln, const IStatistics *pstats, BOOL fRoot);
+			void SetStats(IMemoryPool *memory_pool, CMDAccessor *md_accessor, CDXLNode *pdxln, const IStatistics *pstats, BOOL fRoot);
 
 			// set direct dispatch info of the operator
 			static
 			void SetDirectDispatchInfo
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda, 
+				CMDAccessor *md_accessor, 
 				CDXLNode *pdxln, 
 				CDrvdPropRelational *pdpRel, 
 				DrgPds *pdrgpdsBaseTables
@@ -547,15 +547,15 @@ namespace gpopt
 
 			// produce DXL representation of a datum
 			static
-			CDXLDatum *Pdxldatum
+			CDXLDatum *GetDatumVal
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				IDatum *pdatum
 				)
 			{
 				IMDId *pmdid = pdatum->MDId();
-				return pmda->Pmdtype(pmdid)->Pdxldatum(memory_pool, pdatum);
+				return md_accessor->Pmdtype(pmdid)->GetDatumVal(memory_pool, pdatum);
 			}
 
 			// return a copy the dxl node's physical properties

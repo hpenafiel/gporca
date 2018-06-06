@@ -86,7 +86,7 @@ namespace gpopt
 			CDXLNode *PdxlnExecuteMinidump
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CDXLMinidump *pdxlmd,
 				const CHAR *szFileName,
 				ULONG ulSegments,

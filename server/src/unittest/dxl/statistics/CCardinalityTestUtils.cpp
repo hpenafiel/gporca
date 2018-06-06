@@ -176,10 +176,10 @@ CCardinalityTestUtils::PpointGeneric
 	LINT lValue
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oid);
-	IDatum *pdatum = CTestUtils::PdatumGeneric(memory_pool, pmda, pmdid, pstrEncodedValue, lValue);
+	IDatum *pdatum = CTestUtils::PdatumGeneric(memory_pool, md_accessor, pmdid, pstrEncodedValue, lValue);
 	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
 
 	return ppoint;
@@ -194,9 +194,9 @@ CCardinalityTestUtils::PpointNumeric
 	CDouble dValue
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidNumeric);
-	const IMDType *pmdtype = pmda->Pmdtype(pmdid);
+	const IMDType *pmdtype = md_accessor->Pmdtype(pmdid);
 
 	ULONG ulbaSize = 0;
 	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);

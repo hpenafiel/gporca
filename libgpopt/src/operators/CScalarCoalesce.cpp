@@ -45,8 +45,8 @@ CScalarCoalesce::CScalarCoalesce
 {
 	GPOS_ASSERT(mdid_type->IsValid());
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_mdid_type);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_mdid_type);
 }
 
 //---------------------------------------------------------------------------

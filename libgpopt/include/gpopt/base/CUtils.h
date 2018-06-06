@@ -120,7 +120,7 @@ namespace gpopt
 
 			// return the mdid of the given scalar comparison between the two types
 			static
-			IMDId *PmdidScCmp(IMemoryPool *memory_pool, CMDAccessor *pmda, IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
+			IMDId *PmdidScCmp(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
 			
 			// generate a comparison expression for two column references
 			static
@@ -290,11 +290,11 @@ namespace gpopt
 
 			// generate a min(col) expression
 			static
-			CExpression *PexprMin(IMemoryPool *memory_pool, CMDAccessor *pmda, const CColRef *pcr);
+			CExpression *PexprMin(IMemoryPool *memory_pool, CMDAccessor *md_accessor, const CColRef *pcr);
 
 			// generate an aggregate expression
 			static
-			CExpression *PexprAgg(IMemoryPool *memory_pool, CMDAccessor *pmda, IMDType::EAggType eagg, const CColRef *pcr, BOOL fDistinct);
+			CExpression *PexprAgg(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDType::EAggType eagg, const CColRef *pcr, BOOL fDistinct);
 
 			// generate a select expression
 			static
@@ -393,7 +393,7 @@ namespace gpopt
 						
 			// comparison operator type
 			static
-			IMDType::ECmpType Ecmpt(CMDAccessor *pmda, IMDId *pmdid);
+			IMDType::ECmpType Ecmpt(CMDAccessor *md_accessor, IMDId *pmdid);
 			
 			// generate a binary join expression
 			template<class T>
@@ -947,7 +947,7 @@ namespace gpopt
 
 			// cast the input expression to the destination mdid
 			static
-			CExpression *PexprCast(IMemoryPool *memory_pool, CMDAccessor *pmda, CExpression *pexpr, IMDId *pmdidDest);
+			CExpression *PexprCast(IMemoryPool *memory_pool, CMDAccessor *md_accessor, CExpression *pexpr, IMDId *pmdidDest);
 
 			// construct a logical join expression of the given type, with the given children
 			static
@@ -986,7 +986,7 @@ namespace gpopt
 			CPartConstraint *PpartcnstrFromMDPartCnstr
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				DrgDrgPcr *pdrgpdrgpcrPartKey,
 				const IMDPartConstraint *pmdpartcnstr,
 				DrgPcr *pdrgpcrOutput,

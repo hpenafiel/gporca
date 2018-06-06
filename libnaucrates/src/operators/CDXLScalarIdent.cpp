@@ -166,11 +166,11 @@ CDXLScalarIdent::SerializeToDXL
 BOOL
 CDXLScalarIdent::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pdxlcr->MDIdType())->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pdxlcr->MDIdType())->Eti());
 }
 
 #ifdef GPOS_DEBUG

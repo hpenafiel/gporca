@@ -102,11 +102,11 @@ CDXLScalarSubPlan::PmdidFirstColType() const
 BOOL
 CDXLScalarSubPlan::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pmdidFirstColType)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pmdidFirstColType)->Eti());
 }
 
 

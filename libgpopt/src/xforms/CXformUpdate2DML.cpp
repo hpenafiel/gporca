@@ -120,13 +120,13 @@ CXformUpdate2DML::Transform
 
 	// generate the action column and split operator
 	COptCtxt *poctxt = COptCtxt::PoctxtFromTLS();
-	CMDAccessor *pmda = poctxt->Pmda();
+	CMDAccessor *md_accessor = poctxt->Pmda();
 	CColumnFactory *pcf = poctxt->Pcf();
 
 	pdrgpcrDelete->AddRef();
 	pdrgpcrInsert->AddRef();
 
-	const IMDType *pmdtype = pmda->PtMDType<IMDTypeInt4>();
+	const IMDType *pmdtype = md_accessor->PtMDType<IMDTypeInt4>();
 	CColRef *pcrAction = pcf->PcrCreate(pmdtype, IDefaultTypeModifier);
 	
 	CExpression *pexprProjElem = GPOS_NEW(memory_pool) CExpression

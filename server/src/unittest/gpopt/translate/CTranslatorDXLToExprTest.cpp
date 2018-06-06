@@ -114,10 +114,10 @@ CTranslatorDXLToExprTest::Pexpr
 	
 	GPOS_ASSERT(NULL != ptroutput->CreateDXLNode() && NULL != ptroutput->GetOutputColumnsDXLArray());
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// translate DXL Tree -> Expr Tree
-	CTranslatorDXLToExpr *pdxltr = GPOS_NEW(memory_pool) CTranslatorDXLToExpr(memory_pool, pmda);
+	CTranslatorDXLToExpr *pdxltr = GPOS_NEW(memory_pool) CTranslatorDXLToExpr(memory_pool, md_accessor);
 
 	CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
 												(
@@ -254,8 +254,8 @@ namespace
 				m_memory_pool(memory_pool),
 				m_strTableName(strTableName)
 			{
-				CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-				m_pmdtypeint4 = pmda->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
+				CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+				m_pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
 				CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidTableOid, 1, 1);
 
 				const BOOL fConvertHashToRandom = false;

@@ -41,11 +41,11 @@ CScalarConst *
 CTranslatorDXLToExprUtils::PopConst
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	const CDXLScalarConstValue *dxl_op
 	)
 {
-	IDatum *pdatum = CTranslatorDXLToExprUtils::Pdatum(pmda, dxl_op);
+	IDatum *pdatum = CTranslatorDXLToExprUtils::Pdatum(md_accessor, dxl_op);
 	return GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum);
 }
 
@@ -60,12 +60,12 @@ CTranslatorDXLToExprUtils::PopConst
 IDatum *
 CTranslatorDXLToExprUtils::Pdatum
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	const CDXLScalarConstValue *dxl_op
 	)
 {
-	IMDId *pmdid = dxl_op->Pdxldatum()->MDId();
-	IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(dxl_op);
+	IMDId *pmdid = dxl_op->GetDatumVal()->MDId();
+	IDatum *pdatum = md_accessor->Pmdtype(pmdid)->Pdatum(dxl_op);
 
 	return pdatum;
 }
@@ -82,7 +82,7 @@ DrgPdatum *
 CTranslatorDXLToExprUtils::Pdrgpdatum
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	const DXLDatumArray *pdrgpdxldatum
 	)
 {
@@ -94,7 +94,7 @@ CTranslatorDXLToExprUtils::Pdrgpdatum
 	{
 		CDXLDatum *datum_dxl = (*pdrgpdxldatum)[ul];
 		IMDId *pmdid = datum_dxl->MDId();
-		IDatum *pdatum = pmda->Pmdtype(pmdid)->Pdatum(memory_pool, datum_dxl);
+		IDatum *pdatum = md_accessor->Pmdtype(pmdid)->Pdatum(memory_pool, datum_dxl);
 		pdrgdatum->Append(pdatum);
 	}
 
@@ -113,12 +113,12 @@ CExpression *
 CTranslatorDXLToExprUtils::PexprConstInt8
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CSystemId sysid,
 	LINT lVal
 	)
 {
-	IDatumInt8 *pdatum = pmda->PtMDType<IMDTypeInt8>(sysid)->PdatumInt8(memory_pool, lVal, false /* is_null */);
+	IDatumInt8 *pdatum = md_accessor->PtMDType<IMDTypeInt8>(sysid)->PdatumInt8(memory_pool, lVal, false /* is_null */);
 	CExpression *pexprConst = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum));
 
 	return pexprConst;
@@ -279,7 +279,7 @@ CTranslatorDXLToExprUtils::Pdrgpcr
 BOOL
 CTranslatorDXLToExprUtils::FCastFunc
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	const CDXLNode *pdxln,
 	IMDId *pmdidInput
 	)
@@ -305,12 +305,12 @@ CTranslatorDXLToExprUtils::FCastFunc
 
 	IMDId *pmdidDest = pdxlopScFunc->ReturnTypeMdId();
 
-	if(!CMDAccessorUtils::FCastExists(pmda, pmdidInput, pmdidDest))
+	if(!CMDAccessorUtils::FCastExists(md_accessor, pmdidInput, pmdidDest))
 	{
 		return false;
 	}
 
-	const IMDCast *pmdcast = pmda->Pmdcast(pmdidInput, pmdidDest);
+	const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidInput, pmdidDest);
 
 	return (pmdcast->PmdidCastFunc()->Equals(pdxlopScFunc->FuncMdId()));
 }

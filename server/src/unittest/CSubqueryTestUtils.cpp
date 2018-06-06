@@ -182,14 +182,14 @@ CSubqueryTestUtils::PexprProjectWithAggSubquery
 	GPOS_ASSERT(NULL != pexprInner);
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// generate agg subquery
 	CExpression *pexprSubq = PexprSubqueryAgg(memory_pool, pexprOuter, pexprInner, fCorrelated);
 
 	// generate a computed column
 	CScalarSubquery *popSubquery = CScalarSubquery::PopConvert(pexprSubq->Pop());
-	const IMDType *pmdtype = pmda->Pmdtype(popSubquery->MDIdType());
+	const IMDType *pmdtype = md_accessor->Pmdtype(popSubquery->MDIdType());
 	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, popSubquery->TypeModifier());
 
 	// generate a scalar project list
@@ -1437,7 +1437,7 @@ CSubqueryTestUtils::PexprProjectWithSubqueries
 	GPOS_ASSERT(NULL != pexprInner);
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// generate an array of project elements holding subquery expressions
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -1446,7 +1446,7 @@ CSubqueryTestUtils::PexprProjectWithSubqueries
 	CExpression *pexprPrjElem = NULL;
 	CExpression *pexprGet = NULL;
 
-	const IMDTypeBool *pmdtypebool = pmda->PtMDType<IMDTypeBool>();
+	const IMDTypeBool *pmdtypebool = md_accessor->PtMDType<IMDTypeBool>();
 
 	// generate agg subquery
 	CExpression *pexprAggSubquery = PexprSubqueryAgg(memory_pool, pexprOuter, pexprInner, fCorrelated);
@@ -1585,11 +1585,11 @@ CSubqueryTestUtils::PexprProjectWithSubqueryQuantified
 	CExpression *pexprSubqueryQuantified = PexprSubqueryQuantified(memory_pool, eopid, pexprOuter, pexprInner, fCorrelated);
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// generate a computed column
 	CScalarSubqueryQuantified *pop = CScalarSubqueryQuantified::PopConvert(pexprSubqueryQuantified->Pop());
-	const IMDType *pmdtype = pmda->Pmdtype(pop->MDIdType());
+	const IMDType *pmdtype = md_accessor->Pmdtype(pop->MDIdType());
 	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, pop->TypeModifier());
 
 	// generate a scalar project list
@@ -1712,11 +1712,11 @@ CSubqueryTestUtils::PexprProjectWithSubqueryExistential
 	CExpression *pexprSubqueryExistential = PexprSubqueryExistential(memory_pool, eopid, pexprOuter, pexprInner, fCorrelated);
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// generate a computed column
 	CScalarSubqueryExistential *pop = CScalarSubqueryExistential::PopConvert(pexprSubqueryExistential->Pop());
-	const IMDType *pmdtype = pmda->Pmdtype(pop->MDIdType());
+	const IMDType *pmdtype = md_accessor->Pmdtype(pop->MDIdType());
 	CColRef *pcrComputed = pcf->PcrCreate(pmdtype, pop->TypeModifier());
 
 	// generate a scalar project list

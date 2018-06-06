@@ -714,7 +714,7 @@ namespace gpdxl
 			
 			// parse a dxl datum object
 			static
-			CDXLDatum *Pdxldatum
+			CDXLDatum *GetDatumVal
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attrs,

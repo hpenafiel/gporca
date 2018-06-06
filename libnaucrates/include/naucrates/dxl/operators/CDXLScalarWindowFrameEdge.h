@@ -92,7 +92,7 @@ namespace gpdxl
 			virtual
 			BOOL FBoolean
 					(
-					CMDAccessor *//pmda
+					CMDAccessor *//md_accessor
 					)
 					const
 			{

@@ -52,8 +52,8 @@ CScalarDMLAction::FMatch
 IMDId *
 CScalarDMLAction::MDIdType() const
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeInt4>()->MDId();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	return md_accessor->PtMDType<IMDTypeInt4>()->MDId();
 }
 // EOF
 

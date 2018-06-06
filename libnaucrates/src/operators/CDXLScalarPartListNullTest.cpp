@@ -78,7 +78,7 @@ CDXLScalarPartListNullTest::FIsNull() const
 BOOL
 CDXLScalarPartListNullTest::FBoolean
 	(
-	CMDAccessor * //pmda
+	CMDAccessor * //md_accessor
 	)
 	const
 {

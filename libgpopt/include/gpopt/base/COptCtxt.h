@@ -43,7 +43,7 @@ namespace gpopt
 	//		information contained in it can be accessed by calling
 	//		COptCtxt::PoctxtFromTLS(), instead of passing a pointer to it all
 	//		around. For example to get the global CMDAccessor:
-	//			CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	//			CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	//
 	//---------------------------------------------------------------------------
 	class COptCtxt : public CTaskLocalStorageObject
@@ -98,7 +98,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				CColumnFactory *pcf,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				IConstExprEvaluator *pceeval,
 				COptimizerConfig *optimizer_config
 				);
@@ -199,7 +199,7 @@ namespace gpopt
 			COptCtxt *PoctxtCreate
 						(
 						IMemoryPool *memory_pool,
-						CMDAccessor *pmda,
+						CMDAccessor *md_accessor,
 						IConstExprEvaluator *pceeval,
 						COptimizerConfig *optimizer_config
 						);

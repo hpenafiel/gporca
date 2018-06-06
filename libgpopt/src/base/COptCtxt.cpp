@@ -38,7 +38,7 @@ COptCtxt::COptCtxt
 	(
 	IMemoryPool *memory_pool,
 	CColumnFactory *pcf,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IConstExprEvaluator *pceeval,
 	COptimizerConfig *optimizer_config
 	)
@@ -46,7 +46,7 @@ COptCtxt::COptCtxt
 	CTaskLocalStorageObject(CTaskLocalStorage::EtlsidxOptCtxt),
 	m_memory_pool(memory_pool),
 	m_pcf(pcf),
-	m_pmda(pmda),
+	m_pmda(md_accessor),
 	m_pceeval(pceeval),
 	m_pcomp(GPOS_NEW(m_memory_pool) CDefaultComparator(pceeval)),
 	m_auPartId(m_ulFirstValidPartId),
@@ -57,7 +57,7 @@ COptCtxt::COptCtxt
 {
 	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(NULL != pcf);
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT(NULL != pceeval);
 	GPOS_ASSERT(NULL != m_pcomp);
 	GPOS_ASSERT(NULL != optimizer_config);
@@ -100,7 +100,7 @@ COptCtxt *
 COptCtxt::PoctxtCreate
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IConstExprEvaluator *pceeval,
 	COptimizerConfig *optimizer_config
 	)
@@ -119,7 +119,7 @@ COptCtxt::PoctxtCreate
 		a_pcf = pcf;
 		a_pcf.Value()->Initialize();
 
-		poctxt = GPOS_NEW(memory_pool) COptCtxt(memory_pool, pcf, pmda, pceeval, optimizer_config);
+		poctxt = GPOS_NEW(memory_pool) COptCtxt(memory_pool, pcf, md_accessor, pceeval, optimizer_config);
 
 		// detach safety
 		(void) a_pcf.Reset();

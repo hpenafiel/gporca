@@ -37,7 +37,7 @@ CParseHandlerStatsBound::CParseHandlerStatsBound
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxldatum(NULL),
+	m_dxl_datum(NULL),
 	m_fStatsBoundClosed(false)
 {
 }
@@ -52,7 +52,7 @@ CParseHandlerStatsBound::CParseHandlerStatsBound
 //---------------------------------------------------------------------------
 CParseHandlerStatsBound::~CParseHandlerStatsBound()
 {
-	m_pdxldatum->Release();
+	m_dxl_datum->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -75,11 +75,11 @@ CParseHandlerStatsBound::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name)
 	   || 0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketUpperBound), element_local_name))
 	{
-		GPOS_ASSERT(NULL == m_pdxldatum);
+		GPOS_ASSERT(NULL == m_dxl_datum);
 
 		// translate the datum and add it to the datum array
-		CDXLDatum *datum_dxl = CDXLOperatorFactory::Pdxldatum(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDatum);
-		m_pdxldatum = datum_dxl;
+		CDXLDatum *datum_dxl = CDXLOperatorFactory::GetDatumVal(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDatum);
+		m_dxl_datum = datum_dxl;
 
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name))
 		{
@@ -120,7 +120,7 @@ CParseHandlerStatsBound::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, pstr->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pdxldatum);
+	GPOS_ASSERT(NULL != m_dxl_datum);
 
 	// deactivate handler
   	m_parse_handler_mgr->DeactivateHandler();

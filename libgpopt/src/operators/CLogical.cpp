@@ -175,8 +175,8 @@ CLogical::PosFromIndex
 	const ULONG ulLenKeys = pmdindex->UlKeys();
 
 	// get relation from the metadata accessor using metadata id
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdesc->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(ptabdesc->MDId());
 
 	for (ULONG  ul = 0; ul < ulLenKeys; ul++)
 	{
@@ -771,18 +771,18 @@ CLogical::PpcDeriveConstraintFromTable
 		pdrgpcrs->Append(pcrsEquiv);
 	}
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdesc->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(ptabdesc->MDId());
 
 	const ULONG ulCheckConstraint = pmdrel->UlCheckConstraints();
 	for (ULONG ul = 0; ul < ulCheckConstraint; ul++)
 	{
 		IMDId *pmdidCheckConstraint = pmdrel->PmdidCheckConstraint(ul);
 
-		const IMDCheckConstraint *pmdCheckConstraint = pmda->Pmdcheckconstraint(pmdidCheckConstraint);
+		const IMDCheckConstraint *pmdCheckConstraint = md_accessor->Pmdcheckconstraint(pmdidCheckConstraint);
 
 		// extract the check constraint expression
-		CExpression *pexprCheckConstraint = pmdCheckConstraint->Pexpr(memory_pool, pmda, pdrgpcrNonSystem);
+		CExpression *pexprCheckConstraint = pmdCheckConstraint->Pexpr(memory_pool, md_accessor, pdrgpcrNonSystem);
 		GPOS_ASSERT(NULL != pexprCheckConstraint);
 		GPOS_ASSERT(CUtils::FPredicate(pexprCheckConstraint));
 
@@ -1229,10 +1229,10 @@ CLogical::PstatsBaseTable
 	pcrsWidth->Exclude(pcrsHist);
 
 	const COptCtxt *poctxt = COptCtxt::PoctxtFromTLS();
-	CMDAccessor *pmda = poctxt->Pmda();
+	CMDAccessor *md_accessor = poctxt->Pmda();
 	CStatisticsConfig *pstatsconf = poctxt->GetOptimizerConfig()->Pstatsconf();
 
-	IStatistics *pstats = pmda->Pstats
+	IStatistics *pstats = md_accessor->Pstats
 								(
 								memory_pool,
 								ptabdesc->MDId(),

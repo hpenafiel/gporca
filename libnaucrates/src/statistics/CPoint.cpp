@@ -235,21 +235,21 @@ CPoint::PpointMax
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPoint::Pdxldatum
+//		CPoint::GetDatumVal
 //
 //	@doc:
 //		Translate the point into its DXL representation
 //---------------------------------------------------------------------------
 CDXLDatum *
-CPoint::Pdxldatum
+CPoint::GetDatumVal
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
 	IMDId *pmdid = m_pdatum->MDId();
-	return pmda->Pmdtype(pmdid)->Pdxldatum(memory_pool, m_pdatum);
+	return md_accessor->Pmdtype(pmdid)->GetDatumVal(memory_pool, m_pdatum);
 }
 
 // EOF

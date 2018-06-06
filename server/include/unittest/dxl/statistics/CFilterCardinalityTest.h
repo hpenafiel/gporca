@@ -176,7 +176,7 @@ namespace gpnaucrates
 			GPOS_RESULT EresUnittest_CStatisticsCompare
 			(
 					IMemoryPool *memory_pool,
-					CMDAccessor *pmda,
+					CMDAccessor *md_accessor,
 					CStatisticsArray *pdrgpstatBefore,
 					CStatsPred *pstatspred,
 					const CHAR *szDXLOutput,

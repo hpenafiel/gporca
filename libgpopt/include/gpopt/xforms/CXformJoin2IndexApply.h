@@ -52,7 +52,7 @@ namespace gpopt
 				ULONG ulOriginOpId,
 				CExpression *pexprOuter,
 				CExpression *pexprInner,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				DrgPexpr *pdrgpexprConjuncts,
 				CColRefSet *pcrsScalarExpr,
 				CColRefSet *pcrsOuterRefs,

@@ -29,12 +29,12 @@ using namespace gpdxl;
 CDXLScalarComp::CDXLScalarComp
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidOp,
+	IMDId *mdid_op,
 	const CWStringConst *comparison_operator_name
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_mdid(pmdidOp),
+	m_mdid(mdid_op),
 	m_comparison_operator_name(comparison_operator_name)
 {
 	GPOS_ASSERT(m_mdid->IsValid());

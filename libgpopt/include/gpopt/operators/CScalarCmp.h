@@ -156,11 +156,11 @@ namespace gpopt
 		
 			// get the string representation of a metadata object
 			static
-			CWStringConst *Pstr(IMemoryPool *memory_pool, CMDAccessor *pmda, IMDId *pmdid);
+			CWStringConst *Pstr(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *pmdid);
 
 			// get metadata id of the commuted operator
 			static
-			IMDId *PmdidCommuteOp(CMDAccessor *pmda, COperator *pop);
+			IMDId *PmdidCommuteOp(CMDAccessor *md_accessor, COperator *pop);
 		
 		
 

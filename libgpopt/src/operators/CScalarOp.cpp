@@ -50,11 +50,11 @@ CScalarOp::CScalarOp
 {
 	GPOS_ASSERT(pmdidOp->IsValid());
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(pmda, m_pmdidOp);
-	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(pmda, m_pmdidOp);
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidReturnType);
+	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_pmdidOp);
+	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_pmdidOp);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_pmdidReturnType);
 }
 
 
@@ -158,8 +158,8 @@ CScalarOp::MDIdType() const
 		return m_pmdidReturnType;
 	}
 	
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->Pmdscop(m_pmdidOp)->PmdidTypeResult();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	return md_accessor->Pmdscop(m_pmdidOp)->PmdidTypeResult();
 }
 
 //---------------------------------------------------------------------------

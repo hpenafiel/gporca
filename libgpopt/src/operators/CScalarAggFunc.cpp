@@ -202,16 +202,16 @@ CScalarAggFunc::PmdidLookupReturnType
 	)
 {
 	GPOS_ASSERT(NULL != pmdidAggFunc);
-	CMDAccessor *pmda = pmdaInput;
+	CMDAccessor *md_accessor = pmdaInput;
 
-	if (NULL == pmda)
+	if (NULL == md_accessor)
 	{
-		pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+		md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	}
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 
 	// get aggregate function return type from the MD cache
-	const IMDAggregate *pmdagg = pmda->Pmdagg(pmdidAggFunc);
+	const IMDAggregate *pmdagg = md_accessor->Pmdagg(pmdidAggFunc);
 	if (fGlobal)
 	{
 		return pmdagg->PmdidTypeResult();

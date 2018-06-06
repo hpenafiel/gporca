@@ -162,7 +162,7 @@ CWStringBase *
 CMDProviderMemory::PstrObject
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *, //pmda
+	CMDAccessor *, //md_accessor
 	IMDId *pmdid
 	) 
 	const

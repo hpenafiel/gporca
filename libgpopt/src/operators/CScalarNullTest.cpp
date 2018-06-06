@@ -53,9 +53,9 @@ CScalarNullTest::FMatch
 IMDId *
 CScalarNullTest::MDIdType() const
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	
-	return pmda->PtMDType<IMDTypeBool>()->MDId();
+	return md_accessor->PtMDType<IMDTypeBool>()->MDId();
 }
 
 

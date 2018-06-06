@@ -50,9 +50,9 @@ CScalarCmp::CScalarCmp
 {
 	GPOS_ASSERT(pmdidOp->IsValid());
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(pmda, m_pmdidOp);
-	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(pmda, m_pmdidOp);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_pmdidOp);
+	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_pmdidOp);
 }
 
 
@@ -152,8 +152,8 @@ CScalarCmp::FInputOrderSensitive() const
 IMDId *
 CScalarCmp::MDIdType() const
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeBool>()->MDId();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	return md_accessor->PtMDType<IMDTypeBool>()->MDId();
 }
 
 
@@ -184,12 +184,12 @@ CScalarCmp::Eber
 IMDId *
 CScalarCmp::PmdidCommuteOp
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	COperator *pop
 	)
 {
 	CScalarCmp *popScalarCmp = dynamic_cast<CScalarCmp *>(pop);
-	const IMDScalarOp *pmdScalarCmpOp = pmda->Pmdscop(popScalarCmp->PmdidOp());
+	const IMDScalarOp *pmdScalarCmpOp = md_accessor->Pmdscop(popScalarCmp->PmdidOp());
 
 	IMDId *pmdidScalarCmpCommute = pmdScalarCmpOp->PmdidOpCommute();
 	return pmdidScalarCmpCommute;
@@ -200,12 +200,12 @@ CWStringConst *
 CScalarCmp::Pstr
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *pmdid
 	)
 {
 	pmdid->AddRef();
-	return GPOS_NEW(memory_pool) CWStringConst(memory_pool, (pmda->Pmdscop(pmdid)->Mdname().GetMDName())->GetBuffer());
+	return GPOS_NEW(memory_pool) CWStringConst(memory_pool, (md_accessor->Pmdscop(pmdid)->Mdname().GetMDName())->GetBuffer());
 }
 
 // get commuted scalar comparision operator
@@ -217,11 +217,11 @@ CScalarCmp::PopCommutedOp
 	)
 {
 	
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *pmdid = PmdidCommuteOp(pmda, pop);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	IMDId *pmdid = PmdidCommuteOp(md_accessor, pop);
 	if (NULL != pmdid && pmdid->IsValid())
 	{
-		return GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdid, Pstr(memory_pool, pmda, pmdid), CUtils::Ecmpt(pmdid));
+		return GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdid, Pstr(memory_pool, md_accessor, pmdid), CUtils::Ecmpt(pmdid));
 	}
 	return NULL;
 }

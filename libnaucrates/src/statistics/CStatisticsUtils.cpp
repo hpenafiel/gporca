@@ -60,12 +60,12 @@ CPoint *
 CStatisticsUtils::PpointNext
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CPoint *ppoint
 	)
 {
 	IMDId *pmdid = ppoint->Pdatum()->MDId();
-	const IMDType *pmdtype = pmda->Pmdtype(pmdid);
+	const IMDType *pmdtype = md_accessor->Pmdtype(pmdid);
 
 	// type has integer mapping
 	if (pmdtype->Eti() == IMDType::EtiInt2 || pmdtype->Eti() == IMDType::EtiInt4 ||

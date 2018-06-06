@@ -632,8 +632,8 @@ CSubqueryHandler::FCreateOuterApplyForScalarSubquery
 	BOOL fGeneratedByQuantified =  popSubquery->FGeneratedByQuantified();
 	if (fGeneratedByQuantified || (fHasCountAggMatchingColumn && 0 == pgbAgg->Pdrgpcr()->Size()))
 	{
-		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-		const IMDTypeInt8 *pmdtypeint8 = pmda->PtMDType<IMDTypeInt8>();
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+		const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>();
 		IMDId *pmdidInt8 = pmdtypeint8->MDId();
 		pmdidInt8->AddRef();
 		CExpression *pexprCoalesce =
@@ -860,17 +860,17 @@ CSubqueryHandler::FCreateOuterApplyForExistOrQuant
 	{
 		// quantified subqueries -- generate count(*) and sum(null indicator) expressions
 		CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 		CExpression *pexprCount = CUtils::PexprCountStar(memory_pool);
 		CScalarAggFunc *popCount = CScalarAggFunc::PopConvert(pexprCount->Pop());
-		const IMDType *pmdtypeCount = pmda->Pmdtype(popCount->MDIdType());
+		const IMDType *pmdtypeCount = md_accessor->Pmdtype(popCount->MDIdType());
 		pcrCount = pcf->PcrCreate(pmdtypeCount, popCount->TypeModifier());
 		CExpression *pexprPrjElemCount = CUtils::PexprScalarProjectElement(memory_pool, pcrCount, pexprCount);
 
 		CExpression *pexprSum = CUtils::PexprSum(memory_pool, pcr);
 		CScalarAggFunc *popSum = CScalarAggFunc::PopConvert(pexprSum->Pop());
-		const IMDType *pmdtypeSum = pmda->Pmdtype(popSum->MDIdType());
+		const IMDType *pmdtypeSum = md_accessor->Pmdtype(popSum->MDIdType());
 		pcrSum = pcf->PcrCreate(pmdtypeSum, popSum->TypeModifier());
 		CExpression *pexprPrjElemSum = CUtils::PexprScalarProjectElement(memory_pool, pcrSum, pexprSum);
 		pexprPrjList = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarProjectList(memory_pool), pexprPrjElemCount, pexprPrjElemSum);
@@ -1455,8 +1455,8 @@ CSubqueryHandler::PexprScalarIf
 	GPOS_ASSERT_IMP(fExistential, NULL != pcrBool);
 	GPOS_ASSERT_IMP(fQuantified, NULL != pcrSum && NULL != pcrCount);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDTypeBool *pmdtypebool = pmda->PtMDType<IMDTypeBool>();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDTypeBool *pmdtypebool = md_accessor->PtMDType<IMDTypeBool>();
 	IMDId *pmdid = pmdtypebool->MDId();
 
 	BOOL value = true;

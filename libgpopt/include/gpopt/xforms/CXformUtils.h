@@ -175,7 +175,7 @@ namespace gpopt
 			void AddMinAggs
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CColumnFactory *pcf,
 				DrgPcr *pdrgpcr,
 				HMCrCr *phmcrcr,
@@ -308,7 +308,7 @@ namespace gpopt
 			CExpression *PexprBuildIndexPlan
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprGet,
 				ULONG ulOriginOpId,
 				DrgPexpr *pdrgpexprConds,
@@ -420,7 +420,7 @@ namespace gpopt
 			CExpression *PexprEqualityOnBoolColumn
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				BOOL fNegated,
 				CColRef *pcr
 				);
@@ -431,7 +431,7 @@ namespace gpopt
 			CExpression *PexprBitmapFromChildren
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprOriginalPred,
 				CExpression *pexprPred,
 				CTableDescriptor *ptabdesc,
@@ -454,7 +454,7 @@ namespace gpopt
 			CExpression *PexprBitmapCondToUse
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprPred,
 				BOOL fBoolColumn,
 				BOOL fNegatedBoolColumn,
@@ -487,7 +487,7 @@ namespace gpopt
 			CExpression *PexprBitmapForSelectCondition
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprPred,
 				CTableDescriptor *ptabdesc,
 				const IMDRelation *pmdrel,
@@ -505,7 +505,7 @@ namespace gpopt
 			CExpression *PexprBitmapForIndexLookup
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprPred,
 				CTableDescriptor *ptabdesc,
 				const IMDRelation *pmdrel,
@@ -874,7 +874,7 @@ namespace gpopt
 			CExpression *PexprLogicalIndexGet
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprGet,
 				ULONG ulOriginOpId,
 				DrgPexpr *pdrgpexprConds,
@@ -890,7 +890,7 @@ namespace gpopt
 				return PexprBuildIndexPlan
 						(
 						memory_pool,
-						pmda,
+						md_accessor,
 						pexprGet,
 						ulOriginOpId,
 						pdrgpexprConds,
@@ -913,7 +913,7 @@ namespace gpopt
 			CExpression *PexprScalarBitmapBoolOp
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprOriginalPred,
 				DrgPexpr *pdrgpexpr,
 				CTableDescriptor *ptabdesc,
@@ -943,7 +943,7 @@ namespace gpopt
 			CExpression *PexprBitmap
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprOriginalPred,
 				CExpression *pexprPred, 
 				CTableDescriptor *ptabdesc,
@@ -962,7 +962,7 @@ namespace gpopt
 			void CreateBitmapIndexProbeOps
 				(
 				IMemoryPool *memory_pool, 
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexprOriginalPred,
 				DrgPexpr *pdrgpexpr, 
 				CTableDescriptor *ptabdesc,
@@ -978,7 +978,7 @@ namespace gpopt
 
 			// check if expression has any scalar node with ambiguous return type
 			static
-			BOOL FHasAmbiguousType(CExpression *pexpr, CMDAccessor *pmda);
+			BOOL FHasAmbiguousType(CExpression *pexpr, CMDAccessor *md_accessor);
 			
 			// construct a Bitmap(Dynamic)TableGet over BitmapBoolOp for the given
 			// logical operator if bitmap indexes exist
@@ -1008,7 +1008,7 @@ namespace gpopt
 			DrgPdrgPpartdig *PdrgpdrgppartdigCandidates
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				DrgPexpr *pdrgpexprScalar,
 				DrgDrgPcr *pdrgpdrgpcrPartKey,
 				const IMDRelation *pmdrel,
@@ -1025,7 +1025,7 @@ namespace gpopt
 			CPartConstraint *PpartcnstrUpdateCovered
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				DrgPexpr *pdrgpexprScalar,
 				CPartConstraint *ppartcnstrCovered,
 				CPartConstraint *ppartcnstr,

@@ -29,7 +29,7 @@ using namespace gpopt;
 CAutoOptCtxt::CAutoOptCtxt
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IConstExprEvaluator *pceeval,
 	COptimizerConfig *optimizer_config
 	)
@@ -45,7 +45,7 @@ CAutoOptCtxt::CAutoOptCtxt
 		pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorDefault();
 	}
 
-	COptCtxt *poctxt = COptCtxt::PoctxtCreate(memory_pool, pmda, pceeval, optimizer_config);
+	COptCtxt *poctxt = COptCtxt::PoctxtCreate(memory_pool, md_accessor, pceeval, optimizer_config);
 	ITask::Self()->GetTls().Store(poctxt);
 }
 
@@ -61,7 +61,7 @@ CAutoOptCtxt::CAutoOptCtxt
 CAutoOptCtxt::CAutoOptCtxt
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IConstExprEvaluator *pceeval,
 	ICostModel *pcm
 	)
@@ -77,7 +77,7 @@ CAutoOptCtxt::CAutoOptCtxt
 		pceeval = GPOS_NEW(memory_pool) CConstExprEvaluatorDefault();
 	}
 
-	COptCtxt *poctxt = COptCtxt::PoctxtCreate(memory_pool, pmda, pceeval, optimizer_config);
+	COptCtxt *poctxt = COptCtxt::PoctxtCreate(memory_pool, md_accessor, pceeval, optimizer_config);
 	ITask::Self()->GetTls().Store(poctxt);
 }
 

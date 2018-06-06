@@ -113,7 +113,7 @@ CStatisticsTest::EresUnittest_UnionAll()
 	// create memory pool
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	SStatsUnionAllSTestCase rgstatsunionalltc[] =
 	{
@@ -133,7 +133,7 @@ CStatisticsTest::EresUnittest_UnionAll()
 
 		// parse the input statistics objects
 		DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(memory_pool, szDXLInput, NULL);
-		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(memory_pool, pmda, dxl_derived_rel_stats_array);
+		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(memory_pool, md_accessor, dxl_derived_rel_stats_array);
 		dxl_derived_rel_stats_array->Release();
 
 		GPOS_ASSERT(NULL != pdrgpstatBefore);
@@ -158,7 +158,7 @@ CStatisticsTest::EresUnittest_UnionAll()
 		CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics
 													(
 													memory_pool,
-													pmda,
+													md_accessor,
 													pdrgpstatOutput,
 													true /*serialize_header_footer*/,
 													true /*indentation*/

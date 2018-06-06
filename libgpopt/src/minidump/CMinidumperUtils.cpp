@@ -343,7 +343,7 @@ CDXLNode *
 CMinidumperUtils::PdxlnExecuteMinidump
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CDXLMinidump *pdxlmd,
 	const CHAR *szFileName,
 	ULONG ulSegments,
@@ -353,7 +353,7 @@ CMinidumperUtils::PdxlnExecuteMinidump
 	IConstExprEvaluator *pceeval
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT(NULL != pdxlmd->GetQueryDXLRoot() &&
 				NULL != pdxlmd->PdrgpdxlnQueryOutput() &&
 				NULL != pdxlmd->GetCTEProducerDXLArray() &&
@@ -384,7 +384,7 @@ CMinidumperUtils::PdxlnExecuteMinidump
 		pdxlnPlan = COptimizer::PdxlnOptimize
 								(
 								memory_pool,
-								pmda,
+								md_accessor,
 								pdxlmd->GetQueryDXLRoot(),
 								pdxlmd->PdrgpdxlnQueryOutput(),
 								pdxlmd->GetCTEProducerDXLArray(),

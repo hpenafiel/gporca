@@ -34,7 +34,7 @@ namespace gpdxl
 	{
 		private:
 
-			CDXLDatum *m_pdxldatum;
+			CDXLDatum *m_dxl_datum;
 
 			// private copy ctor
 			CDXLScalarConstValue(const CDXLScalarConstValue&);
@@ -55,9 +55,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// return the datum value
-			const CDXLDatum* Pdxldatum() const
+			const CDXLDatum* GetDatumVal() const
 			{
-				return m_pdxldatum;
+				return m_dxl_datum;
 			}
 
 			// DXL Operator ID
@@ -65,7 +65,7 @@ namespace gpdxl
 			
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static
@@ -82,7 +82,7 @@ namespace gpdxl
 
 			// does the operator return a boolean result
 			virtual
-			BOOL FBoolean(CMDAccessor *pmda) const;
+			BOOL FBoolean(CMDAccessor *md_accessor) const;
 
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure

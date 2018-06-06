@@ -35,7 +35,7 @@ CDXLScalarConstValue::CDXLScalarConstValue
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pdxldatum(datum_dxl)
+	m_dxl_datum(datum_dxl)
 {
 }
 
@@ -49,7 +49,7 @@ CDXLScalarConstValue::CDXLScalarConstValue
 //---------------------------------------------------------------------------
 CDXLScalarConstValue::~CDXLScalarConstValue()
 {
-	m_pdxldatum->Release();
+	m_dxl_datum->Release();
 }
 
 
@@ -94,12 +94,12 @@ void
 CDXLScalarConstValue::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *//pdxln
+	const CDXLNode *//node
 	)
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
-	m_pdxldatum->Serialize(xml_serializer, element_name);
+	m_dxl_datum->Serialize(xml_serializer, element_name);
 }
 
 //---------------------------------------------------------------------------
@@ -113,11 +113,11 @@ CDXLScalarConstValue::SerializeToDXL
 BOOL
 CDXLScalarConstValue::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_pdxldatum->MDId())->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_dxl_datum->MDId())->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -132,13 +132,13 @@ CDXLScalarConstValue::FBoolean
 void
 CDXLScalarConstValue::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL // validate_children 
 	) 
 	const
 {
-	GPOS_ASSERT(0 == pdxln->Arity());
-	GPOS_ASSERT(m_pdxldatum->MDId()->IsValid());
+	GPOS_ASSERT(0 == node->Arity());
+	GPOS_ASSERT(m_dxl_datum->MDId()->IsValid());
 }
 #endif // GPOS_DEBUG
 

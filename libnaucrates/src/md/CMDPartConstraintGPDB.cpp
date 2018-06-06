@@ -71,7 +71,7 @@ CExpression *
 CMDPartConstraintGPDB::Pexpr
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	DrgPcr *pdrgpcr
 	)
 	const
@@ -79,7 +79,7 @@ CMDPartConstraintGPDB::Pexpr
 	GPOS_ASSERT(NULL != pdrgpcr);
 
 	// translate the DXL representation of the part constraint expression
-	CTranslatorDXLToExpr dxltr(memory_pool, pmda);
+	CTranslatorDXLToExpr dxltr(memory_pool, md_accessor);
 	return dxltr.PexprTranslateScalar(m_dxl_node, pdrgpcr);
 }
 

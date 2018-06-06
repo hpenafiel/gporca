@@ -57,8 +57,8 @@ CScalarArrayCmp::CScalarArrayCmp
 	GPOS_ASSERT(pmdidOp->IsValid());
 	GPOS_ASSERT(EarrcmpSentinel > earrcmpt);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(pmda, m_pmdidOp);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_pmdidOp);
 }
 
 
@@ -147,8 +147,8 @@ CScalarArrayCmp::FMatch
 IMDId *
 CScalarArrayCmp::MDIdType() const
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	return pmda->PtMDType<IMDTypeBool>()->MDId();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	return md_accessor->PtMDType<IMDTypeBool>()->MDId();
 }
 
 

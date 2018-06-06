@@ -206,13 +206,13 @@ CXformJoin2IndexApply::CreateHomogeneousBtreeIndexApplyAlternatives
 	GPOS_ASSERT(pdrgpexpr->Size() > 0);
 
 	// find the indexes whose included columns meet the required columns
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdescInner->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(ptabdescInner->MDId());
 
 	for (ULONG ul = 0; ul < ulIndices; ul++)
 	{
 		IMDId *pmdidIndex = pmdrel->PmdidIndex(ul);
-		const IMDIndex *pmdindex = pmda->Pmdindex(pmdidIndex);
+		const IMDIndex *pmdindex = md_accessor->Pmdindex(pmdidIndex);
 
 		// distribution keys and btree index keys must match each other for left outer join
 		// Given:
@@ -251,7 +251,7 @@ CXformJoin2IndexApply::CreateHomogeneousBtreeIndexApplyAlternatives
 			ulOriginOpId,
 			pexprOuter,
 			pexprInner,
-			pmda,
+			md_accessor,
 			pdrgpexpr,
 			pcrsScalarExpr,
 			pcrsOuterRefs,
@@ -283,7 +283,7 @@ CXformJoin2IndexApply::CreateAlternativesForBtreeIndex
 	ULONG ulOriginOpId,
 	CExpression *pexprOuter,
 	CExpression *pexprInner,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	DrgPexpr *pdrgpexprConjuncts,
 	CColRefSet *pcrsScalarExpr,
 	CColRefSet *pcrsOuterRefs,
@@ -297,7 +297,7 @@ CXformJoin2IndexApply::CreateAlternativesForBtreeIndex
 	CExpression *pexprLogicalIndexGet = CXformUtils::PexprLogicalIndexGet
 						(
 						 memory_pool,
-						 pmda,
+						 md_accessor,
 						 pexprInner,
 						 ulOriginOpId,
 						 pdrgpexprConjuncts,
@@ -353,15 +353,15 @@ void CXformJoin2IndexApply::CreateHomogeneousBitmapIndexApplyAlternatives
 	if (m_fOuterJoin)
 	{
 		// find the indexes whose included columns meet the required columns
-		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-		const IMDRelation *pmdrel = pmda->Pmdrel(ptabdescInner->MDId());
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+		const IMDRelation *pmdrel = md_accessor->Pmdrel(ptabdescInner->MDId());
 		const ULONG ulIndices = ptabdescInner->UlIndices();
 		BOOL fIndexApplicable = false;
 
 		for (ULONG ul = 0; ul < ulIndices; ul++)
 		{
 			IMDId *pmdidIndex = pmdrel->PmdidIndex(ul);
-			const IMDIndex *pmdindex = pmda->Pmdindex(pmdidIndex);
+			const IMDIndex *pmdindex = md_accessor->Pmdindex(pmdidIndex);
 
 			// there must be at least 1 index matches the distribution keys
 			// for left out join index apply.
@@ -523,8 +523,8 @@ CXformJoin2IndexApply::CreatePartialIndexApplyAlternatives
 		);
 
 	// find a candidate set of partial index combinations
-    CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-    const IMDRelation *pmdrel = pmda->Pmdrel(ptabdescInner->MDId());
+    CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+    const IMDRelation *pmdrel = md_accessor->Pmdrel(ptabdescInner->MDId());
 	
     // array of expressions in the scalar expression
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);

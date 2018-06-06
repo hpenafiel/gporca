@@ -834,7 +834,7 @@ namespace gpopt
 			CTranslatorExprToDXL
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				IntPtrArray *pdrgpiSegments,
 				BOOL fInitColumnFactory = true
 				);

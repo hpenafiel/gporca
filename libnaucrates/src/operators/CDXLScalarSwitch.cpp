@@ -129,11 +129,11 @@ CDXLScalarSwitch::SerializeToDXL
 BOOL
 CDXLScalarSwitch::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_mdid_type)->Eti());
 }
 
 #ifdef GPOS_DEBUG

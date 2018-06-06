@@ -854,10 +854,10 @@ CConstraintInterval::PexprConstructArrayScalar(IMemoryPool *memory_pool, bool fI
 
 	if (m_fIncludesNull)
 	{
-		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 		IDatum *pdatum = (*m_pdrgprng)[0]->PdatumRight();
 		GPOS_ASSERT(NULL != pdatum);
-		IDatum *pdatumNull = pmda->Pmdtype(pdatum->MDId())->PdatumNull();
+		IDatum *pdatumNull = md_accessor->Pmdtype(pdatum->MDId())->PdatumNull();
 		pdatumNull->AddRef();
 		CScalarConst *popScConst = GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatumNull);
 		prngexpr->Append(GPOS_NEW(memory_pool) CExpression(memory_pool, popScConst));

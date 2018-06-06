@@ -60,7 +60,7 @@ namespace gpopt
 							(
 							IMemoryPool *memory_pool,
 							CColumnFactory *pcf,
-							CMDAccessor *pmda,
+							CMDAccessor *md_accessor,
 							CExpression *pexpr,
 							CExpression *pexprRelational,
 							HMExprCr *phmexprcr,
@@ -73,7 +73,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				CColumnFactory *pcf,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				CExpression *pexpr,
 				CExpression *pexprRelational,
 				HMExprCr *phmexprcr,
@@ -90,7 +90,7 @@ namespace gpopt
 					(
 					IMemoryPool *memory_pool,
 					CColumnFactory *pcf,
-					CMDAccessor *pmda,
+					CMDAccessor *md_accessor,
 					CExpression *pexprPrEl,
 					DrgPexpr *pdrgpexprPrElFirstStage,
 					DrgPexpr *pdrgpexprPrElSecondStage,
@@ -115,7 +115,7 @@ namespace gpopt
 					(
 					IMemoryPool *memory_pool,
 					CColumnFactory *pcf,
-					CMDAccessor *pmda,
+					CMDAccessor *md_accessor,
 					CExpression *pexpr,
 					DrgPexpr *pdrgpexprChildPrEl,
 					HMExprCr *phmexprcr,
@@ -127,7 +127,7 @@ namespace gpopt
 			CColRef *PcrAggFuncArgument
 						(
 						IMemoryPool *memory_pool,
-						CMDAccessor *pmda,
+						CMDAccessor *md_accessor,
 						CColumnFactory *pcf,
 						CExpression *pexprArg,
 						DrgPexpr *pdrgpexprChildPrEl

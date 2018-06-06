@@ -519,8 +519,8 @@ CPredicateUtils::FLikePredicate
 {
 	GPOS_ASSERT(NULL != pmdid);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdid);
 
 	const CWStringConst *pstrOpName = pmdscop->Mdname().GetMDName();
 
@@ -1801,7 +1801,7 @@ CExpression *
 CPredicateUtils::PexprIndexLookupKeyOnLeft
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CExpression *pexprScalar,
 	const IMDIndex *pmdindex,
 	DrgPcr *pdrgpcrIndex,
@@ -1838,7 +1838,7 @@ CPredicateUtils::PexprIndexLookupKeyOnLeft
 			}
 		}
 
-		fSuccess = (fSuccess && FCompatibleIndexPredicate(pexprScalar, pmdindex, pdrgpcrIndex, pmda));
+		fSuccess = (fSuccess && FCompatibleIndexPredicate(pexprScalar, pmdindex, pdrgpcrIndex, md_accessor));
 
 		if (fSuccess)
 		{
@@ -1857,7 +1857,7 @@ CExpression *
 CPredicateUtils::PexprIndexLookupKeyOnRight
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CExpression *pexprScalar,
 	const IMDIndex *pmdindex,
 	DrgPcr *pdrgpcrIndex,
@@ -1880,7 +1880,7 @@ CPredicateUtils::PexprIndexLookupKeyOnRight
 			pexprRight->AddRef();
 			pexprLeft->AddRef();
 			CExpression *pexprCommuted = GPOS_NEW(memory_pool) CExpression(memory_pool, popScCmpCommute, pexprRight, pexprLeft);
-			CExpression *pexprIndexCond = PexprIndexLookupKeyOnLeft(memory_pool, pmda, pexprCommuted, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
+			CExpression *pexprIndexCond = PexprIndexLookupKeyOnLeft(memory_pool, md_accessor, pexprCommuted, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
 			pexprCommuted->Release();
 
 			return pexprIndexCond;
@@ -1902,7 +1902,7 @@ CExpression *
 CPredicateUtils::PexprIndexLookup
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CExpression *pexprScalar,
 	const IMDIndex *pmdindex,
 	DrgPcr *pdrgpcrIndex,
@@ -1930,13 +1930,13 @@ CPredicateUtils::PexprIndexLookup
 		return NULL;
 	}
 
-	CExpression *pexprIndexLookupKeyOnLeft = PexprIndexLookupKeyOnLeft(memory_pool, pmda, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
+	CExpression *pexprIndexLookupKeyOnLeft = PexprIndexLookupKeyOnLeft(memory_pool, md_accessor, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
 	if (NULL != pexprIndexLookupKeyOnLeft)
 	{
 		return pexprIndexLookupKeyOnLeft;
 	}
 
-	CExpression *pexprIndexLookupKeyOnRight = PexprIndexLookupKeyOnRight(memory_pool, pmda, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
+	CExpression *pexprIndexLookupKeyOnRight = PexprIndexLookupKeyOnRight(memory_pool, md_accessor, pexprScalar, pmdindex, pdrgpcrIndex, pcrsOuterRefs);
 	if (NULL != pexprIndexLookupKeyOnRight)
 	{
 		return pexprIndexLookupKeyOnRight;
@@ -1950,7 +1950,7 @@ void
 CPredicateUtils::ExtractIndexPredicates
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	DrgPexpr *pdrgpexprPredicate,
 	const IMDIndex *pmdindex,
 	DrgPcr *pdrgpcrIndex,
@@ -2003,7 +2003,7 @@ CPredicateUtils::ExtractIndexPredicates
 		else
 		{
 			// attempt building index lookup predicate
-			CExpression *pexprLookupPred = PexprIndexLookup(memory_pool, pmda, pexprCond, pmdindex, pdrgpcrIndex, pcrsAcceptedOuterRefs);
+			CExpression *pexprLookupPred = PexprIndexLookup(memory_pool, md_accessor, pexprCond, pmdindex, pdrgpcrIndex, pcrsAcceptedOuterRefs);
 			if (NULL != pexprLookupPred)
 			{
 				pexprCond->Release();
@@ -2083,11 +2083,11 @@ CPredicateUtils::PexprInverseComparison
 	CExpression *pexprCmp
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	IMDId *pmdidOp = CScalarCmp::PopConvert(pexprCmp->Pop())->PmdidOp();
-	IMDId *pmdidInverseOp = pmda->Pmdscop(pmdidOp)->PmdidOpInverse();
-	const CWStringConst *pstrFirst = pmda->Pmdscop(pmdidInverseOp)->Mdname().GetMDName();
+	IMDId *pmdidInverseOp = md_accessor->Pmdscop(pmdidOp)->PmdidOpInverse();
+	const CWStringConst *pstrFirst = md_accessor->Pmdscop(pmdidInverseOp)->Mdname().GetMDName();
 
 	// generate a predicate for the inversion of the comparison involved in the subquery
 	(*pexprCmp)[0]->AddRef();
@@ -2441,7 +2441,7 @@ CPredicateUtils::FCompatiblePredicates
 	DrgPexpr *pdrgpexprPred,
 	const IMDIndex *pmdindex,
 	DrgPcr *pdrgpcrIndex,
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpexprPred);
@@ -2450,7 +2450,7 @@ CPredicateUtils::FCompatiblePredicates
 	const ULONG ulNumPreds = pdrgpexprPred->Size();
 	for (ULONG ul = 0; ul < ulNumPreds; ul++)
 	{
-		if (!FCompatibleIndexPredicate((*pdrgpexprPred)[ul], pmdindex, pdrgpcrIndex, pmda))
+		if (!FCompatibleIndexPredicate((*pdrgpexprPred)[ul], pmdindex, pdrgpcrIndex, md_accessor))
 		{
 			return false;
 		}
@@ -2466,7 +2466,7 @@ CPredicateUtils::FCompatibleIndexPredicate
 	CExpression *pexprPred,
 	const IMDIndex *pmdindex,
 	DrgPcr *pdrgpcrIndex,
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 {
 	GPOS_ASSERT(NULL != pexprPred);
@@ -2476,12 +2476,12 @@ CPredicateUtils::FCompatibleIndexPredicate
 	if (COperator::EopScalarCmp == pexprPred->Pop()->Eopid())
 	{
 		CScalarCmp *popScCmp = CScalarCmp::PopConvert(pexprPred->Pop());
-		pmdobjScCmp = pmda->Pmdscop(popScCmp->PmdidOp());
+		pmdobjScCmp = md_accessor->Pmdscop(popScCmp->PmdidOp());
 	}
 	else if (COperator::EopScalarArrayCmp == pexprPred->Pop()->Eopid())
 	{
 		CScalarArrayCmp *popScArrCmp = CScalarArrayCmp::PopConvert(pexprPred->Pop());
-		pmdobjScCmp = pmda->Pmdscop(popScArrCmp->PmdidOp());
+		pmdobjScCmp = md_accessor->Pmdscop(popScArrCmp->PmdidOp());
 	}
 	else
 	{

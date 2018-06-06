@@ -111,8 +111,8 @@ CXformSelect2PartialDynamicIndexGet::Transform
 	}
 	
 	CTableDescriptor *ptabdesc = popGet->Ptabdesc();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdesc->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(ptabdesc->MDId());
 	const ULONG ulIndices = pmdrel->UlIndices();
 
 	if (0 == ulIndices)
@@ -140,7 +140,7 @@ CXformSelect2PartialDynamicIndexGet::Transform
 	DrgPdrgPpartdig *pdrgpdrgppartdig = CXformUtils::PdrgpdrgppartdigCandidates
 										(
 										memory_pool,
-										pmda,
+										md_accessor,
 										pdrgpexpr,
 										popGet->PdrgpdrgpcrPart(),
 										pmdrel,

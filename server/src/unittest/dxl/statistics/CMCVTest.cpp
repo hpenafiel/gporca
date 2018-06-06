@@ -70,9 +70,9 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidInt4);
-	const IMDType *pmdtype = pmda->Pmdtype(pmdid);
+	const IMDType *pmdtype = md_accessor->Pmdtype(pmdid);
 
 	// create three integer MCVs
 	CPoint *ppoint1 = CTestUtils::PpointInt4(memory_pool, 5);
@@ -130,7 +130,7 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	pdrgpstats->Append(pstats);
 
 	// serialize stats object
-	CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(memory_pool, pmda, pdrgpstats, true, true);
+	CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(memory_pool, md_accessor, pdrgpstats, true, true);
 	GPOS_TRACE(pstrOutput->GetBuffer());
 
 	// get expected output
@@ -201,7 +201,7 @@ CMCVTest::EresUnittest_MergeHistMCV()
 
 		GPOS_CHECK_ABORT;
 
-		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 		// parse the stats objects
 		DrgPdxlstatsderrel *pdrgpdxlstatsderrelMCV = CDXLUtils::ParseDXLToStatsDerivedRelArray(memory_pool, szDXLInputMCV, NULL);
@@ -212,13 +212,13 @@ CMCVTest::EresUnittest_MergeHistMCV()
 		CDXLStatsDerivedRelation *pdxlstatsderrelMCV = (*pdrgpdxlstatsderrelMCV)[0];
 		const DrgPdxlstatsdercol *pdrgpdxlstatsdercolMCV = pdxlstatsderrelMCV->Pdrgpdxlstatsdercol();
 		CDXLStatsDerivedColumn *pdxlstatsdercolMCV = (*pdrgpdxlstatsdercolMCV)[0];
-		DrgPbucket *pdrgppbucketMCV = CDXLUtils::ParseDXLToBucketsArray(memory_pool, pmda, pdxlstatsdercolMCV);
+		DrgPbucket *pdrgppbucketMCV = CDXLUtils::ParseDXLToBucketsArray(memory_pool, md_accessor, pdxlstatsdercolMCV);
 		CHistogram *phistMCV =  GPOS_NEW(memory_pool) CHistogram(pdrgppbucketMCV);
 
 		CDXLStatsDerivedRelation *pdxlstatsderrelHist = (*pdrgpdxlstatsderrelHist)[0];
 		const DrgPdxlstatsdercol *pdrgpdxlstatsdercolHist = pdxlstatsderrelHist->Pdrgpdxlstatsdercol();
 		CDXLStatsDerivedColumn *pdxlstatsdercolHist = (*pdrgpdxlstatsdercolHist)[0];
-		DrgPbucket *pdrgppbucketHist = CDXLUtils::ParseDXLToBucketsArray(memory_pool, pmda, pdxlstatsdercolHist);
+		DrgPbucket *pdrgppbucketHist = CDXLUtils::ParseDXLToBucketsArray(memory_pool, md_accessor, pdxlstatsdercolHist);
 		CHistogram *phistHist =  GPOS_NEW(memory_pool) CHistogram(pdrgppbucketHist);
 
 		GPOS_CHECK_ABORT;
@@ -252,7 +252,7 @@ CMCVTest::EresUnittest_MergeHistMCV()
 		pdrgpstats->Append(pstats);
 
 		// serialize stats object
-		CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(memory_pool, pmda, pdrgpstats, true, true);
+		CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(memory_pool, md_accessor, pdrgpstats, true, true);
 		GPOS_TRACE(pstrOutput->GetBuffer());
 
 		// get expected output

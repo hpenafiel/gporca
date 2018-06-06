@@ -94,9 +94,9 @@ CDXLScalarPartBound::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarPartBound::FBoolean(CMDAccessor *pmda) const
+CDXLScalarPartBound::FBoolean(CMDAccessor *md_accessor) const
 {
-	return (IMDType::EtiBool == pmda->Pmdtype(m_mdid_type)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_mdid_type)->Eti());
 }
 
 //---------------------------------------------------------------------------

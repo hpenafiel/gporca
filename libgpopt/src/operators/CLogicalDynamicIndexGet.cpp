@@ -168,8 +168,8 @@ CLogicalDynamicIndexGet::PopCopyWithRemappedColumns
 	BOOL fMustExist
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDIndex *pmdindex = pmda->Pmdindex(m_pindexdesc->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDIndex *pmdindex = md_accessor->Pmdindex(m_pindexdesc->MDId());
 	CName *pnameAlias = GPOS_NEW(memory_pool) CName(memory_pool, *m_pnameAlias);
 
 	DrgPcr *pdrgpcrOutput = NULL;
@@ -213,8 +213,8 @@ CLogicalDynamicIndexGet::FPartialIndex
 	)
 {
 	// refer to the relation on which this index is defined for index partial information
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(ptabdesc->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(ptabdesc->MDId());
 	return pmdrel->FPartialIndex(pmdindex->MDId());
 }
 

@@ -106,7 +106,7 @@ CFilterCardinalityTest::EresUnittest_CStatistics
 	CWStringDynamic str(memory_pool);
 	COstreamString oss(&str);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	for (ULONG ul = 0; ul < ulTestCases; ul++)
 	{
@@ -120,7 +120,7 @@ CFilterCardinalityTest::EresUnittest_CStatistics
 
 		// parse the statistics objects
 		DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(memory_pool, szDXLInput, NULL);
-		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(memory_pool, pmda, dxl_derived_rel_stats_array);
+		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(memory_pool, md_accessor, dxl_derived_rel_stats_array);
 		dxl_derived_rel_stats_array->Release();
 		GPOS_ASSERT(NULL != pdrgpstatBefore);
 
@@ -134,7 +134,7 @@ CFilterCardinalityTest::EresUnittest_CStatistics
 		GPOS_RESULT eres = EresUnittest_CStatisticsCompare
 									(
 									memory_pool,
-									pmda,
+									md_accessor,
 									pdrgpstatBefore,
 									pstatspredDisj,
 									szDXLOutput
@@ -778,10 +778,10 @@ CFilterCardinalityTest::EresUnittest_CStatisticsBasicsFromDXLNumeric()
 
 		GPOS_CHECK_ABORT;
 
-		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 		// parse the statistics objects
 		DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(memory_pool, szDXLInput, NULL);
-		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(memory_pool, pmda, dxl_derived_rel_stats_array);
+		CStatisticsArray *pdrgpstatBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray(memory_pool, md_accessor, dxl_derived_rel_stats_array);
 		dxl_derived_rel_stats_array->Release();
 
 		GPOS_ASSERT(NULL != pdrgpstatBefore);
@@ -795,7 +795,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsBasicsFromDXLNumeric()
 		GPOS_RESULT eres = EresUnittest_CStatisticsCompare
 							(
 							memory_pool,
-							pmda,
+							md_accessor,
 							pdrgpstatBefore,
 							pstatspred,
 							szDXLOutput,
@@ -884,14 +884,14 @@ CFilterCardinalityTest::EresUnittest_CStatisticsBasicsFromDXL()
 
 	GPOS_CHECK_ABORT;
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// parse the statistics objects
 	DrgPdxlstatsderrel *dxl_derived_rel_stats_array = CDXLUtils::ParseDXLToStatsDerivedRelArray(memory_pool, szDXLInput, NULL);
 	CStatisticsArray *pdrgpstatsBefore = CDXLUtils::ParseDXLToOptimizerStatisticObjArray
 									(
 									memory_pool,
-									pmda,
+									md_accessor,
 									dxl_derived_rel_stats_array
 									);
 	dxl_derived_rel_stats_array->Release();
@@ -904,7 +904,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsBasicsFromDXL()
 	GPOS_RESULT eres = EresUnittest_CStatisticsCompare
 							(
 							memory_pool,
-							pmda,
+							md_accessor,
 							pdrgpstatsBefore,
 							pstatspred,
 							szDXLOutput
@@ -925,7 +925,7 @@ GPOS_RESULT
 CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CStatisticsArray *pdrgpstatBefore,
 	CStatsPred *pstatspred,
 	const CHAR *szDXLOutput,
@@ -953,7 +953,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 	CWStringDynamic *pstrInput = CDXLUtils::SerializeStatistics
 												(
 												memory_pool,
-												pmda,
+												md_accessor,
 												pdrgpstatBefore,
 												true /*serialize_header_footer*/,
 												true /*indentation*/
@@ -965,7 +965,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 	CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics
 												(
 												memory_pool,
-												pmda,
+												md_accessor,
 												pdrgpstatOutput,
 												true /*serialize_header_footer*/,
 												true /*indentation*/
@@ -997,7 +997,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 		CWStringDynamic *pstrOutput2 = CDXLUtils::SerializeStatistics
 													(
 													memory_pool,
-													pmda,
+													md_accessor,
 													pdrgpstatOutput2,
 													true /*serialize_header_footer*/,
 													true /*indentation*/

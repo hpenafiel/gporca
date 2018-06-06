@@ -169,8 +169,8 @@ CLogicalIndexGet::PopCopyWithRemappedColumns
 	BOOL fMustExist
 	)
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDIndex *pmdindex = pmda->Pmdindex(m_pindexdesc->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDIndex *pmdindex = md_accessor->Pmdindex(m_pindexdesc->MDId());
 
 	DrgPcr *pdrgpcrOutput = NULL;
 	if (fMustExist)

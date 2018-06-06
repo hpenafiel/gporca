@@ -59,11 +59,11 @@ CScalarWindowFunc::CScalarWindowFunc
 	m_return_type_mdid = pmdidRetType;
 	m_pstrFunc = pstrFunc;
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fAgg = pmda->FAggWindowFunc(m_func_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	m_fAgg = md_accessor->FAggWindowFunc(m_func_mdid);
 	if (!m_fAgg)
 	{
-		const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
+		const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
 		m_efs = pmdfunc->EfsStability();
 		m_efda = pmdfunc->EfdaDataAccess();
 	}

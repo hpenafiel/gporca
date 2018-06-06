@@ -82,11 +82,11 @@ CScalarIsDistinctFrom::PopCommutedOp
 	)
 {
 	
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *pmdid = PmdidCommuteOp(pmda, pop);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	IMDId *pmdid = PmdidCommuteOp(md_accessor, pop);
 	if (NULL != pmdid && pmdid->IsValid())
 	{
-		return GPOS_NEW(memory_pool) CScalarIsDistinctFrom(memory_pool, pmdid, Pstr(memory_pool, pmda, pmdid));
+		return GPOS_NEW(memory_pool) CScalarIsDistinctFrom(memory_pool, pmdid, Pstr(memory_pool, md_accessor, pmdid));
 	}
 	return NULL;
 }

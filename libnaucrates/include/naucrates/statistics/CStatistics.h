@@ -282,7 +282,7 @@ namespace gpnaucrates
 
 			// generate the DXL representation of the statistics object
 			virtual
-			CDXLStatsDerivedRelation *Pdxlstatsderrel(IMemoryPool *memory_pool, CMDAccessor *pmda) const;
+			CDXLStatsDerivedRelation *Pdxlstatsderrel(IMemoryPool *memory_pool, CMDAccessor *md_accessor) const;
 
 			// print function
 			virtual

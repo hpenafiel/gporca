@@ -318,8 +318,8 @@ CTableDescriptor::UlIndices()
 {
 	GPOS_ASSERT(NULL != m_mdid);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(m_mdid);
 	const ULONG ulIndices = pmdrel->UlIndices();
 
 	return ulIndices;
@@ -340,8 +340,8 @@ CTableDescriptor::UlPartitions()
 {
 	GPOS_ASSERT(NULL != m_mdid);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(m_mdid);
 	const ULONG ulPartitions = pmdrel->UlPartitions();
 
 	return ulPartitions;
@@ -364,8 +364,8 @@ CTableDescriptor::FDescriptorWithPartialIndexes()
 		return false;
 	}
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(m_mdid);
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(m_mdid);
 	for (ULONG ul = 0; ul < ulIndices; ul++)
 	{
 		if (pmdrel->FPartialIndex(pmdrel->PmdidIndex(ul)))

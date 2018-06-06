@@ -57,10 +57,10 @@ namespace gpopt
 				// MD accessor
 				CMDAccessor *m_pmda;
 								
-				SMDCacheTaskParams(IMemoryPool *memory_pool, CMDAccessor *pmda)
+				SMDCacheTaskParams(IMemoryPool *memory_pool, CMDAccessor *md_accessor)
 					:
 					m_memory_pool(memory_pool),
-					m_pmda(pmda)
+					m_pmda(md_accessor)
 				{}
 			};
 

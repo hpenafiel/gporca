@@ -1600,8 +1600,8 @@ CEngine::OsPrintMemoryConsumption
 	)
 	const
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	CMDAccessor::MDCache *pcache = pmda->Pcache();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor::MDCache *pcache = md_accessor->Pcache();
 
 	os << std::endl << szHeader
 		<<  "Engine: [" << (DOUBLE) m_memory_pool->TotalAllocatedSize() / GPOPT_MEM_UNIT << "] " << GPOPT_MEM_UNIT_NAME

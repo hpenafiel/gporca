@@ -104,10 +104,10 @@ CScalarSubqueryQuantified::PmdidOp() const
 IMDId *
 CScalarSubqueryQuantified::MDIdType() const
 {
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *mdid_type = pmda->Pmdscop(m_pmdidScalarOp)->PmdidTypeResult();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	IMDId *mdid_type = md_accessor->Pmdscop(m_pmdidScalarOp)->PmdidTypeResult();
 
-	GPOS_ASSERT(pmda->PtMDType<IMDTypeBool>()->MDId()->Equals(mdid_type));
+	GPOS_ASSERT(md_accessor->PtMDType<IMDTypeBool>()->MDId()->Equals(mdid_type));
 
 	return mdid_type;
 }

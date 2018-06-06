@@ -66,12 +66,12 @@ namespace gpopt
 					CDummyConstDXLNodeEvaluator
 						(
 						IMemoryPool *memory_pool,
-						CMDAccessor *pmda,
+						CMDAccessor *md_accessor,
 						INT iVal
 						)
 						:
 						m_memory_pool(memory_pool),
-						m_pmda(pmda),
+						m_pmda(md_accessor),
 						m_iVal(iVal)
 					{}
 

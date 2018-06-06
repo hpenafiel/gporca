@@ -50,11 +50,11 @@ CScalarCast::CScalarCast
 {
 	if (NULL != m_func_mdid && m_func_mdid->IsValid())
 	{
-		CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-		const IMDFunction *pmdfunc = pmda->Pmdfunc(m_func_mdid);
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+		const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
 
 		m_fReturnsNullOnNullInput = pmdfunc->FStrict();
-		m_fBoolReturnType = CMDAccessorUtils::FBoolType(pmda, m_pmdidReturnType);
+		m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_pmdidReturnType);
 	}
 }
 

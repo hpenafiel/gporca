@@ -915,18 +915,18 @@ CMDAccessorTest::PvLookupSingleObj
 	
 	SMDCacheTaskParams *pmdtaskparams = (SMDCacheTaskParams *) pv;
 	
-	CMDAccessor *pmda = pmdtaskparams->m_pmda;
+	CMDAccessor *md_accessor = pmdtaskparams->m_pmda;
 
 	IMemoryPool *memory_pool = pmdtaskparams->m_memory_pool;
 	
 	GPOS_ASSERT(NULL != memory_pool);
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	
 	// lookup a cache object
 	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 1 /* major version */, 1 /* minor version */);
 
 	// lookup object
-	(void) pmda->Pmdrel(pmdid);
+	(void) md_accessor->Pmdrel(pmdid);
 	pmdid->Release();
 	
 	return NULL;
@@ -952,9 +952,9 @@ CMDAccessorTest::PvLookupMultipleObj
 
 	SMDCacheTaskParams *pmdtaskparams = (SMDCacheTaskParams *) pv;
 	
-	CMDAccessor *pmda = pmdtaskparams->m_pmda;
+	CMDAccessor *md_accessor = pmdtaskparams->m_pmda;
 	
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 		
 	// lookup cache objects
 	const ULONG ulNumberOfObjects = 10;
@@ -965,7 +965,7 @@ CMDAccessorTest::PvLookupMultipleObj
 
 		// lookup relation
 		CMDIdGPDB *pmdid = GPOS_NEW(pmdtaskparams->m_memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /*OID*/, 1 /*major*/, ul + 1 /*minor*/);
-		(void) pmda->Pmdrel(pmdid);
+		(void) md_accessor->Pmdrel(pmdid);
 		pmdid->Release();
 	}
 	

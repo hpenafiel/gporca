@@ -175,12 +175,12 @@ CDXLScalarWindowRef::SerializeToDXL
 BOOL
 CDXLScalarWindowRef::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	IMDId *pmdid = pmda->Pmdfunc(m_func_mdid)->PmdidTypeResult();
-	return (IMDType::EtiBool == pmda->Pmdtype(pmdid)->Eti());
+	IMDId *pmdid = md_accessor->Pmdfunc(m_func_mdid)->PmdidTypeResult();
+	return (IMDType::EtiBool == md_accessor->Pmdtype(pmdid)->Eti());
 }
 
 #ifdef GPOS_DEBUG

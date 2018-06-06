@@ -124,13 +124,13 @@ CXformSelect2DynamicIndexGet::Transform
 	pcrsReqd->Include(pcrsScalarExpr);
 
 	// find the indexes whose included columns meet the required columns
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = pmda->Pmdrel(popDynamicGet->Ptabdesc()->MDId());
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(popDynamicGet->Ptabdesc()->MDId());
 
 	for (ULONG ul = 0; ul < ulIndices; ul++)
 	{
 		IMDId *pmdidIndex = pmdrel->PmdidIndex(ul);
-		const IMDIndex *pmdindex = pmda->Pmdindex(pmdidIndex);
+		const IMDIndex *pmdindex = md_accessor->Pmdindex(pmdidIndex);
 		CPartConstraint *ppartcnstrIndex = CUtils::PpartcnstrFromMDPartCnstr
 								(
 								memory_pool,
@@ -142,7 +142,7 @@ CXformSelect2DynamicIndexGet::Transform
 		CExpression *pexprDynamicIndexGet = CXformUtils::PexprLogicalIndexGet
 							(
 							memory_pool,
-							pmda,
+							md_accessor,
 							pexprRelational,
 							pexpr->Pop()->UlOpId(),
 							pdrgpexpr,

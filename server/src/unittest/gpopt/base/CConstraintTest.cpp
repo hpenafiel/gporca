@@ -958,7 +958,7 @@ GPOS_RESULT
 CConstraintTest::EresUnittest_CIntervalFromScalarCmp
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CColRef *pcr
 	)
 {
@@ -974,7 +974,7 @@ CConstraintTest::EresUnittest_CIntervalFromScalarCmp
 
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgecmpt); ul++)
 	{
-		CExpression *pexprScCmp = PexprScalarCmp(memory_pool, pmda, pcr, rgecmpt[ul], 4);
+		CExpression *pexprScCmp = PexprScalarCmp(memory_pool, md_accessor, pcr, rgecmpt[ul], 4);
 		CConstraintInterval *pci = CConstraintInterval::PciIntervalFromScalarExpr(memory_pool, pexprScCmp, pcr);
 		PrintConstraint(memory_pool, pci);
 
@@ -997,14 +997,14 @@ GPOS_RESULT
 CConstraintTest::EresUnittest_CIntervalFromScalarBoolOp
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CColRef *pcr
 	)
 {
 	// AND
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptL, 5));
-	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptGEq, 0));
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, md_accessor, pcr, IMDType::EcmptL, 5));
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, md_accessor, pcr, IMDType::EcmptGEq, 0));
 
 	CExpression *pexpr = CUtils::PexprScalarBoolOp(memory_pool, CScalarBoolOp::EboolopAnd, pdrgpexpr);
 	(void) pexpr->PdpDerive();
@@ -1017,8 +1017,8 @@ CConstraintTest::EresUnittest_CIntervalFromScalarBoolOp
 
 	// OR
 	pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptL, 5));
-	pdrgpexpr->Append(PexprScalarCmp(memory_pool, pmda, pcr, IMDType::EcmptGEq, 10));
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, md_accessor, pcr, IMDType::EcmptL, 5));
+	pdrgpexpr->Append(PexprScalarCmp(memory_pool, md_accessor, pcr, IMDType::EcmptGEq, 10));
 
 	pexpr = CUtils::PexprScalarBoolOp(memory_pool, CScalarBoolOp::EboolopOr, pdrgpexpr);
 	(void) pexpr->PdpDerive();
@@ -1057,7 +1057,7 @@ CExpression *
 CConstraintTest::PexprScalarCmp
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	CColRef *pcr,
 	IMDType::ECmpType ecmpt,
 	LINT lVal
@@ -1065,11 +1065,11 @@ CConstraintTest::PexprScalarCmp
 {
 	CExpression *pexprConst = CUtils::PexprScalarConstInt8(memory_pool, lVal);
 
-	const IMDTypeInt8 *pmdtypeint8 = pmda->PtMDType<IMDTypeInt8>();
+	const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>();
 	IMDId *pmdidOp = pmdtypeint8->PmdidCmp(ecmpt);
 	pmdidOp->AddRef();
 
-	const CMDName mdname = pmda->Pmdscop(pmdidOp)->Mdname();
+	const CMDName mdname = md_accessor->Pmdscop(pmdidOp)->Mdname();
 
 	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
 

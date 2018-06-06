@@ -219,7 +219,7 @@ namespace gpnaucrates
 
 			// generate the DXL representation of the statistics object
 			virtual
-			CDXLStatsDerivedRelation *Pdxlstatsderrel(IMemoryPool *memory_pool, CMDAccessor *pmda) const = 0;
+			CDXLStatsDerivedRelation *Pdxlstatsderrel(IMemoryPool *memory_pool, CMDAccessor *md_accessor) const = 0;
 
 			// is the join type either a left semi join or left anti-semi join
 			static

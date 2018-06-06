@@ -182,7 +182,7 @@ CDXLNode *
 COptimizer::PdxlnOptimize
 	(
 	IMemoryPool *memory_pool, 
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	const CDXLNode *pdxlnQuery,
 	const DXLNodeArray *query_output_dxlnode_array, 
 	const DXLNodeArray *cte_dxlnode_array, 
@@ -195,7 +195,7 @@ COptimizer::PdxlnOptimize
 	const CHAR *szMinidumpFileName 	// name of minidump file to be created
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT(NULL != pdxlnQuery);
 	GPOS_ASSERT(NULL != query_output_dxlnode_array);
 	GPOS_ASSERT(NULL != optimizer_config);
@@ -228,7 +228,7 @@ COptimizer::PdxlnOptimize
 	{
 		CSerializableStackTrace serStack;
 		CSerializableOptimizerConfig serOptConfig(memory_pool, optimizer_config);
-		CSerializableMDAccessor serMDA(pmda);
+		CSerializableMDAccessor serMDA(md_accessor);
 		CSerializableQuery serQuery(memory_pool, pdxlnQuery, query_output_dxlnode_array, cte_dxlnode_array);
 
 		{			
@@ -239,10 +239,10 @@ COptimizer::PdxlnOptimize
 			}
 
 			// install opt context in TLS
-			CAutoOptCtxt aoc(memory_pool, pmda, pceeval, optimizer_config);
+			CAutoOptCtxt aoc(memory_pool, md_accessor, pceeval, optimizer_config);
 
 			// translate DXL Tree -> Expr Tree
-			CTranslatorDXLToExpr dxltr(memory_pool, pmda);
+			CTranslatorDXLToExpr dxltr(memory_pool, md_accessor);
 			CExpression *pexprTranslated =	dxltr.PexprTranslateQuery(pdxlnQuery, query_output_dxlnode_array, cte_dxlnode_array);
 			GPOS_CHECK_ABORT;
 			gpdxl::ULongPtrArray *pdrgpul = dxltr.PdrgpulOutputColRefs();
@@ -272,7 +272,7 @@ COptimizer::PdxlnOptimize
 			PrintQueryOrPlan(memory_pool, pexprPlan);
 
 			// translate plan into DXL
-			pdxlnPlan = CreateDXLNode(memory_pool, pmda, pexprPlan, pqc->PdrgPcr(), pdrgpmdname, ulHosts);
+			pdxlnPlan = CreateDXLNode(memory_pool, md_accessor, pexprPlan, pqc->PdrgPcr(), pdrgpmdname, ulHosts);
 			GPOS_CHECK_ABORT;
 
 			if (fMinidump)
@@ -409,7 +409,7 @@ CDXLNode *
 COptimizer::CreateDXLNode
 	(
 	IMemoryPool *memory_pool, 
-	CMDAccessor *pmda, 
+	CMDAccessor *md_accessor, 
 	CExpression *pexpr,
 	DrgPcr *pdrgpcr,
 	DrgPmdname *pdrgpmdname,
@@ -424,7 +424,7 @@ COptimizer::CreateDXLNode
 		pdrgpiHosts->Append(GPOS_NEW(memory_pool) INT(ul));
 	}
 
-	CTranslatorExprToDXL ptrexprtodxl(memory_pool, pmda, pdrgpiHosts);
+	CTranslatorExprToDXL ptrexprtodxl(memory_pool, md_accessor, pdrgpiHosts);
 	CDXLNode *pdxlnPlan = ptrexprtodxl.PdxlnTranslate(pexpr, pdrgpcr, pdrgpmdname);
 	
 	return pdxlnPlan;

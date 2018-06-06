@@ -181,7 +181,7 @@ CXformGbAgg2HashAgg::FApplicable
 {
 	CExpression *pexprPrjList = (*pexpr)[1];
 	ULONG ulArity = pexprPrjList->Arity();
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	for (ULONG ul = 0; ul < ulArity; ul++)
 	{
@@ -189,7 +189,7 @@ CXformGbAgg2HashAgg::FApplicable
 		CExpression *pexprAggFunc = (*pexprPrjEl)[0];
 		CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprAggFunc->Pop());
 
-		if (popScAggFunc->FDistinct() || !pmda->Pmdagg(popScAggFunc->MDId())->FHashAggCapable() )
+		if (popScAggFunc->FDistinct() || !md_accessor->Pmdagg(popScAggFunc->MDId())->FHashAggCapable() )
 		{
 			return false;
 		}

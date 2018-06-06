@@ -40,18 +40,18 @@ using namespace gpopt;
 const CWStringConst *
 CMDAccessorUtils::PstrWindowFuncName
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *pmdidFunc
 	)
 {
-	if (pmda->FAggWindowFunc(pmdidFunc))
+	if (md_accessor->FAggWindowFunc(pmdidFunc))
 	{
-		const IMDAggregate *pmdagg = pmda->Pmdagg(pmdidFunc);
+		const IMDAggregate *pmdagg = md_accessor->Pmdagg(pmdidFunc);
 		
 		return pmdagg->Mdname().GetMDName();
 	}
 
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(pmdidFunc);
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdidFunc);
 
 	return pmdfunc->Mdname().GetMDName();
 }
@@ -67,18 +67,18 @@ CMDAccessorUtils::PstrWindowFuncName
 IMDId *
 CMDAccessorUtils::PmdidWindowReturnType
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *pmdidFunc
 	)
 {
 
-	if (pmda->FAggWindowFunc(pmdidFunc))
+	if (md_accessor->FAggWindowFunc(pmdidFunc))
 	{
-		const IMDAggregate *pmdagg = pmda->Pmdagg(pmdidFunc);
+		const IMDAggregate *pmdagg = md_accessor->Pmdagg(pmdidFunc);
 		return pmdagg->PmdidTypeResult();
 	}
 
-	const IMDFunction *pmdfunc = pmda->Pmdfunc(pmdidFunc);
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdidFunc);
 	return pmdfunc->PmdidTypeResult();
 }
 
@@ -94,13 +94,13 @@ CMDAccessorUtils::PmdidWindowReturnType
 BOOL
 CMDAccessorUtils::FCmpExists
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *pmdidLeft,
 	IMDId *pmdidRight,
 	IMDType::ECmpType ecmpt
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT(NULL != pmdidLeft);
 	GPOS_ASSERT(NULL != pmdidLeft);
 	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
@@ -112,13 +112,13 @@ CMDAccessorUtils::FCmpExists
 
 	if (pmdidLeft->Equals(pmdidRight))
 	{
-		const IMDType *pmdtypeLeft = pmda->Pmdtype(pmdidLeft);
+		const IMDType *pmdtypeLeft = md_accessor->Pmdtype(pmdidLeft);
 		return IMDId::IsValid(pmdtypeLeft->PmdidCmp(ecmpt));
 	}
 
 	GPOS_TRY
 	{
-		(void) pmda->Pmdsccmp(pmdidLeft, pmdidRight, ecmpt);
+		(void) md_accessor->Pmdsccmp(pmdidLeft, pmdidRight, ecmpt);
 
 		return true;
 	}
@@ -143,12 +143,12 @@ CMDAccessorUtils::FCmpExists
 BOOL
 CMDAccessorUtils::FCastExists
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *pmdidSrc,
 	IMDId *pmdidDest
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT(NULL != pmdidSrc);
 	GPOS_ASSERT(NULL != pmdidDest);
 
@@ -159,7 +159,7 @@ CMDAccessorUtils::FCastExists
 
 	GPOS_TRY
 	{
-		(void) pmda->Pmdcast(pmdidSrc, pmdidDest);
+		(void) md_accessor->Pmdcast(pmdidSrc, pmdidDest);
 
 		return true;
 	}
@@ -185,11 +185,11 @@ CMDAccessorUtils::FCastExists
 BOOL
 CMDAccessorUtils::FScalarOpReturnsNullOnNullInput
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *pmdidOp
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 
 	if (NULL == pmdidOp || !pmdidOp->IsValid())
 	{
@@ -204,7 +204,7 @@ CMDAccessorUtils::FScalarOpReturnsNullOnNullInput
 
 	GPOS_TRY
 	{
-		const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdidOp);
+		const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdidOp);
 
 		return pmdscop->FReturnsNullOnNullInput();
 	}
@@ -230,15 +230,15 @@ CMDAccessorUtils::FScalarOpReturnsNullOnNullInput
 BOOL
 CMDAccessorUtils::FBoolType
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *mdid_type
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 
 	if (NULL != mdid_type && mdid_type->IsValid())
 	{
-		return (IMDType::EtiBool == pmda->Pmdtype(mdid_type)->Eti());
+		return (IMDType::EtiBool == md_accessor->Pmdtype(mdid_type)->Eti());
 	}
 
 	return false;
@@ -255,14 +255,14 @@ CMDAccessorUtils::FBoolType
 BOOL
 CMDAccessorUtils::FCommutativeScalarOp
 	(
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	IMDId *pmdidOp
 	)
 {
-	GPOS_ASSERT(NULL != pmda);
+	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT(NULL != pmdidOp);
 
-	const IMDScalarOp *pmdscop = pmda->Pmdscop(pmdidOp);
+	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdidOp);
 
 	return pmdidOp->Equals(pmdscop->PmdidOpCommute());
 }

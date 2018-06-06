@@ -52,7 +52,7 @@ namespace gpdxl
 			
 			// does the operator return a boolean result
 			virtual
-			BOOL FBoolean(CMDAccessor *pmda) const = 0;
+			BOOL FBoolean(CMDAccessor *md_accessor) const = 0;
 
 #ifdef GPOS_DEBUG
 			virtual

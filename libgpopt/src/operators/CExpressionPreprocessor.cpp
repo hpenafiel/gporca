@@ -219,9 +219,9 @@ CExpressionPreprocessor::PexprSimplifyQuantifiedSubqueries
 			CExpression *pexprSubquery =
 				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarSubquery(memory_pool, pcr, false /*fGeneratedByExist*/, true /*fGeneratedByQuantified*/), pexprInner);
 
-			CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+			CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 			IMDId *pmdid = popSubqQuantified->PmdidOp();
-			const CWStringConst *pstr = pmda->Pmdscop(pmdid)->Mdname().GetMDName();
+			const CWStringConst *pstr = md_accessor->Pmdscop(pmdid)->Mdname().GetMDName();
 			pmdid->AddRef();
 			pexprScalar->AddRef();
 
@@ -2026,9 +2026,9 @@ CExpressionPreprocessor::ConvertInToSimpleExists
 	// project list and make it as the right operand to the scalar operation.
 	CExpression *pexprRight = CUtils::PNthProjectElementExpr(pexprLogicalProject, 0);
 
-	CMDAccessor *pmda = COptCtxt::PoctxtFromTLS()->Pmda();
+	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	IMDId *pmdid = CScalarSubqueryAny::PopConvert(pop)->PmdidOp();
-	const CWStringConst *pstr = pmda->Pmdscop(pmdid)->Mdname().GetMDName();
+	const CWStringConst *pstr = md_accessor->Pmdscop(pmdid)->Mdname().GetMDName();
 
 	pmdid->AddRef();
 	pexprRight->AddRef();

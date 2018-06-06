@@ -51,7 +51,7 @@ namespace gpopt
 			CAutoOptCtxt
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				IConstExprEvaluator *pceeval,
 				COptimizerConfig *optimizer_config
 				);
@@ -60,7 +60,7 @@ namespace gpopt
 			CAutoOptCtxt
 				(
 				IMemoryPool *memory_pool,
-				CMDAccessor *pmda,
+				CMDAccessor *md_accessor,
 				IConstExprEvaluator *pceeval,
 				ICostModel *pcm
 				);

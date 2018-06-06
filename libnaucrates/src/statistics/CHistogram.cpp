@@ -1876,7 +1876,7 @@ CDXLStatsDerivedColumn *
 CHistogram::Pdxlstatsdercol
 	(
 	IMemoryPool *memory_pool,
-	CMDAccessor *pmda,
+	CMDAccessor *md_accessor,
 	ULONG col_id,
 	CDouble dWidth
 	)
@@ -1892,8 +1892,8 @@ CHistogram::Pdxlstatsdercol
 		CDouble dFreq = pbucket->DFrequency();
 		CDouble dDistinct = pbucket->DDistinct();
 
-		CDXLDatum *pdxldatumLower = pbucket->PpLower()->Pdxldatum(memory_pool, pmda);
-		CDXLDatum *pdxldatumUpper = pbucket->PpUpper()->Pdxldatum(memory_pool, pmda);
+		CDXLDatum *pdxldatumLower = pbucket->PpLower()->GetDatumVal(memory_pool, md_accessor);
+		CDXLDatum *pdxldatumUpper = pbucket->PpUpper()->GetDatumVal(memory_pool, md_accessor);
 
 		CDXLBucket *pdxlbucket = GPOS_NEW(memory_pool) CDXLBucket
 											(

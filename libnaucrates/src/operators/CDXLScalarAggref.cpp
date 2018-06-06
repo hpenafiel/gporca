@@ -219,12 +219,12 @@ CDXLScalarAggref::SerializeToDXL
 BOOL
 CDXLScalarAggref::FBoolean
 	(
-	CMDAccessor *pmda
+	CMDAccessor *md_accessor
 	)
 	const
 {
-	const IMDAggregate *pmdagg = pmda->Pmdagg(m_pmdidAgg);
-	return (IMDType::EtiBool == pmda->Pmdtype(pmdagg->PmdidTypeResult())->Eti());
+	const IMDAggregate *pmdagg = md_accessor->Pmdagg(m_pmdidAgg);
+	return (IMDType::EtiBool == md_accessor->Pmdtype(pmdagg->PmdidTypeResult())->Eti());
 }
 
 #ifdef GPOS_DEBUG
