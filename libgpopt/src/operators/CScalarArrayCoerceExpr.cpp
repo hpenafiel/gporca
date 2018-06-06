@@ -34,14 +34,14 @@ CScalarArrayCoerceExpr::CScalarArrayCoerceExpr
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdidElementFunc,
-	IMDId *pmdidResultType,
+	IMDId *result_type_mdid,
 	INT type_modifier,
 	BOOL fIsExplicit,
 	ECoercionForm ecf,
 	INT iLoc
 	)
 	:
-	CScalarCoerceBase(memory_pool, pmdidResultType, type_modifier, ecf, iLoc),
+	CScalarCoerceBase(memory_pool, result_type_mdid, type_modifier, ecf, iLoc),
 	m_pmdidElementFunc(pmdidElementFunc),
 	m_fIsExplicit(fIsExplicit)
 {

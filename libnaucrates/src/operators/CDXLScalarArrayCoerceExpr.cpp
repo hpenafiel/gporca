@@ -35,14 +35,14 @@ CDXLScalarArrayCoerceExpr::CDXLScalarArrayCoerceExpr
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdidElementFunc,
-	IMDId *pmdidResultType,
+	IMDId *result_type_mdid,
 	INT type_modifier,
 	BOOL fIsExplicit,
 	EdxlCoercionForm coerce_format,
 	INT location
 	)
 	:
-	CDXLScalarCoerceBase(memory_pool, pmdidResultType, type_modifier, coerce_format, location),
+	CDXLScalarCoerceBase(memory_pool, result_type_mdid, type_modifier, coerce_format, location),
 	m_pmdidElementFunc(pmdidElementFunc),
 	m_fIsExplicit(fIsExplicit)
 {
@@ -84,7 +84,7 @@ CDXLScalarArrayCoerceExpr::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	m_pmdidElementFunc->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenElementFunc));
-	PmdidResultType()->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	GetResultTypeMdId()->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())
 	{

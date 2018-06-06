@@ -38,7 +38,7 @@ namespace gpopt
 		private:
 
 			// catalog MDId of the result type
-			IMDId *m_pmdidResultType;
+			IMDId *m_result_type_mdid;
 
 			// output type modifier
 			INT m_type_modifier;

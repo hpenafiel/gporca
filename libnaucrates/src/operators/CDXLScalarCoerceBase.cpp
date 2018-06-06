@@ -44,7 +44,7 @@ CDXLScalarCoerceBase::CDXLScalarCoerceBase
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidResultType(mdid_type),
+	m_result_type_mdid(mdid_type),
 	m_type_modifier(type_modifier),
 	m_dxl_coerce_format(dxl_coerce_format),
 	m_location(location)
@@ -64,7 +64,7 @@ CDXLScalarCoerceBase::CDXLScalarCoerceBase
 //---------------------------------------------------------------------------
 CDXLScalarCoerceBase::~CDXLScalarCoerceBase()
 {
-	m_pmdidResultType->Release();
+	m_result_type_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ CDXLScalarCoerceBase::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
-	m_pmdidResultType->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	m_result_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())
 	{
@@ -116,7 +116,7 @@ CDXLScalarCoerceBase::HasBoolResult
 	)
 	const
 {
-	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pmdidResultType)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_result_type_mdid)->Eti());
 }
 
 #ifdef GPOS_DEBUG

@@ -40,7 +40,7 @@ CScalarCoerceBase::CScalarCoerceBase
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidResultType(mdid_type),
+	m_result_type_mdid(mdid_type),
 	m_type_modifier(type_modifier),
 	m_ecf(ecf),
 	m_iLoc(iLoc)
@@ -60,7 +60,7 @@ CScalarCoerceBase::CScalarCoerceBase
 //---------------------------------------------------------------------------
 CScalarCoerceBase::~CScalarCoerceBase()
 {
-	m_pmdidResultType->Release();
+	m_result_type_mdid->Release();
 }
 
 
@@ -75,7 +75,7 @@ CScalarCoerceBase::~CScalarCoerceBase()
 IMDId*
 CScalarCoerceBase::MDIdType() const
 {
-	return m_pmdidResultType;
+	return m_result_type_mdid;
 }
 
 

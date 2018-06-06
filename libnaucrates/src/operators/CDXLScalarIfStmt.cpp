@@ -31,13 +31,13 @@ using namespace gpdxl;
 CDXLScalarIfStmt::CDXLScalarIfStmt
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidResultType
+	IMDId *result_type_mdid
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidResultType(pmdidResultType)
+	m_result_type_mdid(result_type_mdid)
 {
-	GPOS_ASSERT(m_pmdidResultType->IsValid());
+	GPOS_ASSERT(m_result_type_mdid->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ CDXLScalarIfStmt::CDXLScalarIfStmt
 //---------------------------------------------------------------------------
 CDXLScalarIfStmt::~CDXLScalarIfStmt()
 {
-	m_pmdidResultType->Release();
+	m_result_type_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -83,16 +83,16 @@ CDXLScalarIfStmt::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarIfStmt::PmdidResultType
+//		CDXLScalarIfStmt::GetResultTypeMdId
 //
 //	@doc:
 //		Return type id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarIfStmt::PmdidResultType() const
+CDXLScalarIfStmt::GetResultTypeMdId() const
 {
-	return m_pmdidResultType;
+	return m_result_type_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -107,15 +107,15 @@ void
 CDXLScalarIfStmt::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	m_pmdidResultType->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	m_result_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	node->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
@@ -134,7 +134,7 @@ CDXLScalarIfStmt::HasBoolResult
 	)
 	const
 {
-	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pmdidResultType)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_result_type_mdid)->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -149,22 +149,22 @@ CDXLScalarIfStmt::HasBoolResult
 void
 CDXLScalarIfStmt::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL validate_children
 	) 
 	const
 {
-	const ULONG ulArity = pdxln->Arity();
-	GPOS_ASSERT(3 == ulArity);
+	const ULONG arity = node->Arity();
+	GPOS_ASSERT(3 == arity);
 
-	for (ULONG ul = 0; ul < ulArity; ++ul)
+	for (ULONG idx = 0; idx < arity; ++idx)
 	{
-		CDXLNode *pdxlnArg = (*pdxln)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnArg->GetOperator()->GetDXLOperatorType());
+		CDXLNode *dxlnode_arg = (*node)[idx];
+		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{
-			pdxlnArg->GetOperator()->AssertValid(pdxlnArg, validate_children);
+			dxlnode_arg->GetOperator()->AssertValid(dxlnode_arg, validate_children);
 		}
 	}
 }

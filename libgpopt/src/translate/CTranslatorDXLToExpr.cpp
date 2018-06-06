@@ -3406,7 +3406,7 @@ CTranslatorDXLToExpr::PexprScalarIf
 
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(pdxlnIfStmt);
 
-	IMDId *pmdid = dxl_op->PmdidResultType();
+	IMDId *pmdid = dxl_op->GetResultTypeMdId();
 	pmdid->AddRef();
 	CScalarIf *popScIf = GPOS_NEW(m_memory_pool) CScalarIf(m_memory_pool, pmdid);
 	CExpression *pexpr = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, popScIf, pdrgpexprChildren);
@@ -3664,7 +3664,7 @@ CTranslatorDXLToExpr::PexprScalarCoerceToDomain
 	CDXLNode *child_dxlnode = (*pdxlnCoerce)[0];
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 
-	IMDId *mdid_type = dxl_op->PmdidResultType();
+	IMDId *mdid_type = dxl_op->GetResultTypeMdId();
 	mdid_type->AddRef();
 
 	EdxlCoercionForm dxl_coerce_format = dxl_op->GetDXLCoercionForm();
@@ -3708,7 +3708,7 @@ CTranslatorDXLToExpr::PexprScalarCoerceViaIO
 	CDXLNode *child_dxlnode = (*pdxlnCoerce)[0];
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 
-	IMDId *mdid_type = dxl_op->PmdidResultType();
+	IMDId *mdid_type = dxl_op->GetResultTypeMdId();
 	mdid_type->AddRef();
 
 	EdxlCoercionForm dxl_coerce_format = dxl_op->GetDXLCoercionForm();
@@ -3753,8 +3753,8 @@ CTranslatorDXLToExpr::PexprScalarArrayCoerceExpr
 	IMDId *pmdidElementFunc = dxl_op->PmdidElementFunc();
 	pmdidElementFunc->AddRef();
 
-	IMDId *pmdidResultType = dxl_op->PmdidResultType();
-	pmdidResultType->AddRef();
+	IMDId *result_type_mdid = dxl_op->GetResultTypeMdId();
+	result_type_mdid->AddRef();
 
 	EdxlCoercionForm dxl_coerce_format = dxl_op->GetDXLCoercionForm();
 
@@ -3765,7 +3765,7 @@ CTranslatorDXLToExpr::PexprScalarArrayCoerceExpr
 						(
 						m_memory_pool,
 						pmdidElementFunc,
-						pmdidResultType,
+						result_type_mdid,
 						dxl_op->TypeModifier(),
 						dxl_op->FIsExplicit(),
 						(COperator::ECoercionForm) dxl_coerce_format, // map Coercion Form directly based on position in enum

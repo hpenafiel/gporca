@@ -34,7 +34,7 @@ namespace gpdxl
 	{
 		private:
 			// catalog MDId of the return type
-			IMDId *m_pmdidResultType;
+			IMDId *m_result_type_mdid;
 
 			// private copy ctor
 			CDXLScalarIfStmt(const CDXLScalarIfStmt&);
@@ -55,14 +55,14 @@ namespace gpdxl
 			// name of the operator
 			const CWStringConst *GetOpNameStr() const;
 
-			IMDId *PmdidResultType() const;
+			IMDId *GetResultTypeMdId() const;
 
 			// DXL Operator ID
 			Edxlopid GetDXLOperator() const;
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// conversion function
 			static
@@ -84,7 +84,7 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 	};
 }

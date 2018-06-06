@@ -51,7 +51,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdidElementFunc,
-				IMDId *pmdidResultType,
+				IMDId *result_type_mdid,
 				INT type_modifier,
 				BOOL fIsExplicit,
 				EdxlCoercionForm edxlcf,
