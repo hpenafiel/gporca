@@ -34,7 +34,7 @@ namespace gpopt
 		private:
 
 			// return type metadata id in the catalog
-			IMDId *m_pmdidReturnType;
+			IMDId *m_return_type_mdid;
 
 			// function to be used for casting
 			IMDId *m_func_mdid;
@@ -57,7 +57,7 @@ namespace gpopt
 			CScalarCast
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidReturnType,
+				IMDId *return_type_mdid,
 				IMDId *mdid_func,
 				BOOL fBinaryCoercible
 				);
@@ -67,7 +67,7 @@ namespace gpopt
 			~CScalarCast() 
 			{
 				m_func_mdid->Release();
-				m_pmdidReturnType->Release();
+				m_return_type_mdid->Release();
 			}
 
 
@@ -77,7 +77,7 @@ namespace gpopt
 			virtual 
 			IMDId *MDIdType() const
 			{
-				return m_pmdidReturnType;
+				return m_return_type_mdid;
 			}
 
 			// func that casts

@@ -2723,17 +2723,17 @@ CTranslatorDXLToExpr::PexprScalarOp
 	IMDId *pmdid = dxl_op->MDId();
 	pmdid->AddRef();
 	
-	IMDId *pmdidReturnType = dxl_op->PmdidReturnType(); 
-	if (NULL != pmdidReturnType)
+	IMDId *return_type_mdid = dxl_op->GetReturnTypeMdId(); 
+	if (NULL != return_type_mdid)
 	{
-		pmdidReturnType->AddRef();
+		return_type_mdid->AddRef();
 	}
 	CScalarOp *pscop = GPOS_NEW(m_memory_pool) CScalarOp
 										(
 										m_memory_pool,
 										pmdid,
-										pmdidReturnType,
-										GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, dxl_op->PstrScalarOpName()->GetBuffer())
+										return_type_mdid,
+										GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, dxl_op->GetScalarOpNameStr()->GetBuffer())
 										);
 
 	CExpression *pexpr = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, pscop, pdrgpexprArgs);
@@ -2767,13 +2767,13 @@ CTranslatorDXLToExpr::PexprScalarIsDistinctFrom
 	
 	IMDId *mdid_op = pdxlopDistCmp->MDId();
 	mdid_op->AddRef();
-	const IMDScalarOp *pmdscop = m_pmda->Pmdscop(mdid_op);
+	const IMDScalarOp *md_scalar_op = m_pmda->Pmdscop(mdid_op);
 
 	CScalarIsDistinctFrom *popScIDF = GPOS_NEW(m_memory_pool) CScalarIsDistinctFrom
 													(
 													m_memory_pool,
 													mdid_op,
-													GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, (pmdscop->Mdname().GetMDName())->GetBuffer())
+													GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, (md_scalar_op->Mdname().GetMDName())->GetBuffer())
 													);
 
 	CExpression *pexpr = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, popScIDF, pexprLeft, pexprRight);
@@ -3307,7 +3307,7 @@ CTranslatorDXLToExpr::PexprArrayCmp
 	IMDId *mdid_op = dxl_op->MDId();
 	mdid_op->AddRef();
 
-	const CWStringConst *pstrOpName = dxl_op->GetComparisonOpName();
+	const CWStringConst *str_opname = dxl_op->GetComparisonOpName();
 	
 	EdxlArrayCompType edxlarrcmp = dxl_op->Edxlarraycomptype();
 	CScalarArrayCmp::EArrCmpType earrcmpt = CScalarArrayCmp::EarrcmpSentinel;
@@ -3321,7 +3321,7 @@ CTranslatorDXLToExpr::PexprArrayCmp
 		earrcmpt = CScalarArrayCmp::EarrcmpAny;
 	}
 	
-	CScalarArrayCmp *popArrayCmp = GPOS_NEW(m_memory_pool) CScalarArrayCmp(m_memory_pool, mdid_op, GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrOpName->GetBuffer()), earrcmpt);
+	CScalarArrayCmp *popArrayCmp = GPOS_NEW(m_memory_pool) CScalarArrayCmp(m_memory_pool, mdid_op, GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, str_opname->GetBuffer()), earrcmpt);
 	
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(dxlnode);
 

@@ -406,23 +406,23 @@ CMDIndexGPDB::PmdidItemType() const
 BOOL
 CMDIndexGPDB::FCompatible
 	(
-	const IMDScalarOp *pmdscop, 
+	const IMDScalarOp *md_scalar_op, 
 	ULONG ulKeyPos
 	)
 	const
 {
-	GPOS_ASSERT(NULL != pmdscop);
+	GPOS_ASSERT(NULL != md_scalar_op);
 	GPOS_ASSERT(ulKeyPos < m_pdrgpmdidOpClasses->Size());
 	
 	// check if the index opclass for the key at the given position is one of 
 	// the classes the scalar comparison belongs to
 	const IMDId *pmdidOpClass = (*m_pdrgpmdidOpClasses)[ulKeyPos];
 	
-	const ULONG ulScOpClasses = pmdscop->UlOpCLasses();
+	const ULONG ulScOpClasses = md_scalar_op->UlOpCLasses();
 	
 	for (ULONG ul = 0; ul < ulScOpClasses; ul++)
 	{
-		if (pmdidOpClass->Equals(pmdscop->PmdidOpClass(ul)))
+		if (pmdidOpClass->Equals(md_scalar_op->PmdidOpClass(ul)))
 		{
 			return true;
 		}

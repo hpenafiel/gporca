@@ -68,7 +68,7 @@ namespace gpopt
 
 			// return the comparison type of an operator for the purpose of statistics computation
 			static
-			CStatsPred::EStatsCmpType Estatscmpt(const CWStringConst *pstrOpName);
+			CStatsPred::EStatsCmpType Estatscmpt(const CWStringConst *str_opname);
 
 			// extract statistics filtering information from boolean expression
 			static

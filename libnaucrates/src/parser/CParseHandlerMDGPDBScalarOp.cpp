@@ -82,12 +82,12 @@ CParseHandlerMDGPDBScalarOp::StartElement
 															EdxltokenGPDBScalarOp
 															);
 
-		CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOpName);
+		CWStringDynamic *str_opname = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOpName);
 		
 		// create a copy of the string in the CMDName constructor
-		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrOpName);
+		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, str_opname);
 		
-		GPOS_DELETE(pstrOpName);
+		GPOS_DELETE(str_opname);
 
 		// parse metadata id info
 		m_mdid = CDXLOperatorFactory::PmdidFromAttrs

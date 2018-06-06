@@ -520,14 +520,14 @@ CPredicateUtils::FLikePredicate
 	GPOS_ASSERT(NULL != pmdid);
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdid);
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
 
-	const CWStringConst *pstrOpName = pmdscop->Mdname().GetMDName();
+	const CWStringConst *str_opname = md_scalar_op->Mdname().GetMDName();
 
 	// comparison semantics for statistics purposes is looser
 	// than regular comparison
 	CWStringConst pstrLike(GPOS_WSZ_LIT("~~"));
-	if (!pstrOpName->Equals(&pstrLike))
+	if (!str_opname->Equals(&pstrLike))
 	{
 		return false;
 	}

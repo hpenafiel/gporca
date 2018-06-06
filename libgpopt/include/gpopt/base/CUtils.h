@@ -208,7 +208,7 @@ namespace gpopt
 
 			// generate a scalar op expression for a column reference and an expression
 			static
-			CExpression *PexprScalarOp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexpr, CWStringConst strOp, IMDId *mdid_op, IMDId *pmdidReturnType = NULL);
+			CExpression *PexprScalarOp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexpr, CWStringConst strOp, IMDId *mdid_op, IMDId *return_type_mdid = NULL);
 
 			// generate a scalar bool op expression
 			static

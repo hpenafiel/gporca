@@ -5883,13 +5883,13 @@ CTranslatorExprToDXL::PdxlnScOp
 	IMDId *mdid_op = pscop->MdIdOp();
 	mdid_op->AddRef();
 
-	IMDId *pmdidReturnType = pscop->PmdidReturnType();
-	if (NULL != pmdidReturnType)
+	IMDId *return_type_mdid = pscop->GetReturnTypeMdId();
+	if (NULL != return_type_mdid)
 	{
-		pmdidReturnType->AddRef();
+		return_type_mdid->AddRef();
 	}
 
-	CDXLNode *pdxlnOpExpr = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpExpr(m_memory_pool, mdid_op, pmdidReturnType, pstrName));
+	CDXLNode *pdxlnOpExpr = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpExpr(m_memory_pool, mdid_op, return_type_mdid, pstrName));
 
 	TranslateScalarChildren(pexprOp, pdxlnOpExpr);
 
@@ -7042,7 +7042,7 @@ CTranslatorExprToDXL::PdxlnArrayCmp
 	IMDId *mdid_op = pop->MdIdOp();
 	mdid_op->AddRef();
 
-	const CWStringConst *pstrOpName = pop->Pstr();
+	const CWStringConst *str_opname = pop->Pstr();
 
 	CScalarArrayCmp::EArrCmpType earrcmpt = pop->Earrcmpt();
 	GPOS_ASSERT(CScalarArrayCmp::EarrcmpSentinel > earrcmpt);
@@ -7060,7 +7060,7 @@ CTranslatorExprToDXL::PdxlnArrayCmp
 									(
 									m_memory_pool,
 									mdid_op,
-									GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrOpName->GetBuffer()),
+									GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, str_opname->GetBuffer()),
 									edxlarrcmpt
 									)
 						);
@@ -7654,10 +7654,10 @@ CTranslatorExprToDXL::GetSortColListDXL
 		GPOS_ASSERT(COrderSpec::EntFirst == ent || COrderSpec::EntLast == ent || COrderSpec::EntAuto == ent);
 		
 		// get sort operator name
-		const IMDScalarOp *pmdscop = m_pmda->Pmdscop(pmdidSortOp);
+		const IMDScalarOp *md_scalar_op = m_pmda->Pmdscop(pmdidSortOp);
 		
 		CWStringConst *pstrSortOpName = 
-				GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pmdscop->Mdname().GetMDName()->GetBuffer());
+				GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, md_scalar_op->Mdname().GetMDName()->GetBuffer());
 		
 		BOOL fSortNullsFirst = false;
 		if (COrderSpec::EntFirst == ent)

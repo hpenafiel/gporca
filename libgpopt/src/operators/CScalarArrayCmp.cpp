@@ -241,13 +241,13 @@ CScalarArrayCmp::PexprExpand
 	{
 		CExpression *pexprArrayElem = CUtils::PScalarArrayExprChildAt(memory_pool, pexprArray, ul);
 		pexprIdent->AddRef();
-		const CWStringConst *pstrOpName = popArrayCmp->Pstr();
+		const CWStringConst *str_opname = popArrayCmp->Pstr();
 		IMDId *mdid_op = popArrayCmp->MdIdOp();
 		GPOS_ASSERT(IMDId::IsValid(mdid_op));
 
 		mdid_op->AddRef();
 
-		CExpression *pexprCmp = CUtils::PexprScalarCmp(memory_pool, pexprIdent, pexprArrayElem, *pstrOpName, mdid_op);
+		CExpression *pexprCmp = CUtils::PexprScalarCmp(memory_pool, pexprIdent, pexprArrayElem, *str_opname, mdid_op);
 		pdrgpexpr->Append(pexprCmp);
 	}
 	GPOS_ASSERT(0 < pdrgpexpr->Size());

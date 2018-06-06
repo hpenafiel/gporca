@@ -725,19 +725,19 @@ CDXLOperatorFactory::MakeDXLOpExpr
 							EdxltokenScalarOpExpr
 							);
 
-	IMDId *pmdidReturnType = NULL;
+	IMDId *return_type_mdid = NULL;
 	const XMLCh *xmlszReturnType = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOpType));
 
 	if (NULL != xmlszReturnType)
 	{
-		pmdidReturnType = PmdidFromAttrs(memory_manager_dxl, attrs, EdxltokenOpType, EdxltokenScalarOpExpr);
+		return_type_mdid = PmdidFromAttrs(memory_manager_dxl, attrs, EdxltokenOpType, EdxltokenScalarOpExpr);
 	}
 	
 	CWStringDynamic *pstrValue = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszOpName);
 	CWStringConst *pstrValueCopy = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrValue->GetBuffer());
 	GPOS_DELETE(pstrValue);
 
-	return GPOS_NEW(memory_pool) CDXLScalarOpExpr(memory_pool, pmdidOpNo, pmdidReturnType, pstrValueCopy);
+	return GPOS_NEW(memory_pool) CDXLScalarOpExpr(memory_pool, pmdidOpNo, return_type_mdid, pstrValueCopy);
 }
 
 
@@ -800,9 +800,9 @@ CDXLOperatorFactory::MakeDXLArrayComp
 			);
 	}
 
-	CWStringDynamic *pstrOpName = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszOpName);
-	CWStringConst *pstrOpNameCopy = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrOpName->GetBuffer());
-	GPOS_DELETE(pstrOpName);
+	CWStringDynamic *str_opname = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszOpName);
+	CWStringConst *pstrOpNameCopy = GPOS_NEW(memory_pool) CWStringConst(memory_pool, str_opname->GetBuffer());
+	GPOS_DELETE(str_opname);
 
 	return GPOS_NEW(memory_pool) CDXLScalarArrayComp(memory_pool, pmdidOpNo, pstrOpNameCopy, edxlarraycomptype);
 }

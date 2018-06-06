@@ -51,7 +51,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				IMDId *mdid_op,
-				const CWStringConst *pstrOpName,
+				const CWStringConst *str_opname,
 				EdxlArrayCompType edxlcomptype
 				);
 

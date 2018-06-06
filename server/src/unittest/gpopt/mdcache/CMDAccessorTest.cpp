@@ -157,11 +157,11 @@ CMDAccessorTest::EresUnittest_Basic()
 	mda.Pmdtype(mdid_type);
 	
 #ifdef GPOS_DEBUG
-	const IMDScalarOp *pmdscop = 
+	const IMDScalarOp *md_scalar_op = 
 #endif
 	mda.Pmdscop(mdid_op);
 
-	GPOS_ASSERT(IMDType::EcmptL == pmdscop->Ecmpt());
+	GPOS_ASSERT(IMDType::EcmptL == md_scalar_op->Ecmpt());
 	
 #ifdef GPOS_DEBUG
 	const IMDAggregate *pmdagg = 
@@ -197,7 +197,7 @@ CMDAccessorTest::EresUnittest_Basic()
 	pimdtype->DebugPrint(os);
 	os << std::endl;
 		
-	pmdscop->DebugPrint(os);
+	md_scalar_op->DebugPrint(os);
 	os << std::endl;
 			
 	pmdagg->DebugPrint(os);
@@ -352,7 +352,7 @@ CMDAccessorTest::EresUnittest_Navigate()
 	IMDId *pmdidEqOp = pimdtype->PmdidCmp(IMDType::EcmptEq);
 
 #ifdef GPOS_DEBUG
-	const IMDScalarOp *pmdscop = 
+	const IMDScalarOp *md_scalar_op = 
 #endif
 	mda.Pmdscop(pmdidEqOp);
 		
@@ -370,7 +370,7 @@ CMDAccessorTest::EresUnittest_Navigate()
 	pimdtype->DebugPrint(oss);
 	oss << std::endl;
 	
-	pmdscop->DebugPrint(oss);
+	md_scalar_op->DebugPrint(oss);
 	oss << std::endl;
 					
 	GPOS_TRACE(str.GetBuffer());

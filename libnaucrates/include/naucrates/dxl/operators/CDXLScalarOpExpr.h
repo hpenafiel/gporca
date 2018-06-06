@@ -37,10 +37,10 @@ namespace gpdxl
 			IMDId *m_mdid;
 			
 			// return type (or invalid if type can be infered from the metadata)
-			IMDId *m_pmdidReturnType;
+			IMDId *m_return_type_mdid;
 
 			// operator name
-			const CWStringConst *m_pstrOpName;
+			const CWStringConst *m_str_opname;
 
 			// private copy ctor
 			CDXLScalarOpExpr(const CDXLScalarOpExpr&);
@@ -51,8 +51,8 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				IMDId *mdid_op,
-				IMDId *pmdidReturnType,
-				const CWStringConst *pstrOpName
+				IMDId *return_type_mdid,
+				const CWStringConst *str_opname
 				);
 
 			virtual
@@ -65,13 +65,13 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// name of the operator
-			const CWStringConst *PstrScalarOpName() const;
+			const CWStringConst *GetScalarOpNameStr() const;
 
 			// operator id
 			IMDId *MDId() const;
 			
 			// operator return type
-			IMDId *PmdidReturnType() const;
+			IMDId *GetReturnTypeMdId() const;
 
 			// serialize operator in DXL format
 			virtual

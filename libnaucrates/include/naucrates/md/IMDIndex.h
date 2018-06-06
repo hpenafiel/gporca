@@ -96,7 +96,7 @@ namespace gpmd
 			// check if given scalar comparison can be used with the index key 
 			// at the specified position
 			virtual 
-			BOOL FCompatible(const IMDScalarOp *pmdscop, ULONG ulKeyPos) const = 0;
+			BOOL FCompatible(const IMDScalarOp *md_scalar_op, ULONG ulKeyPos) const = 0;
 			
 			// index type as a string value
 			static

@@ -1783,7 +1783,7 @@ CUtils::PexprScalarOp
 	CExpression *pexprRight,
 	const CWStringConst strOp,
 	IMDId *mdid_op,
-	IMDId *pmdidReturnType
+	IMDId *return_type_mdid
 	)
 {
 	GPOS_ASSERT(NULL != pcrLeft);
@@ -1792,7 +1792,7 @@ CUtils::PexprScalarOp
 	return GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarOp(memory_pool, mdid_op, pmdidReturnType, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer())),
+			GPOS_NEW(memory_pool) CScalarOp(memory_pool, mdid_op, return_type_mdid, GPOS_NEW(memory_pool) CWStringConst(memory_pool, strOp.GetBuffer())),
 			PexprScalarIdent(memory_pool, pcrLeft),
 			pexprRight
 			);
@@ -2584,8 +2584,8 @@ CUtils::Ecmpt
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdid);
-	return pmdscop->Ecmpt();
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
+	return md_scalar_op->Ecmpt();
 }
 
 // return the comparison type for the given mdid
@@ -2596,8 +2596,8 @@ CUtils::Ecmpt
 	IMDId *pmdid
 	)
 {
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdid);
-	return pmdscop->Ecmpt();
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
+	return md_scalar_op->Ecmpt();
 }
 
 // check if the expression is a scalar boolean const

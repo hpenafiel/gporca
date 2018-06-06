@@ -156,7 +156,7 @@ namespace gpmd
 			// check if given scalar comparison can be used with the index key 
 			// at the specified position
 			virtual 
-			BOOL FCompatible(const IMDScalarOp *pmdscop, ULONG ulKEyPos) const;
+			BOOL FCompatible(const IMDScalarOp *md_scalar_op, ULONG ulKEyPos) const;
 
 #ifdef GPOS_DEBUG
 			// debug print of the MD index

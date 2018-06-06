@@ -47,10 +47,10 @@ using namespace gpmd;
 CStatsPred::EStatsCmpType
 CStatsPredUtils::Estatscmpt
 	(
-	const CWStringConst *pstrOpName
+	const CWStringConst *str_opname
 	)
 {
-	GPOS_ASSERT(NULL != pstrOpName);
+	GPOS_ASSERT(NULL != str_opname);
 
 	CStatsPred::EStatsCmpType escmpt = CStatsPred::EstatscmptOther;
 
@@ -61,27 +61,27 @@ CStatsPredUtils::Estatscmpt
 	CWStringConst pstrG(GPOS_WSZ_LIT(">"));
 	CWStringConst pstrNEq(GPOS_WSZ_LIT("<>"));
 
-	if (pstrOpName->Equals(&pstrL))
+	if (str_opname->Equals(&pstrL))
 	{
 		escmpt = CStatsPred::EstatscmptL;
 	}
-	if (pstrOpName->Equals(&pstrLEq))
+	if (str_opname->Equals(&pstrLEq))
 	{
 		escmpt = CStatsPred::EstatscmptLEq;
 	}
-	if (pstrOpName->Equals(&pstrEq))
+	if (str_opname->Equals(&pstrEq))
 	{
 		escmpt = CStatsPred::EstatscmptEq;
 	}
-	if (pstrOpName->Equals(&pstrGEq))
+	if (str_opname->Equals(&pstrGEq))
 	{
 		escmpt = CStatsPred::EstatscmptGEq;
 	}
-	if (pstrOpName->Equals(&pstrG))
+	if (str_opname->Equals(&pstrG))
 	{
 		escmpt = CStatsPred::EstatscmptG;
 	}
-	if (pstrOpName->Equals(&pstrNEq))
+	if (str_opname->Equals(&pstrNEq))
 	{
 		escmpt = CStatsPred::EstatscmptNEq;
 	}
@@ -106,13 +106,13 @@ CStatsPredUtils::Estatscmpt
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdid);
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
 
 	// Simply go by operator name.
 	// If the name of the operator is "<", then it is a LessThan etc.
-	const CWStringConst *pstrOpName = pmdscop->Mdname().GetMDName();
+	const CWStringConst *str_opname = md_scalar_op->Mdname().GetMDName();
 
-	return Estatscmpt(pstrOpName);
+	return Estatscmpt(str_opname);
 }
 
 //---------------------------------------------------------------------------

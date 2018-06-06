@@ -36,13 +36,13 @@ CScalarOp::CScalarOp
 	(
 	IMemoryPool *memory_pool,
 	IMDId *mdid_op,
-	IMDId *pmdidReturnType,
+	IMDId *return_type_mdid,
 	const CWStringConst *pstrOp
 	)
 	:
 	CScalar(memory_pool),
 	m_mdid_op(mdid_op),
-	m_pmdidReturnType(pmdidReturnType),
+	m_return_type_mdid(return_type_mdid),
 	m_pstrOp(pstrOp),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false),
@@ -54,7 +54,7 @@ CScalarOp::CScalarOp
 
 	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
 	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_mdid_op);
-	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_pmdidReturnType);
+	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_return_type_mdid);
 }
 
 
@@ -130,16 +130,16 @@ CScalarOp::FMatch
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CScalarOp::PmdidReturnType
+//		CScalarOp::GetReturnTypeMdId
 //
 //	@doc:
 //		Accessor to the return type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CScalarOp::PmdidReturnType() const
+CScalarOp::GetReturnTypeMdId() const
 {
-	return m_pmdidReturnType;
+	return m_return_type_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -153,9 +153,9 @@ CScalarOp::PmdidReturnType() const
 IMDId *
 CScalarOp::MDIdType() const
 {
-	if (NULL != m_pmdidReturnType)
+	if (NULL != m_return_type_mdid)
 	{
-		return m_pmdidReturnType;
+		return m_return_type_mdid;
 	}
 	
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();

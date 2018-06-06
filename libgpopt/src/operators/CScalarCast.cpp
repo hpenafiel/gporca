@@ -36,13 +36,13 @@ using namespace gpmd;
 CScalarCast::CScalarCast
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidReturnType,
+	IMDId *return_type_mdid,
 	IMDId *mdid_func,
 	BOOL fBinaryCoercible
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidReturnType(pmdidReturnType),
+	m_return_type_mdid(return_type_mdid),
 	m_func_mdid(mdid_func),
 	m_fBinaryCoercible(fBinaryCoercible),
 	m_fReturnsNullOnNullInput(false),
@@ -54,7 +54,7 @@ CScalarCast::CScalarCast
 		const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
 
 		m_fReturnsNullOnNullInput = pmdfunc->FStrict();
-		m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_pmdidReturnType);
+		m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_return_type_mdid);
 	}
 }
 
@@ -79,7 +79,7 @@ CScalarCast::FMatch
 		CScalarCast *pscop = CScalarCast::PopConvert(pop);
 
 		// match if the return type oids are identical
-		return pscop->MDIdType()->Equals(m_pmdidReturnType) &&
+		return pscop->MDIdType()->Equals(m_return_type_mdid) &&
 				((!IMDId::IsValid(pscop->FuncMdId()) && !IMDId::IsValid(m_func_mdid)) || pscop->FuncMdId()->Equals(m_func_mdid));
 	}
 

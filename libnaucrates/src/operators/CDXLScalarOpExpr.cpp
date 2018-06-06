@@ -34,14 +34,14 @@ CDXLScalarOpExpr::CDXLScalarOpExpr
 	(
 	IMemoryPool *memory_pool,
 	IMDId *mdid_op,
-	IMDId *pmdidReturnType,
-	const CWStringConst *pstrOpName
+	IMDId *return_type_mdid,
+	const CWStringConst *str_opname
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_mdid(mdid_op),
-	m_pmdidReturnType(pmdidReturnType),
-	m_pstrOpName(pstrOpName)
+	m_return_type_mdid(return_type_mdid),
+	m_str_opname(str_opname)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 
@@ -58,22 +58,22 @@ CDXLScalarOpExpr::CDXLScalarOpExpr
 CDXLScalarOpExpr::~CDXLScalarOpExpr()
 {
 	m_mdid->Release();
-	CRefCount::SafeRelease(m_pmdidReturnType);
-	GPOS_DELETE(m_pstrOpName);
+	CRefCount::SafeRelease(m_return_type_mdid);
+	GPOS_DELETE(m_str_opname);
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarOpExpr::PstrScalarOpName
+//		CDXLScalarOpExpr::GetScalarOpNameStr
 //
 //	@doc:
 //		Operator name
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarOpExpr::PstrScalarOpName() const
+CDXLScalarOpExpr::GetScalarOpNameStr() const
 {
-	return m_pstrOpName;
+	return m_str_opname;
 }
 
 //---------------------------------------------------------------------------
@@ -120,16 +120,16 @@ CDXLScalarOpExpr::MDId() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarOpExpr::PmdidReturnType
+//		CDXLScalarOpExpr::GetReturnTypeMdId
 //
 //	@doc:
 //		Operator return type
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarOpExpr::PmdidReturnType() const
+CDXLScalarOpExpr::GetReturnTypeMdId() const
 {
-	return m_pmdidReturnType;
+	return m_return_type_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -147,9 +147,9 @@ CDXLScalarOpExpr::HasBoolResult
 	)
 	const
 {
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(m_mdid);
-	IMDId *pmdid = md_accessor->Pmdfunc(pmdscop->FuncMdId())->PmdidTypeResult();
-	return (IMDType::EtiBool == md_accessor->Pmdtype(pmdid)->Eti());
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(m_mdid);
+	IMDId *mdid = md_accessor->Pmdfunc(md_scalar_op->FuncMdId())->PmdidTypeResult();
+	return (IMDType::EtiBool == md_accessor->Pmdtype(mdid)->Eti());
 }
 
 //---------------------------------------------------------------------------
@@ -171,15 +171,15 @@ CDXLScalarOpExpr::SerializeToDXL
 	GPOS_CHECK_ABORT;
 
 	const CWStringConst *element_name = GetOpNameStr();
-	const CWStringConst *pstrOpName = PstrScalarOpName();
+	const CWStringConst *str_opname = GetScalarOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpName), pstrOpName);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpName), str_opname);
 	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 	
-	if (NULL != m_pmdidReturnType)
+	if (NULL != m_return_type_mdid)
 	{
-		m_pmdidReturnType->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpType));
+		m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpType));
 	}
 	
 	dxlnode->SerializeChildrenToDXL(xml_serializer);

@@ -42,7 +42,7 @@ namespace gpopt
 			IMDId *m_mdid_op;
 
 			// return type id or NULL if it can be inferred from the metadata
-			IMDId *m_pmdidReturnType;
+			IMDId *m_return_type_mdid;
 			
 			// scalar operator name
 			const CWStringConst *m_pstrOp;
@@ -66,7 +66,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				IMDId *mdid_op,
-				IMDId *pmdidReturnType,
+				IMDId *return_type_mdid,
 				const CWStringConst *pstrOp
 				);
 
@@ -75,7 +75,7 @@ namespace gpopt
 			~CScalarOp()
 			{
 				m_mdid_op->Release();
-				CRefCount::SafeRelease(m_pmdidReturnType);
+				CRefCount::SafeRelease(m_return_type_mdid);
 				GPOS_DELETE(m_pstrOp);
 			}
 
@@ -95,7 +95,7 @@ namespace gpopt
 			}
 			
 			// accessor to the return type field
-			IMDId *PmdidReturnType() const;
+			IMDId *GetReturnTypeMdId() const;
 
 			// the type of the scalar expression
 			virtual 

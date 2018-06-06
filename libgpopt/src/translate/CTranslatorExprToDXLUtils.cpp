@@ -912,8 +912,8 @@ CTranslatorExprToDXLUtils::PdxlnListFilterScCmp
 
 	pmdidScCmp = CUtils::PmdidScCmp(memory_pool, md_accessor, pmdidTypeOther, pmdidTypePartKey, ecmpt);
 
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdidScCmp);
-	const CWStringConst *pstrScCmp = pmdscop->Mdname().GetMDName();
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdidScCmp);
+	const CWStringConst *pstrScCmp = md_scalar_op->Mdname().GetMDName();
 
 	pmdidScCmp->AddRef();
 	CDXLNode *pdxlnScCmp = GPOS_NEW(memory_pool) CDXLNode
@@ -1216,8 +1216,8 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 		pmdidScCmp = CUtils::PmdidScCmp(memory_pool, md_accessor, pmdidTypePartKey, pmdidTypeExpr, ecmpt);
 	}
 	
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(pmdidScCmp); 
-	const CWStringConst *pstrScCmp = pmdscop->Mdname().GetMDName();
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdidScCmp); 
+	const CWStringConst *pstrScCmp = md_scalar_op->Mdname().GetMDName();
 	
 	pmdidScCmp->AddRef();
 	

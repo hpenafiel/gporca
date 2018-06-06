@@ -204,9 +204,9 @@ CMDAccessorUtils::FScalarOpReturnsNullOnNullInput
 
 	GPOS_TRY
 	{
-		const IMDScalarOp *pmdscop = md_accessor->Pmdscop(mdid_op);
+		const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(mdid_op);
 
-		return pmdscop->FReturnsNullOnNullInput();
+		return md_scalar_op->FReturnsNullOnNullInput();
 	}
 	GPOS_CATCH_EX(ex)
 	{
@@ -262,9 +262,9 @@ CMDAccessorUtils::FCommutativeScalarOp
 	GPOS_ASSERT(NULL != md_accessor);
 	GPOS_ASSERT(NULL != mdid_op);
 
-	const IMDScalarOp *pmdscop = md_accessor->Pmdscop(mdid_op);
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(mdid_op);
 
-	return mdid_op->Equals(pmdscop->PmdidOpCommute());
+	return mdid_op->Equals(md_scalar_op->PmdidOpCommute());
 }
 
 

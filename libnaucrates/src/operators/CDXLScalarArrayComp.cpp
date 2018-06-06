@@ -29,11 +29,11 @@ CDXLScalarArrayComp::CDXLScalarArrayComp
 	(
 	IMemoryPool *memory_pool,
 	IMDId *mdid_op,
-	const CWStringConst *pstrOpName,
+	const CWStringConst *str_opname,
 	EdxlArrayCompType edxlcomptype
 	)
 	:
-	CDXLScalarComp(memory_pool, mdid_op, pstrOpName),
+	CDXLScalarComp(memory_pool, mdid_op, str_opname),
 	m_edxlcomptype(edxlcomptype)
 {
 }
