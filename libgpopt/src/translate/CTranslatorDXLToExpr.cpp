@@ -3080,11 +3080,11 @@ CTranslatorDXLToExpr::PexprScalarMinMax
 
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(pdxlnMinMax);
 
-	CDXLScalarMinMax::EdxlMinMaxType emmt = dxl_op->Emmt();
-	GPOS_ASSERT(CDXLScalarMinMax::EmmtMin == emmt || CDXLScalarMinMax::EmmtMax == emmt);
+	CDXLScalarMinMax::EdxlMinMaxType min_max_type = dxl_op->GetMinMaxType();
+	GPOS_ASSERT(CDXLScalarMinMax::EmmtMin == min_max_type || CDXLScalarMinMax::EmmtMax == min_max_type);
 
 	CScalarMinMax::EScalarMinMaxType esmmt = CScalarMinMax::EsmmtMin;
-	if (CDXLScalarMinMax::EmmtMax == emmt)
+	if (CDXLScalarMinMax::EmmtMax == min_max_type)
 	{
 		esmmt = CScalarMinMax::EsmmtMax;
 	}

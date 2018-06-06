@@ -38,7 +38,7 @@ CParseHandlerScalarMinMax::CParseHandlerScalarMinMax
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_mdid_type(NULL),
-	m_emmt(CDXLScalarMinMax::EmmtSentinel)
+	m_min_max_type(CDXLScalarMinMax::EmmtSentinel)
 {
 }
 
@@ -61,10 +61,10 @@ CParseHandlerScalarMinMax::StartElement
 {
 	if (((0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMin), element_local_name)) ||
 		(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))) &&
-		CDXLScalarMinMax::EmmtSentinel == m_emmt)
+		CDXLScalarMinMax::EmmtSentinel == m_min_max_type)
 	{
-		m_emmt = Emmt(element_local_name);
-		GPOS_ASSERT(CDXLScalarMinMax::EmmtSentinel != m_emmt);
+		m_min_max_type = GetMinMaxType(element_local_name);
+		GPOS_ASSERT(CDXLScalarMinMax::EmmtSentinel != m_min_max_type);
 
 		Edxltoken token_type = EdxltokenScalarMin;
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))
@@ -104,16 +104,16 @@ CParseHandlerScalarMinMax::EndElement
 	const XMLCh* const // element_qname
 	)
 {
-	CDXLScalarMinMax::EdxlMinMaxType emmt = Emmt(element_local_name);
+	CDXLScalarMinMax::EdxlMinMaxType min_max_type = GetMinMaxType(element_local_name);
 
-	if (CDXLScalarMinMax::EmmtSentinel == emmt || m_emmt != emmt)
+	if (CDXLScalarMinMax::EmmtSentinel == min_max_type || m_min_max_type != min_max_type)
 	{
 		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
 	// construct node
-	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarMinMax(m_memory_pool, m_mdid_type, m_emmt));
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarMinMax(m_memory_pool, m_mdid_type, m_min_max_type));
 
 	// loop over children and add them to this parsehandler
 	const ULONG ulChildren = this->Length();
@@ -129,14 +129,14 @@ CParseHandlerScalarMinMax::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerScalarMinMax::Emmt
+//		CParseHandlerScalarMinMax::GetMinMaxType
 //
 //	@doc:
 //		Parse the min/max type from the attribute value
 //
 //---------------------------------------------------------------------------
 CDXLScalarMinMax::EdxlMinMaxType
-CParseHandlerScalarMinMax::Emmt
+CParseHandlerScalarMinMax::GetMinMaxType
 	(
 	const XMLCh *element_local_name
 	)

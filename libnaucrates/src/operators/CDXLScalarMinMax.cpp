@@ -31,15 +31,15 @@ CDXLScalarMinMax::CDXLScalarMinMax
 	(
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
-	EdxlMinMaxType emmt
+	EdxlMinMaxType min_max_type
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_mdid_type(mdid_type),
-	m_emmt(emmt)
+	m_min_max_type(min_max_type)
 {
 	GPOS_ASSERT(m_mdid_type->IsValid());
-	GPOS_ASSERT(EmmtSentinel > emmt);
+	GPOS_ASSERT(EmmtSentinel > min_max_type);
 }
 
 //---------------------------------------------------------------------------
@@ -80,7 +80,7 @@ CDXLScalarMinMax::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarMinMax::GetOpNameStr() const
 {
-	switch (m_emmt)
+	switch (m_min_max_type)
 	{
 		case EmmtMin:
 				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarMin);

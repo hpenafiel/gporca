@@ -46,7 +46,7 @@ namespace gpdxl
 			IMDId *m_mdid_type;
 
 			// min/max type
-			EdxlMinMaxType m_emmt;
+			EdxlMinMaxType m_min_max_type;
 
 			// private copy ctor
 			CDXLScalarMinMax(const CDXLScalarMinMax&);
@@ -54,7 +54,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarMinMax(IMemoryPool *memory_pool, IMDId *mdid_type, EdxlMinMaxType emmt);
+			CDXLScalarMinMax(IMemoryPool *memory_pool, IMDId *mdid_type, EdxlMinMaxType min_max_type);
 
 			//dtor
 			virtual
@@ -76,14 +76,14 @@ namespace gpdxl
 			Edxlopid GetDXLOperator() const;
 
 			// min/max type
-			EdxlMinMaxType Emmt() const
+			EdxlMinMaxType GetMinMaxType() const
 			{
-				return m_emmt;
+				return m_min_max_type;
 			}
 
 			// serialize operator in DXL format
 			virtual
-			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *pdxln) const;
+			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const;
 
 			// does the operator return a boolean result
 			virtual
@@ -92,7 +92,7 @@ namespace gpdxl
 #ifdef GPOS_DEBUG
 			// checks whether the operator has valid structure, i.e. number and
 			// types of child nodes
-			void AssertValid(const CDXLNode *pdxln, BOOL validate_children) const;
+			void AssertValid(const CDXLNode *node, BOOL validate_children) const;
 #endif // GPOS_DEBUG
 
 			// conversion function

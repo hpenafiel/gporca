@@ -6428,16 +6428,16 @@ CTranslatorExprToDXL::PdxlnScMinMax
 	CScalarMinMax::EScalarMinMaxType esmmt = popScMinMax->Esmmt();
 	GPOS_ASSERT(CScalarMinMax::EsmmtMin == esmmt || CScalarMinMax::EsmmtMax == esmmt);
 
-	CDXLScalarMinMax::EdxlMinMaxType emmt = CDXLScalarMinMax::EmmtMin;
+	CDXLScalarMinMax::EdxlMinMaxType min_max_type = CDXLScalarMinMax::EmmtMin;
 	if (CScalarMinMax::EsmmtMax == esmmt)
 	{
-		emmt = CDXLScalarMinMax::EmmtMax;
+		min_max_type = CDXLScalarMinMax::EmmtMax;
 	}
 
 	IMDId *mdid_type = popScMinMax->MDIdType();
 	mdid_type->AddRef();
 
-	CDXLNode *pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarMinMax(m_memory_pool, mdid_type, emmt));
+	CDXLNode *pdxln = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarMinMax(m_memory_pool, mdid_type, min_max_type));
 	TranslateScalarChildren(pexprMinMax, pdxln);
 
 	return pdxln;
