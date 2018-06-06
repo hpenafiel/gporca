@@ -3218,8 +3218,8 @@ CTranslatorExprToDXL::PdxlnCorrelatedNLJoin
 		CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pcr->Name().Pstr());
 		IMDId *pmdid = pcr->Pmdtype()->MDId();
 		pmdid->AddRef();
-		CDXLColRef *pdxlcr = GPOS_NEW(m_memory_pool) CDXLColRef(m_memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
-		pdrgdxlcr->Append(pdxlcr);
+		CDXLColRef *dxl_colref = GPOS_NEW(m_memory_pool) CDXLColRef(m_memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
+		pdrgdxlcr->Append(dxl_colref);
 	}
 
 	COperator::EOperatorId eopid = pexpr->Pop()->Eopid();

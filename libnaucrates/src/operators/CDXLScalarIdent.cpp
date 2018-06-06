@@ -32,13 +32,13 @@ using namespace gpdxl;
 CDXLScalarIdent::CDXLScalarIdent
 	(
 	IMemoryPool *memory_pool,
-	CDXLColRef *pdxlcr
+	CDXLColRef *dxl_colref
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pdxlcr(pdxlcr)
+	m_dxl_colref(dxl_colref)
 {
-	GPOS_ASSERT(NULL != m_pdxlcr);
+	GPOS_ASSERT(NULL != m_dxl_colref);
 }
 
 
@@ -52,7 +52,7 @@ CDXLScalarIdent::CDXLScalarIdent
 //---------------------------------------------------------------------------
 CDXLScalarIdent::~CDXLScalarIdent()
 {
-	m_pdxlcr->Release();
+	m_dxl_colref->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -95,7 +95,7 @@ CDXLScalarIdent::GetOpNameStr() const
 const CDXLColRef *
 CDXLScalarIdent::MakeDXLColRef() const
 {
-	return m_pdxlcr;
+	return m_dxl_colref;
 }
 
 //---------------------------------------------------------------------------
@@ -109,13 +109,13 @@ CDXLScalarIdent::MakeDXLColRef() const
 IMDId *
 CDXLScalarIdent::MDIdType() const
 {
-	return m_pdxlcr->MDIdType();
+	return m_dxl_colref->MDIdType();
 }
 
 INT
 CDXLScalarIdent::TypeModifier() const
 {
-	return m_pdxlcr->TypeModifier();
+	return m_dxl_colref->TypeModifier();
 }
 
 //---------------------------------------------------------------------------
@@ -130,7 +130,7 @@ void
 CDXLScalarIdent::SerializeToDXL
 	(
 	CXMLSerializer *xml_serializer,
-	const CDXLNode *pdxln
+	const CDXLNode *node
 	)
 	const
 {
@@ -139,18 +139,18 @@ CDXLScalarIdent::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 		
 	// add col name and col id
-	const CWStringConst *strCName = (m_pdxlcr->MdName())->GetMDName(); 
+	const CWStringConst *colname = (m_dxl_colref->MdName())->GetMDName();
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_pdxlcr->Id());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColName), strCName);
-	m_pdxlcr->MDIdType()->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_dxl_colref->Id());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColName), colname);
+	m_dxl_colref->MDIdType()->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())
 	{
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
 
-	pdxln->SerializeChildrenToDXL(xml_serializer);
+	node->SerializeChildrenToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);	
 }
@@ -170,7 +170,7 @@ CDXLScalarIdent::HasBoolResult
 	)
 	const
 {
-	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pdxlcr->MDIdType())->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_dxl_colref->MDIdType())->Eti());
 }
 
 #ifdef GPOS_DEBUG
@@ -185,14 +185,14 @@ CDXLScalarIdent::HasBoolResult
 void
 CDXLScalarIdent::AssertValid
 	(
-	const CDXLNode *pdxln,
+	const CDXLNode *node,
 	BOOL // validate_children 
 	) 
 	const
 {
-	GPOS_ASSERT(0 == pdxln->Arity());
-	GPOS_ASSERT(m_pdxlcr->MDIdType()->IsValid());
-	GPOS_ASSERT(NULL != m_pdxlcr);
+	GPOS_ASSERT(0 == node->Arity());
+	GPOS_ASSERT(m_dxl_colref->MDIdType()->IsValid());
+	GPOS_ASSERT(NULL != m_dxl_colref);
 }
 #endif // GPOS_DEBUG
 

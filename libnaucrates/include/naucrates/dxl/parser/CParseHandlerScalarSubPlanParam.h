@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 	
 			// column reference
-			CDXLColRef *m_pdxlcr;
+			CDXLColRef *m_dxl_colref;
 
 			// private copy ctor
 			CParseHandlerScalarSubPlanParam(const CParseHandlerScalarSubPlanParam &);
@@ -73,14 +73,14 @@ namespace gpdxl
 			CDXLColRef *MakeDXLColRef(void)
 			const
 			{
-				return m_pdxlcr;
+				return m_dxl_colref;
 			}
 
 			// return param type
 			IMDId *MDId(void)
 			const
 			{
-				return m_pdxlcr->MDIdType();
+				return m_dxl_colref->MDIdType();
 			}
 	};
 

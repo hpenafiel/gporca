@@ -40,7 +40,7 @@ CParseHandlerScalarSubPlanParam::CParseHandlerScalarSubPlanParam
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdxlcr(NULL)
+	m_dxl_colref(NULL)
 {
 }
 
@@ -54,7 +54,7 @@ CParseHandlerScalarSubPlanParam::CParseHandlerScalarSubPlanParam
 //---------------------------------------------------------------------------
 CParseHandlerScalarSubPlanParam::~CParseHandlerScalarSubPlanParam()
 {
-	m_pdxlcr->Release();
+	m_dxl_colref->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -80,7 +80,7 @@ CParseHandlerScalarSubPlanParam::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	m_pdxlcr = CDXLOperatorFactory::MakeDXLColRef(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenScalarSubPlanParam);
+	m_dxl_colref = CDXLOperatorFactory::MakeDXLColRef(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenScalarSubPlanParam);
 }
 
 //---------------------------------------------------------------------------

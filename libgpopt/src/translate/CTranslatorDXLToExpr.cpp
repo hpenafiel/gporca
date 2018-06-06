@@ -268,9 +268,9 @@ CTranslatorDXLToExpr::Pexpr
 		CDXLScalarIdent *pdxlopIdent = CDXLScalarIdent::Cast(pdxlnIdent->GetOperator());
 
 		// get the dxl column reference
-		const CDXLColRef *pdxlcr = pdxlopIdent->MakeDXLColRef();
-		GPOS_ASSERT(NULL != pdxlcr);
-		const ULONG col_id = pdxlcr->Id();
+		const CDXLColRef *dxl_colref = pdxlopIdent->MakeDXLColRef();
+		GPOS_ASSERT(NULL != dxl_colref);
+		const ULONG col_id = dxl_colref->Id();
 
 		// get its column reference from the hash map
 		const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
@@ -283,7 +283,7 @@ CTranslatorDXLToExpr::Pexpr
 			m_pdrgpulOutputColRefs->Append(pulCopy);
 	
 			// get the column names and add it to the array of output column names
-			CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlcr->MdName()->GetMDName());
+			CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, dxl_colref->MdName()->GetMDName());
 			m_pdrgpmdname->Append(mdname);
 		}
 	}
@@ -3346,8 +3346,8 @@ CTranslatorDXLToExpr::PexprScalarIdent
 	CDXLScalarIdent *dxl_op = CDXLScalarIdent::Cast(pdxlnIdent->GetOperator());
 
 	// get the dxl column reference
-	const CDXLColRef *pdxlcr = dxl_op->MakeDXLColRef();
-	const ULONG col_id = pdxlcr->Id();
+	const CDXLColRef *dxl_colref = dxl_op->MakeDXLColRef();
+	const ULONG col_id = dxl_colref->Id();
 
 	// get its column reference from the hash map
 	const CColRef *pcr =  PcrLookup(m_phmulcr, col_id);

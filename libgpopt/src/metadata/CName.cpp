@@ -32,10 +32,10 @@ CName::CName
 	IMemoryPool *memory_pool,
 	const CWStringBase *str
 	)
-	:m_pstrName(NULL),
+	:m_str_name(NULL),
 	 m_fDeepCopy(true)
 {
-	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, str->GetBuffer());
+	m_str_name = GPOS_NEW(memory_pool) CWStringConst(memory_pool, str->GetBuffer());
 }
 
 //---------------------------------------------------------------------------
@@ -54,11 +54,11 @@ CName::CName
 	BOOL fOwnsMemory
 	)
 	:
-	m_pstrName(str),
+	m_str_name(str),
 	m_fDeepCopy(fOwnsMemory)
 {
-	GPOS_ASSERT(NULL != m_pstrName);
-	GPOS_ASSERT(m_pstrName->IsValid());
+	GPOS_ASSERT(NULL != m_str_name);
+	GPOS_ASSERT(m_str_name->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -78,13 +78,13 @@ CName::CName
 	const CName &nameSecond
 	)
 	:
-	m_pstrName(NULL),
+	m_str_name(NULL),
 	m_fDeepCopy(false)
 {
 	CWStringDynamic *pstrTmp = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, (nameFirst.Pstr())->GetBuffer());
 	pstrTmp->Append(nameSecond.Pstr());
 	
-	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrTmp->GetBuffer());
+	m_str_name = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrTmp->GetBuffer());
 	m_fDeepCopy = true;
 	
 	// release tmp string
@@ -106,11 +106,11 @@ CName::CName
 	const CName &name
 	)
 	:
-	m_pstrName(name.Pstr()),
+	m_str_name(name.Pstr()),
 	m_fDeepCopy(false)
 {
-	GPOS_ASSERT(NULL != m_pstrName->GetBuffer());
-	GPOS_ASSERT(m_pstrName->IsValid());	
+	GPOS_ASSERT(NULL != m_str_name->GetBuffer());
+	GPOS_ASSERT(m_str_name->IsValid());	
 }
 
 
@@ -129,7 +129,7 @@ CName::CName
 	const CName &name
 	)
 	:
-	m_pstrName(NULL),
+	m_str_name(NULL),
 	m_fDeepCopy(false)
 {
 	DeepCopy(memory_pool, name.Pstr());
@@ -146,11 +146,11 @@ CName::CName
 //---------------------------------------------------------------------------
 CName::~CName()
 {
-	GPOS_ASSERT(m_pstrName->IsValid());
+	GPOS_ASSERT(m_str_name->IsValid());
 
 	if (m_fDeepCopy)
 	{
-		GPOS_DELETE(m_pstrName);
+		GPOS_DELETE(m_str_name);
 	}
 }
 
@@ -171,7 +171,7 @@ CName::DeepCopy
 	const CWStringConst *str
 	)
 {
-	m_pstrName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, str->GetBuffer());
+	m_str_name = GPOS_NEW(memory_pool) CWStringConst(memory_pool, str->GetBuffer());
 	m_fDeepCopy = true;
 }
 
@@ -192,7 +192,7 @@ CName::Equals
 	)
 	const 
 {
-	return m_pstrName->Equals((name.Pstr()));
+	return m_str_name->Equals((name.Pstr()));
 }
 
 #endif // GPOS_DEBUG
@@ -213,7 +213,7 @@ CName::OsPrint
 	)
 	const
 {
-	os << GPOPT_NAME_QUOTE_BEGIN << m_pstrName->GetBuffer() << GPOPT_NAME_QUOTE_END;
+	os << GPOPT_NAME_QUOTE_BEGIN << m_str_name->GetBuffer() << GPOPT_NAME_QUOTE_END;
 	return os;
 }
 

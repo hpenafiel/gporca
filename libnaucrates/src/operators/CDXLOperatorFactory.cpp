@@ -1394,9 +1394,9 @@ CDXLOperatorFactory::MakeDXLScalarIdent
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
-	CDXLColRef *pdxlcr = MakeDXLColRef(memory_manager_dxl, attrs, EdxltokenScalarIdent);
+	CDXLColRef *dxl_colref = MakeDXLColRef(memory_manager_dxl, attrs, EdxltokenScalarIdent);
 
-	return GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, pdxlcr);
+	return GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, dxl_colref);
 }
 
 //---------------------------------------------------------------------------

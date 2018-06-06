@@ -44,7 +44,7 @@ namespace gpdxl
 				ULONG m_ulType;
 
 				// option name
-				CWStringBase *m_pstrName;
+				CWStringBase *m_str_name;
 				
 				// option value
 				CWStringBase *m_pstrValue;
@@ -62,7 +62,7 @@ namespace gpdxl
 					)
 					:
 					m_ulType(ulType),
-					m_pstrName(pstrName),
+					m_str_name(pstrName),
 					m_pstrValue(pstrValue),
 					m_is_null(is_null)
 				{
@@ -73,7 +73,7 @@ namespace gpdxl
 				// dtor
 				~CDXLCtasOption()
 				{
-					GPOS_DELETE(m_pstrName);
+					GPOS_DELETE(m_str_name);
 					GPOS_DELETE(m_pstrValue);
 				}
 				

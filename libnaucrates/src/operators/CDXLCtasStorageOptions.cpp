@@ -123,7 +123,7 @@ CDXLCtasStorageOptions::Serialize
 		CDXLCtasOption *pdxlctasopt = (*m_pdrgpctasopt)[ul];
 		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTASOption));
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCtasOptionType), pdxlctasopt->m_ulType);
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), pdxlctasopt->m_pstrName);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), pdxlctasopt->m_str_name);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenValue), pdxlctasopt->m_pstrValue);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsNull), pdxlctasopt->m_is_null);
 		xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTASOption));

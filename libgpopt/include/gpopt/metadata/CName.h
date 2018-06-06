@@ -39,7 +39,7 @@ namespace gpopt
 		private:
 			
 			// actual name
-			const CWStringConst *m_pstrName;
+			const CWStringConst *m_str_name;
 
 			// keep track of copy status
 			BOOL m_fDeepCopy;
@@ -63,12 +63,12 @@ namespace gpopt
 			// accessors
 			const CWStringConst *Pstr() const
 			{
-				return m_pstrName;
+				return m_str_name;
 			}
 			
 			ULONG Length() const
 			{
-				return m_pstrName->Length();
+				return m_str_name->Length();
 			}
 
 #ifdef GPOS_DEBUG

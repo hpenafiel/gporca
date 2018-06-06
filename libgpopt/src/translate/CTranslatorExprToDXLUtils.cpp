@@ -1537,8 +1537,8 @@ CTranslatorExprToDXLUtils::ReplaceSubplan
 	IMDId *mdid_type = pcr->Pmdtype()->MDId();
 	mdid_type->AddRef();
 	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pdxlopPrEl->PmdnameAlias()->GetMDName());
-	CDXLColRef *pdxlcr = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pdxlopPrEl->UlId(), mdid_type, pcr->TypeModifier());
-	CDXLScalarIdent *pdxlnScId = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, pdxlcr);
+	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pdxlopPrEl->UlId(), mdid_type, pcr->TypeModifier());
+	CDXLScalarIdent *pdxlnScId = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, dxl_colref);
 	CDXLNode *pdxln = GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlnScId);
 #ifdef GPOS_DEBUG
 	BOOL fReplaced =
@@ -1638,9 +1638,9 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 	IMDId *pmdid = pcr->Pmdtype()->MDId();
 	pmdid->AddRef();
 
-	CDXLColRef *pdxlcr = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
+	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pcr->UlId(), pmdid, pcr->TypeModifier());
 	
-	CDXLScalarIdent *dxl_op = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, pdxlcr);
+	CDXLScalarIdent *dxl_op = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, dxl_colref);
 	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, dxl_op);
 }
 
@@ -2522,8 +2522,8 @@ CTranslatorExprToDXLUtils::ExtractIdentColIds
 {
 	if (pdxln->GetOperator()->GetDXLOperator() == EdxlopScalarIdent)
 	{
-		const CDXLColRef *pdxlcr = CDXLScalarIdent::Cast(pdxln->GetOperator())->MakeDXLColRef();
-		pbs->ExchangeSet(pdxlcr->Id());
+		const CDXLColRef *dxl_colref = CDXLScalarIdent::Cast(pdxln->GetOperator())->MakeDXLColRef();
+		pbs->ExchangeSet(dxl_colref->Id());
 	}
 
 	ULONG ulArity = pdxln->Arity();
