@@ -176,9 +176,9 @@ CDXLScalarNullIf::AssertValid
 	const ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(2 == arity);
 
-	for (ULONG ul = 0; ul < arity; ++ul)
+	for (ULONG idx = 0; idx < arity; ++idx)
 	{
-		CDXLNode *child_dxlnode = (*dxlnode)[ul];
+		CDXLNode *child_dxlnode = (*dxlnode)[idx];
 		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
