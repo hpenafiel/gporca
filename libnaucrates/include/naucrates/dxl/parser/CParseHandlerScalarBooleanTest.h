@@ -37,7 +37,7 @@ namespace gpdxl
 	{
 		private:
 	
-			EdxlBooleanTestType m_edxlBooleanTestType;
+			EdxlBooleanTestType m_dxl_boolean_test_type;
 	
 			// private copy ctor
 			CParseHandlerScalarBooleanTest(const CParseHandlerScalarBooleanTest &);
@@ -61,7 +61,7 @@ namespace gpdxl
 	
 			// parse the boolean test type from the Xerces xml string
 			static
-			EdxlBooleanTestType EdxlBooleantestType(const XMLCh *xmlszBoolType);
+			EdxlBooleanTestType GetDxlBooleanTestType(const XMLCh *xmlszBoolType);
 
 		public:
 			// ctor

@@ -38,7 +38,7 @@ CParseHandlerScalarBooleanTest::CParseHandlerScalarBooleanTest
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_edxlBooleanTestType(EdxlbooleantestSentinel)
+	m_dxl_boolean_test_type(EdxlbooleantestSentinel)
 {
 }
 
@@ -59,10 +59,10 @@ CParseHandlerScalarBooleanTest::StartElement
 	const Attributes& attrs
 	)
 {
-	EdxlBooleanTestType edxlBooleanTestType =
-			CParseHandlerScalarBooleanTest::EdxlBooleantestType(element_local_name);
+	EdxlBooleanTestType dxl_boolean_test_type =
+			CParseHandlerScalarBooleanTest::GetDxlBooleanTestType(element_local_name);
 
-	if (EdxlbooleantestSentinel == edxlBooleanTestType)
+	if (EdxlbooleantestSentinel == dxl_boolean_test_type)
 	{
 		if(NULL == m_dxl_node)
 		{
@@ -89,10 +89,10 @@ CParseHandlerScalarBooleanTest::StartElement
 		return;
 	}
 
-	m_edxlBooleanTestType = edxlBooleanTestType;
+	m_dxl_boolean_test_type = dxl_boolean_test_type;
 	// parse and create scalar BooleanTest
 	CDXLScalarBooleanTest *dxl_op =
-			(CDXLScalarBooleanTest*) CDXLOperatorFactory::MakeDXLBooleanTest(m_parse_handler_mgr->GetDXLMemoryManager(), m_edxlBooleanTestType);
+			(CDXLScalarBooleanTest*) CDXLOperatorFactory::MakeDXLBooleanTest(m_parse_handler_mgr->GetDXLMemoryManager(), m_dxl_boolean_test_type);
 
 	// construct node from the created child nodes
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
@@ -115,9 +115,9 @@ CParseHandlerScalarBooleanTest::EndElement
 )
 {
 
-	EdxlBooleanTestType edxlBooleanTestType = CParseHandlerScalarBooleanTest::EdxlBooleantestType(element_local_name);
+	EdxlBooleanTestType dxl_boolean_test_type = CParseHandlerScalarBooleanTest::GetDxlBooleanTestType(element_local_name);
 
-	if (EdxlbooleantestSentinel == edxlBooleanTestType )
+	if (EdxlbooleantestSentinel == dxl_boolean_test_type )
 	{
 		GPOS_RAISE
 			(
@@ -127,7 +127,7 @@ CParseHandlerScalarBooleanTest::EndElement
 			);
 	}
 	
-	GPOS_ASSERT(edxlBooleanTestType == m_edxlBooleanTestType);
+	GPOS_ASSERT(dxl_boolean_test_type == m_dxl_boolean_test_type);
 	GPOS_ASSERT(1 == this->Length());
 
 	CParseHandlerScalarOp *pph = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
@@ -139,14 +139,14 @@ CParseHandlerScalarBooleanTest::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerScalarBooleanTest::EdxlBooleantestType
+//		CParseHandlerScalarBooleanTest::GetDxlBooleanTestType
 //
 //	@doc:
 //		Parse the boolean test type from the attribute value
 //
 //---------------------------------------------------------------------------
 EdxlBooleanTestType
-CParseHandlerScalarBooleanTest::EdxlBooleantestType
+CParseHandlerScalarBooleanTest::GetDxlBooleanTestType
 	(
 	const XMLCh *xmlszBooleanTestType
 	)

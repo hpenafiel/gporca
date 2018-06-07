@@ -60,12 +60,12 @@ CParseHandlerScalarBitmapBoolOp::StartElement
 	const Attributes& attrs
 	)
 {
-	CDXLScalarBitmapBoolOp::EdxlBitmapBoolOp edxlbitmapboolop = CDXLScalarBitmapBoolOp::EdxlbitmapAnd;
+	CDXLScalarBitmapBoolOp::EdxlBitmapBoolOp dxl_bitmap_bool_op = CDXLScalarBitmapBoolOp::EdxlbitmapAnd;
 	Edxltoken token_type = EdxltokenScalarBitmapAnd;
 	
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBitmapOr), element_local_name))
 	{
-		edxlbitmapboolop = CDXLScalarBitmapBoolOp::EdxlbitmapOr;
+		dxl_bitmap_bool_op = CDXLScalarBitmapBoolOp::EdxlbitmapOr;
 		token_type = EdxltokenScalarBitmapOr;
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBitmapAnd), element_local_name))
@@ -73,8 +73,8 @@ CParseHandlerScalarBitmapBoolOp::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 	}
 	
-	IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, token_type);
-	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarBitmapBoolOp(m_memory_pool, pmdid, edxlbitmapboolop));
+	IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, token_type);
+	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarBitmapBoolOp(m_memory_pool, mdid, dxl_bitmap_bool_op));
 	
 	// install parse handlers for children
 	CParseHandlerBase *right_child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
@@ -113,10 +113,10 @@ CParseHandlerScalarBitmapBoolOp::EndElement
 	GPOS_ASSERT(2 == size);
 
 	// add constructed children from child parse handlers
-	for (ULONG ul = 0; ul < size; ul++)
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerOp *pph = dynamic_cast<CParseHandlerOp*>((*this)[ul]);
-		AddChildFromParseHandler(pph);
+		CParseHandlerOp *op_parse_handler = dynamic_cast<CParseHandlerOp*>((*this)[idx]);
+		AddChildFromParseHandler(op_parse_handler);
 	}
 
 	// deactivate handler
