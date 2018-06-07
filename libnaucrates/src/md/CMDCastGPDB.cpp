@@ -33,26 +33,26 @@ CMDCastGPDB::CMDCastGPDB
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *mdname,
-	IMDId *pmdidSrc,
-	IMDId *pmdidDest,
-	BOOL fBinaryCoercible,
-	IMDId *pmdidCastFunc,
+	IMDId *mdid_src,
+	IMDId *mdid_dest,
+	BOOL is_binary_coercible,
+	IMDId *mdid_cast_func,
 	EmdCoercepathType emdPathType
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_pmdidSrc(pmdidSrc),
-	m_pmdidDest(pmdidDest),
-	m_fBinaryCoercible(fBinaryCoercible),
-	m_pmdidCastFunc(pmdidCastFunc),
+	m_pmdidSrc(mdid_src),
+	m_pmdidDest(mdid_dest),
+	m_fBinaryCoercible(is_binary_coercible),
+	m_pmdidCastFunc(mdid_cast_func),
 	m_emdPathType(emdPathType)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(m_pmdidSrc->IsValid());
 	GPOS_ASSERT(m_pmdidDest->IsValid());
-	GPOS_ASSERT_IMP(!fBinaryCoercible, m_pmdidCastFunc->IsValid());
+	GPOS_ASSERT_IMP(!is_binary_coercible, m_pmdidCastFunc->IsValid());
 
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }

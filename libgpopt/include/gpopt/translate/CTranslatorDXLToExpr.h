@@ -160,7 +160,7 @@ namespace gpopt
 			CExpression *PexprCastPrjElem
 				(
 				IMDId *pmdidSource,
-				IMDId *pmdidDest,
+				IMDId *mdid_dest,
 				const CColRef *pcrToCast,
 				CColRef *pcrToReturn
 				);
@@ -190,7 +190,7 @@ namespace gpopt
 						);
 
 			// check if we currently support the casting of such column types
-			BOOL FCastingUnknownType(IMDId *pmdidSource, IMDId *pmdidDest);
+			BOOL FCastingUnknownType(IMDId *pmdidSource, IMDId *mdid_dest);
 
 			// translate a DXL logical get into an expr logical get
 			CExpression *PexprLogicalGet(const CDXLNode *pdxlnLgGet);

@@ -68,7 +68,7 @@ namespace gpopt
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeExpr,
 				IMDId *pmdidTypeCastExpr,
-				IMDId *pmdidCastFunc
+				IMDId *mdid_cast_func
 				);
 			
 			
@@ -322,7 +322,7 @@ namespace gpopt
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeOther,
 				IMDId *pmdidTypeCastExpr,
-				IMDId *pmdidCastFunc,
+				IMDId *mdid_cast_func,
 				IMDType::ECmpType ecmpt,
 				ULONG ulPartLevel
 				);
@@ -337,7 +337,7 @@ namespace gpopt
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeOther,
 				IMDId *pmdidTypeCastExpr,
-				IMDId *pmdidCastFunc,
+				IMDId *mdid_cast_func,
 				ULONG ulPartLevel
 				);
 			
@@ -351,7 +351,7 @@ namespace gpopt
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeOther,
 				IMDId *pmdidTypeCastExpr,
-				IMDId *pmdidCastFunc,
+				IMDId *mdid_cast_func,
 				ULONG ulPartLevel,
 				ULONG fLowerBound,
 				IMDType::ECmpType ecmpt

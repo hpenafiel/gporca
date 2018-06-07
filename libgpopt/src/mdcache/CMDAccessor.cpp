@@ -1030,18 +1030,18 @@ CMDAccessor::Pmdrelstats
 const IMDCast *
 CMDAccessor::Pmdcast
 	(
-	IMDId *pmdidSrc,
-	IMDId *pmdidDest
+	IMDId *mdid_src,
+	IMDId *mdid_dest
 	)
 {	
-	GPOS_ASSERT(NULL != pmdidSrc);
-	GPOS_ASSERT(NULL != pmdidDest);
+	GPOS_ASSERT(NULL != mdid_src);
+	GPOS_ASSERT(NULL != mdid_dest);
 	
-	pmdidSrc->AddRef();
-	pmdidDest->AddRef();
+	mdid_src->AddRef();
+	mdid_dest->AddRef();
 	
 	CAutoP<IMDId> a_pmdidCast;
-	a_pmdidCast = GPOS_NEW(m_memory_pool) CMDIdCast(CMDIdGPDB::PmdidConvert(pmdidSrc), CMDIdGPDB::PmdidConvert(pmdidDest));
+	a_pmdidCast = GPOS_NEW(m_memory_pool) CMDIdCast(CMDIdGPDB::PmdidConvert(mdid_src), CMDIdGPDB::PmdidConvert(mdid_dest));
 	
 	const IMDCacheObject *pmdobj = GetImdObj(a_pmdidCast.Value());
 		

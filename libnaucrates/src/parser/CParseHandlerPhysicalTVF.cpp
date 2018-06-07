@@ -71,14 +71,14 @@ CParseHandlerPhysicalTVF::StartElement
 		m_func_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenFuncId, EdxltokenPhysicalTVF);
 
 		// parse function name
-		const XMLCh *xmlszFuncName = CDXLOperatorFactory::ExtractAttrValue
+		const XMLCh *xml_str_func_name = CDXLOperatorFactory::ExtractAttrValue
 																(
 																attrs,
 																EdxltokenName,
 																EdxltokenPhysicalTVF
 																);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszFuncName);
+		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_func_name);
 		m_pstr = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrFuncName->GetBuffer());
 		GPOS_DELETE(pstrFuncName);
 

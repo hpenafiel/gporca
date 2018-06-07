@@ -58,7 +58,7 @@ namespace gpmd
 			
 		public:
 			// ctor
-			CMDIdCast(CMDIdGPDB *pmdidSrc, CMDIdGPDB *pmdidDest);
+			CMDIdCast(CMDIdGPDB *mdid_src, CMDIdGPDB *mdid_dest);
 			
 			// dtor
 			virtual

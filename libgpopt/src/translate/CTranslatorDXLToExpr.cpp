@@ -719,13 +719,13 @@ CExpression *
 CTranslatorDXLToExpr::PexprCastPrjElem
 	(
 	IMDId *pmdidSource,
-	IMDId *pmdidDest,
+	IMDId *mdid_dest,
 	const CColRef *pcrToCast,
 	CColRef *pcrToReturn
 	)
 {
-	const IMDCast *pmdcast = m_pmda->Pmdcast(pmdidSource, pmdidDest);
-	pmdidDest->AddRef();
+	const IMDCast *pmdcast = m_pmda->Pmdcast(pmdidSource, mdid_dest);
+	mdid_dest->AddRef();
 	pmdcast->GetCastFuncMdId()->AddRef();
 	CExpression *pexprCast;
 
@@ -740,7 +740,7 @@ CTranslatorDXLToExpr::PexprCastPrjElem
 							(
 							m_memory_pool,
 							parrayCoerceCast->GetCastFuncMdId(),
-							pmdidDest,
+							mdid_dest,
 							parrayCoerceCast->TypeModifier(),
 							parrayCoerceCast->FIsExplicit(),
 							(COperator::ECoercionForm) parrayCoerceCast->Ecf(),
@@ -755,7 +755,7 @@ CTranslatorDXLToExpr::PexprCastPrjElem
 			GPOS_NEW(m_memory_pool) CExpression
 			(
 				m_memory_pool,
-				GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, pmdidDest, pmdcast->GetCastFuncMdId(), pmdcast->FBinaryCoercible()),
+				GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, mdid_dest, pmdcast->GetCastFuncMdId(), pmdcast->FBinaryCoercible()),
 				GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarIdent(m_memory_pool, pcrToCast))
 			);
 	}
@@ -819,17 +819,17 @@ CTranslatorDXLToExpr::BuildSetOpChild
 
 		// check if a cast function needs to be introduced
 		IMDId *pmdidSource = pcr->Pmdtype()->MDId();
-		IMDId *pmdidDest = pdxlcdOutput->MDIdType();
+		IMDId *mdid_dest = pdxlcdOutput->MDIdType();
 
-		if (FCastingUnknownType(pmdidSource, pmdidDest))
+		if (FCastingUnknownType(pmdidSource, mdid_dest))
 		{
 			GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsupportedOp, GPOS_WSZ_LIT("Casting of columns of unknown data type"));
 		}
 
-		const IMDType *pmdtype = m_pmda->Pmdtype(pmdidDest);
+		const IMDType *pmdtype = m_pmda->Pmdtype(mdid_dest);
 		INT type_modifier = pdxlcdOutput->TypeModifier();
 
-		BOOL fEqualTypes = IMDId::FEqualMDId(pmdidSource, pmdidDest);
+		BOOL fEqualTypes = IMDId::FEqualMDId(pmdidSource, mdid_dest);
 		BOOL fFirstChild = (0 == ulChildIndex);
 		BOOL fUnionOrUnionAll = ((EdxlsetopUnionAll == dxl_op->GetSetOpType()) || (EdxlsetopUnion == dxl_op->GetSetOpType()));
 
@@ -856,7 +856,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 			else
 			{
 				// introduce cast expression
-				pexprChildProjElem = PexprCastPrjElem(pmdidSource, pmdidDest, pcr, pcrNew);
+				pexprChildProjElem = PexprCastPrjElem(pmdidSource, mdid_dest, pcr, pcrNew);
 			}
 
 			(*ppdrgpexprChildProjElems)->Append(pexprChildProjElem);
@@ -877,7 +877,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 			(*ppdrgpcrChild)->Append(pcrNew);
 
 			// introduce cast expression for input column
-			CExpression *pexprChildProjElem = PexprCastPrjElem(pmdidSource, pmdidDest, pcr, pcrNew);
+			CExpression *pexprChildProjElem = PexprCastPrjElem(pmdidSource, mdid_dest, pcr, pcrNew);
 			(*ppdrgpexprChildProjElems)->Append(pexprChildProjElem);
 		}
 		else
@@ -969,10 +969,10 @@ BOOL
 CTranslatorDXLToExpr::FCastingUnknownType
 	(
 	IMDId *pmdidSource,
-	IMDId *pmdidDest
+	IMDId *mdid_dest
 	)
 {
-	return ((pmdidSource->Equals(&CMDIdGPDB::m_mdidUnknown) || pmdidDest->Equals(&CMDIdGPDB::m_mdidUnknown)));
+	return ((pmdidSource->Equals(&CMDIdGPDB::m_mdidUnknown) || mdid_dest->Equals(&CMDIdGPDB::m_mdidUnknown)));
 }
 
 

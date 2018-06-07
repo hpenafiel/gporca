@@ -2803,7 +2803,7 @@ CDXLOperatorFactory::GetCastFuncMdId
 {
 	GPOS_ASSERT(2 * GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->Size());
 
-	CMDIdGPDB *pmdidSrc = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *mdid_src = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
 	DrgPxmlsz *pdrgpxmlszDest = GPOS_NEW(memory_manager_dxl->Pmp()) DrgPxmlsz(memory_manager_dxl->Pmp());
 	
 	for (ULONG ul = GPDXL_GPDB_MDID_COMPONENTS; ul < GPDXL_GPDB_MDID_COMPONENTS * 2; ul++)
@@ -2811,10 +2811,10 @@ CDXLOperatorFactory::GetCastFuncMdId
 		pdrgpxmlszDest->Append((*pdrgpxmlsz)[ul]);
 	}
 	
-	CMDIdGPDB *pmdidDest = GetGPDBMdId(memory_manager_dxl, pdrgpxmlszDest, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *mdid_dest = GetGPDBMdId(memory_manager_dxl, pdrgpxmlszDest, edxltokenAttr, edxltokenElement);
 	pdrgpxmlszDest->Release();
 	
-	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdCast(pmdidSrc, pmdidDest);
+	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdCast(mdid_src, mdid_dest);
 }
 
 //---------------------------------------------------------------------------

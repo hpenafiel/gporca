@@ -26,16 +26,16 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDIdCast::CMDIdCast
 	(
-	CMDIdGPDB *pmdidSrc,
-	CMDIdGPDB *pmdidDest
+	CMDIdGPDB *mdid_src,
+	CMDIdGPDB *mdid_dest
 	)
 	:
-	m_pmdidSrc(pmdidSrc),
-	m_pmdidDest(pmdidDest),
+	m_pmdidSrc(mdid_src),
+	m_pmdidDest(mdid_dest),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
-	GPOS_ASSERT(pmdidSrc->IsValid());
-	GPOS_ASSERT(pmdidDest->IsValid());
+	GPOS_ASSERT(mdid_src->IsValid());
+	GPOS_ASSERT(mdid_dest->IsValid());
 	
 	// serialize mdid into static string 
 	Serialize();
@@ -142,10 +142,10 @@ CMDIdCast::Equals
 		return false;
 	}
 	
-	const CMDIdCast *pmdidCastFunc = CMDIdCast::PmdidConvert(pmdid);
+	const CMDIdCast *mdid_cast_func = CMDIdCast::PmdidConvert(pmdid);
 	
-	return m_pmdidSrc->Equals(pmdidCastFunc->PmdidSrc()) && 
-			m_pmdidDest->Equals(pmdidCastFunc->PmdidDest()); 
+	return m_pmdidSrc->Equals(mdid_cast_func->PmdidSrc()) && 
+			m_pmdidDest->Equals(mdid_cast_func->PmdidDest()); 
 }
 
 //---------------------------------------------------------------------------

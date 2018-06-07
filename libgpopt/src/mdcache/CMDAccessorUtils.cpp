@@ -144,13 +144,13 @@ BOOL
 CMDAccessorUtils::FCastExists
 	(
 	CMDAccessor *md_accessor,
-	IMDId *pmdidSrc,
-	IMDId *pmdidDest
+	IMDId *mdid_src,
+	IMDId *mdid_dest
 	)
 {
 	GPOS_ASSERT(NULL != md_accessor);
-	GPOS_ASSERT(NULL != pmdidSrc);
-	GPOS_ASSERT(NULL != pmdidDest);
+	GPOS_ASSERT(NULL != mdid_src);
+	GPOS_ASSERT(NULL != mdid_dest);
 
 	CAutoTraceFlag atf1(EtraceSimulateOOM, false);
 	CAutoTraceFlag atf2(EtraceSimulateAbort, false);
@@ -159,7 +159,7 @@ CMDAccessorUtils::FCastExists
 
 	GPOS_TRY
 	{
-		(void) md_accessor->Pmdcast(pmdidSrc, pmdidDest);
+		(void) md_accessor->Pmdcast(mdid_src, mdid_dest);
 
 		return true;
 	}

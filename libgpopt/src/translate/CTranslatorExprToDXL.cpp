@@ -4789,7 +4789,7 @@ CTranslatorExprToDXL::ConstructLevelFilters4PartitionSelector
 								pmdidTypePartKey,
 								pmdidTypeOther,
 								NULL /*pmdidTypeCastExpr*/,
-								NULL /*pmdidCastFunc*/,
+								NULL /*mdid_cast_func*/,
 								ulLevel
 								);
 			}
@@ -5082,7 +5082,7 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 	CDXLNode *pdxlnOther = PdxlnScalar(pexprOther);
 	IMDId *pmdidTypeOther = CScalar::PopConvert(pexprOther->Pop())->MDIdType();
 	IMDId *pmdidTypeCastExpr = NULL;
-	IMDId *pmdidCastFunc = NULL;
+	IMDId *mdid_cast_func = NULL;
 
 	if (fRangePart) // range partition
 	{
@@ -5098,7 +5098,7 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 			pexprPartKey->Release();
 		}
 
-		CTranslatorExprToDXLUtils::ExtractCastMdids(pexprNewPartKey->Pop(), &pmdidTypeCastExpr, &pmdidCastFunc);
+		CTranslatorExprToDXLUtils::ExtractCastMdids(pexprNewPartKey->Pop(), &pmdidTypeCastExpr, &mdid_cast_func);
 
 		return CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 								(
@@ -5108,7 +5108,7 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 								pmdidTypePartKey,
 								pmdidTypeOther,
 								pmdidTypeCastExpr,
-								pmdidCastFunc,
+								mdid_cast_func,
 								ecmpt,
 								ulPartLevel
 								);

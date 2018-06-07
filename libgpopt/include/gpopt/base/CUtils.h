@@ -947,7 +947,7 @@ namespace gpopt
 
 			// cast the input expression to the destination mdid
 			static
-			CExpression *PexprCast(IMemoryPool *memory_pool, CMDAccessor *md_accessor, CExpression *pexpr, IMDId *pmdidDest);
+			CExpression *PexprCast(IMemoryPool *memory_pool, CMDAccessor *md_accessor, CExpression *pexpr, IMDId *mdid_dest);
 
 			// construct a logical join expression of the given type, with the given children
 			static

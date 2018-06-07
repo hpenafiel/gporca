@@ -303,14 +303,14 @@ CTranslatorDXLToExprUtils::FCastFunc
 
 	CDXLScalarFuncExpr *pdxlopScFunc = CDXLScalarFuncExpr::Cast(dxlnode->GetOperator());
 
-	IMDId *pmdidDest = pdxlopScFunc->ReturnTypeMdId();
+	IMDId *mdid_dest = pdxlopScFunc->ReturnTypeMdId();
 
-	if(!CMDAccessorUtils::FCastExists(md_accessor, pmdidInput, pmdidDest))
+	if(!CMDAccessorUtils::FCastExists(md_accessor, pmdidInput, mdid_dest))
 	{
 		return false;
 	}
 
-	const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidInput, pmdidDest);
+	const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidInput, mdid_dest);
 
 	return (pmdcast->GetCastFuncMdId()->Equals(pdxlopScFunc->FuncMdId()));
 }

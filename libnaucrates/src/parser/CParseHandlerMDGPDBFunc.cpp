@@ -65,14 +65,14 @@ CParseHandlerMDGPDBFunc::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFunc), element_local_name))
 	{
 		// parse func name
-		const XMLCh *xmlszFuncName = CDXLOperatorFactory::ExtractAttrValue
+		const XMLCh *xml_str_func_name = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenName,
 															EdxltokenGPDBFunc
 															);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszFuncName);
+		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_func_name);
 		
 		// create a copy of the string in the CMDName constructor
 		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);

@@ -59,7 +59,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				IMDId *return_type_mdid,
 				IMDId *mdid_func,
-				BOOL fBinaryCoercible
+				BOOL is_binary_coercible
 				);
 
 			// dtor

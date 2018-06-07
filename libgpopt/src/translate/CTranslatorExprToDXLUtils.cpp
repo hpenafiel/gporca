@@ -958,7 +958,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 	IMDId *pmdidTypePartKey,
 	IMDId *pmdidTypeOther,
 	IMDId *pmdidTypeCastExpr,
-	IMDId *pmdidCastFunc,
+	IMDId *mdid_cast_func,
 	IMDType::ECmpType ecmpt,
 	ULONG ulPartLevel
 	)
@@ -973,7 +973,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 				pmdidTypePartKey, 
 				pmdidTypeOther,
 				pmdidTypeCastExpr,
-				pmdidCastFunc,
+				mdid_cast_func,
 				ulPartLevel
 				);
 	}
@@ -995,7 +995,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 		ecmptScCmp = IMDType::EcmptG;
 	}
 	
-	CDXLNode *pdxlnPredicateExclusive = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmptScCmp, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, pmdidCastFunc);
+	CDXLNode *pdxlnPredicateExclusive = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmptScCmp, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
 	
 	if (IMDType::EcmptLEq != ecmpt && IMDType::EcmptGEq != ecmpt)
 	{
@@ -1004,7 +1004,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 	}
 	
 	pdxlnScalar->AddRef();
-	CDXLNode *pdxlnInclusiveCmp = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmpt, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, pmdidCastFunc);
+	CDXLNode *pdxlnInclusiveCmp = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmpt, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
 	CDXLNode *pdxlnInclusiveBoolPredicate = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartBoundInclusion(memory_pool, ulPartLevel, fLowerBound));
 
 	CDXLNode *pdxlnPredicateInclusive = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxland), pdxlnInclusiveCmp, pdxlnInclusiveBoolPredicate);
@@ -1030,13 +1030,13 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterEqCmp
 	IMDId *pmdidTypePartKey,
 	IMDId *pmdidTypeOther,
 	IMDId *pmdidTypeCastExpr,
-	IMDId *pmdidCastFunc,
+	IMDId *mdid_cast_func,
 	ULONG ulPartLevel
 	)
 {
-	CDXLNode *pdxlnPredicateMin = PdxlnRangeFilterPartBound(memory_pool, md_accessor, pdxlnScalar, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, pmdidCastFunc, ulPartLevel, true /*fLowerBound*/, IMDType::EcmptL);
+	CDXLNode *pdxlnPredicateMin = PdxlnRangeFilterPartBound(memory_pool, md_accessor, pdxlnScalar, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func, ulPartLevel, true /*fLowerBound*/, IMDType::EcmptL);
 	pdxlnScalar->AddRef();
-	CDXLNode *pdxlnPredicateMax = PdxlnRangeFilterPartBound(memory_pool, md_accessor, pdxlnScalar, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, pmdidCastFunc, ulPartLevel, false /*fLowerBound*/, IMDType::EcmptG);
+	CDXLNode *pdxlnPredicateMax = PdxlnRangeFilterPartBound(memory_pool, md_accessor, pdxlnScalar, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func, ulPartLevel, false /*fLowerBound*/, IMDType::EcmptG);
 		
 	// return the conjunction of the predicate for the lower and upper bounds
 	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxland), pdxlnPredicateMin, pdxlnPredicateMax);
@@ -1061,7 +1061,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterPartBound
 	IMDId *pmdidTypePartKey,
 	IMDId *pmdidTypeOther,
 	IMDId *pmdidTypeCastExpr,
-	IMDId *pmdidCastFunc,
+	IMDId *mdid_cast_func,
 	ULONG ulPartLevel,
 	ULONG fLowerBound,
 	IMDType::ECmpType ecmpt
@@ -1075,10 +1075,10 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterPartBound
 		ecmptInc = IMDType::EcmptGEq;
 	}
 
-	CDXLNode *pdxlnPredicateExclusive = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmpt, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, pmdidCastFunc);
+	CDXLNode *pdxlnPredicateExclusive = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmpt, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
 
 	pdxlnScalar->AddRef();
-	CDXLNode *pdxlnInclusiveCmp = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmptInc, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, pmdidCastFunc);
+	CDXLNode *pdxlnInclusiveCmp = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmptInc, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
 	
 	CDXLNode *pdxlnInclusiveBoolPredicate = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartBoundInclusion(memory_pool, ulPartLevel, fLowerBound));
 	
@@ -1202,7 +1202,7 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 	IMDId *pmdidTypePartKey,
 	IMDId *pmdidTypeExpr,
 	IMDId *pmdidTypeCastExpr,
-	IMDId *pmdidCastFunc
+	IMDId *mdid_cast_func
 	)
 {
 	IMDId *pmdidScCmp = NULL;
@@ -1229,11 +1229,11 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 	
 	if (IMDId::IsValid(pmdidTypeCastExpr))
 	{
-		GPOS_ASSERT(NULL != pmdidCastFunc);
+		GPOS_ASSERT(NULL != mdid_cast_func);
 		pmdidTypeCastExpr->AddRef();
-		pmdidCastFunc->AddRef();
+		mdid_cast_func->AddRef();
 
-		pdxlnPartBound = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarCast(memory_pool, pmdidTypeCastExpr, pmdidCastFunc), pdxlnPartBound);
+		pdxlnPartBound = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarCast(memory_pool, pmdidTypeCastExpr, mdid_cast_func), pdxlnPartBound);
 	}
 	pdxlnScCmp->AddChild(pdxlnPartBound);
 	pdxlnScCmp->AddChild(pdxlnScalar);

@@ -26,10 +26,10 @@ CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *mdname,
-	IMDId *pmdidSrc,
-	IMDId *pmdidDest,
-	BOOL fBinaryCoercible,
-	IMDId *pmdidCastFunc,
+	IMDId *mdid_src,
+	IMDId *mdid_dest,
+	BOOL is_binary_coercible,
+	IMDId *mdid_cast_func,
 	EmdCoercepathType emdPathType,
 	INT type_modifier,
 	BOOL fIsExplicit,
@@ -37,7 +37,7 @@ CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB
 	INT iLoc
 	)
 	:
-	CMDCastGPDB(memory_pool, pmdid, mdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, emdPathType),
+	CMDCastGPDB(memory_pool, pmdid, mdname, mdid_src, mdid_dest, is_binary_coercible, mdid_cast_func, emdPathType),
 	m_type_modifier(type_modifier),
 	m_fIsExplicit(fIsExplicit),
 	m_edxlcf(edxlcf),

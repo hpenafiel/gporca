@@ -71,10 +71,10 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *mdname,
-				IMDId *pmdidSrc,
-				IMDId *pmdidDest,
-				BOOL fBinaryCoercible,
-				IMDId *pmdidCastFunc,
+				IMDId *mdid_src,
+				IMDId *mdid_dest,
+				BOOL is_binary_coercible,
+				IMDId *mdid_cast_func,
 				EmdCoercepathType emdPathType = EmdtNone
 				);
 			

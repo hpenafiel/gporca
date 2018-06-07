@@ -353,7 +353,7 @@ namespace gpopt
 			const IMDRelStats *Pmdrelstats(IMDId *pmdid);
 			
 			// retrieve a cast object from the cache
-			const IMDCast *Pmdcast(IMDId *pmdidSrc, IMDId *pmdidDest);
+			const IMDCast *Pmdcast(IMDId *mdid_src, IMDId *mdid_dest);
 			
 			// retrieve a scalar comparison object from the cache
 			const IMDScCmp *Pmdsccmp(IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);

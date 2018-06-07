@@ -4118,16 +4118,16 @@ CUtils::PexprCast
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor,
 	CExpression *pexpr,
-	IMDId *pmdidDest
+	IMDId *mdid_dest
 	)
 {
-	GPOS_ASSERT(NULL != pmdidDest);
-	IMDId *pmdidSrc = CScalar::PopConvert(pexpr->Pop())->MDIdType();
-	GPOS_ASSERT(CMDAccessorUtils::FCastExists(md_accessor, pmdidSrc, pmdidDest));
+	GPOS_ASSERT(NULL != mdid_dest);
+	IMDId *mdid_src = CScalar::PopConvert(pexpr->Pop())->MDIdType();
+	GPOS_ASSERT(CMDAccessorUtils::FCastExists(md_accessor, mdid_src, mdid_dest));
 	
-	const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidSrc, pmdidDest);
+	const IMDCast *pmdcast = md_accessor->Pmdcast(mdid_src, mdid_dest);
 	
-	pmdidDest->AddRef();
+	mdid_dest->AddRef();
 	pmdcast->GetCastFuncMdId()->AddRef();
 	CExpression *pexprCast;
 	
@@ -4141,7 +4141,7 @@ CUtils::PexprCast
 		 (
 		  memory_pool,
 		  parrayCoerceCast->GetCastFuncMdId(),
-		  pmdidDest,
+		  mdid_dest,
 		  parrayCoerceCast->TypeModifier(),
 		  parrayCoerceCast->FIsExplicit(),
 		  (COperator::ECoercionForm) parrayCoerceCast->Ecf(),
@@ -4153,7 +4153,7 @@ CUtils::PexprCast
 	else
 	{
 		
-		CScalarCast *popCast = GPOS_NEW(memory_pool) CScalarCast(memory_pool, pmdidDest, pmdcast->GetCastFuncMdId(), pmdcast->FBinaryCoercible());
+		CScalarCast *popCast = GPOS_NEW(memory_pool) CScalarCast(memory_pool, mdid_dest, pmdcast->GetCastFuncMdId(), pmdcast->FBinaryCoercible());
 		pexprCast = GPOS_NEW(memory_pool) CExpression(memory_pool, popCast, pexpr);
 	}
 	
