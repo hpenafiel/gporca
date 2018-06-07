@@ -57,7 +57,7 @@ namespace gpdxl
 			~CParseHandlerMetadataObject();
 			
 			// returns constructed metadata object
-			IMDCacheObject *Pimdobj() const;	
+			IMDCacheObject *GetImdObj() const;	
 	};
 }
 

@@ -205,9 +205,9 @@ CParseHandlerMetadata::EndElement
 	{
 		CParseHandlerMetadataObject *metadata_obj_parse_handler = dynamic_cast<CParseHandlerMetadataObject *>((*this)[idx]);
 
-		GPOS_ASSERT(NULL != metadata_obj_parse_handler->Pimdobj());
+		GPOS_ASSERT(NULL != metadata_obj_parse_handler->GetImdObj());
 
-		IMDCacheObject *imdobj = metadata_obj_parse_handler->Pimdobj();
+		IMDCacheObject *imdobj = metadata_obj_parse_handler->GetImdObj();
 		imdobj->AddRef();
 		m_mdid_cached_obj_array->Append(imdobj);
 	}

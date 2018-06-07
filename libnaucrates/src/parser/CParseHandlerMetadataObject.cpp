@@ -54,14 +54,14 @@ CParseHandlerMetadataObject::~CParseHandlerMetadataObject()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadataObject::Pimdobj
+//		CParseHandlerMetadataObject::GetImdObj
 //
 //	@doc:
 //		Returns the constructed metadata object.
 //
 //---------------------------------------------------------------------------
 IMDCacheObject *
-CParseHandlerMetadataObject::Pimdobj() const
+CParseHandlerMetadataObject::GetImdObj() const
 {
 	return m_imd_obj;
 }

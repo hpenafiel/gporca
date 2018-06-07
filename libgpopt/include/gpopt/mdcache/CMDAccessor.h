@@ -82,9 +82,9 @@ namespace gpopt
 	//		keyed on CMDKey (wrapper over IMDId). It also provides various accessor
 	//		methods (such as Pmdagg(), Pmdrel() etc.) to request for corresponding
 	//		metadata objects (such as aggregates and relations respectively). These
-	//		methods in turn call the private method Pimdobj().
+	//		methods in turn call the private method GetImdObj().
 	//
-	//		Pimdobj() first looks up the object in the MDCache. If no information
+	//		GetImdObj() first looks up the object in the MDCache. If no information
 	//		is available in the cache, it goes to a CMDProvider (e.g., GPDB
 	//		relcache or Minidump) to retrieve the required information.
 	//
@@ -150,7 +150,7 @@ namespace gpopt
 				~SMDAccessorElem();
 		
 				// hashed object
-				IMDCacheObject *Pimdobj()
+				IMDCacheObject *GetImdObj()
 				{
 					return m_imd_obj;
 				}
@@ -232,7 +232,7 @@ namespace gpopt
 			CMDAccessor(const CMDAccessor&);
 			
 			// interface to a MD cache object
-			const IMDCacheObject *Pimdobj(IMDId *pmdid);
+			const IMDCacheObject *GetImdObj(IMDId *pmdid);
 
 			// return the type corresponding to the given type info and source system id
 			const IMDType *Pmdtype(CSystemId sysid, IMDType::ETypeInfo eti);

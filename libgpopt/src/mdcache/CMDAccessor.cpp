@@ -542,7 +542,7 @@ CMDAccessor::Pmdp
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDAccessor::Pimdobj
+//		CMDAccessor::GetImdObj
 //
 //	@doc:
 //		Retrieves a metadata cache object from the md cache, possibly retrieving
@@ -551,7 +551,7 @@ CMDAccessor::Pmdp
 //
 //---------------------------------------------------------------------------
 const IMDCacheObject *
-CMDAccessor::Pimdobj
+CMDAccessor::GetImdObj
 	(
 	IMDId *pmdid
 	)
@@ -572,7 +572,7 @@ CMDAccessor::Pimdobj
 		SMDAccessorElem *pmdaccelem = mdhtacc.Find(); 
 		if (NULL != pmdaccelem)
 		{
-			pimdobj = pmdaccelem->Pimdobj();
+			pimdobj = pmdaccelem->GetImdObj();
 		}
 	}
 
@@ -677,7 +677,7 @@ CMDAccessor::Pimdobj
 	
 	GPOS_ASSERT(NULL != pmdaccelem);
 	
-	pimdobj = pmdaccelem->Pimdobj();
+	pimdobj = pmdaccelem->GetImdObj();
 	GPOS_ASSERT(NULL != pimdobj);
 	
 	if (fPrintOptStats)
@@ -705,7 +705,7 @@ CMDAccessor::Pmdrel
 	IMDId *pmdid
 	)
 {
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtRel != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -730,7 +730,7 @@ CMDAccessor::Pmdtype
 	IMDId *pmdid
 	)
 {	
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -760,7 +760,7 @@ CMDAccessor::Pmdtype
 	IMDProvider *pmdp = Pmdp(sysid);
 	CAutoRef<IMDId> a_pmdid;
 	a_pmdid = pmdp->MDId(m_memory_pool, sysid, eti);
-	const IMDCacheObject *pmdobj = Pimdobj(a_pmdid.Value());
+	const IMDCacheObject *pmdobj = GetImdObj(a_pmdid.Value());
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, a_pmdid.Value()->GetBuffer());
@@ -789,7 +789,7 @@ CMDAccessor::Pmdtype
 
 	IMDId *pmdid = m_pmdpGeneric->MDId(eti);
 	GPOS_ASSERT(NULL != pmdid);
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	
 	if (IMDCacheObject::EmdtType != pmdobj->Emdt())
 	{
@@ -815,7 +815,7 @@ CMDAccessor::Pmdscop
 	IMDId *pmdid
 	)
 {	
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtOp != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -840,7 +840,7 @@ CMDAccessor::Pmdfunc
 	IMDId *pmdid
 	)
 {	
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtFunc != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -866,7 +866,7 @@ CMDAccessor::FAggWindowFunc
 	IMDId *pmdid
 	)
 {
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 
 	return (IMDCacheObject::EmdtAgg == pmdobj->Emdt());
 }
@@ -887,7 +887,7 @@ CMDAccessor::Pmdagg
 	IMDId *pmdid
 	)
 {	
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtAgg != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -912,7 +912,7 @@ CMDAccessor::Pmdtrigger
 	IMDId *pmdid
 	)
 {
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtTrigger != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -937,7 +937,7 @@ CMDAccessor::Pmdindex
 	IMDId *pmdid
 	)
 {	
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtInd != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -962,7 +962,7 @@ CMDAccessor::Pmdcheckconstraint
 	IMDId *pmdid
 	)
 {
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtCheckConstraint != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -986,7 +986,7 @@ CMDAccessor::Pmdcolstats
 	IMDId *pmdid
 	)
 {	
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtColStats != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -1010,7 +1010,7 @@ CMDAccessor::Pmdrelstats
 	IMDId *pmdid
 	)
 {	
-	const IMDCacheObject *pmdobj = Pimdobj(pmdid);
+	const IMDCacheObject *pmdobj = GetImdObj(pmdid);
 	if (IMDCacheObject::EmdtRelStats != pmdobj->Emdt())
 	{
 		GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
@@ -1043,7 +1043,7 @@ CMDAccessor::Pmdcast
 	CAutoP<IMDId> a_pmdidCast;
 	a_pmdidCast = GPOS_NEW(m_memory_pool) CMDIdCast(CMDIdGPDB::PmdidConvert(pmdidSrc), CMDIdGPDB::PmdidConvert(pmdidDest));
 	
-	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidCast.Value());
+	const IMDCacheObject *pmdobj = GetImdObj(a_pmdidCast.Value());
 		
 	if (IMDCacheObject::EmdtCastFunc != pmdobj->Emdt())
 	{
@@ -1080,7 +1080,7 @@ CMDAccessor::Pmdsccmp
 	CAutoP<IMDId> a_pmdidScCmp;
 	a_pmdidScCmp = GPOS_NEW(m_memory_pool) CMDIdScCmp(CMDIdGPDB::PmdidConvert(pmdidLeft), CMDIdGPDB::PmdidConvert(pmdidRight), ecmpt);
 	
-	const IMDCacheObject *pmdobj = Pimdobj(a_pmdidScCmp.Value());
+	const IMDCacheObject *pmdobj = GetImdObj(a_pmdidScCmp.Value());
 		
 	if (IMDCacheObject::EmdtScCmp != pmdobj->Emdt())
 	{
@@ -1402,7 +1402,7 @@ CMDAccessor::Serialize
 			MDHTIterAccessor mdhtitacc(mdhtit);
 			SMDAccessorElem *pmdaccelem = mdhtitacc.Value();
 			GPOS_ASSERT(NULL != pmdaccelem);
-			cacheEntries[ul++] = pmdaccelem->Pimdobj();
+			cacheEntries[ul++] = pmdaccelem->GetImdObj();
 		}
 		GPOS_ASSERT(ul == nentries);
 	}
