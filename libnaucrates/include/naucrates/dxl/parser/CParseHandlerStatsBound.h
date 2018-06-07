@@ -41,7 +41,7 @@ namespace gpdxl
 			CDXLDatum *m_dxl_datum;
 
 			// is stats bound closed
-			BOOL m_fStatsBoundClosed;
+			BOOL m_is_stats_bound_closed;
 
 			// private copy ctor
 			CParseHandlerStatsBound(const CParseHandlerStatsBound &);
@@ -82,9 +82,9 @@ namespace gpdxl
 			}
 
 			// is stats bound closed
-			BOOL FStatsBoundClosed() const
+			BOOL IsStatsBoundClosed() const
 			{
-				return m_fStatsBoundClosed;
+				return m_is_stats_bound_closed;
 			}
 	};
 }

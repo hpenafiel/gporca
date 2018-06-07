@@ -38,7 +38,7 @@ CParseHandlerStatsBound::CParseHandlerStatsBound
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_dxl_datum(NULL),
-	m_fStatsBoundClosed(false)
+	m_is_stats_bound_closed(false)
 {
 }
 
@@ -83,11 +83,11 @@ CParseHandlerStatsBound::StartElement
 
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name))
 		{
-			m_fStatsBoundClosed = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsBoundClosed, EdxltokenStatsBucketLowerBound);
+			m_is_stats_bound_closed = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsBoundClosed, EdxltokenStatsBucketLowerBound);
 		}
 		else
 		{
-			m_fStatsBoundClosed = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsBoundClosed, EdxltokenStatsBucketUpperBound);
+			m_is_stats_bound_closed = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsBoundClosed, EdxltokenStatsBucketUpperBound);
 		}
 	}
 	else
