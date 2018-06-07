@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// deafult oids
-			CWindowOids *m_pwindowoids;
+			CWindowOids *m_window_oids;
 
 			// private copy ctor
 			CParseHandlerWindowOids(const CParseHandlerWindowOids&);
@@ -75,7 +75,7 @@ namespace gpdxl
 			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// return system specific window oids
-			CWindowOids *Pwindowoids() const;
+			CWindowOids *GetWindowOids() const;
 	};
 }
 

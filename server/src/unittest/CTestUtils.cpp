@@ -2570,9 +2570,9 @@ CTestUtils::PexprOneWindowFunction
 {
 	CExpression *pexprGet = PexprLogicalGet(memory_pool);
 
-	OID oidRowNumber = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pwindowoids()->OidRowNumber();
+	OID row_number_oid = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->GetWindowOids()->OidRowNumber();
 
-	return PexprLogicalSequenceProject(memory_pool, oidRowNumber, pexprGet);
+	return PexprLogicalSequenceProject(memory_pool, row_number_oid, pexprGet);
 }
 
 
@@ -2592,9 +2592,9 @@ CTestUtils::PexprTwoWindowFunctions
 {
 	CExpression *pexprWinFunc = PexprOneWindowFunction(memory_pool);
 
-	OID oidRank = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pwindowoids()->OidRank();
+	OID rank_oid = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->GetWindowOids()->OidRank();
 
-	return PexprLogicalSequenceProject(memory_pool, oidRank, pexprWinFunc);
+	return PexprLogicalSequenceProject(memory_pool, rank_oid, pexprWinFunc);
 }
 
 
@@ -3837,7 +3837,7 @@ CTestUtils::EresSamplePlans
 								CCTEConfig::PcteconfDefault(memory_pool),
 								ICostModel::PcmDefault(memory_pool),
 								CHint::PhintDefault(memory_pool),
-								CWindowOids::Pwindowoids(memory_pool)
+								CWindowOids::GetWindowOids(memory_pool)
 								);
 		}
 		else
@@ -3979,7 +3979,7 @@ CTestUtils::EresCheckPlans
 								CCTEConfig::PcteconfDefault(memory_pool),
 								ICostModel::PcmDefault(memory_pool),
 								CHint::PhintDefault(memory_pool),
-								CWindowOids::Pwindowoids(memory_pool)
+								CWindowOids::GetWindowOids(memory_pool)
 								);
 		}
 		else

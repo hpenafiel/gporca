@@ -283,7 +283,7 @@ CICGTest::EresUnittest_NegativeIndexApplyTests()
 						CCTEConfig::PcteconfDefault(memory_pool),
 						pcm,
 						CHint::PhintDefault(memory_pool),
-						CWindowOids::Pwindowoids(memory_pool)
+						CWindowOids::GetWindowOids(memory_pool)
 						);
 			CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
 									(

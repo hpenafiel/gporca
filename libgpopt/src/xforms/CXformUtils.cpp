@@ -2356,12 +2356,12 @@ CXformUtils::PexprRowNumber
 	)
 {
 
-	OID oidRowNumber = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pwindowoids()->OidRowNumber();
+	OID row_number_oid = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->GetWindowOids()->OidRowNumber();
 
 	CScalarWindowFunc *popRowNumber = GPOS_NEW(memory_pool) CScalarWindowFunc
 													(
 													memory_pool,
-													GPOS_NEW(memory_pool) CMDIdGPDB(oidRowNumber),
+													GPOS_NEW(memory_pool) CMDIdGPDB(row_number_oid),
 													GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT8_OID),
 													GPOS_NEW(memory_pool) CWStringConst(memory_pool, GPOS_WSZ_LIT("row_number")),
 													CScalarWindowFunc::EwsImmediate,

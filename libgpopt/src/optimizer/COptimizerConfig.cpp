@@ -43,14 +43,14 @@ COptimizerConfig::COptimizerConfig
 	m_pcteconf(pcteconf),
 	m_cost_model(cost_model),
 	m_hint(phint),
-	m_pwindowoids(pwindowoids)
+	m_window_oids(pwindowoids)
 {
 	GPOS_ASSERT(NULL != pec);
 	GPOS_ASSERT(NULL != pstatsconf);
 	GPOS_ASSERT(NULL != pcteconf);
 	GPOS_ASSERT(NULL != m_cost_model);
 	GPOS_ASSERT(NULL != phint);
-	GPOS_ASSERT(NULL != m_pwindowoids);
+	GPOS_ASSERT(NULL != m_window_oids);
 }
 
 //---------------------------------------------------------------------------
@@ -68,7 +68,7 @@ COptimizerConfig::~COptimizerConfig()
 	m_pcteconf->Release();
 	m_cost_model->Release();
 	m_hint->Release();
-	m_pwindowoids->Release();
+	m_window_oids->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -92,7 +92,7 @@ COptimizerConfig::PoconfDefault
 						CCTEConfig::PcteconfDefault(memory_pool),
 						ICostModel::PcmDefault(memory_pool),
 						CHint::PhintDefault(memory_pool),
-						CWindowOids::Pwindowoids(memory_pool)
+						CWindowOids::GetWindowOids(memory_pool)
 						);
 }
 
@@ -120,7 +120,7 @@ COptimizerConfig::PoconfDefault
 						CCTEConfig::PcteconfDefault(memory_pool),
 						pcm,
 						CHint::PhintDefault(memory_pool),
-						CWindowOids::Pwindowoids(memory_pool)
+						CWindowOids::GetWindowOids(memory_pool)
 						);
 }
 
@@ -158,8 +158,8 @@ COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serial
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTEConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenWindowOids));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOidRowNumber), m_pwindowoids->OidRowNumber());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOidRank), m_pwindowoids->OidRank());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOidRowNumber), m_window_oids->OidRowNumber());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOidRank), m_window_oids->OidRank());
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenWindowOids));
 
 	CCostModelConfigSerializer cmcSerializer(m_cost_model);

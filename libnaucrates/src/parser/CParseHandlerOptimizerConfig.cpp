@@ -187,7 +187,7 @@ CParseHandlerOptimizerConfig::EndElement
 	pcteconfig->AddRef();
 	
 	CParseHandlerWindowOids *pphDefoidsGPDB = dynamic_cast<CParseHandlerWindowOids *>((*this)[3]);
-	CWindowOids *pwindowoidsGPDB = pphDefoidsGPDB->Pwindowoids();
+	CWindowOids *pwindowoidsGPDB = pphDefoidsGPDB->GetWindowOids();
 	GPOS_ASSERT(NULL != pwindowoidsGPDB);
 	pwindowoidsGPDB->AddRef();
 

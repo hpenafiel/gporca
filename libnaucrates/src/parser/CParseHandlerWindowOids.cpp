@@ -30,13 +30,13 @@ CParseHandlerWindowOids::CParseHandlerWindowOids
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pwindowoids(NULL)
+	m_window_oids(NULL)
 {
 }
 
 CParseHandlerWindowOids::~CParseHandlerWindowOids()
 {
-	CRefCount::SafeRelease(m_pwindowoids);
+	CRefCount::SafeRelease(m_window_oids);
 }
 
 void
@@ -55,10 +55,10 @@ CParseHandlerWindowOids::StartElement
 	}
 
 	// parse window function oids
-	OID oidRowNumber = CDXLOperatorFactory::ExtractConvertAttrValueToOid(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRowNumber, EdxltokenWindowOids);
-	OID oidRank = CDXLOperatorFactory::ExtractConvertAttrValueToOid(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRank, EdxltokenWindowOids);
+	OID row_number_oid = CDXLOperatorFactory::ExtractConvertAttrValueToOid(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRowNumber, EdxltokenWindowOids);
+	OID rank_oid = CDXLOperatorFactory::ExtractConvertAttrValueToOid(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenOidRank, EdxltokenWindowOids);
 
-	m_pwindowoids = GPOS_NEW(m_memory_pool) CWindowOids(oidRowNumber, oidRank);
+	m_window_oids = GPOS_NEW(m_memory_pool) CWindowOids(row_number_oid, rank_oid);
 }
 
 // invoked by Xerces to process a closing tag
@@ -76,7 +76,7 @@ CParseHandlerWindowOids::EndElement
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pwindowoids);
+	GPOS_ASSERT(NULL != m_window_oids);
 	GPOS_ASSERT(0 == this->Length());
 
 	// deactivate handler
@@ -91,9 +91,9 @@ CParseHandlerWindowOids::GetParseHandlerType() const
 }
 
 CWindowOids *
-CParseHandlerWindowOids::Pwindowoids() const
+CParseHandlerWindowOids::GetWindowOids() const
 {
-	return m_pwindowoids;
+	return m_window_oids;
 }
 
 // EOF

@@ -375,10 +375,10 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessWindowFunc()
 	// pre-processing should transform Outer Join to Inner Join
 	CExpression *pexprSelectOnOuterJoin = CTestUtils::PexprLogicalSelectOnOuterJoin(memory_pool);
 
-	OID oidRowNumber = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pwindowoids()->OidRowNumber();
+	OID row_number_oid = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->GetWindowOids()->OidRowNumber();
 
 	// add a window function with a predicate on top of the Outer Join expression
-	CExpression *pexprWindow = CTestUtils::PexprLogicalSequenceProject(memory_pool, oidRowNumber, pexprSelectOnOuterJoin);
+	CExpression *pexprWindow = CTestUtils::PexprLogicalSequenceProject(memory_pool, row_number_oid, pexprSelectOnOuterJoin);
 	CExpression *pexpr = CTestUtils::PexprLogicalSelect(memory_pool, pexprWindow);
 
 	CWStringDynamic str(memory_pool);

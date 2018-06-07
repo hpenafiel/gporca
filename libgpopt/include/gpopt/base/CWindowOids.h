@@ -41,7 +41,7 @@ namespace gpopt
 
 		public:
 
-			CWindowOids(OID oidRowNumber, OID oidRank);
+			CWindowOids(OID row_number_oid, OID rank_oid);
 
 			// accessor of oid value of "row_number" function
 			OID OidRowNumber() const;
@@ -51,7 +51,7 @@ namespace gpopt
 
 			// generate default window oids
 			static
-			CWindowOids *Pwindowoids(IMemoryPool *memory_pool);
+			CWindowOids *GetWindowOids(IMemoryPool *memory_pool);
 
 	}; // class CWindowOids
 }

@@ -90,7 +90,7 @@ CMissingStatsTest::EresUnittest_RunTests()
 												CCTEConfig::PcteconfDefault(memory_pool),
 												pcm,
 												CHint::PhintDefault(memory_pool),
-												CWindowOids::Pwindowoids(memory_pool)
+												CWindowOids::GetWindowOids(memory_pool)
 												);
 		SMissingStatsTestCase testCase = rgtc[ul];
 

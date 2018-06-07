@@ -65,7 +65,7 @@ namespace gpopt
 			CHint *m_hint;
 
 			// default window oids
-			CWindowOids *m_pwindowoids;
+			CWindowOids *m_window_oids;
 
 		public:
 
@@ -110,9 +110,9 @@ namespace gpopt
 			}
 			
 			// default window oids
-			CWindowOids *Pwindowoids() const
+			CWindowOids *GetWindowOids() const
 			{
-				return m_pwindowoids;
+				return m_window_oids;
 			}
 
 			// hint configuration
