@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// CTE configuration
-			CCTEConfig *m_pcteconf;
+			CCTEConfig *m_cte_conf;
 
 			// private copy ctor
 			CParseHandlerCTEConfig(const CParseHandlerCTEConfig&);
@@ -75,7 +75,7 @@ namespace gpdxl
 			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// enumerator configuration
-			CCTEConfig *Pcteconf() const;
+			CCTEConfig *GetCteConf() const;
 	};
 }
 

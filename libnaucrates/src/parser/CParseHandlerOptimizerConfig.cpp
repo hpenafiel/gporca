@@ -183,7 +183,7 @@ CParseHandlerOptimizerConfig::EndElement
 	pstatsconf->AddRef();
 
 	CParseHandlerCTEConfig *pphCTEConfig = dynamic_cast<CParseHandlerCTEConfig *>((*this)[2]);
-	CCTEConfig *pcteconfig = pphCTEConfig->Pcteconf();
+	CCTEConfig *pcteconfig = pphCTEConfig->GetCteConf();
 	pcteconfig->AddRef();
 	
 	CParseHandlerWindowOids *pphDefoidsGPDB = dynamic_cast<CParseHandlerWindowOids *>((*this)[3]);

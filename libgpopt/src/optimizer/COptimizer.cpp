@@ -259,7 +259,7 @@ COptimizer::PdxlnOptimize
 			// if the number of inlinable CTEs is greater than the cutoff, then
 			// disable inlining for this query
 			if (!GPOS_FTRACE(EopttraceEnableCTEInlining) ||
-				CUtils::UlInlinableCTEs(pexprTranslated) > optimizer_config->Pcteconf()->UlCTEInliningCutoff())
+				CUtils::UlInlinableCTEs(pexprTranslated) > optimizer_config->GetCteConf()->UlCTEInliningCutoff())
 			{
 				COptCtxt::PoctxtFromTLS()->Pcteinfo()->DisableInlining();
 			}

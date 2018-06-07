@@ -41,7 +41,7 @@ CParseHandlerCTEConfig::CParseHandlerCTEConfig
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pcteconf(NULL)
+	m_cte_conf(NULL)
 {
 }
 
@@ -55,7 +55,7 @@ CParseHandlerCTEConfig::CParseHandlerCTEConfig
 //---------------------------------------------------------------------------
 CParseHandlerCTEConfig::~CParseHandlerCTEConfig()
 {
-	CRefCount::SafeRelease(m_pcteconf);
+	CRefCount::SafeRelease(m_cte_conf);
 }
 
 //---------------------------------------------------------------------------
@@ -82,9 +82,9 @@ CParseHandlerCTEConfig::StartElement
 	}
 
 	// parse CTE configuration options
-	ULONG ulCTEInliningCutoff = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCTEInliningCutoff, EdxltokenCTEConfig);
+	ULONG cte_inlining_cut_off = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCTEInliningCutoff, EdxltokenCTEConfig);
 
-	m_pcteconf = GPOS_NEW(m_memory_pool) CCTEConfig(ulCTEInliningCutoff);
+	m_cte_conf = GPOS_NEW(m_memory_pool) CCTEConfig(cte_inlining_cut_off);
 }
 
 //---------------------------------------------------------------------------
@@ -109,7 +109,7 @@ CParseHandlerCTEConfig::EndElement
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pcteconf);
+	GPOS_ASSERT(NULL != m_cte_conf);
 	GPOS_ASSERT(0 == this->Length());
 
 	// deactivate handler
@@ -132,16 +132,16 @@ CParseHandlerCTEConfig::GetParseHandlerType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerCTEConfig::Pcteconf
+//		CParseHandlerCTEConfig::GetCteConf
 //
 //	@doc:
 //		Returns the CTE configuration
 //
 //---------------------------------------------------------------------------
 CCTEConfig *
-CParseHandlerCTEConfig::Pcteconf() const
+CParseHandlerCTEConfig::GetCteConf() const
 {
-	return m_pcteconf;
+	return m_cte_conf;
 }
 
 // EOF

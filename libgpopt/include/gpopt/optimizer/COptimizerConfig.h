@@ -56,7 +56,7 @@ namespace gpopt
 			CStatisticsConfig *m_pstatsconf;
 
 			// CTE configuration
-			CCTEConfig *m_pcteconf;
+			CCTEConfig *m_cte_conf;
 			
 			// cost model configuration
 			ICostModel *m_cost_model;
@@ -98,9 +98,9 @@ namespace gpopt
 			}
 
 			// CTE configuration
-			CCTEConfig *Pcteconf() const
+			CCTEConfig *GetCteConf() const
 			{
-				return m_pcteconf;
+				return m_cte_conf;
 			}
 
 			// cost model configuration

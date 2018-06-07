@@ -40,7 +40,7 @@ COptimizerConfig::COptimizerConfig
 	:
 	m_enumerator_cfg(pec),
 	m_pstatsconf(pstatsconf),
-	m_pcteconf(pcteconf),
+	m_cte_conf(pcteconf),
 	m_cost_model(cost_model),
 	m_hint(phint),
 	m_window_oids(pwindowoids)
@@ -65,7 +65,7 @@ COptimizerConfig::~COptimizerConfig()
 {
 	m_enumerator_cfg->Release();
 	m_pstatsconf->Release();
-	m_pcteconf->Release();
+	m_cte_conf->Release();
 	m_cost_model->Release();
 	m_hint->Release();
 	m_window_oids->Release();
@@ -154,7 +154,7 @@ COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serial
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenStatisticsConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTEConfig));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEInliningCutoff), m_pcteconf->UlCTEInliningCutoff());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEInliningCutoff), m_cte_conf->UlCTEInliningCutoff());
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTEConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenWindowOids));
