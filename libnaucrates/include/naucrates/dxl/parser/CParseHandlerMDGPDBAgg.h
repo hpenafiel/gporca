@@ -44,19 +44,19 @@ namespace gpdxl
 			CMDName *m_mdname;
 					
 			// result type
-			IMDId *m_pmdidTypeResult;
+			IMDId *m_mdid_type_result;
 			
 			// intermediate result type
-			IMDId *m_pmdidTypeIntermediate;
+			IMDId *m_mdid_type_intermediate;
 						
 			// is aggregate ordered
-			BOOL m_fOrdered;
+			BOOL m_is_ordered;
 			
 			// is aggregate splittable
-			BOOL m_fSplittable;
+			BOOL m_is_splittable;
 			
 			// can we use hash aggregation to compute agg function
-			BOOL m_fHashAggCapable;
+			BOOL m_hash_agg_capable;
 
 			// private copy ctor
 			CParseHandlerMDGPDBAgg(const CParseHandlerMDGPDBAgg &);

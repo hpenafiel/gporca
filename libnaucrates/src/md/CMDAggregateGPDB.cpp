@@ -43,11 +43,11 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_pmdidTypeResult(pmdidTypeResult),
-	m_pmdidTypeIntermediate(pmdidTypeIntermediate),
-	m_fOrdered(fOrdered),
-	m_fSplittable(fSplittable),
-	m_fHashAggCapable(fHashAggCapable)
+	m_mdid_type_result(pmdidTypeResult),
+	m_mdid_type_intermediate(pmdidTypeIntermediate),
+	m_is_ordered(fOrdered),
+	m_is_splittable(fSplittable),
+	m_hash_agg_capable(fHashAggCapable)
 	{
 		GPOS_ASSERT(pmdid->IsValid());
 		
@@ -65,8 +65,8 @@ CMDAggregateGPDB::CMDAggregateGPDB
 CMDAggregateGPDB::~CMDAggregateGPDB()
 {
 	m_mdid->Release();
-	m_pmdidTypeIntermediate->Release();
-	m_pmdidTypeResult->Release();
+	m_mdid_type_intermediate->Release();
+	m_mdid_type_result->Release();
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 }
@@ -111,7 +111,7 @@ CMDAggregateGPDB::Mdname() const
 IMDId *
 CMDAggregateGPDB::PmdidTypeResult() const
 {
-	return m_pmdidTypeResult;
+	return m_mdid_type_result;
 }
 
 //---------------------------------------------------------------------------
@@ -125,7 +125,7 @@ CMDAggregateGPDB::PmdidTypeResult() const
 IMDId *
 CMDAggregateGPDB::PmdidTypeIntermediate() const
 {
-	return m_pmdidTypeIntermediate;
+	return m_mdid_type_intermediate;
 }
 
 //---------------------------------------------------------------------------
@@ -149,18 +149,18 @@ CMDAggregateGPDB::Serialize
 	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
-	if (m_fOrdered)
+	if (m_is_ordered)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBIsAggOrdered), m_fOrdered);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBIsAggOrdered), m_is_ordered);
 	}
 	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggSplittable), m_fSplittable);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggHashAggCapable), m_fHashAggCapable);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggSplittable), m_is_splittable);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggHashAggCapable), m_hash_agg_capable);
 	
 	SerializeMDIdAsElem(xml_serializer, 
-			CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggResultTypeId), m_pmdidTypeResult);
+			CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggResultTypeId), m_mdid_type_result);
 	SerializeMDIdAsElem(xml_serializer, 
-			CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggIntermediateResultTypeId), m_pmdidTypeIntermediate);
+			CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAggIntermediateResultTypeId), m_mdid_type_intermediate);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBAgg));

@@ -46,7 +46,7 @@ CParseHandlerMDGPDBScalarOp::CParseHandlerMDGPDBScalarOp
 	m_mdname(NULL),
 	m_pmdidTypeLeft(NULL),
 	m_pmdidTypeRight(NULL),
-	m_pmdidTypeResult(NULL),
+	m_mdid_type_result(NULL),
 	m_func_mdid(NULL),
 	m_pmdidOpCommute(NULL),
 	m_pmdidOpInverse(NULL),
@@ -152,7 +152,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeResult = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_type_result = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -256,7 +256,7 @@ CParseHandlerMDGPDBScalarOp::EndElement
 				m_mdname,
 				m_pmdidTypeLeft,
 				m_pmdidTypeRight,
-				m_pmdidTypeResult,
+				m_mdid_type_result,
 				m_func_mdid,
 				m_pmdidOpCommute,
 				m_pmdidOpInverse,

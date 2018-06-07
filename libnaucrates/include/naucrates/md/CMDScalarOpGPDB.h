@@ -55,7 +55,7 @@ namespace gpmd
 			IMDId *m_pmdidTypeRight;
 
 			// type of result operand
-			IMDId *m_pmdidTypeResult;
+			IMDId *m_mdid_type_result;
 			
 			// id of function which implements the operator
 			IMDId *m_func_mdid;

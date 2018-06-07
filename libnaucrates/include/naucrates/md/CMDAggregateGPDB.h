@@ -49,19 +49,19 @@ namespace gpmd
 		CMDName *m_mdname;
 		
 		// result type
-		IMDId *m_pmdidTypeResult;
+		IMDId *m_mdid_type_result;
 		
 		// type of intermediate results
-		IMDId *m_pmdidTypeIntermediate;
+		IMDId *m_mdid_type_intermediate;
 
 		// is aggregate ordered
-		BOOL m_fOrdered;
+		BOOL m_is_ordered;
 
 		// is aggregate splittable
-		BOOL m_fSplittable;
+		BOOL m_is_splittable;
 		
 		// is aggregate hash capable
-		BOOL m_fHashAggCapable;
+		BOOL m_hash_agg_capable;
 
 		// private copy ctor
 		CMDAggregateGPDB(const CMDAggregateGPDB &);
@@ -113,21 +113,21 @@ namespace gpmd
 		virtual
 		BOOL FOrdered() const
 		{
-			return m_fOrdered;
+			return m_is_ordered;
 		}
 		
 		// is aggregate splittable
 		virtual
 		BOOL FSplittable() const
 		{
-			return m_fSplittable;
+			return m_is_splittable;
 		}
 
 		// is aggregate hash capable
 		virtual
 		BOOL FHashAggCapable() const
 		{
-			return m_fHashAggCapable;
+			return m_hash_agg_capable;
 		}
 
 #ifdef GPOS_DEBUG

@@ -47,7 +47,7 @@ namespace gpmd
 			CMDName *m_mdname;
 			
 			// result type
-			IMDId *m_pmdidTypeResult;
+			IMDId *m_mdid_type_result;
 			
 			// output argument types
 			DrgPmdid *m_pdrgpmdidTypes;

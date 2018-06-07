@@ -40,7 +40,7 @@ CParseHandlerMDGPDBFunc::CParseHandlerMDGPDBFunc
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_mdid(NULL),
 	m_mdname(NULL),
-	m_pmdidTypeResult(NULL),
+	m_mdid_type_result(NULL),
 	m_pdrgpmdidTypes(NULL),
 	m_efuncstbl(CMDFunctionGPDB::EfsSentinel)
 {}
@@ -130,7 +130,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		// parse result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeResult = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_type_result = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -185,7 +185,7 @@ CParseHandlerMDGPDBFunc::EndElement
 		m_imd_obj = GPOS_NEW(m_memory_pool) CMDFunctionGPDB(m_memory_pool,
 												m_mdid,
 												m_mdname,
-												m_pmdidTypeResult,
+												m_mdid_type_result,
 												m_pdrgpmdidTypes,
 												m_fReturnsSet,
 												m_efuncstbl,

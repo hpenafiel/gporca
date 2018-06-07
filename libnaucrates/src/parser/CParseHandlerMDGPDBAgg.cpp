@@ -39,11 +39,11 @@ CParseHandlerMDGPDBAgg::CParseHandlerMDGPDBAgg
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_mdid(NULL),
 	m_mdname(NULL),
-	m_pmdidTypeResult(NULL),
-	m_pmdidTypeIntermediate(NULL),
-	m_fOrdered(false),
-	m_fSplittable(true),
-	m_fHashAggCapable(true)
+	m_mdid_type_result(NULL),
+	m_mdid_type_intermediate(NULL),
+	m_is_ordered(false),
+	m_is_splittable(true),
+	m_hash_agg_capable(true)
 {
 }
 
@@ -67,19 +67,19 @@ CParseHandlerMDGPDBAgg::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBAgg), element_local_name))
 	{
 		// parse agg name
-		const XMLCh *xmlszAggName = CDXLOperatorFactory::ExtractAttrValue
+		const XMLCh *xml_str_agg_name = CDXLOperatorFactory::ExtractAttrValue
 										(
 										attrs,
 										EdxltokenName,
 										EdxltokenGPDBAgg
 										);
 
-		CWStringDynamic *pstrAggName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszAggName);
+		CWStringDynamic *str_agg_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_agg_name);
 		
 		// create a copy of the string in the CMDName constructor
-		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrAggName);
+		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, str_agg_name);
 		
-		GPOS_DELETE(pstrAggName);
+		GPOS_DELETE(str_agg_name);
 
 		// parse metadata id info
 		m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
@@ -91,39 +91,39 @@ CParseHandlerMDGPDBAgg::StartElement
 											);
 					
 		// parse ordered aggregate info
-		const XMLCh *xmlszOrderedAgg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBIsAggOrdered));
-		if (NULL != xmlszOrderedAgg)
+		const XMLCh *xml_str_ordered_agg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBIsAggOrdered));
+		if (NULL != xml_str_ordered_agg)
 		{
-			m_fOrdered = CDXLOperatorFactory::ConvertAttrValueToBool
+			m_is_ordered = CDXLOperatorFactory::ConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
-												xmlszOrderedAgg,
+												xml_str_ordered_agg,
 												EdxltokenGPDBIsAggOrdered,
 												EdxltokenGPDBAgg
 												);
 		}
 		
 		// parse splittable aggregate info
-		const XMLCh *xmlszSplittableAgg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBAggSplittable));
-		if (NULL != xmlszSplittableAgg)
+		const XMLCh *xml_str_splittable_agg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBAggSplittable));
+		if (NULL != xml_str_splittable_agg)
 		{
-			m_fSplittable = CDXLOperatorFactory::ConvertAttrValueToBool
+			m_is_splittable = CDXLOperatorFactory::ConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
-												xmlszSplittableAgg,
+												xml_str_splittable_agg,
 												EdxltokenGPDBAggSplittable,
 												EdxltokenGPDBAgg
 												);
 		}
 
 		// parse hash capable aggragate info
-		const XMLCh *xmlszHashAggCapableAgg = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBAggHashAggCapable));
-		if (NULL != xmlszHashAggCapableAgg)
+		const XMLCh *xml_str_hash_agg_capable = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenGPDBAggHashAggCapable));
+		if (NULL != xml_str_hash_agg_capable)
 		{
-			m_fHashAggCapable = CDXLOperatorFactory::ConvertAttrValueToBool
+			m_hash_agg_capable = CDXLOperatorFactory::ConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
-												xmlszHashAggCapableAgg,
+												xml_str_hash_agg_capable,
 												EdxltokenGPDBAggHashAggCapable,
 												EdxltokenGPDBAgg
 												);
@@ -134,7 +134,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		// parse result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeResult = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_type_result = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -147,7 +147,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		// parse intermediate result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeIntermediate = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_type_intermediate = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 														(
 														m_parse_handler_mgr->GetDXLMemoryManager(),
 														attrs,
@@ -186,11 +186,11 @@ CParseHandlerMDGPDBAgg::EndElement
 		m_imd_obj = GPOS_NEW(m_memory_pool) CMDAggregateGPDB(m_memory_pool,
 												m_mdid,
 												m_mdname,
-												m_pmdidTypeResult,
-												m_pmdidTypeIntermediate,
-												m_fOrdered,
-												m_fSplittable,
-												m_fHashAggCapable
+												m_mdid_type_result,
+												m_mdid_type_intermediate,
+												m_is_ordered,
+												m_is_splittable,
+												m_hash_agg_capable
 												);
 		
 		// deactivate handler
