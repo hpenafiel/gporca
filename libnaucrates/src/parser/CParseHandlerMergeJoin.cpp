@@ -83,12 +83,12 @@ CParseHandlerMergeJoin::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(left_child_parse_handler);
 
 	// parse handler for the merge clauses
-	CParseHandlerBase *pphMergeCl = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarMergeCondList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphMergeCl);
+	CParseHandlerBase *merge_clause_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarMergeCondList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(merge_clause_parse_handler);
 	
 	// parse handler for the join filter
-	CParseHandlerBase *ppHjFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(ppHjFilter);
+	CParseHandlerBase *join_filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(join_filter_parse_handler);
 	
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -106,8 +106,8 @@ CParseHandlerMergeJoin::StartElement
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(ppHjFilter);
-	this->Append(pphMergeCl);
+	this->Append(join_filter_parse_handler);
+	this->Append(merge_clause_parse_handler);
 	this->Append(left_child_parse_handler);
 	this->Append(right_child_parse_handler);
 }
@@ -138,8 +138,8 @@ CParseHandlerMergeJoin::EndElement
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerFilter *ppHjFilter = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
-	CParseHandlerCondList *pphMergeCl = dynamic_cast<CParseHandlerCondList *>((*this)[4]);
+	CParseHandlerFilter *join_filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
+	CParseHandlerCondList *merge_clause_parse_handler = dynamic_cast<CParseHandlerCondList *>((*this)[4]);
 	CParseHandlerPhysicalOp *left_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
 	CParseHandlerPhysicalOp *right_child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[6]);
 
@@ -150,8 +150,8 @@ CParseHandlerMergeJoin::EndElement
 	// add children
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
-	AddChildFromParseHandler(ppHjFilter);
-	AddChildFromParseHandler(pphMergeCl);
+	AddChildFromParseHandler(join_filter_parse_handler);
+	AddChildFromParseHandler(merge_clause_parse_handler);
 	AddChildFromParseHandler(left_child_parse_handler);
 	AddChildFromParseHandler(right_child_parse_handler);
 	
