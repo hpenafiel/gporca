@@ -80,7 +80,7 @@ namespace gpopt
 
 					// scan id
 					virtual
-					ULONG UlScanId() const
+					ULONG ScanId() const
 					{
 						return m_scan_id;
 					}
@@ -161,10 +161,10 @@ namespace gpopt
 				);
 
 			// scan id of the entry at the given position
-			ULONG UlScanId(ULONG ulPos)	const;
+			ULONG ScanId(ULONG ulPos)	const;
 
 			// relation mdid of the entry at the given position
-			IMDId *PmdidRel(ULONG ulPos) const;
+			IMDId *GetRelMdId(ULONG ulPos) const;
 
 			// part keys of the entry at the given position
 			DrgPpartkeys *Pdrgppartkeys(ULONG ulPos) const;

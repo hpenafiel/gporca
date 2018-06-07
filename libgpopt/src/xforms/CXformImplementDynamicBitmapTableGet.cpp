@@ -100,7 +100,7 @@ CXformImplementDynamicBitmapTableGet::Transform
 					ptabdesc,
 					pexpr->Pop()->UlOpId(),
 					pname,
-					popLogical->UlScanId(),
+					popLogical->ScanId(),
 					pdrgpcrOutput,
 					pdrgpdrgpcrPart,
 					popLogical->UlSecondaryScanId(),

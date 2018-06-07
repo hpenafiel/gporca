@@ -193,7 +193,7 @@ CLogicalRowTrigger::FMatch
 
 	CLogicalRowTrigger *popRowTrigger = CLogicalRowTrigger::PopConvert(pop);
 
-	return m_rel_mdid->Equals(popRowTrigger->PmdidRel()) &&
+	return m_rel_mdid->Equals(popRowTrigger->GetRelMdId()) &&
 			m_iType == popRowTrigger->IType() &&
 			m_pdrgpcrOld->Equals(popRowTrigger->PdrgpcrOld()) &&
 			m_pdrgpcrNew->Equals(popRowTrigger->PdrgpcrNew());

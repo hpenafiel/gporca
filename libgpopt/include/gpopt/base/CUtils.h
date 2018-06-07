@@ -1426,7 +1426,7 @@ namespace gpopt
 		// memory allocation because matching function is used while holding spin locks.
 		// this means that we may miss matches for heterogeneous indexes
 		return  pop1->UlOriginOpId() == popIndex2->UlOriginOpId() &&
-				pop1->UlScanId() == popIndex2->UlScanId() &&
+				pop1->ScanId() == popIndex2->ScanId() &&
 				pop1->UlSecondaryScanId() == popIndex2->UlSecondaryScanId() &&
 				pop1->Ptabdesc()->MDId()->Equals(popIndex2->Ptabdesc()->MDId()) &&
 				pop1->Pindexdesc()->MDId()->Equals(popIndex2->Pindexdesc()->MDId()) &&
@@ -1461,7 +1461,7 @@ namespace gpopt
 		// for partial scans, we use pointer comparison of part constraints to avoid
 		// memory allocation because matching function is used while holding spin locks.
 		// this means that we may miss matches for partial scans
-		return pop1->UlScanId() == popScan2->UlScanId() &&
+		return pop1->ScanId() == popScan2->ScanId() &&
 				pop1->UlSecondaryScanId() == popScan2->UlSecondaryScanId() &&
 				pop1->Ptabdesc()->MDId()->Equals(popScan2->Ptabdesc()->MDId()) &&
 				pop1->PdrgpcrOutput()->Equals(popScan2->PdrgpcrOutput()) &&

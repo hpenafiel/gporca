@@ -2843,7 +2843,7 @@ CXformUtils::PexprBuildIndexPlan
 		CLogicalDynamicGet *popDynamicGet = CLogicalDynamicGet::PopConvert(pexprGet->Pop());
 
 		ptabdesc = popDynamicGet->Ptabdesc();
-		ulPartIndex = popDynamicGet->UlScanId();
+		ulPartIndex = popDynamicGet->ScanId();
 		pdrgpcrOutput = popDynamicGet->PdrgpcrOutput();
 		GPOS_ASSERT(NULL != pdrgpcrOutput);
 		pstrAlias = GPOS_NEW(memory_pool) CWStringConst(memory_pool, popDynamicGet->Name().Pstr()->GetBuffer());
@@ -3850,7 +3850,7 @@ CXformUtils::PexprBitmapTableGet
 								ptabdesc, 
 								ulOriginOpId,
 								pname, 
-								popDynamicGet->UlScanId(), 
+								popDynamicGet->ScanId(), 
 								pdrgpcrOutput,
 								popDynamicGet->PdrgpdrgpcrPart(),
 								popDynamicGet->UlSecondaryScanId(),
@@ -4231,7 +4231,7 @@ CXformUtils::PexprPartialDynamicIndexGet
 												ptabdesc,
 												ulOriginOpId,
 												GPOS_NEW(memory_pool) CName(memory_pool, CName(&strTableAliasName)),
-												popGet->UlScanId(),
+												popGet->ScanId(),
 												pdrgpcrDIG,
 												pdrgpdrgpcrPart,
 												COptCtxt::PoctxtFromTLS()->UlPartIndexNextVal(),

@@ -63,7 +63,7 @@ namespace gpmd
 
 			// relation mdid
 			virtual
-			IMDId *PmdidRel() const = 0;
+			IMDId *GetRelMdId() const = 0;
 
 			// function mdid
 			virtual

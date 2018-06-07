@@ -28,18 +28,18 @@ using namespace gpdxl;
 CDXLPhysicalPartitionSelector::CDXLPhysicalPartitionSelector
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidRel,
-	ULONG ulLevels,
+	IMDId *mdid_rel,
+	ULONG num_of_part_levels,
 	ULONG scan_id
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_rel_mdid(pmdidRel),
-	m_num_of_part_levels(ulLevels),
+	m_rel_mdid(mdid_rel),
+	m_num_of_part_levels(num_of_part_levels),
 	m_scan_id(scan_id)
 {
-	GPOS_ASSERT(pmdidRel->IsValid());
-	GPOS_ASSERT(0 < ulLevels);
+	GPOS_ASSERT(mdid_rel->IsValid());
+	GPOS_ASSERT(0 < num_of_part_levels);
 }
 
 //---------------------------------------------------------------------------
@@ -155,9 +155,9 @@ CDXLPhysicalPartitionSelector::AssertValid
 {
 	const ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(6 == arity || 7 == arity);
-	for (ULONG ul = 0; ul < arity; ++ul)
+	for (ULONG idx = 0; idx < arity; ++idx)
 	{
-		CDXLNode *child_dxlnode = (*dxlnode)[ul];
+		CDXLNode *child_dxlnode = (*dxlnode)[idx];
 		if (validate_children)
 		{
 			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);

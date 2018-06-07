@@ -297,7 +297,7 @@ CReqdPropPlan::PpfmCombineDerived
 	// copy part filters from input requirements
 	for (ULONG ul = 0; ul < ulConsumers; ul++)
 	{
-		ULONG scan_id = ppartinfo->UlScanId(ul);
+		ULONG scan_id = ppartinfo->ScanId(ul);
 		BOOL fCopied = ppfmDerived->FCopyPartFilter(memory_pool, scan_id, prppInput->Pepp()->PpfmDerived());
 		if (fCopied)
 		{
@@ -316,7 +316,7 @@ CReqdPropPlan::PpfmCombineDerived
 		CDrvdPropPlan *pdpplan = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[ulDrvdProps]);
 		for (ULONG ul = 0; ul < ulConsumers; ul++)
 		{
-			ULONG scan_id = ppartinfo->UlScanId(ul);
+			ULONG scan_id = ppartinfo->ScanId(ul);
 			BOOL fFound = pbs->Get(scan_id);
 
 			if (!fFound)
@@ -361,8 +361,8 @@ CReqdPropPlan::InitReqdPartitionPropagation
 	CEnfdPartitionPropagation::EPartitionPropagationMatching eppm = CEnfdPartitionPropagation::EppmSatisfy;
 	for (ULONG ul = 0; ul < ppartinfo->UlConsumers(); ul++)
 	{
-		ULONG scan_id = ppartinfo->UlScanId(ul);
-		IMDId *pmdid = ppartinfo->PmdidRel(ul);
+		ULONG scan_id = ppartinfo->ScanId(ul);
+		IMDId *pmdid = ppartinfo->GetRelMdId(ul);
 		DrgPpartkeys *pdrgppartkeys = ppartinfo->Pdrgppartkeys(ul);
 		CPartConstraint *ppartcnstr = ppartinfo->Ppartcnstr(ul);
 

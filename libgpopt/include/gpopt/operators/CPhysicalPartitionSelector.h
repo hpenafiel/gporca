@@ -121,7 +121,7 @@ namespace gpopt
 			}
 
 			// scan id
-			ULONG UlScanId() const
+			ULONG ScanId() const
 			{
 				return m_scan_id;
 			}

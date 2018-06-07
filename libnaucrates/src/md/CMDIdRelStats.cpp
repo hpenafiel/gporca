@@ -87,14 +87,14 @@ CMDIdRelStats::GetBuffer() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDIdRelStats::PmdidRel
+//		CMDIdRelStats::GetRelMdId
 //
 //	@doc:
 //		Returns the base relation id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDIdRelStats::PmdidRel() const
+CMDIdRelStats::GetRelMdId() const
 {
 	return m_rel_mdid;
 }
@@ -121,7 +121,7 @@ CMDIdRelStats::Equals
 	
 	const CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(pmdid);
 	
-	return m_rel_mdid->Equals(pmdidRelStats->PmdidRel()); 
+	return m_rel_mdid->Equals(pmdidRelStats->GetRelMdId()); 
 }
 
 //---------------------------------------------------------------------------

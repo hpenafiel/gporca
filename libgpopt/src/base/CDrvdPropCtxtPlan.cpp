@@ -229,7 +229,7 @@ CDrvdPropCtxtPlan::SetExpectedPartitionSelectors
 	ULONG scan_id = 0;
 	if (CUtils::FPhysicalScan(pop) && CPhysicalScan::PopConvert(pop)->FDynamicScan())
 	{
-		scan_id = CPhysicalDynamicScan::PopConvert(pop)->UlScanId();
+		scan_id = CPhysicalDynamicScan::PopConvert(pop)->ScanId();
 	}
 	else if (COperator::EopPhysicalSerialUnionAll == pop->Eopid() && CPhysicalUnionAll::PopConvert(pop)->FPartialIndex())
 	{
@@ -237,7 +237,7 @@ CDrvdPropCtxtPlan::SetExpectedPartitionSelectors
 	}
 	else if (COperator::EopPhysicalPartitionSelector == pop->Eopid())
 	{
-		scan_id = CPhysicalPartitionSelector::PopConvert(pop)->UlScanId();
+		scan_id = CPhysicalPartitionSelector::PopConvert(pop)->ScanId();
 	}
 	else
 	{

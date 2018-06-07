@@ -137,7 +137,7 @@ namespace gpopt
 
 					// partition index accessor
 					virtual
-					ULONG UlScanId() const
+					ULONG ScanId() const
 					{
 						return m_scan_id;
 					}
@@ -327,7 +327,7 @@ namespace gpopt
 			DrgPpartkeys *Pdrgppartkeys(ULONG scan_id) const;
 
 			// relation mdid of the entry with the given scan id
-			IMDId *PmdidRel(ULONG scan_id) const;
+			IMDId *GetRelMdId(ULONG scan_id) const;
 
 			// part constraint map of the entry with the given scan id
 			PartCnstrMap *Ppartcnstrmap(ULONG scan_id) const;

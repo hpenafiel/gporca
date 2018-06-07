@@ -83,7 +83,7 @@ namespace gpmd
 			}
 			
 			// accessors
-			IMDId *PmdidRel() const;
+			IMDId *GetRelMdId() const;
 			ULONG UlPos() const;
 
 			// equality check

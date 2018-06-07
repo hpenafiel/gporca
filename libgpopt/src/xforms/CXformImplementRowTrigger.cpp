@@ -86,7 +86,7 @@ CXformImplementRowTrigger::Transform
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// extract components for alternative
-	IMDId *pmdidRel = popRowTrigger->PmdidRel();
+	IMDId *pmdidRel = popRowTrigger->GetRelMdId();
 	pmdidRel->AddRef();
 
 	INT iType = popRowTrigger->IType();

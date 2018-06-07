@@ -74,7 +74,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// relation id
-			IMDId *PmdidRel() const
+			IMDId *GetRelMdId() const
 			{
 				return m_rel_mdid;
 			}

@@ -264,7 +264,7 @@ CXformSelect2PartialDynamicIndexGet::CreatePartialIndexGetPlan
 			pexprResult = GPOS_NEW(memory_pool) CExpression
 							(
 							memory_pool,
-							GPOS_NEW(memory_pool) CLogicalUnionAll(memory_pool, pdrgpcrOuter, pdrgpdrgpcrInput, popGet->UlScanId()),
+							GPOS_NEW(memory_pool) CLogicalUnionAll(memory_pool, pdrgpcrOuter, pdrgpdrgpcrInput, popGet->ScanId()),
 							pdrgpexprInput
 							);
 		}

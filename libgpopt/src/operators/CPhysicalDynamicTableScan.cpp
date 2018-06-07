@@ -90,7 +90,7 @@ CPhysicalDynamicTableScan::PstatsDerive
 {
 	GPOS_ASSERT(NULL != prpplan);
 
-	return CStatisticsUtils::PstatsDynamicScan(memory_pool, exprhdl, UlScanId(), prpplan->Pepp()->PpfmDerived());
+	return CStatisticsUtils::PstatsDynamicScan(memory_pool, exprhdl, ScanId(), prpplan->Pepp()->PpfmDerived());
 }
 
 // EOF

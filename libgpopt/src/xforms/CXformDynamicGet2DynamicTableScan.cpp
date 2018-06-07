@@ -96,7 +96,7 @@ CXformDynamicGet2DynamicTableScan::Transform
 						pname, 
 						ptabdesc,
 						popGet->UlOpId(),
-						popGet->UlScanId(), 
+						popGet->ScanId(), 
 						pdrgpcrOutput,
 						pdrgpdrgpcrPart,
 						popGet->UlSecondaryScanId(),

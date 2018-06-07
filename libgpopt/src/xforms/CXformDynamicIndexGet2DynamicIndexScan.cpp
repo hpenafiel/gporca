@@ -112,7 +112,7 @@ CXformDynamicIndexGet2DynamicIndexScan::Transform
 						pexpr->Pop()->UlOpId(),
 						pname,  
 						pdrgpcrOutput,
-						popIndexGet->UlScanId(),
+						popIndexGet->ScanId(),
 						pdrgpdrgpcrPart,
 						popIndexGet->UlSecondaryScanId(),
 						ppartcnstr,

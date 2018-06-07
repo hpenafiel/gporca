@@ -56,7 +56,7 @@ namespace gpdxl
 
 		public:
 			// ctor
-			CDXLPhysicalPartitionSelector(IMemoryPool *memory_pool, IMDId *pmdidRel, ULONG ulLevels, ULONG scan_id);
+			CDXLPhysicalPartitionSelector(IMemoryPool *memory_pool, IMDId *mdid_rel, ULONG num_of_part_levels, ULONG scan_id);
 			
 			// dtor
 			virtual
@@ -71,19 +71,19 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 			
 			// table id
-			IMDId *PmdidRel() const
+			IMDId *GetRelMdId() const
 			{
 				return m_rel_mdid;
 			}
 
 			// number of partitioning levels
-			ULONG UlLevels() const
+			ULONG GetNumOfPartitioningLevel() const
 			{
 				return m_num_of_part_levels;
 			}
 
 			// scan id
-			ULONG UlScanId() const
+			ULONG ScanId() const
 			{
 				return m_scan_id;
 			}

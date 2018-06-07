@@ -140,7 +140,7 @@ CPartitionPropagationSpec::AppendEnforcers
 		
 		CExpression *pexprResolver = NULL;
 
-		IMDId *pmdid = m_ppim->PmdidRel(scan_id);
+		IMDId *pmdid = m_ppim->GetRelMdId(scan_id);
 		DrgDrgPcr *pdrgpdrgpcrKeys = NULL;
 		DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(scan_id);
 		CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(scan_id);
@@ -280,7 +280,7 @@ CPartitionPropagationSpec::FRequiresPartitionPropagation
 	// enforced on top
 	CPartIndexMap *ppim = GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
 	
-	IMDId *pmdid = m_ppim->PmdidRel(part_idx_id);
+	IMDId *pmdid = m_ppim->GetRelMdId(part_idx_id);
 	DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(part_idx_id);
 	CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(part_idx_id);
 	PartCnstrMap *ppartcnstrmap = m_ppim->Ppartcnstrmap(part_idx_id);

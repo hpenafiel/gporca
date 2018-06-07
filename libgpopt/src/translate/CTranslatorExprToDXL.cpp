@@ -964,7 +964,7 @@ CTranslatorExprToDXL::PdxlnDynamicTableScan
 						m_memory_pool, 
 						table_descr, 
 						popDTS->UlSecondaryScanId(),
-						popDTS->UlScanId()
+						popDTS->ScanId()
 						);
 
 	CDXLNode *pdxlnDTS = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopDTS);
@@ -1059,7 +1059,7 @@ CTranslatorExprToDXL::PdxlnDynamicBitmapTableScan
 						m_memory_pool,
 						table_descr,
 						pop->UlSecondaryScanId(),
-						pop->UlScanId()
+						pop->ScanId()
 						);
 
 	CDXLNode *pdxlnScan = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopScan);
@@ -1154,7 +1154,7 @@ CTranslatorExprToDXL::PdxlnDynamicIndexScan
 													m_memory_pool,
 													table_descr,
 													popDIS->UlSecondaryScanId(),
-													popDIS->UlScanId(),
+													popDIS->ScanId(),
 													index_descr_dxl,
 													EdxlisdForward
 													)
@@ -4430,7 +4430,7 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorExpand
 
 	// construct propagation expression
 	CPartIndexMap *ppimDrvd = m_pdpplan->Ppim();
-	ULONG scan_id = popSelector->UlScanId();
+	ULONG scan_id = popSelector->ScanId();
 	CDXLNode *pdxlnPropagation = CTranslatorExprToDXLUtils::PdxlnPropExprPartitionSelector
 									(
 									m_memory_pool,
@@ -4514,7 +4514,7 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorFilter
 
 	CPhysicalPartitionSelector *popSelector = CPhysicalPartitionSelector::PopConvert(pexpr->Pop());
 	CPartIndexMap *ppimDrvd = m_pdpplan->Ppim();
-	ULONG scan_id = popSelector->UlScanId();
+	ULONG scan_id = popSelector->ScanId();
 	ULONG ulLevels = popSelector->UlPartLevels();
 	BOOL fPartialScans = ppimDrvd->FPartialScans(scan_id);
 	PartCnstrMap *ppartcnstrmap = ppimDrvd->Ppartcnstrmap(scan_id);
@@ -4543,7 +4543,7 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorFilter
 	CDrvdPropRelational *pdprel = CDrvdPropRelational::Pdprel(pexprChild->Pdp(CDrvdProp::EptRelational));
 
 	// we add a sequence if the scan id is found below the resolver
-	BOOL fNeedSequence = pdprel->Ppartinfo()->FContainsScanId(popSelector->UlScanId());
+	BOOL fNeedSequence = pdprel->Ppartinfo()->FContainsScanId(popSelector->ScanId());
 
 	// project list
 	IMDId *pmdid = popSelector->MDId();
@@ -4576,7 +4576,7 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorFilter
 									!fPassThrough && fPartialScans, //fConditional
 									ppartcnstrmap,
 									popSelector->Pdrgpdrgpcr(),
-									popSelector->UlScanId(),
+									popSelector->ScanId(),
 									pmdrel->PdrgpszPartTypes()
 									);
 
@@ -5672,7 +5672,7 @@ CTranslatorExprToDXL::PdxlnRowTrigger
 
 	CExpression *pexprChild = (*pexpr)[0];
 
-	IMDId *pmdidRel = popRowTrigger->PmdidRel();
+	IMDId *pmdidRel = popRowTrigger->GetRelMdId();
 	pmdidRel->AddRef();
 
 	INT iType = popRowTrigger->IType();

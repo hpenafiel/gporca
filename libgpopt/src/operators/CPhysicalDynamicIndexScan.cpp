@@ -113,7 +113,7 @@ CPhysicalDynamicIndexScan::EpetOrder
 ULONG
 CPhysicalDynamicIndexScan::HashValue() const
 {
-	ULONG scan_id = UlScanId();
+	ULONG scan_id = ScanId();
 	return gpos::CombineHashes (
 	        COperator::HashValue (),
 	        gpos::CombineHashes (gpos::HashValue (&scan_id),
@@ -169,7 +169,7 @@ CPhysicalDynamicIndexScan::OsPrint
 	os <<")";
 	os << ", Columns: [";
 	CUtils::OsPrintDrgPcr(os, PdrgpcrOutput());
-	os << "] Scan Id: " << UlScanId() << "." << UlSecondaryScanId();
+	os << "] Scan Id: " << ScanId() << "." << UlSecondaryScanId();
 
 	if (!Ppartcnstr()->FUnbounded())
 	{
@@ -200,7 +200,7 @@ CPhysicalDynamicIndexScan::PstatsDerive
 {
 	GPOS_ASSERT(NULL != prpplan);
 
-	IStatistics *pstatsBaseTable = CStatisticsUtils::PstatsDynamicScan(memory_pool, exprhdl, UlScanId(), prpplan->Pepp()->PpfmDerived());
+	IStatistics *pstatsBaseTable = CStatisticsUtils::PstatsDynamicScan(memory_pool, exprhdl, ScanId(), prpplan->Pepp()->PpfmDerived());
 
 	// create a conjunction of index condition and additional filters
 	CExpression *pexprScalar = exprhdl.PexprScalarChild(0 /*ulChidIndex*/);

@@ -258,7 +258,7 @@ CPhysicalPartitionSelector::FMatch
 
 	CPhysicalPartitionSelector *popPartSelector = CPhysicalPartitionSelector::PopConvert(pop);
 
-	BOOL fScanIdCmp = popPartSelector->UlScanId() == m_scan_id;
+	BOOL fScanIdCmp = popPartSelector->ScanId() == m_scan_id;
 	BOOL fMdidCmp = popPartSelector->MDId()->Equals(MDId());
 	BOOL fPartCnstrMapCmp = FMatchPartCnstr(popPartSelector->m_ppartcnstrmap);
 	BOOL fColRefCmp = CColRef::Equals(popPartSelector->Pdrgpdrgpcr(), m_pdrgpdrgpcr) ;
@@ -626,7 +626,7 @@ CPhysicalPartitionSelector::PppsRequired
 			continue;
 		}
 
-		IMDId *pmdid = ppimInput->PmdidRel(scan_id);
+		IMDId *pmdid = ppimInput->GetRelMdId(scan_id);
 		DrgPpartkeys *pdrgppartkeys = ppimInput->Pdrgppartkeys(scan_id);
 		PartCnstrMap *ppartcnstrmap = ppimInput->Ppartcnstrmap(scan_id);
 		CPartConstraint *ppartcnstr = ppimInput->PpartcnstrRel(scan_id);

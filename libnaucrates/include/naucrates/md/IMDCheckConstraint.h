@@ -56,7 +56,7 @@ namespace gpmd
 
 			// mdid of the relation
 			virtual
-			IMDId *PmdidRel() const = 0;
+			IMDId *GetRelMdId() const = 0;
 
 			// the scalar expression of the check constraint
 			virtual

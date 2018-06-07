@@ -82,7 +82,7 @@ namespace gpopt
 					BOOL FMatch(const CPartFilter *ppf) const;
 
 					// return scan id
-					ULONG UlScanId() const
+					ULONG ScanId() const
 					{
 						return m_scan_id;
 					}

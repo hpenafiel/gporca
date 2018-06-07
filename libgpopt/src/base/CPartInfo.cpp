@@ -155,7 +155,7 @@ CPartInfo::CPartInfoEntry::PpartinfoentryCopy
 	CPartConstraint *ppartcnstrRel = PpartcnstrRel()->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, false /*fMustExist*/);
 	phmulcr->Release();
 
-	return GPOS_NEW(memory_pool) CPartInfoEntry(UlScanId(), pmdid, pdrgppartkeysCopy, ppartcnstrRel);
+	return GPOS_NEW(memory_pool) CPartInfoEntry(ScanId(), pmdid, pdrgppartkeysCopy, ppartcnstrRel);
 }
 
 
@@ -250,7 +250,7 @@ CPartInfo::FContainsScanId
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
-		if (scan_id == ppartinfoentry->UlScanId())
+		if (scan_id == ppartinfoentry->ScanId())
 		{
 			return true;
 		}
@@ -261,32 +261,32 @@ CPartInfo::FContainsScanId
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPartInfo::UlScanId
+//		CPartInfo::ScanId
 //
 //	@doc:
 //		Return scan id of the entry at the given position
 //
 //---------------------------------------------------------------------------
 ULONG
-CPartInfo::UlScanId
+CPartInfo::ScanId
 	(
 	ULONG ulPos
 	)
 	const
 {
-	return (*m_pdrgppartentries)[ulPos]->UlScanId();
+	return (*m_pdrgppartentries)[ulPos]->ScanId();
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPartInfo::PmdidRel
+//		CPartInfo::GetRelMdId
 //
 //	@doc:
 //		Return relation mdid of the entry at the given position
 //
 //---------------------------------------------------------------------------
 IMDId *
-CPartInfo::PmdidRel
+CPartInfo::GetRelMdId
 	(
 	ULONG ulPos
 	)
@@ -351,7 +351,7 @@ CPartInfo::PdrgppartkeysByScanId
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
-		if (scan_id == ppartinfoentry->UlScanId())
+		if (scan_id == ppartinfoentry->ScanId())
 		{
 			return ppartinfoentry->Pdrgppartkeys();
 		}
@@ -431,7 +431,7 @@ CPartInfo::PpartinfoCombine
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*(ppartinfoSnd->m_pdrgppartentries))[ul];
-		DrgPpartkeys *pdrgppartkeys = ppartinfoFst->PdrgppartkeysByScanId(ppartinfoentry->UlScanId());
+		DrgPpartkeys *pdrgppartkeys = ppartinfoFst->PdrgppartkeysByScanId(ppartinfoentry->ScanId());
 
 		if (NULL != pdrgppartkeys)
 		{

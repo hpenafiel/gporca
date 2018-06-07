@@ -98,7 +98,7 @@ CPhysicalDynamicBitmapTableScan::PstatsDerive
 									(
 									memory_pool,
 									exprhdl,
-									UlScanId(),
+									ScanId(),
 									prpplan->Pepp()->PpfmDerived()
 									);
 

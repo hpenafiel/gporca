@@ -79,7 +79,7 @@ namespace gpopt
 			}
 
 			// relation id
-			IMDId *PmdidRel() const
+			IMDId *GetRelMdId() const
 			{
 				return m_rel_mdid;
 			}

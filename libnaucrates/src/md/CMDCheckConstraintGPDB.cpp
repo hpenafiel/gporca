@@ -154,7 +154,7 @@ CMDCheckConstraintGPDB::DebugPrint
 	os << "Constraint Name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 
 	os << "Relation id: ";
-	PmdidRel()->OsPrint(os);
+	GetRelMdId()->OsPrint(os);
 	os << std::endl;
 }
 

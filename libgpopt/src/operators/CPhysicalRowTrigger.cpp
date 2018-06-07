@@ -401,7 +401,7 @@ CPhysicalRowTrigger::FMatch
 	DrgPcr *pdrgpcrOld = popRowTrigger->PdrgpcrOld();
 	DrgPcr *pdrgpcrNew = popRowTrigger->PdrgpcrNew();
 
-	return m_rel_mdid->Equals(popRowTrigger->PmdidRel()) &&
+	return m_rel_mdid->Equals(popRowTrigger->GetRelMdId()) &&
 			m_iType == popRowTrigger->IType() &&
 			CUtils::Equals(m_pdrgpcrOld, pdrgpcrOld) &&
 			CUtils::Equals(m_pdrgpcrNew, pdrgpcrNew);

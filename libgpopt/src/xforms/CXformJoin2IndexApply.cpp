@@ -737,7 +737,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 		pexprResult = GPOS_NEW(memory_pool) CExpression
 								(
 								memory_pool,
-								GPOS_NEW(memory_pool) CLogicalUnionAll(memory_pool, pdrgpcrOutput, pdrgpdrgpcrInput, popDynamicGet->UlScanId()),
+								GPOS_NEW(memory_pool) CLogicalUnionAll(memory_pool, pdrgpcrOutput, pdrgpdrgpcrInput, popDynamicGet->ScanId()),
 								pdrgpexprInput
 								);
 	}

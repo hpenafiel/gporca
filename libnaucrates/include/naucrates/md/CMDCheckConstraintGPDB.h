@@ -91,7 +91,7 @@ namespace gpmd
 
 			// mdid of the relation
 			virtual
-			IMDId *PmdidRel() const
+			IMDId *GetRelMdId() const
 			{
 				return m_rel_mdid;
 			}
