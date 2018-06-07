@@ -37,7 +37,7 @@ namespace gpdxl
 	{
 		private:
 	
-			ULONG m_ulChildCount;
+			ULONG m_num_of_children;
 			// private copy ctor
 			CParseHandlerScalarOpExpr(const CParseHandlerScalarOpExpr &);
 	

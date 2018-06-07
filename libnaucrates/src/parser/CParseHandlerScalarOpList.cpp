@@ -67,7 +67,7 @@ CParseHandlerScalarOpList::StartElement
 	const Attributes& attrs
 	)
 {
-	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = Edxloplisttype(element_local_name);
+	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = GetDXLOpListType(element_local_name);
 	if (NULL == m_dxl_node && CDXLScalarOpList::EdxloplistSentinel > dxl_op_list_type)
 	{
 		// create the list
@@ -99,7 +99,7 @@ CParseHandlerScalarOpList::StartElement
 //
 //---------------------------------------------------------------------------
 CDXLScalarOpList::EdxlOpListType
-CParseHandlerScalarOpList::Edxloplisttype
+CParseHandlerScalarOpList::GetDXLOpListType
 	(
 	const XMLCh* const element_local_name
 	)
@@ -138,7 +138,7 @@ CParseHandlerScalarOpList::EndElement
 	const XMLCh* const // element_qname
 	)
 {
-	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = Edxloplisttype(element_local_name);
+	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = GetDXLOpListType(element_local_name);
 	if (m_dxl_op_list_type != dxl_op_list_type)
 	{
 		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
@@ -146,8 +146,8 @@ CParseHandlerScalarOpList::EndElement
 	}
 
 	// add constructed children from child parse handlers
-	const ULONG ulSize = this->Length();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG arity = this->Length();
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
 		AddChildFromParseHandler(child_parse_handler);

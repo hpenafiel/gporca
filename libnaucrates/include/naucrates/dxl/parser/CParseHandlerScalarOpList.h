@@ -41,7 +41,7 @@ namespace gpdxl
 			CParseHandlerScalarOpList(const CParseHandlerScalarOpList&);
 
 			// return the op list type corresponding to the given operator name
-			CDXLScalarOpList::EdxlOpListType Edxloplisttype(const XMLCh* const element_local_name);
+			CDXLScalarOpList::EdxlOpListType GetDXLOpListType(const XMLCh* const element_local_name);
 
 			// process the start of an element
 			void StartElement

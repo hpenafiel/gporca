@@ -39,7 +39,7 @@ CParseHandlerScalarOpExpr::CParseHandlerScalarOpExpr
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_ulChildCount(0)
+	m_num_of_children(0)
 {
 }
 
@@ -71,7 +71,7 @@ CParseHandlerScalarOpExpr::StartElement
 	}
 	else if (NULL != m_dxl_node)
 	{
-		if (2 > m_ulChildCount)
+		if (2 > m_num_of_children)
 		{
 			CParseHandlerBase *op_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 
@@ -82,7 +82,7 @@ CParseHandlerScalarOpExpr::StartElement
 
 			op_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 
-			m_ulChildCount++;
+			m_num_of_children++;
 		}
 		else
 		{
@@ -119,11 +119,11 @@ CParseHandlerScalarOpExpr::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
-	GPOS_ASSERT(1 == ulSize || 2 == ulSize);
+	const ULONG arity = this->Length();
+	GPOS_ASSERT(1 == arity || 2 == arity);
 
 	// add constructed children from child parse handlers
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp*>((*this)[ul]);
 		AddChildFromParseHandler(op_parse_handler);
