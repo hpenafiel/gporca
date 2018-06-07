@@ -70,7 +70,7 @@ namespace gpdxl
 				);
 			
 			// parse an array of system ids from the XML attributes
-			DrgPsysid *PdrgpsysidParse
+			DrgPsysid *GetSrcSysIdArray
 						(	
 						const Attributes &attr,
 						Edxltoken edxltokenAttr,

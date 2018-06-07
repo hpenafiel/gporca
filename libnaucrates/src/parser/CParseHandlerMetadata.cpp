@@ -144,7 +144,7 @@ CParseHandlerMetadata::StartElement
 		m_mdid_cached_obj_array = GPOS_NEW(m_memory_pool) DrgPimdobj(m_memory_pool);
 		m_mdid_array = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 		
-		m_system_id_array = PdrgpsysidParse
+		m_system_id_array = GetSrcSysIdArray
 						(
 						attrs, 
 						EdxltokenSysids,
@@ -155,8 +155,8 @@ CParseHandlerMetadata::StartElement
 	{
 		// start of the metadata section in the DXL document
 		GPOS_ASSERT(NULL != m_mdid_array);
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenMdid);
-		m_mdid_array->Append(pmdid);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenMdid);
+		m_mdid_array->Append(mdid);
 	}
 	else
 	{
@@ -164,14 +164,14 @@ CParseHandlerMetadata::StartElement
 		GPOS_ASSERT(NULL != m_mdid_cached_obj_array);
 		
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *parse_handler_base = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 
-		m_parse_handler_mgr->ActivateParseHandler(pph);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_base);
 		
 		// store parse handler
-		this->Append(pph);
+		this->Append(parse_handler_base);
 		
-		pph->startElement(element_uri, element_local_name, element_qname, attrs);
+		parse_handler_base->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -200,16 +200,16 @@ CParseHandlerMetadata::EndElement
 	
 	GPOS_ASSERT(NULL != m_mdid_cached_obj_array);
 	
-	const ULONG ulLen = this->Length();
-	for (ULONG ul = 0; ul < ulLen; ul++)
+	const ULONG size = this->Length();
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerMetadataObject *pphMdObj = dynamic_cast<CParseHandlerMetadataObject *>((*this)[ul]);
+		CParseHandlerMetadataObject *metadata_obj_parse_handler = dynamic_cast<CParseHandlerMetadataObject *>((*this)[idx]);
 
-		GPOS_ASSERT(NULL != pphMdObj->Pimdobj());
+		GPOS_ASSERT(NULL != metadata_obj_parse_handler->Pimdobj());
 
-		IMDCacheObject *pimdobj = pphMdObj->Pimdobj();
-		pimdobj->AddRef();
-		m_mdid_cached_obj_array->Append(pimdobj);
+		IMDCacheObject *imdobj = metadata_obj_parse_handler->Pimdobj();
+		imdobj->AddRef();
+		m_mdid_cached_obj_array->Append(imdobj);
 	}
 
 	m_parse_handler_mgr->DeactivateHandler();
@@ -217,54 +217,54 @@ CParseHandlerMetadata::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadata::PdrgpsysidParse
+//		CParseHandlerMetadata::GetSrcSysIdArray
 //
 //	@doc:
 //		Parse a list of source system ids
 //
 //---------------------------------------------------------------------------
 DrgPsysid *
-CParseHandlerMetadata::PdrgpsysidParse
+CParseHandlerMetadata::GetSrcSysIdArray
 	(
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken dxl_token_attr,
+	Edxltoken dxl_token_element
 	)
 {	
-	const XMLCh *xmlszAttrName = CDXLTokens::XmlstrToken(edxltokenAttr);
+	const XMLCh *xml_str_attrname = CDXLTokens::XmlstrToken(dxl_token_attr);
 
 	// extract systemids
-	const XMLCh *xmlsz = attrs.getValue(xmlszAttrName);
+	const XMLCh *xml_str_val = attrs.getValue(xml_str_attrname);
 	
-	if (NULL == xmlsz)
+	if (NULL == xml_str_val)
 	{
 		return NULL;
 	}
 
-	DrgPsysid *pdrgpsysid = GPOS_NEW(m_memory_pool) DrgPsysid(m_memory_pool);
+	DrgPsysid *src_sys_id_array = GPOS_NEW(m_memory_pool) DrgPsysid(m_memory_pool);
 
 	// extract separate system ids 
-	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenComma));
+	XMLStringTokenizer xml_str_tokenizer(xml_str_val, CDXLTokens::XmlstrToken(EdxltokenComma));
 	
-	XMLCh *xmlszSysId = NULL;
-	while (NULL != (xmlszSysId = xmlsztok.nextToken()))
+	XMLCh *xml_str_sys_id = NULL;
+	while (NULL != (xml_str_sys_id = xml_str_tokenizer.nextToken()))
 	{
 		// get sysid components
-		XMLStringTokenizer xmlsztokSysid(xmlszSysId, CDXLTokens::XmlstrToken(EdxltokenDot));
-		GPOS_ASSERT(2 == xmlsztokSysid.countTokens());
+		XMLStringTokenizer xml_str_sys_id_tokenizer(xml_str_sys_id, CDXLTokens::XmlstrToken(EdxltokenDot));
+		GPOS_ASSERT(2 == xml_str_sys_id_tokenizer.countTokens());
 		
-		XMLCh *xmlszType = xmlsztokSysid.nextToken();
-		ULONG type = CDXLOperatorFactory::ConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszType, edxltokenAttr, edxltokenElement);
+		XMLCh *xml_str_type = xml_str_sys_id_tokenizer.nextToken();
+		ULONG type = CDXLOperatorFactory::ConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_type, dxl_token_attr, dxl_token_element);
 		
-		XMLCh *xmlszName = xmlsztokSysid.nextToken();
-		CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszName);
+		XMLCh *xml_str_name = xml_str_sys_id_tokenizer.nextToken();
+		CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_name);
 		
-		pdrgpsysid->Append(GPOS_NEW(m_memory_pool) CSystemId((IMDId::EMDIdType) type, str_name->GetBuffer(), str_name->Length()));	
+		src_sys_id_array->Append(GPOS_NEW(m_memory_pool) CSystemId((IMDId::EMDIdType) type, str_name->GetBuffer(), str_name->Length()));
 		
 		GPOS_DELETE(str_name);
 	}
 	
-	return pdrgpsysid;
+	return src_sys_id_array;
 }
 
 // EOF
