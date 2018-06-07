@@ -99,8 +99,8 @@ CParseHandlerColStatsBucket::StartElement
 		// new column stats bucket
 
 		// parse frequency and distinct values
-		m_frequency = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsFrequency, EdxltokenColumnStatsBucket);
-		m_distinct = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsDistinct, EdxltokenColumnStatsBucket);
+		m_frequency = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsFrequency, EdxltokenColumnStatsBucket);
+		m_distinct = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenStatsDistinct, EdxltokenColumnStatsBucket);
 		
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsBucketLowerBound), element_local_name))

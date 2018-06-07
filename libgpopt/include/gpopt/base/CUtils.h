@@ -120,7 +120,7 @@ namespace gpopt
 
 			// return the mdid of the given scalar comparison between the two types
 			static
-			IMDId *PmdidScCmp(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
+			IMDId *GetScCmpMdId(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
 			
 			// generate a comparison expression for two column references
 			static
@@ -389,11 +389,11 @@ namespace gpopt
 
 			// comparison operator type
 			static
-			IMDType::ECmpType Ecmpt(IMDId *pmdid);
+			IMDType::ECmpType ParseCmpType(IMDId *pmdid);
 						
 			// comparison operator type
 			static
-			IMDType::ECmpType Ecmpt(CMDAccessor *md_accessor, IMDId *pmdid);
+			IMDType::ECmpType ParseCmpType(CMDAccessor *md_accessor, IMDId *pmdid);
 			
 			// generate a binary join expression
 			template<class T>

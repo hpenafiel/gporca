@@ -82,7 +82,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		GPOS_DELETE(pstrAggName);
 
 		// parse metadata id info
-		m_mdid = CDXLOperatorFactory::PmdidFromAttrs
+		m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -134,7 +134,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		// parse result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeResult = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidTypeResult = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -147,7 +147,7 @@ CParseHandlerMDGPDBAgg::StartElement
 		// parse intermediate result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeIntermediate = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidTypeIntermediate = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 														(
 														m_parse_handler_mgr->GetDXLMemoryManager(),
 														attrs,

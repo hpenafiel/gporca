@@ -90,7 +90,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		GPOS_DELETE(str_opname);
 
 		// parse metadata id info
-		m_mdid = CDXLOperatorFactory::PmdidFromAttrs
+		m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs,
@@ -105,7 +105,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 									EdxltokenGPDBScalarOp
 									);
 
-		m_ecmpt = CDXLOperatorFactory::Ecmpt(xmlszCmpType);
+		m_ecmpt = CDXLOperatorFactory::ParseCmpType(xmlszCmpType);
 
 		// null-returning property is optional
 		const XMLCh *xmlszReturnsNullOnNullInput = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenReturnsNullOnNullInput));
@@ -126,7 +126,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse left operand's type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeLeft = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidTypeLeft = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												attrs, 
@@ -139,7 +139,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse right operand's type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeRight = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidTypeRight = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -152,7 +152,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeResult = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidTypeResult = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -165,7 +165,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse op func id
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_func_mdid = CDXLOperatorFactory::PmdidFromAttrs
+		m_func_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												attrs, 
@@ -178,7 +178,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse commutator operator
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidOpCommute = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidOpCommute = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -191,7 +191,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse inverse operator id
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidOpInverse = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidOpInverse = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,

@@ -119,7 +119,7 @@ CPredicateUtils::FComparison
 	CScalarCmp *popScCmp = CScalarCmp::PopConvert(pop);
 	GPOS_ASSERT(NULL != popScCmp);
 
-	return ecmpt == popScCmp->Ecmpt();
+	return ecmpt == popScCmp->ParseCmpType();
 }
 
 // Is the given expression a comparison over the given column. A comparison
@@ -627,7 +627,7 @@ CPredicateUtils::ExtractComponents
 	CExpression *pexprRight = (*pexprScCmp)[1];
 
 	IMDType::ECmpType ecmpt =
-			CScalarCmp::PopConvert(pexprScCmp->Pop())->Ecmpt();
+			CScalarCmp::PopConvert(pexprScCmp->Pop())->ParseCmpType();
 
 	if (CUtils::FScalarIdent(pexprLeft, pcrKey) ||
 		CScalarIdent::FCastedScId(pexprLeft, pcrKey))
@@ -900,7 +900,7 @@ CPredicateUtils::FSelfComparison
 	COperator *pop = pexpr->Pop();
 	if (CUtils::FScalarCmp(pexpr))
 	{
-		*pecmpt = CScalarCmp::PopConvert(pop)->Ecmpt();
+		*pecmpt = CScalarCmp::PopConvert(pop)->ParseCmpType();
 		COperator *popLeft = (*pexpr)[0]->Pop();
 		COperator *popRight = (*pexpr)[1]->Pop();
 
@@ -1079,7 +1079,7 @@ CPredicateUtils::FRangeOrEqComp
 	}
 	COperator *pop = pexpr->Pop();
 	CScalarCmp *popScCmp = CScalarCmp::PopConvert(pop);
-	IMDType::ECmpType cmptype = popScCmp->Ecmpt();
+	IMDType::ECmpType cmptype = popScCmp->ParseCmpType();
 
 	if (cmptype == IMDType::EcmptNEq ||
 		cmptype == IMDType::EcmptIDF ||
@@ -1328,7 +1328,7 @@ CPredicateUtils::PexprPartPruningPredicate
 			CScalarCmp *popCmp = CScalarCmp::PopConvert(pexpr->Pop());
 			CDrvdPropScalar *pdpscalar = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive());
 			
-			if (!pdpscalar->Pfp()->FMasterOnly() && FRangeComparison(popCmp->Ecmpt()))
+			if (!pdpscalar->Pfp()->FMasterOnly() && FRangeComparison(popCmp->ParseCmpType()))
 			{
 				pexpr->AddRef();
 				pdrgpexprResult->Append(pexpr);
@@ -1520,7 +1520,7 @@ CPredicateUtils::FDisjunctionOnColumn
 	for (ULONG ulDisj = 0; ulDisj < ulDisjuncts; ulDisj++)
 	{
 		CExpression *pexprDisj = (*pdrgpexprDisjuncts)[ulDisj];
-		if (!FComparison(pexprDisj, pcr, pcrsAllowedRefs) || !FRangeComparison(CScalarCmp::PopConvert(pexprDisj->Pop())->Ecmpt()))
+		if (!FComparison(pexprDisj, pcr, pcrsAllowedRefs) || !FRangeComparison(CScalarCmp::PopConvert(pexprDisj->Pop())->ParseCmpType()))
 		{
 			pdrgpexprDisjuncts->Release();
 			return false;
@@ -1619,7 +1619,7 @@ CPredicateUtils::PexprExtractPredicatesOnPartKeys
 			PexprPartPruningPredicate(memory_pool, pdrgpexprConjuncts, pcr, pexprCol, pcrsAllowedRefs);
 		CRefCount::SafeRelease(pexprCol);
 		GPOS_ASSERT_IMP(NULL != pexprCmp && COperator::EopScalarCmp == pexprCmp->Pop()->Eopid(),
-				IMDType::EcmptOther != CScalarCmp::PopConvert(pexprCmp->Pop())->Ecmpt());
+				IMDType::EcmptOther != CScalarCmp::PopConvert(pexprCmp->Pop())->ParseCmpType());
 
 		if (NULL != pexprCmp && !CUtils::FScalarConstTrue(pexprCmp))
 		{
@@ -1916,11 +1916,11 @@ CPredicateUtils::PexprIndexLookup
 
 	if (CUtils::FScalarCmp(pexprScalar))
 	{
-		cmptype = CScalarCmp::PopConvert(pexprScalar->Pop())->Ecmpt();
+		cmptype = CScalarCmp::PopConvert(pexprScalar->Pop())->ParseCmpType();
 	}
 	else if (CUtils::FScalarArrayCmp(pexprScalar))
 	{
-		cmptype = CUtils::Ecmpt(CScalarArrayCmp::PopConvert(pexprScalar->Pop())->MdIdOp());
+		cmptype = CUtils::ParseCmpType(CScalarArrayCmp::PopConvert(pexprScalar->Pop())->MdIdOp());
 	}
 
 	if (cmptype == IMDType::EcmptNEq ||
@@ -2183,7 +2183,7 @@ CPredicateUtils::FCheckPredicateImplication
 {
 	// currently restrict testing implication to only equality of column references
 	return COperator::EopScalarCmp == pexprPred->Pop()->Eopid() &&
-		IMDType::EcmptEq == CScalarCmp::PopConvert(pexprPred->Pop())->Ecmpt() &&
+		IMDType::EcmptEq == CScalarCmp::PopConvert(pexprPred->Pop())->ParseCmpType() &&
 		COperator::EopScalarIdent == (*pexprPred)[0]->Pop()->Eopid() &&
 		COperator::EopScalarIdent == (*pexprPred)[1]->Pop()->Eopid();
 }

@@ -115,7 +115,7 @@ namespace gpmd
 
 			// cast function id
 			virtual 
-			IMDId *PmdidCastFunc() const;
+			IMDId *GetCastFuncMdId() const;
 		
 			// serialize object in DXL format
 			virtual 

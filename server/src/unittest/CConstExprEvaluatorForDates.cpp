@@ -62,7 +62,7 @@ CConstExprEvaluatorForDates::PexprEval
 	CDouble dLeft = pdatumLeft->GetDoubleMapping();
 	CDouble dRight = pdatumRight->GetDoubleMapping();
 	BOOL fResult = false;
-	switch (popScCmp->Ecmpt())
+	switch (popScCmp->ParseCmpType())
 	{
 		case IMDType::EcmptEq:
 			fResult = dLeft == dRight;

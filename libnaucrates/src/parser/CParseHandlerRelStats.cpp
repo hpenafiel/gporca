@@ -83,11 +83,11 @@ CParseHandlerRelStats::StartElement
 	
 
 	// parse metadata id info
-	IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenRelationStats);
+	IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenRelationStats);
 	
 	// parse rows
 
-	CDouble dRows = CDXLOperatorFactory::DValueFromAttrs
+	CDouble dRows = CDXLOperatorFactory::ExtractConvertAttrValueToDouble
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,

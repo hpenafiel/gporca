@@ -97,7 +97,7 @@ CParseHandlerStatsDerivedRelation::StartElement
 														EdxltokenStatsDerivedRelation
 														);
 
-		m_dRows = CDouble(CDXLOperatorFactory::DValueFromXmlstr
+		m_dRows = CDouble(CDXLOperatorFactory::ConvertAttrValueToDouble
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												xmlszRows,

@@ -89,7 +89,7 @@ CParseHandlerMDRelationExternal::StartElement
 	const XMLCh *xmlszErrRel = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelFmtErrRel));
 	if (NULL != xmlszErrRel)
 	{
-		m_pmdidFmtErrRel = CDXLOperatorFactory::PmdidFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszErrRel, EdxltokenExtRelFmtErrRel, EdxltokenRelationExternal);
+		m_pmdidFmtErrRel = CDXLOperatorFactory::MakeMdIdFromStr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszErrRel, EdxltokenExtRelFmtErrRel, EdxltokenRelationExternal);
 	}
 
 	// parse whether a hash distributed relation needs to be considered as random distributed

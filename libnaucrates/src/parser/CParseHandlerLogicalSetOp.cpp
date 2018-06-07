@@ -93,7 +93,7 @@ CParseHandlerLogicalSetOp::StartElement
 
 		// parse array of input colid arrays
 		const XMLCh *input_colids_array_str = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenInputCols));
-		m_input_colids_arrays = CDXLOperatorFactory::PdrgpdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), input_colids_array_str, EdxltokenInputCols, EdxltokenLogicalSetOperation);
+		m_input_colids_arrays = CDXLOperatorFactory::ExtractConvertUlongTo2DArray(m_parse_handler_mgr->GetDXLMemoryManager(), input_colids_array_str, EdxltokenInputCols, EdxltokenLogicalSetOperation);
 
 		// install column descriptor parsers
 		CParseHandlerBase *col_descr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenColumns), m_parse_handler_mgr, this);

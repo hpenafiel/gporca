@@ -840,7 +840,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 		if (CMDAccessorUtils::FCastExists(md_accessor, pmdidSrcElem, pmdidDestElem))
 		{
 			const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidSrcElem, pmdidDestElem);
-			pmdidArrayCastFunc = pmdcast->PmdidCastFunc();
+			pmdidArrayCastFunc = pmdcast->GetCastFuncMdId();
 		}
 
 		pmdidSrcArray->AddRef();
@@ -910,7 +910,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterScCmp
 {
 	IMDId *pmdidScCmp = NULL;
 
-	pmdidScCmp = CUtils::PmdidScCmp(memory_pool, md_accessor, pmdidTypeOther, pmdidTypePartKey, ecmpt);
+	pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypeOther, pmdidTypePartKey, ecmpt);
 
 	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdidScCmp);
 	const CWStringConst *pstrScCmp = md_scalar_op->Mdname().GetMDName();
@@ -1209,11 +1209,11 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 
 	if (IMDId::IsValid(pmdidTypeCastExpr))
 	{
-		pmdidScCmp = CUtils::PmdidScCmp(memory_pool, md_accessor, pmdidTypeCastExpr, pmdidTypeExpr, ecmpt);
+		pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypeCastExpr, pmdidTypeExpr, ecmpt);
 	}
 	else
 	{
-		pmdidScCmp = CUtils::PmdidScCmp(memory_pool, md_accessor, pmdidTypePartKey, pmdidTypeExpr, ecmpt);
+		pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypePartKey, pmdidTypeExpr, ecmpt);
 	}
 	
 	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdidScCmp); 

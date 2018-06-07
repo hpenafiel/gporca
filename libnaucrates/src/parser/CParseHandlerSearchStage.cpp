@@ -84,7 +84,7 @@ CParseHandlerSearchStage::StartElement
 			CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenCostThreshold, EdxltokenSearchStage);
 
 		m_costThreshold =
-			CCost(CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszCost, EdxltokenCostThreshold, EdxltokenSearchStage));
+			CCost(CDXLOperatorFactory::ConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszCost, EdxltokenCostThreshold, EdxltokenSearchStage));
 
 		const XMLCh *xmlszTime =
 			CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenTimeThreshold, EdxltokenSearchStage);

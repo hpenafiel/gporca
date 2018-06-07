@@ -80,7 +80,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		GPOS_DELETE(pstrFuncName);
 
 		// parse metadata id info
-		m_mdid = CDXLOperatorFactory::PmdidFromAttrs
+		m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs,
@@ -130,7 +130,7 @@ CParseHandlerMDGPDBFunc::StartElement
 		// parse result type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeResult = CDXLOperatorFactory::PmdidFromAttrs
+		m_pmdidTypeResult = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -151,7 +151,7 @@ CParseHandlerMDGPDBFunc::StartElement
 															EdxltokenOutputCols
 															);
 
-		m_pdrgpmdidTypes = CDXLOperatorFactory::PdrgpmdidFromXMLCh
+		m_pdrgpmdidTypes = CDXLOperatorFactory::ExtractConvertMdIdsToArray
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													xmlszTypes,

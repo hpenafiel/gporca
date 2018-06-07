@@ -104,7 +104,7 @@ CParseHandlerMDIndex::StartElement
 	GPOS_ASSERT(NULL == m_mdid);
 
 	// parse mdid
-	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndex);
+	m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndex);
 	
 	// parse index name
 	const XMLCh *parsed_column_name = CDXLOperatorFactory::ExtractAttrValue
@@ -122,11 +122,11 @@ CParseHandlerMDIndex::StartElement
 	// parse index clustering, key columns and included columns information
 	m_fClustered = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIndexClustered, EdxltokenIndex);
 	
-	m_emdindt = CDXLOperatorFactory::EmdindtFromAttr(attrs);
+	m_emdindt = CDXLOperatorFactory::ParseIndexType(attrs);
 	const XMLCh *xmlszItemType = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenIndexItemType));
 	if (NULL != xmlszItemType)
 	{
-		m_pmdidItemType = CDXLOperatorFactory::PmdidFromXMLCh
+		m_pmdidItemType = CDXLOperatorFactory::MakeMdIdFromStr
 							(
 							m_parse_handler_mgr->GetDXLMemoryManager(),
 							xmlszItemType,

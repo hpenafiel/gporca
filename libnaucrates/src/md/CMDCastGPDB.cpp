@@ -134,14 +134,14 @@ CMDCastGPDB::PmdidDest() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDCastGPDB::PmdidCastFunc
+//		CMDCastGPDB::GetCastFuncMdId
 //
 //	@doc:
 //		Cast function id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CMDCastGPDB::PmdidCastFunc() const
+CMDCastGPDB::GetCastFuncMdId() const
 {
 	return m_pmdidCastFunc;
 }
@@ -232,7 +232,7 @@ CMDCastGPDB::DebugPrint
 	if (IMDId::IsValid(m_pmdidCastFunc))
 	{
 		os << ", Cast func id: ";
-		PmdidCastFunc()->OsPrint(os);
+		GetCastFuncMdId()->OsPrint(os);
 	}
 	
 	os << std::endl;	

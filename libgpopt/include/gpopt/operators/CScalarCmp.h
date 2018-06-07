@@ -82,7 +82,7 @@ namespace gpopt
 			}
 			
 			// comparison type
-			IMDType::ECmpType Ecmpt() const
+			IMDType::ECmpType ParseCmpType() const
 			{
 				return m_ecmpt;
 			}

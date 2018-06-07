@@ -72,7 +72,7 @@ CParseHandlerLogicalJoin::StartElement
 		if(NULL == m_dxl_node)
 		{
 			// parse and create logical join operator
-			CDXLLogicalJoin *pdxlopJoin = (CDXLLogicalJoin*) CDXLOperatorFactory::PdxlopLogicalJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+			CDXLLogicalJoin *pdxlopJoin = (CDXLLogicalJoin*) CDXLOperatorFactory::MakeLogicalJoin(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 			// construct node from the created child nodes
 			m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopJoin);

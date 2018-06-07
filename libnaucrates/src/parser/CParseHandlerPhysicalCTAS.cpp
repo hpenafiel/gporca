@@ -87,7 +87,7 @@ CParseHandlerPhysicalCTAS::StartElement
 	
 	// parse distribution policy
 	const XMLCh *rel_distr_policy_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenRelDistrPolicy, EdxltokenPhysicalCTAS);
-	m_rel_distr_policy = CDXLOperatorFactory::EreldistrpolicyFromXmlstr(rel_distr_policy_xml);
+	m_rel_distr_policy = CDXLOperatorFactory::ParseRelationDistPolicy(rel_distr_policy_xml);
 
 	if (IMDRelation::EreldistrHash == m_rel_distr_policy)
 	{
@@ -98,7 +98,7 @@ CParseHandlerPhysicalCTAS::StartElement
 	
 	// parse storage type
 	const XMLCh *rel_storage_type_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenRelStorageType, EdxltokenPhysicalCTAS);
-	m_rel_storage_type = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(rel_storage_type_xml);
+	m_rel_storage_type = CDXLOperatorFactory::ParseRelationStorageType(rel_storage_type_xml);
 
 	const XMLCh *src_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenInsertCols, EdxltokenPhysicalCTAS);
 	m_src_colids_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), src_colids_xml, EdxltokenInsertCols, EdxltokenPhysicalCTAS);

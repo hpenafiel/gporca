@@ -64,7 +64,7 @@ CParseHandlerScalarSwitch::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSwitch), element_local_name) && NULL == m_mdid_type)
 	{
 		// parse type id
-		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarSwitch);
+		m_mdid_type = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarSwitch);
 
 		// construct node
 		CDXLScalarSwitch *dxl_op =  GPOS_NEW(m_memory_pool) CDXLScalarSwitch(m_memory_pool, m_mdid_type);

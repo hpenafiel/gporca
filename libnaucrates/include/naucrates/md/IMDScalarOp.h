@@ -76,7 +76,7 @@ namespace gpmd
 			BOOL FReturnsNullOnNullInput() const = 0;
 
 			virtual
-			IMDType::ECmpType Ecmpt() const = 0;
+			IMDType::ECmpType ParseCmpType() const = 0;
 
 			// operator name
 			virtual

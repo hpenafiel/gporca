@@ -100,7 +100,7 @@ namespace gpdxl
 			};
 
 			static
-			CDXLDatum *PdxldatumOid
+			CDXLDatum *GetDatumOid
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
@@ -111,7 +111,7 @@ namespace gpdxl
 								);
 
 			static
-			CDXLDatum *PdxldatumInt2
+			CDXLDatum *GetDatumInt2
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
@@ -122,7 +122,7 @@ namespace gpdxl
 								);
 
 			static
-			CDXLDatum *PdxldatumInt4
+			CDXLDatum *GetDatumInt4
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
@@ -144,7 +144,7 @@ namespace gpdxl
 								);
 
 			static
-			CDXLDatum *PdxldatumBool
+			CDXLDatum *GetDatumBool
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
@@ -168,7 +168,7 @@ namespace gpdxl
 
 			// parse a dxl datum of types that need double mapping
 			static
-			CDXLDatum *PdxldatumStatsDoubleMappable
+			CDXLDatum *GetDatumStatsDoubleMappable
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
@@ -180,7 +180,7 @@ namespace gpdxl
 
 			// parse a dxl datum of types that need lint mapping
 			static
-			CDXLDatum *PdxldatumStatsLintMappable
+			CDXLDatum *GetDatumStatsLintMappable
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
@@ -339,7 +339,7 @@ namespace gpdxl
 
 			// create a scalar window function (WindowRef)
 			static
-			CDXLScalar *PdxlopWindowRef(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLScalar *MakeWindowRef(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// create an array
 			static
@@ -380,7 +380,7 @@ namespace gpdxl
 			
 			// create a logical join 
 			static
-			CDXLLogical *PdxlopLogicalJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLLogical *MakeLogicalJoin(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 
 			// parse an output segment index
 			static
@@ -415,7 +415,7 @@ namespace gpdxl
 
 			// converts the XMLCh into LINT
 			static
-			LINT LValueFromXmlstr
+			LINT ConvertAttrValueToLint
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -425,7 +425,7 @@ namespace gpdxl
 
 			// extracts the LINT value for the given attribute
 			static
-			LINT LValueFromAttrs
+			LINT ExtractConvertAttrValueToLint
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -437,7 +437,7 @@ namespace gpdxl
 
 			// converts the XMLCh into CDouble
 			static
-			CDouble DValueFromXmlstr
+			CDouble ConvertAttrValueToDouble
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -447,7 +447,7 @@ namespace gpdxl
 
 			// cxtracts the double value for the given attribute
 			static
-			CDouble DValueFromAttrs
+			CDouble ExtractConvertAttrValueToDouble
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -632,7 +632,7 @@ namespace gpdxl
 
 			// parse an mdid object from the given attributes
 			static
-			IMDId *PmdidFromAttrs
+			IMDId *ExtractConvertAttrValueToMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -644,7 +644,7 @@ namespace gpdxl
 			
 			// parse an mdid object from an XMLCh
 			static
-			IMDId *PmdidFromXMLCh
+			IMDId *MakeMdIdFromStr
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszMdid,
@@ -654,7 +654,7 @@ namespace gpdxl
 			
 			// parse a GPDB mdid object from an array of its components
 			static
-			CMDIdGPDB *PmdidGPDB
+			CMDIdGPDB *GetGPDBMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
@@ -664,7 +664,7 @@ namespace gpdxl
 			
 			// parse a GPDB CTAS mdid object from an array of its components
 			static
-			CMDIdGPDB *PmdidGPDBCTAS
+			CMDIdGPDB *GetGPDBCTASMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
@@ -674,7 +674,7 @@ namespace gpdxl
 
 			// parse a column stats mdid object from an array of its components
 			static
-			CMDIdColStats *PmdidColStats
+			CMDIdColStats *GetColStatsMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
@@ -684,7 +684,7 @@ namespace gpdxl
 
 			// parse a relation stats mdid object from an array of its components
 			static
-			CMDIdRelStats *PmdidRelStats
+			CMDIdRelStats *GetRelStatsMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
@@ -694,7 +694,7 @@ namespace gpdxl
 			
 			// parse a cast func mdid from the array of its components
 			static
-			CMDIdCast *PmdidCastFunc
+			CMDIdCast *GetCastFuncMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
@@ -704,7 +704,7 @@ namespace gpdxl
 			
 			// parse a comparison operator mdid from the array of its components
 			static
-			CMDIdScCmp *PmdidScCmp
+			CMDIdScCmp *GetScCmpMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
@@ -724,7 +724,7 @@ namespace gpdxl
 			// parse a comma-separated list of MDids into a dynamic array
 			// will raise an exception if list is not well-formed
 			static
-			DrgPmdid *PdrgpmdidFromXMLCh
+			DrgPmdid *ExtractConvertMdIdsToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUlList,
@@ -735,7 +735,7 @@ namespace gpdxl
 			// parse a comma-separated list of unsigned long numbers into a dynamic array
 			// will raise an exception if list is not well-formed
 			static
-			ULongPtrArray *PdrgpulFromAttrs
+			ULongPtrArray *ExtractConvertValuesToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
@@ -795,7 +795,7 @@ namespace gpdxl
 			// parse a comma-separated list of CHAR partition types into a dynamic array.
 			// will raise an exception if list is not well-formed
 			static
-			CharPtrArray *PdrgpszFromXMLCh
+			CharPtrArray *ExtractConvertPartitionTypeToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -807,7 +807,7 @@ namespace gpdxl
 			// long numbers into a dynamc array of unsigned integer arrays
 			// will raise an exception if list is not well-formed
 			static
-			ULongPtrArray2D *PdrgpdrgpulFromXMLCh
+			ULongPtrArray2D *ExtractConvertUlongTo2DArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz,
@@ -818,7 +818,7 @@ namespace gpdxl
 			// parse a comma-separated list of segment ids into a dynamic array
 			// will raise an exception if list is not well-formed
 			static
-			IntPtrArray *PdrgpiParseSegmentIdList
+			IntPtrArray *ExtractConvertSegmentIdsToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszSegIdList,
@@ -829,7 +829,7 @@ namespace gpdxl
 			// parse a comma-separated list of strings into a dynamic array
 			// will raise an exception if list is not well-formed
 			static
-			StringPtrArray *PdrgPstrFromXMLCh
+			StringPtrArray *ExtractConvertStrsToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlsz
@@ -848,10 +848,10 @@ namespace gpdxl
 				);
 			
 			static
-			EdxlJoinType EdxljtParseJoinType(const XMLCh *xmlszJoinType, const CWStringConst *pstrJoinName);
+			EdxlJoinType ParseJoinType(const XMLCh *xmlszJoinType, const CWStringConst *pstrJoinName);
 			
 			static
-			EdxlIndexScanDirection EdxljtParseIndexScanDirection
+			EdxlIndexScanDirection ParseIndexScanDirection
 				(
 				const XMLCh *xmlszIndexScanDirection,
 				const CWStringConst *pstrIndexScanDirection
@@ -875,23 +875,23 @@ namespace gpdxl
 			
 			// parse comparison operator type
 			static
-			IMDType::ECmpType Ecmpt(const XMLCh* xmlszCmpType);
+			IMDType::ECmpType ParseCmpType(const XMLCh* xmlszCmpType);
 			
 			// parse the distribution policy from the given XML string
 			static
-			IMDRelation::Ereldistrpolicy EreldistrpolicyFromXmlstr(const XMLCh *xmlsz);
+			IMDRelation::Ereldistrpolicy ParseRelationDistPolicy(const XMLCh *xmlsz);
 			
 			// parse the storage type from the given XML string
 			static
-			IMDRelation::Erelstoragetype ErelstoragetypeFromXmlstr(const XMLCh *xmlsz);
+			IMDRelation::Erelstoragetype ParseRelationStorageType(const XMLCh *xmlsz);
 			
 			// parse the OnCommit action spec for CTAS
 			static
-			CDXLCtasStorageOptions::ECtasOnCommitAction EctascommitFromAttr(const Attributes &attr);
+			CDXLCtasStorageOptions::ECtasOnCommitAction ParseOnCommitActionSpec(const Attributes &attr);
 			
 			// parse index type
 			static
-			IMDIndex::EmdindexType EmdindtFromAttr(const Attributes &attrs);
+			IMDIndex::EmdindexType ParseIndexType(const Attributes &attrs);
 
 	};
 

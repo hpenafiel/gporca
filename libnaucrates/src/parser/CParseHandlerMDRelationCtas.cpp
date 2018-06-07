@@ -108,7 +108,7 @@ CParseHandlerMDRelationCtas::StartElement
 															EdxltokenRelStorageType,
 															EdxltokenRelation
 															);
-	m_rel_storage_type = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorageType);
+	m_rel_storage_type = CDXLOperatorFactory::ParseRelationStorageType(xmlszStorageType);
 
 	// parse vartypemod
 	const XMLCh *vartypemod_xml = CDXLOperatorFactory::ExtractAttrValue

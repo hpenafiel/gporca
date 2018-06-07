@@ -157,11 +157,11 @@ CMDAccessorTest::EresUnittest_Basic()
 	mda.Pmdtype(mdid_type);
 	
 #ifdef GPOS_DEBUG
-	const IMDScalarOp *md_scalar_op = 
+	const IMDScalarOp *md_scalar_op =
 #endif
 	mda.Pmdscop(mdid_op);
 
-	GPOS_ASSERT(IMDType::EcmptL == md_scalar_op->Ecmpt());
+	GPOS_ASSERT(IMDType::EcmptL == md_scalar_op->ParseCmpType());
 	
 #ifdef GPOS_DEBUG
 	const IMDAggregate *pmdagg = 
@@ -352,7 +352,7 @@ CMDAccessorTest::EresUnittest_Navigate()
 	IMDId *pmdidEqOp = pimdtype->PmdidCmp(IMDType::EcmptEq);
 
 #ifdef GPOS_DEBUG
-	const IMDScalarOp *md_scalar_op = 
+	const IMDScalarOp *md_scalar_op =
 #endif
 	mda.Pmdscop(pmdidEqOp);
 		
@@ -652,7 +652,7 @@ CMDAccessorTest::EresUnittest_Cast()
 	mda.Pmdcast(pmdtypeInt->MDId(), pmdtypeBigInt->MDId());
 	
 	GPOS_ASSERT(!pmdcastInt2BigInt->FBinaryCoercible());
-	GPOS_ASSERT(pmdcastInt2BigInt->PmdidCastFunc()->IsValid());
+	GPOS_ASSERT(pmdcastInt2BigInt->GetCastFuncMdId()->IsValid());
 	GPOS_ASSERT(pmdcastInt2BigInt->PmdidSrc()->Equals(pmdtypeInt->MDId()));
 	GPOS_ASSERT(pmdcastInt2BigInt->PmdidDest()->Equals(pmdtypeBigInt->MDId()));
 	
@@ -662,7 +662,7 @@ CMDAccessorTest::EresUnittest_Cast()
 	mda.Pmdcast(pmdtypeInt->MDId(), pmdtypeOid->MDId());
 	
 	GPOS_ASSERT(pmdcastInt2Oid->FBinaryCoercible());
-	GPOS_ASSERT(!pmdcastInt2Oid->PmdidCastFunc()->IsValid());
+	GPOS_ASSERT(!pmdcastInt2Oid->GetCastFuncMdId()->IsValid());
 	
 #ifdef GPOS_DEBUG
 	const IMDCast *pmdcastOid2Int = 
@@ -670,7 +670,7 @@ CMDAccessorTest::EresUnittest_Cast()
 	mda.Pmdcast(pmdtypeOid->MDId(), pmdtypeInt->MDId());
 	
 	GPOS_ASSERT(pmdcastOid2Int->FBinaryCoercible());
-	GPOS_ASSERT(!pmdcastOid2Int->PmdidCastFunc()->IsValid());
+	GPOS_ASSERT(!pmdcastOid2Int->GetCastFuncMdId()->IsValid());
 
 	return GPOS_OK;
 }
@@ -713,7 +713,7 @@ CMDAccessorTest::EresUnittest_ScCmp()
 #endif // GPOS_DEBUG
 	mda.Pmdsccmp(pmdtypeInt->MDId(), pmdtypeBigInt->MDId(), IMDType::EcmptEq);
 	
-	GPOS_ASSERT(IMDType::EcmptEq == pmdScEqIntBigInt->Ecmpt());
+	GPOS_ASSERT(IMDType::EcmptEq == pmdScEqIntBigInt->ParseCmpType());
 	GPOS_ASSERT(pmdScEqIntBigInt->PmdidLeft()->Equals(pmdtypeInt->MDId()));
 	GPOS_ASSERT(pmdScEqIntBigInt->PmdidRight()->Equals(pmdtypeBigInt->MDId()));
 

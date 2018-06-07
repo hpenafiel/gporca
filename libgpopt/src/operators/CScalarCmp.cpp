@@ -221,7 +221,7 @@ CScalarCmp::PopCommutedOp
 	IMDId *pmdid = PmdidCommuteOp(md_accessor, pop);
 	if (NULL != pmdid && pmdid->IsValid())
 	{
-		return GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdid, Pstr(memory_pool, md_accessor, pmdid), CUtils::Ecmpt(pmdid));
+		return GPOS_NEW(memory_pool) CScalarCmp(memory_pool, pmdid, Pstr(memory_pool, md_accessor, pmdid), CUtils::ParseCmpType(pmdid));
 	}
 	return NULL;
 }

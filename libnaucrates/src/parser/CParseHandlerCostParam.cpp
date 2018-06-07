@@ -85,9 +85,9 @@ CParseHandlerCostParam::StartElement
 	m_param_name = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, pstrName->GetBuffer());
 	GPOS_DELETE(pstrName);
 
-	m_value = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenCostParam);
-	m_lower_bound_val = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCostParamLowerBound, EdxltokenCostParam);
-	m_upper_bound_val = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCostParamUpperBound, EdxltokenCostParam);
+	m_value = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenCostParam);
+	m_lower_bound_val = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCostParamLowerBound, EdxltokenCostParam);
+	m_upper_bound_val = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCostParamUpperBound, EdxltokenCostParam);
 }
 
 

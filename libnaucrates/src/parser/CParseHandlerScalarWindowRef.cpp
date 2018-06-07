@@ -60,7 +60,7 @@ CParseHandlerScalarWindowRef::StartElement
 	{
 		// parse and create scalar WindowRef (window function)
 		CDXLScalarWindowRef *dxl_op =
-				(CDXLScalarWindowRef*) CDXLOperatorFactory::PdxlopWindowRef(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
+				(CDXLScalarWindowRef*) CDXLOperatorFactory::MakeWindowRef(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
 
 		// construct node from the created scalar window ref
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);

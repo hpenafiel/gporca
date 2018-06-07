@@ -420,14 +420,14 @@ CMDTypeGenericGPDB::GetDatumVal
 		case GPDB_NUMERIC:
 		case GPDB_FLOAT4:
 		case GPDB_FLOAT8:
-			return CMDTypeGenericGPDB::PdxldatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba,
+			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba,
 																	length, lValue, dValue);
 		// has lint mapping
 		case GPDB_CHAR:
 		case GPDB_VARCHAR:
 		case GPDB_TEXT:
 		case GPDB_CASH:
-			return CMDTypeGenericGPDB::PdxldatumStatsLintMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
+			return CMDTypeGenericGPDB::GetDatumStatsLintMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
 		// time-related types
 		case GPDB_DATE:
 		case GPDB_TIME:
@@ -438,13 +438,13 @@ CMDTypeGenericGPDB::GetDatumVal
 		case GPDB_RELTIME:
 		case GPDB_INTERVAL:
 		case GPDB_TIMEINTERVAL:
-			return CMDTypeGenericGPDB::PdxldatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba,
+			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba,
 																	length, lValue, dValue);
 		// network-related types
 		case GPDB_INET:
 		case GPDB_CIDR:
 		case GPDB_MACADDR:
-			return CMDTypeGenericGPDB::PdxldatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
+			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
 		default:
 			return GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length);
 	}
@@ -453,14 +453,14 @@ CMDTypeGenericGPDB::GetDatumVal
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDTypeGenericGPDB::PdxldatumStatsDoubleMappable
+//		CMDTypeGenericGPDB::GetDatumStatsDoubleMappable
 //
 //	@doc:
 // 		Create a dxl datum of types that need double mapping
 //
 //---------------------------------------------------------------------------
 CDXLDatum *
-CMDTypeGenericGPDB::PdxldatumStatsDoubleMappable
+CMDTypeGenericGPDB::GetDatumStatsDoubleMappable
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
@@ -480,14 +480,14 @@ CMDTypeGenericGPDB::PdxldatumStatsDoubleMappable
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDTypeGenericGPDB::PdxldatumStatsLintMappable
+//		CMDTypeGenericGPDB::GetDatumStatsLintMappable
 //
 //	@doc:
 // 		Create a dxl datum of types having lint mapping
 //
 //---------------------------------------------------------------------------
 CDXLDatum *
-CMDTypeGenericGPDB::PdxldatumStatsLintMappable
+CMDTypeGenericGPDB::GetDatumStatsLintMappable
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,

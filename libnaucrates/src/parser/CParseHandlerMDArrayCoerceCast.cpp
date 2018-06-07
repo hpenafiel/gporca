@@ -61,7 +61,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszFuncName);
 
 	// parse cast properties
-	IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -69,7 +69,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	IMDId *pmdidSrc = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *pmdidSrc = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -77,7 +77,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	IMDId *pmdidDest = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *pmdidDest = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -85,7 +85,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	IMDId *pmdidCastFunc = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *pmdidCastFunc = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,

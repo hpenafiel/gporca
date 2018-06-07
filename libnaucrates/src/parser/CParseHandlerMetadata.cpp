@@ -155,7 +155,7 @@ CParseHandlerMetadata::StartElement
 	{
 		// start of the metadata section in the DXL document
 		GPOS_ASSERT(NULL != m_mdid_array);
-		IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenMdid);
+		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenMdid);
 		m_mdid_array->Append(pmdid);
 	}
 	else

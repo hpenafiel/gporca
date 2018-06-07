@@ -155,7 +155,7 @@ CMDScCmpGPDB::MdIdOp() const
 //
 //---------------------------------------------------------------------------
 IMDType::ECmpType
-CMDScCmpGPDB::Ecmpt() const
+CMDScCmpGPDB::ParseCmpType() const
 {
 	return m_ecmpt;
 }

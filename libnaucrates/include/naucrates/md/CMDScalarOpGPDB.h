@@ -149,7 +149,7 @@ namespace gpmd
 
 			// comparison type
 			virtual
-			IMDType::ECmpType Ecmpt() const;
+			IMDType::ECmpType ParseCmpType() const;
 			
 			// serialize object in DXL format
 			virtual

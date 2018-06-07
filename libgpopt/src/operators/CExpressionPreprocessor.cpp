@@ -573,10 +573,10 @@ CExpressionPreprocessor::FConvert2InIsConvertable(CExpression *pexpr, CScalarBoo
 	if (CPredicateUtils::FCompareIdentToConst(pexpr))
 	{
 		fConvertableExpression |=
-				IMDType::EcmptEq == CScalarCmp::PopConvert(pexpr->Pop())->Ecmpt() &&
+				IMDType::EcmptEq == CScalarCmp::PopConvert(pexpr->Pop())->ParseCmpType() &&
 					CScalarBoolOp::EboolopOr == eboolopParent;
 		fConvertableExpression |=
-				IMDType::EcmptNEq == CScalarCmp::PopConvert(pexpr->Pop())->Ecmpt() &&
+				IMDType::EcmptNEq == CScalarCmp::PopConvert(pexpr->Pop())->ParseCmpType() &&
 					CScalarBoolOp::EboolopAnd == eboolopParent;
 	}
 	else if (CPredicateUtils::FCompareIdentToConstArray(pexpr))

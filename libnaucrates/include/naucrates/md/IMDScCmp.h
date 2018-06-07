@@ -53,7 +53,7 @@ namespace gpmd
 			
 			// comparison type
 			virtual 
-			IMDType::ECmpType Ecmpt() const = 0;
+			IMDType::ECmpType ParseCmpType() const = 0;
 
 			// comparison operator id
 			virtual 

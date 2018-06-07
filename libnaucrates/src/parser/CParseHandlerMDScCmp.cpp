@@ -77,7 +77,7 @@ CParseHandlerMDScCmp::StartElement
 
 
 	// parse scalar comparison properties
-	IMDId *pmdid = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -85,7 +85,7 @@ CParseHandlerMDScCmp::StartElement
 									EdxltokenGPDBMDScCmp
 									);
 	
-	IMDId *pmdidLeft = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *pmdidLeft = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -93,7 +93,7 @@ CParseHandlerMDScCmp::StartElement
 									EdxltokenGPDBMDScCmp
 									);
 	
-	IMDId *pmdidRight = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *pmdidRight = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -101,7 +101,7 @@ CParseHandlerMDScCmp::StartElement
 									EdxltokenGPDBMDScCmp
 									);
 	
-	IMDId *mdid_op = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *mdid_op = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -117,7 +117,7 @@ CParseHandlerMDScCmp::StartElement
 								EdxltokenGPDBMDScCmp
 								);
 
-	IMDType::ECmpType ecmpt = CDXLOperatorFactory::Ecmpt(xmlszCmpType);
+	IMDType::ECmpType ecmpt = CDXLOperatorFactory::ParseCmpType(xmlszCmpType);
 	
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDScCmpGPDB(m_memory_pool, pmdid, mdname, pmdidLeft, pmdidRight, ecmpt, mdid_op);
 }

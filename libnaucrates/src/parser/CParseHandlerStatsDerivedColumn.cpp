@@ -91,7 +91,7 @@ CParseHandlerStatsDerivedColumn::StartElement
 											);
 
 		// parse column width
-		m_dWidth = CDXLOperatorFactory::DValueFromAttrs
+		m_dWidth = CDXLOperatorFactory::ExtractConvertAttrValueToDouble
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -102,19 +102,19 @@ CParseHandlerStatsDerivedColumn::StartElement
 		const XMLCh *parsed_null_freq = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColNullFreq));
 		if (NULL != parsed_null_freq)
 		{
-			m_dNullFreq = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_null_freq, EdxltokenColNullFreq, EdxltokenColumnStats);
+			m_dNullFreq = CDXLOperatorFactory::ConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_null_freq, EdxltokenColNullFreq, EdxltokenColumnStats);
 		}
 
 		const XMLCh *parsed_distinct_remaining = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColNdvRemain));
 		if (NULL != parsed_distinct_remaining)
 		{
-			m_dDistinctRemain = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_distinct_remaining, EdxltokenColNdvRemain, EdxltokenColumnStats);
+			m_dDistinctRemain = CDXLOperatorFactory::ConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_distinct_remaining, EdxltokenColNdvRemain, EdxltokenColumnStats);
 		}
 
 		const XMLCh *parsed_freq_remaining = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColFreqRemain));
 		if (NULL != parsed_freq_remaining)
 		{
-			m_dFreqRemain = CDXLOperatorFactory::DValueFromXmlstr(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_freq_remaining, EdxltokenColFreqRemain, EdxltokenColumnStats);
+			m_dFreqRemain = CDXLOperatorFactory::ConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), parsed_freq_remaining, EdxltokenColFreqRemain, EdxltokenColumnStats);
 		}
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnStatsBucket), element_local_name))

@@ -169,7 +169,7 @@ CMDIdScCmp::Equals
 	
 	return m_pmdidLeft->Equals(pmdidScCmp->PmdidLeft()) && 
 			m_pmdidRight->Equals(pmdidScCmp->PmdidRight()) &&
-			m_ecmpt == pmdidScCmp->Ecmpt(); 
+			m_ecmpt == pmdidScCmp->ParseCmpType(); 
 }
 
 //---------------------------------------------------------------------------

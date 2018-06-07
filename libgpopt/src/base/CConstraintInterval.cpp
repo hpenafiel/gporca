@@ -214,7 +214,7 @@ CConstraintInterval::PcnstrIntervalFromScalarArrayCmp
 #endif // GPOS_DEBUG
 
 	CScalarArrayCmp *popScArrayCmp = CScalarArrayCmp::PopConvert(pexpr->Pop());
-	IMDType::ECmpType ecmpt = CUtils::Ecmpt(popScArrayCmp->MdIdOp());
+	IMDType::ECmpType ecmpt = CUtils::ParseCmpType(popScArrayCmp->MdIdOp());
 
 
 	CExpression *pexprArray = CUtils::PexprScalarArrayChild(pexpr);
@@ -427,7 +427,7 @@ CConstraintInterval::PciIntervalFromScalarCmp
 		CScalarConst *popScConst = CScalarConst::PopConvert((*pexpr)[1]->Pop());
 		CScalarCmp *popScCmp = CScalarCmp::PopConvert(pexpr->Pop());
 
-		return PciIntervalFromColConstCmp(memory_pool, pcr, popScCmp->Ecmpt(), popScConst);
+		return PciIntervalFromColConstCmp(memory_pool, pcr, popScCmp->ParseCmpType(), popScConst);
 	}
 
 	return NULL;
@@ -459,7 +459,7 @@ CConstraintInterval::PciIntervalFromScalarIDF
 		CScalarIsDistinctFrom *popScCmp = CScalarIsDistinctFrom::PopConvert(pexpr->Pop());
 
 		GPOS_ASSERT (CScalar::EopScalarConst == popScConst->Eopid());
-		GPOS_ASSERT (IMDType::EcmptIDF == popScCmp->Ecmpt());
+		GPOS_ASSERT (IMDType::EcmptIDF == popScCmp->ParseCmpType());
 
 		IDatum *pdatum = popScConst->Pdatum();
 		CConstraintInterval *pcri = NULL;
@@ -475,7 +475,7 @@ CConstraintInterval::PciIntervalFromScalarIDF
 		else
 		{
 			// col IS DISTINCT FROM const
-			DrgPrng *pdrgprng = PciRangeFromColConstCmp(memory_pool, popScCmp->Ecmpt(), popScConst);
+			DrgPrng *pdrgprng = PciRangeFromColConstCmp(memory_pool, popScCmp->ParseCmpType(), popScConst);
 			if (NULL != pdrgprng)
 			{
 				pcri = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true /*fIncludesNull*/);

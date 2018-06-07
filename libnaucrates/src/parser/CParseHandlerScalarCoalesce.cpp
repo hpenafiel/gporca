@@ -61,7 +61,7 @@ CParseHandlerScalarCoalesce::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarCoalesce), element_local_name) && NULL == m_mdid_type)
 	{
 		// parse type id
-		m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarCoalesce);
+		m_mdid_type = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarCoalesce);
 	}
 	else
 	{

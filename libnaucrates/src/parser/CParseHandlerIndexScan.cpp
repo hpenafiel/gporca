@@ -121,7 +121,7 @@ CParseHandlerIndexScan::StartElementHelper
 																	EdxltokenIndexScanDirection,
 																	token_type
 																	);
-	m_index_scan_dir = CDXLOperatorFactory::EdxljtParseIndexScanDirection
+	m_index_scan_dir = CDXLOperatorFactory::ParseIndexScanDirection
 										(
 										index_scan_direction,
 										CDXLTokens::GetDXLTokenStr(token_type)

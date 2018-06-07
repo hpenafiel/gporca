@@ -117,7 +117,7 @@ CCastUtils::PexprCast
 	const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidSrc, pmdidDest);
 
     pmdidDest->AddRef();
-	pmdcast->PmdidCastFunc()->AddRef();
+	pmdcast->GetCastFuncMdId()->AddRef();
 	CExpression *pexpr;
 
 	if(pmdcast->EmdPathType() == IMDCast::EmdtArrayCoerce)
@@ -129,7 +129,7 @@ CCastUtils::PexprCast
 		 GPOS_NEW(memory_pool) CScalarArrayCoerceExpr
 		 (
 		  memory_pool,
-		  parrayCoerceCast->PmdidCastFunc(),
+		  parrayCoerceCast->GetCastFuncMdId(),
 		  pmdidDest,
 		  parrayCoerceCast->TypeModifier(),
 		  parrayCoerceCast->FIsExplicit(),
@@ -141,7 +141,7 @@ CCastUtils::PexprCast
 	}
 	else
 	{
-		CScalarCast *popCast = GPOS_NEW(memory_pool) CScalarCast(memory_pool, pmdidDest, pmdcast->PmdidCastFunc(), pmdcast->FBinaryCoercible());
+		CScalarCast *popCast = GPOS_NEW(memory_pool) CScalarCast(memory_pool, pmdidDest, pmdcast->GetCastFuncMdId(), pmdcast->FBinaryCoercible());
 		pexpr = GPOS_NEW(memory_pool) CExpression(memory_pool, popCast, CUtils::PexprScalarIdent(memory_pool, pcr));
 	}
 	return pexpr;
@@ -315,7 +315,7 @@ CCastUtils::PexprCast
     const IMDCast *pmdcast = md_accessor->Pmdcast(pmdidSrc, pmdidDest);
 
     pmdidDest->AddRef();
-    pmdcast->PmdidCastFunc()->AddRef();
+    pmdcast->GetCastFuncMdId()->AddRef();
     CExpression *pexprCast;
 
     if (pmdcast->EmdPathType() == IMDCast::EmdtArrayCoerce)
@@ -324,13 +324,13 @@ CCastUtils::PexprCast
         pexprCast = GPOS_NEW(memory_pool) CExpression
         (
          memory_pool,
-         GPOS_NEW(memory_pool) CScalarArrayCoerceExpr(memory_pool, parrayCoerceCast->PmdidCastFunc(), pmdidDest, parrayCoerceCast->TypeModifier(), parrayCoerceCast->FIsExplicit(), (COperator::ECoercionForm) parrayCoerceCast->Ecf(), parrayCoerceCast->ILoc()),
+         GPOS_NEW(memory_pool) CScalarArrayCoerceExpr(memory_pool, parrayCoerceCast->GetCastFuncMdId(), pmdidDest, parrayCoerceCast->TypeModifier(), parrayCoerceCast->FIsExplicit(), (COperator::ECoercionForm) parrayCoerceCast->Ecf(), parrayCoerceCast->ILoc()),
          pexpr
          );
     }
     else
     {
-        CScalarCast *popCast = GPOS_NEW(memory_pool) CScalarCast(memory_pool, pmdidDest, pmdcast->PmdidCastFunc(), pmdcast->FBinaryCoercible());
+        CScalarCast *popCast = GPOS_NEW(memory_pool) CScalarCast(memory_pool, pmdidDest, pmdcast->GetCastFuncMdId(), pmdcast->FBinaryCoercible());
         pexprCast = GPOS_NEW(memory_pool) CExpression(memory_pool, popCast, pexpr);
     }
 

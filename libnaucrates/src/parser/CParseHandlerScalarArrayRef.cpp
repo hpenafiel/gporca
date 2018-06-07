@@ -68,9 +68,9 @@ CParseHandlerScalarArrayRef::StartElement
 		GPOS_ASSERT(NULL == m_dxl_node);
 
 		// parse types
-		IMDId *pmdidElem = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayElementType, EdxltokenScalarArrayRef);
-		IMDId *pmdidArray = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayType, EdxltokenScalarArrayRef);
-		IMDId *pmdidReturn = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarArrayRef);
+		IMDId *pmdidElem = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayElementType, EdxltokenScalarArrayRef);
+		IMDId *pmdidArray = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayType, EdxltokenScalarArrayRef);
+		IMDId *pmdidReturn = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarArrayRef);
 		INT type_modifier = CDXLOperatorFactory::ExtractConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeMod, EdxltokenScalarArrayRef, true, IDefaultTypeModifier);
 
 		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRef(m_memory_pool, pmdidElem, type_modifier, pmdidArray, pmdidReturn));

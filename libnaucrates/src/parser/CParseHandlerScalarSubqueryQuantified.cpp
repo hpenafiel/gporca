@@ -75,7 +75,7 @@ CParseHandlerScalarSubqueryQuantified::StartElement
 	}
 
 	// parse operator id
-	IMDId *mdid_op = CDXLOperatorFactory::PmdidFromAttrs
+	IMDId *mdid_op = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 							(
 							m_parse_handler_mgr->GetDXLMemoryManager(),
 							attrs,

@@ -583,17 +583,17 @@ CExpressionTest::EresUnittest_ComparisonTypes()
 
 	const IMDType *pmdtype = mda.PtMDType<IMDTypeInt4>();
 
-	GPOS_ASSERT(IMDType::EcmptEq == CUtils::Ecmpt(pmdtype->PmdidCmp(IMDType::EcmptEq)));
-	GPOS_ASSERT(IMDType::EcmptL == CUtils::Ecmpt(pmdtype->PmdidCmp(IMDType::EcmptL)));
-	GPOS_ASSERT(IMDType::EcmptG == CUtils::Ecmpt(pmdtype->PmdidCmp(IMDType::EcmptG)));
+	GPOS_ASSERT(IMDType::EcmptEq == CUtils::ParseCmpType(pmdtype->PmdidCmp(IMDType::EcmptEq)));
+	GPOS_ASSERT(IMDType::EcmptL == CUtils::ParseCmpType(pmdtype->PmdidCmp(IMDType::EcmptL)));
+	GPOS_ASSERT(IMDType::EcmptG == CUtils::ParseCmpType(pmdtype->PmdidCmp(IMDType::EcmptG)));
 
 	const IMDScalarOp *pmdscopEq = mda.Pmdscop(pmdtype->PmdidCmp(IMDType::EcmptEq));
 	const IMDScalarOp *pmdscopLT = mda.Pmdscop(pmdtype->PmdidCmp(IMDType::EcmptL));
 	const IMDScalarOp *pmdscopGT = mda.Pmdscop(pmdtype->PmdidCmp(IMDType::EcmptG));
 
-	GPOS_ASSERT(IMDType::EcmptNEq == CUtils::Ecmpt(pmdscopEq->PmdidOpInverse()));
-	GPOS_ASSERT(IMDType::EcmptLEq == CUtils::Ecmpt(pmdscopGT->PmdidOpInverse()));
-	GPOS_ASSERT(IMDType::EcmptGEq == CUtils::Ecmpt(pmdscopLT->PmdidOpInverse()));
+	GPOS_ASSERT(IMDType::EcmptNEq == CUtils::ParseCmpType(pmdscopEq->PmdidOpInverse()));
+	GPOS_ASSERT(IMDType::EcmptLEq == CUtils::ParseCmpType(pmdscopGT->PmdidOpInverse()));
+	GPOS_ASSERT(IMDType::EcmptGEq == CUtils::ParseCmpType(pmdscopLT->PmdidOpInverse()));
 
 	return GPOS_OK;
 }

@@ -726,7 +726,7 @@ CTranslatorDXLToExpr::PexprCastPrjElem
 {
 	const IMDCast *pmdcast = m_pmda->Pmdcast(pmdidSource, pmdidDest);
 	pmdidDest->AddRef();
-	pmdcast->PmdidCastFunc()->AddRef();
+	pmdcast->GetCastFuncMdId()->AddRef();
 	CExpression *pexprCast;
 
 	if (pmdcast->EmdPathType() == IMDCast::EmdtArrayCoerce)
@@ -739,7 +739,7 @@ CTranslatorDXLToExpr::PexprCastPrjElem
 			GPOS_NEW(m_memory_pool) CScalarArrayCoerceExpr
 							(
 							m_memory_pool,
-							parrayCoerceCast->PmdidCastFunc(),
+							parrayCoerceCast->GetCastFuncMdId(),
 							pmdidDest,
 							parrayCoerceCast->TypeModifier(),
 							parrayCoerceCast->FIsExplicit(),
@@ -755,7 +755,7 @@ CTranslatorDXLToExpr::PexprCastPrjElem
 			GPOS_NEW(m_memory_pool) CExpression
 			(
 				m_memory_pool,
-				GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, pmdidDest, pmdcast->PmdidCastFunc(), pmdcast->FBinaryCoercible()),
+				GPOS_NEW(m_memory_pool) CScalarCast(m_memory_pool, pmdidDest, pmdcast->GetCastFuncMdId(), pmdcast->FBinaryCoercible()),
 				GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarIdent(m_memory_pool, pcrToCast))
 			);
 	}
@@ -2723,7 +2723,7 @@ CTranslatorDXLToExpr::PexprScalarOp
 	IMDId *pmdid = dxl_op->MDId();
 	pmdid->AddRef();
 	
-	IMDId *return_type_mdid = dxl_op->GetReturnTypeMdId(); 
+	IMDId *return_type_mdid = dxl_op->GetReturnTypeMdId();
 	if (NULL != return_type_mdid)
 	{
 		return_type_mdid->AddRef();
@@ -2843,7 +2843,7 @@ CTranslatorDXLToExpr::PexprScalarCmp
 										m_memory_pool,
 										pmdid,
 										GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pdxlopComp->GetComparisonOpName()->GetBuffer()),
-										CUtils::Ecmpt(pmdid)
+										CUtils::ParseCmpType(pmdid)
 										);
 
 	GPOS_ASSERT(NULL != popScCmp);
@@ -2912,7 +2912,7 @@ CTranslatorDXLToExpr::PexprScalarFunc
 			pop = GPOS_NEW(m_memory_pool) CScalarArrayCoerceExpr
 					(
 					m_memory_pool,
-					parrayCoerceCast->PmdidCastFunc(),
+					parrayCoerceCast->GetCastFuncMdId(),
 					mdid_return_type,
 					parrayCoerceCast->TypeModifier(),
 					parrayCoerceCast->FIsExplicit(),
@@ -3616,7 +3616,7 @@ CTranslatorDXLToExpr::PexprScalarCast
 									GPOS_NEW(m_memory_pool) CScalarArrayCoerceExpr
 														(
 														m_memory_pool,
-														parrayCoerceCast->PmdidCastFunc(),
+														parrayCoerceCast->GetCastFuncMdId(),
 														mdid_type,
 														parrayCoerceCast->TypeModifier(),
 														parrayCoerceCast->FIsExplicit(),

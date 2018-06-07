@@ -85,7 +85,7 @@ namespace gpmd
 			// right type id
 			IMDId *PmdidRight() const;
 			
-			IMDType::ECmpType Ecmpt() const
+			IMDType::ECmpType ParseCmpType() const
 			{ 
 				return m_ecmpt;
 			}

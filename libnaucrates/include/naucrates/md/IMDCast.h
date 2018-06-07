@@ -65,7 +65,7 @@ namespace gpmd
 
 			// cast function id
 			virtual 
-			IMDId *PmdidCastFunc() const = 0;
+			IMDId *GetCastFuncMdId() const = 0;
 
 			// return the coercion path type
 			virtual

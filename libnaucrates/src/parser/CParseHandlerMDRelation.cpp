@@ -138,7 +138,7 @@ CParseHandlerMDRelation::StartElement
 															EdxltokenRelation
 															);
 	
-	m_rel_storage_type = CDXLOperatorFactory::ErelstoragetypeFromXmlstr(xmlszStorageType);
+	m_rel_storage_type = CDXLOperatorFactory::ParseRelationStorageType(xmlszStorageType);
 
 	const XMLCh *xmlszPartColumns = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenPartKeys));
 
@@ -157,7 +157,7 @@ CParseHandlerMDRelation::StartElement
 
 	if (NULL != xmlszPartTypes)
 	{
-		m_pdrgpszPartTypes = CDXLOperatorFactory::PdrgpszFromXMLCh
+		m_pdrgpszPartTypes = CDXLOperatorFactory::ExtractConvertPartitionTypeToArray
 														(
 														m_parse_handler_mgr->GetDXLMemoryManager(),
 														xmlszPartTypes,
@@ -306,11 +306,11 @@ CParseHandlerMDRelation::ParseRelationAttributes
 	GPOS_DELETE(pstrTableName);
 
 	// parse metadata id info
-	m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, edxltokenElement);
+	m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, edxltokenElement);
 
 	// parse distribution policy
 	const XMLCh *rel_distr_policy_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenRelDistrPolicy, edxltokenElement);
-	m_rel_distr_policy = CDXLOperatorFactory::EreldistrpolicyFromXmlstr(rel_distr_policy_xml);
+	m_rel_distr_policy = CDXLOperatorFactory::ParseRelationDistPolicy(rel_distr_policy_xml);
 
 	if (m_rel_distr_policy == IMDRelation::EreldistrHash)
 	{
@@ -323,7 +323,7 @@ CParseHandlerMDRelation::ParseRelationAttributes
 	const XMLCh *xmlszKeys = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenKeys));
 	if (NULL != xmlszKeys)
 	{
-		m_pdrgpdrgpulKeys = CDXLOperatorFactory::PdrgpdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszKeys, EdxltokenKeys, edxltokenElement);
+		m_pdrgpdrgpulKeys = CDXLOperatorFactory::ExtractConvertUlongTo2DArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszKeys, EdxltokenKeys, edxltokenElement);
 	}
 	else
 	{

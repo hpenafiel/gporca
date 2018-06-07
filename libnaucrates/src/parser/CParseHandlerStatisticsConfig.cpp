@@ -82,9 +82,9 @@ CParseHandlerStatisticsConfig::StartElement
 	}
 
 	// parse statistics configuration options
-	CDouble dDampingFactorFilter = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorFilter, EdxltokenStatisticsConfig);
-	CDouble dDampingFactorJoin = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorJoin, EdxltokenStatisticsConfig);
-	CDouble dDampingFactorGroupBy = CDXLOperatorFactory::DValueFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorGroupBy, EdxltokenStatisticsConfig);
+	CDouble dDampingFactorFilter = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorFilter, EdxltokenStatisticsConfig);
+	CDouble dDampingFactorJoin = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorJoin, EdxltokenStatisticsConfig);
+	CDouble dDampingFactorGroupBy = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorGroupBy, EdxltokenStatisticsConfig);
 
 	m_pstatsconf = GPOS_NEW(m_memory_pool) CStatisticsConfig(m_memory_pool, dDampingFactorFilter, dDampingFactorJoin, dDampingFactorGroupBy);
 }

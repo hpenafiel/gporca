@@ -41,7 +41,7 @@ using namespace gpmd;
 //	@doc:
 //		For the purpose of statistics computation, what is the comparison
 //		type of an operator. Note that this has different, looser semantics
-//		than CUtils::Ecmpt
+//		than CUtils::ParseCmpType
 //
 //---------------------------------------------------------------------------
 CStatsPred::EStatsCmpType
@@ -96,7 +96,7 @@ CStatsPredUtils::Estatscmpt
 //	@doc:
 //		For the purpose of statistics computation, what is the comparison
 //		type of an operator. Note that this has different, looser semantics
-//		than CUtils::Ecmpt
+//		than CUtils::ParseCmpType
 //
 //---------------------------------------------------------------------------
 CStatsPred::EStatsCmpType

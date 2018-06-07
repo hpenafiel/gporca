@@ -298,7 +298,7 @@ namespace gpmd
 
 			// create a dxl datum of types having double mapping
 			static
-			CDXLDatum *PdxldatumStatsDoubleMappable
+			CDXLDatum *GetDatumStatsDoubleMappable
 						(
 						IMemoryPool *memory_pool,
 						IMDId *pmdid,
@@ -313,7 +313,7 @@ namespace gpmd
 
 			// create a dxl datum of types having lint mapping
 			static
-			CDXLDatum *PdxldatumStatsLintMappable
+			CDXLDatum *GetDatumStatsLintMappable
 						(
 						IMemoryPool *memory_pool,
 						IMDId *pmdid,

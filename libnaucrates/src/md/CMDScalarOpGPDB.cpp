@@ -232,14 +232,14 @@ CMDScalarOpGPDB::FReturnsNullOnNullInput() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDScalarOpGPDB::Ecmpt
+//		CMDScalarOpGPDB::ParseCmpType
 //
 //	@doc:
 //		Comparison type
 //
 //---------------------------------------------------------------------------
 IMDType::ECmpType
-CMDScalarOpGPDB::Ecmpt() const
+CMDScalarOpGPDB::ParseCmpType() const
 {
 	return m_ecmpt;
 }

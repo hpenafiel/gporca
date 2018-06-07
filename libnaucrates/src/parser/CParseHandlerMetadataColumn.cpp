@@ -108,7 +108,7 @@ CParseHandlerMetadataColumn::StartElement
 								EdxltokenMetadataColumn
 								);
 
-	m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs
+	m_mdid_type = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,

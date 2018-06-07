@@ -122,7 +122,7 @@ CParseHandlerScalarSubPlan::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	m_mdid_first_col = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarSubPlanParam);
+	m_mdid_first_col = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarSubPlanParam);
 
 	const XMLCh *xmlszSubplanType  = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenScalarSubPlanType, EdxltokenScalarSubPlan);
 	m_dxl_subplan_type = GetDXLSubplanType(xmlszSubplanType);

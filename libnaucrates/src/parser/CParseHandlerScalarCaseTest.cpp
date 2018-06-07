@@ -63,7 +63,7 @@ CParseHandlerScalarCaseTest::StartElement
 	}
 
 	// parse type id
-	m_mdid_type = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarCaseTest);
+	m_mdid_type = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarCaseTest);
 }
 
 //---------------------------------------------------------------------------

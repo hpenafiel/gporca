@@ -120,7 +120,7 @@ CParseHandlerMDType::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenMDType), element_local_name))
 	{
 		// parse metadata id info
-		m_mdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenMDType);
+		m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenMDType);
 		
 		if (!FBuiltInType(m_mdid))
 		{
@@ -185,7 +185,7 @@ CParseHandlerMDType::StartElement
 			if (m_fComposite)
 			{
 				// get base relation id
-				m_pmdidBaseRelation = CDXLOperatorFactory::PmdidFromAttrs
+				m_pmdidBaseRelation = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										attrs,
@@ -274,7 +274,7 @@ CParseHandlerMDType::ParseMdid
 		(*ppmdid)->Release();
 	}
 	
-	*ppmdid = CDXLOperatorFactory::PmdidFromAttrs(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, token_type);
+	*ppmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, token_type);
 }
 
 //---------------------------------------------------------------------------

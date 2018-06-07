@@ -104,7 +104,7 @@ CConstraint::PcnstrFromScalarArrayCmp
 #endif // GPOS_DEBUG
 
 		// get comparison type
-		IMDType::ECmpType ecmpt = CUtils::Ecmpt(popScArrayCmp->MdIdOp());
+		IMDType::ECmpType ecmpt = CUtils::ParseCmpType(popScArrayCmp->PmdidOp());
 		CExpression *pexprArray = CUtils::PexprScalarArrayChild(pexpr);
 
 		const ULONG arity = CUtils::UlScalarArrayArity(pexprArray);

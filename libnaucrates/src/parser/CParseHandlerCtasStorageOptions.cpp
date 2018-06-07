@@ -79,7 +79,7 @@ CParseHandlerCtasStorageOptions::StartElement
 			m_pmdnameTablespace = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTablespace);
 		}
 		
-		m_ectascommit = CDXLOperatorFactory::EctascommitFromAttr(attrs);
+		m_ectascommit = CDXLOperatorFactory::ParseOnCommitActionSpec(attrs);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTASOption), element_local_name))
 	{
