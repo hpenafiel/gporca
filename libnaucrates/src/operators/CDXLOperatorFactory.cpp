@@ -213,7 +213,7 @@ CDXLOperatorFactory::MakeDXLMergeJoin
 	
 	EdxlJoinType join_type = ParseJoinType(xmlszJoinType, CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalMergeJoin));
 	
-	BOOL fUniqueOuter = ExtractConvertAttrValueToBool
+	BOOL is_unique_outer = ExtractConvertAttrValueToBool
 								(
 								memory_manager_dxl,
 								attrs,
@@ -221,7 +221,7 @@ CDXLOperatorFactory::MakeDXLMergeJoin
 								EdxltokenPhysicalMergeJoin
 								);
 	
-	return GPOS_NEW(memory_pool) CDXLPhysicalMergeJoin(memory_pool, join_type, fUniqueOuter);
+	return GPOS_NEW(memory_pool) CDXLPhysicalMergeJoin(memory_pool, join_type, is_unique_outer);
 }
 
 //		Construct a gather motion operator

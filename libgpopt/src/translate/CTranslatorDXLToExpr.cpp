@@ -2758,12 +2758,12 @@ CTranslatorDXLToExpr::PexprScalarIsDistinctFrom
 	GPOS_ASSERT(NULL != pdxlnDistCmp && 2 == pdxlnDistCmp->Arity());
 	CDXLScalarDistinctComp *pdxlopDistCmp = CDXLScalarDistinctComp::Cast(pdxlnDistCmp->GetOperator());
 	// get children
-	CDXLNode *pdxlnLeft = (*pdxlnDistCmp)[0];
-	CDXLNode *pdxlnRight = (*pdxlnDistCmp)[1];
+	CDXLNode *dxlnode_left = (*pdxlnDistCmp)[0];
+	CDXLNode *dxlnode_right = (*pdxlnDistCmp)[1];
 
 	// translate left and right children
-	CExpression *pexprLeft = Pexpr(pdxlnLeft);
-	CExpression *pexprRight = Pexpr(pdxlnRight);
+	CExpression *pexprLeft = Pexpr(dxlnode_left);
+	CExpression *pexprRight = Pexpr(dxlnode_right);
 	
 	IMDId *mdid_op = pdxlopDistCmp->MDId();
 	mdid_op->AddRef();
@@ -2828,12 +2828,12 @@ CTranslatorDXLToExpr::PexprScalarCmp
 	GPOS_ASSERT(NULL != pdxlnCmp && 2 == pdxlnCmp->Arity());
 	CDXLScalarComp *pdxlopComp = CDXLScalarComp::Cast(pdxlnCmp->GetOperator());
 	// get children
-	CDXLNode *pdxlnLeft = (*pdxlnCmp)[0];
-	CDXLNode *pdxlnRight = (*pdxlnCmp)[1];
+	CDXLNode *dxlnode_left = (*pdxlnCmp)[0];
+	CDXLNode *dxlnode_right = (*pdxlnCmp)[1];
 
 	// translate left and right children
-	CExpression *pexprLeft = Pexpr(pdxlnLeft);
-	CExpression *pexprRight = Pexpr(pdxlnRight);
+	CExpression *pexprLeft = Pexpr(dxlnode_left);
+	CExpression *pexprRight = Pexpr(dxlnode_right);
 
 	IMDId *pmdid = pdxlopComp->MDId();
 	pmdid->AddRef();

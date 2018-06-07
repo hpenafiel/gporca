@@ -315,7 +315,7 @@ namespace gpopt
 						DrgPdxlcr *dxl_colref_array
 						);
 
-			CDXLNode *PdxlnScBoolExpr(EdxlBoolExprType boolexptype,	CDXLNode *pdxlnLeft, CDXLNode *pdxlnRight);
+			CDXLNode *PdxlnScBoolExpr(EdxlBoolExprType boolexptype,	CDXLNode *dxlnode_left, CDXLNode *dxlnode_right);
 
 			CDXLNode *PdxlnTblScanFromNLJoinOuter
 						(

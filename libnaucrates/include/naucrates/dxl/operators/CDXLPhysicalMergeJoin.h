@@ -43,14 +43,14 @@ namespace gpdxl
 	{
 		private:
 			// true if outer relation has unique values for the merge key
-			BOOL m_fUniqueOuter;
+			BOOL m_is_unique_outer;
 			
 			// private copy ctor
 			CDXLPhysicalMergeJoin(const CDXLPhysicalMergeJoin&);
 
 		public:
 			// ctor
-			CDXLPhysicalMergeJoin(IMemoryPool *memory_pool, EdxlJoinType join_type, BOOL fUniqueOuter);
+			CDXLPhysicalMergeJoin(IMemoryPool *memory_pool, EdxlJoinType join_type, BOOL is_unique_outer);
 			
 			// accessors
 			Edxlopid GetDXLOperator() const;

@@ -124,20 +124,20 @@ CDXLPhysicalNLJoin::AssertValid
 	GPOS_ASSERT(EdxlnljIndexSentinel == dxlnode->Arity());
 	GPOS_ASSERT(EdxljtSentinel > GetJoinType());
 	
-	CDXLNode *pdxlnJoinFilter = (*dxlnode)[EdxlnljIndexJoinFilter];
-	CDXLNode *pdxlnLeft = (*dxlnode)[EdxlnljIndexLeftChild];
-	CDXLNode *pdxlnRight = (*dxlnode)[EdxlnljIndexRightChild];
+	CDXLNode *dxlnode_join_filter = (*dxlnode)[EdxlnljIndexJoinFilter];
+	CDXLNode *dxlnode_left = (*dxlnode)[EdxlnljIndexLeftChild];
+	CDXLNode *dxlnode_right = (*dxlnode)[EdxlnljIndexRightChild];
 	
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->GetDXLOperator());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->GetOperator()->GetDXLOperatorType());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxlopScalarJoinFilter == dxlnode_join_filter->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxloptypePhysical == dxlnode_left->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxloptypePhysical == dxlnode_right->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{
-		pdxlnJoinFilter->GetOperator()->AssertValid(pdxlnJoinFilter, validate_children);
-		pdxlnLeft->GetOperator()->AssertValid(pdxlnLeft, validate_children);
-		pdxlnRight->GetOperator()->AssertValid(pdxlnRight, validate_children);
+		dxlnode_join_filter->GetOperator()->AssertValid(dxlnode_join_filter, validate_children);
+		dxlnode_left->GetOperator()->AssertValid(dxlnode_left, validate_children);
+		dxlnode_right->GetOperator()->AssertValid(dxlnode_right, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

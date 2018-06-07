@@ -30,11 +30,11 @@ CDXLPhysicalMergeJoin::CDXLPhysicalMergeJoin
 	(
 	IMemoryPool *memory_pool,
 	EdxlJoinType join_type,
-	BOOL fUniqueOuter
+	BOOL is_unique_outer
 	)
 	:
 	CDXLPhysicalJoin(memory_pool, join_type),
-	m_fUniqueOuter(fUniqueOuter)
+	m_is_unique_outer(is_unique_outer)
 {
 }
 
@@ -88,7 +88,7 @@ CDXLPhysicalMergeJoin::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenJoinType), GetJoinTypeNameStr());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenMergeJoinUniqueOuter), m_fUniqueOuter);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenMergeJoinUniqueOuter), m_is_unique_outer);
 
 	// serialize properties
 	dxlnode->SerializePropertiesToDXL(xml_serializer);
@@ -122,23 +122,23 @@ CDXLPhysicalMergeJoin::AssertValid
 	GPOS_ASSERT(EdxlmjIndexSentinel == dxlnode->Arity());
 	GPOS_ASSERT(EdxljtSentinel > GetJoinType());
 	
-	CDXLNode *pdxlnJoinFilter = (*dxlnode)[EdxlmjIndexJoinFilter];
-	CDXLNode *pdxlnMergeClauses = (*dxlnode)[EdxlmjIndexMergeCondList];
-	CDXLNode *pdxlnLeft = (*dxlnode)[EdxlmjIndexLeftChild];
-	CDXLNode *pdxlnRight = (*dxlnode)[EdxlmjIndexRightChild];
+	CDXLNode *dxlnode_join_filter = (*dxlnode)[EdxlmjIndexJoinFilter];
+	CDXLNode *dxlnode_merge_clauses = (*dxlnode)[EdxlmjIndexMergeCondList];
+	CDXLNode *dxlnode_left = (*dxlnode)[EdxlmjIndexLeftChild];
+	CDXLNode *dxlnode_right = (*dxlnode)[EdxlmjIndexRightChild];
 
 	// assert children are of right type (physical/scalar)
-	GPOS_ASSERT(EdxlopScalarJoinFilter == pdxlnJoinFilter->GetOperator()->GetDXLOperator());
-	GPOS_ASSERT(EdxlopScalarMergeCondList == pdxlnMergeClauses->GetOperator()->GetDXLOperator());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnLeft->GetOperator()->GetDXLOperatorType());
-	GPOS_ASSERT(EdxloptypePhysical == pdxlnRight->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxlopScalarJoinFilter == dxlnode_join_filter->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarMergeCondList == dxlnode_merge_clauses->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxloptypePhysical == dxlnode_left->GetOperator()->GetDXLOperatorType());
+	GPOS_ASSERT(EdxloptypePhysical == dxlnode_right->GetOperator()->GetDXLOperatorType());
 
 	if (validate_children)
 	{
-		pdxlnJoinFilter->GetOperator()->AssertValid(pdxlnJoinFilter, validate_children);
-		pdxlnMergeClauses->GetOperator()->AssertValid(pdxlnMergeClauses, validate_children);
-		pdxlnLeft->GetOperator()->AssertValid(pdxlnLeft, validate_children);
-		pdxlnRight->GetOperator()->AssertValid(pdxlnRight, validate_children);
+		dxlnode_join_filter->GetOperator()->AssertValid(dxlnode_join_filter, validate_children);
+		dxlnode_merge_clauses->GetOperator()->AssertValid(dxlnode_merge_clauses, validate_children);
+		dxlnode_left->GetOperator()->AssertValid(dxlnode_left, validate_children);
+		dxlnode_right->GetOperator()->AssertValid(dxlnode_right, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

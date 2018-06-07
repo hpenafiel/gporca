@@ -699,8 +699,8 @@ CTranslatorExprToDXL::PdxlnBitmapBoolOp
 	CExpression *pexprLeft = (*pexprBitmapBoolOp)[0];
 	CExpression *pexprRight = (*pexprBitmapBoolOp)[1];
 	
-	CDXLNode *pdxlnLeft = PdxlnScalar(pexprLeft);
-	CDXLNode *pdxlnRight = PdxlnScalar(pexprRight);
+	CDXLNode *dxlnode_left = PdxlnScalar(pexprLeft);
+	CDXLNode *dxlnode_right = PdxlnScalar(pexprRight);
 	
 	IMDId *mdid_type = popBitmapBoolOp->MDIdType();
 	mdid_type->AddRef();
@@ -716,8 +716,8 @@ CTranslatorExprToDXL::PdxlnBitmapBoolOp
 						(
 						m_memory_pool,
 						GPOS_NEW(m_memory_pool) CDXLScalarBitmapBoolOp(m_memory_pool, mdid_type, edxlbitmapop),
-						pdxlnLeft,
-						pdxlnRight
+						dxlnode_left,
+						dxlnode_right
 						);
 }
 
@@ -3385,14 +3385,14 @@ CDXLNode *
 CTranslatorExprToDXL::PdxlnScBoolExpr
 	(
 	EdxlBoolExprType boolexptype,
-	CDXLNode *pdxlnLeft,
-	CDXLNode *pdxlnRight
+	CDXLNode *dxlnode_left,
+	CDXLNode *dxlnode_right
 	)
 {
 	CDXLNode *pdxlnBoolExpr = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarBoolExpr(m_memory_pool, boolexptype));
 
-	pdxlnBoolExpr->AddChild(pdxlnLeft);
-	pdxlnBoolExpr->AddChild(pdxlnRight);
+	pdxlnBoolExpr->AddChild(dxlnode_left);
+	pdxlnBoolExpr->AddChild(dxlnode_right);
 
 	return pdxlnBoolExpr;
 }
@@ -3681,10 +3681,10 @@ CTranslatorExprToDXL::PdxlnNLJoin
 	CDXLNode *pdxlnInnerChild = CreateDXLNode(pexprInnerChild, NULL /*pdrgpcr*/, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, false /*fRemap*/, false /*fRoot*/);
 	CDXLNode *pdxlnCond = PdxlnScalar(pexprScalar);
 
-	CDXLNode *pdxlnJoinFilter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarJoinFilter(m_memory_pool));
+	CDXLNode *dxlnode_join_filter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarJoinFilter(m_memory_pool));
 	if (NULL != pdxlnCond)
 	{
-		pdxlnJoinFilter->AddChild(pdxlnCond);
+		dxlnode_join_filter->AddChild(pdxlnCond);
 	}
 
 	// construct a join node
@@ -3707,7 +3707,7 @@ CTranslatorExprToDXL::PdxlnNLJoin
 	// add children
 	pdxlnNLJ->AddChild(proj_list_dxlnode);
 	pdxlnNLJ->AddChild(filter_dxlnode);
-	pdxlnNLJ->AddChild(pdxlnJoinFilter);
+	pdxlnNLJ->AddChild(dxlnode_join_filter);
 	pdxlnNLJ->AddChild(pdxlnOuterChild);
 	pdxlnNLJ->AddChild(pdxlnInnerChild);
 
@@ -3860,12 +3860,12 @@ CTranslatorExprToDXL::PdxlnHashJoin
 	}
 	GPOS_ASSERT(popHJ->PdrgpexprOuterKeys()->Size() == ulHashJoinPreds);
 
-	CDXLNode *pdxlnJoinFilter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarJoinFilter(m_memory_pool));
+	CDXLNode *dxlnode_join_filter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarJoinFilter(m_memory_pool));
 	if (0 < pdrgpexprRemainingPredicates->Size())
 	{
 		CExpression *pexprJoinCond = CPredicateUtils::PexprConjunction(m_memory_pool, pdrgpexprRemainingPredicates);
 		CDXLNode *pdxlnJoinCond = PdxlnScalar(pexprJoinCond);
-		pdxlnJoinFilter->AddChild(pdxlnJoinCond);
+		dxlnode_join_filter->AddChild(pdxlnJoinCond);
 		pexprJoinCond->Release();
 	}
 	else
@@ -3891,7 +3891,7 @@ CTranslatorExprToDXL::PdxlnHashJoin
 	// add children
 	pdxlnHJ->AddChild(proj_list_dxlnode);
 	pdxlnHJ->AddChild(filter_dxlnode);
-	pdxlnHJ->AddChild(pdxlnJoinFilter);
+	pdxlnHJ->AddChild(dxlnode_join_filter);
 	pdxlnHJ->AddChild(pdxlnHashCondList);
 	pdxlnHJ->AddChild(pdxlnOuterChild);
 	pdxlnHJ->AddChild(pdxlnInnerChild);
@@ -5788,8 +5788,8 @@ CTranslatorExprToDXL::PdxlnScCmp
 	CExpression *pexprRight = (*pexprScCmp)[1];
 
 	// translate children expression
-	CDXLNode *pdxlnLeft = PdxlnScalar(pexprLeft);
-	CDXLNode *pdxlnRight = PdxlnScalar(pexprRight);
+	CDXLNode *dxlnode_left = PdxlnScalar(pexprLeft);
+	CDXLNode *dxlnode_right = PdxlnScalar(pexprRight);
 
 	CScalarCmp *popScCmp = CScalarCmp::PopConvert(pexprScCmp->Pop());
 
@@ -5806,8 +5806,8 @@ CTranslatorExprToDXL::PdxlnScCmp
 	CDXLNode *pdxlnCmp = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarComp(m_memory_pool, pmdid, pstrName));
 
 	// add children
-	pdxlnCmp->AddChild(pdxlnLeft);
-	pdxlnCmp->AddChild(pdxlnRight);
+	pdxlnCmp->AddChild(dxlnode_left);
+	pdxlnCmp->AddChild(dxlnode_right);
 
 #ifdef GPOS_DEBUG
 	pdxlnCmp->GetOperator()->AssertValid(pdxlnCmp, false /* validate_children */);
@@ -5838,8 +5838,8 @@ CTranslatorExprToDXL::PdxlnScDistinctCmp
 	CExpression *pexprRight = (*pexprScDist)[1];
 
 	// translate children expression
-	CDXLNode *pdxlnLeft = PdxlnScalar(pexprLeft);
-	CDXLNode *pdxlnRight = PdxlnScalar(pexprRight);
+	CDXLNode *dxlnode_left = PdxlnScalar(pexprLeft);
+	CDXLNode *dxlnode_right = PdxlnScalar(pexprRight);
 
 	CScalarIsDistinctFrom *popScIDF = CScalarIsDistinctFrom::PopConvert(pexprScDist->Pop());
 
@@ -5850,8 +5850,8 @@ CTranslatorExprToDXL::PdxlnScDistinctCmp
 	CDXLNode *pdxlnDistCmp = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarDistinctComp(m_memory_pool, pmdid));
 
 	// add children
-	pdxlnDistCmp->AddChild(pdxlnLeft);
-	pdxlnDistCmp->AddChild(pdxlnRight);
+	pdxlnDistCmp->AddChild(dxlnode_left);
+	pdxlnDistCmp->AddChild(dxlnode_right);
 
 #ifdef GPOS_DEBUG
 	pdxlnDistCmp->GetOperator()->AssertValid(pdxlnDistCmp, false /* validate_children */);
