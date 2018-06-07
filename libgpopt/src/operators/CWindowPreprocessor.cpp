@@ -72,7 +72,7 @@ CWindowPreprocessor::SplitPrjList
 		CScalarProjectElement *popScPrjElem = CScalarProjectElement::PopConvert(pexprPrjEl->Pop());
 		CColRef *pcrPrjElem = popScPrjElem->Pcr();
 
-		if (popScWinFunc->FDistinct() && popScWinFunc->FAgg())
+		if (popScWinFunc->IsDistinct() && popScWinFunc->FAgg())
 		{
 			CExpression *pexprAgg = CXformUtils::PexprWinFuncAgg2ScalarAgg(memory_pool, pexprWinFunc);
 			CExpression *pexprNewPrjElem = CUtils::PexprScalarProjectElement(memory_pool, pcrPrjElem, pexprAgg);

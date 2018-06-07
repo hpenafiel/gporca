@@ -2535,8 +2535,8 @@ CTestUtils::PexprLogicalSequenceProject
 							GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdfunc->Mdname().GetMDName()->GetBuffer()),
 							CScalarWindowFunc::EwsImmediate,
 							false /*fDistinct*/,
-							false /*fStarArg*/,
-							false /*fSimpleAgg*/
+							false /*is_star_arg*/,
+							false /*is_simple_agg*/
 							)
 				);
 	// window function call is not a cast and so does not need a type modifier

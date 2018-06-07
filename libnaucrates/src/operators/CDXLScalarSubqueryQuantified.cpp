@@ -37,8 +37,8 @@ CDXLScalarSubqueryQuantified::CDXLScalarSubqueryQuantified
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidScalarOp(scalar_op_mdid),
-	m_pmdnameScalarOp(scalar_op_mdname),
+	m_scalar_op_mdid(scalar_op_mdid),
+	m_scalar_op_mdname(scalar_op_mdname),
 	m_colid(col_id)
 {
 	GPOS_ASSERT(scalar_op_mdid->IsValid());
@@ -55,8 +55,8 @@ CDXLScalarSubqueryQuantified::CDXLScalarSubqueryQuantified
 //---------------------------------------------------------------------------
 CDXLScalarSubqueryQuantified::~CDXLScalarSubqueryQuantified()
 {
-	m_pmdidScalarOp->Release();
-	GPOS_DELETE(m_pmdnameScalarOp);
+	m_scalar_op_mdid->Release();
+	GPOS_DELETE(m_scalar_op_mdname);
 }
 
 //---------------------------------------------------------------------------
@@ -79,8 +79,8 @@ CDXLScalarSubqueryQuantified::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize operator id and name
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpName), m_pmdnameScalarOp->GetMDName());
-	m_pmdidScalarOp->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpName), m_scalar_op_mdname->GetMDName());
+	m_scalar_op_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 
 	// serialize computed column id
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_colid);

@@ -42,7 +42,7 @@ CScalarSubqueryQuantified::CScalarSubqueryQuantified
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidScalarOp(scalar_op_mdid),
+	m_scalar_op_mdid(scalar_op_mdid),
 	m_pstrScalarOp(pstrScalarOp),
 	m_pcr(pcr)
 {
@@ -61,7 +61,7 @@ CScalarSubqueryQuantified::CScalarSubqueryQuantified
 //---------------------------------------------------------------------------
 CScalarSubqueryQuantified::~CScalarSubqueryQuantified()
 {
-	m_pmdidScalarOp->Release();
+	m_scalar_op_mdid->Release();
 	GPOS_DELETE(m_pstrScalarOp);
 }
 
@@ -90,7 +90,7 @@ CScalarSubqueryQuantified::PstrOp() const
 IMDId *
 CScalarSubqueryQuantified::MdIdOp() const
 {
-	return m_pmdidScalarOp;
+	return m_scalar_op_mdid;
 }
 
 //---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ IMDId *
 CScalarSubqueryQuantified::MDIdType() const
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *mdid_type = md_accessor->Pmdscop(m_pmdidScalarOp)->PmdidTypeResult();
+	IMDId *mdid_type = md_accessor->Pmdscop(m_scalar_op_mdid)->PmdidTypeResult();
 
 	GPOS_ASSERT(md_accessor->PtMDType<IMDTypeBool>()->MDId()->Equals(mdid_type));
 
@@ -128,7 +128,7 @@ CScalarSubqueryQuantified::HashValue() const
 				COperator::HashValue(),
 				gpos::CombineHashes
 						(
-						m_pmdidScalarOp->HashValue(),
+						m_scalar_op_mdid->HashValue(),
 						gpos::HashPtr<CColRef>(m_pcr)
 						)
 				);
@@ -157,7 +157,7 @@ CScalarSubqueryQuantified::FMatch
 
 	// match if contents are identical
 	CScalarSubqueryQuantified *popSsq = CScalarSubqueryQuantified::PopConvert(pop);
-	return popSsq->Pcr() == m_pcr && popSsq->MdIdOp()->Equals(m_pmdidScalarOp);
+	return popSsq->Pcr() == m_pcr && popSsq->MdIdOp()->Equals(m_scalar_op_mdid);
 }
 
 

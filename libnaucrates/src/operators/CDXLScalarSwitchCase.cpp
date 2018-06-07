@@ -107,9 +107,9 @@ CDXLScalarSwitchCase::AssertValid
 	const ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(2 == arity);
 
-	for (ULONG ul = 0; ul < arity; ++ul)
+	for (ULONG idx = 0; idx < arity; ++idx)
 	{
-		CDXLNode *dxlnode_arg = (*dxlnode)[ul];
+		CDXLNode *dxlnode_arg = (*dxlnode)[idx];
 		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)

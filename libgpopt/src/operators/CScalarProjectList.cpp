@@ -105,7 +105,7 @@ CScalarProjectList::UlDistinctAggs
 		if (COperator::EopScalarAggFunc == eopidChild)
 		{
 			CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprChild->Pop());
-			if (popScAggFunc->FDistinct())
+			if (popScAggFunc->IsDistinct())
 			{
 				ulDistinctAggs++;
 			}
@@ -113,7 +113,7 @@ CScalarProjectList::UlDistinctAggs
 		else if (COperator::EopScalarWindowFunc == eopidChild)
 		{
 			CScalarWindowFunc *popScWinFunc = CScalarWindowFunc::PopConvert(pexprChild->Pop());
-			if (popScWinFunc->FDistinct() && popScWinFunc->FAgg())
+			if (popScWinFunc->IsDistinct() && popScWinFunc->FAgg())
 			{
 				ulDistinctAggs++;
 			}

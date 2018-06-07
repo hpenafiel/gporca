@@ -52,7 +52,7 @@ namespace gpdxl
 			IMDId *m_pmdidResolvedRetType;
 
 			// Denotes whether it's agg(DISTINCT ...)
-			BOOL m_fDistinct;
+			BOOL m_is_distinct;
 
 			// Denotes the MPP Stage
 			EdxlAggrefStage m_edxlaggstage;
@@ -87,7 +87,7 @@ namespace gpdxl
 
 			EdxlAggrefStage Edxlaggstage() const;
 
-			BOOL FDistinct() const;
+			BOOL IsDistinct() const;
 
 			// serialize operator in DXL format
 			virtual

@@ -1219,7 +1219,7 @@ CDXLOperatorFactory::ParseDXLFrameBoundary
 {
 	const XMLCh *xmlszBoundary  = ExtractAttrValue(attrs, token_type, EdxltokenWindowFrame);
 
-	EdxlFrameBoundary edxlfb = EdxlfbSentinel;
+	EdxlFrameBoundary dxl_frame_boundary = EdxlfbSentinel;
 	ULONG rgrgulMapping[][2] =
 					{
 					{EdxlfbUnboundedPreceding, EdxltokenWindowBoundaryUnboundedPreceding},
@@ -1238,12 +1238,12 @@ CDXLOperatorFactory::ParseDXLFrameBoundary
 		Edxltoken edxltk = (Edxltoken) pulElem[1];
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(edxltk), xmlszBoundary))
 		{
-			edxlfb = (EdxlFrameBoundary) pulElem[0];
+			dxl_frame_boundary = (EdxlFrameBoundary) pulElem[0];
 			break;
 		}
 	}
 
-	if (EdxlfbSentinel == edxlfb)
+	if (EdxlfbSentinel == dxl_frame_boundary)
 	{
 		// turn Xerces exception in optimizer exception
 		GPOS_RAISE
@@ -1255,7 +1255,7 @@ CDXLOperatorFactory::ParseDXLFrameBoundary
 			);
 	}
 
-	return edxlfb;
+	return dxl_frame_boundary;
 }
 
 //---------------------------------------------------------------------------
@@ -1274,14 +1274,14 @@ CDXLOperatorFactory::ParseDXLFrameSpec
 {
 	const XMLCh *xmlszfs  = ExtractAttrValue(attrs, EdxltokenWindowFrameSpec, EdxltokenWindowFrame);
 
-	EdxlFrameSpec edxlfb = EdxlfsSentinel;
+	EdxlFrameSpec dxl_frame_boundary = EdxlfsSentinel;
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFSRow), xmlszfs))
 	{
-		edxlfb = EdxlfsRow;
+		dxl_frame_boundary = EdxlfsRow;
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFSRange), xmlszfs))
 	{
-		edxlfb = EdxlfsRange;
+		dxl_frame_boundary = EdxlfsRange;
 	}
 	else
 	{
@@ -1295,7 +1295,7 @@ CDXLOperatorFactory::ParseDXLFrameSpec
 			);
 	}
 
-	return edxlfb;
+	return dxl_frame_boundary;
 }
 
 //---------------------------------------------------------------------------
@@ -3859,12 +3859,12 @@ CDXLOperatorFactory::MakeWindowRef
 	IMDId *mdid_func = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenWindowrefOid, EdxltokenScalarWindowref);
 	IMDId *mdid_return_type = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenTypeId, EdxltokenScalarWindowref);
 	BOOL fDistinct = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefDistinct, EdxltokenScalarWindowref);
-	BOOL fStarArg = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefStarArg, EdxltokenScalarWindowref);
-	BOOL fSimpleAgg = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefSimpleAgg, EdxltokenScalarWindowref);
-	ULONG ulWinspecPos = ExtractConvertAttrValueToUlong(memory_manager_dxl, attrs, EdxltokenWindowrefWinSpecPos, EdxltokenScalarWindowref);
+	BOOL is_star_arg = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefStarArg, EdxltokenScalarWindowref);
+	BOOL is_simple_agg = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenWindowrefSimpleAgg, EdxltokenScalarWindowref);
+	ULONG win_spec_pos = ExtractConvertAttrValueToUlong(memory_manager_dxl, attrs, EdxltokenWindowrefWinSpecPos, EdxltokenScalarWindowref);
 
 	const XMLCh *xmlszStage  = ExtractAttrValue(attrs, EdxltokenWindowrefStrategy, EdxltokenScalarWindowref);
-	EdxlWinStage edxlwinstage = EdxlwinstageSentinel;
+	EdxlWinStage dxl_win_stage = EdxlwinstageSentinel;
 
 	ULONG rgrgulMapping[][2] =
 					{
@@ -3880,13 +3880,13 @@ CDXLOperatorFactory::MakeWindowRef
 		Edxltoken edxltk = (Edxltoken) pulElem[1];
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(edxltk), xmlszStage))
 		{
-			edxlwinstage = (EdxlWinStage) pulElem[0];
+			dxl_win_stage = (EdxlWinStage) pulElem[0];
 			break;
 		}
 	}
-	GPOS_ASSERT(EdxlwinstageSentinel != edxlwinstage);
+	GPOS_ASSERT(EdxlwinstageSentinel != dxl_win_stage);
 
-	return GPOS_NEW(memory_pool) CDXLScalarWindowRef(memory_pool, mdid_func, mdid_return_type, fDistinct, fStarArg, fSimpleAgg, edxlwinstage, ulWinspecPos);
+	return GPOS_NEW(memory_pool) CDXLScalarWindowRef(memory_pool, mdid_func, mdid_return_type, fDistinct, is_star_arg, is_simple_agg, dxl_win_stage, win_spec_pos);
 }
 
 //---------------------------------------------------------------------------

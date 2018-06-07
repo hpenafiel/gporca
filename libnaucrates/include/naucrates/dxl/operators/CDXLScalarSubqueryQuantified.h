@@ -47,10 +47,10 @@ namespace gpdxl
 
 		private:
 			// id of the scalar comparison operator
-			IMDId *m_pmdidScalarOp;
+			IMDId *m_scalar_op_mdid;
 
 			// name of scalar comparison operator
-			CMDName *m_pmdnameScalarOp;
+			CMDName *m_scalar_op_mdname;
 
 			// colid produced by the relational child of the AnySubquery operator
 			ULONG m_colid;
@@ -67,15 +67,15 @@ namespace gpdxl
 			~CDXLScalarSubqueryQuantified();
 
 			// scalar operator id
-			IMDId *PmdidScalarOp() const
+			IMDId *GetScalarOpMdId() const
 			{
-				return m_pmdidScalarOp;
+				return m_scalar_op_mdid;
 			}
 
 			// scalar operator name
-			const CMDName *PmdnameScalarOp() const
+			const CMDName *GetScalarOpMdName() const
 			{
-				return m_pmdnameScalarOp;
+				return m_scalar_op_mdname;
 			}
 
 			// subquery colid

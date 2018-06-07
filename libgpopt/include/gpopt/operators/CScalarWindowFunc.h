@@ -57,13 +57,13 @@ namespace gpopt
 			EWinStage m_ewinstage;
 
 			// distinct window computation
-			BOOL m_fDistinct;
+			BOOL m_is_distinct;
 
 			/* TRUE if argument list was really '*' */
-			BOOL m_fStarArg;
+			BOOL m_is_star_arg;
 
 			/* is function a simple aggregate? */
-			BOOL m_fSimpleAgg;
+			BOOL m_is_simple_agg;
 
 			// aggregate window function, e.g. count(*) over()
 			BOOL m_fAgg;
@@ -82,8 +82,8 @@ namespace gpopt
 				const CWStringConst *pstrFunc,
 				EWinStage ewinstage,
 				BOOL fDistinct,
-				BOOL fStarArg,
-				BOOL fSimpleAgg
+				BOOL is_star_arg,
+				BOOL is_simple_agg
 				);
 
 			// dtor
@@ -129,19 +129,19 @@ namespace gpopt
 			}
 
 			// does window function definition include Distinct?
-			BOOL FDistinct() const
+			BOOL IsDistinct() const
 			{
-				return m_fDistinct;
+				return m_is_distinct;
 			}
 		
-			BOOL FStarArg() const
+			BOOL IsStarArg() const
 			{
-				return m_fStarArg;
+				return m_is_star_arg;
 			}
 
-			BOOL FSimpleAgg() const
+			BOOL IsSimpleAgg() const
 			{
-				return m_fSimpleAgg;
+				return m_is_simple_agg;
 			}
 
 			// is window function defined as Aggregate?

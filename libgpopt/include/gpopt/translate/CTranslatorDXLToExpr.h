@@ -292,7 +292,7 @@ namespace gpopt
 			CWindowFrame *Pwf(const CDXLWindowFrame *window_frame);
 
 			// translate the DXL representation of window frame boundary into its respective representation in the optimizer
-			CWindowFrame::EFrameBoundary Efb(EdxlFrameBoundary edxlfb) const;
+			CWindowFrame::EFrameBoundary Efb(EdxlFrameBoundary dxl_frame_boundary) const;
 
 			// translate the DXL representation of window frame exclusion strategy into its respective representation in the optimizer
 			CWindowFrame::EFrameExclusionStrategy Efes(EdxlFrameExclusionStrategy edxlfeb) const;

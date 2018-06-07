@@ -42,7 +42,7 @@ CDXLScalarAggref::CDXLScalarAggref
 	CDXLScalar(memory_pool),
 	m_pmdidAgg(pmdidAggOid),
 	m_pmdidResolvedRetType(pmdidResolvedRetType),
-	m_fDistinct(fDistinct),
+	m_is_distinct(fDistinct),
 	m_edxlaggstage(edxlaggstage)
 {
 	GPOS_ASSERT(NULL != pmdidAggOid);
@@ -165,16 +165,16 @@ CDXLScalarAggref::PmdidResolvedRetType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarAggref::FDistinct
+//		CDXLScalarAggref::IsDistinct
 //
 //	@doc:
 //		TRUE if it's agg(DISTINCT ...)
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarAggref::FDistinct() const
+CDXLScalarAggref::IsDistinct() const
 {
-	return m_fDistinct;
+	return m_is_distinct;
 }
 
 //---------------------------------------------------------------------------
@@ -197,7 +197,7 @@ CDXLScalarAggref::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	m_pmdidAgg->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenAggrefOid));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAggrefDistinct),m_fDistinct);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAggrefDistinct),m_is_distinct);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAggrefStage), PstrAggStage());
 	if (NULL != m_pmdidResolvedRetType)
 	{

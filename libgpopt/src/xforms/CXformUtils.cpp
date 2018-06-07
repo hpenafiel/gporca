@@ -2366,8 +2366,8 @@ CXformUtils::PexprRowNumber
 													GPOS_NEW(memory_pool) CWStringConst(memory_pool, GPOS_WSZ_LIT("row_number")),
 													CScalarWindowFunc::EwsImmediate,
 													false /* fDistinct */,
-													false /* fStarArg */,
-													false /* fSimpleAgg */
+													false /* is_star_arg */,
+													false /* is_simple_agg */
 													);
 
 	CExpression *pexprScRowNumber = GPOS_NEW(memory_pool) CExpression(memory_pool, popRowNumber);
@@ -4462,7 +4462,7 @@ CXformUtils::PexprWinFuncAgg2ScalarAgg
 				memory_pool,
 				mdid_func,
 				GPOS_NEW(memory_pool) CWStringConst(memory_pool, popScWinFunc->PstrFunc()->GetBuffer()),
-				popScWinFunc->FDistinct(),
+				popScWinFunc->IsDistinct(),
 				EaggfuncstageGlobal,
 				false // fSplit
 				),
@@ -4524,11 +4524,11 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 		BOOL fDistinct = false;
 		if (COperator::EopScalarAggFunc == eopidChild)
 		{
-			fDistinct = CScalarAggFunc::PopConvert(popChild)->FDistinct();
+			fDistinct = CScalarAggFunc::PopConvert(popChild)->IsDistinct();
 		}
 		else
 		{
-			fDistinct = CScalarWindowFunc::PopConvert(popChild)->FDistinct();
+			fDistinct = CScalarWindowFunc::PopConvert(popChild)->IsDistinct();
 		}
 
 		CExpression *pexprKey = NULL;

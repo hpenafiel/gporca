@@ -50,10 +50,10 @@ namespace gpdxl
 		private:
 
 			// identify if it is a leading or trailing edge
-			BOOL m_fLeading;
+			BOOL m_leading_edge;
 
 			// frame boundary
-			EdxlFrameBoundary m_edxlfb;
+			EdxlFrameBoundary m_dxl_frame_boundary;
 
 			// private copy ctor
 			CDXLScalarWindowFrameEdge(const CDXLScalarWindowFrameEdge&);
@@ -61,7 +61,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarWindowFrameEdge(IMemoryPool *memory_pool, BOOL fLeading, EdxlFrameBoundary edxlfb);
+			CDXLScalarWindowFrameEdge(IMemoryPool *memory_pool, BOOL fLeading, EdxlFrameBoundary dxl_frame_boundary);
 
 			// ident accessors
 			Edxlopid GetDXLOperator() const;
@@ -70,19 +70,19 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// is it a leading or trailing edge
-			BOOL FLeading() const
+			BOOL IsLeadingEdge() const
 			{
-				return m_fLeading;
+				return m_leading_edge;
 			}
 
 			// return the dxl representation the frame boundary
 			EdxlFrameBoundary ParseDXLFrameBoundary() const
 			{
-				return m_edxlfb;
+				return m_dxl_frame_boundary;
 			}
 
 			// return the string representation of frame boundary
-			const CWStringConst *PstrFrameBoundary(EdxlFrameBoundary edxlfb) const;
+			const CWStringConst *GetFrameBoundaryStr(EdxlFrameBoundary dxl_frame_boundary) const;
 
 			// serialize operator in DXL format
 			virtual

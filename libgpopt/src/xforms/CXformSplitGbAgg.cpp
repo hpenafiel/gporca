@@ -235,7 +235,7 @@ CXformSplitGbAgg::PopulateLocalGlobalProjectList
 														memory_pool,
 														popScAggFunc->MDId(),
 														GPOS_NEW(memory_pool) CWStringConst(memory_pool, popScAggFunc->PstrAggFunc()->GetBuffer()),
-														popScAggFunc->FDistinct(),
+														popScAggFunc->IsDistinct(),
 														EaggfuncstageLocal, /* fGlobal */
 														true /* fSplit */
 														);
@@ -345,7 +345,7 @@ CXformSplitGbAgg::FApplicable
 		CExpression *pexprAggFunc = (*pexprPrEl)[0];
 		CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprAggFunc->Pop());
 
-		if (popScAggFunc->FDistinct() || !md_accessor->Pmdagg(popScAggFunc->MDId())->FSplittable())
+		if (popScAggFunc->IsDistinct() || !md_accessor->Pmdagg(popScAggFunc->MDId())->FSplittable())
 		{
 			return false;
 		}

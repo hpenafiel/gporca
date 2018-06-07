@@ -60,7 +60,7 @@ namespace gpopt
 			const CWStringConst *m_pstrAggFunc;
 			
 			// distinct aggregate computation
-			BOOL m_fDistinct;
+			BOOL m_is_distinct;
 	
 			// stage of the aggregate function
 			EAggfuncStage m_eaggfuncstage;
@@ -156,9 +156,9 @@ namespace gpopt
 			IMDId *MDId() const;
 			
 			// ident accessors
-			BOOL FDistinct() const
+			BOOL IsDistinct() const
 			{
-				return m_fDistinct;
+				return m_is_distinct;
 			}
 
 			// stage of the aggregate function

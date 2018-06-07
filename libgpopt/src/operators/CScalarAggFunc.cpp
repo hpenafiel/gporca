@@ -49,7 +49,7 @@ CScalarAggFunc::CScalarAggFunc
 	m_pmdidResolvedRetType(pmdidResolvedRetType),
 	m_return_type_mdid(NULL),
 	m_pstrAggFunc(pstrAggFunc),
-	m_fDistinct(fDistinct),
+	m_is_distinct(fDistinct),
 	m_eaggfuncstage(eaggfuncstage),
 	m_fSplit(fSplit)
 {
@@ -146,7 +146,7 @@ CScalarAggFunc::HashValue() const
 					CombineHashes
 						(
 						gpos::HashValue<ULONG>(&ulAggfuncstage),
-						CombineHashes(gpos::HashValue<BOOL>(&m_fDistinct),gpos::HashValue<BOOL>(&m_fSplit))
+						CombineHashes(gpos::HashValue<BOOL>(&m_is_distinct),gpos::HashValue<BOOL>(&m_fSplit))
 						)
 					);
 }
@@ -174,7 +174,7 @@ CScalarAggFunc::FMatch
 		// match if func ids are identical
 		return
 				(
-				(popScAggFunc->FDistinct() ==  m_fDistinct)
+				(popScAggFunc->IsDistinct() ==  m_is_distinct)
 				&& (popScAggFunc->Eaggfuncstage() ==  Eaggfuncstage())
 				&& (popScAggFunc->FSplit() ==  m_fSplit)
 				&& m_pmdidAggFunc->Equals(popScAggFunc->MDId())
@@ -239,7 +239,7 @@ CScalarAggFunc::OsPrint
 	os << SzId() << " (";
 	os << PstrAggFunc()->GetBuffer();
 	os << " , Distinct: ";
-	os << (m_fDistinct ? "true" : "false");
+	os << (m_is_distinct ? "true" : "false");
 	os << " , Aggregate Stage: ";
 
 	switch (m_eaggfuncstage)

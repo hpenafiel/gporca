@@ -6058,16 +6058,16 @@ CTranslatorExprToDXL::PdxlnScWindowFuncExpr
 	IMDId *mdid_return_type = popScWindowFunc->MDIdType();
 	mdid_return_type->AddRef();
 
-	EdxlWinStage edxlwinstage = Ews(popScWindowFunc->Ews());
+	EdxlWinStage dxl_win_stage = Ews(popScWindowFunc->Ews());
 	CDXLScalarWindowRef *pdxlopWindowref = GPOS_NEW(m_memory_pool) CDXLScalarWindowRef
 															(
 															m_memory_pool,
 															mdid_func,
 															mdid_return_type,
-															popScWindowFunc->FDistinct(),
-															popScWindowFunc->FStarArg(),
-															popScWindowFunc->FSimpleAgg(),
-															edxlwinstage,
+															popScWindowFunc->IsDistinct(),
+															popScWindowFunc->IsStarArg(),
+															popScWindowFunc->IsSimpleAgg(),
+															dxl_win_stage,
 															0 /* ulWinspecPosition */
 															);
 
@@ -6158,7 +6158,7 @@ CTranslatorExprToDXL::PdxlnScAggref
 												m_memory_pool,
 												pmdidAggFunc,
 												pmdidResolvedRetType,
-												popScAggFunc->FDistinct(),
+												popScAggFunc->IsDistinct(),
 												edxlaggrefstage
 												);
 

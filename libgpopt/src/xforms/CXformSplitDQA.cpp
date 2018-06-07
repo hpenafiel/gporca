@@ -267,7 +267,7 @@ CXformSplitDQA::PexprSplitIntoLocalDQAGlobalAgg
 		CExpression *pexprAggFunc = (*pexprPrEl)[0];
 		CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprAggFunc->Pop());
 
-		if (popScAggFunc->FDistinct())
+		if (popScAggFunc->IsDistinct())
 		{
 			// create a new local DQA version of the original global DQA
 			popScAggFunc->MDId()->AddRef();
@@ -409,7 +409,7 @@ CXformSplitDQA::PexprSplitHelper
 		CExpression *pexprAggFunc = (*pexprPrEl)[0];
 		CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprAggFunc->Pop());
 
-		if (popScAggFunc->FDistinct())
+		if (popScAggFunc->IsDistinct())
 		{
 			// create a new "non-distinct" version of the original aggregate function
 			popScAggFunc->MDId()->AddRef();
@@ -503,7 +503,7 @@ CXformSplitDQA::PexprPrElAgg
 	GPOS_ASSERT(EaggfuncstageSentinel != eaggfuncstage);
 
 	CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprAggFunc->Pop());
-	GPOS_ASSERT(!popScAggFunc->FDistinct());
+	GPOS_ASSERT(!popScAggFunc->IsDistinct());
 
 	// project element of global aggregation
 	DrgPexpr *pdrgpexprArg = NULL;
@@ -825,7 +825,7 @@ CXformSplitDQA::ExtractDistinctCols
 		CExpression *pexprAggFunc = (*pexprPrEl)[0];
 		CScalarAggFunc *popScAggFunc = CScalarAggFunc::PopConvert(pexprAggFunc->Pop());
 
-		if (popScAggFunc->FDistinct() && md_accessor->Pmdagg(popScAggFunc->MDId())->FSplittable())
+		if (popScAggFunc->IsDistinct() && md_accessor->Pmdagg(popScAggFunc->MDId())->FSplittable())
 		{
 			GPOS_ASSERT(1 == pexprAggFunc->Arity());
 			

@@ -49,19 +49,19 @@ namespace gpdxl
 			IMDId *m_return_type_mdid;
 
 			// denotes whether it's agg(DISTINCT ...)
-			BOOL m_fDistinct;
+			BOOL m_is_distinct;
 
 			// is argument list really '*' //
-			BOOL m_fStarArg;
+			BOOL m_is_star_arg;
 
 			// is function a simple aggregate? //
-			BOOL m_fSimpleAgg;
+			BOOL m_is_simple_agg;
 
 			// denotes the win stage
-			EdxlWinStage m_edxlwinstage;
+			EdxlWinStage m_dxl_win_stage;
 
 			// position the window specification in a parent window operator
-			ULONG m_ulWinspecPos;
+			ULONG m_win_spec_pos;
 
 			// private copy ctor
 			CDXLScalarWindowRef(const CDXLScalarWindowRef&);
@@ -74,9 +74,9 @@ namespace gpdxl
 				IMDId *pmdidWinfunc,
 				IMDId *mdid_return_type,
 				BOOL fDistinct,
-				BOOL fStarArg,
-				BOOL fSimpleAgg,
-				EdxlWinStage edxlwinstage,
+				BOOL is_star_arg,
+				BOOL is_simple_agg,
+				EdxlWinStage dxl_win_stage,
 				ULONG ulWinspecPosition
 				);
 
@@ -103,44 +103,44 @@ namespace gpdxl
 			}
 
 			// window stage
-			EdxlWinStage Edxlwinstage() const
+			EdxlWinStage GetDxlWinStage() const
 			{
-				return m_edxlwinstage;
+				return m_dxl_win_stage;
 			}
 
 			// denotes whether it's agg(DISTINCT ...)
-			BOOL FDistinct() const
+			BOOL IsDistinct() const
 			{
-				return m_fDistinct;
+				return m_is_distinct;
 			}
 		
-			BOOL FStarArg() const
+			BOOL IsStarArg() const
 			{
-				return m_fStarArg;
+				return m_is_star_arg;
 			}
 
-			BOOL FSimpleAgg() const
+			BOOL IsSimpleAgg() const
 			{
-				return m_fSimpleAgg;
+				return m_is_simple_agg;
 			}
 
 			// position the window specification in a parent window operator
-			ULONG UlWinSpecPos() const
+			ULONG GetWindSpecPos() const
 			{
-				return m_ulWinspecPos;
+				return m_win_spec_pos;
 			}
 
 			// set window spec position
 			void SetWinSpecPos
 				(
-				ULONG ulWinspecPos
+				ULONG win_spec_pos
 				)
 			{
-				m_ulWinspecPos = ulWinspecPos;
+				m_win_spec_pos = win_spec_pos;
 			}
 
 			// string representation of win stage
-			const CWStringConst *PstrWinStage() const;
+			const CWStringConst *GetWindStageStr() const;
 
 			// serialize operator in DXL format
 			virtual

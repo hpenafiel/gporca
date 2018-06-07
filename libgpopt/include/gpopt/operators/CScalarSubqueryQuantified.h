@@ -45,7 +45,7 @@ namespace gpopt
 		private:
 
 			// id of comparison operator
-			IMDId *m_pmdidScalarOp;
+			IMDId *m_scalar_op_mdid;
 
 			// name of comparison operator
 			const CWStringConst *m_pstrScalarOp;

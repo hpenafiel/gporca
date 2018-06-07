@@ -1735,7 +1735,7 @@ CTranslatorDXLToExpr::PexprLogicalSeqPr
 			CExpression *pexprProjElem = GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, popScPrEl, pexprScWindowFunc);
 			
 			// add the created project element to the project list of the window node
-			ULONG ulSpecPos = pdxlopWindowRef->UlWinSpecPos();			
+			ULONG ulSpecPos = pdxlopWindowRef->GetWindSpecPos();			
 			const DrgPexpr *pdrgpexpr = phmulpdrgpexpr->Find(&ulSpecPos); 			
 			if (NULL == pdrgpexpr)
 			{
@@ -1904,7 +1904,7 @@ CTranslatorDXLToExpr::Pwf
 CWindowFrame::EFrameBoundary
 CTranslatorDXLToExpr::Efb
 	(
-	EdxlFrameBoundary edxlfb
+	EdxlFrameBoundary dxl_frame_boundary
 	)
 	const
 {
@@ -1921,9 +1921,9 @@ CTranslatorDXLToExpr::Efb
 
 #ifdef GPOS_DEBUG
 	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
-	GPOS_ASSERT(arity > (ULONG) edxlfb  && "Invalid window frame boundary");
+	GPOS_ASSERT(arity > (ULONG) dxl_frame_boundary  && "Invalid window frame boundary");
 #endif
-	CWindowFrame::EFrameBoundary efb = (CWindowFrame::EFrameBoundary)rgrgulMapping[(ULONG) edxlfb][1];
+	CWindowFrame::EFrameBoundary efb = (CWindowFrame::EFrameBoundary)rgrgulMapping[(ULONG) dxl_frame_boundary][1];
 	
 	return efb;
 }
@@ -2541,13 +2541,13 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 	CDXLScalarSubqueryQuantified *pdxlopSubqueryQuantified = CDXLScalarSubqueryQuantified::Cast(pdxlnSubquery->GetOperator());
 	GPOS_ASSERT(NULL != pdxlopSubqueryQuantified);
 
-	IMDId *pmdid = pdxlopSubqueryQuantified->PmdidScalarOp();
+	IMDId *pmdid = pdxlopSubqueryQuantified->GetScalarOpMdId();
 	pmdid->AddRef();
 	return PexprScalarSubqueryQuantified
 		(
 		dxl_op->GetDXLOperator(),
 		pmdid,
-		pdxlopSubqueryQuantified->PmdnameScalarOp()->GetMDName(),
+		pdxlopSubqueryQuantified->GetScalarOpMdName()->GetMDName(),
 		pdxlopSubqueryQuantified->GetColId(),
 		(*pdxlnSubquery)[CDXLScalarSubqueryQuantified::EdxlsqquantifiedIndexRelational],
 		(*pdxlnSubquery)[CDXLScalarSubqueryQuantified::EdxlsqquantifiedIndexScalar]
@@ -2630,7 +2630,7 @@ CTranslatorDXLToExpr::PexprCollapseNot
 		Edxlopid edxlopidNew = (EdxlopScalarSubqueryAny == edxlopid)? EdxlopScalarSubqueryAll : EdxlopScalarSubqueryAny;
 
 		// get mdid and name of the inverse of the comparison operator used by quantified subquery
-		IMDId *mdid_op = pdxlopSubqueryQuantified->PmdidScalarOp();
+		IMDId *mdid_op = pdxlopSubqueryQuantified->GetScalarOpMdId();
 		IMDId *pmdidInverseOp = m_pmda->Pmdscop(mdid_op)->PmdidOpInverse();
 
 		// if inverse operator cannot be found in metadata, the optimizer won't collapse NOT node
@@ -2978,13 +2978,13 @@ CTranslatorDXLToExpr::PexprWindowFunc
 
 	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, CMDAccessorUtils::PstrWindowFuncName(m_pmda, mdid_func)->GetBuffer());
 
-	CScalarWindowFunc::EWinStage ews = Ews(pdxlopWinref->Edxlwinstage());
+	CScalarWindowFunc::EWinStage ews = Ews(pdxlopWinref->GetDxlWinStage());
 
 	IMDId *mdid_return_type = pdxlopWinref->ReturnTypeMdId();
 	mdid_return_type->AddRef();
 	
 	GPOS_ASSERT(NULL != pstrName);
-	CScalarWindowFunc *popWindowFunc = GPOS_NEW(m_memory_pool) CScalarWindowFunc(m_memory_pool, mdid_func, mdid_return_type, pstrName, ews, pdxlopWinref->FDistinct(), pdxlopWinref->FStarArg(), pdxlopWinref->FSimpleAgg());
+	CScalarWindowFunc *popWindowFunc = GPOS_NEW(m_memory_pool) CScalarWindowFunc(m_memory_pool, mdid_func, mdid_return_type, pstrName, ews, pdxlopWinref->IsDistinct(), pdxlopWinref->IsStarArg(), pdxlopWinref->IsSimpleAgg());
 
 	CExpression *pexprWindowFunc = NULL;
 	if (0 < pdxlnWindowRef->Arity())
@@ -3135,7 +3135,7 @@ CTranslatorDXLToExpr::PexprAggFunc
 				m_memory_pool,
 				pmdidAggFunc,
 				GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, (pmdagg->Mdname().GetMDName())->GetBuffer()),
-				dxl_op->FDistinct(),
+				dxl_op->IsDistinct(),
 				eaggfuncstage,
 				fSplit,
 				pmdidResolvedReturnType
