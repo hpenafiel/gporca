@@ -70,13 +70,13 @@ CParseHandlerScalarAggref::StartElement
 		// we must have seen an aggref already and initialized the aggref node
 		GPOS_ASSERT(NULL != m_dxl_node);
 
-		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pph);
+		CParseHandlerBase *parse_handler_base = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_base);
 
 		// store parse handlers
-		this->Append(pph);
+		this->Append(parse_handler_base);
 
-		pph->startElement(element_uri, element_local_name, element_qname, attrs);
+		parse_handler_base->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -102,11 +102,11 @@ CParseHandlerScalarAggref::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = this->Length();
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerScalarOp *pph = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
-		AddChildFromParseHandler(pph);
+		CParseHandlerScalarOp *scalar_op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[idx]);
+		AddChildFromParseHandler(scalar_op_parse_handler);
 	}
 
 	// deactivate handler

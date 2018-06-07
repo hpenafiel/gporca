@@ -142,12 +142,12 @@ CParseHandlerScalarArrayRef::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRef), element_local_name))
 	{
 		// add constructed children from child parse handlers
-		const ULONG ulSize = this->Length();
-		GPOS_ASSERT(3 == ulSize || 4 == ulSize);
+		const ULONG size = this->Length();
+		GPOS_ASSERT(3 == size || 4 == size);
 
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		for (ULONG idx = 0; idx < size; idx++)
 		{
-			CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+			CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[idx]);
 			AddChildFromParseHandler(child_parse_handler);
 		}
 
