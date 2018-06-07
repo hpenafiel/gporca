@@ -24,7 +24,7 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLProperties::CDXLProperties()
 	:
-	m_pdxlstatsderrel(NULL)
+	m_dxl_stats_derived_relation(NULL)
 {}
 
 //---------------------------------------------------------------------------
@@ -37,7 +37,7 @@ CDXLProperties::CDXLProperties()
 //---------------------------------------------------------------------------
 CDXLProperties::~CDXLProperties()
 {
-	CRefCount::SafeRelease(m_pdxlstatsderrel);
+	CRefCount::SafeRelease(m_dxl_stats_derived_relation);
 }
 
 //---------------------------------------------------------------------------
@@ -51,27 +51,27 @@ CDXLProperties::~CDXLProperties()
 void
 CDXLProperties::SetStats
 	(
-	CDXLStatsDerivedRelation *pdxlstatsderrel
+	CDXLStatsDerivedRelation *dxl_stats_derived_relation
 	)
 {
 	// allow setting properties only once
-	GPOS_ASSERT(NULL == m_pdxlstatsderrel);
-	GPOS_ASSERT(NULL != pdxlstatsderrel);
-	m_pdxlstatsderrel = pdxlstatsderrel;
+	GPOS_ASSERT(NULL == m_dxl_stats_derived_relation);
+	GPOS_ASSERT(NULL != dxl_stats_derived_relation);
+	m_dxl_stats_derived_relation = dxl_stats_derived_relation;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLProperties::Pdxlstatsderrel
+//		CDXLProperties::GetDxlStatsDrvdRelation
 //
 //	@doc:
 //		Return operator's statistical information
 //
 //---------------------------------------------------------------------------
 const CDXLStatsDerivedRelation *
-CDXLProperties::Pdxlstatsderrel() const
+CDXLProperties::GetDxlStatsDrvdRelation() const
 {
-	return m_pdxlstatsderrel;
+	return m_dxl_stats_derived_relation;
 }
 
 //---------------------------------------------------------------------------
@@ -107,9 +107,9 @@ CDXLProperties::SerializeStatsToDXL
 	)
 	const
 {
-	if (NULL != m_pdxlstatsderrel)
+	if (NULL != m_dxl_stats_derived_relation)
 	{
-		m_pdxlstatsderrel->Serialize(xml_serializer);
+		m_dxl_stats_derived_relation->Serialize(xml_serializer);
 	}
 }
 

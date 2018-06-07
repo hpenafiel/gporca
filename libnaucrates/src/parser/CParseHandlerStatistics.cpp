@@ -155,9 +155,9 @@ CParseHandlerStatistics::EndElement
 	{
 		CParseHandlerStatsDerivedRelation *pph = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[ul]);
 
-		CDXLStatsDerivedRelation *pdxlstatsderrel = pph->Pdxlstatsderrel();
-		pdxlstatsderrel->AddRef();
-		m_stats_derived_rel_dxl_array->Append(pdxlstatsderrel);
+		CDXLStatsDerivedRelation *dxl_stats_derived_relation = pph->GetDxlStatsDrvdRelation();
+		dxl_stats_derived_relation->AddRef();
+		m_stats_derived_rel_dxl_array->Append(dxl_stats_derived_relation);
 	}
 
 	m_parse_handler_mgr->DeactivateHandler();

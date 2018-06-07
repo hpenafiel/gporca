@@ -37,13 +37,13 @@ namespace gpdxl
 		private:
 
 			// number of rows in the relation
-			CDouble m_dRows;
+			CDouble m_rows;
 
 			// flag to express that the statistics is on an empty input
-			BOOL m_fEmpty;
+			BOOL m_empty;
 
 			// relation stats
-			CDXLStatsDerivedRelation *m_pdxlstatsderrel;
+			CDXLStatsDerivedRelation *m_dxl_stats_derived_relation;
 
 			// private copy ctor
 			CParseHandlerStatsDerivedRelation(const CParseHandlerStatsDerivedRelation&);
@@ -79,9 +79,9 @@ namespace gpdxl
 			virtual ~CParseHandlerStatsDerivedRelation();
 
 			// the derived relation stats
-			CDXLStatsDerivedRelation *Pdxlstatsderrel() const
+			CDXLStatsDerivedRelation *GetDxlStatsDrvdRelation() const
 			{
-				return m_pdxlstatsderrel;
+				return m_dxl_stats_derived_relation;
 			}
 	};
 }

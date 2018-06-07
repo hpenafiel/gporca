@@ -1989,7 +1989,7 @@ CTranslatorExprToDXLUtils::SetStats
 		(GPOS_FTRACE(EopttraceExtractDXLStatsAllNodes) || fRoot)
 		)
 	{
-		CDXLPhysicalProperties::PdxlpropConvert(dxlnode->GetProperties())->SetStats(pstats->Pdxlstatsderrel(memory_pool, md_accessor));
+		CDXLPhysicalProperties::PdxlpropConvert(dxlnode->GetProperties())->SetStats(pstats->GetDxlStatsDrvdRelation(memory_pool, md_accessor));
 	}
 }
 

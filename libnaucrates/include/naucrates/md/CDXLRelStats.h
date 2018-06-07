@@ -54,10 +54,10 @@ namespace gpmd
 			CMDName *m_mdname;
 			
 			// number of rows
-			CDouble m_dRows;
+			CDouble m_rows;
 			
 			// flag to indicate if input relation is empty
-			BOOL m_fEmpty;
+			BOOL m_empty;
 
 			// DXL string for object
 			CWStringDynamic *m_pstr;
@@ -99,7 +99,7 @@ namespace gpmd
 			virtual
 			BOOL IsEmpty() const
 			{
-				return m_fEmpty;
+				return m_empty;
 			}
 
 			// serialize relation stats in DXL format given a serializer object

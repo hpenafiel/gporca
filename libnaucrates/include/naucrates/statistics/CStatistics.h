@@ -85,7 +85,7 @@ namespace gpnaucrates
 			HMUlDouble *m_phmuldoubleWidth;
 
 			// number of rows
-			CDouble m_dRows;
+			CDouble m_rows;
 
 			// the risk to have errors in cardinality estimation; it goes from 1 to infinity,
 			// where 1 is no risk
@@ -94,7 +94,7 @@ namespace gpnaucrates
 			ULONG m_ulStatsEstimationRisk;
 
 			// flag to indicate if input relation is empty
-			BOOL m_fEmpty;
+			BOOL m_empty;
 
 			// statistics could be computed using predicates with external parameters (outer references),
 			// this is the total number of external parameters' values
@@ -182,7 +182,7 @@ namespace gpnaucrates
 			virtual
 			BOOL IsEmpty() const
 			{
-				return m_fEmpty;
+				return m_empty;
 			}
 
 			// look up the histogram of a particular column
@@ -282,7 +282,7 @@ namespace gpnaucrates
 
 			// generate the DXL representation of the statistics object
 			virtual
-			CDXLStatsDerivedRelation *Pdxlstatsderrel(IMemoryPool *memory_pool, CMDAccessor *md_accessor) const;
+			CDXLStatsDerivedRelation *GetDxlStatsDrvdRelation(IMemoryPool *memory_pool, CMDAccessor *md_accessor) const;
 
 			// print function
 			virtual

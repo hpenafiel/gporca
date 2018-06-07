@@ -39,7 +39,7 @@ namespace gpdxl
 		private:
 
 			// derived statistics
-			CDXLStatsDerivedRelation *m_pdxlstatsderrel;
+			CDXLStatsDerivedRelation *m_dxl_stats_derived_relation;
 
 			// private copy ctor
 			CDXLProperties(const CDXLProperties&);
@@ -61,11 +61,11 @@ namespace gpdxl
 
 			// setter
 			virtual
-			void SetStats(CDXLStatsDerivedRelation *pdxlstatsderrel);
+			void SetStats(CDXLStatsDerivedRelation *dxl_stats_derived_relation);
 
 			// statistical information
 			virtual
-			const CDXLStatsDerivedRelation *Pdxlstatsderrel() const;
+			const CDXLStatsDerivedRelation *GetDxlStatsDrvdRelation() const;
 
 			virtual
 			Edxlprop Edxlproptype() const

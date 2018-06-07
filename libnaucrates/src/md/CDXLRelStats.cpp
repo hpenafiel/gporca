@@ -41,8 +41,8 @@ CDXLRelStats::CDXLRelStats
 	m_memory_pool(memory_pool),
 	m_pmdidRelStats(pmdidRelStats),
 	m_mdname(mdname),
-	m_dRows(dRows),
-	m_fEmpty(fEmpty)
+	m_rows(dRows),
+	m_empty(fEmpty)
 {
 	GPOS_ASSERT(pmdidRelStats->IsValid());
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
@@ -116,7 +116,7 @@ CDXLRelStats::Pstr() const
 CDouble
 CDXLRelStats::DRows() const
 {
-	return m_dRows;
+	return m_rows;
 }
 
 //---------------------------------------------------------------------------
@@ -138,8 +138,8 @@ CDXLRelStats::Serialize
 	
 	m_pmdidRelStats->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRows), m_dRows);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenEmptyRelation), m_fEmpty);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRows), m_rows);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenEmptyRelation), m_empty);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 						CDXLTokens::GetDXLTokenStr(EdxltokenRelationStats));

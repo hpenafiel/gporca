@@ -1333,7 +1333,7 @@ CDXLUtils::SerializeStatistics
 	for (ULONG ul = 0; ul < statistics_array->Size(); ul++)
 	{
 		CStatistics *pstats = (*statistics_array)[ul];
-		CDXLStatsDerivedRelation *stats_derived_relation_dxl = pstats->Pdxlstatsderrel(memory_pool, md_accessor);
+		CDXLStatsDerivedRelation *stats_derived_relation_dxl = pstats->GetDxlStatsDrvdRelation(memory_pool, md_accessor);
 		stats_derived_relation_dxl->Serialize(&xml_serializer);
 		stats_derived_relation_dxl->Release();
 	}

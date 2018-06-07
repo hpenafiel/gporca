@@ -39,7 +39,7 @@ namespace gpdxl
 			CDXLPhysicalProperties *m_dxl_properties;
 			
 			// statistics of the physical plan
-			CDXLStatsDerivedRelation *m_pdxlstatsderrel;
+			CDXLStatsDerivedRelation *m_dxl_stats_derived_relation;
 
 			// private ctor
 			CParseHandlerProperties(const CParseHandlerProperties &);
@@ -78,9 +78,9 @@ namespace gpdxl
 			CDXLPhysicalProperties *GetProperties() const;
 
 			// return the derived relation statistics
-			CDXLStatsDerivedRelation *Pdxlstatsderrel() const
+			CDXLStatsDerivedRelation *GetDxlStatsDrvdRelation() const
 			{
-				return m_pdxlstatsderrel;
+				return m_dxl_stats_derived_relation;
 			}
 	};
 }

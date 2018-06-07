@@ -32,8 +32,8 @@ CDXLStatsDerivedRelation::CDXLStatsDerivedRelation
 	DrgPdxlstatsdercol *pdrgpdxldercolstat
 	)
 	:
-	m_dRows(dRows),
-	m_fEmpty(fEmpty),
+	m_rows(dRows),
+	m_empty(fEmpty),
 	m_pdrgpdxlstatsdercol(pdrgpdxldercolstat)
 {
 	GPOS_ASSERT(NULL != pdrgpdxldercolstat);
@@ -84,8 +84,8 @@ CDXLStatsDerivedRelation::Serialize
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenStatsDerivedRelation));
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRows), m_dRows);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenEmptyRelation), m_fEmpty);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRows), m_rows);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenEmptyRelation), m_empty);
 
 	const ULONG ulColStats = m_pdrgpdxlstatsdercol->Size();
 	for (ULONG ul = 0; ul < ulColStats; ul++)

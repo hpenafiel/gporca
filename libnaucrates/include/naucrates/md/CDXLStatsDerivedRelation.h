@@ -40,10 +40,10 @@ namespace gpmd
 		private:
 
 			// number of rows
-			CDouble m_dRows;
+			CDouble m_rows;
 
 			// flag to indicate if input relation is empty
-			BOOL m_fEmpty;
+			BOOL m_empty;
 
 			// array of derived column statistics
 			DrgPdxlstatsdercol *m_pdrgpdxlstatsdercol;
@@ -68,14 +68,14 @@ namespace gpmd
 			// number of rows
 			CDouble DRows() const
 			{
-				return m_dRows;
+				return m_rows;
 			}
 
 			// is statistics on an empty input
 			virtual
 			BOOL IsEmpty() const
 			{
-				return m_fEmpty;
+				return m_empty;
 			}
 
 			// derived column statistics

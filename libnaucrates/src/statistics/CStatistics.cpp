@@ -70,16 +70,16 @@ CStatistics::CStatistics
 	:
 	m_phmulhist(phmulhist),
 	m_phmuldoubleWidth(phmuldoubleWidth),
-	m_dRows(dRows),
+	m_rows(dRows),
 	m_ulStatsEstimationRisk(ulStatsEstimationNoRisk),
-	m_fEmpty(fEmpty),
+	m_empty(fEmpty),
 	m_dRebinds(1.0), // by default, a stats object is rebound to parameters only once
 	m_ulNumPredicates(ulNumPredicates),
 	m_pdrgpubndvs(NULL)
 {
 	GPOS_ASSERT(NULL != m_phmulhist);
 	GPOS_ASSERT(NULL != m_phmuldoubleWidth);
-	GPOS_ASSERT(CDouble(0.0) <= m_dRows);
+	GPOS_ASSERT(CDouble(0.0) <= m_rows);
 
 	// hash map for source id -> max source cardinality mapping
 	m_pdrgpubndvs = GPOS_NEW(memory_pool) DrgPubndvs(memory_pool);
@@ -171,7 +171,7 @@ CStatistics::OsPrint
 CDouble
 CStatistics::DRows() const
 {
-	return m_dRows;
+	return m_rows;
 }
 
 // return the estimated skew of the given column
@@ -614,7 +614,7 @@ CStatistics::PstatsScale
 	CStatisticsUtils::AddWidthInfo(memory_pool, m_phmuldoubleWidth, phmuldoubleNew);
 	GPOS_CHECK_ABORT;
 
-	CDouble dRowsScaled = m_dRows * dFactor;
+	CDouble dRowsScaled = m_rows * dFactor;
 
 	// create a scaled stats object
 	CStatistics *pstatsScaled = GPOS_NEW(memory_pool) CStatistics
@@ -662,7 +662,7 @@ CStatistics::PstatsCopyWithRemap
 											memory_pool,
 											phmulhistNew,
 											phmuldoubleNew,
-											m_dRows,
+											m_rows,
 											IsEmpty(),
 											m_ulNumPredicates
 											);
@@ -843,14 +843,14 @@ CStatistics::AddCardUpperBound
 
 // return the dxl representation of the statistics object
 CDXLStatsDerivedRelation *
-CStatistics::Pdxlstatsderrel
+CStatistics::GetDxlStatsDrvdRelation
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor
 	)
 	const
 {
-	DrgPdxlstatsdercol *pdrgpdxlstatsdercol = GPOS_NEW(memory_pool) DrgPdxlstatsdercol(memory_pool);
+	DrgPdxlstatsdercol *dxl_stats_derived_col_array = GPOS_NEW(memory_pool) DrgPdxlstatsdercol(memory_pool);
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
@@ -862,10 +862,10 @@ CStatistics::Pdxlstatsderrel
 		GPOS_ASSERT(pdWidth);
 
 		CDXLStatsDerivedColumn *dxl_derived_col_stats = phist->Pdxlstatsdercol(memory_pool, md_accessor, col_id, *pdWidth);
-		pdrgpdxlstatsdercol->Append(dxl_derived_col_stats);
+		dxl_stats_derived_col_array->Append(dxl_derived_col_stats);
 	}
 
-	return GPOS_NEW(memory_pool) CDXLStatsDerivedRelation(m_dRows, IsEmpty(), pdrgpdxlstatsdercol);
+	return GPOS_NEW(memory_pool) CDXLStatsDerivedRelation(m_rows, IsEmpty(), dxl_stats_derived_col_array);
 }
 
 // return the upper bound of ndvs for a column reference
@@ -923,7 +923,7 @@ CStatistics::DNDV
 
 	// if no histogram is available for required column, we use
 	// the number of rows as NDVs estimate
-	return std::min(m_dRows, DUpperBoundNDVs(pcr));
+	return std::min(m_rows, DUpperBoundNDVs(pcr));
 }
 
 

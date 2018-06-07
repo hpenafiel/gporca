@@ -36,7 +36,7 @@ CParseHandlerProperties::CParseHandlerProperties
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_dxl_properties(NULL),
-	m_pdxlstatsderrel(NULL)
+	m_dxl_stats_derived_relation(NULL)
 {
 }
 
@@ -51,7 +51,7 @@ CParseHandlerProperties::CParseHandlerProperties
 CParseHandlerProperties::~CParseHandlerProperties()
 {
 	CRefCount::SafeRelease(m_dxl_properties);
-	CRefCount::SafeRelease(m_pdxlstatsderrel);
+	CRefCount::SafeRelease(m_dxl_stats_derived_relation);
 }
 
 //---------------------------------------------------------------------------
@@ -149,9 +149,9 @@ CParseHandlerProperties::EndElement
 	{
 		CParseHandlerStatsDerivedRelation *pphStats = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[1]);
 
-		CDXLStatsDerivedRelation *pdxlstatsderrel = pphStats->Pdxlstatsderrel();
-		pdxlstatsderrel->AddRef();
-		m_pdxlstatsderrel = pdxlstatsderrel;
+		CDXLStatsDerivedRelation *dxl_stats_derived_relation = pphStats->GetDxlStatsDrvdRelation();
+		dxl_stats_derived_relation->AddRef();
+		m_dxl_stats_derived_relation = dxl_stats_derived_relation;
 	}
 
 	m_dxl_properties = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(pdxlopcost);

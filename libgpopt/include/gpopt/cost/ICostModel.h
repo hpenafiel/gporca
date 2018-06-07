@@ -124,7 +124,7 @@ namespace gpopt
 					CCostingStats *m_pcstats;
 
 					// row estimate of root
-					DOUBLE m_dRows;
+					DOUBLE m_rows;
 
 					// width estimate of root
 					DOUBLE m_width;
@@ -162,7 +162,7 @@ namespace gpopt
 						:
 						m_ulChildren(ulChildren),
 						m_pcstats(pcstats),
-						m_dRows(dRows),
+						m_rows(dRows),
 						m_width(dWidth),
 						m_dRebinds(dRebinds),
 						m_pdRowsChildren(pdRowsChildren),
@@ -183,7 +183,7 @@ namespace gpopt
 						:
 						m_ulChildren(ulChildren),
 						m_pcstats(pcstats),
-						m_dRows(0),
+						m_rows(0),
 						m_width(0),
 						m_dRebinds(GPOPT_DEFAULT_REBINDS),
 						m_pdRowsChildren(NULL),
@@ -220,7 +220,7 @@ namespace gpopt
 					// rows accessor
 					DOUBLE DRows() const
 					{
-						return m_dRows;
+						return m_rows;
 					}
 
 					// rows setter
@@ -231,7 +231,7 @@ namespace gpopt
 					{
 						GPOS_ASSERT(0 <= dRows);
 
-						m_dRows = dRows;
+						m_rows = dRows;
 					}
 
 					// width accessor

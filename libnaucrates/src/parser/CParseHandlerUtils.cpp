@@ -40,11 +40,11 @@ CParseHandlerUtils::SetProperties
 	dxlnode->SetProperties(dxl_properties);
 
 	// set the statistical information
-	CDXLStatsDerivedRelation *pdxlstatsderrel = prop_parse_handler->Pdxlstatsderrel();
-	if (NULL != pdxlstatsderrel)
+	CDXLStatsDerivedRelation *dxl_stats_derived_relation = prop_parse_handler->GetDxlStatsDrvdRelation();
+	if (NULL != dxl_stats_derived_relation)
 	{
-		pdxlstatsderrel->AddRef();
-		dxl_properties->SetStats(pdxlstatsderrel);
+		dxl_stats_derived_relation->AddRef();
+		dxl_properties->SetStats(dxl_stats_derived_relation);
 	}
 }
 

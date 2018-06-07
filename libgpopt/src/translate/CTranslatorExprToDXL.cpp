@@ -397,7 +397,7 @@ CTranslatorExprToDXL::CreateDXLNode
 		pdrgpcrRequired->Release();
 	}
 
-	if (NULL == pdxlnNew->GetProperties()->Pdxlstatsderrel())
+	if (NULL == pdxlnNew->GetProperties()->GetDxlStatsDrvdRelation())
 	{
 		CTranslatorExprToDXLUtils::SetStats(m_memory_pool, m_pmda, pdxlnNew, pexpr->Pstats(), fRoot);
 	}
