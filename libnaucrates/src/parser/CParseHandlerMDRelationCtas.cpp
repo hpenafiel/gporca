@@ -167,10 +167,10 @@ CParseHandlerMDRelationCtas::EndElement
 	GPOS_ASSERT(NULL != ctas_options_parse_handler->GetDxlCtasStorageOption());
 
 	DrgPmdcol *pdrgpmdcol = pphMdCol->Pdrgpmdcol();
-	CDXLCtasStorageOptions *pdxlctasopt = ctas_options_parse_handler->GetDxlCtasStorageOption();
+	CDXLCtasStorageOptions *dxl_ctas_storage_options = ctas_options_parse_handler->GetDxlCtasStorageOption();
 
 	pdrgpmdcol->AddRef();
-	pdxlctasopt->AddRef();
+	dxl_ctas_storage_options->AddRef();
 
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
 								(
@@ -185,7 +185,7 @@ CParseHandlerMDRelationCtas::EndElement
 									pdrgpmdcol,
 									m_pdrgpulDistrColumns,
 									m_pdrgpdrgpulKeys,									
-									pdxlctasopt,
+									dxl_ctas_storage_options,
 									m_vartypemod_array
 								);
 

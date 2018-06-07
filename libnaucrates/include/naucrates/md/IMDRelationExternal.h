@@ -34,7 +34,7 @@ namespace gpmd
 
 			// storage type
 			virtual
-			Erelstoragetype Erelstorage() const
+			Erelstoragetype GetRelStorageType() const
 			{
 				return ErelstorageExternal;
 			}
@@ -59,7 +59,7 @@ namespace gpmd
 			
 			// does this table have oids
 			virtual
-			BOOL FHasOids() const
+			BOOL HasOids() const
 			{
 				return false;
 			}

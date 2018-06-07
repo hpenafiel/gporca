@@ -97,7 +97,7 @@ namespace gpmd
 			
 			// storage type (heap, appendonly, ...)
 			virtual 
-			Erelstoragetype Erelstorage() const = 0; 
+			Erelstoragetype GetRelStorageType() const = 0; 
 			
 			// distribution policy (none, hash, random)
 			virtual 
@@ -161,7 +161,7 @@ namespace gpmd
 			
 			// does this table have oids
 			virtual
-			BOOL FHasOids() const = 0;
+			BOOL HasOids() const = 0;
 
 			// is this a partitioned table
 			virtual

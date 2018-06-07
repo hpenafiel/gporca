@@ -183,7 +183,7 @@ namespace gpopt
 			}
 			
 			// storage type
-			IMDRelation::Erelstoragetype Erelstorage() const
+			IMDRelation::Erelstoragetype GetRelStorageType() const
 			{
 				return m_erelstoragetype;
 			}

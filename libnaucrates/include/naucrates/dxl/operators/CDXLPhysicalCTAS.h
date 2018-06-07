@@ -78,7 +78,7 @@ namespace gpdxl
 			CDXLPhysicalCTAS
 				(
 				IMemoryPool *memory_pool, 
-				CMDName *pmdnameSchema, 
+				CMDName *mdname_schema, 
 				CMDName *mdname_rel, 
 				ColumnDescrDXLArray *col_descr_dxl_array,
 				CDXLCtasStorageOptions *dxl_ctas_storage_options,
@@ -120,7 +120,7 @@ namespace gpdxl
 			}
 		
 			// source column ids
-			ULongPtrArray *PdrgpulSource() const
+			ULongPtrArray *GetSrcColidsArray() const
 			{
 				return m_src_colids_array;
 			} 

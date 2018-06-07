@@ -30,7 +30,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdnameSchema,
+	CMDName *mdname_schema,
 	CMDName *mdname,
 	BOOL fTemporary,
 	BOOL fHasOids,
@@ -39,13 +39,13 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
 	ULongPtrArray2D *pdrgpdrgpulKeys,
-	CDXLCtasStorageOptions *pdxlctasopt,
+	CDXLCtasStorageOptions *dxl_ctas_storage_options,
 	IntPtrArray *pdrgpiVarTypeMod
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
-	m_mdname_schema(pmdnameSchema),
+	m_mdname_schema(mdname_schema),
 	m_mdname(mdname),
 	m_is_temp_table(fTemporary),
 	m_has_oids(fHasOids),
@@ -56,12 +56,12 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
 	m_ulSystemColumns(0),
 	m_pdrgpulNonDroppedCols(NULL),
-	m_dxl_ctas_storage_option(pdxlctasopt),
+	m_dxl_ctas_storage_option(dxl_ctas_storage_options),
 	m_vartypemod_array(pdrgpiVarTypeMod)
 {
 	GPOS_ASSERT(pmdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdcol);
-	GPOS_ASSERT(NULL != pdxlctasopt);
+	GPOS_ASSERT(NULL != dxl_ctas_storage_options);
 	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > m_rel_storage_type);	
 	GPOS_ASSERT(0 == pdrgpdrgpulKeys->Size());
 	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);

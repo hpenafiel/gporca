@@ -4971,10 +4971,10 @@ CUtils::FGeneratePartOid
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	const IMDRelation *pmdrel = md_accessor->Pmdrel(pmdid);
-	BOOL fInsertSortOnParquet = (!GPOS_FTRACE(EopttraceDisableSortForDMLOnParquet) && pmdrel->Erelstorage() == IMDRelation::ErelstorageAppendOnlyParquet);
+	BOOL fInsertSortOnParquet = (!GPOS_FTRACE(EopttraceDisableSortForDMLOnParquet) && pmdrel->GetRelStorageType() == IMDRelation::ErelstorageAppendOnlyParquet);
 
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-	BOOL fInsertSortOnRows = (pmdrel->Erelstorage() == IMDRelation::ErelstorageAppendOnlyRows) && (optimizer_config->GetHint()->UlMinNumOfPartsToRequireSortOnInsert() <= pmdrel->UlPartitions());
+	BOOL fInsertSortOnRows = (pmdrel->GetRelStorageType() == IMDRelation::ErelstorageAppendOnlyRows) && (optimizer_config->GetHint()->UlMinNumOfPartsToRequireSortOnInsert() <= pmdrel->UlPartitions());
 
 	return fInsertSortOnParquet || fInsertSortOnRows;
 }

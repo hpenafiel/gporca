@@ -545,7 +545,7 @@ BOOL
 CPhysicalDML::FInsertSortOnParquet()
 {
 	return !GPOS_FTRACE(EopttraceDisableSortForDMLOnParquet) &&
-					(IMDRelation::ErelstorageAppendOnlyParquet == m_ptabdesc->Erelstorage());
+					(IMDRelation::ErelstorageAppendOnlyParquet == m_ptabdesc->GetRelStorageType());
 }
 
 //---------------------------------------------------------------------------
@@ -564,7 +564,7 @@ CPhysicalDML::FInsertSortOnRows
 {
 	GPOS_ASSERT(NULL != optimizer_config);
 
-	return (IMDRelation::ErelstorageAppendOnlyRows == m_ptabdesc->Erelstorage()) &&
+	return (IMDRelation::ErelstorageAppendOnlyRows == m_ptabdesc->GetRelStorageType()) &&
 			(optimizer_config->GetHint()->UlMinNumOfPartsToRequireSortOnInsert() <= m_ptabdesc->UlPartitions());
 }
 

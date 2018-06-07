@@ -196,14 +196,14 @@ CMDRelationGPDB::IsTemporary() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRelationGPDB::Erelstorage
+//		CMDRelationGPDB::GetRelStorageType
 //
 //	@doc:
 //		Returns the storage type for this relation
 //
 //---------------------------------------------------------------------------
 IMDRelation::Erelstoragetype
-CMDRelationGPDB::Erelstorage() const
+CMDRelationGPDB::GetRelStorageType() const
 {
 	return m_rel_storage_type;
 }
@@ -405,14 +405,14 @@ CMDRelationGPDB::UlDistrColumns() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRelationGPDB::FHasOids
+//		CMDRelationGPDB::HasOids
 //
 //	@doc:
 //		Does this table have oids
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDRelationGPDB::FHasOids() const
+CMDRelationGPDB::HasOids() const
 {
 	return m_has_oids;
 }

@@ -387,10 +387,10 @@ namespace gpopt
 			void RegisterMDRelationCtas(CDXLLogicalCTAS *pdxlopCTAS);
 
 			// create an array of column references from an array of dxl column references
-			DrgPcr *Pdrgpcr(const ColumnDescrDXLArray *pdrgpdxlcd);
+			DrgPcr *Pdrgpcr(const ColumnDescrDXLArray *col_descr_dxl_array);
 
 			// construct the mapping between the DXL ColId and CColRef
-			void ConstructDXLColId2ColRefMapping(const ColumnDescrDXLArray *pdrgpdxlcd, const DrgPcr *pdrgpcr);
+			void ConstructDXLColId2ColRefMapping(const ColumnDescrDXLArray *col_descr_dxl_array, const DrgPcr *pdrgpcr);
 
 			// look up the column reference in the hash map. We raise an exception if
 			// the column is not found

@@ -5390,7 +5390,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 	GPOS_ASSERT(ulColumns == pdrgpiVarTypeMod->Size());
 
 	// translate col descriptors
-	ColumnDescrDXLArray *pdrgpdxlcd = GPOS_NEW(m_memory_pool) ColumnDescrDXLArray(m_memory_pool);
+	ColumnDescrDXLArray *col_descr_dxl_array = GPOS_NEW(m_memory_pool) ColumnDescrDXLArray(m_memory_pool);
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
 		const CColumnDescriptor *pcd = ptabdesc->Pcoldesc(ul);
@@ -5415,7 +5415,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 											pcd->Width()
 											);
 
-		pdrgpdxlcd->Append(pdxlcd);
+		col_descr_dxl_array->Append(pdxlcd);
 	}
 
 	ULongPtrArray *pdrgpulDistr = NULL;
@@ -5432,25 +5432,25 @@ CTranslatorExprToDXL::PdxlnCTAS
 		}
 	}
 
-	CMDName *pmdnameSchema = NULL;
+	CMDName *mdname_schema = NULL;
 	if (NULL != pmdrel->GetMdNameSchema())
 	{
-		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->GetMdNameSchema()->GetMDName());
+		mdname_schema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->GetMdNameSchema()->GetMDName());
 	}
 
 	pdrgpiVarTypeMod->AddRef();
 	CDXLPhysicalCTAS *pdxlopCTAS = GPOS_NEW(m_memory_pool) CDXLPhysicalCTAS
 									(
 									m_memory_pool,
-									pmdnameSchema,
+									mdname_schema,
 									GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->Mdname().GetMDName()),
-									pdrgpdxlcd,
+									col_descr_dxl_array,
 									pmdrel->GetDxlCtasStorageOption(),
 									pmdrel->Ereldistribution(),
 									pdrgpulDistr,
 									pmdrel->IsTemporary(),
-									pmdrel->FHasOids(),
-									pmdrel->Erelstorage(),
+									pmdrel->HasOids(),
+									pmdrel->GetRelStorageType(),
 									pdrgpul,
 									pdrgpiVarTypeMod
 									);

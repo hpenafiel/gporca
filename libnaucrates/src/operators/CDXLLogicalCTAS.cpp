@@ -33,41 +33,41 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
-	CMDName *pmdnameSchema, 
+	CMDName *mdname_schema, 
 	CMDName *mdname_rel, 
-	ColumnDescrDXLArray *pdrgpdxlcd,
-	CDXLCtasStorageOptions *pdxlctasopt,
+	ColumnDescrDXLArray *col_descr_dxl_array,
+	CDXLCtasStorageOptions *dxl_ctas_storage_options,
 	IMDRelation::GetRelDistrPolicy rel_distr_policy,
-	ULongPtrArray *pdrgpulDistr,
-	BOOL fTemporary,
-	BOOL fHasOids, 
+	ULongPtrArray *distr_column_pos_array,
+	BOOL is_temporary,
+	BOOL has_oids,
 	IMDRelation::Erelstoragetype rel_storage_type,
-	ULongPtrArray *pdrgpulSource,
-	IntPtrArray *pdrgpiVarTypeMod
+	ULongPtrArray *src_colids_array,
+	IntPtrArray *vartypemod_array
 	)
 	:
 	CDXLLogical(memory_pool), 
 	m_mdid(pmdid),
-	m_mdname_schema(pmdnameSchema),
+	m_mdname_schema(mdname_schema),
 	m_mdname_rel(mdname_rel),
-	m_col_descr_array(pdrgpdxlcd),
-	m_dxl_ctas_storage_option(pdxlctasopt),
+	m_col_descr_array(col_descr_dxl_array),
+	m_dxl_ctas_storage_option(dxl_ctas_storage_options),
 	m_rel_distr_policy(rel_distr_policy),
-	m_distr_column_pos_array(pdrgpulDistr),
-	m_is_temp_table(fTemporary),
-	m_has_oids(fHasOids),
+	m_distr_column_pos_array(distr_column_pos_array),
+	m_is_temp_table(is_temporary),
+	m_has_oids(has_oids),
 	m_rel_storage_type(rel_storage_type),
-	m_src_colids_array(pdrgpulSource),
-	m_vartypemod_array(pdrgpiVarTypeMod)
+	m_src_colids_array(src_colids_array),
+	m_vartypemod_array(vartypemod_array)
 {
 	GPOS_ASSERT(NULL != pmdid && pmdid->IsValid());
 	GPOS_ASSERT(NULL != mdname_rel);
-	GPOS_ASSERT(NULL != pdrgpdxlcd);
-	GPOS_ASSERT(NULL != pdxlctasopt);
-	GPOS_ASSERT_IFF(IMDRelation::EreldistrHash == rel_distr_policy, NULL != pdrgpulDistr);
-	GPOS_ASSERT(NULL != pdrgpulSource);
-	GPOS_ASSERT(NULL != pdrgpiVarTypeMod);
-	GPOS_ASSERT(pdrgpdxlcd->Size() == pdrgpiVarTypeMod->Size());
+	GPOS_ASSERT(NULL != col_descr_dxl_array);
+	GPOS_ASSERT(NULL != dxl_ctas_storage_options);
+	GPOS_ASSERT_IFF(IMDRelation::EreldistrHash == rel_distr_policy, NULL != distr_column_pos_array);
+	GPOS_ASSERT(NULL != src_colids_array);
+	GPOS_ASSERT(NULL != vartypemod_array);
+	GPOS_ASSERT(col_descr_dxl_array->Size() == vartypemod_array->Size());
 	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > rel_storage_type);
 	GPOS_ASSERT(IMDRelation::EreldistrSentinel > rel_distr_policy);
 }
@@ -137,9 +137,9 @@ CDXLLogicalCTAS::IsColDefined
 	const
 {
 	const ULONG size = m_col_descr_array->Size();
-	for (ULONG ulDescr = 0; ulDescr < size; ulDescr++)
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		ULONG id = (*m_col_descr_array)[ulDescr]->Id();
+		ULONG id = (*m_col_descr_array)[idx]->Id();
 		if (id == col_id)
 		{
 			return true;
@@ -188,35 +188,35 @@ CDXLLogicalCTAS::SerializeToDXL
 		GPOS_ASSERT(NULL != m_distr_column_pos_array);
 		
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = CDXLUtils::Serialize(m_memory_pool, m_distr_column_pos_array);
-		GPOS_ASSERT(NULL != pstrDistrColumns);
+		CWStringDynamic *str_distribution_columns = CDXLUtils::Serialize(m_memory_pool, m_distr_column_pos_array);
+		GPOS_ASSERT(NULL != str_distribution_columns);
 		
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDistrColumns), pstrDistrColumns);
-		GPOS_DELETE(pstrDistrColumns);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDistrColumns), str_distribution_columns);
+		GPOS_DELETE(str_distribution_columns);
 	}
 
 	// serialize input columns
-	CWStringDynamic *pstrCols = CDXLUtils::Serialize(m_memory_pool, m_src_colids_array);
-	GPOS_ASSERT(NULL != pstrCols);
+	CWStringDynamic *str_input_columns = CDXLUtils::Serialize(m_memory_pool, m_src_colids_array);
+	GPOS_ASSERT(NULL != str_input_columns);
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInsertCols), pstrCols);
-	GPOS_DELETE(pstrCols);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInsertCols), str_input_columns);
+	GPOS_DELETE(str_input_columns);
 	
 	// serialize vartypmod list
-	CWStringDynamic *pstrVarTypeModList = CDXLUtils::Serialize(m_memory_pool, m_vartypemod_array);
-	GPOS_ASSERT(NULL != pstrVarTypeModList);
+	CWStringDynamic *str_vartypemod_list = CDXLUtils::Serialize(m_memory_pool, m_vartypemod_array);
+	GPOS_ASSERT(NULL != str_vartypemod_list);
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenVarTypeModList), pstrVarTypeModList);
-	GPOS_DELETE(pstrVarTypeModList);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenVarTypeModList), str_vartypemod_list);
+	GPOS_DELETE(str_vartypemod_list);
 
 	// serialize column descriptors
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	
 	const ULONG arity = m_col_descr_array->Size();
-	for (ULONG ul = 0; ul < arity; ul++)
+	for (ULONG idx = 0; idx < arity; idx++)
 	{
-		CDXLColDescr *pdxlcd = (*m_col_descr_array)[ul];
-		pdxlcd->SerializeToDXL(xml_serializer);
+		CDXLColDescr *dxl_col_descr = (*m_col_descr_array)[idx];
+		dxl_col_descr->SerializeToDXL(xml_serializer);
 	}
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 

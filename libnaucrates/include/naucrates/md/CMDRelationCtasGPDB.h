@@ -109,7 +109,7 @@ namespace gpmd
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
-				CMDName *pmdnameSchema,
+				CMDName *mdname_schema,
 				CMDName *mdname,
 				BOOL fTemporary,
 				BOOL fHasOids,
@@ -118,7 +118,7 @@ namespace gpmd
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,
 				ULongPtrArray2D *pdrgpdrgpulKeys,
-				CDXLCtasStorageOptions *pdxlctasopt,
+				CDXLCtasStorageOptions *dxl_ctas_storage_options,
 				IntPtrArray *pdrgpiVarTypeMod
 				);
 
@@ -151,7 +151,7 @@ namespace gpmd
 
 			// does this table have oids
 			virtual
-			BOOL FHasOids() const
+			BOOL HasOids() const
 			{
 				return m_has_oids;
 			}
@@ -165,7 +165,7 @@ namespace gpmd
 			
 			// storage type
 			virtual 
-			Erelstoragetype Erelstorage() const
+			Erelstoragetype GetRelStorageType() const
 			{
 				return m_rel_storage_type;
 			}

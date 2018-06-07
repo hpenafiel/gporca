@@ -1052,15 +1052,15 @@ CTranslatorDXLToExpr::PcrCreate
 DrgPcr *
 CTranslatorDXLToExpr::Pdrgpcr
 	(
-	const ColumnDescrDXLArray *pdrgpdxlcd
+	const ColumnDescrDXLArray *col_descr_dxl_array
 	)
 {
-	GPOS_ASSERT(NULL != pdrgpdxlcd);
+	GPOS_ASSERT(NULL != col_descr_dxl_array);
 	DrgPcr *pdrgpcrOutput = GPOS_NEW(m_memory_pool) DrgPcr(m_memory_pool);
-	ULONG ulOutputCols = pdrgpdxlcd->Size();
+	ULONG ulOutputCols = col_descr_dxl_array->Size();
 	for (ULONG ul = 0; ul < ulOutputCols; ul++)
 	{
-		CDXLColDescr *pdxlcd = (*pdrgpdxlcd)[ul];
+		CDXLColDescr *pdxlcd = (*col_descr_dxl_array)[ul];
 		IMDId *pmdid = pdxlcd->MDIdType();
 		const IMDType *pmdtype = m_pmda->Pmdtype(pmdid);
 
@@ -1084,14 +1084,14 @@ CTranslatorDXLToExpr::Pdrgpcr
 void
 CTranslatorDXLToExpr::ConstructDXLColId2ColRefMapping
 	(
-	const ColumnDescrDXLArray *pdrgpdxlcd,
+	const ColumnDescrDXLArray *col_descr_dxl_array,
 	const DrgPcr *pdrgpcr
 	)
 {
-	GPOS_ASSERT(NULL != pdrgpdxlcd);
+	GPOS_ASSERT(NULL != col_descr_dxl_array);
 	GPOS_ASSERT(NULL != pdrgpcr);
 
-	const ULONG ulColumns = pdrgpdxlcd->Size();
+	const ULONG ulColumns = col_descr_dxl_array->Size();
 	GPOS_ASSERT(pdrgpcr->Size() == ulColumns);
 
 	// construct the mapping between the DXL ColId and CColRef
@@ -1100,7 +1100,7 @@ CTranslatorDXLToExpr::ConstructDXLColId2ColRefMapping
 		CColRef *pcr = (*pdrgpcr)[ul];
 		GPOS_ASSERT(NULL != pcr);
 
-		const CDXLColDescr *pdxlcd = (*pdrgpdxlcd)[ul];
+		const CDXLColDescr *pdxlcd = (*col_descr_dxl_array)[ul];
 		GPOS_ASSERT(NULL != pdxlcd && !pdxlcd->IsDropped());
 
 		// copy key
@@ -1539,7 +1539,7 @@ CTranslatorDXLToExpr::PexprLogicalCTAS
 	RegisterMDRelationCtas(pdxlopCTAS);
 	CTableDescriptor *ptabdesc = PtabdescFromCTAS(pdxlopCTAS);
 
-	ULongPtrArray *pdrgpulSourceCols = pdxlopCTAS->PdrgpulSource();
+	ULongPtrArray *pdrgpulSourceCols = pdxlopCTAS->GetSrcColidsArray();
 	DrgPcr *pdrgpcr = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulSourceCols);
 
 	return GPOS_NEW(m_memory_pool) CExpression
@@ -2090,7 +2090,7 @@ CTranslatorDXLToExpr::Ptabdesc
 	IMDRelation::GetRelDistrPolicy rel_distr_policy = pmdrel->Ereldistribution();
 
 	// get storage type
-	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->Erelstorage();
+	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->GetRelStorageType();
 
 	pmdid->AddRef();
 	CTableDescriptor *ptabdesc = GPOS_NEW(m_memory_pool) CTableDescriptor
@@ -2193,11 +2193,11 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	pdxlopCTAS->GetDxlCtasStorageOption()->AddRef();
 	
 	DrgPmdcol *pdrgpmdcol = GPOS_NEW(m_memory_pool) DrgPmdcol(m_memory_pool);
-	ColumnDescrDXLArray *pdrgpdxlcd = pdxlopCTAS->GetColumnDescrDXLArray();
-	const ULONG length = pdrgpdxlcd->Size();
+	ColumnDescrDXLArray *col_descr_dxl_array = pdxlopCTAS->GetColumnDescrDXLArray();
+	const ULONG length = col_descr_dxl_array->Size();
 	for (ULONG ul = 0; ul < length; ul++)
 	{
-		CDXLColDescr *pdxlcd = (*pdrgpdxlcd)[ul];
+		CDXLColDescr *pdxlcd = (*col_descr_dxl_array)[ul];
 		pdxlcd->MDIdType()->AddRef();
 		
 		CMDColumn *pmdcol = GPOS_NEW(m_memory_pool) CMDColumn
@@ -2214,10 +2214,10 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 		pdrgpmdcol->Append(pmdcol);
 	}
 	
-	CMDName *pmdnameSchema = NULL;
+	CMDName *mdname_schema = NULL;
 	if (NULL != pdxlopCTAS->GetMdNameSchema())
 	{
-		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlopCTAS->GetMdNameSchema()->GetMDName());
+		mdname_schema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlopCTAS->GetMdNameSchema()->GetMDName());
 	}
 	
 	IntPtrArray * pdrgpiVarTypeMod = pdxlopCTAS->GetVarTypeModArray();
@@ -2226,11 +2226,11 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 			(
 			m_memory_pool,
 			pdxlopCTAS->MDId(),
-			pmdnameSchema,
+			mdname_schema,
 			GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlopCTAS->MdName()->GetMDName()),
 			pdxlopCTAS->IsTemporary(),
-			pdxlopCTAS->FHasOids(),
-			pdxlopCTAS->Erelstorage(),
+			pdxlopCTAS->HasOids(),
+			pdxlopCTAS->GetRelStorageType(),
 			pdxlopCTAS->GetRelDistrPolicy(),
 			pdrgpmdcol,
 			pdxlopCTAS->GetDistrColPosArray(),
@@ -2292,7 +2292,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 	IMDRelation::GetRelDistrPolicy rel_distr_policy = pmdrel->Ereldistribution();
 
 	// get storage type
-	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->Erelstorage();
+	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->GetRelStorageType();
 
 	pmdid->AddRef();
 	CTableDescriptor *ptabdesc = GPOS_NEW(m_memory_pool) CTableDescriptor
@@ -2307,8 +2307,8 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 						);
 
 	// populate column information from the dxl table descriptor
-	ColumnDescrDXLArray *pdrgpdxlcd = pdxlopCTAS->GetColumnDescrDXLArray();
-	const ULONG ulColumns = pdrgpdxlcd->Size();
+	ColumnDescrDXLArray *col_descr_dxl_array = pdxlopCTAS->GetColumnDescrDXLArray();
+	const ULONG ulColumns = col_descr_dxl_array->Size();
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
 		BOOL fNullable = false;
@@ -2317,7 +2317,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 			fNullable = pmdrel->Pmdcol(ul)->FNullable();
 		}
 
-		const CDXLColDescr *pdxlcoldesc = (*pdrgpdxlcd)[ul];
+		const CDXLColDescr *pdxlcoldesc = (*col_descr_dxl_array)[ul];
 
 		GPOS_ASSERT(pdxlcoldesc->MDIdType()->IsValid());
 		const IMDType *pmdtype = m_pmda->Pmdtype(pdxlcoldesc->MDIdType());
@@ -2406,15 +2406,15 @@ CTranslatorDXLToExpr::PexprLogicalConstTableGet
 {
 	CDXLLogicalConstTable *pdxlopConstTable = CDXLLogicalConstTable::Cast(pdxlnConstTable->GetOperator());
 
-	const ColumnDescrDXLArray *pdrgpdxlcd = pdxlopConstTable->GetColumnDescrDXLArray();
+	const ColumnDescrDXLArray *col_descr_dxl_array = pdxlopConstTable->GetColumnDescrDXLArray();
 
 	// translate the column descriptors
 	DrgPcoldesc *pdrgpcoldesc = GPOS_NEW(m_memory_pool) DrgPcoldesc(m_memory_pool);
-	const ULONG ulColumns = pdrgpdxlcd->Size();
+	const ULONG ulColumns = col_descr_dxl_array->Size();
 
 	for (ULONG ulColIdx = 0; ulColIdx < ulColumns; ulColIdx++)
 	{
-		CDXLColDescr *pdxlcd = (*pdrgpdxlcd)[ulColIdx];
+		CDXLColDescr *pdxlcd = (*col_descr_dxl_array)[ulColIdx];
 		const IMDType *pmdtype = m_pmda->Pmdtype(pdxlcd->MDIdType());
 		CName name(m_memory_pool, pdxlcd->MdName()->GetMDName());
 

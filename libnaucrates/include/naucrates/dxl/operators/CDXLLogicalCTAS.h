@@ -86,17 +86,17 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool, 
 				IMDId *pmdid,
-				CMDName *pmdnameSchema, 
+				CMDName *mdname_schema, 
 				CMDName *mdname_rel, 
-				ColumnDescrDXLArray *pdrgpdxcd,
-				CDXLCtasStorageOptions *pdxlctasopt,
+				ColumnDescrDXLArray *col_descr_dxl_array,
+				CDXLCtasStorageOptions *dxl_ctas_storage_option,
 				IMDRelation::GetRelDistrPolicy rel_distr_policy,
-				ULongPtrArray *pdrgpulDistr, 
+				ULongPtrArray *distr_column_pos_array,
 				BOOL fTemporary, 
 				BOOL fHasOids, 
 				IMDRelation::Erelstoragetype rel_storage_type,
-				ULongPtrArray *pdrgpulSource,
-				IntPtrArray *pdrgpiVarTypeMod
+				ULongPtrArray *src_colids_array,
+				IntPtrArray *vartypemod_array
 				);
 				
 			// dtor
@@ -134,7 +134,7 @@ namespace gpdxl
 			}
 			
 			// storage type
-			IMDRelation::Erelstoragetype Erelstorage() const
+			IMDRelation::Erelstoragetype GetRelStorageType() const
 			{
 				return m_rel_storage_type;
 			}
@@ -152,7 +152,7 @@ namespace gpdxl
 			}
 		
 			// source column ids
-			ULongPtrArray *PdrgpulSource() const
+			ULongPtrArray *GetSrcColidsArray() const
 			{
 				return m_src_colids_array;
 			}
@@ -170,7 +170,7 @@ namespace gpdxl
 			}
 			
 			// does the table have oids
-			BOOL FHasOids() const
+			BOOL HasOids() const
 			{
 				return m_has_oids;
 			}
