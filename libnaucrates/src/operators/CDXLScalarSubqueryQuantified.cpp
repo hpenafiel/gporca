@@ -31,18 +31,18 @@ using namespace gpmd;
 CDXLScalarSubqueryQuantified::CDXLScalarSubqueryQuantified
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidScalarOp,
-	CMDName *pmdnameScalarOp,
+	IMDId *scalar_op_mdid,
+	CMDName *scalar_op_mdname,
 	ULONG col_id
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidScalarOp(pmdidScalarOp),
-	m_pmdnameScalarOp(pmdnameScalarOp),
+	m_pmdidScalarOp(scalar_op_mdid),
+	m_pmdnameScalarOp(scalar_op_mdname),
 	m_colid(col_id)
 {
-	GPOS_ASSERT(pmdidScalarOp->IsValid());
-	GPOS_ASSERT(NULL != pmdnameScalarOp);
+	GPOS_ASSERT(scalar_op_mdid->IsValid());
+	GPOS_ASSERT(NULL != scalar_op_mdname);
 }
 
 //---------------------------------------------------------------------------

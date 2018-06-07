@@ -2469,7 +2469,7 @@ CExpression *
 CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 	(
 	Edxlopid edxlopid,
-	IMDId *pmdidScalarOp,
+	IMDId *scalar_op_mdid,
 	const CWStringConst *str,
 	ULONG col_id,
 	CDXLNode *pdxlnLogicalChild,
@@ -2495,7 +2495,7 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 		popScalarSubquery = GPOS_NEW(m_memory_pool) CScalarSubqueryAny
 								(
 								m_memory_pool,
-								pmdidScalarOp,
+								scalar_op_mdid,
 								GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, str->GetBuffer()),
 								pcr
 								);
@@ -2505,7 +2505,7 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 		popScalarSubquery = GPOS_NEW(m_memory_pool) CScalarSubqueryAll
 								(
 								m_memory_pool,
-								pmdidScalarOp,
+								scalar_op_mdid,
 								GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, str->GetBuffer()),
 								pcr
 								);

@@ -36,17 +36,17 @@ using namespace gpmd;
 CScalarSubqueryQuantified::CScalarSubqueryQuantified
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidScalarOp,
+	IMDId *scalar_op_mdid,
 	const CWStringConst *pstrScalarOp,
 	const CColRef *pcr
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidScalarOp(pmdidScalarOp),
+	m_pmdidScalarOp(scalar_op_mdid),
 	m_pstrScalarOp(pstrScalarOp),
 	m_pcr(pcr)
 {
-	GPOS_ASSERT(pmdidScalarOp->IsValid());
+	GPOS_ASSERT(scalar_op_mdid->IsValid());
 	GPOS_ASSERT(NULL != pstrScalarOp);
 	GPOS_ASSERT(NULL != pcr);
 }

@@ -62,7 +62,7 @@ namespace gpopt
 			CScalarSubqueryQuantified
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidScalarOp,
+				IMDId *scalar_op_mdid,
 				const CWStringConst *pstrScalarOp,
 				const CColRef *pcr
 				);

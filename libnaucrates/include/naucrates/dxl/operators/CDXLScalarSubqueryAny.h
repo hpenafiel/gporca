@@ -46,7 +46,7 @@ namespace gpdxl
 			CDXLScalarSubqueryAny
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidScalarOp,
+				IMDId *scalar_op_mdid,
 				CMDName *mdname,
 				ULONG col_id
 				);

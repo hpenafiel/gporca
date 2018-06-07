@@ -127,7 +127,7 @@ namespace gpopt
 			CExpression *PexprScalarSubqueryQuantified
 				(
 				Edxlopid edxlopid,
-				IMDId *pmdidScalarOp,
+				IMDId *scalar_op_mdid,
 				const CWStringConst *str,
 				ULONG col_id,
 				CDXLNode *pdxlnLogicalChild,

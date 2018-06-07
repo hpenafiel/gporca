@@ -26,12 +26,12 @@ using namespace gpopt;
 CScalarSubqueryAll::CScalarSubqueryAll
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidScalarOp,
+	IMDId *scalar_op_mdid,
 	const CWStringConst *pstrScalarOp,
 	const CColRef *pcr
 	)
 	:
-	CScalarSubqueryQuantified(memory_pool, pmdidScalarOp, pstrScalarOp, pcr)
+	CScalarSubqueryQuantified(memory_pool, scalar_op_mdid, pstrScalarOp, pcr)
 {}
 
 //---------------------------------------------------------------------------
@@ -52,12 +52,12 @@ CScalarSubqueryAll::PopCopyWithRemappedColumns
 {
 	CColRef *pcr = CUtils::PcrRemap(Pcr(), phmulcr, fMustExist);
 
-	IMDId *pmdidScalarOp = MdIdOp();
-	pmdidScalarOp->AddRef();
+	IMDId *scalar_op_mdid = MdIdOp();
+	scalar_op_mdid->AddRef();
 
 	CWStringConst *pstrScalarOp = GPOS_NEW(memory_pool) CWStringConst(memory_pool, PstrOp()->GetBuffer());
 
-	return GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, pmdidScalarOp, pstrScalarOp, pcr);
+	return GPOS_NEW(memory_pool) CScalarSubqueryAll(memory_pool, scalar_op_mdid, pstrScalarOp, pcr);
 }
 
 // EOF
