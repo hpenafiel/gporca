@@ -42,7 +42,7 @@ CLogicalTVF::CLogicalTVF
 	m_pdrgpcrOutput(NULL),
 	m_efs(IMDFunction::EfsImmutable),
 	m_efda(IMDFunction::EfdaNoSQL),
-	m_fReturnsSet(true)
+	m_returns_set(true)
 {
 	m_fPattern = true;
 }
@@ -85,7 +85,7 @@ CLogicalTVF::CLogicalTVF
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
-	m_fReturnsSet = pmdfunc->FReturnsSet();
+	m_returns_set = pmdfunc->FReturnsSet();
 }
 
 //---------------------------------------------------------------------------
@@ -124,7 +124,7 @@ CLogicalTVF::CLogicalTVF
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
-	m_fReturnsSet = pmdfunc->FReturnsSet();
+	m_returns_set = pmdfunc->FReturnsSet();
 }
 
 //---------------------------------------------------------------------------
@@ -322,7 +322,7 @@ CLogicalTVF::Maxcard
 	)
 	const
 {
-	if (m_fReturnsSet)
+	if (m_returns_set)
 	{
 		// unbounded by default
 		return CMaxCard();
@@ -350,7 +350,7 @@ CLogicalTVF::PstatsDerive
 	const
 {
 	CDouble rows(1.0);
-	if (m_fReturnsSet)
+	if (m_returns_set)
 	{
 		rows = CStatistics::DDefaultRelationRows;
 	}

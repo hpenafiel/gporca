@@ -44,7 +44,7 @@ CScalarFunc::CScalarFunc
 	m_pstrFunc(NULL),
 	m_efs(IMDFunction::EfsSentinel),
 	m_efda(IMDFunction::EfdaSentinel),
-	m_fReturnsSet(false),
+	m_returns_set(false),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
@@ -72,7 +72,7 @@ CScalarFunc::CScalarFunc
 	m_return_type_mdid(mdid_return_type),
 	m_return_type_modifier(return_type_modifier),
 	m_pstrFunc(pstrFunc),
-	m_fReturnsSet(false),
+	m_returns_set(false),
 	m_fReturnsNullOnNullInput(false),
 	m_fBoolReturnType(false)
 {
@@ -84,7 +84,7 @@ CScalarFunc::CScalarFunc
 
 	m_efs = pmdfunc->EfsStability();
 	m_efda = pmdfunc->EfdaDataAccess();
-	m_fReturnsSet = pmdfunc->FReturnsSet();
+	m_returns_set = pmdfunc->FReturnsSet();
 
 	m_fReturnsNullOnNullInput = pmdfunc->FStrict();
 	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_return_type_mdid);
@@ -229,7 +229,7 @@ CScalarFunc::FHasNonScalarFunction
 	CExpressionHandle & //exprhdl
 	)
 {
-	return m_fReturnsSet;
+	return m_returns_set;
 }
 
 

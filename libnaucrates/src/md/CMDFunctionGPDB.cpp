@@ -45,11 +45,11 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	m_mdid(pmdid),
 	m_mdname(mdname),
 	m_mdid_type_result(pmdidTypeResult),
-	m_pdrgpmdidTypes(pdrgpmdidTypes),
-	m_fReturnsSet(fReturnsSet),
+	m_mdid_types_array(pdrgpmdidTypes),
+	m_returns_set(fReturnsSet),
 	m_efsStability(efsStability),
 	m_efdaDataAccess(efdaDataAccess),
-	m_fStrict(fStrict)
+	m_is_strict(fStrict)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(EfsSentinel > efsStability);
@@ -71,7 +71,7 @@ CMDFunctionGPDB::~CMDFunctionGPDB()
 {
 	m_mdid->Release();
 	m_mdid_type_result->Release();
-	CRefCount::SafeRelease(m_pdrgpmdidTypes);
+	CRefCount::SafeRelease(m_mdid_types_array);
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 }
@@ -153,7 +153,7 @@ CMDFunctionGPDB::PmdidTypeResult() const
 DrgPmdid *
 CMDFunctionGPDB::PdrgpmdidOutputArgTypes() const
 {
-	return m_pdrgpmdidTypes;
+	return m_mdid_types_array;
 }
 
 //---------------------------------------------------------------------------
@@ -167,7 +167,7 @@ CMDFunctionGPDB::PdrgpmdidOutputArgTypes() const
 BOOL
 CMDFunctionGPDB::FReturnsSet() const
 {
-	return m_fReturnsSet;
+	return m_returns_set;
 }
 
 //---------------------------------------------------------------------------
@@ -181,13 +181,13 @@ CMDFunctionGPDB::FReturnsSet() const
 CWStringDynamic *
 CMDFunctionGPDB::PstrOutArgTypes() const
 {
-	GPOS_ASSERT(NULL != m_pdrgpmdidTypes);
+	GPOS_ASSERT(NULL != m_mdid_types_array);
 	CWStringDynamic *str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 
-	const ULONG ulLen = m_pdrgpmdidTypes->Size();
+	const ULONG ulLen = m_mdid_types_array->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		IMDId *pmdid = (*m_pdrgpmdidTypes)[ul];
+		IMDId *pmdid = (*m_mdid_types_array)[ul];
 		if (ul == ulLen - 1)
 		{
 			// last element: do not print a comma
@@ -224,14 +224,14 @@ CMDFunctionGPDB::Serialize
 
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
 	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncReturnsSet), m_fReturnsSet);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncReturnsSet), m_returns_set);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncStability), PstrStability());
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncDataAccess), PstrDataAccess());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncStrict), m_fStrict);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncStrict), m_is_strict);
 
 	SerializeMDIdAsElem(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBFuncResultTypeId), m_mdid_type_result);
 
-	if (NULL != m_pdrgpmdidTypes)
+	if (NULL != m_mdid_types_array)
 	{
 		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 							CDXLTokens::GetDXLTokenStr(EdxltokenOutputCols));

@@ -41,8 +41,8 @@ CParseHandlerMDGPDBFunc::CParseHandlerMDGPDBFunc
 	m_mdid(NULL),
 	m_mdname(NULL),
 	m_mdid_type_result(NULL),
-	m_pdrgpmdidTypes(NULL),
-	m_efuncstbl(CMDFunctionGPDB::EfsSentinel)
+	m_mdid_types_array(NULL),
+	m_func_stability(CMDFunctionGPDB::EfsSentinel)
 {}
 
 //---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ CParseHandlerMDGPDBFunc::StartElement
 										);
 		
 		// parse whether func returns a set
-		m_fReturnsSet = CDXLOperatorFactory::ExtractConvertAttrValueToBool
+		m_returns_set = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												attrs,
@@ -97,7 +97,7 @@ CParseHandlerMDGPDBFunc::StartElement
 												EdxltokenGPDBFunc
 												);
 		// parse whether func is strict
-		m_fStrict = CDXLOperatorFactory::ExtractConvertAttrValueToBool
+		m_is_strict = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -113,7 +113,7 @@ CParseHandlerMDGPDBFunc::StartElement
 														EdxltokenGPDBFunc
 														);
 		
-		m_efuncstbl = EFuncStability(xmlszStbl);
+		m_func_stability = ParseFuncStability(xmlszStbl);
 
 		// parse func data access property
 		const XMLCh *xmlszDataAcc = CDXLOperatorFactory::ExtractAttrValue
@@ -123,7 +123,7 @@ CParseHandlerMDGPDBFunc::StartElement
 														EdxltokenGPDBFunc
 														);
 
-		m_efuncdataacc = EFuncDataAccess(xmlszDataAcc);
+		m_func_data_access = ParseFuncDataAccess(xmlszDataAcc);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncResultTypeId), element_local_name))
 	{
@@ -142,7 +142,7 @@ CParseHandlerMDGPDBFunc::StartElement
 	{
 		// parse output column type
 		GPOS_ASSERT(NULL != m_mdname);
-		GPOS_ASSERT(NULL == m_pdrgpmdidTypes);
+		GPOS_ASSERT(NULL == m_mdid_types_array);
 
 		const XMLCh *xmlszTypes = CDXLOperatorFactory::ExtractAttrValue
 															(
@@ -151,7 +151,7 @@ CParseHandlerMDGPDBFunc::StartElement
 															EdxltokenOutputCols
 															);
 
-		m_pdrgpmdidTypes = CDXLOperatorFactory::ExtractConvertMdIdsToArray
+		m_mdid_types_array = CDXLOperatorFactory::ExtractConvertMdIdsToArray
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													xmlszTypes,
@@ -186,11 +186,11 @@ CParseHandlerMDGPDBFunc::EndElement
 												m_mdid,
 												m_mdname,
 												m_mdid_type_result,
-												m_pdrgpmdidTypes,
-												m_fReturnsSet,
-												m_efuncstbl,
-												m_efuncdataacc,
-												m_fStrict);
+												m_mdid_types_array,
+												m_returns_set,
+												m_func_stability,
+												m_func_data_access,
+												m_is_strict);
 		
 		// deactivate handler
 		m_parse_handler_mgr->DeactivateHandler();
@@ -206,14 +206,14 @@ CParseHandlerMDGPDBFunc::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMDGPDBFunc::EFuncStability
+//		CParseHandlerMDGPDBFunc::ParseFuncStability
 //
 //	@doc:
 //		Parses function stability property from XML string
 //
 //---------------------------------------------------------------------------
 CMDFunctionGPDB::EFuncStbl 
-CParseHandlerMDGPDBFunc::EFuncStability
+CParseHandlerMDGPDBFunc::ParseFuncStability
 	(
 	const XMLCh *xmlsz
 	)
@@ -246,14 +246,14 @@ CParseHandlerMDGPDBFunc::EFuncStability
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMDGPDBFunc::EFuncDataAccess
+//		CParseHandlerMDGPDBFunc::ParseFuncDataAccess
 //
 //	@doc:
 //		Parses function data access property from XML string
 //
 //---------------------------------------------------------------------------
 CMDFunctionGPDB::EFuncDataAcc
-CParseHandlerMDGPDBFunc::EFuncDataAccess
+CParseHandlerMDGPDBFunc::ParseFuncDataAccess
 	(
 	const XMLCh *xmlsz
 	)

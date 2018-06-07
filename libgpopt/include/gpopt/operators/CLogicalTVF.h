@@ -53,7 +53,7 @@ namespace gpopt
 			IMDFunction::EFuncDataAcc m_efda;
 
 			// does this function return a set of rows
-			BOOL m_fReturnsSet;
+			BOOL m_returns_set;
 
 			// private copy ctor
 			CLogicalTVF(const CLogicalTVF &);

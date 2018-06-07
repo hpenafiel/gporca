@@ -55,7 +55,7 @@ namespace gpopt
 			IMDFunction::EFuncDataAcc m_efda;
 
 			// can the function return multiple rows?
-			BOOL m_fReturnsSet;
+			BOOL m_returns_set;
 
 			// does operator return NULL on NULL input?
 			BOOL m_fReturnsNullOnNullInput;

@@ -50,10 +50,10 @@ namespace gpmd
 			IMDId *m_mdid_type_result;
 			
 			// output argument types
-			DrgPmdid *m_pdrgpmdidTypes;
+			DrgPmdid *m_mdid_types_array;
 
 			// whether function returns a set of values
-			BOOL m_fReturnsSet;
+			BOOL m_returns_set;
 			
 			// function stability
 			EFuncStbl m_efsStability;
@@ -62,7 +62,7 @@ namespace gpmd
 			EFuncDataAcc m_efdaDataAccess;
 
 			// function strictness (i.e. whether func returns NULL on NULL input)
-			BOOL m_fStrict;
+			BOOL m_is_strict;
 
 			// dxl token array for stability
 			Edxltoken m_drgDxlStability[EfsSentinel];
@@ -130,7 +130,7 @@ namespace gpmd
 			virtual 
 			BOOL FStrict() const
 			{
-				return m_fStrict;
+				return m_is_strict;
 			}
 			
 			// function stability

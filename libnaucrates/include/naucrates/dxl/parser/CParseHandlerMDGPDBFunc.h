@@ -47,19 +47,19 @@ namespace gpdxl
 			IMDId *m_mdid_type_result;
 			
 			// output argument types
-			DrgPmdid *m_pdrgpmdidTypes;
+			DrgPmdid *m_mdid_types_array;
 
 			// whether function returns a set of values
-			BOOL m_fReturnsSet;
+			BOOL m_returns_set;
 			
 			// function stability
-			CMDFunctionGPDB::EFuncStbl m_efuncstbl;
+			CMDFunctionGPDB::EFuncStbl m_func_stability;
 			
 			// function data access
-			CMDFunctionGPDB::EFuncDataAcc m_efuncdataacc;
+			CMDFunctionGPDB::EFuncDataAcc m_func_data_access;
 
 			// function strictness (i.e. whether func returns NULL on NULL input)
-			BOOL m_fStrict;
+			BOOL m_is_strict;
 			
 			// private copy ctor
 			CParseHandlerMDGPDBFunc(const CParseHandlerMDGPDBFunc &);
@@ -82,10 +82,10 @@ namespace gpdxl
 				);
 			
 			// parse function stability property from XML string
-			CMDFunctionGPDB::EFuncStbl EFuncStability(const XMLCh *xmlsz);
+			CMDFunctionGPDB::EFuncStbl ParseFuncStability(const XMLCh *xmlsz);
 
 			// parse function data access property from XML string
-			CMDFunctionGPDB::EFuncDataAcc EFuncDataAccess(const XMLCh *xmlsz);
+			CMDFunctionGPDB::EFuncDataAcc ParseFuncDataAccess(const XMLCh *xmlsz);
 
 		public:
 			// ctor
