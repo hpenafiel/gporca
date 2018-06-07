@@ -666,7 +666,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeStartPredicate
 			pmdtype->PmdidCmp(IMDType::EcmptL), 	// pmdidCmpExl
 			pmdtype->PmdidCmp(IMDType::EcmptLEq), 	// pmdidCmpIncl
 			ulPartLevel,
-			true /*fLower*/
+			true /*is_lower_bound*/
 			);
 }
 
@@ -701,7 +701,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeEndPredicate
 			pmdtype->PmdidCmp(IMDType::EcmptG), 	// pmdidCmpExl
 			pmdtype->PmdidCmp(IMDType::EcmptGEq), 	// pmdidCmpIncl
 			ulPartLevel,
-			false /*fLower*/
+			false /*is_lower_bound*/
 			);
 }
 
@@ -725,7 +725,7 @@ CTranslatorExprToDXLUtils::PdxlnRangePointPredicate
 	IMDId *pmdidCmpExl,
 	IMDId *pmdidCmpIncl,
 	ULONG ulPartLevel,
-	BOOL fLower
+	BOOL is_lower_bound
 	)
 {	
 	if (NULL == pdatum)
@@ -734,7 +734,7 @@ CTranslatorExprToDXLUtils::PdxlnRangePointPredicate
 		return GPOS_NEW(memory_pool) CDXLNode
 					(
 					memory_pool,
-					GPOS_NEW(memory_pool) CDXLScalarPartBoundOpen(memory_pool, ulPartLevel, fLower)
+					GPOS_NEW(memory_pool) CDXLScalarPartBoundOpen(memory_pool, ulPartLevel, is_lower_bound)
 					);
 	}
 	
@@ -742,7 +742,7 @@ CTranslatorExprToDXLUtils::PdxlnRangePointPredicate
 	CDXLNode *pdxlnPartBound = GPOS_NEW(memory_pool) CDXLNode
 										(
 										memory_pool,
-										GPOS_NEW(memory_pool) CDXLScalarPartBound(memory_pool, ulPartLevel, pmdidPartKeyType, fLower)
+										GPOS_NEW(memory_pool) CDXLScalarPartBound(memory_pool, ulPartLevel, pmdidPartKeyType, is_lower_bound)
 										);
 
 	CDXLDatum *datum_dxl = GetDatumVal(memory_pool, md_accessor, pdatum);
@@ -767,7 +767,7 @@ CTranslatorExprToDXLUtils::PdxlnRangePointPredicate
 	CDXLNode *pdxlnPartBoundInclusion = GPOS_NEW(memory_pool) CDXLNode
 										(
 										memory_pool,
-										GPOS_NEW(memory_pool) CDXLScalarPartBoundInclusion(memory_pool, ulPartLevel, fLower)
+										GPOS_NEW(memory_pool) CDXLScalarPartBoundInclusion(memory_pool, ulPartLevel, is_lower_bound)
 										);
 
 	if (CRange::EriExcluded == eri)
@@ -1113,13 +1113,13 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterDefaultAndOpenEnded
 	if (fLTComparison || fEQComparison)
 	{
 		// add a condition to cover the cases of open-ended interval (-inf, x)
-		pdxlnResult = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartBoundOpen(memory_pool, ulPartLevel, true /*fLower*/));
+		pdxlnResult = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartBoundOpen(memory_pool, ulPartLevel, true /*is_lower_bound*/));
 	}
 	
 	if (fGTComparison || fEQComparison)
 	{
 		// add a condition to cover the cases of open-ended interval (x, inf)
-		CDXLNode *pdxlnOpenMax = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartBoundOpen(memory_pool, ulPartLevel, false /*fLower*/));
+		CDXLNode *pdxlnOpenMax = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartBoundOpen(memory_pool, ulPartLevel, false /*is_lower_bound*/));
 
 		// construct a boolean OR expression over the two expressions
 		if (NULL != pdxlnResult)

@@ -244,7 +244,7 @@ CFilterStatsProcessor::PhmulhistApplyConjFilter
 		GPOS_ASSERT(CStatsPred::EsptConj != pstatspredChild->Espt());
 
 		// get the components of the statistics filter
-		ULONG col_id = pstatspredChild->UlColId();
+		ULONG col_id = pstatspredChild->GetColId();
 
 		if (CStatsPredUtils::FUnsupportedPredOnDefinedCol(pstatspredChild))
 		{
@@ -394,7 +394,7 @@ CFilterStatsProcessor::PhmulhistApplyDisjFilter
 		CStatsPred *pstatspredChild = pstatspredDisj->Pstatspred(ul);
 
 		// get the components of the statistics filter
-		ULONG col_id = pstatspredChild->UlColId();
+		ULONG col_id = pstatspredChild->GetColId();
 
 		if (CStatsPredUtils::FUnsupportedPredOnDefinedCol(pstatspredChild))
 		{
@@ -593,7 +593,7 @@ CFilterStatsProcessor::PhistPointFilter
 	GPOS_ASSERT(NULL != pbsFilterColIds);
 	GPOS_ASSERT(NULL != phistBefore);
 
-	const ULONG col_id = pstatspred->UlColId();
+	const ULONG col_id = pstatspred->GetColId();
 	GPOS_ASSERT(CHistogram::FSupportsFilter(pstatspred->Escmpt()));
 
 	CPoint *ppoint = pstatspred->Ppoint();
@@ -629,7 +629,7 @@ CFilterStatsProcessor::PhistUnsupportedPred
 	GPOS_ASSERT(NULL != pbsFilterColIds);
 	GPOS_ASSERT(NULL != phistBefore);
 
-	const ULONG col_id = pstatspred->UlColId();
+	const ULONG col_id = pstatspred->GetColId();
 
 	// note column id
 	(void) pbsFilterColIds->ExchangeSet(col_id);
@@ -660,7 +660,7 @@ CFilterStatsProcessor::PhistLikeFilter
 	GPOS_ASSERT(NULL != pbsFilterColIds);
 	GPOS_ASSERT(NULL != phistBefore);
 
-	const ULONG col_id = pstatspred->UlColId();
+	const ULONG col_id = pstatspred->GetColId();
 
 	// note column id
 	(void) pbsFilterColIds->ExchangeSet(col_id);

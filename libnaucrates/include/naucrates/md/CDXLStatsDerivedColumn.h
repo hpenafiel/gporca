@@ -40,7 +40,7 @@ namespace gpmd
 		private:
 
 			// column identifier
-			ULONG m_ulColId;
+			ULONG m_colid;
 
 			// column width
 			CDouble m_dWidth;
@@ -77,9 +77,9 @@ namespace gpmd
 			~CDXLStatsDerivedColumn();
 
 			// column identifier
-			ULONG UlColId() const
+			ULONG GetColId() const
 			{
-				return m_ulColId;
+				return m_colid;
 			}
 
 			// column width

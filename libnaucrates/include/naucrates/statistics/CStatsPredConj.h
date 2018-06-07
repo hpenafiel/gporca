@@ -54,7 +54,7 @@ namespace gpnaucrates
 
 			// the column identifier on which the predicates are on
 			virtual
-			ULONG UlColId() const;
+			ULONG GetColId() const;
 
 			// total number of predicates in the conjunction
 			ULONG UlFilters() const

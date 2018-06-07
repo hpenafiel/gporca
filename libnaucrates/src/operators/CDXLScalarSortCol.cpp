@@ -37,7 +37,7 @@ CDXLScalarSortCol::CDXLScalarSortCol
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulColId(col_id),
+	m_colid(col_id),
 	m_pmdidSortOp(pmdidSortOp),
 	m_pstrSortOpName(pstrSortOpName),
 	m_fSortNullsFirst(fSortNullsFirst)
@@ -90,16 +90,16 @@ CDXLScalarSortCol::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSortCol::UlColId
+//		CDXLScalarSortCol::GetColId
 //
 //	@doc:
 //		Id of the sorting column
 //
 //---------------------------------------------------------------------------
 ULONG
-CDXLScalarSortCol::UlColId() const
+CDXLScalarSortCol::GetColId() const
 {
-	return m_ulColId;
+	return m_colid;
 }
 
 //---------------------------------------------------------------------------
@@ -149,7 +149,7 @@ CDXLScalarSortCol::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_colid);
 	m_pmdidSortOp->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenSortOpId));	
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortOpName), m_pstrSortOpName);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortNullsFirst), m_fSortNullsFirst);

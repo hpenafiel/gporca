@@ -54,7 +54,7 @@ namespace gpnaucrates
 
 			// the column identifier on which the predicates are on
 			virtual
-			ULONG UlColId() const;
+			ULONG GetColId() const;
 
 			// total number of predicates in the disjunction
 			ULONG UlFilters() const
@@ -83,7 +83,7 @@ namespace gpnaucrates
 
 			// return the column id of the filter based on the column ids of its child filters
 			static
-			ULONG UlColId(const DrgPstatspred *pdrgpstatspred);
+			ULONG GetColId(const DrgPstatspred *pdrgpstatspred);
 
 			// conversion function
 			static

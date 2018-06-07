@@ -69,7 +69,7 @@ namespace gpnaucrates
 
 			// the column identifier on which the predicates are on
 			virtual
-			ULONG UlColId() const;
+			ULONG GetColId() const;
 
 			// filter type id
 			virtual

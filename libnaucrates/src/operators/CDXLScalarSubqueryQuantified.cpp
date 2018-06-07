@@ -39,7 +39,7 @@ CDXLScalarSubqueryQuantified::CDXLScalarSubqueryQuantified
 	CDXLScalar(memory_pool),
 	m_pmdidScalarOp(pmdidScalarOp),
 	m_pmdnameScalarOp(pmdnameScalarOp),
-	m_ulColId(col_id)
+	m_colid(col_id)
 {
 	GPOS_ASSERT(pmdidScalarOp->IsValid());
 	GPOS_ASSERT(NULL != pmdnameScalarOp);
@@ -83,7 +83,7 @@ CDXLScalarSubqueryQuantified::SerializeToDXL
 	m_pmdidScalarOp->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
 
 	// serialize computed column id
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_colid);
 
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);

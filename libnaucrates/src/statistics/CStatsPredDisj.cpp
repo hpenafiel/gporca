@@ -32,7 +32,7 @@ CStatsPredDisj::CStatsPredDisj
 	m_pdrgpstatspred(pdrgpstatspred)
 {
 	GPOS_ASSERT(NULL != pdrgpstatspred);
-	m_ulColId = CStatisticsUtils::UlColId(pdrgpstatspred);
+	m_colid = CStatisticsUtils::GetColId(pdrgpstatspred);
 }
 
 //---------------------------------------------------------------------------
@@ -73,16 +73,16 @@ CStatsPredDisj::Sort() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CStatsPrefDisj::UlColId
+//		CStatsPrefDisj::GetColId
 //
 //	@doc:
 //		Return the column identifier on which the predicates are on
 //
 //---------------------------------------------------------------------------
 ULONG
-CStatsPredDisj::UlColId() const
+CStatsPredDisj::GetColId() const
 {
-	return m_ulColId;
+	return m_colid;
 }
 
 // EOF

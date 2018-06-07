@@ -680,7 +680,7 @@ CDXLUtils::ParseDXLToOptimizerStatisticObjArray
 		{
 			CDXLStatsDerivedColumn *dxl_derived_col_stats = (*derived_column_stats_array)[column_id_idx];
 			
-			ULONG column_id = dxl_derived_col_stats->UlColId();
+			ULONG column_id = dxl_derived_col_stats->GetColId();
 			CDouble width = dxl_derived_col_stats->DWidth();
 			CDouble null_freq = dxl_derived_col_stats->DNullFreq();
 			CDouble distinct_remaining = dxl_derived_col_stats->DDistinctRemain();

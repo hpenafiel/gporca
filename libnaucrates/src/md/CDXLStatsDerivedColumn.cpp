@@ -36,7 +36,7 @@ CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	DrgPdxlbucket *stats_bucket_dxl_array
 	)
 	:
-	m_ulColId(col_id),
+	m_colid(col_id),
 	m_dWidth(dWidth),
 	m_dNullFreq(dNullFreq),
 	m_dDistinctRemain(dDistinctRemain),
@@ -95,7 +95,7 @@ CDXLStatsDerivedColumn::Serialize
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenStatsDerivedColumn));
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_colid);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_dWidth);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNullFreq), m_dNullFreq);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNdvRemain), m_dDistinctRemain);
@@ -133,7 +133,7 @@ CDXLStatsDerivedColumn::DebugPrint
 	)
 	const
 {
-	os << "Column id: " << m_ulColId;
+	os << "Column id: " << m_colid;
 	os << std::endl;
 	os << "Width : " << m_dWidth;
 	os << std::endl;

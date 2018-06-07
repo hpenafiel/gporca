@@ -31,7 +31,7 @@ namespace gpdxl
 	{
 		private:
 			// id of column computed by the subquery
-			ULONG m_ulColId;
+			ULONG m_colid;
 			
 			// private copy ctor
 			CDXLScalarSubquery(CDXLScalarSubquery&);
@@ -47,9 +47,9 @@ namespace gpdxl
 			Edxlopid GetDXLOperator() const;
 			
 			// colid of subquery column
-			ULONG UlColId() const
+			ULONG GetColId() const
 			{
-				return m_ulColId;
+				return m_colid;
 			}
 			
 			// name of the operator

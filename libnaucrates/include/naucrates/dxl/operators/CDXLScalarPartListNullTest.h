@@ -45,7 +45,7 @@ namespace gpdxl
 			ULONG GetPartitioningLevel() const;
 
 			// Null Test type (true for 'is null', false for 'is not null')
-			BOOL FIsNull() const;
+			BOOL IsNull() const;
 
 			// serialize operator in DXL format
 			virtual

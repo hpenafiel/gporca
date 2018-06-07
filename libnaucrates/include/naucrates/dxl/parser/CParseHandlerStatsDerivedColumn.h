@@ -36,7 +36,7 @@ namespace gpdxl
 		private:
 
 			// column id
-			ULONG m_ulColId;
+			ULONG m_colid;
 
 			// width
 			CDouble m_dWidth;

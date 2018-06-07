@@ -2548,7 +2548,7 @@ CTranslatorDXLToExpr::PexprScalarSubqueryQuantified
 		dxl_op->GetDXLOperator(),
 		pmdid,
 		pdxlopSubqueryQuantified->PmdnameScalarOp()->GetMDName(),
-		pdxlopSubqueryQuantified->UlColId(),
+		pdxlopSubqueryQuantified->GetColId(),
 		(*pdxlnSubquery)[CDXLScalarSubqueryQuantified::EdxlsqquantifiedIndexRelational],
 		(*pdxlnSubquery)[CDXLScalarSubqueryQuantified::EdxlsqquantifiedIndexScalar]
 		);
@@ -2647,7 +2647,7 @@ CTranslatorDXLToExpr::PexprCollapseNot
 				edxlopidNew,
 				pmdidInverseOp,
 				pstrInverseOp,
-				pdxlopSubqueryQuantified->UlColId(),
+				pdxlopSubqueryQuantified->GetColId(),
 				(*pdxlnNotChild)[CDXLScalarSubqueryQuantified::EdxlsqquantifiedIndexRelational],
 				(*pdxlnNotChild)[CDXLScalarSubqueryQuantified::EdxlsqquantifiedIndexScalar]
 				);
@@ -3822,7 +3822,7 @@ CTranslatorDXLToExpr::PexprScalarSubquery
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 	
 	// get subquery colref for colid
-	ULONG col_id = pdxlopSubquery->UlColId();
+	ULONG col_id = pdxlopSubquery->GetColId();
 	const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
 		
 	CScalarSubquery *popScalarSubquery = GPOS_NEW(m_memory_pool) CScalarSubquery(m_memory_pool, pcr, false /*fGeneratedByExist*/, false /*fGeneratedByQuantified*/);
@@ -3942,7 +3942,7 @@ CTranslatorDXLToExpr::Pos
 		CDXLNode *pdxlnSortCol = (*dxlnode)[ul];
 		
 		CDXLScalarSortCol *dxl_op = CDXLScalarSortCol::Cast(pdxlnSortCol->GetOperator());
-		const ULONG col_id = dxl_op->UlColId();
+		const ULONG col_id = dxl_op->GetColId();
 
 		// get its column reference from the hash map
 		CColRef *pcr =  PcrLookup(m_phmulcr, col_id);

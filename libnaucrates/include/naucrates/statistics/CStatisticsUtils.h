@@ -290,7 +290,7 @@ namespace gpnaucrates
 			// return the column identifier of the filter if the predicate is
 			// on a single column else	return ULONG_MAX
 			static
-			ULONG UlColId(const DrgPstatspred *pdrgpstatspred);
+			ULONG GetColId(const DrgPstatspred *pdrgpstatspred);
 
 			// add remaining buckets from one array of buckets to the other
 			static

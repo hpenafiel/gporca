@@ -37,7 +37,7 @@ CParseHandlerStatsDerivedColumn::CParseHandlerStatsDerivedColumn
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_ulColId(0),
+	m_colid(0),
 	m_dWidth(CStatistics::DDefaultColumnWidth),
 	m_dNullFreq(0.0),
 	m_dDistinctRemain(0.0),
@@ -82,7 +82,7 @@ CParseHandlerStatsDerivedColumn::StartElement
 		GPOS_ASSERT(0 == this->Length());
 
 		// parse column id
-		m_ulColId = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
+		m_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -169,7 +169,7 @@ CParseHandlerStatsDerivedColumn::EndElement
 		stats_bucket_dxl_array->Append(pdxlbucket);
 	}
 
-	m_pstatsdercol = GPOS_NEW(m_memory_pool) CDXLStatsDerivedColumn(m_ulColId, m_dWidth, m_dNullFreq, m_dDistinctRemain, m_dFreqRemain, stats_bucket_dxl_array);
+	m_pstatsdercol = GPOS_NEW(m_memory_pool) CDXLStatsDerivedColumn(m_colid, m_dWidth, m_dNullFreq, m_dDistinctRemain, m_dFreqRemain, stats_bucket_dxl_array);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

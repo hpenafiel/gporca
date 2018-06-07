@@ -34,7 +34,7 @@ CDXLScalarSubquery::CDXLScalarSubquery
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_ulColId(col_id)
+	m_colid(col_id)
 {
 }
 
@@ -99,7 +99,7 @@ CDXLScalarSubquery::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize computed column id
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_ulColId);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_colid);
 
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);

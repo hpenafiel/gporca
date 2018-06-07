@@ -5171,7 +5171,7 @@ CTranslatorExprToDXL::PdxlnScNullTestPartKey
 							(
 							m_memory_pool,
 							GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, is_null),
-							GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBound(m_memory_pool, ulPartLevel, pmdidTypePartKey, true /*fLower*/))
+							GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBound(m_memory_pool, ulPartLevel, pmdidTypePartKey, true /*is_lower_bound*/))
 							);
 
 	pmdidTypePartKey->AddRef();
@@ -5179,7 +5179,7 @@ CTranslatorExprToDXL::PdxlnScNullTestPartKey
 							(
 							m_memory_pool,
 							GPOS_NEW(m_memory_pool) CDXLScalarNullTest(m_memory_pool, is_null),
-							GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBound(m_memory_pool, ulPartLevel, pmdidTypePartKey, false /*fLower*/))
+							GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarPartBound(m_memory_pool, ulPartLevel, pmdidTypePartKey, false /*is_lower_bound*/))
 							);
 
 	// construct the conjunction of the predicate for the lower and upper bounds

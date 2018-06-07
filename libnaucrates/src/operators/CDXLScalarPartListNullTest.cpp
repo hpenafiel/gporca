@@ -69,7 +69,7 @@ CDXLScalarPartListNullTest::GetPartitioningLevel() const
 
 // Null Test type (true for 'is null', false for 'is not null')
 BOOL
-CDXLScalarPartListNullTest::FIsNull() const
+CDXLScalarPartListNullTest::IsNull() const
 {
 	return m_is_null;
 }

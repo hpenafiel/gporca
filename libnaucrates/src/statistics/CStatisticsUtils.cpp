@@ -590,7 +590,7 @@ CStatisticsUtils::PrintColStats
 	)
 {
 	GPOS_ASSERT(NULL != pstatspred);
-	ULONG col_id  = pstatspred->UlColId();
+	ULONG col_id  = pstatspred->GetColId();
 	if (col_id == ulColIdCond && NULL != phist)
 	{
 		{
@@ -632,12 +632,12 @@ CStatisticsUtils::ExtractUsedColIds
 	GPOS_ASSERT(NULL != pstatspred);
 	GPOS_ASSERT(NULL != pdrgpulColIds);
 
-	if (ULONG_MAX != pstatspred->UlColId())
+	if (ULONG_MAX != pstatspred->GetColId())
 	{
 		// the predicate is on a single column
 
-		(void) pbsColIds->ExchangeSet(pstatspred->UlColId());
-		pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(pstatspred->UlColId()));
+		(void) pbsColIds->ExchangeSet(pstatspred->GetColId());
+		pdrgpulColIds->Append(GPOS_NEW(memory_pool) ULONG(pstatspred->GetColId()));
 
 		return;
 	}
@@ -664,7 +664,7 @@ CStatisticsUtils::ExtractUsedColIds
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CStatsPred *pstatspredCurr = (*pdrgpstatspred)[ul];
-		ULONG col_id = pstatspredCurr->UlColId();
+		ULONG col_id = pstatspredCurr->GetColId();
 
 		if (ULONG_MAX != col_id)
 		{
@@ -777,7 +777,7 @@ CStatisticsUtils::PbsNonUpdatableHistForDisj
 
 	CBitSet *pbsNonUpdateable = GPOS_NEW(memory_pool) CBitSet(memory_pool);
 
-	const ULONG ulDisjColId = pstatspred->UlColId();
+	const ULONG ulDisjColId = pstatspred->GetColId();
 	if (ULONG_MAX != ulDisjColId)
 	{
 		// disjunction predicate on a single column so all are updatable
@@ -1040,7 +1040,7 @@ CStatisticsUtils::PhmulhistCopy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CStatisticsUtils::UlColId
+//		CStatisticsUtils::GetColId
 //
 //	@doc:
 //		Return the column identifier of the filter if the predicate is
@@ -1048,7 +1048,7 @@ CStatisticsUtils::PhmulhistCopy
 //
 //---------------------------------------------------------------------------
 ULONG
-CStatisticsUtils::UlColId
+CStatisticsUtils::GetColId
 	(
 	const DrgPstatspred *pdrgpstatspred
 	)
@@ -1062,7 +1062,7 @@ CStatisticsUtils::UlColId
 	for (ULONG ul = 0; ul < ulLen && fSameCol; ul++)
 	{
 		CStatsPred *pstatspred = (*pdrgpstatspred)[ul];
-		ULONG col_id =  pstatspred->UlColId();
+		ULONG col_id =  pstatspred->GetColId();
 		if (ULONG_MAX == ulColIdResult)
 		{
 			ulColIdResult = col_id;

@@ -70,7 +70,7 @@ namespace gpnaucrates
 		protected:
 
 			// column id
-			ULONG m_ulColId;
+			ULONG m_colid;
 
 		public:
 
@@ -81,7 +81,7 @@ namespace gpnaucrates
 				ULONG col_id
 				)
 				:
-				m_ulColId(col_id)
+				m_colid(col_id)
 			{
 			}
 
@@ -93,9 +93,9 @@ namespace gpnaucrates
 
 			// accessors
 			virtual
-			ULONG UlColId() const
+			ULONG GetColId() const
 			{
-				return m_ulColId;
+				return m_colid;
 			}
 
 			// type id
@@ -120,7 +120,7 @@ namespace gpnaucrates
 		const CStatsPred *pstatspred1 = *(const CStatsPred **) pv1;
 		const CStatsPred *pstatspred2 = *(const CStatsPred **) pv2;
 
-		return (INT) pstatspred1->UlColId() - (INT) pstatspred2->UlColId();
+		return (INT) pstatspred1->GetColId() - (INT) pstatspred2->GetColId();
 	}
 
 }

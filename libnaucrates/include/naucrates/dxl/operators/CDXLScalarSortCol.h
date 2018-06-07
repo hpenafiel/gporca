@@ -37,7 +37,7 @@ namespace gpdxl
 		private:
 		
 			// id of the sorting column
-			ULONG m_ulColId;
+			ULONG m_colid;
 			
 			// catalog Oid of the sorting operator
 			IMDId *m_pmdidSortOp;
@@ -72,7 +72,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 			
 			// Id of the sorting column
-			ULONG UlColId() const;
+			ULONG GetColId() const;
 			
 			// mdid of the sorting operator
 			IMDId *PmdidSortOp() const;

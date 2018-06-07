@@ -214,7 +214,7 @@ namespace gpopt
 				IMDId *pmdidCmpExcl, 
 				IMDId *pmdidCmpIncl,
 				ULONG ulPartLevel,
-				BOOL fLower
+				BOOL is_lower_bound
 				);
 			
 			// construct a test for the default partition

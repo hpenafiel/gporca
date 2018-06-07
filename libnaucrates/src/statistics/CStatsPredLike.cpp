@@ -59,16 +59,16 @@ CStatsPredLike::~CStatsPredLike()
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CStatsPredLike::UlColId
+//		CStatsPredLike::GetColId
 //
 //	@doc:
 //		Return the column identifier on which the predicates are on
 //
 //---------------------------------------------------------------------------
 ULONG
-CStatsPredLike::UlColId() const
+CStatsPredLike::GetColId() const
 {
-	return m_ulColId;
+	return m_colid;
 }
 
 //---------------------------------------------------------------------------

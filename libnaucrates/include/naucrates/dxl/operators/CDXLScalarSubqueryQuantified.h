@@ -53,7 +53,7 @@ namespace gpdxl
 			CMDName *m_pmdnameScalarOp;
 
 			// colid produced by the relational child of the AnySubquery operator
-			ULONG m_ulColId;
+			ULONG m_colid;
 
 			// private copy ctor
 			CDXLScalarSubqueryQuantified(CDXLScalarSubqueryQuantified&);
@@ -79,9 +79,9 @@ namespace gpdxl
 			}
 
 			// subquery colid
-			ULONG UlColId() const
+			ULONG GetColId() const
 			{
-				return m_ulColId;
+				return m_colid;
 			}
 
 			// serialize operator in DXL format

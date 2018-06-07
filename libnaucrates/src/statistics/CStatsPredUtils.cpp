@@ -1308,7 +1308,7 @@ CStatsPredUtils::FUnsupportedPredOnDefinedCol
 	CStatsPred *pstatspred
 	)
 {
-	return ((CStatsPred::EsptUnsupported == pstatspred->Espt()) && (ULONG_MAX == pstatspred->UlColId()));
+	return ((CStatsPred::EsptUnsupported == pstatspred->Espt()) && (ULONG_MAX == pstatspred->GetColId()));
 }
 
 

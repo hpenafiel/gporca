@@ -64,7 +64,7 @@ CStatsPredPoint::CStatsPredPoint
 	GPOS_ASSERT(NULL != pcr);
 	GPOS_ASSERT(NULL != pdatum);
 
-	m_ulColId = pcr->Id();
+	m_colid = pcr->Id();
 	IDatum *pdatumPadded = PdatumPreprocess(memory_pool, pcr, pdatum);
 
 	m_ppoint = GPOS_NEW(memory_pool) CPoint(pdatumPadded);
