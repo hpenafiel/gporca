@@ -68,18 +68,18 @@ CParseHandlerDefaultValueExpr::StartElement
 		GPOS_ASSERT(m_fDefaultValueStarted);
 		
 		// install a scalar op parse handler to parse the expression
-		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *scalar_op_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 		
-		GPOS_ASSERT(NULL != pph);
+		GPOS_ASSERT(NULL != scalar_op_parse_handler);
 
 		// activate the child parse handler
-		m_parse_handler_mgr->ActivateParseHandler(pph);
+		m_parse_handler_mgr->ActivateParseHandler(scalar_op_parse_handler);
 		
 		// pass the startElement message for the specialized parse handler to process
-		pph->startElement(element_uri, element_local_name, element_qname, attrs);
+		scalar_op_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 		
 		// store parse handlers
-		this->Append(pph);
+		this->Append(scalar_op_parse_handler);
 	}
 
 }
