@@ -60,10 +60,10 @@ namespace gpdxl
 				);
 			
 			// is this a supported element of a metadata list
-			BOOL FSupportedElem(const XMLCh * const xmlsz);
+			BOOL FSupportedElem(const XMLCh * const xml_str);
 			
 			// is this a supported metadata list type
-			BOOL FSupportedListType(const XMLCh * const xmlsz);
+			BOOL FSupportedListType(const XMLCh * const xml_str);
 			
 		public:
 			// ctor/dtor

@@ -86,40 +86,40 @@ CParseHandlerMetadataIdList::StartElement
 		// index metadata id: array must be initialized already
 		GPOS_ASSERT(NULL != m_mdid_array);
 		
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndex);
-		m_mdid_array->Append(pmdid);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndex);
+		m_mdid_array->Append(mdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTrigger), element_local_name))
 	{
 		// trigger metadata id: array must be initialized already
 		GPOS_ASSERT(NULL != m_mdid_array);
 
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenTrigger);
-		m_mdid_array->Append(pmdid);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenTrigger);
+		m_mdid_array->Append(mdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartition), element_local_name))
 	{
 		// partition metadata id: array must be initialized already
 		GPOS_ASSERT(NULL != m_mdid_array);
 		
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenPartition);
-		m_mdid_array->Append(pmdid);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenPartition);
+		m_mdid_array->Append(mdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), element_local_name))
 	{
 		// check constraint metadata id: array must be initialized already
 		GPOS_ASSERT(NULL != m_mdid_array);
 		
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
-		m_mdid_array->Append(pmdid);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenCheckConstraint);
+		m_mdid_array->Append(mdid);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClass), element_local_name))
 	{
 		// opclass metadata id: array must be initialized already
 		GPOS_ASSERT(NULL != m_mdid_array);
 		
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenOpClass);
-		m_mdid_array->Append(pmdid);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenOpClass);
+		m_mdid_array->Append(mdid);
 	}
 	else
 	{
@@ -173,14 +173,14 @@ CParseHandlerMetadataIdList::EndElement
 BOOL
 CParseHandlerMetadataIdList::FSupportedElem
 	(
-	const XMLCh* const xmlsz
+	const XMLCh* const xml_str
 	)
 {
-	return (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndex), xmlsz) ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTrigger), xmlsz)  ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartition), xmlsz)  ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), xmlsz)  ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClass), xmlsz));
+	return (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndex), xml_str) ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTrigger), xml_str)  ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartition), xml_str)  ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraint), xml_str)  ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClass), xml_str));
 }
 
 //---------------------------------------------------------------------------
@@ -194,13 +194,13 @@ CParseHandlerMetadataIdList::FSupportedElem
 BOOL
 CParseHandlerMetadataIdList::FSupportedListType
 	(
-	const XMLCh* const xmlsz
+	const XMLCh* const xml_str
 	)
 {
-	return (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTriggers), xmlsz)  ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartitions), xmlsz)  ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraints), xmlsz)  ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), xmlsz));
+	return (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenTriggers), xml_str)  ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartitions), xml_str)  ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCheckConstraints), xml_str)  ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), xml_str));
 }
 
 //---------------------------------------------------------------------------
