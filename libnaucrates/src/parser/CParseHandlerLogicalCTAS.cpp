@@ -84,13 +84,13 @@ CParseHandlerLogicalCTAS::StartElement
 	GPOS_ASSERT(IMDId::EmdidGPDBCtas == m_mdid->Emdidt());
 	
 	// parse table name
-	const XMLCh *xmlszTableName = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenLogicalCTAS);
-	m_mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTableName);
+	const XMLCh *xml_str_table_name = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenLogicalCTAS);
+	m_mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_table_name);
 	
-	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
-	if (NULL != xmlszSchema)
+	const XMLCh *xml_str_schema_name = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
+	if (NULL != xml_str_schema_name)
 	{
-		m_mdname_schema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszSchema);
+		m_mdname_schema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_schema_name);
 	}
 	
 	// parse distribution policy
@@ -170,11 +170,11 @@ CParseHandlerLogicalCTAS::EndElement
 	GPOS_ASSERT(NULL != ctas_options_parse_handler->Pdxlctasopt());
 	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 	
-	ColumnDescrDXLArray *pdrgpdxlcd = col_descr_parse_handler->GetColumnDescrDXLArray();
-	pdrgpdxlcd->AddRef();
+	ColumnDescrDXLArray *column_descr_dxl_array = col_descr_parse_handler->GetColumnDescrDXLArray();
+	column_descr_dxl_array->AddRef();
 	
-	CDXLCtasStorageOptions *pdxlctasopt = ctas_options_parse_handler->Pdxlctasopt();
-	pdxlctasopt->AddRef();
+	CDXLCtasStorageOptions *dxl_ctas_storage_opt = ctas_options_parse_handler->Pdxlctasopt();
+	dxl_ctas_storage_opt->AddRef();
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode
 							(
@@ -185,8 +185,8 @@ CParseHandlerLogicalCTAS::EndElement
 										m_mdid, 
 										m_mdname_schema, 
 										m_mdname, 
-										pdrgpdxlcd, 
-										pdxlctasopt, 
+										column_descr_dxl_array, 
+										dxl_ctas_storage_opt,
 										m_rel_distr_policy, 
 										m_distr_column_pos_array, 
 										m_is_temp_table, 
