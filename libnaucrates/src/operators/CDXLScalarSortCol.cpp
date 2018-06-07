@@ -38,11 +38,11 @@ CDXLScalarSortCol::CDXLScalarSortCol
 	:
 	CDXLScalar(memory_pool),
 	m_colid(col_id),
-	m_pmdidSortOp(pmdidSortOp),
-	m_pstrSortOpName(pstrSortOpName),
-	m_fSortNullsFirst(fSortNullsFirst)
+	m_mdid_sort_op(pmdidSortOp),
+	m_sort_op_name_str(pstrSortOpName),
+	m_must_sort_nulls_first(fSortNullsFirst)
 {
-	GPOS_ASSERT(m_pmdidSortOp->IsValid());
+	GPOS_ASSERT(m_mdid_sort_op->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -55,8 +55,8 @@ CDXLScalarSortCol::CDXLScalarSortCol
 //---------------------------------------------------------------------------
 CDXLScalarSortCol::~CDXLScalarSortCol()
 {
-	m_pmdidSortOp->Release();
-	GPOS_DELETE(m_pstrSortOpName);
+	m_mdid_sort_op->Release();
+	GPOS_DELETE(m_sort_op_name_str);
 }
 
 //---------------------------------------------------------------------------
@@ -104,30 +104,30 @@ CDXLScalarSortCol::GetColId() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSortCol::PmdidSortOp
+//		CDXLScalarSortCol::GetMdIdSortOp
 //
 //	@doc:
 //		Oid of the sorting operator for the column from the catalog
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarSortCol::PmdidSortOp() const
+CDXLScalarSortCol::GetMdIdSortOp() const
 {
-	return m_pmdidSortOp;
+	return m_mdid_sort_op;
 }
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarSortCol::FSortNullsFirst
+//		CDXLScalarSortCol::IsSortedNullsFirst
 //
 //	@doc:
 //		Whether nulls are sorted before other values
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarSortCol::FSortNullsFirst() const
+CDXLScalarSortCol::IsSortedNullsFirst() const
 {
-	return m_fSortNullsFirst;
+	return m_must_sort_nulls_first;
 }
 
 //---------------------------------------------------------------------------
@@ -150,9 +150,9 @@ CDXLScalarSortCol::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_colid);
-	m_pmdidSortOp->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenSortOpId));	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortOpName), m_pstrSortOpName);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortNullsFirst), m_fSortNullsFirst);
+	m_mdid_sort_op->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenSortOpId));	
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortOpName), m_sort_op_name_str);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortNullsFirst), m_must_sort_nulls_first);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 

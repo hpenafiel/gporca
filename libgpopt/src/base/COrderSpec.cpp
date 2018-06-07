@@ -314,7 +314,7 @@ COrderSpec::PosCopyWithRemappedColumns
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		COrderExpression *poe = (*m_pdrgpoe)[ul];
-		IMDId *pmdid = poe->PmdidSortOp();
+		IMDId *pmdid = poe->GetMdIdSortOp();
 		pmdid->AddRef();
 
 		const CColRef *pcr = poe->Pcr();
@@ -377,7 +377,7 @@ COrderSpec::PosExcludeColumns
 			continue;
 		}
 
-		IMDId *pmdid = poe->PmdidSortOp();
+		IMDId *pmdid = poe->GetMdIdSortOp();
 		pmdid->AddRef();
 		pos->Append(pmdid, pcr, poe->Ent());
 	}

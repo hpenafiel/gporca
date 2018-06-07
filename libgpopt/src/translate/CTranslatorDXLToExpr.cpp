@@ -3947,11 +3947,11 @@ CTranslatorDXLToExpr::Pos
 		// get its column reference from the hash map
 		CColRef *pcr =  PcrLookup(m_phmulcr, col_id);
 		
-		IMDId *pmdidSortOp = dxl_op->PmdidSortOp();
+		IMDId *pmdidSortOp = dxl_op->GetMdIdSortOp();
 		pmdidSortOp->AddRef();
 		
 		COrderSpec::ENullTreatment ent = COrderSpec::EntLast;
-		if (dxl_op->FSortNullsFirst())
+		if (dxl_op->IsSortedNullsFirst())
 		{
 			ent = COrderSpec::EntFirst;
 		}

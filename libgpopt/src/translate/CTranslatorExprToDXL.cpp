@@ -7645,7 +7645,7 @@ CTranslatorExprToDXL::GetSortColListDXL
 	for (ULONG ul = 0; ul < pos->UlSortColumns(); ul++)
 	{
 		// get sort column components
-		IMDId *pmdidSortOp = pos->PmdidSortOp(ul);
+		IMDId *pmdidSortOp = pos->GetMdIdSortOp(ul);
 		pmdidSortOp->AddRef();
 		
 		const CColRef *pcr = pos->Pcr(ul);

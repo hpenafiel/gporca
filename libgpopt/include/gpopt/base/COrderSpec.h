@@ -94,7 +94,7 @@ namespace gpopt
 					~COrderExpression();
 					
 					// accessor of sort operator midid
-					gpmd::IMDId *PmdidSortOp() const
+					gpmd::IMDId *GetMdIdSortOp() const
 					{
 						return m_mdid;
 					}
@@ -157,10 +157,10 @@ namespace gpopt
 			}
 			
 			// accessor of sort operator of the n-th component
-			IMDId *PmdidSortOp(ULONG ul) const
+			IMDId *GetMdIdSortOp(ULONG ul) const
 			{				
 				COrderExpression *poe = (*m_pdrgpoe)[ul]; 
-				return poe->PmdidSortOp();
+				return poe->GetMdIdSortOp();
 			}
 			
 			// accessor of sort column of the n-th component

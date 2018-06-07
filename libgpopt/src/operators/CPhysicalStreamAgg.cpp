@@ -144,7 +144,7 @@ CPhysicalStreamAgg::PosCovering
 		for (ULONG ul = 0; ul < ulReqdSortCols; ul++)
 		{
 			CColRef *pcr = const_cast<CColRef *>(posRequired->Pcr(ul));
-			IMDId *pmdid = posRequired->PmdidSortOp(ul);
+			IMDId *pmdid = posRequired->GetMdIdSortOp(ul);
 			COrderSpec::ENullTreatment ent = posRequired->Ent(ul);
 			pmdid->AddRef();
 			pos->Append(pmdid, pcr, ent);

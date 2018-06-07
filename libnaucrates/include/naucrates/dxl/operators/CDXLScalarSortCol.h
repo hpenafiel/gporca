@@ -40,13 +40,13 @@ namespace gpdxl
 			ULONG m_colid;
 			
 			// catalog Oid of the sorting operator
-			IMDId *m_pmdidSortOp;
+			IMDId *m_mdid_sort_op;
 			
 			// name of sorting operator 
-			CWStringConst *m_pstrSortOpName;
+			CWStringConst *m_sort_op_name_str;
 			
 			// sort nulls before other values
-			BOOL m_fSortNullsFirst;
+			BOOL m_must_sort_nulls_first;
 			
 			// private copy ctor
 			CDXLScalarSortCol(CDXLScalarSortCol&);
@@ -75,10 +75,10 @@ namespace gpdxl
 			ULONG GetColId() const;
 			
 			// mdid of the sorting operator
-			IMDId *PmdidSortOp() const;
+			IMDId *GetMdIdSortOp() const;
 			
 			// whether nulls are sorted before other values
-			BOOL FSortNullsFirst() const;
+			BOOL IsSortedNullsFirst() const;
 			
 			// serialize operator in DXL format
 			virtual
