@@ -36,15 +36,15 @@ CDXLScalarArrayRef::CDXLScalarArrayRef
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidElem(elem_type_mdid),
+	m_elem_type_mdid(elem_type_mdid),
 	m_type_modifier(type_modifier),
-	m_pmdidArray(array_type_mdid),
-	m_pmdidReturn(return_type_mdid)
+	m_array_type_mdid(array_type_mdid),
+	m_return_type_mdid(return_type_mdid)
 {
-	GPOS_ASSERT(m_pmdidElem->IsValid());
-	GPOS_ASSERT(m_pmdidArray->IsValid());
-	GPOS_ASSERT(m_pmdidReturn->IsValid());
-	GPOS_ASSERT(m_pmdidReturn->Equals(m_pmdidElem) || m_pmdidReturn->Equals(m_pmdidArray));
+	GPOS_ASSERT(m_elem_type_mdid->IsValid());
+	GPOS_ASSERT(m_array_type_mdid->IsValid());
+	GPOS_ASSERT(m_return_type_mdid->IsValid());
+	GPOS_ASSERT(m_return_type_mdid->Equals(m_elem_type_mdid) || m_return_type_mdid->Equals(m_array_type_mdid));
 }
 
 //---------------------------------------------------------------------------
@@ -57,9 +57,9 @@ CDXLScalarArrayRef::CDXLScalarArrayRef
 //---------------------------------------------------------------------------
 CDXLScalarArrayRef::~CDXLScalarArrayRef()
 {
-	m_pmdidElem->Release();
-	m_pmdidArray->Release();
-	m_pmdidReturn->Release();
+	m_elem_type_mdid->Release();
+	m_array_type_mdid->Release();
+	m_return_type_mdid->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -115,13 +115,13 @@ CDXLScalarArrayRef::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	m_pmdidElem->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayElementType));
+	m_elem_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayElementType));
 	if (IDefaultTypeModifier != TypeModifier())
 	{
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
-	m_pmdidArray->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayType));
-	m_pmdidReturn->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+	m_array_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenArrayType));
+	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	// serialize child nodes
 	const ULONG arity = dxlnode->Arity();
@@ -164,7 +164,7 @@ CDXLScalarArrayRef::HasBoolResult
 	)
 	const
 {
-	return (IMDType::EtiBool == md_accessor->Pmdtype(m_pmdidReturn)->Eti());
+	return (IMDType::EtiBool == md_accessor->Pmdtype(m_return_type_mdid)->Eti());
 }
 
 #ifdef GPOS_DEBUG

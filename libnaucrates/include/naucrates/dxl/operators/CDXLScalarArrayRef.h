@@ -33,16 +33,16 @@ namespace gpdxl
 		private:
 
 			// base element type id
-			IMDId *m_pmdidElem;
+			IMDId *m_elem_type_mdid;
 
 			// element type modifier
 			INT m_type_modifier;
 
 			// array type id
-			IMDId *m_pmdidArray;
+			IMDId *m_array_type_mdid;
 
 			// return type id
-			IMDId *m_pmdidReturn;
+			IMDId *m_return_type_mdid;
 
 			// private copy ctor
 			CDXLScalarArrayRef(const CDXLScalarArrayRef&);
@@ -71,9 +71,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// element type id
-			IMDId *PmdidElem() const
+			IMDId *ElementTypeMDid() const
 			{
-				return m_pmdidElem;
+				return m_elem_type_mdid;
 			}
 
 			// element type modifier
@@ -81,15 +81,15 @@ namespace gpdxl
 			TypeModifier() const;
 
 			// array type id
-			IMDId *PmdidArray() const
+			IMDId *ArrayTypeMDid() const
 			{
-				return m_pmdidArray;
+				return m_array_type_mdid;
 			}
 
 			// return type id
-			IMDId *PmdidReturn() const
+			IMDId *ReturnTypeMDid() const
 			{
-				return m_pmdidReturn;
+				return m_return_type_mdid;
 			}
 
 			// serialize operator in DXL format

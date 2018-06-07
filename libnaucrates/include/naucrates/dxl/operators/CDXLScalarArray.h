@@ -33,13 +33,13 @@ namespace gpdxl
 		private:
 
 			// base element type id
-			IMDId *m_pmdidElem;
+			IMDId *m_elem_type_mdid;
 			
 			// array type id
-			IMDId *m_pmdidArray;
+			IMDId *m_array_type_mdid;
 
 			// is it a multidimensional array
-			BOOL m_fMultiDimensional;
+			BOOL m_multi_dimensional_array;
 
 			// private copy ctor
 			CDXLScalarArray(const CDXLScalarArray&);
@@ -51,7 +51,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *elem_type_mdid,
 				IMDId *array_type_mdid,
-				BOOL fMultiDimensional
+				BOOL multi_dimensional_array
 				);
 
 			// dtor
@@ -67,13 +67,13 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// element type id
-			IMDId *PmdidElem() const;
+			IMDId *ElementTypeMDid() const;
 
 			// array type id
-			IMDId *PmdidArray() const;
+			IMDId *ArrayTypeMDid() const;
 
 			// is array multi-dimensional 
-			BOOL FMultiDimensional() const;
+			BOOL IsMultiDimensional() const;
 
 			// serialize operator in DXL format
 			virtual

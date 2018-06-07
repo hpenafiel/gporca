@@ -3187,13 +3187,13 @@ CTranslatorDXLToExpr::PexprArray
 {
 	CDXLScalarArray *dxl_op = CDXLScalarArray::Cast(dxlnode->GetOperator());
 	
-	IMDId *elem_type_mdid = dxl_op->PmdidElem();
+	IMDId *elem_type_mdid = dxl_op->ElementTypeMDid();
 	elem_type_mdid->AddRef();
 
-	IMDId *array_type_mdid = dxl_op->PmdidArray();
+	IMDId *array_type_mdid = dxl_op->ArrayTypeMDid();
 	array_type_mdid->AddRef();
 
-	CScalarArray *popArray = GPOS_NEW(m_memory_pool) CScalarArray(m_memory_pool, elem_type_mdid, array_type_mdid, dxl_op->FMultiDimensional());
+	CScalarArray *popArray = GPOS_NEW(m_memory_pool) CScalarArray(m_memory_pool, elem_type_mdid, array_type_mdid, dxl_op->IsMultiDimensional());
 	
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(dxlnode);
 
@@ -3222,13 +3222,13 @@ CTranslatorDXLToExpr::PexprArrayRef
 {
 	CDXLScalarArrayRef *dxl_op = CDXLScalarArrayRef::Cast(dxlnode->GetOperator());
 
-	IMDId *elem_type_mdid = dxl_op->PmdidElem();
+	IMDId *elem_type_mdid = dxl_op->ElementTypeMDid();
 	elem_type_mdid->AddRef();
 
-	IMDId *array_type_mdid = dxl_op->PmdidArray();
+	IMDId *array_type_mdid = dxl_op->ArrayTypeMDid();
 	array_type_mdid->AddRef();
 
-	IMDId *return_type_mdid = dxl_op->PmdidReturn();
+	IMDId *return_type_mdid = dxl_op->ReturnTypeMDid();
 	return_type_mdid->AddRef();
 
 	CScalarArrayRef *popArrayref = GPOS_NEW(m_memory_pool) CScalarArrayRef(m_memory_pool, elem_type_mdid, dxl_op->TypeModifier(), array_type_mdid, return_type_mdid);
