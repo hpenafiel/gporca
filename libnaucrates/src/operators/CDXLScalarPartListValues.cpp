@@ -58,7 +58,7 @@ CDXLScalarPartListValues::GetOpNameStr() const
 
 // partitioning level
 ULONG
-CDXLScalarPartListValues::UlLevel() const
+CDXLScalarPartListValues::GetPartitioningLevel() const
 {
 	return m_partitioning_level;
 }

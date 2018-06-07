@@ -62,7 +62,7 @@ CDXLScalarPartListNullTest::SerializeToDXL
 
 // partitioning level
 ULONG
-CDXLScalarPartListNullTest::UlLevel() const
+CDXLScalarPartListNullTest::GetPartitioningLevel() const
 {
 	return m_partitioning_level;
 }

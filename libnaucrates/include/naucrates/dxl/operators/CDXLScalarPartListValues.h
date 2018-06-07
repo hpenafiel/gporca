@@ -47,7 +47,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// partitioning level
-			ULONG UlLevel() const;
+			ULONG GetPartitioningLevel() const;
 
 			// result type
 			IMDId *GetResultTypeMdId() const;

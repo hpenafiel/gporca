@@ -42,7 +42,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// partitioning level
-			ULONG UlLevel() const;
+			ULONG GetPartitioningLevel() const;
 
 			// Null Test type (true for 'is null', false for 'is not null')
 			BOOL FIsNull() const;
