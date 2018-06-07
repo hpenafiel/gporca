@@ -40,7 +40,7 @@ namespace gpdxl
 		private:
 
 			// xform referred to by XML node
-			CXform *m_pxform;
+			CXform *m_xform;
 
 			// private copy ctor
 			CParseHandlerXform(const CParseHandlerXform&);
@@ -77,9 +77,9 @@ namespace gpdxl
 			~CParseHandlerXform();
 
 			// returns the root of constructed DXL plan
-			CXform *Pxform()
+			CXform *GetXform()
 			{
-				return m_pxform;
+				return m_xform;
 			}
 
 			EDxlParseHandlerType GetParseHandlerType() const

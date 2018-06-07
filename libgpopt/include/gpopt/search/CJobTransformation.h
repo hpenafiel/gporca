@@ -63,7 +63,7 @@ namespace gpopt
 			CGroupExpression *m_pgexpr;
 
 			// xform to apply to group expression
-			CXform *m_pxform;
+			CXform *m_xform;
 
 			// job state machine
 			JSM m_jsm;

@@ -107,7 +107,7 @@ CJobTransformation::Init
 	GPOS_ASSERT(NULL != pxform);
 
 	m_pgexpr = pgexpr;
-	m_pxform = pxform;
+	m_xform = pxform;
 
 	m_jsm.Init
 		(
@@ -147,7 +147,7 @@ CJobTransformation::EevtTransform
 	IMemoryPool *pmpGlobal = psc->GetGlobalMemoryPool();
 	IMemoryPool *pmpLocal = psc->PmpLocal();
 	CGroupExpression *pgexpr = pjt->m_pgexpr;
-	CXform *pxform = pjt->m_pxform;
+	CXform *pxform = pjt->m_xform;
 
 	// insert transformation results to memo
 	CXformResult *pxfres = GPOS_NEW(pmpGlobal) CXformResult(pmpGlobal);

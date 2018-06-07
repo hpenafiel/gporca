@@ -144,7 +144,7 @@ CParseHandlerSearchStage::EndElement
 #ifdef GPOS_DEBUG
 		BOOL fSet =
 #endif // GPOS_DEBUG
-			m_pxfs->ExchangeSet(pphXform->Pxform()->Exfid());
+			m_pxfs->ExchangeSet(pphXform->GetXform()->Exfid());
 		GPOS_ASSERT(!fSet);
 	}
 

@@ -40,7 +40,7 @@ CParseHandlerXform::CParseHandlerXform
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pxform(NULL)
+	m_xform(NULL)
 {}
 
 
@@ -79,14 +79,14 @@ CParseHandlerXform::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const XMLCh *xmlstrXformName = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenXform);
-	CWStringDynamic *pstrXformName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlstrXformName);
-	CHAR *szXform = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, pstrXformName->GetBuffer());
-	m_pxform = CXformFactory::Pxff()->Pxf(szXform);
-	GPOS_ASSERT(NULL != m_pxform);
+	const XMLCh *xml_str_xform_name = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenXform);
+	CWStringDynamic *str_xform_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_xform_name);
+	CHAR *char_str_xform_name = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, str_xform_name->GetBuffer());
+	m_xform = CXformFactory::Pxff()->Pxf(char_str_xform_name);
+	GPOS_ASSERT(NULL != m_xform);
 
-	GPOS_DELETE(pstrXformName);
-	GPOS_DELETE_ARRAY(szXform);
+	GPOS_DELETE(str_xform_name);
+	GPOS_DELETE_ARRAY(char_str_xform_name);
 }
 
 
