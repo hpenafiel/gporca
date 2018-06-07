@@ -132,24 +132,24 @@ CDXLPhysicalMotion::SetSegmentInfo
 //
 //---------------------------------------------------------------------------
 CWStringDynamic *
-CDXLPhysicalMotion::GetSegIdsCommaSeparatedStr(const IntPtrArray *pdrgpi) const
+CDXLPhysicalMotion::GetSegIdsCommaSeparatedStr(const IntPtrArray *segment_ids_array) const
 {
-	GPOS_ASSERT(pdrgpi != NULL && 0 < pdrgpi->Size());
+	GPOS_ASSERT(segment_ids_array != NULL && 0 < segment_ids_array->Size());
 	
 	CWStringDynamic *str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 	
-	ULONG ulNumSegments = pdrgpi->Size();
-	for (ULONG ul = 0; ul < ulNumSegments; ul++)
+	ULONG num_of_segments = segment_ids_array->Size();
+	for (ULONG idx = 0; idx < num_of_segments; idx++)
 	{
-		INT iSegId = *((*pdrgpi)[ul]);
-		if (ul == ulNumSegments - 1)
+		INT segment_id = *((*segment_ids_array)[idx]);
+		if (idx == num_of_segments - 1)
 		{
 			// last element: do not print a comma
-			str->AppendFormat(GPOS_WSZ_LIT("%d"), iSegId);
+			str->AppendFormat(GPOS_WSZ_LIT("%d"), segment_id);
 		}
 		else
 		{
-			str->AppendFormat(GPOS_WSZ_LIT("%d%ls"), iSegId, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
+			str->AppendFormat(GPOS_WSZ_LIT("%d%ls"), segment_id, CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 	
@@ -199,14 +199,14 @@ CDXLPhysicalMotion::SerializeSegmentInfoToDXL
 	CXMLSerializer *xml_serializer
 	) const
 {
-	CWStringDynamic *pstrInputSegIds = GetInputSegIdsStr();
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInputSegments), pstrInputSegIds);
+	CWStringDynamic *input_segment_ids_str = GetInputSegIdsStr();
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInputSegments), input_segment_ids_str);
 	
-	CWStringDynamic *pstrOutputSegIds = GetOutputSegIdsStr();
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOutputSegments), pstrOutputSegIds);
+	CWStringDynamic *output_segment_ids_str = GetOutputSegIdsStr();
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOutputSegments), output_segment_ids_str);
 		
-	GPOS_DELETE(pstrInputSegIds);
-	GPOS_DELETE(pstrOutputSegIds);
+	GPOS_DELETE(input_segment_ids_str);
+	GPOS_DELETE(output_segment_ids_str);
 }
 
 

@@ -1903,10 +1903,10 @@ CDXLOperatorFactory::ParseOutputSegId
 									);
 
 	// parse segment id from string
-	INT iSegId = -1;
+	INT segment_id = -1;
 	try
 	{
-		iSegId = XMLString::parseInt(xmlszSegId, memory_manager_dxl);
+		segment_id = XMLString::parseInt(xmlszSegId, memory_manager_dxl);
 	}
 	catch (const NumberFormatException& toCatch)
 	{
@@ -1920,7 +1920,7 @@ CDXLOperatorFactory::ParseOutputSegId
 			);
 	}
 
-	return iSegId;
+	return segment_id;
 }
 
 //---------------------------------------------------------------------------
@@ -3460,10 +3460,10 @@ CDXLOperatorFactory::ExtractConvertSegmentIdsToArray
 	
 	XMLStringTokenizer xmlsztok(xmlszSegIdList, CDXLTokens::XmlstrToken(EdxltokenComma));
 	
-	const ULONG ulNumSegments = xmlsztok.countTokens();
-	GPOS_ASSERT(0 < ulNumSegments);
+	const ULONG num_of_segments = xmlsztok.countTokens();
+	GPOS_ASSERT(0 < num_of_segments);
 	
-	for (ULONG ul = 0; ul < ulNumSegments; ul++)
+	for (ULONG ul = 0; ul < num_of_segments; ul++)
 	{
 		XMLCh *xmlszSegId = xmlsztok.nextToken();
 		
