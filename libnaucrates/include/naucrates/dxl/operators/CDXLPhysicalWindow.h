@@ -44,7 +44,7 @@ namespace gpdxl
 			ULongPtrArray *m_pdrgpulPartCols;
 
 			// window keys
-			CDXLWindowKeyArray *m_pdrgpdxlwk;
+			CDXLWindowKeyArray *m_dxl_window_key_array;
 
 			// private copy ctor
 			CDXLPhysicalWindow(CDXLPhysicalWindow&);

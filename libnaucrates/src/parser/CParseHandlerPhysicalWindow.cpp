@@ -129,7 +129,7 @@ CParseHandlerPhysicalWindow::EndElement
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[3]);
 
 	CParseHandlerWindowKeyList *pphWkL = dynamic_cast<CParseHandlerWindowKeyList *>((*this)[4]);
-	CDXLWindowKeyArray *pdrgpdxlwk = pphWkL->Pdrgpdxlwk();
+	CDXLWindowKeyArray *pdrgpdxlwk = pphWkL->GetDxlWindowKeyArray();
 	CDXLPhysicalWindow *pdxlopWindow = GPOS_NEW(m_memory_pool) CDXLPhysicalWindow(m_memory_pool, m_pdrgpulPartCols, pdrgpdxlwk);
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopWindow);
 

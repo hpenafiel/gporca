@@ -34,10 +34,10 @@ CDXLPhysicalWindow::CDXLPhysicalWindow
 	:
 	CDXLPhysical(memory_pool),
 	m_pdrgpulPartCols(pdrgpulPartCols),
-	m_pdrgpdxlwk(pdrgpdxlwk)
+	m_dxl_window_key_array(pdrgpdxlwk)
 {
 	GPOS_ASSERT(NULL != m_pdrgpulPartCols);
-	GPOS_ASSERT(NULL != m_pdrgpdxlwk);
+	GPOS_ASSERT(NULL != m_dxl_window_key_array);
 }
 
 //---------------------------------------------------------------------------
@@ -51,7 +51,7 @@ CDXLPhysicalWindow::CDXLPhysicalWindow
 CDXLPhysicalWindow::~CDXLPhysicalWindow()
 {
 	m_pdrgpulPartCols->Release();
-	m_pdrgpdxlwk->Release();
+	m_dxl_window_key_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -107,7 +107,7 @@ CDXLPhysicalWindow::UlPartCols() const
 ULONG
 CDXLPhysicalWindow::UlWindowKeys() const
 {
-	return m_pdrgpdxlwk->Size();
+	return m_dxl_window_key_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -125,8 +125,8 @@ CDXLPhysicalWindow::PdxlWindowKey
 	)
 	const
 {
-	GPOS_ASSERT(ulPos <= m_pdrgpdxlwk->Size());
-	return (*m_pdrgpdxlwk)[ulPos];
+	GPOS_ASSERT(ulPos <= m_dxl_window_key_array->Size());
+	return (*m_dxl_window_key_array)[ulPos];
 }
 
 //---------------------------------------------------------------------------
@@ -163,10 +163,10 @@ CDXLPhysicalWindow::SerializeToDXL
 	// serialize the list of window keys
 	const CWStringConst *pstrWindowKeyList = CDXLTokens::GetDXLTokenStr(EdxltokenWindowKeyList);
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrWindowKeyList);
-	const ULONG size = m_pdrgpdxlwk->Size();
+	const ULONG size = m_dxl_window_key_array->Size();
 	for (ULONG ul = 0; ul < size; ul++)
 	{
-		CDXLWindowKey *pdxlwk = (*m_pdrgpdxlwk)[ul];
+		CDXLWindowKey *pdxlwk = (*m_dxl_window_key_array)[ul];
 		pdxlwk->SerializeToDXL(xml_serializer);
 	}
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrWindowKeyList);
@@ -194,7 +194,7 @@ CDXLPhysicalWindow::AssertValid
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(dxlnode, validate_children);
 	GPOS_ASSERT(NULL != m_pdrgpulPartCols);
-	GPOS_ASSERT(NULL != m_pdrgpdxlwk);
+	GPOS_ASSERT(NULL != m_dxl_window_key_array);
 	GPOS_ASSERT(EdxlwindowIndexSentinel == dxlnode->Arity());
 	CDXLNode *child_dxlnode = (*dxlnode)[EdxlwindowIndexChild];
 	if (validate_children)
