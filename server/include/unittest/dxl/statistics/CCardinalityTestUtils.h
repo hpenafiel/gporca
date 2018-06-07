@@ -59,7 +59,7 @@ namespace gpnaucrates
 			CHistogram* PhistInt4Remain
 				(
 				IMemoryPool *memory_pool,
-				ULONG ulBuckets,
+				ULONG num_of_buckets,
 				CDouble dNDVPerBucket,
 				BOOL fNullFreq,
 				CDouble dNDVRemain

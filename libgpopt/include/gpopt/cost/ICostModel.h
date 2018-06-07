@@ -127,7 +127,7 @@ namespace gpopt
 					DOUBLE m_dRows;
 
 					// width estimate of root
-					DOUBLE m_dWidth;
+					DOUBLE m_width;
 
 					// number of rebinds of root
 					DOUBLE m_dRebinds;
@@ -163,7 +163,7 @@ namespace gpopt
 						m_ulChildren(ulChildren),
 						m_pcstats(pcstats),
 						m_dRows(dRows),
-						m_dWidth(dWidth),
+						m_width(dWidth),
 						m_dRebinds(dRebinds),
 						m_pdRowsChildren(pdRowsChildren),
 						m_pdWidthChildren(pdWidthChildren),
@@ -184,7 +184,7 @@ namespace gpopt
 						m_ulChildren(ulChildren),
 						m_pcstats(pcstats),
 						m_dRows(0),
-						m_dWidth(0),
+						m_width(0),
 						m_dRebinds(GPOPT_DEFAULT_REBINDS),
 						m_pdRowsChildren(NULL),
 						m_pdWidthChildren(NULL),
@@ -237,7 +237,7 @@ namespace gpopt
 					// width accessor
 					DOUBLE DWidth() const
 					{
-						return m_dWidth;
+						return m_width;
 					}
 
 					// width setter
@@ -248,7 +248,7 @@ namespace gpopt
 					{
 						GPOS_ASSERT(0 <= dWidth);
 
-						m_dWidth = dWidth;
+						m_width = dWidth;
 					}
 
 					// rebinds accessor

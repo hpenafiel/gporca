@@ -86,12 +86,12 @@ CJoinCardinalityTest::EresUnittest_JoinNDVRemain()
 	{
 		SHistogramTestCase elem = rghisttc[ul1];
 
-		ULONG ulBuckets = elem.m_ulBuckets;
+		ULONG num_of_buckets = elem.m_num_of_buckets;
 		CDouble dNDVPerBucket = elem.m_dNDVPerBucket;
 		BOOL fNullFreq = elem.m_fNullFreq;
 		CDouble dNDVRemain = elem.m_dNDVRemain;
 
-		CHistogram *phist = CCardinalityTestUtils::PhistInt4Remain(memory_pool, ulBuckets, dNDVPerBucket, fNullFreq, dNDVRemain);
+		CHistogram *phist = CCardinalityTestUtils::PhistInt4Remain(memory_pool, num_of_buckets, dNDVPerBucket, fNullFreq, dNDVRemain);
 #ifdef GPOS_DEBUG
 			BOOL fResult =
 #endif // GPOS_DEBUG

@@ -39,19 +39,19 @@ namespace gpdxl
 			ULONG m_colid;
 
 			// width
-			CDouble m_dWidth;
+			CDouble m_width;
 
 			// null fraction
-			CDouble m_dNullFreq;
+			CDouble m_null_freq;
 
 			// ndistinct of remaining tuples
-			CDouble m_dDistinctRemain;
+			CDouble m_distint_remaining;
 
 			// frequency of remaining tuples
-			CDouble m_dFreqRemain;
+			CDouble m_freq_remaining;
 
 			// derived column stats
-			CDXLStatsDerivedColumn *m_pstatsdercol;
+			CDXLStatsDerivedColumn *m_dxl_stats_derived_col;
 
 			// private copy ctor
 			CParseHandlerStatsDerivedColumn(const CParseHandlerStatsDerivedColumn &);
@@ -87,9 +87,9 @@ namespace gpdxl
 			~CParseHandlerStatsDerivedColumn();
 
 			// derived column stats
-			CDXLStatsDerivedColumn *Pstatsdercol() const
+			CDXLStatsDerivedColumn *GetDxlStatsDerivedCol() const
 			{
-				return m_pstatsdercol;
+				return m_dxl_stats_derived_col;
 			}
 	};
 }

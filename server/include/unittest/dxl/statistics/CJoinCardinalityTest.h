@@ -77,7 +77,7 @@ namespace gpnaucrates
 			struct SHistogramTestCase
 			{
 				// number of buckets in the histogram
-				ULONG m_ulBuckets;
+				ULONG m_num_of_buckets;
 
 				// number of distinct values per bucket
 				CDouble m_dNDVPerBucket;

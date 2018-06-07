@@ -1280,17 +1280,17 @@ CMDAccessor::Phist
 	GPOS_ASSERT(NULL != pmdcolstats);
 
 	BOOL fColStatsMissing = pmdcolstats->FColStatsMissing();
-	const ULONG ulBuckets = pmdcolstats->UlBuckets();
+	const ULONG num_of_buckets = pmdcolstats->UlBuckets();
 	BOOL fBoolType = CMDAccessorUtils::FBoolType(this, mdid_type);
 	if (fColStatsMissing && fBoolType)
 	{
-		GPOS_ASSERT(0 == ulBuckets);
+		GPOS_ASSERT(0 == num_of_buckets);
 
 		return CHistogram::PhistDefaultBoolColStats(memory_pool);
 	}
 
 	DrgPbucket *pdrgpbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
-	for (ULONG ul = 0; ul < ulBuckets; ul++)
+	for (ULONG ul = 0; ul < num_of_buckets; ul++)
 	{
 		const CDXLBucket *pdxlbucket = pmdcolstats->GetBucketDXL(ul);
 		CBucket *pbucket = Pbucket(memory_pool, mdid_type, pdxlbucket);

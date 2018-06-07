@@ -37,16 +37,16 @@ CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	)
 	:
 	m_colid(col_id),
-	m_dWidth(dWidth),
-	m_dNullFreq(dNullFreq),
-	m_dDistinctRemain(dDistinctRemain),
-	m_dFreqRemain(dFreqRemain),
+	m_width(dWidth),
+	m_null_freq(dNullFreq),
+	m_distint_remaining(dDistinctRemain),
+	m_freq_remaining(dFreqRemain),
 	m_pdrgpdxlbucket(stats_bucket_dxl_array)
 {
-	GPOS_ASSERT(0 <= m_dWidth);
-	GPOS_ASSERT(0 <= m_dNullFreq);
-	GPOS_ASSERT(0 <= m_dDistinctRemain);
-	GPOS_ASSERT(0 <= m_dFreqRemain);
+	GPOS_ASSERT(0 <= m_width);
+	GPOS_ASSERT(0 <= m_null_freq);
+	GPOS_ASSERT(0 <= m_distint_remaining);
+	GPOS_ASSERT(0 <= m_freq_remaining);
 	GPOS_ASSERT(NULL != m_pdrgpdxlbucket);
 }
 
@@ -96,14 +96,14 @@ CDXLStatsDerivedColumn::Serialize
 						CDXLTokens::GetDXLTokenStr(EdxltokenStatsDerivedColumn));
 
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId), m_colid);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_dWidth);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNullFreq), m_dNullFreq);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNdvRemain), m_dDistinctRemain);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColFreqRemain), m_dFreqRemain);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_width);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNullFreq), m_null_freq);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNdvRemain), m_distint_remaining);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColFreqRemain), m_freq_remaining);
 
 
-	const ULONG ulBuckets = m_pdrgpdxlbucket->Size();
-	for (ULONG ul = 0; ul < ulBuckets; ul++)
+	const ULONG num_of_buckets = m_pdrgpdxlbucket->Size();
+	for (ULONG ul = 0; ul < num_of_buckets; ul++)
 	{
 		GPOS_CHECK_ABORT;
 
@@ -135,11 +135,11 @@ CDXLStatsDerivedColumn::DebugPrint
 {
 	os << "Column id: " << m_colid;
 	os << std::endl;
-	os << "Width : " << m_dWidth;
+	os << "Width : " << m_width;
 	os << std::endl;
 
-	const ULONG ulBuckets = m_pdrgpdxlbucket->Size();
-	for (ULONG ul = 0; ul < ulBuckets; ul++)
+	const ULONG num_of_buckets = m_pdrgpdxlbucket->Size();
+	for (ULONG ul = 0; ul < num_of_buckets; ul++)
 	{
 		const CDXLBucket *pdxlbucket = (*m_pdrgpdxlbucket)[ul];
 		pdxlbucket->DebugPrint(os);

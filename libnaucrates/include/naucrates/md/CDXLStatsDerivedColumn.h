@@ -43,16 +43,16 @@ namespace gpmd
 			ULONG m_colid;
 
 			// column width
-			CDouble m_dWidth;
+			CDouble m_width;
 
 			// null fraction
-			CDouble m_dNullFreq;
+			CDouble m_null_freq;
 
 			// ndistinct of remaining tuples
-			CDouble m_dDistinctRemain;
+			CDouble m_distint_remaining;
 
 			// frequency of remaining tuples
-			CDouble m_dFreqRemain;
+			CDouble m_freq_remaining;
 
 			DrgPdxlbucket *m_pdrgpdxlbucket;
 
@@ -85,25 +85,25 @@ namespace gpmd
 			// column width
 			CDouble DWidth() const
 			{
-				return m_dWidth;
+				return m_width;
 			}
 
 			// null fraction of this column
 			CDouble DNullFreq() const
 			{
-				return m_dNullFreq;
+				return m_null_freq;
 			}
 
 			// ndistinct of remaining tuples
 			CDouble DDistinctRemain() const
 			{
-				return m_dDistinctRemain;
+				return m_distint_remaining;
 			}
 
 			// frequency of remaining tuples
 			CDouble DFreqRemain() const
 			{
-				return m_dFreqRemain;
+				return m_freq_remaining;
 			}
 
 			const DrgPdxlbucket *Pdrgpdxlbucket() const;

@@ -1790,8 +1790,8 @@ CStatisticsUtils::DDistinct
 	GPOS_ASSERT(NULL != pdrgppbucket);
 
 	CDouble dDistinct = CDouble(0.0);
-	const ULONG ulBuckets = pdrgppbucket->Size();
-	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulBuckets; ulBucketIdx++)
+	const ULONG num_of_buckets = pdrgppbucket->Size();
+	for (ULONG ulBucketIdx = 0; ulBucketIdx < num_of_buckets; ulBucketIdx++)
 	{
 		CBucket *pbucket = (*pdrgppbucket)[ulBucketIdx];
 		dDistinct = dDistinct + pbucket->DDistinct();
@@ -1818,8 +1818,8 @@ CStatisticsUtils::DFrequency
 	GPOS_ASSERT(NULL != pdrgppbucket);
 
 	CDouble dFreq = CDouble(0.0);
-	const ULONG ulBuckets = pdrgppbucket->Size();
-	for (ULONG ulBucketIdx = 0; ulBucketIdx < ulBuckets; ulBucketIdx++)
+	const ULONG num_of_buckets = pdrgppbucket->Size();
+	for (ULONG ulBucketIdx = 0; ulBucketIdx < num_of_buckets; ulBucketIdx++)
 	{
 		CBucket *pbucket = (*pdrgppbucket)[ulBucketIdx];
 		dFreq = dFreq +  pbucket->DFrequency();

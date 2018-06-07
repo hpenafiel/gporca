@@ -152,7 +152,7 @@ CParseHandlerStatsDerivedRelation::EndElement
 	{
 		CParseHandlerStatsDerivedColumn *pph = dynamic_cast<CParseHandlerStatsDerivedColumn*>( (*this)[ul]);
 
-		CDXLStatsDerivedColumn *pdxlstatdercol = pph->Pstatsdercol();
+		CDXLStatsDerivedColumn *pdxlstatdercol = pph->GetDxlStatsDerivedCol();
 		pdxlstatdercol->AddRef();
 		pdrgpdxlstatsdercol->Append(pdxlstatdercol);
 	}

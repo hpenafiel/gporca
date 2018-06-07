@@ -91,7 +91,7 @@ CHistogram*
 CCardinalityTestUtils::PhistInt4Remain
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulBuckets,
+	ULONG num_of_buckets,
 	CDouble dNDVPerBucket,
 	BOOL fNullFreq,
 	CDouble dNDVRemain
@@ -99,7 +99,7 @@ CCardinalityTestUtils::PhistInt4Remain
 {
 	// generate histogram of the form [0, 100), [100, 200), [200, 300) ...
 	DrgPbucket *pdrgppbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
-	for (ULONG ulIdx = 0; ulIdx < ulBuckets; ulIdx++)
+	for (ULONG ulIdx = 0; ulIdx < num_of_buckets; ulIdx++)
 	{
 		INT iLower = INT(ulIdx * 100);
 		INT iUpper = INT((ulIdx + 1) * 100);

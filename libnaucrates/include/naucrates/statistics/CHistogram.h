@@ -62,13 +62,13 @@ namespace gpnaucrates
 			BOOL m_fWellDefined;
 
 			// null fraction
-			CDouble m_dNullFreq;
+			CDouble m_null_freq;
 
 			// ndistinct of tuples not covered in the buckets
-			CDouble m_dDistinctRemain;
+			CDouble m_distint_remaining;
 
 			// frequency of tuples not covered in the buckets
-			CDouble m_dFreqRemain;
+			CDouble m_freq_remaining;
 
 			// has histogram skew been measures
 			BOOL m_fSkewMeasured;
@@ -441,19 +441,19 @@ namespace gpnaucrates
 			// accessor of null fraction
 			CDouble DNullFreq() const
 			{
-				return m_dNullFreq;
+				return m_null_freq;
 			}
 
 			// accessor of remaining number of tuples
 			CDouble DDistinctRemain() const
 			{
-				return m_dDistinctRemain;
+				return m_distint_remaining;
 			}
 
 			// accessor of remaining frequency
 			CDouble DFreqRemain() const
 			{
-				return m_dFreqRemain;
+				return m_freq_remaining;
 			}
 
 			// check if histogram is empty

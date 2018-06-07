@@ -48,10 +48,10 @@ CDXLColStats::CDXLColStats
 	m_memory_pool(memory_pool),
 	m_pmdidColStats(pmdidColStats),
 	m_mdname(mdname),
-	m_dWidth(dWidth),
-	m_dNullFreq(dNullFreq),
-	m_dDistinctRemain(dDistinctRemain),
-	m_dFreqRemain(dFreqRemain),
+	m_width(dWidth),
+	m_null_freq(dNullFreq),
+	m_distint_remaining(dDistinctRemain),
+	m_freq_remaining(dFreqRemain),
 	m_pdrgpdxlbucket(stats_bucket_dxl_array),
 	m_fColStatsMissing(fColStatsMissing)
 {
@@ -171,16 +171,16 @@ CDXLColStats::Serialize
 	
 	m_pmdidColStats->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_dWidth);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNullFreq), m_dNullFreq);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNdvRemain), m_dDistinctRemain);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColFreqRemain), m_dFreqRemain);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_width);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNullFreq), m_null_freq);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNdvRemain), m_distint_remaining);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColFreqRemain), m_freq_remaining);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColStatsMissing), m_fColStatsMissing);
 
 	GPOS_CHECK_ABORT;
 
-	ULONG ulBuckets = UlBuckets();
-	for (ULONG ul = 0; ul < ulBuckets; ul++)
+	ULONG num_of_buckets = UlBuckets();
+	for (ULONG ul = 0; ul < num_of_buckets; ul++)
 	{
 		const CDXLBucket *pdxlbucket = GetBucketDXL(ul);
 		pdxlbucket->Serialize(xml_serializer);
