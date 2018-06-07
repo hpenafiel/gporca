@@ -51,7 +51,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	m_mdname_schema(pmdnameSchema),
 	m_pmdnameRel(pmdnameRel),
 	m_col_descr_array(pdrgpdxlcd),
-	m_pdxlctasopt(pdxlctasopt),
+	m_dxl_ctas_storage_option(pdxlctasopt),
 	m_rel_distr_policy(rel_distr_policy),
 	m_distr_column_pos_array(pdrgpulDistr),
 	m_is_temp_table(fTemporary),
@@ -86,7 +86,7 @@ CDXLLogicalCTAS::~CDXLLogicalCTAS()
 	GPOS_DELETE(m_mdname_schema);
 	GPOS_DELETE(m_pmdnameRel);
 	m_col_descr_array->Release();
-	m_pdxlctasopt->Release();
+	m_dxl_ctas_storage_option->Release();
 	CRefCount::SafeRelease(m_distr_column_pos_array);
 	m_src_colids_array->Release();
 	m_vartypemod_array->Release();
@@ -220,7 +220,7 @@ CDXLLogicalCTAS::SerializeToDXL
 	}
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 
-	m_pdxlctasopt->Serialize(xml_serializer);
+	m_dxl_ctas_storage_option->Serialize(xml_serializer);
 	
 	// serialize arguments
 	dxlnode->SerializeChildrenToDXL(xml_serializer);

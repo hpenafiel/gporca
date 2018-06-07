@@ -47,7 +47,7 @@ namespace gpdxl
 			ColumnDescrDXLArray *m_col_descr_array;
 			
 			// storage options
-			CDXLCtasStorageOptions *m_pdxlctasopt;
+			CDXLCtasStorageOptions *m_dxl_ctas_storage_option;
 			
 			// distribution policy
 			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
@@ -150,9 +150,9 @@ namespace gpdxl
 			}
 
 			// CTAS storage options
-			CDXLCtasStorageOptions *Pdxlctasopt() const
+			CDXLCtasStorageOptions *GetDxlCtasStorageOption() const
 			{
-				return m_pdxlctasopt;
+				return m_dxl_ctas_storage_option;
 			}
 			
 			// serialize operator in DXL format

@@ -102,13 +102,13 @@ namespace gpdxl
 		private:
 
 			// tablespace name
-			CMDName *m_pmdnameTablespace;
+			CMDName *m_mdname_tablespace;
 			
 			// on commit action spec
-			ECtasOnCommitAction m_ectascommit;
+			ECtasOnCommitAction m_ctas_on_commit_action;
 			
 			// array of name-value pairs of storage options
-			DrgPctasOpt *m_pdrgpctasopt;
+			DrgPctasOpt *m_ctas_storage_option_array;
 			
 			// private copy ctor
 			CDXLCtasStorageOptions(const CDXLCtasStorageOptions &);

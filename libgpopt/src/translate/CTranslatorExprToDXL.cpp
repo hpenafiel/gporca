@@ -5382,7 +5382,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 
 	ULongPtrArray *pdrgpul = CUtils::Pdrgpul(m_memory_pool, pdrgpcrSource);
 
-	pmdrel->Pdxlctasopt()->AddRef();
+	pmdrel->GetDxlCtasStorageOption()->AddRef();
 
 	const ULONG ulColumns = ptabdesc->UlColumns();
 
@@ -5445,7 +5445,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 									pmdnameSchema,
 									GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->Mdname().GetMDName()),
 									pdrgpdxlcd,
-									pmdrel->Pdxlctasopt(),
+									pmdrel->GetDxlCtasStorageOption(),
 									pmdrel->Ereldistribution(),
 									pdrgpulDistr,
 									pmdrel->FTemporary(),

@@ -164,10 +164,10 @@ CParseHandlerMDRelationCtas::EndElement
 	CParseHandlerCtasStorageOptions *ctas_options_parse_handler = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[1]);
 
 	GPOS_ASSERT(NULL != pphMdCol->Pdrgpmdcol());
-	GPOS_ASSERT(NULL != ctas_options_parse_handler->Pdxlctasopt());
+	GPOS_ASSERT(NULL != ctas_options_parse_handler->GetDxlCtasStorageOption());
 
 	DrgPmdcol *pdrgpmdcol = pphMdCol->Pdrgpmdcol();
-	CDXLCtasStorageOptions *pdxlctasopt = ctas_options_parse_handler->Pdxlctasopt();
+	CDXLCtasStorageOptions *pdxlctasopt = ctas_options_parse_handler->GetDxlCtasStorageOption();
 
 	pdrgpmdcol->AddRef();
 	pdxlctasopt->AddRef();

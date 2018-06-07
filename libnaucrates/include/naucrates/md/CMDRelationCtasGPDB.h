@@ -91,7 +91,7 @@ namespace gpmd
 			ULongPtrArray *m_pdrgpulNonDroppedCols;
 			
 			// storage options
-			CDXLCtasStorageOptions *m_pdxlctasopt;
+			CDXLCtasStorageOptions *m_dxl_ctas_storage_option;
 
 			// vartypemod list
 			IntPtrArray *m_vartypemod_array;
@@ -172,9 +172,9 @@ namespace gpmd
 			
 			// CTAS storage options
 			virtual 
-			CDXLCtasStorageOptions *Pdxlctasopt() const
+			CDXLCtasStorageOptions *GetDxlCtasStorageOption() const
 			{
-				return m_pdxlctasopt;
+				return m_dxl_ctas_storage_option;
 			}
 			
 			// number of columns

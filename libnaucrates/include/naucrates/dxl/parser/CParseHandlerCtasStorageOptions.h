@@ -37,16 +37,16 @@ namespace gpdxl
 		private:
 
 			// tablespace name
-			CMDName *m_pmdnameTablespace;
+			CMDName *m_mdname_tablespace;
 			
 			// on commit action
-			CDXLCtasStorageOptions::ECtasOnCommitAction m_ectascommit;
+			CDXLCtasStorageOptions::ECtasOnCommitAction m_ctas_on_commit_action;
 			
 			// CTAS storage options
-			CDXLCtasStorageOptions *m_pdxlctasopt;
+			CDXLCtasStorageOptions *m_dxl_ctas_storage_option;
 			
 			// parsed array of key-value pairs of options
-			CDXLCtasStorageOptions::DrgPctasOpt *m_pdrgpctasopt;
+			CDXLCtasStorageOptions::DrgPctasOpt *m_ctas_storage_option_array;
 			
 			// private copy ctor
 			CParseHandlerCtasStorageOptions(const CParseHandlerCtasStorageOptions &);
@@ -82,7 +82,7 @@ namespace gpdxl
 			~CParseHandlerCtasStorageOptions();
 			
 			// parsed storage options
-			CDXLCtasStorageOptions *Pdxlctasopt() const;
+			CDXLCtasStorageOptions *GetDxlCtasStorageOption() const;
 	};
 }
 

@@ -35,9 +35,9 @@ CParseHandlerCtasStorageOptions::CParseHandlerCtasStorageOptions
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pmdnameTablespace(NULL),
-	m_pdxlctasopt(NULL),
-	m_pdrgpctasopt(NULL)
+	m_mdname_tablespace(NULL),
+	m_dxl_ctas_storage_option(NULL),
+	m_ctas_storage_option_array(NULL)
 {
 }
 
@@ -51,7 +51,7 @@ CParseHandlerCtasStorageOptions::CParseHandlerCtasStorageOptions
 //---------------------------------------------------------------------------
 CParseHandlerCtasStorageOptions::~CParseHandlerCtasStorageOptions()
 {
-	CRefCount::SafeRelease(m_pdxlctasopt);
+	CRefCount::SafeRelease(m_dxl_ctas_storage_option);
 }
 
 //---------------------------------------------------------------------------
@@ -73,28 +73,28 @@ CParseHandlerCtasStorageOptions::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTASOptions), element_local_name))
 	{
-		const XMLCh *xmlszTablespace = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenTablespace));
-		if (NULL != xmlszTablespace)
+		const XMLCh *xml_str_tablespace = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenTablespace));
+		if (NULL != xml_str_tablespace)
 		{
-			m_pmdnameTablespace = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTablespace);
+			m_mdname_tablespace = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_tablespace);
 		}
 		
-		m_ectascommit = CDXLOperatorFactory::ParseOnCommitActionSpec(attrs);
+		m_ctas_on_commit_action = CDXLOperatorFactory::ParseOnCommitActionSpec(attrs);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTASOption), element_local_name))
 	{
 		// parse option name and value
-		ULONG ulType = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtasOptionType, EdxltokenCTASOption);
-		CWStringBase *pstrName = CDXLOperatorFactory::ExtractConvertAttrValueToStr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenName, EdxltokenCTASOption);
-		CWStringBase *pstrValue = CDXLOperatorFactory::ExtractConvertAttrValueToStr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenCTASOption);
+		ULONG ctas_option_type = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCtasOptionType, EdxltokenCTASOption);
+		CWStringBase *ctas_option_name = CDXLOperatorFactory::ExtractConvertAttrValueToStr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenName, EdxltokenCTASOption);
+		CWStringBase *ctas_option_val = CDXLOperatorFactory::ExtractConvertAttrValueToStr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenCTASOption);
 		BOOL is_null = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIsNull, EdxltokenCTASOption);
 		
-		if (NULL == m_pdrgpctasopt)
+		if (NULL == m_ctas_storage_option_array)
 		{
-			m_pdrgpctasopt = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::DrgPctasOpt(m_memory_pool);
+			m_ctas_storage_option_array = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::DrgPctasOpt(m_memory_pool);
 		}
-		m_pdrgpctasopt->Append(
-				GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::CDXLCtasOption(ulType, pstrName, pstrValue, is_null));
+		m_ctas_storage_option_array->Append(
+				GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::CDXLCtasOption(ctas_option_type, ctas_option_name, ctas_option_val, is_null));
 	}
 	else
 	{
@@ -121,7 +121,7 @@ CParseHandlerCtasStorageOptions::EndElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenCTASOptions), element_local_name))
 	{
-		m_pdxlctasopt = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions(m_pmdnameTablespace, m_ectascommit, m_pdrgpctasopt);
+		m_dxl_ctas_storage_option = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions(m_mdname_tablespace, m_ctas_on_commit_action, m_ctas_storage_option_array);
 		// deactivate handler
 		m_parse_handler_mgr->DeactivateHandler();
 	}
@@ -134,16 +134,16 @@ CParseHandlerCtasStorageOptions::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerCtasStorageOptions::Pdxlctasopt
+//		CParseHandlerCtasStorageOptions::GetDxlCtasStorageOption
 //
 //	@doc:
 //		Return parsed storage options
 //
 //---------------------------------------------------------------------------
 CDXLCtasStorageOptions *
-CParseHandlerCtasStorageOptions::Pdxlctasopt() const
+CParseHandlerCtasStorageOptions::GetDxlCtasStorageOption() const
 {
-	return m_pdxlctasopt;
+	return m_dxl_ctas_storage_option;
 }
 
 // EOF

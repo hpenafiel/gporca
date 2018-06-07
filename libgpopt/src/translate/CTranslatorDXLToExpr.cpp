@@ -2190,7 +2190,7 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	{
 		pdxlopCTAS->PdrgpulDistr()->AddRef();
 	}
-	pdxlopCTAS->Pdxlctasopt()->AddRef();
+	pdxlopCTAS->GetDxlCtasStorageOption()->AddRef();
 	
 	DrgPmdcol *pdrgpmdcol = GPOS_NEW(m_memory_pool) DrgPmdcol(m_memory_pool);
 	ColumnDescrDXLArray *pdrgpdxlcd = pdxlopCTAS->GetColumnDescrDXLArray();
@@ -2235,7 +2235,7 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 			pdrgpmdcol,
 			pdxlopCTAS->PdrgpulDistr(),
 			GPOS_NEW(m_memory_pool) ULongPtrArray2D(m_memory_pool), // pdrgpdrgpulKeys,
-			pdxlopCTAS->Pdxlctasopt(),
+			pdxlopCTAS->GetDxlCtasStorageOption(),
 			pdrgpiVarTypeMod
 			);
 	

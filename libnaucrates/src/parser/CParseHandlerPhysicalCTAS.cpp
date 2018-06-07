@@ -173,14 +173,14 @@ CParseHandlerPhysicalCTAS::EndElement
 
 	GPOS_ASSERT(NULL != prop_parse_handler->GetProperties());
 	GPOS_ASSERT(NULL != col_descr_parse_handler->GetColumnDescrDXLArray());
-	GPOS_ASSERT(NULL != ctas_options_parse_handler->Pdxlctasopt());
+	GPOS_ASSERT(NULL != ctas_options_parse_handler->GetDxlCtasStorageOption());
 	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 	
 	ColumnDescrDXLArray *col_descr_dxl_array = col_descr_parse_handler->GetColumnDescrDXLArray();
 	col_descr_dxl_array->AddRef();
 	
-	CDXLCtasStorageOptions *ctas_options = ctas_options_parse_handler->Pdxlctasopt();
+	CDXLCtasStorageOptions *ctas_options = ctas_options_parse_handler->GetDxlCtasStorageOption();
 	ctas_options->AddRef();
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode

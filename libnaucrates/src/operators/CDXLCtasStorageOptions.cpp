@@ -31,9 +31,9 @@ CDXLCtasStorageOptions::CDXLCtasStorageOptions
 	DrgPctasOpt *pdrgpctasopt
 	)
 	:
-	m_pmdnameTablespace(pmdnameTablespace),
-	m_ectascommit(ectascommit),
-	m_pdrgpctasopt(pdrgpctasopt)
+	m_mdname_tablespace(pmdnameTablespace),
+	m_ctas_on_commit_action(ectascommit),
+	m_ctas_storage_option_array(pdrgpctasopt)
 {
 	GPOS_ASSERT(EctascommitSentinel > ectascommit);
 }
@@ -48,8 +48,8 @@ CDXLCtasStorageOptions::CDXLCtasStorageOptions
 //---------------------------------------------------------------------------
 CDXLCtasStorageOptions::~CDXLCtasStorageOptions()
 {
-	GPOS_DELETE(m_pmdnameTablespace);
-	CRefCount::SafeRelease(m_pdrgpctasopt);
+	GPOS_DELETE(m_mdname_tablespace);
+	CRefCount::SafeRelease(m_ctas_storage_option_array);
 }
 
 //---------------------------------------------------------------------------
@@ -63,7 +63,7 @@ CDXLCtasStorageOptions::~CDXLCtasStorageOptions()
 CMDName *
 CDXLCtasStorageOptions::PmdnameTablespace() const
 {
-	return m_pmdnameTablespace;
+	return m_mdname_tablespace;
 }
 
 //---------------------------------------------------------------------------
@@ -77,7 +77,7 @@ CDXLCtasStorageOptions::PmdnameTablespace() const
 CDXLCtasStorageOptions::ECtasOnCommitAction
 CDXLCtasStorageOptions::Ectascommit() const
 {
-	return m_ectascommit;
+	return m_ctas_on_commit_action;
 }
 
 //---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ CDXLCtasStorageOptions::Ectascommit() const
 CDXLCtasStorageOptions::DrgPctasOpt *
 CDXLCtasStorageOptions::Pdrgpctasopt() const
 {
-	return m_pdrgpctasopt;
+	return m_ctas_storage_option_array;
 }
 
 //---------------------------------------------------------------------------
@@ -110,17 +110,17 @@ CDXLCtasStorageOptions::Serialize
 	const
 {
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTASOptions));
-	if (NULL != m_pmdnameTablespace)
+	if (NULL != m_mdname_tablespace)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTablespace), m_pmdnameTablespace->GetMDName());
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTablespace), m_mdname_tablespace->GetMDName());
 	}
 	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOnCommitAction), PstrOnCommitAction(m_ectascommit));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOnCommitAction), PstrOnCommitAction(m_ctas_on_commit_action));
 	
-	const ULONG ulOptions = (m_pdrgpctasopt == NULL) ? 0 : m_pdrgpctasopt->Size();
+	const ULONG ulOptions = (m_ctas_storage_option_array == NULL) ? 0 : m_ctas_storage_option_array->Size();
 	for (ULONG ul = 0; ul < ulOptions; ul++)
 	{
-		CDXLCtasOption *pdxlctasopt = (*m_pdrgpctasopt)[ul];
+		CDXLCtasOption *pdxlctasopt = (*m_ctas_storage_option_array)[ul];
 		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTASOption));
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCtasOptionType), pdxlctasopt->m_ulType);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), pdxlctasopt->m_str_name);

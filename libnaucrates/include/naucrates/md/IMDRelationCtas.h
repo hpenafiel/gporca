@@ -126,7 +126,7 @@ namespace gpmd
 
 			// CTAS storage options
 			virtual 
-			CDXLCtasStorageOptions *Pdxlctasopt() const = 0;
+			CDXLCtasStorageOptions *GetDxlCtasStorageOption() const = 0;
 
 	};
 }

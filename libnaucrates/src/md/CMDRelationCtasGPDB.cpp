@@ -56,7 +56,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
 	m_ulSystemColumns(0),
 	m_pdrgpulNonDroppedCols(NULL),
-	m_pdxlctasopt(pdxlctasopt),
+	m_dxl_ctas_storage_option(pdxlctasopt),
 	m_vartypemod_array(pdrgpiVarTypeMod)
 {
 	GPOS_ASSERT(pmdid->IsValid());
@@ -117,7 +117,7 @@ CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
 	CRefCount::SafeRelease(m_phmiulAttno2Pos);
 	CRefCount::SafeRelease(m_pdrgpulNonDroppedCols);
-	m_pdxlctasopt->Release();
+	m_dxl_ctas_storage_option->Release();
 	m_vartypemod_array->Release();
 }
 
@@ -354,7 +354,7 @@ CMDRelationCtasGPDB::Serialize
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 
-	m_pdxlctasopt->Serialize(xml_serializer);
+	m_dxl_ctas_storage_option->Serialize(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenRelationCTAS));
 }
