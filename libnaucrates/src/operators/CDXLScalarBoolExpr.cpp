@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLScalarBoolExpr::CDXLScalarBoolExpr
 	(
 	IMemoryPool *memory_pool,
-	const EdxlBoolExprType boolexptype
+	const EdxlBoolExprType bool_type
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_boolexptype(boolexptype)
+	m_bool_type(bool_type)
 {
 
 }
@@ -65,7 +65,7 @@ CDXLScalarBoolExpr::GetDXLOperator() const
 EdxlBoolExprType
 CDXLScalarBoolExpr::GetDxlBoolTypeStr() const
 {
-	return m_boolexptype;
+	return m_bool_type;
 }
 
 
@@ -80,7 +80,7 @@ CDXLScalarBoolExpr::GetDxlBoolTypeStr() const
 const CWStringConst *
 CDXLScalarBoolExpr::GetOpNameStr() const
 {
-	switch (m_boolexptype)
+	switch (m_bool_type)
 	{
 		case Edxland:
 				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolAnd);
@@ -140,12 +140,12 @@ CDXLScalarBoolExpr::AssertValid
 	) 
 	const
 {
-	EdxlBoolExprType edxlbooltype = ((CDXLScalarBoolExpr *) dxlnode->GetOperator())->GetDxlBoolTypeStr();
+	EdxlBoolExprType dxl_bool_type = ((CDXLScalarBoolExpr *) dxlnode->GetOperator())->GetDxlBoolTypeStr();
 
-	GPOS_ASSERT( (edxlbooltype == Edxlnot) || (edxlbooltype == Edxlor) || (edxlbooltype == Edxland));
+	GPOS_ASSERT( (dxl_bool_type == Edxlnot) || (dxl_bool_type == Edxlor) || (dxl_bool_type == Edxland));
 
 	const ULONG arity = dxlnode->Arity();
-	if(edxlbooltype == Edxlnot)
+	if(dxl_bool_type == Edxlnot)
 	{
 		GPOS_ASSERT(1 == arity);
 	}

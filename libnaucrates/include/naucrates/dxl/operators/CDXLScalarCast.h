@@ -55,7 +55,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				IMDId *mdid_type,
-				IMDId *pmdidOpFunc
+				IMDId *func_mdid
 				);
 
 			virtual

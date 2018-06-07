@@ -43,7 +43,7 @@ namespace gpdxl
 		private:
 
 			// operator type
-			const EdxlBoolExprType m_boolexptype;
+			const EdxlBoolExprType m_bool_type;
 
 			// private copy ctor
 			CDXLScalarBoolExpr(const CDXLScalarBoolExpr&);
@@ -54,7 +54,7 @@ namespace gpdxl
 			CDXLScalarBoolExpr
 				(
 				IMemoryPool *memory_pool,
-				const EdxlBoolExprType boolexptype
+				const EdxlBoolExprType bool_type
 				);
 
 
