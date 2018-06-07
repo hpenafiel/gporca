@@ -110,10 +110,10 @@ CParseHandlerValuesScan::EndElement
 	AddChildFromParseHandler(proj_list_parse_handler);
 
 	// valuesscan child value list begins with third child
-	for (ULONG ul = 2; ul < arity; ul++)
+	for (ULONG idx = 2; idx < arity; idx++)
 	{
-		CParseHandlerScalarValuesList *pphPScValuesList = dynamic_cast<CParseHandlerScalarValuesList *>((*this)[ul]);
-		AddChildFromParseHandler(pphPScValuesList);
+		CParseHandlerScalarValuesList *scalar_values_list_parse_handler = dynamic_cast<CParseHandlerScalarValuesList *>((*this)[idx]);
+		AddChildFromParseHandler(scalar_values_list_parse_handler);
 	}
 
 	// deactivate handler
