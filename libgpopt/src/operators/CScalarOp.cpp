@@ -44,7 +44,7 @@ CScalarOp::CScalarOp
 	m_mdid_op(mdid_op),
 	m_return_type_mdid(return_type_mdid),
 	m_pstrOp(pstrOp),
-	m_fReturnsNullOnNullInput(false),
+	m_returns_null_on_null_input(false),
 	m_fBoolReturnType(false),
 	m_fCommutative(false)
 {
@@ -52,7 +52,7 @@ CScalarOp::CScalarOp
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
+	m_returns_null_on_null_input = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
 	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_mdid_op);
 	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_return_type_mdid);
 }
@@ -214,7 +214,7 @@ CScalarOp::Eber
 	)
 	const
 {
-	if (m_fReturnsNullOnNullInput)
+	if (m_returns_null_on_null_input)
 	{
 		return EberNullOnAnyNullChild(pdrgpulChildren);
 	}

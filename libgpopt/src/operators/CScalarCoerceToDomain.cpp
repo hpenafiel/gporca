@@ -34,7 +34,7 @@ CScalarCoerceToDomain::CScalarCoerceToDomain
 	)
 	:
 	CScalarCoerceBase(memory_pool, mdid_type, type_modifier, ecf, iLoc),
-	m_fReturnsNullOnNullInput(false)
+	m_returns_null_on_null_input(false)
 {
 }
 
@@ -83,7 +83,7 @@ CScalarCoerceToDomain::Eber
 	)
 	const
 {
-	if (m_fReturnsNullOnNullInput)
+	if (m_returns_null_on_null_input)
 	{
 		return EberNullOnAnyNullChild(pdrgpulChildren);
 	}

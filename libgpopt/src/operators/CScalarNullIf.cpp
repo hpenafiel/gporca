@@ -43,14 +43,14 @@ CScalarNullIf::CScalarNullIf
 	CScalar(memory_pool),
 	m_mdid_op(mdid_op),
 	m_mdid_type(mdid_type),
-	m_fReturnsNullOnNullInput(false),
+	m_returns_null_on_null_input(false),
 	m_fBoolReturnType(false)
 {
 	GPOS_ASSERT(mdid_op->IsValid());
 	GPOS_ASSERT(mdid_type->IsValid());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
+	m_returns_null_on_null_input = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
 	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_mdid_type);
 }
 
@@ -128,7 +128,7 @@ CScalarNullIf::Eber
 	)
 	const
 {
-	if (m_fReturnsNullOnNullInput)
+	if (m_returns_null_on_null_input)
 	{
 		return EberNullOnAnyNullChild(pdrgpulChildren);
 	}

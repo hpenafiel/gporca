@@ -44,14 +44,14 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	m_mdname(mdname),
 	m_pmdidLeft(pmdidLeft),
 	m_pmdidRight(pmdidRight),
-	m_ecmpt(ecmpt),
+	m_comparision_type(ecmpt),
 	m_mdid_op(mdid_op)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(m_pmdidLeft->IsValid());
 	GPOS_ASSERT(m_pmdidRight->IsValid());
 	GPOS_ASSERT(m_mdid_op->IsValid());
-	GPOS_ASSERT(IMDType::EcmptOther != m_ecmpt);
+	GPOS_ASSERT(IMDType::EcmptOther != m_comparision_type);
 
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
@@ -157,7 +157,7 @@ CMDScCmpGPDB::MdIdOp() const
 IMDType::ECmpType
 CMDScCmpGPDB::ParseCmpType() const
 {
-	return m_ecmpt;
+	return m_comparision_type;
 }
 
 //---------------------------------------------------------------------------
@@ -182,7 +182,7 @@ CMDScCmpGPDB::Serialize
 
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
 	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_ecmpt));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpCmpType), IMDType::PstrCmpType(m_comparision_type));
 
 	m_pmdidLeft->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpLeftTypeId));
 	m_pmdidRight->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenGPDBScalarOpRightTypeId));
@@ -220,7 +220,7 @@ CMDScCmpGPDB::DebugPrint
 	PmdidLeft()->OsPrint(os);
 
 
-	os << ", type: " << IMDType::PstrCmpType(m_ecmpt);
+	os << ", type: " << IMDType::PstrCmpType(m_comparision_type);
 
 	os << std::endl;	
 }

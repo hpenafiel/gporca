@@ -45,13 +45,13 @@ CScalarCmp::CScalarCmp
 	CScalar(memory_pool),
 	m_mdid_op(mdid_op),
 	m_pstrOp(pstrOp),
-	m_ecmpt(ecmpt),
-	m_fReturnsNullOnNullInput(false)
+	m_comparision_type(ecmpt),
+	m_returns_null_on_null_input(false)
 {
 	GPOS_ASSERT(mdid_op->IsValid());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
+	m_returns_null_on_null_input = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
 	m_fCommutative = CMDAccessorUtils::FCommutativeScalarOp(md_accessor, m_mdid_op);
 }
 
@@ -172,7 +172,7 @@ CScalarCmp::Eber
 	)
 	const
 {
-	if (m_fReturnsNullOnNullInput)
+	if (m_returns_null_on_null_input)
 	{
 		return EberNullOnAnyNullChild(pdrgpulChildren);
 	}

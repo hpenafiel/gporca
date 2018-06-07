@@ -43,7 +43,7 @@ namespace gpopt
 			BOOL m_fBinaryCoercible;
 			
 			// does operator return NULL on NULL input?
-			BOOL m_fReturnsNullOnNullInput;
+			BOOL m_returns_null_on_null_input;
 
 			// is operator's return type BOOL?
 			BOOL m_fBoolReturnType;

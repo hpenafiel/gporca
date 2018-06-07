@@ -148,9 +148,9 @@ CParseHandlerMDIndex::StartElement
 													);
 	
 	// parse handler for operator class list
-	CParseHandlerBase *pphOpClassList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
-	this->Append(pphOpClassList);
-	m_parse_handler_mgr->ActivateParseHandler(pphOpClassList);
+	CParseHandlerBase *op_class_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
+	this->Append(op_class_list_parse_handler);
+	m_parse_handler_mgr->ActivateParseHandler(op_class_list_parse_handler);
 }
 
 //---------------------------------------------------------------------------

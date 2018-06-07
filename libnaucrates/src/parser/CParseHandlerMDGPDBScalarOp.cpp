@@ -44,14 +44,14 @@ CParseHandlerMDGPDBScalarOp::CParseHandlerMDGPDBScalarOp
 	CParseHandlerMetadataObject(memory_pool, parse_handler_mgr, parse_handler_root),
 	m_mdid(NULL),
 	m_mdname(NULL),
-	m_pmdidTypeLeft(NULL),
-	m_pmdidTypeRight(NULL),
+	m_mdid_type_left(NULL),
+	m_mdid_type_right(NULL),
 	m_mdid_type_result(NULL),
 	m_func_mdid(NULL),
-	m_pmdidOpCommute(NULL),
-	m_pmdidOpInverse(NULL),
-	m_ecmpt(IMDType::EcmptOther),
-	m_fReturnsNullOnNullInput(false)
+	m_mdid_commute_opr(NULL),
+	m_mdid_inverse_opr(NULL),
+	m_comparision_type(IMDType::EcmptOther),
+	m_returns_null_on_null_input(false)
 {
 }
 
@@ -75,14 +75,14 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOp), element_local_name))
 	{
 		// parse operator name
-		const XMLCh *xmlszOpName = CDXLOperatorFactory::ExtractAttrValue
+		const XMLCh *xml_str_op_name = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenName,
 															EdxltokenGPDBScalarOp
 															);
 
-		CWStringDynamic *str_opname = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOpName);
+		CWStringDynamic *str_opname = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_op_name);
 		
 		// create a copy of the string in the CMDName constructor
 		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, str_opname);
@@ -98,20 +98,20 @@ CParseHandlerMDGPDBScalarOp::StartElement
 										EdxltokenGPDBScalarOp
 										);
 		
-		const XMLCh *xmlszCmpType = CDXLOperatorFactory::ExtractAttrValue
+		const XMLCh *xml_str_comp_type = CDXLOperatorFactory::ExtractAttrValue
 									(
 									attrs,
 									EdxltokenGPDBScalarOpCmpType,
 									EdxltokenGPDBScalarOp
 									);
 
-		m_ecmpt = CDXLOperatorFactory::ParseCmpType(xmlszCmpType);
+		m_comparision_type = CDXLOperatorFactory::ParseCmpType(xml_str_comp_type);
 
 		// null-returning property is optional
-		const XMLCh *xmlszReturnsNullOnNullInput = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenReturnsNullOnNullInput));
-		if (NULL != xmlszReturnsNullOnNullInput)
+		const XMLCh *xml_str_returns_null_on_null_input = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenReturnsNullOnNullInput));
+		if (NULL != xml_str_returns_null_on_null_input)
 		{
-			m_fReturnsNullOnNullInput = CDXLOperatorFactory::ExtractConvertAttrValueToBool
+			m_returns_null_on_null_input = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,
@@ -126,7 +126,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse left operand's type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeLeft = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_type_left = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												attrs, 
@@ -139,7 +139,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse right operand's type
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidTypeRight = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_type_right = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -178,7 +178,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse commutator operator
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidOpCommute = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_commute_opr = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -191,7 +191,7 @@ CParseHandlerMDGPDBScalarOp::StartElement
 		// parse inverse operator id
 		GPOS_ASSERT(NULL != m_mdname);
 
-		m_pmdidOpInverse = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+		m_mdid_inverse_opr = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													attrs,
@@ -202,10 +202,10 @@ CParseHandlerMDGPDBScalarOp::StartElement
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpClasses), element_local_name))
 	{
 		// parse handler for operator class list
-		CParseHandlerBase *pphOpClassList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphOpClassList);
-		this->Append(pphOpClassList);
-		pphOpClassList->startElement(element_uri, element_local_name, element_qname, attrs);
+		CParseHandlerBase *op_class_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(op_class_list_parse_handler);
+		this->Append(op_class_list_parse_handler);
+		op_class_list_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -238,31 +238,31 @@ CParseHandlerMDGPDBScalarOp::EndElement
 		
 		GPOS_ASSERT(0 == this->Length() || 1 == this->Length());
 		
-		DrgPmdid *pdrgpmdidOpClasses = NULL;
+		DrgPmdid *mdid_op_classes_array = NULL;
 		if (0 < this->Length())
 		{
-			CParseHandlerMetadataIdList *pphMdidOpClasses = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[0]);
-			pdrgpmdidOpClasses = pphMdidOpClasses->GetMdIdArray();
-			pdrgpmdidOpClasses->AddRef();
+			CParseHandlerMetadataIdList *mdid_list_parse_handler = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[0]);
+			mdid_op_classes_array = mdid_list_parse_handler->GetMdIdArray();
+			mdid_op_classes_array->AddRef();
 		}
 		else 
 		{
-			pdrgpmdidOpClasses = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
+			mdid_op_classes_array = GPOS_NEW(m_memory_pool) DrgPmdid(m_memory_pool);
 		}
 		m_imd_obj = GPOS_NEW(m_memory_pool) CMDScalarOpGPDB
 				(
 				m_memory_pool,
 				m_mdid,
 				m_mdname,
-				m_pmdidTypeLeft,
-				m_pmdidTypeRight,
+				m_mdid_type_left,
+				m_mdid_type_right,
 				m_mdid_type_result,
 				m_func_mdid,
-				m_pmdidOpCommute,
-				m_pmdidOpInverse,
-				m_ecmpt,
-				m_fReturnsNullOnNullInput,
-				pdrgpmdidOpClasses
+				m_mdid_commute_opr,
+				m_mdid_inverse_opr,
+				m_comparision_type,
+				m_returns_null_on_null_input,
+				mdid_op_classes_array
 				)
 				;
 		
@@ -270,7 +270,7 @@ CParseHandlerMDGPDBScalarOp::EndElement
 		m_parse_handler_mgr->DeactivateHandler();
 
 	}
-	else if (!FSupportedChildElem(element_local_name))
+	else if (!IsSupportedChildElem(element_local_name))
 	{
 		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
@@ -287,17 +287,17 @@ CParseHandlerMDGPDBScalarOp::EndElement
 //
 //---------------------------------------------------------------------------
 BOOL
-CParseHandlerMDGPDBScalarOp::FSupportedChildElem
+CParseHandlerMDGPDBScalarOp::IsSupportedChildElem
 	(
-	const XMLCh* const xmlsz
+	const XMLCh* const xml_str
 	)
 {
-	return (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpLeftTypeId), xmlsz) ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpRightTypeId), xmlsz) ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpResultTypeId), xmlsz) ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpFuncId), xmlsz) ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpCommOpId), xmlsz) ||
-			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpInverseOpId), xmlsz));
+	return (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpLeftTypeId), xml_str) ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpRightTypeId), xml_str) ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpResultTypeId), xml_str) ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpFuncId), xml_str) ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpCommOpId), xml_str) ||
+			0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBScalarOpInverseOpId), xml_str));
 }
 
 // EOF

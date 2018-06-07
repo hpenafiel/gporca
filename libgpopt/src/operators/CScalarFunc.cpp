@@ -45,7 +45,7 @@ CScalarFunc::CScalarFunc
 	m_efs(IMDFunction::EfsSentinel),
 	m_efda(IMDFunction::EfdaSentinel),
 	m_returns_set(false),
-	m_fReturnsNullOnNullInput(false),
+	m_returns_null_on_null_input(false),
 	m_fBoolReturnType(false)
 {
 }
@@ -73,7 +73,7 @@ CScalarFunc::CScalarFunc
 	m_return_type_modifier(return_type_modifier),
 	m_pstrFunc(pstrFunc),
 	m_returns_set(false),
-	m_fReturnsNullOnNullInput(false),
+	m_returns_null_on_null_input(false),
 	m_fBoolReturnType(false)
 {
 	GPOS_ASSERT(mdid_func->IsValid());
@@ -86,7 +86,7 @@ CScalarFunc::CScalarFunc
 	m_efda = pmdfunc->EfdaDataAccess();
 	m_returns_set = pmdfunc->FReturnsSet();
 
-	m_fReturnsNullOnNullInput = pmdfunc->FStrict();
+	m_returns_null_on_null_input = pmdfunc->FStrict();
 	m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_return_type_mdid);
 }
 
@@ -270,7 +270,7 @@ CScalarFunc::Eber
 	)
 	const
 {
-	if (m_fReturnsNullOnNullInput)
+	if (m_returns_null_on_null_input)
 	{
 		return EberNullOnAnyNullChild(pdrgpulChildren);
 	}

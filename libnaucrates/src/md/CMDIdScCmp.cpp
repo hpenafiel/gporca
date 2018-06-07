@@ -32,7 +32,7 @@ CMDIdScCmp::CMDIdScCmp
 	:
 	m_pmdidLeft(pmdidLeft),
 	m_pmdidRight(pmdidRight),
-	m_ecmpt(ecmpt),
+	m_comparision_type(ecmpt),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
 	GPOS_ASSERT(pmdidLeft->IsValid());
@@ -81,7 +81,7 @@ CMDIdScCmp::Serialize()
 			m_pmdidRight->OidObjectId(),
 			m_pmdidRight->UlVersionMajor(),
 			m_pmdidRight->UlVersionMinor(),
-			m_ecmpt
+			m_comparision_type
 			);
 }
 
@@ -169,7 +169,7 @@ CMDIdScCmp::Equals
 	
 	return m_pmdidLeft->Equals(pmdidScCmp->PmdidLeft()) && 
 			m_pmdidRight->Equals(pmdidScCmp->PmdidRight()) &&
-			m_ecmpt == pmdidScCmp->ParseCmpType(); 
+			m_comparision_type == pmdidScCmp->ParseCmpType(); 
 }
 
 //---------------------------------------------------------------------------

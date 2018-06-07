@@ -45,7 +45,7 @@ CScalarCast::CScalarCast
 	m_return_type_mdid(return_type_mdid),
 	m_func_mdid(mdid_func),
 	m_fBinaryCoercible(is_binary_coercible),
-	m_fReturnsNullOnNullInput(false),
+	m_returns_null_on_null_input(false),
 	m_fBoolReturnType(false)
 {
 	if (NULL != m_func_mdid && m_func_mdid->IsValid())
@@ -53,7 +53,7 @@ CScalarCast::CScalarCast
 		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 		const IMDFunction *pmdfunc = md_accessor->Pmdfunc(m_func_mdid);
 
-		m_fReturnsNullOnNullInput = pmdfunc->FStrict();
+		m_returns_null_on_null_input = pmdfunc->FStrict();
 		m_fBoolReturnType = CMDAccessorUtils::FBoolType(md_accessor, m_return_type_mdid);
 	}
 }

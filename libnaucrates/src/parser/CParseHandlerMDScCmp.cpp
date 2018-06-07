@@ -66,14 +66,14 @@ CParseHandlerMDScCmp::StartElement
 	}
 	
 	// parse operator name
-	const XMLCh *xmlszOpName = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *xml_str_op_name = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenName,
 														EdxltokenGPDBMDScCmp
 														);
 
-	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOpName);
+	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_op_name);
 
 
 	// parse scalar comparison properties
@@ -110,14 +110,14 @@ CParseHandlerMDScCmp::StartElement
 									);
 		
 	// parse comparison type
-	const XMLCh *xmlszCmpType = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *xml_str_comp_type = CDXLOperatorFactory::ExtractAttrValue
 								(
 								attrs,
 								EdxltokenGPDBScalarOpCmpType,
 								EdxltokenGPDBMDScCmp
 								);
 
-	IMDType::ECmpType ecmpt = CDXLOperatorFactory::ParseCmpType(xmlszCmpType);
+	IMDType::ECmpType ecmpt = CDXLOperatorFactory::ParseCmpType(xml_str_comp_type);
 	
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDScCmpGPDB(m_memory_pool, pmdid, mdname, pmdidLeft, pmdidRight, ecmpt, mdid_op);
 }

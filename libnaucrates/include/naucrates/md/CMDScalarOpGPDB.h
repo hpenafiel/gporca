@@ -49,7 +49,7 @@ namespace gpmd
 			CMDName *m_mdname;
 			
 			// type of left operand
-			IMDId *m_pmdidTypeLeft;
+			IMDId *m_mdid_type_left;
 			
 			// type of right operand
 			IMDId *m_pmdidTypeRight;
@@ -61,16 +61,16 @@ namespace gpmd
 			IMDId *m_func_mdid;
 			
 			// id of commute operator
-			IMDId *m_pmdidOpCommute;
+			IMDId *m_mdid_commute_opr;
 			
 			// id of inverse operator
-			IMDId *m_pmdidOpInverse;
+			IMDId *m_mdid_inverse_opr;
 			
 			// comparison type for comparison operators
-			IMDType::ECmpType m_ecmpt;
+			IMDType::ECmpType m_comparision_type;
 			
 			// does operator return NULL when all inputs are NULL?
-			BOOL m_fReturnsNullOnNullInput;
+			BOOL m_returns_null_on_null_input;
 			
 			// operator classes this operator belongs to
 			DrgPmdid *m_pdrgpmdidOpClasses;

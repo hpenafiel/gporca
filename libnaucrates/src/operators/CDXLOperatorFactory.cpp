@@ -2847,8 +2847,8 @@ CDXLOperatorFactory::GetScCmpMdId
 	CMDIdGPDB *pmdidRight = GetGPDBMdId(memory_manager_dxl, pdrgpxmlszRight, edxltokenAttr, edxltokenElement);
 	
 	// parse the comparison type from the last component of the mdid
-	XMLCh *xmlszCmpType = (*pdrgpxmlszRight)[pdrgpxmlszRight->Size() - 1];
-	IMDType::ECmpType ecmpt = (IMDType::ECmpType) ConvertAttrValueToUlong(memory_manager_dxl, xmlszCmpType, edxltokenAttr, edxltokenElement);
+	XMLCh *xml_str_comp_type = (*pdrgpxmlszRight)[pdrgpxmlszRight->Size() - 1];
+	IMDType::ECmpType ecmpt = (IMDType::ECmpType) ConvertAttrValueToUlong(memory_manager_dxl, xml_str_comp_type, edxltokenAttr, edxltokenElement);
 	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
 	
 	pdrgpxmlszRight->Release();
@@ -3897,7 +3897,7 @@ CDXLOperatorFactory::MakeWindowRef
 IMDType::ECmpType
 CDXLOperatorFactory::ParseCmpType
 	(
-	const XMLCh* xmlszCmpType
+	const XMLCh* xml_str_comp_type
 	)
 {
 	ULONG rgrgulMapping[][2] = 
@@ -3918,7 +3918,7 @@ CDXLOperatorFactory::ParseCmpType
 		Edxltoken edxltk = (Edxltoken) pulElem[0];
 		
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(edxltk),
-				xmlszCmpType))
+				xml_str_comp_type))
 		{
 			return (IMDType::ECmpType) pulElem[1];
 		}

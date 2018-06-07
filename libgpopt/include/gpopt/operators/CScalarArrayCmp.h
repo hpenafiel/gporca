@@ -57,7 +57,7 @@ namespace gpopt
 			EArrCmpType m_earrccmpt;
 			
 			// does operator return NULL on NULL input?
-			BOOL m_fReturnsNullOnNullInput;
+			BOOL m_returns_null_on_null_input;
 
 			// private copy ctor
 			CScalarArrayCmp(const CScalarArrayCmp &);

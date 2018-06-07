@@ -875,7 +875,7 @@ namespace gpdxl
 			
 			// parse comparison operator type
 			static
-			IMDType::ECmpType ParseCmpType(const XMLCh* xmlszCmpType);
+			IMDType::ECmpType ParseCmpType(const XMLCh* xml_str_comp_type);
 			
 			// parse the distribution policy from the given XML string
 			static

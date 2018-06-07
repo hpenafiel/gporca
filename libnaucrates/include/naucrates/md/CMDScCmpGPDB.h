@@ -53,7 +53,7 @@ namespace gpmd
 			IMDId *m_pmdidRight;
 			
 			// comparison type
-			IMDType::ECmpType m_ecmpt;
+			IMDType::ECmpType m_comparision_type;
 			
 			// comparison operator id
 			IMDId *m_mdid_op;

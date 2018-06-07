@@ -43,10 +43,10 @@ namespace gpopt
 			const CWStringConst *m_pstrOp;
 			
 			// comparison type
-			IMDType::ECmpType m_ecmpt;
+			IMDType::ECmpType m_comparision_type;
 
 			// does operator return NULL on NULL input?
-			BOOL m_fReturnsNullOnNullInput;
+			BOOL m_returns_null_on_null_input;
 
 			// is comparison commutative
 			BOOL m_fCommutative;
@@ -84,7 +84,7 @@ namespace gpopt
 			// comparison type
 			IMDType::ECmpType ParseCmpType() const
 			{
-				return m_ecmpt;
+				return m_comparision_type;
 			}
 			
 			// return a string for operator name

@@ -52,13 +52,13 @@ CScalarArrayCmp::CScalarArrayCmp
 	m_mdid_op(mdid_op),
 	m_pscOp(pstrOp),
 	m_earrccmpt(earrcmpt),
-	m_fReturnsNullOnNullInput(false)
+	m_returns_null_on_null_input(false)
 {
 	GPOS_ASSERT(mdid_op->IsValid());
 	GPOS_ASSERT(EarrcmpSentinel > earrcmpt);
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_fReturnsNullOnNullInput = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
+	m_returns_null_on_null_input = CMDAccessorUtils::FScalarOpReturnsNullOnNullInput(md_accessor, m_mdid_op);
 }
 
 
@@ -167,7 +167,7 @@ CScalarArrayCmp::Eber
 	)
 	const
 {
-	if (m_fReturnsNullOnNullInput)
+	if (m_returns_null_on_null_input)
 	{
 		return EberNullOnAnyNullChild(pdrgpulChildren);
 	}

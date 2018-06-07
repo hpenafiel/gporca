@@ -40,7 +40,7 @@ namespace gpmd
 			CMDIdGPDB *m_pmdidRight;
 	
 			// comparison type
-			IMDType::ECmpType m_ecmpt;
+			IMDType::ECmpType m_comparision_type;
 			
 			// buffer for the serialized mdid
 			WCHAR m_wszBuffer[GPDXL_MDID_LENGTH];
@@ -87,7 +87,7 @@ namespace gpmd
 			
 			IMDType::ECmpType ParseCmpType() const
 			{ 
-				return m_ecmpt;
+				return m_comparision_type;
 			}
 			
 			// equality check
@@ -102,7 +102,7 @@ namespace gpmd
 			virtual
 			BOOL IsValid() const
 			{
-				return IMDId::IsValid(m_pmdidLeft) && IMDId::IsValid(m_pmdidRight) && IMDType::EcmptOther != m_ecmpt;
+				return IMDId::IsValid(m_pmdidLeft) && IMDId::IsValid(m_pmdidRight) && IMDType::EcmptOther != m_comparision_type;
 			}
 
 			// serialize mdid in DXL as the value of the specified attribute 
