@@ -55,7 +55,7 @@ namespace gpopt
 		public:
 
 			// ctor
-			CScalarArrayRef(IMemoryPool *memory_pool, IMDId *pmdidElem, INT type_modifier, IMDId *pmdidArray, IMDId *pmdidReturn);
+			CScalarArrayRef(IMemoryPool *memory_pool, IMDId *elem_type_mdid, INT type_modifier, IMDId *array_type_mdid, IMDId *return_type_mdid);
 
 			// dtor
 			virtual

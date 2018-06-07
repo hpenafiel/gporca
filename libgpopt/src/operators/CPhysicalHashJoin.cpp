@@ -539,8 +539,8 @@ CPhysicalHashJoin::PdshashedPassThru
 		 // incoming request intersects with columns from outer child,
 		 // we restrict the request to outer child columns only, then we pass it through
 		 DrgPexpr *pdrgpexprChildRequest = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-		 const ULONG ulSize = pdrgpexprIncomingRequest->Size();
-		 for (ULONG ul = 0; ul < ulSize; ul++)
+		 const ULONG size = pdrgpexprIncomingRequest->Size();
+		 for (ULONG ul = 0; ul < size; ul++)
 		 {
 			 CExpression *pexpr = (*pdrgpexprIncomingRequest)[ul];
 			 CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed();

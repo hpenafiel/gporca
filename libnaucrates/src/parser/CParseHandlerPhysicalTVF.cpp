@@ -143,8 +143,8 @@ CParseHandlerPhysicalTVF::EndElement
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	AddChildFromParseHandler(proj_list_parse_handler);
 
-	const ULONG ulSize = this->Length();
-	for (ULONG ul = 2; ul < ulSize; ul++)
+	const ULONG size = this->Length();
+	for (ULONG ul = 2; ul < size; ul++)
 	{
 		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
 		AddChildFromParseHandler(child_parse_handler);

@@ -93,7 +93,7 @@ namespace gpdbcost
 
 			// add up array of costs
 			static
-			CCost CostSum(DOUBLE *pdCost, ULONG ulSize);
+			CCost CostSum(DOUBLE *pdCost, ULONG size);
 
 			// check if given operator is unary
 			static

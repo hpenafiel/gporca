@@ -553,10 +553,10 @@ CMemoryPoolBasicTest::Allocate
 
 	for (ULONG i = 0; i < ulCount; i++)
 	{
-		const ULONG ulSize = UlSize(i);
-		rgpb[i] = GPOS_NEW_ARRAY(memory_pool, BYTE, ulSize);
+		const ULONG size = UlSize(i);
+		rgpb[i] = GPOS_NEW_ARRAY(memory_pool, BYTE, size);
 #ifdef GPOS_DEBUG
-		(void) clib::MemSet(rgpb[i], 1, ulSize);
+		(void) clib::MemSet(rgpb[i], 1, size);
 #endif // GPOS_DEBUG
 
 		if (0 == i % GPOS_MEM_TEST_CFA)
@@ -572,8 +572,8 @@ CMemoryPoolBasicTest::Allocate
 #ifdef GPOS_DEBUG
 		GPOS_ASSERT(NULL != rgpb[i]);
 
-		const ULONG ulSize = UlSize(i);
-		for (ULONG j = 0; j < ulSize; j++)
+		const ULONG size = UlSize(i);
+		for (ULONG j = 0; j < size; j++)
 		{
 			GPOS_ASSERT(1 == rgpb[i][j]);
 		}
@@ -713,8 +713,8 @@ CMemoryPoolBasicTest::AllocateRandom
 		ULONG ulRand = clib::Rand(&ulSeed);
 		ULONG ulExp = (1 << (ulRand % ulMaxPower));
 		ULONG ulFactor = ulRand % ulMask + 1;
-		ULONG ulSize = ulFactor * ulExp * ulExp;
-		rgpb[i] = GPOS_NEW_ARRAY(memory_pool, BYTE, ulSize);
+		ULONG size = ulFactor * ulExp * ulExp;
+		rgpb[i] = GPOS_NEW_ARRAY(memory_pool, BYTE, size);
 
 		if (0 == i % GPOS_MEM_TEST_CFA)
 		{

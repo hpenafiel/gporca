@@ -1919,12 +1919,12 @@ CHistogram::UlRandomBucketIndex
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgppbucket->Size();
-	GPOS_ASSERT(0 < ulSize);
+	const ULONG size = m_pdrgppbucket->Size();
+	GPOS_ASSERT(0 < size);
 
 	DOUBLE dRandVal = ((DOUBLE) clib::Rand(pulSeed)) / RAND_MAX;
 	CDouble dAccFreq = 0;
-	for (ULONG ul = 0; ul < ulSize - 1; ul++)
+	for (ULONG ul = 0; ul < size - 1; ul++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ul];
 		dAccFreq = dAccFreq + pbucket->DFrequency();
@@ -1942,7 +1942,7 @@ CHistogram::UlRandomBucketIndex
 		}
 	}
 
-	return ulSize - 1;
+	return size - 1;
 }
 
 // estimate data skew by sampling histogram buckets,

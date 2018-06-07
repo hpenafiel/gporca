@@ -601,7 +601,7 @@ CJoinOrderDP::GenerateSubsets
 	IMemoryPool *memory_pool,
 	CBitSet *pbsCurrent,
 	ULONG *pulElems,
-	ULONG ulSize,
+	ULONG size,
 	ULONG ulIndex,
 	DrgPbs *pdrgpbsSubsets
 	)
@@ -609,12 +609,12 @@ CJoinOrderDP::GenerateSubsets
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_CHECK_ABORT;
 
-	GPOS_ASSERT(ulIndex <= ulSize);
+	GPOS_ASSERT(ulIndex <= size);
 	GPOS_ASSERT(NULL != pbsCurrent);
 	GPOS_ASSERT(NULL != pulElems);
 	GPOS_ASSERT(NULL != pdrgpbsSubsets);
 
-	if (ulIndex == ulSize)
+	if (ulIndex == size)
 	{
 		pdrgpbsSubsets->Append(pbsCurrent);
 		return;
@@ -627,8 +627,8 @@ CJoinOrderDP::GenerateSubsets
 		pbsCopy->ExchangeSet(pulElems[ulIndex]);
 	GPOS_ASSERT(!fSet);
 
-	GenerateSubsets(memory_pool, pbsCopy, pulElems, ulSize, ulIndex + 1, pdrgpbsSubsets);
-	GenerateSubsets(memory_pool, pbsCurrent, pulElems, ulSize, ulIndex + 1, pdrgpbsSubsets);
+	GenerateSubsets(memory_pool, pbsCopy, pulElems, size, ulIndex + 1, pdrgpbsSubsets);
+	GenerateSubsets(memory_pool, pbsCurrent, pulElems, size, ulIndex + 1, pdrgpbsSubsets);
 }
 
 //---------------------------------------------------------------------------
@@ -646,8 +646,8 @@ CJoinOrderDP::PdrgpbsSubsets
 	CBitSet *pbs
 	)
 {
-	const ULONG ulSize = pbs->Size();
-	ULONG *pulElems = GPOS_NEW_ARRAY(memory_pool, ULONG, ulSize);
+	const ULONG size = pbs->Size();
+	ULONG *pulElems = GPOS_NEW_ARRAY(memory_pool, ULONG, size);
 	ULONG ul = 0;
 	CBitSetIter bsi(*pbs);
 	while (bsi.Advance())
@@ -657,7 +657,7 @@ CJoinOrderDP::PdrgpbsSubsets
 
 	CBitSet *pbsCurrent = GPOS_NEW(memory_pool) CBitSet(memory_pool);
 	DrgPbs *pdrgpbsSubsets = GPOS_NEW(memory_pool) DrgPbs(memory_pool);
-	GenerateSubsets(memory_pool, pbsCurrent, pulElems, ulSize, 0, pdrgpbsSubsets);
+	GenerateSubsets(memory_pool, pbsCurrent, pulElems, size, 0, pdrgpbsSubsets);
 	GPOS_DELETE_ARRAY(pulElems);
 
 	return pdrgpbsSubsets;

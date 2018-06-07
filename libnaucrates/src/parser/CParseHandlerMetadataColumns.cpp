@@ -121,9 +121,9 @@ CParseHandlerMetadataColumns::EndElement
 		// end of the columns' list
 		GPOS_ASSERT(NULL != m_pdrgpmdcol);
 		
-		const ULONG ulSize = this->Length();
+		const ULONG size = this->Length();
 		// add parsed columns to the list
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			CParseHandlerMetadataColumn *pphCol = dynamic_cast<CParseHandlerMetadataColumn *>((*this)[ul]);
 			

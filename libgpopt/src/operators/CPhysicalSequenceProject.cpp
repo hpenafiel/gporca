@@ -84,8 +84,8 @@ CPhysicalSequenceProject::CreateOrderSpec
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(m_pds);
 
 		const DrgPexpr *pdrgpexpr = pdshashed->Pdrgpexpr();
-		const ULONG ulSize = pdrgpexpr->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = pdrgpexpr->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			CExpression *pexpr = (*pdrgpexpr)[ul];
 			// we assume partition-by keys are always scalar idents
@@ -118,8 +118,8 @@ CPhysicalSequenceProject::CreateOrderSpec
 	// we assume here that the first order spec in the children array satisfies all other
 	// order specs in the array, this happens as part of the initial normalization
 	// so we need to add columns only from the first order spec
-	const ULONG ulSize = posFirst->UlSortColumns();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = posFirst->UlSortColumns();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		const CColRef *pcr = posFirst->Pcr(ul);
 		gpmd::IMDId *pmdid = posFirst->PmdidSortOp(ul);
@@ -159,8 +159,8 @@ CPhysicalSequenceProject::ComputeRequiredLocalColumns
 	}
 
 	// add the columns used in the window frames
-	const ULONG ulSize = m_pdrgpwf->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = m_pdrgpwf->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CWindowFrame *pwf = (*m_pdrgpwf)[ul];
 		if (NULL != pwf->PexprLeading())

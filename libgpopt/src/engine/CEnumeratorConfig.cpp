@@ -235,7 +235,7 @@ CEnumeratorConfig::GussianKernelDensity
 	ULONG ulObservations,
 	DOUBLE *pdX, // input: X-values we need to compute estimates for
 	DOUBLE *pdY, // output: estimated Y-values for given X-values
-	ULONG ulSize // number of input X-values
+	ULONG size // number of input X-values
 	)
 {
 	GPOS_ASSERT(NULL != pdObervationX);
@@ -263,7 +263,7 @@ CEnumeratorConfig::GussianKernelDensity
 
 	// kernel bandwidth set to 1% of distribution span
 	DOUBLE dBandWidth = 0.01 * (dMax - dMin);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		DOUBLE dx = pdX[ul];
 		DOUBLE dy = 0;

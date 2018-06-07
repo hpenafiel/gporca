@@ -737,12 +737,12 @@ CUtils::PexprCollapseConstArray
 		}
 
 		CScalarArray *psArray = CScalarArray::PopConvert(pexprArray->Pop());
-		IMDId *pmdidElem = psArray->PmdidElem();
-		IMDId *pmdidArray = psArray->PmdidArray();
-		pmdidElem->AddRef();
-		pmdidArray->AddRef();
+		IMDId *elem_type_mdid = psArray->PmdidElem();
+		IMDId *array_type_mdid = psArray->PmdidArray();
+		elem_type_mdid->AddRef();
+		array_type_mdid->AddRef();
 
-		CScalarArray *pConstArray = GPOS_NEW(memory_pool) CScalarArray(memory_pool, pmdidElem, pmdidArray, psArray->FMultiDimensional(), pdrgPconst);
+		CScalarArray *pConstArray = GPOS_NEW(memory_pool) CScalarArray(memory_pool, elem_type_mdid, array_type_mdid, psArray->FMultiDimensional(), pdrgPconst);
 		return GPOS_NEW(memory_pool) CExpression(memory_pool, pConstArray);
 	}
 
@@ -1549,11 +1549,11 @@ CUtils::PdrgpexprDedup
 	DrgPexpr *pdrgpexpr
 	)
 {
-	const ULONG ulSize = pdrgpexpr->Size();
+	const ULONG size = pdrgpexpr->Size();
 	DrgPexpr *pdrgpexprDedup = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	HSExpr *phsexpr = GPOS_NEW(memory_pool) HSExpr(memory_pool);
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
 		pexpr->AddRef();
@@ -1697,8 +1697,8 @@ CUtils::UlOccurrences
 	GPOS_ASSERT(NULL != pexpr);
 	ULONG ulCount = 0;
 
-	const ULONG ulSize = pdrgpexpr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexpr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		if (Equals(pexpr, (*pdrgpexpr)[ul]))
 		{
@@ -1719,9 +1719,9 @@ CUtils::FEqualAny
 {
 	GPOS_ASSERT(NULL != pexpr);
 
-	const ULONG ulSize = pdrgpexpr->Size();
+	const ULONG size = pdrgpexpr->Size();
 	BOOL fEqual = false;
-	for (ULONG ul = 0; !fEqual && ul < ulSize; ul++)
+	for (ULONG ul = 0; !fEqual && ul < size; ul++)
 	{
 		fEqual = Equals(pexpr, (*pdrgpexpr)[ul]);
 	}
@@ -1750,9 +1750,9 @@ CUtils::FContains
 		return false;
 	}
 
-	const ULONG ulSize = pdrgpexprSnd->Size();
+	const ULONG size = pdrgpexprSnd->Size();
 	BOOL fContains = true;
-	for (ULONG ul = 0; fContains && ul < ulSize; ul++)
+	for (ULONG ul = 0; fContains && ul < size; ul++)
 	{
 		fContains = FEqualAny((*pdrgpexprSnd)[ul], pdrgpexprFst);
 	}
@@ -2179,8 +2179,8 @@ CUtils::PexprGbAggSum
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulSize = pdrgpcrSum->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcrSum->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *pcr = (*pdrgpcrSum)[ul];
 		CExpression *pexprSum = PexprSum(memory_pool, pcr);
@@ -2875,8 +2875,8 @@ CUtils::PdrgpcrsCopyChildEquivClasses
 			DrgPcrs *pdrgpcrsChild = pdprel->Ppc()->PdrgpcrsEquivClasses();
 
 			DrgPcrs *pdrgpcrsChildCopy = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
-			const ULONG ulSize = pdrgpcrsChild->Size();
-			for (ULONG ulInner = 0; ulInner < ulSize; ulInner++)
+			const ULONG size = pdrgpcrsChild->Size();
+			for (ULONG ulInner = 0; ulInner < size; ulInner++)
 			{
 				CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, *(*pdrgpcrsChild)[ulInner]);
 				pdrgpcrsChildCopy->Append(pcrs);
@@ -3427,8 +3427,8 @@ CUtils::FComparisonPossible
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(0 < pdrgpcr->Size());
 
-	const ULONG ulSize = pdrgpcr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		const IMDType *pmdtype = pcr->Pmdtype();
@@ -3475,8 +3475,8 @@ CUtils::PdrgpcrRedistributableSubset
 	GPOS_ASSERT(0 < pdrgpcr->Size());
 
 	DrgPcr *pdrgpcrRedist = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
-	const ULONG ulSize = pdrgpcr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		const IMDType *pmdtype = pcr->Pmdtype();
@@ -3499,8 +3499,8 @@ CUtils::FHashable
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(0 < pdrgpcr->Size());
 
-	const ULONG ulSize = pdrgpcr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		const IMDType *pmdtype = pcr->Pmdtype();
@@ -3577,8 +3577,8 @@ CUtils::FFunctionallyDependent
 
 	if (pdrgpfd != NULL)
 	{
-		const ULONG ulSize = pdrgpfd->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = pdrgpfd->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			CFunctionalDependency *pfd = (*pdrgpfd)[ul];
 			if (pfd->FFunctionallyDependent(pcrsKey, pcr))
@@ -4098,8 +4098,8 @@ CUtils::UlPcrIndexContainingSet
 {
 	GPOS_ASSERT(NULL != pdrgpcrs);
 
-	const ULONG ulSize = pdrgpcrs->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcrs->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrs)[ul];
 		if (pcrs->FMember(pcr))
@@ -4319,11 +4319,11 @@ CBitSet *
 CUtils::PbsAllSet
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulSize
+	ULONG size
 	)
 {
-	CBitSet *pbs = GPOS_NEW(memory_pool) CBitSet(memory_pool, ulSize);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	CBitSet *pbs = GPOS_NEW(memory_pool) CBitSet(memory_pool, size);
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		pbs->ExchangeSet(ul);
 	}

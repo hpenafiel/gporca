@@ -126,10 +126,10 @@ CParseHandlerScalarArrayRefIndexList::EndElement
 	}
 
 	// add constructed children from child parse handlers
-	const ULONG ulSize = this->Length();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = this->Length();
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[idx]);
 		AddChildFromParseHandler(child_parse_handler);
 	}
 

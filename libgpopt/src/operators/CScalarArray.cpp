@@ -27,18 +27,18 @@ using namespace gpmd;
 CScalarArray::CScalarArray
 	(
 	IMemoryPool *memory_pool, 
-	IMDId *pmdidElem, 
-	IMDId *pmdidArray, 
+	IMDId *elem_type_mdid, 
+	IMDId *array_type_mdid, 
 	BOOL fMultiDimensional
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidElem(pmdidElem),
-	m_pmdidArray(pmdidArray),
+	m_pmdidElem(elem_type_mdid),
+	m_pmdidArray(array_type_mdid),
 	m_fMultiDimensional(fMultiDimensional)
 {
-	GPOS_ASSERT(pmdidElem->IsValid());
-	GPOS_ASSERT(pmdidArray->IsValid());
+	GPOS_ASSERT(elem_type_mdid->IsValid());
+	GPOS_ASSERT(array_type_mdid->IsValid());
 	m_pdrgPconst = GPOS_NEW(memory_pool) DrgPconst(memory_pool);
 }
 
@@ -47,20 +47,20 @@ CScalarArray::CScalarArray
 CScalarArray::CScalarArray
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidElem,
-	IMDId *pmdidArray,
+	IMDId *elem_type_mdid,
+	IMDId *array_type_mdid,
 	BOOL fMultiDimensional,
 	DrgPconst *pdrgPconst
 	)
 :
 CScalar(memory_pool),
-m_pmdidElem(pmdidElem),
-m_pmdidArray(pmdidArray),
+m_pmdidElem(elem_type_mdid),
+m_pmdidArray(array_type_mdid),
 m_fMultiDimensional(fMultiDimensional),
 m_pdrgPconst(pdrgPconst)
 {
-	GPOS_ASSERT(pmdidElem->IsValid());
-	GPOS_ASSERT(pmdidArray->IsValid());
+	GPOS_ASSERT(elem_type_mdid->IsValid());
+	GPOS_ASSERT(array_type_mdid->IsValid());
 }
 
 // Dtor

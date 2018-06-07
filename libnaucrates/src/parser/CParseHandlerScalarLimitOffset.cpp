@@ -106,10 +106,10 @@ CParseHandlerScalarLimitOffset::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
-	if (0 < ulSize)
+	const ULONG size = this->Length();
+	if (0 < size)
 	{
-		GPOS_ASSERT(1 == ulSize);
+		GPOS_ASSERT(1 == size);
 		// limit Offset node was not empty
 		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 

@@ -346,7 +346,7 @@ namespace gpopt
 
 			// compute Gaussian kernel density
 			static
-			void GussianKernelDensity(DOUBLE *pdObervationX, DOUBLE *pdObervationY, ULONG ulObservations, DOUBLE *pdX, DOUBLE *pdY, ULONG ulSize);
+			void GussianKernelDensity(DOUBLE *pdObervationX, DOUBLE *pdObervationY, ULONG ulObservations, DOUBLE *pdX, DOUBLE *pdY, ULONG size);
 
 			// generate default enumerator configurations
 			static

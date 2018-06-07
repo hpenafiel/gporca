@@ -107,8 +107,8 @@ CCTEInfo::CCTEInfoEntry::AddConsumerCols
 {
 	GPOS_ASSERT(NULL != pdrgpcr);
 
-	const ULONG ulSize = pdrgpcr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		if (NULL == m_phmcrulConsumers->Find(pcr))

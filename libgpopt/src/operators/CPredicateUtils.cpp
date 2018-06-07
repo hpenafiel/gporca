@@ -351,8 +351,8 @@ CPredicateUtils::PdrgpexprExpandDisjuncts
 	GPOS_ASSERT(NULL != pdrgpexprDisjuncts);
 
 	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulSize = pdrgpexprDisjuncts->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexprDisjuncts->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprDisjuncts)[ul];
 		if (COperator::EopScalarArrayCmp == pexpr->Pop()->Eopid())
@@ -406,8 +406,8 @@ CPredicateUtils::PdrgpexprExpandConjuncts
 	GPOS_ASSERT(NULL != pdrgpexprConjuncts);
 
 	DrgPexpr *pdrgpexprExpanded = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	const ULONG ulSize = pdrgpexprConjuncts->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexprConjuncts->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprConjuncts)[ul];
 		if (COperator::EopScalarArrayCmp == pexpr->Pop()->Eopid())
@@ -488,9 +488,9 @@ CPredicateUtils::EcmptReverse
 			{ IMDType::EcmptGEq, IMDType::EcmptLEq }, { IMDType::EcmptNEq,
 					IMDType::EcmptNEq } };
 
-	const ULONG ulSize = GPOS_ARRAY_SIZE(rgrgecmpt);
+	const ULONG size = GPOS_ARRAY_SIZE(rgrgecmpt);
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		IMDType::ECmpType *pecmpt = rgrgecmpt[ul];
 
@@ -698,13 +698,13 @@ CPredicateUtils::PexprConjDisj
 	DrgPexpr *pdrgpexprFinal = pdrgpexpr;
 
 	pdrgpexprFinal = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	ULONG ulSize = 0;
+	ULONG size = 0;
 	if (NULL != pdrgpexpr)
 	{
-		ulSize = pdrgpexpr->Size();
+		size = pdrgpexpr->Size();
 	}
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
 
@@ -1306,11 +1306,11 @@ CPredicateUtils::PexprPartPruningPredicate
 	CColRefSet *pcrsAllowedRefs
 	)
 {
-	const ULONG ulSize = pdrgpexpr->Size();
+	const ULONG size = pdrgpexpr->Size();
 
 	DrgPexpr *pdrgpexprResult = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexpr)[ul];
 
@@ -2053,8 +2053,8 @@ CPredicateUtils::SeparateOuterRefs
 	DrgPexpr *pdrgpexprLocal = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprOuterRefs = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulSize = pdrgpexpr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexpr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexpr)[ul];
 		CColRefSet *pcrsPredUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
@@ -2201,8 +2201,8 @@ CPredicateUtils::FImpliedPredicate
 	GPOS_ASSERT(FCheckPredicateImplication(pexprPred));
 
 	CColRefSet *pcrsUsed = CDrvdPropScalar::Pdpscalar(pexprPred->PdpDerive())->PcrsUsed();
-	const ULONG ulSize = pdrgpcrsEquivClasses->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcrsEquivClasses->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRefSet *pcrs = (*pdrgpcrsEquivClasses)[ul];
 		if (pcrs->ContainsAll(pcrsUsed))
@@ -2235,9 +2235,9 @@ CPredicateUtils::PexprRemoveImpliedConjuncts
 
 	// extract all the conjuncts
 	DrgPexpr *pdrgpexprConjuncts = PdrgpexprConjuncts(memory_pool, pexprScalar);
-	const ULONG ulSize = pdrgpexprConjuncts->Size();
+	const ULONG size = pdrgpexprConjuncts->Size();
 	DrgPexpr *pdrgpexprNewConjuncts = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprConj = (*pdrgpexprConjuncts)[ul];
 		if (FCheckPredicateImplication(pexprConj) && FImpliedPredicate(pexprConj, pdrgpcrs))
@@ -2325,9 +2325,9 @@ CPredicateUtils::FSimpleEqualityUsingCols
 
 	// break expression into conjuncts
 	DrgPexpr *pdrgpexpr = PdrgpexprConjuncts(memory_pool, pexprScalar);
-	const ULONG ulSize = pdrgpexpr->Size();
+	const ULONG size = pdrgpexpr->Size();
 	BOOL fSuccess = true;
-	for (ULONG ul = 0; fSuccess && ul < ulSize; ul++)
+	for (ULONG ul = 0; fSuccess && ul < size; ul++)
 	{
 		// join predicate must be an equality of scalar idents and uses columns from given set
 		CExpression *pexprConj = (*pdrgpexpr)[ul];

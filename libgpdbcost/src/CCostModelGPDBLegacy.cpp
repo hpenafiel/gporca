@@ -187,7 +187,7 @@ CCostModelGPDBLegacy::CostUnary
 	GPOS_ASSERT(NULL != pcp);
 
 	CCost costLocal = CCost(dRebinds * CostTupleProcessing(dRows, dWidth, pcp).Get());
-	CCost costChild = CostSum(pdcostChildren, 1 /*ulSize*/);
+	CCost costChild = CostSum(pdcostChildren, 1 /*size*/);
 
 	return costLocal + costChild;
 }
@@ -280,13 +280,13 @@ CCost
 CCostModelGPDBLegacy::CostSum
 	(
 	DOUBLE *pdCost,
-	ULONG ulSize
+	ULONG size
 	)
 {
 	GPOS_ASSERT(NULL != pdCost);
 
 	DOUBLE dRes = 1.0;
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		dRes = dRes + pdCost[ul];
 	}
@@ -1065,10 +1065,10 @@ CCostModelGPDBLegacy::Cost
 	}
 
 	FnCost *pfnc = NULL;
-	const ULONG ulSize = GPOS_ARRAY_SIZE(m_rgcm);
+	const ULONG size = GPOS_ARRAY_SIZE(m_rgcm);
 
 	// find the cost function corresponding to the given operator
-	for (ULONG ul = 0; pfnc == NULL && ul < ulSize; ul++)
+	for (ULONG ul = 0; pfnc == NULL && ul < size; ul++)
 	{
 		if (eopid == m_rgcm[ul].m_eopid)
 		{

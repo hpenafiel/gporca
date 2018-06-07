@@ -42,7 +42,7 @@ namespace gpopt
 
 			// helper for testing engine using an array of expression generators
 			static
-			GPOS_RESULT EresTestEngine(Pfpexpr rgpf[], ULONG ulSize);
+			GPOS_RESULT EresTestEngine(Pfpexpr rgpf[], ULONG size);
 
 #endif // GPOS_DEBUG
 

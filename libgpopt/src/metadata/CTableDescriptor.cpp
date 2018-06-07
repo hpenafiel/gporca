@@ -242,9 +242,9 @@ CTableDescriptor::FAddKeySet
 	GPOS_ASSERT(NULL != pbs);
 	GPOS_ASSERT(pbs->Size() <= m_pdrgpcoldesc->Size());
 	
-	const ULONG ulSize = m_pdrgpbsKeys->Size();
+	const ULONG size = m_pdrgpbsKeys->Size();
 	BOOL fFound = false;
-	for (ULONG ul = 0; !fFound && ul < ulSize; ul++)
+	for (ULONG ul = 0; !fFound && ul < size; ul++)
 	{
 		CBitSet *pbsCurrent = (*m_pdrgpbsKeys)[ul];
 		fFound = pbsCurrent->Equals(pbs);

@@ -251,8 +251,8 @@ CXformSimplifySubquery::Transform
 
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 	CExpression *pexprInput = pexpr;
-	const ULONG ulSize = GPOS_ARRAY_SIZE(m_rgssm);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = GPOS_ARRAY_SIZE(m_rgssm);
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprOuter = (*pexprInput)[0];
 		CExpression *pexprScalar = (*pexprInput)[1];

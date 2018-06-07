@@ -484,7 +484,7 @@ CUnittest::Driver
 			if (pbv->Get(i))
 			{
 				CUnittest &ut = CUnittest::m_rgut[i];
-				GPOS_RESULT eres = EresExecute(&ut, 1 /*ulSize*/);
+				GPOS_RESULT eres = EresExecute(&ut, 1 /*size*/);
 				GPOS_ASSERT((GPOS_OK == eres || GPOS_FAILED == eres)
 							&& "Unexpected result from unittest");
 

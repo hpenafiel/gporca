@@ -44,14 +44,14 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	IMDId *pmdid,
 	INT type_modifier,
 	const void *pv,
-	ULONG ulSize,
+	ULONG size,
 	BOOL is_null,
 	LINT lValue,
 	CDouble dValue
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_ulSize(ulSize),
+	m_size(size),
 	m_pbVal(NULL),
 	m_is_null(is_null),
 	m_mdid(pmdid),
@@ -64,10 +64,10 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	
 	if (!IsNull())
 	{
-		GPOS_ASSERT(0 < ulSize);
+		GPOS_ASSERT(0 < size);
 
-		m_pbVal = GPOS_NEW_ARRAY(m_memory_pool, BYTE, ulSize);
-		(void) clib::MemCpy(m_pbVal, pv, ulSize);
+		m_pbVal = GPOS_NEW_ARRAY(m_memory_pool, BYTE, size);
+		(void) clib::MemCpy(m_pbVal, pv, size);
 	}
 }
 
@@ -112,7 +112,7 @@ CDatumGenericGPDB::IsNull() const
 ULONG
 CDatumGenericGPDB::UlSize() const
 {
-	return m_ulSize;
+	return m_size;
 }
 
 
@@ -156,8 +156,8 @@ CDatumGenericGPDB::HashValue() const
 	else
 	{
 		ulHash = gpos::HashValue<BYTE>(&m_pbVal[0]);
-		ULONG ulSize = UlSize();
-		for (ULONG i = 1; i < ulSize; i++)
+		ULONG size = UlSize();
+		for (ULONG i = 1; i < size; i++)
 		{
 			ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<BYTE>(&m_pbVal[i]));
 		}
@@ -203,8 +203,8 @@ CDatumGenericGPDB::Pstr
 	}
 
 	// print hex representation of bytes
-	ULONG ulSize = UlSize();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	ULONG size = UlSize();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		str.AppendFormat(GPOS_WSZ_LIT("%02X"), m_pbVal[ul]);
 	}
@@ -268,7 +268,7 @@ CDatumGenericGPDB::PdatumCopy
 	m_mdid->AddRef();
 	
 	// CDatumGenericGPDB makes a copy of the buffer
-	return GPOS_NEW(memory_pool) CDatumGenericGPDB(memory_pool, m_mdid, m_type_modifier, m_pbVal, m_ulSize, m_is_null, m_val, m_dValue);
+	return GPOS_NEW(memory_pool) CDatumGenericGPDB(memory_pool, m_mdid, m_type_modifier, m_pbVal, m_size, m_is_null, m_val, m_dValue);
 }
 
 
@@ -392,12 +392,12 @@ CDatumGenericGPDB::FStatsEqual
 	const CDatumGenericGPDB *pdatumgenericgpdb
 				= dynamic_cast<const CDatumGenericGPDB *> (pdatum);
 
-	ULONG ulSize = this->UlSize();
-	if (ulSize == pdatumgenericgpdb->UlSize())
+	ULONG size = this->UlSize();
+	if (size == pdatumgenericgpdb->UlSize())
 	{
 		const BYTE *pb1 = m_pbVal;
 		const BYTE *pb2 = pdatumgenericgpdb->m_pbVal;
-		return (clib::MemCmp(pb1, pb2, ulSize) == 0);
+		return (clib::MemCmp(pb1, pb2, size) == 0);
 	}
 
 	return false;

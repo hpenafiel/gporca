@@ -29,17 +29,17 @@ using namespace gpdxl;
 CDXLScalarArrayRef::CDXLScalarArrayRef
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidElem,
+	IMDId *elem_type_mdid,
 	INT type_modifier,
-	IMDId *pmdidArray,
-	IMDId *pmdidReturn
+	IMDId *array_type_mdid,
+	IMDId *return_type_mdid
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidElem(pmdidElem),
+	m_pmdidElem(elem_type_mdid),
 	m_type_modifier(type_modifier),
-	m_pmdidArray(pmdidArray),
-	m_pmdidReturn(pmdidReturn)
+	m_pmdidArray(array_type_mdid),
+	m_pmdidReturn(return_type_mdid)
 {
 	GPOS_ASSERT(m_pmdidElem->IsValid());
 	GPOS_ASSERT(m_pmdidArray->IsValid());

@@ -3881,8 +3881,8 @@ CTestUtils::EresSamplePlans
 
 				// print fitted cost distribution
 				at.Os() << "Cost Distribution: " << std::endl;
-				const ULONG ulSize = optimizer_config->GetEnumeratorCfg()->UlCostDistrSize();
-				for (ULONG ul = 0; ul < ulSize; ul++)
+				const ULONG size = optimizer_config->GetEnumeratorCfg()->UlCostDistrSize();
+				for (ULONG ul = 0; ul < size; ul++)
 				{
 					at.Os() << optimizer_config->GetEnumeratorCfg()->DCostDistrX(ul) << "\t" << optimizer_config->GetEnumeratorCfg()->DCostDistrY(ul) << std::endl;
 				}

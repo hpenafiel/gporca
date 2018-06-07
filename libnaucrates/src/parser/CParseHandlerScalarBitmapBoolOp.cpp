@@ -109,11 +109,11 @@ CParseHandlerScalarBitmapBoolOp::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
-	GPOS_ASSERT(2 == ulSize);
+	const ULONG size = this->Length();
+	GPOS_ASSERT(2 == size);
 
 	// add constructed children from child parse handlers
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerOp *pph = dynamic_cast<CParseHandlerOp*>((*this)[ul]);
 		AddChildFromParseHandler(pph);

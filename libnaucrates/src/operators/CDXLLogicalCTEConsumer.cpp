@@ -99,8 +99,8 @@ CDXLLogicalCTEConsumer::IsColDefined
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgpulColIds->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = m_pdrgpulColIds->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		ULONG id = *((*m_pdrgpulColIds)[ul]);
 		if (id == col_id)

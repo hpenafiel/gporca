@@ -135,21 +135,21 @@ CParseHandlerScalarBoolExpr::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
+	const ULONG size = this->Length();
 	// If the operation is NOT then it only has one child.
 	if (
 	    ((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->EdxlBoolType() == Edxlnot)
-		&& (1 != ulSize))
+		&& (1 != size))
 		||
 		((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->EdxlBoolType() != Edxlnot)
-		&& (2 > ulSize))
+		&& (2 > size))
 	  )
 	{
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLIncorrectNumberOfChildren, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 	}
 
 	// add constructed children from child parse handlers
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerScalarOp *pph = dynamic_cast<CParseHandlerScalarOp*>((*this)[ul]);
 		AddChildFromParseHandler(pph);

@@ -68,10 +68,10 @@ CColRefSet::CColRefSet
 	(
 	IMemoryPool *memory_pool,
 	const DrgPcr *pdrgpcr,
-	ULONG ulSize
+	ULONG size
 	)
 	:
-	CBitSet(memory_pool, ulSize)
+	CBitSet(memory_pool, size)
 {
 	Include(pdrgpcr);
 }
@@ -353,11 +353,11 @@ CColRefSet::Pdrgpcr
 ULONG
 CColRefSet::HashValue()
 {
-	ULONG ulSize = this->Size();
-	ULONG ulHash = gpos::HashValue<ULONG>(&ulSize);
+	ULONG size = this->Size();
+	ULONG ulHash = gpos::HashValue<ULONG>(&size);
 	
 	// limit the number of columns used in hash computation
-	ULONG ulLen = std::min(ulSize, (ULONG) 8);
+	ULONG ulLen = std::min(size, (ULONG) 8);
 
 	CColRefSetIter crsi(*this);
 	for (ULONG i = 0; i < ulLen; i++)

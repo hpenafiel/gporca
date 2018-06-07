@@ -326,11 +326,11 @@ CCostModelGPDB::CostChildren
 	GPOS_ASSERT(NULL != pcp);
 
 	DOUBLE *pdCost = pci->PdCost();
-	const ULONG ulSize = pci->ChildCount();
+	const ULONG size = pci->ChildCount();
 	BOOL fFilterParent = (COperator::EopPhysicalFilter == exprhdl.Pop()->Eopid());
 
 	DOUBLE dRes = 0.0;
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		DOUBLE dCostChild = pdCost[ul];
 		COperator *popChild = exprhdl.Pop(ul);
@@ -375,10 +375,10 @@ CCostModelGPDB::CostMaxChild
 	GPOS_ASSERT(NULL != pci);
 
 	DOUBLE *pdCost = pci->PdCost();
-	const ULONG ulSize = pci->ChildCount();
+	const ULONG size = pci->ChildCount();
 
 	DOUBLE dRes = 0.0;
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		if (pdCost[ul] > dRes)
 		{
@@ -1567,10 +1567,10 @@ CCostModelGPDB::Cost
 	}
 
 	FnCost *pfnc = NULL;
-	const ULONG ulSize = GPOS_ARRAY_SIZE(m_rgcm);
+	const ULONG size = GPOS_ARRAY_SIZE(m_rgcm);
 
 	// find the cost function corresponding to the given operator
-	for (ULONG ul = 0; pfnc == NULL && ul < ulSize; ul++)
+	for (ULONG ul = 0; pfnc == NULL && ul < size; ul++)
 	{
 		if (eopid == m_rgcm[ul].m_eopid)
 		{

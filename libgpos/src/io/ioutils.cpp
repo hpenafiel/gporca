@@ -521,11 +521,11 @@ gpos::ioutils::CreateTempDir
 #ifdef GPOS_DEBUG
 	const SIZE_T ulNumOfCmp = 6;
 
-	SIZE_T ulSize = clib::StrLen(dir_path);
+	SIZE_T size = clib::StrLen(dir_path);
 
-	GPOS_ASSERT(ulSize > ulNumOfCmp);
+	GPOS_ASSERT(size > ulNumOfCmp);
 
-	GPOS_ASSERT(0 == clib::MemCmp("XXXXXX", dir_path + (ulSize - ulNumOfCmp), ulNumOfCmp));
+	GPOS_ASSERT(0 == clib::MemCmp("XXXXXX", dir_path + (size - ulNumOfCmp), ulNumOfCmp));
 #endif	// GPOS_DEBUG
 
 	CHAR* szRes = NULL;

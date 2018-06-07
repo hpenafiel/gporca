@@ -641,11 +641,11 @@ CExpressionPreprocessorTest::EresCompareExpressions
 	(
 	IMemoryPool *memory_pool,
 	CWStringDynamic *rgstr[],
-	ULONG ulSize
+	ULONG size
 	)
 {
 	// check equality of processed expressions with/without the duplicate Select below Window
-	for (ULONG ul = 0; ul < ulSize; ul+=2)
+	for (ULONG ul = 0; ul < size; ul+=2)
 	{
 		CWStringDynamic *pstrFst = rgstr[ul];
 		CWStringDynamic *pstrSnd = rgstr[ul + 1];

@@ -34,13 +34,13 @@ namespace gpdxl
 		private:
 
 			// number of index lists parsed
-			ULONG m_ulIndexLists;
+			ULONG m_parse_index_lists;
 
 			// whether the parser is currently parsing the ref expr
-			BOOL m_fParsingRefExpr;
+			BOOL m_parsing_ref_expr;
 
 			// whether the parser is currently parsing the assign expr
-			BOOL m_fParsingAssignExpr;
+			BOOL m_parsing_assign_expr;
 
 			// private copy ctor
 			CParseHandlerScalarArrayRef(const CParseHandlerScalarArrayRef&);

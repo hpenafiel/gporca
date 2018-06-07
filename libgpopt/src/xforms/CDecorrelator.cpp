@@ -242,9 +242,9 @@ CDecorrelator::FProcessOperator
 {
 	FnProcessor *pfnp = NULL;
 	COperator::EOperatorId eopid = pexpr->Pop()->Eopid();
-	const ULONG ulSize = GPOS_ARRAY_SIZE(m_rgopproc);
+	const ULONG size = GPOS_ARRAY_SIZE(m_rgopproc);
 	// find the handler corresponding to the given operator
-	for (ULONG ul = 0; pfnp == NULL && ul < ulSize; ul++)
+	for (ULONG ul = 0; pfnp == NULL && ul < size; ul++)
 	{
 		if (eopid == m_rgopproc[ul].m_eopid)
 		{

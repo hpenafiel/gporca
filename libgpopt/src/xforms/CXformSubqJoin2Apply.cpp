@@ -108,8 +108,8 @@ CXformSubqJoin2Apply::CollectSubqueries
 		pcrsOuter->Union(CDrvdPropScalar::Pdpscalar(pexpr->PdpDerive())->PcrsUsed());
 
 		ULONG ulChildIndex = ULONG_MAX;
-		const ULONG ulSize = pdrgpcrs->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = pdrgpcrs->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			CColRefSet *pcrsOutput = (*pdrgpcrs)[ul];
 			if (pcrsOutput->ContainsAll(pcrsOuter))

@@ -557,9 +557,9 @@ COrderSpec::Equals
 		return false;
 	}
 
-	const ULONG ulSize = pdrgposFirst->Size();
+	const ULONG size = pdrgposFirst->Size();
 	BOOL fMatch = true;
-	for (ULONG ul = 0; fMatch && ul < ulSize; ul++)
+	for (ULONG ul = 0; fMatch && ul < size; ul++)
 	{
 		fMatch = (*pdrgposFirst)[ul]->FMatch((*pdrgposSecond)[ul]);
 	}
@@ -584,10 +584,10 @@ COrderSpec::HashValue
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpos);
-	ULONG ulSize = std::min(ulMaxSize, pdrgpos->Size());
+	ULONG size = std::min(ulMaxSize, pdrgpos->Size());
 
 	ULONG ulHash = 0;
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		ulHash = gpos::CombineHashes(ulHash, (*pdrgpos)[ul]->HashValue());
 	}
@@ -611,17 +611,17 @@ COrderSpec::OsPrint
 	const DrgPos *pdrgpos
 	)
 {
-	const ULONG ulSize = pdrgpos->Size();
+	const ULONG size = pdrgpos->Size();
 	os	<< "[";
-	if (0 < ulSize)
+	if (0 < size)
 	{
-		for (ULONG ul = 0; ul < ulSize - 1; ul++)
+		for (ULONG ul = 0; ul < size - 1; ul++)
 		{
 			(void) (*pdrgpos)[ul]->OsPrint(os);
 			os <<	", ";
 		}
 
-		(void) (*pdrgpos)[ulSize - 1]->OsPrint(os);
+		(void) (*pdrgpos)[size - 1]->OsPrint(os);
 	}
 
 	return os << "]";

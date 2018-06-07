@@ -117,8 +117,8 @@ CParseHandlerSearchStrategy::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = this->Length();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerSearchStage *pphSearchStage = dynamic_cast<CParseHandlerSearchStage*>((*this)[ul]);
 		CXformSet *pxfs = pphSearchStage->Pxfs();

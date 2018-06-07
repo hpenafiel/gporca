@@ -964,7 +964,7 @@ namespace gpopt
 
 			// create a new bitset of the given length, where all the bits are set
 			static
-			CBitSet *PbsAllSet(IMemoryPool *memory_pool, ULONG ulSize);
+			CBitSet *PbsAllSet(IMemoryPool *memory_pool, ULONG size);
 
 			// return a new bitset, setting the bits in the given array
 			static
@@ -1322,10 +1322,10 @@ namespace gpopt
 		GPOS_ASSERT(NULL != pdrgptOutput);
 		GPOS_ASSERT(NULL != pdrgptInput);
 
-		const ULONG ulSize = pdrgptInput->Size();
-		GPOS_ASSERT_IMP(0 < ulSize, ulStart < ulSize);
+		const ULONG size = pdrgptInput->Size();
+		GPOS_ASSERT_IMP(0 < size, ulStart < size);
 
-		for (ULONG ul = ulStart; ul < ulSize; ul++)
+		for (ULONG ul = ulStart; ul < size; ul++)
 		{
 			T *pt = (*pdrgptInput)[ul];
 			CRefCount *prc = dynamic_cast<CRefCount *>(pt);

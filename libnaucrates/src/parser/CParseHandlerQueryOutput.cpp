@@ -139,8 +139,8 @@ CParseHandlerQueryOutput::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = this->Length();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerScalarIdent *child_parse_handler = dynamic_cast<CParseHandlerScalarIdent *>((*this)[ul]);
 

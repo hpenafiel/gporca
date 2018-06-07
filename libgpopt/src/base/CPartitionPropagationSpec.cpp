@@ -121,9 +121,9 @@ CPartitionPropagationSpec::AppendEnforcers
 	GPOS_ASSERT(NULL != pexpr);
 	
 	ULongPtrArray *pdrgpul = m_ppim->PdrgpulScanIds(memory_pool);
-	const ULONG ulSize = pdrgpul->Size();
+	const ULONG size = pdrgpul->Size();
 	
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		ULONG scan_id = *((*pdrgpul)[ul]);
 		GPOS_ASSERT(m_ppim->FContains(scan_id));

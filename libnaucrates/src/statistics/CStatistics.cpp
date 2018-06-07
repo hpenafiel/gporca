@@ -217,8 +217,8 @@ CStatistics::DWidth
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	CDouble dWidth(0.0);
-	const ULONG ulSize = pdrgpulColIds->Size();
-	for (ULONG ulIdx = 0; ulIdx < ulSize; ulIdx++)
+	const ULONG size = pdrgpulColIds->Size();
+	for (ULONG ulIdx = 0; ulIdx < size; ulIdx++)
 	{
 		ULONG col_id = *((*pdrgpulColIds)[ulIdx]);
 		CDouble *pdWidth = m_phmuldoubleWidth->Find(&col_id);

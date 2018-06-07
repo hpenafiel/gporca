@@ -155,8 +155,8 @@ CSearchStrategyTest::EresUnittest_Parsing()
 	IMemoryPool *memory_pool = amp.Pmp();
 	CParseHandlerDXL *pphDXL = CDXLUtils::GetParseHandlerForDXLFile(memory_pool,"../data/dxl/search/strategy0.xml", NULL);
 	DrgPss *search_stage_array = pphDXL->GetSearchStageArray();
-	const ULONG ulSize = search_stage_array->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = search_stage_array->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CAutoTrace at(memory_pool);
 		(*search_stage_array)[ul]->OsPrint(at.Os());

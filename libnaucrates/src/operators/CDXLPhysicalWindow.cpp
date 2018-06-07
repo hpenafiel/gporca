@@ -163,8 +163,8 @@ CDXLPhysicalWindow::SerializeToDXL
 	// serialize the list of window keys
 	const CWStringConst *pstrWindowKeyList = CDXLTokens::GetDXLTokenStr(EdxltokenWindowKeyList);
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrWindowKeyList);
-	const ULONG ulSize = m_pdrgpdxlwk->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = m_pdrgpdxlwk->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CDXLWindowKey *pdxlwk = (*m_pdrgpdxlwk)[ul];
 		pdxlwk->SerializeToDXL(xml_serializer);

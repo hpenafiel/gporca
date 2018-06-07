@@ -234,8 +234,8 @@ CDrvdPropRelational::PdrgpfdChild
 
 	// collect child FD's that are applicable to the parent
 	DrgPfd *pdrgpfd = GPOS_NEW(memory_pool) DrgPfd(memory_pool);
-	const ULONG ulSize = pdrgpfdChild->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpfdChild->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CFunctionalDependency *pfd = (*pdrgpfdChild)[ul];
 

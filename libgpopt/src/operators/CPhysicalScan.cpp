@@ -174,8 +174,8 @@ CPhysicalScan::PexprMatchEqualitySide
 	GPOS_ASSERT(NULL != pdrgpexpr);
 
 	CExpression *pexprMatching = NULL;
-	const ULONG ulSize = pdrgpexpr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexpr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexpr)[ul];
 		if (!CPredicateUtils::FEquality(pexprPred))
@@ -238,10 +238,10 @@ CPhysicalScan::PdshashedDeriveWithOuterRefs
 	DrgPexpr *pdrgpexprMatching = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(m_pds);
 	DrgPexpr *pdrgpexprHashed = pdshashed->Pdrgpexpr();
-	const ULONG ulSize = pdrgpexprHashed->Size();
+	const ULONG size = pdrgpexprHashed->Size();
 
 	BOOL fSuccess = true;
-	for (ULONG ul = 0; fSuccess && ul < ulSize; ul++)
+	for (ULONG ul = 0; fSuccess && ul < size; ul++)
 	{
 		CExpression *pexpr = (*pdrgpexprHashed)[ul];
 		CExpression *pexprMatching = PexprMatchEqualitySide(pexpr, pdrgpexpr);

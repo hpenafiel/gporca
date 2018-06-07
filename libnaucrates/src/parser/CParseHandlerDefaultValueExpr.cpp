@@ -36,7 +36,7 @@ CParseHandlerDefaultValueExpr::CParseHandlerDefaultValueExpr
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_fDefaultValueStarted(false)
+	is_default_val_started(false)
 {
 }
 
@@ -60,12 +60,12 @@ CParseHandlerDefaultValueExpr::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumnDefaultValue), element_local_name))
 	{
 		// opening tag for a default expression: assert no other tag has been seen yet
-		GPOS_ASSERT(!m_fDefaultValueStarted);
-		m_fDefaultValueStarted = true;
+		GPOS_ASSERT(!is_default_val_started);
+		is_default_val_started = true;
 	}
 	else
 	{
-		GPOS_ASSERT(m_fDefaultValueStarted);
+		GPOS_ASSERT(is_default_val_started);
 		
 		// install a scalar op parse handler to parse the expression
 		CParseHandlerBase *scalar_op_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);

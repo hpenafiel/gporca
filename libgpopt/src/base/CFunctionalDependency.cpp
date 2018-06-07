@@ -151,8 +151,8 @@ CFunctionalDependency::HashValue
 	ULONG ulHash = 0;
 	if (NULL != pdrgpfd)
 	{
-		const ULONG ulSize = pdrgpfd->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = pdrgpfd->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			ulHash = gpos::CombineHashes(ulHash, (*pdrgpfd)[ul]->HashValue());
 		}
@@ -225,8 +225,8 @@ CFunctionalDependency::PcrsKeys
 
 	if (pdrgpfd != NULL)
 	{
-		const ULONG ulSize = pdrgpfd->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = pdrgpfd->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			pcrs->Include((*pdrgpfd)[ul]->PcrsKey());
 		}

@@ -165,7 +165,7 @@ namespace gpopt
 
 			// generate all subsets of the given array of elements
 			static
-			void GenerateSubsets(IMemoryPool *memory_pool, CBitSet *pbsCurrent, ULONG *pulElems, ULONG ulSize, ULONG ulIndex, DrgPbs *pdrgpbsSubsets);
+			void GenerateSubsets(IMemoryPool *memory_pool, CBitSet *pbsCurrent, ULONG *pulElems, ULONG size, ULONG ulIndex, DrgPbs *pdrgpbsSubsets);
 
 			// driver of subset generation
 			static

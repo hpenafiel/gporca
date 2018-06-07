@@ -28,14 +28,14 @@ using namespace gpdxl;
 CDXLScalarArray::CDXLScalarArray
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidElem,
-	IMDId *pmdidArray,
+	IMDId *elem_type_mdid,
+	IMDId *array_type_mdid,
 	BOOL fMultiDimensional
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidElem(pmdidElem),
-	m_pmdidArray(pmdidArray),
+	m_pmdidElem(elem_type_mdid),
+	m_pmdidArray(array_type_mdid),
 	m_fMultiDimensional(fMultiDimensional)
 {
 	GPOS_ASSERT(m_pmdidElem->IsValid());

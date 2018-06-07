@@ -105,9 +105,9 @@ CParseHandlerWindowKeyList::EndElement
 	}
 	GPOS_ASSERT(NULL != m_pdrgpdxlwk);
 
-	const ULONG ulSize = this->Length();
+	const ULONG size = this->Length();
 	// add the window keys to the list
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerWindowKey *pphWk = dynamic_cast<CParseHandlerWindowKey *>((*this)[ul]);
 		m_pdrgpdxlwk->Append(pphWk->Pdxlwk());

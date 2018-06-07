@@ -119,8 +119,8 @@ void CExpressionFactorizer::AddFactor
 	{
 		// check if factor already exist in factors array
 		BOOL fFound = false;
-		const ULONG ulSize = pdrgpexprFactors->Size();
-		for (ULONG ul = 0; !fFound && ul < ulSize; ul++)
+		const ULONG size = pdrgpexprFactors->Size();
+		for (ULONG ul = 0; !fFound && ul < size; ul++)
 		{
 			fFound = CUtils::Equals(pexpr, (*pdrgpexprFactors)[ul]);
 		}
@@ -187,8 +187,8 @@ CExpressionFactorizer::PexprmapFactors
 			pdrgpexpr = pexprDisj->PdrgPexpr();
 		}
 
-		const ULONG ulSize = pdrgpexpr->Size();
-		for (ULONG ulInner = 0; ulInner < ulSize; ulInner++)
+		const ULONG size = pdrgpexpr->Size();
+		for (ULONG ulInner = 0; ulInner < size; ulInner++)
 		{
 			CExpression *pexprConj = (*pdrgpexpr)[ulInner];
 			ULONG *pul = pexprmapGlobal->Find(pexprConj);
@@ -254,8 +254,8 @@ CExpressionFactorizer::PexprFactorizeDisj
 		if (CPredicateUtils::FAnd(pexprDisj))
 		{
 			DrgPexpr *pdrgpexprConjuncts = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-			const ULONG ulSize = pexprDisj->Arity();
-			for (ULONG ulInner = 0; ulInner < ulSize; ulInner++)
+			const ULONG size = pexprDisj->Arity();
+			for (ULONG ulInner = 0; ulInner < size; ulInner++)
 			{
 				CExpression *pexprConj = (*pexprDisj)[ulInner];
 				AddFactor(memory_pool, pexprConj, pdrgpexprFactors, pdrgpexprConjuncts, pexprmapFactors, ulDisjuncts);

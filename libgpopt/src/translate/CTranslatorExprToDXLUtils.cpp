@@ -1661,8 +1661,8 @@ CTranslatorExprToDXLUtils::PdrgpdatumNulls
 {
 	DrgPdatum *pdrgpdatum = GPOS_NEW(memory_pool) DrgPdatum(memory_pool);
 
-	const ULONG ulSize = pdrgpcr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		const IMDType *pmdtype = pcr->Pmdtype();

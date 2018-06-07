@@ -185,8 +185,8 @@ CXformSimplifyGbAgg::Transform
 	DrgPfd *pdrgpfd = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->Pdrgpfd();
 
 	// collect grouping columns FD's
-	const ULONG ulSize = (pdrgpfd == NULL) ? 0 : pdrgpfd->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = (pdrgpfd == NULL) ? 0 : pdrgpfd->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CFunctionalDependency *pfd = (*pdrgpfd)[ul];
 		if (pfd->FIncluded(pcrsGrpCols))

@@ -191,9 +191,9 @@ CMDIndexGPDB::UlPosInKey
 	)
 	const
 {
-	const ULONG ulSize = UlKeys();
+	const ULONG size = UlKeys();
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		if (UlKey(ul) == ulCol)
 		{
@@ -251,9 +251,9 @@ CMDIndexGPDB::UlPosInIncludedCol
 	)
 	const
 {
-	const ULONG ulSize = UlIncludedCols();
+	const ULONG size = UlIncludedCols();
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		if (UlIncludedCol(ul) == ulCol)
 		{

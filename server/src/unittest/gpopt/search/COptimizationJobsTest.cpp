@@ -122,9 +122,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 			(void) pjgo->OsDiagramToGraphviz(memory_pool, at.Os(), GPOS_WSZ_LIT("GroupOptimizationJob"));
 
 			CJobGroupOptimization::EState *pestate = NULL;
-			ULONG ulSize = 0;
-			pjgo->Unreachable(memory_pool, &pestate, &ulSize);
-			GPOS_ASSERT(ulSize == 1 && pestate[0] == CJobGroupOptimization::estInitialized);
+			ULONG size = 0;
+			pjgo->Unreachable(memory_pool, &pestate, &size);
+			GPOS_ASSERT(size == 1 && pestate[0] == CJobGroupOptimization::estInitialized);
 
 			GPOS_DELETE_ARRAY(pestate);
 		}
@@ -152,9 +152,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 			(void) jgi.OsDiagramToGraphviz(memory_pool, at.Os(), GPOS_WSZ_LIT("GroupImplementationJob"));
 
 			CJobGroupImplementation::EState *pestate = NULL;
-			ULONG ulSize = 0;
-			jgi.Unreachable(memory_pool, &pestate, &ulSize);
-			GPOS_ASSERT(ulSize == 1 && pestate[0] == CJobGroupImplementation::estInitialized);
+			ULONG size = 0;
+			jgi.Unreachable(memory_pool, &pestate, &size);
+			GPOS_ASSERT(size == 1 && pestate[0] == CJobGroupImplementation::estInitialized);
 
 			GPOS_DELETE_ARRAY(pestate);
 		}
@@ -171,9 +171,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 			(void) jge.OsDiagramToGraphviz(memory_pool, at.Os(), GPOS_WSZ_LIT("GroupExplorationJob"));
 
 			CJobGroupExploration::EState *pestate = NULL;
-			ULONG ulSize = 0;
-			jge.Unreachable(memory_pool, &pestate, &ulSize);
-			GPOS_ASSERT(ulSize == 1 && pestate[0] == CJobGroupExploration::estInitialized);
+			ULONG size = 0;
+			jge.Unreachable(memory_pool, &pestate, &size);
+			GPOS_ASSERT(size == 1 && pestate[0] == CJobGroupExploration::estInitialized);
 
 			GPOS_DELETE_ARRAY(pestate);
 		}
@@ -190,9 +190,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 			(void) jgeo.OsDiagramToGraphviz(memory_pool, at.Os(), GPOS_WSZ_LIT("GroupExpressionOptimizationJob"));
 
 			CJobGroupExpressionOptimization::EState *pestate = NULL;
-			ULONG ulSize = 0;
-			jgeo.Unreachable(memory_pool, &pestate, &ulSize);
-			GPOS_ASSERT(ulSize == 1 && pestate[0] == CJobGroupExpressionOptimization::estInitialized);
+			ULONG size = 0;
+			jgeo.Unreachable(memory_pool, &pestate, &size);
+			GPOS_ASSERT(size == 1 && pestate[0] == CJobGroupExpressionOptimization::estInitialized);
 
 			GPOS_DELETE_ARRAY(pestate);
 		}
@@ -209,9 +209,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 			(void) jgei.OsDiagramToGraphviz(memory_pool, at.Os(), GPOS_WSZ_LIT("GroupExpressionImplementationJob"));
 
 			CJobGroupExpressionImplementation::EState *pestate = NULL;
-			ULONG ulSize = 0;
-			jgei.Unreachable(memory_pool, &pestate, &ulSize);
-			GPOS_ASSERT(ulSize == 1 && pestate[0] == CJobGroupExpressionImplementation::estInitialized);
+			ULONG size = 0;
+			jgei.Unreachable(memory_pool, &pestate, &size);
+			GPOS_ASSERT(size == 1 && pestate[0] == CJobGroupExpressionImplementation::estInitialized);
 
 			GPOS_DELETE_ARRAY(pestate);
 		}
@@ -228,9 +228,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 			(void) jgee.OsDiagramToGraphviz(memory_pool, at.Os(), GPOS_WSZ_LIT("GroupExpressionExplorationJob"));
 
 			CJobGroupExpressionExploration::EState *pestate = NULL;
-			ULONG ulSize = 0;
-			jgee.Unreachable(memory_pool, &pestate, &ulSize);
-			GPOS_ASSERT(ulSize == 1 && pestate[0] == CJobGroupExpressionExploration::estInitialized);
+			ULONG size = 0;
+			jgee.Unreachable(memory_pool, &pestate, &size);
+			GPOS_ASSERT(size == 1 && pestate[0] == CJobGroupExpressionExploration::estInitialized);
 
 			GPOS_DELETE_ARRAY(pestate);
 		}
@@ -253,9 +253,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 				(void) jt.OsDiagramToGraphviz(memory_pool, at.Os(), GPOS_WSZ_LIT("TransformationJob"));
 
 				CJobTransformation::EState *pestate = NULL;
-				ULONG ulSize = 0;
-				jt.Unreachable(memory_pool, &pestate, &ulSize);
-				GPOS_ASSERT(ulSize == 1 && pestate[0] == CJobTransformation::estInitialized);
+				ULONG size = 0;
+				jt.Unreachable(memory_pool, &pestate, &size);
+				GPOS_ASSERT(size == 1 && pestate[0] == CJobTransformation::estInitialized);
 
 				GPOS_DELETE_ARRAY(pestate);
 			}

@@ -207,8 +207,8 @@ CNormalizer::SplitConjunct
 	*ppdrgpexprPushable =  GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	*ppdrgpexprUnpushable =  GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprConj);
-	const ULONG ulSize = pdrgpexprConjuncts->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexprConjuncts->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprScalar = (*pdrgpexprConjuncts)[ul];
 		pexprScalar->AddRef();
@@ -937,9 +937,9 @@ CNormalizer::PushThru
 
 	FnPushThru *pfnpt = NULL;
 	COperator::EOperatorId eopid = pexprLogical->Pop()->Eopid();
-	const ULONG ulSize = GPOS_ARRAY_SIZE(m_rgpt);
+	const ULONG size = GPOS_ARRAY_SIZE(m_rgpt);
 	// find the push thru function corresponding to the given operator
-	for (ULONG ul = 0; pfnpt == NULL && ul < ulSize; ul++)
+	for (ULONG ul = 0; pfnpt == NULL && ul < size; ul++)
 	{
 		if (eopid == m_rgpt[ul].m_eopid)
 		{
@@ -991,8 +991,8 @@ CNormalizer::PushThru
 	DrgPexpr *pdrgpexprPushable =  GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	DrgPexpr *pdrgpexprUnpushable =  GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 
-	const ULONG ulSize = pdrgpexprConjuncts->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexprConjuncts->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprConj = (*pdrgpexprConjuncts)[ul];
 		pexprConj->AddRef();

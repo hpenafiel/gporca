@@ -158,8 +158,8 @@ CLogicalDifferenceAll::PstatsDerive
 	// difference all is transformed into a LASJ,
 	// we follow the same route to compute statistics
 	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
-	const ULONG ulSize = m_pdrgpdrgpcrInput->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = m_pdrgpdrgpcrInput->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, (*m_pdrgpdrgpcrInput)[ul]);
 		pdrgpcrsOutput->Append(pcrs);

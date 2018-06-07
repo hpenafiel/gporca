@@ -299,8 +299,8 @@ CPhysical::PdsCompute
 			const DrgPcoldesc *pdrgpcoldesc = ptabdesc->PdrgpcoldescDist();
 			DrgPcr *pdrgpcr = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 			
-			const ULONG ulSize = pdrgpcoldesc->Size();
-			for (ULONG ul = 0; ul < ulSize; ul++)
+			const ULONG size = pdrgpcoldesc->Size();
+			for (ULONG ul = 0; ul < size; ul++)
 			{
 				CColumnDescriptor *pcoldesc = (*pdrgpcoldesc)[ul];
 				ULONG ulPos = ptabdesc->UlPos(pcoldesc, ptabdesc->Pdrgpcoldesc());
@@ -724,9 +724,9 @@ CPhysical::PcmCombine
 {
 	GPOS_ASSERT(NULL != pdrgpdpCtxt);
 
-	const ULONG ulSize = pdrgpdpCtxt->Size();
+	const ULONG size = pdrgpdpCtxt->Size();
 	CCTEMap *pcmCombined = GPOS_NEW(memory_pool) CCTEMap(memory_pool);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CCTEMap *pcmChild = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[ul])->GetCostModel();
 
@@ -1266,8 +1266,8 @@ CPhysical::DSkew
 	{
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(pds);
 		const DrgPexpr *pdrgpexpr = pdshashed->Pdrgpexpr();
-		const ULONG ulSize = pdrgpexpr->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = pdrgpexpr->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			CExpression *pexpr = (*pdrgpexpr)[ul];
 			if (COperator::EopScalarIdent == pexpr->Pop()->Eopid())

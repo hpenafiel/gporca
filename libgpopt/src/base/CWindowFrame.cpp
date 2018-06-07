@@ -280,9 +280,9 @@ CWindowFrame::Equals
 		return false;
 	}
 
-	const ULONG ulSize = pdrgpwfFirst->Size();
+	const ULONG size = pdrgpwfFirst->Size();
 	BOOL fMatch = true;
-	for (ULONG ul = 0; fMatch && ul < ulSize; ul++)
+	for (ULONG ul = 0; fMatch && ul < size; ul++)
 	{
 		fMatch = (*pdrgpwfFirst)[ul]->FMatch((*pdrgpwfSecond)[ul]);
 	}
@@ -307,10 +307,10 @@ CWindowFrame::HashValue
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpwf);
-	const ULONG ulSize = std::min(ulMaxSize, pdrgpwf->Size());
+	const ULONG size = std::min(ulMaxSize, pdrgpwf->Size());
 
 	ULONG ulHash = 0;
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		ulHash = gpos::CombineHashes(ulHash, (*pdrgpwf)[ul]->HashValue());
 	}
@@ -334,16 +334,16 @@ CWindowFrame::OsPrint
 	)
 {
 	os	<< "[";
-	const ULONG ulSize = pdrgpwf->Size();
-	if (0 < ulSize)
+	const ULONG size = pdrgpwf->Size();
+	if (0 < size)
 	{
-		for (ULONG ul = 0; ul < ulSize - 1; ul++)
+		for (ULONG ul = 0; ul < size - 1; ul++)
 		{
 			(void) (*pdrgpwf)[ul]->OsPrint(os);
 			os <<	", ";
 		}
 
-		(void) (*pdrgpwf)[ulSize - 1]->OsPrint(os);
+		(void) (*pdrgpwf)[size - 1]->OsPrint(os);
 	}
 
 	return os << "]";

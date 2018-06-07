@@ -422,11 +422,11 @@ namespace gpopt
 			BOOL FReachable(IMemoryPool *memory_pool) const
             {
                 TEnumState *pestate = NULL;
-                ULONG ulSize = 0;
-                Unreachable(memory_pool, &pestate, &ulSize);
+                ULONG size = 0;
+                Unreachable(memory_pool, &pestate, &size);
                 GPOS_DELETE_ARRAY(pestate);
 
-                return  (ulSize == 0);
+                return  (size == 0);
             }
 			
 			// compute array of unreachable states

@@ -81,8 +81,8 @@ CPartInfo::CPartInfoEntry::PpartinfoentryAddRemappedKeys
 
     DrgPpartkeys *pdrgppartkeys = CPartKeys::PdrgppartkeysCopy(memory_pool, m_pdrgppartkeys);
 
-	const ULONG ulSize = m_pdrgppartkeys->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = m_pdrgppartkeys->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CPartKeys *ppartkeys = (*m_pdrgppartkeys)[ul];
 
@@ -245,9 +245,9 @@ CPartInfo::FContainsScanId
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgppartentries->Size();
+	const ULONG size = m_pdrgppartentries->Size();
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
 		if (scan_id == ppartinfoentry->UlScanId())
@@ -346,9 +346,9 @@ CPartInfo::PdrgppartkeysByScanId
 	)
 	const
 {
-	const ULONG ulSize = m_pdrgppartentries->Size();
+	const ULONG size = m_pdrgppartentries->Size();
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
 		if (scan_id == ppartinfoentry->UlScanId())
@@ -385,8 +385,8 @@ CPartInfo::PpartinfoWithRemappedKeys
 
 	DrgPpartentries *pdrgppartentries = GPOS_NEW(memory_pool) DrgPpartentries(memory_pool);
 
-	const ULONG ulSize = m_pdrgppartentries->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = m_pdrgppartentries->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CPartInfoEntry *ppartinfoentry = (*m_pdrgppartentries)[ul];
 

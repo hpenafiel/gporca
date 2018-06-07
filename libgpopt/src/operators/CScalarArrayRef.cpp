@@ -27,22 +27,22 @@ using namespace gpmd;
 CScalarArrayRef::CScalarArrayRef
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidElem,
+	IMDId *elem_type_mdid,
 	INT type_modifier,
-	IMDId *pmdidArray,
-	IMDId *pmdidReturn
+	IMDId *array_type_mdid,
+	IMDId *return_type_mdid
 	)
 	:
 	CScalar(memory_pool),
-	m_pmdidElem(pmdidElem),
+	m_pmdidElem(elem_type_mdid),
 	m_type_modifier(type_modifier),
-	m_pmdidArray(pmdidArray),
-	m_mdid_type(pmdidReturn)
+	m_pmdidArray(array_type_mdid),
+	m_mdid_type(return_type_mdid)
 {
-	GPOS_ASSERT(pmdidElem->IsValid());
-	GPOS_ASSERT(pmdidArray->IsValid());
-	GPOS_ASSERT(pmdidReturn->IsValid());
-	GPOS_ASSERT(pmdidReturn->Equals(pmdidElem) || pmdidReturn->Equals(pmdidArray));
+	GPOS_ASSERT(elem_type_mdid->IsValid());
+	GPOS_ASSERT(array_type_mdid->IsValid());
+	GPOS_ASSERT(return_type_mdid->IsValid());
+	GPOS_ASSERT(return_type_mdid->Equals(elem_type_mdid) || return_type_mdid->Equals(array_type_mdid));
 }
 
 //---------------------------------------------------------------------------

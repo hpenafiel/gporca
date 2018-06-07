@@ -1369,11 +1369,11 @@ CDXLOperatorFactory::MakeDXLArray
 	// get the memory pool from the memory manager
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
-	IMDId *pmdidElem = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenArrayElementType, EdxltokenScalarArray);
-	IMDId *pmdidArray = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenArrayType, EdxltokenScalarArray);
+	IMDId *elem_type_mdid = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenArrayElementType, EdxltokenScalarArray);
+	IMDId *array_type_mdid = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenArrayType, EdxltokenScalarArray);
 	BOOL fMultiDimensional = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenArrayMultiDim, EdxltokenScalarArray);
 
-	return GPOS_NEW(memory_pool) CDXLScalarArray(memory_pool, pmdidElem, pmdidArray, fMultiDimensional);
+	return GPOS_NEW(memory_pool) CDXLScalarArray(memory_pool, elem_type_mdid, array_type_mdid, fMultiDimensional);
 }
 
 //---------------------------------------------------------------------------

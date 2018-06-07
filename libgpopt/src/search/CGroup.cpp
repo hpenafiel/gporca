@@ -1774,8 +1774,8 @@ CGroup::OsPrintGrpScalarProps
 	{
 		os << szPrefix << "Outer Hash Join Keys: " << std::endl;
 
-		const ULONG ulSize = m_pdrgpexprHashJoinKeysOuter->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = m_pdrgpexprHashJoinKeysOuter->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			os << szPrefix << *(*m_pdrgpexprHashJoinKeysOuter)[ul]<< std::endl;
 		}
@@ -1787,8 +1787,8 @@ CGroup::OsPrintGrpScalarProps
 	{
 		os << szPrefix << "Inner Hash Join Keys: " << std::endl;
 
-		const ULONG ulSize = m_pdrgpexprHashJoinKeysInner->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = m_pdrgpexprHashJoinKeysInner->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			os << szPrefix << *(*m_pdrgpexprHashJoinKeysInner)[ul]<< std::endl;
 		}

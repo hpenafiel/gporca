@@ -52,10 +52,10 @@ namespace gpdxl
 			CDXLScalarArrayRef
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidElem,
+				IMDId *elem_type_mdid,
 				INT type_modifier,
-				IMDId *pmdidArray,
-				IMDId *pmdidReturn
+				IMDId *array_type_mdid,
+				IMDId *return_type_mdid
 				);
 
 			// dtor

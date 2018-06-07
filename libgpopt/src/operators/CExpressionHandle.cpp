@@ -484,9 +484,9 @@ CExpressionHandle::PdrgpstatOuterRefs
 	CColRefSet *pcrsOuter = Pdprel(ulChildIndex)->PcrsOuter();
 	GPOS_ASSERT(0 < pcrsOuter->Size());
 
-	const ULONG ulSize = statistics_array->Size();
+	const ULONG size = statistics_array->Size();
 	ULONG ulStartIndex = ULONG_MAX;
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		IStatistics *pstats = (*statistics_array)[ul];
 		CColRefSet *pcrsStats = pstats->Pcrs(m_memory_pool);

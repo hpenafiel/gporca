@@ -49,8 +49,8 @@ namespace gpdxl
 			CDXLScalarArray
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidElem,
-				IMDId *pmdidArray,
+				IMDId *elem_type_mdid,
+				IMDId *array_type_mdid,
 				BOOL fMultiDimensional
 				);
 

@@ -105,9 +105,9 @@ CParseHandlerWindowSpecList::EndElement
 	}
 	GPOS_ASSERT(NULL != m_window_spec_array);
 
-	const ULONG ulSize = this->Length();
+	const ULONG size = this->Length();
 	// add the window specifications to the list
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerWindowSpec *pphWs = dynamic_cast<CParseHandlerWindowSpec *>((*this)[ul]);
 		m_window_spec_array->Append(pphWs->GetWindowKeyAt());

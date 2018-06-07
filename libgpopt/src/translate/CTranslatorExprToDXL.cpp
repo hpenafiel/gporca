@@ -3124,10 +3124,10 @@ CTranslatorExprToDXL::BuildScalarSubplans
 	BOOL *pfDML
 	)
 {
-	const ULONG ulSize = pdrgpcrInner->Size();
+	const ULONG size = pdrgpcrInner->Size();
 
 	DXLNodeArray *pdrgpdxlnInner = GPOS_NEW(m_memory_pool) DXLNodeArray(m_memory_pool);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		// for each subplan, we need to re-translate inner expression
 		CDXLNode *pdxlnInnerChild = CreateDXLNode(pexprInner, NULL /*pdrgpcr*/, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, false /*fRemap*/, false /*fRoot*/);
@@ -3139,7 +3139,7 @@ CTranslatorExprToDXL::BuildScalarSubplans
 		pdrgpdxlnInner->Append(pdxlnInner);
 	}
 
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CDXLNode *pdxlnInner = (*pdrgpdxlnInner)[ul];
 		pdxlnInner->AddRef();
@@ -3576,8 +3576,8 @@ CTranslatorExprToDXL::StoreIndexNLJOuterRefs
 	}
 	GPOS_ASSERT(pdrgpcr != NULL);
 
-	const ULONG ulSize = pdrgpcr->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpcr->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
 		if (NULL == m_phmcrdxlnIndexLookup->Find(pcr))
@@ -3805,8 +3805,8 @@ CTranslatorExprToDXL::PdxlnHashJoin
 
 	DrgPexpr *pdrgpexprPredicates = CPredicateUtils::PdrgpexprConjuncts(m_memory_pool, pexprScalar);
 	DrgPexpr *pdrgpexprRemainingPredicates = GPOS_NEW(m_memory_pool) DrgPexpr(m_memory_pool);
-	const ULONG ulSize = pdrgpexprPredicates->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexprPredicates->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprPredicates)[ul];
 		if (CPhysicalJoin::FHashJoinCompatible(pexprPred, pexprOuterChild, pexprInnerChild))
@@ -6738,8 +6738,8 @@ CTranslatorExprToDXL::PdxlnWindow
 	{
 		CDistributionSpecHashed *pdshashed = CDistributionSpecHashed::PdsConvert(pds);
 		pdrgpexprPartCol = const_cast<DrgPexpr *>(pdshashed->Pdrgpexpr());
-		const ULONG ulSize = pdrgpexprPartCol->Size();
-		for (ULONG ul = 0; ul < ulSize; ul++)
+		const ULONG size = pdrgpexprPartCol->Size();
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			CExpression *pexpr = (*pdrgpexprPartCol)[ul];
 			CScalarIdent *popScId = CScalarIdent::PopConvert(pexpr->Pop());
@@ -6840,11 +6840,11 @@ CTranslatorExprToDXL::PdxlnArray
 	GPOS_ASSERT(NULL != pexpr);
 	CScalarArray *pop = CScalarArray::PopConvert(pexpr->Pop());
 
-	IMDId *pmdidElem = pop->PmdidElem();
-	pmdidElem->AddRef();
+	IMDId *elem_type_mdid = pop->PmdidElem();
+	elem_type_mdid->AddRef();
 
-	IMDId *pmdidArray = pop->PmdidArray();
-	pmdidArray->AddRef();
+	IMDId *array_type_mdid = pop->PmdidArray();
+	array_type_mdid->AddRef();
 
 	CDXLNode *pdxlnArray =
 			GPOS_NEW(m_memory_pool) CDXLNode
@@ -6853,8 +6853,8 @@ CTranslatorExprToDXL::PdxlnArray
 						GPOS_NEW(m_memory_pool) CDXLScalarArray
 									(
 									m_memory_pool,
-									pmdidElem,
-									pmdidArray,
+									elem_type_mdid,
+									array_type_mdid,
 									pop->FMultiDimensional()
 									)
 						);
@@ -6889,14 +6889,14 @@ CTranslatorExprToDXL::PdxlnArrayRef
 	GPOS_ASSERT(NULL != pexpr);
 	CScalarArrayRef *pop = CScalarArrayRef::PopConvert(pexpr->Pop());
 
-	IMDId *pmdidElem = pop->PmdidElem();
-	pmdidElem->AddRef();
+	IMDId *elem_type_mdid = pop->PmdidElem();
+	elem_type_mdid->AddRef();
 
-	IMDId *pmdidArray = pop->PmdidArray();
-	pmdidArray->AddRef();
+	IMDId *array_type_mdid = pop->PmdidArray();
+	array_type_mdid->AddRef();
 
-	IMDId *pmdidReturn = pop->MDIdType();
-	pmdidReturn->AddRef();
+	IMDId *return_type_mdid = pop->MDIdType();
+	return_type_mdid->AddRef();
 
 	CDXLNode *pdxlnArrayref =
 			GPOS_NEW(m_memory_pool) CDXLNode
@@ -6905,10 +6905,10 @@ CTranslatorExprToDXL::PdxlnArrayRef
 						GPOS_NEW(m_memory_pool) CDXLScalarArrayRef
 									(
 									m_memory_pool,
-									pmdidElem,
+									elem_type_mdid,
 									pop->TypeModifier(),
-									pmdidArray,
-									pmdidReturn
+									array_type_mdid,
+									return_type_mdid
 									)
 						);
 
@@ -7880,9 +7880,9 @@ CTranslatorExprToDXL::UlPosInArray
 	GPOS_ASSERT(NULL != pdrgpcr);
 	GPOS_ASSERT(NULL != pcr);
 	
-	const ULONG ulSize = pdrgpcr->Size();
+	const ULONG size = pdrgpcr->Size();
 	
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		if (pcr == (*pdrgpcr)[ul])
 		{
@@ -7891,7 +7891,7 @@ CTranslatorExprToDXL::UlPosInArray
 	}
 	
 	// not found
-	return ulSize;
+	return size;
 }
 
 // A wrapper around CTranslatorExprToDXLUtils::PdxlnResult to check if the project list imposes a motion hazard,

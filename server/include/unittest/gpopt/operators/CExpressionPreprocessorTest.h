@@ -165,7 +165,7 @@ namespace gpopt
 
 			// helper function for comparing expressions resulting from preprocessing window functions with outer join
 			static
-			GPOS_RESULT EresCompareExpressions(IMemoryPool *memory_pool, CWStringDynamic *rgstr[], ULONG ulSize);
+			GPOS_RESULT EresCompareExpressions(IMemoryPool *memory_pool, CWStringDynamic *rgstr[], ULONG size);
 
 			// test case generator for outer joins
 			static

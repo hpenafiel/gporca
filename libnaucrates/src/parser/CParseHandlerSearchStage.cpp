@@ -136,9 +136,9 @@ CParseHandlerSearchStage::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	const ULONG ulSize = this->Length();
+	const ULONG size = this->Length();
 	// add constructed children from child parse handlers
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerXform *pphXform = dynamic_cast<CParseHandlerXform*>((*this)[ul]);
 #ifdef GPOS_DEBUG

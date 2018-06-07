@@ -237,22 +237,22 @@ CWStringDynamic::AppendFormat
 	GPOS_ASSERT(-1 <= res);
 
 	// estimated number of characters in expanded format string
-	ULONG ulSize = std::max(GPOS_WSZ_LENGTH(format), GPOS_ARRAY_SIZE(wszBufStatic));
+	ULONG size = std::max(GPOS_WSZ_LENGTH(format), GPOS_ARRAY_SIZE(wszBufStatic));
 
 	// if the static buffer is too small, find the formatted string
 	// length by trying to store it in a buffer of increasing size
 	while (-1 == res)
 	{
 		// try with a bigger buffer this time
-		ulSize *= 2;
+		size *= 2;
 		CAutoRg<WCHAR> a_wszBuf;
-		a_wszBuf = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, ulSize + 1);
+		a_wszBuf = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, size + 1);
 
 		// get arguments
 		VA_START(vaArgs, format);
 
 		// try expanding the formatted string in the buffer
-		res = VswPrintf(a_wszBuf.Rgt(), ulSize, format, vaArgs);
+		res = VswPrintf(a_wszBuf.Rgt(), size, format, vaArgs);
 
 		// reset arguments
 		VA_END(vaArgs);

@@ -139,8 +139,8 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 
 	BOOL fCorrelated = true;
 	// we generate two expressions using each generator
-	const ULONG ulSize = 2 * GPOS_ARRAY_SIZE(rgpf);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = 2 * GPOS_ARRAY_SIZE(rgpf);
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		ULONG ulIndex = ul / 2;
 		// install opt context in TLS

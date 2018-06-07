@@ -4740,8 +4740,8 @@ CXformUtils::PexprGbAggOnCTEConsumer2Join
 	// counter of consumers
 	ULONG ulConsumers = 0;
 
-	const ULONG ulSize = pdrgpdrgpexprPrjElems->Size();
-	for (ULONG ulPrjElemsArr = 0; ulPrjElemsArr < ulSize; ulPrjElemsArr++)
+	const ULONG size = pdrgpdrgpexprPrjElems->Size();
+	for (ULONG ulPrjElemsArr = 0; ulPrjElemsArr < size; ulPrjElemsArr++)
 	{
 		DrgPexpr *pdrgpexprPrjElems = (*pdrgpdrgpexprPrjElems)[ulPrjElemsArr];
 

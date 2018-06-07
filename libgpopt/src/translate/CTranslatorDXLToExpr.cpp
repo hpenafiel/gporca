@@ -90,8 +90,8 @@ CTranslatorDXLToExpr::CTranslatorDXLToExpr
 	// initialize hash tables
 	m_phmululCTE = GPOS_NEW(m_memory_pool) HMUlUl(m_memory_pool);
 
-	const ULONG ulSize = GPOS_ARRAY_SIZE(m_rgpfTranslators);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = GPOS_ARRAY_SIZE(m_rgpfTranslators);
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		m_rgpfTranslators[ul] = NULL;
 	}
@@ -1835,9 +1835,9 @@ CTranslatorDXLToExpr::PdrgpcrPartitionByCol
 	const ULongPtrArray *partition_by_col_id_array
 	)
 {
-	const ULONG ulSize = partition_by_col_id_array->Size();
+	const ULONG size = partition_by_col_id_array->Size();
 	DrgPcr *pdrgpcr = GPOS_NEW(m_memory_pool) DrgPcr(m_memory_pool);
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		const ULONG *pulColId = (*partition_by_col_id_array)[ul];
 
@@ -3187,13 +3187,13 @@ CTranslatorDXLToExpr::PexprArray
 {
 	CDXLScalarArray *dxl_op = CDXLScalarArray::Cast(dxlnode->GetOperator());
 	
-	IMDId *pmdidElem = dxl_op->PmdidElem();
-	pmdidElem->AddRef();
+	IMDId *elem_type_mdid = dxl_op->PmdidElem();
+	elem_type_mdid->AddRef();
 
-	IMDId *pmdidArray = dxl_op->PmdidArray();
-	pmdidArray->AddRef();
+	IMDId *array_type_mdid = dxl_op->PmdidArray();
+	array_type_mdid->AddRef();
 
-	CScalarArray *popArray = GPOS_NEW(m_memory_pool) CScalarArray(m_memory_pool, pmdidElem, pmdidArray, dxl_op->FMultiDimensional());
+	CScalarArray *popArray = GPOS_NEW(m_memory_pool) CScalarArray(m_memory_pool, elem_type_mdid, array_type_mdid, dxl_op->FMultiDimensional());
 	
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(dxlnode);
 
@@ -3222,16 +3222,16 @@ CTranslatorDXLToExpr::PexprArrayRef
 {
 	CDXLScalarArrayRef *dxl_op = CDXLScalarArrayRef::Cast(dxlnode->GetOperator());
 
-	IMDId *pmdidElem = dxl_op->PmdidElem();
-	pmdidElem->AddRef();
+	IMDId *elem_type_mdid = dxl_op->PmdidElem();
+	elem_type_mdid->AddRef();
 
-	IMDId *pmdidArray = dxl_op->PmdidArray();
-	pmdidArray->AddRef();
+	IMDId *array_type_mdid = dxl_op->PmdidArray();
+	array_type_mdid->AddRef();
 
-	IMDId *pmdidReturn = dxl_op->PmdidReturn();
-	pmdidReturn->AddRef();
+	IMDId *return_type_mdid = dxl_op->PmdidReturn();
+	return_type_mdid->AddRef();
 
-	CScalarArrayRef *popArrayref = GPOS_NEW(m_memory_pool) CScalarArrayRef(m_memory_pool, pmdidElem, dxl_op->TypeModifier(), pmdidArray, pmdidReturn);
+	CScalarArrayRef *popArrayref = GPOS_NEW(m_memory_pool) CScalarArrayRef(m_memory_pool, elem_type_mdid, dxl_op->TypeModifier(), array_type_mdid, return_type_mdid);
 
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(dxlnode);
 

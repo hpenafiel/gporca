@@ -75,7 +75,7 @@ CMessageTest::EresUnittest_Basic
 	...
 	)
 {	
-	const ULONG ulSize = 2048;
+	const ULONG size = 2048;
 	
 	IMemoryPool *memory_pool = (IMemoryPool*)pv;
 
@@ -87,8 +87,8 @@ CMessageTest::EresUnittest_Basic
 							  CException::ExmiAssert));
 		
 	// target buffer for format test
-	WCHAR *wsz = GPOS_NEW_ARRAY(memory_pool, WCHAR, ulSize);
-	CWStringStatic wss(wsz, ulSize);
+	WCHAR *wsz = GPOS_NEW_ARRAY(memory_pool, WCHAR, size);
+	CWStringStatic wss(wsz, size);
 
 	VA_LIST vl;
 	VA_START(vl, pv);

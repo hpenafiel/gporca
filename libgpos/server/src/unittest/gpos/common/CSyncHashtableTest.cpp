@@ -290,8 +290,8 @@ CSyncHashtableTest::EresUnittest_SameKeyIteration()
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
 
-	const ULONG ulSize = GPOS_SHT_ELEMENTS * GPOS_SHT_ELEMENT_DUPLICATES;
-	SElem *rgelem = GPOS_NEW_ARRAY(memory_pool, SElem, ulSize);
+	const ULONG size = GPOS_SHT_ELEMENTS * GPOS_SHT_ELEMENT_DUPLICATES;
+	SElem *rgelem = GPOS_NEW_ARRAY(memory_pool, SElem, size);
 
 	SElemHashtable sht;
 

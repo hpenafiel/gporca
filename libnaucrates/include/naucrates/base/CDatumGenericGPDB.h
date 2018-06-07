@@ -38,7 +38,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 		IMemoryPool *m_memory_pool;
 
 		// size in bytes
-		ULONG m_ulSize;
+		ULONG m_size;
 
 		// a pointer to datum value
 		BYTE *m_pbVal;
@@ -69,7 +69,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 			IMDId *pmdid,
 			INT type_modifier,
 			const void *pv,
-			ULONG ulSize,
+			ULONG size,
 			BOOL is_null,
 			LINT lValue,
 			CDouble dValue

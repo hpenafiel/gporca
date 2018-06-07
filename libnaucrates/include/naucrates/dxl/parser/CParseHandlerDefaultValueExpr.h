@@ -35,7 +35,7 @@ namespace gpdxl
 		private:
 
 			// has an opening tag for a default value been seen already
-			BOOL m_fDefaultValueStarted;
+			BOOL is_default_val_started;
 			
 			// private copy ctor
 			CParseHandlerDefaultValueExpr(const CParseHandlerDefaultValueExpr &);

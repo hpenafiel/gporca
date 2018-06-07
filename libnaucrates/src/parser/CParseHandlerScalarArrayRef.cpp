@@ -39,9 +39,9 @@ CParseHandlerScalarArrayRef::CParseHandlerScalarArrayRef
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_ulIndexLists(0),
-	m_fParsingRefExpr(false),
-	m_fParsingAssignExpr(false)
+	m_parse_index_lists(0),
+	m_parsing_ref_expr(false),
+	m_parsing_assign_expr(false)
 {
 }
 
@@ -68,17 +68,17 @@ CParseHandlerScalarArrayRef::StartElement
 		GPOS_ASSERT(NULL == m_dxl_node);
 
 		// parse types
-		IMDId *pmdidElem = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayElementType, EdxltokenScalarArrayRef);
-		IMDId *pmdidArray = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayType, EdxltokenScalarArrayRef);
-		IMDId *pmdidReturn = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarArrayRef);
+		IMDId *elem_type_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayElementType, EdxltokenScalarArrayRef);
+		IMDId *array_type_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenArrayType, EdxltokenScalarArrayRef);
+		IMDId *return_type_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenScalarArrayRef);
 		INT type_modifier = CDXLOperatorFactory::ExtractConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeMod, EdxltokenScalarArrayRef, true, IDefaultTypeModifier);
 
-		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRef(m_memory_pool, pmdidElem, type_modifier, pmdidArray, pmdidReturn));
+		m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode (m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarArrayRef(m_memory_pool, elem_type_mdid, type_modifier, array_type_mdid, return_type_mdid));
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_dxl_node);
-		GPOS_ASSERT(2 > m_ulIndexLists);
+		GPOS_ASSERT(2 > m_parse_index_lists);
 
 		// parse index list
 		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexList), m_parse_handler_mgr, this);
@@ -86,32 +86,32 @@ CParseHandlerScalarArrayRef::StartElement
 
 		// store parse handler
 		this->Append(child_parse_handler);
-		m_ulIndexLists++;
+		m_parse_index_lists++;
 
 		child_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefExpr), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_dxl_node);
-		GPOS_ASSERT(2 == m_ulIndexLists);
-		GPOS_ASSERT(!m_fParsingRefExpr);
-		GPOS_ASSERT(!m_fParsingAssignExpr);
+		GPOS_ASSERT(2 == m_parse_index_lists);
+		GPOS_ASSERT(!m_parsing_ref_expr);
+		GPOS_ASSERT(!m_parsing_assign_expr);
 
-		m_fParsingRefExpr = true;
+		m_parsing_ref_expr = true;
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefAssignExpr), element_local_name))
 	{
 		GPOS_ASSERT(NULL != m_dxl_node);
-		GPOS_ASSERT(2 == m_ulIndexLists);
-		GPOS_ASSERT(!m_fParsingRefExpr);
-		GPOS_ASSERT(!m_fParsingAssignExpr);
+		GPOS_ASSERT(2 == m_parse_index_lists);
+		GPOS_ASSERT(!m_parsing_ref_expr);
+		GPOS_ASSERT(!m_parsing_assign_expr);
 
-		m_fParsingAssignExpr = true;
+		m_parsing_assign_expr = true;
 	}
 	else
 	{
 		// parse scalar child
-		GPOS_ASSERT(m_fParsingRefExpr || m_fParsingAssignExpr);
+		GPOS_ASSERT(m_parsing_ref_expr || m_parsing_assign_expr);
 
 		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
@@ -156,15 +156,15 @@ CParseHandlerScalarArrayRef::EndElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefExpr), element_local_name))
 	{
-		GPOS_ASSERT(m_fParsingRefExpr);
+		GPOS_ASSERT(m_parsing_ref_expr);
 
-		m_fParsingRefExpr = false;
+		m_parsing_ref_expr = false;
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefAssignExpr), element_local_name))
 	{
-		GPOS_ASSERT(m_fParsingAssignExpr);
+		GPOS_ASSERT(m_parsing_assign_expr);
 
-		m_fParsingAssignExpr = false;
+		m_parsing_assign_expr = false;
 	}
 	else
 	{

@@ -1151,8 +1151,8 @@ CStatsPredUtils::PdrgpstatspredjoinExtract
 
 	// extract all the conjuncts
 	DrgPexpr *pdrgpexprConjuncts = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprScalar);
-	const ULONG ulSize = pdrgpexprConjuncts->Size();
-	for (ULONG ul = 0; ul < ulSize; ul++)
+	const ULONG size = pdrgpexprConjuncts->Size();
+	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CExpression *pexprPred = (*pdrgpexprConjuncts) [ul];
 		CStatsPredJoin *pstatsjoin = PstatsjoinExtract
@@ -1255,8 +1255,8 @@ CStatsPredUtils::Pdrgpstatspredjoin
 	}
 
 	DrgPcrs *pdrgpcrsOutput = GPOS_NEW(memory_pool) DrgPcrs(memory_pool);
-	const ULONG ulSize = exprhdl.Arity();
-	for (ULONG ul = 0; ul < ulSize - 1; ul++)
+	const ULONG size = exprhdl.Arity();
+	for (ULONG ul = 0; ul < size - 1; ul++)
 	{
 		CColRefSet *pcrs = exprhdl.Pdprel(ul)->PcrsOutput();
 		pcrs->AddRef();

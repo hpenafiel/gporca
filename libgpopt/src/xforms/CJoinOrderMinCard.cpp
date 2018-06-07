@@ -155,7 +155,7 @@ CJoinOrderMinCard::MarkUsedEdges()
 
 	CExpression *pexprScalar = (*pexpr) [pexpr->Arity() - 1];
 	DrgPexpr *pdrgpexpr = CPredicateUtils::PdrgpexprConjuncts(m_memory_pool, pexprScalar);
-	const ULONG ulSize = pdrgpexpr->Size();
+	const ULONG size = pdrgpexpr->Size();
 
 	for (ULONG ulEdge = 0; ulEdge < m_ulEdges; ulEdge++)
 	{
@@ -165,7 +165,7 @@ CJoinOrderMinCard::MarkUsedEdges()
 			continue;
 		}
 
-		for (ULONG ulPred = 0; ulPred < ulSize; ulPred++)
+		for (ULONG ulPred = 0; ulPred < size; ulPred++)
 		{
 			if ((*pdrgpexpr)[ulPred] == pedge->m_pexpr)
 			{

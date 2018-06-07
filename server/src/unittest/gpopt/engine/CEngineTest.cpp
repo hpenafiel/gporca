@@ -456,7 +456,7 @@ GPOS_RESULT
 CEngineTest::EresTestEngine
 	(
 	Pfpexpr rgpf[],
-	ULONG ulSize
+	ULONG size
 	)
 {
 	CAutoMemoryPool amp;
@@ -468,7 +468,7 @@ CEngineTest::EresTestEngine
 	CMDAccessor mda(memory_pool, CMDCache::Pcache());
 	mda.RegisterProvider(CTestUtils::m_sysidDefault, pmdp);
 
-	for (ULONG ul = m_ulTestCounter; ul < ulSize; ul++)
+	for (ULONG ul = m_ulTestCounter; ul < size; ul++)
 	{
 		// install opt context in TLS
 		CAutoOptCtxt aoc
@@ -545,8 +545,8 @@ CEngineTest::EresUnittest_BuildMemoWithSubqueries()
 		BOOL fCorrelated = true;
 
 		// we get two expressions using each generator
-		const ULONG ulSize = 2 * GPOS_ARRAY_SIZE(rgpf);
-		for (ULONG ul = m_ulTestCounterSubq; ul < ulSize; ul++)
+		const ULONG size = 2 * GPOS_ARRAY_SIZE(rgpf);
+		for (ULONG ul = m_ulTestCounterSubq; ul < size; ul++)
 		{
 			CAutoMemoryPool amp;
 			IMemoryPool *memory_pool = amp.Pmp();

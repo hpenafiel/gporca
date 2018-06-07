@@ -1815,9 +1815,9 @@ CSubqueryHandler::FProcessScalarOperator
 
 	FnHandler *pfnh = NULL;
 	COperator::EOperatorId eopid = pexprScalar->Pop()->Eopid();
-	const ULONG ulSize = GPOS_ARRAY_SIZE(m_rgophdlr);
+	const ULONG size = GPOS_ARRAY_SIZE(m_rgophdlr);
 	// find the handler corresponding to the given operator
-	for (ULONG ul = 0; pfnh == NULL && ul < ulSize; ul++)
+	for (ULONG ul = 0; pfnh == NULL && ul < size; ul++)
 	{
 		if (eopid == m_rgophdlr[ul].m_eopid)
 		{
