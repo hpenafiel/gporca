@@ -1127,7 +1127,7 @@ CMDAccessor::RecordColumnStats
 
 	// extract the the histogram and insert it into the hashmap
 	const IMDRelation *pmdrel = Pmdrel(pmdidRel);
-	IMDId *mdid_type = pmdrel->Pmdcol(ulPos)->MDIdType();
+	IMDId *mdid_type = pmdrel->GetMdCol(ulPos)->MDIdType();
 	CHistogram *phist = Phist(memory_pool, mdid_type, pmdcolstats);
 	GPOS_ASSERT(NULL != phist);
 	phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);

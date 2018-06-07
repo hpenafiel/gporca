@@ -127,9 +127,9 @@ CParseHandlerMetadataColumns::EndElement
 		{
 			CParseHandlerMetadataColumn *pphCol = dynamic_cast<CParseHandlerMetadataColumn *>((*this)[ul]);
 			
-			GPOS_ASSERT(NULL != pphCol->Pmdcol());
+			GPOS_ASSERT(NULL != pphCol->GetMdCol());
 			
-			CMDColumn *pmdcol = pphCol->Pmdcol();
+			CMDColumn *pmdcol = pphCol->GetMdCol();
 			pmdcol->AddRef();
 			
 			m_pdrgpmdcol->Append(pmdcol);

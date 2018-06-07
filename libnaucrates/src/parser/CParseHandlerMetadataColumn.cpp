@@ -40,11 +40,11 @@ CParseHandlerMetadataColumn::CParseHandlerMetadataColumn
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pmdcol(NULL),
+	m_mdcol(NULL),
 	m_mdname(NULL),
 	m_mdid_type(NULL),
-	m_pdxlnDefaultValue(NULL),
-	m_ulWidth(ULONG_MAX)
+	m_dxl_default_val(NULL),
+	m_width(ULONG_MAX)
 {
 }
 
@@ -58,7 +58,7 @@ CParseHandlerMetadataColumn::CParseHandlerMetadataColumn
 //---------------------------------------------------------------------------
 CParseHandlerMetadataColumn::~CParseHandlerMetadataColumn()
 {
-	CRefCount::SafeRelease(m_pmdcol);
+	CRefCount::SafeRelease(m_mdcol);
 }
 
 //---------------------------------------------------------------------------
@@ -100,7 +100,7 @@ CParseHandlerMetadataColumn::StartElement
 	GPOS_DELETE(pstrColumnName);
 	
 	// parse attribute number
-	m_iAttNo = CDXLOperatorFactory::ExtractConvertAttrValueToInt
+	m_attno = CDXLOperatorFactory::ExtractConvertAttrValueToInt
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,
@@ -128,7 +128,7 @@ CParseHandlerMetadataColumn::StartElement
 								);
 
 	// parse attribute number
-	m_fNullable = CDXLOperatorFactory::ExtractConvertAttrValueToBool
+	m_is_nullable = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 								(
 								m_parse_handler_mgr->GetDXLMemoryManager(),
 								attrs,
@@ -141,7 +141,7 @@ CParseHandlerMetadataColumn::StartElement
 
 	if (NULL != xmlszColumnLength)
 	{
-		m_ulWidth = CDXLOperatorFactory::ConvertAttrValueToUlong
+		m_width = CDXLOperatorFactory::ConvertAttrValueToUlong
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
 						xmlszColumnLength,
@@ -150,12 +150,12 @@ CParseHandlerMetadataColumn::StartElement
 						);
 	}
 
-	m_fDropped = false;
+	m_is_dropped = false;
 	const XMLCh *xmlszDropped = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColDropped));
 
 	if (NULL != xmlszDropped)
 	{
-		m_fDropped = CDXLOperatorFactory::ConvertAttrValueToBool
+		m_is_dropped = CDXLOperatorFactory::ConvertAttrValueToBool
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
 						xmlszDropped,
@@ -205,23 +205,23 @@ CParseHandlerMetadataColumn::EndElement
 	// get node for default value expression from child parse handler
 	CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 	
-	m_pdxlnDefaultValue = op_parse_handler->CreateDXLNode();
+	m_dxl_default_val = op_parse_handler->CreateDXLNode();
 	
-	if (NULL != m_pdxlnDefaultValue)
+	if (NULL != m_dxl_default_val)
 	{
-		m_pdxlnDefaultValue->AddRef();
+		m_dxl_default_val->AddRef();
 	}
 	
-	m_pmdcol = GPOS_NEW(m_memory_pool) CMDColumn
+	m_mdcol = GPOS_NEW(m_memory_pool) CMDColumn
 							(
 							m_mdname,
-							m_iAttNo,
+							m_attno,
 							m_mdid_type,
 							m_type_modifier,
-							m_fNullable,
-							m_fDropped,
-							m_pdxlnDefaultValue,
-							m_ulWidth
+							m_is_nullable,
+							m_is_dropped,
+							m_dxl_default_val,
+							m_width
 							);
 
 	// deactivate handler
@@ -231,16 +231,16 @@ CParseHandlerMetadataColumn::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadataColumn::Pmdcol
+//		CParseHandlerMetadataColumn::GetMdCol
 //
 //	@doc:
 //		Return the constructed list of metadata columns
 //
 //---------------------------------------------------------------------------
 CMDColumn *
-CParseHandlerMetadataColumn::Pmdcol()
+CParseHandlerMetadataColumn::GetMdCol()
 {
-	return m_pmdcol;
+	return m_mdcol;
 }
 
 // EOF

@@ -35,13 +35,13 @@ namespace gpdxl
 	{
 		private:
 			// the metadata column
-			CMDColumn *m_pmdcol;
+			CMDColumn *m_mdcol;
 			
 			// column name
 			CMDName *m_mdname;
 			
 			// attribute number
-			INT m_iAttNo;
+			INT m_attno;
 			
 			// attribute type oid
 			IMDId *m_mdid_type;
@@ -49,16 +49,16 @@ namespace gpdxl
 			INT m_type_modifier;
 
 			// are nulls allowed for this column
-			BOOL m_fNullable;
+			BOOL m_is_nullable;
 			
 			// is column dropped
-			BOOL m_fDropped;
+			BOOL m_is_dropped;
 			
 			// default value expression if one exists
-			CDXLNode *m_pdxlnDefaultValue;
+			CDXLNode *m_dxl_default_val;
 
 			// width of the column
-			ULONG m_ulWidth;
+			ULONG m_width;
 			
 			// private copy ctor
 			CParseHandlerMetadataColumn(const CParseHandlerMetadataColumn &);
@@ -91,7 +91,7 @@ namespace gpdxl
 			
 			~CParseHandlerMetadataColumn();
 			
-			CMDColumn *Pmdcol();
+			CMDColumn *GetMdCol();
 			
 	};
 }

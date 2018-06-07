@@ -50,10 +50,10 @@ namespace gpopt
 			INT m_iAttno;
 			
 			// does column allow null values?
-			BOOL m_fNullable;
+			BOOL m_is_nullable;
 
 			// width of the column, for instance  char(10) column has width 10
-			ULONG m_ulWidth;
+			ULONG m_width;
 
 		public:
 
@@ -100,7 +100,7 @@ namespace gpopt
 			// does column allow null values?
 			BOOL FNullable() const
 			{
-				return m_fNullable;
+				return m_is_nullable;
 			}
 	
 			// is this a system column
@@ -114,7 +114,7 @@ namespace gpopt
 			virtual
 			ULONG Width() const
 			{
-				return m_ulWidth;
+				return m_width;
 			}
 
 #ifdef GPOS_DEBUG

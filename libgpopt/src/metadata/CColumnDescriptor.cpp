@@ -39,8 +39,8 @@ CColumnDescriptor::CColumnDescriptor
 	m_type_modifier(type_modifier),
 	m_name(memory_pool, name),
 	m_iAttno(iAttno),
-	m_fNullable(fNullable),
-	m_ulWidth(ulWidth)
+	m_is_nullable(fNullable),
+	m_width(ulWidth)
 {
 	GPOS_ASSERT(NULL != pmdtype);
 	GPOS_ASSERT(pmdtype->MDId()->IsValid());

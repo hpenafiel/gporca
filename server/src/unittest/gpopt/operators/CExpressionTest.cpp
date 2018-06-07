@@ -344,7 +344,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 	GPOS_ASSERT(2 < ulCols);
 
 	// create an index on the first column
-	const IMDColumn *pmdcol = pmdrel->Pmdcol(0);
+	const IMDColumn *pmdcol = pmdrel->GetMdCol(0);
 	const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
 	CColRef *pcrFirst = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 
@@ -368,7 +368,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 	DrgPcr *pdrgpcrTable = GPOS_NEW(memory_pool) DrgPcr(memory_pool);
 	for (ULONG ul = 0; ul < ulCols; ++ul)
 	{
-		const IMDColumn *pmdcol = pmdrel->Pmdcol(ul);
+		const IMDColumn *pmdcol = pmdrel->GetMdCol(ul);
 		const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
 		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 		pdrgpcrTable->Append(pcr);

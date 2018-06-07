@@ -184,7 +184,7 @@ CLogical::PosFromIndex
 		const ULONG ulPosRel = pmdindex->UlKey(ul);
 
 		// get the column and it's attno from the relation
-		const IMDColumn *pmdcol = pmdrel->Pmdcol(ulPosRel);
+		const IMDColumn *pmdcol = pmdrel->GetMdCol(ulPosRel);
 		INT iAttno = pmdcol->AttrNum();
 
 		// get the position of the index key column relative to the table descriptor

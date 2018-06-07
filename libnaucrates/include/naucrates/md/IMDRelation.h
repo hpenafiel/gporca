@@ -137,7 +137,7 @@ namespace gpmd
 			
 			// retrieve the column at the given position
 			virtual 
-			const IMDColumn *Pmdcol(ULONG ulPos) const = 0;
+			const IMDColumn *GetMdCol(ULONG ulPos) const = 0;
 			
 			// number of key sets
 			virtual

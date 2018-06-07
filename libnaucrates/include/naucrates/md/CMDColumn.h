@@ -44,7 +44,7 @@ namespace gpmd
 			CMDName *m_mdname;
 			
 			// attribute number
-			INT m_iAttNo;
+			INT m_attno;
 			
 			// column type
 			IMDId *m_mdid_type;
@@ -52,16 +52,16 @@ namespace gpmd
 			INT m_type_modifier;
 
 			// is NULL an allowed value for the attribute
-			BOOL m_fNullable;
+			BOOL m_is_nullable;
 
 			// is column dropped
-			BOOL m_fDropped;
+			BOOL m_is_dropped;
 			
 			// length of the column
 			ULONG m_length;
 			
 			// default value expression
-			gpdxl::CDXLNode *m_pdxlnDefaultValue;
+			gpdxl::CDXLNode *m_dxl_default_val;
 						
 			// private copy ctor
 			CMDColumn(const CMDColumn &);
@@ -103,7 +103,7 @@ namespace gpmd
 			virtual
 			BOOL FSystemColumn() const
 			{
-				return (0 > m_iAttNo);
+				return (0 > m_attno);
 			}
 
 			// length of the column

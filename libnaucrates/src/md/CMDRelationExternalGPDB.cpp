@@ -448,14 +448,14 @@ CMDRelationExternalGPDB::UlTriggers() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRelationExternalGPDB::Pmdcol
+//		CMDRelationExternalGPDB::GetMdCol
 //
 //	@doc:
 //		Returns the column at the specified position
 //
 //---------------------------------------------------------------------------
 const IMDColumn *
-CMDRelationExternalGPDB::Pmdcol
+CMDRelationExternalGPDB::GetMdCol
 	(
 	ULONG ulPos
 	)
@@ -484,7 +484,7 @@ CMDRelationExternalGPDB::PmdcolDistrColumn
 	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->Size());
 
 	ULONG ulDistrKeyPos = (*(*m_pdrgpulDistrColumns)[ulPos]);
-	return Pmdcol(ulDistrKeyPos);
+	return GetMdCol(ulDistrKeyPos);
 }
 
 
@@ -682,7 +682,7 @@ CMDRelationExternalGPDB::DebugPrint
 	const ULONG ulColumns = UlColumns();
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
-		const IMDColumn *pimdcol = Pmdcol(ul);
+		const IMDColumn *pimdcol = GetMdCol(ul);
 		pimdcol->DebugPrint(os);
 	}
 	os << std::endl;

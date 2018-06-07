@@ -2074,7 +2074,7 @@ CTranslatorDXLToExpr::Ptabdesc
 	ULONG ulPosNonDropped = 0;
 	for (ULONG ulPos = 0; ulPos < ulAllColumns; ulPos++)
 	{
-		const IMDColumn *pmdcol = pmdrel->Pmdcol(ulPos);
+		const IMDColumn *pmdcol = pmdrel->GetMdCol(ulPos);
 		if (pmdcol->IsDropped())
 		{
 			continue;
@@ -2112,7 +2112,7 @@ CTranslatorDXLToExpr::Ptabdesc
 
 		ULONG *pulPos = phmiulAttnoPosMapping->Find(&iAttno);
 		GPOS_ASSERT(NULL != pulPos);
-		const IMDColumn *pmdcolNext = pmdrel->Pmdcol(*pulPos);
+		const IMDColumn *pmdcolNext = pmdrel->GetMdCol(*pulPos);
 
 		BOOL fNullable = pmdcolNext->FNullable();
 
@@ -2277,7 +2277,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 	ULONG ulPosNonDropped = 0;
 	for (ULONG ulPos = 0; ulPos < ulAllColumns; ulPos++)
 	{
-		const IMDColumn *pmdcol = pmdrel->Pmdcol(ulPos);
+		const IMDColumn *pmdcol = pmdrel->GetMdCol(ulPos);
 		if (pmdcol->IsDropped())
 		{
 			continue;
@@ -2314,7 +2314,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 		BOOL fNullable = false;
 		if (ul < pmdrel->UlColumns())
 		{
-			fNullable = pmdrel->Pmdcol(ul)->FNullable();
+			fNullable = pmdrel->GetMdCol(ul)->FNullable();
 		}
 
 		const CDXLColDescr *pdxlcoldesc = (*col_descr_dxl_array)[ul];

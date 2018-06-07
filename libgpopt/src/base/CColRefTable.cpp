@@ -37,12 +37,12 @@ CColRefTable::CColRefTable
 	CColRef(pcoldesc->Pmdtype(), pcoldesc->TypeModifier(), id, pname),
 	m_iAttno(0),
 	m_ulSourceOpId(ulOpSource),
-	m_ulWidth(pcoldesc->Width())
+	m_width(pcoldesc->Width())
 {
 	GPOS_ASSERT(NULL != pname);
 
 	m_iAttno = pcoldesc->AttrNum();
-	m_fNullable = pcoldesc->FNullable();
+	m_is_nullable = pcoldesc->FNullable();
 }
 
 //---------------------------------------------------------------------------
@@ -68,9 +68,9 @@ CColRefTable::CColRefTable
 	:
 	CColRef(pmdtype, type_modifier, id, pname),
 	m_iAttno(iAttno),
-	m_fNullable(fNullable),
+	m_is_nullable(fNullable),
 	m_ulSourceOpId(ulOpSource),
-	m_ulWidth(ulWidth)
+	m_width(ulWidth)
 {
 	GPOS_ASSERT(NULL != pname);
 }

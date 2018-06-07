@@ -39,13 +39,13 @@ CMDColumn::CMDColumn
 	)
 	:
 	m_mdname(mdname),
-	m_iAttNo(iAttNo),
+	m_attno(iAttNo),
 	m_mdid_type(mdid_type),
 	m_type_modifier(type_modifier),
-	m_fNullable(fNullable),
-	m_fDropped(fDropped),
+	m_is_nullable(fNullable),
+	m_is_dropped(fDropped),
 	m_length(length),
-	m_pdxlnDefaultValue(pdxnlDefaultValue)
+	m_dxl_default_val(pdxnlDefaultValue)
 {
 }
 
@@ -61,7 +61,7 @@ CMDColumn::~CMDColumn()
 {
 	GPOS_DELETE(m_mdname);
 	m_mdid_type->Release();
-	CRefCount::SafeRelease(m_pdxlnDefaultValue);
+	CRefCount::SafeRelease(m_dxl_default_val);
 }
 
 
@@ -90,7 +90,7 @@ CMDColumn::Mdname() const
 INT
 CMDColumn::AttrNum() const
 {
-	return m_iAttNo;
+	return m_attno;
 }
 
 //---------------------------------------------------------------------------
@@ -124,7 +124,7 @@ CMDColumn::TypeModifier() const
 BOOL
 CMDColumn::FNullable() const
 {
-	return m_fNullable;
+	return m_is_nullable;
 }
 
 //---------------------------------------------------------------------------
@@ -138,7 +138,7 @@ CMDColumn::FNullable() const
 BOOL
 CMDColumn::IsDropped() const
 {
-	return m_fDropped;
+	return m_is_dropped;
 }
 
 //---------------------------------------------------------------------------
@@ -160,7 +160,7 @@ CMDColumn::Serialize
 						CDXLTokens::GetDXLTokenStr(EdxltokenColumn));
 	
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAttno), m_iAttNo);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAttno), m_attno);
 
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	if (IDefaultTypeModifier != TypeModifier())
@@ -168,24 +168,24 @@ CMDColumn::Serialize
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumnNullable), m_fNullable);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumnNullable), m_is_nullable);
 	if (ULONG_MAX != m_length)
 	{
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColWidth), m_length);
 	}
 
-	if (m_fDropped)
+	if (m_is_dropped)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColDropped), m_fDropped);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColDropped), m_is_dropped);
 	}
 	
 	// serialize default value
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 						CDXLTokens::GetDXLTokenStr(EdxltokenColumnDefaultValue));
 	
-	if (NULL != m_pdxlnDefaultValue)
+	if (NULL != m_dxl_default_val)
 	{
-		m_pdxlnDefaultValue->SerializeToDXL(xml_serializer);
+		m_dxl_default_val->SerializeToDXL(xml_serializer);
 	}
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 

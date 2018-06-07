@@ -445,7 +445,7 @@ CMDAccessorTest::EresUnittest_Indexes()
 #ifdef GPOS_DEBUG
 		const IMDColumn *pmdcol = 
 #endif // GPOS_DEBUG
-		pmdrel->Pmdcol(ulKeyColumn);
+		pmdrel->GetMdCol(ulKeyColumn);
 		
 #ifdef GPOS_DEBUG
 		pmdcol->DebugPrint(os); 
@@ -504,7 +504,7 @@ CMDAccessorTest::EresUnittest_CheckConstraint()
 	const ULONG ulCols = pmdrel->UlColumns() - pmdrel->UlSystemColumns();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
-		const IMDColumn *pmdcol = pmdrel->Pmdcol(ul);
+		const IMDColumn *pmdcol = pmdrel->GetMdCol(ul);
 		const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
 		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 		pdrgpcr->Append(pcr);
@@ -580,7 +580,7 @@ CMDAccessorTest::EresUnittest_IndexPartConstraint()
 	const ULONG ulCols = pmdrel->UlColumns() - pmdrel->UlSystemColumns();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
-		const IMDColumn *pmdcol = pmdrel->Pmdcol(ul);
+		const IMDColumn *pmdcol = pmdrel->GetMdCol(ul);
 		const IMDType *pmdtype = mda.Pmdtype(pmdcol->MDIdType());
 		CColRef *pcr = pcf->PcrCreate(pmdtype, pmdcol->TypeModifier());
 		pdrgpcr->Append(pcr);
