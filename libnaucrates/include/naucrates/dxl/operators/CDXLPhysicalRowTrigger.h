@@ -38,7 +38,7 @@ namespace gpdxl
 			IMDId *m_rel_mdid;
 
 			// trigger type
-			INT m_iType;
+			INT m_type;
 
 			// old column ids
 			ULongPtrArray *m_pdrgpulOld;
@@ -82,7 +82,7 @@ namespace gpdxl
 			// trigger type
 			INT IType() const
 			{
-				return m_iType;
+				return m_type;
 			}
 
 			// old column ids

@@ -3827,8 +3827,8 @@ CDXLOperatorFactory::Sysid
 	XMLCh *xmlszType = xmlsztokSysid.nextToken();
 	ULONG type = CDXLOperatorFactory::ConvertAttrValueToUlong(memory_manager_dxl, xmlszType, edxltokenAttr, edxltokenElement);
 	
-	XMLCh *xmlszName = xmlsztokSysid.nextToken();
-	CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszName);
+	XMLCh *xml_str_name = xmlsztokSysid.nextToken();
+	CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xml_str_name);
 	
 	CSystemId sysid((IMDId::EMDIdType) type, str_name->GetBuffer(), str_name->Length());	
 	GPOS_DELETE(str_name);

@@ -34,7 +34,7 @@ CLogicalRowTrigger::CLogicalRowTrigger
 	:
 	CLogical(memory_pool),
 	m_rel_mdid(NULL),
-	m_iType(0),
+	m_type(0),
 	m_pdrgpcrOld(NULL),
 	m_pdrgpcrNew(NULL),
 	m_efs(IMDFunction::EfsImmutable),
@@ -62,7 +62,7 @@ CLogicalRowTrigger::CLogicalRowTrigger
 	:
 	CLogical(memory_pool),
 	m_rel_mdid(pmdidRel),
-	m_iType(iType),
+	m_type(iType),
 	m_pdrgpcrOld(pdrgpcrOld),
 	m_pdrgpcrNew(pdrgpcrNew),
 	m_efs(IMDFunction::EfsImmutable),
@@ -111,7 +111,7 @@ CLogicalRowTrigger::InitFunctionProperties()
 		const IMDTrigger *pmdtrigger = md_accessor->Pmdtrigger(pmdrel->PmdidTrigger(ul));
 		if (!pmdtrigger->FEnabled() ||
 			!pmdtrigger->FRow() ||
-			(ITriggerType(pmdtrigger) & m_iType) != m_iType)
+			(ITriggerType(pmdtrigger) & m_type) != m_type)
 		{
 			continue;
 		}
@@ -194,7 +194,7 @@ CLogicalRowTrigger::FMatch
 	CLogicalRowTrigger *popRowTrigger = CLogicalRowTrigger::PopConvert(pop);
 
 	return m_rel_mdid->Equals(popRowTrigger->GetRelMdId()) &&
-			m_iType == popRowTrigger->IType() &&
+			m_type == popRowTrigger->IType() &&
 			m_pdrgpcrOld->Equals(popRowTrigger->PdrgpcrOld()) &&
 			m_pdrgpcrNew->Equals(popRowTrigger->PdrgpcrNew());
 }
@@ -211,7 +211,7 @@ ULONG
 CLogicalRowTrigger::HashValue() const
 {
 	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_rel_mdid->HashValue());
-	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<INT>(&m_type));
 
 	if (NULL != m_pdrgpcrOld)
 	{
@@ -256,7 +256,7 @@ CLogicalRowTrigger::PopCopyWithRemappedColumns
 
 	m_rel_mdid->AddRef();
 
-	return GPOS_NEW(memory_pool) CLogicalRowTrigger(memory_pool, m_rel_mdid, m_iType, pdrgpcrOld, pdrgpcrNew);
+	return GPOS_NEW(memory_pool) CLogicalRowTrigger(memory_pool, m_rel_mdid, m_type, pdrgpcrOld, pdrgpcrNew);
 }
 
 //---------------------------------------------------------------------------
@@ -395,7 +395,7 @@ CLogicalRowTrigger::OsPrint
 		return COperator::OsPrint(os);
 	}
 
-	os << SzId() << " (Type: " << m_iType << ")";
+	os << SzId() << " (Type: " << m_type << ")";
 
 	if (NULL != m_pdrgpcrOld)
 	{

@@ -52,7 +52,7 @@ namespace gpmd
 			IMDId *m_mdid_type_left;
 			
 			// type of right operand
-			IMDId *m_pmdidTypeRight;
+			IMDId *m_mdid_type_right;
 
 			// type of result operand
 			IMDId *m_mdid_type_result;

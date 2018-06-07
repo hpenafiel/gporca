@@ -56,10 +56,10 @@ namespace gpmd
 			IMDId *m_func_mdid;
 
 			// trigger type
-			INT m_iType;
+			INT m_type;
 
 			// is trigger enabled
-			BOOL m_fEnabled;
+			BOOL m_is_enabled;
 
 			// private copy ctor
 			CMDTriggerGPDB(const CMDTriggerGPDB &);
@@ -74,7 +74,7 @@ namespace gpmd
 				IMDId *pmdidRel,
 				IMDId *mdid_func,
 				INT iType,
-				BOOL fEnabled
+				BOOL is_enabled
 				);
 
 			// dtor
@@ -139,7 +139,7 @@ namespace gpmd
 			virtual
 			BOOL FEnabled() const
 			{
-				return m_fEnabled;
+				return m_is_enabled;
 			}
 
 			// serialize object in DXL format

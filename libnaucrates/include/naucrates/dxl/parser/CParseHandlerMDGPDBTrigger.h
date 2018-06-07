@@ -50,10 +50,10 @@ namespace gpdxl
 			IMDId *m_func_mdid;
 
 			// trigger type
-			INT m_iType;
+			INT m_type;
 
 			// is trigger enabled
-			BOOL m_fEnabled;
+			BOOL m_is_enabled;
 
 			// private copy ctor
 			CParseHandlerMDGPDBTrigger(const CParseHandlerMDGPDBTrigger &);

@@ -38,7 +38,7 @@ CPhysicalRowTrigger::CPhysicalRowTrigger
 	:
 	CPhysical(memory_pool),
 	m_rel_mdid(pmdidRel),
-	m_iType(iType),
+	m_type(iType),
 	m_pdrgpcrOld(pdrgpcrOld),
 	m_pdrgpcrNew(pdrgpcrNew),
 	m_pcrsRequiredLocal(NULL)
@@ -361,7 +361,7 @@ ULONG
 CPhysicalRowTrigger::HashValue() const
 {
 	ULONG ulHash = gpos::CombineHashes(COperator::HashValue(), m_rel_mdid->HashValue());
-	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<INT>(&m_iType));
+	ulHash = gpos::CombineHashes(ulHash, gpos::HashValue<INT>(&m_type));
 
 	if(NULL != m_pdrgpcrOld)
 	{
@@ -402,7 +402,7 @@ CPhysicalRowTrigger::FMatch
 	DrgPcr *pdrgpcrNew = popRowTrigger->PdrgpcrNew();
 
 	return m_rel_mdid->Equals(popRowTrigger->GetRelMdId()) &&
-			m_iType == popRowTrigger->IType() &&
+			m_type == popRowTrigger->IType() &&
 			CUtils::Equals(m_pdrgpcrOld, pdrgpcrOld) &&
 			CUtils::Equals(m_pdrgpcrNew, pdrgpcrNew);
 }
@@ -455,7 +455,7 @@ CPhysicalRowTrigger::OsPrint
 		return COperator::OsPrint(os);
 	}
 
-	os << SzId() << " (Type: " << m_iType << ")";
+	os << SzId() << " (Type: " << m_type << ")";
 
 	if (NULL != m_pdrgpcrOld)
 	{

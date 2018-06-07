@@ -36,7 +36,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	IMDId *pmdidRel,
 	IMDId *mdid_func,
 	INT iType,
-	BOOL fEnabled
+	BOOL is_enabled
 	)
 	:
 	m_memory_pool(memory_pool),
@@ -44,8 +44,8 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	m_mdname(mdname),
 	m_rel_mdid(pmdidRel),
 	m_func_mdid(mdid_func),
-	m_iType(iType),
-	m_fEnabled(fEnabled)
+	m_type(iType),
+	m_is_enabled(is_enabled)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(m_rel_mdid->IsValid());
@@ -83,7 +83,7 @@ CMDTriggerGPDB::~CMDTriggerGPDB()
 BOOL
 CMDTriggerGPDB::FRow() const
 {
-	return (m_iType & GPMD_TRIGGER_ROW);
+	return (m_type & GPMD_TRIGGER_ROW);
 }
 
 //---------------------------------------------------------------------------
@@ -97,7 +97,7 @@ CMDTriggerGPDB::FRow() const
 BOOL
 CMDTriggerGPDB::FBefore() const
 {
-	return (m_iType & GPMD_TRIGGER_BEFORE);
+	return (m_type & GPMD_TRIGGER_BEFORE);
 }
 
 //---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ CMDTriggerGPDB::FBefore() const
 BOOL
 CMDTriggerGPDB::Insert() const
 {
-	return (m_iType & GPMD_TRIGGER_INSERT);
+	return (m_type & GPMD_TRIGGER_INSERT);
 }
 
 //---------------------------------------------------------------------------
@@ -125,7 +125,7 @@ CMDTriggerGPDB::Insert() const
 BOOL
 CMDTriggerGPDB::FDelete() const
 {
-	return (m_iType & GPMD_TRIGGER_DELETE);
+	return (m_type & GPMD_TRIGGER_DELETE);
 }
 
 //---------------------------------------------------------------------------
@@ -139,7 +139,7 @@ CMDTriggerGPDB::FDelete() const
 BOOL
 CMDTriggerGPDB::FUpdate() const
 {
-	return (m_iType & GPMD_TRIGGER_UPDATE);
+	return (m_type & GPMD_TRIGGER_UPDATE);
 }
 
 //---------------------------------------------------------------------------
@@ -170,7 +170,7 @@ CMDTriggerGPDB::Serialize
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTriggerInsert), Insert());
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTriggerDelete), FDelete());
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTriggerUpdate), FUpdate());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTriggerEnabled), m_fEnabled);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTriggerEnabled), m_is_enabled);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTrigger));
@@ -242,7 +242,7 @@ CMDTriggerGPDB::DebugPrint
 	}
 	os << "]" << std::endl;
 
-	if (m_fEnabled)
+	if (m_is_enabled)
 	{
 		os << "Trigger enabled: Yes" << std::endl;
 	}

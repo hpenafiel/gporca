@@ -36,7 +36,7 @@ CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 	:
 	CDXLPhysical(memory_pool),
 	m_rel_mdid(pmdidRel),
-	m_iType(iType),
+	m_type(iType),
 	m_pdrgpulOld(pdrgpulOld),
 	m_pdrgpulNew(pdrgpulNew)
 {
@@ -109,7 +109,7 @@ CDXLPhysicalRowTrigger::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	m_rel_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenRelationMdid));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenMDType), m_iType);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenMDType), m_type);
 
 	if (NULL != m_pdrgpulOld)
 	{

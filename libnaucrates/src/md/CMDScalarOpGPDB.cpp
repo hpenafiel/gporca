@@ -48,7 +48,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	m_mdid(pmdid),
 	m_mdname(mdname),
 	m_mdid_type_left(pmdidTypeLeft),
-	m_pmdidTypeRight(pmdidTypeRight),
+	m_mdid_type_right(pmdidTypeRight),
 	m_mdid_type_result(pmdidTypeResult),
 	m_func_mdid(mdid_func),
 	m_mdid_commute_opr(pmdidOpCommute),
@@ -77,7 +77,7 @@ CMDScalarOpGPDB::~CMDScalarOpGPDB()
 	m_func_mdid->Release();	
 
 	CRefCount::SafeRelease(m_mdid_type_left);
-	CRefCount::SafeRelease(m_pmdidTypeRight);
+	CRefCount::SafeRelease(m_mdid_type_right);
 	CRefCount::SafeRelease(m_mdid_commute_opr);
 	CRefCount::SafeRelease(m_mdid_inverse_opr);
 	
@@ -139,7 +139,7 @@ CMDScalarOpGPDB::PmdidTypeLeft() const
 IMDId *
 CMDScalarOpGPDB::PmdidTypeRight() const
 {
-	return m_pmdidTypeRight;
+	return m_mdid_type_right;
 }
 
 //---------------------------------------------------------------------------
@@ -273,7 +273,7 @@ CMDScalarOpGPDB::Serialize
 							EdxltokenGPDBScalarOpCommOpId, EdxltokenGPDBScalarOpInverseOpId
 							};
 	
-	IMDId *rgMdid[6] = {m_mdid_type_left, m_pmdidTypeRight, m_mdid_type_result, 
+	IMDId *rgMdid[6] = {m_mdid_type_left, m_mdid_type_right, m_mdid_type_result, 
 						m_func_mdid, m_mdid_commute_opr, m_mdid_inverse_opr};
 	
 	for (ULONG ul = 0; ul < GPOS_ARRAY_SIZE(rgEdxltoken); ul++)

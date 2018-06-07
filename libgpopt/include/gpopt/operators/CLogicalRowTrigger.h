@@ -34,7 +34,7 @@ namespace gpopt
 			IMDId *m_rel_mdid;
 
 			// trigger type
-			INT m_iType;
+			INT m_type;
 
 			// old columns
 			DrgPcr *m_pdrgpcrOld;
@@ -100,7 +100,7 @@ namespace gpopt
 			// trigger type
 			INT IType() const
 			{
-				return m_iType;
+				return m_type;
 			}
 
 			// old columns
