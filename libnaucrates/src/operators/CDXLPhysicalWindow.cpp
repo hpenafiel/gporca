@@ -33,10 +33,10 @@ CDXLPhysicalWindow::CDXLPhysicalWindow
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_pdrgpulPartCols(pdrgpulPartCols),
+	m_part_by_col_identifier_array(pdrgpulPartCols),
 	m_dxl_window_key_array(pdrgpdxlwk)
 {
-	GPOS_ASSERT(NULL != m_pdrgpulPartCols);
+	GPOS_ASSERT(NULL != m_part_by_col_identifier_array);
 	GPOS_ASSERT(NULL != m_dxl_window_key_array);
 }
 
@@ -50,7 +50,7 @@ CDXLPhysicalWindow::CDXLPhysicalWindow
 //---------------------------------------------------------------------------
 CDXLPhysicalWindow::~CDXLPhysicalWindow()
 {
-	m_pdrgpulPartCols->Release();
+	m_part_by_col_identifier_array->Release();
 	m_dxl_window_key_array->Release();
 }
 
@@ -93,7 +93,7 @@ CDXLPhysicalWindow::GetOpNameStr() const
 ULONG
 CDXLPhysicalWindow::UlPartCols() const
 {
-	return m_pdrgpulPartCols->Size();
+	return m_part_by_col_identifier_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -150,7 +150,7 @@ CDXLPhysicalWindow::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
 	// serialize partition keys
-	CWStringDynamic *pstrPartCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulPartCols);
+	CWStringDynamic *pstrPartCols = CDXLUtils::Serialize(m_memory_pool, m_part_by_col_identifier_array);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartKeys), pstrPartCols);
 	GPOS_DELETE(pstrPartCols);
 
@@ -193,7 +193,7 @@ CDXLPhysicalWindow::AssertValid
 {
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(dxlnode, validate_children);
-	GPOS_ASSERT(NULL != m_pdrgpulPartCols);
+	GPOS_ASSERT(NULL != m_part_by_col_identifier_array);
 	GPOS_ASSERT(NULL != m_dxl_window_key_array);
 	GPOS_ASSERT(EdxlwindowIndexSentinel == dxlnode->Arity());
 	CDXLNode *child_dxlnode = (*dxlnode)[EdxlwindowIndexChild];

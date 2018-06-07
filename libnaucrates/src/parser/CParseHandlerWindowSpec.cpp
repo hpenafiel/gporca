@@ -36,10 +36,10 @@ CParseHandlerWindowSpec::CParseHandlerWindowSpec
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpulPartCols(NULL),
-	m_pdxlws(NULL),
+	m_part_by_col_identifier_array(NULL),
+	m_dxl_window_spec_gen(NULL),
 	m_mdname(NULL),
-	m_fHasWindowFrame(false)
+	m_has_window_frame(false)
 {
 }
 
@@ -63,21 +63,21 @@ CParseHandlerWindowSpec::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowSpec), element_local_name))
 	{
 		GPOS_ASSERT(0 == this->Length());
-		GPOS_ASSERT(NULL == m_pdxlws);
+		GPOS_ASSERT(NULL == m_dxl_window_spec_gen);
 		GPOS_ASSERT(NULL == m_mdname);
 
 		// parse alias from attributes
-		const XMLCh *xmlszAlias = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenAlias));
-		if (NULL != xmlszAlias)
+		const XMLCh *xml_alias = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenAlias));
+		if (NULL != xml_alias)
 		{
-			CWStringDynamic *pstrAlias = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszAlias);
-			m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrAlias);
-			GPOS_DELETE(pstrAlias);
+			CWStringDynamic *str_alias = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_alias);
+			m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, str_alias);
+			GPOS_DELETE(str_alias);
 		}
 
-		const XMLCh *xmlszPartCols= CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPartKeys, EdxltokenPhysicalWindow);
-		m_pdrgpulPartCols = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPartCols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
-		GPOS_ASSERT(NULL != m_pdrgpulPartCols);
+		const XMLCh *xml_part_cols= CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPartKeys, EdxltokenPhysicalWindow);
+		m_part_by_col_identifier_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xml_part_cols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
+		GPOS_ASSERT(NULL != m_part_by_col_identifier_array);
 
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), element_local_name))
@@ -93,16 +93,16 @@ CParseHandlerWindowSpec::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), element_local_name))
 	{
-		m_fHasWindowFrame = true;
+		m_has_window_frame = true;
 
 		// parse handler for the leading and trailing scalar values
-		CParseHandlerBase *pphWf =
+		CParseHandlerBase *window_frame_parse_handler =
 				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowFrame), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphWf);
+		m_parse_handler_mgr->ActivateParseHandler(window_frame_parse_handler);
 
 		// store parse handler
-		this->Append(pphWf);
-		pphWf->startElement(element_uri, element_local_name, element_qname, attrs);
+		this->Append(window_frame_parse_handler);
+		window_frame_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -140,14 +140,14 @@ CParseHandlerWindowSpec::EndElement
 
 	if (1 == this->Length())
 	{
-		if (m_fHasWindowFrame)
+		if (m_has_window_frame)
 		{
 			// In GPDB 5 and before, window specification cannot have a window frame specification
 			// without sort columns. This changed in GPDB 6/Postgres 8.4+ where a query
 			// select b,c, count(c) over (partition by b) from (select * from foo) s;
 			// adds a window frame that is unbounded.
-			CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[0]);
-			window_frame = pphWf->GetWindowFrame();
+			CParseHandlerWindowFrame *window_frame_parse_handler = dynamic_cast<CParseHandlerWindowFrame *>((*this)[0]);
+			window_frame = window_frame_parse_handler->GetWindowFrame();
 		}
 		else
 		{
@@ -162,10 +162,10 @@ CParseHandlerWindowSpec::EndElement
 		sort_col_list_dxl = sort_col_list_parse_handler->CreateDXLNode();
 		sort_col_list_dxl->AddRef();
 
-		CParseHandlerWindowFrame *pphWf = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
-		window_frame = pphWf->GetWindowFrame();
+		CParseHandlerWindowFrame *window_frame_parse_handler = dynamic_cast<CParseHandlerWindowFrame *>((*this)[1]);
+		window_frame = window_frame_parse_handler->GetWindowFrame();
 	}
-	m_pdxlws = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_pdrgpulPartCols, m_mdname, sort_col_list_dxl, window_frame);
+	m_dxl_window_spec_gen = GPOS_NEW(m_memory_pool) CDXLWindowSpec(m_memory_pool, m_part_by_col_identifier_array, m_mdname, sort_col_list_dxl, window_frame);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

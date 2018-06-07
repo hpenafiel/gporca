@@ -41,7 +41,7 @@ namespace gpdxl
 		private:
 
 			// partition columns
-			ULongPtrArray *m_pdrgpulPartCols;
+			ULongPtrArray *m_part_by_col_identifier_array;
 
 			// window keys
 			CDXLWindowKeyArray *m_dxl_window_key_array;
@@ -68,7 +68,7 @@ namespace gpdxl
 			// return partition columns
 			const ULongPtrArray *PrgpulPartCols() const
 			{
-				return m_pdrgpulPartCols;
+				return m_part_by_col_identifier_array;
 			}
 
 			// number of window keys
