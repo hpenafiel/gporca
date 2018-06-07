@@ -110,7 +110,7 @@ CParseHandlerWindowKeyList::EndElement
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerWindowKey *pphWk = dynamic_cast<CParseHandlerWindowKey *>((*this)[ul]);
-		m_pdrgpdxlwk->Append(pphWk->Pdxlwk());
+		m_pdrgpdxlwk->Append(pphWk->GetDxlWindowKeyGen());
 	}
 
 	// deactivate handler

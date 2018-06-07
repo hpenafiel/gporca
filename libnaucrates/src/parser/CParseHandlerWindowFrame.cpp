@@ -35,8 +35,8 @@ CParseHandlerWindowFrame::CParseHandlerWindowFrame
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_edxlfs(EdxlfsSentinel),
-	m_edxlfes(EdxlfesSentinel),
+	m_dxl_win_frame_spec(EdxlfsSentinel),
+	m_dxl_frame_exclusion_strategy(EdxlfesSentinel),
 	m_window_frame(NULL)
 {
 }
@@ -60,8 +60,8 @@ CParseHandlerWindowFrame::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenWindowFrame), element_local_name))
 	{
-		m_edxlfs = CDXLOperatorFactory::ParseDXLFrameSpec(attrs);
-		m_edxlfes = CDXLOperatorFactory::ParseFrameExclusionStrategy(attrs);
+		m_dxl_win_frame_spec = CDXLOperatorFactory::ParseDXLFrameSpec(attrs);
+		m_dxl_frame_exclusion_strategy = CDXLOperatorFactory::ParseFrameExclusionStrategy(attrs);
 
 		// parse handler for the trailing window frame edge
 		CParseHandlerBase *trailing_val_parse_handler_base =
@@ -117,7 +117,7 @@ CParseHandlerWindowFrame::EndElement
 	CDXLNode *dxlnode_leading = leading_val_parse_handler_base->CreateDXLNode();
 	dxlnode_leading->AddRef();
 
-	m_window_frame = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_edxlfs, m_edxlfes, dxlnode_leading, dxlnode_trailing);
+	m_window_frame = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_dxl_win_frame_spec, m_dxl_frame_exclusion_strategy, dxlnode_leading, dxlnode_trailing);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

@@ -54,10 +54,10 @@ namespace gpdxl
 			IMemoryPool *m_memory_pool;
 
 			// row or range based window specification method
-			EdxlFrameSpec m_edxlfs;
+			EdxlFrameSpec m_dxl_win_frame_spec;
 
 			// exclusion strategy
-			EdxlFrameExclusionStrategy m_edxlfes;
+			EdxlFrameExclusionStrategy m_dxl_frame_exclusion_strategy;
 
 			// private copy ctor
 			CDXLWindowFrame(const CDXLWindowFrame&);
@@ -85,13 +85,13 @@ namespace gpdxl
 
 			EdxlFrameSpec ParseDXLFrameSpec() const
 			{
-				return  m_edxlfs;
+				return  m_dxl_win_frame_spec;
 			}
 
 			// exclusion strategy
 			EdxlFrameExclusionStrategy ParseFrameExclusionStrategy() const
 			{
-				return m_edxlfes;
+				return m_dxl_frame_exclusion_strategy;
 			}
 
 			// return window boundary trailing
