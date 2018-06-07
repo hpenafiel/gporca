@@ -64,17 +64,17 @@ CParseHandlerWindowFrame::StartElement
 		m_edxlfes = CDXLOperatorFactory::ParseFrameExclusionStrategy(attrs);
 
 		// parse handler for the trailing window frame edge
-		CParseHandlerBase *pphTrailingVal =
+		CParseHandlerBase *trailing_val_parse_handler_base =
 				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameTrailingEdge), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphTrailingVal);
+		m_parse_handler_mgr->ActivateParseHandler(trailing_val_parse_handler_base);
 
 		// parse handler for the leading scalar values
-		CParseHandlerBase *pphLeadingVal =
+		CParseHandlerBase *leading_val_parse_handler_base =
 				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarWindowFrameLeadingEdge), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphLeadingVal);
+		m_parse_handler_mgr->ActivateParseHandler(leading_val_parse_handler_base);
 
-		this->Append(pphLeadingVal);
-		this->Append(pphTrailingVal);
+		this->Append(leading_val_parse_handler_base);
+		this->Append(trailing_val_parse_handler_base);
 	}
 	else
 	{
@@ -107,17 +107,17 @@ CParseHandlerWindowFrame::EndElement
 	GPOS_ASSERT(NULL == m_window_frame);
 	GPOS_ASSERT(2 == this->Length());
 
-	CParseHandlerScalarOp *pphTrailingVal = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-	GPOS_ASSERT(NULL != pphTrailingVal);
-	CDXLNode *pdxlnTrailing = pphTrailingVal->CreateDXLNode();
-	pdxlnTrailing->AddRef();
+	CParseHandlerScalarOp *trailing_val_parse_handler_base = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+	GPOS_ASSERT(NULL != trailing_val_parse_handler_base);
+	CDXLNode *dxlnode_trailing = trailing_val_parse_handler_base->CreateDXLNode();
+	dxlnode_trailing->AddRef();
 
-	CParseHandlerScalarOp *pphLeadingVal = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
-	GPOS_ASSERT(NULL != pphLeadingVal);
-	CDXLNode *pdxlnLeading = pphLeadingVal->CreateDXLNode();
-	pdxlnLeading->AddRef();
+	CParseHandlerScalarOp *leading_val_parse_handler_base = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
+	GPOS_ASSERT(NULL != leading_val_parse_handler_base);
+	CDXLNode *dxlnode_leading = leading_val_parse_handler_base->CreateDXLNode();
+	dxlnode_leading->AddRef();
 
-	m_window_frame = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_edxlfs, m_edxlfes, pdxlnLeading, pdxlnTrailing);
+	m_window_frame = GPOS_NEW(m_memory_pool) CDXLWindowFrame(m_memory_pool, m_edxlfs, m_edxlfes, dxlnode_leading, dxlnode_trailing);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
