@@ -51,7 +51,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	m_has_oids(fHasOids),
 	m_rel_storage_type(rel_storage_type),
 	m_rel_distr_policy(rel_distr_policy),
-	m_pdrgpmdcol(pdrgpmdcol),
+	m_md_col_array(pdrgpmdcol),
 	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
 	m_ulSystemColumns(0),
@@ -111,7 +111,7 @@ CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
-	m_pdrgpmdcol->Release();
+	m_md_col_array->Release();
 	m_pdrgpdrgpulKeys->Release();
 	m_pdrgpdoubleColWidths->Release();
 	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
@@ -188,9 +188,9 @@ CMDRelationCtasGPDB::Ereldistribution() const
 ULONG
 CMDRelationCtasGPDB::UlColumns() const
 {
-	GPOS_ASSERT(NULL != m_pdrgpmdcol);
+	GPOS_ASSERT(NULL != m_md_col_array);
 
-	return m_pdrgpmdcol->Size();
+	return m_md_col_array->Size();
 }
 
 // Return the width of a column with regards to the position
@@ -268,9 +268,9 @@ CMDRelationCtasGPDB::GetMdCol
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpmdcol->Size());
+	GPOS_ASSERT(ulPos < m_md_col_array->Size());
 
-	return (*m_pdrgpmdcol)[ulPos];
+	return (*m_md_col_array)[ulPos];
 }
 
 //---------------------------------------------------------------------------
@@ -344,10 +344,10 @@ CMDRelationCtasGPDB::Serialize
 	// serialize columns
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
-	const ULONG ulCols = m_pdrgpmdcol->Size();
+	const ULONG ulCols = m_md_col_array->Size();
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
-		CMDColumn *pmdcol = (*m_pdrgpmdcol)[ul];
+		CMDColumn *pmdcol = (*m_md_col_array)[ul];
 		pmdcol->Serialize(xml_serializer);
 	}
 

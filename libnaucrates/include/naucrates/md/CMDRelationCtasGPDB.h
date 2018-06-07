@@ -72,7 +72,7 @@ namespace gpmd
 			GetRelDistrPolicy m_rel_distr_policy;
 
 			// columns
-			DrgPmdcol *m_pdrgpmdcol;
+			DrgPmdcol *m_md_col_array;
 
 			// indices of distribution columns
 			ULongPtrArray *m_pdrgpulDistrColumns;

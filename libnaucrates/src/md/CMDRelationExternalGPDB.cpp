@@ -46,7 +46,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_mdid(pmdid),
 	m_mdname(mdname),
 	m_rel_distr_policy(rel_distr_policy),
-	m_pdrgpmdcol(pdrgpmdcol),
+	m_md_col_array(pdrgpmdcol),
 	m_ulDroppedCols(0),
 	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
 	m_fConvertHashToRandom(fConvertHashToRandom),
@@ -126,7 +126,7 @@ CMDRelationExternalGPDB::~CMDRelationExternalGPDB()
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
-	m_pdrgpmdcol->Release();
+	m_md_col_array->Release();
 	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
 	CRefCount::SafeRelease(m_pdrgpdrgpulKeys);
 	m_pdrgpmdIndexInfo->Release();
@@ -193,9 +193,9 @@ CMDRelationExternalGPDB::Ereldistribution() const
 ULONG
 CMDRelationExternalGPDB::UlColumns() const
 {
-	GPOS_ASSERT(NULL != m_pdrgpmdcol);
+	GPOS_ASSERT(NULL != m_md_col_array);
 
-	return m_pdrgpmdcol->Size();
+	return m_md_col_array->Size();
 }
 
 // Return the width of a column with regards to the position
@@ -461,9 +461,9 @@ CMDRelationExternalGPDB::GetMdCol
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpmdcol->Size());
+	GPOS_ASSERT(ulPos < m_md_col_array->Size());
 
-	return (*m_pdrgpmdcol)[ulPos];
+	return (*m_md_col_array)[ulPos];
 }
 
 //---------------------------------------------------------------------------
@@ -616,9 +616,9 @@ CMDRelationExternalGPDB::Serialize
 	// serialize columns
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
-	for (ULONG ul = 0; ul < m_pdrgpmdcol->Size(); ul++)
+	for (ULONG ul = 0; ul < m_md_col_array->Size(); ul++)
 	{
-		CMDColumn *pmdcol = (*m_pdrgpmdcol)[ul];
+		CMDColumn *pmdcol = (*m_md_col_array)[ul];
 		pmdcol->Serialize(xml_serializer);
 	}
 

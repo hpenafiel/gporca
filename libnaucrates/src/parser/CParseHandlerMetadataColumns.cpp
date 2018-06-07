@@ -39,7 +39,7 @@ CParseHandlerMetadataColumns::CParseHandlerMetadataColumns
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpmdcol(NULL)
+	m_md_col_array(NULL)
 {
 }
 
@@ -53,7 +53,7 @@ CParseHandlerMetadataColumns::CParseHandlerMetadataColumns
 //---------------------------------------------------------------------------
 CParseHandlerMetadataColumns::~CParseHandlerMetadataColumns()
 {
-	CRefCount::SafeRelease(m_pdrgpmdcol);
+	CRefCount::SafeRelease(m_md_col_array);
 }
 
 //---------------------------------------------------------------------------
@@ -76,22 +76,22 @@ CParseHandlerMetadataColumns::StartElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// start of a columns' list
-		GPOS_ASSERT(NULL == m_pdrgpmdcol);
+		GPOS_ASSERT(NULL == m_md_col_array);
 		
-		m_pdrgpmdcol = GPOS_NEW(m_memory_pool) DrgPmdcol(m_memory_pool);
+		m_md_col_array = GPOS_NEW(m_memory_pool) DrgPmdcol(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumn), element_local_name))
 	{
 		// column list must be initialized already
-		GPOS_ASSERT(NULL != m_pdrgpmdcol);
+		GPOS_ASSERT(NULL != m_md_col_array);
 		
 		// activate parse handler to parse the column info
-		CParseHandlerBase *pphCol = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_parse_handler_mgr, this);
+		CParseHandlerBase *col_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumn), m_parse_handler_mgr, this);
 		
-		m_parse_handler_mgr->ActivateParseHandler(pphCol);
-		this->Append(pphCol);
+		m_parse_handler_mgr->ActivateParseHandler(col_parse_handler);
+		this->Append(col_parse_handler);
 		
-		pphCol->startElement(element_uri, element_local_name, element_qname, attrs);
+		col_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -119,20 +119,20 @@ CParseHandlerMetadataColumns::EndElement
 	if(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenColumns), element_local_name))
 	{
 		// end of the columns' list
-		GPOS_ASSERT(NULL != m_pdrgpmdcol);
+		GPOS_ASSERT(NULL != m_md_col_array);
 		
 		const ULONG size = this->Length();
 		// add parsed columns to the list
 		for (ULONG ul = 0; ul < size; ul++)
 		{
-			CParseHandlerMetadataColumn *pphCol = dynamic_cast<CParseHandlerMetadataColumn *>((*this)[ul]);
+			CParseHandlerMetadataColumn *md_col_parse_handler = dynamic_cast<CParseHandlerMetadataColumn *>((*this)[ul]);
 			
-			GPOS_ASSERT(NULL != pphCol->GetMdCol());
+			GPOS_ASSERT(NULL != md_col_parse_handler->GetMdCol());
 			
-			CMDColumn *pmdcol = pphCol->GetMdCol();
-			pmdcol->AddRef();
+			CMDColumn *md_col = md_col_parse_handler->GetMdCol();
+			md_col->AddRef();
 			
-			m_pdrgpmdcol->Append(pmdcol);
+			m_md_col_array->Append(md_col);
 		}
 		// deactivate handler
 		m_parse_handler_mgr->DeactivateHandler();
@@ -146,16 +146,16 @@ CParseHandlerMetadataColumns::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerMetadataColumns::Pdrgpmdcol
+//		CParseHandlerMetadataColumns::GetMdColArray
 //
 //	@doc:
 //		Return the constructed list of metadata columns
 //
 //---------------------------------------------------------------------------
 DrgPmdcol *
-CParseHandlerMetadataColumns::Pdrgpmdcol()
+CParseHandlerMetadataColumns::GetMdColArray()
 {
-	return m_pdrgpmdcol;
+	return m_md_col_array;
 }
 
 // EOF

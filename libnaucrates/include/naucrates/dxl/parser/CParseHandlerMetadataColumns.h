@@ -38,7 +38,7 @@ namespace gpdxl
 	{
 		private:
 			// list of columns
-			DrgPmdcol *m_pdrgpmdcol;
+			DrgPmdcol *m_md_col_array;
 		
 			// private copy ctor
 			CParseHandlerMetadataColumns(const CParseHandlerMetadataColumns &);
@@ -73,7 +73,7 @@ namespace gpdxl
 
 			
 			// returns the constructed columns list
-			DrgPmdcol *Pdrgpmdcol();
+			DrgPmdcol *GetMdColArray();
 			
 	};
 }

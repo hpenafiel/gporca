@@ -163,10 +163,10 @@ CParseHandlerMDRelationCtas::EndElement
 	CParseHandlerMetadataColumns *pphMdCol = dynamic_cast<CParseHandlerMetadataColumns *>((*this)[0]);
 	CParseHandlerCtasStorageOptions *ctas_options_parse_handler = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[1]);
 
-	GPOS_ASSERT(NULL != pphMdCol->Pdrgpmdcol());
+	GPOS_ASSERT(NULL != pphMdCol->GetMdColArray());
 	GPOS_ASSERT(NULL != ctas_options_parse_handler->GetDxlCtasStorageOption());
 
-	DrgPmdcol *pdrgpmdcol = pphMdCol->Pdrgpmdcol();
+	DrgPmdcol *pdrgpmdcol = pphMdCol->GetMdColArray();
 	CDXLCtasStorageOptions *dxl_ctas_storage_options = ctas_options_parse_handler->GetDxlCtasStorageOption();
 
 	pdrgpmdcol->AddRef();

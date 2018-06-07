@@ -58,7 +58,7 @@ namespace gpmd
 			GetRelDistrPolicy m_rel_distr_policy;
 
 			// columns
-			DrgPmdcol *m_pdrgpmdcol;
+			DrgPmdcol *m_md_col_array;
 			
 			// number of dropped columns
 			ULONG m_ulDroppedCols;
