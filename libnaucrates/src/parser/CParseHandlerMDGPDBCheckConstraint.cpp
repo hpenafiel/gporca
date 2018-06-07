@@ -92,11 +92,11 @@ CParseHandlerMDGPDBCheckConstraint::StartElement
 	m_rel_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelationMdid, EdxltokenCheckConstraint);
 
 	// create and activate the parse handler for the child scalar expression node
-	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pph);
+	CParseHandlerBase *scalar_expr_handler_base = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(scalar_expr_handler_base);
 
 	// store parse handler
-	this->Append(pph);
+	this->Append(scalar_expr_handler_base);
 }
 
 //---------------------------------------------------------------------------
@@ -124,11 +124,11 @@ CParseHandlerMDGPDBCheckConstraint::EndElement
 	// get node for default value expression from child parse handler
 	CParseHandlerScalarOp *op_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
 
-	CDXLNode *pdxlnScExpr = op_parse_handler->CreateDXLNode();
-	GPOS_ASSERT(NULL != pdxlnScExpr);
-	pdxlnScExpr->AddRef();
+	CDXLNode *dxlnode_scalar_expr = op_parse_handler->CreateDXLNode();
+	GPOS_ASSERT(NULL != dxlnode_scalar_expr);
+	dxlnode_scalar_expr->AddRef();
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_mdid, m_mdname, m_rel_mdid, pdxlnScExpr);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDCheckConstraintGPDB(m_memory_pool, m_mdid, m_mdname, m_rel_mdid, dxlnode_scalar_expr);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
