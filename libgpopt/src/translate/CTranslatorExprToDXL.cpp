@@ -5386,7 +5386,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 
 	const ULONG ulColumns = ptabdesc->UlColumns();
 
-	IntPtrArray *pdrgpiVarTypeMod = pmdrel->PdrgpiVarTypeMod();
+	IntPtrArray *pdrgpiVarTypeMod = pmdrel->GetVarTypeModArray();
 	GPOS_ASSERT(ulColumns == pdrgpiVarTypeMod->Size());
 
 	// translate col descriptors
@@ -5433,9 +5433,9 @@ CTranslatorExprToDXL::PdxlnCTAS
 	}
 
 	CMDName *pmdnameSchema = NULL;
-	if (NULL != pmdrel->PmdnameSchema())
+	if (NULL != pmdrel->GetMdNameSchema())
 	{
-		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->PmdnameSchema()->GetMDName());
+		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pmdrel->GetMdNameSchema()->GetMDName());
 	}
 
 	pdrgpiVarTypeMod->AddRef();
@@ -5448,7 +5448,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 									pmdrel->GetDxlCtasStorageOption(),
 									pmdrel->Ereldistribution(),
 									pdrgpulDistr,
-									pmdrel->FTemporary(),
+									pmdrel->IsTemporary(),
 									pmdrel->FHasOids(),
 									pmdrel->Erelstorage(),
 									pdrgpul,

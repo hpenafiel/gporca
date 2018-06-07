@@ -58,7 +58,7 @@ namespace gpopt
 			DrgPcoldesc *m_pdrgpcoldesc;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
+			IMDRelation::GetRelDistrPolicy m_rel_distr_policy;
 			
 			// storage type
 			IMDRelation::Erelstoragetype m_erelstoragetype;
@@ -103,7 +103,7 @@ namespace gpopt
 				IMDId *pmdid,
 				const CName &,
 				BOOL fConvertHashToRandom,
-				IMDRelation::Ereldistrpolicy rel_distr_policy,
+				IMDRelation::GetRelDistrPolicy rel_distr_policy,
 				IMDRelation::Erelstoragetype erelstoragetype,
 				ULONG ulExecuteAsUser
 				);
@@ -177,7 +177,7 @@ namespace gpopt
 			ULONG UlPartitions() const;
 
 			// distribution policy
-			IMDRelation::Ereldistrpolicy Ereldistribution() const 
+			IMDRelation::GetRelDistrPolicy Ereldistribution() const 
 			{
 				return m_rel_distr_policy;
 			}

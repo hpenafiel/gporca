@@ -41,7 +41,7 @@ namespace gpdxl
 			CMDName *m_mdname_schema;
 		
 			// table name
-			CMDName *m_pmdnameRel;
+			CMDName *m_mdname_rel;
 			
 			// list of columns
 			ColumnDescrDXLArray *m_col_descr_array;
@@ -50,7 +50,7 @@ namespace gpdxl
 			CDXLCtasStorageOptions *m_dxl_ctas_storage_option;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
+			IMDRelation::GetRelDistrPolicy m_rel_distr_policy;
 	
 			// list of distribution column positions		
 			ULongPtrArray *m_distr_column_pos_array;
@@ -79,16 +79,16 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool, 
 				CMDName *pmdnameSchema, 
-				CMDName *pmdnameRel, 
-				ColumnDescrDXLArray *pdrgpdxcd,
-				CDXLCtasStorageOptions *pdxlctasopt,
-				IMDRelation::Ereldistrpolicy rel_distr_policy,
-				ULongPtrArray *pdrgpulDistr, 
-				BOOL fTemporary, 
-				BOOL fHasOids, 
+				CMDName *mdname_rel, 
+				ColumnDescrDXLArray *col_descr_dxl_array,
+				CDXLCtasStorageOptions *dxl_ctas_storage_options,
+				IMDRelation::GetRelDistrPolicy rel_distr_policy,
+				ULongPtrArray *distr_column_pos_array, 
+				BOOL is_temporary,
+				BOOL has_oids,
 				IMDRelation::Erelstoragetype rel_storage_type,
-				ULongPtrArray *pdrgpulSource,
-				IntPtrArray *pdrgpiVarTypeMod
+				ULongPtrArray *src_col_ids_array,
+				IntPtrArray *vartypemod_array
 				);
 
 			// dtor
@@ -108,13 +108,13 @@ namespace gpdxl
 			}
 			
 			// distribution type
-			IMDRelation::Ereldistrpolicy Ereldistrpolicy() const
+			IMDRelation::GetRelDistrPolicy GetRelDistrPolicy() const
 			{
 				return m_rel_distr_policy;
 			}
 			
 			// distribution column positions
-			ULongPtrArray *PdrgpulDistr() const
+			ULongPtrArray *GetDistrColPosArray() const
 			{
 				return m_distr_column_pos_array;
 			}
@@ -126,13 +126,13 @@ namespace gpdxl
 			} 
 			
 			// list of vartypmod for target expressions
-			IntPtrArray *PdrgpiVarTypeMod() const
+			IntPtrArray *GetVarTypeModArray() const
 			{
 				return m_vartypemod_array;
 			}
 
 			// table name
-			CMDName *PmdnameSchema() const
+			CMDName *GetMdNameSchema() const
 			{
 				return m_mdname_schema;
 			}
@@ -140,11 +140,11 @@ namespace gpdxl
 			// table name
 			CMDName *MdName() const
 			{
-				return m_pmdnameRel;
+				return m_mdname_rel;
 			}
 			
 			// is temporary
-			BOOL FTemporary() const
+			BOOL IsTemporary() const
 			{
 				return m_is_temp_table;
 			}

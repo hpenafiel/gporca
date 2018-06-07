@@ -28,7 +28,7 @@ using namespace gpmd;
 const CWStringConst *
 IMDRelation::PstrDistrPolicy
 	(
-	Ereldistrpolicy rel_distr_policy
+	GetRelDistrPolicy rel_distr_policy
 	)
 {
 	switch (rel_distr_policy)

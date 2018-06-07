@@ -34,10 +34,10 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *pmdnameSchema, 
-	CMDName *pmdnameRel, 
+	CMDName *mdname_rel, 
 	ColumnDescrDXLArray *pdrgpdxlcd,
 	CDXLCtasStorageOptions *pdxlctasopt,
-	IMDRelation::Ereldistrpolicy rel_distr_policy,
+	IMDRelation::GetRelDistrPolicy rel_distr_policy,
 	ULongPtrArray *pdrgpulDistr,
 	BOOL fTemporary,
 	BOOL fHasOids, 
@@ -49,7 +49,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	CDXLLogical(memory_pool), 
 	m_mdid(pmdid),
 	m_mdname_schema(pmdnameSchema),
-	m_pmdnameRel(pmdnameRel),
+	m_mdname_rel(mdname_rel),
 	m_col_descr_array(pdrgpdxlcd),
 	m_dxl_ctas_storage_option(pdxlctasopt),
 	m_rel_distr_policy(rel_distr_policy),
@@ -61,7 +61,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	m_vartypemod_array(pdrgpiVarTypeMod)
 {
 	GPOS_ASSERT(NULL != pmdid && pmdid->IsValid());
-	GPOS_ASSERT(NULL != pmdnameRel);
+	GPOS_ASSERT(NULL != mdname_rel);
 	GPOS_ASSERT(NULL != pdrgpdxlcd);
 	GPOS_ASSERT(NULL != pdxlctasopt);
 	GPOS_ASSERT_IFF(IMDRelation::EreldistrHash == rel_distr_policy, NULL != pdrgpulDistr);
@@ -84,7 +84,7 @@ CDXLLogicalCTAS::~CDXLLogicalCTAS()
 {
 	m_mdid->Release();
 	GPOS_DELETE(m_mdname_schema);
-	GPOS_DELETE(m_pmdnameRel);
+	GPOS_DELETE(m_mdname_rel);
 	m_col_descr_array->Release();
 	m_dxl_ctas_storage_option->Release();
 	CRefCount::SafeRelease(m_distr_column_pos_array);
@@ -172,7 +172,7 @@ CDXLLogicalCTAS::SerializeToDXL
 	{
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSchema), m_mdname_schema->GetMDName());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_pmdnameRel->GetMDName());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname_rel->GetMDName());
 
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRelTemporary), m_is_temp_table);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenRelHasOids), m_has_oids);

@@ -46,7 +46,7 @@ namespace gpdxl
 			CMDName *m_mdname_schema;
 			
 			// table name
-			CMDName *m_pmdnameRel;
+			CMDName *m_mdname_rel;
 			
 			// list of columns
 			ColumnDescrDXLArray *m_col_descr_array;
@@ -55,7 +55,7 @@ namespace gpdxl
 			CDXLCtasStorageOptions *m_dxl_ctas_storage_option;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
+			IMDRelation::GetRelDistrPolicy m_rel_distr_policy;
 
 			// list of distribution column positions		
 			ULongPtrArray *m_distr_column_pos_array;
@@ -87,10 +87,10 @@ namespace gpdxl
 				IMemoryPool *memory_pool, 
 				IMDId *pmdid,
 				CMDName *pmdnameSchema, 
-				CMDName *pmdnameRel, 
+				CMDName *mdname_rel, 
 				ColumnDescrDXLArray *pdrgpdxcd,
 				CDXLCtasStorageOptions *pdxlctasopt,
-				IMDRelation::Ereldistrpolicy rel_distr_policy,
+				IMDRelation::GetRelDistrPolicy rel_distr_policy,
 				ULongPtrArray *pdrgpulDistr, 
 				BOOL fTemporary, 
 				BOOL fHasOids, 
@@ -116,7 +116,7 @@ namespace gpdxl
 			}
 			
 			// schema name
-			CMDName *PmdnameSchema() const
+			CMDName *GetMdNameSchema() const
 			{
 				return m_mdname_schema;
 			}
@@ -124,7 +124,7 @@ namespace gpdxl
 			// table name
 			CMDName *MdName() const
 			{
-				return m_pmdnameRel;
+				return m_mdname_rel;
 			}
 			
 			// column descriptors
@@ -140,13 +140,13 @@ namespace gpdxl
 			}
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy Ereldistrpolicy() const
+			IMDRelation::GetRelDistrPolicy GetRelDistrPolicy() const
 			{
 				return m_rel_distr_policy;
 			}
 			
 			// distribution column positions
-			ULongPtrArray *PdrgpulDistr() const
+			ULongPtrArray *GetDistrColPosArray() const
 			{
 				return m_distr_column_pos_array;
 			}
@@ -158,13 +158,13 @@ namespace gpdxl
 			}
 			
 			// list of vartypmod for target expressions
-			IntPtrArray *PdrgpiVarTypeMod() const
+			IntPtrArray *GetVarTypeModArray() const
 			{
 				return m_vartypemod_array;
 			}
 
 			// is it a temporary table
-			BOOL FTemporary() const
+			BOOL IsTemporary() const
 			{
 				return m_is_temp_table;
 			}

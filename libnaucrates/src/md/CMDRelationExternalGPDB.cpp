@@ -29,7 +29,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *mdname,
-	Ereldistrpolicy rel_distr_policy,
+	GetRelDistrPolicy rel_distr_policy,
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
 	BOOL fConvertHashToRandom,
@@ -176,7 +176,7 @@ CMDRelationExternalGPDB::Mdname() const
 //		Returns the distribution policy for this relation
 //
 //---------------------------------------------------------------------------
-IMDRelation::Ereldistrpolicy
+IMDRelation::GetRelDistrPolicy
 CMDRelationExternalGPDB::Ereldistribution() const
 {
 	return m_rel_distr_policy;

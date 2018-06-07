@@ -61,7 +61,7 @@ namespace gpmd
 			//	@doc:
 			//		Distribution policy of a relation
 			//-------------------------------------------------------------------
-			enum Ereldistrpolicy
+			enum GetRelDistrPolicy
 			{
 				EreldistrMasterOnly,
 				EreldistrHash,
@@ -93,7 +93,7 @@ namespace gpmd
 			
 			// is this a temp relation
 			virtual 
-			BOOL FTemporary() const = 0;
+			BOOL IsTemporary() const = 0;
 			
 			// storage type (heap, appendonly, ...)
 			virtual 
@@ -101,7 +101,7 @@ namespace gpmd
 			
 			// distribution policy (none, hash, random)
 			virtual 
-			Ereldistrpolicy Ereldistribution() const = 0;
+			GetRelDistrPolicy Ereldistribution() const = 0;
 			
 			// number of columns
 			virtual 
@@ -221,7 +221,7 @@ namespace gpmd
 			
 			// relation distribution policy as a string value
 			static
-			const CWStringConst *PstrDistrPolicy(Ereldistrpolicy rel_distr_policy);
+			const CWStringConst *PstrDistrPolicy(GetRelDistrPolicy rel_distr_policy);
 			
 			// name of storage type
 			static

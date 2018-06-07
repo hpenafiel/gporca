@@ -40,7 +40,7 @@ namespace gpopt
 			{
 				GPOS_ASSERT(m_fOuterJoin);
 				TGet *popGet = TGet::PopConvert(pexprInner->Pop());
-				IMDRelation::Ereldistrpolicy ereldist = popGet->Ptabdesc()->Ereldistribution();
+				IMDRelation::GetRelDistrPolicy ereldist = popGet->Ptabdesc()->Ereldistribution();
 
 				if (ereldist == IMDRelation::EreldistrRandom)
 					return false;

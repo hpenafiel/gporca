@@ -35,7 +35,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	BOOL fTemporary,
 	BOOL fHasOids,
 	Erelstoragetype rel_storage_type,
-	Ereldistrpolicy rel_distr_policy,
+	GetRelDistrPolicy rel_distr_policy,
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
 	ULongPtrArray2D *pdrgpdrgpulKeys,
@@ -151,14 +151,14 @@ CMDRelationCtasGPDB::Mdname() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRelationCtasGPDB::PmdnameSchema
+//		CMDRelationCtasGPDB::GetMdNameSchema
 //
 //	@doc:
 //		Returns schema name
 //
 //---------------------------------------------------------------------------
 CMDName *
-CMDRelationCtasGPDB::PmdnameSchema() const
+CMDRelationCtasGPDB::GetMdNameSchema() const
 {
 	return m_mdname_schema;
 }
@@ -171,7 +171,7 @@ CMDRelationCtasGPDB::PmdnameSchema() const
 //		Returns the distribution policy for this relation
 //
 //---------------------------------------------------------------------------
-IMDRelation::Ereldistrpolicy
+IMDRelation::GetRelDistrPolicy
 CMDRelationCtasGPDB::Ereldistribution() const
 {
 	return m_rel_distr_policy;

@@ -41,7 +41,7 @@ namespace gpmd
 
 			// is this a temp relation
 			virtual
-			BOOL FTemporary() const
+			BOOL IsTemporary() const
 			{
 				return false;
 			}

@@ -40,7 +40,7 @@ namespace gpmd
 
 			// schema name
 			virtual
-			CMDName *PmdnameSchema() const = 0;
+			CMDName *GetMdNameSchema() const = 0;
 			
 			// is this a partitioned table
 			virtual

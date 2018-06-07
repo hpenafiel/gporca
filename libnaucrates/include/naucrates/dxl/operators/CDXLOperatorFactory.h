@@ -879,7 +879,7 @@ namespace gpdxl
 			
 			// parse the distribution policy from the given XML string
 			static
-			IMDRelation::Ereldistrpolicy ParseRelationDistPolicy(const XMLCh *xmlsz);
+			IMDRelation::GetRelDistrPolicy ParseRelationDistPolicy(const XMLCh *xmlsz);
 			
 			// parse the storage type from the given XML string
 			static

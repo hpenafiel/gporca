@@ -64,7 +64,7 @@ namespace gpmd
 			Erelstoragetype m_rel_storage_type;
 			
 			// distribution policy
-			Ereldistrpolicy m_rel_distr_policy;
+			GetRelDistrPolicy m_rel_distr_policy;
 			
 			// columns
 			DrgPmdcol *m_pdrgpmdcol;
@@ -134,7 +134,7 @@ namespace gpmd
 				CMDName *mdname,
 				BOOL fTemporary,
 				Erelstoragetype rel_storage_type, 
-				Ereldistrpolicy rel_distr_policy,
+				GetRelDistrPolicy rel_distr_policy,
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,
 				ULongPtrArray *pdrgpulPartColumns,
@@ -170,7 +170,7 @@ namespace gpmd
 			
 			// is this a temp relation
 			virtual 
-			BOOL FTemporary() const;
+			BOOL IsTemporary() const;
 			
 			// storage type (heap, appendonly, ...)
 			virtual 
@@ -178,7 +178,7 @@ namespace gpmd
 			
 			// distribution policy (none, hash, random)
 			virtual 
-			Ereldistrpolicy Ereldistribution() const; 
+			GetRelDistrPolicy Ereldistribution() const; 
 			
 			// number of columns
 			virtual 

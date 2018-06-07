@@ -56,7 +56,7 @@ namespace gpdxl
 			IMDRelation::Erelstoragetype m_rel_storage_type;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
+			IMDRelation::GetRelDistrPolicy m_rel_distr_policy;
 			
 			// distribution columns
 			ULongPtrArray *m_pdrgpulDistrColumns;

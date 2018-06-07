@@ -35,7 +35,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	CMDName *mdname,
 	BOOL fTemporary,
 	Erelstoragetype rel_storage_type,
-	Ereldistrpolicy rel_distr_policy,
+	GetRelDistrPolicy rel_distr_policy,
 	DrgPmdcol *pdrgpmdcol,
 	ULongPtrArray *pdrgpulDistrColumns,
 	ULongPtrArray *pdrgpulPartColumns,
@@ -182,14 +182,14 @@ CMDRelationGPDB::Mdname() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CMDRelationGPDB::FTemporary
+//		CMDRelationGPDB::IsTemporary
 //
 //	@doc:
 //		Is the relation temporary
 //
 //---------------------------------------------------------------------------
 BOOL
-CMDRelationGPDB::FTemporary() const
+CMDRelationGPDB::IsTemporary() const
 {
 	return m_is_temp_table;
 }
@@ -216,7 +216,7 @@ CMDRelationGPDB::Erelstorage() const
 //		Returns the distribution policy for this relation
 //
 //---------------------------------------------------------------------------
-IMDRelation::Ereldistrpolicy
+IMDRelation::GetRelDistrPolicy
 CMDRelationGPDB::Ereldistribution() const
 {
 	return m_rel_distr_policy;

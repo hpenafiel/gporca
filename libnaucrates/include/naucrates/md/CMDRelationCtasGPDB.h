@@ -69,7 +69,7 @@ namespace gpmd
 			Erelstoragetype m_rel_storage_type;
 
 			// distribution policy
-			Ereldistrpolicy m_rel_distr_policy;
+			GetRelDistrPolicy m_rel_distr_policy;
 
 			// columns
 			DrgPmdcol *m_pdrgpmdcol;
@@ -114,7 +114,7 @@ namespace gpmd
 				BOOL fTemporary,
 				BOOL fHasOids,
 				Erelstoragetype rel_storage_type,
-				Ereldistrpolicy rel_distr_policy,
+				GetRelDistrPolicy rel_distr_policy,
 				DrgPmdcol *pdrgpmdcol,
 				ULongPtrArray *pdrgpulDistrColumns,
 				ULongPtrArray2D *pdrgpdrgpulKeys,
@@ -139,7 +139,7 @@ namespace gpmd
 
 			// schema name
 			virtual
-			CMDName *PmdnameSchema() const;
+			CMDName *GetMdNameSchema() const;
 			
 			// relation name
 			virtual
@@ -147,7 +147,7 @@ namespace gpmd
 
 			// distribution policy (none, hash, random)
 			virtual
-			Ereldistrpolicy Ereldistribution() const;
+			GetRelDistrPolicy Ereldistribution() const;
 
 			// does this table have oids
 			virtual
@@ -158,7 +158,7 @@ namespace gpmd
 			
 			// is this a temp relation
 			virtual 
-			BOOL FTemporary() const
+			BOOL IsTemporary() const
 			{
 				return m_is_temp_table;
 			}
@@ -295,7 +295,7 @@ namespace gpmd
 			}
 
 			// list of vartypmod for target expressions
-			IntPtrArray *PdrgpiVarTypeMod() const
+			IntPtrArray *GetVarTypeModArray() const
 			{
 				return m_vartypemod_array;
 			}

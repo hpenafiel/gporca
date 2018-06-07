@@ -2087,7 +2087,7 @@ CTranslatorDXLToExpr::Ptabdesc
 	}
 	
 	// get distribution policy
-	IMDRelation::Ereldistrpolicy rel_distr_policy = pmdrel->Ereldistribution();
+	IMDRelation::GetRelDistrPolicy rel_distr_policy = pmdrel->Ereldistribution();
 
 	// get storage type
 	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->Erelstorage();
@@ -2186,9 +2186,9 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	
 	pdxlopCTAS->MDId()->AddRef();
 	
-	if (NULL != pdxlopCTAS->PdrgpulDistr())
+	if (NULL != pdxlopCTAS->GetDistrColPosArray())
 	{
-		pdxlopCTAS->PdrgpulDistr()->AddRef();
+		pdxlopCTAS->GetDistrColPosArray()->AddRef();
 	}
 	pdxlopCTAS->GetDxlCtasStorageOption()->AddRef();
 	
@@ -2215,12 +2215,12 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 	}
 	
 	CMDName *pmdnameSchema = NULL;
-	if (NULL != pdxlopCTAS->PmdnameSchema())
+	if (NULL != pdxlopCTAS->GetMdNameSchema())
 	{
-		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlopCTAS->PmdnameSchema()->GetMDName());
+		pmdnameSchema = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlopCTAS->GetMdNameSchema()->GetMDName());
 	}
 	
-	IntPtrArray * pdrgpiVarTypeMod = pdxlopCTAS->PdrgpiVarTypeMod();
+	IntPtrArray * pdrgpiVarTypeMod = pdxlopCTAS->GetVarTypeModArray();
 	pdrgpiVarTypeMod->AddRef();
 	CMDRelationCtasGPDB *pmdrel = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
 			(
@@ -2228,12 +2228,12 @@ CTranslatorDXLToExpr::RegisterMDRelationCtas
 			pdxlopCTAS->MDId(),
 			pmdnameSchema,
 			GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pdxlopCTAS->MdName()->GetMDName()),
-			pdxlopCTAS->FTemporary(),
+			pdxlopCTAS->IsTemporary(),
 			pdxlopCTAS->FHasOids(),
 			pdxlopCTAS->Erelstorage(),
-			pdxlopCTAS->Ereldistrpolicy(),
+			pdxlopCTAS->GetRelDistrPolicy(),
 			pdrgpmdcol,
-			pdxlopCTAS->PdrgpulDistr(),
+			pdxlopCTAS->GetDistrColPosArray(),
 			GPOS_NEW(m_memory_pool) ULongPtrArray2D(m_memory_pool), // pdrgpdrgpulKeys,
 			pdxlopCTAS->GetDxlCtasStorageOption(),
 			pdrgpiVarTypeMod
@@ -2289,7 +2289,7 @@ CTranslatorDXLToExpr::PtabdescFromCTAS
 	}
 	
 	// get distribution policy
-	IMDRelation::Ereldistrpolicy rel_distr_policy = pmdrel->Ereldistribution();
+	IMDRelation::GetRelDistrPolicy rel_distr_policy = pmdrel->Ereldistribution();
 
 	// get storage type
 	IMDRelation::Erelstoragetype rel_storage_type = pmdrel->Erelstorage();

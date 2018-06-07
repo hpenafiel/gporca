@@ -59,7 +59,7 @@ namespace gpdxl
 			BOOL m_has_oids;
 			
 			// distribution policy
-			IMDRelation::Ereldistrpolicy m_rel_distr_policy;
+			IMDRelation::GetRelDistrPolicy m_rel_distr_policy;
 			
 			// storage type
 			IMDRelation::Erelstoragetype m_rel_storage_type;

@@ -3936,14 +3936,14 @@ CDXLOperatorFactory::ParseCmpType
 //		Parse relation distribution policy from XML string
 //
 //---------------------------------------------------------------------------
-IMDRelation::Ereldistrpolicy
+IMDRelation::GetRelDistrPolicy
 CDXLOperatorFactory::ParseRelationDistPolicy
 	(
 	const XMLCh* xmlsz
 	)
 {
 	GPOS_ASSERT(NULL != xmlsz);
-	IMDRelation::Ereldistrpolicy rel_distr_policy = IMDRelation::EreldistrSentinel;
+	IMDRelation::GetRelDistrPolicy rel_distr_policy = IMDRelation::EreldistrSentinel;
 	
 	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelDistrMasterOnly)))
 	{
