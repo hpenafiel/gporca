@@ -37,7 +37,7 @@ namespace gpdxl
 	{
 		private:
 	
-			BOOL m_fInsideFuncExpr;
+			BOOL m_inside_func_expr;
 	
 			// private copy ctor
 			CParseHandlerScalarFuncExpr(const CParseHandlerScalarFuncExpr &);

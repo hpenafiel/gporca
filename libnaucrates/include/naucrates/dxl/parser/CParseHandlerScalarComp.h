@@ -40,10 +40,10 @@ namespace gpdxl
 			CDXLScalarComp *m_dxl_op;
 			
 			// the left side of the comparison
-			CDXLNode *m_pdxlnLeft;
+			CDXLNode *m_dxl_left;
 			
 			// the right side of the comparison
-			CDXLNode *m_pdxlnRight;
+			CDXLNode *m_dxl_right;
 			
 			// private copy ctor
 			CParseHandlerScalarComp(const CParseHandlerScalarComp &);

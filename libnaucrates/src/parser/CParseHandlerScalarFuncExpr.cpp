@@ -39,7 +39,7 @@ CParseHandlerScalarFuncExpr::CParseHandlerScalarFuncExpr
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_fInsideFuncExpr(false)
+	m_inside_func_expr(false)
 {
 }
 
@@ -63,7 +63,7 @@ CParseHandlerScalarFuncExpr::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), element_local_name))
 	{
-		if(!m_fInsideFuncExpr)
+		if(!m_inside_func_expr)
 		{
 			// parse and create scalar FuncExpr
 			CDXLScalarFuncExpr *dxl_op = (CDXLScalarFuncExpr*) CDXLOperatorFactory::MakeDXLFuncExpr(m_parse_handler_mgr->GetDXLMemoryManager(), attrs);
@@ -71,23 +71,23 @@ CParseHandlerScalarFuncExpr::StartElement
 			// construct node from the created scalar FuncExpr
 			m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
 
-			m_fInsideFuncExpr = true;
+			m_inside_func_expr = true;
 		}
 		else
 		{
 			// This is to support nested FuncExpr
-			CParseHandlerBase *pphFunc = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_parse_handler_mgr, this);
-			m_parse_handler_mgr->ActivateParseHandler(pphFunc);
+			CParseHandlerBase *func_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFuncExpr), m_parse_handler_mgr, this);
+			m_parse_handler_mgr->ActivateParseHandler(func_parse_handler);
 
 			// store parse handlers
-			this->Append(pphFunc);
+			this->Append(func_parse_handler);
 
-			pphFunc->startElement(element_uri, element_local_name, element_qname, attrs);
+			func_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 		}
 	}
 	else
 	{
-		GPOS_ASSERT(m_fInsideFuncExpr);
+		GPOS_ASSERT(m_inside_func_expr);
 
 		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
@@ -123,9 +123,9 @@ CParseHandlerScalarFuncExpr::EndElement
 	}
 
 	const ULONG size = this->Length();
-	for (ULONG ul = 0; ul < size; ul++)
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[idx]);
 		AddChildFromParseHandler(child_parse_handler);
 	}
 

@@ -71,21 +71,21 @@ CParseHandlerScalarIfStmt::StartElement
 		// order of their expected appearance
 
 		// parse handler for handling else result expression scalar node
-		CParseHandlerBase *pphElse = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphElse);
+		CParseHandlerBase *else_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(else_parse_handler);
 
 		// parse handler for handling result expression scalar node
-		CParseHandlerBase *pphResult = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphResult);
+		CParseHandlerBase *result_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(result_parse_handler);
 
 		// parse handler for the when condition clause
-		CParseHandlerBase *pphWhenCond = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphWhenCond);
+		CParseHandlerBase *when_cond_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(when_cond_parse_handler);
 
 		// store parse handlers
-		this->Append(pphWhenCond);
-		this->Append(pphResult);
-		this->Append(pphElse);
+		this->Append(when_cond_parse_handler);
+		this->Append(result_parse_handler);
+		this->Append(else_parse_handler);
 
 	}
 	else
@@ -117,14 +117,14 @@ CParseHandlerScalarIfStmt::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	CParseHandlerScalarOp *pphWhenCond = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
-	CParseHandlerScalarOp *pphResult = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
-	CParseHandlerScalarOp *pphElse = dynamic_cast<CParseHandlerScalarOp *>((*this)[2]);
+	CParseHandlerScalarOp *when_cond_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[0]);
+	CParseHandlerScalarOp *result_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[1]);
+	CParseHandlerScalarOp *else_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[2]);
 
 	// add constructed children
-	AddChildFromParseHandler(pphWhenCond);
-	AddChildFromParseHandler(pphResult);
-	AddChildFromParseHandler(pphElse);
+	AddChildFromParseHandler(when_cond_parse_handler);
+	AddChildFromParseHandler(result_parse_handler);
+	AddChildFromParseHandler(else_parse_handler);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
