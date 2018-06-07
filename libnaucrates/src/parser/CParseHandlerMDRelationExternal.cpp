@@ -138,12 +138,12 @@ CParseHandlerMDRelationExternal::EndElement
 	CParseHandlerMetadataIdList *pphMdidlCheckConstraints = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[3]);
 
 	GPOS_ASSERT(NULL != pphMdCol->GetMdColArray());
-	GPOS_ASSERT(NULL != pphMdlIndexInfo->PdrgpmdIndexInfo());
+	GPOS_ASSERT(NULL != pphMdlIndexInfo->GetMdIndexInfoArray());
 	GPOS_ASSERT(NULL != pphMdidlCheckConstraints->GetMdIdArray());
 
 	// refcount child objects
 	DrgPmdcol *pdrgpmdcol = pphMdCol->GetMdColArray();
-	DrgPmdIndexInfo *pdrgpmdIndexInfo = pphMdlIndexInfo->PdrgpmdIndexInfo();
+	DrgPmdIndexInfo *pdrgpmdIndexInfo = pphMdlIndexInfo->GetMdIndexInfoArray();
 	DrgPmdid *pdrgpmdidTriggers = pphMdidlTriggers->GetMdIdArray();
 	DrgPmdid *pdrgpmdidCheckConstraint = pphMdidlCheckConstraints->GetMdIdArray();
 

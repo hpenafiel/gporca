@@ -32,21 +32,21 @@ CParseHandlerMDIndexInfoList::CParseHandlerMDIndexInfoList
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pdrgpmdIndexInfo(NULL)
+	m_mdindex_info_array(NULL)
 {
 }
 
 // dtor
 CParseHandlerMDIndexInfoList::~CParseHandlerMDIndexInfoList()
 {
-	CRefCount::SafeRelease(m_pdrgpmdIndexInfo);
+	CRefCount::SafeRelease(m_mdindex_info_array);
 }
 
 // returns array of indexinfo
 DrgPmdIndexInfo *
-CParseHandlerMDIndexInfoList::PdrgpmdIndexInfo()
+CParseHandlerMDIndexInfoList::GetMdIndexInfoArray()
 {
-	return m_pdrgpmdIndexInfo;
+	return m_mdindex_info_array;
 }
 
 // invoked by Xerces to process an opening tag
@@ -61,22 +61,22 @@ CParseHandlerMDIndexInfoList::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndexInfoList), element_local_name))
 	{
-		m_pdrgpmdIndexInfo = GPOS_NEW(m_memory_pool) DrgPmdIndexInfo(m_memory_pool);
+		m_mdindex_info_array = GPOS_NEW(m_memory_pool) DrgPmdIndexInfo(m_memory_pool);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenIndexInfo), element_local_name))
 	{
 		// parse mdid
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndexInfo);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenIndexInfo);
 
 		// parse index partial info
-		BOOL fPartial = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIndexPartial, EdxltokenIndexInfo);
+		BOOL is_partial = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenIndexPartial, EdxltokenIndexInfo);
 
-		CMDIndexInfo *pmdIndexInfo = GPOS_NEW(m_memory_pool) CMDIndexInfo
+		CMDIndexInfo *md_index_info = GPOS_NEW(m_memory_pool) CMDIndexInfo
 								(
-								pmdid,
-								fPartial
+								mdid,
+								is_partial
 								);
-		m_pdrgpmdIndexInfo->Append(pmdIndexInfo);
+		m_mdindex_info_array->Append(md_index_info);
 	}
 	else
 	{

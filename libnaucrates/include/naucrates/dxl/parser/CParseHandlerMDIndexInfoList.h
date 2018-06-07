@@ -30,7 +30,7 @@ namespace gpdxl
 	{
 		private:
 			// list of indexinfo
-			DrgPmdIndexInfo *m_pdrgpmdIndexInfo;
+			DrgPmdIndexInfo *m_mdindex_info_array;
 
 			// private copy ctor
 			CParseHandlerMDIndexInfoList(const CParseHandlerMDIndexInfoList&);
@@ -67,7 +67,7 @@ namespace gpdxl
 			~CParseHandlerMDIndexInfoList();
 
 			// returns array of indexinfo
-			DrgPmdIndexInfo *PdrgpmdIndexInfo();
+			DrgPmdIndexInfo *GetMdIndexInfoArray();
 	};
 }
 

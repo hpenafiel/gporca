@@ -51,7 +51,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
 	m_fConvertHashToRandom(fConvertHashToRandom),
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
-	m_pdrgpmdIndexInfo(pdrgpmdIndexInfo),
+	m_mdindex_info_array(pdrgpmdIndexInfo),
 	m_pdrgpmdidTriggers(pdrgpmdidTriggers),
 	m_pdrgpmdidCheckConstraint(pdrgpmdidCheckConstraint),
 	m_iRejectLimit(iRejectLimit),
@@ -129,7 +129,7 @@ CMDRelationExternalGPDB::~CMDRelationExternalGPDB()
 	m_md_col_array->Release();
 	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
 	CRefCount::SafeRelease(m_pdrgpdrgpulKeys);
-	m_pdrgpmdIndexInfo->Release();
+	m_mdindex_info_array->Release();
 	m_pdrgpmdidTriggers->Release();
 	m_pdrgpdoubleColWidths->Release();
 	m_pdrgpmdidCheckConstraint->Release();
@@ -429,7 +429,7 @@ CMDRelationExternalGPDB::UlDistrColumns() const
 ULONG
 CMDRelationExternalGPDB::UlIndices() const
 {
-	return m_pdrgpmdIndexInfo->Size();
+	return m_mdindex_info_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -503,7 +503,7 @@ CMDRelationExternalGPDB::PmdidIndex
 	)
 	const
 {
-	return (*m_pdrgpmdIndexInfo)[ulPos]->MDId();
+	return (*m_mdindex_info_array)[ulPos]->MDId();
 }
 
 //---------------------------------------------------------------------------
@@ -628,10 +628,10 @@ CMDRelationExternalGPDB::Serialize
 	// serialize index infos
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenIndexInfoList));
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
+	const ULONG ulIndexes = m_mdindex_info_array->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
-		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];
+		CMDIndexInfo *pmdIndexInfo = (*m_mdindex_info_array)[ul];
 		pmdIndexInfo->Serialize(xml_serializer);
 
 		GPOS_CHECK_ABORT;
@@ -703,10 +703,10 @@ CMDRelationExternalGPDB::DebugPrint
 	os << std::endl;
 
 	os << "Index Info: ";
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
+	const ULONG ulIndexes = m_mdindex_info_array->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
-		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];
+		CMDIndexInfo *pmdIndexInfo = (*m_mdindex_info_array)[ul];
 		pmdIndexInfo->DebugPrint(os);
 	}
 

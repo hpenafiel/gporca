@@ -94,7 +94,7 @@ CParseHandlerMDRelation::StartElement
 
 		CParseHandlerMDIndexInfoList *pphMdlIndexInfo = dynamic_cast<CParseHandlerMDIndexInfoList*>((*this)[1]);
 		// relcache translator will send partition constraint expression only when a partitioned relation has indices
-		if (pphMdlIndexInfo->PdrgpmdIndexInfo()->Size() > 0)
+		if (pphMdlIndexInfo->GetMdIndexInfoArray()->Size() > 0)
 		{
 			// parse handler for part constraints
 			CParseHandlerBase *pphPartConstraint= CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
@@ -216,7 +216,7 @@ CParseHandlerMDRelation::EndElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartConstraint), element_local_name))
 	{
 		// relcache translator will send partition constraint expression only when a partitioned relation has indices
-		if (pphMdlIndexInfo->PdrgpmdIndexInfo()->Size() > 0)
+		if (pphMdlIndexInfo->GetMdIndexInfoArray()->Size() > 0)
 		{
 			CParseHandlerScalarOp *pphPartCnstr = dynamic_cast<CParseHandlerScalarOp *>((*this)[Length() - 1]);
 			CDXLNode *pdxlnPartConstraint = pphPartCnstr->CreateDXLNode();
@@ -243,12 +243,12 @@ CParseHandlerMDRelation::EndElement
 	CParseHandlerMetadataIdList *pphMdidlCheckConstraints = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[3]);
 
 	GPOS_ASSERT(NULL != pphMdCol->GetMdColArray());
-	GPOS_ASSERT(NULL != pphMdlIndexInfo->PdrgpmdIndexInfo());
+	GPOS_ASSERT(NULL != pphMdlIndexInfo->GetMdIndexInfoArray());
 	GPOS_ASSERT(NULL != pphMdidlCheckConstraints->GetMdIdArray());
 
 	// refcount child objects
 	DrgPmdcol *pdrgpmdcol = pphMdCol->GetMdColArray();
-	DrgPmdIndexInfo *pdrgpmdIndexInfos = pphMdlIndexInfo->PdrgpmdIndexInfo();
+	DrgPmdIndexInfo *pdrgpmdIndexInfos = pphMdlIndexInfo->GetMdIndexInfoArray();
 	DrgPmdid *pdrgpmdidTriggers = pphMdidlTriggers->GetMdIdArray();
 	DrgPmdid *pdrgpmdidCheckConstraint = pphMdidlCheckConstraints->GetMdIdArray();
  

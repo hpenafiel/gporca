@@ -91,7 +91,7 @@ namespace gpmd
 			ULongPtrArray2D *m_pdrgpdrgpulKeys;
 
 			// array of index info
-			DrgPmdIndexInfo *m_pdrgpmdIndexInfo;
+			DrgPmdIndexInfo *m_mdindex_info_array;
 
 			// array of trigger ids
 			DrgPmdid *m_pdrgpmdidTriggers;

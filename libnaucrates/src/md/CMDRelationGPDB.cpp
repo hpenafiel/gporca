@@ -64,7 +64,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_pdrgpszPartTypes(pdrgpszPartTypes),
 	m_ulPartitions(ulPartitions),
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
-	m_pdrgpmdIndexInfo(pdrgpmdIndexInfo),
+	m_mdindex_info_array(pdrgpmdIndexInfo),
 	m_pdrgpmdidTriggers(pdrgpmdidTriggers),
 	m_pdrgpmdidCheckConstraint(pdrgpmdidCheckConstraint),
 	m_pmdpartcnstr(pmdpartcnstr),
@@ -142,7 +142,7 @@ CMDRelationGPDB::~CMDRelationGPDB()
 	CRefCount::SafeRelease(m_pdrgpulPartColumns);
 	CRefCount::SafeRelease(m_pdrgpszPartTypes);
 	CRefCount::SafeRelease(m_pdrgpdrgpulKeys);
-	m_pdrgpmdIndexInfo->Release();
+	m_mdindex_info_array->Release();
 	m_pdrgpmdidTriggers->Release();
 	m_pdrgpmdidCheckConstraint->Release();
 	m_pdrgpdoubleColWidths->Release();
@@ -505,7 +505,7 @@ CMDRelationGPDB::PmdcolPartColumn
 ULONG
 CMDRelationGPDB::UlIndices() const
 {
-	return m_pdrgpmdIndexInfo->Size();
+	return m_mdindex_info_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -591,7 +591,7 @@ CMDRelationGPDB::PmdidIndex
 	) 
 	const
 {
-	return (*m_pdrgpmdIndexInfo)[ulPos]->MDId();
+	return (*m_mdindex_info_array)[ulPos]->MDId();
 }
 
 // check if index is partial given its mdid
@@ -608,7 +608,7 @@ CMDRelationGPDB::FPartialIndex
 	{
 		if (CMDIdGPDB::FEqualMDId(PmdidIndex(ul), pmdid))
 		{
-			return (*m_pdrgpmdIndexInfo)[ul]->FPartial();
+			return (*m_mdindex_info_array)[ul]->FPartial();
 		}
 	}
 
@@ -770,10 +770,10 @@ CMDRelationGPDB::Serialize
 	// serialize index infos
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 						CDXLTokens::GetDXLTokenStr(EdxltokenIndexInfoList));
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
+	const ULONG ulIndexes = m_mdindex_info_array->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
-		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];
+		CMDIndexInfo *pmdIndexInfo = (*m_mdindex_info_array)[ul];
 		pmdIndexInfo->Serialize(xml_serializer);
 
 		GPOS_CHECK_ABORT;
@@ -871,10 +871,10 @@ CMDRelationGPDB::DebugPrint
 	os << std::endl;
 		
 	os << "Index Info: ";
-	const ULONG ulIndexes = m_pdrgpmdIndexInfo->Size();
+	const ULONG ulIndexes = m_mdindex_info_array->Size();
 	for (ULONG ul = 0; ul < ulIndexes; ul++)
 	{
-		CMDIndexInfo *pmdIndexInfo = (*m_pdrgpmdIndexInfo)[ul];
+		CMDIndexInfo *pmdIndexInfo = (*m_mdindex_info_array)[ul];
 		pmdIndexInfo->DebugPrint(os);
 	}
 
