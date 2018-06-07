@@ -51,17 +51,17 @@ CParseHandlerMDArrayCoerceCast::StartElement
 	}
 
 	// parse func name
-	const XMLCh *xmlszFuncName = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *xml_str_fun_name = CDXLOperatorFactory::ExtractAttrValue
 														(
 														attrs,
 														EdxltokenName,
 														EdxltokenGPDBArrayCoerceCast
 														);
 
-	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszFuncName);
+	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_fun_name);
 
 	// parse cast properties
-	IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+	IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -69,7 +69,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	IMDId *pmdidSrc = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+	IMDId *mdid_src = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -77,7 +77,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	IMDId *pmdidDest = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+	IMDId *mdid_dest = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -85,7 +85,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	IMDId *pmdidCastFunc = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
+	IMDId *mdid_cast_func = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -94,7 +94,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									);
 
 	// parse whether func returns a set
-	BOOL fBinaryCoercible = CDXLOperatorFactory::ExtractConvertAttrValueToBool
+	BOOL is_binary_coercible = CDXLOperatorFactory::ExtractConvertAttrValueToBool
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -103,7 +103,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									);
 
 	// parse coercion path type
-	IMDCast::EmdCoercepathType eCoercePathType = (IMDCast::EmdCoercepathType)
+	IMDCast::EmdCoercepathType coerce_path_type = (IMDCast::EmdCoercepathType)
 													CDXLOperatorFactory::ExtractConvertAttrValueToInt
 															(
 															m_parse_handler_mgr->GetDXLMemoryManager(),
@@ -122,7 +122,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 							IDefaultTypeModifier
 							);
 
-	BOOL fIsExplicit =CDXLOperatorFactory::ExtractConvertAttrValueToBool
+	BOOL is_explicit =CDXLOperatorFactory::ExtractConvertAttrValueToBool
 									(
 									m_parse_handler_mgr->GetDXLMemoryManager(),
 									attrs,
@@ -130,7 +130,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 									EdxltokenGPDBArrayCoerceCast
 									);
 
-	EdxlCoercionForm edcf = (EdxlCoercionForm) CDXLOperatorFactory::ExtractConvertAttrValueToInt
+	EdxlCoercionForm dxl_coercion_form = (EdxlCoercionForm) CDXLOperatorFactory::ExtractConvertAttrValueToInt
 																		(
 																		m_parse_handler_mgr->GetDXLMemoryManager(),
 																		attrs,
@@ -138,7 +138,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 																		EdxltokenGPDBArrayCoerceCast
 																		);
 
-	INT iLoc = CDXLOperatorFactory::ExtractConvertAttrValueToInt
+	INT location = CDXLOperatorFactory::ExtractConvertAttrValueToInt
 							(
 							m_parse_handler_mgr->GetDXLMemoryManager(),
 							attrs,
@@ -146,7 +146,7 @@ CParseHandlerMDArrayCoerceCast::StartElement
 							EdxltokenGPDBArrayCoerceCast
 							);
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CMDArrayCoerceCastGPDB(m_memory_pool, pmdid, mdname, pmdidSrc, pmdidDest, fBinaryCoercible, pmdidCastFunc, eCoercePathType, type_modifier, fIsExplicit, edcf, iLoc);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CMDArrayCoerceCastGPDB(m_memory_pool, mdid, mdname, mdid_src, mdid_dest, is_binary_coercible, mdid_cast_func, coerce_path_type, type_modifier, is_explicit, dxl_coercion_form, location);
 }
 
 // invoked by Xerces to process a closing tag
