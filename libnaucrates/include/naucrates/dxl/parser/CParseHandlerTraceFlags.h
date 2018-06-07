@@ -41,7 +41,7 @@ namespace gpdxl
 		private:
 			
 			// trace flag bitset
-			CBitSet *m_pbs;
+			CBitSet *m_trace_flags_bitset;
 		
 			// private copy ctor
 			CParseHandlerTraceFlags(const CParseHandlerTraceFlags&); 
@@ -78,7 +78,7 @@ namespace gpdxl
 			EDxlParseHandlerType GetParseHandlerType() const;
 			
 			// accessor
-			CBitSet *Pbs();
+			CBitSet *GetTraceFlagBitSet();
 	};
 }
 

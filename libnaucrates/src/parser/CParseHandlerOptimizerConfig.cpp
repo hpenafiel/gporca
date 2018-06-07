@@ -222,8 +222,8 @@ CParseHandlerOptimizerConfig::EndElement
 	m_optimizer_config = GPOS_NEW(m_memory_pool) COptimizerConfig(pec, pstatsconf, pcteconfig, pcm, phint, pwindowoidsGPDB);
 
 	CParseHandlerTraceFlags *pphTraceFlags = dynamic_cast<CParseHandlerTraceFlags *>((*this)[this->Length() - 1]);
-	pphTraceFlags->Pbs()->AddRef();
-	m_pbs = pphTraceFlags->Pbs();
+	pphTraceFlags->GetTraceFlagBitSet()->AddRef();
+	m_pbs = pphTraceFlags->GetTraceFlagBitSet();
 	
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

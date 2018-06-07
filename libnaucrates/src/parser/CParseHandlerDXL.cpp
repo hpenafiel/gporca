@@ -514,7 +514,7 @@ CParseHandlerDXL::ExtractTraceFlags
 
 	GPOS_ASSERT (NULL == m_trace_flags_bitset && "Traceflags already set");
 	
-	m_trace_flags_bitset = parse_handler_tf->Pbs();
+	m_trace_flags_bitset = parse_handler_tf->GetTraceFlagBitSet();
 	m_trace_flags_bitset->AddRef();
 }
 
