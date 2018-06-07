@@ -38,10 +38,10 @@ namespace gpdxl
 	{
 		private:
 			// catalog MDId of element coerce function
-			IMDId *m_pmdidElementFunc;
+			IMDId *m_coerce_func_mdid;
 
 			// conversion semantics flag to pass to func
-			BOOL m_fIsExplicit;
+			BOOL m_explicit;
 
 			// private copy ctor
 			CDXLScalarArrayCoerceExpr(const CDXLScalarArrayCoerceExpr&);
@@ -50,18 +50,18 @@ namespace gpdxl
 			CDXLScalarArrayCoerceExpr
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidElementFunc,
+				IMDId *coerce_func_mdid,
 				IMDId *result_type_mdid,
 				INT type_modifier,
-				BOOL fIsExplicit,
-				EdxlCoercionForm edxlcf,
-				INT iLoc
+				BOOL is_explicit,
+				EdxlCoercionForm coerce_format,
+				INT location
 				);
 
 			virtual
 			~CDXLScalarArrayCoerceExpr()
 			{
-				m_pmdidElementFunc->Release();
+				m_coerce_func_mdid->Release();
 			}
 
 			// ident accessor
@@ -72,14 +72,14 @@ namespace gpdxl
 			}
 
 			// return metadata id of element coerce function
-			IMDId *PmdidElementFunc() const
+			IMDId *GetCoerceFuncMDid() const
 			{
-				return m_pmdidElementFunc;
+				return m_coerce_func_mdid;
 			}
 
-			BOOL FIsExplicit() const
+			BOOL IsExplicit() const
 			{
-				return m_fIsExplicit;
+				return m_explicit;
 			}
 
 			// name of the DXL operator name

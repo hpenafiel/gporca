@@ -34,19 +34,19 @@ using namespace gpdxl;
 CDXLScalarArrayCoerceExpr::CDXLScalarArrayCoerceExpr
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidElementFunc,
+	IMDId *coerce_func_mdid,
 	IMDId *result_type_mdid,
 	INT type_modifier,
-	BOOL fIsExplicit,
+	BOOL is_explicit,
 	EdxlCoercionForm coerce_format,
 	INT location
 	)
 	:
 	CDXLScalarCoerceBase(memory_pool, result_type_mdid, type_modifier, coerce_format, location),
-	m_pmdidElementFunc(pmdidElementFunc),
-	m_fIsExplicit(fIsExplicit)
+	m_coerce_func_mdid(coerce_func_mdid),
+	m_explicit(is_explicit)
 {
-	GPOS_ASSERT(NULL != pmdidElementFunc);
+	GPOS_ASSERT(NULL != coerce_func_mdid);
 }
 
 //---------------------------------------------------------------------------
@@ -83,14 +83,14 @@ CDXLScalarArrayCoerceExpr::SerializeToDXL
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
-	m_pmdidElementFunc->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenElementFunc));
+	m_coerce_func_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenElementFunc));
 	GetResultTypeMdId()->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	if (IDefaultTypeModifier != TypeModifier())
 	{
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenTypeMod), TypeModifier());
 	}
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsExplicit), m_fIsExplicit);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIsExplicit), m_explicit);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCoercionForm), (ULONG) GetDXLCoercionForm());
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenLocation), GetLocation());
 

@@ -3750,7 +3750,7 @@ CTranslatorDXLToExpr::PexprScalarArrayCoerceExpr
 	CDXLNode *child_dxlnode = (*pdxlnArrayCoerceExpr)[0];
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 
-	IMDId *pmdidElementFunc = dxl_op->PmdidElementFunc();
+	IMDId *pmdidElementFunc = dxl_op->GetCoerceFuncMDid();
 	pmdidElementFunc->AddRef();
 
 	IMDId *result_type_mdid = dxl_op->GetResultTypeMdId();
@@ -3767,7 +3767,7 @@ CTranslatorDXLToExpr::PexprScalarArrayCoerceExpr
 						pmdidElementFunc,
 						result_type_mdid,
 						dxl_op->TypeModifier(),
-						dxl_op->FIsExplicit(),
+						dxl_op->IsExplicit(),
 						(COperator::ECoercionForm) dxl_coerce_format, // map Coercion Form directly based on position in enum
 						dxl_op->GetLocation()
 						),
