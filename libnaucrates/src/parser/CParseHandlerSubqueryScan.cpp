@@ -119,7 +119,7 @@ CParseHandlerSubqueryScan::EndElement
 
 	// construct node from the created child nodes
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
-	CParseHandlerProjList *pphPrl = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
+	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[3]);
 
@@ -128,7 +128,7 @@ CParseHandlerSubqueryScan::EndElement
 	CParseHandlerUtils::SetProperties(m_dxl_node, prop_parse_handler);
 	
 	// add constructed children	
-	AddChildFromParseHandler(pphPrl);
+	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);
 
