@@ -29,13 +29,13 @@ using namespace gpdxl;
 CDXLScalarAssertConstraint::CDXLScalarAssertConstraint
 	(
 	IMemoryPool *memory_pool,
-	CWStringBase *pstrErrorMsg
+	CWStringBase *error_msg
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pstrErrorMsg(pstrErrorMsg)
+	m_error_msg(error_msg)
 {
-	GPOS_ASSERT(NULL != pstrErrorMsg);
+	GPOS_ASSERT(NULL != error_msg);
 }
 
 //---------------------------------------------------------------------------
@@ -48,7 +48,7 @@ CDXLScalarAssertConstraint::CDXLScalarAssertConstraint
 //---------------------------------------------------------------------------
 CDXLScalarAssertConstraint::~CDXLScalarAssertConstraint()
 {
-	GPOS_DELETE(m_pstrErrorMsg);
+	GPOS_DELETE(m_error_msg);
 }
 
 //---------------------------------------------------------------------------
@@ -88,9 +88,9 @@ CDXLScalarAssertConstraint::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 CWStringBase *
-CDXLScalarAssertConstraint::PstrErrorMsg() const
+CDXLScalarAssertConstraint::GetErrorMsgStr() const
 {
-	return m_pstrErrorMsg;
+	return m_error_msg;
 }
 
 //---------------------------------------------------------------------------
@@ -112,7 +112,7 @@ CDXLScalarAssertConstraint::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenErrorMessage), m_pstrErrorMsg);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenErrorMessage), m_error_msg);
 		
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);

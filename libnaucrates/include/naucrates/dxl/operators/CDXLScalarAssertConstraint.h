@@ -33,14 +33,14 @@ namespace gpdxl
 		private:
 
 			// error message
-			CWStringBase *m_pstrErrorMsg;
+			CWStringBase *m_error_msg;
 			
 			// private copy ctor
 			CDXLScalarAssertConstraint(const CDXLScalarAssertConstraint&);
 
 		public:
 			// ctor
-			CDXLScalarAssertConstraint(IMemoryPool *memory_pool, CWStringBase *pstrErrorMsg);
+			CDXLScalarAssertConstraint(IMemoryPool *memory_pool, CWStringBase *error_msg);
 
 			// dtor
 			virtual
@@ -55,7 +55,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// error message
-			CWStringBase *PstrErrorMsg() const;
+			CWStringBase *GetErrorMsgStr() const;
 			
 			// serialize operator in DXL format
 			virtual

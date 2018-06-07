@@ -32,31 +32,31 @@ namespace gpdxl
 	{
 		public:
 
-			enum EIndexListBound
+			enum EDXLIndexListBound
 			{
-				EilbLower,		// lower index
-				EilbUpper,		// upper index
-				EilbSentinel
+				EdxlIndexListBoundLower,		// lower index
+				EdxlIndexListBoundUpper,		// upper index
+				EdxlIndexListBoundSentinel
 			};
 
 		private:
 
 			// index list bound
-			EIndexListBound m_eilb;
+			EDXLIndexListBound m_index_list_bound;
 
 			// private copy ctor
 			CDXLScalarArrayRefIndexList(const CDXLScalarArrayRefIndexList&);
 
 			// string representation of index list bound
 			static
-			const CWStringConst *PstrIndexListBound(EIndexListBound eilb);
+			const CWStringConst *GetDXLIndexListBoundStr(EDXLIndexListBound index_list_bound);
 
 		public:
 			// ctor
 			CDXLScalarArrayRefIndexList
 				(
 				IMemoryPool *memory_pool,
-				EIndexListBound eilt
+				EDXLIndexListBound index_list_bound
 				);
 
 			// ident accessors
@@ -68,9 +68,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// index list bound
-			EIndexListBound Eilb() const
+			EDXLIndexListBound GetDXLIndexListBound() const
 			{
-				return m_eilb;
+				return m_index_list_bound;
 			}
 
 			// serialize operator in DXL format

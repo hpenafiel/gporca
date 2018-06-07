@@ -29,13 +29,13 @@ using namespace gpdxl;
 CDXLScalarArrayRefIndexList::CDXLScalarArrayRefIndexList
 	(
 	IMemoryPool *memory_pool,
-	EIndexListBound eilb
+	EDXLIndexListBound index_list_bound
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_eilb(eilb)
+	m_index_list_bound(index_list_bound)
 {
-	GPOS_ASSERT(EilbSentinel > eilb);
+	GPOS_ASSERT(EdxlIndexListBoundSentinel > index_list_bound);
 }
 
 //---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ CDXLScalarArrayRefIndexList::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListBound), PstrIndexListBound(m_eilb));
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListBound), GetDXLIndexListBoundStr(m_index_list_bound));
 
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
@@ -101,17 +101,17 @@ CDXLScalarArrayRefIndexList::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarArrayRefIndexList::PstrIndexListBound
+CDXLScalarArrayRefIndexList::GetDXLIndexListBoundStr
 	(
-	EIndexListBound eilb
+	EDXLIndexListBound index_list_bound
 	)
 {
-	switch (eilb)
+	switch (index_list_bound)
 	{
-		case EilbLower:
+		case EdxlIndexListBoundLower:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListLower);
 
-		case EilbUpper:
+		case EdxlIndexListBoundUpper:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListUpper);
 
 		default:

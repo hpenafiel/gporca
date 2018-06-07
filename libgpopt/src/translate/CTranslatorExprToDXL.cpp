@@ -7002,7 +7002,7 @@ CTranslatorExprToDXL::PdxlnAssertConstraint
 // 		Translate the arrayref index list bound
 //
 //---------------------------------------------------------------------------
-CDXLScalarArrayRefIndexList::EIndexListBound
+CDXLScalarArrayRefIndexList::EDXLIndexListBound
 CTranslatorExprToDXL::Eilb
 	(
 	const CScalarArrayRefIndexList::EIndexListType eilt
@@ -7011,14 +7011,14 @@ CTranslatorExprToDXL::Eilb
 	switch (eilt)
 	{
 		case CScalarArrayRefIndexList::EiltLower:
-			return CDXLScalarArrayRefIndexList::EilbLower;
+			return CDXLScalarArrayRefIndexList::EdxlIndexListBoundLower;
 
 		case CScalarArrayRefIndexList::EiltUpper:
-			return CDXLScalarArrayRefIndexList::EilbUpper;
+			return CDXLScalarArrayRefIndexList::EdxlIndexListBoundUpper;
 
 		default:
 			GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsupportedOp, GPOS_WSZ_LIT("Invalid arrayref index bound"));
-			return CDXLScalarArrayRefIndexList::EilbSentinel;
+			return CDXLScalarArrayRefIndexList::EdxlIndexListBoundSentinel;
 	}
 }
 

@@ -3253,7 +3253,7 @@ CTranslatorDXLToExpr::PexprArrayRefIndexList
 	)
 {
 	CDXLScalarArrayRefIndexList *dxl_op = CDXLScalarArrayRefIndexList::Cast(dxlnode->GetOperator());
-	CScalarArrayRefIndexList *popIndexlist = GPOS_NEW(m_memory_pool) CScalarArrayRefIndexList(m_memory_pool, Eilt(dxl_op->Eilb()));
+	CScalarArrayRefIndexList *popIndexlist = GPOS_NEW(m_memory_pool) CScalarArrayRefIndexList(m_memory_pool, Eilt(dxl_op->GetDXLIndexListBound()));
 
 	DrgPexpr *pdrgpexprChildren = PdrgpexprChildren(dxlnode);
 
@@ -3271,15 +3271,15 @@ CTranslatorDXLToExpr::PexprArrayRefIndexList
 CScalarArrayRefIndexList::EIndexListType
 CTranslatorDXLToExpr::Eilt
 	(
-	const CDXLScalarArrayRefIndexList::EIndexListBound eilb
+	const CDXLScalarArrayRefIndexList::EDXLIndexListBound eilb
 	)
 {
 	switch (eilb)
 	{
-		case CDXLScalarArrayRefIndexList::EilbLower:
+		case CDXLScalarArrayRefIndexList::EdxlIndexListBoundLower:
 			return CScalarArrayRefIndexList::EiltLower;
 
-		case CDXLScalarArrayRefIndexList::EilbUpper:
+		case CDXLScalarArrayRefIndexList::EdxlIndexListBoundUpper:
 			return CScalarArrayRefIndexList::EiltUpper;
 
 		default:
