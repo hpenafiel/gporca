@@ -54,8 +54,8 @@ CParseHandlerMDRelation::CParseHandlerMDRelation
 	m_pdrgpszPartTypes(NULL),
 	m_ulPartitions(0),
 	m_pdrgpdrgpulKeys(NULL),
-	m_ppartcnstr(NULL),
-	m_pdrgpulDefaultParts(NULL)
+	m_part_constraint(NULL),
+	m_level_with_default_part_array(NULL)
 {
 }
 
@@ -78,19 +78,19 @@ CParseHandlerMDRelation::StartElement
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPartConstraint), element_local_name))
 	{
-		GPOS_ASSERT(NULL == m_ppartcnstr);
+		GPOS_ASSERT(NULL == m_part_constraint);
 
 		const XMLCh *xmlszDefParts = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenDefaultPartition));
 		if (NULL != xmlszDefParts)
 		{
-			m_pdrgpulDefaultParts = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszDefParts, EdxltokenDefaultPartition, EdxltokenRelation);
+			m_level_with_default_part_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszDefParts, EdxltokenDefaultPartition, EdxltokenRelation);
 		}
 		else
 		{
 			// construct an empty keyset
-			m_pdrgpulDefaultParts = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
+			m_level_with_default_part_array = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
 		}
-		m_fPartConstraintUnbounded = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenRelation);
+		m_part_constraint_unbounded = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenPartConstraintUnbounded, EdxltokenRelation);
 
 		CParseHandlerMDIndexInfoList *pphMdlIndexInfo = dynamic_cast<CParseHandlerMDIndexInfoList*>((*this)[1]);
 		// relcache translator will send partition constraint expression only when a partitioned relation has indices
@@ -221,12 +221,12 @@ CParseHandlerMDRelation::EndElement
 			CParseHandlerScalarOp *pphPartCnstr = dynamic_cast<CParseHandlerScalarOp *>((*this)[Length() - 1]);
 			CDXLNode *pdxlnPartConstraint = pphPartCnstr->CreateDXLNode();
 			pdxlnPartConstraint->AddRef();
-			m_ppartcnstr = GPOS_NEW(m_memory_pool) CMDPartConstraintGPDB(m_memory_pool, m_pdrgpulDefaultParts, m_fPartConstraintUnbounded, pdxlnPartConstraint);
+			m_part_constraint = GPOS_NEW(m_memory_pool) CMDPartConstraintGPDB(m_memory_pool, m_level_with_default_part_array, m_part_constraint_unbounded, pdxlnPartConstraint);
 		}
 		else
 		{
 			// no partition constraint expression
-			m_ppartcnstr = GPOS_NEW(m_memory_pool) CMDPartConstraintGPDB(m_memory_pool, m_pdrgpulDefaultParts, m_fPartConstraintUnbounded, NULL);
+			m_part_constraint = GPOS_NEW(m_memory_pool) CMDPartConstraintGPDB(m_memory_pool, m_level_with_default_part_array, m_part_constraint_unbounded, NULL);
 		}
 		return;
 	}
@@ -275,7 +275,7 @@ CParseHandlerMDRelation::EndElement
 									pdrgpmdIndexInfos,
 									pdrgpmdidTriggers,
 									pdrgpmdidCheckConstraint,
-									m_ppartcnstr,
+									m_part_constraint,
 									m_has_oids
 								);
 

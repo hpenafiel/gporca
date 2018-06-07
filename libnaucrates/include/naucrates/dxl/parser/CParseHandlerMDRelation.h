@@ -77,13 +77,13 @@ namespace gpdxl
 			ULongPtrArray2D *m_pdrgpdrgpulKeys;
 
 			// part constraint
-			CMDPartConstraintGPDB *m_ppartcnstr;
+			CMDPartConstraintGPDB *m_part_constraint;
 			
 			// levels that include default partitions
-			ULongPtrArray *m_pdrgpulDefaultParts;
+			ULongPtrArray *m_level_with_default_part_array;
 
 			// is part constraint unbounded
-			BOOL m_fPartConstraintUnbounded; 
+			BOOL m_part_constraint_unbounded; 
 			
 			// helper function to parse main relation attributes: name, id,
 			// distribution policy and keys

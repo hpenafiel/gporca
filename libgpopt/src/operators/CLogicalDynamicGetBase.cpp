@@ -51,7 +51,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	m_pdrgpdrgpcrPart(NULL),
 	m_ulSecondaryScanId(0),
 	m_fPartial(false),
-	m_ppartcnstr(NULL),
+	m_part_constraint(NULL),
 	m_ppartcnstrRel(NULL),
 	m_pcrsDist(NULL)
 {
@@ -89,7 +89,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	m_pdrgpdrgpcrPart(pdrgpdrgpcrPart),
 	m_ulSecondaryScanId(ulSecondaryScanId),
 	m_fPartial(fPartial),
-	m_ppartcnstr(ppartcnstr),
+	m_part_constraint(ppartcnstr),
 	m_ppartcnstrRel(ppartcnstrRel),
 	m_pcrsDist(NULL)
 {
@@ -101,7 +101,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	GPOS_ASSERT(NULL != ppartcnstrRel);
 
 	GPOS_ASSERT_IMP(scan_id != ulSecondaryScanId, NULL != ppartcnstr);
-	GPOS_ASSERT_IMP(fPartial, NULL != m_ppartcnstr->PcnstrCombined() && "Partial scan with unsupported constraint type");
+	GPOS_ASSERT_IMP(fPartial, NULL != m_part_constraint->PcnstrCombined() && "Partial scan with unsupported constraint type");
 
 	m_pcrsDist = CLogical::PcrsDist(memory_pool, m_ptabdesc, m_pdrgpcrOutput);
 }
@@ -130,7 +130,7 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	m_pdrgpcrOutput(NULL),
 	m_ulSecondaryScanId(scan_id),
 	m_fPartial(false),
-	m_ppartcnstr(NULL),
+	m_part_constraint(NULL),
 	m_ppartcnstrRel(NULL),
 	m_pcrsDist(NULL)
 {
@@ -145,9 +145,9 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 	HMUlCnstr *phmulcnstr = CUtils::PhmulcnstrBoolConstOnPartKeys(memory_pool, m_pdrgpdrgpcrPart, true /*value*/);
 	CBitSet *pbsDefaultParts = CUtils::PbsAllSet(memory_pool, m_pdrgpdrgpcrPart->Size());
 	m_pdrgpdrgpcrPart->AddRef();
-	m_ppartcnstr = GPOS_NEW(memory_pool) CPartConstraint(memory_pool, phmulcnstr, pbsDefaultParts, true /*fUnbounded*/, m_pdrgpdrgpcrPart);
-	m_ppartcnstr->AddRef();
-	m_ppartcnstrRel = m_ppartcnstr;
+	m_part_constraint = GPOS_NEW(memory_pool) CPartConstraint(memory_pool, phmulcnstr, pbsDefaultParts, true /*fUnbounded*/, m_pdrgpdrgpcrPart);
+	m_part_constraint->AddRef();
+	m_ppartcnstrRel = m_part_constraint;
         
 	m_pcrsDist = CLogical::PcrsDist(memory_pool, m_ptabdesc, m_pdrgpcrOutput);
 }
@@ -165,7 +165,7 @@ CLogicalDynamicGetBase::~CLogicalDynamicGetBase()
 	CRefCount::SafeRelease(m_ptabdesc);
 	CRefCount::SafeRelease(m_pdrgpcrOutput);
 	CRefCount::SafeRelease(m_pdrgpdrgpcrPart);
-	CRefCount::SafeRelease(m_ppartcnstr);
+	CRefCount::SafeRelease(m_part_constraint);
 	CRefCount::SafeRelease(m_ppartcnstrRel);
 	CRefCount::SafeRelease(m_pcrsDist);
 
@@ -278,10 +278,10 @@ CLogicalDynamicGetBase::SetPartConstraint
 	) 
 {
 	GPOS_ASSERT(NULL != ppartcnstr);
-	GPOS_ASSERT(NULL != m_ppartcnstr);
+	GPOS_ASSERT(NULL != m_part_constraint);
 
-	m_ppartcnstr->Release();
-	m_ppartcnstr = ppartcnstr;
+	m_part_constraint->Release();
+	m_part_constraint = ppartcnstr;
 	
 	m_ppartcnstrRel->Release();
 	ppartcnstr->AddRef();
@@ -317,7 +317,7 @@ void
 CLogicalDynamicGetBase::SetPartial()
 {
 	GPOS_ASSERT(!FPartial());
-	GPOS_ASSERT(NULL != m_ppartcnstr->PcnstrCombined() && "Partial scan with unsupported constraint type");
+	GPOS_ASSERT(NULL != m_part_constraint->PcnstrCombined() && "Partial scan with unsupported constraint type");
 	m_fPartial = true;
 }
 
@@ -339,7 +339,7 @@ CLogicalDynamicGetBase::PstatsDeriveFilter
 	const
 {
 	CExpression *pexprFilterNew = NULL;
-	CConstraint *pcnstr = m_ppartcnstr->PcnstrCombined();
+	CConstraint *pcnstr = m_part_constraint->PcnstrCombined();
 	if (m_fPartial && NULL != pcnstr && !pcnstr->FUnbounded())
 	{
 		if (NULL == pexprFilter)

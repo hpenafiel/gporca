@@ -200,7 +200,7 @@ CXformSelect2PartialDynamicIndexGet::CreatePartialIndexGetPlan
 		SPartDynamicIndexGetInfo *ppartdig = (*pdrgppartdig)[ul];
 
 		const IMDIndex *pmdindex = ppartdig->m_pmdindex;
-		CPartConstraint *ppartcnstr = ppartdig->m_ppartcnstr;
+		CPartConstraint *ppartcnstr = ppartdig->m_part_constraint;
 		DrgPexpr *pdrgpexprIndex = ppartdig->m_pdrgpexprIndex;
 		DrgPexpr *pdrgpexprResidual = ppartdig->m_pdrgpexprResidual;
 		

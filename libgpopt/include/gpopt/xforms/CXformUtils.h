@@ -40,7 +40,7 @@ namespace gpopt
 		const IMDIndex *m_pmdindex;
 
 		// part constraint
-		CPartConstraint *m_ppartcnstr;
+		CPartConstraint *m_part_constraint;
 		
 		// index predicate expressions
 		DrgPexpr *m_pdrgpexprIndex;
@@ -58,7 +58,7 @@ namespace gpopt
 			)
 			:
 			m_pmdindex(pmdindex),
-			m_ppartcnstr(ppartcnstr),
+			m_part_constraint(ppartcnstr),
 			m_pdrgpexprIndex(pdrgpexprIndex),
 			m_pdrgpexprResidual(pdrgpexprResidual)
 		{
@@ -69,7 +69,7 @@ namespace gpopt
 		// dtor
 		~SPartDynamicIndexGetInfo()
 		{
-			m_ppartcnstr->Release();
+			m_part_constraint->Release();
 			CRefCount::SafeRelease(m_pdrgpexprIndex);
 			CRefCount::SafeRelease(m_pdrgpexprResidual);
 		}

@@ -44,7 +44,7 @@ namespace gpopt
 			PartCnstrMap *m_ppartcnstrmap;
 
 			// relation part constraint
-			CPartConstraint *m_ppartcnstr;
+			CPartConstraint *m_part_constraint;
 
 			// expressions used in equality filters; for a filter of the form
 			// pk1 = expr, we only store the expr

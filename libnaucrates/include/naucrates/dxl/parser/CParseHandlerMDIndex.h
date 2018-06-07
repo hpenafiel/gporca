@@ -47,29 +47,29 @@ namespace gpdxl
 			IMDId *m_rel_mdid;
 			
 			// is the index clustered
-			BOOL m_fClustered;
+			BOOL m_clustered;
 
 			// index type
-			IMDIndex::EmdindexType m_emdindt;
+			IMDIndex::EmdindexType m_index_type;
 			
 			// type id of index items
 			// for instance, for bitmap indexes, this is the type id of the bitmap
-			IMDId *m_pmdidItemType;
+			IMDId *m_mdid_item_type;
 
 			// index keys
-			ULongPtrArray *m_pdrgpulKeyCols;
+			ULongPtrArray *m_index_key_cols_array;
 
 			// included columns
-			ULongPtrArray *m_pdrgpulIncludedCols;
+			ULongPtrArray *m_included_cols_array;
 			
 			// index part constraint
-			CMDPartConstraintGPDB *m_ppartcnstr;
+			CMDPartConstraintGPDB *m_part_constraint;
 			
 			// levels that include default partitions
-			ULongPtrArray *m_pdrgpulDefaultParts;
+			ULongPtrArray *m_level_with_default_part_array;
 			
 			// is constraint unbounded
-			BOOL m_fPartConstraintUnbounded; 
+			BOOL m_part_constraint_unbounded; 
 			
 			// private copy ctor
 			CParseHandlerMDIndex(const CParseHandlerMDIndex&);

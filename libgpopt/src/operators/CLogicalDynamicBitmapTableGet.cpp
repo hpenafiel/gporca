@@ -249,7 +249,7 @@ CLogicalDynamicBitmapTableGet::PopCopyWithRemappedColumns
 	m_ptabdesc->AddRef();
 
 	DrgDrgPcr *pdrgpdrgpcrPart = CUtils::PdrgpdrgpcrRemap(memory_pool, m_pdrgpdrgpcrPart, phmulcr, fMustExist);
-	CPartConstraint *ppartcnstr = m_ppartcnstr->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
+	CPartConstraint *ppartcnstr = m_part_constraint->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
 	return GPOS_NEW(memory_pool) CLogicalDynamicBitmapTableGet

@@ -48,7 +48,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	m_mdid(pmdid),
 	m_pdrgpdrgpcr(pdrgpdrgpcr),
 	m_ppartcnstrmap(ppartcnstrmap),
-	m_ppartcnstr(ppartcnstr),
+	m_part_constraint(ppartcnstr),
 	m_phmulexprEqPredicates(phmulexprEqPredicates),
 	m_phmulexprPredicates(phmulexprPredicates),
 	m_pexprResidual(pexprResidual)
@@ -85,7 +85,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	m_mdid(pmdid),
 	m_pdrgpdrgpcr(NULL),
 	m_ppartcnstrmap(NULL),
-	m_ppartcnstr(NULL),
+	m_part_constraint(NULL),
 	m_phmulexprEqPredicates(phmulexprEqPredicates),
 	m_phmulexprPredicates(NULL),
 	m_pexprResidual(NULL),
@@ -109,7 +109,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 CPhysicalPartitionSelector::~CPhysicalPartitionSelector()
 {
 	CRefCount::SafeRelease(m_pdrgpdrgpcr);
-	CRefCount::SafeRelease(m_ppartcnstr);
+	CRefCount::SafeRelease(m_part_constraint);
 	CRefCount::SafeRelease(m_ppartcnstrmap);
 	m_phmulexprPredicates->Release();
 	m_mdid->Release();
@@ -262,7 +262,7 @@ CPhysicalPartitionSelector::FMatch
 	BOOL fMdidCmp = popPartSelector->MDId()->Equals(MDId());
 	BOOL fPartCnstrMapCmp = FMatchPartCnstr(popPartSelector->m_ppartcnstrmap);
 	BOOL fColRefCmp = CColRef::Equals(popPartSelector->Pdrgpdrgpcr(), m_pdrgpdrgpcr) ;
-	BOOL fPartCnstrEquiv = popPartSelector->m_ppartcnstr->FEquivalent(m_ppartcnstr) ;
+	BOOL fPartCnstrEquiv = popPartSelector->m_part_constraint->FEquivalent(m_part_constraint) ;
 	BOOL fEqPredCmp = FMatchExprMaps(popPartSelector->m_phmulexprEqPredicates, m_phmulexprEqPredicates) ;
 	BOOL fPredCmp = FMatchExprMaps(popPartSelector->m_phmulexprPredicates, m_phmulexprPredicates) ;
 	BOOL fResPredCmp = CUtils::Equals(popPartSelector->m_pexprResidual, m_pexprResidual);
@@ -765,12 +765,12 @@ CPhysicalPartitionSelector::PpimDerive
 		MDId()->AddRef();
 		m_pdrgpdrgpcr->AddRef();
 		m_ppartcnstrmap->AddRef();
-		m_ppartcnstr->AddRef();
+		m_part_constraint->AddRef();
 
 		DrgPpartkeys *pdrgppartkeys = GPOS_NEW(memory_pool) DrgPpartkeys(memory_pool);
 		pdrgppartkeys->Append(GPOS_NEW(memory_pool) CPartKeys(m_pdrgpdrgpcr));
 
-		ppim->Insert(m_scan_id, m_ppartcnstrmap, CPartIndexMap::EpimPropagator, 0 /*ulExpectedPropagators*/, MDId(), pdrgppartkeys, m_ppartcnstr);
+		ppim->Insert(m_scan_id, m_ppartcnstrmap, CPartIndexMap::EpimPropagator, 0 /*ulExpectedPropagators*/, MDId(), pdrgppartkeys, m_part_constraint);
 	}
 
 	return ppim;

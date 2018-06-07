@@ -51,7 +51,7 @@ namespace gpmd
 			IMemoryPool *m_memory_pool;
 
 			// included default partitions
-			ULongPtrArray *m_pdrgpulDefaultParts;
+			ULongPtrArray *m_level_with_default_part_array;
 			
 			// is constraint unbounded
 			BOOL m_fUnbounded;

@@ -47,19 +47,19 @@ namespace gpmd
 			CMDName *m_mdname;
 
 			// is the index clustered
-			BOOL m_fClustered;
+			BOOL m_clustered;
 
 			// index type
-			EmdindexType m_emdindt;
+			EmdindexType m_index_type;
 			
 			// type of items returned by index
-			IMDId *m_pmdidItemType;
+			IMDId *m_mdid_item_type;
 
 			// index key columns
-			ULongPtrArray *m_pdrgpulKeyCols;
+			ULongPtrArray *m_index_key_cols_array;
 
 			// included columns 
-			ULongPtrArray *m_pdrgpulIncludedCols;
+			ULongPtrArray *m_included_cols_array;
 
 			// operator classes for each index key
 			DrgPmdid *m_pdrgpmdidOpClasses;

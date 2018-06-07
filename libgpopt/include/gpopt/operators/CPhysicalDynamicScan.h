@@ -57,7 +57,7 @@ namespace gpopt
 			ULONG m_ulSecondaryScanId;
 
 			// dynamic index part constraint
-			CPartConstraint *m_ppartcnstr;
+			CPartConstraint *m_part_constraint;
 
 			// relation part constraint
 			CPartConstraint *m_ppartcnstrRel;
@@ -119,7 +119,7 @@ namespace gpopt
 			// dynamic index part constraint
 			CPartConstraint *Ppartcnstr() const
 			{
-				return m_ppartcnstr;
+				return m_part_constraint;
 			}
 
 			// relation part constraint

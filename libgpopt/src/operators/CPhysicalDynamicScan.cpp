@@ -56,7 +56,7 @@ CPhysicalDynamicScan::CPhysicalDynamicScan
 	m_scan_id(scan_id),
 	m_pdrgpdrgpcrPart(pdrgpdrgpcrParts),
 	m_ulSecondaryScanId(ulSecondaryScanId),
-	m_ppartcnstr(ppartcnstr),
+	m_part_constraint(ppartcnstr),
 	m_ppartcnstrRel(ppartcnstrRel)
 {
 	GPOS_ASSERT(NULL != pdrgpdrgpcrParts);
@@ -76,7 +76,7 @@ CPhysicalDynamicScan::CPhysicalDynamicScan
 CPhysicalDynamicScan::~CPhysicalDynamicScan()
 {
 	m_pdrgpdrgpcrPart->Release();
-	m_ppartcnstr->Release();
+	m_part_constraint->Release();
 	m_ppartcnstrRel->Release();
 }
 
@@ -120,11 +120,11 @@ CPhysicalDynamicScan::PpimDerive
 	IMDId *pmdid = m_ptabdesc->MDId();
 	pmdid->AddRef();
 	m_pdrgpdrgpcrPart->AddRef();
-	m_ppartcnstr->AddRef();
+	m_part_constraint->AddRef();
 	m_ppartcnstrRel->AddRef();
 	ULONG ulExpectedPartitionSelectors = CDrvdPropCtxtPlan::PdpctxtplanConvert(pdpctxt)->UlExpectedPartitionSelectors();
 
-	return PpimDeriveFromDynamicScan(memory_pool, m_scan_id, pmdid, m_pdrgpdrgpcrPart, m_ulSecondaryScanId, m_ppartcnstr, m_ppartcnstrRel, ulExpectedPartitionSelectors);
+	return PpimDeriveFromDynamicScan(memory_pool, m_scan_id, pmdid, m_pdrgpdrgpcrPart, m_ulSecondaryScanId, m_part_constraint, m_ppartcnstrRel, ulExpectedPartitionSelectors);
 }
 
 //---------------------------------------------------------------------------
@@ -154,10 +154,10 @@ CPhysicalDynamicScan::OsPrint
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
 	os << "] Scan Id: " << m_scan_id << "." << m_ulSecondaryScanId;
 
-	if (!m_ppartcnstr->FUnbounded())
+	if (!m_part_constraint->FUnbounded())
 	{
 		os << ", ";
-		m_ppartcnstr->OsPrint(os);
+		m_part_constraint->OsPrint(os);
 	}
 
 	return os;

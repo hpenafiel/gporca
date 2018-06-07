@@ -48,11 +48,11 @@ CMDIndexGPDB::CMDIndexGPDB
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_fClustered(fClustered),
-	m_emdindt(emdindt),
-	m_pmdidItemType(pmdidItemType),
-	m_pdrgpulKeyCols(pdrgpulKeyCols),
-	m_pdrgpulIncludedCols(pdrgpulIncludedCols),
+	m_clustered(fClustered),
+	m_index_type(emdindt),
+	m_mdid_item_type(pmdidItemType),
+	m_index_key_cols_array(pdrgpulKeyCols),
+	m_included_cols_array(pdrgpulIncludedCols),
 	m_pdrgpmdidOpClasses(pdrgpmdidOpClasses),
 	m_pmdpartcnstr(pmdpartcnstr)
 {
@@ -81,9 +81,9 @@ CMDIndexGPDB::~CMDIndexGPDB()
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
-	CRefCount::SafeRelease(m_pmdidItemType);
-	m_pdrgpulKeyCols->Release();
-	m_pdrgpulIncludedCols->Release();
+	CRefCount::SafeRelease(m_mdid_item_type);
+	m_index_key_cols_array->Release();
+	m_included_cols_array->Release();
 	m_pdrgpmdidOpClasses->Release();
 	CRefCount::SafeRelease(m_pmdpartcnstr);
 }
@@ -127,7 +127,7 @@ CMDIndexGPDB::Mdname() const
 BOOL
 CMDIndexGPDB::FClustered() const
 {
-	return m_fClustered;
+	return m_clustered;
 }
 
 //---------------------------------------------------------------------------
@@ -141,7 +141,7 @@ CMDIndexGPDB::FClustered() const
 IMDIndex::EmdindexType
 CMDIndexGPDB::Emdindt() const
 {
-	return m_emdindt;
+	return m_index_type;
 }
 
 //---------------------------------------------------------------------------
@@ -155,7 +155,7 @@ CMDIndexGPDB::Emdindt() const
 ULONG
 CMDIndexGPDB::UlKeys() const
 {
-	return m_pdrgpulKeyCols->Size();
+	return m_index_key_cols_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -173,7 +173,7 @@ CMDIndexGPDB::UlKey
 	) 
 	const
 {
-	return *((*m_pdrgpulKeyCols)[ulPos]);
+	return *((*m_index_key_cols_array)[ulPos]);
 }
 
 //---------------------------------------------------------------------------
@@ -215,7 +215,7 @@ CMDIndexGPDB::UlPosInKey
 ULONG
 CMDIndexGPDB::UlIncludedCols() const
 {
-	return m_pdrgpulIncludedCols->Size();
+	return m_included_cols_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -233,7 +233,7 @@ CMDIndexGPDB::UlIncludedCol
 	)
 	const
 {
-	return *((*m_pdrgpulIncludedCols)[ulPos]);
+	return *((*m_included_cols_array)[ulPos]);
 }
 
 //---------------------------------------------------------------------------
@@ -299,20 +299,20 @@ CMDIndexGPDB::Serialize
 	
 	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIndexClustered), m_fClustered);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIndexClustered), m_clustered);
 	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIndexType), PstrIndexType(m_emdindt));
-	if (NULL != m_pmdidItemType)
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIndexType), PstrIndexType(m_index_type));
+	if (NULL != m_mdid_item_type)
 	{
-		m_pmdidItemType->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenIndexItemType));
+		m_mdid_item_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenIndexItemType));
 	}
 		
 	// serialize index keys
-	CWStringDynamic *pstrKeyCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulKeyCols);
+	CWStringDynamic *pstrKeyCols = CDXLUtils::Serialize(m_memory_pool, m_index_key_cols_array);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIndexKeyCols), pstrKeyCols);
 	GPOS_DELETE(pstrKeyCols);
 
-	CWStringDynamic *pstrAvailCols = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulIncludedCols);
+	CWStringDynamic *pstrAvailCols = CDXLUtils::Serialize(m_memory_pool, m_included_cols_array);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenIndexIncludedCols), pstrAvailCols);
 	GPOS_DELETE(pstrAvailCols);
 		
@@ -351,7 +351,7 @@ CMDIndexGPDB::DebugPrint
 	os << std::endl;
 	
 	os << "Index name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
-	os << "Index type: " << PstrIndexType(m_emdindt)->GetBuffer() << std::endl;
+	os << "Index type: " << PstrIndexType(m_index_type)->GetBuffer() << std::endl;
 
 	os << "Index keys: ";
 	for (ULONG ul = 0; ul < UlKeys(); ul++)
@@ -391,7 +391,7 @@ CMDIndexGPDB::DebugPrint
 IMDId *
 CMDIndexGPDB::PmdidItemType() const
 {
-	return m_pmdidItemType;
+	return m_mdid_item_type;
 }
 
 //---------------------------------------------------------------------------

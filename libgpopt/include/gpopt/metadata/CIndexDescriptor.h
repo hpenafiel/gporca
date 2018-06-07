@@ -51,7 +51,7 @@ namespace gpopt
 			DrgPcoldesc *m_pdrgpcoldescIncludedCols;
 
 			// clustered index
-			BOOL m_fClustered;
+			BOOL m_clustered;
 
 			// private copy ctor
 			CIndexDescriptor(const CIndexDescriptor &);
@@ -106,7 +106,7 @@ namespace gpopt
 			// is index clustered
 			BOOL FClustered() const
 			{
-				return m_fClustered;
+				return m_clustered;
 			}
 
 			// create an index descriptor

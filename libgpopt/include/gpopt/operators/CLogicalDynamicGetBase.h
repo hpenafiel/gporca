@@ -57,7 +57,7 @@ namespace gpopt
 			BOOL m_fPartial;
 			
 			// dynamic get part constraint
-			CPartConstraint *m_ppartcnstr;
+			CPartConstraint *m_part_constraint;
 			
 			// relation part constraint
 			CPartConstraint *m_ppartcnstrRel;
@@ -167,7 +167,7 @@ namespace gpopt
 			virtual
 			CPartConstraint *Ppartcnstr() const
 			{
-				return m_ppartcnstr;
+				return m_part_constraint;
 			}
 
 			// return relation part constraint

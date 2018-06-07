@@ -183,7 +183,7 @@ CLogicalDynamicIndexGet::PopCopyWithRemappedColumns
 	}
 
 	DrgDrgPcr *pdrgpdrgpcrPart = CUtils::PdrgpdrgpcrRemap(memory_pool, m_pdrgpdrgpcrPart, phmulcr, fMustExist);
-	CPartConstraint *ppartcnstr = m_ppartcnstr->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
+	CPartConstraint *ppartcnstr = m_part_constraint->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 	CPartConstraint *ppartcnstrRel = m_ppartcnstrRel->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, fMustExist);
 
 	m_ptabdesc->AddRef();
@@ -303,15 +303,15 @@ const
 	os << ", Table Name: (";
 	m_pnameAlias->OsPrint(os);
 	os <<"), ";
-	m_ppartcnstr->OsPrint(os);
+	m_part_constraint->OsPrint(os);
 	os << ", Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrOutput);
 	os << "] Scan Id: " << m_scan_id << "." << m_ulSecondaryScanId;
 
-	if (!m_ppartcnstr->FUnbounded())
+	if (!m_part_constraint->FUnbounded())
 	{
 		os << ", ";
-		m_ppartcnstr->OsPrint(os);
+		m_part_constraint->OsPrint(os);
 	}
 	
 	return os;

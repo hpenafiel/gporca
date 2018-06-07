@@ -37,7 +37,7 @@ CMDPartConstraintGPDB::CMDPartConstraintGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pdrgpulDefaultParts(pdrgpulDefaultParts),
+	m_level_with_default_part_array(pdrgpulDefaultParts),
 	m_fUnbounded(fUnbounded),
 	m_dxl_node(dxlnode)
 {
@@ -56,7 +56,7 @@ CMDPartConstraintGPDB::~CMDPartConstraintGPDB()
 {
 	if (NULL != m_dxl_node)
 		m_dxl_node->Release();
-	m_pdrgpulDefaultParts->Release();
+	m_level_with_default_part_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -94,7 +94,7 @@ CMDPartConstraintGPDB::Pexpr
 ULongPtrArray *
 CMDPartConstraintGPDB::PdrgpulDefaultParts() const
 {
-	return m_pdrgpulDefaultParts;
+	return m_level_with_default_part_array;
 }
 
 //---------------------------------------------------------------------------
@@ -130,7 +130,7 @@ CMDPartConstraintGPDB::Serialize
 						CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraint));
 	
 	// serialize default parts
-	CWStringDynamic *pstrDefParts = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulDefaultParts);
+	CWStringDynamic *pstrDefParts = CDXLUtils::Serialize(m_memory_pool, m_level_with_default_part_array);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDefaultPartition), pstrDefParts);
 	GPOS_DELETE(pstrDefParts);
 

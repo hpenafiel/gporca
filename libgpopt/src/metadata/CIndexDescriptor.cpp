@@ -40,7 +40,7 @@ CIndexDescriptor::CIndexDescriptor
 	m_name(memory_pool, name),
 	m_pdrgpcoldescKeyCols(pdrgcoldescKeyCols),
 	m_pdrgpcoldescIncludedCols(pdrgcoldescIncludedCols),
-	m_fClustered(fClustered)
+	m_clustered(fClustered)
 {
 	GPOS_ASSERT(NULL != memory_pool);
 	GPOS_ASSERT(pmdidIndex->IsValid());
@@ -177,7 +177,7 @@ CIndexDescriptor::OsPrint
 	os << ")";
 
 	os << " [ Clustered :";
-	if (m_fClustered)
+	if (m_clustered)
 	{
 		os << "true";
 	}
