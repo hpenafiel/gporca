@@ -168,11 +168,11 @@ CDXLOperatorFactory::MakeDXLNLJoin
 									EdxltokenPhysicalNLJoin
 									);
 	
-	BOOL fIndexNLJ = false;
+	BOOL is_index_nlj = false;
 	const XMLCh *xmlszIndexNLJ = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenPhysicalNLJoinIndex));
 	if (NULL != xmlszIndexNLJ)
 	{
-		fIndexNLJ = ConvertAttrValueToBool
+		is_index_nlj = ConvertAttrValueToBool
 						(
 						memory_manager_dxl,
 						xmlszIndexNLJ,
@@ -183,7 +183,7 @@ CDXLOperatorFactory::MakeDXLNLJoin
 
 	EdxlJoinType join_type = ParseJoinType(xmlszJoinType, CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalNLJoin));
 	
-	return GPOS_NEW(memory_pool) CDXLPhysicalNLJoin(memory_pool, join_type, fIndexNLJ);
+	return GPOS_NEW(memory_pool) CDXLPhysicalNLJoin(memory_pool, join_type, is_index_nlj);
 }
 
 //---------------------------------------------------------------------------

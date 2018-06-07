@@ -45,23 +45,23 @@ namespace gpdxl
 
 			// flag to indicate whether operator is an index nested loops,
 			// i.e., inner side is an index scan that uses values from outer side
-			BOOL m_fIndexNLJ;
+			BOOL m_is_index_nlj;
 
 			// private copy ctor
 			CDXLPhysicalNLJoin(const CDXLPhysicalNLJoin&);
 
 		public:
 			// ctor/dtor
-			CDXLPhysicalNLJoin(IMemoryPool *memory_pool, EdxlJoinType join_type, BOOL fIndexNLJ);
+			CDXLPhysicalNLJoin(IMemoryPool *memory_pool, EdxlJoinType join_type, BOOL is_index_nlj);
 			
 			// accessors
 			Edxlopid GetDXLOperator() const;
 			const CWStringConst *GetOpNameStr() const;
 			
 			// is operator an index nested loops?
-			BOOL FIndexNLJ() const
+			BOOL IsIndexNLJ() const
 			{
-				return m_fIndexNLJ;
+				return m_is_index_nlj;
 			}
 
 			// serialize operator in DXL format

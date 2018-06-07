@@ -30,11 +30,11 @@ CDXLPhysicalNLJoin::CDXLPhysicalNLJoin
 	(
 	IMemoryPool *memory_pool,
 	EdxlJoinType join_type,
-	BOOL fIndexNLJ
+	BOOL is_index_nlj
 	)
 	:
 	CDXLPhysicalJoin(memory_pool, join_type),
-	m_fIndexNLJ(fIndexNLJ)
+	m_is_index_nlj(is_index_nlj)
 {
 }
 
@@ -88,7 +88,7 @@ CDXLPhysicalNLJoin::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 	
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenJoinType), GetJoinTypeNameStr());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalNLJoinIndex), m_fIndexNLJ);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalNLJoinIndex), m_is_index_nlj);
 
 
 	// serialize properties

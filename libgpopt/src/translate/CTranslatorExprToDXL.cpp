@@ -3637,7 +3637,7 @@ CTranslatorExprToDXL::PdxlnNLJoin
 #endif // GPOS_DEBUG
 
 	EdxlJoinType join_type = EdxljtSentinel;
-	BOOL fIndexNLJ = false;
+	BOOL is_index_nlj = false;
 	switch (pop->Eopid())
 	{
 		case COperator::EopPhysicalInnerNLJoin:
@@ -3646,13 +3646,13 @@ CTranslatorExprToDXL::PdxlnNLJoin
 
 		case COperator::EopPhysicalInnerIndexNLJoin:
 			join_type = EdxljtInner;
-			fIndexNLJ = true;
+			is_index_nlj = true;
 			StoreIndexNLJOuterRefs(pop);
 			break;
 
 		case COperator::EopPhysicalLeftOuterIndexNLJoin:
 			join_type = EdxljtLeft;
-			fIndexNLJ = true;
+			is_index_nlj = true;
 			StoreIndexNLJOuterRefs(pop);
 			break;
 
@@ -3688,7 +3688,7 @@ CTranslatorExprToDXL::PdxlnNLJoin
 	}
 
 	// construct a join node
-	CDXLPhysicalNLJoin *pdxlopNLJ = GPOS_NEW(m_memory_pool) CDXLPhysicalNLJoin(m_memory_pool, join_type,fIndexNLJ);
+	CDXLPhysicalNLJoin *pdxlopNLJ = GPOS_NEW(m_memory_pool) CDXLPhysicalNLJoin(m_memory_pool, join_type,is_index_nlj);
 
 	// construct projection list
 	// compute required columns

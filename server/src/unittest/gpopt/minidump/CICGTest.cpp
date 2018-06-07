@@ -378,7 +378,7 @@ CICGTest::FIsNotIndexJoin
 {
 	if (EdxlopPhysicalNLJoin == dxl_op->GetDXLOperator())
 	{
-		if (CDXLPhysicalNLJoin::PdxlConvert(dxl_op)->FIndexNLJ())
+		if (CDXLPhysicalNLJoin::PdxlConvert(dxl_op)->IsIndexNLJ())
 		{
 			return false;
 		}
