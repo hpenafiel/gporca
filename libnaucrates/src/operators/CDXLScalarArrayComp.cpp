@@ -30,11 +30,11 @@ CDXLScalarArrayComp::CDXLScalarArrayComp
 	IMemoryPool *memory_pool,
 	IMDId *mdid_op,
 	const CWStringConst *str_opname,
-	EdxlArrayCompType edxlcomptype
+	EdxlArrayComparisonType comparison_type
 	)
 	:
 	CDXLScalarComp(memory_pool, mdid_op, str_opname),
-	m_edxlcomptype(edxlcomptype)
+	m_comparison_type(comparison_type)
 {
 }
 
@@ -60,10 +60,10 @@ CDXLScalarArrayComp::GetDXLOperator() const
 //	 	Returns the array comparison operation type (ALL/ANY)
 //
 //---------------------------------------------------------------------------
-EdxlArrayCompType
-CDXLScalarArrayComp::Edxlarraycomptype() const
+EdxlArrayComparisonType
+CDXLScalarArrayComp::GetDXLArrayCmpType() const
 {
-	return m_edxlcomptype;
+	return m_comparison_type;
 }
 
 //---------------------------------------------------------------------------
@@ -75,13 +75,13 @@ CDXLScalarArrayComp::Edxlarraycomptype() const
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarArrayComp::PstrArrayCompType() const
+CDXLScalarArrayComp::GetDXLStrArrayCmpType() const
 {
-	switch (m_edxlcomptype)
+	switch (m_comparison_type)
 	{
-		case Edxlarraycomptypeany:
+		case Edxlarraycomparisontypeany:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenOpTypeAny);
-		case Edxlarraycomptypeall:
+		case Edxlarraycomparisontypeall:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenOpTypeAll);
 		default:
 			GPOS_ASSERT(!"Unrecognized array operation type");
@@ -124,7 +124,7 @@ CDXLScalarArrayComp::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpName), m_comparison_operator_name);
 	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenOpNo));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpType), PstrArrayCompType());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenOpType), GetDXLStrArrayCmpType());
 
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);

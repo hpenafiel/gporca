@@ -7046,10 +7046,10 @@ CTranslatorExprToDXL::PdxlnArrayCmp
 
 	CScalarArrayCmp::EArrCmpType earrcmpt = pop->Earrcmpt();
 	GPOS_ASSERT(CScalarArrayCmp::EarrcmpSentinel > earrcmpt);
-	EdxlArrayCompType edxlarrcmpt = Edxlarraycomptypeall;
+	EdxlArrayComparisonType edxlarrcmpt = Edxlarraycomparisontypeall;
 	if (CScalarArrayCmp::EarrcmpAny == earrcmpt)
 	{
-		edxlarrcmpt = Edxlarraycomptypeany;
+		edxlarrcmpt = Edxlarraycomparisontypeany;
 	}
 
 	CDXLNode *pdxlnArrayCmp =

@@ -3309,15 +3309,15 @@ CTranslatorDXLToExpr::PexprArrayCmp
 
 	const CWStringConst *str_opname = dxl_op->GetComparisonOpName();
 	
-	EdxlArrayCompType edxlarrcmp = dxl_op->Edxlarraycomptype();
+	EdxlArrayComparisonType edxlarrcmp = dxl_op->GetDXLArrayCmpType();
 	CScalarArrayCmp::EArrCmpType earrcmpt = CScalarArrayCmp::EarrcmpSentinel;
-	if (Edxlarraycomptypeall == edxlarrcmp)
+	if (Edxlarraycomparisontypeall == edxlarrcmp)
 	{
 		earrcmpt = CScalarArrayCmp::EarrcmpAll;
 	}
 	else
 	{
-		GPOS_ASSERT(Edxlarraycomptypeany == edxlarrcmp);
+		GPOS_ASSERT(Edxlarraycomparisontypeany == edxlarrcmp);
 		earrcmpt = CScalarArrayCmp::EarrcmpAny;
 	}
 	

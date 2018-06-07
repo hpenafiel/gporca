@@ -20,10 +20,10 @@ namespace gpdxl
 {
 	using namespace gpos;
 
-	enum EdxlArrayCompType
+	enum EdxlArrayComparisonType
 	{
-		Edxlarraycomptypeany = 0,
-		Edxlarraycomptypeall
+		Edxlarraycomparisontypeany = 0,
+		Edxlarraycomparisontypeall
 	};
 
 	//---------------------------------------------------------------------------
@@ -38,12 +38,12 @@ namespace gpdxl
 	{
 		private:
 
-			EdxlArrayCompType m_edxlcomptype;
+			EdxlArrayComparisonType m_comparison_type;
 
 			// private copy ctor
 			CDXLScalarArrayComp(const CDXLScalarArrayComp&);
 
-			const CWStringConst* PstrArrayCompType() const;
+			const CWStringConst* GetDXLStrArrayCmpType() const;
 
 		public:
 			// ctor/dtor
@@ -52,7 +52,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				IMDId *mdid_op,
 				const CWStringConst *str_opname,
-				EdxlArrayCompType edxlcomptype
+				EdxlArrayComparisonType comparison_type
 				);
 
 			// ident accessors
@@ -63,7 +63,7 @@ namespace gpdxl
 
 			//accessors
 			BOOL HasBoolResult() const;
-			EdxlArrayCompType Edxlarraycomptype() const;
+			EdxlArrayComparisonType GetDXLArrayCmpType() const;
 
 			// serialize operator in DXL format
 			virtual

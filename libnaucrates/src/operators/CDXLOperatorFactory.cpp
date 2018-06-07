@@ -780,11 +780,11 @@ CDXLOperatorFactory::MakeDXLArrayComp
 							EdxltokenScalarArrayComp
 							);
 
-	EdxlArrayCompType array_comp_type = Edxlarraycomptypeany;
+	EdxlArrayComparisonType array_comp_type = Edxlarraycomparisontypeany;
 
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpTypeAll), op_type_xml))
 	{
-		array_comp_type = Edxlarraycomptypeall;
+		array_comp_type = Edxlarraycomparisontypeall;
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpTypeAny), op_type_xml))
 	{
