@@ -81,9 +81,9 @@ CParseHandlerCostParam::StartElement
 	}
 
 	const XMLCh *xmlstrName = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenCostParam);
-	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlstrName);
-	m_param_name = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, pstrName->GetBuffer());
-	GPOS_DELETE(pstrName);
+	CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlstrName);
+	m_param_name = CDXLUtils::CreateMultiByteCharStringFromWCString(m_memory_pool, str_name->GetBuffer());
+	GPOS_DELETE(str_name);
 
 	m_value = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenValue, EdxltokenCostParam);
 	m_lower_bound_val = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenCostParamLowerBound, EdxltokenCostParam);

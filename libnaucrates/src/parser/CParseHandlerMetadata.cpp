@@ -254,14 +254,14 @@ CParseHandlerMetadata::PdrgpsysidParse
 		GPOS_ASSERT(2 == xmlsztokSysid.countTokens());
 		
 		XMLCh *xmlszType = xmlsztokSysid.nextToken();
-		ULONG ulType = CDXLOperatorFactory::ConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszType, edxltokenAttr, edxltokenElement);
+		ULONG type = CDXLOperatorFactory::ConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszType, edxltokenAttr, edxltokenElement);
 		
 		XMLCh *xmlszName = xmlsztokSysid.nextToken();
-		CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszName);
+		CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszName);
 		
-		pdrgpsysid->Append(GPOS_NEW(m_memory_pool) CSystemId((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length()));	
+		pdrgpsysid->Append(GPOS_NEW(m_memory_pool) CSystemId((IMDId::EMDIdType) type, str_name->GetBuffer(), str_name->Length()));	
 		
-		GPOS_DELETE(pstrName);
+		GPOS_DELETE(str_name);
 	}
 	
 	return pdrgpsysid;

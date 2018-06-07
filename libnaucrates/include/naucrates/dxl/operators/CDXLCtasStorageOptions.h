@@ -41,13 +41,13 @@ namespace gpdxl
 			struct CDXLCtasOption
 			{
 				// the type of the Option encoded as an integer
-				ULONG m_ulType;
+				ULONG m_type;
 
 				// option name
 				CWStringBase *m_str_name;
 				
 				// option value
-				CWStringBase *m_pstrValue;
+				CWStringBase *m_str_value;
 				
 				// does this represent a NULL value
 				BOOL m_is_null;
@@ -55,31 +55,31 @@ namespace gpdxl
 				// ctor
 				CDXLCtasOption
 					(
-					ULONG ulType,
-					CWStringBase *pstrName,
-					CWStringBase *pstrValue,
+					ULONG type,
+					CWStringBase *str_name,
+					CWStringBase *str_value,
 					BOOL is_null
 					)
 					:
-					m_ulType(ulType),
-					m_str_name(pstrName),
-					m_pstrValue(pstrValue),
+					m_type(type),
+					m_str_name(str_name),
+					m_str_value(str_value),
 					m_is_null(is_null)
 				{
-					GPOS_ASSERT(NULL != pstrName);
-					GPOS_ASSERT(NULL != pstrValue);
+					GPOS_ASSERT(NULL != str_name);
+					GPOS_ASSERT(NULL != str_value);
 				}
 				
 				// dtor
 				~CDXLCtasOption()
 				{
 					GPOS_DELETE(m_str_name);
-					GPOS_DELETE(m_pstrValue);
+					GPOS_DELETE(m_str_value);
 				}
 				
 			};
 			
-			typedef CDynamicPtrArray<CDXLCtasOption, CleanupDelete> DrgPctasOpt;
+			typedef CDynamicPtrArray<CDXLCtasOption, CleanupDelete> DXLCtasOptionArray;
 			
 			//-------------------------------------------------------------------
 			//	@enum:
@@ -108,31 +108,31 @@ namespace gpdxl
 			ECtasOnCommitAction m_ctas_on_commit_action;
 			
 			// array of name-value pairs of storage options
-			DrgPctasOpt *m_ctas_storage_option_array;
+			DXLCtasOptionArray *m_ctas_storage_option_array;
 			
 			// private copy ctor
 			CDXLCtasStorageOptions(const CDXLCtasStorageOptions &);
 		
 			// string representation of OnCommit action
 			static
-			const CWStringConst *PstrOnCommitAction(ECtasOnCommitAction ectascommit);
+			const CWStringConst *GetOnCommitActionStr(ECtasOnCommitAction ctas_on_commit_action);
 			
 		public:
 			// ctor
-			CDXLCtasStorageOptions(CMDName *pmdnameTablespace, ECtasOnCommitAction ectascommit, DrgPctasOpt *pdrgpctasopt);
+			CDXLCtasStorageOptions(CMDName *mdname_tablespace, ECtasOnCommitAction ctas_on_commit_action, DXLCtasOptionArray *ctas_storage_option_array);
 			
 			// dtor
 			virtual
 			~CDXLCtasStorageOptions();
 			
 			// accessor to tablespace name
-			CMDName *PmdnameTablespace() const;
+			CMDName *GetMdNameTableSpace() const;
 			
 			// on commit action
-			CDXLCtasStorageOptions::ECtasOnCommitAction Ectascommit() const;
+			CDXLCtasStorageOptions::ECtasOnCommitAction GetOnCommitAction() const;
 			
 			// accessor to options
-			DrgPctasOpt *Pdrgpctasopt() const;
+			DXLCtasOptionArray *GetDXLCtasOptionArray() const;
 			
 			// serialize to DXL
 			void Serialize(CXMLSerializer *xml_serializer) const;

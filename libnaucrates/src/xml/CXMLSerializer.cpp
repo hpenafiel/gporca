@@ -175,18 +175,18 @@ void
 CXMLSerializer::AddAttribute
 	(
 	const CWStringBase *pstrAttr,
-	const CWStringBase *pstrValue
+	const CWStringBase *str_value
 	)
 {
 	GPOS_ASSERT(NULL != pstrAttr);
-	GPOS_ASSERT(NULL != pstrValue);
+	GPOS_ASSERT(NULL != str_value);
 
 	GPOS_ASSERT(m_fOpenTag);
 	m_os << CDXLTokens::GetDXLTokenStr(EdxltokenSpace)->GetBuffer()
 		 << pstrAttr->GetBuffer()
 		 << CDXLTokens::GetDXLTokenStr(EdxltokenEq)->GetBuffer()		// = 
 		 <<  CDXLTokens::GetDXLTokenStr(EdxltokenQuote)->GetBuffer();	// "
-	WriteEscaped(m_os, pstrValue);
+	WriteEscaped(m_os, str_value);
 	m_os << CDXLTokens::GetDXLTokenStr(EdxltokenQuote)->GetBuffer();	// "
 }
 
@@ -368,18 +368,18 @@ CXMLSerializer::AddAttribute
 	BOOL fValue
 	)
 {
-	const CWStringConst *pstrValue = NULL;
+	const CWStringConst *str_value = NULL;
 	
 	if (fValue)
 	{
-		pstrValue = CDXLTokens::GetDXLTokenStr(EdxltokenTrue);
+		str_value = CDXLTokens::GetDXLTokenStr(EdxltokenTrue);
 	}
 	else
 	{
-		pstrValue = CDXLTokens::GetDXLTokenStr(EdxltokenFalse);
+		str_value = CDXLTokens::GetDXLTokenStr(EdxltokenFalse);
 	}
 
-	AddAttribute(pstrAttr, pstrValue);
+	AddAttribute(pstrAttr, str_value);
 }
 
 //---------------------------------------------------------------------------

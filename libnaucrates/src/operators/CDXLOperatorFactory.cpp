@@ -3825,13 +3825,13 @@ CDXLOperatorFactory::Sysid
 	GPOS_ASSERT(2 == xmlsztokSysid.countTokens());
 	
 	XMLCh *xmlszType = xmlsztokSysid.nextToken();
-	ULONG ulType = CDXLOperatorFactory::ConvertAttrValueToUlong(memory_manager_dxl, xmlszType, edxltokenAttr, edxltokenElement);
+	ULONG type = CDXLOperatorFactory::ConvertAttrValueToUlong(memory_manager_dxl, xmlszType, edxltokenAttr, edxltokenElement);
 	
 	XMLCh *xmlszName = xmlsztokSysid.nextToken();
-	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszName);
+	CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszName);
 	
-	CSystemId sysid((IMDId::EMDIdType) ulType, pstrName->GetBuffer(), pstrName->Length());	
-	GPOS_DELETE(pstrName);
+	CSystemId sysid((IMDId::EMDIdType) type, str_name->GetBuffer(), str_name->Length());	
+	GPOS_DELETE(str_name);
 	
 	return sysid;
 }

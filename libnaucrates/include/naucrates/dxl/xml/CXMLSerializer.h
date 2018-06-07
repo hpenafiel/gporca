@@ -107,7 +107,7 @@ namespace gpdxl
 			void CloseElement(const CWStringBase *pstrNamespace, const CWStringBase *pstrElem);
 			
 			// adds a string-valued attribute
-			void AddAttribute(const CWStringBase *pstrAttr, const CWStringBase *pstrValue);
+			void AddAttribute(const CWStringBase *pstrAttr, const CWStringBase *str_value);
 			
 			// adds a character string attribute
 			void AddAttribute(const CWStringBase *pstrAttr, const CHAR *szValue);

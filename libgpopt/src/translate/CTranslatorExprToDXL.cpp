@@ -5801,9 +5801,9 @@ CTranslatorExprToDXL::PdxlnScCmp
 	IMDId *pmdid = popScCmp->MdIdOp();
 	pmdid->AddRef();
 
-	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, popScCmp->Pstr()->GetBuffer());
+	CWStringConst *str_name = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, popScCmp->Pstr()->GetBuffer());
 
-	CDXLNode *pdxlnCmp = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarComp(m_memory_pool, pmdid, pstrName));
+	CDXLNode *pdxlnCmp = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarComp(m_memory_pool, pmdid, str_name));
 
 	// add children
 	pdxlnCmp->AddChild(dxlnode_left);
@@ -5878,7 +5878,7 @@ CTranslatorExprToDXL::PdxlnScOp
 	CScalarOp *pscop = CScalarOp::PopConvert(pexprOp->Pop());
 
 	// construct a scalar opexpr node
-	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pscop->Pstr()->GetBuffer());
+	CWStringConst *str_name = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pscop->Pstr()->GetBuffer());
 
 	IMDId *mdid_op = pscop->MdIdOp();
 	mdid_op->AddRef();
@@ -5889,7 +5889,7 @@ CTranslatorExprToDXL::PdxlnScOp
 		return_type_mdid->AddRef();
 	}
 
-	CDXLNode *pdxlnOpExpr = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpExpr(m_memory_pool, mdid_op, return_type_mdid, pstrName));
+	CDXLNode *pdxlnOpExpr = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOpExpr(m_memory_pool, mdid_op, return_type_mdid, str_name));
 
 	TranslateScalarChildren(pexprOp, pdxlnOpExpr);
 

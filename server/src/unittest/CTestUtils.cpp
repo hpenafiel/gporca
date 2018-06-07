@@ -207,7 +207,7 @@ CTestUtils::PtabdescPlainWithColNameFormat
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	const IMDTypeInt4 *pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
-	CWStringDynamic *pstrName = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
+	CWStringDynamic *str_name = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
 	CTableDescriptor *ptabdesc = GPOS_NEW(memory_pool) CTableDescriptor
 											(
 											memory_pool, 
@@ -221,18 +221,18 @@ CTestUtils::PtabdescPlainWithColNameFormat
 
 	for (ULONG i = 0; i < ulCols; i++)
 	{
-		pstrName->Reset();
-		pstrName->AppendFormat(wszColNameFormat, i);
+		str_name->Reset();
+		str_name->AppendFormat(wszColNameFormat, i);
 
 		// create a shallow constant string to embed in a name
-		CWStringConst strName(pstrName->GetBuffer());
+		CWStringConst strName(str_name->GetBuffer());
 		CName nameColumnInt(&strName);
 
 		CColumnDescriptor *pcoldescInt = GPOS_NEW(memory_pool) CColumnDescriptor(memory_pool, pmdtypeint4, IDefaultTypeModifier, nameColumnInt, i + 1, fNullable);
 		ptabdesc->AddColumn(pcoldescInt);
 	}
 
-	GPOS_DELETE(pstrName);
+	GPOS_DELETE(str_name);
 
 	return ptabdesc;
 }

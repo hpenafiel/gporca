@@ -2976,15 +2976,15 @@ CTranslatorDXLToExpr::PexprWindowFunc
 	IMDId *mdid_func = pdxlopWinref->FuncMdId();
 	mdid_func->AddRef();
 
-	CWStringConst *pstrName = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, CMDAccessorUtils::PstrWindowFuncName(m_pmda, mdid_func)->GetBuffer());
+	CWStringConst *str_name = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, CMDAccessorUtils::PstrWindowFuncName(m_pmda, mdid_func)->GetBuffer());
 
 	CScalarWindowFunc::EWinStage ews = Ews(pdxlopWinref->GetDxlWinStage());
 
 	IMDId *mdid_return_type = pdxlopWinref->ReturnTypeMdId();
 	mdid_return_type->AddRef();
 	
-	GPOS_ASSERT(NULL != pstrName);
-	CScalarWindowFunc *popWindowFunc = GPOS_NEW(m_memory_pool) CScalarWindowFunc(m_memory_pool, mdid_func, mdid_return_type, pstrName, ews, pdxlopWinref->IsDistinct(), pdxlopWinref->IsStarArg(), pdxlopWinref->IsSimpleAgg());
+	GPOS_ASSERT(NULL != str_name);
+	CScalarWindowFunc *popWindowFunc = GPOS_NEW(m_memory_pool) CScalarWindowFunc(m_memory_pool, mdid_func, mdid_return_type, str_name, ews, pdxlopWinref->IsDistinct(), pdxlopWinref->IsStarArg(), pdxlopWinref->IsSimpleAgg());
 
 	CExpression *pexprWindowFunc = NULL;
 	if (0 < pdxlnWindowRef->Arity())

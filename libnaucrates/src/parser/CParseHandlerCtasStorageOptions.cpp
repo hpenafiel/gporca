@@ -91,7 +91,7 @@ CParseHandlerCtasStorageOptions::StartElement
 		
 		if (NULL == m_ctas_storage_option_array)
 		{
-			m_ctas_storage_option_array = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::DrgPctasOpt(m_memory_pool);
+			m_ctas_storage_option_array = GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::DXLCtasOptionArray(m_memory_pool);
 		}
 		m_ctas_storage_option_array->Append(
 				GPOS_NEW(m_memory_pool) CDXLCtasStorageOptions::CDXLCtasOption(ctas_option_type, ctas_option_name, ctas_option_val, is_null));

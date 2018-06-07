@@ -327,12 +327,12 @@ CStatisticsTest::PtabdescTwoColumnSource
 	for (ULONG ul = 0; ul < 2; ul++)
 	{
 		// create a shallow constant string to embed in a name
-		const CWStringConst *pstrName = &strColA;
+		const CWStringConst *str_name = &strColA;
 		if (0 < ul)
 		{
-			pstrName = &strColB;
+			str_name = &strColB;
 		}
-		CName nameColumn(pstrName);
+		CName nameColumn(str_name);
 
 		CColumnDescriptor *pcoldesc = GPOS_NEW(memory_pool) CColumnDescriptor
 											(

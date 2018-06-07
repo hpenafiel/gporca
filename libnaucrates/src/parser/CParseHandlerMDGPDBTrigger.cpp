@@ -78,9 +78,9 @@ CParseHandlerMDGPDBTrigger::StartElement
 	m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenGPDBTrigger);
 
 	const XMLCh *xmlszName = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenName, EdxltokenGPDBTrigger);
-	CWStringDynamic *pstrName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszName);
-	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrName);
-	GPOS_DELETE(pstrName);
+	CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszName);
+	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, str_name);
+	GPOS_DELETE(str_name);
 	GPOS_ASSERT(m_mdid->IsValid() && NULL != m_mdname);
 
 	m_rel_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelationMdid, EdxltokenGPDBTrigger);
