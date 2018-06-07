@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLScalarBooleanTest::CDXLScalarBooleanTest
 	(
 	IMemoryPool *memory_pool,
-	const EdxlBooleanTestType edxlbooleanTestType
+	const EdxlBooleanTestType dxl_bool_test_type
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_edxlbooleantesttype(edxlbooleanTestType)
+	m_dxl_bool_test_type(dxl_bool_test_type)
 {
 
 }
@@ -64,7 +64,7 @@ CDXLScalarBooleanTest::GetDXLOperator() const
 EdxlBooleanTestType
 CDXLScalarBooleanTest::GetDxlBoolTypeStr() const
 {
-	return m_edxlbooleantesttype;
+	return m_dxl_bool_test_type;
 }
 
 
@@ -79,7 +79,7 @@ CDXLScalarBooleanTest::GetDxlBoolTypeStr() const
 const CWStringConst *
 CDXLScalarBooleanTest::GetOpNameStr() const
 {
-	switch (m_edxlbooleantesttype)
+	switch (m_dxl_bool_test_type)
 	{
 		case EdxlbooleantestIsTrue:
 				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBoolTestIsTrue);
@@ -142,10 +142,10 @@ CDXLScalarBooleanTest::AssertValid
 	const
 {
 
-	EdxlBooleanTestType edxlbooltype = ((CDXLScalarBooleanTest *) dxlnode->GetOperator())->GetDxlBoolTypeStr();
+	EdxlBooleanTestType dxl_bool_type = ((CDXLScalarBooleanTest *) dxlnode->GetOperator())->GetDxlBoolTypeStr();
 
-	GPOS_ASSERT( (EdxlbooleantestIsTrue == edxlbooltype) || (EdxlbooleantestIsNotTrue == edxlbooltype) || (EdxlbooleantestIsFalse == edxlbooltype)
-			|| (EdxlbooleantestIsNotFalse == edxlbooltype)|| (EdxlbooleantestIsUnknown == edxlbooltype)|| (EdxlbooleantestIsNotUnknown == edxlbooltype));
+	GPOS_ASSERT( (EdxlbooleantestIsTrue == dxl_bool_type) || (EdxlbooleantestIsNotTrue == dxl_bool_type) || (EdxlbooleantestIsFalse == dxl_bool_type)
+			|| (EdxlbooleantestIsNotFalse == dxl_bool_type)|| (EdxlbooleantestIsUnknown == dxl_bool_type)|| (EdxlbooleantestIsNotUnknown == dxl_bool_type));
 
 	GPOS_ASSERT(1 == dxlnode->Arity());
 	CDXLNode *dxlnode_arg = (*dxlnode)[0];

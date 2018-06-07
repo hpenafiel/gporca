@@ -45,7 +45,7 @@ namespace gpdxl
 		private:
 
 			// operator type
-			const EdxlBooleanTestType m_edxlbooleantesttype;
+			const EdxlBooleanTestType m_dxl_bool_test_type;
 
 			// private copy ctor
 			CDXLScalarBooleanTest(const CDXLScalarBooleanTest&);
@@ -58,7 +58,7 @@ namespace gpdxl
 			CDXLScalarBooleanTest
 				(
 				IMemoryPool *memory_pool,
-				const EdxlBooleanTestType edxlboolexptesttype
+				const EdxlBooleanTestType dxl_bool_type
 				);
 
 			// ident accessors

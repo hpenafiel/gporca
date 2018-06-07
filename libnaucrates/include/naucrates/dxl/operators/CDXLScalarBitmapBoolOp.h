@@ -47,14 +47,14 @@ namespace gpdxl
 			IMDId *m_mdid_type;
 			
 			// operator type
-			const EdxlBitmapBoolOp m_bitmapboolop;
+			const EdxlBitmapBoolOp m_bitmap_op_type;
 
 			// private copy ctor
 			CDXLScalarBitmapBoolOp(const CDXLScalarBitmapBoolOp&);
 
 		public:
 			// ctor
-			CDXLScalarBitmapBoolOp(IMemoryPool *memory_pool, IMDId *mdid_type, EdxlBitmapBoolOp bitmapboolop);
+			CDXLScalarBitmapBoolOp(IMemoryPool *memory_pool, IMDId *mdid_type, EdxlBitmapBoolOp bitmap_op_type);
 			
 			// dtor 
 			virtual
@@ -65,7 +65,7 @@ namespace gpdxl
 			Edxlopid GetDXLOperator() const;
 
 			// bitmap operator type
-			EdxlBitmapBoolOp Edxlbitmapboolop() const;
+			EdxlBitmapBoolOp GetDXLBitmapOpType() const;
 			
 			// return type
 			IMDId *MDIdType() const;

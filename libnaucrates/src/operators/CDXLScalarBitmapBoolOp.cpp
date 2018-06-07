@@ -33,14 +33,14 @@ CDXLScalarBitmapBoolOp::CDXLScalarBitmapBoolOp
 	(
 	IMemoryPool *memory_pool,
 	IMDId *mdid_type,
-	EdxlBitmapBoolOp bitmapboolop
+	EdxlBitmapBoolOp bitmap_op_type
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_mdid_type(mdid_type),
-	m_bitmapboolop(bitmapboolop)
+	m_bitmap_op_type(bitmap_op_type)
 {
-	GPOS_ASSERT(EdxlbitmapSentinel > bitmapboolop);
+	GPOS_ASSERT(EdxlbitmapSentinel > bitmap_op_type);
 	GPOS_ASSERT(IMDId::IsValid(mdid_type));
 }
 
@@ -95,9 +95,9 @@ CDXLScalarBitmapBoolOp::MDIdType() const
 //
 //---------------------------------------------------------------------------
 CDXLScalarBitmapBoolOp::EdxlBitmapBoolOp
-CDXLScalarBitmapBoolOp::Edxlbitmapboolop() const
+CDXLScalarBitmapBoolOp::GetDXLBitmapOpType() const
 {
-	return m_bitmapboolop;
+	return m_bitmap_op_type;
 }
 
 //---------------------------------------------------------------------------
@@ -129,7 +129,7 @@ CDXLScalarBitmapBoolOp::HasBoolResult
 const CWStringConst *
 CDXLScalarBitmapBoolOp::GetOpNameStr() const
 {
-	if (EdxlbitmapAnd == m_bitmapboolop)
+	if (EdxlbitmapAnd == m_bitmap_op_type)
 	{
 		return CDXLTokens::GetDXLTokenStr(EdxltokenScalarBitmapAnd);
 	}
@@ -185,7 +185,7 @@ CDXLScalarBitmapBoolOp::AssertValid
 	) 
 	const
 {
-	EdxlBitmapBoolOp dxl_bitmap_bool_op = ((CDXLScalarBitmapBoolOp *) dxlnode->GetOperator())->Edxlbitmapboolop();
+	EdxlBitmapBoolOp dxl_bitmap_bool_op = ((CDXLScalarBitmapBoolOp *) dxlnode->GetOperator())->GetDXLBitmapOpType();
 
 	GPOS_ASSERT( (dxl_bitmap_bool_op == EdxlbitmapAnd) || (dxl_bitmap_bool_op == EdxlbitmapOr));
 
@@ -196,9 +196,9 @@ CDXLScalarBitmapBoolOp::AssertValid
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *dxlnode_arg = (*dxlnode)[ul];
-		Edxlopid edxlop = dxlnode_arg->GetOperator()->GetDXLOperator();
+		Edxlopid dxl_operator = dxlnode_arg->GetOperator()->GetDXLOperator();
 		
-		GPOS_ASSERT(EdxlopScalarBitmapBoolOp == edxlop || EdxlopScalarBitmapIndexProbe == edxlop);
+		GPOS_ASSERT(EdxlopScalarBitmapBoolOp == dxl_operator || EdxlopScalarBitmapIndexProbe == dxl_operator);
 		
 		if (validate_children)
 		{
