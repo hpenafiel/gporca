@@ -67,7 +67,7 @@ namespace gpdxl
 				);
 
 			// list of window keys
-			DXLWindowSpecArray *Pdrgpdxlws() const
+			DXLWindowSpecArray *GetDxlWindowSpecArray() const
 			{
 				return m_window_spec_array;
 			}

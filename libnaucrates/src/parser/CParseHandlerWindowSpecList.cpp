@@ -66,14 +66,14 @@ CParseHandlerWindowSpecList::StartElement
 		// we must have seen a window specification list already
 		GPOS_ASSERT(NULL != m_window_spec_array);
 		// start new window specification element
-		CParseHandlerBase *pphWs =
+		CParseHandlerBase *window_spec_parse_handler =
 				CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenWindowSpec), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphWs);
+		m_parse_handler_mgr->ActivateParseHandler(window_spec_parse_handler);
 
 		// store parse handler
-		this->Append(pphWs);
+		this->Append(window_spec_parse_handler);
 
-		pphWs->startElement(element_uri, element_local_name, element_qname, attrs);
+		window_spec_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -107,10 +107,10 @@ CParseHandlerWindowSpecList::EndElement
 
 	const ULONG size = this->Length();
 	// add the window specifications to the list
-	for (ULONG ul = 0; ul < size; ul++)
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerWindowSpec *pphWs = dynamic_cast<CParseHandlerWindowSpec *>((*this)[ul]);
-		m_window_spec_array->Append(pphWs->GetWindowKeyAt());
+		CParseHandlerWindowSpec *window_spec_parse_handler = dynamic_cast<CParseHandlerWindowSpec *>((*this)[idx]);
+		m_window_spec_array->Append(window_spec_parse_handler->GetWindowKeyAt());
 	}
 
 	// deactivate handler
