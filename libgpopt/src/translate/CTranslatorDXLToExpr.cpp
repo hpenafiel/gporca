@@ -1259,7 +1259,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEProducer
 	CColRefSet *pcrsProducer = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
 	DrgPcr *pdrgpcr = GPOS_NEW(m_memory_pool) DrgPcr(m_memory_pool);
 
-	ULongPtrArray *pdrgpulCols = pdxlopCTEProducer->PdrgpulColIds();
+	ULongPtrArray *pdrgpulCols = pdxlopCTEProducer->GetOutputColIdsArray();
 	const ULONG ulLen = pdrgpulCols->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
@@ -1332,7 +1332,7 @@ CTranslatorDXLToExpr::PexprLogicalCTEConsumer
 	CDXLLogicalCTEConsumer *pdxlopCTEConsumer = CDXLLogicalCTEConsumer::Cast(dxlnode->GetOperator());
 	ULONG id = UlMapCTEId(pdxlopCTEConsumer->Id());
 
-	ULongPtrArray *pdrgpulCols = pdxlopCTEConsumer->PdrgpulColIds();
+	ULongPtrArray *pdrgpulCols = pdxlopCTEConsumer->GetOutputColIdsArray();
 
 	// create new col refs
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();

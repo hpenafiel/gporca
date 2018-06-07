@@ -70,13 +70,13 @@ CParseHandlerSortColList::StartElement
 		GPOS_ASSERT(NULL != m_dxl_node);
 
 		// start new sort column
-		CParseHandlerBase *pphSortCol = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphSortCol);
+		CParseHandlerBase *sort_col_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortCol), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(sort_col_parse_handler);
 		
 		// store parse handler
-		this->Append(pphSortCol);
+		this->Append(sort_col_parse_handler);
 		
-		pphSortCol->startElement(element_uri, element_local_name, element_qname, attrs);
+		sort_col_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -116,8 +116,8 @@ CParseHandlerSortColList::EndElement
 	// add sorting columns from child parse handlers
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		CParseHandlerSortCol *pphSortCol = dynamic_cast<CParseHandlerSortCol *>((*this)[ul]);
-		AddChildFromParseHandler(pphSortCol);
+		CParseHandlerSortCol *sort_col_parse_handler = dynamic_cast<CParseHandlerSortCol *>((*this)[ul]);
+		AddChildFromParseHandler(sort_col_parse_handler);
 	}
 	
 #ifdef GPOS_DEBUG

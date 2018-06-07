@@ -32,14 +32,14 @@ CDXLPhysicalCTEProducer::CDXLPhysicalCTEProducer
 	(
 	IMemoryPool *memory_pool,
 	ULONG id,
-	ULongPtrArray *pdrgpulColIds
+	ULongPtrArray *output_colids_array
 	)
 	:
 	CDXLPhysical(memory_pool),
 	m_id(id),
-	m_pdrgpulColIds(pdrgpulColIds)
+	m_output_colids_array(output_colids_array)
 {
-	GPOS_ASSERT(NULL != pdrgpulColIds);
+	GPOS_ASSERT(NULL != output_colids_array);
 }
 
 //---------------------------------------------------------------------------
@@ -52,7 +52,7 @@ CDXLPhysicalCTEProducer::CDXLPhysicalCTEProducer
 //---------------------------------------------------------------------------
 CDXLPhysicalCTEProducer::~CDXLPhysicalCTEProducer()
 {
-	m_pdrgpulColIds->Release();
+	m_output_colids_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -104,7 +104,7 @@ CDXLPhysicalCTEProducer::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEId), Id());
 
-	CWStringDynamic *pstrColIds = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulColIds);
+	CWStringDynamic *pstrColIds = CDXLUtils::Serialize(m_memory_pool, m_output_colids_array);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumns), pstrColIds);
 	GPOS_DELETE(pstrColIds);
 

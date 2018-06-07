@@ -104,9 +104,9 @@ CDXLScalarSortColList::AssertValid
 	const
 {
 	const ULONG arity = dxlnode->Arity();
-	for (ULONG ul = 0; ul < arity; ul++)
+	for (ULONG idx = 0; idx < arity; idx++)
 	{
-		CDXLNode *child_dxlnode = (*dxlnode)[ul];
+		CDXLNode *child_dxlnode = (*dxlnode)[idx];
 		GPOS_ASSERT(EdxlopScalarSortCol == child_dxlnode->GetOperator()->GetDXLOperator());
 		
 		if (validate_children)

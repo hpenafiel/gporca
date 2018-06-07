@@ -33,14 +33,14 @@ CDXLLogicalCTEConsumer::CDXLLogicalCTEConsumer
 	(
 	IMemoryPool *memory_pool,
 	ULONG id,
-	ULongPtrArray *pdrgpulColIds
+	ULongPtrArray *output_colids_array
 	)
 	:
 	CDXLLogical(memory_pool),
 	m_id(id),
-	m_pdrgpulColIds(pdrgpulColIds)
+	m_output_colids_array(output_colids_array)
 {
-	GPOS_ASSERT(NULL != pdrgpulColIds);
+	GPOS_ASSERT(NULL != output_colids_array);
 }
 
 //---------------------------------------------------------------------------
@@ -53,7 +53,7 @@ CDXLLogicalCTEConsumer::CDXLLogicalCTEConsumer
 //---------------------------------------------------------------------------
 CDXLLogicalCTEConsumer::~CDXLLogicalCTEConsumer()
 {
-	m_pdrgpulColIds->Release();
+	m_output_colids_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -99,10 +99,10 @@ CDXLLogicalCTEConsumer::IsColDefined
 	)
 	const
 {
-	const ULONG size = m_pdrgpulColIds->Size();
-	for (ULONG ul = 0; ul < size; ul++)
+	const ULONG size = m_output_colids_array->Size();
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		ULONG id = *((*m_pdrgpulColIds)[ul]);
+		ULONG id = *((*m_output_colids_array)[idx]);
 		if (id == col_id)
 		{
 			return true;
@@ -133,9 +133,9 @@ CDXLLogicalCTEConsumer::SerializeToDXL
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCTEId), Id());
 	
-	CWStringDynamic *pstrColIds = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulColIds);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumns), pstrColIds);
-	GPOS_DELETE(pstrColIds);
+	CWStringDynamic *str_colids = CDXLUtils::Serialize(m_memory_pool, m_output_colids_array);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColumns), str_colids);
+	GPOS_DELETE(str_colids);
 	
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
