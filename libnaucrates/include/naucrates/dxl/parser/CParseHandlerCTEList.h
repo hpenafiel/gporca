@@ -70,7 +70,7 @@ namespace gpdxl
 			~CParseHandlerCTEList();
 			
 			// CTE list
-			DXLNodeArray *Pdrgpdxln() const
+			DXLNodeArray *GetDxlCteArray() const
 			{
 				return m_dxl_array;
 			}

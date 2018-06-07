@@ -78,13 +78,13 @@ CParseHandlerCTEList::StartElement
 		GPOS_ASSERT(NULL != m_dxl_array);
 
 		// start new CTE producer
-		CParseHandlerBase *pphCTEProducer = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalCTEProducer), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphCTEProducer);
+		CParseHandlerBase *cte_producer_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogicalCTEProducer), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(cte_producer_parse_handler);
 		
 		// store parse handler
-		this->Append(pphCTEProducer);
+		this->Append(cte_producer_parse_handler);
 		
-		pphCTEProducer->startElement(element_uri, element_local_name, element_qname, attrs);
+		cte_producer_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -122,10 +122,10 @@ CParseHandlerCTEList::EndElement
 	// add CTEs
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		CParseHandlerLogicalCTEProducer *pphCTE = dynamic_cast<CParseHandlerLogicalCTEProducer *>((*this)[ul]);
-		CDXLNode *pdxlnCTE = pphCTE->CreateDXLNode();
-		pdxlnCTE->AddRef();
-		m_dxl_array->Append(pdxlnCTE);
+		CParseHandlerLogicalCTEProducer *cte_producer_parse_handler = dynamic_cast<CParseHandlerLogicalCTEProducer *>((*this)[ul]);
+		CDXLNode *dxlnode_cte = cte_producer_parse_handler->CreateDXLNode();
+		dxlnode_cte->AddRef();
+		m_dxl_array->Append(dxlnode_cte);
 	}
 		
 	// deactivate handler

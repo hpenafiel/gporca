@@ -195,9 +195,9 @@ CParseHandlerQuery::EndElement
 	m_output_colums_dxl_array->AddRef();
 
 	CParseHandlerCTEList *pphCTE = dynamic_cast<CParseHandlerCTEList *>((*this)[1]);
-	GPOS_ASSERT(NULL != pphCTE && NULL != pphCTE->Pdrgpdxln());
+	GPOS_ASSERT(NULL != pphCTE && NULL != pphCTE->GetDxlCteArray());
 
-	m_cte_producer_dxl_array = pphCTE->Pdrgpdxln();
+	m_cte_producer_dxl_array = pphCTE->GetDxlCteArray();
 	m_cte_producer_dxl_array->AddRef();
 
 	CParseHandlerLogicalOp *pphLgOp = dynamic_cast<CParseHandlerLogicalOp *>((*this)[2]);
