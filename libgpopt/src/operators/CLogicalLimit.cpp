@@ -355,7 +355,7 @@ CLogicalLimit::PstatsDerive
 	CMaxCard maxcard = this->Maxcard(memory_pool, exprhdl);
 	CDouble dRowsMax = CDouble(maxcard.Ull());
 
-	if (pstatsChild->DRows() <= dRowsMax)
+	if (pstatsChild->Rows() <= dRowsMax)
 	{
 		pstatsChild->AddRef();
 		return pstatsChild;

@@ -1122,7 +1122,7 @@ CMDAccessor::RecordColumnStats
 	GPOS_ASSERT(NULL != pmdcolstats);
 
 	// fetch the column width and insert it into the hashmap
-	CDouble *pdWidth = GPOS_NEW(memory_pool) CDouble(pmdcolstats->DWidth());
+	CDouble *pdWidth = GPOS_NEW(memory_pool) CDouble(pmdcolstats->Width());
 	phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), pdWidth);
 
 	// extract the the histogram and insert it into the hashmap
@@ -1247,14 +1247,14 @@ CMDAccessor::Pstats
 		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), pdWidth);
 	}
 
-	CDouble dRows = std::max(DOUBLE(1.0), pmdRelStats->DRows().Get());
+	CDouble rows = std::max(DOUBLE(1.0), pmdRelStats->Rows().Get());
 
 	return GPOS_NEW(memory_pool) CStatistics
 							(
 							memory_pool,
 							phmulhist,
 							phmuldoubleWidth,
-							dRows,
+							rows,
 							fEmptyTable
 							);
 }

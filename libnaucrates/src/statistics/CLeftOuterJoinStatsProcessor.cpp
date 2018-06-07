@@ -32,7 +32,7 @@ CLeftOuterJoinStatsProcessor::PstatsLOJStatic
 	const CStatistics *pstatsInnerSide = dynamic_cast<const CStatistics *> (pstatsInner);
 
 	CStatistics *pstatsInnerJoin = pstatsOuterSide->PstatsInnerJoin(memory_pool, pstatsInner, pdrgpstatspredjoin);
-	CDouble dRowsInnerJoin = pstatsInnerJoin->DRows();
+	CDouble dRowsInnerJoin = pstatsInnerJoin->Rows();
 	CDouble dRowsLASJ(1.0);
 
 	// create a new hash map of histograms, for each column from the outer child
@@ -49,7 +49,7 @@ CLeftOuterJoinStatsProcessor::PstatsLOJStatic
 			);
 
 	// cardinality of LOJ is at least the cardinality of the outer child
-	CDouble dRowsLOJ = std::max(pstatsOuter->DRows(), dRowsInnerJoin + dRowsLASJ);
+	CDouble dRowsLOJ = std::max(pstatsOuter->Rows(), dRowsInnerJoin + dRowsLASJ);
 
 	// create an output stats object
 	CStatistics *pstatsLOJ = GPOS_NEW(memory_pool) CStatistics
@@ -115,7 +115,7 @@ CLeftOuterJoinStatsProcessor::PhmulhistLOJ
 	CDouble dRowsLASJ(0.0);
 	if (!pstatsLASJ->IsEmpty())
 	{
-		dRowsLASJ = pstatsLASJ->DRows();
+		dRowsLASJ = pstatsLASJ->Rows();
 	}
 
 	HMUlHist *phmulhistLOJ = GPOS_NEW(memory_pool) HMUlHist(memory_pool);

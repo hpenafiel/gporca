@@ -142,7 +142,7 @@ namespace gpnaucrates
 																	   IStatistics::EsjtInnerJoin);
 
 		GPOS_ASSERT(NULL != pstatsJoin);
-		CDouble dRowsActual(pstatsJoin->DRows());
+		CDouble dRowsActual(pstatsJoin->Rows());
 		GPOS_RESULT eres = GPOS_OK;
 
 		if (std::floor(dRowsActual.Get()) != dRowsExpected)
@@ -203,7 +203,7 @@ namespace gpnaucrates
 																	   IStatistics::EsjtInnerJoin);
 
 		GPOS_ASSERT(NULL != pstatsJoin);
-		CDouble dRowsActual(pstatsJoin->DRows());
+		CDouble dRowsActual(pstatsJoin->Rows());
 
 		GPOS_RESULT eres = GPOS_OK;
 		if (floor(dRowsActual.Get()) != dRowsExpected)
@@ -268,7 +268,7 @@ namespace gpnaucrates
 																	   IStatistics::EsjtInnerJoin);
 
 		GPOS_ASSERT(NULL != pstatsJoin);
-		CDouble dRowsActual(pstatsJoin->DRows());
+		CDouble dRowsActual(pstatsJoin->Rows());
 
 		GPOS_RESULT eres = GPOS_OK;
 		if (floor(dRowsActual.Get()) != dRowsExpected)

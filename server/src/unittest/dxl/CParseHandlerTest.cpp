@@ -737,7 +737,7 @@ CParseHandlerTest::EresParseAndSerializeStatistics
 	CStatistics *pstats = (* statistics_array)[0];
 	GPOS_ASSERT(pstats);
 
-	pstats->DRows();
+	pstats->Rows();
 	oss << "Statistics:" << std::endl;
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats);
 

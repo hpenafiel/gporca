@@ -349,13 +349,13 @@ CLogicalTVF::PstatsDerive
 	)
 	const
 {
-	CDouble dRows(1.0);
+	CDouble rows(1.0);
 	if (m_fReturnsSet)
 	{
-		dRows = CStatistics::DDefaultRelationRows;
+		rows = CStatistics::DDefaultRelationRows;
 	}
 
-	return PstatsDeriveDummy(memory_pool, exprhdl, dRows);
+	return PstatsDeriveDummy(memory_pool, exprhdl, rows);
 }
 
 //---------------------------------------------------------------------------

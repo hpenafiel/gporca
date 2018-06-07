@@ -27,12 +27,12 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CDXLStatsDerivedRelation::CDXLStatsDerivedRelation
 	(
-	CDouble dRows,
+	CDouble rows,
 	BOOL fEmpty,
 	DrgPdxlstatsdercol *pdrgpdxldercolstat
 	)
 	:
-	m_rows(dRows),
+	m_rows(rows),
 	m_empty(fEmpty),
 	m_pdrgpdxlstatsdercol(pdrgpdxldercolstat)
 {
@@ -118,7 +118,7 @@ CDXLStatsDerivedRelation::DebugPrint
 	)
 	const
 {
-	os << "Rows: " << DRows() << std::endl;
+	os << "Rows: " << Rows() << std::endl;
 
 	os << "Empty: " << IsEmpty() << std::endl;
 }

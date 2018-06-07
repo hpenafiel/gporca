@@ -366,10 +366,10 @@ namespace gpnaucrates
 			static
 			CDouble DDefaultDistinctVals
 					(
-					CDouble dRows
+					CDouble rows
 					)
 			{
-				return std::min(CStatistics::DDefaultDistinctValues.Get(), dRows.Get());
+				return std::min(CStatistics::DDefaultDistinctValues.Get(), rows.Get());
 			}
 
 			// add the statistics (histogram and width) of the grouping columns

@@ -81,7 +81,7 @@ CFilterStatsProcessor::PstatsFilter
 {
 	GPOS_ASSERT(NULL != pstatspredBase);
 
-	CDouble dRowsInput = std::max(CStatistics::DMinRows.Get(), pstatsInput->DRows().Get());
+	CDouble dRowsInput = std::max(CStatistics::DMinRows.Get(), pstatsInput->Rows().Get());
 	CDouble dScaleFactor(1.0);
 	ULONG ulNumPredicates = 1;
 	CDouble dRowsFilter = CStatistics::DMinRows;

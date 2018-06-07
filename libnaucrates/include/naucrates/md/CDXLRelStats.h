@@ -72,7 +72,7 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				CMDIdRelStats *pmdidRelStats,
 				CMDName *mdname,
-				CDouble dRows,
+				CDouble rows,
 				BOOL fEmpty
 				);
 			
@@ -93,7 +93,7 @@ namespace gpmd
 			
 			// number of rows
 			virtual
-			CDouble DRows() const;
+			CDouble Rows() const;
 			
 			// is statistics on an empty input
 			virtual

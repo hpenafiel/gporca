@@ -102,7 +102,7 @@ namespace gpnaucrates
 			}
 
 			// width of bucket
-			CDouble DWidth() const;
+			CDouble Width() const;
 
 			// set frequency
 			void SetFrequency
@@ -200,7 +200,7 @@ namespace gpnaucrates
 					(
 					IMemoryPool *memory_pool,
 					CBucket *pbucketOther,
-					CDouble dRows,
+					CDouble rows,
 					CDouble dRowsOther,
 					CBucket **pbucket1New,
 					CBucket **pbucket2New,

@@ -681,7 +681,7 @@ CDXLUtils::ParseDXLToOptimizerStatisticObjArray
 			CDXLStatsDerivedColumn *dxl_derived_col_stats = (*derived_column_stats_array)[column_id_idx];
 			
 			ULONG column_id = dxl_derived_col_stats->GetColId();
-			CDouble width = dxl_derived_col_stats->DWidth();
+			CDouble width = dxl_derived_col_stats->Width();
 			CDouble null_freq = dxl_derived_col_stats->DNullFreq();
 			CDouble distinct_remaining = dxl_derived_col_stats->DDistinctRemain();
 			CDouble freq_remaining = dxl_derived_col_stats->DFreqRemain();
@@ -693,7 +693,7 @@ CDXLUtils::ParseDXLToOptimizerStatisticObjArray
 			column_id_width_map->Insert(GPOS_NEW(memory_pool) ULONG(column_id), GPOS_NEW(memory_pool) CDouble(width));
 		}
 		
-		CDouble rows = stats_derived_relation_dxl->DRows();
+		CDouble rows = stats_derived_relation_dxl->Rows();
 		CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics
 										(
 										memory_pool,

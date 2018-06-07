@@ -541,12 +541,12 @@ CHistogram::DDistinct
 void
 CHistogram::CapNDVs
 	(
-	CDouble dRows
+	CDouble rows
 	)
 {
 	const ULONG num_of_buckets = m_pdrgppbucket->Size();
 	CDouble dDistinct = DDistinct();
-	if (dRows >= dDistinct)
+	if (rows >= dDistinct)
 	{
 		// no need for capping
 		return;
@@ -554,7 +554,7 @@ CHistogram::CapNDVs
 
 	m_fNDVScaled = true;
 
-	CDouble dScaleRatio = (dRows / dDistinct).Get();
+	CDouble dScaleRatio = (rows / dDistinct).Get();
 	for (ULONG ul = 0; ul < num_of_buckets; ul++)
 	{
 		CBucket *pbucket = (*m_pdrgppbucket)[ul];
@@ -642,7 +642,7 @@ CHistogram::PhistJoinNormalized
 	(
 	IMemoryPool *memory_pool,
 	CStatsPred::EStatsCmpType escmpt,
-	CDouble dRows,
+	CDouble rows,
 	const CHistogram *phistOther,
 	CDouble dRowsOther,
 	CDouble *pdScaleFactor
@@ -668,7 +668,7 @@ CHistogram::PhistJoinNormalized
 
 		if (CStatsPred::EstatscmptNEq == escmpt || CStatsPred::EstatscmptIDF == escmpt)
 		{
-			*pdScaleFactor = DInEqualityJoinScaleFactor(memory_pool, dRows, phistOther, dRowsOther);
+			*pdScaleFactor = DInEqualityJoinScaleFactor(memory_pool, rows, phistOther, dRowsOther);
 		}
 
 		return PhistJoin(memory_pool, escmpt, phistOther);
@@ -678,7 +678,7 @@ CHistogram::PhistJoinNormalized
 	if (!FWellDefined() || !phistOther->FWellDefined())
 	{
 		CHistogram *phistAfter =  GPOS_NEW(memory_pool) CHistogram(GPOS_NEW(memory_pool) DrgPbucket(memory_pool), false /* fWellDefined */);
-		(*pdScaleFactor) = CDouble(std::min(dRows.Get(), dRowsOther.Get()));
+		(*pdScaleFactor) = CDouble(std::min(rows.Get(), dRowsOther.Get()));
 
 		return phistAfter;
 	}
@@ -696,7 +696,7 @@ CHistogram::PhistJoinNormalized
 						std::max(DMinDistinct.Get(), phistOther->DDistinct().Get())
 						);
 
-	CDouble dCartesianProduct = dRows * dRowsOther;
+	CDouble dCartesianProduct = rows * dRowsOther;
 	if (phistAfter->IsEmpty())
 	{
 		// if join histogram is empty for equality join condition
@@ -709,7 +709,7 @@ CHistogram::PhistJoinNormalized
 		// if the predicate is INDF then we must count for the cartesian
 		// product of NULL values in both the histograms
 		CDouble dExpectedEqJoin = dCartesianProduct / *pdScaleFactor;
-		CDouble dNulls = dRows * m_null_freq;
+		CDouble dNulls = rows * m_null_freq;
 		CDouble dNullsOther = dRowsOther * phistOther->DNullFreq();
 		CDouble dExpectedINDF = dExpectedEqJoin + (dNulls * dNullsOther);
 		*pdScaleFactor = dCartesianProduct / dExpectedINDF;
@@ -727,7 +727,7 @@ CDouble
 CHistogram::DInEqualityJoinScaleFactor
 	(
 	IMemoryPool *memory_pool,
-	CDouble dRows,
+	CDouble rows,
 	const CHistogram *phistOther,
 	CDouble dRowsOther
 	)
@@ -743,14 +743,14 @@ CHistogram::DInEqualityJoinScaleFactor
 								(
 								memory_pool,
 								CStatsPred::EstatscmptEq,
-								dRows,
+								rows,
 								phistOther,
 								dRowsOther,
 								&dScaleFactor
 								);
 	GPOS_DELETE(phistJoin);
 
-	CDouble dCartesianProduct = dRows * dRowsOther;
+	CDouble dCartesianProduct = rows * dRowsOther;
 
 	GPOS_ASSERT(CDouble(1.0) <= dScaleFactor);
 	CDouble dSelectivityEq = 1 / dScaleFactor;
@@ -772,7 +772,7 @@ CHistogram::PhistLASJoinNormalized
 	(
 	IMemoryPool *memory_pool,
 	CStatsPred::EStatsCmpType escmpt,
-	CDouble dRows,
+	CDouble rows,
 	const CHistogram *phistOther,
 	CDouble *pdScaleFactor,
 	BOOL fIgnoreLasjHistComputation
@@ -809,7 +809,7 @@ CHistogram::PhistLASJoinNormalized
 		// the scale factor of the other predicates
 		*pdScaleFactor = CDouble(1.0) / CHistogram::DDefaultSelectivity;
 	}
-	*pdScaleFactor = std::min((*pdScaleFactor).Get(), dRows.Get());
+	*pdScaleFactor = std::min((*pdScaleFactor).Get(), rows.Get());
 	GPOS_ASSERT(phistAfter->IsValid());
 
 	return phistAfter;
@@ -1368,7 +1368,7 @@ CHistogram *
 CHistogram::PhistGroupByNormalized
 	(
 	IMemoryPool *memory_pool,
-	CDouble, // dRows,
+	CDouble, // rows,
 	CDouble *pdDistinctValues
 	)
 	const
@@ -1438,7 +1438,7 @@ CHistogram *
 CHistogram::PhistUnionAllNormalized
 	(
 	IMemoryPool *memory_pool,
-	CDouble dRows,
+	CDouble rows,
 	const CHistogram *phist,
 	CDouble dRowsOther
 	)
@@ -1449,7 +1449,7 @@ CHistogram::PhistUnionAllNormalized
 	ULONG ul2 = 0; // index on buckets from other histogram
 	CBucket *pbucket1 = (*this) [ul1];
 	CBucket *pbucket2 = (*phist) [ul2];
-	CDouble dRowsNew = (dRowsOther + dRows);
+	CDouble dRowsNew = (dRowsOther + rows);
 
 	// flags to determine if the buckets where residue of the bucket-merge operation
 	BOOL fbucket1Residual = false;
@@ -1459,7 +1459,7 @@ CHistogram::PhistUnionAllNormalized
 	{
 		if (pbucket1->FBefore(pbucket2))
 		{
-			pdrgppbucketNew->Append(pbucket1->PbucketUpdateFrequency(memory_pool, dRows, dRowsNew));
+			pdrgppbucketNew->Append(pbucket1->PbucketUpdateFrequency(memory_pool, rows, dRowsNew));
 			CleanupResidualBucket(pbucket1, fbucket1Residual);
 			ul1++;
 			pbucket1 = (*this) [ul1];
@@ -1478,7 +1478,7 @@ CHistogram::PhistUnionAllNormalized
 			GPOS_ASSERT(pbucket1->FIntersects(pbucket2));
 			CBucket *pbucket1New = NULL;
 			CBucket *pbucket2New = NULL;
-			CBucket *pbucketMerge = pbucket1->PbucketMerge(memory_pool, pbucket2, dRows, dRowsOther, &pbucket1New, &pbucket2New);
+			CBucket *pbucketMerge = pbucket1->PbucketMerge(memory_pool, pbucket2, rows, dRowsOther, &pbucket1New, &pbucket2New);
 			pdrgppbucketNew->Append(pbucketMerge);
 
 			GPOS_ASSERT(NULL == pbucket1New || NULL == pbucket2New);
@@ -1497,7 +1497,7 @@ CHistogram::PhistUnionAllNormalized
 	GPOS_ASSERT_IFF(NULL == pbucket2, ul2 == ulBuckets2);
 
 	ul1 = UlAddResidualUnionAllBucket(memory_pool, pdrgppbucketNew, pbucket1, dRowsOther, dRowsNew, fbucket1Residual, ul1);
-	ul2 = UlAddResidualUnionAllBucket(memory_pool, pdrgppbucketNew, pbucket2, dRows, dRowsNew, fbucket2Residual, ul2);
+	ul2 = UlAddResidualUnionAllBucket(memory_pool, pdrgppbucketNew, pbucket2, rows, dRowsNew, fbucket2Residual, ul2);
 
 	CleanupResidualBucket(pbucket1, fbucket1Residual);
 	CleanupResidualBucket(pbucket2, fbucket2Residual);
@@ -1506,12 +1506,12 @@ CHistogram::PhistUnionAllNormalized
 	AddBuckets(memory_pool, phist->m_pdrgppbucket, pdrgppbucketNew, dRowsOther, dRowsNew, ul2, ulBuckets2);
 
 	// add any leftover buckets from this histogram
-	AddBuckets(memory_pool, m_pdrgppbucket, pdrgppbucketNew, dRows, dRowsNew, ul1, ulBuckets1);
+	AddBuckets(memory_pool, m_pdrgppbucket, pdrgppbucketNew, rows, dRowsNew, ul1, ulBuckets1);
 
-	CDouble dNullFreqNew = (m_null_freq * dRows + phist->m_null_freq * dRowsOther) / dRowsNew;
+	CDouble dNullFreqNew = (m_null_freq * rows + phist->m_null_freq * dRowsOther) / dRowsNew;
 
 	CDouble dDistinctRemain = std::max(m_distint_remaining, phist->m_distint_remaining);
-	CDouble dFreqRemain = (m_freq_remaining * dRows + phist->m_freq_remaining * dRowsOther) / dRowsNew;
+	CDouble dFreqRemain = (m_freq_remaining * rows + phist->m_freq_remaining * dRowsOther) / dRowsNew;
 
 	CHistogram *phistResult = GPOS_NEW(memory_pool) CHistogram(pdrgppbucketNew, true /*fWellDefined*/, dNullFreqNew, dDistinctRemain, dFreqRemain);
 	(void) phistResult->DNormalize();
@@ -1613,7 +1613,7 @@ CHistogram *
 CHistogram::PhistUnionNormalized
 	(
 	IMemoryPool *memory_pool,
-	CDouble dRows,
+	CDouble rows,
 	const CHistogram *phistOther,
 	CDouble dRowsOther,
 	CDouble *pdRowsOutput
@@ -1643,7 +1643,7 @@ CHistogram::PhistUnionNormalized
 		if (pbucket1->FBefore(pbucket2))
 		{
 			pdrgppbucket->Append(pbucket1->PbucketCopy(memory_pool));
-			pdrgpdoubleRows->Append(GPOS_NEW(memory_pool) CDouble(pbucket1->DFrequency() * dRows));
+			pdrgpdoubleRows->Append(GPOS_NEW(memory_pool) CDouble(pbucket1->DFrequency() * rows));
 			CleanupResidualBucket(pbucket1, fbucket1Residual);
 			ul1++;
 			pbucket1 = (*this) [ul1];
@@ -1669,7 +1669,7 @@ CHistogram::PhistUnionNormalized
 									(
 									memory_pool,
 									pbucket2,
-									dRows,
+									rows,
 									dRowsOther,
 									&pbucket1New,
 									&pbucket2New,
@@ -1677,7 +1677,7 @@ CHistogram::PhistUnionNormalized
 									);
 
 			// add the estimated number of rows in the merged bucket
-			pdrgpdoubleRows->Append(GPOS_NEW(memory_pool) CDouble(pbucketMerge->DFrequency() * dRows));
+			pdrgpdoubleRows->Append(GPOS_NEW(memory_pool) CDouble(pbucketMerge->DFrequency() * rows));
 			pdrgppbucket->Append(pbucketMerge);
 
 			GPOS_ASSERT(NULL == pbucket1New || NULL == pbucket2New);
@@ -1696,7 +1696,7 @@ CHistogram::PhistUnionNormalized
 	GPOS_ASSERT_IFF(NULL == pbucket2, ul2 == ulBuckets2);
 
 	ul1 = UlAddResidualUnionBucket(memory_pool, pdrgppbucket, pbucket1, dRowsOther, fbucket1Residual, ul1, pdrgpdoubleRows);
-	ul2 = UlAddResidualUnionBucket(memory_pool, pdrgppbucket, pbucket2, dRows, fbucket2Residual, ul2, pdrgpdoubleRows);
+	ul2 = UlAddResidualUnionBucket(memory_pool, pdrgppbucket, pbucket2, rows, fbucket2Residual, ul2, pdrgpdoubleRows);
 
 	CleanupResidualBucket(pbucket1, fbucket1Residual);
 	CleanupResidualBucket(pbucket2, fbucket2Residual);
@@ -1705,16 +1705,16 @@ CHistogram::PhistUnionNormalized
 	AddBuckets(memory_pool, phistOther->m_pdrgppbucket, pdrgppbucket, dRowsOther, pdrgpdoubleRows, ul2, ulBuckets2);
 
 	// add any leftover buckets from this histogram
-	AddBuckets(memory_pool, m_pdrgppbucket, pdrgppbucket, dRows, pdrgpdoubleRows, ul1, ulBuckets1);
+	AddBuckets(memory_pool, m_pdrgppbucket, pdrgppbucket, rows, pdrgpdoubleRows, ul1, ulBuckets1);
 
 	// compute the total number of null values from both histograms
-	CDouble dNullRows= std::max( (this->DNullFreq() * dRows), (phistOther->DNullFreq() * dRowsOther));
+	CDouble dNullRows= std::max( (this->DNullFreq() * rows), (phistOther->DNullFreq() * dRowsOther));
 
 	// compute the total number of distinct values (NDV) that are not captured by the buckets in both the histograms
 	CDouble dNDVRemain = std::max(m_distint_remaining, phistOther->DDistinctRemain());
 
 	// compute the total number of rows having distinct values not captured by the buckets in both the histograms
-	CDouble dNDVRemainRows = std::max( (this->DFreqRemain() * dRows), (phistOther->DFreqRemain() * dRowsOther));
+	CDouble dNDVRemainRows = std::max( (this->DFreqRemain() * rows), (phistOther->DFreqRemain() * dRowsOther));
 
 	CHistogram *phistResult = PhistUpdatedFrequency
 									(
@@ -1756,8 +1756,8 @@ CHistogram::PhistUpdatedFrequency
 	CDouble dRowCummulative = dNullRows + dNDVRemainRows;
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		CDouble dRows = *(*pdrgpdouble)[ul];
-		dRowCummulative = dRowCummulative + dRows;
+		CDouble rows = *(*pdrgpdouble)[ul];
+		dRowCummulative = dRowCummulative + rows;
 	}
 
 	*pdRowOutput = std::max(CStatistics::DMinRows, dRowCummulative);
@@ -1765,14 +1765,14 @@ CHistogram::PhistUpdatedFrequency
 	DrgPbucket *pdrgppbucketNew = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		CDouble dRows = *(*pdrgpdouble)[ul];
+		CDouble rows = *(*pdrgpdouble)[ul];
 		CBucket *pbucket = (*pdrgppbucket)[ul];
 
 		// reuse the points
 		pbucket->PpLower()->AddRef();
 		pbucket->PpUpper()->AddRef();
 
-		CDouble dFrequency = dRows / *pdRowOutput;
+		CDouble dFrequency = rows / *pdRowOutput;
 
 		CBucket *pbucketNew = GPOS_NEW(memory_pool) CBucket
 										(
@@ -1808,7 +1808,7 @@ CHistogram::UlAddResidualUnionBucket
 	IMemoryPool *memory_pool,
 	DrgPbucket *pdrgppbucket,
 	CBucket *pbucket,
-	CDouble dRows,
+	CDouble rows,
 	BOOL fbucketResidual,
 	ULONG ulIndex,
 	DrgPdouble *pdrgpdouble
@@ -1825,7 +1825,7 @@ CHistogram::UlAddResidualUnionBucket
 
 	CBucket *pbucketNew = pbucket->PbucketCopy(memory_pool);
 	pdrgppbucket->Append(pbucketNew);
-	pdrgpdouble->Append(GPOS_NEW(memory_pool) CDouble(pbucketNew->DFrequency() * dRows));
+	pdrgpdouble->Append(GPOS_NEW(memory_pool) CDouble(pbucketNew->DFrequency() * rows));
 
 	return ulIndex + 1;
 }
@@ -1837,7 +1837,7 @@ CHistogram::AddBuckets
 	IMemoryPool *memory_pool,
 	DrgPbucket *pdrgppbucketSrc,
 	DrgPbucket *pdrgppbucketDest,
-	CDouble dRows,
+	CDouble rows,
 	DrgPdouble *pdrgpdouble,
 	ULONG ulBegin,
 	ULONG ulEnd
@@ -1852,7 +1852,7 @@ CHistogram::AddBuckets
 	{
 		CBucket *pbucketNew = ((*pdrgppbucketSrc)[ul])->PbucketCopy(memory_pool);
 		pdrgppbucketDest->Append(pbucketNew);
-		pdrgpdouble->Append(GPOS_NEW(memory_pool) CDouble(pbucketNew->DFrequency() * dRows));
+		pdrgpdouble->Append(GPOS_NEW(memory_pool) CDouble(pbucketNew->DFrequency() * rows));
 	}
 }
 
@@ -1878,7 +1878,7 @@ CHistogram::Pdxlstatsdercol
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor,
 	ULONG col_id,
-	CDouble dWidth
+	CDouble width
 	)
 	const
 {
@@ -1908,7 +1908,7 @@ CHistogram::Pdxlstatsdercol
 		stats_bucket_dxl_array->Append(pdxlbucket);
 	}
 
-	return GPOS_NEW(memory_pool) CDXLStatsDerivedColumn(col_id, dWidth, m_null_freq, m_distint_remaining, m_freq_remaining, stats_bucket_dxl_array);
+	return GPOS_NEW(memory_pool) CDXLStatsDerivedColumn(col_id, width, m_null_freq, m_distint_remaining, m_freq_remaining, stats_bucket_dxl_array);
 }
 
 // randomly pick a bucket index based on bucket frequency values
@@ -2132,8 +2132,8 @@ CHistogram::AddDummyHistogramAndWidthInfo
 		CHistogram *phist = CHistogram::PhistDefault(memory_pool, pcr, fEmpty);
 		phmulhistOutput->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);
 
-		CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-		phmuldoubleWidthOutput->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
+		CDouble width = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
+		phmuldoubleWidthOutput->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(width));
 	}
 }
 

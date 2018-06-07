@@ -1262,7 +1262,7 @@ CLogical::PstatsDeriveDummy
 	(
 	IMemoryPool *memory_pool,
 	CExpressionHandle &exprhdl,
-	CDouble dRows
+	CDouble rows
 	)
 	const
 {
@@ -1276,7 +1276,7 @@ CLogical::PstatsDeriveDummy
 	ULongPtrArray *pdrgpulColIds = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 	pcrs->ExtractColIds(memory_pool, pdrgpulColIds);
 
-	IStatistics *pstats = CStatistics::PstatsDummy(memory_pool, pdrgpulColIds, dRows);
+	IStatistics *pstats = CStatistics::PstatsDummy(memory_pool, pdrgpulColIds, rows);
 
 	// clean up
 	pdrgpulColIds->Release();

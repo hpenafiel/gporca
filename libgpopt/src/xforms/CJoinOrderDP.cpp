@@ -695,7 +695,7 @@ CJoinOrderDP::DCost
 	if (0 == arity)
 	{
 		// leaf operator, use its estimated number of rows as cost
-		dCost = CDouble(pexpr->Pstats()->DRows());
+		dCost = CDouble(pexpr->Pstats()->Rows());
 	}
 	else
 	{
@@ -708,7 +708,7 @@ CJoinOrderDP::DCost
 			// call function recursively to find child cost
 			dCost = dCost + DCost(pexprChild);
 			DeriveStats(pexprChild);
-			rgdRows[ul] = pexprChild->Pstats()->DRows().Get();
+			rgdRows[ul] = pexprChild->Pstats()->Rows().Get();
 		}
 
 		// add inner join local cost

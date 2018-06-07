@@ -29,7 +29,7 @@ using namespace gpmd;
 CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	(
 	ULONG col_id,
-	CDouble dWidth,
+	CDouble width,
 	CDouble dNullFreq,
 	CDouble dDistinctRemain,
 	CDouble dFreqRemain,
@@ -37,7 +37,7 @@ CDXLStatsDerivedColumn::CDXLStatsDerivedColumn
 	)
 	:
 	m_colid(col_id),
-	m_width(dWidth),
+	m_width(width),
 	m_null_freq(dNullFreq),
 	m_distint_remaining(dDistinctRemain),
 	m_freq_remaining(dFreqRemain),

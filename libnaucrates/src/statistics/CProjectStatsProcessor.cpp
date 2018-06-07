@@ -101,8 +101,8 @@ CProjectStatsProcessor::PstatsProject
 			CColRef *pcr = pcf->PcrLookup(col_id);
 			GPOS_ASSERT(NULL != pcr);
 
-			CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
+			CDouble width = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
+			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(width));
 		}
 		else
 		{
@@ -110,7 +110,7 @@ CProjectStatsProcessor::PstatsProject
 		}
 	}
 
-	CDouble dRowsInput = pstatsInput->DRows();
+	CDouble dRowsInput = pstatsInput->Rows();
 	// create an output stats object
 	CStatistics *pstatsProject = GPOS_NEW(memory_pool) CStatistics
 											(

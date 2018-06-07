@@ -109,7 +109,7 @@ CPartialPlan::ExtractChildrenCostingInfo
 			pstatsChild = m_pccChild->Pstats();
 
 			// use provided child cost context to collect accurate costing info
-			DOUBLE dRowsChild = pstatsChild->DRows().Get();
+			DOUBLE dRowsChild = pstatsChild->Rows().Get();
 			if (CDistributionSpec::EdptPartitioned == m_pccChild->Pdpplan()->Pds()->Edpt())
 			{
 				// scale statistics row estimate by number of segments
@@ -117,7 +117,7 @@ CPartialPlan::ExtractChildrenCostingInfo
 			}
 
 			pci->SetChildRows(ulIndex, dRowsChild);
-			DOUBLE dWidthChild = pstatsChild->DWidth(memory_pool, prppChild->PcrsRequired()).Get();
+			DOUBLE dWidthChild = pstatsChild->Width(memory_pool, prppChild->PcrsRequired()).Get();
 			pci->SetChildWidth(ulIndex, dWidthChild);
 			pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().Get());
 			pci->SetChildCost(ulIndex, m_pccChild->Cost().Get());
@@ -129,13 +129,13 @@ CPartialPlan::ExtractChildrenCostingInfo
 
 		// otherwise, we do not know child plan yet,
 		// we assume lower bounds on child row estimate and cost
-		DOUBLE dRowsChild = pstatsChild->DRows().Get();
+		DOUBLE dRowsChild = pstatsChild->Rows().Get();
 		dRowsChild = pcm->DRowsPerHost(CDouble(dRowsChild)).Get();
 		pci->SetChildRows(ulIndex, dRowsChild);
 
 		pci->SetChildRebinds(ulIndex, pstatsChild->DRebinds().Get());
 
-		DOUBLE dWidthChild =  pstatsChild->DWidth(memory_pool, prppChild->PcrsRequired()).Get();
+		DOUBLE dWidthChild =  pstatsChild->Width(memory_pool, prppChild->PcrsRequired()).Get();
 		pci->SetChildWidth(ulIndex, dWidthChild);
 
 		// use child group's cost lower bound as the child cost
@@ -226,7 +226,7 @@ CPartialPlan::CostCompute
 		CDistributionSpec::EdptPartitioned == CPhysicalMotion::PopConvert(pop)->Pds()->Edpt();
 
 	// extract rows from stats
-	DOUBLE dRows = m_pgexpr->Pgroup()->Pstats()->DRows().Get();
+	DOUBLE rows = m_pgexpr->Pgroup()->Pstats()->Rows().Get();
 	if (
 		fDataPartitioningMotion ||	// root operator is known to distribute data across segments
 		NULL == m_prpp->Ped() ||	// required distribution not known yet, we assume data partitioning since we need a lower-bound on number of rows
@@ -235,13 +235,13 @@ CPartialPlan::CostCompute
 		)
 	{
 		// use rows per host as a cardinality lower bound
-		dRows = pcm->DRowsPerHost(CDouble(dRows)).Get();
+		rows = pcm->DRowsPerHost(CDouble(rows)).Get();
 	}
-	ci.SetRows(dRows);
+	ci.SetRows(rows);
 
 	// extract width from stats
-	DOUBLE dWidth = m_pgexpr->Pgroup()->Pstats()->DWidth(memory_pool, m_prpp->PcrsRequired()).Get();
-	ci.SetWidth(dWidth);
+	DOUBLE width = m_pgexpr->Pgroup()->Pstats()->Width(memory_pool, m_prpp->PcrsRequired()).Get();
+	ci.SetWidth(width);
 
 	// extract rebinds
 	DOUBLE dRebinds = m_pgexpr->Pgroup()->Pstats()->DRebinds().Get();

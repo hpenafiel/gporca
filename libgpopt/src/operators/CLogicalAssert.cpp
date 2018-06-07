@@ -206,7 +206,7 @@ CLogicalAssert::PstatsDerive
 	{
 		// a max card of one requires re-scaling stats
 		IStatistics *pstats = exprhdl.Pstats(0);
-		return  pstats->PstatsScale(memory_pool, CDouble(1.0 / pstats->DRows()));
+		return  pstats->PstatsScale(memory_pool, CDouble(1.0 / pstats->Rows()));
 	}
 
 	return PstatsPassThruOuter(exprhdl);

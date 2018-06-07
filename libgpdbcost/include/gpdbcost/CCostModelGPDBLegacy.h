@@ -77,19 +77,19 @@ namespace gpdbcost
 
 			// return cost of processing the given number of rows
 			static
-			CCost CostTupleProcessing(DOUBLE dRows, DOUBLE dWidth, ICostModelParams *pcp);
+			CCost CostTupleProcessing(DOUBLE rows, DOUBLE width, ICostModelParams *pcp);
 
 			// helper function to return cost of a plan rooted by unary operator
 			static
-			CCost CostUnary(DOUBLE dRows, DOUBLE dWidth, DOUBLE dRebinds, DOUBLE *pdcostChildren, ICostModelParams *pcp);
+			CCost CostUnary(DOUBLE rows, DOUBLE width, DOUBLE dRebinds, DOUBLE *pdcostChildren, ICostModelParams *pcp);
 
 			// cost of spooling
 			static
-			CCost CostSpooling(DOUBLE dRows, DOUBLE dWidth, DOUBLE dRebinds, DOUBLE *pdcostChildren, ICostModelParams *pcp);
+			CCost CostSpooling(DOUBLE rows, DOUBLE width, DOUBLE dRebinds, DOUBLE *pdcostChildren, ICostModelParams *pcp);
 
 			// cost of redistribute motion operators
 			static
-			CCost CostRedistribute(DOUBLE dRows, DOUBLE dWidth, ICostModelParams *pcp);
+			CCost CostRedistribute(DOUBLE rows, DOUBLE width, ICostModelParams *pcp);
 
 			// add up array of costs
 			static

@@ -151,8 +151,8 @@ namespace gpopt
 						(
 						ULONG ulChildren,
 						CCostingStats *pcstats,
-						DOUBLE dRows,
-						DOUBLE dWidth,
+						DOUBLE rows,
+						DOUBLE width,
 						DOUBLE dRebinds,
 						DOUBLE *pdRowsChildren,
 						DOUBLE *pdWidthChildren,
@@ -162,8 +162,8 @@ namespace gpopt
 						:
 						m_ulChildren(ulChildren),
 						m_pcstats(pcstats),
-						m_rows(dRows),
-						m_width(dWidth),
+						m_rows(rows),
+						m_width(width),
 						m_dRebinds(dRebinds),
 						m_pdRowsChildren(pdRowsChildren),
 						m_pdWidthChildren(pdWidthChildren),
@@ -218,7 +218,7 @@ namespace gpopt
 					}
 
 					// rows accessor
-					DOUBLE DRows() const
+					DOUBLE Rows() const
 					{
 						return m_rows;
 					}
@@ -226,16 +226,16 @@ namespace gpopt
 					// rows setter
 					void SetRows
 						(
-						DOUBLE dRows
+						DOUBLE rows
 						)
 					{
-						GPOS_ASSERT(0 <= dRows);
+						GPOS_ASSERT(0 <= rows);
 
-						m_rows = dRows;
+						m_rows = rows;
 					}
 
 					// width accessor
-					DOUBLE DWidth() const
+					DOUBLE Width() const
 					{
 						return m_width;
 					}
@@ -243,12 +243,12 @@ namespace gpopt
 					// width setter
 					void SetWidth
 						(
-						DOUBLE dWidth
+						DOUBLE width
 						)
 					{
-						GPOS_ASSERT(0 <= dWidth);
+						GPOS_ASSERT(0 <= width);
 
-						m_width = dWidth;
+						m_width = width;
 					}
 
 					// rebinds accessor

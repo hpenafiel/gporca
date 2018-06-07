@@ -62,7 +62,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 
 			if (phistInput1->FWellDefined() || phistInput2->FWellDefined())
 			{
-				CHistogram *phistOutput = phistInput1->PhistUnionAllNormalized(memory_pool, pstatsFst->DRows(), phistInput2, pstatsSnd->DRows());
+				CHistogram *phistOutput = phistInput1->PhistUnionAllNormalized(memory_pool, pstatsFst->Rows(), phistInput2, pstatsSnd->Rows());
 				CStatisticsUtils::AddHistogram(memory_pool, ulColIdOutput, phistOutput, phmulhistNew);
 				GPOS_DELETE(phistOutput);
 			}
@@ -81,7 +81,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 			phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(ulColIdOutput), GPOS_NEW(memory_pool) CDouble(*pdWidth));
 		}
 
-		dRowsUnionAll = pstatsFst->DRows() + pstatsSnd->DRows();
+		dRowsUnionAll = pstatsFst->Rows() + pstatsSnd->Rows();
 	}
 
 	// release inputs

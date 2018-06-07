@@ -1246,9 +1246,9 @@ CExpression::OsPrint
 	{
 		os
 			<< "   rows:"
-			<< LINT(m_pstats->DRows().Get())
+			<< LINT(m_pstats->Rows().Get())
 			<< "   width:"
-			<< LINT(m_pstats->DWidth().Get())
+			<< LINT(m_pstats->Width().Get())
 			<< "  rebinds:"
 			<< LINT(m_pstats->DRebinds().Get());
 	}

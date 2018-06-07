@@ -147,8 +147,8 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::FApplyXformUsingStatsInfo
 		return false;
 	}
 
-	DOUBLE dRowsOuter = pstatsOuter->DRows().Get();
-	DOUBLE dRowsInner = pstatsInner->DRows().Get();
+	DOUBLE dRowsOuter = pstatsOuter->Rows().Get();
+	DOUBLE dRowsInner = pstatsInner->Rows().Get();
 	GPOS_ASSERT(0 < dRowsInner);
 
 	return dRowsOuter / dRowsInner <= m_dOuterInnerRatioThreshold;

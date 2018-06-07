@@ -553,7 +553,7 @@ CStatisticsUtils::DistributeBucketProperties
 		CBucket *pbucket = (*pdrgpbucket)[ul];
 		if (!pbucket->FSingleton()) // the re-balance should exclude MCVs (singleton bucket)
 		{
-			dSumWidth = dSumWidth + pbucket->DWidth();
+			dSumWidth = dSumWidth + pbucket->Width();
 		}
 	}
 	for (ULONG ul = 0; ul < ulNew; ul++)
@@ -561,7 +561,7 @@ CStatisticsUtils::DistributeBucketProperties
 		CBucket *pbucket = (*pdrgpbucket)[ul];
 		if (!pbucket->FSingleton())
 		{
-			CDouble dFactor = pbucket->DWidth() / dSumWidth;
+			CDouble dFactor = pbucket->Width() / dSumWidth;
 			pbucket->SetFrequency(dFrequencyTotal * dFactor);
 			// TODO: , Aug 1 2013 - another heuristic may be max(1, dDisinct * dFactor)
 			pbucket->SetDistinct(dDistinctTotal * dFactor);
@@ -1383,14 +1383,14 @@ CStatisticsUtils::AddNdvForAllGrpCols
 	{
 		ULONG col_id = (*(*pdrgpulGrpCol)[ul]);
 
-		CDouble dDistVals = CStatisticsUtils::DDefaultDistinctVals(pstatsInput->DRows());
+		CDouble dDistVals = CStatisticsUtils::DDefaultDistinctVals(pstatsInput->Rows());
 		const CHistogram *phist = pstatsInput->Phist(col_id);
 		if (NULL != phist)
 		{
 			dDistVals = phist->DDistinct();
 			if (phist->IsEmpty())
 			{
-				dDistVals = DDefaultDistinctVals(pstatsInput->DRows());
+				dDistVals = DDefaultDistinctVals(pstatsInput->Rows());
 			}
 		}
 		pdrgpdNDV->Append(GPOS_NEW(memory_pool) CDouble(dDistVals));
@@ -1509,7 +1509,7 @@ CStatisticsUtils::DMaxNdv
 	CDouble dNdvMax(1.0);
 	for (ULONG ul = 0; ul < ulGrpCols; ul++)
 	{
-		CDouble dNdv = CStatisticsUtils::DDefaultDistinctVals(pstats->DRows());
+		CDouble dNdv = CStatisticsUtils::DDefaultDistinctVals(pstats->Rows());
 
 		ULONG col_id = (*(*pdrgpulGrpCol)[ul]);
 		const CHistogram *phist = pstats->Phist(col_id);
@@ -1518,7 +1518,7 @@ CStatisticsUtils::DMaxNdv
 			dNdv = phist->DDistinct();
 			if (phist->IsEmpty())
 			{
-				dNdv = CStatisticsUtils::DDefaultDistinctVals(pstats->DRows());
+				dNdv = CStatisticsUtils::DDefaultDistinctVals(pstats->Rows());
 			}
 		}
 
@@ -1552,7 +1552,7 @@ CStatisticsUtils::DMaxGroupsFromSource
 	GPOS_ASSERT(NULL != pdrgpulPerSrc);
 	GPOS_ASSERT(0 < pdrgpulPerSrc->Size());
 
-	CDouble dRowsInput = pstatsInput->DRows();
+	CDouble dRowsInput = pstatsInput->Rows();
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 	CColRef *pcrFirst = pcf->PcrLookup(*(*pdrgpulPerSrc)[0]);
@@ -1616,7 +1616,7 @@ CStatisticsUtils::DGroups
 								CStatistics::DMinRows.Get(),
 								DNumOfDistinctVal(pstatsconf, pdrgpdNDV).Get()
 								),
-							pstats->DRows().Get()
+							pstats->Rows().Get()
 							);
 
 	// clean up
@@ -1703,7 +1703,7 @@ CStatisticsUtils::AddGrpColStats
 		const CHistogram *phist = pstatsInput->Phist(ulGrpColId);
 		if (NULL != phist)
 		{
-			CHistogram *phistAfter = phist->PhistGroupByNormalized(memory_pool, pstatsInput->DRows(), &dDistVals);
+			CHistogram *phistAfter = phist->PhistGroupByNormalized(memory_pool, pstatsInput->Rows(), &dDistVals);
 			if (phist->FScaledNDV())
 			{
 				phistAfter->SetNDVScaled();
@@ -1883,13 +1883,13 @@ CStatisticsUtils::DDefaultColumnWidth
     const IMDType *pmdtype
 	)
 {
-       CDouble dWidth(CStatistics::DDefaultColumnWidth);
+       CDouble width(CStatistics::DDefaultColumnWidth);
        if (pmdtype->FFixedLength())
        {
-    	   dWidth = CDouble(pmdtype->Length());
+    	   width = CDouble(pmdtype->Length());
        }
 
-       return dWidth;
+       return width;
 }
 
 //	add width information

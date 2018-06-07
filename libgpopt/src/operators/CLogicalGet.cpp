@@ -353,7 +353,7 @@ CLogicalGet::PstatsDerive
 	IStatistics *pstatsTable = PstatsBaseTable(memory_pool, exprhdl, m_ptabdesc, m_pcrsDist);
 	
 	CColRefSet *pcrs = GPOS_NEW(memory_pool) CColRefSet(memory_pool, m_pdrgpcrOutput);
-	CUpperBoundNDVs *pubndv = GPOS_NEW(memory_pool) CUpperBoundNDVs(pcrs, pstatsTable->DRows());
+	CUpperBoundNDVs *pubndv = GPOS_NEW(memory_pool) CUpperBoundNDVs(pcrs, pstatsTable->Rows());
 	CStatistics::PstatsConvert(pstatsTable)->AddCardUpperBound(pubndv);
 
 	return pstatsTable;

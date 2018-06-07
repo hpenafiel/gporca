@@ -156,7 +156,7 @@ CJoinStatsProcessor::PstatsJoinArray
 	// join statistics objects one by one using relevant predicates in given scalar expression
 	const ULONG ulStats = statistics_array->Size();
 	IStatistics *pstats = (*statistics_array)[0]->PstatsCopy(memory_pool);
-	CDouble dRowsOuter = pstats->DRows();
+	CDouble dRowsOuter = pstats->Rows();
 
 	for (ULONG ul = 1; ul < ulStats; ul++)
 	{
@@ -197,7 +197,7 @@ CJoinStatsProcessor::PstatsJoinArray
 			// If it is outer join and the cardinality after applying the unsupported join
 			// filters is less than the cardinality of outer child, we don't use this stats.
 			// Because we need to make sure that Card(LOJ) >= Card(Outer child of LOJ).
-			if (fLeftOuterJoin && pstatsAfterJoinFilter->DRows() < dRowsOuter)
+			if (fLeftOuterJoin && pstatsAfterJoinFilter->Rows() < dRowsOuter)
 			{
 				pstatsAfterJoinFilter->Release();
 			}
@@ -304,8 +304,8 @@ CJoinStatsProcessor::PstatsJoinDriver
 						phistOuter,
 						phistInner,
 						ppredInfo,
-						pstatsOuter->DRows(),
-						pstatsInner->DRows(),
+						pstatsOuter->Rows(),
+						pstatsInner->Rows(),
 						&phistOuterAfter,
 						&phistInnerAfter,
 						&dScaleFactorLocal,
@@ -331,7 +331,7 @@ CJoinStatsProcessor::PstatsJoinDriver
 	dRowsJoin = CStatistics::DMinRows;
 	if (!fEmptyOutput)
 	{
-		dRowsJoin = DJoinCardinality(pstatsconf, pstatsOuter->DRows(), pstatsInner->DRows(), pdrgpd, eStatsJoinType);
+		dRowsJoin = DJoinCardinality(pstatsconf, pstatsOuter->Rows(), pstatsInner->Rows(), pdrgpd, eStatsJoinType);
 	}
 
 	// clean up
@@ -390,19 +390,19 @@ CJoinStatsProcessor::DJoinCardinality
 
 	if (IStatistics::EsjtLeftAntiSemiJoin == eStatsJoinType || IStatistics::EsjtLeftSemiJoin == eStatsJoinType)
 	{
-		CDouble dRows = dRowsLeft;
+		CDouble rows = dRowsLeft;
 
 		if (IStatistics::EsjtLeftAntiSemiJoin == eStatsJoinType)
 		{
-			dRows = dRowsLeft / dScaleFactor;
+			rows = dRowsLeft / dScaleFactor;
 		}
 		else
 		{
 			// semi join results cannot exceed size of outer side
-			dRows = std::min(dRowsLeft.Get(), (dCartesianProduct / dScaleFactor).Get());
+			rows = std::min(dRowsLeft.Get(), (dCartesianProduct / dScaleFactor).Get());
 		}
 
-		return std::max(DOUBLE(1.0), dRows.Get());
+		return std::max(DOUBLE(1.0), rows.Get());
 	}
 
 	GPOS_ASSERT(CStatistics::DMinRows <= dScaleFactor);
@@ -585,7 +585,7 @@ CJoinStatsProcessor::PstatsDeriveWithOuterRefs
 	// join outer stats object based on given scalar expression,
 	// we use inner join semantics here to consider all relevant combinations of outer tuples
 	IStatistics *pstatsOuter = CJoinStatsProcessor::PstatsJoinArray(memory_pool, pdrgpstatOuter, pexprScalar, IStatistics::EsjtInnerJoin);
-	CDouble dRowsOuter = pstatsOuter->DRows();
+	CDouble dRowsOuter = pstatsOuter->Rows();
 
 	// join passed stats object and outer stats based on the passed join type
 	DrgPstat *statistics_array = GPOS_NEW(memory_pool) DrgPstat(memory_pool);

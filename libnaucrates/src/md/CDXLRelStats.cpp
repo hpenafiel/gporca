@@ -34,14 +34,14 @@ CDXLRelStats::CDXLRelStats
 	IMemoryPool *memory_pool,
 	CMDIdRelStats *pmdidRelStats,
 	CMDName *mdname,
-	CDouble dRows,
+	CDouble rows,
 	BOOL fEmpty
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_pmdidRelStats(pmdidRelStats),
 	m_mdname(mdname),
-	m_rows(dRows),
+	m_rows(rows),
 	m_empty(fEmpty)
 {
 	GPOS_ASSERT(pmdidRelStats->IsValid());
@@ -107,14 +107,14 @@ CDXLRelStats::Pstr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLRelStats::DRows
+//		CDXLRelStats::Rows
 //
 //	@doc:
 //		Returns the number of rows
 //
 //---------------------------------------------------------------------------
 CDouble
-CDXLRelStats::DRows() const
+CDXLRelStats::Rows() const
 {
 	return m_rows;
 }
@@ -171,7 +171,7 @@ CDXLRelStats::DebugPrint
 	
 	os << "Relation name: " << (Mdname()).GetMDName()->GetBuffer() << std::endl;
 	
-	os << "Rows: " << DRows() << std::endl;
+	os << "Rows: " << Rows() << std::endl;
 
 	os << "Empty: " << IsEmpty() << std::endl;
 }

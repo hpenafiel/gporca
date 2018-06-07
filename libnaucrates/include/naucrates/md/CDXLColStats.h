@@ -83,7 +83,7 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				CMDIdColStats *pmdidColStats,
 				CMDName *mdname,
-				CDouble dWidth,
+				CDouble width,
 				CDouble dNullFreq,
 				CDouble dDistinctRemain,
 				CDouble dFreqRemain,
@@ -113,7 +113,7 @@ namespace gpmd
 
 			// width
 			virtual
-			CDouble DWidth() const
+			CDouble Width() const
 			{
 				return m_width;
 			}
@@ -159,7 +159,7 @@ namespace gpmd
 
 			// dummy colstats
 			static
-			CDXLColStats *PdxlcolstatsDummy(IMemoryPool *memory_pool, IMDId *pmdid, CMDName *mdname, CDouble dWidth);
+			CDXLColStats *PdxlcolstatsDummy(IMemoryPool *memory_pool, IMDId *pmdid, CMDName *mdname, CDouble width);
 
 	};
 

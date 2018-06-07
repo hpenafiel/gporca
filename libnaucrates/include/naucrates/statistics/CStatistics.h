@@ -133,7 +133,7 @@ namespace gpnaucrates
 				IMemoryPool *memory_pool,
 				HMUlHist *phmulhist,
 				HMUlDouble *phmuldoubleWidth,
-				CDouble dRows,
+				CDouble rows,
 				BOOL fEmpty,
 				ULONG ulNumPredicates = 0
 				);
@@ -153,7 +153,7 @@ namespace gpnaucrates
 
 			// actual number of rows
 			virtual
-			CDouble DRows() const;
+			CDouble Rows() const;
 
 			// number of rebinds
 			virtual
@@ -168,15 +168,15 @@ namespace gpnaucrates
 
 			// what is the width in bytes of set of column id's
 			virtual
-			CDouble DWidth(ULongPtrArray *pdrgpulColIds) const;
+			CDouble Width(ULongPtrArray *pdrgpulColIds) const;
 
 			// what is the width in bytes of set of column references
 			virtual
-			CDouble DWidth(IMemoryPool *memory_pool, CColRefSet *pcrs) const;
+			CDouble Width(IMemoryPool *memory_pool, CColRefSet *pcrs) const;
 
 			// what is the width in bytes
 			virtual
-			CDouble DWidth() const;
+			CDouble Width() const;
 
 			// is statistics on an empty input
 			virtual
@@ -349,7 +349,7 @@ namespace gpnaucrates
 
 			// create a dummy statistics object
 			static
-			CStatistics *PstatsDummy(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulColIds, CDouble dRows);
+			CStatistics *PstatsDummy(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulColIds, CDouble rows);
 
 			// create a dummy statistics object
 			static
@@ -358,7 +358,7 @@ namespace gpnaucrates
 				IMemoryPool *memory_pool,
 				ULongPtrArray *pdrgpulHistColIds,
 				ULongPtrArray *pdrgpulWidthColIds,
-				CDouble dRows
+				CDouble rows
 				);
 
 			// default column width
@@ -387,11 +387,11 @@ namespace gpnaucrates
 
 			// add upper bound ndvs information for a given set of columns
 			static
-			void CreateAndInsertUpperBoundNDVs(IMemoryPool *memory_pool, CStatistics *pstats, ULongPtrArray *pdrgpulColIds, CDouble dRows);
+			void CreateAndInsertUpperBoundNDVs(IMemoryPool *memory_pool, CStatistics *pstats, ULongPtrArray *pdrgpulColIds, CDouble rows);
 
 			// cap the total number of distinct values (NDV) in buckets to the number of rows
 			static
-			void CapNDVs(CDouble dRows, HMUlHist *phmulhist);
+			void CapNDVs(CDouble rows, HMUlHist *phmulhist);
 	}; // class CStatistics
 
 }

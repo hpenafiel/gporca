@@ -146,7 +146,7 @@ namespace gpnaucrates
 					IMemoryPool *memory_pool,
 					DrgPbucket *pdrgppbucketSrc,
 					DrgPbucket *pdrgppbucketDest,
-					CDouble dRows,
+					CDouble rows,
 					DrgPdouble *pdrgpdouble,
 					ULONG ulBegin,
 					ULONG ulEnd
@@ -249,7 +249,7 @@ namespace gpnaucrates
 						(
 						IMemoryPool *memory_pool,
 						CStatsPred::EStatsCmpType escmpt,
-						CDouble dRows,
+						CDouble rows,
 						const CHistogram *phistOther,
 						CDouble dRowsOther,
 						CDouble *pdScaleFactor
@@ -260,7 +260,7 @@ namespace gpnaucrates
 			CDouble DInEqualityJoinScaleFactor
 						(
 						IMemoryPool *memory_pool,
-						CDouble dRows,
+						CDouble rows,
 						const CHistogram *phistOther,
 						CDouble dRowsOther
 						)
@@ -271,7 +271,7 @@ namespace gpnaucrates
 						(
 						IMemoryPool *memory_pool,
 						CStatsPred::EStatsCmpType escmpt,
-						CDouble dRows,
+						CDouble rows,
 						const CHistogram *phistOther,
 						CDouble *pdScaleFactor,
 						BOOL fIgnoreLasjHistComputation // except for the case of LOJ cardinality estimation this flag is always
@@ -283,7 +283,7 @@ namespace gpnaucrates
 			CHistogram *PhistGroupByNormalized
 						(
 						IMemoryPool *memory_pool,
-						CDouble dRows,
+						CDouble rows,
 						CDouble *pdScaleFactor
 						)
 						const;
@@ -292,7 +292,7 @@ namespace gpnaucrates
 			CHistogram *PhistUnionAllNormalized
 						(
 						IMemoryPool *memory_pool,
-						CDouble dRows,
+						CDouble rows,
 						const CHistogram *phistOther,
 						CDouble dRowsOther
 						)
@@ -302,7 +302,7 @@ namespace gpnaucrates
 			CHistogram *PhistUnionNormalized
 						(
 						IMemoryPool *memory_pool,
-						CDouble dRows,
+						CDouble rows,
 						const CHistogram *phistOther,
 						CDouble dRowsOther,
 						CDouble *pdRowsOutput
@@ -354,7 +354,7 @@ namespace gpnaucrates
 				IMemoryPool *memory_pool,
 				DrgPbucket *pdrgppbucket,
 				CBucket *pbucket,
-				CDouble dRows,
+				CDouble rows,
 				BOOL fbucketResidual,
 				ULONG ulIndex,
 				DrgPdouble *pdrgpdouble
@@ -420,7 +420,7 @@ namespace gpnaucrates
 				IMemoryPool *memory_pool,
 				CMDAccessor *md_accessor,
 				ULONG col_id,
-				CDouble dWidth
+				CDouble width
 				)
 				const;
 
@@ -460,7 +460,7 @@ namespace gpnaucrates
 			BOOL IsEmpty() const;
 
 			// cap the total number of distinct values (NDVs) in buckets to the number of rows
-			void CapNDVs(CDouble dRows);
+			void CapNDVs(CDouble rows);
 
 			// is comparison type supported for filters
 			static

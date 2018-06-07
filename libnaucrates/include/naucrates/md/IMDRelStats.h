@@ -45,7 +45,7 @@ namespace gpmd
 		
 			// number of rows
 			virtual
-			CDouble DRows() const = 0;			
+			CDouble Rows() const = 0;			
 
 			// is statistics on an empty input
 			virtual

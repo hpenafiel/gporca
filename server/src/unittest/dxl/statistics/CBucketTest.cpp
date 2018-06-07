@@ -102,8 +102,8 @@ CBucketTest::EresUnittest_CBucketInt4()
 	GPOS_RTL_ASSERT(pbucket2->FSubsumes(pbucket1));
 
 	// width
-	CDouble dWidth = pbucket1->DWidth();
-	GPOS_RTL_ASSERT(0.99 <= dWidth && dWidth <= 1.01);
+	CDouble width = pbucket1->Width();
+	GPOS_RTL_ASSERT(0.99 <= width && width <= 1.01);
 
 	// bucket [1,2] and (2,4)
 	CBucket *pbucket3 = CCardinalityTestUtils::PbucketInteger(memory_pool, 1, 2, true, true, CDouble(1.0), CDouble(1.0));

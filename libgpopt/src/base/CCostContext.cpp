@@ -351,16 +351,16 @@ CCostContext::BreakCostTiesForJoinPlans
 
 	*pfTiesResolved = false;
 	*ppccPrefered = NULL;
-	CDouble dRowsOuterFst = (*pccFst->Pdrgpoc())[0]->PccBest()->Pstats()->DRows();
-	CDouble dRowsInnerFst = (*pccFst->Pdrgpoc())[1]->PccBest()->Pstats()->DRows();
+	CDouble dRowsOuterFst = (*pccFst->Pdrgpoc())[0]->PccBest()->Pstats()->Rows();
+	CDouble dRowsInnerFst = (*pccFst->Pdrgpoc())[1]->PccBest()->Pstats()->Rows();
 	if (dRowsOuterFst != dRowsInnerFst)
 	{
 		// two children of first plan have different row estimates
 		return;
 	}
 
-	CDouble dRowsOuterSnd = (*pccSnd->Pdrgpoc())[0]->PccBest()->Pstats()->DRows();
-	CDouble dRowsInnerSnd = (*pccSnd->Pdrgpoc())[1]->PccBest()->Pstats()->DRows();
+	CDouble dRowsOuterSnd = (*pccSnd->Pdrgpoc())[0]->PccBest()->Pstats()->Rows();
+	CDouble dRowsInnerSnd = (*pccSnd->Pdrgpoc())[1]->PccBest()->Pstats()->Rows();
 	if (dRowsOuterSnd != dRowsInnerSnd)
 	{
 		// two children of second plan have different row estimates
@@ -513,16 +513,16 @@ CCostContext::CostCompute
 	exprhdl.Attach(this);
 
 	// extract local costing info
-	DOUBLE dRows = m_pstats->DRows().Get();
+	DOUBLE rows = m_pstats->Rows().Get();
 	if (CDistributionSpec::EdptPartitioned == Pdpplan()->Pds()->Edpt())
 	{
 		// scale statistics row estimate by number of segments
-		dRows = DRowsPerHost().Get();
+		rows = DRowsPerHost().Get();
 	}
-	ci.SetRows(dRows);
+	ci.SetRows(rows);
 
-	DOUBLE dWidth = m_pstats->DWidth(memory_pool, m_poc->Prpp()->PcrsRequired()).Get();
-	ci.SetWidth(dWidth);
+	DOUBLE width = m_pstats->Width(memory_pool, m_poc->Prpp()->PcrsRequired()).Get();
+	ci.SetWidth(width);
 
 	DOUBLE dRebinds = m_pstats->DRebinds().Get();
 	ci.SetRebinds(dRebinds);
@@ -536,7 +536,7 @@ CCostContext::CostCompute
 		GPOS_ASSERT(NULL != pccChild);
 
 		IStatistics *pstatsChild = pccChild->Pstats();
-		DOUBLE dRowsChild = pstatsChild->DRows().Get();
+		DOUBLE dRowsChild = pstatsChild->Rows().Get();
 		if (CDistributionSpec::EdptPartitioned == pccChild->Pdpplan()->Pds()->Edpt())
 		{
 			// scale statistics row estimate by number of segments
@@ -544,7 +544,7 @@ CCostContext::CostCompute
 		}
 		ci.SetChildRows(ul, dRowsChild);
 
-		DOUBLE dWidthChild = pstatsChild->DWidth(memory_pool, pocChild->Prpp()->PcrsRequired()).Get();
+		DOUBLE dWidthChild = pstatsChild->Width(memory_pool, pocChild->Prpp()->PcrsRequired()).Get();
 		ci.SetChildWidth(ul, dWidthChild);
 
 		DOUBLE dRebindsChild = pstatsChild->DRebinds().Get();
@@ -570,7 +570,7 @@ CCostContext::CostCompute
 CDouble
 CCostContext::DRowsPerHost() const
 {
-	DOUBLE dRows = Pstats()->DRows().Get();
+	DOUBLE rows = Pstats()->Rows().Get();
 	COptCtxt *poptctxt = COptCtxt::PoctxtFromTLS();
 	const ULONG ulHosts = poptctxt->GetCostModel()->UlHosts();
 
@@ -589,7 +589,7 @@ CCostContext::DRowsPerHost() const
 			// clean up
 			pcrsUsed->Release();
 
-			return CDouble(dRows / ulHosts);
+			return CDouble(rows / ulHosts);
 		}
 
 		ULongPtrArray *pdrgpul = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
@@ -606,11 +606,11 @@ CCostContext::DRowsPerHost() const
 			// We assume data is distributed across a subset of hosts in this case. This results in a larger
 			// number of rows per host compared to the uniform case, allowing us to capture data skew in
 			// cost computation
-			return CDouble(dRows / dNDVs.Get());
+			return CDouble(rows / dNDVs.Get());
 		}
 	}
 
-	return CDouble(dRows / ulHosts);
+	return CDouble(rows / ulHosts);
 }
 
 
@@ -649,7 +649,7 @@ CCostContext::OsPrint
 
 	if (NULL != m_pstats)
 	{
-		os <<", rows:" << m_pstats->DRows();
+		os <<", rows:" << m_pstats->Rows();
 		if (FOwnsStats())
 		{
 			os <<" (owned)";

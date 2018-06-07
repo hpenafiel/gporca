@@ -986,7 +986,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsCompare
 	if (fApplyTwice && GPOS_OK == eres)
 	{
 		CStatistics *pstatsOutput2 = CFilterStatsProcessor::PstatsFilter(memory_pool, pstatsOutput, pstatspred, true /* fCapNdvs */);
-		pstatsOutput2->DRows();
+		pstatsOutput2->Rows();
 		GPOS_TRACE(GPOS_WSZ_LIT("Statistics after another filter"));
 		CCardinalityTestUtils::PrintStats(memory_pool, pstatsOutput2);
 
@@ -1049,7 +1049,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 									memory_pool,
 									phmulhist,
 									phmuldoubleWidth,
-									CDouble(1000.0) /* dRows */,
+									CDouble(1000.0) /* rows */,
 									false /* fEmpty() */
 									);
 	GPOS_TRACE(GPOS_WSZ_LIT("\nOriginal Stats:\n"));
@@ -1065,7 +1065,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 
 	// apply filter and print resulting stats
 	CStatistics *pstats1 = CFilterStatsProcessor::PstatsFilter(memory_pool, pstats, pstatspredDisj, true /* fCapNdvs */);
-	CDouble dRows1 = pstats1->DRows();
+	CDouble dRows1 = pstats1->Rows();
 	GPOS_TRACE(GPOS_WSZ_LIT("\n\nStats after disjunctive filter [Col0=5 OR Col1=200 OR Col2=200]:\n"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats1);
 
@@ -1079,7 +1079,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 
 	// apply filter and print resulting stats
 	CStatistics *pstats2 = CFilterStatsProcessor::PstatsFilter(memory_pool, pstats, pstatspredConj1, true /* fCapNdvs */);
-	CDouble dRows2 = pstats2->DRows();
+	CDouble dRows2 = pstats2->Rows();
 	GPOS_TRACE(GPOS_WSZ_LIT("\n\nStats after point filter [Col0=5]:\n"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats2);
 
@@ -1098,7 +1098,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 
 	// apply filter and print resulting stats
 	CStatistics *pstats3 = CFilterStatsProcessor::PstatsFilter(memory_pool, pstats, pstatspredConj2, true /* fCapNdvs */);
-	CDouble dRows3 = pstats3->DRows();
+	CDouble dRows3 = pstats3->Rows();
 	GPOS_TRACE(GPOS_WSZ_LIT("\n\nStats after conjunctive filter [Col0=5 AND Col1=200 AND Col2=200]:\n"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats3);
 
@@ -1114,7 +1114,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 
 	// apply filter and print resulting stats
 	CStatistics *pstats4 = CFilterStatsProcessor::PstatsFilter(memory_pool, pstats, pstatspredDisj1, true /* fCapNdvs */);
-	CDouble dRows4 = pstats4->DRows();
+	CDouble dRows4 = pstats4->Rows();
 	GPOS_TRACE(GPOS_WSZ_LIT("\n\nStats after disjunctive filter [Col1=200 OR Col2=200]:\n"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats4);
 
@@ -1131,7 +1131,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 
 	// apply filter and print resulting stats
 	CStatistics *pstats5 = CFilterStatsProcessor::PstatsFilter(memory_pool, pstats, pstatspredConj3, true /* fCapNdvs */);
-	CDouble dRows5 = pstats5->DRows();
+	CDouble dRows5 = pstats5->Rows();
 	GPOS_TRACE(GPOS_WSZ_LIT("\n\nStats after conjunctive filter [Col0=5 AND Col1=200]:\n"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats5);
 

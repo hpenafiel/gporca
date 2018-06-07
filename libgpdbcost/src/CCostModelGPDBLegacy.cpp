@@ -152,8 +152,8 @@ CCostModelGPDBLegacy::~CCostModelGPDBLegacy()
 CCost
 CCostModelGPDBLegacy::CostTupleProcessing
 	(
-	DOUBLE dRows,
-	DOUBLE dWidth,
+	DOUBLE rows,
+	DOUBLE width,
 	ICostModelParams *pcp
 	)
 {
@@ -162,7 +162,7 @@ CCostModelGPDBLegacy::CostTupleProcessing
 	CDouble dTupProcBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpTupProcBandwidth)->Get();
 	GPOS_ASSERT(0 < dTupProcBandwidth);
 
-	return CCost((dRows * dWidth) / dTupProcBandwidth);
+	return CCost((rows * width) / dTupProcBandwidth);
 }
 
 
@@ -177,8 +177,8 @@ CCostModelGPDBLegacy::CostTupleProcessing
 CCost
 CCostModelGPDBLegacy::CostUnary
 	(
-	DOUBLE dRows,
-	DOUBLE dWidth,
+	DOUBLE rows,
+	DOUBLE width,
 	DOUBLE dRebinds,
 	DOUBLE *pdcostChildren,
 	ICostModelParams *pcp
@@ -186,7 +186,7 @@ CCostModelGPDBLegacy::CostUnary
 {
 	GPOS_ASSERT(NULL != pcp);
 
-	CCost costLocal = CCost(dRebinds * CostTupleProcessing(dRows, dWidth, pcp).Get());
+	CCost costLocal = CCost(dRebinds * CostTupleProcessing(rows, width, pcp).Get());
 	CCost costChild = CostSum(pdcostChildren, 1 /*size*/);
 
 	return costLocal + costChild;
@@ -204,8 +204,8 @@ CCostModelGPDBLegacy::CostUnary
 CCost
 CCostModelGPDBLegacy::CostSpooling
 	(
-	DOUBLE dRows,
-	DOUBLE dWidth,
+	DOUBLE rows,
+	DOUBLE width,
 	DOUBLE dRebinds,
 	DOUBLE *pdcostChildren,
 	ICostModelParams *pcp
@@ -213,7 +213,7 @@ CCostModelGPDBLegacy::CostSpooling
 {
 	GPOS_ASSERT(NULL != pcp);
 
-	return CostUnary(dRows, dWidth, dRebinds, pdcostChildren, pcp);
+	return CostUnary(rows, width, dRebinds, pdcostChildren, pcp);
 }
 
 
@@ -228,8 +228,8 @@ CCostModelGPDBLegacy::CostSpooling
 CCost
 CCostModelGPDBLegacy::CostRedistribute
 	(
-	DOUBLE dRows,
-	DOUBLE dWidth,
+	DOUBLE rows,
+	DOUBLE width,
 	ICostModelParams *pcp
 	)
 {
@@ -238,7 +238,7 @@ CCostModelGPDBLegacy::CostRedistribute
 	CDouble dNetBandwidth = pcp->PcpLookup(CCostModelParamsGPDBLegacy::EcpNetBandwidth)->Get();
 	GPOS_ASSERT(0 < dNetBandwidth);
 
-	return CCost(dRows * dWidth / dNetBandwidth);
+	return CCost(rows * width / dNetBandwidth);
 }
 
 
@@ -316,7 +316,7 @@ CCostModelGPDBLegacy::CostCTEProducer
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalCTEProducer == exprhdl.Pop()->Eopid());
 
-	CCost cost = CostUnary(pci->DRows(), pci->DWidth(), pci->DRebinds(), pci->PdCost(), pcmgpdb->GetCostModelParams());
+	CCost cost = CostUnary(pci->Rows(), pci->Width(), pci->DRebinds(), pci->PdCost(), pcmgpdb->GetCostModelParams());
 
 	// In GPDB, the child of a ShareInputScan representing the producer can
 	// only be a materialize or sort. Here, we check if a materialize node
@@ -337,7 +337,7 @@ CCostModelGPDBLegacy::CostCTEProducer
 
 	// a materialize (spool) node is added during DXL->PlStmt translation,
 	// we need to add the cost of writing the tuples to disk
-	CCost costSpooling = CostSpooling(pci->DRows(), pci->DWidth(), pci->DRebinds(), pci->PdCost(), pcmgpdb->GetCostModelParams());
+	CCost costSpooling = CostSpooling(pci->Rows(), pci->Width(), pci->DRebinds(), pci->PdCost(), pcmgpdb->GetCostModelParams());
 
 	return cost + costSpooling;
 }
@@ -371,7 +371,7 @@ CCostModelGPDBLegacy::CostCTEConsumer
 	CDouble dSeqIOBandwidth = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDBLegacy::EcpSeqIOBandwidth)->Get();
 	GPOS_ASSERT(0 < dSeqIOBandwidth);
 
-	return CCost(pci->DRebinds() * pci->DRows() * pci->DWidth() / dSeqIOBandwidth);
+	return CCost(pci->DRebinds() * pci->Rows() * pci->Width() / dSeqIOBandwidth);
 }
 
 
@@ -400,7 +400,7 @@ CCostModelGPDBLegacy::CostConstTableGet
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalConstTableGet == exprhdl.Pop()->Eopid());
 
-	return CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	return CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 }
 
 
@@ -475,7 +475,7 @@ CCostModelGPDBLegacy::CostScalarAgg
 	CDouble dTupProcBandwidth = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDBLegacy::EcpTupProcBandwidth)->Get();
 	GPOS_ASSERT(0 < dTupProcBandwidth);
 
-	CCost costLocal = CCost(pci->DRebinds() * (1.0 * pci->DWidth() + dRowsOuter * dWidthOuter) / dTupProcBandwidth);
+	CCost costLocal = CCost(pci->DRebinds() * (1.0 * pci->Width() + dRowsOuter * dWidthOuter) / dTupProcBandwidth);
 	CCost costChild = CostSum(pci->PdCost(), pci->ChildCount());
 
 	return costLocal + costChild;
@@ -518,7 +518,7 @@ CCostModelGPDBLegacy::CostStreamAgg
 	CDouble dTupProcBandwidth = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDBLegacy::EcpTupProcBandwidth)->Get();
 	GPOS_ASSERT(0 < dTupProcBandwidth);
 
-	CCost costLocal = CCost(pci->DRebinds() * (pci->DRows() * pci->DWidth() + dRowsOuter * dWidthOuter) / dTupProcBandwidth);
+	CCost costLocal = CCost(pci->DRebinds() * (pci->Rows() * pci->Width() + dRowsOuter * dWidthOuter) / dTupProcBandwidth);
 	CCost costChild = CostSum(pci->PdCost(), pci->ChildCount());
 
 	return costLocal + costChild;
@@ -550,7 +550,7 @@ CCostModelGPDBLegacy::CostSequence
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalSequence == exprhdl.Pop()->Eopid());
 
-	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 	CCost costChild = CostSum(pci->PdCost(), pci->ChildCount());
 
 	return costLocal + costChild;
@@ -583,13 +583,13 @@ CCostModelGPDBLegacy::CostSort
 	GPOS_ASSERT(COperator::EopPhysicalSort == exprhdl.Pop()->Eopid());
 
 	// log operation below
-	CDouble dRows = CDouble(std::max(1.0, pci->DRows()));
+	CDouble rows = CDouble(std::max(1.0, pci->Rows()));
 	CDouble dRebinds = CDouble(pci->DRebinds());
-	CDouble dWidth = CDouble(pci->DWidth());
+	CDouble width = CDouble(pci->Width());
 	CDouble dTupProcBandwidth = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDBLegacy::EcpTupProcBandwidth)->Get();
 	GPOS_ASSERT(0 < dTupProcBandwidth);
 
-	CCost costLocal = CCost(dRebinds * (dRows * dRows.Log2() * dWidth * dWidth / dTupProcBandwidth));
+	CCost costLocal = CCost(dRebinds * (rows * rows.Log2() * width * width / dTupProcBandwidth));
 	CCost costChild = CostSum(pci->PdCost(), pci->ChildCount());
 
 	return costLocal + costChild;
@@ -621,7 +621,7 @@ CCostModelGPDBLegacy::CostTVF
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalTVF == exprhdl.Pop()->Eopid());
 
-	return CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	return CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 }
 
 
@@ -650,7 +650,7 @@ CCostModelGPDBLegacy::CostUnionAll
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalSerialUnionAll == exprhdl.Pop()->Eopid());
 
-	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 	CCost costChild = CostSum(pci->PdCost(), pci->ChildCount());
 
 	return costLocal + costChild;
@@ -694,7 +694,7 @@ CCostModelGPDBLegacy::CostHashAgg
 	CDouble dHashFactor = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDBLegacy::EcpHashFactor)->Get();
 	GPOS_ASSERT(0 < dTupProcBandwidth);
 
-	CCost costLocal = CCost(pci->DRebinds() * (pci->DRows() * pci->DWidth() + dHashFactor * dRowsOuter * dWidthOuter) / dTupProcBandwidth);
+	CCost costLocal = CCost(pci->DRebinds() * (pci->Rows() * pci->Width() + dHashFactor * dRowsOuter * dWidthOuter) / dTupProcBandwidth);
 	CCost costChild = CostSum(pci->PdCost(), pci->ChildCount());
 
 	return costLocal + costChild;
@@ -776,7 +776,7 @@ CCostModelGPDBLegacy::CostIndexNLJoin
 	GPOS_ASSERT(COperator::EopPhysicalInnerIndexNLJoin == exprhdl.Pop()->Eopid() ||
 			COperator::EopPhysicalLeftOuterIndexNLJoin == exprhdl.Pop()->Eopid());
 
-	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 	CCost costChild = CostSum(pci->PdCost(), pci->ChildCount());
 
 	return costLocal + costChild;
@@ -954,7 +954,7 @@ CCostModelGPDBLegacy::CostIndexScan
 	{
 		case COperator::EopPhysicalDynamicIndexScan:
 		case COperator::EopPhysicalIndexScan:
-			return CCost(pci->DRebinds() * (pci->DRows() * pci->DWidth()) / dRandomIOBandwidth);
+			return CCost(pci->DRebinds() * (pci->Rows() * pci->Width()) / dRandomIOBandwidth);
 
 		default:
 			GPOS_ASSERT(!"invalid index scan");
@@ -993,7 +993,7 @@ CCostModelGPDBLegacy::CostBitmapTableScan
 	GPOS_ASSERT(0 < dSeqIOBandwidth);
 
 	// TODO: ; 2014-04-11; compute the real cost here
-	return CCost(pci->DRebinds() * (pci->DRows() * pci->DWidth()) / dSeqIOBandwidth * 0.5);
+	return CCost(pci->DRebinds() * (pci->Rows() * pci->Width()) / dSeqIOBandwidth * 0.5);
 }
 
 
@@ -1031,7 +1031,7 @@ CCostModelGPDBLegacy::CostScan
 		case COperator::EopPhysicalTableScan:
 		case COperator::EopPhysicalDynamicTableScan:
 		case COperator::EopPhysicalExternalScan:
-			return CCost(pci->DRebinds() * (pci->DRows() * pci->DWidth()) / dSeqIOBandwidth);
+			return CCost(pci->DRebinds() * (pci->Rows() * pci->Width()) / dSeqIOBandwidth);
 
 		default:
 			GPOS_ASSERT(!"invalid index scan");
@@ -1061,7 +1061,7 @@ CCostModelGPDBLegacy::Cost
 	COperator::EOperatorId eopid = exprhdl.Pop()->Eopid();
 	if (FUnary(eopid))
 	{
-		return CostUnary(pci->DRows(), pci->DWidth(), pci->DRebinds(), pci->PdCost(), m_cost_model_params);
+		return CostUnary(pci->Rows(), pci->Width(), pci->DRebinds(), pci->PdCost(), m_cost_model_params);
 	}
 
 	FnCost *pfnc = NULL;

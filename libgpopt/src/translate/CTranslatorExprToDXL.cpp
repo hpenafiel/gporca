@@ -7239,26 +7239,26 @@ CTranslatorExprToDXL::GetProperties
 	// extract out rows from statistics object
 	CWStringDynamic *rows_out_str = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool);
 	const IStatistics *pstats = pexpr->Pstats();
-	CDouble dRows = CStatistics::DDefaultRelationRows;
+	CDouble rows = CStatistics::DDefaultRelationRows;
 
 	// stats may not be present in artificially generated physical expression trees.
 	// fill in default statistics
 	if (NULL != pstats)
 	{
-		dRows = pstats->DRows();
+		rows = pstats->Rows();
 	}
 
 	if (CDistributionSpec::EdtReplicated == CDrvdPropPlan::Pdpplan(pexpr->Pdp(CDrvdProp::EptPlan))->Pds()->Edt())
 	{
 		// if distribution is replicated, multiply number of rows by number of segments
 		ULONG ulSegments = COptCtxt::PoctxtFromTLS()->GetCostModel()->UlHosts();
-		dRows = dRows * ulSegments;
+		rows = rows * ulSegments;
 	}
 
-	rows_out_str->AppendFormat(GPOS_WSZ_LIT("%f"), dRows.Get());
+	rows_out_str->AppendFormat(GPOS_WSZ_LIT("%f"), rows.Get());
 
 	// extract our width from statistics object
-	CDouble dWidth = CStatistics::DDefaultColumnWidth;
+	CDouble width = CStatistics::DDefaultColumnWidth;
 	CReqdPropPlan *prpp = pexpr->Prpp();
 	CColRefSet *pcrs = prpp->PcrsRequired();
 	ULongPtrArray *pdrgpulColIds = GPOS_NEW(m_memory_pool) ULongPtrArray(m_memory_pool);
@@ -7267,10 +7267,10 @@ CTranslatorExprToDXL::GetProperties
 
 	if (NULL != pstats)
 	{
-		dWidth = pstats->DWidth(pdrgpulColIds);
+		width = pstats->Width(pdrgpulColIds);
 	}
 	pdrgpulColIds->Release();
-	width_str->AppendFormat(GPOS_WSZ_LIT("%lld"), (LINT) dWidth.Get());
+	width_str->AppendFormat(GPOS_WSZ_LIT("%lld"), (LINT) width.Get());
 
 	// get the cost from expression node
 	CWStringDynamic str(m_memory_pool);

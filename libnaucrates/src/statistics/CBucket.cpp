@@ -780,11 +780,11 @@ CBucket::PbucketIntersect
 
 	// TODO: , May 1 2013, distance function for data types such as bpchar/varchar
 	// that require binary comparison
-	GPOS_ASSERT_IMP(!ppNewUpper->Pdatum()->FSupportsBinaryComp(ppNewLower->Pdatum()), dDistanceNew <= DWidth());
-	GPOS_ASSERT_IMP(!ppNewUpper->Pdatum()->FSupportsBinaryComp(ppNewLower->Pdatum()), dDistanceNew <= pbucket->DWidth());
+	GPOS_ASSERT_IMP(!ppNewUpper->Pdatum()->FSupportsBinaryComp(ppNewLower->Pdatum()), dDistanceNew <= Width());
+	GPOS_ASSERT_IMP(!ppNewUpper->Pdatum()->FSupportsBinaryComp(ppNewLower->Pdatum()), dDistanceNew <= pbucket->Width());
 
-	CDouble dRatio1 = dDistanceNew / DWidth();
-	CDouble dRatio2 = dDistanceNew / pbucket->DWidth();
+	CDouble dRatio1 = dDistanceNew / Width();
+	CDouble dRatio2 = dDistanceNew / pbucket->Width();
 
 	// edge case
 	if (FSingleton() && pbucket->FSingleton())
@@ -842,14 +842,14 @@ CBucket::PbucketIntersect
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CBucket::DWidth
+//		CBucket::Width
 //
 //	@doc:
 //		Width of bucket
 //
 //---------------------------------------------------------------------------
 CDouble
-CBucket::DWidth() const
+CBucket::Width() const
 {
 	if (FSingleton())
 	{
@@ -987,7 +987,7 @@ CBucket::PbucketMerge
 	(
 	IMemoryPool *memory_pool,
 	CBucket *pbucketOther,
-	CDouble dRows,
+	CDouble rows,
 	CDouble dRowsOther,
 	CBucket **ppbucket1New,
 	CBucket **ppbucket2New,
@@ -1003,12 +1003,12 @@ CBucket::PbucketMerge
 
 	CDouble dOverlap = this->DOverlap(ppUpperNew);
 	CDouble dDistinct = this->DDistinct() * dOverlap;
-	CDouble dRowNew = dRows * this->DFrequency() * dOverlap;
+	CDouble dRowNew = rows * this->DFrequency() * dOverlap;
 
 	CDouble dFrequency = this->DFrequency() * this->DOverlap(ppUpperNew);
 	if (fUnionAll)
 	{
-		CDouble dRowsOutput = (dRowsOther + dRows);
+		CDouble dRowsOutput = (dRowsOther + rows);
 		CDouble dOverlapOther = pbucketOther->DOverlap(ppUpperNew);
 		dDistinct = dDistinct + (pbucketOther->DDistinct() * dOverlapOther);
 		dRowNew = dRowsOther * pbucketOther->DFrequency() * dOverlapOther;

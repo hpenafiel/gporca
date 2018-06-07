@@ -49,7 +49,7 @@ namespace gpmd
 			
 			// width
 			virtual
-			CDouble DWidth() const = 0;
+			CDouble Width() const = 0;
 
 			// null fraction
 			virtual

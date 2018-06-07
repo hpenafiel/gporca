@@ -65,7 +65,7 @@ namespace gpmd
 			CDXLStatsDerivedColumn
 				(
 				ULONG col_id,
-				CDouble dWidth,
+				CDouble width,
 				CDouble dNullFreq,
 				CDouble dDistinctRemain,
 				CDouble dFreqRemain,
@@ -83,7 +83,7 @@ namespace gpmd
 			}
 
 			// column width
-			CDouble DWidth() const
+			CDouble Width() const
 			{
 				return m_width;
 			}

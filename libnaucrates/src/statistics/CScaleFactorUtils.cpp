@@ -345,7 +345,7 @@ CScaleFactorUtils::DScaleFactorCumulativeDisj
 	// accumulate row estimates of different predicates after applying damping
 	// rows = rows0 + rows1 * 0.75 + rows2 *(0.75)^2 + ...
 
-	CDouble dRows(0.0);
+	CDouble rows(0.0);
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		CDouble dScaleFactorLocal = *(*pdrgpdScaleFactor)[ul];
@@ -355,18 +355,18 @@ CScaleFactorUtils::DScaleFactorCumulativeDisj
 		CDouble dRowsLocal = dRowsTotal / dScaleFactorLocal;
 
 		// accumulate row estimates after damping
-		dRows = dRows + std::max
+		rows = rows + std::max
 							(
 							CStatistics::DMinRows.Get(),
 							(dRowsLocal * CScaleFactorUtils::DDampingFilter(pstatsconf, ul + 1)).Get()
 							);
 
 		// cap accumulated row estimate with total number of rows
-		dRows = std::min(dRows.Get(), dRowsTotal.Get());
+		rows = std::min(rows.Get(), dRowsTotal.Get());
 	}
 
 	// return an accumulated scale factor based on accumulated row estimate
-	return CDouble(dRowsTotal / dRows);
+	return CDouble(dRowsTotal / rows);
 }
 
 

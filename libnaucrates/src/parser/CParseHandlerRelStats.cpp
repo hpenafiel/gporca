@@ -87,7 +87,7 @@ CParseHandlerRelStats::StartElement
 	
 	// parse rows
 
-	CDouble dRows = CDXLOperatorFactory::ExtractConvertAttrValueToDouble
+	CDouble rows = CDXLOperatorFactory::ExtractConvertAttrValueToDouble
 											(
 											m_parse_handler_mgr->GetDXLMemoryManager(),
 											attrs,
@@ -108,7 +108,7 @@ CParseHandlerRelStats::StartElement
 										);
 	}
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CDXLRelStats(m_memory_pool, CMDIdRelStats::PmdidConvert(pmdid), mdname, dRows, fEmpty);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CDXLRelStats(m_memory_pool, CMDIdRelStats::PmdidConvert(pmdid), mdname, rows, fEmpty);
 }
 
 //---------------------------------------------------------------------------

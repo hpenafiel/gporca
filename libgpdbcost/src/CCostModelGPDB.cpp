@@ -172,8 +172,8 @@ CCostModelGPDB::~CCostModelGPDB()
 CCost
 CCostModelGPDB::CostTupleProcessing
 	(
-	DOUBLE dRows,
-	DOUBLE dWidth,
+	DOUBLE rows,
+	DOUBLE width,
 	ICostModelParams *pcp
 	)
 {
@@ -182,7 +182,7 @@ CCostModelGPDB::CostTupleProcessing
 	const CDouble dTupDefaultProcCostUnit = pcp->PcpLookup(CCostModelParamsGPDB::EcpTupDefaultProcCostUnit)->Get();
 	GPOS_ASSERT(0 < dTupDefaultProcCostUnit);
 
-	return CCost(dRows * dWidth * dTupDefaultProcCostUnit);
+	return CCost(rows * width * dTupDefaultProcCostUnit);
 }
 
 
@@ -200,8 +200,8 @@ CCost
 CCostModelGPDB::CostScanOutput
 	(
 	IMemoryPool *, // memory_pool
-	DOUBLE dRows,
-	DOUBLE dWidth,
+	DOUBLE rows,
+	DOUBLE width,
 	DOUBLE dRebinds,
 	ICostModelParams *pcp
 	)
@@ -211,7 +211,7 @@ CCostModelGPDB::CostScanOutput
 	const CDouble dOutputTupCostUnit = pcp->PcpLookup(CCostModelParamsGPDB::EcpOutputTupCostUnit)->Get();
 	GPOS_ASSERT(0 < dOutputTupCostUnit);
 
-	return CCost(dRebinds * (dRows * dWidth * dOutputTupCostUnit));
+	return CCost(dRebinds * (rows * width * dOutputTupCostUnit));
 }
 
 
@@ -235,11 +235,11 @@ CCostModelGPDB::CostUnary
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(NULL != pcp);
 
-	DOUBLE dRows = pci->DRows();
-	DOUBLE dWidth = pci->DWidth();
+	DOUBLE rows = pci->Rows();
+	DOUBLE width = pci->Width();
 	DOUBLE dRebinds = pci->DRebinds();
 
-	CCost costLocal = CCost(dRebinds * CostTupleProcessing(dRows, dWidth, pcp).Get());
+	CCost costLocal = CCost(dRebinds * CostTupleProcessing(rows, width, pcp).Get());
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcp);
 
 	return costLocal + costChild;
@@ -269,12 +269,12 @@ CCostModelGPDB::CostSpooling
 	const CDouble dMaterializeCostUnit = pcp->PcpLookup(CCostModelParamsGPDB::EcpMaterializeCostUnit)->Get();
 	GPOS_ASSERT(0 < dMaterializeCostUnit);
 
-	DOUBLE dRows = pci->DRows();
-	DOUBLE dWidth = pci->DWidth();
+	DOUBLE rows = pci->Rows();
+	DOUBLE width = pci->Width();
 	DOUBLE dRebinds = pci->DRebinds();
 
 	// materialization cost is correlated with the number of rows and width of returning tuples.
-	CCost costLocal = CCost(dRebinds * (dWidth * dRows * dMaterializeCostUnit));
+	CCost costLocal = CCost(dRebinds * (width * rows * dMaterializeCostUnit));
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcp);
 
 	return costLocal + costChild;
@@ -342,7 +342,7 @@ CCostModelGPDB::CostChildren
 			if (fFilterParent)
 			{
 				// if parent is filter, compute scan output cost based on rows produced by Filter operator
-				dScanRows = pci->DRows();
+				dScanRows = pci->Rows();
 			}
 
 			dCostChild = dCostChild + CostScanOutput(memory_pool, dScanRows, pci->PdWidth()[ul], pci->PdRebinds()[ul], pcp).Get();
@@ -435,7 +435,7 @@ CCostModelGPDB::CostCTEProducer
 	const CDouble dMaterializeCostUnit = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpMaterializeCostUnit)->Get();
 	GPOS_ASSERT(0 < dMaterializeCostUnit);
 
-	CCost costSpooling = CCost(pci->DRebinds() * (pci->DRows() * pci->DWidth() * dMaterializeCostUnit));
+	CCost costSpooling = CCost(pci->DRebinds() * (pci->Rows() * pci->Width() * dMaterializeCostUnit));
 
 	return cost + costSpooling;
 }
@@ -472,7 +472,7 @@ CCostModelGPDB::CostCTEConsumer
 	GPOS_ASSERT(0 < dOutputTupCostUnit);
 	GPOS_ASSERT(0 < dTableScanCostUnit);
 
-	return CCost(pci->DRebinds() * (dInitScan + pci->DRows() * pci->DWidth() * (dTableScanCostUnit + dOutputTupCostUnit)));
+	return CCost(pci->DRebinds() * (dInitScan + pci->Rows() * pci->Width() * (dTableScanCostUnit + dOutputTupCostUnit)));
 }
 
 
@@ -501,7 +501,7 @@ CCostModelGPDB::CostConstTableGet
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalConstTableGet == exprhdl.Pop()->Eopid());
 
-	return CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	return CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 }
 
 
@@ -620,7 +620,7 @@ CCostModelGPDB::CostStreamAgg
 	// streamAgg cost is correlated with rows and width of input tuples and rows and width of output tuples
 	CCost costLocal = CCost(pci->DRebinds() * (
 			dRowsOuter * dWidthOuter * dTupDefaultProcCostUnit +
-			pci->DRows() * pci->DWidth() * dHashAggOutputTupWidthCostUnit));
+			pci->Rows() * pci->Width() * dHashAggOutputTupWidthCostUnit));
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
 	return costLocal + costChild;
 }
@@ -647,7 +647,7 @@ CCostModelGPDB::CostSequence
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalSequence == exprhdl.Pop()->Eopid());
 
-	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
 
 	return costLocal + costChild;
@@ -676,15 +676,15 @@ CCostModelGPDB::CostSort
 	GPOS_ASSERT(COperator::EopPhysicalSort == exprhdl.Pop()->Eopid());
 
 	// log operation below
-	const CDouble dRows = CDouble(std::max(1.0, pci->DRows()));
+	const CDouble rows = CDouble(std::max(1.0, pci->Rows()));
 	const CDouble dRebinds = CDouble(pci->DRebinds());
-	const CDouble dWidth = CDouble(pci->DWidth());
+	const CDouble width = CDouble(pci->Width());
 
 	const CDouble dSortTupWidthCost = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpSortTupWidthCostUnit)->Get();
 	GPOS_ASSERT(0 < dSortTupWidthCost);
 
 	// sort cost is correlated with the number of rows and width of input tuples. We use n*log(n) for sorting complexity.
-	CCost costLocal = CCost(dRebinds * (dRows * dRows.Log2() * dWidth * dSortTupWidthCost));
+	CCost costLocal = CCost(dRebinds * (rows * rows.Log2() * width * dSortTupWidthCost));
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
 
 	return costLocal + costChild;
@@ -716,7 +716,7 @@ CCostModelGPDB::CostTVF
 	GPOS_ASSERT(NULL != pci);
 	GPOS_ASSERT(COperator::EopPhysicalTVF == exprhdl.Pop()->Eopid());
 
-	return CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	return CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 }
 
 
@@ -746,7 +746,7 @@ CCostModelGPDB::CostUnionAll
 		return CostMaxChild(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
 	}
 
-	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->DRows(), pci->DWidth(), pcmgpdb->GetCostModelParams()).Get());
+	CCost costLocal = CCost(pci->DRebinds() * CostTupleProcessing(pci->Rows(), pci->Width(), pcmgpdb->GetCostModelParams()).Get());
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
 
 	return costLocal + costChild;
@@ -791,12 +791,12 @@ CCostModelGPDB::CostHashAgg
 	// Since we do not know the order of tuples received by local hash agg, we assume the number of output rows from local
 	// agg is the average between input and output rows
 
-	// the cardinality out as (dRows + dRowsOuter)/2 to increase the local hash agg cost
-	DOUBLE dRows = pci->DRows();
+	// the cardinality out as (rows + dRowsOuter)/2 to increase the local hash agg cost
+	DOUBLE rows = pci->Rows();
 	CPhysicalHashAgg *popAgg = CPhysicalHashAgg::PopConvert(exprhdl.Pop());
 	if ((COperator::EgbaggtypeLocal == popAgg->Egbaggtype()) && popAgg->FGeneratesDuplicates())
 	{
-		dRows = (dRows + dRowsOuter) / 2.0;
+		rows = (rows + dRowsOuter) / 2.0;
 	}
 
 	// get the number of grouping columns
@@ -816,9 +816,9 @@ CCostModelGPDB::CostHashAgg
 	CCost costLocal = CCost(pci->DRebinds() * (
 		dRowsOuter * ulGrpCols * dHashAggInputTupColumnCostUnit
 		+
-		dRowsOuter * ulGrpCols * pci->DWidth() * dHashAggInputTupWidthCostUnit
+		dRowsOuter * ulGrpCols * pci->Width() * dHashAggInputTupWidthCostUnit
 		+
-		dRows * pci->DWidth() * dHashAggOutputTupWidthCostUnit
+		rows * pci->Width() * dHashAggOutputTupWidthCostUnit
 	));
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
 
@@ -917,7 +917,7 @@ CCostModelGPDB::CostHashJoin
 			dWidthInner * dRowsInner * dHJHashingTupWidthCostUnit
 			+
 			// cost of output tuples
-			pci->DRows() * pci->DWidth() * dJoinOutputTupCostUnit
+			pci->Rows() * pci->Width() * dJoinOutputTupCostUnit
 			));
 	}
 	else
@@ -937,7 +937,7 @@ CCostModelGPDB::CostHashJoin
 			+
 			dWidthInner * dRowsInner * dHJHashingTupWidthSpillingCostUnit
 			+
-			pci->DRows() * pci->DWidth() * dJoinOutputTupCostUnit
+			pci->Rows() * pci->Width() * dJoinOutputTupCostUnit
 			));
 	}
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
@@ -995,7 +995,7 @@ CCostModelGPDB::CostIndexNLJoin
 			+ dWidthOuter * dRowsOuter * dJoinFeedingTupWidthCostUnit
 		+
 		// cost of output tuples
-		pci->DRows() * pci->DWidth() * dJoinOutputTupCostUnit
+		pci->Rows() * pci->Width() * dJoinOutputTupCostUnit
 		));
 
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
@@ -1090,10 +1090,10 @@ CCostModelGPDB::CostNLJoin
 			dRowsInner * ulColsUsed * dFilterColCostUnit
 			)
 			// cost of extracting matched inner side
-			+ pci->DRows() * dWidthInner * dOutputTupCostUnit
+			+ pci->Rows() * dWidthInner * dOutputTupCostUnit
 		+
 		// cost of output tuples
-		pci->DRows() * pci->DWidth() * dJoinOutputTupCostUnit
+		pci->Rows() * pci->Width() * dJoinOutputTupCostUnit
 		));
 
 	CCost costChild = CostChildren(memory_pool, exprhdl, pci, pcmgpdb->GetCostModelParams());
@@ -1187,7 +1187,7 @@ CCostModelGPDB::CostMotion
 			dRecvCostUnit = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpNoOpCostUnit)->Get();
 		}
 
-		recvCost = pci->DRows() * pci->DWidth() * dRecvCostUnit;
+		recvCost = pci->Rows() * pci->Width() * dRecvCostUnit;
 	}
 	else if (COperator::EopPhysicalMotionGather == eopid)
 	{
@@ -1295,7 +1295,7 @@ CCostModelGPDB::CostIndexScan
 	GPOS_ASSERT(COperator::EopPhysicalIndexScan == eopid ||
 			COperator::EopPhysicalDynamicIndexScan == eopid);
 
-	const CDouble dTableWidth = CPhysicalScan::PopConvert(pop)->PstatsBaseTable()->DWidth();
+	const CDouble dTableWidth = CPhysicalScan::PopConvert(pop)->PstatsBaseTable()->Width();
 
 	const CDouble dIndexFilterCostUnit = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpIndexFilterCostUnit)->Get();
 	const CDouble dIndexScanTupCostUnit = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpIndexScanTupCostUnit)->Get();
@@ -1304,7 +1304,7 @@ CCostModelGPDB::CostIndexScan
 	GPOS_ASSERT(0 < dIndexScanTupCostUnit);
 	GPOS_ASSERT(0 < dIndexScanTupRandomFactor);
 
-	CDouble dRowsIndex = pci->DRows();
+	CDouble dRowsIndex = pci->Rows();
 
 	ULONG ulIndexKeys = 1;
 	if (COperator::EopPhysicalIndexScan == eopid)
@@ -1377,7 +1377,7 @@ CCostModelGPDB::CostBitmapTableScan
 		// TODO: ; 2017-11-14; use proper start up cost value.
 		// Conceptually the cost of evaluating index qual is also linear in the
 		// number of index columns, but we're only accounting for the dominant cost
-		return CCost(pci->DRebinds() * (pci->DRows() * pci->DWidth() * dIndexFilterCostUnit +  dInitScan));
+		return CCost(pci->DRebinds() * (pci->Rows() * pci->Width() * dIndexFilterCostUnit +  dInitScan));
 	}
 
 	// if the expression is const table get, the pcrsUsed is empty
@@ -1417,10 +1417,10 @@ CCostModelGPDB::CostBitmapSmallNDV
 	CDouble dNDV
 	)
 {
-	const DOUBLE dRows = pci->DRows();
-	const DOUBLE dWidth = pci->DWidth();
+	const DOUBLE rows = pci->Rows();
+	const DOUBLE width = pci->Width();
 
-	CDouble dSize = (dRows * dWidth) * 0.001;
+	CDouble dSize = (rows * width) * 0.001;
 
 	CDouble dBitmapIO = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpBitmapIOCostSmallNDV)->Get();
 	CDouble dBitmapPageCost = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpBitmapPageCostSmallNDV)->Get();
@@ -1445,10 +1445,10 @@ CCostModelGPDB::CostBitmapLargeNDV
 	CDouble dNDV
 	)
 {
-	const DOUBLE dRows = pci->DRows();
-	const DOUBLE dWidth = pci->DWidth();
+	const DOUBLE rows = pci->Rows();
+	const DOUBLE width = pci->Width();
 
-	CDouble dSize = (dRows * dWidth * dNDV) * 0.001;
+	CDouble dSize = (rows * width * dNDV) * 0.001;
 	CDouble dBitmapIO = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpBitmapIOCostLargeNDV)->Get();
 	CDouble dBitmapPageCost = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpBitmapPageCostLargeNDV)->Get();
 
@@ -1482,7 +1482,7 @@ CCostModelGPDB::CostScan
 				COperator::EopPhysicalExternalScan == eopid);
 
 	const CDouble dInitScan = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpInitScanFactor)->Get();
-	const CDouble dTableWidth = CPhysicalScan::PopConvert(pop)->PstatsBaseTable()->DWidth();
+	const CDouble dTableWidth = CPhysicalScan::PopConvert(pop)->PstatsBaseTable()->Width();
 
 	// Get total rows for each host to scan
 	const CDouble dTableScanCostUnit = pcmgpdb->GetCostModelParams()->PcpLookup(CCostModelParamsGPDB::EcpTableScanCostUnit)->Get();
@@ -1497,7 +1497,7 @@ CCostModelGPDB::CostScan
 			// since we scan the entire table here, the cost is correlated with table rows and table width,
 			// since Scan's parent operator may be a filter that will be pushed into Scan node in GPDB plan,
 			// we add Scan output tuple cost in the parent operator and not here
-			return CCost(pci->DRebinds() * (dInitScan + pci->DRows() * dTableWidth * dTableScanCostUnit));
+			return CCost(pci->DRebinds() * (dInitScan + pci->Rows() * dTableWidth * dTableScanCostUnit));
 		default:
 			GPOS_ASSERT(!"invalid index scan");
 			return CCost(0);

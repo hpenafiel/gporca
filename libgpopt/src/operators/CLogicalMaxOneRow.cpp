@@ -116,7 +116,7 @@ CLogicalMaxOneRow::PstatsDerive
 {
 	// no more than one row can be produced by operator, scale down input statistics accordingly
 	IStatistics *pstats = exprhdl.Pstats(0);
-	return  pstats->PstatsScale(memory_pool, CDouble(1.0 / pstats->DRows()));
+	return  pstats->PstatsScale(memory_pool, CDouble(1.0 / pstats->Rows()));
 }
 
 

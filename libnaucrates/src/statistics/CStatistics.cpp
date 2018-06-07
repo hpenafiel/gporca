@@ -63,14 +63,14 @@ CStatistics::CStatistics
 	IMemoryPool *memory_pool,
 	HMUlHist *phmulhist,
 	HMUlDouble *phmuldoubleWidth,
-	CDouble dRows,
+	CDouble rows,
 	BOOL fEmpty,
 	ULONG ulNumPredicates
 	)
 	:
 	m_phmulhist(phmulhist),
 	m_phmuldoubleWidth(phmuldoubleWidth),
-	m_rows(dRows),
+	m_rows(rows),
 	m_ulStatsEstimationRisk(ulStatsEstimationNoRisk),
 	m_empty(fEmpty),
 	m_dRebinds(1.0), // by default, a stats object is rebound to parameters only once
@@ -111,7 +111,7 @@ CStatistics::PdWidth
 void
 CStatistics::CapNDVs
 	(
-	CDouble dRows,
+	CDouble rows,
 	HMUlHist *phmulhist
 	)
 {
@@ -120,7 +120,7 @@ CStatistics::CapNDVs
 	while (hmiterulhist.Advance())
 	{
 		CHistogram *phist = const_cast<CHistogram *>(hmiterulhist.Value());
-		phist->CapNDVs(dRows);
+		phist->CapNDVs(rows);
 	}
 }
 
@@ -133,7 +133,7 @@ CStatistics::OsPrint
 	const
 {
 	os << "{" << std::endl;
-	os << "Rows = " << DRows() << std::endl;
+	os << "Rows = " << Rows() << std::endl;
 	os << "Rebinds = " << DRebinds() << std::endl;
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
@@ -169,7 +169,7 @@ CStatistics::OsPrint
 
 //	return the total number of rows for this statistics object
 CDouble
-CStatistics::DRows() const
+CStatistics::Rows() const
 {
 	return m_rows;
 }
@@ -193,21 +193,21 @@ CStatistics::DSkew
 
 // return total width in bytes
 CDouble
-CStatistics::DWidth() const
+CStatistics::Width() const
 {
-	CDouble dWidth(0.0);
+	CDouble width(0.0);
 	HMIterUlDouble hmiteruldouble(m_phmuldoubleWidth);
 	while (hmiteruldouble.Advance())
 	{
 		const CDouble *pdWidth = hmiteruldouble.Value();
-		dWidth = dWidth + (*pdWidth);
+		width = width + (*pdWidth);
 	}
-	return dWidth.Ceil();
+	return width.Ceil();
 }
 
 // return the width in bytes of a set of columns
 CDouble
-CStatistics::DWidth
+CStatistics::Width
 	(
 	ULongPtrArray *pdrgpulColIds
 	)
@@ -216,7 +216,7 @@ CStatistics::DWidth
 	GPOS_ASSERT(NULL != pdrgpulColIds);
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
-	CDouble dWidth(0.0);
+	CDouble width(0.0);
 	const ULONG size = pdrgpulColIds->Size();
 	for (ULONG ulIdx = 0; ulIdx < size; ulIdx++)
 	{
@@ -224,22 +224,22 @@ CStatistics::DWidth
 		CDouble *pdWidth = m_phmuldoubleWidth->Find(&col_id);
 		if (NULL != pdWidth)
 		{
-			dWidth = dWidth + (*pdWidth);
+			width = width + (*pdWidth);
 		}
 		else
 		{
 			CColRef *pcr = pcf->PcrLookup(col_id);
 			GPOS_ASSERT(NULL != pcr);
 
-			dWidth = dWidth + CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
+			width = width + CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
 		}
 	}
-	return dWidth.Ceil();
+	return width.Ceil();
 }
 
 // return width in bytes of a set of columns
 CDouble
-CStatistics::DWidth
+CStatistics::Width
 	(
 	IMemoryPool *memory_pool,
 	CColRefSet *pcrs
@@ -251,10 +251,10 @@ CStatistics::DWidth
 	ULongPtrArray *pdrgpulColIds = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
 	pcrs->ExtractColIds(memory_pool, pdrgpulColIds);
 
-	CDouble dWidth = DWidth(pdrgpulColIds);
+	CDouble width = Width(pdrgpulColIds);
 	pdrgpulColIds->Release();
 
-	return dWidth;
+	return width;
 }
 
 // return dummy statistics object
@@ -263,7 +263,7 @@ CStatistics::PstatsDummy
 	(
 	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulColIds,
-	CDouble dRows
+	CDouble rows
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulColIds);
@@ -276,11 +276,11 @@ CStatistics::PstatsDummy
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
-	BOOL fEmpty = (CStatistics::DEpsilon >= dRows);
+	BOOL fEmpty = (CStatistics::DEpsilon >= rows);
 	CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulColIds, fEmpty);
 
-	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, dRows, fEmpty);
-	CreateAndInsertUpperBoundNDVs(memory_pool, pstats, pdrgpulColIds, dRows);
+	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, rows, fEmpty);
+	CreateAndInsertUpperBoundNDVs(memory_pool, pstats, pdrgpulColIds, rows);
 
 	return pstats;
 }
@@ -292,7 +292,7 @@ CStatistics::CreateAndInsertUpperBoundNDVs
 	IMemoryPool *memory_pool,
 	CStatistics *pstats,
 	ULongPtrArray *pdrgpulColIds,
-	CDouble dRows
+	CDouble rows
 )
 {
 	GPOS_ASSERT(NULL != pstats);
@@ -313,7 +313,7 @@ CStatistics::CreateAndInsertUpperBoundNDVs
 
 	if (0 < pcrs->Size())
 	{
-		pstats->AddCardUpperBound(GPOS_NEW(memory_pool) CUpperBoundNDVs(pcrs, dRows));
+		pstats->AddCardUpperBound(GPOS_NEW(memory_pool) CUpperBoundNDVs(pcrs, rows));
 	}
 	else
 	{
@@ -328,13 +328,13 @@ CStatistics::PstatsDummy
 	IMemoryPool *memory_pool,
 	ULongPtrArray *pdrgpulHistColIds,
 	ULongPtrArray *pdrgpulWidthColIds,
-	CDouble dRows
+	CDouble rows
 	)
 {
 	GPOS_ASSERT(NULL != pdrgpulHistColIds);
 	GPOS_ASSERT(NULL != pdrgpulWidthColIds);
 
-	BOOL fEmpty = (CStatistics::DEpsilon >= dRows);
+	BOOL fEmpty = (CStatistics::DEpsilon >= rows);
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	// hash map from colid -> histogram for resultant structure
@@ -364,12 +364,12 @@ CStatistics::PstatsDummy
 		CColRef *pcr = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcr);
 
-		CDouble dWidth = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
-		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
+		CDouble width = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());
+		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(width));
 	}
 
-	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, dRows, false /* fEmpty */);
-	CreateAndInsertUpperBoundNDVs(memory_pool, pstats, pdrgpulHistColIds, dRows);
+	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, rows, false /* fEmpty */);
+	CreateAndInsertUpperBoundNDVs(memory_pool, pstats, pdrgpulHistColIds, rows);
 
 	return pstats;
 }

@@ -102,7 +102,7 @@ namespace gpnaucrates
 
 			// how many rows
 			virtual
-			CDouble DRows() const = 0;
+			CDouble Rows() const = 0;
 
 			// is statistics on an empty input
 			virtual
@@ -119,15 +119,15 @@ namespace gpnaucrates
 
 			// what is the width in bytes
 			virtual
-			CDouble DWidth() const = 0;
+			CDouble Width() const = 0;
 
 			// what is the width in bytes of set of column id's
 			virtual
-			CDouble DWidth(ULongPtrArray *pdrgpulColIds) const = 0;
+			CDouble Width(ULongPtrArray *pdrgpulColIds) const = 0;
 
 			// what is the width in bytes of set of column references
 			virtual
-			CDouble DWidth(IMemoryPool *memory_pool, CColRefSet *pcrs) const = 0;
+			CDouble Width(IMemoryPool *memory_pool, CColRefSet *pcrs) const = 0;
 
 			// the risk of errors in cardinality estimation
 			virtual

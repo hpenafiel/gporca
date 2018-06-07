@@ -83,7 +83,7 @@ namespace gpopt
 			PdrgpdrgpcrCreatePartCols(IMemoryPool *memory_pool, DrgPcr *pdrgpcr, const ULongPtrArray *pdrgpulPart);
 
 			// derive dummy statistics
-			IStatistics *PstatsDeriveDummy(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, CDouble dRows) const;
+			IStatistics *PstatsDeriveDummy(IMemoryPool *memory_pool, CExpressionHandle &exprhdl, CDouble rows) const;
 
 			// helper for common case of output derivation from outer child
 			static

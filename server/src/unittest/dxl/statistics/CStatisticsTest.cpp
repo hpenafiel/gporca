@@ -256,8 +256,8 @@ CStatisticsTest::EresUnittest_GbAggWithRepeatedGbCols()
 	(void) pexprGbAgg2->PstatsDerive(prprel, NULL /* pdrgpstatCtxt */);
 	(void) pexprGbAgg3->PstatsDerive(prprel, NULL /* pdrgpstatCtxt */);
 
-	BOOL fRows1EqualRows2 = (pexprGbAgg1->Pstats()->DRows() == pexprGbAgg2->Pstats()->DRows());
-	BOOL fRows2EqualRows3 = (pexprGbAgg2->Pstats()->DRows() == pexprGbAgg3->Pstats()->DRows());
+	BOOL fRows1EqualRows2 = (pexprGbAgg1->Pstats()->Rows() == pexprGbAgg2->Pstats()->Rows());
+	BOOL fRows2EqualRows3 = (pexprGbAgg2->Pstats()->Rows() == pexprGbAgg3->Pstats()->Rows());
 
 	{
 		CAutoTrace at(memory_pool);
@@ -415,8 +415,8 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 	// width for int
 	phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(2), GPOS_NEW(memory_pool) CDouble(4.0));
 
-	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, 1000.0 /* dRows */, false /* fEmpty */);
-	pstats->DRows();
+	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, 1000.0 /* rows */, false /* fEmpty */);
+	pstats->Rows();
 
 	GPOS_TRACE(GPOS_WSZ_LIT("pstats"));
 
@@ -428,7 +428,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 
 	CStatsPredConj *pstatspred = GPOS_NEW(memory_pool) CStatsPredConj(pdrgpstatspred);
 	CStatistics *pstats1 = CFilterStatsProcessor::PstatsFilter(memory_pool, pstats, pstatspred, true /* fCapNdvs */);
-	pstats1->DRows();
+	pstats1->Rows();
 
 	GPOS_TRACE(GPOS_WSZ_LIT("pstats1 after filter"));
 
@@ -442,7 +442,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 	HMUlDouble *phmuldoubleWidth2 = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
 	phmuldoubleWidth2->Insert(GPOS_NEW(memory_pool) ULONG(10), GPOS_NEW(memory_pool) CDouble(4.0));
 
-	CStatistics *pstats2 = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist2, phmuldoubleWidth2, 100.0 /* dRows */, false /* fEmpty */);
+	CStatistics *pstats2 = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist2, phmuldoubleWidth2, 100.0 /* rows */, false /* fEmpty */);
 
 	GPOS_TRACE(GPOS_WSZ_LIT("pstats2"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats2);

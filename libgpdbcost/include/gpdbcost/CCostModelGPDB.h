@@ -77,11 +77,11 @@ namespace gpdbcost
 
 			// return cost of processing the given number of rows
 			static
-			CCost CostTupleProcessing(DOUBLE dRows, DOUBLE dWidth, ICostModelParams *pcp);
+			CCost CostTupleProcessing(DOUBLE rows, DOUBLE width, ICostModelParams *pcp);
 
 			// helper function to return cost of producing output tuples from Scan operator
 			static
-			CCost CostScanOutput(IMemoryPool *memory_pool, DOUBLE dRows, DOUBLE dWidth, DOUBLE dRebinds, ICostModelParams *pcp);
+			CCost CostScanOutput(IMemoryPool *memory_pool, DOUBLE rows, DOUBLE width, DOUBLE dRebinds, ICostModelParams *pcp);
 
 			// helper function to return cost of a plan rooted by unary operator
 			static

@@ -56,7 +56,7 @@ namespace gpmd
 			// ctor
 			CDXLStatsDerivedRelation
 				(
-				CDouble dRows,
+				CDouble rows,
 				BOOL fEmpty,
 				DrgPdxlstatsdercol *pdrgpdxldercolstat
 				);
@@ -66,7 +66,7 @@ namespace gpmd
 			~CDXLStatsDerivedRelation();
 
 			// number of rows
-			CDouble DRows() const
+			CDouble Rows() const
 			{
 				return m_rows;
 			}

@@ -199,7 +199,7 @@ CMDProviderMemory::PstrObject
 				a_pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, a_pstr.Value());
 				pmdid->AddRef();
 				CAutoRef<CDXLColStats> a_pdxlcolstats;
-				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(memory_pool, pmdid, a_pmdname.Value(), CStatistics::DDefaultColumnWidth /* dWidth */);
+				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(memory_pool, pmdid, a_pmdname.Value(), CStatistics::DDefaultColumnWidth /* width */);
 				a_pmdname.Reset();
 				a_pstrResult = CDXLUtils::SerializeMDObj(memory_pool, a_pdxlcolstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;

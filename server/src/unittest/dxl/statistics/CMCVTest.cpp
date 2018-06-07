@@ -121,7 +121,7 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 									memory_pool,
 									phmulhist,
 									phmuldoubleWidth,
-									1000.0 /* dRows */,
+									1000.0 /* rows */,
 									false /* fEmpty */
 									);
 
@@ -235,15 +235,15 @@ CMCVTest::EresUnittest_MergeHistMCV()
 
 		// column width for int4
 		HMUlDouble *phmuldoubleWidth = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
-		CDouble dWidth = pdxlstatsdercolMCV->DWidth();
-		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(dWidth));
+		CDouble width = pdxlstatsdercolMCV->Width();
+		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(width));
 
 		CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics
 										(
 										memory_pool,
 										phmulhist,
 										phmuldoubleWidth,
-										pdxlstatsderrelMCV->DRows(),
+										pdxlstatsderrelMCV->Rows(),
 										pdxlstatsderrelMCV->IsEmpty()
 										);
 

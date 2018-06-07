@@ -241,12 +241,12 @@ CJoinOrderMinCard::PexprExpand()
 			// combine component with current result and derive stats
 			CJoinOrder::SComponent *pcompTemp = PcompCombine(m_pcompResult, pcompCurrent);
 			DeriveStats(m_memory_pool, pcompTemp);
-			CDouble dRows = pcompTemp->m_pexpr->Pstats()->DRows();
+			CDouble rows = pcompTemp->m_pexpr->Pstats()->Rows();
 
-			if (NULL == pcompBestResult || dRows < dMinRows)
+			if (NULL == pcompBestResult || rows < dMinRows)
 			{
 				pcompBest = pcompCurrent;
-				dMinRows = dRows;
+				dMinRows = rows;
 				pcompTemp->AddRef();
 				CRefCount::SafeRelease(pcompBestResult);
 				pcompBestResult = pcompTemp;
