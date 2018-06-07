@@ -63,19 +63,19 @@ CDXLScalarOpList::GetDXLOperator() const
 const CWStringConst *
 CDXLScalarOpList::GetOpNameStr() const
 {
-	Edxltoken edxlt = EdxltokenSentinel;
+	Edxltoken dxl_token = EdxltokenSentinel;
 	switch (m_dxl_op_list_type)
 	{
 		case EdxloplistEqFilterList:
-			edxlt = EdxltokenPartLevelEqFilterList;
+			dxl_token = EdxltokenPartLevelEqFilterList;
 			break;
 
 		case EdxloplistFilterList:
-			edxlt = EdxltokenPartLevelFilterList;
+			dxl_token = EdxltokenPartLevelFilterList;
 			break;
 
 		case EdxloplistGeneral:
-			edxlt = EdxltokenScalarOpList;
+			dxl_token = EdxltokenScalarOpList;
 			break;
 
 		default:
@@ -83,7 +83,7 @@ CDXLScalarOpList::GetOpNameStr() const
 			break;
 	}
 
-	return CDXLTokens::GetDXLTokenStr(edxlt);
+	return CDXLTokens::GetDXLTokenStr(dxl_token);
 }
 
 //---------------------------------------------------------------------------
@@ -127,9 +127,9 @@ CDXLScalarOpList::AssertValid
 	const
 {
 	const ULONG arity = dxlnode->Arity();
-	for (ULONG ul = 0; ul < arity; ++ul)
+	for (ULONG idx = 0; idx < arity; ++idx)
 	{
-		CDXLNode *child_dxlnode = (*dxlnode)[ul];
+		CDXLNode *child_dxlnode = (*dxlnode)[idx];
 		GPOS_ASSERT(EdxloptypeScalar == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 		if (validate_children)
