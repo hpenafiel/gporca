@@ -102,10 +102,10 @@ CParseHandlerScalarCoalesce::EndElement
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarCoalesce(m_memory_pool, m_mdid_type));
 
 	// loop over children and add them to this parsehandler
-	const ULONG ulChildren = this->Length();
-	for (ULONG ul = 0; ul < ulChildren; ul++)
+	const ULONG size = this->Length();
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[ul]);
+		CParseHandlerScalarOp *child_parse_handler = dynamic_cast<CParseHandlerScalarOp *>((*this)[idx]);
 		AddChildFromParseHandler(child_parse_handler);
 	}
 

@@ -37,7 +37,7 @@ namespace gpdxl
 	{
 		private:
 	
-			EdxlBoolExprType m_edxlBoolType;
+			EdxlBoolExprType m_dxl_bool_type;
 	
 			// private copy ctor
 			CParseHandlerScalarBoolExpr(const CParseHandlerScalarBoolExpr &);
@@ -61,7 +61,7 @@ namespace gpdxl
 	
 			// parse the bool type from the Xerces xml string
 			static
-			EdxlBoolExprType EdxlBoolType(const XMLCh *xmlszBoolType);
+			EdxlBoolExprType GetDxlBoolTypeStr(const XMLCh *xmlszBoolType);
 
 		public:
 			// ctor

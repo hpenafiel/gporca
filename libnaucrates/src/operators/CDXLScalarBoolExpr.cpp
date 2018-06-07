@@ -56,14 +56,14 @@ CDXLScalarBoolExpr::GetDXLOperator() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBoolExpr::EdxlBoolType
+//		CDXLScalarBoolExpr::GetDxlBoolTypeStr
 //
 //	@doc:
 //		Boolean expression type
 //
 //---------------------------------------------------------------------------
 EdxlBoolExprType
-CDXLScalarBoolExpr::EdxlBoolType() const
+CDXLScalarBoolExpr::GetDxlBoolTypeStr() const
 {
 	return m_boolexptype;
 }
@@ -140,7 +140,7 @@ CDXLScalarBoolExpr::AssertValid
 	) 
 	const
 {
-	EdxlBoolExprType edxlbooltype = ((CDXLScalarBoolExpr *) dxlnode->GetOperator())->EdxlBoolType();
+	EdxlBoolExprType edxlbooltype = ((CDXLScalarBoolExpr *) dxlnode->GetOperator())->GetDxlBoolTypeStr();
 
 	GPOS_ASSERT( (edxlbooltype == Edxlnot) || (edxlbooltype == Edxlor) || (edxlbooltype == Edxland));
 

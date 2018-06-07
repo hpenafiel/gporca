@@ -39,7 +39,7 @@ CParseHandlerScalarBoolExpr::CParseHandlerScalarBoolExpr
 	)
 	:
 	CParseHandlerScalarOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_edxlBoolType(Edxland)
+	m_dxl_bool_type(Edxland)
 {
 }
 
@@ -68,15 +68,15 @@ CParseHandlerScalarBoolExpr::StartElement
 		{
 			if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBoolNot), element_local_name))
 			{
-				m_edxlBoolType = Edxlnot;
+				m_dxl_bool_type = Edxlnot;
 			}
 			else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), element_local_name))
 			{
-				m_edxlBoolType = Edxlor;
+				m_dxl_bool_type = Edxlor;
 			}
 
 			// parse and create scalar BoolExpr
-			CDXLScalarBoolExpr *dxl_op = (CDXLScalarBoolExpr*) CDXLOperatorFactory::MakeDXLBoolExpr(m_parse_handler_mgr->GetDXLMemoryManager(), m_edxlBoolType);
+			CDXLScalarBoolExpr *dxl_op = (CDXLScalarBoolExpr*) CDXLOperatorFactory::MakeDXLBoolExpr(m_parse_handler_mgr->GetDXLMemoryManager(), m_dxl_bool_type);
 
 			// construct node from the created child nodes
 			m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, dxl_op);
@@ -85,13 +85,13 @@ CParseHandlerScalarBoolExpr::StartElement
 		{
 
 			// This is to support nested BoolExpr. TODO:  - create a separate xml tag for boolean expression
-			CParseHandlerBase *pphBoolExpr = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), m_parse_handler_mgr, this);
-			m_parse_handler_mgr->ActivateParseHandler(pphBoolExpr);
+			CParseHandlerBase *bool_expr_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarBoolOr), m_parse_handler_mgr, this);
+			m_parse_handler_mgr->ActivateParseHandler(bool_expr_parse_handler);
 
 			// store parse handlers
-			this->Append(pphBoolExpr);
+			this->Append(bool_expr_parse_handler);
 
-			pphBoolExpr->startElement(element_uri, element_local_name, element_qname, attrs);
+			bool_expr_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 		}
 	}
 	else
@@ -128,9 +128,9 @@ CParseHandlerScalarBoolExpr::EndElement
 	)
 {
 	EdxlBoolExprType edxlBoolType =
-			CParseHandlerScalarBoolExpr::EdxlBoolType(element_local_name);
+			CParseHandlerScalarBoolExpr::GetDxlBoolTypeStr(element_local_name);
 
-	if(EdxlBoolExprTypeSentinel == edxlBoolType || m_edxlBoolType != edxlBoolType)
+	if(EdxlBoolExprTypeSentinel == edxlBoolType || m_dxl_bool_type != edxlBoolType)
 	{
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name)->GetBuffer());
 	}
@@ -138,10 +138,10 @@ CParseHandlerScalarBoolExpr::EndElement
 	const ULONG size = this->Length();
 	// If the operation is NOT then it only has one child.
 	if (
-	    ((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->EdxlBoolType() == Edxlnot)
+	    ((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->GetDxlBoolTypeStr() == Edxlnot)
 		&& (1 != size))
 		||
-		((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->EdxlBoolType() != Edxlnot)
+		((((CDXLScalarBoolExpr*) m_dxl_node->GetOperator())->GetDxlBoolTypeStr() != Edxlnot)
 		&& (2 > size))
 	  )
 	{
@@ -161,14 +161,14 @@ CParseHandlerScalarBoolExpr::EndElement
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerScalarBoolExpr::EdxlBoolType
+//		CParseHandlerScalarBoolExpr::GetDxlBoolTypeStr
 //
 //	@doc:
 //		Parse the bool type from the attribute value. Raise exception if it is invalid
 //
 //---------------------------------------------------------------------------
 EdxlBoolExprType
-CParseHandlerScalarBoolExpr::EdxlBoolType
+CParseHandlerScalarBoolExpr::GetDxlBoolTypeStr
 	(
 	const XMLCh *xmlszBoolType
 	)

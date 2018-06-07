@@ -59,7 +59,7 @@ namespace gpdxl
 	
 			// parse the bool type from the Xerces xml string
 			static
-			EdxlBoolExprType EdxlBoolType(const XMLCh *xmlszBoolType);
+			EdxlBoolExprType GetDxlBoolTypeStr(const XMLCh *xmlszBoolType);
 
 		public:
 			// ctor

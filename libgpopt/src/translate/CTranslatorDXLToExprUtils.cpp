@@ -190,7 +190,7 @@ CTranslatorDXLToExprUtils::FScalarBool
 	if (EdxlopScalarBoolExpr == dxl_op->GetDXLOperator())
 	{
 		EdxlBoolExprType edxlboolexprtypeNode =
-				CDXLScalarBoolExpr::Cast(dxl_op)->EdxlBoolType();
+				CDXLScalarBoolExpr::Cast(dxl_op)->GetDxlBoolTypeStr();
 		return edxlboolexprtype == edxlboolexprtypeNode;
 	}
 

@@ -55,14 +55,14 @@ CDXLScalarBooleanTest::GetDXLOperator() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarBooleanTest::EdxlBoolType
+//		CDXLScalarBooleanTest::GetDxlBoolTypeStr
 //
 //	@doc:
 //		Boolean Test type
 //
 //---------------------------------------------------------------------------
 EdxlBooleanTestType
-CDXLScalarBooleanTest::EdxlBoolType() const
+CDXLScalarBooleanTest::GetDxlBoolTypeStr() const
 {
 	return m_edxlbooleantesttype;
 }
@@ -142,7 +142,7 @@ CDXLScalarBooleanTest::AssertValid
 	const
 {
 
-	EdxlBooleanTestType edxlbooltype = ((CDXLScalarBooleanTest *) dxlnode->GetOperator())->EdxlBoolType();
+	EdxlBooleanTestType edxlbooltype = ((CDXLScalarBooleanTest *) dxlnode->GetOperator())->GetDxlBoolTypeStr();
 
 	GPOS_ASSERT( (EdxlbooleantestIsTrue == edxlbooltype) || (EdxlbooleantestIsNotTrue == edxlbooltype) || (EdxlbooleantestIsFalse == edxlbooltype)
 			|| (EdxlbooleantestIsNotFalse == edxlbooltype)|| (EdxlbooleantestIsUnknown == edxlbooltype)|| (EdxlbooleantestIsNotUnknown == edxlbooltype));

@@ -62,7 +62,7 @@ namespace gpdxl
 			Edxlopid GetDXLOperator() const;
 
 			// BoolExpr operator type
-			EdxlBoolExprType EdxlBoolType() const;
+			EdxlBoolExprType GetDxlBoolTypeStr() const;
 
 			// name of the DXL operator name
 			const CWStringConst *GetOpNameStr() const;

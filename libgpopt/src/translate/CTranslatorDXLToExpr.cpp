@@ -2675,7 +2675,7 @@ CTranslatorDXLToExpr::PexprScalarBoolOp
 {
 	GPOS_ASSERT(NULL != pdxlnBoolExpr);
 
-	EdxlBoolExprType edxlbooltype = CDXLScalarBoolExpr::Cast(pdxlnBoolExpr->GetOperator())->EdxlBoolType();
+	EdxlBoolExprType edxlbooltype = CDXLScalarBoolExpr::Cast(pdxlnBoolExpr->GetOperator())->GetDxlBoolTypeStr();
 
 	GPOS_ASSERT( (edxlbooltype == Edxlnot) || (edxlbooltype == Edxlor) || (edxlbooltype == Edxland));
 	GPOS_ASSERT_IMP(Edxlnot == edxlbooltype, 1 == pdxlnBoolExpr->Arity());
@@ -3566,7 +3566,7 @@ CTranslatorDXLToExpr::PexprScalarBooleanTest
 	CDXLNode *child_dxlnode = (*pdxlnScBoolTest)[0];
 	CExpression *pexprChild = Pexpr(child_dxlnode);
 
-	CScalarBooleanTest::EBoolTest ebt = (CScalarBooleanTest::EBoolTest) (rgulBoolTestMapping[dxl_op->EdxlBoolType()][1]);
+	CScalarBooleanTest::EBoolTest ebt = (CScalarBooleanTest::EBoolTest) (rgulBoolTestMapping[dxl_op->GetDxlBoolTypeStr()][1]);
 	
 	return GPOS_NEW(m_memory_pool) CExpression(m_memory_pool, GPOS_NEW(m_memory_pool) CScalarBooleanTest(m_memory_pool, ebt), pexprChild);
 }

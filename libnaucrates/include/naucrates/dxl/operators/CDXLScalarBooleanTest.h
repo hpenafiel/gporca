@@ -65,7 +65,7 @@ namespace gpdxl
 			Edxlopid GetDXLOperator() const;
 
 			// BooleanTest operator type
-			EdxlBooleanTestType EdxlBoolType() const;
+			EdxlBooleanTestType GetDxlBoolTypeStr() const;
 
 			// serialize operator in DXL format
 			virtual
