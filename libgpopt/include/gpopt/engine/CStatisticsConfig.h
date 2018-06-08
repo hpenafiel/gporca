@@ -42,13 +42,13 @@ namespace gpopt
 			IMemoryPool *m_memory_pool;
 
 			// damping factor for filter
-			CDouble m_dDampingFactorFilter;
+			CDouble m_damping_factor_filter;
 
 			// damping factor for join
-			CDouble m_dDampingFactorJoin;
+			CDouble m_damping_factor_join;
 
 			// damping factor for group by
-			CDouble m_dDampingFactorGroupBy;
+			CDouble m_damping_factor_groupby;
 
 			// hash set of md ids for columns with missing statistics
 			HSMDId *m_phsmdidcolinfo;
@@ -62,9 +62,9 @@ namespace gpopt
 			CStatisticsConfig
 				(
 				IMemoryPool *memory_pool,
-				CDouble dDampingFactorFilter,
-				CDouble dDampingFactorJoin,
-				CDouble dDampingFactorGroupBy
+				CDouble damping_factor_filter,
+				CDouble damping_factor_join,
+				CDouble damping_factor_groupby
 				);
 
 			// dtor
@@ -73,19 +73,19 @@ namespace gpopt
 			// damping factor for filter
 			CDouble DDampingFactorFilter() const
 			{
-				return m_dDampingFactorFilter;
+				return m_damping_factor_filter;
 			}
 
 			// damping factor for join
 			CDouble DDampingFactorJoin() const
 			{
-				return m_dDampingFactorJoin;
+				return m_damping_factor_join;
 			}
 
 			// damping factor for group by
 			CDouble DDampingFactorGroupBy() const
 			{
-				return m_dDampingFactorGroupBy;
+				return m_damping_factor_groupby;
 			}
 
 			// add the information about the column with the missing statistics
@@ -101,9 +101,9 @@ namespace gpopt
 				return GPOS_NEW(memory_pool) CStatisticsConfig
 									(
 									memory_pool,
-									0.75 /* dDampingFactorFilter */,
-									0.01 /* dDampingFactorJoin */,
-									0.75 /* dDampingFactorGroupBy */
+									0.75 /* damping_factor_filter */,
+									0.01 /* damping_factor_join */,
+									0.75 /* damping_factor_groupby */
 									);
 			}
 

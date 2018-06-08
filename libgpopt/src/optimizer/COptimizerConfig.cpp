@@ -39,7 +39,7 @@ COptimizerConfig::COptimizerConfig
 	)
 	:
 	m_enumerator_cfg(pec),
-	m_pstatsconf(pstatsconf),
+	m_stats_conf(pstatsconf),
 	m_cte_conf(pcteconf),
 	m_cost_model(cost_model),
 	m_hint(phint),
@@ -64,7 +64,7 @@ COptimizerConfig::COptimizerConfig
 COptimizerConfig::~COptimizerConfig()
 {
 	m_enumerator_cfg->Release();
-	m_pstatsconf->Release();
+	m_stats_conf->Release();
 	m_cte_conf->Release();
 	m_cost_model->Release();
 	m_hint->Release();
@@ -148,9 +148,9 @@ COptimizerConfig::Serialize(IMemoryPool *memory_pool, CXMLSerializer *xml_serial
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenEnumeratorConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenStatisticsConfig));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDampingFactorFilter), m_pstatsconf->DDampingFactorFilter());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDampingFactorJoin), m_pstatsconf->DDampingFactorJoin());
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDampingFactorGroupBy), m_pstatsconf->DDampingFactorGroupBy());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDampingFactorFilter), m_stats_conf->DDampingFactorFilter());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDampingFactorJoin), m_stats_conf->DDampingFactorJoin());
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDampingFactorGroupBy), m_stats_conf->DDampingFactorGroupBy());
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenStatisticsConfig));
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenCTEConfig));

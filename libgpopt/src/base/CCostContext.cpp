@@ -596,7 +596,7 @@ CCostContext::DRowsPerHost() const
 		pcrsUsed->ExtractColIds(m_memory_pool, pdrgpul);
 		pcrsUsed->Release();
 
-		CStatisticsConfig *pstatsconf = poptctxt->GetOptimizerConfig()->Pstatsconf();
+		CStatisticsConfig *pstatsconf = poptctxt->GetOptimizerConfig()->GetStatsConf();
 		CDouble dNDVs = CStatisticsUtils::DGroups(m_memory_pool, Pstats(), pstatsconf, pdrgpul, NULL /*pbsKeys*/);
 		pdrgpul->Release();
 

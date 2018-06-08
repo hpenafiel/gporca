@@ -84,7 +84,7 @@ CStatistics::CStatistics
 	// hash map for source id -> max source cardinality mapping
 	m_pdrgpubndvs = GPOS_NEW(memory_pool) DrgPubndvs(memory_pool);
 
-	m_pstatsconf = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->Pstatsconf();
+	m_stats_conf = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig()->GetStatsConf();
 }
 
 // Dtor

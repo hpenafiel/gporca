@@ -179,7 +179,7 @@ CParseHandlerOptimizerConfig::EndElement
 	pec->AddRef();
 
 	CParseHandlerStatisticsConfig *pphStatisticsConfig = dynamic_cast<CParseHandlerStatisticsConfig *>((*this)[1]);
-	CStatisticsConfig *pstatsconf = pphStatisticsConfig->Pstatsconf();
+	CStatisticsConfig *pstatsconf = pphStatisticsConfig->GetStatsConf();
 	pstatsconf->AddRef();
 
 	CParseHandlerCTEConfig *pphCTEConfig = dynamic_cast<CParseHandlerCTEConfig *>((*this)[2]);

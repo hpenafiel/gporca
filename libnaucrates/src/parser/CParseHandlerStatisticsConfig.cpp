@@ -41,7 +41,7 @@ CParseHandlerStatisticsConfig::CParseHandlerStatisticsConfig
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_pstatsconf(NULL)
+	m_stats_conf(NULL)
 {
 }
 
@@ -55,7 +55,7 @@ CParseHandlerStatisticsConfig::CParseHandlerStatisticsConfig
 //---------------------------------------------------------------------------
 CParseHandlerStatisticsConfig::~CParseHandlerStatisticsConfig()
 {
-	CRefCount::SafeRelease(m_pstatsconf);
+	CRefCount::SafeRelease(m_stats_conf);
 }
 
 //---------------------------------------------------------------------------
@@ -82,11 +82,11 @@ CParseHandlerStatisticsConfig::StartElement
 	}
 
 	// parse statistics configuration options
-	CDouble dDampingFactorFilter = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorFilter, EdxltokenStatisticsConfig);
-	CDouble dDampingFactorJoin = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorJoin, EdxltokenStatisticsConfig);
-	CDouble dDampingFactorGroupBy = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorGroupBy, EdxltokenStatisticsConfig);
+	CDouble damping_factor_filter = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorFilter, EdxltokenStatisticsConfig);
+	CDouble damping_factor_join = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorJoin, EdxltokenStatisticsConfig);
+	CDouble damping_factor_groupby = CDXLOperatorFactory::ExtractConvertAttrValueToDouble(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenDampingFactorGroupBy, EdxltokenStatisticsConfig);
 
-	m_pstatsconf = GPOS_NEW(m_memory_pool) CStatisticsConfig(m_memory_pool, dDampingFactorFilter, dDampingFactorJoin, dDampingFactorGroupBy);
+	m_stats_conf = GPOS_NEW(m_memory_pool) CStatisticsConfig(m_memory_pool, damping_factor_filter, damping_factor_join, damping_factor_groupby);
 }
 
 //---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ CParseHandlerStatisticsConfig::EndElement
 		GPOS_RAISE( gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	GPOS_ASSERT(NULL != m_pstatsconf);
+	GPOS_ASSERT(NULL != m_stats_conf);
 	GPOS_ASSERT(0 == this->Length());
 
 	// deactivate handler
@@ -134,16 +134,16 @@ CParseHandlerStatisticsConfig::GetParseHandlerType() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CParseHandlerStatisticsConfig::Pstatsconf
+//		CParseHandlerStatisticsConfig::GetStatsConf
 //
 //	@doc:
 //		Returns the statistics configuration
 //
 //---------------------------------------------------------------------------
 CStatisticsConfig *
-CParseHandlerStatisticsConfig::Pstatsconf() const
+CParseHandlerStatisticsConfig::GetStatsConf() const
 {
-	return m_pstatsconf;
+	return m_stats_conf;
 }
 
 // EOF

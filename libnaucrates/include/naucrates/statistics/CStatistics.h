@@ -104,7 +104,7 @@ namespace gpnaucrates
 			ULONG m_ulNumPredicates;
 
 			// statistics configuration
-			CStatisticsConfig *m_pstatsconf;
+			CStatisticsConfig *m_stats_conf;
 
 			// array of upper bound of ndv per source;
 			// source can be one of the following operators: like Get, Group By, and Project
@@ -313,7 +313,7 @@ namespace gpnaucrates
 
 			CStatisticsConfig *PStatsConf() const
 			{
-				return	m_pstatsconf;
+				return	m_stats_conf;
 			}
 
 			DrgPubndvs *Pdrgundv() const

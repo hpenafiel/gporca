@@ -105,7 +105,7 @@ CMissingStatsTest::EresUnittest_RunTests()
 												NULL /*pceeval*/
 												);
 
-		CStatisticsConfig *pstatsconf = optimizer_config->Pstatsconf();
+		CStatisticsConfig *pstatsconf = optimizer_config->GetStatsConf();
 
 		DrgPmdid *pdrgmdidCol = GPOS_NEW(memory_pool) DrgPmdid(memory_pool);
 		pstatsconf->CollectMissingStatsColumns(pdrgmdidCol);

@@ -34,7 +34,7 @@ namespace gpdxl
 		private:
 
 			// statistics configuration
-			CStatisticsConfig *m_pstatsconf;
+			CStatisticsConfig *m_stats_conf;
 
 			// private copy ctor
 			CParseHandlerStatisticsConfig(const CParseHandlerStatisticsConfig&);
@@ -74,7 +74,7 @@ namespace gpdxl
 			EDxlParseHandlerType GetParseHandlerType() const;
 
 			// enumerator configuration
-			CStatisticsConfig *Pstatsconf() const;
+			CStatisticsConfig *GetStatsConf() const;
 	};
 }
 

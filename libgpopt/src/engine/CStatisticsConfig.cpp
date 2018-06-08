@@ -32,20 +32,20 @@ using namespace gpopt;
 CStatisticsConfig::CStatisticsConfig
 	(
 	IMemoryPool *memory_pool,
-	CDouble dDampingFactorFilter,
-	CDouble dDampingFactorJoin,
-	CDouble dDampingFactorGroupBy
+	CDouble damping_factor_filter,
+	CDouble damping_factor_join,
+	CDouble damping_factor_groupby
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_dDampingFactorFilter(dDampingFactorFilter),
-	m_dDampingFactorJoin(dDampingFactorJoin),
-	m_dDampingFactorGroupBy(dDampingFactorGroupBy),
+	m_damping_factor_filter(damping_factor_filter),
+	m_damping_factor_join(damping_factor_join),
+	m_damping_factor_groupby(damping_factor_groupby),
 	m_phsmdidcolinfo(NULL)
 {
-	GPOS_ASSERT(CDouble(0.0) < dDampingFactorFilter);
-	GPOS_ASSERT(CDouble(0.0) < dDampingFactorJoin);
-	GPOS_ASSERT(CDouble(0.0) < dDampingFactorGroupBy);
+	GPOS_ASSERT(CDouble(0.0) < damping_factor_filter);
+	GPOS_ASSERT(CDouble(0.0) < damping_factor_join);
+	GPOS_ASSERT(CDouble(0.0) < damping_factor_groupby);
 
 	//m_phmmdidcolinfo = New(m_memory_pool) HMMDIdMissingstatscol(m_memory_pool);
 	m_phsmdidcolinfo = GPOS_NEW(m_memory_pool) HSMDId(m_memory_pool);

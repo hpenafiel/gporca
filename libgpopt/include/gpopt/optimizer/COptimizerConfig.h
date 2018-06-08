@@ -53,7 +53,7 @@ namespace gpopt
 			CEnumeratorConfig *m_enumerator_cfg;
 
 			// statistics configuration
-			CStatisticsConfig *m_pstatsconf;
+			CStatisticsConfig *m_stats_conf;
 
 			// CTE configuration
 			CCTEConfig *m_cte_conf;
@@ -92,9 +92,9 @@ namespace gpopt
 			}
 
 			// statistics configuration
-			CStatisticsConfig *Pstatsconf() const
+			CStatisticsConfig *GetStatsConf() const
 			{
-				return m_pstatsconf;
+				return m_stats_conf;
 			}
 
 			// CTE configuration
