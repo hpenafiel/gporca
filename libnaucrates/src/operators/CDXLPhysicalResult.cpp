@@ -116,12 +116,12 @@ CDXLPhysicalResult::AssertValid
 	GPOS_ASSERT(EdxlresultIndexSentinel >= dxlnode->Arity());
 	
 	// check that one time filter is valid
-	CDXLNode *pdxlnOneTimeFilter = (*dxlnode)[EdxlresultIndexOneTimeFilter];
-	GPOS_ASSERT(EdxlopScalarOneTimeFilter == pdxlnOneTimeFilter->GetOperator()->GetDXLOperator());
+	CDXLNode *one_time_filter = (*dxlnode)[EdxlresultIndexOneTimeFilter];
+	GPOS_ASSERT(EdxlopScalarOneTimeFilter == one_time_filter->GetOperator()->GetDXLOperator());
 	
 	if (validate_children)
 	{
-		pdxlnOneTimeFilter->GetOperator()->AssertValid(pdxlnOneTimeFilter, validate_children);
+		one_time_filter->GetOperator()->AssertValid(one_time_filter, validate_children);
 	}
 	
 	if (EdxlresultIndexSentinel == dxlnode->Arity())

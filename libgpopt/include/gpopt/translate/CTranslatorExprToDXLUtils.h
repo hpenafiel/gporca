@@ -503,7 +503,7 @@ namespace gpopt
 				CDXLPhysicalProperties *dxl_properties,
 				CDXLNode *pdxlnPrL,
 				CDXLNode *filter_dxlnode,
-				CDXLNode *pdxlnOneTimeFilter,
+				CDXLNode *one_time_filter,
 				CDXLNode *child_dxlnode
 				);
 

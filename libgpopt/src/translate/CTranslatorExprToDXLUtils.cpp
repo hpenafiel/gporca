@@ -1777,7 +1777,7 @@ CTranslatorExprToDXLUtils::PdxlnResult
 	CDXLPhysicalProperties *dxl_properties,
 	CDXLNode *pdxlnPrL,
 	CDXLNode *filter_dxlnode,
-	CDXLNode *pdxlnOneTimeFilter,
+	CDXLNode *one_time_filter,
 	CDXLNode *child_dxlnode
 	)
 {
@@ -1787,7 +1787,7 @@ CTranslatorExprToDXLUtils::PdxlnResult
 	
 	pdxlnResult->AddChild(pdxlnPrL);
 	pdxlnResult->AddChild(filter_dxlnode);
-	pdxlnResult->AddChild(pdxlnOneTimeFilter);
+	pdxlnResult->AddChild(one_time_filter);
 
 	if (NULL != child_dxlnode)
 	{

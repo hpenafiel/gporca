@@ -1327,7 +1327,7 @@ CTranslatorExprToDXL::PdxlnAddScalarFilterOnRelationalChild
 		CDXLNode *pdxlnPrL = PdxlnProjList(pcrsOutput, pdrgpcrOrder);
 
 		// create an empty one-time filter
-		CDXLNode *pdxlnOneTimeFilter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOneTimeFilter(m_memory_pool));
+		CDXLNode *one_time_filter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOneTimeFilter(m_memory_pool));
 
 		return CTranslatorExprToDXLUtils::PdxlnResult
 				(
@@ -1335,7 +1335,7 @@ CTranslatorExprToDXL::PdxlnAddScalarFilterOnRelationalChild
 				dxl_properties,
 				pdxlnPrL,
 				filter_dxlnode,
-				pdxlnOneTimeFilter,
+				one_time_filter,
 				pdxlnRelationalChild
 				);
 	}
@@ -1652,7 +1652,7 @@ CTranslatorExprToDXL::PdxlnResultFromFilter
 	CDXLNode *pdxlnPrL = PdxlnProjList(pcrsOutput, pdrgpcr);
 
 	// create an empty one-time filter
-	CDXLNode *pdxlnOneTimeFilter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOneTimeFilter(m_memory_pool));
+	CDXLNode *one_time_filter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOneTimeFilter(m_memory_pool));
 
 	return CTranslatorExprToDXLUtils::PdxlnResult
 											(
@@ -1660,7 +1660,7 @@ CTranslatorExprToDXL::PdxlnResultFromFilter
 											dxl_properties,
 											pdxlnPrL,
 											filter_dxlnode,
-											pdxlnOneTimeFilter,
+											one_time_filter,
 											child_dxlnode
 											);
 }
@@ -2070,7 +2070,7 @@ CTranslatorExprToDXL::PdxlnResultFromConstTableGet
 	
 	const ULONG ulRows = pdrgpdrgdatum->Size();
 	CDXLNode *pdxlnPrL = NULL;
-	CDXLNode *pdxlnOneTimeFilter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOneTimeFilter(m_memory_pool));
+	CDXLNode *one_time_filter = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarOneTimeFilter(m_memory_pool));
 
 	DrgPdatum *pdrgpdatum = NULL;
 	if (0 == ulRows)
@@ -2082,7 +2082,7 @@ CTranslatorExprToDXL::PdxlnResultFromConstTableGet
 		CDXLNode *pdxlnFalse = PdxlnScConst(pexprFalse);
 		pexprFalse->Release();
 
-		pdxlnOneTimeFilter->AddChild(pdxlnFalse);
+		one_time_filter->AddChild(pdxlnFalse);
 	}
 	else
 	{
@@ -2093,7 +2093,7 @@ CTranslatorExprToDXL::PdxlnResultFromConstTableGet
 		if (NULL != pexprScalar)
 		{
 			pdxlnCond = PdxlnScalar(pexprScalar);
-			pdxlnOneTimeFilter->AddChild(pdxlnCond);
+			one_time_filter->AddChild(pdxlnCond);
 		}
 	}
 
@@ -2113,7 +2113,7 @@ CTranslatorExprToDXL::PdxlnResultFromConstTableGet
 																pdxlnPrL,
 																pdrgpdrgdatum
 																);
-		pdxlnOneTimeFilter->Release();
+		one_time_filter->Release();
 		pdrgpdatum->Release();
 
 		return pdxlnValuesScan;
@@ -2128,7 +2128,7 @@ CTranslatorExprToDXL::PdxlnResultFromConstTableGet
 											GetProperties(pexprCTG),
 											pdxlnPrL,
 											PdxlnFilter(NULL),
-											pdxlnOneTimeFilter,
+											one_time_filter,
 											NULL //child_dxlnode
 											);
 	}
