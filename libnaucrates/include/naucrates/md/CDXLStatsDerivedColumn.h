@@ -54,7 +54,7 @@ namespace gpmd
 			// frequency of remaining tuples
 			CDouble m_freq_remaining;
 
-			DrgPdxlbucket *m_pdrgpdxlbucket;
+			DrgPdxlbucket *m_stats_bucket_dxl_array;
 
 			// private copy ctor
 			CDXLStatsDerivedColumn(const CDXLStatsDerivedColumn &);
@@ -66,9 +66,9 @@ namespace gpmd
 				(
 				ULONG col_id,
 				CDouble width,
-				CDouble dNullFreq,
-				CDouble dDistinctRemain,
-				CDouble dFreqRemain,
+				CDouble null_freq,
+				CDouble distinct_remaining,
+				CDouble freq_remaining,
 				DrgPdxlbucket *stats_bucket_dxl_array
 				);
 

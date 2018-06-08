@@ -241,7 +241,7 @@ CHistogramTest::PhistExampleInt4Remain
 		pdrgppbucket->Append(pbucket);
 	}
 
-	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true, 0.1 /*dNullFreq*/, 2.0 /*dDistinctRemain*/, 0.4 /*dFreqRemain*/);
+	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true, 0.1 /*null_freq*/, 2.0 /*distinct_remaining*/, 0.4 /*freq_remaining*/);
 }
 
 // basis skew test

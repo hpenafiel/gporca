@@ -65,7 +65,7 @@ CHistogram::CHistogram
 	m_fSkewMeasured(false),
 	m_dSkew(1.0),
 	m_fNDVScaled(false),
-	m_fColStatsMissing(false)
+	m_is_col_stats_missing(false)
 {
 	GPOS_ASSERT(NULL != pdrgppbucket);
 }
@@ -75,41 +75,41 @@ CHistogram::CHistogram
 	(
 	DrgPbucket *pdrgppbucket,
 	BOOL fWellDefined,
-	CDouble dNullFreq,
-	CDouble dDistinctRemain,
-	CDouble dFreqRemain,
-	BOOL fColStatsMissing
+	CDouble null_freq,
+	CDouble distinct_remaining,
+	CDouble freq_remaining,
+	BOOL is_col_stats_missing
 	)
 	:
 	m_pdrgppbucket(pdrgppbucket),
 	m_fWellDefined(fWellDefined),
-	m_null_freq(dNullFreq),
-	m_distint_remaining(dDistinctRemain),
-	m_freq_remaining(dFreqRemain),
+	m_null_freq(null_freq),
+	m_distint_remaining(distinct_remaining),
+	m_freq_remaining(freq_remaining),
 	m_fSkewMeasured(false),
 	m_dSkew(1.0),
 	m_fNDVScaled(false),
-	m_fColStatsMissing(fColStatsMissing)
+	m_is_col_stats_missing(is_col_stats_missing)
 {
 	GPOS_ASSERT(m_pdrgppbucket);
-	GPOS_ASSERT(CDouble(0.0) <= dNullFreq);
-	GPOS_ASSERT(CDouble(1.0) >= dNullFreq);
-	GPOS_ASSERT(CDouble(0.0) <= dDistinctRemain);
-	GPOS_ASSERT(CDouble(0.0) <= dFreqRemain);
-	GPOS_ASSERT(CDouble(1.0) >= dFreqRemain);
-	// if dDistinctRemain is 0, dFreqRemain must be 0 too
-	GPOS_ASSERT_IMP(dDistinctRemain < CStatistics::DEpsilon, dFreqRemain < CStatistics::DEpsilon);
+	GPOS_ASSERT(CDouble(0.0) <= null_freq);
+	GPOS_ASSERT(CDouble(1.0) >= null_freq);
+	GPOS_ASSERT(CDouble(0.0) <= distinct_remaining);
+	GPOS_ASSERT(CDouble(0.0) <= freq_remaining);
+	GPOS_ASSERT(CDouble(1.0) >= freq_remaining);
+	// if distinct_remaining is 0, freq_remaining must be 0 too
+	GPOS_ASSERT_IMP(distinct_remaining < CStatistics::DEpsilon, freq_remaining < CStatistics::DEpsilon);
 }
 
 // set histograms null frequency
 void
 CHistogram::SetNullFrequency
 	(
-	CDouble dNullFreq
+	CDouble null_freq
 	)
 {
-	GPOS_ASSERT(CDouble(0.0) <= dNullFreq && CDouble(1.0) >= dNullFreq);
-	m_null_freq = dNullFreq;
+	GPOS_ASSERT(CDouble(0.0) <= null_freq && CDouble(1.0) >= null_freq);
+	m_null_freq = null_freq;
 }
 
 //	print function
@@ -198,12 +198,12 @@ CHistogram::PhistLessThanOrLessThanEqual
 		}
 	}
 
-	CDouble dDistinctRemain = 0.0;
-	CDouble dFreqRemain = 0.0;
+	CDouble distinct_remaining = 0.0;
+	CDouble freq_remaining = 0.0;
 	if (CStatistics::DEpsilon < m_distint_remaining * DDefaultSelectivity)
 	{
-		dDistinctRemain = m_distint_remaining * DDefaultSelectivity;
-		dFreqRemain = m_freq_remaining * DDefaultSelectivity;
+		distinct_remaining = m_distint_remaining * DDefaultSelectivity;
+		freq_remaining = m_freq_remaining * DDefaultSelectivity;
 	}
 
 	return GPOS_NEW(memory_pool) CHistogram
@@ -211,8 +211,8 @@ CHistogram::PhistLessThanOrLessThanEqual
 					pdrgppbucketNew,
 					true, // fWellDefined
 					CDouble(0.0), // fNullFreq
-					dDistinctRemain,
-					dFreqRemain
+					distinct_remaining,
+					freq_remaining
 					);
 }
 
@@ -268,9 +268,9 @@ CHistogram::PhistNEqual
 	GPOS_ASSERT(NULL != ppoint);
 
 	DrgPbucket *pdrgppbucket = PdrgppbucketNEqual(memory_pool, ppoint);
-	CDouble dNullFreq(0.0);
+	CDouble null_freq(0.0);
 
-	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true /*fWellDefined*/, dNullFreq, m_distint_remaining, m_freq_remaining);
+	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true /*fWellDefined*/, null_freq, m_distint_remaining, m_freq_remaining);
 }
 
 // construct new histogram with IDF filter
@@ -285,14 +285,14 @@ CHistogram::PhistIDF
 	GPOS_ASSERT(NULL != ppoint);
 
 	DrgPbucket *pdrgppbucket =  PdrgppbucketNEqual(memory_pool, ppoint);
-	CDouble dNullFreq(0.0);
+	CDouble null_freq(0.0);
 	if (!ppoint->Pdatum()->IsNull())
 	{
 		// (col IDF NOT-NULL-CONSTANT) means that null values will also be returned
-		dNullFreq = m_null_freq;
+		null_freq = m_null_freq;
 	}
 
-	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true /*fWellDefined*/, dNullFreq, m_distint_remaining, m_freq_remaining);
+	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true /*fWellDefined*/, null_freq, m_distint_remaining, m_freq_remaining);
 }
 
 // return an array buckets after applying equality filter on the histogram buckets
@@ -371,9 +371,9 @@ CHistogram::PhistEqual
 						(
 						pdrgppbucket,
 						true, // fWellDefined
-						0.0, // dNullFreq
-						1.0, // dDistinctRemain
-						std::min(CDouble(1.0), m_freq_remaining / m_distint_remaining) // dFreqRemain
+						0.0, // null_freq
+						1.0, // distinct_remaining
+						std::min(CDouble(1.0), m_freq_remaining / m_distint_remaining) // freq_remaining
 						);
 	}
 
@@ -393,12 +393,12 @@ CHistogram::PhistINDF
 
 	DrgPbucket *pdrgppbucket =  PdrgppbucketEqual(memory_pool, ppoint);
 	const ULONG num_of_buckets = pdrgppbucket->Size();
-	CDouble dNullFreq(0.0);
+	CDouble null_freq(0.0);
 	if (ppoint->Pdatum()->IsNull())
 	{
 		GPOS_ASSERT(0 == num_of_buckets);
 		// (col INDF NULL) means that only the null values will be returned
-		dNullFreq = m_null_freq;
+		null_freq = m_null_freq;
 	}
 
 	if (CStatistics::DEpsilon < m_distint_remaining && 0 == num_of_buckets) // no match is found in the buckets
@@ -407,9 +407,9 @@ CHistogram::PhistINDF
 						(
 						pdrgppbucket,
 						true, // fWellDefined
-						dNullFreq,
-						1.0, // dDistinctRemain
-						std::min(CDouble(1.0), m_freq_remaining / m_distint_remaining) // dFreqRemain
+						null_freq,
+						1.0, // distinct_remaining
+						std::min(CDouble(1.0), m_freq_remaining / m_distint_remaining) // freq_remaining
 						);
 	}
 
@@ -417,7 +417,7 @@ CHistogram::PhistINDF
 					(
 					pdrgppbucket,
 					true /* fWellDefined */,
-					dNullFreq,
+					null_freq,
 					CHistogram::DDefaultNDVRemain,
 					CHistogram::DDefaultNDVFreqRemain
 					);
@@ -475,12 +475,12 @@ CHistogram::PhistGreaterThanOrGreaterThanEqual
 		pdrgppbucketNew->Append(pbucket->PbucketCopy(memory_pool));
 	}
 
-	CDouble dDistinctRemain = 0.0;
-	CDouble dFreqRemain = 0.0;
+	CDouble distinct_remaining = 0.0;
+	CDouble freq_remaining = 0.0;
 	if (CStatistics::DEpsilon < m_distint_remaining * DDefaultSelectivity)
 	{
-		dDistinctRemain = m_distint_remaining * DDefaultSelectivity;
-		dFreqRemain = m_freq_remaining * DDefaultSelectivity;
+		distinct_remaining = m_distint_remaining * DDefaultSelectivity;
+		freq_remaining = m_freq_remaining * DDefaultSelectivity;
 	}
 
 	return GPOS_NEW(memory_pool) CHistogram
@@ -488,8 +488,8 @@ CHistogram::PhistGreaterThanOrGreaterThanEqual
 					pdrgppbucketNew,
 					true, // fWellDefined
 					CDouble(0.0), // fNullFreq
-					dDistinctRemain,
-					dFreqRemain
+					distinct_remaining,
+					freq_remaining
 					);
 }
 
@@ -983,9 +983,9 @@ CHistogram::PhistLASJ
 		GPOS_DELETE(pbucketCandidate);
 	}
 
-	CDouble dNullFreq = CLeftAntiSemiJoinStatsProcessor::DNullFreqLASJ(escmpt, this, phist);
+	CDouble null_freq = CLeftAntiSemiJoinStatsProcessor::DNullFreqLASJ(escmpt, this, phist);
 
-	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucketNew, true /*fWellDefined*/, dNullFreq, m_distint_remaining, m_freq_remaining);
+	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucketNew, true /*fWellDefined*/, null_freq, m_distint_remaining, m_freq_remaining);
 }
 
 // scales frequencies on histogram so that they add up to 1.0.
@@ -1009,12 +1009,12 @@ CHistogram::DNormalize()
 
 	m_null_freq = m_null_freq * dScaleFactor;
 
-	CDouble dFreqRemain = std::min((m_freq_remaining * dScaleFactor).Get(), DOUBLE(1.0));
+	CDouble freq_remaining = std::min((m_freq_remaining * dScaleFactor).Get(), DOUBLE(1.0));
 	if (CStatistics::DEpsilon > m_distint_remaining)
 	{
-		dFreqRemain = 0.0;
+		freq_remaining = 0.0;
 	}
-	m_freq_remaining = dFreqRemain;
+	m_freq_remaining = freq_remaining;
 
 	return dScaleFactor;
 }
@@ -1095,8 +1095,8 @@ CHistogram::PhistJoinEquality
 	CDouble dFreqJoinBuckets1(0.0);
 	CDouble dFreqJoinBuckets2(0.0);
 
-	CDouble dDistinctRemain(0.0);
-	CDouble dFreqRemain(0.0);
+	CDouble distinct_remaining(0.0);
+	CDouble freq_remaining(0.0);
 
 	BOOL fNDVBasedJoinCardEstimation1 = FNDVBasedCardEstimation(this);
 	BOOL fNDVBasedJoinCardEstimation2 = FNDVBasedCardEstimation(phist);
@@ -1159,11 +1159,11 @@ CHistogram::PhistJoinEquality
 		pdrgppbucketJoin,
 		dFreqJoinBuckets1,
 		dFreqJoinBuckets2,
-		&dDistinctRemain,
-		&dFreqRemain
+		&distinct_remaining,
+		&freq_remaining
 		);
 
-	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucketJoin, true /*fWellDefined*/, 0.0 /*dNullFreq*/, dDistinctRemain, dFreqRemain);
+	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucketJoin, true /*fWellDefined*/, 0.0 /*null_freq*/, distinct_remaining, freq_remaining);
 }
 
 // construct a new histogram for NDV based cardinality estimation
@@ -1175,8 +1175,8 @@ CHistogram::PhistJoinEqualityNDV
  )
 const
 {
-	CDouble dDistinctRemain(0.0);
-	CDouble dFreqRemain(0.0);
+	CDouble distinct_remaining(0.0);
+	CDouble freq_remaining(0.0);
 	DrgPbucket *pdrgppbucketJoin = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
 	
 	// compute the number of non-null distinct values in the input histograms
@@ -1200,7 +1200,7 @@ const
 	
 	// the estimated number of distinct value is the minimum of the non-null
 	// distinct values of the two inputs.
-	dDistinctRemain = std::min(dNDV1, dNDV2);
+	distinct_remaining = std::min(dNDV1, dNDV2);
 	
 	// the frequency of a tuple in this histogram (with frequency dFreqRemain1) joining with
 	// a tuple in another relation (with frequency dFreqRemain2) is a product of the two frequencies divided by
@@ -1210,19 +1210,19 @@ const
 	// Let A have 2 distinct values, while B have 5 distinct values. Under uniform distribution of NDVs
 	// for statistics purposes we can view A = (1,2,1,2,1,2,1,2,1,2) and B = (1,2,3,4,5,1,2,3,4,5)
 	// Join Cardinality is 20, with frequency of the join tuple being 0.2 (since cartesian product is 100).
-	// dFreqRemain1 = dFreqRemain2 = 1, and std::max(dNDV1, dNDV2) = 5. Therefore dFreqRemain = 1/5 = 0.2
-	if (CStatistics::DEpsilon < dDistinctRemain)
+	// dFreqRemain1 = dFreqRemain2 = 1, and std::max(dNDV1, dNDV2) = 5. Therefore freq_remaining = 1/5 = 0.2
+	if (CStatistics::DEpsilon < distinct_remaining)
 	{
-		dFreqRemain = dFreqRemain1 * dFreqRemain2 / std::max(dNDV1, dNDV2);
+		freq_remaining = dFreqRemain1 * dFreqRemain2 / std::max(dNDV1, dNDV2);
 	}
 
 	return GPOS_NEW(memory_pool) CHistogram
 	(
 	 pdrgppbucketJoin,
 	 true /*fWellDefined*/,
-	 0.0 /*dNullFreq*/,
-	 dDistinctRemain,
-	 dFreqRemain
+	 0.0 /*null_freq*/,
+	 distinct_remaining,
+	 freq_remaining
 	 );
 }
 
@@ -1239,9 +1239,9 @@ CHistogram::PhistJoinINDF
 
 	// compute the null frequency is the same means as how we perform equi-join
 	// see CBuckets::PbucketIntersect for details
-	CDouble dNullFreq = DNullFreq() * phist->DNullFreq() *
+	CDouble null_freq = DNullFreq() * phist->DNullFreq() *
 			DOUBLE(1.0) / std::max(DDistinct(), phist->DDistinct());
-	phistJoin->SetNullFrequency(dNullFreq);
+	phistJoin->SetNullFrequency(null_freq);
 
 	return phistJoin;
 }
@@ -1419,15 +1419,15 @@ CHistogram::PhistGroupByNormalized
 	}
 
 
-	CDouble dFreqRemain = 0.0;
+	CDouble freq_remaining = 0.0;
 	if (CStatistics::DEpsilon < m_distint_remaining)
 	{
 		// TODO:  11/22/2013 - currently the NDV of a histogram could be 0 or a decimal number.
 		// We may not need the capping if later dDistinct is lower bounded at 1.0 for non-empty histogram
-		dFreqRemain = std::min(CDouble(1.0), m_distint_remaining/dDistinct);
+		freq_remaining = std::min(CDouble(1.0), m_distint_remaining/dDistinct);
 	}
 
-	CHistogram *phistAfter = GPOS_NEW(memory_pool) CHistogram(pdrgppbucketNew, true /*fWellDefined*/, dNullFreqNew, m_distint_remaining, dFreqRemain);
+	CHistogram *phistAfter = GPOS_NEW(memory_pool) CHistogram(pdrgppbucketNew, true /*fWellDefined*/, dNullFreqNew, m_distint_remaining, freq_remaining);
 	*pdDistinctValues = phistAfter->DDistinct();
 
 	return phistAfter;
@@ -1510,10 +1510,10 @@ CHistogram::PhistUnionAllNormalized
 
 	CDouble dNullFreqNew = (m_null_freq * rows + phist->m_null_freq * dRowsOther) / dRowsNew;
 
-	CDouble dDistinctRemain = std::max(m_distint_remaining, phist->m_distint_remaining);
-	CDouble dFreqRemain = (m_freq_remaining * rows + phist->m_freq_remaining * dRowsOther) / dRowsNew;
+	CDouble distinct_remaining = std::max(m_distint_remaining, phist->m_distint_remaining);
+	CDouble freq_remaining = (m_freq_remaining * rows + phist->m_freq_remaining * dRowsOther) / dRowsNew;
 
-	CHistogram *phistResult = GPOS_NEW(memory_pool) CHistogram(pdrgppbucketNew, true /*fWellDefined*/, dNullFreqNew, dDistinctRemain, dFreqRemain);
+	CHistogram *phistResult = GPOS_NEW(memory_pool) CHistogram(pdrgppbucketNew, true /*fWellDefined*/, dNullFreqNew, distinct_remaining, freq_remaining);
 	(void) phistResult->DNormalize();
 
 	return phistResult;
@@ -1787,17 +1787,17 @@ CHistogram::PhistUpdatedFrequency
 		pdrgppbucketNew->Append(pbucketNew);
 	}
 
-	CDouble dNullFreq = dNullRows / *pdRowOutput ;
+	CDouble null_freq = dNullRows / *pdRowOutput ;
 	CDouble dNDVRemainFreq =  dNDVRemainRows / *pdRowOutput ;
 
 	return GPOS_NEW(memory_pool) CHistogram
 							(
 							pdrgppbucketNew,
 							true /* fWellDefined */,
-							dNullFreq,
+							null_freq,
 							dNDVRemain,
 							dNDVRemainFreq,
-							false /* fColStatsMissing */
+							false /* is_col_stats_missing */
 							);
 }
 
@@ -2027,18 +2027,18 @@ CHistogram::PhistDefaultBoolColStats
 	DrgPbucket *pdrgpbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
 
 	// a boolean column can at most have 3 values (true, false, and NULL).
-	CDouble dDistinctRemain = CDouble(3.0);
-	CDouble dFreqRemain = CDouble(1.0);
-	CDouble dNullFreq = CDouble(0.0);
+	CDouble distinct_remaining = CDouble(3.0);
+	CDouble freq_remaining = CDouble(1.0);
+	CDouble null_freq = CDouble(0.0);
 
 	return GPOS_NEW(memory_pool) CHistogram
 						(
 						pdrgpbucket,
 						true /* fWellDefined */,
-						dNullFreq,
-						dDistinctRemain,
-						dFreqRemain,
-						true /*fColStatsMissing */
+						null_freq,
+						distinct_remaining,
+						freq_remaining,
+						true /*is_col_stats_missing */
 						);
 }
 

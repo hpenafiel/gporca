@@ -46,7 +46,7 @@ CProjectStatsProcessor::PstatsProject
 
 			// create histogram for the new project column
 			DrgPbucket *pdrgbucket = GPOS_NEW(memory_pool) DrgPbucket(memory_pool);
-			CDouble dNullFreq = 0.0;
+			CDouble null_freq = 0.0;
 
 			BOOL fWellDefined = false;
 			if (NULL != phmuldatum)
@@ -61,7 +61,7 @@ CProjectStatsProcessor::PstatsProject
 					}
 					else
 					{
-						dNullFreq = 1.0;
+						null_freq = 1.0;
 					}
 				}
 			}
@@ -81,7 +81,7 @@ CProjectStatsProcessor::PstatsProject
 										(
 										pdrgbucket,
 										fWellDefined,
-										dNullFreq,
+										null_freq,
 										CHistogram::DDefaultNDVRemain,
 										CHistogram::DDefaultNDVFreqRemain
 										);

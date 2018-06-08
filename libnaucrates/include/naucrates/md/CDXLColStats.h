@@ -47,7 +47,7 @@ namespace gpmd
 			IMemoryPool *m_memory_pool;
 
 			// metadata id of the object
-			CMDIdColStats *m_pmdidColStats;
+			CMDIdColStats *m_mdid_col_stats;
 			
 			// column name
 			CMDName *m_mdname;
@@ -65,10 +65,10 @@ namespace gpmd
 			CDouble m_freq_remaining;
 
 			// histogram buckets
-			DrgPdxlbucket *m_pdrgpdxlbucket;
+			DrgPdxlbucket *m_stats_bucket_dxl_array;
 			
 			// is column statistics missing in the database
-			BOOL m_fColStatsMissing;
+			BOOL m_is_col_stats_missing;
 
 			// DXL string for object
 			CWStringDynamic *m_pstr;
@@ -81,14 +81,14 @@ namespace gpmd
 			CDXLColStats
 				(
 				IMemoryPool *memory_pool,
-				CMDIdColStats *pmdidColStats,
+				CMDIdColStats *mdid_col_stats,
 				CMDName *mdname,
 				CDouble width,
-				CDouble dNullFreq,
-				CDouble dDistinctRemain,
-				CDouble dFreqRemain,
+				CDouble null_freq,
+				CDouble distinct_remaining,
+				CDouble freq_remaining,
 				DrgPdxlbucket *stats_bucket_dxl_array,
-				BOOL fColStatsMissing
+				BOOL is_col_stats_missing
 				);
 			
 			// dtor
@@ -140,7 +140,7 @@ namespace gpmd
 			// is the column statistics missing in the database
 			BOOL FColStatsMissing() const
 			{
-				return m_fColStatsMissing;
+				return m_is_col_stats_missing;
 			}
 
 			// get the bucket at the given position

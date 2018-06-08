@@ -35,27 +35,27 @@ using namespace gpmd;
 CDXLColStats::CDXLColStats
 	(
 	IMemoryPool *memory_pool,
-	CMDIdColStats *pmdidColStats,
+	CMDIdColStats *mdid_col_stats,
 	CMDName *mdname,
 	CDouble width,
-	CDouble dNullFreq,
-	CDouble dDistinctRemain,
-	CDouble dFreqRemain,
+	CDouble null_freq,
+	CDouble distinct_remaining,
+	CDouble freq_remaining,
 	DrgPdxlbucket *stats_bucket_dxl_array,
-	BOOL fColStatsMissing
+	BOOL is_col_stats_missing
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_pmdidColStats(pmdidColStats),
+	m_mdid_col_stats(mdid_col_stats),
 	m_mdname(mdname),
 	m_width(width),
-	m_null_freq(dNullFreq),
-	m_distint_remaining(dDistinctRemain),
-	m_freq_remaining(dFreqRemain),
-	m_pdrgpdxlbucket(stats_bucket_dxl_array),
-	m_fColStatsMissing(fColStatsMissing)
+	m_null_freq(null_freq),
+	m_distint_remaining(distinct_remaining),
+	m_freq_remaining(freq_remaining),
+	m_stats_bucket_dxl_array(stats_bucket_dxl_array),
+	m_is_col_stats_missing(is_col_stats_missing)
 {
-	GPOS_ASSERT(pmdidColStats->IsValid());
+	GPOS_ASSERT(mdid_col_stats->IsValid());
 	GPOS_ASSERT(NULL != stats_bucket_dxl_array);
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
@@ -72,8 +72,8 @@ CDXLColStats::~CDXLColStats()
 {
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_pstr);
-	m_pmdidColStats->Release();
-	m_pdrgpdxlbucket->Release();
+	m_mdid_col_stats->Release();
+	m_stats_bucket_dxl_array->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ CDXLColStats::~CDXLColStats()
 IMDId *
 CDXLColStats::MDId() const
 {
-	return m_pmdidColStats;
+	return m_mdid_col_stats;
 }
 
 //---------------------------------------------------------------------------
@@ -129,7 +129,7 @@ CDXLColStats::Pstr() const
 ULONG
 CDXLColStats::UlBuckets() const
 {
-	return m_pdrgpdxlbucket->Size();
+	return m_stats_bucket_dxl_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -147,7 +147,7 @@ CDXLColStats::GetBucketDXL
 	) 
 	const
 {
-	return (*m_pdrgpdxlbucket)[ul];
+	return (*m_stats_bucket_dxl_array)[ul];
 }
 
 
@@ -169,13 +169,13 @@ CDXLColStats::Serialize
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 						CDXLTokens::GetDXLTokenStr(EdxltokenColumnStats));
 	
-	m_pmdidColStats->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+	m_mdid_col_stats->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWidth), m_width);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNullFreq), m_null_freq);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColNdvRemain), m_distint_remaining);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColFreqRemain), m_freq_remaining);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColStatsMissing), m_fColStatsMissing);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColStatsMissing), m_is_col_stats_missing);
 
 	GPOS_CHECK_ABORT;
 
@@ -242,7 +242,7 @@ CDXLColStats::PdxlcolstatsDummy
 	CDouble width
 	)
 {
-	CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(mdid);
+	CMDIdColStats *mdid_col_stats = CMDIdColStats::PmdidConvert(pmdid);
 
 	CAutoRef<DrgPdxlbucket> a_pdrgpdxlbucket;
 	a_pdrgpdxlbucket = GPOS_NEW(memory_pool) DrgPdxlbucket(memory_pool);
@@ -250,14 +250,14 @@ CDXLColStats::PdxlcolstatsDummy
 	a_pdxlcolstats = GPOS_NEW(memory_pool) CDXLColStats
 					(
 					memory_pool,
-					pmdidColStats,
+					mdid_col_stats,
 					mdname,
 					width,
 					CHistogram::DDefaultNullFreq,
 					CHistogram::DDefaultNDVRemain,
 					CHistogram::DDefaultNDVFreqRemain,
 					a_pdrgpdxlbucket.Value(),
-					true /* fColStatsMissing */
+					true /* is_col_stats_missing */
 					);
 	a_pdrgpdxlbucket.Reset();
 	return a_pdxlcolstats.Reset();

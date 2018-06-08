@@ -80,7 +80,7 @@ namespace gpnaucrates
 			BOOL m_fNDVScaled;
 
 			// is column statistics missing in the database
-			BOOL m_fColStatsMissing;
+			BOOL m_is_col_stats_missing;
 
 			// private copy ctor
 			CHistogram(const CHistogram &);
@@ -185,14 +185,14 @@ namespace gpnaucrates
 					(
 					DrgPbucket *pdrgppbucket,
 					BOOL fWellDefined,
-					CDouble dNullFreq,
-					CDouble dDistinctRemain,
-					CDouble dFreqRemain,
-					BOOL fColStatsMissing = false
+					CDouble null_freq,
+					CDouble distinct_remaining,
+					CDouble freq_remaining,
+					BOOL is_col_stats_missing = false
 					);
 
 			// set null frequency
-			void SetNullFrequency(CDouble dNullFreq);
+			void SetNullFrequency(CDouble null_freq);
 
 			// set information about the scaling of NDVs
 			void SetNDVScaled()
@@ -382,7 +382,7 @@ namespace gpnaucrates
 			// is the column statistics missing in the database
 			BOOL FColStatsMissing() const
 			{
-				return m_fColStatsMissing;
+				return m_is_col_stats_missing;
 			}
 
 			// print function

@@ -63,10 +63,10 @@ namespace gpdxl
 			CDXLWindowFrame(const CDXLWindowFrame&);
 
 			// scalar value representing the boundary leading
-			CDXLNode *m_pdxlnLeading;
+			CDXLNode *m_dxlnode_leading;
 
 			// scalar value representing the boundary trailing
-			CDXLNode *m_pdxlnTrailing;
+			CDXLNode *m_dxlnode_trailing;
 
 		public:
 			// ctor
@@ -97,13 +97,13 @@ namespace gpdxl
 			// return window boundary trailing
 			CDXLNode *PdxlnTrailing() const
 			{
-				return m_pdxlnTrailing;
+				return m_dxlnode_trailing;
 			}
 
 			// return window boundary leading
 			CDXLNode *PdxlnLeading() const
 			{
-				return m_pdxlnLeading;
+				return m_dxlnode_leading;
 			}
 			
 			// return the string representation of the exclusion strategy

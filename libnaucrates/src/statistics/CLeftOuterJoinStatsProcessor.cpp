@@ -203,7 +203,7 @@ CLeftOuterJoinStatsProcessor::AddHistogramsLOJInner
 				(
 				GPOS_NEW(memory_pool) DrgPbucket(memory_pool),
 				true /*fWellDefined*/,
-				1.0 /*dNullFreq*/,
+				1.0 /*null_freq*/,
 				CHistogram::DDefaultNDVRemain,
 				CHistogram::DDefaultNDVFreqRemain
 				);

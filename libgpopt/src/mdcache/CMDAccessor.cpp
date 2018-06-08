@@ -1160,9 +1160,9 @@ CMDAccessor::Pmdcolstats
 	)
 {
 	rel_mdid->AddRef();
-	CMDIdColStats *pmdidColStats = GPOS_NEW(memory_pool) CMDIdColStats(CMDIdGPDB::PmdidConvert(rel_mdid), ulPos);
-	const IMDColStats *pmdcolstats = Pmdcolstats(pmdidColStats);
-	pmdidColStats->Release();
+	CMDIdColStats *mdid_col_stats = GPOS_NEW(memory_pool) CMDIdColStats(CMDIdGPDB::PmdidConvert(rel_mdid), ulPos);
+	const IMDColStats *pmdcolstats = Pmdcolstats(mdid_col_stats);
+	mdid_col_stats->Release();
 
 	return pmdcolstats;
 }
@@ -1279,10 +1279,10 @@ CMDAccessor::Phist
 	GPOS_ASSERT(NULL != mdid_type);
 	GPOS_ASSERT(NULL != pmdcolstats);
 
-	BOOL fColStatsMissing = pmdcolstats->FColStatsMissing();
+	BOOL is_col_stats_missing = pmdcolstats->FColStatsMissing();
 	const ULONG num_of_buckets = pmdcolstats->UlBuckets();
 	BOOL fBoolType = CMDAccessorUtils::FBoolType(this, mdid_type);
-	if (fColStatsMissing && fBoolType)
+	if (is_col_stats_missing && fBoolType)
 	{
 		GPOS_ASSERT(0 == num_of_buckets);
 
@@ -1297,18 +1297,18 @@ CMDAccessor::Phist
 		pdrgpbucket->Append(pbucket);
 	}
 
-	CDouble dNullFreq = pmdcolstats->DNullFreq();
-	CDouble dDistinctRemain = pmdcolstats->DDistinctRemain();
-	CDouble dFreqRemain = pmdcolstats->DFreqRemain();
+	CDouble null_freq = pmdcolstats->DNullFreq();
+	CDouble distinct_remaining = pmdcolstats->DDistinctRemain();
+	CDouble freq_remaining = pmdcolstats->DFreqRemain();
 
 	CHistogram *phist = GPOS_NEW(memory_pool) CHistogram
 									(
 									pdrgpbucket,
 									true /*fWellDefined*/,
-									dNullFreq,
-									dDistinctRemain,
-									dFreqRemain,
-									fColStatsMissing
+									null_freq,
+									distinct_remaining,
+									freq_remaining,
+									is_col_stats_missing
 									);
 	GPOS_ASSERT_IMP(fBoolType, 3 >= phist->DDistinct() - CStatistics::DEpsilon);
 

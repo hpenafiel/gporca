@@ -34,21 +34,21 @@ CDXLWindowFrame::CDXLWindowFrame
 	IMemoryPool *memory_pool,
 	EdxlFrameSpec edxlfs,
 	EdxlFrameExclusionStrategy frame_exc_strategy,
-	CDXLNode *pdxlnLeading,
-	CDXLNode *pdxlnTrailing
+	CDXLNode *dxlnode_leading,
+	CDXLNode *dxlnode_trailing
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_dxl_win_frame_spec(edxlfs),
 	m_dxl_frame_exclusion_strategy(frame_exc_strategy),
-	m_pdxlnLeading(pdxlnLeading),
-	m_pdxlnTrailing(pdxlnTrailing)
+	m_dxlnode_leading(dxlnode_leading),
+	m_dxlnode_trailing(dxlnode_trailing)
 {
 	GPOS_ASSERT(NULL != m_memory_pool);
 	GPOS_ASSERT(EdxlfsSentinel > m_dxl_win_frame_spec);
 	GPOS_ASSERT(EdxlfesSentinel > m_dxl_frame_exclusion_strategy);
-	GPOS_ASSERT(NULL != pdxlnLeading);
-	GPOS_ASSERT(NULL != pdxlnTrailing);
+	GPOS_ASSERT(NULL != dxlnode_leading);
+	GPOS_ASSERT(NULL != dxlnode_trailing);
 }
 
 //---------------------------------------------------------------------------
@@ -61,8 +61,8 @@ CDXLWindowFrame::CDXLWindowFrame
 //---------------------------------------------------------------------------
 CDXLWindowFrame::~CDXLWindowFrame()
 {
-	m_pdxlnLeading->Release();
-	m_pdxlnTrailing->Release();
+	m_dxlnode_leading->Release();
+	m_dxlnode_trailing->Release();
 }
 
 //---------------------------------------------------------------------------
@@ -154,8 +154,8 @@ CDXLWindowFrame::SerializeToDXL
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenWindowExclusionStrategy), PstrES(m_dxl_frame_exclusion_strategy));
 
 	// add the values representing the window boundary
-	m_pdxlnTrailing->SerializeToDXL(xml_serializer);
-	m_pdxlnLeading->SerializeToDXL(xml_serializer);
+	m_dxlnode_trailing->SerializeToDXL(xml_serializer);
+	m_dxlnode_leading->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }

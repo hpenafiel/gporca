@@ -138,10 +138,10 @@ CMDIdColStats::Equals
 		return false;
 	}
 	
-	const CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(mdid);
+	const CMDIdColStats *mdid_col_stats = CMDIdColStats::PmdidConvert(mdid);
 	
-	return m_rel_mdid->Equals(pmdidColStats->GetRelMdId()) && 
-			m_ulPos == pmdidColStats->UlPos(); 
+	return m_rel_mdid->Equals(mdid_col_stats->GetRelMdId()) && 
+			m_ulPos == mdid_col_stats->UlPos(); 
 }
 
 //---------------------------------------------------------------------------

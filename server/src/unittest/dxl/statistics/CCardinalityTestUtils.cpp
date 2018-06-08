@@ -110,20 +110,20 @@ CCardinalityTestUtils::PhistInt4Remain
 	}
 
 	CDouble dFreq = CStatisticsUtils::DFrequency(pdrgppbucket);
-	CDouble dNullFreq(0.0);
+	CDouble null_freq(0.0);
 	if (fNullFreq && 1 > dFreq)
 	{
-		dNullFreq = 0.1;
-		dFreq = dFreq + dNullFreq;
+		null_freq = 0.1;
+		dFreq = dFreq + null_freq;
 	}
 
-	CDouble dFreqRemain = (1 - dFreq);
-	if (dFreqRemain < CStatistics::DEpsilon || dNDVRemain < CStatistics::DEpsilon)
+	CDouble freq_remaining = (1 - dFreq);
+	if (freq_remaining < CStatistics::DEpsilon || dNDVRemain < CStatistics::DEpsilon)
 	{
-		dFreqRemain = CDouble(0.0);
+		freq_remaining = CDouble(0.0);
 	}
 
-	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true, dNullFreq, dNDVRemain, dFreqRemain);
+	return GPOS_NEW(memory_pool) CHistogram(pdrgppbucket, true, null_freq, dNDVRemain, freq_remaining);
 }
 
 // helper function to generate an example int histogram

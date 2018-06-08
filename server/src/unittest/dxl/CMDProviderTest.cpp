@@ -171,17 +171,17 @@ CMDProviderTest::EresUnittest_Stats()
 		IMDCacheObject *pmdobjRelStats = CDXLUtils::ParseDXLToIMDIdCacheObj(memory_pool, pstrRelStats, NULL);
 		GPOS_ASSERT(NULL != pmdobjRelStats);
 
-		CMDIdColStats *pmdidColStats =
+		CMDIdColStats *mdid_col_stats =
 				GPOS_NEW(memory_pool) CMDIdColStats(GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1), 1 /* ulAttno */);
 
-		CWStringBase *pstrColStats = pmdpFile->PstrObject(memory_pool, amda.Pmda(), pmdidColStats);
+		CWStringBase *pstrColStats = pmdpFile->PstrObject(memory_pool, amda.Pmda(), mdid_col_stats);
 		GPOS_ASSERT(NULL != pstrColStats);
 		IMDCacheObject *pmdobjColStats = CDXLUtils::ParseDXLToIMDIdCacheObj(memory_pool, pstrColStats, NULL);
 		GPOS_ASSERT(NULL != pmdobjColStats);
 
 		// cleanup
 		pmdidRelStats->Release();
-		pmdidColStats->Release();
+		mdid_col_stats->Release();
 		GPOS_DELETE(pstrRelStats);
 		GPOS_DELETE(pstrColStats);
 		pmdobjRelStats->Release();
