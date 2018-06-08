@@ -43,14 +43,14 @@ namespace gpdxl
 			};
 		
 			// segment id column
-			ULONG m_ulSegmentIdCol;
+			ULONG m_segment_id_col;
 		
 			// private copy ctor
 			CDXLPhysicalRoutedDistributeMotion(const CDXLPhysicalRoutedDistributeMotion&);
 			
 		public:
 			// ctor
-			CDXLPhysicalRoutedDistributeMotion(IMemoryPool *memory_pool, ULONG ulSegmentIdCol);
+			CDXLPhysicalRoutedDistributeMotion(IMemoryPool *memory_pool, ULONG segment_id_col);
 			
 			// operator type
 			Edxlopid GetDXLOperator() const;
@@ -59,9 +59,9 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 			
 			// segment id column
-			ULONG UlSegmentIdCol() const
+			ULONG SegmentIdCol() const
 			{
-				return m_ulSegmentIdCol;
+				return m_segment_id_col;
 			}
 			
 			// index of relational child node in the children array

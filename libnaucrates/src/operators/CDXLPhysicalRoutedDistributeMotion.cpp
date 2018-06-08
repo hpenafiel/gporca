@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLPhysicalRoutedDistributeMotion::CDXLPhysicalRoutedDistributeMotion
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulSegmentIdCol
+	ULONG segment_id_col
 	)
 	:
 	CDXLPhysicalMotion(memory_pool),
-	m_ulSegmentIdCol(ulSegmentIdCol)
+	m_segment_id_col(segment_id_col)
 {
 }
 
@@ -87,7 +87,7 @@ CDXLPhysicalRoutedDistributeMotion::SerializeToDXL
 	
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSegmentIdCol), m_ulSegmentIdCol);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSegmentIdCol), m_segment_id_col);
 	
 	SerializeSegmentInfoToDXL(xml_serializer);
 	
