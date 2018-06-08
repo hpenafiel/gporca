@@ -26,10 +26,10 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDIdRelStats::CMDIdRelStats
 	(
-	CMDIdGPDB *pmdidRel
+	CMDIdGPDB *rel_mdid
 	)
 	:
-	m_rel_mdid(pmdidRel),
+	m_rel_mdid(rel_mdid),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
 	// serialize mdid into static string 

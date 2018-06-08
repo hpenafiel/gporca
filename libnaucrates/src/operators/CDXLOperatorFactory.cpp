@@ -2750,13 +2750,13 @@ CDXLOperatorFactory::GetColStatsMdId
 {
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS + 1 == pdrgpxmlsz->Size());
 
-	CMDIdGPDB *pmdidRel = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *rel_mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
 	
 	XMLCh *xmlszAttno = (*pdrgpxmlsz)[3];
 	ULONG ulAttno = ConvertAttrValueToUlong(memory_manager_dxl, xmlszAttno, edxltokenAttr, edxltokenElement);
 
 	// construct metadata id object
-	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdColStats(pmdidRel, ulAttno);
+	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdColStats(rel_mdid, ulAttno);
 }
 
 //---------------------------------------------------------------------------
@@ -2778,10 +2778,10 @@ CDXLOperatorFactory::GetRelStatsMdId
 {
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->Size());
 
-	CMDIdGPDB *pmdidRel = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *rel_mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
 	
 	// construct metadata id object
-	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdRelStats(pmdidRel);
+	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdRelStats(rel_mdid);
 }
 
 //---------------------------------------------------------------------------

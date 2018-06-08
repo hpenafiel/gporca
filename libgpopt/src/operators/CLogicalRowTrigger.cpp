@@ -54,22 +54,22 @@ CLogicalRowTrigger::CLogicalRowTrigger
 CLogicalRowTrigger::CLogicalRowTrigger
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidRel,
-	INT iType,
+	IMDId *rel_mdid,
+	INT type,
 	DrgPcr *pdrgpcrOld,
 	DrgPcr *pdrgpcrNew
 	)
 	:
 	CLogical(memory_pool),
-	m_rel_mdid(pmdidRel),
-	m_type(iType),
+	m_rel_mdid(rel_mdid),
+	m_type(type),
 	m_pdrgpcrOld(pdrgpcrOld),
 	m_pdrgpcrNew(pdrgpcrNew),
 	m_efs(IMDFunction::EfsImmutable),
 	m_efda(IMDFunction::EfdaNoSQL)
 {
-	GPOS_ASSERT(pmdidRel->IsValid());
-	GPOS_ASSERT(0 != iType);
+	GPOS_ASSERT(rel_mdid->IsValid());
+	GPOS_ASSERT(0 != type);
 	GPOS_ASSERT(NULL != pdrgpcrNew || NULL != pdrgpcrOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpcrNew && NULL != pdrgpcrOld,
 			pdrgpcrNew->Size() == pdrgpcrOld->Size());
@@ -147,28 +147,28 @@ CLogicalRowTrigger::ITriggerType
 	)
 	const
 {
-	INT iType = GPMD_TRIGGER_ROW;
+	INT type = GPMD_TRIGGER_ROW;
 	if (pmdtrigger->FBefore())
 	{
-		iType |= GPMD_TRIGGER_BEFORE;
+		type |= GPMD_TRIGGER_BEFORE;
 	}
 
 	if (pmdtrigger->Insert())
 	{
-		iType |= GPMD_TRIGGER_INSERT;
+		type |= GPMD_TRIGGER_INSERT;
 	}
 
 	if (pmdtrigger->FDelete())
 	{
-		iType |= GPMD_TRIGGER_DELETE;
+		type |= GPMD_TRIGGER_DELETE;
 	}
 
 	if (pmdtrigger->FUpdate())
 	{
-		iType |= GPMD_TRIGGER_UPDATE;
+		type |= GPMD_TRIGGER_UPDATE;
 	}
 
-	return iType;
+	return type;
 }
 
 //---------------------------------------------------------------------------
@@ -194,7 +194,7 @@ CLogicalRowTrigger::FMatch
 	CLogicalRowTrigger *popRowTrigger = CLogicalRowTrigger::PopConvert(pop);
 
 	return m_rel_mdid->Equals(popRowTrigger->GetRelMdId()) &&
-			m_type == popRowTrigger->IType() &&
+			m_type == popRowTrigger->GetType() &&
 			m_pdrgpcrOld->Equals(popRowTrigger->PdrgpcrOld()) &&
 			m_pdrgpcrNew->Equals(popRowTrigger->PdrgpcrNew());
 }

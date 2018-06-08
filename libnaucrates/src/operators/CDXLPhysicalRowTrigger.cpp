@@ -28,23 +28,23 @@ using namespace gpdxl;
 CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidRel,
-	INT iType,
-	ULongPtrArray *pdrgpulOld,
-	ULongPtrArray *pdrgpulNew
+	IMDId *rel_mdid,
+	INT type,
+	ULongPtrArray *col_ids_old,
+	ULongPtrArray *col_ids_new
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_rel_mdid(pmdidRel),
-	m_type(iType),
-	m_col_ids_old(pdrgpulOld),
-	m_col_ids_new(pdrgpulNew)
+	m_rel_mdid(rel_mdid),
+	m_type(type),
+	m_col_ids_old(col_ids_old),
+	m_col_ids_new(col_ids_new)
 {
-	GPOS_ASSERT(pmdidRel->IsValid());
-	GPOS_ASSERT(0 != iType);
-	GPOS_ASSERT(NULL != pdrgpulNew || NULL != pdrgpulOld);
-	GPOS_ASSERT_IMP(NULL != pdrgpulNew && NULL != pdrgpulOld,
-			pdrgpulNew->Size() == pdrgpulOld->Size());
+	GPOS_ASSERT(rel_mdid->IsValid());
+	GPOS_ASSERT(0 != type);
+	GPOS_ASSERT(NULL != col_ids_new || NULL != col_ids_old);
+	GPOS_ASSERT_IMP(NULL != col_ids_new && NULL != col_ids_old,
+			col_ids_new->Size() == col_ids_old->Size());
 }
 
 //---------------------------------------------------------------------------

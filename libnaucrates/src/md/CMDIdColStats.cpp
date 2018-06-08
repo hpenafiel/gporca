@@ -26,15 +26,15 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDIdColStats::CMDIdColStats
 	(
-	CMDIdGPDB *pmdidRel,
+	CMDIdGPDB *rel_mdid,
 	ULONG ulPos
 	)
 	:
-	m_rel_mdid(pmdidRel),
+	m_rel_mdid(rel_mdid),
 	m_ulPos(ulPos),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
-	GPOS_ASSERT(pmdidRel->IsValid());
+	GPOS_ASSERT(rel_mdid->IsValid());
 	
 	// serialize mdid into static string 
 	Serialize();

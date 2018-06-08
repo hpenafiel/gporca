@@ -86,10 +86,10 @@ CXformImplementRowTrigger::Transform
 	IMemoryPool *memory_pool = pxfctxt->Pmp();
 
 	// extract components for alternative
-	IMDId *pmdidRel = popRowTrigger->GetRelMdId();
-	pmdidRel->AddRef();
+	IMDId *rel_mdid = popRowTrigger->GetRelMdId();
+	rel_mdid->AddRef();
 
-	INT iType = popRowTrigger->IType();
+	INT type = popRowTrigger->GetType();
 
 	DrgPcr *pdrgpcrOld = popRowTrigger->PdrgpcrOld();
 	if (NULL != pdrgpcrOld)
@@ -112,7 +112,7 @@ CXformImplementRowTrigger::Transform
 		GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CPhysicalRowTrigger(memory_pool, pmdidRel, iType, pdrgpcrOld, pdrgpcrNew),
+			GPOS_NEW(memory_pool) CPhysicalRowTrigger(memory_pool, rel_mdid, type, pdrgpcrOld, pdrgpcrNew),
 			pexprChild
 			);
 	// add alternative to transformation result

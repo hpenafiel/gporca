@@ -67,25 +67,25 @@ CParseHandlerPhysicalRowTrigger::StartElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	IMDId *pmdidRel = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalRowTrigger);
+	IMDId *rel_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenRelationMdid, EdxltokenPhysicalRowTrigger);
 
-	INT iType = CDXLOperatorFactory::ExtractConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
+	INT type = CDXLOperatorFactory::ExtractConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMDType, EdxltokenPhysicalRowTrigger);
 
 	const XMLCh *xmlszOldColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOldCols));
-	ULongPtrArray *pdrgpulOld = NULL;
+	ULongPtrArray *col_ids_old = NULL;
 	if (NULL != xmlszOldColIds)
 	{
-		pdrgpulOld = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
+		col_ids_old = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	const XMLCh *xmlszNewColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenNewCols));
-	ULongPtrArray *pdrgpulNew = NULL;
+	ULongPtrArray *col_ids_new = NULL;
 	if (NULL != xmlszNewColIds)
 	{
-		pdrgpulNew = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
+		col_ids_new = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
 	}
 
-	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, pmdidRel, iType, pdrgpulOld, pdrgpulNew);
+	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, rel_mdid, type, col_ids_old, col_ids_new);
 
 	// parse handler for physical operator
 	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);

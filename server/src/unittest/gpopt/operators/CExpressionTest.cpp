@@ -65,9 +65,9 @@ CExpression *
 CExpressionTest::PexprCreateGbyWithColumnFormat(IMemoryPool *memory_pool, const WCHAR *wszColNameFormat)
 {
 	CWStringConst strRelName(GPOS_WSZ_LIT("Rel1"));
-	CMDIdGPDB *pmdidRel = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID1, 1, 1);
+	CMDIdGPDB *rel_mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID1, 1, 1);
 	CTableDescriptor *ptabdesc = CTestUtils::PtabdescPlainWithColNameFormat(
-			memory_pool, 3, pmdidRel, wszColNameFormat, CName(&strRelName), false);
+			memory_pool, 3, rel_mdid, wszColNameFormat, CName(&strRelName), false);
 	CWStringConst strRelAlias(GPOS_WSZ_LIT("Rel1"));
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool, ptabdesc, &strRelAlias);
 	return CTestUtils::PexprLogicalGbAggWithInput(memory_pool, pexprGet);
@@ -325,10 +325,10 @@ CExpressionTest::EresUnittest_BitmapGet()
 
 	CWStringConst strRelName(GPOS_WSZ_LIT("MyTable"));
 	CWStringConst strRelAlias(GPOS_WSZ_LIT("T"));
-	CMDIdGPDB *pmdidRel = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
+	CMDIdGPDB *rel_mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
 	const WCHAR *wszColNameFormat = GPOS_WSZ_LIT("column_%04d");
 	CTableDescriptor *ptabdesc = CTestUtils::PtabdescPlainWithColNameFormat(
-			memory_pool, 3, pmdidRel, wszColNameFormat, CName(&strRelName), false);
+			memory_pool, 3, rel_mdid, wszColNameFormat, CName(&strRelName), false);
 
 	// get the index associated with the table
 	const IMDRelation *pmdrel = mda.Pmdrel(ptabdesc->MDId());

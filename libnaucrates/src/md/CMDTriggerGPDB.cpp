@@ -33,24 +33,24 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *mdname,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	IMDId *mdid_func,
-	INT iType,
+	INT type,
 	BOOL is_enabled
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_rel_mdid(pmdidRel),
+	m_rel_mdid(rel_mdid),
 	m_func_mdid(mdid_func),
-	m_type(iType),
+	m_type(type),
 	m_is_enabled(is_enabled)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(m_rel_mdid->IsValid());
 	GPOS_ASSERT(m_func_mdid->IsValid());
-	GPOS_ASSERT(0 <= iType);
+	GPOS_ASSERT(0 <= type);
 
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 }

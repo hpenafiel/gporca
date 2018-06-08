@@ -71,9 +71,9 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *mdname,
-				IMDId *pmdidRel,
+				IMDId *rel_mdid,
 				IMDId *mdid_func,
-				INT iType,
+				INT type,
 				BOOL is_enabled
 				);
 

@@ -1206,8 +1206,8 @@ CXformUtils::PexprLogicalPartitionSelector
 	CExpression *pexprChild
 	)
 {
-	IMDId *pmdidRel = ptabdesc->MDId();
-	pmdidRel->AddRef();
+	IMDId *rel_mdid = ptabdesc->MDId();
+	rel_mdid->AddRef();
 
 	// create an oid column
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
@@ -1216,7 +1216,7 @@ CXformUtils::PexprLogicalPartitionSelector
 	CColRef *pcrOid = pcf->PcrCreate(pmdtype, IDefaultTypeModifier);
 	DrgPexpr *pdrgpexprFilters = PdrgpexprPartEqFilters(memory_pool, ptabdesc, pdrgpcr);
 
-	CLogicalPartitionSelector *popSelector = GPOS_NEW(memory_pool) CLogicalPartitionSelector(memory_pool, pmdidRel, pdrgpexprFilters, pcrOid);
+	CLogicalPartitionSelector *popSelector = GPOS_NEW(memory_pool) CLogicalPartitionSelector(memory_pool, rel_mdid, pdrgpexprFilters, pcrOid);
 
 	return GPOS_NEW(memory_pool) CExpression(memory_pool, popSelector, pexprChild);
 }
@@ -1249,7 +1249,7 @@ CXformUtils::PexprLogicalDMLOverProject
 	}
 
 	// new expressions to project
-	IMDId *pmdidRel = ptabdesc->MDId();
+	IMDId *rel_mdid = ptabdesc->MDId();
 	CExpression *pexprProject = NULL;
 	CColRef *pcrAction = NULL;
 	CColRef *pcrOid = NULL;
@@ -1276,7 +1276,7 @@ CXformUtils::PexprLogicalDMLOverProject
 		BOOL fGeneratePartOid = CUtils::FGeneratePartOid(ptabdesc->MDId());
 		if (fGeneratePartOid)
 		{
-			OID oidTable = CMDIdGPDB::PmdidConvert(pmdidRel)->OidObjectId();
+			OID oidTable = CMDIdGPDB::PmdidConvert(rel_mdid)->OidObjectId();
 			pdrgpexprProjected->Append(CUtils::PexprScalarConstOid(memory_pool, oidTable));
 		}
 
@@ -1295,8 +1295,8 @@ CXformUtils::PexprLogicalDMLOverProject
 
 	if (FTriggersExist(edmlop, ptabdesc, true /*fBefore*/))
 	{
-		pmdidRel->AddRef();
-		pexprProject = PexprRowTrigger(memory_pool, pexprProject, edmlop, pmdidRel, true /*fBefore*/, pdrgpcr);
+		rel_mdid->AddRef();
+		pexprProject = PexprRowTrigger(memory_pool, pexprProject, edmlop, rel_mdid, true /*fBefore*/, pdrgpcr);
 	}
 
 	if (CLogicalDML::EdmlInsert == edmlop)
@@ -1320,8 +1320,8 @@ CXformUtils::PexprLogicalDMLOverProject
 
 	if (FTriggersExist(edmlop, ptabdesc, false /*fBefore*/))
 	{
-		pmdidRel->AddRef();
-		pexprOutput = PexprRowTrigger(memory_pool, pexprOutput, edmlop, pmdidRel, false /*fBefore*/, pdrgpcr);
+		rel_mdid->AddRef();
+		pexprOutput = PexprRowTrigger(memory_pool, pexprOutput, edmlop, rel_mdid, false /*fBefore*/, pdrgpcr);
 	}
 
 	return pexprOutput;
@@ -1401,7 +1401,7 @@ CXformUtils::PexprRowTrigger
 	IMemoryPool *memory_pool,
 	CExpression *pexprChild,
 	CLogicalDML::EDMLOperator edmlop,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	BOOL fBefore,
 	DrgPcr *pdrgpcr
 	)
@@ -1411,10 +1411,10 @@ CXformUtils::PexprRowTrigger
 	pdrgpcr->AddRef();
 	if (CLogicalDML::EdmlInsert == edmlop)
 	{
-		return PexprRowTrigger(memory_pool, pexprChild, edmlop, pmdidRel, fBefore, NULL /*pdrgpcrOld*/, pdrgpcr);
+		return PexprRowTrigger(memory_pool, pexprChild, edmlop, rel_mdid, fBefore, NULL /*pdrgpcrOld*/, pdrgpcr);
 	}
 
-	return PexprRowTrigger(memory_pool, pexprChild, edmlop, pmdidRel, fBefore, pdrgpcr, NULL /*pdrgpcrNew*/);
+	return PexprRowTrigger(memory_pool, pexprChild, edmlop, rel_mdid, fBefore, pdrgpcr, NULL /*pdrgpcrNew*/);
 }
 
 //---------------------------------------------------------------------------
@@ -1518,28 +1518,28 @@ CXformUtils::PexprRowTrigger
 	IMemoryPool *memory_pool,
 	CExpression *pexprChild,
 	CLogicalDML::EDMLOperator edmlop,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	BOOL fBefore,
 	DrgPcr *pdrgpcrOld,
 	DrgPcr *pdrgpcrNew
 	)
 {
-	INT iType = GPMD_TRIGGER_ROW;
+	INT type = GPMD_TRIGGER_ROW;
 	if (fBefore)
 	{
-		iType |= GPMD_TRIGGER_BEFORE;
+		type |= GPMD_TRIGGER_BEFORE;
 	}
 
 	switch (edmlop)
 	{
 		case CLogicalDML::EdmlInsert:
-			iType |= GPMD_TRIGGER_INSERT;
+			type |= GPMD_TRIGGER_INSERT;
 			break;
 		case CLogicalDML::EdmlDelete:
-			iType |= GPMD_TRIGGER_DELETE;
+			type |= GPMD_TRIGGER_DELETE;
 			break;
 		case CLogicalDML::EdmlUpdate:
-			iType |= GPMD_TRIGGER_UPDATE;
+			type |= GPMD_TRIGGER_UPDATE;
 			break;
 		default:
 			GPOS_ASSERT(!"Invalid DML operation");
@@ -1548,7 +1548,7 @@ CXformUtils::PexprRowTrigger
 	return GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CLogicalRowTrigger(memory_pool, pmdidRel, iType, pdrgpcrOld, pdrgpcrNew),
+			GPOS_NEW(memory_pool) CLogicalRowTrigger(memory_pool, rel_mdid, type, pdrgpcrOld, pdrgpcrNew),
 			pexprChild
 			);
 }

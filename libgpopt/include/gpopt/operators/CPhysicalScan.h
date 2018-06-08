@@ -59,7 +59,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				ULONG part_idx_id,
-				IMDId *pmdidRel,
+				IMDId *rel_mdid,
 				DrgDrgPcr *pdrgpdrgpcrPart,
 				ULONG ulSecondaryPartIndexId,
 				CPartConstraint *ppartcnstr,

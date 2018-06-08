@@ -59,7 +59,7 @@ namespace gpmd
 			
 			// ctor
 			explicit
-			CMDIdRelStats(CMDIdGPDB *pmdidRel);
+			CMDIdRelStats(CMDIdGPDB *rel_mdid);
 			
 			// dtor
 			virtual

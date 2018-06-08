@@ -100,10 +100,10 @@ CXformUpdate2DML::Transform
 	CExpression *pexprChild = (*pexpr)[0];
 	pexprChild->AddRef();
 	
-	IMDId *pmdidRel = ptabdesc->MDId();
+	IMDId *rel_mdid = ptabdesc->MDId();
 	if (CXformUtils::FTriggersExist(CLogicalDML::EdmlUpdate, ptabdesc, true /*fBefore*/))
 	{
-		pmdidRel->AddRef();
+		rel_mdid->AddRef();
 		pdrgpcrDelete->AddRef();
 		pdrgpcrInsert->AddRef();
 		pexprChild = CXformUtils::PexprRowTrigger
@@ -111,7 +111,7 @@ CXformUpdate2DML::Transform
 							memory_pool,
 							pexprChild,
 							CLogicalDML::EdmlUpdate,
-							pmdidRel,
+							rel_mdid,
 							true /*fBefore*/,
 							pdrgpcrDelete,
 							pdrgpcrInsert

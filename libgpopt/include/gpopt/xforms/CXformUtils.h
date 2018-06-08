@@ -668,7 +668,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				CExpression *pexprChild,
 				CLogicalDML::EDMLOperator edmlop,
-				IMDId *pmdidRel,
+				IMDId *rel_mdid,
 				BOOL fBefore,
 				DrgPcr *pdrgpcr
 				);
@@ -680,7 +680,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				CExpression *pexprChild,
 				CLogicalDML::EDMLOperator edmlop,
-				IMDId *pmdidRel,
+				IMDId *rel_mdid,
 				BOOL fBefore,
 				DrgPcr *pdrgpcrOld,
 				DrgPcr *pdrgpcrNew

@@ -4281,13 +4281,13 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorDML
 	CDXLNode *pdxlnPrintable = CTranslatorExprToDXLUtils::PdxlnBoolConst(m_memory_pool, m_pmda, true /*value*/);
 
 	// construct PartitionSelector node
-	IMDId *pmdidRel = popSelector->MDId();
-	pmdidRel->AddRef();
+	IMDId *rel_mdid = popSelector->MDId();
+	rel_mdid->AddRef();
 
 	CDXLNode *pdxlnSelector = CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 									(
 									m_memory_pool,
-									pmdidRel,
+									rel_mdid,
 									popSelector->UlPartLevels(),
 									0, // scan_id
 									GetProperties(pexpr),
@@ -4449,13 +4449,13 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorExpand
 	CDXLNode *pdxlnPrintable = PdxlnScalar(pexprPrintable);
 
 	// construct PartitionSelector node
-	IMDId *pmdidRel = popSelector->MDId();
-	pmdidRel->AddRef();
+	IMDId *rel_mdid = popSelector->MDId();
+	rel_mdid->AddRef();
 
 	CDXLNode *pdxlnSelector = CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 									(
 									m_memory_pool,
-									pmdidRel,
+									rel_mdid,
 									ulLevels,
 									scan_id,
 									CTranslatorExprToDXLUtils::GetProperties(m_memory_pool),
@@ -4586,8 +4586,8 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorFilter
 	CDXLNode *pdxlnPrintable = PdxlnScalar(pexprPrintable);
 
 	// construct PartitionSelector node
-	IMDId *pmdidRel = popSelector->MDId();
-	pmdidRel->AddRef();
+	IMDId *rel_mdid = popSelector->MDId();
+	rel_mdid->AddRef();
 
 	CDXLNode *pdxlnSelectorChild = NULL;
 	if (!fNeedSequence)
@@ -4598,7 +4598,7 @@ CTranslatorExprToDXL::PdxlnPartitionSelectorFilter
 	CDXLNode *pdxlnSelector = CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 									(
 									m_memory_pool,
-									pmdidRel,
+									rel_mdid,
 									ulLevels,
 									scan_id,
 									CTranslatorExprToDXLUtils::GetProperties(m_memory_pool),
@@ -5672,26 +5672,26 @@ CTranslatorExprToDXL::PdxlnRowTrigger
 
 	CExpression *pexprChild = (*pexpr)[0];
 
-	IMDId *pmdidRel = popRowTrigger->GetRelMdId();
-	pmdidRel->AddRef();
+	IMDId *rel_mdid = popRowTrigger->GetRelMdId();
+	rel_mdid->AddRef();
 
-	INT iType = popRowTrigger->IType();
+	INT type = popRowTrigger->GetType();
 
 	CColRefSet *pcrsRequired = GPOS_NEW(m_memory_pool) CColRefSet(m_memory_pool);
-	ULongPtrArray *pdrgpulOld = NULL;
-	ULongPtrArray *pdrgpulNew = NULL;
+	ULongPtrArray *col_ids_old = NULL;
+	ULongPtrArray *col_ids_new = NULL;
 
 	DrgPcr *pdrgpcrOld = popRowTrigger->PdrgpcrOld();
 	if (NULL != pdrgpcrOld)
 	{
-		pdrgpulOld = CUtils::Pdrgpul(m_memory_pool, pdrgpcrOld);
+		col_ids_old = CUtils::Pdrgpul(m_memory_pool, pdrgpcrOld);
 		pcrsRequired->Include(pdrgpcrOld);
 	}
 
 	DrgPcr *pdrgpcrNew = popRowTrigger->PdrgpcrNew();
 	if (NULL != pdrgpcrNew)
 	{
-		pdrgpulNew = CUtils::Pdrgpul(m_memory_pool, pdrgpcrNew);
+		col_ids_new = CUtils::Pdrgpul(m_memory_pool, pdrgpcrNew);
 		pcrsRequired->Include(pdrgpcrNew);
 	}
 
@@ -5703,10 +5703,10 @@ CTranslatorExprToDXL::PdxlnRowTrigger
 	CDXLPhysicalRowTrigger *pdxlopRowTrigger = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger
 													(
 													m_memory_pool,
-													pmdidRel,
-													iType,
-													pdrgpulOld,
-													pdrgpulNew
+													rel_mdid,
+													type,
+													col_ids_old,
+													col_ids_new
 													);
 
 	// project list

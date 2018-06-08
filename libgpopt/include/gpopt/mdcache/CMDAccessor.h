@@ -255,13 +255,13 @@ namespace gpopt
 			void InitHashtables(IMemoryPool *memory_pool);
 
 			// return the column statistics meta data object for a given column of a table
-			const IMDColStats *Pmdcolstats(IMemoryPool *memory_pool, IMDId *pmdidRel, ULONG ulPos);
+			const IMDColStats *Pmdcolstats(IMemoryPool *memory_pool, IMDId *rel_mdid, ULONG ulPos);
 
 			// record histogram and width information for a given column of a table
 			void RecordColumnStats
 					(
 					IMemoryPool *memory_pool,
-					IMDId *pmdidRel,
+					IMDId *rel_mdid,
 					ULONG col_id,
 					ULONG ulPos,
 					BOOL fSystemCol,
@@ -362,7 +362,7 @@ namespace gpopt
 			IStatistics *Pstats
 				(
 				IMemoryPool *memory_pool, 
-				IMDId *pmdidRel,
+				IMDId *rel_mdid,
 				CColRefSet *pcrsHist,  // set of column references for which stats are needed
 				CColRefSet *pcrsWidth, // set of column references for which the widths are needed
 				CStatisticsConfig *pstatsconf = NULL

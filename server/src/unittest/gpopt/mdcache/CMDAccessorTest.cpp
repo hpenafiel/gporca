@@ -418,9 +418,9 @@ CMDAccessorTest::EresUnittest_Indexes()
 					);
 	
 	// lookup a relation in the MD cache
-	CMDIdGPDB *pmdidRel =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1 /* major */, 1 /* minor version */);
+	CMDIdGPDB *rel_mdid =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1 /* major */, 1 /* minor version */);
 	
-	const IMDRelation *pmdrel = mda.Pmdrel(pmdidRel);
+	const IMDRelation *pmdrel = mda.Pmdrel(rel_mdid);
 	
 	GPOS_ASSERT(0 < pmdrel->UlIndices());
 	
@@ -452,7 +452,7 @@ CMDAccessorTest::EresUnittest_Indexes()
 #endif // GPOS_DEBUG	
 	}
 	
-	pmdidRel->Release();
+	rel_mdid->Release();
 	return GPOS_OK;
 }
 
@@ -493,9 +493,9 @@ CMDAccessorTest::EresUnittest_CheckConstraint()
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	// lookup a relation in the MD cache
-	CMDIdGPDB *pmdidRel =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID21, 1 /* major */, 1 /* minor version */);
+	CMDIdGPDB *rel_mdid =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID21, 1 /* major */, 1 /* minor version */);
 
-	const IMDRelation *pmdrel = mda.Pmdrel(pmdidRel);
+	const IMDRelation *pmdrel = mda.Pmdrel(rel_mdid);
 	GPOS_ASSERT(0 < pmdrel->UlCheckConstraints());
 
 	// create the array of column reference for the table columns
@@ -532,7 +532,7 @@ CMDAccessorTest::EresUnittest_CheckConstraint()
 	// clean up
 	pexpr->Release();
 	pdrgpcr->Release();
-	pmdidRel->Release();
+	rel_mdid->Release();
 
 	return GPOS_OK;
 }
@@ -569,9 +569,9 @@ CMDAccessorTest::EresUnittest_IndexPartConstraint()
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	// lookup a relation in the MD cache
-	CMDIdGPDB *pmdidRel =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID22);
+	CMDIdGPDB *rel_mdid =  GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID22);
 
-	const IMDRelation *pmdrel = mda.Pmdrel(pmdidRel);
+	const IMDRelation *pmdrel = mda.Pmdrel(rel_mdid);
 	GPOS_ASSERT(0 < pmdrel->UlIndices());
 
 	// create the array of column reference for the table columns
@@ -607,7 +607,7 @@ CMDAccessorTest::EresUnittest_IndexPartConstraint()
 	// clean up
 	pexpr->Release();
 	pdrgpcr->Release();
-	pmdidRel->Release();
+	rel_mdid->Release();
 
 	return GPOS_OK;
 }

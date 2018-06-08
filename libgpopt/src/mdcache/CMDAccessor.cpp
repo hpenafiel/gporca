@@ -1103,7 +1103,7 @@ void
 CMDAccessor::RecordColumnStats
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	ULONG col_id,
 	ULONG ulPos,
 	BOOL fSystemCol,
@@ -1113,12 +1113,12 @@ CMDAccessor::RecordColumnStats
 	CStatisticsConfig *pstatsconf
 	)
 {
-	GPOS_ASSERT(NULL != pmdidRel);
+	GPOS_ASSERT(NULL != rel_mdid);
 	GPOS_ASSERT(NULL != phmulhist);
 	GPOS_ASSERT(NULL != phmuldoubleWidth);
 
 	// get the column statistics
-	const IMDColStats *pmdcolstats = Pmdcolstats(memory_pool, pmdidRel, ulPos);
+	const IMDColStats *pmdcolstats = Pmdcolstats(memory_pool, rel_mdid, ulPos);
 	GPOS_ASSERT(NULL != pmdcolstats);
 
 	// fetch the column width and insert it into the hashmap
@@ -1126,7 +1126,7 @@ CMDAccessor::RecordColumnStats
 	phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), pdWidth);
 
 	// extract the the histogram and insert it into the hashmap
-	const IMDRelation *pmdrel = Pmdrel(pmdidRel);
+	const IMDRelation *pmdrel = Pmdrel(rel_mdid);
 	IMDId *mdid_type = pmdrel->GetMdCol(ulPos)->MDIdType();
 	CHistogram *phist = Phist(memory_pool, mdid_type, pmdcolstats);
 	GPOS_ASSERT(NULL != phist);
@@ -1138,10 +1138,10 @@ CMDAccessor::RecordColumnStats
 	if (fRecordMissingStats)
 	{
 		// record the columns with missing (dummy) statistics information
-		pmdidRel->AddRef();
+		rel_mdid->AddRef();
 		CMDIdColStats *pmdidCol = GPOS_NEW(memory_pool) CMDIdColStats
 												(
-												CMDIdGPDB::PmdidConvert(pmdidRel),
+												CMDIdGPDB::PmdidConvert(rel_mdid),
 												ulPos
 												);
 		pstatsconf->AddMissingStatsColumn(pmdidCol);
@@ -1155,12 +1155,12 @@ const IMDColStats *
 CMDAccessor::Pmdcolstats
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	ULONG ulPos
 	)
 {
-	pmdidRel->AddRef();
-	CMDIdColStats *pmdidColStats = GPOS_NEW(memory_pool) CMDIdColStats(CMDIdGPDB::PmdidConvert(pmdidRel), ulPos);
+	rel_mdid->AddRef();
+	CMDIdColStats *pmdidColStats = GPOS_NEW(memory_pool) CMDIdColStats(CMDIdGPDB::PmdidConvert(rel_mdid), ulPos);
 	const IMDColStats *pmdcolstats = Pmdcolstats(pmdidColStats);
 	pmdidColStats->Release();
 
@@ -1179,24 +1179,24 @@ IStatistics *
 CMDAccessor::Pstats
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	CColRefSet *pcrsHist,
 	CColRefSet *pcrsWidth,
 	CStatisticsConfig *pstatsconf
 	)
 {
-	GPOS_ASSERT(NULL != pmdidRel);
+	GPOS_ASSERT(NULL != rel_mdid);
 	GPOS_ASSERT(NULL != pcrsHist);
 	GPOS_ASSERT(NULL != pcrsWidth);
 
 	// retrieve MD relation and MD relation stats objects
-	pmdidRel->AddRef();
-	CMDIdRelStats *pmdidRelStats = GPOS_NEW(memory_pool) CMDIdRelStats(CMDIdGPDB::PmdidConvert(pmdidRel));
+	rel_mdid->AddRef();
+	CMDIdRelStats *pmdidRelStats = GPOS_NEW(memory_pool) CMDIdRelStats(CMDIdGPDB::PmdidConvert(rel_mdid));
 	const IMDRelStats *pmdRelStats = Pmdrelstats(pmdidRelStats);
 	pmdidRelStats->Release();
 
 	BOOL fEmptyTable = pmdRelStats->IsEmpty();
-	const IMDRelation *pmdrel = Pmdrel(pmdidRel);
+	const IMDRelation *pmdrel = Pmdrel(rel_mdid);
 
 	HMUlHist *phmulhist = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
 	HMUlDouble *phmuldoubleWidth = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
@@ -1217,7 +1217,7 @@ CMDAccessor::Pstats
 		RecordColumnStats
 			(
 			memory_pool,
-			pmdidRel,
+			rel_mdid,
 			col_id,
 			ulPos,
 			pcrtable->FSystemCol(),

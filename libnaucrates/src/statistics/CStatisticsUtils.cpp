@@ -1338,12 +1338,12 @@ CStatisticsUtils::PhmpuldrgpulTblOpIdToGrpColsMap
 			const ULongPtrArray *pdrgpul = phmulpdrgpul->Find(&ulIdxUpperBoundNDVs);
 			if (NULL == pdrgpul)
 			{
-				ULongPtrArray *pdrgpulNew = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
-				pdrgpulNew->Append(GPOS_NEW(memory_pool) ULONG(col_id));
+				ULongPtrArray *col_ids_new = GPOS_NEW(memory_pool) ULongPtrArray(memory_pool);
+				col_ids_new->Append(GPOS_NEW(memory_pool) ULONG(col_id));
 #ifdef GPOS_DEBUG
 		BOOL fres =
 #endif // GPOS_DEBUG
-					phmulpdrgpul->Insert(GPOS_NEW(memory_pool) ULONG(ulIdxUpperBoundNDVs), pdrgpulNew);
+					phmulpdrgpul->Insert(GPOS_NEW(memory_pool) ULONG(ulIdxUpperBoundNDVs), col_ids_new);
 				GPOS_ASSERT(fres);
 			}
 			else

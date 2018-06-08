@@ -323,7 +323,7 @@ CPhysicalScan::PpimDeriveFromDynamicScan
 	(
 	IMemoryPool *memory_pool,
 	ULONG part_idx_id,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	DrgDrgPcr *pdrgpdrgpcrPart,
 	ULONG ulSecondaryPartIndexId,
 	CPartConstraint *ppartcnstr,
@@ -339,7 +339,7 @@ CPhysicalScan::PpimDeriveFromDynamicScan
 	DrgPpartkeys *pdrgppartkeys = GPOS_NEW(memory_pool) DrgPpartkeys(memory_pool);
 	pdrgppartkeys->Append(GPOS_NEW(memory_pool) CPartKeys(pdrgpdrgpcrPart));
 
-	ppim->Insert(part_idx_id, ppartcnstrmap, CPartIndexMap::EpimConsumer, ulExpectedPropagators, pmdidRel, pdrgppartkeys, ppartcnstrRel);
+	ppim->Insert(part_idx_id, ppartcnstrmap, CPartIndexMap::EpimConsumer, ulExpectedPropagators, rel_mdid, pdrgppartkeys, ppartcnstrRel);
 
 	return ppim;
 }

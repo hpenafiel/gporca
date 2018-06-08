@@ -55,10 +55,10 @@ namespace gpdxl
 			CDXLPhysicalRowTrigger
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidRel,
-				INT iType,
-				ULongPtrArray *pdrgpulOld,
-				ULongPtrArray *pdrgpulNew
+				IMDId *rel_mdid,
+				INT type,
+				ULongPtrArray *col_ids_old,
+				ULongPtrArray *col_ids_new
 				);
 
 			// dtor
@@ -80,19 +80,19 @@ namespace gpdxl
 			}
 
 			// trigger type
-			INT IType() const
+			INT GetType() const
 			{
 				return m_type;
 			}
 
 			// old column ids
-			ULongPtrArray *PdrgpulOld() const
+			ULongPtrArray *GetColIdsOld() const
 			{
 				return m_col_ids_old;
 			}
 
 			// new column ids
-			ULongPtrArray *PdrgpulNew() const
+			ULongPtrArray *GetColIdsNew() const
 			{
 				return m_col_ids_new;
 			}

@@ -54,8 +54,8 @@ namespace gpopt
 			CPhysicalRowTrigger
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidRel,
-				INT iType,
+				IMDId *rel_mdid,
+				INT type,
 				DrgPcr *pdrgpcrOld,
 				DrgPcr *pdrgpcrNew
 				);
@@ -85,7 +85,7 @@ namespace gpopt
 			}
 
 			// trigger type
-			INT IType() const
+			INT GetType() const
 			{
 				return m_type;
 			}

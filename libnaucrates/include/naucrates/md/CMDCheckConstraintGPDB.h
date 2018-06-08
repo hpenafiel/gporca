@@ -67,7 +67,7 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				IMDId *pmdid,
 				CMDName *mdname,
-				IMDId *pmdidRel,
+				IMDId *rel_mdid,
 				CDXLNode *dxlnode
 				);
 

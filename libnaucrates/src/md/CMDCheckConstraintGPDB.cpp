@@ -34,18 +34,18 @@ CMDCheckConstraintGPDB::CMDCheckConstraintGPDB
 	IMemoryPool *memory_pool,
 	IMDId *pmdid,
 	CMDName *mdname,
-	IMDId *pmdidRel,
+	IMDId *rel_mdid,
 	CDXLNode *dxlnode
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(pmdid),
 	m_mdname(mdname),
-	m_rel_mdid(pmdidRel),
+	m_rel_mdid(rel_mdid),
 	m_dxl_node(dxlnode)
 {
 	GPOS_ASSERT(pmdid->IsValid());
-	GPOS_ASSERT(pmdidRel->IsValid());
+	GPOS_ASSERT(rel_mdid->IsValid());
 	GPOS_ASSERT(NULL != mdname);
 	GPOS_ASSERT(NULL != dxlnode);
 

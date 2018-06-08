@@ -30,21 +30,21 @@ using namespace gpopt;
 CPhysicalRowTrigger::CPhysicalRowTrigger
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidRel,
-	INT iType,
+	IMDId *rel_mdid,
+	INT type,
 	DrgPcr *pdrgpcrOld,
 	DrgPcr *pdrgpcrNew
 	)
 	:
 	CPhysical(memory_pool),
-	m_rel_mdid(pmdidRel),
-	m_type(iType),
+	m_rel_mdid(rel_mdid),
+	m_type(type),
 	m_pdrgpcrOld(pdrgpcrOld),
 	m_pdrgpcrNew(pdrgpcrNew),
 	m_pcrsRequiredLocal(NULL)
 {
-	GPOS_ASSERT(pmdidRel->IsValid());
-	GPOS_ASSERT(0 != iType);
+	GPOS_ASSERT(rel_mdid->IsValid());
+	GPOS_ASSERT(0 != type);
 	GPOS_ASSERT(NULL != pdrgpcrNew || NULL != pdrgpcrOld);
 	GPOS_ASSERT_IMP(NULL != pdrgpcrNew && NULL != pdrgpcrOld,
 			pdrgpcrNew->Size() == pdrgpcrOld->Size());
@@ -402,7 +402,7 @@ CPhysicalRowTrigger::FMatch
 	DrgPcr *pdrgpcrNew = popRowTrigger->PdrgpcrNew();
 
 	return m_rel_mdid->Equals(popRowTrigger->GetRelMdId()) &&
-			m_type == popRowTrigger->IType() &&
+			m_type == popRowTrigger->GetType() &&
 			CUtils::Equals(m_pdrgpcrOld, pdrgpcrOld) &&
 			CUtils::Equals(m_pdrgpcrNew, pdrgpcrNew);
 }
