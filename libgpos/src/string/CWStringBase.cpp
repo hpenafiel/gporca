@@ -112,14 +112,14 @@ CWStringBase::Equals
 BOOL
 CWStringBase::Equals
 	(
-	const WCHAR *wstrbuf
+	const WCHAR *w_str_buffer
 	)
 	const
 {
-	GPOS_ASSERT(NULL != wstrbuf);
-	ULONG length = GPOS_WSZ_LENGTH(wstrbuf);
+	GPOS_ASSERT(NULL != w_str_buffer);
+	ULONG length = GPOS_WSZ_LENGTH(w_str_buffer);
 	if (Length() == length &&
-		0 == clib::WcStrNCmp(GetBuffer(), wstrbuf, length))
+		0 == clib::WcStrNCmp(GetBuffer(), w_str_buffer, length))
 	{
 		return true;
 	}
@@ -155,12 +155,12 @@ CWStringBase::Find
 	)
 	const
 {
-	const WCHAR *wsz = GetBuffer();
+	const WCHAR *w_str = GetBuffer();
 	const ULONG length = Length();
 
 	for (ULONG i = 0; i < length; i++)
 	{
-		if (wc == wsz[i])
+		if (wc == w_str[i])
 		{
 			return i;
 		}
@@ -188,12 +188,12 @@ CWStringBase::HasEscapedCharAt
 	GPOS_ASSERT(!IsEmpty());
 	GPOS_ASSERT(Length() > offset);
 
-	const WCHAR *wstrbuf = GetBuffer();
+	const WCHAR *w_str_buffer = GetBuffer();
 
 	for (ULONG i = offset; i > 0; i--)
 	{
 		// check for escape character
-		if (GPOS_WSZ_LIT('\\') != wstrbuf[i - 1])
+		if (GPOS_WSZ_LIT('\\') != w_str_buffer[i - 1])
 		{
 			if (0 == ((offset - i) & ULONG(1)))
 			{

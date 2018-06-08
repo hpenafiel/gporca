@@ -31,12 +31,12 @@ namespace gpos
 	{
 		private:
 			// null terminated wide character buffer
-			const WCHAR *m_wszBuf;
+			const WCHAR *m_w_str_buffer;
 			
 		public:
 			// ctors
-			CWStringConst(const WCHAR *wstrbuf);
-			CWStringConst(IMemoryPool *memory_pool, const WCHAR *wstrbuf);
+			CWStringConst(const WCHAR *w_str_buffer);
+			CWStringConst(IMemoryPool *memory_pool, const WCHAR *w_str_buffer);
 			
 			// shallow copy ctor
 			CWStringConst(const CWStringConst&);

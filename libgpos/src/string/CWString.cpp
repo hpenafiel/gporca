@@ -33,7 +33,7 @@ CWString::CWString
 		length,
 		true // owns_memory
 		),
-	m_wszBuf(NULL)
+	m_w_str_buffer(NULL)
 {}
 
 
@@ -48,7 +48,7 @@ CWString::CWString
 const WCHAR*
 CWString::GetBuffer() const
 {
-	return m_wszBuf;
+	return m_w_str_buffer;
 }
 
 

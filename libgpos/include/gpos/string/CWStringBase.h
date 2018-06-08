@@ -57,7 +57,7 @@ namespace gpos
 			BOOL m_owns_memory;
 			
 			// checks whether the string is byte-wise equal to a given string literal
-			virtual BOOL Equals(const WCHAR *wstrbuf) const;
+			virtual BOOL Equals(const WCHAR *w_str_buffer) const;
 			
 		public:
 			

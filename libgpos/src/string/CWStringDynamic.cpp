@@ -51,20 +51,20 @@ CWStringDynamic::CWStringDynamic
 CWStringDynamic::CWStringDynamic
 	(
 	IMemoryPool *memory_pool,
-	const WCHAR *wstrbuf
+	const WCHAR *w_str_buffer
 	)
 	:
 	CWString
 		(
-		GPOS_WSZ_LENGTH(wstrbuf)
+		GPOS_WSZ_LENGTH(w_str_buffer)
 		),
 	m_memory_pool(memory_pool),
 	m_capacity(0)
 {
-	GPOS_ASSERT(NULL != wstrbuf);
+	GPOS_ASSERT(NULL != w_str_buffer);
 
 	Reset();
-	AppendBuffer(wstrbuf);
+	AppendBuffer(w_str_buffer);
 }
 
 
@@ -93,12 +93,12 @@ CWStringDynamic::~CWStringDynamic()
 void
 CWStringDynamic::Reset()
 {
-	if (NULL != m_wszBuf && &m_empty_wcstr != m_wszBuf)
+	if (NULL != m_w_str_buffer && &m_empty_wcstr != m_w_str_buffer)
 	{
-		GPOS_DELETE_ARRAY(m_wszBuf);
+		GPOS_DELETE_ARRAY(m_w_str_buffer);
 	}
 
-	m_wszBuf = const_cast<WCHAR *>(&m_empty_wcstr);
+	m_w_str_buffer = const_cast<WCHAR *>(&m_empty_wcstr);
 	m_length = 0;
 	m_capacity = 0;
 }
@@ -115,25 +115,25 @@ CWStringDynamic::Reset()
 void
 CWStringDynamic::AppendBuffer
 	(
-	const WCHAR *wsz
+	const WCHAR *w_str
 	)
 {
-	GPOS_ASSERT(NULL != wsz);
-	ULONG length = GPOS_WSZ_LENGTH(wsz);
+	GPOS_ASSERT(NULL != w_str);
+	ULONG length = GPOS_WSZ_LENGTH(w_str);
 	if (0 == length)
 	{
 		return;
 	}
 
 	// expand buffer if needed
-	ULONG ulNewLength = m_length + length;
-	if (ulNewLength + 1 > m_capacity)
+	ULONG new_length = m_length + length;
+	if (new_length + 1 > m_capacity)
 	{
-		IncreaseCapacity(ulNewLength);
+		IncreaseCapacity(new_length);
 	}
 
-	clib::WcStrNCpy(m_wszBuf + m_length, wsz, length + 1);
-	m_length = ulNewLength;
+	clib::WcStrNCpy(m_w_str_buffer + m_length, w_str, length + 1);
+	m_length = new_length;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -150,10 +150,10 @@ CWStringDynamic::AppendBuffer
 void
 CWStringDynamic::AppendWideCharArray
 	(
-	const WCHAR *wsz
+	const WCHAR *w_str
 	)
 {
-	AppendBuffer(wsz);
+	AppendBuffer(w_str);
 }
 
 
@@ -175,26 +175,26 @@ CWStringDynamic::AppendCharArray
 
 	// expand buffer if needed
 	const ULONG length = GPOS_SZ_LENGTH(sz);
-	ULONG ulNewLength = m_length + length;
-	if (ulNewLength + 1 > m_capacity)
+	ULONG new_length = m_length + length;
+	if (new_length + 1 > m_capacity)
 	{
-		IncreaseCapacity(ulNewLength);
+		IncreaseCapacity(new_length);
 	}
-	WCHAR *wstrbuf = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, length + 1);
+	WCHAR *w_str_buffer = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, length + 1);
 
 	// convert input string to wide character buffer
 #ifdef GPOS_DEBUG
 	ULONG ulLen =
 #endif // GPOS_DEBUG
-		clib::MbToWcs(wstrbuf, sz, length);
+		clib::MbToWcs(w_str_buffer, sz, length);
 	GPOS_ASSERT(ulLen == length);
 
 	// append input string to current end of buffer
-	(void) clib::WcMemCpy(m_wszBuf + m_length, wstrbuf, length + 1);
-	GPOS_DELETE_ARRAY(wstrbuf);
+	(void) clib::WcMemCpy(m_w_str_buffer + m_length, w_str_buffer, length + 1);
+	GPOS_DELETE_ARRAY(w_str_buffer);
 
-	m_wszBuf[ulNewLength] = WCHAR_EOS;
-	m_length = ulNewLength;
+	m_w_str_buffer[new_length] = WCHAR_EOS;
+	m_length = new_length;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -218,26 +218,26 @@ CWStringDynamic::AppendFormat
 	GPOS_ASSERT(NULL != format);
 	using clib::VswPrintf;
 
-	VA_LIST	vaArgs;
+	VA_LIST	va_args;
 
 	// determine length of format string after expansion
 	INT res = -1;
 
 	// attempt to fit the formatted string in a static array
-	WCHAR wszBufStatic[GPOS_WSTR_DYNAMIC_STATIC_BUFFER];
+	WCHAR w_str_buf_static[GPOS_WSTR_DYNAMIC_STATIC_BUFFER];
 
 	// get arguments
-	VA_START(vaArgs, format);
+	VA_START(va_args, format);
 
 	// try expanding the formatted string in the buffer
-	res = VswPrintf(wszBufStatic, GPOS_ARRAY_SIZE(wszBufStatic), format, vaArgs);
+	res = VswPrintf(w_str_buf_static, GPOS_ARRAY_SIZE(w_str_buf_static), format, va_args);
 
 	// reset arguments
-	VA_END(vaArgs);
+	VA_END(va_args);
 	GPOS_ASSERT(-1 <= res);
 
 	// estimated number of characters in expanded format string
-	ULONG size = std::max(GPOS_WSZ_LENGTH(format), GPOS_ARRAY_SIZE(wszBufStatic));
+	ULONG size = std::max(GPOS_WSZ_LENGTH(format), GPOS_ARRAY_SIZE(w_str_buf_static));
 
 	// if the static buffer is too small, find the formatted string
 	// length by trying to store it in a buffer of increasing size
@@ -245,17 +245,17 @@ CWStringDynamic::AppendFormat
 	{
 		// try with a bigger buffer this time
 		size *= 2;
-		CAutoRg<WCHAR> a_wszBuf;
-		a_wszBuf = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, size + 1);
+		CAutoRg<WCHAR> a_w_str_buff;
+		a_w_str_buff = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, size + 1);
 
 		// get arguments
-		VA_START(vaArgs, format);
+		VA_START(va_args, format);
 
 		// try expanding the formatted string in the buffer
-		res = VswPrintf(a_wszBuf.Rgt(), size, format, vaArgs);
+		res = VswPrintf(a_w_str_buff.Rgt(), size, format, va_args);
 
 		// reset arguments
-		VA_END(vaArgs);
+		VA_END(va_args);
 
 		GPOS_ASSERT(-1 <= res);
 	}
@@ -263,22 +263,22 @@ CWStringDynamic::AppendFormat
 	GPOS_ASSERT(res >= 0);
 
 	// expand buffer if needed
-	ULONG ulNewLength = m_length + ULONG(res);
-	if (ulNewLength + 1 > m_capacity)
+	ULONG new_length = m_length + ULONG(res);
+	if (new_length + 1 > m_capacity)
 	{
-		IncreaseCapacity(ulNewLength);
+		IncreaseCapacity(new_length);
 	}
 
 	// get arguments
-	VA_START(vaArgs, format);
+	VA_START(va_args, format);
 
-	// print vaArgs to string
-	VswPrintf(m_wszBuf + m_length, res + 1, format, vaArgs);
+	// print va_args to string
+	VswPrintf(m_w_str_buffer + m_length, res + 1, format, va_args);
 
 	// reset arguments
-	VA_END(vaArgs);
+	VA_END(va_args);
 
-	m_length = ulNewLength;
+	m_length = new_length;
 	GPOS_ASSERT(IsValid());
 }
 
@@ -296,7 +296,7 @@ CWStringDynamic::AppendEscape
 	(
 	const CWStringBase *str,
 	WCHAR wc,
-	const WCHAR *wszReplace
+	const WCHAR *w_str_replace
 	)
 {
 	GPOS_ASSERT(NULL != str);
@@ -315,32 +315,32 @@ CWStringDynamic::AppendEscape
 	}
 
 	ULONG length = str->Length();
-	const WCHAR * wsz = str->GetBuffer();
+	const WCHAR * w_str = str->GetBuffer();
 
-	ULONG ulLengthReplace =  GPOS_WSZ_LENGTH(wszReplace);
-	ULONG ulNewLength = m_length + length + (ulLengthReplace - 1) * occurrences;
-	if (ulNewLength + 1 > m_capacity)
+	ULONG length_replace =  GPOS_WSZ_LENGTH(w_str_replace);
+	ULONG new_length = m_length + length + (length_replace - 1) * occurrences;
+	if (new_length + 1 > m_capacity)
 	{
-		IncreaseCapacity(ulNewLength);
+		IncreaseCapacity(new_length);
 	}
 
 	// append new contents while replacing character with escaping string
 	for (ULONG i = 0, j = m_length; i < length; i++)
 	{
-		if (wc == wsz[i] && !str->HasEscapedCharAt(i))
+		if (wc == w_str[i] && !str->HasEscapedCharAt(i))
 		{
-			clib::WcStrNCpy(m_wszBuf + j, wszReplace, ulLengthReplace);
-			j += ulLengthReplace;
+			clib::WcStrNCpy(m_w_str_buffer + j, w_str_replace, length_replace);
+			j += length_replace;
 		}
 		else
 		{
-			m_wszBuf[j++] = wsz[i];
+			m_w_str_buffer[j++] = w_str[i];
 		}
 	}
 
 	// terminate string
-	m_wszBuf[ulNewLength] = WCHAR_EOS;
-	m_length = ulNewLength;
+	m_w_str_buffer[new_length] = WCHAR_EOS;
+	m_length = new_length;
 
 	GPOS_ASSERT(IsValid());
 }
@@ -357,49 +357,49 @@ CWStringDynamic::AppendEscape
 void
 CWStringDynamic::IncreaseCapacity
 	(
-	ULONG ulRequested
+	ULONG requested
 	)
 {
-	GPOS_ASSERT(ulRequested + 1 > m_capacity);
+	GPOS_ASSERT(requested + 1 > m_capacity);
 
-	ULONG capacity = UlCapacity(ulRequested + 1);
-	GPOS_ASSERT(capacity > ulRequested + 1);
+	ULONG capacity = Capacity(requested + 1);
+	GPOS_ASSERT(capacity > requested + 1);
 	GPOS_ASSERT(capacity >= (m_capacity << 1));
 
-	CAutoRg<WCHAR> a_wszNewBuf;
-	a_wszNewBuf = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, capacity);
+	CAutoRg<WCHAR> a_w_str_new_buff;
+	a_w_str_new_buff = GPOS_NEW_ARRAY(m_memory_pool, WCHAR, capacity);
 	if (0 < m_length)
 	{
 		// current string is not empty: copy it to the resulting string
-		a_wszNewBuf = clib::WcStrNCpy(a_wszNewBuf.Rgt(), m_wszBuf, m_length);
+		a_w_str_new_buff = clib::WcStrNCpy(a_w_str_new_buff.Rgt(), m_w_str_buffer, m_length);
 	}
 
 	// release old buffer
-	if (m_wszBuf != &m_empty_wcstr)
+	if (m_w_str_buffer != &m_empty_wcstr)
 	{
-		GPOS_DELETE_ARRAY(m_wszBuf);
+		GPOS_DELETE_ARRAY(m_w_str_buffer);
 	}
-	m_wszBuf = a_wszNewBuf.RgtReset();
+	m_w_str_buffer = a_w_str_new_buff.RgtReset();
 	m_capacity = capacity;
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CWStringDynamic::UlCapacity
+//		CWStringDynamic::Capacity
 //
 //	@doc:
 //		Find capacity that fits requested string size
 //
 //---------------------------------------------------------------------------
 ULONG
-CWStringDynamic::UlCapacity
+CWStringDynamic::Capacity
 	(
-	ULONG ulRequested
+	ULONG requested
 	)
 {
 	ULONG capacity = GPOS_WSTR_DYNAMIC_CAPACITY_INIT;
-	while (capacity <= ulRequested + 1)
+	while (capacity <= requested + 1)
 	{
 		capacity = capacity << 1;
 	}

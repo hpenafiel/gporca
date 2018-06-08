@@ -41,11 +41,11 @@ namespace gpos
 			ULONG m_capacity;
 
 			// increase string capacity
-			void IncreaseCapacity(ULONG ulRequested);
+			void IncreaseCapacity(ULONG requested);
 
 			// find capacity that fits requested string size
 			static
-			ULONG UlCapacity(ULONG ulRequested);
+			ULONG Capacity(ULONG requested);
 
 			// private copy ctor
 			CWStringDynamic(const CWStringDynamic&);
@@ -53,7 +53,7 @@ namespace gpos
 		protected:
 
 			// appends the contents of a buffer to the current string
-			void AppendBuffer(const WCHAR *wstrbuf);
+			void AppendBuffer(const WCHAR *w_str_buffer);
 
 		public:
 
@@ -61,10 +61,10 @@ namespace gpos
 			CWStringDynamic(IMemoryPool *memory_pool);
 
 			// ctor - copies passed string
-			CWStringDynamic(IMemoryPool *memory_pool, const WCHAR *wstrbuf);
+			CWStringDynamic(IMemoryPool *memory_pool, const WCHAR *w_str_buffer);
 
 			// appends a string and replaces character with string
-			void AppendEscape(const CWStringBase *str, WCHAR wc, const WCHAR *wszReplace);
+			void AppendEscape(const CWStringBase *str, WCHAR wc, const WCHAR *w_str_replace);
 
 			// appends a formatted string
 			void AppendFormat(const WCHAR *format, ...);
@@ -75,7 +75,7 @@ namespace gpos
 
 			// appends a null terminated wide character array
 			virtual
-			void AppendWideCharArray(const WCHAR *wsz);
+			void AppendWideCharArray(const WCHAR *w_str);
 
 			// dtor
 			virtual ~CWStringDynamic();

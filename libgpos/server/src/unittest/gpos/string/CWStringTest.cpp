@@ -304,8 +304,8 @@ CWStringTest::EresUnittest_AppendFormatLarge()
 	// cleanup
 	GPOS_DELETE(pstr3);
 
-	WCHAR wsz[25];
-	CWStringStatic *pstr4 = GPOS_NEW(memory_pool) CWStringStatic(wsz, GPOS_ARRAY_SIZE(wsz), GPOS_WSZ_LIT("Hello"));
+	WCHAR w_str[25];
+	CWStringStatic *pstr4 = GPOS_NEW(memory_pool) CWStringStatic(w_str, GPOS_ARRAY_SIZE(w_str), GPOS_WSZ_LIT("Hello"));
 	pstr4->AppendCharArray(" World");
 	pstr4->AppendWideCharArray(GPOS_WSZ_LIT(" WIDE WORLD"));
 
@@ -468,16 +468,16 @@ CWStringTest::EresUnittest_AppendEscape()
 	CAutoMemoryPool amp;
 	IMemoryPool *memory_pool = amp.Pmp();
 
-	const WCHAR *wsz = GPOS_WSZ_LIT("Helloe ");
-	CWStringConst cstr(wsz);
+	const WCHAR *w_str = GPOS_WSZ_LIT("Helloe ");
+	CWStringConst cstr(w_str);
 
-	CWStringDynamic strd(memory_pool, wsz);
+	CWStringDynamic strd(memory_pool, w_str);
 
 	WCHAR buffer1[32];
 	WCHAR buffer2[9];
 
-	CWStringStatic strs1(buffer1, GPOS_ARRAY_SIZE(buffer1), wsz);
-	CWStringStatic strs2(buffer2, GPOS_ARRAY_SIZE(buffer2), wsz);
+	CWStringStatic strs1(buffer1, GPOS_ARRAY_SIZE(buffer1), w_str);
+	CWStringStatic strs2(buffer2, GPOS_ARRAY_SIZE(buffer2), w_str);
 
 	GPOS_ASSERT(1 == strd.Find('e'));
 	GPOS_ASSERT(1 == strs1.Find('e'));

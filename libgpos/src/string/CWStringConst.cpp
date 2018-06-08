@@ -27,17 +27,17 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CWStringConst::CWStringConst
 	(
-	const WCHAR *wstrbuf
+	const WCHAR *w_str_buffer
 	)
 	:
 	CWStringBase
 		(
-		GPOS_WSZ_LENGTH(wstrbuf),
+		GPOS_WSZ_LENGTH(w_str_buffer),
 		false // owns_memory
 		),
-	m_wszBuf(wstrbuf)
+	m_w_str_buffer(w_str_buffer)
 {
-	GPOS_ASSERT(NULL != wstrbuf);
+	GPOS_ASSERT(NULL != w_str_buffer);
 	GPOS_ASSERT(IsValid());
 }
 
@@ -53,30 +53,30 @@ CWStringConst::CWStringConst
 CWStringConst::CWStringConst
 	(
 	IMemoryPool *memory_pool,
-	const WCHAR *wstrbuf
+	const WCHAR *w_str_buffer
 	)
 	:
 	CWStringBase
 		(
-		GPOS_WSZ_LENGTH(wstrbuf),
+		GPOS_WSZ_LENGTH(w_str_buffer),
 		true // owns_memory
 		),
-	m_wszBuf(NULL)
+	m_w_str_buffer(NULL)
 {
 	GPOS_ASSERT(NULL != memory_pool);
-	GPOS_ASSERT(NULL != wstrbuf);
+	GPOS_ASSERT(NULL != w_str_buffer);
 
 	if (0 == m_length)
 	{
 		// string is empty
-		m_wszBuf = &m_empty_wcstr;
+		m_w_str_buffer = &m_empty_wcstr;
 	}
 	else
 	{
 		// make a copy of the string
-		WCHAR *wszTempBuf = GPOS_NEW_ARRAY(memory_pool, WCHAR, m_length + 1);
-		clib::WcStrNCpy(wszTempBuf, wstrbuf, m_length + 1);
-		m_wszBuf = wszTempBuf;
+		WCHAR *w_str_temp_buffer = GPOS_NEW_ARRAY(memory_pool, WCHAR, m_length + 1);
+		clib::WcStrNCpy(w_str_temp_buffer, w_str_buffer, m_length + 1);
+		m_w_str_buffer = w_str_temp_buffer;
 	}
 
 	GPOS_ASSERT(IsValid());
@@ -100,9 +100,9 @@ CWStringConst::CWStringConst
 		str.Length(),
 		false // owns_memory
 		),
-	m_wszBuf(str.GetBuffer())
+	m_w_str_buffer(str.GetBuffer())
 {
-	GPOS_ASSERT(NULL != m_wszBuf);
+	GPOS_ASSERT(NULL != m_w_str_buffer);
 	GPOS_ASSERT(IsValid());
 }
 //---------------------------------------------------------------------------
@@ -116,9 +116,9 @@ CWStringConst::CWStringConst
 //---------------------------------------------------------------------------
 CWStringConst::~CWStringConst()
 {
-	if (m_owns_memory && m_wszBuf != &m_empty_wcstr)
+	if (m_owns_memory && m_w_str_buffer != &m_empty_wcstr)
 	{
-		GPOS_DELETE_ARRAY(m_wszBuf);
+		GPOS_DELETE_ARRAY(m_w_str_buffer);
 	}
 }
 
@@ -133,7 +133,7 @@ CWStringConst::~CWStringConst()
 const WCHAR*
 CWStringConst::GetBuffer() const
 {
-	return m_wszBuf;
+	return m_w_str_buffer;
 }
 
 // EOF
