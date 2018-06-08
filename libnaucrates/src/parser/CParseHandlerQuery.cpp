@@ -147,22 +147,22 @@ CParseHandlerQuery::StartElement
 	GPOS_ASSERT(NULL != m_memory_pool);
 
 	// create parse handler for the query output node
-	CParseHandlerBase *pphQueryOutput = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_parse_handler_mgr, this);
+	CParseHandlerBase *parse_handler_query_output = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenQueryOutput), m_parse_handler_mgr, this);
 
 	// create parse handler for the CTE list
-	CParseHandlerBase *pphCTE = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_parse_handler_mgr, this);
+	CParseHandlerBase *parse_handler_cte = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCTEList), m_parse_handler_mgr, this);
 
 	// create a parse handler for logical nodes
-	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
+	CParseHandlerBase *parse_handler_root = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);
 
-	m_parse_handler_mgr->ActivateParseHandler(pph);
-	m_parse_handler_mgr->ActivateParseHandler(pphCTE);
-	m_parse_handler_mgr->ActivateParseHandler(pphQueryOutput);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_root);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_cte);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_query_output);
 
 	// store parse handlers
-	this->Append(pphQueryOutput);
-	this->Append(pphCTE);
-	this->Append(pph);
+	this->Append(parse_handler_query_output);
+	this->Append(parse_handler_cte);
+	this->Append(parse_handler_root);
 }
 
 //---------------------------------------------------------------------------
@@ -187,24 +187,24 @@ CParseHandlerQuery::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	CParseHandlerQueryOutput *pphQueryOutput = dynamic_cast<CParseHandlerQueryOutput *>((*this)[0]);
-	GPOS_ASSERT(NULL != pphQueryOutput && NULL != pphQueryOutput->GetOutputColumnsDXLArray());
+	CParseHandlerQueryOutput *parse_handler_query_output = dynamic_cast<CParseHandlerQueryOutput *>((*this)[0]);
+	GPOS_ASSERT(NULL != parse_handler_query_output && NULL != parse_handler_query_output->GetOutputColumnsDXLArray());
 
 	// store constructed node
-	m_output_colums_dxl_array = pphQueryOutput->GetOutputColumnsDXLArray();
+	m_output_colums_dxl_array = parse_handler_query_output->GetOutputColumnsDXLArray();
 	m_output_colums_dxl_array->AddRef();
 
-	CParseHandlerCTEList *pphCTE = dynamic_cast<CParseHandlerCTEList *>((*this)[1]);
-	GPOS_ASSERT(NULL != pphCTE && NULL != pphCTE->GetDxlCteArray());
+	CParseHandlerCTEList *parse_handler_cte = dynamic_cast<CParseHandlerCTEList *>((*this)[1]);
+	GPOS_ASSERT(NULL != parse_handler_cte && NULL != parse_handler_cte->GetDxlCteArray());
 
-	m_cte_producer_dxl_array = pphCTE->GetDxlCteArray();
+	m_cte_producer_dxl_array = parse_handler_cte->GetDxlCteArray();
 	m_cte_producer_dxl_array->AddRef();
 
-	CParseHandlerLogicalOp *pphLgOp = dynamic_cast<CParseHandlerLogicalOp *>((*this)[2]);
-	GPOS_ASSERT(NULL != pphLgOp && NULL != pphLgOp->CreateDXLNode());
+	CParseHandlerLogicalOp *parse_handler_logical_op = dynamic_cast<CParseHandlerLogicalOp *>((*this)[2]);
+	GPOS_ASSERT(NULL != parse_handler_logical_op && NULL != parse_handler_logical_op->CreateDXLNode());
 
 	// store constructed node
-	m_dxl_node = pphLgOp->CreateDXLNode();
+	m_dxl_node = parse_handler_logical_op->CreateDXLNode();
 	m_dxl_node->AddRef();
 
 	// deactivate handler
