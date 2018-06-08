@@ -69,7 +69,7 @@ CParseHandlerPhysicalWindow::StartElement
 	}
 
 	const XMLCh *xml_str_part_by_cols= CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPartKeys, EdxltokenPhysicalWindow);
-	m_part_by_col_identifier_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_part_by_cols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
+	m_part_by_col_identifier_array = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_part_by_cols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
 	GPOS_ASSERT(NULL != m_part_by_col_identifier_array);
 
 	// parse handler for window key list
