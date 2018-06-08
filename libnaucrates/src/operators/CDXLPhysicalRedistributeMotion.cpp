@@ -132,14 +132,14 @@ CDXLPhysicalRedistributeMotion::AssertValid
 	GPOS_ASSERT(EdxlrmIndexSentinel == dxlnode->Arity());
 	
 	CDXLNode *child_dxlnode = (*dxlnode)[EdxlrmIndexChild];
-	CDXLNode *pdxlnHashExprList = (*dxlnode)[EdxlrmIndexHashExprList];
+	CDXLNode *hash_expr_list = (*dxlnode)[EdxlrmIndexHashExprList];
 
 	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 	
 	if (validate_children)
 	{
 		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
-		pdxlnHashExprList->GetOperator()->AssertValid(pdxlnHashExprList, validate_children);
+		hash_expr_list->GetOperator()->AssertValid(hash_expr_list, validate_children);
 	}
 }
 #endif // GPOS_DEBUG

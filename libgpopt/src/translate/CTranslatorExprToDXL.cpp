@@ -4031,8 +4031,8 @@ CTranslatorExprToDXL::PdxlnMotion
 		// construct a hash expr list node
 		CPhysicalMotionHashDistribute *popHashDistribute = CPhysicalMotionHashDistribute::PopConvert(pexprMotion->Pop());
 		CDistributionSpecHashed *pdsHashed = CDistributionSpecHashed::PdsConvert(popHashDistribute->Pds());
-		CDXLNode *pdxlnHashExprList = PdxlnHashExprList(pdsHashed->Pdrgpexpr());
-		pdxlnMotion->AddChild(pdxlnHashExprList);
+		CDXLNode *hash_expr_list = PdxlnHashExprList(pdsHashed->Pdrgpexpr());
+		pdxlnMotion->AddChild(hash_expr_list);
 	}
 
 	pdxlnMotion->AddChild(child_dxlnode);
@@ -7698,7 +7698,7 @@ CTranslatorExprToDXL::PdxlnHashExprList
 {
 	GPOS_ASSERT(NULL != pdrgpexpr);
 	
-	CDXLNode *pdxlnHashExprList = 
+	CDXLNode *hash_expr_list = 
 			GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarHashExprList(m_memory_pool));
 	
 	for (ULONG ul = 0; ul < pdrgpexpr->Size(); ul++)
@@ -7721,10 +7721,10 @@ CTranslatorExprToDXL::PdxlnHashExprList
 												
 		pdxlnHashExpr->AddChild(PdxlnScalar(pexpr));
 		
-		pdxlnHashExprList->AddChild(pdxlnHashExpr);
+		hash_expr_list->AddChild(pdxlnHashExpr);
 	}
 	
-	return pdxlnHashExprList;
+	return hash_expr_list;
 }
 
 //---------------------------------------------------------------------------
