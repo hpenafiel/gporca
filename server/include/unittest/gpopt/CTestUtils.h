@@ -201,11 +201,11 @@ namespace gpopt
 
 			// generate a get expression over table with nullable columns
 			static
-			CExpression *PexprLogicalGetNullable(IMemoryPool *memory_pool, OID oidTable, const CWStringConst *pstrTableName, const CWStringConst *pstrTableAlias);
+			CExpression *PexprLogicalGetNullable(IMemoryPool *memory_pool, OID oidTable, const CWStringConst *str_table_name, const CWStringConst *pstrTableAlias);
 
 			// generate a get expression
 			static
-			CExpression *PexprLogicalGet(IMemoryPool *memory_pool, CWStringConst *pstrTableName, CWStringConst *pstrTableAlias, ULONG ulTableId);
+			CExpression *PexprLogicalGet(IMemoryPool *memory_pool, CWStringConst *str_table_name, CWStringConst *pstrTableAlias, ULONG ulTableId);
 
 			// generate a random get expression
 			static
@@ -233,7 +233,7 @@ namespace gpopt
 
 			// generate a select expression
 			static
-			CExpression *PexprLogicalSelect(IMemoryPool *memory_pool, CWStringConst *pstrTableName, CWStringConst *pstrTableAlias, ULONG ulTableId);
+			CExpression *PexprLogicalSelect(IMemoryPool *memory_pool, CWStringConst *str_table_name, CWStringConst *pstrTableAlias, ULONG ulTableId);
 
 			// generate a random select expression
 			static

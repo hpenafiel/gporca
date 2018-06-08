@@ -35,14 +35,14 @@ CDXLRelStats::CDXLRelStats
 	CMDIdRelStats *pmdidRelStats,
 	CMDName *mdname,
 	CDouble rows,
-	BOOL fEmpty
+	BOOL is_empty
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_pmdidRelStats(pmdidRelStats),
 	m_mdname(mdname),
 	m_rows(rows),
-	m_empty(fEmpty)
+	m_empty(is_empty)
 {
 	GPOS_ASSERT(pmdidRelStats->IsValid());
 	m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
@@ -199,7 +199,7 @@ CDXLRelStats::PdxlrelstatsDummy
 	CAutoP<CMDName> a_pmdname;
 	a_pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, a_pstr.Value());
 	CAutoRef<CDXLRelStats> a_pdxlrelstats;
-	a_pdxlrelstats = GPOS_NEW(memory_pool) CDXLRelStats(memory_pool, pmdidRelStats, a_pmdname.Value(), CStatistics::DDefaultColumnWidth, false /* fEmpty */);
+	a_pdxlrelstats = GPOS_NEW(memory_pool) CDXLRelStats(memory_pool, pmdidRelStats, a_pmdname.Value(), CStatistics::DDefaultColumnWidth, false /* is_empty */);
 	a_pmdname.Reset();
 	return a_pdxlrelstats.Reset();
 }

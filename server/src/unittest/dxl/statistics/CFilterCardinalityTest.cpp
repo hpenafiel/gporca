@@ -1050,7 +1050,7 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 									phmulhist,
 									phmuldoubleWidth,
 									CDouble(1000.0) /* rows */,
-									false /* fEmpty() */
+									false /* is_empty() */
 									);
 	GPOS_TRACE(GPOS_WSZ_LIT("\nOriginal Stats:\n"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats);

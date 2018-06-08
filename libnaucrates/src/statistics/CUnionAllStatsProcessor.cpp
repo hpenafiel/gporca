@@ -44,7 +44,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 	CDouble dRowsUnionAll = CStatistics::DMinRows;
 	if (fEmptyUnionAll)
 	{
-		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhistNew, phmuldoubleWidth, pdrgpulOutput, true /*fEmpty*/);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhistNew, phmuldoubleWidth, pdrgpulOutput, true /*is_empty*/);
 	}
 	else
 	{
@@ -71,7 +71,7 @@ CUnionAllStatsProcessor::PstatsUnionAll
 				CColRef *pcr = pcf->PcrLookup(ulColIdOutput);
 				GPOS_ASSERT(NULL != pcr);
 
-				CHistogram *phistDummy = CHistogram::PhistDefault(memory_pool, pcr, false /* fEmpty*/);
+				CHistogram *phistDummy = CHistogram::PhistDefault(memory_pool, pcr, false /* is_empty*/);
 				phmulhistNew->Insert(GPOS_NEW(memory_pool) ULONG(ulColIdOutput), phistDummy);
 			}
 

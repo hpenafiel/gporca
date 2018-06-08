@@ -134,7 +134,7 @@ namespace gpnaucrates
 				HMUlHist *phmulhist,
 				HMUlDouble *phmuldoubleWidth,
 				CDouble rows,
-				BOOL fEmpty,
+				BOOL is_empty,
 				ULONG ulNumPredicates = 0
 				);
 

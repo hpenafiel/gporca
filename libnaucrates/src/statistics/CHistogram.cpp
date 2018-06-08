@@ -2003,12 +2003,12 @@ CHistogram::PhistDefault
 	(
 	IMemoryPool *memory_pool,
 	CColRef *pcr,
-	BOOL fEmpty
+	BOOL is_empty
 	)
 {
 	GPOS_ASSERT(NULL != pcr);
 
-	if (IMDType::EtiBool == pcr->Pmdtype()->Eti() && !fEmpty)
+	if (IMDType::EtiBool == pcr->Pmdtype()->Eti() && !is_empty)
 	{
 		return CHistogram::PhistDefaultBoolColStats(memory_pool);
 	}
@@ -2112,7 +2112,7 @@ CHistogram::AddDummyHistogramAndWidthInfo
 	HMUlHist *phmulhistOutput,
 	HMUlDouble *phmuldoubleWidthOutput,
 	const ULongPtrArray *pdrgpul,
-	BOOL fEmpty
+	BOOL is_empty
 	)
 {
 	GPOS_ASSERT(NULL != pcf);
@@ -2129,7 +2129,7 @@ CHistogram::AddDummyHistogramAndWidthInfo
 		CColRef *pcr = pcf->PcrLookup(col_id);
 		GPOS_ASSERT(NULL != pcr);
 
-		CHistogram *phist = CHistogram::PhistDefault(memory_pool, pcr, fEmpty);
+		CHistogram *phist = CHistogram::PhistDefault(memory_pool, pcr, is_empty);
 		phmulhistOutput->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);
 
 		CDouble width = CStatisticsUtils::DDefaultColumnWidth(pcr->Pmdtype());

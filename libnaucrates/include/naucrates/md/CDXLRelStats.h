@@ -73,7 +73,7 @@ namespace gpmd
 				CMDIdRelStats *pmdidRelStats,
 				CMDName *mdname,
 				CDouble rows,
-				BOOL fEmpty
+				BOOL is_empty
 				);
 			
 			virtual

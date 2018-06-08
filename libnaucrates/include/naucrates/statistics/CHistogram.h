@@ -472,7 +472,7 @@ namespace gpnaucrates
 
 			// create the default histogram for a given column reference
 			static
-			CHistogram *PhistDefault(IMemoryPool *memory_pool, CColRef *pcr, BOOL fEmpty);
+			CHistogram *PhistDefault(IMemoryPool *memory_pool, CColRef *pcr, BOOL is_empty);
 
 			// create the default non empty histogram for a boolean column
 			static
@@ -491,7 +491,7 @@ namespace gpnaucrates
 				HMUlHist *phmulhistOutput,
 				HMUlDouble *phmuldoubleWidthOutput,
 				const ULongPtrArray *pdrgpul,
-				BOOL fEmpty
+				BOOL is_empty
 				);
 
 			// add dummy histogram buckets for the columns in the input histogram

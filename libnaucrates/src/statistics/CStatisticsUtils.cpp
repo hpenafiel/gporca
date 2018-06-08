@@ -920,7 +920,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 	GPOS_ASSERT(NULL != phmulhist);
 	GPOS_ASSERT(NULL != phmulhistDisjChild);
 
-	BOOL fEmpty = (CStatistics::DEpsilon >= dRowsDisjChild);
+	BOOL is_empty = (CStatistics::DEpsilon >= dRowsDisjChild);
 	CDouble dRowOutput(CStatistics::DMinRows.Get());
 
 	HMUlHist *phmulhistMergeResult = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
@@ -934,7 +934,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 		const CHistogram *phistDisjChild = hmiterulhistDisjChild.Value();
 		if (!pbsStatsNonUpdateableCols->Get(ulColIdDisjChild))
 		{
-			if (!fEmpty)
+			if (!is_empty)
 			{
 				AddHistogram(memory_pool, ulColIdDisjChild, phistDisjChild, phmulhistMergeResult);
 			}
@@ -961,7 +961,7 @@ CStatisticsUtils::PhmulhistMergeAfterDisjChild
 		const CHistogram *phist = hmiterulhist.Value();
 		if (NULL != phist && !pbsStatsNonUpdateableCols->Get(col_id))
 		{
-			if (fEmpty)
+			if (is_empty)
 			{
 				// since the estimated output of the disjunction child is "0" tuples
 				// no point merging histograms.

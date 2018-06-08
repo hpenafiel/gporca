@@ -415,7 +415,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 	// width for int
 	phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(2), GPOS_NEW(memory_pool) CDouble(4.0));
 
-	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, 1000.0 /* rows */, false /* fEmpty */);
+	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, 1000.0 /* rows */, false /* is_empty */);
 	pstats->Rows();
 
 	GPOS_TRACE(GPOS_WSZ_LIT("pstats"));
@@ -442,7 +442,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 	HMUlDouble *phmuldoubleWidth2 = GPOS_NEW(memory_pool) HMUlDouble(memory_pool);
 	phmuldoubleWidth2->Insert(GPOS_NEW(memory_pool) ULONG(10), GPOS_NEW(memory_pool) CDouble(4.0));
 
-	CStatistics *pstats2 = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist2, phmuldoubleWidth2, 100.0 /* rows */, false /* fEmpty */);
+	CStatistics *pstats2 = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist2, phmuldoubleWidth2, 100.0 /* rows */, false /* is_empty */);
 
 	GPOS_TRACE(GPOS_WSZ_LIT("pstats2"));
 	CCardinalityTestUtils::PrintStats(memory_pool, pstats2);

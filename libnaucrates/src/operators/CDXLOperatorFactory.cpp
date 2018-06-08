@@ -1613,14 +1613,14 @@ CDXLOperatorFactory::MakeDXLTableDescr
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 	
 	// parse table descriptor from attributes
-	const XMLCh *xmlszTableName = ExtractAttrValue
+	const XMLCh *xml_str_table_name = ExtractAttrValue
 									(
 									attrs,
 									EdxltokenTableName,
 									EdxltokenTableDescr
 									);
 
-	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(memory_manager_dxl, xmlszTableName);
+	CMDName *mdname = CDXLUtils::CreateMDNameFromXMLChar(memory_manager_dxl, xml_str_table_name);
 	
 	// parse metadata id
 	IMDId *pmdid = ExtractConvertAttrValueToMdId

@@ -304,9 +304,9 @@ CPartIndexMap::Insert
 	}
 	else 
 	{
-		BOOL fEmpty = (ppartcnstrmap->Size() == 0);
+		BOOL is_empty = (ppartcnstrmap->Size() == 0);
 		
-		if (!fEmpty)
+		if (!is_empty)
 		{
 			// add part constraints to part info
 			ppti->AddPartConstraints(m_memory_pool, ppartcnstrmap);

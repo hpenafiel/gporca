@@ -64,7 +64,7 @@ CStatistics::CStatistics
 	HMUlHist *phmulhist,
 	HMUlDouble *phmuldoubleWidth,
 	CDouble rows,
-	BOOL fEmpty,
+	BOOL is_empty,
 	ULONG ulNumPredicates
 	)
 	:
@@ -72,7 +72,7 @@ CStatistics::CStatistics
 	m_phmuldoubleWidth(phmuldoubleWidth),
 	m_rows(rows),
 	m_ulStatsEstimationRisk(ulStatsEstimationNoRisk),
-	m_empty(fEmpty),
+	m_empty(is_empty),
 	m_dRebinds(1.0), // by default, a stats object is rebound to parameters only once
 	m_ulNumPredicates(ulNumPredicates),
 	m_pdrgpubndvs(NULL)
@@ -276,10 +276,10 @@ CStatistics::PstatsDummy
 
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
-	BOOL fEmpty = (CStatistics::DEpsilon >= rows);
-	CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulColIds, fEmpty);
+	BOOL is_empty = (CStatistics::DEpsilon >= rows);
+	CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulColIds, is_empty);
 
-	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, rows, fEmpty);
+	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, rows, is_empty);
 	CreateAndInsertUpperBoundNDVs(memory_pool, pstats, pdrgpulColIds, rows);
 
 	return pstats;
@@ -334,7 +334,7 @@ CStatistics::PstatsDummy
 	GPOS_ASSERT(NULL != pdrgpulHistColIds);
 	GPOS_ASSERT(NULL != pdrgpulWidthColIds);
 
-	BOOL fEmpty = (CStatistics::DEpsilon >= rows);
+	BOOL is_empty = (CStatistics::DEpsilon >= rows);
 	CColumnFactory *pcf = COptCtxt::PoctxtFromTLS()->Pcf();
 
 	// hash map from colid -> histogram for resultant structure
@@ -349,7 +349,7 @@ CStatistics::PstatsDummy
 		GPOS_ASSERT(NULL != pcr);
 
 		// empty histogram
-		CHistogram *phist = CHistogram::PhistDefault(memory_pool, pcr, fEmpty);
+		CHistogram *phist = CHistogram::PhistDefault(memory_pool, pcr, is_empty);
 		phmulhist->Insert(GPOS_NEW(memory_pool) ULONG(col_id), phist);
 	}
 
@@ -368,7 +368,7 @@ CStatistics::PstatsDummy
 		phmuldoubleWidth->Insert(GPOS_NEW(memory_pool) ULONG(col_id), GPOS_NEW(memory_pool) CDouble(width));
 	}
 
-	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, rows, false /* fEmpty */);
+	CStatistics *pstats = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, rows, false /* is_empty */);
 	CreateAndInsertUpperBoundNDVs(memory_pool, pstats, pdrgpulHistColIds, rows);
 
 	return pstats;
@@ -516,7 +516,7 @@ CStatistics::CopyHistograms
 	// create hash map from colid -> histogram for resultant structure
 	HMUlHist *phmulhistCopy = GPOS_NEW(memory_pool) HMUlHist(memory_pool);
 
-	BOOL fEmpty = IsEmpty();
+	BOOL is_empty = IsEmpty();
 
 	HMIterUlHist hmiterulhist(m_phmulhist);
 	while (hmiterulhist.Advance())
@@ -524,7 +524,7 @@ CStatistics::CopyHistograms
 		ULONG col_id = *(hmiterulhist.Key());
 		const CHistogram *phist = hmiterulhist.Value();
 		CHistogram *phistCopy = NULL;
-		if (fEmpty)
+		if (is_empty)
 		{
 			phistCopy =  GPOS_NEW(memory_pool) CHistogram(GPOS_NEW(memory_pool) DrgPbucket(memory_pool), false /* fWellDefined */);
 		}

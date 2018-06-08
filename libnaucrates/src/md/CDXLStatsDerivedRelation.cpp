@@ -28,12 +28,12 @@ using namespace gpmd;
 CDXLStatsDerivedRelation::CDXLStatsDerivedRelation
 	(
 	CDouble rows,
-	BOOL fEmpty,
+	BOOL is_empty,
 	DrgPdxlstatsdercol *pdrgpdxldercolstat
 	)
 	:
 	m_rows(rows),
-	m_empty(fEmpty),
+	m_empty(is_empty),
 	m_pdrgpdxlstatsdercol(pdrgpdxldercolstat)
 {
 	GPOS_ASSERT(NULL != pdrgpdxldercolstat);

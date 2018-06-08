@@ -700,7 +700,7 @@ CDXLUtils::ParseDXLToOptimizerStatisticObjArray
 										column_id_histogram_map,
 										column_id_width_map,
 										rows,
-										false /* fEmpty */
+										false /* is_empty */
 										);
 		//pstats->AddCardUpperBound(memory_pool, ulIdxRelStat, rows);
 

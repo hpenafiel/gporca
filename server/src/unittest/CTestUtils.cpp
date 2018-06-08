@@ -340,11 +340,11 @@ CTestUtils::PexprLogicalGetNullable
 	(
 	IMemoryPool *memory_pool,
 	OID oidTable,
-	const CWStringConst *pstrTableName,
+	const CWStringConst *str_table_name,
 	const CWStringConst *pstrTableAlias
 	)
 {
-	CWStringConst strName(pstrTableName->GetBuffer());
+	CWStringConst strName(str_table_name->GetBuffer());
 	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidTable, 1, 1);
 	CTableDescriptor *ptabdesc = CTestUtils::PtabdescPlain(memory_pool, 3, pmdid, CName(&strName), true /*fNullable*/);
 	CWStringConst strAlias(pstrTableAlias->GetBuffer());
@@ -365,7 +365,7 @@ CExpression *
 CTestUtils::PexprLogicalGet
 	(
 	IMemoryPool *memory_pool,
-	CWStringConst *pstrTableName,
+	CWStringConst *str_table_name,
 	CWStringConst *pstrTableAlias,
 	ULONG ulTableId
 	)
@@ -375,7 +375,7 @@ CTestUtils::PexprLogicalGet
 									memory_pool,
 									GPOPT_TEST_REL_WIDTH,
 									GPOS_NEW(memory_pool) CMDIdGPDB(ulTableId, 1, 1),
-									CName(pstrTableName)
+									CName(str_table_name)
 									);
 
 	CWStringConst strAlias(pstrTableAlias->GetBuffer());
@@ -531,12 +531,12 @@ CExpression *
 CTestUtils::PexprLogicalSelect
 	(
 	IMemoryPool *memory_pool,
-	CWStringConst *pstrTableName,
+	CWStringConst *str_table_name,
 	CWStringConst *pstrTableAlias,
 	ULONG ulTableId
 	)
 {
-	CExpression *pexprGet = PexprLogicalGet(memory_pool, pstrTableName, pstrTableAlias, ulTableId);
+	CExpression *pexprGet = PexprLogicalGet(memory_pool, str_table_name, pstrTableAlias, ulTableId);
 	return PexprLogicalSelect(memory_pool, pexprGet);
 }
 

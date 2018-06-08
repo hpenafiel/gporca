@@ -42,15 +42,15 @@ CGroupByStatsProcessor::PstatsGroupBy
 	if (pstatsInput->IsEmpty())
 	{
 		// add dummy histograms for the aggregates and grouping columns
-		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, true /* fEmpty */);
-		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulGC, true /* fEmpty */);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, true /* is_empty */);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulGC, true /* is_empty */);
 
-		pstatsAgg = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, dRowsAgg, true /* fEmpty */);
+		pstatsAgg = GPOS_NEW(memory_pool) CStatistics(memory_pool, phmulhist, phmuldoubleWidth, dRowsAgg, true /* is_empty */);
 	}
 	else
 	{
 		// for computed aggregates, we're not going to be very smart right now
-		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, false /* fEmpty */);
+		CHistogram::AddDummyHistogramAndWidthInfo(memory_pool, pcf, phmulhist, phmuldoubleWidth, pdrgpulAgg, false /* is_empty */);
 
 		CColRefSet *pcrsGrpColComputed = GPOS_NEW(memory_pool) CColRefSet(memory_pool);
 		CColRefSet *pcrsGrpColsForStats = CStatisticsUtils::PcrsGrpColsForStats(memory_pool, pdrgpulGC, pcrsGrpColComputed);

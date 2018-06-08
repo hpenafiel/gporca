@@ -57,7 +57,7 @@ namespace gpmd
 			CDXLStatsDerivedRelation
 				(
 				CDouble rows,
-				BOOL fEmpty,
+				BOOL is_empty,
 				DrgPdxlstatsdercol *pdrgpdxldercolstat
 				);
 

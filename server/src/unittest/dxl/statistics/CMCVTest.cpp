@@ -122,7 +122,7 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 									phmulhist,
 									phmuldoubleWidth,
 									1000.0 /* rows */,
-									false /* fEmpty */
+									false /* is_empty */
 									);
 
 	// put stats object in an array in order to serialize

@@ -67,23 +67,23 @@ CParseHandlerRelStats::StartElement
 	}
 	
 	// parse table name
-	const XMLCh *xmlszTableName = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *xml_str_table_name = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenName,
 															EdxltokenRelationStats
 															);
 
-	CWStringDynamic *pstrTableName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszTableName);
+	CWStringDynamic *str_table_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_table_name);
 	
 	// create a copy of the string in the CMDName constructor
-	CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrTableName);
+	CMDName *mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, str_table_name);
 	
-	GPOS_DELETE(pstrTableName);
+	GPOS_DELETE(str_table_name);
 	
 
 	// parse metadata id info
-	IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenRelationStats);
+	IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenRelationStats);
 	
 	// parse rows
 
@@ -95,20 +95,20 @@ CParseHandlerRelStats::StartElement
 											EdxltokenRelationStats
 											);
 	
-	BOOL fEmpty = false;
-	const XMLCh *xmlszEmpty = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenEmptyRelation));
-	if (NULL != xmlszEmpty)
+	BOOL is_empty = false;
+	const XMLCh *xml_str_is_empty = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenEmptyRelation));
+	if (NULL != xml_str_is_empty)
 	{
-		fEmpty = CDXLOperatorFactory::ConvertAttrValueToBool
+		is_empty = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
-										xmlszEmpty,
+										xml_str_is_empty,
 										EdxltokenEmptyRelation,
 										EdxltokenStatsDerivedRelation
 										);
 	}
 
-	m_imd_obj = GPOS_NEW(m_memory_pool) CDXLRelStats(m_memory_pool, CMDIdRelStats::PmdidConvert(pmdid), mdname, rows, fEmpty);
+	m_imd_obj = GPOS_NEW(m_memory_pool) CDXLRelStats(m_memory_pool, CMDIdRelStats::PmdidConvert(mdid), mdname, rows, is_empty);
 }
 
 //---------------------------------------------------------------------------
