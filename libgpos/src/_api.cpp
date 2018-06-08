@@ -36,17 +36,17 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 void gpos_init(struct gpos_init_params* params) {
 
-	void* (*pfnAlloc) (SIZE_T) = params->alloc;
-	void (*pfnFree) (void*) = params->free;
+	void* (*func_ptr_alloc) (SIZE_T) = params->alloc;
+	void (*func_ptr_free) (void*) = params->free;
 
-	if (NULL == pfnAlloc || NULL == pfnFree) {
-	  pfnAlloc = clib::Malloc;
-	  pfnFree = clib::Free;
+	if (NULL == func_ptr_alloc || NULL == func_ptr_free) {
+	  func_ptr_alloc = clib::Malloc;
+	  func_ptr_free = clib::Free;
 	}
 
 	CWorker::abort_requested_by_system = params->abort_requested;
 
-	if (GPOS_OK != gpos::CMemoryPoolManager::Init(pfnAlloc, pfnFree))
+	if (GPOS_OK != gpos::CMemoryPoolManager::Init(func_ptr_alloc, func_ptr_free))
 	{
 		return;
 	}
