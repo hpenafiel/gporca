@@ -82,8 +82,8 @@ CParseHandlerRedistributeMotion::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 	
 	// parse handler for hash expr list
-	CParseHandlerBase *pphHExprList = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashExprList), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphHExprList);
+	CParseHandlerBase *hash_expr_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarHashExprList), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(hash_expr_list_parse_handler);
 	
 	// parse handler for the sorting column list
 	CParseHandlerBase *sort_col_list_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarSortColList), m_parse_handler_mgr, this);
@@ -106,7 +106,7 @@ CParseHandlerRedistributeMotion::StartElement
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
 	this->Append(sort_col_list_parse_handler);
-	this->Append(pphHExprList);
+	this->Append(hash_expr_list_parse_handler);
 	this->Append(child_parse_handler);
 
 }
@@ -139,7 +139,7 @@ CParseHandlerRedistributeMotion::EndElement
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerSortColList *sort_col_list_parse_handler = dynamic_cast<CParseHandlerSortColList *>((*this)[3]);
-	CParseHandlerHashExprList *pphHExprList = dynamic_cast<CParseHandlerHashExprList *>((*this)[4]);
+	CParseHandlerHashExprList *hash_expr_list_parse_handler = dynamic_cast<CParseHandlerHashExprList *>((*this)[4]);
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[5]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
@@ -150,7 +150,7 @@ CParseHandlerRedistributeMotion::EndElement
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
 	AddChildFromParseHandler(sort_col_list_parse_handler);
-	AddChildFromParseHandler(pphHExprList);
+	AddChildFromParseHandler(hash_expr_list_parse_handler);
 	AddChildFromParseHandler(child_parse_handler);
 	
 	// deactivate handler
