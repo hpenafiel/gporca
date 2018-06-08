@@ -61,7 +61,7 @@ namespace gpopt
 				)
 				const
 			{
-				return (m_fDuplicateSensitive || !pds->m_fDuplicateSensitive);
+				return (m_is_duplicate_sensitive || !pds->m_is_duplicate_sensitive);
 			}
 
 			// exact match against given hashed distribution

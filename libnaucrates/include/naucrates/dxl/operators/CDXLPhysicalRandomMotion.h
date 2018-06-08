@@ -43,23 +43,23 @@ namespace gpdxl
 		private:
 
 			// is distribution duplicate sensitive
-			BOOL m_fDuplicateSensitive;
+			BOOL m_is_duplicate_sensitive;
 			
 			// private copy ctor
 			CDXLPhysicalRandomMotion(const CDXLPhysicalRandomMotion&);
 			
 		public:
 			// ctor
-			CDXLPhysicalRandomMotion(IMemoryPool *memory_pool, BOOL fDuplicateSensitive);
+			CDXLPhysicalRandomMotion(IMemoryPool *memory_pool, BOOL is_duplicate_sensitive);
 			
 			// accessors
 			Edxlopid GetDXLOperator() const;
 			const CWStringConst *GetOpNameStr() const;
 			
 			// is operator duplicate sensitive
-			BOOL FDuplicateSensitive() const
+			BOOL IsDuplicateSensitive() const
 			{
-				return m_fDuplicateSensitive;
+				return m_is_duplicate_sensitive;
 			}
 			
 			// index of relational child node in the children array

@@ -73,9 +73,9 @@ namespace gpopt
 			}
 
 			// is distribution duplicate sensitive
-			BOOL FDuplicateSensitive() const
+			BOOL IsDuplicateSensitive() const
 			{
-				return m_pdsRandom->FDuplicateSensitive();
+				return m_pdsRandom->IsDuplicateSensitive();
 			}
 			
 			// match function

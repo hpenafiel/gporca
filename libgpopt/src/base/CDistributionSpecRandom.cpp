@@ -30,7 +30,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CDistributionSpecRandom::CDistributionSpecRandom()
 	:
-	m_fDuplicateSensitive(false),
+	m_is_duplicate_sensitive(false),
 	m_fSatisfiedBySingleton(true)
 {
 	if (COptCtxt::PoctxtFromTLS()->FDMLQuery())
@@ -64,7 +64,7 @@ CDistributionSpecRandom::FMatch
 	const CDistributionSpecRandom *pdsRandom =
 			dynamic_cast<const CDistributionSpecRandom*>(pds);
 
-	return pdsRandom->FDuplicateSensitive() == m_fDuplicateSensitive;
+	return pdsRandom->IsDuplicateSensitive() == m_is_duplicate_sensitive;
 }
 
 //---------------------------------------------------------------------------
@@ -88,7 +88,7 @@ CDistributionSpecRandom::FSatisfies
 	}
 	
 	if (EdtRandom == pds->Edt() && 
-			(FDuplicateSensitive() || !CDistributionSpecRandom::PdsConvert(pds)->FDuplicateSensitive()))
+			(IsDuplicateSensitive() || !CDistributionSpecRandom::PdsConvert(pds)->IsDuplicateSensitive()))
 	{
 		return true;
 	}

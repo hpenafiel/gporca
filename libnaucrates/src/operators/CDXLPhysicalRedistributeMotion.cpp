@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLPhysicalRedistributeMotion::CDXLPhysicalRedistributeMotion
 	(
 	IMemoryPool *memory_pool,
-	BOOL fDuplicateSensitive
+	BOOL is_duplicate_sensitive
 	)
 	:
 	CDXLPhysicalMotion(memory_pool),
-	m_fDuplicateSensitive(fDuplicateSensitive)
+	m_is_duplicate_sensitive(is_duplicate_sensitive)
 {
 }
 
@@ -89,7 +89,7 @@ CDXLPhysicalRedistributeMotion::SerializeToDXL
 	
 	SerializeSegmentInfoToDXL(xml_serializer);
 	
-	if (m_fDuplicateSensitive)
+	if (m_is_duplicate_sensitive)
 	{
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDuplicateSensitive), true);
 	}	

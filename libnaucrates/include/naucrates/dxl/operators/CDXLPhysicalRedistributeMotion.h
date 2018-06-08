@@ -45,7 +45,7 @@ namespace gpdxl
 		private:
 			
 			// is this a duplicate sensitive redistribute motion
-			BOOL m_fDuplicateSensitive;
+			BOOL m_is_duplicate_sensitive;
 			
 			// private copy ctor
 			CDXLPhysicalRedistributeMotion(const CDXLPhysicalRedistributeMotion&);
@@ -53,16 +53,16 @@ namespace gpdxl
 			
 		public:
 			// ctor
-			CDXLPhysicalRedistributeMotion(IMemoryPool *memory_pool, BOOL fDuplicateSensitive);
+			CDXLPhysicalRedistributeMotion(IMemoryPool *memory_pool, BOOL is_duplicate_sensitive);
 			
 			// accessors
 			Edxlopid GetDXLOperator() const;
 			const CWStringConst *GetOpNameStr() const;
 			
 			// does motion remove duplicates
-			BOOL FDuplicateSensitive() const
+			BOOL IsDuplicateSensitive() const
 			{
-				return m_fDuplicateSensitive;
+				return m_is_duplicate_sensitive;
 			}
 			
 			// index of relational child node in the children array

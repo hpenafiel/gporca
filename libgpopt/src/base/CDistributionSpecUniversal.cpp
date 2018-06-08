@@ -19,7 +19,7 @@ namespace gpopt
 		// universal distribution does not satisfy duplicate-sensitive
 		// hash distributions
 		if (CDistributionSpec::EdtHashed == pds->Edt() &&
-			(CDistributionSpecHashed::PdsConvert(pds))->FDuplicateSensitive())
+			(CDistributionSpecHashed::PdsConvert(pds))->IsDuplicateSensitive())
 		{
 			return false;
 		}
@@ -27,7 +27,7 @@ namespace gpopt
 		// universal distribution does not satisfy duplicate-sensitive
 		// random distributions
 		if (CDistributionSpec::EdtRandom == pds->Edt() &&
-			(CDistributionSpecRandom::PdsConvert(pds))->FDuplicateSensitive())
+			(CDistributionSpecRandom::PdsConvert(pds))->IsDuplicateSensitive())
 		{
 			return false;
 		}

@@ -281,7 +281,7 @@ CDistributionSpecHashed::Equals
 	const
 {
 	return m_fNullsColocated == pdshashed->FNullsColocated() &&
-			m_fDuplicateSensitive == pdshashed->FDuplicateSensitive() &&
+			m_is_duplicate_sensitive == pdshashed->IsDuplicateSensitive() &&
 			m_fSatisfiedBySingleton == pdshashed->FSatisfiedBySingleton() &&
 			CUtils::Equals(m_pdrgpexpr, pdshashed->m_pdrgpexpr) &&
 			Edt() == pdshashed->Edt();
@@ -399,7 +399,7 @@ CDistributionSpecHashed::FMatchHashedDistribution
 
 	if (m_pdrgpexpr->Size() != pdshashed->m_pdrgpexpr->Size() ||
 		FNullsColocated() != pdshashed->FNullsColocated() ||
-		FDuplicateSensitive() != pdshashed->FDuplicateSensitive())
+		IsDuplicateSensitive() != pdshashed->IsDuplicateSensitive())
 	{
 		return false;
 	}
@@ -518,7 +518,7 @@ CDistributionSpecHashed::OsPrint
 		os <<  ", nulls not colocated";
 	}
 
-	if (m_fDuplicateSensitive)
+	if (m_is_duplicate_sensitive)
 	{
 		os <<  ", duplicate sensitive";
 	}

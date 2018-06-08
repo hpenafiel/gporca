@@ -76,9 +76,9 @@ namespace gpopt
 			}
 			
 			// is motion eliminating duplicates
-			BOOL FDuplicateSensitive() const
+			BOOL IsDuplicateSensitive() const
 			{
-				return m_pdsHashed->FDuplicateSensitive();
+				return m_pdsHashed->IsDuplicateSensitive();
 			}
 
 			// match function
