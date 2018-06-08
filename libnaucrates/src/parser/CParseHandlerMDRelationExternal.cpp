@@ -78,28 +78,28 @@ CParseHandlerMDRelationExternal::StartElement
 	ParseRelationAttributes(attrs, EdxltokenRelation);
 
 	// parse reject limit
-	const XMLCh *xmlszRejLimit = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelRejLimit));
-	if (NULL != xmlszRejLimit)
+	const XMLCh *xml_str_reject_limit = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelRejLimit));
+	if (NULL != xml_str_reject_limit)
 	{
-		m_iRejectLimit = CDXLOperatorFactory::ConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszRejLimit, EdxltokenExtRelRejLimit, EdxltokenRelationExternal);
+		m_iRejectLimit = CDXLOperatorFactory::ConvertAttrValueToInt(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_reject_limit, EdxltokenExtRelRejLimit, EdxltokenRelationExternal);
 		m_fRejLimitInRows = CDXLOperatorFactory::ExtractConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenExtRelRejLimitInRows, EdxltokenRelationExternal);
 	}
 
 	// format error table id
-	const XMLCh *xmlszErrRel = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelFmtErrRel));
-	if (NULL != xmlszErrRel)
+	const XMLCh *xml_str_err_rel_id = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenExtRelFmtErrRel));
+	if (NULL != xml_str_err_rel_id)
 	{
-		m_pmdidFmtErrRel = CDXLOperatorFactory::MakeMdIdFromStr(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszErrRel, EdxltokenExtRelFmtErrRel, EdxltokenRelationExternal);
+		m_pmdidFmtErrRel = CDXLOperatorFactory::MakeMdIdFromStr(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_err_rel_id, EdxltokenExtRelFmtErrRel, EdxltokenRelationExternal);
 	}
 
 	// parse whether a hash distributed relation needs to be considered as random distributed
-	const XMLCh *xmlszConvertHashToRandom = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenConvertHashToRandom));
-	if (NULL != xmlszConvertHashToRandom)
+	const XMLCh *xml_str_convert_hash_to_random = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenConvertHashToRandom));
+	if (NULL != xml_str_convert_hash_to_random)
 	{
 		m_convert_hash_to_random = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
-										xmlszConvertHashToRandom,
+										xml_str_convert_hash_to_random,
 										EdxltokenConvertHashToRandom,
 										EdxltokenRelationExternal
 										);
@@ -133,24 +133,24 @@ CParseHandlerMDRelationExternal::EndElement
 
 	// construct metadata object from the created child elements
 	CParseHandlerMetadataColumns *md_cols_parse_handler = dynamic_cast<CParseHandlerMetadataColumns *>((*this)[0]);
-	CParseHandlerMDIndexInfoList *pphMdlIndexInfo = dynamic_cast<CParseHandlerMDIndexInfoList*>((*this)[1]);
-	CParseHandlerMetadataIdList *pphMdidlTriggers = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[2]);
-	CParseHandlerMetadataIdList *pphMdidlCheckConstraints = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[3]);
+	CParseHandlerMDIndexInfoList *md_index_info_list_parse_handler = dynamic_cast<CParseHandlerMDIndexInfoList*>((*this)[1]);
+	CParseHandlerMetadataIdList *mdid_triggers_parse_list = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[2]);
+	CParseHandlerMetadataIdList *mdid_check_constraint_parse_handler = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[3]);
 
 	GPOS_ASSERT(NULL != md_cols_parse_handler->GetMdColArray());
-	GPOS_ASSERT(NULL != pphMdlIndexInfo->GetMdIndexInfoArray());
-	GPOS_ASSERT(NULL != pphMdidlCheckConstraints->GetMdIdArray());
+	GPOS_ASSERT(NULL != md_index_info_list_parse_handler->GetMdIndexInfoArray());
+	GPOS_ASSERT(NULL != mdid_check_constraint_parse_handler->GetMdIdArray());
 
 	// refcount child objects
-	DrgPmdcol *pdrgpmdcol = md_cols_parse_handler->GetMdColArray();
-	DrgPmdIndexInfo *pdrgpmdIndexInfo = pphMdlIndexInfo->GetMdIndexInfoArray();
-	DrgPmdid *pdrgpmdidTriggers = pphMdidlTriggers->GetMdIdArray();
-	DrgPmdid *pdrgpmdidCheckConstraint = pphMdidlCheckConstraints->GetMdIdArray();
+	DrgPmdcol *md_col_array = md_cols_parse_handler->GetMdColArray();
+	DrgPmdIndexInfo *md_index_info_array = md_index_info_list_parse_handler->GetMdIndexInfoArray();
+	DrgPmdid *mdid_triggers_array = mdid_triggers_parse_list->GetMdIdArray();
+	DrgPmdid *mdid_check_constraint_array = mdid_check_constraint_parse_handler->GetMdIdArray();
 
-	pdrgpmdcol->AddRef();
-	pdrgpmdIndexInfo->AddRef();
- 	pdrgpmdidTriggers->AddRef();
- 	pdrgpmdidCheckConstraint->AddRef();
+	md_col_array->AddRef();
+	md_index_info_array->AddRef();
+ 	mdid_triggers_array->AddRef();
+ 	mdid_check_constraint_array->AddRef();
 
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationExternalGPDB
 								(
@@ -158,13 +158,13 @@ CParseHandlerMDRelationExternal::EndElement
 									m_mdid,
 									m_mdname,
 									m_rel_distr_policy,
-									pdrgpmdcol,
+									md_col_array,
 									m_distr_col_array,
 									m_convert_hash_to_random,
 									m_key_sets_arrays,
-									pdrgpmdIndexInfo,
-									pdrgpmdidTriggers,
-									pdrgpmdidCheckConstraint,
+									md_index_info_array,
+									mdid_triggers_array,
+									mdid_check_constraint_array,
 									m_iRejectLimit,
 									m_fRejLimitInRows,
 									m_pmdidFmtErrRel
