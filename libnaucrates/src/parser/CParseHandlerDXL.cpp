@@ -673,7 +673,7 @@ CParseHandlerDXL::ExtractMDRequest
 	GPOS_ASSERT(NULL != parse_handler_mdrequest && NULL != parse_handler_mdrequest->GetMdIdArray());
 	
 	DrgPmdid *mdid_array = parse_handler_mdrequest->GetMdIdArray();
-	CMDRequest::DrgPtr *md_type_request_array = parse_handler_mdrequest->Pdrgptr();
+	CMDRequest::DrgPtr *md_type_request_array = parse_handler_mdrequest->GetMDTypeRequestArray();
 	
 	mdid_array->AddRef();
 	md_type_request_array->AddRef();

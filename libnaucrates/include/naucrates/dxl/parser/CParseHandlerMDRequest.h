@@ -41,7 +41,7 @@ namespace gpdxl
 			DrgPmdid *m_mdid_array;
 			
 			// array of type requests
-			CMDRequest::DrgPtr *m_pdrgptr;
+			CMDRequest::DrgPtr *m_mdtype_request_array;
 
 			// private copy ctor
 			CParseHandlerMDRequest(const CParseHandlerMDRequest &);
@@ -79,7 +79,7 @@ namespace gpdxl
 			DrgPmdid *GetMdIdArray() const;	
 			
 			// parsed type requests
-			CMDRequest::DrgPtr *Pdrgptr() const;	
+			CMDRequest::DrgPtr *GetMDTypeRequestArray() const;
 	};
 }
 
