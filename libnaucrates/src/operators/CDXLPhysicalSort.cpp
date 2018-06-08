@@ -29,11 +29,11 @@ using namespace gpdxl;
 CDXLPhysicalSort::CDXLPhysicalSort
 	(
 	IMemoryPool *memory_pool,
-	BOOL fDiscardDuplicates
+	BOOL discard_duplicates
 	)
 	:
 	CDXLPhysical(memory_pool),
-	m_fDiscardDuplicates(fDiscardDuplicates)
+	m_discard_duplicates(discard_duplicates)
 {
 }
 
@@ -77,7 +77,7 @@ CDXLPhysicalSort::GetOpNameStr() const
 BOOL
 CDXLPhysicalSort::FDiscardDuplicates() const
 {
-	return m_fDiscardDuplicates;
+	return m_discard_duplicates;
 }
 
 
@@ -101,7 +101,7 @@ CDXLPhysicalSort::SerializeToDXL
 	
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);		
 	
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortDiscardDuplicates), m_fDiscardDuplicates);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenSortDiscardDuplicates), m_discard_duplicates);
 	
 	// serialize properties
 	dxlnode->SerializePropertiesToDXL(xml_serializer);
@@ -135,14 +135,14 @@ CDXLPhysicalSort::AssertValid
 	
 	CDXLNode *sort_col_list_dxl = (*dxlnode)[EdxlsortIndexSortColList];
 	CDXLNode *child_dxlnode = (*dxlnode)[EdxlsortIndexChild];
-	CDXLNode *pdxlnLimitCount = (*dxlnode)[EdxlsortIndexLimitCount];
-	CDXLNode *pdxlnLimitOffset = (*dxlnode)[EdxlsortIndexLimitOffset];
+	CDXLNode *limit_count = (*dxlnode)[EdxlsortIndexLimitCount];
+	CDXLNode *limit_offset = (*dxlnode)[EdxlsortIndexLimitOffset];
 	
 	// assert children are of right type (physical/scalar)
 	GPOS_ASSERT(EdxloptypeScalar == sort_col_list_dxl->GetOperator()->GetDXLOperatorType());
 	GPOS_ASSERT(EdxloptypePhysical == child_dxlnode->GetOperator()->GetDXLOperatorType());
-	GPOS_ASSERT(EdxlopScalarLimitCount == pdxlnLimitCount->GetOperator()->GetDXLOperator());
-	GPOS_ASSERT(EdxlopScalarLimitOffset == pdxlnLimitOffset->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarLimitCount == limit_count->GetOperator()->GetDXLOperator());
+	GPOS_ASSERT(EdxlopScalarLimitOffset == limit_offset->GetOperator()->GetDXLOperator());
 	
 	// there must be at least one sorting column
 	GPOS_ASSERT(sort_col_list_dxl->Arity() > 0);

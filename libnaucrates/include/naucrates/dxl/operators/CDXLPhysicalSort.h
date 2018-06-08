@@ -46,12 +46,12 @@ namespace gpdxl
 			CDXLPhysicalSort(const CDXLPhysicalSort&);
 			
 			// whether sort discards duplicates
-			BOOL m_fDiscardDuplicates;
+			BOOL m_discard_duplicates;
 			
 
 		public:
 			// ctor/dtor
-			CDXLPhysicalSort(IMemoryPool *memory_pool, BOOL fDiscardDuplicates);
+			CDXLPhysicalSort(IMemoryPool *memory_pool, BOOL discard_duplicates);
 			
 			// accessors
 			Edxlopid GetDXLOperator() const;

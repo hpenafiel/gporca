@@ -2528,7 +2528,7 @@ CTranslatorExprToDXL::PdxlnSort
 	CDXLNode *filter_dxlnode = PdxlnFilter(NULL);
 	
 	// construct a sort node
-	CDXLPhysicalSort *pdxlopSort = GPOS_NEW(m_memory_pool) CDXLPhysicalSort(m_memory_pool, false /*fDiscardDuplicates*/);
+	CDXLPhysicalSort *pdxlopSort = GPOS_NEW(m_memory_pool) CDXLPhysicalSort(m_memory_pool, false /*discard_duplicates*/);
 	
 	// construct sort node from its components
 	CDXLNode *pdxlnSort = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopSort);
@@ -2536,15 +2536,15 @@ CTranslatorExprToDXL::PdxlnSort
 	pdxlnSort->SetProperties(dxl_properties);
 
 	// construct empty limit count and offset nodes
-	CDXLNode *pdxlnLimitCount = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitCount(m_memory_pool));
-	CDXLNode *pdxlnLimitOffset = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitOffset(m_memory_pool));
+	CDXLNode *limit_count = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitCount(m_memory_pool));
+	CDXLNode *limit_offset = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitOffset(m_memory_pool));
 	
 	// add children
 	pdxlnSort->AddChild(proj_list_dxlnode);
 	pdxlnSort->AddChild(filter_dxlnode);
 	pdxlnSort->AddChild(sort_col_list_dxl);
-	pdxlnSort->AddChild(pdxlnLimitCount);
-	pdxlnSort->AddChild(pdxlnLimitOffset);
+	pdxlnSort->AddChild(limit_count);
+	pdxlnSort->AddChild(limit_offset);
 	pdxlnSort->AddChild(child_dxlnode);
 	
 #ifdef GPOS_DEBUG
@@ -2591,11 +2591,11 @@ CTranslatorExprToDXL::PdxlnLimit
 	CDXLNode *child_dxlnode = CreateDXLNode(pexprChild, pdrgpcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, true /*fRemap*/, false /*fRoot*/);
 
 	// translate limit offset and count
-	CDXLNode *pdxlnLimitOffset = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitOffset(m_memory_pool));
-	pdxlnLimitOffset->AddChild(PdxlnScalar(pexprOffset));
+	CDXLNode *limit_offset = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitOffset(m_memory_pool));
+	limit_offset->AddChild(PdxlnScalar(pexprOffset));
 	
-	CDXLNode *pdxlnLimitCount = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitCount(m_memory_pool));
-	pdxlnLimitCount->AddChild(PdxlnScalar(pexprCount));
+	CDXLNode *limit_count = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, GPOS_NEW(m_memory_pool) CDXLScalarLimitCount(m_memory_pool));
+	limit_count->AddChild(PdxlnScalar(pexprCount));
 	
 	// construct project list from child project list
 	GPOS_ASSERT(NULL != child_dxlnode && 1 <= child_dxlnode->Arity());
@@ -2612,8 +2612,8 @@ CTranslatorExprToDXL::PdxlnLimit
 	
 	pdxlnLimit->AddChild(proj_list_dxlnode);
 	pdxlnLimit->AddChild(child_dxlnode);
-	pdxlnLimit->AddChild(pdxlnLimitCount);
-	pdxlnLimit->AddChild(pdxlnLimitOffset);
+	pdxlnLimit->AddChild(limit_count);
+	pdxlnLimit->AddChild(limit_offset);
 	
 #ifdef GPOS_DEBUG
 	pdxlopLimit->AssertValid(pdxlnLimit, false /* validate_children */);
