@@ -69,11 +69,11 @@ CParseHandlerProjElem::StartElement
 	
 	// create and activate the parse handler for the child scalar expression node
 	
-	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pph);
+	CParseHandlerBase *parse_handler_root = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(parse_handler_root);
 	
 	// store parse handler
-	this->Append(pph);
+	this->Append(parse_handler_root);
 }
 
 //---------------------------------------------------------------------------
@@ -101,10 +101,10 @@ CParseHandlerProjElem::EndElement
 	// construct node from the parsed expression node
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);	
 		
-	CParseHandlerScalarOp *pph = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
+	CParseHandlerScalarOp *operator_parse_handler = dynamic_cast<CParseHandlerScalarOp*>((*this)[0]);
 	
 	// store constructed child
-	AddChildFromParseHandler(pph);
+	AddChildFromParseHandler(operator_parse_handler);
 	
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

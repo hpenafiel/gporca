@@ -71,13 +71,13 @@ CParseHandlerProjList::StartElement
 		GPOS_ASSERT(NULL != m_dxl_node);
 
 		// start new project element
-		CParseHandlerBase *pphPrEl = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphPrEl);
+		CParseHandlerBase *parse_handler_proj_element = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarProjElem), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_proj_element);
 		
 		// store parse handler
-		this->Append(pphPrEl);
+		this->Append(parse_handler_proj_element);
 		
-		pphPrEl->startElement(element_uri, element_local_name, element_qname, attrs);
+		parse_handler_proj_element->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -112,8 +112,8 @@ CParseHandlerProjList::EndElement
 	// add constructed children from child parse handlers
 	for (ULONG ul = 0; ul < size; ul++)
 	{
-		CParseHandlerProjElem *pphPrEl = dynamic_cast<CParseHandlerProjElem*>((*this)[ul]);
-		AddChildFromParseHandler(pphPrEl);
+		CParseHandlerProjElem *parse_handler_proj_element = dynamic_cast<CParseHandlerProjElem*>((*this)[ul]);
+		AddChildFromParseHandler(parse_handler_proj_element);
 	}		
 		
 	// deactivate handler
