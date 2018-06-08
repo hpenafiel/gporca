@@ -36,7 +36,7 @@ using namespace gpopt;
 CTableDescriptor::CTableDescriptor
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	const CName &name,
 	BOOL fConvertHashToRandom,
 	IMDRelation::GetRelDistrPolicy rel_distr_policy,
@@ -45,7 +45,7 @@ CTableDescriptor::CTableDescriptor
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_name(memory_pool, name),
 	m_pdrgpcoldesc(NULL),
 	m_rel_distr_policy(rel_distr_policy),
@@ -59,7 +59,7 @@ CTableDescriptor::CTableDescriptor
 	m_fHasPartialIndexes(FDescriptorWithPartialIndexes())
 {
 	GPOS_ASSERT(NULL != memory_pool);
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	
 	m_pdrgpcoldesc = GPOS_NEW(m_memory_pool) DrgPcoldesc(m_memory_pool);
 	m_pdrgpcoldescDist = GPOS_NEW(m_memory_pool) DrgPcoldesc(m_memory_pool);
@@ -147,7 +147,7 @@ CTableDescriptor::UlPos
 ULONG
 CTableDescriptor::UlPosition
 	(
-	INT iAttno
+	INT attno
 	)
 	const
 {
@@ -158,7 +158,7 @@ CTableDescriptor::UlPosition
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CColumnDescriptor *pcoldesc = (*m_pdrgpcoldesc)[ul];
-		if (pcoldesc->AttrNum() == iAttno)
+		if (pcoldesc->AttrNum() == attno)
 		{
 			ulPos = ul;
 		}

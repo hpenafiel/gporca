@@ -43,7 +43,7 @@ namespace gpopt
 		public:
 			// ctors
 			explicit
-			CMDKey(const IMDId *pmdid);
+			CMDKey(const IMDId *mdid);
 			
 			// dtor
 			~CMDKey()

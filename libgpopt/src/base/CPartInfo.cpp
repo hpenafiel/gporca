@@ -28,17 +28,17 @@ using namespace gpopt;
 CPartInfo::CPartInfoEntry::CPartInfoEntry
 	(
 	ULONG scan_id,
-	IMDId *pmdid,
+	IMDId *mdid,
 	DrgPpartkeys *pdrgppartkeys,
 	CPartConstraint *ppartcnstrRel
 	)
 	:
 	m_scan_id(scan_id),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_pdrgppartkeys(pdrgppartkeys),
 	m_ppartcnstrRel(ppartcnstrRel)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(pdrgppartkeys != NULL);
 	GPOS_ASSERT(0 < pdrgppartkeys->Size());
 	GPOS_ASSERT(NULL != ppartcnstrRel);
@@ -144,8 +144,8 @@ CPartInfo::CPartInfoEntry::PpartinfoentryCopy
 	IMemoryPool *memory_pool
 	)
 {
-	IMDId *pmdid = MDId();
-	pmdid->AddRef();
+	IMDId *mdid = MDId();
+	mdid->AddRef();
 
 	// copy part keys
 	DrgPpartkeys *pdrgppartkeysCopy = CPartKeys::PdrgppartkeysCopy(memory_pool, Pdrgppartkeys());
@@ -155,7 +155,7 @@ CPartInfo::CPartInfoEntry::PpartinfoentryCopy
 	CPartConstraint *ppartcnstrRel = PpartcnstrRel()->PpartcnstrCopyWithRemappedColumns(memory_pool, phmulcr, false /*fMustExist*/);
 	phmulcr->Release();
 
-	return GPOS_NEW(memory_pool) CPartInfoEntry(ScanId(), pmdid, pdrgppartkeysCopy, ppartcnstrRel);
+	return GPOS_NEW(memory_pool) CPartInfoEntry(ScanId(), mdid, pdrgppartkeysCopy, ppartcnstrRel);
 }
 
 
@@ -219,7 +219,7 @@ CPartInfo::AddPartConsumer
 	(
 	IMemoryPool *memory_pool,
 	ULONG scan_id,
-	IMDId *pmdid,
+	IMDId *mdid,
 	DrgDrgPcr *pdrgpdrgpcrPart,
 	CPartConstraint *ppartcnstrRel
 	)
@@ -227,7 +227,7 @@ CPartInfo::AddPartConsumer
 	DrgPpartkeys *pdrgppartkeys = GPOS_NEW(memory_pool) DrgPpartkeys(memory_pool);
 	pdrgppartkeys->Append(GPOS_NEW(memory_pool) CPartKeys(pdrgpdrgpcrPart));
 
-	m_pdrgppartentries->Append(GPOS_NEW(memory_pool) CPartInfoEntry(scan_id, pmdid, pdrgppartkeys, ppartcnstrRel));
+	m_pdrgppartentries->Append(GPOS_NEW(memory_pool) CPartInfoEntry(scan_id, mdid, pdrgppartkeys, ppartcnstrRel));
 }
 
 //---------------------------------------------------------------------------

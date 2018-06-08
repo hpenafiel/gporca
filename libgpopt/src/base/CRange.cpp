@@ -31,7 +31,7 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CRange::CRange
 	(
-	IMDId *pmdid,
+	IMDId *mdid,
 	const IComparator *pcomp,
 	IDatum *pdatumLeft,
 	ERangeInclusion eriLeft,
@@ -39,16 +39,16 @@ CRange::CRange
 	ERangeInclusion eriRight
 	)
 	:
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_pcomp(pcomp),
 	m_pdatumLeft(pdatumLeft),
 	m_eriLeft(eriLeft),
 	m_pdatumRight(pdatumRight),
 	m_eriRight(eriRight)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(NULL != pcomp);
-	GPOS_ASSERT(CUtils::FConstrainableType(pmdid));
+	GPOS_ASSERT(CUtils::FConstrainableType(mdid));
 	GPOS_ASSERT_IMP(NULL != pdatumLeft && NULL != pdatumRight,
 			pcomp->FLessThanOrEqual(pdatumLeft, pdatumRight));
 }

@@ -90,7 +90,7 @@ namespace gpmd
 			CMDFunctionGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				IMDId *pmdidTypeResult,
 				DrgPmdid *pdrgpmdidTypes,

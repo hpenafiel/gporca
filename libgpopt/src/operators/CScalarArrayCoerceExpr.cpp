@@ -33,19 +33,19 @@ using namespace gpmd;
 CScalarArrayCoerceExpr::CScalarArrayCoerceExpr
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidElementFunc,
+	IMDId *element_func,
 	IMDId *result_type_mdid,
 	INT type_modifier,
-	BOOL fIsExplicit,
+	BOOL is_explicit,
 	ECoercionForm ecf,
 	INT iLoc
 	)
 	:
 	CScalarCoerceBase(memory_pool, result_type_mdid, type_modifier, ecf, iLoc),
-	m_pmdidElementFunc(pmdidElementFunc),
-	m_fIsExplicit(fIsExplicit)
+	m_pmdidElementFunc(element_func),
+	m_fIsExplicit(is_explicit)
 {
-	GPOS_ASSERT(NULL != pmdidElementFunc);
+	GPOS_ASSERT(NULL != element_func);
 }
 
 //---------------------------------------------------------------------------

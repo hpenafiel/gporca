@@ -34,7 +34,7 @@ using namespace gpmd;
 CMDIndexGPDB::CMDIndexGPDB
 	(
 	IMemoryPool *memory_pool, 
-	IMDId *pmdid, 
+	IMDId *mdid, 
 	CMDName *mdname,
 	BOOL fClustered, 
 	IMDIndex::EmdindexType emdindt,
@@ -46,7 +46,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_clustered(fClustered),
 	m_index_type(emdindt),
@@ -56,7 +56,7 @@ CMDIndexGPDB::CMDIndexGPDB
 	m_pdrgpmdidOpClasses(pdrgpmdidOpClasses),
 	m_pmdpartcnstr(pmdpartcnstr)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(IMDIndex::EmdindSentinel > emdindt);
 	GPOS_ASSERT(NULL != pdrgpulKeyCols);
 	GPOS_ASSERT(0 < pdrgpulKeyCols->Size());

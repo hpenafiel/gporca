@@ -868,7 +868,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
 									pmdidArrayCastFunc,
 									pmdidDestArray,
 									IDefaultTypeModifier,
-									true, /* fIsExplicit */
+									true, /* is_explicit */
 									EdxlcfDontCare,
 									-1 /* iLoc */
 									),
@@ -1635,10 +1635,10 @@ CTranslatorExprToDXLUtils::PdxlnIdent
 
 	CMDName *mdname = GPOS_NEW(memory_pool) CMDName(memory_pool, pcr->Name().Pstr());
 
-	IMDId *pmdid = pcr->Pmdtype()->MDId();
-	pmdid->AddRef();
+	IMDId *mdid = pcr->Pmdtype()->MDId();
+	mdid->AddRef();
 
-	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pcr->Id(), pmdid, pcr->TypeModifier());
+	CDXLColRef *dxl_colref = GPOS_NEW(memory_pool) CDXLColRef(memory_pool, mdname, pcr->Id(), mdid, pcr->TypeModifier());
 	
 	CDXLScalarIdent *dxl_op = GPOS_NEW(memory_pool) CDXLScalarIdent(memory_pool, dxl_colref);
 	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, dxl_op);
@@ -1859,7 +1859,7 @@ CDXLNode *
 CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	ULONG ulPartLevels,
 	ULONG scan_id,
 	CDXLPhysicalProperties *dxl_properties,
@@ -1875,7 +1875,7 @@ CTranslatorExprToDXLUtils::PdxlnPartitionSelector
 	CDXLNode *pdxlnSelector = GPOS_NEW(memory_pool) CDXLNode
 										(
 										memory_pool,
-										GPOS_NEW(memory_pool) CDXLPhysicalPartitionSelector(memory_pool, pmdid, ulPartLevels, scan_id)
+										GPOS_NEW(memory_pool) CDXLPhysicalPartitionSelector(memory_pool, mdid, ulPartLevels, scan_id)
 										);
 
 	pdxlnSelector->SetProperties(dxl_properties);

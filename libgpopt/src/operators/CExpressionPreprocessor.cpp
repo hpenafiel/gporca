@@ -220,12 +220,12 @@ CExpressionPreprocessor::PexprSimplifyQuantifiedSubqueries
 				GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarSubquery(memory_pool, pcr, false /*fGeneratedByExist*/, true /*fGeneratedByQuantified*/), pexprInner);
 
 			CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-			IMDId *pmdid = popSubqQuantified->MdIdOp();
-			const CWStringConst *str = md_accessor->Pmdscop(pmdid)->Mdname().GetMDName();
-			pmdid->AddRef();
+			IMDId *mdid = popSubqQuantified->MdIdOp();
+			const CWStringConst *str = md_accessor->Pmdscop(mdid)->Mdname().GetMDName();
+			mdid->AddRef();
 			pexprScalar->AddRef();
 
-			return CUtils::PexprScalarCmp(memory_pool, pexprScalar, pexprSubquery, *str, pmdid);
+			return CUtils::PexprScalarCmp(memory_pool, pexprScalar, pexprSubquery, *str, mdid);
 		}
 	}
 
@@ -2027,14 +2027,14 @@ CExpressionPreprocessor::ConvertInToSimpleExists
 	CExpression *pexprRight = CUtils::PNthProjectElementExpr(pexprLogicalProject, 0);
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *pmdid = CScalarSubqueryAny::PopConvert(pop)->MdIdOp();
-	const CWStringConst *str = md_accessor->Pmdscop(pmdid)->Mdname().GetMDName();
+	IMDId *mdid = CScalarSubqueryAny::PopConvert(pop)->MdIdOp();
+	const CWStringConst *str = md_accessor->Pmdscop(mdid)->Mdname().GetMDName();
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	pexprRight->AddRef();
 	pexprLeft->AddRef();
 
-	CExpression *pexprScalarOp = CUtils::PexprScalarCmp(memory_pool, pexprLeft, pexprRight, *str, pmdid);
+	CExpression *pexprScalarOp = CUtils::PexprScalarCmp(memory_pool, pexprLeft, pexprRight, *str, mdid);
 
 	// EXISTS subquery becomes the logical projects relational child.
 	CExpression *pexprSubqOfExists = (*pexprLogicalProject)[0];

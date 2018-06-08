@@ -83,7 +83,7 @@ namespace gpmd
 			CMDScalarOpGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				IMDId *pmdidTypeLeft,
 				IMDId *pmdidTypeRight,

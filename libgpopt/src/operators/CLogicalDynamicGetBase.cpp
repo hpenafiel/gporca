@@ -251,13 +251,13 @@ CLogicalDynamicGetBase::PpartinfoDerive
 	)
 	const
 {
-	IMDId *pmdid = m_ptabdesc->MDId();
-	pmdid->AddRef();
+	IMDId *mdid = m_ptabdesc->MDId();
+	mdid->AddRef();
 	m_pdrgpdrgpcrPart->AddRef();
 	m_ppartcnstrRel->AddRef(); 
 	
 	CPartInfo *ppartinfo = GPOS_NEW(memory_pool) CPartInfo(memory_pool);
-	ppartinfo->AddPartConsumer(memory_pool, m_scan_id, pmdid, m_pdrgpdrgpcrPart, m_ppartcnstrRel);
+	ppartinfo->AddPartConsumer(memory_pool, m_scan_id, mdid, m_pdrgpdrgpcrPart, m_ppartcnstrRel);
 	
 	return ppartinfo;
 }

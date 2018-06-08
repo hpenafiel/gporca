@@ -107,7 +107,7 @@ namespace gpopt
 				(
 				const IMDType *pmdtype,
 				INT type_modifier,
-				INT iAttno,
+				INT attno,
 				BOOL fNullable,
 				ULONG id,
 				const CName &name,

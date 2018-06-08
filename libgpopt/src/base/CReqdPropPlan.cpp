@@ -362,11 +362,11 @@ CReqdPropPlan::InitReqdPartitionPropagation
 	for (ULONG ul = 0; ul < ppartinfo->UlConsumers(); ul++)
 	{
 		ULONG scan_id = ppartinfo->ScanId(ul);
-		IMDId *pmdid = ppartinfo->GetRelMdId(ul);
+		IMDId *mdid = ppartinfo->GetRelMdId(ul);
 		DrgPpartkeys *pdrgppartkeys = ppartinfo->Pdrgppartkeys(ul);
 		CPartConstraint *ppartcnstr = ppartinfo->Ppartcnstr(ul);
 
-		pmdid->AddRef();
+		mdid->AddRef();
 		pdrgppartkeys->AddRef();
 		ppartcnstr->AddRef();
 
@@ -376,7 +376,7 @@ CReqdPropPlan::InitReqdPartitionPropagation
 			GPOS_NEW(memory_pool) PartCnstrMap(memory_pool), 
 			CPartIndexMap::EpimConsumer,
 			0, //ulExpectedPropagators
-			pmdid,
+			mdid,
 			pdrgppartkeys,
 			ppartcnstr
 			);

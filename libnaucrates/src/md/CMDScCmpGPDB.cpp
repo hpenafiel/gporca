@@ -31,7 +31,7 @@ using namespace gpdxl;
 CMDScCmpGPDB::CMDScCmpGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	IMDId *pmdidLeft,
 	IMDId *pmdidRight,
@@ -40,7 +40,7 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_pmdidLeft(pmdidLeft),
 	m_pmdidRight(pmdidRight),

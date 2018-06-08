@@ -65,10 +65,10 @@ namespace gpdxl
 			CDXLScalarAggref
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidAgg,
-				IMDId *pmdidResolvedRetType,
-				BOOL fDistinct,
-				EdxlAggrefStage edxlaggstage
+				IMDId *agg_mdid,
+				IMDId *resolved_rettype,
+				BOOL is_distinct,
+				EdxlAggrefStage agg_stage
 				);
 
 			virtual

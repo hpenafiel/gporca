@@ -126,7 +126,7 @@ namespace gpmd
 			CMDTypeGenericGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				BOOL fRedistributable,
 				BOOL fFixedLength,
@@ -286,7 +286,7 @@ namespace gpmd
 			CDXLDatum *GetDatumVal
 						(
 						IMemoryPool *memory_pool,
-						IMDId *pmdid,
+						IMDId *mdid,
 						INT type_modifier,
 						BOOL is_passed_by_value,
 						BOOL is_null,
@@ -301,7 +301,7 @@ namespace gpmd
 			CDXLDatum *GetDatumStatsDoubleMappable
 						(
 						IMemoryPool *memory_pool,
-						IMDId *pmdid,
+						IMDId *mdid,
 						INT type_modifier,
 						BOOL fByValue,
 						BOOL is_null,
@@ -316,7 +316,7 @@ namespace gpmd
 			CDXLDatum *GetDatumStatsLintMappable
 						(
 						IMemoryPool *memory_pool,
-						IMDId *pmdid,
+						IMDId *mdid,
 						INT type_modifier,
 						BOOL fByValue,
 						BOOL is_null,
@@ -328,19 +328,19 @@ namespace gpmd
 
 			// does a datum of this type need bytea to Lint mapping for statistics computation
 			static
-			BOOL FHasByteLintMapping(const IMDId *pmdid);
+			BOOL FHasByteLintMapping(const IMDId *mdid);
 
 			// does a datum of this type need bytea to double mapping for statistics computation
 			static
-			BOOL FHasByteDoubleMapping(const IMDId *pmdid);
+			BOOL FHasByteDoubleMapping(const IMDId *mdid);
 
 			// is this a time-related type
 			static
-			BOOL FTimeRelatedType(const IMDId *pmdid);
+			BOOL FTimeRelatedType(const IMDId *mdid);
 
 			// is this a network-related type
 			static
-			BOOL FNetworkRelatedType(const IMDId *pmdid);
+			BOOL FNetworkRelatedType(const IMDId *mdid);
 
 	};
 }

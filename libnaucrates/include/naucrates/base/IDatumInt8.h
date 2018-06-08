@@ -108,7 +108,7 @@ namespace gpnaucrates
 			IDatum *PdatumPadded
 				(
 				IMemoryPool *, // memory_pool,
-				ULONG    // ulColLen
+				ULONG    // col_len
 				)
 				const
 			{

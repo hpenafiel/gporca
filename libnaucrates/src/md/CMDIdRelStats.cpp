@@ -110,16 +110,16 @@ CMDIdRelStats::GetRelMdId() const
 BOOL
 CMDIdRelStats::Equals
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	) 
 	const
 {
-	if (NULL == pmdid || EmdidRelStats != pmdid->Emdidt())
+	if (NULL == mdid || EmdidRelStats != mdid->Emdidt())
 	{
 		return false;
 	}
 	
-	const CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(pmdid);
+	const CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(mdid);
 	
 	return m_rel_mdid->Equals(pmdidRelStats->GetRelMdId()); 
 }

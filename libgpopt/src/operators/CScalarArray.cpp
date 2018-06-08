@@ -29,13 +29,13 @@ CScalarArray::CScalarArray
 	IMemoryPool *memory_pool, 
 	IMDId *elem_type_mdid, 
 	IMDId *array_type_mdid, 
-	BOOL fMultiDimensional
+	BOOL is_multidimenstional
 	)
 	:
 	CScalar(memory_pool),
 	m_pmdidElem(elem_type_mdid),
 	m_pmdidArray(array_type_mdid),
-	m_fMultiDimensional(fMultiDimensional)
+	m_fMultiDimensional(is_multidimenstional)
 {
 	GPOS_ASSERT(elem_type_mdid->IsValid());
 	GPOS_ASSERT(array_type_mdid->IsValid());
@@ -49,14 +49,14 @@ CScalarArray::CScalarArray
 	IMemoryPool *memory_pool,
 	IMDId *elem_type_mdid,
 	IMDId *array_type_mdid,
-	BOOL fMultiDimensional,
+	BOOL is_multidimenstional,
 	DrgPconst *pdrgPconst
 	)
 :
 CScalar(memory_pool),
 m_pmdidElem(elem_type_mdid),
 m_pmdidArray(array_type_mdid),
-m_fMultiDimensional(fMultiDimensional),
+m_fMultiDimensional(is_multidimenstional),
 m_pdrgPconst(pdrgPconst)
 {
 	GPOS_ASSERT(elem_type_mdid->IsValid());

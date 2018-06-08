@@ -32,7 +32,7 @@ using namespace gpdxl;
 CDXLLogicalCTAS::CDXLLogicalCTAS
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname_schema, 
 	CMDName *mdname_rel, 
 	ColumnDescrDXLArray *col_descr_dxl_array,
@@ -47,7 +47,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	)
 	:
 	CDXLLogical(memory_pool), 
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname_schema(mdname_schema),
 	m_mdname_rel(mdname_rel),
 	m_col_descr_array(col_descr_dxl_array),
@@ -60,7 +60,7 @@ CDXLLogicalCTAS::CDXLLogicalCTAS
 	m_src_colids_array(src_colids_array),
 	m_vartypemod_array(vartypemod_array)
 {
-	GPOS_ASSERT(NULL != pmdid && pmdid->IsValid());
+	GPOS_ASSERT(NULL != mdid && mdid->IsValid());
 	GPOS_ASSERT(NULL != mdname_rel);
 	GPOS_ASSERT(NULL != col_descr_dxl_array);
 	GPOS_ASSERT(NULL != dxl_ctas_storage_options);

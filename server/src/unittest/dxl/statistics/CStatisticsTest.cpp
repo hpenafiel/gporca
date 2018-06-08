@@ -375,7 +375,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 				(
 				pmdtypeint4,
 				IDefaultTypeModifier,
-				0 /* iAttno */,
+				0 /* attno */,
 				false /*FNullable*/,
 				1 /* id */,
 				CName(&strColA),
@@ -389,7 +389,7 @@ CStatisticsTest::EresUnittest_CStatisticsBasic()
 				(
 				pmdtypeint4,
 				IDefaultTypeModifier,
-				1 /* iAttno */,
+				1 /* attno */,
 				false /*FNullable*/,
 				2 /* id */,
 				CName(&strColB),

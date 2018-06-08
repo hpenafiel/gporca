@@ -79,7 +79,7 @@ namespace gpmd
 			CMDIndexGPDB
 				(
 				IMemoryPool *memory_pool, 
-				IMDId *pmdid, 
+				IMDId *mdid, 
 				CMDName *mdname,
 				BOOL fClustered, 
 				EmdindexType emdindt,

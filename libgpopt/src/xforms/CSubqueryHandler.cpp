@@ -1457,7 +1457,7 @@ CSubqueryHandler::PexprScalarIf
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	const IMDTypeBool *pmdtypebool = md_accessor->PtMDType<IMDTypeBool>();
-	IMDId *pmdid = pmdtypebool->MDId();
+	IMDId *mdid = pmdtypebool->MDId();
 
 	BOOL value = true;
 	if (COperator::EopScalarSubqueryNotExists == eopid || COperator::EopScalarSubqueryAll == eopid)
@@ -1468,11 +1468,11 @@ CSubqueryHandler::PexprScalarIf
 	if (fExistential)
 	{
 		CExpression *pexprIsNotNull = CUtils::PexprIsNotNull(memory_pool, CUtils::PexprScalarIdent(memory_pool, pcrBool));
-		pmdid->AddRef();
+		mdid->AddRef();
 		return GPOS_NEW(memory_pool) CExpression
 						(
 						memory_pool,
-						GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdid),
+						GPOS_NEW(memory_pool) CScalarIf(memory_pool, mdid),
 						pexprIsNotNull,
 						CUtils::PexprScalarConstBool(memory_pool, value),
 						CUtils::PexprScalarConstBool(memory_pool, !value)
@@ -1482,8 +1482,8 @@ CSubqueryHandler::PexprScalarIf
 	// quantified subquery
 	CExpression *pexprEquality = CUtils::PexprScalarEqCmp(memory_pool, pcrSum, pcrCount);
 	CExpression *pexprSumIsNotNull = CUtils::PexprIsNotNull(memory_pool, CUtils::PexprScalarIdent(memory_pool, pcrSum));
-	pmdid->AddRef();
-	pmdid->AddRef();
+	mdid->AddRef();
+	mdid->AddRef();
 
 	// if sum(null indicators) = count(*), all joins involved null values from inner side,
 	// in this case, we need to produce a null value in the join result,
@@ -1493,13 +1493,13 @@ CSubqueryHandler::PexprScalarIf
 		GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdid),
+			GPOS_NEW(memory_pool) CScalarIf(memory_pool, mdid),
 			pexprEquality,
 			CUtils::PexprScalarConstBool(memory_pool, false /*value*/, true /*is_null*/),
 			GPOS_NEW(memory_pool) CExpression
 				(
 				memory_pool,
-				GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdid),
+				GPOS_NEW(memory_pool) CScalarIf(memory_pool, mdid),
 				pexprSumIsNotNull,
 				CUtils::PexprScalarConstBool(memory_pool, value),
 				CUtils::PexprScalarConstBool(memory_pool, !value)
@@ -1509,11 +1509,11 @@ CSubqueryHandler::PexprScalarIf
 	// add an outer ScalarIf to check nullness of outer value
 	CExpression *pexprScalar = (*pexprSubquery)[1];
 	pexprScalar->AddRef();
-	pmdid->AddRef();
+	mdid->AddRef();
 	return GPOS_NEW(memory_pool) CExpression
 					(
 					memory_pool,
-					GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdid),
+					GPOS_NEW(memory_pool) CScalarIf(memory_pool, mdid),
 					CUtils::PexprIsNotNull(memory_pool, pexprScalar),
 					pexprScalarIf,
 					CUtils::PexprScalarConstBool(memory_pool, false /*value*/, true /*is_null*/)

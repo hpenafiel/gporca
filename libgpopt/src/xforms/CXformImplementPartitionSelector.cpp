@@ -69,11 +69,11 @@ CXformImplementPartitionSelector::Transform
 	CLogicalPartitionSelector *popSelector = CLogicalPartitionSelector::PopConvert(pexpr->Pop());
 	CExpression *pexprRelational = (*pexpr)[0];
 
-	IMDId *pmdid = popSelector->MDId();
+	IMDId *mdid = popSelector->MDId();
 
 	// addref all components
 	pexprRelational->AddRef();
-	pmdid->AddRef();
+	mdid->AddRef();
 
 	HMUlExpr *phmulexprFilter = GPOS_NEW(memory_pool) HMUlExpr(memory_pool);
 
@@ -95,7 +95,7 @@ CXformImplementPartitionSelector::Transform
 			GPOS_NEW(memory_pool) CPhysicalPartitionSelectorDML
 						(
 						memory_pool,
-						pmdid,
+						mdid,
 						phmulexprFilter,
 						popSelector->PcrOid()
 						);

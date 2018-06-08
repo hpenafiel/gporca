@@ -53,7 +53,7 @@ namespace gpopt
 			CLogicalPartitionSelector
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				DrgPexpr *pdrgpexprFilters,
 				CColRef *pcrOid
 				);

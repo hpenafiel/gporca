@@ -47,7 +47,7 @@ using namespace gpmd;
 CMDTypeGenericGPDB::CMDTypeGenericGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	BOOL fRedistributable,
 	BOOL fFixedLength,
@@ -73,7 +73,7 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_fRedistributable(fRedistributable),
 	m_fFixedLength(fFixedLength),
@@ -401,7 +401,7 @@ CDXLDatum *
 CMDTypeGenericGPDB::GetDatumVal
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	INT type_modifier,
 	BOOL is_passed_by_value,
 	BOOL is_null,
@@ -411,23 +411,23 @@ CMDTypeGenericGPDB::GetDatumVal
 	CDouble dValue
 	)
 {
-	GPOS_ASSERT(IMDId::EmdidGPDB == pmdid->Emdidt());
+	GPOS_ASSERT(IMDId::EmdidGPDB == mdid->Emdidt());
 
-	const CMDIdGPDB * const pmdidGPDB = CMDIdGPDB::PmdidConvert(pmdid);
+	const CMDIdGPDB * const pmdidGPDB = CMDIdGPDB::PmdidConvert(mdid);
 	switch (pmdidGPDB->OidObjectId())
 	{
 		// numbers
 		case GPDB_NUMERIC:
 		case GPDB_FLOAT4:
 		case GPDB_FLOAT8:
-			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba,
+			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, mdid, type_modifier, is_passed_by_value, is_null, pba,
 																	length, lValue, dValue);
 		// has lint mapping
 		case GPDB_CHAR:
 		case GPDB_VARCHAR:
 		case GPDB_TEXT:
 		case GPDB_CASH:
-			return CMDTypeGenericGPDB::GetDatumStatsLintMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
+			return CMDTypeGenericGPDB::GetDatumStatsLintMappable(memory_pool, mdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
 		// time-related types
 		case GPDB_DATE:
 		case GPDB_TIME:
@@ -438,15 +438,15 @@ CMDTypeGenericGPDB::GetDatumVal
 		case GPDB_RELTIME:
 		case GPDB_INTERVAL:
 		case GPDB_TIMEINTERVAL:
-			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba,
+			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, mdid, type_modifier, is_passed_by_value, is_null, pba,
 																	length, lValue, dValue);
 		// network-related types
 		case GPDB_INET:
 		case GPDB_CIDR:
 		case GPDB_MACADDR:
-			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
+			return CMDTypeGenericGPDB::GetDatumStatsDoubleMappable(memory_pool, mdid, type_modifier, is_passed_by_value, is_null, pba, length, lValue, dValue);
 		default:
-			return GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, pmdid, type_modifier, is_passed_by_value, is_null, pba, length);
+			return GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, mdid, type_modifier, is_passed_by_value, is_null, pba, length);
 	}
 }
 
@@ -463,7 +463,7 @@ CDXLDatum *
 CMDTypeGenericGPDB::GetDatumStatsDoubleMappable
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	INT type_modifier,
 	BOOL fByValue,
 	BOOL is_null,
@@ -473,8 +473,8 @@ CMDTypeGenericGPDB::GetDatumStatsDoubleMappable
 	CDouble dValue
 	)
 {
-	GPOS_ASSERT(CMDTypeGenericGPDB::FHasByteDoubleMapping(pmdid));
-	return GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable(memory_pool, pmdid, type_modifier, fByValue, is_null, pba, length, dValue);
+	GPOS_ASSERT(CMDTypeGenericGPDB::FHasByteDoubleMapping(mdid));
+	return GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable(memory_pool, mdid, type_modifier, fByValue, is_null, pba, length, dValue);
 }
 
 
@@ -490,7 +490,7 @@ CDXLDatum *
 CMDTypeGenericGPDB::GetDatumStatsLintMappable
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	INT type_modifier,
 	BOOL fByValue,
 	BOOL is_null,
@@ -500,8 +500,8 @@ CMDTypeGenericGPDB::GetDatumStatsLintMappable
 	CDouble // dValue
 	)
 {
-	GPOS_ASSERT(CMDTypeGenericGPDB::FHasByteLintMapping(pmdid));
-	return GPOS_NEW(memory_pool) CDXLDatumStatsLintMappable(memory_pool, pmdid, type_modifier, fByValue, is_null, pba, length, lValue);
+	GPOS_ASSERT(CMDTypeGenericGPDB::FHasByteLintMapping(mdid));
+	return GPOS_NEW(memory_pool) CDXLDatumStatsLintMappable(memory_pool, mdid, type_modifier, fByValue, is_null, pba, length, lValue);
 }
 
 //---------------------------------------------------------------------------
@@ -556,13 +556,13 @@ CMDTypeGenericGPDB::PdxldatumNull
 BOOL
 CMDTypeGenericGPDB::FHasByteLintMapping
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	)
 {
-	return pmdid->Equals(&CMDIdGPDB::m_mdidBPChar)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidVarChar)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidText)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidCash);
+	return mdid->Equals(&CMDIdGPDB::m_mdidBPChar)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidVarChar)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidText)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidCash);
 }
 
 //---------------------------------------------------------------------------
@@ -576,14 +576,14 @@ CMDTypeGenericGPDB::FHasByteLintMapping
 BOOL
 CMDTypeGenericGPDB::FHasByteDoubleMapping
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	)
 {
-	return pmdid->Equals(&CMDIdGPDB::m_mdidNumeric)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidFloat4)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidFloat8)
-			|| FTimeRelatedType(pmdid)
-			|| FNetworkRelatedType(pmdid);
+	return mdid->Equals(&CMDIdGPDB::m_mdidNumeric)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidFloat4)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidFloat8)
+			|| FTimeRelatedType(mdid)
+			|| FNetworkRelatedType(mdid);
 }
 
 //---------------------------------------------------------------------------
@@ -596,18 +596,18 @@ CMDTypeGenericGPDB::FHasByteDoubleMapping
 BOOL
 CMDTypeGenericGPDB::FTimeRelatedType
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	)
 {
-	return pmdid->Equals(&CMDIdGPDB::m_mdidDate)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidTime)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimeTz)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimestamp)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimestampTz)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidAbsTime)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidRelTime)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidInterval)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidTimeInterval);
+	return mdid->Equals(&CMDIdGPDB::m_mdidDate)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidTime)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidTimeTz)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidTimestamp)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidTimestampTz)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidAbsTime)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidRelTime)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidInterval)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidTimeInterval);
 }
 
 //---------------------------------------------------------------------------
@@ -620,12 +620,12 @@ CMDTypeGenericGPDB::FTimeRelatedType
 BOOL
 CMDTypeGenericGPDB::FNetworkRelatedType
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	)
 {
-	return pmdid->Equals(&CMDIdGPDB::m_mdidInet)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidCidr)
-			|| pmdid->Equals(&CMDIdGPDB::m_mdidMacaddr);
+	return mdid->Equals(&CMDIdGPDB::m_mdidInet)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidCidr)
+			|| mdid->Equals(&CMDIdGPDB::m_mdidMacaddr);
 }
 
 #ifdef GPOS_DEBUG

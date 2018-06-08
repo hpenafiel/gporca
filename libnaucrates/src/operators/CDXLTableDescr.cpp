@@ -31,13 +31,13 @@ using namespace gpdxl;
 CDXLTableDescr::CDXLTableDescr
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	ULONG ulExecuteAsUser
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_column_descr_dxl_array(NULL),
 	m_execute_as_user_id(ulExecuteAsUser)

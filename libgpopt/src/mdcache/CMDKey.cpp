@@ -29,12 +29,12 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CMDKey::CMDKey
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	)
 	:
-	m_mdid(pmdid)
+	m_mdid(mdid)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 }
 
 //---------------------------------------------------------------------------

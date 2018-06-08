@@ -140,12 +140,12 @@ CPartitionPropagationSpec::AppendEnforcers
 		
 		CExpression *pexprResolver = NULL;
 
-		IMDId *pmdid = m_ppim->GetRelMdId(scan_id);
+		IMDId *mdid = m_ppim->GetRelMdId(scan_id);
 		DrgDrgPcr *pdrgpdrgpcrKeys = NULL;
 		DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(scan_id);
 		CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(scan_id);
 		PartCnstrMap *ppartcnstrmap = m_ppim->Ppartcnstrmap(scan_id);
-		pmdid->AddRef();
+		mdid->AddRef();
 		ppartcnstr->AddRef();
 		ppartcnstrmap->AddRef();
 		pexpr->AddRef();
@@ -199,7 +199,7 @@ CPartitionPropagationSpec::AppendEnforcers
 												(
 												memory_pool,
 												scan_id,
-												pmdid,
+												mdid,
 												pdrgpdrgpcrKeys,
 												ppartcnstrmap,
 												ppartcnstr,
@@ -280,16 +280,16 @@ CPartitionPropagationSpec::FRequiresPartitionPropagation
 	// enforced on top
 	CPartIndexMap *ppim = GPOS_NEW(memory_pool) CPartIndexMap(memory_pool);
 	
-	IMDId *pmdid = m_ppim->GetRelMdId(part_idx_id);
+	IMDId *mdid = m_ppim->GetRelMdId(part_idx_id);
 	DrgPpartkeys *pdrgppartkeys = m_ppim->Pdrgppartkeys(part_idx_id);
 	CPartConstraint *ppartcnstr = m_ppim->PpartcnstrRel(part_idx_id);
 	PartCnstrMap *ppartcnstrmap = m_ppim->Ppartcnstrmap(part_idx_id);
-	pmdid->AddRef();
+	mdid->AddRef();
 	pdrgppartkeys->AddRef();
 	ppartcnstr->AddRef();
 	ppartcnstrmap->AddRef();
 	
-	ppim->Insert(part_idx_id, ppartcnstrmap, m_ppim->Epim(part_idx_id), m_ppim->UlExpectedPropagators(part_idx_id), pmdid, pdrgppartkeys, ppartcnstr);
+	ppim->Insert(part_idx_id, ppartcnstrmap, m_ppim->Epim(part_idx_id), m_ppim->UlExpectedPropagators(part_idx_id), mdid, pdrgppartkeys, ppartcnstr);
 	
 	CPartitionPropagationSpec *ppps = GPOS_NEW(memory_pool) CPartitionPropagationSpec(ppim, GPOS_NEW(memory_pool) CPartFilterMap(memory_pool));
 	

@@ -108,7 +108,7 @@ namespace gpmd
 			CMDRelationCtasGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname_schema,
 				CMDName *mdname,
 				BOOL fTemporary,
@@ -245,7 +245,7 @@ namespace gpmd
 			
 			 // return the position of a column in the metadata object given the attribute number in the system catalog
 			virtual
-			ULONG UlPosFromAttno(INT iAttno) const;
+			ULONG UlPosFromAttno(INT attno) const;
 
 			// retrieve the id of the metadata cache index at the given position
 			virtual

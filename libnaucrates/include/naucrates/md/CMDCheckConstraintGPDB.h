@@ -65,7 +65,7 @@ namespace gpmd
 			CMDCheckConstraintGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				IMDId *rel_mdid,
 				CDXLNode *dxlnode

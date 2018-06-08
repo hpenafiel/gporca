@@ -24,7 +24,7 @@ using namespace gpdxl;
 CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	IMDId *mdid_src,
 	IMDId *mdid_dest,
@@ -32,14 +32,14 @@ CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB
 	IMDId *mdid_cast_func,
 	EmdCoercepathType emdPathType,
 	INT type_modifier,
-	BOOL fIsExplicit,
+	BOOL is_explicit,
 	EdxlCoercionForm edxlcf,
 	INT iLoc
 	)
 	:
-	CMDCastGPDB(memory_pool, pmdid, mdname, mdid_src, mdid_dest, is_binary_coercible, mdid_cast_func, emdPathType),
+	CMDCastGPDB(memory_pool, mdid, mdname, mdid_src, mdid_dest, is_binary_coercible, mdid_cast_func, emdPathType),
 	m_type_modifier(type_modifier),
-	m_fIsExplicit(fIsExplicit),
+	m_fIsExplicit(is_explicit),
 	m_edxlcf(edxlcf),
 	m_iLoc(iLoc)
 {

@@ -506,9 +506,9 @@ CPhysicalDML::PosComputeRequired
 		
 		if (fNeedsSort)
 		{
-			IMDId *pmdid = m_pcrAction->Pmdtype()->PmdidCmp(IMDType::EcmptL);
-			pmdid->AddRef();
-			pos->Append(pmdid, m_pcrAction, COrderSpec::EntAuto);
+			IMDId *mdid = m_pcrAction->Pmdtype()->PmdidCmp(IMDType::EcmptL);
+			mdid->AddRef();
+			pos->Append(mdid, m_pcrAction, COrderSpec::EntAuto);
 		}
 	}
 	else if (m_ptabdesc->FPartitioned())
@@ -524,9 +524,9 @@ CPhysicalDML::PosComputeRequired
 			m_input_sort_req = true;
 			// if this is an INSERT over a partitioned Parquet or Row-oriented table,
 			// sort tuples by their table oid
-			IMDId *pmdid = m_pcrTableOid->Pmdtype()->PmdidCmp(IMDType::EcmptL);
-			pmdid->AddRef();
-			pos->Append(pmdid, m_pcrTableOid, COrderSpec::EntAuto);
+			IMDId *mdid = m_pcrTableOid->Pmdtype()->PmdidCmp(IMDType::EcmptL);
+			mdid->AddRef();
+			pos->Append(mdid, m_pcrTableOid, COrderSpec::EntAuto);
 		}
 	}
 	

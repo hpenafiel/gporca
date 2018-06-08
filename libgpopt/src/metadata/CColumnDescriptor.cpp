@@ -30,7 +30,7 @@ CColumnDescriptor::CColumnDescriptor
 	const IMDType *pmdtype,
 	INT type_modifier,
 	const CName &name,
-	INT iAttno,
+	INT attno,
 	BOOL fNullable,
 	ULONG ulWidth
 	)
@@ -38,7 +38,7 @@ CColumnDescriptor::CColumnDescriptor
 	m_pmdtype(pmdtype),
 	m_type_modifier(type_modifier),
 	m_name(memory_pool, name),
-	m_iAttno(iAttno),
+	m_iAttno(attno),
 	m_is_nullable(fNullable),
 	m_width(ulWidth)
 {

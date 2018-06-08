@@ -92,10 +92,10 @@ CPhysicalSequenceProject::CreateOrderSpec
 			CScalarIdent *popScId = CScalarIdent::PopConvert(pexpr->Pop());
 			const CColRef *pcr = popScId->Pcr();
 
-			gpmd::IMDId *pmdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
-			pmdid->AddRef();
+			gpmd::IMDId *mdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
+			mdid->AddRef();
 
-			m_pos->Append(pmdid, pcr, COrderSpec::EntLast);
+			m_pos->Append(mdid, pcr, COrderSpec::EntLast);
 		}
 	}
 
@@ -122,10 +122,10 @@ CPhysicalSequenceProject::CreateOrderSpec
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		const CColRef *pcr = posFirst->Pcr(ul);
-		gpmd::IMDId *pmdid = posFirst->GetMdIdSortOp(ul);
-		pmdid->AddRef();
+		gpmd::IMDId *mdid = posFirst->GetMdIdSortOp(ul);
+		mdid->AddRef();
 		COrderSpec::ENullTreatment ent = posFirst->Ent(ul);
-		m_pos->Append(pmdid, pcr, ent);
+		m_pos->Append(mdid, pcr, ent);
 	}
 }
 

@@ -85,7 +85,7 @@ namespace gpdxl
 			CDXLLogicalCTAS
 				(
 				IMemoryPool *memory_pool, 
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname_schema, 
 				CMDName *mdname_rel, 
 				ColumnDescrDXLArray *col_descr_dxl_array,

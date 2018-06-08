@@ -72,7 +72,7 @@ namespace gpopt
 				public:
 
 					// ctor
-					CPartInfoEntry(ULONG scan_id, IMDId *pmdid, DrgPpartkeys *pdrgppartkeys, CPartConstraint *ppartcnstrRel);
+					CPartInfoEntry(ULONG scan_id, IMDId *mdid, DrgPpartkeys *pdrgppartkeys, CPartConstraint *ppartcnstrRel);
 
 					// dtor
 					virtual
@@ -155,7 +155,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				ULONG scan_id,
-				IMDId *pmdid,
+				IMDId *mdid,
 				DrgDrgPcr *pdrgpdrgpcrPart,
 				CPartConstraint *ppartcnstrRel
 				);

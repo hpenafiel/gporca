@@ -125,7 +125,7 @@ namespace gpopt
 						ULONG scan_id,
 						PartCnstrMap *ppartcnstrmap,
 						EPartIndexManipulator epim,
-						IMDId *pmdid,
+						IMDId *mdid,
 						DrgPpartkeys *pdrgppartkeys,
 						CPartConstraint *ppartcnstrRel,
 						ULONG ulPropagators
@@ -276,7 +276,7 @@ namespace gpopt
 				PartCnstrMap *ppartcnstrmap, 
 				EPartIndexManipulator epim,
 				ULONG ulExpectedPropagators,
-				IMDId *pmdid, 
+				IMDId *mdid, 
 				DrgPpartkeys *pdrgppartkeys,
 				CPartConstraint *ppartcnstrRel
 				);

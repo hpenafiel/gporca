@@ -31,7 +31,7 @@ using namespace gpdxl;
 CMDTriggerGPDB::CMDTriggerGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	IMDId *rel_mdid,
 	IMDId *mdid_func,
@@ -40,7 +40,7 @@ CMDTriggerGPDB::CMDTriggerGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_rel_mdid(rel_mdid),
 	m_func_mdid(mdid_func),

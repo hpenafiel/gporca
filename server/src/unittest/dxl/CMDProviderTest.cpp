@@ -227,10 +227,10 @@ CMDProviderTest::EresUnittest_Negative()
 		CAutoMDAccessor amda(memory_pool, pmdpFile, CTestUtils::m_sysidDefault, pcache);
 
 		// lookup a non-existing objects
-		CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 15 /* major version */, 1 /* minor version */);
+		CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 15 /* major version */, 1 /* minor version */);
 
 		// call should result in an exception
-		(void) pmdpFile->PstrObject(memory_pool, amda.Pmda(), pmdid);
+		(void) pmdpFile->PstrObject(memory_pool, amda.Pmda(), mdid);
 	}
 	
 	return GPOS_FAILED;

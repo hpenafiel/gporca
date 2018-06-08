@@ -163,13 +163,13 @@ CMDProviderMemory::PstrObject
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *, //md_accessor
-	IMDId *pmdid
+	IMDId *mdid
 	) 
 	const
 {
 	GPOS_ASSERT(NULL != m_pmdmap);
 
-	const CWStringDynamic *pstrObj = m_pmdmap->Find(pmdid);
+	const CWStringDynamic *pstrObj = m_pmdmap->Find(mdid);
 	
 	// result string
 	CAutoP<CWStringDynamic> a_pstrResult;
@@ -181,32 +181,32 @@ CMDProviderMemory::PstrObject
 		// Relstats and colstats are special as they may not
 		// exist in the metadata file. Provider must return dummy objects
 		// in this case.
-		switch(pmdid->Emdidt())
+		switch(mdid->Emdidt())
 		{
 			case IMDId::EmdidRelStats:
 			{
-				pmdid->AddRef();
+				mdid->AddRef();
 				CAutoRef<CDXLRelStats> a_pdxlrelstats;
-				a_pdxlrelstats = CDXLRelStats::PdxlrelstatsDummy(memory_pool, pmdid);
+				a_pdxlrelstats = CDXLRelStats::PdxlrelstatsDummy(memory_pool, mdid);
 				a_pstrResult = CDXLUtils::SerializeMDObj(memory_pool, a_pdxlrelstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;
 			}
 			case IMDId::EmdidColStats:
 			{
 				CAutoP<CWStringDynamic> a_pstr;
-				a_pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, pmdid->GetBuffer());
+				a_pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, mdid->GetBuffer());
 				CAutoP<CMDName> a_pmdname;
 				a_pmdname = GPOS_NEW(memory_pool) CMDName(memory_pool, a_pstr.Value());
-				pmdid->AddRef();
+				mdid->AddRef();
 				CAutoRef<CDXLColStats> a_pdxlcolstats;
-				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(memory_pool, pmdid, a_pmdname.Value(), CStatistics::DDefaultColumnWidth /* width */);
+				a_pdxlcolstats = CDXLColStats::PdxlcolstatsDummy(memory_pool, mdid, a_pmdname.Value(), CStatistics::DDefaultColumnWidth /* width */);
 				a_pmdname.Reset();
 				a_pstrResult = CDXLUtils::SerializeMDObj(memory_pool, a_pdxlcolstats.Value(), true /*fSerializeHeaders*/, false /*findent*/);
 				break;
 			}
 			default:
 			{
-				GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
+				GPOS_RAISE(gpdxl::ExmaMD, gpdxl::ExmiMDCacheEntryNotFound, mdid->GetBuffer());
 			}
 		}
 	}

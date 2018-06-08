@@ -55,10 +55,10 @@ namespace gpopt
 		public:
 		
 			// ctor
-			CScalarArray(IMemoryPool *memory_pool, IMDId *elem_type_mdid, IMDId *array_type_mdid, BOOL fMultiDimensional);
+			CScalarArray(IMemoryPool *memory_pool, IMDId *elem_type_mdid, IMDId *array_type_mdid, BOOL is_multidimenstional);
 
 			// ctor
-			CScalarArray(IMemoryPool *memory_pool, IMDId *elem_type_mdid, IMDId *array_type_mdid, BOOL fMultiDimensional, DrgPconst *pdrgPconst);
+			CScalarArray(IMemoryPool *memory_pool, IMDId *elem_type_mdid, IMDId *array_type_mdid, BOOL is_multidimenstional, DrgPconst *pdrgPconst);
 
 			// dtor
 			virtual 

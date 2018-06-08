@@ -35,11 +35,11 @@ namespace gpopt
 
 			// return the name of the window operation
 			static
-			const CWStringConst *PstrWindowFuncName(CMDAccessor *md_accessor, IMDId *pmdid);
+			const CWStringConst *PstrWindowFuncName(CMDAccessor *md_accessor, IMDId *mdid);
 
 			// return the return type of the window operation
 			static
-			IMDId *PmdidWindowReturnType(CMDAccessor *md_accessor, IMDId *pmdid);
+			IMDId *PmdidWindowReturnType(CMDAccessor *md_accessor, IMDId *mdid);
 
 			// does a cast object between given source and destination types exist
 			static

@@ -59,7 +59,7 @@ namespace gpmd
 
 			// equality check
 			virtual
-			BOOL Equals(const IMDId *pmdid) const;
+			BOOL Equals(const IMDId *mdid) const;
 			
 			// is the mdid valid
 			virtual
@@ -75,20 +75,20 @@ namespace gpmd
 			
 			// const converter
 			static
-			const CMDIdGPDBCtas *PmdidConvert(const IMDId *pmdid)
+			const CMDIdGPDBCtas *PmdidConvert(const IMDId *mdid)
 			{
-				GPOS_ASSERT(NULL != pmdid && EmdidGPDBCtas == pmdid->Emdidt());
+				GPOS_ASSERT(NULL != mdid && EmdidGPDBCtas == mdid->Emdidt());
 
-				return dynamic_cast<const CMDIdGPDBCtas *>(pmdid);
+				return dynamic_cast<const CMDIdGPDBCtas *>(mdid);
 			}
 			
 			// non-const converter
 			static
-			CMDIdGPDBCtas *PmdidConvert(IMDId *pmdid)
+			CMDIdGPDBCtas *PmdidConvert(IMDId *mdid)
 			{
-				GPOS_ASSERT(NULL != pmdid && EmdidGPDBCtas == pmdid->Emdidt());
+				GPOS_ASSERT(NULL != mdid && EmdidGPDBCtas == mdid->Emdidt());
 
-				return dynamic_cast<CMDIdGPDBCtas *>(pmdid);
+				return dynamic_cast<CMDIdGPDBCtas *>(mdid);
 			}
 	};
 

@@ -57,7 +57,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				ULONG col_id,
-				IMDId *pmdidSortOp,
+				IMDId *sort_op_id,
 				CWStringConst *pstrTypeName,
 				BOOL fSortNullsFirst
 				);

@@ -129,16 +129,16 @@ CMDIdColStats::UlPos() const
 BOOL
 CMDIdColStats::Equals
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	) 
 	const
 {
-	if (NULL == pmdid || EmdidColStats != pmdid->Emdidt())
+	if (NULL == mdid || EmdidColStats != mdid->Emdidt())
 	{
 		return false;
 	}
 	
-	const CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(pmdid);
+	const CMDIdColStats *pmdidColStats = CMDIdColStats::PmdidConvert(mdid);
 	
 	return m_rel_mdid->Equals(pmdidColStats->GetRelMdId()) && 
 			m_ulPos == pmdidColStats->UlPos(); 

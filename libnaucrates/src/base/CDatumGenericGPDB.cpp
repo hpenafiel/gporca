@@ -41,7 +41,7 @@ const CDouble CDatumGenericGPDB::DDefaultCdbRolloffSelectivity(0.14);
 CDatumGenericGPDB::CDatumGenericGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	INT type_modifier,
 	const void *pv,
 	ULONG size,
@@ -54,13 +54,13 @@ CDatumGenericGPDB::CDatumGenericGPDB
 	m_size(size),
 	m_pbVal(NULL),
 	m_is_null(is_null),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_type_modifier(type_modifier),
 	m_val(lValue),
 	m_dValue(dValue)
 {
 	GPOS_ASSERT(NULL != memory_pool);
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	
 	if (!IsNull())
 	{
@@ -460,14 +460,14 @@ IDatum *
 CDatumGenericGPDB::PdatumPadded
 	(
 	IMemoryPool *memory_pool,
-	ULONG ulColLen
+	ULONG col_len
 	)
 	const
 {
 	// in GPDB the first four bytes of the datum are used for the header
-	const ULONG ulAdjustedColWidth = ulColLen + GPDB_DATUM_HDRSZ;
+	const ULONG ulAdjustedColWidth = col_len + GPDB_DATUM_HDRSZ;
 
-	if (this->IsNull() || (ULONG_MAX == ulColLen))
+	if (this->IsNull() || (ULONG_MAX == col_len))
 	{
 		return this->PdatumCopy(memory_pool);
 	}

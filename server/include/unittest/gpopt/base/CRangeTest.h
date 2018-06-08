@@ -39,7 +39,7 @@ namespace gpopt
 			GPOS_RESULT EresInitAndCheckRanges
 						(
 						IMemoryPool *memory_pool,
-						IMDId *pmdid,
+						IMDId *mdid,
 						PfPdatum pf
 						);
 

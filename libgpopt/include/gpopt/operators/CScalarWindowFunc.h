@@ -81,7 +81,7 @@ namespace gpopt
 				IMDId *mdid_return_type,
 				const CWStringConst *pstrFunc,
 				EWinStage ewinstage,
-				BOOL fDistinct,
+				BOOL is_distinct,
 				BOOL is_star_arg,
 				BOOL is_simple_agg
 				);

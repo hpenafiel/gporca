@@ -69,7 +69,7 @@ namespace gpmd
 			CMDTriggerGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				IMDId *rel_mdid,
 				IMDId *mdid_func,

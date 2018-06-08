@@ -31,7 +31,7 @@ using namespace gpmd;
 CMDRelationGPDB::CMDRelationGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	BOOL fTemporary,
 	Erelstoragetype rel_storage_type,
@@ -51,7 +51,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_is_temp_table(fTemporary),
 	m_rel_storage_type(rel_storage_type),
@@ -74,7 +74,7 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_phmiulAttno2Pos(NULL),
 	m_pdrgpulNonDroppedCols(NULL)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdcol);
 	GPOS_ASSERT(NULL != pdrgpmdIndexInfo);
 	GPOS_ASSERT(NULL != pdrgpmdidTriggers);
@@ -317,11 +317,11 @@ CMDRelationGPDB::UlPosNonDropped
 ULONG
 CMDRelationGPDB::UlPosFromAttno
 	(
-	INT iAttno
+	INT attno
 	)
 	const
 {
-	ULONG *pul = m_phmiulAttno2Pos->Find(&iAttno);
+	ULONG *pul = m_phmiulAttno2Pos->Find(&attno);
 	GPOS_ASSERT(NULL != pul);
 
 	return *pul;
@@ -598,7 +598,7 @@ CMDRelationGPDB::PmdidIndex
 BOOL
 CMDRelationGPDB::FPartialIndex
 	(
-	IMDId *pmdid
+	IMDId *mdid
 	)
 	const
 {
@@ -606,14 +606,14 @@ CMDRelationGPDB::FPartialIndex
 
 	for (ULONG ul = 0; ul < ulIndexes; ++ul)
 	{
-		if (CMDIdGPDB::FEqualMDId(PmdidIndex(ul), pmdid))
+		if (CMDIdGPDB::FEqualMDId(PmdidIndex(ul), mdid))
 		{
 			return (*m_mdindex_info_array)[ul]->FPartial();
 		}
 	}
 
 	// Not found
-	GPOS_RAISE(ExmaMD, ExmiMDCacheEntryNotFound, pmdid->GetBuffer());
+	GPOS_RAISE(ExmaMD, ExmiMDCacheEntryNotFound, mdid->GetBuffer());
 
 	return false;
 }

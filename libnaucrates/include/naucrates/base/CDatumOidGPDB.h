@@ -46,7 +46,7 @@ namespace gpnaucrates
 
 			// ctors
 			CDatumOidGPDB(CSystemId sysid, OID oidVal, BOOL is_null = false);
-			CDatumOidGPDB(IMDId *pmdid, OID oidVal, BOOL is_null = false);
+			CDatumOidGPDB(IMDId *mdid, OID oidVal, BOOL is_null = false);
 
 			// dtor
 			virtual

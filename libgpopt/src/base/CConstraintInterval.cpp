@@ -258,20 +258,20 @@ CConstraintInterval::PcnstrIntervalFromScalarArrayCmp
 				pdatum = (*apdatumsortedset)[ul];
 				pdatum->AddRef();
 
-				IMDId *pmdid = pdatum->MDId();
-				pmdid->AddRef();
+				IMDId *mdid = pdatum->MDId();
+				mdid->AddRef();
 
-				CRange *prng = GPOS_NEW(memory_pool) CRange(pmdid, pcomp, pprevdatum, CRange::EriExcluded, pdatum, CRange::EriExcluded);
+				CRange *prng = GPOS_NEW(memory_pool) CRange(mdid, pcomp, pprevdatum, CRange::EriExcluded, pdatum, CRange::EriExcluded);
 				prgrng->Append(prng);
 
 				pprevdatum = pdatum;
 			}
 
 			// add the last datum, making range (last, inf)
-			IMDId *pmdid = pprevdatum->MDId();
+			IMDId *mdid = pprevdatum->MDId();
 			pprevdatum->AddRef();
-			pmdid->AddRef();
-			CRange *prng = GPOS_NEW(memory_pool) CRange(pmdid, pcomp, pprevdatum, CRange::EriExcluded, NULL, CRange::EriExcluded);
+			mdid->AddRef();
+			CRange *prng = GPOS_NEW(memory_pool) CRange(mdid, pcomp, pprevdatum, CRange::EriExcluded, NULL, CRange::EriExcluded);
 			prgrng->Append(prng);
 			break;
 		}
@@ -1209,16 +1209,16 @@ CConstraintInterval::PciUnbounded
 	BOOL fIncludesNull
 	)
 {
-	IMDId *pmdid = pcr->Pmdtype()->MDId();
-	if (!CUtils::FConstrainableType(pmdid))
+	IMDId *mdid = pcr->Pmdtype()->MDId();
+	if (!CUtils::FConstrainableType(mdid))
 	{
 		return NULL;
 	}
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	CRange *prange = GPOS_NEW(memory_pool) CRange
 								(
-								pmdid,
+								mdid,
 								COptCtxt::PoctxtFromTLS()->Pcomp(),
 								NULL /*ppointLeft*/,
 								CRange::EriExcluded,

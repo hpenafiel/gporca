@@ -105,7 +105,7 @@ namespace gpdxl
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
@@ -116,7 +116,7 @@ namespace gpdxl
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
@@ -127,18 +127,18 @@ namespace gpdxl
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
 
 			static
-			CDXLDatum *PdxldatumInt8
+			CDXLDatum *GetDatumInt8
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
@@ -149,19 +149,19 @@ namespace gpdxl
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
 
 			// parse a dxl datum of type generic
 			static
-			CDXLDatum *PdxldatumGeneric
+			CDXLDatum *GetDatumGeneric
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
@@ -173,7 +173,7 @@ namespace gpdxl
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
@@ -185,7 +185,7 @@ namespace gpdxl
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
 								Edxltoken edxltokenElement,
-								IMDId *pmdid,
+								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
 								);
@@ -291,7 +291,7 @@ namespace gpdxl
 			CDXLScalar *MakeDXLSubPlan
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				IMDId *pmdid,
+				IMDId *mdid,
 				DrgPdxlcr *dxl_colref_array,
 				EdxlSubPlanType dxl_subplan_type,
 				CDXLNode *dxlnode_test_expr

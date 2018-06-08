@@ -66,7 +66,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 		CDatumGenericGPDB
 			(
 			IMemoryPool *memory_pool,
-			IMDId *pmdid,
+			IMDId *mdid,
 			INT type_modifier,
 			const void *pv,
 			ULONG size,
@@ -164,7 +164,7 @@ class CDatumGenericGPDB : public IDatumGeneric
 
 		// return the padded datum
 		virtual
-		IDatum *PdatumPadded(IMemoryPool *memory_pool, ULONG ulColLen) const;
+		IDatum *PdatumPadded(IMemoryPool *memory_pool, ULONG col_len) const;
 
 		// statistics equality based on byte array representation of datums
 		virtual

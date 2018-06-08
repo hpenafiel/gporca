@@ -79,7 +79,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				CMDAccessor *md_accessor,
 				CColumnFactory *pcf,
-				IMDId *pmdid,
+				IMDId *mdid,
 				INT type_modifier,
 				const WCHAR *wszName
 				);
@@ -482,7 +482,7 @@ namespace gpopt
 			CDXLNode *PdxlnPartitionSelector
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				ULONG ulPartLevels,
 				ULONG scan_id,
 				CDXLPhysicalProperties *dxl_properties,
@@ -554,8 +554,8 @@ namespace gpopt
 				IDatum *pdatum
 				)
 			{
-				IMDId *pmdid = pdatum->MDId();
-				return md_accessor->Pmdtype(pmdid)->GetDatumVal(memory_pool, pdatum);
+				IMDId *mdid = pdatum->MDId();
+				return md_accessor->Pmdtype(mdid)->GetDatumVal(memory_pool, pdatum);
 			}
 
 			// return a copy the dxl node's physical properties

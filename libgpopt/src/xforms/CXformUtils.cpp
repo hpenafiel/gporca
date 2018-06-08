@@ -1175,12 +1175,12 @@ CXformUtils::PexprNullIndicator
 
 	CExpression *pexprIsNull = CUtils::PexprIsNull(memory_pool, pexpr);
 	const IMDTypeInt4 *pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>();
-	IMDId *pmdid = pmdtypeint4->MDId();
-	pmdid->AddRef();
+	IMDId *mdid = pmdtypeint4->MDId();
+	mdid->AddRef();
 	return GPOS_NEW(memory_pool) CExpression
 			(
 			memory_pool,
-			GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdid),
+			GPOS_NEW(memory_pool) CScalarIf(memory_pool, mdid),
 			pexprIsNull,
 			CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/),
 			CUtils::PexprScalarConstInt4(memory_pool, 0 /*iVal*/)
@@ -2365,7 +2365,7 @@ CXformUtils::PexprRowNumber
 													GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT8_OID),
 													GPOS_NEW(memory_pool) CWStringConst(memory_pool, GPOS_WSZ_LIT("row_number")),
 													CScalarWindowFunc::EwsImmediate,
-													false /* fDistinct */,
+													false /* is_distinct */,
 													false /* is_star_arg */,
 													false /* is_simple_agg */
 													);
@@ -2823,7 +2823,7 @@ CXformUtils::PexprBuildIndexPlan
 
 	CTableDescriptor *ptabdesc = NULL;
 	DrgPcr *pdrgpcrOutput = NULL;
-	CWStringConst *pstrAlias = NULL;
+	CWStringConst *alias = NULL;
 	ULONG ulPartIndex = ULONG_MAX;
 	DrgDrgPcr *pdrgpdrgpcrPart = NULL;
 	BOOL fPartialIndex = pmdrel->FPartialIndex(pmdindex->MDId());
@@ -2846,7 +2846,7 @@ CXformUtils::PexprBuildIndexPlan
 		ulPartIndex = popDynamicGet->ScanId();
 		pdrgpcrOutput = popDynamicGet->PdrgpcrOutput();
 		GPOS_ASSERT(NULL != pdrgpcrOutput);
-		pstrAlias = GPOS_NEW(memory_pool) CWStringConst(memory_pool, popDynamicGet->Name().Pstr()->GetBuffer());
+		alias = GPOS_NEW(memory_pool) CWStringConst(memory_pool, popDynamicGet->Name().Pstr()->GetBuffer());
 		pdrgpdrgpcrPart = popDynamicGet->PdrgpdrgpcrPart();
 		ulSecondaryPartIndex = popDynamicGet->UlSecondaryScanId();
 		ppartcnstrRel = popDynamicGet->PpartcnstrRel();
@@ -2857,12 +2857,12 @@ CXformUtils::PexprBuildIndexPlan
 		ptabdesc = popGet->Ptabdesc();
 		pdrgpcrOutput = popGet->PdrgpcrOutput();
 		GPOS_ASSERT(NULL != pdrgpcrOutput);
-		pstrAlias = GPOS_NEW(memory_pool) CWStringConst(memory_pool, popGet->Name().Pstr()->GetBuffer());
+		alias = GPOS_NEW(memory_pool) CWStringConst(memory_pool, popGet->Name().Pstr()->GetBuffer());
 	}
 
 	if (!FIndexApplicable(memory_pool, pmdindex, pmdrel, pdrgpcrOutput, pcrsReqd, pcrsScalarExpr, emdindtype))
 	{
-		GPOS_DELETE(pstrAlias);
+		GPOS_DELETE(alias);
 		CRefCount::SafeRelease(ppartcnstrIndex);
 
 		return NULL;
@@ -2876,7 +2876,7 @@ CXformUtils::PexprBuildIndexPlan
 	if (0 == pdrgpexprIndex->Size())
 	{
 		// clean up
-		GPOS_DELETE(pstrAlias);
+		GPOS_DELETE(alias);
 		pdrgppcrIndexCols->Release();
 		pdrgpexprResidual->Release();
 		pdrgpexprIndex->Release();
@@ -2901,7 +2901,7 @@ CXformUtils::PexprBuildIndexPlan
 						pmdindex,
 						ptabdesc,
 						ulOriginOpId,
-						GPOS_NEW(memory_pool) CName(memory_pool, CName(pstrAlias)),
+						GPOS_NEW(memory_pool) CName(memory_pool, CName(alias)),
 						ulPartIndex,
 						pdrgpcrOutput,
 						pdrgpdrgpcrPart,
@@ -2918,13 +2918,13 @@ CXformUtils::PexprBuildIndexPlan
 						pmdindex,
 						ptabdesc,
 						ulOriginOpId,
-						GPOS_NEW(memory_pool) CName(memory_pool, CName(pstrAlias)),
+						GPOS_NEW(memory_pool) CName(memory_pool, CName(alias)),
 						pdrgpcrOutput
 						);
 	}
 
 	// clean up
-	GPOS_DELETE(pstrAlias);
+	GPOS_DELETE(alias);
 	pdrgppcrIndexCols->Release();
 
 	CExpression *pexprIndexCond = CPredicateUtils::PexprConjunction(memory_pool, pdrgpexprIndex);
@@ -3692,11 +3692,11 @@ CXformUtils::FHasAmbiguousType
 				break; // these operators do not have valid return type
 
 			default:
-				IMDId *pmdid = popScalar->MDIdType();
-				if (NULL != pmdid)
+				IMDId *mdid = popScalar->MDIdType();
+				if (NULL != mdid)
 				{
 					// check MD type of scalar node
-					fAmbiguous = md_accessor->Pmdtype(pmdid)->FAmbiguous();
+					fAmbiguous = md_accessor->Pmdtype(mdid)->FAmbiguous();
 				}
 		}
 	}
@@ -4521,18 +4521,18 @@ CXformUtils::MapPrjElemsWithDistinctAggs
 			continue;
 		}
 
-		BOOL fDistinct = false;
+		BOOL is_distinct = false;
 		if (COperator::EopScalarAggFunc == eopidChild)
 		{
-			fDistinct = CScalarAggFunc::PopConvert(popChild)->IsDistinct();
+			is_distinct = CScalarAggFunc::PopConvert(popChild)->IsDistinct();
 		}
 		else
 		{
-			fDistinct = CScalarWindowFunc::PopConvert(popChild)->IsDistinct();
+			is_distinct = CScalarWindowFunc::PopConvert(popChild)->IsDistinct();
 		}
 
 		CExpression *pexprKey = NULL;
-		if (fDistinct && 1 == pexprChild->Arity())
+		if (is_distinct && 1 == pexprChild->Arity())
 		{
 			// use first argument of Distinct Agg as key
 			pexprKey = (*pexprChild)[0];

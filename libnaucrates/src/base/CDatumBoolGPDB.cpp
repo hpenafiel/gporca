@@ -45,10 +45,10 @@ CDatumBoolGPDB::CDatumBoolGPDB
 	m_is_null(is_null)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	IMDId *pmdid = dynamic_cast<const CMDTypeBoolGPDB *>(md_accessor->PtMDType<IMDTypeBool>(sysid))->MDId();
-	pmdid->AddRef();
+	IMDId *mdid = dynamic_cast<const CMDTypeBoolGPDB *>(md_accessor->PtMDType<IMDTypeBool>(sysid))->MDId();
+	mdid->AddRef();
 	
-	m_mdid = pmdid;
+	m_mdid = mdid;
 
 	if (IsNull())
 	{
@@ -67,12 +67,12 @@ CDatumBoolGPDB::CDatumBoolGPDB
 //---------------------------------------------------------------------------
 CDatumBoolGPDB::CDatumBoolGPDB
 	(
-	IMDId *pmdid,
+	IMDId *mdid,
 	BOOL value,
 	BOOL is_null
 	)
 	:
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_value(value),
 	m_is_null(is_null)
 {

@@ -48,7 +48,7 @@ class CDatumBoolGPDB : public IDatumBool
 
 		// ctors
 		CDatumBoolGPDB(CSystemId sysid, BOOL value, BOOL is_null = false);
-		CDatumBoolGPDB(IMDId *pmdid, BOOL value, BOOL is_null = false);
+		CDatumBoolGPDB(IMDId *mdid, BOOL value, BOOL is_null = false);
 		
 		// dtor
 		virtual

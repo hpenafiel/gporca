@@ -51,17 +51,17 @@ CLogicalPartitionSelector::CLogicalPartitionSelector
 CLogicalPartitionSelector::CLogicalPartitionSelector
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	DrgPexpr *pdrgpexprFilters,
 	CColRef *pcrOid
 	)
 	:
 	CLogical(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_pdrgpexprFilters(pdrgpexprFilters),
 	m_pcrOid(pcrOid)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpexprFilters);
 	GPOS_ASSERT(0 < pdrgpexprFilters->Size());
 	GPOS_ASSERT(NULL != pcrOid);

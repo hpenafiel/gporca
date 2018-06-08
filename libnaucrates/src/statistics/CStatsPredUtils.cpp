@@ -102,11 +102,11 @@ CStatsPredUtils::Estatscmpt
 CStatsPred::EStatsCmpType
 CStatsPredUtils::Estatscmpt
 	(
-	IMDId *pmdid
+	IMDId *mdid
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(mdid);
 
 	// Simply go by operator name.
 	// If the name of the operator is "<", then it is a LessThan etc.
@@ -213,18 +213,18 @@ CStatsPredUtils::PstatspredPoint
 CStatsPred::EStatsCmpType
 CStatsPredUtils::Estatscmptype
 	(
-	IMDId *pmdid
+	IMDId *mdid
 	)
 {
-	GPOS_ASSERT(NULL != pmdid);
-	CStatsPred::EStatsCmpType escmpt = Estatscmpt(pmdid);
+	GPOS_ASSERT(NULL != mdid);
+	CStatsPred::EStatsCmpType escmpt = Estatscmpt(mdid);
 
 	if (CStatsPred::EstatscmptOther != escmpt)
 	{
 		return escmpt;
 	}
 
-	if (CPredicateUtils::FLikePredicate(pmdid))
+	if (CPredicateUtils::FLikePredicate(mdid))
 	{
 		return CStatsPred::EstatscmptLike;
 	}

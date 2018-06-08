@@ -144,7 +144,7 @@ namespace gpopt
 				static const MdidPtr m_pmdidInvalid;
 		
 				// ctor
-				SMDAccessorElem(IMDCacheObject *pimdobj, IMDId *pmdid);
+				SMDAccessorElem(IMDCacheObject *pimdobj, IMDId *mdid);
 				
 				// dtor
 				~SMDAccessorElem();
@@ -164,7 +164,7 @@ namespace gpopt
 				
 				// hash function for cost contexts hash table
 				static
-				ULONG HashValue(const MdidPtr& pmdid);
+				ULONG HashValue(const MdidPtr& mdid);
 		};
 		
 		// element in the MD provider hashtable
@@ -232,7 +232,7 @@ namespace gpopt
 			CMDAccessor(const CMDAccessor&);
 			
 			// interface to a MD cache object
-			const IMDCacheObject *GetImdObj(IMDId *pmdid);
+			const IMDCacheObject *GetImdObj(IMDId *mdid);
 
 			// return the type corresponding to the given type info and source system id
 			const IMDType *Pmdtype(CSystemId sysid, IMDType::ETypeInfo eti);
@@ -302,10 +302,10 @@ namespace gpopt
 			void RegisterProviders(const DrgPsysid *pdrgpsysid, const DrgPmdp *pdrgpmdp);
 
 			// interface to a relation object from the MD cache
-			const IMDRelation *Pmdrel(IMDId *pmdid);
+			const IMDRelation *Pmdrel(IMDId *mdid);
 
 			// interface to type's from the MD cache given the type's mdid
-			const IMDType *Pmdtype(IMDId *pmdid);
+			const IMDType *Pmdtype(IMDId *mdid);
 			
 			// obtain the specified base type given by the template parameter
 			template <class T>
@@ -326,31 +326,31 @@ namespace gpopt
 			}
 			
 			// interface to a scalar operator from the MD cache
-			const IMDScalarOp *Pmdscop(IMDId *pmdid);
+			const IMDScalarOp *Pmdscop(IMDId *mdid);
 			
 			// interface to a function from the MD cache
-			const IMDFunction *Pmdfunc(IMDId *pmdid);
+			const IMDFunction *Pmdfunc(IMDId *mdid);
 			
 			// interface to check if the window function from the MD cache is an aggregate window function
-			BOOL FAggWindowFunc(IMDId *pmdid);
+			BOOL FAggWindowFunc(IMDId *mdid);
 
 			// interface to an aggregate from the MD cache
-			const IMDAggregate *Pmdagg(IMDId *pmdid);
+			const IMDAggregate *Pmdagg(IMDId *mdid);
 	
 			// interface to a trigger from the MD cache
-			const IMDTrigger *Pmdtrigger(IMDId *pmdid);
+			const IMDTrigger *Pmdtrigger(IMDId *mdid);
 
 			// interface to an index from the MD cache
-			const IMDIndex *Pmdindex(IMDId *pmdid);
+			const IMDIndex *Pmdindex(IMDId *mdid);
 
 			// interface to a check constraint from the MD cache
-			const IMDCheckConstraint *Pmdcheckconstraint(IMDId *pmdid);
+			const IMDCheckConstraint *Pmdcheckconstraint(IMDId *mdid);
 
 			// retrieve a column stats object from the cache
-			const IMDColStats *Pmdcolstats(IMDId *pmdid);
+			const IMDColStats *Pmdcolstats(IMDId *mdid);
 
 			// retrieve a relation stats object from the cache
-			const IMDRelStats *Pmdrelstats(IMDId *pmdid);
+			const IMDRelStats *Pmdrelstats(IMDId *mdid);
 			
 			// retrieve a cast object from the cache
 			const IMDCast *Pmdcast(IMDId *mdid_src, IMDId *mdid_dest);

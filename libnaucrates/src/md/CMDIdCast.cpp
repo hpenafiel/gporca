@@ -133,16 +133,16 @@ CMDIdCast::PmdidDest() const
 BOOL
 CMDIdCast::Equals
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	) 
 	const
 {
-	if (NULL == pmdid || EmdidCastFunc != pmdid->Emdidt())
+	if (NULL == mdid || EmdidCastFunc != mdid->Emdidt())
 	{
 		return false;
 	}
 	
-	const CMDIdCast *mdid_cast_func = CMDIdCast::PmdidConvert(pmdid);
+	const CMDIdCast *mdid_cast_func = CMDIdCast::PmdidConvert(mdid);
 	
 	return m_pmdidSrc->Equals(mdid_cast_func->PmdidSrc()) && 
 			m_pmdidDest->Equals(mdid_cast_func->PmdidDest()); 

@@ -64,7 +64,7 @@ namespace gpopt
 
 			// return the comparison type of an operator for the purpose of statistics computation
 			static
-			CStatsPred::EStatsCmpType Estatscmpt(IMDId *pmdid);
+			CStatsPred::EStatsCmpType Estatscmpt(IMDId *mdid);
 
 			// return the comparison type of an operator for the purpose of statistics computation
 			static
@@ -151,7 +151,7 @@ namespace gpopt
 
 			// return the statistics predicate comparison type based on the md identifier
 			static
-			CStatsPred::EStatsCmpType Estatscmptype(IMDId *pmdid);
+			CStatsPred::EStatsCmpType Estatscmptype(IMDId *mdid);
 
 			// helper function to extract statistics join filter from a given join predicate
 			static

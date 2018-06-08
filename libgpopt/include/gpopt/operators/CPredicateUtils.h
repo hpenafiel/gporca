@@ -527,7 +527,7 @@ namespace gpopt
 
 			// is the condition a LIKE predicate
 			static
-			BOOL FLikePredicate(IMDId *pmdid);
+			BOOL FLikePredicate(IMDId *mdid);
 
 			// is the condition a LIKE predicate
 			static

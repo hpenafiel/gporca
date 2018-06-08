@@ -355,13 +355,13 @@ CExpressionTest::EresUnittest_BitmapGet()
 								CUtils::PexprScalarConstInt4(memory_pool, 20 /*iVal*/)
 								);
 
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidUnknown);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidUnknown);
 	CIndexDescriptor *pindexdesc = CIndexDescriptor::Pindexdesc(memory_pool, ptabdesc, pmdindex);
 	CExpression *pexprBitmapIndex =
 			GPOS_NEW(memory_pool) CExpression
 					(
 					memory_pool,
-					GPOS_NEW(memory_pool) CScalarBitmapIndexProbe(memory_pool, pindexdesc, pmdid),
+					GPOS_NEW(memory_pool) CScalarBitmapIndexProbe(memory_pool, pindexdesc, mdid),
 					pexprIndexCond
 					);
 
@@ -445,25 +445,25 @@ CExpressionTest::EresUnittest_BitmapGet()
 	GPOS_ASSERT(strIndex2.Equals(&strExpectedDebugPrintIndex2));
 	GPOS_ASSERT(pexprBitmapIndex2->FMatch(pexprBitmapIndex));
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	pexprBitmapIndex->AddRef();
 	pexprBitmapIndex2->AddRef();
 	CExpression *pexprBitmapBoolOp1 =
 			GPOS_NEW(memory_pool) CExpression
 					(
 					memory_pool,
-					GPOS_NEW(memory_pool) CScalarBitmapBoolOp(memory_pool, CScalarBitmapBoolOp::EbitmapboolAnd, pmdid),
+					GPOS_NEW(memory_pool) CScalarBitmapBoolOp(memory_pool, CScalarBitmapBoolOp::EbitmapboolAnd, mdid),
 					pexprBitmapIndex,
 					pexprBitmapIndex2
 					);
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	pexprBitmapIndex->AddRef();
 	CExpression *pexprBitmapBoolOp2 =
 			GPOS_NEW(memory_pool) CExpression
 					(
 					memory_pool,
-					GPOS_NEW(memory_pool) CScalarBitmapBoolOp(memory_pool, CScalarBitmapBoolOp::EbitmapboolAnd, pmdid),
+					GPOS_NEW(memory_pool) CScalarBitmapBoolOp(memory_pool, CScalarBitmapBoolOp::EbitmapboolAnd, mdid),
 					pexprBitmapIndex,
 					pexprBitmapIndex2
 					);

@@ -117,14 +117,14 @@ CPhysicalDynamicScan::PpimDerive
 	const
 {
 	GPOS_ASSERT(NULL != pdpctxt);
-	IMDId *pmdid = m_ptabdesc->MDId();
-	pmdid->AddRef();
+	IMDId *mdid = m_ptabdesc->MDId();
+	mdid->AddRef();
 	m_pdrgpdrgpcrPart->AddRef();
 	m_part_constraint->AddRef();
 	m_ppartcnstrRel->AddRef();
 	ULONG ulExpectedPartitionSelectors = CDrvdPropCtxtPlan::PdpctxtplanConvert(pdpctxt)->UlExpectedPartitionSelectors();
 
-	return PpimDeriveFromDynamicScan(memory_pool, m_scan_id, pmdid, m_pdrgpdrgpcrPart, m_ulSecondaryScanId, m_part_constraint, m_ppartcnstrRel, ulExpectedPartitionSelectors);
+	return PpimDeriveFromDynamicScan(memory_pool, m_scan_id, mdid, m_pdrgpdrgpcrPart, m_ulSecondaryScanId, m_part_constraint, m_ppartcnstrRel, ulExpectedPartitionSelectors);
 }
 
 //---------------------------------------------------------------------------

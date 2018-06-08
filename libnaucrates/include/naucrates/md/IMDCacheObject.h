@@ -109,7 +109,7 @@ namespace gpmd
 				(
 				gpdxl::CXMLSerializer *xml_serializer, 
 				const CWStringConst *pstrElem, 
-				const IMDId *pmdid
+				const IMDId *mdid
 				) const;
 			
 #ifdef GPOS_DEBUG

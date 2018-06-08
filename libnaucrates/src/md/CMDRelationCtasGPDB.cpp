@@ -29,7 +29,7 @@ using namespace gpmd;
 CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname_schema,
 	CMDName *mdname,
 	BOOL fTemporary,
@@ -44,7 +44,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname_schema(mdname_schema),
 	m_mdname(mdname),
 	m_is_temp_table(fTemporary),
@@ -59,7 +59,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	m_dxl_ctas_storage_option(dxl_ctas_storage_options),
 	m_vartypemod_array(pdrgpiVarTypeMod)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdcol);
 	GPOS_ASSERT(NULL != dxl_ctas_storage_options);
 	GPOS_ASSERT(IMDRelation::ErelstorageSentinel > m_rel_storage_type);	
@@ -229,11 +229,11 @@ CMDRelationCtasGPDB::UlSystemColumns() const
 ULONG
 CMDRelationCtasGPDB::UlPosFromAttno
 	(
-	INT iAttno
+	INT attno
 	)
 	const
 {
-	ULONG *pul = m_phmiulAttno2Pos->Find(&iAttno);
+	ULONG *pul = m_phmiulAttno2Pos->Find(&attno);
 	GPOS_ASSERT(NULL != pul);
 
 	return *pul;

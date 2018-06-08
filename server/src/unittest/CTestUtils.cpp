@@ -196,7 +196,7 @@ CTestUtils::PtabdescPlainWithColNameFormat
 	(
 	IMemoryPool *memory_pool,
 	ULONG ulCols,
-	IMDId *pmdid,
+	IMDId *mdid,
 	const WCHAR *wszColNameFormat,
 	const CName &nameTable,
 	BOOL fNullable // define nullable columns
@@ -211,7 +211,7 @@ CTestUtils::PtabdescPlainWithColNameFormat
 	CTableDescriptor *ptabdesc = GPOS_NEW(memory_pool) CTableDescriptor
 											(
 											memory_pool, 
-											pmdid, 
+											mdid, 
 											nameTable, 
 											false, // fConvertHashToRandom
 											IMDRelation::EreldistrRandom,
@@ -251,13 +251,13 @@ CTestUtils::PtabdescPlain
 	(
 	IMemoryPool *memory_pool,
 	ULONG ulCols,
-	IMDId *pmdid,
+	IMDId *mdid,
 	const CName &nameTable,
 	BOOL fNullable // define nullable columns
 	)
 {
 	return PtabdescPlainWithColNameFormat(
-			memory_pool, ulCols, pmdid, GPOS_WSZ_LIT("column_%04d"), nameTable, fNullable);
+			memory_pool, ulCols, mdid, GPOS_WSZ_LIT("column_%04d"), nameTable, fNullable);
 }
 
 //---------------------------------------------------------------------------
@@ -273,12 +273,12 @@ CTestUtils::PtabdescCreate
 	(
 	IMemoryPool *memory_pool,
 	ULONG ulCols,
-	IMDId *pmdid,
+	IMDId *mdid,
 	const CName &nameTable,
 	BOOL fPartitioned
 	)
 {
-	CTableDescriptor *ptabdesc = PtabdescPlain(memory_pool, ulCols, pmdid, nameTable);
+	CTableDescriptor *ptabdesc = PtabdescPlain(memory_pool, ulCols, mdid, nameTable);
 
 	if (fPartitioned)
 	{
@@ -345,8 +345,8 @@ CTestUtils::PexprLogicalGetNullable
 	)
 {
 	CWStringConst strName(str_table_name->GetBuffer());
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidTable, 1, 1);
-	CTableDescriptor *ptabdesc = CTestUtils::PtabdescPlain(memory_pool, 3, pmdid, CName(&strName), true /*fNullable*/);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidTable, 1, 1);
+	CTableDescriptor *ptabdesc = CTestUtils::PtabdescPlain(memory_pool, 3, mdid, CName(&strName), true /*fNullable*/);
 	CWStringConst strAlias(pstrTableAlias->GetBuffer());
 
 	return PexprLogicalGet(memory_pool, ptabdesc, &strAlias);
@@ -397,8 +397,8 @@ CTestUtils::PexprLogicalGet
 	)
 {
 	CWStringConst strName(GPOS_WSZ_LIT("BaseTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, pmdid, CName(&strName));
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, mdid, CName(&strName));
 	CWStringConst strAlias(GPOS_WSZ_LIT("BaseTableAlias"));
 
 	return PexprLogicalGet(memory_pool, ptabdesc, &strAlias);
@@ -419,8 +419,8 @@ CTestUtils::PexprLogicalExternalGet
 	)
 {
 	CWStringConst strName(GPOS_WSZ_LIT("ExternalTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, pmdid, CName(&strName));
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, mdid, CName(&strName));
 	CWStringConst strAlias(GPOS_WSZ_LIT("ExternalTableAlias"));
 
 	return GPOS_NEW(memory_pool) CExpression
@@ -451,8 +451,8 @@ CTestUtils::PexprLogicalGetPartitioned
 {
 	ULONG ulAttributes = 2;
 	CWStringConst strName(GPOS_WSZ_LIT("PartTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, ulAttributes, pmdid, CName(&strName), true /*fPartitioned*/);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, ulAttributes, mdid, CName(&strName), true /*fPartitioned*/);
 	CWStringConst strAlias(GPOS_WSZ_LIT("PartTableAlias"));
 
 	return PexprLogicalGet(memory_pool, ptabdesc, &strAlias);
@@ -475,8 +475,8 @@ CTestUtils::PexprLogicalDynamicGetWithIndexes
 {
 	ULONG ulAttributes = 2;
 	CWStringConst strName(GPOS_WSZ_LIT("P1"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED_WITH_INDEXES);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, ulAttributes, pmdid, CName(&strName), true /*fPartitioned*/);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED_WITH_INDEXES);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, ulAttributes, mdid, CName(&strName), true /*fPartitioned*/);
 	CWStringConst strAlias(GPOS_WSZ_LIT("P1Alias"));
 
 	return GPOS_NEW(memory_pool) CExpression
@@ -1747,7 +1747,7 @@ CTestUtils::PexprPrjElemWithSum
 									pmdidSumAgg,
 									pstrAggFunc,
 									pcr,
-									false /*fDistinct*/,
+									false /*is_distinct*/,
 									EaggfuncstageGlobal /*eaggfuncstage*/,
 									false /*fSplit*/
 									);
@@ -1889,7 +1889,7 @@ CTestUtils::PexprConstTableGet
 													pmdtypeint4,
 													IDefaultTypeModifier,
 													name,
-													1 /* iAttno */,
+													1 /* attno */,
 													false /*FNullable*/
 													);
 
@@ -1948,8 +1948,8 @@ CTestUtils::PexprLogicalInsert
 	DrgPcr *pdrgpcr = pcrs->Pdrgpcr(memory_pool);
 
 	CWStringConst strName(GPOS_WSZ_LIT("BaseTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 1, pmdid, CName(&strName));
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 1, mdid, CName(&strName));
 
 	return GPOS_NEW(memory_pool) CExpression
 					(
@@ -1974,8 +1974,8 @@ CTestUtils::PexprLogicalDelete
 	)
 {
 	CWStringConst strName(GPOS_WSZ_LIT("BaseTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 1, pmdid, CName(&strName));
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 1, mdid, CName(&strName));
 	CWStringConst strAlias(GPOS_WSZ_LIT("BaseTableAlias"));
 
 	CExpression *pexprGet = PexprLogicalGet(memory_pool, ptabdesc, &strAlias);
@@ -2010,8 +2010,8 @@ CTestUtils::PexprLogicalUpdate
 	)
 {
 	CWStringConst strName(GPOS_WSZ_LIT("BaseTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 1, pmdid, CName(&strName));
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 1, mdid, CName(&strName));
 	CWStringConst strAlias(GPOS_WSZ_LIT("BaseTableAlias"));
 
 	CExpression *pexprGet = PexprLogicalGet(memory_pool, ptabdesc, &strAlias);
@@ -2079,8 +2079,8 @@ CTestUtils::PexprLogicalDynamicGet
 	)
 {
 	CWStringConst strName(GPOS_WSZ_LIT("PartTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, pmdid, CName(&strName), true /*fPartitioned*/);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, mdid, CName(&strName), true /*fPartitioned*/);
 	CWStringConst strAlias(GPOS_WSZ_LIT("PartTableAlias"));
 
 	return PexprLogicalDynamicGet(memory_pool, ptabdesc, &strAlias, GPOPT_TEST_PART_INDEX);
@@ -2102,8 +2102,8 @@ CTestUtils::PexprLogicalSelectWithEqPredicateOverDynamicGet
 	)
 {
 	CWStringConst strName(GPOS_WSZ_LIT("PartTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, pmdid, CName(&strName), true /*fPartitioned*/);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, mdid, CName(&strName), true /*fPartitioned*/);
 	CWStringConst strAlias(GPOS_WSZ_LIT("PartTableAlias"));
 
 	CExpression *pexprDynamicGet = PexprLogicalDynamicGet(memory_pool, ptabdesc, &strAlias, GPOPT_TEST_PART_INDEX);
@@ -2136,8 +2136,8 @@ CTestUtils::PexprLogicalSelectWithLTPredicateOverDynamicGet
 	)
 {
 	CWStringConst strName(GPOS_WSZ_LIT("PartTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED, 1, 1);
-	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, pmdid, CName(&strName), true /*fPartitioned*/);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID_PARTITIONED, 1, 1);
+	CTableDescriptor *ptabdesc = PtabdescCreate(memory_pool, 3, mdid, CName(&strName), true /*fPartitioned*/);
 	CWStringConst strAlias(GPOS_WSZ_LIT("PartTableAlias"));
 
 	CExpression *pexprDynamicGet = PexprLogicalDynamicGet(memory_pool, ptabdesc, &strAlias, GPOPT_TEST_PART_INDEX);
@@ -2224,7 +2224,7 @@ CTestUtils::PexprLogicalTVF
 
 	const WCHAR *wszFuncName = GPOS_WSZ_LIT("generate_series");
 
-	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT8_GENERATE_SERIES);
+	IMDId *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT8_GENERATE_SERIES);
 	CWStringConst *str_func_name = GPOS_NEW(memory_pool) CWStringConst(memory_pool, wszFuncName);
 
 	const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
@@ -2233,7 +2233,7 @@ CTestUtils::PexprLogicalTVF
 	CWStringConst strName(GPOS_WSZ_LIT("generate_series"));
 	CName name(&strName);
 
-	CColumnDescriptor *pcoldescInt = GPOS_NEW(memory_pool) CColumnDescriptor(memory_pool, pmdtypeint8, IDefaultTypeModifier, name, 1 /* iAttno */, false /*FNullable*/);
+	CColumnDescriptor *pcoldescInt = GPOS_NEW(memory_pool) CColumnDescriptor(memory_pool, pmdtypeint8, IDefaultTypeModifier, name, 1 /* attno */, false /*FNullable*/);
 
 	DrgPcoldesc *pdrgpcoldesc = GPOS_NEW(memory_pool) DrgPcoldesc(memory_pool);
 	pdrgpcoldesc->Append(pcoldescInt);
@@ -2244,7 +2244,7 @@ CTestUtils::PexprLogicalTVF
 	CLogicalTVF *popTVF = GPOS_NEW(memory_pool) CLogicalTVF
 										(
 										memory_pool,
-										pmdid,
+										mdid,
 										mdid_return_type,
 										str_func_name,
 										pdrgpcoldesc
@@ -2517,8 +2517,8 @@ CTestUtils::PexprLogicalSequenceProject
 				pdrgwf
 				);
 
-	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidFunc);
-	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(pmdid);
+	IMDId *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidFunc);
+	const IMDFunction *pmdfunc = md_accessor->Pmdfunc(mdid);
 
 	IMDId *mdid_return_type = pmdfunc->PmdidTypeResult();
 	mdid_return_type->AddRef();
@@ -2530,11 +2530,11 @@ CTestUtils::PexprLogicalSequenceProject
 				GPOS_NEW(memory_pool) CScalarWindowFunc
 							(
 							memory_pool,
-							pmdid,
+							mdid,
 							mdid_return_type,
 							GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdfunc->Mdname().GetMDName()->GetBuffer()),
 							CScalarWindowFunc::EwsImmediate,
-							false /*fDistinct*/,
+							false /*is_distinct*/,
 							false /*is_star_arg*/,
 							false /*is_simple_agg*/
 							)
@@ -4261,10 +4261,10 @@ CTestUtils::PciGenericInterval
 			CTestUtils::PdatumGeneric(memory_pool, md_accessor, GPOS_NEW(memory_pool) CMDIdGPDB(mdidType), pstrUpper, lUpper);
 
 	DrgPrng *pdrgprng = GPOS_NEW(memory_pool) DrgPrng(memory_pool);
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidDate);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidDate);
 	CRange *prange = GPOS_NEW(memory_pool) CRange
 				(
-				pmdid,
+				mdid,
 				COptCtxt::PoctxtFromTLS()->Pcomp(),
 				pdatumLower,
 				eriLeft,

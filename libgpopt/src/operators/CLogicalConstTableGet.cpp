@@ -321,7 +321,7 @@ CLogicalConstTableGet::PdrgpcoldescMapping
 													pcr->Pmdtype(),
 													pcr->TypeModifier(),
 													pcr->Name(),
-													ul + 1, //iAttno
+													ul + 1, //attno
 													true, // FNullable
 													length
 													);

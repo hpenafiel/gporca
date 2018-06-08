@@ -303,16 +303,16 @@ CMDIdGPDB::UlVersionMinor() const
 BOOL
 CMDIdGPDB::Equals
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	) 
 	const
 {
-	if (NULL == pmdid || EmdidGPDB != pmdid->Emdidt())
+	if (NULL == mdid || EmdidGPDB != mdid->Emdidt())
 	{
 		return false;
 	}
 	
-	const CMDIdGPDB *pmdidGPDB = CMDIdGPDB::PmdidConvert(const_cast<IMDId *>(pmdid));
+	const CMDIdGPDB *pmdidGPDB = CMDIdGPDB::PmdidConvert(const_cast<IMDId *>(mdid));
 	
 	return (m_oid == pmdidGPDB->OidObjectId() && m_ulVersionMajor == pmdidGPDB->UlVersionMajor() &&
 			m_ulVersionMinor == pmdidGPDB->UlVersionMinor()); 

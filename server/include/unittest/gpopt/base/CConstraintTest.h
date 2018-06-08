@@ -84,7 +84,7 @@ namespace gpopt
 			DrgPrng *Pdrgprng
 						(
 						IMemoryPool *memory_pool,
-						IMDId *pmdid,
+						IMDId *mdid,
 						const SRangeInfo rgRangeInfo[],
 						ULONG ulRanges
 						);
@@ -93,7 +93,7 @@ namespace gpopt
 			CConstraintInterval *PciFirstInterval
 									(
 									IMemoryPool *memory_pool,
-									IMDId *pmdid,
+									IMDId *mdid,
 									CColRef *pcr
 									);
 
@@ -101,7 +101,7 @@ namespace gpopt
 			CConstraintInterval *PciSecondInterval
 									(
 									IMemoryPool *memory_pool,
-									IMDId *pmdid,
+									IMDId *mdid,
 									CColRef *pcr
 									);
 
@@ -142,7 +142,7 @@ namespace gpopt
 			CConstraintConjunction *Pcstconjunction
 									(
 									IMemoryPool *memory_pool,
-									IMDId *pmdid,
+									IMDId *mdid,
 									CColRef *pcr
 									);
 
@@ -151,7 +151,7 @@ namespace gpopt
 			CConstraintDisjunction *Pcstdisjunction
 									(
 									IMemoryPool *memory_pool,
-									IMDId *pmdid,
+									IMDId *mdid,
 									CColRef *pcr
 									);
 

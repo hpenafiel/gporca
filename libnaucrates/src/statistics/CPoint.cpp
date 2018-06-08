@@ -248,8 +248,8 @@ CPoint::GetDatumVal
 	)
 	const
 {
-	IMDId *pmdid = m_pdatum->MDId();
-	return md_accessor->Pmdtype(pmdid)->GetDatumVal(memory_pool, m_pdatum);
+	IMDId *mdid = m_pdatum->MDId();
+	return md_accessor->Pmdtype(mdid)->GetDatumVal(memory_pool, m_pdatum);
 }
 
 // EOF

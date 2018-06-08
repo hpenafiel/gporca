@@ -226,7 +226,7 @@ CColumnFactory::PcrCreate
 	(
 	const IMDType *pmdtype,
 	INT type_modifier,
-	INT iAttno,
+	INT attno,
 	BOOL fNullable,
 	ULONG id,
 	const CName &name,
@@ -238,7 +238,7 @@ CColumnFactory::PcrCreate
 	CAutoP<CName> a_pnameCopy(pnameCopy);
 
 	CColRef *pcr =
-			GPOS_NEW(m_memory_pool) CColRefTable(pmdtype, type_modifier, iAttno, fNullable, id, pnameCopy, ulOpSource, ulWidth);
+			GPOS_NEW(m_memory_pool) CColRefTable(pmdtype, type_modifier, attno, fNullable, id, pnameCopy, ulOpSource, ulWidth);
 	(void) a_pnameCopy.Reset();
 	CAutoP<CColRef> a_pcr(pcr);
 

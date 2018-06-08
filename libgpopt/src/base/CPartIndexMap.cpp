@@ -41,7 +41,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 	ULONG scan_id,
 	PartCnstrMap *ppartcnstrmap,
 	EPartIndexManipulator epim,
-	IMDId *pmdid,
+	IMDId *mdid,
 	DrgPpartkeys *pdrgppartkeys,
 	CPartConstraint *ppartcnstrRel,
 	ULONG ulPropagators
@@ -50,7 +50,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 	m_scan_id(scan_id),
 	m_ppartcnstrmap(ppartcnstrmap),
 	m_epim(epim),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_pdrgppartkeys(pdrgppartkeys),
 	m_ppartcnstrRel(ppartcnstrRel),
 	m_ulPropagators(ulPropagators)
@@ -58,7 +58,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 	GPOS_ASSERT(EpimSentinel > epim &&
 				"Invalid manipulator type");
 
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(pdrgppartkeys != NULL);
 	GPOS_ASSERT(0 < pdrgppartkeys->Size());
 	GPOS_ASSERT(NULL != ppartcnstrRel);
@@ -276,7 +276,7 @@ CPartIndexMap::Insert
 	PartCnstrMap *ppartcnstrmap,
 	EPartIndexManipulator epim,
 	ULONG ulExpectedPropagators,
-	IMDId *pmdid,
+	IMDId *mdid,
 	DrgPpartkeys *pdrgppartkeys,
 	CPartConstraint *ppartcnstrRel
 	)
@@ -285,7 +285,7 @@ CPartIndexMap::Insert
 	if (NULL == ppti)
 	{
 		// no entry is found, create a new entry
-		ppti = GPOS_NEW(m_memory_pool) CPartTableInfo(scan_id, ppartcnstrmap, epim, pmdid, pdrgppartkeys, ppartcnstrRel, ulExpectedPropagators);
+		ppti = GPOS_NEW(m_memory_pool) CPartTableInfo(scan_id, ppartcnstrmap, epim, mdid, pdrgppartkeys, ppartcnstrRel, ulExpectedPropagators);
 #ifdef GPOS_DEBUG
 		BOOL fSuccess =
 #endif // GPOS_DEBUG
@@ -312,7 +312,7 @@ CPartIndexMap::Insert
 			ppti->AddPartConstraints(m_memory_pool, ppartcnstrmap);
 		}
 		
-		pmdid->Release();
+		mdid->Release();
 		pdrgppartkeys->Release();
 		ppartcnstrmap->Release();
 		ppartcnstrRel->Release();
@@ -569,17 +569,17 @@ CPartIndexMap::AddUnresolved
 		}
 		
 		// copy mdid and partition columns from part index map entry
-		IMDId *pmdid = pptiFst->MDId();
+		IMDId *mdid = pptiFst->MDId();
 		DrgPpartkeys *pdrgppartkeys = pptiFst->Pdrgppartkeys();
 		CPartConstraint *ppartcnstrRel = pptiFst->PpartcnstrRel();
 		
 		PartCnstrMap *ppartcnstrmap = CPartConstraint::PpartcnstrmapCombine(memory_pool, pptiFst->Ppartcnstrmap(), ppartcnstrmapSnd);
 
-		pmdid->AddRef();
+		mdid->AddRef();
 		pdrgppartkeys->AddRef();
 		ppartcnstrRel->AddRef();
 		
-		ppimResult->Insert(scan_id, ppartcnstrmap, epimResult, ulPropagatorsResult, pmdid, pdrgppartkeys, ppartcnstrRel);
+		ppimResult->Insert(scan_id, ppartcnstrmap, epimResult, ulPropagatorsResult, mdid, pdrgppartkeys, ppartcnstrRel);
 	}
 }
 
@@ -971,11 +971,11 @@ CPartIndexMap::PpimPartitionSelector
 	{
 		const CPartTableInfo *ppti = pimi.Value();
 		PartCnstrMap *ppartcnstrmap = ppti->Ppartcnstrmap();
-		IMDId *pmdid = ppti->MDId();
+		IMDId *mdid = ppti->MDId();
 		DrgPpartkeys *pdrgppartkeys = ppti->Pdrgppartkeys();
 		CPartConstraint *ppartcnstrRel = ppti->PpartcnstrRel();
 		ppartcnstrmap->AddRef();
-		pmdid->AddRef();
+		mdid->AddRef();
 		pdrgppartkeys->AddRef();
 		ppartcnstrRel->AddRef();
 
@@ -998,7 +998,7 @@ CPartIndexMap::PpimPartitionSelector
 			}
 		}
 
-		ppimResult->Insert(ppti->ScanId(), ppartcnstrmap, epim, ulExpectedPropagators, pmdid, pdrgppartkeys, ppartcnstrRel);
+		ppimResult->Insert(ppti->ScanId(), ppartcnstrmap, epim, ulExpectedPropagators, mdid, pdrgppartkeys, ppartcnstrRel);
 	}
 
 	return ppimResult;

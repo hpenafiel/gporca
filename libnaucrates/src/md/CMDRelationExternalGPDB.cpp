@@ -27,7 +27,7 @@ using namespace gpmd;
 CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	GetRelDistrPolicy rel_distr_policy,
 	DrgPmdcol *pdrgpmdcol,
@@ -43,7 +43,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_rel_distr_policy(rel_distr_policy),
 	m_md_col_array(pdrgpmdcol),
@@ -62,7 +62,7 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_phmiulAttno2Pos(NULL),
 	m_pdrgpulNonDroppedCols(NULL)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpmdcol);
 	GPOS_ASSERT(NULL != pdrgpmdIndexInfo);
 	GPOS_ASSERT(NULL != pdrgpmdidTriggers);
@@ -305,11 +305,11 @@ CMDRelationExternalGPDB::UlPosNonDropped
 ULONG
 CMDRelationExternalGPDB::UlPosFromAttno
 	(
-	INT iAttno
+	INT attno
 	)
 	const
 {
-	ULONG *pul = m_phmiulAttno2Pos->Find(&iAttno);
+	ULONG *pul = m_phmiulAttno2Pos->Find(&attno);
 	GPOS_ASSERT(NULL != pul);
 
 	return *pul;

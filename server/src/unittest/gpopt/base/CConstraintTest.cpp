@@ -132,18 +132,18 @@ CConstraintTest::EresUnittest_CInterval()
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->MDId();
+	IMDId *mdid = pmdtypeint8->MDId();
 
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
 	// first interval
-	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, mdid, pcr);
 	PrintConstraint(memory_pool, pciFirst);
 
 	// second interval
-	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, mdid, pcr);
 	PrintConstraint(memory_pool, pciSecond);
 
 	// intersection
@@ -173,7 +173,7 @@ CConstraintTest::EresUnittest_CInterval()
 	GPOS_ASSERT(pciSecond->FContains(pciDiff2));
 
 	// equality
-	CConstraintInterval *pciThird = PciFirstInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pciThird = PciFirstInterval(memory_pool, mdid, pcr);
 	pciThird->AddRef();
 	CConstraintInterval *pciFourth = pciThird;
 	GPOS_ASSERT(!pciFirst->Equals(pciSecond));
@@ -224,7 +224,7 @@ CConstraintTest::EresUnittest_CConjunction()
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->MDId();
+	IMDId *mdid = pmdtypeint8->MDId();
 
 	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs1 = CDrvdPropRelational::Pdprel(pexprGet1->PdpDerive())->PcrsOutput();
@@ -234,11 +234,11 @@ CConstraintTest::EresUnittest_CConjunction()
 	CColRefSet *pcrs2 = CDrvdPropRelational::Pdprel(pexprGet2->PdpDerive())->PcrsOutput();
 	CColRef *pcr2 =  pcrs2->PcrAny();
 
-	CConstraintConjunction *pcconj1 = Pcstconjunction(memory_pool, pmdid, pcr1);
+	CConstraintConjunction *pcconj1 = Pcstconjunction(memory_pool, mdid, pcr1);
 	PrintConstraint(memory_pool, pcconj1);
 	GPOS_ASSERT(!pcconj1->FContradiction());
 
-	CConstraintConjunction *pcconj2 = Pcstconjunction(memory_pool, pmdid, pcr2);
+	CConstraintConjunction *pcconj2 = Pcstconjunction(memory_pool, mdid, pcr2);
 	PrintConstraint(memory_pool, pcconj2);
 
 	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
@@ -285,15 +285,15 @@ CConstraintConjunction *
 CConstraintTest::Pcstconjunction
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CColRef *pcr
 	)
 {
 	// first interval
-	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, mdid, pcr);
 
 	// second interval
-	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, mdid, pcr);
 
 	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 	pdrgpcst->Append(pciFirst);
@@ -314,15 +314,15 @@ CConstraintDisjunction *
 CConstraintTest::Pcstdisjunction
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CColRef *pcr
 	)
 {
 	// first interval
-	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pciFirst = PciFirstInterval(memory_pool, mdid, pcr);
 
 	// second interval
-	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pciSecond = PciSecondInterval(memory_pool, mdid, pcr);
 
 	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
 	pdrgpcst->Append(pciFirst);
@@ -358,7 +358,7 @@ CConstraintTest::EresUnittest_CDisjunction()
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->MDId();
+	IMDId *mdid = pmdtypeint8->MDId();
 
 	CExpression *pexprGet1 = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs1 = CDrvdPropRelational::Pdprel(pexprGet1->PdpDerive())->PcrsOutput();
@@ -368,11 +368,11 @@ CConstraintTest::EresUnittest_CDisjunction()
 	CColRefSet *pcrs2 = CDrvdPropRelational::Pdprel(pexprGet2->PdpDerive())->PcrsOutput();
 	CColRef *pcr2 =  pcrs2->PcrAny();
 
-	CConstraintDisjunction *pcdisj1 = Pcstdisjunction(memory_pool, pmdid, pcr1);
+	CConstraintDisjunction *pcdisj1 = Pcstdisjunction(memory_pool, mdid, pcr1);
 	PrintConstraint(memory_pool, pcdisj1);
 	GPOS_ASSERT(!pcdisj1->FContradiction());
 
-	CConstraintDisjunction *pcdisj2 = Pcstdisjunction(memory_pool, pmdid, pcr2);
+	CConstraintDisjunction *pcdisj2 = Pcstdisjunction(memory_pool, mdid, pcr2);
 	PrintConstraint(memory_pool, pcdisj2);
 
 	DrgPcnstr *pdrgpcst = GPOS_NEW(memory_pool) DrgPcnstr(memory_pool);
@@ -433,13 +433,13 @@ CConstraintTest::EresUnittest_CNegation()
 	GPOS_ASSERT(NULL != COptCtxt::PoctxtFromTLS()->Pcomp());
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->MDId();
+	IMDId *mdid = pmdtypeint8->MDId();
 
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
-	CConstraintInterval *pci = PciFirstInterval(memory_pool, pmdid, pcr);
+	CConstraintInterval *pci = PciFirstInterval(memory_pool, mdid, pcr);
 	PrintConstraint(memory_pool, pci);
 
 	pci->AddRef();
@@ -635,7 +635,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalConvertsTo()
 
 	// metadata id
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->MDId();
+	IMDId *mdid = pmdtypeint8->MDId();
 
 	// get a column ref
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
@@ -643,7 +643,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalConvertsTo()
 	CColRef *pcr =  pcrs->PcrAny();
 
 	// create constraint
-	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	DrgPrng *pdrgprng = Pdrgprng(memory_pool, mdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
 	CConstraintInterval *pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true);
 
 	PrintConstraint(memory_pool, pcnstin);
@@ -704,7 +704,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 
 	// metadata id
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->MDId();
+	IMDId *mdid = pmdtypeint8->MDId();
 
 	// get a column ref
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
@@ -719,7 +719,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// IN CONSTRAINT FOR SIMPLE INTERVAL (WITHOUT NULL)
 
 	// create constraint
-	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pdrgprng = Pdrgprng(memory_pool, mdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
 	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false);
 
 	pexpr = pcnstin->PexprScalar(memory_pool); // pexpr is owned by the constraint
@@ -736,7 +736,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// IN CONSTRAINT FOR SIMPLE INTERVAL WITH NULL
 
 	// create constraint
-	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pdrgprng = Pdrgprng(memory_pool, mdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
 	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true);
 
 	pexpr = pcnstin->PexprScalar(memory_pool); // pexpr is owned by the constraint
@@ -753,7 +753,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// NOT IN CONSTRAINT FOR SIMPLE INTERVAL WITHOUT NULL
 
 	// create constraint
-	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pdrgprng = Pdrgprng(memory_pool, mdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
 	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true);
 
 	pcnstNotIn = pcnstin->PciComplement(memory_pool);
@@ -773,7 +773,7 @@ CConstraintTest::EresUnittest_CConstraintIntervalPexpr()
 	// NOT IN CONSTRAINT FOR SIMPLE INTERVAL WITH NULL
 
 	// create constraint
-	pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
+	pdrgprng = Pdrgprng(memory_pool, mdid, rgRangeInfoIn, GPOS_ARRAY_SIZE(rgRangeInfoIn));
 	pcnstin = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false);
 
 	pcnstNotIn = pcnstin->PciComplement(memory_pool);
@@ -1090,7 +1090,7 @@ CConstraintInterval *
 CConstraintTest::PciFirstInterval
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CColRef *pcr
 	)
 {
@@ -1103,7 +1103,7 @@ CConstraintTest::PciFirstInterval
 				{CRange::EriExcluded, 20, CRange::EriExcluded, 1000},
 			};
 
-	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
+	DrgPrng *pdrgprng = Pdrgprng(memory_pool, mdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
 
 	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, true /*is_null*/);
 }
@@ -1120,7 +1120,7 @@ CConstraintInterval *
 CConstraintTest::PciSecondInterval
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CColRef *pcr
 	)
 {
@@ -1131,7 +1131,7 @@ CConstraintTest::PciSecondInterval
 				{CRange::EriExcluded, 10, CRange::EriExcluded, 25},
 			};
 
-	DrgPrng *pdrgprng = Pdrgprng(memory_pool, pmdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
+	DrgPrng *pdrgprng = Pdrgprng(memory_pool, mdid, rgRangeInfo, GPOS_ARRAY_SIZE(rgRangeInfo));
 
 	return GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrgprng, false /*is_null*/);
 }
@@ -1148,7 +1148,7 @@ DrgPrng *
 CConstraintTest::Pdrgprng
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	const SRangeInfo rgRangeInfo[],
 	ULONG ulRanges
 	)
@@ -1158,10 +1158,10 @@ CConstraintTest::Pdrgprng
 	for (ULONG ul = 0; ul < ulRanges; ul++)
 	{
 		SRangeInfo rnginfo = rgRangeInfo[ul];
-		pmdid->AddRef();
+		mdid->AddRef();
 		CRange *prange = GPOS_NEW(memory_pool) CRange
 									(
-									pmdid,
+									mdid,
 									COptCtxt::PoctxtFromTLS()->Pcomp(),
 									GPOS_NEW(memory_pool) CDatumInt8GPDB(CTestUtils::m_sysidDefault, (LINT) rnginfo.iLeft),
 									rnginfo.eriLeft,

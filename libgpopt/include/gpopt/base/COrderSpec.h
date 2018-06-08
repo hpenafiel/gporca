@@ -87,7 +87,7 @@ namespace gpopt
 				public:
 					
 					// ctor
-					COrderExpression(gpmd::IMDId *pmdid, const CColRef *pcr, ENullTreatment ent);
+					COrderExpression(gpmd::IMDId *mdid, const CColRef *pcr, ENullTreatment ent);
 					
 					// dtor
 					virtual
@@ -184,7 +184,7 @@ namespace gpopt
 			}
 			
 			// append new component
-			void Append(gpmd::IMDId *pmdid, const CColRef *pcr, ENullTreatment ent);
+			void Append(gpmd::IMDId *mdid, const CColRef *pcr, ENullTreatment ent);
 			
 			// extract colref set of order columns
 			virtual

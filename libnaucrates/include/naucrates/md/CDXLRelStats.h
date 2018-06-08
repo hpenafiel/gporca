@@ -117,7 +117,7 @@ namespace gpmd
 			CDXLRelStats *PdxlrelstatsDummy
 								(
 								IMemoryPool *memory_pool,
-								IMDId *pmdid
+								IMDId *mdid
 								);
 	};
 

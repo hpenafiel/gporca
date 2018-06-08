@@ -791,7 +791,7 @@ CUtils::PexprScalarArrayCmp
 	CExpression *pexprArray = GPOS_NEW(memory_pool) CExpression
 										(
 										memory_pool,
-										GPOS_NEW(memory_pool) CScalarArray(memory_pool, pmdidColType, pmdidArrType, false /*fMultiDimensional*/),
+										GPOS_NEW(memory_pool) CScalarArray(memory_pool, pmdidColType, pmdidArrType, false /*is_multidimenstional*/),
 										pexprScalarChildren
 										);
 
@@ -1917,7 +1917,7 @@ CUtils::PopAggFunc
 	IMemoryPool *memory_pool,
 	IMDId *pmdidAggFunc,
 	const CWStringConst *pstrAggFunc,
-	BOOL fDistinct,
+	BOOL is_distinct,
 	EAggfuncStage eaggfuncstage,
 	BOOL fSplit,
 	IMDId *pmdidResolvedReturnType // return type to be used if original return type is ambiguous
@@ -1927,7 +1927,7 @@ CUtils::PopAggFunc
 	GPOS_ASSERT(NULL != pstrAggFunc);
 	GPOS_ASSERT_IMP(NULL != pmdidResolvedReturnType, pmdidResolvedReturnType->IsValid());
 
-	return GPOS_NEW(memory_pool) CScalarAggFunc(memory_pool, pmdidAggFunc, pmdidResolvedReturnType, pstrAggFunc, fDistinct, eaggfuncstage, fSplit);
+	return GPOS_NEW(memory_pool) CScalarAggFunc(memory_pool, pmdidAggFunc, pmdidResolvedReturnType, pstrAggFunc, is_distinct, eaggfuncstage, fSplit);
 }
 
 // generate an aggregate function
@@ -1938,7 +1938,7 @@ CUtils::PexprAggFunc
 	IMDId *pmdidAggFunc,
 	const CWStringConst *pstrAggFunc,
 	const CColRef *pcr,
-	BOOL fDistinct,
+	BOOL is_distinct,
 	EAggfuncStage eaggfuncstage,
 	BOOL fSplit
 	)
@@ -1947,7 +1947,7 @@ CUtils::PexprAggFunc
 	GPOS_ASSERT(NULL != pcr);
 
 	// generate aggregate function
-	CScalarAggFunc *popScAggFunc = PopAggFunc(memory_pool, pmdidAggFunc, pstrAggFunc, fDistinct, eaggfuncstage, fSplit);
+	CScalarAggFunc *popScAggFunc = PopAggFunc(memory_pool, pmdidAggFunc, pstrAggFunc, is_distinct, eaggfuncstage, fSplit);
 
 	// generate function arguments
 	CExpression *pexprScalarIdent = PexprScalarIdent(memory_pool, pcr);
@@ -1969,10 +1969,10 @@ CUtils::PexprCountStar
 	// way using MDAccessor
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_COUNT_STAR);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_COUNT_STAR);
 	CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(GPOS_WSZ_LIT("count"));
 
-	CScalarAggFunc *popScAggFunc = PopAggFunc(memory_pool, pmdid, str, false /*fDistinct*/, EaggfuncstageGlobal /*eaggfuncstage*/, false /*fSplit*/);
+	CScalarAggFunc *popScAggFunc = PopAggFunc(memory_pool, mdid, str, false /*is_distinct*/, EaggfuncstageGlobal /*eaggfuncstage*/, false /*fSplit*/);
 
 	CExpression *pexprCountStar = GPOS_NEW(memory_pool) CExpression(memory_pool, popScAggFunc, pdrgpexpr);
 
@@ -2163,7 +2163,7 @@ CUtils::PexprSum
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	return PexprAgg(memory_pool, md_accessor, IMDType::EaggSum, pcr, false /*fDistinct*/);
+	return PexprAgg(memory_pool, md_accessor, IMDType::EaggSum, pcr, false /*is_distinct*/);
 }
 
 // generate a GbAgg with sum(col) expressions for all columns in the passed array
@@ -2204,12 +2204,12 @@ CUtils::PexprCount
 	(
 	IMemoryPool *memory_pool,
 	const CColRef *pcr,
-	BOOL fDistinct
+	BOOL is_distinct
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	return PexprAgg(memory_pool, md_accessor, IMDType::EaggCount, pcr, fDistinct);
+	return PexprAgg(memory_pool, md_accessor, IMDType::EaggCount, pcr, is_distinct);
 }
 
 // generate a min(col) expression
@@ -2221,7 +2221,7 @@ CUtils::PexprMin
 	const CColRef *pcr
 	)
 {
- 	return PexprAgg(memory_pool, md_accessor, IMDType::EaggMin, pcr, false /*fDistinct*/);
+ 	return PexprAgg(memory_pool, md_accessor, IMDType::EaggMin, pcr, false /*is_distinct*/);
 }
 
 // generate an aggregate expression of the specified type
@@ -2232,7 +2232,7 @@ CUtils::PexprAgg
 	CMDAccessor *md_accessor,
 	IMDType::EAggType eagg,
 	const CColRef *pcr,
-	BOOL fDistinct
+	BOOL is_distinct
 	)
 {
 	GPOS_ASSERT(IMDType::EaggGeneric >eagg);
@@ -2240,11 +2240,11 @@ CUtils::PexprAgg
 	
 	const IMDAggregate *pmdagg = md_accessor->Pmdagg(pcr->Pmdtype()->PmdidAgg(eagg));
 	
-	IMDId *pmdidAgg = pmdagg->MDId();
-	pmdidAgg->AddRef();
+	IMDId *agg_mdid = pmdagg->MDId();
+	agg_mdid->AddRef();
 	CWStringConst *str = GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdagg->Mdname().GetMDName()->GetBuffer());
 
-	return PexprAggFunc(memory_pool, pmdidAgg, str, pcr, fDistinct, EaggfuncstageGlobal /*fGlobal*/, false /*fSplit*/);
+	return PexprAggFunc(memory_pool, agg_mdid, str, pcr, is_distinct, EaggfuncstageGlobal /*fGlobal*/, false /*fSplit*/);
 }
 
 // generate a select expression
@@ -2580,11 +2580,11 @@ CUtils::FHasGlobalAggFunc
 IMDType::ECmpType
 CUtils::ParseCmpType
 	(
-	IMDId *pmdid
+	IMDId *mdid
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(mdid);
 	return md_scalar_op->ParseCmpType();
 }
 
@@ -2593,10 +2593,10 @@ IMDType::ECmpType
 CUtils::ParseCmpType
 	(
 	CMDAccessor *md_accessor,
-	IMDId *pmdid
+	IMDId *mdid
 	)
 {
-	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(mdid);
 	return md_scalar_op->ParseCmpType();
 }
 
@@ -4966,11 +4966,11 @@ CUtils::PexprLimit
 BOOL
 CUtils::FGeneratePartOid
 	(
-	IMDId *pmdid
+	IMDId *mdid
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = md_accessor->Pmdrel(pmdid);
+	const IMDRelation *pmdrel = md_accessor->Pmdrel(mdid);
 	BOOL fInsertSortOnParquet = (!GPOS_FTRACE(EopttraceDisableSortForDMLOnParquet) && pmdrel->GetRelStorageType() == IMDRelation::ErelstorageAppendOnlyParquet);
 
 	COptimizerConfig *optimizer_config = COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();

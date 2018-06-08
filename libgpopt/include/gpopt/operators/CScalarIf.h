@@ -58,7 +58,7 @@ namespace gpopt
 			CScalarIf
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid
+				IMDId *mdid
 				);
 
 			// dtor

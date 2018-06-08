@@ -31,7 +31,7 @@ using namespace gpmd;
 CMDScalarOpGPDB::CMDScalarOpGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	IMDId *pmdidTypeLeft,
 	IMDId *pmdidTypeRight,
@@ -45,7 +45,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_mdid_type_left(pmdidTypeLeft),
 	m_mdid_type_right(pmdidTypeRight),

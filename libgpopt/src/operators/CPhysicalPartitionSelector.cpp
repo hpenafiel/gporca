@@ -34,7 +34,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	(
 	IMemoryPool *memory_pool,
 	ULONG scan_id,
-	IMDId *pmdid,
+	IMDId *mdid,
 	DrgDrgPcr *pdrgpdrgpcr,
 	PartCnstrMap *ppartcnstrmap,
 	CPartConstraint *ppartcnstr,
@@ -45,7 +45,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	:
 	CPhysical(memory_pool),
 	m_scan_id(scan_id),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_pdrgpdrgpcr(pdrgpdrgpcr),
 	m_ppartcnstrmap(ppartcnstrmap),
 	m_part_constraint(ppartcnstr),
@@ -54,7 +54,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	m_pexprResidual(pexprResidual)
 {
 	GPOS_ASSERT(0 < scan_id);
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(NULL != pdrgpdrgpcr);
 	GPOS_ASSERT(0 < pdrgpdrgpcr->Size());
 	GPOS_ASSERT(NULL != ppartcnstrmap);
@@ -76,13 +76,13 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	HMUlExpr *phmulexprEqPredicates
 	)
 	:
 	CPhysical(memory_pool),
 	m_scan_id(0),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_pdrgpdrgpcr(NULL),
 	m_ppartcnstrmap(NULL),
 	m_part_constraint(NULL),
@@ -91,7 +91,7 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 	m_pexprResidual(NULL),
 	m_pexprCombinedPredicate(NULL)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 	GPOS_ASSERT(NULL != phmulexprEqPredicates);
 
 	m_phmulexprPredicates = GPOS_NEW(memory_pool) HMUlExpr(memory_pool);
@@ -626,17 +626,17 @@ CPhysicalPartitionSelector::PppsRequired
 			continue;
 		}
 
-		IMDId *pmdid = ppimInput->GetRelMdId(scan_id);
+		IMDId *mdid = ppimInput->GetRelMdId(scan_id);
 		DrgPpartkeys *pdrgppartkeys = ppimInput->Pdrgppartkeys(scan_id);
 		PartCnstrMap *ppartcnstrmap = ppimInput->Ppartcnstrmap(scan_id);
 		CPartConstraint *ppartcnstr = ppimInput->PpartcnstrRel(scan_id);
 		CPartIndexMap::EPartIndexManipulator epim = ppimInput->Epim(scan_id);
-		pmdid->AddRef();
+		mdid->AddRef();
 		pdrgppartkeys->AddRef();
 		ppartcnstrmap->AddRef();
 		ppartcnstr->AddRef();
 
-		ppim->Insert(scan_id, ppartcnstrmap, epim, ulExpectedPropagators, pmdid, pdrgppartkeys, ppartcnstr);
+		ppim->Insert(scan_id, ppartcnstrmap, epim, ulExpectedPropagators, mdid, pdrgppartkeys, ppartcnstr);
 		(void) ppfm->FCopyPartFilter(m_memory_pool, scan_id, ppfmInput);
 	}
 

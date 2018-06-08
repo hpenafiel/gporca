@@ -64,7 +64,7 @@ namespace gpopt
 				const IMDType *pmdtype,
 				INT type_modifier,
 				const CName &name,
-				INT iAttno,
+				INT attno,
 				BOOL fNullable,
 				ULONG ulWidth = ULONG_MAX
 				);

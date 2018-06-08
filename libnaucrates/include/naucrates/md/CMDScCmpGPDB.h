@@ -66,7 +66,7 @@ namespace gpmd
 			CMDScCmpGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				IMDId *pmdidLeft,
 				IMDId *pmdidRight,

@@ -31,7 +31,7 @@ using namespace gpdxl;
 CMDAggregateGPDB::CMDAggregateGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	IMDId *pmdidTypeResult,
 	IMDId *pmdidTypeIntermediate,
@@ -41,7 +41,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_mdid_type_result(pmdidTypeResult),
 	m_mdid_type_intermediate(pmdidTypeIntermediate),
@@ -49,7 +49,7 @@ CMDAggregateGPDB::CMDAggregateGPDB
 	m_is_splittable(fSplittable),
 	m_hash_agg_capable(fHashAggCapable)
 	{
-		GPOS_ASSERT(pmdid->IsValid());
+		GPOS_ASSERT(mdid->IsValid());
 		
 		m_pstr = CDXLUtils::SerializeMDObj(m_memory_pool, this, false /*fSerializeHeader*/, false /*indentation*/);
 	}

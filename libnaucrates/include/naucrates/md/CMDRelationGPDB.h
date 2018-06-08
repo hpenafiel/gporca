@@ -130,7 +130,7 @@ namespace gpmd
 			CMDRelationGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				BOOL fTemporary,
 				Erelstoragetype rel_storage_type, 
@@ -202,7 +202,7 @@ namespace gpmd
 			
 			// return the position of a column in the metadata object given the attribute number in the system catalog
 			virtual
-			ULONG UlPosFromAttno(INT iAttno) const;
+			ULONG UlPosFromAttno(INT attno) const;
 
 			// return the original positions of all the non-dropped columns
 			virtual
@@ -278,7 +278,7 @@ namespace gpmd
 
 			// check if index is partial given its mdid
 			virtual
-			BOOL FPartialIndex(IMDId *pmdid) const;
+			BOOL FPartialIndex(IMDId *mdid) const;
 
 			// retrieve the id of the metadata cache trigger at the given position
 			virtual

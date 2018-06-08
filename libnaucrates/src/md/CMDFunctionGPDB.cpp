@@ -31,7 +31,7 @@ using namespace gpdxl;
 CMDFunctionGPDB::CMDFunctionGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	IMDId *pmdidTypeResult,
 	DrgPmdid *pdrgpmdidTypes,
@@ -42,7 +42,7 @@ CMDFunctionGPDB::CMDFunctionGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_mdid_type_result(pmdidTypeResult),
 	m_mdid_types_array(pdrgpmdidTypes),
@@ -187,15 +187,15 @@ CMDFunctionGPDB::PstrOutArgTypes() const
 	const ULONG ulLen = m_mdid_types_array->Size();
 	for (ULONG ul = 0; ul < ulLen; ul++)
 	{
-		IMDId *pmdid = (*m_mdid_types_array)[ul];
+		IMDId *mdid = (*m_mdid_types_array)[ul];
 		if (ul == ulLen - 1)
 		{
 			// last element: do not print a comma
-			str->AppendFormat(GPOS_WSZ_LIT("%ls"), pmdid->GetBuffer());
+			str->AppendFormat(GPOS_WSZ_LIT("%ls"), mdid->GetBuffer());
 		}
 		else
 		{
-			str->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), pmdid->GetBuffer(), CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
+			str->AppendFormat(GPOS_WSZ_LIT("%ls%ls"), mdid->GetBuffer(), CDXLTokens::GetDXLTokenStr(EdxltokenComma)->GetBuffer());
 		}
 	}
 

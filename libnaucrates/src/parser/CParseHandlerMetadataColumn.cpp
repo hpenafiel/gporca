@@ -85,19 +85,19 @@ CParseHandlerMetadataColumn::StartElement
 	}
 	
 	// parse column name
-	const XMLCh *xmlszColumnName = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *column_name_xml = CDXLOperatorFactory::ExtractAttrValue
 												(
 												attrs,
 												EdxltokenName,
 												EdxltokenMetadataColumn
 												);
 
-	CWStringDynamic *pstrColumnName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszColumnName);
+	CWStringDynamic *col_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), column_name_xml);
 	
 	// create a copy of the string in the CMDName constructor
-	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrColumnName);
+	m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, col_name);
 	
-	GPOS_DELETE(pstrColumnName);
+	GPOS_DELETE(col_name);
 	
 	// parse attribute number
 	m_attno = CDXLOperatorFactory::ExtractConvertAttrValueToInt
@@ -137,14 +137,14 @@ CParseHandlerMetadataColumn::StartElement
 								);
 
 	// parse column length from attributes
-	const XMLCh *xmlszColumnLength =  attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColWidth));
+	const XMLCh *col_len_xml =  attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColWidth));
 
-	if (NULL != xmlszColumnLength)
+	if (NULL != col_len_xml)
 	{
 		m_width = CDXLOperatorFactory::ConvertAttrValueToUlong
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
-						xmlszColumnLength,
+						col_len_xml,
 						EdxltokenColWidth,
 						EdxltokenColDescr
 						);

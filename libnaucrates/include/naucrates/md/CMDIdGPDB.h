@@ -108,7 +108,7 @@ namespace gpmd
 
 			// equality check
 			virtual
-			BOOL Equals(const IMDId *pmdid) const;
+			BOOL Equals(const IMDId *mdid) const;
 			
 			// computes the hash value for the metadata id
 			virtual
@@ -133,20 +133,20 @@ namespace gpmd
 			
 			// const converter
 			static
-			const CMDIdGPDB *PmdidConvert(const IMDId *pmdid)
+			const CMDIdGPDB *PmdidConvert(const IMDId *mdid)
 			{
-				GPOS_ASSERT(NULL != pmdid && EmdidGPDB == pmdid->Emdidt());
+				GPOS_ASSERT(NULL != mdid && EmdidGPDB == mdid->Emdidt());
 
-				return dynamic_cast<const CMDIdGPDB *>(pmdid);
+				return dynamic_cast<const CMDIdGPDB *>(mdid);
 			}
 			
 			// non-const converter
 			static
-			CMDIdGPDB *PmdidConvert(IMDId *pmdid)
+			CMDIdGPDB *PmdidConvert(IMDId *mdid)
 			{
-				GPOS_ASSERT(NULL != pmdid && (EmdidGPDB == pmdid->Emdidt() || EmdidGPDBCtas == pmdid->Emdidt()));
+				GPOS_ASSERT(NULL != mdid && (EmdidGPDB == mdid->Emdidt() || EmdidGPDBCtas == mdid->Emdidt()));
 
-				return dynamic_cast<CMDIdGPDB *>(pmdid);
+				return dynamic_cast<CMDIdGPDB *>(mdid);
 			}
 			
 			// invalid mdid

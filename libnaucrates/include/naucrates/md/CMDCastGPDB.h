@@ -69,7 +69,7 @@ namespace gpmd
 			CMDCastGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				IMDId *mdid_src,
 				IMDId *mdid_dest,

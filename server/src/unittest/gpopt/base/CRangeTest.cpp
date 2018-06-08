@@ -132,9 +132,9 @@ CRangeTest::EresUnittest_CRangeInt2()
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	IMDTypeInt2 *pmdtypeint2 = (IMDTypeInt2 *) mda.PtMDType<IMDTypeInt2>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint2->MDId();
+	IMDId *mdid = pmdtypeint2->MDId();
 
-	return EresInitAndCheckRanges(memory_pool, pmdid, &PdatumInt2);
+	return EresInitAndCheckRanges(memory_pool, mdid, &PdatumInt2);
 }
 
 //---------------------------------------------------------------------------
@@ -158,9 +158,9 @@ CRangeTest::EresUnittest_CRangeInt4()
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	IMDTypeInt4 *pmdtypeint4 = (IMDTypeInt4 *) mda.PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint4->MDId();
+	IMDId *mdid = pmdtypeint4->MDId();
 
-	return EresInitAndCheckRanges(memory_pool, pmdid, &PdatumInt4);
+	return EresInitAndCheckRanges(memory_pool, mdid, &PdatumInt4);
 }
 
 //---------------------------------------------------------------------------
@@ -184,9 +184,9 @@ CRangeTest::EresUnittest_CRangeInt8()
 	CMDAccessor mda(memory_pool, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	IMDTypeInt8 *pmdtypeint8 = (IMDTypeInt8 *) mda.PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
-	IMDId *pmdid = pmdtypeint8->MDId();
+	IMDId *mdid = pmdtypeint8->MDId();
 
-	return EresInitAndCheckRanges(memory_pool, pmdid, &PdatumInt8);
+	return EresInitAndCheckRanges(memory_pool, mdid, &PdatumInt8);
 }
 
 //---------------------------------------------------------------------------
@@ -254,7 +254,7 @@ GPOS_RESULT
 CRangeTest::EresInitAndCheckRanges
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	PfPdatum pf
 	)
 {
@@ -262,10 +262,10 @@ CRangeTest::EresInitAndCheckRanges
 	CDefaultComparator comp(pceeval);
 
 	// generate ranges
-	pmdid->AddRef();
+	mdid->AddRef();
 	CRange *prange1 = GPOS_NEW(memory_pool) CRange
 								(
-								pmdid,
+								mdid,
 								&comp,
 								(*pf)(memory_pool, 10),
 								CRange::EriIncluded,
@@ -273,10 +273,10 @@ CRangeTest::EresInitAndCheckRanges
 								CRange::EriExcluded
 								); // [10, inf)
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	CRange *prange2 = GPOS_NEW(memory_pool) CRange
 								(
-								pmdid,
+								mdid,
 								&comp,
 								NULL,
 								CRange::EriExcluded,
@@ -284,10 +284,10 @@ CRangeTest::EresInitAndCheckRanges
 								CRange::EriIncluded
 								); // (-inf, 20]
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	CRange *prange3 = GPOS_NEW(memory_pool) CRange
 								(
-								pmdid,
+								mdid,
 								&comp,
 								(*pf)(memory_pool, -20),
 								CRange::EriExcluded,
@@ -295,10 +295,10 @@ CRangeTest::EresInitAndCheckRanges
 								CRange::EriIncluded
 								); // (-20, 0]
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	CRange *prange4 = GPOS_NEW(memory_pool) CRange
 								(
-								pmdid,
+								mdid,
 								&comp,
 								(*pf)(memory_pool, -10),
 								CRange::EriIncluded,
@@ -306,10 +306,10 @@ CRangeTest::EresInitAndCheckRanges
 								CRange::EriExcluded
 								); // [-10, 10)
 
-	pmdid->AddRef();
+	mdid->AddRef();
 	CRange *prange5 = GPOS_NEW(memory_pool) CRange
 								(
-								pmdid,
+								mdid,
 								&comp,
 								(*pf)(memory_pool, 0),
 								CRange::EriIncluded,

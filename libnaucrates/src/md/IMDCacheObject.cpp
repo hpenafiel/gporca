@@ -31,11 +31,11 @@ IMDCacheObject::SerializeMDIdAsElem
 	(
 	CXMLSerializer *xml_serializer,
 	const CWStringConst *pstrElem,
-	const IMDId *pmdid
+	const IMDId *mdid
 	)
 	const
 {
-	if (NULL == pmdid)
+	if (NULL == mdid)
 	{
 		return;
 	}
@@ -43,7 +43,7 @@ IMDCacheObject::SerializeMDIdAsElem
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 						pstrElem);
 	
-	pmdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+	mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 							pstrElem);
@@ -74,8 +74,8 @@ IMDCacheObject::SerializeMDIdList
 	{
 		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrTokenListItem);
 
-		IMDId *pmdid = (*mdid_array)[ul];
-		pmdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
+		IMDId *mdid = (*mdid_array)[ul];
+		mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 		xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), pstrTokenListItem);
 
 		GPOS_CHECK_ABORT;

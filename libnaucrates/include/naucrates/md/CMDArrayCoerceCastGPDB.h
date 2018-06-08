@@ -50,7 +50,7 @@ namespace gpmd
 			CMDArrayCoerceCastGPDB
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				CMDName *mdname,
 				IMDId *mdid_src,
 				IMDId *mdid_dest,
@@ -58,7 +58,7 @@ namespace gpmd
 				IMDId *mdid_cast_func,
 				EmdCoercepathType emdPathType,
 				INT type_modifier,
-				BOOL fIsExplicit,
+				BOOL is_explicit,
 				EdxlCoercionForm edxlcf,
 				INT iLoc
 				);

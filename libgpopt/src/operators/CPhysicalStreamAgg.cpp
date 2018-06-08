@@ -77,10 +77,10 @@ CPhysicalStreamAgg::InitOrderSpec
 
 		// TODO: 12/21/2011 - ; this seems broken: a pcr must not embed
 		// a pointer to a cached object
-		gpmd::IMDId *pmdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
-		pmdid->AddRef();
+		gpmd::IMDId *mdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
+		mdid->AddRef();
 
-		m_pos->Append(pmdid, pcr, COrderSpec::EntLast);
+		m_pos->Append(mdid, pcr, COrderSpec::EntLast);
 	}
 }
 
@@ -144,10 +144,10 @@ CPhysicalStreamAgg::PosCovering
 		for (ULONG ul = 0; ul < ulReqdSortCols; ul++)
 		{
 			CColRef *pcr = const_cast<CColRef *>(posRequired->Pcr(ul));
-			IMDId *pmdid = posRequired->GetMdIdSortOp(ul);
+			IMDId *mdid = posRequired->GetMdIdSortOp(ul);
 			COrderSpec::ENullTreatment ent = posRequired->Ent(ul);
-			pmdid->AddRef();
-			pos->Append(pmdid, pcr, ent);
+			mdid->AddRef();
+			pos->Append(mdid, pcr, ent);
 		}
 
 		// augment order with remaining grouping columns
@@ -157,9 +157,9 @@ CPhysicalStreamAgg::PosCovering
 			CColRef *pcr = (*pdrgpcrGrp)[ul];
 			if (!pcrsReqd->FMember(pcr))
 			{
-				IMDId *pmdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
-				pmdid->AddRef();
-				pos->Append(pmdid, pcr, COrderSpec::EntLast);
+				IMDId *mdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
+				mdid->AddRef();
+				pos->Append(mdid, pcr, COrderSpec::EntLast);
 			}
 		}
 	}

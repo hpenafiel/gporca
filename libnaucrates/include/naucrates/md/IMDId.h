@@ -102,7 +102,7 @@ namespace gpmd
 			
 			// equality check
 			virtual 
-			BOOL Equals(const IMDId *pmdid) const = 0;
+			BOOL Equals(const IMDId *mdid) const = 0;
 					
 			// computes the hash value for the metadata id
 			virtual
@@ -140,11 +140,11 @@ namespace gpmd
 			static
 			ULONG UlHashMDId
 				(
-				const IMDId *pmdid
+				const IMDId *mdid
 				)
 			{
-				GPOS_ASSERT(NULL != pmdid);
-				return pmdid->HashValue();
+				GPOS_ASSERT(NULL != mdid);
+				return mdid->HashValue();
 			}
 
 			// hash function for using mdids in a cache
@@ -155,8 +155,8 @@ namespace gpmd
 				)
 			{
 				GPOS_ASSERT(NULL != pv);
-				IMDId *pmdid = static_cast<IMDId *> (pv);
-				return pmdid->HashValue();
+				IMDId *mdid = static_cast<IMDId *> (pv);
+				return mdid->HashValue();
 			}
 			
 			// static equality functions for use in different structures, 
@@ -211,9 +211,9 @@ namespace gpmd
 			
 			// safe validity function
 			static
-			BOOL IsValid(const IMDId *pmdid)
+			BOOL IsValid(const IMDId *mdid)
 			{
-				return NULL != pmdid && pmdid->IsValid();
+				return NULL != mdid && mdid->IsValid();
 			}
 	};
 	

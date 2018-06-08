@@ -37,7 +37,7 @@ namespace gpmd
 			// ctor
 			CMDIndexInfo
 				(
-				IMDId *pmdid,
+				IMDId *mdid,
 				BOOL fIsPartial
 				);
 

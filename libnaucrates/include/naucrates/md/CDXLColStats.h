@@ -159,7 +159,7 @@ namespace gpmd
 
 			// dummy colstats
 			static
-			CDXLColStats *PdxlcolstatsDummy(IMemoryPool *memory_pool, IMDId *pmdid, CMDName *mdname, CDouble width);
+			CDXLColStats *PdxlcolstatsDummy(IMemoryPool *memory_pool, IMDId *mdid, CMDName *mdname, CDouble width);
 
 	};
 

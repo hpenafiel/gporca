@@ -185,18 +185,18 @@ CLogical::PosFromIndex
 
 		// get the column and it's attno from the relation
 		const IMDColumn *pmdcol = pmdrel->GetMdCol(ulPosRel);
-		INT iAttno = pmdcol->AttrNum();
+		INT attno = pmdcol->AttrNum();
 
 		// get the position of the index key column relative to the table descriptor
-		const ULONG ulPosTabDesc = ptabdesc->UlPosition(iAttno);
+		const ULONG ulPosTabDesc = ptabdesc->UlPosition(attno);
 		CColRef *pcr = (*pdrgpcr)[ulPosTabDesc];
 
-		IMDId *pmdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
-		pmdid->AddRef();
+		IMDId *mdid = pcr->Pmdtype()->PmdidCmp(IMDType::EcmptL);
+		mdid->AddRef();
 	
 		// TODO:  March 27th 2012; we hard-code NULL treatment
 		// need to revisit
-		pos->Append(pmdid, pcr, COrderSpec::EntLast);
+		pos->Append(mdid, pcr, COrderSpec::EntLast);
 	}
 	
 	return pos;
@@ -1469,8 +1469,8 @@ CLogical::PcrsDist
 	for (ULONG ul2 = 0; ul2 < ulDistCols; ul2++)
 	{
 		CColumnDescriptor *pcoldesc = (*pdrgpcoldescDist)[ul2];
-		const INT iAttno = pcoldesc->AttrNum();
-		CColRef *pcrMapped = phmicr->Find(&iAttno);
+		const INT attno = pcoldesc->AttrNum();
+		CColRef *pcrMapped = phmicr->Find(&attno);
 		GPOS_ASSERT(NULL != pcrMapped);
 		pcrsDist->Include(pcrMapped);
 	}

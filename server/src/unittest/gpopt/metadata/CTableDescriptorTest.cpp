@@ -78,8 +78,8 @@ CTableDescriptorTest::EresUnittest_Basic()
 					);
 
 	CWStringConst strName(GPOS_WSZ_LIT("MyTable"));
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
-	CTableDescriptor *ptabdesc = CTestUtils::PtabdescCreate(memory_pool, 10, pmdid, CName(&strName));
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1);
+	CTableDescriptor *ptabdesc = CTestUtils::PtabdescCreate(memory_pool, 10, mdid, CName(&strName));
 
 #ifdef GPOS_DEBUG
 	CWStringDynamic str(memory_pool);

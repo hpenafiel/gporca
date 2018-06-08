@@ -53,10 +53,10 @@ namespace gpopt
 			CScalarArrayCoerceExpr
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdidElementFunc,
+				IMDId *element_func,
 				IMDId *result_type_mdid,
 				INT type_modifier,
-				BOOL fIsExplicit,
+				BOOL is_explicit,
 				ECoercionForm edxlcf,
 				INT iLoc
 				);

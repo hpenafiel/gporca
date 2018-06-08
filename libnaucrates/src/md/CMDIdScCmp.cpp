@@ -156,16 +156,16 @@ CMDIdScCmp::HashValue() const
 BOOL
 CMDIdScCmp::Equals
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	) 
 	const
 {
-	if (NULL == pmdid || EmdidScCmp != pmdid->Emdidt())
+	if (NULL == mdid || EmdidScCmp != mdid->Emdidt())
 	{
 		return false;
 	}
 	
-	const CMDIdScCmp *pmdidScCmp = CMDIdScCmp::PmdidConvert(pmdid);
+	const CMDIdScCmp *pmdidScCmp = CMDIdScCmp::PmdidConvert(mdid);
 	
 	return m_pmdidLeft->Equals(pmdidScCmp->PmdidLeft()) && 
 			m_pmdidRight->Equals(pmdidScCmp->PmdidRight()) &&

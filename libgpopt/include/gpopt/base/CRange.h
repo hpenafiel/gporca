@@ -113,7 +113,7 @@ namespace gpopt
 			// ctor
 			CRange
 				(
-				IMDId *pmdid,
+				IMDId *mdid,
 				const IComparator *pcomp,
 				IDatum *pdatumLeft,
 				ERangeInclusion eriLeft,

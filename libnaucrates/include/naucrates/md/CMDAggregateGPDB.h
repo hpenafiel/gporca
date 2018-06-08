@@ -71,7 +71,7 @@ namespace gpmd
 		CMDAggregateGPDB
 			(
 			IMemoryPool *memory_pool,
-			IMDId *pmdid,
+			IMDId *mdid,
 			CMDName *mdname,
 			IMDId *pmdidTypeResult,
 			IMDId *pmdidTypeIntermediate,

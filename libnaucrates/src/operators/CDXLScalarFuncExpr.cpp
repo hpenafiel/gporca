@@ -186,8 +186,8 @@ CDXLScalarFuncExpr::HasBoolResult
 	)
 	const
 {
-	IMDId *pmdid = md_accessor->Pmdfunc(m_func_mdid)->PmdidTypeResult();
-	return (IMDType::EtiBool == md_accessor->Pmdtype(pmdid)->Eti());
+	IMDId *mdid = md_accessor->Pmdfunc(m_func_mdid)->PmdidTypeResult();
+	return (IMDType::EtiBool == md_accessor->Pmdtype(mdid)->Eti());
 }
 
 #ifdef GPOS_DEBUG

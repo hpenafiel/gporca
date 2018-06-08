@@ -18,14 +18,14 @@ using namespace gpmd;
 // ctor
 CMDIndexInfo::CMDIndexInfo
 	(
-	IMDId *pmdid,
+	IMDId *mdid,
 	BOOL fPartial
 	)
 	:
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_fPartial(fPartial)
 {
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 }
 
 // dtor

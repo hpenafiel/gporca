@@ -256,7 +256,7 @@ namespace
 			{
 				CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 				m_pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
-				CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidTableOid, 1, 1);
+				CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(oidTableOid, 1, 1);
 
 				const BOOL fConvertHashToRandom = false;
 				const ULONG ulExecuteAsUser = 0;
@@ -264,7 +264,7 @@ namespace
 					GPOS_NEW(memory_pool) CTableDescriptor
 						(
 							memory_pool,
-							pmdid,
+							mdid,
 							CName(&strTableName),
 							fConvertHashToRandom,
 							CMDRelationGPDB::EreldistrMasterOnly,
@@ -273,9 +273,9 @@ namespace
 						);
 			}
 
-			void AddIntColumn(CWStringConst strColumnName, int iAttno, BOOL fNullable)
+			void AddIntColumn(CWStringConst strColumnName, int attno, BOOL fNullable)
 			{
-				CColumnDescriptor *pcoldesc = GPOS_NEW(m_memory_pool) CColumnDescriptor(m_memory_pool, m_pmdtypeint4, IDefaultTypeModifier, CName(&strColumnName), iAttno, fNullable);
+				CColumnDescriptor *pcoldesc = GPOS_NEW(m_memory_pool) CColumnDescriptor(m_memory_pool, m_pmdtypeint4, IDefaultTypeModifier, CName(&strColumnName), attno, fNullable);
 				m_ptabdesc->AddColumn(pcoldesc);
 			}
 

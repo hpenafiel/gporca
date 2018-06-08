@@ -149,7 +149,7 @@ CMDAccessorTest::EresUnittest_Basic()
 	// access GPDB types, operators and aggregates
 	CMDIdGPDB *mdid_type = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4, 1, 0);
 	CMDIdGPDB *mdid_op = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_OP_INT4_LT, 1, 0);
-	CMDIdGPDB *pmdidAgg = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_AGG_AVG, 1, 0);
+	CMDIdGPDB *agg_mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_AGG_AVG, 1, 0);
 	
 #ifdef GPOS_DEBUG
 	const IMDType *pimdtype = 
@@ -166,7 +166,7 @@ CMDAccessorTest::EresUnittest_Basic()
 #ifdef GPOS_DEBUG
 	const IMDAggregate *pmdagg = 
 #endif
-	mda.Pmdagg(pmdidAgg);
+	mda.Pmdagg(agg_mdid);
 
 
 	// access types by type info
@@ -213,7 +213,7 @@ CMDAccessorTest::EresUnittest_Basic()
 
 	pmdidObject1->Release();
 	pmdidObject2->Release();
-	pmdidAgg->Release();
+	agg_mdid->Release();
 	mdid_op->Release();
 	mdid_type->Release();
 	
@@ -923,11 +923,11 @@ CMDAccessorTest::PvLookupSingleObj
 	GPOS_ASSERT(NULL != md_accessor);
 	
 	// lookup a cache object
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 1 /* major version */, 1 /* minor version */);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /* OID */, 1 /* major version */, 1 /* minor version */);
 
 	// lookup object
-	(void) md_accessor->Pmdrel(pmdid);
-	pmdid->Release();
+	(void) md_accessor->Pmdrel(mdid);
+	mdid->Release();
 	
 	return NULL;
 }
@@ -964,9 +964,9 @@ CMDAccessorTest::PvLookupMultipleObj
 		GPOS_CHECK_ABORT;
 
 		// lookup relation
-		CMDIdGPDB *pmdid = GPOS_NEW(pmdtaskparams->m_memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /*OID*/, 1 /*major*/, ul + 1 /*minor*/);
-		(void) md_accessor->Pmdrel(pmdid);
-		pmdid->Release();
+		CMDIdGPDB *mdid = GPOS_NEW(pmdtaskparams->m_memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID /*OID*/, 1 /*major*/, ul + 1 /*minor*/);
+		(void) md_accessor->Pmdrel(mdid);
+		mdid->Release();
 	}
 	
 	return NULL;

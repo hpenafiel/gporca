@@ -276,7 +276,7 @@ CXformSplitDQA::PexprSplitIntoLocalDQAGlobalAgg
 												memory_pool,
 												popScAggFunc->MDId(),
 												GPOS_NEW(memory_pool) CWStringConst(memory_pool, popScAggFunc->PstrAggFunc()->GetBuffer()),
-												true /* fDistinct */,
+												true /* is_distinct */,
 												EaggfuncstageLocal /*eaggfuncstage*/,
 												true /* fSplit */
 												);
@@ -308,7 +308,7 @@ CXformSplitDQA::PexprSplitIntoLocalDQAGlobalAgg
 													memory_pool,
 													popScAggFunc->MDId(),
 													GPOS_NEW(memory_pool) CWStringConst(memory_pool, popScAggFunc->PstrAggFunc()->GetBuffer()),
-													false /* fDistinct */,
+													false /* is_distinct */,
 													EaggfuncstageGlobal /*eaggfuncstage*/,
 													true /* fSplit */
 													);
@@ -418,7 +418,7 @@ CXformSplitDQA::PexprSplitHelper
 												memory_pool,
 												popScAggFunc->MDId(),
 												GPOS_NEW(memory_pool) CWStringConst(memory_pool, popScAggFunc->PstrAggFunc()->GetBuffer()),
-												false /* fDistinct */,
+												false /* is_distinct */,
 												EaggfuncstageGlobal /*eaggfuncstage*/,
 												false /* fSplit */
 												);

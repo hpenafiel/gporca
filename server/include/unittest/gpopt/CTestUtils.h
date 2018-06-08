@@ -185,15 +185,15 @@ namespace gpopt
 
 			// generate a plain table descriptor
 			static
-			CTableDescriptor *PtabdescPlain(IMemoryPool *memory_pool, ULONG ulCols, IMDId *pmdid, const CName &nameTable, BOOL fNullable = false);
+			CTableDescriptor *PtabdescPlain(IMemoryPool *memory_pool, ULONG ulCols, IMDId *mdid, const CName &nameTable, BOOL fNullable = false);
 
 			// generate a plain table descriptor, where the column names are generated using a format string containing %d
 			static
-			CTableDescriptor *PtabdescPlainWithColNameFormat(IMemoryPool *memory_pool, ULONG ulCols, IMDId *pmdid, const WCHAR *wszColNameFormat, const CName &nameTable, BOOL fNullable = false);
+			CTableDescriptor *PtabdescPlainWithColNameFormat(IMemoryPool *memory_pool, ULONG ulCols, IMDId *mdid, const WCHAR *wszColNameFormat, const CName &nameTable, BOOL fNullable = false);
 
 			// generate a table descriptor
 			static
-			CTableDescriptor *PtabdescCreate(IMemoryPool *memory_pool, ULONG ulCols, IMDId *pmdid, const CName &name, BOOL fPartitioned = false);
+			CTableDescriptor *PtabdescCreate(IMemoryPool *memory_pool, ULONG ulCols, IMDId *mdid, const CName &name, BOOL fPartitioned = false);
 
 			// generate a get expression
 			static

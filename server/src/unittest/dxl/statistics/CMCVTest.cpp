@@ -71,8 +71,8 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	IMemoryPool *memory_pool = amp.Pmp();
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	CMDIdGPDB *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidInt4);
-	const IMDType *pmdtype = md_accessor->Pmdtype(pmdid);
+	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidInt4);
+	const IMDType *pmdtype = md_accessor->Pmdtype(mdid);
 
 	// create three integer MCVs
 	CPoint *ppoint1 = CTestUtils::PpointInt4(memory_pool, 5);
@@ -157,7 +157,7 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	ppoint1->Release();
 	ppoint2->Release();
 	ppoint3->Release();
-	pmdid->Release();
+	mdid->Release();
 
 	return eres;
 }

@@ -74,7 +74,7 @@ namespace gpdxl
 				(
 				IMemoryPool *memory_pool,
 				EdxlFrameSpec edxlfs,
-				EdxlFrameExclusionStrategy edxlfes,
+				EdxlFrameExclusionStrategy frame_exc_strategy,
 				CDXLNode *pdxlnLeading,
 				CDXLNode *pdxlnTrailing
 				);

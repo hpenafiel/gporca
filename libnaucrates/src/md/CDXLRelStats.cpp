@@ -190,10 +190,10 @@ CDXLRelStats *
 CDXLRelStats::PdxlrelstatsDummy
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid
+	IMDId *mdid
 	)
 {
-	CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(pmdid);
+	CMDIdRelStats *pmdidRelStats = CMDIdRelStats::PmdidConvert(mdid);
 	CAutoP<CWStringDynamic> a_pstr;
 	a_pstr = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, pmdidRelStats->GetBuffer());
 	CAutoP<CMDName> a_pmdname;

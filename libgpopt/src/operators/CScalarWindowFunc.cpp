@@ -41,14 +41,14 @@ CScalarWindowFunc::CScalarWindowFunc
 	IMDId *mdid_return_type,
 	const CWStringConst *pstrFunc,
 	EWinStage ewinstage,
-	BOOL fDistinct,
+	BOOL is_distinct,
 	BOOL is_star_arg,
 	BOOL is_simple_agg
 	)
 	:
 	CScalarFunc(memory_pool),
 	m_ewinstage(ewinstage),
-	m_is_distinct(fDistinct),
+	m_is_distinct(is_distinct),
 	m_is_star_arg(is_star_arg),
 	m_is_simple_agg(is_simple_agg),
 	m_fAgg(false)

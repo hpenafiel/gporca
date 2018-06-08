@@ -61,7 +61,7 @@ namespace gpdxl
 		public:
 
 			// ctor
-			CDXLScalarWindowFrameEdge(IMemoryPool *memory_pool, BOOL fLeading, EdxlFrameBoundary dxl_frame_boundary);
+			CDXLScalarWindowFrameEdge(IMemoryPool *memory_pool, BOOL fLeading, EdxlFrameBoundary frame_boundary);
 
 			// ident accessors
 			Edxlopid GetDXLOperator() const;
@@ -82,7 +82,7 @@ namespace gpdxl
 			}
 
 			// return the string representation of frame boundary
-			const CWStringConst *GetFrameBoundaryStr(EdxlFrameBoundary dxl_frame_boundary) const;
+			const CWStringConst *GetFrameBoundaryStr(EdxlFrameBoundary frame_boundary) const;
 
 			// serialize operator in DXL format
 			virtual

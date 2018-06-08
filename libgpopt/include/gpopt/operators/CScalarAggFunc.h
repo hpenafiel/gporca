@@ -78,9 +78,9 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				IMDId *pmdidAggFunc,
-				IMDId *pmdidResolvedRetType,
+				IMDId *resolved_rettype,
 				const CWStringConst *pstrAggFunc,
-				BOOL fDistinct,
+				BOOL is_distinct,
 				EAggfuncStage eaggfuncstage,
 				BOOL fSplit
 				);

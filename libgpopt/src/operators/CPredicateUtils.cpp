@@ -514,13 +514,13 @@ CPredicateUtils::EcmptReverse
 BOOL
 CPredicateUtils::FLikePredicate
 	(
-	IMDId *pmdid
+	IMDId *mdid
 	)
 {
-	GPOS_ASSERT(NULL != pmdid);
+	GPOS_ASSERT(NULL != mdid);
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdid);
+	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(mdid);
 
 	const CWStringConst *str_opname = md_scalar_op->Mdname().GetMDName();
 
@@ -549,9 +549,9 @@ CPredicateUtils::FLikePredicate
 	}
 
 	CScalarCmp *popScCmp = CScalarCmp::PopConvert(pop);
-	IMDId *pmdid = popScCmp->MdIdOp();
+	IMDId *mdid = popScCmp->MdIdOp();
 
-	return FLikePredicate(pmdid);
+	return FLikePredicate(mdid);
 }
 
 // extract the components of a LIKE predicate

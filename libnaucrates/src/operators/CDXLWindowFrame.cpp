@@ -33,14 +33,14 @@ CDXLWindowFrame::CDXLWindowFrame
 	(
 	IMemoryPool *memory_pool,
 	EdxlFrameSpec edxlfs,
-	EdxlFrameExclusionStrategy edxlfes,
+	EdxlFrameExclusionStrategy frame_exc_strategy,
 	CDXLNode *pdxlnLeading,
 	CDXLNode *pdxlnTrailing
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_dxl_win_frame_spec(edxlfs),
-	m_dxl_frame_exclusion_strategy(edxlfes),
+	m_dxl_frame_exclusion_strategy(frame_exc_strategy),
 	m_pdxlnLeading(pdxlnLeading),
 	m_pdxlnTrailing(pdxlnTrailing)
 {
@@ -81,7 +81,7 @@ CDXLWindowFrame::PstrES
 	const
 {
 	GPOS_ASSERT(EdxlfesSentinel > edxles);
-	ULONG rgrgulMapping[][2] =
+	ULONG window_frame_boundary_to_frame_boundary_mapping[][2] =
 					{
 					{EdxlfesNone, EdxltokenWindowESNone},
 					{EdxlfesNulls, EdxltokenWindowESNulls},
@@ -90,10 +90,10 @@ CDXLWindowFrame::PstrES
 					{EdxlfesTies, EdxltokenWindowESTies}
 					};
 
-	const ULONG arity = GPOS_ARRAY_SIZE(rgrgulMapping);
+	const ULONG arity = GPOS_ARRAY_SIZE(window_frame_boundary_to_frame_boundary_mapping);
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
-		ULONG *pulElem = rgrgulMapping[ul];
+		ULONG *pulElem = window_frame_boundary_to_frame_boundary_mapping[ul];
 		if ((ULONG) edxles == pulElem[0])
 		{
 			Edxltoken edxltk = (Edxltoken) pulElem[1];

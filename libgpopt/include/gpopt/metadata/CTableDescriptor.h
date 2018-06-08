@@ -100,7 +100,7 @@ namespace gpopt
 			CTableDescriptor
 				(
 				IMemoryPool *,
-				IMDId *pmdid,
+				IMDId *mdid,
 				const CName &,
 				BOOL fConvertHashToRandom,
 				IMDRelation::GetRelDistrPolicy rel_distr_policy,
@@ -147,7 +147,7 @@ namespace gpopt
 			}
 			
 			// return the position of a particular attribute (identified by attno)
-			ULONG UlPosition(INT iAttno) const;
+			ULONG UlPosition(INT attno) const;
 
 			// column descriptor accessor
 			DrgPcoldesc *Pdrgpcoldesc() const

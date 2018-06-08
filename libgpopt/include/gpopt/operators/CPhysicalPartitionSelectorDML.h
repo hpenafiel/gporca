@@ -42,7 +42,7 @@ namespace gpopt
 			CPhysicalPartitionSelectorDML
 				(
 				IMemoryPool *memory_pool,
-				IMDId *pmdid,
+				IMDId *mdid,
 				HMUlExpr *phmulexprEqPredicates,
 				CColRef *pcrOid
 				);

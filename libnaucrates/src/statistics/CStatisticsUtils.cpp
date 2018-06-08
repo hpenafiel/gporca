@@ -64,8 +64,8 @@ CStatisticsUtils::PpointNext
 	CPoint *ppoint
 	)
 {
-	IMDId *pmdid = ppoint->Pdatum()->MDId();
-	const IMDType *pmdtype = md_accessor->Pmdtype(pmdid);
+	IMDId *mdid = ppoint->Pdatum()->MDId();
+	const IMDType *pmdtype = md_accessor->Pmdtype(mdid);
 
 	// type has integer mapping
 	if (pmdtype->Eti() == IMDType::EtiInt2 || pmdtype->Eti() == IMDType::EtiInt4 ||

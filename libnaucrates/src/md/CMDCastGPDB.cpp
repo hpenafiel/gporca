@@ -31,7 +31,7 @@ using namespace gpdxl;
 CMDCastGPDB::CMDCastGPDB
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	CMDName *mdname,
 	IMDId *mdid_src,
 	IMDId *mdid_dest,
@@ -41,7 +41,7 @@ CMDCastGPDB::CMDCastGPDB
 	)
 	:
 	m_memory_pool(memory_pool),
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_mdname(mdname),
 	m_pmdidSrc(mdid_src),
 	m_pmdidDest(mdid_dest),

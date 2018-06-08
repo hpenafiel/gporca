@@ -74,8 +74,8 @@ CParseHandlerColStats::StartElement
 		GPOS_ASSERT(NULL == m_mdid);
 
 		// parse mdid and name
-		IMDId *pmdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenColumnStats);
-		m_mdid = CMDIdColStats::PmdidConvert(pmdid);
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid, EdxltokenColumnStats);
+		m_mdid = CMDIdColStats::PmdidConvert(mdid);
 		
 		// parse column name
 		const XMLCh *parsed_column_name = CDXLOperatorFactory::ExtractAttrValue

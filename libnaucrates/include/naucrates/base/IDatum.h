@@ -141,7 +141,7 @@ namespace gpnaucrates
 
 			// return the padded datum
 			virtual
-			IDatum *PdatumPadded(IMemoryPool *memory_pool, ULONG ulColLen) const = 0;
+			IDatum *PdatumPadded(IMemoryPool *memory_pool, ULONG col_len) const = 0;
 
 			// does datum support like predicate
 			virtual

@@ -36,17 +36,17 @@ GPOS_CPL_ASSERT(COrderSpec::EntSentinel == GPOS_ARRAY_SIZE(rgszNullCode));
 //---------------------------------------------------------------------------
 COrderSpec::COrderExpression::COrderExpression
 	(
-	gpmd::IMDId *pmdid,
+	gpmd::IMDId *mdid,
 	const CColRef *pcr,
 	ENullTreatment ent
 	)
 	:
-	m_mdid(pmdid),
+	m_mdid(mdid),
 	m_pcr(pcr),
 	m_ent(ent)
 {
 	GPOS_ASSERT(NULL != pcr);
-	GPOS_ASSERT(pmdid->IsValid());
+	GPOS_ASSERT(mdid->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -165,12 +165,12 @@ COrderSpec::~COrderSpec()
 void
 COrderSpec::Append
 	(
-	gpmd::IMDId *pmdid,
+	gpmd::IMDId *mdid,
 	const CColRef *pcr,
 	ENullTreatment ent
 	)
 {
-	COrderExpression *poe = GPOS_NEW(m_memory_pool) COrderExpression(pmdid, pcr, ent);
+	COrderExpression *poe = GPOS_NEW(m_memory_pool) COrderExpression(mdid, pcr, ent);
 	m_pdrgpoe->Append(poe);
 }
 
@@ -314,8 +314,8 @@ COrderSpec::PosCopyWithRemappedColumns
 	for (ULONG ul = 0; ul < ulCols; ul++)
 	{
 		COrderExpression *poe = (*m_pdrgpoe)[ul];
-		IMDId *pmdid = poe->GetMdIdSortOp();
-		pmdid->AddRef();
+		IMDId *mdid = poe->GetMdIdSortOp();
+		mdid->AddRef();
 
 		const CColRef *pcr = poe->Pcr();
 		ULONG id = pcr->Id();
@@ -341,7 +341,7 @@ COrderSpec::PosCopyWithRemappedColumns
 		}
 
 		COrderSpec::ENullTreatment ent = poe->Ent();
-		pos->Append(pmdid, pcrMapped, ent);
+		pos->Append(mdid, pcrMapped, ent);
 	}
 
 	return pos;
@@ -377,9 +377,9 @@ COrderSpec::PosExcludeColumns
 			continue;
 		}
 
-		IMDId *pmdid = poe->GetMdIdSortOp();
-		pmdid->AddRef();
-		pos->Append(pmdid, pcr, poe->Ent());
+		IMDId *mdid = poe->GetMdIdSortOp();
+		mdid->AddRef();
+		pos->Append(mdid, pcr, poe->Ent());
 	}
 
 	return pos;

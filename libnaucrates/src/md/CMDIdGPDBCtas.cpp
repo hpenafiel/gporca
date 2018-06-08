@@ -71,16 +71,16 @@ CMDIdGPDBCtas::CMDIdGPDBCtas
 BOOL
 CMDIdGPDBCtas::Equals
 	(
-	const IMDId *pmdid
+	const IMDId *mdid
 	) 
 	const
 {
-	if (NULL == pmdid || EmdidGPDBCtas != pmdid->Emdidt())
+	if (NULL == mdid || EmdidGPDBCtas != mdid->Emdidt())
 	{
 		return false;
 	}
 	
-	const CMDIdGPDBCtas *pmdidGPDBCTAS = CMDIdGPDBCtas::PmdidConvert(const_cast<IMDId *>(pmdid));
+	const CMDIdGPDBCtas *pmdidGPDBCTAS = CMDIdGPDBCtas::PmdidConvert(const_cast<IMDId *>(mdid));
 	
 	return m_oid == pmdidGPDBCTAS->OidObjectId(); 
 }

@@ -62,7 +62,7 @@ namespace gpopt
 			CExpression *m_pexprCombinedPredicate;
 
 			// ctor
-			CPhysicalPartitionSelector(IMemoryPool *memory_pool, IMDId *pmdid, HMUlExpr *phmulexprEqPredicates);
+			CPhysicalPartitionSelector(IMemoryPool *memory_pool, IMDId *mdid, HMUlExpr *phmulexprEqPredicates);
 
 			// return a single combined partition selection predicate
 			CExpression *PexprCombinedPartPred(IMemoryPool *memory_pool) const;
@@ -93,7 +93,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				ULONG scan_id,
-				IMDId *pmdid,
+				IMDId *mdid,
 				DrgDrgPcr *pdrgpdrgpcr,
 				PartCnstrMap *ppartcnstrmap,
 				CPartConstraint *ppartcnstr,

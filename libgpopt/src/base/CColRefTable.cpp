@@ -58,7 +58,7 @@ CColRefTable::CColRefTable
 	(
 	const IMDType *pmdtype,
 	INT type_modifier,
-	INT iAttno,
+	INT attno,
 	BOOL fNullable,
 	ULONG id,
 	const CName *pname,
@@ -67,7 +67,7 @@ CColRefTable::CColRefTable
 	)
 	:
 	CColRef(pmdtype, type_modifier, id, pname),
-	m_iAttno(iAttno),
+	m_iAttno(attno),
 	m_is_nullable(fNullable),
 	m_ulSourceOpId(ulOpSource),
 	m_width(ulWidth)

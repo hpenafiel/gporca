@@ -127,11 +127,11 @@ COrderSpecTest::EresUnittest_Basics()
 		GPOS_ASSERT(NULL != pcr);
 		
 #ifdef GPOS_DEBUG
-		const IMDId *pmdid =
+		const IMDId *mdid =
 #endif // GPOS_DEBUG
 		pos1->GetMdIdSortOp(ul);
 		
-		GPOS_ASSERT(pmdid->IsValid());
+		GPOS_ASSERT(mdid->IsValid());
 		
 		(void) pos1->Ent(ul);
 	}

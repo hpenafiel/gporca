@@ -33,12 +33,12 @@ using namespace gpopt;
 CPhysicalPartitionSelectorDML::CPhysicalPartitionSelectorDML
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdid,
+	IMDId *mdid,
 	HMUlExpr *phmulexprEqPredicates,
 	CColRef *pcrOid
 	)
 	:
-	CPhysicalPartitionSelector(memory_pool, pmdid, phmulexprEqPredicates),
+	CPhysicalPartitionSelector(memory_pool, mdid, phmulexprEqPredicates),
 	m_pcrOid(pcrOid)
 {
 	GPOS_ASSERT(NULL != pcrOid);

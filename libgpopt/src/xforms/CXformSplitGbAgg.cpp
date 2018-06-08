@@ -246,7 +246,7 @@ CXformSplitGbAgg::PopulateLocalGlobalProjectList
 														memory_pool,
 														popScAggFunc->MDId(),
 														GPOS_NEW(memory_pool) CWStringConst(memory_pool, popScAggFunc->PstrAggFunc()->GetBuffer()),
-														false /* fDistinct */,
+														false /* is_distinct */,
 														EaggfuncstageGlobal, /* fGlobal */
 														true /* fSplit */
 														);

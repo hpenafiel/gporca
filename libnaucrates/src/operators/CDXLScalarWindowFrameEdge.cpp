@@ -28,12 +28,12 @@ CDXLScalarWindowFrameEdge::CDXLScalarWindowFrameEdge
 	(
 	IMemoryPool *memory_pool,
 	BOOL fLeading,
-	EdxlFrameBoundary dxl_frame_boundary
+	EdxlFrameBoundary frame_boundary
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_leading_edge(fLeading),
-	m_dxl_frame_boundary(dxl_frame_boundary)
+	m_dxl_frame_boundary(frame_boundary)
 {
 }
 
@@ -82,11 +82,11 @@ CDXLScalarWindowFrameEdge::GetOpNameStr() const
 const CWStringConst *
 CDXLScalarWindowFrameEdge::GetFrameBoundaryStr
 	(
-	EdxlFrameBoundary dxl_frame_boundary
+	EdxlFrameBoundary frame_boundary
 	)
 	const
 {
-	GPOS_ASSERT(EdxlfbSentinel > dxl_frame_boundary);
+	GPOS_ASSERT(EdxlfbSentinel > frame_boundary);
 
 	ULONG dxl_frame_boundary_token_mapping[][2] =
 					{
@@ -103,7 +103,7 @@ CDXLScalarWindowFrameEdge::GetFrameBoundaryStr
 	for (ULONG idx = 0; idx < arity; idx++)
 	{
 		ULONG *element = dxl_frame_boundary_token_mapping[idx];
-		if ((ULONG) dxl_frame_boundary == element[0])
+		if ((ULONG) frame_boundary == element[0])
 		{
 			Edxltoken dxl_token = (Edxltoken) element[1];
 			return CDXLTokens::GetDXLTokenStr(dxl_token);

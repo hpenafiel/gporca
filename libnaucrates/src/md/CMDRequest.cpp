@@ -122,10 +122,10 @@ CMDRequest::Serialize
 	const ULONG ulMdids = m_mdid_array->Size();
 	for (ULONG ul = 0; ul < ulMdids; ul++)
 	{
-		IMDId *pmdid = (*m_mdid_array)[ul];
+		IMDId *mdid = (*m_mdid_array)[ul];
 		xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 										CDXLTokens::GetDXLTokenStr(EdxltokenMdid));				
-		pmdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenValue));
+		mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenValue));
 		xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
 						CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	}

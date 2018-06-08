@@ -37,32 +37,32 @@ CScalarAggFunc::CScalarAggFunc
 	(
 	IMemoryPool *memory_pool,
 	IMDId *pmdidAggFunc,
-	IMDId *pmdidResolvedRetType,
+	IMDId *resolved_rettype,
 	const CWStringConst *pstrAggFunc,
-	BOOL fDistinct,
+	BOOL is_distinct,
 	EAggfuncStage eaggfuncstage,
 	BOOL fSplit
 	)
 	:
 	CScalar(memory_pool),
 	m_pmdidAggFunc(pmdidAggFunc),
-	m_pmdidResolvedRetType(pmdidResolvedRetType),
+	m_pmdidResolvedRetType(resolved_rettype),
 	m_return_type_mdid(NULL),
 	m_pstrAggFunc(pstrAggFunc),
-	m_is_distinct(fDistinct),
+	m_is_distinct(is_distinct),
 	m_eaggfuncstage(eaggfuncstage),
 	m_fSplit(fSplit)
 {
 	GPOS_ASSERT(NULL != pmdidAggFunc);
 	GPOS_ASSERT(NULL != pstrAggFunc);
 	GPOS_ASSERT(pmdidAggFunc->IsValid());
-	GPOS_ASSERT_IMP(NULL != pmdidResolvedRetType, pmdidResolvedRetType->IsValid());
+	GPOS_ASSERT_IMP(NULL != resolved_rettype, resolved_rettype->IsValid());
 	GPOS_ASSERT(EaggfuncstageSentinel > eaggfuncstage);
 
 	// store id of type obtained by looking up MD cache
-	IMDId *pmdid = PmdidLookupReturnType(m_pmdidAggFunc, (EaggfuncstageGlobal == m_eaggfuncstage));
-	pmdid->AddRef();
-	m_return_type_mdid = pmdid;
+	IMDId *mdid = PmdidLookupReturnType(m_pmdidAggFunc, (EaggfuncstageGlobal == m_eaggfuncstage));
+	mdid->AddRef();
+	m_return_type_mdid = mdid;
 }
 
 //---------------------------------------------------------------------------

@@ -233,7 +233,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				IMDId *pmdidAggFunc,
 				const CWStringConst *pstrAggFunc,
-				BOOL fDistinct,
+				BOOL is_distinct,
 				EAggfuncStage eaggfuncstage,
 				BOOL fSplit,
 				IMDId *pmdidResolvedReturnType = NULL // return type to be used if original return type is ambiguous
@@ -247,7 +247,7 @@ namespace gpopt
 				IMDId *pmdidAggFunc,
 				const CWStringConst *pstrAggFunc,
 				const CColRef *pcr,
-				BOOL fDistinct,
+				BOOL is_distinct,
 				EAggfuncStage eaggfuncstage,
 				BOOL fSplit
 				);
@@ -286,7 +286,7 @@ namespace gpopt
 
 			// generate a count(col) expression
 			static
-			CExpression *PexprCount(IMemoryPool *memory_pool, const CColRef *pcr, BOOL fDistinct);
+			CExpression *PexprCount(IMemoryPool *memory_pool, const CColRef *pcr, BOOL is_distinct);
 
 			// generate a min(col) expression
 			static
@@ -294,7 +294,7 @@ namespace gpopt
 
 			// generate an aggregate expression
 			static
-			CExpression *PexprAgg(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDType::EAggType eagg, const CColRef *pcr, BOOL fDistinct);
+			CExpression *PexprAgg(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDType::EAggType eagg, const CColRef *pcr, BOOL is_distinct);
 
 			// generate a select expression
 			static
@@ -389,11 +389,11 @@ namespace gpopt
 
 			// comparison operator type
 			static
-			IMDType::ECmpType ParseCmpType(IMDId *pmdid);
+			IMDType::ECmpType ParseCmpType(IMDId *mdid);
 						
 			// comparison operator type
 			static
-			IMDType::ECmpType ParseCmpType(CMDAccessor *md_accessor, IMDId *pmdid);
+			IMDType::ECmpType ParseCmpType(CMDAccessor *md_accessor, IMDId *mdid);
 			
 			// generate a binary join expression
 			template<class T>
@@ -1065,7 +1065,7 @@ namespace gpopt
 
 			// generate part oid
 			static
-			BOOL FGeneratePartOid(IMDId *pmdid);
+			BOOL FGeneratePartOid(IMDId *mdid);
 
 			// return true if given expression contains window aggregate function
 			static
