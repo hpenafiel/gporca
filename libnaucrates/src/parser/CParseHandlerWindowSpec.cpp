@@ -76,7 +76,7 @@ CParseHandlerWindowSpec::StartElement
 		}
 
 		const XMLCh *xml_part_cols= CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPartKeys, EdxltokenPhysicalWindow);
-		m_part_by_col_identifier_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xml_part_cols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
+		m_part_by_col_identifier_array = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_part_cols, EdxltokenPartKeys, EdxltokenPhysicalWindow);
 		GPOS_ASSERT(NULL != m_part_by_col_identifier_array);
 
 	}

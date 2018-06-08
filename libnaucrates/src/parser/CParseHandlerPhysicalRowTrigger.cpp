@@ -75,14 +75,14 @@ CParseHandlerPhysicalRowTrigger::StartElement
 	ULongPtrArray *col_ids_old = NULL;
 	if (NULL != xmlszOldColIds)
 	{
-		col_ids_old = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
+		col_ids_old = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszOldColIds, EdxltokenOldCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	const XMLCh *xmlszNewColIds = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenNewCols));
 	ULongPtrArray *col_ids_new = NULL;
 	if (NULL != xmlszNewColIds)
 	{
-		col_ids_new = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
+		col_ids_new = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszNewColIds, EdxltokenNewCols, EdxltokenPhysicalRowTrigger);
 	}
 
 	m_dxl_op = GPOS_NEW(m_memory_pool) CDXLPhysicalRowTrigger(m_memory_pool, rel_mdid, type, col_ids_old, col_ids_new);

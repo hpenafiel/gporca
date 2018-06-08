@@ -37,7 +37,7 @@ namespace gpdxl
 			IMDId *m_return_type_mdid;
 
 			// function name
-			CWStringConst *m_pstr;
+			CWStringConst *func_name;
 
 			// private copy ctor
 			CDXLPhysicalTVF(const CDXLPhysicalTVF &);
@@ -65,7 +65,7 @@ namespace gpdxl
 			// get function name
 			CWStringConst *Pstr() const
 			{
-				return m_pstr;
+				return func_name;
 			}
 
 			// get function id

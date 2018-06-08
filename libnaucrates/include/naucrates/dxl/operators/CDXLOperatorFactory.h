@@ -748,7 +748,7 @@ namespace gpdxl
 			template <typename T, void (*CleanupFn)(T*),
 					T ValueFromXmlstr(CDXLMemoryManager *, const XMLCh *, Edxltoken, Edxltoken)>
 			static
-			CDynamicPtrArray<T, CleanupFn> *PdrgptFromXMLCh
+			CDynamicPtrArray<T, CleanupFn> *ExtractIntsToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUl,
@@ -757,7 +757,7 @@ namespace gpdxl
 				);
 			
 			static
-			ULongPtrArray *PdrgpulFromXMLCh
+			ULongPtrArray *ExtractIntsToUlongArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUl,
@@ -765,7 +765,7 @@ namespace gpdxl
 				Edxltoken edxltokenElement
 				)
 			{
-				return PdrgptFromXMLCh<ULONG, CleanupDelete, ConvertAttrValueToUlong>
+				return ExtractIntsToArray<ULONG, CleanupDelete, ConvertAttrValueToUlong>
 						(
 						memory_manager_dxl,
 						xmlszUl,
@@ -775,7 +775,7 @@ namespace gpdxl
 			}
 
 			static
-			IntPtrArray *PdrgpiFromXMLCh
+			IntPtrArray *ExtractIntsToIntArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUl,
@@ -783,7 +783,7 @@ namespace gpdxl
 				Edxltoken edxltokenElement
 				)
 			{
-				return PdrgptFromXMLCh<INT, CleanupDelete, ConvertAttrValueToInt>
+				return ExtractIntsToArray<INT, CleanupDelete, ConvertAttrValueToInt>
 						(
 						memory_manager_dxl,
 						xmlszUl,
@@ -900,7 +900,7 @@ namespace gpdxl
 	template <typename T, void (*CleanupFn)(T*),
 			T ValueFromXmlstr(CDXLMemoryManager *, const XMLCh *, Edxltoken, Edxltoken)>
 	CDynamicPtrArray<T, CleanupFn> *
-	CDXLOperatorFactory::PdrgptFromXMLCh
+	CDXLOperatorFactory::ExtractIntsToArray
 		(
 		CDXLMemoryManager *memory_manager_dxl,
 		const XMLCh *xmlszUlList,

@@ -89,7 +89,7 @@ CParseHandlerTraceFlags::StartElement
 															EdxltokenTraceFlags
 															);
 	
-	ULongPtrArray *trace_flag_array = CDXLOperatorFactory::PdrgpulFromXMLCh
+	ULongPtrArray *trace_flag_array = CDXLOperatorFactory::ExtractIntsToUlongArray
 												(
 												m_parse_handler_mgr->GetDXLMemoryManager(),
 												xml_str_trace_flags,

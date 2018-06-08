@@ -68,7 +68,7 @@ CParseHandlerLogicalDelete::StartElement
 	m_segid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalDelete);
 
 	const XMLCh *deletion_colids = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenDeleteCols, EdxltokenLogicalDelete);
-	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), deletion_colids, EdxltokenDeleteCols, EdxltokenLogicalDelete);
+	m_deletion_colid_array = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), deletion_colids, EdxltokenDeleteCols, EdxltokenLogicalDelete);
 
 	// parse handler for logical operator
 	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenLogical), m_parse_handler_mgr, this);

@@ -74,10 +74,10 @@ CParseHandlerLogicalUpdate::StartElement
 	m_segid_colid = CDXLOperatorFactory::ExtractConvertAttrValueToUlong(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenGpSegmentIdColId, EdxltokenLogicalUpdate);
 
 	const XMLCh *delete_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
-	m_deletion_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), delete_colids_xml, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
+	m_deletion_colid_array = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), delete_colids_xml, EdxltokenDeleteCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *insert_colids_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenInsertCols, EdxltokenLogicalUpdate);
-	m_insert_colid_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), insert_colids_xml, EdxltokenInsertCols, EdxltokenLogicalUpdate);
+	m_insert_colid_array = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), insert_colids_xml, EdxltokenInsertCols, EdxltokenLogicalUpdate);
 
 	const XMLCh *preserve_oids_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenUpdatePreservesOids));
 	if (NULL != preserve_oids_xml)

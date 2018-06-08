@@ -37,13 +37,13 @@ CDXLPhysicalTVF::CDXLPhysicalTVF
 	CDXLPhysical(memory_pool),
 	m_func_mdid(mdid_func),
 	m_return_type_mdid(mdid_return_type),
-	m_pstr(str)
+	func_name(str)
 {
 	GPOS_ASSERT(NULL != m_func_mdid);
 	GPOS_ASSERT(m_func_mdid->IsValid());
 	GPOS_ASSERT(NULL != m_return_type_mdid);
 	GPOS_ASSERT(m_return_type_mdid->IsValid());
-	GPOS_ASSERT(NULL != m_pstr);
+	GPOS_ASSERT(NULL != func_name);
 }
 
 //---------------------------------------------------------------------------
@@ -58,7 +58,7 @@ CDXLPhysicalTVF::~CDXLPhysicalTVF()
 {
 	m_func_mdid->Release();
 	m_return_type_mdid->Release();
-	GPOS_DELETE(m_pstr);
+	GPOS_DELETE(func_name);
 }
 
 //---------------------------------------------------------------------------
@@ -108,7 +108,7 @@ CDXLPhysicalTVF::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	m_func_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenFuncId));
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_pstr);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), func_name);
 	m_return_type_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 
 	// serialize properties

@@ -3329,7 +3329,7 @@ CDXLOperatorFactory::ExtractConvertValuesToArray
 {
 	const XMLCh *xmlsz = CDXLOperatorFactory::ExtractAttrValue(attrs, edxltokenAttr, edxltokenElement);
 
-	return PdrgpulFromXMLCh(memory_manager_dxl, xmlsz, edxltokenAttr, edxltokenElement);
+	return ExtractIntsToUlongArray(memory_manager_dxl, xmlsz, edxltokenAttr, edxltokenElement);
 }
 
 //---------------------------------------------------------------------------
@@ -3381,7 +3381,7 @@ CDXLOperatorFactory::ExtractConvertPartitionTypeToArray
 	Edxltoken edxltokenElement
 	)
 {
-	return PdrgptFromXMLCh<CHAR, CleanupDelete, ConvertAttrValueToChar>
+	return ExtractIntsToArray<CHAR, CleanupDelete, ConvertAttrValueToChar>
 			(
 			memory_manager_dxl,
 			xmlsz,
@@ -3423,7 +3423,7 @@ CDXLOperatorFactory::ExtractConvertUlongTo2DArray
 		
 		GPOS_ASSERT(NULL != xmlszList);
 		
-		ULongPtrArray *pdrgpul = PdrgpulFromXMLCh(memory_manager_dxl, xmlszList, edxltokenAttr, edxltokenElement);
+		ULongPtrArray *pdrgpul = ExtractIntsToUlongArray(memory_manager_dxl, xmlszList, edxltokenAttr, edxltokenElement);
 		ulong_ptr_array_2D->Append(pdrgpul);
 	}
 	

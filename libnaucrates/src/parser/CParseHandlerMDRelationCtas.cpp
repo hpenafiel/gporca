@@ -117,7 +117,7 @@ CParseHandlerMDRelationCtas::StartElement
 															EdxltokenVarTypeModList,
 															EdxltokenRelation
 															);
-	m_vartypemod_array = CDXLOperatorFactory::PdrgpiFromXMLCh
+	m_vartypemod_array = CDXLOperatorFactory::ExtractIntsToIntArray
 						(
 						m_parse_handler_mgr->GetDXLMemoryManager(),
 						vartypemod_xml,

@@ -77,7 +77,7 @@ CParseHandlerMDIndex::StartElement
 		const XMLCh *xmlszDefParts = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenDefaultPartition));
 		if (NULL != xmlszDefParts)
 		{
-			m_level_with_default_part_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszDefParts, EdxltokenDefaultPartition, EdxltokenIndex);
+			m_level_with_default_part_array = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszDefParts, EdxltokenDefaultPartition, EdxltokenIndex);
 		}
 		else
 		{
@@ -136,10 +136,10 @@ CParseHandlerMDIndex::StartElement
 	}
 
 	const XMLCh *xmlszIndexKeys = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenIndexKeyCols, EdxltokenIndex);
-	m_index_key_cols_array = CDXLOperatorFactory::PdrgpulFromXMLCh(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszIndexKeys, EdxltokenIndexKeyCols, EdxltokenIndex);
+	m_index_key_cols_array = CDXLOperatorFactory::ExtractIntsToUlongArray(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszIndexKeys, EdxltokenIndexKeyCols, EdxltokenIndex);
 
 	const XMLCh *xmlszIndexIncludedCols = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenIndexIncludedCols, EdxltokenIndex);
-	m_included_cols_array = CDXLOperatorFactory::PdrgpulFromXMLCh
+	m_included_cols_array = CDXLOperatorFactory::ExtractIntsToUlongArray
 													(
 													m_parse_handler_mgr->GetDXLMemoryManager(),
 													xmlszIndexIncludedCols,
