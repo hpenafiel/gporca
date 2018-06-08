@@ -112,13 +112,13 @@ CDXLPhysicalSplit::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 
-	CWStringDynamic *pstrColsDel = CDXLUtils::Serialize(m_memory_pool, m_deletion_colid_array);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDeleteCols), pstrColsDel);
-	GPOS_DELETE(pstrColsDel);
+	CWStringDynamic *delete_cols = CDXLUtils::Serialize(m_memory_pool, m_deletion_colid_array);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDeleteCols), delete_cols);
+	GPOS_DELETE(delete_cols);
 
-	CWStringDynamic *pstrColsIns = CDXLUtils::Serialize(m_memory_pool, m_insert_colid_array);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInsertCols), pstrColsIns);
-	GPOS_DELETE(pstrColsIns);
+	CWStringDynamic *insert_cols = CDXLUtils::Serialize(m_memory_pool, m_insert_colid_array);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenInsertCols), insert_cols);
+	GPOS_DELETE(insert_cols);
 
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenActionColId), m_action_colid);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenCtidColId), m_ctid_colid);
