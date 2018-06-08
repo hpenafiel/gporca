@@ -115,14 +115,14 @@ CParseHandlerStatistics::StartElement
 		GPOS_ASSERT(NULL != m_stats_derived_rel_dxl_array);
 
 		// install a parse handler for the given element
-		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *parse_handler_base = CParseHandlerFactory::GetParseHandler(m_memory_pool, element_local_name, m_parse_handler_mgr, this);
 
-		m_parse_handler_mgr->ActivateParseHandler(pph);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_base);
 
 		// store parse handler
-		this->Append(pph);
+		this->Append(parse_handler_base);
 
-		pph->startElement(element_uri, element_local_name, element_qname, attrs);
+		parse_handler_base->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 }
 
@@ -150,12 +150,12 @@ CParseHandlerStatistics::EndElement
 
 	GPOS_ASSERT(NULL != m_stats_derived_rel_dxl_array);
 
-	const ULONG ulStats = this->Length();
-	for (ULONG ul = 0; ul < ulStats; ul++)
+	const ULONG num_of_stats = this->Length();
+	for (ULONG idx = 0; idx < num_of_stats; idx++)
 	{
-		CParseHandlerStatsDerivedRelation *pph = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[ul]);
+		CParseHandlerStatsDerivedRelation *stats_derived_rel_parse_handler = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[idx]);
 
-		CDXLStatsDerivedRelation *dxl_stats_derived_relation = pph->GetDxlStatsDrvdRelation();
+		CDXLStatsDerivedRelation *dxl_stats_derived_relation = stats_derived_rel_parse_handler->GetDxlStatsDrvdRelation();
 		dxl_stats_derived_relation->AddRef();
 		m_stats_derived_rel_dxl_array->Append(dxl_stats_derived_relation);
 	}
