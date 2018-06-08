@@ -52,7 +52,7 @@ namespace gpdxl
 		public:
 
 			//ctor
-			CDXLPhysicalWindow(IMemoryPool *memory_pool, ULongPtrArray *pdrgpulPartCols, CDXLWindowKeyArray *pdrgpdxlwk);
+			CDXLPhysicalWindow(IMemoryPool *memory_pool, ULongPtrArray *part_by_col_identifier_array, CDXLWindowKeyArray *window_key_array);
 
 			//dtor
 			virtual
@@ -63,19 +63,19 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// number of partition columns
-			ULONG UlPartCols() const;
+			ULONG PartByColsCount() const;
 
 			// return partition columns
-			const ULongPtrArray *PrgpulPartCols() const
+			const ULongPtrArray *GetPartByColsArray() const
 			{
 				return m_part_by_col_identifier_array;
 			}
 
 			// number of window keys
-			ULONG UlWindowKeys() const;
+			ULONG WindowKeysCount() const;
 
 			// return the window key at a given position
-			CDXLWindowKey *PdxlWindowKey(ULONG ulPos) const;
+			CDXLWindowKey *GetDXLWindowKeyAt(ULONG ulPos) const;
 
 			// serialize operator in DXL format
 			virtual
