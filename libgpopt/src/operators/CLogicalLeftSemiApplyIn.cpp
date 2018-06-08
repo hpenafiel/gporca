@@ -30,12 +30,12 @@ CLogicalLeftSemiApplyIn::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoin);
-	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApplyInWithExternalCorrs2InnerJoin);
-	(void) pxfs->ExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoinNoCorrelations);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfLeftSemiApplyInWithExternalCorrs2InnerJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfLeftSemiApplyIn2LeftSemiJoinNoCorrelations);
 
-	return pxfs;
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

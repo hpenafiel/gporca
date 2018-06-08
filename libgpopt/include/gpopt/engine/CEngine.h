@@ -89,7 +89,7 @@ namespace gpopt
 			void ApplyTransformations
 				(
 				IMemoryPool *pmpLocal,
-				CXformSet *pxfs,
+				CXformSet *xform_set,
 				CGroupExpression *pgexpr
 				);
 

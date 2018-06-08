@@ -25,19 +25,19 @@ using namespace gpos;
 //---------------------------------------------------------------------------
 CSearchStage::CSearchStage
 	(
-	CXformSet *pxfs,
+	CXformSet *xform_set,
 	ULONG ulTimeThreshold,
 	CCost costThreshold
 	)
 	:
-	m_xforms(pxfs),
+	m_xforms(xform_set),
 	m_time_threshold(ulTimeThreshold),
 	m_cost_threshold(costThreshold),
 	m_pexprBest(NULL),
 	m_costBest(GPOPT_INVALID_COST)
 {
-	GPOS_ASSERT(NULL != pxfs);
-	GPOS_ASSERT(0 < pxfs->Size());
+	GPOS_ASSERT(NULL != xform_set);
+	GPOS_ASSERT(0 < xform_set->Size());
 
 	// include all implementation rules in any search strategy
 	m_xforms->Union(CXformFactory::Pxff()->PxfsImplementation());
@@ -126,11 +126,11 @@ CSearchStage::PdrgpssDefault
 	IMemoryPool *memory_pool
 	)
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	pxfs->Union(CXformFactory::Pxff()->PxfsExploration());
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	xform_set->Union(CXformFactory::Pxff()->PxfsExploration());
 	DrgPss *search_stage_array = GPOS_NEW(memory_pool) DrgPss(memory_pool);
 
-	search_stage_array->Append(GPOS_NEW(memory_pool) CSearchStage(pxfs));
+	search_stage_array->Append(GPOS_NEW(memory_pool) CSearchStage(xform_set));
 
 	return search_stage_array;
 }

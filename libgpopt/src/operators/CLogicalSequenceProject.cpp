@@ -397,11 +397,11 @@ CLogicalSequenceProject::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfSequenceProject2Apply);
-	(void) pxfs->ExchangeSet(CXform::ExfImplementSequenceProject);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfSequenceProject2Apply);
+	(void) xform_set->ExchangeSet(CXform::ExfImplementSequenceProject);
 
-	return pxfs;
+	return xform_set;
 }
 
 

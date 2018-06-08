@@ -64,10 +64,10 @@ CLogicalInnerCorrelatedApply::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfImplementInnerCorrelatedApply);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfImplementInnerCorrelatedApply);
 
-	return pxfs;
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

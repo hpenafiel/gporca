@@ -66,7 +66,7 @@ namespace gpopt
 			// ctor
 			CSearchStage
 				(
-				CXformSet *pxfs,
+				CXformSet *xform_set,
 				ULONG ulTimeThreshold = ULONG_MAX,
 				CCost costThreshold = CCost(0.0)
 				);

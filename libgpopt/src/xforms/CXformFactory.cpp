@@ -117,17 +117,17 @@ CXformFactory::Add
 		m_phmszxform->Insert(szXformName, pxform);
 	GPOS_ASSERT(fInserted);
 
-	CXformSet *pxfs = m_pxfsExploration;
+	CXformSet *xform_set = m_pxfsExploration;
 	if (pxform->FImplementation())
 	{
-		pxfs = m_pxfsImplementation;
+		xform_set = m_pxfsImplementation;
 	}
 #ifdef GPOS_DEBUG
-	GPOS_ASSERT_IMP(pxform->FExploration(), pxfs == m_pxfsExploration);
-	GPOS_ASSERT_IMP(pxform->FImplementation(), pxfs == m_pxfsImplementation);
+	GPOS_ASSERT_IMP(pxform->FExploration(), xform_set == m_pxfsExploration);
+	GPOS_ASSERT_IMP(pxform->FImplementation(), xform_set == m_pxfsImplementation);
 	BOOL fSet =
 #endif // GPOS_DEBUG
-		pxfs->ExchangeSet(exfid);
+		xform_set->ExchangeSet(exfid);
 
 	GPOS_ASSERT(!fSet);
 }

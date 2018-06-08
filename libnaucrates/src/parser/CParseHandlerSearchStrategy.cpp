@@ -79,13 +79,13 @@ CParseHandlerSearchStrategy::StartElement
 		GPOS_ASSERT(NULL != m_search_stage_array);
 
 		// start new search stage
-		CParseHandlerBase *pphSearchStage = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenSearchStage), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphSearchStage);
+		CParseHandlerBase *search_stage_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenSearchStage), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(search_stage_parse_handler);
 
 		// store parse handler
-		this->Append(pphSearchStage);
+		this->Append(search_stage_parse_handler);
 
-		pphSearchStage->startElement(element_uri, element_local_name, element_qname, attrs);
+		search_stage_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -118,13 +118,13 @@ CParseHandlerSearchStrategy::EndElement
 	}
 
 	const ULONG size = this->Length();
-	for (ULONG ul = 0; ul < size; ul++)
+	for (ULONG idx = 0; idx < size; idx++)
 	{
-		CParseHandlerSearchStage *pphSearchStage = dynamic_cast<CParseHandlerSearchStage*>((*this)[ul]);
-		CXformSet *pxfs = pphSearchStage->GetXformSet();
-		pxfs->AddRef();
-		CSearchStage *pss = GPOS_NEW(m_memory_pool) CSearchStage(pxfs, pphSearchStage->TimeThreshold(), pphSearchStage->CostThreshold());
-		m_search_stage_array->Append(pss);
+		CParseHandlerSearchStage *search_stage_parse_handler = dynamic_cast<CParseHandlerSearchStage*>((*this)[idx]);
+		CXformSet *xform_set = search_stage_parse_handler->GetXformSet();
+		xform_set->AddRef();
+		CSearchStage *search_stage = GPOS_NEW(m_memory_pool) CSearchStage(xform_set, search_stage_parse_handler->TimeThreshold(), search_stage_parse_handler->CostThreshold());
+		m_search_stage_array->Append(search_stage);
 	}
 
 	// deactivate handler

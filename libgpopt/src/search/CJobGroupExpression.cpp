@@ -59,11 +59,11 @@ void
 CJobGroupExpression::ScheduleTransformations
 	(
 	CSchedulerContext *psc,
-	CXformSet *pxfs
+	CXformSet *xform_set
 	)
 {
 	// iterate on xforms
-	CXformSetIter xsi(*(pxfs));
+	CXformSetIter xsi(*(xform_set));
 	while (xsi.Advance())
 	{
 		CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());

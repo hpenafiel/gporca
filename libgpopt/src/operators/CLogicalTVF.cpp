@@ -298,12 +298,12 @@ CLogicalTVF::PxfsCandidates
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
-	(void) pxfs->ExchangeSet(CXform::ExfUnnestTVF);
-	(void) pxfs->ExchangeSet(CXform::ExfImplementTVF);
-	(void) pxfs->ExchangeSet(CXform::ExfImplementTVFNoArgs);
-	return pxfs;
+	(void) xform_set->ExchangeSet(CXform::ExfUnnestTVF);
+	(void) xform_set->ExchangeSet(CXform::ExfImplementTVF);
+	(void) xform_set->ExchangeSet(CXform::ExfImplementTVFNoArgs);
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

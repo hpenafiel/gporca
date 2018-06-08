@@ -151,10 +151,10 @@ CLogicalExternalGet::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfExternalGet2ExternalScan);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfExternalGet2ExternalScan);
 
-	return pxfs;
+	return xform_set;
 }
 
 // EOF

@@ -697,9 +697,9 @@ CParseHandlerDXL::ExtractSearchStrategy
 	)
 {
 	CParseHandlerSearchStrategy *parse_handler_search_strategy = dynamic_cast<CParseHandlerSearchStrategy *>(parse_handler_base);
-	GPOS_ASSERT(NULL != parse_handler_search_strategy && NULL != parse_handler_search_strategy->Pdrgppss());
+	GPOS_ASSERT(NULL != parse_handler_search_strategy && NULL != parse_handler_search_strategy->GetSearchStageArray());
 
-	DrgPss *search_stage_array = parse_handler_search_strategy->Pdrgppss();
+	DrgPss *search_stage_array = parse_handler_search_strategy->GetSearchStageArray();
 
 	search_stage_array->AddRef();
 	m_search_stage_array = search_stage_array;

@@ -267,9 +267,9 @@ CLogicalUpdate::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfUpdate2DML);
-	return pxfs;
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfUpdate2DML);
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

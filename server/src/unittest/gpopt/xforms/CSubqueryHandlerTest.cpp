@@ -132,10 +132,10 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 		};
 
 	// xforms to test
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfSubqJoin2Apply);
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2Apply);
-	(void) pxfs->ExchangeSet(CXform::ExfProject2Apply);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfSubqJoin2Apply);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2Apply);
+	(void) xform_set->ExchangeSet(CXform::ExfProject2Apply);
 
 	BOOL fCorrelated = true;
 	// we generate two expressions using each generator
@@ -157,7 +157,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 		
 		// check for subq xforms
 		CXformSet *pxfsCand = CLogical::PopConvert(pexpr->Pop())->PxfsCandidates(memory_pool);
-		pxfsCand->Intersection(pxfs);
+		pxfsCand->Intersection(xform_set);
 		
 		CXformSetIter xsi(*pxfsCand);
 		while (xsi.Advance())
@@ -199,7 +199,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 		fCorrelated = !fCorrelated;
 	}
 
-	pxfs->Release();
+	xform_set->Release();
 
 	return GPOS_OK;
 }

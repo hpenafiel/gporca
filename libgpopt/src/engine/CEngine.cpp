@@ -730,12 +730,12 @@ void
 CEngine::ApplyTransformations
 	(
 	IMemoryPool *pmpLocal,
-	CXformSet *pxfs,
+	CXformSet *xform_set,
 	CGroupExpression *pgexpr
 	)
 {
 	// iterate over xforms
-	CXformSetIter xsi(*pxfs);
+	CXformSetIter xsi(*xform_set);
 	while (xsi.Advance())
 	{
 		GPOS_CHECK_ABORT;
@@ -800,10 +800,10 @@ CEngine::TransitionGroupExpression
 	}
 
 	// find which set of xforms should be used
-	CXformSet *pxfs = CXformFactory::Pxff()->PxfsExploration();
+	CXformSet *xform_set = CXformFactory::Pxff()->PxfsExploration();
 	if (CGroupExpression::estImplemented == estTarget)
 	{
-		pxfs = CXformFactory::Pxff()->PxfsImplementation();
+		xform_set = CXformFactory::Pxff()->PxfsImplementation();
 	}
 
 	// get all applicable xforms
@@ -811,7 +811,7 @@ CEngine::TransitionGroupExpression
 	CXformSet *pxfsCandidates = CLogical::PopConvert(pop)->PxfsCandidates(m_memory_pool);
 
 	// intersect them with the required set of xforms, then apply transformations
-	pxfsCandidates->Intersection(pxfs);
+	pxfsCandidates->Intersection(xform_set);
 	pxfsCandidates->Intersection(PxfsCurrentStage());
 	ApplyTransformations(pmpLocal, pxfsCandidates, pgexpr);
 	pxfsCandidates->Release();

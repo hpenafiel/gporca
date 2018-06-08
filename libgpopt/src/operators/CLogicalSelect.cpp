@@ -102,21 +102,21 @@ CLogicalSelect::PxfsCandidates
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2Apply);
-	(void) pxfs->ExchangeSet(CXform::ExfRemoveSubqDistinct);
-	(void) pxfs->ExchangeSet(CXform::ExfInlineCTEConsumerUnderSelect);
-	(void) pxfs->ExchangeSet(CXform::ExfPushGbWithHavingBelowJoin);
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2IndexGet);
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2DynamicIndexGet);
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2PartialDynamicIndexGet);
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2BitmapBoolOp);
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2DynamicBitmapBoolOp);
-	(void) pxfs->ExchangeSet(CXform::ExfSimplifySelectWithSubquery);
-	(void) pxfs->ExchangeSet(CXform::ExfSelect2Filter);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2Apply);
+	(void) xform_set->ExchangeSet(CXform::ExfRemoveSubqDistinct);
+	(void) xform_set->ExchangeSet(CXform::ExfInlineCTEConsumerUnderSelect);
+	(void) xform_set->ExchangeSet(CXform::ExfPushGbWithHavingBelowJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2IndexGet);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2DynamicIndexGet);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2PartialDynamicIndexGet);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2BitmapBoolOp);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2DynamicBitmapBoolOp);
+	(void) xform_set->ExchangeSet(CXform::ExfSimplifySelectWithSubquery);
+	(void) xform_set->ExchangeSet(CXform::ExfSelect2Filter);
 
-	return pxfs;
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

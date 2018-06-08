@@ -586,22 +586,22 @@ CLogicalGbAgg::PxfsCandidates
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	
-	(void) pxfs->ExchangeSet(CXform::ExfSimplifyGbAgg);
-	(void) pxfs->ExchangeSet(CXform::ExfGbAggWithMDQA2Join);
-	(void) pxfs->ExchangeSet(CXform::ExfCollapseGbAgg);
-	(void) pxfs->ExchangeSet(CXform::ExfPushGbBelowJoin);
-	(void) pxfs->ExchangeSet(CXform::ExfPushGbBelowUnion);
-	(void) pxfs->ExchangeSet(CXform::ExfPushGbBelowUnionAll);
-	(void) pxfs->ExchangeSet(CXform::ExfSplitGbAgg);
-	(void) pxfs->ExchangeSet(CXform::ExfSplitDQA);
-	(void) pxfs->ExchangeSet(CXform::ExfGbAgg2Apply);
-	(void) pxfs->ExchangeSet(CXform::ExfGbAgg2HashAgg);
-	(void) pxfs->ExchangeSet(CXform::ExfGbAgg2StreamAgg);
-	(void) pxfs->ExchangeSet(CXform::ExfGbAgg2ScalarAgg);
+	(void) xform_set->ExchangeSet(CXform::ExfSimplifyGbAgg);
+	(void) xform_set->ExchangeSet(CXform::ExfGbAggWithMDQA2Join);
+	(void) xform_set->ExchangeSet(CXform::ExfCollapseGbAgg);
+	(void) xform_set->ExchangeSet(CXform::ExfPushGbBelowJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfPushGbBelowUnion);
+	(void) xform_set->ExchangeSet(CXform::ExfPushGbBelowUnionAll);
+	(void) xform_set->ExchangeSet(CXform::ExfSplitGbAgg);
+	(void) xform_set->ExchangeSet(CXform::ExfSplitDQA);
+	(void) xform_set->ExchangeSet(CXform::ExfGbAgg2Apply);
+	(void) xform_set->ExchangeSet(CXform::ExfGbAgg2HashAgg);
+	(void) xform_set->ExchangeSet(CXform::ExfGbAgg2StreamAgg);
+	(void) xform_set->ExchangeSet(CXform::ExfGbAgg2ScalarAgg);
 
-	return pxfs;
+	return xform_set;
 }
 
 

@@ -192,10 +192,10 @@ CLogicalCTEAnchor::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfCTEAnchor2Sequence);
-	(void) pxfs->ExchangeSet(CXform::ExfCTEAnchor2TrivialSelect);
-	return pxfs;
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfCTEAnchor2Sequence);
+	(void) xform_set->ExchangeSet(CXform::ExfCTEAnchor2TrivialSelect);
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

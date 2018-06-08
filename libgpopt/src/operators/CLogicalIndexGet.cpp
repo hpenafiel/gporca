@@ -256,11 +256,11 @@ CLogicalIndexGet::PxfsCandidates
 	)
 const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
-	(void) pxfs->ExchangeSet(CXform::ExfIndexGet2IndexScan);
+	(void) xform_set->ExchangeSet(CXform::ExfIndexGet2IndexScan);
 
-	return pxfs;
+	return xform_set;
 }
 
 

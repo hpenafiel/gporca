@@ -325,11 +325,11 @@ CLogicalGet::PxfsCandidates
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	
-	(void) pxfs->ExchangeSet(CXform::ExfGet2TableScan);
+	(void) xform_set->ExchangeSet(CXform::ExfGet2TableScan);
 	
-	return pxfs;
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

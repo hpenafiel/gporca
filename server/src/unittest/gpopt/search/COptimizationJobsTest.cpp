@@ -237,9 +237,9 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 
 		{
 			CAutoTrace at(memory_pool);
-			CXformSet *pxfs = CLogical::PopConvert(pgexprLogical->Pop())->PxfsCandidates(memory_pool);
+			CXformSet *xform_set = CLogical::PopConvert(pgexprLogical->Pop())->PxfsCandidates(memory_pool);
 
-			CXformSetIter xsi(*(pxfs));
+			CXformSetIter xsi(*(xform_set));
 			while (xsi.Advance())
 			{
 				CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
@@ -260,7 +260,7 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 				GPOS_DELETE_ARRAY(pestate);
 			}
 
-			pxfs->Release();
+			xform_set->Release();
 		}
 #endif // GPOS_DEBUG
 

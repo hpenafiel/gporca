@@ -105,13 +105,13 @@ CLogicalInnerApply::PxfsCandidates
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	
-	(void) pxfs->ExchangeSet(CXform::ExfInnerApply2InnerJoin);
-	(void) pxfs->ExchangeSet(CXform::ExfInnerApply2InnerJoinNoCorrelations);
-	(void) pxfs->ExchangeSet(CXform::ExfInnerApplyWithOuterKey2InnerJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfInnerApply2InnerJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfInnerApply2InnerJoinNoCorrelations);
+	(void) xform_set->ExchangeSet(CXform::ExfInnerApplyWithOuterKey2InnerJoin);
 	
-	return pxfs;
+	return xform_set;
 }
 
 

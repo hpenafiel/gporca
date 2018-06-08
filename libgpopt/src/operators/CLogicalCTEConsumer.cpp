@@ -358,10 +358,10 @@ CLogicalCTEConsumer::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfInlineCTEConsumer);
-	(void) pxfs->ExchangeSet(CXform::ExfImplementCTEConsumer);
-	return pxfs;
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfInlineCTEConsumer);
+	(void) xform_set->ExchangeSet(CXform::ExfImplementCTEConsumer);
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

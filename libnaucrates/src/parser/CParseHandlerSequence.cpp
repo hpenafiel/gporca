@@ -42,7 +42,7 @@ CParseHandlerSequence::CParseHandlerSequence
 	)
 	:
 	CParseHandlerPhysicalOp(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_fInsideSequence(false)
+	m_is_inside_sequence(false)
 {
 }
 
@@ -64,7 +64,7 @@ CParseHandlerSequence::StartElement
 	const Attributes& attrs
 	)
 {
-	if (!m_fInsideSequence && 0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalSequence), element_local_name))
+	if (!m_is_inside_sequence && 0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenPhysicalSequence), element_local_name))
 	{
 		// new sequence operator
 		// parse handler for the proj list
@@ -80,7 +80,7 @@ CParseHandlerSequence::StartElement
 		// store child parse handlers in array
 		this->Append(prop_parse_handler);
 		this->Append(proj_list_parse_handler);
-		m_fInsideSequence = true;
+		m_is_inside_sequence = true;
 	}
 	else
 	{
@@ -129,11 +129,11 @@ CParseHandlerSequence::EndElement
 	GPOS_ASSERT(NULL != proj_list_parse_handler);
 	AddChildFromParseHandler(proj_list_parse_handler);
 			
-	const ULONG ulLen = this->Length();
+	const ULONG size = this->Length();
 	// add constructed children from child parse handlers
-	for (ULONG ul = 2; ul < ulLen; ul++)
+	for (ULONG idx = 2; idx < size; idx++)
 	{
-		CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[ul]);
+		CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[idx]);
 		GPOS_ASSERT(NULL != child_parse_handler);
 		AddChildFromParseHandler(child_parse_handler);
 	}

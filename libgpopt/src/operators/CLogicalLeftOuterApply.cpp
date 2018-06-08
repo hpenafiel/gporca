@@ -103,12 +103,12 @@ CLogicalLeftOuterApply::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 
-	(void) pxfs->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoin);
-	(void) pxfs->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoinNoCorrelations);
+	(void) xform_set->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfLeftOuterApply2LeftOuterJoinNoCorrelations);
 
-	return pxfs;
+	return xform_set;
 }
 
 

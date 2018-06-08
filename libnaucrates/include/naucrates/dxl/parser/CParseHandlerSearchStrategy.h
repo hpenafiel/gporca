@@ -70,7 +70,7 @@ namespace gpdxl
 			~CParseHandlerSearchStrategy();
 
 			// returns the dxl representation of search stages
-			DrgPss *Pdrgppss()
+			DrgPss *GetSearchStageArray()
 			{
 				return m_search_stage_array;
 			}

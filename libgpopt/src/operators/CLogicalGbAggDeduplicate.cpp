@@ -245,12 +245,12 @@ CLogicalGbAggDeduplicate::PxfsCandidates
 	)
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
-	(void) pxfs->ExchangeSet(CXform::ExfPushGbDedupBelowJoin);
-	(void) pxfs->ExchangeSet(CXform::ExfSplitGbAggDedup);
-	(void) pxfs->ExchangeSet(CXform::ExfGbAggDedup2HashAggDedup);
-	(void) pxfs->ExchangeSet(CXform::ExfGbAggDedup2StreamAggDedup);
-	return pxfs;
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	(void) xform_set->ExchangeSet(CXform::ExfPushGbDedupBelowJoin);
+	(void) xform_set->ExchangeSet(CXform::ExfSplitGbAggDedup);
+	(void) xform_set->ExchangeSet(CXform::ExfGbAggDedup2HashAggDedup);
+	(void) xform_set->ExchangeSet(CXform::ExfGbAggDedup2StreamAggDedup);
+	return xform_set;
 }
 
 //---------------------------------------------------------------------------

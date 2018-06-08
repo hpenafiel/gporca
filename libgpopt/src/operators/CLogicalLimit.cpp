@@ -252,12 +252,12 @@ CLogicalLimit::PxfsCandidates
 	) 
 	const
 {
-	CXformSet *pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	CXformSet *xform_set = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	
-	(void) pxfs->ExchangeSet(CXform::ExfImplementLimit);
-	(void) pxfs->ExchangeSet(CXform::ExfSplitLimit);
+	(void) xform_set->ExchangeSet(CXform::ExfImplementLimit);
+	(void) xform_set->ExchangeSet(CXform::ExfSplitLimit);
 	
-	return pxfs;
+	return xform_set;
 }
 
 

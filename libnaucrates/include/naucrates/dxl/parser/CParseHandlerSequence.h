@@ -37,7 +37,7 @@ namespace gpdxl
 		private:
 			
 			// are we already inside a sequence operator
-			BOOL m_fInsideSequence;
+			BOOL m_is_inside_sequence;
 
 			// private copy ctor
 			CParseHandlerSequence(const CParseHandlerSequence &);
