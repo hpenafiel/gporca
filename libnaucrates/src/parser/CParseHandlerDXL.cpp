@@ -566,8 +566,8 @@ CParseHandlerDXL::ExtractDXLPlan
 	m_plan_dxl_root = parse_handler_plan->CreateDXLNode();
 	m_plan_dxl_root->AddRef();
 
-	m_plan_id = parse_handler_plan->UllId();
-	m_plan_space_size = parse_handler_plan->UllSpaceSize();
+	m_plan_id = parse_handler_plan->PlanId();
+	m_plan_space_size = parse_handler_plan->PlanSpaceSize();
 }
 
 //---------------------------------------------------------------------------

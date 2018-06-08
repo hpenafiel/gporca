@@ -38,8 +38,8 @@ CParseHandlerPlan::CParseHandlerPlan
 	)
 	:
 	CParseHandlerBase(memory_pool, parse_handler_mgr, parse_handler_root),
-	m_ullId(0),
-	m_ullSpaceSize(0),
+	m_plan_id(0),
+	m_plan_space_size(0),
 	m_dxl_node(NULL),
 	m_direct_dispatch_info(NULL)
 {}
@@ -105,12 +105,12 @@ CParseHandlerPlan::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), element_local_name))
 	{
 		GPOS_ASSERT(0 < this->Length());
-		CParseHandlerBase *pphDirectDispatch = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphDirectDispatch);
+		CParseHandlerBase *direct_dispatch_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenDirectDispatchInfo), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(direct_dispatch_parse_handler);
 		
 		// store parse handler
-		this->Append(pphDirectDispatch);
-		pphDirectDispatch->startElement(element_uri, element_local_name, element_qname, attrs);
+		this->Append(direct_dispatch_parse_handler);
+		direct_dispatch_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 		return;
 	}
 	
@@ -121,20 +121,20 @@ CParseHandlerPlan::StartElement
 	}
 	
 	// parse plan id
-	const XMLCh *xmlszPlanId = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPlanId, EdxltokenPlan);
-	m_ullId = CDXLOperatorFactory::ConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanId, EdxltokenPlanId, EdxltokenPlan);
+	const XMLCh *xml_str_plan_id = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPlanId, EdxltokenPlan);
+	m_plan_id = CDXLOperatorFactory::ConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_plan_id, EdxltokenPlanId, EdxltokenPlan);
 
 	// parse plan space size
 	const XMLCh *xmlszPlanSpaceSize = CDXLOperatorFactory::ExtractAttrValue(attrs, EdxltokenPlanSpaceSize, EdxltokenPlan);
-	m_ullSpaceSize = CDXLOperatorFactory::ConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanSpaceSize, EdxltokenPlanSpaceSize, EdxltokenPlan);
+	m_plan_space_size = CDXLOperatorFactory::ConvertAttrValueToUllong(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszPlanSpaceSize, EdxltokenPlanSpaceSize, EdxltokenPlan);
 
 	// create a parse handler for physical nodes and activate it
 	GPOS_ASSERT(NULL != m_memory_pool);
-	CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pph);
+	CParseHandlerBase *base_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenPhysical), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(base_parse_handler);
 	
 	// store parse handler
-	this->Append(pph);
+	this->Append(base_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -159,18 +159,18 @@ CParseHandlerPlan::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	CParseHandlerPhysicalOp *pph = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[0]);
+	CParseHandlerPhysicalOp *operator_parse_handler = dynamic_cast<CParseHandlerPhysicalOp *>((*this)[0]);
 	
-	GPOS_ASSERT(NULL != pph->CreateDXLNode());
+	GPOS_ASSERT(NULL != operator_parse_handler->CreateDXLNode());
 
 	// store constructed child
-	m_dxl_node = pph->CreateDXLNode();
+	m_dxl_node = operator_parse_handler->CreateDXLNode();
 	m_dxl_node->AddRef();
 	
 	if (2 == this->Length())
 	{
-		CParseHandlerDirectDispatchInfo *pphDirectDispatchInfo = dynamic_cast<CParseHandlerDirectDispatchInfo *>((*this)[1]);
-		CDXLDirectDispatchInfo *dxl_direct_dispatch_info = pphDirectDispatchInfo->GetDXLDirectDispatchInfo();
+		CParseHandlerDirectDispatchInfo *direct_dispatch_info_parse_handler = dynamic_cast<CParseHandlerDirectDispatchInfo *>((*this)[1]);
+		CDXLDirectDispatchInfo *dxl_direct_dispatch_info = direct_dispatch_info_parse_handler->GetDXLDirectDispatchInfo();
 		GPOS_ASSERT(NULL != dxl_direct_dispatch_info);
 		
 		dxl_direct_dispatch_info->AddRef();

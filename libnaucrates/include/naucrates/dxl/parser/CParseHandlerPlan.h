@@ -38,10 +38,10 @@ namespace gpdxl
 		private:
 
 			// plan id
-			ULLONG m_ullId;
+			ULLONG m_plan_id;
 
 			// size of plan space
-			ULLONG m_ullSpaceSize;
+			ULLONG m_plan_space_size;
 
 			// the root of the parsed DXL tree constructed by the parse handler
 			CDXLNode *m_dxl_node;
@@ -85,15 +85,15 @@ namespace gpdxl
 			CDXLNode *CreateDXLNode();
 			
 			// return plan id
-			ULLONG UllId() const
+			ULLONG PlanId() const
 			{
-				return m_ullId;
+				return m_plan_id;
 			}
 
 			// return size of plan space
-			ULLONG UllSpaceSize() const
+			ULLONG PlanSpaceSize() const
 			{
-				return m_ullSpaceSize;
+				return m_plan_space_size;
 			}
 
 			EDxlParseHandlerType GetParseHandlerType() const;
