@@ -1289,8 +1289,8 @@ CTranslatorExprToDXLUtils::GetProperties
 	CWStringDynamic *rows_out_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, GPOS_WSZ_LIT("100"));
 	CWStringDynamic *width_str = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool, GPOS_WSZ_LIT("4"));
 
-	CDXLOperatorCost *pdxlopcost = GPOS_NEW(memory_pool) CDXLOperatorCost(pstrStartupcost, pstrTotalcost, rows_out_str, width_str);
-	return GPOS_NEW(memory_pool) CDXLPhysicalProperties(pdxlopcost);
+	CDXLOperatorCost *cost = GPOS_NEW(memory_pool) CDXLOperatorCost(pstrStartupcost, pstrTotalcost, rows_out_str, width_str);
+	return GPOS_NEW(memory_pool) CDXLPhysicalProperties(cost);
 }
 
 //---------------------------------------------------------------------------

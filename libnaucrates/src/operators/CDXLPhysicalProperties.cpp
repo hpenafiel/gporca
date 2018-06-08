@@ -24,11 +24,11 @@ using namespace gpdxl;
 //---------------------------------------------------------------------------
 CDXLPhysicalProperties::CDXLPhysicalProperties
 	(
-	CDXLOperatorCost *pdxlopcost
+	CDXLOperatorCost *cost
 	)
 	:
 	CDXLProperties(),
-	m_operator_cost_dxl(pdxlopcost)
+	m_operator_cost_dxl(cost)
 {}
 
 //---------------------------------------------------------------------------

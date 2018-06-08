@@ -142,8 +142,8 @@ CParseHandlerProperties::EndElement
 	// assemble the properties container from the cost
 	CParseHandlerCost *pph = dynamic_cast<CParseHandlerCost *>((*this)[0]);
 
-	CDXLOperatorCost *pdxlopcost = pph->MakeDXLOperatorCost();
-	pdxlopcost->AddRef();
+	CDXLOperatorCost *cost = pph->MakeDXLOperatorCost();
+	cost->AddRef();
 	
 	if (2 == this->Length())
 	{
@@ -154,7 +154,7 @@ CParseHandlerProperties::EndElement
 		m_dxl_stats_derived_relation = dxl_stats_derived_relation;
 	}
 
-	m_dxl_properties = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(pdxlopcost);
+	m_dxl_properties = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(cost);
 
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();

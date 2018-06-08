@@ -41,7 +41,7 @@ namespace gpdxl
 
 			// ctor
 			explicit
-			CDXLPhysicalProperties(CDXLOperatorCost *pdxlopcost);
+			CDXLPhysicalProperties(CDXLOperatorCost *cost);
 			
 			// dtor
 			virtual

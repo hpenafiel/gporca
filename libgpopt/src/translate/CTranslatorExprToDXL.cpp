@@ -7280,8 +7280,8 @@ CTranslatorExprToDXL::GetProperties
 	CWStringDynamic *pstrStartupcost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, GPOS_WSZ_LIT("0"));
 	CWStringDynamic *pstrTotalcost = GPOS_NEW(m_memory_pool) CWStringDynamic(m_memory_pool, str.GetBuffer());
 
-	CDXLOperatorCost *pdxlopcost = GPOS_NEW(m_memory_pool) CDXLOperatorCost(pstrStartupcost, pstrTotalcost, rows_out_str, width_str);
-	CDXLPhysicalProperties *dxl_properties = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(pdxlopcost);
+	CDXLOperatorCost *cost = GPOS_NEW(m_memory_pool) CDXLOperatorCost(pstrStartupcost, pstrTotalcost, rows_out_str, width_str);
+	CDXLPhysicalProperties *dxl_properties = GPOS_NEW(m_memory_pool) CDXLPhysicalProperties(cost);
 
 	return dxl_properties;
 }
