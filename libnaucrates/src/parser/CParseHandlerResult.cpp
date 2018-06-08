@@ -64,8 +64,8 @@ CParseHandlerResult::SetupInitialHandlers
 	m_dxl_op = (CDXLPhysicalResult *) CDXLOperatorFactory::MakeDXLResult(m_parse_handler_mgr->GetDXLMemoryManager());
 
 	// parse handler for the one-time filter
-	CParseHandlerBase *pphOneTimeFilter = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarOneTimeFilter), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphOneTimeFilter);
+	CParseHandlerBase *one_time_filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarOneTimeFilter), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(one_time_filter_parse_handler);
 	
 	// parse handler for the filter
 	CParseHandlerBase *filter_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenScalarFilter), m_parse_handler_mgr, this);
@@ -82,7 +82,7 @@ CParseHandlerResult::SetupInitialHandlers
 	this->Append(prop_parse_handler);
 	this->Append(proj_list_parse_handler);
 	this->Append(filter_parse_handler);
-	this->Append(pphOneTimeFilter);
+	this->Append(one_time_filter_parse_handler);
 }
 
 //---------------------------------------------------------------------------
@@ -151,7 +151,7 @@ CParseHandlerResult::EndElement
 	CParseHandlerProperties *prop_parse_handler = dynamic_cast<CParseHandlerProperties *>((*this)[0]);
 	CParseHandlerProjList *proj_list_parse_handler = dynamic_cast<CParseHandlerProjList*>((*this)[1]);
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
-	CParseHandlerFilter *pphOneTimeFilter = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
+	CParseHandlerFilter *one_time_filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[3]);
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, m_dxl_op);
 	// set statictics and physical properties
@@ -160,7 +160,7 @@ CParseHandlerResult::EndElement
 	// add constructed children
 	AddChildFromParseHandler(proj_list_parse_handler);
 	AddChildFromParseHandler(filter_parse_handler);
-	AddChildFromParseHandler(pphOneTimeFilter);
+	AddChildFromParseHandler(one_time_filter_parse_handler);
 
 	if (this->Length() == 5)
 	{
