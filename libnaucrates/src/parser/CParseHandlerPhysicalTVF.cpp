@@ -78,9 +78,9 @@ CParseHandlerPhysicalTVF::StartElement
 																EdxltokenPhysicalTVF
 																);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_func_name);
-		m_pstr = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, pstrFuncName->GetBuffer());
-		GPOS_DELETE(pstrFuncName);
+		CWStringDynamic *str_func_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_func_name);
+		m_pstr = GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, str_func_name->GetBuffer());
+		GPOS_DELETE(str_func_name);
 
 		// parse return type
 		m_return_type_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, EdxltokenPhysicalTVF);

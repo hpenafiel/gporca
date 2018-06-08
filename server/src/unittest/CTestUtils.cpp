@@ -2225,7 +2225,7 @@ CTestUtils::PexprLogicalTVF
 	const WCHAR *wszFuncName = GPOS_WSZ_LIT("generate_series");
 
 	IMDId *pmdid = GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT8_GENERATE_SERIES);
-	CWStringConst *pstrFuncName = GPOS_NEW(memory_pool) CWStringConst(memory_pool, wszFuncName);
+	CWStringConst *str_func_name = GPOS_NEW(memory_pool) CWStringConst(memory_pool, wszFuncName);
 
 	const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>(CTestUtils::m_sysidDefault);
 
@@ -2246,7 +2246,7 @@ CTestUtils::PexprLogicalTVF
 										memory_pool,
 										pmdid,
 										mdid_return_type,
-										pstrFuncName,
+										str_func_name,
 										pdrgpcoldesc
 										);
 

@@ -72,12 +72,12 @@ CParseHandlerMDGPDBFunc::StartElement
 															EdxltokenGPDBFunc
 															);
 
-		CWStringDynamic *pstrFuncName = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_func_name);
+		CWStringDynamic *str_func_name = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_func_name);
 		
 		// create a copy of the string in the CMDName constructor
-		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, pstrFuncName);
+		m_mdname = GPOS_NEW(m_memory_pool) CMDName(m_memory_pool, str_func_name);
 		
-		GPOS_DELETE(pstrFuncName);
+		GPOS_DELETE(str_func_name);
 
 		// parse metadata id info
 		m_mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId
