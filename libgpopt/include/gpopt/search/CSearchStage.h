@@ -44,13 +44,13 @@ namespace gpopt
 		private:
 
 			// set of xforms to be applied during stage
-			CXformSet *m_pxfs;
+			CXformSet *m_xforms;
 
 			// time threshold in milliseconds
-			ULONG m_ulTimeThreshold;
+			ULONG m_time_threshold;
 
 			// cost threshold
-			CCost m_costThreshold;
+			CCost m_cost_threshold;
 
 			// best plan found at the end of search stage
 			CExpression *m_pexprBest;
@@ -79,7 +79,7 @@ namespace gpopt
 			// Restart() is a costly method, so avoid calling unnecessarily
 			void RestartTimer()
 			{
-				if (m_ulTimeThreshold != ULONG_MAX)
+				if (m_time_threshold != ULONG_MAX)
 					m_timer.Restart();
 			}
 
@@ -88,9 +88,9 @@ namespace gpopt
 			// ElapsedMS() is a costly method, so avoid calling unnecesarily
 			BOOL FTimedOut() const
 			{
-				if (m_ulTimeThreshold == ULONG_MAX)
+				if (m_time_threshold == ULONG_MAX)
 					return false;
-				return m_timer.ElapsedMS() > m_ulTimeThreshold;
+				return m_timer.ElapsedMS() > m_time_threshold;
 			}
 
 			// return elapsed time (in millseconds) since timer was last restarted
@@ -101,25 +101,25 @@ namespace gpopt
 
 			BOOL FAchievedReqdCost() const
 			{
-				return (NULL != m_pexprBest && m_costBest <= m_costThreshold);
+				return (NULL != m_pexprBest && m_costBest <= m_cost_threshold);
 			}
 
 			// xforms set accessor
-			CXformSet *Pxfs() const
+			CXformSet *GetXformSet() const
 			{
-				return m_pxfs;
+				return m_xforms;
 			}
 
 			// time threshold accessor
-			ULONG UlTimeThreshold() const
+			ULONG TimeThreshold() const
 			{
-				return m_ulTimeThreshold;
+				return m_time_threshold;
 			}
 
 			// cost threshold accessor
 			CCost CostThreshold() const
 			{
-				return m_costThreshold;
+				return m_cost_threshold;
 			}
 
 			// set best plan found at the end of search stage

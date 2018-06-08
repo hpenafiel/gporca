@@ -69,7 +69,7 @@ namespace gpopt
 			// the following variables are used for maintaining optimization statistics
 
 			// set of activated xforms
-			CXformSet *m_pxfs;
+			CXformSet *m_xforms;
 
 			// number of calls to each xform
 			DrgPulp *m_pdrgpulpXformCalls;
@@ -395,7 +395,7 @@ namespace gpopt
 			// set of xforms of current stage
 			CXformSet *PxfsCurrentStage() const
 			{
-				return (*m_search_stage_array)[m_ulCurrSearchStage]->Pxfs();
+				return (*m_search_stage_array)[m_ulCurrSearchStage]->GetXformSet();
 			}
 
 			// return array of child optimization contexts corresponding to handle requirements

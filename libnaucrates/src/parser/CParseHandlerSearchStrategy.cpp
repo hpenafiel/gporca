@@ -121,9 +121,9 @@ CParseHandlerSearchStrategy::EndElement
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CParseHandlerSearchStage *pphSearchStage = dynamic_cast<CParseHandlerSearchStage*>((*this)[ul]);
-		CXformSet *pxfs = pphSearchStage->Pxfs();
+		CXformSet *pxfs = pphSearchStage->GetXformSet();
 		pxfs->AddRef();
-		CSearchStage *pss = GPOS_NEW(m_memory_pool) CSearchStage(pxfs, pphSearchStage->UlTimeThreshold(), pphSearchStage->CostThreshold());
+		CSearchStage *pss = GPOS_NEW(m_memory_pool) CSearchStage(pxfs, pphSearchStage->TimeThreshold(), pphSearchStage->CostThreshold());
 		m_search_stage_array->Append(pss);
 	}
 

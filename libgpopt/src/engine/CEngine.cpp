@@ -81,13 +81,13 @@ CEngine::CEngine
 	m_ulCurrSearchStage(0),
 	m_pmemo(NULL),
 	m_pexprEnforcerPattern(NULL),
-	m_pxfs(NULL),
+	m_xforms(NULL),
 	m_pdrgpulpXformCalls(NULL),
 	m_pdrgpulpXformTimes(NULL)
 {
 	m_pmemo = GPOS_NEW(memory_pool) CMemo(memory_pool);
 	m_pexprEnforcerPattern = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CPatternLeaf(memory_pool));
-	m_pxfs = GPOS_NEW(memory_pool) CXformSet(memory_pool);
+	m_xforms = GPOS_NEW(memory_pool) CXformSet(memory_pool);
 	m_pdrgpulpXformCalls = GPOS_NEW(memory_pool) DrgPulp(memory_pool);
 	m_pdrgpulpXformTimes = GPOS_NEW(memory_pool) DrgPulp(memory_pool);
 }
@@ -108,7 +108,7 @@ CEngine::~CEngine()
 	// we can save time in optimized build by skipping all de-allocations here,
 	// we still have all de-llocations enabled in debug-build to detect any possible leaks
 	GPOS_DELETE(m_pmemo);
-	CRefCount::SafeRelease(m_pxfs);
+	CRefCount::SafeRelease(m_xforms);
 	m_pdrgpulpXformCalls->Release();
 	m_pdrgpulpXformTimes->Release();
 	m_pexprEnforcerPattern->Release();
@@ -369,7 +369,7 @@ CEngine::InsertXformResult
 
 	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics) && 0 < pxfres->Pdrgpexpr()->Size())
 	{
-		(void) m_pxfs->ExchangeSet(exfidOrigin);
+		(void) m_xforms->ExchangeSet(exfidOrigin);
 		(void) ExchangeAddUlongPtrWithInt(&(*m_pdrgpulpXformCalls)[m_ulCurrSearchStage][exfidOrigin], 1);
 
 		{
@@ -1540,9 +1540,9 @@ CEngine::FinalizeSearchStage()
 {
 	ProcessTraceFlags();
 
-	m_pxfs->Release();
-	m_pxfs = NULL;
-	m_pxfs = GPOS_NEW(m_memory_pool) CXformSet(m_memory_pool);
+	m_xforms->Release();
+	m_xforms = NULL;
+	m_xforms = GPOS_NEW(m_memory_pool) CXformSet(m_memory_pool);
 
 	m_ulCurrSearchStage++;
 	m_pmemo->ResetGroupStates();
@@ -1567,7 +1567,7 @@ CEngine::PrintActivatedXforms
 	if (GPOS_FTRACE(EopttracePrintOptimizationStatistics))
 	{
 		os << std::endl << "[OPT]: <Begin Xforms - stage " << m_ulCurrSearchStage << ">" << std::endl;
-		CXformSetIter xsi(*m_pxfs);
+		CXformSetIter xsi(*m_xforms);
 		while (xsi.Advance())
 		{
 			CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
@@ -1646,7 +1646,7 @@ CEngine::ProcessTraceFlags()
 			<< (ULONG) (m_pmemo->UlpGroups()) << " groups"
 			<< ", " << m_pmemo->UlDuplicateGroups() << " duplicate groups"
 			<< ", " << m_pmemo->UlGrpExprs() << " group expressions"
-			<< ", " << m_pxfs->Size() << " activated xforms]";
+			<< ", " << m_xforms->Size() << " activated xforms]";
 
 		at.Os()
 			<< std::endl << "[OPT]: stage "<< m_ulCurrSearchStage << " completed in "

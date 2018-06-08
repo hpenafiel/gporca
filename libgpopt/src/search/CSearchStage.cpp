@@ -30,9 +30,9 @@ CSearchStage::CSearchStage
 	CCost costThreshold
 	)
 	:
-	m_pxfs(pxfs),
-	m_ulTimeThreshold(ulTimeThreshold),
-	m_costThreshold(costThreshold),
+	m_xforms(pxfs),
+	m_time_threshold(ulTimeThreshold),
+	m_cost_threshold(costThreshold),
 	m_pexprBest(NULL),
 	m_costBest(GPOPT_INVALID_COST)
 {
@@ -40,7 +40,7 @@ CSearchStage::CSearchStage
 	GPOS_ASSERT(0 < pxfs->Size());
 
 	// include all implementation rules in any search strategy
-	m_pxfs->Union(CXformFactory::Pxff()->PxfsImplementation());
+	m_xforms->Union(CXformFactory::Pxff()->PxfsImplementation());
 }
 
 
@@ -54,7 +54,7 @@ CSearchStage::CSearchStage
 //---------------------------------------------------------------------------
 CSearchStage::~CSearchStage()
 {
-	m_pxfs->Release();
+	m_xforms->Release();
 	CRefCount::SafeRelease(m_pexprBest);
 }
 
@@ -75,8 +75,8 @@ CSearchStage::OsPrint
 {
 	os
 		<< "Search Stage" << std::endl
-		<< "\ttime threshold: " << m_ulTimeThreshold
-		<< ", cost threshold:" << m_costThreshold
+		<< "\ttime threshold: " << m_time_threshold
+		<< ", cost threshold:" << m_cost_threshold
 		<< ", best plan found: " << std::endl;
 
 	if (NULL != m_pexprBest)
