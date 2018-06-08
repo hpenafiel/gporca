@@ -135,9 +135,9 @@ CStringTest::EresUnittest_Equals()
 	CStringStatic ss2(buffer2, GPOS_ARRAY_SIZE(buffer2), "123");
 	CStringStatic ss3(buffer3, GPOS_ARRAY_SIZE(buffer3), "12");
 
-	GPOS_ASSERT(ss1.Equals(ss2.Sz()));
-	GPOS_ASSERT(!ss1.Equals(ss3.Sz()));
-	GPOS_ASSERT(!ss3.Equals(ss1.Sz()));
+	GPOS_ASSERT(ss1.Equals(ss2.Buffer()));
+	GPOS_ASSERT(!ss1.Equals(ss3.Buffer()));
+	GPOS_ASSERT(!ss3.Equals(ss1.Buffer()));
 #endif // #ifdef GPOS_DEBUG
 	
 	return GPOS_OK;

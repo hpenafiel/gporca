@@ -73,19 +73,19 @@ COstreamFileTest::EresUnittest_Basic()
 
 	GPOS_TRY
 	{
-		Unittest_WriteFileStream(strFile.Sz());
+		Unittest_WriteFileStream(strFile.Buffer());
 
-		Unittest_CheckOutputFile(strFile.Sz());
+		Unittest_CheckOutputFile(strFile.Buffer());
 	}
 	GPOS_CATCH_EX(ex)
 	{
-		Unittest_DeleteTmpFile(strPath.Sz(), strFile.Sz());
+		Unittest_DeleteTmpFile(strPath.Buffer(), strFile.Buffer());
 
 		GPOS_RETHROW(ex);
 	}
 	GPOS_CATCH_END;
 
-	Unittest_DeleteTmpFile(strPath.Sz(), strFile.Sz());
+	Unittest_DeleteTmpFile(strPath.Buffer(), strFile.Buffer());
 
 	return GPOS_OK;
 }

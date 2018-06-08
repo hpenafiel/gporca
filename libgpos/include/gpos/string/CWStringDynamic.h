@@ -38,7 +38,7 @@ namespace gpos
 			IMemoryPool *m_memory_pool;
 
 			// string capacity
-			ULONG m_ulCapacity;
+			ULONG m_capacity;
 
 			// increase string capacity
 			void IncreaseCapacity(ULONG ulRequested);

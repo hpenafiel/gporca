@@ -35,7 +35,7 @@ namespace gpos
 		private:
 
 			// buffer capacity
-			ULONG m_ulCapacity;
+			ULONG m_capacity;
 
 			// private copy ctor
 			CWStringStatic(const CWStringStatic&);
@@ -48,10 +48,10 @@ namespace gpos
 		public:
 
 			// ctor
-			CWStringStatic(WCHAR wszBuffer[], ULONG ulCapacity);
+			CWStringStatic(WCHAR wszBuffer[], ULONG capacity);
 
 			// ctor with string initialization
-			CWStringStatic(WCHAR wszBuffer[], ULONG ulCapacity, const WCHAR wszInit[]);
+			CWStringStatic(WCHAR wszBuffer[], ULONG capacity, const WCHAR wszInit[]);
 
 			// appends a string and replaces character with string
 			void AppendEscape(const CWStringBase *str, WCHAR wc, const WCHAR *wszReplace);
