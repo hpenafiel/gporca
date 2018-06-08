@@ -3111,34 +3111,34 @@ CTranslatorDXLToExpr::PexprAggFunc
 {
 	CDXLScalarAggref *dxl_op = CDXLScalarAggref::Cast(pdxlnAggref->GetOperator());
 	
-	IMDId *pmdidAggFunc = dxl_op->PmdidAgg();
-	pmdidAggFunc->AddRef();
-	const IMDAggregate *pmdagg = m_pmda->Pmdagg(pmdidAggFunc);
+	IMDId *agg_func_mdid = dxl_op->GetDXLAggFuncMDid();
+	agg_func_mdid->AddRef();
+	const IMDAggregate *pmdagg = m_pmda->Pmdagg(agg_func_mdid);
 	
-	EAggfuncStage eaggfuncstage = EaggfuncstageLocal;
-	if (EdxlaggstagePartial != dxl_op->Edxlaggstage())
+	EAggfuncStage agg_func_stage = EaggfuncstageLocal;
+	if (EdxlaggstagePartial != dxl_op->GetDXLAggStage())
 	{
-		eaggfuncstage = EaggfuncstageGlobal;
+		agg_func_stage = EaggfuncstageGlobal;
 	}
-	BOOL fSplit = (EdxlaggstageNormal != dxl_op->Edxlaggstage());
+	BOOL fSplit = (EdxlaggstageNormal != dxl_op->GetDXLAggStage());
 
-	IMDId *pmdidResolvedReturnType = dxl_op->PmdidResolvedRetType();
-	if (NULL != pmdidResolvedReturnType)
+	IMDId *resolved_return_type_mdid = dxl_op->GetDXLResolvedRetTypeMDid();
+	if (NULL != resolved_return_type_mdid)
 	{
 		// use the resolved type provided in DXL
-		pmdidResolvedReturnType->AddRef();
+		resolved_return_type_mdid->AddRef();
 	}
 
 	CScalarAggFunc *popScAggFunc =
 			CUtils::PopAggFunc
 				(
 				m_memory_pool,
-				pmdidAggFunc,
+				agg_func_mdid,
 				GPOS_NEW(m_memory_pool) CWStringConst(m_memory_pool, (pmdagg->Mdname().GetMDName())->GetBuffer()),
 				dxl_op->IsDistinct(),
-				eaggfuncstage,
+				agg_func_stage,
 				fSplit,
-				pmdidResolvedReturnType
+				resolved_return_type_mdid
 				);
 
 	CExpression *pexprAggFunc = NULL;

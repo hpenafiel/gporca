@@ -33,21 +33,21 @@ using namespace gpdxl;
 CDXLScalarAggref::CDXLScalarAggref
 	(
 	IMemoryPool *memory_pool,
-	IMDId *pmdidAggOid,
-	IMDId *pmdidResolvedRetType,
-	BOOL fDistinct,
-	EdxlAggrefStage edxlaggstage
+	IMDId *agg_func_mdid,
+	IMDId *resolved_rettype_mdid,
+	BOOL is_distinct,
+	EdxlAggrefStage agg_stage
 	)
 	:
 	CDXLScalar(memory_pool),
-	m_pmdidAgg(pmdidAggOid),
-	m_pmdidResolvedRetType(pmdidResolvedRetType),
-	m_is_distinct(fDistinct),
-	m_edxlaggstage(edxlaggstage)
+	m_agg_func_mdid(agg_func_mdid),
+	m_resolved_rettype_mdid(resolved_rettype_mdid),
+	m_is_distinct(is_distinct),
+	m_agg_stage(agg_stage)
 {
-	GPOS_ASSERT(NULL != pmdidAggOid);
-	GPOS_ASSERT_IMP(NULL != pmdidResolvedRetType, pmdidResolvedRetType->IsValid());
-	GPOS_ASSERT(m_pmdidAgg->IsValid());
+	GPOS_ASSERT(NULL != agg_func_mdid);
+	GPOS_ASSERT_IMP(NULL != resolved_rettype_mdid, resolved_rettype_mdid->IsValid());
+	GPOS_ASSERT(m_agg_func_mdid->IsValid());
 }
 
 //---------------------------------------------------------------------------
@@ -60,8 +60,8 @@ CDXLScalarAggref::CDXLScalarAggref
 //---------------------------------------------------------------------------
 CDXLScalarAggref::~CDXLScalarAggref()
 {
-	m_pmdidAgg->Release();
-	CRefCount::SafeRelease(m_pmdidResolvedRetType);
+	m_agg_func_mdid->Release();
+	CRefCount::SafeRelease(m_resolved_rettype_mdid);
 }
 
 
@@ -81,16 +81,16 @@ CDXLScalarAggref::GetDXLOperator() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarAggref::Edxlaggstage
+//		CDXLScalarAggref::GetDXLAggStage
 //
 //	@doc:
 //		AggRef AggStage
 //
 //---------------------------------------------------------------------------
 EdxlAggrefStage
-CDXLScalarAggref::Edxlaggstage() const
+CDXLScalarAggref::GetDXLAggStage() const
 {
-	return m_edxlaggstage;
+	return m_agg_stage;
 }
 //---------------------------------------------------------------------------
 //	@function:
@@ -101,9 +101,9 @@ CDXLScalarAggref::Edxlaggstage() const
 //
 //---------------------------------------------------------------------------
 const CWStringConst *
-CDXLScalarAggref::PstrAggStage() const
+CDXLScalarAggref::GetDXLStrAggStage() const
 {
-	switch (m_edxlaggstage)
+	switch (m_agg_stage)
 	{
 		case EdxlaggstageNormal:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenAggrefStageNormal);
@@ -135,31 +135,31 @@ CDXLScalarAggref::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarAggref::PmdidAgg
+//		CDXLScalarAggref::GetDXLAggFuncMDid
 //
 //	@doc:
 //		Returns function id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarAggref::PmdidAgg() const
+CDXLScalarAggref::GetDXLAggFuncMDid() const
 {
-	return m_pmdidAgg;
+	return m_agg_func_mdid;
 }
 
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarAggref::PmdidResolvedRetType
+//		CDXLScalarAggref::GetDXLResolvedRetTypeMDid
 //
 //	@doc:
 //		Returns resolved type id
 //
 //---------------------------------------------------------------------------
 IMDId *
-CDXLScalarAggref::PmdidResolvedRetType() const
+CDXLScalarAggref::GetDXLResolvedRetTypeMDid() const
 {
-	return m_pmdidResolvedRetType;
+	return m_resolved_rettype_mdid;
 }
 
 
@@ -196,12 +196,12 @@ CDXLScalarAggref::SerializeToDXL
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
-	m_pmdidAgg->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenAggrefOid));
+	m_agg_func_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenAggrefOid));
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAggrefDistinct),m_is_distinct);
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAggrefStage), PstrAggStage());
-	if (NULL != m_pmdidResolvedRetType)
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenAggrefStage), GetDXLStrAggStage());
+	if (NULL != m_resolved_rettype_mdid)
 	{
-		m_pmdidResolvedRetType->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
+		m_resolved_rettype_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 	}
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
@@ -223,7 +223,7 @@ CDXLScalarAggref::HasBoolResult
 	)
 	const
 {
-	const IMDAggregate *pmdagg = md_accessor->Pmdagg(m_pmdidAgg);
+	const IMDAggregate *pmdagg = md_accessor->Pmdagg(m_agg_func_mdid);
 	return (IMDType::EtiBool == md_accessor->Pmdtype(pmdagg->PmdidTypeResult())->Eti());
 }
 
@@ -244,19 +244,19 @@ CDXLScalarAggref::AssertValid
 	) 
 	const
 {
-	EdxlAggrefStage edxlaggrefstage = ((CDXLScalarAggref*) dxlnode->GetOperator())->Edxlaggstage();
+	EdxlAggrefStage aggrefstage = ((CDXLScalarAggref*) dxlnode->GetOperator())->GetDXLAggStage();
 
-	GPOS_ASSERT((EdxlaggstageFinal >= edxlaggrefstage) && (EdxlaggstageNormal <= edxlaggrefstage));
+	GPOS_ASSERT((EdxlaggstageFinal >= aggrefstage) && (EdxlaggstageNormal <= aggrefstage));
 
 	const ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
-		CDXLNode *pdxlnAggrefArg = (*dxlnode)[ul];
-		GPOS_ASSERT(EdxloptypeScalar == pdxlnAggrefArg->GetOperator()->GetDXLOperatorType());
+		CDXLNode *aggref_child_dxl = (*dxlnode)[ul];
+		GPOS_ASSERT(EdxloptypeScalar == aggref_child_dxl->GetOperator()->GetDXLOperatorType());
 		
 		if (validate_children)
 		{
-			pdxlnAggrefArg->GetOperator()->AssertValid(pdxlnAggrefArg, validate_children);
+			aggref_child_dxl->GetOperator()->AssertValid(aggref_child_dxl, validate_children);
 		}
 	}
 }

@@ -43,19 +43,19 @@ namespace gpdxl
 		private:
 
 			// catalog id of the function
-			IMDId *m_pmdidAgg;
+			IMDId *m_agg_func_mdid;
 
 			// resolved return type refers to a non-ambiguous type that was resolved during query
 			// parsing if the actual return type of Agg is ambiguous (e.g., AnyElement in GPDB)
 			// if resolved return type is NULL, then we can get Agg return type by looking up MD cache
 			// using Agg MDId
-			IMDId *m_pmdidResolvedRetType;
+			IMDId *m_resolved_rettype_mdid;
 
 			// Denotes whether it's agg(DISTINCT ...)
 			BOOL m_is_distinct;
 
 			// Denotes the MPP Stage
-			EdxlAggrefStage m_edxlaggstage;
+			EdxlAggrefStage m_agg_stage;
 
 			// private copy ctor
 			CDXLScalarAggref(const CDXLScalarAggref&);
@@ -79,13 +79,13 @@ namespace gpdxl
 
 			const CWStringConst *GetOpNameStr() const;
 
-			IMDId *PmdidAgg() const;
+			IMDId *GetDXLAggFuncMDid() const;
 
-			IMDId *PmdidResolvedRetType() const;
+			IMDId *GetDXLResolvedRetTypeMDid() const;
 
-			const CWStringConst *PstrAggStage() const;
+			const CWStringConst *GetDXLStrAggStage() const;
 
-			EdxlAggrefStage Edxlaggstage() const;
+			EdxlAggrefStage GetDXLAggStage() const;
 
 			BOOL IsDistinct() const;
 
