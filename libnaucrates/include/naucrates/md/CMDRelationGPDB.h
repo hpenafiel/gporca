@@ -73,19 +73,19 @@ namespace gpmd
 			ULONG m_ulDroppedCols;
 			
 			// indices of distribution columns
-			ULongPtrArray *m_pdrgpulDistrColumns;
+			ULongPtrArray *m_distr_col_array;
 			
 			// do we need to consider a hash distributed table as random distributed
-			BOOL m_fConvertHashToRandom;
+			BOOL m_convert_hash_to_random;
 
 			// indices of partition columns
-			ULongPtrArray *m_pdrgpulPartColumns;
+			ULongPtrArray *m_partition_cols_array;
 			
 			// partition types
-			CharPtrArray *m_pdrgpszPartTypes;
+			CharPtrArray *m_str_part_types_array;
 
 			// number of partition
-			ULONG m_ulPartitions;
+			ULONG m_num_of_partitions;
 
 			// array of key sets
 			ULongPtrArray2D *m_pdrgpdrgpulKeys;

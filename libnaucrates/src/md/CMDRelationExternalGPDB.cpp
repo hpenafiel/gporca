@@ -48,8 +48,8 @@ CMDRelationExternalGPDB::CMDRelationExternalGPDB
 	m_rel_distr_policy(rel_distr_policy),
 	m_md_col_array(pdrgpmdcol),
 	m_ulDroppedCols(0),
-	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
-	m_fConvertHashToRandom(fConvertHashToRandom),
+	m_distr_col_array(pdrgpulDistrColumns),
+	m_convert_hash_to_random(fConvertHashToRandom),
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
 	m_mdindex_info_array(pdrgpmdIndexInfo),
 	m_pdrgpmdidTriggers(pdrgpmdidTriggers),
@@ -127,7 +127,7 @@ CMDRelationExternalGPDB::~CMDRelationExternalGPDB()
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
 	m_md_col_array->Release();
-	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
+	CRefCount::SafeRelease(m_distr_col_array);
 	CRefCount::SafeRelease(m_pdrgpdrgpulKeys);
 	m_mdindex_info_array->Release();
 	m_pdrgpmdidTriggers->Release();
@@ -325,7 +325,7 @@ CMDRelationExternalGPDB::UlPosFromAttno
 BOOL
 CMDRelationExternalGPDB::FConvertHashToRandom() const
 {
-	return m_fConvertHashToRandom;
+	return m_convert_hash_to_random;
 }
 
 //---------------------------------------------------------------------------
@@ -415,7 +415,7 @@ CMDRelationExternalGPDB::PdrgpulKeyset
 ULONG
 CMDRelationExternalGPDB::UlDistrColumns() const
 {
-	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->Size();
+	return (m_distr_col_array == NULL) ? 0 : m_distr_col_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -481,9 +481,9 @@ CMDRelationExternalGPDB::PmdcolDistrColumn
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->Size());
+	GPOS_ASSERT(ulPos < m_distr_col_array->Size());
 
-	ULONG ulDistrKeyPos = (*(*m_pdrgpulDistrColumns)[ulPos]);
+	ULONG ulDistrKeyPos = (*(*m_distr_col_array)[ulPos]);
 	return GetMdCol(ulDistrKeyPos);
 }
 
@@ -581,10 +581,10 @@ CMDRelationExternalGPDB::Serialize
 
 	if (EreldistrHash == m_rel_distr_policy)
 	{
-		GPOS_ASSERT(NULL != m_pdrgpulDistrColumns);
+		GPOS_ASSERT(NULL != m_distr_col_array);
 
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_pdrgpulDistrColumns);
+		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_distr_col_array);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDistrColumns), pstrDistrColumns);
 		GPOS_DELETE(pstrDistrColumns);
 	}
@@ -608,9 +608,9 @@ CMDRelationExternalGPDB::Serialize
 		m_pmdidFmtErrRel->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenExtRelFmtErrRel));
 	}
 
-	if (m_fConvertHashToRandom)
+	if (m_convert_hash_to_random)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenConvertHashToRandom), m_fConvertHashToRandom);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenConvertHashToRandom), m_convert_hash_to_random);
 	}
 
 	// serialize columns

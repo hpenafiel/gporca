@@ -51,10 +51,10 @@ CTableDescriptor::CTableDescriptor
 	m_rel_distr_policy(rel_distr_policy),
 	m_erelstoragetype(erelstoragetype),
 	m_pdrgpcoldescDist(NULL),
-	m_fConvertHashToRandom(fConvertHashToRandom),
+	m_convert_hash_to_random(fConvertHashToRandom),
 	m_pdrgpulPart(NULL),
 	m_pdrgpbsKeys(NULL),
-	m_ulPartitions(0),
+	m_num_of_partitions(0),
 	m_execute_as_user_id(ulExecuteAsUser),
 	m_fHasPartialIndexes(FDescriptorWithPartialIndexes())
 {

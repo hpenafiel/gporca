@@ -58,11 +58,11 @@ CMDRelationGPDB::CMDRelationGPDB
 	m_rel_distr_policy(rel_distr_policy),
 	m_md_col_array(pdrgpmdcol),
 	m_ulDroppedCols(0),
-	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
-	m_fConvertHashToRandom(fConvertHashToRandom),
-	m_pdrgpulPartColumns(pdrgpulPartColumns),
-	m_pdrgpszPartTypes(pdrgpszPartTypes),
-	m_ulPartitions(ulPartitions),
+	m_distr_col_array(pdrgpulDistrColumns),
+	m_convert_hash_to_random(fConvertHashToRandom),
+	m_partition_cols_array(pdrgpulPartColumns),
+	m_str_part_types_array(pdrgpszPartTypes),
+	m_num_of_partitions(ulPartitions),
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
 	m_mdindex_info_array(pdrgpmdIndexInfo),
 	m_pdrgpmdidTriggers(pdrgpmdidTriggers),
@@ -138,9 +138,9 @@ CMDRelationGPDB::~CMDRelationGPDB()
 	GPOS_DELETE(m_pstr);
 	m_mdid->Release();
 	m_md_col_array->Release();
-	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
-	CRefCount::SafeRelease(m_pdrgpulPartColumns);
-	CRefCount::SafeRelease(m_pdrgpszPartTypes);
+	CRefCount::SafeRelease(m_distr_col_array);
+	CRefCount::SafeRelease(m_partition_cols_array);
+	CRefCount::SafeRelease(m_str_part_types_array);
 	CRefCount::SafeRelease(m_pdrgpdrgpulKeys);
 	m_mdindex_info_array->Release();
 	m_pdrgpmdidTriggers->Release();
@@ -400,7 +400,7 @@ CMDRelationGPDB::PdrgpulKeyset
 ULONG
 CMDRelationGPDB::UlDistrColumns() const
 {	
-	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->Size();
+	return (m_distr_col_array == NULL) ? 0 : m_distr_col_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -442,7 +442,7 @@ CMDRelationGPDB::FPartitioned() const
 ULONG
 CMDRelationGPDB::UlPartitions() const
 {
-	return m_ulPartitions;
+	return m_num_of_partitions;
 }
 
 //---------------------------------------------------------------------------
@@ -456,21 +456,21 @@ CMDRelationGPDB::UlPartitions() const
 ULONG
 CMDRelationGPDB::UlPartColumns() const
 {	
-	return (m_pdrgpulPartColumns == NULL) ? 0 : m_pdrgpulPartColumns->Size();
+	return (m_partition_cols_array == NULL) ? 0 : m_partition_cols_array->Size();
 }
 
 // Retrieve list of partition types
 CharPtrArray *
 CMDRelationGPDB::PdrgpszPartTypes() const
 {
-	return m_pdrgpszPartTypes;
+	return m_str_part_types_array;
 }
 
 // Returns the partition type of the given level
 CHAR
 CMDRelationGPDB::SzPartType(ULONG ulLevel) const
 {
-	return *(*m_pdrgpszPartTypes)[ulLevel];
+	return *(*m_str_part_types_array)[ulLevel];
 }
 
 
@@ -490,7 +490,7 @@ CMDRelationGPDB::PmdcolPartColumn
 	) 
 	const
 {
-	ULONG ulPartKeyPos = (*(*m_pdrgpulPartColumns)[ulPos]);
+	ULONG ulPartKeyPos = (*(*m_partition_cols_array)[ulPos]);
 	return GetMdCol(ulPartKeyPos);
 }
 
@@ -557,9 +557,9 @@ CMDRelationGPDB::PmdcolDistrColumn
 	) 
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->Size());
+	GPOS_ASSERT(ulPos < m_distr_col_array->Size());
 	
-	ULONG ulDistrKeyPos = (*(*m_pdrgpulDistrColumns)[ulPos]);
+	ULONG ulDistrKeyPos = (*(*m_distr_col_array)[ulPos]);
 	return GetMdCol(ulDistrKeyPos);
 }
 
@@ -573,7 +573,7 @@ CMDRelationGPDB::PmdcolDistrColumn
 BOOL
 CMDRelationGPDB::FConvertHashToRandom() const
 {
-	return m_fConvertHashToRandom;
+	return m_convert_hash_to_random;
 }
 
 //---------------------------------------------------------------------------
@@ -714,10 +714,10 @@ CMDRelationGPDB::Serialize
 	
 	if (EreldistrHash == m_rel_distr_policy)
 	{
-		GPOS_ASSERT(NULL != m_pdrgpulDistrColumns);
+		GPOS_ASSERT(NULL != m_distr_col_array);
 		
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_pdrgpulDistrColumns);
+		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_distr_col_array);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDistrColumns), pstrDistrColumns);
 		GPOS_DELETE(pstrDistrColumns);
 	}
@@ -733,25 +733,25 @@ CMDRelationGPDB::Serialize
 	if (FPartitioned())
 	{
 		// serialize partition keys
-		CWStringDynamic *pstrPartKeys = CDXLUtils::Serialize(m_memory_pool, m_pdrgpulPartColumns);
+		CWStringDynamic *pstrPartKeys = CDXLUtils::Serialize(m_memory_pool, m_partition_cols_array);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartKeys), pstrPartKeys);
 		GPOS_DELETE(pstrPartKeys);
 	}
 
-	if (m_pdrgpszPartTypes)
+	if (m_str_part_types_array)
 	{
 		// serialize partition types
-		CWStringDynamic *pstrPartTypes = CDXLUtils::SerializeToCommaSeparatedString(m_memory_pool, m_pdrgpszPartTypes);
+		CWStringDynamic *pstrPartTypes = CDXLUtils::SerializeToCommaSeparatedString(m_memory_pool, m_str_part_types_array);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenPartTypes), pstrPartTypes);
 		GPOS_DELETE(pstrPartTypes);
 	}
 	
-	if (m_fConvertHashToRandom)
+	if (m_convert_hash_to_random)
 	{
-		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenConvertHashToRandom), m_fConvertHashToRandom);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenConvertHashToRandom), m_convert_hash_to_random);
 	}
 
-	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenNumLeafPartitions), m_ulPartitions);
+	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenNumLeafPartitions), m_num_of_partitions);
 
 	// serialize columns
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 

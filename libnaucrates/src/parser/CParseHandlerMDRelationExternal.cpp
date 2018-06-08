@@ -96,7 +96,7 @@ CParseHandlerMDRelationExternal::StartElement
 	const XMLCh *xmlszConvertHashToRandom = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenConvertHashToRandom));
 	if (NULL != xmlszConvertHashToRandom)
 	{
-		m_fConvertHashToRandom = CDXLOperatorFactory::ConvertAttrValueToBool
+		m_convert_hash_to_random = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
 										xmlszConvertHashToRandom,
@@ -132,17 +132,17 @@ CParseHandlerMDRelationExternal::EndElement
 	}
 
 	// construct metadata object from the created child elements
-	CParseHandlerMetadataColumns *pphMdCol = dynamic_cast<CParseHandlerMetadataColumns *>((*this)[0]);
+	CParseHandlerMetadataColumns *md_cols_parse_handler = dynamic_cast<CParseHandlerMetadataColumns *>((*this)[0]);
 	CParseHandlerMDIndexInfoList *pphMdlIndexInfo = dynamic_cast<CParseHandlerMDIndexInfoList*>((*this)[1]);
 	CParseHandlerMetadataIdList *pphMdidlTriggers = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[2]);
 	CParseHandlerMetadataIdList *pphMdidlCheckConstraints = dynamic_cast<CParseHandlerMetadataIdList*>((*this)[3]);
 
-	GPOS_ASSERT(NULL != pphMdCol->GetMdColArray());
+	GPOS_ASSERT(NULL != md_cols_parse_handler->GetMdColArray());
 	GPOS_ASSERT(NULL != pphMdlIndexInfo->GetMdIndexInfoArray());
 	GPOS_ASSERT(NULL != pphMdidlCheckConstraints->GetMdIdArray());
 
 	// refcount child objects
-	DrgPmdcol *pdrgpmdcol = pphMdCol->GetMdColArray();
+	DrgPmdcol *pdrgpmdcol = md_cols_parse_handler->GetMdColArray();
 	DrgPmdIndexInfo *pdrgpmdIndexInfo = pphMdlIndexInfo->GetMdIndexInfoArray();
 	DrgPmdid *pdrgpmdidTriggers = pphMdidlTriggers->GetMdIdArray();
 	DrgPmdid *pdrgpmdidCheckConstraint = pphMdidlCheckConstraints->GetMdIdArray();
@@ -159,8 +159,8 @@ CParseHandlerMDRelationExternal::EndElement
 									m_mdname,
 									m_rel_distr_policy,
 									pdrgpmdcol,
-									m_pdrgpulDistrColumns,
-									m_fConvertHashToRandom,
+									m_distr_col_array,
+									m_convert_hash_to_random,
 									m_pdrgpdrgpulKeys,
 									pdrgpmdIndexInfo,
 									pdrgpmdidTriggers,

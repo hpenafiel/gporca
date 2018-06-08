@@ -64,10 +64,10 @@ namespace gpmd
 			ULONG m_ulDroppedCols;
 
 			// indices of distribution columns
-			ULongPtrArray *m_pdrgpulDistrColumns;
+			ULongPtrArray *m_distr_col_array;
 
 			// do we need to consider a hash distributed table as random distributed
-			BOOL m_fConvertHashToRandom;
+			BOOL m_convert_hash_to_random;
 
 			// array of key sets
 			ULongPtrArray2D *m_pdrgpdrgpulKeys;

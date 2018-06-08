@@ -52,7 +52,7 @@ CMDRelationCtasGPDB::CMDRelationCtasGPDB
 	m_rel_storage_type(rel_storage_type),
 	m_rel_distr_policy(rel_distr_policy),
 	m_md_col_array(pdrgpmdcol),
-	m_pdrgpulDistrColumns(pdrgpulDistrColumns),
+	m_distr_col_array(pdrgpulDistrColumns),
 	m_pdrgpdrgpulKeys(pdrgpdrgpulKeys),
 	m_ulSystemColumns(0),
 	m_pdrgpulNonDroppedCols(NULL),
@@ -114,7 +114,7 @@ CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 	m_md_col_array->Release();
 	m_pdrgpdrgpulKeys->Release();
 	m_pdrgpdoubleColWidths->Release();
-	CRefCount::SafeRelease(m_pdrgpulDistrColumns);
+	CRefCount::SafeRelease(m_distr_col_array);
 	CRefCount::SafeRelease(m_phmiulAttno2Pos);
 	CRefCount::SafeRelease(m_pdrgpulNonDroppedCols);
 	m_dxl_ctas_storage_option->Release();
@@ -250,7 +250,7 @@ CMDRelationCtasGPDB::UlPosFromAttno
 ULONG
 CMDRelationCtasGPDB::UlDistrColumns() const
 {
-	return (m_pdrgpulDistrColumns == NULL) ? 0 : m_pdrgpulDistrColumns->Size();
+	return (m_distr_col_array == NULL) ? 0 : m_distr_col_array->Size();
 }
 
 //---------------------------------------------------------------------------
@@ -288,9 +288,9 @@ CMDRelationCtasGPDB::PmdcolDistrColumn
 	)
 	const
 {
-	GPOS_ASSERT(ulPos < m_pdrgpulDistrColumns->Size());
+	GPOS_ASSERT(ulPos < m_distr_col_array->Size());
 
-	ULONG ulDistrKeyPos = (*(*m_pdrgpulDistrColumns)[ulPos]);
+	ULONG ulDistrKeyPos = (*(*m_distr_col_array)[ulPos]);
 	return GetMdCol(ulDistrKeyPos);
 }
 
@@ -333,10 +333,10 @@ CMDRelationCtasGPDB::Serialize
 
 	if (EreldistrHash == m_rel_distr_policy)
 	{
-		GPOS_ASSERT(NULL != m_pdrgpulDistrColumns);
+		GPOS_ASSERT(NULL != m_distr_col_array);
 
 		// serialize distribution columns
-		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_pdrgpulDistrColumns);
+		CWStringDynamic *pstrDistrColumns = PstrColumns(m_memory_pool, m_distr_col_array);
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDistrColumns), pstrDistrColumns);
 		GPOS_DELETE(pstrDistrColumns);
 	}

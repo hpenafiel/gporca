@@ -75,7 +75,7 @@ namespace gpmd
 			DrgPmdcol *m_md_col_array;
 
 			// indices of distribution columns
-			ULongPtrArray *m_pdrgpulDistrColumns;
+			ULongPtrArray *m_distr_col_array;
 			
 			// array of key sets
 			ULongPtrArray2D *m_pdrgpdrgpulKeys;

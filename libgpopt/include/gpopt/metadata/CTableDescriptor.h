@@ -71,7 +71,7 @@ namespace gpopt
 			// 1. in hawq 2.0, some hash distributed tables need to be considered as random,
 			//	  depending on its bucket number
 			// 2. for a partitioned table, it may contain a part with a different distribution
-			BOOL m_fConvertHashToRandom;
+			BOOL m_convert_hash_to_random;
 			
 			// indexes of partition columns for partitioned tables
 			ULongPtrArray *m_pdrgpulPart;
@@ -80,7 +80,7 @@ namespace gpopt
 			DrgPbs *m_pdrgpbsKeys;
 			
 			// number of leaf partitions
-			ULONG m_ulPartitions;
+			ULONG m_num_of_partitions;
 
 			// id of user the table needs to be accessed with
 			ULONG m_execute_as_user_id;
@@ -196,7 +196,7 @@ namespace gpopt
 			// true iff a hash distributed table needs to be considered as random
 			BOOL FConvertHashToRandom() const
 			{
-				return m_fConvertHashToRandom;
+				return m_convert_hash_to_random;
 			}
 			
 			// helper function for finding the index of a column descriptor in

@@ -160,13 +160,13 @@ CParseHandlerMDRelationCtas::EndElement
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
-	CParseHandlerMetadataColumns *pphMdCol = dynamic_cast<CParseHandlerMetadataColumns *>((*this)[0]);
+	CParseHandlerMetadataColumns *md_cols_parse_handler = dynamic_cast<CParseHandlerMetadataColumns *>((*this)[0]);
 	CParseHandlerCtasStorageOptions *ctas_options_parse_handler = dynamic_cast<CParseHandlerCtasStorageOptions *>((*this)[1]);
 
-	GPOS_ASSERT(NULL != pphMdCol->GetMdColArray());
+	GPOS_ASSERT(NULL != md_cols_parse_handler->GetMdColArray());
 	GPOS_ASSERT(NULL != ctas_options_parse_handler->GetDxlCtasStorageOption());
 
-	DrgPmdcol *pdrgpmdcol = pphMdCol->GetMdColArray();
+	DrgPmdcol *pdrgpmdcol = md_cols_parse_handler->GetMdColArray();
 	CDXLCtasStorageOptions *dxl_ctas_storage_options = ctas_options_parse_handler->GetDxlCtasStorageOption();
 
 	pdrgpmdcol->AddRef();
@@ -183,7 +183,7 @@ CParseHandlerMDRelationCtas::EndElement
 									m_rel_storage_type,
 									m_rel_distr_policy,
 									pdrgpmdcol,
-									m_pdrgpulDistrColumns,
+									m_distr_col_array,
 									m_pdrgpdrgpulKeys,									
 									dxl_ctas_storage_options,
 									m_vartypemod_array
