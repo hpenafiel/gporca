@@ -79,10 +79,10 @@ CParseHandlerMDRelationCtas::StartElement
 
 	GPOS_ASSERT(IMDId::EmdidGPDBCtas == m_mdid->Emdidt());
 
-	const XMLCh *xmlszSchema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
-	if (NULL != xmlszSchema)
+	const XMLCh *xml_str_schema = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenSchema));
+	if (NULL != xml_str_schema)
 	{
-		m_mdname_schema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszSchema);
+		m_mdname_schema = CDXLUtils::CreateMDNameFromXMLChar(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_schema);
 	}
 	
 	// parse whether relation is temporary
@@ -95,20 +95,20 @@ CParseHandlerMDRelationCtas::StartElement
 											);
 
 	// parse whether relation has oids
-	const XMLCh *xmlszHasOids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
-	if (NULL != xmlszHasOids)
+	const XMLCh *xml_str_has_oids = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenRelHasOids));
+	if (NULL != xml_str_has_oids)
 	{
-		m_has_oids = CDXLOperatorFactory::ConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), xmlszHasOids, EdxltokenRelHasOids, EdxltokenRelation);
+		m_has_oids = CDXLOperatorFactory::ConvertAttrValueToBool(m_parse_handler_mgr->GetDXLMemoryManager(), xml_str_has_oids, EdxltokenRelHasOids, EdxltokenRelation);
 	}
 
 	// parse storage type
-	const XMLCh *xmlszStorageType = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *xml_str_storage_type = CDXLOperatorFactory::ExtractAttrValue
 															(
 															attrs,
 															EdxltokenRelStorageType,
 															EdxltokenRelation
 															);
-	m_rel_storage_type = CDXLOperatorFactory::ParseRelationStorageType(xmlszStorageType);
+	m_rel_storage_type = CDXLOperatorFactory::ParseRelationStorageType(xml_str_storage_type);
 
 	// parse vartypemod
 	const XMLCh *vartypemod_xml = CDXLOperatorFactory::ExtractAttrValue
@@ -130,11 +130,11 @@ CParseHandlerMDRelationCtas::StartElement
 	m_parse_handler_mgr->ActivateParseHandler(ctas_options_parse_handler);
 	
 	// parse handler for the columns
-	CParseHandlerBase *pphColumns = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_parse_handler_mgr, this);
-	m_parse_handler_mgr->ActivateParseHandler(pphColumns);
+	CParseHandlerBase *columns_parse_handler = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenMetadataColumns), m_parse_handler_mgr, this);
+	m_parse_handler_mgr->ActivateParseHandler(columns_parse_handler);
 	
 	// store parse handlers
-	this->Append(pphColumns);
+	this->Append(columns_parse_handler);
 	this->Append(ctas_options_parse_handler);
 }
 
@@ -166,10 +166,10 @@ CParseHandlerMDRelationCtas::EndElement
 	GPOS_ASSERT(NULL != md_cols_parse_handler->GetMdColArray());
 	GPOS_ASSERT(NULL != ctas_options_parse_handler->GetDxlCtasStorageOption());
 
-	DrgPmdcol *pdrgpmdcol = md_cols_parse_handler->GetMdColArray();
+	DrgPmdcol *md_col_array = md_cols_parse_handler->GetMdColArray();
 	CDXLCtasStorageOptions *dxl_ctas_storage_options = ctas_options_parse_handler->GetDxlCtasStorageOption();
 
-	pdrgpmdcol->AddRef();
+	md_col_array->AddRef();
 	dxl_ctas_storage_options->AddRef();
 
 	m_imd_obj = GPOS_NEW(m_memory_pool) CMDRelationCtasGPDB
@@ -182,9 +182,9 @@ CParseHandlerMDRelationCtas::EndElement
 									m_has_oids,
 									m_rel_storage_type,
 									m_rel_distr_policy,
-									pdrgpmdcol,
+									md_col_array,
 									m_distr_col_array,
-									m_pdrgpdrgpulKeys,									
+									m_key_sets_arrays,									
 									dxl_ctas_storage_options,
 									m_vartypemod_array
 								);

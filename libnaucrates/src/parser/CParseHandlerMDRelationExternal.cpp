@@ -161,7 +161,7 @@ CParseHandlerMDRelationExternal::EndElement
 									pdrgpmdcol,
 									m_distr_col_array,
 									m_convert_hash_to_random,
-									m_pdrgpdrgpulKeys,
+									m_key_sets_arrays,
 									pdrgpmdIndexInfo,
 									pdrgpmdidTriggers,
 									pdrgpmdidCheckConstraint,
