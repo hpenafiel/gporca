@@ -41,10 +41,10 @@ namespace gpdxl
 			INT m_type;
 
 			// old column ids
-			ULongPtrArray *m_pdrgpulOld;
+			ULongPtrArray *m_col_ids_old;
 
 			// new column ids
-			ULongPtrArray *m_pdrgpulNew;
+			ULongPtrArray *m_col_ids_new;
 
 			// private copy ctor
 			CDXLPhysicalRowTrigger(const CDXLPhysicalRowTrigger &);
@@ -88,13 +88,13 @@ namespace gpdxl
 			// old column ids
 			ULongPtrArray *PdrgpulOld() const
 			{
-				return m_pdrgpulOld;
+				return m_col_ids_old;
 			}
 
 			// new column ids
 			ULongPtrArray *PdrgpulNew() const
 			{
-				return m_pdrgpulNew;
+				return m_col_ids_new;
 			}
 
 #ifdef GPOS_DEBUG
