@@ -19,11 +19,11 @@ namespace gpdxl
 	using namespace gpos;
 	using namespace gpmd;
 
-	enum Edxlprop
+	enum Edxlproperty
 	{
-		EdxlpropLogical,
-		EdxlpropPhysical,
-		EdxlpropSentinel
+		EdxlpropertyLogical,
+		EdxlpropertyPhysical,
+		EdxlpropertySentinel
 	};
 
 	//---------------------------------------------------------------------------
@@ -68,9 +68,9 @@ namespace gpdxl
 			const CDXLStatsDerivedRelation *GetDxlStatsDrvdRelation() const;
 
 			virtual
-			Edxlprop Edxlproptype() const
+			Edxlproperty GetDXLPropertyType() const
 			{
-				return EdxlpropLogical;
+				return EdxlpropertyLogical;
 			}
 
 			// serialize properties in DXL format

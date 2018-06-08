@@ -89,24 +89,24 @@ CParseHandlerProperties::StartElement
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenProperties), element_local_name))
 	{
 		// create and install cost and output column parsers
-		CParseHandlerBase *pph = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCost), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pph);
+		CParseHandlerBase *parse_handler_root = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenCost), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_root);
 
 		// store parse handler
-		this->Append(pph);
+		this->Append(parse_handler_root);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), element_local_name))
 	{
 		GPOS_ASSERT(1 == this->Length());
 
 		// create and install derived relation statistics parsers
-		CParseHandlerBase *pphStats = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), m_parse_handler_mgr, this);
-		m_parse_handler_mgr->ActivateParseHandler(pphStats);
+		CParseHandlerBase *parse_handler_stats = CParseHandlerFactory::GetParseHandler(m_memory_pool, CDXLTokens::XmlstrToken(EdxltokenStatsDerivedRelation), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(parse_handler_stats);
 
 		// store parse handler
-		this->Append(pphStats);
+		this->Append(parse_handler_stats);
 
-		pphStats->startElement(element_uri, element_local_name, element_qname, attrs);
+		parse_handler_stats->startElement(element_uri, element_local_name, element_qname, attrs);
 	}
 	else
 	{
@@ -140,16 +140,16 @@ CParseHandlerProperties::EndElement
 	GPOS_ASSERT((1 == this->Length()) || (2 == this->Length()));
 	
 	// assemble the properties container from the cost
-	CParseHandlerCost *pph = dynamic_cast<CParseHandlerCost *>((*this)[0]);
+	CParseHandlerCost *parse_handler_cost = dynamic_cast<CParseHandlerCost *>((*this)[0]);
 
-	CDXLOperatorCost *cost = pph->MakeDXLOperatorCost();
+	CDXLOperatorCost *cost = parse_handler_cost->MakeDXLOperatorCost();
 	cost->AddRef();
 	
 	if (2 == this->Length())
 	{
-		CParseHandlerStatsDerivedRelation *pphStats = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[1]);
+		CParseHandlerStatsDerivedRelation *parse_handler_stats = dynamic_cast<CParseHandlerStatsDerivedRelation *>((*this)[1]);
 
-		CDXLStatsDerivedRelation *dxl_stats_derived_relation = pphStats->GetDxlStatsDrvdRelation();
+		CDXLStatsDerivedRelation *dxl_stats_derived_relation = parse_handler_stats->GetDxlStatsDrvdRelation();
 		dxl_stats_derived_relation->AddRef();
 		m_dxl_stats_derived_relation = dxl_stats_derived_relation;
 	}

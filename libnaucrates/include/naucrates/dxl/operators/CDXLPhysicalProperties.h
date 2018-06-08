@@ -55,9 +55,9 @@ namespace gpdxl
 			CDXLOperatorCost *MakeDXLOperatorCost() const;
 
 			virtual
-			Edxlprop Edxlproptype() const
+			Edxlproperty GetDXLPropertyType() const
 			{
-				return EdxlpropPhysical;
+				return EdxlpropertyPhysical;
 			}
 
 			// conversion function
@@ -68,7 +68,7 @@ namespace gpdxl
 				)
 			{
 				GPOS_ASSERT(NULL != dxl_properties);
-				GPOS_ASSERT(EdxlpropPhysical == dxl_properties->Edxlproptype());
+				GPOS_ASSERT(EdxlpropertyPhysical == dxl_properties->GetDXLPropertyType());
 				return dynamic_cast<CDXLPhysicalProperties *>(dxl_properties);
 			}
 	};
