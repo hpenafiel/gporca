@@ -73,8 +73,8 @@ namespace gpdxl
 			DrgPsysid *GetSrcSysIdArray
 						(	
 						const Attributes &attr,
-						Edxltoken edxltokenAttr,
-						Edxltoken edxltokenElement
+						Edxltoken target_attr,
+						Edxltoken target_elem
 						);
 
 			

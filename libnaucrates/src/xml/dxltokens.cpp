@@ -790,10 +790,10 @@ CDXLTokens::XmlstrToken
 {
 	GPOS_ASSERT(NULL != m_pxmlszmap && "Token map not initialized yet");
 	
-	const XMLCh *xmlsz = m_pxmlszmap[token_type].m_xmlsz;
-	GPOS_ASSERT(NULL != xmlsz);
+	const XMLCh *xml_val = m_pxmlszmap[token_type].m_xmlsz;
+	GPOS_ASSERT(NULL != xml_val);
 	
-	return xmlsz;
+	return xml_val;
 }
 
 //---------------------------------------------------------------------------

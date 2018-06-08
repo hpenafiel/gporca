@@ -775,14 +775,14 @@ namespace gpdxl
 				SXMLStrMapElem
 					(
 					Edxltoken edxlt,
-					XMLCh *xmlsz
+					XMLCh *xml_val
 					)
 					:
 					m_edxlt(edxlt),
-					m_xmlsz(xmlsz)
+					m_xmlsz(xml_val)
 				{
 					GPOS_ASSERT(edxlt < EdxltokenSentinel);
-					GPOS_ASSERT(NULL != xmlsz);
+					GPOS_ASSERT(NULL != xml_val);
 				}
 				
 				//dtor

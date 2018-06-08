@@ -46,7 +46,7 @@ CParseHandlerPhysicalDynamicBitmapTableScan::StartElement
 						attrs,
 						EdxltokenPartIndexIdPrintable,
 						EdxltokenPhysicalDynamicBitmapTableScan,
-						true, //fOptional
+						true, //is_optional
 						m_part_index_id
 						);
 }

@@ -76,7 +76,7 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attrs,
-				Edxltoken edxltokenElement,
+				Edxltoken target_elem,
 				BYTE *pba
 				);
 
@@ -86,7 +86,7 @@ namespace gpdxl
 					(
 					CDXLMemoryManager *memory_manager_dxl,
 					const Attributes &attrs,
-					Edxltoken edxltokenElement,
+					Edxltoken target_elem,
 					ULONG *pulLength
 					);
 
@@ -104,7 +104,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -115,7 +115,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -126,7 +126,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -137,7 +137,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -148,7 +148,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -160,7 +160,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -172,7 +172,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -184,7 +184,7 @@ namespace gpdxl
 								(
 								CDXLMemoryManager *memory_manager_dxl,
 								const Attributes &attrs,
-								Edxltoken edxltokenElement,
+								Edxltoken target_elem,
 								IMDId *mdid,
 								BOOL fConstNull ,
 								BOOL fConstByVal
@@ -397,9 +397,9 @@ namespace gpdxl
 			const XMLCh *ExtractAttrValue
 				(
 				const Attributes &,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false
 				);
 
 			// extracts the boolean value for the given attribute
@@ -408,9 +408,9 @@ namespace gpdxl
 			BOOL ConvertAttrValueToBool
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// converts the XMLCh into LINT
@@ -418,9 +418,9 @@ namespace gpdxl
 			LINT ConvertAttrValueToLint
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// extracts the LINT value for the given attribute
@@ -429,9 +429,9 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
 				LINT lDefaultValue = 0
 				);
 
@@ -440,9 +440,9 @@ namespace gpdxl
 			CDouble ConvertAttrValueToDouble
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// cxtracts the double value for the given attribute
@@ -451,8 +451,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// converts the XMLCh into ULONG. Will raise an exception if the 
@@ -461,9 +461,9 @@ namespace gpdxl
 			ULONG ConvertAttrValueToUlong
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// converts the XMLCh into ULLONG. Will raise an exception if the
@@ -472,9 +472,9 @@ namespace gpdxl
 			ULLONG ConvertAttrValueToUllong
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// converts the XMLCh into INT. Will raise an exception if the 
@@ -483,9 +483,9 @@ namespace gpdxl
 			INT ConvertAttrValueToInt
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse a INT value from the value for a given attribute
@@ -495,10 +495,10 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
-				INT iDefaultValue = 0
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
+				INT default_val = 0
 				);
 
 			// converts the XMLCh into short int. Will raise an exception if the
@@ -507,9 +507,9 @@ namespace gpdxl
 			SINT ConvertAttrValueToShortInt
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse a short int value from the value for a given attribute
@@ -519,10 +519,10 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
-				SINT sDefaultValue = 0
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
+				SINT default_val = 0
 				);
 
 			// converts the XMLCh into char. Will raise an exception if the
@@ -531,9 +531,9 @@ namespace gpdxl
 			CHAR ConvertAttrValueToChar
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// converts the XMLCh into oid. Will raise an exception if the
@@ -542,9 +542,9 @@ namespace gpdxl
 			OID ConvertAttrValueToOid
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse an oid value from the value for a given attribute
@@ -554,9 +554,9 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
 				OID OidDefaultValue = 0
 				);
 
@@ -566,10 +566,10 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
-				BOOL fDefaultValue = false
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
+				BOOL default_value = false
 				);
 			
 			// parse a string value from the value for a given attribute
@@ -578,10 +578,10 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
-				CHAR *szDefaultValue = NULL
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
+				CHAR *default_value = NULL
 				);
 
 			// parse a string value from the value for a given attribute
@@ -589,9 +589,9 @@ namespace gpdxl
 			CHAR* ConvertAttrValueToSz
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a string value from the value for a given attribute
@@ -600,8 +600,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a ULONG value from the value for a given attribute
@@ -611,10 +611,10 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
-				ULONG ulDefaultValue = 0
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
+				ULONG default_value = 0
 				);
 			
 			// parse a ULLONG value from the value for a given attribute
@@ -624,10 +624,10 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
-				ULLONG ullDefaultValue = 0
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
+				ULLONG default_value = 0
 				);
 
 			// parse an mdid object from the given attributes
@@ -636,9 +636,9 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement,
-				BOOL fOptional = false,
+				Edxltoken target_attr,
+				Edxltoken target_elem,
+				BOOL is_optional = false,
 				IMDId *pmdidDefault = NULL
 				);
 			
@@ -648,8 +648,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszMdid,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a GPDB mdid object from an array of its components
@@ -658,8 +658,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a GPDB CTAS mdid object from an array of its components
@@ -668,8 +668,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse a column stats mdid object from an array of its components
@@ -678,8 +678,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse a relation stats mdid object from an array of its components
@@ -688,8 +688,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a cast func mdid from the array of its components
@@ -698,8 +698,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				); 
 			
 			// parse a comparison operator mdid from the array of its components
@@ -708,8 +708,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				DrgPxmlsz *pdrgpxmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a dxl datum object
@@ -718,7 +718,7 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attrs,
-				Edxltoken edxltokenElement
+				Edxltoken target_elem
 				);
 			
 			// parse a comma-separated list of MDids into a dynamic array
@@ -728,8 +728,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUlList,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse a comma-separated list of unsigned long numbers into a dynamic array
@@ -739,8 +739,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attr,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse a comma-separated list of integers numbers into a dynamic array
@@ -752,8 +752,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUl,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			static
@@ -761,16 +761,16 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUl,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				)
 			{
 				return ExtractIntsToArray<ULONG, CleanupDelete, ConvertAttrValueToUlong>
 						(
 						memory_manager_dxl,
 						xmlszUl,
-						edxltokenAttr,
-						edxltokenElement
+						target_attr,
+						target_elem
 						);
 			}
 
@@ -779,16 +779,16 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszUl,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				)
 			{
 				return ExtractIntsToArray<INT, CleanupDelete, ConvertAttrValueToInt>
 						(
 						memory_manager_dxl,
 						xmlszUl,
-						edxltokenAttr,
-						edxltokenElement
+						target_attr,
+						target_elem
 						);
 			}
 
@@ -798,9 +798,9 @@ namespace gpdxl
 			CharPtrArray *ExtractConvertPartitionTypeToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 
 			// parse a semicolon-separated list of comma-separated unsigned 
@@ -810,9 +810,9 @@ namespace gpdxl
 			ULongPtrArray2D *ExtractConvertUlongTo2DArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				const XMLCh *xml_val,
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a comma-separated list of segment ids into a dynamic array
@@ -822,8 +822,8 @@ namespace gpdxl
 				(
 				CDXLMemoryManager *memory_manager_dxl,
 				const XMLCh *xmlszSegIdList,
-				Edxltoken edxltokenAttr,
-				Edxltoken edxltokenElement
+				Edxltoken target_attr,
+				Edxltoken target_elem
 				);
 			
 			// parse a comma-separated list of strings into a dynamic array
@@ -832,7 +832,7 @@ namespace gpdxl
 			StringPtrArray *ExtractConvertStrsToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlsz
+				const XMLCh *xml_val
 				);
 			
 			// parses the input and output segment ids from Xerces attributes and
@@ -844,7 +844,7 @@ namespace gpdxl
 				CDXLMemoryManager *memory_pool,
 				CDXLPhysicalMotion *pdxlopMotion,
 				const Attributes &attrs,
-				Edxltoken edxltokenElement
+				Edxltoken target_elem
 				);
 			
 			static
@@ -859,7 +859,7 @@ namespace gpdxl
 
 			// parse system id
 			static
-			CSystemId Sysid(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs, Edxltoken edxltokenAttr, Edxltoken edxltokenElement);
+			CSystemId Sysid(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs, Edxltoken target_attr, Edxltoken target_elem);
 			
 			// parse the frame boundary
 			static
@@ -879,11 +879,11 @@ namespace gpdxl
 			
 			// parse the distribution policy from the given XML string
 			static
-			IMDRelation::GetRelDistrPolicy ParseRelationDistPolicy(const XMLCh *xmlsz);
+			IMDRelation::GetRelDistrPolicy ParseRelationDistPolicy(const XMLCh *xml_val);
 			
 			// parse the storage type from the given XML string
 			static
-			IMDRelation::Erelstoragetype ParseRelationStorageType(const XMLCh *xmlsz);
+			IMDRelation::Erelstoragetype ParseRelationStorageType(const XMLCh *xml_val);
 			
 			// parse the OnCommit action spec for CTAS
 			static
@@ -904,8 +904,8 @@ namespace gpdxl
 		(
 		CDXLMemoryManager *memory_manager_dxl,
 		const XMLCh *xmlszUlList,
-		Edxltoken edxltokenAttr,
-		Edxltoken edxltokenElement
+		Edxltoken target_attr,
+		Edxltoken target_elem
 		)
 	{
 		// get the memory pool from the memory manager
@@ -922,7 +922,7 @@ namespace gpdxl
 
 			GPOS_ASSERT(NULL != xmlszNext);
 
-			T *pt = GPOS_NEW(memory_pool) T(ValueFromXmlstr(memory_manager_dxl, xmlszNext, edxltokenAttr, edxltokenElement));
+			T *pt = GPOS_NEW(memory_pool) T(ValueFromXmlstr(memory_manager_dxl, xmlszNext, target_attr, target_elem));
 			pdrgpt->Append(pt);
 		}
 

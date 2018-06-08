@@ -166,8 +166,8 @@ CParseHandlerMDType::StartElement
 										);
 
 			// parse if type is composite
-			const XMLCh *xmlszAttributeVal = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenMDTypeComposite));
-			if (NULL == xmlszAttributeVal)
+			const XMLCh *attribute_val_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenMDTypeComposite));
+			if (NULL == attribute_val_xml)
 			{
 				m_is_composite = false;
 			}
@@ -176,7 +176,7 @@ CParseHandlerMDType::StartElement
 				m_is_composite = CDXLOperatorFactory::ConvertAttrValueToBool
 										(
 										m_parse_handler_mgr->GetDXLMemoryManager(),
-										xmlszAttributeVal,
+										attribute_val_xml,
 										EdxltokenMDTypeComposite,
 										EdxltokenMDType
 										);

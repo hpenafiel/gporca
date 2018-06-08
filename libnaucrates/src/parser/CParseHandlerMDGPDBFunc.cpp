@@ -215,20 +215,20 @@ CParseHandlerMDGPDBFunc::EndElement
 CMDFunctionGPDB::EFuncStbl 
 CParseHandlerMDGPDBFunc::ParseFuncStability
 	(
-	const XMLCh *xmlsz
+	const XMLCh *xml_val
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncStable), xmlsz))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncStable), xml_val))
 	{
 		return CMDFunctionGPDB::EfsStable;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncImmutable), xmlsz))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncImmutable), xml_val))
 	{
 		return CMDFunctionGPDB::EfsImmutable;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncVolatile), xmlsz))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncVolatile), xml_val))
 	{
 		return CMDFunctionGPDB::EfsVolatile;
 	}
@@ -255,25 +255,25 @@ CParseHandlerMDGPDBFunc::ParseFuncStability
 CMDFunctionGPDB::EFuncDataAcc
 CParseHandlerMDGPDBFunc::ParseFuncDataAccess
 	(
-	const XMLCh *xmlsz
+	const XMLCh *xml_val
 	)
 {
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncNoSQL), xmlsz))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncNoSQL), xml_val))
 	{
 		return CMDFunctionGPDB::EfdaNoSQL;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncContainsSQL), xmlsz))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncContainsSQL), xml_val))
 	{
 		return CMDFunctionGPDB::EfdaContainsSQL;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncReadsSQLData), xmlsz))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncReadsSQLData), xml_val))
 	{
 		return CMDFunctionGPDB::EfdaReadsSQLData;
 	}
 
-	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncModifiesSQLData), xmlsz))
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenGPDBFuncModifiesSQLData), xml_val))
 	{
 		return CMDFunctionGPDB::EfdaModifiesSQLData;
 	}

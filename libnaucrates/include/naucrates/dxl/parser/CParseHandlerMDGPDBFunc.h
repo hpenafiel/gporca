@@ -82,10 +82,10 @@ namespace gpdxl
 				);
 			
 			// parse function stability property from XML string
-			CMDFunctionGPDB::EFuncStbl ParseFuncStability(const XMLCh *xmlsz);
+			CMDFunctionGPDB::EFuncStbl ParseFuncStability(const XMLCh *xml_val);
 
 			// parse function data access property from XML string
-			CMDFunctionGPDB::EFuncDataAcc ParseFuncDataAccess(const XMLCh *xmlsz);
+			CMDFunctionGPDB::EFuncDataAcc ParseFuncDataAccess(const XMLCh *xml_val);
 
 		public:
 			// ctor

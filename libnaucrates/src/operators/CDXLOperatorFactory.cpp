@@ -1817,7 +1817,7 @@ CDXLOperatorFactory::MakeDXLColRef
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement
+	Edxltoken target_elem
 	)
 {
 	// get the memory pool from the memory manager
@@ -1828,24 +1828,24 @@ CDXLOperatorFactory::MakeDXLColRef
 									(
 									attrs,
 									EdxltokenColName,
-									edxltokenElement
+									target_elem
 									);
 
 	// parse column id
 	ULONG id = 0;
-	const XMLCh *xmlszColumnId = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColId));
-	if(NULL == xmlszColumnId)
+	const XMLCh *col_id_xml = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenColId));
+	if(NULL == col_id_xml)
 	{
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
 			CDXLTokens::GetDXLTokenStr(EdxltokenColRef)->GetBuffer(),
-			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 			);
 	}
 	
-	id = XMLString::parseInt(xmlszColumnId, memory_manager_dxl);
+	id = XMLString::parseInt(col_id_xml, memory_manager_dxl);
 		
 	CWStringDynamic *col_name =  CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl,column_name_xml);
 
@@ -1859,7 +1859,7 @@ CDXLOperatorFactory::MakeDXLColRef
 						memory_manager_dxl,
 						attrs,
 						EdxltokenTypeId,
-						edxltokenElement
+						target_elem
 						);
 
 	// parse optional type modifier
@@ -1868,7 +1868,7 @@ CDXLOperatorFactory::MakeDXLColRef
 						memory_manager_dxl,
 						attrs,
 						EdxltokenTypeMod,
-						edxltokenElement,
+						target_elem,
 						true,
 						IDefaultTypeModifier
 						);
@@ -1892,7 +1892,7 @@ CDXLOperatorFactory::ParseOutputSegId
 	)
 {
 	// get output segment index from attributes
-	const XMLCh *xmlszSegId = ExtractAttrValue
+	const XMLCh *seg_id_xml = ExtractAttrValue
 									(
 									attrs,
 									EdxltokenSegId,
@@ -1903,7 +1903,7 @@ CDXLOperatorFactory::ParseOutputSegId
 	INT segment_id = -1;
 	try
 	{
-		segment_id = XMLString::parseInt(xmlszSegId, memory_manager_dxl);
+		segment_id = XMLString::parseInt(seg_id_xml, memory_manager_dxl);
 	}
 	catch (const NumberFormatException& toCatch)
 	{
@@ -1933,25 +1933,25 @@ const XMLCh *
 CDXLOperatorFactory::ExtractAttrValue
 	(
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional
 	)
 {
-	const XMLCh *xmlszAttributeVal = attrs.getValue(CDXLTokens::XmlstrToken(edxltokenAttr));
+	const XMLCh *attribute_val_xml = attrs.getValue(CDXLTokens::XmlstrToken(target_attr));
 
-	if (NULL == xmlszAttributeVal && !fOptional)
+	if (NULL == attribute_val_xml && !is_optional)
 	{
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLMissingAttribute,
-			CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
-			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(target_attr)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 			);
 	}
 
-	return xmlszAttributeVal;
+	return attribute_val_xml;
 }
 
 //---------------------------------------------------------------------------
@@ -1966,16 +1966,16 @@ ULONG
 CDXLOperatorFactory::ConvertAttrValueToUlong
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	GPOS_ASSERT(xmlszAttributeVal != NULL);
-	ULONG id = 0;
+	GPOS_ASSERT(attribute_val_xml != NULL);
+	ULONG attr = 0;
 	try
 	{
-		id = XMLString::parseInt(xmlszAttributeVal, memory_manager_dxl);
+		attr = XMLString::parseInt(attribute_val_xml, memory_manager_dxl);
 	}
 	catch (const NumberFormatException& toCatch)
 	{
@@ -1984,11 +1984,11 @@ CDXLOperatorFactory::ConvertAttrValueToUlong
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(target_attr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 		);
 	}
-	return id;
+	return attr;
 }
 
 
@@ -2004,34 +2004,34 @@ ULLONG
 CDXLOperatorFactory::ConvertAttrValueToUllong
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	GPOS_ASSERT(xmlszAttributeVal != NULL);
+	GPOS_ASSERT(attribute_val_xml != NULL);
 
-	CHAR *sz = XMLString::transcode(xmlszAttributeVal, memory_manager_dxl);
-	GPOS_ASSERT(NULL != sz);
+	CHAR *attr = XMLString::transcode(attribute_val_xml, memory_manager_dxl);
+	GPOS_ASSERT(NULL != attr);
 
-	CHAR **ppszEnd = NULL;
-	LINT liVal = clib::StrToLL(sz, ppszEnd, 10 /*ulBase*/);
+	CHAR **end = NULL;
+	LINT converted_val = clib::StrToLL(attr, end, 10 /*ulBase*/);
 
-	if ((NULL != ppszEnd && sz == *ppszEnd) ||
-		LINT_MAX == liVal || LINT_MIN == liVal || 0 > liVal)
+	if ((NULL != end && attr == *end) ||
+		LINT_MAX == converted_val || LINT_MIN == converted_val || 0 > converted_val)
 	{
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
-			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(target_attr)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 			);
 	}
 
-	XMLString::release(&sz, memory_manager_dxl);
+	XMLString::release(&attr, memory_manager_dxl);
 
-	return (ULLONG) liVal;
+	return (ULLONG) converted_val;
 }
 
 
@@ -2047,30 +2047,30 @@ BOOL
 CDXLOperatorFactory::ConvertAttrValueToBool
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	GPOS_ASSERT(xmlszAttributeVal != NULL);
+	GPOS_ASSERT(attribute_val_xml != NULL);
 	BOOL flag = false;
-	CHAR *sz = XMLString::transcode(xmlszAttributeVal, memory_manager_dxl);
+	CHAR *attr = XMLString::transcode(attribute_val_xml, memory_manager_dxl);
 
-	if (0 == strncasecmp(sz, "true", 4))
+	if (0 == strncasecmp(attr, "true", 4))
 	{
 		flag = true;
-	}else if (0 != strncasecmp(sz, "false", 5))
+	}else if (0 != strncasecmp(attr, "false", 5))
 	{
 		GPOS_RAISE
 			(
 			gpdxl::ExmaDXL,
 			gpdxl::ExmiDXLInvalidAttributeValue,
-			CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
-			CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+			CDXLTokens::GetDXLTokenStr(target_attr)->GetBuffer(),
+			CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 			);
 	}
 
-	XMLString::release(&sz, memory_manager_dxl);
+	XMLString::release(&attr, memory_manager_dxl);
 	return flag;
 }
 
@@ -2086,16 +2086,16 @@ INT
 CDXLOperatorFactory::ConvertAttrValueToInt
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	GPOS_ASSERT(xmlszAttributeVal != NULL);
-	INT iId = 0;
+	GPOS_ASSERT(attribute_val_xml != NULL);
+	INT attr = 0;
 	try
 	{
-		iId = XMLString::parseInt(xmlszAttributeVal, memory_manager_dxl);
+		attr = XMLString::parseInt(attribute_val_xml, memory_manager_dxl);
 	}
 	catch (const NumberFormatException& toCatch)
 	{
@@ -2104,11 +2104,11 @@ CDXLOperatorFactory::ConvertAttrValueToInt
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(target_attr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 		);
 	}
-	return iId;
+	return attr;
 }
 
 //---------------------------------------------------------------------------
@@ -2124,31 +2124,31 @@ CDXLOperatorFactory::ExtractConvertAttrValueToInt
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
-	INT iDefaultValue
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
+	INT default_val
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement,
-											fOptional
+											target_attr,
+											target_elem,
+											is_optional
 											);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
-		return iDefaultValue;
+		return default_val;
 	}
 
 	return ConvertAttrValueToInt
 			(
 			memory_manager_dxl,
-			xmlszValue,
-			edxltokenAttr,
-			edxltokenElement
+			attr_val_xml,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -2164,16 +2164,16 @@ SINT
 CDXLOperatorFactory::ConvertAttrValueToShortInt
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	GPOS_ASSERT(xmlszAttributeVal != NULL);
-	SINT sVal = 0;
+	GPOS_ASSERT(attribute_val_xml != NULL);
+	SINT attr = 0;
 	try
 	{
-		sVal = (SINT) XMLString::parseInt(xmlszAttributeVal, memory_manager_dxl);
+		attr = (SINT) XMLString::parseInt(attribute_val_xml, memory_manager_dxl);
 	}
 	catch (const NumberFormatException& toCatch)
 	{
@@ -2182,11 +2182,11 @@ CDXLOperatorFactory::ConvertAttrValueToShortInt
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(target_attr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 		);
 	}
-	return sVal;
+	return attr;
 }
 
 //---------------------------------------------------------------------------
@@ -2203,31 +2203,31 @@ CDXLOperatorFactory::ExtractConvertAttrValueToShortInt
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
-	SINT sDefaultValue
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
+	SINT default_val
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement,
-											fOptional
+											target_attr,
+											target_elem,
+											is_optional
 											);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
-		return sDefaultValue;
+		return default_val;
 	}
 
 	return ConvertAttrValueToShortInt
 			(
 			memory_manager_dxl,
-			xmlszValue,
-			edxltokenAttr,
-			edxltokenElement
+			attr_val_xml,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -2236,15 +2236,15 @@ CHAR
 CDXLOperatorFactory::ConvertAttrValueToChar
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszVal,
-	Edxltoken , // edxltokenAttr,
-	Edxltoken  // edxltokenElement
+	const XMLCh *xml_val,
+	Edxltoken , // target_attr,
+	Edxltoken  // target_elem
 	)
 {
-	GPOS_ASSERT(xmlszVal != NULL);
-	CHAR *sz = XMLString::transcode(xmlszVal, memory_manager_dxl);
-	CHAR val = *sz;
-	XMLString::release(&sz, memory_manager_dxl);
+	GPOS_ASSERT(xml_val != NULL);
+	CHAR *attr = XMLString::transcode(xml_val, memory_manager_dxl);
+	CHAR val = *attr;
+	XMLString::release(&attr, memory_manager_dxl);
 	return val;
 }
 
@@ -2260,16 +2260,16 @@ OID
 CDXLOperatorFactory::ConvertAttrValueToOid
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	GPOS_ASSERT(xmlszAttributeVal != NULL);
+	GPOS_ASSERT(attribute_val_xml != NULL);
 	OID oid = 0;
 	try
 	{
-		oid = XMLString::parseInt(xmlszAttributeVal, memory_manager_dxl);
+		oid = XMLString::parseInt(attribute_val_xml, memory_manager_dxl);
 	}
 	catch (const NumberFormatException& toCatch)
 	{
@@ -2278,8 +2278,8 @@ CDXLOperatorFactory::ConvertAttrValueToOid
 		(
 		gpdxl::ExmaDXL,
 		gpdxl::ExmiDXLInvalidAttributeValue,
-		CDXLTokens::GetDXLTokenStr(edxltokenAttr)->GetBuffer(),
-		CDXLTokens::GetDXLTokenStr(edxltokenElement)->GetBuffer()
+		CDXLTokens::GetDXLTokenStr(target_attr)->GetBuffer(),
+		CDXLTokens::GetDXLTokenStr(target_elem)->GetBuffer()
 		);
 	}
 	return oid;
@@ -2298,26 +2298,26 @@ CDXLOperatorFactory::ExtractConvertAttrValueToOid
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
 	OID OidDefaultValue
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement,
-											fOptional
+											target_attr,
+											target_elem,
+											is_optional
 											);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
 		return OidDefaultValue;
 	}
 
-	return ConvertAttrValueToOid(memory_manager_dxl, xmlszValue, edxltokenAttr, edxltokenElement);
+	return ConvertAttrValueToOid(memory_manager_dxl, attr_val_xml, target_attr, target_elem);
 }
 
 //---------------------------------------------------------------------------
@@ -2332,13 +2332,13 @@ CHAR *
 CDXLOperatorFactory::ConvertAttrValueToSz
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlsz,
-	Edxltoken , // edxltokenAttr,
-	Edxltoken  // edxltokenElement
+	const XMLCh *xml_val,
+	Edxltoken , // target_attr,
+	Edxltoken  // target_elem
 	)
 {
-	GPOS_ASSERT(NULL != xmlsz);
-	return XMLString::transcode(xmlsz, memory_manager_dxl);	
+	GPOS_ASSERT(NULL != xml_val);
+	return XMLString::transcode(xml_val, memory_manager_dxl);	
 }
 
 //---------------------------------------------------------------------------
@@ -2354,31 +2354,31 @@ CDXLOperatorFactory::ExtractConvertAttrValueToSz
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
-	CHAR *szDefaultValue
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
+	CHAR *default_value
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement,
-											fOptional
+											target_attr,
+											target_elem,
+											is_optional
 											);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
-		return szDefaultValue;
+		return default_value;
 	}
 
 	return CDXLOperatorFactory::ConvertAttrValueToSz
 			(
 			memory_manager_dxl,
-			xmlszValue,
-			edxltokenAttr,
-			edxltokenElement
+			attr_val_xml,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -2395,17 +2395,17 @@ CDXLOperatorFactory::ExtractConvertAttrValueToStr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement
+											target_attr,
+											target_elem
 											);
-	return CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xmlszValue);
+	return CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, attr_val_xml);
 }
 
 //---------------------------------------------------------------------------
@@ -2421,31 +2421,31 @@ CDXLOperatorFactory::ExtractConvertAttrValueToBool
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
-	BOOL fDefaultValue
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
+	BOOL default_value
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement,
-											fOptional
+											target_attr,
+											target_elem,
+											is_optional
 											);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
-		return fDefaultValue;
+		return default_value;
 	}
 
 	return ConvertAttrValueToBool
 			(
 			memory_manager_dxl,
-			xmlszValue,
-			edxltokenAttr,
-			edxltokenElement
+			attr_val_xml,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -2462,31 +2462,31 @@ CDXLOperatorFactory::ExtractConvertAttrValueToUlong
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
-	ULONG ulDefaultValue
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
+	ULONG default_value
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement,
-											fOptional
+											target_attr,
+											target_elem,
+											is_optional
 											);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
-		return ulDefaultValue;
+		return default_value;
 	}
 
 	return ConvertAttrValueToUlong
 			(
 			memory_manager_dxl,
-			xmlszValue,
-			edxltokenAttr,
-			edxltokenElement
+			attr_val_xml,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -2503,31 +2503,31 @@ CDXLOperatorFactory::ExtractConvertAttrValueToUllong
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
-	ULLONG ullDefaultValue
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
+	ULLONG default_value
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement,
-											fOptional
+											target_attr,
+											target_elem,
+											is_optional
 											);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
-		return ullDefaultValue;
+		return default_value;
 	}
 
 	return ConvertAttrValueToUllong
 			(
 			memory_manager_dxl,
-			xmlszValue,
-			edxltokenAttr,
-			edxltokenElement
+			attr_val_xml,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -2579,14 +2579,14 @@ CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
 	IMDId *pmdidDefault
 	)
 {
 	// extract mdid
-	const XMLCh *xmlszMdid = ExtractAttrValue(attrs, edxltokenAttr, edxltokenElement, fOptional);
+	const XMLCh *xmlszMdid = ExtractAttrValue(attrs, target_attr, target_elem, is_optional);
 
 	if (NULL == xmlszMdid)
 	{
@@ -2598,7 +2598,7 @@ CDXLOperatorFactory::ExtractConvertAttrValueToMdId
 		return pmdidDefault;
 	}
 	
-	return MakeMdIdFromStr(memory_manager_dxl, xmlszMdid, edxltokenAttr, edxltokenElement);
+	return MakeMdIdFromStr(memory_manager_dxl, xmlszMdid, target_attr, target_elem);
 }
 
 //---------------------------------------------------------------------------
@@ -2614,8 +2614,8 @@ CDXLOperatorFactory::MakeMdIdFromStr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const XMLCh *xmlszMdid,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	// extract mdid's components: MdidType.Oid.Major.Minor
@@ -2629,39 +2629,39 @@ CDXLOperatorFactory::MakeMdIdFromStr
 	// collect the remaining tokens in an array
 	DrgPxmlsz *pdrgpxmlsz = GPOS_NEW(memory_manager_dxl->Pmp()) DrgPxmlsz(memory_manager_dxl->Pmp());
 	
-	XMLCh *xmlsz = NULL;
-	while (NULL != (xmlsz = xmlsztok.nextToken()))
+	XMLCh *xml_val = NULL;
+	while (NULL != (xml_val = xmlsztok.nextToken()))
 	{
-		pdrgpxmlsz->Append(xmlsz);
+		pdrgpxmlsz->Append(xml_val);
 	}
 	
-	IMDId::EMDIdType emdt = (IMDId::EMDIdType) ConvertAttrValueToUlong(memory_manager_dxl, xmlszMdidType, edxltokenAttr, edxltokenElement);
+	IMDId::EMDIdType emdt = (IMDId::EMDIdType) ConvertAttrValueToUlong(memory_manager_dxl, xmlszMdidType, target_attr, target_elem);
 
 	IMDId *mdid = NULL;
 	switch (emdt)
 	{
 		case IMDId::EmdidGPDB:
-			mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+			mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 			break;
 			
 		case IMDId::EmdidGPDBCtas:
-			mdid = GetGPDBCTASMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+			mdid = GetGPDBCTASMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 			break;
 			
 		case IMDId::EmdidColStats:
-			mdid = GetColStatsMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+			mdid = GetColStatsMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 			break;
 			
 		case IMDId::EmdidRelStats:
-			mdid = GetRelStatsMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+			mdid = GetRelStatsMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 			break;
 			
 		case IMDId::EmdidCastFunc:
-			mdid = GetCastFuncMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+			mdid = GetCastFuncMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 			break;
 			
 		case IMDId::EmdidScCmp:
-			mdid = GetScCmpMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+			mdid = GetScCmpMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 			break;
 			
 		default:
@@ -2686,20 +2686,20 @@ CDXLOperatorFactory::GetGPDBMdId
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	DrgPxmlsz *pdrgpxmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->Size());
 
 	XMLCh *xmlszOid = (*pdrgpxmlsz)[0];
-	ULONG oid_colid = ConvertAttrValueToUlong(memory_manager_dxl, xmlszOid, edxltokenAttr, edxltokenElement);
+	ULONG oid_colid = ConvertAttrValueToUlong(memory_manager_dxl, xmlszOid, target_attr, target_elem);
 
 	XMLCh *xmlszVersionMajor = (*pdrgpxmlsz)[1];
-	ULONG ulVersionMajor = ConvertAttrValueToUlong(memory_manager_dxl, xmlszVersionMajor, edxltokenAttr, edxltokenElement);
+	ULONG ulVersionMajor = ConvertAttrValueToUlong(memory_manager_dxl, xmlszVersionMajor, target_attr, target_elem);
 
 	XMLCh *xmlszVersionMinor = (*pdrgpxmlsz)[2];;
-	ULONG ulVersionMinor = ConvertAttrValueToUlong(memory_manager_dxl, xmlszVersionMinor, edxltokenAttr, edxltokenElement);
+	ULONG ulVersionMinor = ConvertAttrValueToUlong(memory_manager_dxl, xmlszVersionMinor, target_attr, target_elem);
 
 	// construct metadata id object
 	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdGPDB(oid_colid, ulVersionMajor, ulVersionMinor);
@@ -2718,14 +2718,14 @@ CDXLOperatorFactory::GetGPDBCTASMdId
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	DrgPxmlsz *pdrgpxmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS <= pdrgpxmlsz->Size());
 
 	XMLCh *xmlszOid = (*pdrgpxmlsz)[0];
-	ULONG oid_colid = ConvertAttrValueToUlong(memory_manager_dxl, xmlszOid, edxltokenAttr, edxltokenElement);
+	ULONG oid_colid = ConvertAttrValueToUlong(memory_manager_dxl, xmlszOid, target_attr, target_elem);
 
 	// construct metadata id object
 	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdGPDBCtas(oid_colid);
@@ -2744,16 +2744,16 @@ CDXLOperatorFactory::GetColStatsMdId
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	DrgPxmlsz *pdrgpxmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS + 1 == pdrgpxmlsz->Size());
 
-	CMDIdGPDB *rel_mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *rel_mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 	
 	XMLCh *xmlszAttno = (*pdrgpxmlsz)[3];
-	ULONG ulAttno = ConvertAttrValueToUlong(memory_manager_dxl, xmlszAttno, edxltokenAttr, edxltokenElement);
+	ULONG ulAttno = ConvertAttrValueToUlong(memory_manager_dxl, xmlszAttno, target_attr, target_elem);
 
 	// construct metadata id object
 	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdColStats(rel_mdid, ulAttno);
@@ -2772,13 +2772,13 @@ CDXLOperatorFactory::GetRelStatsMdId
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	DrgPxmlsz *pdrgpxmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	GPOS_ASSERT(GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->Size());
 
-	CMDIdGPDB *rel_mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *rel_mdid = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 	
 	// construct metadata id object
 	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdRelStats(rel_mdid);
@@ -2797,13 +2797,13 @@ CDXLOperatorFactory::GetCastFuncMdId
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	DrgPxmlsz *pdrgpxmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	GPOS_ASSERT(2 * GPDXL_GPDB_MDID_COMPONENTS == pdrgpxmlsz->Size());
 
-	CMDIdGPDB *mdid_src = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *mdid_src = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 	DrgPxmlsz *pdrgpxmlszDest = GPOS_NEW(memory_manager_dxl->Pmp()) DrgPxmlsz(memory_manager_dxl->Pmp());
 	
 	for (ULONG ul = GPDXL_GPDB_MDID_COMPONENTS; ul < GPDXL_GPDB_MDID_COMPONENTS * 2; ul++)
@@ -2811,7 +2811,7 @@ CDXLOperatorFactory::GetCastFuncMdId
 		pdrgpxmlszDest->Append((*pdrgpxmlsz)[ul]);
 	}
 	
-	CMDIdGPDB *mdid_dest = GetGPDBMdId(memory_manager_dxl, pdrgpxmlszDest, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *mdid_dest = GetGPDBMdId(memory_manager_dxl, pdrgpxmlszDest, target_attr, target_elem);
 	pdrgpxmlszDest->Release();
 	
 	return GPOS_NEW(memory_manager_dxl->Pmp()) CMDIdCast(mdid_src, mdid_dest);
@@ -2830,13 +2830,13 @@ CDXLOperatorFactory::GetScCmpMdId
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	DrgPxmlsz *pdrgpxmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	GPOS_ASSERT(2 * GPDXL_GPDB_MDID_COMPONENTS + 1 == pdrgpxmlsz->Size());
 
-	CMDIdGPDB *pmdidLeft = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *pmdidLeft = GetGPDBMdId(memory_manager_dxl, pdrgpxmlsz, target_attr, target_elem);
 	DrgPxmlsz *pdrgpxmlszRight = GPOS_NEW(memory_manager_dxl->Pmp()) DrgPxmlsz(memory_manager_dxl->Pmp());
 	
 	for (ULONG ul = GPDXL_GPDB_MDID_COMPONENTS; ul < GPDXL_GPDB_MDID_COMPONENTS * 2 + 1; ul++)
@@ -2844,11 +2844,11 @@ CDXLOperatorFactory::GetScCmpMdId
 		pdrgpxmlszRight->Append((*pdrgpxmlsz)[ul]);
 	}
 	
-	CMDIdGPDB *pmdidRight = GetGPDBMdId(memory_manager_dxl, pdrgpxmlszRight, edxltokenAttr, edxltokenElement);
+	CMDIdGPDB *pmdidRight = GetGPDBMdId(memory_manager_dxl, pdrgpxmlszRight, target_attr, target_elem);
 	
 	// parse the comparison type from the last component of the mdid
 	XMLCh *xml_str_comp_type = (*pdrgpxmlszRight)[pdrgpxmlszRight->Size() - 1];
-	IMDType::ECmpType ecmpt = (IMDType::ECmpType) ConvertAttrValueToUlong(memory_manager_dxl, xml_str_comp_type, edxltokenAttr, edxltokenElement);
+	IMDType::ECmpType ecmpt = (IMDType::ECmpType) ConvertAttrValueToUlong(memory_manager_dxl, xml_str_comp_type, target_attr, target_elem);
 	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
 	
 	pdrgpxmlszRight->Release();
@@ -2870,17 +2870,17 @@ CDXLOperatorFactory::GetDatumVal
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement
+	Edxltoken target_elem
 	)
 {	
 	// get the type id and value of the datum from attributes
-	IMDId *mdid = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenTypeId, edxltokenElement);
+	IMDId *mdid = ExtractConvertAttrValueToMdId(memory_manager_dxl, attrs, EdxltokenTypeId, target_elem);
 	GPOS_ASSERT(IMDId::EmdidGPDB == mdid->Emdidt());
 	CMDIdGPDB *pmdidgpdbd = CMDIdGPDB::PmdidConvert(mdid);
 
 	// get the type id from string
-	BOOL fConstNull = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenIsNull, edxltokenElement);
-	BOOL fConstByVal = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenIsByValue, edxltokenElement);
+	BOOL fConstNull = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenIsNull, target_elem);
+	BOOL fConstByVal = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenIsByValue, target_elem);
 
 	
 	SDXLDatumFactoryElem rgTranslators[] =
@@ -2932,11 +2932,11 @@ CDXLOperatorFactory::GetDatumVal
 	if (NULL == pf)
 	{
 		// generate a datum of generic type
-		return GetDatumGeneric(memory_manager_dxl, attrs, edxltokenElement, mdid, fConstNull, fConstByVal);
+		return GetDatumGeneric(memory_manager_dxl, attrs, target_elem, mdid, fConstNull, fConstByVal);
 	}
 	else
 	{
-		return (*pf)(memory_manager_dxl, attrs, edxltokenElement, mdid, fConstNull, fConstByVal);
+		return (*pf)(memory_manager_dxl, attrs, target_elem, mdid, fConstNull, fConstByVal);
 	}
 }
 
@@ -2953,7 +2953,7 @@ CDXLOperatorFactory::GetDatumOid
 (
  CDXLMemoryManager *memory_manager_dxl,
  const Attributes &attrs,
- Edxltoken edxltokenElement,
+ Edxltoken target_elem,
  IMDId *mdid,
  BOOL fConstNull ,
  BOOL
@@ -2969,7 +2969,7 @@ CDXLOperatorFactory::GetDatumOid
 	OID oVal = 0;
 	if (!fConstNull)
 	{
-		oVal = ExtractConvertAttrValueToOid(memory_manager_dxl, attrs, EdxltokenValue, edxltokenElement);
+		oVal = ExtractConvertAttrValueToOid(memory_manager_dxl, attrs, EdxltokenValue, target_elem);
 	}
 
 	return GPOS_NEW(memory_pool) CDXLDatumOid(memory_pool, mdid, fConstNull, oVal);
@@ -2988,7 +2988,7 @@ CDXLOperatorFactory::GetDatumInt2
 (
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement,
+	Edxltoken target_elem,
 	IMDId *mdid,
 	BOOL fConstNull ,
 	BOOL
@@ -3004,7 +3004,7 @@ CDXLOperatorFactory::GetDatumInt2
 	SINT sVal = 0;
 	if (!fConstNull)
 	{
-		sVal = ExtractConvertAttrValueToShortInt(memory_manager_dxl, attrs, EdxltokenValue, edxltokenElement);
+		sVal = ExtractConvertAttrValueToShortInt(memory_manager_dxl, attrs, EdxltokenValue, target_elem);
 	}
 
 	return GPOS_NEW(memory_pool) CDXLDatumInt2(memory_pool, mdid, fConstNull, sVal);
@@ -3023,7 +3023,7 @@ CDXLOperatorFactory::GetDatumInt4
 (
  CDXLMemoryManager *memory_manager_dxl,
  const Attributes &attrs,
- Edxltoken edxltokenElement,
+ Edxltoken target_elem,
  IMDId *mdid,
  BOOL fConstNull ,
  BOOL
@@ -3039,7 +3039,7 @@ CDXLOperatorFactory::GetDatumInt4
 	INT iVal = 0;
 	if (!fConstNull)
 	{
-		iVal = ExtractConvertAttrValueToInt(memory_manager_dxl, attrs, EdxltokenValue, edxltokenElement);
+		iVal = ExtractConvertAttrValueToInt(memory_manager_dxl, attrs, EdxltokenValue, target_elem);
 	}
 	
 	return GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, mdid, fConstNull, iVal);
@@ -3058,7 +3058,7 @@ CDXLOperatorFactory::GetDatumInt8
 (
  CDXLMemoryManager *memory_manager_dxl,
  const Attributes &attrs,
- Edxltoken edxltokenElement,
+ Edxltoken target_elem,
  IMDId *mdid,
  BOOL fConstNull ,
  BOOL
@@ -3074,7 +3074,7 @@ CDXLOperatorFactory::GetDatumInt8
 	LINT lVal = 0;
 	if (!fConstNull)
 	{
-		lVal = ExtractConvertAttrValueToLint(memory_manager_dxl, attrs, EdxltokenValue, edxltokenElement);
+		lVal = ExtractConvertAttrValueToLint(memory_manager_dxl, attrs, EdxltokenValue, target_elem);
 	}
 	
 	return GPOS_NEW(memory_pool) CDXLDatumInt8(memory_pool, mdid, fConstNull, lVal);
@@ -3093,7 +3093,7 @@ CDXLOperatorFactory::GetDatumBool
 (
  CDXLMemoryManager *memory_manager_dxl,
  const Attributes &attrs,
- Edxltoken edxltokenElement,
+ Edxltoken target_elem,
  IMDId *mdid,
  BOOL fConstNull ,
  BOOL
@@ -3109,7 +3109,7 @@ CDXLOperatorFactory::GetDatumBool
 	BOOL value = false;
 	if (!fConstNull)
 	{
-		value = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenValue, edxltokenElement);
+		value = ExtractConvertAttrValueToBool(memory_manager_dxl, attrs, EdxltokenValue, target_elem);
 	}
 	
 	return GPOS_NEW(memory_pool) CDXLDatumBool(memory_pool, mdid, fConstNull, value);
@@ -3129,7 +3129,7 @@ CDXLOperatorFactory::GetDatumGeneric
 (
  CDXLMemoryManager *memory_manager_dxl,
  const Attributes &attrs,
- Edxltoken edxltokenElement,
+ Edxltoken target_elem,
  IMDId *mdid,
  BOOL fConstNull ,
  BOOL fConstByVal
@@ -3143,11 +3143,11 @@ CDXLOperatorFactory::GetDatumGeneric
 	
 	if (!fConstNull)
 	{
-		pba = GetByteArray(memory_manager_dxl, attrs, edxltokenElement, &ulPbaLength);
+		pba = GetByteArray(memory_manager_dxl, attrs, target_elem, &ulPbaLength);
 		if (NULL == pba)
 		{
 			// unable to decode value. probably not Base64 encoded.
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(edxltokenElement));
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(target_elem));
 		}
 	}
 
@@ -3178,7 +3178,7 @@ CDXLOperatorFactory::GetDatumStatsLintMappable
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement,
+	Edxltoken target_elem,
 	IMDId *mdid,
 	BOOL fConstNull ,
 	BOOL fConstByVal
@@ -3193,8 +3193,8 @@ CDXLOperatorFactory::GetDatumStatsLintMappable
 	LINT lValue = 0;
 	if (!fConstNull)
 	{
-		pba = GetByteArray(memory_manager_dxl, attrs, edxltokenElement, &ulPbaLength);
-		lValue = Value(memory_manager_dxl, attrs, edxltokenElement, pba);
+		pba = GetByteArray(memory_manager_dxl, attrs, target_elem, &ulPbaLength);
+		lValue = Value(memory_manager_dxl, attrs, target_elem, pba);
 	}
 
 	INT type_modifier = ExtractConvertAttrValueToInt
@@ -3223,17 +3223,17 @@ CDXLOperatorFactory::Value
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement,
+	Edxltoken target_elem,
 	BYTE *pba
 	)
 {
 	if (NULL == pba)
 	{
 		// unable to decode value. probably not Base64 encoded.
-		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(edxltokenElement));
+		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(target_elem));
 	}
 
-	return ExtractConvertAttrValueToLint(memory_manager_dxl, attrs, EdxltokenLintValue, edxltokenElement);
+	return ExtractConvertAttrValueToLint(memory_manager_dxl, attrs, EdxltokenLintValue, target_elem);
 }
 
 
@@ -3250,13 +3250,13 @@ CDXLOperatorFactory::GetByteArray
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement,
+	Edxltoken target_elem,
 	ULONG *pulLength
 	)
 {
-	const XMLCh *xmlszValue  = ExtractAttrValue(attrs, EdxltokenValue, edxltokenElement);
+	const XMLCh *attr_val_xml  = ExtractAttrValue(attrs, EdxltokenValue, target_elem);
 
-	return CDXLUtils::CreateStringFrom64XMLStr(memory_manager_dxl, xmlszValue, pulLength);
+	return CDXLUtils::CreateStringFrom64XMLStr(memory_manager_dxl, attr_val_xml, pulLength);
 }
 
 //---------------------------------------------------------------------------
@@ -3272,7 +3272,7 @@ CDXLOperatorFactory::GetDatumStatsDoubleMappable
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement,
+	Edxltoken target_elem,
 	IMDId *mdid,
 	BOOL fConstNull ,
 	BOOL fConstByVal
@@ -3287,15 +3287,15 @@ CDXLOperatorFactory::GetDatumStatsDoubleMappable
 	
 	if (!fConstNull)
 	{
-		pba = GetByteArray(memory_manager_dxl, attrs, edxltokenElement, &ulPbaLength);
+		pba = GetByteArray(memory_manager_dxl, attrs, target_elem, &ulPbaLength);
 		
 		if (NULL == pba)
 		{
 			// unable to decode value. probably not Base64 encoded.
-			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(edxltokenElement));
+			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLInvalidAttributeValue, CDXLTokens::XmlstrToken(EdxltokenValue), CDXLTokens::GetDXLTokenStr(target_elem));
 		}
 
-		dValue = ExtractConvertAttrValueToDouble(memory_manager_dxl, attrs, EdxltokenDoubleValue, edxltokenElement);
+		dValue = ExtractConvertAttrValueToDouble(memory_manager_dxl, attrs, EdxltokenDoubleValue, target_elem);
 	}
 	INT type_modifier = ExtractConvertAttrValueToInt
 						(
@@ -3323,13 +3323,13 @@ CDXLOperatorFactory::ExtractConvertValuesToArray
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	const XMLCh *xmlsz = CDXLOperatorFactory::ExtractAttrValue(attrs, edxltokenAttr, edxltokenElement);
+	const XMLCh *xml_val = CDXLOperatorFactory::ExtractAttrValue(attrs, target_attr, target_elem);
 
-	return ExtractIntsToUlongArray(memory_manager_dxl, xmlsz, edxltokenAttr, edxltokenElement);
+	return ExtractIntsToUlongArray(memory_manager_dxl, xml_val, target_attr, target_elem);
 }
 
 //---------------------------------------------------------------------------
@@ -3346,8 +3346,8 @@ CDXLOperatorFactory::ExtractConvertMdIdsToArray
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const XMLCh *xmlszUlList,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	// get the memory pool from the memory manager
@@ -3363,7 +3363,7 @@ CDXLOperatorFactory::ExtractConvertMdIdsToArray
 		XMLCh *xmlszMdid = xmlsztok.nextToken();
 		GPOS_ASSERT(NULL != xmlszMdid);
 
-		IMDId *mdid = MakeMdIdFromStr(memory_manager_dxl, xmlszMdid, edxltokenAttr, edxltokenElement);
+		IMDId *mdid = MakeMdIdFromStr(memory_manager_dxl, xmlszMdid, target_attr, target_elem);
 		mdid_array->Append(mdid);
 	}
 
@@ -3376,17 +3376,17 @@ CharPtrArray *
 CDXLOperatorFactory::ExtractConvertPartitionTypeToArray
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *xml_val,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	return ExtractIntsToArray<CHAR, CleanupDelete, ConvertAttrValueToChar>
 			(
 			memory_manager_dxl,
-			xmlsz,
-			edxltokenAttr,
-			edxltokenElement
+			xml_val,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -3404,9 +3404,9 @@ ULongPtrArray2D *
 CDXLOperatorFactory::ExtractConvertUlongTo2DArray
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlsz,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	const XMLCh *xml_val,
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	// get the memory pool from the memory manager
@@ -3414,7 +3414,7 @@ CDXLOperatorFactory::ExtractConvertUlongTo2DArray
 		
 	ULongPtrArray2D *ulong_ptr_array_2D = GPOS_NEW(memory_pool) ULongPtrArray2D(memory_pool);
 	
-	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
+	XMLStringTokenizer xmlsztok(xml_val, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
 	
 	for (ULONG ul = 0; ul < ulNumTokens; ul++)
@@ -3423,7 +3423,7 @@ CDXLOperatorFactory::ExtractConvertUlongTo2DArray
 		
 		GPOS_ASSERT(NULL != xmlszList);
 		
-		ULongPtrArray *pdrgpul = ExtractIntsToUlongArray(memory_manager_dxl, xmlszList, edxltokenAttr, edxltokenElement);
+		ULongPtrArray *pdrgpul = ExtractIntsToUlongArray(memory_manager_dxl, xmlszList, target_attr, target_elem);
 		ulong_ptr_array_2D->Append(pdrgpul);
 	}
 	
@@ -3444,8 +3444,8 @@ CDXLOperatorFactory::ExtractConvertSegmentIdsToArray
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const XMLCh *xmlszSegIdList,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	// get the memory pool from the memory manager
@@ -3462,11 +3462,11 @@ CDXLOperatorFactory::ExtractConvertSegmentIdsToArray
 	
 	for (ULONG ul = 0; ul < num_of_segments; ul++)
 	{
-		XMLCh *xmlszSegId = xmlsztok.nextToken();
+		XMLCh *seg_id_xml = xmlsztok.nextToken();
 		
-		GPOS_ASSERT(NULL != xmlszSegId);
+		GPOS_ASSERT(NULL != seg_id_xml);
 		
-		INT *piSegId = GPOS_NEW(memory_pool) INT(ConvertAttrValueToInt(memory_manager_dxl, xmlszSegId, edxltokenAttr, edxltokenElement));
+		INT *piSegId = GPOS_NEW(memory_pool) INT(ConvertAttrValueToInt(memory_manager_dxl, seg_id_xml, target_attr, target_elem));
 		pdrgpiSegIds->Append(piSegId);
 	}
 	
@@ -3485,14 +3485,14 @@ StringPtrArray *
 CDXLOperatorFactory::ExtractConvertStrsToArray
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlsz
+	const XMLCh *xml_val
 	)
 {
 	IMemoryPool *memory_pool = memory_manager_dxl->Pmp();
 
 	StringPtrArray *pdrgpstr = GPOS_NEW(memory_pool) StringPtrArray(memory_pool);
 
-	XMLStringTokenizer xmlsztok(xmlsz, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
+	XMLStringTokenizer xmlsztok(xml_val, CDXLTokens::XmlstrToken(EdxltokenSemicolon));
 	const ULONG ulNumTokens = xmlsztok.countTokens();
 
 	for (ULONG ul = 0; ul < ulNumTokens; ul++)
@@ -3523,21 +3523,21 @@ CDXLOperatorFactory::SetSegmentInfo
 	CDXLMemoryManager *memory_manager_dxl,
 	CDXLPhysicalMotion *pdxlopMotion,
 	const Attributes &attrs,
-	Edxltoken edxltokenElement
+	Edxltoken target_elem
 	)
 {
 	const XMLCh *xmlszInputSegList = ExtractAttrValue
 										(
 										attrs,
 										EdxltokenInputSegments,
-										edxltokenElement
+										target_elem
 										);
 	IntPtrArray *pdrgpiInputSegments = ExtractConvertSegmentIdsToArray
 									(
 									memory_manager_dxl,
 									xmlszInputSegList,
 									EdxltokenInputSegments,
-									edxltokenElement
+									target_elem
 									);
 	pdxlopMotion->SetInputSegIds(pdrgpiInputSegments);
 
@@ -3545,14 +3545,14 @@ CDXLOperatorFactory::SetSegmentInfo
 										(
 										attrs,
 										EdxltokenOutputSegments,
-										edxltokenElement
+										target_elem
 										);
 	IntPtrArray *pdrgpiOutputSegments = ExtractConvertSegmentIdsToArray
 									(
 									memory_manager_dxl,
 									xmlszOutputSegList,
 									EdxltokenOutputSegments,
-									edxltokenElement
+									target_elem
 									);
 	pdxlopMotion->SetOutputSegIds(pdrgpiOutputSegments);
 }
@@ -3705,13 +3705,13 @@ CDouble
 CDXLOperatorFactory::ConvertAttrValueToDouble
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken ,//edxltokenAttr,
-	Edxltoken //edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken ,//target_attr,
+	Edxltoken //target_elem
 	)
 {
-	GPOS_ASSERT(xmlszAttributeVal != NULL);
-	CHAR *sz = XMLString::transcode(xmlszAttributeVal, memory_manager_dxl);
+	GPOS_ASSERT(attribute_val_xml != NULL);
+	CHAR *sz = XMLString::transcode(attribute_val_xml, memory_manager_dxl);
 
 	CDouble dValue(clib::StrToD(sz));
 
@@ -3732,22 +3732,22 @@ CDXLOperatorFactory::ExtractConvertAttrValueToDouble
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue
 											(
 											attrs,
-											edxltokenAttr,
-											edxltokenElement
+											target_attr,
+											target_elem
 											);
 	return ConvertAttrValueToDouble
 			(
 			memory_manager_dxl,
-			xmlszValue,
-			edxltokenAttr,
-			edxltokenElement
+			attr_val_xml,
+			target_attr,
+			target_elem
 			);
 }
 
@@ -3763,13 +3763,13 @@ LINT
 CDXLOperatorFactory::ConvertAttrValueToLint
 	(
 	CDXLMemoryManager *memory_manager_dxl,
-	const XMLCh *xmlszAttributeVal,
-	Edxltoken ,//edxltokenAttr,
-	Edxltoken //edxltokenElement
+	const XMLCh *attribute_val_xml,
+	Edxltoken ,//target_attr,
+	Edxltoken //target_elem
 	)
 {
-	GPOS_ASSERT(NULL != xmlszAttributeVal);
-	CHAR *sz = XMLString::transcode(xmlszAttributeVal, memory_manager_dxl);
+	GPOS_ASSERT(NULL != attribute_val_xml);
+	CHAR *sz = XMLString::transcode(attribute_val_xml, memory_manager_dxl);
 	CHAR *szEnd = NULL;
 
 	LINT lValue = clib::StrToLL(sz, &szEnd, 10);
@@ -3791,20 +3791,20 @@ CDXLOperatorFactory::ExtractConvertAttrValueToLint
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement,
-	BOOL fOptional,
+	Edxltoken target_attr,
+	Edxltoken target_elem,
+	BOOL is_optional,
 	LINT lDefaultValue
 	)
 {
-	const XMLCh *xmlszValue = CDXLOperatorFactory::ExtractAttrValue(attrs, edxltokenAttr, edxltokenElement, fOptional);
+	const XMLCh *attr_val_xml = CDXLOperatorFactory::ExtractAttrValue(attrs, target_attr, target_elem, is_optional);
 
-	if (NULL == xmlszValue)
+	if (NULL == attr_val_xml)
 	{
 		return lDefaultValue;
 	}
 
-	return ConvertAttrValueToLint(memory_manager_dxl, xmlszValue, edxltokenAttr, edxltokenElement);
+	return ConvertAttrValueToLint(memory_manager_dxl, attr_val_xml, target_attr, target_elem);
 }
 
 
@@ -3813,19 +3813,19 @@ CDXLOperatorFactory::Sysid
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs,
-	Edxltoken edxltokenAttr,
-	Edxltoken edxltokenElement
+	Edxltoken target_attr,
+	Edxltoken target_elem
 	)
 {
 	// extract systemids
-	const XMLCh *xmlsz = ExtractAttrValue(attrs, edxltokenAttr, edxltokenElement);
+	const XMLCh *xml_val = ExtractAttrValue(attrs, target_attr, target_elem);
 
 	// get sysid components
-	XMLStringTokenizer xmlsztokSysid(xmlsz, CDXLTokens::XmlstrToken(EdxltokenDot));
+	XMLStringTokenizer xmlsztokSysid(xml_val, CDXLTokens::XmlstrToken(EdxltokenDot));
 	GPOS_ASSERT(2 == xmlsztokSysid.countTokens());
 	
 	XMLCh *xmlszType = xmlsztokSysid.nextToken();
-	ULONG type = CDXLOperatorFactory::ConvertAttrValueToUlong(memory_manager_dxl, xmlszType, edxltokenAttr, edxltokenElement);
+	ULONG type = CDXLOperatorFactory::ConvertAttrValueToUlong(memory_manager_dxl, xmlszType, target_attr, target_elem);
 	
 	XMLCh *xml_str_name = xmlsztokSysid.nextToken();
 	CWStringDynamic *str_name = CDXLUtils::CreateDynamicStringFromXMLChArray(memory_manager_dxl, xml_str_name);
@@ -3939,21 +3939,21 @@ CDXLOperatorFactory::ParseCmpType
 IMDRelation::GetRelDistrPolicy
 CDXLOperatorFactory::ParseRelationDistPolicy
 	(
-	const XMLCh* xmlsz
+	const XMLCh* xml_val
 	)
 {
-	GPOS_ASSERT(NULL != xmlsz);
+	GPOS_ASSERT(NULL != xml_val);
 	IMDRelation::GetRelDistrPolicy rel_distr_policy = IMDRelation::EreldistrSentinel;
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelDistrMasterOnly)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelDistrMasterOnly)))
 	{
 		rel_distr_policy = IMDRelation::EreldistrMasterOnly;
 	}
-	else if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelDistrHash)))
+	else if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelDistrHash)))
 	{
 		rel_distr_policy = IMDRelation::EreldistrHash;
 	}
-	else if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelDistrRandom)))
+	else if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelDistrRandom)))
 	{
 		rel_distr_policy = IMDRelation::EreldistrRandom;
 	}
@@ -3972,37 +3972,37 @@ CDXLOperatorFactory::ParseRelationDistPolicy
 IMDRelation::Erelstoragetype
 CDXLOperatorFactory::ParseRelationStorageType
 	(
-	const XMLCh* xmlsz
+	const XMLCh* xml_val
 	)
 {
-	GPOS_ASSERT(NULL != xmlsz);
+	GPOS_ASSERT(NULL != xml_val);
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelStorageHeap)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelStorageHeap)))
 	{
 		return IMDRelation::ErelstorageHeap;
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelStorageAppendOnlyCols)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelStorageAppendOnlyCols)))
 	{
 		return IMDRelation::ErelstorageAppendOnlyCols;
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelStorageAppendOnlyRows)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelStorageAppendOnlyRows)))
 	{
 		return IMDRelation::ErelstorageAppendOnlyRows;
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelStorageAppendOnlyParquet)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelStorageAppendOnlyParquet)))
 	{
 		return IMDRelation::ErelstorageAppendOnlyParquet;
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelStorageExternal)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelStorageExternal)))
 	{
 		return IMDRelation::ErelstorageExternal;
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenRelStorageVirtual)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenRelStorageVirtual)))
 	{
 		return IMDRelation::ErelstorageVirtual;
 	}
@@ -4026,9 +4026,9 @@ CDXLOperatorFactory::ParseOnCommitActionSpec
 	const Attributes &attrs
 	)
 {
-	const XMLCh *xmlsz = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOnCommitAction));
+	const XMLCh *xml_val = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenOnCommitAction));
 
-	if (NULL == xmlsz)
+	if (NULL == xml_val)
 	{
 		GPOS_RAISE
 			(
@@ -4039,22 +4039,22 @@ CDXLOperatorFactory::ParseOnCommitActionSpec
 			);
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenOnCommitPreserve)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenOnCommitPreserve)))
 	{
 		return CDXLCtasStorageOptions::EctascommitPreserve;
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenOnCommitDelete)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenOnCommitDelete)))
 	{
 		return CDXLCtasStorageOptions::EctascommitDelete;
 	}
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenOnCommitDrop)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenOnCommitDrop)))
 	{
 		return CDXLCtasStorageOptions::EctascommitDrop;
 	}
 	
-	if (0 != XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenOnCommitNOOP)))
+	if (0 != XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenOnCommitNOOP)))
 	{
 		GPOS_RAISE
 			(
@@ -4082,16 +4082,16 @@ CDXLOperatorFactory::ParseIndexType
 	const Attributes &attrs
 	)
 {
-	const XMLCh *xmlsz = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenIndexType));
+	const XMLCh *xml_val = attrs.getValue(CDXLTokens::XmlstrToken(EdxltokenIndexType));
 
-	if (NULL == xmlsz || 0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenIndexTypeBtree)))
+	if (NULL == xml_val || 0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenIndexTypeBtree)))
 	{
 		// default is btree
 		return IMDIndex::EmdindBtree;
 	}
 	
 	
-	if (0 == XMLString::compareString(xmlsz, CDXLTokens::XmlstrToken(EdxltokenIndexTypeBitmap)))
+	if (0 == XMLString::compareString(xml_val, CDXLTokens::XmlstrToken(EdxltokenIndexTypeBitmap)))
 	{
 		return IMDIndex::EmdindBitmap;
 	}

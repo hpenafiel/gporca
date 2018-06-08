@@ -87,7 +87,7 @@ namespace gpdxl
 			
 			// helper function to parse main relation attributes: name, id,
 			// distribution policy and keys
-			void ParseRelationAttributes(const Attributes& attrs, Edxltoken edxltokenElement);
+			void ParseRelationAttributes(const Attributes& attrs, Edxltoken target_elem);
 
 			// create and activate the parse handler for the children nodes
 			void ParseChildNodes();
