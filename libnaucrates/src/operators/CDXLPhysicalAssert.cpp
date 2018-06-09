@@ -36,7 +36,7 @@ CDXLPhysicalAssert::CDXLPhysicalAssert
 {
 	GPOS_ASSERT(NULL != sql_state);
 	GPOS_ASSERT(GPOS_SQLSTATE_LENGTH == clib::StrLen(sql_state));
-	clib::StrNCpy(m_sql_state, sql_state, GPOS_SQLSTATE_LENGTH);
+	clib::StrNCopy(m_sql_state, sql_state, GPOS_SQLSTATE_LENGTH);
 	m_sql_state[GPOS_SQLSTATE_LENGTH] = '\0';
 }
 

@@ -158,14 +158,14 @@ CDXLTableDescr::AddColumnDescr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLTableDescr::MakeDXLColumnDescr
+//		CDXLTableDescr::GetColumnDescrAt
 //
 //	@doc:
 //		Get the column descriptor at the specified position from the col descr list
 //
 //---------------------------------------------------------------------------
 const CDXLColDescr *
-CDXLTableDescr::MakeDXLColumnDescr
+CDXLTableDescr::GetColumnDescrAt
 	(
 	ULONG idx
 	)

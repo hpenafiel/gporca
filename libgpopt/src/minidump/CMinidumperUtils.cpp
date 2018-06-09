@@ -197,7 +197,7 @@ CMinidumperUtils::GenerateMinidumpFileName
 		// use provided file name
 		const CHAR *szPrefix = "minidumps/";
 		const ULONG ulPrefixLength = clib::StrLen(szPrefix);
-		clib::StrNCpy(buf, szPrefix, ulPrefixLength);
+		clib::StrNCopy(buf, szPrefix, ulPrefixLength);
 
 		// remove directory path before file name, if any
 		ULONG ulNameLength = clib::StrLen(szMinidumpFileName);
@@ -210,7 +210,7 @@ CMinidumperUtils::GenerateMinidumpFileName
 		}
 
 		ulNameLength = clib::StrLen(szMinidumpFileName + ulNameStart);
-		clib::StrNCpy(buf + ulPrefixLength, szMinidumpFileName + ulNameStart, ulNameLength);
+		clib::StrNCopy(buf + ulPrefixLength, szMinidumpFileName + ulNameStart, ulNameLength);
 	}
 }
 

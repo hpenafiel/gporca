@@ -79,7 +79,7 @@ namespace gpdxl
 			ULONG GetExecuteAsUserId() const;
 			
 			// get the column descriptor at the given position
-			const CDXLColDescr *MakeDXLColumnDescr(ULONG idx) const;
+			const CDXLColDescr *GetColumnDescrAt(ULONG idx) const;
 			
 			// serialize to dxl format
 			void SerializeToDXL(CXMLSerializer *xml_serializer) const;

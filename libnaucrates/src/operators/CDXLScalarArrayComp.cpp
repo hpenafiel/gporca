@@ -30,7 +30,7 @@ CDXLScalarArrayComp::CDXLScalarArrayComp
 	IMemoryPool *memory_pool,
 	IMDId *mdid_op,
 	const CWStringConst *str_opname,
-	EdxlArrayComparisonType comparison_type
+	EdxlArrayCompType comparison_type
 	)
 	:
 	CDXLScalarComp(memory_pool, mdid_op, str_opname),
@@ -54,13 +54,13 @@ CDXLScalarArrayComp::GetDXLOperator() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLScalarArrayComp::Edxlarraycomptype
+//		CDXLScalarArrayComp::GetDXLArrayCmpType
 //
 //	@doc:
 //	 	Returns the array comparison operation type (ALL/ANY)
 //
 //---------------------------------------------------------------------------
-EdxlArrayComparisonType
+EdxlArrayCompType
 CDXLScalarArrayComp::GetDXLArrayCmpType() const
 {
 	return m_comparison_type;
@@ -79,9 +79,9 @@ CDXLScalarArrayComp::GetDXLStrArrayCmpType() const
 {
 	switch (m_comparison_type)
 	{
-		case Edxlarraycomparisontypeany:
+		case Edxlarraycomptypeany:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenOpTypeAny);
-		case Edxlarraycomparisontypeall:
+		case Edxlarraycomptypeall:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenOpTypeAll);
 		default:
 			GPOS_ASSERT(!"Unrecognized array operation type");

@@ -628,7 +628,7 @@ namespace gpopt
 			CDXLNode *PdxlnArrayRefIndexList(CExpression *pexpr);
 
 			// translate the arrayref index list bound
-			CDXLScalarArrayRefIndexList::EDXLIndexListBound Eilb(const CScalarArrayRefIndexList::EIndexListType eilt);
+			CDXLScalarArrayRefIndexList::EIndexListBound Eilb(const CScalarArrayRefIndexList::EIndexListType eilt);
 
 			// translate an array compare
 			CDXLNode *PdxlnArrayCmp(CExpression *pexpr);

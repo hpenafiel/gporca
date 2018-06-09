@@ -69,10 +69,10 @@ CParseHandlerScalarArrayRefIndexList::StartElement
 															EdxltokenScalarArrayRefIndexList
 															);
 
-		CDXLScalarArrayRefIndexList::EDXLIndexListBound eilb = CDXLScalarArrayRefIndexList::EdxlIndexListBoundUpper;
+		CDXLScalarArrayRefIndexList::EIndexListBound eilb = CDXLScalarArrayRefIndexList::EilbUpper;
 		if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexListLower), xmlszOpType))
 		{
-			eilb = CDXLScalarArrayRefIndexList::EdxlIndexListBoundLower;
+			eilb = CDXLScalarArrayRefIndexList::EilbLower;
 		}
 		else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarArrayRefIndexListUpper), xmlszOpType))
 		{

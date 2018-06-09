@@ -192,7 +192,7 @@ CDXLLogicalSetOp::IsColDefined
 	const ULONG size = Arity();
 	for (ULONG descr_id = 0; descr_id < size; descr_id++)
 	{
-		ULONG id = MakeDXLColumnDescr(descr_id)->Id();
+		ULONG id = GetColumnDescrAt(descr_id)->Id();
 		if (id == col_id)
 		{
 			return true;

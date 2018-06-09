@@ -29,13 +29,13 @@ using namespace gpdxl;
 CDXLScalarArrayRefIndexList::CDXLScalarArrayRefIndexList
 	(
 	IMemoryPool *memory_pool,
-	EDXLIndexListBound index_list_bound
+	EIndexListBound index_list_bound
 	)
 	:
 	CDXLScalar(memory_pool),
 	m_index_list_bound(index_list_bound)
 {
-	GPOS_ASSERT(EdxlIndexListBoundSentinel > index_list_bound);
+	GPOS_ASSERT(EilbSentinel > index_list_bound);
 }
 
 //---------------------------------------------------------------------------
@@ -103,15 +103,15 @@ CDXLScalarArrayRefIndexList::SerializeToDXL
 const CWStringConst *
 CDXLScalarArrayRefIndexList::GetDXLIndexListBoundStr
 	(
-	EDXLIndexListBound index_list_bound
+	EIndexListBound index_list_bound
 	)
 {
 	switch (index_list_bound)
 	{
-		case EdxlIndexListBoundLower:
+		case EilbLower:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListLower);
 
-		case EdxlIndexListBoundUpper:
+		case EilbUpper:
 			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarArrayRefIndexListUpper);
 
 		default:

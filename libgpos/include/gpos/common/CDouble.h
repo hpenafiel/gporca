@@ -168,7 +168,7 @@ namespace gpos
 			friend BOOL operator >= (const CDouble &left, const CDouble &right);
 
 			// absolute
-			inline CDouble Abs() const
+			inline CDouble Absolute() const
             {
                 return CDouble(fabs(m_d));
             }

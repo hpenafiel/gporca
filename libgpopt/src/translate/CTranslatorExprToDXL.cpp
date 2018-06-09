@@ -7002,7 +7002,7 @@ CTranslatorExprToDXL::PdxlnAssertConstraint
 // 		Translate the arrayref index list bound
 //
 //---------------------------------------------------------------------------
-CDXLScalarArrayRefIndexList::EDXLIndexListBound
+CDXLScalarArrayRefIndexList::EIndexListBound
 CTranslatorExprToDXL::Eilb
 	(
 	const CScalarArrayRefIndexList::EIndexListType eilt
@@ -7011,14 +7011,14 @@ CTranslatorExprToDXL::Eilb
 	switch (eilt)
 	{
 		case CScalarArrayRefIndexList::EiltLower:
-			return CDXLScalarArrayRefIndexList::EdxlIndexListBoundLower;
+			return CDXLScalarArrayRefIndexList::EilbLower;
 
 		case CScalarArrayRefIndexList::EiltUpper:
-			return CDXLScalarArrayRefIndexList::EdxlIndexListBoundUpper;
+			return CDXLScalarArrayRefIndexList::EilbUpper;
 
 		default:
 			GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsupportedOp, GPOS_WSZ_LIT("Invalid arrayref index bound"));
-			return CDXLScalarArrayRefIndexList::EdxlIndexListBoundSentinel;
+			return CDXLScalarArrayRefIndexList::EilbSentinel;
 	}
 }
 
@@ -7046,10 +7046,10 @@ CTranslatorExprToDXL::PdxlnArrayCmp
 
 	CScalarArrayCmp::EArrCmpType earrcmpt = pop->Earrcmpt();
 	GPOS_ASSERT(CScalarArrayCmp::EarrcmpSentinel > earrcmpt);
-	EdxlArrayComparisonType edxlarrcmpt = Edxlarraycomparisontypeall;
+	EdxlArrayCompType edxlarrcmpt = Edxlarraycomptypeall;
 	if (CScalarArrayCmp::EarrcmpAny == earrcmpt)
 	{
-		edxlarrcmpt = Edxlarraycomparisontypeany;
+		edxlarrcmpt = Edxlarraycomptypeany;
 	}
 
 	CDXLNode *pdxlnArrayCmp =

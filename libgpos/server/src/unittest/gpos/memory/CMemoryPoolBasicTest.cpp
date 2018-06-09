@@ -556,7 +556,7 @@ CMemoryPoolBasicTest::Allocate
 		const ULONG size = UlSize(i);
 		rgpb[i] = GPOS_NEW_ARRAY(memory_pool, BYTE, size);
 #ifdef GPOS_DEBUG
-		(void) clib::MemSet(rgpb[i], 1, size);
+		(void) clib::MemorySet(rgpb[i], 1, size);
 #endif // GPOS_DEBUG
 
 		if (0 == i % GPOS_MEM_TEST_CFA)

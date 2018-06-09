@@ -71,13 +71,13 @@ namespace gpos
 		WCHAR *WcMemCpy(WCHAR *dest, const WCHAR *src, SIZE_T num_bytes);
 
 		// copy a specified number of characters
-		CHAR *StrNCpy(CHAR *dest, const CHAR *src, SIZE_T num_bytes);
+		CHAR *StrNCopy(CHAR *dest, const CHAR *src, SIZE_T num_bytes);
 
 		// find the first occurrence of the character c in src
 		CHAR *StrChr(const CHAR *src, INT c);
 
 		// set a specified number of bytes to a specified value
-		void* MemSet(void *dest, INT value, SIZE_T num_bytes);
+		void* MemorySet(void *dest, INT value, SIZE_T num_bytes);
 
 		// calculate the length of a wide-character string
 		ULONG WcStrLen(const WCHAR *dest);

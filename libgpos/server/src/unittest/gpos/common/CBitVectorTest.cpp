@@ -210,7 +210,7 @@ CBitVectorTest::EresUnittest_Random()
 	
 	CRandom rand;
 	
-	clib::MemSet(rg, 0 , cTotal);
+	clib::MemorySet(rg, 0 , cTotal);
 
 	// set random chars in the control vector
 	for (ULONG i = 0; i < cTotal * 0.2; i++)

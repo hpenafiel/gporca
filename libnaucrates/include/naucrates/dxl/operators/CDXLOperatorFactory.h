@@ -372,7 +372,7 @@ namespace gpdxl
 
 			// create a column descriptor object
 			static
-			CDXLColDescr *MakeDXLColumnDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
+			CDXLColDescr *MakeColumnDescr(CDXLMemoryManager *memory_manager_dxl, const Attributes &attrs);
 			
 			// create a column reference object
 			static

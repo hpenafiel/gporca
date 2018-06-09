@@ -109,7 +109,7 @@ CXformFactory::Add
 	// create name -> xform mapping
 	ULONG ulLen = clib::StrLen(pxform->SzId());
 	CHAR *szXformName = GPOS_NEW_ARRAY(m_memory_pool, CHAR, ulLen + 1);
-	clib::StrNCpy(szXformName, pxform->SzId(), ulLen + 1);
+	clib::StrNCopy(szXformName, pxform->SzId(), ulLen + 1);
 
 #ifdef GPOS_DEBUG
 		BOOL fInserted =

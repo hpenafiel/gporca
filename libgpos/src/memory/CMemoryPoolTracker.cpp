@@ -144,7 +144,7 @@ CMemoryPoolTracker::Allocate
 #ifdef GPOS_DEBUG
 	header->m_stack_desc.BackTrace();
 
-	clib::MemSet(ptr_result, GPOS_MEM_INIT_PATTERN_CHAR, bytes);
+	clib::MemorySet(ptr_result, GPOS_MEM_INIT_PATTERN_CHAR, bytes);
 #endif // GPOS_DEBUG
 
 	return ptr_result;
@@ -240,7 +240,7 @@ CMemoryPoolTracker::Free
 
 #ifdef GPOS_DEBUG
 	// mark user memory as unused in debug mode
-	clib::MemSet(ptr, GPOS_MEM_INIT_PATTERN_CHAR, user_size);
+	clib::MemorySet(ptr, GPOS_MEM_INIT_PATTERN_CHAR, user_size);
 #endif // GPOS_DEBUG
 
 	ULONG total_size = GPOS_MEM_BYTES_TOTAL(user_size);

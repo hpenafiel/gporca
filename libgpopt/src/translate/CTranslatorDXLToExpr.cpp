@@ -459,7 +459,7 @@ CTranslatorDXLToExpr::PexprLogicalTVF
 
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
-		const CDXLColDescr *pdxlcoldesc = dxl_op->MakeDXLColumnDescr(ul);
+		const CDXLColDescr *pdxlcoldesc = dxl_op->GetColumnDescrAt(ul);
 		GPOS_ASSERT(pdxlcoldesc->MDIdType()->IsValid());
 
 		const IMDType *pmdtype = m_pmda->Pmdtype(pdxlcoldesc->MDIdType());
@@ -604,7 +604,7 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	for(ULONG ul = 0; ul < ulColumns ; ul++)
 	{
 		CColRef *pcr = (*pdrgpcr)[ul];
-		const CDXLColDescr *pdxlcd = table_descr->MakeDXLColumnDescr(ul);
+		const CDXLColDescr *pdxlcd = table_descr->GetColumnDescrAt(ul);
 		GPOS_ASSERT(NULL != pcr);
 		GPOS_ASSERT(NULL != pdxlcd && !pdxlcd-> IsDropped());
 
@@ -815,7 +815,7 @@ CTranslatorDXLToExpr::BuildSetOpChild
 		const CColRef *pcr = PcrLookup(m_phmulcr, col_id);
 
 		// corresponding output column descriptor
-		const CDXLColDescr *pdxlcdOutput = dxl_op->MakeDXLColumnDescr(ulColPos);
+		const CDXLColDescr *pdxlcdOutput = dxl_op->GetColumnDescrAt(ulColPos);
 
 		// check if a cast function needs to be introduced
 		IMDId *pmdidSource = pcr->Pmdtype()->MDId();
@@ -951,7 +951,7 @@ CTranslatorDXLToExpr::PdrgpexprPreprocessSetOpInputs
 	// create the set operation's array of output column identifiers
 	for (ULONG ulOutputColPos = 0; ulOutputColPos < ulOutputCols; ulOutputColPos++)
 	{
-		const CDXLColDescr *pdxlcdOutput = dxl_op->MakeDXLColumnDescr(ulOutputColPos);
+		const CDXLColDescr *pdxlcdOutput = dxl_op->GetColumnDescrAt(ulOutputColPos);
 		pdrgpulOutput->Append(GPOS_NEW(m_memory_pool) ULONG (pdxlcdOutput->Id()));
 	}
 	
@@ -2107,7 +2107,7 @@ CTranslatorDXLToExpr::Ptabdesc
 	const ULONG ulColumns = table_descr->Arity();
 	for (ULONG ul = 0; ul < ulColumns; ul++)
 	{
-		const CDXLColDescr *pdxlcoldesc = table_descr->MakeDXLColumnDescr(ul);
+		const CDXLColDescr *pdxlcoldesc = table_descr->GetColumnDescrAt(ul);
 		INT attno = pdxlcoldesc->AttrNum();
 
 		ULONG *pulPos = phmiulAttnoPosMapping->Find(&attno);
@@ -3271,15 +3271,15 @@ CTranslatorDXLToExpr::PexprArrayRefIndexList
 CScalarArrayRefIndexList::EIndexListType
 CTranslatorDXLToExpr::Eilt
 	(
-	const CDXLScalarArrayRefIndexList::EDXLIndexListBound eilb
+	const CDXLScalarArrayRefIndexList::EIndexListBound eilb
 	)
 {
 	switch (eilb)
 	{
-		case CDXLScalarArrayRefIndexList::EdxlIndexListBoundLower:
+		case CDXLScalarArrayRefIndexList::EilbLower:
 			return CScalarArrayRefIndexList::EiltLower;
 
-		case CDXLScalarArrayRefIndexList::EdxlIndexListBoundUpper:
+		case CDXLScalarArrayRefIndexList::EilbUpper:
 			return CScalarArrayRefIndexList::EiltUpper;
 
 		default:
@@ -3309,15 +3309,15 @@ CTranslatorDXLToExpr::PexprArrayCmp
 
 	const CWStringConst *str_opname = dxl_op->GetComparisonOpName();
 	
-	EdxlArrayComparisonType edxlarrcmp = dxl_op->GetDXLArrayCmpType();
+	EdxlArrayCompType edxlarrcmp = dxl_op->GetDXLArrayCmpType();
 	CScalarArrayCmp::EArrCmpType earrcmpt = CScalarArrayCmp::EarrcmpSentinel;
-	if (Edxlarraycomparisontypeall == edxlarrcmp)
+	if (Edxlarraycomptypeall == edxlarrcmp)
 	{
 		earrcmpt = CScalarArrayCmp::EarrcmpAll;
 	}
 	else
 	{
-		GPOS_ASSERT(Edxlarraycomparisontypeany == edxlarrcmp);
+		GPOS_ASSERT(Edxlarraycomptypeany == edxlarrcmp);
 		earrcmpt = CScalarArrayCmp::EarrcmpAny;
 	}
 	

@@ -33,7 +33,7 @@ void
 CBitVector::Clear()
 {
 	GPOS_ASSERT(NULL != m_vec);
-	clib::MemSet(m_vec, 0, m_len * BYTES_PER_UNIT);
+	clib::MemorySet(m_vec, 0, m_len * BYTES_PER_UNIT);
 }
 
 

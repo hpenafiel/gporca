@@ -482,7 +482,7 @@ CDatumGenericGPDB::PdatumPadded
 		(void) clib::MemCpy(pba, pbaOriginal, ulDatumLen);
 
 		// datum's length smaller than column's size, therefore pad the input datum
-		(void) clib::MemSet(pba + ulDatumLen, ' ', ulAdjustedColWidth - ulDatumLen);
+		(void) clib::MemorySet(pba + ulDatumLen, ' ', ulAdjustedColWidth - ulDatumLen);
 
 		// create a new datum
 		this->MDId()->AddRef();

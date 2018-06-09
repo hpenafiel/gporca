@@ -289,14 +289,14 @@ gpos::clib::WcMemCpy
 
 //---------------------------------------------------------------------------
 //	@function:
-//		clib::StrNCpy
+//		clib::StrNCopy
 //
 //	@doc:
 //		Copy a specified number of characters
 //
 //---------------------------------------------------------------------------
 CHAR*
-gpos::clib::StrNCpy
+gpos::clib::StrNCopy
 	(
 	CHAR *dest,
 	const CHAR *src,
@@ -334,14 +334,14 @@ gpos::clib::StrChr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		clib::MemSet
+//		clib::MemorySet
 //
 //	@doc:
 //		Set the bytes of a given memory block to a specific value
 //
 //---------------------------------------------------------------------------
 void*
-gpos::clib::MemSet
+gpos::clib::MemorySet
 	(
 	void *dest,
 	INT value,

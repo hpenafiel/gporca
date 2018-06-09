@@ -140,7 +140,7 @@ CStringStatic::AppendBuffer
 
 	GPOS_ASSERT(m_capacity > length + m_length);
 
-	clib::StrNCpy(m_buffer + m_length, buf, length + 1);
+	clib::StrNCopy(m_buffer + m_length, buf, length + 1);
 	m_length += length;
 
 	// terminate string

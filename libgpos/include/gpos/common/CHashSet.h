@@ -183,7 +183,7 @@ namespace gpos
             {
                 GPOS_ASSERT(size > 0);
 
-                (void) clib::MemSet(m_chains, 0, m_num_chains * sizeof(HashElemChain*));
+                (void) clib::MemorySet(m_chains, 0, m_num_chains * sizeof(HashElemChain*));
             }
 
 			// dtor

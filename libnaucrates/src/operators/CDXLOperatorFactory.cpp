@@ -780,11 +780,11 @@ CDXLOperatorFactory::MakeDXLArrayComp
 							EdxltokenScalarArrayComp
 							);
 
-	EdxlArrayComparisonType array_comp_type = Edxlarraycomparisontypeany;
+	EdxlArrayCompType array_comp_type = Edxlarraycomptypeany;
 
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpTypeAll), op_type_xml))
 	{
-		array_comp_type = Edxlarraycomparisontypeall;
+		array_comp_type = Edxlarraycomptypeall;
 	}
 	else if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenOpTypeAny), op_type_xml))
 	{
@@ -1689,14 +1689,14 @@ CDXLOperatorFactory::MakeDXLIndexDescr
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLOperatorFactory::MakeDXLColumnDescr
+//		CDXLOperatorFactory::MakeColumnDescr
 //
 //	@doc:
 //		Construct a column descriptor
 //
 //---------------------------------------------------------------------------
 CDXLColDescr *
-CDXLOperatorFactory::MakeDXLColumnDescr
+CDXLOperatorFactory::MakeColumnDescr
 	(
 	CDXLMemoryManager *memory_manager_dxl,
 	const Attributes &attrs

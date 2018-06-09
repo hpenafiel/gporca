@@ -94,7 +94,7 @@ void
 CWorkerId::SetThreadToInvalid()
 {
 	// reset bytes to 0
-	clib::MemSet(this, 0, sizeof(CWorkerId));
+	clib::MemorySet(this, 0, sizeof(CWorkerId));
 }
 
 

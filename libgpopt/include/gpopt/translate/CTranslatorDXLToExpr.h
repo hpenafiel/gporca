@@ -307,7 +307,7 @@ namespace gpopt
 			CExpression *PexprArrayRefIndexList(const CDXLNode *dxlnode);
 
 			// translate the arrayref index list type
-			CScalarArrayRefIndexList::EIndexListType Eilt(const CDXLScalarArrayRefIndexList::EDXLIndexListBound eilb);
+			CScalarArrayRefIndexList::EIndexListType Eilt(const CDXLScalarArrayRefIndexList::EIndexListBound eilb);
 
 			// translate a DXL scalar array compare
 			CExpression *PexprArrayCmp(const CDXLNode *dxlnode);

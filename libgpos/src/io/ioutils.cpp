@@ -52,7 +52,7 @@ gpos::ioutils::CheckState
 	GPOS_ASSERT(NULL != file_state);
 
 	// reset file state
-	(void) clib::MemSet(file_state, 0, sizeof(*file_state));
+	(void) clib::MemorySet(file_state, 0, sizeof(*file_state));
 
 	INT res = -1;
 
@@ -85,7 +85,7 @@ gpos::ioutils::CheckStateUsingFileDescriptor
 	GPOS_ASSERT(NULL != file_state);
 
 	// reset file state
-	(void) clib::MemSet(file_state, 0, sizeof(*file_state));
+	(void) clib::MemorySet(file_state, 0, sizeof(*file_state));
 
 	INT res = -1;
 

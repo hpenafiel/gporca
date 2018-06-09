@@ -626,7 +626,7 @@ CTranslatorExprToDXLUtils::PdxlnPartialScanTestRange
 																memory_pool,
 																pmdidEq,
 																GPOS_NEW(memory_pool) CWStringConst(memory_pool, pmdidEq->GetBuffer()),
-																Edxlarraycomparisontypeany
+																Edxlarraycomptypeany
 																),
 													pdxlnScalar,
 													pdxlnPartList
@@ -924,7 +924,7 @@ CTranslatorExprToDXLUtils::PdxlnListFilterScCmp
 															memory_pool,
 															pmdidScCmp,
 															GPOS_NEW(memory_pool) CWStringConst(memory_pool, pstrScCmp->GetBuffer()),
-															Edxlarraycomparisontypeany
+															Edxlarraycomptypeany
 															),
 												pdxlnOther,
 												pdxlnPartKey

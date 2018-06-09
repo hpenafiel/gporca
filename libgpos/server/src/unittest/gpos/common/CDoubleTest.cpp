@@ -64,7 +64,7 @@ CDoubleTest::EresUnittest_Arithmetic()
 	CDouble fpSubtract(fpAdd - fp2);
 	CDouble fpMultiply(fp1 * fp2);
 	CDouble fpDivide(fpMultiply / fp2);
-	CDouble fpAbs(fp1.Abs());
+	CDouble fpAbs(fp1.Absolute());
 	CDouble fpFloor(fp1.Floor());
 	CDouble fpCeil(fp1.Ceil());
 	CDouble fpPow(fp1.Pow(fp2));
@@ -91,7 +91,7 @@ CDoubleTest::EresUnittest_Arithmetic()
 	   << fpAdd << " - " << fp2 << " = " << fpSubtract << std::endl
 	   << fp1 << " * " << fp2 << " = " << fpMultiply << std::endl
 	   << fpMultiply << " / " << fp2 << " = " << fpDivide << std::endl
-	   << "Abs(" << fp1 << ") = " << fpAbs << std::endl
+	   << "Absolute(" << fp1 << ") = " << fpAbs << std::endl
 	   << "Floor(" << fp1 << ") = " << fpCeil << std::endl
 	   << "Ceil(" << fp1 << ") = " << fpCeil << std::endl
 	   << "Pow(" << fp1 << "," << fp2 << ") = " << fpPow << std::endl
