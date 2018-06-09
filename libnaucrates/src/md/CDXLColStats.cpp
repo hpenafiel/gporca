@@ -242,7 +242,7 @@ CDXLColStats::PdxlcolstatsDummy
 	CDouble width
 	)
 {
-	CMDIdColStats *mdid_col_stats = CMDIdColStats::PmdidConvert(pmdid);
+	CMDIdColStats *mdid_col_stats = CMDIdColStats::PmdidConvert(mdid);
 
 	CAutoRef<DrgPdxlbucket> a_pdrgpdxlbucket;
 	a_pdrgpdxlbucket = GPOS_NEW(memory_pool) DrgPdxlbucket(memory_pool);
