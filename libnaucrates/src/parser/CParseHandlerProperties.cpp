@@ -142,7 +142,7 @@ CParseHandlerProperties::EndElement
 	// assemble the properties container from the cost
 	CParseHandlerCost *parse_handler_cost = dynamic_cast<CParseHandlerCost *>((*this)[0]);
 
-	CDXLOperatorCost *cost = parse_handler_cost->MakeDXLOperatorCost();
+	CDXLOperatorCost *cost = parse_handler_cost->GetDXLOperatorCost();
 	cost->AddRef();
 	
 	if (2 == this->Length())

@@ -537,7 +537,7 @@ CTranslatorDXLToExpr::PexprLogicalGet
 	Edxlopid edxlopid = dxl_op->GetDXLOperator();
 
 	// translate the table descriptor
-	CDXLTableDescr *table_descr = CDXLLogicalGet::Cast(dxl_op)->MakeDXLTableDescr();
+	CDXLTableDescr *table_descr = CDXLLogicalGet::Cast(dxl_op)->GetDXLTableDescr();
 
 	GPOS_ASSERT(NULL != table_descr);
 	GPOS_ASSERT(NULL != table_descr->MdName()->GetMDName());
@@ -1412,7 +1412,7 @@ CTranslatorDXLToExpr::PexprLogicalInsert
 	CDXLNode *child_dxlnode = (*dxlnode)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopInsert->MakeDXLTableDescr());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopInsert->GetDXLTableDescr());
 
 	ULongPtrArray *pdrgpulSourceCols = pdxlopInsert->GetSrcColIdsArray();
 	DrgPcr *pdrgpcr = CTranslatorDXLToExprUtils::Pdrgpcr(m_memory_pool, m_phmulcr, pdrgpulSourceCols);
@@ -1446,7 +1446,7 @@ CTranslatorDXLToExpr::PexprLogicalDelete
 	CDXLNode *child_dxlnode = (*dxlnode)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopDelete->MakeDXLTableDescr());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopDelete->GetDXLTableDescr());
 
 	ULONG ctid_colid = pdxlopDelete->GetCtIdColId();
 	ULONG segid_colid = pdxlopDelete->GetSegmentIdColId();
@@ -1486,7 +1486,7 @@ CTranslatorDXLToExpr::PexprLogicalUpdate
 	CDXLNode *child_dxlnode = (*dxlnode)[0];
 	CExpression *pexprChild = PexprLogical(child_dxlnode);
 
-	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopUpdate->MakeDXLTableDescr());
+	CTableDescriptor *ptabdesc = Ptabdesc(pdxlopUpdate->GetDXLTableDescr());
 
 	ULONG ctid_colid = pdxlopUpdate->GetCtIdColId();
 	ULONG segid_colid = pdxlopUpdate->GetSegmentIdColId();

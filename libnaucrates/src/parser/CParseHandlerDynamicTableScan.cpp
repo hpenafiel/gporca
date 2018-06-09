@@ -147,7 +147,7 @@ CParseHandlerDynamicTableScan::EndElement
 
 
 	// set table descriptor
-	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetDXLTableDescr();
 	table_descr->AddRef();
 	CDXLPhysicalDynamicTableScan *dxl_op = 
 			GPOS_NEW(m_memory_pool) CDXLPhysicalDynamicTableScan(m_memory_pool, table_descr, m_part_index_id, m_part_index_id_printable);

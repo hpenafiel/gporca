@@ -110,10 +110,10 @@ CParseHandlerLogicalDelete::EndElement
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[0]);
 	CParseHandlerLogicalOp *logical_op_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	GPOS_ASSERT(NULL != table_descr_parse_handler->MakeDXLTableDescr());
+	GPOS_ASSERT(NULL != table_descr_parse_handler->GetDXLTableDescr());
 	GPOS_ASSERT(NULL != logical_op_parse_handler->CreateDXLNode());
 
-	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetDXLTableDescr();
 	table_descr->AddRef();
 
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode

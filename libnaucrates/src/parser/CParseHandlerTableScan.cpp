@@ -167,10 +167,10 @@ CParseHandlerTableScan::EndElement
 	CParseHandlerFilter *filter_parse_handler = dynamic_cast<CParseHandlerFilter *>((*this)[2]);
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
 
-	GPOS_ASSERT(NULL != table_descr_parse_handler->MakeDXLTableDescr());
+	GPOS_ASSERT(NULL != table_descr_parse_handler->GetDXLTableDescr());
 
 	// set table descriptor
-	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetDXLTableDescr();
 	table_descr->AddRef();
 	m_dxl_op->SetTableDescriptor(table_descr);
 

@@ -81,14 +81,14 @@ CDXLLogicalGet::GetOpNameStr() const
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CDXLLogicalGet::MakeDXLTableDescr
+//		CDXLLogicalGet::GetDXLTableDescr
 //
 //	@doc:
 //		Table descriptor for the table scan
 //
 //---------------------------------------------------------------------------
 CDXLTableDescr *
-CDXLLogicalGet::MakeDXLTableDescr() const
+CDXLLogicalGet::GetDXLTableDescr() const
 {
 	return m_table_descr_dxl;
 }

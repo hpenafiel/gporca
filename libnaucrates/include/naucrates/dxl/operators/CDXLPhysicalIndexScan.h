@@ -78,11 +78,11 @@ namespace gpdxl
 
 			// index descriptor
 			virtual
-			const CDXLIndexDescr *MakeDXLIndexDescr() const;
+			const CDXLIndexDescr *GetDXLIndexDescr() const;
 
 			//table descriptor
 			virtual
-			const CDXLTableDescr *MakeDXLTableDescr() const;
+			const CDXLTableDescr *GetDXLTableDescr() const;
 
 			// scan direction
 			virtual

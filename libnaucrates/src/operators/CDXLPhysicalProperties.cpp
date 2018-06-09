@@ -76,7 +76,7 @@ CDXLPhysicalProperties::SerializePropertiesToDXL
 //
 //---------------------------------------------------------------------------
 CDXLOperatorCost *
-CDXLPhysicalProperties::MakeDXLOperatorCost() const
+CDXLPhysicalProperties::GetDXLOperatorCost() const
 {
 	return m_operator_cost_dxl;
 }			

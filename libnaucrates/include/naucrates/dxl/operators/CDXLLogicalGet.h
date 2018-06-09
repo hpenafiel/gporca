@@ -49,7 +49,7 @@ namespace gpdxl
 			// accessors
 			Edxlopid GetDXLOperator() const;
 			const CWStringConst *GetOpNameStr() const;
-			CDXLTableDescr *MakeDXLTableDescr() const;
+			CDXLTableDescr *GetDXLTableDescr() const;
 
 			// serialize operator in DXL format
 			virtual

@@ -65,7 +65,7 @@ CParseHandlerTableDescr::~CParseHandlerTableDescr()
 //
 //---------------------------------------------------------------------------
 CDXLTableDescr *
-CParseHandlerTableDescr::MakeDXLTableDescr()
+CParseHandlerTableDescr::GetDXLTableDescr()
 {
 	return m_table_descr_dxl;
 }

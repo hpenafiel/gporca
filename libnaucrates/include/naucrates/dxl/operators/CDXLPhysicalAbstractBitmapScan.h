@@ -72,7 +72,7 @@ namespace gpdxl
 			~CDXLPhysicalAbstractBitmapScan();
 
 			// table descriptor
-			const CDXLTableDescr *MakeDXLTableDescr()
+			const CDXLTableDescr *GetDXLTableDescr()
 			{
 				return m_table_descr_dxl;
 			}

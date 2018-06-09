@@ -66,7 +66,7 @@ namespace gpdxl
 
 			// index descriptor
 			virtual
-			const CDXLIndexDescr *MakeDXLIndexDescr() const
+			const CDXLIndexDescr *GetDXLIndexDescr() const
 			{
 				return m_index_descr_dxl;
 			}

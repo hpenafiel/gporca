@@ -62,7 +62,7 @@ CParseHandlerCost::~CParseHandlerCost()
 //
 //---------------------------------------------------------------------------
 CDXLOperatorCost *
-CParseHandlerCost::MakeDXLOperatorCost()
+CParseHandlerCost::GetDXLOperatorCost()
 {
 	return m_operator_cost_dxl;
 }

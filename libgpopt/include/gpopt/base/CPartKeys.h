@@ -65,7 +65,7 @@ namespace gpopt
 			}
 
 			// number of levels
-			ULONG GetNumOfPartitioningLevel() const
+			ULONG GetPartitioningLevel() const
 			{
 				return m_num_of_part_levels;
 			}

@@ -110,10 +110,10 @@ CParseHandlerLogicalInsert::EndElement
 	CParseHandlerTableDescr *pphTabDesc = dynamic_cast<CParseHandlerTableDescr*>((*this)[0]);
 	CParseHandlerLogicalOp *child_parse_handler = dynamic_cast<CParseHandlerLogicalOp*>((*this)[1]);
 
-	GPOS_ASSERT(NULL != pphTabDesc->MakeDXLTableDescr());
+	GPOS_ASSERT(NULL != pphTabDesc->GetDXLTableDescr());
 	GPOS_ASSERT(NULL != child_parse_handler->CreateDXLNode());
 
-	CDXLTableDescr *table_descr = pphTabDesc->MakeDXLTableDescr();
+	CDXLTableDescr *table_descr = pphTabDesc->GetDXLTableDescr();
 	table_descr->AddRef();
 	
 	m_dxl_node = GPOS_NEW(m_memory_pool) CDXLNode

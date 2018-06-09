@@ -94,7 +94,7 @@ CDXLPhysicalIndexScan::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 const CDXLIndexDescr *
-CDXLPhysicalIndexScan::MakeDXLIndexDescr() const
+CDXLPhysicalIndexScan::GetDXLIndexDescr() const
 {
 	return m_index_descr_dxl;
 }
@@ -122,7 +122,7 @@ CDXLPhysicalIndexScan::GetIndexScanDir() const
 //
 //---------------------------------------------------------------------------
 const CDXLTableDescr *
-CDXLPhysicalIndexScan::MakeDXLTableDescr() const
+CDXLPhysicalIndexScan::GetDXLTableDescr() const
 {
 	return m_table_descr_dxl;
 }

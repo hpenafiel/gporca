@@ -70,7 +70,7 @@ CParseHandlerIndexDescr::~CParseHandlerIndexDescr()
 //
 //---------------------------------------------------------------------------
 CDXLIndexDescr *
-CParseHandlerIndexDescr::MakeDXLIndexDescr()
+CParseHandlerIndexDescr::GetDXLIndexDescr()
 {
 	return m_index_descr_dxl;
 }

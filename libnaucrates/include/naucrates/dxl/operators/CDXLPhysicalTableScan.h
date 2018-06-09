@@ -69,7 +69,7 @@ namespace gpdxl
 			const CWStringConst *GetOpNameStr() const;
 
 			// table descriptor
-			const CDXLTableDescr *MakeDXLTableDescr();
+			const CDXLTableDescr *GetDXLTableDescr();
 			
 			// serialize operator in DXL format
 			virtual

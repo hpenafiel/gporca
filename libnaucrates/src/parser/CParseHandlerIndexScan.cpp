@@ -200,10 +200,10 @@ CParseHandlerIndexScan::EndElementHelper
 	CParseHandlerIndexDescr *index_descr_parse_handler = dynamic_cast<CParseHandlerIndexDescr *>((*this)[4]);
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr *>((*this)[5]);
 
-	CDXLTableDescr *table_descr_dxl = table_descr_parse_handler->MakeDXLTableDescr();
+	CDXLTableDescr *table_descr_dxl = table_descr_parse_handler->GetDXLTableDescr();
 	table_descr_dxl->AddRef();
 
-	CDXLIndexDescr *index_descr_dxl = index_descr_parse_handler->MakeDXLIndexDescr();
+	CDXLIndexDescr *index_descr_dxl = index_descr_parse_handler->GetDXLIndexDescr();
 	index_descr_dxl->AddRef();
 
 	CDXLPhysical *dxl_op = NULL;

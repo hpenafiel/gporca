@@ -192,8 +192,8 @@ CParseHandlerPhysicalDML::EndElement
 	GPOS_ASSERT(NULL != proj_list_parse_handler->CreateDXLNode());
 
 	CParseHandlerTableDescr *table_descr_parse_handler = dynamic_cast<CParseHandlerTableDescr*>((*this)[3]);
-	GPOS_ASSERT(NULL != table_descr_parse_handler->MakeDXLTableDescr());
-	CDXLTableDescr *table_descr = table_descr_parse_handler->MakeDXLTableDescr();
+	GPOS_ASSERT(NULL != table_descr_parse_handler->GetDXLTableDescr());
+	CDXLTableDescr *table_descr = table_descr_parse_handler->GetDXLTableDescr();
 	table_descr->AddRef();
 
 	CParseHandlerPhysicalOp *child_parse_handler = dynamic_cast<CParseHandlerPhysicalOp*>((*this)[4]);

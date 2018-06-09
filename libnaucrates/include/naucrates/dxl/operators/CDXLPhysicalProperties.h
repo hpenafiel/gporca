@@ -52,7 +52,7 @@ namespace gpdxl
 
 			// accessors
 			// the cost estimates for the operator node
-			CDXLOperatorCost *MakeDXLOperatorCost() const;
+			CDXLOperatorCost *GetDXLOperatorCost() const;
 
 			virtual
 			Edxlproperty GetDXLPropertyType() const
