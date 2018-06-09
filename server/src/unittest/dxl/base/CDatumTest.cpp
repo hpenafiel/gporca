@@ -164,7 +164,7 @@ CDatumTest::PdatumOid
 	BOOL is_null
 	)
 {
-	return GPOS_NEW(memory_pool) CDatumOidGPDB(CTestUtils::m_sysidDefault, 1 /*oVal*/, is_null);
+	return GPOS_NEW(memory_pool) CDatumOidGPDB(CTestUtils::m_sysidDefault, 1 /*val*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -182,7 +182,7 @@ CDatumTest::PdatumInt2
 	BOOL is_null
 	)
 {
-	return GPOS_NEW(memory_pool) CDatumInt2GPDB(CTestUtils::m_sysidDefault, 1 /*sVal*/, is_null);
+	return GPOS_NEW(memory_pool) CDatumInt2GPDB(CTestUtils::m_sysidDefault, 1 /*val*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -200,7 +200,7 @@ CDatumTest::PdatumInt4
 	BOOL is_null
 	)
 {
-	return GPOS_NEW(memory_pool) CDatumInt4GPDB(CTestUtils::m_sysidDefault, 1 /*iVal*/, is_null);
+	return GPOS_NEW(memory_pool) CDatumInt4GPDB(CTestUtils::m_sysidDefault, 1 /*val*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -218,7 +218,7 @@ CDatumTest::PdatumInt8
 	BOOL is_null
 	)
 {
-	return GPOS_NEW(memory_pool) CDatumInt8GPDB(CTestUtils::m_sysidDefault, 1 /*lVal*/, is_null);
+	return GPOS_NEW(memory_pool) CDatumInt8GPDB(CTestUtils::m_sysidDefault, 1 /*val*/, is_null);
 }
 
 //---------------------------------------------------------------------------
@@ -265,8 +265,8 @@ CDatumTest::PdatumGeneric
 							val,
 							5 /*length*/,
 							is_null,
-							0 /*lValue*/,
-							0/*dValue*/
+							0 /*value*/,
+							0/*value*/
 							);
 }
 

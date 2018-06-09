@@ -120,7 +120,7 @@ namespace gpmd
 
 		// factory method for creating Int8 datums
 		virtual
-		IDatumInt8 *PdatumInt8(IMemoryPool *memory_pool, LINT lValue, BOOL fNULL) const;
+		IDatumInt8 *PdatumInt8(IMemoryPool *memory_pool, LINT value, BOOL fNULL) const;
 
 		// accessors
 		virtual 
@@ -139,7 +139,7 @@ namespace gpmd
 
 		// id of specified comparison operator type
 		virtual 
-		IMDId *PmdidCmp(ECmpType ecmpt) const;
+		IMDId *PmdidCmp(ECmpType cmp_type) const;
 
 		// id of specified specified aggregate type
 		virtual 

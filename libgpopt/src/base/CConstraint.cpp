@@ -104,7 +104,7 @@ CConstraint::PcnstrFromScalarArrayCmp
 #endif // GPOS_DEBUG
 
 		// get comparison type
-		IMDType::ECmpType ecmpt = CUtils::ParseCmpType(popScArrayCmp->MdIdOp());
+		IMDType::ECmpType cmp_type = CUtils::ParseCmpType(popScArrayCmp->MdIdOp());
 		CExpression *pexprArray = CUtils::PexprScalarArrayChild(pexpr);
 
 		const ULONG arity = CUtils::UlScalarArrayArity(pexprArray);
@@ -124,7 +124,7 @@ CConstraint::PcnstrFromScalarArrayCmp
 		for (ULONG ul = 0; ul < arity; ul++)
 		{
 			CScalarConst *popScConst = CUtils::PScalarArrayConstChildAt(pexprArray,ul);
-			CConstraintInterval *pci =  CConstraintInterval::PciIntervalFromColConstCmp(memory_pool, pcr, ecmpt, popScConst);
+			CConstraintInterval *pci =  CConstraintInterval::PciIntervalFromColConstCmp(memory_pool, pcr, cmp_type, popScConst);
 			pdrgpcnstr->Append(pci);
 		}
 

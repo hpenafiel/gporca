@@ -36,12 +36,12 @@ using namespace gpmd;
 CDatumInt8GPDB::CDatumInt8GPDB
 	(
 	CSystemId sysid,
-	LINT lVal,
+	LINT val,
 	BOOL is_null
 	)
 	:
 	m_mdid(NULL),
-	m_lVal(lVal),
+	m_lVal(val),
 	m_is_null(is_null)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -67,12 +67,12 @@ CDatumInt8GPDB::CDatumInt8GPDB
 CDatumInt8GPDB::CDatumInt8GPDB
 	(
 	IMDId *mdid,
-	LINT lVal,
+	LINT val,
 	BOOL is_null
 	)
 	:
 	m_mdid(mdid),
-	m_lVal(lVal),
+	m_lVal(val),
 	m_is_null(is_null)
 {
 	GPOS_ASSERT(NULL != m_mdid);

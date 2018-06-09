@@ -39,11 +39,11 @@ CDXLDatumStatsLintMappable::CDXLDatumStatsLintMappable
 	BOOL is_null,
 	BYTE *byte_array,
 	ULONG length,
-	LINT lValue
+	LINT value
 	)
 	:
 	CDXLDatumGeneric(memory_pool, mdid_type, type_modifier, is_passed_by_value, is_null, byte_array, length),
-	m_val(lValue)
+	m_val(value)
 {
 }
 

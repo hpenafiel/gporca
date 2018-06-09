@@ -25,21 +25,21 @@ using namespace gpmd;
 //---------------------------------------------------------------------------
 CMDIdScCmp::CMDIdScCmp
 	(
-	CMDIdGPDB *pmdidLeft,
-	CMDIdGPDB *pmdidRight,
-	IMDType::ECmpType ecmpt
+	CMDIdGPDB *left_mdid,
+	CMDIdGPDB *right_mdid,
+	IMDType::ECmpType cmp_type
 	)
 	:
-	m_pmdidLeft(pmdidLeft),
-	m_pmdidRight(pmdidRight),
-	m_comparision_type(ecmpt),
+	m_pmdidLeft(left_mdid),
+	m_pmdidRight(right_mdid),
+	m_comparision_type(cmp_type),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
-	GPOS_ASSERT(pmdidLeft->IsValid());
-	GPOS_ASSERT(pmdidRight->IsValid());
-	GPOS_ASSERT(IMDType::EcmptOther != ecmpt);
+	GPOS_ASSERT(left_mdid->IsValid());
+	GPOS_ASSERT(right_mdid->IsValid());
+	GPOS_ASSERT(IMDType::EcmptOther != cmp_type);
 	
-	GPOS_ASSERT(pmdidLeft->Sysid().Equals(pmdidRight->Sysid()));
+	GPOS_ASSERT(left_mdid->Sysid().Equals(right_mdid->Sysid()));
 	
 	// serialize mdid into static string 
 	Serialize();

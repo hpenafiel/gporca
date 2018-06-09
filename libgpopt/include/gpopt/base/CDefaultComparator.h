@@ -71,7 +71,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				const IDatum *pdatum1,
 				const IDatum *pdatum2,
-				IMDType::ECmpType ecmpt
+				IMDType::ECmpType cmp_type
 				)
 				const;
 

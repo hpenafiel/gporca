@@ -122,7 +122,7 @@ namespace gpopt
 				);
 
 			// ctor
-			CRange(const IComparator *pcomp, IMDType::ECmpType ecmpt, IDatum *pdatum);
+			CRange(const IComparator *pcomp, IMDType::ECmpType cmp_type, IDatum *pdatum);
 
 			// dtor
 			virtual

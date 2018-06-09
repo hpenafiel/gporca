@@ -95,30 +95,30 @@ BOOL
 CMDAccessorUtils::FCmpExists
 	(
 	CMDAccessor *md_accessor,
-	IMDId *pmdidLeft,
-	IMDId *pmdidRight,
-	IMDType::ECmpType ecmpt
+	IMDId *left_mdid,
+	IMDId *right_mdid,
+	IMDType::ECmpType cmp_type
 	)
 {
 	GPOS_ASSERT(NULL != md_accessor);
-	GPOS_ASSERT(NULL != pmdidLeft);
-	GPOS_ASSERT(NULL != pmdidLeft);
-	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
+	GPOS_ASSERT(NULL != left_mdid);
+	GPOS_ASSERT(NULL != left_mdid);
+	GPOS_ASSERT(IMDType::EcmptOther > cmp_type);
 
 	CAutoTraceFlag atf1(EtraceSimulateOOM, false);
 	CAutoTraceFlag atf2(EtraceSimulateAbort, false);
 	CAutoTraceFlag atf3(EtraceSimulateIOError, false);
 	CAutoTraceFlag atf4(EtraceSimulateNetError, false);
 
-	if (pmdidLeft->Equals(pmdidRight))
+	if (left_mdid->Equals(right_mdid))
 	{
-		const IMDType *pmdtypeLeft = md_accessor->Pmdtype(pmdidLeft);
-		return IMDId::IsValid(pmdtypeLeft->PmdidCmp(ecmpt));
+		const IMDType *pmdtypeLeft = md_accessor->Pmdtype(left_mdid);
+		return IMDId::IsValid(pmdtypeLeft->PmdidCmp(cmp_type));
 	}
 
 	GPOS_TRY
 	{
-		(void) md_accessor->Pmdsccmp(pmdidLeft, pmdidRight, ecmpt);
+		(void) md_accessor->Pmdsccmp(left_mdid, right_mdid, cmp_type);
 
 		return true;
 	}

@@ -311,7 +311,7 @@ void
 CXMLSerializer::AddAttribute
 	(
 	const CWStringBase *pstrAttr,
-	LINT lValue
+	LINT value
 	)
 {
 	GPOS_ASSERT(NULL != pstrAttr);
@@ -321,7 +321,7 @@ CXMLSerializer::AddAttribute
 		 << pstrAttr->GetBuffer()
 		 << CDXLTokens::GetDXLTokenStr(EdxltokenEq)->GetBuffer()		// =
 		 << CDXLTokens::GetDXLTokenStr(EdxltokenQuote)->GetBuffer()	// \"
-		 << lValue
+		 << value
 		 << CDXLTokens::GetDXLTokenStr(EdxltokenQuote)->GetBuffer();	// \"
 }
 
@@ -338,7 +338,7 @@ void
 CXMLSerializer::AddAttribute
 	(
 	const CWStringBase *pstrAttr,
-	CDouble dValue
+	CDouble value
 	)
 {
 	GPOS_ASSERT(NULL != pstrAttr);
@@ -348,7 +348,7 @@ CXMLSerializer::AddAttribute
 		 << pstrAttr->GetBuffer()
 		 << CDXLTokens::GetDXLTokenStr(EdxltokenEq)->GetBuffer()		// = 
 		 << CDXLTokens::GetDXLTokenStr(EdxltokenQuote)->GetBuffer()	// \"
-		 << dValue
+		 << value
 		 << CDXLTokens::GetDXLTokenStr(EdxltokenQuote)->GetBuffer();	// \"
 }
 
@@ -475,13 +475,13 @@ CXMLSerializer::AddAttribute
 	(
 	const CWStringBase *pstrAttr,
 	BOOL is_null,
-	const BYTE *pba,
+	const BYTE *data,
 	ULONG ulLen
 	)
 {
 	if (!is_null)
 	{
-		CWStringDynamic *str = CDXLUtils::EncodeByteArrayToString(m_memory_pool, pba, ulLen);
+		CWStringDynamic *str = CDXLUtils::EncodeByteArrayToString(m_memory_pool, data, ulLen);
 		AddAttribute(pstrAttr, str);
 		GPOS_DELETE(str);
 	}

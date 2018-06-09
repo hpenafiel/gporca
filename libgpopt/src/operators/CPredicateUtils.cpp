@@ -104,7 +104,7 @@ BOOL
 CPredicateUtils::FComparison
 	(
 	CExpression *pexpr,
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 {
 	GPOS_ASSERT(NULL != pexpr);
@@ -119,7 +119,7 @@ CPredicateUtils::FComparison
 	CScalarCmp *popScCmp = CScalarCmp::PopConvert(pop);
 	GPOS_ASSERT(NULL != popScCmp);
 
-	return ecmpt == popScCmp->ParseCmpType();
+	return cmp_type == popScCmp->ParseCmpType();
 }
 
 // Is the given expression a comparison over the given column. A comparison
@@ -477,10 +477,10 @@ CPredicateUtils::FReducible
 IMDType::ECmpType
 CPredicateUtils::EcmptReverse
 	(
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 {
-	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
+	GPOS_ASSERT(IMDType::EcmptOther > cmp_type);
 
 	IMDType::ECmpType rgrgecmpt[][2] = {
 			{ IMDType::EcmptEq, IMDType::EcmptEq }, { IMDType::EcmptG,
@@ -494,12 +494,12 @@ CPredicateUtils::EcmptReverse
 	{
 		IMDType::ECmpType *pecmpt = rgrgecmpt[ul];
 
-		if (pecmpt[0] == ecmpt)
+		if (pecmpt[0] == cmp_type)
 		{
 			return pecmpt[1];
 		}
 
-		if (pecmpt[1] == ecmpt)
+		if (pecmpt[1] == cmp_type)
 		{
 			return pecmpt[0];
 		}
@@ -626,7 +626,7 @@ CPredicateUtils::ExtractComponents
 	CExpression *pexprLeft = (*pexprScCmp)[0];
 	CExpression *pexprRight = (*pexprScCmp)[1];
 
-	IMDType::ECmpType ecmpt =
+	IMDType::ECmpType cmp_type =
 			CScalarCmp::PopConvert(pexprScCmp->Pop())->ParseCmpType();
 
 	if (CUtils::FScalarIdent(pexprLeft, pcrKey) ||
@@ -634,14 +634,14 @@ CPredicateUtils::ExtractComponents
 	{
 		*ppexprKey = pexprLeft;
 		*ppexprOther = pexprRight;
-		*pecmpt = ecmpt;
+		*pecmpt = cmp_type;
 	}
 	else if (CUtils::FScalarIdent(pexprRight, pcrKey) ||
 			 CScalarIdent::FCastedScId(pexprRight, pcrKey))
 	{
 		*ppexprKey = pexprRight;
 		*ppexprOther = pexprLeft;
-		*pecmpt = EcmptReverse(ecmpt);
+		*pecmpt = EcmptReverse(cmp_type);
 	}
 	GPOS_ASSERT(NULL != *ppexprKey && NULL != *ppexprOther);
 }
@@ -934,10 +934,10 @@ CPredicateUtils::PexprEliminateSelfComparison
 
 	pexpr->AddRef();
 	CExpression *pexprNew = pexpr;
-	IMDType::ECmpType ecmpt = IMDType::EcmptOther;
-	if (FSelfComparison(pexpr, &ecmpt))
+	IMDType::ECmpType cmp_type = IMDType::EcmptOther;
+	if (FSelfComparison(pexpr, &cmp_type))
 	{
-		switch (ecmpt)
+		switch (cmp_type)
 		{
 			case IMDType::EcmptEq:
 			case IMDType::EcmptLEq:
@@ -1536,10 +1536,10 @@ CPredicateUtils::FDisjunctionOnColumn
 BOOL
 CPredicateUtils::FRangeComparison
 	(
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 {
-	return (IMDType::EcmptOther != ecmpt && IMDType::EcmptNEq != ecmpt);
+	return (IMDType::EcmptOther != cmp_type && IMDType::EcmptNEq != cmp_type);
 }
 
 // extract interesting expressions involving the partitioning keys;

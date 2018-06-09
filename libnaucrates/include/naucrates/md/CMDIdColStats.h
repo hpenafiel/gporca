@@ -59,7 +59,7 @@ namespace gpmd
 			
 		public:
 			// ctor
-			CMDIdColStats(CMDIdGPDB *rel_mdid, ULONG ulAttno);
+			CMDIdColStats(CMDIdGPDB *rel_mdid, ULONG attno);
 			
 			// dtor
 			virtual

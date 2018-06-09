@@ -121,8 +121,8 @@ namespace gpopt
 							IMemoryPool *memory_pool,
 							CMDAccessor *md_accessor,
 							CColRef *pcr,
-							IMDType::ECmpType ecmpt,
-							LINT lVal
+							IMDType::ECmpType cmp_type,
+							LINT val
 							);
 
 			// interval from scalar bool op

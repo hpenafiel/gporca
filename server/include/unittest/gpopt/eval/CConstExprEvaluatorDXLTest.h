@@ -67,12 +67,12 @@ namespace gpopt
 						(
 						IMemoryPool *memory_pool,
 						CMDAccessor *md_accessor,
-						INT iVal
+						INT val
 						)
 						:
 						m_memory_pool(memory_pool),
 						m_pmda(md_accessor),
-						m_iVal(iVal)
+						m_iVal(val)
 					{}
 
 					// dtor

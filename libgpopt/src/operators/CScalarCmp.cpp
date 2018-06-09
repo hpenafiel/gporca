@@ -39,13 +39,13 @@ CScalarCmp::CScalarCmp
 	IMemoryPool *memory_pool,
 	IMDId *mdid_op,
 	const CWStringConst *pstrOp,
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 	:
 	CScalar(memory_pool),
 	m_mdid_op(mdid_op),
 	m_pstrOp(pstrOp),
-	m_comparision_type(ecmpt),
+	m_comparision_type(cmp_type),
 	m_returns_null_on_null_input(false)
 {
 	GPOS_ASSERT(mdid_op->IsValid());

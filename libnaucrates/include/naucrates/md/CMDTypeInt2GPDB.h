@@ -139,7 +139,7 @@ namespace gpmd
 			
 			// id of specified comparison operator type
 			virtual 
-			IMDId *PmdidCmp(ECmpType ecmpt) const;
+			IMDId *PmdidCmp(ECmpType cmp_type) const;
 
 			// id of specified aggregate type
 			virtual 

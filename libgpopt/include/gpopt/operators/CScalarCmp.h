@@ -62,7 +62,7 @@ namespace gpopt
 				IMemoryPool *memory_pool,
 				IMDId *mdid_op,
 				const CWStringConst *pstrOp,
-				IMDType::ECmpType ecmpt
+				IMDType::ECmpType cmp_type
 				);
 
 			// dtor

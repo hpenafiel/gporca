@@ -805,7 +805,7 @@ namespace gpopt
 			CDXLDirectDispatchInfo *GetDXLDirectDispatchInfo(CExpression *pexprDML);
 			
 			// check if the motion node is valid
-			void CheckValidity(CDXLPhysicalMotion *pdxlopMotion);
+			void CheckValidity(CDXLPhysicalMotion *motion);
 
 			// check if result node imposes a motion hazard
 			BOOL FNeedsMaterializeUnderResult(CDXLNode *proj_list_dxlnode, CDXLNode *child_dxlnode);

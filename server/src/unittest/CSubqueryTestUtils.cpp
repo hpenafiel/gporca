@@ -152,7 +152,7 @@ CSubqueryTestUtils::PexprSelectWithAggSubqueryConstComparison
 	// generate agg subquery
 	CExpression *pexprSubq = PexprSubqueryAgg(memory_pool, pexprOuter, pexprInner, fCorrelated);
 
-	CExpression *pexprConst = CUtils::PexprScalarConstInt8(memory_pool, 0 /*iVal*/);
+	CExpression *pexprConst = CUtils::PexprScalarConstInt8(memory_pool, 0 /*val*/);
 
 	// generate equality predicate
 	CExpression *pexprPredicate = CUtils::PexprScalarEqCmp(memory_pool, pexprConst, pexprSubq);
@@ -1024,7 +1024,7 @@ CSubqueryTestUtils::PexprSubquery
 	CColRef *pcrInner = CDrvdPropRelational::Pdprel(pexprInner->PdpDerive())->PcrsOutput()->PcrAny();
 
 	// generate a non-correlated predicate to be added to inner expression
-	CExpression *pexprNonCorrelated = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/));
+	CExpression *pexprNonCorrelated = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/));
 
 	// predicate for the inner expression
 	CExpression *pexprPred = NULL;
@@ -1131,7 +1131,7 @@ CSubqueryTestUtils::PexprUndecorrelatableSubquery
 				COperator::EopScalarSubqueryNotExists == eopid);
 
 	CWStringConst strNameR(GPOS_WSZ_LIT("Rel1"));
-	CMDIdGPDB *pmdidR = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID1, 1 /*ulVersionMajor*/, 1 /*ulVersionMinor*/);
+	CMDIdGPDB *pmdidR = GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_TEST_REL_OID1, 1 /*version_major*/, 1 /*version_minor*/);
 	CTableDescriptor *ptabdescR = CTestUtils::PtabdescPlain(memory_pool, 3 /*ulCols*/, pmdidR, CName(&strNameR));
 	CExpression *pexprOuter = CTestUtils::PexprLogicalGet(memory_pool, ptabdescR, &strNameR);
 
@@ -1156,7 +1156,7 @@ CSubqueryTestUtils::PexprUndecorrelatableSubquery
 
 	// generate a regular predicate
 	CColRef *pcrOuter = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput()->PcrAny();
-	CExpression *pexprPred = CUtils::PexprScalarEqCmp(memory_pool, pcrOuter, CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/));
+	CExpression *pexprPred = CUtils::PexprScalarEqCmp(memory_pool, pcrOuter, CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/));
 
 	// generate OR expression of  predicates
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -1393,7 +1393,7 @@ CSubqueryTestUtils::PexprSelectWithSubqueryBoolOp
 	CExpression *pexprPred1 = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pexprAggSubquery);
 
 	// generate a regular predicate
-	CExpression *pexprPred2 = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/));
+	CExpression *pexprPred2 = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/));
 
 	// generate ALL subquery
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(memory_pool);
@@ -1674,7 +1674,7 @@ CSubqueryTestUtils::PexprSelectWithTrimmableExistentialSubquery
 
 	// generate a regular predicate
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprOuter->PdpDerive())->PcrsOutput();
-	CExpression *pexprEqPred = CUtils::PexprScalarEqCmp(memory_pool, pcrs->PcrAny(), CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/));
+	CExpression *pexprEqPred = CUtils::PexprScalarEqCmp(memory_pool, pcrs->PcrAny(), CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/));
 
 	CExpression *pexprConjunction =
 		CPredicateUtils::PexprConjunction(memory_pool, pexprSubqueryExistential, pexprEqPred);

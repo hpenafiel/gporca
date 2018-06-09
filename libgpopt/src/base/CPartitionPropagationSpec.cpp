@@ -354,9 +354,9 @@ CPartitionPropagationSpec::SplitPartPredicates
 			// and add it to the equality filters map
 			CExpression *pexprPartKey = NULL;
 			CExpression *pexprOther = NULL;
-			IMDType::ECmpType ecmpt = IMDType::EcmptOther;
+			IMDType::ECmpType cmp_type = IMDType::EcmptOther;
 
-			CPredicateUtils::ExtractComponents((*pdrgpexprKey)[0], pcr, &pexprPartKey, &pexprOther, &ecmpt);
+			CPredicateUtils::ExtractComponents((*pdrgpexprKey)[0], pcr, &pexprPartKey, &pexprOther, &cmp_type);
 			GPOS_ASSERT(NULL != pexprOther);
 			pexprOther->AddRef();
 #ifdef GPOS_DEBUG

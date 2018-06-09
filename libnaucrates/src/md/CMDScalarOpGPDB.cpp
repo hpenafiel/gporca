@@ -39,7 +39,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	IMDId *mdid_func,
 	IMDId *pmdidOpCommute,
 	IMDId *pmdidOpInverse,
-	IMDType::ECmpType ecmpt,
+	IMDType::ECmpType cmp_type,
 	BOOL fReturnsNullOnNullInput,
 	DrgPmdid *pdrgpmdidOpClasses
 	)
@@ -53,7 +53,7 @@ CMDScalarOpGPDB::CMDScalarOpGPDB
 	m_func_mdid(mdid_func),
 	m_mdid_commute_opr(pmdidOpCommute),
 	m_mdid_inverse_opr(pmdidOpInverse),
-	m_comparision_type(ecmpt),
+	m_comparision_type(cmp_type),
 	m_returns_null_on_null_input(fReturnsNullOnNullInput),
 	m_pdrgpmdidOpClasses(pdrgpmdidOpClasses)
 {

@@ -91,7 +91,7 @@ namespace gpmd
 				IMDId *mdid_func,
 				IMDId *pmdidOpCommute,
 				IMDId *pmdidOpInverse,
-				IMDType::ECmpType ecmpt,
+				IMDType::ECmpType cmp_type,
 				BOOL fReturnsNullOnNullInput,
 				DrgPmdid *pdrgpmdidOpClasses
 				);

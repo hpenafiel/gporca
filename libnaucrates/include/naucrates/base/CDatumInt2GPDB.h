@@ -47,8 +47,8 @@ class CDatumInt2GPDB : public IDatumInt2
 	public:
 
 		// ctors
-		CDatumInt2GPDB(CSystemId sysid, SINT sVal, BOOL is_null = false);
-		CDatumInt2GPDB(IMDId *mdid, SINT sVal, BOOL is_null = false);
+		CDatumInt2GPDB(CSystemId sysid, SINT val, BOOL is_null = false);
+		CDatumInt2GPDB(IMDId *mdid, SINT val, BOOL is_null = false);
 
 		// dtor
 		virtual

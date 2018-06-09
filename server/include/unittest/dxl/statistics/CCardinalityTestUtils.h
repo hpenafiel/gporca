@@ -75,11 +75,11 @@ namespace gpnaucrates
 
 			// helper function to generate a point from an encoded value of specific datatype
 			static
-			CPoint *PpointGeneric(IMemoryPool *memory_pool, OID oid, CWStringDynamic *pstrValueEncoded, LINT lValue);
+			CPoint *PpointGeneric(IMemoryPool *memory_pool, OID oid, CWStringDynamic *pstrValueEncoded, LINT value);
 
 			// helper function to generate a point of numeric datatype
 			static
-			CPoint *PpointNumeric(IMemoryPool *memory_pool, CWStringDynamic *pstrEncodedValue, CDouble dValue);
+			CPoint *PpointNumeric(IMemoryPool *memory_pool, CWStringDynamic *pstrEncodedValue, CDouble value);
 
 			// helper method to print statistics object
 			static

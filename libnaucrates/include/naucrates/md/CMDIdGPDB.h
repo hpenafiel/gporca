@@ -71,7 +71,7 @@ namespace gpmd
 			CMDIdGPDB(CSystemId sysid, OID oid);
 			explicit 
 			CMDIdGPDB(OID oid);
-			CMDIdGPDB(OID oid, ULONG ulVersionMajor, ULONG ulVersionMinor);
+			CMDIdGPDB(OID oid, ULONG version_major, ULONG version_minor);
 			
 			// copy ctor
 			explicit

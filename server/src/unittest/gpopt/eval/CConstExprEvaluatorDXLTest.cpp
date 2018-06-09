@@ -55,7 +55,7 @@ CConstExprEvaluatorDXLTest::CDummyConstDXLNodeEvaluator::PdxlnEvaluateExpr
 	const IMDTypeInt4 *pmdtypeint4 = m_pmda->PtMDType<IMDTypeInt4>();
 	pmdtypeint4->MDId()->AddRef();
 
-	CDXLDatumInt4 *datum_dxl = GPOS_NEW(m_memory_pool) CDXLDatumInt4(m_memory_pool, pmdtypeint4->MDId(), false /*fConstNull*/, m_iVal);
+	CDXLDatumInt4 *datum_dxl = GPOS_NEW(m_memory_pool) CDXLDatumInt4(m_memory_pool, pmdtypeint4->MDId(), false /*is_const_null*/, m_iVal);
 	CDXLScalarConstValue *pdxlnConst = GPOS_NEW(m_memory_pool) CDXLScalarConstValue(m_memory_pool, datum_dxl);
 
 	return GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlnConst);
@@ -216,7 +216,7 @@ GPOS_RESULT CConstExprEvaluatorDXLTest::EresUnittest_ScalarContainingVariables()
 	CExpression *pexprFunCall = CUtils::PexprScalarEqCmp
 			(
 			testsetup.Pmp(),
-			CUtils::PexprScalarConstInt4(testsetup.Pmp(), 200 /*iVal*/),
+			CUtils::PexprScalarConstInt4(testsetup.Pmp(), 200 /*val*/),
 			CUtils::PexprScalarIdent(testsetup.Pmp(), pcrComputed)
 			);
 

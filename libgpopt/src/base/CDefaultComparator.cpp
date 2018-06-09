@@ -56,7 +56,7 @@ CDefaultComparator::CDefaultComparator
 //		CDefaultComparator::PexprEvalComparison
 //
 //	@doc:
-//		Constructs a comparison expression of type ecmpt between the two given
+//		Constructs a comparison expression of type cmp_type between the two given
 //		data and evaluates it.
 //
 //---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ CDefaultComparator::FEvalComparison
 	IMemoryPool *memory_pool,
 	const IDatum *pdatum1,
 	const IDatum *pdatum2,
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 	const
 {
@@ -76,7 +76,7 @@ CDefaultComparator::FEvalComparison
 	CExpression *pexpr1 = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum1Copy));
 	IDatum *pdatum2Copy = pdatum2->PdatumCopy(memory_pool);
 	CExpression *pexpr2 = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum2Copy));
-	CExpression *pexprComp = CUtils::PexprScalarCmp(memory_pool, pexpr1, pexpr2, ecmpt);
+	CExpression *pexprComp = CUtils::PexprScalarCmp(memory_pool, pexpr1, pexpr2, cmp_type);
 
 	CExpression *pexprResult = m_pceeval->PexprEval(pexprComp);
 	pexprComp->Release();

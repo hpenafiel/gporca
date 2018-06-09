@@ -1059,14 +1059,14 @@ CConstraintTest::PexprScalarCmp
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor,
 	CColRef *pcr,
-	IMDType::ECmpType ecmpt,
-	LINT lVal
+	IMDType::ECmpType cmp_type,
+	LINT val
 	)
 {
-	CExpression *pexprConst = CUtils::PexprScalarConstInt8(memory_pool, lVal);
+	CExpression *pexprConst = CUtils::PexprScalarConstInt8(memory_pool, val);
 
 	const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>();
-	IMDId *mdid_op = pmdtypeint8->PmdidCmp(ecmpt);
+	IMDId *mdid_op = pmdtypeint8->PmdidCmp(cmp_type);
 	mdid_op->AddRef();
 
 	const CMDName mdname = md_accessor->Pmdscop(mdid_op)->Mdname();

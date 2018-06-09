@@ -116,11 +116,11 @@ namespace gpopt
 			// check is a comparison between given types or a comparison after casting
 			// one side to an another exists
 			static
-			BOOL FCmpOrCastedCmpExists(IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
+			BOOL FCmpOrCastedCmpExists(IMDId *left_mdid, IMDId *right_mdid, IMDType::ECmpType cmp_type);
 
 			// return the mdid of the given scalar comparison between the two types
 			static
-			IMDId *GetScCmpMdId(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
+			IMDId *GetScCmpMdId(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *left_mdid, IMDId *right_mdid, IMDType::ECmpType cmp_type);
 			
 			// generate a comparison expression for two column references
 			static
@@ -140,19 +140,19 @@ namespace gpopt
 
 			// generate a comparison expression for a column reference and an expression
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexprRight, IMDType::ECmpType ecmpt);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, CExpression *pexprRight, IMDType::ECmpType cmp_type);
 
 			// generate a comparison expression between two column references
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, const CColRef *pcrRight, IMDType::ECmpType ecmpt);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, const CColRef *pcrLeft, const CColRef *pcrRight, IMDType::ECmpType cmp_type);
 
 			// generate a comparison expression between an expression and a column reference
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, const CColRef *pcrRight, IMDType::ECmpType ecmpt);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, const CColRef *pcrRight, IMDType::ECmpType cmp_type);
 
 			// generate a comparison expression for two expressions
 			static
-			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, CExpression *pexprRight, IMDType::ECmpType ecmpt);
+			CExpression *PexprScalarCmp(IMemoryPool *memory_pool, CExpression *pexprLeft, CExpression *pexprRight, IMDType::ECmpType cmp_type);
 
 			// generate a comparison against Zero
 			static
@@ -377,11 +377,11 @@ namespace gpopt
 
 			// generate an int4 expression
 			static
-			CExpression *PexprScalarConstInt4(IMemoryPool *memory_pool, INT iVal);
+			CExpression *PexprScalarConstInt4(IMemoryPool *memory_pool, INT val);
 
 			// generate an int8 expression
 			static
-			CExpression *PexprScalarConstInt8(IMemoryPool *memory_pool, LINT lVal, BOOL is_null = false);
+			CExpression *PexprScalarConstInt8(IMemoryPool *memory_pool, LINT val, BOOL is_null = false);
 			
 			// generate an oid constant expression
 			static
@@ -831,7 +831,7 @@ namespace gpopt
 
 			// check if comparison operators are available for the given columns
 			static
-			BOOL FComparisonPossible(DrgPcr *pdrgpcr, IMDType::ECmpType ecmpt);
+			BOOL FComparisonPossible(DrgPcr *pdrgpcr, IMDType::ECmpType cmp_type);
 
 			static
 			ULONG UlCountOperator(const CExpression *pexpr, COperator::EOperatorId eopid);

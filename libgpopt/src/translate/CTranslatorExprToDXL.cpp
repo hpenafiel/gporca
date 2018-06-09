@@ -171,8 +171,8 @@ CTranslatorExprToDXL::InitScalarTranslators()
 			{COperator::EopScalarBitmapBoolOp, &gpopt::CTranslatorExprToDXL::PdxlnBitmapBoolOp},
 	};
 
-	const ULONG ulTranslators = GPOS_ARRAY_SIZE(rgScalarTranslators);
-	for (ULONG ul = 0; ul < ulTranslators; ul++)
+	const ULONG translators_mapping_len = GPOS_ARRAY_SIZE(rgScalarTranslators);
+	for (ULONG ul = 0; ul < translators_mapping_len; ul++)
 	{
 		SScTranslatorMapping elem = rgScalarTranslators[ul];
 		m_rgpfScalarTranslators[elem.eopid] = elem.pf;
@@ -252,8 +252,8 @@ CTranslatorExprToDXL::InitPhysicalTranslators()
 			{COperator::EopPhysicalCTEConsumer, &gpopt::CTranslatorExprToDXL::PdxlnCTEConsumer},
 	};
 
-	const ULONG ulTranslators = GPOS_ARRAY_SIZE(rgPhysicalTranslators);
-	for (ULONG ul = 0; ul < ulTranslators; ul++)
+	const ULONG translators_mapping_len = GPOS_ARRAY_SIZE(rgPhysicalTranslators);
+	for (ULONG ul = 0; ul < translators_mapping_len; ul++)
 	{
 		SPhTranslatorMapping elem = rgPhysicalTranslators[ul];
 		m_rgpfPhysicalTranslators[elem.eopid] = elem.pf;
@@ -3916,16 +3916,16 @@ CTranslatorExprToDXL::PdxlnHashJoin
 void
 CTranslatorExprToDXL::CheckValidity
 	(
-	CDXLPhysicalMotion *pdxlopMotion
+	CDXLPhysicalMotion *motion
 	)
 
 {
 	// validate the input segment info for Gather Motion
 	// if Gather has only 1 segment when there are more hosts
 	// it's obviously invalid and we fall back
-	if (EdxlopPhysicalMotionGather == pdxlopMotion->GetDXLOperator())
+	if (EdxlopPhysicalMotionGather == motion->GetDXLOperator())
 	{
-		if (m_pdrgpiSegments->Size() != pdxlopMotion->GetInputSegIdsArray()->Size())
+		if (m_pdrgpiSegments->Size() != motion->GetInputSegIdsArray()->Size())
 		{
 			GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiExpr2DXLUnsupportedFeature, GPOS_WSZ_LIT("GatherMotion input segments number does not match with the number of segments in the system"));
 		}
@@ -3960,24 +3960,24 @@ CTranslatorExprToDXL::PdxlnMotion
 	CDXLNode *child_dxlnode = CreateDXLNode(pexprChild, pdrgpcr, pdrgpdsBaseTables, pulNonGatherMotions, pfDML, true /*fRemap*/, false /*fRoot*/);
 
 	// construct a motion node
-	CDXLPhysicalMotion *pdxlopMotion = NULL;
+	CDXLPhysicalMotion *motion = NULL;
 	BOOL fDuplicateHazardMotion = CUtils::FDuplicateHazardMotion(pexprMotion);
 	switch (pexprMotion->Pop()->Eopid())
 	{
 		case COperator::EopPhysicalMotionGather:
-			pdxlopMotion = GPOS_NEW(m_memory_pool) CDXLPhysicalGatherMotion(m_memory_pool);
+			motion = GPOS_NEW(m_memory_pool) CDXLPhysicalGatherMotion(m_memory_pool);
 			break;
 
 		case COperator::EopPhysicalMotionBroadcast:
-			pdxlopMotion = GPOS_NEW(m_memory_pool) CDXLPhysicalBroadcastMotion(m_memory_pool);
+			motion = GPOS_NEW(m_memory_pool) CDXLPhysicalBroadcastMotion(m_memory_pool);
 			break;
 
 		case COperator::EopPhysicalMotionHashDistribute:
-			pdxlopMotion = GPOS_NEW(m_memory_pool) CDXLPhysicalRedistributeMotion(m_memory_pool, fDuplicateHazardMotion);
+			motion = GPOS_NEW(m_memory_pool) CDXLPhysicalRedistributeMotion(m_memory_pool, fDuplicateHazardMotion);
 			break;
 
 		case COperator::EopPhysicalMotionRandom:
-			pdxlopMotion = GPOS_NEW(m_memory_pool) CDXLPhysicalRandomMotion(m_memory_pool, fDuplicateHazardMotion);
+			motion = GPOS_NEW(m_memory_pool) CDXLPhysicalRandomMotion(m_memory_pool, fDuplicateHazardMotion);
 			break;
 
 		case COperator::EopPhysicalMotionRoutedDistribute:
@@ -3986,7 +3986,7 @@ CTranslatorExprToDXL::PdxlnMotion
 						CPhysicalMotionRoutedDistribute::PopConvert(pexprMotion->Pop());
 				CColRef *pcrSegmentId = dynamic_cast<const CDistributionSpecRouted* >(popMotion->Pds())->Pcr();
 
-				pdxlopMotion = GPOS_NEW(m_memory_pool) CDXLPhysicalRoutedDistributeMotion(m_memory_pool, pcrSegmentId->Id());
+				motion = GPOS_NEW(m_memory_pool) CDXLPhysicalRoutedDistributeMotion(m_memory_pool, pcrSegmentId->Id());
 				break;
 			}
 		default:
@@ -3998,7 +3998,7 @@ CTranslatorExprToDXL::PdxlnMotion
 		(*pulNonGatherMotions)++;
 	}
 
-	GPOS_ASSERT(NULL != pdxlopMotion);
+	GPOS_ASSERT(NULL != motion);
 
 	// construct project list from child project list
 	GPOS_ASSERT(NULL != child_dxlnode && 1 <= child_dxlnode->Arity());
@@ -4007,11 +4007,11 @@ CTranslatorExprToDXL::PdxlnMotion
 	CDXLNode *proj_list_dxlnode = CTranslatorExprToDXLUtils::PdxlnProjListFromChildProjList(m_memory_pool, m_pcf, m_phmcrdxln, pdxlnProjListChild);
 
 	// set input and output segment information
-	pdxlopMotion->SetSegmentInfo(GetInputSegIdsArray(pexprMotion), GetOutputSegIdsArray(pexprMotion));
+	motion->SetSegmentInfo(GetInputSegIdsArray(pexprMotion), GetOutputSegIdsArray(pexprMotion));
 
-	CheckValidity(pdxlopMotion);
+	CheckValidity(motion);
 
-	CDXLNode *pdxlnMotion = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, pdxlopMotion);
+	CDXLNode *pdxlnMotion = GPOS_NEW(m_memory_pool) CDXLNode(m_memory_pool, motion);
 	CDXLPhysicalProperties *dxl_properties = GetProperties(pexprMotion);
 	pdxlnMotion->SetProperties(dxl_properties);
 
@@ -4038,7 +4038,7 @@ CTranslatorExprToDXL::PdxlnMotion
 	pdxlnMotion->AddChild(child_dxlnode);
 
 #ifdef GPOS_DEBUG
-	pdxlopMotion->AssertValid(pdxlnMotion, false /* validate_children */);
+	motion->AssertValid(pdxlnMotion, false /* validate_children */);
 #endif
 
 	return pdxlnMotion;
@@ -5068,16 +5068,16 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 	// extract components
 	CExpression *pexprPartKey = NULL;
 	CExpression *pexprOther = NULL;
-	IMDType::ECmpType ecmpt = IMDType::EcmptOther;
+	IMDType::ECmpType cmp_type = IMDType::EcmptOther;
 
-	CPredicateUtils::ExtractComponents(pexprScCmp, pcrPartKey, &pexprPartKey, &pexprOther, &ecmpt);
+	CPredicateUtils::ExtractComponents(pexprScCmp, pcrPartKey, &pexprPartKey, &pexprOther, &cmp_type);
 
-	*pfLTComparison = *pfLTComparison || (IMDType::EcmptL == ecmpt) || (IMDType::EcmptLEq == ecmpt);
-	*pfGTComparison = *pfGTComparison || (IMDType::EcmptG == ecmpt) || (IMDType::EcmptGEq == ecmpt);
-	*pfEQComparison = *pfEQComparison || IMDType::EcmptEq == ecmpt;
+	*pfLTComparison = *pfLTComparison || (IMDType::EcmptL == cmp_type) || (IMDType::EcmptLEq == cmp_type);
+	*pfGTComparison = *pfGTComparison || (IMDType::EcmptG == cmp_type) || (IMDType::EcmptGEq == cmp_type);
+	*pfEQComparison = *pfEQComparison || IMDType::EcmptEq == cmp_type;
 
 	GPOS_ASSERT(NULL != pexprPartKey && NULL != pexprOther);
-	GPOS_ASSERT(IMDType::EcmptOther != ecmpt);
+	GPOS_ASSERT(IMDType::EcmptOther != cmp_type);
 
 	CDXLNode *pdxlnOther = PdxlnScalar(pexprOther);
 	IMDId *pmdidTypeOther = CScalar::PopConvert(pexprOther->Pop())->MDIdType();
@@ -5090,7 +5090,7 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 
 		// If the pexprPartKey is not comparable with pexprOther, but can be casted to pexprOther,
 		// and not yet casted, then we add a cast on top of pexprPartKey.
-		if (!CMDAccessorUtils::FCmpExists(m_pmda, pmdidTypePartKey, pmdidTypeOther, ecmpt)
+		if (!CMDAccessorUtils::FCmpExists(m_pmda, pmdidTypePartKey, pmdidTypeOther, cmp_type)
 			&& CMDAccessorUtils::FCastExists(m_pmda, pmdidTypePartKey, pmdidTypeOther)
 			&& COperator::EopScalarCast != pexprPartKey->Pop()->Eopid())
 		{
@@ -5109,13 +5109,13 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 								pmdidTypeOther,
 								pmdidTypeCastExpr,
 								mdid_cast_func,
-								ecmpt,
+								cmp_type,
 								ulPartLevel
 								);
 	}
 	else // list partition
 	{
-		ecmpt = CPredicateUtils::EcmptReverse(ecmpt);
+		cmp_type = CPredicateUtils::EcmptReverse(cmp_type);
 		IMDId *pmdidTypePartKeyExpr = CScalar::PopConvert(pexprPartKey->Pop())->MDIdType();
 
 		CDXLNode *pdxlnPartKeyExpr = CTranslatorExprToDXLUtils::PdxlnListFilterPartKey
@@ -5135,7 +5135,7 @@ CTranslatorExprToDXL::PdxlnScCmpPartKey
 								pdxlnOther,
 								pmdidTypePartKeyExpr,
 								pmdidTypeOther,
-								ecmpt,
+								cmp_type,
 								ulPartLevel,
 								true
 								);

@@ -106,7 +106,7 @@ CPredicateUtilsTest::EresUnittest_Conjunctions()
 	CColRef *pcr1 = pcrs->PcrAny();
 	CColRef *pcr2 = pcrs->PcrFirst();
 	CExpression *pexprCmp1 = CUtils::PexprScalarCmp(memory_pool, pcr1, pcr2, IMDType::EcmptEq);
-	CExpression *pexprCmp2 = CUtils::PexprScalarCmp(memory_pool, pcr1, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/), IMDType::EcmptEq);
+	CExpression *pexprCmp2 = CUtils::PexprScalarCmp(memory_pool, pcr1, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/), IMDType::EcmptEq);
 
 	CExpression *pexprConj = CPredicateUtils::PexprConjunction(memory_pool, pexprCmp1, pexprCmp2);
 	pdrgpexprExtract = CPredicateUtils::PdrgpexprConjuncts(memory_pool, pexprConj);
@@ -203,7 +203,7 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 	CColRef *pcr3 = crsi.Pcr();
 
 	CExpression *pexprCmp1 = CUtils::PexprScalarCmp(memory_pool, pcr1, pcr2, IMDType::EcmptEq);
-	CExpression *pexprCmp2 = CUtils::PexprScalarCmp(memory_pool, pcr1, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/), IMDType::EcmptEq);
+	CExpression *pexprCmp2 = CUtils::PexprScalarCmp(memory_pool, pcr1, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/), IMDType::EcmptEq);
 
 	{
 		CExpression *pexprDisj = CPredicateUtils::PexprDisjunction(memory_pool, pexprCmp1, pexprCmp2);
@@ -217,7 +217,7 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 	{
 		DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 		CExpression *pexprCmp3 = CUtils::PexprScalarCmp(memory_pool, pcr2, pcr1, IMDType::EcmptG);
-		CExpression *pexprCmp4 = CUtils::PexprScalarCmp(memory_pool, CUtils::PexprScalarConstInt4(memory_pool, 200 /*iVal*/), pcr3, IMDType::EcmptL);
+		CExpression *pexprCmp4 = CUtils::PexprScalarCmp(memory_pool, CUtils::PexprScalarConstInt4(memory_pool, 200 /*val*/), pcr3, IMDType::EcmptL);
 		pexprCmp1->AddRef();
 		pexprCmp2->AddRef();
 

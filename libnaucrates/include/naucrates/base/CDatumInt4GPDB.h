@@ -47,8 +47,8 @@ class CDatumInt4GPDB : public IDatumInt4
 	public:
 
 		// ctors
-		CDatumInt4GPDB(CSystemId sysid, INT iVal, BOOL is_null = false);
-		CDatumInt4GPDB(IMDId *mdid, INT iVal, BOOL is_null = false);
+		CDatumInt4GPDB(CSystemId sysid, INT val, BOOL is_null = false);
+		CDatumInt4GPDB(IMDId *mdid, INT val, BOOL is_null = false);
 
 		// dtor
 		virtual

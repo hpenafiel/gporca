@@ -126,7 +126,7 @@ namespace gpnaucrates
 		//  CScalarOp (+)
 		//	|--CScalarIdent "column_0002" (2)
 		//	+--CScalarConst (10)
-		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(memory_pool, 10 /* iVal */);
+		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(memory_pool, 10 /* val */);
 		CExpression *pexprScOp = CUtils::PexprScalarOp(memory_pool, pcrLeft, pexprScConst, CWStringConst(GPOS_WSZ_LIT("+")),
 													   GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_ADD_OP));
 
@@ -248,7 +248,7 @@ namespace gpnaucrates
 		//  CScalarOp (+)
 		//	|--CScalarIdent "column_0002" (2)
 		//	+--CScalarConst (10)
-		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(memory_pool, 10 /* iVal */);
+		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(memory_pool, 10 /* val */);
 		CExpression *pexprScOp = CUtils::PexprScalarOp(memory_pool, pcrLeft, pexprScConst, CWStringConst(GPOS_WSZ_LIT("+")),
 													   GPOS_NEW(memory_pool) CMDIdGPDB(GPDB_INT4_ADD_OP));
 

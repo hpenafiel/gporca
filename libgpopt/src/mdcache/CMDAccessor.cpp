@@ -128,16 +128,16 @@ CMDAccessor::SMDAccessorElem::MDId()
 BOOL 
 CMDAccessor::SMDAccessorElem::Equals
 	(
-	const MdidPtr &pmdidLeft,
-	const MdidPtr &pmdidRight
+	const MdidPtr &left_mdid,
+	const MdidPtr &right_mdid
 	)
 {
-	if (pmdidLeft == m_pmdidInvalid || pmdidRight == m_pmdidInvalid)
+	if (left_mdid == m_pmdidInvalid || right_mdid == m_pmdidInvalid)
 	{
-		return pmdidLeft == m_pmdidInvalid && pmdidRight == m_pmdidInvalid;
+		return left_mdid == m_pmdidInvalid && right_mdid == m_pmdidInvalid;
 	}
 
-	return pmdidLeft->Equals(pmdidRight);
+	return left_mdid->Equals(right_mdid);
 }
 
 //---------------------------------------------------------------------------
@@ -1065,20 +1065,20 @@ CMDAccessor::Pmdcast
 const IMDScCmp *
 CMDAccessor::Pmdsccmp
 	(
-	IMDId *pmdidLeft,
-	IMDId *pmdidRight,
-	IMDType::ECmpType ecmpt
+	IMDId *left_mdid,
+	IMDId *right_mdid,
+	IMDType::ECmpType cmp_type
 	)
 {	
-	GPOS_ASSERT(NULL != pmdidLeft);
-	GPOS_ASSERT(NULL != pmdidLeft);
-	GPOS_ASSERT(IMDType::EcmptOther > ecmpt);
+	GPOS_ASSERT(NULL != left_mdid);
+	GPOS_ASSERT(NULL != left_mdid);
+	GPOS_ASSERT(IMDType::EcmptOther > cmp_type);
 	
-	pmdidLeft->AddRef();
-	pmdidRight->AddRef();
+	left_mdid->AddRef();
+	right_mdid->AddRef();
 	
 	CAutoP<IMDId> a_pmdidScCmp;
-	a_pmdidScCmp = GPOS_NEW(m_memory_pool) CMDIdScCmp(CMDIdGPDB::PmdidConvert(pmdidLeft), CMDIdGPDB::PmdidConvert(pmdidRight), ecmpt);
+	a_pmdidScCmp = GPOS_NEW(m_memory_pool) CMDIdScCmp(CMDIdGPDB::PmdidConvert(left_mdid), CMDIdGPDB::PmdidConvert(right_mdid), cmp_type);
 	
 	const IMDCacheObject *pmdobj = GetImdObj(a_pmdidScCmp.Value());
 		

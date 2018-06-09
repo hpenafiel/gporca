@@ -33,18 +33,18 @@ CMDScCmpGPDB::CMDScCmpGPDB
 	IMemoryPool *memory_pool,
 	IMDId *mdid,
 	CMDName *mdname,
-	IMDId *pmdidLeft,
-	IMDId *pmdidRight,
-	IMDType::ECmpType ecmpt,
+	IMDId *left_mdid,
+	IMDId *right_mdid,
+	IMDType::ECmpType cmp_type,
 	IMDId *mdid_op
 	)
 	:
 	m_memory_pool(memory_pool),
 	m_mdid(mdid),
 	m_mdname(mdname),
-	m_pmdidLeft(pmdidLeft),
-	m_pmdidRight(pmdidRight),
-	m_comparision_type(ecmpt),
+	m_pmdidLeft(left_mdid),
+	m_pmdidRight(right_mdid),
+	m_comparision_type(cmp_type),
 	m_mdid_op(mdid_op)
 {
 	GPOS_ASSERT(m_mdid->IsValid());

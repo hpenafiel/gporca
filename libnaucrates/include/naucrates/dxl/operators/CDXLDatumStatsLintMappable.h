@@ -58,7 +58,7 @@ namespace gpdxl
 				BOOL is_null,
 				BYTE *byte_array,
 				ULONG length,
-				LINT lValue
+				LINT value
 				);
 
 			// dtor

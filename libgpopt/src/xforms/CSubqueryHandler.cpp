@@ -642,7 +642,7 @@ CSubqueryHandler::FCreateOuterApplyForScalarSubquery
 					memory_pool,
 					GPOS_NEW(memory_pool) CScalarCoalesce(memory_pool, pmdidInt8),
 					CUtils::PexprScalarIdent(memory_pool, pcrComputed),
-					CUtils::PexprScalarConstInt8(memory_pool, 0 /*iVal*/)
+					CUtils::PexprScalarConstInt8(memory_pool, 0 /*val*/)
 					);
 
 		if (fGeneratedByQuantified)

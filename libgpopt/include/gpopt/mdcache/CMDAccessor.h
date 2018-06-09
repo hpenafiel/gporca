@@ -160,7 +160,7 @@ namespace gpopt
 
 				// equality function for hash tables
 				static
-				BOOL Equals(const MdidPtr &pmdidLeft, const MdidPtr &pmdidRight);
+				BOOL Equals(const MdidPtr &left_mdid, const MdidPtr &right_mdid);
 				
 				// hash function for cost contexts hash table
 				static
@@ -356,7 +356,7 @@ namespace gpopt
 			const IMDCast *Pmdcast(IMDId *mdid_src, IMDId *mdid_dest);
 			
 			// retrieve a scalar comparison object from the cache
-			const IMDScCmp *Pmdsccmp(IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
+			const IMDScCmp *Pmdsccmp(IMDId *left_mdid, IMDId *right_mdid, IMDType::ECmpType cmp_type);
 
 			// construct a statistics object for the columns of the given relation
 			IStatistics *Pstats

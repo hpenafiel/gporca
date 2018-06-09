@@ -87,8 +87,8 @@ CStatisticsUtils::PpointNext
 		}
 		else if (pmdtype->Eti() == IMDType::EtiInt8)
 		{
-			LINT lValue = dynamic_cast<IDatumInt8 *>(pdatumOld)->Value() + 1;
-			pdatumNew = dynamic_cast<const IMDTypeInt8 *>(pmdtype)->PdatumInt8(memory_pool, lValue, false);
+			LINT value = dynamic_cast<IDatumInt8 *>(pdatumOld)->Value() + 1;
+			pdatumNew = dynamic_cast<const IMDTypeInt8 *>(pmdtype)->PdatumInt8(memory_pool, value, false);
 		}
 		else
 		{

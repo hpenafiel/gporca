@@ -56,7 +56,7 @@ namespace gpdxl
 				INT type_modifier,
 				BOOL is_passed_by_value,
 				BOOL is_null,
-				BYTE *pba,
+				BYTE *data,
 				ULONG length,
 				CDouble val
 				);

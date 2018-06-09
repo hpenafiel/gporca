@@ -208,7 +208,7 @@ CRangeTest::EresUnittest_CRangeFromScalar()
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexprGet->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
-	CDatumInt4GPDB *pdatumint4 = GPOS_NEW(memory_pool) CDatumInt4GPDB(CTestUtils::m_sysidDefault, 10 /*iVal*/);
+	CDatumInt4GPDB *pdatumint4 = GPOS_NEW(memory_pool) CDatumInt4GPDB(CTestUtils::m_sysidDefault, 10 /*val*/);
 
 	IMDType::ECmpType rgecmpt[] =
 			{

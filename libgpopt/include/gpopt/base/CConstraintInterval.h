@@ -154,7 +154,7 @@ namespace gpopt
 			// creates a range like [x,x] where x is a constant
 			static
 			DrgPrng *PciRangeFromColConstCmp(IMemoryPool *memory_pool,
-											 IMDType::ECmpType ecmpt,
+											 IMDType::ECmpType cmp_type,
 											 const CScalarConst *popScConst);
 
 			// create an array IN or NOT IN expression
@@ -275,7 +275,7 @@ namespace gpopt
 				(
 				IMemoryPool *memory_pool,
 				CColRef *pcr,
-				IMDType::ECmpType ecmpt,
+				IMDType::ECmpType cmp_type,
 				CScalarConst *popScConst
 				);
 

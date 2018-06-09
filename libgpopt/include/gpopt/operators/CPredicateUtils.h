@@ -120,7 +120,7 @@ namespace gpopt
 
 			// reverse the comparison, for example "<" => ">", "<=" => "=>
 			static
-			IMDType::ECmpType EcmptReverse(IMDType::ECmpType ecmpt);
+			IMDType::ECmpType EcmptReverse(IMDType::ECmpType cmp_type);
 
 			// check if the expression is a boolean scalar identifier
 			static
@@ -144,7 +144,7 @@ namespace gpopt
 			
 			// is the given expression a comparison of the given type
 			static
-			BOOL FComparison(CExpression *pexpr, IMDType::ECmpType ecmpt);
+			BOOL FComparison(CExpression *pexpr, IMDType::ECmpType cmp_type);
 
 			// is the given array of expressions contain a volatile function like random()
 			static
@@ -382,7 +382,7 @@ namespace gpopt
 			// check if the given comparison type is one of the range comparisons, i.e. 
 			// LT, GT, LEq, GEq, Eq
 			static 
-			BOOL FRangeComparison(IMDType::ECmpType ecmpt);
+			BOOL FRangeComparison(IMDType::ECmpType cmp_type);
 			
 			// create disjunction
 			static

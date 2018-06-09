@@ -159,11 +159,11 @@ CMDTypeInt4GPDB::Mdname() const
 IMDId *
 CMDTypeInt4GPDB::PmdidCmp
 	(
-	ECmpType ecmpt
+	ECmpType cmp_type
 	) 
 	const
 {
-	switch (ecmpt)
+	switch (cmp_type)
 	{
 		case EcmptEq:
 			return m_pmdidOpEq;
@@ -272,10 +272,10 @@ CMDTypeInt4GPDB::Pdatum
 {
 	CDXLDatumInt4 *pdxldatumint4 = CDXLDatumInt4::Cast(const_cast<CDXLDatum *>(datum_dxl));
 	GPOS_ASSERT(pdxldatumint4->IsPassedByValue());
-	INT iVal = pdxldatumint4->Value();
+	INT val = pdxldatumint4->Value();
 	BOOL is_null = pdxldatumint4->IsNull();
 
-	return GPOS_NEW(memory_pool) CDatumInt4GPDB(m_mdid->Sysid(), iVal, is_null);
+	return GPOS_NEW(memory_pool) CDatumInt4GPDB(m_mdid->Sysid(), val, is_null);
 }
 
 //---------------------------------------------------------------------------

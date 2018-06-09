@@ -118,12 +118,12 @@ IDatumInt8 *
 CMDTypeInt8GPDB::PdatumInt8
 	(
 	IMemoryPool *memory_pool,
-	LINT lValue,
+	LINT value,
 	BOOL fNULL
 	)
 	const
 {
-	return GPOS_NEW(memory_pool) CDatumInt8GPDB(m_mdid->Sysid(), lValue, fNULL);
+	return GPOS_NEW(memory_pool) CDatumInt8GPDB(m_mdid->Sysid(), value, fNULL);
 }
 
 //---------------------------------------------------------------------------
@@ -165,11 +165,11 @@ CMDTypeInt8GPDB::Mdname() const
 IMDId *
 CMDTypeInt8GPDB::PmdidCmp
 	(
-	ECmpType ecmpt
+	ECmpType cmp_type
 	) 
 	const
 {
-	switch (ecmpt)
+	switch (cmp_type)
 	{
 		case EcmptEq:
 			return m_pmdidOpEq;
@@ -280,10 +280,10 @@ CMDTypeInt8GPDB::Pdatum
 	CDXLDatumInt8 *pdxldatumint8 = CDXLDatumInt8::Cast(const_cast<CDXLDatum *>(datum_dxl));
 	GPOS_ASSERT(pdxldatumint8->IsPassedByValue());
 
-	LINT lVal = pdxldatumint8->Value();
+	LINT val = pdxldatumint8->Value();
 	BOOL is_null = pdxldatumint8->IsNull();
 
-	return GPOS_NEW(memory_pool) CDatumInt8GPDB(m_mdid->Sysid(), lVal, is_null);
+	return GPOS_NEW(memory_pool) CDatumInt8GPDB(m_mdid->Sysid(), val, is_null);
 }
 
 //---------------------------------------------------------------------------

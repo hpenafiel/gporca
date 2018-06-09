@@ -122,8 +122,8 @@ CXformLeftAntiSemiJoin2CrossProduct::Transform
 	CExpression *pexprNegatedScalar = CUtils::PexprNegate(memory_pool, pexprScalar);
 
 	// create a (limit 1) on top of inner child
-	CExpression *pexprLimitOffset = CUtils::PexprScalarConstInt8(memory_pool, 0 /*iVal*/);
-	CExpression *pexprLimitCount = CUtils::PexprScalarConstInt8(memory_pool, 1 /*iVal*/);
+	CExpression *pexprLimitOffset = CUtils::PexprScalarConstInt8(memory_pool, 0 /*val*/);
+	CExpression *pexprLimitCount = CUtils::PexprScalarConstInt8(memory_pool, 1 /*val*/);
 	COrderSpec *pos = GPOS_NEW(memory_pool) COrderSpec(memory_pool);
 	CLogicalLimit *popLimit =
 			GPOS_NEW(memory_pool) CLogicalLimit(memory_pool, pos, true /*fGlobal*/, true /*fHasCount*/, false /*fNonRemovableLimit*/);

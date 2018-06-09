@@ -135,7 +135,7 @@ void
 CTranslatorDXLToExpr::InitTranslators()
 {
 	// array mapping operator type to translator function
-	STranslatorMapping rgTranslators[] = 
+	STranslatorMapping translators_mapping[] = 
 	{
 		{EdxlopLogicalGet,			&gpopt::CTranslatorDXLToExpr::PexprLogicalGet},
 		{EdxlopLogicalExternalGet,	&gpopt::CTranslatorDXLToExpr::PexprLogicalGet},
@@ -186,11 +186,11 @@ CTranslatorDXLToExpr::InitTranslators()
 		{EdxlopScalarArrayRefIndexList, &gpopt::CTranslatorDXLToExpr::PexprArrayRefIndexList},
 	};
 
-	const ULONG ulTranslators = GPOS_ARRAY_SIZE(rgTranslators);
+	const ULONG translators_mapping_len = GPOS_ARRAY_SIZE(translators_mapping);
 	
-	for (ULONG ul = 0; ul < ulTranslators; ul++)
+	for (ULONG ul = 0; ul < translators_mapping_len; ul++)
 	{
-		STranslatorMapping elem = rgTranslators[ul];
+		STranslatorMapping elem = translators_mapping[ul];
 		m_rgpfTranslators[elem.edxlopid] = elem.pf;
 	}
 }
@@ -1638,7 +1638,7 @@ CTranslatorDXLToExpr::PexprLogicalLimit
 	else
 	{
 		// no limit count is specified, manufacture a null count
-		pexprLimitCount = CUtils::PexprScalarConstInt8(m_memory_pool, 0 /*iVal*/, true /*is_null*/);
+		pexprLimitCount = CUtils::PexprScalarConstInt8(m_memory_pool, 0 /*val*/, true /*is_null*/);
 	}
 	
 	// translate offset
@@ -1651,7 +1651,7 @@ CTranslatorDXLToExpr::PexprLogicalLimit
 	else
 	{
 		// manufacture an OFFSET 0
-		pexprLimitOffset = CUtils::PexprScalarConstInt8(m_memory_pool, 0 /*iVal*/);
+		pexprLimitOffset = CUtils::PexprScalarConstInt8(m_memory_pool, 0 /*val*/);
 	}
 	
 	// translate limit child

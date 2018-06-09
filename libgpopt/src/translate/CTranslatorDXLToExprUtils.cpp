@@ -115,10 +115,10 @@ CTranslatorDXLToExprUtils::PexprConstInt8
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor,
 	CSystemId sysid,
-	LINT lVal
+	LINT val
 	)
 {
-	IDatumInt8 *pdatum = md_accessor->PtMDType<IMDTypeInt8>(sysid)->PdatumInt8(memory_pool, lVal, false /* is_null */);
+	IDatumInt8 *pdatum = md_accessor->PtMDType<IMDTypeInt8>(sysid)->PdatumInt8(memory_pool, val, false /* is_null */);
 	CExpression *pexprConst = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum));
 
 	return pexprConst;

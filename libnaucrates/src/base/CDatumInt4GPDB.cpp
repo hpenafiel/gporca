@@ -37,12 +37,12 @@ using namespace gpopt;
 CDatumInt4GPDB::CDatumInt4GPDB
 	(
 	CSystemId sysid,
-	INT iVal,
+	INT val,
 	BOOL is_null
 	)
 	:
 	m_mdid(NULL),
-	m_iVal(iVal),
+	m_iVal(val),
 	m_is_null(is_null)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -69,12 +69,12 @@ CDatumInt4GPDB::CDatumInt4GPDB
 CDatumInt4GPDB::CDatumInt4GPDB
 	(
 	IMDId *mdid,
-	INT iVal,
+	INT val,
 	BOOL is_null
 	)
 	:
 	m_mdid(mdid),
-	m_iVal(iVal),
+	m_iVal(val),
 	m_is_null(is_null)
 {
 	GPOS_ASSERT(NULL != m_mdid);

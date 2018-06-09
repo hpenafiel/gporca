@@ -77,7 +77,7 @@ namespace gpdxl
 				CDXLMemoryManager *memory_manager_dxl,
 				const Attributes &attrs,
 				Edxltoken target_elem,
-				BYTE *pba
+				BYTE *data
 				);
 
 			// parses a byte array representation of the datum
@@ -87,7 +87,7 @@ namespace gpdxl
 					CDXLMemoryManager *memory_manager_dxl,
 					const Attributes &attrs,
 					Edxltoken target_elem,
-					ULONG *pulLength
+					ULONG *length
 					);
 
 		public:
@@ -106,8 +106,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			static
@@ -117,8 +117,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			static
@@ -128,8 +128,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			static
@@ -139,8 +139,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			static
@@ -150,8 +150,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			// parse a dxl datum of type generic
@@ -162,8 +162,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			// parse a dxl datum of types that need double mapping
@@ -174,8 +174,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			// parse a dxl datum of types that need lint mapping
@@ -186,8 +186,8 @@ namespace gpdxl
 								const Attributes &attrs,
 								Edxltoken target_elem,
 								IMDId *mdid,
-								BOOL fConstNull ,
-								BOOL fConstByVal
+								BOOL is_const_null ,
+								BOOL is_const_by_val
 								);
 
 			// create a table scan operator
@@ -639,7 +639,7 @@ namespace gpdxl
 				Edxltoken target_attr,
 				Edxltoken target_elem,
 				BOOL is_optional = false,
-				IMDId *pmdidDefault = NULL
+				IMDId *default_val = NULL
 				);
 			
 			// parse an mdid object from an XMLCh
@@ -647,7 +647,7 @@ namespace gpdxl
 			IMDId *MakeMdIdFromStr
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlszMdid,
+				const XMLCh *mdid_xml,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -657,7 +657,7 @@ namespace gpdxl
 			CMDIdGPDB *GetGPDBMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				DrgPxmlsz *pdrgpxmlsz,
+				DrgPxmlsz *remaining_tokens,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -667,7 +667,7 @@ namespace gpdxl
 			CMDIdGPDB *GetGPDBCTASMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				DrgPxmlsz *pdrgpxmlsz,
+				DrgPxmlsz *remaining_tokens,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -677,7 +677,7 @@ namespace gpdxl
 			CMDIdColStats *GetColStatsMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				DrgPxmlsz *pdrgpxmlsz,
+				DrgPxmlsz *remaining_tokens,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -687,7 +687,7 @@ namespace gpdxl
 			CMDIdRelStats *GetRelStatsMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				DrgPxmlsz *pdrgpxmlsz,
+				DrgPxmlsz *remaining_tokens,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -697,7 +697,7 @@ namespace gpdxl
 			CMDIdCast *GetCastFuncMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				DrgPxmlsz *pdrgpxmlsz,
+				DrgPxmlsz *remaining_tokens,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				); 
@@ -707,7 +707,7 @@ namespace gpdxl
 			CMDIdScCmp *GetScCmpMdId
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				DrgPxmlsz *pdrgpxmlsz,
+				DrgPxmlsz *remaining_tokens,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -727,7 +727,7 @@ namespace gpdxl
 			DrgPmdid *ExtractConvertMdIdsToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlszUlList,
+				const XMLCh *mdid_list_xml,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -821,7 +821,7 @@ namespace gpdxl
 			IntPtrArray *ExtractConvertSegmentIdsToArray
 				(
 				CDXLMemoryManager *memory_manager_dxl,
-				const XMLCh *xmlszSegIdList,
+				const XMLCh *seg_id_list_xml,
 				Edxltoken target_attr,
 				Edxltoken target_elem
 				);
@@ -842,7 +842,7 @@ namespace gpdxl
 			void SetSegmentInfo
 				(
 				CDXLMemoryManager *memory_pool,
-				CDXLPhysicalMotion *pdxlopMotion,
+				CDXLPhysicalMotion *motion,
 				const Attributes &attrs,
 				Edxltoken target_elem
 				);
@@ -903,7 +903,7 @@ namespace gpdxl
 	CDXLOperatorFactory::ExtractIntsToArray
 		(
 		CDXLMemoryManager *memory_manager_dxl,
-		const XMLCh *xmlszUlList,
+		const XMLCh *mdid_list_xml,
 		Edxltoken target_attr,
 		Edxltoken target_elem
 		)
@@ -913,12 +913,12 @@ namespace gpdxl
 
 		CDynamicPtrArray<T, CleanupFn> *pdrgpt = GPOS_NEW(memory_pool) CDynamicPtrArray<T, CleanupFn>(memory_pool);
 
-		XMLStringTokenizer xmlsztok(xmlszUlList, CDXLTokens::XmlstrToken(EdxltokenComma));
-		const ULONG ulNumTokens = xmlsztok.countTokens();
+		XMLStringTokenizer mdid_components(mdid_list_xml, CDXLTokens::XmlstrToken(EdxltokenComma));
+		const ULONG num_tokens = mdid_components.countTokens();
 
-		for (ULONG ul = 0; ul < ulNumTokens; ul++)
+		for (ULONG ul = 0; ul < num_tokens; ul++)
 		{
-			XMLCh *xmlszNext = xmlsztok.nextToken();
+			XMLCh *xmlszNext = mdid_components.nextToken();
 
 			GPOS_ASSERT(NULL != xmlszNext);
 

@@ -214,7 +214,7 @@ CConstraintInterval::PcnstrIntervalFromScalarArrayCmp
 #endif // GPOS_DEBUG
 
 	CScalarArrayCmp *popScArrayCmp = CScalarArrayCmp::PopConvert(pexpr->Pop());
-	IMDType::ECmpType ecmpt = CUtils::ParseCmpType(popScArrayCmp->MdIdOp());
+	IMDType::ECmpType cmp_type = CUtils::ParseCmpType(popScArrayCmp->MdIdOp());
 
 
 	CExpression *pexprArray = CUtils::PexprScalarArrayChild(pexpr);
@@ -229,7 +229,7 @@ CConstraintInterval::PcnstrIntervalFromScalarArrayCmp
 	// construct ranges representing IN or NOT IN
 	DrgPrng *prgrng = GPOS_NEW(memory_pool) DrgPrng(memory_pool);
 
-	switch(ecmpt)
+	switch(cmp_type)
 	{
 		case IMDType::EcmptEq:
 		{
@@ -379,12 +379,12 @@ CConstraintInterval::PciIntervalFromColConstCmp
 	(
 	IMemoryPool *memory_pool,
 	CColRef *pcr,
-	IMDType::ECmpType ecmpt,
+	IMDType::ECmpType cmp_type,
 	CScalarConst *popScConst
 	)
 {
 	CConstraintInterval *pcri = NULL;
-	DrgPrng *pdrngprng = PciRangeFromColConstCmp(memory_pool, ecmpt, popScConst);
+	DrgPrng *pdrngprng = PciRangeFromColConstCmp(memory_pool, cmp_type, popScConst);
 	if (NULL != pdrngprng)
 	{
 		pcri = GPOS_NEW(memory_pool) CConstraintInterval(memory_pool, pcr, pdrngprng, false /*fIncludesNull*/);
@@ -1473,14 +1473,14 @@ DrgPrng*
 CConstraintInterval::PciRangeFromColConstCmp
 	(
 	IMemoryPool *memory_pool,
-	IMDType::ECmpType ecmpt,
+	IMDType::ECmpType cmp_type,
 	const CScalarConst *popsccnst
 	)
 {
 	GPOS_ASSERT(CScalar::EopScalarConst == popsccnst->Eopid());
 
 	// comparison operator
-	if (IMDType::EcmptOther == ecmpt)
+	if (IMDType::EcmptOther == cmp_type)
 	{
 		return NULL;
 	}
@@ -1489,7 +1489,7 @@ CConstraintInterval::PciRangeFromColConstCmp
 	DrgPrng *pdrgprng = GPOS_NEW(memory_pool) DrgPrng(memory_pool);
 
 	const IComparator *pcomp = COptCtxt::PoctxtFromTLS()->Pcomp();
-	if (IMDType::EcmptNEq == ecmpt || IMDType::EcmptIDF == ecmpt)
+	if (IMDType::EcmptNEq == cmp_type || IMDType::EcmptIDF == cmp_type)
 	{
 		// need an interval with 2 ranges
 		pdatum->AddRef();
@@ -1500,7 +1500,7 @@ CConstraintInterval::PciRangeFromColConstCmp
 	else
 	{
 		pdatum->AddRef();
-		pdrgprng->Append(GPOS_NEW(memory_pool) CRange(pcomp, ecmpt, pdatum));
+		pdrgprng->Append(GPOS_NEW(memory_pool) CRange(pcomp, cmp_type, pdatum));
 	}
 
 	return pdrgprng;

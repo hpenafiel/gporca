@@ -53,7 +53,7 @@ CTranslatorExprToDXLUtils::PdxlnInt4Const
 	(
 	IMemoryPool *memory_pool,
 	CMDAccessor *md_accessor,
-	INT iVal
+	INT val
 	)
 {
 	GPOS_ASSERT(NULL != memory_pool);
@@ -61,7 +61,7 @@ CTranslatorExprToDXLUtils::PdxlnInt4Const
 	const IMDTypeInt4 *pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>();
 	pmdtypeint4->MDId()->AddRef();
 	
-	CDXLDatumInt4 *datum_dxl = GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, pmdtypeint4->MDId(), false /*is_null*/, iVal);
+	CDXLDatumInt4 *datum_dxl = GPOS_NEW(memory_pool) CDXLDatumInt4(memory_pool, pmdtypeint4->MDId(), false /*is_null*/, val);
 	CDXLScalarConstValue *pdxlConst = GPOS_NEW(memory_pool) CDXLScalarConstValue(memory_pool, datum_dxl);
 	
 	return GPOS_NEW(memory_pool) CDXLNode(memory_pool, pdxlConst);
@@ -903,14 +903,14 @@ CTranslatorExprToDXLUtils::PdxlnListFilterScCmp
 	CDXLNode *pdxlnOther,
 	IMDId *pmdidTypePartKey,
 	IMDId *pmdidTypeOther,
-	IMDType::ECmpType ecmpt,
+	IMDType::ECmpType cmp_type,
 	ULONG ulPartLevel,
 	BOOL fHasDefaultPart
 	)
 {
 	IMDId *pmdidScCmp = NULL;
 
-	pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypeOther, pmdidTypePartKey, ecmpt);
+	pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypeOther, pmdidTypePartKey, cmp_type);
 
 	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdidScCmp);
 	const CWStringConst *pstrScCmp = md_scalar_op->Mdname().GetMDName();
@@ -959,11 +959,11 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 	IMDId *pmdidTypeOther,
 	IMDId *pmdidTypeCastExpr,
 	IMDId *mdid_cast_func,
-	IMDType::ECmpType ecmpt,
+	IMDType::ECmpType cmp_type,
 	ULONG ulPartLevel
 	)
 {
-	if (IMDType::EcmptEq == ecmpt)
+	if (IMDType::EcmptEq == cmp_type)
 	{
 		return PdxlnRangeFilterEqCmp
 				(
@@ -981,7 +981,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 	BOOL fLowerBound = false;
 	IMDType::ECmpType ecmptScCmp = IMDType::EcmptOther;
 	
-	if (IMDType::EcmptLEq == ecmpt || IMDType::EcmptL == ecmpt)
+	if (IMDType::EcmptLEq == cmp_type || IMDType::EcmptL == cmp_type)
 	{
 		// partkey </<= other: construct condition min < other
 		fLowerBound = true;
@@ -989,7 +989,7 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 	}
 	else 
 	{
-		GPOS_ASSERT(IMDType::EcmptGEq == ecmpt || IMDType::EcmptG == ecmpt);
+		GPOS_ASSERT(IMDType::EcmptGEq == cmp_type || IMDType::EcmptG == cmp_type);
 		
 		// partkey >/>= other: construct condition max > other
 		ecmptScCmp = IMDType::EcmptG;
@@ -997,14 +997,14 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterScCmp
 	
 	CDXLNode *pdxlnPredicateExclusive = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmptScCmp, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
 	
-	if (IMDType::EcmptLEq != ecmpt && IMDType::EcmptGEq != ecmpt)
+	if (IMDType::EcmptLEq != cmp_type && IMDType::EcmptGEq != cmp_type)
 	{
 		// scalar comparison does not include equality: no need to consider part constraint boundaries
 		return pdxlnPredicateExclusive;
 	}
 	
 	pdxlnScalar->AddRef();
-	CDXLNode *pdxlnInclusiveCmp = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmpt, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
+	CDXLNode *pdxlnInclusiveCmp = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, cmp_type, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
 	CDXLNode *pdxlnInclusiveBoolPredicate = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarPartBoundInclusion(memory_pool, ulPartLevel, fLowerBound));
 
 	CDXLNode *pdxlnPredicateInclusive = GPOS_NEW(memory_pool) CDXLNode(memory_pool, GPOS_NEW(memory_pool) CDXLScalarBoolExpr(memory_pool, Edxland), pdxlnInclusiveCmp, pdxlnInclusiveBoolPredicate);
@@ -1064,18 +1064,18 @@ CTranslatorExprToDXLUtils::PdxlnRangeFilterPartBound
 	IMDId *mdid_cast_func,
 	ULONG ulPartLevel,
 	ULONG fLowerBound,
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 {
-	GPOS_ASSERT(IMDType::EcmptL == ecmpt || IMDType::EcmptG == ecmpt);
+	GPOS_ASSERT(IMDType::EcmptL == cmp_type || IMDType::EcmptG == cmp_type);
 	
 	IMDType::ECmpType ecmptInc = IMDType::EcmptLEq;
-	if (IMDType::EcmptG == ecmpt)
+	if (IMDType::EcmptG == cmp_type)
 	{
 		ecmptInc = IMDType::EcmptGEq;
 	}
 
-	CDXLNode *pdxlnPredicateExclusive = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmpt, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
+	CDXLNode *pdxlnPredicateExclusive = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, cmp_type, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
 
 	pdxlnScalar->AddRef();
 	CDXLNode *pdxlnInclusiveCmp = PdxlnCmp(memory_pool, md_accessor, ulPartLevel, fLowerBound, pdxlnScalar, ecmptInc, pmdidTypePartKey, pmdidTypeOther, pmdidTypeCastExpr, mdid_cast_func);
@@ -1198,7 +1198,7 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 	ULONG ulPartLevel,
 	BOOL fLowerBound,
 	CDXLNode *pdxlnScalar, 
-	IMDType::ECmpType ecmpt, 
+	IMDType::ECmpType cmp_type, 
 	IMDId *pmdidTypePartKey,
 	IMDId *pmdidTypeExpr,
 	IMDId *pmdidTypeCastExpr,
@@ -1209,11 +1209,11 @@ CTranslatorExprToDXLUtils::PdxlnCmp
 
 	if (IMDId::IsValid(pmdidTypeCastExpr))
 	{
-		pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypeCastExpr, pmdidTypeExpr, ecmpt);
+		pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypeCastExpr, pmdidTypeExpr, cmp_type);
 	}
 	else
 	{
-		pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypePartKey, pmdidTypeExpr, ecmpt);
+		pmdidScCmp = CUtils::GetScCmpMdId(memory_pool, md_accessor, pmdidTypePartKey, pmdidTypeExpr, cmp_type);
 	}
 	
 	const IMDScalarOp *md_scalar_op = md_accessor->Pmdscop(pmdidScCmp); 

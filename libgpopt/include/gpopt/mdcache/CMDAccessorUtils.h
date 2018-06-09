@@ -47,7 +47,7 @@ namespace gpopt
 
 			// does a scalar comparison object between given types exist
 			static
-			BOOL FCmpExists(CMDAccessor *md_accessor, IMDId *pmdidLeft, IMDId *pmdidRight, IMDType::ECmpType ecmpt);
+			BOOL FCmpExists(CMDAccessor *md_accessor, IMDId *left_mdid, IMDId *right_mdid, IMDType::ECmpType cmp_type);
 
 			// is scalar operator commutative? this can be used with ScalarOp and ScalarCmp
 			static

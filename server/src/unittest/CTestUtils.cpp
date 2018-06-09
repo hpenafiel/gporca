@@ -576,10 +576,10 @@ CTestUtils::PexprLogicalSelectWithContradiction
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput();
 	CColRef *pcr =  pcrs->PcrAny();
 
-	CExpression *pexprConstFirst = CUtils::PexprScalarConstInt4(memory_pool, 3 /*iVal*/);
+	CExpression *pexprConstFirst = CUtils::PexprScalarConstInt4(memory_pool, 3 /*val*/);
 	CExpression *pexprPredFirst = CUtils::PexprScalarEqCmp(memory_pool, pcr, pexprConstFirst);
 
-	CExpression *pexprConstSecond = CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/);
+	CExpression *pexprConstSecond = CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/);
 	CExpression *pexprPredSecond = CUtils::PexprScalarEqCmp(memory_pool, pcr, pexprConstSecond);
 
 	CExpression *pexprPredicate = CPredicateUtils::PexprConjunction(memory_pool, pexprPredFirst, pexprPredSecond);
@@ -616,12 +616,12 @@ CTestUtils::PexprLogicalSelectPartitioned
 	CColRef *pcrPartKey = (*pdrgpcr)[0];
 
 	// construct a comparison pk = 5
-	INT iVal = 5;
+	INT val = 5;
 	CExpression *pexprScalar = CUtils::PexprScalarEqCmp
 										(
 										memory_pool,
 										CUtils::PexprScalarIdent(memory_pool, pcrPartKey),
-										CUtils::PexprScalarConstInt4(memory_pool, iVal)
+										CUtils::PexprScalarConstInt4(memory_pool, val)
 										);
 
 	return CUtils::PexprLogicalSelect
@@ -796,12 +796,12 @@ CTestUtils::PexprScIdentCmpScIdent
 	IMemoryPool *memory_pool,
 	CExpression *pexprLeft,
 	CExpression *pexprRight,
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 {
 	GPOS_ASSERT(NULL != pexprLeft);
 	GPOS_ASSERT(NULL != pexprRight);
-	GPOS_ASSERT(ecmpt <= IMDType::EcmptOther);
+	GPOS_ASSERT(cmp_type <= IMDType::EcmptOther);
 
 	CColRefSet *pcrsLeft = CDrvdPropRelational::Pdprel(pexprLeft->PdpDerive())->PcrsOutput();
 	CColRef *pcrLeft =  pcrsLeft->PcrAny();
@@ -809,7 +809,7 @@ CTestUtils::PexprScIdentCmpScIdent
 	CColRefSet *pcrsRight = CDrvdPropRelational::Pdprel(pexprRight->PdpDerive())->PcrsOutput();
 	CColRef *pcrRight =  pcrsRight->PcrAny();
 
-	CExpression *pexprPred = CUtils::PexprScalarCmp(memory_pool, pcrLeft, pcrRight, ecmpt);
+	CExpression *pexprPred = CUtils::PexprScalarCmp(memory_pool, pcrLeft, pcrRight, cmp_type);
 
 	return pexprPred;
 }
@@ -828,7 +828,7 @@ CTestUtils::PexprScIdentCmpConst
 	(
 	IMemoryPool *memory_pool,
 	CExpression *pexpr,
-	IMDType::ECmpType ecmpt,
+	IMDType::ECmpType cmp_type,
 	ULONG ulVal
 	)
 {
@@ -838,7 +838,7 @@ CTestUtils::PexprScIdentCmpConst
 	CColRef *pcrLeft =  pcrs->PcrAny();
 	CExpression *pexprUl = CUtils::PexprScalarConstInt4(memory_pool, ulVal);
 
-	CExpression *pexprPred = CUtils::PexprScalarCmp(memory_pool, pcrLeft, pexprUl, ecmpt);
+	CExpression *pexprPred = CUtils::PexprScalarCmp(memory_pool, pcrLeft, pexprUl, cmp_type);
 
 	return pexprPred;
 }
@@ -861,7 +861,7 @@ CTestUtils::PexprLogicalSelectCmpToConst
 {
 	// generate a get expression
 	CExpression *pexpr = PexprLogicalGet(memory_pool);
-	CExpression *pexprPred = PexprScIdentCmpConst(memory_pool, pexpr, IMDType::EcmptEq /* ecmpt */, 10 /* ulVal */);
+	CExpression *pexprPred = PexprScIdentCmpConst(memory_pool, pexpr, IMDType::EcmptEq /* cmp_type */, 10 /* ulVal */);
 
 	return CUtils::PexprLogicalSelect(memory_pool, pexpr, pexprPred);
 }
@@ -904,9 +904,9 @@ CTestUtils::PexprLogicalSelectArrayCmp
 {
 	const ULONG ulArraySize = 5;
 	IntPtrArray *pdrgpiVals = GPOS_NEW(memory_pool) IntPtrArray(memory_pool);
-	for (ULONG iVal = 0; iVal < ulArraySize; iVal++)
+	for (ULONG val = 0; val < ulArraySize; val++)
 	{
-		pdrgpiVals->Append(GPOS_NEW(memory_pool) INT(iVal));
+		pdrgpiVals->Append(GPOS_NEW(memory_pool) INT(val));
 	}
 	CExpression *pexprSelect = PexprLogicalSelectArrayCmp(memory_pool, earrcmptype, ecmptype, pdrgpiVals);
 	pdrgpiVals->Release();
@@ -1173,7 +1173,7 @@ CTestUtils::PexprLogicalSelectOnOuterJoin
 				pexprInner,
 				pexprOuterJoinPred
 				);
-	CExpression *pexprPred = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/));
+	CExpression *pexprPred = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/));
 
 	return CUtils::PexprLogicalSelect(memory_pool, pexprOuterJoin, pexprPred);
 }
@@ -2114,7 +2114,7 @@ CTestUtils::PexprLogicalSelectWithEqPredicateOverDynamicGet
 	CColRef *pcr = CUtils::PcrExtractPartKey(pdrgpdrgpcr, 0 /*ulLevel*/);
 	CExpression *pexprScalarIdent = CUtils::PexprScalarIdent(memory_pool, pcr);
 	
-	CExpression *pexprConst = CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/);
+	CExpression *pexprConst = CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/);
 	CExpression *pexprScalar = CUtils::PexprScalarEqCmp(memory_pool, pexprScalarIdent, pexprConst);
 	
 	return CUtils::PexprLogicalSelect(memory_pool, pexprDynamicGet, pexprScalar);
@@ -2148,7 +2148,7 @@ CTestUtils::PexprLogicalSelectWithLTPredicateOverDynamicGet
 	CColRef *pcr = CUtils::PcrExtractPartKey(pdrgpdrgpcr, 0 /*ulLevel*/);
 	CExpression *pexprScalarIdent = CUtils::PexprScalarIdent(memory_pool, pcr);
 	
-	CExpression *pexprConst = CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/);
+	CExpression *pexprConst = CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/);
 	CExpression *pexprScalar = CUtils::PexprScalarCmp(memory_pool, pexprScalarIdent, pexprConst, IMDType::EcmptL);
 	
 	return CUtils::PexprLogicalSelect(memory_pool, pexprDynamicGet, pexprScalar);
@@ -2863,14 +2863,14 @@ CTestUtils::PexprScalarNestedPreds
 
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput();
 	CColRef *pcrLeft =  pcrs->PcrAny();
-	CExpression *pexprConstActual = CUtils::PexprScalarConstInt4(memory_pool, 3 /*iVal*/);
+	CExpression *pexprConstActual = CUtils::PexprScalarConstInt4(memory_pool, 3 /*val*/);
 
 	CExpression *pexprPredActual = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pexprConstActual);
 	CExpression *pexprPredExpected = NULL;
 
 	if (CScalarBoolOp::EboolopNot != eboolop)
 	{
-		CExpression *pexprConstExpected = CUtils::PexprScalarConstInt4(memory_pool, 5 /*iVal*/);
+		CExpression *pexprConstExpected = CUtils::PexprScalarConstInt4(memory_pool, 5 /*val*/);
 		pexprPredExpected = CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pexprConstExpected);
 	}
 
@@ -4198,7 +4198,7 @@ CTestUtils::PdatumGeneric
 	CMDAccessor *md_accessor,
 	IMDId *mdid_type,
 	CWStringDynamic *pstrEncodedValue,
-	LINT lValue
+	LINT value
 	)
 {
 	GPOS_ASSERT(NULL != md_accessor);
@@ -4206,20 +4206,20 @@ CTestUtils::PdatumGeneric
 	GPOS_ASSERT(!mdid_type->Equals(&CMDIdGPDB::m_mdidNumeric));
 	const IMDType *pmdtype = md_accessor->Pmdtype(mdid_type);
 	ULONG ulbaSize = 0;
-	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
+	BYTE *data = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
 
 	CDXLDatumGeneric *datum_dxl = NULL;
 	if (CMDTypeGenericGPDB::FTimeRelatedType(mdid_type))
 	{
-		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, CDouble(lValue));
+		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*is_const_by_val*/, false /*is_const_null*/, data, ulbaSize, CDouble(value));
 	}
 	else if (mdid_type->Equals(&CMDIdGPDB::m_mdidBPChar))
 	{
-		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsLintMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize, lValue);
+		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsLintMappable(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*is_const_by_val*/, false /*is_const_null*/, data, ulbaSize, value);
 	}
 	else
 	{
-		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*fConstByVal*/, false /*fConstNull*/, pba, ulbaSize);
+		datum_dxl = GPOS_NEW(memory_pool) CDXLDatumGeneric(memory_pool, mdid_type, IDefaultTypeModifier, pmdtype->IsPassedByValue() /*is_const_by_val*/, false /*is_const_null*/, data, ulbaSize);
 	}
 
 	IDatum *pdatum = pmdtype->Pdatum(memory_pool, datum_dxl);
@@ -4297,7 +4297,7 @@ CTestUtils::PexprScalarCmpIdentToConstant
 
 	CColRefSet *pcrs = CDrvdPropRelational::Pdprel(pexpr->PdpDerive())->PcrsOutput();
 	CColRef *pcrAny =  pcrs->PcrAny();
-	CExpression *pexprConst =  CUtils::PexprScalarConstInt4(memory_pool, 10 /* iVal */);
+	CExpression *pexprConst =  CUtils::PexprScalarConstInt4(memory_pool, 10 /* val */);
 
 	return CUtils::PexprScalarEqCmp(memory_pool, pcrAny, pexprConst);
 }

@@ -68,9 +68,9 @@ namespace gpmd
 				IMemoryPool *memory_pool,
 				IMDId *mdid,
 				CMDName *mdname,
-				IMDId *pmdidLeft,
-				IMDId *pmdidRight,
-				IMDType::ECmpType ecmpt,
+				IMDId *left_mdid,
+				IMDId *right_mdid,
+				IMDType::ECmpType cmp_type,
 				IMDId *mdid_op
 				);
 			

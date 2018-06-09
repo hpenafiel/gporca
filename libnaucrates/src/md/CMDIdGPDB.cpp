@@ -175,14 +175,14 @@ CMDIdGPDB::CMDIdGPDB
 CMDIdGPDB::CMDIdGPDB
 	(
 	OID oid,
-	ULONG ulVersionMajor,
-	ULONG ulVersionMinor
+	ULONG version_major,
+	ULONG version_minor
 	)
 	:
 	m_sysid(IMDId::EmdidGPDB, GPMD_GPDB_SYSID),
 	m_oid(oid),
-	m_ulVersionMajor(ulVersionMajor),
-	m_ulVersionMinor(ulVersionMinor),
+	m_ulVersionMajor(version_major),
+	m_ulVersionMinor(version_minor),
 	m_str(m_wszBuffer, GPOS_ARRAY_SIZE(m_wszBuffer))
 {
 	// TODO:  - Jan 31, 2012; supply system id in constructor

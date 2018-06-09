@@ -30,15 +30,15 @@ using namespace gpmd;
 const CWStringConst *
 IMDType::PstrCmpType
 	(
-	IMDType::ECmpType ecmpt
+	IMDType::ECmpType cmp_type
 	)
 {
-	GPOS_ASSERT(IMDType::EcmptOther >= ecmpt);
+	GPOS_ASSERT(IMDType::EcmptOther >= cmp_type);
 	
 	Edxltoken rgdxltoken[] = {EdxltokenCmpEq, EdxltokenCmpNeq, EdxltokenCmpLt, EdxltokenCmpLeq, EdxltokenCmpGt, EdxltokenCmpGeq, EdxltokenCmpIDF, EdxltokenCmpOther};
 	
 	GPOS_ASSERT(IMDType::EcmptOther + 1 == GPOS_ARRAY_SIZE(rgdxltoken));
-	return CDXLTokens::GetDXLTokenStr(rgdxltoken[ecmpt]);
+	return CDXLTokens::GetDXLTokenStr(rgdxltoken[cmp_type]);
 }
 
 

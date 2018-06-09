@@ -473,7 +473,7 @@ CExpressionPreprocessorTest::PexprWindowFuncWithLOJHelper
 	pdrgpcrPartitionBy->Append(pcrPartitionBy);
 
 	// add Select node on top of window function
-	CExpression *pexprPred = CUtils::PexprScalarEqCmp(memory_pool, pcrPartitionBy, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/));
+	CExpression *pexprPred = CUtils::PexprScalarEqCmp(memory_pool, pcrPartitionBy, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/));
 	if (!fOuterChildPred && fCascadedLOJ)
 	{
 		// add another predicate on inner child of top LOJ
@@ -482,7 +482,7 @@ CExpressionPreprocessorTest::PexprWindowFuncWithLOJHelper
 		{
 			pdrgpcrPartitionBy->Append(pcrInner);
 		}
-		CExpression *pexprPred2 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/));
+		CExpression *pexprPred2 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/));
 		CExpression *pexprConjunction = CPredicateUtils::PexprConjunction(memory_pool, pexprPred, pexprPred2);
 		pexprPred->Release();
 		pexprPred2->Release();
@@ -1474,7 +1474,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOuterJoin()
 
 	// test case 1: generate a single comparison predicate between an inner column and const
 	CColRef *pcrInner = pcrsInner->PcrAny();
-	CExpression *pexprPredicate1 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/));
+	CExpression *pexprPredicate1 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/));
 	CExpression *pexprSelect1 = CUtils::PexprLogicalSelect(memory_pool, pexprLOJ, pexprPredicate1);
 
  	CExpression *pexprPreprocessed1 = CExpressionPreprocessor::PexprPreprocess(memory_pool, pexprSelect1);
@@ -1491,7 +1491,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOuterJoin()
  	CColRefSet *pcrsOuter = CDrvdPropRelational::Pdprel((*pexprLOJ)[0]->PdpDerive())->PcrsOutput();
 	CColRef *pcrOuter = pcrsOuter->PcrAny();
 	CExpression *pexprCmp1 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, pcrOuter);
-	CExpression *pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/));
+	CExpression *pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/));
 	CExpression *pexprPredicate2 = CPredicateUtils::PexprConjunction(memory_pool, pexprCmp1, pexprCmp2);
 	pexprCmp1->Release();
 	pexprCmp2->Release();
@@ -1509,7 +1509,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOuterJoin()
 
 	// test case 3: generate a disjunction of predicates involving inner columns
 	pexprCmp1 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, pcrOuter);
-	pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner,  CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/));
+	pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner,  CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/));
 	CExpression *pexprPredicate3 = CPredicateUtils::PexprDisjunction(memory_pool, pexprCmp1, pexprCmp2);
 	pexprCmp1->Release();
 	pexprCmp2->Release();
@@ -1527,7 +1527,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOuterJoin()
 
 	// test case 4: generate a null-rejecting conjunction since it involves one null-rejecting conjunct
 	pexprCmp1 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, pcrOuter);
-	pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrOuter, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/));
+	pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrOuter, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/));
 	CExpression *pexprPredicate4 = CPredicateUtils::PexprConjunction(memory_pool, pexprCmp1, pexprCmp2);
 	pexprCmp1->Release();
 	pexprCmp2->Release();
@@ -1546,7 +1546,7 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessOuterJoin()
 
 	// test case 5: generate a null-passing disjunction since it involves a predicate on outer columns
 	pexprCmp1 = CUtils::PexprScalarEqCmp(memory_pool, pcrInner, pcrOuter);
-	pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrOuter, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/));
+	pexprCmp2 = CUtils::PexprScalarEqCmp(memory_pool, pcrOuter, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/));
 	CExpression *pexprPredicate5 = CPredicateUtils::PexprDisjunction(memory_pool, pexprCmp1, pexprCmp2);
 	pexprCmp1->Release();
 	pexprCmp2->Release();
@@ -2243,8 +2243,8 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessConvert2InPredicate()
 			GPOS_NEW(memory_pool) CExpression(
 									memory_pool,
 									pscboolop,
-									CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/)),
-									CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 2 /*iVal*/)),
+									CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/)),
+									CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 2 /*val*/)),
 									CUtils::PexprScalarEqCmp(memory_pool, pcrLeft, pcrLeft)
 									);
 
@@ -2300,8 +2300,8 @@ CExpressionPreprocessorTest::PexprCreateConvertableArray
 
 	DrgPexpr *pdrgexprDisjChildren = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 	pdrgexprDisjChildren->Append(pexprArrayComp);
-	pdrgexprDisjChildren->Append(CUtils::PexprScalarCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 6 /*iVal*/), ecmptype));
-	pdrgexprDisjChildren->Append(CUtils::PexprScalarCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 7 /*iVal*/), ecmptype));
+	pdrgexprDisjChildren->Append(CUtils::PexprScalarCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 6 /*val*/), ecmptype));
+	pdrgexprDisjChildren->Append(CUtils::PexprScalarCmp(memory_pool, pcrLeft, CUtils::PexprScalarConstInt4(memory_pool, 7 /*val*/), ecmptype));
 
 	CScalarBoolOp *pscboolop = GPOS_NEW(memory_pool) CScalarBoolOp(memory_pool, eboolop);
 	CExpression *pexprDisjConj = GPOS_NEW(memory_pool) CExpression(memory_pool, pscboolop, pdrgexprDisjChildren);
@@ -2414,8 +2414,8 @@ CExpressionPreprocessorTest::EresUnittest_PreProcessConvert2InPredicateDeepExpre
 			GPOS_NEW(memory_pool) CExpression(
 									memory_pool,
 									pscboolopOrInner,
-									CUtils::PexprScalarEqCmp(memory_pool, pcrRight, CUtils::PexprScalarConstInt4(memory_pool, 3 /*iVal*/)),
-									CUtils::PexprScalarEqCmp(memory_pool, pcrRight, CUtils::PexprScalarConstInt4(memory_pool, 4 /*iVal*/))
+									CUtils::PexprScalarEqCmp(memory_pool, pcrRight, CUtils::PexprScalarConstInt4(memory_pool, 3 /*val*/)),
+									CUtils::PexprScalarEqCmp(memory_pool, pcrRight, CUtils::PexprScalarConstInt4(memory_pool, 4 /*val*/))
 									);
 	// middle and expression
 	CScalarBoolOp *pscboolopAnd = GPOS_NEW(memory_pool) CScalarBoolOp(memory_pool, CScalarBoolOp::EboolopAnd);

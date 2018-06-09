@@ -722,7 +722,7 @@ namespace gpopt
 
 			// create a datum with a given type, encoded value and int value
 			static
-			IDatum *PdatumGeneric(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *mdid_type, CWStringDynamic *pstrEncodedValue, LINT lValue);
+			IDatum *PdatumGeneric(IMemoryPool *memory_pool, CMDAccessor *md_accessor, IMDId *mdid_type, CWStringDynamic *pstrEncodedValue, LINT value);
 
 			// create an interval for generic data types
 			// does not take ownership of mdid_type
@@ -768,11 +768,11 @@ namespace gpopt
 
 			// generate a scalar expression comparing scalar identifier to a constant
 			static
-			CExpression *PexprScIdentCmpConst(IMemoryPool *memory_pool, CExpression *pexprRelational, IMDType::ECmpType ecmpt, ULONG ulVal);
+			CExpression *PexprScIdentCmpConst(IMemoryPool *memory_pool, CExpression *pexprRelational, IMDType::ECmpType cmp_type, ULONG ulVal);
 
 			// generate a scalar expression comparing scalar identifiers
 			static
-			CExpression *PexprScIdentCmpScIdent(IMemoryPool *memory_pool, CExpression *pexprLeft, CExpression *pexprRight, IMDType::ECmpType ecmpt);
+			CExpression *PexprScIdentCmpScIdent(IMemoryPool *memory_pool, CExpression *pexprLeft, CExpression *pexprRight, IMDType::ECmpType cmp_type);
 
 			// generate a scalar AND expression
 			static

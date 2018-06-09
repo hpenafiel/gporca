@@ -70,7 +70,7 @@ namespace gpdxl
 				IMemoryPool *memory_pool,
 				EdxlSetOpType edxlsetoptype,
 				ColumnDescrDXLArray *pdrgdxlcd,
-				ULongPtrArray2D *ulong_ptr_array_2D,
+				ULongPtrArray2D *array_2D,
 				BOOL fCastAcrossInput
 				);
 

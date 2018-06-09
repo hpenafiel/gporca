@@ -1802,14 +1802,14 @@ CWStringDynamic *
 CDXLUtils::Serialize
 	(
 	IMemoryPool *memory_pool,
-	const ULongPtrArray2D *ulong_ptr_array_2D
+	const ULongPtrArray2D *array_2D
 	)
 {
-	const ULONG len = ulong_ptr_array_2D->Size();
+	const ULONG len = array_2D->Size();
 	CWStringDynamic *keys_buffer = GPOS_NEW(memory_pool) CWStringDynamic(memory_pool);
 	for (ULONG ul = 0; ul < len; ul++)
 	{
-		ULongPtrArray *pdrgpul = (*ulong_ptr_array_2D)[ul];
+		ULongPtrArray *pdrgpul = (*array_2D)[ul];
 		CWStringDynamic *key_set_string = CDXLUtils::Serialize(memory_pool, pdrgpul);
 
 		keys_buffer->Append(key_set_string);

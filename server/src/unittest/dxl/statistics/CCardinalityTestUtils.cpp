@@ -173,13 +173,13 @@ CCardinalityTestUtils::PpointGeneric
 	IMemoryPool *memory_pool,
 	OID oid,
 	CWStringDynamic *pstrEncodedValue,
-	LINT lValue
+	LINT value
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	IMDId *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(oid);
-	IDatum *pdatum = CTestUtils::PdatumGeneric(memory_pool, md_accessor, mdid, pstrEncodedValue, lValue);
+	IDatum *pdatum = CTestUtils::PdatumGeneric(memory_pool, md_accessor, mdid, pstrEncodedValue, value);
 	CPoint *ppoint = GPOS_NEW(memory_pool) CPoint(pdatum);
 
 	return ppoint;
@@ -191,7 +191,7 @@ CCardinalityTestUtils::PpointNumeric
 	(
 	IMemoryPool *memory_pool,
 	CWStringDynamic *pstrEncodedValue,
-	CDouble dValue
+	CDouble value
 	)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -199,18 +199,18 @@ CCardinalityTestUtils::PpointNumeric
 	const IMDType *pmdtype = md_accessor->Pmdtype(mdid);
 
 	ULONG ulbaSize = 0;
-	BYTE *pba = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
+	BYTE *data = CDXLUtils::DecodeByteArrayFromString(memory_pool, pstrEncodedValue, &ulbaSize);
 
 	CDXLDatumStatsDoubleMappable *datum_dxl = GPOS_NEW(memory_pool) CDXLDatumStatsDoubleMappable
 											(
 											memory_pool,
 											mdid,
 											IDefaultTypeModifier,
-											pmdtype->IsPassedByValue() /*fConstByVal*/,
-											false /*fConstNull*/,
-											pba,
+											pmdtype->IsPassedByValue() /*is_const_by_val*/,
+											false /*is_const_null*/,
+											data,
 											ulbaSize,
-											dValue
+											value
 											);
 
 	IDatum *pdatum = pmdtype->Pdatum(memory_pool, datum_dxl);

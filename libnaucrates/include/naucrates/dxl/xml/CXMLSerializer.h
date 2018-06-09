@@ -122,16 +122,16 @@ namespace gpdxl
 			void AddAttribute(const CWStringBase *pstrAttr, INT iValue);
 			
 			// adds an integer-valued attribute
-			void AddAttribute(const CWStringBase *pstrAttr, LINT lValue);
+			void AddAttribute(const CWStringBase *pstrAttr, LINT value);
 
 			// adds a boolean attribute
 			void AddAttribute(const CWStringBase *pstrAttr, BOOL fValue);
 			
 			// add a double-valued attribute
-			void AddAttribute(const CWStringBase *pstrAttr, CDouble dValue);
+			void AddAttribute(const CWStringBase *pstrAttr, CDouble value);
 
 			// add a byte array attribute
-			void AddAttribute(const CWStringBase *pstrAttr, BOOL is_null, const BYTE *pba, ULONG ulLen);
+			void AddAttribute(const CWStringBase *pstrAttr, BOOL is_null, const BYTE *data, ULONG ulLen);
 	};
 	
 }

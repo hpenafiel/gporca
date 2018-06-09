@@ -164,12 +164,12 @@ namespace gpmd
 			static 
 			BOOL FEqualMDId
 				(
-				const IMDId *pmdidLeft,
-				const IMDId *pmdidRight
+				const IMDId *left_mdid,
+				const IMDId *right_mdid
 				)
 			{
-				GPOS_ASSERT(NULL != pmdidLeft && NULL != pmdidRight);
-				return pmdidLeft->Equals(pmdidRight);
+				GPOS_ASSERT(NULL != left_mdid && NULL != right_mdid);
+				return left_mdid->Equals(right_mdid);
 			}
 			
 			// equality function for using mdids in a cache
@@ -191,9 +191,9 @@ namespace gpmd
 				}
 				
 			
-				IMDId *pmdidLeft = static_cast<IMDId *> (pvLeft);
-				IMDId *pmdidRight = static_cast<IMDId *> (pvRight);
-				return pmdidLeft->Equals(pmdidRight);
+				IMDId *left_mdid = static_cast<IMDId *> (pvLeft);
+				IMDId *right_mdid = static_cast<IMDId *> (pvRight);
+				return left_mdid->Equals(right_mdid);
 
 			}
 			

@@ -65,7 +65,7 @@ CRange::CRange
 CRange::CRange
 	(
 	const IComparator *pcomp,
-	IMDType::ECmpType ecmpt,
+	IMDType::ECmpType cmp_type,
 	IDatum *pdatum
 	)
 	:
@@ -83,7 +83,7 @@ CRange::CRange
 	GPOS_ASSERT(CUtils::FConstrainableType(m_mdid));
 	m_mdid->AddRef();
 
-	switch (ecmpt)
+	switch (cmp_type)
 	{
 		case IMDType::EcmptEq:
 		{
@@ -541,17 +541,17 @@ CRange::PexprScalarCompEnd
 	pdatum->AddRef();
 	CExpression *pexprVal = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum));
 
-	IMDType::ECmpType ecmpt;
+	IMDType::ECmpType cmp_type;
 	if (EriIncluded == eri)
 	{
-		ecmpt = ecmptIncl;
+		cmp_type = ecmptIncl;
 	}
 	else
 	{
-		ecmpt = ecmptExcl;
+		cmp_type = ecmptExcl;
 	}
 
-	return CUtils::PexprScalarCmp(memory_pool, pcr, pexprVal, ecmpt);
+	return CUtils::PexprScalarCmp(memory_pool, pcr, pexprVal, cmp_type);
 }
 
 //---------------------------------------------------------------------------

@@ -609,8 +609,8 @@ CStatsPredUtils::AddSupportedStatsFilters
 		};
 
 		PfPstatspred *pf = &CStatsPredUtils::PstatspredUnsupported;
-		const ULONG ulTranslators = GPOS_ARRAY_SIZE(rgStatsfilterTranslators);
-		for (ULONG ul = 0; ul < ulTranslators; ul++)
+		const ULONG translators_mapping_len = GPOS_ARRAY_SIZE(rgStatsfilterTranslators);
+		for (ULONG ul = 0; ul < translators_mapping_len; ul++)
 		{
 			SScStatsfilterMapping elem = rgStatsfilterTranslators[ul];
 			if (ept == elem.ept)

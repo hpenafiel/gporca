@@ -172,7 +172,7 @@ CMDProviderTest::EresUnittest_Stats()
 		GPOS_ASSERT(NULL != pmdobjRelStats);
 
 		CMDIdColStats *mdid_col_stats =
-				GPOS_NEW(memory_pool) CMDIdColStats(GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1), 1 /* ulAttno */);
+				GPOS_NEW(memory_pool) CMDIdColStats(GPOS_NEW(memory_pool) CMDIdGPDB(GPOPT_MDCACHE_TEST_OID, 1, 1), 1 /* attno */);
 
 		CWStringBase *pstrColStats = pmdpFile->PstrObject(memory_pool, amda.Pmda(), mdid_col_stats);
 		GPOS_ASSERT(NULL != pstrColStats);

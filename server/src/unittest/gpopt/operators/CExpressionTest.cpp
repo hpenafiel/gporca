@@ -352,7 +352,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 								(
 								memory_pool,
 								pcrFirst,
-								CUtils::PexprScalarConstInt4(memory_pool, 20 /*iVal*/)
+								CUtils::PexprScalarConstInt4(memory_pool, 20 /*val*/)
 								);
 
 	CMDIdGPDB *mdid = GPOS_NEW(memory_pool) CMDIdGPDB(CMDIdGPDB::m_mdidUnknown);
@@ -378,7 +378,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 								(
 								memory_pool,
 								pcrFirst,
-								CUtils::PexprScalarConstInt4(memory_pool, 20 /*iVal*/)
+								CUtils::PexprScalarConstInt4(memory_pool, 20 /*val*/)
 								);
 
 	CExpression *pexprBitmapTableGet =
@@ -424,7 +424,7 @@ CExpressionTest::EresUnittest_BitmapGet()
 								(
 								memory_pool,
 								pcrFirst,
-								CUtils::PexprScalarConstInt4(memory_pool, 20 /*iVal*/)
+								CUtils::PexprScalarConstInt4(memory_pool, 20 /*val*/)
 								);
 	CExpression *pexprBitmapIndex2 =
 			GPOS_NEW(memory_pool) CExpression
@@ -1029,7 +1029,7 @@ CExpressionTest::EresUnittest_FValidPlanError()
 
 		CReqdPropPlan *prpp = PrppCreateRequiredProperties(memory_pool, pcrsInvalid);
 		IDatum *pdatum = GPOS_NEW(memory_pool) gpnaucrates::CDatumInt8GPDB(CTestUtils::m_sysidDefault,
-				1 /*lVal*/, false /*is_null*/);
+				1 /*val*/, false /*is_null*/);
 		CExpression *pexpr = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CScalarConst(memory_pool, pdatum));
 
 		CDrvdPropCtxtPlan *pdpctxtplan = GPOS_NEW(memory_pool) CDrvdPropCtxtPlan(memory_pool);

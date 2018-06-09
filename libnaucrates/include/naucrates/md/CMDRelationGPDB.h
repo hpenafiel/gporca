@@ -141,7 +141,7 @@ namespace gpmd
 				CharPtrArray *pdrgpszPartTypes,
 				ULONG ulPartitions,
 				BOOL fConvertHashToRandom,
-				ULongPtrArray2D *ulong_ptr_array_2D,
+				ULongPtrArray2D *array_2D,
 				DrgPmdIndexInfo *pdrgpmdIndexInfo,
 				DrgPmdid *pdrgpmdidTriggers,
 				DrgPmdid *pdrgpmdidCheckConstraint,

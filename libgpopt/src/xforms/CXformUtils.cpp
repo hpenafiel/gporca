@@ -877,13 +877,13 @@ CXformUtils::SubqueryAnyToAgg
 				memory_pool,
 				GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdidInt8),
 				pexprCountEqZero,
-				CUtils::PexprScalarConstInt8(memory_pool, 0 /*iVal*/),
+				CUtils::PexprScalarConstInt8(memory_pool, 0 /*val*/),
 				GPOS_NEW(memory_pool) CExpression
 					(
 					memory_pool,
 					GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdidInt8),
 					pexprCountEqSum,
-					CUtils::PexprScalarConstInt8(memory_pool, -1 /*iVal*/),
+					CUtils::PexprScalarConstInt8(memory_pool, -1 /*val*/),
 					CUtils::PexprScalarIdent(memory_pool, pcrCount)
 					)
 			);
@@ -959,8 +959,8 @@ CXformUtils::SubqueryAllToAgg
 				memory_pool,
 				GPOS_NEW(memory_pool) CScalarIf(memory_pool, pmdidInt4),
 				pexprSubqPred,
-				CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/),
-				CUtils::PexprScalarConstInt4(memory_pool, 0 /*iVal*/)
+				CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/),
+				CUtils::PexprScalarConstInt4(memory_pool, 0 /*val*/)
 				);
 
 	DrgPexpr *pdrgpexpr = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
@@ -1182,8 +1182,8 @@ CXformUtils::PexprNullIndicator
 			memory_pool,
 			GPOS_NEW(memory_pool) CScalarIf(memory_pool, mdid),
 			pexprIsNull,
-			CUtils::PexprScalarConstInt4(memory_pool, 1 /*iVal*/),
-			CUtils::PexprScalarConstInt4(memory_pool, 0 /*iVal*/)
+			CUtils::PexprScalarConstInt4(memory_pool, 1 /*val*/),
+			CUtils::PexprScalarConstInt4(memory_pool, 0 /*val*/)
 			);
 }
 
@@ -1242,10 +1242,10 @@ CXformUtils::PexprLogicalDMLOverProject
 	)
 {
 	GPOS_ASSERT(CLogicalDML::EdmlInsert == edmlop || CLogicalDML::EdmlDelete == edmlop);
-	INT iVal = CScalarDMLAction::EdmlactionInsert;
+	INT val = CScalarDMLAction::EdmlactionInsert;
 	if (CLogicalDML::EdmlDelete == edmlop)
 	{
-		iVal = CScalarDMLAction::EdmlactionDelete;
+		val = CScalarDMLAction::EdmlactionDelete;
 	}
 
 	// new expressions to project
@@ -1263,7 +1263,7 @@ CXformUtils::PexprLogicalDMLOverProject
 		{
 			pcrOid = CLogicalPartitionSelector::PopConvert(pexprSelector->Pop())->PcrOid();
 		}
-		pexprProject = CUtils::PexprAddProjection(memory_pool, pexprSelector, CUtils::PexprScalarConstInt4(memory_pool, iVal));
+		pexprProject = CUtils::PexprAddProjection(memory_pool, pexprSelector, CUtils::PexprScalarConstInt4(memory_pool, val));
 		CExpression *pexprPrL = (*pexprProject)[1];
 		pcrAction = CUtils::PcrFromProjElem((*pexprPrL)[0]);
 	}
@@ -1271,7 +1271,7 @@ CXformUtils::PexprLogicalDMLOverProject
 	{
 		DrgPexpr *pdrgpexprProjected = GPOS_NEW(memory_pool) DrgPexpr(memory_pool);
 		// generate one project node with two new columns: action, oid (based on the traceflag)
-		pdrgpexprProjected->Append(CUtils::PexprScalarConstInt4(memory_pool, iVal));
+		pdrgpexprProjected->Append(CUtils::PexprScalarConstInt4(memory_pool, val));
 
 		BOOL fGeneratePartOid = CUtils::FGeneratePartOid(ptabdesc->MDId());
 		if (fGeneratePartOid)
@@ -1734,7 +1734,7 @@ CXformUtils::PexprAssertUpdateCardinality
 
 	// construct a select(Action='DEL')
 	CLogicalDML *popDML = CLogicalDML::PopConvert(pexprDML->Pop());
-	CExpression *pexprConstDel = CUtils::PexprScalarConstInt4(memory_pool, CLogicalDML::EdmlDelete /*iVal*/);
+	CExpression *pexprConstDel = CUtils::PexprScalarConstInt4(memory_pool, CLogicalDML::EdmlDelete /*val*/);
 	CExpression *pexprDelPredicate = CUtils::PexprScalarCmp(memory_pool, popDML->PcrAction(), pexprConstDel, IMDType::EcmptEq);
 	CExpression *pexprSelectDeleted = GPOS_NEW(memory_pool) CExpression(memory_pool, GPOS_NEW(memory_pool) CLogicalSelect(memory_pool), pexprDML, pexprDelPredicate);
 	// construct a group by	
@@ -1774,7 +1774,7 @@ CXformUtils::PexprAssertUpdateCardinality
 								);
 	
 	// construct a predicate of the kind "count(*) == 1"
-	CExpression *pexprConst1 = CUtils::PexprScalarConstInt8(memory_pool, 1 /*iVal*/);
+	CExpression *pexprConst1 = CUtils::PexprScalarConstInt8(memory_pool, 1 /*val*/);
 	// obtain error code and error message	
 	CWStringConst *pstrErrorMsg = GPOS_NEW(memory_pool) CWStringConst(memory_pool, GPOS_WSZ_LIT("Duplicate values in UPDATE statement"));
 

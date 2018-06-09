@@ -159,11 +159,11 @@ CMDTypeOidGPDB::Mdname() const
 IMDId *
 CMDTypeOidGPDB::PmdidCmp
 	(
-	ECmpType ecmpt
+	ECmpType cmp_type
 	)
 	const
 {
-	switch (ecmpt)
+	switch (cmp_type)
 	{
 		case EcmptEq:
 			return m_pmdidOpEq;

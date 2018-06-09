@@ -49,8 +49,8 @@ namespace gpnaucrates
 		public:
 
 			// ctors
-			CDatumInt8GPDB(CSystemId sysid, LINT lVal, BOOL is_null = false);
-			CDatumInt8GPDB(IMDId *mdid, LINT lVal, BOOL is_null = false);
+			CDatumInt8GPDB(CSystemId sysid, LINT val, BOOL is_null = false);
+			CDatumInt8GPDB(IMDId *mdid, LINT val, BOOL is_null = false);
 
 			// dtor
 			virtual

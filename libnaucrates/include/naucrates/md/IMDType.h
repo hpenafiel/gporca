@@ -96,7 +96,7 @@ namespace gpmd
 			
 			// id of specified specified comparison operator type
 			virtual 
-			IMDId *PmdidCmp(ECmpType ecmpt) const = 0;
+			IMDId *PmdidCmp(ECmpType cmp_type) const = 0;
 						
 			// id of specified specified aggregate type
 			virtual 
@@ -175,7 +175,7 @@ namespace gpmd
 
 			// string representation of comparison types
 			static
-			const CWStringConst *PstrCmpType(IMDType::ECmpType ecmpt);
+			const CWStringConst *PstrCmpType(IMDType::ECmpType cmp_type);
 
 			// return true if we can perform statistical comparison between datums of these two types; else return false
 			static

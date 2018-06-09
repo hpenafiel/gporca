@@ -56,7 +56,7 @@ namespace gpmd
 			
 		public:
 			// ctor
-			CMDIdScCmp(CMDIdGPDB *pmdidLeft, CMDIdGPDB *pmdidRight, IMDType::ECmpType ecmpt);
+			CMDIdScCmp(CMDIdGPDB *left_mdid, CMDIdGPDB *right_mdid, IMDType::ECmpType cmp_type);
 			
 			// dtor
 			virtual

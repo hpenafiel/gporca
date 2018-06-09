@@ -64,7 +64,7 @@ namespace gpopt
 				ULONG ulPartLevel,
 				BOOL fLowerBound,
 				CDXLNode *pdxlnScalar, 
-				IMDType::ECmpType ecmpt, 
+				IMDType::ECmpType cmp_type, 
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeExpr,
 				IMDId *pmdidTypeCastExpr,
@@ -284,7 +284,7 @@ namespace gpopt
 
 			// create a scalar const value expression for the given int4 value
 			static
-			CDXLNode *PdxlnInt4Const(IMemoryPool *memory_pool, CMDAccessor *md_accessor, INT iVal);
+			CDXLNode *PdxlnInt4Const(IMemoryPool *memory_pool, CMDAccessor *md_accessor, INT val);
 
 			// construct a filter node for a list partition predicate
 			static
@@ -296,7 +296,7 @@ namespace gpopt
 				CDXLNode *pdxlnScalar,
 				IMDId *pmdidTypePartKey,
 				IMDId *pmdidTypeOther,
-				IMDType::ECmpType ecmpt,
+				IMDType::ECmpType cmp_type,
 				ULONG ulPartLevel,
 				BOOL fHasDefaultPart
 				);
@@ -323,7 +323,7 @@ namespace gpopt
 				IMDId *pmdidTypeOther,
 				IMDId *pmdidTypeCastExpr,
 				IMDId *mdid_cast_func,
-				IMDType::ECmpType ecmpt,
+				IMDType::ECmpType cmp_type,
 				ULONG ulPartLevel
 				);
 	
@@ -354,7 +354,7 @@ namespace gpopt
 				IMDId *mdid_cast_func,
 				ULONG ulPartLevel,
 				ULONG fLowerBound,
-				IMDType::ECmpType ecmpt
+				IMDType::ECmpType cmp_type
 				);
 			
 			// construct predicates to cover the cases of default partition and
